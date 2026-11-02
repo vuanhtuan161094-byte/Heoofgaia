@@ -173,6 +173,8 @@ function killUnits(s,damage){let rest=damage,dead=0;for(let u of activeArmy(s).s
 function battleSelect(s,id){assert(s.battle,'Không có trận chiến');const st=[...s.battle.allies,...s.battle.enemies].find(t=>t.id===id&&t.pool>0);assert(st,'Đội quân không tồn tại');if(st.side==='enemy')s.battle.focused=id;else s.battle.selected=id;return st;}
 function alive(arr){return arr.filter(u=>u.pool>0)}
 function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
+// SRC23 describes an auto target judged highest in military power; SRC24 says melee prefers the threatening stack in closest range while ranged attacks the strongest stack. The original score is missing; ATK×living-count is our explicit model.
+function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;s.army[unitId]=Math.max(0,(s.army[unitId]||0)-n);if(slot!==null&&s.formation?.[slot])s.formation[slot].count=Math.max(0,s.formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
 function advance(a,b){
@@ -209,18 +211,18 @@ function battleAct(s,action){
  // left formation column top-to-bottom followed by the next column. Keep the
  // equal-speed tie-break tied to the actual battlefield positions.
  const participants=[...alive(b.allies),...alive(b.enemies)].sort((x,y)=>y.spd-x.spd||x.x-y.x||x.y-y.y||x.id.localeCompare(y.id));
- let dealt=0,lost=0;const acted=[];
+ let dealt=0,lost=0;const acted=[],lastTargets={};
  for(const actor of participants){
   if(actor.pool<=0)continue;
   const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
   const stance=actor.side==='player'?(b.orders[actor.id]||'attack'):'attack';
   const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
-  const target=pref||[...enemy].sort((x,y)=>(actor.range>1?y.atk*y.count-x.atk*x.count:dist(actor,x)-dist(actor,y))||x.id.localeCompare(y.id))[0];
-  acted.push(actor.id);
+  const target=pref||[...enemy].sort((x,y)=>{const near=actor.range>1?0:dist(actor,x)-dist(actor,y),power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;return actor.range>1?power||near||x.id.localeCompare(y.id):near||power||x.id.localeCompare(y.id)})[0];
+  lastTargets[actor.id]=target.id;acted.push(actor.id);
   const amount=strike(s,b,actor,target,stance);
   if(actor.side==='player')dealt+=amount;else lost+=amount;
  }
- const turn=b.turn++;b.lastActOrder=acted.slice();b.history.unshift(`Lượt ${turn}: quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
+ const turn=b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.history.unshift(`Lượt ${turn}: quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
  if(!alive(b.enemies).length){const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
   if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
   else{add(s,{gold:75*tile.level,wood:8*tile.level,ore:8*tile.level,sulfur:5*tile.level,crystal:5*tile.level});s.cleared.push(tile.key);note(s,`Đánh bại ${tile.value}.`)}

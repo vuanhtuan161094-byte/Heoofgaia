@@ -1,6 +1,6 @@
 {
-  "total": 12,
-  "passed": 12,
+  "total": 14,
+  "passed": 14,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -22,6 +22,14 @@
     },
     {
       "name": "Combat turn records deterministic initiative order",
+      "passed": true
+    },
+    {
+      "name": "Enemy auto-attack targets and displays the highest modeled combat-power stack",
+      "passed": true
+    },
+    {
+      "name": "Ranged auto-attack targets strongest enemy across distance",
       "passed": true
     },
     {

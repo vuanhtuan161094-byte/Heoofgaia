@@ -1,0 +1,50 @@
+# Fandom wiki survey — Heroes of Gaia / Castle of Heroes
+
+Survey date: 2026-11-02. This is a source survey for the standalone reconstruction, not a claim that every article or revision was read.
+
+## Coverage and limits
+
+The Fandom landing page reports 608 articles and links to the major subject families: races, buildings, heroes, units, equipment and secondary arms, world objects, action points, rank/fame, spells, PvP and tactics. I reviewed the main mechanics pages and targeted supporting pages that can affect HG-08 through HG-13. Fandom's Special:AllPages and category endpoints were blocked by the available web retrieval interface, so a complete 608-article census and historical revision audit are not available here.
+
+The wiki is community-authored and living. Its own home page labels community content CC BY-SA unless otherwise noted. That statement does not prove the rights for every embedded image, screenshot, sprite, animation, or game file. This project has copied no Fandom art or page text into game assets; this document records short factual summaries with links. Any future asset use still requires a separate provenance and license review.
+
+A Fandom page may combine international and Chinese servers, original launch, Blood Fort, Babel, Rise of the Guilds, and later balance updates. Treat a number as release data only when its page or an independent dated source establishes that build. Keep uncertain values marked as community-reported or edition-unknown.
+
+## Reviewed article map
+
+| Topic | Fandom material reviewed | Findings useful to the project | Version / confidence |
+|---|---|---|---|
+| Overall loop and UI | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide) | Separates castle management, world-map expeditions, and automated tactical battle. Describes construction and upgrade flow, troop queues, hero assignment, scouting, Arena recovery, and battle controls. World targets cost AP; star counts represent relative guard strength and resource or treasure value. | Living guide; broad interaction model C/B, numeric claims need dated confirmation. |
+| Economy and world map | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [Castles](https://heroesofgaia.fandom.com/wiki/Castles), [World Buildings](https://heroesofgaia.fandom.com/wiki/World_Buildings) | Five resources: lumber, ore, sulfur, crystal, gold. The Castles page lists base hourly output 12/12/6/6/160. It describes fame/rank-based castle limits and captured resource mines. World-building article reports daily free visits at 10 AP and several occupied resource/XP buildings with timed yields and a 12-hour cap. | Core loop corroborated broadly; rates, rank gates and 10-AP visit are later/living-wiki claims until matched to a dated build. |
+| Progression and attributes | [Heroes](https://heroesofgaia.fandom.com/wiki/Heroes), [Hero quality](https://heroesofgaia.fandom.com/wiki/Hero_quality) | Level-ups grant one attribute point; ATK, DEF and SPD affect army combat, INT affects castle gold in the page's model. Hero Value and color bands are documented. Tavern pages describe better candidates at higher levels and eight candidates/hour at level 10. | Community calculations; formulas and candidate odds remain C unless source-era test confirms them. |
+| Army catalog | [Units](https://heroesofgaia.fandom.com/wiki/Units), race pages [Human](https://heroesofgaia.fandom.com/wiki/Human), [Elf](https://heroesofgaia.fandom.com/wiki/Elf), [Orc](https://heroesofgaia.fandom.com/wiki/Orc), [Undead](https://heroesofgaia.fandom.com/wiki/Undead) | Wiki catalog has 40 core units, 10 per race; higher tier counts and race pages include later expansion content. Race pages also mix building trees, spells, tasks, and strategy. | Useful name/catalog cross-check; tier-11/12 and expansion-era material excluded from the 2009 baseline. |
+| Building and recruitment gates | [Orc Barracks](https://heroesofgaia.fandom.com/wiki/Orc_Barracks), race pages and faction building pages | Barracks level commonly unlocks possible troop tiers, but support buildings and researched skills also gate units. The wiki itself warns that prerequisites can vary by unit. | Incomplete and edition-sensitive. Do not infer exact gates solely by tier number; use dated guide tables or explicit provisional labels. |
+| Tactical battle | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [Combat mechanics](https://heroesofgaia.fandom.com/wiki/Combat_mechanics), [Advanced Tactics](https://heroesofgaia.fandom.com/wiki/Advanced_Tactics) | Battles are turn-based and speed-ordered. The guide describes melee moving toward a threatening/high-attack stack in the closest general range and ranged stacks targeting the strongest enemy. A community NPC damage model is published; the article explicitly says PvP remains unresolved and flags some candidate formulas as wrong. | Broad role description C/B; damage sample C; formulas are estimates, not authoritative server rules. |
+| Losses and healing | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [Undead](https://heroesofgaia.fandom.com/wiki/Undead) | Guide says about 75% of losses enter an Arena/infirmary wounded pool and can be restored for gold. Undead page records Reincarnation and later changes. | Conflicts with dated Chinese guide's 60–80% loss range and with later Reincarnation rate; implementation keeps dated source and explicit model separate. |
+| Special game modes | [Hero Tasks](https://heroesofgaia.fandom.com/wiki/Hero_Tasks), [Tower of Babel](https://heroesofgaia.fandom.com/wiki/Tower_of_Babel), [World Bosses](https://heroesofgaia.fandom.com/wiki/World_Bosses) | Hero Tasks are explicitly marked as a Babel expansion addition; Babel has tower floors and milestone equipment; World Bosses are marked Blood Fort (2010) content. | Expansion content excluded unless a target release snapshot calls for it. |
+| Guilds and castles | [Guild](https://heroesofgaia.fandom.com/wiki/Guild), [Castles](https://heroesofgaia.fandom.com/wiki/Castles) | Guild buildings add resource, training, healing and combat modifiers. Castle durability, siege occupation and several limits are labeled Rise of the Guilds or later. | Later-era systems; do not import silently into launch-era single-player scope. |
+| Magic and equipment | [Hero Spells](https://heroesofgaia.fandom.com/wiki/Hero_Spells), [Equipment](https://heroesofgaia.fandom.com/wiki/Equipment), [Scrolls](https://heroesofgaia.fandom.com/wiki/Scrolls) | Supports a broad equipment/hero-spell model, but catalogs include late equipment tiers, secondary arms, scroll effects and expansion-only systems. | Useful for discovery and comparison; exact availability requires edition/date evidence. |
+| Reputation and account systems | [Action Points](https://heroesofgaia.fandom.com/wiki/Action_Points), [Ranks/Fame](https://heroesofgaia.fandom.com/wiki/Ranks/Fame), [PvP Arena/Honor points](https://heroesofgaia.fandom.com/wiki/PvP_Arena/Honor_points), [FAQ](https://heroesofgaia.fandom.com/wiki/FAQ) | The main index confirms these article families. Newbie Guide links AP to expeditions and rank to fame. Search-index retrieval did not expose complete article text for each, so precise AP regeneration, every rank threshold, honor and PvP rules remain unverified in this pass. | Source existence confirmed; detailed mechanics still open research. |
+| Maps, NPCs and treasure | [World Buildings](https://heroesofgaia.fandom.com/wiki/World_Buildings), [Monsters](https://heroesofgaia.fandom.com/wiki/Monsters), [Mines](https://heroesofgaia.fandom.com/wiki/Mines), [Resource Nodes](https://heroesofgaia.fandom.com/wiki/Resource_Nodes), [Equipment/Treasures](https://heroesofgaia.fandom.com/wiki/Equipment/Treasures) | Wiki index organizes monsters, resource nodes, mines, treasure, capitals and world buildings as separate world-object systems. Newbie Guide confirms star-scaled encounters, AP travel/attack, scouting and portals. | Page inventory supports feature coverage; exact NPC generation, rewards and movement times remain to be sourced. |
+
+## Implementation decisions
+
+1. Use the wiki as a research index and a secondary community source, not as a single authoritative specification.
+2. Prefer dated Chinese and English guides, archived client evidence, or legally accessible original data for exact historical values. Record regional/build differences instead of averaging them.
+3. Separate 2009 baseline from Blood Fort, Babel and Rise of the Guilds features. Do not ship tasks, bosses, guild construction projects, castle durability or late equipment as launch-era mechanics without matching release evidence.
+4. Use the community battle formula only as a labeled NPC calibration candidate. The published 500-Priest example is one test case, not proof of general PvE or PvP parity.
+5. Keep original images, SWFs, sprites and videos as reference-only until ownership or distribution rights are established. Recreate new assets where provenance is unclear.
+
+## Direct page links
+
+- [Heroes of Gaia Wiki](https://heroesofgaia.fandom.com/wiki/Heroes_of_Gaia_Wiki)
+- [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide)
+- [Heroes](https://heroesofgaia.fandom.com/wiki/Heroes)
+- [Hero quality](https://heroesofgaia.fandom.com/wiki/Hero_quality)
+- [Units](https://heroesofgaia.fandom.com/wiki/Units)
+- [Combat mechanics](https://heroesofgaia.fandom.com/wiki/Combat_mechanics)
+- [Castles](https://heroesofgaia.fandom.com/wiki/Castles)
+- [World Buildings](https://heroesofgaia.fandom.com/wiki/World_Buildings)
+- [Guild](https://heroesofgaia.fandom.com/wiki/Guild)
+- [Tower of Babel](https://heroesofgaia.fandom.com/wiki/Tower_of_Babel)
+- [World Bosses](https://heroesofgaia.fandom.com/wiki/World_Bosses)

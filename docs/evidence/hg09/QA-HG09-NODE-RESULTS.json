@@ -1,13 +1,21 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 74,
-  "suitePassed": 74,
+  "suiteTotal": 76,
+  "suitePassed": 76,
   "suiteFailed": 0,
-  "hg09Total": 11,
-  "hg09Passed": 11,
+  "hg09Total": 13,
+  "hg09Passed": 13,
   "hg09Failed": 0,
   "seededEncounters": 1000,
   "checks": [
+    {
+      "name": "Ranged auto-target selects the strongest modeled stack across distance",
+      "passed": true
+    },
+    {
+      "name": "automatic melee selects highest modeled power in the nearest group and records the choice",
+      "passed": true
+    },
     {
       "name": "Arena rehabilitation charges one-seventh unit value and runs at three-fifths training speed",
       "passed": true
