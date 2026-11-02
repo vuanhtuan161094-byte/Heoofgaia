@@ -37,7 +37,7 @@ function hire(s,candidateId){ensure(s);if(s.buildings.tavern<1)throw Error('Cầ
 }
 function tick(s,now=Date.now()){
  ensure(s);if(now<=s.lastTick)return;
- const gameSecs=Math.min((now-s.lastTick)/1000,8*3600)*(s.speed===1?1:60);
+ const gameSecs=E.gameElapsedSeconds(s,s.lastTick,now);
  // The previous engine expects schema v5 internally. Only temporarily normalize within
  // the synchronous tick; restore on errors and leave legacy saved data untouched.
  s.version=5;try{old.tick(s,now)}finally{s.version=V}

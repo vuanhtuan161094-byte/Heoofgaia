@@ -49,6 +49,30 @@
       "passed": true
     },
     {
+      "name": "file:// catch-up uses the real 1x speed control",
+      "passed": true
+    },
+    {
+      "name": "file:// actual UI starts a paid city construction queue",
+      "passed": true
+    },
+    {
+      "name": "file:// 24-hour catch-up completes the queued building exactly once",
+      "passed": true
+    },
+    {
+      "name": "file:// reload preserves 24-hour completion and v07 schema",
+      "passed": true
+    },
+    {
+      "name": "No page errors during file:// 24-hour catch-up",
+      "passed": true
+    },
+    {
+      "name": "new Chrome process retains 24-hour catch-up state",
+      "passed": true
+    },
+    {
       "name": "file:// standalone starts the real mine-expedition flow",
       "passed": true
     },
@@ -94,6 +118,6 @@
     }
   ],
   "errors": [],
-  "passed": 23,
-  "total": 23
+  "passed": 29,
+  "total": 29
 }

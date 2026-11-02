@@ -1,12 +1,16 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 103,
-  "suitePassed": 103,
+  "suiteTotal": 106,
+  "suitePassed": 106,
   "suiteFailed": 0,
-  "hg10Total": 6,
-  "hg10Passed": 6,
+  "hg10Total": 8,
+  "hg10Passed": 8,
   "hg10Failed": 0,
   "hg10Checks": [
+    {
+      "name": "HG10 24-hour offline catch-up completes concurrent paid queues and settles once",
+      "passed": true
+    },
     {
       "name": "HG10 Chinese rank table gates secondary castles atomically",
       "passed": true
@@ -17,6 +21,10 @@
     },
     {
       "name": "HG10 city switching isolates race, resources, troops and offline recruitment",
+      "passed": true
+    },
+    {
+      "name": "HG10 24-hour offline catch-up advances queues in active and inactive cities",
       "passed": true
     },
     {

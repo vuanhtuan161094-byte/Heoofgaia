@@ -84,6 +84,49 @@ with sync_playwright() as p:
     context.close()
     user_data.cleanup()
 
+    catchup_profile = tempfile.TemporaryDirectory(prefix='heoofgaia-hg10-24h-catchup-')
+    context = p.chromium.launch_persistent_context(
+        catchup_profile.name,
+        headless=True,
+        executable_path=executable,
+        args=['--no-sandbox', '--disable-dev-shm-usage'],
+        viewport={'width': 1280, 'height': 720},
+    )
+    page = context.new_page()
+    page.on('pageerror', lambda error: errors.append(str(error)))
+    page.goto(html.as_uri(), wait_until='load')
+    page.locator('[data-action="start"]').click()
+    page.locator('#speed').click()
+    check('file:// catch-up uses the real 1x speed control', page.evaluate('HOG_APP_DEBUG.getState().speed') == 1)
+    page.locator('#nav [data-tab="city"]').click()
+    page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();for(const k of HOG_CATALOG.keys)s.res[k]=HOG_ENGINE.limits(s)[k];HOG_APP_DEBUG.render()})()')
+    page.locator('[data-action="building"][data-key="market"]').click()
+    page.locator('[data-action="upgrade"]').click()
+    check('file:// actual UI starts a paid city construction queue', page.evaluate('HOG_APP_DEBUG.getState().buildingQueue?.key==="market"&&HOG_APP_DEBUG.getState().buildings.market===0'))
+    page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();s.lastTick=Date.now()-86400000;HOG_ENGINE.tick(s,Date.now());HOG_APP_DEBUG.render()})()')
+    check('file:// 24-hour catch-up completes the queued building exactly once', page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return s.buildings.market===1&&s.buildingQueue===null&&s.tavern.round===24&&s.ap===s.apMax})()'))
+    page.wait_for_timeout(3100)  # let the live queue completion toast clear before the actual 1280x720 capture
+    page.evaluate('window.scrollTo(0,0)')
+    page.screenshot(path=str(evidence / 'screenshot-file-offline-24h-market-complete-1280x720.png'))
+    page.locator('#save').click()
+    page.reload(wait_until='load')
+    check('file:// reload preserves 24-hour completion and v07 schema', page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return s.version===7&&s.buildings.market===1&&s.buildingQueue===null&&s.tavern.round===24})()'))
+    check('No page errors during file:// 24-hour catch-up', not errors)
+    context.close()
+    context = p.chromium.launch_persistent_context(
+        catchup_profile.name,
+        headless=True,
+        executable_path=executable,
+        args=['--no-sandbox', '--disable-dev-shm-usage'],
+        viewport={'width': 1280, 'height': 720},
+    )
+    page = context.new_page()
+    page.on('pageerror', lambda error: errors.append(str(error)))
+    page.goto(html.as_uri(), wait_until='load')
+    check('new Chrome process retains 24-hour catch-up state', page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return s?.buildings.market===1&&s?.buildingQueue===null&&s?.tavern.round===24})()'))
+    context.close()
+    catchup_profile.cleanup()
+
     garrison_profile = tempfile.TemporaryDirectory(prefix='heoofgaia-hg10-garrison-')
     context = p.chromium.launch_persistent_context(
         garrison_profile.name,

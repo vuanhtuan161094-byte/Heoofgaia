@@ -94,6 +94,28 @@ test('tavern empty offers preserved across save',()=>{const s=state();s.tavern.o
 test('resource basic positive and capped',()=>{const s=state();E.tick(s,s.lastTick+1e7);for(const k of C.keys)assert(s.res[k]<=E.limits(s)[k]+.00001)});
 test('AP follows Fame hourly rate exactly once at the same wall time',()=>{const s=state();s.ap=0;s.speed=1;const t=s.lastTick+3600*1000;E.tick(s,t);let a=s.ap;E.tick(s,t);assert.equal(s.ap,a);assert.equal(a,15);assert.equal(s.apMax,150)});
 test('Fame 200 earns 16 AP in one hour under the dated rank table',()=>{const s=state();s.fame=200;s.ap=0;s.speed=1;E.ensure08(s);const t=s.lastTick+3600*1000;E.tick(s,t);assert.equal(s.ap,16);assert.equal(s.apMax,165)});
+test('offline catch-up budget is capped at 24 game-hours at both supported speeds',()=>{
+ assert.equal(E.MAX_OFFLINE_GAME_SECONDS,86400);
+ assert.equal(E.gameElapsedSeconds({speed:1},0,36*3600*1000),86400);
+ assert.equal(E.gameElapsedSeconds({speed:60},0,24*60*1000),86400);
+});
+test('HG10 24-hour offline catch-up completes concurrent paid queues and settles once',()=>{
+ const s=expensive(state());s.speed=1;
+ E.upgrade(s,'market');E.recruit(s,'human_1',2);E.researchSpell(s,'bootcamp');
+ s.wounded.human_1=2;E.heal(s);
+ for(const k of C.keys)s.res[k]=Math.floor(E.limits(s)[k]*.4);
+ const control=E.clone(s),mine=E.TILES.find(t=>t.kind==='mine'&&t.value==='gold');assert(mine);
+ s.mines.push({key:mine.key,res:mine.value,level:mine.level,cityId:'main'});
+ const start=s.lastTick,end=start+24*3600*1000,goldBefore=s.res.gold;
+ E.tick(s,end);E.tick(control,end);
+ assert.equal(s.lastTick,end);assert.equal(s.ap,s.apMax);assert.equal(s.tavern.round,24);assert.equal(s.tavern.remaining,3600);
+ assert.equal(s.buildings.market,1);assert.equal(s.buildingQueue,null);assert.equal(s.training.length,0);
+ assert.equal(s.researchQueue,null);assert.equal(s.spells.bootcamp,1);
+ assert.equal(s.arenaQueue,null);assert.equal(s.wounded.human_1,0);assert.equal(s.army.human_1,20);
+ assert.equal((s.res.gold-goldBefore)-(control.res.gold-goldBefore),4800, 'gold must include the source-listed 24h mine yield');
+ const settled=JSON.stringify(s),loaded=E.parseSave(E.serializeSave(s));E.tick(s,end);E.tick(loaded,end);
+ assert.equal(JSON.stringify(s),settled);assert.equal(JSON.stringify(loaded),settled);assert(E.strictSave(loaded));
+});
 test('Market and Bazaar can be built as queue',()=>{for(const key of ['market','bazaar']){const s=expensive(state());E.upgrade(s,key);assert.equal(s.buildingQueue.key,key);assert.equal(s.buildings[key],0);E.tick(s,s.lastTick+s.buildingQueue.remaining/60*1000+1000);assert.equal(s.buildings[key],1)}});
 test('no second construction until finished',()=>{const s=state();E.upgrade(s,'hall');throws(()=>E.upgrade(s,'market'),/hàng đợi/)});
 test('Town Hall caps each race recruitment building without charging on rejection',()=>{
@@ -431,6 +453,19 @@ test('HG10 city switching isolates race, resources, troops and offline recruitme
  assert.equal(Object.keys(s.army).every(id=>id.startsWith('human_')),true);const humanResources={...s.res};
  E.switchCity(s,elf.id);assert.equal(s.race,'elf');assert.equal(s.army[unit.id],1);assert.notDeepEqual(s.res,humanResources);
  const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.activeCityId,elf.id);assert.equal(E.cityForKey(loaded,'9,10').local.army[unit.id],1);assert(E.strictSave(loaded));
+});
+test('HG10 24-hour offline catch-up advances queues in active and inactive cities',()=>{
+ const s=state();s.speed=1;s.fame=5800;E.startMarch(s,'9,10');s.march.remaining=.01;E.tick(s,s.lastTick+1000);
+ for(const enemy of s.battle.enemies){enemy.hp=1;enemy.pool=1;enemy.count=1;enemy.atk=0;enemy.def=0}
+ for(const ally of s.battle.allies)ally.range=20;
+ let result;for(let i=0;i<8&&s.battle;i++)result=E.battleAct(s,'attack');assert.equal(result.type,'win');
+ const elf=E.cityForKey(s,'9,10');assert(elf);expensive(s);E.upgrade(s,'market');E.recruit(s,'human_1',1);
+ E.switchCity(s,elf.id);expensive(s);E.upgrade(s,'market');E.recruit(s,'elf_1',1);E.switchCity(s,'main');
+ const end=s.lastTick+24*3600*1000;E.tick(s,end);
+ assert.equal(s.lastTick,end);assert.equal(s.buildingQueue,null);assert.equal(s.buildings.market,1);assert.equal(s.training.length,0);assert.equal(s.army.human_1,1);
+ const local=E.cityForKey(s,'9,10').local;assert.equal(local.buildingQueue,null);assert.equal(local.buildings.market,1);assert.equal(local.training.length,0);assert.equal(local.army.elf_1,1);
+ const saved=E.serializeSave(s),loaded=E.parseSave(saved);assert.equal(loaded.cities.length,2);assert.equal(E.cityForKey(loaded,'9,10').local.army.elf_1,1);assert(E.strictSave(loaded));
+ const before=JSON.stringify(loaded);E.tick(loaded,end);assert.equal(JSON.stringify(loaded),before);
 });
 
 test('HG10 recalled troops return to the originating city after switching castles',()=>{

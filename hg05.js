@@ -34,8 +34,7 @@ function finishConstruction(s){
 }
 function tick(s,now=Date.now()){
  ensure(s);const oldTime=s.lastTick;if(now<=oldTime)return;
- const cappedSeconds=Math.min((now-oldTime)/1000,8*3600);
- const factor=s.speed===1?1:60,gameSeconds=cappedSeconds*factor;
+ const factor=s.speed===1?1:60,gameSeconds=E.gameElapsedSeconds(s,oldTime,now),cappedWallSeconds=gameSeconds/factor;
  const q=s.buildingQueue;
  // Split the exact tick at the construction completion boundary. This is important:
  // production rates, storage or unlocks gained after completion apply to the remainder
@@ -44,7 +43,7 @@ function tick(s,now=Date.now()){
   const halfway=oldTime+q.remaining/factor*1000;
   original.tick(s,halfway);
   q.remaining=0;finishConstruction(s);
-  const cappedEnd=oldTime+cappedSeconds*1000;
+  const cappedEnd=oldTime+cappedWallSeconds*1000;
   if(cappedEnd>halfway)original.tick(s,cappedEnd);
   // Maintain engine's offline limit: explicitly consume the rest of the wall interval.
   s.lastTick=now;

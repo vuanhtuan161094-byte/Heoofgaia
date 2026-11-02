@@ -1,6 +1,6 @@
 {
-  "total": 88,
-  "passed": 88,
+  "total": 91,
+  "passed": 91,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -354,6 +354,18 @@
     },
     {
       "name": "No unhandled browser JS errors",
+      "passed": true
+    },
+    {
+      "name": "Offline catch-up fixture starts a real paid market build queue",
+      "passed": true
+    },
+    {
+      "name": "Chrome 24-hour tick completes construction and advances AP/Tavern",
+      "passed": true
+    },
+    {
+      "name": "24-hour completion survives browser Save/Load under v07",
       "passed": true
     }
   ]

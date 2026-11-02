@@ -266,7 +266,7 @@ function battleAct(s,action){
 }
 function tick(s,now=Date.now()){
   ensure(s);if(!Number.isFinite(now)||now<=s.lastTick)return;
-  const elapsed=Math.min((now-s.lastTick)/1000,8*3600),gameSeconds=elapsed*(s.speed===1?1:60);
+  const gameSeconds=E.gameElapsedSeconds(s,s.lastTick,now);
   const before={...s.army},priorTavernRound=s.tavern.round;
   s.version=6;try{prior.tick(s,now)}finally{s.version=V}
   if(s.tavern.round!==priorTavernRound){highTavernCommonStats(s);tavernOffers(s)}
