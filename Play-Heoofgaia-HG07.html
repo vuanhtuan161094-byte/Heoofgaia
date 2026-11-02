@@ -1,0 +1,1098 @@
+<!doctype html>
+<html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Hẻoofgaia HG-07 • Heroes of Gaia reconstruction</title>
+<style>
+:root{--bg:#101c24;--panel:#192b35;--panel2:#213844;--paper:#e9e3cf;--muted:#a7bdc0;--line:#546a65;--gold:#f2d190;--green:#9ad5a3;--red:#e4aa98;--brown:#8f693e}*{box-sizing:border-box}body{margin:0;font:15px/1.45 system-ui,'Segoe UI',sans-serif;color:var(--paper);background:radial-gradient(ellipse 90% 50% at 10% -20%,#4c614d,#172632 70%,#101a23)}button,select,input{font:inherit}button{border-radius:7px;border:1px solid #89916b;background:linear-gradient(#536f57,#2f573e);color:#f8f1d7;font-weight:700;padding:8px 11px;cursor:pointer}button:hover{filter:brightness(1.17)}button:disabled{opacity:.38;filter:grayscale(.6);cursor:not-allowed}.secondary{background:#304858;border-color:#688090}.danger{background:#593b3b;border-color:#97665d}.small{font-size:12px;padding:7px 9px}.primary{background:linear-gradient(#b49560,#76532d);border-color:#e5c88d;color:#201b19}.textbutton{border:0;background:transparent;color:#f5d99d;padding:2px 4px}.muted,.hint{color:var(--muted)}.hint{font-size:12px}.tiny{font-size:11px}#app{max-width:1440px;margin:auto;padding:14px}.top{background:linear-gradient(110deg,#273b35,#30464e,#273942);border:1px solid #89977a;border-radius:12px;box-shadow:0 12px 24px #08100f55;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:15px;padding:12px 17px}.masthead{display:flex;align-items:center;gap:12px}.crest{font-size:44px;color:#e4bd7d;text-shadow:0 4px 8px #0008}.brand{font-family:Georgia,serif;letter-spacing:.7px;font-size:28px;color:#f1d9a8;font-weight:800}.masthead small{color:#c0d0c3;letter-spacing:.5px}.resources{display:flex;gap:6px;flex-wrap:wrap}.resource{min-width:97px;background:#152630bb;border:1px solid #567266;border-radius:7px;padding:5px 9px;font-size:12px}.resource b{display:block;color:#f4dfaa;font-size:17px;font-variant-numeric:tabular-nums}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}.tabs button{background:#2c3d4a;border-color:#68747d}.tabs button.active{background:linear-gradient(#be9b61,#8a6737);color:#1d2224;border-color:#e8cf9a}.wrap{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:12px}.panel{background:linear-gradient(170deg,#243b44,#172631);border:1px solid #5d7770;border-radius:10px;padding:16px;box-shadow:0 8px 20px #0003}.panel h1,.panel h2{font:normal 27px Georgia,serif;color:var(--gold);margin:0 0 9px}.panel h2{font-size:22px}.panel h3{font:normal 19px Georgia,serif;color:#e0d2a5;margin:0 0 5px}.sectiontitle{font:normal 18px Georgia,serif;color:var(--gold);margin-bottom:10px}.side{margin-bottom:12px}.buttons,.flex{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.right{margin-left:auto}.grid{display:grid;gap:9px}.grid2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid3{grid-template-columns:repeat(3,minmax(0,1fr))}.card{background:#233944;border:1px solid #4e726d;border-radius:9px;padding:11px}.card p{margin:5px 0 10px}.card .icon{font-size:26px;vertical-align:middle}.card .heading{color:#f4dba5;font-weight:750}.tag{font-size:11px;border:1px solid #76947e;border-radius:5px;padding:2px 5px;color:#c8e6c9}.tag.yellow{color:#f5daa2;border-color:#ab8d5b}.tag.red{color:#e6ae9c;border-color:#b07663}.badge{display:inline-block;background:#2c5043;border-radius:4px;padding:2px 8px;font-size:12px;color:#a6e4b1}.hr{border-top:1px solid #4e686c;margin:12px 0}.key{font-weight:700;color:var(--gold)}.banner{background:#3b3c30;border-left:4px solid #d8b36d;padding:10px;margin:10px 0;border-radius:0 6px 6px 0}.log{max-height:250px;overflow:auto}.log div{padding:6px 0;border-bottom:1px solid #3b5559;color:#bed2cc;font-size:12px}.vitals{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}.vitals .tag{font-size:12px}.tiles{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:2px;background:#10252b;border:2px solid #668270;padding:5px;border-radius:9px;aspect-ratio:1.95;min-height:375px}.tile{padding:0;min-width:0;min-height:0;border-radius:3px;border:1px solid #64806d;position:relative;font-size:21px;background:#416d50;box-shadow:inset 0 0 10px #1113;display:flex;justify-content:center;align-items:center}.tile.forest{background:linear-gradient(140deg,#315d44,#254936)}.tile.water{background:linear-gradient(140deg,#28627a,#21445f);border-color:#467d8b}.tile.hill{background:linear-gradient(140deg,#84846c,#585f54)}.tile.plain{background:linear-gradient(140deg,#56815b,#3a6650)}.tile.selected{outline:3px solid #ffdd93;z-index:1}.tile.owned{box-shadow:inset 0 0 0 2px #e0c16b}.tile.cleared{opacity:.55}.tile .coords{position:absolute;right:1px;bottom:0;font-size:8px;color:#f6f4cf;text-shadow:0 1px 4px #000}.unitrow{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px;align-items:center}.unitrow strong{color:#f3d7a3}.cost{font-size:12px;color:#c0d0c7}.notice{font-size:12px;color:#d1c8a9}.statbar{height:12px;border-radius:9px;background:#111e25;border:1px solid #527067;overflow:hidden}.statbar div{height:100%;background:linear-gradient(90deg,#88b783,#d0d79a)}.statbar.red div{background:linear-gradient(90deg,#8e4c49,#e8a17e)}.combat-scene{display:flex;align-items:center;justify-content:space-around;border:1px solid #b9a374;background:radial-gradient(ellipse at center,#66775f,#344a45 70%,#273842);border-radius:9px;min-height:180px;text-align:center}.combat-scene .actor{font-size:52px}.combat-scene small{font-size:12px;display:block}.combat-scene .vs{font:24px Georgia,serif;color:#eacc87}.entry{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:8px}input[type=number],select{background:#12222c;color:#f8f1de;border:1px solid #627976;border-radius:6px;padding:7px;min-width:75px}input[type=number]{width:80px}.intro{padding:25px 18px;text-align:center}.race-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:18px 0}.race-card{border:1px solid #698976;border-radius:9px;padding:18px 5px;background:linear-gradient(#36584e,#253d42);cursor:pointer;text-align:center;color:#fbefd3}.race-card .emoji{font-size:45px;display:block}.race-card.active{outline:3px solid #ebcc8d;background:linear-gradient(#8c7951,#564b35)}.actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:10px 0}.source-links a{color:#c5dfac}footer{text-align:center;font-size:12px;color:#b4c4be;margin:17px 0 5px}#toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);display:none;padding:12px 18px;background:#1e382d;border:1px solid #c1ab78;border-radius:8px;z-index:10;box-shadow:0 9px 26px #0009}#toast.show{display:block}@media(max-width:1020px){.wrap{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}.side{margin:0}.grid3{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:680px){#app{padding:7px}.brand{font-size:22px}.resource{min-width:75px;font-size:10px}.resource b{font-size:14px}.grid2,.grid3{grid-template-columns:1fr}.sidebar{grid-template-columns:1fr}.tiles{min-height:245px;gap:1px}.tile{font-size:13px}.tile .coords{font-size:6px}.race-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.panel{padding:10px}.tabs{gap:4px}.tabs button{font-size:12px;padding:7px}.combat-scene .actor{font-size:35px}}
+</style><style>
+/* HG-03 original classic fantasy browser UI. Adds to HG-02 CSS. */
+:root{--bg:#0f181a;--panel:#1c3139;--panel2:#1b3235;--gold:#f0d298;--line:#8a795b;--paper:#f0e4c9;--muted:#c4bfae}
+html{scroll-behavior:smooth}body{background:radial-gradient(circle at 40% -20%,#4a5d53 0,#152c31 45%,#0c1b22 95%);color:var(--paper);letter-spacing:.05px}
+button{transition:filter .12s,transform .09s;touch-action:manipulation}button:active{transform:translateY(1px)}
+#app{max-width:1660px;padding:10px 12px}.top{background:linear-gradient(180deg,#3a4544,#1f3437 52%,#17272f);border:2px solid #9a865c;box-shadow:inset 0 1px 0 #f1d9a367,0 8px 28px #050a0c88;border-radius:5px;min-height:74px}.brand{font-family:Georgia,serif;letter-spacing:1.9px;font-size:27px;color:#edcb8f;text-shadow:1px 2px 2px #000}.masthead small{font-size:10px;letter-spacing:1.2px;color:#d1c9b4}.crest{font-size:44px}.resource{background:linear-gradient(180deg,#19282c,#253c3f);border:1px solid #85795c;border-radius:3px;min-width:104px;padding:6px 9px}.resource b{font-family:Georgia,serif;color:#ead5a3}.tabs{margin:10px 0 10px;gap:3px}.tabs button{border-radius:3px 3px 0 0;background:linear-gradient(#3c4d50,#23363f);color:#cdd2be;border:1px solid #7d745e;font-family:Georgia,serif;font-size:15px;padding:9px 16px}.tabs button.active{background:linear-gradient(#a8946d,#806543);color:#191e1a;box-shadow:inset 0 2px 0 #f2daa2}
+.wrap{grid-template-columns:minmax(0,1fr) 275px;gap:10px}.panel{border-radius:4px;border:1px solid #8c8064;background:linear-gradient(160deg,#1b3138,#1a2b32);box-shadow:inset 0 0 0 1px #2d464a,0 7px 14px #0b1316a0;padding:13px}.panel h1,.panel h2{color:#f0d5a1}.scene-title{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:0 0 12px}.scene-title h1{margin:0;font-size:31px;line-height:1.2}.eyebrow{font-size:11px;letter-spacing:1.9px;font-weight:750;color:#ccb078;text-transform:uppercase}.scene-tools{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.scene-tools button{font-family:Georgia,serif;font-size:18px;min-width:39px;padding:4px 11px}
+.map-frame,.city-frame,.battle-frame{overflow:hidden;background:#304c4e;border:3px ridge #a39468;box-shadow:0 0 0 2px #172b31,0 12px 20px #060e1178;position:relative}.map-frame canvas,.city-frame canvas,.battle-frame canvas{display:block;width:100%;height:auto;touch-action:none;cursor:crosshair}.map-frame canvas{aspect-ratio:1176/620}.city-frame canvas{aspect-ratio:1176/560}.battle-frame canvas{aspect-ratio:1176/550}
+.scene-bottom{display:grid;grid-template-columns:1fr minmax(240px,38%);gap:13px;padding:12px 3px}.scene-bottom h2{font-size:24px;margin:0 0 7px;font-family:Georgia,serif}.scene-bottom p{font-size:13px;margin:5px 0}.landmarks{border-left:1px solid #64756c;padding-left:12px}.landmark-list{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.landmark-list button{font-size:11px;max-width:100%;white-space:normal;text-align:left}.target-information .actions{margin:12px 0 0}.target-information button.primary{font-size:14px;padding:9px 16px}
+.welcome{margin:-13px}.welcome-scene{position:relative;background:#293e3f;min-height:270px;max-height:560px;overflow:hidden}.welcome-scene canvas{width:100%;height:auto;display:block;filter:saturate(.83) brightness(.73)}.welcome-copy{position:absolute;top:24%;left:0;right:0;text-align:center;text-shadow:0 2px 10px #101819,0 3px 18px #050c14}.welcome-copy h1{font-size:clamp(40px,7vw,86px);margin:5px 0;font-family:Georgia,serif;letter-spacing:4px;color:#f4d8a3;text-shadow:0 5px 1px #6a4b35,0 8px 20px #03090d}.welcome-copy p{font-size:clamp(12px,1.6vw,20px);color:#f2dfbb;margin:4px}.welcome-bottom{padding:17px 24px 22px;text-align:center}.welcome-bottom h2{font-size:24px}.welcome-bottom .race-grid{margin:12px auto 16px;max-width:850px}.race-card{border-radius:3px;border:1px solid #a08a62;background:linear-gradient(#4a5950,#223d3d);display:flex;align-items:center;flex-direction:column;justify-content:center;gap:2px;min-height:100px}.race-card small{display:block;color:#d7cdb5}.race-card.active{background:linear-gradient(#847453,#5a4d35);box-shadow:inset 0 0 0 2px #d2b477}.race-card .emoji{font-size:39px}.wide{padding:12px 28px;font-size:17px}
+.battle-ui{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:15px 0}.stack-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(112px,1fr));gap:6px;margin-top:8px}.stack-card{background:linear-gradient(150deg,#28424b,#192e36);border:1px solid #677872;padding:7px 7px;text-align:left;border-radius:3px;min-width:0;color:#f3e3c3}.stack-card span{font-size:12px;display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.stack-card b{display:block;font-size:15px;color:#eed4a3}.stack-card small{display:block;font-size:10px;font-weight:400;color:#b9c9bd}.stack-card.chosen{border-color:#f4d797;box-shadow:inset 0 0 0 1px #f4d797}.command-bar{padding:12px;background:linear-gradient(#354546,#1b3337);border-top:2px solid #947a55;border-bottom:1px solid #81795e;display:flex;align-items:center;flex-wrap:wrap;gap:7px}.command-bar>div{margin-right:auto}.combat-journal{display:flex;flex-direction:column;gap:2px;padding:9px;font-size:12px;color:#cfc4ad}.combat-journal div{border-bottom:1px solid #38474a;padding:4px}
+.sidebar .panel{padding:11px}.sidebar .sectiontitle{border-bottom:1px solid #746c59;padding-bottom:5px;font-size:17px}.sidebar .tag{margin-bottom:4px;display:inline-flex}.log{max-height:370px}.log div{color:#d3cbb5}
+@media(max-width:1150px){.wrap{grid-template-columns:1fr}.sidebar{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.side{margin:0}.scene-bottom{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){#app{padding:5px}.top{padding:8px}.brand{font-size:21px}.resources{gap:3px}.resource{min-width:77px;padding:4px 5px}.scene-title h1{font-size:22px}.scene-title{align-items:flex-start}.scene-tools{justify-content:end}.scene-bottom{grid-template-columns:1fr}.landmarks{border-left:0;border-top:1px solid #64756c;padding:10px 0}.battle-ui{grid-template-columns:1fr}.panel{padding:9px}.welcome-bottom{padding:10px}.welcome-scene{min-height:185px}.welcome-copy{top:16%}.welcome-copy h1{font-size:38px}.welcome-copy p{font-size:11px}.race-card{min-height:84px}.race-card .emoji{font-size:29px}.stack-list{grid-template-columns:repeat(3,minmax(0,1fr))}.command-bar button{font-size:12px;padding:7px 8px}}
+
+.formation-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px;margin:10px 0}.formation-slot{display:flex;flex-direction:column;gap:4px;min-width:0;background:#152c31;padding:8px;border:1px solid #656e64}.formation-slot select{width:100%;min-width:0;font-size:12px}.formation-slot input{width:100%;min-width:0}@media(max-width:900px){.formation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+/* Phone portrait: larger pannable world image instead of unreadable 1:3縮小. */
+@media(max-width:520px){
+ .sidebar{grid-template-columns:1fr;gap:7px}
+ .map-frame canvas,.city-frame canvas{width:580px;max-width:none;margin-left:calc((100% - 580px)/2)}
+ .map-frame{min-height:300px}.city-frame{min-height:260px}
+ .scene-title{align-items:center}
+ .scene-tools button{min-width:31px;font-size:14px}
+ .map-frame canvas{cursor:grab}
+}
+/* HG04 additions — scalable castle merchant, active spellbook and gear inventory. */
+.hg04-section{margin-top:16px;padding:16px;background:linear-gradient(135deg,#203539,#17282f);border:1px solid #977c50}
+.hg04-section>h2{margin:7px 0 11px}.hg04-section .card{margin:4px 0}.gear-card{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap}.gear-card button{margin-left:auto}
+.equipment-slots{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:10px 0 15px}
+.equipment-slots .slot{border:1px solid #856d4a;background:#172731;padding:10px;border-radius:6px;min-height:80px}.equipment-slots .slot>div{margin:6px 0;font-size:13px}
+.trade-row{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin:10px 0}.trade-row select{min-width:160px}.trade-row input{max-width:120px}
+.hg04-spellbar{margin:12px 0;padding:12px;background:#253a3e;border:1px solid #806e52}
+.hg04-spells{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0}.hg04-spells button{white-space:normal;min-height:40px}
+@media(max-width:680px){.equipment-slots{grid-template-columns:1fr}.hg04-section{padding:10px}.trade-row{align-items:stretch}.trade-row input{flex:1;min-width:70px;max-width:none}}
+
+/* HG-05: construction progress/readable classic status panel */
+.queue-card{display:flex;flex-direction:column;gap:.5rem;border-color:#ad8544;background:linear-gradient(135deg,#242c27,#152e31)}
+.queue-card progress{width:100%;height:14px;accent-color:#c5a463}
+.resource small{display:block;font-size:11px;white-space:nowrap}
+#export-save,#import-save{font-size:12px}
+@media(max-width:660px){.queue-card{padding:.75rem}.resource small{font-size:10px}}
+
+.hg05-castle-overview{margin-top:12px;border-color:#8d7756;background:linear-gradient(135deg,#14282f,#223537)}
+.hg05-switches{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:10px}
+.hg05-switches button{font-weight:700;letter-spacing:.05em}
+.hg05-castle-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.hg05-castle-grid h3{font-size:16px;margin:5px 0}
+.hg05-castle-grid p{margin:6px 0}
+@media(max-width:720px){.hg05-castle-grid{grid-template-columns:1fr}}
+</style></head><body>
+<div id="app">
+<header class="top"><div class="masthead"><span class="crest">⚜</span><div><div class="brand">HẺOOFGAIA</div><small>HEROES OF GAIA • HG-07 COMMAND CAPACITY</small></div></div><div id="resources" class="resources"></div></header>
+<nav id="nav" class="tabs" aria-label="Màn hình game"></nav>
+<div class="wrap"><main id="main" class="panel" aria-live="polite"></main><aside class="sidebar"><section class="panel side"><div class="sectiontitle">⚜ Lãnh địa</div><div id="status"></div></section><section class="panel side"><div class="sectiontitle">📜 Nhật ký</div><div id="logs" class="log"></div></section><section class="panel side"><div class="sectiontitle">⚙ Điều khiển</div><div class="buttons"><button id="save" class="small secondary">💾 Lưu</button><button id="export-save" class="small secondary">⬇ Sao lưu</button><button id="import-save" class="small secondary">⬆ Khôi phục</button><input id="import-file" type="file" accept=".json,application/json" hidden><button id="speed" class="small secondary">⏱ ×60</button><button id="reset" class="small danger">↻ Chơi lại</button></div><p class="muted tiny">Tự lưu vào trình duyệt. Phiên bản thử nghiệm offline, chưa có PvP hoặc máy chủ trực tuyến.</p></section></aside></div>
+<footer>HG-07 • Heroes of Gaia (2009) là trò chơi tham khảo • Đồ họa và mã engine độc lập • Chỉ số chưa xác minh được đánh dấu thử nghiệm.</footer></div>
+<div id="toast" role="status" aria-live="polite"></div>
+<script>
+/* Heroes of Gaia factual unit data, attributed in SOURCES.md; gameplay code original. */
+(function(root){
+'use strict';
+const source='https://heroesofgaia.wikidot.com/game-units';
+const keys=['gold','wood','ore','sulfur','crystal'];
+const races={human:{name:'Nhân tộc',english:'Human',emoji:'🏰',tone:'#d8c79c'},elf:{name:'Tinh linh',english:'Elf',emoji:'🌳',tone:'#a0d5a4'},orc:{name:'Thú tộc',english:'Orc',emoji:'🛡️',tone:'#dda476'},undead:{name:'Vong linh',english:'Undead',emoji:'💀',tone:'#c9b2d7'}};
+const resource={gold:{label:'Vàng',emoji:'🪙'},wood:{label:'Gỗ',emoji:'🪵'},ore:{label:'Quặng',emoji:'⛏️'},sulfur:{label:'Lưu huỳnh',emoji:'🟡'},crystal:{label:'Pha lê',emoji:'💎'}};
+const raw={
+ human:`Spear Militia|M|40|15|12|4|30|55|6|0|4|0|120
+Scout|M|10|5|5|50|5|68|0|9|0|4|160
+Archer|R|45|18|15|4.89|38|110|0|12|8|0|240
+Heavy Soldier|M|81|36|27|5.33|174|163|18|0|4|9|400
+Gryphon|M|120|42|32|6.56|64|246|22|10|0|15|600
+Monk|R|115|42|33|7|62|356|0|21|19|16|800
+Elite Knight|M|180|70|56|7.4|84|495|56|30|20|0|1000
+Priest|R|175|72|60|7.2|70|660|50|16|17|34|1280
+Angel|M|400|128|114|8.88|90|1377|105|35|35|70|2400
+Archangel|M|600|174|138|9.89|100|2200|168|56|56|112|3600`,
+ elf:`Centaur|M|38|16|12|4.22|30|55|0|8|0|3|120
+Elf Scout|M|10|5|5|50|5|68|9|0|0|4|160
+Dwarven Soldier|M|64|26|24|4.67|150|121|0|11|10|0|240
+Elf Archer|R|62|28|22|5.89|52|194|21|16|6|0|440
+Pegasus Warrior|M|120|40|32|7|64|239|25|18|0|9|600
+Dryad|M|142|51|45|6.44|70|328|55|0|5|9|740
+Unicorn|M|174|67|54|7.3|84|466|0|61|13|16|940
+Elite Archer|R|190|76|60|7.2|68|715|73|55|9|18|1380
+Green Dragon|M|394|124|199|8.78|90|1320|134|100|17|34|2300
+Fairy Dragon|M|600|170|133|10.11|100|2145|218|164|27|55|3500`,
+ orc:`Imp|M|37|15|12|3.89|33|53|5|0|4|0|113
+Wolf Rider|M|10|5|5|50|5|68|0|5|0|6|160
+Axe Thrower|R|48|20|14|5.11|34|117|12|0|9|0|251
+Direwolf|M|78|38|28|7.5|150|188|10|20|9|0|410
+Ogre|M|130|40|28|6|72|243|18|30|0|7|600
+Harpy|M|140|51|44|7.56|80|324|30|0|18|8|726
+Thunderbird|M|179|70|54|7.6|84|489|0|52|20|16|988
+Cyclops|R|195|74|54|7.2|92|692|35|69|27|9|1344
+Monster|M|390|118|109|8.44|96|1265|64|130|48|16|2200
+Behemoth|M|619|162|129|9.56|104|2090|106|212|80|27|3400`,
+ undead:`Skeleton Warrior|M|37|14|10|3.67|30|48|6|0|0|3|103
+Common Ghost|M|10|5|5|50|5|68|0|5|6|0|160
+Zombie|M|61|24|21|4.44|100|108|12|16|0|0|240
+Ghost|M|87|33|24|7|60|159|8|10|11|0|360
+Vampire|M|128|42|32|6.67|60|256|9|0|15|13|632
+Lich|R|120|42|35|7|66|370|0|28|11|22|828
+Ghost Knight|M|185|72|61|7.5|90|524|66|30|0|20|1052
+Lich King|R|180|76|58|7.2|68|690|18|36|35|26|1340
+Bone Dragon|M|388|113|104|8.56|92|1188|30|60|60|46|2100
+Ghost Dragon|M|569|165|130|9.89|96|2035|52|104|103|78|3340`};
+const units={};
+for(const [race,table] of Object.entries(raw)) {
+ units[race]=table.split('\n').map((line,i)=>{
+  const a=line.split('|');const [name,type,...v]=a;
+  const num=v.map(Number);const [hp,atk,def,spd,load,gold,wood,ore,sulfur,crystal,timeSec]=num;
+  return {id:`${race}_${i+1}`,race,tier:i+1,name,type:type==='R'?'Ranged':'Melee',hp,atk,def,spd,load,cost:{gold,wood,ore,sulfur,crystal},timeSec,provenance:'WIKI_2009_GAME_UNITS'};
+ });
+}
+const buildings={
+ hall:{name:'Town Hall',vi:'Đại sảnh',icon:'🏰',desc:'Giới hạn cấp công trình, tạo vàng.',base: {gold:380,wood:50,ore:55,sulfur:10,crystal:10},state:'observed'},
+ barracks:{name:'Barracks',vi:'Doanh trại',icon:'🛡️',desc:'Mỗi cấp mở một bậc quân; bậc cao còn có điều kiện phụ chưa khôi phục.',base:{gold:220,wood:38,ore:38,sulfur:8,crystal:8},state:'observed'},
+ heroTower:{name:'Hero Tower',vi:'Tháp tướng',icon:'🗼',desc:'Bổ nhiệm Castellan; tăng kinh nghiệm tướng.',base:{gold:250,wood:42,ore:32,sulfur:9,crystal:11},state:'observed'},
+ tavern:{name:'Tavern',vi:'Quán trọ',icon:'🍺',desc:'Tuyển tướng; chất lượng ứng viên phụ thuộc cấp.',base:{gold:240,wood:30,ore:25,sulfur:12,crystal:8},state:'observed'},
+ warehouse:{name:'Warehouse',vi:'Kho',icon:'📦',desc:'Tăng dung lượng tài nguyên.',base:{gold:200,wood:40,ore:40,sulfur:9,crystal:9},state:'observed'},
+ magicTower:{name:'Magic Tower',vi:'Tháp phép',icon:'🔮',desc:'Nghiên cứu phép cho thành và tướng.',base:{gold:290,wood:40,ore:36,sulfur:14,crystal:14},state:'observed'},
+ arena:{name:'Arena',vi:'Đấu trường',icon:'⚕️',desc:'Bệnh xá hồi phục quân bị thương.',base:{gold:180,wood:35,ore:25,sulfur:9,crystal:8},state:'observed'},
+ market:{name:'Market',vi:'Thị trường',icon:'⚖️',desc:'Bán/đổi tài nguyên theo phiên bản thử nghiệm; giá trao đổi chưa xác minh.',base:{gold:170,wood:20,ore:20,sulfur:10,crystal:10},state:'observed'},
+ bazaar:{name:'Bazaar',vi:'Thương hội',icon:'🏪',desc:'Bán trang bị demo theo cấp Bazaar, chưa có cuộn phép gốc.',base:{gold:210,wood:30,ore:15,sulfur:12,crystal:12},state:'observed'},
+ embassy:{name:'Embassy',vi:'Đại sứ quán',icon:'🏳️',desc:'Bang hội và tiếp viện; chưa có multiplayer.',base:{gold:190,wood:32,ore:36,sulfur:8,crystal:8},state:'catalog'},
+ stables:{name:'Stables',vi:'Chuồng ngựa',icon:'🐎',desc:'Công trình hỗ trợ quân nâng cao; điều kiện chưa xác minh.',base:{gold:250,wood:30,ore:35,sulfur:15,crystal:12},state:'catalog'},
+ forge:{name:'Forge',vi:'Lò rèn',icon:'⚒️',desc:'Công trình hỗ trợ trang bị/quân; hiệu ứng chưa xác minh.',base:{gold:200,wood:24,ore:48,sulfur:14,crystal:10},state:'catalog'}
+};
+const spells={forestry:{name:'Forestry',vi:'Lâm nghiệp',res:'wood',base:20,rate:.05},mining:{name:'Mining',vi:'Khai khoáng',res:'ore',base:20,rate:.05},refining:{name:'Refining',vi:'Tinh luyện',res:'sulfur',base:10,rate:.05},polishing:{name:'Polishing',vi:'Đánh bóng',res:'crystal',base:10,rate:.05},storing:{name:'Storing',vi:'Trữ kho',capacity:.05},construction:{name:'Construction',vi:'Xây dựng',time:.03},manufacturing:{name:'Manufacturing',vi:'Chế tạo',goldDiscount:.02},scouting:{name:'Scouting',vi:'Trinh sát',effect:'Mở tuyển Scout'},bootcamp:{name:'Bootcamp',vi:'Huấn luyện',time:.02}};
+const C={version:2,keys,races,resource,units,buildings,spells,source};
+root.HOG_CATALOG=C;if(typeof module==='object'&&module.exports)module.exports=C;
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script><script>
+/* Original engine code for Hẻoofgaia HG-only prototype v0.2. No reverse-engineered server code. */
+(function(root){
+'use strict';
+const C=root.HOG_CATALOG||(typeof require==='function'?require('./data.js'):null);
+const V=5, SAVE_KEY='heoofgaia_hg_only_v04', PREV_SAVE_KEY='heoofgaia_hg_only_v03';
+const buildOrder=['hall','barracks','heroTower','tavern','warehouse','magicTower','arena','market','bazaar','embassy','stables','forge'];
+const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
+const maxAge=8*3600; // prototype offline processing cap
+function assert(ok,msg){if(!ok)throw new Error(msg)}
+function make(race='human',now=Date.now()){
+ assert(!!C.races[race],'Chủng tộc không tồn tại');
+ const army={};C.units[race].forEach(u=>army[u.id]=0);army[`${race}_1`]=16;
+ return {version:V,race,created:now,lastTick:now,speed:60,
+  res:{gold:8000,wood:900,ore:900,sulfur:350,crystal:350},
+  buildings:{hall:1,barracks:1,heroTower:1,tavern:1,warehouse:2,magicTower:1,arena:1,market:0,bazaar:0,embassy:0,stables:0,forge:0},
+  spells:{},army,wounded:{},heroes:[{id:1,name:{human:'Aldric',elf:'Elaria',orc:'Gorak',undead:'Morwen'}[race],level:1,xp:0,atk:12,def:8,spd:7,int:6}],activeHero:1,castellan:null,ap:100,apMax:100,selected:null,
+  formation:[],training:[],march:null,battle:null,battleAuto:false,battleOrder:'attack',battleTarget:null,mines:[],cleared:[],woundFraction:{},fame:0,log:['Khởi đầu một thành trì ở vùng đất Gaia.'],serial:1};
+}
+function valid(s){return !!(s&&s.version===V&&C.races[s.race]&&s.res&&s.army&&s.buildings&&Array.isArray(s.heroes)&&Array.isArray(s.training)&&Array.isArray(s.log)&&Number.isFinite(s.lastTick))}
+function arrUnits(s){return C.units[s.race]}
+function getUnit(s,id){return arrUnits(s).find(u=>u.id===id)}
+function clone(s){return JSON.parse(JSON.stringify(s))}
+function fmt(n){return Math.floor(n||0).toLocaleString('vi-VN')}
+function note(s,message){s.log.unshift(message);s.log=s.log.slice(0,100)}
+function rate(s){let out={...BASE_HOURLY};
+ out.gold+=Math.max(0,s.buildings.hall-1)*40; // demo extrapolation, NOT original
+ for(const [key,spell] of Object.entries(C.spells)){
+  const level=s.spells[key]||0;if(level&&spell.res) out[spell.res]=(out[spell.res]+spell.base*level)*(1+spell.rate*level);
+ }
+ // prototype owned mines: +1 basic base rate each, source confirms mine bonuses but not amounts
+ for(const m of s.mines){if(out[m.res]!==undefined)out[m.res]+=(m.res==='gold'?80:m.res==='wood'||m.res==='ore'?9:5)*m.level}
+ // Hero INT increases only the basic Town Hall gold. Fandom's 2/3 percent per point is
+ // community-reported and differs from an early Wikidot approximation; provisional.
+ const castellan=s.heroes.find(h=>h.id===s.castellan);
+ if(castellan)out.gold+=Math.max(0,castellan.int-10)*(BASE_HOURLY.gold+Math.max(0,s.buildings.hall-1)*40)/150;
+ return out;
+}
+function limits(s){const l=s.buildings.warehouse||0;const table={0:[1500,1500,750,750,15000],1:[1500,1500,750,750,15000],2:[1500,1500,750,750,15000],3:[1500,1500,750,750,15000],4:[3000,3000,1500,1500,30000],5:[5250,5250,2625,2625,52500],6:[8250,8250,4125,4125,82500],7:[12000,12000,6000,6000,120000],8:[16500,16500,8250,8250,165000],9:[21000,21000,10500,10500,210000],10:[27000,27000,13500,13500,270000]};const [wood,ore,sulfur,crystal,gold]=table[Math.min(10,l)]; const f=1+(s.spells.storing||0)*.05;return {gold:gold*f,wood:wood*f,ore:ore*f,sulfur:sulfur*f,crystal:crystal*f};}
+function cap(s){let lim=limits(s);for(let k of C.keys) s.res[k]=Math.max(0,Math.min(lim[k],s.res[k]));}
+function canAfford(s,cost){return Object.entries(cost).every(([k,v])=>s.res[k]+1e-8>=v)}
+function spend(s,cost){assert(canAfford(s,cost),'Không đủ tài nguyên');for(let [k,v] of Object.entries(cost))s.res[k]-=v}
+function add(s,amount){const limit=limits(s);for(const [k,v] of Object.entries(amount))s.res[k]=Math.min(limit[k],Math.max(0,(s.res[k]||0)+v))}
+function buildCost(s,key){const b=C.buildings[key];assert(!!b,'Công trình không tồn tại');const lv=s.buildings[key]||0;return Object.fromEntries(C.keys.map(k=>[k,Math.ceil((b.base[k]||0)*Math.pow(1.65,lv))]));}
+function upgrade(s,key){assert(!!C.buildings[key],'Công trình không tồn tại');assert(C.buildings[key].state==='observed','Công trình mới chỉ có trong catalog');const l=s.buildings[key]||0;assert(l<10,'Đạt giới hạn mô phỏng cấp 10');assert(key==='hall'||l<s.buildings.hall,'Cần nâng Town Hall trước');const cost=buildCost(s,key);spend(s,cost);s.buildings[key]=l+1;note(s,`Nâng ${C.buildings[key].name} lên cấp ${l+1} (chi phí và thời gian nâng: mô phỏng).`);return cost;}
+function recruitCost(s,u,count){const cost={};for(const k of C.keys) cost[k]=(u.cost[k]||0)*count;
+ cost.gold=Math.ceil(cost.gold*(1-Math.min(.18,(s.spells.manufacturing||0)*.02)));
+ return cost;}
+function recruit(s,id,count){const u=getUnit(s,id);assert(!!u,'Không có quân của chủng tộc này');assert(Number.isSafeInteger(count)&&count>=1&&count<=1000,'Số lượng không hợp lệ');assert(u.tier<=s.buildings.barracks,'Cần nâng Barracks');if(u.tier===2) assert((s.spells.scouting||0)>=1,'Cần nghiên cứu Scouting cấp 1');const cost=recruitCost(s,u,count);spend(s,cost);
+ const time=Math.ceil(u.timeSec*count*(1-Math.min(.18,(s.spells.bootcamp||0)*.02)));
+ s.training.push({id:s.serial++,unitId:id,count,remaining:time,total:time});
+ note(s,`Xếp hàng tuyển ${count} ${u.name}; thời gian cơ sở từ wiki 2009.`);return cost;
+}
+function spellCost(s,id){const l=s.spells[id]||0;return {gold:Math.ceil(240*Math.pow(1.7,l)),wood:Math.ceil(25*Math.pow(1.5,l)),ore:Math.ceil(25*Math.pow(1.5,l)),sulfur:Math.ceil(10*Math.pow(1.5,l)),crystal:Math.ceil(10*Math.pow(1.5,l))}}
+function learn(s,id){assert(!!C.spells[id],'Không có phép');assert((s.buildings.magicTower||0)>=(s.spells[id]||0)+1,'Cần nâng Magic Tower trước');assert((s.spells[id]||0)<10,'Đạt cấp tối đa mô phỏng');const cost=spellCost(s,id);spend(s,cost);s.spells[id]=(s.spells[id]||0)+1;note(s,`Nghiên cứu ${C.spells[id].name} cấp ${s.spells[id]}.`);return cost;}
+function hire(s){assert(s.buildings.tavern>=1,'Cần Tavern');assert(s.heroes.length<8,'Đạt giới hạn tướng demo');const cost={gold:500+s.heroes.length*300};spend(s,cost);const id=Math.max(...s.heroes.map(h=>h.id))+1;const names=['Seren','Eldwin','Tiriel','Thorne','Velmar','Rowan','Neris'];const name=names[(id-2)%names.length];s.heroes.push({id,name,level:1,xp:0,atk:9+id,def:8+id,spd:6,int:7});note(s,`Chiêu mộ tướng ${name} tại Tavern; giá demo.`);return id;}
+function appoint(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!s.march&&!s.battle,'Không thể đổi Castellan khi đang hành quân');s.castellan=s.castellan===id?null:id;note(s,s.castellan?'Đã bổ nhiệm Castellan.':'Đã bỏ chức Castellan.');}
+function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!s.march&&!s.battle,'Đang hành quân');assert(s.castellan!==id,'Castellan trấn thủ thành');s.activeHero=id;}
+// HG-03 map geometry: procedural ORIGINAL art and prototype coordinates, not proprietary map data.
+const WIDTH=28, HEIGHT=18;
+function mapTiles(){
+ const tiles=[];
+ for(let y=0;y<HEIGHT;y++)for(let x=0;x<WIDTH;x++){
+  const valley=Math.abs(x-(19+2*Math.sin(y*.52)))<.85;
+  const n=Math.sin(x*.93+y*.37)*.4+Math.cos(x*.36-y*.81)*.28+Math.sin(x*.22+y*.31)*.35;
+  let terrain=valley?'water':n>.43?'hill':n<-.29?'forest':'plain';
+  if(valley&&(y===6||y===12))terrain='bridge';
+  if((x+y)%13===0&&terrain==='plain')terrain='road';
+  tiles.push({x,y,key:`${x},${y}`,terrain,kind:'empty'});
+ }
+ const at=(x,y)=>tiles[y*WIDTH+x];
+ const home=at(3,4);home.kind='castle';home.terrain='plain';
+ const places=[
+  [6,3,'mine','wood',1],[10,2,'mine','ore',1],[12,6,'mine','sulfur',1],[8,7,'mine','crystal',1],[1,7,'mine','gold',1],[14,2,'mine','wood',2],
+  [5,6,'npc','Wolves',1],[8,3,'npc','Bandits',2],[13,4,'npc','Goblins',2],[2,1,'npc','Shadows',1],[10,8,'npc','Rogues',3],[15,8,'npc','Wyverns',4],
+  [22,3,'mine','gold',2],[24,11,'mine','crystal',3],[21,15,'mine','ore',3],
+  [23,6,'npc','Dark Guards',3],[26,12,'npc','Phantoms',4],[17,15,'npc','Warlocks',3]
+ ];
+ for(const [x,y,kind,value,level] of places){let t=at(x,y);t.kind=kind;t.value=value;t.level=level;t.terrain='plain';}
+ return tiles;
+}
+const TILES=mapTiles(), TILE_LOOKUP=new Map(TILES.map(t=>[t.key,t]));
+function getTile(key){return TILE_LOOKUP.get(key)}
+function pathfind(fromKey,toKey){
+ const start=getTile(fromKey),goal=getTile(toKey);assert(start&&goal,'Tọa độ không tồn tại');
+ const queue=[start],visited=new Map([[start.key,null]]);
+ for(let i=0;i<queue.length;i++){
+  const t=queue[i];if(t.key===goal.key)break;
+  for(const [dx,dy] of [[1,0],[0,1],[-1,0],[0,-1]]){
+   const nb=getTile(`${t.x+dx},${t.y+dy}`);
+   if(!nb||visited.has(nb.key)||nb.terrain==='water')continue;
+   visited.set(nb.key,t.key);queue.push(nb);
+  }
+ }
+ if(!visited.has(goal.key))return null;
+ const result=[];let k=goal.key;while(k){result.unshift(k);k=visited.get(k);}return result;
+}
+function setFormation(s,items){
+ assert(!s.march&&!s.battle,'Không thể đổi đội hình khi đang hành quân hoặc chiến đấu');
+ assert(Array.isArray(items)&&items.length<=7,'Đội hình giới hạn 7 nhóm chiến đấu');
+ const sums={};const formation=[];
+ for(const item of items){
+  if(!item.unitId||!item.count)continue;
+  const u=getUnit(s,item.unitId);assert(u,'Binh chủng không hợp lệ');
+  const n=Number(item.count);assert(Number.isSafeInteger(n)&&n>0,'Số lính không hợp lệ');
+  sums[u.id]=(sums[u.id]||0)+n;assert(sums[u.id]<=(s.army[u.id]||0),'Số quân phân bổ vượt quân hiện có');
+  formation.push({unitId:u.id,count:n});
+ }
+ assert(formation.length>0,'Chưa chọn quân vào đội hình');
+ s.formation=formation;note(s,`Đã bố trí ${formation.length} nhóm quân, tổng ${formation.reduce((n,u)=>n+u.count,0)} lính.`);
+ return formation;
+}
+function startMarch(s,key){
+ assert(!s.march&&!s.battle,'Tướng đang bận');
+ const t=getTile(key);assert(t&&['mine','npc'].includes(t.kind),'Chọn mỏ hoặc quái');
+ assert(!s.cleared.includes(key)&&!s.mines.some(m=>m.key===key),'Mục tiêu đã hoàn thành');
+ assert(s.formation?.length?s.formation.some(g=>g.count>0):Object.values(s.army).some(n=>n>0),'Không có quân được phân bổ');
+ const hero=s.heroes.find(h=>h.id===s.activeHero);assert(hero&&s.castellan!==hero.id,'Tướng không sẵn sàng');
+ const path=pathfind('3,4',key);assert(path&&path.length>1,'Không tìm thấy đường đi bộ qua địa hình');
+ const apCost=t.kind==='mine'?6:8;assert(s.ap>=apCost,'Thiếu AP');s.ap-=apCost;
+ const seconds=Math.max(40,Math.ceil(20+(path.length-1)*19/(1+hero.spd*.018)));
+ s.march={target:key,remaining:seconds,total:seconds,heroId:hero.id,path};
+ note(s,`${hero.name} dẫn quân đi ${path.length-1} ô tới (${t.x},${t.y}), -${apCost} AP.`);
+}
+function activeArmy(s){return arrUnits(s).filter(u=>s.army[u.id]>0)}
+function makeBattle(s,target,remainingRatio=1){
+ const tile=getTile(target);assert(!!tile&&tile.kind!=='empty','Mục tiêu trận chiến không hợp lệ');
+ const lv=tile.level||1;
+ const selected=(s.formation?.length?s.formation:activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:s.army[u.id]})));
+ const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,s.army[u.id]);return {id:`p${i}`,slot:s.formation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?5:1,
+   count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+(((root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10)-10)*.02),
+   pool:count*u.hp,x:i<4?1:3,y:i<4?[0,2,5,8][i]:[1,4,7][i-4]}});
+ const archetypes=[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
+  {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:5},
+  {name:'Vệ binh',hp:55,atk:20,def:15,spd:3.8,range:1}];
+ const enemies=archetypes.slice(0,lv>=2?3:2).map((e,i)=>{
+  const c=Math.max(2,Math.ceil((lv*.8+1.7)*(i===0?2:1)));
+  return {id:`e${i}`,side:'enemy',unitId:null,name:e.name,range:e.range,count:c,initial:c,hp:e.hp,atk:e.atk+lv*2,def:e.def+lv,
+   spd:e.spd,pool:c*e.hp,x:10,y:2+i*3};
+ });
+ for(const e of enemies){e.pool=Math.max(1,Math.ceil(e.pool*remainingRatio));e.count=Math.ceil(e.pool/e.hp)}
+ return {target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,
+   turn:1,order:'attack',orders:{},focused:null,selected:allies[0]?.id||null,allies,enemies,
+   history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
+}
+function battleOpen(s){s.battle=makeBattle(s,s.march.target);s.march=null;s.battleAuto=false;s.battleOrder='attack';note(s,`Đụng độ tại ${s.battle.name}. Chọn đội quân và ra lệnh.`)}
+function upgradeSaveV02(old){
+ assert(old&&old.version===2&&old.res&&old.army,'Save v0.2 không hợp lệ');
+ const s=clone(old);s.version=4;s.battleAuto=false;s.battleOrder='attack';s.battleTarget=null;s.formation=[];
+ if(s.march){const p=pathfind('3,4',s.march.target);s.march.path=p||['3,4',s.march.target]}
+ if(s.battle){const prev=s.battle;const ratio=prev.maxHP>0?Math.max(.01,prev.enemyHP/prev.maxHP):1;s.battle=makeBattle(s,prev.target,ratio);}
+ note(s,'Save HG-02 đã chuyển sang HG-03 (không sửa bản lưu cũ).');return s;
+}
+function tick(s,now=Date.now()){
+ assert(valid(s),'Save không hợp lệ');if(now<=s.lastTick)return;
+ const elapsed=Math.min((now-s.lastTick)/1000,maxAge);s.lastTick=now;
+ const factor=s.speed===1?1:60;const seconds=elapsed*factor;
+ const rates=rate(s);for(const k of C.keys) s.res[k]+=rates[k]*seconds/3600;cap(s);
+ s.ap=Math.min(s.apMax,s.ap+s.apMax*.1*seconds/3600);
+ let left=seconds;
+ while(s.training.length&&left>0){let task=s.training[0];const use=Math.min(left,task.remaining);task.remaining-=use;left-=use;if(task.remaining<=0.00001){s.army[task.unitId]=(s.army[task.unitId]||0)+task.count;note(s,`Hoàn tất tuyển ${task.count} ${getUnit(s,task.unitId).name}.`);s.training.shift();}else break;}
+ if(s.march){s.march.remaining=Math.max(0,s.march.remaining-seconds);if(s.march.remaining<=0)battleOpen(s);}
+}
+function armyPower(s){return activeArmy(s).reduce((sum,u)=>sum+s.army[u.id]*u.atk,0)}
+function killUnits(s,damage){let rest=damage,dead=0;for(let u of activeArmy(s).sort((a,b)=>a.tier-b.tier)){
+ if(rest<=0)break;const d=Math.min(s.army[u.id],Math.ceil(rest/(u.hp||10)));s.army[u.id]-=d;dead+=d;rest-=d*u.hp;
+ if(s.buildings.arena>=1){const frac=(s.woundFraction?.[u.id]||0)+d*.75;const wounded=Math.floor(frac);s.woundFraction=s.woundFraction||{};s.woundFraction[u.id]=frac-wounded;s.wounded[u.id]=(s.wounded[u.id]||0)+wounded;}
+ }return dead;
+}
+function battleSelect(s,id){assert(s.battle,'Không có trận chiến');const st=[...s.battle.allies,...s.battle.enemies].find(t=>t.id===id&&t.pool>0);assert(st,'Đội quân không tồn tại');if(st.side==='enemy')s.battle.focused=id;else s.battle.selected=id;return st;}
+function alive(arr){return arr.filter(u=>u.pool>0)}
+function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
+function casualty(s,unitId,n,slot=null){if(n<=0)return;s.army[unitId]=Math.max(0,(s.army[unitId]||0)-n);if(slot!==null&&s.formation?.[slot])s.formation[slot].count=Math.max(0,s.formation[slot].count-n);
+ if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
+function advance(a,b){
+ const step=a.range>1?1:a.spd>=7?2:1;
+ for(let i=0;i<step&&dist(a,b)>a.range;i++){
+  const dx=Math.sign(b.x-a.x),dy=Math.sign(b.y-a.y);
+  if(Math.abs(b.x-a.x)>Math.abs(b.y-a.y))a.x=Math.max(0,Math.min(11,a.x+dx));
+  else if(dy)a.y=Math.max(0,Math.min(8,a.y+dy));
+  else a.x=Math.max(0,Math.min(11,a.x+dx));
+ }
+}
+function strike(s,b,actor,target,order){
+ if(actor.pool<=0||target.pool<=0)return 0;
+ if(dist(actor,target)>actor.range){if(order!=='defend')advance(actor,target);if(dist(actor,target)>actor.range)return 0;}
+ const h=s.heroes.find(x=>x.id===s.activeHero);
+ const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
+ const multiplier=order==='focus'?1.22:order==='defend'?.65:1;
+ const base=actor.atk*actor.atk/(actor.atk+Math.max(1,target.def));
+ const defendFactor=target.side==='player'?(1+(h?.def||0)/100):1;
+ const dmg=Math.max(1,Math.round(actor.count*base*bonus*multiplier/defendFactor));
+ target.pool=Math.max(0,target.pool-dmg);
+ const lost=Math.min(target.count,Math.max(0,target.count-Math.ceil(target.pool/target.hp)));
+ if(lost>0){target.count-=lost;if(target.side==='player')casualty(s,target.unitId,lost,target.slot)}
+ return dmg;
+}
+function battleAct(s,action){
+ assert(!!s.battle,'Không có trận chiến');assert(['attack','defend','focus','retreat'].includes(action),'Lệnh không hợp lệ');
+ const b=s.battle;
+ if(action==='retreat'){note(s,'Quân đội đã rút lui; thiệt hại trước đó không hoàn lại.');s.battle=null;s.battleAuto=false;return {type:'retreat'}}
+ b.order=action;b.orders=b.orders||{};if(b.selected)b.orders[b.selected]=action;s.battleOrder=action;
+ const participants=[...alive(b.allies),...alive(b.enemies)].sort((x,y)=>y.spd-x.spd||x.id.localeCompare(y.id));
+ let dealt=0,lost=0;
+ for(const actor of participants){
+  if(actor.pool<=0)continue;
+  const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
+  const stance=actor.side==='player'?(b.orders[actor.id]||'attack'):'attack';
+  const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
+  const target=pref||enemy.sort((x,y)=>(actor.range>1?y.atk*y.count-x.atk*x.count:dist(actor,x)-dist(actor,y)))[0];
+  const amount=strike(s,b,actor,target,stance);
+  if(actor.side==='player')dealt+=amount;else lost+=amount;
+ }
+ const turn=b.turn++;b.history.unshift(`Lượt ${turn}: quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
+ if(!alive(b.enemies).length){const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
+  if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
+  else{add(s,{gold:75*tile.level,wood:8*tile.level,ore:8*tile.level,sulfur:5*tile.level,crystal:5*tile.level});s.cleared.push(tile.key);note(s,`Đánh bại ${tile.value}.`)}
+  if(hero){hero.xp+=30*b.level;while(hero.xp>=hero.level*80){hero.xp-=hero.level*80;hero.level++;hero.atk+=2;hero.def+=1;}}
+  s.fame+=10*b.level;s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost};
+ }
+ if(b.turn>70){note(s,'Trận đánh hết 70 lượt mô phỏng; tướng rút khỏi giao tranh.');s.battle=null;s.battleAuto=false;return {type:'timeout',dealt,lost};}
+ if(!alive(b.allies).length){note(s,'Thua trận, thương binh đưa về Arena.');s.battle=null;s.battleAuto=false;return {type:'lose',dealt,lost};}
+ return {type:'continue',dealt,lost};
+}
+function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
+function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
+const API={V,SAVE_KEY,PREV_SAVE_KEY,C,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,getTile,pathfind,setFormation,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
+root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script><script>
+/* Hẻoofgaia HG-04 gameplay extension. New implementation, based on historical rules where noted. */
+(function(root){
+'use strict';
+const E=root.HOG_ENGINE, C=root.HOG_CATALOG;
+if(!E||!C)throw new Error('HG-04 requires HG engine and catalog');
+const HERO_SPELLS={
+ human:[{id:'leadership',name:'Leadership',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+        {id:'struggle',name:'Struggle',desc:'Tăng HP tối đa quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
+        {id:'rain_arrows',name:'Rain of Arrows',desc:'Tăng ATK quân bắn xa +1,5%/cấp',affects:'ally',stat:'atk',kind:'ranged',delta:.015}],
+ elf:[{id:'natures_wrath',name:"Nature's Wrath",desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+      {id:'fountain_life',name:'Fountain of Life',desc:'Tăng HP tối đa quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
+      {id:'hawkeye',name:'Hawkeye',desc:'Tăng ATK quân bắn xa +1,5%/cấp',affects:'ally',stat:'atk',kind:'ranged',delta:.015}],
+ orc:[{id:'harden_bones',name:'Harden Bones',desc:'Tăng DEF toàn quân +3%/cấp',affects:'ally',stat:'def',kind:'all',delta:.03},
+      {id:'roar',name:'Roar',desc:'Giảm DEF quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02},
+      {id:'berserk',name:'Berserk',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015}],
+ undead:[{id:'curse',name:'Curse',desc:'Giảm ATK quân địch -1%/cấp',affects:'enemy',stat:'atk',kind:'all',delta:-.01},
+         {id:'necromancy',name:'Necromancy',desc:'Giảm DEF quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02},
+         {id:'soul_boost',name:'Soul Boost',desc:'Tăng HP toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01}]
+};
+const ITEMS={
+ copper_blade:{id:'copper_blade',name:'Kiếm đồng hành trình',slot:'weapon',icon:'⚔',atk:3,def:0,spd:0,cost:450,level:1},
+ ash_bow:{id:'ash_bow',name:'Cung tần bì',slot:'weapon',icon:'🏹',atk:4,def:0,spd:1,cost:650,level:2},
+ iron_armor:{id:'iron_armor',name:'Giáp sắt trinh sát',slot:'armor',icon:'🛡',atk:0,def:4,spd:0,cost:540,level:1},
+ traveler_cloak:{id:'traveler_cloak',name:'Áo choàng lữ khách',slot:'armor',icon:'🧥',atk:0,def:2,spd:2,cost:680,level:2},
+ quartz_ring:{id:'quartz_ring',name:'Nhẫn thạch anh',slot:'charm',icon:'💍',atk:2,def:1,spd:1,cost:850,level:2},
+ old_talisman:{id:'old_talisman',name:'Hộ phù cổ',slot:'charm',icon:'🔮',atk:1,def:3,spd:0,cost:980,level:3}
+};
+const QUESTS=[
+ {id:'hall_two',name:'Lãnh chúa trẻ',desc:'Nâng Town Hall lên cấp 2',reward:{gold:500,wood:120,ore:120},fame:10,ready:s=>s.buildings.hall>=2},
+ {id:'scouting',name:'Mắt nhìn bốn phương',desc:'Nghiên cứu Scouting cấp 1',reward:{gold:300,sulfur:50,crystal:50},fame:10,ready:s=>(s.spells.scouting||0)>=1},
+ {id:'first_mine',name:'Đất đai màu mỡ',desc:'Chiếm mỏ tài nguyên đầu tiên',reward:{gold:650,wood:100,ore:100},fame:20,ready:s=>s.mines.length>=1},
+ {id:'first_npc',name:'Dọn sạch đường thương',desc:'Đánh bại một trại quái',reward:{gold:850,sulfur:75,crystal:75},fame:25,ready:s=>s.cleared.length>=1}
+];
+function ensure(s){
+ if(!s.heroMagic||typeof s.heroMagic!=='object')s.heroMagic={};
+ if(!Array.isArray(s.inventory))s.inventory=[];
+ if(!s.equipment||typeof s.equipment!=='object')s.equipment={};
+ if(!Array.isArray(s.claimedQuests))s.claimedQuests=[];
+ if(!Number.isSafeInteger(s.nextItem))s.nextItem=1;
+ if(!Number.isSafeInteger(s.lootWins))s.lootWins=0;
+ for(const h of s.heroes){if(!Array.isArray(h.equippedSpells))h.equippedSpells=[];if(!s.equipment[h.id])s.equipment[h.id]={};}
+ return s;
+}
+function spells(s){return HERO_SPELLS[s.race]}
+function spell(s,id){return spells(s).find(x=>x.id===id)}
+function spellCost(s,id){const t=spell(s,id);if(!t)throw Error('Phép không thuộc chủng tộc');const level=s.heroMagic[id]||0;
+ return {gold:300*(level+1),wood:30*(level+1),ore:30*(level+1),sulfur:25*(level+1),crystal:25*(level+1)};
+}
+function researchHeroSpell(s,id){ensure(s);if(s.march||s.battle)throw Error('Tướng đang xuất chinh');const t=spell(s,id);if(!t)throw Error('Phép không thuộc chủng tộc');const current=s.heroMagic[id]||0;
+ if(current>=s.buildings.magicTower||current>=10)throw Error('Nâng Magic Tower trước');E.spend(s,spellCost(s,id));s.heroMagic[id]=current+1;
+ E.note(s,`Nghiên cứu ${t.name} cấp ${current+1} (chi phí mô phỏng).`);return s.heroMagic[id];}
+function equipSpell(s,id,heroId=s.activeHero){ensure(s);if(s.march||s.battle)throw Error('Không thể đổi pháp thuật khi hành quân hoặc giao tranh');if(!(s.heroMagic[id]>0)||!spell(s,id))throw Error('Phải nghiên cứu pháp thuật trước');
+ const h=s.heroes.find(x=>x.id===heroId);if(!h)throw Error('Không tìm thấy tướng');
+ if(h.equippedSpells.includes(id)){h.equippedSpells=h.equippedSpells.filter(x=>x!==id);return false;}
+ if(h.equippedSpells.length>=5)throw Error('Tối đa 5 phép trang bị');h.equippedSpells.push(id);return true;
+}
+function addItem(s,itemId,origin){ensure(s);if(!ITEMS[itemId])throw Error('Trang bị không tồn tại');const item={uid:s.nextItem++,itemId,origin};s.inventory.push(item);return item;}
+function buyItem(s,itemId){ensure(s);const item=ITEMS[itemId];if(!item)throw Error('Không có vật phẩm này');if((s.buildings.bazaar||0)<item.level)throw Error('Cần nâng Bazaar tới cấp '+item.level);
+ E.spend(s,{gold:item.cost});const created=addItem(s,itemId,'Bazaar');E.note(s,`Mua ${item.name} từ Bazaar (giá demo).`);return created;}
+function equipItem(s,uid,heroId=s.activeHero){ensure(s);if(s.march||s.battle)throw Error('Chờ kết thúc hành quân hoặc chiến đấu để thay trang bị');const item=s.inventory.find(x=>x.uid===uid);if(!item)throw Error('Không có trang bị này');const proto=ITEMS[item.itemId];
+ const hero=s.heroes.find(x=>x.id===heroId);if(!hero)throw Error('Tướng không tồn tại');
+ for(const eq of Object.values(s.equipment)){for(const key of Object.keys(eq)){if(eq[key]===uid)delete eq[key]}}
+ s.equipment[hero.id][proto.slot]=uid;E.note(s,`${hero.name} trang bị ${proto.name}.`);return uid;}
+function unequipItem(s,slot,heroId=s.activeHero){ensure(s);if(s.march||s.battle)throw Error('Tướng đang bận');if(!['weapon','armor','charm'].includes(slot))throw Error('Ô không hợp lệ');delete s.equipment[heroId]?.[slot];return true;}
+function heroStats(s,heroId=s.activeHero){ensure(s);const h=s.heroes.find(x=>x.id===heroId);if(!h)return null;
+ const res={atk:h.atk,def:h.def,spd:h.spd,int:h.int};for(const uid of Object.values(s.equipment[h.id]||{})){
+  const found=s.inventory.find(x=>x.uid===uid),def=found&&ITEMS[found.itemId];if(!def)continue;
+  for(const key of ['atk','def','spd'])res[key]+=(def[key]||0);
+ }return res;
+}
+function sell(s,key,qty){ensure(s);if((s.buildings.market||0)<1)throw Error('Xây Market trước');if(!['wood','ore','sulfur','crystal'].includes(key))throw Error('Chỉ bán được tài nguyên');
+ if(!Number.isSafeInteger(qty)||qty<1||qty>50000)throw Error('Số lượng phải là số nguyên hợp lệ');
+ const multiplier={wood:2,ore:2,sulfur:4,crystal:4}[key];const gain=qty*multiplier;
+ if(!E.canAfford(s,{[key]:qty}))throw Error('Không đủ tài nguyên');
+ if(s.res.gold+gain>E.limits(s).gold)throw Error('Kho vàng không đủ chỗ');
+ E.spend(s,{[key]:qty});E.add(s,{gold:gain});E.note(s,`Bán ${qty} ${C.resource[key].label}: +${gain} vàng (tỷ giá demo).`);return gain;
+}
+function claim(s,id){ensure(s);const quest=QUESTS.find(q=>q.id===id);if(!quest)throw Error('Nhiệm vụ không hợp lệ');if(s.claimedQuests.includes(id))throw Error('Đã nhận thưởng nhiệm vụ');if(!quest.ready(s))throw Error('Chưa đạt yêu cầu');
+ const lim=E.limits(s);for(const [key,value] of Object.entries(quest.reward))if(s.res[key]+value>lim[key]+1e-6)throw Error('Kho '+C.resource[key].label+' không đủ chỗ');
+ E.add(s,quest.reward);s.fame+=quest.fame;s.claimedQuests.push(id);E.note(s,`Nhận thưởng nhiệm vụ: ${quest.name}.`);return true;
+}
+// Hero spells are buffs/debuffs that override the previous active effect, per 2009 wiki.
+// Duration / recast cooldown are demo-only: three rounds of effect, two rounds of cooldown after expiration.
+function resetEffects(b){if(!b)return;for(const u of [...b.allies,...b.enemies]){if(u._spellAtk!==undefined){u.atk=u._spellAtk;delete u._spellAtk}
+ if(u._spellDef!==undefined){u.def=u._spellDef;delete u._spellDef}
+ if(u._spellHp!==undefined){const adjustedPool=u.hp?Math.round(u.pool*u._spellHp/u.hp):0;u.hp=u._spellHp;u.pool=Math.min(adjustedPool,Math.ceil(u.initial*u.hp));if(u.pool<0)u.pool=0;u.count=Math.min(u.count,Math.ceil(u.pool/u.hp));delete u._spellHp}}b.activeSpell=null;}
+function cast(s,id){ensure(s);const b=s.battle;if(!b)throw Error('Không có trận chiến');const spec=spell(s,id),hero=s.heroes.find(h=>h.id===s.activeHero);
+ if(!spec||!hero?.equippedSpells.includes(id)||!(s.heroMagic[id]>0))throw Error('Chưa nghiên cứu hoặc trang bị phép');
+ if(b.castTurn===b.turn)throw Error('Mỗi lượt chỉ sử dụng một phép');if((b.spellCooldown?.[id]||0)>b.turn)throw Error('Phép đang hồi');
+ resetEffects(b);const group=spec.affects==='ally'?b.allies:b.enemies;
+ const lv=s.heroMagic[id];for(const u of group){if(!u.pool)continue;if(spec.kind==='melee'&&u.range>1)continue;if(spec.kind==='ranged'&&u.range<=1)continue;
+  if(spec.stat==='atk'){u._spellAtk=u.atk;u.atk=Math.max(1,u.atk*(1+spec.delta*lv))}
+  if(spec.stat==='def'){u._spellDef=u.def;u.def=Math.max(1,u.def*(1+spec.delta*lv))}
+  if(spec.stat==='hp'){u._spellHp=u.hp;u.hp=u.hp*(1+spec.delta*lv);u.pool=u.pool*(1+spec.delta*lv)}
+ }
+ b.activeSpell={id,expiry:b.turn+3};b.castTurn=b.turn;b.spellCooldown=b.spellCooldown||{};b.spellCooldown[id]=b.turn+5;
+ b.history.unshift(`✨ ${hero.name} dùng ${spec.name} cấp ${lv}.`);return b.activeSpell;
+}
+const rawMake=E.make,rawTick=E.tick,rawBattleAct=E.battleAct,rawUpgradeSaveV02=E.upgradeSaveV02,rawUpgrade=E.upgrade;
+E.make=(...args)=>ensure(rawMake(...args));
+E.tick=(s,...args)=>{ensure(s);const had=!!s.battle;rawTick(s,...args);if(!had&&s.battle){s.battle.spellCooldown={};s.battle.castTurn=0;s.battle.activeSpell=null;}return s;};
+E.battleAct=(s,cmd)=>{ensure(s);const h=s.heroes.find(x=>x.id===s.activeHero);const stats=h?heroStats(s,h.id):null;
+ const initialAtk=h?.atk,initialDef=h?.def;if(h&&stats){h.atk=stats.atk;h.def=stats.def;}
+ const b=s.battle;
+ let out;try{out=rawBattleAct(s,cmd);}finally{if(h&&stats){h.atk-=stats.atk-initialAtk;h.def-=stats.def-initialDef;}}
+ if(b&&s.battle&&s.battle.activeSpell&&s.battle.turn>=s.battle.activeSpell.expiry)resetEffects(s.battle);
+ if(out.type==='win'){
+  s.lootWins++;
+  // Deterministic demo reward; success is counted only after the engine records conquered/cleared target.
+  const tile=E.getTile(b.target);if(tile?.kind==='npc'||(tile?.kind==='mine'&&s.lootWins%3===0)){
+   const pools=['copper_blade','iron_armor','ash_bow','traveler_cloak','quartz_ring','old_talisman'];
+   const item=pools[(b.target.split(',').reduce((n,v)=>n+Number(v),0)+s.lootWins)%pools.length];
+   addItem(s,item,`PvE (${b.target})`);E.note(s,`Nhặt được ${ITEMS[item].name} sau giao tranh (drop mô phỏng).`);
+  }
+ }
+ return out;
+};
+E.upgrade=(s,key)=>{ensure(s);return rawUpgrade(s,key)};
+E.upgradeSaveV03=(old)=>{if(!old||old.version!==3||!E.C.races[old.race])throw Error('Save HG03 không hợp lệ');const s=E.clone(old);s.version=4;E.note(s,'Đã chuyển save HG-03 lên HG-04, giữ nguyên dữ liệu cũ.');return ensure(s)};
+E.upgradeSaveV02=(old)=>{const s=rawUpgradeSaveV02(old);s.version=4;E.note(s,'Chuyển save HG-02 sang HG-04.');return ensure(s)};
+C.buildings.market.state='observed';C.buildings.market.desc='Bán tài nguyên lấy vàng; tỷ giá mô phỏng. Không dùng vàng mua tài nguyên.';
+C.buildings.bazaar.state='observed';C.buildings.bazaar.desc='Mua trang bị tướng, cấp Bazaar mở vật phẩm (giá demo).';
+Object.assign(E,{SAVE_KEY:'heoofgaia_hg_only_v04',PREV_SAVE_KEY:'heoofgaia_hg_only_v03',HERO_SPELLS,ITEMS,QUESTS,ensure,spells,spell,heroSpellCost:spellCost,researchHeroSpell,equipSpell,addItem,buyItem,equipItem,unequipItem,heroStats,sell,claim,cast,resetEffects});
+root.HOG_HG04={HERO_SPELLS,ITEMS,QUESTS};
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script><script>
+/* Hẻoofgaia HG-05: queued construction, hardened save validation and version-preserving migrations.
+ * Rules marked SIMULATED remain provisional until verified against original client data.
+ */
+(function(root){
+'use strict';
+const E=root.HOG_ENGINE;
+if(!E||!E.ensure)throw Error('HG-05 must load after hg04.js');
+const original={make:E.make,tick:E.tick,upgrade:E.upgrade,valid:E.valid,
+ migrate02:E.upgradeSaveV02,migrate03:E.upgradeSaveV03};
+const VERSION=5, KEY='heoofgaia_hg_only_v05';
+function ensure(s){E.ensure(s);if(!Object.prototype.hasOwnProperty.call(s,'buildingQueue'))s.buildingQueue=null;return s;}
+function duration(s,key){const next=(s.buildings[key]||0)+1;
+ // SIMULATED seconds, deliberately NOT claimed to match the original 2009 client.
+ const base=key==='hall'?210:160;
+ return Math.max(30,Math.ceil(base*Math.pow(1.4,next-1)*(1-Math.min(.27,(s.spells.construction||0)*.03))));
+}
+function upgrade(s,key){ensure(s);
+ if(s.buildingQueue)throw Error('Đang có một công trình trong hàng đợi. Hãy đợi hoàn tất.');
+ if(!E.C.buildings[key]||E.C.buildings[key].state!=='observed')throw Error('Công trình chưa được triển khai');
+ const lv=s.buildings[key]||0;
+ if(lv>=10)throw Error('Đạt cấp tối đa mô phỏng');
+ if(key!=='hall'&&lv>=s.buildings.hall)throw Error('Cần nâng Town Hall trước');
+ const cost=E.buildCost(s,key);
+ E.spend(s,cost);const seconds=duration(s,key);
+ s.buildingQueue={id:s.serial++,key,level:lv+1,total:seconds,remaining:seconds};
+ E.note(s,`Bắt đầu nâng ${E.C.buildings[key].name} Lv.${lv+1}, chờ ${seconds} giây game (mô phỏng).`);
+ return cost;
+}
+function finishConstruction(s){
+ const q=s.buildingQueue;if(!q)return;
+ if((s.buildings[q.key]||0)!==q.level-1)throw Error('Hàng đợi xây dựng không khớp cấp công trình');
+ s.buildings[q.key]=q.level;s.buildingQueue=null;
+ E.note(s,`Hoàn thành ${E.C.buildings[q.key].name} Lv.${q.level}.`);
+}
+function tick(s,now=Date.now()){
+ ensure(s);const oldTime=s.lastTick;if(now<=oldTime)return;
+ const cappedSeconds=Math.min((now-oldTime)/1000,8*3600);
+ const factor=s.speed===1?1:60,gameSeconds=cappedSeconds*factor;
+ const q=s.buildingQueue;
+ // Split the exact tick at the construction completion boundary. This is important:
+ // production rates, storage or unlocks gained after completion apply to the remainder
+ // of a long offline interval, with no resource duplication and no lost post-build time.
+ if(q&&q.remaining>0&&gameSeconds>=q.remaining){
+  const halfway=oldTime+q.remaining/factor*1000;
+  original.tick(s,halfway);
+  q.remaining=0;finishConstruction(s);
+  const cappedEnd=oldTime+cappedSeconds*1000;
+  if(cappedEnd>halfway)original.tick(s,cappedEnd);
+  // Maintain engine's offline limit: explicitly consume the rest of the wall interval.
+  s.lastTick=now;
+ }else{
+  original.tick(s,now);
+  if(q){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)finishConstruction(s)}
+ }
+}
+function valid(s){
+ if(!original.valid(s)||s.version!==VERSION)return false;
+ if(!s.buildingQueue)return true;
+ const q=s.buildingQueue;
+ return !!(q&&E.C.buildings[q.key]&&Number.isSafeInteger(q.id)&&Number.isSafeInteger(q.level)&&
+ Number.isFinite(q.total)&&q.total>0&&Number.isFinite(q.remaining)&&q.remaining>=0&&q.remaining<=q.total&&
+ Number.isSafeInteger(s.buildings[q.key])&&s.buildings[q.key]===q.level-1);
+}
+function strictSave(s){
+ if(!valid(s))return false;
+ const obj=x=>x&&typeof x==='object'&&!Array.isArray(x);
+ if(!obj(s.res)||!obj(s.army)||!obj(s.buildings)||!obj(s.wounded)||!obj(s.spells))return false;
+ if(!Number.isSafeInteger(s.serial)||s.serial<1||s.serial>1e9)return false;
+ if(!Number.isFinite(s.lastTick)||s.lastTick>Date.now()+5*60e3)return false;
+ if(![1,60].includes(s.speed)||!Number.isFinite(s.ap)||s.ap<0||!Number.isFinite(s.apMax)||s.apMax<=0||s.ap>s.apMax+1e-6)return false;
+ for(const k of E.C.keys)if(!Number.isFinite(s.res[k])||s.res[k]<0||s.res[k]>1e12)return false;
+ for(const [k,lv] of Object.entries(s.buildings))if(!E.C.buildings[k]||!Number.isSafeInteger(lv)||lv<0||lv>10)return false;
+ const allowedUnits=new Set(E.arrUnits(s).map(u=>u.id));
+ for(const [k,n] of Object.entries(s.army))if(!allowedUnits.has(k)||!Number.isSafeInteger(n)||n<0||n>1e8)return false;
+ for(const [k,n] of Object.entries(s.wounded))if(!allowedUnits.has(k)||!Number.isSafeInteger(n)||n<0||n>1e8)return false;
+ if(s.heroes.length<1||s.heroes.length>8||new Set(s.heroes.map(h=>h.id)).size!==s.heroes.length)return false;
+ for(const h of s.heroes)if(!Number.isSafeInteger(h.id)||h.id<1||typeof h.name!=='string'||h.name.length>120||!['level','xp','atk','def','spd','int'].every(k=>Number.isFinite(h[k])&&h[k]>=0&&h[k]<1e9))return false;
+ if(s.training.length>100)return false;
+ for(const t of s.training)if(!allowedUnits.has(t.unitId)||!Number.isSafeInteger(t.count)||t.count<1||t.count>1e8||!Number.isFinite(t.remaining)||t.remaining<0||t.remaining>1e10)return false;
+ if(s.formation&&(!Array.isArray(s.formation)||s.formation.length>7||s.formation.some(t=>!allowedUnits.has(t.unitId)||!Number.isSafeInteger(t.count)||t.count<0)))return false;
+ if(s.march&&(!obj(s.march)||!E.getTile(s.march.target)||!Number.isFinite(s.march.remaining)||s.march.remaining<0))return false;
+ if(s.battle&&(!obj(s.battle)||!E.getTile(s.battle.target)||!Array.isArray(s.battle.allies)||!Array.isArray(s.battle.enemies)||s.battle.allies.length>7||s.battle.enemies.length>20))return false;
+ if(!Array.isArray(s.inventory)||s.inventory.length>2000||!Array.isArray(s.claimedQuests)||s.claimedQuests.length>100)return false;
+ if(s.log.length>100||s.log.some(l=>typeof l!=='string'||l.length>500))return false;
+ return true;
+}
+function migrate04(old){
+ if(!old||old.version!==4||!E.C.races[old.race])throw Error('Save HG-04 không hợp lệ');
+ const s=E.clone(old);ensure(s);s.version=VERSION;s.buildingQueue=null;
+ E.note(s,'Chuyển HG-04 sang HG-05; bản lưu HG-04 cũ giữ nguyên.');
+ if(!strictSave(s))throw Error('Không thể chuyển save HG-04: dữ liệu không hợp lệ');
+ return s;
+}
+function migrate03(old){const v4=original.migrate03(old);return migrate04(v4)}
+function migrate02(old){const v4=original.migrate02(old);return migrate04(v4)}
+function parseSave(text){
+ if(typeof text!=='string'||text.length>2_000_000)throw Error('Tệp sao lưu vượt giới hạn 2 MB');
+ let raw;try{raw=JSON.parse(text)}catch(e){throw Error('Tệp không phải JSON hợp lệ')}
+ const src=raw?.format==='heoofgaia-save-1'?raw.state:raw;
+ let s;
+ if(src?.version===5)s=E.clone(src);
+ else if(src?.version===4)s=migrate04(src);
+ else if(src?.version===3)s=migrate03(src);
+ else if(src?.version===2)s=migrate02(src);
+ else throw Error('Không hỗ trợ phiên bản save');
+ ensure(s);
+ if(!strictSave(s))throw Error('Save không đạt kiểm tra an toàn hoặc tính nhất quán');
+ return s;
+}
+function serialize(s){if(!strictSave(s))throw Error('Không thể xuất save không hợp lệ');return JSON.stringify({format:'heoofgaia-save-1',exportedAt:new Date().toISOString(),state:s},null,2)}
+E.make=(...a)=>{let s=original.make(...a);s.version=VERSION;return ensure(s)};
+E.tick=tick;E.upgrade=upgrade;E.valid=valid;
+E.upgradeSaveV04=migrate04;E.upgradeSaveV03=migrate03;E.upgradeSaveV02=migrate02;
+Object.assign(E,{V:VERSION,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v04',ensure05:ensure,
+ buildDuration:duration,strictSave,parseSave,serializeSave:serialize});
+root.HOG_HG05={version:VERSION,saveKey:KEY};
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script><script>
+/* Hẻoofgaia HG06: candidate Tavern, 2009-source combat and castellan fidelity pass.
+ * Original implementation. Tavern rarities/prices are SIMULATED pending source verification.
+ */
+(function(root){'use strict';
+const E=root.HOG_ENGINE;if(!E||E.V!==5)throw Error('HG06 needs HG05');
+const old={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.parseSave,serialize:E.serializeSave,hire:E.hire};
+const V=6,KEY='heoofgaia_hg_only_v06';
+const names=['Seren','Eldwin','Tiriel','Thorne','Velmar','Rowan','Neris','Cerys','Merek','Vesper','Elowen','Talan','Sylas','Irena'];
+function slots(lv){return [0,2,3,3,4,4,5,5,6,7,8][Math.max(1,Math.min(10,lv|0))]}
+function candidates(s,round){
+ const lv=s.buildings.tavern||1;
+ return Array.from({length:slots(lv)},(_,i)=>{
+  const n=(round*13+i*7+Object.keys(E.C.races).indexOf(s.race)*3)>>>0;
+  const quality=lv>=10&&n%31===0?'purple':lv>=6&&n%5===0?'blue':lv>=3&&n%3===0?'green':'white';
+  const bonus={white:0,green:3,blue:6,purple:10}[quality];
+  return {id:`r${round}c${i}`,name:names[n%names.length],quality,
+    atk:8+(n%5)+bonus,def:7+((n*3)%5)+bonus,spd:6+((n*5)%5)+Math.floor(bonus/2),int:6+((n*7)%5)+bonus,
+    gold:500+(i*90)+bonus*80};
+ });
+}
+function ensure(s){E.ensure05(s);
+ if(!s.tavern||typeof s.tavern!=='object'||Array.isArray(s.tavern))s.tavern={round:0,remaining:3600,offers:candidates(s,0)};
+ if(!Number.isSafeInteger(s.tavern.round)||s.tavern.round<0)s.tavern.round=0;
+ if(!Number.isFinite(s.tavern.remaining)||s.tavern.remaining<0)s.tavern.remaining=3600;
+ if(!Array.isArray(s.tavern.offers))s.tavern.offers=candidates(s,s.tavern.round);
+ return s;
+}
+function refresh(s){ensure(s);s.tavern.round++;s.tavern.offers=candidates(s,s.tavern.round);E.note(s,'Tavern đã làm mới danh sách tướng (chu kỳ 60 phút game).')}
+function hire(s,candidateId){ensure(s);if(s.buildings.tavern<1)throw Error('Cần xây Tavern');
+ if(s.heroes.length>=8)throw Error('Đạt giới hạn 8 tướng thử nghiệm');
+ const offer=s.tavern.offers.find(h=>h.id===candidateId);
+ if(!offer)throw Error('Ứng viên không còn trong Tavern');
+ E.spend(s,{gold:offer.gold});const id=Math.max(0,...s.heroes.map(h=>h.id))+1;
+ s.heroes.push({id,name:offer.name,level:1,xp:0,atk:offer.atk,def:offer.def,spd:offer.spd,int:offer.int,quality:offer.quality});
+ s.tavern.offers=s.tavern.offers.filter(h=>h.id!==candidateId);
+ E.ensure05(s);E.note(s,`Tuyển ${offer.name} (${offer.quality}) từ Tavern, -${offer.gold} vàng; bảng xác suất và giá đang mô phỏng.`);return id;
+}
+function tick(s,now=Date.now()){
+ ensure(s);if(now<=s.lastTick)return;
+ const gameSecs=Math.min((now-s.lastTick)/1000,8*3600)*(s.speed===1?1:60);
+ // The previous engine expects schema v5 internally. Only temporarily normalize within
+ // the synchronous tick; restore on errors and leave legacy saved data untouched.
+ s.version=5;try{old.tick(s,now)}finally{s.version=V}
+ let left=gameSecs;
+ if(left>=s.tavern.remaining){left-=s.tavern.remaining;
+   const cycles=1+Math.floor(left/3600);s.tavern.round+=cycles;
+   s.tavern.offers=candidates(s,s.tavern.round);
+   s.tavern.remaining=3600-(left%3600);
+   E.note(s,`Tavern làm mới ${cycles} lần trong thời gian game đã trôi qua.`);
+ }else s.tavern.remaining-=left;
+}
+function valid(s){return !!(s&&s.version===V&&old.valid({...s,version:5}));}
+function strict(s){if(!valid(s)||!old.strict({...s,version:5}))return false;
+ const t=s.tavern;if(!t||!Number.isSafeInteger(t.round)||t.round<0||t.round>1e9||!Number.isFinite(t.remaining)||t.remaining<0||t.remaining>3600||!Array.isArray(t.offers)||t.offers.length>8)return false;
+ const ids=new Set();for(const h of t.offers){if(!h||typeof h.id!=='string'||h.id.length>24||ids.has(h.id)||typeof h.name!=='string'||h.name.length>64||!['white','green','blue','purple'].includes(h.quality)||!['atk','def','spd','int','gold'].every(k=>Number.isSafeInteger(h[k])&&h[k]>=0&&h[k]<=10000))return false;ids.add(h.id)}
+ return true;
+}
+function parse(text){if(typeof text!=='string'||text.length>2000000)throw Error('Tệp sao lưu vượt giới hạn 2 MB');
+ let raw;try{raw=JSON.parse(text)}catch{throw Error('JSON không hợp lệ')}
+ const obj=raw?.format==='heoofgaia-save-1'?raw.state:raw;
+ let s;
+ if(obj?.version===6){s=E.clone(obj);if(!strict(s))throw Error('Save HG06 không hợp lệ')}
+ else{s=old.parse(JSON.stringify(obj));s.version=6;ensure(s);if(!strict(s))throw Error('Chuyển save thất bại');E.note(s,'Đã chuyển save HG02–HG05 sang HG06; giữ nguyên bản cũ.')}
+ return s;
+}
+function serialize(s){if(!strict(s))throw Error('Save HG06 không hợp lệ');return JSON.stringify({format:'heoofgaia-save-1',exportedAt:new Date().toISOString(),state:s},null,2)}
+function unitValue(u){if(!u)throw Error('Không xác định binh chủng');const c=u.cost;return c.gold+5*(c.wood+c.ore)+10*(c.sulfur+c.crystal)}
+function troopValue(s){ensure(s);return (s.formation||[]).reduce((total,g)=>total+unitValue(E.getUnit(s,g.unitId))*g.count,0)}
+E.make=(...args)=>{const s=old.make(...args);s.version=V;return ensure(s)};
+Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v05',ensure06:ensure,unitValue,troopValue,hireCandidate:hire,tavernSlots:slots,refreshTavern:refresh,tick,valid,strictSave:strict,parseSave:parse,serializeSave:serialize});
+root.HOG_HG06={version:V,saveKey:KEY};
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script><script>
+/* HG-07: community-sourced hero unit-value capacity (Fandom Heroes table).
+ * Not licensed client or server code. Base capacity only: Arena rank/items/guild additions deferred.
+ * Read-only check preserves all HG02-HG06 saves without schema migration.
+ * Source: https://heroesofgaia.fandom.com/wiki/Heroes (Unit Limit, levels 1-100).
+ */
+(function(root){'use strict';
+const E=root.HOG_ENGINE;
+if(!E||E.V!==6)throw Error('HG07 requires HG06 engine');
+const BASE_LIMITS=Object.freeze([11500,13333,16666,20000,23333,26666,29999,33333,36666,40000,49823,62567,76258,90833,106242,122442,139397,157073,175444,194482,248166,276833,306833,338166,370833,404833,440166,476833,514833,554166,594833,636833,680166,724833,770833,818166,866833,916833,968166,1020833,1074833,1130166,1186833,1244833,1304166,1364833,1426833,1490166,1554833,1620833,1688166,1756833,1826833,1898166,1970833,2044833,2120166,2196833,2274833,2354166,2478125,2518750,2559375,2600000,2640625,2681250,2721875,2762500,2803125,2843750,2884375,2925000,2965625,3006250,3046875,3087500,3128125,3168750,3209375,3250000,3290625,3331250,3371875,3412500,3453125,3493750,3534375,3575000,3615625,3656250,3696875,3737500,3778125,3818750,3859375,3900000,3940625,3981250,4021875,4062500]);
+const prior={setFormation:E.setFormation,startMarch:E.startMarch};
+function heroLimit(level){
+ if(!Number.isSafeInteger(level)||level<1||level>100)throw Error('Cấp tướng ngoài bảng 1–100');
+ return BASE_LIMITS[level-1];
+}
+function selectedHero(s){const h=s.heroes?.find(h=>h.id===s.activeHero);
+ if(!h||h.id===s.castellan)throw Error('Chưa có tướng chỉ huy sẵn sàng');return h;}
+function formationPoints(s,formation){
+ let sum=0;for(const g of formation){if(!g?.unitId||!g?.count)continue;
+  const unit=E.getUnit(s,g.unitId);if(!unit)throw Error('Binh chủng không hợp lệ');
+  sum+=E.unitValue(unit)*Number(g.count);
+ }return sum;
+}
+function defaultFormation(s){return E.activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:s.army[u.id]}));}
+function checkCapacity(s,formation){
+ const h=selectedHero(s),points=formationPoints(s,formation),limit=heroLimit(h.level);
+ if(!Number.isSafeInteger(points)||points>limit)throw Error(`Vượt giới hạn chỉ huy của ${h.name}: ${points.toLocaleString('vi-VN')} / ${limit.toLocaleString('vi-VN')} điểm. Hãy giảm số quân trong đội hình.`);
+ return {heroId:h.id,level:h.level,points,limit};
+}
+function setFormation(s,formation){
+ // Validate the original source contract first. No state change if capacity validation fails.
+ if(!Array.isArray(formation))return prior.setFormation(s,formation);
+ checkCapacity(s,formation);
+ return prior.setFormation(s,formation);
+}
+function startMarch(s,target){
+ // Also covers pre-HG07 saved formations and the auto-selection fallback.
+ checkCapacity(s,s.formation?.length?s.formation:defaultFormation(s));
+ return prior.startMarch(s,target);
+}
+Object.assign(E,{heroLimit,formationPoints,checkCapacity,setFormation,startMarch,HG07_BASE_LIMITS:BASE_LIMITS});
+root.HOG_HG07={status:'capacity-base-check',source:'Fandom Heroes',saveSchema:6};
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script><script>
+/* Hẻoofgaia HG-03: original procedural canvas artwork. No game image/asset reproduction. */
+(function(root){
+'use strict';
+const TAU=2*Math.PI;const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
+function random(x,y,z=0){let n=Math.sin(x*12.9898+y*78.233+z*33.34)*43758.5453;return n-Math.floor(n)}
+function poly(c,pts,fill,stroke){c.beginPath();pts.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.closePath();if(fill){c.fillStyle=fill;c.fill()}if(stroke){c.strokeStyle=stroke;c.stroke()}}
+function rounded(c,x,y,w,h,r,fill,stroke){c.beginPath();c.roundRect(x,y,w,h,r);if(fill){c.fillStyle=fill;c.fill()}if(stroke){c.strokeStyle=stroke;c.stroke()}}
+function circle(c,x,y,r,color){c.beginPath();c.arc(x,y,r,0,TAU);c.fillStyle=color;c.fill()}
+function line(c,x1,y1,x2,y2,width,color){c.strokeStyle=color;c.lineWidth=width;c.beginPath();c.moveTo(x1,y1);c.lineTo(x2,y2);c.stroke()}
+function text(c,s,x,y,size=13,color='#f6e8bf',align='center',weight='600'){c.font=`${weight} ${size}px Georgia,serif`;c.textAlign=align;c.fillStyle=color;c.fillText(String(s),x,y)}
+function tree(c,x,y,k=1,kind='normal'){
+ c.save();c.translate(x,y);c.scale(k,k);
+ circle(c,1,6,10,'#091d1890');line(c,0,7,0,-12,4,'#63422f');
+ const color=kind==='dark'?'#2c4553':kind==='pine'?'#214d3c':'#316849';
+ if(kind==='pine'){for(let i=0;i<3;i++)poly(c,[[-12+i*2,-2-i*10],[0,-30-i*6],[12-i*2,-2-i*10]],i===0?'#204936':i===1?'#33704b':'#427b50');}
+ else{circle(c,-6,-14,11,color);circle(c,6,-20,14,kind==='dark'?'#385369':'#3f7d54');circle(c,-7,-27,10,'#4e9763');circle(c,6,-29,7,'#78a16d')}
+ c.restore();
+}
+function rock(c,x,y,k=1){c.save();c.translate(x,y);c.scale(k,k);poly(c,[[-18,4],[-13,-12],[0,-22],[13,-11],[19,5]],'#586c69');poly(c,[[-13,-12],[0,-22],[6,0],[-18,4]],'#899b92');poly(c,[[0,-22],[13,-11],[19,5],[6,0]],'#354e57');c.restore();}
+function castle(c,x,y,k=1,race='human',level=1){
+ const pal={human:['#b7b4a4','#ded7bc','#5b697c','#e4b664'],elf:['#8ba894','#e3d6a7','#4e8078','#a8d6ae'],orc:['#786c5a','#9e8970','#6a493e','#e6a45e'],undead:['#6b6877','#aaa6b2','#343451','#a16bb1']}[race];
+ c.save();c.translate(x,y);c.scale(k,k);c.shadowColor='#0a181baf';c.shadowBlur=10;circle(c,0,9,53,'#15272195');c.shadowBlur=0;
+ // walls and gate
+ rounded(c,-53,-16,106,58,3,pal[0],'#36404a');for(let i=0;i<8;i++)rounded(c,-51+i*14,-21,10,13,1,pal[1]);
+ rounded(c,-12,9,24,34,5,'#263842');line(c,-48,20,-15,20,3,'#6a6d68');line(c,15,20,48,20,3,'#6a6d68');
+ for(const pos of [-44,44]){
+  rounded(c,pos-13,-43,26,68,2,pal[0]);for(let j=0;j<3;j++)rounded(c,pos-10+j*10,-49,8,12,1,pal[1]);
+  poly(c,[[pos-18,-43],[pos,-72],[pos+18,-43]],pal[2]);rounded(c,pos-4,-19,8,15,2,'#243a45');
+ }
+ rounded(c,-21,-52,42,51,3,pal[1]);poly(c,[[-27,-50],[0,-87],[27,-50]],pal[2]);rounded(c,-5,-35,10,17,3,'#344657');
+ line(c,0,-86,0,-106,2,pal[1]);poly(c,[[0,-104],[24,-98],[0,-90]],pal[3]);
+ if(level>2){rounded(c,26,-25,17,23,2,pal[1]);poly(c,[[23,-25],[34,-43],[46,-25]],pal[2]);}
+ c.restore();
+}
+function mine(c,x,y,k=1,res='ore'){
+ c.save();c.translate(x,y);c.scale(k,k);circle(c,0,6,30,'#18252698');
+ if(res==='wood'){for(const v of [[-18,7,.7],[12,9,.9],[0,-6,.7]])tree(c,...v)}
+ else if(res==='gold'){rock(c,0,1,1.1);for(const [dx,dy] of [[-11,-3],[8,3],[0,-12]])circle(c,dx,dy,4,'#e6c76a')}
+ else if(res==='crystal'){for(const v of [[-10,0,18],[7,-4,23],[17,5,11]]){const [a,b,h]=v;poly(c,[[a-8,b+5],[a-4,b-h],[a+5,b-h-7],[a+11,b+5]],'#5b9eaa','#a6eaf0')}}
+ else if(res==='sulfur'){rock(c,0,0);for(const v of [[-12,0],[12,-3],[2,-16]])circle(c,v[0],v[1],5,'#ded36e')}
+ else rock(c,0,1,1.1);
+ c.restore();
+}
+function monster(c,x,y,k=1,lv=1){
+ c.save();c.translate(x,y);c.scale(k,k);
+ circle(c,0,6,20,'#150c1a91');circle(c,0,-10,16,'#543e5a');
+ poly(c,[[-10,-23],[-18,-38],[0,-27],[18,-38],[10,-23]],'#33293b');circle(c,-6,-13,3,'#fb9b5b');circle(c,6,-13,3,'#fb9b5b');
+ rounded(c,-13,6,26,17,3,'#493d56');line(c,-15,5,-23,17,4,'#897d72');line(c,15,5,23,17,4,'#897d72');
+ c.restore();
+}
+const M={centerX:9.5,centerY:7.4,zoom:1.12};
+function mapCamera(){return M}
+function mapProjection(canvas){const scale=clamp(M.zoom,.65,2.05)*48;return {scale,offX:canvas.width/2-M.centerX*scale,offY:canvas.height/2-M.centerY*scale}}
+function miniBounds(canvas){return {x:canvas.width-220,y:canvas.height-178,w:203,h:146};}
+function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=(m.w-2*pad)/E.WIDTH,th=(m.h-2*pad)/E.HEIGHT;
+ rounded(c,m.x-2,m.y-23,m.w+4,m.h+25,7,'#12272cdb','#c5a66c');text(c,'BẢN ĐỒ THU NHỎ',m.x+6,m.y-7,13,'#e7c78e','left');
+ for(const t of E.TILES){let color={plain:'#6d8559',road:'#9e956a',bridge:'#d5c08a',forest:'#28533c',hill:'#6a7262',water:'#408b9c'}[t.terrain]||'#68805b';
+  c.fillStyle=color;c.fillRect(m.x+pad+t.x*tw,m.y+pad+t.y*th,tw+.28,th+.28)}
+ for(const t of E.TILES){if(t.kind==='empty')continue;
+  c.fillStyle=t.kind==='castle'?'#ffe7ad':t.kind==='mine'?'#f2cf55':'#e99987';
+  c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(3,tw*.72),Math.max(3,th*.72))}
+ if(selected){const t=E.getTile(selected);if(t){c.strokeStyle='#fff';c.lineWidth=2;c.strokeRect(m.x+pad+t.x*tw-1,m.y+pad+t.y*th-1,tw+2,th+2)}}
+ const view=mapProjection(canvas);const vw=canvas.width/view.scale,vh=canvas.height/view.scale;
+ c.strokeStyle='#f6dfb7';c.lineWidth=1.2;c.strokeRect(m.x+pad+clamp(M.centerX-vw/2,0,E.WIDTH)*tw,m.y+pad+clamp(M.centerY-vh/2,0,E.HEIGHT)*th,Math.min(vw,E.WIDTH)*tw,Math.min(vh,E.HEIGHT)*th);
+}
+function miniHit(canvas,x,y,E){const m=miniBounds(canvas),pad=9;if(x<m.x+pad||x>=m.x+m.w-pad||y<m.y+pad||y>=m.y+m.h-pad)return null;
+ const tx=Math.floor((x-m.x-pad)/(m.w-2*pad)*E.WIDTH),ty=Math.floor((y-m.y-pad)/(m.h-2*pad)*E.HEIGHT);
+ return E.getTile(`${tx},${ty}`)||null;
+}
+function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getContext('2d');const w=canvas.width,h=canvas.height;
+ const grd=c.createLinearGradient(0,0,w,h);grd.addColorStop(0,'#213f35');grd.addColorStop(.5,'#446a50');grd.addColorStop(1,'#304338');c.fillStyle=grd;c.fillRect(0,0,w,h);
+ const {scale:q,offX:ox,offY:oy}=mapProjection(canvas);
+ const inside=(x,y)=>x+q>=-30&&x<w+30&&y+q>=-30&&y<h+30;
+ c.save();c.translate(ox,oy);
+ // Continuous, curving river: one painted waterway instead of hard square map tiles.
+ const riverX=y=>(19+2*Math.sin(y*.52)+.5)*q;
+ c.lineJoin='round';c.lineCap='round';c.beginPath();
+ for(let y=-1;y<=E.HEIGHT+1;y+=.18){let xx=riverX(y),yy=(y+.5)*q;if(y===-1)c.moveTo(xx,yy);else c.lineTo(xx,yy)}
+ c.strokeStyle='#234c61';c.lineWidth=q*1.24;c.stroke();c.strokeStyle='#36818b';c.lineWidth=q*1.03;c.stroke();c.strokeStyle='#70afb15c';c.lineWidth=q*.45;c.stroke();
+ for(const t of E.TILES){const x=t.x*q,y=t.y*q;if(!inside(x+ox,y+oy))continue;
+  let colors={forest:['#29543c','#385e3e'],hill:['#566c57','#687760'],water:['#327588','#2d8c92'],bridge:['#8c8b69','#a59d70'],road:['#537050','#657b58'],plain:['#476b4b','#4d754f']}[t.terrain];
+  if(t.terrain!=='plain'&&t.terrain!=='road'&&t.terrain!=='water'&&t.terrain!=='bridge'){const g=c.createRadialGradient(x+q*.5,y+q*.5,q*.08,x+q*.5,y+q*.5,q*1.12);g.addColorStop(0,colors[0]);g.addColorStop(.52,colors[1]);g.addColorStop(1,'#4e715000');c.fillStyle=g;c.fillRect(x-q*.62,y-q*.62,q*2.24,q*2.24);}
+  const r=random(t.x,t.y,3);if(t.terrain==='water'){
+   for(let i=0;i<3;i++)line(c,x+q*(.15+i*.22),y+q*(.15+random(t.x+i,t.y)*.58),x+q*(.36+i*.2),y+q*(.14+random(t.x+i,t.y)*.58),1.4,'#a1ddc63d');
+  }else if(t.terrain==='bridge'){c.fillStyle='#b8a67a';c.fillRect(x+3,y+q*.22,q-6,q*.57);for(let d=0;d<5;d++)line(c,x+5+d*(q-10)/4,y+q*.22,x+5+d*(q-10)/4,y+q*.79,1.4,'#685a41')}
+  else if(t.terrain==='forest')for(let j=0;j<4;j++)tree(c,x+q*(.12+random(t.x+j,t.y)*.72),y+q*(.2+random(t.x,t.y+j)*.67),q/70*(.62+random(j,t.y)*.25),r>.58?'pine':'normal');
+  else if(t.terrain==='hill'){rock(c,x+q*.46,y+q*.65,q/65);if(r>.5)rock(c,x+q*.72,y+q*.41,q/95)}
+  else {if(r>.72)tree(c,x+q*.68,y+q*.63,q/94);for(let j=0;j<6;j++)circle(c,x+q*random(t.x,j,t.y),y+q*random(j,t.y,t.x),1,'#8da96a8a')}
+ }
+ // original road network leads from the capital to landmark targets
+ c.save();c.strokeStyle='#aa926372';c.lineWidth=q*.13;c.lineCap='round';c.lineJoin='round';c.beginPath();[[3.5,4.5],[5.4,4.7],[7.6,4.4],[10.4,5.7],[14.3,7.1],[17.8,7.5],[20.1,8.6],[23.8,11]].forEach(([x,y],i)=>i?c.lineTo(x*q,y*q):c.moveTo(x*q,y*q));c.stroke();c.restore();
+ for(const t of E.TILES){if(t.kind==='empty')continue;const x=(t.x+.5)*q,y=(t.y+.54)*q;if(!inside(x+ox,y+oy))continue;
+  let done=s.mines.some(m=>m.key===t.key)||s.cleared.includes(t.key);
+  if(t.kind==='castle')castle(c,x,y,q/145,s.race,s.buildings.hall);
+  if(t.kind==='mine')mine(c,x,y,q/95,t.value);
+  if(t.kind==='npc'&&!done)monster(c,x,y,q/97,t.level);
+  if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
+  if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}
+  if(q>35){text(c,t.kind==='castle'?'THÀNH GAIA':t.kind==='mine'?{wood:'Rừng',ore:'Quặng',gold:'Mỏ vàng',sulfur:'Lưu huỳnh',crystal:'Pha lê'}[t.value]:t.value,x,y+q*.48,Math.max(11,q*.21),'#fff0c8');}
+ }
+ // walking hero position interpolated along path
+ if(s.march){const m=s.march,progress=1-m.remaining/m.total,indices=(m.path||['3,4',m.target]);const t=clamp(progress,0,.999)*(indices.length-1),i=Math.floor(t);const a=E.getTile(indices[i]),b=E.getTile(indices[Math.min(i+1,indices.length-1)]);if(a&&b){let x=(a.x+(b.x-a.x)*(t-i)+.5)*q,y=(a.y+(b.y-a.y)*(t-i)+.5)*q;
+  circle(c,x,y,q*.3,'#f0cc6388');circle(c,x,y,q*.16,'#eac77d');poly(c,[[x-q*.14,y-q*.2],[x,y-q*.47],[x+q*.14,y-q*.2]],'#344f6e');text(c,'⚔',x,y-q*.38,17,'#f9e0aa');}}
+ c.restore();
+ // screen ornaments
+ rounded(c,13,13,176,40,8,'#122a2ccf','#9b9160');text(c,'TÂN LỤC ĐỊA • GAIA',27,39,17,'#e7d29b','left');
+ rounded(c,w-174,13,161,43,8,'#122a2ccf','#9b9160');text(c,`X ${Math.round(M.centerX)}  ·  Y ${Math.round(M.centerY)}`,w-94,40,16);
+ rounded(c,13,h-36,280,25,5,'#172d2ecf');text(c,'Kéo bản đồ • Cuộn để zoom • Chạm mục tiêu',20,h-19,12,'#f0ddbb','left','500');
+ drawMiniMap(c,canvas,E,s,selected);
+}
+function mapHit(canvas,x,y,E){const {scale,offX,offY}=mapProjection(canvas);const tx=Math.floor((x-offX)/scale),ty=Math.floor((y-offY)/scale);return E.getTile(`${tx},${ty}`)||null}
+function panMap(dx,dy){M.centerX=clamp(M.centerX-dx,2,26);M.centerY=clamp(M.centerY-dy,2,16)}
+function zoomMap(v){M.zoom=clamp(M.zoom*v,.65,2.05)}
+const CITY_SITES=[['hall',.51,.60],['barracks',.22,.74],['heroTower',.73,.40],['tavern',.39,.83],['warehouse',.84,.79],['magicTower',.21,.41],['arena',.65,.83],['market',.11,.86],['bazaar',.89,.58],['embassy',.38,.43],['stables',.11,.67],['forge',.87,.91]];
+function drawTower(c,x,y,s,color,accent){c.save();c.translate(x,y);c.scale(s,s);
+ rounded(c,-22,-96,44,106,3,color,'#1e2929');for(let i=0;i<4;i++)rounded(c,-21+i*12,-103,9,16,1,accent);
+ poly(c,[[-27,-97],[0,-137],[27,-97]],accent);rounded(c,-7,-58,14,22,3,'#233b45');line(c,0,-137,0,-153,3,'#d7d4ad');poly(c,[[0,-152],[23,-144],[0,-138]],'#c29e56');
+ c.restore();}
+function drawCity(canvas,E,s,highlight){if(!canvas)return;const c=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
+ const palettes={human:{sky:['#778da0','#b4b0a0'],mount:'#536776',land:'#6a806b',wall:'#abb0a3',edge:'#66727a',roof:'#725d5c',light:'#d6c28f'},elf:{sky:['#60998d','#c3cda9'],mount:'#5b8977',land:'#4e8961',wall:'#a0c4a1',edge:'#4b7864',roof:'#38756b',light:'#e7d99e'},orc:{sky:['#a38a72','#d4b995'],mount:'#7d675f',land:'#7c7152',wall:'#857b64',edge:'#63544b',roof:'#815a43',light:'#d6a56d'},undead:{sky:['#47526c','#8a8495'],mount:'#424357',land:'#4e5960',wall:'#858393',edge:'#45475b',roof:'#444052',light:'#b49dc7'}};
+ const p=palettes[s.race],sk=c.createLinearGradient(0,0,0,h);sk.addColorStop(0,p.sky[0]);sk.addColorStop(.63,p.sky[1]);sk.addColorStop(1,p.land);c.fillStyle=sk;c.fillRect(0,0,w,h);
+ circle(c,w*.73,h*.21,46,s.race==='undead'?'#c1b6d9b0':'#f7dea0ad');
+ for(let d=0;d<3;d++){const pts=[[-30,h*.5+d*50]];for(let i=0;i<=18;i++){const x=i*w/18;pts.push([x,h*(.39+d*.065)-Math.sin(i*.7+d)*27-Math.sin(i*.23)*23]);}pts.push([w+30,h],[0,h]);poly(c,pts,d===0?p.mount:d===1?p.land:'#465c50')}
+ // courtyard
+ poly(c,[[0,h*.76],[w*.38,h*.62],[w*.63,h*.63],[w,h*.79],[w,h],[0,h]],'#8b876a');
+ for(let i=0;i<15;i++){let y=h*.67+i*i*.85;c.save();c.globalAlpha=.12;line(c,0,y,w,y,1.6,'#e8d7b8');c.restore()}
+ // fantasy architectural backdrop
+ for(let i=0;i<18;i++){const x=i*65+20,y=h*.67+(i%3)*15; if(i%4===0)tree(c,x,y,1.3,s.race==='undead'?'dark':'normal')}
+ // walls & major keep
+ rounded(c,w*.36,h*.38,w*.27,h*.33,6,p.wall,p.edge);
+ for(let j=0;j<12;j++)rounded(c,w*.36+j*w*.023,h*.36,w*.016,h*.05,1,p.wall);
+ drawTower(c,w*.39,h*.63,1.2,p.wall,p.roof);
+ drawTower(c,w*.61,h*.66,1.28,p.wall,p.roof);
+ drawTower(c,w*.49,h*.49,1.8,p.wall,p.roof);
+ rounded(c,w*.475,h*.53,w*.045,h*.16,15,'#34404b');
+ const sites=CITY_SITES;
+ const icons={hall:'♛',barracks:'⚔',heroTower:'✦',tavern:'✧',warehouse:'▣',magicTower:'☽',arena:'⛨',market:'⚖',bazaar:'❖',embassy:'⚑',stables:'♞',forge:'⚒'};
+ for(const [key,px,py] of sites){if(key==='hall')continue;const level=s.buildings[key]||0,x=w*px,y=h*py;
+  const size=key==='magicTower'||key==='heroTower'?1.02:.55;
+  if(key==='magicTower'||key==='heroTower'||key==='embassy')drawTower(c,x,y,size,p.wall,p.roof);
+  else{rounded(c,x-30,y-57,60,55,5,p.wall,p.edge);poly(c,[[x-35,y-55],[x,y-80],[x+35,y-55]],p.roof);rounded(c,x-10,y-39,20,22,2,'#314347');}
+  if(level>0)circle(c,x+21,y-71,8,p.light);
+  if(highlight===key){circle(c,x,y-42,42,'#e2ce7c47');c.strokeStyle='#ffdf9e';c.lineWidth=3;c.beginPath();c.ellipse(x,y-8,47,15,0,0,TAU);c.stroke()}
+  rounded(c,x-52,y-20,104,20,5,'#162d34d8','#918767');text(c,icons[key]+' '+E.C.buildings[key].name+' Lv.'+level,x,y-6,10,'#f4dca9');
+ }
+ rounded(c,17,15,251,41,8,'#10252cb8','#c7ad7a');text(c,`${E.C.races[s.race].english.toUpperCase()} • THÀNH GAIA`,33,43,18,'#f7e3b8','left');
+ rounded(c,w-215,15,200,41,8,'#10252cb8','#c7ad7a');text(c,`TOWN HALL • LV ${s.buildings.hall}`,w-115,42,16);
+ if(s.buildingQueue){const q=s.buildingQueue;rounded(c,w-265,65,250,38,5,'#142a33db','#ac9162');text(c,'🏗 '+E.C.buildings[q.key].name+' Lv.'+q.level,w-254,81,12,'#f7d79e','left');rounded(c,w-252,87,224,7,3,'#253c3e');rounded(c,w-251,88,Math.max(0,222*(1-q.remaining/q.total)),5,2,'#d6b46c');}
+}
+function cityHit(canvas,x,y){let best=null,d=38;for(const [key,px,py] of CITY_SITES){const dx=x-canvas.width*px,dy=y-canvas.height*py;let v=Math.hypot(dx,dy);if(v<d){d=v;best=key}}return best}
+function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false){c.save();c.translate(x,y);c.scale(k,k);
+ circle(c,2,7,16,'#071f2399');line(c,-1,-5,-4,17,8,color);circle(c,-2,-20,10,enemy?'#846078':'#afab94');
+ poly(c,[[-14,-29],[0,-41],[12,-28]],enemy?'#794c66':'#4b6077');
+ line(c,-4,-9,-17,6,5,enemy?'#99828a':'#c9d2c3');line(c,7,-9,18,6,5,color);
+ if(archer){c.strokeStyle='#d8ab6f';c.lineWidth=3;c.beginPath();c.arc(17,-10,14,-Math.PI/2,Math.PI/2);c.stroke();line(c,18,-25,18,4,1,'#e9ddae')}
+ else{line(c,20,-17,34,-50,4,'#d8d0b0');line(c,28,-46,40,-46,4,'#bbb4a6')}
+ c.restore();}
+function drawBattle(canvas,E,s){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height;
+ const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#354a50');sky.addColorStop(.56,'#4e6659');sky.addColorStop(1,'#798060');c.fillStyle=sky;c.fillRect(0,0,w,h);
+ for(let i=0;i<25;i++){const x=(i*79)%w;tree(c,x,142+random(i,4)*36,.95+random(i,6)*.6,'pine')}
+ poly(c,[[0,196],[w,196],[w,h],[0,h]],'#766d56');for(let i=0;i<25;i++){const x=random(i,9)*w,y=210+random(i,8)*(h-220);line(c,x,y,x+19,y+8,2,'#c3b59050')}
+ const scaleX=w/12,scaleY=(h-185)/9,offsetY=173;
+ for(let i=0;i<12;i++)for(let j=0;j<9;j++){c.strokeStyle='#cabb9f28';c.lineWidth=1;c.strokeRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY)}
+ const units=[...b.allies,...b.enemies];
+ for(const u of units){if(u.pool<=0)continue;const x=(u.x+.5)*scaleX,y=offsetY+(u.y+.76)*scaleY,k=.9+Math.min(1.2,u.count/15);
+  if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}
+  soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1);
+  rounded(c,x-41,y-82,82,19,4,u.side==='enemy'?'#4d2838d9':'#1b3c43dc');text(c,u.name,x,y-68,12,'#f5e7c5');
+  rounded(c,x-25,y-61,50,14,3,'#182b34');c.fillStyle=u.side==='enemy'?'#d88b82':'#80c2a1';c.fillRect(x-24,y-59,48*clamp(u.pool/(u.initial*u.hp),0,1),10);
+  text(c,'×'+u.count,x,y+18,14,'#fff3c8');
+ }
+ if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
+ rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
+ rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
+}
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES};
+})(typeof globalThis!=='undefined'?globalThis:this);
+</script><script>
+(function(){
+'use strict';
+const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
+const $=id=>document.getElementById(id);let state=null,tab='map',newRace='human',selected=null,lastToast=0,selectedBuilding='hall';
+const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['tasks','📜 Nhiệm vụ'],['sources','📚 Tư liệu']];
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const format=E.fmt;
+function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
+function fail(fn){try{fn();save();render();}catch(e){toast(e.message||String(e))}}
+function save(){if(!state)return false;try{localStorage.setItem(E.SAVE_KEY,JSON.stringify(state));return true}catch(e){toast('Không thể lưu: trình duyệt đang hạn chế storage.');return false}}
+function load(){
+ try{
+  const current=localStorage.getItem(E.SAVE_KEY);
+  if(current){const s=E.parseSave(current);E.tick(s);return s}
+  if(localStorage.getItem('heoofgaia_hg06_skip_migration'))return null;
+  for(const key of ['heoofgaia_hg_only_v05','heoofgaia_hg_only_v04','heoofgaia_hg_only_v03','heoofgaia_hg_only_v02']){
+   const raw=localStorage.getItem(key);if(!raw)continue;
+   try{const s=E.parseSave(raw);E.tick(s);localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));return s}
+   catch(err){console.warn('Legacy save skipped:',key,err.message)}
+  }
+ }catch(e){console.warn('Save invalid',e)}return null;
+}
+function money(cost){return Object.entries(cost).filter(([,v])=>v>0).map(([k,v])=>`${C.resource[k].emoji} ${format(v)}`).join(' · ')}
+function button(action,data,label,disabled=false,cls=''){return `<button ${disabled?'disabled':''} data-action="${esc(action)}" ${Object.entries(data||{}).map(([k,v])=>`data-${esc(k)}="${esc(v)}"`).join(' ')} class="${cls}">${label}</button>`}
+function flags(){return `<span class="tag">📍 Thành Gaia (3,4)</span><span class="tag">🔋 AP ${Math.floor(state.ap)}/${state.apMax}</span><span class="tag">🏅 Danh vọng ${format(state.fame)}</span><span class="tag">⏱ ×${state.speed} demo</span>`}
+function renderIntro(){
+ $('nav').innerHTML='';$('resources').innerHTML='';$('status').innerHTML='<p>Một bản tái dựng độc lập lấy cảm hứng từ Heroes of Gaia (2009).</p>';$('logs').innerHTML='';
+ $('main').innerHTML=`<section class="welcome"><div class="welcome-scene"><canvas id="intro-canvas" width="1176" height="560" aria-label="Phong cảnh thành trì theo chủng tộc"></canvas><div class="welcome-copy"><div class="eyebrow">CHRONICLES OF GAIA • REBUILD 06</div><h1>HẺOOFGAIA</h1><p>Phát triển thành trì • dẫn quân vượt thế giới • chinh phục mỏ và quái vật</p></div></div><div class="welcome-bottom"><h2>Chọn chủng tộc khởi đầu</h2><div class="race-grid">${Object.entries(C.races).map(([k,v])=>`<button data-action="race" data-race="${k}" class="race-card ${newRace===k?'active':''}"><span class="emoji">${v.emoji}</span><strong>${v.name}</strong><small>${v.english}</small></button>`).join('')}</div>${button('start',{},'⚔ Thành lập thành Gaia',false,'primary wide')}<p class="hint">Chế độ chơi offline; hình ảnh tự dựng, công thức chiến đấu hiện là thử nghiệm, chưa phải game chính thức.</p></div></section>`;
+ P.drawCity($('intro-canvas'),E,E.make(newRace),'hall');
+}
+function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.map(k=>`<div class="resource">${C.resource[k].emoji} ${C.resource[k].label}<b>${format(state.res[k])}</b><small class="muted">/${format(lim[k])} · +${format(E.rate(state)[k])}/h</small></div>`).join('');
+ $('nav').innerHTML=tabs.map(([id,name])=>`<button data-action="tab" data-tab="${id}" class="${tab===id?'active':''}">${name}</button>`).join('');
+ const earning=E.rate(state);$('status').innerHTML=`<div class="vitals">${flags()}</div><div class="muted tiny">${C.races[state.race].emoji} ${C.races[state.race].name} · ${state.heroes.length} tướng · ${E.activeArmy(state).reduce((n,u)=>n+state.army[u.id],0)} lính</div><div class="hr"></div><div class="hint">Sản lượng / giờ game:</div><div class="tiny">${C.keys.map(k=>`${C.resource[k].emoji} +${format(earning[k])}`).join(' · ')}</div><div class="hr"></div><div class="hint"><b>🏗 Xây dựng:</b> ${state.buildingQueue?esc(C.buildings[state.buildingQueue.key].name)+' Lv.'+state.buildingQueue.level+' · '+Math.ceil(state.buildingQueue.remaining/state.speed)+'s thực':'Trống'}</div><div class="hr"></div><div class="hint">Hàng đợi: ${state.training.length?esc(E.getUnit(state,state.training[0].unitId).name)+' ('+format(state.training[0].remaining)+'s game)':'Trống'}</div>${state.march?`<p class="notice">🚩 Hành quân: ${Math.ceil(state.march.remaining)}s game</p>`:''}`;
+ $('logs').innerHTML=state.log.map(t=>`<div>• ${esc(t)}</div>`).join('');$('speed').textContent=`⏱ ×${state.speed}`;
+}
+function mapView(){
+ const target=E.getTile(selected||'3,4');const claimed=t=>state.mines.some(m=>m.key===t.key),cleared=t=>state.cleared.includes(t.key);
+ const active=target&&['mine','npc'].includes(target.kind)&&!claimed(target)&&!cleared(target);
+ const label=t=>t.kind==='castle'?'Thành Gaia':t.kind==='mine'?`Mỏ ${C.resource[t.value].label}`:t.value;
+ const desc=target?target.kind==='castle'?'Thành chính • điểm xuất phát':target.kind==='mine'?`${label(target)} · cấp ${target.level}`:target.kind==='npc'?`Trại ${label(target)} · cấp ${target.level}`:`Địa hình ${target.terrain}`:'Chưa chọn mục tiêu';
+ return `<div class="scene-title"><div><span class="eyebrow">WORLD EXPLORATION • 28 × 18</span><h1>Thế giới Gaia</h1></div><div class="scene-tools">${button('zoom',{dir:'in'},'＋',false,'secondary')}${button('zoom',{dir:'out'},'－',false,'secondary')}${button('center',{},'⌖ Về thành',false,'secondary')}</div></div>
+ <div class="map-frame"><canvas id="world-canvas" width="1176" height="620" aria-label="Bản đồ thế giới tương tác, kéo và chạm chọn tọa độ"></canvas></div>
+ <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${target?`Tọa độ (${target.x}, ${target.y}) · ${claimed(target)?'Đã chiếm':cleared(target)?'Đã dọn sạch':target.kind==='empty'?'Khám phá tự do':'Chưa chinh phục'}`:'—'}</p><div class="actions">${button('march',{},state.march?'Tướng đang hành quân':state.battle?'Đang giao tranh':'🚩 Xuất chinh',!active||!!state.march||!!state.battle||!E.activeArmy(state).length,'primary')}<span class="hint">Chiếm mỏ -6 AP • Quái -8 AP (mô phỏng)</span></div></div>
+ <div class="landmarks"><span class="eyebrow">ĐỊA ĐIỂM GẦN ĐÂY</span><div class="landmark-list">${E.TILES.filter(t=>['mine','npc'].includes(t.kind)).sort((a,b)=>Math.abs(a.x-3)+Math.abs(a.y-4)-Math.abs(b.x-3)-Math.abs(b.y-4)).slice(0,7).map(t=>button('select',{key:t.key},`${t.kind==='mine'?'◆':'⚔'} ${esc(label(t))} (${t.x},${t.y})`,false,selected===t.key?'small primary':'small secondary')).join('')}</div></div></div>
+ ${state.march?`<div class="banner">🚩 Đạo quân đang tiến tới (${state.march.target}) • ${Math.ceil(state.march.remaining/state.speed)} giây thực còn lại • Đường tránh sông được tính tự động</div>`:''}`;
+}
+function cityViewBase(){const k=selectedBuilding,b=C.buildings[k],lv=state.buildings[k],cost=E.buildCost(state,k),can=!state.buildingQueue&&b.state==='observed'&&lv<10&&(k==='hall'||lv<state.buildings.hall)&&E.canAfford(state,cost);
+ return `<div class="scene-title"><div><span class="eyebrow">CASTLE • ${esc(C.races[state.race].english.toUpperCase())}</span><h1>Thành trì Gaia</h1></div><div class="scene-tools"><span class="tag">Town Hall Lv.${state.buildings.hall}</span><span class="tag">${E.buildOrder.filter(id=>state.buildings[id]>0).length} công trình đang hoạt động</span></div></div>
+ <div class="city-frame"><canvas id="city-canvas" width="1176" height="560" aria-label="Toàn cảnh thành theo chủng tộc, nhấn công trình để chọn"></canvas></div>
+ <div class="scene-bottom"><div class="target-information"><span class="eyebrow">CÔNG TRÌNH ĐANG CHỌN</span><h2>${b.icon} ${esc(b.name)} · cấp ${lv}</h2><p>${esc(b.desc)}</p><p class="cost">Chi phí cấp tiếp: ${money(cost)}</p><div class="actions">${button('upgrade',{key:k},state.buildingQueue?'⏳ Đang xây dựng':'⬆ Nâng cấp công trình',!can,'primary')}<span class="hint">${b.state!=='observed'?'Tính năng chưa xác minh':k!=='hall'&&lv>=state.buildings.hall?'Nâng Town Hall trước':'Giá nâng cấp hiện là demo'}</span></div></div>
+ <div class="landmarks"><span class="eyebrow">DANH SÁCH CÔNG TRÌNH</span><div class="landmark-list">${E.buildOrder.map(id=>button('building',{key:id},`${C.buildings[id].icon} ${C.buildings[id].name} ${state.buildings[id]}`,false,id===k?'small primary':'small secondary')).join('')}</div></div></div>`;
+}
+function armyView(){
+ const formations=(state.formation?.length?state.formation:E.activeArmy(state).slice(0,1).map(u=>({unitId:u.id,count:state.army[u.id]})));
+ const opt=(sel)=>`<option value="">— Để trống —</option>${E.arrUnits(state).map(u=>`<option value="${u.id}" ${sel===u.id?'selected':''}>${esc(u.name)} (${state.army[u.id]} có sẵn)</option>`).join('')}`;
+ return `<h1>🛡 Barracks · Doanh trại cấp ${state.buildings.barracks}</h1><p class="hint">Dữ liệu 10 quân của ${C.races[state.race].english}. Nâng Barracks để mở bậc quân. Quân đang tuyển chưa được đưa vào đội hình.</p>
+ <div class="banner"><b>Hàng đợi tuyển quân</b> ${state.training.length?state.training.map((q,i)=>`<div>⌛ ${i+1}. ${q.count} ${esc(E.getUnit(state,q.unitId).name)} · ${Math.ceil(q.remaining/state.speed)} giây thực</div>`).join(''):'Trống'} </div>
+ <div class="card"><h2>⚔ Bố trí quân theo nhóm</h2><p class="hint">Giá trị đội hình: <b>${format(E.troopValue(state))}</b> / <b>${format(E.heroLimit(state.heroes.find(h=>h.id===state.activeHero)?.level||1))}</b> điểm chỉ huy cơ bản (bảng tướng Lv1–100 của cộng đồng; bonus Arena/trang bị chưa hỗ trợ). </p><p class="hint">Có thể tách cùng một binh chủng thành nhiều nhóm. Tối đa 7 nhóm trong HG-07 (4 hàng sau + 3 hàng trước, theo ghi nhận cộng đồng); số quân còn lại ở thành. Đây là giới hạn demo, không khẳng định là số ô đúng của client gốc.</p><div class="formation-grid">${Array.from({length:7},(_,i)=>`<div class="formation-slot"><span class="tag">Nhóm ${i+1}</span><select id="formation_unit_${i}" aria-label="Binh chủng nhóm ${i+1}">${opt(formations[i]?.unitId)}</select><input type="number" min="0" max="100000" aria-label="Số quân nhóm ${i+1}" id="formation_count_${i}" value="${formations[i]?.count||0}"></div>`).join('')}</div>${button('formation',{},'✓ Lưu đội hình',!!state.march||!!state.battle,'primary')} <small class="muted">Quân không phân bổ sẽ không xuất chinh.</small></div>
+ <div class="grid grid2" style="margin-top:12px">${E.arrUnits(state).map(u=>{const unlocked=u.tier<=state.buildings.barracks&&(u.tier!==2||!!state.spells.scouting),cost=E.recruitCost(state,u,1);return `<div class="card unitrow"><div><div class="heading">${u.tier>=9?'🐉':u.type==='Ranged'?'🏹':'⚔️'} ${esc(u.name)} <span class="tag">Bậc ${u.tier}</span></div><div class="hint">${u.type} · HP ${u.hp} · ATK ${u.atk} · DEF ${u.def} · SPD ${u.spd}</div><div>Quân trong thành <b class="key">${state.army[u.id]}</b> · ${u.timeSec}s/lính</div><div class="cost">Giá 1: ${money(cost)}</div></div><div class="entry"><input id="q_${u.id}" aria-label="Số lượng ${esc(u.name)}" type="number" min="1" max="1000" value="3">${button('recruit',{id:u.id},unlocked?'Tuyển':'🔒',!unlocked)}</div></div>`}).join('')}</div>`;
+}
+function heroesViewBase(){return `<h1>🧙 Tướng lĩnh & Arena</h1><p class="hint">Hero Tower, Castellan, Tavern và Arena là hệ thống Heroes of Gaia. Giới hạn chỉ huy cơ bản theo bảng cộng đồng Lv1–100; chỉ số khởi điểm và chi phí tuyển là mô phỏng.</p><div class="grid grid2"><div><h2>Danh sách tướng</h2>${state.heroes.map(h=>`<div class="card"><div class="heading">🧙 ${esc(h.name)} <span class="tag">Lv.${h.level}</span><span class="tag">Chỉ huy ${format(E.heroLimit(h.level))}</span>${h.id===state.activeHero?'<span class="tag">Chỉ huy</span>':''}${h.id===state.castellan?'<span class="tag yellow">Castellan</span>':''}</div><div class="hint">ATK ${h.atk} · DEF ${h.def} · SPD ${h.spd} · INT ${h.int} · EXP ${h.xp}</div><div class="entry">${button('hero',{id:h.id},'Chọn chỉ huy',h.id===state.castellan||!!state.march||!!state.battle,'small secondary')}${button('castellan',{id:h.id},h.id===state.castellan?'Bỏ Castellan':'Bổ nhiệm',!!state.march||!!state.battle,'small secondary')}</div></div>`).join('')}<div class="hr"></div><h3>🍺 Tavern — Ứng viên tướng</h3><p class="hint">Tự làm mới mỗi 60 phút game. Số ứng viên theo cấp Tavern; phẩm chất và giá tuyển là mô phỏng.</p><p class="muted tiny">Cấp ${state.buildings.tavern} · ${state.tavern.offers.length} ứng viên còn lại · ${Math.ceil(state.tavern.remaining/state.speed)} giây thực tới lượt làm mới</p><div class="tavern-offers">${state.tavern.offers.length?state.tavern.offers.map(o=>`<div class="card"><b>${esc(o.name)}</b> <span class="tag">${o.quality.toUpperCase()}</span><p class="tiny muted">ATK ${o.atk} · DEF ${o.def} · SPD ${o.spd} · INT ${o.int}</p>${button('hirecandidate',{id:o.id},'Tuyển · '+format(o.gold)+' vàng',state.heroes.length>=8||!E.canAfford(state,{gold:o.gold}),'small secondary')}</div>`).join(''):'<p class="hint">Đã tuyển hết ứng viên trong lượt này.</p>'}</div></div><div><h2>⚕ Arena · Bệnh xá</h2><div class="card">${Object.entries(state.wounded).filter(([,n])=>n>0).length?Object.entries(state.wounded).filter(([,n])=>n>0).map(([id,n])=>`${esc(E.getUnit(state,id)?.name||id)}: ${n}`).join('<br>'):'Không có quân bị thương.'}<p class="hint">Theo wiki: khoảng 75% quân bị hạ chuyển vào Arena. Chi phí hồi phục hiện đang mô phỏng.</p>${button('heal',{},'💚 Chữa thương',Object.values(state.wounded).every(n=>n<=0))}</div><div class="hr"></div><h2>📍 Tác vụ tướng</h2><p class="hint">Tướng là điều kiện bắt buộc để điều quân. Castellan phòng thủ thành; hệ thống nhiều thành và trang bị sẽ bổ sung sau.</p></div></div>`;}
+function magicViewBase(){return `<h1>🔮 Magic Tower · cấp ${state.buildings.magicTower}</h1><p class="hint">Tên và hiệu ứng chín Castle Spells đối chiếu wiki 2009. Giá nghiên cứu là mô phỏng; phần Hero Spells chiến đấu chưa triển khai.</p><div class="grid grid3">${Object.entries(C.spells).map(([id,s])=>{const level=state.spells[id]||0,cost=E.spellCost(state,id);return `<div class="card"><div class="heading">✨ ${s.name}</div><div class="tag">Cấp ${level}</div><p class="hint">${s.res?`+${s.base} ${C.resource[s.res].label} cơ bản + ${s.rate*100}%/cấp`:s.capacity?'+5% giới hạn kho/cấp':s.goldDiscount?'-2% vàng tuyển quân/cấp':s.time?`-${s.time*100}% thời gian/cấp`:s.effect||'Đang xác minh'}</p><div class="cost">${money(cost)}</div>${button('learn',{id},'Nghiên cứu',!(level<state.buildings.magicTower&&E.canAfford(state,cost)))}</div>`}).join('')}</div>`}
+// HG-04: Hero equipment, race-specific researched spells, quests and functional bazaar/market.
+function itemName(uid){const f=state.inventory.find(i=>i.uid===uid);return f?E.ITEMS[f.itemId]?.name||'—':'Trống';}
+function heroesView(){
+ const h=state.heroes.find(x=>x.id===state.activeHero),stats=E.heroStats(state),eq=state.equipment[h.id]||{};
+ const gear=Object.entries(E.ITEMS);
+ const owned=state.inventory.map(i=>{const def=E.ITEMS[i.itemId],wearer=Object.entries(state.equipment).find(([,slots])=>Object.values(slots).includes(i.uid))?.[0];
+ return `<div class="card gear-card"><div><b>${def.icon} ${esc(def.name)}</b><div class="hint">${def.slot} · ATK +${def.atk} · DEF +${def.def} · SPD +${def.spd}</div><small class="muted">${wearer?'Đang trang bị: '+esc(state.heroes.find(h=>String(h.id)===wearer)?.name||'tướng'):'Túi đồ'} · ${esc(i.origin||'')}</small></div>${button('equipitem',{uid:i.uid},wearer===String(h.id)?'Đã mặc':'Trang bị',!!state.march||!!state.battle||wearer===String(h.id),'small secondary')}</div>`}).join('');
+ return heroesViewBase()+`<section class="card hg04-section"><span class="eyebrow">HERO EQUIPMENT</span><h2>🎒 Túi trang bị và chỉ số tướng đang chọn</h2><p>${esc(h.name)} — ATK <b>${stats.atk}</b> · DEF <b>${stats.def}</b> · SPD <b>${stats.spd}</b> · INT <b>${stats.int}</b></p>
+ <div class="equipment-slots">${[['weapon','⚔ Vũ khí'],['armor','🛡 Giáp'],['charm','💍 Phụ kiện']].map(([k,label])=>`<div class="slot"><b>${label}</b><div>${esc(itemName(eq[k]))}</div>${eq[k]?button('unequip',{slot:k},'Tháo',!!state.march||!!state.battle,'small secondary'):''}</div>`).join('')}</div>
+ <div class="grid grid2">${owned||'<p class="muted">Chưa có trang bị. Có thể mua ở Bazaar hoặc nhặt sau khi thắng quái.</p>'}</div>
+ <p class="hint">Các loại ô lấy ý tưởng từ hệ trang bị Heroes of Gaia. Tên, chỉ số, giá và tỷ lệ rơi ở đây đều là demo.</p></section>`;
+}
+function magicView(){const active=state.heroes.find(h=>h.id===state.activeHero);
+ return magicViewBase()+`<section class="card hg04-section"><span class="eyebrow">HERO SPELLS • MAGIC TOWER</span><h2>✨ Phép chiến đấu theo chủng tộc ${esc(C.races[state.race].english)}</h2><p class="hint">Theo bảng phép năm 2009: cần nghiên cứu ở Magic Tower rồi trang bị trên tướng (tối đa 5 ô). Kích hoạt trong trận; một phép thay thế hiệu ứng trước đó. Thời lượng và hồi chiêu trong bản này vẫn mô phỏng.</p>
+ <p>Chỉ huy hiện tại: <b>${esc(active.name)}</b> · Đang trang bị ${active.equippedSpells.length}/5 phép</p>
+ <div class="grid grid3">${E.spells(state).map(q=>{const level=state.heroMagic[q.id]||0,cost=E.heroSpellCost(state,q.id),equipped=active.equippedSpells.includes(q.id);
+ return `<div class="card"><b>✧ ${esc(q.name)}</b><span class="tag">Lv ${level}</span><p class="hint">${esc(q.desc)}</p><p class="cost">${money(cost)}</p><div class="entry">${button('herolearn',{id:q.id},'Nghiên cứu',level>=state.buildings.magicTower||!E.canAfford(state,cost)||!!state.march||!!state.battle,'small')}${button('heroequip',{id:q.id},equipped?'Gỡ phép':'Trang bị',!level||!!state.march||!!state.battle,'small secondary')}</div></div>`}).join('')}</div></section>`;
+}
+function castleOverview(){
+ const hero=state.heroes.find(h=>h.id===state.activeHero)||state.heroes[0];
+ const military=E.activeArmy(state),count=military.reduce((n,u)=>n+state.army[u.id],0);
+ return `<section class="card hg05-castle-overview"><div class="hg05-switches">
+ ${button('tab',{tab:'heroes'},'♛ HERO',false,'secondary')}
+ ${button('tab',{tab:'army'},'⚔ TROOPS',false,'secondary')}
+ ${button('tab',{tab:'tasks'},'📜 TASK',false,'secondary')}
+ </div><div class="hg05-castle-grid"><div><span class="eyebrow">CASTELLAN & LORD</span>
+ <h3>⚜ ${esc(hero.name)} · Lv.${hero.level}</h3>
+ <p class="hint">${esc(C.races[state.race].english)} · ATK ${hero.atk} · DEF ${hero.def} · SPD ${hero.spd} · INT ${hero.int}</p>
+ <p class="hint">Thành thủ: ${esc(state.heroes.find(h=>h.id===state.castellan)?.name||'Chưa bổ nhiệm')} · Danh vọng ${format(state.fame)}</p></div>
+ <div><span class="eyebrow">ARMY AT CASTLE</span><h3>${format(count)} lính · ${military.length} binh chủng</h3>
+ <p class="hint">${military.slice(0,4).map(u=>esc(u.name)+' ×'+format(state.army[u.id])).join(' · ')||'Chưa có quân'}</p>
+ <p class="hint">Barracks Lv.${state.buildings.barracks} · Arena Lv.${state.buildings.arena}</p></div></div></section>`;
+}
+function cityView(){const market=state.buildings.market||0,bazaar=state.buildings.bazaar||0;
+ return cityViewBase()+castleOverview()+`${state.buildingQueue?`<section class="card queue-card"><b>🏗 Công trình đang thi công: ${esc(C.buildings[state.buildingQueue.key].name)} Lv.${state.buildingQueue.level}</b><progress max="${state.buildingQueue.total}" value="${state.buildingQueue.total-state.buildingQueue.remaining}"></progress><small>${Math.ceil(state.buildingQueue.remaining/state.speed)} giây thực còn lại • tốc độ ×${state.speed} • thời gian mô phỏng</small></section>`:''}<section class="card hg04-section"><span class="eyebrow">CASTLE ECONOMY</span><h2>⚖ Market — bán tài nguyên lấy vàng</h2><p class="hint">Nguồn 2009 ghi nhận Market bán/đổi tài nguyên, không mua tài nguyên bằng vàng. Tỷ giá tại đây là mô phỏng.</p>
+ <div class="trade-row"><select id="sell-type" aria-label="Loại tài nguyên bán">${['wood','ore','sulfur','crystal'].map(k=>`<option value="${k}">${C.resource[k].label}</option>`).join('')}</select><input type="number" min="1" max="50000" step="1" id="sell-qty" value="50" aria-label="Số tài nguyên bán">${button('sell',{},'Bán tài nguyên',market<1,'primary')}</div>
+ <p class="hint">${market?'Market Lv.'+market:'Hãy xây Market ở danh sách công trình phía trên.'}</p>
+ <h2>🏪 Bazaar — cửa hàng trang bị</h2><div class="grid grid3">${Object.values(E.ITEMS).map(item=>`<div class="card"><b>${item.icon} ${esc(item.name)}</b><p class="hint">${item.slot} · ATK +${item.atk} · DEF +${item.def} · SPD +${item.spd}</p><div class="cost">${format(item.cost)} 🪙 · cần Bazaar Lv.${item.level}</div>${button('buyitem',{id:item.id},'Mua vật phẩm',bazaar<item.level||state.res.gold<item.cost,'small secondary')}</div>`).join('')}</div></section>`;
+}
+function tasksView(){return `<h1>📜 Nhiệm vụ Gaia</h1><p class="hint">Hệ thống Tasks có trong game gốc; bốn nhiệm vụ dưới đây là chuỗi thử nghiệm, không sao chép phần thưởng hoặc điều kiện nhiệm vụ 2009.</p><div class="grid grid2">${E.QUESTS.map(q=>{const done=state.claimedQuests.includes(q.id),ready=q.ready(state);return `<div class="card"><h2>${done?'✅ ':ready?'📩 ':'📜 '}${esc(q.name)}</h2><p>${esc(q.desc)}</p><div class="cost">${money(q.reward)} · 🏅 ${q.fame}</div>${button('quest',{id:q.id},done?'Đã nhận':ready?'Nhận thưởng':'Chưa đạt',done||!ready,'primary')}</div>`}).join('')}</div>`;}
+
+function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hiện không có trận đánh.</p>${button('tab',{tab:'map'},'🗺 Trở lại thế giới')}`;
+ const b=state.battle;let selected=b.allies.find(u=>u.id===b.selected),focused=b.enemies.find(u=>u.id===b.focused);
+ const cell=u=>`<button class="stack-card ${b.selected===u.id||b.focused===u.id?'chosen':''}" data-action="stack" data-id="${u.id}" ${u.pool<=0?'disabled':''}><span>${u.side==='enemy'?'☠':'⚔'} ${esc(u.name)}</span><b>${u.count} quân</b><small>HP ${Math.ceil(u.pool)} · SPD ${u.spd} · ${u.range>1?'Bắn xa':'Cận chiến'}</small></button>`;
+ return `<div class="scene-title"><div><span class="eyebrow">TACTICAL COMBAT • THỬ NGHIỆM</span><h1>Giao tranh · ${esc(b.name)}</h1></div><div class="scene-tools"><span class="tag">Lượt ${b.turn} · ${b.allies.filter(u=>u.pool>0).length+b.enemies.filter(u=>u.pool>0).length} nhóm hoạt động</span><span class="tag">${b.allies.filter(u=>u.pool>0).length} đội ta : ${b.enemies.filter(u=>u.pool>0).length} đội địch</span></div></div>
+ <div class="battle-frame"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường nhóm quân"></canvas></div>
+ <div class="battle-ui"><div><span class="eyebrow">QUÂN TA • BẤM CHỌN ĐƠN VỊ</span><div class="stack-list">${b.allies.map(cell).join('')}</div></div><div><span class="eyebrow">QUÂN ĐỊCH • BẤM CHỌN MỤC TIÊU</span><div class="stack-list">${b.enemies.map(cell).join('')}</div></div></div>
+ <div class="command-bar"><div><div class="eyebrow">MỆNH LỆNH</div><small class="muted">${selected?'Đơn vị: '+esc(selected.name):'Chọn đơn vị'}${focused?' • Mục tiêu: '+esc(focused.name):''}</small></div>
+ ${button('battle',{cmd:'attack'},'⚔ ATTACK',false,'primary')}${button('battle',{cmd:'defend'},'🛡 STAND BY',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 FOCUS',false,'secondary')}${button('battle',{cmd:'retreat'},'↩ RETREAT',false,'danger')}
+ ${button('auto',{},state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh',false,'secondary')}</div>
+ <div class="card hg04-spellbar"><span class="eyebrow">PHÉP TƯỚNG TRANG BỊ</span><div class="hg04-spells">${(state.heroes.find(h=>h.id===state.activeHero)?.equippedSpells||[]).map(id=>{const sp=E.spell(state,id);if(!sp)return '';const wait=(b.spellCooldown?.[id]||0)>b.turn,used=b.castTurn===b.turn;
+ return button('cast',{id},`✨ ${esc(sp.name)} Lv.${state.heroMagic[id]||0}${wait?' ⏳':''}`,wait||used,'small secondary');}).join('')||'<span class="muted">Chưa có phép trang bị. Nghiên cứu và trang bị trong Magic Tower trước khi xuất chinh.</span>'}</div><p class="hint">${b.activeSpell?`Đang hiệu lực: ${esc(E.spell(state,b.activeSpell.id)?.name||'')} · hết vào lượt ${b.activeSpell.expiry}`:'Không có phép đang hiệu lực'} · Mỗi lượt dùng tối đa 1 phép</p></div>
+ <div class="combat-journal">${b.history.slice(0,3).map(l=>`<div>• ${esc(l)}</div>`).join('')}</div><p class="hint">Bản thử nghiệm: tối đa 7 nhóm quân, lượt theo tốc độ, tầm đánh, di chuyển, chọn mục tiêu, thương binh Arena. Phép Hero và trang bị đã hoạt động; thời lượng kỹ năng/AI và cân bằng là mô phỏng.</p>`;
+}
+function sourceView(){return `<h1>📚 Dữ liệu Heroes of Gaia 2009</h1><p class="hint">Bản game <b>chỉ</b> nghiên cứu Heroes of Gaia / Castle of Heroes / 英雄之城. Không nhập cơ chế từ bất kỳ trò chơi nào khác.</p><div class="grid grid2 source-links"><div class="card"><h3>Đã xác minh từ tài liệu</h3><ul><li>Bốn chủng tộc; 40 quân, 10 bậc/chủng tộc.</li><li>Năm tài nguyên gold, lumber, ore, sulfur, crystal.</li><li>Town Hall, Barracks, Tavern, Hero Tower, Arena, Warehouse, Magic Tower.</li><li>AP tái tạo 10% tối đa mỗi giờ; mỏ tài nguyên 6 AP.</li><li>Những phép thành trì ghi trong catalog.</li></ul></div><div class="card"><h3>Các điểm vẫn mô phỏng</h3><ul><li>Giá nâng và thời gian nâng công trình.</li><li>Cấp mở quân phụ và thời gian tuyển có tăng tốc demo.</li><li>Chất lượng/giá tướng, AI và sức mạnh NPC; chu kỳ Tavern 60 phút là thông số ghi nhận từ wiki.</li><li>Bonus mỏ, quà chiến đấu, tiêu hao và thời gian di chuyển.</li><li>Giá và tỷ lệ rơi trang bị, vị trí bản đồ, đa thành, PvP và multiplayer.</li></ul></div></div><div class="card source-links"><h3>Nguồn nghiên cứu</h3><p><a href="https://heroesofgaia.wikidot.com/game-units" target="_blank" rel="noopener">Bảng 40 quân (Wikidot, cập nhật 06/12/2009)</a> · <a href="https://heroesofgaia.wikidot.com/game-buildings" target="_blank" rel="noopener">Công trình</a> · <a href="https://heroesofgaia.wikidot.com/heroes-action" target="_blank" rel="noopener">AP và hành quân</a> · <a href="https://heroesofgaia.wikidot.com/game-spells" target="_blank" rel="noopener">Phép thuật</a> · <a href="https://heroesofgaia.wikidot.com/game-combat" target="_blank" rel="noopener">Công thức chiến đấu cộng đồng</a> · <a href="https://heroesofgaia.fandom.com/wiki/Castles" target="_blank" rel="noopener">Sản xuất cơ bản</a></p><p class="hint">Dữ liệu tham chiếu Wikidot ghi công nguồn và dẫn link, giấy phép CC BY-SA 3.0 được nêu trong SOURCES.md. Đồ họa, code engine và bản đồ viết mới, không tái sử dụng asset gốc.</p></div>`;}
+function paint(){
+ if(!state)return;
+ if(tab==='map'){const canvas=$('world-canvas');if(!canvas)return;const draw=()=>P.drawWorld(canvas,E,state,selected);draw();
+  let down=null,dragging=false;
+  canvas.onpointerdown=e=>{down={x:e.clientX,y:e.clientY};dragging=false;canvas.setPointerCapture(e.pointerId)};
+  canvas.onpointermove=e=>{if(!down)return;const dx=e.clientX-down.x,dy=e.clientY-down.y;if(Math.abs(dx)+Math.abs(dy)>4)dragging=true;
+   if(dragging){const rect=canvas.getBoundingClientRect(),unit=P.mapCamera().zoom*48;P.panMap(dx*canvas.width/rect.width/unit,dy*canvas.height/rect.height/unit);draw();down={x:e.clientX,y:e.clientY}}};
+  canvas.onpointerup=e=>{if(down&&!dragging){const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;const mini=P.miniHit(canvas,x,y,E);if(mini){Object.assign(P.mapCamera(),{centerX:mini.x,centerY:mini.y});selected=mini.key;render();return}const t=P.mapHit(canvas,x,y,E);if(t){selected=t.key;render();return}}down=null;};
+  canvas.onwheel=e=>{e.preventDefault();P.zoomMap(e.deltaY>0?.9:1.1);draw()};
+ }else if(tab==='city'){const canvas=$('city-canvas');P.drawCity(canvas,E,state,selectedBuilding);
+  canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
+ }else if(tab==='combat'){const canvas=$('battle-canvas');P.drawBattle(canvas,E,state);
+  canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;
+   const all=[...state.battle.allies,...state.battle.enemies];const target=all.filter(u=>u.pool>0).sort((a,b)=>Math.hypot((a.x+.5)*canvas.width/12-x,173+(a.y+.76)*(canvas.height-185)/9-y)-Math.hypot((b.x+.5)*canvas.width/12-x,173+(b.y+.76)*(canvas.height-185)/9-y))[0];
+   if(target&&Math.hypot((target.x+.5)*canvas.width/12-x,173+(target.y+.76)*(canvas.height-185)/9-y)<80)fail(()=>E.battleSelect(state,target.id));};
+ }
+}
+function render(){if(!state){renderIntro();return}renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():sourceView();$('main').innerHTML=content;paint();}
+$('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;fail(()=>{
+ if(action==='race'){newRace=target.dataset.race;render();return}
+ if(action==='start'){state=E.make(newRace);tab='map';selected='3,4';return}
+ if(action==='tab'){tab=target.dataset.tab;return}
+ if(action==='select'){selected=target.dataset.key;return}
+ if(action==='building'){selectedBuilding=target.dataset.key;return}
+ if(action==='zoom'){P.zoomMap(target.dataset.dir==='in'?1.25:.8);return}
+ if(action==='center'){Object.assign(P.mapCamera(),{centerX:9.5,centerY:7.4,zoom:1.12});selected='3,4';return}
+ if(action==='stack'){E.battleSelect(state,target.dataset.id);return}
+ if(action==='formation'){E.setFormation(state,Array.from({length:7},(_,i)=>({unitId:$('formation_unit_'+i).value,count:Number($('formation_count_'+i).value)})));toast('Đội hình đã lưu.');return}
+ if(action==='auto'){state.battleAuto=!state.battleAuto;return}
+ if(action==='upgrade'){E.upgrade(state,target.dataset.key);toast('Đã xếp hàng xây dựng.');return}
+ if(action==='learn'){E.learn(state,target.dataset.id);return}
+ if(action==='recruit'){const id=target.dataset.id,qty=Number($('q_'+id).value);E.recruit(state,id,qty);toast('Đã thêm hàng đợi tuyển quân.');return}
+ if(action==='march'){E.startMarch(state,selected);toast('Tướng đã xuất chinh.');return}
+ if(action==='battle'){const out=E.battleAct(state,target.dataset.cmd);if(out.type==='win'){tab='map';toast('Chiến thắng!')}else if(out.type==='lose'){tab='heroes';toast('Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab='map';toast('Đã kết thúc giao tranh.')}return}
+ if(action==='herolearn'){E.researchHeroSpell(state,target.dataset.id);return}
+ if(action==='heroequip'){E.equipSpell(state,target.dataset.id);return}
+ if(action==='cast'){E.cast(state,target.dataset.id);return}
+ if(action==='equipitem'){E.equipItem(state,Number(target.dataset.uid));return}
+ if(action==='unequip'){E.unequipItem(state,target.dataset.slot);return}
+ if(action==='buyitem'){E.buyItem(state,target.dataset.id);return}
+ if(action==='sell'){E.sell(state,$('sell-type').value,Number($('sell-qty').value));return}
+ if(action==='quest'){E.claim(state,target.dataset.id);return}
+ if(action==='hirecandidate'){E.hireCandidate(state,target.dataset.id);return}
+ if(action==='hero'){E.selectHero(state,Number(target.dataset.id));return}
+ if(action==='castellan'){E.appoint(state,Number(target.dataset.id));return}
+ if(action==='heal'){E.heal(state);toast('Quân thương đã trở lại.');return}
+ });});
+$('save').onclick=()=>{if(save())toast('Đã lưu game vào trình duyệt.')};
+$('speed').onclick=()=>{if(!state)return;fail(()=>E.setSpeed(state,state.speed===60?1:60))};
+$('export-save').onclick=()=>{
+ if(!state){toast('Hãy bắt đầu game trước.');return}
+ try{
+  save();const payload=E.serializeSave(state),blob=new Blob([payload],{type:'application/json'});
+  const url=URL.createObjectURL(blob),link=document.createElement('a');link.href=url;
+  link.download='Heoofgaia-HG07-save-'+new Date().toISOString().slice(0,10)+'.json';document.body.appendChild(link);
+  link.click();link.remove();setTimeout(()=>URL.revokeObjectURL(url),3000);toast('Đã xuất file sao lưu JSON.');
+ }catch(e){toast(e.message||String(e))}
+};
+$('import-save').onclick=()=>$('import-file').click();
+$('import-file').onchange=async e=>{
+ const file=e.target.files?.[0];e.target.value='';if(!file)return;
+ try{
+  if(file.size>2_000_000)throw Error('Tệp vượt giới hạn 2 MB');
+  const imported=E.parseSave(await file.text());
+  if(!confirm('Khôi phục save từ file? Tiến độ HG-06 hiện tại sẽ được thay bằng dữ liệu trong file.'))return;
+  state=imported;E.tick(state);selected='3,4';tab=state.battle?'combat':'map';save();render();toast('Đã khôi phục save.');
+ }catch(err){toast('Không thể nhập save: '+(err.message||String(err)))}
+};
+$('reset').onclick=()=>{if(!confirm('Xóa save phiên bản HG-06 và tạo vương quốc khác?'))return;state=null;newRace='human';selected=null;localStorage.removeItem(E.SAVE_KEY);localStorage.setItem('heoofgaia_hg06_skip_migration','1');render()};
+state=load();if(state){selected='3,4';state.battleAuto=false;tab=state.battle?'combat':'map'}render();
+setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null;try{E.tick(state);if(!before&&state.battle)tab='combat';if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName)){renderHUD()}else render();if(before!==state.battle||training!==state.training.length||building!==(state.buildingQueue?.key||null))save();}catch(e){console.warn('Tick:',e)}},1000);
+setInterval(()=>{if(state&&state.battle&&state.battleAuto){try{const o=E.battleAct(state,state.battleOrder||'attack');if(o.type==='win'||o.type==='retreat'||o.type==='timeout')tab='map';if(o.type==='lose')tab='heroes';save();render();}catch(e){console.warn('Auto battle',e);state.battleAuto=false;}}},2300);
+setInterval(save,10000);window.addEventListener('pagehide',save);
+window.HOG_APP_DEBUG={getState:()=>state,render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';render()}};
+})();
+</script>
+</body></html>

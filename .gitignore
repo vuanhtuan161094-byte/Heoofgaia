@@ -1,0 +1,14 @@
+﻿# Local-only browser QA output
+/.venv/
+/qa-export-temp.json
+*.log
+__pycache__/
+node_modules/
+.pytest_cache/
+.env
+.env.*
+*.bak
+*.tmp
+*.swf
+*.flv
+assets/reference-raw/

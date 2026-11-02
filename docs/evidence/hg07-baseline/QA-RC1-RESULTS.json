@@ -1,0 +1,132 @@
+{
+  "total": 31,
+  "passed": 31,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Intro title",
+      "passed": true
+    },
+    {
+      "name": "No JS exception on intro",
+      "passed": true
+    },
+    {
+      "name": "4 race selection buttons",
+      "passed": true
+    },
+    {
+      "name": "New game respects selected race",
+      "passed": true
+    },
+    {
+      "name": "Top resource bar contains 5 resources",
+      "passed": true
+    },
+    {
+      "name": "World canvas visible",
+      "passed": true
+    },
+    {
+      "name": "World map 28 × 18",
+      "passed": true
+    },
+    {
+      "name": "City canvas visible",
+      "passed": true
+    },
+    {
+      "name": "Market selectable as construction",
+      "passed": true
+    },
+    {
+      "name": "Build queue created, level not instant",
+      "passed": true
+    },
+    {
+      "name": "Construction progress shown",
+      "passed": true
+    },
+    {
+      "name": "Market completes after tick",
+      "passed": true
+    },
+    {
+      "name": "Market sale transaction works",
+      "passed": true
+    },
+    {
+      "name": "Tavern candidate cards visible",
+      "passed": true
+    },
+    {
+      "name": "Hire removes only selected candidate",
+      "passed": true
+    },
+    {
+      "name": "Hire adds hero to roster",
+      "passed": true
+    },
+    {
+      "name": "Castellan can be appointed",
+      "passed": true
+    },
+    {
+      "name": "Save stored under v06 key",
+      "passed": true
+    },
+    {
+      "name": "Reload restores race, buildings, heroes",
+      "passed": true
+    },
+    {
+      "name": "Reload retains selected Castellan",
+      "passed": true
+    },
+    {
+      "name": "Browser exports valid JSON",
+      "passed": true
+    },
+    {
+      "name": "Browser import restores resources",
+      "passed": true
+    },
+    {
+      "name": "Browser import restores Tavern roster",
+      "passed": true
+    },
+    {
+      "name": "Mobile intro readable",
+      "passed": true
+    },
+    {
+      "name": "Mobile world canvas visible",
+      "passed": true
+    },
+    {
+      "name": "Mobile Tavern displays candidate controls",
+      "passed": true
+    },
+    {
+      "name": "Mobile city canvas visible",
+      "passed": true
+    },
+    {
+      "name": "7 formation slots render",
+      "passed": true
+    },
+    {
+      "name": "HG07 cap visible in army UI",
+      "passed": true
+    },
+    {
+      "name": "HG07 library active",
+      "passed": true
+    },
+    {
+      "name": "No unhandled browser JS errors",
+      "passed": true
+    }
+  ]
+}
