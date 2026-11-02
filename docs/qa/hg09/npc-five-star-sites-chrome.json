@@ -22,9 +22,9 @@
       "detail": "☠ 5★ · (98,27) · 150.000+"
     },
     {
-      "name": "Selected camp reports its dated star and force guidance",
+      "name": "Selected camp reports SRC47 guard force, SRC46 attack advice and modeled roster limits",
       "passed": true,
-      "detail": "WORLD EXPLORATION • 100 × 100 | Thế giới Gaia | ＋ | － | ⌖ Về thành | MỤC TIÊU ĐANG CHỌN | Trại Quái vật 5★ · 5★ · (98,27) |  | Chưa chinh phục |  | 🚩 Xuất chinh | Hướng dẫn 17173 ngày 27-07-2009 (SRC46): tối thiểu 150.000 quân lực; mốc thắng hoàn toàn 300.000. Đây là khuyến nghị chiến lược, không phải cổng cứng. Thành phần và chỉ số quái trong trận vẫn là mô hình vì chưa tìm thấy roster NPC gốc. | THÀNH TRUNG LẬP CÓ THỂ CHIẾM | 🏰 Thành Sắt · Thú tộc (16,5) | 🏰 Thành Bóng · Vong linh (23,8) | 🏰 Thành Nguyệt · Tinh linh (9,10)"
+      "detail": "WORLD EXPLORATION • 100 × 100 | Thế giới Gaia | ＋ | － | ⌖ Về thành | MỤC TIÊU ĐANG CHỌN | Trại Quái vật 5★ · 5★ · (98,27) |  | Chưa chinh phục |  | 🚩 Xuất chinh | Sina 23-08-2009 (SRC47) ghi lực lượng quái trấn giữ 150.000. 17173 27-07-2009 (SRC46) khuyến nghị tối thiểu 150.000 và mốc thắng hoàn toàn 300.000. Đây là số liệu hướng dẫn, không phải cổng cứng; roster và chỉ số vào trận vẫn mô hình vì chưa tìm thấy dữ liệu NPC gốc. | THÀNH TRUNG LẬP CÓ THỂ CHIẾM | 🏰 Thành Sắt · Thú tộc (16,5) | 🏰 Thành Bóng · Vong linh (23,8) | 🏰"
     },
     {
       "name": "Selected source-coordinate 5-star camp enables real March",
@@ -34,7 +34,7 @@
     {
       "name": "March sends the formation to (98,27) and applies the existing NPC AP price",
       "passed": true,
-      "detail": "{\"target\": \"98,27\", \"phase\": \"outbound\", \"army\": 5000, \"ap\": 92, \"valid\": true}"
+      "detail": "{\"target\": \"98,27\", \"phase\": \"outbound\", \"army\": 5000, \"ap\": 92.2175, \"valid\": true}"
     },
     {
       "name": "v07 Save/Reload preserves the exact high-star outbound target and dispatched army",
@@ -74,12 +74,16 @@
   ],
   "screenshots": [
     {
+      "path": "docs/evidence/hg09/npc-five-star-target-chrome.png",
+      "sha256": "d5a97a8c374264bc1b43d15ac0346164b777876d67f4ba7ba076d9f8cafd0ab9"
+    },
+    {
       "path": "docs/evidence/hg09/npc-five-star-battle-chrome.png",
-      "sha256": "c8fa31c9916a5810ebc59d971c8c2850241e862e334615dc1e696686cedd2ee7"
+      "sha256": "f47b5efd01093ccd45d2da1245de8352ce4a25e26611ce4f093ec1fb972939cc"
     },
     {
       "path": "docs/evidence/hg09/npc-five-star-xp-chrome.png",
-      "sha256": "b3524b323211728ceedde5720388cf7610b1c5c905d0b76191e568e68cde3512"
+      "sha256": "6e2f00c08201814deb81e6f94dd77295b56eb981f77ea909db8d7e3257c03a35"
     }
   ]
 }

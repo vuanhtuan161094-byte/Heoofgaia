@@ -43,6 +43,7 @@
 | SRC44 | 2010-12-14 | Chinese / 17173 city-development article | Hero Tower level is a Tavern upgrade prerequisite; Tavern level affects offer count and quality. No exact gate level or probability table. | https://web.17173.com/content/2010-12-14/20101214101223733.shtml |
 | SRC45 | 2009-09-21 | Chinese / Sina player strategy guide | Reports NPC victory XP for 4★–8★ as 1,000 / 4,000 / 9,000 / 18,000 / 30,000; no 1★–3★ values | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
 | SRC46 | 2009-07-27 | Chinese / Yeyou-17173 player-guide compilation, credited to GGwan | Gives minimum and “complete victory” army-force recommendations for 1★–8★ NPCs and 128 wild-monster coordinates; no troop compositions or NPC unit stats | https://article.yeyou.com/content/2009-07-27/20090727165411627_all.shtml |
+| SRC47 | 2009-08-23 | Chinese / Sina player guide | Reports 1★–8★ wild-monster guarding force as 1,800 / 4,200 / 15,000 / 45,000 / 150,000 / 360,000 / 720,000 / 1,200,000; no unit roster or battle stats | https://games.sina.com.cn/o/z/yxzc/2009-08-23/2233346760.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -83,6 +84,7 @@
 | F33 | 100×100 coordinates and once-daily noncombat visits with resource rewards or two-hour hero buffs | SRC41, SRC43 | B | **HG-10 PARTIAL PASS:** ten guide-listed structures are selectable and their rewards/buffs alter live gameplay and saved state. UTC reset and immediate no-AP visit are models; original travel, visual assets and regional parity remain unverified |
 | F34 | NPC hero XP rewards by star | SRC45, SRC03 | B for the dated Chinese guide | **PARTIAL:** NPC wins use the reported 4★–8★ base XP and SRC03 Hero Tower multiplier. 1★–3★ and mine/castle rewards remain explicit models; XP rounding and international parity are unresolved |
 | F35 | Wild NPC stars, coordinates and recommended force | SRC46 | B for the dated Chinese guide compilation | **PARTIAL:** 128 listed sites and 1★–8★ advisory force bands are represented on the world map. Live travel and NPC battles work, and v07 saves preserve them. Enemy compositions/stats remain modeled; the recommendations are not hard gates; Chinese map instance and English/EU parity are unverified |
+| F36 | Reported NPC guarding force by star | SRC46, SRC47 | B for the dated Chinese guides | **PARTIAL:** Both source reports are shown separately in target info. They differ at 1★ and 2★ (SRC47 1,800/4,200 vs SRC46 minimum attack recommendations 1,500/4,000) and match at 3★–8★. No enemy composition/stat model is inferred from these values; version, formula and English/EU parity remain unresolved |
 
 ## 3. Source conflicts and caveats
 
@@ -100,6 +102,7 @@
 - ADDED: all equipped combat units get the wiki community speed adjustment from the commanding hero; incoming damage is adjusted for player's hero DEF.
 - HG-08: NPC win XP for 4★–8★ now uses SRC45's dated Chinese guide table; 1★–3★ and mine/castle XP remain explicitly modeled.
 - HG-09: SRC46's 128 published 1★–8★ NPC map coordinates and printed force recommendations are playable map targets; NPC roster/stats remain modeled and are disclosed in the target UI.
+- HG-09: the target panel separately labels SRC47's reported monster guard force and SRC46's attacking force recommendations; their 1★/2★ differences are preserved rather than averaged.
 - ADDED: illustrative Castellan INT gold modifier, visibly segregated as provisional.
 - ADDED: read-only troop command value from weighted wiki cost formula, without inventing an unverified troop capacity threshold.
 - FIXED: Market/Bazaar were declared `catalog` in HG05 even though their UI/actions existed and required building level >=1; HG06 makes them buildable. Guild/Embassy remains disabled.

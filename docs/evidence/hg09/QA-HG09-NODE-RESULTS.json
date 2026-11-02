@@ -64,8 +64,8 @@
       "passed": true
     }
   ],
-  "hg09Total": 14,
-  "hg09Passed": 14,
+  "hg09Total": 17,
+  "hg09Passed": 17,
   "hg09Failed": 0,
   "seededEncounters": 1000,
   "checks": [
@@ -123,6 +123,18 @@
     },
     {
       "name": "1000 seeded tactical encounters replay identically with valid ledgers",
+      "passed": true
+    },
+    {
+      "name": "SRC46/SRC47 restore all dated NPC coordinates, star ranks and guide force values on the 100x100 map",
+      "passed": true
+    },
+    {
+      "name": "SRC46 5–8 star map targets become selectable live NPC encounters with their sourced XP tiers",
+      "passed": true
+    },
+    {
+      "name": "SRC46 keeps previously saved HG-07 starter NPC destinations valid under v07",
       "passed": true
     }
   ]

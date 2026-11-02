@@ -13,6 +13,7 @@ EVIDENCE = ROOT / "docs" / "evidence" / "hg09"
 QA = ROOT / "docs" / "qa" / "hg09"
 BATTLE_SHOT = EVIDENCE / "npc-five-star-battle-chrome.png"
 HERO_SHOT = EVIDENCE / "npc-five-star-xp-chrome.png"
+TARGET_SHOT = EVIDENCE / "npc-five-star-target-chrome.png"
 REPORT = QA / "npc-five-star-sites-chrome.json"
 EVIDENCE.mkdir(parents=True, exist_ok=True)
 QA.mkdir(parents=True, exist_ok=True)
@@ -51,8 +52,9 @@ with sync_playwright() as p:
     check("5-star camp at (98,27) is directly selectable from the world panel", site.count() == 1, site.inner_text() if site.count() else "missing")
     site.click()
     info = page.locator("#main").inner_text()
-    check("Selected camp reports its dated star and force guidance", "5★" in info and "150.000" in info and "300.000" in info and "roster NPC gốc" in info,
+    check("Selected camp reports SRC47 guard force, SRC46 attack advice and modeled roster limits", "5★" in info and "150.000" in info and "300.000" in info and "SRC47" in info and "SRC46" in info and "dữ liệu NPC gốc" in info,
           info[:500].replace("\n", " | "))
+    page.screenshot(path=str(TARGET_SHOT), full_page=True)
     march = page.locator('[data-action="march"]')
     check("Selected source-coordinate 5-star camp enables real March", march.is_enabled(), march.inner_text())
     ap_before = page.evaluate("HOG_APP_DEBUG.getState().ap")
@@ -108,7 +110,7 @@ receipt = {
     "checks": checks,
     "screenshots": [
         {"path": str(path.relative_to(ROOT)).replace("\\", "/"), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
-        for path in [BATTLE_SHOT, HERO_SHOT] if path.exists()
+        for path in [TARGET_SHOT, BATTLE_SHOT, HERO_SHOT] if path.exists()
     ],
 }
 REPORT.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

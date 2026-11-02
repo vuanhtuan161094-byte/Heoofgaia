@@ -85,18 +85,18 @@ const WORLD_BUILDINGS=Object.freeze([
 // guidance only; the original NPC troop rosters and exact battle stats were
 // not recovered, so makeBattle remains an explicitly modeled encounter.
 const NPC_STAR_GUIDE=Object.freeze({
- 1:Object.freeze({minimumForce:1500,completeForce:3000,coords:'2,21 5,42 97,52 2,56 93,62 3,88 8,82 13,60 13,41 10,22 28,14 26,25 28,77 38,78 30,58 34,53 30,33 35,14 51,8 52,32 60,86 62,83 56,55 58,27 58,5 76,22 70,51 79,82 86,76 88,45 85,22'}),
- 2:Object.freeze({minimumForce:4000,completeForce:8000,coords:'1,14 94,22 95,38 96,45 97,65 2,67 12,53 17,45 7,33 21,22 29,63 18,80 38,85 37,37 35,31 38,10 42,17 43,55 48,79 42,83 55,50 59,39 65,32 63,3 66,10 67,55 66,86 81,89 89,83 86,55 86,12 15,85'}),
- 3:Object.freeze({minimumForce:15000,completeForce:30000,coords:'95,14 5,30 5,50 96,73 14,91 23,16 26,67 32,86 46,10 43,36 60,59 71,4 68,38 71,81 89,64 88,33'}),
- 4:Object.freeze({minimumForce:45000,completeForce:90000,coords:'4,95 94,6 12,25 13,9 22,69 40,22 53,96 44,26 51,44 46,57 42,92 72,13 69,65 83,96 81,64 83,31'}),
- 5:Object.freeze({minimumForce:150000,completeForce:300000,coords:'98,27 13,70 17,5 39,26 46,97 52,71 59,46 56,19 91,97'}),
- 6:Object.freeze({minimumForce:360000,completeForce:700000,coords:'96,2 9,46 22,84 35,0 46,69 64,42 74,97 79,51'}),
- 7:Object.freeze({minimumForce:720000,completeForce:1500000,coords:'96,98 22,97 21,38 38,73 47,5 65,97 77,4 72,31 76,69'}),
- 8:Object.freeze({minimumForce:1200000,completeForce:2400000,coords:'1,4 22,52 37,97 32,43 56,65 61,22 91,26'})
+ 1:Object.freeze({minimumForce:1500,completeForce:3000,reportedGuardForce:1800,coords:'2,21 5,42 97,52 2,56 93,62 3,88 8,82 13,60 13,41 10,22 28,14 26,25 28,77 38,78 30,58 34,53 30,33 35,14 51,8 52,32 60,86 62,83 56,55 58,27 58,5 76,22 70,51 79,82 86,76 88,45 85,22'}),
+ 2:Object.freeze({minimumForce:4000,completeForce:8000,reportedGuardForce:4200,coords:'1,14 94,22 95,38 96,45 97,65 2,67 12,53 17,45 7,33 21,22 29,63 18,80 38,85 37,37 35,31 38,10 42,17 43,55 48,79 42,83 55,50 59,39 65,32 63,3 66,10 67,55 66,86 81,89 89,83 86,55 86,12 15,85'}),
+ 3:Object.freeze({minimumForce:15000,completeForce:30000,reportedGuardForce:15000,coords:'95,14 5,30 5,50 96,73 14,91 23,16 26,67 32,86 46,10 43,36 60,59 71,4 68,38 71,81 89,64 88,33'}),
+ 4:Object.freeze({minimumForce:45000,completeForce:90000,reportedGuardForce:45000,coords:'4,95 94,6 12,25 13,9 22,69 40,22 53,96 44,26 51,44 46,57 42,92 72,13 69,65 83,96 81,64 83,31'}),
+ 5:Object.freeze({minimumForce:150000,completeForce:300000,reportedGuardForce:150000,coords:'98,27 13,70 17,5 39,26 46,97 52,71 59,46 56,19 91,97'}),
+ 6:Object.freeze({minimumForce:360000,completeForce:700000,reportedGuardForce:360000,coords:'96,2 9,46 22,84 35,0 46,69 64,42 74,97 79,51'}),
+ 7:Object.freeze({minimumForce:720000,completeForce:1500000,reportedGuardForce:720000,coords:'96,98 22,97 21,38 38,73 47,5 65,97 77,4 72,31 76,69'}),
+ 8:Object.freeze({minimumForce:1200000,completeForce:2400000,reportedGuardForce:1200000,coords:'1,4 22,52 37,97 32,43 56,65 61,22 91,26'})
 });
 const NPC_CAMPS_2009=Object.freeze(Object.entries(NPC_STAR_GUIDE).flatMap(([stars,row])=>row.coords.split(/\s+/).map((key,index)=>{
  const [x,y]=key.split(',').map(Number);
- return Object.freeze({key,x,y,stars:Number(stars),index:index+1,minimumForce:row.minimumForce,completeForce:row.completeForce,source:'SRC46'});
+ return Object.freeze({key,x,y,stars:Number(stars),index:index+1,minimumForce:row.minimumForce,completeForce:row.completeForce,reportedGuardForce:row.reportedGuardForce,source:'SRC46',forceSource:'SRC47'});
 })));
 function mapTiles(){
  const tiles=[];
@@ -119,7 +119,7 @@ function mapTiles(){
   [23,6,'npc','Dark Guards',3],[26,12,'npc','Phantoms',4],[17,15,'npc','Warlocks',3]
  ];
  for(const [x,y,kind,value,level] of places){let t=at(x,y);t.kind=kind;t.value=value;t.level=level;t.terrain='plain';}
- for(const camp of NPC_CAMPS_2009){const t=at(camp.x,camp.y);t.kind='npc';t.value=`Quái vật ${camp.stars}★`;t.level=camp.stars;t.source=camp.source;t.minimumForce=camp.minimumForce;t.completeForce=camp.completeForce;t.terrain='plain';}
+ for(const camp of NPC_CAMPS_2009){const t=at(camp.x,camp.y);t.kind='npc';t.value=`Quái vật ${camp.stars}★`;t.level=camp.stars;t.source=camp.source;t.minimumForce=camp.minimumForce;t.completeForce=camp.completeForce;t.reportedGuardForce=camp.reportedGuardForce;t.forceSource=camp.forceSource;t.terrain='plain';}
  // The procedurally painted river would isolate the dated 46,69 NPC coordinate.
  // A one-cell bridge is an explicit map-connectivity accommodation, not a
  // recovered historical terrain feature.
