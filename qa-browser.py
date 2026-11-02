@@ -76,11 +76,13 @@ with sync_playwright() as p:
     check('Castellan can be appointed',lambda:d.evaluate('HOG_APP_DEBUG.getState().castellan!==null'))
     d.screenshot(path=str(evidence/'screenshot-tavern-desktop.png'),full_page=True)
     d.locator('#nav [data-tab="army"]').click()
+    check('Elf Centaur uses its cited tier-one Barracks gate and shows C provenance',lambda:d.locator('[data-action="recruit"][data-id="elf_1"]').is_enabled() and 'SRC28' in d.locator('.unitrow').nth(0).inner_text() and 'Barracks cấp 1' in d.locator('.unitrow').nth(0).inner_text() and 'C' in d.locator('.unitrow').nth(0).inner_text())
     check('Tier-2 elf scout is locked before its Barracks tier',lambda:d.locator('[data-action="recruit"][data-id="elf_2"]').is_disabled())
     d.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();s.buildings.barracks=2;HOG_APP_DEBUG.render()})()')
     check('Tier-2 elf scout still requires Scouting after Barracks 2',lambda:d.locator('[data-action="recruit"][data-id="elf_2"]').is_disabled() and 'Trinh sát 0/1' in d.locator('#main').inner_text())
     check('Scout lock icon matches disabled recruit action',lambda:d.locator('[data-action="recruit"][data-id="elf_2"]').is_disabled() and d.locator('[data-action="recruit"][data-id="elf_2"]').inner_text().strip()=='🔒')
     check('Scout gate names both Chinese role and English spell evidence',lambda:'Trung Quốc 2010' in d.locator('.unitrow').nth(1).inner_text() and 'wiki tiếng Anh 2009' in d.locator('.unitrow').nth(1).inner_text())
+    d.wait_for_timeout(2200)  # let the construction confirmation toast clear for an inspectable gameplay capture
     d.screenshot(path=str(evidence/'screenshot-troop-unlocks-desktop.png'),full_page=True)
     d.locator('#q_elf_1').fill('4')
     d.locator('[data-action="recruit"][data-id="elf_1"]').click()

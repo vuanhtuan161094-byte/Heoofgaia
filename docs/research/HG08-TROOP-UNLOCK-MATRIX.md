@@ -2,9 +2,9 @@
 
 All 40 catalog rows are listed. “Gates in build” are the checks currently enforced before resources are spent. Confidence describes historical evidence, not software-test coverage.
 
-- **A / OBSERVED:** exact requirement appears in the dated Chinese Human table (SRC19, independently corroborated by SRC20).
+- **A / OBSERVED:** exact requirement appears in the later dated Chinese Human table (SRC19, independently corroborated by SRC20). Earlier SRC27 (2009-05-21) is retained as version-conflicting evidence: it lists Archer at Barracks 2 and does not print the later Town Hall gates. The current enforced rows target the later table.
 - **B / PARTIAL:** the available source supports only part of the gate; missing requirements are not invented.
-- **C / SECONDARY:** a third-party game-data entry lists the per-unit gate, but its publication date/build is unclear and it has not been checked against the original client.
+- **C / SECONDARY:** a third-party entry lists a per-unit gate with no date/build (Thunderbird, SRC26), or a dated contemporary feature states the gate without original-client validation (Centaur, SRC28). Neither is checked against the original client.
 - **P / PROVISIONAL MODEL:** non-Human troop-building level is temporarily mapped to catalog tier for a playable progression curve. No dated 2009–2010 per-unit numeric gate table was found. This is a gameplay proxy, not historical data.
 - **SRC04 / DERIVED:** “练兵技术” is mapped to the English Bootcamp spell by matching purpose; the cross-language name equivalence is inferred.
 - Every row also requires that troop type to belong to the selected race. Base costs and time come from SRC02.
@@ -21,7 +21,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Human | 8 | Priest | Town Hall 8; Barracks 8; Blacksmith 6; Manufacturing 7 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 9 | Angel | Town Hall 9; Barracks 9; Stables 7; Blacksmith 8; Manufacturing 8 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 10 | Archangel | Town Hall 10; Barracks 10; Stables 9; Blacksmith 10; Manufacturing 9; Bootcamp 9 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
-| Elf | 1 | Centaur | Barracks 1 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Elf | 1 | Centaur | Barracks 1 | C / SECONDARY | SRC28 explicitly names the level-1 Barracks gate; original-client check missing |
 | Elf | 2 | Elf Scout | Barracks 2; Scouting 1 | P / PROVISIONAL MODEL | SRC02, SRC03, SRC04, SRC22; guide identifies Elf Scout as scout; Town Hall/faction gates unresolved |
 | Elf | 3 | Dwarven Soldier | Barracks 3 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
 | Elf | 4 | Elf Archer | Barracks 4 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
@@ -54,7 +54,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 
 ## Limits and next evidence work
 
-- The exact Human conditions for the listed rows are source-backed; the `Training Technology` → `Bootcamp` English label is derived and needs a regional client screenshot or an official glossary to prove the crosswalk.
+- The exact Human conditions for the listed rows follow the later 2009–2010 Chinese sources SRC19/SRC20. Earlier dated SRC27 gives a different Archer Barracks level and omits Town Hall levels from its printed list; treat that as a version conflict, not corroboration of the later values. The table follows SRC19/SRC20; the `Training Technology` → `Bootcamp` English label is derived and needs a regional client screenshot or an official glossary to prove the crosswalk.
 - All four tier-2 entries require Scouting 1. SRC22 identifies the three non-Human roles as scouts, while SRC04 supplies the Scouting-1 rule. Since these pages describe different regional editions, exact cross-version gate parity is not confirmed; Human Town Hall and other faction support-building gates remain unverified and are not enforced.
 - The other 30 units do **not** have source-complete prerequisites. Faction building roles establish which structure recruits troops, not a numeric per-unit level.
-- The 29 remaining Elf/Orc/Undead rows enforce the provisional P proxy `troop-building level = catalog tier`; the UI says this is not source-verified. Orc Thunderbird is the one exception: SRC26 gives specific values, shown as C until an original client confirms them. Other support-building levels (including Dark Hall, Soul Tower, Magic Pool and Nature Tower) remain missing and unapplied.
+- The 28 remaining Elf/Orc/Undead rows enforce the provisional P proxy `troop-building level = catalog tier`; the UI says this is not source-verified. Orc Thunderbird (SRC26) and Elf Centaur (SRC28) are C-confidence exceptions with printed gates; neither has original-client confirmation. Other support-building levels (including Dark Hall, Soul Tower, Magic Pool and Nature Tower) remain missing and unapplied.

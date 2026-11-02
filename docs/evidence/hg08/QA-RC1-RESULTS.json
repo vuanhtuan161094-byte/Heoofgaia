@@ -1,6 +1,6 @@
 {
-  "total": 54,
-  "passed": 54,
+  "total": 55,
+  "passed": 55,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -78,6 +78,10 @@
     },
     {
       "name": "Castellan can be appointed",
+      "passed": true
+    },
+    {
+      "name": "Elf Centaur uses its cited tier-one Barracks gate and shows C provenance",
       "passed": true
     },
     {

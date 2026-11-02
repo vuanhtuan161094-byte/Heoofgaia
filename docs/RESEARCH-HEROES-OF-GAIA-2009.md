@@ -33,6 +33,8 @@
 | SRC18 | 2009/2010 editions | Chinese / Sina game hub | Full list of building/race/technology guides, new-edition sections | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
 | SRC25 | 2010-09-14 | Vietnamese / GameLandVN interview | Confirms Vietnamese name “Anh Hùng Online” and Snail Game context; not used for mechanics | https://gamelandvn.com/tro-chuyen-cung-snail-game-ve-bom-tan-ministry-of-war/ |
 | SRC26 | undated, accessed 2026-11-02 | Chinese / Chinese encyclopedia | Secondary Thunderbird-specific requirement entry; matching numeric unit fields corroborate SRC02, but original-client/build confirmation is absent | https://www.newton.com.tw/wiki/%E9%9B%B7%E9%B3%A5/7743726 |
+| SRC27 | 2009-05-21 | Chinese / 17173 | Human troop gates; older table differs from late 2009–2010 sources on Archer Barracks and printed Town Hall gates | https://web.17173.com/content/2009-05-21/20090521151046362.shtml |
+| SRC28 | 2010-04-29 | Chinese / 17173 | Elf Centaur is explicitly recruitable at Barracks level 1; no full faction unlock table or original-client validation | https://web.17173.com/content/2010-04-29/20100429093442847.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 

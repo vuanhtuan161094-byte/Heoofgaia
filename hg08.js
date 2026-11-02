@@ -27,7 +27,7 @@ const HUMAN={
  9:{buildings:{hall:9,barracks:9,stables:7,blacksmith:8},spells:{manufacturing:8},sourceStatus:'OBSERVED',source:'SRC19; SRC20'},
  10:{buildings:{hall:10,barracks:10,stables:9,blacksmith:10},spells:{manufacturing:9,bootcamp:9},sourceStatus:'OBSERVED',source:'SRC19; SRC20'}
 };
-const SECONDARY={orc:{orc_7:{buildings:{barracks:7,beastPen:4,blacksmith:4},spells:{bootcamp:6},sourceStatus:'SECONDARY',source:'SRC26'}}};
+const SECONDARY={elf:{elf_1:{buildings:{barracks:1},spells:{},sourceStatus:'SECONDARY',source:'SRC28'}},orc:{orc_7:{buildings:{barracks:7,beastPen:4,blacksmith:4},spells:{bootcamp:6},sourceStatus:'SECONDARY',source:'SRC26'}}};
 const attrKeys=['atk','def','spd','int'];
 function obj(v){return !!v&&typeof v==='object'&&!Array.isArray(v)}
 function ensure(s){
