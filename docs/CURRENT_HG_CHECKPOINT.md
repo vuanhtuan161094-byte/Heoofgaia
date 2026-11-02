@@ -1,3 +1,12 @@
+## Latest HG-08 source audit — SRC56 Human table chronology — 2026-11-03
+
+- Project `E:\Heoofgaia`; branch `feature/hog1-research-to-playable-20261102`; displayed game title **Anh Hùng Thời Loạn**. Evidence-register, 40-unit matrix and research-report commit: **`001486afcf004256b461d96c1b7dd96767c2cd5b`**. Documentation-only; runtime and offline HTML unchanged. The verified playable HG-10 slice remains at implementation commit `eac9a48d3566ef912b7b8d4072e6555e5d3773c5`.
+- **Finding:** Yeyou.com SRC56 (2009-07-27) prints Human T1 and T3–T10 gates, but its author says the guide compiles other guides/forum tips. It is useful for dating circulation of the Human table, not independent corroboration. It has no Scout row or Elf/Orc/Undead per-unit gate table. No numeric non-Human supporting-building gates were recovered by this search. The 40-unit matrix cites SRC56 only on Human rows and leaves unresolved race gates unapplied.
+- **Validation:** `node qa-engine.cjs` **131/131 PASS** after the matrix edits; all 40 unit IDs/names still match the catalog. `git diff --check` **PASS**. This is research only; no gameplay behavior changed.
+- **PASS / FAIL / BLOCKED:** dated Human-table chronology **PASS**; exact missing non-Human gates **NOT FOUND**. HG-08 remains **IN PROGRESS**. This does not change the artifact SHA or claim original-client parity.
+- **Repository status:** no Git remote; GitHub lookup for `vuanhtuan161094-byte/Heoofgaia` returned 404 and nothing was pushed. The action-time confirmation request for creating a Private repo via GitHub UI is pending; no external changes have been made.
+- **Next:** search dated Chinese/English/archive/client evidence for Elf, Orc and Undead unit prerequisites; only implement exact source-supported gates, preserving current inferred base-tier disclosure where values remain absent.
+
 ## Latest slice — HG-10 China 2009 Human recruitment task — 2026-11-03
 
 - Project `E:\Heoofgaia`; branch `feature/hog1-research-to-playable-20261102`; displayed title **Anh Hùng Thời Loạn**. Tested implementation/evidence commit: **`eac9a48d3566ef912b7b8d4072e6555e5d3773c5`** (`feat(hg10): add China 2009 archer task`). Save key/schema remains v07. No edits to `main` or Tu Tiên Nhàn Rỗi.
