@@ -730,6 +730,31 @@ test('HG10 daily board preserves accepted work on Fame promotion, resets by day 
  assert.equal(E.dailyTasks(s,now+86_400_000)[0].accepted,false);assert.equal(s.dailyTaskState.day,E.worldDayKey(now+86_400_000));
 });
 
+function cityTransportFixture(){
+ const s=state();s.fame=5800;s.ap=100;s.res.gold=2000;s.res.wood=500;s.army.human_1=3;
+ const template=E.make('elf',s.lastTick),city=E.clone(template.cities[0]);city.id='city-9-10';city.key='9,10';city.name='Thành nhận Elf';city.main=false;city.sourceStatus='MODELED_STARTING_CITY';city.local.race='elf';city.local.res={gold:0,wood:0,ore:0,sulfur:0,crystal:0};
+ s.cities.push(city);E.ensure10(s);E.syncCityState(s);return {s,city};
+}
+test('HG10 transport uses the cited 20 AP cost and load ratios with atomic rejection',()=>{
+ const {s,city}=cityTransportFixture(),before={ap:s.ap,gold:s.res.gold,wood:s.res.wood,army:s.army.human_1};
+ throws(()=>E.startCityTransport(s,city.id,'human_1',1,{gold:301}),/quá tải/i);assert.equal(s.ap,before.ap);assert.equal(s.res.gold,before.gold);assert.equal(s.army.human_1,before.army);
+ const convoy=E.startCityTransport(s,city.id,'human_1',2,{gold:400,wood:40,ore:0,sulfur:0,crystal:0});assert.equal(convoy.weight,600);assert.equal(convoy.capacity,600);assert.equal(s.ap,80);assert.equal(s.army.human_1,1);assert.equal(s.res.gold,before.gold-400);assert.equal(s.res.wood,before.wood-40);assert.equal(convoy.phase,'outbound');assert(E.strictSave(s));
+});
+test('HG10 transport arrives, delivers once, returns troops across city switch and survives v07 reload',()=>{
+ const {s,city}=cityTransportFixture();E.startCityTransport(s,city.id,'human_1',2,{gold:400,wood:40,ore:0,sulfur:0,crystal:0});s.cityTransports[0].remaining=.25;
+ let saved=E.parseSave(E.serializeSave(s));assert.equal(saved.cityTransports[0].phase,'outbound');const t=saved.lastTick+1000;E.tick(saved,t);assert.equal(saved.cityTransports[0].phase,'return');const target=E.cityForKey(saved,city.key);assert(target.local.res.gold>=400);assert(target.local.res.wood>=40);
+ const deliveredGold=target.local.res.gold,deliveredWood=target.local.res.wood;E.tick(saved,t);assert.equal(E.cityForKey(saved,city.key).local.res.gold,deliveredGold);assert.equal(E.cityForKey(saved,city.key).local.res.wood,deliveredWood);
+ saved.cityTransports[0].remaining=.25;saved=E.parseSave(E.serializeSave(saved));E.switchCity(saved,city.id);E.tick(saved,saved.lastTick+1000);assert.equal(saved.cityTransports.length,0);assert.equal(E.cityForKey(saved,'3,4').local.army.human_1,3);assert.equal(saved.race,'elf');const reloaded=E.parseSave(E.serializeSave(saved));assert.equal(E.cityForKey(reloaded,'3,4').local.army.human_1,3);assert(E.strictSave(reloaded));
+});
+test('HG10 transport waits without cargo loss for destination warehouse capacity then resumes',()=>{
+ const {s,city}=cityTransportFixture();city.local.res.gold=14950;E.startCityTransport(s,city.id,'human_1',1,{gold:100});s.cityTransports[0].remaining=.25;E.tick(s,s.lastTick+1000);assert.equal(s.cityTransports[0].phase,'holding');assert(E.cityForKey(s,city.key).local.res.gold>14950&&E.cityForKey(s,city.key).local.res.gold<15000);assert(E.strictSave(s));
+ let saved=E.parseSave(E.serializeSave(s));E.switchCity(saved,city.id);saved.res.gold=E.limits(saved).gold-104;E.syncCityState(saved);E.tick(saved,saved.lastTick+1000);assert.equal(saved.cityTransports[0].phase,'return');assert(saved.res.gold>14989&&saved.res.gold<=15000);assert(E.strictSave(saved));
+});
+test('HG10 legacy v07 transport field migrates empty and malformed convoy saves are rejected',()=>{
+ const legacy=state();delete legacy.cityTransports;const migrated=E.parseSave(JSON.stringify(legacy));assert.deepEqual(Array.from(migrated.cityTransports),[]);assert(E.strictSave(migrated));
+ const {s,city}=cityTransportFixture();E.startCityTransport(s,city.id,'human_1',1,{gold:100});const raw=JSON.parse(E.serializeSave(s));raw.state.cityTransports[0].resources.gold=-1;assert.throws(()=>E.parseSave(JSON.stringify(raw)),/Save HG-10/);
+});
+
 const hg10=results.filter(x=>/^HG10 /.test(x.name));
 const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical|SRC45\/SRC46\/SRC47|SRC46)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});

@@ -1,0 +1,49 @@
+{
+  "suite": "HG-10 live city transport UI",
+  "fixture": "Owned Elf secondary city at 9,10; transport interactions and all engine state transitions are live.",
+  "checks": [
+    {
+      "name": "Owned-city map target opens the live transport form",
+      "passed": true
+    },
+    {
+      "name": "Form shows the selected carrier unit and cargo controls",
+      "passed": true
+    },
+    {
+      "name": "Overloaded dispatch is rejected without AP, troops or cargo loss",
+      "passed": true
+    },
+    {
+      "name": "Valid convoy spends 20 AP and reserves the chosen force and cargo",
+      "passed": true
+    },
+    {
+      "name": "Existing v07 Save/Load JSON includes the outbound convoy",
+      "passed": true
+    },
+    {
+      "name": "Reloaded browser restores the real outbound ledger and map UI",
+      "passed": true
+    },
+    {
+      "name": "Convoy arrives once and credits destination resources",
+      "passed": true
+    },
+    {
+      "name": "Returning carriers are restored once to their original city",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript page errors in either real Chromium session",
+      "passed": true
+    }
+  ],
+  "passed": 9,
+  "failed": 0,
+  "pageErrors": [],
+  "screenshots": {
+    "city-transport-outbound-chrome.png": "8A5AF4588186C77E558D65AEC6028B00851178CBC85CDD053C8136C603133188",
+    "city-transport-delivered-chrome.png": "B5CADD61590B559A0705669264AE7172E6057C6B05FA9890A3BEC265CE597F12"
+  }
+}

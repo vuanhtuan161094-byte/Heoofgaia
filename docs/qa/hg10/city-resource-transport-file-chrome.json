@@ -1,0 +1,49 @@
+{
+  "suite": "HG-10 city transport actual file://",
+  "fixture": "Owned secondary city at 9,10; dispatch, persistence, delivery and return are live.",
+  "checks": [
+    {
+      "name": "Built offline HTML opens from real file://",
+      "passed": true
+    },
+    {
+      "name": "Real file UI presents carrier selection and cargo",
+      "passed": true
+    },
+    {
+      "name": "file:// rejects over-capacity without charging AP",
+      "passed": true
+    },
+    {
+      "name": "file:// sends the valid convoy in live engine state",
+      "passed": true
+    },
+    {
+      "name": "file:// Save/Reload keeps the outbound convoy and map ledger",
+      "passed": true
+    },
+    {
+      "name": "file:// convoy delivers resources exactly once",
+      "passed": true
+    },
+    {
+      "name": "file:// reload preserves return-trip phase",
+      "passed": true
+    },
+    {
+      "name": "file:// return restores carriers to the originating city once",
+      "passed": true
+    },
+    {
+      "name": "No page exceptions through real file transport and reload",
+      "passed": true
+    }
+  ],
+  "passed": 9,
+  "failed": 0,
+  "pageErrors": [],
+  "screenshots": {
+    "city-transport-file-outbound-chrome.png": "71D687719F7BED32BA496C38147D84933966696E7EEF6E9D0F80F0B5516B2F02",
+    "city-transport-file-delivered-chrome.png": "9317FAF850DDAC6BB457AC67208BC9590CB7C0755446BECD51902C8E0E029EED"
+  }
+}
