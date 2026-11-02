@@ -56,3 +56,11 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 - Regression: Node **79/79**, browser **71/71** with zero JS exceptions, file:// **12/12**, 9 JavaScript syntax checks PASS, offline build **152,097 characters PASS**. HG-09-only receipts: Node **14/14**, browser **17/17**. One thousand seeded combat replay pairs continue to pass.
 - Captures: `docs/evidence/hg09/screenshot-advance-manual-start-desktop.png` and `screenshot-advance-manual-move-desktop.png` show the runtime before/after. Visual inspection confirms movement and unchanged target HP; visuals remain a procedural prototype.
 - This advances HG-09 but does not complete it. HG-08 data gaps remain; no original-client comparison or 1:1 claim. Private GitHub repository/push remains BLOCKED due no remote/create-repository operation.
+
+## Latest tested HG-08/HG-10 vertical slice — Fame mine cap and output — 2026-11-02
+
+- Source: SRC39, dated 17173 Chinese player guide (2009-12-27), lines 21–24 and 243–264. Five initial mines; exact Fame cap table; per-mine output 200 Gold / 40 Wood / 40 Ore / 20 Sulfur / 20 Crystal per hour. Confidence B for this regional guide; cross-region parity not verified.
+- Code: cap validated before AP spend; captured mines feed fixed output into the economy tick; no save schema change.
+- Regression: Node 83/83, JS syntax 9/9, Chrome 77/77 (0 JS exceptions), Chromium file:// 12/12; HTML 153,333 characters.
+- Chrome screenshots use a seeded state with five owned mines and Fame 2,200; renderer, live action and AP deduction execute in the app. No composite/fake image. See docs/evidence/hg08/screenshot-fame-mine-cap-full-desktop.png and screenshot-fame-mine-cap-unlocked-march-desktop.png.
+- HG-08 IN PROGRESS; HG-09 partial; HG-10 partial; HG-11 prototype art only; HG-12 packaging incomplete; HG-13 not started. Private GitHub push and original-client comparison remain blocked.

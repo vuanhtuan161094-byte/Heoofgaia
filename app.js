@@ -36,11 +36,16 @@ function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.m
 function mapView(){
  const target=E.getTile(selected||'3,4');const claimed=t=>state.mines.some(m=>m.key===t.key),cleared=t=>state.cleared.includes(t.key);
  const active=target&&['mine','npc'].includes(target.kind)&&!claimed(target)&&!cleared(target);
+ const mineCount=Array.isArray(state.mines)?state.mines.length:0,mineLimit=E.mineLimit(state),mineCapReached=target?.kind==='mine'&&mineCount>=mineLimit;
+ const marchLabel=state.march?'Tướng đang hành quân':state.battle?'Đang giao tranh':mineCapReached?'Hết hạn mức mỏ':'🚩 Xuất chinh';
+ const marchDisabled=!active||!!state.march||!!state.battle||!E.activeArmy(state).length||mineCapReached;
+ const targetStatus=target?(mineCapReached?'Đã đạt hạn mức mỏ theo Fame':claimed(target)?'Đã chiếm':cleared(target)?'Đã dọn sạch':target.kind==='empty'?'Khám phá tự do':'Chưa chinh phục'):'—';
+ const marchHint='Mỏ đã chiếm: '+mineCount+'/'+mineLimit+' theo Fame · Chiếm mỏ -6 AP • Quái -8 AP (mô phỏng)';
  const label=t=>t.kind==='castle'?'Thành Gaia':t.kind==='mine'?`Mỏ ${C.resource[t.value].label}`:t.value;
  const desc=target?target.kind==='castle'?'Thành chính • điểm xuất phát':target.kind==='mine'?`${label(target)} · cấp ${target.level}`:target.kind==='npc'?`Trại ${label(target)} · cấp ${target.level}`:`Địa hình ${target.terrain}`:'Chưa chọn mục tiêu';
  return `<div class="scene-title"><div><span class="eyebrow">WORLD EXPLORATION • 28 × 18</span><h1>Thế giới Gaia</h1></div><div class="scene-tools">${button('zoom',{dir:'in'},'＋',false,'secondary')}${button('zoom',{dir:'out'},'－',false,'secondary')}${button('center',{},'⌖ Về thành',false,'secondary')}</div></div>
  <div class="map-frame"><canvas id="world-canvas" width="1176" height="620" aria-label="Bản đồ thế giới tương tác, kéo và chạm chọn tọa độ"></canvas></div>
- <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${target?`Tọa độ (${target.x}, ${target.y}) · ${claimed(target)?'Đã chiếm':cleared(target)?'Đã dọn sạch':target.kind==='empty'?'Khám phá tự do':'Chưa chinh phục'}`:'—'}</p><div class="actions">${button('march',{},state.march?'Tướng đang hành quân':state.battle?'Đang giao tranh':'🚩 Xuất chinh',!active||!!state.march||!!state.battle||!E.activeArmy(state).length,'primary')}<span class="hint">Chiếm mỏ -6 AP • Quái -8 AP (mô phỏng)</span></div></div>
+ <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${targetStatus}</p><div class="actions">${button('march',{},marchLabel,marchDisabled,'primary')}<span class="hint">${esc(marchHint)}</span></div></div>
  <div class="landmarks"><span class="eyebrow">ĐỊA ĐIỂM GẦN ĐÂY</span><div class="landmark-list">${E.TILES.filter(t=>['mine','npc'].includes(t.kind)).sort((a,b)=>Math.abs(a.x-3)+Math.abs(a.y-4)-Math.abs(b.x-3)-Math.abs(b.y-4)).slice(0,7).map(t=>button('select',{key:t.key},`${t.kind==='mine'?'◆':'⚔'} ${esc(label(t))} (${t.x},${t.y})`,false,selected===t.key?'small primary':'small secondary')).join('')}</div></div></div>
  ${state.march?`<div class="banner">🚩 Đạo quân đang tiến tới (${state.march.target}) • ${Math.ceil(state.march.remaining/state.speed)} giây thực còn lại • Đường tránh sông được tính tự động</div>`:''}`;
 }

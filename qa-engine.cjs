@@ -54,6 +54,32 @@ test('market sell after build and gold capacity',()=>{const s=state();s.building
 test('bazaar buys real inventory',()=>{const s=state();s.buildings.bazaar=1;const old=s.inventory.length;E.buyItem(s,'copper_blade');assert.equal(s.inventory.length,old+1)});
 test('seven-slot formation supports duplicate unit types',()=>{const s=state();E.setFormation(s,[{unitId:'human_1',count:5},{unitId:'human_1',count:7}]);assert.equal(s.formation.length,2);assert.equal(E.troopValue(s),12*E.unitValue(E.getUnit(s,'human_1')))});
 test('cannot assign beyond available army',()=>{const s=state();throws(()=>E.setFormation(s,[{unitId:'human_1',count:17}]),/vượt/)});
+test('Captured mines add the dated 2009 resource output and do not scale by unverified mine level',()=>{
+ const s=state(),base=E.rate(s),expected={gold:200,wood:40,ore:40,sulfur:20,crystal:20};
+ assert.deepEqual({...E.MINE_HOURLY},expected);
+ for(const res of Object.keys(expected)){const testState={...s,mines:[{key:'test-'+res,res,level:7}]};assert.equal(E.rate(testState)[res]-base[res],expected[res],res)}
+ const two={...s,mines:[{key:'wood-a',res:'wood',level:1},{key:'wood-b',res:'wood',level:2}]};
+ assert.equal(E.rate(two).wood-base.wood,80);
+});
+test('Fame mine capacity matches the dated 2009 rank table at every boundary',()=>{
+ const cases=[[0,5],[2199,5],[2200,6],[5799,6],[5800,7],[11499,7],[11500,8],[20999,8],[21000,9],[32999,9],[33000,11],[53999,11],[54000,13],[79999,13],[80000,15],[149999,15],[150000,17],[299999,17],[300000,20],[500000,20],[700000,20],[1000000,20]];
+ for(const [fame,limit] of cases)assert.equal(E.mineLimit(fame),limit,'Fame '+fame);
+ assert.deepEqual(JSON.parse(JSON.stringify(E.FAME_MINE_CAPS)),cases.filter(([f])=>[0,2200,5800,11500,21000,33000,54000,80000,150000,300000,500000,700000,1000000].includes(f)));
+});
+test('Fame mine cap rejects a new mine march atomically before AP spend',()=>{
+ const s=state();s.fame=0;s.mines=E.TILES.filter(t=>t.kind==='mine').slice(0,5).map(t=>({key:t.key,res:t.value,level:t.level}));
+ const target=E.TILES.find(t=>t.kind==='mine'&&!s.mines.some(m=>m.key===t.key)&&E.pathfind('3,4',t.key));assert(target);
+ const before=JSON.stringify(s);throws(()=>E.startMarch(s,target.key),/hạn mức 5 mỏ/);assert.equal(JSON.stringify(s),before);
+});
+test('Fame unlock, mine victory and v07 reload preserve the sixth mine slot',()=>{
+ const s=state();s.fame=2200;s.mines=E.TILES.filter(t=>t.kind==='mine').slice(0,5).map(t=>({key:t.key,res:t.value,level:t.level}));
+ const target=E.TILES.find(t=>t.kind==='mine'&&!s.mines.some(m=>m.key===t.key)&&E.pathfind('3,4',t.key));assert(target);
+ E.startMarch(s,target.key);assert.equal(s.ap,94);const end=s.lastTick+s.march.remaining/60*1000+1200;E.tick(s,end);assert(s.battle&&s.battle.target===target.key);
+ for(const enemy of s.battle.enemies){enemy.pool=0;enemy.count=0}
+ assert.equal(E.battleAct(s,'attack').type,'win');assert.equal(s.mines.length,6);assert.equal(s.fame,2210);assert.equal(E.mineLimit(s),6);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.equal(loaded.mines.length,6);assert.equal(E.mineLimit(loaded),6);
+ const other=E.TILES.find(t=>t.kind==='mine'&&!loaded.mines.some(m=>m.key===t.key)&&E.pathfind('3,4',t.key));assert(other);const before=JSON.stringify(loaded);throws(()=>E.startMarch(loaded,other.key),/hạn mức 6 mỏ/);assert.equal(JSON.stringify(loaded),before);
+});
 test('march AP deduction and battle opening',()=>{const s=state();const t=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key));assert(t);E.startMarch(s,t.key);assert.equal(s.ap,94);const end=s.lastTick+s.march.remaining/60*1000+1200;E.tick(s,end);assert(s.battle);assert.equal(s.march,null);assert.equal(s.battle.allies.length,1)});
 test('battle manual retreat keeps losses',()=>{const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);assert.equal(E.battleAct(s,'retreat').type,'retreat');assert.equal(s.battle,null)});
 test('Ranged auto-target selects the strongest modeled stack across distance',()=>{const s=state();const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_3',name:'Ranged group',range:20,count:5,initial:5,hp:100,atk:10,def:1,spd:100,pool:500,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Near weak target',range:1,count:1,initial:1,hp:100,atk:1,def:1,spd:1,pool:100,x:2,y:1},{id:'e1',side:'enemy',unitId:null,name:'Far strong target',range:1,count:2,initial:2,hp:100,atk:50,def:1,spd:1,pool:200,x:10,y:8}];b.selected='p0';b.orders={};b.focused=null;s.battle=b;E.battleAct(s,'attack');assert.equal(b.lastTargets.p0,'e1')});test('automatic melee selects highest modeled power in the nearest group and records the choice',()=>{const s=state();s.army.human_1=1;s.army.human_2=2;s.army.human_3=10;const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Near weak unit',range:1,count:1,initial:1,hp:100,atk:5,def:1,spd:1,pool:100,x:4,y:4},{id:'p1',slot:1,side:'player',unitId:'human_2',name:'Strong nearby unit',range:1,count:2,initial:2,hp:100,atk:20,def:1,spd:1,pool:200,x:5,y:5},{id:'p2',slot:2,side:'player',unitId:'human_3',name:'Powerful far unit',range:1,count:10,initial:10,hp:100,atk:100,def:1,spd:1,pool:1000,x:10,y:8}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Fast enemy',range:1,count:1,initial:1,hp:100,atk:20,def:1,spd:100,pool:100000,x:5,y:4}];b.selected='p0';b.orders={};b.focused=null;s.battle=b;E.battleAct(s,'attack');assert.equal(b.lastTargets.e0,'p1');assert.equal(b.lastTargets.p0,'e0');assert.equal(b.lastTargets.p1,'e0');assert.equal(b.lastTargets.p2,'e0')});

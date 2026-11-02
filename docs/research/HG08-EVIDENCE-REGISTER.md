@@ -61,6 +61,9 @@
 | R16 | Historical art rights | Screenshots and galleries in SRC15/SRC16 are references. Public availability does not grant redistribution rights. | No original commercial sprite/SWF is redistributed in this HG-08 slice. | Rights not established |
 | R17 | Vietnamese-language evidence | Search on 2026-11-02 for Vietnamese guides matching the original game name did not yield a credible, version-dated primary or contemporary guide. | No gameplay rule is attributed to an unrelated Vietnamese game. Search remains open. | No usable source |
 
+| R23 | Fame rank mine cap | SRC20's 2009-12-27 table lists initial limits and thresholds through 1,000,000: 5, 6, 7, 8, 9, 11, 13, 15, 17, then 20; 20 remains from 300,000 upward. Lequ SRC19 mirrors the prose and is not independent. | Enforced before AP deduction in E.startMarch; capture follows battle settlement. Fame/cap UI updates. Save v07 unchanged. | B / dated Chinese player guide; English/EU parity unverified |
+| R24 | Per-mine base resource yield | SRC20 says Gold mine 200/hour; sawmill/quarry (Wood/Ore) 40/hour; Sulfur/Crystal 20/hour. No per-level multiplier stated. | Economy tick adds fixed yield per owned mine, independent of map tile level. Castle Spell interaction remains unverified. | B / dated Chinese player guide; regional/patch variance possible |
+
 ## Verification boundary
 
 - HG-08 Node/browser tests prove only deterministic behavior in this standalone implementation.
@@ -86,6 +89,7 @@
 - [SRC17 — Heroes experience and Castellan guide](https://heroesofgaia.fandom.com/wiki/Heroes)
 - [SRC19 — Lequ publisher-hosted Human troop guide (2010-11)](https://www.lequ.com/yxzc/201011/8592.html)
 - [SRC20 — 17173 Human troop guide (2009-12-27)](https://web.17173.com/content/2009-12-27/1261927948.shtml)
+- [SRC39 — 17173 Chinese Fame, mine output and troop guide (2009-12-27)](https://web.17173.com/content/2009-12-27/1261927948.shtml)
 - [SRC21 — Hero quality community reference](https://heroesofgaia.fandom.com/wiki/Hero_quality)
 - [SRC22 — Lequ/SNSFun four-race overview (2010-10)](https://www.snsfun.com/yxzc/201010/7753.html)
 
@@ -105,3 +109,11 @@
 - [SRC37 — Sina notice: 2010-04-02 recruitment-time update](https://games.sina.com.cn/o/z/yxzc/2010-04-01/1648369258.shtml)
 - [SRC38 — 17173 guide on hero quality and Tavern levels (2010-03-07)](https://web.17173.com/content/2010-03-07/1267976868.shtml)
 - [SRC10 — 17173 early castle-development guide (2009-03-25)](https://web.17173.com/content/2009-03-25/20090325160208282.shtml)
+
+## SRC39 mine cap and production implementation — 2026-11-02
+
+- The dated 17173 table (lines 243–264) is the numeric source for Fame and mine limits: 5 at Fame 5/200/800; 6 at 2,200; 7 at 5,800; 8 at 11,500; 9 at 21,000; 11 at 33,000; 13 at 54,000; 15 at 80,000; 17 at 150,000; and 20 at 300,000/500,000/700,000/1,000,000.
+- The guide says each castle initially may hold five mines and lists per-mine output: Gold 200/hour; Wood/Ore 40/hour; Sulfur/Crystal 20/hour.
+- Lequ's publisher-hosted 2010 page repeats these broad statements but is substantially the same article; do not count it as independent corroboration.
+- This is a Chinese-edition player-guide rule, not an original-client observation or evidence of English/EU parity. No per-level output multiplier was added. Mine spell bonuses remain unverified.
+- Tests cover Fame boundaries, no-spend over-cap rejection, UI lock/unlock and AP spend, resource-rate deltas and v07 mine save/load.

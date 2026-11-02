@@ -1,0 +1,80 @@
+PASS version and isolated key
+PASS 4 races and 40 unique troops
+PASS HG08 evidence matrix has one row for every catalog troop
+PASS HG08 unlock matrix names match the canonical 40-unit catalog
+PASS HG08 edition crosswalk maps every catalog ID and preserves localized labels
+PASS 5 original resources
+PASS troop point formula
+PASS new game all races valid
+PASS candidate slots at recorded level gates
+PASS candidate hire exactly once
+PASS hire rejects insufficient gold without removing offer
+PASS tavern hourly refresh
+PASS tavern multi-hour refresh catchup
+PASS tavern empty offers preserved across save
+PASS resource basic positive and capped
+PASS AP exactly once at same wall time
+PASS Market and Bazaar can be built as queue
+PASS no second construction until finished
+PASS Town Hall caps each race recruitment building without charging on rejection
+PASS construction once, no duplication
+PASS Castellan INT adds gold output
+PASS hero equipment influences combat stats
+PASS market cannot sell without building
+PASS market sell after build and gold capacity
+PASS bazaar buys real inventory
+PASS seven-slot formation supports duplicate unit types
+PASS cannot assign beyond available army
+PASS march AP deduction and battle opening
+PASS battle manual retreat keeps losses
+PASS Ranged auto-target selects the strongest modeled stack across distance
+PASS automatic melee selects highest modeled power in the nearest group and records the choice
+PASS valid native v07 export/import
+PASS v05 migration without mutating input
+PASS tampered save rejected
+PASS invalid candidate ids rejected
+PASS no direct import of unknown save version
+PASS pathfinding returns adjacent valid tiles
+PASS HG07 source table has exact base levels
+PASS HG07 formation at limit allowed, excess atomic reject
+PASS HG07 respects hero level after switching commander
+PASS HG08 migrates over-cap v07 formation and still blocks march
+PASS HG07 no-formation auto selection checks cap before AP
+PASS HG07 rejects invalid levels, no automatic bonus
+PASS HG08 gates every troop row and labels unresolved faction rows
+PASS Human Scout uses dated SRC27 Barracks 2 and Scouting 1 while Town Hall remains partial
+PASS Elf Centaur uses its dated source-listed Barracks 1 gate with secondary confidence C
+PASS Orc Thunderbird uses the four source-listed gates with secondary confidence C
+PASS HG08 all 40 rows accept their explicitly listed gates and start real queues
+PASS HG08 every listed gate blocks recruitment without spending or queue mutation
+PASS Undead recruits from Graveyard and old Barracks progress migrates safely
+PASS Human tier 3 requirements use Hall, Barracks and the canonical Bootcamp spell level
+PASS HG08 applies derived Scouting gate to all faction tier-2 scout units atomically
+PASS Human T4/T5 support buildings and Manufacturing gates are enforced atomically
+PASS Bootcamp research uses one canonical spell queue and completes exactly once
+PASS Technology rejection does not spend resources or mutate research queue
+PASS Castellan gains unit-value/3 experience only when training completes
+PASS Hero XP exact early thresholds, point award and allocation
+PASS Hero XP level 20 formula and level 100 cap
+PASS v06 migration preserves hero progress and does not award old levels
+PASS Manufacturing legacy spell level remains recognized by requirements and discounts
+PASS Bootcamp and Manufacturing apply the documented two-percent per level to recruitment
+PASS Hero allocation blocked during march or battle
+PASS Invalid HG08 research queue rejected by save validator
+PASS Faction-specific source buildings are buildable only in their race build list
+PASS Tavern name/stat colors follow dated and community threshold evidence
+PASS Tavern level 10 refresh creates eight source-band heroes and persisted derived colors
+PASS Automatic hourly Tavern refresh applies the current Tavern level model
+PASS Arena rehabilitation charges one-seventh unit value and runs at three-fifths training speed
+PASS Undead Reincarnation shortens Arena treatment only when equipped to the defending Castellan
+PASS Arena healing rejects insufficient funds without consuming wounded or queueing work
+PASS HG07 v07 saves without the newer Arena queue migrate without losing data
+PASS Equal-speed combat initiative follows left-to-right battlefield position
+PASS Advance order moves without attacking and persists through save/load
+PASS Ranged stacks fire across deployment distance without invented movement turns
+PASS Published NPC battle example truncates the 47,897.94 result to 47,897
+PASS Casualty and Arena wound ledger are exact and never negative
+PASS A completed NPC target cannot be settled or rewarded twice
+PASS Mid-battle HG08 save resumes with the same positions, initiative and outcome
+PASS 1000 seeded tactical encounters replay identically with valid ledgers
+TOTAL 79/79 PASS

@@ -1,0 +1,73 @@
+Browser executable: C:\Program Files\Google\Chrome\Application\chrome.exe
+PASS Intro title
+PASS No JS exception on intro
+PASS 4 race selection buttons
+PASS New game respects selected race
+PASS Top resource bar contains 5 resources
+PASS World canvas visible
+PASS World map 28 � 18
+PASS City canvas visible
+PASS Elf city exposes its attested race buildings
+PASS Market selectable as construction
+PASS Build queue created, level not instant
+PASS Construction progress shown
+PASS Market completes after tick
+PASS Market sale transaction works
+PASS Town Hall cap disables Barracks upgrade at the current hall level
+PASS Upgrading Town Hall removes the Barracks UI cap
+PASS Newly unlocked Barracks level enters its real construction queue
+PASS Tavern candidate cards visible
+PASS Tavern hero quality is calculated from candidate stats
+PASS Hire removes only selected candidate
+PASS Hire adds hero to roster
+PASS Castellan can be appointed
+PASS Elf Centaur uses its cited tier-one Barracks gate and shows C provenance
+PASS Tier-2 elf scout is locked before its Barracks tier
+PASS Tier-2 elf scout still requires Scouting after Barracks 2
+PASS Scout lock icon matches disabled recruit action
+PASS Elf Scout gate note retains its cross-version scope
+PASS Real troop training queue starts
+PASS Completed troop training awards Castellan XP and level
+PASS Bootcamp prerequisite is a real canonical Magic Tower spell action
+PASS Research starts without applying its level early
+PASS Research completes at its queue boundary
+PASS Unspent hero attribute point changes combat stat
+PASS Save stored under v07 key
+PASS Reload restores race, buildings, heroes and research
+PASS Reload retains selected Castellan
+PASS Browser exports valid JSON
+PASS Browser import restores resources
+PASS Browser import restores Tavern roster
+PASS Real march opens a tactical encounter
+PASS Battle presents actual allied and enemy stacks
+PASS Attack command advances a real combat turn
+PASS Ranged attack changes enemy HP from deployment
+PASS Combat turn records deterministic initiative order
+PASS Enemy auto-attack targets and displays the highest modeled combat-power stack
+PASS Ranged auto-attack targets strongest enemy across distance
+PASS Advance control moves the selected melee stack without damaging the target
+PASS Advance remains non-attacking when the unit reaches its target
+PASS Attack order deals damage after the advanced unit reaches melee range
+PASS Arena cites 60-80 percent wounds and source-era price and speed
+PASS Arena treatment deducts the cited gold and queues real wounded troops
+PASS Save reload preserves an in-progress Arena treatment
+PASS Arena queue returns treated troops when its 3/5 speed timer completes
+PASS Undead Reincarnation is a pre-Babel Castellan skill
+PASS Reincarnation is researched and equipped on the appointed Castellan
+PASS Castellan Reincarnation reduces the actual Arena treatment timer
+PASS Human Scout note identifies SRC27 gates and unresolved Town Hall
+PASS Thunderbird exposes secondary-source gates and stays locked until all are met
+PASS Thunderbird unlocks after its cited buildings and training gate are met
+PASS Undead castle exposes Graveyard and faction-specific support structures
+PASS Undead recruitment UI names Graveyard and its level gate
+PASS Undead Graveyard starts real Skeleton recruitment queue
+PASS Mobile intro readable
+PASS Mobile world canvas visible
+PASS Mobile Tavern displays candidate controls
+PASS Mobile city canvas visible
+PASS 7 formation slots render
+PASS 40 troop cards show real prerequisite state
+PASS HG08 cap visible in army UI
+PASS HG08 progression and capacity libraries active
+PASS No unhandled browser JS errors
+BROWSER TOTAL 71/71 PASS; JS exceptions=0

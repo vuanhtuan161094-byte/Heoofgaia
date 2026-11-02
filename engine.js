@@ -27,8 +27,9 @@ function rate(s){let out={...BASE_HOURLY};
  for(const [key,spell] of Object.entries(C.spells)){
   const level=s.spells[key]||0;if(level&&spell.res) out[spell.res]=(out[spell.res]+spell.base*level)*(1+spell.rate*level);
  }
- // prototype owned mines: +1 basic base rate each, source confirms mine bonuses but not amounts
- for(const m of s.mines){if(out[m.res]!==undefined)out[m.res]+=(m.res==='gold'?80:m.res==='wood'||m.res==='ore'?9:5)*m.level}
+ // Captured-mine output follows the dated Chinese guide SRC39. Per-level scaling is not documented.
+ const mineHourly={gold:200,wood:40,ore:40,sulfur:20,crystal:20};
+ for(const m of s.mines){if(out[m.res]!==undefined)out[m.res]+=mineHourly[m.res]}
  // Hero INT increases only the basic Town Hall gold. Fandom's 2/3 percent per point is
  // community-reported and differs from an early Wikidot approximation; provisional.
  const castellan=s.heroes.find(h=>h.id===s.castellan);

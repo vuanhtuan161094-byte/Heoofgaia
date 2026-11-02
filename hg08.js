@@ -6,7 +6,7 @@
 'use strict';
 const E=root.HOG_ENGINE;
 if(!E||E.V!==6)throw Error('HG08 requires HG06/HG07');
-const prior={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.parseSave,serialize:E.serializeSave,
+const prior={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.parseSave,serialize:E.serializeSave,startMarch:E.startMarch,
  recruit:E.recruit,battleAct:E.battleAct,hire:E.hireCandidate,refreshTavern:E.refreshTavern,learn:E.learn};
 const V=7,KEY='heoofgaia_hg_only_v07';
 const XP_TO_NEXT=[150,369,653,990,1371,1793,2252,2745,3270,3824,4407,5018,5654,6315,7001,7710,8441,9194,9968];
@@ -28,6 +28,15 @@ const HUMAN={
  10:{buildings:{hall:10,barracks:10,stables:9,blacksmith:10},spells:{manufacturing:9,bootcamp:9},sourceStatus:'OBSERVED',source:'SRC19; SRC20'}
 };
 const SECONDARY={elf:{elf_1:{buildings:{barracks:1},spells:{},sourceStatus:'SECONDARY',source:'SRC28'}},orc:{orc_7:{buildings:{barracks:7,beastPen:4,blacksmith:4},spells:{bootcamp:6},sourceStatus:'SECONDARY',source:'SRC26'}}};
+const FAME_MINE_CAPS=Object.freeze([[0,5],[2200,6],[5800,7],[11500,8],[21000,9],[33000,11],[54000,13],[80000,15],[150000,17],[300000,20],[500000,20],[700000,20],[1000000,20]]);
+const MINE_HOURLY=Object.freeze({gold:200,wood:40,ore:40,sulfur:20,crystal:20});
+function mineLimit(s){
+ const fame=typeof s==='number'?s:s?.fame;
+ if(!Number.isFinite(fame))return 5;
+ let allowed=5;
+ for(const [threshold,count] of FAME_MINE_CAPS){if(fame>=threshold)allowed=count;else break;}
+ return allowed;
+}
 const attrKeys=['atk','def','spd','int'];
 function obj(v){return !!v&&typeof v==='object'&&!Array.isArray(v)}
 function ensure(s){
@@ -194,6 +203,11 @@ function tick(s,now=Date.now()){
  const q=s.researchQueue;if(q){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)finishResearch(s)}
  return s;
 }
+function startMarch(s,key){
+ const tile=E.getTile(key);
+ if(tile?.kind==='mine'&&(s.mines?.length||0)>=mineLimit(s))throw Error('Đã đạt hạn mức '+mineLimit(s)+' mỏ theo danh vọng '+E.fmt(s.fame)+'.');
+ return prior.startMarch(s,key);
+}
 function valid(s){
  if(!s||s.version!==V||!prior.valid({...s,version:6}))return false;
  if(!obj(s.spells)||Object.keys(s.spells).some(k=>!E.C.spells[k]))return false;
@@ -225,8 +239,8 @@ function serialize(s){if(!strict(s))throw Error('Save HG08 không hợp lệ');r
 function make(...args){const s=prior.make(...args);s.version=V;return ensure(s)}
 function hireCandidate(s,id){const result=prior.hire(s,id);ensure(s);return result}
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
-E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.valid=valid;
-Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,
+E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.valid=valid;
+Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,MINE_HOURLY,mineLimit,
  ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});

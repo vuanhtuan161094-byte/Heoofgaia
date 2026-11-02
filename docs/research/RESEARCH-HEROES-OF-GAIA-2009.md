@@ -111,3 +111,16 @@ The historical articles and wiki pages are **documentary research**. Node/Chromi
 - For Human Scout, `SRC04` supports the Scouting-1 gate and `SRC03` supports a Barracks-level unlock model. Because the cited Human table omits Scout, the exact Town Hall requirement is not enforced or claimed as observed; its status is partial.
 - Current contemporary sources and the older English wiki are a mixed 2009–2010 snapshot. Exact patch parity and international localization equivalence remain unverified. See `docs/research/HG08-EVIDENCE-REGISTER.md` and `docs/research/HG08-TROOP-UNLOCK-MATRIX.md` for row-level coverage.
 - HG-09 uses SRC23's dated equal-speed position order: actors are first sorted by speed descending, then by battlefield x/y (left-to-right, top-to-bottom). SRC24 describes ranged stacks firing at the strongest enemy but supplies no numeric reach; HG-09's board-wide reach is a local playable approximation. The exact unit damage formula, AI in all contexts, Stand By modifier, focus multiplier, NPC stats and encounter timer remain provisional unless a source row explicitly says otherwise. The live browser capture is in `docs/evidence/hg09/`.
+
+## SRC39 — Fame mine caps and captured-mine output (2026-11-02)
+
+[17173, 2009-12-27, player-submitted Chinese guide](https://web.17173.com/content/2009-12-27/1261927948.shtml), especially lines 21–24 and 243–264:
+
+| Rule | Printed guide values | Status/confidence |
+|---|---|---|
+| Starting occupied mines | 5 | Existing new-game behavior; B for dated regional guide |
+| Mine count by Fame | 5 at 5/200/800; 6 at 2,200; 7 at 5,800; 8 at 11,500; 9 at 21,000; 11 at 33,000; 13 at 54,000; 15 at 80,000; 17 at 150,000; 20 at 300,000, 500,000, 700,000 and 1,000,000 | Implemented as FAME_MINE_CAPS; B, Chinese guide; English/EU equivalence unverified |
+| Raw yield per captured mine | Gold 200/hour; Wood/Ore 40/hour; Sulfur/Crystal 20/hour | Implemented as flat per-mine output. No per-level scaling in source; mine spell multiplier remains unverified. B |
+| Same article on Lequ | Repeats broad resource/cap prose | Publisher-hosted 2010 context but near-verbatim, not independent confirmation |
+
+These numeric rules are from a contemporary player guide, not recovered code or original-client observation. They remain region-tagged. An over-cap march is rejected before AP deduction; captured-mine output is derived from persisted ownership records during the economy tick, with no save schema/key change.

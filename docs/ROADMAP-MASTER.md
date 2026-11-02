@@ -29,3 +29,12 @@ These are future target directories, not proof that modularized code already exi
 ## Target gates
 One game session must support: create race/city â†’ gather resources â†’ build/upgrade/research â†’ recruit a hero â†’ recruit all eligible troops â†’ assign squads within hero command capacity â†’ march â†’ fight â†’ suffer wounded/losses â†’ loot â†’ return/occupy mine â†’ save/close/reload without duplicated rewards. Later add multiple cities and online features without breaking offline play.
 
+
+## Latest verified continuation — mine cap and production — 2026-11-02
+
+- Branch: feature/hog1-research-to-playable-20261102; local standalone repo has no remote.
+- Source: 17173 Chinese guide dated 2009-12-27 (SRC39), cross-referenced with a near-verbatim Lequ-hosted copy. Regional player-guide rule, confidence B; not an original-client observation.
+- Runtime: Fame cap rejects new mine marches before AP deduction; captured mines add source-listed fixed hourly amounts; v07 save/load derives income from persisted mine ownership.
+- Regression: Node 83/83, Chrome 77/77 with 0 exceptions, file:// 12/12, JS syntax 9/9, offline build 153,333 characters.
+- Original client, non-Human numeric gates, original art and English/EU parity remain unresolved. HG-08 to HG-12 are incomplete; HG-13 is not started.
+- See docs/qa/HG08_HG13_ACCEPTANCE.md, docs/research/HOG1_SOURCE_AUDIT.md and CURRENT_HG_CHECKPOINT.md.

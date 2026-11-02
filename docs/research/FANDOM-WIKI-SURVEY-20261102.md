@@ -84,3 +84,8 @@ Coverage is still **PARTIAL**. The full Fandom article/revision census remains u
 ## Dated Tavern quality cross-check — 2026-11-02
 
 The 17173 [2010-03-07 hero-quality guide](https://web.17173.com/content/2010-03-07/1267976868.shtml) reports aggregate hero-stat color bands and states that higher Tavern level is a prerequisite for better heroes and increases their chance. Its White range (≤125) and Blue range (125–160) overlap at 125; the living Fandom [Hero quality](https://heroesofgaia.fandom.com/wiki/Hero_quality) table says 125 or less is White, so the current `nameColor` threshold keeps 125 White. The dated Chinese guide caps ordinary individual stats at 70 and reports Purple totals through 280; Fandom describes 201+ Purple and has no stated maximum in the excerpt. Neither source gives a reliable Tavern rarity distribution. These sources support checking color thresholds, not the deterministic candidate generator or any probability.
+
+
+## Partial-scope reminder and dated cross-reference — 2026-11-02
+
+This Fandom survey is NOT exhaustive: the index reports 608 articles; direct full-page enumeration was blocked, and this project has reviewed selected indexed/search-accessible topics only. Do not describe this as reading the full site. Fame mine caps and yields added on 2026-11-02 come from dated Chinese 17173/Lequ guides (SRC39), not from Fandom; they do not establish English-client parity. See HOG1_SOURCE_AUDIT.md for original-source recovery status.

@@ -28,3 +28,12 @@ node qa-engine.cjs
 - `docs/CURRENT_HG_CHECKPOINT.md` — exact working state and next task.
 
 The primary reference is Heroes of Gaia only. Unverified mechanics remain marked as simulated or missing. HG02–HG07 save data is migrated to the v07 key `heoofgaia_hg_only_v07`; migration preserves hero level/EXP and does not grant retroactive attribute points.
+
+
+## Current research and acceptance
+
+- docs/research/HOG1_SOURCE_AUDIT.md records the original client/server/asset leads; no HOG1 source file is recovered.
+- docs/qa/HG08_HG13_ACCEPTANCE.md records stage status and acceptance evidence.
+- docs/research/HG08-EVIDENCE-REGISTER.md records dated sources and confidence.
+- The current map economy uses the documented Chinese-guide Fame mine cap and per-mine yields; regional parity and mine spell multipliers remain unverified.
+- Current screenshots show the prototype UI, not a side-by-side match to the original. Fandom survey coverage is partial, not all 608 pages.

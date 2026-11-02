@@ -1,6 +1,6 @@
 {
-  "total": 71,
-  "passed": 71,
+  "total": 77,
+  "passed": 77,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -30,6 +30,10 @@
     },
     {
       "name": "World map 28 × 18",
+      "passed": true
+    },
+    {
+      "name": "World map shows the Fame-based five-mine starting cap",
       "passed": true
     },
     {
@@ -70,6 +74,26 @@
     },
     {
       "name": "Newly unlocked Barracks level enters its real construction queue",
+      "passed": true
+    },
+    {
+      "name": "Five captured mines add the dated resource output independent of map level",
+      "passed": true
+    },
+    {
+      "name": "Full mine cap disables the real world-map march action",
+      "passed": true
+    },
+    {
+      "name": "Blocked mine march leaves AP and march state unchanged",
+      "passed": true
+    },
+    {
+      "name": "Fame 2,200 unlocks the sixth mine slot in UI",
+      "passed": true
+    },
+    {
+      "name": "Unlocked mine button launches a real march and spends 6 AP once",
       "passed": true
     },
     {

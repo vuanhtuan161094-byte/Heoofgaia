@@ -1,0 +1,2 @@
+node: v24.19.0
+python: Python 3.12.10

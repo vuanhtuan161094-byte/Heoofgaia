@@ -1,0 +1,12 @@
+PASS file:// HTML opens in Chromium
+PASS Game starts from local file
+PASS file:// save is written under v07 key
+PASS file:// reload restores the selected race
+PASS file:// reload preserves the v07 save
+PASS file:// Arena starts a paid recovery queue
+PASS file:// reload resumes Arena queue and countdown
+PASS No page errors during file launch and reload
+PASS New browser process reload restores saved race
+PASS New browser process retains v07 save
+PASS New browser process resumes persisted Arena recovery
+PASS No page errors after persistent-profile restart
