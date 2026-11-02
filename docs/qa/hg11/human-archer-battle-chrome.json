@@ -1,0 +1,125 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg11-human-archer-chrome.py",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "game": "Anh Hùng Thời Loạn",
+  "sourceMode": "standalone local file:// HTML in installed Chromium",
+  "fixtureDisclosure": "A Human save is created through the intro. Hall/Barracks 3, Warehouse 10, Bootcamp 1 and capped prerequisite resources are seeded to skip construction/research. The recruit control queues real Archers and spends real resources; the actual engine tick is advanced by the queue's remaining duration so the real completion path delivers the stack. Formation, map click, March, NPC battle, sprite draw and v07 Save/Reload use the actual application. Enemy flip is checked separately with an isolated cloned renderer snapshot; it is not represented as gameplay.",
+  "total": 16,
+  "passed": 16,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline game opens with Anh Hùng Thời Loạn title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Human kingdom starts in the actual game",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Archer unlock fixture has the modeled prerequisites and loaded runtime sprite",
+      "passed": true,
+      "detail": "{\"requirements\": {\"unitId\": \"human_3\", \"checks\": [{\"kind\": \"building\", \"key\": \"hall\", \"level\": 3, \"actual\": 3}, {\"kind\": \"building\", \"key\": \"barracks\", \"level\": 3, \"actual\": 3}, {\"kind\": \"spell\", \"key\": \"bootcamp\", \"level\": 1, \"actual\": 1}], \"unmet\": [], \"available\": true, \"confidence\": \"A*\", \"status\": \"OBSERVED\", \"source\": \"SRC19; SRC20\"}, \"spriteReady\": true}"
+    },
+    {
+      "name": "Human Archer has an enabled real recruitment control",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Recruit button spends resources and creates a real 16-Archer training queue",
+      "passed": true,
+      "detail": "{\"unitId\": \"human_3\", \"count\": 16, \"remaining\": 3764, \"gold\": 268240, \"strict\": true}"
+    },
+    {
+      "name": "Real engine tick completes the queue and delivers 16 Archers to the city",
+      "passed": true,
+      "detail": "{\"count\": 16, \"queue\": 0, \"strict\": true}"
+    },
+    {
+      "name": "Army form commits the recruited Archers to the march formation",
+      "passed": true,
+      "detail": "{\"unitId\": \"human_3\", \"count\": 16}"
+    },
+    {
+      "name": "World-map click selects the actual nearby Wolves NPC",
+      "passed": true,
+      "detail": "Trại Wolves · 1★ · (5,6)"
+    },
+    {
+      "name": "March control dispatches the saved Archer formation",
+      "passed": true,
+      "detail": "{\"target\": \"5,6\", \"formation\": \"human_3\", \"armyCount\": 16, \"ap\": 108.02}"
+    },
+    {
+      "name": "Natural NPC arrival opens a tactical battle",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Loaded Human Archer is drawn into the real battle canvas",
+      "passed": true,
+      "detail": "{\"battle\": true, \"target\": \"5,6\", \"phase\": \"tactical-battle\", \"units\": [{\"unitId\": \"human_3\", \"count\": 16}], \"draws\": 1, \"imageReady\": true, \"actualUiMarch\": true, \"saveVersion\": 7, \"key\": true}"
+    },
+    {
+      "name": "Live battle contains the UI-recruited Archer stack",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Live dispatch and battle retain the v07 save key and schema",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Renderer-only cloned battle check flips enemy Archer art horizontally",
+      "passed": true,
+      "detail": "{\"available\": true, \"draws\": 2, \"enemyHorizontalFlip\": true, \"scales\": [1, -1]}"
+    },
+    {
+      "name": "v07 Save/Reload preserves the Human Archer battle and formation",
+      "passed": true,
+      "detail": "{\"version\": 7, \"race\": \"human\", \"battle\": true, \"formation\": \"human_3\", \"battleUnit\": true, \"key\": true, \"imageReady\": true}"
+    },
+    {
+      "name": "No JavaScript exceptions occur in the offline Archer flow",
+      "passed": true,
+      "detail": "[]"
+    }
+  ],
+  "humanArcherRuntime": {
+    "battle": true,
+    "target": "5,6",
+    "phase": "tactical-battle",
+    "units": [
+      {
+        "unitId": "human_3",
+        "count": 16
+      }
+    ],
+    "draws": 1,
+    "imageReady": true,
+    "actualUiMarch": true,
+    "saveVersion": 7,
+    "key": true
+  },
+  "enemyRendererCheck": {
+    "available": true,
+    "draws": 2,
+    "enemyHorizontalFlip": true,
+    "scales": [
+      1,
+      -1
+    ]
+  },
+  "artifacts": {
+    "human-archer-npc-battle-chrome.png": {
+      "sha256": "754331DC407C6FC99053FBFBEE5BA657298289BFB68A1F87D935D17358E48D1F",
+      "bytes": 437821,
+      "resolution": "1440x1305"
+    }
+  }
+}

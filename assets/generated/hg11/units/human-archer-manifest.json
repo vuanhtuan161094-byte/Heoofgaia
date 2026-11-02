@@ -1,0 +1,108 @@
+{
+  "schema": "hog1-unit-art-v1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "assetId": "HOG1-HG11-HUMAN-ARCHER-MASTER-v1",
+  "unitId": "human_3",
+  "historicalIdentity": "Human tier 3 Archer, ranged; SRC02 2009-12-06 community catalog. Name/stat crosswalk is documented in HG08-UNIT-VERSION-CROSSWALK.md.",
+  "sourceEvidence": {
+    "id": "SRC02",
+    "sourceUrl": "https://heroesofgaia.wikidot.com/game-units",
+    "sourceVersion": "page revision 19, 2009-12-06",
+    "recordedUnit": "Archer; Human; tier 3; ranged",
+    "confidence": "A for printed community roster identity; not an original server export or proof of regional parity"
+  },
+  "status": "RECREATED",
+  "provider": "ChatGPT image_gen.imagegen",
+  "generationPrompt": "assets/generated/hg11/units/prompts.md#human-archer-sprite-master-prompt",
+  "sourceImageId": "exec-4921f926-9d2d-4552-9593-4950dc027f89.png",
+  "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-4921f926-9d2d-4552-9593-4950dc027f89.png",
+  "sourceRoute": "Generated independently from text; no historical screenshot, original game art, or external image supplied as input.",
+  "generationTimestamp": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "generationCost": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "licenseAssessment": "Project-created AI output with no supplied third-party image input. No original commercial HOG1 artwork is included. Commercial redistribution terms have not been independently adjudicated; this manifest does not grant third-party rights.",
+  "master": {
+    "projectPath": "assets/generated/hg11/units/human-archer-master.png",
+    "resolution": "1254x1254",
+    "bytes": 881311,
+    "sha256": "3F16AB3C5716EE189A23BC8DD72C3603A725FBDC674A9446563A598AF463A9F1",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      347,
+      8,
+      1006,
+      1227
+    ]
+  },
+  "cleanedMaster": {
+    "projectPath": "assets/generated/hg11/units/human-archer-master-clean.png",
+    "resolution": "1254x1254",
+    "bytes": 1050882,
+    "sha256": "8FE4E66400E3967E0B11D623425FF2EC107F4A7B70695F01BD933A746C9CC073",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      347,
+      6,
+      1006,
+      1228
+    ],
+    "processing": "Largest opaque 8-connected figure retained; a two-pixel antialiased edge rebuilt from neighboring subject colors. Raw image-generation master remains unchanged."
+  },
+  "runtime": {
+    "projectPath": "assets/generated/hg11/units/human-archer.png",
+    "resolution": "512x512",
+    "bytes": 115219,
+    "sha256": "A362600405812EE5529A29A7468F279389BBF8B2985E2DA1F8A36DAE1E8499C0",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      153,
+      66,
+      357,
+      445
+    ],
+    "trimAndScale": "tools/process-hg11-unit-sprite.ps1 crops the cleaned alpha>=8 bounds [347,6,1006,1228], then high-quality bicubic resizes the full figure to 205x380 and centers it on a 512x512 transparent canvas at (153,66).",
+    "pivotPixels": [
+      256,
+      446
+    ],
+    "pivotNormalized": [
+      0.5,
+      0.87109375
+    ]
+  },
+  "states": {
+    "masterCreated": true,
+    "transparentAlphaVerified": true,
+    "singleCharacterReviewed": true,
+    "runtimeExported": true,
+    "integratedInBattle": true,
+    "enemyFlipVerified": true,
+    "animationFrames": 0,
+    "saveLoadVerified": true
+  },
+  "qualityGate": {
+    "alphaScan": "PASS: PNG scan confirmed RGBA alpha range 0–255 and recorded alpha>=8 visible bounds for raw, cleaned and runtime files.",
+    "readabilityAtBattleScale": "PASS: actual offline Chrome capture shows the Archer stack at the battle renderer's 90x90 draw box.",
+    "battleRender": "PASS: actual UI recruitment, training completion, formation and NPC battle produced 1 Human Archer drawImage calls.",
+    "enemyFlip": "PASS: an isolated cloned battle snapshot drew enemy Archer art under a negative horizontal canvas transform; this is renderer-only QA.",
+    "saveLoadImpact": "PASS: presentation-only; actual v07 Save/Reload retained the Human Archer battle, deployed formation, stack and image asset."
+  },
+  "battleEvidence": {
+    "screenshot": "docs/evidence/hg11/human-archer-npc-battle-chrome.png",
+    "resolution": "1440x1305",
+    "sha256": "754331DC407C6FC99053FBFBEE5BA657298289BFB68A1F87D935D17358E48D1F",
+    "receipt": "docs/qa/hg11/human-archer-battle-chrome.json",
+    "chromeSpriteDraws": 1
+  }
+}
