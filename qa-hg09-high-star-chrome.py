@@ -1,4 +1,4 @@
-"""Real Chrome acceptance of source-coordinate 5-star NPC gameplay and XP."""
+"""Real Chrome acceptance of dated NPC force conflicts and five-star gameplay/XP."""
 import hashlib
 import json
 import sys
@@ -14,6 +14,7 @@ QA = ROOT / "docs" / "qa" / "hg09"
 BATTLE_SHOT = EVIDENCE / "npc-five-star-battle-chrome.png"
 HERO_SHOT = EVIDENCE / "npc-five-star-xp-chrome.png"
 TARGET_SHOT = EVIDENCE / "npc-five-star-target-chrome.png"
+TARGET8_SHOT = EVIDENCE / "npc-eight-star-force-sources-chrome.png"
 REPORT = QA / "npc-five-star-sites-chrome.json"
 EVIDENCE.mkdir(parents=True, exist_ok=True)
 QA.mkdir(parents=True, exist_ok=True)
@@ -48,6 +49,15 @@ with sync_playwright() as p:
     })()""")
     check("QA fixture retains v07 and exposes all 33 sourced high-star sites",
           seeded == {"version": 7, "force": 1250000, "camps": 33}, json.dumps(seeded, ensure_ascii=False))
+    eight_key = page.evaluate("HOG_ENGINE.NPC_CAMPS_2009.find(c=>c.stars===8).key")
+    eight_site = page.locator(f'[data-action="select"][data-key="{eight_key}"]')
+    check("8-star camp at its dated coordinate is directly selectable", eight_site.count() == 1, eight_key)
+    eight_site.click()
+    eight_info = page.locator("#main").inner_text()
+    check("8-star panel preserves 1.2M SRC47 and later approx. 1.5M SRC45 as separate dated reports",
+          "SRC47" in eight_info and "1.200.000" in eight_info and "SRC45" in eight_info and "1.500.000" in eight_info and "ước tính khác ngày" in eight_info,
+          eight_info[:500].replace("\n", " | "))
+    page.screenshot(path=str(TARGET8_SHOT), full_page=True)
     site = page.locator('[data-action="select"][data-key="98,27"]')
     check("5-star camp at (98,27) is directly selectable from the world panel", site.count() == 1, site.inner_text() if site.count() else "missing")
     site.click()
@@ -101,7 +111,7 @@ with sync_playwright() as p:
 
 passed = sum(item["passed"] for item in checks)
 receipt = {
-    "suite": "HG-09 five-star NPC site and XP",
+    "suite": "HG-09 NPC force-source conflict and five-star site/XP gameplay",
     "source": "Installed Google Chrome opening the exact offline standalone HTML with file://. QA seeds only hero/tower/army values; high-star site selection, March action/AP, v07 persistence, travel tick, NPC battle, Attack action, source reward and reload use the game UI/runtime. Enemy roster and battle stats remain modeled and are not validated against original data.",
     "total": len(checks),
     "passed": passed,
@@ -110,7 +120,7 @@ receipt = {
     "checks": checks,
     "screenshots": [
         {"path": str(path.relative_to(ROOT)).replace("\\", "/"), "sha256": hashlib.sha256(path.read_bytes()).hexdigest()}
-        for path in [TARGET_SHOT, BATTLE_SHOT, HERO_SHOT] if path.exists()
+        for path in [TARGET8_SHOT, TARGET_SHOT, BATTLE_SHOT, HERO_SHOT] if path.exists()
     ],
 }
 REPORT.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

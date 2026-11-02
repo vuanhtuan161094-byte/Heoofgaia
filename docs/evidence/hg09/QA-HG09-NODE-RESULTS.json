@@ -126,7 +126,7 @@
       "passed": true
     },
     {
-      "name": "SRC46/SRC47 restore all dated NPC coordinates, star ranks and guide force values on the 100x100 map",
+      "name": "SRC45/SRC46/SRC47 restore historical NPC coords and preserve dated force conflicts",
       "passed": true
     },
     {

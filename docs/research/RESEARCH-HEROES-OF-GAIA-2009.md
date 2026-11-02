@@ -1,6 +1,6 @@
 # Hẻoofgaia — HG06 evidence dossier: Heroes of Gaia only
 
-**Research cut-off:** 2026-11-02. **Target baseline:** 2009–early-2010 *Heroes of Gaia* (北美) / *Castle of Heroes* (EU) / *英雄之城* (China), developed by Snail Games. **Not** Call of Gods, Fengshen Wudi, or the distinct modern website at castleofheroes.com.
+**Research cut-off:** 2026-11-03. **Target baseline:** 2009–early-2010 *Heroes of Gaia* (北美) / *Castle of Heroes* (EU) / *英雄之城* (China), developed by Snail Games. The playable Vietnamese title is **Anh Hùng Thời Loạn**. **Not** Call of Gods, Fengshen Wudi, or the distinct modern website at castleofheroes.com.
 
 **Scope & confidence terminology**
 - **A — observed in a dated 2009 primary-era player guide or data table**: strong evidence for that particular region/build, not guaranteed for all localized versions.
@@ -41,7 +41,7 @@
 | SRC42 | 2009-06-09 | Chinese / SFACG contemporary review and linked game screenshots | Describes the castle as a scenic 2D landscape with detailed buildings placed across a hillside; the Town Hall opens the building list; eligible building rows are highlighted; tutorial/tasks guide construction. Linked screenshot gallery includes live castle/world UI. | https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml ; https://games.sina.com.cn/o/i/2009-03-05/1638161736.shtml |
 | SRC43 | 2009-12-27 | Chinese / 17173 player guide | Windmill resource roll; Watermill +2,000 Gold; War Academy +10% Attack; Defense Tower +10% Defense; Enlightenment Book +10% Knowledge; Prayer Temple +10% Speed for two hours; prints the 100×100 coordinates for five Watermills and the listed structures | https://web.17173.com/content/2009-12-27/1261927948.shtml |
 | SRC44 | 2010-12-14 | Chinese / 17173 city-development article | Hero Tower level is a Tavern upgrade prerequisite; Tavern level affects offer count and quality. No exact gate level or probability table. | https://web.17173.com/content/2010-12-14/20101214101223733.shtml |
-| SRC45 | 2009-09-21 | Chinese / Sina player strategy guide | Reports NPC victory XP for 4★–8★ as 1,000 / 4,000 / 9,000 / 18,000 / 30,000; no 1★–3★ values | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
+| SRC45 | 2009-09-21 | Chinese / Sina player strategy guide | Reports NPC victory XP for 4★–8★ as 1,000 / 4,000 / 9,000 / 18,000 / 30,000. Also gives approximate NPC forces of 400,000 / 900,000 / 1,500,000 at 6★–8★, plus dated player-side troop-tier, force, hero-speed and broad-formation advice; it does not expose complete enemy rosters or stats. | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
 | SRC46 | 2009-07-27 | Chinese / Yeyou-17173 player-guide compilation, credited to GGwan | Gives minimum and “complete victory” army-force recommendations for 1★–8★ NPCs and 128 wild-monster coordinates; no troop compositions or NPC unit stats | https://article.yeyou.com/content/2009-07-27/20090727165411627_all.shtml |
 | SRC47 | 2009-08-23 | Chinese / Sina player guide | Reports 1★–8★ wild-monster guarding force as 1,800 / 4,200 / 15,000 / 45,000 / 150,000 / 360,000 / 720,000 / 1,200,000; no unit roster or battle stats | https://games.sina.com.cn/o/z/yxzc/2009-08-23/2233346760.shtml |
 
@@ -84,7 +84,8 @@
 | F33 | 100×100 coordinates and once-daily noncombat visits with resource rewards or two-hour hero buffs | SRC41, SRC43 | B | **HG-10 PARTIAL PASS:** ten guide-listed structures are selectable and their rewards/buffs alter live gameplay and saved state. UTC reset and immediate no-AP visit are models; original travel, visual assets and regional parity remain unverified |
 | F34 | NPC hero XP rewards by star | SRC45, SRC03 | B for the dated Chinese guide | **PARTIAL:** NPC wins use the reported 4★–8★ base XP and SRC03 Hero Tower multiplier. 1★–3★ and mine/castle rewards remain explicit models; XP rounding and international parity are unresolved |
 | F35 | Wild NPC stars, coordinates and recommended force | SRC46 | B for the dated Chinese guide compilation | **PARTIAL:** 128 listed sites and 1★–8★ advisory force bands are represented on the world map. Live travel and NPC battles work, and v07 saves preserve them. Enemy compositions/stats remain modeled; the recommendations are not hard gates; Chinese map instance and English/EU parity are unverified |
-| F36 | Reported NPC guarding force by star | SRC46, SRC47 | B for the dated Chinese guides | **PARTIAL:** Both source reports are shown separately in target info. They differ at 1★ and 2★ (SRC47 1,800/4,200 vs SRC46 minimum attack recommendations 1,500/4,000) and match at 3★–8★. No enemy composition/stat model is inferred from these values; version, formula and English/EU parity remain unresolved |
+| F36 | Reported NPC guarding force by star | SRC45, SRC46, SRC47 | B for these dated Chinese player reports | **PARTIAL:** SRC46 attack recommendations and SRC47 guard-force reports differ at 1★/2★ (1,500/4,000 vs 1,800/4,200) and match at 3★–8★; later SRC45 gives separate approximate 6★–8★ values (400,000/900,000/1,500,000), conflicting with SRC47 (360,000/720,000/1,200,000). UI preserves dated source values separately. No hard gate or enemy roster is inferred. Formula/version and English/EU parity remain unresolved |
+| F37 | High-star NPC battle advice and player army recommendations | SRC45 | B for a dated Chinese player guide | **PARTIAL EVIDENCE ONLY:** Research ledger records tier/force/speed advice for 3★–8★ and two broad 8★ formation patterns. It is not enforced as a game rule; exact enemy compositions, stats and original-client calibration remain modeled or missing |
 
 ## 3. Source conflicts and caveats
 
@@ -93,8 +94,9 @@
 3. **Intelligence formula ambiguity.** Chinese guide mentions +2 Gold/hour per INT, while Fandom gives roughly 2/3% of base Town Hall production per point above 10. HG06 uses the latter as an illustrative model. This needs controlled battle/build screenshots or runtime behavior from an authorized client.
 4. **Not all unit names match across editions.** Example: Orc tier 1 appears as `Imp` in the Wikidot 2009 table while the Fandom table calls it `Peon`. Catalog HG06 retains the earlier Wikidot dataset and records this discrepancy.
 5. **Castle-limit patch conflict.** SRC41 (2009-10-16) says the first secondary city unlocks at 8,000 Fame, while SRC20's later 2009-12-27 fame-rank table gives a castle limit of two from 5,800 Fame; the living Fandom Castles page says 22,000 for two. HG-10 uses the dated December China table as its selected profile and exposes the conflict. The correct threshold for the original English/EU client is unverified.
-6. **Castle of Heroes search ambiguity.** A contemporary website at `castleofheroes.com` describes a different game (hero cards, castle tiles). This source is excluded from the target game's evidence set.
-7. **One data source does not grant art rights.** Existing screenshots are kept as hyperlinks for comparison. No original commercial sprite/SWF/server files are redistributed.
+6. **NPC force values conflict by article date and meaning.** SRC46 (2009-07-27) prints minimum/complete player attack recommendations; SRC47 (2009-08-23) labels a guard-force table; SRC45 (2009-09-21) later estimates 6★–8★ monster forces as 400,000/900,000/1,500,000, unlike SRC47's 360,000/720,000/1,200,000. The build preserves source/date labels instead of averaging these reports or inferring troop rosters/stats.
+7. **Castle of Heroes search ambiguity.** A contemporary website at `castleofheroes.com` describes a different game (hero cards, castle tiles). This source is excluded from the target game's evidence set.
+8. **One data source does not grant art rights.** Existing screenshots are kept as hyperlinks for comparison. No original commercial sprite/SWF/server files are redistributed.
 
 ## 4. HG06 code audit: outcomes
 
@@ -102,7 +104,7 @@
 - ADDED: all equipped combat units get the wiki community speed adjustment from the commanding hero; incoming damage is adjusted for player's hero DEF.
 - HG-08: NPC win XP for 4★–8★ now uses SRC45's dated Chinese guide table; 1★–3★ and mine/castle XP remain explicitly modeled.
 - HG-09: SRC46's 128 published 1★–8★ NPC map coordinates and printed force recommendations are playable map targets; NPC roster/stats remain modeled and are disclosed in the target UI.
-- HG-09: the target panel separately labels SRC47's reported monster guard force and SRC46's attacking force recommendations; their 1★/2★ differences are preserved rather than averaged.
+- HG-09: the target panel separately labels SRC47's reported monster guard force, SRC46's attack recommendations, and SRC45's later approximate 6★–8★ force estimates; 1★/2★ and 6★–8★ dated conflicts are preserved rather than averaged. SRC45's troop-tier/hero-speed tactics are recorded as player advice, not silently enforced or treated as NPC roster data.
 - ADDED: illustrative Castellan INT gold modifier, visibly segregated as provisional.
 - ADDED: read-only troop command value from weighted wiki cost formula, without inventing an unverified troop capacity threshold.
 - FIXED: Market/Bazaar were declared `catalog` in HG05 even though their UI/actions existed and required building level >=1; HG06 makes them buildable. Guild/Embassy remains disabled.

@@ -1,20 +1,30 @@
 {
-  "suite": "HG-09 five-star NPC site and XP",
+  "suite": "HG-09 NPC force-source conflict and five-star site/XP gameplay",
   "source": "Installed Google Chrome opening the exact offline standalone HTML with file://. QA seeds only hero/tower/army values; high-star site selection, March action/AP, v07 persistence, travel tick, NPC battle, Attack action, source reward and reload use the game UI/runtime. Enemy roster and battle stats remain modeled and are not validated against original data.",
-  "total": 13,
-  "passed": 13,
+  "total": 15,
+  "passed": 15,
   "failed": 0,
   "errors": [],
   "checks": [
     {
       "name": "Offline page opens under Anh Hùng Thời Loạn",
       "passed": true,
-      "detail": "Anh Hùng Thời Loạn • Hẻoofgaia | Heroes of Gaia reconstruction"
+      "detail": "Anh Hùng Thời Loạn | Heroes of Gaia"
     },
     {
       "name": "QA fixture retains v07 and exposes all 33 sourced high-star sites",
       "passed": true,
       "detail": "{\"version\": 7, \"force\": 1250000, \"camps\": 33}"
+    },
+    {
+      "name": "8-star camp at its dated coordinate is directly selectable",
+      "passed": true,
+      "detail": "1,4"
+    },
+    {
+      "name": "8-star panel preserves 1.2M SRC47 and later approx. 1.5M SRC45 as separate dated reports",
+      "passed": true,
+      "detail": "WORLD EXPLORATION • 100 × 100 | Thế giới Gaia | ＋ | － | ⌖ Về thành | MỤC TIÊU ĐANG CHỌN | Trại Quái vật 8★ · 8★ · (1,4) |  | Chưa chinh phục |  | 🚩 Xuất chinh | Sina 23-08-2009 (SRC47) ghi lực lượng quái trấn giữ 1.200.000. 17173 27-07-2009 (SRC46) khuyến nghị tối thiểu 1.200.000 và mốc thắng hoàn toàn 2.400.000. Sina 21-09-2009 (SRC45) mô tả xấp xỉ 1.500.000 cho quái 8★; đây là ước tính khác ngày. Đây là số liệu hướng dẫn, không phải cổng cứng; roster và chỉ số vào trận vẫn mô hình vì chưa tìm thấy dữ liệu NPC gốc. | "
     },
     {
       "name": "5-star camp at (98,27) is directly selectable from the world panel",
@@ -34,7 +44,7 @@
     {
       "name": "March sends the formation to (98,27) and applies the existing NPC AP price",
       "passed": true,
-      "detail": "{\"target\": \"98,27\", \"phase\": \"outbound\", \"army\": 5000, \"ap\": 92.2175, \"valid\": true}"
+      "detail": "{\"target\": \"98,27\", \"phase\": \"outbound\", \"army\": 5000, \"ap\": 92.2135, \"valid\": true}"
     },
     {
       "name": "v07 Save/Reload preserves the exact high-star outbound target and dispatched army",
@@ -74,8 +84,12 @@
   ],
   "screenshots": [
     {
+      "path": "docs/evidence/hg09/npc-eight-star-force-sources-chrome.png",
+      "sha256": "d7d5413304bd189b5d9b2695746e161b32ac964b8ae7314c0bee63748a1e0107"
+    },
+    {
       "path": "docs/evidence/hg09/npc-five-star-target-chrome.png",
-      "sha256": "d5a97a8c374264bc1b43d15ac0346164b777876d67f4ba7ba076d9f8cafd0ab9"
+      "sha256": "5a452168ea46a647f28a96e4243f9926aeefcbf54436fe1d70bb3226b684d7b5"
     },
     {
       "path": "docs/evidence/hg09/npc-five-star-battle-chrome.png",
@@ -83,7 +97,7 @@
     },
     {
       "path": "docs/evidence/hg09/npc-five-star-xp-chrome.png",
-      "sha256": "6e2f00c08201814deb81e6f94dd77295b56eb981f77ea909db8d7e3257c03a35"
+      "sha256": "4973efd844809bc5d658f0fc9d9c63eaf0e3218a6fa510d594e5e4c0bd1835ed"
     }
   ]
 }

@@ -9,7 +9,7 @@
     {
       "name": "Standalone HTML opens as Anh Hùng Thời Loạn",
       "passed": true,
-      "detail": "Anh Hùng Thời Loạn • Hẻoofgaia | Heroes of Gaia reconstruction"
+      "detail": "Anh Hùng Thời Loạn | Heroes of Gaia"
     },
     {
       "name": "Real March and travel tick open the map's four-star NPC battle",
@@ -48,5 +48,5 @@
     }
   ],
   "screenshot": "docs/evidence/hg09/npc-four-star-xp-chrome.png",
-  "screenshotSha256": "18e5da69efca308b37bafdf4e5fc4b4c862844287850bd2aa9ceda5df5166c61"
+  "screenshotSha256": "b086f5ab292c411c08291d75d343b7beab2ce9ee4d54ea8d2c9a2d3288939739"
 }
