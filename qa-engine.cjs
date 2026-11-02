@@ -17,7 +17,15 @@ test('version and isolated key',()=>{assert.equal(E.V,7);assert.equal(E.SAVE_KEY
 test('4 races and 40 unique troops',()=>{assert.deepEqual(Object.keys(C.units).sort(),['elf','human','orc','undead']);assert.equal(Object.values(C.units).flat().length,40);assert.equal(new Set(Object.values(C.units).flat().map(x=>x.id)).size,40)});
 test('HG08 evidence matrix has one row for every catalog troop',()=>{const matrix=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').match(/^\| (?:Human|Elf|Orc|Undead) \| \d+ \|/gm)||[];assert.equal(matrix.length,40)});
 test('HG08 unlock matrix names match the canonical 40-unit catalog',()=>{const lines=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').split(/\r?\n/);const race={human:'Human',elf:'Elf',orc:'Orc',undead:'Undead'};for(const [key,units] of Object.entries(C.units))for(const u of units)assert(lines.some(line=>line.startsWith(`| ${race[key]} | ${u.tier} | ${u.name} |`)),`${key} T${u.tier} ${u.name}`)});
-test('5 original resources',()=>assert.deepEqual([...C.keys],v2));
+test('HG08 edition crosswalk maps every catalog ID and preserves localized labels',()=>{
+ const text=fs.readFileSync(path.join(dir,'docs/research/HG08-UNIT-VERSION-CROSSWALK.md'),'utf8');
+ const rows=text.split(/\r?\n/).filter(line=>/^\| (?:human|elf|orc|undead)_\d+ \|/.test(line));
+ const byId=new Map(rows.map(line=>{const cells=line.split('|').map(x=>x.trim());return [cells[1],cells]}));
+ const all=Object.values(C.units).flat(),raceName={human:'Human',elf:'Elf',orc:'Orc',undead:'Undead'};
+ assert.equal(rows.length,40);assert.equal(byId.size,40);
+ assert.deepEqual([...byId.keys()].sort(),all.map(u=>u.id).sort());
+ for(const [race,units] of Object.entries(C.units))for(const u of units){const cells=byId.get(u.id);assert(cells,'missing '+u.id);assert.equal(cells[2],raceName[race]+' '+u.tier);assert.equal(cells[3],u.name);assert(cells[4],'missing Chinese label '+u.id);assert(cells[5],'missing Fandom label '+u.id)}
+});test('5 original resources',()=>assert.deepEqual([...C.keys],v2));
 test('troop point formula',()=>{const u=C.units.human[0];assert.equal(E.unitValue(u),u.cost.gold+5*(u.cost.wood+u.cost.ore)+10*(u.cost.sulfur+u.cost.crystal))});
 test('new game all races valid',()=>{for(const race of Object.keys(C.races)){const s=state(race);assert.equal(s.version,7);assert.equal(s.race,race);assert.equal(E.strictSave(s),true)}});
 test('candidate slots at recorded level gates',()=>{assert.equal(E.tavernSlots(1),2);assert.equal(E.tavernSlots(2),3);assert.equal(E.tavernSlots(4),4);assert.equal(E.tavernSlots(9),7);assert.equal(E.tavernSlots(10),8)});
