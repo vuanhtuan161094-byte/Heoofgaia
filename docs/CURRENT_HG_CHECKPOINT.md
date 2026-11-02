@@ -1,5 +1,13 @@
 # CURRENT HG CHECKPOINT
 
+## Latest slice — HG-08 faction support-building source audit — 2026-11-03
+
+- Project `E:\Heoofgaia`; branch `feature/hog1-research-to-playable-20261102`; product name **Anh Hùng Thời Loạn**. Source-research commit: **`58484fc7b705d1b98d09c4815cfbda6610dddb92`**. No runtime code or save schema changed.
+- **Research result:** reviewed indexed Fandom Elf, Orc, Undead and Orc Barracks article text. SRC55 records qualitative support roles (Elf Magic Pool/Tower of Nature, Orc Forge, Undead Palace of Darkness/Tower of Souls) and the warning that Orc units have additional prerequisites. No numeric per-unit support-building gate was found. Fandom's Orc/Undead building labels and roster data conflict with the dated 2009 Sina/Wikidot profile, so these values are not applied. Existing base-tier gates remain derived; exact support gates remain missing.
+- **Validation:** `git diff --check` **PASS**. This was documentation-only; gameplay/Node/browser suites were not rerun and the previously verified standalone artifact is unchanged. References and limits are in `docs/research/HG08-EVIDENCE-REGISTER.md`, `docs/research/HG08-TROOP-UNLOCK-MATRIX.md` and `docs/research/RESEARCH-HEROES-OF-GAIA-2009.md`.
+- **PASS / FAIL / BLOCKED:** bounded source audit **PASS**; exact faction support-gate recovery **NOT FOUND**; no gameplay change. `git remote -v` is empty, so push remains **BLOCKED** and no upload occurred. Tu Tiên Nhàn Rỗi and `main` remain untouched.
+- **Next:** continue HG-08 source work using archived revisions or authorized client evidence where available; independently advance an actual playable HG-09–HG-13 slice, preserve v07 Save/Load, verify in Node/real browser, and package updated offline output. Do not infer numeric support gates from qualitative Fandom text.
+
 ## Latest verified slice — HG-10 playable daily NPC task — 2026-11-03
 
 - Project `E:\Heoofgaia`; branch `feature/hog1-research-to-playable-20261102`; displayed game title **Anh Hùng Thời Loạn**. Baseline before this slice: Node **128/128 PASS**, integrated Chrome **91/91 PASS**, installed-Chrome offline `file://` **29/29 PASS**. Tested implementation commit: **`09980e5fee52d14755f281236fdf711281fa4059`**. The working tree was clean immediately after that commit; this checkpoint update is a follow-up documentation change.
