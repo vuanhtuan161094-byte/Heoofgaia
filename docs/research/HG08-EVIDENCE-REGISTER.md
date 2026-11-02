@@ -18,6 +18,7 @@
 | SRC22 | Chinese publisher-hosted SNSFun/Lequ four-race guide, `/yxzc/201010/7753.html` (2010-10) | Identifies Elf Scout, the Orc Wolf Rider, and low-tier Undead Ghost as scouting units. | B for unit role in that Chinese edition; does not give the Scouting technology level or full unit prerequisites. |
 | SRC23 | Chinese player guide, 17173, 2009-10-25 (accessed 2026-11-02) | Automatic combat order: speed descending; ties follow the left formation column top-to-bottom, then the next column. Also describes enemy automatic targeting of the group judged to have the highest military power, manual focus on ranged enemies, and seven-stack formation tactics. | B for the 2009 Chinese edition; player-authored strategy, not server code. It does not establish formula parity for the English client. |
 | SRC24 | English community Fandom Newbie Guide, living page with no reliable publication/build date (accessed 2026-11-02) | Describes battle as automated turns by speed; melee advances toward a threatening stack; ranged units fire at the strongest enemy at turn start. | C/B for these broad combat roles; date/build unknown and numeric range is not stated. |
+| SRC25 | Vietnamese GameLandVN interview, dated 2010-09-14 (updated 2020-09-19) | Identifies Heroes of Gaia by the Vietnamese name “Ánh Hùng Online” and quotes Snail Game USA’s PR manager saying Snail continued to develop new game content. | B for product/period context; not a gameplay-mechanics source and not proof of a Vietnamese server build. |
 
 ## Evidence-to-rule ledger
 
@@ -46,10 +47,12 @@
 - HG-08 Node/browser tests prove only deterministic behavior in this standalone implementation.
 - Latest local regression on 2026-11-02: 66/66 Node, 52/52 installed-Chrome browser checks, 9/9 file:// persistence checks. The new exhaustive gate tests exercise every listed unlock requirement positively and negatively and assert that a failed recruit spends no resources or queue slot. These results do not prove historical parity.
 - The human table is Chinese localization evidence, not proof that an English client used identical labels or patch timing.
+- Vietnamese-language search found a 2010 GameLandVN industry interview confirming the local name “Ánh Hùng Online” and Snail Game context, but no Vietnamese numeric troop, Tavern, or combat tables. It is registered for product context only and is not used to invent mechanics.
 - Elf/Orc/Undead unit-specific support-building tiers, exact spell-research prices/times, battle XP, Tavern rare-stat odds, physical Android behavior, and original-client screenshot comparison remain **MISSING / BLOCKED**.
 - Assets added to this stage must have an owner/license record in `docs/ASSET-PROVENANCE.md`; historical web images are reference-only unless rights are established.
 
 ## Linked sources
+- [SRC25 — GameLandVN interview with Snail Game (2010-09-14)](https://gamelandvn.com/tro-chuyen-cung-snail-game-ve-bom-tan-ministry-of-war/)
 
 - [SRC02 — 2009 English unit catalog](https://heroesofgaia.wikidot.com/game-units)
 - [SRC03 — 2009 English building guide](https://heroesofgaia.wikidot.com/game-buildings)
