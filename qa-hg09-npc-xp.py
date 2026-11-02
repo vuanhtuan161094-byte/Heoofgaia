@@ -41,7 +41,9 @@ with sync_playwright() as p:
       // Only the QA fixture is seeded. Dispatch, travel tick, battle turns and rewards use the game engine.
       s.buildings.heroTower=10;h.level=50;h.xp=0;h.atk=100;h.spd=100;
       s.army.human_3=5000;
-      const target=HOG_ENGINE.TILES.find(t=>t.kind==='npc'&&t.level===4);
+      // Keep this regression on the legacy starter landmark; SRC46 adds
+      // numerous source-coordinate NPC sites at the same star levels.
+      const target=HOG_ENGINE.getTile('15,8');
       HOG_ENGINE.setFormation(s,[{unitId:'human_3',count:5000}]);
       HOG_ENGINE.startMarch(s,target.key);
       s.march.remaining=.01;

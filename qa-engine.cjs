@@ -416,7 +416,9 @@ test('HG07 v07 saves without the newer Arena queue migrate without losing data',
 
 test('Equal-speed combat initiative follows left-to-right battlefield position',()=>{
  const s=state();s.army.human_1=40;s.formation=Array.from({length:4},()=>({unitId:'human_1',count:10}));
- s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
+ // Keep this fixture at a known one-star NPC after historical coordinates were added.
+ const starter=E.NPC_CAMPS_2009.find(c=>c.stars===1);
+ s.battle=E.makeBattle(s,starter.key);
  for(const u of [...s.battle.allies,...s.battle.enemies]){u.spd=5;u.hp=1e9;u.pool=1e9;u.count=1;u.atk=1;u.def=1;u.range=20;}
  const out=E.battleAct(s,'attack');assert.deepEqual(Array.from(out.order),['p0','p1','p2','p3','e0','e1']);assert.deepEqual(Array.from(s.battle.lastActOrder),Array.from(out.order));
 });
@@ -542,6 +544,17 @@ test('HG10 world grid preserves the historical 100x100 coordinate space and all 
  assert.equal(E.WIDTH,100);assert.equal(E.HEIGHT,100);assert.equal(E.WORLD_BUILDINGS.length,10);
  for(const b of E.WORLD_BUILDINGS){const key=`${b.x},${b.y}`;assert.equal(E.getTile(key).kind,'visit',key);assert(E.pathfind('3,4',key),`no path to ${key}`)}
  assert.equal(E.WORLD_BUILDING_BY_KEY.get('94,1').name,'Tháp Phòng thủ');assert.equal(E.WORLD_BUILDING_BY_KEY.get('11,89').effect,'random-resource');
+});
+test('SRC46 restores all 128 dated NPC coordinates, star counts and force recommendations on the 100x100 map',()=>{
+ const expected={1:[31,1500,3000],2:[32,4000,8000],3:[16,15000,30000],4:[16,45000,90000],5:[9,150000,300000],6:[8,360000,700000],7:[9,720000,1500000],8:[7,1200000,2400000]};
+ assert.equal(E.NPC_CAMPS_2009.length,128);assert.equal(new Set(E.NPC_CAMPS_2009.map(q=>q.key)).size,128);
+ for(const [star,[count,minimum,complete]] of Object.entries(expected)){const camps=E.NPC_CAMPS_2009.filter(q=>q.stars===Number(star));assert.equal(camps.length,count,`${star}★ count`);for(const camp of camps){const t=E.getTile(camp.key);assert.equal(t.kind,'npc',camp.key);assert.equal(t.level,Number(star),camp.key);assert.equal(t.source,'SRC46',camp.key);assert.equal(t.minimumForce,minimum,camp.key);assert.equal(t.completeForce,complete,camp.key);assert(E.pathfind('3,4',camp.key),`no path ${camp.key}`)}}
+});
+test('SRC46 5–8 star map targets become selectable live NPC encounters with their sourced XP tiers',()=>{
+ for(const camp of E.NPC_CAMPS_2009.filter(q=>q.stars>=5)){const s=state();s.army.human_1=92;s.formation=[{unitId:'human_1',count:92}];E.startMarch(s,camp.key);const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.version,7);assert.equal(saved.march.target,camp.key);saved.march.remaining=.01;E.tick(saved,saved.lastTick+1000);assert.equal(saved.battle?.kind,'npc');assert.equal(saved.battle?.level,camp.stars);assert.equal(E.battleExperienceReward(saved.battle).source,'SRC45');assert(E.strictSave(saved))}
+});
+test('SRC46 keeps previously saved HG-07 starter NPC destinations valid under v07',()=>{
+ const s=state();s.formation=[{unitId:'human_1',count:7}];E.startMarch(s,'15,8');const migrated=E.parseSave(E.serializeSave(s));assert.equal(migrated.version,7);assert.equal(migrated.march.target,'15,8');assert.equal(E.getTile(migrated.march.target).kind,'npc');assert(E.strictSave(migrated));
 });
 test('HG10 windmill grants one listed resource once per site per UTC day without AP or army loss',()=>{
  const s=state(),now=s.lastTick,ap=s.ap,army={...s.army},res={...s.res};const out=E.visitWorldBuilding(s,'11,89',now);

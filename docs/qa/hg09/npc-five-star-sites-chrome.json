@@ -1,0 +1,85 @@
+{
+  "suite": "HG-09 five-star NPC site and XP",
+  "source": "Installed Google Chrome opening the exact offline standalone HTML with file://. QA seeds only hero/tower/army values; high-star site selection, March action/AP, v07 persistence, travel tick, NPC battle, Attack action, source reward and reload use the game UI/runtime. Enemy roster and battle stats remain modeled and are not validated against original data.",
+  "total": 13,
+  "passed": 13,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline page opens under Anh Hùng Thời Loạn",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn • Hẻoofgaia | Heroes of Gaia reconstruction"
+    },
+    {
+      "name": "QA fixture retains v07 and exposes all 33 sourced high-star sites",
+      "passed": true,
+      "detail": "{\"version\": 7, \"force\": 1250000, \"camps\": 33}"
+    },
+    {
+      "name": "5-star camp at (98,27) is directly selectable from the world panel",
+      "passed": true,
+      "detail": "☠ 5★ · (98,27) · 150.000+"
+    },
+    {
+      "name": "Selected camp reports its dated star and force guidance",
+      "passed": true,
+      "detail": "WORLD EXPLORATION • 100 × 100 | Thế giới Gaia | ＋ | － | ⌖ Về thành | MỤC TIÊU ĐANG CHỌN | Trại Quái vật 5★ · 5★ · (98,27) |  | Chưa chinh phục |  | 🚩 Xuất chinh | Hướng dẫn 17173 ngày 27-07-2009 (SRC46): tối thiểu 150.000 quân lực; mốc thắng hoàn toàn 300.000. Đây là khuyến nghị chiến lược, không phải cổng cứng. Thành phần và chỉ số quái trong trận vẫn là mô hình vì chưa tìm thấy roster NPC gốc. | THÀNH TRUNG LẬP CÓ THỂ CHIẾM | 🏰 Thành Sắt · Thú tộc (16,5) | 🏰 Thành Bóng · Vong linh (23,8) | 🏰 Thành Nguyệt · Tinh linh (9,10)"
+    },
+    {
+      "name": "Selected source-coordinate 5-star camp enables real March",
+      "passed": true,
+      "detail": "🚩 Xuất chinh"
+    },
+    {
+      "name": "March sends the formation to (98,27) and applies the existing NPC AP price",
+      "passed": true,
+      "detail": "{\"target\": \"98,27\", \"phase\": \"outbound\", \"army\": 5000, \"ap\": 92, \"valid\": true}"
+    },
+    {
+      "name": "v07 Save/Reload preserves the exact high-star outbound target and dispatched army",
+      "passed": true,
+      "detail": "{\"version\": 7, \"target\": \"98,27\", \"army\": 5000, \"valid\": true}"
+    },
+    {
+      "name": "Travel tick opens a real five-star tactical encounter from the historical map tile",
+      "passed": true,
+      "detail": "{\"tab\": null, \"target\": \"98,27\", \"kind\": \"npc\", \"star\": 5, \"allies\": 5000, \"enemies\": 3, \"valid\": true}"
+    },
+    {
+      "name": "Real tactical UI labels the live encounter as five-star",
+      "passed": true,
+      "detail": "TACTICAL COMBAT • THỬ NGHIỆM | Giao tranh · Quái vật 5★ | Lượt 1 · 4 nhóm hoạt động | 1 đội ta : 3 đội địch | QUÂN TA • BẤM CHỌN ĐƠN VỊ | ⚔ Archer | 5000 quân | HP 225000 · SPD 6.6899999999999995 · Bắn xa | QUÂN ĐỊCH • BẤM CHỌN MỤC TIÊU | ☠ Dã thú | 12 quân | HP 444 · SPD 4 · Cận chiến | ☠ Cung thủ cướp | 6 quân | HP 204 · SPD 5 · Bắn xa | ☠ Vệ binh | 6 quân | H"
+    },
+    {
+      "name": "Actual Attack turn wins the five-star battle and settles 4,000 × Hero Tower 1.10 = 4,400 XP",
+      "passed": true,
+      "detail": "{\"battle\": false, \"xp\": 4400, \"cleared\": true, \"award\": \"Aldric nhận 4.400 EXP sau chiến thắng 5★ (SRC45).\", \"version\": 7, \"valid\": true, \"attackTurns\": 3}"
+    },
+    {
+      "name": "Battle receipt names SRC45 while the site location/force source remains SRC46",
+      "passed": true,
+      "detail": "{\"award\": \"Aldric nhận 4.400 EXP sau chiến thắng 5★ (SRC45).\", \"siteSource\": \"SRC46\"}"
+    },
+    {
+      "name": "v07 Save/Reload preserves the source-backed five-star award",
+      "passed": true,
+      "detail": "{\"version\": 7, \"xp\": 4400, \"tower\": 10, \"valid\": true}"
+    },
+    {
+      "name": "No JavaScript exceptions during 5-star selection, dispatch, battle and reload",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/evidence/hg09/npc-five-star-battle-chrome.png",
+      "sha256": "c8fa31c9916a5810ebc59d971c8c2850241e862e334615dc1e696686cedd2ee7"
+    },
+    {
+      "path": "docs/evidence/hg09/npc-five-star-xp-chrome.png",
+      "sha256": "b3524b323211728ceedde5720388cf7610b1c5c905d0b76191e568e68cde3512"
+    }
+  ]
+}
