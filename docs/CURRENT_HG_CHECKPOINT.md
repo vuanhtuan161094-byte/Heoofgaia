@@ -6,7 +6,7 @@ Date: 2026-11-02 (Windows local execution)
 
 - Project root: `E:\Heoofgaia`.
 - Working branch: `feature/heoofgaia-hg08-20261102`.
-- Latest tested functional commit SHA: `9c40473e2f4d800c2a1963fd3858e598b967f060` (`fix: use Graveyard for Undead recruitment`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
+- Latest tested functional commit SHA: `9c40473ae628d2c5bdec4ee7f43c2a91392eab51` (`fix: use Graveyard for Undead recruitment`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
 - Original source: `vuanhtuan161094-byte/tutiennhandoi`, source branch `feature/heoofgaia-hg07-20261102`, pinned source HEAD `b32737422ca866f08de8d94021b397eb22c8f017`; HG-07 implementation parent `62d4a1c6d1a0c9769cf9ee6690e77361a2927ea9`.
 - Standalone bootstrap `028cb97a0481a4ff37a9459a5dd13ddfa1256511`; import audit `08d2fb0e4042f34af0372fb2187624bb03ff306e`. SHA-256 comparison matched all 20 Hẻoofgaia root files. Tu Tiên production systems were not copied or modified.
 - `projects/heoofgaia/HANDOFF_CREATE_STANDALONE_20261102.md` was absent at the pinned source SHA. The attached ZIP was treated as reference material only.
@@ -38,7 +38,7 @@ Date: 2026-11-02 (Windows local execution)
 - Normal battle flow prevents duplicate settlement and reward.
 - Damage formula, exact range, NPC composition/scaling, Stand By/Focus multipliers, morale, encounter timer and rewards remain partial or simulated.
 
-## Current verification on functional SHA `9c40473e2f4d800c2a1963fd3858e598b967f060`
+## Current verification on functional SHA `9c40473ae628d2c5bdec4ee7f43c2a91392eab51`
 
 - `node qa-engine.cjs`: **66/66 PASS**, including exhaustive positive/negative tests for every currently enforced unit gate and no-spend rejection checks; 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
 - `node --check` on all 9 source JavaScript files: **PASS**.
