@@ -1,0 +1,106 @@
+{
+  "schema": "hog1-unit-art-v1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "assetId": "HOG1-HG11-ELF-CENTAUR-MASTER-v1",
+  "unitId": "elf_1",
+  "historicalIdentity": "Elf tier 1 Centaur, melee; SRC02 2009-12-06 community catalog. Name/stat crosswalk is documented in HG08-UNIT-VERSION-CROSSWALK.md.",
+  "sourceEvidence": {
+    "id": "SRC02",
+    "sourceUrl": "https://heroesofgaia.wikidot.com/game-units",
+    "sourceVersion": "page revision 19, 2009-12-06",
+    "recordedUnit": "Centaur; Elf; tier 1; melee; HP 38; ATK 16; DEF 12; SPD 4.22; Load 30",
+    "confidence": "A for the printed community table; not an original server export or proof of regional parity"
+  },
+  "status": "RECREATED",
+  "provider": "ChatGPT image_gen.imagegen",
+  "generationPrompt": "assets/generated/hg11/units/prompts.md#elf-centaur-sprite-master-prompt",
+  "sourceImageId": "exec-3c2d0018-c45c-46d2-a664-0ae75d74a581.png",
+  "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-3c2d0018-c45c-46d2-a664-0ae75d74a581.png",
+  "sourceRoute": "Generated independently from text; no historical screenshot, original game art, or external image supplied as input.",
+  "generationTimestamp": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "generationCost": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "licenseAssessment": "New project recreation; no extracted HOG1 commercial asset is included. Use is limited to this reconstruction project.",
+  "master": {
+    "projectPath": "assets/generated/hg11/units/elf-centaur-master.png",
+    "resolution": "1254x1254",
+    "bytes": 1474213,
+    "sha256": "49865B0138DB0A4CA6B56E6D1F412740B2F94F018F60B89F3D368BE5ABE977F7",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      67,
+      26,
+      1185,
+      1232
+    ]
+  },
+  "cleanedMaster": {
+    "projectPath": "assets/generated/hg11/units/elf-centaur-master-clean.png",
+    "resolution": "1254x1254",
+    "bytes": 1793117,
+    "sha256": "82299304E6BCB9EF6A43192401C057EA3840E87967D88968ED58780419FA56C0",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      68,
+      25,
+      1186,
+      1232
+    ],
+    "processing": "Largest opaque 8-connected figure retained; a two-pixel edge rebuilt from nearest subject color to remove generated fringe specks. Raw image-generation master remains unchanged."
+  },
+  "runtime": {
+    "projectPath": "assets/generated/hg11/units/elf-centaur.png",
+    "resolution": "512x512",
+    "bytes": 194098,
+    "sha256": "E2845C12F61372FD83A5BC7DD5AB763F23B21043398D0D8B8A3348DBA083A967",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      80,
+      66,
+      431,
+      445
+    ],
+    "trimAndScale": "tools/process-hg11-unit-sprite.ps1 crops the cleaned alpha>=8 bounds [68,25,1186,1232], then high-quality bicubic resizes the full figure to 352x380 and centers it on a 512x512 transparent canvas at (80,66).",
+    "pivotPixels": [
+      256,
+      446
+    ],
+    "pivotNormalized": [
+      0.5,
+      0.87109375
+    ]
+  },
+  "states": {
+    "masterCreated": true,
+    "transparentAlphaVerified": true,
+    "singleCharacterReviewed": true,
+    "runtimeExported": true,
+    "integratedInBattle": true,
+    "animationFrames": 0,
+    "saveLoadVerified": true
+  },
+  "qualityGate": {
+    "alphaScan": "PASS: raw and cleaned RGBA masters plus runtime were scanned; detached RGB fringe pixels are excluded from the final edge mask.",
+    "readabilityAtBattleScale": "PASS: actual file:// Chrome battle screenshot preserves unit name, HP, count and selection graphics at normal viewport scale.",
+    "battleRender": "PASS: real UI march to NPC produced 1 drawImage calls for the loaded Elf Centaur sprite on the battle canvas.",
+    "saveLoadImpact": "PASS: presentation-only; the actual v07 Save/Reload retained the Elf battle, deployed formation and stack."
+  },
+  "battleEvidence": {
+    "screenshot": "docs/evidence/hg11/elf-centaur-npc-battle-chrome.png",
+    "resolution": "1440x1305",
+    "sha256": "D0737737119556B658BE08AF56EAD5607AA4C71E6BF90D79E93229CBA6076081",
+    "receipt": "docs/qa/hg11/elf-centaur-battle-chrome.json",
+    "chromeSpriteDraws": 1
+  }
+}

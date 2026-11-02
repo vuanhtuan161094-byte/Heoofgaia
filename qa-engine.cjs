@@ -33,11 +33,21 @@ test('HG11 Orc Imp sprite preserves provenance, alpha and captured battle integr
  const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
  assert.equal(manifest.status,'RECREATED');assert.equal(manifest.animationFrames,undefined);
  assert.equal(manifest.states.animationFrames,0);assert.equal(manifest.states.integratedInBattle,true);assert.deepEqual(manifest.master.resolution,'1254x1254');assert.deepEqual(manifest.runtime.resolution,'512x512');
- for(const record of [manifest.master,manifest.runtime]){const file=path.join(dir,record.projectPath),bytes=fs.readFileSync(file);assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(`${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}`,record.resolution);assert.equal(bytes[25],6);assert.equal(sha(bytes),record.sha256);}
+ for(const record of [manifest.master,manifest.cleanedMaster,manifest.runtime]){const file=path.join(dir,record.projectPath),bytes=fs.readFileSync(file);assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(`${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}`,record.resolution);assert.equal(bytes[25],6);assert.equal(sha(bytes),record.sha256);}
  assert.equal(manifest.runtime.pivotPixels[0],256);assert(manifest.runtime.pivotPixels[1]>0&&manifest.runtime.pivotPixels[1]<512);
  assert.match(manifest.qualityGate.battleRender,/^PASS:/);assert.match(manifest.qualityGate.readabilityAtBattleScale,/^PASS:/);
  const evidence=manifest.battleEvidence,shot=fs.readFileSync(path.join(dir,evidence.screenshot));assert.equal(sha(shot),evidence.sha256);assert.equal(`${shot.readUInt32BE(16)}x${shot.readUInt32BE(20)}`,evidence.resolution);
  const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8');assert(html.includes('id="unit-orc-imp"'));assert(!html.includes('assets/generated/hg11/units/'));assert(html.includes('data:image/png;base64,'));
+});
+test('HG11 Elf Centaur sprite has verified alpha, hashes, offline embed and actual battle receipt',()=>{
+ const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/units/elf-centaur-manifest.json'),'utf8'));
+ const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
+ assert.equal(manifest.unitId,'elf_1');assert.equal(manifest.status,'RECREATED');assert.equal(manifest.states.animationFrames,0);assert.equal(manifest.states.integratedInBattle,true);
+ for(const record of [manifest.master,manifest.cleanedMaster,manifest.runtime]){const bytes=fs.readFileSync(path.join(dir,record.projectPath));assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(`${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}`,record.resolution);assert.equal(bytes[25],6);assert.equal(sha(bytes),record.sha256);}
+ assert.deepEqual(manifest.runtime.pivotPixels,[256,446]);assert.match(manifest.qualityGate.readabilityAtBattleScale,/^PASS:/);assert.match(manifest.qualityGate.battleRender,/^PASS:/);
+ const evidence=manifest.battleEvidence,shot=fs.readFileSync(path.join(dir,evidence.screenshot));assert.equal(sha(shot),evidence.sha256);assert.equal(`${shot.readUInt32BE(16)}x${shot.readUInt32BE(20)}`,evidence.resolution);
+ const receipt=JSON.parse(fs.readFileSync(path.join(dir,evidence.receipt),'utf8'));assert.equal(receipt.failed,0);assert.equal(receipt.elfSpriteRuntime.imageReady,true);assert(receipt.elfSpriteRuntime.chromeSpriteDraws>0);assert(receipt.elfSpriteRuntime.actualUiMarch,true);
+ const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8');assert(html.includes('id="unit-elf-centaur"'));assert(!html.includes('assets/generated/hg11/units/'));assert(html.includes('data:image/png;base64,'));
 });
 test('4 races and 40 unique troops',()=>{assert.deepEqual(Object.keys(C.units).sort(),['elf','human','orc','undead']);assert.equal(Object.values(C.units).flat().length,40);assert.equal(new Set(Object.values(C.units).flat().map(x=>x.id)).size,40)});
 test('China 2009 Sina combat catalog is edition-separated across all four factions',()=>{

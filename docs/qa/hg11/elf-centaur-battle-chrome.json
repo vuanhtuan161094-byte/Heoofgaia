@@ -1,0 +1,82 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg11-elf-centaur-chrome.py",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "game": "Anh Hùng Thời Loạn",
+  "sourceMode": "standalone local file:// HTML in installed Chromium",
+  "total": 12,
+  "passed": 12,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline game title is Anh Hùng Thời Loạn",
+      "passed": true
+    },
+    {
+      "name": "Visible game brand uses Anh Hùng Thời Loạn with Heroes of Gaia as its reference title",
+      "passed": true
+    },
+    {
+      "name": "Elf kingdom starts in the running game",
+      "passed": true
+    },
+    {
+      "name": "Starting Centaurs are committed through the Army formation UI",
+      "passed": true
+    },
+    {
+      "name": "Game speed control changes state and is restored for the live expedition",
+      "passed": true
+    },
+    {
+      "name": "Player selects the actual nearby Wolves NPC on the world canvas",
+      "passed": true
+    },
+    {
+      "name": "March button dispatches the saved Centaur formation to Wolves",
+      "passed": true
+    },
+    {
+      "name": "Natural NPC arrival opens a tactical battle",
+      "passed": true
+    },
+    {
+      "name": "Generated Centaur loads and is drawn into the actual battle canvas",
+      "passed": true
+    },
+    {
+      "name": "Live battle contains the dispatched Centaur unit",
+      "passed": true
+    },
+    {
+      "name": "v07 Save/Reload preserves the Elf battle, formation and unit stack",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript errors occurred in the offline battle flow",
+      "passed": true
+    }
+  ],
+  "elfSpriteRuntime": {
+    "imageReady": true,
+    "initialBattle": false,
+    "battle": true,
+    "target": "5,6",
+    "phase": "tactical-battle",
+    "units": [
+      {
+        "unitId": "elf_1",
+        "count": 16
+      }
+    ],
+    "chromeSpriteDraws": 1,
+    "actualUiMarch": true
+  },
+  "artifacts": {
+    "elf-centaur-npc-battle-chrome.png": {
+      "sha256": "D0737737119556B658BE08AF56EAD5607AA4C71E6BF90D79E93229CBA6076081",
+      "bytes": 434243,
+      "resolution": "1440x1305"
+    }
+  }
+}

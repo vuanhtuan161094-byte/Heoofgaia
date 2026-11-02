@@ -57,5 +57,32 @@ for name in ['spell-edition-selector-chrome.png', 'china-2009-orc-harden-bones-c
     asset = evidence / name
     result.setdefault('artifacts', {})[name] = {'sha256': hashlib.sha256(asset.read_bytes()).hexdigest().upper(), 'bytes': asset.stat().st_size}
 receipt.write_text(json.dumps(result, indent=2, ensure_ascii=False), encoding='utf-8')
+manifest_path = root / 'assets' / 'generated' / 'hg11' / 'units' / 'asset-manifest.json'
+manifest = json.loads(manifest_path.read_text(encoding='utf-8'))
+combat_image = evidence / 'china-2009-orc-harden-bones-combat-chrome.png'
+combat_bytes = combat_image.read_bytes()
+manifest['battleEvidence'].update({
+    'screenshot': 'docs/evidence/hg09/china-2009-orc-harden-bones-combat-chrome.png',
+    'resolution': f'{int.from_bytes(combat_bytes[16:20], "big")}x{int.from_bytes(combat_bytes[20:24], "big")}',
+    'sha256': hashlib.sha256(combat_bytes).hexdigest().upper(),
+    'receipt': 'docs/qa/hg09/china-2009-spell-profile-chrome.json',
+    'chromeSpriteDraws': started['spriteDraws'],
+})
+manifest['states']['saveLoadVerified'] = any(
+    check['name'] == 'v07 Save/Reload preserves profile, equipped skill, battle and buff' and check['passed']
+    for check in checks)
+manifest['qualityGate']['readabilityAtBattleScale'] = (
+    'PASS: actual offline Chrome capture keeps Orc Imp, unit name, HP, selection ring and count readable.'
+    if started['imageReady'] and started['spriteDraws'] > 0 and result['failed'] == 0 else
+    'FAIL: focused real-Chrome flow failed the sprite readability checks.')
+manifest['qualityGate']['battleRender'] = (
+    f"PASS: actual NPC battle drew the Orc Imp sprite {started['spriteDraws']} time(s) on the battle canvas."
+    if started['battle'] and started['imageReady'] and started['spriteDraws'] > 0 else
+    'FAIL: focused real-Chrome battle did not render the Orc Imp sprite.')
+manifest['qualityGate']['saveLoadImpact'] = (
+    'PASS: presentation-only; actual v07 Save/Reload retained the regional spell, battle and buff.'
+    if manifest['states']['saveLoadVerified'] else
+    'FAIL: focused real-Chrome Save/Reload check did not pass.')
+manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
 print(f'CHROME TOTAL {result["passed"]}/{result["total"]} PASS; JS errors={len(errors)}')
 raise SystemExit(0 if result['passed'] == result['total'] else 1)

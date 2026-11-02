@@ -1,10 +1,10 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 140,
-  "suitePassed": 140,
+  "suiteTotal": 145,
+  "suitePassed": 145,
   "suiteFailed": 0,
-  "hg10Total": 17,
-  "hg10Passed": 17,
+  "hg10Total": 21,
+  "hg10Passed": 21,
   "hg10Failed": 0,
   "hg10Checks": [
     {
@@ -73,6 +73,22 @@
     },
     {
       "name": "HG10 daily board preserves accepted work on Fame promotion, resets by day and rejects corrupt v07 task state",
+      "passed": true
+    },
+    {
+      "name": "HG10 transport uses the cited 20 AP cost and load ratios with atomic rejection",
+      "passed": true
+    },
+    {
+      "name": "HG10 transport arrives, delivers once, returns troops across city switch and survives v07 reload",
+      "passed": true
+    },
+    {
+      "name": "HG10 transport waits without cargo loss for destination warehouse capacity then resumes",
+      "passed": true
+    },
+    {
+      "name": "HG10 legacy v07 transport field migrates empty and malformed convoy saves are rejected",
       "passed": true
     }
   ],

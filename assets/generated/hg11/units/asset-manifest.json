@@ -19,20 +19,60 @@
     "bytes": 1550653,
     "sha256": "9937965CD47047D85E232593F719913E327E94F5CC0A0F4080EF31125266B2F0",
     "format": "RGBA PNG",
-    "alphaRange": [0,255],
-    "visibleBoundsAlpha8": [172,26,1056,1235]
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      172,
+      26,
+      1056,
+      1235
+    ]
   },
   "runtime": {
     "projectPath": "assets/generated/hg11/units/orc-imp.png",
     "resolution": "512x512",
-    "bytes": 206944,
-    "sha256": "5D2413B04497B53C51BD10FF9FE3CFB460F7C852BBCDE270218A5B371A4CE086",
+    "bytes": 207113,
+    "sha256": "F7232CD61CAD41AFE2194DEAA6DEF68A652784756479A9AA57C3183F7CF25789",
     "format": "RGBA PNG",
-    "alphaRange": [0,255],
-    "visibleBoundsAlpha8": [117,66,394,445],
-    "trimAndScale": "Trim master to alpha>=8 bounds [172,26,1057,1236], high-quality bicubic resize to 278x380, center on transparent 512x512 canvas at (117,66).",
-    "pivotPixels": [256,446],
-    "pivotNormalized": [0.5,0.87109375]
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      116,
+      66,
+      395,
+      445
+    ],
+    "trimAndScale": "tools/process-hg11-unit-sprite.ps1 retains the largest opaque 8-connected figure, rebuilds a two-pixel alpha edge, then uses high-quality bicubic resize to 280x380 on a transparent 512x512 canvas at (116,66).",
+    "pivotPixels": [
+      256,
+      446
+    ],
+    "pivotNormalized": [
+      0.5,
+      0.87109375
+    ]
+  },
+  "cleanedMaster": {
+    "projectPath": "assets/generated/hg11/units/orc-imp-master-clean.png",
+    "resolution": "1254x1254",
+    "bytes": 1948474,
+    "sha256": "37418FADA5A35CD09022B7D0EBF83950BE7E370A23F998860F7A3A950CBFE231",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      171,
+      32,
+      1057,
+      1236
+    ],
+    "processing": "Largest opaque 8-connected figure retained; a two-pixel edge rebuilt from nearest subject color to remove generated fringe specks. Raw image-generation master remains unchanged."
   },
   "states": {
     "masterCreated": true,
@@ -40,19 +80,20 @@
     "singleCharacterReviewed": true,
     "runtimeExported": true,
     "integratedInBattle": true,
-    "animationFrames": 0
+    "animationFrames": 0,
+    "saveLoadVerified": true
   },
   "qualityGate": {
-    "alphaScan": "PASS: Windows System.Drawing full-pixel scan; runtime visible bounds and transparent padding recorded.",
-    "readabilityAtBattleScale": "PASS: name, HP bar, selection ring and count badge remain visible at battle scale in actual Chrome capture.",
-    "battleRender": "PASS: one live NPC battle draws the transparent Orc Imp into the battle canvas; fallback art remains for other identities.",
-    "saveLoadImpact": "PASS: v07 Save/Reload remains compatible; full regression Node 137/137, integrated Chrome 91/91, file:// 29/29, focused sprite/spell Chrome 8/8."
+    "alphaScan": "PASS: Windows System.Drawing full-pixel scan; cleaned master and runtime alpha bounds and transparent padding recorded.",
+    "readabilityAtBattleScale": "PASS: actual offline Chrome capture keeps Orc Imp, unit name, HP, selection ring and count readable.",
+    "battleRender": "PASS: actual NPC battle drew the Orc Imp sprite 1 time(s) on the battle canvas.",
+    "saveLoadImpact": "PASS: presentation-only; actual v07 Save/Reload retained the regional spell, battle and buff."
   },
   "battleEvidence": {
     "screenshot": "docs/evidence/hg09/china-2009-orc-harden-bones-combat-chrome.png",
     "resolution": "1440x1351",
-    "sha256": "03A76921C1908FE39B456ED80F043757B9AB590CEBDD7557FDE00AAEDB331A6A",
+    "sha256": "E175DD412166BE4B79F4C0180FDC6F7F4914A0E7BAD04FA3DC37AE52DA344ECC",
     "receipt": "docs/qa/hg09/china-2009-spell-profile-chrome.json",
-    "chromeSpriteDraws": "asserted greater than zero by the focused real-browser receipt"
+    "chromeSpriteDraws": 1
   }
 }
