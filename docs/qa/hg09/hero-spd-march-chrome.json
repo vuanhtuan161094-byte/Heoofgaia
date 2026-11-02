@@ -1,0 +1,65 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg09-march-speed-chrome.py",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "productTitle": "Anh Hùng Thời Loạn",
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline browser opens the exact product title",
+      "passed": true
+    },
+    {
+      "name": "New kingdom starts through the actual title-screen action",
+      "passed": true
+    },
+    {
+      "name": "Visiting the real Prayer Temple applies its +10% Hero SPD buff",
+      "passed": true
+    },
+    {
+      "name": "World route uses a source-listed, reachable high-star camp",
+      "passed": true
+    },
+    {
+      "name": "Actual march button starts the route with a buff-adjusted ETA",
+      "passed": true
+    },
+    {
+      "name": "Dispatch leaves stored base Hero SPD unchanged",
+      "passed": true
+    },
+    {
+      "name": "v07 reload preserves the in-flight target, fixed ETA and active buff",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript exceptions in the real offline dispatch/reload flow",
+      "passed": true
+    }
+  ],
+  "march": {
+    "route": "98,27",
+    "pathLength": 119,
+    "heroSpeedBeforeDispatch": 7,
+    "heroSpeedWithBuff": 7.700000000000001,
+    "normalEtaGameSeconds": 2406,
+    "buffedEtaGameSeconds": 2371,
+    "reload": {
+      "version": 7,
+      "target": "98,27",
+      "phase": "outbound",
+      "total": 2371,
+      "remaining": 2279.38,
+      "heroRaw": 7,
+      "buff": true
+    }
+  },
+  "screenshot": {
+    "path": "docs/evidence/hg09/hero-spd-march-live-chrome.png",
+    "sha256": "5D558B8F712689E6BCC391BCDAED5100BB418B1CA75C19B915321C94D14A0D6D",
+    "bytes": 1149704
+  }
+}

@@ -161,6 +161,26 @@ test('Town Hall caps each race recruitment building without charging on rejectio
 test('construction once, no duplication',()=>{const s=state();E.upgrade(s,'hall');const b=s.buildingQueue.remaining;const now=s.lastTick+b/60*1000+1200;E.tick(s,now);assert.equal(s.buildings.hall,2);const res=JSON.stringify(s.res);E.tick(s,now);assert.equal(JSON.stringify(s.res),res)});
 test('Castellan INT adds gold output',()=>{const s=state();const base=E.rate(s).gold;s.heroes[0].int=40;E.appoint(s,1);assert(E.rate(s).gold>base)});
 test('hero equipment influences combat stats',()=>{const s=state();const item=E.addItem(s,'copper_blade','qa');E.equipItem(s,item.uid);assert(E.heroStats(s).atk>s.heroes[0].atk)});
+test('SRC20/Sina Hero SPD adds the dated 0.02 battle-speed increment per point',()=>{
+ const tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key)),unit=E.getUnit(state(),'human_1');assert(tile);
+ for(const [heroSpeed,bonus] of [[10,0],[60,1],[120,2.2]]){const s=state();s.heroes[0].spd=heroSpeed;const battle=E.makeBattle(s,tile.key);assert.equal(battle.allies[0].spd,unit.spd+bonus,`Hero SPD ${heroSpeed}`)}
+});
+test('Derived world-march factor uses the dated increment and v07 keeps an underway ETA',()=>{
+ assert.equal(E.marchSpeedFactor(10),1);assert.equal(E.marchSpeedFactor(60),2);assert.equal(E.marchSpeedFactor(120),3.2);
+ const path=['a','b','c','d','e'];assert.equal(E.marchDuration(10,path),96);assert.equal(E.marchDuration(60,path),58);assert.equal(E.marchDuration(120,path),44);
+ const s=state();s.heroes[0].spd=10;const target=E.NPC_CAMPS_2009.find(q=>q.stars>=5&&E.pathfind('3,4',q.key)?.length>=8);assert(target,'Need a long source-listed target path');
+ const route=E.pathfind('3,4',target.key),expected=E.marchDuration(10,route);E.startMarch(s,target.key);assert.equal(s.march.remaining,expected);assert.equal(s.heroes[0].spd,10);
+ const loaded=E.parseSave(E.serializeSave(s)),remaining=loaded.march.remaining,total=loaded.march.total;loaded.heroes[0].spd=120;
+ assert.equal(loaded.march.remaining,remaining);assert.equal(loaded.march.total,total);assert.equal(loaded.march.target,target.key);assert.equal(E.strictSave(loaded),true);
+});
+test('Outbound and return march timers both include equipped and active world SPD bonuses',()=>{
+ const target=E.NPC_CAMPS_2009.find(q=>q.stars>=5&&E.pathfind('3,4',q.key)?.length>=8);assert(target);const itemFor=s=>{const item=E.addItem(s,'traveler_cloak','qa');E.equipItem(s,item.uid);s.heroBuffs.push({heroId:1,stat:'spd',remaining:7200,sourceKey:'62,57'})};
+ const outbound=state();itemFor(outbound);const outSpeed=E.heroStats(outbound,1).spd,outPath=E.pathfind('3,4',target.key);E.startMarch(outbound,target.key);
+ assert.equal(outbound.march.remaining,E.marchDuration(outSpeed,outPath));assert.equal(outbound.heroes[0].spd,7,'temporary dispatch stats are restored after path calculation');
+ const returning=state();itemFor(returning);const from=target.key,backPath=E.pathfind(from,'3,4');returning.stationedHeroes=[{heroId:1,key:from,homeKey:'3,4',homeCityId:'main',army:{human_1:4},formation:[{unitId:'human_1',count:4}]}];
+ const returnSpeed=E.heroStats(returning,1).spd,seconds=E.recallHero(returning,1);
+ assert.equal(seconds,E.marchDuration(returnSpeed,backPath));assert.equal(returning.march.phase,'return');assert.equal(returning.march.remaining,returning.march.total);assert.equal(E.strictSave(E.parseSave(E.serializeSave(returning))),true);
+});
 test('market cannot sell without building',()=>{const s=state();throws(()=>E.sell(s,'wood',1),/Market/)});
 test('market sell after build and gold capacity',()=>{const s=state();s.buildings.market=1;const before=s.res.gold;const wood=s.res.wood;E.sell(s,'wood',10);assert.equal(s.res.wood,wood-10);assert.equal(s.res.gold,before+20)});
 test('bazaar buys real inventory',()=>{const s=state();s.buildings.bazaar=1;const old=s.inventory.length;E.buyItem(s,'copper_blade');assert.equal(s.inventory.length,old+1)});

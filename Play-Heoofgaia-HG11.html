@@ -340,6 +340,19 @@ function setFormation(s,items){
  s.formation=formation;note(s,`Đã bố trí ${formation.length} nhóm quân, tổng ${formation.reduce((n,u)=>n+u.count,0)} lính.`);
  return formation;
 }
+// SRC20/SRC58 report +0.02 troop speed per Hero SPD point for the
+// Chinese 2009 battle model. SRC42 says march duration depends on distance,
+// while the exact land-march coefficient is missing. Reuse the sourced
+// increment as a normalized, explicitly derived world-speed proxy (SPD 10 = 1x).
+function heroSpeedAdjustment(heroSpeed){
+ assert(Number.isFinite(heroSpeed),'Tốc độ tướng không hợp lệ');
+ return (heroSpeed-10)/50;
+}
+function marchSpeedFactor(heroSpeed){return Math.max(.1,1+heroSpeedAdjustment(heroSpeed));}
+function marchDuration(heroSpeed,path){
+ assert(Array.isArray(path)&&path.length>0,'Đường hành quân không hợp lệ');
+ return Math.max(40,Math.ceil(20+(path.length-1)*19/marchSpeedFactor(heroSpeed)));
+}
 function startMarch(s,key,targetKind){
  assert(!s.march&&!s.battle,'Tướng đang bận');
  const t=getTile(key),camp=TREASURE_BY_KEY.get(key),isTreasure=targetKind==='treasure'||(!targetKind&&t?.kind==='treasure');
@@ -350,7 +363,7 @@ function startMarch(s,key,targetKind){
  const hero=s.heroes.find(h=>h.id===s.activeHero);assert(hero&&s.castellan!==hero.id,'Tướng không sẵn sàng');
  const homeKey=s.activeCastleKey||'3,4';const path=pathfind(homeKey,key);assert(path&&path.length>1,'Không tìm thấy đường đi bộ qua địa hình');
  const apCost=!isTreasure&&t.kind==='mine'?6:8;assert(s.ap>=apCost,'Thiếu AP');s.ap-=apCost;
- const seconds=Math.max(40,Math.ceil(20+(path.length-1)*19/(1+hero.spd*.018)));
+ const seconds=marchDuration(hero.spd,path);
  s.march={target:key,...(isTreasure?{targetKind:'treasure'}:{}),fromKey:homeKey,remaining:seconds,total:seconds,heroId:hero.id,path};
  note(s,`${hero.name} dẫn quân đi ${path.length-1} ô tới (${t.x},${t.y}), -${apCost} AP.`);
 }
@@ -368,8 +381,9 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  // ranged groups fire at enemy ranged groups, but the recovered 2009 catalog
  // has no numeric range. The 20-cell reach covers this prototype's whole grid;
  // this is an explicit playable approximation, not recovered server data.
+ const battleHeroSpeed=(root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10;
  const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,fieldArmy[u.id]||0);return {id:`p${i}`,slot:fieldFormation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
-   count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+(((root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10)-10)*.02),
+   count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+heroSpeedAdjustment(battleHeroSpeed)),
    pool:count*u.hp,x:i<4?1:3,y:i<4?[0,2,5,8][i]:[1,4,7][i-4]}});
  const archetypes=[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
   {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:20},
@@ -476,7 +490,7 @@ function battleAct(s,action){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
+const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 </script><script>
@@ -1161,7 +1175,8 @@ function progressArena(s,gameSeconds){
 }
 function moveDuration(s,heroId,path){
  const hero=s.heroes.find(h=>h.id===heroId);if(!hero)throw Error('Không tìm thấy tướng hành quân');
- return Math.max(40,Math.ceil(20+(path.length-1)*19/(1+hero.spd*.018)));
+ const speed=E.heroStats?.(s,heroId)?.spd??hero.spd;
+ return E.marchDuration(speed,path);
 }
 function finishReturn(s){
  const exp=s.expedition;if(!exp||exp.phase!=='returning')throw Error('Không có đội quân đang trở về');

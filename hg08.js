@@ -291,7 +291,8 @@ function progressArena(s,gameSeconds){
 }
 function moveDuration(s,heroId,path){
  const hero=s.heroes.find(h=>h.id===heroId);if(!hero)throw Error('Không tìm thấy tướng hành quân');
- return Math.max(40,Math.ceil(20+(path.length-1)*19/(1+hero.spd*.018)));
+ const speed=E.heroStats?.(s,heroId)?.spd??hero.spd;
+ return E.marchDuration(speed,path);
 }
 function finishReturn(s){
  const exp=s.expedition;if(!exp||exp.phase!=='returning')throw Error('Không có đội quân đang trở về');
