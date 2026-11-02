@@ -188,6 +188,7 @@ function advance(a,b){
 }
 function strike(s,b,actor,target,order){
  if(actor.pool<=0||target.pool<=0)return 0;
+ if(order==='advance'){if(dist(actor,target)>actor.range)advance(actor,target);return 0}
  if(dist(actor,target)>actor.range){if(order!=='defend')advance(actor,target);if(dist(actor,target)>actor.range)return 0;}
  const h=s.heroes.find(x=>x.id===s.activeHero);
  const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
@@ -203,7 +204,7 @@ function strike(s,b,actor,target,order){
  return dmg;
 }
 function battleAct(s,action){
- assert(!!s.battle,'Không có trận chiến');assert(['attack','defend','focus','retreat'].includes(action),'Lệnh không hợp lệ');
+ assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat'].includes(action),'Lệnh không hợp lệ');
  const b=s.battle;
  if(action==='retreat'){note(s,'Quân đội đã rút lui; thiệt hại trước đó không hoàn lại.');s.battle=null;s.battleAuto=false;return {type:'retreat'}}
  b.order=action;b.orders=b.orders||{};if(b.selected)b.orders[b.selected]=action;s.battleOrder=action;

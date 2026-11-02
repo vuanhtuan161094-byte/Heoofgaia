@@ -334,6 +334,7 @@ function advance(a,b){
 }
 function strike(s,b,actor,target,order){
  if(actor.pool<=0||target.pool<=0)return 0;
+ if(order==='advance'){if(dist(actor,target)>actor.range)advance(actor,target);return 0}
  if(dist(actor,target)>actor.range){if(order!=='defend')advance(actor,target);if(dist(actor,target)>actor.range)return 0;}
  const h=s.heroes.find(x=>x.id===s.activeHero);
  const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
@@ -349,7 +350,7 @@ function strike(s,b,actor,target,order){
  return dmg;
 }
 function battleAct(s,action){
- assert(!!s.battle,'Không có trận chiến');assert(['attack','defend','focus','retreat'].includes(action),'Lệnh không hợp lệ');
+ assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat'].includes(action),'Lệnh không hợp lệ');
  const b=s.battle;
  if(action==='retreat'){note(s,'Quân đội đã rút lui; thiệt hại trước đó không hoàn lại.');s.battle=null;s.battleAuto=false;return {type:'retreat'}}
  b.order=action;b.orders=b.orders||{};if(b.selected)b.orders[b.selected]=action;s.battleOrder=action;
@@ -1280,7 +1281,7 @@ function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hi�
  <div class="battle-frame"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường nhóm quân"></canvas></div>
  <div class="battle-ui"><div><span class="eyebrow">QUÂN TA • BẤM CHỌN ĐƠN VỊ</span><div class="stack-list">${b.allies.map(cell).join('')}</div></div><div><span class="eyebrow">QUÂN ĐỊCH • BẤM CHỌN MỤC TIÊU</span><div class="stack-list">${b.enemies.map(cell).join('')}</div></div></div>
  <div class="command-bar"><div><div class="eyebrow">MỆNH LỆNH</div><small class="muted">${selected?'Đơn vị: '+esc(selected.name):'Chọn đơn vị'}${focused?' • Mục tiêu: '+esc(focused.name):''}</small></div>
- ${button('battle',{cmd:'attack'},'⚔ ATTACK',false,'primary')}${button('battle',{cmd:'defend'},'🛡 STAND BY',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 FOCUS',false,'secondary')}${button('battle',{cmd:'retreat'},'↩ RETREAT',false,'danger')}
+ ${button('battle',{cmd:'attack'},'⚔ ATTACK',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN QUÂN',false,'secondary')}${button('battle',{cmd:'defend'},'🛡 STAND BY',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 FOCUS',false,'secondary')}${button('battle',{cmd:'retreat'},'↩ RETREAT',false,'danger')}
  ${button('auto',{},state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh',false,'secondary')}</div>
  <div class="card hg04-spellbar"><span class="eyebrow">PHÉP CHIẾN ĐẤU TRANG BỊ</span><div class="hg04-spells">${(state.heroes.find(h=>h.id===state.activeHero)?.equippedSpells||[]).filter(id=>E.spell(state,id)?.kind!=='castellan').map(id=>{const sp=E.spell(state,id);if(!sp)return '';const wait=(b.spellCooldown?.[id]||0)>b.turn,used=b.castTurn===b.turn;
  return button('cast',{id},`✨ ${esc(sp.name)} Lv.${state.heroMagic[id]||0}${wait?' ⏳':''}`,wait||used,'small secondary');}).join('')||'<span class="muted">Chưa có phép trang bị. Nghiên cứu và trang bị trong Magic Tower trước khi xuất chinh.</span>'}</div><p class="hint">${b.activeSpell?`Đang hiệu lực: ${esc(E.spell(state,b.activeSpell.id)?.name||'')} · hết vào lượt ${b.activeSpell.expiry}`:'Không có phép đang hiệu lực'} · Mỗi lượt dùng tối đa 1 phép</p></div>

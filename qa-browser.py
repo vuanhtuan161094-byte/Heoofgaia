@@ -152,6 +152,19 @@ with sync_playwright() as p:
     battle.locator('[data-action="battle"][data-cmd="attack"]').click()
     check('Ranged auto-attack targets strongest enemy across distance',lambda:battle.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle;return !b||(b.lastTargets?.p0==="e1"&&document.querySelector("#main").innerText.includes("Ranged group → Far strong target"))})()'))
     battle.screenshot(path=str(hg09_evidence/'screenshot-ai-ranged-target-priority-desktop.png'),full_page=True)
+    battle.evaluate('(()=>{const s=HOG_APP_DEBUG.getState(),b=s.battle;s.army.human_1=1;s.army.human_2=0;s.army.human_3=0;s.formation=[{unitId:"human_1",count:1}];b.turn=1;b.lastActOrder=[];b.lastTargets={};b.history=["Manual advance fixture"];b.allies=[{id:"p0",slot:0,side:"player",unitId:"human_1",name:"Infantry",range:1,count:1,initial:1,hp:10000,atk:100,def:0,spd:4,pool:10000,x:1,y:1}];b.enemies=[{id:"e0",side:"enemy",unitId:null,name:"Stationary target",range:20,count:1,initial:1,hp:10000,atk:0,def:0,spd:1,pool:10000,x:6,y:5}];b.selected="p0";b.orders={};b.focused=null;HOG_APP_DEBUG.render()})()')
+    battle.screenshot(path=str(hg09_evidence/'screenshot-advance-manual-start-desktop.png'),full_page=True)
+    battle.locator('[data-action="battle"][data-cmd="advance"]').click()
+    check('Advance control moves the selected melee stack without damaging the target',lambda:battle.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle,a=b.allies[0],e=b.enemies[0];return b.orders.p0==="advance"&&(a.x!==1||a.y!==1)&&e.pool===10000})()'))
+    battle.screenshot(path=str(hg09_evidence/'screenshot-advance-manual-move-desktop.png'),full_page=True)
+    for _ in range(20):
+        if battle.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle;return Math.abs(b.allies[0].x-b.enemies[0].x)+Math.abs(b.allies[0].y-b.enemies[0].y)<=1})()'):
+            break
+        battle.locator('[data-action="battle"][data-cmd="advance"]').click()
+    battle.locator('[data-action="battle"][data-cmd="advance"]').click()
+    check('Advance remains non-attacking when the unit reaches its target',lambda:battle.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle;return Math.abs(b.allies[0].x-b.enemies[0].x)+Math.abs(b.allies[0].y-b.enemies[0].y)<=1&&b.enemies[0].pool===10000})()'))
+    battle.locator('[data-action="battle"][data-cmd="attack"]').click()
+    check('Attack order deals damage after the advanced unit reaches melee range',lambda:battle.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle;return b.enemies[0].pool<10000&&b.orders.p0==="attack"})()'))
     battle.close()
     arena=launch({'width':1440,'height':900})
     arena.locator('[data-action="start"]').click()
@@ -234,7 +247,7 @@ with sync_playwright() as p:
     browser.close()
 passed=sum(ok for _,ok in checks);total=len(checks)
 (evidence/'QA-RC1-RESULTS.json').write_text(json.dumps({'total':total,'passed':passed,'failed':total-passed,'errors':errors,'checks':[{'name':n,'passed':b} for n,b in checks]},indent=2,ensure_ascii=False),encoding='utf-8')
-hg09_checks=[(n,ok) for n,ok in checks if n.startswith('Real march') or n.startswith('Battle presents') or n.startswith('Attack command') or n.startswith('Ranged attack') or n.startswith('Combat turn') or n.startswith('Arena cites') or n.startswith('Arena treatment') or n.startswith('Save reload preserves an in-progress Arena') or n.startswith('Arena queue returns') or n.startswith('Undead Reincarnation') or n.startswith('Reincarnation is researched') or n.startswith('Castellan Reincarnation') or n.startswith('Enemy auto-attack') or n.startswith('Ranged auto-attack')]
+hg09_checks=[(n,ok) for n,ok in checks if n.startswith('Real march') or n.startswith('Battle presents') or n.startswith('Attack command') or n.startswith('Ranged attack') or n.startswith('Combat turn') or n.startswith('Arena cites') or n.startswith('Arena treatment') or n.startswith('Save reload preserves an in-progress Arena') or n.startswith('Arena queue returns') or n.startswith('Undead Reincarnation') or n.startswith('Reincarnation is researched') or n.startswith('Castellan Reincarnation') or n.startswith('Enemy auto-attack') or n.startswith('Ranged auto-attack') or n.startswith('Advance control') or n.startswith('Advance remains') or n.startswith('Attack order deals')]
 (hg09_evidence/'QA-HG09-BROWSER-RESULTS.json').write_text(json.dumps({'total':len(hg09_checks),'passed':sum(ok for _,ok in hg09_checks),'failed':sum(not ok for _,ok in hg09_checks),'errors':errors,'checks':[{'name':n,'passed':ok} for n,ok in hg09_checks]},indent=2,ensure_ascii=False),encoding='utf-8')
 print(f'BROWSER TOTAL {passed}/{total} PASS; JS exceptions={len(errors)}')
 sys.exit(1 if passed!=total else 0)

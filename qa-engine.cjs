@@ -229,6 +229,7 @@ test('Equal-speed combat initiative follows left-to-right battlefield position',
  const out=E.battleAct(s,'attack');assert.deepEqual(Array.from(out.order),['p0','p1','p2','p3','e0','e1']);assert.deepEqual(Array.from(s.battle.lastActOrder),Array.from(out.order));
 });
 
+test('Advance order moves without attacking and persists through save/load',()=>{const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const b=s.battle;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Infantry',range:1,count:1,initial:1,hp:10000,atk:100,def:0,spd:4,pool:10000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Stationary target',range:20,count:1,initial:1,hp:10000,atk:0,def:0,spd:1,pool:10000,x:6,y:5}];b.selected='p0';b.orders={};b.focused=null;const a=b.allies[0],e=b.enemies[0],hp=e.pool;let steps=0;while(Math.abs(a.x-e.x)+Math.abs(a.y-e.y)>a.range&&steps++<20){const before=Math.abs(a.x-e.x)+Math.abs(a.y-e.y),out=E.battleAct(s,'advance');assert.equal(out.dealt,0);assert(Math.abs(a.x-e.x)+Math.abs(a.y-e.y)<before);assert.equal(e.pool,hp)}assert(steps<=20);assert.equal(E.battleAct(s,'advance').dealt,0);assert.equal(e.pool,hp);const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.battle.orders.p0,'advance');assert.deepEqual({x:saved.battle.allies[0].x,y:saved.battle.allies[0].y},{x:a.x,y:a.y});const out=E.battleAct(saved,'attack');assert(out.dealt>0);assert(saved.battle.enemies[0].pool<hp)});
 test('Ranged stacks fire across deployment distance without invented movement turns',()=>{
  const s=state();s.army.human_3=40;s.formation=[{unitId:'human_3',count:40}];s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
  const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y};assert.equal(archer.range,20);const out=E.battleAct(s,'attack');
@@ -280,7 +281,7 @@ test('1000 seeded tactical encounters replay identically with valid ledgers',()=
  }
 });
 
-const hg09=results.filter(x=>/^(Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
+const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});
 fs.writeFileSync(path.join(evidence,'QA-HG09-NODE-RESULTS.json'),JSON.stringify({command:'node qa-engine.cjs',suiteTotal:pass+failed,suitePassed:pass,suiteFailed:failed,hg09Total:hg09.length,hg09Passed:hg09.filter(x=>x.passed).length,hg09Failed:hg09.filter(x=>!x.passed).length,seededEncounters:1000,checks:hg09},null,2),'utf8');
 console.log(`TOTAL ${pass}/${pass+failed} PASS`);process.exitCode=failed?1:0;

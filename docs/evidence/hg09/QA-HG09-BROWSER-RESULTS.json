@@ -1,6 +1,6 @@
 {
-  "total": 14,
-  "passed": 14,
+  "total": 17,
+  "passed": 17,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -30,6 +30,18 @@
     },
     {
       "name": "Ranged auto-attack targets strongest enemy across distance",
+      "passed": true
+    },
+    {
+      "name": "Advance control moves the selected melee stack without damaging the target",
+      "passed": true
+    },
+    {
+      "name": "Advance remains non-attacking when the unit reaches its target",
+      "passed": true
+    },
+    {
+      "name": "Attack order deals damage after the advanced unit reaches melee range",
       "passed": true
     },
     {
