@@ -104,8 +104,21 @@ function enrichOffer(offer){
 }
 function tavernOffers(s){if(Array.isArray(s.tavern?.offers))for(const offer of s.tavern.offers)enrichOffer(offer)}
 function highTavernCommonStats(s){
- if((s.buildings.tavern||0)<10)return;
- const raceIndex=Object.keys(E.C.races).indexOf(s.race),round=s.tavern.round||0;
+ const level=s.buildings.tavern||0,raceIndex=Object.keys(E.C.races).indexOf(s.race),round=s.tavern.round||0;
+ if(level>=6&&level<10&&s.tavern.offers.length){
+  // SRC48 (17173, 2009-10-25) says Tavern levels above 5 almost always
+  // refresh at least one blue hero, but gives no probability or stat table.
+  // Keep that qualitative rule playable with one deterministic blue offer;
+  // its 20-50 stats and blue-band adjustment are an explicit simulation.
+  const i=(round+raceIndex)%s.tavern.offers.length,offer=s.tavern.offers[i];
+  const seed=(round*104729+(i+1)*7919+(raceIndex+1)*1543)>>>0;
+  for(let j=0;j<4;j++)offer[attrKeys[j]]=20+((seed+((j+1)*(j+17)*7919))%31);
+  const target=126+(seed%35);let total=attrKeys.reduce((n,k)=>n+offer[k],0),step=seed%4,spins=0;
+  while(total<target&&spins<256){const k=attrKeys[(step+spins)%4];if(offer[k]<50){offer[k]++;total++}spins++}
+  while(total>target&&spins<512){const k=attrKeys[(step+spins)%4];if(offer[k]>20){offer[k]--;total--}spins++}
+  offer.level=1;enrichOffer(offer);
+ }
+ if(level<10)return;
  for(let i=0;i<s.tavern.offers.length;i++){
   const offer=s.tavern.offers[i],seed=(round*104729+(i+1)*7919+(raceIndex+1)*1543)>>>0;
   for(let j=0;j<4;j++)offer[attrKeys[j]]=20+((seed+((j+1)*(j+17)*7919))%31);

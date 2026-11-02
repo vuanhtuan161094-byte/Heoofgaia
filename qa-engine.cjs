@@ -377,6 +377,10 @@ test('Tavern name/stat colors follow dated and community threshold evidence',()=
  // 2010 Chinese guide overlaps White and Blue at 125; Fandom's explicit <=125 rule resolves it as White.
  for(const [value,color] of [[40,'white'],[41,'blue'],[50,'blue'],[51,'yellow'],[60,'yellow'],[61,'green'],[70,'green'],[71,'purple']])assert.equal(E.heroStatColor(value),color,'single stat '+value);
 });
+test('SRC48 Tavern level 6-9 refresh creates one simulated blue hero with valid source-band color',()=>{
+ const low=state();low.buildings.tavern=5;E.refreshTavern(low);assert(low.tavern.offers.every(h=>h.quality==='white'));
+ for(let level=6;level<=9;level++)for(let round=1;round<=8;round++){const s=state();s.buildings.tavern=level;s.tavern.round=round-1;E.refreshTavern(s);assert.equal(s.tavern.offers.length,E.tavernSlots(level));const blue=s.tavern.offers.filter(h=>h.quality==='blue');assert.equal(blue.length,1,`L${level}/round ${round}`);const hero=blue[0];assert(hero.heroValue>=126&&hero.heroValue<=160);for(const k of ['atk','def','spd','int'])assert(hero[k]>=20&&hero[k]<=50);for(const h of s.tavern.offers)assert.equal(h.quality,E.heroNameColor(h));assert.equal(E.strictSave(s),true);const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.tavern.offers.find(h=>h.id===hero.id).quality,'blue');}
+});
 test('Tavern level 10 refresh creates eight source-band heroes and persisted derived colors',()=>{
  const s=state();s.buildings.tavern=10;E.refreshTavern(s);assert.equal(s.tavern.offers.length,8);
  for(const h of s.tavern.offers){assert(h.atk>=20&&h.atk<=50&&h.def>=20&&h.def<=50&&h.spd>=20&&h.spd<=50&&h.int>=20&&h.int<=50);assert.equal(h.quality,E.heroNameColor(h));assert.equal(h.heroValue,h.atk+h.def+h.spd+h.int-h.level+1);assert.equal(E.strictSave(s),true);}

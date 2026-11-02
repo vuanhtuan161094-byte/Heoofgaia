@@ -44,6 +44,7 @@
 | SRC45 | 2009-09-21 | Chinese / Sina player strategy guide | Reports NPC victory XP for 4★–8★ as 1,000 / 4,000 / 9,000 / 18,000 / 30,000. Also gives approximate NPC forces of 400,000 / 900,000 / 1,500,000 at 6★–8★, plus dated player-side troop-tier, force, hero-speed and broad-formation advice; it does not expose complete enemy rosters or stats. | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
 | SRC46 | 2009-07-27 | Chinese / Yeyou-17173 player-guide compilation, credited to GGwan | Gives minimum and “complete victory” army-force recommendations for 1★–8★ NPCs and 128 wild-monster coordinates; no troop compositions or NPC unit stats | https://article.yeyou.com/content/2009-07-27/20090727165411627_all.shtml |
 | SRC47 | 2009-08-23 | Chinese / Sina player guide | Reports monster guarding force and equipment-camp guarding force for levels 1–10 (3,000 / 8,400 / 24,000 / 72,000 / 216,000 / 480,000 / 960,000 / 1,440,000 / 2,160,000 / 3,000,000); equipment color is based on number of attributes, not equipment level; prints hero-use-level bands. | https://games.sina.com.cn/o/z/yxzc/2009-08-23/2233346760.shtml |
+| SRC48 | 2009-10-25 | Chinese / 17173 player FAQ | Reports hourly Tavern refresh, higher chance of better-quality heroes at higher Tavern levels, and that Taverns above level 5 almost always show at least one blue hero per refresh. It does not give numeric odds or a stat-generation table. | https://web.17173.com/content/2009-10-25/1256486243.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -87,6 +88,7 @@
 | F36 | Reported NPC guarding force by star | SRC45, SRC46, SRC47 | B for these dated Chinese player reports | **PARTIAL:** SRC46 attack recommendations and SRC47 guard-force reports differ at 1★/2★ (1,500/4,000 vs 1,800/4,200) and match at 3★–8★; later SRC45 gives separate approximate 6★–8★ values (400,000/900,000/1,500,000), conflicting with SRC47 (360,000/720,000/1,200,000). UI preserves dated source values separately. No hard gate or enemy roster is inferred. Formula/version and English/EU parity remain unresolved |
 | F37 | High-star NPC battle advice and player army recommendations | SRC45 | B for a dated Chinese player guide | **PARTIAL EVIDENCE ONLY:** Research ledger records tier/force/speed advice for 3★–8★ and two broad 8★ formation patterns. It is not enforced as a game rule; exact enemy compositions, stats and original-client calibration remain modeled or missing |
 | F38 | Outdoor equipment camps, 1–10 locations, defensive-force guidance and gear acquisition | SRC20; SRC47 | B for dated Chinese player guides | **PARTIAL PASS:** 76 coordinates are selectable; guard-force reports remain separate from attack advice, including level-2 8,400 vs 8,000 and the suspicious level-6 100,000 “complete” typo. March, battle, independent target clearing, v07 reload and equipable modeled loot work. Enemy roster/stats, item attributes and original drop table remain missing/SIM; regional parity is unverified |
+| F39 | Tavern hourly refresh and qualitative improvement above level 5 | SRC03, SRC21, SRC38, SRC48 | B for dated qualitative Chinese guide; C for living wiki mechanics | **PARTIAL:** v07 Tavern refresh persists. A level 6–9 refresh deterministically creates one simulated Blue candidate with stats inside the sourced Blue-name band to reflect SRC48’s “almost always” report. This is a playable approximation, not a recovered chance or stat table. Level-10 common stat range, exact low-level odds/counts and regional parity remain incomplete. |
 
 ## 3. Source conflicts and caveats
 
@@ -191,6 +193,12 @@ The 17173 guide dated 2009-12-27 calls out noncombat wild buildings. Lines 145�
 
 HG-10 now uses a 100×100 world coordinate grid and adds the ten listed visitable structures. Visits award capped resources or apply live hero-stat buffs; Attack/Defense change combat, Speed affects combat and hero march calculations, and Knowledge affects the existing modeled Castellan-income formula if the hero is appointed after the visit. Visit state and remaining buff game-time round-trip in v07 without a save-key/schema change. UTC midnight and immediate no-AP visitation are implementation choices because the guides do not state reset timezone, movement, or AP cost. World-building illustrations are original code-drawn prototypes, not extracted HOG artwork. This is B-confidence evidence for a dated Chinese player guide; English/EU parity remains unknown.
 
+
+## SRC48 — dated Tavern quality observation (2026-11-03)
+
+The 17173 player FAQ dated 2009-10-25 says the Tavern refreshes each hour and higher Tavern levels improve the chance of better-quality Heroes. It specifically reports that Taverns above level 5 almost always show at least one blue-name candidate on each refresh, while noting that chance still matters and citing one level-2 INT-58 candidate as an anecdote. This is qualitative player evidence, not an odds table.
+
+The engine now honors the direction of that evidence: each level 6–9 refresh yields one modeled blue candidate whose total-stat value is placed inside the cited blue band (126–160). It does not claim a server-side probability or exact stat distribution. Level 10 retains the separate common-stat model from SRC21, with the rare 2% tail omitted. Chrome and Node checks exercise refresh, hire and v07 persistence.
 
 ## SRC44 — Hero Tower/Tavern prerequisite cross-check (2026-11-03)
 
