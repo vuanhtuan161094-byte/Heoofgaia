@@ -1,0 +1,60 @@
+{
+  "suite": "HG-08 source-backed Tavern 10 construction gate",
+  "source": "installed Google Chrome, actual standalone HTML via file://; real building UI and timed queues; fixture seeds prerequisites/resources",
+  "total": 10,
+  "passed": 10,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline HTML opens in installed Chrome from file://",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn • Hẻoofgaia | Heroes of Gaia reconstruction"
+    },
+    {
+      "name": "Hero Tower level 8 stays locked below Town Hall 7",
+      "passed": true,
+      "detail": "ật phẩm\n💍 Nhẫn thạch anh\n\ncharm · ATK +2 · DEF +1 · SPD +1\n\n850 🪙 · cần Bazaar Lv.2\nMua vật phẩm\n🔮 Hộ phù cổ\n\ncharm · ATK +1 · DEF +3 · SPD +0\n\n980 🪙 · cần Bazaar Lv.3\nMua vật phẩm"
+    },
+    {
+      "name": "Tavern level 10 shows its sourced Hero Tower 8 / Town Hall 7 lock",
+      "passed": true,
+      "detail": "0 🪙 · cần Bazaar Lv.1\nMua vật phẩm\n🏹 Cung tần bì\n\nweapon · ATK +4 · DEF +0 · SPD +1\n\n650 🪙 · cần Bazaar Lv.2\nMua vật phẩm\n🛡 Giáp sắt trinh sát\n\narmor · ATK +0 · DEF +4 · SPD +0\n\n540 🪙 · cần Bazaar Lv.1\nMua vật phẩm\n🧥 Áo choàng lữ khách\n\narmor · ATK +0 · DEF +2 · SPD +2\n\n680 🪙 · cần Bazaar Lv.2\nMua vật phẩm\n💍 Nhẫn thạch anh\n\ncharm · ATK +2 · DEF +1 · SPD +1\n\n850 🪙 · cần Bazaar Lv.2\nMua vật phẩm\n🔮 Hộ phù cổ\n\ncharm · ATK +1 · DEF +3 · SPD +0\n\n980 🪙 · cần Bazaar Lv.3\nMua vật phẩm"
+    },
+    {
+      "name": "Hero Tower level 8 is enabled at Town Hall 7",
+      "passed": true,
+      "detail": "or · ATK +0 · DEF +2 · SPD +2\n\n680 🪙 · cần Bazaar Lv.2\nMua vật phẩm\n💍 Nhẫn thạch anh\n\ncharm · ATK +2 · DEF +1 · SPD +1\n\n850 🪙 · cần Bazaar Lv.2\nMua vật phẩm\n🔮 Hộ phù cổ\n\ncharm · ATK +1 · DEF +3 · SPD +0\n\n980 🪙 · cần Bazaar Lv.3\nMua vật phẩm"
+    },
+    {
+      "name": "Real Hero Tower 8 construction enters the v07 building queue",
+      "passed": true,
+      "detail": "{\"key\": \"heroTower\", \"level\": 8, \"valid\": true, \"version\": 7}"
+    },
+    {
+      "name": "Completing Hero Tower 8 unlocks Tavern 10",
+      "passed": true,
+      "detail": "{\"heroTower\": 8, \"queue\": null, \"gate\": {\"allowed\": true, \"reason\": \"SRC03: Quán trọ cấp 10 cần Tháp tướng cấp 8 (Town Hall cấp 7).\", \"source\": \"SRC03\", \"exception\": \"town-hall-cap\"}}"
+    },
+    {
+      "name": "Tavern level 10 upgrade is enabled after its prerequisites complete",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Tavern level 10 enters a real construction queue",
+      "passed": true,
+      "detail": "{\"key\": \"tavern\", \"level\": 10, \"valid\": true, \"version\": 7}"
+    },
+    {
+      "name": "Real file:// Save/Reload preserves the queued Tavern 10 upgrade in v07",
+      "passed": true,
+      "detail": "{\"version\": 7, \"heroTower\": 8, \"tavern\": 9, \"queue\": \"tavern\", \"level\": 10, \"valid\": true}"
+    },
+    {
+      "name": "No JavaScript errors during building prerequisite flow",
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}

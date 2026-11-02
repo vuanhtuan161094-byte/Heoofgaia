@@ -118,6 +118,27 @@ function cityBuildOrder(s){
  const map={human:['stables','blacksmith'],elf:['magicPool','natureTower'],orc:['beastPen','blacksmith'],undead:['graveyard','darkHall','soulTower']};
  return E.buildOrder.filter(key=>!unique.includes(key)&&key!=='blacksmith'&&key!=='stables'&&!(s.race==='undead'&&key==='barracks')).concat(map[s.race]||[]);
 }
+function buildingUpgradeGate(s,key){
+ const def=E.C.buildings[key],level=s.buildings?.[key]||0,next=level+1;
+ if(!def||def.state!=='observed')return {allowed:false,reason:'Công trình chưa được triển khai.'};
+ if(level>=10)return {allowed:false,reason:'Đạt cấp tối đa mô phỏng.'};
+ if(s.buildingQueue)return {allowed:false,reason:'Đang có một công trình trong hàng đợi.'};
+ if(key==='heroTower'&&next===8){
+  if((s.buildings.hall||0)<7)return {allowed:false,reason:'SRC03: cần Town Hall cấp 7 để nâng Tháp tướng lên cấp 8.',source:'SRC03'};
+  return {allowed:true,reason:'SRC03: Tháp tướng cấp 8 mở khi Town Hall đạt cấp 7.',source:'SRC03',exception:'town-hall-cap'};
+ }
+ if(key==='tavern'&&next===10){
+  if((s.buildings.hall||0)<7)return {allowed:false,reason:'SRC03: cần Town Hall cấp 7 cho chuỗi Quán trọ cấp 10.',source:'SRC03'};
+  if((s.buildings.heroTower||0)<8)return {allowed:false,reason:'SRC03: cần Tháp tướng cấp 8 để nâng Quán trọ lên cấp 10.',source:'SRC03'};
+  return {allowed:true,reason:'SRC03: Quán trọ cấp 10 cần Tháp tướng cấp 8 (Town Hall cấp 7).',source:'SRC03',exception:'town-hall-cap'};
+ }
+ if(key!=='hall'&&level>=(s.buildings.hall||0))return {allowed:false,reason:'Cần nâng Town Hall trước.',source:'SRC03'};
+ return {allowed:true,reason:'',source:'SRC03'};
+}
+function buildingUpgradeCapException(s,key,next){
+ return (key==='heroTower'&&next===8&&(s.buildings.hall||0)>=7)||
+  (key==='tavern'&&next===10&&(s.buildings.hall||0)>=7&&(s.buildings.heroTower||0)>=8);
+}
 function troopBuildingKey(raceOrState){const race=typeof raceOrState==='string'?raceOrState:raceOrState?.race;return race==='undead'?'graveyard':'barracks'}
 function expToNext(level){
  if(!Number.isSafeInteger(level)||level<1||level>=100)return null;
@@ -380,6 +401,7 @@ if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natu
 E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.appoint=appoint;E.selectHero=selectHero;E.recallHero=recallHero;E.finishReturn=finishReturn;E.heroAway=heroAway;E.valid=valid;
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,FAME_AP,MINE_HOURLY,mineLimit,heroCountLimit,fameApStats,
  ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
+ buildingUpgradeGate,buildingUpgradeCapException,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
 root.HOG_HG08={version:V,saveKey:KEY,status:'evidence-labelled-progression'};

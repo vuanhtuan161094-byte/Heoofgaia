@@ -40,6 +40,7 @@
 | SRC41 | 2009-10-16 | Chinese / 17173 new-player guide | Secondary castles unlock other-race troops and hero spells; routine tasks remain tied to the main-race city; castle count is fame-limited to six; cities can be taken/abandoned; no demolition/downgrade; up to three heroes can be deployed simultaneously; special world buildings have a once-per-day visit limit | https://web.17173.com/content/2009-10-16/20091016155000113,1.shtml |
 | SRC42 | 2009-06-09 | Chinese / SFACG contemporary review and linked game screenshots | Describes the castle as a scenic 2D landscape with detailed buildings placed across a hillside; the Town Hall opens the building list; eligible building rows are highlighted; tutorial/tasks guide construction. Linked screenshot gallery includes live castle/world UI. | https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml ; https://games.sina.com.cn/o/i/2009-03-05/1638161736.shtml |
 | SRC43 | 2009-12-27 | Chinese / 17173 player guide | Windmill resource roll; Watermill +2,000 Gold; War Academy +10% Attack; Defense Tower +10% Defense; Enlightenment Book +10% Knowledge; Prayer Temple +10% Speed for two hours; prints the 100×100 coordinates for five Watermills and the listed structures | https://web.17173.com/content/2009-12-27/1261927948.shtml |
+| SRC44 | 2010-12-14 | Chinese / 17173 city-development article | Hero Tower level is a Tavern upgrade prerequisite; Tavern level affects offer count and quality. No exact gate level or probability table. | https://web.17173.com/content/2010-12-14/20101214101223733.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -57,8 +58,8 @@
 | F10 | Tavern candidate list rerolls around once/hour | SRC03, SRC09 | A/B | **HG06 ADDED:** candidate UI + timer + save; quality odds/prices SIM |
 | F11 | Candidate counts by Tavern level | SRC03 | B | **PARTIAL:** documented L2=3,L4=4,L9=7,L10=8; unknown other levels filled SIM |
 | F12 | Tavern hero quality differs with level | SRC03, SRC09 | B | **PARTIAL:** quality simulated, not validated distribution |
-| F13 | Town Hall caps construction level | SRC03, SRC10 | A | **ALIGNED** |
-| F14 | Hero Tower prerequisite to Tavern level | SRC03, SRC09 | B | **MISSING:** exact level gates require regional verification |
+| F13 | Town Hall caps construction level except for explicit source-listed terminal gates | SRC03, SRC10 | A/B | **PARTIAL:** general cap enforced; SRC03's explicit Hero Tower L8 and Tavern L10 entries are implemented as the only sourced exceptions |
+| F14 | Tavern L10 requires Hero Tower L8; Hero Tower L8 requires Town Hall L7 | SRC03; broad relationship cross-checked by SRC44 | B | **HG-08 ADDED:** real construction gates, no-spend lock, paid queue, and strict v07 Save/Load tested; other Tavern/Hero Tower levels and regional parity remain unverified |
 | F15 | High-tier troop building requires side buildings / researched tech | SRC03, SRC10, SRC11 | B | **PARTIAL:** not gate-complete beyond Scout |
 | F16 | Warehouse capacity & Storing | SRC08, SRC04 | A | **PARTIAL:** static level lookup exists, early levels unclear |
 | F17 | Castle spells and 5 equipped hero skills | SRC04 | A | **PARTIAL:** demo spell catalog, not whole original list or combat AI |
@@ -177,3 +178,8 @@ HG-10 implements race-separated resources, buildings, troop pools, research and 
 The 17173 guide dated 2009-12-27 calls out noncombat wild buildings. Lines 145–154 list the Windmill resource roll (Wood 400, Ore 400, Sulfur 200 or Crystal 200), Watermill reward (2,000 Gold), and two-hour hero bonuses: War Academy +10% Attack, Defense Tower +10% Defense, Enlightenment Book +10% Knowledge, Prayer Temple +10% Speed. Lines 225–236 print coordinates on a 0–99 map grid and list five Watermills. SRC41 separately describes a once-per-day visit limit for special buildings.
 
 HG-10 now uses a 100×100 world coordinate grid and adds the ten listed visitable structures. Visits award capped resources or apply live hero-stat buffs; Attack/Defense change combat, Speed affects combat and hero march calculations, and Knowledge affects the existing modeled Castellan-income formula if the hero is appointed after the visit. Visit state and remaining buff game-time round-trip in v07 without a save-key/schema change. UTC midnight and immediate no-AP visitation are implementation choices because the guides do not state reset timezone, movement, or AP cost. World-building illustrations are original code-drawn prototypes, not extracted HOG artwork. This is B-confidence evidence for a dated Chinese player guide; English/EU parity remains unknown.
+
+
+## SRC44 — Hero Tower/Tavern prerequisite cross-check (2026-11-03)
+
+The Chinese 17173 city-development article dated 2010-12-14 states qualitatively that Hero Tower level gates Tavern upgrades and that Tavern level affects candidate quantity and quality. It gives neither a numeric gate nor candidate probabilities. For the exact terminal chain implemented in HG-08, the numeric evidence remains the explicit entries in SRC03's English community building page revision dated 2009-12-09: Hero Tower L8 requires Town Hall L7, and Tavern L10 requires Hero Tower L8. Do not infer intermediate level gates from either source. The 2010 Chinese article supports the relationship only; it is not independent confirmation of the exact values or of English/EU client parity.

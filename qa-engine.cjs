@@ -344,6 +344,16 @@ test('Faction-specific source buildings are buildable only in their race build l
  const maps={human:['stables','blacksmith'],elf:['magicPool','natureTower'],orc:['beastPen','blacksmith'],undead:['graveyard','darkHall','soulTower']};
  for(const [race,buildings] of Object.entries(maps)){const s=state(race),order=E.cityBuildOrder(s);for(const b of buildings)assert(order.includes(b),race+':'+b);for(const other of Object.values(maps).flat())if(!buildings.includes(other)&&!(race==='orc'&&other==='blacksmith'))assert(!order.includes(other),race+' leaked '+other);if(race==='undead'){assert(!order.includes('barracks'),'Undead UI should use Graveyard');s.buildings.hall=2;}for(const k of C.keys)s.res[k]=Math.min(E.limits(s)[k],100000);E.upgrade(s,buildings[0]);assert.equal(s.buildingQueue.key,buildings[0]);}
 });
+test('SRC03 gates Tavern level 10 behind Hero Tower 8 and Town Hall 7 through real saveable queues',()=>{
+ const s=state();s.speed=1;s.buildings.warehouse=10;s.buildings.hall=6;s.buildings.heroTower=7;s.buildings.tavern=9;expensive(s);
+ const before=JSON.stringify(s.res);assert.equal(E.buildingUpgradeGate(s,'heroTower').allowed,false);throws(()=>E.upgrade(s,'heroTower'),/Town Hall cấp 7/);assert.equal(JSON.stringify(s.res),before);assert.equal(s.buildingQueue,null);
+ s.buildings.hall=7;assert.equal(E.buildingUpgradeGate(s,'heroTower').allowed,true);assert.equal(E.buildingUpgradeGate(s,'tavern').allowed,false);
+ throws(()=>E.upgrade(s,'tavern'),/Tháp tướng cấp 8/);assert.equal(JSON.stringify(s.res),before);assert.equal(s.buildingQueue,null);
+ E.upgrade(s,'heroTower');assert.equal(s.buildingQueue.key,'heroTower');assert.equal(s.buildingQueue.level,8);assert.equal(E.strictSave(s),true);
+ E.tick(s,s.lastTick+(s.buildingQueue.remaining+1)*1000);assert.equal(s.buildings.heroTower,8);assert.equal(s.buildingQueue,null);assert.equal(E.buildingUpgradeGate(s,'tavern').allowed,true);
+ E.upgrade(s,'tavern');assert.equal(s.buildingQueue.key,'tavern');assert.equal(s.buildingQueue.level,10);assert.equal(E.strictSave(s),true);
+ const restored=E.parseSave(E.serializeSave(s));assert.equal(restored.version,7);assert.equal(restored.buildings.heroTower,8);assert.equal(restored.buildingQueue.key,'tavern');assert.equal(restored.buildingQueue.level,10);
+});
 test('Tavern name/stat colors follow dated and community threshold evidence',()=>{
  const heroFor=value=>{const base=Math.floor(value/4),r=value%4;return {atk:base+(r>0?1:0),def:base+(r>1?1:0),spd:base+(r>2?1:0),int:base,level:1};};
  for(const [value,color] of [[125,'white'],[126,'blue'],[160,'blue'],[161,'yellow'],[180,'yellow'],[181,'green'],[200,'green'],[201,'purple'],[280,'purple']])assert.equal(E.heroNameColor(heroFor(value)),color,'hero total '+value);

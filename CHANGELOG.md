@@ -1,4 +1,11 @@
 
+## 2026-11-03 — HG-08 source-backed Tavern terminal construction gates (partial)
+
+- Added the explicit SRC03 terminal chain: Hero Tower L8 requires Town Hall L7; Tavern L10 requires Hero Tower L8. Only these exact upgrades bypass the generic Town Hall cap, and rejected upgrades spend no resources.
+- The city UI displays the actual missing prerequisite. Construction runs through the existing timed queue and preserves the current v07 Save/Load schema.
+- Node regression: 114/114 PASS. Installed Chrome regression: 91/91 PASS with zero page exceptions. Actual Chrome `file://` Tavern/Save/Reload flow: 10/10 PASS.
+- Added dated SRC44 Chinese qualitative cross-check; it does not supply numeric gates or Tavern probabilities. Intermediate gates, odds and regional parity remain open; no 1:1 claim.
+
 ## 2026-11-03 — HG-10 world visitables (partial)
 
 - Expanded the playable outdoor map to the 100×100 historical coordinate space and added ten visitable buildings listed by the 2009 Chinese guide.

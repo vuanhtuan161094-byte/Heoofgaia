@@ -81,7 +81,7 @@ with sync_playwright() as p:
     cap.locator('#nav [data-tab="city"]').click()
     cap.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();s.buildings.barracks=1;s.buildings.hall=1;HOG_APP_DEBUG.render()})()')
     cap.locator('[data-action="building"][data-key="barracks"]').click()
-    check('Town Hall cap disables Barracks upgrade at the current hall level',lambda:cap.locator('[data-action="upgrade"]').is_disabled() and 'Nâng Town Hall trước' in cap.locator('.actions').inner_text() and cap.evaluate('HOG_APP_DEBUG.getState().buildingQueue===null'))
+    check('Town Hall cap disables Barracks upgrade at the current hall level',lambda:cap.locator('[data-action="upgrade"]').is_disabled() and 'nâng Town Hall trước' in cap.locator('.actions').inner_text() and cap.evaluate('HOG_APP_DEBUG.getState().buildingQueue===null'))
     cap.screenshot(path=str(evidence/'screenshot-townhall-cap-locked-desktop.png'),full_page=True)
     cap.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();s.buildings.hall=2;for(const k of HOG_CATALOG.keys)s.res[k]=HOG_ENGINE.limits(s)[k];HOG_APP_DEBUG.render()})()')
     check('Upgrading Town Hall removes the Barracks UI cap',lambda:cap.locator('[data-action="upgrade"]').is_enabled())
