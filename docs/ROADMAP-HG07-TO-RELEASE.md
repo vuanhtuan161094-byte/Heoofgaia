@@ -48,3 +48,11 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 - Fandom remains a partial survey: 608 articles are reported on its home page, but direct enumeration is blocked. Indexed pages read include Units, World Buildings, Newbie Guide, Combat mechanics, Heroes, Castles, Guild, and race/building pages. No claim that every article was read.
 - Fresh Hall-cap evidence: `docs/evidence/hg08/screenshot-townhall-cap-locked-desktop.png` (disabled upgrade at Hall 1) and `docs/evidence/hg08/screenshot-townhall-cap-unlocked-queue-desktop.png` (real Barracks Lv.2 queue after Hall 2). The castle artwork is still a procedural prototype; original-client parity is not established.
 - Latest local branch SHA: `4dbadfba76fcdd2f1237d818df8dba9012cc5c58`. Private GitHub repository creation/push remains BLOCKED because no remote or available create-repository/authenticated GitHub CLI is present.
+
+## Latest tested gameplay slice — manual Advance — 2026-11-02
+
+- Tested gameplay commit: `813557f5fdf5add1f187e1e9e2c7b62a7f6caa17` on `feature/heoofgaia-hg08-20261102`.
+- Added an actual per-stack Advance order; it moves the selected melee group without damage, persists across Save/Load and permits a later Attack to hit after contact. Fandom Newbie Guide documents Advance/Stand By/Retreat controls; exact 2009 step distance remains unverified.
+- Regression: Node **79/79**, browser **71/71** with zero JS exceptions, file:// **12/12**, 9 JavaScript syntax checks PASS, offline build **152,097 characters PASS**. HG-09-only receipts: Node **14/14**, browser **17/17**. One thousand seeded combat replay pairs continue to pass.
+- Captures: `docs/evidence/hg09/screenshot-advance-manual-start-desktop.png` and `screenshot-advance-manual-move-desktop.png` show the runtime before/after. Visual inspection confirms movement and unchanged target HP; visuals remain a procedural prototype.
+- This advances HG-09 but does not complete it. HG-08 data gaps remain; no original-client comparison or 1:1 claim. Private GitHub repository/push remains BLOCKED due no remote/create-repository operation.
