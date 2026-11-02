@@ -2,7 +2,7 @@
 
 All 40 catalog rows are listed. “Gates in build” are the checks currently enforced before resources are spent. Confidence describes historical evidence, not software-test coverage.
 
-- **A / OBSERVED:** exact requirement appears in the later dated Chinese Human table (SRC19, independently corroborated by SRC20). Earlier SRC27 (2009-05-21) is retained as version-conflicting evidence: it lists Archer at Barracks 2 and does not print the later Town Hall gates. The current enforced rows target the later table.
+- **A / OBSERVED:** exact gates are printed in the detailed Human table of the 2009-12-27 guide hosted by 17173 and republished at Lequ in 2010-11 (SRC19/SRC20). These URLs contain near-verbatim text and are not independent corroboration. The guide has a Monk conflict: a strategic prose example says Barracks 5 + training technology 5, while the unit table and fame-stage recommendation say Town Hall 6 + Barracks 6 + training technology 5. The matrix retains the specific table row and flags the conflict. Earlier SRC27 (2009-05-21) is version-conflicting evidence: it lists Archer at Barracks 2 and does not print the later Town Hall gates.
 - **B / PARTIAL:** the available source supports only part of the gate; missing requirements are not invented.
 - **C / SECONDARY:** a third-party entry lists a per-unit gate with no date/build (Thunderbird, SRC26), or a dated contemporary feature states the gate without original-client validation (Centaur, SRC28). Neither is checked against the original client.
 - **P / PROVISIONAL MODEL:** non-Human troop-building level is temporarily mapped to catalog tier for a playable progression curve. No dated 2009–2010 per-unit numeric gate table was found. This is a gameplay proxy, not historical data.
@@ -16,7 +16,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Human | 3 | Archer | Town Hall 3; Barracks 3; Bootcamp 1 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
 | Human | 4 | Heavy Soldier | Town Hall 4; Barracks 4; Blacksmith 1; Manufacturing 1 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 5 | Gryphon | Town Hall 5; Barracks 5; Stables 1; Manufacturing 3 | A / OBSERVED | SRC19, SRC20, SRC04 |
-| Human | 6 | Monk | Town Hall 6; Barracks 6; Bootcamp 5 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
+| Human | 6 | Monk | Town Hall 6; Barracks 6; Bootcamp 5 | A / OBSERVED; one prose example conflicts on Barracks level; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
 | Human | 7 | Elite Knight | Town Hall 7; Barracks 7; Stables 4; Blacksmith 4; Bootcamp 6 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
 | Human | 8 | Priest | Town Hall 8; Barracks 8; Blacksmith 6; Manufacturing 7 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 9 | Angel | Town Hall 9; Barracks 9; Stables 7; Blacksmith 8; Manufacturing 8 | A / OBSERVED | SRC19, SRC20, SRC04 |
@@ -58,3 +58,9 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 - All four tier-2 entries require Scouting 1. SRC22 identifies the three non-Human roles as scouts, while SRC04 supplies the Scouting-1 rule. Since these pages describe different regional editions, exact cross-version gate parity is not confirmed; Human Town Hall and other faction support-building gates remain unverified and are not enforced.
 - The other 30 units do **not** have source-complete prerequisites. Faction building roles establish which structure recruits troops, not a numeric per-unit level.
 - The 28 remaining Elf/Orc/Undead rows enforce the provisional P proxy `troop-building level = catalog tier`; the UI says this is not source-verified. Orc Thunderbird (SRC26) and Elf Centaur (SRC28) are C-confidence exceptions with printed gates; neither has original-client confirmation. Other support-building levels (including Dark Hall, Soul Tower, Magic Pool and Nature Tower) remain missing and unapplied.
+
+### Additional source audit — 2026-11-02
+
+Sina's dated race roster pages identify unit names and broad roles for all four Chinese rosters, but do not establish numeric per-unit gates. This confirms that roster role and recruitment prerequisite are separate evidence questions; the P-tier building-level proxies remain unverified.
+
+SRC19/SRC20 are not independent guides: the Lequ-hosted 2010 page and 17173 2009 article reproduce near-identical text. The Monk row remains the explicit table requirement, but the same guide's prose says Barracks 5; both statements are retained as a source conflict. No game rule was changed from this evidence alone.

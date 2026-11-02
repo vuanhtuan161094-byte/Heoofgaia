@@ -96,3 +96,9 @@
 ## 6. Evidence versus verification
 
 The historical articles and wiki pages are **documentary research**. Node/Chromium tests only show that **HG06 implements its own stated behavior**, not that the 2009 client would behave identically. Verifying exact clone parity requires original data/client and version-stamped empirical or static evidence. The `REV-01` dossier remains background; this HG06 dossier supersedes its three-game planning scope by focusing on Heroes of Gaia alone.
+
+## HG-08 source reconciliation update — 2026-11-02
+
+The dated Wikidot unit table is revision 19 (2009-12-06); its values remain the current English catalog source. The living Fandom Units table has version drift: it names Orc T1 as Peon rather than Imp, and gives Green Dragon DEF 109 versus 199 in the dated Wikidot revision. Sina's 2009-08-27 Chinese roster pages call the Orc basic unit 苦工 and give all four races' unit roles, but do not settle the international label or numeric gates. Keep those as edition-specific name variants until a matching client source resolves them.
+
+The Wikidot page's own weighted-value formula also disagrees with its printed Cost/Maintenance cell for three rows: Heavy Soldier 383 computed vs 394 printed; Direwolf 428 vs 358; Cyclops 1572 vs 1312. Current behavior derives unit value from the resource costs using the page's prose formula; the original-client value for these rows is still unverified. The 2010 Lequ Human gate table is near-verbatim with the 2009 17173 guide, not an independent second confirmation, and contains a Monk Barracks-level conflict between prose (5) and the detailed table/stage guide (6).
