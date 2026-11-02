@@ -288,7 +288,7 @@ function battleAct(s,action){
  if(exp)s.activeHero=exp.heroId;
  const reward=b?battleExperienceReward(b):{star:1,baseXp:0,source:'SIM'};if(hero)hero.xp=0;
  let result;try{result=prior.battleAct(s,action)}finally{if(hero&&snapshot)Object.assign(hero,snapshot)}
- if(result?.type==='win'&&hero){const gained=grantHeroExperience(s,hero.id,reward.baseXp,`thắng trận ${reward.star}★`),shown=gained.gained.toLocaleString('vi-VN',{maximumFractionDigits:6});E.note(s,`${hero.name} nhận ${shown} EXP sau chiến thắng ${reward.star}★ (${reward.source}).`)}
+ if(result?.type==='win'&&hero){const label=b?.kind==='treasure'?`kho báu cấp ${reward.star}`:`${reward.star}★`,gained=grantHeroExperience(s,hero.id,reward.baseXp,`thắng trận ${label}`),shown=gained.gained.toLocaleString('vi-VN',{maximumFractionDigits:6});E.note(s,`${hero.name} nhận ${shown} EXP sau chiến thắng ${label} (${reward.source}).`)}
  if(exp&&s.expedition===exp){
   const key=b?.target,tile=E.getTile(key);
   if(result?.type==='win'&&(tile?.kind==='mine'||tile?.kind==='castle')){
@@ -308,9 +308,9 @@ function activateParallelMarch(s){
  const q=s.parallelMarches.splice(index,1)[0];s.activeHero=q.heroId;
  s.expedition={heroId:q.heroId,homeKey:q.homeKey,homeCityId:q.homeCityId,army:{...q.army},formation:q.formation.map(g=>({...g})),phase:q.phase==='arrived'?'battle':'outbound'};
  if(q.phase==='arrived'){
-  s.march=null;s.battle=E.makeBattle(s,q.target);s.battleAuto=false;s.battleOrder='attack';
+  s.march=null;s.battle=E.makeBattle(s,q.target,1,q.targetKind);s.battleAuto=false;s.battleOrder='attack';
   E.note(s,`${s.heroes.find(h=>h.id===q.heroId)?.name||'Tướng'} đã tới ${q.target}; giao tranh bắt đầu sau khi đạo quân trước kết thúc.`);
- }else s.march={phase:'outbound',target:q.target,fromKey:q.homeKey,remaining:q.remaining,total:q.total,heroId:q.heroId,path:q.path.slice()};
+ }else s.march={phase:'outbound',target:q.target,...(q.targetKind?{targetKind:q.targetKind}:{}),fromKey:q.homeKey,remaining:q.remaining,total:q.total,heroId:q.heroId,path:q.path.slice()};
  return true;
 }
 function tick(s,now=Date.now()){
@@ -328,10 +328,10 @@ function tick(s,now=Date.now()){
   const q=s.researchQueue;if(q){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)finishResearch(s)}
   return s;
 }
-function startMarch(s,key){
+function startMarch(s,key,targetKind){
   ensure(s);
   const tile=E.getTile(key);
-  if(tile?.kind==='mine'&&(s.mines?.length||0)>=mineLimit(s))throw Error('Đã đạt hạn mức '+mineLimit(s)+' mỏ theo danh vọng '+E.fmt(s.fame)+'.');
+  if(targetKind!=='treasure'&&tile?.kind==='mine'&&(s.mines?.length||0)>=mineLimit(s))throw Error('Đã đạt hạn mức '+mineLimit(s)+' mỏ theo danh vọng '+E.fmt(s.fame)+'.');
   if(heroAway(s,s.activeHero))throw Error('Tướng đang đồn trú ngoài bản đồ');
   const selected=(s.formation?.length?s.formation:E.activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:s.army[u.id]}))).filter(g=>g?.unitId&&g.count>0);
   const army={};for(const g of selected){const u=E.getUnit(s,g.unitId);if(!u||!Number.isSafeInteger(g.count)||g.count<1)throw Error('Đội hình hành quân không hợp lệ');army[u.id]=(army[u.id]||0)+g.count}
@@ -345,13 +345,13 @@ function startMarch(s,key){
   if(parallel&&(!s.expedition||!s.march||s.march.phase!=='outbound'||s.battle))throw Error('Chỉ có thể điều thêm quân khi đạo hiện tại đang trên đường đi.');
   const old=parallel?{march:s.march,expedition:s.expedition,battle:s.battle,battleAuto:s.battleAuto,battleOrder:s.battleOrder}:null;
   if(parallel){s.march=null;s.expedition=null;s.battle=null}
-  try{prior.startMarch(s,key)}catch(err){if(old){s.march=old.march;s.expedition=old.expedition;s.battle=old.battle;s.battleAuto=old.battleAuto;s.battleOrder=old.battleOrder}throw err}
+  try{prior.startMarch(s,key,targetKind)}catch(err){if(old){s.march=old.march;s.expedition=old.expedition;s.battle=old.battle;s.battleAuto=old.battleAuto;s.battleOrder=old.battleOrder}throw err}
   const started={...s.march,path:s.march.path.slice()};
   if(old){s.march=old.march;s.expedition=old.expedition;s.battle=old.battle;s.battleAuto=old.battleAuto;s.battleOrder=old.battleOrder}
   for(const [id,count] of Object.entries(army))s.army[id]-=count;
   const homeKey=s.activeCastleKey||'3,4',homeCityId=s.activeCityId||'main';
   if(parallel){
-   s.parallelMarches.push({heroId,target:key,homeKey,homeCityId,army,formation,phase:'outbound',remaining:started.remaining,total:started.total,path:started.path});
+   s.parallelMarches.push({heroId,target:key,...(started.targetKind?{targetKind:started.targetKind}:{}),homeKey,homeCityId,army,formation,phase:'outbound',remaining:started.remaining,total:started.total,path:started.path});
    s.formation=[];E.note(s,`${s.heroes.find(h=>h.id===heroId)?.name||'Tướng'} cùng xuất chinh; ${heroesAwayCount(s)}/3 tướng đang ở ngoài thành.`);return s.parallelMarches[s.parallelMarches.length-1];
   }
   s.expedition={heroId,homeKey,homeCityId,army,formation,phase:'outbound'};
@@ -368,8 +368,10 @@ function valid(s){
  if(s.expedition!==null){const x=s.expedition;if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||x.heroId===s.castellan||!E.getTile(x.homeKey)||!armyValid(x.army)||(!Object.values(x.army).some(n=>n>0)&&x.phase!=='returning')||!Array.isArray(x.formation)||!['outbound','battle','returning'].includes(x.phase))return false}
  if(s.march&&(!['outbound','return'].includes(s.march.phase)||!s.expedition||s.march.heroId!==s.expedition.heroId))return false;
  const deployedIds=new Set([...stationedIds]);if(s.expedition){if(deployedIds.has(s.expedition.heroId))return false;deployedIds.add(s.expedition.heroId)}
- for(const q of s.parallelMarches){if(!obj(q)||!Number.isSafeInteger(q.heroId)||!s.heroes.some(h=>h.id===q.heroId)||q.heroId===s.castellan||deployedIds.has(q.heroId)||!['outbound','arrived'].includes(q.phase)||!E.getTile(q.target)||!['mine','npc','castle'].includes(E.getTile(q.target).kind)||!E.getTile(q.homeKey)||typeof q.homeCityId!=='string'||!armyValid(q.army)||!Object.values(q.army).some(n=>n>0)||!Array.isArray(q.formation)||!Array.isArray(q.path)||q.path[0]!==q.homeKey||q.path.at(-1)!==q.target||!Number.isFinite(q.total)||q.total<=0||!Number.isFinite(q.remaining)||q.remaining<0||q.remaining>q.total)return false;deployedIds.add(q.heroId)}
+ for(const q of s.parallelMarches){const qt=E.getTile(q?.target),validTarget=q?.targetKind==='treasure'?!!E.getTreasureCamp(q.target):!q?.targetKind&&!!qt&&['mine','npc','castle'].includes(qt.kind);if(!obj(q)||!Number.isSafeInteger(q.heroId)||!s.heroes.some(h=>h.id===q.heroId)||q.heroId===s.castellan||deployedIds.has(q.heroId)||!['outbound','arrived'].includes(q.phase)||!validTarget||!E.getTile(q.homeKey)||typeof q.homeCityId!=='string'||!armyValid(q.army)||!Object.values(q.army).some(n=>n>0)||!Array.isArray(q.formation)||!Array.isArray(q.path)||q.path[0]!==q.homeKey||q.path.at(-1)!==q.target||!Number.isFinite(q.total)||q.total<=0||!Number.isFinite(q.remaining)||q.remaining<0||q.remaining>q.total)return false;deployedIds.add(q.heroId)}
  if(deployedIds.size>3)return false;
+ if(!Array.isArray(s.treasureCleared)||new Set(s.treasureCleared).size!==s.treasureCleared.length||s.treasureCleared.some(key=>!E.getTreasureCamp(key)))return false;
+ if(s.march?.targetKind!==undefined&&(s.march.targetKind!=='treasure'||!E.getTreasureCamp(s.march.target)))return false;
  if(!obj(s.spells)||Object.keys(s.spells).some(k=>!E.C.spells[k]))return false;
  for(const [id,level] of Object.entries(s.spells))if(!Number.isSafeInteger(level)||level<0||level>10)return false;
  if(!Object.prototype.hasOwnProperty.call(s.buildings,'blacksmith')||!Number.isSafeInteger(s.buildings.graveyard)||s.buildings.graveyard<0)return false;

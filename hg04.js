@@ -37,6 +37,7 @@ function ensure(s){
  if(!Array.isArray(s.inventory))s.inventory=[];
  if(!s.equipment||typeof s.equipment!=='object')s.equipment={};
  if(!Array.isArray(s.claimedQuests))s.claimedQuests=[];
+ if(!Array.isArray(s.treasureCleared))s.treasureCleared=[];
  if(!Number.isSafeInteger(s.nextItem))s.nextItem=1;
  if(!Number.isSafeInteger(s.lootWins))s.lootWins=0;
  for(const h of s.heroes){if(!Array.isArray(h.equippedSpells))h.equippedSpells=[];if(!s.equipment[h.id])s.equipment[h.id]={};}
@@ -109,10 +110,11 @@ E.battleAct=(s,cmd)=>{ensure(s);const h=s.heroes.find(x=>x.id===s.activeHero);co
  if(out.type==='win'){
   s.lootWins++;
   // Deterministic demo reward; success is counted only after the engine records conquered/cleared target.
-  const tile=E.getTile(b.target);if(tile?.kind==='npc'||(tile?.kind==='mine'&&s.lootWins%3===0)){
+  const tile=E.getTile(b.target),isTreasure=b.kind==='treasure';if(isTreasure||tile?.kind==='npc'||(tile?.kind==='mine'&&s.lootWins%3===0)){
    const pools=['copper_blade','iron_armor','ash_bow','traveler_cloak','quartz_ring','old_talisman'];
    const item=pools[(b.target.split(',').reduce((n,v)=>n+Number(v),0)+s.lootWins)%pools.length];
-   addItem(s,item,`PvE (${b.target})`);E.note(s,`Nhặt được ${ITEMS[item].name} sau giao tranh (drop mô phỏng).`);
+   const origin=isTreasure?`Kho báu cấp ${b.level} tại (${b.target}) · loot mô phỏng`:`PvE (${b.target})`;
+   addItem(s,item,origin);E.note(s,`Nhặt được ${ITEMS[item].name} sau giao tranh (drop mô phỏng).`);
   }
  }
  return out;

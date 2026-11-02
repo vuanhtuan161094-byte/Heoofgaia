@@ -1,10 +1,10 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 120,
-  "suitePassed": 120,
+  "suiteTotal": 122,
+  "suitePassed": 122,
   "suiteFailed": 0,
-  "hg10Total": 14,
-  "hg10Passed": 14,
+  "hg10Total": 15,
+  "hg10Passed": 15,
   "hg10Failed": 0,
   "hg10Checks": [
     {
@@ -45,6 +45,10 @@
     },
     {
       "name": "HG10 world grid preserves the historical 100x100 coordinate space and all ten visitable locations",
+      "passed": true
+    },
+    {
+      "name": "HG10 treasure camp dispatch, battle, loot, return and NPC overlay remain separate through v07 Save/Load",
       "passed": true
     },
     {

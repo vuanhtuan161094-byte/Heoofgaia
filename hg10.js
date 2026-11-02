@@ -9,7 +9,7 @@ const E=root.HOG_ENGINE;
 if(!E||E.V!==7||!E.ensure08)throw Error('HG10 requires the v07 HG08 engine');
 const prior={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.parseSave,serialize:E.serializeSave,startMarch:E.startMarch,battleAct:E.battleAct,rate:E.rate,heroStats:E.heroStats,claim:E.claim,appoint:E.appoint};
 const CITY_FIELDS=['race','res','buildings','army','wounded','woundFraction','spells','training','formation','buildingQueue','researchQueue','arenaQueue','tavern','castellan'];
-const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','worldVisits','heroBuffs','expedition','parallelMarches','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
+const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','treasureCleared','worldVisits','heroBuffs','expedition','parallelMarches','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
 const CITY_LIMITS=Object.freeze([[0,1],[5800,2],[80000,3],[300000,4],[700000,5],[1000000,6]]);
 const WORLD_BUILDINGS=E.WORLD_BUILDINGS||[];
 const WORLD_BUILDING_BY_KEY=new Map(WORLD_BUILDINGS.map(b=>[`${b.x},${b.y}`,b]));
@@ -70,14 +70,14 @@ function seedCapturedCity(s,tile){
  city.local={race:tile.race,res:clone(seed.res),buildings:clone(seed.buildings),army:clone(seed.army),wounded:clone(seed.wounded),woundFraction:clone(seed.woundFraction),spells:clone(seed.spells),training:clone(seed.training),formation:clone(seed.formation),buildingQueue:seed.buildingQueue,researchQueue:seed.researchQueue,arenaQueue:seed.arenaQueue,tavern:clone(seed.tavern),castellan:null};
  s.cities.push(city);E.note(s,`${city.name} (${tile.key}) đã được chiếm. Thành khác tộc mở nhà tuyển quân và phép theo dữ liệu riêng; kho và cấp công trình ban đầu là mô hình do tư liệu thiếu.`);return city;
 }
-function startMarch(s,key){
+function startMarch(s,key,targetKind){
  ensure(s);const tile=E.getTile(key),owned=cityForKey(s,key);
- if(tile?.kind==='castle'){
+ if(targetKind!=='treasure'&&tile?.kind==='castle'){
   if(owned)throw Error('Thành này đã thuộc quyền của bạn.');
   if(s.cities.length>=cityLimit(s.fame))throw Error(`Cần thêm danh vọng để chiếm thành: ${s.cities.length}/${cityLimit(s.fame)} ô thành.`);
  }
  const hero=s.heroes.find(h=>h.id===s.activeHero),oldSpeed=hero?.spd,boosted=hero?heroStats(s,hero.id)?.spd:oldSpeed;
- try{if(hero)hero.spd=boosted;return prior.startMarch(s,key)}finally{if(hero)hero.spd=oldSpeed}
+ try{if(hero)hero.spd=boosted;return prior.startMarch(s,key,targetKind)}finally{if(hero)hero.spd=oldSpeed}
 }
 function battleAct(s,action){
  ensure(s);const tile=s.battle&&E.getTile(s.battle.target),homeCityId=s.expedition?.homeCityId||s.activeCityId;

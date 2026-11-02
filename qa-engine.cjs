@@ -556,6 +556,23 @@ test('SRC46 5–8 star map targets become selectable live NPC encounters with th
 test('SRC46 keeps previously saved HG-07 starter NPC destinations valid under v07',()=>{
  const s=state();s.formation=[{unitId:'human_1',count:7}];E.startMarch(s,'15,8');const migrated=E.parseSave(E.serializeSave(s));assert.equal(migrated.version,7);assert.equal(migrated.march.target,'15,8');assert.equal(E.getTile(migrated.march.target).kind,'npc');assert(E.strictSave(migrated));
 });
+test('SRC20/SRC47 preserve 76 gear camps, dated force conflicts and the occupied 10,8 overlay',()=>{
+ const expected={1:[7,3000,6000,3000],2:[8,8000,15000,8400],3:[8,24000,48000,24000],4:[7,72000,150000,72000],5:[8,216000,400000,216000],6:[8,480000,100000,480000],7:[6,960000,1600000,960000],8:[8,1440000,2300000,1440000],9:[8,2160000,3000000,2160000],10:[8,3000000,4000000,3000000]};
+ assert.equal(E.TREASURE_CAMPS_2009.length,76);assert.equal(new Set(E.TREASURE_CAMPS_2009.map(q=>q.key)).size,76);
+ for(const [level,[count,minimum,complete,guard]] of Object.entries(expected)){const camps=E.TREASURE_CAMPS_2009.filter(q=>q.level===Number(level));assert.equal(camps.length,count,`level ${level}`);assert.equal(E.TREASURE_GEAR_GUIDE[level].minimumForce,minimum);assert.equal(E.TREASURE_GEAR_GUIDE[level].completeForce,complete);assert.equal(E.TREASURE_GEAR_GUIDE[level].reportedGuardForce,guard);for(const camp of camps){assert.equal(E.getTile(camp.key).treasureCamp.key,camp.key);assert(E.pathfind('3,4',camp.key),`no path to ${camp.key}`)}}
+ const overlays=E.TREASURE_CAMPS_2009.filter(q=>E.getTile(q.key).kind!=='treasure');assert.equal(overlays.length,1);assert.equal(overlays[0].key,'10,8');assert.equal(E.getTile('10,8').kind,'npc');assert.equal(E.getTreasureCamp('10,8').level,7);
+ assert.equal(E.TREASURE_GEAR_GUIDE[6].completeForceStatus,'CONFLICT_SOURCE_TYPO_SUSPECTED');const legacy=state();delete legacy.treasureCleared;assert.equal(E.parseSave(JSON.stringify(legacy)).treasureCleared.length,0);
+});
+test('HG10 treasure camp dispatch, battle, loot, return and NPC overlay remain separate through v07 Save/Load',()=>{
+ const s=state();s.army.human_1=60;s.formation=[{unitId:'human_1',count:60}];const camp=E.getTreasureCamp('10,8');assert(camp);
+ E.startMarch(s,camp.key,'treasure');assert.equal(s.ap,92);assert.equal(s.march.targetKind,'treasure');let loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.march.targetKind,'treasure');loaded.march.remaining=.01;E.tick(loaded,loaded.lastTick+1000);
+ assert.equal(loaded.battle.kind,'treasure');assert.equal(loaded.battle.level,7);assert.equal(loaded.battle.name,'Kho báu cấp 7');assert.equal(E.battleExperienceReward(loaded.battle).source,'SIM');
+ for(const ally of loaded.battle.allies)ally.range=20;for(const enemy of loaded.battle.enemies){enemy.hp=1;enemy.pool=1;enemy.count=1;enemy.atk=0;enemy.def=0}loaded.heroes[0].atk=1000;loaded.heroes[0].def=1000;
+ let out,guard=0;while(loaded.battle&&guard++<12)out=E.battleAct(loaded,'attack');assert.equal(out.type,'win');assert(loaded.treasureCleared.includes(camp.key));assert(!loaded.cleared.includes(camp.key));assert.equal(loaded.inventory.length,1);assert.match(loaded.inventory[0].origin,/Kho báu cấp 7.*loot mô phỏng/);assert(loaded.log.some(x=>/kho báu cấp 7 \(SIM\)/.test(x)));assert.equal(loaded.march?.phase,'return');assert(E.strictSave(loaded));
+ const saved=E.parseSave(E.serializeSave(loaded));assert(saved.treasureCleared.includes(camp.key));assert.equal(saved.inventory.length,1);saved.march.remaining=.01;E.tick(saved,saved.lastTick+1000);assert.equal(saved.march,null);assert.equal(saved.expedition,null);assert.equal(saved.army.human_1,60);
+ const base=E.heroStats(saved);E.equipItem(saved,saved.inventory[0].uid);const equipped=E.heroStats(saved);assert(['atk','def','spd'].some(k=>equipped[k]>base[k]));
+ E.startMarch(saved,camp.key);assert.equal(saved.march.targetKind,undefined);saved.march.remaining=.01;E.tick(saved,saved.lastTick+1000);assert.equal(saved.battle.kind,'npc');assert.equal(saved.battle.level,3);assert(E.strictSave(saved));
+});
 test('HG10 windmill grants one listed resource once per site per UTC day without AP or army loss',()=>{
  const s=state(),now=s.lastTick,ap=s.ap,army={...s.army},res={...s.res};const out=E.visitWorldBuilding(s,'11,89',now);
  assert.equal(out.building,'windmill');assert.equal(Object.keys(out.reward).length,1);const [resource]=Object.keys(out.reward);assert(['wood','ore','sulfur','crystal'].includes(resource));assert([200,400].includes(out.reward[resource]));

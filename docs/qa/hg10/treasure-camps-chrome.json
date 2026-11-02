@@ -1,0 +1,76 @@
+{
+  "suite": "HG-10 dated gear-camp gameplay",
+  "game": "Anh Hùng Thời Loạn",
+  "browser": "Installed Chrome, actual file://",
+  "htmlSha256": "89300866309149DC7589B1F7A0E27AA21F1307B29FE4E0FC9D8F6CC4DE630109",
+  "fixtureDisclosure": "The test seeds 60 T1 troops and sets synthetic defenders to one hit point after the battle opens. March, save/reload, battle actions, exact-once settlement, item generation, return and equip actions use real engine/UI flows. Treasure loot table/stats remain simulated.",
+  "checks": [
+    {
+      "name": "Offline file opens with the Vietnamese product name",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn | Heroes of Gaia"
+    },
+    {
+      "name": "Map exposes all 76 dated camp coordinates grouped by ten levels",
+      "passed": true,
+      "detail": "{\"count\": 76, \"unique\": 76, \"buttons\": 76, \"levels\": 10}"
+    },
+    {
+      "name": "Level-6 target preserves and discloses the 480,000 / 100,000 source contradiction",
+      "passed": true,
+      "detail": "MỤC TIÊU ĐANG CHỌN | Kho báu cấp 6 · (03,96) |  | Trại kho báu còn nguyên |  | 🚩 Xuất chinh | SRC47 (23-08-2009) ghi lực lượng canh giữ 480.000; SRC20 (27-12-2009) khuyến nghị tối thiểu 480.000 và hoàn toàn 100.000. Mốc hoàn toàn 100.000 ở cấp 6 thấp hơn mốc tối thiểu 480.000; giữ nguyên và đánh dấu nghi lỗi bài, không dùng làm cổng. Đây là khuyến nghị khác ngày, không phải cổng cứng. Thành phần quân, stats trận và loại/chỉ số món rơi chưa xác minh; quân địch và loot hiện mô phỏng."
+    },
+    {
+      "name": "10,8 treasure overlay selects level 7 and keeps both source force reports visible",
+      "passed": true,
+      "detail": "MỤC TIÊU ĐANG CHỌN | Kho báu cấp 7 · (10,08) |  | Trại kho báu còn nguyên |  | 🚩 Xuất chinh | SRC47 (23-08-2009) ghi lực lượng canh giữ 960.000; SRC20 (27-12-2009) khuyến nghị tối thiểu 960.000 và hoàn toàn 1.600.000. Đây là khuyến nghị khác ngày, không phải cổng cứng. Thành phần quân, stats trận và loại/chỉ số món rơi chưa xác minh; quân địch và loot hiện mô phỏng."
+    },
+    {
+      "name": "Treasure uses the real enabled March control",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Dispatch spends 8 AP, removes troops into expedition state and saves the target type",
+      "passed": true,
+      "detail": "{\"beforeAP\": 100.2105, \"afterAP\": 92.2105, \"deducted\": 8.0, \"ap\": 92.2105, \"target\": \"10,8\", \"targetKind\": \"treasure\", \"army\": 60, \"valid\": true}"
+    },
+    {
+      "name": "v07 browser reload advances the saved route into the actual level-7 treasure battle",
+      "passed": true,
+      "detail": "{\"kind\": \"treasure\", \"level\": 7, \"target\": \"10,8\", \"name\": \"Kho b\\u00e1u c\\u1ea5p 7\", \"valid\": true}"
+    },
+    {
+      "name": "Live Attack actions settle treasure once, award an equipable modeled item and preserve the NPC target",
+      "passed": true,
+      "detail": "{\"battle\": false, \"cleared\": true, \"npcCleared\": false, \"loot\": 1, \"origin\": \"Kho báu cấp 7 tại (10,8) · loot mô phỏng\", \"returning\": \"return\", \"valid\": true, \"log\": [\"Aldric rời (10,8) và đang trở về thành; hành quân 11 ô.\", \"Aldric nhận 212,1 EXP sau chiến thắng kho báu cấp 7 (SIM).\", \"Aldric lên cấp 2, nhận 1 điểm thuộc tính (thắng trận kho báu cấp 7).\", \"Nhặt được Giáp sắt trinh sát sau giao tranh (drop mô phỏng).\", \"Đánh thắng kho báu cấp 7; đã dọn vị trí. Phần quà tài nguyên phụ là mô hình.\", \"Đụng độ tại Kho báu cấp 7. Chọn đội quân và ra lệnh.\", \"Aldric dẫn quân đi 11 ô tới (10,8), -8 AP.\", \"Khởi đầu một thành trì ở vùng đất Gaia.\"]}"
+    },
+    {
+      "name": "Loot appears in the real Hero inventory panel with its modeled provenance",
+      "passed": true,
+      "detail": "🛡 Giáp sắt trinh sát\narmor · ATK +0 · DEF +4 · SPD +0\nTúi đồ · Kho báu cấp 7 tại (10,8) · loot mô phỏng\nTrang bị"
+    },
+    {
+      "name": "Equip action changes the live hero combat stats",
+      "passed": true,
+      "detail": "1015 → 1019"
+    },
+    {
+      "name": "Treasure completion, returned troops and equipped loot persist in the unchanged v07 save",
+      "passed": true,
+      "detail": "{\"version\": 7, \"cleared\": true, \"loot\": 1, \"equipment\": 1, \"valid\": true}"
+    },
+    {
+      "name": "No browser JavaScript exceptions during real offline play",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "docs/evidence/hg10/treasure-camp-level6-conflict-chrome.png",
+    "docs/evidence/hg10/treasure-camp-level7-battle-chrome.png",
+    "docs/evidence/hg10/treasure-camp-level7-settlement-chrome.png",
+    "docs/evidence/hg10/treasure-camp-equipped-hero-chrome.png"
+  ]
+}

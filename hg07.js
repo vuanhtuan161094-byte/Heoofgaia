@@ -32,10 +32,10 @@ function setFormation(s,formation){
  checkCapacity(s,formation);
  return prior.setFormation(s,formation);
 }
-function startMarch(s,target){
+function startMarch(s,target,targetKind){
  // Also covers pre-HG07 saved formations and the auto-selection fallback.
  checkCapacity(s,s.formation?.length?s.formation:defaultFormation(s));
- return prior.startMarch(s,target);
+ return prior.startMarch(s,target,targetKind);
 }
 Object.assign(E,{heroLimit,formationPoints,checkCapacity,setFormation,startMarch,HG07_BASE_LIMITS:BASE_LIMITS});
 root.HOG_HG07={status:'capacity-base-check',source:'Fandom Heroes',saveSchema:6};

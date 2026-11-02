@@ -48,6 +48,14 @@ function monster(c,x,y,k=1,lv=1){
  rounded(c,-13,6,26,17,3,'#493d56');line(c,-15,5,-23,17,4,'#897d72');line(c,15,5,23,17,4,'#897d72');
  c.restore();
 }
+function treasureChest(c,x,y,k=1,cleared=false){
+ c.save();c.translate(x,y);c.scale(k,k);circle(c,0,11,28,'#101d1c91');
+ rounded(c,-24,-9,48,34,4,cleared?'#655f4d':'#8b572e','#302a22');
+ rounded(c,-25,-18,50,16,5,cleared?'#8a805d':'#d2a74e','#473720');
+ line(c,-24,2,24,2,4,'#d0a04d');rounded(c,-4,-9,8,17,2,cleared?'#77705a':'#f1d378','#4f4127');
+ line(c,-18,-17,-18,18,2,'#68472b');line(c,18,-17,18,18,2,'#68472b');
+ c.restore();
+}
 function worldBuilding(c,x,y,k=1,kind='windmill',visited=false){
  c.save();c.translate(x,y);c.scale(k,k);circle(c,0,8,35,'#0b1715a8');
  const stone='#8d8d7b',edge='#293b3b',gold='#e4c276';
@@ -118,10 +126,12 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
  // original road network leads from the capital to landmark targets
  c.save();c.strokeStyle='#aa926372';c.lineWidth=q*.13;c.lineCap='round';c.lineJoin='round';c.beginPath();[[3.5,4.5],[5.4,4.7],[7.6,4.4],[10.4,5.7],[14.3,7.1],[17.8,7.5],[20.1,8.6],[23.8,11]].forEach(([x,y],i)=>i?c.lineTo(x*q,y*q):c.moveTo(x*q,y*q));c.stroke();c.restore();
  for(const t of E.TILES){if(t.kind==='empty')continue;const x=(t.x+.5)*q,y=(t.y+.54)*q;if(!inside(x+ox,y+oy))continue;
-  let done=s.mines.some(m=>m.key===t.key)||s.cleared.includes(t.key);
+  let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):s.cleared.includes(t.key));
   if(t.kind==='castle'){const owned=E.cityForKey(s,t.key);castle(c,x,y,q/145,owned?.race||t.race||s.race,owned?.local.buildings.hall||1)}
   if(t.kind==='mine')mine(c,x,y,q/95,t.value);
   if(t.kind==='npc'&&!done)monster(c,x,y,q/97,t.level);
+  if(t.kind==='treasure')treasureChest(c,x,y,q/96,!!done);
+  if(t.treasureCamp&&t.kind!=='treasure')treasureChest(c,x+q*.27,y+q*.19,q/220,!!s.treasureCleared?.includes(t.key));
   if(t.kind==='visit'){worldBuilding(c,x,y,q/100,t.structureId?.startsWith('watermill')?'watermill':t.structureId==='windmill'?'windmill':t.structureId,!!E.hasVisitedWorldBuilding?.(s,t.key));}
   if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
   if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}

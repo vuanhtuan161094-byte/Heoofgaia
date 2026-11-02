@@ -21,7 +21,7 @@ function make(race='human',now=Date.now()){
   res:{gold:8000,wood:900,ore:900,sulfur:350,crystal:350},
   buildings:{hall:1,barracks:1,heroTower:1,tavern:1,warehouse:2,magicTower:1,arena:1,market:0,bazaar:0,embassy:0,stables:0,forge:0},
   spells:{},army,wounded:{},heroes:[{id:1,name:{human:'Aldric',elf:'Elaria',orc:'Gorak',undead:'Morwen'}[race],level:1,xp:0,atk:12,def:8,spd:7,int:6}],activeHero:1,castellan:null,ap:100,apMax:150,selected:null,
-  formation:[],training:[],march:null,battle:null,battleAuto:false,battleOrder:'attack',battleTarget:null,mines:[],cleared:[],woundFraction:{},fame:5,log:['Khởi đầu một thành trì ở vùng đất Gaia.'],serial:1};
+  formation:[],training:[],march:null,battle:null,battleAuto:false,battleOrder:'attack',battleTarget:null,mines:[],cleared:[],treasureCleared:[],woundFraction:{},fame:5,log:['Khởi đầu một thành trì ở vùng đất Gaia.'],serial:1};
 }
 function valid(s){return !!(s&&s.version===V&&C.races[s.race]&&s.res&&s.army&&s.buildings&&Array.isArray(s.heroes)&&Array.isArray(s.training)&&Array.isArray(s.log)&&Number.isFinite(s.lastTick))}
 function arrUnits(s){return C.units[s.race]}
@@ -98,6 +98,28 @@ const NPC_CAMPS_2009=Object.freeze(Object.entries(NPC_STAR_GUIDE).flatMap(([star
  const [x,y]=key.split(',').map(Number);
  return Object.freeze({key,x,y,stars:Number(stars),index:index+1,minimumForce:row.minimumForce,completeForce:row.completeForce,reportedGuardForce:row.reportedGuardForce,laterReportedGuardForce:row.laterReportedGuardForce??null,source:'SRC46',forceSource:'SRC47',laterForceSource:row.laterReportedGuardForce?'SRC45':null});
 })));
+// SRC20 (17173, 2009-12-27) publishes 76 equipment-camp coordinates and
+// player-recommended minimum / complete-victory forces. SRC47 (Sina,
+// 2009-08-23) separately prints guard-force reports for levels 1-10.
+// These are dated Chinese-guide reports, not original server tables.
+const TREASURE_GEAR_GUIDE=Object.freeze({
+ 1:Object.freeze({minimumForce:3000,completeForce:6000,reportedGuardForce:3000,coords:'4,60 12,16 27,32 31,79 64,52 55,8 88,40'}),
+ 2:Object.freeze({minimumForce:8000,completeForce:15000,reportedGuardForce:8400,coords:'4,33 97,55 2,77 27,14 38,58 51,83 61,30 91,22'}),
+ 3:Object.freeze({minimumForce:24000,completeForce:48000,reportedGuardForce:24000,coords:'3,16 10,52 33,31 43,85 64,7 71,72 78,86 87,48'}),
+ 4:Object.freeze({minimumForce:72000,completeForce:150000,reportedGuardForce:72000,coords:'12,76 26,51 37,7 52,36 76,13 67,91 90,61'}),
+ 5:Object.freeze({minimumForce:216000,completeForce:400000,reportedGuardForce:216000,coords:'1,72 9,29 21,18 27,38 46,93 68,13 67,59 89,88'}),
+ 6:Object.freeze({minimumForce:480000,completeForce:100000,completeForceStatus:'CONFLICT_SOURCE_TYPO_SUSPECTED',reportedGuardForce:480000,coords:'3,96 97,18 1,48 26,65 52,96 48,16 67,40 91,73'}),
+ 7:Object.freeze({minimumForce:960000,completeForce:1600000,reportedGuardForce:960000,coords:'10,8 22,57 36,97 51,67 68,18 79,29'}),
+ 8:Object.freeze({minimumForce:1440000,completeForce:2300000,reportedGuardForce:1440000,coords:'5,45 26,21 21,78 32,63 61,96 58,48 81,59 90,7'}),
+ 9:Object.freeze({minimumForce:2160000,completeForce:3000000,reportedGuardForce:2160000,coords:'96,95 17,64 19,1 41,43 45,98 58,72 55,14 90,27'}),
+ 10:Object.freeze({minimumForce:3000000,completeForce:4000000,reportedGuardForce:3000000,coords:'16,40 19,95 49,3 43,62 69,98 77,1 71,34 83,55'})
+});
+const TREASURE_CAMPS_2009=Object.freeze(Object.entries(TREASURE_GEAR_GUIDE).flatMap(([level,row])=>row.coords.split(/\s+/).map((key,index)=>{
+ const [x,y]=key.split(',').map(Number);
+ return Object.freeze({key,x,y,level:Number(level),index:index+1,minimumForce:row.minimumForce,completeForce:row.completeForce,
+  completeForceStatus:row.completeForceStatus||'REPORTED',reportedGuardForce:row.reportedGuardForce,source:'SRC20',forceSource:'SRC47'});
+})));
+const TREASURE_BY_KEY=new Map(TREASURE_CAMPS_2009.map(camp=>[camp.key,camp]));
 function mapTiles(){
  const tiles=[];
  for(let y=0;y<HEIGHT;y++)for(let x=0;x<WIDTH;x++){
@@ -120,6 +142,10 @@ function mapTiles(){
  ];
  for(const [x,y,kind,value,level] of places){let t=at(x,y);t.kind=kind;t.value=value;t.level=level;t.terrain='plain';}
  for(const camp of NPC_CAMPS_2009){const t=at(camp.x,camp.y);t.kind='npc';t.value=`Quái vật ${camp.stars}★`;t.level=camp.stars;t.source=camp.source;t.minimumForce=camp.minimumForce;t.completeForce=camp.completeForce;t.reportedGuardForce=camp.reportedGuardForce;t.forceSource=camp.forceSource;t.laterReportedGuardForce=camp.laterReportedGuardForce;t.laterForceSource=camp.laterForceSource;t.terrain='plain';}
+ // Keep dated treasure coordinates as a second world-target layer. Existing
+ // NPC/castle/building tiles are preserved; 10,8 is one known prototype NPC
+ // collision, and its treasure can still be chosen from the gear-site ledger.
+ for(const camp of TREASURE_CAMPS_2009){const t=at(camp.x,camp.y);t.treasureCamp=camp;if(t.kind==='empty'){t.kind='treasure';t.value=`Kho báu cấp ${camp.level}`;t.level=camp.level;t.source='SRC20';t.terrain='plain';}}
  // The procedurally painted river would isolate the dated 46,69 NPC coordinate.
  // A one-cell bridge is an explicit map-connectivity accommodation, not a
  // recovered historical terrain feature.
@@ -158,21 +184,26 @@ function setFormation(s,items){
  s.formation=formation;note(s,`Đã bố trí ${formation.length} nhóm quân, tổng ${formation.reduce((n,u)=>n+u.count,0)} lính.`);
  return formation;
 }
-function startMarch(s,key){
+function startMarch(s,key,targetKind){
  assert(!s.march&&!s.battle,'Tướng đang bận');
- const t=getTile(key);assert(t&&['mine','npc','castle'].includes(t.kind),'Chọn mỏ, quái hoặc thành trung lập');
- assert(!s.cleared.includes(key)&&!s.mines.some(m=>m.key===key),'Mục tiêu đã hoàn thành');
+ const t=getTile(key),camp=TREASURE_BY_KEY.get(key),isTreasure=targetKind==='treasure'||(!targetKind&&t?.kind==='treasure');
+ assert(t&&(isTreasure?!!camp:['mine','npc','castle'].includes(t.kind)),'Chọn mỏ, quái, kho báu hoặc thành trung lập');
+ assert(isTreasure?!s.treasureCleared?.includes(key):!s.cleared.includes(key),'Mục tiêu đã hoàn thành');
+ assert(!s.cleared.includes(key)||isTreasure,'Mục tiêu đã hoàn thành');
  assert(s.formation?.length?s.formation.some(g=>g.count>0):Object.values(s.army).some(n=>n>0),'Không có quân được phân bổ');
  const hero=s.heroes.find(h=>h.id===s.activeHero);assert(hero&&s.castellan!==hero.id,'Tướng không sẵn sàng');
  const homeKey=s.activeCastleKey||'3,4';const path=pathfind(homeKey,key);assert(path&&path.length>1,'Không tìm thấy đường đi bộ qua địa hình');
- const apCost=t.kind==='mine'?6:8;assert(s.ap>=apCost,'Thiếu AP');s.ap-=apCost;
+ const apCost=!isTreasure&&t.kind==='mine'?6:8;assert(s.ap>=apCost,'Thiếu AP');s.ap-=apCost;
  const seconds=Math.max(40,Math.ceil(20+(path.length-1)*19/(1+hero.spd*.018)));
- s.march={target:key,fromKey:homeKey,remaining:seconds,total:seconds,heroId:hero.id,path};
+ s.march={target:key,...(isTreasure?{targetKind:'treasure'}:{}),fromKey:homeKey,remaining:seconds,total:seconds,heroId:hero.id,path};
  note(s,`${hero.name} dẫn quân đi ${path.length-1} ô tới (${t.x},${t.y}), -${apCost} AP.`);
 }
 function activeArmy(s){return arrUnits(s).filter(u=>s.army[u.id]>0)}
-function makeBattle(s,target,remainingRatio=1){
- const tile=getTile(target);assert(!!tile&&tile.kind!=='empty','Mục tiêu trận chiến không hợp lệ');
+function makeBattle(s,target,remainingRatio=1,targetKind){
+ const rawTile=getTile(target),camp=TREASURE_BY_KEY.get(target),isTreasure=targetKind==='treasure'||(!targetKind&&rawTile?.kind==='treasure');
+ assert(!isTreasure||!!camp,'Không có trại kho báu tại tọa độ này');
+ assert(!!rawTile&&(rawTile.kind!=='empty'||isTreasure),'Mục tiêu trận chiến không hợp lệ');
+ const tile=isTreasure?{...rawTile,kind:'treasure',value:`Kho báu cấp ${camp.level}`,level:camp.level,treasureCamp:camp}:rawTile;
  const lv=tile.level||1;
  const fieldArmy=s.expedition?.army||s.army,fieldFormation=s.expedition?.formation||s.formation;
  const available=arrUnits(s).filter(u=>(fieldArmy[u.id]||0)>0);
@@ -193,16 +224,16 @@ function makeBattle(s,target,remainingRatio=1){
    spd:e.spd,pool:c*e.hp,x:10,y:2+i*3};
  });
  for(const e of enemies){e.pool=Math.max(1,Math.ceil(e.pool*remainingRatio));e.count=Math.ceil(e.pool/e.hp)}
- return {target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,
+ return {target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(isTreasure?{treasureCamp:{...camp}}:{}),
    turn:1,order:'attack',orders:{},focused:null,selected:allies[0]?.id||null,allies,enemies,
    history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
 }
-function battleOpen(s){s.battle=makeBattle(s,s.march.target);s.march=null;s.battleAuto=false;s.battleOrder='attack';note(s,`Đụng độ tại ${s.battle.name}. Chọn đội quân và ra lệnh.`)}
+function battleOpen(s){s.battle=makeBattle(s,s.march.target,1,s.march.targetKind);s.march=null;s.battleAuto=false;s.battleOrder='attack';note(s,`Đụng độ tại ${s.battle.name}. Chọn đội quân và ra lệnh.`)}
 function upgradeSaveV02(old){
  assert(old&&old.version===2&&old.res&&old.army,'Save v0.2 không hợp lệ');
  const s=clone(old);s.version=4;s.battleAuto=false;s.battleOrder='attack';s.battleTarget=null;s.formation=[];
  if(s.march){const p=pathfind('3,4',s.march.target);s.march.path=p||['3,4',s.march.target]}
- if(s.battle){const prev=s.battle;const ratio=prev.maxHP>0?Math.max(.01,prev.enemyHP/prev.maxHP):1;s.battle=makeBattle(s,prev.target,ratio);}
+ if(s.battle){const prev=s.battle;const ratio=prev.maxHP>0?Math.max(.01,prev.enemyHP/prev.maxHP):1;s.battle=makeBattle(s,prev.target,ratio,prev.kind==='treasure'?'treasure':prev.targetKind);}
  note(s,'Save HG-02 đã chuyển sang HG-03 (không sửa bản lưu cũ).');return s;
 }
 function tick(s,now=Date.now()){
@@ -276,7 +307,8 @@ function battleAct(s,action){
  }
  const turn=b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.history.unshift(`Lượt ${turn}: quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
  if(!alive(b.enemies).length){const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
-  if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level,cityId:s.activeCityId||'main'});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
+  if(b.kind==='treasure'){if(!Array.isArray(s.treasureCleared))s.treasureCleared=[];if(!s.treasureCleared.includes(tile.key))s.treasureCleared.push(tile.key);add(s,{gold:75*b.level,wood:8*b.level,ore:8*b.level,sulfur:5*b.level,crystal:5*b.level});note(s,`Đánh thắng kho báu cấp ${b.level}; đã dọn vị trí. Phần quà tài nguyên phụ là mô hình.`)}
+  else if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level,cityId:s.activeCityId||'main'});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
   else if(tile.kind==='castle'){s.cleared.push(tile.key);note(s,`Đánh chiếm thành trung lập ${tile.value||tile.key}.`)}
   else{add(s,{gold:75*tile.level,wood:8*tile.level,ore:8*tile.level,sulfur:5*tile.level,crystal:5*tile.level});s.cleared.push(tile.key);note(s,`Đánh bại ${tile.value}.`)}
   if(hero){hero.xp+=30*b.level;while(hero.xp>=hero.level*80){hero.xp-=hero.level*80;hero.level++;hero.atk+=2;hero.def+=1;}}
@@ -288,7 +320,7 @@ function battleAct(s,action){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,getTile,pathfind,setFormation,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
+const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 
