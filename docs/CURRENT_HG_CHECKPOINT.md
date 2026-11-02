@@ -6,7 +6,7 @@ Date: 2026-11-02 (Windows local execution)
 
 - Project root: `E:\Heoofgaia`.
 - Working branch: `feature/heoofgaia-hg08-20261102`.
-- Latest tested functional commit SHA: `9ad429e94af286c617b41319a5dc8cecbd52f433` (`feat: cite Human Scout recruitment gates`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
+- Latest tested functional commit SHA: `91641538cf4f479a6155279b17f34dcfcbef7c06` (`fix: match published NPC damage rounding`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
 - Original source: `vuanhtuan161094-byte/tutiennhandoi`, source branch `feature/heoofgaia-hg07-20261102`, pinned source HEAD `b32737422ca866f08de8d94021b397eb22c8f017`; HG-07 implementation parent `62d4a1c6d1a0c9769cf9ee6690e77361a2927ea9`.
 - Standalone bootstrap `028cb97a0481a4ff37a9459a5dd13ddfa1256511`; import audit `08d2fb0e4042f34af0372fb2187624bb03ff306e`. SHA-256 comparison matched all 20 Hẻoofgaia root files. Tu Tiên production systems were not copied or modified.
 - `projects/heoofgaia/HANDOFF_CREATE_STANDALONE_20261102.md` was absent at the pinned source SHA. The attached ZIP was treated as reference material only.
@@ -30,6 +30,7 @@ Date: 2026-11-02 (Windows local execution)
 - Elf/Orc Barracks and Undead Graveyard levels generally use catalog tier as an explicitly labelled **P / PROVISIONAL MODEL** proxy. Two exceptions are confidence C: Elf Centaur uses SRC28 Barracks 1, and Orc Thunderbird uses SRC26 Barracks 7, Beast Pen 4, Blacksmith 4 and training technology 6 (Chinese-to-English Bootcamp mapping derived). Exact support-building gates for remaining units are unapplied.
 - Tavern slot milestones and some hero quality bands are sourced; exact full candidate distributions and rare-stat odds remain missing. No original-client asset with release rights has been added; current art is procedurally drawn.
 - Research: `docs/research/HG08-EVIDENCE-REGISTER.md`, `docs/research/HG08-TROOP-UNLOCK-MATRIX.md`, `docs/RESEARCH-HEROES-OF-GAIA-2009.md`.
+- New HG-09 calibration: the community-reported 500-Priest NPC example computes to 47,897.94 and reports 47,897 in-game. Stack damage now truncates for that observed NPC result; this is one C-confidence sample, not proof of general or PvP parity. Evidence and exact regression: `docs/research/HG09-COMBAT-EVIDENCE.md`, `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`.
 
 ## HG-09 — IN PROGRESS; tested tactical combat slice
 
@@ -40,10 +41,10 @@ Date: 2026-11-02 (Windows local execution)
 
 ## Current verification on functional SHA `9ad429e94af286c617b41319a5dc8cecbd52f433`
 
-- `node qa-engine.cjs`: **69/69 PASS**, including exhaustive positive/negative tests for every currently enforced unit gate and no-spend rejection checks; 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
+- `node qa-engine.cjs`: **70/70 PASS**, including the published NPC damage integer-boundary fixture, exhaustive positive/negative tests for every currently enforced unit gate and no-spend rejection checks; 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
 - `node --check` on all 9 source JavaScript files: **PASS**.
-- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (146,820 characters; 153,251 bytes).
-- `.venv\Scripts\python.exe qa-browser.py`: **56/56 PASS**, zero page errors, installed Google Chrome. Includes Graveyard and Skeleton queue, SRC27 Human Scout note, Centaur C/source gate, Thunderbird lock/unlock gates, march/combat interactions and mobile viewport checks.
+- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (146,973 characters).
+- `.venv\Scripts\python.exe qa-browser.py`: **56/56 PASS**, zero page errors, installed Google Chrome. Includes Graveyard and Skeleton queue, SRC27 Human Scout note, Centaur C/source gate, Thunderbird lock/unlock gates, march/combat interactions and mobile viewport checks. Screenshots were refreshed from this actual Chrome run.
 - `.venv\Scripts\python.exe qa-file-browser.py`: **9/9 PASS**, actual `file://` launch, v07 save/reload and separate Chrome process restart.
 - `git diff --check`: **PASS** before commit; only Git line-ending normalization warnings.
 - Receipts: `docs/evidence/hg08/QA-RC1-RESULTS.json`, `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`, `docs/evidence/hg09/QA-HG09-BROWSER-RESULTS.json`.
@@ -60,4 +61,5 @@ Date: 2026-11-02 (Windows local execution)
 2. Implement and test only source-supported remaining HG-08 systems; preserve old-save migration and update the matrix and receipts.
 3. Continue HG-09 with source-supported combat formula, AI/targeting, reward, and wound-recovery behavior; keep unresolved values explicit.
 4. HG-10 world/economy, HG-11 original-era art/UI fidelity, HG-12 release packaging/physical acceptance and HG-13 optional server are NOT COMPLETE.
-5. When GitHub repo creation/authentication is available, create the new private repository, configure its remote, push this standalone branch, and verify private visibility, branch, SHA and files. Do not use the Tu Tiên repository as a work source after the split.
+5. Next HG-09: research dated, edition-specific combat sources for attack modifiers, casualties/recovery, orders and rewards; implement only independently supported values. Run combat/save regression after each change. Do not claim general parity from the single damage sample.
+6. When GitHub repo creation/authentication is available, create the new private repository, configure its remote, push this standalone branch, and verify private visibility, branch, SHA and files. Do not use the Tu Tiên repository as a work source after the split.
