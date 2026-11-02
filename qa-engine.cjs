@@ -42,8 +42,40 @@ test('HG08 edition crosswalk maps every catalog ID and preserves localized label
 test('troop point formula',()=>{const u=C.units.human[0];assert.equal(E.unitValue(u),u.cost.gold+5*(u.cost.wood+u.cost.ore)+10*(u.cost.sulfur+u.cost.crystal))});
 test('new game all races valid',()=>{for(const race of Object.keys(C.races)){const s=state(race);assert.equal(s.version,7);assert.equal(s.race,race);assert.equal(E.strictSave(s),true)}});
 test('candidate slots at recorded level gates',()=>{assert.equal(E.tavernSlots(1),2);assert.equal(E.tavernSlots(2),3);assert.equal(E.tavernSlots(4),4);assert.equal(E.tavernSlots(9),7);assert.equal(E.tavernSlots(10),8)});
-test('candidate hire exactly once',()=>{const s=state(),before=s.tavern.offers.length,id=s.tavern.offers[0].id;E.hireCandidate(s,id);assert.equal(s.tavern.offers.length,before-1);assert.equal(s.heroes.length,2);throws(()=>E.hireCandidate(s,id),/Ứng viên/)});
+test('candidate hire exactly once',()=>{const s=state();s.fame=2200;const before=s.tavern.offers.length,id=s.tavern.offers[0].id;E.hireCandidate(s,id);assert.equal(s.tavern.offers.length,before-1);assert.equal(s.heroes.length,2);throws(()=>E.hireCandidate(s,id),/Ứng viên/)});
 test('hire rejects insufficient gold without removing offer',()=>{const s=state(),offer=s.tavern.offers[0];s.res.gold=0;throws(()=>E.hireCandidate(s,offer.id),/Không đủ/);assert.equal(s.tavern.offers[0].id,offer.id)});
+test('hero roster cap follows every dated SRC20 fame threshold',()=>{
+ const cases=[[0,2],[199,2],[200,2],[799,2],[800,2],[2199,2],[2200,3],[5799,3],[5800,4],[11499,4],[11500,6],[20999,6],[21000,7],[32999,7],[33000,8],[53999,8],[54000,9],[79999,9],[80000,10],[149999,10],[150000,11],[299999,11],[300000,13],[499999,13],[500000,14],[699999,14],[700000,16],[999999,16],[1000000,18]];
+ for(const [fame,limit] of cases)assert.equal(E.heroCountLimit(fame),limit,`Fame ${fame}`);
+});
+test('hero cap rejects Tavern hire atomically and fame unlocks the next slot',()=>{
+ const s=state(),first=s.tavern.offers[0];E.hireCandidate(s,first.id);assert.equal(s.heroes.length,2);
+ const before={res:JSON.stringify(s.res),offers:JSON.stringify(s.tavern.offers)};
+ throws(()=>E.hireCandidate(s,s.tavern.offers[0].id),/giới hạn 2 tướng/);
+ assert.equal(s.heroes.length,2);assert.equal(JSON.stringify(s.res),before.res);assert.equal(JSON.stringify(s.tavern.offers),before.offers);
+ s.fame=2200;E.hireCandidate(s,s.tavern.offers[0].id);assert.equal(s.heroes.length,3);
+});
+test('v07 saves above the new fame cap migrate intact and reject only additional hires',()=>{
+ const legacy=state();const extra={...legacy.heroes[0],id:2,name:'Legacy Second Hero'},third={...legacy.heroes[0],id:3,name:'Legacy Third Hero'};legacy.heroes.push(extra,third);
+ assert.equal(E.strictSave(legacy),true);const loaded=E.parseSave(E.serializeSave(legacy));
+ assert.equal(loaded.heroes.length,3);assert.equal(loaded.heroes[1].name,'Legacy Second Hero');assert.equal(loaded.heroes[2].name,'Legacy Third Hero');
+ const before={res:JSON.stringify(loaded.res),offers:JSON.stringify(loaded.tavern.offers)};
+ throws(()=>E.hireCandidate(loaded,loaded.tavern.offers[0].id),/giới hạn 2 tướng/);
+ assert.equal(JSON.stringify(loaded.res),before.res);assert.equal(JSON.stringify(loaded.tavern.offers),before.offers);assert.equal(loaded.heroes.length,3);
+});
+test('hero cap is account-wide while a secondary city keeps its own Tavern offers',()=>{
+ const s=state();s.fame=5800;
+ const other=E.make('elf',s.lastTick);E.ensure08(other);const city=JSON.parse(JSON.stringify(other.cities[0]));
+ const tile=E.TILES.find(t=>t.kind==='castle'&&t.race==='elf'&&t.key!=='3,4');assert(tile);
+ city.id='city-elf-qa';city.key=tile.key;city.name='Elf QA';city.main=false;s.cities.push(city);
+ E.switchCity(s,city.id);const elfOffer=s.tavern.offers[0].id;E.hireCandidate(s,elfOffer);assert.equal(s.heroes.length,2);
+ E.switchCity(s,'main');const humanOffer=s.tavern.offers[0].id;E.hireCandidate(s,humanOffer);assert.equal(s.heroes.length,3);
+ E.switchCity(s,city.id);const secondElfOffer=s.tavern.offers[0].id;E.hireCandidate(s,secondElfOffer);assert.equal(s.heroes.length,4);
+ E.switchCity(s,'main');const before={res:JSON.stringify(s.res),offers:JSON.stringify(s.tavern.offers)};
+ throws(()=>E.hireCandidate(s,s.tavern.offers[0].id),/giới hạn 4 tướng/);
+ assert.equal(JSON.stringify(s.res),before.res);assert.equal(JSON.stringify(s.tavern.offers),before.offers);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.heroes.length,4);E.switchCity(loaded,city.id);assert(!loaded.tavern.offers.some(h=>h.id===elfOffer||h.id===secondElfOffer));
+});
 test('tavern hourly refresh',()=>{const s=state();E.tick(s,s.lastTick+61000);assert.equal(s.tavern.round,1);assert.equal(s.tavern.remaining,3540)});
 test('tavern multi-hour refresh catchup',()=>{const s=state();s.speed=1;E.tick(s,s.lastTick+3*3600*1000+120*1000);assert.equal(s.tavern.round,3);assert.equal(s.tavern.remaining,3480)});
 test('tavern empty offers preserved across save',()=>{const s=state();s.tavern.offers=[];const z=E.parseSave(E.serializeSave(s));assert.equal(z.tavern.offers.length,0)});

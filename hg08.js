@@ -29,12 +29,21 @@ const HUMAN={
 };
 const SECONDARY={elf:{elf_1:{buildings:{barracks:1},spells:{},sourceStatus:'SECONDARY',source:'SRC28'}},orc:{orc_7:{buildings:{barracks:7,beastPen:4,blacksmith:4},spells:{bootcamp:6},sourceStatus:'SECONDARY',source:'SRC26'}}};
 const FAME_MINE_CAPS=Object.freeze([[0,5],[2200,6],[5800,7],[11500,8],[21000,9],[33000,11],[54000,13],[80000,15],[150000,17],[300000,20],[500000,20],[700000,20],[1000000,20]]);
+// SRC20's 2009-12-27 fame table also prints the account-wide hero cap.
+// Repeated fame ranks with no cap change are omitted; no extra save field is needed.
+const FAME_HERO_CAPS=Object.freeze([[0,2],[2200,3],[5800,4],[11500,6],[21000,7],[33000,8],[54000,9],[80000,10],[150000,11],[300000,13],[500000,14],[700000,16],[1000000,18]]);
 const MINE_HOURLY=Object.freeze({gold:200,wood:40,ore:40,sulfur:20,crystal:20});
 function mineLimit(s){
  const fame=typeof s==='number'?s:s?.fame;
  if(!Number.isFinite(fame))return 5;
  let allowed=5;
  for(const [threshold,count] of FAME_MINE_CAPS){if(fame>=threshold)allowed=count;else break;}
+ return allowed;
+}
+function heroCountLimit(fame){
+ if(!Number.isFinite(fame))return 2;
+ let allowed=2;
+ for(const [threshold,count] of FAME_HERO_CAPS){if(fame>=threshold)allowed=count;else break;}
  return allowed;
 }
 const attrKeys=['atk','def','spd','int'];
@@ -310,10 +319,23 @@ function parse(text){
 }
 function serialize(s){if(!strict(s))throw Error('Save HG08 không hợp lệ');return JSON.stringify({format:'heoofgaia-save-1',exportedAt:new Date().toISOString(),state:s},null,2)}
 function make(...args){const s=prior.make(...args);s.version=V;return ensure(s)}
-function hireCandidate(s,id){const result=prior.hire(s,id);ensure(s);return result}
+function hireCandidate(s,id){
+ ensure(s);
+ if(s.buildings.tavern<1)throw Error('Cần Tavern');
+ const cap=heroCountLimit(s.fame);
+ if(s.heroes.length>=cap)throw Error(`Đạt giới hạn ${cap} tướng theo danh vọng hiện tại`);
+ const offer=s.tavern.offers.find(h=>h.id===id);
+ if(!offer)throw Error('Ứng viên không còn trong Tavern');
+ E.spend(s,{gold:offer.gold});
+ const heroId=Math.max(0,...s.heroes.map(h=>h.id))+1;
+ s.heroes.push({id:heroId,name:offer.name,level:1,xp:0,atk:offer.atk,def:offer.def,spd:offer.spd,int:offer.int,quality:offer.quality});
+ s.tavern.offers=s.tavern.offers.filter(h=>h.id!==id);
+ ensure(s);E.note(s,`Chiêu mộ ${offer.name} (${offer.quality}) từ Tavern; giới hạn hiện tại ${cap} tướng theo danh vọng · giá tuyển vẫn mô phỏng.`);
+ return heroId;
+}
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
 E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.appoint=appoint;E.selectHero=selectHero;E.recallHero=recallHero;E.finishReturn=finishReturn;E.heroAway=heroAway;E.valid=valid;
-Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,MINE_HOURLY,mineLimit,
+Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,MINE_HOURLY,mineLimit,heroCountLimit,
  ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});

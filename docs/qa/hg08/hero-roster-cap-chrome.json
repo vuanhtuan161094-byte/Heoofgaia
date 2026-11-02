@@ -1,0 +1,40 @@
+{
+  "browser": "Google Chrome headless CLI on the generated standalone file:// HTML",
+  "gameBuild": "Play-Heoofgaia-HG11.html",
+  "screenshot": "docs/evidence/hg08/hero-roster-cap-chrome.png",
+  "pass": true,
+  "checks": [
+    {
+      "name": "Game hero screen displays the source-based 1/3 roster cap",
+      "ok": true,
+      "detail": "1/3"
+    },
+    {
+      "name": "First live Tavern candidate is recruitable below cap",
+      "ok": true,
+      "detail": "<button data-action=\"hirecandidate\" data-id=\"r1c0\" class=\"small secondary\">Tuyển · 500 vàng</button>"
+    },
+    {
+      "name": "First real hire changes hero roster, offer list and gold once",
+      "ok": true,
+      "detail": "{\"heroes\":2,\"offers\":2,\"goldSpent\":500}"
+    },
+    {
+      "name": "Second live hire reaches the fame cap",
+      "ok": true,
+      "detail": "3/3"
+    },
+    {
+      "name": "At cap, remaining candidate control is disabled",
+      "ok": true,
+      "detail": "<button disabled=\"\" data-action=\"hirecandidate\" data-id=\"r1c2\" class=\"small secondary\">Tuyển · 680 vàng</button>"
+    },
+    {
+      "name": "Legacy Save key remains unchanged",
+      "ok": true,
+      "detail": "heoofgaia_hg_only_v07"
+    }
+  ],
+  "exceptions": [],
+  "fixture": "Fresh Human game; Fame set to 2,200 and Tavern level 2, then the actual deterministic engine refreshes offers. Hires use live DOM controls."
+}
