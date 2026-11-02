@@ -7,7 +7,7 @@ Review date: 2026-11-02. The project screenshot files in this folder are capture
 - `screenshot-world-desktop.png` — desktop world screen, 1440×900.
 - `screenshot-construction-desktop.png` — Elf city with a Market construction queue.
 - `screenshot-tavern-desktop.png` — Tavern, hero roster and progression.
-- `screenshot-troop-unlocks-desktop.png` — Elf troop page at Barracks 2; the tier-2 Scout remains locked until Scouting 1, with the derived B* status visible.
+- `screenshot-troop-unlocks-desktop.png` — Elf troop page at Barracks 2; the tier-2 Scout remains locked until Scouting 1, with the cross-version partial status and linked evidence described in the UI.
 - `screenshot-progression-desktop.png` — completed troop training, Castellan XP, research, level-up and attribute allocation.
 - `screenshot-world-mobile.png` and `screenshot-tavern-mobile.png` — narrow 390×844 viewport; responsive layout, not a physical phone capture.
 

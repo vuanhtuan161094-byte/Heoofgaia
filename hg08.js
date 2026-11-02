@@ -119,7 +119,7 @@ function unitPrerequisites(s,u){
  for(const [key,level] of Object.entries(r.buildings||{}))checks.push({kind:'building',key,level,actual:s.buildings[key]||0});
  for(const [key,level] of Object.entries(r.spells||{}))checks.push({kind:'spell',key,level,actual:s.spells[key]||0});
  const unmet=checks.filter(x=>x.actual<x.level);
- const confidence=r.sourceStatus==='OBSERVED'?(r.spells?.bootcamp?'A*':'A'):r.sourceStatus==='DERIVED_SCOUT_GATE'?'B*':'B';
+ const confidence=r.sourceStatus==='OBSERVED'?(r.spells?.bootcamp?'A*':'A'):'B';
  return {unitId:u.id,checks,unmet,available:unmet.length===0,confidence,status:r.sourceStatus,source:r.source};
 }
 function conditionName(c){

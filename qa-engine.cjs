@@ -70,7 +70,7 @@ test('Human tier 3 requirements use Hall, Barracks and the canonical Bootcamp sp
  assert.equal(E.troopPrerequisites(s,C.units.human[2]).available,true);
 });
 test('HG08 applies derived Scouting gate to all faction tier-2 scout units atomically',()=>{
- for(const race of ['elf','orc','undead']){const s=state(race),u=C.units[race][1];s.buildings.barracks=2;const before=JSON.stringify({res:s.res,training:s.training});const req=E.troopPrerequisites(s,u);assert.equal(req.status,'DERIVED_SCOUT_GATE');assert.equal(req.confidence,'B*');assert.equal(req.available,false);throws(()=>E.recruit(s,u.id,1),/Trinh sát/);assert.equal(JSON.stringify({res:s.res,training:s.training}),before);s.spells.scouting=1;assert.equal(E.troopPrerequisites(s,u).available,true)}
+ for(const race of ['elf','orc','undead']){const s=state(race),u=C.units[race][1];s.buildings.barracks=2;const before=JSON.stringify({res:s.res,training:s.training});const req=E.troopPrerequisites(s,u);assert.equal(req.status,'DERIVED_SCOUT_GATE');assert.equal(req.confidence,'B');assert.equal(req.available,false);throws(()=>E.recruit(s,u.id,1),/Trinh sát/);assert.equal(JSON.stringify({res:s.res,training:s.training}),before);s.spells.scouting=1;assert.equal(E.troopPrerequisites(s,u).available,true)}
 });
 test('Human T4/T5 support buildings and Manufacturing gates are enforced atomically',()=>{
  const s=state();s.buildings.hall=4;s.buildings.barracks=4;s.res.gold=5000;const before=JSON.stringify({res:s.res,queue:s.training});

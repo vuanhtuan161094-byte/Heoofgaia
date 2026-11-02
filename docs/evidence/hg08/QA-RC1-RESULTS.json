@@ -1,6 +1,6 @@
 {
-  "total": 42,
-  "passed": 42,
+  "total": 44,
+  "passed": 44,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -86,6 +86,14 @@
     },
     {
       "name": "Tier-2 elf scout still requires Scouting after Barracks 2",
+      "passed": true
+    },
+    {
+      "name": "Scout lock icon matches disabled recruit action",
+      "passed": true
+    },
+    {
+      "name": "Scout gate names both Chinese role and English spell evidence",
       "passed": true
     },
     {
