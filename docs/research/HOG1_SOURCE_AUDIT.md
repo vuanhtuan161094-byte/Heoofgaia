@@ -1,8 +1,8 @@
 # HOG1 source and asset recovery audit
 
-**Checked:** 2026-11-02  
-**Target:** Snail Games' 2009 Flash Heroes of Gaia / Castle of Heroes / 英雄之城.  
-**Excluded:** Heroes of Gaia 2 (Unity 4.3 + Java) and unrelated games sharing “Castle of Heroes.”  
+**Checked:** 2026-11-02
+**Target:** Snail Games' 2009 Flash Heroes of Gaia / Castle of Heroes / 英雄之城.
+**Excluded:** Heroes of Gaia 2 (Unity 4.3 + Java) and unrelated games sharing “Castle of Heroes.”
 **Result: NOT_RECOVERED.** No original HOG1 SWF, asset package, server source, or database bytes were retrieved. A link or post is not proof of a file.
 
 ## Input bundle actually reviewed
