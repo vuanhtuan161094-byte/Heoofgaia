@@ -1,6 +1,6 @@
 {
-  "total": 77,
-  "passed": 77,
+  "total": 78,
+  "passed": 78,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -78,6 +78,10 @@
     },
     {
       "name": "Five captured mines add the dated resource output independent of map level",
+      "passed": true
+    },
+    {
+      "name": "Actual one-hour economy tick credits all captured mine yields",
       "passed": true
     },
     {

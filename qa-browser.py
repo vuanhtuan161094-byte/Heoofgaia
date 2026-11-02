@@ -84,6 +84,7 @@ with sync_playwright() as p:
     minecap.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();s.mines=[["6,3","wood",1],["10,2","ore",1],["12,6","sulfur",1],["1,7","gold",1],["14,2","wood",2]].map(([key,res,level])=>({key,res,level}));HOG_APP_DEBUG.render()})()')
     minecap.locator('[data-action="select"][data-key="8,7"]').click()
     check('Five captured mines add the dated resource output independent of map level',lambda:minecap.evaluate('(()=>{const s=HOG_APP_DEBUG.getState(),base=HOG_ENGINE.rate({...s,mines:[]}),r=HOG_ENGINE.rate(s);return r.gold-base.gold===200&&r.wood-base.wood===80&&r.ore-base.ore===40&&r.sulfur-base.sulfur===20&&r.crystal-base.crystal===0})()'))
+    check('Actual one-hour economy tick credits all captured mine yields',lambda:minecap.evaluate('(()=>{const s=HOG_APP_DEBUG.getState(),before={...s.res};s.speed=1;HOG_ENGINE.tick(s,s.lastTick+3600000);HOG_APP_DEBUG.render();return s.res.gold-before.gold===360&&s.res.wood-before.wood===92&&s.res.ore-before.ore===52&&s.res.sulfur-before.sulfur===26&&s.res.crystal-before.crystal===6})()'))
     check('Full mine cap disables the real world-map march action',lambda:minecap.locator('[data-action="march"]').is_disabled() and '5/5 theo Fame' in minecap.locator('#main').inner_text())
     check('Blocked mine march leaves AP and march state unchanged',lambda:minecap.evaluate('HOG_APP_DEBUG.getState().ap===100&&HOG_APP_DEBUG.getState().march===null'))
     minecap.screenshot(path=str(evidence/'screenshot-fame-mine-cap-full-desktop.png'),full_page=True)

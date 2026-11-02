@@ -61,6 +61,6 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 
 - Source: SRC39, dated 17173 Chinese player guide (2009-12-27), lines 21–24 and 243–264. Five initial mines; exact Fame cap table; per-mine output 200 Gold / 40 Wood / 40 Ore / 20 Sulfur / 20 Crystal per hour. Confidence B for this regional guide; cross-region parity not verified.
 - Code: cap validated before AP spend; captured mines feed fixed output into the economy tick; no save schema change.
-- Regression: Node 83/83, JS syntax 9/9, Chrome 77/77 (0 JS exceptions), Chromium file:// 12/12; HTML 153,333 characters.
+- Regression: Node 84/84, JS syntax 9/9, Chrome 78/78 (0 JS exceptions), Chromium file:// 12/12; one-hour economy tick and reload verified; HTML 153,333 characters.
 - Chrome screenshots use a seeded state with five owned mines and Fame 2,200; renderer, live action and AP deduction execute in the app. No composite/fake image. See docs/evidence/hg08/screenshot-fame-mine-cap-full-desktop.png and screenshot-fame-mine-cap-unlocked-march-desktop.png.
 - HG-08 IN PROGRESS; HG-09 partial; HG-10 partial; HG-11 prototype art only; HG-12 packaging incomplete; HG-13 not started. Private GitHub push and original-client comparison remain blocked.

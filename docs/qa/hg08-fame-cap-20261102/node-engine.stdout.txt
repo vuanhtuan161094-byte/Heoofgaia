@@ -26,6 +26,7 @@ PASS bazaar buys real inventory
 PASS seven-slot formation supports duplicate unit types
 PASS cannot assign beyond available army
 PASS Captured mines add the dated 2009 resource output and do not scale by unverified mine level
+PASS Mine income is credited by an in-game hour tick and survives v07 save/reload
 PASS Fame mine capacity matches the dated 2009 rank table at every boundary
 PASS Fame mine cap rejects a new mine march atomically before AP spend
 PASS Fame unlock, mine victory and v07 reload preserve the sixth mine slot
@@ -81,4 +82,4 @@ PASS Casualty and Arena wound ledger are exact and never negative
 PASS A completed NPC target cannot be settled or rewarded twice
 PASS Mid-battle HG08 save resumes with the same positions, initiative and outcome
 PASS 1000 seeded tactical encounters replay identically with valid ledgers
-TOTAL 83/83 PASS
+TOTAL 84/84 PASS

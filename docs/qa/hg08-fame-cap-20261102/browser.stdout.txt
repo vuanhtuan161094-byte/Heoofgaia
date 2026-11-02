@@ -18,6 +18,7 @@ PASS Town Hall cap disables Barracks upgrade at the current hall level
 PASS Upgrading Town Hall removes the Barracks UI cap
 PASS Newly unlocked Barracks level enters its real construction queue
 PASS Five captured mines add the dated resource output independent of map level
+PASS Actual one-hour economy tick credits all captured mine yields
 PASS Full mine cap disables the real world-map march action
 PASS Blocked mine march leaves AP and march state unchanged
 PASS Fame 2,200 unlocks the sixth mine slot in UI
@@ -76,4 +77,4 @@ PASS 40 troop cards show real prerequisite state
 PASS HG08 cap visible in army UI
 PASS HG08 progression and capacity libraries active
 PASS No unhandled browser JS errors
-BROWSER TOTAL 77/77 PASS; JS exceptions=0
+BROWSER TOTAL 78/78 PASS; JS exceptions=0

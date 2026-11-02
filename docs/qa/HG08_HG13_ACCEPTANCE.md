@@ -11,7 +11,7 @@ Product claim: independent offline reconstruction in progress; no 1:1 claim.
 | Stage | Status | Accepted evidence | Open acceptance work |
 |---|---|---|---|
 | HG-07 | PASS — local baseline audited | Pre-change run: 37/37 Node, 31/31 browser, 9/9 file:// checks, 8 JS syntax checks and offline build pass; v06/v07 migration tests. Receipts: docs/qa/baseline-20261102/, docs/qa/BASELINE_PASS_FAIL.md and docs/evidence/hg07-baseline/. Fresh combined regression includes HG-07 formation/migration guards. | Original-client comparison, Android and remote publication not verified. |
-| HG-08 | IN PROGRESS — tested economy/progression slice added | Human unit requirements and partial faction proxies; real queues, hero XP, Tavern and research; Fame mine cap and source-backed yield; v07 unchanged. Current run: 83/83 Node, 9/9 JS syntax, 77/77 Chrome, 12/12 Chromium file://, HTML build 153,333 characters / 160,095 bytes. Raw logs under docs/qa/hg08-fame-cap-20261102/. | 28 non-Human gates remain provisional/incomplete; exact Tavern odds/rates, spell/research economy, regional patches and original UI/data parity remain open. |
+| HG-08 | IN PROGRESS — tested economy/progression slice added | Human unit requirements and partial faction proxies; real queues, hero XP, Tavern and research; Fame mine cap and source-backed yield; v07 unchanged. Current run: 84/84 Node, 9/9 JS syntax, 78/78 Chrome, 12/12 Chromium file://, HTML build 153,333 characters / 160,095 bytes. Raw logs under docs/qa/hg08-fame-cap-20261102/. | 28 non-Human gates remain provisional/incomplete; exact Tavern odds/rates, spell/research economy, regional patches and original UI/data parity remain open. |
 | HG-09 | IN PROGRESS — combat slice works | Seven-slot formations, manual Attack/Advance/Stand By/Focus/Retreat, initiative, modeled targeting, casualty/Arena, battle save-resume and 1,000 seeded deterministic encounters; current full regression. | Damage formula, exact range/movement/clock, morale, enemy compositions, rewards and original battle parity are partial/simulated. |
 | HG-10 | IN PROGRESS — world/economy prototype | 28×18 generated map, pathfinding, AP-priced march, tactical encounter, mine capture, Fame cap, flat mine production, resource tick and Save/Load. | Multiple cities, fog/scouting, return logistics, portals, historically correct map/timing, mine spell interactions and 24-hour catch-up evidence. |
 | HG-11 | BLOCKED on original visual oracle; prototype UI exists | Current Chrome screenshots show the running app and project-authored procedural visuals. | Original client is not recovered; race-specific 2.5D buildings, troop sprites, animation, art comparison and licenses are outstanding. |
@@ -25,7 +25,7 @@ The 2009-12-27 17173 Chinese player guide documents five starting mines and the 
 Implementation:
 - A new mine march is rejected at the Fame cap before AP is spent. Mine capture still uses the battle settlement path and persists under v07.
 - Owned mines add source-listed fixed hourly output. Tile level does not multiply output because the guide does not document that.
-- Income is derived from the persisted mine list during the normal economy tick. Save key/schema did not change.
+- Income is derived from the persisted mine list during the normal economy tick. A one-game-hour tick test proves each mine yield is credited, then continues after v07 Save/Load. Save key/schema did not change.
 - Castle Spell multipliers on mine output remain unverified.
 
 ### Screenshot/test fixture disclosure
