@@ -9,7 +9,7 @@ const E=root.HOG_ENGINE;
 if(!E||E.V!==7||!E.ensure08)throw Error('HG10 requires the v07 HG08 engine');
 const prior={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.parseSave,serialize:E.serializeSave,startMarch:E.startMarch,battleAct:E.battleAct,rate:E.rate,heroStats:E.heroStats,claim:E.claim,appoint:E.appoint};
 const CITY_FIELDS=['race','res','buildings','army','wounded','woundFraction','spells','training','formation','buildingQueue','researchQueue','arenaQueue','tavern','castellan'];
-const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','treasureCleared','worldVisits','heroBuffs','dailyTaskState','expedition','parallelMarches','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
+const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','treasureCleared','worldVisits','heroBuffs','dailyTaskState','china2009DailyTaskState','expedition','parallelMarches','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
 const CITY_LIMITS=Object.freeze([[0,1],[5800,2],[80000,3],[300000,4],[700000,5],[1000000,6]]);
 const WORLD_BUILDINGS=E.WORLD_BUILDINGS||[];
 const WORLD_BUILDING_BY_KEY=new Map(WORLD_BUILDINGS.map(b=>[`${b.x},${b.y}`,b]));
@@ -19,6 +19,17 @@ function worldDayKey(now=Date.now()){if(!Number.isFinite(now))throw Error('Thờ
 const DAILY_TASKS=Object.freeze([
  Object.freeze({id:'getting_started',name:'Getting Started',nameVi:'Khởi đầu',stars:1,fame:0,gold:500,ap:7,objective:'Engage and destroy any 1 Star NPC.',source:'SRC52/SRC53',confidence:'C'})
 ]);
+// The dated 2009 Chinese task profile is kept separate from the living Fandom/Kongregate list.
+const CHINA_2009_DAILY_TASKS=Object.freeze([
+ Object.freeze({id:'recruit_archers',name:'招募弓箭手',nameVi:'Tuyển mộ cung thủ',unitId:'human_3',required:20,rewardUnitId:'human_3',rewardUnits:10,rewardWood:100,source:'SRC54',confidence:'B'})
+]);
+function syncChina2009TaskBoard(s,now=s.lastTick){
+ const day=worldDayKey(Number.isFinite(now)?now:Date.now());
+ if(s.china2009DailyTaskState===undefined||s.china2009DailyTaskState===null){s.china2009DailyTaskState={day,accepted:[],claimed:[],progress:{recruit_archers:0}};return s.china2009DailyTaskState}
+ const board=s.china2009DailyTaskState;if(typeof board!=='object'||Array.isArray(board))throw Error('Dữ liệu nhiệm vụ Trung Quốc 2009 không hợp lệ.');
+ if(board.day!==day){s.china2009DailyTaskState={day,accepted:[],claimed:[],progress:{recruit_archers:0}};return s.china2009DailyTaskState}
+ if(!board.progress)board.progress={recruit_archers:0};return board;
+}
 function syncDailyTaskBoard(s,now=s.lastTick){
  const day=worldDayKey(Number.isFinite(now)?now:Date.now());
  if(!s.dailyTaskState){s.dailyTaskState={day,accepted:[],claimed:[]};return s.dailyTaskState}
@@ -40,6 +51,7 @@ function ensure(s){
  if(s.heroBuffs===undefined)s.heroBuffs=[];
  if(!Array.isArray(s.heroBuffs))throw Error('Dữ liệu hiệu ứng tướng không hợp lệ.');
  syncDailyTaskBoard(s,s.lastTick);
+ syncChina2009TaskBoard(s,s.lastTick);
  if(!Array.isArray(s.cities)||!s.cities.length){s.cities=[{id:'main',key:'3,4',name:'Thành Gaia',race:s.race,main:true,sourceStatus:'LEGACY_MAIN',local:currentLocal(s)}];s.activeCityId='main'}
  if(typeof s.activeCityId!=='string')throw Error('Save HG-10 thiếu thành đang mở.');
  const rootCity=s.cities.find(c=>c.id===s.activeCityId);
@@ -120,11 +132,13 @@ function tick(s,now=Date.now()){
  const from=s.lastTick,activeId=s.activeCityId,gameSeconds=E.gameElapsedSeconds(s,from,now);timedTick(s,from,now);storeCurrent(s);
  for(const c of [...s.cities])if(c.id!==activeId)tickOtherCity(s,c,from,now);
  // The active city's tick is the single source of world time/AP. Restore its live root after offline city work.
- const active=s.cities.find(c=>c.id===activeId);if(active)applyCity(s,active);s.lastTick=now;s.version=7;syncDailyTaskBoard(s,now);return s;
+ const active=s.cities.find(c=>c.id===activeId);if(active)applyCity(s,active);s.lastTick=now;s.version=7;syncDailyTaskBoard(s,now);syncChina2009TaskBoard(s,now);return s;
 }
 function strict(s){
  if(!s||s.version!==7||!prior.strict(s))return false;
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits)||!Array.isArray(s.heroBuffs))return false;
+ const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));
+ if(!china||typeof china!=='object'||Array.isArray(china)||typeof china.day!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(china.day)||!Array.isArray(china.accepted)||!Array.isArray(china.claimed)||new Set(china.accepted).size!==china.accepted.length||new Set(china.claimed).size!==china.claimed.length||china.accepted.some(id=>!chinaIds.has(id))||china.claimed.some(id=>!chinaIds.has(id)||!china.accepted.includes(id))||!china.progress||typeof china.progress!=='object'||Array.isArray(china.progress)||Object.keys(china.progress).some(id=>!chinaIds.has(id))||CHINA_2009_DAILY_TASKS.some(t=>!Number.isSafeInteger(china.progress[t.id])||china.progress[t.id]<0||china.progress[t.id]>t.required))return false;
  const board=s.dailyTaskState,knownTaskIds=new Set(DAILY_TASKS.map(t=>t.id));
  if(!board||typeof board!=='object'||Array.isArray(board)||typeof board.day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(board.day)||!Array.isArray(board.accepted)||!Array.isArray(board.claimed)||new Set(board.accepted).size!==board.accepted.length||new Set(board.claimed).size!==board.claimed.length||board.accepted.some(id=>!knownTaskIds.has(id))||board.claimed.some(id=>!knownTaskIds.has(id)||!board.accepted.includes(id)))return false;
  for(const [key,day] of Object.entries(s.worldVisits))if(!WORLD_BUILDING_BY_KEY.has(key)||typeof day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(day))return false;
@@ -166,7 +180,15 @@ function timedTick(s,from,now){
  while(cursor<end){
   const speed=s.speed===1?1:60,expiry=Math.min(Infinity,...(s.heroBuffs||[]).map(b=>Math.max(0,b.remaining||0)));
   const next=Number.isFinite(expiry)?Math.min(end,cursor+Math.max(.001,expiry/speed*1000)):end;
+  const trainingBefore=Array.isArray(s.training)?s.training.map(q=>({unitId:q.unitId,count:q.count,remaining:q.remaining})):[];
   withCastellanWorldBuff(s,()=>prior.tick(s,next));
+  if(s.activeCityId==='main'&&s.race==='human'){
+   const board=syncChina2009TaskBoard(s,cursor),availableGame=E.gameElapsedSeconds(s,cursor,next);let cumulative=0;
+   for(const q of trainingBefore){cumulative+=q.remaining;if(q.unitId!=='human_3'||cumulative>availableGame+1e-8)continue;
+    const completedAt=cursor+cumulative/speed*1000;
+    if(board.day===worldDayKey(completedAt)&&board.accepted.includes('recruit_archers')&&!board.claimed.includes('recruit_archers'))board.progress.recruit_archers=Math.min(20,board.progress.recruit_archers+q.count);
+   }
+  }
   const elapsed=E.gameElapsedSeconds(s,cursor,next);
   for(const b of s.heroBuffs)b.remaining=Math.max(0,b.remaining-elapsed);
   s.heroBuffs=s.heroBuffs.filter(b=>b.remaining>1e-9);cursor=next;
@@ -221,9 +243,30 @@ function claimDailyTask(s,id,now=Date.now()){
  E.note(s,`Hoàn thành nhiệm vụ “${task.name}”: +${task.gold} vàng, +${apAward} AP thực nhận (tối đa ${task.ap}; AP không vượt trần).`);
  return {gold:task.gold,ap:apAward};
 }
+function china2009DailyTasks(s,now=Date.now()){
+ ensure(s);syncChina2009TaskBoard(s,now);const main=s.cities.find(c=>c.main);if(main?.race!=='human')return [];
+ const board=s.china2009DailyTaskState;
+ return CHINA_2009_DAILY_TASKS.map(task=>({...task,progress:Math.min(task.required,board.progress[task.id]||0),accepted:board.accepted.includes(task.id),claimed:board.claimed.includes(task.id),ready:(board.progress[task.id]||0)>=task.required}));
+}
+function acceptChina2009DailyTask(s,id,now=Date.now()){
+ ensure(s);syncChina2009TaskBoard(s,now);if(!activeCity(s).main)throw Error('Chuỗi nhiệm vụ Trung Quốc 2009 chỉ nhận tại thành chính.');
+ const task=CHINA_2009_DAILY_TASKS.find(t=>t.id===id);if(!task||s.cities.find(c=>c.main)?.race!=='human')throw Error('Nhiệm vụ Trung Quốc 2009 không áp dụng cho thành chính này.');
+ const board=s.china2009DailyTaskState;if(board.accepted.includes(id)||board.claimed.includes(id))throw Error('Nhiệm vụ Trung Quốc 2009 này đã nhận hôm nay.');
+ board.accepted.push(id);E.note(s,`Đã nhận nhiệm vụ Trung Quốc 2009 “${task.name}” (SRC54): tuyển hoàn tất ${task.required} Cung thủ tại thành chính.`);return true;
+}
+function claimChina2009DailyTask(s,id,now=Date.now()){
+ ensure(s);syncChina2009TaskBoard(s,now);if(!activeCity(s).main)throw Error('Chuỗi nhiệm vụ Trung Quốc 2009 chỉ nhận thưởng tại thành chính.');
+ const task=CHINA_2009_DAILY_TASKS.find(t=>t.id===id);if(!task||s.cities.find(c=>c.main)?.race!=='human')throw Error('Nhiệm vụ Trung Quốc 2009 không áp dụng cho thành chính này.');
+ const board=s.china2009DailyTaskState;if(!board.accepted.includes(id))throw Error('Hãy nhận nhiệm vụ trước khi nhận thưởng.');if(board.claimed.includes(id))throw Error('Phần thưởng nhiệm vụ Trung Quốc 2009 hôm nay đã nhận.');
+ if((board.progress[id]||0)<task.required)throw Error('Hãy hoàn tất huấn luyện đủ 20 Cung thủ trước.');
+ if(s.res.wood+task.rewardWood>E.limits(s).wood+1e-7)throw Error('Kho gỗ không đủ chỗ; hãy dùng gỗ rồi nhận thưởng.');
+ const owned=s.army[task.rewardUnitId]||0;if(!Number.isSafeInteger(owned)||owned>1_000_000_000-task.rewardUnits)throw Error('Số quân vượt giới hạn save an toàn.');
+ E.add(s,{wood:task.rewardWood});s.army[task.rewardUnitId]=owned+task.rewardUnits;board.claimed.push(id);
+ E.note(s,`Hoàn thành nhiệm vụ 2009 “${task.name}” (SRC54): +${task.rewardWood} gỗ, +${task.rewardUnits} Cung thủ.`);return {wood:task.rewardWood,unitId:task.rewardUnitId,units:task.rewardUnits};
+}
 function claim(s,id){ensure(s);if(!activeCity(s).main)throw Error('Theo hướng dẫn Trung Quốc 2009, thao tác nhiệm vụ chỉ thực hiện tại thành chính.');return prior.claim(s,id)}
 function appoint(s,id){ensure(s);const c=activeCity(s);if(s.cities.some(x=>x.id!==c.id&&x.local.castellan===id))throw Error('Một tướng không thể đồng thời làm Castellan ở hai thành.');return prior.appoint(s,id)}
 E.make=make;E.tick=tick;E.startMarch=startMarch;E.battleAct=battleAct;E.claim=claim;E.appoint=appoint;E.heroStats=heroStats;E.valid=valid;E.strictSave=strict;E.parseSave=parse;E.serializeSave=serialize;E.rate=rate;
-Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,dailyTasks,acceptDailyTask,claimDailyTask});
+Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,CHINA_2009_DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,dailyTasks,acceptDailyTask,claimDailyTask,china2009DailyTasks,acceptChina2009DailyTask,claimChina2009DailyTask});
 root.HOG_HG10={status:'partial-world-building-visits',sourceStatus:'2009 Chinese guide daily visitation and listed rewards; UTC reset and instant visit are implementation models',saveVersion:7,depositArmy};
 })(typeof globalThis!=='undefined'?globalThis:this);

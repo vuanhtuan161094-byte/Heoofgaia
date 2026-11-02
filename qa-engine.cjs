@@ -653,6 +653,20 @@ test('HG10 world attack buff changes actual battle damage and expires before lat
  E.visitWorldBuilding(buffed,'21,65',buffed.lastTick);E.appoint(buffed,1);E.appoint(plain,1);const beforeB=buffed.res.gold,beforeP=plain.res.gold;E.tick(buffed,buffed.lastTick+3*60*60*1000);E.tick(plain,plain.lastTick+3*60*60*1000);
  assert.equal(buffed.heroBuffs.length,0);assert(Math.abs((buffed.res.gold-beforeB)-(plain.res.gold-beforeP)-(4*160/150*2))<1e-6);
 });
+test('SRC54 China 2009 recruitment task is separated, counts completed real training, pays once and migrates v07 saves',()=>{
+ const s=state('human'),now=s.lastTick,taskId='recruit_archers';
+ assert.equal(E.china2009DailyTasks(s,now).length,1);assert.equal(E.dailyTasks(s,now).some(t=>t.id===taskId),false);
+ const before={wood:s.res.wood,army:s.army.human_3||0};E.acceptChina2009DailyTask(s,taskId,now);assert.equal(s.china2009DailyTaskState.accepted.includes(taskId),true);
+ s.buildings.hall=3;s.buildings.barracks=3;s.spells.bootcamp=1;for(const k of C.keys)s.res[k]=E.limits(s)[k];
+ E.recruit(s,'human_3',20);assert.equal(E.china2009DailyTasks(s,now)[0].progress,0);assert.throws(()=>E.claimChina2009DailyTask(s,taskId,now),/hoàn tất huấn luyện/);
+ const finish=s.lastTick+s.training[0].remaining/s.speed*1000+1000;E.tick(s,finish);const row=E.china2009DailyTasks(s,s.lastTick)[0];assert.equal(row.progress,20);assert.equal(row.ready,true);s.res.wood=E.limits(s).wood-150;
+ const woodAtClaim=s.res.wood,armyAtClaim=s.army.human_3,out=E.claimChina2009DailyTask(s,taskId,s.lastTick);assert.equal(JSON.stringify(out),JSON.stringify({wood:100,unitId:'human_3',units:10}));assert.equal(s.res.wood,woodAtClaim+100);assert.equal(s.army.human_3,armyAtClaim+10);assert.throws(()=>E.claimChina2009DailyTask(s,taskId,s.lastTick),/đã nhận/);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.equal(E.china2009DailyTasks(loaded,loaded.lastTick)[0].claimed,true);assert(E.strictSave(loaded));
+ const envelope=JSON.parse(E.serializeSave(state('human')));delete envelope.state.china2009DailyTaskState;const migrated=E.parseSave(JSON.stringify(envelope));assert.equal(migrated.version,7);assert.equal(E.china2009DailyTasks(migrated,migrated.lastTick)[0].progress,0);
+ const elf=state('elf');assert.equal(E.china2009DailyTasks(elf,elf.lastTick).length,0);assert.throws(()=>E.acceptChina2009DailyTask(elf,taskId,elf.lastTick),/không áp dụng/);
+ assert(before.wood>=0&&before.army>=0);
+});
+
 test('HG10 source-cited daily task accepts, follows a real 1-star battle, pays once and survives v07 reload',()=>{
  const s=state('human'),taskId='getting_started',day=s.lastTick,target=E.NPC_CAMPS_2009.find(x=>x.stars===1);assert(target);assert.equal(E.dailyTasks(s,day)[0].progress,0);
  const before={gold:s.res.gold,ap:s.ap};E.acceptDailyTask(s,taskId,day);assert.equal(E.dailyTasks(s,day)[0].accepted,true);assert.equal(s.res.gold,before.gold);assert.equal(s.ap,before.ap);

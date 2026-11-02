@@ -1,0 +1,124 @@
+{
+  "suite": "HG-10 dated China 2009 Human recruitment task",
+  "source": "SRC54, Sina Games, 2009-08-24",
+  "browserExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "inputHtml": "Play-Heoofgaia-HG11.html",
+  "fixtureDisclosure": "QA seeds Town Hall 3, Barracks 3, Bootcamp 1, resource headroom and 1x clock speed; it does not seed task progress, trained Archers, completion or rewards. The task is accepted in UI, 20 Archers are queued from the real recruitment UI, the engine training queue completes, reward is claimed in UI, then file-save reload is checked.",
+  "checks": [
+    {
+      "name": "Chrome opens the offline Anh Hùng Thời Loạn build",
+      "passed": true
+    },
+    {
+      "name": "The dated Chinese task appears in a separate, labeled section",
+      "passed": true
+    },
+    {
+      "name": "The international task list remains a distinct board",
+      "passed": true
+    },
+    {
+      "name": "Actual Accept action persists the task without granting progress",
+      "passed": true
+    },
+    {
+      "name": "Actual recruit action queues 20 Human Archers and does not count unfinished troops",
+      "passed": true
+    },
+    {
+      "name": "Training completion adds actual troops and completes the objective",
+      "passed": true
+    },
+    {
+      "name": "Actual Claim action grants exactly 100 Wood and 10 Archers once",
+      "passed": true
+    },
+    {
+      "name": "v07 strict save validation holds at each gameplay stage",
+      "passed": true,
+      "detail": [
+        [
+          "fixture",
+          true
+        ],
+        [
+          "accepted",
+          true
+        ],
+        [
+          "queued",
+          true
+        ],
+        [
+          "trained",
+          true
+        ],
+        [
+          "claimed",
+          true
+        ]
+      ]
+    },
+    {
+      "name": "Save button writes a parseable v07 payload before reload",
+      "passed": true,
+      "detail": {
+        "exists": true,
+        "length": 3525,
+        "parseError": null,
+        "strict": true,
+        "strictTrace": [
+          [
+            "fixture",
+            true
+          ],
+          [
+            "accepted",
+            true
+          ],
+          [
+            "queued",
+            true
+          ],
+          [
+            "trained",
+            true
+          ],
+          [
+            "claimed",
+            true
+          ]
+        ]
+      }
+    },
+    {
+      "name": "Browser reload preserves the task, reward and valid v07 save",
+      "passed": true,
+      "detail": {
+        "state": {
+          "loaded": true,
+          "version": 7,
+          "valid": true,
+          "progress": 20,
+          "claimed": true,
+          "archers": 30
+        },
+        "console": []
+      }
+    },
+    {
+      "name": "The completed reward control cannot be claimed twice",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript exceptions during the real UI flow",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "consoleWarnings": [],
+  "passed": 12,
+  "total": 12,
+  "screenshot": "docs/evidence/hg10/china-2009-recruit-archers-chrome.png"
+}
