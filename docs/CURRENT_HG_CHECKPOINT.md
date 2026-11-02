@@ -1,5 +1,18 @@
 # CURRENT HG CHECKPOINT
 
+## Latest tested slice — HG-09 source-backed NPC XP — 2026-11-03
+
+- Project: `E:\Heoofgaia`; branch: `feature/hog1-research-to-playable-20261102`; product title: **Anh Hùng Thời Loạn**. Tested gameplay, standalone HTML, source ledger, QA and screenshot were committed locally as **`761f72f7637ee43bd8fcaed6db013cc04781803f`**. Preceding checkpoint HEAD was `2b9d372240bcf2b17cf831e0d28c7ae45a180bac`. No changes to the source Tu Tiên repository or `main`.
+- Evidence SRC45: a dated 2009-09-21 Sina player strategy guide reports NPC victory XP: 4★ 1,000; 5★ 4,000; 6★ 9,000; 7★ 18,000; 8★ 30,000. It does not give 1★–3★ values. This is one Chinese player guide, not server/client data; English/EU parity is unverified. Source record: `docs/research/HG08-EVIDENCE-REGISTER.md`, `docs/research/HG09-COMBAT-EVIDENCE.md`, and `docs/research/RESEARCH-HEROES-OF-GAIA-2009.md`.
+- Gameplay change: NPC wins at 4★–8★ award the listed base XP; the active Hero Tower adds its existing +1% per level. The battle log shows the awarded amount and source ID. 1★–3★ NPC XP and mine/castle XP retain the previous `30 × level` model and are identified as modeled in the Heroes panel. Save key/schema stay v07.
+- **Scope limit:** Node tests verify all five table rows. The current world map only has 1★–4★ NPC encounters, so only the 4★ reward is presently reachable through gameplay. The 5★–8★ values are implemented in the table but not exposed by world-map encounters yet.
+- Pre-edit baseline: Node **115/115 PASS**; integrated installed-Chrome **91/91 PASS**, zero JS exceptions; Chromium `file://` plus new-process Save/Reload **29/29 PASS**. Post-change Node **117/117 PASS**; integrated Chrome **91/91 PASS**, zero exceptions; `file://` **29/29 PASS**; dedicated actual Chrome XP flow **8/8 PASS**, zero exceptions; Hero Tower **7/7 PASS**; Tavern gate **10/10 PASS**; world building **10/10 PASS**. JavaScript syntax, Python QA compilation and `git diff --check`: **PASS**.
+- Real Chrome capture from the offline game: `docs/evidence/hg09/npc-four-star-xp-chrome.png`, SHA-256 **`9A529F5A60580026560F8B199B91FEFCAA2CDC22B543EB47FEAD9CDDCB96AD54`**. It shows the live Heroes page after marching to and winning a four-star NPC encounter; the QA fixture seeds Hero Tower 10, a level-50 hero, and 5,000 Archers. The game engine handles formation, March, travel tick, battle, Attack, XP and v07 Save/Reload. Machine report: `docs/qa/hg09/npc-four-star-xp-chrome.json`, 8/8 PASS.
+- Offline artifact: `Play-Heoofgaia-HG11.html`, **9,924,152 bytes**, SHA-256 **`612607FCF9E55344CE5CB81879D728FE596C98F1D0D61C1ADC8E1E60BA05FF37`**. This is a screenshot of the reconstruction; original-client screenshot comparison remains **BLOCKED / NOT TESTED**.
+- Whole project is still incomplete: HG-08 **IN PROGRESS**; HG-09 **IN PROGRESS**; HG-10 **PARTIAL**; HG-11 **PARTIAL**; HG-12 **IN PROGRESS**; HG-13 **NOT STARTED**. No 1:1 claim. Non-Human troop gates, Tavern odds, lower-star and non-NPC reward parity, deeper battle rules, full original art/client/server, and release packaging remain open.
+- Delivery: the local feature commit is verified. `git remote -v` is empty; GitHub private repository presence/access remains unverified and push is **BLOCKED**. No repository-creation or push action was possible from this checkout.
+- **Next task:** continue HG-08 evidence collection for the remaining Elf/Orc/Undead troop gates and Tavern odds. Implement the next source-backed mechanic that can be validated in live gameplay; keep unsupported data explicitly modeled and preserve v07.
+
 Date: 2026-11-03 (Windows local execution)
 
 ## Standalone repository and verified source
