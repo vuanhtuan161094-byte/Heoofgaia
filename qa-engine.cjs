@@ -77,6 +77,17 @@ test('HG08 edition crosswalk maps every catalog ID and preserves localized label
 test('troop point formula',()=>{const u=C.units.human[0];assert.equal(E.unitValue(u),u.cost.gold+5*(u.cost.wood+u.cost.ore)+10*(u.cost.sulfur+u.cost.crystal))});
 test('new game all races valid with the v07 starting AP amount and Fame rank cap',()=>{for(const race of Object.keys(C.races)){const s=state(race);assert.equal(s.version,7);assert.equal(s.race,race);assert.equal(s.fame,5);assert.equal(s.ap,100);assert.equal(s.apMax,150);assert.equal(E.strictSave(s),true)}});
 test('candidate slots at recorded level gates',()=>{assert.equal(E.tavernSlots(1),2);assert.equal(E.tavernSlots(2),3);assert.equal(E.tavernSlots(4),4);assert.equal(E.tavernSlots(9),7);assert.equal(E.tavernSlots(10),8)});
+test('Tavern level 10 samples the cited community attribute bands and v07 persists candidate stats',()=>{
+ const s=state();s.buildings.tavern=10;
+ const sequence=[0,0,6575.5/6708,0.999999,6576.5/6708,0,6706.5/6708,0.999999];
+ const originalRandom=vm.runInContext("Math.random",ctx);ctx.__tavernRandomDraws=sequence;ctx.__tavernRandomIndex=0;ctx.__tavernOriginalRandom=originalRandom;vm.runInContext("Math.random=()=>__tavernRandomDraws[__tavernRandomIndex++]??0.5",ctx);
+ try{E.refreshTavern(s)}finally{vm.runInContext("Math.random=__tavernOriginalRandom",ctx);delete ctx.__tavernRandomDraws;delete ctx.__tavernRandomIndex;delete ctx.__tavernOriginalRandom}
+ const h=s.tavern.offers[0];
+ assert.deepEqual([h.atk,h.def,h.spd,h.int],[20,50,51,70]);
+ assert.deepEqual([h.statColors.atk,h.statColors.def,h.statColors.spd,h.statColors.int],['white','blue','yellow','green']);
+ assert.equal(s.tavern.offers.length,8);assert.equal(s.tavern.round,1);assert.equal(s.version,7);assert.equal(E.strictSave(s),true);
+ const loaded=E.parseSave(E.serializeSave(s));assert.deepEqual(loaded.tavern.offers,s.tavern.offers);assert.equal(E.strictSave(loaded),true);
+});
 test('candidate hire exactly once',()=>{const s=state();s.fame=2200;const before=s.tavern.offers.length,id=s.tavern.offers[0].id;E.hireCandidate(s,id);assert.equal(s.tavern.offers.length,before-1);assert.equal(s.heroes.length,2);throws(()=>E.hireCandidate(s,id),/Ứng viên/)});
 test('hire rejects insufficient gold without removing offer',()=>{const s=state(),offer=s.tavern.offers[0];s.res.gold=0;throws(()=>E.hireCandidate(s,offer.id),/Không đủ/);assert.equal(s.tavern.offers[0].id,offer.id)});
 test('hero roster cap follows every dated SRC20 fame threshold',()=>{

@@ -42,7 +42,7 @@ with sync_playwright() as p:
         colorMatches:blue.length===1&&blue[0].h.quality===HOG_ENGINE.heroNameColor(blue[0].h),valid:HOG_ENGINE.strictSave(s)};
     })()""")
     hint = page.locator("#main").inner_text()
-    check("Tavern UI cites SRC48 and discloses the blue-candidate model", "SRC48" in hint and "không phải xác suất gốc" in hint, hint[hint.find("Tavern —"):hint.find("Tavern —") + 420].replace("\n", " | "))
+    check("Tavern UI cites SRC48 and discloses the blue-candidate model", "SRC48" in hint and "xác suất gốc chưa rõ" in hint and "mẫu cộng đồng" in hint, hint[hint.find("Tavern —"):hint.find("Tavern —") + 420].replace("\n", " | "))
     check("Level-6 Tavern creates five candidates and one source-band Blue offer",
           prepared["version"] == 7 and prepared["offers"] == 5 and prepared["blue"] == 1 and 126 <= prepared["heroValue"] <= 160 and prepared["colorMatches"] and prepared["valid"] and all(20 <= v <= 50 for v in prepared["stats"].values()),
           json.dumps(prepared, ensure_ascii=False))

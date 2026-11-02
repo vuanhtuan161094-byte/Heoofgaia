@@ -103,6 +103,16 @@ function enrichOffer(offer){
  offer.statColors=Object.fromEntries(attrKeys.map(k=>[k,statColor(offer[k])]));return offer;
 }
 function tavernOffers(s){if(Array.isArray(s.tavern?.offers))for(const offer of s.tavern.offers)enrichOffer(offer)}
+function sampleTavern10Stat(){
+ // SRC21 (living Fandom page, build/date unknown) reports 6,708 sampled
+ // attributes: 4,350 white + 2,226 blue, 130 yellow, 2 green, no purple.
+ // Follow that community sample: common values are uniform 20-50; observed
+ // yellow/green bands are 51-60/61-70. These are model weights, not server odds.
+ const draw=Math.floor(Math.random()*6708);
+ if(draw<6576)return 20+Math.floor(Math.random()*31);
+ if(draw<6706)return 51+Math.floor(Math.random()*10);
+ return 61+Math.floor(Math.random()*10);
+}
 function highTavernCommonStats(s){
  const level=s.buildings.tavern||0,raceIndex=Object.keys(E.C.races).indexOf(s.race),round=s.tavern.round||0;
  if(level>=6&&level<10&&s.tavern.offers.length){
@@ -120,8 +130,8 @@ function highTavernCommonStats(s){
  }
  if(level<10)return;
  for(let i=0;i<s.tavern.offers.length;i++){
-  const offer=s.tavern.offers[i],seed=(round*104729+(i+1)*7919+(raceIndex+1)*1543)>>>0;
-  for(let j=0;j<4;j++)offer[attrKeys[j]]=20+((seed+((j+1)*(j+17)*7919))%31);
+  const offer=s.tavern.offers[i];
+  for(const key of attrKeys)offer[key]=sampleTavern10Stat();
   offer.level=1;enrichOffer(offer);
  }
 }

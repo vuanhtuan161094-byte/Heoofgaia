@@ -4,7 +4,7 @@
   "browser": "Installed Chrome, actual file://",
   "source": "SRC48 (17173, 2009-10-25)",
   "modelDisclosure": "SRC48 reports that Tavern above level 5 almost always offers at least one blue hero, without exact odds/stat distributions. L6–L9 implementation deterministically creates exactly one blue offer per refresh; its 20–50 stats and 126–160 hero-value band are a playable model, not recovered probabilities. Fixture directly sets Tavern level 6; subsequent hire, 60-minute tick, UI and v07 Save/Reload use the real engine/UI.",
-  "htmlSha256": "DAFE8DF9987B61536948027A4B1C3D76C642B552C80C00066D7EC625E36B25E1",
+  "htmlSha256": "7EDFE8C380E6597F4E925AFC81B90B75BB06ADE50B3BD5FE20C71541F7444BE9",
   "checks": [
     {
       "name": "Offline build title is exactly Anh Hùng Thời Loạn",
@@ -19,7 +19,7 @@
     {
       "name": "Tavern UI cites SRC48 and discloses the blue-candidate model",
       "passed": true,
-      "detail": "Tavern — Ứng viên tướng |  | Tự làm mới mỗi 60 phút game (SRC48). SRC48 ghi Tavern trên cấp 5 gần như luôn có ít nhất một tướng tên xanh; bản dựng mô phỏng đúng một tướng xanh mỗi lượt ở cấp 6–9, không phải xác suất gốc. Phân bố stat cấp 6–9 và phần đuôi 2% ở L10 chưa xác minh. Mốc số ứng viên L2/L4/L9/L10 đã đối chiếu. |  | Cấp 6 · 5 ứng viên còn lại · 60 giây thực tới lượt làm mới |  | Irena WHITE |  | Hero value 35 · ATK 11 (whit"
+      "detail": "Tavern — Ứng viên tướng |  | Tự làm mới mỗi 60 phút game (SRC48). Cấp 6–9 mô phỏng một ứng viên tên xanh mỗi lượt theo ghi nhận “gần như luôn có”; xác suất gốc chưa rõ. Cấp 10 có 8 ứng viên/giờ (SRC21); mỗi chỉ số dùng mẫu cộng đồng: 98,03% trong 20–50, 1,94% trong 51–60, 0,03% trong 61–70. Đây không phải xác suất server. Chất lượng cấp thấp và giá tuyển chưa xác minh. |  | Cấp 6 · 5 ứng viên còn lại · 60 giây thực tới lượt "
     },
     {
       "name": "Level-6 Tavern creates five candidates and one source-band Blue offer",

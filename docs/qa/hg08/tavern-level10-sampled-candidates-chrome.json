@@ -1,0 +1,55 @@
+{
+  "suite": "HG-08 Tavern 10 sample-based candidate gameplay",
+  "game": "Anh Hùng Thời Loạn",
+  "browser": "Installed Chrome, actual file://",
+  "source": "SRC21: living Fandom Hero quality page; exact build/revision date unknown",
+  "modelDisclosure": "Each L10 stat samples from the page's 6,708-attribute table: 6,576 white/blue draws map to uniform 20-50, 130 yellow to 51-60, 2 green to 61-70, and no purple was observed. This empirical sample is not an original server probability. Fixture sets Tavern level 10 directly; refresh, visible candidate hire, v07 Save/Reload, in-game-hour refresh and reload use the actual runtime/UI.",
+  "htmlSha256": "7EDFE8C380E6597F4E925AFC81B90B75BB06ADE50B3BD5FE20C71541F7444BE9",
+  "checks": [
+    {
+      "name": "Offline build title is Anh Hùng Thời Loạn",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Tavern disclosure cites sample status and rejects server-odds claims",
+      "passed": true,
+      "detail": "Tavern — Ứng viên tướng |  | Tự làm mới mỗi 60 phút game (SRC48). Cấp 6–9 mô phỏng một ứng viên tên xanh mỗi lượt theo ghi nhận “gần như luôn có”; xác suất gốc chưa rõ. Cấp 10 có 8 ứng viên/giờ (SRC21); mỗi chỉ số dùng mẫu cộng đồng: 98,03% trong 20–50, 1,94% trong 51–60, 0,03% trong 61–70. Đây không phải xác suất server. Chất lượng cấp thấp và giá tuyển chưa xác minh. |  | Cấp 10 · 8 ứng viên còn lại · 60 giây thực tới lượt làm mới |  | Irena BLUE |  | Hero value 158 · ATK 48 (blue) · DEF 35 (white) · SPD 50 (blue) · INT 25 (white) |  | Tuyển · 500 vàng | Neris BLU"
+    },
+    {
+      "name": "Level-10 refresh produces eight valid four-stat offers from the cited ranges",
+      "passed": true,
+      "detail": "{\"version\": 7, \"round\": 1, \"offers\": [{\"id\": \"r1c0\", \"name\": \"Irena\", \"quality\": \"blue\", \"value\": 158, \"atk\": 48, \"def\": 35, \"spd\": 50, \"int\": 25, \"statColors\": {\"atk\": \"blue\", \"def\": \"white\", \"spd\": \"blue\", \"int\": \"white\"}}, {\"id\": \"r1c1\", \"name\": \"Neris\", \"quality\": \"blue\", \"value\": 151, \"atk\": 34, \"def\": 41, \"spd\": 30, \"int\": 46, \"statColors\": {\"atk\": \"white\", \"def\": \"blue\", \"spd\": \"white\", \"int\": \"blue\"}}, {\"id\": \"r1c2\", \"name\": \"Irena\", \"quality\": \"white\", \"value\": 124, \"atk\": 24, \"def\": 24, \"spd\": 43, \"int\": 33, \"statColors\": {\"atk\": \"white\", \"def\": \"white\", \"spd\": \"blue\", \"int\": \"white\"}}, {\"id\": \"r1c3\", \"name\": \"Neris\", \"quality\": \"blue\", \"value\": 131, \"atk\": 47, \"def\": 38, \"spd\": 25, \"int\": 21, \"statColors\": {\"atk\": \"blue\", \"def\": \"white\", \"spd\": \"white\", \"int\": \"white\"}}, {\"id\": \"r1c4\", \"name\": \"Irena\", \"quality\": \"yellow\", \"value\": 169, \"atk\": 38, \"def\": 38, \"spd\": 46, \"int\": 47, \"statColors\": {\"atk\": \"white\", \"def\": \"white\", \"spd\": \"blue\", \"int\": \"blue\"}}, {\"id\": \"r1c5\", \"name\": \"Neris\", \"quality\": \"blue\", \"value\": 148, \"atk\": 31, \"def\": 28, \"spd\": 41, \"int\": 48, \"statColors\": {\"atk\": \"white\", \"def\": \"white\", \"spd\": \"blue\", \"int\": \"blue\"}}, {\"id\": \"r1c6\", \"name\": \"Irena\", \"quality\": \"blue\", \"value\": 147, \"atk\": 49, \"def\": 30, \"spd\": 24, \"int\": 44, \"statColors\": {\"atk\": \"blue\", \"def\": \"white\", \"spd\": \"white\", \"int\": \"blue\"}}, {\"id\": \"r1c7\", \"name\": \"Neris\", \"quality\": \"white\", \"value\": 123, \"atk\": 21, \"def\": 38, \"spd\": 35, \"int\": 29, \"statColors\": {\"atk\": \"white\", \"def\": \"white\", \"spd\": \"white\", \"int\": \"white\"}}], \"stats\": [48, 35, 50, 25, 34, 41, 30, 46, 24, 24, 43, 33, 47, 38, 25, 21, 38, 38, 46, 47, 31, 28, 41, 48, 49, 30, 24, 44, 21, 38, 35, 29], \"valid\": true, \"colorChecks\": true}"
+    },
+    {
+      "name": "Live hire recruits the exact displayed candidate and removes one slot",
+      "passed": true,
+      "detail": "{\"version\": 7, \"heroes\": 2, \"offers\": 7, \"hero\": {\"name\": \"Irena\", \"atk\": 48, \"def\": 35, \"spd\": 50, \"int\": 25}, \"valid\": true}"
+    },
+    {
+      "name": "v07 Save/Reload preserves hired stats and all seven remaining sampled offers",
+      "passed": true,
+      "detail": "{\"version\": 7, \"heroes\": 2, \"offers\": 7, \"hero\": {\"name\": \"Irena\", \"atk\": 48, \"def\": 35, \"spd\": 50, \"int\": 25}, \"valid\": true}"
+    },
+    {
+      "name": "One in-game hour refreshes eight new L10 candidates through the real engine",
+      "passed": true,
+      "detail": "{\"before\": 1, \"round\": 2, \"count\": 8, \"valid\": true, \"ranges\": true}"
+    },
+    {
+      "name": "The new hourly candidate set survives another v07 browser reload",
+      "passed": true,
+      "detail": "{\"version\": 7, \"round\": 2, \"count\": 8, \"valid\": true}"
+    },
+    {
+      "name": "No page errors during offline Tavern refresh, hire and Save/Reload",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "docs\\evidence\\hg08\\tavern-level10-sampled-candidates-chrome.png",
+    "docs\\evidence\\hg08\\tavern-level10-hourly-refresh-chrome.png"
+  ]
+}
