@@ -47,7 +47,7 @@ Date: 2026-11-02 (Windows local execution)
 - `node --check` on all 9 source JavaScript files: **PASS**.
 - `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (149,422 characters).
 - `.venv\Scripts\python.exe qa-browser.py`: **60/60 PASS**, zero page errors, installed Google Chrome. Includes actual Arena treatment, gold deduction, save/reload and timed troop return, in addition to Graveyard, Human Scout, Centaur, Thunderbird, combat and mobile checks. Screenshots were refreshed from this actual Chrome run.
-- `.venv\Scripts\python.exe qa-file-browser.py`: **9/9 PASS**, actual `file://` launch, v07 save/reload and separate Chrome process restart.
+- `.venv\Scripts\python.exe qa-file-browser.py`: **12/12 PASS**, actual `file://` launch, v07 save/reload, Arena recovery persistence and a separate Chrome process restart.
 - `git diff --check`: **PASS** before commits; only Git line-ending normalization warnings.
 - Receipts: `docs/evidence/hg08/QA-RC1-RESULTS.json`, `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`, `docs/evidence/hg09/QA-HG09-BROWSER-RESULTS.json`.
 
@@ -56,6 +56,7 @@ Date: 2026-11-02 (Windows local execution)
 - `docs/evidence/hg08/screenshot-undead-graveyard-desktop.png` and `screenshot-undead-recruitment-queue-desktop.png`: actual 1440×900 Chrome rendering before/after enqueueing three Skeleton Warriors; queue state is also shown in the live sidebar. `docs/evidence/hg08/screenshot-orc-thunderbird-gate-desktop.png` captures the actual Orc recruitment panel, source-confidence badge, all four C-confidence gates and disabled recruit button before the gates are met. `docs/evidence/hg08/screenshot-troop-unlocks-desktop.png` shows the real Elf Centaur C badge and source note beside the locked tier-2 Scout. `docs/evidence/hg08/screenshot-human-scout-gate-desktop.png` shows the Human Scout card with SRC27 Barracks 2 + Scouting 1 and the unresolved Town Hall note.
 - `docs/evidence/hg09/screenshot-combat-desktop.png` and `screenshot-combat-after-turn-desktop.png`: actual Chrome battle before/after an Attack action; enemy HP and the turn order change in the running game.
 - `docs/evidence/hg09/screenshot-arena-treatment-queue-desktop.png`: actual Chrome Arena screen after paying the source-derived fee and queuing two wounded Spear Militia for timed recovery.
+- `docs/evidence/hg08/screenshot-file-arena-queue-1280x720.png`: actual `file://` Chrome screenshot with an active Centaur treatment queue; the offline test reloads it in a second browser process.
 - Original client/runtime was not available for pixel-level side-by-side comparison. Visual resemblance and gameplay parity with the original remain **NOT TESTED/BLOCKED**; no 1:1 claim is made. Physical Android/Windows-device acceptance: NOT TESTED.
 
 ## Remaining scope and next actions
