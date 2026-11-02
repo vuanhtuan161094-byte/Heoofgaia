@@ -1,7 +1,7 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 106,
-  "suitePassed": 106,
+  "suiteTotal": 107,
+  "suitePassed": 107,
   "suiteFailed": 0,
   "hg10Total": 8,
   "hg10Passed": 8,

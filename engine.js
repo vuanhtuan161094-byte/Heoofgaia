@@ -5,12 +5,13 @@ const C=root.HOG_CATALOG||(typeof require==='function'?require('./data.js'):null
 const V=5, SAVE_KEY='heoofgaia_hg_only_v04', PREV_SAVE_KEY='heoofgaia_hg_only_v03';
 const buildOrder=['hall','barracks','heroTower','tavern','warehouse','magicTower','arena','market','bazaar','embassy','stables','forge'];
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
-// HG10 offline catch-up: advance at most 24 game-hours in one suspended-time step.
+// HG10 offline catch-up: process at most 24 real wall-clock hours in one suspended-time step.
 // This is a bounded runtime policy, not an asserted Heroes of Gaia server rule.
-const MAX_OFFLINE_GAME_SECONDS=24*3600;
+const MAX_OFFLINE_WALL_SECONDS=24*3600;
 function gameElapsedSeconds(s,from,now){
  if(!Number.isFinite(from)||!Number.isFinite(now)||now<=from)return 0;
- return Math.min(MAX_OFFLINE_GAME_SECONDS,(now-from)/1000*(s.speed===1?1:60));
+ const wallSeconds=Math.min(MAX_OFFLINE_WALL_SECONDS,(now-from)/1000);
+ return wallSeconds*(s.speed===1?1:60);
 }
 function assert(ok,msg){if(!ok)throw new Error(msg)}
 function make(race='human',now=Date.now()){
@@ -249,7 +250,7 @@ function battleAct(s,action){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_GAME_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,getTile,pathfind,setFormation,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
+const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,getTile,pathfind,setFormation,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 

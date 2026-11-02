@@ -94,10 +94,11 @@ test('tavern empty offers preserved across save',()=>{const s=state();s.tavern.o
 test('resource basic positive and capped',()=>{const s=state();E.tick(s,s.lastTick+1e7);for(const k of C.keys)assert(s.res[k]<=E.limits(s)[k]+.00001)});
 test('AP follows Fame hourly rate exactly once at the same wall time',()=>{const s=state();s.ap=0;s.speed=1;const t=s.lastTick+3600*1000;E.tick(s,t);let a=s.ap;E.tick(s,t);assert.equal(s.ap,a);assert.equal(a,15);assert.equal(s.apMax,150)});
 test('Fame 200 earns 16 AP in one hour under the dated rank table',()=>{const s=state();s.fame=200;s.ap=0;s.speed=1;E.ensure08(s);const t=s.lastTick+3600*1000;E.tick(s,t);assert.equal(s.ap,16);assert.equal(s.apMax,165)});
-test('offline catch-up budget is capped at 24 game-hours at both supported speeds',()=>{
- assert.equal(E.MAX_OFFLINE_GAME_SECONDS,86400);
+test('offline catch-up caps 24 wall-hours and then applies each supported game speed',()=>{
+ assert.equal(E.MAX_OFFLINE_WALL_SECONDS,86400);
  assert.equal(E.gameElapsedSeconds({speed:1},0,36*3600*1000),86400);
- assert.equal(E.gameElapsedSeconds({speed:60},0,24*60*1000),86400);
+ assert.equal(E.gameElapsedSeconds({speed:60},0,12*3600*1000),12*3600*60);
+ assert.equal(E.gameElapsedSeconds({speed:60},0,36*3600*1000),86400*60);
 });
 test('HG10 24-hour offline catch-up completes concurrent paid queues and settles once',()=>{
  const s=expensive(state());s.speed=1;
@@ -115,6 +116,12 @@ test('HG10 24-hour offline catch-up completes concurrent paid queues and settles
  assert.equal((s.res.gold-goldBefore)-(control.res.gold-goldBefore),4800, 'gold must include the source-listed 24h mine yield');
  const settled=JSON.stringify(s),loaded=E.parseSave(E.serializeSave(s));E.tick(s,end);E.tick(loaded,end);
  assert.equal(JSON.stringify(s),settled);assert.equal(JSON.stringify(loaded),settled);assert(E.strictSave(loaded));
+});
+test('24 real offline hours at 60x advance 60 game-days without per-hour duplication',()=>{
+ const s=expensive(state());s.speed=60;E.upgrade(s,'market');const end=s.lastTick+24*3600*1000;E.tick(s,end);
+ assert.equal(s.lastTick,end);assert.equal(s.buildings.market,1);assert.equal(s.buildingQueue,null);
+ assert.equal(s.tavern.round,1440);assert.equal(s.tavern.remaining,3600);assert.equal(s.ap,s.apMax);
+ const settled={...s.res},army={...s.army};E.tick(s,end);assert.deepEqual({...s.res},settled);assert.deepEqual({...s.army},army);
 });
 test('Market and Bazaar can be built as queue',()=>{for(const key of ['market','bazaar']){const s=expensive(state());E.upgrade(s,key);assert.equal(s.buildingQueue.key,key);assert.equal(s.buildings[key],0);E.tick(s,s.lastTick+s.buildingQueue.remaining/60*1000+1000);assert.equal(s.buildings[key],1)}});
 test('no second construction until finished',()=>{const s=state();E.upgrade(s,'hall');throws(()=>E.upgrade(s,'market'),/hàng đợi/)});
