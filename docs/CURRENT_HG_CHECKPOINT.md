@@ -2,60 +2,62 @@
 
 Date: 2026-11-02 (Windows local execution)
 
-## Standalone repository and exact code base
+## Standalone repository and verified source
 
 - Project root: `E:\Heoofgaia`.
 - Working branch: `feature/heoofgaia-hg08-20261102`.
-- Last committed standalone code before this HG-09 slice: `e9362efbac120f973ce5a263841d9f2ebdb1c4ef`. The current HG-09 implementation and evidence are in this checkpoint's working tree and are ready for the local code commit; the final tested implementation SHA will replace this line after commit.
-- Original source: `vuanhtuan161094-byte/tutiennhandoi`, branch `feature/heoofgaia-hg07-20261102`, pinned source HEAD `b32737422ca866f08de8d94021b397eb22c8f017`; HG-07 implementation parent `62d4a1c6d1a0c9769cf9ee6690e77361a2927ea9`.
-- Standalone bootstrap `028cb97a0481a4ff37a9459a5dd13ddfa1256511`; import audit `08d2fb0e4042f34af0372fb2187624bb03ff306e`. SHA-256 comparison matched all 20 Hẻoofgaia root files; no Tu Tiên production systems were copied or modified.
+- Latest tested functional commit SHA: `9c40473e2f4d800c2a1963fd3858e598b967f060` (`fix: use Graveyard for Undead recruitment`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
+- Original source: `vuanhtuan161094-byte/tutiennhandoi`, source branch `feature/heoofgaia-hg07-20261102`, pinned source HEAD `b32737422ca866f08de8d94021b397eb22c8f017`; HG-07 implementation parent `62d4a1c6d1a0c9769cf9ee6690e77361a2927ea9`.
+- Standalone bootstrap `028cb97a0481a4ff37a9459a5dd13ddfa1256511`; import audit `08d2fb0e4042f34af0372fb2187624bb03ff306e`. SHA-256 comparison matched all 20 Hẻoofgaia root files. Tu Tiên production systems were not copied or modified.
 - `projects/heoofgaia/HANDOFF_CREATE_STANDALONE_20261102.md` was absent at the pinned source SHA. The attached ZIP was treated as reference material only.
-- Private GitHub target `vuanhtuan161094-byte/Heoofgaia` is NOT created or pushed. Local `git remote -v` is empty, `gh` is not installed in this Windows environment, and the connected GitHub toolset has no repository-creation operation; lookup returned 404. No email was sent. `gh auth login --web` is a browser/device flow, not an email flow. Local commits remain the only source until repo creation and push are available.
+- Target `vuanhtuan161094-byte/Heoofgaia` has no configured local remote. GitHub API lookup returned 404; this can mean absent or inaccessible. The Windows `gh` executable is missing, and the connected GitHub tools do not expose repository creation. A read-only browser-session check could not complete because Computer Use approval timed out. No repository was created or pushed, no email was sent, and no login flow was run. **Private repo creation/push: BLOCKED.** Do not modify or merge to the Tu Tiên repository or its `main` branch.
 
-## HG-07 baseline audit — PASS (before HG-08 changes)
+## HG-07 baseline audit — PASS before HG-08 changes
 
-- `node --check` on the then-current 8 JS files: PASS.
+- JavaScript syntax: PASS on the then-current 8 source files.
 - `node qa-engine.cjs`: 37/37 PASS.
-- `.venv\Scripts\python.exe build_offline.py`: PASS; 123,427-character HTML.
-- `.venv\Scripts\python.exe qa-browser.py`: 31/31 PASS, zero JS errors.
-- `.venv\Scripts\python.exe qa-file-browser.py`: 9/9 PASS, Chromium `file://`, v06 persistence and separate process restart.
-- Runtime receipts: `docs/evidence/hg07-baseline/`.
+- `.venv\Scripts\python.exe build_offline.py`: PASS; 123,427-character offline HTML.
+- `.venv\Scripts\python.exe qa-browser.py`: 31/31 PASS, zero JavaScript errors.
+- `.venv\Scripts\python.exe qa-file-browser.py`: 9/9 PASS, Chromium `file://`, v06 persistence and separate-process restart.
+- Receipts: `docs/evidence/hg07-baseline/`.
 - Original-client side-by-side and physical Android QA: NOT TESTED.
 
 ## HG-08 — IN PROGRESS; partial vertical slice
 
-- Schema v07 and v06→v07 migration; hero XP/levels/attribute points and capacity; Castellan XP from completed troop queues; faction-specific build lists; one saveable Castle Spell research queue; real troop recruitment and visible prerequisite locks.
-- 40-row prerequisite matrix. Human T1/T3–T10 gates use dated Chinese guides. Human Scout is partial. Scouting 1 is applied to four tier-2 scouting roles using a cross-version mapping. Non-Human support-building tiers and most per-unit gates remain incomplete; no unsupported tier gates are invented. Tavern slot milestones are supported; full candidate distribution/rare odds are not.
-- Historical commercial artwork, SWF and client assets are not included. Reference links do not grant redistribution rights. Current game art is procedurally drawn.
+- Save schema v07 and v06→v07 migration; hero XP/levels/attribute points and command capacity; Castellan XP from completed troop queues; faction-specific building lists; one saveable Castle Spell research queue; real troop recruitment and visible prerequisite locks.
+- Human T1/T3–T10 requirements are from dated Chinese 2009/2010 guides. Human Scout remains partial. Scouting gates for other tier-2 scout roles are cross-version-derived.
+- Undead troop training correctly uses the Graveyard; legacy Undead saves copy the prior Barracks level to Graveyard when the new field is missing. Dated 2009 Sina guides identify Graveyard as the Undead recruit building and Dark Hall/Soul Tower as requirements for broad troop classes. Exact per-unit numeric gates for non-Human races were not recovered.
+- Elf/Orc Barracks and Undead Graveyard levels currently use the catalog unit tier as an explicitly labelled **P / PROVISIONAL MODEL** progression proxy. UI and matrix say this is not source-verified historical data. Exact support-building gates (Magic Pool, Nature Tower, Beast Pen, Blacksmith, Dark Hall, Soul Tower) remain unapplied.
+- Tavern slot milestones and some hero quality bands are sourced; exact full candidate distributions and rare-stat odds remain missing. No original-client asset with release rights has been added; current art is procedurally drawn.
+- Research: `docs/research/HG08-EVIDENCE-REGISTER.md`, `docs/research/HG08-TROOP-UNLOCK-MATRIX.md`, `docs/RESEARCH-HEROES-OF-GAIA-2009.md`.
 
 ## HG-09 — IN PROGRESS; tested tactical combat slice
 
-- Added source-backed equal-speed initiative: speed descending, then battlefield position left-to-right/top-to-bottom following the 2009 Chinese player guide. The executed actor order is recorded in the battle state and visible in the game.
-- Added deterministic target tie-breaking, documented board-wide ranged reach approximation (numeric range is missing from sources), and kept melee movement, attack/defend/focus/retreat, combat spells, equipment, casualties and Arena behavior in the live engine.
-- Victory cannot be settled twice through the normal game flow: the completed target is rejected before AP deduction. Mid-battle save/load preserves positions, order and outcome.
-- Damage formula, exact range, NPC composition/scaling, Stand By and Focus multipliers, morale, encounter timer and rewards remain partial or simulated.
+- Source-backed equal-speed initiative: speed descending, then battlefield position left-to-right/top-to-bottom following a 2009 Chinese player guide. Executed order is stored and visible.
+- Deterministic target tie-breaking, documented board-wide ranged-reach approximation (numeric range absent from sources), melee movement, attack/defend/focus/retreat, combat spells, equipment, casualty/Arena ledger, and save-mid-battle are live.
+- Normal battle flow prevents duplicate settlement and reward.
+- Damage formula, exact range, NPC composition/scaling, Stand By/Focus multipliers, morale, encounter timer and rewards remain partial or simulated.
 
-## Current live verification
+## Current verification on functional SHA `9c40473e2f4d800c2a1963fd3858e598b967f060`
 
-- `node qa-engine.cjs`: **62/62 PASS** (six HG-09-specific checks, including 1,000 seeded encounters replayed twice with identical outcomes and valid nonnegative ledgers).
-- `node --check` on all 9 source JS files: **PASS**.
-- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (144,807 characters).
-- `.venv\Scripts\python.exe qa-browser.py`: **49/49 PASS**, zero JS exceptions, actual installed Google Chrome. This includes **5/5 HG-09 browser checks**: real march opens battle, actual stacks/canvas, Attack advances a turn, ranged Attack reduces enemy HP, and initiative is recorded.
-- `.venv\Scripts\python.exe qa-file-browser.py`: **9/9 PASS**, actual `file://` launch, save/reload and separate Chrome process.
-- `git diff --check`: PASS; line-ending normalization warnings only.
-- Runtime receipts: `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`, `QA-HG09-BROWSER-RESULTS.json`, and existing HG-08 QA receipts.
+- `node qa-engine.cjs`: **66/66 PASS**, including exhaustive positive/negative tests for every currently enforced unit gate and no-spend rejection checks; 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
+- `node --check` on all 9 source JavaScript files: **PASS**.
+- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (146,209 characters; 152,598 bytes).
+- `.venv\Scripts\python.exe qa-browser.py`: **52/52 PASS**, zero page errors, installed Google Chrome. Includes real Graveyard UI, live Skeleton queue, march/combat interactions and mobile viewport checks.
+- `.venv\Scripts\python.exe qa-file-browser.py`: **9/9 PASS**, actual `file://` launch, v07 save/reload and separate Chrome process restart.
+- `git diff --check`: **PASS** before commit; only Git line-ending normalization warnings.
+- Receipts: `docs/evidence/hg08/QA-RC1-RESULTS.json`, `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`, `docs/evidence/hg09/QA-HG09-BROWSER-RESULTS.json`.
 
-## Actual runtime captures and comparison limits
+## Actual gameplay evidence and comparison limits
 
-- `docs/evidence/hg09/screenshot-combat-desktop.png` and `screenshot-combat-after-turn-desktop.png`: actual game build in Chrome at 1440×900, before and after a real march and Attack action. After the action the browser shows 518 damage and a defeated enemy stack.
-- HG-08 desktop/mobile and file-launch screenshots are under `docs/evidence/hg08/`; original client is not bundled.
-- Dated 2009 Sina and 17173 combat references and archived battle screenshots have been located and registered in `docs/research/HG09-COMBAT-EVIDENCE.md`. A playable original client or directly inspectable original runtime capture was not available for pixel-level side-by-side review: **BLOCKED / NOT TESTED**. Current flat-shaded figures, grid and panel layout visibly remain approximations; no 1:1 claim is made.
-- Physical Android/Windows-device acceptance: NOT TESTED.
+- `docs/evidence/hg08/screenshot-undead-graveyard-desktop.png` and `screenshot-undead-recruitment-queue-desktop.png`: actual 1440×900 Chrome rendering before/after enqueueing three Skeleton Warriors; queue state is also shown in the live sidebar.
+- `docs/evidence/hg09/screenshot-combat-desktop.png` and `screenshot-combat-after-turn-desktop.png`: actual Chrome battle before/after an Attack action; enemy HP and the turn order change in the running game.
+- Original client/runtime was not available for pixel-level side-by-side comparison. Visual resemblance and gameplay parity with the original remain **NOT TESTED/BLOCKED**; no 1:1 claim is made. Physical Android/Windows-device acceptance: NOT TESTED.
 
-## Remaining scope and next action
+## Remaining scope and next actions
 
-1. Continue HG-08 first: seek dated, edition-labelled per-unit gates for Elf/Orc/Undead and the exact Tavern candidate distributions. Enforce only evidence-backed values and keep unresolved cells partial.
-2. Complete HG-08 positive/negative gate, no-spend rejection, migration and browser scenarios; commit the tested HG-08 completion slice when evidence supports it.
-3. Then continue HG-09 with source-supported battle effects, AI/targeting, casualty/recovery and encounter/reward parity. Keep the numeric formula and missing original client status explicit.
-4. HG-10 world/economy, HG-11 art/UI, HG-12 release packaging and HG-13 optional server are NOT COMPLETE.
-5. GitHub repo creation/push is BLOCKED by missing local `gh` executable and unavailable repository-create API. Do not modify or merge to Tu Tiên Nhàn Rỗi `main`.
+1. Continue HG-08 source research for exact per-unit non-Human prerequisites and Tavern candidate distributions, including legal client data/screenshots and dated regional sources. Keep the P proxy visibly separate from verified data.
+2. Implement and test only source-supported remaining HG-08 systems; preserve old-save migration and update the matrix and receipts.
+3. Continue HG-09 with source-supported combat formula, AI/targeting, reward, and wound-recovery behavior; keep unresolved values explicit.
+4. HG-10 world/economy, HG-11 original-era art/UI fidelity, HG-12 release packaging/physical acceptance and HG-13 optional server are NOT COMPLETE.
+5. When GitHub repo creation/authentication is available, create the new private repository, configure its remote, push this standalone branch, and verify private visibility, branch, SHA and files. Do not use the Tu Tiên repository as a work source after the split.
