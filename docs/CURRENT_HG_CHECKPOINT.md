@@ -6,7 +6,7 @@ Date: 2026-11-02 (Windows local execution)
 
 - Project root: `E:\Heoofgaia`.
 - Working branch: `feature/heoofgaia-hg08-20261102`.
-- Latest tested functional commit SHA: `9273bee1bf44091a994d11ec3c444a497d903787` (`feat: add source-backed Elf Centaur gate`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
+- Latest tested functional commit SHA: `9ad429e94af286c617b41319a5dc8cecbd52f433` (`feat: cite Human Scout recruitment gates`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
 - Original source: `vuanhtuan161094-byte/tutiennhandoi`, source branch `feature/heoofgaia-hg07-20261102`, pinned source HEAD `b32737422ca866f08de8d94021b397eb22c8f017`; HG-07 implementation parent `62d4a1c6d1a0c9769cf9ee6690e77361a2927ea9`.
 - Standalone bootstrap `028cb97a0481a4ff37a9459a5dd13ddfa1256511`; import audit `08d2fb0e4042f34af0372fb2187624bb03ff306e`. SHA-256 comparison matched all 20 Hẻoofgaia root files. Tu Tiên production systems were not copied or modified.
 - `projects/heoofgaia/HANDOFF_CREATE_STANDALONE_20261102.md` was absent at the pinned source SHA. The attached ZIP was treated as reference material only.
@@ -25,7 +25,7 @@ Date: 2026-11-02 (Windows local execution)
 ## HG-08 — IN PROGRESS; partial vertical slice
 
 - Save schema v07 and v06→v07 migration; hero XP/levels/attribute points and command capacity; Castellan XP from completed troop queues; faction-specific building lists; one saveable Castle Spell research queue; real troop recruitment and visible prerequisite locks.
-- Human T1/T3–T10 requirements are from dated Chinese 2009/2010 guides. Human Scout remains partial. Scouting gates for other tier-2 scout roles are cross-version-derived.
+- Human T1/T3–T10 requirements are from dated Chinese 2009/2010 guides. Human Scout uses SRC27 Barracks 2 + Scouting 1 but remains partial because its Town Hall gate is unverified. Scouting gates for other tier-2 scout roles are cross-version-derived.
 - Undead troop training correctly uses the Graveyard; legacy Undead saves copy the prior Barracks level to Graveyard when the new field is missing. Dated 2009 Sina guides identify Graveyard as the Undead recruit building and Dark Hall/Soul Tower as requirements for broad troop classes. Exact per-unit numeric gates for the remaining non-Human units were not recovered.
 - Elf/Orc Barracks and Undead Graveyard levels generally use catalog tier as an explicitly labelled **P / PROVISIONAL MODEL** proxy. Two exceptions are confidence C: Elf Centaur uses SRC28 Barracks 1, and Orc Thunderbird uses SRC26 Barracks 7, Beast Pen 4, Blacksmith 4 and training technology 6 (Chinese-to-English Bootcamp mapping derived). Exact support-building gates for remaining units are unapplied.
 - Tavern slot milestones and some hero quality bands are sourced; exact full candidate distributions and rare-stat odds remain missing. No original-client asset with release rights has been added; current art is procedurally drawn.
@@ -38,19 +38,19 @@ Date: 2026-11-02 (Windows local execution)
 - Normal battle flow prevents duplicate settlement and reward.
 - Damage formula, exact range, NPC composition/scaling, Stand By/Focus multipliers, morale, encounter timer and rewards remain partial or simulated.
 
-## Current verification on functional SHA `9273bee1bf44091a994d11ec3c444a497d903787`
+## Current verification on functional SHA `9ad429e94af286c617b41319a5dc8cecbd52f433`
 
-- `node qa-engine.cjs`: **68/68 PASS**, including exhaustive positive/negative tests for every currently enforced unit gate and no-spend rejection checks; 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
+- `node qa-engine.cjs`: **69/69 PASS**, including exhaustive positive/negative tests for every currently enforced unit gate and no-spend rejection checks; 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
 - `node --check` on all 9 source JavaScript files: **PASS**.
-- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (146,788 characters; 153,219 bytes).
-- `.venv\Scripts\python.exe qa-browser.py`: **55/55 PASS**, zero page errors, installed Google Chrome. Includes Graveyard and Skeleton queue, Centaur C/source gate, Thunderbird lock/unlock gates, march/combat interactions and mobile viewport checks.
+- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (146,820 characters; 153,251 bytes).
+- `.venv\Scripts\python.exe qa-browser.py`: **56/56 PASS**, zero page errors, installed Google Chrome. Includes Graveyard and Skeleton queue, SRC27 Human Scout note, Centaur C/source gate, Thunderbird lock/unlock gates, march/combat interactions and mobile viewport checks.
 - `.venv\Scripts\python.exe qa-file-browser.py`: **9/9 PASS**, actual `file://` launch, v07 save/reload and separate Chrome process restart.
 - `git diff --check`: **PASS** before commit; only Git line-ending normalization warnings.
 - Receipts: `docs/evidence/hg08/QA-RC1-RESULTS.json`, `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`, `docs/evidence/hg09/QA-HG09-BROWSER-RESULTS.json`.
 
 ## Actual gameplay evidence and comparison limits
 
-- `docs/evidence/hg08/screenshot-undead-graveyard-desktop.png` and `screenshot-undead-recruitment-queue-desktop.png`: actual 1440×900 Chrome rendering before/after enqueueing three Skeleton Warriors; queue state is also shown in the live sidebar. `docs/evidence/hg08/screenshot-orc-thunderbird-gate-desktop.png` captures the actual Orc recruitment panel, source-confidence badge, all four C-confidence gates and disabled recruit button before the gates are met. `docs/evidence/hg08/screenshot-troop-unlocks-desktop.png` shows the real Elf Centaur C badge and source note beside the locked tier-2 Scout.
+- `docs/evidence/hg08/screenshot-undead-graveyard-desktop.png` and `screenshot-undead-recruitment-queue-desktop.png`: actual 1440×900 Chrome rendering before/after enqueueing three Skeleton Warriors; queue state is also shown in the live sidebar. `docs/evidence/hg08/screenshot-orc-thunderbird-gate-desktop.png` captures the actual Orc recruitment panel, source-confidence badge, all four C-confidence gates and disabled recruit button before the gates are met. `docs/evidence/hg08/screenshot-troop-unlocks-desktop.png` shows the real Elf Centaur C badge and source note beside the locked tier-2 Scout. `docs/evidence/hg08/screenshot-human-scout-gate-desktop.png` shows the Human Scout card with SRC27 Barracks 2 + Scouting 1 and the unresolved Town Hall note.
 - `docs/evidence/hg09/screenshot-combat-desktop.png` and `screenshot-combat-after-turn-desktop.png`: actual Chrome battle before/after an Attack action; enemy HP and the turn order change in the running game.
 - Original client/runtime was not available for pixel-level side-by-side comparison. Visual resemblance and gameplay parity with the original remain **NOT TESTED/BLOCKED**; no 1:1 claim is made. Physical Android/Windows-device acceptance: NOT TESTED.
 
