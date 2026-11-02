@@ -2,11 +2,14 @@
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
+const crypto=require('node:crypto');
 const vm=require('node:vm');
 const ctx=vm.createContext({console});
 const dir=__dirname;
 for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
+vm.runInContext(fs.readFileSync(path.join(dir,'painter.js'),'utf8'),ctx,{filename:'painter.js'});
 const E=ctx.HOG_ENGINE, C=ctx.HOG_CATALOG;
+const P=ctx.HOG_PAINTER;
 let pass=0,failed=0;const results=[];
 function test(name,fn){try{fn();pass++;results.push({name,passed:true});console.log('PASS '+name)}catch(e){failed++;results.push({name,passed:false});console.error('FAIL '+name+': '+e.message)}}
 function state(race='human'){return E.make(race,1_000_000)}
@@ -14,6 +17,16 @@ function expensive(s){for(const k of C.keys) s.res[k]=Math.min(E.limits(s)[k],1e
 function throws(fn,re){assert.throws(fn,re)}
 const v2=['gold','wood','ore','sulfur','crystal'];
 test('version and isolated key',()=>{assert.equal(E.V,7);assert.equal(E.SAVE_KEY,'heoofgaia_hg_only_v07')});
+test('HG11 city-image hotspots resolve to all 12 real building actions',()=>{
+ assert.equal(P.CITY_SITES.length,12);for(const race of ['human','elf','orc','undead']){const seen=new Set(),sites=P.citySitesFor(race);assert.equal(sites.length,12);
+  for(const [key,x,y] of sites){assert(!seen.has(key),`${race} duplicate hotspot ${key}`);seen.add(key);assert.equal(P.cityHit({width:1176,height:560,dataset:{race}},Math.round(1176*x),Math.round(560*y)),key,`${race} hotspot ${key}`)}assert.equal(seen.size,12);
+ }
+});
+test('HG11 four-faction scene assets match 1176x560 provenance hashes',()=>{
+ const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/asset-manifest.json'),'utf8'));
+ assert.equal(manifest.assets.length,4);const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
+ for(const asset of manifest.assets){assert.equal(asset.status,'RECREATED');assert.equal(asset.states.assetQcPass,true);const b=fs.readFileSync(path.join(dir,asset.runtime.projectPath));assert.equal(b.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert([2,6].includes(b[25]));assert.equal(`${b.readUInt32BE(16)}x${b.readUInt32BE(20)}`,'1176x560');assert.equal(sha(b),asset.runtime.sha256,asset.faction);}
+});
 test('4 races and 40 unique troops',()=>{assert.deepEqual(Object.keys(C.units).sort(),['elf','human','orc','undead']);assert.equal(Object.values(C.units).flat().length,40);assert.equal(new Set(Object.values(C.units).flat().map(x=>x.id)).size,40)});
 test('HG08 evidence matrix has one row for every catalog troop',()=>{const matrix=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').match(/^\| (?:Human|Elf|Orc|Undead) \| \d+ \|/gm)||[];assert.equal(matrix.length,40)});
 test('HG08 unlock matrix names match the canonical 40-unit catalog',()=>{const lines=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').split(/\r?\n/);const race={human:'Human',elf:'Elf',orc:'Orc',undead:'Undead'};for(const [key,units] of Object.entries(C.units))for(const u of units)assert(lines.some(line=>line.startsWith(`| ${race[key]} | ${u.tier} | ${u.name} |`)),`${key} T${u.tier} ${u.name}`)});

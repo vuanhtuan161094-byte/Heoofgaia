@@ -11,7 +11,7 @@ evidence=folder/'docs'/'evidence'/'hg08'
 evidence.mkdir(parents=True,exist_ok=True)
 hg09_evidence=folder/'docs'/'evidence'/'hg09'
 hg09_evidence.mkdir(parents=True,exist_ok=True)
-html=(folder/'Play-Heoofgaia-HG10.html').read_text(encoding='utf-8')
+html=(folder/'Play-Heoofgaia-HG11.html').read_text(encoding='utf-8')
 checks=[];errors=[]
 def check(name,expr):
     try:
@@ -41,7 +41,7 @@ with sync_playwright() as p:
         page.set_content(html,wait_until='load',timeout=20000)
         return page
     d=launch({'width':1440,'height':900})
-    check('Intro title',lambda:d.title().startswith('Hẻoofgaia HG-08'))
+    check('Intro title',lambda:d.title().startswith('Anh Hùng Thời Loạn'))
     check('No JS exception on intro',lambda:not errors)
     check('4 race selection buttons',lambda:d.locator('[data-action="race"]').count()==4)
     d.locator('[data-action="race"][data-race="elf"]').click()

@@ -7,6 +7,14 @@
 - Added Node acceptance tests, real Chrome `file://` CDP smoke/screenshot capture, source-conflict notes, and Fandom UI/multi-castle survey details.
 - Models remain explicit for capture AP, city start stock/buildings, neutral coordinates and secondary-origin returns. Graphics remain prototype geometry.
 
+## 2026-11-02 — HG-11 modern four-faction city art slice (partial)
+
+- Added four original generated 2.5D city scenes in a polished modern fantasy style. Kept the Heroes of Gaia faction architecture and castle-on-hills composition without emulating 2009 rendering limits.
+- Added race-specific Market hotspot calibration; all other city buildings remain selectable through live game-code hotspots. Construction queues and v07 Save/Load continue to run.
+- Changed the displayed game title to **Anh Hùng Thời Loạn** while retaining Hẻoofgaia as the project/repository name.
+- Chrome file:// QA: 48/48 PASS, including full-page reload of faction and construction state. Node engine regression: 96/96 PASS. The offline HTML embeds the four scenes.
+- HG-11 remains partial: paintings are flattened, not animated independent building sprites; world/battle visuals and original-client comparison remain outstanding. No 1:1 claim.
+
 # Changelog
 
 ## 2026-11-02 — HG-08 mine economy slice (in progress)

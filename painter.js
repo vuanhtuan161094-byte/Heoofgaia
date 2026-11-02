@@ -112,12 +112,31 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
 function mapHit(canvas,x,y,E){const {scale,offX,offY}=mapProjection(canvas);const tx=Math.floor((x-offX)/scale),ty=Math.floor((y-offY)/scale);return E.getTile(`${tx},${ty}`)||null}
 function panMap(dx,dy){M.centerX=clamp(M.centerX-dx,2,26);M.centerY=clamp(M.centerY-dy,2,16)}
 function zoomMap(v){M.zoom=clamp(M.zoom*v,.65,2.05)}
-const CITY_SITES=[['hall',.51,.60],['barracks',.22,.74],['heroTower',.73,.40],['tavern',.39,.83],['warehouse',.84,.79],['magicTower',.21,.41],['arena',.65,.83],['market',.11,.86],['bazaar',.89,.58],['embassy',.38,.43],['stables',.11,.67],['forge',.87,.91]];
+const CITY_SITES=[['hall',.51,.40],['barracks',.20,.62],['heroTower',.77,.23],['tavern',.40,.75],['warehouse',.77,.59],['magicTower',.17,.23],['arena',.63,.68],['market',.50,.87],['bazaar',.93,.44],['embassy',.35,.35],['stables',.09,.49],['forge',.92,.74]];
+const CITY_SITE_VARIANTS={elf:{market:[.10,.86]},orc:{market:[.14,.83]},undead:{market:[.10,.86]}};
+function citySitesFor(race='human'){const overrides=CITY_SITE_VARIANTS[race]||{};return CITY_SITES.map(([key,x,y])=>[key,...(overrides[key]||[x,y])]);}
 function drawTower(c,x,y,s,color,accent){c.save();c.translate(x,y);c.scale(s,s);
  rounded(c,-22,-96,44,106,3,color,'#1e2929');for(let i=0;i<4;i++)rounded(c,-21+i*12,-103,9,16,1,accent);
  poly(c,[[-27,-97],[0,-137],[27,-97]],accent);rounded(c,-7,-58,14,22,3,'#233b45');line(c,0,-137,0,-153,3,'#d7d4ad');poly(c,[[0,-152],[23,-144],[0,-138]],'#c29e56');
  c.restore();}
-function drawCity(canvas,E,s,highlight){if(!canvas)return;const c=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
+function drawCity(canvas,E,s,highlight){if(!canvas)return;canvas.dataset.race=s.race;const c=canvas.getContext('2d'),w=canvas.width,h=canvas.height;
+ const artwork=typeof document!=='undefined'?document.getElementById('city-art-'+s.race):null;
+ if(artwork?.complete&&artwork.naturalWidth){
+  c.clearRect(0,0,w,h);c.drawImage(artwork,0,0,w,h);
+  if(canvas.id==='intro-canvas')return;
+  const shade=c.createLinearGradient(0,0,0,74);shade.addColorStop(0,'#10191bcc');shade.addColorStop(1,'#10191b00');c.fillStyle=shade;c.fillRect(0,0,w,74);
+  rounded(c,17,15,265,41,8,'#10252cce','#d4bb7b');text(c,`${E.C.races[s.race].english.toUpperCase()} • ${E.activeCity(s).name.toUpperCase()}`,32,42,17,'#fff0c8','left');
+  rounded(c,w-215,15,200,41,8,'#10252cce','#d4bb7b');text(c,`TOWN HALL • LV ${s.buildings.hall}`,w-115,42,14,'#fff0c8');
+  for(const [key,px,py] of citySitesFor(s.race)){const x=w*px,y=h*py,level=s.buildings[key]||0,label=`${E.C.buildings[key].name} · Lv.${level}`;
+   c.font='700 12px Georgia,serif';const bw=Math.max(86,Math.min(150,c.measureText(label).width+16)),bh=22;
+   const ly=clamp(y+(py<.56?31:-31),bh/2+4,h-bh/2-4),lx=clamp(x,bw/2+4,w-bw/2-4);
+   if(highlight===key){c.strokeStyle='#ffdf9e';c.lineWidth=3;c.beginPath();c.ellipse(x,y+3,50,18,0,0,TAU);c.stroke()}
+   rounded(c,lx-bw/2,ly-bh/2,bw,bh,5,highlight===key?'#73552deF':'#10252cda',highlight===key?'#f3d58e':'#c1aa76');
+   circle(c,lx-bw/2+8,ly,3.5,level>0?'#f2cc7d':'#9ca7a1');text(c,label,lx+3,ly+4,11,'#fff0c8');
+  }
+  if(s.buildingQueue){const q=s.buildingQueue;rounded(c,w-267,64,252,39,5,'#10252cdd','#d2b273');text(c,`${E.C.buildings[q.key].name} Lv.${q.level} • CONSTRUCTION`,w-255,81,11,'#fff0c8','left');rounded(c,w-254,89,224,6,3,'#24383c');rounded(c,w-253,90,Math.max(0,222*(1-q.remaining/q.total)),4,2,'#e1be6f')}
+  return;
+ }
  const palettes={human:{sky:['#778da0','#b4b0a0'],mount:'#536776',land:'#6a806b',wall:'#abb0a3',edge:'#66727a',roof:'#725d5c',light:'#d6c28f'},elf:{sky:['#60998d','#c3cda9'],mount:'#5b8977',land:'#4e8961',wall:'#a0c4a1',edge:'#4b7864',roof:'#38756b',light:'#e7d99e'},orc:{sky:['#a38a72','#d4b995'],mount:'#7d675f',land:'#7c7152',wall:'#857b64',edge:'#63544b',roof:'#815a43',light:'#d6a56d'},undead:{sky:['#47526c','#8a8495'],mount:'#424357',land:'#4e5960',wall:'#858393',edge:'#45475b',roof:'#444052',light:'#b49dc7'}};
  const p=palettes[s.race],sk=c.createLinearGradient(0,0,0,h);sk.addColorStop(0,p.sky[0]);sk.addColorStop(.63,p.sky[1]);sk.addColorStop(1,p.land);c.fillStyle=sk;c.fillRect(0,0,w,h);
  circle(c,w*.73,h*.21,46,s.race==='undead'?'#c1b6d9b0':'#f7dea0ad');
@@ -134,7 +153,7 @@ function drawCity(canvas,E,s,highlight){if(!canvas)return;const c=canvas.getCont
  drawTower(c,w*.61,h*.66,1.28,p.wall,p.roof);
  drawTower(c,w*.49,h*.49,1.8,p.wall,p.roof);
  rounded(c,w*.475,h*.53,w*.045,h*.16,15,'#34404b');
- const sites=CITY_SITES;
+ const sites=citySitesFor(s.race);
  const icons={hall:'♛',barracks:'⚔',heroTower:'✦',tavern:'✧',warehouse:'▣',magicTower:'☽',arena:'⛨',market:'⚖',bazaar:'❖',embassy:'⚑',stables:'♞',forge:'⚒'};
  for(const [key,px,py] of sites){if(key==='hall')continue;const level=s.buildings[key]||0,x=w*px,y=h*py;
   const size=key==='magicTower'||key==='heroTower'?1.02:.55;
@@ -148,7 +167,7 @@ function drawCity(canvas,E,s,highlight){if(!canvas)return;const c=canvas.getCont
  rounded(c,w-215,15,200,41,8,'#10252cb8','#c7ad7a');text(c,`TOWN HALL • LV ${s.buildings.hall}`,w-115,42,16);
  if(s.buildingQueue){const q=s.buildingQueue;rounded(c,w-265,65,250,38,5,'#142a33db','#ac9162');text(c,'🏗 '+E.C.buildings[q.key].name+' Lv.'+q.level,w-254,81,12,'#f7d79e','left');rounded(c,w-252,87,224,7,3,'#253c3e');rounded(c,w-251,88,Math.max(0,222*(1-q.remaining/q.total)),5,2,'#d6b46c');}
 }
-function cityHit(canvas,x,y){let best=null,d=38;for(const [key,px,py] of CITY_SITES){const dx=x-canvas.width*px,dy=y-canvas.height*py;let v=Math.hypot(dx,dy);if(v<d){d=v;best=key}}return best}
+function cityHit(canvas,x,y){let best=null,d=38;for(const [key,px,py] of citySitesFor(canvas?.dataset?.race||'human')){const dx=x-canvas.width*px,dy=y-canvas.height*py;let v=Math.hypot(dx,dy);if(v<d){d=v;best=key}}return best}
 function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false){c.save();c.translate(x,y);c.scale(k,k);
  circle(c,2,7,16,'#071f2399');line(c,-1,-5,-4,17,8,color);circle(c,-2,-20,10,enemy?'#846078':'#afab94');
  poly(c,[[-14,-29],[0,-41],[12,-28]],enemy?'#794c66':'#4b6077');
@@ -174,7 +193,7 @@ function drawBattle(canvas,E,s){if(!canvas||!s.battle)return;const c=canvas.getC
  rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 

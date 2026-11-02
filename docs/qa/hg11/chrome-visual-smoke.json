@@ -1,0 +1,212 @@
+{
+  "browser": "Google Chrome headless CLI; opens a temporary instrumented copy of the exact offline HTML using file://",
+  "viewport": "1440x1000",
+  "gameBuild": "Play-Heoofgaia-HG11.html",
+  "screenshots": [
+    "docs/evidence/hg11/city-human-chrome.png",
+    "docs/evidence/hg11/city-elf-chrome.png",
+    "docs/evidence/hg11/city-orc-chrome.png",
+    "docs/evidence/hg11/city-undead-chrome.png"
+  ],
+  "checks": [
+    {
+      "name": "Four faction images decode at 1176x560",
+      "ok": true
+    },
+    {
+      "name": "Selected faction starts an actual playable state",
+      "ok": true
+    },
+    {
+      "name": "Faction city view and canvas are visible",
+      "ok": true
+    },
+    {
+      "name": "Canvas paints the selected faction scene",
+      "ok": true
+    },
+    {
+      "name": "All 12 real canvas hit zones select the correct building",
+      "ok": true
+    },
+    {
+      "name": "Faction build-list offers a real upgrade action",
+      "ok": true
+    },
+    {
+      "name": "Building click starts a real construction queue",
+      "ok": true
+    },
+    {
+      "name": "Save persists through the legacy v07 key",
+      "ok": true
+    },
+    {
+      "name": "Full page reload restores v07 faction",
+      "ok": true
+    },
+    {
+      "name": "Full page reload resumes or completes the real construction safely",
+      "ok": true
+    },
+    {
+      "name": "Restored faction scene renders after full reload",
+      "ok": true
+    },
+    {
+      "name": "human real Chrome screenshot written",
+      "ok": true,
+      "detail": "E:\\Heoofgaia\\docs\\evidence\\hg11\\city-human-chrome.png"
+    },
+    {
+      "name": "Four faction images decode at 1176x560",
+      "ok": true
+    },
+    {
+      "name": "Selected faction starts an actual playable state",
+      "ok": true
+    },
+    {
+      "name": "Faction city view and canvas are visible",
+      "ok": true
+    },
+    {
+      "name": "Canvas paints the selected faction scene",
+      "ok": true
+    },
+    {
+      "name": "All 12 real canvas hit zones select the correct building",
+      "ok": true
+    },
+    {
+      "name": "Faction build-list offers a real upgrade action",
+      "ok": true
+    },
+    {
+      "name": "Building click starts a real construction queue",
+      "ok": true
+    },
+    {
+      "name": "Save persists through the legacy v07 key",
+      "ok": true
+    },
+    {
+      "name": "Full page reload restores v07 faction",
+      "ok": true
+    },
+    {
+      "name": "Full page reload resumes or completes the real construction safely",
+      "ok": true
+    },
+    {
+      "name": "Restored faction scene renders after full reload",
+      "ok": true
+    },
+    {
+      "name": "elf real Chrome screenshot written",
+      "ok": true,
+      "detail": "E:\\Heoofgaia\\docs\\evidence\\hg11\\city-elf-chrome.png"
+    },
+    {
+      "name": "Four faction images decode at 1176x560",
+      "ok": true
+    },
+    {
+      "name": "Selected faction starts an actual playable state",
+      "ok": true
+    },
+    {
+      "name": "Faction city view and canvas are visible",
+      "ok": true
+    },
+    {
+      "name": "Canvas paints the selected faction scene",
+      "ok": true
+    },
+    {
+      "name": "All 12 real canvas hit zones select the correct building",
+      "ok": true
+    },
+    {
+      "name": "Faction build-list offers a real upgrade action",
+      "ok": true
+    },
+    {
+      "name": "Building click starts a real construction queue",
+      "ok": true
+    },
+    {
+      "name": "Save persists through the legacy v07 key",
+      "ok": true
+    },
+    {
+      "name": "Full page reload restores v07 faction",
+      "ok": true
+    },
+    {
+      "name": "Full page reload resumes or completes the real construction safely",
+      "ok": true
+    },
+    {
+      "name": "Restored faction scene renders after full reload",
+      "ok": true
+    },
+    {
+      "name": "orc real Chrome screenshot written",
+      "ok": true,
+      "detail": "E:\\Heoofgaia\\docs\\evidence\\hg11\\city-orc-chrome.png"
+    },
+    {
+      "name": "Four faction images decode at 1176x560",
+      "ok": true
+    },
+    {
+      "name": "Selected faction starts an actual playable state",
+      "ok": true
+    },
+    {
+      "name": "Faction city view and canvas are visible",
+      "ok": true
+    },
+    {
+      "name": "Canvas paints the selected faction scene",
+      "ok": true
+    },
+    {
+      "name": "All 12 real canvas hit zones select the correct building",
+      "ok": true
+    },
+    {
+      "name": "Faction build-list offers a real upgrade action",
+      "ok": true
+    },
+    {
+      "name": "Building click starts a real construction queue",
+      "ok": true
+    },
+    {
+      "name": "Save persists through the legacy v07 key",
+      "ok": true
+    },
+    {
+      "name": "Full page reload restores v07 faction",
+      "ok": true
+    },
+    {
+      "name": "Full page reload resumes or completes the real construction safely",
+      "ok": true
+    },
+    {
+      "name": "Restored faction scene renders after full reload",
+      "ok": true
+    },
+    {
+      "name": "undead real Chrome screenshot written",
+      "ok": true,
+      "detail": "E:\\Heoofgaia\\docs\\evidence\\hg11\\city-undead-chrome.png"
+    }
+  ],
+  "passed": 48,
+  "failed": 0,
+  "limitations": "Generated flattened city scenes are original recreations; the test proves browser rendering and live in-game event handlers, not original-client parity or animation fidelity."
+}

@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 import json, os, tempfile
 
 root = Path(__file__).resolve().parent
-html = root / 'Play-Heoofgaia-HG10.html'
+html = root / 'Play-Heoofgaia-HG11.html'
 evidence = root / 'docs' / 'evidence' / 'hg08'
 evidence.mkdir(parents=True, exist_ok=True)
 checks = []
@@ -38,7 +38,7 @@ with sync_playwright() as p:
     page = context.new_page()
     page.on('pageerror', lambda error: errors.append(str(error)))
     page.goto(html.as_uri(), wait_until='load')
-    check('file:// HTML opens in Chromium', page.title().startswith('Hẻoofgaia HG-08'))
+    check('file:// HTML opens in Chromium', page.title().startswith('Anh Hùng Thời Loạn'))
     page.locator('[data-action="race"][data-race="elf"]').click()
     page.locator('[data-action="start"]').click()
     check('Game starts from local file', page.evaluate('HOG_APP_DEBUG.getState().race') == 'elf')
@@ -87,7 +87,7 @@ with sync_playwright() as p:
     page = context.new_page()
     page.on('pageerror', lambda error: errors.append(str(error)))
     page.goto(html.as_uri(), wait_until='load')
-    check('file:// standalone starts the real mine-expedition flow', page.title().startswith('Hẻoofgaia HG-08'))
+    check('file:// standalone starts the real mine-expedition flow', page.title().startswith('Anh Hùng Thời Loạn'))
     page.locator('[data-action="start"]').click()
     page.locator('#speed').click()
     page.locator('[data-action="select"][data-key="6,3"]').click()

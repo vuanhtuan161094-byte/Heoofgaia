@@ -1,0 +1,180 @@
+{
+  "schema": "hog1-asset-manifest-v1",
+  "project": "Hẻoofgaia / Heroes of Gaia 1 reconstruction",
+  "createdAt": "2026-11-02T15:58:31.779Z",
+  "target": "HG-11 four-faction scenic city art",
+  "copyrightStatus": "RECREATED; not extracted or verified original commercial art",
+  "referenceOnly": [
+    "https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml",
+    "https://games.sina.com.cn/o/i/2009-03-05/1638161736.shtml"
+  ],
+  "promptFile": "assets/generated/hg11/prompts.md",
+  "interactionContract": "painter.js CITY_SITES/cityHit select real game building actions; background painting itself has no gameplay logic.",
+  "integration": {
+    "offlineBundlePath": "Play-Heoofgaia-HG11.html",
+    "offlineBundleEmbeddedAssets": true,
+    "browserScreenshot": [
+      "docs/evidence/hg11/city-human-chrome.png",
+      "docs/evidence/hg11/city-elf-chrome.png",
+      "docs/evidence/hg11/city-orc-chrome.png",
+      "docs/evidence/hg11/city-undead-chrome.png"
+    ],
+    "hitZoneRegression": "PASS: 4 factions × 12 live canvas actions",
+    "browserAcceptance": "48/48 checks; PASS",
+    "fullGameRegression": "PASS: 96/96 Node engine regression"
+  },
+  "assets": [
+    {
+      "id": "HOG1-HG11-CITY-HUMAN-V3",
+      "faction": "human",
+      "status": "RECREATED",
+      "provider": "ChatGPT image_gen.imagegen",
+      "generationPrompt": "assets/generated/hg11/prompts.md#human-prompt-v3.1",
+      "sourceImageId": "exec-63adb29d-92a2-409a-8442-b6349f108080.png",
+      "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-63adb29d-92a2-409a-8442-b6349f108080.png",
+      "sourceRoute": "Generated independently from text; no historical screenshots or original game art supplied as image input.",
+      "generationTimestamp": "UNKNOWN_NOT_RETURNED_BY_TOOL",
+      "generationCost": "UNKNOWN_NOT_RETURNED_BY_TOOL",
+      "source": {
+        "projectPath": "assets/generated/hg11/source/human-city-master.png",
+        "resolution": "1817x866",
+        "bytes": 3643357,
+        "sha256": "9A4FB6D0AD2AB346205EFD805E841AE2EC87D90926DA774AECB6883A45FEE263"
+      },
+      "runtime": {
+        "projectPath": "assets/generated/hg11/cities/human-city-1176x560.png",
+        "resolution": "1176x560",
+        "bytes": 1846016,
+        "sha256": "39FDF502FA7E86681EA6BD8FE23BD7768EC724622558558EF469B93BB88BBE4C",
+        "alpha": "OPAQUE_RGB_NO_ALPHA_CHANNEL"
+      },
+      "states": {
+        "imageCreated": true,
+        "fileExported": true,
+        "assetQcPass": true,
+        "integratedInGame": true
+      },
+      "visualReview": {
+        "noTextOrUiObserved": true,
+        "factionIdentityReviewed": true,
+        "exactHistoricalParityClaimed": false,
+        "sceneIsFlattened": true,
+        "hotspotIntegration": "PASS: 12 real actions per faction in Chrome"
+      }
+    },
+    {
+      "id": "HOG1-HG11-CITY-ELF-V3",
+      "faction": "elf",
+      "status": "RECREATED",
+      "provider": "ChatGPT image_gen.imagegen",
+      "generationPrompt": "assets/generated/hg11/prompts.md#elf-prompt-v3.1",
+      "sourceImageId": "exec-86f53a55-174d-41ce-8814-6def1b54fe2f.png",
+      "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-86f53a55-174d-41ce-8814-6def1b54fe2f.png",
+      "sourceRoute": "Generated independently from text; no historical screenshots or original game art supplied as image input.",
+      "generationTimestamp": "UNKNOWN_NOT_RETURNED_BY_TOOL",
+      "generationCost": "UNKNOWN_NOT_RETURNED_BY_TOOL",
+      "source": {
+        "projectPath": "assets/generated/hg11/source/elf-city-master.png",
+        "resolution": "1817x866",
+        "bytes": 3959881,
+        "sha256": "39B56B748B00930EE692AAEDE164E9E5DC59FBB9AE21C0F8D65F483C9007070A"
+      },
+      "runtime": {
+        "projectPath": "assets/generated/hg11/cities/elf-city-1176x560.png",
+        "resolution": "1176x560",
+        "bytes": 1909927,
+        "sha256": "337F15AE65AC6510C649863140665D0B1517743E00BEB436CF0B17172D22932C",
+        "alpha": "OPAQUE_RGB_NO_ALPHA_CHANNEL"
+      },
+      "states": {
+        "imageCreated": true,
+        "fileExported": true,
+        "assetQcPass": true,
+        "integratedInGame": true
+      },
+      "visualReview": {
+        "noTextOrUiObserved": true,
+        "factionIdentityReviewed": true,
+        "exactHistoricalParityClaimed": false,
+        "sceneIsFlattened": true,
+        "hotspotIntegration": "PASS: 12 real actions per faction in Chrome"
+      }
+    },
+    {
+      "id": "HOG1-HG11-CITY-ORC-V3",
+      "faction": "orc",
+      "status": "RECREATED",
+      "provider": "ChatGPT image_gen.imagegen",
+      "generationPrompt": "assets/generated/hg11/prompts.md#orc-prompt-v3.1",
+      "sourceImageId": "exec-c351ddc6-8db1-491c-899f-3cf50755ae1f.png",
+      "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-c351ddc6-8db1-491c-899f-3cf50755ae1f.png",
+      "sourceRoute": "Generated independently from text; no historical screenshots or original game art supplied as image input.",
+      "generationTimestamp": "UNKNOWN_NOT_RETURNED_BY_TOOL",
+      "generationCost": "UNKNOWN_NOT_RETURNED_BY_TOOL",
+      "source": {
+        "projectPath": "assets/generated/hg11/source/orc-city-master.png",
+        "resolution": "1817x866",
+        "bytes": 3700663,
+        "sha256": "C966A634803E95D19883108D9727564FB65A08D1428441260E85F8227C8838CF"
+      },
+      "runtime": {
+        "projectPath": "assets/generated/hg11/cities/orc-city-1176x560.png",
+        "resolution": "1176x560",
+        "bytes": 1835458,
+        "sha256": "E81CFE7D577F8CC3FE6BB85A692D16D39C72D3EB8479252903BA0D574AC1711F",
+        "alpha": "OPAQUE_RGB_NO_ALPHA_CHANNEL"
+      },
+      "states": {
+        "imageCreated": true,
+        "fileExported": true,
+        "assetQcPass": true,
+        "integratedInGame": true
+      },
+      "visualReview": {
+        "noTextOrUiObserved": true,
+        "factionIdentityReviewed": true,
+        "exactHistoricalParityClaimed": false,
+        "sceneIsFlattened": true,
+        "hotspotIntegration": "PASS: 12 real actions per faction in Chrome"
+      }
+    },
+    {
+      "id": "HOG1-HG11-CITY-UNDEAD-V3",
+      "faction": "undead",
+      "status": "RECREATED",
+      "provider": "ChatGPT image_gen.imagegen",
+      "generationPrompt": "assets/generated/hg11/prompts.md#undead-prompt-v3.1",
+      "sourceImageId": "exec-c62db231-b13b-493b-abf2-35848821fc0c.png",
+      "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-c62db231-b13b-493b-abf2-35848821fc0c.png",
+      "sourceRoute": "Generated independently from text; no historical screenshots or original game art supplied as image input.",
+      "generationTimestamp": "UNKNOWN_NOT_RETURNED_BY_TOOL",
+      "generationCost": "UNKNOWN_NOT_RETURNED_BY_TOOL",
+      "source": {
+        "projectPath": "assets/generated/hg11/source/undead-city-master.png",
+        "resolution": "1816x866",
+        "bytes": 3319127,
+        "sha256": "CD9775CF31434135D51CD9342C36E917C544F0B8D9E3D15F9E00303A4E9690B8"
+      },
+      "runtime": {
+        "projectPath": "assets/generated/hg11/cities/undead-city-1176x560.png",
+        "resolution": "1176x560",
+        "bytes": 1693356,
+        "sha256": "A41D25F38CD99923E2F5D31BEF8593F7443E7830A6EB42DAD828D577D1D76CD3",
+        "alpha": "OPAQUE_RGB_NO_ALPHA_CHANNEL"
+      },
+      "states": {
+        "imageCreated": true,
+        "fileExported": true,
+        "assetQcPass": true,
+        "integratedInGame": true
+      },
+      "visualReview": {
+        "noTextOrUiObserved": true,
+        "factionIdentityReviewed": true,
+        "exactHistoricalParityClaimed": false,
+        "sceneIsFlattened": true,
+        "hotspotIntegration": "PASS: 12 real actions per faction in Chrome"
+      }
+    }
+  ]
+}
