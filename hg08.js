@@ -232,7 +232,10 @@ function finishResearch(s){
 }
 function unitPrerequisites(s,u){
  const trainingBuilding=troopBuildingKey(s);
- const base={buildings:{[trainingBuilding]:u.tier},spells:u.tier===2?{scouting:1}:{},sourceStatus:u.race==='human'?'DERIVED_SCOUT_GATE':u.tier===2?'MODELED_SCOUT_PROXY':'MODELED_TIER_PROXY',source:u.race==='undead'?'SRC11; SRC02; SRC04':'SRC02; SRC03; SRC04'};
+ const derivedBarracks=u.race==='elf'||u.race==='orc';
+ const sourceStatus=u.race==='human'?'DERIVED_SCOUT_GATE':derivedBarracks?'DERIVED_TROOP_BUILDING_TIER':u.tier===2?'MODELED_SCOUT_PROXY':'MODELED_TIER_PROXY';
+ const source=derivedBarracks?(u.tier===2?'SRC02; SRC03; SRC04; SRC11; SRC22':'SRC02; SRC03; SRC11'):u.race==='undead'?'SRC02; SRC03; SRC04; SRC11; SRC22':'SRC02; SRC03; SRC04';
+ const base={buildings:{[trainingBuilding]:u.tier},spells:u.tier===2?{scouting:1}:{},sourceStatus,source};
  const r=u.race==='human'?(HUMAN[u.tier]||base):(SECONDARY[u.race]?.[u.id]||base);
  const checks=[];
  for(const [key,level] of Object.entries(r.buildings||{}))checks.push({kind:'building',key,level,actual:s.buildings[key]||0});

@@ -4,9 +4,10 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 
 - **A / OBSERVED:** exact gates are printed in the detailed Human table of the 2009-12-27 guide hosted by 17173 and republished at Lequ in 2010-11 (SRC19/SRC20). These URLs contain near-verbatim text and are not independent corroboration. The guide has a Monk conflict: a strategic prose example says Barracks 5 + training technology 5, while the unit table and fame-stage recommendation say Town Hall 6 + Barracks 6 + training technology 5. The matrix retains the specific table row and flags the conflict. Earlier SRC27 (2009-05-21) is version-conflicting evidence: it lists Archer at Barracks 2 and does not print the later Town Hall gates.
 - **B / PARTIAL:** the available source supports only part of the gate; missing requirements are not invented.
+- **B* / DERIVED BASE TIER:** SRC03's 2009-12-09 page says each Barracks level unlocks another unit; SRC02 lists ten ordered Elf and Orc units and SRC11 identifies Barracks as their troop building. The implemented `Barracks level = catalog tier` is a cross-source derivation for those two races, not a recovered per-unit server table. Scouting 1 for their tier-2 units remains a cross-edition role mapping. Missing Magic Pool/Nature Tower/Beast Pen/Blacksmith gates stay unapplied.
 - **Early-version conflict (SRC10):** the 2009-03-25 17173 guide says Town Hall caps building levels, tier-2 Scout onward needs technology, and both Stables and Blacksmith become necessary from Heavy Soldier. It gives no per-unit levels; later SRC19/SRC20 lists Blacksmith 1 at T4 and Stables first at T5. Keep this as a build/source conflict; the matrix retains the dated detailed table and does not infer a Stable level.
 - **C / SECONDARY:** a third-party entry lists a per-unit gate with no date/build (Thunderbird, SRC26), or a dated contemporary feature states the gate without original-client validation (Centaur, SRC28). Neither is checked against the original client.
-- **P / PROVISIONAL MODEL:** non-Human troop-building level is temporarily mapped to catalog tier for a playable progression curve. No dated 2009–2010 per-unit numeric gate table was found. This is a gameplay proxy, not historical data.
+- **P / PROVISIONAL MODEL:** Undead Graveyard level is temporarily mapped to catalog tier because SRC11 establishes the Graveyard recruitment role but no dated source gives numeric per-tier levels. This remains a gameplay proxy, not historical data.
 - **SRC04 / DERIVED:** “练兵技术” is mapped to the English Bootcamp spell by matching purpose; the cross-language name equivalence is inferred.
 - Every row also requires that troop type to belong to the selected race. Base costs and time come from SRC02.
 
@@ -23,25 +24,25 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Human | 9 | Angel | Town Hall 9; Barracks 9; Stables 7; Blacksmith 8; Manufacturing 8 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 10 | Archangel | Town Hall 10; Barracks 10; Stables 9; Blacksmith 10; Manufacturing 9; Bootcamp 9 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
 | Elf | 1 | Centaur | Barracks 1 | C / SECONDARY | SRC28 explicitly names the level-1 Barracks gate; original-client check missing |
-| Elf | 2 | Elf Scout | Barracks 2; Scouting 1 | P / PROVISIONAL MODEL | SRC02, SRC03, SRC04, SRC22; guide identifies Elf Scout as scout; Town Hall/faction gates unresolved |
-| Elf | 3 | Dwarven Soldier | Barracks 3 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Elf | 4 | Elf Archer | Barracks 4 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Elf | 5 | Pegasus Warrior | Barracks 5 | P / PROVISIONAL MODEL | SRC02, SRC03; Magic Pool/Nature Tower tier unresolved (SRC11) |
-| Elf | 6 | Dryad | Barracks 6 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Elf | 7 | Unicorn | Barracks 7 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Elf | 8 | Elite Archer | Barracks 8 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Elf | 9 | Green Dragon | Barracks 9 | P / PROVISIONAL MODEL | SRC02, SRC03; Nature Tower tier unresolved (SRC11) |
-| Elf | 10 | Fairy Dragon | Barracks 10 | P / PROVISIONAL MODEL | SRC02, SRC03; Nature Tower tier unresolved (SRC11) |
-| Orc | 1 | Imp | Barracks 1 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Orc | 2 | Wolf Rider | Barracks 2; Scouting 1 | P / PROVISIONAL MODEL | SRC02, SRC04, SRC22; guide identifies Wolf Rider as scout; Town Hall/faction gates unresolved |
-| Orc | 3 | Axe Thrower | Barracks 3 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Orc | 4 | Direwolf | Barracks 4 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
-| Orc | 5 | Ogre | Barracks 5 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Orc | 6 | Harpy | Barracks 6 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Elf | 2 | Elf Scout | Barracks 2; Scouting 1 | B* / DERIVED BASE TIER; scouting cross-version-derived | SRC02, SRC03, SRC04, SRC11, SRC22; exact support gates absent |
+| Elf | 3 | Dwarven Soldier | Barracks 3 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Elf | 4 | Elf Archer | Barracks 4 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Elf | 5 | Pegasus Warrior | Barracks 5 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; Magic Pool/Nature Tower tier unresolved |
+| Elf | 6 | Dryad | Barracks 6 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Elf | 7 | Unicorn | Barracks 7 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Elf | 8 | Elite Archer | Barracks 8 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Elf | 9 | Green Dragon | Barracks 9 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; Nature Tower tier unresolved |
+| Elf | 10 | Fairy Dragon | Barracks 10 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; Nature Tower tier unresolved |
+| Orc | 1 | Imp | Barracks 1 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Orc | 2 | Wolf Rider | Barracks 2; Scouting 1 | B* / DERIVED BASE TIER; scouting cross-version-derived | SRC02, SRC03, SRC04, SRC11, SRC22; exact support gates absent |
+| Orc | 3 | Axe Thrower | Barracks 3 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Orc | 4 | Direwolf | Barracks 4 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; Beast Pen/Blacksmith tier unresolved |
+| Orc | 5 | Ogre | Barracks 5 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Orc | 6 | Harpy | Barracks 6 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
 | Orc | 7 | Thunderbird | Barracks 7; Beast Pen 4; Blacksmith 4; Training Technology 6 (mapped to Bootcamp) | C / SECONDARY; technology label mapping derived | SRC26; required buildings/skill listed; unit stats match SRC02; original-client confirmation missing |
-| Orc | 8 | Cyclops | Barracks 8 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
-| Orc | 9 | Monster | Barracks 9 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Orc | 10 | Behemoth | Barracks 10 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
+| Orc | 8 | Cyclops | Barracks 8 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; Beast Pen/Blacksmith tier unresolved |
+| Orc | 9 | Monster | Barracks 9 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
+| Orc | 10 | Behemoth | Barracks 10 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; Beast Pen/Blacksmith tier unresolved |
 | Undead | 1 | Skeleton Warrior | Graveyard 1 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard as troop-recruitment building; exact per-unit support gates missing |
 | Undead | 2 | Common Ghost | Graveyard 2; Scouting 1 | P / PROVISIONAL MODEL | SRC11; SRC02, SRC04, SRC22; scout role mapped across editions; Town Hall/support gates unresolved |
 | Undead | 3 | Zombie | Graveyard 3 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; exact per-unit support gates missing |
@@ -58,7 +59,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 - The exact Human conditions for the listed rows follow the later 2009–2010 Chinese sources SRC19/SRC20. Earlier dated SRC27 gives a different Archer Barracks level and omits Town Hall levels from its printed list; treat that as a version conflict, not corroboration of the later values. The table follows SRC19/SRC20; the `Training Technology` → `Bootcamp` English label is derived and needs a regional client screenshot or an official glossary to prove the crosswalk.
 - All four tier-2 entries require Scouting 1. SRC22 identifies the three non-Human roles as scouts, while SRC04 supplies the Scouting-1 rule. Since these pages describe different regional editions, exact cross-version gate parity is not confirmed; Human Town Hall and other faction support-building gates remain unverified and are not enforced.
 - The other 30 units do **not** have source-complete prerequisites. Faction building roles establish which structure recruits troops, not a numeric per-unit level.
-- The 28 remaining Elf/Orc/Undead rows enforce the provisional P proxy `troop-building level = catalog tier`; the UI says this is not source-verified. Orc Thunderbird (SRC26) and Elf Centaur (SRC28) are C-confidence exceptions with printed gates; neither has original-client confirmation. Other support-building levels (including Dark Hall, Soul Tower, Magic Pool and Nature Tower) remain missing and unapplied.
+- Elf/Orc enforce the B* derived base gate `Barracks level = catalog tier`; 10 Undead rows still enforce the P proxy `Graveyard level = tier`. Orc Thunderbird (SRC26) and Elf Centaur (SRC28) retain C-confidence gates; none has original-client confirmation. Support-building levels (including Dark Hall, Soul Tower, Magic Pool, Nature Tower, Beast Pen and Blacksmith) remain missing and unapplied except where a cited row states them.
 
 ### Additional source audit — 2026-11-02
 

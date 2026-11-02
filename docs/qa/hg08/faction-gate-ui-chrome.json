@@ -1,0 +1,64 @@
+{
+  "suite": "HG-08 Elf/Orc derived Barracks tiers through real offline UI",
+  "game": "Anh Hùng Thời Loạn",
+  "browser": "Installed Chrome, actual file://",
+  "fixtureDisclosure": "The fixture selects each race through the game's intro, seeds prerequisite buildings/research and warehouse-capped resources, then uses the real recruit control and v07 Save/Reload. Barracks tier gates are B* derivations from SRC02/SRC03/SRC11, not original server tables; support gates remain unresolved.",
+  "htmlSha256": "6E0D910A097B827F471D937ACFFAD32FBCE2C308198F8B647C5DE782B6D56CB1",
+  "checks": [
+    {
+      "name": "elf unit page keeps the product title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "elf Elf Scout exposes B-derived Barracks tier and disclosed source gap",
+      "passed": true,
+      "detail": "{\"unitId\": \"elf_2\", \"checks\": [{\"kind\": \"building\", \"key\": \"barracks\", \"level\": 2, \"actual\": 2}, {\"kind\": \"spell\", \"key\": \"scouting\", \"level\": 1, \"actual\": 1}], \"unmet\": [], \"available\": true, \"confidence\": \"B\", \"status\": \"DERIVED_TROOP_BUILDING_TIER\", \"source\": \"SRC02; SRC03; SRC04; SRC11; SRC22\"} | ân trong thành 0 · 160s/lính | Điều kiện: Barracks 2/2 · Phép Trinh sát 1/1 | SRC02 + SRC03 + SRC11: suy luận B* theo bậc Barracks; Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009); cổng phụ chưa xác minh | Giá 1: ◉ 68 · ▤ 9 · ◆ 4 | Tuyển"
+    },
+    {
+      "name": "elf Elf Scout has an enabled real recruitment action",
+      "passed": true,
+      "detail": "Tuyển"
+    },
+    {
+      "name": "elf Elf Scout recruitment spends resources and creates a real queue",
+      "passed": true,
+      "detail": "{\"queue\": {\"id\": 1, \"unitId\": \"elf_2\", \"count\": 1, \"remaining\": 160, \"total\": 160}, \"gold\": 269932, \"valid\": true, \"unit\": \"elf_2\", \"count\": 1}"
+    },
+    {
+      "name": "elf queued recruitment survives v07 Save/Reload",
+      "passed": true,
+      "detail": "{\"version\": 7, \"queue\": {\"id\": 1, \"unitId\": \"elf_2\", \"count\": 1, \"remaining\": 137.86, \"total\": 160}, \"valid\": true}"
+    },
+    {
+      "name": "orc unit page keeps the product title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "orc Axe Thrower exposes B-derived Barracks tier and disclosed source gap",
+      "passed": true,
+      "detail": "{\"unitId\": \"orc_3\", \"checks\": [{\"kind\": \"building\", \"key\": \"barracks\", \"level\": 3, \"actual\": 3}], \"unmet\": [], \"available\": true, \"confidence\": \"B\", \"status\": \"DERIVED_TROOP_BUILDING_TIER\", \"source\": \"SRC02; SRC03; SRC11\"} | 🏹 Axe Thrower Bậc 3B | Ranged · HP 48 · ATK 20 · DEF 14 · SPD 5.11 | Quân trong thành 0 · 251s/lính | Điều kiện: Barracks 3/3 | SRC02 + SRC03 + SRC11: suy luận B* theo bậc đơn vị Barracks; chưa xác minh từng cổng phụ gốc | Giá 1: ◉ 117 · ▤ 12 · ● 9 | Tuyển"
+    },
+    {
+      "name": "orc Axe Thrower has an enabled real recruitment action",
+      "passed": true,
+      "detail": "Tuyển"
+    },
+    {
+      "name": "orc Axe Thrower recruitment spends resources and creates a real queue",
+      "passed": true,
+      "detail": "{\"queue\": {\"id\": 1, \"unitId\": \"orc_3\", \"count\": 1, \"remaining\": 251, \"total\": 251}, \"gold\": 269883, \"valid\": true, \"unit\": \"orc_3\", \"count\": 1}"
+    },
+    {
+      "name": "orc queued recruitment survives v07 Save/Reload",
+      "passed": true,
+      "detail": "{\"version\": 7, \"queue\": {\"id\": 1, \"unitId\": \"orc_3\", \"count\": 1, \"remaining\": 205.51999999999998, \"total\": 251}, \"valid\": true}"
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "docs/evidence/hg08/elf-scout-derived-gate-chrome.png",
+    "docs/evidence/hg08/orc-axe-thrower-derived-gate-chrome.png"
+  ]
+}
