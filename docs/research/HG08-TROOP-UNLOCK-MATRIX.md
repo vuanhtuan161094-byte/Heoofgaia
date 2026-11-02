@@ -2,7 +2,7 @@
 
 All 40 catalog rows are listed. “Gates in build” are the checks currently enforced before resources are spent. Confidence describes historical evidence, not software-test coverage.
 
-- **A / OBSERVED:** exact gates are printed in the detailed Human table of the 2009-12-27 guide hosted by 17173 and republished at Lequ in 2010-11 (SRC19/SRC20). These URLs contain near-verbatim text and are not independent corroboration. The guide has a Monk conflict: a strategic prose example says Barracks 5 + training technology 5, while the unit table and fame-stage recommendation say Town Hall 6 + Barracks 6 + training technology 5. The matrix retains the specific table row and flags the conflict. Earlier SRC27 (2009-05-21) is version-conflicting evidence: it lists Archer at Barracks 2 and does not print the later Town Hall gates.
+- **A / OBSERVED:** exact gates are printed in the detailed Human table in the 2009-12-27 17173 guide and the publisher-hosted Lequ guide from 2010-11 (SRC19/SRC20); the July 2009 Yeyou/17173 compilation (SRC56) prints the same Human tier gates but is explicitly a compilation, not independent corroboration. These URLs contain near-verbatim text and are not independent corroboration. The guide has a Monk conflict: a strategic prose example says Barracks 5 + training technology 5, while the unit table and fame-stage recommendation say Town Hall 6 + Barracks 6 + training technology 5. The matrix retains the specific table row and flags the conflict. Earlier SRC27 (2009-05-21) is version-conflicting evidence: it lists Archer at Barracks 2 and does not print the later Town Hall gates.
 - **B / PARTIAL:** the available source supports only part of the gate; missing requirements are not invented.
 - **B* / DERIVED BASE TIER:** For Elf/Orc, SRC03 says every Barracks level unlocks another unit; SRC02 lists the ten units in order and SRC11 identifies Barracks as their troop building. For Undead, SRC11 says higher Graveyard levels recruit higher-tier units, while SRC02 supplies the ordered roster. `Troop-building level = catalog tier` is a disclosed derivation for all three races; for Undead, the source supports direction only and no exact per-tier Graveyard table was recovered. Living Fandom race pages (SRC55) also say secondary structures are needed for powerful/elite units, but give no numeric 2009 unit-by-unit gates and use different Orc/Undead building names. Tier-2 Scouting remains cross-edition-derived. Missing racial support-building gates stay unapplied.
 - **Early-version conflict (SRC10):** the 2009-03-25 17173 guide says Town Hall caps building levels, tier-2 Scout onward needs technology, and both Stables and Blacksmith become necessary from Heavy Soldier. It gives no per-unit levels; later SRC19/SRC20 lists Blacksmith 1 at T4 and Stables first at T5. Keep this as a build/source conflict; the matrix retains the dated detailed table and does not infer a Stable level.
@@ -12,16 +12,16 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 
 | Race | Tier | Unit | Gates enforced in this build | Evidence status | Sources / gap |
 |---|---:|---|---|---|---|
-| Human | 1 | Spear Militia | Town Hall 1; Barracks 1 | A / OBSERVED | SRC19, SRC20 |
+| Human | 1 | Spear Militia | Town Hall 1; Barracks 1 | A / OBSERVED | SRC19, SRC20, SRC56 |
 | Human | 2 | Scout | Barracks 2; Scouting 1 | B / PARTIAL; exact Town Hall row absent | SRC27 directly lists Barracks 2 and Scouting 1; SRC04 terminology crosswalk; Town Hall requirement unverified |
-| Human | 3 | Archer | Town Hall 3; Barracks 3; Bootcamp 1 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
-| Human | 4 | Heavy Soldier | Town Hall 4; Barracks 4; Blacksmith 1; Manufacturing 1 | A / OBSERVED | SRC19, SRC20, SRC04 |
-| Human | 5 | Gryphon | Town Hall 5; Barracks 5; Stables 1; Manufacturing 3 | A / OBSERVED | SRC19, SRC20, SRC04 |
-| Human | 6 | Monk | Town Hall 6; Barracks 6; Bootcamp 5 | A / OBSERVED; one prose example conflicts on Barracks level; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
-| Human | 7 | Elite Knight | Town Hall 7; Barracks 7; Stables 4; Blacksmith 4; Bootcamp 6 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
-| Human | 8 | Priest | Town Hall 8; Barracks 8; Blacksmith 6; Manufacturing 7 | A / OBSERVED | SRC19, SRC20, SRC04 |
-| Human | 9 | Angel | Town Hall 9; Barracks 9; Stables 7; Blacksmith 8; Manufacturing 8 | A / OBSERVED | SRC19, SRC20, SRC04 |
-| Human | 10 | Archangel | Town Hall 10; Barracks 10; Stables 9; Blacksmith 10; Manufacturing 9; Bootcamp 9 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
+| Human | 3 | Archer | Town Hall 3; Barracks 3; Bootcamp 1 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC56, SRC04 |
+| Human | 4 | Heavy Soldier | Town Hall 4; Barracks 4; Blacksmith 1; Manufacturing 1 | A / OBSERVED | SRC19, SRC20, SRC56, SRC04 |
+| Human | 5 | Gryphon | Town Hall 5; Barracks 5; Stables 1; Manufacturing 3 | A / OBSERVED | SRC19, SRC20, SRC56, SRC04 |
+| Human | 6 | Monk | Town Hall 6; Barracks 6; Bootcamp 5 | A / OBSERVED; one prose example conflicts on Barracks level; Bootcamp name mapping derived | SRC19, SRC20, SRC56, SRC04 |
+| Human | 7 | Elite Knight | Town Hall 7; Barracks 7; Stables 4; Blacksmith 4; Bootcamp 6 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC56, SRC04 |
+| Human | 8 | Priest | Town Hall 8; Barracks 8; Blacksmith 6; Manufacturing 7 | A / OBSERVED | SRC19, SRC20, SRC56, SRC04 |
+| Human | 9 | Angel | Town Hall 9; Barracks 9; Stables 7; Blacksmith 8; Manufacturing 8 | A / OBSERVED | SRC19, SRC20, SRC56, SRC04 |
+| Human | 10 | Archangel | Town Hall 10; Barracks 10; Stables 9; Blacksmith 10; Manufacturing 9; Bootcamp 9 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC56, SRC04 |
 | Elf | 1 | Centaur | Barracks 1 | C / SECONDARY | SRC28 explicitly names the level-1 Barracks gate; original-client check missing |
 | Elf | 2 | Elf Scout | Barracks 2; Scouting 1 | B* / DERIVED BASE TIER; scouting cross-version-derived | SRC02, SRC03, SRC04, SRC11, SRC22; exact support gates absent |
 | Elf | 3 | Dwarven Soldier | Barracks 3 | B* / DERIVED BASE TIER | SRC02, SRC03, SRC11; exact support gates absent |
