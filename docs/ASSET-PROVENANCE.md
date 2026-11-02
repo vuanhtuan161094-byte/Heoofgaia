@@ -41,3 +41,9 @@ Do not bypass logins/paywalls/DRM or falsely claim extracted original SWF/client
 - Source masters are 1816–1817×866 PNG; runtime images are opaque RGB PNG at 1176×560. The offline builder embeds all four images. Each image is a flattened scene background with live game-code labels/hotspots; it does not provide independent building sprites, animation, or original-client layout fidelity.
 - Real installed-Chrome file:// acceptance, with the real game event handlers: **48/48 PASS** across Human/Elf/Orc/Undead. It verified faction selection, scene rendering, all 12 per-faction building hotspots, a real construction queue and full-page v07 save/reload. Actual captures: `docs/evidence/hg11/intro-chrome.png` and `docs/evidence/hg11/city-{human,elf,orc,undead}-chrome.png`; receipt: `docs/qa/hg11/chrome-visual-smoke.json`.
 - Generation timestamp and image-generation cost were not returned by the provider; both remain unknown. Asset rights status is based on independent generation from text; it does not grant any rights to Heroes of Gaia's original art.
+
+## HG-10 100×100 world and visitable-building markers (2026-11-03)
+
+- The outdoor map and its ten building markers are drawn procedurally by project-owned code in `painter.js`; no SWF, sprite, external texture, screenshot or third-party image was bundled or used as the runtime asset.
+- Building types and coordinates are based on SRC41/SRC43 documentary research. The simplified markers are original code-drawn prototypes for interaction and evidence; they are not historically accurate recovered art and do not meet the final HG-11 visual-fidelity gate.
+- Screenshot `docs/evidence/hg10/world-buildings-chrome.png` is a direct capture of the running offline build in installed Chrome, not an art source. Original 17173/Sina references remain research-only because redistribution rights were not established.

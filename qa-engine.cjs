@@ -511,6 +511,40 @@ test('HG10 migrates legacy v07 saves without duplicating city stock',()=>{
  const loaded=E.parseSave(JSON.stringify(old));assert.equal(loaded.version,7);assert.equal(loaded.cities.length,1);assert.equal(loaded.activeCityId,'main');assert.equal(loaded.res.gold,1234);assert.equal(loaded.cities[0].local.res.gold,1234);assert(E.strictSave(loaded));
 });
 
+test('HG10 world grid preserves the historical 100x100 coordinate space and all ten visitable locations',()=>{
+ assert.equal(E.WIDTH,100);assert.equal(E.HEIGHT,100);assert.equal(E.WORLD_BUILDINGS.length,10);
+ for(const b of E.WORLD_BUILDINGS){const key=`${b.x},${b.y}`;assert.equal(E.getTile(key).kind,'visit',key);assert(E.pathfind('3,4',key),`no path to ${key}`)}
+ assert.equal(E.WORLD_BUILDING_BY_KEY.get('94,1').name,'Tháp Phòng thủ');assert.equal(E.WORLD_BUILDING_BY_KEY.get('11,89').effect,'random-resource');
+});
+test('HG10 windmill grants one listed resource once per site per UTC day without AP or army loss',()=>{
+ const s=state(),now=s.lastTick,ap=s.ap,army={...s.army},res={...s.res};const out=E.visitWorldBuilding(s,'11,89',now);
+ assert.equal(out.building,'windmill');assert.equal(Object.keys(out.reward).length,1);const [resource]=Object.keys(out.reward);assert(['wood','ore','sulfur','crystal'].includes(resource));assert([200,400].includes(out.reward[resource]));
+ assert.equal(s.ap,ap);assert.equal(JSON.stringify(s.army),JSON.stringify(army));assert.equal(s.res[resource],Math.min(E.limits(s)[resource],res[resource]+out.reward[resource]));
+ const before={...s.res};throws(()=>E.visitWorldBuilding(s,'11,89',now+60_000),/hôm nay/);assert.equal(JSON.stringify(s.res),JSON.stringify(before));
+ const next=E.visitWorldBuilding(s,'11,89',now+86_400_000);assert(next.reward);assert.equal(E.hasVisitedWorldBuilding(s,'11,89',now+86_400_000),true);
+});
+test('HG10 five watermills each grant their dated 2,000 gold reward and daily visits survive v07 Save/Load',()=>{
+ const s=state(),now=s.lastTick,keys=E.WORLD_BUILDINGS.filter(b=>b.effect==='gold-2000').map(b=>`${b.x},${b.y}`);assert.equal(keys.length,5);
+ for(const key of keys){const before=s.res.gold,out=E.visitWorldBuilding(s,key,now);assert.equal(out.reward.gold,Math.min(2000,E.limits(s).gold-before));assert.equal(s.res.gold-before,out.reward.gold)}
+ const saved=E.parseSave(E.serializeSave(s));for(const key of keys)assert(E.hasVisitedWorldBuilding(saved,key,now));
+ const legacy=state();delete legacy.worldVisits;delete legacy.heroBuffs;const migrated=E.parseSave(JSON.stringify(legacy));assert.equal(JSON.stringify(migrated.worldVisits),'{}');assert.equal(JSON.stringify(migrated.heroBuffs),'[]');assert.equal(migrated.version,7);
+});
+test('HG10 four visitor structures apply 10 percent hero stats and buffs expire on game time across Save/Load',()=>{
+ for(const [key,stat] of [['26,4','atk'],['94,1','def'],['21,65','int'],['62,57','spd']]){
+  const s=state(),now=s.lastTick,base=E.heroStats(s)[stat],out=E.visitWorldBuilding(s,key,now);assert.equal(out.buff.stat,stat);assert(Math.abs(E.heroStats(s)[stat]-base*1.1)<1e-9,`${key} ${stat}`);
+  E.tick(s,now+60_000);assert.equal(s.heroBuffs[0].remaining,3600);const reload=E.parseSave(E.serializeSave(s));assert(Math.abs(E.heroStats(reload)[stat]-base*1.1)<1e-9);
+  E.tick(reload,reload.lastTick+60_000);assert.equal(reload.heroBuffs.length,0);assert.equal(E.heroStats(reload)[stat],base);
+ }
+});
+test('HG10 world attack buff changes actual battle damage and expires before later offline production',()=>{
+ const target=E.TILES.find(t=>t.kind==='npc'),base=state(),boosted=state();E.visitWorldBuilding(boosted,'26,4',boosted.lastTick);
+ const setup=s=>{const b=E.makeBattle(s,target.key);b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Test ranged',range:20,count:10,initial:10,hp:100,atk:100,def:50,spd:20,pool:1000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Durable target',range:1,count:1000,initial:1000,hp:100,atk:1,def:100,spd:1,pool:100000,x:2,y:1}];b.selected='p0';b.orders={};b.focused=null;s.battle=b;return E.battleAct(s,'attack').dealt};
+ assert(setup(boosted)>setup(base));
+ const buffed=state(),plain=state();for(const s of [buffed,plain]){s.speed=1;s.heroes[0].int=40}
+ E.visitWorldBuilding(buffed,'21,65',buffed.lastTick);E.appoint(buffed,1);E.appoint(plain,1);const beforeB=buffed.res.gold,beforeP=plain.res.gold;E.tick(buffed,buffed.lastTick+3*60*60*1000);E.tick(plain,plain.lastTick+3*60*60*1000);
+ assert.equal(buffed.heroBuffs.length,0);assert(Math.abs((buffed.res.gold-beforeB)-(plain.res.gold-beforeP)-(4*160/150*2))<1e-6);
+});
+
 const hg10=results.filter(x=>/^HG10 /.test(x.name));
 const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});

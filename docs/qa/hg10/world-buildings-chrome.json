@@ -1,0 +1,60 @@
+{
+  "suite": "HG-10 world buildings",
+  "source": "file:// Play-Heoofgaia-HG11.html in installed Chrome",
+  "total": 10,
+  "passed": 10,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Standalone HTML opens in Chrome from file://",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn • Hẻoofgaia | Heroes of Gaia reconstruction"
+    },
+    {
+      "name": "New game opens the live world map at 100x100",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Source-backed world structures appear in the interactive map ledger",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "War Academy is selected at its 2009 guide coordinate",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Visiting applies a real 10% attack buff to the active hero",
+      "passed": true,
+      "detail": "{\"visit\": \"2026-11-02\", \"buff\": {\"heroId\": 1, \"stat\": \"atk\", \"remaining\": 7200, \"sourceKey\": \"26,4\"}, \"stats\": {\"atk\": 13.200000000000001, \"def\": 8, \"spd\": 7, \"int\": 6}, \"valid\": true}"
+    },
+    {
+      "name": "Visited daily building is disabled against a second reward",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Buff and daily visit survive actual file:// browser reload in v07",
+      "passed": true,
+      "detail": "{\"version\": 7, \"visited\": \"2026-11-02\", \"buff\": {\"heroId\": 1, \"stat\": \"atk\", \"remaining\": 7150.14, \"sourceKey\": \"26,4\"}, \"valid\": true}"
+    },
+    {
+      "name": "Watermill visit grants 2,000 real gold without spending AP or troops",
+      "passed": true,
+      "detail": "{\"gold\": 10002.216, \"ap\": 100.20775, \"army\": \"{\\\"human_1\\\":16,\\\"human_2\\\":0,\\\"human_3\\\":0,\\\"human_4\\\":0,\\\"human_5\\\":0,\\\"human_6\\\":0,\\\"human_7\\\":0,\\\"human_8\\\":0,\\\"human_9\\\":0,\\\"human_10\\\":0}\", \"reward\": \"Đã ghé Cối xay nước; nhận +2.000 Vàng.\", \"valid\": true}"
+    },
+    {
+      "name": "Both real world-visit effects remain live in gameplay state",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "No JavaScript page errors during visit, reward, save and reload",
+      "passed": true,
+      "detail": ""
+    }
+  ]
+}

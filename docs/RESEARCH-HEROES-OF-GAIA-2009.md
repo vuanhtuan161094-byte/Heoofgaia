@@ -63,7 +63,7 @@
 | F19 | Market trades/sells materials; Bazaar sells items | SRC03, SRC11 | A/B | **HG06 FIX:** previously permanently locked despite implemented actions; now buildable; item prices SIM |
 | F20 | AP regenerates 10% of maximum hourly | SRC05 | A | **ALIGNED** with game-time demo scale |
 | F21 | Mine attack uses 6 AP; Happy Hour 3 AP | SRC05 | A | **PARTIAL:** normal AP cost implemented; Happy Hour absent |
-| F22 | Real persistent world, scouting, roaming heroes, portals, resource control | SRC05, SRC14, SRC15 | B | **MISSING/PARTIAL:** 28×18 local map and pathfinding, portals absent |
+| F22 | Real persistent world, scouting, roaming heroes, portals, resource control | SRC05, SRC14, SRC15, SRC43 | B | **HG-10 PARTIAL:** 100×100 coordinate map, paths, AP marches, mines/castles, three outbound heroes and ten visitable structures work; fog/scouting, portals, PvP and original-client behavior remain unverified |
 | F23 | 7 tactical army stacks 4 rear + 3 front | SRC09 | A for Chinese Sep 2009 | **ALIGNED LAYOUT:** 7 positions, but tactical AI remains a simulation |
 | F24 | Manual Attack, Stand By, Retreat, Focus alongside automatic turns | SRC12, SRC16 | B | **PARTIAL:** controls work; speed/timing/target priorities incomplete |
 | F25 | Historical battle encounter timer/entry delay | SRC12, later English summaries | C / version-conflict | **MISSING:** 10-second closed-beta vs later 20-second or different durations; do not hard-code yet |

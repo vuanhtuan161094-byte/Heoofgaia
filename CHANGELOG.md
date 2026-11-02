@@ -1,4 +1,12 @@
 
+## 2026-11-03 — HG-10 world visitables (partial)
+
+- Expanded the playable outdoor map to the 100×100 historical coordinate space and added ten visitable buildings listed by the 2009 Chinese guide.
+- Implemented daily Windmill resource rolls, five Watermill gold rewards, and two-hour +10% Attack/Defense/Knowledge/Speed buffs with effects in live combat, hero march timing and the existing modeled Castellan calculation.
+- Preserved the v07 Save/Load key and migration. UTC reset and immediate no-AP/no-travel visits remain explicit models because sources give no reset timezone or travel/AP cost.
+- Verification: Node 113/113 PASS; integrated Chromium regression 91/91 PASS with zero page exceptions; actual Chrome `file://` visit/reward/daily-lock/Save/Reload 10/10 PASS. Screenshot: `docs/evidence/hg10/world-buildings-chrome.png`; machine receipt: `docs/qa/hg10/world-buildings-chrome.json`.
+- Visual honesty: new map-building markers are code-drawn prototypes, not recovered HOG artwork. World art parity and the full HG-10 feature set remain incomplete; no 1:1 claim.
+
 ## 2026-11-02 — HG-10 multi-city capture slice
 
 - Added five neutral race castles capturable through real marching and tactical combat, with Fame-rank city limits.

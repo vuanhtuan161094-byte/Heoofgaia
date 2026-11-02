@@ -48,6 +48,34 @@ function monster(c,x,y,k=1,lv=1){
  rounded(c,-13,6,26,17,3,'#493d56');line(c,-15,5,-23,17,4,'#897d72');line(c,15,5,23,17,4,'#897d72');
  c.restore();
 }
+function worldBuilding(c,x,y,k=1,kind='windmill',visited=false){
+ c.save();c.translate(x,y);c.scale(k,k);circle(c,0,8,35,'#0b1715a8');
+ const stone='#8d8d7b',edge='#293b3b',gold='#e4c276';
+ if(kind==='windmill'){
+  rounded(c,-17,-15,34,37,3,'#b9a078',edge);poly(c,[[-21,-14],[0,-31],[21,-14]],'#715b42',edge);rounded(c,-5,2,10,20,2,'#5a4634');
+  line(c,0,-22,0,-68,4,'#493a30');line(c,-32,-43,32,-43,4,'#493a30');line(c,-22,-65,22,-21,4,'#493a30');line(c,-22,-21,22,-65,4,'#493a30');circle(c,0,-43,7,gold);
+ }else if(kind==='watermill'){
+  rounded(c,-21,-20,42,42,3,'#b8a47d',edge);poly(c,[[-24,-20],[0,-37],[24,-20]],'#715b42',edge);rounded(c,-7,2,14,20,2,'#523c32');
+  circle(c,28,1,19,'#805f3f');circle(c,28,1,12,'#c6a46e');circle(c,28,1,4,'#684c34');for(let a=0;a<8;a++){const r=a*Math.PI/4;line(c,28,1,28+Math.cos(r)*18,1+Math.sin(r)*18,3,'#d6bb86')}
+  for(let i=0;i<3;i++)line(c,-31,25+i*7,22,25+i*7,2,'#69b5bd');
+ }else if(kind==='war-academy'){
+  rounded(c,-27,-28,54,52,4,'#8a8268',edge);poly(c,[[-32,-28],[0,-49],[32,-28]],'#694c42',edge);
+  for(const x0 of [-17,0,17]){rounded(c,x0-4,-20,8,19,3,'#e0c886');line(c,x0-5,-21,x0,-31,2,'#d2c59e');line(c,x0,-31,x0+5,-21,2,'#d2c59e')}
+  rounded(c,-7,5,14,19,2,'#3a3c3a');circle(c,0,-39,4,gold);
+ }else if(kind==='defense-tower'){
+  rounded(c,-20,-40,40,65,3,stone,edge);for(let i=0;i<4;i++)rounded(c,-21+i*12,-47,9,12,1,'#d6cfb2');
+  poly(c,[[-25,-40],[0,-69],[25,-40]],'#61717a',edge);rounded(c,-6,-14,12,25,4,'#384446');line(c,0,-69,0,-79,2,gold);
+ }else if(kind==='enlightenment-book'){
+  poly(c,[[-30,-23],[-2,-31],[-2,15],[-30,23]],'#78999a',gold);poly(c,[[-2,-31],[30,-23],[30,23],[-2,15]],'#b59d6a',gold);
+  line(c,-21,-12,-8,-16,2,'#efe1bd');line(c,-21,-3,-8,-7,2,'#efe1bd');line(c,7,-15,22,-11,2,'#f5e6c4');line(c,7,-6,22,-2,2,'#f5e6c4');circle(c,0,-39,6,'#a5e8e2');
+ }else if(kind==='prayer-temple'){
+  rounded(c,-30,-21,60,47,'#bcb69d',edge);poly(c,[[-36,-21],[0,-50],[36,-21]],'#827454',gold);
+  for(const x0 of [-20,-7,7,20])rounded(c,x0-3,-14,6,31,2,'#eee1bd');rounded(c,-8,5,16,21,4,'#465257');
+  line(c,0,-50,0,-66,3,gold);circle(c,0,-67,5,'#f5e0a4');
+ }
+ if(visited){circle(c,25,-31,10,'#2c6b53');text(c,'✓',25,-27,12,'#f2e2af')}
+ c.restore();
+}
 const M={centerX:9.5,centerY:7.4,zoom:1.12};
 function mapCamera(){return M}
 function mapProjection(canvas){const scale=clamp(M.zoom,.65,2.05)*48;return {scale,offX:canvas.width/2-M.centerX*scale,offY:canvas.height/2-M.centerY*scale}}
@@ -57,7 +85,7 @@ function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=
  for(const t of E.TILES){let color={plain:'#6d8559',road:'#9e956a',bridge:'#d5c08a',forest:'#28533c',hill:'#6a7262',water:'#408b9c'}[t.terrain]||'#68805b';
   c.fillStyle=color;c.fillRect(m.x+pad+t.x*tw,m.y+pad+t.y*th,tw+.28,th+.28)}
  for(const t of E.TILES){if(t.kind==='empty')continue;
-  const owned=E.cityForKey(s,t.key);c.fillStyle=t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):'#eee0b0'):t.kind==='mine'?'#f2cf55':'#e99987';
+  const owned=E.cityForKey(s,t.key);c.fillStyle=t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
   c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(3,tw*.72),Math.max(3,th*.72))}
  if(selected){const t=E.getTile(selected);if(t){c.strokeStyle='#fff';c.lineWidth=2;c.strokeRect(m.x+pad+t.x*tw-1,m.y+pad+t.y*th-1,tw+2,th+2)}}
  const view=mapProjection(canvas);const vw=canvas.width/view.scale,vh=canvas.height/view.scale;
@@ -73,7 +101,7 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
  const inside=(x,y)=>x+q>=-30&&x<w+30&&y+q>=-30&&y<h+30;
  c.save();c.translate(ox,oy);
  // Continuous, curving river: one painted waterway instead of hard square map tiles.
- const riverX=y=>(19+2*Math.sin(y*.52)+.5)*q;
+ const riverX=y=>(49+3*Math.sin(y*.07)+.5)*q;
  c.lineJoin='round';c.lineCap='round';c.beginPath();
  for(let y=-1;y<=E.HEIGHT+1;y+=.18){let xx=riverX(y),yy=(y+.5)*q;if(y===-1)c.moveTo(xx,yy);else c.lineTo(xx,yy)}
  c.strokeStyle='#234c61';c.lineWidth=q*1.24;c.stroke();c.strokeStyle='#36818b';c.lineWidth=q*1.03;c.stroke();c.strokeStyle='#70afb15c';c.lineWidth=q*.45;c.stroke();
@@ -94,9 +122,10 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
   if(t.kind==='castle'){const owned=E.cityForKey(s,t.key);castle(c,x,y,q/145,owned?.race||t.race||s.race,owned?.local.buildings.hall||1)}
   if(t.kind==='mine')mine(c,x,y,q/95,t.value);
   if(t.kind==='npc'&&!done)monster(c,x,y,q/97,t.level);
+  if(t.kind==='visit'){worldBuilding(c,x,y,q/100,t.structureId?.startsWith('watermill')?'watermill':t.structureId==='windmill'?'windmill':t.structureId,!!E.hasVisitedWorldBuilding?.(s,t.key));}
   if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
   if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}
-  if(q>35){const city=E.cityForKey(s,t.key);text(c,t.kind==='castle'?(city?.name||t.value||'Thành trung lập'):t.kind==='mine'?{wood:'Rừng',ore:'Quặng',gold:'Mỏ vàng',sulfur:'Lưu huỳnh',crystal:'Pha lê'}[t.value]:t.value,x,y+q*.48,Math.max(11,q*.21),'#fff0c8');}
+  if(q>35){const city=E.cityForKey(s,t.key);text(c,t.kind==='castle'?(city?.name||t.value||'Thành trung lập'):t.kind==='mine'?{wood:'Rừng',ore:'Quặng',gold:'Mỏ vàng',sulfur:'Lưu huỳnh',crystal:'Pha lê'}[t.value]:t.value,x,y+q*.48,Math.max(11,Math.min(14,q*.21)),'#fff0c8');}
  }
  // Garrisoned heroes remain visible at occupied mines; traveling heroes follow their saved route.
  for(const g of (s.stationedHeroes||[])){const t=E.getTile(g.key);if(!t)continue;const x=(t.x+.5)*q,y=(t.y+.44)*q;circle(c,x,y,q*.27,'#263e57');circle(c,x,y,q*.20,'#e3c373');poly(c,[[x-q*.12,y-q*.17],[x,y-q*.38],[x+q*.12,y-q*.17]],'#314f72');text(c,'⚔',x,y-q*.31,15,'#fff0c8');}
@@ -111,7 +140,7 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
  drawMiniMap(c,canvas,E,s,selected);
 }
 function mapHit(canvas,x,y,E){const {scale,offX,offY}=mapProjection(canvas);const tx=Math.floor((x-offX)/scale),ty=Math.floor((y-offY)/scale);return E.getTile(`${tx},${ty}`)||null}
-function panMap(dx,dy){M.centerX=clamp(M.centerX-dx,2,26);M.centerY=clamp(M.centerY-dy,2,16)}
+function panMap(dx,dy,width=100,height=100){M.centerX=clamp(M.centerX-dx,0,width-1);M.centerY=clamp(M.centerY-dy,0,height-1)}
 function zoomMap(v){M.zoom=clamp(M.zoom*v,.65,2.05)}
 const CITY_SITES=[['hall',.51,.40],['barracks',.20,.62],['heroTower',.77,.23],['tavern',.40,.75],['warehouse',.77,.59],['magicTower',.17,.23],['arena',.63,.68],['market',.50,.87],['bazaar',.93,.44],['embassy',.35,.35],['stables',.09,.49],['forge',.92,.74]];
 const CITY_SITE_VARIANTS={elf:{market:[.10,.86]},orc:{market:[.14,.83]},undead:{market:[.10,.86]}};

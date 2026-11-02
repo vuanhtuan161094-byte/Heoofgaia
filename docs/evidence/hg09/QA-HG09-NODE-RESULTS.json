@@ -1,10 +1,10 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 108,
-  "suitePassed": 108,
+  "suiteTotal": 113,
+  "suitePassed": 113,
   "suiteFailed": 0,
-  "hg10Total": 9,
-  "hg10Passed": 9,
+  "hg10Total": 14,
+  "hg10Passed": 14,
   "hg10Failed": 0,
   "hg10Checks": [
     {
@@ -41,6 +41,26 @@
     },
     {
       "name": "HG10 migrates legacy v07 saves without duplicating city stock",
+      "passed": true
+    },
+    {
+      "name": "HG10 world grid preserves the historical 100x100 coordinate space and all ten visitable locations",
+      "passed": true
+    },
+    {
+      "name": "HG10 windmill grants one listed resource once per site per UTC day without AP or army loss",
+      "passed": true
+    },
+    {
+      "name": "HG10 five watermills each grant their dated 2,000 gold reward and daily visits survive v07 Save/Load",
+      "passed": true
+    },
+    {
+      "name": "HG10 four visitor structures apply 10 percent hero stats and buffs expire on game time across Save/Load",
+      "passed": true
+    },
+    {
+      "name": "HG10 world attack buff changes actual battle damage and expires before later offline production",
       "passed": true
     }
   ],

@@ -64,15 +64,29 @@ function hire(s){assert(s.buildings.tavern>=1,'Cần Tavern');assert(s.heroes.le
 function heroStationed(s,id){return Array.isArray(s.stationedHeroes)&&s.stationedHeroes.some(x=>x.heroId===id)}
 function appoint(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert(!s.march&&!s.battle,'Không thể đổi Castellan khi đang hành quân');s.castellan=s.castellan===id?null:id;note(s,s.castellan?'Đã bổ nhiệm Castellan.':'Đã bỏ chức Castellan.');}
 function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert((!s.march||s.march.phase==='outbound')&&!s.battle,'Đang hành quân hoặc chiến đấu');assert(s.castellan!==id,'Castellan trấn thủ thành');s.activeHero=id;}
-// HG-03 map geometry: procedural ORIGINAL art and prototype coordinates, not proprietary map data.
-const WIDTH=28, HEIGHT=18;
+// The December 2009 Chinese guide prints world targets on a 0–99 coordinate
+// grid. Terrain remains original procedural artwork; only listed landmark
+// coordinates are evidence-backed. Other content is retained for save safety.
+const WIDTH=100, HEIGHT=100;
+const WORLD_BUILDINGS=Object.freeze([
+ {id:'windmill',x:11,y:89,kind:'windmill',name:'Cối xay gió',fame:0,effect:'random-resource',source:'SRC43'},
+ {id:'watermill-1',x:93,y:67,kind:'watermill',name:'Cối xay nước',fame:0,effect:'gold-2000',source:'SRC43'},
+ {id:'watermill-2',x:27,y:88,kind:'watermill',name:'Cối xay nước',fame:0,effect:'gold-2000',source:'SRC43'},
+ {id:'watermill-3',x:68,y:28,kind:'watermill',name:'Cối xay nước',fame:0,effect:'gold-2000',source:'SRC43'},
+ {id:'watermill-4',x:88,y:38,kind:'watermill',name:'Cối xay nước',fame:0,effect:'gold-2000',source:'SRC43'},
+ {id:'watermill-5',x:84,y:3,kind:'watermill',name:'Cối xay nước',fame:0,effect:'gold-2000',source:'SRC43'},
+ {id:'war-academy',x:26,y:4,kind:'war-academy',name:'Học viện Chiến tranh',fame:0,effect:'atk-10',duration:7200,source:'SRC43'},
+ {id:'defense-tower',x:94,y:1,kind:'defense-tower',name:'Tháp Phòng thủ',fame:0,effect:'def-10',duration:7200,source:'SRC43'},
+ {id:'enlightenment-book',x:21,y:65,kind:'enlightenment-book',name:'Sách Khai sáng',fame:0,effect:'int-10',duration:7200,source:'SRC43'},
+ {id:'prayer-temple',x:62,y:57,kind:'prayer-temple',name:'Đền Cầu nguyện',fame:0,effect:'spd-10',duration:7200,source:'SRC43'}
+]);
 function mapTiles(){
  const tiles=[];
  for(let y=0;y<HEIGHT;y++)for(let x=0;x<WIDTH;x++){
-  const valley=Math.abs(x-(19+2*Math.sin(y*.52)))<.85;
+  const valley=Math.abs(x-(49+3*Math.sin(y*.07)))<1.35;
   const n=Math.sin(x*.93+y*.37)*.4+Math.cos(x*.36-y*.81)*.28+Math.sin(x*.22+y*.31)*.35;
   let terrain=valley?'water':n>.43?'hill':n<-.29?'forest':'plain';
-  if(valley&&(y===6||y===12))terrain='bridge';
+  if(valley&&(y===20||y===50||y===80))terrain='bridge';
   if((x+y)%13===0&&terrain==='plain')terrain='road';
   tiles.push({x,y,key:`${x},${y}`,terrain,kind:'empty'});
  }
@@ -87,6 +101,7 @@ function mapTiles(){
   [23,6,'npc','Dark Guards',3],[26,12,'npc','Phantoms',4],[17,15,'npc','Warlocks',3]
  ];
  for(const [x,y,kind,value,level] of places){let t=at(x,y);t.kind=kind;t.value=value;t.level=level;t.terrain='plain';}
+ for(const building of WORLD_BUILDINGS){const t=at(building.x,building.y);t.kind='visit';t.value=building.name;t.structureId=building.id;t.terrain='plain';}
  return tiles;
 }
 const TILES=mapTiles(), TILE_LOOKUP=new Map(TILES.map(t=>[t.key,t]));
@@ -250,7 +265,7 @@ function battleAct(s,action){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,getTile,pathfind,setFormation,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
+const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,getTile,pathfind,setFormation,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 
