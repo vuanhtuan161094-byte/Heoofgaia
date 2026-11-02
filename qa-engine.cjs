@@ -65,6 +65,9 @@ test('HG08 gates every troop row and labels unresolved faction rows',()=>{
  assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).status,'MODELED_TIER_PROXY');assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).confidence,'P');
  assert.equal(E.troopPrerequisites(state('human'),C.units.human[9]).status,'OBSERVED');
 });
+test('Human Scout uses dated SRC27 Barracks 2 and Scouting 1 while Town Hall remains partial',()=>{
+ const s=state('human'),u=C.units.human[1],req=E.troopPrerequisites(s,u);assert.equal(req.status,'PARTIAL_SCOUT_HALL_GATE');assert.equal(req.confidence,'B');assert.equal(req.source,'SRC27; SRC04');assert.equal(JSON.stringify(req.checks.map(c=>[c.kind,c.key,c.level])),JSON.stringify([['building','barracks',2],['spell','scouting',1]]));assert.equal(req.available,false);s.buildings.barracks=2;assert.equal(E.troopPrerequisites(s,u).available,false);s.spells.scouting=1;assert.equal(E.troopPrerequisites(s,u).available,true);
+});
 test('Elf Centaur uses its dated source-listed Barracks 1 gate with secondary confidence C',()=>{
  const s=state('elf'),u=C.units.elf[0],req=E.troopPrerequisites(s,u);assert.equal(u.id,'elf_1');assert.equal(req.status,'SECONDARY');assert.equal(req.confidence,'C');assert.equal(JSON.stringify(req.checks.map(c=>[c.kind,c.key,c.level])),JSON.stringify([['building','barracks',1]]));assert.equal(req.available,true);
 });

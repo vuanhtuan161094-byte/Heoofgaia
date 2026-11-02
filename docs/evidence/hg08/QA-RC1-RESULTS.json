@@ -1,6 +1,6 @@
 {
-  "total": 55,
-  "passed": 55,
+  "total": 56,
+  "passed": 56,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -97,7 +97,7 @@
       "passed": true
     },
     {
-      "name": "Scout gate names both Chinese role and English spell evidence",
+      "name": "Elf Scout gate note retains its cross-version scope",
       "passed": true
     },
     {
@@ -166,6 +166,10 @@
     },
     {
       "name": "Combat turn records deterministic initiative order",
+      "passed": true
+    },
+    {
+      "name": "Human Scout note identifies SRC27 gates and unresolved Town Hall",
       "passed": true
     },
     {

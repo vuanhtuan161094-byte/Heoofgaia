@@ -8,6 +8,7 @@ Review date: 2026-11-02. The project screenshot files in this folder are capture
 - `screenshot-construction-desktop.png` — Elf city with a Market construction queue.
 - `screenshot-tavern-desktop.png` — Tavern, hero roster and progression.
 - `screenshot-troop-unlocks-desktop.png` — Elf troop page at Barracks 2; Centaur is available at its cited Barracks 1 gate with a C source badge, while tier-2 Scout remains locked until Scouting 1 with its cross-version partial status.
+- `screenshot-human-scout-gate-desktop.png` — Human army page; the Scout card shows SRC27 Barracks 2 + Scouting 1, its unresolved Town Hall requirement, and a locked Recruit action.
 - `screenshot-progression-desktop.png` — completed troop training, Castellan XP, research, level-up and attribute allocation.
 - `screenshot-world-mobile.png` and `screenshot-tavern-mobile.png` — narrow 390×844 viewport; responsive layout, not a physical phone capture.
 

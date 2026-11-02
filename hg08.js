@@ -17,7 +17,7 @@ const TECHNOLOGIES=Object.freeze({
 });
 const HUMAN={
  1:{buildings:{hall:1,barracks:1},spells:{},sourceStatus:'OBSERVED',source:'SRC19; SRC20'},
- 2:{buildings:{barracks:2},spells:{scouting:1},sourceStatus:'PARTIAL_SCOUT_HALL_GATE',source:'SRC03; SRC04'},
+ 2:{buildings:{barracks:2},spells:{scouting:1},sourceStatus:'PARTIAL_SCOUT_HALL_GATE',source:'SRC27; SRC04'},
  3:{buildings:{hall:3,barracks:3},spells:{bootcamp:1},sourceStatus:'OBSERVED',source:'SRC19; SRC20'},
  4:{buildings:{hall:4,barracks:4,blacksmith:1},spells:{manufacturing:1},sourceStatus:'OBSERVED',source:'SRC19; SRC20'},
  5:{buildings:{hall:5,barracks:5,stables:1},spells:{manufacturing:3},sourceStatus:'OBSERVED',source:'SRC19; SRC20'},

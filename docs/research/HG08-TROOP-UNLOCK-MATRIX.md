@@ -12,7 +12,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Race | Tier | Unit | Gates enforced in this build | Evidence status | Sources / gap |
 |---|---:|---|---|---|---|
 | Human | 1 | Spear Militia | Town Hall 1; Barracks 1 | A / OBSERVED | SRC19, SRC20 |
-| Human | 2 | Scout | Barracks 2; Scouting 1 | B / PARTIAL; exact Town Hall row absent | SRC03, SRC04; Town Hall requirement unverified |
+| Human | 2 | Scout | Barracks 2; Scouting 1 | B / PARTIAL; exact Town Hall row absent | SRC27 directly lists Barracks 2 and Scouting 1; SRC04 terminology crosswalk; Town Hall requirement unverified |
 | Human | 3 | Archer | Town Hall 3; Barracks 3; Bootcamp 1 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
 | Human | 4 | Heavy Soldier | Town Hall 4; Barracks 4; Blacksmith 1; Manufacturing 1 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 5 | Gryphon | Town Hall 5; Barracks 5; Stables 1; Manufacturing 3 | A / OBSERVED | SRC19, SRC20, SRC04 |
