@@ -177,13 +177,11 @@ test('Faction-specific source buildings are buildable only in their race build l
  const maps={human:['stables','blacksmith'],elf:['magicPool','natureTower'],orc:['beastPen','blacksmith'],undead:['graveyard','darkHall','soulTower']};
  for(const [race,buildings] of Object.entries(maps)){const s=state(race),order=E.cityBuildOrder(s);for(const b of buildings)assert(order.includes(b),race+':'+b);for(const other of Object.values(maps).flat())if(!buildings.includes(other)&&!(race==='orc'&&other==='blacksmith'))assert(!order.includes(other),race+' leaked '+other);if(race==='undead'){assert(!order.includes('barracks'),'Undead UI should use Graveyard');s.buildings.hall=2;}for(const k of C.keys)s.res[k]=Math.min(E.limits(s)[k],100000);E.upgrade(s,buildings[0]);assert.equal(s.buildingQueue.key,buildings[0]);}
 });
-test('Tavern name/stat colors follow documented hero-value thresholds',()=>{
- assert.equal(E.heroNameColor({atk:40,def:40,spd:30,int:15,level:1}),'white');
- assert.equal(E.heroNameColor({atk:40,def:40,spd:30,int:16,level:1}),'blue');
- assert.equal(E.heroNameColor({atk:40,def:40,spd:40,int:41,level:1}),'yellow');
- assert.equal(E.heroNameColor({atk:50,def:50,spd:40,int:41,level:1}),'green');
- assert.equal(E.heroNameColor({atk:71,def:50,spd:40,int:40,level:1}),'purple');
- assert.deepEqual(['white','blue','yellow','green','purple'].map((_,i)=>E.heroStatColor([40,41,51,61,71][i])),['white','blue','yellow','green','purple']);
+test('Tavern name/stat colors follow dated and community threshold evidence',()=>{
+ const heroFor=value=>{const base=Math.floor(value/4),r=value%4;return {atk:base+(r>0?1:0),def:base+(r>1?1:0),spd:base+(r>2?1:0),int:base,level:1};};
+ for(const [value,color] of [[125,'white'],[126,'blue'],[160,'blue'],[161,'yellow'],[180,'yellow'],[181,'green'],[200,'green'],[201,'purple'],[280,'purple']])assert.equal(E.heroNameColor(heroFor(value)),color,'hero total '+value);
+ // 2010 Chinese guide overlaps White and Blue at 125; Fandom's explicit <=125 rule resolves it as White.
+ for(const [value,color] of [[40,'white'],[41,'blue'],[50,'blue'],[51,'yellow'],[60,'yellow'],[61,'green'],[70,'green'],[71,'purple']])assert.equal(E.heroStatColor(value),color,'single stat '+value);
 });
 test('Tavern level 10 refresh creates eight source-band heroes and persisted derived colors',()=>{
  const s=state();s.buildings.tavern=10;E.refreshTavern(s);assert.equal(s.tavern.offers.length,8);
