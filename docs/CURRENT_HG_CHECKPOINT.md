@@ -6,7 +6,7 @@ Date: 2026-11-02 (Windows local execution)
 
 - Project root: `E:\Heoofgaia`.
 - Working branch: `feature/heoofgaia-hg08-20261102`.
-- Latest tested functional commit SHA: a3c1b9b885f526761de167a958855815133dba0e (feat: add source-informed combat target AI). This checkpoint document is committed separately after the tested functional commit; code and regression receipts below correspond to this SHA.
+- Latest gameplay runtime commit SHA: `813557f5fdf5add1f187e1e9e2c7b62a7f6caa17` (manual Advance action). Latest reviewed test/research tree before this checkpoint refresh: `689617dee01c9ef14f9d5c415ad31d8aef7eb7c5` on the working branch. The tree passes Node 79/79 after added Tavern threshold boundary fixtures; gameplay runtime code has not changed since 813557f. Browser/file-launch checks are 71/71 and 12/12 respectively on that same runtime code. Later docs/screenshots and the test-only change are recorded in the dated continuation entries below.
 - Original source: `vuanhtuan161094-byte/tutiennhandoi`, source branch `feature/heoofgaia-hg07-20261102`, pinned source HEAD `b32737422ca866f08de8d94021b397eb22c8f017`; HG-07 implementation parent `62d4a1c6d1a0c9769cf9ee6690e77361a2927ea9`.
 - Standalone bootstrap `028cb97a0481a4ff37a9459a5dd13ddfa1256511`; import audit `08d2fb0e4042f34af0372fb2187624bb03ff306e`. SHA-256 comparison matched all 20 Hẻoofgaia root files. Tu Tiên production systems were not copied or modified.
 - `projects/heoofgaia/HANDOFF_CREATE_STANDALONE_20261102.md` was absent at the pinned source SHA. The attached ZIP was treated as reference material only.

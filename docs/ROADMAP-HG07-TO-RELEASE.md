@@ -36,10 +36,10 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 
 ## Current execution — 2026-11-02
 
-- Branch: feature/heoofgaia-hg08-20261102. Latest full QA tree: be563d0c9446c53e11c81e08919a6147da6a26a8; latest gate-source reconciliation: d42d223c43dbba42a6fc3b362c7be73a7f2eea05.
-- Node regression: 77/77 PASS; JavaScript syntax: 9/9 PASS.
-- Offline build: PASS, Play-Heoofgaia-HG08.html (151,931 characters).
-- Chrome browser suite: 65/65 PASS, 0 page errors. Chromium file:// Save/Load and separate-process restart: 12/12 PASS.
+- Branch: `feature/heoofgaia-hg08-20261102`. Latest reviewed test/research tree before the current checkpoint refresh: `689617dee01c9ef14f9d5c415ad31d8aef7eb7c5`; latest gameplay runtime commit: `813557f5fdf5add1f187e1e9e2c7b62a7f6caa17`.
+- Current Node regression: **79/79 PASS** (includes exact Tavern threshold boundaries and 1,000 deterministic encounters); runtime JavaScript syntax: **9/9 PASS**.
+- Offline build: **PASS**, `Play-Heoofgaia-HG08.html` (152,097 characters).
+- Chrome browser suite: **71/71 PASS**, zero page errors. Chromium `file://` Save/Load and separate-process restart: **12/12 PASS**.
 - The current battle and city artwork is procedurally drawn prototype art. These captures document implemented interactions, not a match against the original client.
 - No remote is configured and private GitHub repository vuanhtuan161094-byte/Heoofgaia is not verified to exist. No push has occurred.
 ## Latest browser evidence — 2026-11-02
@@ -47,7 +47,7 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 - This entry supersedes the earlier 65/65 browser count above: commit `4dbadfba76fcdd2f1237d818df8dba9012cc5c58` adds Hall-cap screenshots and the browser suite now reports **68/68 PASS**, zero JavaScript errors. Engine QA is **78/78 PASS**; offline build is **151,931 characters PASS**; actual Chromium `file://` Save/Load is **12/12 PASS**.
 - Fandom remains a partial survey: 608 articles are reported on its home page, but direct enumeration is blocked. Indexed pages read include Units, World Buildings, Newbie Guide, Combat mechanics, Heroes, Castles, Guild, and race/building pages. No claim that every article was read.
 - Fresh Hall-cap evidence: `docs/evidence/hg08/screenshot-townhall-cap-locked-desktop.png` (disabled upgrade at Hall 1) and `docs/evidence/hg08/screenshot-townhall-cap-unlocked-queue-desktop.png` (real Barracks Lv.2 queue after Hall 2). The castle artwork is still a procedural prototype; original-client parity is not established.
-- Latest local branch SHA: `4dbadfba76fcdd2f1237d818df8dba9012cc5c58`. Private GitHub repository creation/push remains BLOCKED because no remote or available create-repository/authenticated GitHub CLI is present.
+- Latest reviewed tree SHA before this checkpoint refresh: `689617dee01c9ef14f9d5c415ad31d8aef7eb7c5`. Private GitHub repository creation/push remains BLOCKED because no remote or available create-repository/authenticated GitHub CLI is present.
 
 ## Latest tested gameplay slice — manual Advance — 2026-11-02
 
