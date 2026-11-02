@@ -499,11 +499,11 @@ test('SRC48 Tavern level 6-9 refresh creates one simulated blue hero with valid 
 });
 test('Tavern level 10 refresh creates eight source-band heroes and persisted derived colors',()=>{
  const s=state();s.buildings.tavern=10;E.refreshTavern(s);assert.equal(s.tavern.offers.length,8);
- for(const h of s.tavern.offers){assert(h.atk>=20&&h.atk<=50&&h.def>=20&&h.def<=50&&h.spd>=20&&h.spd<=50&&h.int>=20&&h.int<=50);assert.equal(h.quality,E.heroNameColor(h));assert.equal(h.heroValue,h.atk+h.def+h.spd+h.int-h.level+1);assert.equal(E.strictSave(s),true);}
+ for(const h of s.tavern.offers){for(const key of ['atk','def','spd','int']){assert(Number.isSafeInteger(h[key])&&h[key]>=20&&h[key]<=70);assert.equal(h.statColors[key],E.heroStatColor(h[key]));}assert.equal(h.quality,E.heroNameColor(h));assert.equal(h.heroValue,h.atk+h.def+h.spd+h.int-h.level+1);assert.equal(E.strictSave(s),true);}
  const restored=E.parseSave(E.serializeSave(s));assert.equal(restored.tavern.offers[0].quality,E.heroNameColor(restored.tavern.offers[0]));
 });
 test('Automatic hourly Tavern refresh applies the current Tavern level model',()=>{
- const s=state();s.buildings.tavern=10;s.speed=1;const end=s.lastTick+3600*1000;E.tick(s,end);assert.equal(s.tavern.round,1);assert.equal(s.tavern.offers.length,8);assert(s.tavern.offers.every(h=>h.atk>=20&&h.atk<=50));
+ const s=state();s.buildings.tavern=10;s.speed=1;const end=s.lastTick+3600*1000;E.tick(s,end);assert.equal(s.tavern.round,1);assert.equal(s.tavern.offers.length,8);assert(s.tavern.offers.every(h=>['atk','def','spd','int'].every(key=>Number.isSafeInteger(h[key])&&h[key]>=20&&h[key]<=70&&h.statColors[key]===E.heroStatColor(h[key]))));
 });
 
 test('Arena rehabilitation charges one-seventh unit value and runs at three-fifths training speed',()=>{

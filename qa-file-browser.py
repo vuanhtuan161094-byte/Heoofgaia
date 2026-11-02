@@ -28,7 +28,9 @@ def check(name, ok):
 
 def click_minimap_tile(page, tx, ty):
     canvas = page.locator('#world-canvas')
-    box = canvas.bounding_box()
+    page.wait_for_function('''()=>{const c=document.querySelector('#world-canvas'),tab=document.querySelector('#nav .active');
+      if(!c||tab?.dataset.tab!=='map')return false;const r=c.getBoundingClientRect();return r.width>0&&r.height>0}''')
+    box = canvas.evaluate('''c=>{const r=c.getBoundingClientRect();return {x:r.left,y:r.top,width:r.width,height:r.height}}''')
     point = page.evaluate(f'''(()=>{{const c=document.querySelector('#world-canvas'),m=HOG_PAINTER.miniBounds(c),pad=9;
       return {{x:(m.x+pad+({tx}+.5)*(m.w-2*pad)/HOG_ENGINE.WIDTH)/c.width,
               y:(m.y+pad+({ty}+.5)*(m.h-2*pad)/HOG_ENGINE.HEIGHT)/c.height}}}})()''')
@@ -143,6 +145,7 @@ with sync_playwright() as p:
     check('file:// standalone starts the real mine-expedition flow', page.title().startswith('Anh Hùng Thời Loạn'))
     page.locator('[data-action="start"]').click()
     page.locator('#speed').click()
+    page.locator('#nav [data-tab="map"]').click()
     click_minimap_tile(page, 6, 3)
     check('file:// minimap pointer selects a mine and enables real dispatch', page.locator('[data-action="march"]').is_enabled())
     page.locator('[data-action="march"]').click()
