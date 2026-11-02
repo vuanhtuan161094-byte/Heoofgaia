@@ -27,6 +27,7 @@ const HUMAN={
  9:{buildings:{hall:9,barracks:9,stables:7,blacksmith:8},spells:{manufacturing:8},sourceStatus:'OBSERVED',source:'SRC19; SRC20'},
  10:{buildings:{hall:10,barracks:10,stables:9,blacksmith:10},spells:{manufacturing:9,bootcamp:9},sourceStatus:'OBSERVED',source:'SRC19; SRC20'}
 };
+const SECONDARY={orc:{orc_7:{buildings:{barracks:7,beastPen:4,blacksmith:4},spells:{bootcamp:6},sourceStatus:'SECONDARY',source:'SRC26'}}};
 const attrKeys=['atk','def','spd','int'];
 function obj(v){return !!v&&typeof v==='object'&&!Array.isArray(v)}
 function ensure(s){
@@ -116,12 +117,12 @@ function finishResearch(s){
 function unitPrerequisites(s,u){
  const trainingBuilding=troopBuildingKey(s);
  const base={buildings:{[trainingBuilding]:u.tier},spells:u.tier===2?{scouting:1}:{},sourceStatus:u.race==='human'?'DERIVED_SCOUT_GATE':u.tier===2?'MODELED_SCOUT_PROXY':'MODELED_TIER_PROXY',source:u.race==='undead'?'SRC11; SRC02; SRC04':'SRC02; SRC03; SRC04'};
- const r=u.race==='human'?(HUMAN[u.tier]||base):base;
+ const r=u.race==='human'?(HUMAN[u.tier]||base):(SECONDARY[u.race]?.[u.id]||base);
  const checks=[];
  for(const [key,level] of Object.entries(r.buildings||{}))checks.push({kind:'building',key,level,actual:s.buildings[key]||0});
  for(const [key,level] of Object.entries(r.spells||{}))checks.push({kind:'spell',key,level,actual:s.spells[key]||0});
  const unmet=checks.filter(x=>x.actual<x.level);
- const confidence=r.sourceStatus==='OBSERVED'?(r.spells?.bootcamp?'A*':'A'):r.sourceStatus.startsWith('MODELED_')?'P':'B';
+ const confidence=r.sourceStatus==='OBSERVED'?(r.spells?.bootcamp?'A*':'A'):r.sourceStatus==='SECONDARY'?'C':r.sourceStatus.startsWith('MODELED_')?'P':'B';
  return {unitId:u.id,checks,unmet,available:unmet.length===0,confidence,status:r.sourceStatus,source:r.source};
 }
 function conditionName(c){

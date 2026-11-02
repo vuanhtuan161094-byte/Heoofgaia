@@ -1,6 +1,6 @@
 {
-  "total": 52,
-  "passed": 52,
+  "total": 54,
+  "passed": 54,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -162,6 +162,14 @@
     },
     {
       "name": "Combat turn records deterministic initiative order",
+      "passed": true
+    },
+    {
+      "name": "Thunderbird exposes secondary-source gates and stays locked until all are met",
+      "passed": true
+    },
+    {
+      "name": "Thunderbird unlocks after its cited buildings and training gate are met",
       "passed": true
     },
     {

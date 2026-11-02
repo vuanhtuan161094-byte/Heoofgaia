@@ -65,6 +65,9 @@ test('HG08 gates every troop row and labels unresolved faction rows',()=>{
  assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).status,'MODELED_TIER_PROXY');assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).confidence,'P');
  assert.equal(E.troopPrerequisites(state('human'),C.units.human[9]).status,'OBSERVED');
 });
+test('Orc Thunderbird uses the four source-listed gates with secondary confidence C',()=>{
+ const s=state('orc'),u=C.units.orc[6],req=E.troopPrerequisites(s,u);assert.equal(u.id,'orc_7');assert.equal(req.status,'SECONDARY');assert.equal(req.confidence,'C');assert.equal(JSON.stringify(req.checks.map(c=>[c.kind,c.key,c.level])),JSON.stringify([['building','barracks',7],['building','beastPen',4],['building','blacksmith',4],['spell','bootcamp',6]]));
+});
 test('HG08 all 40 rows accept their explicitly listed gates and start real queues',()=>{
  for(const race of Object.keys(C.races))for(const u of C.units[race]){
   const s=state(race),req=E.troopPrerequisites(s,u);

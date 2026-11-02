@@ -31,6 +31,8 @@
 | SRC16 | archived gallery | GameGami | Original battle and UI reference art, **reference only**, not licensed in package | https://www.gamegami.com/index.php/projects/heroes-of-gaia |
 | SRC17 | 2010+ community compilation | Fandom Wiki | Hero ranks, equipment slots, extra contents; version drift requires care | https://heroesofgaia.fandom.com/wiki/Heroes |
 | SRC18 | 2009/2010 editions | Chinese / Sina game hub | Full list of building/race/technology guides, new-edition sections | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
+| SRC25 | 2010-09-14 | Vietnamese / GameLandVN interview | Confirms Vietnamese name “Anh Hùng Online” and Snail Game context; not used for mechanics | https://gamelandvn.com/tro-chuyen-cung-snail-game-ve-bom-tan-ministry-of-war/ |
+| SRC26 | undated, accessed 2026-11-02 | Chinese / Chinese encyclopedia | Secondary Thunderbird-specific requirement entry; matching numeric unit fields corroborate SRC02, but original-client/build confirmation is absent | https://www.newton.com.tw/wiki/%E9%9B%B7%E9%B3%A5/7743726 |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 

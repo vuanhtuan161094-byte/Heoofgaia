@@ -4,6 +4,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 
 - **A / OBSERVED:** exact requirement appears in the dated Chinese Human table (SRC19, independently corroborated by SRC20).
 - **B / PARTIAL:** the available source supports only part of the gate; missing requirements are not invented.
+- **C / SECONDARY:** a third-party game-data entry lists the per-unit gate, but its publication date/build is unclear and it has not been checked against the original client.
 - **P / PROVISIONAL MODEL:** non-Human troop-building level is temporarily mapped to catalog tier for a playable progression curve. No dated 2009–2010 per-unit numeric gate table was found. This is a gameplay proxy, not historical data.
 - **SRC04 / DERIVED:** “练兵技术” is mapped to the English Bootcamp spell by matching purpose; the cross-language name equivalence is inferred.
 - Every row also requires that troop type to belong to the selected race. Base costs and time come from SRC02.
@@ -36,7 +37,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Orc | 4 | Direwolf | Barracks 4 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
 | Orc | 5 | Ogre | Barracks 5 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
 | Orc | 6 | Harpy | Barracks 6 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
-| Orc | 7 | Thunderbird | Barracks 7 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Orc | 7 | Thunderbird | Barracks 7; Beast Pen 4; Blacksmith 4; Training Technology 6 (mapped to Bootcamp) | C / SECONDARY; technology label mapping derived | SRC26; required buildings/skill listed; unit stats match SRC02; original-client confirmation missing |
 | Orc | 8 | Cyclops | Barracks 8 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
 | Orc | 9 | Monster | Barracks 9 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
 | Orc | 10 | Behemoth | Barracks 10 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
@@ -56,4 +57,4 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 - The exact Human conditions for the listed rows are source-backed; the `Training Technology` → `Bootcamp` English label is derived and needs a regional client screenshot or an official glossary to prove the crosswalk.
 - All four tier-2 entries require Scouting 1. SRC22 identifies the three non-Human roles as scouts, while SRC04 supplies the Scouting-1 rule. Since these pages describe different regional editions, exact cross-version gate parity is not confirmed; Human Town Hall and other faction support-building gates remain unverified and are not enforced.
 - The other 30 units do **not** have source-complete prerequisites. Faction building roles establish which structure recruits troops, not a numeric per-unit level.
-- The 30 Elf/Orc/Undead rows currently enforce the provisional P proxy `troop-building level = catalog tier`; the UI labels it P and explicitly says it is not source-verified. The dated sources establish which building recruits and the roles of support buildings, but not per-unit numeric levels. Dark Hall, Soul Tower, Beast Pen, Blacksmith, Magic Pool and Nature Tower levels are not enforced yet.
+- The 29 remaining Elf/Orc/Undead rows enforce the provisional P proxy `troop-building level = catalog tier`; the UI says this is not source-verified. Orc Thunderbird is the one exception: SRC26 gives specific values, shown as C until an original client confirms them. Other support-building levels (including Dark Hall, Soul Tower, Magic Pool and Nature Tower) remain missing and unapplied.
