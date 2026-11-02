@@ -1,10 +1,10 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 69,
-  "suitePassed": 69,
+  "suiteTotal": 70,
+  "suitePassed": 70,
   "suiteFailed": 0,
-  "hg09Total": 6,
-  "hg09Passed": 6,
+  "hg09Total": 7,
+  "hg09Passed": 7,
   "hg09Failed": 0,
   "seededEncounters": 1000,
   "checks": [
@@ -14,6 +14,10 @@
     },
     {
       "name": "Ranged stacks fire across deployment distance without invented movement turns",
+      "passed": true
+    },
+    {
+      "name": "Published NPC battle example truncates the 47,897.94 result to 47,897",
       "passed": true
     },
     {

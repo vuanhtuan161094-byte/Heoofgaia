@@ -190,6 +190,16 @@ test('Ranged stacks fire across deployment distance without invented movement tu
  assert(out.dealt>0);assert(s.battle.enemies.reduce((n,u)=>n+u.pool,0)<before);assert.deepEqual({x:archer.x,y:archer.y},position);
 });
 
+test('Published NPC battle example truncates the 47,897.94 result to 47,897',()=>{
+ const s=state('human');s.heroes[0].atk=168;s.heroes[0].def=0;s.army.human_8=500;s.formation=[{unitId:'human_8',count:500}];
+ s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const ally=s.battle.allies[0];
+ // Published Fandom example: 500 Priests, buffed unit ATK 82.8, NPC DEF 109,
+ // hero ATK 168, no defending hero. The source reports in-game damage 47,897.
+ ally.atk=82.8;ally.count=500;ally.hp=1e9;ally.pool=500e9;ally.range=20;ally.spd=99;
+ const enemy=s.battle.enemies[0];enemy.count=1;enemy.hp=1e9;enemy.pool=1e9;enemy.def=109;enemy.atk=0;enemy.range=20;enemy.spd=1;s.battle.enemies=[enemy];
+ const out=E.battleAct(s,'attack');assert.equal(out.dealt,47897);
+});
+
 test('Casualty and Arena wound ledger are exact and never negative',()=>{
  const s=state();s.army.human_1=10;s.buildings.arena=1;s.heroes[0].atk=0;s.heroes[0].def=0;
  s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const ally=s.battle.allies[0];ally.count=10;ally.hp=100;ally.pool=1000;ally.def=12;ally.range=20;ally.spd=1;ally.atk=15;
@@ -225,7 +235,7 @@ test('1000 seeded tactical encounters replay identically with valid ledgers',()=
  }
 });
 
-const hg09=results.filter(x=>/^(Equal-speed combat|Ranged stacks fire|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
+const hg09=results.filter(x=>/^(Equal-speed combat|Ranged stacks fire|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});
 fs.writeFileSync(path.join(evidence,'QA-HG09-NODE-RESULTS.json'),JSON.stringify({command:'node qa-engine.cjs',suiteTotal:pass+failed,suitePassed:pass,suiteFailed:failed,hg09Total:hg09.length,hg09Passed:hg09.filter(x=>x.passed).length,hg09Failed:hg09.filter(x=>!x.passed).length,seededEncounters:1000,checks:hg09},null,2),'utf8');
 console.log(`TOTAL ${pass}/${pass+failed} PASS`);process.exitCode=failed?1:0;

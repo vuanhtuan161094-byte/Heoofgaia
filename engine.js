@@ -192,7 +192,9 @@ function strike(s,b,actor,target,order){
  const multiplier=order==='focus'?1.22:order==='defend'?.65:1;
  const base=actor.atk*actor.atk/(actor.atk+Math.max(1,target.def));
  const defendFactor=target.side==='player'?(1+(h?.def||0)/100):1;
- const dmg=Math.max(1,Math.round(actor.count*base*bonus*multiplier/defendFactor));
+ // The dated/community combat example reports 47,897 damage for an exact
+ // 47,897.94 NPC calculation, so truncate the final stack result as observed.
+ const dmg=Math.max(1,Math.floor(actor.count*base*bonus*multiplier/defendFactor));
  target.pool=Math.max(0,target.pool-dmg);
  const lost=Math.min(target.count,Math.max(0,target.count-Math.ceil(target.pool/target.hp)));
  if(lost>0){target.count-=lost;if(target.side==='player')casualty(s,target.unitId,lost,target.slot)}
