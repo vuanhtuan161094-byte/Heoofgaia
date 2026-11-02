@@ -32,11 +32,11 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 - Source unit names/values may differ by locale and expansion. Some building requirements are still `SIMULATED`.
 - Hero capacity includes Arena ranks, guild boosts and items in original game. HG07 only enforces **base level limit**; no fabricated bonus.
 - HG06's 7 groups come from a community tactic; UI not proof of canonical count for every edition.
-- Browser test uses localStorage shim in `set_content`; no physical file launch validation.
+- qa-browser.py uses a localStorage shim in set_content; qa-file-browser.py separately exercises the generated offline HTML through Chromium file:// and a new browser process. Physical Android validation remains untested.
 
 ## Current execution — 2026-11-02
 
-- Branch: feature/heoofgaia-hg08-20261102. Current research/test commit: be563d0c9446c53e11c81e08919a6147da6a26a8.
+- Branch: feature/heoofgaia-hg08-20261102. Latest full QA tree: be563d0c9446c53e11c81e08919a6147da6a26a8; latest gate-source reconciliation: d42d223c43dbba42a6fc3b362c7be73a7f2eea05.
 - Node regression: 77/77 PASS; JavaScript syntax: 9/9 PASS.
 - Offline build: PASS, Play-Heoofgaia-HG08.html (151,931 characters).
 - Chrome browser suite: 65/65 PASS, 0 page errors. Chromium file:// Save/Load and separate-process restart: 12/12 PASS.
