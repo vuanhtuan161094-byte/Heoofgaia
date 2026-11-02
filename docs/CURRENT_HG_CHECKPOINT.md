@@ -6,7 +6,7 @@ Date: 2026-11-02 (Windows local execution)
 
 - Project root: `E:\Heoofgaia`.
 - Working branch: `feature/heoofgaia-hg08-20261102`.
-- Latest tested functional commit SHA: `0e3948074845cf2257785b2169ba6a4ab210d47f` (`feat: add source-backed Arena recovery queue`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
+- Latest tested functional commit SHA: `1b3ddb971f20db0bba95afc792c99af3bca45d11` (`feat: add undead Castellan Reincarnation healing`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
 - Original source: `vuanhtuan161094-byte/tutiennhandoi`, source branch `feature/heoofgaia-hg07-20261102`, pinned source HEAD `b32737422ca866f08de8d94021b397eb22c8f017`; HG-07 implementation parent `62d4a1c6d1a0c9769cf9ee6690e77361a2927ea9`.
 - Standalone bootstrap `028cb97a0481a4ff37a9459a5dd13ddfa1256511`; import audit `08d2fb0e4042f34af0372fb2187624bb03ff306e`. SHA-256 comparison matched all 20 Hẻoofgaia root files. Tu Tiên production systems were not copied or modified.
 - `projects/heoofgaia/HANDOFF_CREATE_STANDALONE_20261102.md` was absent at the pinned source SHA. The attached ZIP was treated as reference material only.
@@ -30,6 +30,7 @@ Date: 2026-11-02 (Windows local execution)
 - Elf/Orc Barracks and Undead Graveyard levels generally use catalog tier as an explicitly labelled **P / PROVISIONAL MODEL** proxy. Two exceptions are confidence C: Elf Centaur uses SRC28 Barracks 1, and Orc Thunderbird uses SRC26 Barracks 7, Beast Pen 4, Blacksmith 4 and training technology 6 (Chinese-to-English Bootcamp mapping derived). Exact support-building gates for remaining units are unapplied.
 - Tavern slot milestones and some hero quality bands are sourced; exact full candidate distributions and rare-stat odds remain missing. No original-client asset with release rights has been added; current art is procedurally drawn.
 - SRC29 recovery: the Chinese 2009 guide gives 60–80% wounded, 1/7 unit-value gold, and about 3/5 troop-training speed. The build uses a disclosed fixed 75% midpoint and a persisted single-group Arena queue; exact wound distribution and queue concurrency remain unknown. Queue price, timed completion, insufficient-funds rejection, and v07 save/reload are tested.
+- SRC30 Reincarnation: a living community wiki records 1% healing-time reduction per skill level before Tower of Babel when a defending hero has the skill; exact historical revision/build and original-client behavior are unknown (C). An Undead Castellan can research/equip this passive; Arena snapshots its skill level into each new queue. Research cost/time are simulated.
 - Research: `docs/research/HG08-EVIDENCE-REGISTER.md`, `docs/research/HG08-TROOP-UNLOCK-MATRIX.md`, `docs/RESEARCH-HEROES-OF-GAIA-2009.md`.
 - New HG-09 calibration: the community-reported 500-Priest NPC example computes to 47,897.94 and reports 47,897 in-game. Stack damage now truncates for that observed NPC result; this is one C-confidence sample, not proof of general or PvP parity. Evidence and exact regression: `docs/research/HG09-COMBAT-EVIDENCE.md`, `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`.
 
@@ -37,16 +38,16 @@ Date: 2026-11-02 (Windows local execution)
 
 - Source-backed equal-speed initiative: speed descending, then battlefield position left-to-right/top-to-bottom following a 2009 Chinese player guide. Executed order is stored and visible.
 - Deterministic target tie-breaking, documented board-wide ranged-reach approximation (numeric range absent from sources), melee movement, attack/defend/focus/retreat, combat spells, equipment, casualty/Arena ledger, and save-mid-battle are live.
-- Arena recovery uses the dated SRC29 cost and rate in a persistent, timed queue. The existing 75% wound share is the disclosed midpoint of the source's 60–80% range; distribution and Arena queue concurrency remain modeled.
+- Arena recovery uses the dated SRC29 cost and rate in a persistent, timed queue. The existing 75% wound share is the disclosed midpoint of the source's 60–80% range; distribution and Arena queue concurrency remain modeled. Undead Castellan Reincarnation reduces a new queue by 1% per skill level according to pre-Babel SRC30 (C); this is regression-tested behavior, not original-client-confirmed parity.
 - Normal battle flow prevents duplicate settlement and reward.
 - Damage formula, exact range, NPC composition/scaling, Stand By/Focus multipliers, morale, encounter timer and rewards remain partial or simulated.
 
-## Current verification on functional SHA `0e3948074845cf2257785b2169ba6a4ab210d47f`
+## Current verification on functional SHA `1b3ddb971f20db0bba95afc792c99af3bca45d11`
 
-- `node qa-engine.cjs`: **73/73 PASS**, including Arena price/time/save/resume and insufficient-funds checks, the published NPC damage integer-boundary fixture, exhaustive positive/negative tests for every currently enforced unit gate, and 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
+- `node qa-engine.cjs`: **74/74 PASS**, including Arena price/time/save/resume and insufficient-funds checks, the published NPC damage integer-boundary fixture, exhaustive positive/negative tests for every currently enforced unit gate, and 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
 - `node --check` on all 9 source JavaScript files: **PASS**.
-- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (149,422 characters).
-- `.venv\Scripts\python.exe qa-browser.py`: **60/60 PASS**, zero page errors, installed Google Chrome. Includes actual Arena treatment, gold deduction, save/reload and timed troop return, in addition to Graveyard, Human Scout, Centaur, Thunderbird, combat and mobile checks. Screenshots were refreshed from this actual Chrome run.
+- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (151,101 characters).
+- `.venv\Scripts\python.exe qa-browser.py`: **63/63 PASS**, zero page errors, installed Google Chrome; 12 checks cover HG-09. Includes actual Arena treatment, gold deduction, save/reload, timed troop return, and Undead Reincarnation research/equip/timer effect, in addition to Graveyard, Human Scout, Centaur, Thunderbird, combat and mobile checks. Screenshots were refreshed from this actual Chrome run.
 - `.venv\Scripts\python.exe qa-file-browser.py`: **12/12 PASS**, actual `file://` launch, v07 save/reload, Arena recovery persistence and a separate Chrome process restart.
 - `git diff --check`: **PASS** before commits; only Git line-ending normalization warnings.
 - Receipts: `docs/evidence/hg08/QA-RC1-RESULTS.json`, `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`, `docs/evidence/hg09/QA-HG09-BROWSER-RESULTS.json`.
@@ -56,6 +57,7 @@ Date: 2026-11-02 (Windows local execution)
 - `docs/evidence/hg08/screenshot-undead-graveyard-desktop.png` and `screenshot-undead-recruitment-queue-desktop.png`: actual 1440×900 Chrome rendering before/after enqueueing three Skeleton Warriors; queue state is also shown in the live sidebar. `docs/evidence/hg08/screenshot-orc-thunderbird-gate-desktop.png` captures the actual Orc recruitment panel, source-confidence badge, all four C-confidence gates and disabled recruit button before the gates are met. `docs/evidence/hg08/screenshot-troop-unlocks-desktop.png` shows the real Elf Centaur C badge and source note beside the locked tier-2 Scout. `docs/evidence/hg08/screenshot-human-scout-gate-desktop.png` shows the Human Scout card with SRC27 Barracks 2 + Scouting 1 and the unresolved Town Hall note.
 - `docs/evidence/hg09/screenshot-combat-desktop.png` and `screenshot-combat-after-turn-desktop.png`: actual Chrome battle before/after an Attack action; enemy HP and the turn order change in the running game.
 - `docs/evidence/hg09/screenshot-arena-treatment-queue-desktop.png`: actual Chrome Arena screen after paying the source-derived fee and queuing two wounded Spear Militia for timed recovery.
+- `docs/evidence/hg09/screenshot-undead-reincarnation-arena-desktop.png`: actual Chrome screen with an active two-Skeleton Warrior queue and the defending Undead Castellan’s Reincarnation 1% timer reduction.
 - `docs/evidence/hg08/screenshot-file-arena-queue-1280x720.png`: actual `file://` Chrome screenshot with an active Centaur treatment queue; the offline test reloads it in a second browser process.
 - Original client/runtime was not available for pixel-level side-by-side comparison. Visual resemblance and gameplay parity with the original remain **NOT TESTED/BLOCKED**; no 1:1 claim is made. Physical Android/Windows-device acceptance: NOT TESTED.
 
