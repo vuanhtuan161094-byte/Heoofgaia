@@ -1,5 +1,16 @@
 # CURRENT HG CHECKPOINT
 
+## Latest verified slice — exact product title “Anh Hùng Thời Loạn” — 2026-11-03
+
+- Project directory: `E:\Heoofgaia`; branch: `feature/hog1-research-to-playable-20261102`; displayed game name: **Anh Hùng Thời Loạn**. Tested source, standalone HTML, QA and Chrome capture commit: **`252080d6a7aa11a7af981639ab00aa3a8296a4df`**. This is a small product-title clarification slice; it does not mark the broader game reconstruction complete.
+- **Change:** browser tab and offline HTML `<title>` now equal exactly `Anh Hùng Thời Loạn`. The visible in-game masthead remains `ANH HÙNG THỜI LOẠN`. Historical reference to Heroes of Gaia remains in the game’s research/context text.
+- **Verification:** dedicated installed Chrome against the real offline `file://` artifact **9/9 PASS**, zero JavaScript exceptions. Checks include exact tab title, exact masthead, Tavern candidate generation, real hire action, one-hour game tick, and v07 Save/Reload. Python QA compile, JavaScript syntax checks and `git diff --check`: **PASS**. Receipt `docs/qa/hg08/tavern-level-six-blue-chrome.json` SHA-256 `9B7F445D85B458330FC847B536FF3E2FCD7A11421D9D8653A3C02A07781A471F`.
+- **Offline artifact:** `Play-Heoofgaia-HG11.html`, 9,939,027 bytes, SHA-256 `DAFE8DF9987B61536948027A4B1C3D76C642B552C80C00066D7EC625E36B25E1`; Chrome title is exactly **Anh Hùng Thời Loạn**.
+- **Real Chrome capture:** Tavern/game screen `docs/evidence/hg08/tavern-level-six-blue-chrome.png`, SHA-256 `C6117EDB4920A383246590176F613A25F5207AA45B727174718657B764190852`; after the actual hourly refresh `tavern-level-six-hourly-blue-chrome.png`, SHA-256 `9B9B4AED7DB638EF5E5A413BD23A44D3D8066FDC33C52DB678ECA56B3BCFD99C`. These show the reconstruction, not original-client parity.
+- **PASS / FAIL / BLOCKED:** exact title slice **PASS**. HG-08 remains **IN PROGRESS / PARTIAL** (28 non-Human unit prerequisite rows and original Tavern probabilities/stat tails unresolved); HG-09 and HG-10 remain partial; HG-11 remains partial with major visual/parity gaps; HG-12 remains in progress; HG-13 not started. Original HOG1 SWF/client/server/database and redistributable original art remain **NOT RECOVERED / NOT VERIFIED**. No 1:1 claim.
+- Branch confirmed as `feature/hog1-research-to-playable-20261102`. `git remote -v` is empty, so private GitHub push remains **BLOCKED** and nothing was uploaded. Tu Tiên Nhàn Rỗi and `main` were not changed.
+- **Next:** continue HG-08 evidence and gameplay work on unresolved Elf/Orc/Undead recruitment rules and Tavern distributions; do not invent missing historic values. Then continue the Master Contract’s remaining HG-09–HG-13 acceptance gates and maintain v07/browser regression.
+
 ## Latest tested slice — HG-08 source-aligned Tavern quality behavior — 2026-11-03
 
 - Project: `E:\Heoofgaia`; branch: `feature/hog1-research-to-playable-20261102`; displayed game name: **Anh Hùng Thời Loạn**. Hẻoofgaia remains the project/repository name. Tested implementation, source notes, offline artifact and Chrome evidence commit: **`3266ebe136e666acc51d8ea0530089414ba9dea2`**. Checkout was clean after that commit; this checkpoint is a documentation-only follow-up.
