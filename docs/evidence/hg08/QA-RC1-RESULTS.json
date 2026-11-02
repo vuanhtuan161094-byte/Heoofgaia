@@ -1,6 +1,6 @@
 {
-  "total": 44,
-  "passed": 44,
+  "total": 49,
+  "passed": 49,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -142,6 +142,26 @@
     },
     {
       "name": "Browser import restores Tavern roster",
+      "passed": true
+    },
+    {
+      "name": "Real march opens a tactical encounter",
+      "passed": true
+    },
+    {
+      "name": "Battle presents actual allied and enemy stacks",
+      "passed": true
+    },
+    {
+      "name": "Attack command advances a real combat turn",
+      "passed": true
+    },
+    {
+      "name": "Ranged attack changes enemy HP from deployment",
+      "passed": true
+    },
+    {
+      "name": "Combat turn records deterministic initiative order",
       "passed": true
     },
     {

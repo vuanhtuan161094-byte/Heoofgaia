@@ -34,6 +34,8 @@
 | SRC19 | 2010-11, publisher-hosted guide | Chinese / Lequ Heroes of Gaia official site | Human troop production gates for T1 and T3–T10; city and research terminology; includes later-version strategy context | https://www.lequ.com/yxzc/201011/8592.html |
 | SRC20 | 2009-12-27, player-submitted guide | Chinese / 17173 | Independent contemporary copy of the Human troop gates; date and page explicitly identify the 2009 article | https://web.17173.com/content/2009-12-27/1261927948.shtml |
 | SRC22 | 2010-10, publisher-hosted race guide | Chinese / Lequ-SNSFun | Names Elf Scout, Orc Wolf Rider and low-tier Undead Ghost as scouting units; no per-unit building/research gate table | https://www.snsfun.com/yxzc/201010/7753.html |
+| SRC23 | 2009-10-25, player guide | Chinese / 17173 | Automatic battle order is speed descending, then left formation column top-to-bottom followed by the next column; discusses NPC priority targeting, manual focus on ranged groups, and seven-group tactics | https://web.17173.com/content/2009-10-25/1256486243.shtml |
+| SRC24 | Living page, publication/build date unknown | English community wiki / Fandom | Describes speed-based automated turns, melee advance toward a threatening stack, and ranged units firing at the strongest enemy; no numeric range is given | https://heroesofgaia.fandom.com/wiki/Newbie_Guide |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -62,7 +64,7 @@
 | F21 | Mine attack uses 6 AP; Happy Hour 3 AP | SRC05 | A | **PARTIAL:** normal AP cost implemented; Happy Hour absent |
 | F22 | Real persistent world, scouting, roaming heroes, portals, resource control | SRC05, SRC14, SRC15 | B | **MISSING/PARTIAL:** 28×18 local map and pathfinding, portals absent |
 | F23 | 7 tactical army stacks 4 rear + 3 front | SRC09 | A for Chinese Sep 2009 | **ALIGNED LAYOUT:** 7 positions, but tactical AI remains a simulation |
-| F24 | Manual Attack, Stand By, Retreat, Focus alongside automatic turns | SRC12, SRC16 | B | **PARTIAL:** controls work; speed/timing/target priorities incomplete |
+| F24 | Manual Attack, Stand By, Retreat, Focus alongside automatic turns | SRC12, SRC16, SRC23 | B | **PARTIAL:** controls work; HG-09 ties speed by battlefield position as described in SRC23. Battle formula, full timing and some targeting priorities remain incomplete |
 | F25 | Historical battle encounter timer/entry delay | SRC12, later English summaries | C / version-conflict | **MISSING:** 10-second closed-beta vs later 20-second or different durations; do not hard-code yet |
 | F26 | Four race-specific city backgrounds, alternate architecture | SRC11, SRC14, SRC15 | A | **MISSING:** procedural renderer only; no properly sourced original artwork |
 | F27 | Multiple cities, castles, hero/guild/rank limitations | SRC01, SRC17 | B | **MISSING:** currently single-player offline |
@@ -108,3 +110,4 @@ The historical articles and wiki pages are **documentary research**. Node/Chromi
 - `SRC03` says Barracks levels unlock units but does not provide a full per-race prerequisite table. HG08 does not invent the Elf/Orc/Undead support-building tier for each unit. The client enforces Barracks tier as a partial base gate and displays the missing faction-specific gate status.
 - For Human Scout, `SRC04` supports the Scouting-1 gate and `SRC03` supports a Barracks-level unlock model. Because the cited Human table omits Scout, the exact Town Hall requirement is not enforced or claimed as observed; its status is partial.
 - Current contemporary sources and the older English wiki are a mixed 2009–2010 snapshot. Exact patch parity and international localization equivalence remain unverified. See `docs/research/HG08-EVIDENCE-REGISTER.md` and `docs/research/HG08-TROOP-UNLOCK-MATRIX.md` for row-level coverage.
+- HG-09 uses SRC23's dated equal-speed position order: actors are first sorted by speed descending, then by battlefield x/y (left-to-right, top-to-bottom). SRC24 describes ranged stacks firing at the strongest enemy but supplies no numeric reach; HG-09's board-wide reach is a local playable approximation. The exact unit damage formula, AI in all contexts, Stand By modifier, focus multiplier, NPC stats and encounter timer remain provisional unless a source row explicitly says otherwise. The live browser capture is in `docs/evidence/hg09/`.

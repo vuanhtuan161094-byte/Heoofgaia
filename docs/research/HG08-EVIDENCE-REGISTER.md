@@ -16,6 +16,8 @@
 | SRC20 | Chinese player-submitted 17173 guide, dated 2009-12-27 | Independently corroborates the same Human T1 and T3–T10 gate table. | B/A for its dated table; author is a player, not the server-data source. |
 | SRC21 | English community Fandom “Hero quality” page, living page with later expansion material | Hero name color formula and individual-stat color bands; level-10 Tavern’s eight low-quality candidates/hour and common stat ranges. | C/B: derived from community wiki; rare-stat probability remains a stated hypothesis and is not implemented. |
 | SRC22 | Chinese publisher-hosted SNSFun/Lequ four-race guide, `/yxzc/201010/7753.html` (2010-10) | Identifies Elf Scout, the Orc Wolf Rider, and low-tier Undead Ghost as scouting units. | B for unit role in that Chinese edition; does not give the Scouting technology level or full unit prerequisites. |
+| SRC23 | Chinese player guide, 17173, 2009-10-25 (accessed 2026-11-02) | Automatic combat order: speed descending; ties follow the left formation column top-to-bottom, then the next column. Also describes enemy automatic targeting of the group judged to have the highest military power, manual focus on ranged enemies, and seven-stack formation tactics. | B for the 2009 Chinese edition; player-authored strategy, not server code. It does not establish formula parity for the English client. |
+| SRC24 | English community Fandom Newbie Guide, living page with no reliable publication/build date (accessed 2026-11-02) | Describes battle as automated turns by speed; melee advances toward a threatening stack; ranged units fire at the strongest enemy at turn start. | C/B for these broad combat roles; date/build unknown and numeric range is not stated. |
 
 ## Evidence-to-rule ledger
 

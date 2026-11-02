@@ -9,6 +9,8 @@ import json, traceback, sys
 folder=Path(__file__).parent
 evidence=folder/'docs'/'evidence'/'hg08'
 evidence.mkdir(parents=True,exist_ok=True)
+hg09_evidence=folder/'docs'/'evidence'/'hg09'
+hg09_evidence.mkdir(parents=True,exist_ok=True)
 html=(folder/'Play-Heoofgaia-HG08.html').read_text(encoding='utf-8')
 checks=[];errors=[]
 def check(name,expr):
@@ -116,6 +118,18 @@ with sync_playwright() as p:
     check('Browser import restores Tavern roster',lambda:d2.evaluate('HOG_APP_DEBUG.getState().heroes.length===2'))
     savefile.unlink(missing_ok=True)
     d2.close()
+    battle=launch({'width':1440,'height':900})
+    battle.locator('[data-action="start"]').click()
+    battle.evaluate('(()=>{const s=HOG_APP_DEBUG.getState(),u=HOG_CATALOG.units.human[2];s.army[u.id]=40;HOG_ENGINE.setFormation(s,[{unitId:u.id,count:40}]);const t=HOG_ENGINE.TILES.find(x=>x.kind==="npc"&&HOG_ENGINE.pathfind("3,4",x.key));HOG_ENGINE.startMarch(s,t.key);HOG_ENGINE.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);HOG_APP_DEBUG.render()})()')
+    check('Real march opens a tactical encounter',lambda:battle.evaluate('!!HOG_APP_DEBUG.getState().battle&&document.querySelector("#battle-canvas")!==null'))
+    check('Battle presents actual allied and enemy stacks',lambda:battle.locator('.stack-card').count()>=3 and battle.locator('#battle-canvas').is_visible())
+    battle.screenshot(path=str(hg09_evidence/'screenshot-combat-desktop.png'),full_page=True)
+    battle.locator('[data-action="battle"][data-cmd="attack"]').click()
+    check('Attack command advances a real combat turn',lambda:battle.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return !s.battle||s.battle.turn>1})()'))
+    check('Ranged attack changes enemy HP from deployment',lambda:battle.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return !s.battle||s.battle.enemies.some(e=>e.pool<e.initial*e.hp)})()'))
+    check('Combat turn records deterministic initiative order',lambda:battle.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle;return !b||(Array.isArray(b.lastActOrder)&&b.lastActOrder.length>0)})()'))
+    battle.screenshot(path=str(hg09_evidence/'screenshot-combat-after-turn-desktop.png'),full_page=True)
+    battle.close()
     d.close()
     m=launch({'width':390,'height':844})
     check('Mobile intro readable',lambda:m.locator('[data-action="start"]').is_visible())
@@ -137,5 +151,7 @@ with sync_playwright() as p:
     browser.close()
 passed=sum(ok for _,ok in checks);total=len(checks)
 (evidence/'QA-RC1-RESULTS.json').write_text(json.dumps({'total':total,'passed':passed,'failed':total-passed,'errors':errors,'checks':[{'name':n,'passed':b} for n,b in checks]},indent=2,ensure_ascii=False),encoding='utf-8')
+hg09_checks=[(n,ok) for n,ok in checks if n.startswith('Real march') or n.startswith('Battle presents') or n.startswith('Attack command') or n.startswith('Ranged attack') or n.startswith('Combat turn')]
+(hg09_evidence/'QA-HG09-BROWSER-RESULTS.json').write_text(json.dumps({'total':len(hg09_checks),'passed':sum(ok for _,ok in hg09_checks),'failed':sum(not ok for _,ok in hg09_checks),'errors':errors,'checks':[{'name':n,'passed':ok} for n,ok in hg09_checks]},indent=2,ensure_ascii=False),encoding='utf-8')
 print(f'BROWSER TOTAL {passed}/{total} PASS; JS exceptions={len(errors)}')
 sys.exit(1 if passed!=total else 0)

@@ -126,11 +126,15 @@ function makeBattle(s,target,remainingRatio=1){
  const tile=getTile(target);assert(!!tile&&tile.kind!=='empty','Mục tiêu trận chiến không hợp lệ');
  const lv=tile.level||1;
  const selected=(s.formation?.length?s.formation:activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:s.army[u.id]})));
- const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,s.army[u.id]);return {id:`p${i}`,slot:s.formation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?5:1,
+ // Historical guides distinguish ranged attacks and recommend that fast
+ // ranged groups fire at enemy ranged groups, but the recovered 2009 catalog
+ // has no numeric range. The 20-cell reach covers this prototype's whole grid;
+ // this is an explicit playable approximation, not recovered server data.
+ const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,s.army[u.id]);return {id:`p${i}`,slot:s.formation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
    count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+(((root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10)-10)*.02),
    pool:count*u.hp,x:i<4?1:3,y:i<4?[0,2,5,8][i]:[1,4,7][i-4]}});
  const archetypes=[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
-  {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:5},
+  {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:20},
   {name:'Vệ binh',hp:55,atk:20,def:15,spd:3.8,range:1}];
  const enemies=archetypes.slice(0,lv>=2?3:2).map((e,i)=>{
   const c=Math.max(2,Math.ceil((lv*.8+1.7)*(i===0?2:1)));
@@ -199,27 +203,31 @@ function battleAct(s,action){
  const b=s.battle;
  if(action==='retreat'){note(s,'Quân đội đã rút lui; thiệt hại trước đó không hoàn lại.');s.battle=null;s.battleAuto=false;return {type:'retreat'}}
  b.order=action;b.orders=b.orders||{};if(b.selected)b.orders[b.selected]=action;s.battleOrder=action;
- const participants=[...alive(b.allies),...alive(b.enemies)].sort((x,y)=>y.spd-x.spd||x.id.localeCompare(y.id));
- let dealt=0,lost=0;
+ // 2009 Chinese player guidance describes speed-descending turns, then the
+ // left formation column top-to-bottom followed by the next column. Keep the
+ // equal-speed tie-break tied to the actual battlefield positions.
+ const participants=[...alive(b.allies),...alive(b.enemies)].sort((x,y)=>y.spd-x.spd||x.x-y.x||x.y-y.y||x.id.localeCompare(y.id));
+ let dealt=0,lost=0;const acted=[];
  for(const actor of participants){
   if(actor.pool<=0)continue;
   const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
   const stance=actor.side==='player'?(b.orders[actor.id]||'attack'):'attack';
   const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
-  const target=pref||enemy.sort((x,y)=>(actor.range>1?y.atk*y.count-x.atk*x.count:dist(actor,x)-dist(actor,y)))[0];
+  const target=pref||[...enemy].sort((x,y)=>(actor.range>1?y.atk*y.count-x.atk*x.count:dist(actor,x)-dist(actor,y))||x.id.localeCompare(y.id))[0];
+  acted.push(actor.id);
   const amount=strike(s,b,actor,target,stance);
   if(actor.side==='player')dealt+=amount;else lost+=amount;
  }
- const turn=b.turn++;b.history.unshift(`Lượt ${turn}: quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
+ const turn=b.turn++;b.lastActOrder=acted.slice();b.history.unshift(`Lượt ${turn}: quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
  if(!alive(b.enemies).length){const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
   if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
   else{add(s,{gold:75*tile.level,wood:8*tile.level,ore:8*tile.level,sulfur:5*tile.level,crystal:5*tile.level});s.cleared.push(tile.key);note(s,`Đánh bại ${tile.value}.`)}
   if(hero){hero.xp+=30*b.level;while(hero.xp>=hero.level*80){hero.xp-=hero.level*80;hero.level++;hero.atk+=2;hero.def+=1;}}
-  s.fame+=10*b.level;s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost};
+  s.fame+=10*b.level;s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost,order:acted.slice()};
  }
- if(b.turn>70){note(s,'Trận đánh hết 70 lượt mô phỏng; tướng rút khỏi giao tranh.');s.battle=null;s.battleAuto=false;return {type:'timeout',dealt,lost};}
- if(!alive(b.allies).length){note(s,'Thua trận, thương binh đưa về Arena.');s.battle=null;s.battleAuto=false;return {type:'lose',dealt,lost};}
- return {type:'continue',dealt,lost};
+ if(b.turn>70){note(s,'Trận đánh hết 70 lượt mô phỏng; tướng rút khỏi giao tranh.');s.battle=null;s.battleAuto=false;return {type:'timeout',dealt,lost,order:acted.slice()};}
+ if(!alive(b.allies).length){note(s,'Thua trận, thương binh đưa về Arena.');s.battle=null;s.battleAuto=false;return {type:'lose',dealt,lost,order:acted.slice()};}
+ return {type:'continue',dealt,lost,order:acted.slice()};
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}

@@ -1,0 +1,36 @@
+{
+  "command": "node qa-engine.cjs",
+  "suiteTotal": 62,
+  "suitePassed": 62,
+  "suiteFailed": 0,
+  "hg09Total": 6,
+  "hg09Passed": 6,
+  "hg09Failed": 0,
+  "seededEncounters": 1000,
+  "checks": [
+    {
+      "name": "Equal-speed combat initiative follows left-to-right battlefield position",
+      "passed": true
+    },
+    {
+      "name": "Ranged stacks fire across deployment distance without invented movement turns",
+      "passed": true
+    },
+    {
+      "name": "Casualty and Arena wound ledger are exact and never negative",
+      "passed": true
+    },
+    {
+      "name": "A completed NPC target cannot be settled or rewarded twice",
+      "passed": true
+    },
+    {
+      "name": "Mid-battle HG08 save resumes with the same positions, initiative and outcome",
+      "passed": true
+    },
+    {
+      "name": "1000 seeded tactical encounters replay identically with valid ledgers",
+      "passed": true
+    }
+  ]
+}
