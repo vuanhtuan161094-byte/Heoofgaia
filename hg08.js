@@ -36,6 +36,7 @@ function ensure(s){
  if(!obj(s.spells))s.spells={};
  if(!Object.prototype.hasOwnProperty.call(s,'researchQueue'))s.researchQueue=null;
  if(!Object.prototype.hasOwnProperty.call(s,'arenaQueue'))s.arenaQueue=null;
+ if(obj(s.arenaQueue)&&!Number.isSafeInteger(s.arenaQueue.reincarnationLevel))s.arenaQueue.reincarnationLevel=0;
  tavernOffers(s);
  for(const h of s.heroes){
   if(!Number.isSafeInteger(h.statPoints)||h.statPoints<0)h.statPoints=0;
@@ -157,10 +158,11 @@ function heal(s){
  if(!entry)throw Error('Không có quân thương');
  const gold=arenaHealCost(s,entry.u.id,entry.count);
  E.spend(s,{gold});
- const seconds=Math.ceil(entry.u.timeSec*entry.count/.6);
- const q={id:s.serial++,unitId:entry.u.id,count:entry.count,total:seconds,remaining:seconds,paidGold:gold};
+ const defendingHero=s.heroes.find(h=>h.id===s.castellan),reincarnationLevel=s.race==='undead'&&defendingHero?.equippedSpells?.includes('reincarnation')?(s.heroMagic.reincarnation||0):0;
+ const seconds=Math.max(1,Math.ceil(entry.u.timeSec*entry.count/.6*(1-reincarnationLevel*.01)));
+ const q={id:s.serial++,unitId:entry.u.id,count:entry.count,total:seconds,remaining:seconds,paidGold:gold,reincarnationLevel};
  s.wounded[entry.u.id]=0;s.arenaQueue=q;
- E.note(s,`Arena bắt đầu hồi phục ${entry.count} ${entry.u.name}: ${gold} vàng; tốc độ mô hình 3/5 tốc độ tuyển quân.`);
+ E.note(s,`Arena bắt đầu hồi phục ${entry.count} ${entry.u.name}: ${gold} vàng; tốc độ 3/5${reincarnationLevel?`, Reincarnation Castellan -${reincarnationLevel}% thời gian`:''}.`);
  return {...q};
 }
 function progressArena(s,gameSeconds){
@@ -207,7 +209,7 @@ function valid(s){
  }
  if(s.arenaQueue===null)return true;
  const a=s.arenaQueue;
- return !!(obj(a)&&E.getUnit(s,a.unitId)&&Number.isSafeInteger(a.id)&&a.id>0&&Number.isSafeInteger(a.count)&&a.count>0&&Number.isSafeInteger(a.paidGold)&&a.paidGold>=0&&Number.isFinite(a.total)&&a.total>0&&Number.isFinite(a.remaining)&&a.remaining>=0&&a.remaining<=a.total);
+ return !!(obj(a)&&E.getUnit(s,a.unitId)&&Number.isSafeInteger(a.id)&&a.id>0&&Number.isSafeInteger(a.count)&&a.count>0&&Number.isSafeInteger(a.paidGold)&&a.paidGold>=0&&Number.isSafeInteger(a.reincarnationLevel)&&a.reincarnationLevel>=0&&a.reincarnationLevel<=10&&Number.isFinite(a.total)&&a.total>0&&Number.isFinite(a.remaining)&&a.remaining>=0&&a.remaining<=a.total);
 }
 function strict(s){return valid(s)&&prior.strict({...s,version:6})}
 function parse(text){

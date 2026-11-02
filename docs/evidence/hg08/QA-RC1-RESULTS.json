@@ -1,6 +1,6 @@
 {
-  "total": 60,
-  "passed": 60,
+  "total": 63,
+  "passed": 63,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -182,6 +182,18 @@
     },
     {
       "name": "Arena queue returns treated troops when its 3/5 speed timer completes",
+      "passed": true
+    },
+    {
+      "name": "Undead Reincarnation is a pre-Babel Castellan skill",
+      "passed": true
+    },
+    {
+      "name": "Reincarnation is researched and equipped on the appointed Castellan",
+      "passed": true
+    },
+    {
+      "name": "Castellan Reincarnation reduces the actual Arena treatment timer",
       "passed": true
     },
     {

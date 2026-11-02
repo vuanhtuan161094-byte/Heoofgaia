@@ -185,6 +185,16 @@ test('Arena rehabilitation charges one-seventh unit value and runs at three-fift
  E.tick(saved,saved.lastTick+399*1000);assert.equal(saved.army.human_1,original);assert.equal(saved.arenaQueue.remaining,1);
  const restored=E.parseSave(E.serializeSave(saved));E.tick(restored,restored.lastTick+1000);
  assert.equal(restored.army.human_1,original+2);assert.equal(restored.arenaQueue,null);assert.equal(E.strictSave(restored),true);
+ const oldQueue=E.clone(restored);oldQueue.arenaQueue={id:oldQueue.serial++,unitId:'human_1',count:1,total:200,remaining:120,paidGold:18};
+ assert.equal(E.parseSave(JSON.stringify(oldQueue)).arenaQueue.reincarnationLevel,0);
+});
+test('Undead Reincarnation shortens Arena treatment only when equipped to the defending Castellan',()=>{
+ assert.equal(E.spells(state('human')).some(x=>x.id==='reincarnation'),false);
+ const activeOnly=state('undead');activeOnly.speed=1;E.researchHeroSpell(activeOnly,'reincarnation');E.equipSpell(activeOnly,'reincarnation',1);activeOnly.wounded.undead_1=2;
+ const uncastled=E.heal(activeOnly);assert.equal(uncastled.reincarnationLevel,0);assert.equal(uncastled.total,344);
+ const defended=state('undead');defended.speed=1;E.researchHeroSpell(defended,'reincarnation');E.appoint(defended,1);E.equipSpell(defended,'reincarnation',1);defended.wounded.undead_1=2;
+ const q=E.heal(defended);assert.equal(q.reincarnationLevel,1);assert.equal(q.total,340);assert(q.total<uncastled.total);
+ defended.battle=E.makeBattle(defended,E.TILES.find(t=>t.kind==='npc').key);throws(()=>E.cast(defended,'reincarnation'),/thụ động/);
 });
 test('Arena healing rejects insufficient funds without consuming wounded or queueing work',()=>{
  const s=state();s.wounded.human_1=2;s.res.gold=0;const before=JSON.stringify({army:s.army,wounded:s.wounded,res:s.res,queue:s.arenaQueue});
@@ -253,7 +263,7 @@ test('1000 seeded tactical encounters replay identically with valid ledgers',()=
  }
 });
 
-const hg09=results.filter(x=>/^(Arena rehabilitation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
+const hg09=results.filter(x=>/^(Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});
 fs.writeFileSync(path.join(evidence,'QA-HG09-NODE-RESULTS.json'),JSON.stringify({command:'node qa-engine.cjs',suiteTotal:pass+failed,suitePassed:pass,suiteFailed:failed,hg09Total:hg09.length,hg09Passed:hg09.filter(x=>x.passed).length,hg09Failed:hg09.filter(x=>!x.passed).length,seededEncounters:1000,checks:hg09},null,2),'utf8');
 console.log(`TOTAL ${pass}/${pass+failed} PASS`);process.exitCode=failed?1:0;

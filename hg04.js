@@ -15,7 +15,8 @@ const HERO_SPELLS={
       {id:'berserk',name:'Berserk',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015}],
  undead:[{id:'curse',name:'Curse',desc:'Giảm ATK quân địch -1%/cấp',affects:'enemy',stat:'atk',kind:'all',delta:-.01},
          {id:'necromancy',name:'Necromancy',desc:'Giảm DEF quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02},
-         {id:'soul_boost',name:'Soul Boost',desc:'Tăng HP toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01}]
+         {id:'soul_boost',name:'Soul Boost',desc:'Tăng HP toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
+         {id:'reincarnation',name:'Reincarnation',desc:'Kỹ năng Castellan pre-Babel: giảm thời gian hồi phục thương binh 1% mỗi cấp khi tướng được bổ nhiệm thủ thành. Bằng chứng cộng đồng C.',kind:'castellan'}]
 };
 const ITEMS={
  copper_blade:{id:'copper_blade',name:'Kiếm đồng hành trình',slot:'weapon',icon:'⚔',atk:3,def:0,spd:0,cost:450,level:1},
@@ -86,6 +87,7 @@ function resetEffects(b){if(!b)return;for(const u of [...b.allies,...b.enemies])
  if(u._spellHp!==undefined){const adjustedPool=u.hp?Math.round(u.pool*u._spellHp/u.hp):0;u.hp=u._spellHp;u.pool=Math.min(adjustedPool,Math.ceil(u.initial*u.hp));if(u.pool<0)u.pool=0;u.count=Math.min(u.count,Math.ceil(u.pool/u.hp));delete u._spellHp}}b.activeSpell=null;}
 function cast(s,id){ensure(s);const b=s.battle;if(!b)throw Error('Không có trận chiến');const spec=spell(s,id),hero=s.heroes.find(h=>h.id===s.activeHero);
  if(!spec||!hero?.equippedSpells.includes(id)||!(s.heroMagic[id]>0))throw Error('Chưa nghiên cứu hoặc trang bị phép');
+ if(spec.kind==='castellan')throw Error('Đây là kỹ năng Castellan thụ động, không dùng như phép chiến đấu');
  if(b.castTurn===b.turn)throw Error('Mỗi lượt chỉ sử dụng một phép');if((b.spellCooldown?.[id]||0)>b.turn)throw Error('Phép đang hồi');
  resetEffects(b);const group=spec.affects==='ally'?b.allies:b.enemies;
  const lv=s.heroMagic[id];for(const u of group){if(!u.pool)continue;if(spec.kind==='melee'&&u.range>1)continue;if(spec.kind==='ranged'&&u.range<=1)continue;

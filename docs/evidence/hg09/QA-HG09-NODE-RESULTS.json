@@ -1,15 +1,19 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 73,
-  "suitePassed": 73,
+  "suiteTotal": 74,
+  "suitePassed": 74,
   "suiteFailed": 0,
-  "hg09Total": 10,
-  "hg09Passed": 10,
+  "hg09Total": 11,
+  "hg09Passed": 11,
   "hg09Failed": 0,
   "seededEncounters": 1000,
   "checks": [
     {
       "name": "Arena rehabilitation charges one-seventh unit value and runs at three-fifths training speed",
+      "passed": true
+    },
+    {
+      "name": "Undead Reincarnation shortens Arena treatment only when equipped to the defending Castellan",
       "passed": true
     },
     {
