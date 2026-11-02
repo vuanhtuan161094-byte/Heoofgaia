@@ -1,6 +1,6 @@
 {
-  "total": 49,
-  "passed": 49,
+  "total": 52,
+  "passed": 52,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -162,6 +162,18 @@
     },
     {
       "name": "Combat turn records deterministic initiative order",
+      "passed": true
+    },
+    {
+      "name": "Undead castle exposes Graveyard and faction-specific support structures",
+      "passed": true
+    },
+    {
+      "name": "Undead recruitment UI names Graveyard and its level gate",
+      "passed": true
+    },
+    {
+      "name": "Undead Graveyard starts real Skeleton recruitment queue",
       "passed": true
     },
     {

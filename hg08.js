@@ -31,7 +31,7 @@ const attrKeys=['atk','def','spd','int'];
 function obj(v){return !!v&&typeof v==='object'&&!Array.isArray(v)}
 function ensure(s){
  E.ensure06(s);
- for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower'])if(!Number.isSafeInteger(s.buildings[key]))s.buildings[key]=0;
+ for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!Number.isSafeInteger(s.buildings[key]))s.buildings[key]=key==='graveyard'&&s.race==='undead'?(s.buildings.barracks||0):0;
  if(!obj(s.spells))s.spells={};
  if(!Object.prototype.hasOwnProperty.call(s,'researchQueue'))s.researchQueue=null;
  tavernOffers(s);
@@ -63,10 +63,11 @@ function highTavernCommonStats(s){
 }
 function refreshTavern(s){prior.refreshTavern(s);highTavernCommonStats(s);tavernOffers(s);return s.tavern.offers}
 function cityBuildOrder(s){
- const unique=['magicPool','natureTower','beastPen','darkHall','soulTower'];
- const map={human:['stables','blacksmith'],elf:['magicPool','natureTower'],orc:['beastPen','blacksmith'],undead:['darkHall','soulTower']};
- return E.buildOrder.filter(key=>!unique.includes(key)&&key!=='blacksmith'&&key!=='stables').concat(map[s.race]||[]);
+ const unique=['magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'];
+ const map={human:['stables','blacksmith'],elf:['magicPool','natureTower'],orc:['beastPen','blacksmith'],undead:['graveyard','darkHall','soulTower']};
+ return E.buildOrder.filter(key=>!unique.includes(key)&&key!=='blacksmith'&&key!=='stables'&&!(s.race==='undead'&&key==='barracks')).concat(map[s.race]||[]);
 }
+function troopBuildingKey(raceOrState){const race=typeof raceOrState==='string'?raceOrState:raceOrState?.race;return race==='undead'?'graveyard':'barracks'}
 function expToNext(level){
  if(!Number.isSafeInteger(level)||level<1||level>=100)return null;
  if(level<=19)return XP_TO_NEXT[level-1];
@@ -113,13 +114,14 @@ function finishResearch(s){
  s.spells[q.key]=q.level;s.researchQueue=null;E.note(s,`Hoàn thành ${E.C.spells[q.key].vi||E.C.spells[q.key].name} cấp ${q.level}.`);
 }
 function unitPrerequisites(s,u){
- const base={buildings:{barracks:u.tier},spells:u.tier===2?{scouting:1}:{},sourceStatus:u.tier===2?'DERIVED_SCOUT_GATE':'PARTIAL',source:u.tier===2?'SRC02; SRC03; SRC04':'SRC02; SRC03'};
+ const trainingBuilding=troopBuildingKey(s);
+ const base={buildings:{[trainingBuilding]:u.tier},spells:u.tier===2?{scouting:1}:{},sourceStatus:u.race==='human'?'DERIVED_SCOUT_GATE':u.tier===2?'MODELED_SCOUT_PROXY':'MODELED_TIER_PROXY',source:u.race==='undead'?'SRC11; SRC02; SRC04':'SRC02; SRC03; SRC04'};
  const r=u.race==='human'?(HUMAN[u.tier]||base):base;
  const checks=[];
  for(const [key,level] of Object.entries(r.buildings||{}))checks.push({kind:'building',key,level,actual:s.buildings[key]||0});
  for(const [key,level] of Object.entries(r.spells||{}))checks.push({kind:'spell',key,level,actual:s.spells[key]||0});
  const unmet=checks.filter(x=>x.actual<x.level);
- const confidence=r.sourceStatus==='OBSERVED'?(r.spells?.bootcamp?'A*':'A'):'B';
+ const confidence=r.sourceStatus==='OBSERVED'?(r.spells?.bootcamp?'A*':'A'):r.sourceStatus.startsWith('MODELED_')?'P':'B';
  return {unitId:u.id,checks,unmet,available:unmet.length===0,confidence,status:r.sourceStatus,source:r.source};
 }
 function conditionName(c){
@@ -166,7 +168,7 @@ function valid(s){
  if(!s||s.version!==V||!prior.valid({...s,version:6}))return false;
  if(!obj(s.spells)||Object.keys(s.spells).some(k=>!E.C.spells[k]))return false;
  for(const [id,level] of Object.entries(s.spells))if(!Number.isSafeInteger(level)||level<0||level>10)return false;
- if(!Object.prototype.hasOwnProperty.call(s.buildings,'blacksmith'))return false;
+ if(!Object.prototype.hasOwnProperty.call(s.buildings,'blacksmith')||!Number.isSafeInteger(s.buildings.graveyard)||s.buildings.graveyard<0)return false;
  for(const h of s.heroes){
   if(!Number.isSafeInteger(h.statPoints)||h.statPoints<0||h.statPoints>1e8||!obj(h.spentAttributePoints))return false;
   if(attrKeys.some(k=>!Number.isSafeInteger(h.spentAttributePoints[k])||h.spentAttributePoints[k]<0||h.spentAttributePoints[k]>1e8))return false;
@@ -180,7 +182,7 @@ function parse(text){
  if(typeof text!=='string'||text.length>2_000_000)throw Error('Tệp sao lưu vượt giới hạn 2 MB');
  let raw;try{raw=JSON.parse(text)}catch{throw Error('Tệp không phải JSON hợp lệ')}
  const src=raw?.format==='heoofgaia-save-1'?raw.state:raw;let s;
- if(src?.version===V){s=E.clone(src);if(!strict(s))throw Error('Save HG08 không hợp lệ')}
+ if(src?.version===V){s=E.clone(src);ensure(s);if(!strict(s))throw Error('Save HG08 không hợp lệ')}
  else if(src&&Number.isInteger(src.version)&&src.version>=2&&src.version<=6){s=prior.parse(JSON.stringify(src));s.version=V;ensure(s);if(!strict(s))throw Error('Chuyển save HG02–HG07 thất bại')}
  else throw Error('Không hỗ trợ phiên bản save');
  return s;
@@ -188,11 +190,11 @@ function parse(text){
 function serialize(s){if(!strict(s))throw Error('Save HG08 không hợp lệ');return JSON.stringify({format:'heoofgaia-save-1',exportedAt:new Date().toISOString(),state:s},null,2)}
 function make(...args){const s=prior.make(...args);s.version=V;return ensure(s)}
 function hireCandidate(s,id){const result=prior.hire(s,id);ensure(s);return result}
-if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
+if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
 E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.battleAct=battleAct;E.learn=learn;E.valid=valid;
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,
  ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
- troopPrerequisites:unitPrerequisites,recruitCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
+ troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
 root.HOG_HG08={version:V,saveKey:KEY,status:'evidence-labelled-progression'};
 })(typeof globalThis!=='undefined'?globalThis:this);

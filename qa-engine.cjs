@@ -16,6 +16,7 @@ const v2=['gold','wood','ore','sulfur','crystal'];
 test('version and isolated key',()=>{assert.equal(E.V,7);assert.equal(E.SAVE_KEY,'heoofgaia_hg_only_v07')});
 test('4 races and 40 unique troops',()=>{assert.deepEqual(Object.keys(C.units).sort(),['elf','human','orc','undead']);assert.equal(Object.values(C.units).flat().length,40);assert.equal(new Set(Object.values(C.units).flat().map(x=>x.id)).size,40)});
 test('HG08 evidence matrix has one row for every catalog troop',()=>{const matrix=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').match(/^\| (?:Human|Elf|Orc|Undead) \| \d+ \|/gm)||[];assert.equal(matrix.length,40)});
+test('HG08 unlock matrix names match the canonical 40-unit catalog',()=>{const lines=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').split(/\r?\n/);const race={human:'Human',elf:'Elf',orc:'Orc',undead:'Undead'};for(const [key,units] of Object.entries(C.units))for(const u of units)assert(lines.some(line=>line.startsWith(`| ${race[key]} | ${u.tier} | ${u.name} |`)),`${key} T${u.tier} ${u.name}`)});
 test('5 original resources',()=>assert.deepEqual([...C.keys],v2));
 test('troop point formula',()=>{const u=C.units.human[0];assert.equal(E.unitValue(u),u.cost.gold+5*(u.cost.wood+u.cost.ore)+10*(u.cost.sulfur+u.cost.crystal))});
 test('new game all races valid',()=>{for(const race of Object.keys(C.races)){const s=state(race);assert.equal(s.version,7);assert.equal(s.race,race);assert.equal(E.strictSave(s),true)}});
@@ -58,11 +59,40 @@ test('HG08 gates every troop row and labels unresolved faction rows',()=>{
  const all=Object.values(C.units).flat();assert.equal(all.length,40);
  for(const race of Object.keys(C.races)){const s=state(race);for(const k of Object.keys(s.buildings))s.buildings[k]=10;s.spells.bootcamp=10;s.spells.manufacturing=10;s.spells.scouting=10;
   for(const u of C.units[race])assert.equal(E.troopPrerequisites(s,u).available,true,u.id);
-  const fresh=state(race);fresh.buildings.hall=1;fresh.buildings.barracks=1;
+  const fresh=state(race);fresh.buildings.hall=1;fresh.buildings[E.troopBuildingKey(fresh)]=1;
   for(const u of C.units[race].filter(u=>u.tier>1))assert.equal(E.troopPrerequisites(fresh,u).available,false,u.id);
  }
- assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).status,'PARTIAL');
+ assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).status,'MODELED_TIER_PROXY');assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).confidence,'P');
  assert.equal(E.troopPrerequisites(state('human'),C.units.human[9]).status,'OBSERVED');
+});
+test('HG08 all 40 rows accept their explicitly listed gates and start real queues',()=>{
+ for(const race of Object.keys(C.races))for(const u of C.units[race]){
+  const s=state(race),req=E.troopPrerequisites(s,u);
+  for(const c of req.checks){if(c.kind==='building')s.buildings[c.key]=c.level;else s.spells[c.key]=c.level}
+  for(const k of C.keys)s.res[k]=1e9;
+  const before=s.training.length;E.recruit(s,u.id,1);assert.equal(s.training.length,before+1,u.id);assert.equal(s.training.at(-1).unitId,u.id);
+ }
+});
+test('HG08 every listed gate blocks recruitment without spending or queue mutation',()=>{
+ for(const race of Object.keys(C.races))for(const u of C.units[race]){
+  const base=E.troopPrerequisites(state(race),u);
+  for(const missing of base.checks){
+   const s=state(race);
+   for(const c of base.checks){if(c.kind==='building')s.buildings[c.key]=c.level;else s.spells[c.key]=c.level}
+   if(missing.kind==='building')s.buildings[missing.key]=Math.max(0,missing.level-1);else s.spells[missing.key]=Math.max(0,missing.level-1);
+   for(const k of C.keys)s.res[k]=1e9;
+   const resources=JSON.stringify(s.res),training=JSON.stringify(s.training);
+   assert.equal(E.troopPrerequisites(s,u).available,false,`${u.id} missing ${missing.key}`);
+   throws(()=>E.recruit(s,u.id,1),/Chưa đủ điều kiện/);
+   assert.equal(JSON.stringify(s.res),resources,`${u.id} spent resources for ${missing.key}`);
+   assert.equal(JSON.stringify(s.training),training,`${u.id} queued despite ${missing.key}`);
+  }
+ }
+});
+test('Undead recruits from Graveyard and old Barracks progress migrates safely',()=>{
+ const fresh=state('undead');assert.equal(E.troopBuildingKey(fresh),'graveyard');assert.equal(fresh.buildings.graveyard,1);assert(!E.cityBuildOrder(fresh).includes('barracks'));assert(E.cityBuildOrder(fresh).includes('graveyard'));
+ const old=JSON.parse(JSON.stringify(fresh));old.buildings.barracks=4;delete old.buildings.graveyard;const migrated=E.parseSave(JSON.stringify(old));assert.equal(migrated.buildings.graveyard,4);assert.equal(migrated.race,'undead');assert.equal(E.strictSave(migrated),true);
+ const req=E.troopPrerequisites(migrated,C.units.undead[3]);assert(req.checks.some(c=>c.kind==='building'&&c.key==='graveyard'&&c.level===4));assert.equal(req.status,'MODELED_TIER_PROXY');assert.equal(req.confidence,'P');
 });
 test('Human tier 3 requirements use Hall, Barracks and the canonical Bootcamp spell level',()=>{
  const s=state();s.buildings.hall=3;s.buildings.barracks=3;
@@ -70,7 +100,7 @@ test('Human tier 3 requirements use Hall, Barracks and the canonical Bootcamp sp
  assert.equal(E.troopPrerequisites(s,C.units.human[2]).available,true);
 });
 test('HG08 applies derived Scouting gate to all faction tier-2 scout units atomically',()=>{
- for(const race of ['elf','orc','undead']){const s=state(race),u=C.units[race][1];s.buildings.barracks=2;const before=JSON.stringify({res:s.res,training:s.training});const req=E.troopPrerequisites(s,u);assert.equal(req.status,'DERIVED_SCOUT_GATE');assert.equal(req.confidence,'B');assert.equal(req.available,false);throws(()=>E.recruit(s,u.id,1),/Trinh sát/);assert.equal(JSON.stringify({res:s.res,training:s.training}),before);s.spells.scouting=1;assert.equal(E.troopPrerequisites(s,u).available,true)}
+ for(const race of ['elf','orc','undead']){const s=state(race),u=C.units[race][1];s.buildings[E.troopBuildingKey(s)]=2;const before=JSON.stringify({res:s.res,training:s.training});const req=E.troopPrerequisites(s,u);assert.equal(req.status,'MODELED_SCOUT_PROXY');assert.equal(req.confidence,'P');assert.equal(req.available,false);throws(()=>E.recruit(s,u.id,1),/Trinh sát/);assert.equal(JSON.stringify({res:s.res,training:s.training}),before);s.spells.scouting=1;assert.equal(E.troopPrerequisites(s,u).available,true)}
 });
 test('Human T4/T5 support buildings and Manufacturing gates are enforced atomically',()=>{
  const s=state();s.buildings.hall=4;s.buildings.barracks=4;s.res.gold=5000;const before=JSON.stringify({res:s.res,queue:s.training});
@@ -118,8 +148,8 @@ test('Invalid HG08 research queue rejected by save validator',()=>{const s=state
 
 
 test('Faction-specific source buildings are buildable only in their race build list',()=>{
- const maps={human:['stables','blacksmith'],elf:['magicPool','natureTower'],orc:['beastPen','blacksmith'],undead:['darkHall','soulTower']};
- for(const [race,buildings] of Object.entries(maps)){const s=state(race),order=E.cityBuildOrder(s);for(const b of buildings)assert(order.includes(b),race+':'+b);for(const other of Object.values(maps).flat())if(!buildings.includes(other)&&!(race==='orc'&&other==='blacksmith'))assert(!order.includes(other),race+' leaked '+other);for(const k of C.keys)s.res[k]=Math.min(E.limits(s)[k],100000);E.upgrade(s,buildings[0]);assert.equal(s.buildingQueue.key,buildings[0]);}
+ const maps={human:['stables','blacksmith'],elf:['magicPool','natureTower'],orc:['beastPen','blacksmith'],undead:['graveyard','darkHall','soulTower']};
+ for(const [race,buildings] of Object.entries(maps)){const s=state(race),order=E.cityBuildOrder(s);for(const b of buildings)assert(order.includes(b),race+':'+b);for(const other of Object.values(maps).flat())if(!buildings.includes(other)&&!(race==='orc'&&other==='blacksmith'))assert(!order.includes(other),race+' leaked '+other);if(race==='undead'){assert(!order.includes('barracks'),'Undead UI should use Graveyard');s.buildings.hall=2;}for(const k of C.keys)s.res[k]=Math.min(E.limits(s)[k],100000);E.upgrade(s,buildings[0]);assert.equal(s.buildingQueue.key,buildings[0]);}
 });
 test('Tavern name/stat colors follow documented hero-value thresholds',()=>{
  assert.equal(E.heroNameColor({atk:40,def:40,spd:30,int:15,level:1}),'white');

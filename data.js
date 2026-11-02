@@ -59,6 +59,7 @@ for(const [race,table] of Object.entries(raw)) {
 const buildings={
  hall:{name:'Town Hall',vi:'Đại sảnh',icon:'🏰',desc:'Giới hạn cấp công trình, tạo vàng.',base: {gold:380,wood:50,ore:55,sulfur:10,crystal:10},state:'observed'},
  barracks:{name:'Barracks',vi:'Doanh trại',icon:'🛡️',desc:'Mỗi cấp mở một bậc quân; bậc cao còn có điều kiện phụ chưa khôi phục.',base:{gold:220,wood:38,ore:38,sulfur:8,crystal:8},state:'observed'},
+ graveyard:{name:'Graveyard',vi:'Mộ địa',icon:'⚰️',desc:'Công trình tuyển quân Undead; các cổng Dark Hall/Soul Tower theo từng đơn vị vẫn cần xác minh.',base:{gold:220,wood:38,ore:38,sulfur:8,crystal:8},state:'observed'},
  heroTower:{name:'Hero Tower',vi:'Tháp tướng',icon:'🗼',desc:'Bổ nhiệm Castellan; tăng kinh nghiệm tướng.',base:{gold:250,wood:42,ore:32,sulfur:9,crystal:11},state:'observed'},
  tavern:{name:'Tavern',vi:'Quán trọ',icon:'🍺',desc:'Tuyển tướng; chất lượng ứng viên phụ thuộc cấp.',base:{gold:240,wood:30,ore:25,sulfur:12,crystal:8},state:'observed'},
  warehouse:{name:'Warehouse',vi:'Kho',icon:'📦',desc:'Tăng dung lượng tài nguyên.',base:{gold:200,wood:40,ore:40,sulfur:9,crystal:9},state:'observed'},

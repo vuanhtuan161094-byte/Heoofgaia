@@ -4,6 +4,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 
 - **A / OBSERVED:** exact requirement appears in the dated Chinese Human table (SRC19, independently corroborated by SRC20).
 - **B / PARTIAL:** the available source supports only part of the gate; missing requirements are not invented.
+- **P / PROVISIONAL MODEL:** non-Human troop-building level is temporarily mapped to catalog tier for a playable progression curve. No dated 2009–2010 per-unit numeric gate table was found. This is a gameplay proxy, not historical data.
 - **SRC04 / DERIVED:** “练兵技术” is mapped to the English Bootcamp spell by matching purpose; the cross-language name equivalence is inferred.
 - Every row also requires that troop type to belong to the selected race. Base costs and time come from SRC02.
 
@@ -19,40 +20,40 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Human | 8 | Priest | Town Hall 8; Barracks 8; Blacksmith 6; Manufacturing 7 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 9 | Angel | Town Hall 9; Barracks 9; Stables 7; Blacksmith 8; Manufacturing 8 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 10 | Archangel | Town Hall 10; Barracks 10; Stables 9; Blacksmith 10; Manufacturing 9; Bootcamp 9 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
-| Elf | 1 | Centaur | Barracks 1 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Elf | 2 | Elf Scout | Barracks 2; Scouting 1 | B / PARTIAL | SRC02, SRC03, SRC04, SRC22; guide identifies Elf Scout as scout; Town Hall/faction gates unresolved |
-| Elf | 3 | Dwarven Soldier | Barracks 3 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Elf | 4 | Elf Archer | Barracks 4 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Elf | 5 | Pegasus Warrior | Barracks 5 | B / PARTIAL | SRC02, SRC03; Magic Pool/Nature Tower tier unresolved (SRC11) |
-| Elf | 6 | Dryad | Barracks 6 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Elf | 7 | Unicorn | Barracks 7 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Elf | 8 | Elite Archer | Barracks 8 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Elf | 9 | Green Dragon | Barracks 9 | B / PARTIAL | SRC02, SRC03; Nature Tower tier unresolved (SRC11) |
-| Elf | 10 | Fairy Dragon | Barracks 10 | B / PARTIAL | SRC02, SRC03; Nature Tower tier unresolved (SRC11) |
-| Orc | 1 | Imp | Barracks 1 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Orc | 2 | Wolf Rider | Barracks 2; Scouting 1 | B / PARTIAL | SRC02, SRC04, SRC22; guide identifies Wolf Rider as scout; Town Hall/faction gates unresolved |
-| Orc | 3 | Axe Thrower | Barracks 3 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Orc | 4 | Direwolf | Barracks 4 | B / PARTIAL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
-| Orc | 5 | Ogre | Barracks 5 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Orc | 6 | Harpy | Barracks 6 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Orc | 7 | Thunderbird | Barracks 7 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Orc | 8 | Cyclops | Barracks 8 | B / PARTIAL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
-| Orc | 9 | Monster | Barracks 9 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Orc | 10 | Behemoth | Barracks 10 | B / PARTIAL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
-| Undead | 1 | Skeleton Warrior | Barracks 1 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Undead | 2 | Common Ghost | Barracks 2; Scouting 1 | B / PARTIAL | SRC02, SRC04, SRC22; guide identifies low-tier Ghost as scout; label mapped to Common Ghost; Town Hall/faction gates unresolved |
-| Undead | 3 | Zombie | Barracks 3 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Undead | 4 | Ghost | Barracks 4 | B / PARTIAL | SRC02, SRC03; Dark Hall/Soul Tower tier unresolved (SRC11) |
-| Undead | 5 | Vampire | Barracks 5 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Undead | 6 | Wight | Barracks 6 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Undead | 7 | Ghost Knight | Barracks 7 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Undead | 8 | Lich King | Barracks 8 | B / PARTIAL | SRC02, SRC03; Dark Hall/Soul Tower tier unresolved (SRC11) |
-| Undead | 9 | Bone Dragon | Barracks 9 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Undead | 10 | Ghost Dragon | Barracks 10 | B / PARTIAL | SRC02, SRC03; Dark Hall/Soul Tower tier unresolved (SRC11) |
+| Elf | 1 | Centaur | Barracks 1 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Elf | 2 | Elf Scout | Barracks 2; Scouting 1 | P / PROVISIONAL MODEL | SRC02, SRC03, SRC04, SRC22; guide identifies Elf Scout as scout; Town Hall/faction gates unresolved |
+| Elf | 3 | Dwarven Soldier | Barracks 3 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Elf | 4 | Elf Archer | Barracks 4 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Elf | 5 | Pegasus Warrior | Barracks 5 | P / PROVISIONAL MODEL | SRC02, SRC03; Magic Pool/Nature Tower tier unresolved (SRC11) |
+| Elf | 6 | Dryad | Barracks 6 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Elf | 7 | Unicorn | Barracks 7 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Elf | 8 | Elite Archer | Barracks 8 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Elf | 9 | Green Dragon | Barracks 9 | P / PROVISIONAL MODEL | SRC02, SRC03; Nature Tower tier unresolved (SRC11) |
+| Elf | 10 | Fairy Dragon | Barracks 10 | P / PROVISIONAL MODEL | SRC02, SRC03; Nature Tower tier unresolved (SRC11) |
+| Orc | 1 | Imp | Barracks 1 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Orc | 2 | Wolf Rider | Barracks 2; Scouting 1 | P / PROVISIONAL MODEL | SRC02, SRC04, SRC22; guide identifies Wolf Rider as scout; Town Hall/faction gates unresolved |
+| Orc | 3 | Axe Thrower | Barracks 3 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Orc | 4 | Direwolf | Barracks 4 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
+| Orc | 5 | Ogre | Barracks 5 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Orc | 6 | Harpy | Barracks 6 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Orc | 7 | Thunderbird | Barracks 7 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Orc | 8 | Cyclops | Barracks 8 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
+| Orc | 9 | Monster | Barracks 9 | P / PROVISIONAL MODEL | SRC02, SRC03; exact gate table missing |
+| Orc | 10 | Behemoth | Barracks 10 | P / PROVISIONAL MODEL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
+| Undead | 1 | Skeleton Warrior | Graveyard 1 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard as troop-recruitment building; exact per-unit support gates missing |
+| Undead | 2 | Common Ghost | Graveyard 2; Scouting 1 | P / PROVISIONAL MODEL | SRC11; SRC02, SRC04, SRC22; scout role mapped across editions; Town Hall/support gates unresolved |
+| Undead | 3 | Zombie | Graveyard 3 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; exact per-unit support gates missing |
+| Undead | 4 | Ghost | Graveyard 4 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; Dark Hall/Soul Tower levels unresolved |
+| Undead | 5 | Vampire | Graveyard 5 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; exact per-unit support gates missing |
+| Undead | 6 | Lich | Graveyard 6 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; exact per-unit support gates missing |
+| Undead | 7 | Ghost Knight | Graveyard 7 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; exact per-unit support gates missing |
+| Undead | 8 | Lich King | Graveyard 8 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; Dark Hall/Soul Tower levels unresolved |
+| Undead | 9 | Bone Dragon | Graveyard 9 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; exact per-unit support gates missing |
+| Undead | 10 | Ghost Dragon | Graveyard 10 | P / PROVISIONAL MODEL | SRC11 identifies Graveyard; Dark Hall/Soul Tower levels unresolved |
 
 ## Limits and next evidence work
 
 - The exact Human conditions for the listed rows are source-backed; the `Training Technology` → `Bootcamp` English label is derived and needs a regional client screenshot or an official glossary to prove the crosswalk.
 - All four tier-2 entries require Scouting 1. SRC22 identifies the three non-Human roles as scouts, while SRC04 supplies the Scouting-1 rule. Since these pages describe different regional editions, exact cross-version gate parity is not confirmed; Human Town Hall and other faction support-building gates remain unverified and are not enforced.
-- The other 30 units do **not** have complete prerequisites yet. Faction building roles do not establish a per-unit level. Find archived official race tables or authenticated legal-client evidence before enforcing those gates.
-- In code, generic races currently require their Barracks tier only. The UI labels these rows partial and does not present the partial status as full original parity.
+- The other 30 units do **not** have source-complete prerequisites. Faction building roles establish which structure recruits troops, not a numeric per-unit level.
+- The 30 Elf/Orc/Undead rows currently enforce the provisional P proxy `troop-building level = catalog tier`; the UI labels it P and explicitly says it is not source-verified. The dated sources establish which building recruits and the roles of support buildings, but not per-unit numeric levels. Dark Hall, Soul Tower, Beast Pen, Blacksmith, Magic Pool and Nature Tower levels are not enforced yet.
