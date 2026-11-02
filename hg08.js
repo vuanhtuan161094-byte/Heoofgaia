@@ -145,17 +145,23 @@ function expToNext(level){
  if(level<=19)return XP_TO_NEXT[level-1];
  return 120*(level*level-300);
 }
+function heroTowerExperienceBonus(s){
+ const level=s?.buildings?.heroTower;
+ return Number.isSafeInteger(level)&&level>0?level:0;
+}
 function grantHeroExperience(s,heroId,amount,reason='gameplay'){
  ensure(s);
  if(!Number.isFinite(amount)||amount<0||amount>1e12)throw Error('Kinh nghiệm không hợp lệ');
  const h=s.heroes.find(x=>x.id===heroId);if(!h)throw Error('Không tìm thấy tướng nhận kinh nghiệm');
- if(h.level>=100||amount===0)return {gained:0,levels:0,level:h.level,xp:h.xp};
- h.xp+=amount;let levels=0;
+ const bonusPercent=heroTowerExperienceBonus(s);
+ if(h.level>=100||amount===0)return {base:0,gained:0,bonusPercent,levels:0,level:h.level,xp:h.xp};
+ const gained=amount+amount*bonusPercent/100;
+ h.xp+=gained;let levels=0;
  while(h.level<100){const need=expToNext(h.level);if(need===null||h.xp+1e-9<need)break;
   h.xp-=need;if(h.xp<1e-9)h.xp=0;h.level++;h.statPoints=(h.statPoints||0)+1;levels++;
  }
  if(levels)E.note(s,`${h.name} lên cấp ${h.level}, nhận ${levels} điểm thuộc tính (${reason}).`);
- return {gained:amount,levels,level:h.level,xp:h.xp};
+ return {base:amount,gained,bonusPercent,levels,level:h.level,xp:h.xp};
 }
 function allocateHeroPoint(s,heroId,attribute){
  ensure(s);if(!attrKeys.includes(attribute))throw Error('Thuộc tính không hợp lệ');
@@ -400,7 +406,7 @@ function hireCandidate(s,id){
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
 E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.appoint=appoint;E.selectHero=selectHero;E.recallHero=recallHero;E.finishReturn=finishReturn;E.heroAway=heroAway;E.valid=valid;
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,FAME_AP,MINE_HOURLY,mineLimit,heroCountLimit,fameApStats,
- ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
+ ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  buildingUpgradeGate,buildingUpgradeCapException,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});

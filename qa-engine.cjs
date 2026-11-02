@@ -313,14 +313,18 @@ test('Technology rejection does not spend resources or mutate research queue',()
  const s=state();s.spells.bootcamp=1;const before=JSON.stringify(s.res);throws(()=>E.researchTechnology(s,'training'),/Magic Tower/);assert.equal(JSON.stringify(s.res),before);assert.equal(s.researchQueue,null);
 });
 test('Castellan gains unit-value/3 experience only when training completes',()=>{
- const s=state();E.appoint(s,1);E.recruit(s,'human_1',3);assert.equal(s.heroes[0].xp,0);const end=s.lastTick+s.training[0].remaining/s.speed*1000+1000;E.tick(s,end);assert.equal(s.army.human_1,19);assert.equal(s.heroes[0].xp,125);E.tick(s,end);assert.equal(s.heroes[0].xp,125);
+ const s=state();E.appoint(s,1);E.recruit(s,'human_1',3);assert.equal(s.heroes[0].xp,0);const end=s.lastTick+s.training[0].remaining/s.speed*1000+1000;E.tick(s,end);assert.equal(s.army.human_1,19);assert.equal(s.heroes[0].xp,126.25);E.tick(s,end);assert.equal(s.heroes[0].xp,126.25);
+});
+test('SRC03 Hero Tower grants every earned hero XP +1% per tower level and survives v07 reload',()=>{
+ for(const level of [0,1,5,10]){const s=state(),h=s.heroes[0];s.buildings.heroTower=level;assert.equal(E.heroTowerExperienceBonus(s),level);const result=E.grantHeroExperience(s,h.id,100,'SRC03 bonus check');assert.equal(result.base,100);assert.equal(result.bonusPercent,level);assert.equal(result.gained,100+100*level/100);assert.equal(h.xp,result.gained);}
+ const s=state();s.buildings.heroTower=10;const hero=s.heroes[0];E.grantHeroExperience(s,hero.id,100,'save check');const restored=E.parseSave(E.serializeSave(s));assert.equal(restored.version,7);assert.equal(restored.buildings.heroTower,10);assert.equal(restored.heroes[0].xp,110);
 });
 test('Hero XP exact early thresholds, point award and allocation',()=>{
- const s=state(),h=s.heroes[0];E.grantHeroExperience(s,h.id,149,'test');assert.equal(h.level,1);assert.equal(h.xp,149);E.grantHeroExperience(s,h.id,1,'test');assert.equal(h.level,2);assert.equal(h.xp,0);assert.equal(h.statPoints,1);assert.equal(E.heroLimit(h.level),13333);
+ const s=state(),h=s.heroes[0];s.buildings.heroTower=0;E.grantHeroExperience(s,h.id,149,'test');assert.equal(h.level,1);assert.equal(h.xp,149);E.grantHeroExperience(s,h.id,1,'test');assert.equal(h.level,2);assert.equal(h.xp,0);assert.equal(h.statPoints,1);assert.equal(E.heroLimit(h.level),13333);
  const atk=h.atk;E.allocateHeroPoint(s,h.id,'atk');assert.equal(h.atk,atk+1);assert.equal(h.statPoints,0);throws(()=>E.allocateHeroPoint(s,h.id,'atk'),/chưa có điểm/);
 });
 test('Hero XP level 20 formula and level 100 cap',()=>{
- const s=state(),h=s.heroes[0];h.level=19;h.xp=9967;E.grantHeroExperience(s,h.id,1,'test');assert.equal(h.level,20);assert.equal(E.experienceToNext(20),12000);assert.equal(E.experienceToNext(99),120*(99*99-300));assert.equal(E.experienceToNext(100),null);h.level=100;h.xp=7;E.grantHeroExperience(s,h.id,999,'test');assert.equal(h.xp,7);
+ const s=state(),h=s.heroes[0];s.buildings.heroTower=0;h.level=19;h.xp=9967;E.grantHeroExperience(s,h.id,1,'test');assert.equal(h.level,20);assert.equal(E.experienceToNext(20),12000);assert.equal(E.experienceToNext(99),120*(99*99-300));assert.equal(E.experienceToNext(100),null);h.level=100;h.xp=7;E.grantHeroExperience(s,h.id,999,'test');assert.equal(h.xp,7);
 });
 test('v06 migration preserves hero progress and does not award old levels',()=>{
  const s=state(),legacy=JSON.parse(JSON.stringify(s));legacy.version=6;legacy.heroes[0].level=3;legacy.heroes[0].xp=200;legacy.heroes[0].atk=19;legacy.spells.manufacturing=4;delete legacy.technologies;delete legacy.researchQueue;delete legacy.buildings.blacksmith;for(const h of legacy.heroes){delete h.statPoints;delete h.spentAttributePoints;}

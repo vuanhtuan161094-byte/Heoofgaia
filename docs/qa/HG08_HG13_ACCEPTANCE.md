@@ -130,3 +130,15 @@ SRC03 (English community building page revision 2009-12-09) explicitly lists Her
 - Offline HTML was rebuilt from editable source; current Chrome captured runtime screenshots `docs/evidence/hg08/hero-tower-8-locked-chrome.png`, `tavern-10-locked-chrome.png`, and `tavern-10-queue-chrome.png`. The browser fixture sets a late-game city/resource state, but the upgrade actions and construction queue use the live application/engine.
 - Node regression: 114/114 PASS. Integrated installed-Chrome regression: 91/91 PASS, zero page exceptions. The fixture advances a short synthetic game-time interval to complete Hero Tower construction while keeping Save timestamps valid; it does not alter production queue mechanics.
 - v07 version/key unchanged. English/international vs Chinese region parity is unverified; full Tavern odds and intermediate gates remain open. HG-08 stays IN PROGRESS; no 1:1 claim.
+
+## HG-08 Hero Tower experience bonus — 2026-11-03
+
+SRC03, the English Heroes of Gaia community building page revision 5 (last edited 2009-12-09), states that upgrading Hero Tower grants Heroes +1% experience per tower level. Runtime XP grants now add `base XP × current Hero Tower level / 100` before processing level thresholds. This applies at the active city where the XP event is settled. Fractional XP is retained because SRC03 does not specify rounding. The battle XP award and Castellan's training XP base formula remain simulated/community-derived; only the tower multiplier is source-backed. The v07 key/schema is unchanged, and fractional XP survives Save/Reload.
+
+- Node: **115/115 PASS**, including tower levels 0/1/5/10, exact multiplier, unchanged level thresholds at tower level 0, training completion and v07 round-trip.
+- Installed Chrome `file://`: **7/7 PASS**, zero JS exceptions. The test appoints a Castellan, starts recruitment through the actual Army UI, advances the real training queue, confirms 137.5 XP from a 125 base reward at Tower 10, and reloads the v07 save.
+- Existing regressions: integrated browser **91/91 PASS**; offline fresh-process Save/Reload **29/29 PASS**; Tavern gates **10/10 PASS**; four-faction city interaction/save flow **48/48 PASS**.
+- Screenshot: `docs/evidence/hg08/hero-tower-xp-chrome.png`, SHA-256 `6883999520ef573c633ddd7b87aaa66fd31774e105bfa21ea9b683c5b95ae6ad`; machine receipt: `docs/qa/hg08/hero-tower-xp-chrome.json`.
+- Test fixture seeds Town Hall and Hero Tower at level 10 to reach the effect immediately. The Castellan appointment, troop recruitment, training queue, XP award, Save and Reload are live game actions. This is not an original-client screenshot.
+
+HG-08 remains IN PROGRESS. The 28 non-Human gate rows and Tavern distributions remain unresolved; this slice does not claim original-client or English/Chinese patch parity.

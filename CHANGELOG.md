@@ -1,4 +1,11 @@
 
+## 2026-11-03 — HG-08 Hero Tower experience bonus (partial)
+
+- Implemented the dated SRC03 Hero Tower modifier: every hero XP award gains 1% per level of the active city's Hero Tower. Fractional XP is kept because the source does not specify rounding; combat XP and Castellan training's base award remain modeled/community-derived.
+- Kept the v07 save key/schema. Node now passes 115/115; integrated Chrome 91/91; offline fresh-process persistence 29/29; Hero Tower XP `file://` flow 7/7; Tavern terminal gate 10/10; four-faction city smoke 48/48.
+- Real Chrome screenshot and receipt: `docs/evidence/hg08/hero-tower-xp-chrome.png`, `docs/qa/hg08/hero-tower-xp-chrome.json`. The test seeds Town Hall/Hero Tower 10, then uses the actual Castellan, recruitment, training and Save/Reload flows.
+- HG-08 remains in progress: 28 non-Human recruitment gates and Tavern distributions remain incomplete; no original-client parity or 1:1 claim.
+
 ## 2026-11-03 — HG-08 source-backed Tavern terminal construction gates (partial)
 
 - Added the explicit SRC03 terminal chain: Hero Tower L8 requires Town Hall L7; Tavern L10 requires Hero Tower L8. Only these exact upgrades bypass the generic Town Hall cap, and rejected upgrades spend no resources.

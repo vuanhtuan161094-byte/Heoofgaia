@@ -1,0 +1,47 @@
+{
+  "suite": "HG-08 Hero Tower experience bonus",
+  "source": "installed Google Chrome, actual standalone HTML via file://; real Castellan appointment, troop recruitment, training completion, Save/Reload; fixture seeds Town Hall/Hero Tower 10",
+  "total": 7,
+  "passed": 7,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Standalone opens with the requested game title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn • Hẻoofgaia | Heroes of Gaia reconstruction"
+    },
+    {
+      "name": "Actual hero screen appoints the Castellan before training",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Recruit button creates a real saved training queue",
+      "passed": true,
+      "detail": "{\"count\": 3, \"unit\": \"human_1\", \"valid\": true}"
+    },
+    {
+      "name": "Completing training applies the 10% Hero Tower bonus to Castellan XP",
+      "passed": true,
+      "detail": "{\"army\": 19, \"queue\": 0, \"xp\": 137.5, \"bonus\": 10, \"valid\": true}"
+    },
+    {
+      "name": "Heroes screen explains the active sourced Hero Tower XP bonus",
+      "passed": true,
+      "detail": "🧙 Tướng lĩnh & Arena |  | Hero Tower, Castellan, Tavern và Arena là hệ thống Heroes of Gaia. Giới hạn số tướng theo bảng danh vọng Trung Quốc 2009: 1/2. Giới hạn chỉ huy cơ bản theo bảng cộng đồng Lv1–100; chỉ số khởi điểm và chi phí tuyển vẫn được mô phỏng. |  | Danh sách tướng | 🧙 Aldric Lv.1Chỉ huy 11.500Chỉ huyCastellan | ATK 12 · DEF 8 · SPD 7 · INT 6 · EXP 137.5 | Chọn chỉ huy | Bỏ Castellan | ↩ Gọi về | 🍺 Tavern — Ứng viên tướng | "
+    },
+    {
+      "name": "v07 Save/Reload retains fractional Hero Tower XP without schema change",
+      "passed": true,
+      "detail": "{\"version\": 7, \"tower\": 10, \"xp\": 137.5, \"valid\": true}"
+    },
+    {
+      "name": "No JavaScript exceptions during the live training flow",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "screenshot": "docs/evidence/hg08/hero-tower-xp-chrome.png",
+  "screenshotSha256": "6883999520ef573c633ddd7b87aaa66fd31774e105bfa21ea9b683c5b95ae6ad"
+}
