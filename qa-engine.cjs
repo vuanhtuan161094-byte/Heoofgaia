@@ -89,6 +89,37 @@ test('Fame unlock, mine victory and v07 reload preserve the sixth mine slot',()=
 });
 test('march AP deduction and battle opening',()=>{const s=state();const t=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key));assert(t);E.startMarch(s,t.key);assert.equal(s.ap,94);const end=s.lastTick+s.march.remaining/60*1000+1200;E.tick(s,end);assert(s.battle);assert.equal(s.march,null);assert.equal(s.battle.allies.length,1)});
 test('battle manual retreat keeps losses',()=>{const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);assert.equal(E.battleAct(s,'retreat').type,'retreat');assert.equal(s.battle,null)});
+test('Outbound dispatch removes its formation from the city and survives a v07 save migration',()=>{
+ const s=state(),rawArmy=16;s.formation=[{unitId:'human_1',count:7}];const tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key));
+ E.startMarch(s,tile.key);assert.equal(s.army.human_1,rawArmy-7);assert.equal(s.expedition.army.human_1,7);assert.equal(s.march.phase,'outbound');assert.equal(E.strictSave(s),true);
+ const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.army.human_1,9);assert.equal(saved.expedition.army.human_1,7);
+ const legacy=JSON.parse(JSON.stringify(s));delete legacy.expedition;delete legacy.stationedHeroes;legacy.army.human_1=rawArmy;legacy.formation=[{unitId:'human_1',count:7}];
+ const migrated=E.parseSave(JSON.stringify(legacy));assert.equal(migrated.army.human_1,9);assert.equal(migrated.expedition.army.human_1,7);assert.equal(migrated.march.phase,'outbound');assert.equal(legacy.army.human_1,rawArmy);
+});
+test('Legacy v07 mid-battle save migrates deployed survivors without losing reserve troops',()=>{
+ const s=state(),tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key));s.formation=[{unitId:'human_1',count:7}];
+ s.march={target:tile.key,remaining:0,total:90,heroId:1,path:E.pathfind('3,4',tile.key)};s.battle=E.makeBattle(s,tile.key);s.march=null;
+ delete s.expedition;delete s.stationedHeroes;
+ const migrated=E.parseSave(JSON.stringify(s));assert.equal(migrated.army.human_1,9);assert.equal(migrated.expedition.army.human_1,7);assert.equal(migrated.expedition.phase,'battle');assert.equal(migrated.battle.allies[0].count,7);assert.equal(E.strictSave(migrated),true);
+});
+test('Mine victory stations hero and troops; recall returns them once without AP',()=>{
+ const s=state();s.heroes[0].atk=10000;s.formation=[{unitId:'human_1',count:16}];const tile=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key)),ap=s.ap;
+ E.startMarch(s,tile.key);assert.equal(s.army.human_1,0);assert.equal(s.expedition.army.human_1,16);assert.equal(s.ap,ap-6);
+ E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);assert(s.battle);assert.equal(s.battle.allies[0].count,16);
+ s.battle.enemies=s.battle.enemies.slice(0,1);for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;e.atk=0}
+ let result,guard=0;while(s.battle&&guard++<10)result=E.battleAct(s,'attack');assert.equal(result.type,'win');assert(s.mines.some(m=>m.key===tile.key));assert.equal(s.stationedHeroes[0].heroId,1);assert.equal(s.stationedHeroes[0].key,tile.key);assert.equal(s.army.human_1,0);assert.equal(s.expedition,null);assert.equal(E.strictSave(s),true);
+ assert.throws(()=>E.selectHero(s,1),/đồn trú/);assert.throws(()=>E.startMarch(s,E.TILES.find(t=>t.kind==='npc').key),/đồn trú/i);
+ const beforeAP=s.ap,seconds=E.recallHero(s,1);assert(seconds>0);assert.equal(s.ap,beforeAP);assert.equal(s.stationedHeroes.length,0);assert.equal(s.march.phase,'return');assert.equal(s.expedition.army.human_1,16);
+ const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.march.phase,'return');assert.equal(saved.expedition.army.human_1,16);E.tick(saved,saved.lastTick+saved.march.remaining/saved.speed*1000+1000);
+ assert.equal(saved.march,null);assert.equal(saved.expedition,null);assert.equal(saved.army.human_1,16);assert.equal(saved.mines.length,1);assert.equal(E.strictSave(saved),true);
+ assert.equal(E.rate(saved)[tile.value],E.rate(state())[tile.value]+E.MINE_HOURLY[tile.value]);throws(()=>E.recallHero(saved,1),/không đồn trú/);
+});
+test('Defeated hero returns along a saved route after the expedition army is lost',()=>{
+ const s=state(),tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key));s.formation=[{unitId:'human_1',count:1}];E.startMarch(s,tile.key);E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
+ const b=s.battle;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Last scout',range:1,count:1,initial:1,hp:1,atk:1,def:0,spd:1,pool:1,x:1,y:4}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Overwhelming enemy',range:20,count:1,initial:1,hp:1000,atk:100000,def:100000,spd:100,pool:1000,x:10,y:4}];b.selected='p0';b.orders={};b.focused=null;
+ assert.equal(E.battleAct(s,'attack').type,'lose');assert.equal(s.expedition.phase,'returning');assert.equal(s.expedition.army.human_1,0);assert.equal(s.march.phase,'return');assert.equal(E.strictSave(s),true);
+ const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.expedition.army.human_1,0);E.tick(saved,saved.lastTick+saved.march.remaining/saved.speed*1000+1000);assert.equal(saved.expedition,null);assert.equal(saved.march,null);assert.equal(E.heroAway(saved,1),false);assert.equal(E.strictSave(saved),true);
+});
 test('Ranged auto-target selects the strongest modeled stack across distance',()=>{const s=state();const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_3',name:'Ranged group',range:20,count:5,initial:5,hp:100,atk:10,def:1,spd:100,pool:500,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Near weak target',range:1,count:1,initial:1,hp:100,atk:1,def:1,spd:1,pool:100,x:2,y:1},{id:'e1',side:'enemy',unitId:null,name:'Far strong target',range:1,count:2,initial:2,hp:100,atk:50,def:1,spd:1,pool:200,x:10,y:8}];b.selected='p0';b.orders={};b.focused=null;s.battle=b;E.battleAct(s,'attack');assert.equal(b.lastTargets.p0,'e1')});test('automatic melee selects highest modeled power in the nearest group and records the choice',()=>{const s=state();s.army.human_1=1;s.army.human_2=2;s.army.human_3=10;const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Near weak unit',range:1,count:1,initial:1,hp:100,atk:5,def:1,spd:1,pool:100,x:4,y:4},{id:'p1',slot:1,side:'player',unitId:'human_2',name:'Strong nearby unit',range:1,count:2,initial:2,hp:100,atk:20,def:1,spd:1,pool:200,x:5,y:5},{id:'p2',slot:2,side:'player',unitId:'human_3',name:'Powerful far unit',range:1,count:10,initial:10,hp:100,atk:100,def:1,spd:1,pool:1000,x:10,y:8}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Fast enemy',range:1,count:1,initial:1,hp:100,atk:20,def:1,spd:100,pool:100000,x:5,y:4}];b.selected='p0';b.orders={};b.focused=null;s.battle=b;E.battleAct(s,'attack');assert.equal(b.lastTargets.e0,'p1');assert.equal(b.lastTargets.p0,'e0');assert.equal(b.lastTargets.p1,'e0');assert.equal(b.lastTargets.p2,'e0')});
 test('valid native v07 export/import',()=>{const s=state();const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.equal(loaded.res.gold,s.res.gold)});
 test('v05 migration without mutating input',()=>{const s=state();const legacy=JSON.parse(JSON.stringify(s));delete legacy.tavern;legacy.version=5;const raw=JSON.stringify(legacy);const migrated=E.parseSave(raw);assert.equal(migrated.version,7);assert(migrated.tavern.offers.length>0);assert.equal(JSON.stringify(legacy),raw)});

@@ -33,6 +33,7 @@
 | SRC36 | English Heroes of Gaia Fandom, Orc Barracks (living article, accessed 2026-11-02; revision/build unknown) | Lists Barracks L1–L10 unlocks as Peon, Wolfrider, Axe Thrower, Direwolf, Ogre, Harpy, Thunderbird, Cyclop, Colossus and Behemoth; each level lists a same-level Town Hall requirement. The article warns each unit may have additional prerequisites. | C; later mixed-edition cross-check only. T1 Peon and Cyclop spelling conflict with the dated 2009 catalog (Imp/Cyclops); this does not supply exact support-building gates. |
 | SRC37 | Chinese official update notice, Sina, dated 2010-04-01 for 2010-04-02 maintenance | Says the update shortens troop recruitment times for early-, mid- and late-stage units by differing amounts across the races; gives no per-unit deltas. | B for the existence of a Chinese-server timing change; exact values and parity with the international client remain unknown. |
 | SRC38 | Chinese player guide, 17173, dated 2010-03-07 | Reports hero total-attribute color bands: White ≤125, Blue 125–160, Yellow 161–180, Green 181–200 and Purple 201–280; says single stats cap at 70 except Purple and higher Tavern levels increase the chance of better heroes. | B for the reported Chinese 2010 bands/qualitative effect. White and Blue overlap at 125; Fandom explicitly resolves that point as White. The guide gives no Tavern odds and is player-authored. |
+| SRC40 | 17173 Chinese player FAQ, dated 2009-10-25 | Says that after occupying a new castle or resource point the hero is stationed there; choose Return to get back to the original main castle and become available again. | B for the dated Chinese player guide; exact international-edition parity and return travel timing/AP cost are not stated. |
 | SRC10 | Chinese 17173 castle-development guide, dated 2009-03-25, editor marked “official”; describes the early internal-test period | Says all building levels are capped by Town Hall; technology begins from the tier-2 Scout; advanced troops need technologies; Stables and Blacksmith become necessary from Heavy Soldier. It provides no per-unit numeric level table. Its broad Stables prose conflicts with the later SRC19/SRC20 detailed Human rows (Stables first appears at T5). | B for this early Chinese test-era guidance; the conflict is retained and no level is inferred from it. |
 ## Evidence-to-rule ledger
 
@@ -63,6 +64,7 @@
 
 | R23 | Fame rank mine cap | SRC20's 2009-12-27 table lists initial limits and thresholds through 1,000,000: 5, 6, 7, 8, 9, 11, 13, 15, 17, then 20; 20 remains from 300,000 upward. Lequ SRC19 mirrors the prose and is not independent. | Enforced before AP deduction in E.startMarch; capture follows battle settlement. Fame/cap UI updates. Save v07 unchanged. | B / dated Chinese player guide; English/EU parity unverified |
 | R24 | Per-mine base resource yield | SRC20 says Gold mine 200/hour; sawmill/quarry (Wood/Ore) 40/hour; Sulfur/Crystal 20/hour. No per-level multiplier stated. | Economy tick adds fixed yield per owned mine, independent of map tile level. Castle Spell interaction remains unverified. | B / dated Chinese player guide; regional/patch variance possible |
+| R25 | Troop dispatch, mine garrison and recall | SRC40 says occupation leaves the hero at the city/resource point and a Return choice restores availability at the origin city. | Selected troop groups leave the castle pool at dispatch; mine victory stores surviving troops and the hero at that map tile; Recall begins a persisted return march with no AP charge in this build. Non-mine victory returns automatically as a disclosed local model; source evidence for that exact case is incomplete. | B for occupation/recall; return cost/timing and non-mine behavior remain unverified |
 
 ## Verification boundary
 
@@ -90,6 +92,7 @@
 - [SRC19 — Lequ publisher-hosted Human troop guide (2010-11)](https://www.lequ.com/yxzc/201011/8592.html)
 - [SRC20 — 17173 Human troop guide (2009-12-27)](https://web.17173.com/content/2009-12-27/1261927948.shtml)
 - [SRC39 — 17173 Chinese Fame, mine output and troop guide (2009-12-27)](https://web.17173.com/content/2009-12-27/1261927948.shtml)
+- [SRC40 — 17173 Chinese player FAQ (2009-10-25), hero stationing and Return](https://web.17173.com/content/2009-10-25/1256486243.shtml)
 - [SRC21 — Hero quality community reference](https://heroesofgaia.fandom.com/wiki/Hero_quality)
 - [SRC22 — Lequ/SNSFun four-race overview (2010-10)](https://www.snsfun.com/yxzc/201010/7753.html)
 
@@ -117,3 +120,12 @@
 - Lequ's publisher-hosted 2010 page repeats these broad statements but is substantially the same article; do not count it as independent corroboration.
 - This is a Chinese-edition player-guide rule, not an original-client observation or evidence of English/EU parity. No per-level output multiplier was added. Mine spell bonuses remain unverified.
 - Tests cover Fame boundaries, no-spend over-cap rejection, UI lock/unlock and AP spend, resource-rate deltas and v07 mine save/load.
+
+
+## SRC40 world ownership and return implementation — 2026-11-02
+
+- The 17173 FAQ is dated 2009-10-25. Its section “为什么我的英雄去占领后就不见了” says that after occupying a new city/resource point, the hero is stationed there; choose Return to return to the original main city and become available again. This directly supports an occupied mine retaining its hero and a manual return control. It does not specify travel duration or AP cost.
+- `engine.js` now tracks a separate deployed army pool so sent units no longer remain in the castle garrison count. HG08 settlement stations the surviving force and hero at a won mine. Recall follows a saved map path to the original castle; returned survivors merge into the castle once. Mine ownership/resource output remains after the hero leaves.
+- Existing HG-07/HG-08 v07 exports without deployment fields migrate by deriving the in-flight formation from the old march/battle save and moving those troops into the deployment ledger. The public Save key/schema stays v07.
+- Automatic return after a non-mine win and no-AP recall are explicit playable implementation choices; this particular FAQ does not state those details. Keep them provisional until another same-era source settles them.
+- Real Chrome and Chromium `file://` tests exercise a new game, dispatched starter troops, the natural mine battle, garrison, Recall, save/reload during both journeys and exactly-once return. Screenshots are runtime captures under `docs/evidence/hg08/` and `docs/evidence/hg09/`.

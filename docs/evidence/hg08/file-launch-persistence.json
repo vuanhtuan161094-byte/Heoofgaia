@@ -47,9 +47,49 @@
     {
       "name": "No page errors after persistent-profile restart",
       "passed": true
+    },
+    {
+      "name": "file:// standalone starts the real mine-expedition flow",
+      "passed": true
+    },
+    {
+      "name": "file:// departure assigns starter troops to the traveling hero",
+      "passed": true
+    },
+    {
+      "name": "file:// reload resumes the outbound hero and army",
+      "passed": true
+    },
+    {
+      "name": "file:// march arrival opens the actual mine battle",
+      "passed": true
+    },
+    {
+      "name": "file:// natural starter battle captures the mine and stations the hero",
+      "passed": true
+    },
+    {
+      "name": "file:// map shows the garrison and a working Recall action",
+      "passed": true
+    },
+    {
+      "name": "file:// Recall creates a real return march",
+      "passed": true
+    },
+    {
+      "name": "file:// reload preserves the return march",
+      "passed": true
+    },
+    {
+      "name": "file:// return merges surviving troops once and retains mine income",
+      "passed": true
+    },
+    {
+      "name": "No page errors through file:// march, combat, recall and reload",
+      "passed": true
     }
   ],
   "errors": [],
-  "passed": 12,
-  "total": 12
+  "passed": 22,
+  "total": 22
 }

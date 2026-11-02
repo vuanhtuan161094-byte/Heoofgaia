@@ -54,8 +54,9 @@ function recruit(s,id,count){const u=getUnit(s,id);assert(!!u,'Không có quân 
 function spellCost(s,id){const l=s.spells[id]||0;return {gold:Math.ceil(240*Math.pow(1.7,l)),wood:Math.ceil(25*Math.pow(1.5,l)),ore:Math.ceil(25*Math.pow(1.5,l)),sulfur:Math.ceil(10*Math.pow(1.5,l)),crystal:Math.ceil(10*Math.pow(1.5,l))}}
 function learn(s,id){assert(!!C.spells[id],'Không có phép');assert((s.buildings.magicTower||0)>=(s.spells[id]||0)+1,'Cần nâng Magic Tower trước');assert((s.spells[id]||0)<10,'Đạt cấp tối đa mô phỏng');const cost=spellCost(s,id);spend(s,cost);s.spells[id]=(s.spells[id]||0)+1;note(s,`Nghiên cứu ${C.spells[id].name} cấp ${s.spells[id]}.`);return cost;}
 function hire(s){assert(s.buildings.tavern>=1,'Cần Tavern');assert(s.heroes.length<8,'Đạt giới hạn tướng demo');const cost={gold:500+s.heroes.length*300};spend(s,cost);const id=Math.max(...s.heroes.map(h=>h.id))+1;const names=['Seren','Eldwin','Tiriel','Thorne','Velmar','Rowan','Neris'];const name=names[(id-2)%names.length];s.heroes.push({id,name,level:1,xp:0,atk:9+id,def:8+id,spd:6,int:7});note(s,`Chiêu mộ tướng ${name} tại Tavern; giá demo.`);return id;}
-function appoint(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!s.march&&!s.battle,'Không thể đổi Castellan khi đang hành quân');s.castellan=s.castellan===id?null:id;note(s,s.castellan?'Đã bổ nhiệm Castellan.':'Đã bỏ chức Castellan.');}
-function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!s.march&&!s.battle,'Đang hành quân');assert(s.castellan!==id,'Castellan trấn thủ thành');s.activeHero=id;}
+function heroStationed(s,id){return Array.isArray(s.stationedHeroes)&&s.stationedHeroes.some(x=>x.heroId===id)}
+function appoint(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert(!s.march&&!s.battle,'Không thể đổi Castellan khi đang hành quân');s.castellan=s.castellan===id?null:id;note(s,s.castellan?'Đã bổ nhiệm Castellan.':'Đã bỏ chức Castellan.');}
+function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert(!s.march&&!s.battle,'Đang hành quân');assert(s.castellan!==id,'Castellan trấn thủ thành');s.activeHero=id;}
 // HG-03 map geometry: procedural ORIGINAL art and prototype coordinates, not proprietary map data.
 const WIDTH=28, HEIGHT=18;
 function mapTiles(){
@@ -126,12 +127,14 @@ function activeArmy(s){return arrUnits(s).filter(u=>s.army[u.id]>0)}
 function makeBattle(s,target,remainingRatio=1){
  const tile=getTile(target);assert(!!tile&&tile.kind!=='empty','Mục tiêu trận chiến không hợp lệ');
  const lv=tile.level||1;
- const selected=(s.formation?.length?s.formation:activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:s.army[u.id]})));
+ const fieldArmy=s.expedition?.army||s.army,fieldFormation=s.expedition?.formation||s.formation;
+ const available=arrUnits(s).filter(u=>(fieldArmy[u.id]||0)>0);
+ const selected=(fieldFormation?.length?fieldFormation:available.sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:fieldArmy[u.id]})));
  // Historical guides distinguish ranged attacks and recommend that fast
  // ranged groups fire at enemy ranged groups, but the recovered 2009 catalog
  // has no numeric range. The 20-cell reach covers this prototype's whole grid;
  // this is an explicit playable approximation, not recovered server data.
- const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,s.army[u.id]);return {id:`p${i}`,slot:s.formation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
+ const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,fieldArmy[u.id]||0);return {id:`p${i}`,slot:fieldFormation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
    count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+(((root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10)-10)*.02),
    pool:count*u.hp,x:i<4?1:3,y:i<4?[0,2,5,8][i]:[1,4,7][i-4]}});
  const archetypes=[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
@@ -163,7 +166,7 @@ function tick(s,now=Date.now()){
  s.ap=Math.min(s.apMax,s.ap+s.apMax*.1*seconds/3600);
  let left=seconds;
  while(s.training.length&&left>0){let task=s.training[0];const use=Math.min(left,task.remaining);task.remaining-=use;left-=use;if(task.remaining<=0.00001){s.army[task.unitId]=(s.army[task.unitId]||0)+task.count;note(s,`Hoàn tất tuyển ${task.count} ${getUnit(s,task.unitId).name}.`);s.training.shift();}else break;}
- if(s.march){s.march.remaining=Math.max(0,s.march.remaining-seconds);if(s.march.remaining<=0)battleOpen(s);}
+ if(s.march){s.march.remaining=Math.max(0,s.march.remaining-seconds);if(s.march.remaining<=0&&s.march.phase!=='return')battleOpen(s);}
 }
 function armyPower(s){return activeArmy(s).reduce((sum,u)=>sum+s.army[u.id]*u.atk,0)}
 function killUnits(s,damage){let rest=damage,dead=0;for(let u of activeArmy(s).sort((a,b)=>a.tier-b.tier)){
@@ -176,7 +179,7 @@ function alive(arr){return arr.filter(u=>u.pool>0)}
 function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
 // SRC23 describes an auto target judged highest in military power; SRC24 says melee prefers the threatening stack in closest range while ranged attacks the strongest stack. The original score is missing; ATK×living-count is our explicit model.
 function combatStackPower(u){return Math.max(0,u.atk*u.count)}
-function casualty(s,unitId,n,slot=null){if(n<=0)return;s.army[unitId]=Math.max(0,(s.army[unitId]||0)-n);if(slot!==null&&s.formation?.[slot])s.formation[slot].count=Math.max(0,s.formation[slot].count-n);
+function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
 function advance(a,b){
  const step=a.range>1?1:a.spd>=7?2:1;

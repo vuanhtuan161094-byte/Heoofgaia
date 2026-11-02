@@ -200,8 +200,9 @@ function recruit(s,id,count){const u=getUnit(s,id);assert(!!u,'Không có quân 
 function spellCost(s,id){const l=s.spells[id]||0;return {gold:Math.ceil(240*Math.pow(1.7,l)),wood:Math.ceil(25*Math.pow(1.5,l)),ore:Math.ceil(25*Math.pow(1.5,l)),sulfur:Math.ceil(10*Math.pow(1.5,l)),crystal:Math.ceil(10*Math.pow(1.5,l))}}
 function learn(s,id){assert(!!C.spells[id],'Không có phép');assert((s.buildings.magicTower||0)>=(s.spells[id]||0)+1,'Cần nâng Magic Tower trước');assert((s.spells[id]||0)<10,'Đạt cấp tối đa mô phỏng');const cost=spellCost(s,id);spend(s,cost);s.spells[id]=(s.spells[id]||0)+1;note(s,`Nghiên cứu ${C.spells[id].name} cấp ${s.spells[id]}.`);return cost;}
 function hire(s){assert(s.buildings.tavern>=1,'Cần Tavern');assert(s.heroes.length<8,'Đạt giới hạn tướng demo');const cost={gold:500+s.heroes.length*300};spend(s,cost);const id=Math.max(...s.heroes.map(h=>h.id))+1;const names=['Seren','Eldwin','Tiriel','Thorne','Velmar','Rowan','Neris'];const name=names[(id-2)%names.length];s.heroes.push({id,name,level:1,xp:0,atk:9+id,def:8+id,spd:6,int:7});note(s,`Chiêu mộ tướng ${name} tại Tavern; giá demo.`);return id;}
-function appoint(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!s.march&&!s.battle,'Không thể đổi Castellan khi đang hành quân');s.castellan=s.castellan===id?null:id;note(s,s.castellan?'Đã bổ nhiệm Castellan.':'Đã bỏ chức Castellan.');}
-function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!s.march&&!s.battle,'Đang hành quân');assert(s.castellan!==id,'Castellan trấn thủ thành');s.activeHero=id;}
+function heroStationed(s,id){return Array.isArray(s.stationedHeroes)&&s.stationedHeroes.some(x=>x.heroId===id)}
+function appoint(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert(!s.march&&!s.battle,'Không thể đổi Castellan khi đang hành quân');s.castellan=s.castellan===id?null:id;note(s,s.castellan?'Đã bổ nhiệm Castellan.':'Đã bỏ chức Castellan.');}
+function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert(!s.march&&!s.battle,'Đang hành quân');assert(s.castellan!==id,'Castellan trấn thủ thành');s.activeHero=id;}
 // HG-03 map geometry: procedural ORIGINAL art and prototype coordinates, not proprietary map data.
 const WIDTH=28, HEIGHT=18;
 function mapTiles(){
@@ -272,12 +273,14 @@ function activeArmy(s){return arrUnits(s).filter(u=>s.army[u.id]>0)}
 function makeBattle(s,target,remainingRatio=1){
  const tile=getTile(target);assert(!!tile&&tile.kind!=='empty','Mục tiêu trận chiến không hợp lệ');
  const lv=tile.level||1;
- const selected=(s.formation?.length?s.formation:activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:s.army[u.id]})));
+ const fieldArmy=s.expedition?.army||s.army,fieldFormation=s.expedition?.formation||s.formation;
+ const available=arrUnits(s).filter(u=>(fieldArmy[u.id]||0)>0);
+ const selected=(fieldFormation?.length?fieldFormation:available.sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:fieldArmy[u.id]})));
  // Historical guides distinguish ranged attacks and recommend that fast
  // ranged groups fire at enemy ranged groups, but the recovered 2009 catalog
  // has no numeric range. The 20-cell reach covers this prototype's whole grid;
  // this is an explicit playable approximation, not recovered server data.
- const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,s.army[u.id]);return {id:`p${i}`,slot:s.formation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
+ const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,fieldArmy[u.id]||0);return {id:`p${i}`,slot:fieldFormation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
    count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+(((root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10)-10)*.02),
    pool:count*u.hp,x:i<4?1:3,y:i<4?[0,2,5,8][i]:[1,4,7][i-4]}});
  const archetypes=[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
@@ -309,7 +312,7 @@ function tick(s,now=Date.now()){
  s.ap=Math.min(s.apMax,s.ap+s.apMax*.1*seconds/3600);
  let left=seconds;
  while(s.training.length&&left>0){let task=s.training[0];const use=Math.min(left,task.remaining);task.remaining-=use;left-=use;if(task.remaining<=0.00001){s.army[task.unitId]=(s.army[task.unitId]||0)+task.count;note(s,`Hoàn tất tuyển ${task.count} ${getUnit(s,task.unitId).name}.`);s.training.shift();}else break;}
- if(s.march){s.march.remaining=Math.max(0,s.march.remaining-seconds);if(s.march.remaining<=0)battleOpen(s);}
+ if(s.march){s.march.remaining=Math.max(0,s.march.remaining-seconds);if(s.march.remaining<=0&&s.march.phase!=='return')battleOpen(s);}
 }
 function armyPower(s){return activeArmy(s).reduce((sum,u)=>sum+s.army[u.id]*u.atk,0)}
 function killUnits(s,damage){let rest=damage,dead=0;for(let u of activeArmy(s).sort((a,b)=>a.tier-b.tier)){
@@ -322,7 +325,7 @@ function alive(arr){return arr.filter(u=>u.pool>0)}
 function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
 // SRC23 describes an auto target judged highest in military power; SRC24 says melee prefers the threatening stack in closest range while ranged attacks the strongest stack. The original score is missing; ATK×living-count is our explicit model.
 function combatStackPower(u){return Math.max(0,u.atk*u.count)}
-function casualty(s,unitId,n,slot=null){if(n<=0)return;s.army[unitId]=Math.max(0,(s.army[unitId]||0)-n);if(slot!==null&&s.formation?.[slot])s.formation[slot].count=Math.max(0,s.formation[slot].count-n);
+function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
 function advance(a,b){
  const step=a.range>1?1:a.spd>=7?2:1;
@@ -758,7 +761,7 @@ root.HOG_HG07={status:'capacity-base-check',source:'Fandom Heroes',saveSchema:6}
 const E=root.HOG_ENGINE;
 if(!E||E.V!==6)throw Error('HG08 requires HG06/HG07');
 const prior={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.parseSave,serialize:E.serializeSave,startMarch:E.startMarch,
- recruit:E.recruit,battleAct:E.battleAct,hire:E.hireCandidate,refreshTavern:E.refreshTavern,learn:E.learn};
+ recruit:E.recruit,battleAct:E.battleAct,hire:E.hireCandidate,refreshTavern:E.refreshTavern,learn:E.learn,appoint:E.appoint,selectHero:E.selectHero};
 const V=7,KEY='heoofgaia_hg_only_v07';
 const XP_TO_NEXT=[150,369,653,990,1371,1793,2252,2745,3270,3824,4407,5018,5654,6315,7001,7710,8441,9194,9968];
 // These are labels for the historical recruitment table, not a second level store.
@@ -790,8 +793,24 @@ function mineLimit(s){
 }
 const attrKeys=['atk','def','spd','int'];
 function obj(v){return !!v&&typeof v==='object'&&!Array.isArray(v)}
+function legacyDispatch(s){
+ if(!s.march&&!s.battle)return null;
+ const form=[];
+ if(s.battle?.allies?.length){for(const a of s.battle.allies)if(a.unitId&&a.count>0)form.push({unitId:a.unitId,count:a.count})}
+ else if(s.formation?.length){for(const g of s.formation)if(g.unitId&&g.count>0)form.push({unitId:g.unitId,count:g.count})}
+ else for(const u of E.activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7))form.push({unitId:u.id,count:s.army[u.id]||0});
+ const army={};for(const g of form){const u=E.getUnit(s,g.unitId);if(!u)continue;const count=Math.min(Math.max(0,Math.floor(g.count)),s.army[u.id]||0);if(count){army[u.id]=(army[u.id]||0)+count;s.army[u.id]-=count}}
+ if(!Object.keys(army).length)return null;
+ const heroId=s.march?.heroId||s.activeHero;
+ return {heroId,homeKey:'3,4',army,formation:form.filter(g=>army[g.unitId]>0),phase:s.battle?'battle':'outbound'};
+}
+function heroAway(s,id){return !!(s.expedition?.heroId===id||s.stationedHeroes?.some(x=>x.heroId===id))}
 function ensure(s){
  E.ensure06(s);
+ if(!Array.isArray(s.stationedHeroes))s.stationedHeroes=[];
+ if(!Object.prototype.hasOwnProperty.call(s,'expedition'))s.expedition=legacyDispatch(s);
+ if(s.march&&!s.march.phase)s.march.phase='outbound';
+ if(s.march&&!s.march.fromKey)s.march.fromKey=s.march.path?.[0]||'3,4';
  for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!Number.isSafeInteger(s.buildings[key]))s.buildings[key]=key==='graveyard'&&s.race==='undead'?(s.buildings.barracks||0):0;
  if(!obj(s.spells))s.spells={};
  if(!Object.prototype.hasOwnProperty.call(s,'researchQueue'))s.researchQueue=null;
@@ -850,7 +869,7 @@ function grantHeroExperience(s,heroId,amount,reason='gameplay'){
 }
 function allocateHeroPoint(s,heroId,attribute){
  ensure(s);if(!attrKeys.includes(attribute))throw Error('Thuộc tính không hợp lệ');
- if(s.march||s.battle)throw Error('Không thể phân điểm khi tướng đang hành quân hoặc chiến đấu');
+ if(s.march||s.battle||heroAway(s,heroId))throw Error('Không thể phân điểm khi tướng đang hành quân hoặc đồn trú');
  const h=s.heroes.find(x=>x.id===heroId);if(!h)throw Error('Không tìm thấy tướng');
  if(!Number.isSafeInteger(h.statPoints)||h.statPoints<1)throw Error('Tướng chưa có điểm thuộc tính chưa dùng');
  h[attribute]=(h[attribute]||0)+1;h.statPoints--;h.spentAttributePoints[attribute]++;
@@ -932,35 +951,87 @@ function progressArena(s,gameSeconds){
  s.army[q.unitId]=(s.army[q.unitId]||0)+q.count;s.arenaQueue=null;
  E.note(s,`Arena hồi phục xong ${q.count} ${E.getUnit(s,q.unitId).name}; quân đã trở lại thành.`);
 }
+function moveDuration(s,heroId,path){
+ const hero=s.heroes.find(h=>h.id===heroId);if(!hero)throw Error('Không tìm thấy tướng hành quân');
+ return Math.max(40,Math.ceil(20+(path.length-1)*19/(1+hero.spd*.018)));
+}
+function finishReturn(s){
+ const exp=s.expedition;if(!exp||exp.phase!=='returning')throw Error('Không có đội quân đang trở về');
+ for(const [id,count] of Object.entries(exp.army)){if(!Number.isSafeInteger(count)||count<0)throw Error('Quân viễn chinh không hợp lệ');s.army[id]=(s.army[id]||0)+count}
+ const hero=s.heroes.find(h=>h.id===exp.heroId);s.expedition=null;s.march=null;
+ if(hero&&hero.id!==s.castellan)s.activeHero=hero.id;
+ E.note(s,`${hero?.name||'Tướng'} trở về thành cùng ${Object.values(exp.army).reduce((a,b)=>a+b,0)} quân còn lại.`);return true;
+}
+function startReturn(s,fromKey){
+ const exp=s.expedition;if(!exp)throw Error('Không có đội quân ngoài thành');
+ const path=E.pathfind(fromKey,exp.homeKey);if(!path)throw Error('Không tìm thấy đường trở về thành');
+ if(path.length===1){exp.phase='returning';return finishReturn(s)}
+ const seconds=moveDuration(s,exp.heroId,path);exp.phase='returning';
+ s.march={phase:'return',fromKey,target:exp.homeKey,remaining:seconds,total:seconds,heroId:exp.heroId,path};
+ E.note(s,`${s.heroes.find(h=>h.id===exp.heroId).name} rời (${fromKey}) và đang trở về thành; hành quân ${path.length-1} ô.`);return seconds;
+}
+function recallHero(s,heroId){
+ ensure(s);if(s.march||s.battle||s.expedition)throw Error('Tướng khác đang hành quân hoặc giao tranh');
+ const index=s.stationedHeroes.findIndex(x=>x.heroId===heroId);if(index<0)throw Error('Tướng này không đồn trú ngoài bản đồ');
+ const station=s.stationedHeroes[index],path=E.pathfind(station.key,station.homeKey||'3,4');if(!path)throw Error('Không tìm thấy đường trở về thành');
+ s.stationedHeroes.splice(index,1);
+ s.expedition={heroId:station.heroId,homeKey:station.homeKey||'3,4',army:{...station.army},formation:(station.formation||[]).map(g=>({...g})),phase:'returning'};
+ return startReturn(s,station.key);
+}
 function battleAct(s,action){
- const b=s.battle,hero=s.heroes.find(h=>h.id===s.activeHero),snapshot=hero?{level:hero.level,xp:hero.xp,atk:hero.atk,def:hero.def}:null;
- const simulatedReward=b?30*b.level:0;
- if(hero)hero.xp=0;
+ ensure(s);const b=s.battle,exp=s.expedition,hero=s.heroes.find(h=>h.id===(exp?.heroId||s.activeHero)),snapshot=hero?{level:hero.level,xp:hero.xp,atk:hero.atk,def:hero.def}:null;
+ const simulatedReward=b?30*b.level:0;if(hero)hero.xp=0;
  let result;try{result=prior.battleAct(s,action)}finally{if(hero&&snapshot)Object.assign(hero,snapshot)}
  if(result?.type==='win'&&hero)grantHeroExperience(s,hero.id,simulatedReward,'thắng trận · XP chiến đấu đang mô phỏng');
+ if(exp&&s.expedition===exp){
+  const key=b?.target,tile=E.getTile(key);
+  if(result?.type==='win'&&tile?.kind==='mine'){
+   if(s.stationedHeroes.some(x=>x.key===key||x.heroId===exp.heroId))throw Error('Đích mỏ hoặc tướng đã có người đồn trú');
+   s.stationedHeroes.push({heroId:exp.heroId,key,homeKey:exp.homeKey,army:{...exp.army},formation:(exp.formation||[]).map(g=>({...g}))});s.expedition=null;
+   E.note(s,`${hero?.name||'Tướng'} đóng quân tại mỏ (${key}); dùng lệnh Gọi về để trở lại thành.`);
+  }else if(result?.type==='lose'){
+   startReturn(s,key||exp.homeKey);
+  }else if(['win','retreat','timeout'].includes(result?.type))startReturn(s,key||exp.homeKey);
+ }
  return result;
 }
 function tick(s,now=Date.now()){
- ensure(s);if(!Number.isFinite(now)||now<=s.lastTick)return;
- const elapsed=Math.min((now-s.lastTick)/1000,8*3600),gameSeconds=elapsed*(s.speed===1?1:60);
- const before={...s.army},priorTavernRound=s.tavern.round;
- s.version=6;try{prior.tick(s,now)}finally{s.version=V}
- if(s.tavern.round!==priorTavernRound){highTavernCommonStats(s);tavernOffers(s)}
- if(s.castellan){
-  let value=0;for(const u of E.arrUnits(s)){const made=Math.max(0,(s.army[u.id]||0)-(before[u.id]||0));if(made)value+=E.unitValue(u)*made/3}
-  if(value>0)grantHeroExperience(s,s.castellan,value,'đào tạo quân khi làm Castellan · công thức cộng đồng');
- }
- progressArena(s,gameSeconds);
- const q=s.researchQueue;if(q){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)finishResearch(s)}
- return s;
+  ensure(s);if(!Number.isFinite(now)||now<=s.lastTick)return;
+  const elapsed=Math.min((now-s.lastTick)/1000,8*3600),gameSeconds=elapsed*(s.speed===1?1:60);
+  const before={...s.army},priorTavernRound=s.tavern.round;
+  s.version=6;try{prior.tick(s,now)}finally{s.version=V}
+  if(s.tavern.round!==priorTavernRound){highTavernCommonStats(s);tavernOffers(s)}
+  if(s.castellan){let value=0;for(const u of E.arrUnits(s)){const made=Math.max(0,(s.army[u.id]||0)-(before[u.id]||0));if(made)value+=E.unitValue(u)*made/3}if(value>0)grantHeroExperience(s,s.castellan,value,'đào tạo quân khi làm Castellan · công thức cộng đồng')}
+  progressArena(s,gameSeconds);
+  if(s.march?.phase==='return'&&s.march.remaining<=1e-9)finishReturn(s);
+  const q=s.researchQueue;if(q){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)finishResearch(s)}
+  return s;
 }
 function startMarch(s,key){
- const tile=E.getTile(key);
- if(tile?.kind==='mine'&&(s.mines?.length||0)>=mineLimit(s))throw Error('Đã đạt hạn mức '+mineLimit(s)+' mỏ theo danh vọng '+E.fmt(s.fame)+'.');
- return prior.startMarch(s,key);
+  ensure(s);if(s.expedition)throw Error('Đội quân của tướng khác đang hành quân hoặc trở về');
+  const tile=E.getTile(key);
+  if(tile?.kind==='mine'&&(s.mines?.length||0)>=mineLimit(s))throw Error('Đã đạt hạn mức '+mineLimit(s)+' mỏ theo danh vọng '+E.fmt(s.fame)+'.');
+  if(heroAway(s,s.activeHero))throw Error('Tướng đang đồn trú ngoài bản đồ');
+  const selected=(s.formation?.length?s.formation:E.activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:s.army[u.id]}))).filter(g=>g?.unitId&&g.count>0);
+  const army={};for(const g of selected){const u=E.getUnit(s,g.unitId);if(!u||!Number.isSafeInteger(g.count)||g.count<1)throw Error('Đội hình hành quân không hợp lệ');army[u.id]=(army[u.id]||0)+g.count}
+  if(!Object.keys(army).length)throw Error('Không có quân được bố trí');
+  for(const [id,count] of Object.entries(army))if(count>(s.army[id]||0))throw Error('Đội hình vượt số quân hiện có trong thành');
+  const heroId=s.activeHero,formation=selected.map(g=>({unitId:g.unitId,count:g.count}));
+  prior.startMarch(s,key);
+  for(const [id,count] of Object.entries(army))s.army[id]-=count;
+  s.expedition={heroId,homeKey:'3,4',army,formation,phase:'outbound'};
+  s.march.phase='outbound';s.march.fromKey='3,4';s.formation=[];
+  return s.march;
 }
+function appoint(s,id){ensure(s);if(heroAway(s,id))throw Error('Tướng đang hành quân hoặc đồn trú ngoài bản đồ');return prior.appoint(s,id)}
+function selectHero(s,id){ensure(s);if(heroAway(s,id))throw Error('Tướng đang hành quân hoặc đồn trú ngoài bản đồ');return prior.selectHero(s,id)}
 function valid(s){
  if(!s||s.version!==V||!prior.valid({...s,version:6}))return false;
+ if(!Array.isArray(s.stationedHeroes)||!Object.prototype.hasOwnProperty.call(s,'expedition'))return false;
+ const armyValid=pool=>obj(pool)&&Object.entries(pool).every(([id,n])=>E.getUnit(s,id)&&Number.isSafeInteger(n)&&n>=0&&n<=1e9);
+ const stationedIds=new Set();for(const x of s.stationedHeroes){if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||stationedIds.has(x.heroId)||!E.getTile(x.key)||!armyValid(x.army)||!Object.values(x.army).some(n=>n>0)||!Array.isArray(x.formation))return false;stationedIds.add(x.heroId)}
+ if(s.expedition!==null){const x=s.expedition;if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||x.heroId===s.castellan||!E.getTile(x.homeKey)||!armyValid(x.army)||(!Object.values(x.army).some(n=>n>0)&&x.phase!=='returning')||!Array.isArray(x.formation)||!['outbound','battle','returning'].includes(x.phase))return false}
+ if(s.march&&(!['outbound','return'].includes(s.march.phase)||!s.expedition||s.march.heroId!==s.expedition.heroId))return false;
  if(!obj(s.spells)||Object.keys(s.spells).some(k=>!E.C.spells[k]))return false;
  for(const [id,level] of Object.entries(s.spells))if(!Number.isSafeInteger(level)||level<0||level>10)return false;
  if(!Object.prototype.hasOwnProperty.call(s.buildings,'blacksmith')||!Number.isSafeInteger(s.buildings.graveyard)||s.buildings.graveyard<0)return false;
@@ -990,7 +1061,7 @@ function serialize(s){if(!strict(s))throw Error('Save HG08 không hợp lệ');r
 function make(...args){const s=prior.make(...args);s.version=V;return ensure(s)}
 function hireCandidate(s,id){const result=prior.hire(s,id);ensure(s);return result}
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
-E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.valid=valid;
+E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.appoint=appoint;E.selectHero=selectHero;E.recallHero=recallHero;E.finishReturn=finishReturn;E.heroAway=heroAway;E.valid=valid;
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,MINE_HOURLY,mineLimit,
  ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
@@ -1098,8 +1169,9 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
   if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}
   if(q>35){text(c,t.kind==='castle'?'THÀNH GAIA':t.kind==='mine'?{wood:'Rừng',ore:'Quặng',gold:'Mỏ vàng',sulfur:'Lưu huỳnh',crystal:'Pha lê'}[t.value]:t.value,x,y+q*.48,Math.max(11,q*.21),'#fff0c8');}
  }
- // walking hero position interpolated along path
- if(s.march){const m=s.march,progress=1-m.remaining/m.total,indices=(m.path||['3,4',m.target]);const t=clamp(progress,0,.999)*(indices.length-1),i=Math.floor(t);const a=E.getTile(indices[i]),b=E.getTile(indices[Math.min(i+1,indices.length-1)]);if(a&&b){let x=(a.x+(b.x-a.x)*(t-i)+.5)*q,y=(a.y+(b.y-a.y)*(t-i)+.5)*q;
+ // Garrisoned heroes remain visible at occupied mines; traveling heroes follow their saved route.
+ for(const g of (s.stationedHeroes||[])){const t=E.getTile(g.key);if(!t)continue;const x=(t.x+.5)*q,y=(t.y+.44)*q;circle(c,x,y,q*.27,'#263e57');circle(c,x,y,q*.20,'#e3c373');poly(c,[[x-q*.12,y-q*.17],[x,y-q*.38],[x+q*.12,y-q*.17]],'#314f72');text(c,'⚔',x,y-q*.31,15,'#fff0c8');}
+ if(s.march){const m=s.march,progress=1-m.remaining/m.total,indices=(m.path||[m.fromKey||'3,4',m.target]);const t=clamp(progress,0,.999)*(indices.length-1),i=Math.floor(t);const a=E.getTile(indices[i]),b=E.getTile(indices[Math.min(i+1,indices.length-1)]);if(a&&b){let x=(a.x+(b.x-a.x)*(t-i)+.5)*q,y=(a.y+(b.y-a.y)*(t-i)+.5)*q;
   circle(c,x,y,q*.3,'#f0cc6388');circle(c,x,y,q*.16,'#eac77d');poly(c,[[x-q*.14,y-q*.2],[x,y-q*.47],[x+q*.14,y-q*.2]],'#344f6e');text(c,'⚔',x,y-q*.38,17,'#f9e0aa');}}
  c.restore();
  // screen ornaments
@@ -1214,18 +1286,19 @@ function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.m
 function mapView(){
  const target=E.getTile(selected||'3,4');const claimed=t=>state.mines.some(m=>m.key===t.key),cleared=t=>state.cleared.includes(t.key);
  const active=target&&['mine','npc'].includes(target.kind)&&!claimed(target)&&!cleared(target);
- const mineCount=Array.isArray(state.mines)?state.mines.length:0,mineLimit=E.mineLimit(state),mineCapReached=target?.kind==='mine'&&mineCount>=mineLimit;
- const marchLabel=state.march?'Tướng đang hành quân':state.battle?'Đang giao tranh':mineCapReached?'Hết hạn mức mỏ':'🚩 Xuất chinh';
- const marchDisabled=!active||!!state.march||!!state.battle||!E.activeArmy(state).length||mineCapReached;
- const targetStatus=target?(mineCapReached?'Đã đạt hạn mức mỏ theo Fame':claimed(target)?'Đã chiếm':cleared(target)?'Đã dọn sạch':target.kind==='empty'?'Khám phá tự do':'Chưa chinh phục'):'—';
+  const stationed=target&&state.stationedHeroes?.find(x=>x.key===target.key),stationedHero=stationed&&state.heroes.find(h=>h.id===stationed.heroId);
+  const mineCount=Array.isArray(state.mines)?state.mines.length:0,mineLimit=E.mineLimit(state),mineCapReached=target?.kind==='mine'&&mineCount>=mineLimit;
+  const marchLabel=state.march?(state.march.phase==='return'?'Tướng đang trở về':'Tướng đang hành quân'):state.battle?'Đang giao tranh':mineCapReached?'Hết hạn mức mỏ':'🚩 Xuất chinh';
+  const marchDisabled=!active||!!state.march||!!state.battle||!!state.expedition||!E.activeArmy(state).length||mineCapReached;
+  const targetStatus=target?(stationed?`Đồn trú: ${stationedHero?.name||'Tướng'} · ${Object.values(stationed.army).reduce((a,b)=>a+b,0)} quân`:mineCapReached?'Đã đạt hạn mức mỏ theo Fame':claimed(target)?'Đã chiếm':cleared(target)?'Đã dọn sạch':target.kind==='empty'?'Khám phá tự do':'Chưa chinh phục'):'—';
  const marchHint='Mỏ đã chiếm: '+mineCount+'/'+mineLimit+' theo Fame · Chiếm mỏ -6 AP • Quái -8 AP (mô phỏng)';
  const label=t=>t.kind==='castle'?'Thành Gaia':t.kind==='mine'?`Mỏ ${C.resource[t.value].label}`:t.value;
  const desc=target?target.kind==='castle'?'Thành chính • điểm xuất phát':target.kind==='mine'?`${label(target)} · cấp ${target.level}`:target.kind==='npc'?`Trại ${label(target)} · cấp ${target.level}`:`Địa hình ${target.terrain}`:'Chưa chọn mục tiêu';
  return `<div class="scene-title"><div><span class="eyebrow">WORLD EXPLORATION • 28 × 18</span><h1>Thế giới Gaia</h1></div><div class="scene-tools">${button('zoom',{dir:'in'},'＋',false,'secondary')}${button('zoom',{dir:'out'},'－',false,'secondary')}${button('center',{},'⌖ Về thành',false,'secondary')}</div></div>
  <div class="map-frame"><canvas id="world-canvas" width="1176" height="620" aria-label="Bản đồ thế giới tương tác, kéo và chạm chọn tọa độ"></canvas></div>
- <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${targetStatus}</p><div class="actions">${button('march',{},marchLabel,marchDisabled,'primary')}<span class="hint">${esc(marchHint)}</span></div></div>
+ <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${targetStatus}</p><div class="actions">${stationed?button('recall',{id:stationed.heroId},'↩ Gọi tướng về',!!state.march||!!state.battle||!!state.expedition,'primary'):button('march',{},marchLabel,marchDisabled,'primary')}<span class="hint">${esc(stationed?'Tướng và quân đang đóng tại mỏ; gọi về sẽ mất thời gian hành quân nhưng không tốn AP.':marchHint)}</span></div></div>
  <div class="landmarks"><span class="eyebrow">ĐỊA ĐIỂM GẦN ĐÂY</span><div class="landmark-list">${E.TILES.filter(t=>['mine','npc'].includes(t.kind)).sort((a,b)=>Math.abs(a.x-3)+Math.abs(a.y-4)-Math.abs(b.x-3)-Math.abs(b.y-4)).slice(0,7).map(t=>button('select',{key:t.key},`${t.kind==='mine'?'◆':'⚔'} ${esc(label(t))} (${t.x},${t.y})`,false,selected===t.key?'small primary':'small secondary')).join('')}</div></div></div>
- ${state.march?`<div class="banner">🚩 Đạo quân đang tiến tới (${state.march.target}) • ${Math.ceil(state.march.remaining/state.speed)} giây thực còn lại • Đường tránh sông được tính tự động</div>`:''}`;
+ ${state.march?`<div class="banner">🚩 ${state.march.phase==='return'?'Đạo quân đang trở về thành từ '+state.march.fromKey:'Đạo quân đang tiến tới '+state.march.target} • ${Math.ceil(state.march.remaining/state.speed)} giây thực còn lại • Đường tránh sông được tính tự động</div>`:''}`;
 }
 function cityViewBase(){const k=selectedBuilding,b=C.buildings[k],lv=state.buildings[k],cost=E.buildCost(state,k),can=!state.buildingQueue&&b.state==='observed'&&lv<10&&(k==='hall'||lv<state.buildings.hall)&&E.canAfford(state,cost);
  return `<div class="scene-title"><div><span class="eyebrow">CASTLE • ${esc(C.races[state.race].english.toUpperCase())}</span><h1>Thành trì Gaia</h1></div><div class="scene-tools"><span class="tag">Town Hall Lv.${state.buildings.hall}</span><span class="tag">${E.buildOrder.filter(id=>state.buildings[id]>0).length} công trình đang hoạt động</span></div></div>
@@ -1242,7 +1315,7 @@ function armyView(){
  <div class="card"><h2>⚔ Bố trí quân theo nhóm</h2><p class="hint">Giá trị đội hình: <b>${format(E.troopValue(state))}</b> / <b>${format(E.heroLimit(state.heroes.find(h=>h.id===state.activeHero)?.level||1))}</b> điểm chỉ huy cơ bản (bảng tướng Lv1–100 của cộng đồng; bonus Arena/trang bị chưa hỗ trợ). </p><p class="hint">Có thể tách cùng một binh chủng thành nhiều nhóm. Tối đa 7 nhóm trong HG-07 (4 hàng sau + 3 hàng trước, theo ghi nhận cộng đồng); số quân còn lại ở thành. Đây là giới hạn demo, không khẳng định là số ô đúng của client gốc.</p><div class="formation-grid">${Array.from({length:7},(_,i)=>`<div class="formation-slot"><span class="tag">Nhóm ${i+1}</span><select id="formation_unit_${i}" aria-label="Binh chủng nhóm ${i+1}">${opt(formations[i]?.unitId)}</select><input type="number" min="0" max="100000" aria-label="Số quân nhóm ${i+1}" id="formation_count_${i}" value="${formations[i]?.count||0}"></div>`).join('')}</div>${button('formation',{},'✓ Lưu đội hình',!!state.march||!!state.battle,'primary')} <small class="muted">Quân không phân bổ sẽ không xuất chinh.</small></div>
  <div class="grid grid2" style="margin-top:12px">${E.arrUnits(state).map(u=>{const unlock=E.troopPrerequisites(state,u),unlocked=unlock.available,cost=E.recruitCost(state,u,1),checks=unlock.checks.map(c=>{const label=c.kind==='building'?C.buildings[c.key]?.name||c.key:c.key==='bootcamp'?'Bootcamp (Huấn luyện)':c.key==='manufacturing'?'Manufacturing (Chế tạo)':`Phép ${C.spells[c.key]?.vi||c.key}`;return `${esc(label)} ${c.actual}/${c.level}`}).join(' · '),confidence=unlock.status==='OBSERVED'?'Đối chiếu bảng Human trong hướng dẫn Trung Quốc 2009 và xác nhận chéo 2010':unlock.status==='SECONDARY'?(unlock.source==='SRC26'?`SRC26: gate Thunderbird lấy từ bảng thứ cấp; chỉ số khớp catalog 2009 nhưng chưa đối chiếu client gốc`:`SRC28: bài 17173 năm 2010 nêu Centaur tuyển ở Barracks cấp 1; chưa đối chiếu client gốc`):unlock.status==='PARTIAL_SCOUT_HALL_GATE'?`SRC27 (Trung Quốc 2009): Barracks 2 + Scouting 1; Town Hall riêng chưa xác minh; phép Scouting đối chiếu SRC04 (wiki Anh 2009)`:unlock.status==='DERIVED_SCOUT_GATE'?`Vai trò trinh sát và Scouting 1 được đối chiếu chéo phiên bản; Town Hall riêng cho Scout chưa xác minh`:unlock.status==='MODELED_SCOUT_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp 2 chưa có bảng gốc xác nhận; Scouting 1 được đối chiếu vai trò trinh sát (Trung Quốc 2010, wiki tiếng Anh 2009)` :unlock.status==='MODELED_TIER_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp ${u.tier} theo bậc quân; không phải số liệu lịch sử đã xác minh`:`Đã xác minh ${troopBuildingName} là nhà tuyển quân; cổng phụ từng đơn vị của chủng tộc còn thiếu nguồn`;return `<div class="card unitrow"><div><div class="heading">${u.tier>=9?'🐉':u.type==='Ranged'?'🏹':'⚔️'} ${esc(u.name)} <span class="tag">Bậc ${u.tier}</span><span class="tag">${unlock.confidence}</span></div><div class="hint">${u.type} · HP ${u.hp} · ATK ${u.atk} · DEF ${u.def} · SPD ${u.spd}</div><div>Quân trong thành <b class="key">${state.army[u.id]||0}</b> · ${u.timeSec}s/lính</div><div class="tiny muted">Điều kiện: ${checks}</div><div class="tiny muted">${confidence}</div><div class="cost">Giá 1: ${money(cost)}</div></div><div class="entry"><input id="q_${u.id}" aria-label="Số lượng ${esc(u.name)}" type="number" min="1" max="1000" value="3">${button('recruit',{id:u.id},unlocked?'Tuyển':'🔒',!unlocked)}</div></div>`}).join('')}</div>`;
 }
-function heroesViewBase(){const injured=Object.entries(state.wounded).filter(([,n])=>n>0),injuryText=injured.length?injured.map(([id,n])=>`${esc(E.getUnit(state,id)?.name||id)}: ${n}`).join('<br>'):'Không có quân bị thương.';const arena=state.arenaQueue,arenaUnit=arena?E.getUnit(state,arena.unitId):null,arenaCost=injured.length&&!arena?E.arenaHealCost(state,injured[0][0],injured[0][1]):0;return `<h1>🧙 Tướng lĩnh & Arena</h1><p class="hint">Hero Tower, Castellan, Tavern và Arena là hệ thống Heroes of Gaia. Giới hạn chỉ huy cơ bản theo bảng cộng đồng Lv1–100; chỉ số khởi điểm và chi phí tuyển là mô phỏng.</p><div class="grid grid2"><div><h2>Danh sách tướng</h2>${state.heroes.map(h=>`<div class="card"><div class="heading">🧙 ${esc(h.name)} <span class="tag">Lv.${h.level}</span><span class="tag">Chỉ huy ${format(E.heroLimit(h.level))}</span>${h.id===state.activeHero?'<span class="tag">Chỉ huy</span>':''}${h.id===state.castellan?'<span class="tag yellow">Castellan</span>':''}</div><div class="hint">ATK ${h.atk} · DEF ${h.def} · SPD ${h.spd} · INT ${h.int} · EXP ${h.xp}</div><div class="entry">${button('hero',{id:h.id},'Chọn chỉ huy',h.id===state.castellan||!!state.march||!!state.battle,'small secondary')}${button('castellan',{id:h.id},h.id===state.castellan?'Bỏ Castellan':'Bổ nhiệm',!!state.march||!!state.battle,'small secondary')}</div></div>`).join('')}<div class="hr"></div><h3>🍺 Tavern — Ứng viên tướng</h3><p class="hint">Tự làm mới mỗi 60 phút game; mốc số ứng viên L2/L4/L9/L10 đã đối chiếu. Màu tên tính theo hero value; xác suất Tavern L1–L9 và phần 2% stats ngoại lệ ở L10 còn thiếu.</p><p class="muted tiny">Cấp ${state.buildings.tavern} · ${state.tavern.offers.length} ứng viên còn lại · ${Math.ceil(state.tavern.remaining/state.speed)} giây thực tới lượt làm mới</p><div class="tavern-offers">${state.tavern.offers.length?state.tavern.offers.map(o=>`<div class="card"><b>${esc(o.name)}</b> <span class="tag">${o.quality.toUpperCase()}</span><p class="tiny muted">Hero value ${o.heroValue} · ATK ${o.atk} (${o.statColors?.atk||'?'}) · DEF ${o.def} (${o.statColors?.def||'?'}) · SPD ${o.spd} (${o.statColors?.spd||'?'}) · INT ${o.int} (${o.statColors?.int||'?'})</p>${button('hirecandidate',{id:o.id},'Tuyển · '+format(o.gold)+' vàng',state.heroes.length>=8||!E.canAfford(state,{gold:o.gold}),'small secondary')}</div>`).join(''):'<p class="hint">Đã tuyển hết ứng viên trong lượt này.</p>'}</div></div><div><h2>⚕ Arena · Bệnh xá</h2><div class="card">${injuryText}<p class="hint">Nguồn Trung Quốc 2009 ghi 60–80% lính tổn thất thành thương binh, cứu chữa ở Arena bằng 1/7 giá trị quân bằng vàng và với tốc độ khoảng 3/5 tốc độ tuyển. Tỷ lệ 75% trong engine là mô hình điểm giữa. Wiki cộng đồng ghi Reincarnation pre-Babel giảm 1% thời gian mỗi cấp khi Castellan thủ thành (C).</p>${arena?`<div class="banner"><b>Đang điều trị:</b> ${arena.count} ${esc(arenaUnit?.name||arena.unitId)} · còn ${Math.ceil(arena.remaining/state.speed)} giây thực${arena.reincarnationLevel?` · Reincarnation -${arena.reincarnationLevel}%`:''}</div>`:''}${button('heal',{},arena?'Arena đang bận':`💚 Điều trị lượt đầu · ${format(arenaCost)} vàng`,!!arena||!injured.length||!E.canAfford(state,{gold:arenaCost}))}</div><div class="hr"></div><h2>📍 Tác vụ tướng</h2><p class="hint">Tướng là điều kiện bắt buộc để điều quân. Castellan phòng thủ thành; hệ thống nhiều thành và trang bị sẽ bổ sung sau.</p></div></div>`;}
+function heroesViewBase(){const injured=Object.entries(state.wounded).filter(([,n])=>n>0),injuryText=injured.length?injured.map(([id,n])=>`${esc(E.getUnit(state,id)?.name||id)}: ${n}`).join('<br>'):'Không có quân bị thương.';const arena=state.arenaQueue,arenaUnit=arena?E.getUnit(state,arena.unitId):null,arenaCost=injured.length&&!arena?E.arenaHealCost(state,injured[0][0],injured[0][1]):0;return `<h1>🧙 Tướng lĩnh & Arena</h1><p class="hint">Hero Tower, Castellan, Tavern và Arena là hệ thống Heroes of Gaia. Giới hạn chỉ huy cơ bản theo bảng cộng đồng Lv1–100; chỉ số khởi điểm và chi phí tuyển là mô phỏng.</p><div class="grid grid2"><div><h2>Danh sách tướng</h2>${state.heroes.map(h=>`<div class="card"><div class="heading">🧙 ${esc(h.name)} <span class="tag">Lv.${h.level}</span><span class="tag">Chỉ huy ${format(E.heroLimit(h.level))}</span>${h.id===state.activeHero?'<span class="tag">Chỉ huy</span>':''}${h.id===state.castellan?'<span class="tag yellow">Castellan</span>':''}${state.stationedHeroes?.some(x=>x.heroId===h.id)?'<span class="tag yellow">Đồn trú ngoài bản đồ</span>':''}</div><div class="hint">ATK ${h.atk} · DEF ${h.def} · SPD ${h.spd} · INT ${h.int} · EXP ${h.xp}</div><div class="entry">${button('hero',{id:h.id},'Chọn chỉ huy',h.id===state.castellan||E.heroAway(state,h.id)||!!state.march||!!state.battle,'small secondary')}${button('castellan',{id:h.id},h.id===state.castellan?'Bỏ Castellan':'Bổ nhiệm',E.heroAway(state,h.id)||!!state.march||!!state.battle,'small secondary')}${button('recall',{id:h.id},'↩ Gọi về',!state.stationedHeroes?.some(x=>x.heroId===h.id)||!!state.march||!!state.battle||!!state.expedition,'small primary')}</div></div>`).join('')}<div class="hr"></div><h3>🍺 Tavern — Ứng viên tướng</h3><p class="hint">Tự làm mới mỗi 60 phút game; mốc số ứng viên L2/L4/L9/L10 đã đối chiếu. Màu tên tính theo hero value; xác suất Tavern L1–L9 và phần 2% stats ngoại lệ ở L10 còn thiếu.</p><p class="muted tiny">Cấp ${state.buildings.tavern} · ${state.tavern.offers.length} ứng viên còn lại · ${Math.ceil(state.tavern.remaining/state.speed)} giây thực tới lượt làm mới</p><div class="tavern-offers">${state.tavern.offers.length?state.tavern.offers.map(o=>`<div class="card"><b>${esc(o.name)}</b> <span class="tag">${o.quality.toUpperCase()}</span><p class="tiny muted">Hero value ${o.heroValue} · ATK ${o.atk} (${o.statColors?.atk||'?'}) · DEF ${o.def} (${o.statColors?.def||'?'}) · SPD ${o.spd} (${o.statColors?.spd||'?'}) · INT ${o.int} (${o.statColors?.int||'?'})</p>${button('hirecandidate',{id:o.id},'Tuyển · '+format(o.gold)+' vàng',state.heroes.length>=8||!E.canAfford(state,{gold:o.gold}),'small secondary')}</div>`).join(''):'<p class="hint">Đã tuyển hết ứng viên trong lượt này.</p>'}</div></div><div><h2>⚕ Arena · Bệnh xá</h2><div class="card">${injuryText}<p class="hint">Nguồn Trung Quốc 2009 ghi 60–80% lính tổn thất thành thương binh, cứu chữa ở Arena bằng 1/7 giá trị quân bằng vàng và với tốc độ khoảng 3/5 tốc độ tuyển. Tỷ lệ 75% trong engine là mô hình điểm giữa. Wiki cộng đồng ghi Reincarnation pre-Babel giảm 1% thời gian mỗi cấp khi Castellan thủ thành (C).</p>${arena?`<div class="banner"><b>Đang điều trị:</b> ${arena.count} ${esc(arenaUnit?.name||arena.unitId)} · còn ${Math.ceil(arena.remaining/state.speed)} giây thực${arena.reincarnationLevel?` · Reincarnation -${arena.reincarnationLevel}%`:''}</div>`:''}${button('heal',{},arena?'Arena đang bận':`💚 Điều trị lượt đầu · ${format(arenaCost)} vàng`,!!arena||!injured.length||!E.canAfford(state,{gold:arenaCost}))}</div><div class="hr"></div><h2>📍 Tác vụ tướng</h2><p class="hint">Tướng là điều kiện bắt buộc để điều quân. Castellan phòng thủ thành; hệ thống nhiều thành và trang bị sẽ bổ sung sau.</p></div></div>`;}
 function magicViewBase(){return `<h1>🔮 Magic Tower · Lv.${state.buildings.magicTower}</h1><p class="hint">Tên và hiệu ứng chín Castle Spells đối chiếu wiki 2009. Toàn bộ nghiên cứu dùng một hàng đợi thật; chi phí và thời lượng đang mô phỏng. Hero Spells chiến đấu là hệ riêng.</p><div class="grid grid3">${Object.entries(C.spells).filter(([id])=>!['manufacturing','bootcamp'].includes(id)).map(([id,s])=>{const level=state.spells[id]||0,cost=E.spellCost(state,id),queued=state.researchQueue?.key===id;return `<div class="card"><div class="heading">✨ ${s.name}</div><div class="tag">Cấp ${level}</div><p class="hint">${s.res?`+${s.base} ${C.resource[s.res].label} cơ bản + ${s.rate*100}%/cấp`:s.capacity?'+5% giới hạn kho/cấp':s.goldDiscount?'-2% vàng tuyển quân/cấp':s.time?`-${s.time*100}% thời gian/cấp`:s.effect||'Đang xác minh'}</p><div class="cost">${money(cost)}</div>${button('learn',{id},queued?'Đang nghiên cứu':'Nghiên cứu',!!state.researchQueue||!(level<state.buildings.magicTower&&E.canAfford(state,cost)))}</div>`}).join('')}</div>`}
 // HG-04: Hero equipment, race-specific researched spells, quests and functional bazaar/market.
 function itemName(uid){const f=state.inventory.find(i=>i.uid===uid);return f?E.ITEMS[f.itemId]?.name||'—':'Trống';}
@@ -1343,6 +1416,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='heropoint'){E.allocateHeroPoint(state,Number(target.dataset.id),target.dataset.stat);return}
  if(action==='recruit'){const id=target.dataset.id,qty=Number($('q_'+id).value);E.recruit(state,id,qty);toast('Đã thêm hàng đợi tuyển quân.');return}
  if(action==='march'){E.startMarch(state,selected);toast('Tướng đã xuất chinh.');return}
+  if(action==='recall'){const seconds=E.recallHero(state,Number(target.dataset.id));toast(seconds===true?'Tướng đã về thành.':`Tướng đang trở về trong ${Math.ceil(seconds/state.speed)} giây thực.`);return}
  if(action==='battle'){const out=E.battleAct(state,target.dataset.cmd);if(out.type==='win'){tab='map';toast('Chiến thắng!')}else if(out.type==='lose'){tab='heroes';toast('Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab='map';toast('Đã kết thúc giao tranh.')}return}
  if(action==='herolearn'){E.researchHeroSpell(state,target.dataset.id);return}
  if(action==='heroequip'){E.equipSpell(state,target.dataset.id);return}

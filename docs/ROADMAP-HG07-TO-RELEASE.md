@@ -16,7 +16,7 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 | HG07-B | P0 | Apply 1–100 hero base troop-value capacity lookup and guard formation/march; preserve legacy saves | Boundary tests; over-cap rejects without partial state/AP change | PASS locally; migration regressions remain green |
 | HG08 | P0 | Four-race troop gates, hero progression, Tavern, research and training | 40-row tests, migration and real queue/browser checks | IN PROGRESS; exact non-Human gates and candidate odds remain unresolved |
 | HG09 | P0 | Tactical battle turns, targeting, damage, losses and Arena settlement | Deterministic fixtures, 1,000 seeded encounters, actual Chrome gameplay | IN PROGRESS; formulas, morale, ranges and original-client parity remain partial |
-| HG10 | P1 | World ownership, mines, fog, multi-castle and march-return logistics | no duplicate harvest; tile ownership/save identity; offline time | NOT STARTED |
+| HG10 | P1 | World ownership, mines, fog, multi-castle and march-return logistics | no duplicate harvest; tile ownership/save identity; offline time | IN PROGRESS — mine garrison/Recall slice passes Chrome and offline QA; multi-city/fog remains open |
 | HG11 | P1 | Four-race city/world UI, animation and licensed or original art | Dated reference comparison; real desktop/mobile captures | PARTIAL prototype only; original visual parity not established |
 | HG12 | P1 | Offline release, robust saves, import/export, packaging and performance | Reproducible offline artifact; recovery fixtures; physical acceptance | PARTIAL; offline HTML and file:// save/reload pass, release package incomplete |
 | HG13 | P2 | Optional authoritative server, guild, PvP, chat/mail and cross-city marching | Threat model and local integration tests; no offline dependency | NOT STARTED; live service deployment requires infrastructure |
@@ -64,3 +64,12 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 - Regression: Node 84/84, JS syntax 9/9, Chrome 78/78 (0 JS exceptions), Chromium file:// 12/12; one-hour economy tick and reload verified; HTML 153,333 characters.
 - Chrome screenshots use a seeded state with five owned mines and Fame 2,200; renderer, live action and AP deduction execute in the app. No composite/fake image. See docs/evidence/hg08/screenshot-fame-mine-cap-full-desktop.png and screenshot-fame-mine-cap-unlocked-march-desktop.png.
 - HG-08 IN PROGRESS; HG-09 partial; HG-10 partial; HG-11 prototype art only; HG-12 packaging incomplete; HG-13 not started. Private GitHub push and original-client comparison remain blocked.
+
+
+## Latest HG-10 world travel slice — 2026-11-02
+
+- SRC40 (17173, 2009-10-25) says a hero remains at an occupied city/resource point and must be told to return to the original city. Implemented for mines: selected troops leave the castle pool, a mine victory stations the hero and surviving group, and Recall schedules a real saved route home. On arrival survivors merge into the castle army once; mine output remains owned after recall.
+- Compatibility: v07 remains the save key/schema; legacy v07 in-flight marches migrate to the expedition ledger. No HG07/HG08 saves are discarded.
+- Verification: Node 88/88, JavaScript syntax 9/9, installed Chrome 88/88 with zero JS exceptions, Chromium `file://` 22/22. The file:// suite starts with the game's normal army and wins the mine battle without seeding the outcome. It saves/reloads on the outbound and return marches.
+- Art remains procedural prototype work; these screenshots are evidence of this reconstruction only, not original-client parity.
+- Still open under HG-10: multi-city capture/identity, fog/scouting, portals, offline catch-up behavior, historic world map/timing, mine bonuses and original-client comparison. Non-mine automatic return and recall AP cost are unverified model decisions.

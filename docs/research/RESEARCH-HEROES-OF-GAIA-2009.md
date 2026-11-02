@@ -36,6 +36,7 @@
 | SRC22 | 2010-10, publisher-hosted race guide | Chinese / Lequ-SNSFun | Names Elf Scout, Orc Wolf Rider and low-tier Undead Ghost as scouting units; no per-unit building/research gate table | https://www.snsfun.com/yxzc/201010/7753.html |
 | SRC23 | 2009-10-25, player guide | Chinese / 17173 | Automatic battle order is speed descending, then left formation column top-to-bottom followed by the next column; discusses NPC priority targeting, manual focus on ranged groups, and seven-group tactics | https://web.17173.com/content/2009-10-25/1256486243.shtml |
 | SRC24 | Living page, publication/build date unknown | English community wiki / Fandom | Describes speed-based automated turns, melee advance toward a threatening stack, and ranged units firing at the strongest enemy; no numeric range is given | https://heroesofgaia.fandom.com/wiki/Newbie_Guide |
+| SRC40 | 2009-10-25 | Chinese / 17173 player FAQ | After occupying a castle or resource point the hero is stationed there; selecting Return restores the hero to the original main castle | https://web.17173.com/content/2009-10-25/1256486243.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -71,6 +72,7 @@
 | F28 | Guild, PvP, chat, mail, server-authoritative economy | SRC01, SRC17 | B | **MISSING:** would require backend implementation |
 | F29 | Tower of Babel and later expansion modes | SRC17 | B for later versions | **MISSING / out of 2009 baseline:** version decision required |
 | F30 | Game saved on central online server | SRC01 | A | **DIFFERENT:** localStorage + JSON backups by design |
+| F31 | Capture leaves hero stationed at the acquired castle/resource point; Return makes the hero available at the original city | SRC40, 2009-10-25 | B | **HG-10 PARTIAL:** mine garrison and saved manual recall implemented; exact travel/AP rules and multi-city are open |
 
 ## 3. Source conflicts and caveats
 
@@ -124,3 +126,10 @@ The historical articles and wiki pages are **documentary research**. Node/Chromi
 | Same article on Lequ | Repeats broad resource/cap prose | Publisher-hosted 2010 context but near-verbatim, not independent confirmation |
 
 These numeric rules are from a contemporary player guide, not recovered code or original-client observation. They remain region-tagged. An over-cap march is rejected before AP deduction; captured-mine output is derived from persisted ownership records during the economy tick, with no save schema/key change.
+
+
+## SRC40 — Mine garrison and manual return (2026-11-02)
+
+The 17173 player FAQ dated 2009-10-25 states in its “why did my hero disappear after occupation?” section that after occupying a new castle/resource point, the hero is stationed there; the player must choose Return to get the hero back to the original main castle and use them again. The same page separately describes fixed map coordinates and mine production.
+
+This supports HG-10's mine garrison and explicit Recall behavior at B confidence for the Chinese edition. It does not establish the international build, troop transport ledger, route/timing, or AP cost. The reconstruction stores the selected troop group outside the castle pool, persists the destination and return route in the existing v07 save, and merges surviving troops once at arrival. No schema/key bump is made. Automatic return after non-mine battles and recall's no-AP cost remain implementation choices until sourced.

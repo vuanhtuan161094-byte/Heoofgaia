@@ -1,6 +1,6 @@
 {
-  "total": 78,
-  "passed": 78,
+  "total": 88,
+  "passed": 88,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -226,6 +226,46 @@
     },
     {
       "name": "Attack order deals damage after the advanced unit reaches melee range",
+      "passed": true
+    },
+    {
+      "name": "Nearest mine can be selected for a real march",
+      "passed": true
+    },
+    {
+      "name": "Departure removes dispatched troops from the castle pool",
+      "passed": true
+    },
+    {
+      "name": "Reload resumes a persisted outbound expedition",
+      "passed": true
+    },
+    {
+      "name": "March arrival opens a battle with the deployed troop count",
+      "passed": true
+    },
+    {
+      "name": "Natural starter army wins the mine battle and stations its hero",
+      "passed": true
+    },
+    {
+      "name": "World map marks the mine garrison and enables Recall",
+      "passed": true
+    },
+    {
+      "name": "Save reload preserves mine ownership and garrisoned hero",
+      "passed": true
+    },
+    {
+      "name": "Recall starts a return march without charging AP",
+      "passed": true
+    },
+    {
+      "name": "Save reload resumes the return journey",
+      "passed": true
+    },
+    {
+      "name": "Returned survivors join the castle army once; captured mine keeps producing",
       "passed": true
     },
     {
