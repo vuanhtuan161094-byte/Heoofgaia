@@ -36,8 +36,9 @@ with sync_playwright() as p:
     check('Orc catalog shows source-dated Sina Harden Bones at two percent', 'Cường hóa xương cốt' in page.locator('#main').inner_text() and '2%/cấp' in page.locator('#main').inner_text())
     page.locator('[data-action="herolearn"][data-id="harden_bones"]').click()
     page.locator('[data-action="heroequip"][data-id="harden_bones"]').click()
-    started = page.evaluate('''(()=>{const s=HOG_APP_DEBUG.getState(),t=HOG_ENGINE.TILES.find(q=>q.kind==='npc');HOG_ENGINE.startMarch(s,t.key);HOG_ENGINE.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);HOG_APP_DEBUG.render();return {target:t.key,battle:!!s.battle,profile:s.spellEdition}})()''')
+    started = page.evaluate('''(()=>{const image=document.getElementById('unit-orc-imp'),canvas=CanvasRenderingContext2D.prototype,draw=canvas.drawImage;window.__orcSpriteDraws=0;canvas.drawImage=function(img,...args){if(img?.id==='unit-orc-imp')window.__orcSpriteDraws++;return draw.call(this,img,...args)};const s=HOG_APP_DEBUG.getState(),t=HOG_ENGINE.TILES.find(q=>q.kind==='npc');HOG_ENGINE.startMarch(s,t.key);HOG_ENGINE.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);HOG_APP_DEBUG.render();return {target:t.key,battle:!!s.battle,profile:s.spellEdition,imageReady:image.complete&&image.naturalWidth===512,spriteDraws:window.__orcSpriteDraws}})()''')
     check('Source-selected spell enters a naturally generated NPC battle', started['battle'] and started['profile'] == 'china2009')
+    check('Transparent Orc Imp sprite loads and paints into the real battle canvas', started['imageReady'] and started['spriteDraws'] > 0)
     before = page.evaluate('HOG_APP_DEBUG.getState().battle.allies[0].def')
     page.locator('[data-action="cast"][data-id="harden_bones"]').click()
     applied = page.evaluate('''(()=>{const b=HOG_APP_DEBUG.getState().battle;return {def:b.allies[0].def,spell:b.activeSpell?.id}})()''')
@@ -50,7 +51,7 @@ with sync_playwright() as p:
     context.close()
     browser.close()
 
-result = {'command': '.venv\\Scripts\\python.exe qa-spell-edition-chrome.py', 'browser': browser_path, 'total': len(checks), 'passed': sum(c['passed'] for c in checks), 'failed': sum(not c['passed'] for c in checks), 'errors': errors, 'checks': checks}
+result = {'command': '.venv\\Scripts\\python.exe qa-spell-edition-chrome.py', 'browser': browser_path, 'total': len(checks), 'passed': sum(c['passed'] for c in checks), 'failed': sum(not c['passed'] for c in checks), 'errors': errors, 'checks': checks, 'orcSpriteRuntime': started}
 receipt = receipts / 'china-2009-spell-profile-chrome.json'
 for name in ['spell-edition-selector-chrome.png', 'china-2009-orc-harden-bones-combat-chrome.png']:
     asset = evidence / name

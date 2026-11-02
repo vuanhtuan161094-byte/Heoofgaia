@@ -1,8 +1,8 @@
 {
   "command": ".venv\\Scripts\\python.exe qa-spell-edition-chrome.py",
   "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  "total": 7,
-  "passed": 7,
+  "total": 8,
+  "passed": 8,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -23,6 +23,10 @@
       "passed": true
     },
     {
+      "name": "Transparent Orc Imp sprite loads and paints into the real battle canvas",
+      "passed": true
+    },
+    {
       "name": "Casting Harden Bones changes actual allied stack defense by two percent",
       "passed": true
     },
@@ -35,14 +39,21 @@
       "passed": true
     }
   ],
+  "orcSpriteRuntime": {
+    "target": "35,0",
+    "battle": true,
+    "profile": "china2009",
+    "imageReady": true,
+    "spriteDraws": 1
+  },
   "artifacts": {
     "spell-edition-selector-chrome.png": {
-      "sha256": "81C6AF2B3ED0E291ACABC4DEDAA8E753A62FB4EC02D566A8FB718607F137765E",
-      "bytes": 1457664
+      "sha256": "6CBC6F61E4FE9F04E66A584169C800DE81D8FB4A824BFE9361A6A7D267582022",
+      "bytes": 1457657
     },
     "china-2009-orc-harden-bones-combat-chrome.png": {
-      "sha256": "5AED5B989CB62FE6323D1EFD585F1B006347383ADB11D99453A91F017BEAEB76",
-      "bytes": 457644
+      "sha256": "03A76921C1908FE39B456ED80F043757B9AB590CEBDD7557FDE00AAEDB331A6A",
+      "bytes": 457990
     }
   }
 }

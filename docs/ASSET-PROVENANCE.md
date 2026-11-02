@@ -47,3 +47,10 @@ Do not bypass logins/paywalls/DRM or falsely claim extracted original SWF/client
 - The outdoor map and its ten building markers are drawn procedurally by project-owned code in `painter.js`; no SWF, sprite, external texture, screenshot or third-party image was bundled or used as the runtime asset.
 - Building types and coordinates are based on SRC41/SRC43 documentary research. The simplified markers are original code-drawn prototypes for interaction and evidence; they are not historically accurate recovered art and do not meet the final HG-11 visual-fidelity gate.
 - Screenshot `docs/evidence/hg10/world-buildings-chrome.png` is a direct capture of the running offline build in installed Chrome, not an art source. Original 17173/Sina references remain research-only because redistribution rights were not established.
+
+## HG-11 first troop illustration — Orc Imp (2026-11-03)
+
+- One Orc tier-one Imp sprite was generated from text using ChatGPT image generation. No original HOG screenshot, SWF, extracted texture, or third-party art was supplied as generation input. It is a static **RECREATED** illustration, not an original client asset and not an animated sprite.
+- The raw master, prompt, source/runtime checksums, true-alpha scan, crop/scale method, pivot, battle screenshot hash and rights assessment are recorded in `assets/generated/hg11/units/asset-manifest.json`; the visual/engine contract is `docs/assets/HG11-ORC-IMP-SPRITE-CONTRACT.md`.
+- The 512×512 transparent derivative is embedded in the standalone HTML and replaces geometric battle art for `orc_1` only. All other troop identities still use the existing prototype art. Actual Chrome screenshot: `docs/evidence/hg09/china-2009-orc-harden-bones-combat-chrome.png`.
+- Provider timestamp/cost were not reported. Distribution is limited to this independent reconstruction project; inclusion does not imply any permission over Heroes of Gaia names, designs, or original assets.

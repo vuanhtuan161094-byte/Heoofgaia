@@ -28,6 +28,17 @@ test('HG11 four-faction scene assets match 1176x560 provenance hashes',()=>{
  assert.equal(manifest.assets.length,4);const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
  for(const asset of manifest.assets){assert.equal(asset.status,'RECREATED');assert.equal(asset.states.assetQcPass,true);const b=fs.readFileSync(path.join(dir,asset.runtime.projectPath));assert.equal(b.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert([2,6].includes(b[25]));assert.equal(`${b.readUInt32BE(16)}x${b.readUInt32BE(20)}`,'1176x560');assert.equal(sha(b),asset.runtime.sha256,asset.faction);}
 });
+test('HG11 Orc Imp sprite preserves provenance, alpha and captured battle integration',()=>{
+ const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/units/asset-manifest.json'),'utf8'));
+ const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
+ assert.equal(manifest.status,'RECREATED');assert.equal(manifest.animationFrames,undefined);
+ assert.equal(manifest.states.animationFrames,0);assert.equal(manifest.states.integratedInBattle,true);assert.deepEqual(manifest.master.resolution,'1254x1254');assert.deepEqual(manifest.runtime.resolution,'512x512');
+ for(const record of [manifest.master,manifest.runtime]){const file=path.join(dir,record.projectPath),bytes=fs.readFileSync(file);assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(`${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}`,record.resolution);assert.equal(bytes[25],6);assert.equal(sha(bytes),record.sha256);}
+ assert.equal(manifest.runtime.pivotPixels[0],256);assert(manifest.runtime.pivotPixels[1]>0&&manifest.runtime.pivotPixels[1]<512);
+ assert.match(manifest.qualityGate.battleRender,/^PASS:/);assert.match(manifest.qualityGate.readabilityAtBattleScale,/^PASS:/);
+ const evidence=manifest.battleEvidence,shot=fs.readFileSync(path.join(dir,evidence.screenshot));assert.equal(sha(shot),evidence.sha256);assert.equal(`${shot.readUInt32BE(16)}x${shot.readUInt32BE(20)}`,evidence.resolution);
+ const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8');assert(html.includes('id="unit-orc-imp"'));assert(!html.includes('assets/generated/hg11/units/'));assert(html.includes('data:image/png;base64,'));
+});
 test('4 races and 40 unique troops',()=>{assert.deepEqual(Object.keys(C.units).sort(),['elf','human','orc','undead']);assert.equal(Object.values(C.units).flat().length,40);assert.equal(new Set(Object.values(C.units).flat().map(x=>x.id)).size,40)});
 test('China 2009 Sina combat catalog is edition-separated across all four factions',()=>{
  const sources={human:['身先士卒','坚守阵地','背水一战','齐射'],elf:['自然之力','生命之源','百步穿杨'],orc:['经骨强化','狂暴','怒号'],undead:['诅咒术','亡灵巫术','灵力增幅']};

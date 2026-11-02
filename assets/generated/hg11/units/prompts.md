@@ -1,0 +1,13 @@
+# Orc Imp sprite master prompt
+
+Route: ChatGPT `image_gen.imagegen`, generated from text only. No original HOG1 art, screenshot, or third-party artwork was supplied as image input. Prompt call returned the raw master at `C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-1d482747-ea11-47b8-929e-367fc961496c.png`.
+
+> Create ONE original standalone game-ready character MASTER for a modern, premium fantasy strategy game: a tier-one Orc Imp infantry creature for the Orc faction of Heroes of Gaia 1 / Castle of Heroes / 英雄之城. This is a newly imagined recreation, not copied from any game sprite or supplied reference. The game art should feel polished and more beautiful than a 2009 Flash game while keeping the creature identity grounded in this specific Orc faction.
+>
+> Character: a compact, sturdy, intimidating but readable low-tier imp soldier, adult creature, olive/ash-green skin, broad shoulders, small swept-back tusks, expressive amber eyes, thick forearms, asymmetrical weathered russet leather and dark bronze armor plates, rough cloth sash, a small practical iron hand-axe held ready in the right hand. A few restrained brass details. No horns shaped like a famous franchise character; no Warcraft-like equipment, no logos, no glowing magic. Distinct premium painterly realism with carefully textured materials, appealing silhouette, cinematic warm rim light and cool ambient fill. Richly detailed face and hands; avoid tiny noisy detail that disappears when rendered around 56 pixels tall.
+>
+> Pose and framing: single full-body 3/4 view, facing toward screen-right as if about to engage an enemy, natural idle-ready stance, both feet fully visible and close to the same ground line, weapon fully inside the image. Center the body; feet pivot exactly on the horizontal center of the bottom edge. Character occupies about 72 percent of a square canvas with generous transparent padding. Orthographic game-character presentation, consistent scale, no foreshortened giant weapon.
+>
+> Output: one isolated figure on TRUE transparent alpha, square canvas. No background, no floor, no cast shadow outside the feet, no scenery, no border, no text, no watermark, no multiple poses, no sheet, no extra limbs or characters. Crisp clean outline suitable for compositing over a colorful tactical battlefield.
+
+The raw tool master is 1254×1254 RGBA. Runtime processing trims the low-alpha outer pixels to the scanned alpha≥8 bounds, then high-quality downsizes the complete figure into a 512×512 transparent canvas at height 380 px. The runtime asset preserves the bottom-center foot pivot at `[256,446]`. This is one static master, not an animation set.

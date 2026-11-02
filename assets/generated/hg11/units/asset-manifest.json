@@ -1,0 +1,58 @@
+{
+  "schema": "hog1-unit-art-v1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "assetId": "HOG1-HG11-ORC-IMP-MASTER-v1",
+  "unitId": "orc_1",
+  "historicalIdentity": "Orc tier 1 Imp in the dated English catalog; other edition labels differ. See docs/research/HG08-UNIT-VERSION-CROSSWALK.md.",
+  "status": "RECREATED",
+  "provider": "ChatGPT image_gen.imagegen",
+  "generationPrompt": "assets/generated/hg11/units/prompts.md#orc-imp-sprite-master-prompt",
+  "sourceImageId": "exec-1d482747-ea11-47b8-929e-367fc961496c.png",
+  "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-1d482747-ea11-47b8-929e-367fc961496c.png",
+  "sourceRoute": "Generated from text only; no historical screenshot, original game art, or external image supplied as input.",
+  "generationTimestamp": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "generationCost": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "licenseAssessment": "Newly generated project recreation; no extracted HOG1 commercial asset is included. Use is limited to this reconstruction project.",
+  "master": {
+    "projectPath": "assets/generated/hg11/units/orc-imp-master.png",
+    "resolution": "1254x1254",
+    "bytes": 1550653,
+    "sha256": "9937965CD47047D85E232593F719913E327E94F5CC0A0F4080EF31125266B2F0",
+    "format": "RGBA PNG",
+    "alphaRange": [0,255],
+    "visibleBoundsAlpha8": [172,26,1056,1235]
+  },
+  "runtime": {
+    "projectPath": "assets/generated/hg11/units/orc-imp.png",
+    "resolution": "512x512",
+    "bytes": 206944,
+    "sha256": "5D2413B04497B53C51BD10FF9FE3CFB460F7C852BBCDE270218A5B371A4CE086",
+    "format": "RGBA PNG",
+    "alphaRange": [0,255],
+    "visibleBoundsAlpha8": [117,66,394,445],
+    "trimAndScale": "Trim master to alpha>=8 bounds [172,26,1057,1236], high-quality bicubic resize to 278x380, center on transparent 512x512 canvas at (117,66).",
+    "pivotPixels": [256,446],
+    "pivotNormalized": [0.5,0.87109375]
+  },
+  "states": {
+    "masterCreated": true,
+    "transparentAlphaVerified": true,
+    "singleCharacterReviewed": true,
+    "runtimeExported": true,
+    "integratedInBattle": true,
+    "animationFrames": 0
+  },
+  "qualityGate": {
+    "alphaScan": "PASS: Windows System.Drawing full-pixel scan; runtime visible bounds and transparent padding recorded.",
+    "readabilityAtBattleScale": "PASS: name, HP bar, selection ring and count badge remain visible at battle scale in actual Chrome capture.",
+    "battleRender": "PASS: one live NPC battle draws the transparent Orc Imp into the battle canvas; fallback art remains for other identities.",
+    "saveLoadImpact": "PASS: v07 Save/Reload remains compatible; full regression Node 137/137, integrated Chrome 91/91, file:// 29/29, focused sprite/spell Chrome 8/8."
+  },
+  "battleEvidence": {
+    "screenshot": "docs/evidence/hg09/china-2009-orc-harden-bones-combat-chrome.png",
+    "resolution": "1440x1351",
+    "sha256": "03A76921C1908FE39B456ED80F043757B9AB590CEBDD7557FDE00AAEDB331A6A",
+    "receipt": "docs/qa/hg09/china-2009-spell-profile-chrome.json",
+    "chromeSpriteDraws": "asserted greater than zero by the focused real-browser receipt"
+  }
+}
