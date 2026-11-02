@@ -12,3 +12,10 @@ Research sources to inspect: original-era MobyGames screenshots, GameGami histor
 Permitted asset workflow: find historical visual → determine version → validate provenance/rights → use it if authorized, or produce a new high-fidelity equivalent → capture actual engine screenshot → compare with reference → optimize PNG/WebP and test memory on 8 GB Windows.
 
 Do not bypass logins/paywalls/DRM or falsely claim extracted original SWF/client/server. Do not mistake a modern unrelated game with a similar title as source evidence.
+
+## Current package audit (2026-11-02)
+
+- The repository `assets/` folder contains no files in the HG-08 working tree. The interface/map/city visuals are drawn by project-owned HTML/CSS/canvas code; this is not recovered Heroes of Gaia artwork.
+- Captures in `docs/evidence/hg08/` are screenshots produced by this standalone build and Playwright running the installed Chrome binary.
+- Original-era galleries and screenshots are linked in the research/evidence files for reference only. No original SWF, sprite sheet, texture or third-party screenshot is bundled in the offline HTML.
+- No distributable original commercial art has been found or licensed. HG-11 needs new, project-created high-fidelity art or separately documented permission before including source artwork.

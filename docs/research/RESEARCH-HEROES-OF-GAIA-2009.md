@@ -31,6 +31,8 @@
 | SRC16 | archived gallery | GameGami | Original battle and UI reference art, **reference only**, not licensed in package | https://www.gamegami.com/index.php/projects/heroes-of-gaia |
 | SRC17 | 2010+ community compilation | Fandom Wiki | Hero ranks, equipment slots, extra contents; version drift requires care | https://heroesofgaia.fandom.com/wiki/Heroes |
 | SRC18 | 2009/2010 editions | Chinese / Sina game hub | Full list of building/race/technology guides, new-edition sections | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
+| SRC19 | 2010-11, publisher-hosted guide | Chinese / Lequ Heroes of Gaia official site | Human troop production gates for T1 and T3–T10; city and research terminology; includes later-version strategy context | https://www.lequ.com/yxzc/201011/8592.html |
+| SRC20 | 2009-12-27, player-submitted guide | Chinese / 17173 | Independent contemporary copy of the Human troop gates; date and page explicitly identify the 2009 article | https://web.17173.com/content/2009-12-27/1261927948.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -96,3 +98,11 @@
 ## 6. Evidence versus verification
 
 The historical articles and wiki pages are **documentary research**. Node/Chromium tests only show that **HG06 implements its own stated behavior**, not that the 2009 client would behave identically. Verifying exact clone parity requires original data/client and version-stamped empirical or static evidence. The `REV-01` dossier remains background; this HG06 dossier supersedes its three-game planning scope by focusing on Heroes of Gaia alone.
+
+## 7. HG08 research additions and interpretation
+
+- `SRC19` and `SRC20` both publish the Human troop requirements in the same tier order. `SRC20` is explicitly dated 2009-12-27; `SRC19` is hosted in the publisher's Heroes of Gaia section under `/201011/`, so it is treated as a 2010 corroboration rather than mislabeled 2009 evidence. Both provide T1 and T3–T10; neither lists the Scout row.
+- The English community spell page `SRC04` calls the relevant passive city research **Bootcamp** (2% less unit training time per level and a higher-tier recruitment requirement), **Manufacturing** (2% less unit gold cost per level), and says Scouting level 1 is needed for scouting units. The Chinese Human table calls the training gate “练兵技术”. HG08 maps that gate to the English Bootcamp spell by matching role/effect; that name crosswalk is an inference and remains labeled `NAME_MAPPING_DERIVED` in code/evidence. Manufacturing is a direct same-name match.
+- `SRC03` says Barracks levels unlock units but does not provide a full per-race prerequisite table. HG08 does not invent the Elf/Orc/Undead support-building tier for each unit. The client enforces Barracks tier as a partial base gate and displays the missing faction-specific gate status.
+- For Human Scout, `SRC04` supports the Scouting-1 gate and `SRC03` supports a Barracks-level unlock model. Because the cited Human table omits Scout, the exact Town Hall requirement is not enforced or claimed as observed; its status is partial.
+- Current contemporary sources and the older English wiki are a mixed 2009–2010 snapshot. Exact patch parity and international localization equivalence remain unverified. See `docs/research/HG08-EVIDENCE-REGISTER.md` and `docs/research/HG08-TROOP-UNLOCK-MATRIX.md` for row-level coverage.

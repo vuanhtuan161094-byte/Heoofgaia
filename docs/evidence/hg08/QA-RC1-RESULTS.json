@@ -1,0 +1,172 @@
+{
+  "total": 41,
+  "passed": 41,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Intro title",
+      "passed": true
+    },
+    {
+      "name": "No JS exception on intro",
+      "passed": true
+    },
+    {
+      "name": "4 race selection buttons",
+      "passed": true
+    },
+    {
+      "name": "New game respects selected race",
+      "passed": true
+    },
+    {
+      "name": "Top resource bar contains 5 resources",
+      "passed": true
+    },
+    {
+      "name": "World canvas visible",
+      "passed": true
+    },
+    {
+      "name": "World map 28 × 18",
+      "passed": true
+    },
+    {
+      "name": "City canvas visible",
+      "passed": true
+    },
+    {
+      "name": "Elf city exposes its attested race buildings",
+      "passed": true
+    },
+    {
+      "name": "Market selectable as construction",
+      "passed": true
+    },
+    {
+      "name": "Build queue created, level not instant",
+      "passed": true
+    },
+    {
+      "name": "Construction progress shown",
+      "passed": true
+    },
+    {
+      "name": "Market completes after tick",
+      "passed": true
+    },
+    {
+      "name": "Market sale transaction works",
+      "passed": true
+    },
+    {
+      "name": "Tavern candidate cards visible",
+      "passed": true
+    },
+    {
+      "name": "Tavern hero quality is calculated from candidate stats",
+      "passed": true
+    },
+    {
+      "name": "Hire removes only selected candidate",
+      "passed": true
+    },
+    {
+      "name": "Hire adds hero to roster",
+      "passed": true
+    },
+    {
+      "name": "Castellan can be appointed",
+      "passed": true
+    },
+    {
+      "name": "Higher troop tier visibly locked before Barracks",
+      "passed": true
+    },
+    {
+      "name": "Real troop training queue starts",
+      "passed": true
+    },
+    {
+      "name": "Completed troop training awards Castellan XP and level",
+      "passed": true
+    },
+    {
+      "name": "Bootcamp prerequisite is a real canonical Magic Tower spell action",
+      "passed": true
+    },
+    {
+      "name": "Research starts without applying its level early",
+      "passed": true
+    },
+    {
+      "name": "Research completes at its queue boundary",
+      "passed": true
+    },
+    {
+      "name": "Unspent hero attribute point changes combat stat",
+      "passed": true
+    },
+    {
+      "name": "Save stored under v07 key",
+      "passed": true
+    },
+    {
+      "name": "Reload restores race, buildings, heroes and research",
+      "passed": true
+    },
+    {
+      "name": "Reload retains selected Castellan",
+      "passed": true
+    },
+    {
+      "name": "Browser exports valid JSON",
+      "passed": true
+    },
+    {
+      "name": "Browser import restores resources",
+      "passed": true
+    },
+    {
+      "name": "Browser import restores Tavern roster",
+      "passed": true
+    },
+    {
+      "name": "Mobile intro readable",
+      "passed": true
+    },
+    {
+      "name": "Mobile world canvas visible",
+      "passed": true
+    },
+    {
+      "name": "Mobile Tavern displays candidate controls",
+      "passed": true
+    },
+    {
+      "name": "Mobile city canvas visible",
+      "passed": true
+    },
+    {
+      "name": "7 formation slots render",
+      "passed": true
+    },
+    {
+      "name": "40 troop cards show real prerequisite state",
+      "passed": true
+    },
+    {
+      "name": "HG08 cap visible in army UI",
+      "passed": true
+    },
+    {
+      "name": "HG08 progression and capacity libraries active",
+      "passed": true
+    },
+    {
+      "name": "No unhandled browser JS errors",
+      "passed": true
+    }
+  ]
+}

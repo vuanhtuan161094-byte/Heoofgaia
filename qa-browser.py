@@ -1,4 +1,4 @@
-"""HG-06 RC1 browser acceptance with real Chromium rendering and test-only storage shim.
+"""HG-08 browser acceptance with real Chromium rendering and test-only storage shim.
 Run: python qa-browser.py. Browser file:// and localhost are blocked by the sandbox, so
 set_content is used. This tests actual HTML/CSS/JS behavior but not physical file launch.
 """
@@ -7,9 +7,9 @@ import os
 from playwright.sync_api import sync_playwright
 import json, traceback, sys
 folder=Path(__file__).parent
-evidence=folder/'docs'/'evidence'/'hg07-baseline'
+evidence=folder/'docs'/'evidence'/'hg08'
 evidence.mkdir(parents=True,exist_ok=True)
-html=(folder/'Play-Heoofgaia-HG07.html').read_text(encoding='utf-8')
+html=(folder/'Play-Heoofgaia-HG08.html').read_text(encoding='utf-8')
 checks=[];errors=[]
 def check(name,expr):
     try:
@@ -39,7 +39,7 @@ with sync_playwright() as p:
         page.set_content(html,wait_until='load',timeout=20000)
         return page
     d=launch({'width':1440,'height':900})
-    check('Intro title',lambda:d.title().startswith('Hẻoofgaia HG-07'))
+    check('Intro title',lambda:d.title().startswith('Hẻoofgaia HG-08'))
     check('No JS exception on intro',lambda:not errors)
     check('4 race selection buttons',lambda:d.locator('[data-action="race"]').count()==4)
     d.locator('[data-action="race"][data-race="elf"]').click()
@@ -51,6 +51,7 @@ with sync_playwright() as p:
     d.screenshot(path=str(evidence/'screenshot-world-desktop.png'),full_page=True)
     d.locator('#nav [data-tab="city"]').click()
     check('City canvas visible',lambda:d.locator('#city-canvas').is_visible())
+    check('Elf city exposes its attested race buildings',lambda:d.locator('[data-action="building"][data-key="magicPool"]').count()==1 and d.locator('[data-action="building"][data-key="natureTower"]').count()==1 and d.locator('[data-action="building"][data-key="darkHall"]').count()==0)
     check('Market selectable as construction',lambda:d.locator('[data-action="building"][data-key="market"]').count()==1)
     d.locator('[data-action="building"][data-key="market"]').click()
     d.locator('[data-action="upgrade"]').click()
@@ -64,6 +65,7 @@ with sync_playwright() as p:
     check('Market sale transaction works',lambda:d.evaluate('HOG_APP_DEBUG.getState().log[0].includes("Bán 10")'))
     d.locator('#nav [data-tab="heroes"]').click()
     check('Tavern candidate cards visible',lambda:d.locator('[data-action="hirecandidate"]').count()==2)
+    check('Tavern hero quality is calculated from candidate stats',lambda:d.evaluate('(()=>{const h=HOG_APP_DEBUG.getState().tavern.offers[0];return h.quality===HOG_ENGINE.heroNameColor(h)&&Number.isFinite(h.heroValue)})()'))
     old=d.evaluate('HOG_APP_DEBUG.getState().heroes.length')
     d.locator('[data-action="hirecandidate"]').first.click()
     check('Hire removes only selected candidate',lambda:d.evaluate('HOG_APP_DEBUG.getState().tavern.offers.length===1'))
@@ -71,18 +73,36 @@ with sync_playwright() as p:
     d.locator('[data-action="castellan"]').last.click()
     check('Castellan can be appointed',lambda:d.evaluate('HOG_APP_DEBUG.getState().castellan!==null'))
     d.screenshot(path=str(evidence/'screenshot-tavern-desktop.png'),full_page=True)
+    d.locator('#nav [data-tab="army"]').click()
+    check('Higher troop tier visibly locked before Barracks',lambda:d.locator('[data-action="recruit"][data-id="elf_2"]').is_disabled())
+    d.locator('#q_elf_1').fill('4')
+    d.locator('[data-action="recruit"][data-id="elf_1"]').click()
+    check('Real troop training queue starts',lambda:d.evaluate('HOG_APP_DEBUG.getState().training[0]?.count===4'))
+    d.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();HOG_ENGINE.tick(s,s.lastTick+s.training[0].remaining/s.speed*1000+1000);HOG_APP_DEBUG.render()})()')
+    check('Completed troop training awards Castellan XP and level',lambda:d.evaluate('(()=>{const s=HOG_APP_DEBUG.getState(),h=s.heroes.find(x=>x.id===2);return s.army.elf_1===20&&h.level===2&&h.statPoints===1})()'))
+    d.locator('#nav [data-tab="magic"]').click()
+    check('Bootcamp prerequisite is a real canonical Magic Tower spell action',lambda:d.locator('[data-action="learn"][data-id="bootcamp"]').is_enabled())
+    d.locator('[data-action="learn"][data-id="bootcamp"]').click()
+    check('Research starts without applying its level early',lambda:d.evaluate('HOG_APP_DEBUG.getState().researchQueue?.key==="bootcamp"&&(HOG_APP_DEBUG.getState().spells.bootcamp||0)===0'))
+    d.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();HOG_ENGINE.tick(s,s.lastTick+s.researchQueue.remaining/s.speed*1000+1000);HOG_APP_DEBUG.render()})()')
+    check('Research completes at its queue boundary',lambda:d.evaluate('HOG_APP_DEBUG.getState().spells.bootcamp===1&&HOG_APP_DEBUG.getState().researchQueue===null'))
+    d.locator('#nav [data-tab="heroes"]').click()
+    old_atk=d.evaluate('HOG_APP_DEBUG.getState().heroes.find(h=>h.id===2).atk')
+    d.locator('[data-action="heropoint"][data-id="2"][data-stat="atk"]').click()
+    check('Unspent hero attribute point changes combat stat',lambda:d.evaluate('(expected)=>{const h=HOG_APP_DEBUG.getState().heroes.find(x=>x.id===2);return h.atk===expected+1&&h.statPoints===0}',old_atk))
+    d.screenshot(path=str(evidence/'screenshot-progression-desktop.png'),full_page=True)
     d.locator('#save').click()
-    check('Save stored under v06 key',lambda:d.evaluate('!!localStorage.getItem("heoofgaia_hg_only_v06")'))
+    check('Save stored under v07 key',lambda:d.evaluate('!!localStorage.getItem("heoofgaia_hg_only_v07")'))
     store=d.evaluate('window.__qaStore')
     d2=launch({'width':1440,'height':900},store)
-    check('Reload restores race, buildings, heroes',lambda:d2.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return s?.race==="elf"&&s.buildings.market===1&&s.heroes.length===2})()'))
-    check('Reload retains selected Castellan',lambda:d2.evaluate('HOG_APP_DEBUG.getState().castellan!==null'))
+    check('Reload restores race, buildings, heroes and research',lambda:d2.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return s?.race==="elf"&&s.buildings.market===1&&s.heroes.length===2&&s.army.elf_1===20&&s.spells.bootcamp===1&&!s.technologies&&s.heroes.find(h=>h.id===2).level===2&&s.heroes.find(h=>h.id===2).statPoints===0})()'))
+    check('Reload retains selected Castellan',lambda:d2.evaluate('HOG_APP_DEBUG.getState().castellan===2'))
     with d2.expect_download(timeout=10000) as got:
         d2.locator('#export-save').click()
     download=got.value
     savefile=folder/'qa-export-temp.json'
     download.save_as(str(savefile))
-    check('Browser exports valid JSON',lambda:json.loads(savefile.read_text(encoding='utf-8'))['state']['version']==6)
+    check('Browser exports valid JSON',lambda:json.loads(savefile.read_text(encoding='utf-8'))['state']['version']==7)
     d2.evaluate('HOG_APP_DEBUG.getState().res.gold=17;HOG_APP_DEBUG.render()')
     d2.on('dialog',lambda dialog:dialog.accept())
     d2.locator('#import-file').set_input_files(str(savefile))
@@ -104,8 +124,9 @@ with sync_playwright() as p:
     check('Mobile city canvas visible',lambda:m.locator('#city-canvas').is_visible())
     m.locator('#nav [data-tab="army"]').click()
     check('7 formation slots render',lambda:m.locator('[id^="formation_count_"]').count()==7)
-    check('HG07 cap visible in army UI',lambda:'11.500' in m.locator('#main').inner_text())
-    check('HG07 library active',lambda:m.evaluate('typeof HOG_ENGINE.heroLimit==="function"'))
+    check('40 troop cards show real prerequisite state',lambda:m.locator('[data-action="recruit"]').count()==10 and m.locator('.unitrow .tiny.muted').count()>=20)
+    check('HG08 cap visible in army UI',lambda:'11.500' in m.locator('#main').inner_text())
+    check('HG08 progression and capacity libraries active',lambda:m.evaluate('typeof HOG_ENGINE.heroLimit==="function"&&typeof HOG_ENGINE.grantHeroExperience==="function"'))
     check('No unhandled browser JS errors',lambda:not errors)
     m.close()
     browser.close()

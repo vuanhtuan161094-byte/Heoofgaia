@@ -4,7 +4,9 @@
 const source='https://heroesofgaia.wikidot.com/game-units';
 const keys=['gold','wood','ore','sulfur','crystal'];
 const races={human:{name:'Nhân tộc',english:'Human',emoji:'🏰',tone:'#d8c79c'},elf:{name:'Tinh linh',english:'Elf',emoji:'🌳',tone:'#a0d5a4'},orc:{name:'Thú tộc',english:'Orc',emoji:'🛡️',tone:'#dda476'},undead:{name:'Vong linh',english:'Undead',emoji:'💀',tone:'#c9b2d7'}};
-const resource={gold:{label:'Vàng',emoji:'🪙'},wood:{label:'Gỗ',emoji:'🪵'},ore:{label:'Quặng',emoji:'⛏️'},sulfur:{label:'Lưu huỳnh',emoji:'🟡'},crystal:{label:'Pha lê',emoji:'💎'}};
+// Use stable Unicode symbols here: several Windows Chrome installations lack fonts for
+// recent coin/log/sulfur emoji and render those resource icons as empty squares.
+const resource={gold:{label:'Vàng',emoji:'◉'},wood:{label:'Gỗ',emoji:'▤'},ore:{label:'Quặng',emoji:'⚒'},sulfur:{label:'Lưu huỳnh',emoji:'●'},crystal:{label:'Pha lê',emoji:'◆'}};
 const raw={
  human:`Spear Militia|M|40|15|12|4|30|55|6|0|4|0|120
 Scout|M|10|5|5|50|5|68|0|9|0|4|160
@@ -65,7 +67,13 @@ const buildings={
  market:{name:'Market',vi:'Thị trường',icon:'⚖️',desc:'Bán/đổi tài nguyên theo phiên bản thử nghiệm; giá trao đổi chưa xác minh.',base:{gold:170,wood:20,ore:20,sulfur:10,crystal:10},state:'observed'},
  bazaar:{name:'Bazaar',vi:'Thương hội',icon:'🏪',desc:'Bán trang bị demo theo cấp Bazaar, chưa có cuộn phép gốc.',base:{gold:210,wood:30,ore:15,sulfur:12,crystal:12},state:'observed'},
  embassy:{name:'Embassy',vi:'Đại sứ quán',icon:'🏳️',desc:'Bang hội và tiếp viện; chưa có multiplayer.',base:{gold:190,wood:32,ore:36,sulfur:8,crystal:8},state:'catalog'},
- stables:{name:'Stables',vi:'Chuồng ngựa',icon:'🐎',desc:'Công trình hỗ trợ quân nâng cao; điều kiện chưa xác minh.',base:{gold:250,wood:30,ore:35,sulfur:15,crystal:12},state:'catalog'},
+ stables:{name:'Stables',vi:'Chuồng ngựa',icon:'🐎',desc:'Công trình điều kiện cho một số quân Human; điều kiện theo nguồn năm 2009, chi phí xây vẫn mô phỏng.',base:{gold:250,wood:30,ore:35,sulfur:15,crystal:12},state:'observed'},
+ blacksmith:{name:'Blacksmith',vi:'Lò rèn',icon:'⚒️',desc:'Công trình điều kiện cho một số quân Human; điều kiện theo nguồn năm 2009, chi phí xây vẫn mô phỏng.',base:{gold:230,wood:28,ore:48,sulfur:12,crystal:10},state:'observed'},
+ magicPool:{name:'Magic Pool',vi:'Ma huyễn trì',icon:'🌌',desc:'Công trình Elf dùng huấn luyện quân tốc độ cao; cấp cần cho từng quân chưa tìm thấy.',base:{gold:250,wood:40,ore:25,sulfur:12,crystal:18},state:'observed'},
+ natureTower:{name:'Nature Tower',vi:'Tháp Tự Nhiên',icon:'🌿',desc:'Công trình Elf gắn với quân nâng cao; cấp cần cho từng quân chưa tìm thấy.',base:{gold:270,wood:35,ore:30,sulfur:14,crystal:16},state:'observed'},
+ beastPen:{name:'Beast Pen',vi:'Thú xá',icon:'🐺',desc:'Công trình Orc cần cho quân nâng cao; cấp cần cho từng quân chưa tìm thấy.',base:{gold:250,wood:38,ore:28,sulfur:14,crystal:10},state:'observed'},
+ darkHall:{name:'Dark Hall',vi:'Ám Hắc điện',icon:'🌑',desc:'Công trình Undead dùng huấn luyện quân tốc độ cao; cấp cần cho từng quân chưa tìm thấy.',base:{gold:240,wood:32,ore:38,sulfur:16,crystal:12},state:'observed'},
+ soulTower:{name:'Soul Tower',vi:'Chiêu Hồn tháp',icon:'👻',desc:'Công trình Undead cần cho quân nâng cao; cấp cần cho từng quân chưa tìm thấy.',base:{gold:280,wood:30,ore:42,sulfur:18,crystal:18},state:'observed'},
  forge:{name:'Forge',vi:'Lò rèn',icon:'⚒️',desc:'Công trình hỗ trợ trang bị/quân; hiệu ứng chưa xác minh.',base:{gold:200,wood:24,ore:48,sulfur:14,crystal:10},state:'catalog'}
 };
 const spells={forestry:{name:'Forestry',vi:'Lâm nghiệp',res:'wood',base:20,rate:.05},mining:{name:'Mining',vi:'Khai khoáng',res:'ore',base:20,rate:.05},refining:{name:'Refining',vi:'Tinh luyện',res:'sulfur',base:10,rate:.05},polishing:{name:'Polishing',vi:'Đánh bóng',res:'crystal',base:10,rate:.05},storing:{name:'Storing',vi:'Trữ kho',capacity:.05},construction:{name:'Construction',vi:'Xây dựng',time:.03},manufacturing:{name:'Manufacturing',vi:'Chế tạo',goldDiscount:.02},scouting:{name:'Scouting',vi:'Trinh sát',effect:'Mở tuyển Scout'},bootcamp:{name:'Bootcamp',vi:'Huấn luyện',time:.02}};

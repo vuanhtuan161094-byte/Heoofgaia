@@ -3,8 +3,8 @@ from playwright.sync_api import sync_playwright
 import json, os, tempfile
 
 root = Path(__file__).resolve().parent
-html = root / 'Play-Heoofgaia-HG07.html'
-evidence = root / 'docs' / 'evidence' / 'hg07-baseline'
+html = root / 'Play-Heoofgaia-HG08.html'
+evidence = root / 'docs' / 'evidence' / 'hg08'
 evidence.mkdir(parents=True, exist_ok=True)
 checks = []
 errors = []
@@ -38,17 +38,17 @@ with sync_playwright() as p:
     page = context.new_page()
     page.on('pageerror', lambda error: errors.append(str(error)))
     page.goto(html.as_uri(), wait_until='load')
-    check('file:// HTML opens in Chromium', page.title().startswith('Hẻoofgaia HG-07'))
+    check('file:// HTML opens in Chromium', page.title().startswith('Hẻoofgaia HG-08'))
     page.locator('[data-action="race"][data-race="elf"]').click()
     page.locator('[data-action="start"]').click()
     check('Game starts from local file', page.evaluate('HOG_APP_DEBUG.getState().race') == 'elf')
     page.screenshot(path=str(evidence / 'screenshot-file-launch-1280x720.png'), full_page=True)
     page.locator('#save').click()
-    saved = page.evaluate('localStorage.getItem("heoofgaia_hg_only_v06")')
-    check('file:// save is written under legacy v06 key', bool(saved))
+    saved = page.evaluate('localStorage.getItem("heoofgaia_hg_only_v07")')
+    check('file:// save is written under v07 key', bool(saved))
     page.reload(wait_until='load')
     check('file:// reload restores the selected race', page.evaluate('HOG_APP_DEBUG.getState()?.race') == 'elf')
-    check('file:// reload preserves the v06 save', bool(page.evaluate('localStorage.getItem("heoofgaia_hg_only_v06")')))
+    check('file:// reload preserves the v07 save', bool(page.evaluate('localStorage.getItem("heoofgaia_hg_only_v07")')))
     check('No page errors during file launch and reload', not errors)
     context.close()
 
@@ -63,7 +63,7 @@ with sync_playwright() as p:
     page.on('pageerror', lambda error: errors.append(str(error)))
     page.goto(html.as_uri(), wait_until='load')
     check('New browser process reload restores saved race', page.evaluate('HOG_APP_DEBUG.getState()?.race') == 'elf')
-    check('New browser process retains v06 save', bool(page.evaluate('localStorage.getItem("heoofgaia_hg_only_v06")')))
+    check('New browser process retains v07 save', bool(page.evaluate('localStorage.getItem("heoofgaia_hg_only_v07")')))
     check('No page errors after persistent-profile restart', not errors)
     context.close()
     user_data.cleanup()
