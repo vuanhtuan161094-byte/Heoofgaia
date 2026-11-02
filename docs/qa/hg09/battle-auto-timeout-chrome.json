@@ -1,8 +1,8 @@
 {
   "suite": "HG-09 Sina 2009 ten-second manual-control timeout",
   "source": "Installed Google Chrome opening the actual offline standalone HTML over file://. It performs a real March and combat action; QA changes only the travel clock and seeds durable defender values so automatic mode remains observable. The timeout itself, turn processing, UI state and v07 Save/Reload use shipped runtime/UI code.",
-  "total": 13,
-  "passed": 13,
+  "total": 14,
+  "passed": 14,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -14,7 +14,7 @@
     {
       "name": "A real March opens a save-valid tactical encounter",
       "passed": true,
-      "detail": "{\"battle\": true, \"valid\": true, \"autoUntil\": 1793654145044, \"turn\": 1}"
+      "detail": "{\"battle\": true, \"valid\": true, \"autoUntil\": 1793654357248, \"turn\": 1}"
     },
     {
       "name": "Battle UI displays the ten-second Sina timeout",
@@ -32,24 +32,29 @@
       "detail": "10000000 → 9999891"
     },
     {
+      "name": "Focus attacks the selected enemy without increasing damage",
+      "passed": true,
+      "detail": "{\"target\": \"e1\", \"pool\": 9999891, \"damage\": 109}"
+    },
+    {
       "name": "Retreat moves the selected group backward without aborting the whole battle",
       "passed": true,
-      "detail": "{\"x\": 8, \"pool\": 1994, \"enemy\": 9999891, \"turn\": 4, \"order\": \"attack\"}"
+      "detail": "{\"x\": 8, \"pool\": 1992, \"enemy\": 9999891, \"turn\": 5, \"order\": \"attack\"}"
     },
     {
       "name": "Selecting a unit refreshes the manual-control grace period",
       "passed": true,
-      "detail": "1793654145647"
+      "detail": "1793654358174"
     },
     {
       "name": "Advance resolves an actual combat round and resets the timeout",
       "passed": true,
-      "detail": "{\"turn\": 5, \"deadline\": 1793654145698, \"valid\": true}"
+      "detail": "{\"turn\": 6, \"deadline\": 1793654358224, \"valid\": true}"
     },
     {
       "name": "v07 Save/Reload preserves the active battle and its timeout",
       "passed": true,
-      "detail": "{\"turn\": 5, \"deadline\": 1793654145698, \"valid\": true}"
+      "detail": "{\"turn\": 6, \"deadline\": 1793654358224, \"valid\": true}"
     },
     {
       "name": "No-input expiry switches the actual encounter into automatic mode",
@@ -59,12 +64,12 @@
     {
       "name": "Automatic mode executes a real next turn",
       "passed": true,
-      "detail": "6 → 7"
+      "detail": "7 → 8"
     },
     {
       "name": "Player can re-enter manual control without ending the battle",
       "passed": true,
-      "detail": "{\"auto\": false, \"deadline\": 1793654148400, \"valid\": true}"
+      "detail": "{\"auto\": false, \"deadline\": 1793654360939, \"valid\": true}"
     },
     {
       "name": "No JavaScript exceptions during timeout, automatic turn and manual re-entry",
