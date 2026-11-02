@@ -63,6 +63,7 @@ Date: 2026-11-02 (Windows local execution)
 - docs/evidence/hg09/screenshot-arena-treatment-queue-desktop.png and screenshot-undead-reincarnation-arena-desktop.png show actual Arena queue transactions and the Castellan skill's timer effect.
 - docs/evidence/hg08/screenshot-file-arena-queue-1280x720.png is captured from actual Chromium file:// use with an active treatment queue; the offline test reloads it in a second browser process.
 - Research index and scope statement for the Fandom pages: docs/research/FANDOM-WIKI-SURVEY-20261102.md. Its landing page reported 608 articles, but AllPages/category endpoints were blocked by the available retrieval interface; the survey covers the main mechanics families, not all 608 articles.
+- Public GitHub repository/code-index searches found no clearly authorized original client or asset repository. Search results advertising a database leak were excluded without opening download links or retrieving records; the asset dossier records the search scope.
 - Original client/runtime was not available for pixel-level side-by-side comparison. These are screenshots of the reconstruction, not the original. Visual resemblance and gameplay parity remain **NOT TESTED/BLOCKED**; no 1:1 claim is made. Physical Android/Windows-device acceptance: NOT TESTED.
 
 ## Remaining scope and next actions
