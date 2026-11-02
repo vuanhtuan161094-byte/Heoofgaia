@@ -57,6 +57,8 @@ function ensure(s){
  if(!Object.prototype.hasOwnProperty.call(s,'expedition'))s.expedition=legacyDispatch(s);
  if(s.march&&!s.march.phase)s.march.phase='outbound';
  if(s.march&&!s.march.fromKey)s.march.fromKey=s.march.path?.[0]||'3,4';
+ if(s.expedition&&!s.expedition.homeCityId)s.expedition.homeCityId='main';
+ for(const x of s.stationedHeroes)if(!x.homeCityId)x.homeCityId='main';
  for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!Number.isSafeInteger(s.buildings[key]))s.buildings[key]=key==='graveyard'&&s.race==='undead'?(s.buildings.barracks||0):0;
  if(!obj(s.spells))s.spells={};
  if(!Object.prototype.hasOwnProperty.call(s,'researchQueue'))s.researchQueue=null;
@@ -203,7 +205,8 @@ function moveDuration(s,heroId,path){
 }
 function finishReturn(s){
  const exp=s.expedition;if(!exp||exp.phase!=='returning')throw Error('Không có đội quân đang trở về');
- for(const [id,count] of Object.entries(exp.army)){if(!Number.isSafeInteger(count)||count<0)throw Error('Quân viễn chinh không hợp lệ');s.army[id]=(s.army[id]||0)+count}
+ for(const [id,count] of Object.entries(exp.army)){if(!Number.isSafeInteger(count)||count<0)throw Error('Quân viễn chinh không hợp lệ')}
+ if(root.HOG_HG10?.depositArmy)root.HOG_HG10.depositArmy(s,exp.homeCityId||'main',exp.army);else for(const [id,count] of Object.entries(exp.army))s.army[id]=(s.army[id]||0)+count;
  const hero=s.heroes.find(h=>h.id===exp.heroId);s.expedition=null;s.march=null;
  if(hero&&hero.id!==s.castellan)s.activeHero=hero.id;
  E.note(s,`${hero?.name||'Tướng'} trở về thành cùng ${Object.values(exp.army).reduce((a,b)=>a+b,0)} quân còn lại.`);return true;
@@ -221,7 +224,7 @@ function recallHero(s,heroId){
  const index=s.stationedHeroes.findIndex(x=>x.heroId===heroId);if(index<0)throw Error('Tướng này không đồn trú ngoài bản đồ');
  const station=s.stationedHeroes[index],path=E.pathfind(station.key,station.homeKey||'3,4');if(!path)throw Error('Không tìm thấy đường trở về thành');
  s.stationedHeroes.splice(index,1);
- s.expedition={heroId:station.heroId,homeKey:station.homeKey||'3,4',army:{...station.army},formation:(station.formation||[]).map(g=>({...g})),phase:'returning'};
+ s.expedition={heroId:station.heroId,homeKey:station.homeKey||'3,4',homeCityId:station.homeCityId||'main',army:{...station.army},formation:(station.formation||[]).map(g=>({...g})),phase:'returning'};
  return startReturn(s,station.key);
 }
 function battleAct(s,action){
@@ -231,10 +234,11 @@ function battleAct(s,action){
  if(result?.type==='win'&&hero)grantHeroExperience(s,hero.id,simulatedReward,'thắng trận · XP chiến đấu đang mô phỏng');
  if(exp&&s.expedition===exp){
   const key=b?.target,tile=E.getTile(key);
-  if(result?.type==='win'&&tile?.kind==='mine'){
+  if(result?.type==='win'&&(tile?.kind==='mine'||tile?.kind==='castle')){
    if(s.stationedHeroes.some(x=>x.key===key||x.heroId===exp.heroId))throw Error('Đích mỏ hoặc tướng đã có người đồn trú');
-   s.stationedHeroes.push({heroId:exp.heroId,key,homeKey:exp.homeKey,army:{...exp.army},formation:(exp.formation||[]).map(g=>({...g}))});s.expedition=null;
-   E.note(s,`${hero?.name||'Tướng'} đóng quân tại mỏ (${key}); dùng lệnh Gọi về để trở lại thành.`);
+   s.stationedHeroes.push({heroId:exp.heroId,key,homeKey:exp.homeKey,homeCityId:exp.homeCityId||'main',army:{...exp.army},formation:(exp.formation||[]).map(g=>({...g}))});s.expedition=null;
+   if(tile.kind==='mine'){const mine=s.mines.find(m=>m.key===key);if(mine)mine.cityId=exp.homeCityId||'main';E.note(s,`${hero?.name||'Tướng'} đóng quân tại mỏ (${key}); dùng lệnh Gọi về để trở lại thành.`)}
+   else E.note(s,`${hero?.name||'Tướng'} đóng quân tại thành (${key}); đội quân chiếm thành đã sẵn sàng.`);
   }else if(result?.type==='lose'){
    startReturn(s,key||exp.homeKey);
   }else if(['win','retreat','timeout'].includes(result?.type))startReturn(s,key||exp.homeKey);
@@ -265,8 +269,9 @@ function startMarch(s,key){
   const heroId=s.activeHero,formation=selected.map(g=>({unitId:g.unitId,count:g.count}));
   prior.startMarch(s,key);
   for(const [id,count] of Object.entries(army))s.army[id]-=count;
-  s.expedition={heroId,homeKey:'3,4',army,formation,phase:'outbound'};
-  s.march.phase='outbound';s.march.fromKey='3,4';s.formation=[];
+  const homeKey=s.activeCastleKey||'3,4',homeCityId=s.activeCityId||'main';
+  s.expedition={heroId,homeKey,homeCityId,army,formation,phase:'outbound'};
+  s.march.phase='outbound';s.march.fromKey=homeKey;s.formation=[];
   return s.march;
 }
 function appoint(s,id){ensure(s);if(heroAway(s,id))throw Error('Tướng đang hành quân hoặc đồn trú ngoài bản đồ');return prior.appoint(s,id)}
@@ -274,7 +279,7 @@ function selectHero(s,id){ensure(s);if(heroAway(s,id))throw Error('Tướng đan
 function valid(s){
  if(!s||s.version!==V||!prior.valid({...s,version:6}))return false;
  if(!Array.isArray(s.stationedHeroes)||!Object.prototype.hasOwnProperty.call(s,'expedition'))return false;
- const armyValid=pool=>obj(pool)&&Object.entries(pool).every(([id,n])=>E.getUnit(s,id)&&Number.isSafeInteger(n)&&n>=0&&n<=1e9);
+ const armyValid=pool=>obj(pool)&&Object.entries(pool).every(([id,n])=>Object.values(E.C.units).some(list=>list.some(u=>u.id===id))&&Number.isSafeInteger(n)&&n>=0&&n<=1e9);
  const stationedIds=new Set();for(const x of s.stationedHeroes){if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||stationedIds.has(x.heroId)||!E.getTile(x.key)||!armyValid(x.army)||!Object.values(x.army).some(n=>n>0)||!Array.isArray(x.formation))return false;stationedIds.add(x.heroId)}
  if(s.expedition!==null){const x=s.expedition;if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||x.heroId===s.castellan||!E.getTile(x.homeKey)||!armyValid(x.army)||(!Object.values(x.army).some(n=>n>0)&&x.phase!=='returning')||!Array.isArray(x.formation)||!['outbound','battle','returning'].includes(x.phase))return false}
  if(s.march&&(!['outbound','return'].includes(s.march.phase)||!s.expedition||s.march.heroId!==s.expedition.heroId))return false;

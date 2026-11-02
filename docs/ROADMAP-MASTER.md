@@ -38,3 +38,12 @@ One game session must support: create race/city â†’ gather resources â†�
 - Regression: Node 84/84, Chrome 78/78 with 0 exceptions, file:// 12/12, JS syntax 9/9, one-hour mine income tick plus Save/Load, offline build 153,333 characters.
 - Original client, non-Human numeric gates, original art and English/EU parity remain unresolved. HG-08 to HG-12 are incomplete; HG-13 is not started.
 - See docs/qa/HG08_HG13_ACCEPTANCE.md, docs/research/HOG1_SOURCE_AUDIT.md and CURRENT_HG_CHECKPOINT.md.
+
+
+## Latest HG-10 multi-city verification — 2026-11-02
+
+- Integrated node suite **94/94 PASS** (includes HG-07–HG-09 regression), runtime JS syntax **10/10 PASS**, and the reproducible offline builder outputs `Play-Heoofgaia-HG10.html`.
+- Installed Chrome CDP opened the output through `file://`, used the actual march/attack/city-switch UI, and passed **13/13** checks with no JavaScript exceptions; the same browser reload preserved the captured city and garrison. Separate-process file:// persistence remains unverified because Playwright is missing.
+- Captured race-specific city economy and queues run as independent saved city state; multiple-city scope is still partial. Fog/scouting, three simultaneous expeditions, PvP capture/abandonment, regional city gates and original-client comparison remain open.
+- Current city/world visuals are project-authored prototype geometry, visibly not the original game. A dated 2009 visual reference (SRC42) confirms a scenic 2D hill landscape and detailed, terrain-integrated buildings; Fandom survey is partial (608-article full enumeration blocked). HG-11 visuals are a major missing priority; see `docs/research/FANDOM-WIKI-SURVEY-20261102.md`.
+- See exact artifacts, checksums and blocker in `docs/CURRENT_HG_CHECKPOINT.md`.

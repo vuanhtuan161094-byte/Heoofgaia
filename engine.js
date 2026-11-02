@@ -29,7 +29,7 @@ function rate(s){let out={...BASE_HOURLY};
  }
  // Captured-mine output follows the dated Chinese guide SRC39. Per-level scaling is not documented.
  const mineHourly={gold:200,wood:40,ore:40,sulfur:20,crystal:20};
- for(const m of s.mines){if(out[m.res]!==undefined)out[m.res]+=mineHourly[m.res]}
+ for(const m of s.mines){if((m.cityId||'main')===(s.activeCityId||'main')&&out[m.res]!==undefined)out[m.res]+=mineHourly[m.res]}
  // Hero INT increases only the basic Town Hall gold. Fandom's 2/3 percent per point is
  // community-reported and differs from an early Wikidot approximation; provisional.
  const castellan=s.heroes.find(h=>h.id===s.castellan);
@@ -70,7 +70,9 @@ function mapTiles(){
   tiles.push({x,y,key:`${x},${y}`,terrain,kind:'empty'});
  }
  const at=(x,y)=>tiles[y*WIDTH+x];
- const home=at(3,4);home.kind='castle';home.terrain='plain';
+ const home=at(3,4);home.kind='castle';home.race='human';home.value='Thành chính';home.terrain='plain';
+ const secondary=at(9,10);secondary.kind='castle';secondary.race='elf';secondary.value='Thành Nguyệt';secondary.level=1;secondary.terrain='plain';
+ for(const [x,y,race,name] of [[16,5,'orc','Thành Sắt'],[23,8,'undead','Thành Bóng'],[5,13,'undead','Thành Tro'],[12,12,'orc','Thành Sói']]){const city=at(x,y);city.kind='castle';city.race=race;city.value=name;city.level=1;city.terrain='plain';}
  const places=[
   [6,3,'mine','wood',1],[10,2,'mine','ore',1],[12,6,'mine','sulfur',1],[8,7,'mine','crystal',1],[1,7,'mine','gold',1],[14,2,'mine','wood',2],
   [5,6,'npc','Wolves',1],[8,3,'npc','Bandits',2],[13,4,'npc','Goblins',2],[2,1,'npc','Shadows',1],[10,8,'npc','Rogues',3],[15,8,'npc','Wyverns',4],
@@ -113,14 +115,14 @@ function setFormation(s,items){
 }
 function startMarch(s,key){
  assert(!s.march&&!s.battle,'Tướng đang bận');
- const t=getTile(key);assert(t&&['mine','npc'].includes(t.kind),'Chọn mỏ hoặc quái');
+ const t=getTile(key);assert(t&&['mine','npc','castle'].includes(t.kind),'Chọn mỏ, quái hoặc thành trung lập');
  assert(!s.cleared.includes(key)&&!s.mines.some(m=>m.key===key),'Mục tiêu đã hoàn thành');
  assert(s.formation?.length?s.formation.some(g=>g.count>0):Object.values(s.army).some(n=>n>0),'Không có quân được phân bổ');
  const hero=s.heroes.find(h=>h.id===s.activeHero);assert(hero&&s.castellan!==hero.id,'Tướng không sẵn sàng');
- const path=pathfind('3,4',key);assert(path&&path.length>1,'Không tìm thấy đường đi bộ qua địa hình');
+ const homeKey=s.activeCastleKey||'3,4';const path=pathfind(homeKey,key);assert(path&&path.length>1,'Không tìm thấy đường đi bộ qua địa hình');
  const apCost=t.kind==='mine'?6:8;assert(s.ap>=apCost,'Thiếu AP');s.ap-=apCost;
  const seconds=Math.max(40,Math.ceil(20+(path.length-1)*19/(1+hero.spd*.018)));
- s.march={target:key,remaining:seconds,total:seconds,heroId:hero.id,path};
+ s.march={target:key,fromKey:homeKey,remaining:seconds,total:seconds,heroId:hero.id,path};
  note(s,`${hero.name} dẫn quân đi ${path.length-1} ô tới (${t.x},${t.y}), -${apCost} AP.`);
 }
 function activeArmy(s){return arrUnits(s).filter(u=>s.army[u.id]>0)}
@@ -229,7 +231,8 @@ function battleAct(s,action){
  }
  const turn=b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.history.unshift(`Lượt ${turn}: quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
  if(!alive(b.enemies).length){const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
-  if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
+  if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level,cityId:s.activeCityId||'main'});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
+  else if(tile.kind==='castle'){s.cleared.push(tile.key);note(s,`Đánh chiếm thành trung lập ${tile.value||tile.key}.`)}
   else{add(s,{gold:75*tile.level,wood:8*tile.level,ore:8*tile.level,sulfur:5*tile.level,crystal:5*tile.level});s.cleared.push(tile.key);note(s,`Đánh bại ${tile.value}.`)}
   if(hero){hero.xp+=30*b.level;while(hero.xp>=hero.level*80){hero.xp-=hero.level*80;hero.level++;hero.atk+=2;hero.def+=1;}}
   s.fame+=10*b.level;s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost,order:acted.slice()};

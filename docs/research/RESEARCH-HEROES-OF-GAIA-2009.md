@@ -32,11 +32,13 @@
 | SRC17 | 2010+ community compilation | Fandom Wiki | Hero ranks, equipment slots, extra contents; version drift requires care | https://heroesofgaia.fandom.com/wiki/Heroes |
 | SRC18 | 2009/2010 editions | Chinese / Sina game hub | Full list of building/race/technology guides, new-edition sections | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
 | SRC19 | 2010-11, publisher-hosted guide | Chinese / Lequ Heroes of Gaia official site | Human troop production gates for T1 and T3–T10; city and research terminology; includes later-version strategy context | https://www.lequ.com/yxzc/201011/8592.html |
-| SRC20 | 2009-12-27, player-submitted guide | Chinese / 17173 | Independent contemporary copy of the Human troop gates; date and page explicitly identify the 2009 article | https://web.17173.com/content/2009-12-27/1261927948.shtml |
+| SRC20 | 2009-12-27, player-submitted guide | Chinese / 17173 | Human troop gates plus a dated fame-rank table for mine, action-point, castle and hero limits; date and page explicitly identify the 2009 article | https://web.17173.com/content/2009-12-27/1261927948.shtml |
 | SRC22 | 2010-10, publisher-hosted race guide | Chinese / Lequ-SNSFun | Names Elf Scout, Orc Wolf Rider and low-tier Undead Ghost as scouting units; no per-unit building/research gate table | https://www.snsfun.com/yxzc/201010/7753.html |
 | SRC23 | 2009-10-25, player guide | Chinese / 17173 | Automatic battle order is speed descending, then left formation column top-to-bottom followed by the next column; discusses NPC priority targeting, manual focus on ranged groups, and seven-group tactics | https://web.17173.com/content/2009-10-25/1256486243.shtml |
 | SRC24 | Living page, publication/build date unknown | English community wiki / Fandom | Describes speed-based automated turns, melee advance toward a threatening stack, and ranged units firing at the strongest enemy; no numeric range is given | https://heroesofgaia.fandom.com/wiki/Newbie_Guide |
 | SRC40 | 2009-10-25 | Chinese / 17173 player FAQ | After occupying a castle or resource point the hero is stationed there; selecting Return restores the hero to the original main castle | https://web.17173.com/content/2009-10-25/1256486243.shtml |
+| SRC41 | 2009-10-16 | Chinese / 17173 new-player guide | Secondary castles unlock other-race troops and hero spells; routine tasks remain tied to the main-race city; castle count is fame-limited to six; cities can be taken/abandoned; no demolition/downgrade; up to three heroes can be deployed simultaneously | https://web.17173.com/content/2009-10-16/20091016155000113,1.shtml |
+| SRC42 | 2009-06-09 | Chinese / SFACG contemporary review and linked game screenshots | Describes the castle as a scenic 2D landscape with detailed buildings placed across a hillside; the Town Hall opens the building list; eligible building rows are highlighted; tutorial/tasks guide construction. Linked screenshot gallery includes live castle/world UI. | https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml ; https://games.sina.com.cn/o/i/2009-03-05/1638161736.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -67,12 +69,13 @@
 | F23 | 7 tactical army stacks 4 rear + 3 front | SRC09 | A for Chinese Sep 2009 | **ALIGNED LAYOUT:** 7 positions, but tactical AI remains a simulation |
 | F24 | Manual Attack, Stand By, Retreat, Focus alongside automatic turns | SRC12, SRC16, SRC23 | B | **PARTIAL:** controls work; HG-09 ties speed by battlefield position as described in SRC23. Battle formula, full timing and some targeting priorities remain incomplete |
 | F25 | Historical battle encounter timer/entry delay | SRC12, later English summaries | C / version-conflict | **MISSING:** 10-second closed-beta vs later 20-second or different durations; do not hard-code yet |
-| F26 | Four race-specific city backgrounds, alternate architecture | SRC11, SRC14, SRC15 | A | **MISSING:** procedural renderer only; no properly sourced original artwork |
-| F27 | Multiple cities, castles, hero/guild/rank limitations | SRC01, SRC17 | B | **MISSING:** currently single-player offline |
+| F26 | Four race-specific castle environments; scenic 2D landscape with buildings placed into the terrain | SRC11, SRC14, SRC15, SRC42 | A/B | **MISSING / LOW FIDELITY:** current geometric procedural renderer is a functional placeholder and visibly does not match the historical scenic art |
+| F27 | Multiple cities, castles, hero/guild/rank limitations | SRC01, SRC17, SRC20, SRC41 | B | **HG-10 PARTIAL:** Fame-gated neutral-city capture, race-specific local economy, city switching and inactive queues are playable. Castle starting stock/buildings, AP for city capture, PvP seizure/abandonment and three-hero simultaneous deployment remain missing or modeled |
 | F28 | Guild, PvP, chat, mail, server-authoritative economy | SRC01, SRC17 | B | **MISSING:** would require backend implementation |
 | F29 | Tower of Babel and later expansion modes | SRC17 | B for later versions | **MISSING / out of 2009 baseline:** version decision required |
 | F30 | Game saved on central online server | SRC01 | A | **DIFFERENT:** localStorage + JSON backups by design |
-| F31 | Capture leaves hero stationed at the acquired castle/resource point; Return makes the hero available at the original city | SRC40, 2009-10-25 | B | **HG-10 PARTIAL:** mine garrison and saved manual recall implemented; exact travel/AP rules and multi-city are open |
+| F31 | Capture leaves hero stationed at the acquired castle/resource point; Return makes the hero available at the original city | SRC40, 2009-10-25 | B | **HG-10 PARTIAL:** mine and city garrison persist; Recall follows a saved route and returns troops to the tracked departure city. The FAQ says original main city; behavior from secondary-city dispatch remains unverified |
+| F32 | Capturing another-race city unlocks its troops and hero spells; routine tasks remain main-city-only | SRC41, 2009-10-16 | B | **HG-10 PARTIAL:** local race-specific recruitment/research works; task claims are blocked outside the main city. Exact captured-city buildings/stock are modeled |
 
 ## 3. Source conflicts and caveats
 
@@ -80,8 +83,9 @@
 2. **Combat calculation is provisional.** English wiki gives a credible formula `ATKunit²/(ATKunit + DEFtarget)`, hero factor `(100+ATKhero)/(100+DEFhero)`, plus buff multipliers and attack stack count. Other pages openly flag PvP/stat modifiers as untested or broken. Use as measured approximation, not full engine recovery.
 3. **Intelligence formula ambiguity.** Chinese guide mentions +2 Gold/hour per INT, while Fandom gives roughly 2/3% of base Town Hall production per point above 10. HG06 uses the latter as an illustrative model. This needs controlled battle/build screenshots or runtime behavior from an authorized client.
 4. **Not all unit names match across editions.** Example: Orc tier 1 appears as `Imp` in the Wikidot 2009 table while the Fandom table calls it `Peon`. Catalog HG06 retains the earlier Wikidot dataset and records this discrepancy.
-5. **Castle of Heroes search ambiguity.** A contemporary website at `castleofheroes.com` describes a different game (hero cards, castle tiles). This source is excluded from the target game's evidence set.
-6. **One data source does not grant art rights.** Existing screenshots are kept as hyperlinks for comparison. No original commercial sprite/SWF/server files are redistributed.
+5. **Castle-limit patch conflict.** SRC41 (2009-10-16) says the first secondary city unlocks at 8,000 Fame, while SRC20's later 2009-12-27 fame-rank table gives a castle limit of two from 5,800 Fame; the living Fandom Castles page says 22,000 for two. HG-10 uses the dated December China table as its selected profile and exposes the conflict. The correct threshold for the original English/EU client is unverified.
+6. **Castle of Heroes search ambiguity.** A contemporary website at `castleofheroes.com` describes a different game (hero cards, castle tiles). This source is excluded from the target game's evidence set.
+7. **One data source does not grant art rights.** Existing screenshots are kept as hyperlinks for comparison. No original commercial sprite/SWF/server files are redistributed.
 
 ## 4. HG06 code audit: outcomes
 
@@ -133,3 +137,10 @@ These numeric rules are from a contemporary player guide, not recovered code or 
 The 17173 player FAQ dated 2009-10-25 states in its “why did my hero disappear after occupation?” section that after occupying a new castle/resource point, the hero is stationed there; the player must choose Return to get the hero back to the original main castle and use them again. The same page separately describes fixed map coordinates and mine production.
 
 This supports HG-10's mine garrison and explicit Recall behavior at B confidence for the Chinese edition. It does not establish the international build, troop transport ledger, route/timing, or AP cost. The reconstruction stores the selected troop group outside the castle pool, persists the destination and return route in the existing v07 save, and merges surviving troops once at arrival. No schema/key bump is made. Automatic return after non-mine battles and recall's no-AP cost remain implementation choices until sourced.
+
+
+## SRC41 — Secondary-city behavior and main-city tasks (2026-11-02)
+
+The 17173 guide dated 2009-10-16 says that occupying a secondary city unlocks the captured race's troops and hero spells, while routine tasks are performed only in the player's main-race city. It also describes fame-limited city ownership (maximum six), secondary-city capture/abandonment, and limits simultaneous expeditions to three heroes. It says buildings cannot be demolished or downgraded.
+
+HG-10 implements race-separated resources, buildings, troop pools, research and offline queues; city switching; real castle battle/capture; and main-city-only task claiming. Initial stock/buildings for a captured neutral city and an 8-AP castle occupation price are marked MODELED because this guide does not provide those numbers or starting state. The current engine still allows one expedition at a time, so it does not yet match the guide's three-hero simultaneous limit. This is confidence B for the Chinese guide, not proof of English/EU parity.

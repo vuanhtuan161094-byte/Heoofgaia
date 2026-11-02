@@ -1,8 +1,37 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 88,
-  "suitePassed": 88,
+  "suiteTotal": 94,
+  "suitePassed": 94,
   "suiteFailed": 0,
+  "hg10Total": 6,
+  "hg10Passed": 6,
+  "hg10Failed": 0,
+  "hg10Checks": [
+    {
+      "name": "HG10 Chinese rank table gates secondary castles atomically",
+      "passed": true
+    },
+    {
+      "name": "HG10 wins a real neutral-castle battle and stations the field army",
+      "passed": true
+    },
+    {
+      "name": "HG10 city switching isolates race, resources, troops and offline recruitment",
+      "passed": true
+    },
+    {
+      "name": "HG10 recalled troops return to the originating city after switching castles",
+      "passed": true
+    },
+    {
+      "name": "HG10 blocks routine tasks in captured cities and rejects corrupt active-city references",
+      "passed": true
+    },
+    {
+      "name": "HG10 migrates legacy v07 saves without duplicating city stock",
+      "passed": true
+    }
+  ],
   "hg09Total": 14,
   "hg09Passed": 14,
   "hg09Failed": 0,

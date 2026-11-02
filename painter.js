@@ -57,7 +57,7 @@ function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=
  for(const t of E.TILES){let color={plain:'#6d8559',road:'#9e956a',bridge:'#d5c08a',forest:'#28533c',hill:'#6a7262',water:'#408b9c'}[t.terrain]||'#68805b';
   c.fillStyle=color;c.fillRect(m.x+pad+t.x*tw,m.y+pad+t.y*th,tw+.28,th+.28)}
  for(const t of E.TILES){if(t.kind==='empty')continue;
-  c.fillStyle=t.kind==='castle'?'#ffe7ad':t.kind==='mine'?'#f2cf55':'#e99987';
+  const owned=E.cityForKey(s,t.key);c.fillStyle=t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):'#eee0b0'):t.kind==='mine'?'#f2cf55':'#e99987';
   c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(3,tw*.72),Math.max(3,th*.72))}
  if(selected){const t=E.getTile(selected);if(t){c.strokeStyle='#fff';c.lineWidth=2;c.strokeRect(m.x+pad+t.x*tw-1,m.y+pad+t.y*th-1,tw+2,th+2)}}
  const view=mapProjection(canvas);const vw=canvas.width/view.scale,vh=canvas.height/view.scale;
@@ -91,12 +91,12 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
  c.save();c.strokeStyle='#aa926372';c.lineWidth=q*.13;c.lineCap='round';c.lineJoin='round';c.beginPath();[[3.5,4.5],[5.4,4.7],[7.6,4.4],[10.4,5.7],[14.3,7.1],[17.8,7.5],[20.1,8.6],[23.8,11]].forEach(([x,y],i)=>i?c.lineTo(x*q,y*q):c.moveTo(x*q,y*q));c.stroke();c.restore();
  for(const t of E.TILES){if(t.kind==='empty')continue;const x=(t.x+.5)*q,y=(t.y+.54)*q;if(!inside(x+ox,y+oy))continue;
   let done=s.mines.some(m=>m.key===t.key)||s.cleared.includes(t.key);
-  if(t.kind==='castle')castle(c,x,y,q/145,s.race,s.buildings.hall);
+  if(t.kind==='castle'){const owned=E.cityForKey(s,t.key);castle(c,x,y,q/145,owned?.race||t.race||s.race,owned?.local.buildings.hall||1)}
   if(t.kind==='mine')mine(c,x,y,q/95,t.value);
   if(t.kind==='npc'&&!done)monster(c,x,y,q/97,t.level);
   if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
   if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}
-  if(q>35){text(c,t.kind==='castle'?'THÀNH GAIA':t.kind==='mine'?{wood:'Rừng',ore:'Quặng',gold:'Mỏ vàng',sulfur:'Lưu huỳnh',crystal:'Pha lê'}[t.value]:t.value,x,y+q*.48,Math.max(11,q*.21),'#fff0c8');}
+  if(q>35){const city=E.cityForKey(s,t.key);text(c,t.kind==='castle'?(city?.name||t.value||'Thành trung lập'):t.kind==='mine'?{wood:'Rừng',ore:'Quặng',gold:'Mỏ vàng',sulfur:'Lưu huỳnh',crystal:'Pha lê'}[t.value]:t.value,x,y+q*.48,Math.max(11,q*.21),'#fff0c8');}
  }
  // Garrisoned heroes remain visible at occupied mines; traveling heroes follow their saved route.
  for(const g of (s.stationedHeroes||[])){const t=E.getTile(g.key);if(!t)continue;const x=(t.x+.5)*q,y=(t.y+.44)*q;circle(c,x,y,q*.27,'#263e57');circle(c,x,y,q*.20,'#e3c373');poly(c,[[x-q*.12,y-q*.17],[x,y-q*.38],[x+q*.12,y-q*.17]],'#314f72');text(c,'⚔',x,y-q*.31,15,'#fff0c8');}
@@ -144,7 +144,7 @@ function drawCity(canvas,E,s,highlight){if(!canvas)return;const c=canvas.getCont
   if(highlight===key){circle(c,x,y-42,42,'#e2ce7c47');c.strokeStyle='#ffdf9e';c.lineWidth=3;c.beginPath();c.ellipse(x,y-8,47,15,0,0,TAU);c.stroke()}
   rounded(c,x-52,y-20,104,20,5,'#162d34d8','#918767');text(c,icons[key]+' '+E.C.buildings[key].name+' Lv.'+level,x,y-6,10,'#f4dca9');
  }
- rounded(c,17,15,251,41,8,'#10252cb8','#c7ad7a');text(c,`${E.C.races[s.race].english.toUpperCase()} • THÀNH GAIA`,33,43,18,'#f7e3b8','left');
+ rounded(c,17,15,251,41,8,'#10252cb8','#c7ad7a');text(c,`${E.C.races[s.race].english.toUpperCase()} • ${E.activeCity(s).name.toUpperCase()}`,33,43,18,'#f7e3b8','left');
  rounded(c,w-215,15,200,41,8,'#10252cb8','#c7ad7a');text(c,`TOWN HALL • LV ${s.buildings.hall}`,w-115,42,16);
  if(s.buildingQueue){const q=s.buildingQueue;rounded(c,w-265,65,250,38,5,'#142a33db','#ac9162');text(c,'🏗 '+E.C.buildings[q.key].name+' Lv.'+q.level,w-254,81,12,'#f7d79e','left');rounded(c,w-252,87,224,7,3,'#253c3e');rounded(c,w-251,88,Math.max(0,222*(1-q.remaining/q.total)),5,2,'#d6b46c');}
 }

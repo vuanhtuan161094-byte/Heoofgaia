@@ -1,11 +1,11 @@
-/* Independent HG-07–HG-09 regression suite. Run: node qa-engine.cjs */
+/* Independent HG-07–HG-10 regression suite. Run: node qa-engine.cjs */
 const assert=require('node:assert/strict');
 const fs=require('node:fs');
 const path=require('node:path');
 const vm=require('node:vm');
 const ctx=vm.createContext({console});
 const dir=__dirname;
-for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
+for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
 const E=ctx.HOG_ENGINE, C=ctx.HOG_CATALOG;
 let pass=0,failed=0;const results=[];
 function test(name,fn){try{fn();pass++;results.push({name,passed:true});console.log('PASS '+name)}catch(e){failed++;results.push({name,passed:false});console.error('FAIL '+name+': '+e.message)}}
@@ -343,7 +343,60 @@ test('1000 seeded tactical encounters replay identically with valid ledgers',()=
  }
 });
 
+test('HG10 Chinese rank table gates secondary castles atomically',()=>{
+ const rows=[[0,1],[5799,1],[5800,2],[7999,2],[80000,3],[299999,3],[300000,4],[700000,5],[1000000,6]];
+ for(const [fame,count] of rows)assert.equal(E.cityLimit(fame),count,'Fame '+fame);
+ const s=state();s.fame=5799;const before=JSON.stringify(s),ap=s.ap;
+ throws(()=>E.startMarch(s,'9,10'),/danh vọng/i);assert.equal(s.ap,ap);assert.equal(JSON.stringify(s),before);
+});
+
+test('HG10 wins a real neutral-castle battle and stations the field army',()=>{
+ const s=state();s.fame=5800;const home={...s.army};
+ E.startMarch(s,'9,10');assert.equal(s.ap,92);assert.equal(s.army.human_1,0);assert.equal(s.expedition.homeCityId,'main');
+ s.march.remaining=.01;E.tick(s,s.lastTick+1000);assert.equal(s.battle.target,'9,10');
+ for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;e.atk=0;e.def=0}
+ for(const a of s.battle.allies)a.range=20;
+ let out;for(let i=0;i<8&&s.battle;i++)out=E.battleAct(s,'attack');
+ assert.equal(out.type,'win');assert.equal(s.cities.length,2);const city=E.cityForKey(s,'9,10');assert.equal(city.race,'elf');assert.equal(city.sourceStatus,'MODELED_STARTING_CITY');
+ assert.equal(s.stationedHeroes[0].key,'9,10');assert.equal(s.stationedHeroes[0].homeCityId,'main');assert.equal(s.army.human_1,home.human_1-16);
+ assert.equal(s.cleared.includes('9,10'),true);assert(E.strictSave(s));
+});
+
+test('HG10 city switching isolates race, resources, troops and offline recruitment',()=>{
+ const s=state();s.fame=5800;E.startMarch(s,'9,10');s.march.remaining=.01;E.tick(s,s.lastTick+1000);
+ for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;e.atk=0;e.def=0}for(const a of s.battle.allies)a.range=20;
+ let out;for(let i=0;i<8&&s.battle;i++)out=E.battleAct(s,'attack');assert.equal(out.type,'win');
+ const elf=E.cityForKey(s,'9,10');E.switchCity(s,elf.id);assert.equal(s.race,'elf');assert(Object.keys(s.army).every(id=>id.startsWith('elf_')));throws(()=>E.claim(s,'any-task'),/thành chính/i);const elfBase=E.rate(s).gold;s.mines.push({key:'10,2',res:'gold',level:1,cityId:'main'});assert.equal(E.rate(s).gold,elfBase);E.switchCity(s,'main');assert.equal(E.rate(s).gold-160,200);E.switchCity(s,elf.id);
+ for(const k of C.keys)s.res[k]=E.limits(s)[k];const unit=C.units.elf[0];E.recruit(s,unit.id,1);const queued=s.training[0].total;E.syncCityState(s);
+ const elfBefore={...s.res};E.switchCity(s,'main');s.res.gold-=0;const now=s.lastTick+Math.ceil(queued/60*1000)+2000;E.tick(s,now);
+ const savedElf=E.cityForKey(s,'9,10');assert.equal(savedElf.local.training.length,0);assert.equal(savedElf.local.army[unit.id],1);
+ assert.equal(Object.keys(s.army).every(id=>id.startsWith('human_')),true);const humanResources={...s.res};
+ E.switchCity(s,elf.id);assert.equal(s.race,'elf');assert.equal(s.army[unit.id],1);assert.notDeepEqual(s.res,humanResources);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.activeCityId,elf.id);assert.equal(E.cityForKey(loaded,'9,10').local.army[unit.id],1);assert(E.strictSave(loaded));
+});
+
+test('HG10 recalled troops return to the originating city after switching castles',()=>{
+ const s=state();s.fame=5800;E.startMarch(s,'9,10');s.march.remaining=.01;E.tick(s,s.lastTick+1000);
+ for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;e.atk=0;e.def=0}for(const a of s.battle.allies)a.range=20;
+ let out;for(let i=0;i<8&&s.battle;i++)out=E.battleAct(s,'attack');assert.equal(out.type,'win');
+ const deployed={...s.stationedHeroes[0].army};E.switchCity(s,'city-9-10');E.recallHero(s,1);assert.equal(s.expedition.homeCityId,'main');
+ E.tick(s,s.lastTick+120000);assert.equal(s.expedition,null);assert.equal(s.activeCityId,'city-9-10');
+ const home=E.cityForKey(s,'3,4');for(const [id,n] of Object.entries(deployed))assert.equal(home.local.army[id],n);
+ assert(Object.keys(s.army).every(id=>id.startsWith('elf_')));assert(E.strictSave(s));
+});
+
+test('HG10 blocks routine tasks in captured cities and rejects corrupt active-city references',()=>{
+ const s=state();s.fame=5800;E.startMarch(s,'9,10');s.march.remaining=.01;E.tick(s,s.lastTick+1000);for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;e.atk=0;e.def=0}for(const a of s.battle.allies)a.range=20;while(s.battle)E.battleAct(s,'attack');
+ E.switchCity(s,'city-9-10');throws(()=>E.claim(s,'any-task'),/thành chính/i);const bad=E.clone(s);bad.activeCityId='missing';throws(()=>E.parseSave(JSON.stringify(bad)),/thành không tồn tại/i);
+});
+
+test('HG10 migrates legacy v07 saves without duplicating city stock',()=>{
+ const old=state();old.res.gold=1234;delete old.cities;delete old.activeCityId;delete old.activeCastleKey;
+ const loaded=E.parseSave(JSON.stringify(old));assert.equal(loaded.version,7);assert.equal(loaded.cities.length,1);assert.equal(loaded.activeCityId,'main');assert.equal(loaded.res.gold,1234);assert.equal(loaded.cities[0].local.res.gold,1234);assert(E.strictSave(loaded));
+});
+
+const hg10=results.filter(x=>/^HG10 /.test(x.name));
 const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});
-fs.writeFileSync(path.join(evidence,'QA-HG09-NODE-RESULTS.json'),JSON.stringify({command:'node qa-engine.cjs',suiteTotal:pass+failed,suitePassed:pass,suiteFailed:failed,hg09Total:hg09.length,hg09Passed:hg09.filter(x=>x.passed).length,hg09Failed:hg09.filter(x=>!x.passed).length,seededEncounters:1000,checks:hg09},null,2),'utf8');
+fs.writeFileSync(path.join(evidence,'QA-HG09-NODE-RESULTS.json'),JSON.stringify({command:'node qa-engine.cjs',suiteTotal:pass+failed,suitePassed:pass,suiteFailed:failed,hg10Total:hg10.length,hg10Passed:hg10.filter(x=>x.passed).length,hg10Failed:hg10.filter(x=>!x.passed).length,hg10Checks:hg10,hg09Total:hg09.length,hg09Passed:hg09.filter(x=>x.passed).length,hg09Failed:hg09.filter(x=>!x.passed).length,seededEncounters:1000,checks:hg09},null,2),'utf8');
 console.log(`TOTAL ${pass}/${pass+failed} PASS`);process.exitCode=failed?1:0;

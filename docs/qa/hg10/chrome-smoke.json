@@ -1,0 +1,80 @@
+{
+  "date": "2026-11-02T15:10:46.943Z",
+  "browser": "Google Chrome headless via local DevTools Protocol",
+  "viewport": "1280x980",
+  "url": "file:///E:/Heoofgaia/Play-Heoofgaia-HG10.html",
+  "seedDisclosure": "Fame set to 5,800 and outbound travel timer shortened after a real March click. Initial army, neutral defenders, battle rules and real Attack controls remained untouched.",
+  "checks": [
+    {
+      "name": "Offline HTML exists",
+      "ok": true,
+      "detail": "E:\\Heoofgaia\\Play-Heoofgaia-HG10.html"
+    },
+    {
+      "name": "Chrome executable exists",
+      "ok": true,
+      "detail": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe"
+    },
+    {
+      "name": "Chrome DevTools page is live",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Chrome rendered the offline game",
+      "ok": true,
+      "detail": "{\"title\":\"Hẻoofgaia HG-10 • Heroes of Gaia reconstruction\",\"ready\":\"complete\",\"engine\":7,\"body\":true}"
+    },
+    {
+      "name": "New-game control starts a playable kingdom with fixture Fame",
+      "ok": true,
+      "detail": "Fame 5,800 is seeded solely to reach the documented secondary-city gate in this browser QA."
+    },
+    {
+      "name": "Neutral Elf castle is selectable",
+      "ok": true,
+      "detail": "true"
+    },
+    {
+      "name": "March action dispatches the real starting army",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Travel opens the real castle battle",
+      "ok": true,
+      "detail": "Travel timer was shortened after the UI dispatch; enemy composition, stats, army and combat were not changed."
+    },
+    {
+      "name": "Real attack control wins and captures the city",
+      "ok": true,
+      "detail": "{\"battle\":false,\"cities\":2,\"city\":\"elf\",\"stationed\":{\"human_1\":5},\"army\":0}"
+    },
+    {
+      "name": "City selector switches the actual active economy to Elf",
+      "ok": true,
+      "detail": "{\"id\":\"city-9-10\",\"race\":\"elf\",\"name\":\"Thành Nguyệt\"}"
+    },
+    {
+      "name": "Secondary-city task claims are visibly disabled",
+      "ok": true,
+      "detail": "{\"count\":4,\"allDisabled\":true}"
+    },
+    {
+      "name": "Save persists both castles and garrison across file reload",
+      "ok": true,
+      "detail": "{\"id\":\"city-9-10\",\"race\":\"elf\",\"cities\":2,\"stationed\":true}"
+    },
+    {
+      "name": "Chrome reported no JavaScript exceptions",
+      "ok": true,
+      "detail": ""
+    }
+  ],
+  "exceptions": [],
+  "screenshots": [
+    "docs/evidence/hg10/screenshot-hg10-offline-intro-chrome.png",
+    "docs/evidence/hg10/screenshot-hg10-neutral-castle-battle-chrome.png",
+    "docs/evidence/hg10/screenshot-hg10-secondary-city-chrome.png"
+  ]
+}

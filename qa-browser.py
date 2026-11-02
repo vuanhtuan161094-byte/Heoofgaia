@@ -11,7 +11,7 @@ evidence=folder/'docs'/'evidence'/'hg08'
 evidence.mkdir(parents=True,exist_ok=True)
 hg09_evidence=folder/'docs'/'evidence'/'hg09'
 hg09_evidence.mkdir(parents=True,exist_ok=True)
-html=(folder/'Play-Heoofgaia-HG08.html').read_text(encoding='utf-8')
+html=(folder/'Play-Heoofgaia-HG10.html').read_text(encoding='utf-8')
 checks=[];errors=[]
 def check(name,expr):
     try:

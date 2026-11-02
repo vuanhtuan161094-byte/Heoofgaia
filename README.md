@@ -4,7 +4,7 @@ Standalone reconstruction project for Heroes of Gaia / Castle of Heroes / 英雄
 
 ## Play
 
-Open `Play-Heoofgaia-HG08.html` in Chrome or Edge. The game runs offline. Editable source is in the HTML/CSS/JavaScript files at this repository root.
+Open `Play-Heoofgaia-HG10.html` in Chrome or Edge. The game runs offline. Editable source is in the HTML/CSS/JavaScript files at this repository root.
 
 ## Verify
 
@@ -27,7 +27,7 @@ node qa-engine.cjs
 - `docs/ASSET-PROVENANCE.md` — asset rights register policy.
 - `docs/CURRENT_HG_CHECKPOINT.md` — exact working state and next task.
 
-The primary reference is Heroes of Gaia only. Unverified mechanics remain marked as simulated or missing. HG02–HG07 save data is migrated to the v07 key `heoofgaia_hg_only_v07`; migration preserves hero level/EXP and does not grant retroactive attribute points.
+The primary reference is Heroes of Gaia only. Unverified mechanics remain marked as simulated or missing. HG02–HG07 save data is migrated to the v07 key `heoofgaia_hg_only_v07`; migration preserves hero level/EXP and does not grant retroactive attribute points. The current HG-10 slice has fame-gated secondary-race castles with separate per-city stores and queues. Capture-city starting inventory/AP and original visual parity remain unresolved; see `docs/CURRENT_HG_CHECKPOINT.md`.
 
 
 ## Current research and acceptance
