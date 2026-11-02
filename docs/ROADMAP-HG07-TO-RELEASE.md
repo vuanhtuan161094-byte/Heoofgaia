@@ -42,3 +42,9 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 - Chrome browser suite: 65/65 PASS, 0 page errors. Chromium file:// Save/Load and separate-process restart: 12/12 PASS.
 - The current battle and city artwork is procedurally drawn prototype art. These captures document implemented interactions, not a match against the original client.
 - No remote is configured and private GitHub repository vuanhtuan161094-byte/Heoofgaia is not verified to exist. No push has occurred.
+## Latest browser evidence — 2026-11-02
+
+- This entry supersedes the earlier 65/65 browser count above: commit `4dbadfba76fcdd2f1237d818df8dba9012cc5c58` adds Hall-cap screenshots and the browser suite now reports **68/68 PASS**, zero JavaScript errors. Engine QA is **78/78 PASS**; offline build is **151,931 characters PASS**; actual Chromium `file://` Save/Load is **12/12 PASS**.
+- Fandom remains a partial survey: 608 articles are reported on its home page, but direct enumeration is blocked. Indexed pages read include Units, World Buildings, Newbie Guide, Combat mechanics, Heroes, Castles, Guild, and race/building pages. No claim that every article was read.
+- Fresh Hall-cap evidence: `docs/evidence/hg08/screenshot-townhall-cap-locked-desktop.png` (disabled upgrade at Hall 1) and `docs/evidence/hg08/screenshot-townhall-cap-unlocked-queue-desktop.png` (real Barracks Lv.2 queue after Hall 2). The castle artwork is still a procedural prototype; original-client parity is not established.
+- Latest local branch SHA: `4dbadfba76fcdd2f1237d818df8dba9012cc5c58`. Private GitHub repository creation/push remains BLOCKED because no remote or available create-repository/authenticated GitHub CLI is present.
