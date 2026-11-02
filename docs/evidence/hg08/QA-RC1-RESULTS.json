@@ -1,6 +1,6 @@
 {
-  "total": 41,
-  "passed": 41,
+  "total": 42,
+  "passed": 42,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -81,7 +81,11 @@
       "passed": true
     },
     {
-      "name": "Higher troop tier visibly locked before Barracks",
+      "name": "Tier-2 elf scout is locked before its Barracks tier",
+      "passed": true
+    },
+    {
+      "name": "Tier-2 elf scout still requires Scouting after Barracks 2",
       "passed": true
     },
     {

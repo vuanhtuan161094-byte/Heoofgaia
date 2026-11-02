@@ -113,13 +113,13 @@ function finishResearch(s){
  s.spells[q.key]=q.level;s.researchQueue=null;E.note(s,`Hoàn thành ${E.C.spells[q.key].vi||E.C.spells[q.key].name} cấp ${q.level}.`);
 }
 function unitPrerequisites(s,u){
- const base={buildings:{barracks:u.tier},spells:{},sourceStatus:'PARTIAL',source:'SRC02; SRC03'};
+ const base={buildings:{barracks:u.tier},spells:u.tier===2?{scouting:1}:{},sourceStatus:u.tier===2?'DERIVED_SCOUT_GATE':'PARTIAL',source:u.tier===2?'SRC02; SRC03; SRC04':'SRC02; SRC03'};
  const r=u.race==='human'?(HUMAN[u.tier]||base):base;
  const checks=[];
  for(const [key,level] of Object.entries(r.buildings||{}))checks.push({kind:'building',key,level,actual:s.buildings[key]||0});
  for(const [key,level] of Object.entries(r.spells||{}))checks.push({kind:'spell',key,level,actual:s.spells[key]||0});
  const unmet=checks.filter(x=>x.actual<x.level);
- const confidence=r.sourceStatus==='OBSERVED'?(r.spells?.bootcamp?'A*':'A'):'B';
+ const confidence=r.sourceStatus==='OBSERVED'?(r.spells?.bootcamp?'A*':'A'):r.sourceStatus==='DERIVED_SCOUT_GATE'?'B*':'B';
  return {unitId:u.id,checks,unmet,available:unmet.length===0,confidence,status:r.sourceStatus,source:r.source};
 }
 function conditionName(c){

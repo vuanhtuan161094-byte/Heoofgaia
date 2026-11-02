@@ -20,7 +20,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Human | 9 | Angel | Town Hall 9; Barracks 9; Stables 7; Blacksmith 8; Manufacturing 8 | A / OBSERVED | SRC19, SRC20, SRC04 |
 | Human | 10 | Archangel | Town Hall 10; Barracks 10; Stables 9; Blacksmith 10; Manufacturing 9; Bootcamp 9 | A / OBSERVED; Bootcamp name mapping derived | SRC19, SRC20, SRC04 |
 | Elf | 1 | Centaur | Barracks 1 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Elf | 2 | Elf Scout | Barracks 2 | B / PARTIAL | SRC02, SRC03; Scouting effect is documented, exact Elf gate missing |
+| Elf | 2 | Elf Scout | Barracks 2; Scouting 1 | B* / DERIVED ROLE | SRC02, SRC03, SRC04; Scout role is explicit in name; Town Hall/faction gates unresolved |
 | Elf | 3 | Dwarven Soldier | Barracks 3 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
 | Elf | 4 | Elf Archer | Barracks 4 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
 | Elf | 5 | Pegasus Warrior | Barracks 5 | B / PARTIAL | SRC02, SRC03; Magic Pool/Nature Tower tier unresolved (SRC11) |
@@ -30,7 +30,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Elf | 9 | Green Dragon | Barracks 9 | B / PARTIAL | SRC02, SRC03; Nature Tower tier unresolved (SRC11) |
 | Elf | 10 | Fairy Dragon | Barracks 10 | B / PARTIAL | SRC02, SRC03; Nature Tower tier unresolved (SRC11) |
 | Orc | 1 | Imp | Barracks 1 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Orc | 2 | Wolf Rider | Barracks 2 | B / PARTIAL | SRC02, SRC03; exact Scout gate missing |
+| Orc | 2 | Wolf Rider | Barracks 2; Scouting 1 | B* / DERIVED ROLE | SRC02, SRC04; mapped as faction tier-2 scout from shared 50 speed/5 load; Town Hall/faction gates unresolved |
 | Orc | 3 | Axe Thrower | Barracks 3 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
 | Orc | 4 | Direwolf | Barracks 4 | B / PARTIAL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
 | Orc | 5 | Ogre | Barracks 5 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
@@ -40,7 +40,7 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 | Orc | 9 | Monster | Barracks 9 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
 | Orc | 10 | Behemoth | Barracks 10 | B / PARTIAL | SRC02, SRC03; Beast Pen/Blacksmith tier unresolved (SRC11) |
 | Undead | 1 | Skeleton Warrior | Barracks 1 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
-| Undead | 2 | Common Ghost | Barracks 2 | B / PARTIAL | SRC02, SRC03; exact Scout gate missing |
+| Undead | 2 | Common Ghost | Barracks 2; Scouting 1 | B* / DERIVED ROLE | SRC02, SRC04; mapped as faction tier-2 scout from shared 50 speed/5 load; Town Hall/faction gates unresolved |
 | Undead | 3 | Zombie | Barracks 3 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
 | Undead | 4 | Ghost | Barracks 4 | B / PARTIAL | SRC02, SRC03; Dark Hall/Soul Tower tier unresolved (SRC11) |
 | Undead | 5 | Vampire | Barracks 5 | B / PARTIAL | SRC02, SRC03; exact gate table missing |
@@ -53,6 +53,6 @@ All 40 catalog rows are listed. “Gates in build” are the checks currently en
 ## Limits and next evidence work
 
 - The exact Human conditions for the listed rows are source-backed; the `Training Technology` → `Bootcamp` English label is derived and needs a regional client screenshot or an official glossary to prove the crosswalk.
-- The Human Scout Hall requirement is intentionally not enforced because the two Human tables omit Scout. Barracks 2 follows the general Barracks unlock rule; Scouting 1 follows SRC04.
+- All four tier-2 entries require Scouting 1. The Human Scout is named directly by SRC04; the matching Elf/Orc/Undead tier-2 scouting classification is a B* cross-faction inference from SRC02's shared 50 speed / 5 load profile and the Elf name. Human Town Hall and other faction support-building gates are still unverified and are not enforced.
 - The other 30 units do **not** have complete prerequisites yet. Faction building roles do not establish a per-unit level. Find archived official race tables or authenticated legal-client evidence before enforcing those gates.
 - In code, generic races currently require their Barracks tier only. The UI labels these rows partial and does not present the partial status as full original parity.
