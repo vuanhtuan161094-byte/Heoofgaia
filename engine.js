@@ -271,10 +271,10 @@ function advance(a,b){
 function strike(s,b,actor,target,order){
  if(actor.pool<=0||target.pool<=0)return 0;
  if(order==='advance'){if(dist(actor,target)>actor.range)advance(actor,target);return 0}
- if(dist(actor,target)>actor.range){if(order!=='defend')advance(actor,target);if(dist(actor,target)>actor.range)return 0;}
+ if(dist(actor,target)>actor.range){advance(actor,target);if(dist(actor,target)>actor.range)return 0;}
  const h=s.heroes.find(x=>x.id===s.activeHero);
  const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
- const multiplier=order==='focus'?1.22:order==='defend'?.65:1;
+ const multiplier=order==='focus'?1.22:1;
  const base=actor.atk*actor.atk/(actor.atk+Math.max(1,target.def));
  const defendFactor=target.side==='player'?(1+(h?.def||0)/100):1;
  // The dated/community combat example reports 47,897 damage for an exact
@@ -288,7 +288,6 @@ function strike(s,b,actor,target,order){
 function battleAct(s,action){
  assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat'].includes(action),'Lệnh không hợp lệ');
  const b=s.battle;
- if(action==='retreat'){note(s,'Quân đội đã rút lui; thiệt hại trước đó không hoàn lại.');s.battle=null;s.battleAuto=false;return {type:'retreat'}}
  b.autoUntil=Date.now()+10_000;b.order=action;b.orders=b.orders||{};if(b.selected)b.orders[b.selected]=action;s.battleOrder=action;
  // 2009 Chinese player guidance describes speed-descending turns, then the
  // left formation column top-to-bottom followed by the next column. Keep the
@@ -299,6 +298,8 @@ function battleAct(s,action){
   if(actor.pool<=0)continue;
   const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
   const stance=actor.side==='player'?(b.orders[actor.id]||'attack'):'attack';
+  if(actor.side==='player'&&stance==='defend'){acted.push(actor.id);b.orders[actor.id]='attack';continue}
+  if(actor.side==='player'&&stance==='retreat'){actor.x=Math.max(0,actor.x-1);acted.push(actor.id);b.orders[actor.id]='attack';continue}
   const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
   const target=pref||[...enemy].sort((x,y)=>{const near=actor.range>1?0:dist(actor,x)-dist(actor,y),power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;return actor.range>1?power||near||x.id.localeCompare(y.id):near||power||x.id.localeCompare(y.id)})[0];
   lastTargets[actor.id]=target.id;acted.push(actor.id);
