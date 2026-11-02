@@ -29,7 +29,7 @@ def exercise_race(browser, race, unit_id, unit_name, building_level, expected_ch
     page.locator(f'[data-action="race"][data-race="{race}"]').click()
     page.locator('[data-action="start"]').click()
     page.evaluate(f"""(()=>{{const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,C=HOG_CATALOG;
-      s.buildings.hall=10;s.buildings.warehouse=10;s.buildings.barracks={building_level};
+      s.buildings.hall=10;s.buildings.warehouse=10;s.buildings[E.troopBuildingKey(s)]={building_level};
       s.spells.scouting=1;for(const k of C.keys)s.res[k]=E.limits(s)[k];
       s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render();}})()""")
     page.locator('#nav [data-tab="army"]').click()
@@ -38,11 +38,14 @@ def exercise_race(browser, race, unit_id, unit_name, building_level, expected_ch
     check(f"{race} unit page keeps the product title", page.title() == "Anh Hùng Thời Loạn", page.title())
     snapshot = page.evaluate(f"""(()=>{{const s=HOG_APP_DEBUG.getState(),u=Object.values(HOG_CATALOG.units).flat().find(x=>x.id==='{unit_id}');
       return HOG_ENGINE.troopPrerequisites(s,u)}})()""")
-    scout_scope_ok = race != "elf" or ("Trung Quốc 2010" in card_text and "wiki tiếng Anh 2009" in card_text)
-    check(f"{race} {unit_name} exposes B-derived Barracks tier and disclosed source gap",
+    scout_scope_ok = race not in ("elf", "undead") or ("Trung Quốc 2010" in card_text and "wiki tiếng Anh 2009" in card_text)
+    undead_scope_ok = race != "undead" or ("Graveyard cấp cao mở quân cấp cao" in card_text and "B* suy luận" in card_text and "chưa có bảng từng quân" in card_text)
+    derived_label_ok = "suy luận B*" in card_text or "B* suy luận" in card_text
+    source_scope_ok = race != "undead" or ("SRC03" not in snapshot["source"] and "SRC11" in snapshot["source"])
+    check(f"{race} {unit_name} exposes B*-derived troop-building tier and disclosed source gap",
           snapshot["status"] == "DERIVED_TROOP_BUILDING_TIER" and snapshot["confidence"] == "B" and
           [c["key"] for c in snapshot["checks"]] == expected_checks and
-          "suy luận B*" in card_text and ("chưa xác minh từng cổng phụ gốc" in card_text or "cổng phụ chưa xác minh" in card_text) and scout_scope_ok,
+          derived_label_ok and ("chưa xác minh từng cổng phụ gốc" in card_text or "cổng phụ chưa xác minh" in card_text or undead_scope_ok) and scout_scope_ok and undead_scope_ok and source_scope_ok,
           json.dumps(snapshot, ensure_ascii=False) + " | " + card_text[-260:].replace("\n", " | "))
     check(f"{race} {unit_name} has an enabled real recruitment action",
           card.locator(f'[data-action="recruit"][data-id="{unit_id}"]').is_enabled(),
@@ -68,18 +71,19 @@ def exercise_race(browser, race, unit_id, unit_name, building_level, expected_ch
 
 
 # Unit catalog gold prices are read by this script from the known 2009 unit rows.
-HOG_CATALOG_GOLD = {"elf_2": 68, "orc_3": 117}
+HOG_CATALOG_GOLD = {"elf_2": 68, "orc_3": 117, "undead_2": 68}
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path=r"C:\Program Files\Google\Chrome\Application\chrome.exe", headless=True,
                                 args=["--no-sandbox", "--disable-dev-shm-usage"])
     exercise_race(browser, "elf", "elf_2", "Elf Scout", 2, ["barracks", "scouting"], "elf-scout-derived-gate-chrome.png")
     exercise_race(browser, "orc", "orc_3", "Axe Thrower", 3, ["barracks"], "orc-axe-thrower-derived-gate-chrome.png")
+    exercise_race(browser, "undead", "undead_2", "Common Ghost", 2, ["graveyard", "scouting"], "undead-ghost-derived-gate-chrome.png")
     browser.close()
 
-receipt = {"suite": "HG-08 Elf/Orc derived Barracks tiers through real offline UI", "game": "Anh Hùng Thời Loạn",
-           "browser": "Installed Chrome, actual file://", "fixtureDisclosure": "The fixture selects each race through the game's intro, seeds prerequisite buildings/research and warehouse-capped resources, then uses the real recruit control and v07 Save/Reload. Barracks tier gates are B* derivations from SRC02/SRC03/SRC11, not original server tables; support gates remain unresolved.",
+receipt = {"suite": "HG-08 Elf/Orc/Undead derived troop-building tiers through real offline UI", "game": "Anh Hùng Thời Loạn",
+           "browser": "Installed Chrome, actual file://", "fixtureDisclosure": "The fixture selects each race through the game's intro, seeds prerequisite buildings/research and warehouse-capped resources, then uses the real recruit control and v07 Save/Reload. Elf/Orc Barracks tiers derive from SRC02/SRC03/SRC11. SRC11 gives only a qualitative Graveyard-level direction; mapping Graveyard level to unit tier is B* derived, not a recovered unit table. Exact faction support gates remain unresolved.",
            "htmlSha256": hashlib.sha256(HTML.read_bytes()).hexdigest().upper(), "checks": checks, "errors": errors,
-           "screenshots": ["docs/evidence/hg08/elf-scout-derived-gate-chrome.png", "docs/evidence/hg08/orc-axe-thrower-derived-gate-chrome.png"]}
+           "screenshots": ["docs/evidence/hg08/elf-scout-derived-gate-chrome.png", "docs/evidence/hg08/orc-axe-thrower-derived-gate-chrome.png", "docs/evidence/hg08/undead-ghost-derived-gate-chrome.png"]}
 REPORT = QA / "faction-gate-ui-chrome.json"
 REPORT.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 passed = sum(item["passed"] for item in checks)

@@ -1,3 +1,9 @@
+## 2026-11-03 — HG-08 Undead Graveyard progression evidence (partial)
+
+- Dated Sina 2009 documentation says higher-level Graveyards/recruitment buildings can train higher-tier Undead units. Base Graveyard-by-tier gates now carry B* derived confidence; exact tier-to-level thresholds and Dark Hall/Soul Tower requirements remain unverified and are not claimed as original server data.
+- Added the early internal-test article SRC50 to the evidence register with its date/build limits, tentative stats and roster-count conflict. It is contextual only and does not feed runtime unit values or gates.
+- Chrome exercised Elf Scout, Orc Axe Thrower and Undead Common Ghost recruitment, resource deduction and v07 Save/Reload: 15/15 PASS. Overall Node 128/128, integrated Chrome 91/91 and standalone file:// 29/29 PASS. No 1:1 claim.
+
 
 ## 2026-11-03 — HG-08 Hero Tower experience bonus (partial)
 

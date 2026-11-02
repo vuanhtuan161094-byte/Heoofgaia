@@ -240,7 +240,7 @@ test('HG07 no-formation auto selection checks cap before AP',()=>{const s=state(
 test('HG07 rejects invalid levels, no automatic bonus',()=>{for(const level of [0,101,1.5,NaN])throws(()=>E.heroLimit(level),/1–100/);assert.equal(E.heroLimit(1),11500)});
 
 
-test('HG08 gates every troop row and keeps unsupported faction gates visibly provisional',()=>{
+test('HG08 gates every troop row and keeps unsupported faction support gates provisional',()=>{
  const all=Object.values(C.units).flat();assert.equal(all.length,40);
  for(const race of Object.keys(C.races)){const s=state(race);for(const k of Object.keys(s.buildings))s.buildings[k]=10;s.spells.bootcamp=10;s.spells.manufacturing=10;s.spells.scouting=10;
   for(const u of C.units[race])assert.equal(E.troopPrerequisites(s,u).available,true,u.id);
@@ -248,15 +248,16 @@ test('HG08 gates every troop row and keeps unsupported faction gates visibly pro
   for(const u of C.units[race].filter(u=>u.tier>1))assert.equal(E.troopPrerequisites(fresh,u).available,false,u.id);
  }
  assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).status,'DERIVED_TROOP_BUILDING_TIER');assert.equal(E.troopPrerequisites(state('elf'),C.units.elf[9]).confidence,'B');
+ assert.equal(E.troopPrerequisites(state('undead'),C.units.undead[9]).status,'DERIVED_TROOP_BUILDING_TIER');assert.equal(E.troopPrerequisites(state('undead'),C.units.undead[9]).confidence,'B');
  assert.equal(E.troopPrerequisites(state('human'),C.units.human[9]).status,'OBSERVED');
 });
-test('SRC02/SRC03 plus SRC11 derive Elf/Orc Barracks base tier gates without inventing support-building gates',()=>{
- for(const race of ['elf','orc'])for(const u of C.units[race]){
-  const req=E.troopPrerequisites(state(race),u);if(req.status==='SECONDARY')continue;
+test('SRC02/SRC03 plus SRC11 derive non-Human troop-building tiers without inventing support-building gates',()=>{
+ for(const race of ['elf','orc','undead'])for(const u of C.units[race]){
+  const s=state(race),req=E.troopPrerequisites(s,u);if(req.status==='SECONDARY')continue;
   assert.equal(req.status,'DERIVED_TROOP_BUILDING_TIER',u.id);assert.equal(req.confidence,'B',u.id);
-  assert(req.checks.some(c=>c.kind==='building'&&c.key==='barracks'&&c.level===u.tier),u.id);
+  assert(req.checks.some(c=>c.kind==='building'&&c.key===E.troopBuildingKey(s)&&c.level===u.tier),u.id);
   if(u.tier===2)assert(req.checks.some(c=>c.kind==='spell'&&c.key==='scouting'&&c.level===1),u.id);
-  assert(!req.checks.some(c=>c.kind==='building'&&['magicPool','natureTower','beastPen','blacksmith'].includes(c.key)),u.id+' invented support gate');
+  assert(!req.checks.some(c=>c.kind==='building'&&['magicPool','natureTower','beastPen','blacksmith','darkHall','soulTower'].includes(c.key)),u.id+' invented support gate');
  }
 });
 test('Human Scout uses dated SRC27 Barracks 2 and Scouting 1 while Town Hall remains partial',()=>{
@@ -295,7 +296,7 @@ test('HG08 every listed gate blocks recruitment without spending or queue mutati
 test('Undead recruits from Graveyard and old Barracks progress migrates safely',()=>{
  const fresh=state('undead');assert.equal(E.troopBuildingKey(fresh),'graveyard');assert.equal(fresh.buildings.graveyard,1);assert(!E.cityBuildOrder(fresh).includes('barracks'));assert(E.cityBuildOrder(fresh).includes('graveyard'));
  const old=JSON.parse(JSON.stringify(fresh));old.buildings.barracks=4;delete old.buildings.graveyard;const migrated=E.parseSave(JSON.stringify(old));assert.equal(migrated.buildings.graveyard,4);assert.equal(migrated.race,'undead');assert.equal(E.strictSave(migrated),true);
- const req=E.troopPrerequisites(migrated,C.units.undead[3]);assert(req.checks.some(c=>c.kind==='building'&&c.key==='graveyard'&&c.level===4));assert.equal(req.status,'MODELED_TIER_PROXY');assert.equal(req.confidence,'P');
+ const req=E.troopPrerequisites(migrated,C.units.undead[3]);assert(req.checks.some(c=>c.kind==='building'&&c.key==='graveyard'&&c.level===4));assert.equal(req.status,'DERIVED_TROOP_BUILDING_TIER');assert.equal(req.confidence,'B');
 });
 test('Human tier 3 requirements use Hall, Barracks and the canonical Bootcamp spell level',()=>{
  const s=state();s.buildings.hall=3;s.buildings.barracks=3;
@@ -303,7 +304,7 @@ test('Human tier 3 requirements use Hall, Barracks and the canonical Bootcamp sp
  assert.equal(E.troopPrerequisites(s,C.units.human[2]).available,true);
 });
 test('HG08 applies derived Scouting gate to all faction tier-2 scout units atomically',()=>{
- for(const race of ['elf','orc','undead']){const s=state(race),u=C.units[race][1];s.buildings[E.troopBuildingKey(s)]=2;const before=JSON.stringify({res:s.res,training:s.training});const req=E.troopPrerequisites(s,u);assert.equal(req.status,race==='undead'?'MODELED_SCOUT_PROXY':'DERIVED_TROOP_BUILDING_TIER');assert.equal(req.confidence,race==='undead'?'P':'B');assert.equal(req.available,false);throws(()=>E.recruit(s,u.id,1),/Trinh sát/);assert.equal(JSON.stringify({res:s.res,training:s.training}),before);s.spells.scouting=1;assert.equal(E.troopPrerequisites(s,u).available,true)}
+ for(const race of ['elf','orc','undead']){const s=state(race),u=C.units[race][1];s.buildings[E.troopBuildingKey(s)]=2;const before=JSON.stringify({res:s.res,training:s.training});const req=E.troopPrerequisites(s,u);assert.equal(req.status,'DERIVED_TROOP_BUILDING_TIER');assert.equal(req.confidence,'B');assert.equal(req.available,false);throws(()=>E.recruit(s,u.id,1),/Trinh sát/);assert.equal(JSON.stringify({res:s.res,training:s.training}),before);s.spells.scouting=1;assert.equal(E.troopPrerequisites(s,u).available,true)}
 });
 test('Human T4/T5 support buildings and Manufacturing gates are enforced atomically',()=>{
  const s=state();s.buildings.hall=4;s.buildings.barracks=4;s.res.gold=5000;const before=JSON.stringify({res:s.res,queue:s.training});
