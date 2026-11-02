@@ -40,13 +40,25 @@ test('HG08 edition crosswalk maps every catalog ID and preserves localized label
  for(const [race,units] of Object.entries(C.units))for(const u of units){const cells=byId.get(u.id);assert(cells,'missing '+u.id);assert.equal(cells[2],raceName[race]+' '+u.tier);assert.equal(cells[3],u.name);assert(cells[4],'missing Chinese label '+u.id);assert(cells[5],'missing Fandom label '+u.id)}
 });test('5 original resources',()=>assert.deepEqual([...C.keys],v2));
 test('troop point formula',()=>{const u=C.units.human[0];assert.equal(E.unitValue(u),u.cost.gold+5*(u.cost.wood+u.cost.ore)+10*(u.cost.sulfur+u.cost.crystal))});
-test('new game all races valid',()=>{for(const race of Object.keys(C.races)){const s=state(race);assert.equal(s.version,7);assert.equal(s.race,race);assert.equal(E.strictSave(s),true)}});
+test('new game all races valid with the v07 starting AP amount and Fame rank cap',()=>{for(const race of Object.keys(C.races)){const s=state(race);assert.equal(s.version,7);assert.equal(s.race,race);assert.equal(s.fame,5);assert.equal(s.ap,100);assert.equal(s.apMax,150);assert.equal(E.strictSave(s),true)}});
 test('candidate slots at recorded level gates',()=>{assert.equal(E.tavernSlots(1),2);assert.equal(E.tavernSlots(2),3);assert.equal(E.tavernSlots(4),4);assert.equal(E.tavernSlots(9),7);assert.equal(E.tavernSlots(10),8)});
 test('candidate hire exactly once',()=>{const s=state();s.fame=2200;const before=s.tavern.offers.length,id=s.tavern.offers[0].id;E.hireCandidate(s,id);assert.equal(s.tavern.offers.length,before-1);assert.equal(s.heroes.length,2);throws(()=>E.hireCandidate(s,id),/Ứng viên/)});
 test('hire rejects insufficient gold without removing offer',()=>{const s=state(),offer=s.tavern.offers[0];s.res.gold=0;throws(()=>E.hireCandidate(s,offer.id),/Không đủ/);assert.equal(s.tavern.offers[0].id,offer.id)});
 test('hero roster cap follows every dated SRC20 fame threshold',()=>{
  const cases=[[0,2],[199,2],[200,2],[799,2],[800,2],[2199,2],[2200,3],[5799,3],[5800,4],[11499,4],[11500,6],[20999,6],[21000,7],[32999,7],[33000,8],[53999,8],[54000,9],[79999,9],[80000,10],[149999,10],[150000,11],[299999,11],[300000,13],[499999,13],[500000,14],[699999,14],[700000,16],[999999,16],[1000000,18]];
  for(const [fame,limit] of cases)assert.equal(E.heroCountLimit(fame),limit,`Fame ${fame}`);
+});
+test('AP maximum and hourly recovery follow every dated SRC20 Fame rank',()=>{
+ const rows=[[5,150,15],[200,165,16],[800,180,18],[2200,200,20],[5800,230,23],[11500,260,26],[21000,290,29],[33000,320,32],[54000,360,36],[80000,400,40],[150000,450,45],[300000,500,50],[500000,560,56],[700000,620,62],[1000000,700,70]];
+ assert.deepEqual(JSON.parse(JSON.stringify(E.FAME_AP)),rows);
+ for(const [fame,max,perHour] of rows){const stats=E.fameApStats(fame);assert.equal(stats.max,max,`Fame ${fame} max`);assert.equal(stats.perHour,perHour,`Fame ${fame} recovery`)}
+});
+test('Fame promotion raises AP cap without granting AP and preserves old v07 saves',()=>{
+ const s=state();s.ap=140;s.fame=199;s.apMax=100;E.ensure08(s);assert.equal(s.apMax,150);assert.equal(s.ap,140);
+ s.fame=200;E.ensure08(s);assert.equal(s.apMax,165);assert.equal(s.ap,140);
+ const legacy=state();legacy.fame=5;legacy.ap=85;legacy.apMax=100;legacy.version=7;
+ const migrated=E.parseSave(JSON.stringify(legacy));assert.equal(migrated.version,7);assert.equal(migrated.ap,85);assert.equal(migrated.apMax,150);
+ const roundTrip=E.parseSave(E.serializeSave(migrated));assert.equal(roundTrip.ap,85);assert.equal(roundTrip.apMax,150);
 });
 test('hero cap rejects Tavern hire atomically and fame unlocks the next slot',()=>{
  const s=state(),first=s.tavern.offers[0];E.hireCandidate(s,first.id);assert.equal(s.heroes.length,2);
@@ -80,7 +92,8 @@ test('tavern hourly refresh',()=>{const s=state();E.tick(s,s.lastTick+61000);ass
 test('tavern multi-hour refresh catchup',()=>{const s=state();s.speed=1;E.tick(s,s.lastTick+3*3600*1000+120*1000);assert.equal(s.tavern.round,3);assert.equal(s.tavern.remaining,3480)});
 test('tavern empty offers preserved across save',()=>{const s=state();s.tavern.offers=[];const z=E.parseSave(E.serializeSave(s));assert.equal(z.tavern.offers.length,0)});
 test('resource basic positive and capped',()=>{const s=state();E.tick(s,s.lastTick+1e7);for(const k of C.keys)assert(s.res[k]<=E.limits(s)[k]+.00001)});
-test('AP exactly once at same wall time',()=>{const s=state();s.ap=0;s.speed=1;const t=s.lastTick+3600*1000;E.tick(s,t);let a=s.ap;E.tick(s,t);assert.equal(s.ap,a);assert(a>=9.99&&a<=10.01)});
+test('AP follows Fame hourly rate exactly once at the same wall time',()=>{const s=state();s.ap=0;s.speed=1;const t=s.lastTick+3600*1000;E.tick(s,t);let a=s.ap;E.tick(s,t);assert.equal(s.ap,a);assert.equal(a,15);assert.equal(s.apMax,150)});
+test('Fame 200 earns 16 AP in one hour under the dated rank table',()=>{const s=state();s.fame=200;s.ap=0;s.speed=1;E.ensure08(s);const t=s.lastTick+3600*1000;E.tick(s,t);assert.equal(s.ap,16);assert.equal(s.apMax,165)});
 test('Market and Bazaar can be built as queue',()=>{for(const key of ['market','bazaar']){const s=expensive(state());E.upgrade(s,key);assert.equal(s.buildingQueue.key,key);assert.equal(s.buildings[key],0);E.tick(s,s.lastTick+s.buildingQueue.remaining/60*1000+1000);assert.equal(s.buildings[key],1)}});
 test('no second construction until finished',()=>{const s=state();E.upgrade(s,'hall');throws(()=>E.upgrade(s,'market'),/hàng đợi/)});
 test('Town Hall caps each race recruitment building without charging on rejection',()=>{
@@ -391,7 +404,7 @@ test('1000 seeded tactical encounters replay identically with valid ledgers',()=
 test('HG10 Chinese rank table gates secondary castles atomically',()=>{
  const rows=[[0,1],[5799,1],[5800,2],[7999,2],[80000,3],[299999,3],[300000,4],[700000,5],[1000000,6]];
  for(const [fame,count] of rows)assert.equal(E.cityLimit(fame),count,'Fame '+fame);
- const s=state();s.fame=5799;const before=JSON.stringify(s),ap=s.ap;
+ const s=state();s.fame=5799;E.ensure08(s);const before=JSON.stringify(s),ap=s.ap;
  throws(()=>E.startMarch(s,'9,10'),/danh vọng/i);assert.equal(s.ap,ap);assert.equal(JSON.stringify(s),before);
 });
 

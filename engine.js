@@ -13,8 +13,8 @@ function make(race='human',now=Date.now()){
  return {version:V,race,created:now,lastTick:now,speed:60,
   res:{gold:8000,wood:900,ore:900,sulfur:350,crystal:350},
   buildings:{hall:1,barracks:1,heroTower:1,tavern:1,warehouse:2,magicTower:1,arena:1,market:0,bazaar:0,embassy:0,stables:0,forge:0},
-  spells:{},army,wounded:{},heroes:[{id:1,name:{human:'Aldric',elf:'Elaria',orc:'Gorak',undead:'Morwen'}[race],level:1,xp:0,atk:12,def:8,spd:7,int:6}],activeHero:1,castellan:null,ap:100,apMax:100,selected:null,
-  formation:[],training:[],march:null,battle:null,battleAuto:false,battleOrder:'attack',battleTarget:null,mines:[],cleared:[],woundFraction:{},fame:0,log:['Khởi đầu một thành trì ở vùng đất Gaia.'],serial:1};
+  spells:{},army,wounded:{},heroes:[{id:1,name:{human:'Aldric',elf:'Elaria',orc:'Gorak',undead:'Morwen'}[race],level:1,xp:0,atk:12,def:8,spd:7,int:6}],activeHero:1,castellan:null,ap:100,apMax:150,selected:null,
+  formation:[],training:[],march:null,battle:null,battleAuto:false,battleOrder:'attack',battleTarget:null,mines:[],cleared:[],woundFraction:{},fame:5,log:['Khởi đầu một thành trì ở vùng đất Gaia.'],serial:1};
 }
 function valid(s){return !!(s&&s.version===V&&C.races[s.race]&&s.res&&s.army&&s.buildings&&Array.isArray(s.heroes)&&Array.isArray(s.training)&&Array.isArray(s.log)&&Number.isFinite(s.lastTick))}
 function arrUnits(s){return C.units[s.race]}
@@ -165,7 +165,8 @@ function tick(s,now=Date.now()){
  const elapsed=Math.min((now-s.lastTick)/1000,maxAge);s.lastTick=now;
  const factor=s.speed===1?1:60;const seconds=elapsed*factor;
  const rates=rate(s);for(const k of C.keys) s.res[k]+=rates[k]*seconds/3600;cap(s);
- s.ap=Math.min(s.apMax,s.ap+s.apMax*.1*seconds/3600);
+ const ap=typeof API.fameApStats==='function'?API.fameApStats(s.fame):{max:s.apMax,perHour:s.apMax*.1};
+ s.apMax=ap.max;s.ap=Math.min(s.apMax,s.ap+ap.perHour*seconds/3600);
  let left=seconds;
  while(s.training.length&&left>0){let task=s.training[0];const use=Math.min(left,task.remaining);task.remaining-=use;left-=use;if(task.remaining<=0.00001){s.army[task.unitId]=(s.army[task.unitId]||0)+task.count;note(s,`Hoàn tất tuyển ${task.count} ${getUnit(s,task.unitId).name}.`);s.training.shift();}else break;}
  if(s.march){s.march.remaining=Math.max(0,s.march.remaining-seconds);if(s.march.remaining<=0&&s.march.phase!=='return')battleOpen(s);}

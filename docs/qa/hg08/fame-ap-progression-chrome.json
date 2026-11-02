@@ -1,0 +1,60 @@
+{
+  "browser": "Google Chrome headless CLI on the generated standalone file:// HTML",
+  "gameBuild": "Play-Heoofgaia-HG11.html",
+  "screenshot": "docs/evidence/hg08/fame-ap-progression-chrome.png",
+  "pass": true,
+  "checks": [
+    {
+      "name": "Fame 2,200 resolves to 200 AP maximum and 20 AP/hour",
+      "ok": true,
+      "detail": "{\"threshold\":2200,\"max\":200,\"perHour\":20,\"nextFame\":5800}"
+    },
+    {
+      "name": "HUD displays the source-based AP cap and hourly recovery",
+      "ok": true,
+      "detail": "<span class=\"tag\" title=\"20 AP hồi mỗi giờ game · còn 3.600 Fame tới mốc tiếp\">🔋 AP 100/200 · +20/giờ</span>"
+    },
+    {
+      "name": "A real one-hour game tick grants exactly 20 AP at Fame 2,200",
+      "ok": true,
+      "detail": "{\"ap\":20,\"apMax\":200}"
+    },
+    {
+      "name": "Updated HUD reflects the earned AP after the gameplay tick",
+      "ok": true,
+      "detail": "🔋 AP 20/200 · +20/giờ"
+    },
+    {
+      "name": "Game hero screen displays the source-based 1/3 roster cap",
+      "ok": true,
+      "detail": "1/3"
+    },
+    {
+      "name": "First live Tavern candidate is recruitable below cap",
+      "ok": true,
+      "detail": "<button data-action=\"hirecandidate\" data-id=\"r2c0\" class=\"small secondary\">Tuyển · 500 vàng</button>"
+    },
+    {
+      "name": "First real hire changes hero roster, offer list and gold once",
+      "ok": true,
+      "detail": "{\"heroes\":2,\"offers\":2,\"goldSpent\":500}"
+    },
+    {
+      "name": "Second live hire reaches the fame cap",
+      "ok": true,
+      "detail": "3/3"
+    },
+    {
+      "name": "At cap, remaining candidate control is disabled",
+      "ok": true,
+      "detail": "<button disabled=\"\" data-action=\"hirecandidate\" data-id=\"r2c2\" class=\"small secondary\">Tuyển · 680 vàng</button>"
+    },
+    {
+      "name": "Legacy Save key remains unchanged",
+      "ok": true,
+      "detail": "heoofgaia_hg_only_v07"
+    }
+  ],
+  "exceptions": [],
+  "fixture": "Fresh Human game; Fame is advanced to 2,200, AP is restored by one controlled in-game hour, Tavern is set to level 2, and hires use live DOM controls."
+}

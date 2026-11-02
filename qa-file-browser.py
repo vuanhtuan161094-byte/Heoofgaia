@@ -26,6 +26,14 @@ def check(name, ok):
     checks.append({'name': name, 'passed': bool(ok)})
     print(('PASS' if ok else 'FAIL'), name)
 
+def click_minimap_tile(page, tx, ty):
+    canvas = page.locator('#world-canvas')
+    box = canvas.bounding_box()
+    point = page.evaluate(f'''(()=>{{const c=document.querySelector('#world-canvas'),m=HOG_PAINTER.miniBounds(c),pad=9;
+      return {{x:(m.x+pad+({tx}+.5)*(m.w-2*pad)/HOG_ENGINE.WIDTH)/c.width,
+              y:(m.y+pad+({ty}+.5)*(m.h-2*pad)/HOG_ENGINE.HEIGHT)/c.height}}}})()''')
+    page.mouse.click(box['x'] + point['x'] * box['width'], box['y'] + point['y'] * box['height'])
+
 with sync_playwright() as p:
     user_data = tempfile.TemporaryDirectory(prefix='heoofgaia-hg07-profile-')
     context = p.chromium.launch_persistent_context(
@@ -90,7 +98,8 @@ with sync_playwright() as p:
     check('file:// standalone starts the real mine-expedition flow', page.title().startswith('Anh Hùng Thời Loạn'))
     page.locator('[data-action="start"]').click()
     page.locator('#speed').click()
-    page.locator('[data-action="select"][data-key="6,3"]').click()
+    click_minimap_tile(page, 6, 3)
+    check('file:// minimap pointer selects a mine and enables real dispatch', page.locator('[data-action="march"]').is_enabled())
     page.locator('[data-action="march"]').click()
     check('file:// departure assigns starter troops to the traveling hero', page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return s.march?.phase==="outbound"&&s.army.human_1===0&&s.expedition?.army.human_1===16})()'))
     page.locator('#save').click()
@@ -103,7 +112,7 @@ with sync_playwright() as p:
             break
         page.locator('[data-action="battle"][data-cmd="attack"]').click()
     check('file:// natural starter battle captures the mine and stations the hero', page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return !s.battle&&s.mines.some(m=>m.key==="6,3")&&s.stationedHeroes.some(h=>h.heroId===1&&h.key==="6,3")})()'))
-    page.locator('[data-action="select"][data-key="6,3"]').click()
+    click_minimap_tile(page, 6, 3)
     check('file:// map shows the garrison and a working Recall action', 'Đồn trú' in page.locator('#main').inner_text() and page.locator('[data-action="recall"][data-id="1"]').is_enabled())
     page.wait_for_timeout(3100)  # let the live game's success toast fade before capture
     page.screenshot(path=str(evidence / 'screenshot-file-mine-garrison-1280x720.png'), full_page=True)

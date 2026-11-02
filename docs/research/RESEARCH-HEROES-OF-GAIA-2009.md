@@ -131,6 +131,30 @@ The historical articles and wiki pages are **documentary research**. Node/Chromi
 
 These numeric rules are from a contemporary player guide, not recovered code or original-client observation. They remain region-tagged. An over-cap march is rejected before AP deduction; captured-mine output is derived from persisted ownership records during the economy tick, with no save schema/key change.
 
+### SRC20 Fame-ranked AP capacity and recovery
+
+The same 2009-12-27 fame table prints these exact thresholds and hourly rates:
+
+| Fame threshold | AP maximum | AP recovery/hour |
+|---:|---:|---:|
+| 5 | 150 | 15 |
+| 200 | 165 | 16 |
+| 800 | 180 | 18 |
+| 2,200 | 200 | 20 |
+| 5,800 | 230 | 23 |
+| 11,500 | 260 | 26 |
+| 21,000 | 290 | 29 |
+| 33,000 | 320 | 32 |
+| 54,000 | 360 | 36 |
+| 80,000 | 400 | 40 |
+| 150,000 | 450 | 45 |
+| 300,000 | 500 | 50 |
+| 500,000 | 560 | 56 |
+| 700,000 | 620 | 62 |
+| 1,000,000 | 700 | 70 |
+
+HG-08 implements the tabulated maximum and per-hour rate in the live engine and HUD. Old v07 saves retain their AP amount and key; a Fame increase does not fill the newly available capacity. The guide does not state regeneration timer granularity or a new account's starting current AP amount. The prototype retains the previous v07 starting amount of 100 AP and models accrual continuously at the printed hourly rate. Confidence B applies to the dated Chinese guide; English/EU parity is still open.
+
 
 ## SRC40 — Mine garrison and manual return (2026-11-02)
 

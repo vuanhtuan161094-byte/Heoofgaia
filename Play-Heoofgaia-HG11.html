@@ -167,8 +167,8 @@ function make(race='human',now=Date.now()){
  return {version:V,race,created:now,lastTick:now,speed:60,
   res:{gold:8000,wood:900,ore:900,sulfur:350,crystal:350},
   buildings:{hall:1,barracks:1,heroTower:1,tavern:1,warehouse:2,magicTower:1,arena:1,market:0,bazaar:0,embassy:0,stables:0,forge:0},
-  spells:{},army,wounded:{},heroes:[{id:1,name:{human:'Aldric',elf:'Elaria',orc:'Gorak',undead:'Morwen'}[race],level:1,xp:0,atk:12,def:8,spd:7,int:6}],activeHero:1,castellan:null,ap:100,apMax:100,selected:null,
-  formation:[],training:[],march:null,battle:null,battleAuto:false,battleOrder:'attack',battleTarget:null,mines:[],cleared:[],woundFraction:{},fame:0,log:['Khởi đầu một thành trì ở vùng đất Gaia.'],serial:1};
+  spells:{},army,wounded:{},heroes:[{id:1,name:{human:'Aldric',elf:'Elaria',orc:'Gorak',undead:'Morwen'}[race],level:1,xp:0,atk:12,def:8,spd:7,int:6}],activeHero:1,castellan:null,ap:100,apMax:150,selected:null,
+  formation:[],training:[],march:null,battle:null,battleAuto:false,battleOrder:'attack',battleTarget:null,mines:[],cleared:[],woundFraction:{},fame:5,log:['Khởi đầu một thành trì ở vùng đất Gaia.'],serial:1};
 }
 function valid(s){return !!(s&&s.version===V&&C.races[s.race]&&s.res&&s.army&&s.buildings&&Array.isArray(s.heroes)&&Array.isArray(s.training)&&Array.isArray(s.log)&&Number.isFinite(s.lastTick))}
 function arrUnits(s){return C.units[s.race]}
@@ -319,7 +319,8 @@ function tick(s,now=Date.now()){
  const elapsed=Math.min((now-s.lastTick)/1000,maxAge);s.lastTick=now;
  const factor=s.speed===1?1:60;const seconds=elapsed*factor;
  const rates=rate(s);for(const k of C.keys) s.res[k]+=rates[k]*seconds/3600;cap(s);
- s.ap=Math.min(s.apMax,s.ap+s.apMax*.1*seconds/3600);
+ const ap=typeof API.fameApStats==='function'?API.fameApStats(s.fame):{max:s.apMax,perHour:s.apMax*.1};
+ s.apMax=ap.max;s.ap=Math.min(s.apMax,s.ap+ap.perHour*seconds/3600);
  let left=seconds;
  while(s.training.length&&left>0){let task=s.training[0];const use=Math.min(left,task.remaining);task.remaining-=use;left-=use;if(task.remaining<=0.00001){s.army[task.unitId]=(s.army[task.unitId]||0)+task.count;note(s,`Hoàn tất tuyển ${task.count} ${getUnit(s,task.unitId).name}.`);s.training.shift();}else break;}
  if(s.march){s.march.remaining=Math.max(0,s.march.remaining-seconds);if(s.march.remaining<=0&&s.march.phase!=='return')battleOpen(s);}
@@ -797,7 +798,16 @@ const FAME_MINE_CAPS=Object.freeze([[0,5],[2200,6],[5800,7],[11500,8],[21000,9],
 // SRC20's 2009-12-27 fame table also prints the account-wide hero cap.
 // Repeated fame ranks with no cap change are omitted; no extra save field is needed.
 const FAME_HERO_CAPS=Object.freeze([[0,2],[2200,3],[5800,4],[11500,6],[21000,7],[33000,8],[54000,9],[80000,10],[150000,11],[300000,13],[500000,14],[700000,16],[1000000,18]]);
+// SRC20's Fame table records both maximum AP and hourly recovery for every rank.
+// The minimum row represents a new account; older saves keep their current AP.
+const FAME_AP=Object.freeze([[5,150,15],[200,165,16],[800,180,18],[2200,200,20],[5800,230,23],[11500,260,26],[21000,290,29],[33000,320,32],[54000,360,36],[80000,400,40],[150000,450,45],[300000,500,50],[500000,560,56],[700000,620,62],[1000000,700,70]]);
 const MINE_HOURLY=Object.freeze({gold:200,wood:40,ore:40,sulfur:20,crystal:20});
+function fameApStats(fame){
+ if(!Number.isFinite(fame))fame=0;
+ let index=0;for(let i=1;i<FAME_AP.length;i++){if(fame>=FAME_AP[i][0])index=i;else break;}
+ const [threshold,max,perHour]=FAME_AP[index],nextFame=FAME_AP[index+1]?.[0]??null;
+ return {threshold,max,perHour,nextFame};
+}
 function mineLimit(s){
  const fame=typeof s==='number'?s:s?.fame;
  if(!Number.isFinite(fame))return 5;
@@ -827,6 +837,7 @@ function legacyDispatch(s){
 function heroAway(s,id){return !!(s.expedition?.heroId===id||s.stationedHeroes?.some(x=>x.heroId===id))}
 function ensure(s){
  E.ensure06(s);
+ const ap=fameApStats(s.fame);s.apMax=ap.max;if(Number.isFinite(s.ap))s.ap=Math.min(s.ap,ap.max);
  if(!Array.isArray(s.stationedHeroes))s.stationedHeroes=[];
  if(!Object.prototype.hasOwnProperty.call(s,'expedition'))s.expedition=legacyDispatch(s);
  if(s.march&&!s.march.phase)s.march.phase='outbound';
@@ -1017,7 +1028,7 @@ function battleAct(s,action){
    startReturn(s,key||exp.homeKey);
   }else if(['win','retreat','timeout'].includes(result?.type))startReturn(s,key||exp.homeKey);
  }
- return result;
+ ensure(s);return result;
 }
 function tick(s,now=Date.now()){
   ensure(s);if(!Number.isFinite(now)||now<=s.lastTick)return;
@@ -1100,7 +1111,7 @@ function hireCandidate(s,id){
 }
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
 E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.appoint=appoint;E.selectHero=selectHero;E.recallHero=recallHero;E.finishReturn=finishReturn;E.heroAway=heroAway;E.valid=valid;
-Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,MINE_HOURLY,mineLimit,heroCountLimit,
+Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,FAME_AP,MINE_HOURLY,mineLimit,heroCountLimit,fameApStats,
  ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
@@ -1457,7 +1468,7 @@ function load(){
 }
 function money(cost){return Object.entries(cost).filter(([,v])=>v>0).map(([k,v])=>`${C.resource[k].emoji} ${format(v)}`).join(' · ')}
 function button(action,data,label,disabled=false,cls=''){return `<button ${disabled?'disabled':''} data-action="${esc(action)}" ${Object.entries(data||{}).map(([k,v])=>`data-${esc(k)}="${esc(v)}"`).join(' ')} class="${cls}">${label}</button>`}
-function flags(){const city=E.activeCity(state);return `<span class="tag">📍 ${esc(city.name)} (${city.key})</span><span class="tag">🔋 AP ${Math.floor(state.ap)}/${state.apMax}</span><span class="tag">🏅 Danh vọng ${format(state.fame)}</span><span class="tag">🏰 ${state.cities.length}/${E.cityLimit(state.fame)} thành</span><span class="tag">⏱ ×${state.speed} demo</span>`}
+function flags(){const city=E.activeCity(state),ap=E.fameApStats(state.fame),next=ap.nextFame===null?'đã đạt bậc cao nhất':`còn ${format(ap.nextFame-state.fame)} Fame tới mốc tiếp`;return `<span class="tag">📍 ${esc(city.name)} (${city.key})</span><span class="tag" title="${ap.perHour} AP hồi mỗi giờ game · ${next}">🔋 AP ${Math.floor(state.ap)}/${ap.max} · +${ap.perHour}/giờ</span><span class="tag">🏅 Danh vọng ${format(state.fame)}</span><span class="tag">🏰 ${state.cities.length}/${E.cityLimit(state.fame)} thành</span><span class="tag">⏱ ×${state.speed} demo</span>`}
 function renderIntro(){
  $('nav').innerHTML='';$('resources').innerHTML='';$('status').innerHTML='<p>Một bản tái dựng độc lập lấy cảm hứng từ Heroes of Gaia (2009).</p>';$('logs').innerHTML='';
  $('main').innerHTML=`<section class="welcome"><div class="welcome-scene"><canvas id="intro-canvas" width="1176" height="560" aria-label="Phong cảnh thành trì theo chủng tộc"></canvas><div class="welcome-copy"><div class="eyebrow">CHRONICLES OF GAIA • HG-11 FOUR-FACTION CITIES</div><h1>ANH HÙNG THỜI LOẠN</h1><p>Phát triển thành trì • dẫn quân vượt thế giới • chinh phục mỏ và quái vật</p></div></div><div class="welcome-bottom"><h2>Chọn chủng tộc khởi đầu</h2><div class="race-grid">${Object.entries(C.races).map(([k,v])=>`<button data-action="race" data-race="${k}" class="race-card ${newRace===k?'active':''}"><span class="emoji">${v.emoji}</span><strong>${v.name}</strong><small>${v.english}</small></button>`).join('')}</div>${button('start',{},'⚔ Thành lập thành Gaia',false,'primary wide')}<p class="hint">Chế độ chơi offline; hình ảnh tự dựng, công thức chiến đấu hiện là thử nghiệm, chưa phải game chính thức.</p></div></section>`;
@@ -1569,7 +1580,7 @@ function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hi�
  return button('cast',{id},`✨ ${esc(sp.name)} Lv.${state.heroMagic[id]||0}${wait?' ⏳':''}`,wait||used,'small secondary');}).join('')||'<span class="muted">Chưa có phép trang bị. Nghiên cứu và trang bị trong Magic Tower trước khi xuất chinh.</span>'}</div><p class="hint">${b.activeSpell?`Đang hiệu lực: ${esc(E.spell(state,b.activeSpell.id)?.name||'')} · hết vào lượt ${b.activeSpell.expiry}`:'Không có phép đang hiệu lực'} · Mỗi lượt dùng tối đa 1 phép</p></div>
   <div class="combat-journal">${b.history.slice(0,3).map(l=>`<div>• ${esc(l)}</div>`).join('')}</div><p class="hint">Thứ tự hành động lượt trước: ${(b.lastActOrder||[]).map(id=>[...b.allies,...b.enemies].find(u=>u.id===id)?.name).filter(Boolean).map(esc).join(' → ')||'Chưa có'}. Mục tiêu theo AI lượt trước: ${esc(targetSummary||'Chưa có')}.</p><p class="hint">Bản thử nghiệm: tối đa 7 nhóm quân, lượt theo tốc độ; bằng tốc độ thì xét vị trí trái sang phải, trên xuống dưới theo hướng dẫn Trung Quốc 2009. Tầm đánh, di chuyển, chọn mục tiêu và Arena đang hoạt động. Công thức sát thương, AI và cân bằng vẫn là mô phỏng.</p>`;
 }
-function sourceView(){return `<h1>📚 Dữ liệu Heroes of Gaia 2009</h1><p class="hint">Bản game <b>chỉ</b> nghiên cứu Heroes of Gaia / Castle of Heroes / 英雄之城. Không nhập cơ chế từ bất kỳ trò chơi nào khác.</p><div class="grid grid2 source-links"><div class="card"><h3>Đã xác minh từ tài liệu</h3><ul><li>Bốn chủng tộc; 40 quân, 10 bậc/chủng tộc.</li><li>Năm tài nguyên gold, lumber, ore, sulfur, crystal.</li><li>Town Hall, Barracks, Graveyard cho Undead, Tavern, Hero Tower, Arena, Warehouse, Magic Tower.</li><li>AP tái tạo 10% tối đa mỗi giờ; mỏ tài nguyên 6 AP.</li><li>Những phép thành trì ghi trong catalog.</li></ul></div><div class="card"><h3>Các điểm vẫn mô phỏng</h3><ul><li>Giá nâng và thời gian nâng công trình.</li><li>Cấp mở quân phụ và thời gian tuyển có tăng tốc demo.</li><li>Chất lượng/giá tướng, AI và sức mạnh NPC; chu kỳ Tavern 60 phút là thông số ghi nhận từ wiki.</li><li>Bonus mỏ, quà chiến đấu, tiêu hao và thời gian di chuyển.</li><li>Giá và tỷ lệ rơi trang bị, vị trí bản đồ, đa thành, PvP và multiplayer.</li></ul></div></div><div class="card source-links"><h3>Nguồn nghiên cứu</h3><p><a href="https://heroesofgaia.wikidot.com/game-units" target="_blank" rel="noopener">Bảng 40 quân (Wikidot, cập nhật 06/12/2009)</a> · <a href="https://heroesofgaia.wikidot.com/game-buildings" target="_blank" rel="noopener">Công trình</a> · <a href="https://games.sina.com.cn/o/z/yxzc/2009-08-24/0019346777.shtml" target="_blank" rel="noopener">Danh mục công trình Undead (Sina, 24/08/2009)</a> · <a href="https://heroesofgaia.wikidot.com/heroes-action" target="_blank" rel="noopener">AP và hành quân</a> · <a href="https://heroesofgaia.wikidot.com/game-spells" target="_blank" rel="noopener">Phép thuật</a> · <a href="https://heroesofgaia.wikidot.com/game-combat" target="_blank" rel="noopener">Công thức chiến đấu cộng đồng</a></p><p class="hint">Dữ liệu tham chiếu Wikidot ghi công nguồn và dẫn link, giấy phép CC BY-SA 3.0 được nêu trong SOURCES.md. Đồ họa, code engine và bản đồ viết mới, không tái sử dụng asset gốc.</p></div>`;}
+function sourceView(){return `<h1>📚 Dữ liệu Heroes of Gaia 2009</h1><p class="hint">Bản game <b>chỉ</b> nghiên cứu Heroes of Gaia / Castle of Heroes / 英雄之城. Không nhập cơ chế từ bất kỳ trò chơi nào khác.</p><div class="grid grid2 source-links"><div class="card"><h3>Đã xác minh từ tài liệu</h3><ul><li>Bốn chủng tộc; 40 quân, 10 bậc/chủng tộc.</li><li>Năm tài nguyên gold, lumber, ore, sulfur, crystal.</li><li>Town Hall, Barracks, Graveyard cho Undead, Tavern, Hero Tower, Arena, Warehouse, Magic Tower.</li><li>AP tối đa 150–700 và hồi 15–70/giờ theo hạng Fame (bảng rank 2009, SRC20); mỏ tài nguyên tiêu tốn 6 AP.</li><li>Những phép thành trì ghi trong catalog.</li></ul></div><div class="card"><h3>Các điểm vẫn mô phỏng</h3><ul><li>Giá nâng và thời gian nâng công trình.</li><li>Cấp mở quân phụ và thời gian tuyển có tăng tốc demo.</li><li>Chất lượng/giá tướng, AI và sức mạnh NPC; chu kỳ Tavern 60 phút là thông số ghi nhận từ wiki.</li><li>Bonus mỏ, quà chiến đấu, tiêu hao và thời gian di chuyển.</li><li>Giá và tỷ lệ rơi trang bị, vị trí bản đồ, đa thành, PvP và multiplayer.</li></ul></div></div><div class="card source-links"><h3>Nguồn nghiên cứu</h3><p><a href="https://heroesofgaia.wikidot.com/game-units" target="_blank" rel="noopener">Bảng 40 quân (Wikidot, cập nhật 06/12/2009)</a> · <a href="https://heroesofgaia.wikidot.com/game-buildings" target="_blank" rel="noopener">Công trình</a> · <a href="https://games.sina.com.cn/o/z/yxzc/2009-08-24/0019346777.shtml" target="_blank" rel="noopener">Danh mục công trình Undead (Sina, 24/08/2009)</a> · <a href="https://heroesofgaia.wikidot.com/heroes-action" target="_blank" rel="noopener">AP và hành quân</a> · <a href="https://heroesofgaia.wikidot.com/game-spells" target="_blank" rel="noopener">Phép thuật</a> · <a href="https://heroesofgaia.wikidot.com/game-combat" target="_blank" rel="noopener">Công thức chiến đấu cộng đồng</a></p><p class="hint">Dữ liệu tham chiếu Wikidot ghi công nguồn và dẫn link, giấy phép CC BY-SA 3.0 được nêu trong SOURCES.md. Đồ họa, code engine và bản đồ viết mới, không tái sử dụng asset gốc.</p></div>`;}
 function paint(){
  if(!state)return;
  if(tab==='map'){const canvas=$('world-canvas');if(!canvas)return;const draw=()=>P.drawWorld(canvas,E,state,selected);draw();

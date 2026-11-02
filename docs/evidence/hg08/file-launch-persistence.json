@@ -53,6 +53,10 @@
       "passed": true
     },
     {
+      "name": "file:// minimap pointer selects a mine and enables real dispatch",
+      "passed": true
+    },
+    {
       "name": "file:// departure assigns starter troops to the traveling hero",
       "passed": true
     },
@@ -90,6 +94,6 @@
     }
   ],
   "errors": [],
-  "passed": 22,
-  "total": 22
+  "passed": 23,
+  "total": 23
 }

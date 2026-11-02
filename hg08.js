@@ -32,7 +32,16 @@ const FAME_MINE_CAPS=Object.freeze([[0,5],[2200,6],[5800,7],[11500,8],[21000,9],
 // SRC20's 2009-12-27 fame table also prints the account-wide hero cap.
 // Repeated fame ranks with no cap change are omitted; no extra save field is needed.
 const FAME_HERO_CAPS=Object.freeze([[0,2],[2200,3],[5800,4],[11500,6],[21000,7],[33000,8],[54000,9],[80000,10],[150000,11],[300000,13],[500000,14],[700000,16],[1000000,18]]);
+// SRC20's Fame table records both maximum AP and hourly recovery for every rank.
+// The minimum row represents a new account; older saves keep their current AP.
+const FAME_AP=Object.freeze([[5,150,15],[200,165,16],[800,180,18],[2200,200,20],[5800,230,23],[11500,260,26],[21000,290,29],[33000,320,32],[54000,360,36],[80000,400,40],[150000,450,45],[300000,500,50],[500000,560,56],[700000,620,62],[1000000,700,70]]);
 const MINE_HOURLY=Object.freeze({gold:200,wood:40,ore:40,sulfur:20,crystal:20});
+function fameApStats(fame){
+ if(!Number.isFinite(fame))fame=0;
+ let index=0;for(let i=1;i<FAME_AP.length;i++){if(fame>=FAME_AP[i][0])index=i;else break;}
+ const [threshold,max,perHour]=FAME_AP[index],nextFame=FAME_AP[index+1]?.[0]??null;
+ return {threshold,max,perHour,nextFame};
+}
 function mineLimit(s){
  const fame=typeof s==='number'?s:s?.fame;
  if(!Number.isFinite(fame))return 5;
@@ -62,6 +71,7 @@ function legacyDispatch(s){
 function heroAway(s,id){return !!(s.expedition?.heroId===id||s.stationedHeroes?.some(x=>x.heroId===id))}
 function ensure(s){
  E.ensure06(s);
+ const ap=fameApStats(s.fame);s.apMax=ap.max;if(Number.isFinite(s.ap))s.ap=Math.min(s.ap,ap.max);
  if(!Array.isArray(s.stationedHeroes))s.stationedHeroes=[];
  if(!Object.prototype.hasOwnProperty.call(s,'expedition'))s.expedition=legacyDispatch(s);
  if(s.march&&!s.march.phase)s.march.phase='outbound';
@@ -252,7 +262,7 @@ function battleAct(s,action){
    startReturn(s,key||exp.homeKey);
   }else if(['win','retreat','timeout'].includes(result?.type))startReturn(s,key||exp.homeKey);
  }
- return result;
+ ensure(s);return result;
 }
 function tick(s,now=Date.now()){
   ensure(s);if(!Number.isFinite(now)||now<=s.lastTick)return;
@@ -335,7 +345,7 @@ function hireCandidate(s,id){
 }
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
 E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.appoint=appoint;E.selectHero=selectHero;E.recallHero=recallHero;E.finishReturn=finishReturn;E.heroAway=heroAway;E.valid=valid;
-Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,MINE_HOURLY,mineLimit,heroCountLimit,
+Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,FAME_AP,MINE_HOURLY,mineLimit,heroCountLimit,fameApStats,
  ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
