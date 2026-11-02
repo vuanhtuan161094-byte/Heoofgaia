@@ -10,7 +10,7 @@ Product claim: independent offline reconstruction in progress; no 1:1 claim.
 
 | Stage | Status | Accepted evidence | Open acceptance work |
 |---|---|---|---|
-| HG-07 | PASS — local baseline audited | Pre-change run: 37/37 Node, 31/31 browser, 9/9 file:// checks, 8 JS syntax checks and offline build pass; v06/v07 migration tests. Receipts: docs/qa/baseline-20261102/, docs/qa/BASELINE_PASS_FAIL.md and docs/evidence/hg07-baseline/. Fresh combined regression includes HG-07 formation/migration guards. | Original-client comparison, Android and remote publication not verified. |
+| HG-07 | PASS — historical HG-07 and current checkout audited | Historical HG-07-only baseline: 37/37 Node, 31/31 browser, 9/9 file:// checks. Separate pre-change cumulative HG-07–HG-09 checkout baseline: 79/79 Node, 9/9 JS syntax, offline build 152,097 characters, Chrome 71/71, file:// 12/12. Receipts: docs/qa/baseline-20261102/, docs/qa/BASELINE_PASS_FAIL.md and docs/evidence/hg07-baseline/. Fresh combined regression includes HG-07 guards. | Original-client comparison, Android and remote publication not verified. |
 | HG-08 | IN PROGRESS — tested economy/progression slice added | Human unit requirements and partial faction proxies; real queues, hero XP, Tavern and research; Fame mine cap and source-backed yield; v07 unchanged. Current run: 84/84 Node, 9/9 JS syntax, 78/78 Chrome, 12/12 Chromium file://, HTML build 153,333 characters / 160,095 bytes. Raw logs under docs/qa/hg08-fame-cap-20261102/. | 28 non-Human gates remain provisional/incomplete; exact Tavern odds/rates, spell/research economy, regional patches and original UI/data parity remain open. |
 | HG-09 | IN PROGRESS — combat slice works | Seven-slot formations, manual Attack/Advance/Stand By/Focus/Retreat, initiative, modeled targeting, casualty/Arena, battle save-resume and 1,000 seeded deterministic encounters; current full regression. | Damage formula, exact range/movement/clock, morale, enemy compositions, rewards and original battle parity are partial/simulated. |
 | HG-10 | IN PROGRESS — world/economy prototype | 28×18 generated map, pathfinding, AP-priced march, tactical encounter, mine capture, Fame cap, flat mine production, resource tick and Save/Load. | Multiple cities, fog/scouting, return logistics, portals, historically correct map/timing, mine spell interactions and 24-hour catch-up evidence. |
@@ -40,7 +40,7 @@ qa-browser.py runs the actual application in installed Chrome and clicks the rea
 
 ## Pre-change HG-07 baseline
 
-Baseline ran before source edits in this continuation. Detailed stdout/exit receipts are under docs/qa/baseline-20261102/; historical HG-07 evidence is under docs/evidence/hg07-baseline/. Fresh combined tests ran after the slice and do not replace the recorded pre-change baseline.
+The pre-change baseline ran before source edits in this continuation on the cumulative HG-07–HG-09 candidate tree: 79/79 Node, 9/9 JS syntax, 152,097-character offline build, Chrome 71/71 and Chromium file:// 12/12. Detailed stdout/exit receipts are under docs/qa/baseline-20261102/. Separately, the historical HG-07-only baseline was 37/37 Node, 31/31 browser and 9/9 file launch; evidence is under docs/evidence/hg07-baseline/. Fresh post-slice tests do not replace either baseline.
 
 ## Source, rights and repository status
 
