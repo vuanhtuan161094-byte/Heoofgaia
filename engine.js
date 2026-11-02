@@ -63,7 +63,7 @@ function learn(s,id){assert(!!C.spells[id],'Không có phép');assert((s.buildin
 function hire(s){assert(s.buildings.tavern>=1,'Cần Tavern');assert(s.heroes.length<8,'Đạt giới hạn tướng demo');const cost={gold:500+s.heroes.length*300};spend(s,cost);const id=Math.max(...s.heroes.map(h=>h.id))+1;const names=['Seren','Eldwin','Tiriel','Thorne','Velmar','Rowan','Neris'];const name=names[(id-2)%names.length];s.heroes.push({id,name,level:1,xp:0,atk:9+id,def:8+id,spd:6,int:7});note(s,`Chiêu mộ tướng ${name} tại Tavern; giá demo.`);return id;}
 function heroStationed(s,id){return Array.isArray(s.stationedHeroes)&&s.stationedHeroes.some(x=>x.heroId===id)}
 function appoint(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert(!s.march&&!s.battle,'Không thể đổi Castellan khi đang hành quân');s.castellan=s.castellan===id?null:id;note(s,s.castellan?'Đã bổ nhiệm Castellan.':'Đã bỏ chức Castellan.');}
-function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert(!s.march&&!s.battle,'Đang hành quân');assert(s.castellan!==id,'Castellan trấn thủ thành');s.activeHero=id;}
+function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướng');assert(!heroStationed(s,id),'Tướng đang đồn trú ngoài bản đồ');assert((!s.march||s.march.phase==='outbound')&&!s.battle,'Đang hành quân hoặc chiến đấu');assert(s.castellan!==id,'Castellan trấn thủ thành');s.activeHero=id;}
 // HG-03 map geometry: procedural ORIGINAL art and prototype coordinates, not proprietary map data.
 const WIDTH=28, HEIGHT=18;
 function mapTiles(){
@@ -106,7 +106,7 @@ function pathfind(fromKey,toKey){
  const result=[];let k=goal.key;while(k){result.unshift(k);k=visited.get(k);}return result;
 }
 function setFormation(s,items){
- assert(!s.march&&!s.battle,'Không thể đổi đội hình khi đang hành quân hoặc chiến đấu');
+ assert((!s.march||s.march.phase==='outbound')&&!s.battle,'Không thể đổi đội hình khi đang trở về hoặc chiến đấu');
  assert(Array.isArray(items)&&items.length<=7,'Đội hình giới hạn 7 nhóm chiến đấu');
  const sums={};const formation=[];
  for(const item of items){

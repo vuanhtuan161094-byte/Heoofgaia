@@ -180,8 +180,24 @@ test('Outbound dispatch removes its formation from the city and survives a v07 s
  const s=state(),rawArmy=16;s.formation=[{unitId:'human_1',count:7}];const tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key));
  E.startMarch(s,tile.key);assert.equal(s.army.human_1,rawArmy-7);assert.equal(s.expedition.army.human_1,7);assert.equal(s.march.phase,'outbound');assert.equal(E.strictSave(s),true);
  const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.army.human_1,9);assert.equal(saved.expedition.army.human_1,7);
- const legacy=JSON.parse(JSON.stringify(s));delete legacy.expedition;delete legacy.stationedHeroes;legacy.army.human_1=rawArmy;legacy.formation=[{unitId:'human_1',count:7}];
- const migrated=E.parseSave(JSON.stringify(legacy));assert.equal(migrated.army.human_1,9);assert.equal(migrated.expedition.army.human_1,7);assert.equal(migrated.march.phase,'outbound');assert.equal(legacy.army.human_1,rawArmy);
+ const legacy=JSON.parse(JSON.stringify(s));delete legacy.expedition;delete legacy.stationedHeroes;delete legacy.parallelMarches;legacy.army.human_1=rawArmy;legacy.formation=[{unitId:'human_1',count:7}];
+ const migrated=E.parseSave(JSON.stringify(legacy));assert.equal(migrated.army.human_1,9);assert.equal(migrated.expedition.army.human_1,7);assert.equal(migrated.march.phase,'outbound');assert.deepEqual([...migrated.parallelMarches],[]);assert.equal(legacy.army.human_1,rawArmy);
+});
+test('HG10 allows three concurrent hero marches, saves them, serializes battles, and blocks a fourth without cost',()=>{
+ const s=state();s.fame=5800;E.ensure08(s);s.heroes.push({id:2,name:'Rin',level:1,xp:0,atk:20,def:10,spd:20,int:10},{id:3,name:'Dao',level:1,xp:0,atk:20,def:10,spd:20,int:10},{id:4,name:'Minh',level:1,xp:0,atk:20,def:10,spd:20,int:10});
+ const targets=E.TILES.filter(t=>t.kind==='npc'&&E.pathfind('3,4',t.key));assert(targets.length>=4);s.formation=[{unitId:'human_1',count:4}];
+ E.startMarch(s,targets[0].key);for(const [heroId,target] of [[2,targets[1]],[3,targets[2]]]){E.selectHero(s,heroId);E.setFormation(s,[{unitId:'human_1',count:4}]);E.startMarch(s,target.key)}
+ assert.equal(s.expedition.heroId,1);assert.equal(s.parallelMarches.length,2);assert.equal(Object.values(s.parallelMarches[0].army).reduce((a,b)=>a+b,0),4);assert.equal(s.army.human_1,4);assert.equal(E.strictSave(s),true);throws(()=>E.switchCity(s,'main'),/chờ hành quân/);
+ const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.parallelMarches.length,2);assert.equal(saved.parallelMarches[1].heroId,3);
+ E.selectHero(s,4);E.setFormation(s,[{unitId:'human_1',count:1}]);const before={ap:s.ap,army:s.army.human_1,queued:JSON.stringify(s.parallelMarches),march:JSON.stringify(s.march)};throws(()=>E.startMarch(s,targets[3].key),/3 tướng/i);assert.equal(s.ap,before.ap);assert.equal(s.army.human_1,before.army);assert.equal(JSON.stringify(s.parallelMarches),before.queued);assert.equal(JSON.stringify(s.march),before.march);
+ s.speed=1;s.march.remaining=.01;for(const q of s.parallelMarches)q.remaining=.01;E.tick(s,s.lastTick+1000);assert(s.battle);assert.equal(s.expedition.heroId,1);assert(s.parallelMarches.every(q=>q.phase==='arrived'));assert.equal(E.strictSave(E.parseSave(E.serializeSave(s))),true);
+ for(let battleNo=0;battleNo<3;battleNo++){
+  assert(s.battle,`battle ${battleNo+1} must start`);for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;e.atk=0;e.def=0}for(const a of s.battle.allies)a.range=20;
+  let result,guard=0;while(s.battle&&guard++<10)result=E.battleAct(s,'attack');assert.equal(result.type,'win');
+  if(s.march?.phase==='return'){s.march.remaining=.01;E.tick(s,s.lastTick+1000)}
+  if(battleNo<2){assert(s.battle,`next arrived march ${battleNo+2} should enter battle after return`);assert.equal(s.expedition.heroId,battleNo+2)}
+ }
+ assert.equal(s.expedition,null);assert.equal(s.parallelMarches.length,0);assert.equal(s.army.human_1,16);assert.equal(E.strictSave(s),true);
 });
 test('Legacy v07 mid-battle save migrates deployed survivors without losing reserve troops',()=>{
  const s=state(),tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key));s.formation=[{unitId:'human_1',count:7}];

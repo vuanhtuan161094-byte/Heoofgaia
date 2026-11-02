@@ -1,14 +1,18 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 107,
-  "suitePassed": 107,
+  "suiteTotal": 108,
+  "suitePassed": 108,
   "suiteFailed": 0,
-  "hg10Total": 8,
-  "hg10Passed": 8,
+  "hg10Total": 9,
+  "hg10Passed": 9,
   "hg10Failed": 0,
   "hg10Checks": [
     {
       "name": "HG10 24-hour offline catch-up completes concurrent paid queues and settles once",
+      "passed": true
+    },
+    {
+      "name": "HG10 allows three concurrent hero marches, saves them, serializes battles, and blocks a fourth without cost",
       "passed": true
     },
     {

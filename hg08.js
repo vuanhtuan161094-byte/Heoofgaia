@@ -68,11 +68,13 @@ function legacyDispatch(s){
  const heroId=s.march?.heroId||s.activeHero;
  return {heroId,homeKey:'3,4',army,formation:form.filter(g=>army[g.unitId]>0),phase:s.battle?'battle':'outbound'};
 }
-function heroAway(s,id){return !!(s.expedition?.heroId===id||s.stationedHeroes?.some(x=>x.heroId===id))}
+function heroAway(s,id){return !!(s.expedition?.heroId===id||s.stationedHeroes?.some(x=>x.heroId===id)||s.parallelMarches?.some(x=>x.heroId===id))}
+function heroesAwayCount(s){return (s.expedition?1:0)+(s.parallelMarches?.length||0)+(s.stationedHeroes?.length||0)}
 function ensure(s){
  E.ensure06(s);
  const ap=fameApStats(s.fame);s.apMax=ap.max;if(Number.isFinite(s.ap))s.ap=Math.min(s.ap,ap.max);
  if(!Array.isArray(s.stationedHeroes))s.stationedHeroes=[];
+ if(!Array.isArray(s.parallelMarches))s.parallelMarches=[];
  if(!Object.prototype.hasOwnProperty.call(s,'expedition'))s.expedition=legacyDispatch(s);
  if(s.march&&!s.march.phase)s.march.phase='outbound';
  if(s.march&&!s.march.fromKey)s.march.fromKey=s.march.path?.[0]||'3,4';
@@ -248,6 +250,7 @@ function recallHero(s,heroId){
 }
 function battleAct(s,action){
  ensure(s);const b=s.battle,exp=s.expedition,hero=s.heroes.find(h=>h.id===(exp?.heroId||s.activeHero)),snapshot=hero?{level:hero.level,xp:hero.xp,atk:hero.atk,def:hero.def}:null;
+ if(exp)s.activeHero=exp.heroId;
  const simulatedReward=b?30*b.level:0;if(hero)hero.xp=0;
  let result;try{result=prior.battleAct(s,action)}finally{if(hero&&snapshot)Object.assign(hero,snapshot)}
  if(result?.type==='win'&&hero)grantHeroExperience(s,hero.id,simulatedReward,'thắng trận · XP chiến đấu đang mô phỏng');
@@ -262,22 +265,36 @@ function battleAct(s,action){
    startReturn(s,key||exp.homeKey);
   }else if(['win','retreat','timeout'].includes(result?.type))startReturn(s,key||exp.homeKey);
  }
- ensure(s);return result;
+ ensure(s);activateParallelMarch(s);return result;
+}
+function activateParallelMarch(s){
+ if(s.expedition||s.march||s.battle||!s.parallelMarches.length)return false;
+ let index=s.parallelMarches.findIndex(x=>x.phase==='arrived');if(index<0)index=0;
+ const q=s.parallelMarches.splice(index,1)[0];s.activeHero=q.heroId;
+ s.expedition={heroId:q.heroId,homeKey:q.homeKey,homeCityId:q.homeCityId,army:{...q.army},formation:q.formation.map(g=>({...g})),phase:q.phase==='arrived'?'battle':'outbound'};
+ if(q.phase==='arrived'){
+  s.march=null;s.battle=E.makeBattle(s,q.target);s.battleAuto=false;s.battleOrder='attack';
+  E.note(s,`${s.heroes.find(h=>h.id===q.heroId)?.name||'Tướng'} đã tới ${q.target}; giao tranh bắt đầu sau khi đạo quân trước kết thúc.`);
+ }else s.march={phase:'outbound',target:q.target,fromKey:q.homeKey,remaining:q.remaining,total:q.total,heroId:q.heroId,path:q.path.slice()};
+ return true;
 }
 function tick(s,now=Date.now()){
   ensure(s);if(!Number.isFinite(now)||now<=s.lastTick)return;
   const gameSeconds=E.gameElapsedSeconds(s,s.lastTick,now);
   const before={...s.army},priorTavernRound=s.tavern.round;
   s.version=6;try{prior.tick(s,now)}finally{s.version=V}
+  for(const q of s.parallelMarches){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)q.phase='arrived'}
+  if(s.battle&&s.expedition){s.expedition.phase='battle';s.activeHero=s.expedition.heroId}
   if(s.tavern.round!==priorTavernRound){highTavernCommonStats(s);tavernOffers(s)}
   if(s.castellan){let value=0;for(const u of E.arrUnits(s)){const made=Math.max(0,(s.army[u.id]||0)-(before[u.id]||0));if(made)value+=E.unitValue(u)*made/3}if(value>0)grantHeroExperience(s,s.castellan,value,'đào tạo quân khi làm Castellan · công thức cộng đồng')}
   progressArena(s,gameSeconds);
   if(s.march?.phase==='return'&&s.march.remaining<=1e-9)finishReturn(s);
+  activateParallelMarch(s);
   const q=s.researchQueue;if(q){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)finishResearch(s)}
   return s;
 }
 function startMarch(s,key){
-  ensure(s);if(s.expedition)throw Error('Đội quân của tướng khác đang hành quân hoặc trở về');
+  ensure(s);
   const tile=E.getTile(key);
   if(tile?.kind==='mine'&&(s.mines?.length||0)>=mineLimit(s))throw Error('Đã đạt hạn mức '+mineLimit(s)+' mỏ theo danh vọng '+E.fmt(s.fame)+'.');
   if(heroAway(s,s.activeHero))throw Error('Tướng đang đồn trú ngoài bản đồ');
@@ -286,22 +303,38 @@ function startMarch(s,key){
   if(!Object.keys(army).length)throw Error('Không có quân được bố trí');
   for(const [id,count] of Object.entries(army))if(count>(s.army[id]||0))throw Error('Đội hình vượt số quân hiện có trong thành');
   const heroId=s.activeHero,formation=selected.map(g=>({unitId:g.unitId,count:g.count}));
-  prior.startMarch(s,key);
+  if(heroAway(s,heroId)||heroId===s.castellan)throw Error('Tướng không sẵn sàng để xuất chinh');
+  if(heroesAwayCount(s)>=3)throw Error('Đã có 3 tướng cùng xuất chinh; chờ một đạo quân trở về trước.');
+  if(s.parallelMarches.some(q=>q.target===key)||s.march?.target===key||s.battle?.target===key)throw Error('Đã có đạo quân hướng tới mục tiêu này.');
+  const parallel=!!(s.expedition||s.march||s.battle);
+  if(parallel&&(!s.expedition||!s.march||s.march.phase!=='outbound'||s.battle))throw Error('Chỉ có thể điều thêm quân khi đạo hiện tại đang trên đường đi.');
+  const old=parallel?{march:s.march,expedition:s.expedition,battle:s.battle,battleAuto:s.battleAuto,battleOrder:s.battleOrder}:null;
+  if(parallel){s.march=null;s.expedition=null;s.battle=null}
+  try{prior.startMarch(s,key)}catch(err){if(old){s.march=old.march;s.expedition=old.expedition;s.battle=old.battle;s.battleAuto=old.battleAuto;s.battleOrder=old.battleOrder}throw err}
+  const started={...s.march,path:s.march.path.slice()};
+  if(old){s.march=old.march;s.expedition=old.expedition;s.battle=old.battle;s.battleAuto=old.battleAuto;s.battleOrder=old.battleOrder}
   for(const [id,count] of Object.entries(army))s.army[id]-=count;
   const homeKey=s.activeCastleKey||'3,4',homeCityId=s.activeCityId||'main';
+  if(parallel){
+   s.parallelMarches.push({heroId,target:key,homeKey,homeCityId,army,formation,phase:'outbound',remaining:started.remaining,total:started.total,path:started.path});
+   s.formation=[];E.note(s,`${s.heroes.find(h=>h.id===heroId)?.name||'Tướng'} cùng xuất chinh; ${heroesAwayCount(s)}/3 tướng đang ở ngoài thành.`);return s.parallelMarches[s.parallelMarches.length-1];
+  }
   s.expedition={heroId,homeKey,homeCityId,army,formation,phase:'outbound'};
   s.march.phase='outbound';s.march.fromKey=homeKey;s.formation=[];
   return s.march;
 }
 function appoint(s,id){ensure(s);if(heroAway(s,id))throw Error('Tướng đang hành quân hoặc đồn trú ngoài bản đồ');return prior.appoint(s,id)}
-function selectHero(s,id){ensure(s);if(heroAway(s,id))throw Error('Tướng đang hành quân hoặc đồn trú ngoài bản đồ');return prior.selectHero(s,id)}
+function selectHero(s,id){ensure(s);if(heroAway(s,id))throw Error('Tướng đang hành quân hoặc đồn trú ngoài bản đồ');if(!s.heroes.some(h=>h.id===id))throw Error('Không có tướng');if(s.castellan===id)throw Error('Castellan trấn thủ thành');if(s.battle||s.march&&s.march.phase!=='outbound')throw Error('Không thể đổi tướng đang giao tranh hoặc trở về');s.activeHero=id;return id}
 function valid(s){
  if(!s||s.version!==V||!prior.valid({...s,version:6}))return false;
- if(!Array.isArray(s.stationedHeroes)||!Object.prototype.hasOwnProperty.call(s,'expedition'))return false;
+ if(!Array.isArray(s.stationedHeroes)||!Array.isArray(s.parallelMarches)||!Object.prototype.hasOwnProperty.call(s,'expedition'))return false;
  const armyValid=pool=>obj(pool)&&Object.entries(pool).every(([id,n])=>Object.values(E.C.units).some(list=>list.some(u=>u.id===id))&&Number.isSafeInteger(n)&&n>=0&&n<=1e9);
  const stationedIds=new Set();for(const x of s.stationedHeroes){if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||stationedIds.has(x.heroId)||!E.getTile(x.key)||!armyValid(x.army)||!Object.values(x.army).some(n=>n>0)||!Array.isArray(x.formation))return false;stationedIds.add(x.heroId)}
  if(s.expedition!==null){const x=s.expedition;if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||x.heroId===s.castellan||!E.getTile(x.homeKey)||!armyValid(x.army)||(!Object.values(x.army).some(n=>n>0)&&x.phase!=='returning')||!Array.isArray(x.formation)||!['outbound','battle','returning'].includes(x.phase))return false}
  if(s.march&&(!['outbound','return'].includes(s.march.phase)||!s.expedition||s.march.heroId!==s.expedition.heroId))return false;
+ const deployedIds=new Set([...stationedIds]);if(s.expedition){if(deployedIds.has(s.expedition.heroId))return false;deployedIds.add(s.expedition.heroId)}
+ for(const q of s.parallelMarches){if(!obj(q)||!Number.isSafeInteger(q.heroId)||!s.heroes.some(h=>h.id===q.heroId)||q.heroId===s.castellan||deployedIds.has(q.heroId)||!['outbound','arrived'].includes(q.phase)||!E.getTile(q.target)||!['mine','npc','castle'].includes(E.getTile(q.target).kind)||!E.getTile(q.homeKey)||typeof q.homeCityId!=='string'||!armyValid(q.army)||!Object.values(q.army).some(n=>n>0)||!Array.isArray(q.formation)||!Array.isArray(q.path)||q.path[0]!==q.homeKey||q.path.at(-1)!==q.target||!Number.isFinite(q.total)||q.total<=0||!Number.isFinite(q.remaining)||q.remaining<0||q.remaining>q.total)return false;deployedIds.add(q.heroId)}
+ if(deployedIds.size>3)return false;
  if(!obj(s.spells)||Object.keys(s.spells).some(k=>!E.C.spells[k]))return false;
  for(const [id,level] of Object.entries(s.spells))if(!Number.isSafeInteger(level)||level<0||level>10)return false;
  if(!Object.prototype.hasOwnProperty.call(s.buildings,'blacksmith')||!Number.isSafeInteger(s.buildings.graveyard)||s.buildings.graveyard<0)return false;

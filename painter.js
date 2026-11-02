@@ -102,6 +102,7 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
  for(const g of (s.stationedHeroes||[])){const t=E.getTile(g.key);if(!t)continue;const x=(t.x+.5)*q,y=(t.y+.44)*q;circle(c,x,y,q*.27,'#263e57');circle(c,x,y,q*.20,'#e3c373');poly(c,[[x-q*.12,y-q*.17],[x,y-q*.38],[x+q*.12,y-q*.17]],'#314f72');text(c,'⚔',x,y-q*.31,15,'#fff0c8');}
  if(s.march){const m=s.march,progress=1-m.remaining/m.total,indices=(m.path||[m.fromKey||'3,4',m.target]);const t=clamp(progress,0,.999)*(indices.length-1),i=Math.floor(t);const a=E.getTile(indices[i]),b=E.getTile(indices[Math.min(i+1,indices.length-1)]);if(a&&b){let x=(a.x+(b.x-a.x)*(t-i)+.5)*q,y=(a.y+(b.y-a.y)*(t-i)+.5)*q;
   circle(c,x,y,q*.3,'#f0cc6388');circle(c,x,y,q*.16,'#eac77d');poly(c,[[x-q*.14,y-q*.2],[x,y-q*.47],[x+q*.14,y-q*.2]],'#344f6e');text(c,'⚔',x,y-q*.38,17,'#f9e0aa');}}
+ for(const m of (s.parallelMarches||[])){const indices=m.path||[m.homeKey,m.target],progress=m.phase==='arrived'?1:clamp(1-m.remaining/m.total,0,.999),t=progress*(indices.length-1),i=Math.floor(t),a=E.getTile(indices[i]),b=E.getTile(indices[Math.min(i+1,indices.length-1)]);if(a&&b){const x=(a.x+(b.x-a.x)*(t-i)+.5)*q,y=(a.y+(b.y-a.y)*(t-i)+.5)*q;circle(c,x,y,q*.27,'#236e79dd');circle(c,x,y,q*.16,'#7fd7ce');poly(c,[[x-q*.12,y-q*.17],[x,y-q*.39],[x+q*.12,y-q*.17]],'#284c63');text(c,'⚔',x,y-q*.30,14,'#fff0c8');}}
  c.restore();
  // screen ornaments
  rounded(c,13,13,176,40,8,'#122a2ccf','#9b9160');text(c,'TÂN LỤC ĐỊA • GAIA',27,39,17,'#e7d29b','left');

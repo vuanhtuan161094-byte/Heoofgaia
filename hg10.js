@@ -9,7 +9,7 @@ const E=root.HOG_ENGINE;
 if(!E||E.V!==7||!E.ensure08)throw Error('HG10 requires the v07 HG08 engine');
 const prior={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.parseSave,serialize:E.serializeSave,startMarch:E.startMarch,battleAct:E.battleAct,rate:E.rate,claim:E.claim,appoint:E.appoint};
 const CITY_FIELDS=['race','res','buildings','army','wounded','woundFraction','spells','training','formation','buildingQueue','researchQueue','arenaQueue','tavern','castellan'];
-const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','expedition','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
+const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','expedition','parallelMarches','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
 const CITY_LIMITS=Object.freeze([[0,1],[5800,2],[80000,3],[300000,4],[700000,5],[1000000,6]]);
 function clone(v){return JSON.parse(JSON.stringify(v))}
 function own(o,k){return Object.prototype.hasOwnProperty.call(o,k)}
@@ -30,12 +30,13 @@ function ensure(s){
  rootCity.local=currentLocal(s);s.activeCastleKey=rootCity.key;
  for(const g of s.stationedHeroes||[])if(!g.homeCityId)g.homeCityId='main';
  if(s.expedition&&!s.expedition.homeCityId)s.expedition.homeCityId='main';
+ for(const g of s.parallelMarches||[])if(!g.homeCityId)g.homeCityId='main';
  return s;
 }
 function activeCity(s){ensure(s);return s.cities.find(c=>c.id===s.activeCityId)}
 function cityForKey(s,key){ensure(s);return s.cities.find(c=>c.key===key)||null}
 function switchCity(s,id){
- ensure(s);if(s.march||s.battle||s.expedition)throw Error('Hãy chờ hành quân, trận chiến hoặc lệnh trở về kết thúc trước khi chuyển thành.');
+ ensure(s);if(s.march||s.battle||s.expedition||s.parallelMarches?.length)throw Error('Hãy chờ hành quân, trận chiến hoặc lệnh trở về kết thúc trước khi chuyển thành.');
  const target=s.cities.find(c=>c.id===id);if(!target)throw Error('Không tìm thấy thành này.');if(target.id===s.activeCityId)return target;
  storeCurrent(s);applyCity(s,target);E.note(s,`Đã chuyển tới ${target.name} (${target.key}), chủng tộc ${E.C.races[target.race].name}.`);return target;
 }
@@ -80,7 +81,7 @@ function battleAct(s,action){
 }
 function tickOtherCity(s,city,from,now){
  const activeId=s.activeCityId,activeData=currentLocal(s),globals={};
- for(const k of GLOBAL_DURING_CITY_TICK)globals[k]=s[k];
+ for(const k of GLOBAL_DURING_CITY_TICK)globals[k]=k==='parallelMarches'?clone(s[k]):s[k];
  applyCity(s,city);s.lastTick=from;s.march=null;s.battle=null;
  try{prior.tick(s,now);city.local=currentLocal(s)}
  finally{
@@ -109,6 +110,7 @@ function strict(s){
  }
  const main=s.cities.find(c=>c.main),active=s.cities.find(c=>c.id===s.activeCityId);
  if(mainCount!==1||!main||main.id!=='main'||main.key!=='3,4'||!active||s.activeCastleKey!==active.key)return false;
+ if(!Array.isArray(s.parallelMarches)||s.parallelMarches.some(g=>!s.cities.some(c=>c.id===g.homeCityId)))return false;
  return true;
 }
 function valid(s){return strict(s)}

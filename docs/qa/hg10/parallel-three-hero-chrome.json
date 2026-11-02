@@ -1,0 +1,139 @@
+{
+  "date": "2026-11-03",
+  "browser": "Installed Google Chrome headless CLI opening a temporary copy of the exact offline game via file://",
+  "viewport": "1440x1400",
+  "gameBuild": "Play-Heoofgaia-HG11.html",
+  "checks": [
+    {
+      "name": "Offline build opens the v07 game engine",
+      "ok": true,
+      "detail": "Anh Hùng Thời Loạn • Hẻoofgaia | Heroes of Gaia reconstruction · v7"
+    },
+    {
+      "name": "Start creates a real kingdom; test Fame enables the dated three-hero hire threshold",
+      "ok": true,
+      "detail": "Fame is the only seeded field; roster and recruitment use the live game system."
+    },
+    {
+      "name": "Tavern control recruits hero 2",
+      "ok": true,
+      "detail": "heroes=2"
+    },
+    {
+      "name": "Tavern control recruits hero 3",
+      "ok": true,
+      "detail": "heroes=3"
+    },
+    {
+      "name": "Three hired heroes produce a valid v07 state",
+      "ok": true,
+      "detail": "Aldric, Seren, Cerys · strict=true"
+    },
+    {
+      "name": "Live speed control sets travel to 1x for the in-flight save",
+      "ok": true,
+      "detail": "1"
+    },
+    {
+      "name": "Three distinct reachable neutral targets exist",
+      "ok": true,
+      "detail": "[\"2,1\",\"8,3\",\"13,4\"]"
+    },
+    {
+      "name": "Army UI assigns four actual starting troops for hero 1",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "World minimap selects NPC 2,1",
+      "ok": true,
+      "detail": "Trại Shadows · cấp 1"
+    },
+    {
+      "name": "Live March control sends hero 1",
+      "ok": true,
+      "detail": "{\"hero\":1,\"primary\":1,\"queued\":0,\"phase\":\"outbound\"}"
+    },
+    {
+      "name": "Army UI assigns four actual starting troops for hero 2",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "World minimap selects NPC 8,3",
+      "ok": true,
+      "detail": "Trại Bandits · cấp 2"
+    },
+    {
+      "name": "Live March control sends hero 2",
+      "ok": true,
+      "detail": "{\"hero\":2,\"primary\":1,\"queued\":1,\"phase\":\"outbound\"}"
+    },
+    {
+      "name": "Army UI assigns four actual starting troops for hero 3",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "World minimap selects NPC 13,4",
+      "ok": true,
+      "detail": "Trại Goblins · cấp 2"
+    },
+    {
+      "name": "Live March control sends hero 3",
+      "ok": true,
+      "detail": "{\"hero\":3,\"primary\":1,\"queued\":2,\"phase\":\"outbound\"}"
+    },
+    {
+      "name": "Three heroes travel concurrently to unique targets with AP and troops charged once",
+      "ok": true,
+      "detail": "{\"routes\":[{\"hero\":1,\"target\":\"2,1\"},{\"hero\":2,\"target\":\"8,3\"},{\"hero\":3,\"target\":\"13,4\"}],\"army\":4,\"ap\":76,\"valid\":true}"
+    },
+    {
+      "name": "UI blocks a fourth dispatch at three heroes",
+      "ok": true,
+      "detail": "{\"disabled\":true,\"label\":\"Đã đủ 3 tướng ngoài thành\"}"
+    },
+    {
+      "name": "World screen renders the live three-hero expedition ledger",
+      "ok": true,
+      "detail": "🧭 Các đạo quân đang đi (3/3)Seren → Bandits · 123 giây còn lạiCerys → Goblins · 192 giây còn lại"
+    },
+    {
+      "name": "Save control writes the actual v07 browser save",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Full browser reload restores all three in-flight hero routes",
+      "ok": true,
+      "detail": "[{\"hero\":1,\"target\":\"2,1\"},{\"hero\":2,\"target\":\"8,3\"},{\"hero\":3,\"target\":\"13,4\"}]"
+    },
+    {
+      "name": "Reloaded v07 save passes strict validation without troop duplication",
+      "ok": true,
+      "detail": "{\"army\":4,\"valid\":true}"
+    },
+    {
+      "name": "Game title remains Anh Hùng Thời Loạn after reload",
+      "ok": true,
+      "detail": "ANH HÙNG THỜI LOẠN"
+    },
+    {
+      "name": "Chrome page reports no JavaScript exceptions",
+      "ok": true,
+      "detail": ""
+    },
+    {
+      "name": "Real Chrome gameplay screenshot written",
+      "ok": true,
+      "detail": "E:\\Heoofgaia\\docs\\evidence\\hg10\\parallel-three-hero-marches-reloaded-chrome.png"
+    }
+  ],
+  "passed": 25,
+  "failed": 0,
+  "exceptions": [],
+  "screenshot": "docs/evidence/hg10/parallel-three-hero-marches-reloaded-chrome.png",
+  "limitations": "Fame 2,200 is seeded as a QA fixture to unlock the dated hero roster threshold. Tavern recruitment, troop formation, minimap selection, three March actions, UI cap and v07 reload use the real game controls. Only pointer capture is bypassed for synthetic minimap pointer events; the actual application pointer handlers execute.",
+  "checksPass": true
+}
