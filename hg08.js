@@ -184,6 +184,22 @@ function grantHeroExperience(s,heroId,amount,reason='gameplay'){
  if(levels)E.note(s,`${h.name} lên cấp ${h.level}, nhận ${levels} điểm thuộc tính (${reason}).`);
  return {base:amount,gained,bonusPercent,levels,level:h.level,xp:h.xp};
 }
+function castellanExperienceFromResources(cost){
+ // SRC17's living, mixed-era wiki gives Castellan EXP as resource value / 3.
+ // Unit production has this community formula; applying it to build/research
+ // investments is explicitly a C-confidence model, not a dated 2009 formula.
+ if(!cost||typeof cost!=='object')throw Error('Chi phí hoạt động không hợp lệ');
+ const value=(cost.gold||0)+5*((cost.wood||cost.lumber||0)+(cost.ore||0))+10*((cost.sulfur||0)+(cost.crystal||0));
+ if(!Number.isFinite(value)||value<0||value>3e12)throw Error('Giá trị kinh nghiệm Castellan không hợp lệ');
+ return value/3;
+}
+function grantCastellanActivityExperience(s,cost,activity){
+ ensure(s);const hero=s.heroes.find(h=>h.id===s.castellan);if(!hero)return null;
+ const base=castellanExperienceFromResources(cost);if(base<=0||hero.level>=100)return null;
+ const result=grantHeroExperience(s,hero.id,base,`${activity} khi làm Castellan · mô hình SRC17`);
+ E.note(s,`${hero.name} nhận ${result.gained.toLocaleString('vi-VN',{maximumFractionDigits:6})} EXP khi làm Castellan sau ${activity} (định giá tài nguyên/3, mô hình C; giá xây/nghiên cứu cũng đang mô phỏng).`);
+ return result;
+}
 function allocateHeroPoint(s,heroId,attribute){
  ensure(s);if(!attrKeys.includes(attribute))throw Error('Thuộc tính không hợp lệ');
  if(s.march||s.battle||heroAway(s,heroId))throw Error('Không thể phân điểm khi tướng đang hành quân hoặc đồn trú');
@@ -210,7 +226,9 @@ function learn(s,id){return researchSpell(s,id)}
 function finishResearch(s){
  const q=s.researchQueue;if(!q)return;
  if(!E.C.spells[q.key]||(s.spells[q.key]||0)!==q.level-1)throw Error('Hàng đợi nghiên cứu không khớp cấp phép');
+ const cost=E.spellCost(s,q.key),spellName=E.C.spells[q.key].vi||E.C.spells[q.key].name;
  s.spells[q.key]=q.level;s.researchQueue=null;E.note(s,`Hoàn thành ${E.C.spells[q.key].vi||E.C.spells[q.key].name} cấp ${q.level}.`);
+ grantCastellanActivityExperience(s,cost,`nghiên cứu ${spellName} cấp ${q.level}`);
 }
 function unitPrerequisites(s,u){
  const trainingBuilding=troopBuildingKey(s);
@@ -334,7 +352,7 @@ function tick(s,now=Date.now()){
   for(const q of s.parallelMarches){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)q.phase='arrived'}
   if(s.battle&&s.expedition){s.expedition.phase='battle';s.activeHero=s.expedition.heroId}
   if(s.tavern.round!==priorTavernRound){highTavernCommonStats(s);tavernOffers(s)}
-  if(s.castellan){let value=0;for(const u of E.arrUnits(s)){const made=Math.max(0,(s.army[u.id]||0)-(before[u.id]||0));if(made)value+=E.unitValue(u)*made/3}if(value>0)grantHeroExperience(s,s.castellan,value,'đào tạo quân khi làm Castellan · công thức cộng đồng')}
+  if(s.castellan){let value=0;for(const u of E.arrUnits(s)){const made=Math.max(0,(s.army[u.id]||0)-(before[u.id]||0));if(made)value+=castellanExperienceFromResources(u.cost)*made}if(value>0)grantHeroExperience(s,s.castellan,value,'đào tạo quân khi làm Castellan · công thức cộng đồng')}
   progressArena(s,gameSeconds);
   if(s.march?.phase==='return'&&s.march.remaining<=1e-9)finishReturn(s);
   activateParallelMarch(s);
@@ -431,7 +449,7 @@ E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=t
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,FAME_AP,MINE_HOURLY,mineLimit,heroCountLimit,fameApStats,
  ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,NPC_BATTLE_XP,battleExperienceReward,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  buildingUpgradeGate,buildingUpgradeCapException,
- technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
+technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,castellanExperienceFromResources,grantCastellanActivityExperience,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
 root.HOG_HG08={version:V,saveKey:KEY,status:'evidence-labelled-progression'};
 })(typeof globalThis!=='undefined'?globalThis:this);

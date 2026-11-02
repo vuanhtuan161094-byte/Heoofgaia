@@ -32,8 +32,10 @@ function upgrade(s,key){ensure(s);
 function finishConstruction(s){
  const q=s.buildingQueue;if(!q)return;
  if((s.buildings[q.key]||0)!==q.level-1)throw Error('Hàng đợi xây dựng không khớp cấp công trình');
+ const cost=E.buildCost(s,q.key),activity=`xây xong ${E.C.buildings[q.key].name} Lv.${q.level}`;
  s.buildings[q.key]=q.level;s.buildingQueue=null;
  E.note(s,`Hoàn thành ${E.C.buildings[q.key].name} Lv.${q.level}.`);
+ if(typeof E.grantCastellanActivityExperience==='function')E.grantCastellanActivityExperience(s,cost,activity);
 }
 function tick(s,now=Date.now()){
  ensure(s);const oldTime=s.lastTick;if(now<=oldTime)return;

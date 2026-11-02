@@ -35,6 +35,10 @@ A second targeted search pass checked castle and world-interface descriptions, t
 
 The UI findings now explicitly inform visual work: the current game lacks the original target-search/details panel and separate out-on-map hero/castle selectors; the city building pop-up and task flows also need closer reproduction. The available remote article text does not expose trustworthy embedded screenshot files or rights for reuse.
 
+### Castellan experience formula and version scope
+
+The living Fandom [Heroes](https://heroesofgaia.fandom.com/wiki/Heroes) page is a community reference for a Castellan's resource-value/3 experience formula and is not locked to the 2009 client. The dated 17173 FAQ SRC49 independently confirms that a defending Castellan receives experience when troop production, construction and research finish, and says early level-6+ building upgrades often yield 2–3 hero levels; it gives no numeric reward equation. The reconstruction therefore uses the Fandom formula for troop production as previously documented and labels its extension to construction/research as a C-confidence playable model. It does not present that extension as recovered 2009 server behavior.
+
 ## Implementation decisions
 
 1. Use the wiki as a research index and a secondary community source, not as a single authoritative specification.

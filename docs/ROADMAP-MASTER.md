@@ -55,3 +55,10 @@ One game session must support: create race/city â†’ gather resources â†�
 - Captured race-specific city economy and queues run as independent saved city state; multiple-city scope is still partial. Fog/scouting, three simultaneous expeditions, PvP capture/abandonment, regional city gates and original-client comparison remain open.
 - Current city scenes use modern generated painterly 2.5D art with four faction-specific variants; world/battle visuals still use project-authored prototype geometry and do not establish parity with the original. A dated 2009 visual reference (SRC42) confirms a scenic hill-city composition with detailed terrain-integrated buildings; the project keeps the composition while using higher modern polish. Fandom survey remains partial (608-article full enumeration blocked); see `docs/research/FANDOM-WIKI-SURVEY-20261102.md`.
 - See exact artifacts, checksums and blocker in `docs/CURRENT_HG_CHECKPOINT.md`.
+
+## Latest HG-08 Castellan activity EXP — 2026-11-03
+
+- SRC49 (17173, 2009-12-28) confirms that the defending Castellan receives EXP when troop production, construction and research complete; it gives no numeric formula. Build/research EXP uses the SRC17 resource-value/3 formula only as a disclosed C-confidence model, with simulated construction/research costs.
+- Construction and research now award EXP on real queue completion in active and inactive cities, once each. Save schema remains v07; no migration or old-save rewrite was introduced.
+- Regression after this slice: Node **127/127 PASS**; integrated Chrome **91/91 PASS**; actual standalone `file://` Chromium **29/29 PASS**; focused Castellan UI/queue/Save-Reload Chrome **11/11 PASS** with zero JS exceptions.
+- HG-08 remains partial; exact Castellan construction/research reward formula, build-cost parity, unresolved troop gates and Tavern probability remain open. See `docs/CURRENT_HG_CHECKPOINT.md` for the artifact and evidence hashes.

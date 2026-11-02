@@ -14,6 +14,7 @@ let pass=0,failed=0;const results=[];
 function test(name,fn){try{fn();pass++;results.push({name,passed:true});console.log('PASS '+name)}catch(e){failed++;results.push({name,passed:false});console.error('FAIL '+name+': '+e.message)}}
 function state(race='human'){return E.make(race,1_000_000)}
 function expensive(s){for(const k of C.keys) s.res[k]=Math.min(E.limits(s)[k],1e6);return s}
+function lifetimeHeroXp(h){let xp=h.xp;for(let level=1;level<h.level;level++)xp+=E.experienceToNext(level);return xp}
 function throws(fn,re){assert.throws(fn,re)}
 const v2=['gold','wood','ore','sulfur','crystal'];
 test('version and isolated key',()=>{assert.equal(E.V,7);assert.equal(E.SAVE_KEY,'heoofgaia_hg_only_v07')});
@@ -314,6 +315,43 @@ test('Technology rejection does not spend resources or mutate research queue',()
 });
 test('Castellan gains unit-value/3 experience only when training completes',()=>{
  const s=state();E.appoint(s,1);E.recruit(s,'human_1',3);assert.equal(s.heroes[0].xp,0);const end=s.lastTick+s.training[0].remaining/s.speed*1000+1000;E.tick(s,end);assert.equal(s.army.human_1,19);assert.equal(s.heroes[0].xp,126.25);E.tick(s,end);assert.equal(s.heroes[0].xp,126.25);
+});
+test('Castellan resource-value model matches the community unit-value formula across the catalog',()=>{
+ for(const unit of Object.values(C.units).flat())assert.equal(E.castellanExperienceFromResources(unit.cost),E.unitValue(unit)/3,unit.id);
+ assert.equal(E.castellanExperienceFromResources({gold:3,wood:2,ore:1,sulfur:4,crystal:5}),36);
+ assert.equal(E.castellanExperienceFromResources({gold:0,lumber:1}),5/3);
+});
+test('Castellan receives construction EXP once at completion and v07 queue reload preserves the event',()=>{
+ const s=state();s.buildings.hall=10;s.buildings.warehouse=10;s.buildings.heroTower=4;for(const k of C.keys)s.res[k]=E.limits(s)[k];E.appoint(s,1);
+ const hero=s.heroes[0],before=lifetimeHeroXp(hero),cost=E.buildCost(s,'market'),base=E.castellanExperienceFromResources(cost),expected=base*1.04;
+ E.upgrade(s,'market');assert.equal(lifetimeHeroXp(hero),before);assert(s.buildingQueue);
+ const pending=E.parseSave(E.serializeSave(s));assert.equal(pending.version,7);assert(E.strictSave(pending));
+ const end=pending.lastTick+pending.buildingQueue.remaining/pending.speed*1000+1000;E.tick(pending,end);
+ const completed=pending.heroes[0],gained=lifetimeHeroXp(completed)-before;
+ assert.equal(pending.buildings.market,1);assert.equal(pending.buildingQueue,null);assert(Math.abs(gained-expected)<1e-7,`${gained} != ${expected}`);
+ assert(pending.log.some(line=>line.includes('EXP khi làm Castellan')&&line.includes('mô hình C')));assert.equal(E.strictSave(pending),true);
+ E.tick(pending,end+1000);assert(Math.abs(lifetimeHeroXp(pending.heroes[0])-before-expected)<1e-7);assert.equal(E.strictSave(pending),true);
+});
+test('Castellan receives research EXP once at completion and v07 queue reload preserves the event',()=>{
+ const s=state();s.buildings.hall=10;s.buildings.warehouse=10;s.buildings.heroTower=4;s.buildings.magicTower=10;for(const k of C.keys)s.res[k]=E.limits(s)[k];E.appoint(s,1);
+ const hero=s.heroes[0],before=lifetimeHeroXp(hero),cost=E.spellCost(s,'bootcamp'),base=E.castellanExperienceFromResources(cost),expected=base*1.04;
+ E.learn(s,'bootcamp');assert.equal(lifetimeHeroXp(hero),before);assert(s.researchQueue);
+ const pending=E.parseSave(E.serializeSave(s));assert.equal(pending.version,7);assert(E.strictSave(pending));
+ const end=pending.lastTick+pending.researchQueue.remaining/pending.speed*1000+1000;E.tick(pending,end);
+ assert.equal(pending.spells.bootcamp,1);assert.equal(pending.researchQueue,null);
+ const gained=lifetimeHeroXp(pending.heroes[0])-before;assert(Math.abs(gained-expected)<1e-7,`${gained} != ${expected}`);
+ assert(pending.log.some(line=>line.includes('nghiên cứu Huấn luyện cấp 1')&&line.includes('mô hình C')));assert.equal(E.strictSave(pending),true);
+ E.tick(pending,end+1000);assert(Math.abs(lifetimeHeroXp(pending.heroes[0])-before-expected)<1e-7);assert.equal(E.strictSave(pending),true);
+});
+test('Inactive-city construction and research award EXP to that city’s Castellan only',()=>{
+ const s=state();s.fame=5800;E.appoint(s,1);const primary=s.heroes[0],secondary={...JSON.parse(JSON.stringify(primary)),id:2,name:'Castellan Thành Phụ',xp:0,level:1,statPoints:0};s.heroes.push(secondary);
+ const other=E.make('elf',s.lastTick);E.ensure08(other);const city=JSON.parse(JSON.stringify(other.cities[0]));const tile=E.TILES.find(t=>t.kind==='castle'&&t.race==='elf'&&t.key!=='3,4');assert(tile);
+ city.id='city-castellan-qa';city.key=tile.key;city.name='Thành Phụ QA';city.main=false;s.cities.push(city);E.switchCity(s,city.id);
+ s.buildings.hall=10;s.buildings.warehouse=10;s.buildings.heroTower=4;s.buildings.magicTower=10;s.castellan=2;for(const k of C.keys)s.res[k]=E.limits(s)[k];
+ const before=lifetimeHeroXp(secondary),buildCost=E.buildCost(s,'market'),researchCost=E.spellCost(s,'bootcamp');
+ E.upgrade(s,'market');E.learn(s,'bootcamp');E.switchCity(s,'main');const end=s.lastTick+Math.max(city.local.buildingQueue.remaining,city.local.researchQueue.remaining)/s.speed*1000+1000;E.tick(s,end);
+ assert.equal(lifetimeHeroXp(primary),0);assert(Math.abs(lifetimeHeroXp(s.heroes.find(h=>h.id===2))-before-(E.castellanExperienceFromResources(buildCost)+E.castellanExperienceFromResources(researchCost))*1.04)<1e-7);
+ assert.equal(s.buildingQueue,null);assert.equal(s.researchQueue,null);assert.equal(E.strictSave(s),true);
 });
 test('SRC03 Hero Tower grants every earned hero XP +1% per tower level and survives v07 reload',()=>{
  for(const level of [0,1,5,10]){const s=state(),h=s.heroes[0];s.buildings.heroTower=level;assert.equal(E.heroTowerExperienceBonus(s),level);const result=E.grantHeroExperience(s,h.id,100,'SRC03 bonus check');assert.equal(result.base,100);assert.equal(result.bonusPercent,level);assert.equal(result.gained,100+100*level/100);assert.equal(h.xp,result.gained);}

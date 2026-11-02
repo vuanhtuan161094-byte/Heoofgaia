@@ -155,6 +155,9 @@ with sync_playwright() as p:
             break
         page.locator('[data-action="battle"][data-cmd="attack"]').click()
     check('file:// natural starter battle captures the mine and stations the hero', page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return !s.battle&&s.mines.some(m=>m.key==="6,3")&&s.stationedHeroes.some(h=>h.heroId===1&&h.key==="6,3")})()'))
+    # Ensure the post-battle view has completed its switch from Combat to World before targeting the garrison.
+    page.locator('#nav [data-tab="map"]').click()
+    page.locator('#world-canvas').wait_for(state='visible')
     click_minimap_tile(page, 6, 3)
     check('file:// map shows the garrison and a working Recall action', 'Đồn trú' in page.locator('#main').inner_text() and page.locator('[data-action="recall"][data-id="1"]').is_enabled())
     page.wait_for_timeout(3100)  # let the live game's success toast fade before capture

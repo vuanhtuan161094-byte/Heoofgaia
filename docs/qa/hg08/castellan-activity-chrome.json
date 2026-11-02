@@ -1,0 +1,69 @@
+{
+  "suite": "HG-08 Castellan construction and research activity EXP",
+  "game": "Anh Hùng Thời Loạn",
+  "browser": "Installed Chrome, actual file://",
+  "source": "SRC49 (17173, 2009-12-28); SRC17 formula is an explicitly labeled C model",
+  "fixtureDisclosure": "The QA fixture sets a high Town Hall, Warehouse, Hero Tower, Magic Tower and resources, then uses the actual UI buttons for Castellan appointment, construction and research. The real engine tick completes queues; pending v07 saves are reloaded between actions.",
+  "htmlSha256": "F71C75174857C156BE0006F163D7EF1E6FFAF088C1D3050A4E4F04B5010A23DA",
+  "checks": [
+    {
+      "name": "Offline HTML has the requested game title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Live hero action appoints the Castellan",
+      "passed": true,
+      "detail": "1"
+    },
+    {
+      "name": "The real City upgrade button starts a paid construction queue with no early XP",
+      "passed": true,
+      "detail": "{\"queue\": {\"id\": 1, \"key\": \"market\", \"level\": 1, \"total\": 160, \"remaining\": 160}, \"xp\": 0, \"valid\": true}"
+    },
+    {
+      "name": "v07 Save/Reload retains the paid construction queue and assigned Castellan",
+      "passed": true,
+      "detail": "{\"version\": 7, \"queue\": \"market\", \"castellan\": 1, \"valid\": true, \"src49\": false}"
+    },
+    {
+      "name": "Construction completion grants the modeled XP once and clears its real queue",
+      "passed": true,
+      "detail": "{\"level\": 1, \"queue\": null, \"gained\": 197.6, \"expected\": 197.6, \"log\": [\"Aldric nhận 197,6 EXP khi làm Castellan sau xây xong Market Lv.1 (định giá tài nguyên/3, mô hình C; giá xây/nghiên cứu cũng đang mô phỏng).\", \"Aldric lên cấp 2, nhận 1 điểm thuộc tính (xây xong Market Lv.1 khi làm Castellan · mô hình SRC17).\", \"Hoàn thành Market Lv.1.\", \"Bắt đầu nâng Market Lv.1, chờ 160 giây game (mô phỏng).\"], \"valid\": true}"
+    },
+    {
+      "name": "The real Military Research button starts Bootcamp research",
+      "passed": true,
+      "detail": "{\"key\": \"bootcamp\", \"level\": 0, \"valid\": true}"
+    },
+    {
+      "name": "Magic Tower UI discloses dated trigger and modeled XP formula",
+      "passed": true,
+      "detail": "SRC49 (17173, 2009) xác nhận Castellan nhận EXP khi nghiên cứu hoàn tất. Lượng EXP xây/nghiên cứu trong bản này dùng định giá tài nguyên/3 từ SRC17 như một mô hình C, không phải công thức gốc đã xác minh. Chi phí xây dựng/nghiên cứu còn mô phỏng. Bonus Hero Tower được áp dụng. |  | ✨ Forestry | Cấp 0 |  | +20"
+    },
+    {
+      "name": "v07 Save/Reload retains pending research without duplicating rewards",
+      "passed": true,
+      "detail": "{\"version\": 7, \"key\": \"bootcamp\", \"castellan\": 1, \"valid\": true}"
+    },
+    {
+      "name": "Research completion grants the modeled XP once and clears its real queue",
+      "passed": true,
+      "detail": "{\"level\": 1, \"queue\": null, \"gained\": 239.19999999999996, \"expected\": 239.20000000000002, \"log\": [\"Aldric nhận 239,2 EXP khi làm Castellan sau nghiên cứu Huấn luyện cấp 1 (định giá tài nguyên/3, mô hình C; giá xây/nghiên cứu cũng đang mô phỏng).\", \"Hoàn thành Huấn luyện cấp 1.\", \"Bắt đầu nghiên cứu Huấn luyện cấp 1; chi phí và thời gian đang mô phỏng.\", \"Aldric nhận 197,6 EXP khi làm Castellan sau xây xong Market Lv.1 (định giá tài nguyên/3, mô hình C; giá xây/nghiên cứu cũng đang mô phỏng).\"], \"valid\": true}"
+    },
+    {
+      "name": "Final playable state remains a valid v07 Save after both activities",
+      "passed": true,
+      "detail": "{\"version\": 7, \"castellan\": 1, \"hero\": \"Aldric\", \"xp\": 286.79999999999995, \"valid\": true}"
+    },
+    {
+      "name": "No JavaScript exceptions during real offline UI actions, completion, or reload",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    "docs\\evidence\\hg08\\castellan-activity-chrome.png"
+  ]
+}
