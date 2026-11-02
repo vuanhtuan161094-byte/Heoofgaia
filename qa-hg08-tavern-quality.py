@@ -29,7 +29,8 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={"width": 1440, "height": 1100}, device_scale_factor=1)
     page.on("pageerror", lambda exc: errors.append(str(exc)))
     page.goto(HTML.as_uri(), wait_until="load")
-    check("Offline build opens with the Anh Hùng Thời Loạn product name", page.title() == "Anh Hùng Thời Loạn | Heroes of Gaia", page.title())
+    check("Offline build title is exactly Anh Hùng Thời Loạn", page.title() == "Anh Hùng Thời Loạn", page.title())
+    check("Visible game masthead is Anh Hùng Thời Loạn", page.locator(".brand").inner_text() == "ANH HÙNG THỜI LOẠN", page.locator(".brand").inner_text())
     page.locator('[data-action="start"]').click()
     page.locator('#nav [data-tab="heroes"]').click()
     prepared = page.evaluate("""(()=>{

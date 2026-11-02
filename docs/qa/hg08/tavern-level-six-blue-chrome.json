@@ -4,12 +4,17 @@
   "browser": "Installed Chrome, actual file://",
   "source": "SRC48 (17173, 2009-10-25)",
   "modelDisclosure": "SRC48 reports that Tavern above level 5 almost always offers at least one blue hero, without exact odds/stat distributions. L6–L9 implementation deterministically creates exactly one blue offer per refresh; its 20–50 stats and 126–160 hero-value band are a playable model, not recovered probabilities. Fixture directly sets Tavern level 6; subsequent hire, 60-minute tick, UI and v07 Save/Reload use the real engine/UI.",
-  "htmlSha256": "9D443F66CB1B25B7607B9BF3692DEE41C4022001D87A7841EE1F6B2A8E5E0BF4",
+  "htmlSha256": "DAFE8DF9987B61536948027A4B1C3D76C642B552C80C00066D7EC625E36B25E1",
   "checks": [
     {
-      "name": "Offline build opens with the Anh Hùng Thời Loạn product name",
+      "name": "Offline build title is exactly Anh Hùng Thời Loạn",
       "passed": true,
-      "detail": "Anh Hùng Thời Loạn | Heroes of Gaia"
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Visible game masthead is Anh Hùng Thời Loạn",
+      "passed": true,
+      "detail": "ANH HÙNG THỜI LOẠN"
     },
     {
       "name": "Tavern UI cites SRC48 and discloses the blue-candidate model",
