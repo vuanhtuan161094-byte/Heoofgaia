@@ -74,3 +74,12 @@ Date: 2026-11-02 (Windows local execution)
 4. Then implement HG-10 world/economy, HG-11 original-era art/UI fidelity, HG-12 release packaging/physical acceptance and HG-13 optional server. All remain incomplete.
 5. The standalone local working branch is feature/heoofgaia-hg08-20261102. No remote is configured; private repo creation/push remains BLOCKED because gh is absent and the connected GitHub tools do not provide create-repository. Do not modify or merge into the Tu Tiên repository or main.
 6. Continue the broad multilingual archival and asset-provenance search. The scoped Fandom survey is not evidence that all 608 articles were read.
+
+## Fandom survey continuation — 2026-11-02
+
+- Research commit: d71d83b2b621107db31d0e61fd592c4afddd7ea7 (Fandom survey only).
+- Additional pages reviewed: Heroes, Hero quality, Equipment, Castles, and the Fandom landing-page history/category list. Recorded the community-reported ATK/DEF/SPD equations and XP estimates as unverified; Tavern rarity figures are explicitly preliminary.
+- New discrepancy: the Equipment page lists seven core equipment types plus eight secondary-arm types, while the existing survey had said six common slots. Do not implement a slot count until a dated client/UI or independent same-version guide settles which types equip concurrently.
+- Wiki scope remains PARTIAL, not complete. The landing page reports 608 articles. Fandom AllPages, category enumeration, and all-pages API remain inaccessible through the available retrieval tool. Remaining categories are recorded in docs/research/FANDOM-WIKI-SURVEY-20261102.md.
+- Validation for this documentation-only change: git diff --check PASS. Gameplay tests were not rerun because no code changed. Latest tested gameplay code SHA remains a3c1b9b885f526761de167a958855815133dba0e with the Node/browser/file-browser counts listed above.
+- GitHub push remains BLOCKED: this standalone checkout has no configured remote. No changes were made to the Tu Tiên Nhàn Rỗi repository.
