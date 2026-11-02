@@ -52,6 +52,8 @@ with sync_playwright() as p:
         return page
     d=launch({'width':1440,'height':900})
     check('Intro title',lambda:d.title().startswith('Anh Hùng Thời Loạn'))
+    check('Visible game masthead uses the canonical title',lambda:d.locator('.masthead .brand').inner_text().strip()=='ANH HÙNG THỜI LOẠN' and d.locator('.welcome-copy h1').inner_text().strip()=='ANH HÙNG THỜI LOẠN')
+    check('Welcome screen has no alternate English game branding',lambda:'CHRONICLES OF GAIA' not in d.locator('.welcome-copy').inner_text().upper())
     check('No JS exception on intro',lambda:not errors)
     check('4 race selection buttons',lambda:d.locator('[data-action="race"]').count()==4)
     d.locator('[data-action="race"][data-race="elf"]').click()

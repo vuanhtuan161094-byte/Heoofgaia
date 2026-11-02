@@ -47,6 +47,8 @@ with sync_playwright() as p:
     page.on('pageerror', lambda error: errors.append(str(error)))
     page.goto(html.as_uri(), wait_until='load')
     check('file:// HTML opens in Chromium', page.title().startswith('Anh Hùng Thời Loạn'))
+    check('file:// visible masthead uses the canonical title', page.locator('.masthead .brand').inner_text().strip() == 'ANH HÙNG THỜI LOẠN' and page.locator('.welcome-copy h1').inner_text().strip() == 'ANH HÙNG THỜI LOẠN')
+    page.screenshot(path=str(root / 'docs' / 'evidence' / 'hg11' / 'title-file-chrome.png'), full_page=True)
     page.locator('[data-action="race"][data-race="elf"]').click()
     page.locator('[data-action="start"]').click()
     check('Game starts from local file', page.evaluate('HOG_APP_DEBUG.getState().race') == 'elf')

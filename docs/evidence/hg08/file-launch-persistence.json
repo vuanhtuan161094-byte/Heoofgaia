@@ -5,6 +5,10 @@
       "passed": true
     },
     {
+      "name": "file:// visible masthead uses the canonical title",
+      "passed": true
+    },
+    {
       "name": "Game starts from local file",
       "passed": true
     },
@@ -118,6 +122,6 @@
     }
   ],
   "errors": [],
-  "passed": 29,
-  "total": 29
+  "passed": 30,
+  "total": 30
 }
