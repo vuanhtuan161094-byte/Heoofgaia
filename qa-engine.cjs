@@ -38,6 +38,14 @@ test('resource basic positive and capped',()=>{const s=state();E.tick(s,s.lastTi
 test('AP exactly once at same wall time',()=>{const s=state();s.ap=0;s.speed=1;const t=s.lastTick+3600*1000;E.tick(s,t);let a=s.ap;E.tick(s,t);assert.equal(s.ap,a);assert(a>=9.99&&a<=10.01)});
 test('Market and Bazaar can be built as queue',()=>{for(const key of ['market','bazaar']){const s=expensive(state());E.upgrade(s,key);assert.equal(s.buildingQueue.key,key);assert.equal(s.buildings[key],0);E.tick(s,s.lastTick+s.buildingQueue.remaining/60*1000+1000);assert.equal(s.buildings[key],1)}});
 test('no second construction until finished',()=>{const s=state();E.upgrade(s,'hall');throws(()=>E.upgrade(s,'market'),/hàng đợi/)});
+test('Town Hall caps each race recruitment building without charging on rejection',()=>{
+ for(const race of Object.keys(C.races)){
+  const s=expensive(state(race)),key=E.troopBuildingKey(s);s.buildings.hall=1;s.buildings[key]=1;
+  const res=JSON.stringify(s.res);throws(()=>E.upgrade(s,key),/Town Hall/);
+  assert.equal(s.buildings[key],1);assert.equal(JSON.stringify(s.res),res);assert.equal(s.buildingQueue,null);
+  s.buildings.hall=2;E.upgrade(s,key);assert.equal(s.buildingQueue.key,key);assert.equal(s.buildingQueue.level,2);assert.equal(s.buildings[key],1);
+ }
+});
 test('construction once, no duplication',()=>{const s=state();E.upgrade(s,'hall');const b=s.buildingQueue.remaining;const now=s.lastTick+b/60*1000+1200;E.tick(s,now);assert.equal(s.buildings.hall,2);const res=JSON.stringify(s.res);E.tick(s,now);assert.equal(JSON.stringify(s.res),res)});
 test('Castellan INT adds gold output',()=>{const s=state();const base=E.rate(s).gold;s.heroes[0].int=40;E.appoint(s,1);assert(E.rate(s).gold>base)});
 test('hero equipment influences combat stats',()=>{const s=state();const item=E.addItem(s,'copper_blade','qa');E.equipItem(s,item.uid);assert(E.heroStats(s).atk>s.heroes[0].atk)});

@@ -1,4 +1,4 @@
-"""HG-08 browser acceptance with real Chromium rendering and test-only storage shim.
+"""HG-08 browser acceptance with real Chromium rendering and test-only storage shim; qa-file-browser.py covers actual file:// launch.
 Run: python qa-browser.py. Browser file:// and localhost are blocked by the sandbox, so
 set_content is used. This tests actual HTML/CSS/JS behavior but not physical file launch.
 """
@@ -65,6 +65,17 @@ with sync_playwright() as p:
     d.locator('#sell-qty').fill('10')
     d.locator('[data-action="sell"]').click()
     check('Market sale transaction works',lambda:d.evaluate('HOG_APP_DEBUG.getState().log[0].includes("Bán 10")'))
+    cap=launch({'width':1440,'height':900})
+    cap.locator('[data-action="start"]').click()
+    cap.locator('#nav [data-tab="city"]').click()
+    cap.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();s.buildings.barracks=1;s.buildings.hall=1;HOG_APP_DEBUG.render()})()')
+    cap.locator('[data-action="building"][data-key="barracks"]').click()
+    check('Town Hall cap disables Barracks upgrade at the current hall level',lambda:cap.locator('[data-action="upgrade"]').is_disabled() and 'Nâng Town Hall trước' in cap.locator('.actions').inner_text() and cap.evaluate('HOG_APP_DEBUG.getState().buildingQueue===null'))
+    cap.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();s.buildings.hall=2;for(const k of HOG_CATALOG.keys)s.res[k]=HOG_ENGINE.limits(s)[k];HOG_APP_DEBUG.render()})()')
+    check('Upgrading Town Hall removes the Barracks UI cap',lambda:cap.locator('[data-action="upgrade"]').is_enabled())
+    cap.locator('[data-action="upgrade"]').click()
+    check('Newly unlocked Barracks level enters its real construction queue',lambda:cap.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return s.buildings.barracks===1&&s.buildingQueue?.key==="barracks"&&s.buildingQueue?.level===2})()'))
+    cap.close()
     d.locator('#nav [data-tab="heroes"]').click()
     check('Tavern candidate cards visible',lambda:d.locator('[data-action="hirecandidate"]').count()==2)
     check('Tavern hero quality is calculated from candidate stats',lambda:d.evaluate('(()=>{const h=HOG_APP_DEBUG.getState().tavern.offers[0];return h.quality===HOG_ENGINE.heroNameColor(h)&&Number.isFinite(h.heroValue)})()'))
