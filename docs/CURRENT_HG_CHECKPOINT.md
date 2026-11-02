@@ -6,7 +6,7 @@ Date: 2026-11-02 (Windows local execution)
 
 - Project root: `E:\Heoofgaia`.
 - Working branch: `feature/heoofgaia-hg08-20261102`.
-- Latest tested functional commit SHA: `1b3ddb971f20db0bba95afc792c99af3bca45d11` (`feat: add undead Castellan Reincarnation healing`). This checkpoint document is committed separately after the tested functional commit; local HEAD may be a documentation-only child. The code and tests recorded below correspond exactly to this functional SHA.
+- Latest tested functional commit SHA: a3c1b9b885f526761de167a958855815133dba0e (feat: add source-informed combat target AI). This checkpoint document is committed separately after the tested functional commit; code and regression receipts below correspond to this SHA.
 - Original source: `vuanhtuan161094-byte/tutiennhandoi`, source branch `feature/heoofgaia-hg07-20261102`, pinned source HEAD `b32737422ca866f08de8d94021b397eb22c8f017`; HG-07 implementation parent `62d4a1c6d1a0c9769cf9ee6690e77361a2927ea9`.
 - Standalone bootstrap `028cb97a0481a4ff37a9459a5dd13ddfa1256511`; import audit `08d2fb0e4042f34af0372fb2187624bb03ff306e`. SHA-256 comparison matched all 20 Hẻoofgaia root files. Tu Tiên production systems were not copied or modified.
 - `projects/heoofgaia/HANDOFF_CREATE_STANDALONE_20261102.md` was absent at the pinned source SHA. The attached ZIP was treated as reference material only.
@@ -36,36 +36,40 @@ Date: 2026-11-02 (Windows local execution)
 
 ## HG-09 — IN PROGRESS; tested tactical combat slice
 
-- Source-backed equal-speed initiative: speed descending, then battlefield position left-to-right/top-to-bottom following a 2009 Chinese player guide. Executed order is stored and visible.
-- Deterministic target tie-breaking, documented board-wide ranged-reach approximation (numeric range absent from sources), melee movement, attack/defend/focus/retreat, combat spells, equipment, casualty/Arena ledger, and save-mid-battle are live.
-- Arena recovery uses the dated SRC29 cost and rate in a persistent, timed queue. The existing 75% wound share is the disclosed midpoint of the source's 60–80% range; distribution and Arena queue concurrency remain modeled. Undead Castellan Reincarnation reduces a new queue by 1% per skill level according to pre-Babel SRC30 (C); this is regression-tested behavior, not original-client-confirmed parity.
-- Normal battle flow prevents duplicate settlement and reward.
-- Damage formula, exact range, NPC composition/scaling, Stand By/Focus multipliers, morale, encounter timer and rewards remain partial or simulated.
+- Source-backed equal-speed initiative: speed descending, then battlefield position left-to-right/top-to-bottom following the dated 2009 Chinese guide. Executed order is stored and visible.
+- Automatic targeting now combines SRC23's 2009 Chinese description of enemy AI choosing the force judged to have highest military power with the Fandom Newbie Guide's distinction: melee pursues the threatening stack in the closest general range; ranged attacks the strongest stack.
+- Local targeting model is explicit: melee first selects by nearest Manhattan distance, then modeled power (unit ATK × living count); ranged selects highest modeled power across the board. Stable ID breaks ties. The original score formula and melee range grouping are not published, so this remains a simulated policy, not recovered server code.
+- Manual Focus overrides automatic choice. Attack, Stand By, Focus, Retreat, spells, equipment, casualty/Arena ledger, and save-mid-battle remain playable. AI choices are persisted for the last turn and shown in combat.
+- The Fandom survey found the community NPC damage formula and one reported 47,897.95 → 47,897 observation; it explicitly says the PvP formula is unresolved. This sample remains a calibration fixture only.
+- Arena recovery uses dated SRC29 cost/rate in a persistent timed queue. The 75% wounded share is the disclosed midpoint of the cited 60–80% range; distribution and queue concurrency remain modeled. Undead Castellan Reincarnation reduces a new queue by 1% per level per the pre-Babel community note (C).
+- Morale, exact reach, target score/range, NPC composition, full damage modifiers, battle clock and complete rewards remain partial or simulated. Fandom special modes and later Guild/Babel/Blood Fort systems are kept out of the 2009 baseline.
 
-## Current verification on functional SHA `1b3ddb971f20db0bba95afc792c99af3bca45d11`
+## Current verification on functional SHA a3c1b9b885f526761de167a958855815133dba0e
 
-- `node qa-engine.cjs`: **74/74 PASS**, including Arena price/time/save/resume and insufficient-funds checks, the published NPC damage integer-boundary fixture, exhaustive positive/negative tests for every currently enforced unit gate, and 1,000 seeded tactical encounters replayed deterministically with valid ledgers.
-- `node --check` on all 9 source JavaScript files: **PASS**.
-- `.venv\Scripts\python.exe build_offline.py`: **PASS**, generated `Play-Heoofgaia-HG08.html` (151,101 characters).
-- `.venv\Scripts\python.exe qa-browser.py`: **63/63 PASS**, zero page errors, installed Google Chrome; 12 checks cover HG-09. Includes actual Arena treatment, gold deduction, save/reload, timed troop return, and Undead Reincarnation research/equip/timer effect, in addition to Graveyard, Human Scout, Centaur, Thunderbird, combat and mobile checks. Screenshots were refreshed from this actual Chrome run.
-- `.venv\Scripts\python.exe qa-file-browser.py`: **12/12 PASS**, actual `file://` launch, v07 save/reload, Arena recovery persistence and a separate Chrome process restart.
-- `git diff --check`: **PASS** before commits; only Git line-ending normalization warnings.
-- Receipts: `docs/evidence/hg08/QA-RC1-RESULTS.json`, `docs/evidence/hg09/QA-HG09-NODE-RESULTS.json`, `docs/evidence/hg09/QA-HG09-BROWSER-RESULTS.json`.
+- node qa-engine.cjs: **76/76 PASS**; HG-09-specific subset **13/13 PASS**, including melee nearest-group choice, ranged strongest-target choice, Arena price/time/save/resume, migration, one NPC damage observation, and 1,000 deterministic seeded encounters.
+- node --check on all 9 source JavaScript files: **PASS**.
+- .venv\Scripts\python.exe build_offline.py: **PASS**, generated Play-Heoofgaia-HG08.html (151,931 characters).
+- .venv\Scripts\python.exe qa-browser.py: **65/65 PASS**, zero page errors, installed Google Chrome; HG-09 subset **14/14 PASS** including actual march-to-battle, player Attack, enemy melee AI, ranged AI, Arena treatment and Reincarnation.
+- .venv\Scripts\python.exe qa-file-browser.py: **12/12 PASS**, actual Chromium file:// launch, v07 save/reload, Arena recovery persistence and separate Chrome process restart.
+- git diff --check: **PASS** after the checkpoint documentation edit.
+- Receipts: docs/evidence/hg08/QA-RC1-RESULTS.json, docs/evidence/hg09/QA-HG09-NODE-RESULTS.json, docs/evidence/hg09/QA-HG09-BROWSER-RESULTS.json, docs/evidence/hg08/file-launch-persistence.json.
 
 ## Actual gameplay evidence and comparison limits
 
-- `docs/evidence/hg08/screenshot-undead-graveyard-desktop.png` and `screenshot-undead-recruitment-queue-desktop.png`: actual 1440×900 Chrome rendering before/after enqueueing three Skeleton Warriors; queue state is also shown in the live sidebar. `docs/evidence/hg08/screenshot-orc-thunderbird-gate-desktop.png` captures the actual Orc recruitment panel, source-confidence badge, all four C-confidence gates and disabled recruit button before the gates are met. `docs/evidence/hg08/screenshot-troop-unlocks-desktop.png` shows the real Elf Centaur C badge and source note beside the locked tier-2 Scout. `docs/evidence/hg08/screenshot-human-scout-gate-desktop.png` shows the Human Scout card with SRC27 Barracks 2 + Scouting 1 and the unresolved Town Hall note.
-- `docs/evidence/hg09/screenshot-combat-desktop.png` and `screenshot-combat-after-turn-desktop.png`: actual Chrome battle before/after an Attack action; enemy HP and the turn order change in the running game.
-- `docs/evidence/hg09/screenshot-arena-treatment-queue-desktop.png`: actual Chrome Arena screen after paying the source-derived fee and queuing two wounded Spear Militia for timed recovery.
-- `docs/evidence/hg09/screenshot-undead-reincarnation-arena-desktop.png`: actual Chrome screen with an active two-Skeleton Warrior queue and the defending Undead Castellan’s Reincarnation 1% timer reduction.
-- `docs/evidence/hg08/screenshot-file-arena-queue-1280x720.png`: actual `file://` Chrome screenshot with an active Centaur treatment queue; the offline test reloads it in a second browser process.
-- Original client/runtime was not available for pixel-level side-by-side comparison. Visual resemblance and gameplay parity with the original remain **NOT TESTED/BLOCKED**; no 1:1 claim is made. Physical Android/Windows-device acceptance: NOT TESTED.
+- docs/evidence/hg08/screenshot-undead-graveyard-desktop.png and screenshot-undead-recruitment-queue-desktop.png show the actual Chrome Undead recruitment page before and after enqueueing three Skeleton Warriors. The Orc Thunderbird, Human Scout and troop-unlock screenshots record source confidence and real prerequisite locks.
+- docs/evidence/hg09/screenshot-combat-desktop.png and screenshot-combat-after-turn-desktop.png show the actual Chrome battle before and after an Attack action; enemy HP and turn state change in the running game.
+- docs/evidence/hg09/screenshot-ai-target-priority-desktop.png shows the controlled melee AI case; the nearby stronger group remains alive and the target decision appears in the battle log.
+- docs/evidence/hg09/screenshot-ai-ranged-target-priority-desktop.png shows the controlled ranged case; the ranged group fires at the stronger distant enemy and the result appears in the battle log.
+- docs/evidence/hg09/screenshot-arena-treatment-queue-desktop.png and screenshot-undead-reincarnation-arena-desktop.png show actual Arena queue transactions and the Castellan skill's timer effect.
+- docs/evidence/hg08/screenshot-file-arena-queue-1280x720.png is captured from actual Chromium file:// use with an active treatment queue; the offline test reloads it in a second browser process.
+- Research index and scope statement for the Fandom pages: docs/research/FANDOM-WIKI-SURVEY-20261102.md. Its landing page reported 608 articles, but AllPages/category endpoints were blocked by the available retrieval interface; the survey covers the main mechanics families, not all 608 articles.
+- Original client/runtime was not available for pixel-level side-by-side comparison. These are screenshots of the reconstruction, not the original. Visual resemblance and gameplay parity remain **NOT TESTED/BLOCKED**; no 1:1 claim is made. Physical Android/Windows-device acceptance: NOT TESTED.
 
 ## Remaining scope and next actions
 
-1. Continue HG-08 source research for exact per-unit non-Human prerequisites and Tavern candidate distributions. SRC27 is the dated 2009-05-21 17173 Human guide; it conflicts with later SRC19/SRC20 (Archer Barracks 2 vs 3 and Town Hall gates). SRC28 gives Elf Centaur Barracks 1. Keep editions and confidence labels separate; seek original-client corroboration and exact support-building gates.
-2. Implement and test only source-supported remaining HG-08 systems; preserve old-save migration and update the matrix and receipts.
-3. Continue HG-09 research on edition-specific combat formula, AI/targeting and rewards; keep unresolved values explicit and maintain the original-client comparison as blocked until a lawful runtime/reference is available.
-4. HG-10 world/economy, HG-11 original-era art/UI fidelity, HG-12 release packaging/physical acceptance and HG-13 optional server are NOT COMPLETE.
-5. Next: continue HG-08 exact non-Human unit gates and Tavern distributions, then return to HG-09 source-backed actions and rewards; keep each feature tested and checkpointed. Do not claim general parity from the single damage sample.
-6. When GitHub repo creation/authentication is available, create the new private repository, configure its remote, push this standalone branch, and verify private visibility, branch, SHA and files. Do not use the Tu Tiên repository as a work source after the split.
+1. Continue HG-08 source research for exact per-unit non-Human prerequisites and Tavern candidate distributions. Keep the provisional tier proxies visible and avoid adding unsupported gates.
+2. Complete and regression-test source-supported HG-08 systems and old-save fixtures before declaring HG-08 complete.
+3. Continue HG-09 against dated regional sources and accessible client observations for numeric range, target score, damage modifiers, morale, reward/XP and encounter timers. Original-client visual comparison remains blocked until a lawful runnable reference is available.
+4. Then implement HG-10 world/economy, HG-11 original-era art/UI fidelity, HG-12 release packaging/physical acceptance and HG-13 optional server. All remain incomplete.
+5. The standalone local working branch is feature/heoofgaia-hg08-20261102. No remote is configured; private repo creation/push remains BLOCKED because gh is absent and the connected GitHub tools do not provide create-repository. Do not modify or merge into the Tu Tiên repository or main.
+6. Continue the broad multilingual archival and asset-provenance search. The scoped Fandom survey is not evidence that all 608 articles were read.
