@@ -133,12 +133,22 @@ SRC03 (English community building page revision 2009-12-09) explicitly lists Her
 
 ## HG-08 Hero Tower experience bonus — 2026-11-03
 
-SRC03, the English Heroes of Gaia community building page revision 5 (last edited 2009-12-09), states that upgrading Hero Tower grants Heroes +1% experience per tower level. Runtime XP grants now add `base XP × current Hero Tower level / 100` before processing level thresholds. This applies at the active city where the XP event is settled. Fractional XP is retained because SRC03 does not specify rounding. The battle XP award and Castellan's training XP base formula remain simulated/community-derived; only the tower multiplier is source-backed. The v07 key/schema is unchanged, and fractional XP survives Save/Reload.
+SRC03, the English Heroes of Gaia community building page revision 5 (last edited 2009-12-09), states that upgrading Hero Tower grants Heroes +1% experience per tower level. Runtime XP grants now add `base XP × current Hero Tower level / 100` before processing level thresholds. This applies at the active city where the XP event is settled. Fractional XP is retained because SRC03 does not specify rounding. SRC45 now supplies the NPC victory XP base for 4★–8★; the unsupported 1★–3★ and Castellan training bases remain simulated/community-derived. The v07 key/schema is unchanged, and XP survives Save/Reload.
 
 - Node: **115/115 PASS**, including tower levels 0/1/5/10, exact multiplier, unchanged level thresholds at tower level 0, training completion and v07 round-trip.
 - Installed Chrome `file://`: **7/7 PASS**, zero JS exceptions. The test appoints a Castellan, starts recruitment through the actual Army UI, advances the real training queue, confirms 137.5 XP from a 125 base reward at Tower 10, and reloads the v07 save.
 - Existing regressions: integrated browser **91/91 PASS**; offline fresh-process Save/Reload **29/29 PASS**; Tavern gates **10/10 PASS**; four-faction city interaction/save flow **48/48 PASS**.
 - Screenshot: `docs/evidence/hg08/hero-tower-xp-chrome.png`, SHA-256 `6883999520ef573c633ddd7b87aaa66fd31774e105bfa21ea9b683c5b95ae6ad`; machine receipt: `docs/qa/hg08/hero-tower-xp-chrome.json`.
 - Test fixture seeds Town Hall and Hero Tower at level 10 to reach the effect immediately. The Castellan appointment, troop recruitment, training queue, XP award, Save and Reload are live game actions. This is not an original-client screenshot.
+
+## HG-09 NPC battle experience — 2026-11-03
+
+The 2009-09-21 Sina strategy guide reports NPC victory XP of 1,000 / 4,000 / 9,000 / 18,000 / 30,000 for four- through eight-star monsters. Runtime awards use these Chinese-guide values and apply the active Hero Tower bonus. XP for one- through three-star NPCs and mine/castle wins keeps the prior `30 × level` model. The source is player-authored and does not establish English/EU parity or the original server formula.
+
+- Pre-change baseline: Node **115/115 PASS**, integrated installed-Chrome **91/91 PASS**, and fresh-process `file://` Save/Reload **29/29 PASS**. Post-change Node **117/117 PASS**; dedicated installed-Chrome battle scenario **8/8 PASS**, zero JS exceptions. Existing Hero Tower XP **7/7**, Tavern gate **10/10**, and world building **10/10** regressions also PASS.
+- Browser fixture sets Hero Tower 10, level-50 hero stats, and 5,000 Archers to make the four-star target immediately testable. Live March, travel tick, four-star battle, Attack, XP award, browser Save/Reload all use game runtime/actions. It grants `1,000 × 1.10 = 1,100 EXP` and preserves v07.
+- Actual Chrome screenshot from the standalone `file://` game: `docs/evidence/hg09/npc-four-star-xp-chrome.png`, SHA-256 `9A529F5A60580026560F8B199B91FEFCAA2CDC22B543EB47FEAD9CDDCB96AD54`. Machine report: `docs/qa/hg09/npc-four-star-xp-chrome.json`, **8/8 PASS**.
+- Standalone HTML artifact: `Play-Heoofgaia-HG11.html`, 9,924,152 bytes, SHA-256 `612607FCF9E55344CE5CB81879D728FE596C98F1D0D61C1ADC8E1E60BA05FF37`. This screenshot is from the reconstruction, not the original game.
+- HG-08 and HG-09 remain **IN PROGRESS**; HG-10 **PARTIAL**, HG-11 **PARTIAL**, HG-12 **IN PROGRESS**, HG-13 **NOT STARTED**. Missing 1★–3★ XP, non-NPC reward parity, full combat calibration and original-client visual comparison remain open.
 
 HG-08 remains IN PROGRESS. The 28 non-Human gate rows and Tavern distributions remain unresolved; this slice does not claim original-client or English/Chinese patch parity.

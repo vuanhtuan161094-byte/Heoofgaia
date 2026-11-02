@@ -41,6 +41,7 @@
 | SRC42 | 2009-06-09 | Chinese / SFACG contemporary review and linked game screenshots | Describes the castle as a scenic 2D landscape with detailed buildings placed across a hillside; the Town Hall opens the building list; eligible building rows are highlighted; tutorial/tasks guide construction. Linked screenshot gallery includes live castle/world UI. | https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml ; https://games.sina.com.cn/o/i/2009-03-05/1638161736.shtml |
 | SRC43 | 2009-12-27 | Chinese / 17173 player guide | Windmill resource roll; Watermill +2,000 Gold; War Academy +10% Attack; Defense Tower +10% Defense; Enlightenment Book +10% Knowledge; Prayer Temple +10% Speed for two hours; prints the 100×100 coordinates for five Watermills and the listed structures | https://web.17173.com/content/2009-12-27/1261927948.shtml |
 | SRC44 | 2010-12-14 | Chinese / 17173 city-development article | Hero Tower level is a Tavern upgrade prerequisite; Tavern level affects offer count and quality. No exact gate level or probability table. | https://web.17173.com/content/2010-12-14/20101214101223733.shtml |
+| SRC45 | 2009-09-21 | Chinese / Sina player strategy guide | Reports NPC victory XP for 4★–8★ as 1,000 / 4,000 / 9,000 / 18,000 / 30,000; no 1★–3★ values | https://games.sina.com.cn/o/z/yxzc/2009-09-21/1726350254.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -79,6 +80,7 @@
 | F31 | Capture leaves hero stationed at the acquired castle/resource point; Return makes the hero available at the original city | SRC40, 2009-10-25 | B | **HG-10 PARTIAL:** mine and city garrison persist; Recall follows a saved route and returns troops to the tracked departure city. The FAQ says original main city; behavior from secondary-city dispatch remains unverified |
 | F32 | Capturing another-race city unlocks its troops and hero spells; routine tasks remain main-city-only | SRC41, 2009-10-16 | B | **HG-10 PARTIAL:** local race-specific recruitment/research works; task claims are blocked outside the main city. Exact captured-city buildings/stock are modeled |
 | F33 | 100×100 coordinates and once-daily noncombat visits with resource rewards or two-hour hero buffs | SRC41, SRC43 | B | **HG-10 PARTIAL PASS:** ten guide-listed structures are selectable and their rewards/buffs alter live gameplay and saved state. UTC reset and immediate no-AP visit are models; original travel, visual assets and regional parity remain unverified |
+| F34 | NPC hero XP rewards by star | SRC45, SRC03 | B for the dated Chinese guide | **PARTIAL:** NPC wins use the reported 4★–8★ base XP and SRC03 Hero Tower multiplier. 1★–3★ and mine/castle rewards remain explicit models; XP rounding and international parity are unresolved |
 
 ## 3. Source conflicts and caveats
 
@@ -94,6 +96,7 @@
 
 - ADDED: version-6-compatible Tavern candidate offers and 60-minute game clock; deterministic rotation for reproducible QA, no duplicated hire.
 - ADDED: all equipped combat units get the wiki community speed adjustment from the commanding hero; incoming damage is adjusted for player's hero DEF.
+- HG-08: NPC win XP for 4★–8★ now uses SRC45's dated Chinese guide table; 1★–3★ and mine/castle XP remain explicitly modeled.
 - ADDED: illustrative Castellan INT gold modifier, visibly segregated as provisional.
 - ADDED: read-only troop command value from weighted wiki cost formula, without inventing an unverified troop capacity threshold.
 - FIXED: Market/Bazaar were declared `catalog` in HG05 even though their UI/actions existed and required building level >=1; HG06 makes them buildable. Guild/Embassy remains disabled.

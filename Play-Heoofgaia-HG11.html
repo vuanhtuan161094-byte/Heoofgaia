@@ -938,6 +938,14 @@ function heroTowerExperienceBonus(s){
  const level=s?.buildings?.heroTower;
  return Number.isSafeInteger(level)&&level>0?level:0;
 }
+// SRC45 is a dated 2009 Chinese player guide with exact NPC XP rewards for
+// stars 4–8. Lower stars and non-NPC targets keep the prior explicit model.
+const NPC_BATTLE_XP=Object.freeze({4:1000,5:4000,6:9000,7:18000,8:30000});
+function battleExperienceReward(battle){
+ const star=Number.isSafeInteger(battle?.level)&&battle.level>0?battle.level:1;
+ const sourced=battle?.kind==='npc'&&Object.prototype.hasOwnProperty.call(NPC_BATTLE_XP,star);
+ return {star,baseXp:sourced?NPC_BATTLE_XP[star]:30*star,source:sourced?'SRC45':'SIM'};
+}
 function grantHeroExperience(s,heroId,amount,reason='gameplay'){
  ensure(s);
  if(!Number.isFinite(amount)||amount<0||amount>1e12)throw Error('Kinh nghiệm không hợp lệ');
@@ -1067,9 +1075,9 @@ function recallHero(s,heroId){
 function battleAct(s,action){
  ensure(s);const b=s.battle,exp=s.expedition,hero=s.heroes.find(h=>h.id===(exp?.heroId||s.activeHero)),snapshot=hero?{level:hero.level,xp:hero.xp,atk:hero.atk,def:hero.def}:null;
  if(exp)s.activeHero=exp.heroId;
- const simulatedReward=b?30*b.level:0;if(hero)hero.xp=0;
+ const reward=b?battleExperienceReward(b):{star:1,baseXp:0,source:'SIM'};if(hero)hero.xp=0;
  let result;try{result=prior.battleAct(s,action)}finally{if(hero&&snapshot)Object.assign(hero,snapshot)}
- if(result?.type==='win'&&hero)grantHeroExperience(s,hero.id,simulatedReward,'thắng trận · XP chiến đấu đang mô phỏng');
+ if(result?.type==='win'&&hero){const gained=grantHeroExperience(s,hero.id,reward.baseXp,`thắng trận ${reward.star}★`),shown=gained.gained.toLocaleString('vi-VN',{maximumFractionDigits:6});E.note(s,`${hero.name} nhận ${shown} EXP sau chiến thắng ${reward.star}★ (${reward.source}).`)}
  if(exp&&s.expedition===exp){
   const key=b?.target,tile=E.getTile(key);
   if(result?.type==='win'&&(tile?.kind==='mine'||tile?.kind==='castle')){
@@ -1195,7 +1203,7 @@ function hireCandidate(s,id){
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
 E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.appoint=appoint;E.selectHero=selectHero;E.recallHero=recallHero;E.finishReturn=finishReturn;E.heroAway=heroAway;E.valid=valid;
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,FAME_AP,MINE_HOURLY,mineLimit,heroCountLimit,fameApStats,
- ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
+ ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,NPC_BATTLE_XP,battleExperienceReward,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  buildingUpgradeGate,buildingUpgradeCapException,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
@@ -1703,7 +1711,7 @@ function magicViewBase(){return `<h1>🔮 Magic Tower · Lv.${state.buildings.ma
 function itemName(uid){const f=state.inventory.find(i=>i.uid===uid);return f?E.ITEMS[f.itemId]?.name||'—':'Trống';}
 function heroProgression(){
  const labels={atk:'ATK',def:'DEF',spd:'SPD',int:'INT'};
- return `<section class="card hg08-section"><span class="eyebrow">HERO PROGRESSION</span><h2>📈 Kinh nghiệm và thuộc tính</h2><p class="hint">Ngưỡng EXP và 1 điểm thuộc tính mỗi cấp theo bảng cộng đồng Heroes of Gaia. Hero Tower cấp ${E.heroTowerExperienceBonus(state)} tăng ${E.heroTowerExperienceBonus(state)}% EXP cho tướng (SRC03, bản sửa 09-12-2009). Công thức XP chiến đấu vẫn mô phỏng; XP huấn luyện nền của Castellan dùng unit value / 3.</p><div class="grid grid2">${state.heroes.map(hero=>{const need=E.experienceToNext(hero.level),progress=need===null?1:Math.min(need,hero.xp);return `<div class="card"><div class="heading">${esc(hero.name)} · Lv.${hero.level} · ${Math.floor(hero.xp).toLocaleString('vi-VN')}${need===null?' EXP tối đa':' / '+need.toLocaleString('vi-VN')+' EXP'}</div>${need===null?'':`<progress max="${need}" value="${progress}"></progress>`}<p class="hint">Điểm chưa dùng: <b>${hero.statPoints||0}</b> · ATK ${hero.atk} · DEF ${hero.def} · SPD ${hero.spd} · INT ${hero.int}</p><div class="entry">${Object.entries(labels).map(([key,label])=>button('heropoint',{id:hero.id,stat:key},`+1 ${label}`,!(hero.statPoints>0)||!!state.march||!!state.battle,'small secondary')).join('')}</div></div>`}).join('')}</div></section>`;
+ return `<section class="card hg08-section"><span class="eyebrow">HERO PROGRESSION</span><h2>📈 Kinh nghiệm và thuộc tính</h2><p class="hint">Ngưỡng EXP và 1 điểm thuộc tính mỗi cấp theo bảng cộng đồng Heroes of Gaia. Hero Tower cấp ${E.heroTowerExperienceBonus(state)} tăng ${E.heroTowerExperienceBonus(state)}% EXP cho tướng (SRC03, bản sửa 09-12-2009). EXP hạ NPC 4★–8★ dùng bảng hướng dẫn Trung Quốc 2009 (SRC45); 1★–3★ và thưởng mục tiêu thành/mỏ vẫn là mô hình. EXP huấn luyện nền của Castellan dùng unit value / 3.</p><div class="grid grid2">${state.heroes.map(hero=>{const need=E.experienceToNext(hero.level),progress=need===null?1:Math.min(need,hero.xp);return `<div class="card"><div class="heading">${esc(hero.name)} · Lv.${hero.level} · ${Math.floor(hero.xp).toLocaleString('vi-VN')}${need===null?' EXP tối đa':' / '+need.toLocaleString('vi-VN')+' EXP'}</div>${need===null?'':`<progress max="${need}" value="${progress}"></progress>`}<p class="hint">Điểm chưa dùng: <b>${hero.statPoints||0}</b> · ATK ${hero.atk} · DEF ${hero.def} · SPD ${hero.spd} · INT ${hero.int}</p><div class="entry">${Object.entries(labels).map(([key,label])=>button('heropoint',{id:hero.id,stat:key},`+1 ${label}`,!(hero.statPoints>0)||!!state.march||!!state.battle,'small secondary')).join('')}</div></div>`}).join('')}</div></section>`;
 }
 function heroesView(){
  const h=state.heroes.find(x=>x.id===state.activeHero),stats=E.heroStats(state),eq=state.equipment[h.id]||{};

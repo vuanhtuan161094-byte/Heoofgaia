@@ -319,6 +319,19 @@ test('SRC03 Hero Tower grants every earned hero XP +1% per tower level and survi
  for(const level of [0,1,5,10]){const s=state(),h=s.heroes[0];s.buildings.heroTower=level;assert.equal(E.heroTowerExperienceBonus(s),level);const result=E.grantHeroExperience(s,h.id,100,'SRC03 bonus check');assert.equal(result.base,100);assert.equal(result.bonusPercent,level);assert.equal(result.gained,100+100*level/100);assert.equal(h.xp,result.gained);}
  const s=state();s.buildings.heroTower=10;const hero=s.heroes[0];E.grantHeroExperience(s,hero.id,100,'save check');const restored=E.parseSave(E.serializeSave(s));assert.equal(restored.version,7);assert.equal(restored.buildings.heroTower,10);assert.equal(restored.heroes[0].xp,110);
 });
+test('SRC45 supplies exact Chinese-guide NPC XP for stars 4–8; missing tiers remain labeled models',()=>{
+ const expected={4:1000,5:4000,6:9000,7:18000,8:30000};
+ for(const [star,xp] of Object.entries(expected)){const reward=E.battleExperienceReward({kind:'npc',level:Number(star)});assert.deepEqual(JSON.parse(JSON.stringify(reward)),{star:Number(star),baseXp:xp,source:'SRC45'});}
+ for(const battle of [{kind:'npc',level:1},{kind:'npc',level:3},{kind:'mine',level:4},{kind:'castle',level:8}])assert.equal(E.battleExperienceReward(battle).source,'SIM');
+});
+test('SRC45 four-star XP changes a real battle win and survives v07 save/reload',()=>{
+ const s=state(),hero=s.heroes[0],tile=E.TILES.find(t=>t.kind==='npc'&&t.level===4);assert(tile);
+ s.buildings.heroTower=10;hero.level=50;hero.xp=0;hero.atk=100;hero.spd=100;
+ s.army.human_3=50000;s.formation=[{unitId:'human_3',count:50000}];s.battle=E.makeBattle(s,tile.key);
+ let out,guard=0;while(s.battle&&guard++<10)out=E.battleAct(s,'attack');
+ assert.equal(out?.type,'win');assert.equal(hero.xp,1100);assert(s.log.some(line=>line.includes('1.100 EXP')&&line.includes('SRC45')));
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.equal(loaded.heroes[0].xp,1100);assert.equal(E.strictSave(loaded),true);
+});
 test('Hero XP exact early thresholds, point award and allocation',()=>{
  const s=state(),h=s.heroes[0];s.buildings.heroTower=0;E.grantHeroExperience(s,h.id,149,'test');assert.equal(h.level,1);assert.equal(h.xp,149);E.grantHeroExperience(s,h.id,1,'test');assert.equal(h.level,2);assert.equal(h.xp,0);assert.equal(h.statPoints,1);assert.equal(E.heroLimit(h.level),13333);
  const atk=h.atk;E.allocateHeroPoint(s,h.id,'atk');assert.equal(h.atk,atk+1);assert.equal(h.statPoints,0);throws(()=>E.allocateHeroPoint(s,h.id,'atk'),/chưa có điểm/);

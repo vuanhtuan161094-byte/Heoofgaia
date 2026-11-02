@@ -1,0 +1,52 @@
+{
+  "suite": "HG-09 NPC star XP",
+  "source": "Installed Google Chrome opening the exact standalone HTML by file://; QA seeds one hero/tower/army fixture, then uses the game engine for formation, March, travel tick, NPC battle, Attack controls, award, Save and Reload.",
+  "total": 8,
+  "passed": 8,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Standalone HTML opens as Anh Hùng Thời Loạn",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn • Hẻoofgaia | Heroes of Gaia reconstruction"
+    },
+    {
+      "name": "Real March and travel tick open the map's four-star NPC battle",
+      "passed": true,
+      "detail": "{\"target\": \"15,8\", \"kind\": \"npc\", \"star\": 4, \"army\": 5000, \"valid\": true}"
+    },
+    {
+      "name": "Actual combat screen renders the four-star encounter",
+      "passed": true,
+      "detail": "TACTICAL COMBAT • THỬ NGHIỆM | Giao tranh · Wyverns | Lượt 1 · 4 nhóm hoạt động | 1 đội ta : 3 đội địch | QUÂN TA • BẤM CHỌN ĐƠN VỊ | ⚔ Archer | 5000 quân | HP 225000 · SPD 6.6899999999999995 · Bắn xa | QUÂN ĐỊCH • BẤM CHỌN MỤC TIÊU | ☠ Dã thú | 10 quân | HP 370 · SPD 4 · Cận chiến | ☠ Cung thủ cướp | 5 quân | HP 170 · SPD 5 · Bắn xa | ☠ Vệ binh | 5 quân | HP 275 · SPD 3.8 · Cận ch"
+    },
+    {
+      "name": "Live Attack control wins the encounter and awards 1,000 × Hero Tower 1.10 = 1,100 EXP",
+      "passed": true,
+      "detail": "{\"battle\": false, \"xp\": 1100, \"award\": \"Aldric nhận 1.100 EXP sau chiến thắng 4★ (SRC45).\", \"version\": 7, \"valid\": true}"
+    },
+    {
+      "name": "Winner reward log identifies the historical evidence row SRC45",
+      "passed": true,
+      "detail": "Aldric nhận 1.100 EXP sau chiến thắng 4★ (SRC45)."
+    },
+    {
+      "name": "Heroes panel discloses sourced and still modeled XP ranges",
+      "passed": true,
+      "detail": "🧙 Tướng lĩnh & Arena |  | Hero Tower, Castellan, Tavern và Arena là hệ thống Heroes of Gaia. Giới hạn số tướng theo bảng danh vọng Trung Quốc 2009: 1/2. Giới hạn chỉ huy cơ bản theo bảng cộng đồng Lv1–100; chỉ số khởi điểm và chi phí tuyển vẫn được mô phỏng. |  | Danh sách tướng | 🧙 Aldric Lv.50Chỉ huy 1.620.833Chỉ huy | ATK 100 · DEF 8 · SPD 100 · INT 6 · EXP 1100 | Chọn chỉ huy | Bổ nhiệm | ↩ Gọi về | 🍺 Tavern — Ứng viên tướng |  | Tự làm"
+    },
+    {
+      "name": "v07 browser Save/Reload preserves the earned battle XP",
+      "passed": true,
+      "detail": "{\"version\": 7, \"xp\": 1100, \"tower\": 10, \"valid\": true}"
+    },
+    {
+      "name": "No JavaScript exceptions during real browser gameplay",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "screenshot": "docs/evidence/hg09/npc-four-star-xp-chrome.png",
+  "screenshotSha256": "9a529f5a60580026560f8b199b91fefcaa2cdc22b543eb47fead9cddcb96ad54"
+}
