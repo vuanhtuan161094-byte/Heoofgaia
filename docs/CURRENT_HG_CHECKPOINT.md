@@ -172,3 +172,13 @@ Date: 2026-11-02 (Windows local execution)
 - Local project exists at E:\Heoofgaia; active branch has no remote. GitHub lookup for vuanhtuan161094-byte/Heoofgaia returned 404 and owner listing did not show it; this may mean absent or inaccessible. No create-repository operation or gh CLI is available here. Private repository creation/push is BLOCKED; no push occurred.
 - Tested implementation commit SHA: 27ad46bf5d79855772b40f907f6ec4fcea280b51 on feature/hog1-research-to-playable-20261102. A later documentation-only checkpoint commit records this tested SHA.
 - Next work: continue playable HG-08/HG-10 world-economy behavior (time/ownership/return) and research exact non-Human gates without inventing values. Continue HG-09 combat; do not claim the stages or whole game complete.
+
+## HG-08 mine accrual and save/reload regression follow-up — 2026-11-02
+
+- Test/receipt commit: 28ba5a609e69f56192451e2c2ebd6ccbdd3499c8 on feature/hog1-research-to-playable-20261102. Gameplay implementation remains in feature commit 27ad46bf5d79855772b40f907f6ec4fcea280b51.
+- Added one-game-hour economy tick checks in Node and Chrome: with controlled owned-mine states, every resource total receives the source-listed yield, resource tick remains live in the app, and v07 Save/Load preserves the owned-mine-derived rate. This is accelerated test time, not wall-clock waiting.
+- Latest cumulative run: Node 84/84 PASS; Chrome 78/78 PASS with zero JS exceptions; Chromium file:///second-process save persistence 12/12 PASS; JS syntax 9/9 PASS; Python QA compilation PASS; HTML build remains 153,333 characters and 160,095 bytes, SHA-256 CB8421970375D6485D057A6D58441522AB1CC80344A9A16F1E86F7E043680AA4.
+- New raw receipts and current screenshots are in docs/qa/hg08-fame-cap-20261102/ and docs/evidence/hg08/.
+- No gameplay code changed after the tested feature commit; this follow-up adds tests/docs and regenerated runtime evidence only.
+- Repo publication is still BLOCKED: local checkout has no remote; GitHub repository creation tool is unavailable and no HOG repo was verified. No push was attempted.
+- Next task: implement the next complete HG-08/HG-10 world-economy behavior and keep source gaps, modeled rules, and release status explicit.
