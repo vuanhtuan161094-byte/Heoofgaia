@@ -177,6 +177,24 @@ test('Automatic hourly Tavern refresh applies the current Tavern level model',()
  const s=state();s.buildings.tavern=10;s.speed=1;const end=s.lastTick+3600*1000;E.tick(s,end);assert.equal(s.tavern.round,1);assert.equal(s.tavern.offers.length,8);assert(s.tavern.offers.every(h=>h.atk>=20&&h.atk<=50));
 });
 
+test('Arena rehabilitation charges one-seventh unit value and runs at three-fifths training speed',()=>{
+ const s=state();s.speed=1;s.wounded.human_1=2;const original=s.army.human_1;
+ const q=E.heal(s);assert.equal(q.paidGold,36);assert.equal(q.total,400);assert.equal(s.res.gold,8000-36);
+ assert.equal(s.wounded.human_1,0);assert.equal(s.army.human_1,original);assert.equal(E.strictSave(s),true);
+ const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.arenaQueue.unitId,'human_1');assert.equal(saved.arenaQueue.count,2);
+ E.tick(saved,saved.lastTick+399*1000);assert.equal(saved.army.human_1,original);assert.equal(saved.arenaQueue.remaining,1);
+ const restored=E.parseSave(E.serializeSave(saved));E.tick(restored,restored.lastTick+1000);
+ assert.equal(restored.army.human_1,original+2);assert.equal(restored.arenaQueue,null);assert.equal(E.strictSave(restored),true);
+});
+test('Arena healing rejects insufficient funds without consuming wounded or queueing work',()=>{
+ const s=state();s.wounded.human_1=2;s.res.gold=0;const before=JSON.stringify({army:s.army,wounded:s.wounded,res:s.res,queue:s.arenaQueue});
+ throws(()=>E.heal(s),/Không đủ tài nguyên/);assert.equal(JSON.stringify({army:s.army,wounded:s.wounded,res:s.res,queue:s.arenaQueue}),before);
+});
+test('HG07 v07 saves without the newer Arena queue migrate without losing data',()=>{
+ const s=state();s.wounded.human_1=3;delete s.arenaQueue;const loaded=E.parseSave(JSON.stringify(s));
+ assert.equal(loaded.wounded.human_1,3);assert.equal(loaded.arenaQueue,null);assert.equal(E.strictSave(loaded),true);
+});
+
 test('Equal-speed combat initiative follows left-to-right battlefield position',()=>{
  const s=state();s.army.human_1=40;s.formation=Array.from({length:4},()=>({unitId:'human_1',count:10}));
  s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
@@ -235,7 +253,7 @@ test('1000 seeded tactical encounters replay identically with valid ledgers',()=
  }
 });
 
-const hg09=results.filter(x=>/^(Equal-speed combat|Ranged stacks fire|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
+const hg09=results.filter(x=>/^(Arena rehabilitation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});
 fs.writeFileSync(path.join(evidence,'QA-HG09-NODE-RESULTS.json'),JSON.stringify({command:'node qa-engine.cjs',suiteTotal:pass+failed,suitePassed:pass,suiteFailed:failed,hg09Total:hg09.length,hg09Passed:hg09.filter(x=>x.passed).length,hg09Failed:hg09.filter(x=>!x.passed).length,seededEncounters:1000,checks:hg09},null,2),'utf8');
 console.log(`TOTAL ${pass}/${pass+failed} PASS`);process.exitCode=failed?1:0;

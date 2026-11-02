@@ -35,6 +35,7 @@ function ensure(s){
  for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!Number.isSafeInteger(s.buildings[key]))s.buildings[key]=key==='graveyard'&&s.race==='undead'?(s.buildings.barracks||0):0;
  if(!obj(s.spells))s.spells={};
  if(!Object.prototype.hasOwnProperty.call(s,'researchQueue'))s.researchQueue=null;
+ if(!Object.prototype.hasOwnProperty.call(s,'arenaQueue'))s.arenaQueue=null;
  tavernOffers(s);
  for(const h of s.heroes){
   if(!Number.isSafeInteger(h.statPoints)||h.statPoints<0)h.statPoints=0;
@@ -144,6 +145,31 @@ function recruit(s,id,count){
  s.training.push({id:s.serial++,unitId:id,count,remaining:time,total:time});
  E.note(s,`Xếp hàng tuyển ${count} ${u.name}; thời gian cơ sở theo bảng unit 2009.`);return cost;
 }
+function arenaHealCost(s,unitId,count){
+ ensure(s);const u=E.getUnit(s,unitId);
+ if(!u||!Number.isSafeInteger(count)||count<1)throw Error('Số quân hồi phục không hợp lệ');
+ return Math.ceil(E.unitValue(u)*count/7);
+}
+function heal(s){
+ ensure(s);if((s.buildings.arena||0)<1)throw Error('Cần xây Arena');
+ if(s.arenaQueue)throw Error('Arena đang hồi phục một nhóm quân');
+ const entry=E.arrUnits(s).map(u=>({u,count:s.wounded[u.id]||0})).find(x=>x.count>0);
+ if(!entry)throw Error('Không có quân thương');
+ const gold=arenaHealCost(s,entry.u.id,entry.count);
+ E.spend(s,{gold});
+ const seconds=Math.ceil(entry.u.timeSec*entry.count/.6);
+ const q={id:s.serial++,unitId:entry.u.id,count:entry.count,total:seconds,remaining:seconds,paidGold:gold};
+ s.wounded[entry.u.id]=0;s.arenaQueue=q;
+ E.note(s,`Arena bắt đầu hồi phục ${entry.count} ${entry.u.name}: ${gold} vàng; tốc độ mô hình 3/5 tốc độ tuyển quân.`);
+ return {...q};
+}
+function progressArena(s,gameSeconds){
+ const q=s.arenaQueue;if(!q||gameSeconds<=0)return;
+ q.remaining=Math.max(0,q.remaining-gameSeconds);
+ if(q.remaining>1e-9)return;
+ s.army[q.unitId]=(s.army[q.unitId]||0)+q.count;s.arenaQueue=null;
+ E.note(s,`Arena hồi phục xong ${q.count} ${E.getUnit(s,q.unitId).name}; quân đã trở lại thành.`);
+}
 function battleAct(s,action){
  const b=s.battle,hero=s.heroes.find(h=>h.id===s.activeHero),snapshot=hero?{level:hero.level,xp:hero.xp,atk:hero.atk,def:hero.def}:null;
  const simulatedReward=b?30*b.level:0;
@@ -162,6 +188,7 @@ function tick(s,now=Date.now()){
   let value=0;for(const u of E.arrUnits(s)){const made=Math.max(0,(s.army[u.id]||0)-(before[u.id]||0));if(made)value+=E.unitValue(u)*made/3}
   if(value>0)grantHeroExperience(s,s.castellan,value,'đào tạo quân khi làm Castellan · công thức cộng đồng');
  }
+ progressArena(s,gameSeconds);
  const q=s.researchQueue;if(q){q.remaining=Math.max(0,q.remaining-gameSeconds);if(q.remaining<=1e-9)finishResearch(s)}
  return s;
 }
@@ -174,9 +201,13 @@ function valid(s){
   if(!Number.isSafeInteger(h.statPoints)||h.statPoints<0||h.statPoints>1e8||!obj(h.spentAttributePoints))return false;
   if(attrKeys.some(k=>!Number.isSafeInteger(h.spentAttributePoints[k])||h.spentAttributePoints[k]<0||h.spentAttributePoints[k]>1e8))return false;
  }
- if(s.researchQueue===null)return true;
- const q=s.researchQueue;
- return !!(obj(q)&&E.C.spells[q.key]&&Number.isSafeInteger(q.id)&&q.id>0&&Number.isSafeInteger(q.level)&&q.level===(s.spells[q.key]||0)+1&&q.level<=10&&Number.isFinite(q.total)&&q.total>0&&Number.isFinite(q.remaining)&&q.remaining>=0&&q.remaining<=q.total);
+ if(s.researchQueue!==null){
+  const q=s.researchQueue;
+  if(!(obj(q)&&E.C.spells[q.key]&&Number.isSafeInteger(q.id)&&q.id>0&&Number.isSafeInteger(q.level)&&q.level===(s.spells[q.key]||0)+1&&q.level<=10&&Number.isFinite(q.total)&&q.total>0&&Number.isFinite(q.remaining)&&q.remaining>=0&&q.remaining<=q.total))return false;
+ }
+ if(s.arenaQueue===null)return true;
+ const a=s.arenaQueue;
+ return !!(obj(a)&&E.getUnit(s,a.unitId)&&Number.isSafeInteger(a.id)&&a.id>0&&Number.isSafeInteger(a.count)&&a.count>0&&Number.isSafeInteger(a.paidGold)&&a.paidGold>=0&&Number.isFinite(a.total)&&a.total>0&&Number.isFinite(a.remaining)&&a.remaining>=0&&a.remaining<=a.total);
 }
 function strict(s){return valid(s)&&prior.strict({...s,version:6})}
 function parse(text){
@@ -192,10 +223,10 @@ function serialize(s){if(!strict(s))throw Error('Save HG08 không hợp lệ');r
 function make(...args){const s=prior.make(...args);s.version=V;return ensure(s)}
 function hireCandidate(s,id){const result=prior.hire(s,id);ensure(s);return result}
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
-E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.battleAct=battleAct;E.learn=learn;E.valid=valid;
+E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.valid=valid;
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,
  ensure08:ensure,experienceToNext:expToNext,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,
- troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
+ troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
 root.HOG_HG08={version:V,saveKey:KEY,status:'evidence-labelled-progression'};
 })(typeof globalThis!=='undefined'?globalThis:this);

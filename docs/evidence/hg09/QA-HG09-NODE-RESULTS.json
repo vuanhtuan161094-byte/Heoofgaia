@@ -1,13 +1,25 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 70,
-  "suitePassed": 70,
+  "suiteTotal": 73,
+  "suitePassed": 73,
   "suiteFailed": 0,
-  "hg09Total": 7,
-  "hg09Passed": 7,
+  "hg09Total": 10,
+  "hg09Passed": 10,
   "hg09Failed": 0,
   "seededEncounters": 1000,
   "checks": [
+    {
+      "name": "Arena rehabilitation charges one-seventh unit value and runs at three-fifths training speed",
+      "passed": true
+    },
+    {
+      "name": "Arena healing rejects insufficient funds without consuming wounded or queueing work",
+      "passed": true
+    },
+    {
+      "name": "HG07 v07 saves without the newer Arena queue migrate without losing data",
+      "passed": true
+    },
     {
       "name": "Equal-speed combat initiative follows left-to-right battlefield position",
       "passed": true

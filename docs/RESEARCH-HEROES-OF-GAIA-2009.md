@@ -35,6 +35,7 @@
 | SRC26 | undated, accessed 2026-11-02 | Chinese / Chinese encyclopedia | Secondary Thunderbird-specific requirement entry; matching numeric unit fields corroborate SRC02, but original-client/build confirmation is absent | https://www.newton.com.tw/wiki/%E9%9B%B7%E9%B3%A5/7743726 |
 | SRC27 | 2009-05-21 | Chinese / 17173 | Human troop gates; older table differs from late 2009–2010 sources on Archer Barracks and printed Town Hall gates | https://web.17173.com/content/2009-05-21/20090521151046362.shtml |
 | SRC28 | 2010-04-29 | Chinese / 17173 | Elf Centaur is explicitly recruitable at Barracks level 1; no full faction unlock table or original-client validation | https://web.17173.com/content/2010-04-29/20100429093442847.shtml |
+| SRC29 | 2009-10-16 | Chinese / 17173 | Reports 60–80% of battle losses become wounded, Arena recovery costs 1/7 of unit-equivalent gold, and recovery runs at about 3/5 normal training speed. Player-authored guide; does not specify the distribution, rounding, queue concurrency, or English-client behavior. | https://web.17173.com/content/2009-10-16/20091016155000113,1.shtml |
 
 ## 2. Mechanic-by-mechanic fidelity matrix
 
@@ -57,7 +58,7 @@
 | F15 | High-tier troop building requires side buildings / researched tech | SRC03, SRC10, SRC11 | B | **PARTIAL:** not gate-complete beyond Scout |
 | F16 | Warehouse capacity & Storing | SRC08, SRC04 | A | **PARTIAL:** static level lookup exists, early levels unclear |
 | F17 | Castle spells and 5 equipped hero skills | SRC04 | A | **PARTIAL:** demo spell catalog, not whole original list or combat AI |
-| F18 | Arena 75% defeated units become wounded | SRC03, SRC17 | B | **PARTIAL:** wounds, healing cost demo |
+| F18 | Arena wounded and recovery | SRC29; SRC03; SRC17 | B for the dated Chinese range/cost/rate; midpoint and queue details are models | **PARTIAL, functional:** battle losses use the explicit 75% midpoint of the sourced 60–80% band; Arena charges 1/7 of unit-value gold and completes treatment at 3/5 training speed. Single-group queue and integer rounding are reconstruction choices; English-region parity remains unverified. |
 | F19 | Market trades/sells materials; Bazaar sells items | SRC03, SRC11 | A/B | **HG06 FIX:** previously permanently locked despite implemented actions; now buildable; item prices SIM |
 | F20 | AP regenerates 10% of maximum hourly | SRC05 | A | **ALIGNED** with game-time demo scale |
 | F21 | Mine attack uses 6 AP; Happy Hour 3 AP | SRC05 | A | **PARTIAL:** normal AP cost implemented; Happy Hour absent |

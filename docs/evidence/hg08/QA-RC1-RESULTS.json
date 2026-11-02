@@ -1,6 +1,6 @@
 {
-  "total": 56,
-  "passed": 56,
+  "total": 60,
+  "passed": 60,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -166,6 +166,22 @@
     },
     {
       "name": "Combat turn records deterministic initiative order",
+      "passed": true
+    },
+    {
+      "name": "Arena cites 60-80 percent wounds and source-era price and speed",
+      "passed": true
+    },
+    {
+      "name": "Arena treatment deducts the cited gold and queues real wounded troops",
+      "passed": true
+    },
+    {
+      "name": "Save reload preserves an in-progress Arena treatment",
+      "passed": true
+    },
+    {
+      "name": "Arena queue returns treated troops when its 3/5 speed timer completes",
       "passed": true
     },
     {

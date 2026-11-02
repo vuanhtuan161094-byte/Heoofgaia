@@ -22,6 +22,7 @@
 | SRC26 | Chinese百科全書/Chinese encyclopedia unit entry, publication date and game build not stated (accessed 2026-11-02) | Thunderbird entry identifies it as a Heroes of the City barbarian tier-7 unit and lists Barracks 7, Beast Pen 4, Blacksmith 4, and training technology 6; HP/ATK/DEF/speed/load/cost match the 2009 SRC02 Thunderbird row. | C / secondary. Exact printed gates are usable as a candidate rule, but the site is not the publisher and no original-client/version screenshot corroborates it. Mapping Chinese 练兵技术 to English Bootcamp remains derived. |
 | SRC27 | Chinese 17173 unit guide, dated 2009-05-21 | Lists all ten Human troop requirements, including building and technology gates. Some differ from the later publisher-hosted SRC19 and player SRC20 tables: the Archer Barracks level is 2 here vs 3 later, and the later table explicitly adds Town Hall levels. | B / dated historical evidence, but a regional/version conflict with later 2009–2010 tables. It does not establish which values applied to the international client. |
 | SRC28 | Chinese 17173 Elf troop feature, dated 2010-04-29 | Explicitly says Elf Centaur can assemble at Barracks level 1 without advanced technologies/buildings; also discusses selected Elf unit roles/tiers but does not provide a complete per-unit gate table. | C / dated contemporary secondary source; per-unit gate not checked against original client or English-region build. |
+| SRC29 | Chinese 17173 new-player guide, dated 2009-10-16 | States 60–80% of battle casualties become wounded, Arena revives them for 1/7 of unit-equivalent gold, and recovery is approximately 3/5 the normal troop-training speed. The guide does not define the wound distribution, integer rounding, Arena queue concurrency, or English-client behavior. | B / dated player-authored guide; strong for the described Chinese edition, not server code. |
 
 ## Evidence-to-rule ledger
 
@@ -43,6 +44,7 @@
 | R14 | Level-10 Tavern common stat range and count | SRC21 describes eight low-quality heroes/hour and common stats in a 20–50 range; rare-stat probability is not settled. | Eight offers, deterministic common-range stats. The implementation does not invent a rare 2% roll. | C; generator SIM |
 | R15 | Orc Thunderbird gate | SRC26 lists Barracks 7, Beast Pen 4, Blacksmith 4 and training technology 6. Its unit stats match the 2009 SRC02 catalog row; the Bootcamp name mapping comes from R04. | Enforced before spend and shown in the UI as C / SECONDARY; not confirmed against the original client. | C / secondary |
 | R19 | Elf Centaur recruitment | SRC28 directly states Centaur can be recruited from Barracks level 1 without advanced tech/buildings. | Enforced as a single Barracks 1 gate; UI labels the dated secondary evidence C. | C / secondary |
+| R20 | Arena rehabilitation | SRC29 states 60–80% wounded, 1/7 unit-equivalent gold, and 3/5 normal training speed. | Keeps the deterministic 75% midpoint wounded model; treatment now deducts 1/7 of unit-value gold and persists as a queue at 3/5 troop-training speed. One troop type occupies the reconstruction's single Arena queue; that concurrency choice and per-batch ceiling are explicitly modeled, not recovered. | B / partial |
 | R18 | Research queue timing/cost | No cited source provides the exact research cost curve or queue duration used here. | One real, saveable, completing research queue for all Castle Spells; costs and times explicitly SIMULATED. | SIM |
 | R16 | Historical art rights | Screenshots and galleries in SRC15/SRC16 are references. Public availability does not grant redistribution rights. | No original commercial sprite/SWF is redistributed in this HG-08 slice. | Rights not established |
 | R17 | Vietnamese-language evidence | Search on 2026-11-02 for Vietnamese guides matching the original game name did not yield a credible, version-dated primary or contemporary guide. | No gameplay rule is attributed to an unrelated Vietnamese game. Search remains open. | No usable source |
@@ -50,7 +52,7 @@
 ## Verification boundary
 
 - HG-08 Node/browser tests prove only deterministic behavior in this standalone implementation.
-- Latest local regression on 2026-11-02: 69/69 Node, 56/56 installed-Chrome browser checks, 9/9 file:// persistence checks. The new exhaustive gate tests exercise every listed unlock requirement positively and negatively and assert that a failed recruit spends no resources or queue slot. These results do not prove historical parity.
+- Latest local regression on 2026-11-02: 73/73 Node, 60/60 installed-Chrome browser checks, 9/9 file:// persistence checks. The exhaustive gate tests exercise every listed unlock requirement positively and negatively and assert that a failed recruit spends no resources or queue slot; Arena recovery tests cover price/time, insufficient funds and v07 save/resume. These results do not prove historical parity.
 - The enforced Human table follows the later 2009–2010 Chinese edition documented by SRC19/SRC20. Earlier dated SRC27 reports Archer Barracks 2 instead of 3 and does not print the later Town Hall gates; this is recorded as a version conflict, not merged. These Chinese sources do not prove an English client used identical labels or patch timing.
 - Vietnamese-language search found a 2010 GameLandVN industry interview confirming the local name “Anh Hùng Online” and Snail Game context, but no Vietnamese numeric troop, Tavern, or combat tables. It is registered for product context only and is not used to invent mechanics.
 - Elf/Orc/Undead unit-specific support-building tiers, exact spell-research prices/times, battle XP, Tavern rare-stat odds, physical Android behavior, and original-client screenshot comparison remain **MISSING / BLOCKED**.
@@ -61,6 +63,7 @@
 - [SRC26 — Thunderbird unit entry at Chinese encyclopedia](https://www.newton.com.tw/wiki/%E9%9B%B7%E9%B3%A5/7743726)
 - [SRC27 — 17173 Human unit guide (2009-05-21)](https://web.17173.com/content/2009-05-21/20090521151046362.shtml)
 - [SRC28 — 17173 Elf unit feature (2010-04-29)](https://web.17173.com/content/2010-04-29/20100429093442847.shtml)
+- [SRC29 — 17173 new-player guide (2009-10-16)](https://web.17173.com/content/2009-10-16/20091016155000113,1.shtml)
 
 - [SRC02 — 2009 English unit catalog](https://heroesofgaia.wikidot.com/game-units)
 - [SRC03 — 2009 English building guide](https://heroesofgaia.wikidot.com/game-buildings)
