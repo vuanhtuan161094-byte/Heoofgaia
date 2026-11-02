@@ -1,10 +1,10 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 128,
-  "suitePassed": 128,
+  "suiteTotal": 130,
+  "suitePassed": 130,
   "suiteFailed": 0,
-  "hg10Total": 15,
-  "hg10Passed": 15,
+  "hg10Total": 17,
+  "hg10Passed": 17,
   "hg10Failed": 0,
   "hg10Checks": [
     {
@@ -65,6 +65,14 @@
     },
     {
       "name": "HG10 world attack buff changes actual battle damage and expires before later offline production",
+      "passed": true
+    },
+    {
+      "name": "HG10 source-cited daily task accepts, follows a real 1-star battle, pays once and survives v07 reload",
+      "passed": true
+    },
+    {
+      "name": "HG10 daily board preserves accepted work on Fame promotion, resets by day and rejects corrupt v07 task state",
       "passed": true
     }
   ],

@@ -203,3 +203,19 @@ The engine now honors the direction of that evidence: each level 6–9 refresh y
 ## SRC44 — Hero Tower/Tavern prerequisite cross-check (2026-11-03)
 
 The Chinese 17173 city-development article dated 2010-12-14 states qualitatively that Hero Tower level gates Tavern upgrades and that Tavern level affects candidate quantity and quality. It gives neither a numeric gate nor candidate probabilities. For the exact terminal chain implemented in HG-08, the numeric evidence remains the explicit entries in SRC03's English community building page revision dated 2009-12-09: Hero Tower L8 requires Town Hall L7, and Tavern L10 requires Hero Tower L8. Do not infer intermediate level gates from either source. The 2010 Chinese article supports the relationship only; it is not independent confirmation of the exact values or of English/EU client parity.
+
+## SRC52 — Kongregate Heroes of Gaia task guide (accessed 2026-11-03)
+
+The guide describes separate Main and Daily task categories, selecting a task and pressing “Get Task,” recurring daily tasks, additional daily-quest capacity as Title rises, and a daily reset at 00:00 server time. It does not publish the task table, reward values, exact server timezone, or a reliable page publication date. This is useful for the international-facing task interaction flow only: [Kongregate guide](https://www.kongregate.com/en/pages/heroes-of-gaia-guide).
+
+## SRC53 — Living Fandom daily-task tables (accessed 2026-11-03)
+
+The living Elf and Undead race pages both list “Getting Started”: defeat any 1-star NPC; reward 500 Gold and 7 AP; no Fame requirement. Those pages list higher Fame-gated tasks and race-specific troop rewards, and say that Daily tasks reset at 00:00 server time. The Undead page additionally says treasure tasks roll out as new ones unlock and only the two most recently acquired remain. These pages contain mixed/later-edition content and do not prove that the same rewards were in a 2009 client. HG-10 currently implements only the shared first NPC task and does not generalize the race-specific rows: [Fandom Undead](https://heroesofgaia.fandom.com/wiki/Undead), [Fandom Elf](https://heroesofgaia.fandom.com/wiki/Elf).
+
+## SRC54 — Sina 2009 Human daily tasks and edition conflict
+
+Sina's 2009-08-24 Chinese Human task table begins with a different named quest (“小试牛刀(一)”), targeting the specific “苦工” NPC for 500 Gold; the next row targets Zombies for 500 Gold and five Heavy Infantry. The table also lists fixed race/story NPC targets, recruitment, inter-race exchange and resource donations. It does not list the same generic English “Getting Started” row or its 7 AP reward. Keep that historical Chinese Human task chain separate from SRC53's living international-facing community task table; no original client has resolved which edition/player profile the user wants to prioritize: [Sina task article](https://games.sina.com.cn/o/z/yxzc/2009-08-24/0033346788.shtml).
+
+### HG-10 implementation and verification boundary
+
+The current English-facing prototype implements only the first common daily task as a complete game flow: accept it at the main castle, win a real 1-star NPC battle on the map, claim the published Gold reward plus AP subject to the AP cap, and persist the accepted/claimed ledger in the existing v07 save. UTC is used as the local offline day boundary because the original server timezone is unavailable. Fame promotion does not erase accepted work; additional task slots/tasks, Main and Holiday pages, and race-specific troop reward chains remain unimplemented. Focused browser evidence must show live UI and combat, and tests establish behavior of this reconstruction—not original-client parity.

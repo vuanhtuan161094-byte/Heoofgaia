@@ -1,0 +1,74 @@
+{
+  "suite": "HG-10 real daily task flow",
+  "browserExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "inputHtml": "Play-Heoofgaia-HG11.html",
+  "target": {
+    "key": "2,21",
+    "x": 2,
+    "y": 21,
+    "stars": 1
+  },
+  "checks": [
+    {
+      "name": "real installed browser opens the offline Anh Hùng Thời Loạn build",
+      "passed": true
+    },
+    {
+      "name": "Tasks tab displays the sourced Getting Started daily task",
+      "passed": true
+    },
+    {
+      "name": "actual Accept button adds a daily task to the v07 ledger",
+      "passed": true
+    },
+    {
+      "name": "accepting the task does not grant premature resources or AP",
+      "passed": true
+    },
+    {
+      "name": "target is an actual source-indexed 1-star NPC camp",
+      "passed": true
+    },
+    {
+      "name": "real map selection exposes a working March action",
+      "passed": true
+    },
+    {
+      "name": "real dispatch spends AP and sends actual starter troops",
+      "passed": true
+    },
+    {
+      "name": "actual simulation arrival opens the selected NPC combat",
+      "passed": true
+    },
+    {
+      "name": "live combat actions defeat the NPC without a mocked clear flag",
+      "passed": true
+    },
+    {
+      "name": "task objective advances from the real cleared 1-star NPC",
+      "passed": true
+    },
+    {
+      "name": "actual Claim button pays 500 Gold and up to 7 AP exactly once",
+      "passed": true
+    },
+    {
+      "name": "real browser reload preserves task completion and strict v07 Save",
+      "passed": true
+    },
+    {
+      "name": "task cannot be claimed twice after browser reload",
+      "passed": true
+    },
+    {
+      "name": "no JavaScript page errors in the end-to-end browser flow",
+      "passed": true,
+      "detail": []
+    }
+  ],
+  "errors": [],
+  "passed": 14,
+  "total": 14,
+  "screenshot": "docs/evidence/hg10/daily-task-getting-started-chrome.png"
+}

@@ -9,13 +9,25 @@ const E=root.HOG_ENGINE;
 if(!E||E.V!==7||!E.ensure08)throw Error('HG10 requires the v07 HG08 engine');
 const prior={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.parseSave,serialize:E.serializeSave,startMarch:E.startMarch,battleAct:E.battleAct,rate:E.rate,heroStats:E.heroStats,claim:E.claim,appoint:E.appoint};
 const CITY_FIELDS=['race','res','buildings','army','wounded','woundFraction','spells','training','formation','buildingQueue','researchQueue','arenaQueue','tavern','castellan'];
-const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','treasureCleared','worldVisits','heroBuffs','expedition','parallelMarches','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
+const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','treasureCleared','worldVisits','heroBuffs','dailyTaskState','expedition','parallelMarches','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
 const CITY_LIMITS=Object.freeze([[0,1],[5800,2],[80000,3],[300000,4],[700000,5],[1000000,6]]);
 const WORLD_BUILDINGS=E.WORLD_BUILDINGS||[];
 const WORLD_BUILDING_BY_KEY=new Map(WORLD_BUILDINGS.map(b=>[`${b.x},${b.y}`,b]));
 function clone(v){return JSON.parse(JSON.stringify(v))}
 function own(o,k){return Object.prototype.hasOwnProperty.call(o,k)}
 function worldDayKey(now=Date.now()){if(!Number.isFinite(now))throw Error('Thời gian ghé thăm không hợp lệ.');return new Date(now).toISOString().slice(0,10)}
+const DAILY_TASKS=Object.freeze([
+ Object.freeze({id:'getting_started',name:'Getting Started',nameVi:'Khởi đầu',stars:1,fame:0,gold:500,ap:7,objective:'Engage and destroy any 1 Star NPC.',source:'SRC52/SRC53',confidence:'C'})
+]);
+function syncDailyTaskBoard(s,now=s.lastTick){
+ const day=worldDayKey(Number.isFinite(now)?now:Date.now());
+ if(!s.dailyTaskState){s.dailyTaskState={day,accepted:[],claimed:[]};return s.dailyTaskState}
+ // Fame unlocks additional tasks in the community reference; it does not say
+ // existing daily progress is erased. Preserve today's work on promotion.
+ if(s.dailyTaskState.day!==day)s.dailyTaskState={day,accepted:[],claimed:[]};
+ if(own(s.dailyTaskState,'fameRank'))delete s.dailyTaskState.fameRank; // tolerate unreleased prototype saves
+ return s.dailyTaskState;
+}
 function hasVisitedWorldBuilding(s,key,now=Date.now()){return s?.worldVisits?.[key]===worldDayKey(now)}
 function cityLimit(fame){let n=1;for(const [threshold,count] of CITY_LIMITS){if(fame>=threshold)n=count;else break}return n}
 function currentLocal(s){const data={};for(const k of CITY_FIELDS)data[k]=clone(s[k]);return data}
@@ -27,6 +39,7 @@ function ensure(s){
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits))throw Error('Dữ liệu thăm công trình thế giới không hợp lệ.');
  if(s.heroBuffs===undefined)s.heroBuffs=[];
  if(!Array.isArray(s.heroBuffs))throw Error('Dữ liệu hiệu ứng tướng không hợp lệ.');
+ syncDailyTaskBoard(s,s.lastTick);
  if(!Array.isArray(s.cities)||!s.cities.length){s.cities=[{id:'main',key:'3,4',name:'Thành Gaia',race:s.race,main:true,sourceStatus:'LEGACY_MAIN',local:currentLocal(s)}];s.activeCityId='main'}
  if(typeof s.activeCityId!=='string')throw Error('Save HG-10 thiếu thành đang mở.');
  const rootCity=s.cities.find(c=>c.id===s.activeCityId);
@@ -107,11 +120,13 @@ function tick(s,now=Date.now()){
  const from=s.lastTick,activeId=s.activeCityId,gameSeconds=E.gameElapsedSeconds(s,from,now);timedTick(s,from,now);storeCurrent(s);
  for(const c of [...s.cities])if(c.id!==activeId)tickOtherCity(s,c,from,now);
  // The active city's tick is the single source of world time/AP. Restore its live root after offline city work.
- const active=s.cities.find(c=>c.id===activeId);if(active)applyCity(s,active);s.lastTick=now;s.version=7;return s;
+ const active=s.cities.find(c=>c.id===activeId);if(active)applyCity(s,active);s.lastTick=now;s.version=7;syncDailyTaskBoard(s,now);return s;
 }
 function strict(s){
  if(!s||s.version!==7||!prior.strict(s))return false;
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits)||!Array.isArray(s.heroBuffs))return false;
+ const board=s.dailyTaskState,knownTaskIds=new Set(DAILY_TASKS.map(t=>t.id));
+ if(!board||typeof board!=='object'||Array.isArray(board)||typeof board.day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(board.day)||!Array.isArray(board.accepted)||!Array.isArray(board.claimed)||new Set(board.accepted).size!==board.accepted.length||new Set(board.claimed).size!==board.claimed.length||board.accepted.some(id=>!knownTaskIds.has(id))||board.claimed.some(id=>!knownTaskIds.has(id)||!board.accepted.includes(id)))return false;
  for(const [key,day] of Object.entries(s.worldVisits))if(!WORLD_BUILDING_BY_KEY.has(key)||typeof day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(day))return false;
  for(const b of s.heroBuffs)if(!b||!s.heroes.some(h=>h.id===b.heroId)||!['atk','def','spd','int'].includes(b.stat)||!Number.isFinite(b.remaining)||b.remaining<=0||b.remaining>7200||!WORLD_BUILDING_BY_KEY.has(b.sourceKey))return false;
  if(!Array.isArray(s.cities)||s.cities.length<1||s.cities.length>6||typeof s.activeCityId!=='string')return false;
@@ -183,9 +198,32 @@ function visitWorldBuilding(s,key,now=Date.now()){
  E.note(s,reward?`Đã ghé ${def.name}; nhận ${Object.entries(gain).map(([k,v])=>`+${E.fmt(v)} ${E.C.resource[k].label}`).join(', ')}.`:`${hero.name} ghé ${def.name}; ${({atk:'Tấn công',def:'Phòng thủ',spd:'Tốc độ',int:'Tri thức'})[boost.stat]} +10% trong 2 giờ game.`);
  return {building:def.id,key,heroId:hero.id,reward:gain,buff:boost?{...boost}:null,day};
 }
+function dailyTaskProgress(s,task){return (s.cleared||[]).filter(key=>{const tile=E.getTile(key);return tile?.kind==='npc'&&tile.level===task.stars}).length}
+function dailyTasks(s,now=Date.now()){
+ ensure(s);syncDailyTaskBoard(s,now);const board=s.dailyTaskState;
+ return DAILY_TASKS.map(task=>{const progress=Math.min(1,dailyTaskProgress(s,task));return {...task,progress,available:s.fame>=task.fame,accepted:board.accepted.includes(task.id),claimed:board.claimed.includes(task.id),ready:progress>=1}});
+}
+function acceptDailyTask(s,id,now=Date.now()){
+ ensure(s);syncDailyTaskBoard(s,now);if(!activeCity(s).main)throw Error('Hãy nhận nhiệm vụ tại thành chính.');
+ const task=DAILY_TASKS.find(t=>t.id===id);if(!task)throw Error('Nhiệm vụ hằng ngày không hợp lệ.');
+ if(s.fame<task.fame)throw Error(`Cần ${E.fmt(task.fame)} danh vọng để nhận nhiệm vụ.`);
+ const board=s.dailyTaskState;if(board.accepted.includes(id)||board.claimed.includes(id))throw Error('Nhiệm vụ này đã được nhận hôm nay.');
+ board.accepted.push(id);E.note(s,`Đã nhận nhiệm vụ hằng ngày “${task.name}”: ${task.objective}`);return true;
+}
+function claimDailyTask(s,id,now=Date.now()){
+ ensure(s);syncDailyTaskBoard(s,now);if(!activeCity(s).main)throw Error('Hãy nhận thưởng nhiệm vụ tại thành chính.');
+ const task=DAILY_TASKS.find(t=>t.id===id);if(!task)throw Error('Nhiệm vụ hằng ngày không hợp lệ.');
+ const board=s.dailyTaskState;if(!board.accepted.includes(id))throw Error('Hãy nhận nhiệm vụ trước khi nhận thưởng.');
+ if(board.claimed.includes(id))throw Error('Phần thưởng nhiệm vụ hôm nay đã nhận.');
+ if(dailyTaskProgress(s,task)<1)throw Error('Chưa thắng trại NPC cấp sao yêu cầu.');
+ if(s.res.gold+task.gold>E.limits(s).gold+1e-7)throw Error('Kho vàng không đủ chỗ; hãy dùng vàng rồi nhận thưởng.');
+ const beforeAp=s.ap;E.add(s,{gold:task.gold});s.ap=Math.min(s.apMax,s.ap+task.ap);board.claimed.push(id);const apAward=s.ap-beforeAp;
+ E.note(s,`Hoàn thành nhiệm vụ “${task.name}”: +${task.gold} vàng, +${apAward} AP thực nhận (tối đa ${task.ap}; AP không vượt trần).`);
+ return {gold:task.gold,ap:apAward};
+}
 function claim(s,id){ensure(s);if(!activeCity(s).main)throw Error('Theo hướng dẫn Trung Quốc 2009, thao tác nhiệm vụ chỉ thực hiện tại thành chính.');return prior.claim(s,id)}
 function appoint(s,id){ensure(s);const c=activeCity(s);if(s.cities.some(x=>x.id!==c.id&&x.local.castellan===id))throw Error('Một tướng không thể đồng thời làm Castellan ở hai thành.');return prior.appoint(s,id)}
 E.make=make;E.tick=tick;E.startMarch=startMarch;E.battleAct=battleAct;E.claim=claim;E.appoint=appoint;E.heroStats=heroStats;E.valid=valid;E.strictSave=strict;E.parseSave=parse;E.serializeSave=serialize;E.rate=rate;
-Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding});
+Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,dailyTasks,acceptDailyTask,claimDailyTask});
 root.HOG_HG10={status:'partial-world-building-visits',sourceStatus:'2009 Chinese guide daily visitation and listed rewards; UTC reset and instant visit are implementation models',saveVersion:7,depositArmy};
 })(typeof globalThis!=='undefined'?globalThis:this);

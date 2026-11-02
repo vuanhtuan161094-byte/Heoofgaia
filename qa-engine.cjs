@@ -530,7 +530,7 @@ test('1000 seeded tactical encounters replay identically with valid ledgers',()=
 test('HG10 Chinese rank table gates secondary castles atomically',()=>{
  const rows=[[0,1],[5799,1],[5800,2],[7999,2],[80000,3],[299999,3],[300000,4],[700000,5],[1000000,6]];
  for(const [fame,count] of rows)assert.equal(E.cityLimit(fame),count,'Fame '+fame);
- const s=state();s.fame=5799;E.ensure08(s);const before=JSON.stringify(s),ap=s.ap;
+ const s=state();s.fame=5799;E.ensure10(s);const before=JSON.stringify(s),ap=s.ap;
  throws(()=>E.startMarch(s,'9,10'),/danh vọng/i);assert.equal(s.ap,ap);assert.equal(JSON.stringify(s),before);
 });
 
@@ -652,6 +652,21 @@ test('HG10 world attack buff changes actual battle damage and expires before lat
  const buffed=state(),plain=state();for(const s of [buffed,plain]){s.speed=1;s.heroes[0].int=40}
  E.visitWorldBuilding(buffed,'21,65',buffed.lastTick);E.appoint(buffed,1);E.appoint(plain,1);const beforeB=buffed.res.gold,beforeP=plain.res.gold;E.tick(buffed,buffed.lastTick+3*60*60*1000);E.tick(plain,plain.lastTick+3*60*60*1000);
  assert.equal(buffed.heroBuffs.length,0);assert(Math.abs((buffed.res.gold-beforeB)-(plain.res.gold-beforeP)-(4*160/150*2))<1e-6);
+});
+test('HG10 source-cited daily task accepts, follows a real 1-star battle, pays once and survives v07 reload',()=>{
+ const s=state('human'),taskId='getting_started',day=s.lastTick,target=E.NPC_CAMPS_2009.find(x=>x.stars===1);assert(target);assert.equal(E.dailyTasks(s,day)[0].progress,0);
+ const before={gold:s.res.gold,ap:s.ap};E.acceptDailyTask(s,taskId,day);assert.equal(E.dailyTasks(s,day)[0].accepted,true);assert.equal(s.res.gold,before.gold);assert.equal(s.ap,before.ap);
+ E.setFormation(s,[{unitId:'human_1',count:16}]);E.startMarch(s,target.key);assert.equal(s.expedition.army.human_1,16);
+ E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);assert.equal(s.battle.target,target.key);let result=null,guard=0;while(s.battle&&guard++<50)result=E.battleAct(s,'attack');assert.equal(result?.type,'win');assert(s.cleared.includes(target.key));
+ const progress=E.dailyTasks(s,s.lastTick)[0];assert.equal(progress.ready,true);const goldAtClaim=s.res.gold,apAtClaim=s.ap,after=E.claimDailyTask(s,taskId,s.lastTick);assert.equal(after.gold,500);assert.equal(after.ap,7);assert.equal(s.res.gold,goldAtClaim+500);assert.equal(s.ap,Math.min(s.apMax,apAtClaim+7));assert.equal(E.dailyTasks(s,s.lastTick)[0].claimed,true);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.dailyTaskState.day,E.worldDayKey(s.lastTick));assert.equal(E.dailyTasks(loaded,s.lastTick)[0].claimed,true);throws(()=>E.claimDailyTask(loaded,taskId,s.lastTick),/đã nhận/);
+ const nextDay=s.lastTick+86_400_000;assert.equal(E.dailyTasks(loaded,nextDay)[0].claimed,false);assert.equal(loaded.dailyTaskState.day,E.worldDayKey(nextDay));
+ const legacy=E.serializeSave(state('elf'));const envelope=JSON.parse(legacy);delete envelope.state.dailyTaskState;const migrated=E.parseSave(JSON.stringify(envelope));assert.equal(migrated.version,7);assert(E.strictSave(migrated));assert.equal(E.dailyTasks(migrated,migrated.lastTick)[0].claimed,false);
+});
+test('HG10 daily board preserves accepted work on Fame promotion, resets by day and rejects corrupt v07 task state',()=>{
+ const s=state(),now=s.lastTick;E.acceptDailyTask(s,'getting_started',now);s.fame=800;assert.equal(E.dailyTasks(s,now)[0].accepted,true);assert.equal('fameRank' in s.dailyTaskState,false);
+ const saved=E.serializeSave(s),raw=JSON.parse(saved);raw.state.dailyTaskState.accepted=['unknown'];assert.throws(()=>E.parseSave(JSON.stringify(raw)),/Save HG-10/);
+ assert.equal(E.dailyTasks(s,now+86_400_000)[0].accepted,false);assert.equal(s.dailyTaskState.day,E.worldDayKey(now+86_400_000));
 });
 
 const hg10=results.filter(x=>/^HG10 /.test(x.name));
