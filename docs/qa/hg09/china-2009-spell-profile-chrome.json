@@ -1,0 +1,48 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-spell-edition-chrome.py",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "total": 7,
+  "passed": 7,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline game opens with the requested title",
+      "passed": true
+    },
+    {
+      "name": "New kingdom persists the chosen China 2009 spell edition",
+      "passed": true
+    },
+    {
+      "name": "Orc catalog shows source-dated Sina Harden Bones at two percent",
+      "passed": true
+    },
+    {
+      "name": "Source-selected spell enters a naturally generated NPC battle",
+      "passed": true
+    },
+    {
+      "name": "Casting Harden Bones changes actual allied stack defense by two percent",
+      "passed": true
+    },
+    {
+      "name": "v07 Save/Reload preserves profile, equipped skill, battle and buff",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript page errors during offline regional spell flow",
+      "passed": true
+    }
+  ],
+  "artifacts": {
+    "spell-edition-selector-chrome.png": {
+      "sha256": "81C6AF2B3ED0E291ACABC4DEDAA8E753A62FB4EC02D566A8FB718607F137765E",
+      "bytes": 1457664
+    },
+    "china-2009-orc-harden-bones-combat-chrome.png": {
+      "sha256": "5AED5B989CB62FE6323D1EFD585F1B006347383ADB11D99453A91F017BEAEB76",
+      "bytes": 457644
+    }
+  }
+}

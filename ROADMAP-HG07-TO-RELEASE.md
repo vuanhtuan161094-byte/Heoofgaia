@@ -12,14 +12,14 @@ Scope: **Heroes of Gaia / Castle of Heroes / 英雄之城 only**. Source code, a
 
 | Sprint | Priority | Work | Acceptance | Status |
 |---|---|---|---|---|
-| HG07-A | P0 | Archive HG06 RC1 source in isolated branch; preserve save v06 and run independently of Tu Tiên runtime | Branch+files; code bundle reproducible; Node and Chromium gates | IN PROGRESS |
-| HG07-B | P0 | Apply 1–100 hero base troop-value capacity lookup and guard formation/march; preserve legacy saves | Boundary tests L1/L5/L10/L50/L100; overcap rejects without partial state/AP change | CODED / tested locally |
-| HG08 | P0 | Troop unlock contract with evidence by race/tier; hero XP/rank; training queue edge cases | Each unlock has source & negative/positive tests; save migration | PLANNED |
-| HG09 | P0 | Battle turn scheduler parity (speed, range, spells, defense, 7 groups), loss ledger, Arena settlement | deterministic encounter fixtures, 1000 random battles without negative army/duplication | PLANNED |
-| HG10 | P1 | World ownership, mines, fog, multi-castle and march-return logistics | no duplicate harvest; tile ownership/save identity; offline time | PLANNED |
-| HG11 | P1 | UI and 4 race castles, original/authorized artwork pipeline, mobile UX | actual screenshots desktop/Android; explicit visual approval | PLANNED |
-| HG12 | P1 | Local save durability, export/import/checksum, compatibility and performance | physical Windows/Android acceptance + 24h soak | PLANNED |
-| HG13 | P2 | MMO design: authoritative game clock, async marches, guild and PvP isolated server | threat model, deterministic simulation, opt-in deployment | DEFERRED |
+| HG07-A | P0 | Archive HG06 RC1 source in isolated branch; preserve save v06 and run independently of Tu Tiên runtime | Historical HG-07 baseline archived; isolated branch audited | PASS — legacy review complete; release delivery remains open |
+| HG07-B | P0 | Apply 1–100 hero base troop-value capacity lookup and guard formation/march; preserve legacy saves | Boundary, over-cap atomicity and compatibility fixtures included in cumulative suite | PASS — coded and regression-protected |
+| HG08 | P0 | Troop unlock contract with evidence by race/tier; hero XP/rank; training queue edge cases | Source-linked unlocks, actual queues, negative/positive tests, v07 saves | IN PROGRESS — 40 units and major progression systems work; faction support gates, exact Tavern odds and regional data remain open |
+| HG09 | P0 | Battle turn scheduler, range, spells, defense, 7 groups, loss ledger and Arena settlement | deterministic fixtures, 1,000 seeded encounters, real browser/save-load spell check | IN PROGRESS — per-stack orders and edition-separated combat spells work; formula, movement, duration and original NPC parity remain partial |
+| HG10 | P1 | World ownership, mines, fog, multi-castle and march-return logistics | ownership, once-only rewards, city state and offline-time tests | IN PROGRESS — mines, captured cities, three marches and visitables work; fog/PvP and source parity remain open |
+| HG11 | P1 | Four faction castles, faithful scene/UI, art pipeline, animation and mobile UX | actual desktop/mobile screenshots and resolved source provenance | PARTIAL — four modern city paintings and functional hotspots; world/battle/unit sprites, animation and original-client visual comparison remain open |
+| HG12 | P1 | Offline save durability, export/import/checksum, compatibility and performance | standalone HTML, regression and physical device gates | IN PROGRESS — offline HTML and v07 persistence run; installer polish, physical Windows/Android and performance soak remain open |
+| HG13 | P2 | Isolated opt-in authoritative server for clock, marches, guild and PvP | threat model, deterministic integration, secure opt-in deployment | NOT STARTED — no server deployment or multiplayer claim |
 
 ### Locked implementation constraints
 1. HG code lives **only** under `projects/heoofgaia/` in feature branch; do not alter `main`, locked Tu Tiên runtime, AGENTS or CURRENT_CHECKPOINT.

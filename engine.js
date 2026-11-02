@@ -14,10 +14,11 @@ function gameElapsedSeconds(s,from,now){
  return wallSeconds*(s.speed===1?1:60);
 }
 function assert(ok,msg){if(!ok)throw new Error(msg)}
-function make(race='human',now=Date.now()){
+function make(race='human',now=Date.now(),spellEdition='international'){
  assert(!!C.races[race],'Chủng tộc không tồn tại');
+ assert(['international','china2009'].includes(spellEdition),'Bộ phép không hợp lệ');
  const army={};C.units[race].forEach(u=>army[u.id]=0);army[`${race}_1`]=16;
- return {version:V,race,created:now,lastTick:now,speed:60,
+ return {version:V,race,spellEdition,created:now,lastTick:now,speed:60,
   res:{gold:8000,wood:900,ore:900,sulfur:350,crystal:350},
   buildings:{hall:1,barracks:1,heroTower:1,tavern:1,warehouse:2,magicTower:1,arena:1,market:0,bazaar:0,embassy:0,stables:0,forge:0},
   spells:{},army,wounded:{},heroes:[{id:1,name:{human:'Aldric',elf:'Elaria',orc:'Gorak',undead:'Morwen'}[race],level:1,xp:0,atk:12,def:8,spd:7,int:6}],activeHero:1,castellan:null,ap:100,apMax:150,selected:null,

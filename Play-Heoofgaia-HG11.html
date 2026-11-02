@@ -168,10 +168,11 @@ function gameElapsedSeconds(s,from,now){
  return wallSeconds*(s.speed===1?1:60);
 }
 function assert(ok,msg){if(!ok)throw new Error(msg)}
-function make(race='human',now=Date.now()){
+function make(race='human',now=Date.now(),spellEdition='international'){
  assert(!!C.races[race],'Chủng tộc không tồn tại');
+ assert(['international','china2009'].includes(spellEdition),'Bộ phép không hợp lệ');
  const army={};C.units[race].forEach(u=>army[u.id]=0);army[`${race}_1`]=16;
- return {version:V,race,created:now,lastTick:now,speed:60,
+ return {version:V,race,spellEdition,created:now,lastTick:now,speed:60,
   res:{gold:8000,wood:900,ore:900,sulfur:350,crystal:350},
   buildings:{hall:1,barracks:1,heroTower:1,tavern:1,warehouse:2,magicTower:1,arena:1,market:0,bazaar:0,embassy:0,stables:0,forge:0},
   spells:{},army,wounded:{},heroes:[{id:1,name:{human:'Aldric',elf:'Elaria',orc:'Gorak',undead:'Morwen'}[race],level:1,xp:0,atk:12,def:8,spd:7,int:6}],activeHero:1,castellan:null,ap:100,apMax:150,selected:null,
@@ -498,6 +499,24 @@ const HERO_SPELLS={
          {id:'soul_boost',name:'Soul Boost',desc:'Tăng HP toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
          {id:'reincarnation',name:'Reincarnation',desc:'Kỹ năng Castellan pre-Babel: giảm thời gian hồi phục thương binh 1% mỗi cấp khi tướng được bổ nhiệm thủ thành. Bằng chứng cộng đồng C.',kind:'castellan'}]
 };
+// Dated China 2009 combat-skill subset from Sina's four race tables (2009-08-24).
+// Movement and passive-economy/experience skills are intentionally not presented
+// as usable here; their mechanics need separate implementation and verification.
+const HERO_SPELLS_CHINA_2009={
+ human:[{id:'leadership',name:'Thân tiên sĩ tốt',sourceName:'身先士卒',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+        {id:'hold_the_line_cn',name:'Kiên thủ trận địa',sourceName:'坚守阵地',desc:'Tăng DEF toàn quân +5%/cấp',affects:'ally',stat:'def',kind:'all',delta:.05},
+        {id:'struggle',name:'Lưng tựa chiến tuyến',sourceName:'背水一战',desc:'Tăng HP tối đa toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
+        {id:'rain_arrows',name:'Tề xạ',sourceName:'齐射',desc:'Tăng ATK quân bắn xa +1,5%/cấp',affects:'ally',stat:'atk',kind:'ranged',delta:.015}],
+ elf:[{id:'natures_wrath',name:'Sức mạnh tự nhiên',sourceName:'自然之力',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+      {id:'fountain_life',name:'Nguồn sống',sourceName:'生命之源',desc:'Tăng HP tối đa toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
+      {id:'hawkeye',name:'Bách bộ xuyên dương',sourceName:'百步穿杨',desc:'Tăng ATK quân bắn xa +1,5%/cấp',affects:'ally',stat:'atk',kind:'ranged',delta:.015}],
+ orc:[{id:'harden_bones',name:'Cường hóa xương cốt',sourceName:'经骨强化',desc:'Tăng DEF toàn quân +2%/cấp',affects:'ally',stat:'def',kind:'all',delta:.02},
+      {id:'berserk',name:'Cuồng bạo',sourceName:'狂暴',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+      {id:'roar',name:'Nộ hống',sourceName:'怒号',desc:'Giảm DEF toàn quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02}],
+ undead:[{id:'curse',name:'Nguyền rủa',sourceName:'诅咒术',desc:'Giảm ATK toàn quân địch -2%/cấp',affects:'enemy',stat:'atk',kind:'all',delta:-.02},
+         {id:'necromancy',name:'Vu thuật vong linh',sourceName:'亡灵巫术',desc:'Giảm DEF toàn quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02},
+         {id:'soul_boost',name:'Khuếch đại linh lực',sourceName:'灵力增幅',desc:'Tăng HP tối đa toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01}]
+};
 const ITEMS={
  copper_blade:{id:'copper_blade',name:'Kiếm đồng hành trình',slot:'weapon',icon:'⚔',atk:3,def:0,spd:0,cost:450,level:1},
  ash_bow:{id:'ash_bow',name:'Cung tần bì',slot:'weapon',icon:'🏹',atk:4,def:0,spd:1,cost:650,level:2},
@@ -513,6 +532,8 @@ const QUESTS=[
  {id:'first_npc',name:'Dọn sạch đường thương',desc:'Đánh bại một trại quái',reward:{gold:850,sulfur:75,crystal:75},fame:25,ready:s=>s.cleared.length>=1}
 ];
 function ensure(s){
+ if(s.spellEdition===undefined)s.spellEdition='international';
+ if(!['international','china2009'].includes(s.spellEdition))throw Error('Bộ phép trong save không hợp lệ');
  if(!s.heroMagic||typeof s.heroMagic!=='object')s.heroMagic={};
  if(!Array.isArray(s.inventory))s.inventory=[];
  if(!s.equipment||typeof s.equipment!=='object')s.equipment={};
@@ -523,7 +544,7 @@ function ensure(s){
  for(const h of s.heroes){if(!Array.isArray(h.equippedSpells))h.equippedSpells=[];if(!s.equipment[h.id])s.equipment[h.id]={};}
  return s;
 }
-function spells(s){return HERO_SPELLS[s.race]}
+function spells(s){return s.spellEdition==='china2009'?HERO_SPELLS_CHINA_2009[s.race]:HERO_SPELLS[s.race]}
 function spell(s,id){return spells(s).find(x=>x.id===id)}
 function spellCost(s,id){const t=spell(s,id);if(!t)throw Error('Phép không thuộc chủng tộc');const level=s.heroMagic[id]||0;
  return {gold:300*(level+1),wood:30*(level+1),ore:30*(level+1),sulfur:25*(level+1),crystal:25*(level+1)};
@@ -604,8 +625,8 @@ E.upgradeSaveV03=(old)=>{if(!old||old.version!==3||!E.C.races[old.race])throw Er
 E.upgradeSaveV02=(old)=>{const s=rawUpgradeSaveV02(old);s.version=4;E.note(s,'Chuyển save HG-02 sang HG-04.');return ensure(s)};
 C.buildings.market.state='observed';C.buildings.market.desc='Bán tài nguyên lấy vàng; tỷ giá mô phỏng. Không dùng vàng mua tài nguyên.';
 C.buildings.bazaar.state='observed';C.buildings.bazaar.desc='Mua trang bị tướng, cấp Bazaar mở vật phẩm (giá demo).';
-Object.assign(E,{SAVE_KEY:'heoofgaia_hg_only_v04',PREV_SAVE_KEY:'heoofgaia_hg_only_v03',HERO_SPELLS,ITEMS,QUESTS,ensure,spells,spell,heroSpellCost:spellCost,researchHeroSpell,equipSpell,addItem,buyItem,equipItem,unequipItem,heroStats,sell,claim,cast,resetEffects});
-root.HOG_HG04={HERO_SPELLS,ITEMS,QUESTS};
+Object.assign(E,{SAVE_KEY:'heoofgaia_hg_only_v04',PREV_SAVE_KEY:'heoofgaia_hg_only_v03',HERO_SPELLS,HERO_SPELLS_CHINA_2009,ITEMS,QUESTS,ensure,spells,spell,heroSpellCost:spellCost,researchHeroSpell,equipSpell,addItem,buyItem,equipItem,unequipItem,heroStats,sell,claim,cast,resetEffects});
+root.HOG_HG04={HERO_SPELLS,HERO_SPELLS_CHINA_2009,ITEMS,QUESTS};
 })(typeof globalThis!=='undefined'?globalThis:this);
 </script><script>
 /* Hẻoofgaia HG-05: queued construction, hardened save validation and version-preserving migrations.
@@ -1443,6 +1464,7 @@ function tick(s,now=Date.now()){
 }
 function strict(s){
  if(!s||s.version!==7||!prior.strict(s))return false;
+ if(!['international','china2009'].includes(s.spellEdition))return false;
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits)||!Array.isArray(s.heroBuffs))return false;
  const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));
  if(!china||typeof china!=='object'||Array.isArray(china)||typeof china.day!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(china.day)||!Array.isArray(china.accepted)||!Array.isArray(china.claimed)||new Set(china.accepted).size!==china.accepted.length||new Set(china.claimed).size!==china.claimed.length||china.accepted.some(id=>!chinaIds.has(id))||china.claimed.some(id=>!chinaIds.has(id)||!china.accepted.includes(id))||!china.progress||typeof china.progress!=='object'||Array.isArray(china.progress)||Object.keys(china.progress).some(id=>!chinaIds.has(id))||CHINA_2009_DAILY_TASKS.some(t=>!Number.isSafeInteger(china.progress[t.id])||china.progress[t.id]<0||china.progress[t.id]>t.required))return false;
@@ -1819,7 +1841,7 @@ root.HOG_PAINTER={drawWorld,drawCity,drawBattle,mapHit,mapCamera,panMap,zoomMap,
 (function(){
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
-const $=id=>document.getElementById(id);let state=null,tab='map',newRace='human',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall';
+const $=id=>document.getElementById(id);let state=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall';
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['tasks','📜 Nhiệm vụ'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
@@ -1847,7 +1869,7 @@ function button(action,data,label,disabled=false,cls=''){return `<button ${disab
 function flags(){const city=E.activeCity(state),ap=E.fameApStats(state.fame),next=ap.nextFame===null?'đã đạt bậc cao nhất':`còn ${format(ap.nextFame-state.fame)} Fame tới mốc tiếp`;return `<span class="tag">📍 ${esc(city.name)} (${city.key})</span><span class="tag" title="${ap.perHour} AP hồi mỗi giờ game · ${next}">🔋 AP ${Math.floor(state.ap)}/${ap.max} · +${ap.perHour}/giờ</span><span class="tag">🏅 Danh vọng ${format(state.fame)}</span><span class="tag">🏰 ${state.cities.length}/${E.cityLimit(state.fame)} thành</span><span class="tag">⏱ ×${state.speed} demo</span>`}
 function renderIntro(){
  $('nav').innerHTML='';$('resources').innerHTML='';$('status').innerHTML='<p>Một bản tái dựng độc lập lấy cảm hứng từ Heroes of Gaia (2009).</p>';$('logs').innerHTML='';
- $('main').innerHTML=`<section class="welcome"><div class="welcome-scene"><canvas id="intro-canvas" width="1176" height="560" aria-label="Phong cảnh thành trì theo chủng tộc"></canvas><div class="welcome-copy"><div class="eyebrow">CHRONICLES OF GAIA • HG-11 FOUR-FACTION CITIES</div><h1>ANH HÙNG THỜI LOẠN</h1><p>Phát triển thành trì • dẫn quân vượt thế giới • chinh phục mỏ và quái vật</p></div></div><div class="welcome-bottom"><h2>Chọn chủng tộc khởi đầu</h2><div class="race-grid">${Object.entries(C.races).map(([k,v])=>`<button data-action="race" data-race="${k}" class="race-card ${newRace===k?'active':''}"><span class="emoji">${v.emoji}</span><strong>${v.name}</strong><small>${v.english}</small></button>`).join('')}</div>${button('start',{},'⚔ Thành lập thành Gaia',false,'primary wide')}<p class="hint">Chế độ chơi offline; hình ảnh tự dựng, công thức chiến đấu hiện là thử nghiệm, chưa phải game chính thức.</p></div></section>`;
+ $('main').innerHTML=`<section class="welcome"><div class="welcome-scene"><canvas id="intro-canvas" width="1176" height="560" aria-label="Phong cảnh thành trì theo chủng tộc"></canvas><div class="welcome-copy"><div class="eyebrow">CHRONICLES OF GAIA • HG-11 FOUR-FACTION CITIES</div><h1>ANH HÙNG THỜI LOẠN</h1><p>Phát triển thành trì • dẫn quân vượt thế giới • chinh phục mỏ và quái vật</p></div></div><div class="welcome-bottom"><h2>Chọn chủng tộc khởi đầu</h2><div class="race-grid">${Object.entries(C.races).map(([k,v])=>`<button data-action="race" data-race="${k}" class="race-card ${newRace===k?'active':''}"><span class="emoji">${v.emoji}</span><strong>${v.name}</strong><small>${v.english}</small></button>`).join('')}</div><h3>Bộ phép chiến đấu</h3><div class="entry">${button('spelledition',{edition:'international'},'Quốc tế · Fandom',false,newSpellEdition==='international'?'primary':'secondary')}${button('spelledition',{edition:'china2009'},'Trung Quốc 2009 · Sina',false,newSpellEdition==='china2009'?'primary':'secondary')}</div><p class="hint">Lựa chọn này lưu trong vương quốc mới. Bộ Sina tái hiện các kỹ năng chiến đấu chủ động đã có chỉ số xác nhận; kỹ năng di chuyển và nội tại chưa được mô hình hóa. Save cũ mặc định giữ bộ Quốc tế.</p>${button('start',{},'⚔ Thành lập thành Gaia',false,'primary wide')}<p class="hint">Chế độ chơi offline; hình ảnh tự dựng, công thức chiến đấu hiện là thử nghiệm, chưa phải game chính thức.</p></div></section>`;
  P.drawCity($('intro-canvas'),E,E.make(newRace),'hall');
 }
 function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.map(k=>`<div class="resource">${C.resource[k].emoji} ${C.resource[k].label}<b>${format(state.res[k])}</b><small class="muted">/${format(lim[k])} · +${format(E.rate(state)[k])}/h</small></div>`).join('');
@@ -1924,10 +1946,10 @@ function technologyView(){
  return `<section class="card hg08-section"><span class="eyebrow">MILITARY RESEARCH</span><h2>⚙ Nghiên cứu quân sự</h2><p class="hint">Wiki tiếng Anh năm 2009 gọi các phép thụ động này là Bootcamp và Manufacturing; bảng Human tiếng Trung dùng “练兵技术” cho điều kiện huấn luyện. Việc ghép hai tên Bootcamp/练兵技术 là suy luận theo vai trò, không phải bản dịch chính thức. Hai nghiên cứu dùng cùng hàng đợi spell; chi phí và thời gian còn mô phỏng.</p>${queue?`<div class="queue-card"><b>Đang nghiên cứu: ${esc(queuedSpell?.vi||queuedSpell?.name||queue.key)} cấp ${queue.level}</b><progress max="${queue.total}" value="${queue.total-queue.remaining}"></progress><small>${Math.ceil(queue.remaining/state.speed)} giây thực còn lại</small></div>`:''}<div class="grid grid2">${military.map(([id,name,desc])=>{const key=E.TECHNOLOGIES[id].spell,level=state.spells[key]||0,cost=E.spellCost(state,key),towerReady=state.buildings.magicTower>=level+1;return `<div class="card"><div class="heading">${name} <span class="tag">Cấp ${level}/10</span></div><p class="hint">${desc}</p><div class="cost">${money(cost)} · ${E.technologyDuration(state,id)} giây mô phỏng</div><small class="muted">${towerReady?'Magic Tower đã đáp ứng':'Cần Magic Tower cấp '+(level+1)}</small><div>${button('learn',{id:key},'Nghiên cứu cấp '+(level+1),!!queue||!towerReady||level>=10||!E.canAfford(state,cost),'small primary')}</div></div>`}).join('')}</div></section>`;
 }
 function magicView(){const active=state.heroes.find(h=>h.id===state.activeHero),castellan=state.heroes.find(h=>h.id===state.castellan);
- return magicViewBase()+technologyView()+`<section class="card hg04-section"><span class="eyebrow">HERO SPELLS • MAGIC TOWER</span><h2>✨ Phép tướng theo chủng tộc ${esc(C.races[state.race].english)}</h2><p class="hint">Nghiên cứu tại Magic Tower rồi trang bị cho tướng (tối đa 5 ô). Phép chiến đấu kích hoạt trong trận; Reincarnation là nội tại Castellan và chỉ tác động khi tướng đang thủ thành.</p>
+ return magicViewBase()+technologyView()+`<section class="card hg04-section"><span class="eyebrow">HERO SPELLS • MAGIC TOWER</span><h2>✨ Phép tướng theo chủng tộc ${esc(C.races[state.race].english)}</h2><p class="hint">Bộ đang chọn: ${state.spellEdition==='china2009'?'Trung Quốc 2009 · Sina':'Quốc tế · Fandom'}. Nghiên cứu tại Magic Tower rồi trang bị cho tướng (tối đa 5 ô). Sina liệt kê thêm kỹ năng tăng bước di chuyển và nội tại; hai nhóm đó chưa xuất hiện như nút dùng được trong bản này.</p>
  <p>Chỉ huy hiện tại: <b>${esc(active.name)}</b> · ${active.equippedSpells.filter(id=>E.spell(state,id)?.kind!=='castellan').length}/5 phép chiến đấu · Castellan: <b>${castellan?esc(castellan.name):'chưa bổ nhiệm'}</b></p>
  <div class="grid grid3">${E.spells(state).map(q=>{const level=state.heroMagic[q.id]||0,cost=E.heroSpellCost(state,q.id),wearer=q.kind==='castellan'?castellan:active,equipped=!!wearer?.equippedSpells.includes(q.id),action=q.kind==='castellan'?'herocastellanequip':'heroequip',label=q.kind==='castellan'?(equipped?'Gỡ khỏi Castellan':castellan?'Gắn cho Castellan':'Cần bổ nhiệm Castellan'):equipped?'Gỡ phép':'Trang bị',blocked=q.kind==='castellan'?!castellan||!level:!level;
- return `<div class="card"><b>✧ ${esc(q.name)}</b><span class="tag">Lv ${level}</span>${q.kind==='castellan'?'<span class="tag">CASTELLAN</span>':''}<p class="hint">${esc(q.desc)}</p><p class="cost">${money(cost)}</p><div class="entry">${button('herolearn',{id:q.id},'Nghiên cứu',level>=state.buildings.magicTower||!E.canAfford(state,cost)||!!state.march||!!state.battle,'small')}${button(action,{id:q.id},label,blocked||!!state.march||!!state.battle,'small secondary')}</div></div>`}).join('')}</div></section>`;
+ return `<div class="card"><b>✧ ${esc(q.name)}</b>${q.sourceName?`<span class="muted tiny"> · ${esc(q.sourceName)}</span>`:''}<span class="tag">Lv ${level}</span>${q.kind==='castellan'?'<span class="tag">CASTELLAN</span>':''}<p class="hint">${esc(q.desc)}</p><p class="cost">${money(cost)}</p><div class="entry">${button('herolearn',{id:q.id},'Nghiên cứu',level>=state.buildings.magicTower||!E.canAfford(state,cost)||!!state.march||!!state.battle,'small')}${button(action,{id:q.id},label,blocked||!!state.march||!!state.battle,'small secondary')}</div></div>`}).join('')}</div></section>`;
 }
 function castleOverview(){
  const hero=state.heroes.find(h=>h.id===state.activeHero)||state.heroes[0];
@@ -1991,7 +2013,8 @@ function paint(){
 function render(){if(!state){renderIntro();return}renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():sourceView();$('main').innerHTML=content;paint();}
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;fail(()=>{
  if(action==='race'){newRace=target.dataset.race;render();return}
-  if(action==='start'){state=E.make(newRace);tab='map';selected='3,4';selectedTargetKind=null;return}
+ if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
+ if(action==='start'){state=E.make(newRace,Date.now(),newSpellEdition);tab='map';selected='3,4';selectedTargetKind=null;return}
  if(action==='tab'){tab=target.dataset.tab;return}
  if(action==='city-switch'){E.switchCity(state,target.dataset.id);selected=E.activeCity(state).key;tab='city';return}
  if(action==='select'){selected=target.dataset.key;selectedTargetKind=target.dataset.kind==='treasure'?'treasure':null;const tile=E.getTile(selected);if(tile)Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y});return}

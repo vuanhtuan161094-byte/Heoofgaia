@@ -136,6 +136,7 @@ function tick(s,now=Date.now()){
 }
 function strict(s){
  if(!s||s.version!==7||!prior.strict(s))return false;
+ if(!['international','china2009'].includes(s.spellEdition))return false;
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits)||!Array.isArray(s.heroBuffs))return false;
  const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));
  if(!china||typeof china!=='object'||Array.isArray(china)||typeof china.day!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(china.day)||!Array.isArray(china.accepted)||!Array.isArray(china.claimed)||new Set(china.accepted).size!==china.accepted.length||new Set(china.claimed).size!==china.claimed.length||china.accepted.some(id=>!chinaIds.has(id))||china.claimed.some(id=>!chinaIds.has(id)||!china.accepted.includes(id))||!china.progress||typeof china.progress!=='object'||Array.isArray(china.progress)||Object.keys(china.progress).some(id=>!chinaIds.has(id))||CHINA_2009_DAILY_TASKS.some(t=>!Number.isSafeInteger(china.progress[t.id])||china.progress[t.id]<0||china.progress[t.id]>t.required))return false;

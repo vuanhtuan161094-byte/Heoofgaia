@@ -18,6 +18,24 @@ const HERO_SPELLS={
          {id:'soul_boost',name:'Soul Boost',desc:'Tăng HP toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
          {id:'reincarnation',name:'Reincarnation',desc:'Kỹ năng Castellan pre-Babel: giảm thời gian hồi phục thương binh 1% mỗi cấp khi tướng được bổ nhiệm thủ thành. Bằng chứng cộng đồng C.',kind:'castellan'}]
 };
+// Dated China 2009 combat-skill subset from Sina's four race tables (2009-08-24).
+// Movement and passive-economy/experience skills are intentionally not presented
+// as usable here; their mechanics need separate implementation and verification.
+const HERO_SPELLS_CHINA_2009={
+ human:[{id:'leadership',name:'Thân tiên sĩ tốt',sourceName:'身先士卒',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+        {id:'hold_the_line_cn',name:'Kiên thủ trận địa',sourceName:'坚守阵地',desc:'Tăng DEF toàn quân +5%/cấp',affects:'ally',stat:'def',kind:'all',delta:.05},
+        {id:'struggle',name:'Lưng tựa chiến tuyến',sourceName:'背水一战',desc:'Tăng HP tối đa toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
+        {id:'rain_arrows',name:'Tề xạ',sourceName:'齐射',desc:'Tăng ATK quân bắn xa +1,5%/cấp',affects:'ally',stat:'atk',kind:'ranged',delta:.015}],
+ elf:[{id:'natures_wrath',name:'Sức mạnh tự nhiên',sourceName:'自然之力',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+      {id:'fountain_life',name:'Nguồn sống',sourceName:'生命之源',desc:'Tăng HP tối đa toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01},
+      {id:'hawkeye',name:'Bách bộ xuyên dương',sourceName:'百步穿杨',desc:'Tăng ATK quân bắn xa +1,5%/cấp',affects:'ally',stat:'atk',kind:'ranged',delta:.015}],
+ orc:[{id:'harden_bones',name:'Cường hóa xương cốt',sourceName:'经骨强化',desc:'Tăng DEF toàn quân +2%/cấp',affects:'ally',stat:'def',kind:'all',delta:.02},
+      {id:'berserk',name:'Cuồng bạo',sourceName:'狂暴',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+      {id:'roar',name:'Nộ hống',sourceName:'怒号',desc:'Giảm DEF toàn quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02}],
+ undead:[{id:'curse',name:'Nguyền rủa',sourceName:'诅咒术',desc:'Giảm ATK toàn quân địch -2%/cấp',affects:'enemy',stat:'atk',kind:'all',delta:-.02},
+         {id:'necromancy',name:'Vu thuật vong linh',sourceName:'亡灵巫术',desc:'Giảm DEF toàn quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02},
+         {id:'soul_boost',name:'Khuếch đại linh lực',sourceName:'灵力增幅',desc:'Tăng HP tối đa toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01}]
+};
 const ITEMS={
  copper_blade:{id:'copper_blade',name:'Kiếm đồng hành trình',slot:'weapon',icon:'⚔',atk:3,def:0,spd:0,cost:450,level:1},
  ash_bow:{id:'ash_bow',name:'Cung tần bì',slot:'weapon',icon:'🏹',atk:4,def:0,spd:1,cost:650,level:2},
@@ -33,6 +51,8 @@ const QUESTS=[
  {id:'first_npc',name:'Dọn sạch đường thương',desc:'Đánh bại một trại quái',reward:{gold:850,sulfur:75,crystal:75},fame:25,ready:s=>s.cleared.length>=1}
 ];
 function ensure(s){
+ if(s.spellEdition===undefined)s.spellEdition='international';
+ if(!['international','china2009'].includes(s.spellEdition))throw Error('Bộ phép trong save không hợp lệ');
  if(!s.heroMagic||typeof s.heroMagic!=='object')s.heroMagic={};
  if(!Array.isArray(s.inventory))s.inventory=[];
  if(!s.equipment||typeof s.equipment!=='object')s.equipment={};
@@ -43,7 +63,7 @@ function ensure(s){
  for(const h of s.heroes){if(!Array.isArray(h.equippedSpells))h.equippedSpells=[];if(!s.equipment[h.id])s.equipment[h.id]={};}
  return s;
 }
-function spells(s){return HERO_SPELLS[s.race]}
+function spells(s){return s.spellEdition==='china2009'?HERO_SPELLS_CHINA_2009[s.race]:HERO_SPELLS[s.race]}
 function spell(s,id){return spells(s).find(x=>x.id===id)}
 function spellCost(s,id){const t=spell(s,id);if(!t)throw Error('Phép không thuộc chủng tộc');const level=s.heroMagic[id]||0;
  return {gold:300*(level+1),wood:30*(level+1),ore:30*(level+1),sulfur:25*(level+1),crystal:25*(level+1)};
@@ -124,8 +144,8 @@ E.upgradeSaveV03=(old)=>{if(!old||old.version!==3||!E.C.races[old.race])throw Er
 E.upgradeSaveV02=(old)=>{const s=rawUpgradeSaveV02(old);s.version=4;E.note(s,'Chuyển save HG-02 sang HG-04.');return ensure(s)};
 C.buildings.market.state='observed';C.buildings.market.desc='Bán tài nguyên lấy vàng; tỷ giá mô phỏng. Không dùng vàng mua tài nguyên.';
 C.buildings.bazaar.state='observed';C.buildings.bazaar.desc='Mua trang bị tướng, cấp Bazaar mở vật phẩm (giá demo).';
-Object.assign(E,{SAVE_KEY:'heoofgaia_hg_only_v04',PREV_SAVE_KEY:'heoofgaia_hg_only_v03',HERO_SPELLS,ITEMS,QUESTS,ensure,spells,spell,heroSpellCost:spellCost,researchHeroSpell,equipSpell,addItem,buyItem,equipItem,unequipItem,heroStats,sell,claim,cast,resetEffects});
-root.HOG_HG04={HERO_SPELLS,ITEMS,QUESTS};
+Object.assign(E,{SAVE_KEY:'heoofgaia_hg_only_v04',PREV_SAVE_KEY:'heoofgaia_hg_only_v03',HERO_SPELLS,HERO_SPELLS_CHINA_2009,ITEMS,QUESTS,ensure,spells,spell,heroSpellCost:spellCost,researchHeroSpell,equipSpell,addItem,buyItem,equipItem,unequipItem,heroStats,sell,claim,cast,resetEffects});
+root.HOG_HG04={HERO_SPELLS,HERO_SPELLS_CHINA_2009,ITEMS,QUESTS};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 
