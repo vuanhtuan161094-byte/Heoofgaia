@@ -9,7 +9,7 @@ assert.equal(grid.cols,12);assert.equal(grid.rows,9);
 let checks=0;
 for(let x=0;x<grid.cols;x++)for(let y=0;y<grid.rows;y++){
  const px=dims.width*(.255+(x+.5)*.057-(y+.5)*.023);
- const py=dims.height*(.17+(x+.5)*.020+(y+.5)*.061);
+ const py=dims.height*(.24+(x+.5)*.018+(y+.5)*.054);
  assert.deepEqual(P.battleCellAt(dims,px,py,E),{x,y},"project inverse "+x+","+y);checks++;
 }
 assert.equal(P.battleCellAt(dims,-10,-10,E),null);checks++;
@@ -25,7 +25,7 @@ P.drawBattle(canvas,E,state);
 assert.ok(drawCalls>300,"draw count "+drawCalls);checks++;
 for(const unit of [...state.battle.allies,...state.battle.enemies].filter(u=>u.pool>0)){
  const px=dims.width*(.255+(unit.x+.5)*.057-(unit.y+.76)*.023);
- const py=dims.height*(.17+(unit.x+.5)*.020+(unit.y+.76)*.061);
+ const py=dims.height*(.24+(unit.x+.5)*.018+(unit.y+.76)*.054);
  assert.equal(P.battleHit(canvas,px,py,E,state)?.id,unit.id,"unit hit "+unit.id);checks++;
 }
 const app=fs.readFileSync("app.js","utf8"),css=fs.readFileSync("style-hg03.css","utf8");

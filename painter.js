@@ -237,7 +237,7 @@ function animatedSoldier(c,x,y,enemy,visual){
 // The battlefield camera projects those squares onto an oblique 2.5D plane.
 function battleProjection(canvas,E){
  const g=E.BATTLE_GRID||{cols:12,rows:9},w=canvas.width,h=canvas.height;
- const origin={x:w*.255,y:h*.17},col={x:w*.057,y:h*.020},row={x:-w*.023,y:h*.061};
+ const origin={x:w*.255,y:h*.24},col={x:w*.057,y:h*.018},row={x:-w*.023,y:h*.054};
  const det=col.x*row.y-col.y*row.x;
  const point=(x,y)=>({x:origin.x+x*col.x+y*row.x,y:origin.y+x*col.y+y*row.y});
  const cellAt=(px,py)=>{

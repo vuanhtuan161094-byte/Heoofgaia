@@ -42,7 +42,7 @@ with sync_playwright() as p:
     state=page.evaluate("""() => {
       const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),cmd=document.querySelector('.command-bar'),q=cmd.getBoundingClientRect();
       const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,p=HOG_PAINTER;
-      const x=5,y=4,px=c.width*(.255+(x+.5)*.057-(y+.5)*.023),py=c.height*(.17+(x+.5)*.020+(y+.5)*.061);
+      const x=5,y=4,px=c.width*(.255+(x+.5)*.057-(y+.5)*.023),py=c.height*(.24+(x+.5)*.018+(y+.5)*.054);
       return {inBattle:!!s.battle,combatMode:document.body.classList.contains('combat-mode'),
         width:r.width,height:r.height,vw:innerWidth,vh:innerHeight,
         sidebarHidden:getComputedStyle(document.querySelector('.sidebar')).display==='none',
@@ -66,7 +66,7 @@ with sync_playwright() as p:
     page.screenshot(path=str(desktop),full_page=False)
     enemy=page.evaluate("""() => {
       const b=HOG_APP_DEBUG.getState().battle,u=b.enemies.find(q=>q.pool>0),c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();
-      const x=c.width*(.255+(u.x+.5)*.057-(u.y+.76)*.023),y=c.height*(.17+(u.x+.5)*.020+(u.y+.76)*.061);
+      const x=c.width*(.255+(u.x+.5)*.057-(u.y+.76)*.023),y=c.height*(.24+(u.x+.5)*.018+(u.y+.76)*.054);
       return {id:u.id,x:r.left+x/c.width*r.width,y:r.top+y/c.height*r.height};
     }""")
     before_click=page.evaluate("""({x,y,id}) => {
