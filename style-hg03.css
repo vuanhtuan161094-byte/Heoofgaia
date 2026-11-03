@@ -103,3 +103,5 @@ body.combat-mode .battle-receipts{margin-top:6px}
 body.combat-mode .combat-journal{max-height:75px;overflow:auto}
 @media(max-width:800px){body.combat-mode #app{padding:0 3px}body.combat-mode .scene-tools .tag{font-size:9px}body.combat-mode .scene-title{flex-wrap:wrap}body.combat-mode .battle-frame canvas{height:min(67dvh,680px)}body.combat-mode .command-bar>div{width:100%;margin:0}body.combat-mode .command-bar button{font-size:11px;padding:5px 7px}body.combat-mode .stack-card{flex-basis:106px}}
 @media(max-height:620px) and (orientation:landscape){body.combat-mode .scene-title{min-height:35px}body.combat-mode .battle-frame canvas{height:65dvh}body.combat-mode .stack-card{min-height:35px}}
+
+body.combat-mode .scene-tools button[data-action="save-combat"]{font-size:12px;padding:5px 10px;border-color:#dfbe77;background:linear-gradient(#4f615e,#233b42);color:#ffe7b2;min-height:32px}

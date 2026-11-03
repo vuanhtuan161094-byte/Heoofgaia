@@ -1,0 +1,90 @@
+"""Real file:// Chromium acceptance for the HG-09 oblique square-grid battle viewport."""
+from pathlib import Path
+import hashlib, json, sys
+from playwright.sync_api import sync_playwright
+
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+ROOT=Path(__file__).resolve().parent
+HTML=ROOT/"Play-Heoofgaia-HG11.html"
+SHOTDIR=ROOT/"docs"/"evidence"/"hg09"
+QADIR=ROOT/"docs"/"qa"/"hg09"
+SHOTDIR.mkdir(parents=True,exist_ok=True)
+QADIR.mkdir(parents=True,exist_ok=True)
+results=[]
+errors=[]
+def check(label,condition):
+    passed=bool(condition)
+    results.append({"name":label,"passed":passed})
+    print(("PASS " if passed else "FAIL ")+label,flush=True)
+
+with sync_playwright() as p:
+    browser=p.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
+    page=browser.new_page(viewport={"width":1280,"height":720},device_scale_factor=1)
+    page.set_default_timeout(10000)
+    page.on("pageerror",lambda e: errors.append(str(e)))
+    page.goto(HTML.as_uri(),wait_until="load")
+    page.locator('[data-action="start"]').click()
+    page.locator('#nav [data-tab="map"]').click()
+    point=page.evaluate("""() => {
+      const c=document.querySelector('#world-canvas'),r=c.getBoundingClientRect(),m=HOG_PAINTER.miniBounds(c),pad=9;
+      return {x:r.left+(m.x+pad+6.5*(m.w-2*pad)/100)/c.width*r.width,
+              y:r.top+(m.y+pad+3.5*(m.h-2*pad)/100)/c.height*r.height};
+    }""")
+    page.mouse.click(point["x"],point["y"])
+    page.locator('[data-action="march"]').click()
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      HOG_ENGINE.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
+      HOG_APP_DEBUG.render();
+    }""")
+    page.locator("#battle-canvas").wait_for(state="visible")
+    state=page.evaluate("""() => {
+      const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),cmd=document.querySelector('.command-bar'),q=cmd.getBoundingClientRect();
+      const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,p=HOG_PAINTER;
+      const x=5,y=4,px=c.width*(.255+(x+.5)*.057-(y+.5)*.023),py=c.height*(.17+(x+.5)*.020+(y+.5)*.061);
+      return {inBattle:!!s.battle,combatMode:document.body.classList.contains('combat-mode'),
+        width:r.width,height:r.height,vw:innerWidth,vh:innerHeight,
+        sidebarHidden:getComputedStyle(document.querySelector('.sidebar')).display==='none',
+        navHidden:getComputedStyle(document.querySelector('#nav')).display==='none',
+        commandVisible:q.top<innerHeight-10&&q.bottom>0,grid:E.BATTLE_GRID,
+        projectedCell:p.battleCellAt(c,px,py,E),scrollWidth:document.documentElement.scrollWidth};
+    }""")
+    check("Actual NPC March reaches combat",state["inBattle"])
+    check("Battle-only viewport mode activates",state["combatMode"] and state["sidebarHidden"] and state["navHidden"])
+    check("Battle canvas uses at least 90 percent of desktop width",state["width"]>=state["vw"]*.90)
+    check("Battle canvas uses at least 60 percent of desktop height",state["height"]>=state["vh"]*.60)
+    check("Commands are present in the initial viewport",state["commandVisible"])
+    check("Perspective retains square logical 12 by 9 cells",state["grid"]["cols"]==12 and state["grid"]["rows"]==9 and state["projectedCell"]=={"x":5,"y":4})
+    check("No horizontal desktop overflow",state["scrollWidth"]<=state["vw"]+1)
+    desktop=SHOTDIR/"fullscreen-combat-desktop-chrome.png"
+    page.screenshot(path=str(desktop),full_page=False)
+    enemy=page.evaluate("""() => {
+      const b=HOG_APP_DEBUG.getState().battle,u=b.enemies.find(q=>q.pool>0),c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();
+      const x=c.width*(.255+(u.x+.5)*.057-(u.y+.76)*.023),y=c.height*(.17+(u.x+.5)*.020+(u.y+.76)*.061);
+      return {id:u.id,x:r.left+x/c.width*r.width,y:r.top+y/c.height*r.height};
+    }""")
+    page.mouse.click(enemy["x"],enemy["y"])
+    check("Real projected canvas click selects enemy unit",page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==enemy["id"])
+    page.locator('[data-action="save-combat"]').click()
+    check("Visible combat Save writes v07 state",bool(page.evaluate("localStorage.getItem('heoofgaia_hg_only_v07')")))
+    page.reload(wait_until="load")
+    check("Reload restores in-progress battle and viewport mode",page.evaluate("!!HOG_APP_DEBUG.getState()?.battle && document.body.classList.contains('combat-mode')"))
+    page.set_viewport_size({"width":960,"height":540})
+    page.evaluate("HOG_APP_DEBUG.render()")
+    mobile=page.evaluate("""() => {
+      const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),bar=document.querySelector('.command-bar').getBoundingClientRect();
+      return {width:r.width,vw:innerWidth,scrollWidth:document.documentElement.scrollWidth,sidebar:getComputedStyle(document.querySelector('.sidebar')).display,barY:bar.y};
+    }""")
+    check("Landscape 960 by 540 remains wide with hidden sidebar",mobile["width"]>=mobile["vw"]*.90 and mobile["sidebar"]=="none")
+    check("Landscape viewport has no horizontal overflow",mobile["scrollWidth"]<=mobile["vw"]+1)
+    landscape=SHOTDIR/"fullscreen-combat-landscape-chrome.png"
+    page.screenshot(path=str(landscape),full_page=False)
+    check("No JavaScript runtime errors",len(errors)==0)
+    browser.close()
+report={"htmlSha256":hashlib.sha256(HTML.read_bytes()).hexdigest().upper(),
+        "passed":sum(r["passed"] for r in results),"total":len(results),"checks":results,
+        "desktop":state,"landscape":mobile,"errors":errors,"screenshots":[str(desktop.relative_to(ROOT)),str(landscape.relative_to(ROOT))]}
+(QADIR/"fullscreen-combat-chrome.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
+print("HG09 Chrome viewport:",report["passed"],"/",report["total"],"PASS",flush=True)
+raise SystemExit(0 if report["passed"]==report["total"] else 1)
