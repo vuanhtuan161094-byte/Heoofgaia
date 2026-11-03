@@ -113,7 +113,8 @@ with sync_playwright() as playwright:
     check("Actual map click selects the dated nearby NPC", point["target"]["kind"] == "npc" and "Wolves" in selected, selected)
 
     page.evaluate("""(()=>{const proto=CanvasRenderingContext2D.prototype,draw=proto.drawImage;
-      window.__heavyAnimationSamples=[];window.__heavyDeathFrameData=null;window.__heavyDeathCapturePending=false;proto.drawImage=function(image,...args){
+      window.__heavyAnimationSamples=[];window.__heavyDeathFrameData=null;window.__heavyDeathCapturePending=false;window.__battlefieldDraws=0;proto.drawImage=function(image,...args){
+        if(image?.id==='battlefield-human-meadow')window.__battlefieldDraws++;
         if(image?.id?.startsWith('unit-human-heavy-')&&args.length>=8){const tr=this.getTransform();
           window.__heavyAnimationSamples.push({id:image.id,sx:args[0],sy:args[1],flip:tr.a<0,x:tr.e,y:tr.f,at:performance.now()})}
         if(image?.id==='unit-human-heavy-death'&&!window.__heavyDeathFrameData&&!window.__heavyDeathCapturePending){const canvas=this.canvas;window.__heavyDeathCapturePending=true;
@@ -131,10 +132,11 @@ with sync_playwright() as playwright:
     initial = page.evaluate("""(()=>{const s=HOG_APP_DEBUG.getState(),b=s.battle;return {battle:!!b,turn:b?.turn,
       allies:b?.allies?.map(u=>({id:u.id,unitId:u.unitId,count:u.count,x:u.x,y:u.y,pool:u.pool})),
       atlasIds:['idle','walk','attack','hit','death'].map(a=>{const i=document.getElementById('unit-human-heavy-'+a);return [i?.complete,i?.naturalWidth,i?.naturalHeight]}),
+      battlefield:(()=>{const i=document.getElementById('battlefield-human-meadow');return {loaded:i?.complete,width:i?.naturalWidth,height:i?.naturalHeight,draws:window.__battlefieldDraws||0}})(),
       saveVersion:s.version,saveKey:localStorage.getItem('heoofgaia_hg_only_v07')!==null}})()""")
     check("Natural travel arrival opens a live battle with the UI-recruited Heavy Soldier", initial["battle"] and
           sum(u["unitId"] == "human_4" for u in initial["allies"]) == 1, json.dumps(initial, ensure_ascii=False))
-    check("All five actual action atlases load into the offline browser", all(x[0] is True and x[1] == 2048 and x[2] == (256 if i == 3 else 512) for i,x in enumerate(initial["atlasIds"])))
+    check("All five action atlases and the 1176×550 battlefield background load and draw offline", all(x[0] is True and x[1] == 2048 and x[2] == (256 if i == 3 else 512) for i,x in enumerate(initial["atlasIds"])) and initial["battlefield"]["loaded"] and initial["battlefield"]["width"] == 1176 and initial["battlefield"]["height"] == 550 and initial["battlefield"]["draws"] > 0, json.dumps(initial["battlefield"], ensure_ascii=False))
 
     page.evaluate("""(()=>{const s=HOG_APP_DEBUG.getState(),b=s.battle;
       // Defender-only durability/position adjustment keeps the actual engine

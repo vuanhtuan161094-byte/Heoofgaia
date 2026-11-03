@@ -41,6 +41,14 @@ const heavyIntegrated = !!heavyManifest && !!heavyReceipt && heavyManifest.statu
   heavyManifest.integration?.standaloneHtml?.allFiveAtlasesEmbedded === true && heavyReceipt.failed === 0 && heavyReceipt.passed === 20 && heavyReceipt.total === 20 &&
   heavyManifest.integration.screenshots?.length === 4 && heavyManifest.integration.screenshots.every(s =>
     fs.existsSync(path.join(root, s.projectPath)) && fs.statSync(path.join(root, s.projectPath)).size === s.bytes);
+const battlefieldManifestPath = path.join(root, 'assets/generated/hg11/battlefield/asset-manifest.json');
+let battlefieldManifest = null;
+try { battlefieldManifest = JSON.parse(fs.readFileSync(battlefieldManifestPath, 'utf8')); } catch {}
+const battlefieldReceipt = heavyReceipt;
+const battlefieldIntegrated = !!battlefieldManifest && !!battlefieldReceipt && battlefieldManifest.status === 'RECREATED' &&
+  battlefieldManifest.runtime?.resolution === '1176x550' && battlefieldManifest.integration?.offlineEmbedded === true &&
+  battlefieldManifest.integration?.focusedBrowserPass === true && battlefieldReceipt.failed === 0 && battlefieldReceipt.passed === 20 && battlefieldReceipt.total === 20 &&
+  battlefieldManifest.integration?.screenshot?.projectPath && fs.existsSync(path.join(root, battlefieldManifest.integration.screenshot.projectPath));
 const offlinePath = path.join(root, 'Play-Heoofgaia-HG11.html');
 const bundle = fs.existsSync(offlinePath) ? fs.readFileSync(offlinePath, 'utf8') : '';
 const embeddedRuntimePaths = [
@@ -50,7 +58,7 @@ const embeddedRuntimePaths = [
   'assets/generated/hg11/units/undead-skeleton.png', 'assets/generated/hg11/buildings/human-barracks.png',
   'assets/licensed/kaykit-heavy-soldier/rendered/idle.png', 'assets/licensed/kaykit-heavy-soldier/rendered/walk.png',
   'assets/licensed/kaykit-heavy-soldier/rendered/attack.png', 'assets/licensed/kaykit-heavy-soldier/rendered/hit.png',
-  'assets/licensed/kaykit-heavy-soldier/rendered/death.png'
+  'assets/licensed/kaykit-heavy-soldier/rendered/death.png', 'assets/generated/hg11/battlefield/human-meadow-1176x550.png'
 ];
 const embeddedAssets = embeddedRuntimePaths.every(p => bundle.includes(`src="data:image/png;base64,${fs.readFileSync(path.join(root, p)).toString('base64')}"`)) &&
   (bundle.match(/data:image\/png;base64,/g) || []).length === embeddedRuntimePaths.length;
@@ -107,7 +115,7 @@ const manifest = {
   schema: 'hog1-asset-manifest-v1',
   project: 'Hẻoofgaia / Heroes of Gaia 1 reconstruction',
   createdAt: new Date().toISOString(),
-  target: 'HG-11 four-faction scenic city art, Human Barracks detail asset and one animated Human Heavy Soldier',
+  target: 'HG-11 four-faction scenic city art, Human Barracks detail, Human Meadow battlefield and one animated Human Heavy Soldier',
   copyrightStatus: 'RECREATED; not extracted or verified original commercial art',
   referenceOnly: [
     'https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml',
@@ -123,9 +131,15 @@ const manifest = {
     browserAcceptance: browserReport ? `${browserReport.passed}/${browserReport.passed + browserReport.failed} checks; ${browserReport.failed ? 'FAIL' : 'PASS'}` : 'PENDING',
     fullGameRegression: nodeRegression ? `PASS: ${nodeReport.suitePassed}/${nodeReport.suiteTotal} Node engine regression` : 'PENDING',
     independentBuildingAssets: buildingIntegrated ? 'PASS: Human Barracks detail and real paid v07 construction; static art, no animation' : 'PENDING',
-    animatedTroopAssets: heavyIntegrated ? 'PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks' : 'PENDING'
+    animatedTroopAssets: heavyIntegrated ? 'PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks' : 'PENDING',
+    battlefieldBackground: battlefieldIntegrated ? 'PASS: independently generated 1176×550 meadow background is drawn under the real tactical grid in offline Chrome' : 'PENDING'
   },
   assets,
+  battlefieldAssets: battlefieldIntegrated ? [{
+    assetId: battlefieldManifest.assetId, status: battlefieldManifest.status, provider: battlefieldManifest.provider,
+    runtime: battlefieldManifest.runtime, manifest: 'assets/generated/hg11/battlefield/asset-manifest.json',
+    screenshot: battlefieldManifest.integration.screenshot
+  }] : [],
   animatedTroopAssets: heavyIntegrated ? [{
     assetId: heavyManifest.assetId, unitId: heavyManifest.target.unitId, faction: heavyManifest.target.faction,
     status: heavyManifest.status, sourceLicense: heavyManifest.source.license, sourceCommit: heavyManifest.source.commit,

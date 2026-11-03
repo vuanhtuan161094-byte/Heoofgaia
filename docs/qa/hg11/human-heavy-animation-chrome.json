@@ -53,17 +53,17 @@
     {
       "name": "Actual March dispatch spends AP and carries the formed Heavy Soldier stack",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_1\", \"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 95.75475}"
+      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_1\", \"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 95.8465}"
     },
     {
       "name": "Natural travel arrival opens a live battle with the UI-recruited Heavy Soldier",
       "passed": true,
-      "detail": "{\"battle\": true, \"turn\": 1, \"allies\": [{\"id\": \"p0\", \"unitId\": \"human_1\", \"count\": 15, \"x\": 1, \"y\": 0, \"pool\": 600}, {\"id\": \"p1\", \"unitId\": \"human_4\", \"count\": 1, \"x\": 1, \"y\": 2, \"pool\": 81}, {\"id\": \"p2\", \"unitId\": \"human_1\", \"count\": 1, \"x\": 1, \"y\": 5, \"pool\": 40}], \"atlasIds\": [[true, 2048, 512], [true, 2048, 512], [true, 2048, 512], [true, 2048, 256], [true, 2048, 512]], \"saveVersion\": 7, \"saveKey\": true}"
+      "detail": "{\"battle\": true, \"turn\": 1, \"allies\": [{\"id\": \"p0\", \"unitId\": \"human_1\", \"count\": 15, \"x\": 1, \"y\": 0, \"pool\": 600}, {\"id\": \"p1\", \"unitId\": \"human_4\", \"count\": 1, \"x\": 1, \"y\": 2, \"pool\": 81}, {\"id\": \"p2\", \"unitId\": \"human_1\", \"count\": 1, \"x\": 1, \"y\": 5, \"pool\": 40}], \"atlasIds\": [[true, 2048, 512], [true, 2048, 512], [true, 2048, 512], [true, 2048, 256], [true, 2048, 512]], \"battlefield\": {\"loaded\": true, \"width\": 1176, \"height\": 550, \"draws\": 3}, \"saveVersion\": 7, \"saveKey\": true}"
     },
     {
-      "name": "All five actual action atlases load into the offline browser",
+      "name": "All five action atlases and the 1176×550 battlefield background load and draw offline",
       "passed": true,
-      "detail": ""
+      "detail": "{\"loaded\": true, \"width\": 1176, \"height\": 550, \"draws\": 3}"
     },
     {
       "name": "Real Attack controls drive both a recorded Heavy Soldier route and actual damage",
@@ -73,7 +73,7 @@
     {
       "name": "Live 30 FPS battle canvas samples distinct idle, walk and attack atlas frames",
       "passed": true,
-      "detail": "{\"samples\": 96, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"idle\": 9, \"attack\": 11, \"walk\": 12}}"
+      "detail": "{\"samples\": 96, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"attack\": 11, \"walk\": 13, \"idle\": 10}}"
     },
     {
       "name": "Actual Stand By turn receives engine-recorded damage on Heavy Soldier p1",
@@ -83,7 +83,7 @@
     {
       "name": "Received-damage playback samples multiple real Hit_A atlas frames",
       "passed": true,
-      "detail": "{\"distinctFrames\": 4, \"totalSamples\": 121}"
+      "detail": "{\"distinctFrames\": 4, \"totalSamples\": 123}"
     },
     {
       "name": "Actual defender attack kills Heavy Soldier p1 while militia keeps battle active",
@@ -93,7 +93,7 @@
     {
       "name": "Dead-stack playback samples the actual Death_A atlas while battle remains active",
       "passed": true,
-      "detail": "{\"distinctFrames\": 6, \"totalSamples\": 140}"
+      "detail": "{\"distinctFrames\": 6, \"totalSamples\": 142}"
     },
     {
       "name": "v07 Save/Reload preserves the actual death result, prior battle receipts and atlases",
@@ -542,6 +542,12 @@
         512
       ]
     ],
+    "battlefield": {
+      "loaded": true,
+      "width": 1176,
+      "height": 550,
+      "draws": 3
+    },
     "saveVersion": 7,
     "saveKey": true
   },
@@ -574,13 +580,13 @@
       "walk"
     ],
     "distinctFramesByAction": {
-      "idle": 9,
       "attack": 11,
-      "walk": 12
+      "walk": 13,
+      "idle": 10
     },
     "hitFrames": 4,
     "deathFrames": 6,
-    "totalLiveCanvasSamples": 140
+    "totalLiveCanvasSamples": 142
   },
   "enemyRendererCheck": {
     "available": true,
@@ -593,13 +599,13 @@
   },
   "artifacts": {
     "human-heavy-soldier-battle-live-chrome.png": {
-      "sha256": "86C9AA953A3DCCDF4C6BC21A0FB87197E2C0B477CFFE4F896AD84070B8295CC9",
-      "bytes": 480123,
+      "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
+      "bytes": 1252116,
       "resolution": "1440x1408"
     },
     "human-heavy-soldier-death-frame-chrome.png": {
-      "sha256": "DA1C0D47D551B720468B50E6FED749C516E9F680C9B09424F6737BF76CA4D905",
-      "bytes": 107460,
+      "sha256": "6346CBA25FFE78F3CAA45379DFC6AE4A06C57F927A790438CF4535713ADB9B8B",
+      "bytes": 1485890,
       "resolution": "1176x550"
     }
   }

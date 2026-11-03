@@ -36,6 +36,12 @@ for action in ['idle','walk','attack','hit','death']:
     assert html.count(needle)==1,(asset,html.count(needle))
     html=html.replace(needle,f'src="data:image/png;base64,{base64.b64encode((folder/asset).read_bytes()).decode("ascii")}"')
 assert 'assets/licensed/kaykit-heavy-soldier/rendered/' not in html
+battlefield_asset='assets/generated/hg11/battlefield/human-meadow-1176x550.png'
+needle=f'src="{battlefield_asset}"'
+assert html.count(needle)==1,(battlefield_asset,html.count(needle))
+data=base64.b64encode((folder/battlefield_asset).read_bytes()).decode('ascii')
+html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+assert 'assets/generated/hg11/battlefield/' not in html
 assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html

@@ -1,8 +1,8 @@
 {
   "schema": "hog1-asset-manifest-v1",
   "project": "Hẻoofgaia / Heroes of Gaia 1 reconstruction",
-  "createdAt": "2026-11-03T04:28:59.864Z",
-  "target": "HG-11 four-faction scenic city art, Human Barracks detail asset and one animated Human Heavy Soldier",
+  "createdAt": "2026-11-03T04:48:16.063Z",
+  "target": "HG-11 four-faction scenic city art, Human Barracks detail, Human Meadow battlefield and one animated Human Heavy Soldier",
   "copyrightStatus": "RECREATED; not extracted or verified original commercial art",
   "referenceOnly": [
     "https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml",
@@ -29,7 +29,8 @@
     "browserAcceptance": "48/48 checks; PASS",
     "fullGameRegression": "PASS: 172/172 Node engine regression",
     "independentBuildingAssets": "PASS: Human Barracks detail and real paid v07 construction; static art, no animation",
-    "animatedTroopAssets": "PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks"
+    "animatedTroopAssets": "PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks",
+    "battlefieldBackground": "PASS: independently generated 1176×550 meadow background is drawn under the real tactical grid in offline Chrome"
   },
   "assets": [
     {
@@ -182,6 +183,36 @@
         "exactHistoricalParityClaimed": false,
         "sceneIsFlattened": true,
         "hotspotIntegration": "PASS: 12 real actions per faction in Chrome"
+      }
+    }
+  ],
+  "battlefieldAssets": [
+    {
+      "assetId": "HOG1-HG11-BATTLEFIELD-HUMAN-MEADOW-V1",
+      "status": "RECREATED",
+      "provider": "ChatGPT image_gen.imagegen",
+      "runtime": {
+        "projectPath": "assets/generated/hg11/battlefield/human-meadow-1176x550.png",
+        "resolution": "1176x550",
+        "bytes": 1461603,
+        "sha256": "2D70E2DFA60C88CF14445AD7892130F9A8F3D32D91E4F9F76B8675E15A70098A",
+        "pngColorType": 2,
+        "alpha": "opaque RGB24; PNG color type 2",
+        "cropAndResize": {
+          "tool": "tools/build-human-meadow-battlefield.ps1",
+          "sourceCrop": "x=0, y=8, width=1817, height=850",
+          "destinationPixels": "1176x550",
+          "interpolation": "HighQualityBicubic"
+        },
+        "sampledUniqueRgb": 4791
+      },
+      "manifest": "assets/generated/hg11/battlefield/asset-manifest.json",
+      "screenshot": {
+        "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
+        "resolution": "1440x1408",
+        "bytes": 1252116,
+        "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
+        "pngColorType": 2
       }
     }
   ],

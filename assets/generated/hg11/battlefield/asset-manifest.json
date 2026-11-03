@@ -1,0 +1,70 @@
+{
+  "schema": "hog1-asset-manifest-v1",
+  "assetId": "HOG1-HG11-BATTLEFIELD-HUMAN-MEADOW-V1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "createdAtUtc": "2026-11-03T04:48:14.849171+00:00",
+  "target": {
+    "stage": "HG-11",
+    "screen": "tactical battle canvas",
+    "backgroundId": "human-meadow-v1"
+  },
+  "status": "RECREATED",
+  "provider": "ChatGPT image_gen.imagegen",
+  "generationOutputId": "exec-bd3c4dfc-6dca-44c4-a199-e8f4d2e40a5d",
+  "generationPrompt": "assets/generated/hg11/battlefield/prompt.txt",
+  "promptSha256": "DE45F06423D098C4872B10C0FCB87A6B8F5D37579460D1001CEAEBC50BEA2083",
+  "sourceRoute": "Generated from text only with no Heroes of Gaia screenshot or original art as image input; saved master is included in repository.",
+  "historicalVisualParity": "UNVERIFIED; this is a new modern fantasy scene, not original HOG art.",
+  "source": {
+    "projectPath": "assets/generated/hg11/battlefield/source/human-meadow-master.png",
+    "resolution": "1817x866",
+    "bytes": 2589282,
+    "sha256": "4C0089E5D4939E9A4FA4AE9BF7A8EECCBF2DF786B42832CB1DDA01FA8E53A806",
+    "pngColorType": 2,
+    "providerDefaultOutputPath": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-bd3c4dfc-6dca-44c4-a199-e8f4d2e40a5d.png"
+  },
+  "runtime": {
+    "projectPath": "assets/generated/hg11/battlefield/human-meadow-1176x550.png",
+    "resolution": "1176x550",
+    "bytes": 1461603,
+    "sha256": "2D70E2DFA60C88CF14445AD7892130F9A8F3D32D91E4F9F76B8675E15A70098A",
+    "pngColorType": 2,
+    "alpha": "opaque RGB24; PNG color type 2",
+    "cropAndResize": {
+      "tool": "tools/build-human-meadow-battlefield.ps1",
+      "sourceCrop": "x=0, y=8, width=1817, height=850",
+      "destinationPixels": "1176x550",
+      "interpolation": "HighQualityBicubic"
+    },
+    "sampledUniqueRgb": 4791
+  },
+  "integration": {
+    "canvas": "#battle-canvas 1176×550",
+    "grid": "Engine-owned 12×9 BATTLE_GRID remains overlaid and traversability is unchanged.",
+    "drawPath": "painter.js drawBattle uses the meadow image; the pre-existing procedural background is retained only as an image-load fallback.",
+    "offlineEmbedded": true,
+    "bundle": {
+      "projectPath": "Play-Heoofgaia-HG11.html",
+      "bytes": 15139640,
+      "sha256": "37D380F1EB4F338F48DFF89D61B639B2CED7A8A21E2C01C6F18201385BF3C724",
+      "runtimePngCount": 16
+    },
+    "nodeRegression": {
+      "passed": 172,
+      "total": 172,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "focusedBrowserReceipt": "docs/qa/hg11/human-heavy-animation-chrome.json",
+    "focusedBrowserCheck": "All five action atlases and the 1176×550 battlefield background load and draw offline",
+    "focusedBrowserPass": true,
+    "screenshot": {
+      "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
+      "resolution": "1440x1408",
+      "bytes": 1252116,
+      "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
+      "pngColorType": 2
+    }
+  },
+  "scope": "One flattened static background only. It creates no collision, obstacles, pathfinding, terrain modifiers, layers, animations or gameplay rules."
+}

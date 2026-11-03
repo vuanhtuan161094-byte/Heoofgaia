@@ -13,7 +13,7 @@ Target: `human_4`, Human Heavy Soldier (SRC02 community unit roster).
 - The exporter loads actual animation clips from the rigged GLB, attaches the sword and shield to hand slots, and bakes them with a fixed three-quarter camera into transparent 256×256 cells.
 - All 57 frame images have distinct hashes, non-empty alpha bounds and shared foot pivot `[148,216]`. The five atlases are Idle (13 frames), Walking_A (13), 1H_Melee_Attack_Chop (13), Hit_A (8), and Death_A (10). The metadata records source clip, duration, sample rate, times, alpha bounds, frame hashes and atlas hashes.
 - `engine.js` records the actual per-stack action path, target, damage and death receipt. `painter.js` maps actual move, attack, hit and death state to these clips; animation has no authority to alter damage or troop counts. Enemy display mirrors the art. Existing v07 saves are still accepted, including legacy battles without `lastEvents`.
-- `build_offline.py` embeds all five atlases. `Play-Heoofgaia-HG11.html` can be opened directly without fetching runtime images.
+- `build_offline.py` embeds all five atlases. `Play-Heoofgaia-HG11.html` can be opened directly without fetching runtime images; the battle scene also uses the independent Human Meadow background asset. The resulting standalone bundle embeds 16 runtime PNGs in total.
 
 ## Verification and limits
 

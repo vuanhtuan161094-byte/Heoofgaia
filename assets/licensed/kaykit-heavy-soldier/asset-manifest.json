@@ -2,7 +2,7 @@
   "schema": "hog1-asset-manifest-v1",
   "assetId": "HOG1-HG11-UNIT-HUMAN-HEAVY-SOLDIER-ANIM-V1",
   "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
-  "createdAtUtc": "2026-11-03T04:28:57.685423+00:00",
+  "createdAtUtc": "2026-11-03T04:48:15.508762+00:00",
   "target": {
     "stage": "HG-11",
     "unitId": "human_4",
@@ -1002,10 +1002,10 @@
     "gameplayEventSource": "engine.js writes per-stack movement, attack, received damage and death events; rendering observes receipts and does not alter battle state.",
     "standaloneHtml": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "bytes": 13190388,
-      "characters": 13177485,
-      "sha256": "4D7510E4E411685F8A72DCA5488F83F57B56A2BCCFD82F3EAF44DF5227ECFB09",
-      "embeddedRuntimePngCount": 15,
+      "bytes": 15139640,
+      "characters": 15126734,
+      "sha256": "37D380F1EB4F338F48DFF89D61B639B2CED7A8A21E2C01C6F18201385BF3C724",
+      "embeddedRuntimePngCount": 16,
       "allFiveAtlasesEmbedded": true
     },
     "saveSchema": "v07 unchanged; old saves without lastEvents remain accepted.",
@@ -1034,13 +1034,13 @@
           "walk"
         ],
         "distinctFramesByAction": {
-          "idle": 9,
           "attack": 11,
-          "walk": 12
+          "walk": 13,
+          "idle": 10
         },
         "hitFrames": 4,
         "deathFrames": 6,
-        "totalLiveCanvasSamples": 140
+        "totalLiveCanvasSamples": 142
       },
       "enemyRendererCheck": {
         "available": true,
@@ -1055,16 +1055,16 @@
     "screenshots": [
       {
         "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
-        "bytes": 480123,
+        "bytes": 1252116,
         "resolution": "1440x1408",
-        "sha256": "86C9AA953A3DCCDF4C6BC21A0FB87197E2C0B477CFFE4F896AD84070B8295CC9",
+        "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
         "role": "Focused-QA receipt capture"
       },
       {
         "projectPath": "docs/evidence/hg11/human-heavy-soldier-death-frame-chrome.png",
-        "bytes": 107460,
+        "bytes": 1485890,
         "resolution": "1176x550",
-        "sha256": "DA1C0D47D551B720468B50E6FED749C516E9F680C9B09424F6737BF76CA4D905",
+        "sha256": "6346CBA25FFE78F3CAA45379DFC6AE4A06C57F927A790438CF4535713ADB9B8B",
         "role": "Focused-QA receipt capture"
       },
       {

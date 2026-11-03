@@ -251,11 +251,13 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null)
  else{line(c,20,-17,34,-50,4,'#d8d0b0');line(c,28,-46,40,-46,4,'#bbb4a6')}
  c.restore();}
 function drawBattle(canvas,E,s,now=visualNow()){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
- const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#354a50');sky.addColorStop(.56,'#4e6659');sky.addColorStop(1,'#798060');c.fillStyle=sky;c.fillRect(0,0,w,h);
- for(let i=0;i<25;i++){const x=(i*79)%w;tree(c,x,142+random(i,4)*36,.95+random(i,6)*.6,'pine')}
- poly(c,[[0,196],[w,196],[w,h],[0,h]],'#766d56');for(let i=0;i<25;i++){const x=random(i,9)*w,y=210+random(i,8)*(h-220);line(c,x,y,x+19,y+8,2,'#c3b59050')}
+ const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
+ if(field?.complete&&field.naturalWidth===w&&field.naturalHeight===h)c.drawImage(field,0,0,w,h);
+ else{const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#354a50');sky.addColorStop(.56,'#4e6659');sky.addColorStop(1,'#798060');c.fillStyle=sky;c.fillRect(0,0,w,h);
+  for(let i=0;i<25;i++){const x=(i*79)%w;tree(c,x,142+random(i,4)*36,.95+random(i,6)*.6,'pine')}
+  poly(c,[[0,196],[w,196],[w,h],[0,h]],'#766d56');for(let i=0;i<25;i++){const x=random(i,9)*w,y=210+random(i,8)*(h-220);line(c,x,y,x+19,y+8,2,'#c3b59050')}}
  const grid=E.BATTLE_GRID||{cols:12,rows:9,top:173,bottom:185},scaleX=w/grid.cols,scaleY=(h-grid.top-grid.bottom)/grid.rows,offsetY=grid.top;
- for(let i=0;i<grid.cols;i++)for(let j=0;j<grid.rows;j++){c.strokeStyle='#cabb9f28';c.lineWidth=1;c.strokeRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY)}
+ for(let i=0;i<grid.cols;i++)for(let j=0;j<grid.rows;j++){c.fillStyle=(i+j)%2===0?'#22371a15':'#fff4d90a';c.fillRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY);c.strokeStyle='#fff0c978';c.lineWidth=1;c.strokeRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY)}
  const units=[...b.allies,...b.enemies].sort((a,b)=>(a.pool>0?0:1)-(b.pool>0?0:1));
  for(const u of units){const visual=u.unitId==='human_4'?battleVisualState(b,u,elapsed,now):null;if(u.pool<=0){if(visual)animatedSoldier(c,(u.x+.5)*scaleX,offsetY+(u.y+.76)*scaleY,u.side==='enemy',visual);continue}const position=visual||u,x=(position.x+.5)*scaleX,y=offsetY+(position.y+.76)*scaleY,k=.9+Math.min(1.2,u.count/15);
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}
