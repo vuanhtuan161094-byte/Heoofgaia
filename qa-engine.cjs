@@ -847,6 +847,16 @@ test('SRC54 China 2009 recruitment task is separated, counts completed real trai
  assert(before.wood>=0&&before.army>=0);
 });
 
+test('HG10 daily NPC tasks never credit previous victories and keep strict legacy v07 migration',()=>{
+ const s=state('human'),taskId='getting_started',day=s.lastTick,npc=E.NPC_CAMPS_2009.find(t=>t.stars===1);
+ assert(npc);s.cleared.push(npc.key);E.acceptDailyTask(s,taskId,day);
+ assert.equal(E.dailyTasks(s,day)[0].ready,false,'historical cleared NPC does not complete newly accepted task');
+ assert.throws(()=>E.claimDailyTask(s,taskId,day),/Chưa thắng/);
+ const legacy=JSON.parse(E.serializeSave(s));delete legacy.state.dailyTaskState.progress;
+ const restored=E.parseSave(JSON.stringify(legacy));assert.equal(E.dailyTasks(restored,day)[0].ready,false);assert(E.strictSave(restored));
+ const tampered=JSON.parse(E.serializeSave(s));tampered.state.dailyTaskState.progress={getting_started:2};
+ assert.throws(()=>E.parseSave(JSON.stringify(tampered)),/Save HG-10/);
+});
 test('HG10 source-cited daily task accepts, follows a real 1-star battle, pays once and survives v07 reload',()=>{
  const s=state('human'),taskId='getting_started',day=s.lastTick,target=E.NPC_CAMPS_2009.find(x=>x.stars===1);assert(target);assert.equal(E.dailyTasks(s,day)[0].progress,0);
  const before={gold:s.res.gold,ap:s.ap};E.acceptDailyTask(s,taskId,day);assert.equal(E.dailyTasks(s,day)[0].accepted,true);assert.equal(s.res.gold,before.gold);assert.equal(s.ap,before.ap);
@@ -854,7 +864,7 @@ test('HG10 source-cited daily task accepts, follows a real 1-star battle, pays o
  E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);assert.equal(s.battle.target,target.key);let result=null,guard=0;while(s.battle&&guard++<50)result=E.battleAct(s,'attack');assert.equal(result?.type,'win');assert(s.cleared.includes(target.key));
  const progress=E.dailyTasks(s,s.lastTick)[0];assert.equal(progress.ready,true);const goldAtClaim=s.res.gold,apAtClaim=s.ap,after=E.claimDailyTask(s,taskId,s.lastTick);assert.equal(after.gold,500);assert.equal(after.ap,7);assert.equal(s.res.gold,goldAtClaim+500);assert.equal(s.ap,Math.min(s.apMax,apAtClaim+7));assert.equal(E.dailyTasks(s,s.lastTick)[0].claimed,true);
  const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.dailyTaskState.day,E.worldDayKey(s.lastTick));assert.equal(E.dailyTasks(loaded,s.lastTick)[0].claimed,true);throws(()=>E.claimDailyTask(loaded,taskId,s.lastTick),/đã nhận/);
- const nextDay=s.lastTick+86_400_000;assert.equal(E.dailyTasks(loaded,nextDay)[0].claimed,false);assert.equal(loaded.dailyTaskState.day,E.worldDayKey(nextDay));
+ const nextDay=s.lastTick+86_400_000;assert.equal(E.dailyTasks(loaded,nextDay)[0].claimed,false);assert.equal(E.dailyTasks(loaded,nextDay)[0].ready,false);assert.equal(loaded.dailyTaskState.day,E.worldDayKey(nextDay));E.acceptDailyTask(loaded,taskId,nextDay);assert.equal(E.dailyTasks(loaded,nextDay)[0].ready,false);
  const legacy=E.serializeSave(state('elf'));const envelope=JSON.parse(legacy);delete envelope.state.dailyTaskState;const migrated=E.parseSave(JSON.stringify(envelope));assert.equal(migrated.version,7);assert(E.strictSave(migrated));assert.equal(E.dailyTasks(migrated,migrated.lastTick)[0].claimed,false);
 });
 test('SRC30/SRC61 Undead daily Lich King task is race/Fame-gated, follows a real 3-star battle and pays once through v07',()=>{

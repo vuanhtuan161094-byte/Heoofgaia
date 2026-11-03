@@ -40,11 +40,12 @@ function syncChina2009TaskBoard(s,now=s.lastTick){
 }
 function syncDailyTaskBoard(s,now=s.lastTick){
  const day=worldDayKey(Number.isFinite(now)?now:Date.now());
- if(!s.dailyTaskState){s.dailyTaskState={day,accepted:[],claimed:[]};return s.dailyTaskState}
+ if(!s.dailyTaskState){s.dailyTaskState={day,accepted:[],claimed:[],progress:{}};return s.dailyTaskState}
  // International/community sources do not say that accepted work is erased.
  // The separate China 2009 board follows SRC61's Fame-stage reset in its own sync.
- if(s.dailyTaskState.day!==day)s.dailyTaskState={day,accepted:[],claimed:[]};
+ if(s.dailyTaskState.day!==day)s.dailyTaskState={day,accepted:[],claimed:[],progress:{}};
  if(own(s.dailyTaskState,'fameRank'))delete s.dailyTaskState.fameRank; // tolerate unreleased prototype saves
+ if(!own(s.dailyTaskState,'progress'))s.dailyTaskState.progress={}; // old v07 boards have no per-day win ledger
  return s.dailyTaskState;
 }
 function hasVisitedWorldBuilding(s,key,now=Date.now()){return s?.worldVisits?.[key]===worldDayKey(now)}
@@ -183,6 +184,10 @@ function battleAct(s,action,options){
   const mine=s.mines.find(m=>m.key===tile.key);if(mine)mine.cityId=homeCityId||'main';
  }
  syncChina2009TaskBoard(s,s.lastTick);
+ if(result?.type==='win'&&tile?.kind==='npc'){
+  const board=syncDailyTaskBoard(s,s.lastTick),mainRace=s.cities.find(c=>c.main)?.race||s.race;
+  for(const task of DAILY_TASKS)if(task.stars===tile.level&&(!task.race||task.race===mainRace)&&board.accepted.includes(task.id)&&!board.claimed.includes(task.id))board.progress[task.id]=1;
+ }
  if(battle&&['win','lose','timeout','retreat'].includes(result?.type)){
   const groups=new Map();for(const u of battle.allies){const row=groups.get(u.unitId)||{unitId:u.unitId,name:u.name,initial:0,survived:0};row.initial+=u.initial;row.survived+=u.count;groups.set(u.unitId,row)}
   const allies=[...groups.values()].map(row=>({...row,lost:row.initial-row.survived,wounded:battle.woundedByUnit===undefined?null:(battle.woundedByUnit[row.unitId]||0)}));
@@ -241,7 +246,7 @@ function strict(s){
  const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));
  if(!china||typeof china!=='object'||Array.isArray(china)||typeof china.day!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(china.day)||(own(china,'fameStage')&&!E.FAME_AP.some(([threshold])=>threshold===china.fameStage))||!Array.isArray(china.accepted)||!Array.isArray(china.claimed)||new Set(china.accepted).size!==china.accepted.length||new Set(china.claimed).size!==china.claimed.length||china.accepted.some(id=>!chinaIds.has(id))||china.claimed.some(id=>!chinaIds.has(id)||!china.accepted.includes(id))||!china.progress||typeof china.progress!=='object'||Array.isArray(china.progress)||Object.keys(china.progress).some(id=>!chinaIds.has(id))||CHINA_2009_DAILY_TASKS.some(t=>!Number.isSafeInteger(china.progress[t.id])||china.progress[t.id]<0||china.progress[t.id]>t.required))return false;
  const board=s.dailyTaskState,knownTaskIds=new Set(DAILY_TASKS.map(t=>t.id));
- if(!board||typeof board!=='object'||Array.isArray(board)||typeof board.day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(board.day)||!Array.isArray(board.accepted)||!Array.isArray(board.claimed)||new Set(board.accepted).size!==board.accepted.length||new Set(board.claimed).size!==board.claimed.length||board.accepted.some(id=>!knownTaskIds.has(id))||board.claimed.some(id=>!knownTaskIds.has(id)||!board.accepted.includes(id)))return false;
+ if(!board||typeof board!=='object'||Array.isArray(board)||typeof board.day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(board.day)||!Array.isArray(board.accepted)||!Array.isArray(board.claimed)||new Set(board.accepted).size!==board.accepted.length||new Set(board.claimed).size!==board.claimed.length||board.accepted.some(id=>!knownTaskIds.has(id))||board.claimed.some(id=>!knownTaskIds.has(id)||!board.accepted.includes(id))||!board.progress||typeof board.progress!=='object'||Array.isArray(board.progress)||Object.entries(board.progress).some(([id,n])=>!knownTaskIds.has(id)||!board.accepted.includes(id)||!Number.isSafeInteger(n)||n<0||n>1))return false;
  for(const [key,day] of Object.entries(s.worldVisits))if(!WORLD_BUILDING_BY_KEY.has(key)||typeof day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(day))return false;
  for(const b of s.heroBuffs)if(!b||!s.heroes.some(h=>h.id===b.heroId)||!['atk','def','spd','int'].includes(b.stat)||!Number.isFinite(b.remaining)||b.remaining<=0||b.remaining>7200||!WORLD_BUILDING_BY_KEY.has(b.sourceKey))return false;
  if(!Array.isArray(s.cities)||s.cities.length<1||s.cities.length>6||typeof s.activeCityId!=='string')return false;
@@ -327,7 +332,7 @@ function visitWorldBuilding(s,key,now=Date.now()){
  E.note(s,reward?`Đã ghé ${def.name}; nhận ${Object.entries(gain).map(([k,v])=>`+${E.fmt(v)} ${E.C.resource[k].label}`).join(', ')}.`:`${hero.name} ghé ${def.name}; ${({atk:'Tấn công',def:'Phòng thủ',spd:'Tốc độ',int:'Tri thức'})[boost.stat]} +10% trong 2 giờ game.`);
  return {building:def.id,key,heroId:hero.id,reward:gain,buff:boost?{...boost}:null,day};
 }
-function dailyTaskProgress(s,task){return (s.cleared||[]).filter(key=>{const tile=E.getTile(key);return tile?.kind==='npc'&&tile.level===task.stars}).length}
+function dailyTaskProgress(s,task){return s.dailyTaskState?.progress?.[task.id]||0}
 function dailyTasks(s,now=Date.now()){
  ensure(s);syncDailyTaskBoard(s,now);const board=s.dailyTaskState,mainRace=s.cities.find(c=>c.main)?.race||s.race;
  return DAILY_TASKS.filter(task=>!task.race||task.race===mainRace).map(task=>{const progress=Math.min(1,dailyTaskProgress(s,task));return {...task,progress,available:s.fame>=task.fame,accepted:board.accepted.includes(task.id),claimed:board.claimed.includes(task.id),ready:progress>=1}});
