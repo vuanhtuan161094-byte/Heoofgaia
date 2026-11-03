@@ -203,8 +203,8 @@ function startMarch(s,key,targetKind){
  assert(!s.march&&!s.battle,'Tướng đang bận');
  const t=getTile(key),camp=TREASURE_BY_KEY.get(key),isTreasure=targetKind==='treasure'||(!targetKind&&t?.kind==='treasure');
  assert(t&&(isTreasure?!!camp:['mine','npc','castle'].includes(t.kind)),'Chọn mỏ, quái, kho báu hoặc thành trung lập');
- assert(isTreasure?!s.treasureCleared?.includes(key):!s.cleared.includes(key),'Mục tiêu đã hoàn thành');
- assert(!s.cleared.includes(key)||isTreasure,'Mục tiêu đã hoàn thành');
+ assert(isTreasure?!s.treasureCleared?.includes(key):t.kind==='npc'||!s.cleared.includes(key),'Mục tiêu đã hoàn thành');
+ assert(t.kind==='npc'||!s.cleared.includes(key)||isTreasure,'Mục tiêu đã hoàn thành');
  assert(s.formation?.length?s.formation.some(g=>g.count>0):Object.values(s.army).some(n=>n>0),'Không có quân được phân bổ');
  const hero=s.heroes.find(h=>h.id===s.activeHero);assert(hero&&s.castellan!==hero.id,'Tướng không sẵn sàng');
  const homeKey=s.activeCastleKey||'3,4';const path=pathfind(homeKey,key);assert(path&&path.length>1,'Không tìm thấy đường đi bộ qua địa hình');
@@ -393,7 +393,7 @@ function battleAct(s,action,options){
   if(b.kind==='treasure'){if(!Array.isArray(s.treasureCleared))s.treasureCleared=[];if(!s.treasureCleared.includes(tile.key))s.treasureCleared.push(tile.key);add(s,{gold:75*b.level,wood:8*b.level,ore:8*b.level,sulfur:5*b.level,crystal:5*b.level});note(s,`Đánh thắng kho báu cấp ${b.level}; đã dọn vị trí. Phần quà tài nguyên phụ là mô hình.`)}
   else if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level,cityId:s.activeCityId||'main'});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
   else if(tile.kind==='castle'){s.cleared.push(tile.key);note(s,`Đánh chiếm thành trung lập ${tile.value||tile.key}.`)}
-  else{add(s,{gold:75*tile.level,wood:8*tile.level,ore:8*tile.level,sulfur:5*tile.level,crystal:5*tile.level});s.cleared.push(tile.key);note(s,`Đánh bại ${tile.value}.`)}
+  else{add(s,{gold:75*tile.level,wood:8*tile.level,ore:8*tile.level,sulfur:5*tile.level,crystal:5*tile.level});if(!s.cleared.includes(tile.key))s.cleared.push(tile.key);note(s,`Đánh bại ${tile.value}. Trại NPC vẫn có thể săn lại, mỗi lượt hành quân tiêu tốn AP.`)}
   if(hero){hero.xp+=30*b.level;while(hero.xp>=hero.level*80){hero.xp-=hero.level*80;hero.level++;hero.atk+=2;hero.def+=1;}}
   s.fame+=10*b.level;s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost,order:acted.slice()};
  }

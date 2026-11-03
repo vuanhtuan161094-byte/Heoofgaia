@@ -679,12 +679,26 @@ test('Casualty and Arena wound ledger are exact and never negative',()=>{
  const out=E.battleAct(s,'attack');assert.equal(out.type,'continue');assert.equal(s.army.human_1,8);assert.equal(s.wounded.human_1,1);assert.equal(s.woundFraction.human_1,.5);assert(Object.values(s.army).every(n=>Number.isInteger(n)&&n>=0));
 });
 
-test('A completed NPC target cannot be settled or rewarded twice',()=>{
- const s=state();const tile=E.TILES.find(t=>t.kind==='npc');s.army.human_1=50;s.heroes[0].level=100;s.heroes[0].atk=10000;s.heroes[0].def=10000;
+test('HG10 repeatable NPC hunting spends AP per new march, pays once per win and preserves one-time clearing',()=>{
+ const s=state(),tile=E.TILES.find(t=>t.kind==='npc');s.army.human_1=50;s.heroes[0].level=100;s.heroes[0].atk=10000;s.heroes[0].def=10000;
  s.battle=E.makeBattle(s,tile.key);for(const a of s.battle.allies)a.range=20;for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;}
- let out;for(let i=0;i<10&&s.battle;i++)out=E.battleAct(s,'attack');assert.equal(out.type,'win');const settled={res:{...s.res},fame:s.fame,xp:s.heroes[0].xp,lootWins:s.lootWins,inventory:s.inventory.length};
- throws(()=>E.battleAct(s,'attack'),/Không có trận chiến/);const ap=s.ap;throws(()=>E.startMarch(s,tile.key),/Mục tiêu đã hoàn thành/);assert.equal(s.ap,ap);
- assert.deepEqual({res:{...s.res},fame:s.fame,xp:s.heroes[0].xp,lootWins:s.lootWins,inventory:s.inventory.length},settled);
+ let out;for(let i=0;i<10&&s.battle;i++)out=E.battleAct(s,'attack');assert.equal(out.type,'win');
+ const settled={res:{...s.res},fame:s.fame,lootWins:s.lootWins,inventory:s.inventory.length};
+ throws(()=>E.battleAct(s,'attack'),/Không có trận chiến/);
+ assert.deepEqual({res:{...s.res},fame:s.fame,lootWins:s.lootWins,inventory:s.inventory.length},settled);
+ assert.equal(s.cleared.filter(key=>key===tile.key).length,1);
+ const ap=s.ap;E.startMarch(s,tile.key);assert.equal(s.ap,ap-8,'a new expedition must pay normal AP');
+ const reload=E.parseSave(E.serializeSave(s));assert.equal(reload.march.target,tile.key);
+ E.tick(reload,reload.lastTick+reload.march.remaining/reload.speed*1000+1000);assert(reload.battle);
+ for(const e of reload.battle.enemies){e.hp=1;e.pool=1;e.count=1;}
+ for(const a of reload.battle.allies)a.range=20;
+ let second;for(let i=0;i<10&&reload.battle;i++)second=E.battleAct(reload,'attack');
+ assert.equal(second?.type,'win');assert.equal(reload.cleared.filter(key=>key===tile.key).length,1);
+ assert(reload.fame>settled.fame,'separate paid battle should give a new reward');
+ assert(E.strictSave(E.parseSave(E.serializeSave(reload))));
+ const mine=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key));assert(mine);
+ const oldAp=reload.ap;reload.cleared.push(mine.key);
+ throws(()=>E.startMarch(reload,mine.key),/Mục tiêu đã hoàn thành/);assert.equal(reload.ap,oldAp);
 });
 
 test('Mid-battle HG08 save resumes with the same positions, initiative and outcome',()=>{
