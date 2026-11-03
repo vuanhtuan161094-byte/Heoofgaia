@@ -1,0 +1,155 @@
+{
+  "schema": "hog1-building-art-v1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "assetId": "HOG1-HG11-HUMAN-TOWN-HALL-v1",
+  "buildingKey": "hall",
+  "faction": "human",
+  "status": "RECREATED",
+  "historicalIdentity": "Human Town Hall identity in the independent game catalog. The architecture is newly authored and is not asserted to match original HOG1 art.",
+  "provider": "ChatGPT image_gen.imagegen",
+  "generationPrompt": "assets/generated/hg11/buildings/human-town-hall-prompt.md#prompt",
+  "sourceImageId": "exec-3d619fff-5dff-45ab-8581-05cfba019565.png",
+  "sourceFile": "assets/generated/hg11/source/human-town-hall-master.png",
+  "sourceRoute": "Generated independently from text with transparent background; no historical screenshot, original client art or third-party game image was supplied as image input.",
+  "generationTimestamp": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "generationCost": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "licenseAssessment": "New project recreation; no extracted HOG1 commercial asset is included. Original commercial artwork is not bundled. This manifest does not grant third-party rights or claim legal exclusivity.",
+  "master": {
+    "projectPath": "assets/generated/hg11/source/human-town-hall-master.png",
+    "bytes": 1743862,
+    "resolution": "1254x1254",
+    "bitDepth": 8,
+    "colorType": 6,
+    "sha256": "E8C44D8F2757831E812F1F9EE8CFA6AC146A97B3BA9111DC50328249D7AE5564",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "alphaGte8Bounds": [
+      91,
+      21,
+      1166,
+      1232
+    ],
+    "alphaGte8Pixels": 792735
+  },
+  "cleanedMaster": {
+    "projectPath": "assets/generated/hg11/source/human-town-hall-master-clean.png",
+    "bytes": 2578246,
+    "resolution": "1254x1254",
+    "bitDepth": 8,
+    "colorType": 6,
+    "sha256": "8505F2DD56087B84B0465B3742A79FF2A58638FEF0EE43501313076E7CF8AF6C",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "alphaGte8Bounds": [
+      90,
+      21,
+      1167,
+      1231
+    ],
+    "alphaGte8Pixels": 786575
+  },
+  "runtime": {
+    "projectPath": "assets/generated/hg11/buildings/human-town-hall.png",
+    "bytes": 357115,
+    "resolution": "512x512",
+    "bitDepth": 8,
+    "colorType": 6,
+    "sha256": "317DF9D7EF2DD0798490E9D8F5057153680C1043AD80202DD9445962BD09A6D0",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "alphaGte8Bounds": [
+      60,
+      48,
+      451,
+      487
+    ],
+    "alphaGte8Pixels": 104160,
+    "pivotPixels": [
+      256,
+      488
+    ],
+    "pivotNormalized": [
+      0.5,
+      0.953125
+    ]
+  },
+  "visualDesign": {
+    "identity": "Taller ceremonial Human civic hall with ivory limestone, terracotta-red roof, dark timber, restrained blue-and-gold trim and a formal arched entrance.",
+    "originalVisualParityClaimed": false,
+    "sourceImageHadOriginalGameArt": false
+  },
+  "states": {
+    "masterCreated": true,
+    "transparentAlphaVerified": true,
+    "singleBuildingReviewed": true,
+    "runtimeExported": true,
+    "embeddedInOfflineGame": true,
+    "integratedInBuildingDetail": true,
+    "realConstructionActionStillEnabled": true,
+    "v07SaveLoadQueueVerified": true,
+    "animationFrames": 0
+  },
+  "qualityGate": {
+    "alphaScan": "PASS: raw, cleaned and runtime PNGs scanned with Windows System.Drawing; RGBA alpha range 0-255 and alpha>=8 bounds/pixel counts recorded.",
+    "agentSpriteForgeAdapter": "BLOCKED: its inspect helper requires Pillow, which is not installed; no upstream Sprite Forge CLI was present. The independent System.Drawing PNG scan and actual Chrome review were used.",
+    "browserIntegration": "PASS: actual installed Chrome file:// game loaded embedded 512px Town Hall art from the Human city canvas hotspot.",
+    "gameplay": "PASS: real UI paid for Town Hall 2, v07 Save/Reload preserved the construction queue and a real engine tick completed it; Barracks 2 was also paid, saved, reloaded and completed.",
+    "responsiveLayout": "PASS: actual Chrome at 390px displayed Town Hall and Barracks details without horizontal overflow.",
+    "javascriptErrors": "PASS: focused 16-check session recorded zero page errors."
+  },
+  "integration": {
+    "offlineBundle": {
+      "projectPath": "Play-Heoofgaia-HG11.html",
+      "sha256": "421181069A8E57043D213890974ED0BE87A183FD9BF7E34EC86D4DCE40767E5C",
+      "bytes": 15618146
+    },
+    "receipt": "docs/qa/hg11/human-barracks-building-chrome.json",
+    "screenshotCount": 4,
+    "screenshots": [
+      {
+        "projectPath": "docs/evidence/hg11/human-town-hall-building-detail-chrome.png",
+        "bytes": 1808794,
+        "resolution": "1440x1939",
+        "sha256": "1F97631D9C7186F372F611E56D02B1F9FDEBE0114B3F62112DC763DB8CE8293E"
+      },
+      {
+        "projectPath": "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
+        "bytes": 1815085,
+        "resolution": "1440x1939",
+        "sha256": "9508CF3DABC0C66FA8DB099014740ECCDF6604C492B329F7C0217380E27394F8"
+      },
+      {
+        "projectPath": "docs/evidence/hg11/human-town-hall-building-detail-mobile-chrome.png",
+        "bytes": 642128,
+        "resolution": "390x3726",
+        "sha256": "E178B54C437D1293F4B7DD8554F0D27731AE6C61D7BBF9722024B90925FE743E"
+      },
+      {
+        "projectPath": "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png",
+        "bytes": 644191,
+        "resolution": "390x3747",
+        "sha256": "085320963A203004EA8095998463524A8B191639B9640FC5C555A29B6EAB8429"
+      }
+    ],
+    "browser": "Installed Google Chrome; actual standalone local file:// HTML",
+    "saveSchema": "v07 unchanged; existing construction queue data was round-tripped through the real UI save/reload flow."
+  },
+  "qualityTooling": {
+    "agentSpriteForgeInspect": "BLOCKED",
+    "reason": "Python Pillow is absent; used independent Windows System.Drawing scan and Chrome screenshots."
+  },
+  "scopeLimitations": [
+    "One independent static Town Hall detail asset; no Town Hall animation.",
+    "City background remains flattened; other Human buildings and the other factions remain separate work.",
+    "Historical art parity has not been established; generated art is not original HOG1 art."
+  ]
+}

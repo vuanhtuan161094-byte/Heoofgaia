@@ -45,13 +45,13 @@
     "offlineEmbedded": true,
     "bundle": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "bytes": 15141714,
-      "sha256": "60BDB4224BA688EBC62C8A2FF08A682993AE934FDB5ED96B4206E6FC0AF75D5B",
-      "runtimePngCount": 16
+      "bytes": 15618146,
+      "sha256": "421181069A8E57043D213890974ED0BE87A183FD9BF7E34EC86D4DCE40767E5C",
+      "runtimePngCount": 17
     },
     "nodeRegression": {
-      "passed": 174,
-      "total": 174,
+      "passed": 175,
+      "total": 175,
       "failed": 0,
       "result": "PASS"
     },

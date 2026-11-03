@@ -25,11 +25,11 @@ for unit_asset in ['assets/generated/hg11/units/orc-imp.png','assets/generated/h
     assert html.count(needle)==1,(unit_asset,html.count(needle))
     data=base64.b64encode((folder/unit_asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/png;base64,{data}"')
-building_asset='assets/generated/hg11/buildings/human-barracks.png'
-needle=f'src="{building_asset}"'
-assert html.count(needle)==1,(building_asset,html.count(needle))
-data=base64.b64encode((folder/building_asset).read_bytes()).decode('ascii')
-html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+for building_asset in ['assets/generated/hg11/buildings/human-barracks.png','assets/generated/hg11/buildings/human-town-hall.png']:
+    needle=f'src="{building_asset}"'
+    assert html.count(needle)==1,(building_asset,html.count(needle))
+    data=base64.b64encode((folder/building_asset).read_bytes()).decode('ascii')
+    html=html.replace(needle,f'src="data:image/png;base64,{data}"')
 for action in ['idle','walk','attack','hit','death']:
     asset=f'assets/licensed/kaykit-heavy-soldier/rendered/{action}.png'
     needle=f'src="{asset}"'

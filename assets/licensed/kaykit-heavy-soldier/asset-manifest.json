@@ -1002,17 +1002,17 @@
     "gameplayEventSource": "engine.js writes per-stack movement, attack, received damage and death events; rendering observes receipts and does not alter battle state.",
     "standaloneHtml": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "bytes": 15141714,
-      "characters": 15131181,
-      "sha256": "60BDB4224BA688EBC62C8A2FF08A682993AE934FDB5ED96B4206E6FC0AF75D5B",
-      "embeddedRuntimePngCount": 16,
+      "bytes": 15618146,
+      "characters": 15607700,
+      "sha256": "421181069A8E57043D213890974ED0BE87A183FD9BF7E34EC86D4DCE40767E5C",
+      "embeddedRuntimePngCount": 17,
       "allFiveAtlasesEmbedded": true
     },
     "saveSchema": "v07 unchanged; old saves without lastEvents remain accepted.",
     "nodeRegression": {
       "command": "node qa-engine.cjs",
-      "suiteTotal": 174,
-      "suitePassed": 174,
+      "suiteTotal": 175,
+      "suitePassed": 175,
       "suiteFailed": 0,
       "result": "PASS"
     },

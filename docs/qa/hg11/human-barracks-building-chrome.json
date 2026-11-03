@@ -1,11 +1,19 @@
 {
   "command": ".venv\\Scripts\\python.exe qa-hg11-human-building-chrome.py",
   "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  "total": 13,
-  "passed": 13,
+  "total": 16,
+  "passed": 16,
   "failed": 0,
   "errors": [],
   "checks": [
+    {
+      "name": "The actual Human Town Hall canvas hotspot opens the Town Hall detail",
+      "passed": true
+    },
+    {
+      "name": "512px independent Town Hall art loads from the offline bundle in Chrome",
+      "passed": true
+    },
     {
       "name": "A fresh Human kingdom can start a paid Town Hall upgrade through its real UI",
       "passed": true
@@ -51,6 +59,10 @@
       "passed": true
     },
     {
+      "name": "390px Town Hall detail keeps its independent art visible without horizontal overflow",
+      "passed": true
+    },
+    {
       "name": "Responsive city detail keeps the separate Barracks art visible without horizontal page overflow",
       "passed": true
     },
@@ -59,19 +71,31 @@
       "passed": true
     }
   ],
-  "fixtureDisclosure": "Chrome opens the actual bundled file:// game and starts a normal Human kingdom. The real UI pays for Town Hall 2 and saves/reloads its v07 construction queue, then completes it through the game clock. The test clicks the Barracks canvas site, pays for Barracks 2, saves/reloads its v07 queue, completes it with the engine tick and verifies the independent art at 390px width. No building level, resource balance, queue result or construction result is injected.",
-  "offlineBundleSha256": "68519C2ECFAC92377BB5629680C620279B39E9567B5B80F7CFF23B1F2C2AB75C",
+  "fixtureDisclosure": "Chrome opens the actual bundled file:// game and starts a normal Human kingdom. The real UI pays for Town Hall 2 and saves/reloads its v07 construction queue, then completes it through the game clock. The test clicks the Town Hall canvas site and verifies its independent sprite, pays for Town Hall 2, saves/reloads its v07 queue, then clicks the Barracks site, pays for Barracks 2, saves/reloads its queue and completes both with engine ticks. It checks both building sprites at 390px width. No building level, resource balance, queue result or construction result is injected.",
+  "offlineBundleSha256": "421181069A8E57043D213890974ED0BE87A183FD9BF7E34EC86D4DCE40767E5C",
   "screenshots": [
     {
-      "path": "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
-      "bytes": 1815374,
-      "sha256": "FB8E764B1013EA0012CF5B74295D316FC0582E42613047136C7F820E55F87609",
+      "path": "docs/evidence/hg11/human-town-hall-building-detail-chrome.png",
+      "bytes": 1808794,
+      "sha256": "1F97631D9C7186F372F611E56D02B1F9FDEBE0114B3F62112DC763DB8CE8293E",
       "resolution": "1440x1939"
     },
     {
+      "path": "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
+      "bytes": 1815085,
+      "sha256": "9508CF3DABC0C66FA8DB099014740ECCDF6604C492B329F7C0217380E27394F8",
+      "resolution": "1440x1939"
+    },
+    {
+      "path": "docs/evidence/hg11/human-town-hall-building-detail-mobile-chrome.png",
+      "bytes": 642128,
+      "sha256": "E178B54C437D1293F4B7DD8554F0D27731AE6C61D7BBF9722024B90925FE743E",
+      "resolution": "390x3726"
+    },
+    {
       "path": "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png",
-      "bytes": 643218,
-      "sha256": "0FB46C75FA5EB7263B0F707BEB940A0F91F9765E81DBA2B1B314A4E29C0C618E",
+      "bytes": 644191,
+      "sha256": "085320963A203004EA8095998463524A8B191639B9640FC5C555A29B6EAB8429",
       "resolution": "390x3747"
     }
   ]

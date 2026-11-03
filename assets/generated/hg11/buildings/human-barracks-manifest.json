@@ -120,27 +120,27 @@
   "integration": {
     "offlineBundle": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "sha256": "68519C2ECFAC92377BB5629680C620279B39E9567B5B80F7CFF23B1F2C2AB75C",
-      "bytes": 11522367
+      "sha256": "421181069A8E57043D213890974ED0BE87A183FD9BF7E34EC86D4DCE40767E5C",
+      "bytes": 15618146
     },
     "browser": "Chrome file:// using the bundled standalone HTML",
     "receipt": "docs/qa/hg11/human-barracks-building-chrome.json",
     "screenshots": [
       {
         "projectPath": "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
-        "bytes": 1815374,
+        "bytes": 1815085,
         "resolution": "1440x1939",
+        "sha256": "9508CF3DABC0C66FA8DB099014740ECCDF6604C492B329F7C0217380E27394F8",
         "bitDepth": 8,
-        "colorType": 2,
-        "sha256": "FB8E764B1013EA0012CF5B74295D316FC0582E42613047136C7F820E55F87609"
+        "colorType": 2
       },
       {
         "projectPath": "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png",
-        "bytes": 643218,
+        "bytes": 644191,
         "resolution": "390x3747",
+        "sha256": "085320963A203004EA8095998463524A8B191639B9640FC5C555A29B6EAB8429",
         "bitDepth": 8,
-        "colorType": 2,
-        "sha256": "0FB46C75FA5EB7263B0F707BEB940A0F91F9765E81DBA2B1B314A4E29C0C618E"
+        "colorType": 2
       }
     ]
   }

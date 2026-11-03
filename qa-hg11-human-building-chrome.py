@@ -27,6 +27,8 @@ def check(name, ok):
 
 desktop_screenshot = evidence / 'human-barracks-building-detail-chrome.png'
 mobile_screenshot = evidence / 'human-barracks-building-detail-mobile-chrome.png'
+townhall_desktop_screenshot = evidence / 'human-town-hall-building-detail-chrome.png'
+townhall_mobile_screenshot = evidence / 'human-town-hall-building-detail-mobile-chrome.png'
 with sync_playwright() as p:
     browser = p.chromium.launch(executable_path=browser_path, headless=True, args=['--no-sandbox', '--allow-file-access-from-files'])
     context = browser.new_context(viewport={'width': 1440, 'height': 1000})
@@ -36,6 +38,16 @@ with sync_playwright() as p:
     page.goto(html.as_uri(), wait_until='load')
     page.locator('[data-action="start"]').click()
     page.locator('#nav [data-tab="city"]').click()
+
+    # Select the real Town Hall canvas hotspot and verify its independent image.
+    canvas = page.locator('#city-canvas')
+    site = page.evaluate('''(()=>{const c=document.querySelector('#city-canvas'),q=HOG_PAINTER.citySitesFor('human').find(x=>x[0]==='hall'),r=c.getBoundingClientRect();return {x:r.left+q[1]*r.width,y:r.top+q[2]*r.height}})()''')
+    page.mouse.click(site['x'], site['y'])
+    page.wait_for_function("""()=>{const i=document.querySelector('.building-art-preview img');return !!i&&i.complete&&i.naturalWidth===512&&i.naturalHeight===512}""")
+    townhall = page.evaluate('''(()=>{const s=HOG_APP_DEBUG.getState(),i=document.querySelector('.building-art-preview img'),r=i.getBoundingClientRect();return {version:s.version,race:s.race,level:s.buildings.hall,assetLoaded:i.complete&&i.naturalWidth===512,caption:document.querySelector('.building-art-preview figcaption')?.textContent,width:r.width,height:r.height,strict:HOG_ENGINE.strictSave(s)}})()''')
+    check('The actual Human Town Hall canvas hotspot opens the Town Hall detail', 'Town Hall' in page.locator('.target-building-copy h2').inner_text() and townhall['race'] == 'human' and townhall['version'] == 7)
+    check('512px independent Town Hall art loads from the offline bundle in Chrome', townhall['assetLoaded'] and townhall['caption'] == 'Tòa thị chính Nhân tộc' and townhall['width'] > 100 and townhall['height'] > 60 and townhall['strict'])
+    page.screenshot(path=str(townhall_desktop_screenshot), full_page=True)
 
     # Follow the real Town Hall prerequisite; do not seed a higher city level.
     hall_button = page.locator('[data-action="upgrade"][data-key="hall"]')
@@ -81,6 +93,11 @@ with sync_playwright() as p:
     page.set_viewport_size({'width': 390, 'height': 844})
     page.reload(wait_until='load')
     page.locator('#nav [data-tab="city"]').click()
+    page.locator('#main [data-action="building"][data-key="hall"]').click()
+    page.wait_for_function("""()=>{const i=document.querySelector('.building-art-preview img');return !!i&&i.complete&&i.naturalWidth===512}""")
+    townhall_mobile = page.evaluate('''(()=>{const i=document.querySelector('.building-art-preview img'),r=i.getBoundingClientRect();return {width:r.width,height:r.height,scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth}})()''')
+    check('390px Town Hall detail keeps its independent art visible without horizontal overflow', townhall_mobile['width'] > 60 and townhall_mobile['height'] > 50 and townhall_mobile['scrollWidth'] <= townhall_mobile['viewport'] + 1)
+    page.screenshot(path=str(townhall_mobile_screenshot), full_page=True)
     page.locator('#main [data-action="building"][data-key="barracks"]').click()
     page.wait_for_function("""()=>{const i=document.querySelector('.building-art-preview img');return !!i&&i.complete&&i.naturalWidth===512}""")
     mobile = page.evaluate('''(()=>{const i=document.querySelector('.building-art-preview img'),r=i.getBoundingClientRect();return {width:r.width,height:r.height,scrollWidth:document.documentElement.scrollWidth,viewport:innerWidth}})()''')
@@ -103,9 +120,9 @@ result = {
     'failed': sum(not c['passed'] for c in checks),
     'errors': errors,
     'checks': checks,
-    'fixtureDisclosure': 'Chrome opens the actual bundled file:// game and starts a normal Human kingdom. The real UI pays for Town Hall 2 and saves/reloads its v07 construction queue, then completes it through the game clock. The test clicks the Barracks canvas site, pays for Barracks 2, saves/reloads its v07 queue, completes it with the engine tick and verifies the independent art at 390px width. No building level, resource balance, queue result or construction result is injected.',
+    'fixtureDisclosure': 'Chrome opens the actual bundled file:// game and starts a normal Human kingdom. The real UI pays for Town Hall 2 and saves/reloads its v07 construction queue, then completes it through the game clock. The test clicks the Town Hall canvas site and verifies its independent sprite, pays for Town Hall 2, saves/reloads its v07 queue, then clicks the Barracks site, pays for Barracks 2, saves/reloads its queue and completes both with engine ticks. It checks both building sprites at 390px width. No building level, resource balance, queue result or construction result is injected.',
     'offlineBundleSha256': hashlib.sha256(html.read_bytes()).hexdigest().upper(),
-    'screenshots': [artifact(desktop_screenshot), artifact(mobile_screenshot)],
+    'screenshots': [artifact(townhall_desktop_screenshot), artifact(desktop_screenshot), artifact(townhall_mobile_screenshot), artifact(mobile_screenshot)],
 }
 receipt = receipts / 'human-barracks-building-chrome.json'
 receipt.write_text(json.dumps(result, indent=2, ensure_ascii=False) + '\n', encoding='utf-8')
