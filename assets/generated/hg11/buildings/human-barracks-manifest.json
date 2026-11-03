@@ -120,8 +120,8 @@
   "integration": {
     "offlineBundle": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "sha256": "421181069A8E57043D213890974ED0BE87A183FD9BF7E34EC86D4DCE40767E5C",
-      "bytes": 15618146
+      "sha256": "75EC8E45B8282D7311B50AC626320924FD1BE60F5C88E3C483E48DC75982C9F6",
+      "bytes": 15622546
     },
     "browser": "Chrome file:// using the bundled standalone HTML",
     "receipt": "docs/qa/hg11/human-barracks-building-chrome.json",

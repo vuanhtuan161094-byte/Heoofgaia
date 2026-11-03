@@ -365,7 +365,7 @@ function battleAct(s,action,options){
  // equal-speed tie-break tied to the actual battlefield positions.
  const participants=[...alive(b.allies),...alive(b.enemies)].sort((x,y)=>y.spd-x.spd||x.x-y.x||x.y-y.y||x.id.localeCompare(y.id));
  let dealt=0,lost=0;const acted=[],lastTargets={},lastMoves=[],lastEvents=[],origins=new Map(participants.map(u=>[u.id,{x:u.x,y:u.y}]));
- const record=(actor,target=null,damage=0,path=null)=>{const from=origins.get(actor.id),to={x:actor.x,y:actor.y};lastEvents.push({actorId:actor.id,from,to,path:path||(from.x!==to.x||from.y!==to.y?[to]:[]),targetId:target?.id||null,damage,death:!!(damage>0&&target?.pool<=0)})};
+ const record=(actor,target=null,damage=0,path=null,order='attack',casualties=0)=>{const from=origins.get(actor.id),to={x:actor.x,y:actor.y},route=path?.length?path:(from.x!==to.x||from.y!==to.y?[to]:[]);lastEvents.push({actorId:actor.id,from,to,path:route,targetId:target?.id||null,damage,death:!!(damage>0&&target?.pool<=0),order,casualties})};
  for(const actor of participants){
   if(actor.pool<=0)continue;
   const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
@@ -373,19 +373,19 @@ function battleAct(s,action,options){
   const moveTarget=actor.side==='player'&&stance==='move'?b.moveTargets[actor.id]:null;
   if(actor.side==='player'&&stance==='move'){
    if(!moveTarget){b.orders[actor.id]='attack'}
-   else if(actor.x===moveTarget.x&&actor.y===moveTarget.y){delete b.moveTargets[actor.id];b.orders[actor.id]='attack';acted.push(actor.id);record(actor);continue}
+   else if(actor.x===moveTarget.x&&actor.y===moveTarget.y){delete b.moveTargets[actor.id];b.orders[actor.id]='attack';acted.push(actor.id);record(actor,null,0,[],'move');continue}
    else{
     const movement=moveBattleStack(b,actor,moveTarget);if(movement)lastMoves.push(movement);
     if(actor.x===moveTarget.x&&actor.y===moveTarget.y){delete b.moveTargets[actor.id];b.orders[actor.id]='attack'}
-    acted.push(actor.id);record(actor,null,0,movement?.path||[]);continue;
+    acted.push(actor.id);record(actor,null,0,movement?.path||[],'move');continue;
    }
   }
-  if(actor.side==='player'&&stance==='defend'){acted.push(actor.id);b.orders[actor.id]='attack';record(actor);continue}
-  if(actor.side==='player'&&stance==='retreat'){const x=Math.max(0,actor.x-1);if(![...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===x&&u.y===actor.y))actor.x=x;acted.push(actor.id);b.orders[actor.id]='attack';record(actor);continue}
+  if(actor.side==='player'&&stance==='defend'){acted.push(actor.id);b.orders[actor.id]='attack';record(actor,null,0,[],'defend');continue}
+  if(actor.side==='player'&&stance==='retreat'){const x=Math.max(0,actor.x-1);if(![...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===x&&u.y===actor.y))actor.x=x;acted.push(actor.id);b.orders[actor.id]='attack';record(actor,null,0,[],'retreat');continue}
   const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
   const target=pref||[...enemy].sort((x,y)=>{const near=actor.range>1?0:dist(actor,x)-dist(actor,y),power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;return actor.range>1?power||near||x.id.localeCompare(y.id):near||power||x.id.localeCompare(y.id)})[0];
   lastTargets[actor.id]=target.id;acted.push(actor.id);
-  const beforePool=target.pool,trace={path:[]},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path);
+  const beforePool=target.pool,beforeCount=target.count,trace={path:[]},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path,stance,beforeCount-target.count);
   if(actor.side==='player')dealt+=amount;else lost+=amount;
  }
  const turn=b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.lastMoves=lastMoves;b.lastEvents=lastEvents;const movementSummary=lastMoves.map(m=>`${m.unitId} đi ${m.steps} ô tới (${m.to.x},${m.to.y})`).join('; ');b.history.unshift(`Lượt ${turn}: ${movementSummary?`${movementSummary}; `:''}quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);

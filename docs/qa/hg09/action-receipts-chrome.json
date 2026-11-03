@@ -1,0 +1,91 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg09-action-receipts-chrome.py",
+  "htmlSha256": "75EC8E45B8282D7311B50AC626320924FD1BE60F5C88E3C483E48DC75982C9F6",
+  "total": 9,
+  "passed": 9,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Normal Human start creates v07 save before combat",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Real map March and engine travel open the natural mine battle",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Stand By produces a real per-stack wait receipt in the live battle UI",
+      "passed": true,
+      "detail": "{\"saveVersion\": 7, \"order\": \"defend\", \"casualties\": 0, \"text\": \"Spear Militia\\nSpear Militia chờ lệnh (Stand By)\\nbỏ lượt\", \"rows\": 3, \"strict\": true}"
+    },
+    {
+      "name": "Every acted living stack in the turn has exactly one rendered receipt",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Browser Save/Reload preserves exact action receipts under v07",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Actual attack turn records a positive stack casualty in the engine",
+      "passed": true,
+      "detail": "{\"event\": {\"actorId\": \"e1\", \"from\": {\"x\": 10, \"y\": 5}, \"to\": {\"x\": 10, \"y\": 5}, \"path\": [], \"targetId\": \"p0\", \"damage\": 30, \"death\": false, \"order\": \"attack\", \"casualties\": 1}, \"actorName\": \"Cung thủ cướp\", \"row\": \"Cung thủ cướp\\nCung thủ cướp tấn công Spear Militia\\n30 sát thương · 1 quân tổn thất\", \"strict\": true}"
+    },
+    {
+      "name": "Battle UI identifies the exact affected stack and casualty count",
+      "passed": true,
+      "detail": "{\"event\": {\"actorId\": \"e1\", \"from\": {\"x\": 10, \"y\": 5}, \"to\": {\"x\": 10, \"y\": 5}, \"path\": [], \"targetId\": \"p0\", \"damage\": 30, \"death\": false, \"order\": \"attack\", \"casualties\": 1}, \"actorName\": \"Cung thủ cướp\", \"row\": \"Cung thủ cướp\\nCung thủ cướp tấn công Spear Militia\\n30 sát thương · 1 quân tổn thất\", \"strict\": true}"
+    },
+    {
+      "name": "Mobile combat receipts remain visible without horizontal page overflow",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "No JavaScript page errors during commands, save/load or receipt review",
+      "passed": true,
+      "detail": "[]"
+    }
+  ],
+  "actualCasualty": {
+    "event": {
+      "actorId": "e1",
+      "from": {
+        "x": 10,
+        "y": 5
+      },
+      "to": {
+        "x": 10,
+        "y": 5
+      },
+      "path": [],
+      "targetId": "p0",
+      "damage": 30,
+      "death": false,
+      "order": "attack",
+      "casualties": 1
+    },
+    "actorName": "Cung thủ cướp",
+    "row": "Cung thủ cướp\nCung thủ cướp tấn công Spear Militia\n30 sát thương · 1 quân tổn thất",
+    "strict": true
+  },
+  "fixtureDisclosure": "Normal offline Human start. Actual minimap mouse click, AP-paid March, engine travel tick, real Stand By and Attack buttons. Only travel time is advanced; no battle positions, troop HP/count, action results, or casualties are seeded. Browser Save/Reload verifies exact v07 lastEvents. Screenshots are actual installed Chrome file:// captures of this reconstruction.",
+  "screenshots": [
+    {
+      "path": "docs/evidence/hg09/action-receipts-chrome.png",
+      "sha256": "D92258DD74A5AD5DFFFF9F8A0791AF1240F947E033B4D47B5B28DE92DC69C8CE"
+    },
+    {
+      "path": "docs/evidence/hg09/action-receipts-mobile-chrome.png",
+      "sha256": "76A53A083AF7ECBBE6F109183D4889AD04A0E27CDA8484F766358174055C7A6F"
+    },
+    {
+      "path": "docs/evidence/hg09/action-receipts-casualty-chrome.png",
+      "sha256": "6DBE126EF6934AD90DFD4A7F841DDB87490FF2E952659A9EAC04BF0A5659072A"
+    }
+  ]
+}

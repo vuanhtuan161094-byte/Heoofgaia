@@ -1,7 +1,7 @@
 {
   "command": ".venv\\Scripts\\python.exe qa-hg09-reports-chrome.py",
   "inputHtml": "Play-Heoofgaia-HG11.html",
-  "inputHtmlSha256": "48FF9F759D96D9B74C98A385FAFE93724B3A81EAB5B00B14D6A9E22F13521A0E",
+  "inputHtmlSha256": "75EC8E45B8282D7311B50AC626320924FD1BE60F5C88E3C483E48DC75982C9F6",
   "total": 12,
   "passed": 12,
   "errors": [],
@@ -63,7 +63,7 @@
     "name": "Mỏ Gỗ",
     "kind": "mine",
     "turns": 15,
-    "completedAt": 1793676907569.3333,
+    "completedAt": 1793685794087.3333,
     "homeCityId": "main",
     "heroId": 1,
     "heroName": "Aldric",
@@ -106,7 +106,7 @@
   "screenshots": [
     {
       "path": "docs/evidence/hg09/mine-battle-report-chrome.png",
-      "sha256": "27C94557EBCFE2557258D01A5869471652F2454BF98ABB266AFC039297D6C89C"
+      "sha256": "613387C0BC7EC73DD2A190DE8BDFF09BD085D52D33C1B6CEA74F29DA2498EC94"
     },
     {
       "path": "docs/evidence/hg09/mine-battle-report-mobile-chrome.png",

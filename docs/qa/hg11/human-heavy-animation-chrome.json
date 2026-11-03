@@ -33,7 +33,7 @@
     {
       "name": "Actual recruitment spends resources and queues two Heavy Soldiers",
       "passed": true,
-      "detail": "{\"unitId\": \"human_4\", \"count\": 2, \"remaining\": 751.54, \"gold\": 269682.5246666667, \"strict\": true}"
+      "detail": "{\"unitId\": \"human_4\", \"count\": 2, \"remaining\": 784, \"gold\": 269680, \"strict\": true}"
     },
     {
       "name": "Real engine tick completes the queue and delivers both recruited troops",
@@ -53,17 +53,17 @@
     {
       "name": "Actual March dispatch spends AP and carries the formed Heavy Soldier stack",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_1\", \"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 95.63525}"
+      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_1\", \"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 95.87175}"
     },
     {
       "name": "Natural travel arrival opens a live battle with the UI-recruited Heavy Soldier",
       "passed": true,
-      "detail": "{\"battle\": true, \"turn\": 1, \"allies\": [{\"id\": \"p0\", \"unitId\": \"human_1\", \"count\": 15, \"x\": 1, \"y\": 0, \"pool\": 600}, {\"id\": \"p1\", \"unitId\": \"human_4\", \"count\": 1, \"x\": 1, \"y\": 2, \"pool\": 81}, {\"id\": \"p2\", \"unitId\": \"human_1\", \"count\": 1, \"x\": 1, \"y\": 5, \"pool\": 40}], \"atlasIds\": [[true, 2048, 512], [true, 2048, 512], [true, 2048, 512], [true, 2048, 256], [true, 2048, 512]], \"battlefield\": {\"loaded\": true, \"width\": 1176, \"height\": 550, \"draws\": 3}, \"saveVersion\": 7, \"saveKey\": true}"
+      "detail": "{\"battle\": true, \"turn\": 1, \"allies\": [{\"id\": \"p0\", \"unitId\": \"human_1\", \"count\": 15, \"x\": 1, \"y\": 0, \"pool\": 600}, {\"id\": \"p1\", \"unitId\": \"human_4\", \"count\": 1, \"x\": 1, \"y\": 2, \"pool\": 81}, {\"id\": \"p2\", \"unitId\": \"human_1\", \"count\": 1, \"x\": 1, \"y\": 5, \"pool\": 40}], \"atlasIds\": [[true, 2048, 512], [true, 2048, 512], [true, 2048, 512], [true, 2048, 256], [true, 2048, 512]], \"battlefield\": {\"loaded\": true, \"width\": 1176, \"height\": 550, \"draws\": 2}, \"saveVersion\": 7, \"saveKey\": true}"
     },
     {
       "name": "All five action atlases and the 1176×550 battlefield background load and draw offline",
       "passed": true,
-      "detail": "{\"loaded\": true, \"width\": 1176, \"height\": 550, \"draws\": 3}"
+      "detail": "{\"loaded\": true, \"width\": 1176, \"height\": 550, \"draws\": 2}"
     },
     {
       "name": "Real Attack controls drive both a recorded Heavy Soldier route and actual damage",
@@ -73,32 +73,32 @@
     {
       "name": "Live 30 FPS battle canvas samples distinct idle, walk and attack atlas frames",
       "passed": true,
-      "detail": "{\"samples\": 95, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"walk\": 13, \"attack\": 11, \"idle\": 8}}"
+      "detail": "{\"samples\": 99, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"walk\": 13, \"attack\": 11, \"idle\": 9}}"
     },
     {
       "name": "Actual Stand By turn receives engine-recorded damage on Heavy Soldier p1",
       "passed": true,
-      "detail": "{\"live\": true, \"p1\": 74, \"event\": {\"actorId\": \"e0\", \"from\": {\"x\": 7, \"y\": 2}, \"to\": {\"x\": 7, \"y\": 2}, \"path\": [], \"targetId\": \"p1\", \"damage\": 7, \"death\": false}}"
+      "detail": "{\"live\": true, \"p1\": 74, \"event\": {\"actorId\": \"e0\", \"from\": {\"x\": 7, \"y\": 2}, \"to\": {\"x\": 7, \"y\": 2}, \"path\": [], \"targetId\": \"p1\", \"damage\": 7, \"death\": false, \"order\": \"attack\", \"casualties\": 0}}"
     },
     {
       "name": "Received-damage playback samples multiple real Hit_A atlas frames",
       "passed": true,
-      "detail": "{\"distinctFrames\": 4, \"totalSamples\": 118}"
+      "detail": "{\"distinctFrames\": 4, \"totalSamples\": 120}"
     },
     {
       "name": "Actual defender attack kills Heavy Soldier p1 while militia keeps battle active",
       "passed": true,
-      "detail": "{\"live\": true, \"p1\": 0, \"survivingMilitia\": 626, \"event\": {\"actorId\": \"e0\", \"from\": {\"x\": 6, \"y\": 2}, \"to\": {\"x\": 6, \"y\": 2}, \"path\": [], \"targetId\": \"p1\", \"damage\": 74, \"death\": true}, \"strict\": true, \"version\": 7}"
+      "detail": "{\"live\": true, \"p1\": 0, \"survivingMilitia\": 626, \"event\": {\"actorId\": \"e0\", \"from\": {\"x\": 6, \"y\": 2}, \"to\": {\"x\": 6, \"y\": 2}, \"path\": [], \"targetId\": \"p1\", \"damage\": 74, \"death\": true, \"order\": \"attack\", \"casualties\": 1}, \"strict\": true, \"version\": 7}"
     },
     {
       "name": "Dead-stack playback samples the actual Death_A atlas while battle remains active",
       "passed": true,
-      "detail": "{\"distinctFrames\": 6, \"totalSamples\": 136}"
+      "detail": "{\"distinctFrames\": 6, \"totalSamples\": 138}"
     },
     {
       "name": "v07 Save/Reload preserves the actual death result, prior battle receipts and atlases",
       "passed": true,
-      "detail": "{\"version\": 7, \"race\": \"human\", \"battle\": true, \"key\": true, \"p1Unit\": \"human_4\", \"p1\": 0, \"enemyEvent\": {\"actorId\": \"e0\", \"from\": {\"x\": 6, \"y\": 2}, \"to\": {\"x\": 6, \"y\": 2}, \"path\": [], \"targetId\": \"p1\", \"damage\": 74, \"death\": true}, \"strict\": true, \"atlasReady\": true}"
+      "detail": "{\"version\": 7, \"race\": \"human\", \"battle\": true, \"key\": true, \"p1Unit\": \"human_4\", \"p1\": 0, \"enemyEvent\": {\"actorId\": \"e0\", \"from\": {\"x\": 6, \"y\": 2}, \"to\": {\"x\": 6, \"y\": 2}, \"path\": [], \"targetId\": \"p1\", \"damage\": 74, \"death\": true, \"order\": \"attack\", \"casualties\": 1}, \"strict\": true, \"atlasReady\": true}"
     },
     {
       "name": "Renderer-only cloned battle mirrors licensed sprite art for an enemy",
@@ -546,7 +546,7 @@
       "loaded": true,
       "width": 1176,
       "height": 550,
-      "draws": 3
+      "draws": 2
     },
     "saveVersion": 7,
     "saveKey": true
@@ -568,7 +568,9 @@
       "path": [],
       "targetId": "p1",
       "damage": 74,
-      "death": true
+      "death": true,
+      "order": "attack",
+      "casualties": 1
     },
     "strict": true,
     "version": 7
@@ -582,11 +584,11 @@
     "distinctFramesByAction": {
       "walk": 13,
       "attack": 11,
-      "idle": 8
+      "idle": 9
     },
     "hitFrames": 4,
     "deathFrames": 6,
-    "totalLiveCanvasSamples": 136
+    "totalLiveCanvasSamples": 138
   },
   "enemyRendererCheck": {
     "available": true,
@@ -599,9 +601,9 @@
   },
   "artifacts": {
     "human-heavy-soldier-battle-live-chrome.png": {
-      "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
-      "bytes": 1252116,
-      "resolution": "1440x1408"
+      "sha256": "1986BDDDE9CF3DB64E464B7C5DE56FF342D85885223C4587FEEB826C94F08391",
+      "bytes": 1304225,
+      "resolution": "1440x1620"
     },
     "human-heavy-soldier-death-frame-chrome.png": {
       "sha256": "6346CBA25FFE78F3CAA45379DFC6AE4A06C57F927A790438CF4535713ADB9B8B",

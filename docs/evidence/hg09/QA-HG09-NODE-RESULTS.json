@@ -1,7 +1,7 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 175,
-  "suitePassed": 175,
+  "suiteTotal": 176,
+  "suitePassed": 176,
   "suiteFailed": 0,
   "hg10Total": 20,
   "hg10Passed": 20,
@@ -88,8 +88,8 @@
       "passed": true
     }
   ],
-  "hg09Total": 17,
-  "hg09Passed": 17,
+  "hg09Total": 18,
+  "hg09Passed": 18,
   "hg09Failed": 0,
   "seededEncounters": 1000,
   "checks": [
@@ -159,6 +159,10 @@
     },
     {
       "name": "SRC46 keeps previously saved HG-07 starter NPC destinations valid under v07",
+      "passed": true
+    },
+    {
+      "name": "HG09 all six player battle commands write explicit v07 action receipts",
       "passed": true
     }
   ]
