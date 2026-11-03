@@ -50,6 +50,7 @@ with sync_playwright() as p:
         commandVisible:q.top<innerHeight-10&&q.bottom>0,grid:E.BATTLE_GRID,
         projectedCell:p.battleCellAt(c,px,py,E),scrollWidth:document.documentElement.scrollWidth};
     }""")
+    check("Entering combat resets previous map page scroll",page.evaluate("window.scrollY")<2)
     check("Actual NPC March reaches combat",state["inBattle"])
     check("Battle-only viewport mode activates",state["combatMode"] and state["sidebarHidden"] and state["navHidden"])
     check("Battle canvas uses at least 90 percent of desktop width",state["width"]>=state["vw"]*.90)
