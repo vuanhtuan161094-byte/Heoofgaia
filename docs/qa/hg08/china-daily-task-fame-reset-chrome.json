@@ -1,0 +1,110 @@
+{
+  "suite": "HG-08 SRC61 China 2009 daily tasks reset on Fame promotion",
+  "source": "SRC61, 17173, 2009-10-25; Fame stage thresholds derived from SRC20, 17173, 2009-12-27.",
+  "browserExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "inputHtml": "Play-Heoofgaia-HG11.html",
+  "fixtureDisclosure": "Chrome opens the actual standalone file:// game. The QA fixture seeds only Fame=199, then the actual map-click/March/tick/Attack flow wins a real 1-star NPC and the existing combat settlement crosses the 200 Fame rank; this resets the accepted task. A controlled Fame value of 799 checks within-rank preservation before 800 checks the next reset. No battle, objective completion, reward or victory is injected.",
+  "checks": [
+    {
+      "name": "Offline build opens with canonical game title",
+      "passed": true
+    },
+    {
+      "name": "China 2009 daily-task profile is separate and documents Fame-stage refresh",
+      "passed": true
+    },
+    {
+      "name": "Real task Accept records work at Fame stage 5",
+      "passed": true,
+      "detail": {
+        "accepted": true,
+        "stage": 5,
+        "progress": 0,
+        "valid": true
+      }
+    },
+    {
+      "name": "Rank-boundary battle target comes from the dated 1-star NPC map",
+      "passed": true
+    },
+    {
+      "name": "Real map click and March dispatch the starter formation",
+      "passed": true
+    },
+    {
+      "name": "Natural travel opens the real NPC battle",
+      "passed": true
+    },
+    {
+      "name": "Real 1-star victory crosses Fame 200 and resets the China daily board",
+      "passed": true,
+      "detail": {
+        "fame": 209,
+        "battle": false,
+        "cleared": true,
+        "accepted": false,
+        "claimed": false,
+        "progress": 0,
+        "stage": 200,
+        "valid": true,
+        "notice": "Danh vọng lên bậc 200: nhiệm vụ ngày Trung Quốc 2009 được làm mới (SRC61)."
+      }
+    },
+    {
+      "name": "Fame promotion returns the task UI to its real enabled Accept control",
+      "passed": true
+    },
+    {
+      "name": "Fame changes inside the same rank do not reset task state",
+      "passed": true,
+      "detail": {
+        "accepted": true,
+        "stage": 200
+      }
+    },
+    {
+      "name": "Fame 800 promotion refreshes the task board a second time",
+      "passed": true,
+      "detail": {
+        "accepted": false,
+        "progress": 0,
+        "stage": 800,
+        "notice": "Danh vọng lên bậc 800: nhiệm vụ ngày Trung Quốc 2009 được làm mới (SRC61)."
+      }
+    },
+    {
+      "name": "Browser Save stores a strict v07 state after Fame reset",
+      "passed": true,
+      "detail": {
+        "stored": true,
+        "stage": 800,
+        "accepted": false,
+        "valid": true
+      }
+    },
+    {
+      "name": "Browser reload retains the current Fame stage and refreshed board",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "stage": 800,
+        "accepted": false,
+        "progress": 0,
+        "valid": true
+      }
+    },
+    {
+      "name": "No JavaScript exceptions or console errors",
+      "passed": true,
+      "detail": {
+        "page": [],
+        "console": []
+      }
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "passed": 13,
+  "total": 13,
+  "screenshot": "docs/evidence/hg08/china-daily-task-fame-reset-chrome.png"
+}

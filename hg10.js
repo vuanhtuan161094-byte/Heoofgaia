@@ -24,18 +24,25 @@ const DAILY_TASKS=Object.freeze([
 const CHINA_2009_DAILY_TASKS=Object.freeze([
  Object.freeze({id:'recruit_archers',name:'招募弓箭手',nameVi:'Tuyển mộ cung thủ',unitId:'human_3',required:20,rewardUnitId:'human_3',rewardUnits:10,rewardWood:100,source:'SRC54',confidence:'B'})
 ]);
+function china2009FameStage(s){return E.fameApStats(s.fame).threshold}
+function freshChina2009TaskBoard(day,fameStage){return {day,fameStage,accepted:[],claimed:[],progress:{recruit_archers:0}}}
 function syncChina2009TaskBoard(s,now=s.lastTick){
- const day=worldDayKey(Number.isFinite(now)?now:Date.now());
- if(s.china2009DailyTaskState===undefined||s.china2009DailyTaskState===null){s.china2009DailyTaskState={day,accepted:[],claimed:[],progress:{recruit_archers:0}};return s.china2009DailyTaskState}
+ const day=worldDayKey(Number.isFinite(now)?now:Date.now()),fameStage=china2009FameStage(s);
+ if(s.china2009DailyTaskState===undefined||s.china2009DailyTaskState===null){s.china2009DailyTaskState=freshChina2009TaskBoard(day,fameStage);return s.china2009DailyTaskState}
  const board=s.china2009DailyTaskState;if(typeof board!=='object'||Array.isArray(board))throw Error('Dữ liệu nhiệm vụ Trung Quốc 2009 không hợp lệ.');
- if(board.day!==day){s.china2009DailyTaskState={day,accepted:[],claimed:[],progress:{recruit_archers:0}};return s.china2009DailyTaskState}
+ if(board.day!==day){s.china2009DailyTaskState=freshChina2009TaskBoard(day,fameStage);return s.china2009DailyTaskState}
+ if(own(board,'fameStage')&&!E.FAME_AP.some(([threshold])=>threshold===board.fameStage))throw Error('Bậc danh vọng của nhiệm vụ Trung Quốc 2009 không hợp lệ.');
+ // SRC61 says every Fame-rank promotion restarts the daily tasks. Legacy v07
+ // boards lack fameStage; preserve their current progress once while migrating.
+ if(!own(board,'fameStage'))board.fameStage=fameStage;
+ else if(board.fameStage!==fameStage){s.china2009DailyTaskState=freshChina2009TaskBoard(day,fameStage);E.note(s,`Danh vọng lên bậc ${fameStage.toLocaleString('vi-VN')}: nhiệm vụ ngày Trung Quốc 2009 được làm mới (SRC61).`);return s.china2009DailyTaskState}
  if(!board.progress)board.progress={recruit_archers:0};return board;
 }
 function syncDailyTaskBoard(s,now=s.lastTick){
  const day=worldDayKey(Number.isFinite(now)?now:Date.now());
  if(!s.dailyTaskState){s.dailyTaskState={day,accepted:[],claimed:[]};return s.dailyTaskState}
- // Fame unlocks additional tasks in the community reference; it does not say
- // existing daily progress is erased. Preserve today's work on promotion.
+ // International/community sources do not say that accepted work is erased.
+ // The separate China 2009 board follows SRC61's Fame-stage reset in its own sync.
  if(s.dailyTaskState.day!==day)s.dailyTaskState={day,accepted:[],claimed:[]};
  if(own(s.dailyTaskState,'fameRank'))delete s.dailyTaskState.fameRank; // tolerate unreleased prototype saves
  return s.dailyTaskState;
@@ -170,6 +177,7 @@ function battleAct(s,action){
  if(result?.type==='win'&&tile?.kind==='mine'){
   const mine=s.mines.find(m=>m.key===tile.key);if(mine)mine.cityId=homeCityId||'main';
  }
+ syncChina2009TaskBoard(s,s.lastTick);
  storeCurrent(s);return result;
 }
 function tickOtherCity(s,city,from,now){
@@ -195,7 +203,7 @@ function strict(s){
  if(!['international','china2009'].includes(s.spellEdition))return false;
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits)||!Array.isArray(s.heroBuffs))return false;
  const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));
- if(!china||typeof china!=='object'||Array.isArray(china)||typeof china.day!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(china.day)||!Array.isArray(china.accepted)||!Array.isArray(china.claimed)||new Set(china.accepted).size!==china.accepted.length||new Set(china.claimed).size!==china.claimed.length||china.accepted.some(id=>!chinaIds.has(id))||china.claimed.some(id=>!chinaIds.has(id)||!china.accepted.includes(id))||!china.progress||typeof china.progress!=='object'||Array.isArray(china.progress)||Object.keys(china.progress).some(id=>!chinaIds.has(id))||CHINA_2009_DAILY_TASKS.some(t=>!Number.isSafeInteger(china.progress[t.id])||china.progress[t.id]<0||china.progress[t.id]>t.required))return false;
+ if(!china||typeof china!=='object'||Array.isArray(china)||typeof china.day!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(china.day)||(own(china,'fameStage')&&!E.FAME_AP.some(([threshold])=>threshold===china.fameStage))||!Array.isArray(china.accepted)||!Array.isArray(china.claimed)||new Set(china.accepted).size!==china.accepted.length||new Set(china.claimed).size!==china.claimed.length||china.accepted.some(id=>!chinaIds.has(id))||china.claimed.some(id=>!chinaIds.has(id)||!china.accepted.includes(id))||!china.progress||typeof china.progress!=='object'||Array.isArray(china.progress)||Object.keys(china.progress).some(id=>!chinaIds.has(id))||CHINA_2009_DAILY_TASKS.some(t=>!Number.isSafeInteger(china.progress[t.id])||china.progress[t.id]<0||china.progress[t.id]>t.required))return false;
  const board=s.dailyTaskState,knownTaskIds=new Set(DAILY_TASKS.map(t=>t.id));
  if(!board||typeof board!=='object'||Array.isArray(board)||typeof board.day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(board.day)||!Array.isArray(board.accepted)||!Array.isArray(board.claimed)||new Set(board.accepted).size!==board.accepted.length||new Set(board.claimed).size!==board.claimed.length||board.accepted.some(id=>!knownTaskIds.has(id))||board.claimed.some(id=>!knownTaskIds.has(id)||!board.accepted.includes(id)))return false;
  for(const [key,day] of Object.entries(s.worldVisits))if(!WORLD_BUILDING_BY_KEY.has(key)||typeof day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(day))return false;
@@ -314,7 +322,7 @@ function claimDailyTask(s,id,now=Date.now()){
 function china2009DailyTasks(s,now=Date.now()){
  ensure(s);syncChina2009TaskBoard(s,now);const main=s.cities.find(c=>c.main);if(main?.race!=='human')return [];
  const board=s.china2009DailyTaskState;
- return CHINA_2009_DAILY_TASKS.map(task=>({...task,progress:Math.min(task.required,board.progress[task.id]||0),accepted:board.accepted.includes(task.id),claimed:board.claimed.includes(task.id),ready:(board.progress[task.id]||0)>=task.required}));
+ return CHINA_2009_DAILY_TASKS.map(task=>({...task,fameStage:board.fameStage,progress:Math.min(task.required,board.progress[task.id]||0),accepted:board.accepted.includes(task.id),claimed:board.claimed.includes(task.id),ready:(board.progress[task.id]||0)>=task.required}));
 }
 function acceptChina2009DailyTask(s,id,now=Date.now()){
  ensure(s);syncChina2009TaskBoard(s,now);if(!activeCity(s).main)throw Error('Chuỗi nhiệm vụ Trung Quốc 2009 chỉ nhận tại thành chính.');
@@ -332,7 +340,7 @@ function claimChina2009DailyTask(s,id,now=Date.now()){
  E.add(s,{wood:task.rewardWood});s.army[task.rewardUnitId]=owned+task.rewardUnits;board.claimed.push(id);
  E.note(s,`Hoàn thành nhiệm vụ 2009 “${task.name}” (SRC54): +${task.rewardWood} gỗ, +${task.rewardUnits} Cung thủ.`);return {wood:task.rewardWood,unitId:task.rewardUnitId,units:task.rewardUnits};
 }
-function claim(s,id){ensure(s);if(!activeCity(s).main)throw Error('Theo hướng dẫn Trung Quốc 2009, thao tác nhiệm vụ chỉ thực hiện tại thành chính.');return prior.claim(s,id)}
+function claim(s,id){ensure(s);if(!activeCity(s).main)throw Error('Theo hướng dẫn Trung Quốc 2009, thao tác nhiệm vụ chỉ thực hiện tại thành chính.');const result=prior.claim(s,id);syncChina2009TaskBoard(s,s.lastTick);return result}
 function appoint(s,id){ensure(s);const c=activeCity(s);if(s.cities.some(x=>x.id!==c.id&&x.local.castellan===id))throw Error('Một tướng không thể đồng thời làm Castellan ở hai thành.');return prior.appoint(s,id)}
 E.make=make;E.tick=tick;E.startMarch=startMarch;E.battleAct=battleAct;E.claim=claim;E.appoint=appoint;E.heroStats=heroStats;E.valid=valid;E.strictSave=strict;E.parseSave=parse;E.serializeSave=serialize;E.rate=rate;
 Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,CHINA_2009_DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,startCityTransport,transportUnit,transportWeight,dailyTasks,acceptDailyTask,claimDailyTask,china2009DailyTasks,acceptChina2009DailyTask,claimChina2009DailyTask});

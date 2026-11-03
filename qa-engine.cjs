@@ -796,10 +796,29 @@ test('SRC30/SRC61 Undead daily Lich King task is race/Fame-gated, follows a real
  s.res.gold=cap-1000;const goldBefore=s.res.gold,claim=E.claimDailyTask(s,id,s.lastTick);assert.equal(JSON.stringify(claim),JSON.stringify({gold:800,ap:Math.min(9,s.apMax-apBefore),unitId:'undead_8',units:1}));assert.equal(s.res.gold,goldBefore+800);assert.equal(s.army.undead_8,armyBefore+1);assert.throws(()=>E.claimDailyTask(s,id,s.lastTick),/đã nhận/);
  const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.equal(loaded.army.undead_8,armyBefore+1);assert.equal(E.dailyTasks(loaded,loaded.lastTick).find(t=>t.id===id).claimed,true);assert(E.strictSave(loaded));
 });
-test('HG10 daily board preserves accepted work on Fame promotion, resets by day and rejects corrupt v07 task state',()=>{
+test('International community daily board preserves accepted work on Fame promotion, resets by day and rejects corrupt v07 task state',()=>{
  const s=state(),now=s.lastTick;E.acceptDailyTask(s,'getting_started',now);s.fame=800;assert.equal(E.dailyTasks(s,now)[0].accepted,true);assert.equal('fameRank' in s.dailyTaskState,false);
  const saved=E.serializeSave(s),raw=JSON.parse(saved);raw.state.dailyTaskState.accepted=['unknown'];assert.throws(()=>E.parseSave(JSON.stringify(raw)),/Save HG-10/);
  assert.equal(E.dailyTasks(s,now+86_400_000)[0].accepted,false);assert.equal(s.dailyTaskState.day,E.worldDayKey(now+86_400_000));
+});
+test('SRC61 Chinese daily tasks restart on each Fame stage, persist, and adopt legacy v07 boards safely',()=>{
+ const id='recruit_archers',s=state('human'),now=s.lastTick;assert.equal(E.china2009DailyTasks(s,now)[0].fameStage,5);
+ E.acceptChina2009DailyTask(s,id,now);s.fame=199;let row=E.china2009DailyTasks(s,now)[0];assert.equal(row.accepted,true);assert.equal(row.fameStage,5);
+ s.fame=200;row=E.china2009DailyTasks(s,now)[0];assert.deepEqual({accepted:row.accepted,claimed:row.claimed,progress:row.progress,fameStage:row.fameStage},{accepted:false,claimed:false,progress:0,fameStage:200});assert.match(s.log[0],/được làm mới \(SRC61\)/);
+ E.acceptChina2009DailyTask(s,id,now);s.fame=799;assert.equal(E.china2009DailyTasks(s,now)[0].accepted,true);s.fame=800;
+ row=E.china2009DailyTasks(s,now)[0];assert.deepEqual({accepted:row.accepted,progress:row.progress,fameStage:row.fameStage},{accepted:false,progress:0,fameStage:800});
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.equal(E.china2009DailyTasks(loaded,loaded.lastTick)[0].fameStage,800);assert(E.strictSave(loaded));
+ const old=state('human'),raw=JSON.parse(E.serializeSave(old));raw.state.china2009DailyTaskState.accepted=[id];raw.state.china2009DailyTaskState.progress[id]=12;delete raw.state.china2009DailyTaskState.fameStage;
+ const migrated=E.parseSave(JSON.stringify(raw)),legacyRow=E.china2009DailyTasks(migrated,migrated.lastTick)[0];assert.deepEqual({accepted:legacyRow.accepted,progress:legacyRow.progress,fameStage:legacyRow.fameStage},{accepted:true,progress:12,fameStage:5});assert(E.strictSave(migrated));
+ const invalid=JSON.parse(E.serializeSave(s));invalid.state.china2009DailyTaskState.fameStage=123;assert.throws(()=>E.parseSave(JSON.stringify(invalid)),/Bậc danh vọng/);
+ const nextDay=loaded.lastTick+86_400_000;row=E.china2009DailyTasks(loaded,nextDay)[0];assert.deepEqual({accepted:row.accepted,progress:row.progress,fameStage:row.fameStage},{accepted:false,progress:0,fameStage:800});
+});
+test('SRC61 Fame reset is triggered immediately by a real NPC victory crossing the rank boundary',()=>{
+ const s=state('human'),target=E.NPC_CAMPS_2009.find(x=>x.stars===1),id='recruit_archers';assert(target);s.fame=199;E.acceptChina2009DailyTask(s,id,s.lastTick);assert(E.china2009DailyTasks(s,s.lastTick)[0].accepted);
+ E.setFormation(s,[{unitId:'human_1',count:16}]);E.startMarch(s,target.key);E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
+ let result=null,turns=0;while(s.battle&&turns++<30)result=E.battleAct(s,'attack');assert.equal(result?.type,'win');assert(s.fame>=200);assert.equal(E.fameApStats(s.fame).threshold,200);
+ const row=E.china2009DailyTasks(s,s.lastTick)[0];assert.deepEqual({accepted:row.accepted,claimed:row.claimed,progress:row.progress,fameStage:row.fameStage},{accepted:false,claimed:false,progress:0,fameStage:200});assert(s.log.some(x=>x.includes('được làm mới (SRC61)')));
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.deepEqual({accepted:E.china2009DailyTasks(loaded,loaded.lastTick)[0].accepted,stage:E.china2009DailyTasks(loaded,loaded.lastTick)[0].fameStage},{accepted:false,stage:200});assert(E.strictSave(loaded));
 });
 
 function cityTransportFixture(){

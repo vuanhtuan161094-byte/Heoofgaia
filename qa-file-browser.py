@@ -34,7 +34,17 @@ def click_minimap_tile(page, tx, ty):
     point = page.evaluate(f'''(()=>{{const c=document.querySelector('#world-canvas'),m=HOG_PAINTER.miniBounds(c),pad=9;
       return {{x:(m.x+pad+({tx}+.5)*(m.w-2*pad)/HOG_ENGINE.WIDTH)/c.width,
               y:(m.y+pad+({ty}+.5)*(m.h-2*pad)/HOG_ENGINE.HEIGHT)/c.height}}}})()''')
-    page.mouse.click(box['x'] + point['x'] * box['width'], box['y'] + point['y'] * box['height'])
+    x = box['x'] + point['x'] * box['width']
+    y = box['y'] + point['y'] * box['height']
+    page.mouse.click(x, y)
+    # Chromium can drop the first pointer sequence while a resized file:// canvas
+    # is settling. Repeating the same real pointer click is idempotent and keeps
+    # this check about visible minimap input rather than a test-only state write.
+    try:
+        page.locator('[data-action="march"], [data-action="recall"]').first.wait_for(state='visible', timeout=1500)
+    except Exception:
+        page.mouse.click(x, y)
+        page.locator('[data-action="march"], [data-action="recall"]').first.wait_for(state='visible', timeout=5000)
 
 with sync_playwright() as p:
     user_data = tempfile.TemporaryDirectory(prefix='heoofgaia-hg07-profile-')
