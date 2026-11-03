@@ -913,6 +913,26 @@ test('HG10 legacy v07 transport field migrates empty and malformed convoy saves 
  const {s,city}=cityTransportFixture();E.startCityTransport(s,city.id,'human_1',1,{gold:100});const raw=JSON.parse(E.serializeSave(s));raw.state.cityTransports[0].resources.gold=-1;assert.throws(()=>E.parseSave(JSON.stringify(raw)),/Save HG-10/);
 });
 
+function collisionFixture(){
+ const s=state(),b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);s.battle=b;
+ const unit=(id,side,x,y,range=1)=>({id,side,unitId:side==='player'?'human_1':null,name:id,range,count:1,initial:1,hp:10000,atk:0,def:1,spd:4,pool:10000,x,y});
+ b.allies=[unit('p0','player',1,1),unit('p1','player',2,1,20)];b.enemies=[unit('e0','enemy',5,1,20)];b.selected='p0';return {s,b,unit};
+}
+test('HG09 automatic advance routes around a living stack and continues after v07 reload',()=>{
+ let {s,b}=collisionFixture();const before=b.enemies[0].pool;b.orders.p1='defend';E.battleAct(s,'advance');assert.deepEqual({x:b.allies[0].x,y:b.allies[0].y},{x:1,y:2});assert.equal(b.enemies[0].pool,before);
+ s=E.parseSave(E.serializeSave(s));for(let i=0;i<5;i++){E.battleAct(s,'advance');const live=[...s.battle.allies,...s.battle.enemies].filter(u=>u.pool>0);assert.equal(new Set(live.map(u=>`${u.x},${u.y}`)).size,live.length)}
+ const a=s.battle.allies[0],e=s.battle.enemies[0];assert.equal(Math.abs(a.x-e.x)+Math.abs(a.y-e.y),1);assert(E.strictSave(s));
+});
+test('HG09 enclosed advance and occupied retreat hold position without overlapping live troops',()=>{
+ const {s,b,unit}=collisionFixture();b.allies=[unit('p0','player',0,0),unit('p1','player',1,0,20),unit('p2','player',0,1,20)];E.battleAct(s,'advance');assert.equal(b.allies[0].x,0);assert.equal(b.allies[0].y,0);
+ b.allies=[unit('p0','player',2,1),unit('p1','player',1,1,20)];b.selected='p0';E.battleAct(s,'retreat');assert.equal(b.allies[0].x,2);assert.equal(b.orders.p0,'attack');assert(E.strictSave(s));
+});
+
+test('HG09 enemy melee detours around allies while dead stack cells remain traversable',()=>{
+ const {s,b,unit}=collisionFixture();b.allies=[unit('p0','player',1,1,20)];b.enemies=[unit('e0','enemy',5,1),unit('e1','enemy',4,1,20)];b.selected='p0';E.battleAct(s,'defend');assert.deepEqual({x:b.enemies[0].x,y:b.enemies[0].y},{x:5,y:2});
+ const f=collisionFixture();f.b.allies[1].pool=0;f.b.allies[1].count=0;E.battleAct(f.s,'advance');assert.equal(f.b.allies[0].x,2);assert.equal(f.b.allies[0].y,1);assert(E.strictSave(f.s));
+});
+
 const hg10=results.filter(x=>/^HG10 /.test(x.name));
 const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical|SRC45\/SRC46\/SRC47|SRC46)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});

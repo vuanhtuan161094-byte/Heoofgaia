@@ -50,3 +50,9 @@ Research/access date: 2026-11-03. Target snapshot: Chinese *英雄之城* during
 - The China profile still has other movement and passive skills unimplemented. Battle Instinct is the one supported movement skill currently implemented. Its 4-round duration/cooldown and fractional-cell carry are explicit local models because SRC57 gives none.
 - The included screenshot is captured from this reconstruction running in Chromium. It is not a screenshot of the original game. Original-client side-by-side review remains BLOCKED / NOT TESTED.
 - Next: find a version-stamped combat recording or authorized data source; add observed battle fixtures; implement supported rules only; then repeat desktop/mobile rendering and save/load mid-battle checks.
+
+## Collision repair — 2026-11-03
+
+Automatic Attack/Advance now searches a shortest legal cardinal route to attack range, avoiding all living allied/enemy cells. Equal-length route choices prefer the previous dominant-axis direction. Blocked Retreat holds position and consumes the selected action; dead stacks do not occupy cells. This fixes an internal tactical invariant shared with clicked movement; no historical collision algorithm or original numeric movement parity is claimed. Grid size, movement allowance and retreat distance remain SIMULATED.
+
+Node covers player and enemy detours, enclosure, dead cells, occupied retreat and v07 reload. Actual file:// Chrome follows engine March/travel into a two-stack NPC encounter, then uses real Advance/Retreat controls and Save/Reload. Fixture positions, reach and durability isolate the blocker; no movement outcome is injected. Receipt: `docs/qa/hg09/collision-detour-chrome.json` (6/6); actual screenshot: `docs/evidence/hg09/collision-detour-chrome.png`. Full Node 161/161; integrated Chrome 96/96; file:// 30/30, all exited 0.

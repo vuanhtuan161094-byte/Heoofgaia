@@ -476,13 +476,22 @@ function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
 function advance(a,target,battle){
- const allowance=battleMovementAllowance(battle,a);
- for(let i=0;i<allowance&&dist(a,target)>a.range;i++){
-  const dx=Math.sign(target.x-a.x),dy=Math.sign(target.y-a.y);
-  if(Math.abs(target.x-a.x)>Math.abs(target.y-a.y))a.x=Math.max(0,Math.min(11,a.x+dx));
-  else if(dy)a.y=Math.max(0,Math.min(8,a.y+dy));
-  else a.x=Math.max(0,Math.min(11,a.x+dx));
+ // Find a legal route to attack range, rather than stepping through a living
+ // stack. Axis preference preserves unobstructed movement; BFS finds detours.
+ const occupied=new Set([...battle.allies,...battle.enemies].filter(u=>u.pool>0&&u.id!==a.id).map(u=>battleCellKey(u.x,u.y)));
+ const start=battleCellKey(a.x,a.y),queue=[{x:a.x,y:a.y}],previous=new Map([[start,null]]);let goal=null;
+ for(let i=0;i<queue.length;i++){
+  const p=queue[i],key=battleCellKey(p.x,p.y);if(dist(p,target)<=a.range){goal=key;break}
+  const dx=Math.sign(target.x-p.x),dy=Math.sign(target.y-p.y),preferred=Math.abs(target.x-p.x)>Math.abs(target.y-p.y)?[[dx,0],[0,dy]]:[[0,dy],[dx,0]];
+  for(const [sx,sy] of [...preferred,[1,0],[0,1],[-1,0],[0,-1]]){
+   if(!sx&&!sy)continue;const x=p.x+sx,y=p.y+sy,next=battleCellKey(x,y);
+   if(x<0||x>=BATTLE_GRID.cols||y<0||y>=BATTLE_GRID.rows||occupied.has(next)||previous.has(next))continue;
+   previous.set(next,key);queue.push({x,y});
+  }
  }
+ if(goal===null||goal===start)return;
+ const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}path.reverse();
+ const allowance=battleMovementAllowance(battle,a),last=path[Math.min(path.length,allowance)-1];a.x=last.x;a.y=last.y;
 }
 function strike(s,b,actor,target,order){
  if(actor.pool<=0||target.pool<=0)return 0;
@@ -530,7 +539,7 @@ function battleAct(s,action,options){
    }
   }
   if(actor.side==='player'&&stance==='defend'){acted.push(actor.id);b.orders[actor.id]='attack';continue}
-  if(actor.side==='player'&&stance==='retreat'){actor.x=Math.max(0,actor.x-1);acted.push(actor.id);b.orders[actor.id]='attack';continue}
+  if(actor.side==='player'&&stance==='retreat'){const x=Math.max(0,actor.x-1);if(![...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===x&&u.y===actor.y))actor.x=x;acted.push(actor.id);b.orders[actor.id]='attack';continue}
   const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
   const target=pref||[...enemy].sort((x,y)=>{const near=actor.range>1?0:dist(actor,x)-dist(actor,y),power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;return actor.range>1?power||near||x.id.localeCompare(y.id):near||power||x.id.localeCompare(y.id)})[0];
   lastTargets[actor.id]=target.id;acted.push(actor.id);

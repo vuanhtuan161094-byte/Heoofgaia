@@ -1,0 +1,34 @@
+{
+  "total": 6,
+  "passed": 6,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Real formation, March and travel create a two-stack NPC battle",
+      "passed": true
+    },
+    {
+      "name": "Actual Advance control detours around the living blocker",
+      "passed": true
+    },
+    {
+      "name": "v07 reload preserves the detour and both live stacks",
+      "passed": true
+    },
+    {
+      "name": "Further actual Advance turns reach melee range without overlap",
+      "passed": true
+    },
+    {
+      "name": "Actual Retreat holds when a living friendly stack blocks the rear cell",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript page errors",
+      "passed": true
+    }
+  ],
+  "fixtureDisclosure": "Actual file:// Human game uses its existing 16 troops in two real formation stacks, dispatches via engine March and travel. Only battlefield positions, durability, attack/speed and blocker ranged reach are fixture-adjusted to isolate collision. No movement result or victory is injected. Advance and Retreat use actual UI controls; Save/Reload uses browser v07 persistence.",
+  "screenshot": "docs/evidence/hg09/collision-detour-chrome.png",
+  "screenshotSha256": "31731144801FB3700BFE2D1027B6D5A964FF923834A550195C9E6EA74D32D57F"
+}
