@@ -4,6 +4,7 @@
 const C=root.HOG_CATALOG||(typeof require==='function'?require('./data.js'):null);
 const V=5, SAVE_KEY='heoofgaia_hg_only_v04', PREV_SAVE_KEY='heoofgaia_hg_only_v03';
 const buildOrder=['hall','barracks','heroTower','tavern','warehouse','magicTower','arena','market','bazaar','embassy','stables','forge'];
+const BATTLE_GRID=Object.freeze({cols:12,rows:9,top:173,bottom:185});
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG10 offline catch-up: process at most 24 real wall-clock hours in one suspended-time step.
 // This is a bounded runtime policy, not an asserted Heroes of Gaia server rule.
@@ -270,6 +271,32 @@ function killUnits(s,damage){let rest=damage,dead=0;for(let u of activeArmy(s).s
 function battleSelect(s,id){assert(s.battle,'Không có trận chiến');const st=[...s.battle.allies,...s.battle.enemies].find(t=>t.id===id&&t.pool>0);assert(st,'Đội quân không tồn tại');if(st.side==='enemy')s.battle.focused=id;else s.battle.selected=id;return st;}
 function alive(arr){return arr.filter(u=>u.pool>0)}
 function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
+function battleCellKey(x,y){return `${x},${y}`}
+function battlePath(b,actor,destination){
+ const {cols,rows}=BATTLE_GRID;
+ if(!Number.isSafeInteger(destination?.x)||!Number.isSafeInteger(destination?.y)||destination.x<0||destination.x>=cols||destination.y<0||destination.y>=rows)return null;
+ if(destination.x===actor.x&&destination.y===actor.y)return [];
+ const occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
+ if(occupied.has(battleCellKey(destination.x,destination.y)))return null;
+ const start=battleCellKey(actor.x,actor.y),goal=battleCellKey(destination.x,destination.y),queue=[[actor.x,actor.y]],previous=new Map([[start,null]]);
+ const directions=[[1,0],[0,1],[-1,0],[0,-1]];
+ for(let i=0;i<queue.length;i++){
+  const [x,y]=queue[i],key=battleCellKey(x,y);if(key===goal)break;
+  for(const [dx,dy] of directions){const nx=x+dx,ny=y+dy,next=battleCellKey(nx,ny);if(nx<0||nx>=cols||ny<0||ny>=rows||occupied.has(next)||previous.has(next))continue;previous.set(next,key);queue.push([nx,ny])}
+ }
+ if(!previous.has(goal))return null;
+ const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
+}
+function moveBattleStack(b,actor,destination){
+ const path=battlePath(b,actor,destination);if(!path?.length)return null;
+ // Reuse the existing Advance movement allowance. Exact original per-turn movement is unknown.
+ const allowance=actor.range>1?1:actor.spd>=7?2:1,from={x:actor.x,y:actor.y};let steps=0;
+ for(const cell of path.slice(0,allowance)){
+  if([...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===cell.x&&u.y===cell.y))break;
+  actor.x=cell.x;actor.y=cell.y;steps++;
+ }
+ return steps?{unitId:actor.id,from,to:{x:actor.x,y:actor.y},steps,destination:{x:destination.x,y:destination.y}}:null;
+}
 // SRC23 describes an auto target judged highest in military power; SRC24 says melee prefers the threatening stack in closest range while ranged attacks the strongest stack. The original score is missing; ATK×living-count is our explicit model.
 function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
@@ -299,19 +326,30 @@ function strike(s,b,actor,target,order){
  if(lost>0){target.count-=lost;if(target.side==='player')casualty(s,target.unitId,lost,target.slot)}
  return dmg;
 }
-function battleAct(s,action){
- assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat'].includes(action),'Lệnh không hợp lệ');
+function battleAct(s,action,options){
+ assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat','move'].includes(action),'Lệnh không hợp lệ');
  const b=s.battle;
+ let requestedMove=null;
+ if(action==='move'){
+  const actor=b.allies.find(u=>u.id===b.selected&&u.pool>0);assert(actor,'Hãy chọn một đội quân còn sống để di chuyển.');
+  const destination={x:options?.x,y:options?.y};const path=battlePath(b,actor,destination);
+  assert(path&&path.length>0,'Ô đích không hợp lệ, đang bị chiếm hoặc không thể tới.');
+  requestedMove={unitId:actor.id,destination};
+ }
  b.autoUntil=Date.now()+10_000;b.order=action;b.orders=b.orders||{};if(b.selected)b.orders[b.selected]=action;s.battleOrder=action;
  // 2009 Chinese player guidance describes speed-descending turns, then the
  // left formation column top-to-bottom followed by the next column. Keep the
  // equal-speed tie-break tied to the actual battlefield positions.
  const participants=[...alive(b.allies),...alive(b.enemies)].sort((x,y)=>y.spd-x.spd||x.x-y.x||x.y-y.y||x.id.localeCompare(y.id));
- let dealt=0,lost=0;const acted=[],lastTargets={};
+ let dealt=0,lost=0;const acted=[],lastTargets={},lastMoves=[];
  for(const actor of participants){
   if(actor.pool<=0)continue;
   const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
   const stance=actor.side==='player'?(b.orders[actor.id]||'attack'):'attack';
+  if(actor.side==='player'&&requestedMove?.unitId===actor.id){
+   const movement=moveBattleStack(b,actor,requestedMove.destination);if(movement)lastMoves.push(movement);
+   acted.push(actor.id);b.orders[actor.id]='attack';continue;
+  }
   if(actor.side==='player'&&stance==='defend'){acted.push(actor.id);b.orders[actor.id]='attack';continue}
   if(actor.side==='player'&&stance==='retreat'){actor.x=Math.max(0,actor.x-1);acted.push(actor.id);b.orders[actor.id]='attack';continue}
   const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
@@ -320,7 +358,7 @@ function battleAct(s,action){
   const amount=strike(s,b,actor,target,stance);
   if(actor.side==='player')dealt+=amount;else lost+=amount;
  }
- const turn=b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.history.unshift(`Lượt ${turn}: quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
+ const turn=b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.lastMoves=lastMoves;const movementSummary=lastMoves.map(m=>`${m.unitId} đi ${m.steps} ô tới (${m.to.x},${m.to.y})`).join('; ');b.history.unshift(`Lượt ${turn}: ${movementSummary?`${movementSummary}; `:''}quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
  if(!alive(b.enemies).length){const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
   if(b.kind==='treasure'){if(!Array.isArray(s.treasureCleared))s.treasureCleared=[];if(!s.treasureCleared.includes(tile.key))s.treasureCleared.push(tile.key);add(s,{gold:75*b.level,wood:8*b.level,ore:8*b.level,sulfur:5*b.level,crystal:5*b.level});note(s,`Đánh thắng kho báu cấp ${b.level}; đã dọn vị trí. Phần quà tài nguyên phụ là mô hình.`)}
   else if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level,cityId:s.activeCityId||'main'});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
@@ -335,7 +373,7 @@ function battleAct(s,action){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
+const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 

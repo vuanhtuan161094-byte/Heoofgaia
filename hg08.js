@@ -328,11 +328,11 @@ function recallHero(s,heroId){
  s.expedition={heroId:station.heroId,homeKey:station.homeKey||'3,4',homeCityId:station.homeCityId||'main',army:{...station.army},formation:(station.formation||[]).map(g=>({...g})),phase:'returning'};
  return startReturn(s,station.key);
 }
-function battleAct(s,action){
+function battleAct(s,action,options){
  ensure(s);const b=s.battle,exp=s.expedition,hero=s.heroes.find(h=>h.id===(exp?.heroId||s.activeHero)),snapshot=hero?{level:hero.level,xp:hero.xp,atk:hero.atk,def:hero.def}:null;
  if(exp)s.activeHero=exp.heroId;
  const reward=b?battleExperienceReward(b):{star:1,baseXp:0,source:'SIM'};if(hero)hero.xp=0;
- let result;try{result=prior.battleAct(s,action)}finally{if(hero&&snapshot)Object.assign(hero,snapshot)}
+ let result;try{result=prior.battleAct(s,action,options)}finally{if(hero&&snapshot)Object.assign(hero,snapshot)}
  if(result?.type==='win'&&hero){const label=b?.kind==='treasure'?`kho báu cấp ${reward.star}`:`${reward.star}★`,gained=grantHeroExperience(s,hero.id,reward.baseXp,`thắng trận ${label}`),shown=gained.gained.toLocaleString('vi-VN',{maximumFractionDigits:6});E.note(s,`${hero.name} nhận ${shown} EXP sau chiến thắng ${label} (${reward.source}).`)}
  if(exp&&s.expedition===exp){
   const key=b?.target,tile=E.getTile(key);

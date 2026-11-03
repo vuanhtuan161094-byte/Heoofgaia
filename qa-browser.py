@@ -29,6 +29,11 @@ def click_minimap_tile(page,tx,ty):
       return {{x:(m.x+pad+({tx}+.5)*(m.w-2*pad)/HOG_ENGINE.WIDTH)/c.width,
               y:(m.y+pad+({ty}+.5)*(m.h-2*pad)/HOG_ENGINE.HEIGHT)/c.height}}}})()''')
     page.mouse.click(box['x']+point['x']*box['width'],box['y']+point['y']*box['height'])
+def click_battle_cell(page,x,y):
+    canvas=page.locator('#battle-canvas');box=canvas.bounding_box()
+    point=page.evaluate(f'''(()=>{{const c=document.querySelector('#battle-canvas'),g=HOG_ENGINE.BATTLE_GRID,cellH=(c.height-g.top-g.bottom)/g.rows;
+      return {{x:({x}+.5)/g.cols,y:(g.top+({y}+.5)*cellH)/c.height}}}})()''')
+    page.mouse.click(box['x']+point['x']*box['width'],box['y']+point['y']*box['height'])
 with sync_playwright() as p:
     executable=os.environ.get('HOG_CHROMIUM_PATH')
     if not executable:
@@ -169,6 +174,17 @@ with sync_playwright() as p:
     check('Real march opens a tactical encounter',lambda:battle.evaluate('!!HOG_APP_DEBUG.getState().battle&&document.querySelector("#battle-canvas")!==null'))
     check('Battle presents actual allied and enemy stacks',lambda:battle.locator('.stack-card').count()>=3 and battle.locator('#battle-canvas').is_visible())
     battle.screenshot(path=str(hg09_evidence/'screenshot-combat-desktop.png'),full_page=True)
+    battle.locator('[data-action="stack"][data-id="p0"]').click()
+    battle.locator('[data-action="move-mode"]').click()
+    check('Battle UI arms a selected stack for direct cell movement',lambda:battle.locator('#battle-move-prompt').is_visible())
+    click_battle_cell(battle,3,0)
+    check('Real battlefield cell click moves the selected stack without attacking',lambda:battle.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle,m=b?.lastMoves?.find(q=>q.unitId==="p0");return !!m&&m.steps===1&&m.to.x===2&&m.to.y===0&&!b.lastTargets?.p0&&b.orders.p0==="attack"})()'))
+    battle.screenshot(path=str(hg09_evidence/'screenshot-player-cell-move-desktop.png'),full_page=True)
+    battle.locator('#save').click()
+    moved_store=battle.evaluate('window.__qaStore')
+    battle.close()
+    battle=launch({'width':1440,'height':900},moved_store)
+    check('v07 browser reload preserves the clicked battlefield position and move receipt',lambda:battle.evaluate('(()=>{const s=HOG_APP_DEBUG.getState(),b=s.battle,m=b?.lastMoves?.find(q=>q.unitId==="p0");return s.version===7&&!!m&&m.to.x===2&&m.to.y===0&&b.allies.find(q=>q.id==="p0").x===2})()'))
     battle.locator('[data-action="battle"][data-cmd="attack"]').click()
     check('Attack command advances a real combat turn',lambda:battle.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return !s.battle||s.battle.turn>1})()'))
     check('Ranged attack changes enemy HP from deployment',lambda:battle.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return !s.battle||s.battle.enemies.some(e=>e.pool<e.initial*e.hp)})()'))
@@ -337,7 +353,7 @@ with sync_playwright() as p:
     browser.close()
 passed=sum(ok for _,ok in checks);total=len(checks)
 (evidence/'QA-RC1-RESULTS.json').write_text(json.dumps({'total':total,'passed':passed,'failed':total-passed,'errors':errors,'checks':[{'name':n,'passed':b} for n,b in checks]},indent=2,ensure_ascii=False),encoding='utf-8')
-hg09_checks=[(n,ok) for n,ok in checks if n.startswith('Real march') or n.startswith('Battle presents') or n.startswith('Attack command') or n.startswith('Ranged attack') or n.startswith('Combat turn') or n.startswith('Arena cites') or n.startswith('Arena treatment') or n.startswith('Save reload preserves an in-progress Arena') or n.startswith('Arena queue returns') or n.startswith('Undead Reincarnation') or n.startswith('Reincarnation is researched') or n.startswith('Castellan Reincarnation') or n.startswith('Enemy auto-attack') or n.startswith('Ranged auto-attack') or n.startswith('Advance control') or n.startswith('Advance remains') or n.startswith('Attack order deals')]
+hg09_checks=[(n,ok) for n,ok in checks if n.startswith('Real march') or n.startswith('Battle presents') or n.startswith('Battle UI arms') or n.startswith('Real battlefield cell') or n.startswith('v07 browser reload preserves the clicked battlefield') or n.startswith('Attack command') or n.startswith('Ranged attack') or n.startswith('Combat turn') or n.startswith('Arena cites') or n.startswith('Arena treatment') or n.startswith('Save reload preserves an in-progress Arena') or n.startswith('Arena queue returns') or n.startswith('Undead Reincarnation') or n.startswith('Reincarnation is researched') or n.startswith('Castellan Reincarnation') or n.startswith('Enemy auto-attack') or n.startswith('Ranged auto-attack') or n.startswith('Advance control') or n.startswith('Advance remains') or n.startswith('Attack order deals')]
 (hg09_evidence/'QA-HG09-BROWSER-RESULTS.json').write_text(json.dumps({'total':len(hg09_checks),'passed':sum(ok for _,ok in hg09_checks),'failed':sum(not ok for _,ok in hg09_checks),'errors':errors,'checks':[{'name':n,'passed':ok} for n,ok in hg09_checks]},indent=2,ensure_ascii=False),encoding='utf-8')
 print(f'BROWSER TOTAL {passed}/{total} PASS; JS exceptions={len(errors)}')
 sys.exit(1 if passed!=total else 0)

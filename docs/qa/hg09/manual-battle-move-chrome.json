@@ -1,0 +1,116 @@
+{
+  "suite": "HG-09 direct battlefield cell movement",
+  "browserExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "inputHtml": "Play-Heoofgaia-HG11.html",
+  "fixtureDisclosure": "The actual file:// game starts a new Human save, seeds only 40 Archers and their real formation to skip recruitment, dispatches to a dated 1-star NPC using March, and advances the real travel tick. Combat is created by the engine. The player selects the live stack card, arms the move command and clicks a battlefield cell with the mouse. No position, battle result or reward is injected.",
+  "checks": [
+    {
+      "name": "Standalone file:// build opens with the game title",
+      "passed": true
+    },
+    {
+      "name": "The real map March and travel tick open a 1-star NPC battle",
+      "passed": true
+    },
+    {
+      "name": "The live battle UI enters direct movement mode",
+      "passed": true
+    },
+    {
+      "name": "A real battlefield click moves the selected stack one cell and spends its action",
+      "passed": true,
+      "detail": {
+        "before": {
+          "turn": 1,
+          "position": {
+            "x": 1,
+            "y": 0
+          },
+          "enemyHp": 287
+        },
+        "after": {
+          "turn": 2,
+          "movement": {
+            "unitId": "p0",
+            "from": {
+              "x": 1,
+              "y": 0
+            },
+            "to": {
+              "x": 2,
+              "y": 0
+            },
+            "steps": 1,
+            "destination": {
+              "x": 3,
+              "y": 0
+            }
+          },
+          "selectedDamage": null,
+          "enemyHp": 287,
+          "valid": true
+        }
+      }
+    },
+    {
+      "name": "Browser Save stores the moved formation in a strict v07 save",
+      "passed": true,
+      "detail": {
+        "stored": true,
+        "version": 7,
+        "strict": true
+      }
+    },
+    {
+      "name": "Reload restores the exact battlefield cell and v07 movement receipt",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "position": {
+          "x": 2,
+          "y": 0
+        },
+        "move": {
+          "unitId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 2,
+            "y": 0
+          },
+          "steps": 1,
+          "destination": {
+            "x": 3,
+            "y": 0
+          }
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "The moved force can continue through real turns to battle settlement",
+      "passed": true,
+      "detail": {
+        "battle": false,
+        "cleared": 1,
+        "army": 39,
+        "valid": true
+      }
+    },
+    {
+      "name": "No browser JS exceptions or console errors",
+      "passed": true,
+      "detail": {
+        "page": [],
+        "console": []
+      }
+    }
+  ],
+  "errors": [],
+  "consoleErrors": [],
+  "passed": 8,
+  "total": 8,
+  "screenshot": "docs/evidence/hg09/manual-battle-move-chrome.png"
+}

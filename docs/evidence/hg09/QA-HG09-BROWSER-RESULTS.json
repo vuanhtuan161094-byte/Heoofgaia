@@ -1,6 +1,6 @@
 {
-  "total": 17,
-  "passed": 17,
+  "total": 20,
+  "passed": 20,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -10,6 +10,18 @@
     },
     {
       "name": "Battle presents actual allied and enemy stacks",
+      "passed": true
+    },
+    {
+      "name": "Battle UI arms a selected stack for direct cell movement",
+      "passed": true
+    },
+    {
+      "name": "Real battlefield cell click moves the selected stack without attacking",
+      "passed": true
+    },
+    {
+      "name": "v07 browser reload preserves the clicked battlefield position and move receipt",
       "passed": true
     },
     {

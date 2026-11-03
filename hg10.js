@@ -167,12 +167,12 @@ function startMarch(s,key,targetKind){
  const hero=s.heroes.find(h=>h.id===s.activeHero),oldSpeed=hero?.spd,boosted=hero?heroStats(s,hero.id)?.spd:oldSpeed;
  try{if(hero)hero.spd=boosted;return prior.startMarch(s,key,targetKind)}finally{if(hero)hero.spd=oldSpeed}
 }
-function battleAct(s,action){
+function battleAct(s,action,options){
  ensure(s);const tile=s.battle&&E.getTile(s.battle.target),homeCityId=s.expedition?.homeCityId||s.activeCityId;
  const hero=s.heroes.find(h=>h.id===(s.expedition?.heroId||s.activeHero)),old=hero?{atk:hero.atk,def:hero.def}:null;
  if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='atk'&&q.remaining>0))hero.atk*=1.1;
  if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='def'&&q.remaining>0))hero.def*=1.1;
- let result;try{result=prior.battleAct(s,action)}finally{if(hero&&old)Object.assign(hero,old)}
+ let result;try{result=prior.battleAct(s,action,options)}finally{if(hero&&old)Object.assign(hero,old)}
  if(result?.type==='win'&&tile?.kind==='castle'&&!cityForKey(s,tile.key))seedCapturedCity(s,tile);
  if(result?.type==='win'&&tile?.kind==='mine'){
   const mine=s.mines.find(m=>m.key===tile.key);if(mine)mine.cityId=homeCityId||'main';
