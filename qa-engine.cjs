@@ -1068,6 +1068,23 @@ test('HG09 expedition victory report keeps the originating hero and return snaps
  const corrupt=state();corrupt.battle=E.makeBattle(corrupt,target.key);corrupt.battle.woundedByUnit={human_1:999};assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/không hợp lệ/);
 });
 
+test('HG14.1 stage projects exactly 2:1 diamonds at real canvas dimensions',()=>{
+ const g=E.BATTLE_GRID;
+ for(const dims of [{width:1176,height:550},{width:960,height:449},{width:1280,height:600}]){
+  const p=P.battleProjection(dims,E),top=p.point(0,0),right=p.point(g.cols,0),
+   bottom=p.point(g.cols,g.rows),left=p.point(0,g.rows);
+  assert.equal(p.col.x,-p.row.x);
+  assert.equal(p.col.y,p.row.y);
+  assert.equal(p.col.x/p.col.y,2);
+  assert(Math.abs((right.x+left.x)/2-dims.width/2)<1e-7);
+  assert(top.y>0&&bottom.y<dims.height,'diamond must fit the viewport');
+  assert(left.x>0&&right.x<dims.width);
+  for(let x=0;x<g.cols;x++)for(let y=0;y<g.rows;y++){
+   const m=p.point(x+.5,y+.5),actual=P.battleCellAt(dims,m.x,m.y,E);
+   assert.equal(actual.x,x);assert.equal(actual.y,y);
+  }
+ }
+});
 test('HG14 four-race PNG sprite masters have deterministic Idle/Walk/Attack/Hit/Death transforms',()=>{
  const expected={
   human_3:'unit-human-archer',elf_1:'unit-elf-centaur',

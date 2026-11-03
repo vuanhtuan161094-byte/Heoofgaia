@@ -1,4 +1,4 @@
-"""Real file:// Chromium acceptance for the HG-09 oblique square-grid battle viewport."""
+"""Real file:// Chromium acceptance for HG14.1 2:1 isometric battlefield and controls."""
 from pathlib import Path
 import hashlib, json, sys
 from playwright.sync_api import sync_playwright
@@ -42,7 +42,7 @@ with sync_playwright() as p:
     state=page.evaluate("""() => {
       const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),cmd=document.querySelector('.command-bar'),q=cmd.getBoundingClientRect();
       const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,p=HOG_PAINTER;
-      const x=5,y=4,px=c.width*(.255+(x+.5)*.057-(y+.5)*.023),py=c.height*(.24+(x+.5)*.018+(y+.5)*.054);
+      const x=5,y=4,pt=p.battleProjection(c,E).point(x+.5,y+.5),px=pt.x,py=pt.y;
       return {inBattle:!!s.battle,combatMode:document.body.classList.contains('combat-mode'),
         width:r.width,height:r.height,vw:innerWidth,vh:innerHeight,
         sidebarHidden:getComputedStyle(document.querySelector('.sidebar')).display==='none',
@@ -60,13 +60,13 @@ with sync_playwright() as p:
     check("Battle canvas uses at least 90 percent of desktop width",state["width"]>=state["vw"]*.90)
     check("Battle canvas uses at least 60 percent of desktop height",state["height"]>=state["vh"]*.60)
     check("Commands are present in the initial viewport",state["commandVisible"])
-    check("Perspective retains square logical 12 by 9 cells",state["grid"]["cols"]==12 and state["grid"]["rows"]==9 and state["projectedCell"]=={"x":5,"y":4})
+    check("Isometric camera retains square logical 12 by 9 cells",state["grid"]["cols"]==12 and state["grid"]["rows"]==9 and state["projectedCell"]=={"x":5,"y":4})
     check("No horizontal desktop overflow",state["scrollWidth"]<=state["vw"]+1)
     desktop=SHOTDIR/"fullscreen-combat-desktop-chrome.png"
     page.screenshot(path=str(desktop),full_page=False)
     enemy=page.evaluate("""() => {
       const b=HOG_APP_DEBUG.getState().battle,u=b.enemies.find(q=>q.pool>0),c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();
-      const x=c.width*(.255+(u.x+.5)*.057-(u.y+.76)*.023),y=c.height*(.24+(u.x+.5)*.018+(u.y+.76)*.054);
+      const pt=HOG_PAINTER.battleProjection(c,HOG_ENGINE).point(u.x+.5,u.y+.5),x=pt.x,y=pt.y;
       return {id:u.id,x:r.left+x/c.width*r.width,y:r.top+y/c.height*r.height};
     }""")
     before_click=page.evaluate("""({x,y,id}) => {

@@ -311,11 +311,13 @@ function animatedSoldier(c,x,y,enemy,visual){
  const size=112;c.save();c.globalAlpha*=visual.alpha;c.translate(x,y);if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-size*148/256,-size*216/256,size,size);c.restore();return true;
 }
-// Engine grid cells remain square with four-neighbour topology.
-// The battlefield camera projects those squares onto an oblique 2.5D plane.
+// HG14.1: true symmetric 2:1 isometric projection on a square logical 12×9 grid.
+// Logic, pathfinding, unit feet and pointer mapping share this single camera.
 function battleProjection(canvas,E){
  const g=E.BATTLE_GRID||{cols:12,rows:9},w=canvas.width,h=canvas.height;
- const origin={x:w*.255,y:h*.24},col={x:w*.057,y:h*.018},row={x:-w*.023,y:h*.054};
+ const halfW=Math.min(w*.034,h*.069),halfH=halfW/2;
+ const origin={x:w/2-(g.cols-g.rows)*halfW/2,y:h*.205};
+ const col={x:halfW,y:halfH},row={x:-halfW,y:halfH};
  const det=col.x*row.y-col.y*row.x;
  const point=(x,y)=>({x:origin.x+x*col.x+y*row.x,y:origin.y+x*col.y+y*row.y});
  const cellAt=(px,py)=>{
@@ -323,7 +325,33 @@ function battleProjection(canvas,E){
   if(!Number.isFinite(gx)||!Number.isFinite(gy)||gx<0||gy<0||gx>=g.cols||gy>=g.rows)return null;
   return {x:Math.floor(gx),y:Math.floor(gy)};
  };
- return {g,point,cellAt};
+ return {g,origin,col,row,halfW,halfH,point,cellAt};
+}
+function battleGround(c,camera,w,h){
+ const g=camera.g,p0=camera.point(0,0),p1=camera.point(g.cols,0),p2=camera.point(g.cols,g.rows),p3=camera.point(0,g.rows);
+ // The meadow is a distant scenic backdrop; the entire playable floor shares one
+ // separate planar isometric footprint, without the original horizontal-grid tilt.
+ const atmosphere=c.createLinearGradient(0,0,0,h);
+ atmosphere.addColorStop(0,'#10272530');atmosphere.addColorStop(.42,'#091d176e');atmosphere.addColorStop(1,'#07160f80');
+ c.fillStyle=atmosphere;c.fillRect(0,0,w,h);
+ const corners=[p0,p1,p2,p3],outline=corners.map(p=>[p.x,p.y]);
+ poly(c,corners.map(p=>[p.x,p.y+13]),'#06150ec0');
+ poly(c,[[p1.x,p1.y],[p2.x,p2.y],[p2.x,p2.y+10],[p1.x,p1.y+10]],'#263e31','#73947a');
+ poly(c,[[p2.x,p2.y],[p3.x,p3.y],[p3.x,p3.y+10],[p2.x,p2.y+10]],'#304837','#73947a');
+ const turf=c.createLinearGradient(0,p0.y,0,p2.y);
+ turf.addColorStop(0,'#45654d');turf.addColorStop(.48,'#53694b');turf.addColorStop(1,'#706e4c');
+ poly(c,outline,turf,'#b4bc86');
+ // Deterministic in-plane earth variation and ornamental edge markers.
+ for(let i=0;i<g.cols;i++)for(let j=0;j<g.rows;j++){
+  const tile=[camera.point(i,j),camera.point(i+1,j),camera.point(i+1,j+1),camera.point(i,j+1)];
+  const tint=(i+j)%2===0?'#cdd1a70b':'#071d1710';
+  poly(c,tile.map(p=>[p.x,p.y]),tint,'#d5d5ac30');
+  if(random(i,j,37)>.73){
+   const mid=camera.point(i+.5,j+.5),r=random(i,j,38);
+   line(c,mid.x-5-r*7,mid.y+1,mid.x+3+r*6,mid.y-1,1,'#d0d6a724');
+  }
+ }
+ for(const corner of corners)circle(c,corner.x,corner.y,3.8,'#d5c89b');
 }
 function battleCellAt(canvas,x,y,E){return battleProjection(canvas,E).cellAt(x,y)}
 function battleHit(canvas,x,y,E,s,now=visualNow()){
@@ -331,7 +359,7 @@ function battleHit(canvas,x,y,E,s,now=visualNow()){
  let best=null,distance=Math.max(32,canvas.width*.050);
  for(const u of [...b.allies,...b.enemies]){
   if(u.pool<=0)continue;
-  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):u,p=cam.point((visual||u).x+.5,(visual||u).y+.76),d=Math.hypot(p.x-x,p.y-y);
+  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):u,p=cam.point((visual||u).x+.5,(visual||u).y+.5),d=Math.hypot(p.x-x,p.y-y);
   if(d<distance){best=u;distance=d}
  }
  return best;
@@ -383,16 +411,17 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   for(let i=0;i<25;i++){const x=(i*79)%w;tree(c,x,142+random(i,4)*36,.95+random(i,6)*.6,'pine')}
   poly(c,[[0,196],[w,196],[w,h],[0,h]],'#766d56');for(let i=0;i<25;i++){const x=random(i,9)*w,y=210+random(i,8)*(h-220);line(c,x,y,x+19,y+8,2,'#c3b59050')}}
  const camera=battleProjection(canvas,E),grid=camera.g;
+ battleGround(c,camera,w,h);
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
- // Each quadrilateral below is an oblique projection of a logical square cell, never a hex.
+ // Each diamond represents one unchanged square logic tile and a real walkable cell.
  for(let i=0;i<grid.cols;i++)for(let j=0;j<grid.rows;j++){
   const corners=[camera.point(i,j),camera.point(i+1,j),camera.point(i+1,j+1),camera.point(i,j+1)],pts=corners.map(p=>[p.x,p.y]),highlight=reachable.has(`${i},${j}`);
   c.lineWidth=highlight?2.2:1;
-  poly(c,pts,highlight?'#32b3c225':(i+j)%2===0?'#1d3b2410':'#c1b78007',highlight?'#a1efdaaa':'#e7ddac29');
+  poly(c,pts,highlight?'#35c7d45c':'#00000000',highlight?'#b5fff1dd':'#d4d7ac10');
  }
- const units=[...b.allies,...b.enemies].sort((a,b)=>a.y-b.y||a.x-b.x);
+ const units=[...b.allies,...b.enemies].sort((a,b)=>(a.x+a.y)-(b.x+b.y)||a.x-b.x);
  for(const u of units){
-  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.76),x=p.x,y=p.y,k=clamp(.88+position.y*.023,.86,1.11);
+  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.5),x=p.x,y=p.y,k=clamp(.79+(position.x+position.y)/(grid.cols+grid.rows)*.36,.79,1.12);
   if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual);else motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
@@ -412,7 +441,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 
