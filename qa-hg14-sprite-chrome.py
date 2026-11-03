@@ -90,6 +90,8 @@ with sync_playwright() as pw:
         check(f"{race}/{unit_id} cold reload preserves playable battle",page.evaluate("!!HOG_APP_DEBUG.getState()?.battle"))
         if race=="undead":
             page.set_viewport_size({"width":960,"height":540})
+            page.evaluate("window.dispatchEvent(new Event('resize'))")
+            page.wait_for_timeout(180)
             check("Undead battle keeps canvas proportional at mobile landscape",
                   page.evaluate("""() => {const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();
                     return r.width>=window.innerWidth*.9&&Math.abs(c.width/r.width-c.height/r.height)<.008&&document.documentElement.scrollWidth<=window.innerWidth+1}"""))

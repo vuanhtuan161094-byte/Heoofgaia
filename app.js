@@ -333,6 +333,11 @@ $('reset').onclick=()=>{if(!confirm('Xóa save phiên bản HG-08 và tạo vư�
  document.querySelectorAll('[data-city-art]').forEach(image=>image.addEventListener('load',()=>{if(state&&tab==='city')render()}));
  state=load();if(state){ensureBattleAutoTimer(state);selected='3,4';selectedTargetKind=null;state.battleAuto=false;tab=state.battle?'combat':'map'}render();
 setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);if(!before&&state.battle)tab='combat';if(state.battle&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;if(state.battle&&state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))resolveAutomaticBattleTurn();if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName)){renderHUD()}else render();if(before!==state.battle||training!==state.training.length||building!==(state.buildingQueue?.key||null)||arena!==(state.arenaQueue?.id||null))save();}catch(e){console.warn('Tick:',e)}},1000);
+// Refit canvas immediately after device rotation/window resize; one render per frame.
+let battleResizeFrame=0;
+window.addEventListener('resize',()=>{if(!state?.battle||battleResizeFrame)return;
+ battleResizeFrame=requestAnimationFrame(()=>{battleResizeFrame=0;if(state?.battle)render()});
+});
 setInterval(resolveAutomaticBattleTurn,2300);
 setInterval(save,10000);window.addEventListener('pagehide',save);
 window.HOG_APP_DEBUG={getState:()=>state,render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
