@@ -45,13 +45,13 @@
     "offlineEmbedded": true,
     "bundle": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "bytes": 15141135,
-      "sha256": "5BD0D245B6A26429307138456A2E1B65306563C75756932C55C2036B6C662DF2",
+      "bytes": 15141714,
+      "sha256": "60BDB4224BA688EBC62C8A2FF08A682993AE934FDB5ED96B4206E6FC0AF75D5B",
       "runtimePngCount": 16
     },
     "nodeRegression": {
-      "passed": 173,
-      "total": 173,
+      "passed": 174,
+      "total": 174,
       "failed": 0,
       "result": "PASS"
     },
@@ -61,8 +61,8 @@
     "screenshot": {
       "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
       "resolution": "1440x1408",
-      "bytes": 1251957,
-      "sha256": "C2BB462B0A16BD2D545DFE44F1AF72DA1CDAB4ED95D118042D28A5B58430F90B",
+      "bytes": 1252116,
+      "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
       "pngColorType": 2
     }
   },

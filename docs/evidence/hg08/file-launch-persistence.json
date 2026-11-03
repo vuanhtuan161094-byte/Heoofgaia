@@ -97,6 +97,10 @@
       "passed": true
     },
     {
+      "name": "file:// enemy card marks current in-range targets from the battle engine",
+      "passed": true
+    },
+    {
       "name": "file:// battle renders real reachable-cell preview from the loaded engine",
       "passed": true
     },
@@ -130,6 +134,6 @@
     }
   ],
   "errors": [],
-  "passed": 32,
-  "total": 32
+  "passed": 33,
+  "total": 33
 }

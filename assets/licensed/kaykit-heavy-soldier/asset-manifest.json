@@ -1002,17 +1002,17 @@
     "gameplayEventSource": "engine.js writes per-stack movement, attack, received damage and death events; rendering observes receipts and does not alter battle state.",
     "standaloneHtml": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "bytes": 15141135,
-      "characters": 15128219,
-      "sha256": "5BD0D245B6A26429307138456A2E1B65306563C75756932C55C2036B6C662DF2",
+      "bytes": 15141714,
+      "characters": 15131181,
+      "sha256": "60BDB4224BA688EBC62C8A2FF08A682993AE934FDB5ED96B4206E6FC0AF75D5B",
       "embeddedRuntimePngCount": 16,
       "allFiveAtlasesEmbedded": true
     },
     "saveSchema": "v07 unchanged; old saves without lastEvents remain accepted.",
     "nodeRegression": {
       "command": "node qa-engine.cjs",
-      "suiteTotal": 173,
-      "suitePassed": 173,
+      "suiteTotal": 174,
+      "suitePassed": 174,
       "suiteFailed": 0,
       "result": "PASS"
     },
@@ -1055,9 +1055,9 @@
     "screenshots": [
       {
         "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
-        "bytes": 1251957,
+        "bytes": 1252116,
         "resolution": "1440x1408",
-        "sha256": "C2BB462B0A16BD2D545DFE44F1AF72DA1CDAB4ED95D118042D28A5B58430F90B",
+        "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
         "role": "Focused-QA receipt capture"
       },
       {

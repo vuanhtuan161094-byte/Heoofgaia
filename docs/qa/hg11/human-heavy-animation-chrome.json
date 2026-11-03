@@ -599,8 +599,8 @@
   },
   "artifacts": {
     "human-heavy-soldier-battle-live-chrome.png": {
-      "sha256": "C2BB462B0A16BD2D545DFE44F1AF72DA1CDAB4ED95D118042D28A5B58430F90B",
-      "bytes": 1251957,
+      "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
+      "bytes": 1252116,
       "resolution": "1440x1408"
     },
     "human-heavy-soldier-death-frame-chrome.png": {

@@ -27,7 +27,7 @@
     ],
     "hitZoneRegression": "PASS: 4 factions × 12 live canvas actions",
     "browserAcceptance": "48/48 checks; PASS",
-    "fullGameRegression": "PASS: 173/173 Node engine regression",
+    "fullGameRegression": "PASS: 174/174 Node engine regression",
     "independentBuildingAssets": "PASS: Human Barracks detail and real paid v07 construction; static art, no animation",
     "animatedTroopAssets": "PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks",
     "battlefieldBackground": "PASS: independently generated 1176×550 meadow background is drawn under the real tactical grid in offline Chrome"

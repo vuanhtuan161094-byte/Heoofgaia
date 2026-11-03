@@ -1,6 +1,6 @@
 {
-  "total": 97,
-  "passed": 97,
+  "total": 98,
+  "passed": 98,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -210,6 +210,10 @@
     },
     {
       "name": "Move preview highlights exactly the engine-legal next-turn cells",
+      "passed": true
+    },
+    {
+      "name": "Target card identifies an enemy that the selected stack can hit this turn",
       "passed": true
     },
     {
