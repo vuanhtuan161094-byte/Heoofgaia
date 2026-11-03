@@ -785,6 +785,17 @@ test('HG10 source-cited daily task accepts, follows a real 1-star battle, pays o
  const nextDay=s.lastTick+86_400_000;assert.equal(E.dailyTasks(loaded,nextDay)[0].claimed,false);assert.equal(loaded.dailyTaskState.day,E.worldDayKey(nextDay));
  const legacy=E.serializeSave(state('elf'));const envelope=JSON.parse(legacy);delete envelope.state.dailyTaskState;const migrated=E.parseSave(JSON.stringify(envelope));assert.equal(migrated.version,7);assert(E.strictSave(migrated));assert.equal(E.dailyTasks(migrated,migrated.lastTick)[0].claimed,false);
 });
+test('SRC30/SRC61 Undead daily Lich King task is race/Fame-gated, follows a real 3-star battle and pays once through v07',()=>{
+ const id='clean_up_remnants',elf=state('elf'),s=state('undead'),target=E.NPC_CAMPS_2009.find(x=>x.stars===3);assert(target);
+ assert.equal(E.dailyTasks(elf,elf.lastTick).some(t=>t.id===id),false);assert.throws(()=>E.acceptDailyTask(elf,id,elf.lastTick),/không áp dụng/);
+ s.fame=2199;const locked=E.dailyTasks(s,s.lastTick).find(t=>t.id===id);assert(locked&&!locked.available);assert.throws(()=>E.acceptDailyTask(s,id,s.lastTick),/Cần 2\.200 danh vọng/);
+ s.fame=2200;const task=E.dailyTasks(s,s.lastTick).find(t=>t.id===id);assert(task.available);assert.equal(task.rewardUnitId,'undead_8');assert.equal(task.rewardUnits,1);
+ E.acceptDailyTask(s,id,s.lastTick);s.army.undead_8=7;E.setFormation(s,[{unitId:'undead_8',count:7}]);E.startMarch(s,target.key);E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
+ let result=null,turns=0;while(s.battle&&turns++<20)result=E.battleAct(s,'attack');assert.equal(result?.type,'win');assert(s.cleared.includes(target.key));assert.equal(E.dailyTasks(s,s.lastTick).find(t=>t.id===id).ready,true);
+ const cap=E.limits(s).gold,armyBefore=s.army.undead_8,apBefore=s.ap;s.res.gold=cap-400;assert.throws(()=>E.claimDailyTask(s,id,s.lastTick),/Kho vàng không đủ chỗ/);assert.equal(s.army.undead_8,armyBefore);assert.equal(s.ap,apBefore);assert.equal(s.dailyTaskState.claimed.includes(id),false);
+ s.res.gold=cap-1000;const goldBefore=s.res.gold,claim=E.claimDailyTask(s,id,s.lastTick);assert.equal(JSON.stringify(claim),JSON.stringify({gold:800,ap:Math.min(9,s.apMax-apBefore),unitId:'undead_8',units:1}));assert.equal(s.res.gold,goldBefore+800);assert.equal(s.army.undead_8,armyBefore+1);assert.throws(()=>E.claimDailyTask(s,id,s.lastTick),/đã nhận/);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.equal(loaded.army.undead_8,armyBefore+1);assert.equal(E.dailyTasks(loaded,loaded.lastTick).find(t=>t.id===id).claimed,true);assert(E.strictSave(loaded));
+});
 test('HG10 daily board preserves accepted work on Fame promotion, resets by day and rejects corrupt v07 task state',()=>{
  const s=state(),now=s.lastTick;E.acceptDailyTask(s,'getting_started',now);s.fame=800;assert.equal(E.dailyTasks(s,now)[0].accepted,true);assert.equal('fameRank' in s.dailyTaskState,false);
  const saved=E.serializeSave(s),raw=JSON.parse(saved);raw.state.dailyTaskState.accepted=['unknown'];assert.throws(()=>E.parseSave(JSON.stringify(raw)),/Save HG-10/);

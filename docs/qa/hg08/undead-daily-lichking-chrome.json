@@ -1,0 +1,99 @@
+{
+  "suite": "HG-08 Undead Clean Up Remnants daily task gameplay",
+  "source": "Local standalone file:// HTML in installed Google Chrome. Fixture seeds only 2,199/2,200 Fame and 7 tier-8 Lich Kings (exactly within the hero's 11,500-point command limit) to skip progression/grinding. Task acceptance, map selection, March, natural travel arrival, actual Attack actions and NPC win, claim and v07 persistence use the real application. The 2009 guide supports a daily tier-8 ranged reward in general; the exact task name, 3-star objective, Fame gate and reward amounts are from the living mixed-edition Fandom page and remain C-confidence, not confirmed 2009 server data. The 3-star enemy roster/stats are modeled.",
+  "total": 15,
+  "passed": 15,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline HTML opens as Anh Hùng Thời Loạn",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Undead task appears but stays Fame-locked below 2,200",
+      "passed": true,
+      "detail": "{\"version\": 7, \"race\": \"undead\", \"task\": {\"id\": \"clean_up_remnants\", \"name\": \"Clean Up Remnants\", \"nameVi\": \"Dọn sạch tàn quân\", \"race\": \"undead\", \"stars\": 3, \"fame\": 2200, \"gold\": 800, \"ap\": 9, \"rewardUnitId\": \"undead_8\", \"rewardUnits\": 1, \"objective\": \"Engage and destroy any 3 Star NPC.\", \"source\": \"SRC30; SRC61\", \"confidence\": \"C / mixed-edition\", \"progress\": 0, \"available\": false, \"accepted\": false, \"claimed\": false, \"ready\": false}, \"target\": \"95,14\", \"lichKings\": 7}"
+    },
+    {
+      "name": "Task UI shows the source-listed 3-star objective and reward",
+      "passed": true,
+      "detail": "📜 Nhiệm vụ hằng ngày | Quốc tế · nhiệm vụ cộng đồng |  | Bảng này tách nhiệm vụ theo chủng tộc và nguồn cộng đồng. Kongregate mô tả Get Task/Get Reward (SRC52); “Getting Started” và nhiệm vụ Undead “Clean Up Remnants” lấy từ Fandom sống nhiều phiên bản (SRC30, SRC53; độ tin cậy C). SRC61 ghi riêng rằng Undead có thể nhận một quân đánh xa cấp 8 mỗi ngày năm 2009, nhưng không nêu đúng tên nhiệm vụ hay các phần thưởng. |  | 📜 Khở"
+    },
+    {
+      "name": "Task acceptance is disabled below Fame 2,200",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "The 2,200-Fame task becomes available for the Undead main city",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Task acceptance uses the real daily ledger",
+      "passed": true,
+      "detail": "{\"accepted\": true, \"claimed\": false, \"race\": \"undead\", \"valid\": true}"
+    },
+    {
+      "name": "A real dated 3-star NPC target is selected by clicking its world minimap tile",
+      "passed": true,
+      "detail": "95,14: WORLD EXPLORATION • 100 × 100 | Thế giới Gaia | ＋ | － | ⌖ Về thành | MỤC TIÊU ĐANG CHỌN | Trại Quái vật 3★ · 3★ · (95,14) |  | Chưa chinh phục |  | 🚩 Xuất chinh | Sina 23-08-2009 (SRC47) ghi lực lượng quái trấn giữ 15.000. 17173 27-07-2009 (SRC46) khuyến nghị tối thiểu 15.000 và mốc thắng hoàn toàn 30"
+    },
+    {
+      "name": "The actual March control accepts the saved Lich King formation",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "March dispatches the real formation and charges 8 AP",
+      "passed": true,
+      "detail": "{\"target\": \"95,14\", \"unit\": 7, \"count\": 7, \"ap\": 92, \"valid\": true}"
+    },
+    {
+      "name": "Natural travel arrival opens the modeled 3-star NPC battle",
+      "passed": true,
+      "detail": "{\"target\": \"95,14\", \"kind\": \"npc\", \"stars\": 3, \"allies\": 7, \"enemies\": 3, \"valid\": true}"
+    },
+    {
+      "name": "Real Attack actions win, clear the selected site and complete the daily objective",
+      "passed": true,
+      "detail": "{\"battle\": false, \"cleared\": true, \"accepted\": true, \"ready\": true, \"valid\": true, \"attackTurns\": 3}"
+    },
+    {
+      "name": "Completed task exposes its real claim control",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Claim grants 800 Gold, up to 9 AP, and exactly one Lich King",
+      "passed": true,
+      "detail": "{\"gold\": 9131, \"ap\": 114.25, \"lichKings\": 1, \"claimed\": true, \"notice\": \"Hoàn thành nhiệm vụ “Clean Up Remnants”: +800 vàng, +1 Lich King, +9 AP thực nhận (tối đa 9; AP không vượt trần).\", \"valid\": true}"
+    },
+    {
+      "name": "v07 Save/Reload preserves the claimed task and awarded unit",
+      "passed": true,
+      "detail": "{\"version\": 7, \"unit\": 1, \"claimed\": true, \"valid\": true}"
+    },
+    {
+      "name": "No JavaScript exceptions during the real task flow",
+      "passed": true,
+      "detail": ""
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/evidence/hg08/undead-daily-lichking-3star-battle-chrome.png",
+      "sha256": "a6bc9fa5e34e89515a9a9fdd8b17e05690e2a69d68ba146bc903fbaacdfda706",
+      "resolution": "1440x1305",
+      "bytes": 451279
+    },
+    {
+      "path": "docs/evidence/hg08/undead-daily-lichking-claimed-chrome.png",
+      "sha256": "7fe0e61a18f1c0f70f21056806ea6e0a71936aa010605f3cab38ba932794c6a9",
+      "resolution": "1440x1288",
+      "bytes": 366291
+    }
+  ]
+}

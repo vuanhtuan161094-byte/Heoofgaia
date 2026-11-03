@@ -17,7 +17,8 @@ function clone(v){return JSON.parse(JSON.stringify(v))}
 function own(o,k){return Object.prototype.hasOwnProperty.call(o,k)}
 function worldDayKey(now=Date.now()){if(!Number.isFinite(now))throw Error('Thời gian ghé thăm không hợp lệ.');return new Date(now).toISOString().slice(0,10)}
 const DAILY_TASKS=Object.freeze([
- Object.freeze({id:'getting_started',name:'Getting Started',nameVi:'Khởi đầu',stars:1,fame:0,gold:500,ap:7,objective:'Engage and destroy any 1 Star NPC.',source:'SRC52/SRC53',confidence:'C'})
+ Object.freeze({id:'getting_started',name:'Getting Started',nameVi:'Khởi đầu',stars:1,fame:0,gold:500,ap:7,objective:'Engage and destroy any 1 Star NPC.',source:'SRC52/SRC53',confidence:'C'}),
+ Object.freeze({id:'clean_up_remnants',name:'Clean Up Remnants',nameVi:'Dọn sạch tàn quân',race:'undead',stars:3,fame:2200,gold:800,ap:9,rewardUnitId:'undead_8',rewardUnits:1,objective:'Engage and destroy any 3 Star NPC.',source:'SRC30; SRC61',confidence:'C / mixed-edition'})
 ]);
 // The dated 2009 Chinese task profile is kept separate from the living Fandom/Kongregate list.
 const CHINA_2009_DAILY_TASKS=Object.freeze([
@@ -284,12 +285,13 @@ function visitWorldBuilding(s,key,now=Date.now()){
 }
 function dailyTaskProgress(s,task){return (s.cleared||[]).filter(key=>{const tile=E.getTile(key);return tile?.kind==='npc'&&tile.level===task.stars}).length}
 function dailyTasks(s,now=Date.now()){
- ensure(s);syncDailyTaskBoard(s,now);const board=s.dailyTaskState;
- return DAILY_TASKS.map(task=>{const progress=Math.min(1,dailyTaskProgress(s,task));return {...task,progress,available:s.fame>=task.fame,accepted:board.accepted.includes(task.id),claimed:board.claimed.includes(task.id),ready:progress>=1}});
+ ensure(s);syncDailyTaskBoard(s,now);const board=s.dailyTaskState,mainRace=s.cities.find(c=>c.main)?.race||s.race;
+ return DAILY_TASKS.filter(task=>!task.race||task.race===mainRace).map(task=>{const progress=Math.min(1,dailyTaskProgress(s,task));return {...task,progress,available:s.fame>=task.fame,accepted:board.accepted.includes(task.id),claimed:board.claimed.includes(task.id),ready:progress>=1}});
 }
 function acceptDailyTask(s,id,now=Date.now()){
  ensure(s);syncDailyTaskBoard(s,now);if(!activeCity(s).main)throw Error('Hãy nhận nhiệm vụ tại thành chính.');
  const task=DAILY_TASKS.find(t=>t.id===id);if(!task)throw Error('Nhiệm vụ hằng ngày không hợp lệ.');
+ if(task.race&&s.cities.find(c=>c.main)?.race!==task.race)throw Error('Nhiệm vụ này không áp dụng cho chủng tộc thành chính.');
  if(s.fame<task.fame)throw Error(`Cần ${E.fmt(task.fame)} danh vọng để nhận nhiệm vụ.`);
  const board=s.dailyTaskState;if(board.accepted.includes(id)||board.claimed.includes(id))throw Error('Nhiệm vụ này đã được nhận hôm nay.');
  board.accepted.push(id);E.note(s,`Đã nhận nhiệm vụ hằng ngày “${task.name}”: ${task.objective}`);return true;
@@ -297,13 +299,17 @@ function acceptDailyTask(s,id,now=Date.now()){
 function claimDailyTask(s,id,now=Date.now()){
  ensure(s);syncDailyTaskBoard(s,now);if(!activeCity(s).main)throw Error('Hãy nhận thưởng nhiệm vụ tại thành chính.');
  const task=DAILY_TASKS.find(t=>t.id===id);if(!task)throw Error('Nhiệm vụ hằng ngày không hợp lệ.');
+ if(task.race&&s.cities.find(c=>c.main)?.race!==task.race)throw Error('Nhiệm vụ này không áp dụng cho chủng tộc thành chính.');
  const board=s.dailyTaskState;if(!board.accepted.includes(id))throw Error('Hãy nhận nhiệm vụ trước khi nhận thưởng.');
  if(board.claimed.includes(id))throw Error('Phần thưởng nhiệm vụ hôm nay đã nhận.');
  if(dailyTaskProgress(s,task)<1)throw Error('Chưa thắng trại NPC cấp sao yêu cầu.');
  if(s.res.gold+task.gold>E.limits(s).gold+1e-7)throw Error('Kho vàng không đủ chỗ; hãy dùng vàng rồi nhận thưởng.');
- const beforeAp=s.ap;E.add(s,{gold:task.gold});s.ap=Math.min(s.apMax,s.ap+task.ap);board.claimed.push(id);const apAward=s.ap-beforeAp;
- E.note(s,`Hoàn thành nhiệm vụ “${task.name}”: +${task.gold} vàng, +${apAward} AP thực nhận (tối đa ${task.ap}; AP không vượt trần).`);
- return {gold:task.gold,ap:apAward};
+ const owned=task.rewardUnitId?(s.army[task.rewardUnitId]||0):0;
+ if(task.rewardUnitId&&(!E.C.units[task.race||s.race]?.some(u=>u.id===task.rewardUnitId)||!Number.isSafeInteger(owned)||owned>1_000_000_000-task.rewardUnits))throw Error('Phần thưởng quân không hợp lệ hoặc vượt giới hạn save an toàn.');
+ const beforeAp=s.ap;E.add(s,{gold:task.gold});if(task.rewardUnitId)s.army[task.rewardUnitId]=owned+task.rewardUnits;s.ap=Math.min(s.apMax,s.ap+task.ap);board.claimed.push(id);const apAward=s.ap-beforeAp;
+ const unitText=task.rewardUnitId?`, +${task.rewardUnits} ${E.getUnit(s,task.rewardUnitId).name}`:'';
+ E.note(s,`Hoàn thành nhiệm vụ “${task.name}”: +${task.gold} vàng${unitText}, +${apAward} AP thực nhận (tối đa ${task.ap}; AP không vượt trần).`);
+ return {gold:task.gold,ap:apAward,...(task.rewardUnitId?{unitId:task.rewardUnitId,units:task.rewardUnits}:{})};
 }
 function china2009DailyTasks(s,now=Date.now()){
  ensure(s);syncChina2009TaskBoard(s,now);const main=s.cities.find(c=>c.main);if(main?.race!=='human')return [];
