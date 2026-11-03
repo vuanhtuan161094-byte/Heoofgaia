@@ -1,3 +1,12 @@
+## Latest tested slice — HG-09 collision-safe advance and retreat — 2026-11-03
+
+- **Commit:** `41d1a4b24bf202616021d186e8e8e465d583cbde`, pushed and remote-verified on `feature/hog1-research-to-playable-20261102` in the standalone Heoofgaia repo; starts at `a6f80ff78df37e7cae247ede6aa3da3f6ccf9e23`.
+- **Runtime fix:** automatic Attack/Advance for either side now finds a shortest unoccupied cardinal route into attack range. Living troops block movement; dead cells remain traversable. An enclosed stack holds. Retreat into a living stack holds and consumes its action. No save version/key change; an active detour survives v07 Save/Reload.
+- **QA:** Node **161/161 PASS** (including 1,000 deterministic encounter replays), integrated Chrome **96/96 PASS**, actual standalone file:// **30/30 PASS**, focused collision Chrome **6/6 PASS**, zero page/JS errors; all processes exited **0**. Node's initial 159/160 run exposed damage by the blocker fixture; its first action was changed to Stand By to isolate movement, then full reruns passed. Syntax and diff checks PASS.
+- **Actual browser evidence:** `docs/evidence/hg09/collision-detour-chrome.png`, SHA-256 `31731144801FB3700BFE2D1027B6D5A964FF923834A550195C9E6EA74D32D57F`; receipt `docs/qa/hg09/collision-detour-chrome.json`. Real formation/March/travel create combat, real buttons issue Advance/Retreat and browser Save/Reload persists it. Positions, durability and blocker reach are fixture-controlled to isolate collision; movement outcomes are never injected. Screenshot reviewed.
+- **Offline build:** repeated build is identical, **11,523,381 bytes**, SHA-256 `9ADA4C0FB7DB3AC43E83FC7C327A79F1A224047A240347DD45DD3BCE20A30F8D`.
+- **Acceptance / next:** collision repair PASS; HG-09 remains IN PROGRESS. This is an internal tactical consistency fix, not historical algorithm proof. Numeric reach, 12×9 grid, movement allowance and retreat distance remain SIMULATED. Continue battle action feedback/skills/casualty UX and the build → mine → battle → recall → multi-city loop; expand separate Human art and true troop animation. HG-13 stays deferred.
+
 ## Latest tested slice — HG-11 independent Human Barracks detail — 2026-11-03
 
 - **Commit / remote:** `31f98e29eeb89aca022b25994f82b26b1b9a3097` is pushed and `git ls-remote` verified the exact SHA on `feature/hog1-research-to-playable-20261102`, standalone `vuanhtuan161094-byte/Heoofgaia`. Started from `4c5aa74a35b9a2730c7e4a487a7b0b807a841c94`.
