@@ -248,7 +248,7 @@ function paint(){
    canvas.height=Math.max(1,Math.round(rect.height));
   }
   P.drawBattle(canvas,E,state,undefined,interaction);
-  if(P.hasAnimatedTroops(state.battle)){const battle=state.battle;let lastFrame=0;const animate=now=>{if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;if(now-lastFrame>=1000/30){P.drawBattle(canvas,E,state,now,interaction);lastFrame=now}requestAnimationFrame(animate)};requestAnimationFrame(animate)}
+  if(P.hasAnimatedTroops(state.battle)){const battle=state.battle;let lastFrame=0;const animate=now=>{if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;if(now-lastFrame>=1000/24){P.drawBattle(canvas,E,state,now,interaction);lastFrame=now}requestAnimationFrame(animate)};requestAnimationFrame(animate)}
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;
     const grid=E.BATTLE_GRID||{cols:12,rows:9,top:173,bottom:185};
     if(movementModeId){const cell=P.battleCellAt(canvas,x,y,E);if(!cell){toast('Hãy chọn một ô nằm trong lưới chiến trường.');return}fail(()=>{markBattleInput();const out=E.battleAct(state,'move',{x:cell.x,y:cell.y});movementModeId=null;const move=state.battle?.lastMoves?.find(m=>m.unitId===state.battle.selected);if(move)toast(`${state.battle.allies.find(u=>u.id===move.unitId)?.name||'Đội quân'} di chuyển ${move.steps} ô tới (${move.to.x}, ${move.to.y}).`);if(out.type==='win'){tab='map';toast('Chiến thắng!')}else if(out.type==='lose'){tab='heroes';toast('Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab='map';toast('Đã kết thúc giao tranh.')}});return}

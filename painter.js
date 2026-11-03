@@ -226,7 +226,85 @@ function battleVisualState(b,u,elapsed,now=elapsed){
  if(incoming.length&&elapsed<650)return {...base,action:'hit',time:elapsed,duration:650};
  return base;
 }
-function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>u.unitId==='human_4')}
+// HG14 Batch 1: existing real transparent PNG masters, not fabricated multi-pose atlases.
+// Read-only procedural motion is derived from the same recorded battle events as Heavy Soldier.
+// Full skeletal/frame animations still require approved separated pose/frame sources.
+const MOTION_SPRITES=Object.freeze({
+ human_3:Object.freeze({id:'unit-human-archer',race:'human',size:112,pivot:446/512,accent:'#f0c46d',ranged:true}),
+ elf_1:Object.freeze({id:'unit-elf-centaur',race:'elf',size:122,pivot:446/512,accent:'#95e7a7',ranged:false}),
+ elf_2:Object.freeze({id:'unit-elf-scout',race:'elf',size:110,pivot:446/512,accent:'#b1db91',ranged:false}),
+ orc_1:Object.freeze({id:'unit-orc-imp',race:'orc',size:110,pivot:446/512,accent:'#ffa16b',ranged:false}),
+ undead_1:Object.freeze({id:'unit-undead-skeleton',race:'undead',size:112,pivot:446/512,accent:'#c9a9f7',ranged:false})
+});
+function animatedUnitId(id){return id==='human_4'||Object.prototype.hasOwnProperty.call(MOTION_SPRITES,id)}
+function motionPose(action,time=0,duration=null){
+ // Bounded deterministic transforms with no gameplay mutation.
+ const ms=Math.max(0,Number.isFinite(time)?time:0),phase=ms/1000;
+ if(action==='walk'){
+  const t=ms/Math.max(1,duration||450),stride=2*Math.PI*t*3;
+  return {dx:Math.sin(stride)*2.3,dy:-Math.abs(Math.sin(stride))*5.2,angle:Math.sin(stride)*.045,sx:1,sy:1,alpha:1,flash:0};
+ }
+ if(action==='attack'){
+  const t=clamp(ms/Math.max(1,duration||650),0,1);
+  const anticipation=clamp(t/.24,0,1),lunge=clamp((t-.24)/.27,0,1),recoil=clamp((t-.51)/.49,0,1);
+  const drive=lunge*(1-recoil);
+  return {dx:-3*anticipation+17*drive,dy:-2.2*Math.sin(Math.PI*t),angle:-.13*anticipation+.31*drive,sx:1+.065*drive,sy:1-.04*drive,alpha:1,flash:0};
+ }
+ if(action==='hit'){
+  const t=clamp(ms/Math.max(1,duration||650),0,1),intensity=Math.pow(1-t,1.5);
+  return {dx:-7*intensity+2.5*Math.sin(t*45)*intensity,dy:0,angle:-.105*intensity,sx:1+.03*intensity,sy:1-.04*intensity,alpha:1,flash:intensity};
+ }
+ if(action==='death'){
+  const t=clamp(ms/Math.max(1,duration||1200),0,1),ease=1-Math.pow(1-t,3);
+  return {dx:-6*ease,dy:12*ease,angle:-1.22*ease,sx:1,sy:Math.max(.53,1-.47*ease),alpha:Math.min(1,(1-t)*2),flash:0};
+ }
+ const breath=Math.sin(phase*2*Math.PI*.83);
+ return {dx:Math.sin(phase*2*Math.PI*.44)*.8,dy:-1.2*breath,angle:.014*Math.sin(phase*2*Math.PI*.53),sx:1+.008*breath,sy:1-.012*breath,alpha:1,flash:0};
+}
+function motionSprite(c,x,y,unitId,enemy,visual,k=1){
+ const profile=MOTION_SPRITES[unitId];
+ if(!profile||!visual||typeof document==='undefined')return false;
+ const image=document.getElementById(profile.id);
+ if(!image?.complete||!image.naturalWidth)return false;
+ const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,92,134);
+ c.save();c.globalAlpha*=clamp((visual.alpha??1)*pose.alpha,0,1);
+ c.translate(x,y);if(enemy)c.scale(-1,1);
+ c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
+ c.scale(pose.sx,pose.sy);c.translate(0,size*.39);
+ c.drawImage(image,-size/2,-size*profile.pivot,size,size);
+ if(pose.flash>0){
+  // Compact impact halo follows the silhouette but does not repaint the entire battlefield.
+  c.globalAlpha*=pose.flash*.54;c.strokeStyle='#ffbaa1';c.lineWidth=2.5;
+  c.beginPath();c.ellipse(0,-size*.47,size*.19,size*.33,-.25,0,TAU);c.stroke();
+ }
+ c.restore();return true;
+}
+function motionImpactFx(c,camera,b,elapsed){
+ if(elapsed<0||elapsed>800)return;
+ for(const event of b.lastEvents||[]){
+  if(!(event.damage>0)||!event.targetId)continue;
+  const attacker=[...b.allies,...b.enemies].find(u=>u.id===event.actorId);
+  const victim=[...b.allies,...b.enemies].find(u=>u.id===event.targetId);
+  if(!attacker||!victim||!MOTION_SPRITES[attacker.unitId])continue;
+  const accent=MOTION_SPRITES[attacker.unitId].accent;
+  const start=camera.point(event.to.x+.5,event.to.y+.47),end=camera.point(victim.x+.5,victim.y+.47);
+  const travel=clamp((elapsed-115)/285,0,1),fade=1-clamp((elapsed-420)/270,0,1);
+  c.save();c.globalAlpha=clamp(fade,0,1);c.strokeStyle=accent;c.lineWidth=3;
+  if(attacker.range>1){
+   const px=start.x+(end.x-start.x)*travel,py=start.y+(end.y-start.y)*travel;
+   const dir=Math.atan2(end.y-start.y,end.x-start.x);
+   c.translate(px,py);c.rotate(dir);c.beginPath();c.moveTo(-15,0);c.lineTo(10,0);c.stroke();
+   c.beginPath();c.moveTo(10,0);c.lineTo(3,-5);c.moveTo(10,0);c.lineTo(3,5);c.stroke();
+  }else if(elapsed>185&&elapsed<560){
+   c.beginPath();c.arc(end.x,end.y-11,20+(elapsed-185)*.04,-1.05,1.4);c.stroke();
+  }
+  if(elapsed>350&&elapsed<740){
+   const t=(elapsed-350)/390;c.globalAlpha*=1-t;c.beginPath();c.arc(end.x,end.y,5+19*t,0,TAU);c.stroke();
+  }
+  c.restore();
+ }
+}
+function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>animatedUnitId(u.unitId))}
 function animatedSoldier(c,x,y,enemy,visual){
  if(typeof document==='undefined'||!visual)return false;const frame=animationFrame(visual.action,visual.time,visual.duration),image=document.getElementById(frame.id);
  if(!image?.complete||!image.naturalWidth)return false;
@@ -253,7 +331,7 @@ function battleHit(canvas,x,y,E,s,now=visualNow()){
  let best=null,distance=Math.max(32,canvas.width*.050);
  for(const u of [...b.allies,...b.enemies]){
   if(u.pool<=0)continue;
-  const visual=u.unitId==='human_4'?battleVisualState(b,u,elapsed,now):u,p=cam.point(visual.x+.5,visual.y+.76),d=Math.hypot(p.x-x,p.y-y);
+  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):u,p=cam.point((visual||u).x+.5,(visual||u).y+.76),d=Math.hypot(p.x-x,p.y-y);
   if(d<distance){best=u;distance=d}
  }
  return best;
@@ -314,12 +392,12 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  }
  const units=[...b.allies,...b.enemies].sort((a,b)=>a.y-b.y||a.x-b.x);
  for(const u of units){
-  const visual=u.unitId==='human_4'?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.76),x=p.x,y=p.y,k=clamp(.88+position.y*.023,.86,1.11);
-  if(u.pool<=0){if(visual)animatedSoldier(c,x,y,u.side==='enemy',visual);continue}
+  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.76),x=p.x,y=p.y,k=clamp(.88+position.y*.023,.86,1.11);
+  if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual);else motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
-  const illustrated=(visual&&animatedSoldier(c,x,y,u.side==='enemy',visual))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+  const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual):motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
   const nameTop=illustrated?108*k:74*k,hpTop=nameTop-17*k,labelWidth=clamp(u.name.length*7+20,76,130);
   rounded(c,x-labelWidth/2,y-nameTop,labelWidth,18,4,u.side==='enemy'?'#422c30e6':'#233e4ae6');
   text(c,u.name,x,y-nameTop+13,11,'#f8e6c5');
@@ -329,11 +407,12 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
   text(c,'×'+u.count,x+40,y-9,12,'#fff0ca');
  }
+ motionImpactFx(c,camera,b,elapsed);
  if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
  rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,animationFrame,battleVisualState,hasAnimatedTroops,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 
