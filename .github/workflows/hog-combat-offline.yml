@@ -38,6 +38,8 @@ jobs:
           python -m playwright install chromium
       - name: Chrome battlefield viewport, pointer and Save/Reload acceptance
         run: python qa-hg09-combat-viewport-chrome.py
+      - name: Verify Fandom Hero Tasks in offline Chromium
+        run: python qa-hg12-hero-tasks-chrome.py
       - name: Record build SHA and size
         run: |
           test -s Play-Heoofgaia-HG11.html
@@ -52,6 +54,8 @@ jobs:
             Build-SHA256.txt
             docs/evidence/hg09/fullscreen-combat-*.png
             docs/qa/hg09/fullscreen-combat-chrome.json
+            docs/evidence/hg12/hero-task-*.png
+            docs/qa/hg12/hero-task-chrome.json
           retention-days: 7
           if-no-files-found: error
 
@@ -63,5 +67,16 @@ jobs:
           path: |
             docs/evidence/hg09/fullscreen-combat-*.png
             docs/qa/hg09/fullscreen-combat-chrome.json
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Upload HG12 Hero Tasks Chrome evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG12-HeroTasks-Chrome-evidence
+          path: |
+            docs/evidence/hg12/hero-task-*.png
+            docs/qa/hg12/hero-task-chrome.json
           retention-days: 7
           if-no-files-found: warn
