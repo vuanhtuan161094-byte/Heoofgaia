@@ -1059,6 +1059,21 @@ test('HG09 all six player battle commands write explicit v07 action receipts',()
  for(const action of ['attack','advance','defend','focus','retreat','move'])run(action);
 });
 
+test('HG12 browser Save rejects invalid v07 without overwriting prior data and restores a valid backup',()=>{
+ const src=fs.readFileSync(path.join(dir,'app.js'),'utf8'),start=src.indexOf('function save(){'),end=src.indexOf('function money(cost)',start);
+ assert(start>=0&&end>start,'actual browser Save/Load source is present');
+ const handlers=vm.runInNewContext('(function(E,localStorage,state,toast,ensureBattleAutoTimer){'+src.slice(start,end)+';return {save,load,setState:s=>state=s};})',{console:{warn(){}}});
+ const data=new Map(),alerts=[];let failPrimary=false;
+ const storage={getItem:key=>data.get(key)||null,setItem:(key,val)=>{if(failPrimary&&key===E.SAVE_KEY)throw Error('quota');data.set(key,val)},removeItem:key=>data.delete(key)};
+ const s=state(),api=handlers(E,storage,s,message=>alerts.push(message),x=>x);
+ assert.equal(api.save(),true);const first=data.get(E.SAVE_KEY);assert(first);
+ s.army.human_1=-9;assert.equal(api.save(),false);assert.equal(data.get(E.SAVE_KEY),first,'invalid save never replaces good data');
+ s.army.human_1=16;s.fame+=5;assert.equal(api.save(),true);assert.equal(data.get(E.SAVE_KEY+'_backup'),first);
+ data.set(E.SAVE_KEY,'{broken');const recovered=api.load();assert(recovered);assert.equal(recovered.fame,s.fame-5);assert.notEqual(data.get(E.SAVE_KEY),'{broken');assert(E.strictSave(recovered));
+ const second=data.get(E.SAVE_KEY);failPrimary=true;s.fame+=10;assert.equal(api.save(),false);assert.equal(data.get(E.SAVE_KEY),second,'storage failure never discards last valid save');
+ assert(src.includes("localStorage.removeItem(E.SAVE_KEY+'_backup')"),'reset clears the emergency backup');
+ assert(alerts.some(m=>/khôi phục bản lưu dự phòng/.test(m)),'UI notifies recovery');
+});
 const hg10=results.filter(x=>/^HG10 /.test(x.name));
 const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical|SRC45\/SRC46\/SRC47|SRC46|HG09 all six player battle commands)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});

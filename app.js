@@ -11,18 +11,44 @@ function markBattleInput(){if(!state?.battle)return;state.battleAuto=false;state
 function resolveAutomaticBattleTurn(){if(!state?.battle||!state.battleAuto)return;try{const out=E.battleAct(state,'attack',{preserveMoveOrders:true});if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab='map';if(out.type==='lose')tab='heroes';if(state.battle)state.battle.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;save();render()}catch(e){console.warn('Auto battle',e);state.battleAuto=false}}
 function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
 function fail(fn){try{fn();save();render();}catch(e){toast(e.message||String(e))}}
-function save(){if(!state)return false;try{E.syncCityState(state);localStorage.setItem(E.SAVE_KEY,JSON.stringify(state));return true}catch(e){toast('Không thể lưu: trình duyệt đang hạn chế storage.');return false}}
+function save(){
+ if(!state)return false;
+ try{
+  E.syncCityState(state);
+  if(!E.strictSave(state))throw Error('Game state không hợp lệ');
+  const payload=JSON.stringify(state);
+  if(payload.length>2_000_000)throw Error('Save vượt giới hạn 2 MB');
+  const current=localStorage.getItem(E.SAVE_KEY);
+  if(current&&current!==payload){
+   try{E.parseSave(current);localStorage.setItem(E.SAVE_KEY+'_backup',current)}catch(error){console.warn('Save backup unavailable',error)}
+  }
+  localStorage.setItem(E.SAVE_KEY,payload);
+  return true;
+ }catch(e){toast('Không thể lưu game: '+(e.message||String(e)));return false}
+}
 function load(){
  try{
   const current=localStorage.getItem(E.SAVE_KEY);
-  if(current){const s=ensureBattleAutoTimer(E.parseSave(current));E.tick(s);return s}
+  if(current){
+   try{const s=ensureBattleAutoTimer(E.parseSave(current));E.tick(s);return s}
+   catch(err){console.warn('Current save invalid',err.message)}
+  }
+  const backup=localStorage.getItem(E.SAVE_KEY+'_backup');
+  if(backup){
+   try{
+    const s=ensureBattleAutoTimer(E.parseSave(backup));E.tick(s);
+    try{localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));toast('Đã khôi phục bản lưu dự phòng.')}
+    catch(err){toast('Đã mở bản lưu dự phòng nhưng chưa ghi lại được; hãy xuất file JSON.')}
+    return s;
+   }catch(err){console.warn('Backup save invalid',err.message)}
+  }
   if((localStorage.getItem('heoofgaia_hg08_skip_migration')||localStorage.getItem('heoofgaia_hg06_skip_migration')))return null;
   for(const key of ['heoofgaia_hg_only_v06','heoofgaia_hg_only_v05','heoofgaia_hg_only_v04','heoofgaia_hg_only_v03','heoofgaia_hg_only_v02']){
    const raw=localStorage.getItem(key);if(!raw)continue;
    try{const s=ensureBattleAutoTimer(E.parseSave(raw));E.tick(s);localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));return s}
    catch(err){console.warn('Legacy save skipped:',key,err.message)}
   }
- }catch(e){console.warn('Save invalid',e)}return null;
+ }catch(e){console.warn('Save storage unavailable',e)}return null;
 }
 function money(cost){return Object.entries(cost).filter(([,v])=>v>0).map(([k,v])=>`${C.resource[k].emoji} ${format(v)}`).join(' · ')}
 function button(action,data,label,disabled=false,cls=''){return `<button ${disabled?'disabled':''} data-action="${esc(action)}" ${Object.entries(data||{}).map(([k,v])=>`data-${esc(k)}="${esc(v)}"`).join(' ')} class="${cls}">${label}</button>`}
@@ -273,10 +299,10 @@ $('import-file').onchange=async e=>{
   if(file.size>2_000_000)throw Error('Tệp vượt giới hạn 2 MB');
   const imported=E.parseSave(await file.text());
   if(!confirm('Khôi phục save từ file? Tiến độ HG-08 hiện tại sẽ được thay bằng dữ liệu trong file.'))return;
-  state=imported;E.tick(state);selected='3,4';selectedTargetKind=null;tab=state.battle?'combat':'map';save();render();toast('Đã khôi phục save.');
+  const beforeImport=state;try{state=imported;E.tick(state);if(!save())throw Error('Không thể lưu bản nhập; bản lưu cũ vẫn được giữ nguyên.');selected='3,4';selectedTargetKind=null;tab=state.battle?'combat':'map';render();toast('Đã khôi phục save.')}catch(error){state=beforeImport;throw error}
  }catch(err){toast('Không thể nhập save: '+(err.message||String(err)))}
 };
-$('reset').onclick=()=>{if(!confirm('Xóa save phiên bản HG-08 và tạo vương quốc khác?'))return;state=null;newRace='human';selected=null;selectedTargetKind=null;localStorage.removeItem(E.SAVE_KEY);localStorage.setItem('heoofgaia_hg08_skip_migration','1');render()};
+$('reset').onclick=()=>{if(!confirm('Xóa save phiên bản HG-08 và tạo vương quốc khác?'))return;state=null;newRace='human';selected=null;selectedTargetKind=null;localStorage.removeItem(E.SAVE_KEY);localStorage.removeItem(E.SAVE_KEY+'_backup');localStorage.setItem('heoofgaia_hg08_skip_migration','1');render()};
  document.querySelectorAll('[data-city-art]').forEach(image=>image.addEventListener('load',()=>{if(state&&tab==='city')render()}));
  state=load();if(state){ensureBattleAutoTimer(state);selected='3,4';selectedTargetKind=null;state.battleAuto=false;tab=state.battle?'combat':'map'}render();
 setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);if(!before&&state.battle)tab='combat';if(state.battle&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;if(state.battle&&state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))resolveAutomaticBattleTurn();if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName)){renderHUD()}else render();if(before!==state.battle||training!==state.training.length||building!==(state.buildingQueue?.key||null)||arena!==(state.arenaQueue?.id||null))save();}catch(e){console.warn('Tick:',e)}},1000);
