@@ -52,6 +52,10 @@ with sync_playwright() as p:
     }""")
     check("Entering combat resets previous map page scroll",page.evaluate("window.scrollY")<2)
     check("Actual NPC March reaches combat",state["inBattle"])
+    check("Illustrated combat troop sprites load from the offline HTML",page.evaluate("""() => ['battle-unit-human-spear','battle-unit-npc-beast','battle-unit-npc-archer','battle-unit-npc-guard'].every(id=>{const img=document.getElementById(id);return img&&img.complete&&img.naturalWidth===512&&img.naturalHeight===512})"""))
+    check("Canvas pixels have the same aspect ratio as its CSS size",page.evaluate("""() => {const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();return Math.abs(c.width/r.width-c.height/r.height)<.008}"""))
+    check("Battle orders do not overlay the troop selection cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
+    check("Old march toast no longer blocks combat commands",page.evaluate("""() => !document.querySelector('#toast')?.classList.contains('show')"""))
     check("Battle-only viewport mode activates",state["combatMode"] and state["sidebarHidden"] and state["navHidden"])
     check("Battle canvas uses at least 90 percent of desktop width",state["width"]>=state["vw"]*.90)
     check("Battle canvas uses at least 60 percent of desktop height",state["height"]>=state["vh"]*.60)
@@ -90,6 +94,8 @@ with sync_playwright() as p:
       const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),bar=document.querySelector('.command-bar').getBoundingClientRect();
       return {width:r.width,vw:innerWidth,scrollWidth:document.documentElement.scrollWidth,sidebar:getComputedStyle(document.querySelector('.sidebar')).display,barY:bar.y};
     }""")
+    check("Landscape canvas pixels preserve the rendered aspect ratio",page.evaluate("""() => {const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();return Math.abs(c.width/r.width-c.height/r.height)<.008}"""))
+    check("Landscape command bar does not overlap troop cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
     check("Landscape 960 by 540 remains wide with hidden sidebar",mobile["width"]>=mobile["vw"]*.90 and mobile["sidebar"]=="none")
     check("Landscape viewport has no horizontal overflow",mobile["scrollWidth"]<=mobile["vw"]+1)
     landscape=SHOTDIR/"fullscreen-combat-landscape-chrome.png"

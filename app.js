@@ -192,7 +192,17 @@ function paint(){
   canvas.onwheel=e=>{e.preventDefault();P.zoomMap(e.deltaY>0?.9:1.1);draw()};
  }else if(tab==='city'){const canvas=$('city-canvas');P.drawCity(canvas,E,state,selectedBuilding);
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
- }else if(tab==='combat'){const canvas=$('battle-canvas'),interaction={movementModeId};P.drawBattle(canvas,E,state,undefined,interaction);
+ }else if(tab==='combat'){
+  const canvas=$('battle-canvas'),interaction={movementModeId};
+  // Match the canvas backing aspect to the rendered frame. The prior fixed
+  // 1176x550 surface was squeezed into 960x540 landscape CSS, distorting the
+  // art, soldier silhouettes and square ground cells non-uniformly.
+  const rect=canvas.getBoundingClientRect();
+  if(rect.width>0&&rect.height>0){
+   canvas.width=Math.max(1,Math.round(rect.width));
+   canvas.height=Math.max(1,Math.round(rect.height));
+  }
+  P.drawBattle(canvas,E,state,undefined,interaction);
   if(P.hasAnimatedTroops(state.battle)){const battle=state.battle;let lastFrame=0;const animate=now=>{if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;if(now-lastFrame>=1000/30){P.drawBattle(canvas,E,state,now,interaction);lastFrame=now}requestAnimationFrame(animate)};requestAnimationFrame(animate)}
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;
     const grid=E.BATTLE_GRID||{cols:12,rows:9,top:173,bottom:185};
@@ -201,7 +211,7 @@ function paint(){
     if(target)fail(()=>{markBattleInput();E.battleSelect(state,target.id)});};
  }
 }
-function render(){const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');document.body.classList.toggle('combat-mode',!!state?.battle);if(!state){renderIntro();return}if(!state.battle)movementModeId=null;renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();$('main').innerHTML=content;paint();if(enteringCombat){window.scrollTo({top:0,left:0,behavior:'instant'});}}
+function render(){const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');document.body.classList.toggle('combat-mode',!!state?.battle);if(!state){renderIntro();return}if(!state.battle)movementModeId=null;renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();$('main').innerHTML=content;paint();if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}}
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;fail(()=>{
  if(action==='race'){newRace=target.dataset.race;render();return}
  if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
