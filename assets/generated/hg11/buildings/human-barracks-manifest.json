@@ -1,0 +1,147 @@
+{
+  "schema": "hog1-building-art-v1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "assetId": "HOG1-HG11-HUMAN-BARRACKS-v1",
+  "buildingKey": "barracks",
+  "faction": "human",
+  "status": "RECREATED",
+  "historicalIdentity": "Human Barracks building identity in the independent game catalog. The detailed silhouette, colors and architecture in this asset are newly authored and are not asserted to match original HOG1 art.",
+  "provider": "ChatGPT image_gen.imagegen",
+  "generationPrompt": "assets/generated/hg11/buildings/human-barracks-prompt.md#selected-v2",
+  "sourceImageId": "exec-c7d6f3f0-b42c-4279-a92b-7def4ecc177b.png",
+  "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-c7d6f3f0-b42c-4279-a92b-7def4ecc177b.png",
+  "sourceRoute": "Image edit of the prior project-generated trial with text instructions; the source trial was also generated from text. No historical screenshot, original client art or third-party game image was supplied as image input.",
+  "generationTimestamp": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "generationCost": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "licenseAssessment": "New project recreation; no extracted HOG1 commercial asset is included. Original commercial artwork is not bundled. This manifest does not grant third-party rights or claim legal exclusivity.",
+  "rejectedTrial": {
+    "projectPath": "assets/generated/hg11/source/rejected/human-barracks-tall-keep-rejected-master.png",
+    "bytes": 2056542,
+    "resolution": "1254x1254",
+    "bitDepth": 8,
+    "colorType": 6,
+    "sha256": "2A64CB86FF3508969551E8F3491ECDC14E08B9AE8E9DBC8286BA17771A8887C5",
+    "sourceImageId": "exec-f65c8cde-6293-4f9d-b087-bd870826128d.png",
+    "reason": "Rejected after visual review because the silhouette read as a Town Hall/keep and contained detached generation specks. Retained only for provenance; not used at runtime."
+  },
+  "master": {
+    "projectPath": "assets/generated/hg11/source/human-barracks-master.png",
+    "bytes": 1454763,
+    "resolution": "1254x1254",
+    "bitDepth": 8,
+    "colorType": 6,
+    "sha256": "D529B804B2C2BD939A63F39C074AD7C391F1A8DD50D6FBD8752E37A123DAC76C",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "alphaGte8Bounds": [
+      27,
+      359,
+      1224,
+      986
+    ],
+    "alphaGte8Pixels": 630552
+  },
+  "cleanedMaster": {
+    "projectPath": "assets/generated/hg11/source/human-barracks-master-clean.png",
+    "bytes": 2022127,
+    "resolution": "1254x1254",
+    "bitDepth": 8,
+    "colorType": 6,
+    "sha256": "A64AF7CBC0D0BC61794F30D332C97AF8C763E87FC171A1535013AD552E0B4CAD",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "alphaGte8Bounds": [
+      25,
+      358,
+      1226,
+      986
+    ],
+    "alphaGte8Pixels": 634194,
+    "processing": "tools/process-hg11-unit-sprite.ps1 retains the largest connected architectural subject and rebuilds the antialiased edge; the untouched selected master is preserved."
+  },
+  "runtime": {
+    "projectPath": "assets/generated/hg11/buildings/human-barracks.png",
+    "bytes": 355499,
+    "resolution": "512x512",
+    "bitDepth": 8,
+    "colorType": 6,
+    "sha256": "0F7FB4ABEDEBB5940AA63D45DE87B73B2345B41B65702D854FC7145AE79F6A24",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "alphaGte8Bounds": [
+      8,
+      228,
+      503,
+      487
+    ],
+    "alphaGte8Pixels": 108360,
+    "pivotPixels": [
+      256,
+      488
+    ],
+    "pivotNormalized": [
+      0.5,
+      0.953125
+    ],
+    "processing": "Cleaned-alpha bounds [25,358,1226,986] scaled onto a 512x512 transparent canvas; pixel bounds were scanned with System.Drawing after export."
+  },
+  "visualDesign": {
+    "identity": "Broad, low Human military training hall with pale limestone, red slate roof, timber gate and attached practice targets.",
+    "originalVisualParityClaimed": false,
+    "sourceImageHadOriginalGameArt": false
+  },
+  "states": {
+    "masterCreated": true,
+    "transparentAlphaVerified": true,
+    "singleBuildingReviewed": true,
+    "runtimeExported": true,
+    "embeddedInOfflineGame": true,
+    "integratedInBuildingDetail": true,
+    "realConstructionActionStillEnabledAfterHallPrerequisite": true,
+    "v07SaveLoadQueueVerified": true,
+    "animationFrames": 0
+  },
+  "qualityGate": {
+    "alphaScan": "PASS: raw, cleaned and runtime PNGs scanned with System.Drawing; RGBA alpha range 0-255 and alpha>=8 bounds/pixel counts recorded.",
+    "browserIntegration": "PASS: actual Chrome file:// game loaded the embedded 512px Barracks art from its real Human city hotspot.",
+    "gameplay": "PASS: real UI paid for Town Hall 2 and Barracks 2, Save/Reload preserved both v07 construction queues, and actual engine ticks completed each build.",
+    "responsiveLayout": "PASS: actual Chrome at 390px displayed the building detail without horizontal page overflow.",
+    "javascriptErrors": "PASS: zero page errors in the focused 13-check Chrome session."
+  },
+  "integration": {
+    "offlineBundle": {
+      "projectPath": "Play-Heoofgaia-HG11.html",
+      "sha256": "68519C2ECFAC92377BB5629680C620279B39E9567B5B80F7CFF23B1F2C2AB75C",
+      "bytes": 11522367
+    },
+    "browser": "Chrome file:// using the bundled standalone HTML",
+    "receipt": "docs/qa/hg11/human-barracks-building-chrome.json",
+    "screenshots": [
+      {
+        "projectPath": "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
+        "bytes": 1815374,
+        "resolution": "1440x1939",
+        "bitDepth": 8,
+        "colorType": 2,
+        "sha256": "FB8E764B1013EA0012CF5B74295D316FC0582E42613047136C7F820E55F87609"
+      },
+      {
+        "projectPath": "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png",
+        "bytes": 643218,
+        "resolution": "390x3747",
+        "bitDepth": 8,
+        "colorType": 2,
+        "sha256": "0FB46C75FA5EB7263B0F707BEB940A0F91F9765E81DBA2B1B314A4E29C0C618E"
+      }
+    ]
+  }
+}

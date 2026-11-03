@@ -49,4 +49,12 @@ button{transition:filter .12s,transform .09s;touch-action:manipulation}button:ac
 .hg05-castle-grid p{margin:6px 0}
 @media(max-width:720px){.hg05-castle-grid{grid-template-columns:1fr}}
 
+/* HG-11: independent Human Barracks sprite in the real building detail panel. */
+.city-art-cache img[data-building-sprite]{width:512px;height:512px}
+.target-information.has-building-art{display:grid;grid-template-columns:minmax(178px,31%) minmax(0,1fr);gap:12px;align-items:center}
+.building-art-preview{margin:0;min-width:0;min-height:174px;padding:5px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #8d856b;border-radius:8px;background:linear-gradient(160deg,#1a3038,#243d42)}
+.building-art-preview img{display:block;width:100%;height:148px;object-fit:contain;image-rendering:auto}
+.building-art-preview figcaption{font:600 11px Georgia,serif;color:#edce91;text-align:center}
+@media(max-width:700px){.target-information.has-building-art{grid-template-columns:minmax(118px,38%) minmax(0,1fr);gap:8px}.building-art-preview{min-height:144px;padding:4px}.building-art-preview img{height:118px}.building-art-preview figcaption{font-size:10px}.scene-bottom h2{font-size:19px}}
+
 

@@ -1,0 +1,78 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg11-human-building-chrome.py",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "total": 13,
+  "passed": 13,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "A fresh Human kingdom can start a paid Town Hall upgrade through its real UI",
+      "passed": true
+    },
+    {
+      "name": "Town Hall upgrade enters the normal construction queue",
+      "passed": true
+    },
+    {
+      "name": "v07 Save/Reload preserves the prerequisite Town Hall queue",
+      "passed": true
+    },
+    {
+      "name": "Real engine tick completes Town Hall level 2 before Barracks upgrade",
+      "passed": true
+    },
+    {
+      "name": "Offline HTML starts the real Human city without script errors",
+      "passed": true
+    },
+    {
+      "name": "The actual Human Barracks hotspot selects its separate building detail",
+      "passed": true
+    },
+    {
+      "name": "512px transparent Human Barracks runtime is embedded and visible in Chrome",
+      "passed": true
+    },
+    {
+      "name": "Town Hall 2 prerequisite unlocks the real Barracks construction action",
+      "passed": true
+    },
+    {
+      "name": "Upgrading Barracks spends real resources and starts its construction queue",
+      "passed": true
+    },
+    {
+      "name": "v07 Save/Reload keeps the paid Barracks queue and remaining time",
+      "passed": true
+    },
+    {
+      "name": "A real engine tick completes Barracks construction exactly once",
+      "passed": true
+    },
+    {
+      "name": "Responsive city detail keeps the separate Barracks art visible without horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript page errors during building selection, queue, Save/Load and mobile view",
+      "passed": true
+    }
+  ],
+  "fixtureDisclosure": "Chrome opens the actual bundled file:// game and starts a normal Human kingdom. The real UI pays for Town Hall 2 and saves/reloads its v07 construction queue, then completes it through the game clock. The test clicks the Barracks canvas site, pays for Barracks 2, saves/reloads its v07 queue, completes it with the engine tick and verifies the independent art at 390px width. No building level, resource balance, queue result or construction result is injected.",
+  "offlineBundleSha256": "68519C2ECFAC92377BB5629680C620279B39E9567B5B80F7CFF23B1F2C2AB75C",
+  "screenshots": [
+    {
+      "path": "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
+      "bytes": 1815374,
+      "sha256": "FB8E764B1013EA0012CF5B74295D316FC0582E42613047136C7F820E55F87609",
+      "resolution": "1440x1939"
+    },
+    {
+      "path": "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png",
+      "bytes": 643218,
+      "sha256": "0FB46C75FA5EB7263B0F707BEB940A0F91F9765E81DBA2B1B314A4E29C0C618E",
+      "resolution": "390x3747"
+    }
+  ]
+}

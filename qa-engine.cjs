@@ -28,6 +28,20 @@ test('HG11 four-faction scene assets match 1176x560 provenance hashes',()=>{
  assert.equal(manifest.assets.length,4);const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
  for(const asset of manifest.assets){assert.equal(asset.status,'RECREATED');assert.equal(asset.states.assetQcPass,true);const b=fs.readFileSync(path.join(dir,asset.runtime.projectPath));assert.equal(b.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert([2,6].includes(b[25]));assert.equal(`${b.readUInt32BE(16)}x${b.readUInt32BE(20)}`,'1176x560');assert.equal(sha(b),asset.runtime.sha256,asset.faction);}
 });
+test('HG11 Human Barracks is a separate transparent building asset with real Chrome and v07 construction evidence',()=>{
+ const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/buildings/human-barracks-manifest.json'),'utf8'));
+ const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
+ assert.equal(manifest.status,'RECREATED');assert.equal(manifest.faction,'human');assert.equal(manifest.buildingKey,'barracks');
+ assert.equal(manifest.states.animationFrames,0);assert.equal(manifest.states.integratedInBuildingDetail,true);assert.equal(manifest.states.v07SaveLoadQueueVerified,true);
+ for(const record of [manifest.master,manifest.cleanedMaster,manifest.runtime]){const bytes=fs.readFileSync(path.join(dir,record.projectPath));assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(`${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}`,record.resolution);assert.equal(bytes[24],8);assert.equal(bytes[25],6);assert.equal(sha(bytes),record.sha256);assert.deepEqual(record.alphaRange,[0,255]);}
+ assert.equal(manifest.master.resolution,'1254x1254');assert.equal(manifest.runtime.resolution,'512x512');assert.deepEqual(manifest.runtime.pivotPixels,[256,488]);
+ const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8'),runtime=fs.readFileSync(path.join(dir,manifest.runtime.projectPath));
+ assert(html.includes(`id="asset-human-barracks"`));assert(html.includes(`src="data:image/png;base64,${runtime.toString('base64')}"`));assert(!html.includes('assets/generated/hg11/buildings/'));
+ const receipt=JSON.parse(fs.readFileSync(path.join(dir,manifest.integration.receipt),'utf8'));assert.equal(receipt.total,13);assert.equal(receipt.passed,13);assert.equal(receipt.failed,0);assert.deepEqual(receipt.errors,[]);
+ assert(receipt.checks.some(c=>c.name==='v07 Save/Reload preserves the prerequisite Town Hall queue'&&c.passed));assert(receipt.checks.some(c=>c.name==='v07 Save/Reload keeps the paid Barracks queue and remaining time'&&c.passed));
+ for(const row of manifest.integration.screenshots){const shot=fs.readFileSync(path.join(dir,row.projectPath));assert.equal(sha(shot),row.sha256);assert.equal(`${shot.readUInt32BE(16)}x${shot.readUInt32BE(20)}`,row.resolution);}
+ const parent=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/asset-manifest.json'),'utf8'));assert.equal(parent.buildingAssets[0].assetId,manifest.assetId);assert.match(parent.integration.independentBuildingAssets,/^PASS:/);
+});
 test('HG11 Orc Imp sprite preserves provenance, alpha and captured battle integration',()=>{
  const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/units/asset-manifest.json'),'utf8'));
  const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();

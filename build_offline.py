@@ -25,9 +25,15 @@ for unit_asset in ['assets/generated/hg11/units/orc-imp.png','assets/generated/h
     assert html.count(needle)==1,(unit_asset,html.count(needle))
     data=base64.b64encode((folder/unit_asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+building_asset='assets/generated/hg11/buildings/human-barracks.png'
+needle=f'src="{building_asset}"'
+assert html.count(needle)==1,(building_asset,html.count(needle))
+data=base64.b64encode((folder/building_asset).read_bytes()).decode('ascii')
+html=html.replace(needle,f'src="data:image/png;base64,{data}"')
 assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
+assert 'assets/generated/hg11/buildings/' not in html
 assert html.count('<script>')==10
 (folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8')
 print('Built offline HTML:',len(html),'characters')

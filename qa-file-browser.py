@@ -30,20 +30,20 @@ def click_minimap_tile(page, tx, ty):
     canvas = page.locator('#world-canvas')
     page.wait_for_function('''()=>{const c=document.querySelector('#world-canvas'),tab=document.querySelector('#nav .active');
       if(!c||tab?.dataset.tab!=='map')return false;const r=c.getBoundingClientRect();return r.width>0&&r.height>0}''')
-    box = canvas.evaluate('''c=>{const r=c.getBoundingClientRect();return {x:r.left,y:r.top,width:r.width,height:r.height}}''')
-    point = page.evaluate(f'''(()=>{{const c=document.querySelector('#world-canvas'),m=HOG_PAINTER.miniBounds(c),pad=9;
-      return {{x:(m.x+pad+({tx}+.5)*(m.w-2*pad)/HOG_ENGINE.WIDTH)/c.width,
-              y:(m.y+pad+({ty}+.5)*(m.h-2*pad)/HOG_ENGINE.HEIGHT)/c.height}}}})()''')
-    x = box['x'] + point['x'] * box['width']
-    y = box['y'] + point['y'] * box['height']
-    page.mouse.click(x, y)
+    def click_current_canvas_point():
+        point = page.evaluate('''({tx,ty})=>{const c=document.querySelector('#world-canvas'),r=c.getBoundingClientRect(),m=HOG_PAINTER.miniBounds(c),pad=9;
+          if(r.width<=0||r.height<=0)throw Error('World canvas lost its visible rectangle');
+          return {x:r.left+(m.x+pad+(tx+.5)*(m.w-2*pad)/HOG_ENGINE.WIDTH)/c.width*r.width,
+                  y:r.top+(m.y+pad+(ty+.5)*(m.h-2*pad)/HOG_ENGINE.HEIGHT)/c.height*r.height}}''',{'tx':tx,'ty':ty})
+        page.mouse.click(point['x'], point['y'])
+    click_current_canvas_point()
     # Chromium can drop the first pointer sequence while a resized file:// canvas
     # is settling. Repeating the same real pointer click is idempotent and keeps
     # this check about visible minimap input rather than a test-only state write.
     try:
         page.locator('[data-action="march"], [data-action="recall"]').first.wait_for(state='visible', timeout=1500)
     except Exception:
-        page.mouse.click(x, y)
+        click_current_canvas_point()
         page.locator('[data-action="march"], [data-action="recall"]').first.wait_for(state='visible', timeout=5000)
 
 with sync_playwright() as p:

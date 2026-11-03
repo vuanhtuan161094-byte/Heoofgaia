@@ -36,10 +36,13 @@ def click_minimap_tile(page,tx,ty):
               y:(m.y+pad+({ty}+.5)*(m.h-2*pad)/HOG_ENGINE.HEIGHT)/c.height}}}})()''')
     page.mouse.click(box['x']+point['x']*box['width'],box['y']+point['y']*box['height'])
 def click_battle_cell(page,x,y):
-    canvas=page.locator('#battle-canvas');box=canvas.bounding_box()
-    point=page.evaluate(f'''(()=>{{const c=document.querySelector('#battle-canvas'),g=HOG_ENGINE.BATTLE_GRID,cellH=(c.height-g.top-g.bottom)/g.rows;
-      return {{x:({x}+.5)/g.cols,y:(g.top+({y}+.5)*cellH)/c.height}}}})()''')
-    page.mouse.click(box['x']+point['x']*box['width'],box['y']+point['y']*box['height'])
+    page.wait_for_function("""()=>{const c=document.querySelector('#battle-canvas'),r=c?.getBoundingClientRect();return !!c&&r.width>1&&r.height>1&&getComputedStyle(c).display!=='none'&&getComputedStyle(c).visibility!=='hidden'}""",timeout=5000)
+    # Read the current DOM rect and cell coordinates together: the 1 s game
+    # renderer can replace the canvas between separate Playwright locator calls.
+    point=page.evaluate('''({x,y})=>{const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),g=HOG_ENGINE.BATTLE_GRID,cellH=(c.height-g.top-g.bottom)/g.rows;
+      if(r.width<=1||r.height<=1)throw Error('Battle canvas lost its visible rectangle');
+      return {x:r.left+(x+.5)/g.cols*r.width,y:r.top+(g.top+(y+.5)*cellH)/c.height*r.height}}''',{'x':x,'y':y})
+    page.mouse.click(point['x'],point['y'])
 with sync_playwright() as p:
     executable=os.environ.get('HOG_CHROMIUM_PATH')
     if not executable:

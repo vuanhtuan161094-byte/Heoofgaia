@@ -1,8 +1,8 @@
 {
   "schema": "hog1-asset-manifest-v1",
   "project": "Hẻoofgaia / Heroes of Gaia 1 reconstruction",
-  "createdAt": "2026-11-02T15:58:31.779Z",
-  "target": "HG-11 four-faction scenic city art",
+  "createdAt": "2026-11-03T03:06:54.270Z",
+  "target": "HG-11 four-faction scenic city art plus independently authored Human Barracks detail asset",
   "copyrightStatus": "RECREATED; not extracted or verified original commercial art",
   "referenceOnly": [
     "https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml",
@@ -17,11 +17,14 @@
       "docs/evidence/hg11/city-human-chrome.png",
       "docs/evidence/hg11/city-elf-chrome.png",
       "docs/evidence/hg11/city-orc-chrome.png",
-      "docs/evidence/hg11/city-undead-chrome.png"
+      "docs/evidence/hg11/city-undead-chrome.png",
+      "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
+      "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png"
     ],
     "hitZoneRegression": "PASS: 4 factions × 12 live canvas actions",
     "browserAcceptance": "48/48 checks; PASS",
-    "fullGameRegression": "PASS: 96/96 Node engine regression"
+    "fullGameRegression": "PASS: 158/158 Node engine regression",
+    "independentBuildingAssets": "PASS: Human Barracks detail and real paid v07 construction; static art, no animation"
   },
   "assets": [
     {
@@ -174,6 +177,45 @@
         "exactHistoricalParityClaimed": false,
         "sceneIsFlattened": true,
         "hotspotIntegration": "PASS: 12 real actions per faction in Chrome"
+      }
+    }
+  ],
+  "buildingAssets": [
+    {
+      "assetId": "HOG1-HG11-HUMAN-BARRACKS-v1",
+      "faction": "human",
+      "buildingKey": "barracks",
+      "status": "RECREATED",
+      "animationFrames": 0,
+      "manifest": "assets/generated/hg11/buildings/human-barracks-manifest.json",
+      "runtime": {
+        "projectPath": "assets/generated/hg11/buildings/human-barracks.png",
+        "bytes": 355499,
+        "resolution": "512x512",
+        "bitDepth": 8,
+        "colorType": 6,
+        "sha256": "0F7FB4ABEDEBB5940AA63D45DE87B73B2345B41B65702D854FC7145AE79F6A24",
+        "format": "RGBA PNG",
+        "alphaRange": [
+          0,
+          255
+        ],
+        "alphaGte8Bounds": [
+          8,
+          228,
+          503,
+          487
+        ],
+        "alphaGte8Pixels": 108360,
+        "pivotPixels": [
+          256,
+          488
+        ],
+        "pivotNormalized": [
+          0.5,
+          0.953125
+        ],
+        "processing": "Cleaned-alpha bounds [25,358,1226,986] scaled onto a 512x512 transparent canvas; pixel bounds were scanned with System.Drawing after export."
       }
     }
   ]
