@@ -287,10 +287,16 @@ function battlePath(b,actor,destination){
  if(!previous.has(goal))return null;
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
 }
+function battleMovementAllowance(b,actor){
+ const base=actor.range>1?1:actor.spd>=7?2:1,skill=b?.movementInstinct;
+ if(actor.side!=='player'||actor.range>1||!skill||b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell.expiry)return base;
+ const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
+ const bonus=Math.floor(total+1e-9);actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
+}
 function moveBattleStack(b,actor,destination){
  const path=battlePath(b,actor,destination);if(!path?.length)return null;
  // Reuse the existing Advance movement allowance. Exact original per-turn movement is unknown.
- const allowance=actor.range>1?1:actor.spd>=7?2:1,from={x:actor.x,y:actor.y};let steps=0;
+ const allowance=battleMovementAllowance(b,actor),from={x:actor.x,y:actor.y};let steps=0;
  for(const cell of path.slice(0,allowance)){
   if([...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===cell.x&&u.y===cell.y))break;
   actor.x=cell.x;actor.y=cell.y;steps++;
@@ -301,19 +307,19 @@ function moveBattleStack(b,actor,destination){
 function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
-function advance(a,b){
- const step=a.range>1?1:a.spd>=7?2:1;
- for(let i=0;i<step&&dist(a,b)>a.range;i++){
-  const dx=Math.sign(b.x-a.x),dy=Math.sign(b.y-a.y);
-  if(Math.abs(b.x-a.x)>Math.abs(b.y-a.y))a.x=Math.max(0,Math.min(11,a.x+dx));
+function advance(a,target,battle){
+ const allowance=battleMovementAllowance(battle,a);
+ for(let i=0;i<allowance&&dist(a,target)>a.range;i++){
+  const dx=Math.sign(target.x-a.x),dy=Math.sign(target.y-a.y);
+  if(Math.abs(target.x-a.x)>Math.abs(target.y-a.y))a.x=Math.max(0,Math.min(11,a.x+dx));
   else if(dy)a.y=Math.max(0,Math.min(8,a.y+dy));
   else a.x=Math.max(0,Math.min(11,a.x+dx));
  }
 }
 function strike(s,b,actor,target,order){
  if(actor.pool<=0||target.pool<=0)return 0;
- if(order==='advance'){if(dist(actor,target)>actor.range)advance(actor,target);return 0}
- if(dist(actor,target)>actor.range){advance(actor,target);if(dist(actor,target)>actor.range)return 0;}
+ if(order==='advance'){if(dist(actor,target)>actor.range)advance(actor,target,b);return 0}
+ if(dist(actor,target)>actor.range){advance(actor,target,b);if(dist(actor,target)>actor.range)return 0;}
  const h=s.heroes.find(x=>x.id===s.activeHero);
  const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
  const base=actor.atk*actor.atk/(actor.atk+Math.max(1,target.def));

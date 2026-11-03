@@ -21,10 +21,16 @@ def check(name,expr):
         print('FAIL',name,str(e));checks.append((name,False))
 def click_minimap_tile(page,tx,ty):
     canvas=page.locator('#world-canvas')
-    if not canvas.is_visible():
-        page.locator('#nav [data-tab="map"]').click()
-        canvas.wait_for(state='visible')
+    map_tab=page.locator('#nav [data-tab="map"]')
+    if not canvas.is_visible() or canvas.bounding_box() is None:
+        map_tab.click()
+    page.wait_for_function("""()=>{const c=document.querySelector('#world-canvas'),r=c?.getBoundingClientRect();return !!c&&r.width>1&&r.height>1&&getComputedStyle(c).display!=='none'}""",timeout=5000)
     box=canvas.bounding_box()
+    if box is None or box['width']<=1 or box['height']<=1:
+        page.wait_for_timeout(100)
+        box=canvas.bounding_box()
+    if box is None or box['width']<=1 or box['height']<=1:
+        raise RuntimeError('Visible world canvas did not get a stable Playwright bounding box within 5 seconds.')
     point=page.evaluate(f'''(()=>{{const c=document.querySelector('#world-canvas'),m=HOG_PAINTER.miniBounds(c),pad=9;
       return {{x:(m.x+pad+({tx}+.5)*(m.w-2*pad)/HOG_ENGINE.WIDTH)/c.width,
               y:(m.y+pad+({ty}+.5)*(m.h-2*pad)/HOG_ENGINE.HEIGHT)/c.height}}}})()''')

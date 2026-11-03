@@ -31,6 +31,7 @@ const HERO_SPELLS_CHINA_2009={
       {id:'hawkeye',name:'Bách bộ xuyên dương',sourceName:'百步穿杨',desc:'Tăng ATK quân bắn xa +1,5%/cấp',affects:'ally',stat:'atk',kind:'ranged',delta:.015}],
  orc:[{id:'harden_bones',name:'Cường hóa xương cốt',sourceName:'经骨强化',desc:'Tăng DEF toàn quân +2%/cấp',affects:'ally',stat:'def',kind:'all',delta:.02},
       {id:'berserk',name:'Cuồng bạo',sourceName:'狂暴',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+      {id:'battle_instinct',name:'Bản năng chiến đấu',sourceName:'战斗本能',desc:'Tăng quãng di chuyển của toàn bộ quân cận chiến +1,5%/cấp. Dư bước lẻ được cộng dồn để quy đổi lên ô lưới; thời hạn 4 lượt là mô hình vì nguồn không nêu thời lượng.',affects:'ally',kind:'movement',delta:.015},
       {id:'roar',name:'Nộ hống',sourceName:'怒号',desc:'Giảm DEF toàn quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02}],
  undead:[{id:'curse',name:'Nguyền rủa',sourceName:'诅咒术',desc:'Giảm ATK toàn quân địch -2%/cấp',affects:'enemy',stat:'atk',kind:'all',delta:-.02},
          {id:'necromancy',name:'Vu thuật vong linh',sourceName:'亡灵巫术',desc:'Giảm DEF toàn quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02},
@@ -105,13 +106,21 @@ function claim(s,id){ensure(s);const quest=QUESTS.find(q=>q.id===id);if(!quest)t
 // Duration / recast cooldown are demo-only: three rounds of effect, two rounds of cooldown after expiration.
 function resetEffects(b){if(!b)return;for(const u of [...b.allies,...b.enemies]){if(u._spellAtk!==undefined){u.atk=u._spellAtk;delete u._spellAtk}
  if(u._spellDef!==undefined){u.def=u._spellDef;delete u._spellDef}
- if(u._spellHp!==undefined){const adjustedPool=u.hp?Math.round(u.pool*u._spellHp/u.hp):0;u.hp=u._spellHp;u.pool=Math.min(adjustedPool,Math.ceil(u.initial*u.hp));if(u.pool<0)u.pool=0;u.count=Math.min(u.count,Math.ceil(u.pool/u.hp));delete u._spellHp}}b.activeSpell=null;}
+ if(u._spellHp!==undefined){const adjustedPool=u.hp?Math.round(u.pool*u._spellHp/u.hp):0;u.hp=u._spellHp;u.pool=Math.min(adjustedPool,Math.ceil(u.initial*u.hp));if(u.pool<0)u.pool=0;u.count=Math.min(u.count,Math.ceil(u.pool/u.hp));delete u._spellHp}}
+ if(b.movementInstinct){for(const u of b.allies||[])delete u.moveCredit;delete b.movementInstinct}b.activeSpell=null;}
 function cast(s,id){ensure(s);const b=s.battle;if(!b)throw Error('Không có trận chiến');const spec=spell(s,id),hero=s.heroes.find(h=>h.id===s.activeHero);
  if(!spec||!hero?.equippedSpells.includes(id)||!(s.heroMagic[id]>0))throw Error('Chưa nghiên cứu hoặc trang bị phép');
  if(spec.kind==='castellan')throw Error('Đây là kỹ năng Castellan thụ động, không dùng như phép chiến đấu');
  if(b.castTurn===b.turn)throw Error('Mỗi lượt chỉ sử dụng một phép');if((b.spellCooldown?.[id]||0)>b.turn)throw Error('Phép đang hồi');
- resetEffects(b);const group=spec.affects==='ally'?b.allies:b.enemies;
- const lv=s.heroMagic[id];for(const u of group){if(!u.pool)continue;if(spec.kind==='melee'&&u.range>1)continue;if(spec.kind==='ranged'&&u.range<=1)continue;
+ resetEffects(b);const lv=s.heroMagic[id];
+ if(spec.kind==='movement'){
+  // SRC57 gives +1.5% melee movement per level but no duration or grid rounding rule.
+  // The four-round lifetime and fractional-cell carry are explicit playable conversions.
+  b.movementInstinct={id,level:lv};b.activeSpell={id,expiry:b.turn+5};b.castTurn=b.turn;b.spellCooldown=b.spellCooldown||{};b.spellCooldown[id]=b.turn+7;
+  b.history.unshift(`✨ ${hero.name} kích hoạt ${spec.name} cấp ${lv}; bước lẻ được cộng dồn trong 4 lượt.`);return b.activeSpell;
+ }
+ const group=spec.affects==='ally'?b.allies:b.enemies;
+ for(const u of group){if(!u.pool)continue;if(spec.kind==='melee'&&u.range>1)continue;if(spec.kind==='ranged'&&u.range<=1)continue;
   if(spec.stat==='atk'){u._spellAtk=u.atk;u.atk=Math.max(1,u.atk*(1+spec.delta*lv))}
   if(spec.stat==='def'){u._spellDef=u.def;u.def=Math.max(1,u.def*(1+spec.delta*lv))}
   if(spec.stat==='hp'){u._spellHp=u.hp;u.hp=u.hp*(1+spec.delta*lv);u.pool=u.pool*(1+spec.delta*lv)}

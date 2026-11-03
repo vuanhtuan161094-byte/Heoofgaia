@@ -91,7 +91,7 @@ test('HG11 Elf Scout sprite preserves provenance, alpha, Scouting research, offl
 });
 test('4 races and 40 unique troops',()=>{assert.deepEqual(Object.keys(C.units).sort(),['elf','human','orc','undead']);assert.equal(Object.values(C.units).flat().length,40);assert.equal(new Set(Object.values(C.units).flat().map(x=>x.id)).size,40)});
 test('China 2009 Sina combat catalog is edition-separated across all four factions',()=>{
- const sources={human:['身先士卒','坚守阵地','背水一战','齐射'],elf:['自然之力','生命之源','百步穿杨'],orc:['经骨强化','狂暴','怒号'],undead:['诅咒术','亡灵巫术','灵力增幅']};
+ const sources={human:['身先士卒','坚守阵地','背水一战','齐射'],elf:['自然之力','生命之源','百步穿杨'],orc:['经骨强化','狂暴','战斗本能','怒号'],undead:['诅咒术','亡灵巫术','灵力增幅']};
  for(const [race,names] of Object.entries(sources)){const cn=E.make(race,1_000_000,'china2009'),intl=E.make(race,1_000_000);assert.deepEqual(Array.from(E.spells(cn),x=>x.sourceName),names);assert(E.spells(intl).every(x=>!x.sourceName));assert.notStrictEqual(E.spells(cn),E.spells(intl))}
  const legacy=E.make('human',1_000_000);delete legacy.spellEdition;assert.equal(E.parseSave(JSON.stringify(legacy)).spellEdition,'international');
  const saved=E.make('undead',1_000_000,'china2009'),loaded=E.parseSave(E.serializeSave(saved));assert.equal(loaded.spellEdition,'china2009');assert(E.strictSave(loaded));
@@ -102,6 +102,17 @@ test('Sina 2009 regional Orc and Undead spell values change actual battle stats 
  assert.equal(cast('orc','china2009','harden_bones').ally.def,102);assert.equal(cast('orc','international','harden_bones').ally.def,103);
  assert.equal(cast('undead','china2009','curse').enemy.atk,98);assert.equal(cast('undead','international','curse').enemy.atk,99);
  assert.equal(cast('human','china2009','hold_the_line_cn').ally.def,105);
+});
+test('SRC57 Battle Instinct applies the Orc melee movement bonus, saves fractional steps and expires in battle',()=>{
+ const s=E.make('orc',1_000_000,'china2009'),target=E.NPC_CAMPS_2009.find(c=>c.stars===1);s.buildings.magicTower=10;for(const k of C.keys)s.res[k]=100_000;
+ E.researchHeroSpell(s,'battle_instinct');E.equipSpell(s,'battle_instinct');s.heroMagic.battle_instinct=10;
+ const b=E.makeBattle(s,target.key);b.allies=[{id:'p0',slot:0,side:'player',unitId:'orc_1',name:'Imp',range:1,count:1,initial:1,hp:1e6,atk:1,def:1,spd:8,pool:1e6,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Distant observer',range:20,count:1,initial:1,hp:1e6,atk:0,def:1,spd:1,pool:1e6,x:10,y:8}];b.selected='p0';b.turn=1;s.battle=b;
+ const active=E.cast(s,'battle_instinct');assert.deepEqual(JSON.parse(JSON.stringify({id:active.id,expiry:active.expiry,level:b.movementInstinct.level})),{id:'battle_instinct',expiry:6,level:10});
+ E.battleAct(s,'move',{x:11,y:1});assert.equal(b.allies[0].x,3);assert.equal(b.allies[0].moveCredit,.3);
+ let loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.equal(loaded.battle.movementInstinct.level,10);assert.equal(loaded.battle.allies[0].moveCredit,.3);assert(E.strictSave(loaded));
+ const moves=[];for(let i=0;i<3;i++){E.battleAct(loaded,'attack',{preserveMoveOrders:true});moves.push(loaded.battle.lastMoves.find(m=>m.unitId==='p0')?.steps)}
+ assert.deepEqual(moves,[2,2,3]);assert.equal(loaded.battle.allies[0].x,10);assert(loaded.battle.movementInstinct);assert(E.strictSave(loaded));
+ E.battleAct(loaded,'attack',{preserveMoveOrders:true});assert.equal(loaded.battle.allies[0].x,11);assert.equal(loaded.battle.movementInstinct,undefined);assert.equal(loaded.battle.allies[0].moveCredit,undefined);assert(E.strictSave(loaded));
 });
 test('HG08 evidence matrix has one row for every catalog troop',()=>{const matrix=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').match(/^\| (?:Human|Elf|Orc|Undead) \| \d+ \|/gm)||[];assert.equal(matrix.length,40)});
 test('HG08 unlock matrix names match the canonical 40-unit catalog',()=>{const lines=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').split(/\r?\n/);const race={human:'Human',elf:'Elf',orc:'Orc',undead:'Undead'};for(const [key,units] of Object.entries(C.units))for(const u of units)assert(lines.some(line=>line.startsWith(`| ${race[key]} | ${u.tier} | ${u.name} |`)),`${key} T${u.tier} ${u.name}`)});

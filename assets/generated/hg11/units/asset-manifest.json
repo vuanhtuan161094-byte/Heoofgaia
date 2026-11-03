@@ -87,12 +87,12 @@
     "alphaScan": "PASS: Windows System.Drawing full-pixel scan; cleaned master and runtime alpha bounds and transparent padding recorded.",
     "readabilityAtBattleScale": "PASS: actual offline Chrome capture keeps Orc Imp, unit name, HP, selection ring and count readable.",
     "battleRender": "PASS: actual NPC battle drew the Orc Imp sprite 1 time(s) on the battle canvas.",
-    "saveLoadImpact": "PASS: presentation-only; actual v07 Save/Reload retained the regional spell, battle and buff."
+    "saveLoadImpact": "PASS: actual v07 Save/Reload retained the movement skill, fractional step credit, destination and active battle."
   },
   "battleEvidence": {
     "screenshot": "docs/evidence/hg09/china-2009-orc-harden-bones-combat-chrome.png",
-    "resolution": "1440x1351",
-    "sha256": "E175DD412166BE4B79F4C0180FDC6F7F4914A0E7BAD04FA3DC37AE52DA344ECC",
+    "resolution": "1440x1409",
+    "sha256": "5A9E43E1C524A56F2E44169E1926B924F2E363C5A5B743D71B2C421C73DD6E37",
     "receipt": "docs/qa/hg09/china-2009-spell-profile-chrome.json",
     "chromeSpriteDraws": 1
   }

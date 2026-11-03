@@ -446,10 +446,16 @@ function battlePath(b,actor,destination){
  if(!previous.has(goal))return null;
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
 }
+function battleMovementAllowance(b,actor){
+ const base=actor.range>1?1:actor.spd>=7?2:1,skill=b?.movementInstinct;
+ if(actor.side!=='player'||actor.range>1||!skill||b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell.expiry)return base;
+ const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
+ const bonus=Math.floor(total+1e-9);actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
+}
 function moveBattleStack(b,actor,destination){
  const path=battlePath(b,actor,destination);if(!path?.length)return null;
  // Reuse the existing Advance movement allowance. Exact original per-turn movement is unknown.
- const allowance=actor.range>1?1:actor.spd>=7?2:1,from={x:actor.x,y:actor.y};let steps=0;
+ const allowance=battleMovementAllowance(b,actor),from={x:actor.x,y:actor.y};let steps=0;
  for(const cell of path.slice(0,allowance)){
   if([...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===cell.x&&u.y===cell.y))break;
   actor.x=cell.x;actor.y=cell.y;steps++;
@@ -460,19 +466,19 @@ function moveBattleStack(b,actor,destination){
 function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
-function advance(a,b){
- const step=a.range>1?1:a.spd>=7?2:1;
- for(let i=0;i<step&&dist(a,b)>a.range;i++){
-  const dx=Math.sign(b.x-a.x),dy=Math.sign(b.y-a.y);
-  if(Math.abs(b.x-a.x)>Math.abs(b.y-a.y))a.x=Math.max(0,Math.min(11,a.x+dx));
+function advance(a,target,battle){
+ const allowance=battleMovementAllowance(battle,a);
+ for(let i=0;i<allowance&&dist(a,target)>a.range;i++){
+  const dx=Math.sign(target.x-a.x),dy=Math.sign(target.y-a.y);
+  if(Math.abs(target.x-a.x)>Math.abs(target.y-a.y))a.x=Math.max(0,Math.min(11,a.x+dx));
   else if(dy)a.y=Math.max(0,Math.min(8,a.y+dy));
   else a.x=Math.max(0,Math.min(11,a.x+dx));
  }
 }
 function strike(s,b,actor,target,order){
  if(actor.pool<=0||target.pool<=0)return 0;
- if(order==='advance'){if(dist(actor,target)>actor.range)advance(actor,target);return 0}
- if(dist(actor,target)>actor.range){advance(actor,target);if(dist(actor,target)>actor.range)return 0;}
+ if(order==='advance'){if(dist(actor,target)>actor.range)advance(actor,target,b);return 0}
+ if(dist(actor,target)>actor.range){advance(actor,target,b);if(dist(actor,target)>actor.range)return 0;}
  const h=s.heroes.find(x=>x.id===s.activeHero);
  const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
  const base=actor.atk*actor.atk/(actor.atk+Math.max(1,target.def));
@@ -574,6 +580,7 @@ const HERO_SPELLS_CHINA_2009={
       {id:'hawkeye',name:'Bách bộ xuyên dương',sourceName:'百步穿杨',desc:'Tăng ATK quân bắn xa +1,5%/cấp',affects:'ally',stat:'atk',kind:'ranged',delta:.015}],
  orc:[{id:'harden_bones',name:'Cường hóa xương cốt',sourceName:'经骨强化',desc:'Tăng DEF toàn quân +2%/cấp',affects:'ally',stat:'def',kind:'all',delta:.02},
       {id:'berserk',name:'Cuồng bạo',sourceName:'狂暴',desc:'Tăng ATK cận chiến +1,5%/cấp',affects:'ally',stat:'atk',kind:'melee',delta:.015},
+      {id:'battle_instinct',name:'Bản năng chiến đấu',sourceName:'战斗本能',desc:'Tăng quãng di chuyển của toàn bộ quân cận chiến +1,5%/cấp. Dư bước lẻ được cộng dồn để quy đổi lên ô lưới; thời hạn 4 lượt là mô hình vì nguồn không nêu thời lượng.',affects:'ally',kind:'movement',delta:.015},
       {id:'roar',name:'Nộ hống',sourceName:'怒号',desc:'Giảm DEF toàn quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02}],
  undead:[{id:'curse',name:'Nguyền rủa',sourceName:'诅咒术',desc:'Giảm ATK toàn quân địch -2%/cấp',affects:'enemy',stat:'atk',kind:'all',delta:-.02},
          {id:'necromancy',name:'Vu thuật vong linh',sourceName:'亡灵巫术',desc:'Giảm DEF toàn quân địch -2%/cấp',affects:'enemy',stat:'def',kind:'all',delta:-.02},
@@ -648,13 +655,21 @@ function claim(s,id){ensure(s);const quest=QUESTS.find(q=>q.id===id);if(!quest)t
 // Duration / recast cooldown are demo-only: three rounds of effect, two rounds of cooldown after expiration.
 function resetEffects(b){if(!b)return;for(const u of [...b.allies,...b.enemies]){if(u._spellAtk!==undefined){u.atk=u._spellAtk;delete u._spellAtk}
  if(u._spellDef!==undefined){u.def=u._spellDef;delete u._spellDef}
- if(u._spellHp!==undefined){const adjustedPool=u.hp?Math.round(u.pool*u._spellHp/u.hp):0;u.hp=u._spellHp;u.pool=Math.min(adjustedPool,Math.ceil(u.initial*u.hp));if(u.pool<0)u.pool=0;u.count=Math.min(u.count,Math.ceil(u.pool/u.hp));delete u._spellHp}}b.activeSpell=null;}
+ if(u._spellHp!==undefined){const adjustedPool=u.hp?Math.round(u.pool*u._spellHp/u.hp):0;u.hp=u._spellHp;u.pool=Math.min(adjustedPool,Math.ceil(u.initial*u.hp));if(u.pool<0)u.pool=0;u.count=Math.min(u.count,Math.ceil(u.pool/u.hp));delete u._spellHp}}
+ if(b.movementInstinct){for(const u of b.allies||[])delete u.moveCredit;delete b.movementInstinct}b.activeSpell=null;}
 function cast(s,id){ensure(s);const b=s.battle;if(!b)throw Error('Không có trận chiến');const spec=spell(s,id),hero=s.heroes.find(h=>h.id===s.activeHero);
  if(!spec||!hero?.equippedSpells.includes(id)||!(s.heroMagic[id]>0))throw Error('Chưa nghiên cứu hoặc trang bị phép');
  if(spec.kind==='castellan')throw Error('Đây là kỹ năng Castellan thụ động, không dùng như phép chiến đấu');
  if(b.castTurn===b.turn)throw Error('Mỗi lượt chỉ sử dụng một phép');if((b.spellCooldown?.[id]||0)>b.turn)throw Error('Phép đang hồi');
- resetEffects(b);const group=spec.affects==='ally'?b.allies:b.enemies;
- const lv=s.heroMagic[id];for(const u of group){if(!u.pool)continue;if(spec.kind==='melee'&&u.range>1)continue;if(spec.kind==='ranged'&&u.range<=1)continue;
+ resetEffects(b);const lv=s.heroMagic[id];
+ if(spec.kind==='movement'){
+  // SRC57 gives +1.5% melee movement per level but no duration or grid rounding rule.
+  // The four-round lifetime and fractional-cell carry are explicit playable conversions.
+  b.movementInstinct={id,level:lv};b.activeSpell={id,expiry:b.turn+5};b.castTurn=b.turn;b.spellCooldown=b.spellCooldown||{};b.spellCooldown[id]=b.turn+7;
+  b.history.unshift(`✨ ${hero.name} kích hoạt ${spec.name} cấp ${lv}; bước lẻ được cộng dồn trong 4 lượt.`);return b.activeSpell;
+ }
+ const group=spec.affects==='ally'?b.allies:b.enemies;
+ for(const u of group){if(!u.pool)continue;if(spec.kind==='melee'&&u.range>1)continue;if(spec.kind==='ranged'&&u.range<=1)continue;
   if(spec.stat==='atk'){u._spellAtk=u.atk;u.atk=Math.max(1,u.atk*(1+spec.delta*lv))}
   if(spec.stat==='def'){u._spellDef=u.def;u.def=Math.max(1,u.def*(1+spec.delta*lv))}
   if(spec.stat==='hp'){u._spellHp=u.hp;u.hp=u.hp*(1+spec.delta*lv);u.pool=u.pool*(1+spec.delta*lv)}
@@ -2111,7 +2126,7 @@ function technologyView(){
  return `<section class="card hg08-section"><span class="eyebrow">MILITARY RESEARCH</span><h2>⚙ Nghiên cứu quân sự</h2><p class="hint">Wiki tiếng Anh năm 2009 gọi các phép thụ động này là Bootcamp và Manufacturing; bảng Human tiếng Trung dùng “练兵技术” cho điều kiện huấn luyện. Việc ghép hai tên Bootcamp/练兵技术 là suy luận theo vai trò, không phải bản dịch chính thức. Hai nghiên cứu dùng cùng hàng đợi spell; chi phí và thời gian còn mô phỏng.</p>${queue?`<div class="queue-card"><b>Đang nghiên cứu: ${esc(queuedSpell?.vi||queuedSpell?.name||queue.key)} cấp ${queue.level}</b><progress max="${queue.total}" value="${queue.total-queue.remaining}"></progress><small>${Math.ceil(queue.remaining/state.speed)} giây thực còn lại</small></div>`:''}<div class="grid grid2">${military.map(([id,name,desc])=>{const key=E.TECHNOLOGIES[id].spell,level=state.spells[key]||0,cost=E.spellCost(state,key),towerReady=state.buildings.magicTower>=level+1;return `<div class="card"><div class="heading">${name} <span class="tag">Cấp ${level}/10</span></div><p class="hint">${desc}</p><div class="cost">${money(cost)} · ${E.technologyDuration(state,id)} giây mô phỏng</div><small class="muted">${towerReady?'Magic Tower đã đáp ứng':'Cần Magic Tower cấp '+(level+1)}</small><div>${button('learn',{id:key},'Nghiên cứu cấp '+(level+1),!!queue||!towerReady||level>=10||!E.canAfford(state,cost),'small primary')}</div></div>`}).join('')}</div></section>`;
 }
 function magicView(){const active=state.heroes.find(h=>h.id===state.activeHero),castellan=state.heroes.find(h=>h.id===state.castellan);
- return magicViewBase()+technologyView()+`<section class="card hg04-section"><span class="eyebrow">HERO SPELLS • MAGIC TOWER</span><h2>✨ Phép tướng theo chủng tộc ${esc(C.races[state.race].english)}</h2><p class="hint">Bộ đang chọn: ${state.spellEdition==='china2009'?'Trung Quốc 2009 · Sina':'Quốc tế · Fandom'}. Nghiên cứu tại Magic Tower rồi trang bị cho tướng (tối đa 5 ô). Sina liệt kê thêm kỹ năng tăng bước di chuyển và nội tại; hai nhóm đó chưa xuất hiện như nút dùng được trong bản này.</p>
+ return magicViewBase()+technologyView()+`<section class="card hg04-section"><span class="eyebrow">HERO SPELLS • MAGIC TOWER</span><h2>✨ Phép tướng theo chủng tộc ${esc(C.races[state.race].english)}</h2><p class="hint">Bộ đang chọn: ${state.spellEdition==='china2009'?'Trung Quốc 2009 · Sina':'Quốc tế · Fandom'}. Nghiên cứu tại Magic Tower rồi trang bị cho tướng (tối đa 5 ô). Trong bộ Trung Quốc, Bản năng chiến đấu của Thú tộc áp dụng đúng +1,5% quãng di chuyển cận chiến mỗi cấp; thời hạn, hồi chiêu và cách cộng dồn phần lẻ để đổi ra ô là mô hình vì Sina không ghi các chi tiết này.</p>
  <p>Chỉ huy hiện tại: <b>${esc(active.name)}</b> · ${active.equippedSpells.filter(id=>E.spell(state,id)?.kind!=='castellan').length}/5 phép chiến đấu · Castellan: <b>${castellan?esc(castellan.name):'chưa bổ nhiệm'}</b></p>
  <div class="grid grid3">${E.spells(state).map(q=>{const level=state.heroMagic[q.id]||0,cost=E.heroSpellCost(state,q.id),wearer=q.kind==='castellan'?castellan:active,equipped=!!wearer?.equippedSpells.includes(q.id),action=q.kind==='castellan'?'herocastellanequip':'heroequip',label=q.kind==='castellan'?(equipped?'Gỡ khỏi Castellan':castellan?'Gắn cho Castellan':'Cần bổ nhiệm Castellan'):equipped?'Gỡ phép':'Trang bị',blocked=q.kind==='castellan'?!castellan||!level:!level;
  return `<div class="card"><b>✧ ${esc(q.name)}</b>${q.sourceName?`<span class="muted tiny"> · ${esc(q.sourceName)}</span>`:''}<span class="tag">Lv ${level}</span>${q.kind==='castellan'?'<span class="tag">CASTELLAN</span>':''}<p class="hint">${esc(q.desc)}</p><p class="cost">${money(cost)}</p><div class="entry">${button('herolearn',{id:q.id},'Nghiên cứu',level>=state.buildings.magicTower||!E.canAfford(state,cost)||!!state.march||!!state.battle,'small')}${button(action,{id:q.id},label,blocked||!!state.march||!!state.battle,'small secondary')}</div></div>`}).join('')}</div></section>`;

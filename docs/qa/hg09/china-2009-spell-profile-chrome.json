@@ -1,8 +1,8 @@
 {
   "command": ".venv\\Scripts\\python.exe qa-spell-edition-chrome.py",
   "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
-  "total": 8,
-  "passed": 8,
+  "total": 14,
+  "passed": 14,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -19,6 +19,14 @@
       "passed": true
     },
     {
+      "name": "China 2009 Orc catalog exposes the dated Battle Instinct movement skill",
+      "passed": true
+    },
+    {
+      "name": "Magic Tower researches ten actual Battle Instinct levels and equips the skill",
+      "passed": true
+    },
+    {
       "name": "Source-selected spell enters a naturally generated NPC battle",
       "passed": true
     },
@@ -31,7 +39,23 @@
       "passed": true
     },
     {
-      "name": "v07 Save/Reload preserves profile, equipped skill, battle and buff",
+      "name": "Casting Battle Instinct arms the real tactical movement effect",
+      "passed": true
+    },
+    {
+      "name": "Actual battlefield click moves the Scout stack and stores fractional bonus",
+      "passed": true
+    },
+    {
+      "name": "v07 Save/Reload preserves the movement skill, fractional cell, and destination",
+      "passed": true
+    },
+    {
+      "name": "Auto turns convert accumulated 1.5-percent bonuses into a real extra melee cell",
+      "passed": true
+    },
+    {
+      "name": "Second v07 Save/Reload keeps the mid-route movement skill and ledger",
       "passed": true
     },
     {
@@ -40,20 +64,25 @@
     }
   ],
   "orcSpriteRuntime": {
-    "target": "35,0",
+    "target": "2,21",
     "battle": true,
     "profile": "china2009",
     "imageReady": true,
-    "spriteDraws": 1
+    "spriteDraws": 1,
+    "army": [
+      "orc_1",
+      "orc_2"
+    ]
   },
+  "fixtureDisclosure": "Chrome opens the actual offline file:// game. The fixture seeds Hall/Warehouse/Magic Tower 10 and one Imp plus one tier-2 Wolf Rider to skip long construction/recruitment; the ten spell levels are paid for through the real Magic Tower research control. It selects an actual 1-star camp and uses real March/travel/battle, casts both skills through the rendered battle controls, clicks a live grid destination, observes the credited extra cell, and performs strict v07 reloads. Enemy HP, ATK and positions are adjusted only to keep the movement observable; no player destination, move result, damage, win or reward is injected.",
   "artifacts": {
     "spell-edition-selector-chrome.png": {
-      "sha256": "4738336759407E32ECF4132F750693202AA5741C8FFF5A263AE9FA9AB7BDD2BD",
-      "bytes": 1457312
+      "sha256": "407E0E419772877210B301F7F345008310395AC716FE005D21FA1034F674900C",
+      "bytes": 1457193
     },
     "china-2009-orc-harden-bones-combat-chrome.png": {
-      "sha256": "E175DD412166BE4B79F4C0180FDC6F7F4914A0E7BAD04FA3DC37AE52DA344ECC",
-      "bytes": 457581
+      "sha256": "5A9E43E1C524A56F2E44169E1926B924F2E363C5A5B743D71B2C421C73DD6E37",
+      "bytes": 468550
     }
   }
 }
