@@ -1,0 +1,145 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg11-elf-scout-chrome.py",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "game": "Anh Hùng Thời Loạn",
+  "sourceMode": "standalone local file:// HTML in installed Chromium",
+  "fixtureDisclosure": "An Elf save is created through the intro. Barracks 2, Magic Tower 1, Warehouse 10, capped prerequisite resources and game speed are fixture-seeded to skip building time. Scouting 1 is researched through the actual Magic Tower UI, spends real modeled resources and completes through the real engine tick. The Recruit control queues Elf Scouts and spends real resources; its queue completes through the real engine tick. Formation, map click, March, NPC battle, sprite draw and v07 Save/Reload use the actual application. Enemy flip is checked separately with an isolated cloned renderer snapshot; it is not represented as gameplay.",
+  "total": 20,
+  "passed": 20,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline game opens with Anh Hùng Thời Loạn title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Elf kingdom starts in the actual game",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Elf Scout stays locked before Scouting research and the runtime sprite loads",
+      "passed": true,
+      "detail": "{\"requirements\": {\"unitId\": \"elf_2\", \"checks\": [{\"kind\": \"building\", \"key\": \"barracks\", \"level\": 2, \"actual\": 2}, {\"kind\": \"spell\", \"key\": \"scouting\", \"level\": 1, \"actual\": 0}], \"unmet\": [{\"kind\": \"spell\", \"key\": \"scouting\", \"level\": 1, \"actual\": 0}], \"available\": false, \"confidence\": \"B\", \"status\": \"DERIVED_TROOP_BUILDING_TIER\", \"source\": \"SRC02; SRC03; SRC04; SRC11; SRC22\"}, \"spriteReady\": true}"
+    },
+    {
+      "name": "Scouting research is available through the actual Magic Tower UI",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Magic Tower UI starts a paid Scouting research queue",
+      "passed": true,
+      "detail": "{\"key\": \"scouting\", \"remaining\": 180, \"gold\": 269760, \"strict\": true}"
+    },
+    {
+      "name": "Real engine tick completes Scouting research exactly once",
+      "passed": true,
+      "detail": "{\"level\": 1, \"queue\": null, \"strict\": true}"
+    },
+    {
+      "name": "Barracks 2 and live Scouting 1 unlock Elf Scout under the disclosed cross-edition model",
+      "passed": true,
+      "detail": "{\"unitId\": \"elf_2\", \"checks\": [{\"kind\": \"building\", \"key\": \"barracks\", \"level\": 2, \"actual\": 2}, {\"kind\": \"spell\", \"key\": \"scouting\", \"level\": 1, \"actual\": 1}], \"unmet\": [], \"available\": true, \"confidence\": \"B\", \"status\": \"DERIVED_TROOP_BUILDING_TIER\", \"source\": \"SRC02; SRC03; SRC04; SRC11; SRC22\"}"
+    },
+    {
+      "name": "Elf Scout has an enabled real recruitment control",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Recruit button spends resources and creates a real 16-Elf Scout training queue",
+      "passed": true,
+      "detail": "{\"unitId\": \"elf_2\", \"count\": 16, \"remaining\": 2560, \"gold\": 268682.6666666667, \"strict\": true}"
+    },
+    {
+      "name": "Real engine tick completes the queue and delivers 16 Elf Scouts",
+      "passed": true,
+      "detail": "{\"count\": 16, \"queue\": 0, \"strict\": true}"
+    },
+    {
+      "name": "Army form commits the recruited Elf Scouts to the march formation",
+      "passed": true,
+      "detail": "{\"unitId\": \"elf_2\", \"count\": 16}"
+    },
+    {
+      "name": "World-map click selects the actual nearby Wolves NPC",
+      "passed": true,
+      "detail": "Trại Wolves · 1★ · (5,6)"
+    },
+    {
+      "name": "March control dispatches the saved Elf Scout formation",
+      "passed": true,
+      "detail": "{\"target\": \"5,6\", \"formation\": \"elf_2\", \"armyCount\": 16, \"ap\": 104.113}"
+    },
+    {
+      "name": "Natural NPC arrival opens a tactical battle",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Loaded Elf Scout is drawn into the real battle canvas",
+      "passed": true,
+      "detail": "{\"battle\": true, \"target\": \"5,6\", \"phase\": \"tactical-battle\", \"units\": [{\"unitId\": \"elf_2\", \"count\": 16}], \"draws\": 1, \"imageReady\": true, \"actualUiMarch\": true, \"saveVersion\": 7, \"key\": true}"
+    },
+    {
+      "name": "Live battle contains the UI-recruited Elf Scout stack",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Live dispatch and battle retain the v07 save key and schema",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Renderer-only cloned battle check flips enemy Scout art horizontally",
+      "passed": true,
+      "detail": "{\"available\": true, \"draws\": 2, \"enemyHorizontalFlip\": true, \"scales\": [1, -1]}"
+    },
+    {
+      "name": "v07 Save/Reload preserves the Elf Scout battle and formation",
+      "passed": true,
+      "detail": "{\"version\": 7, \"race\": \"elf\", \"battle\": true, \"formation\": \"elf_2\", \"battleUnit\": true, \"key\": true, \"imageReady\": true}"
+    },
+    {
+      "name": "No JavaScript exceptions occur in the offline Elf Scout flow",
+      "passed": true,
+      "detail": "[]"
+    }
+  ],
+  "elfScoutRuntime": {
+    "battle": true,
+    "target": "5,6",
+    "phase": "tactical-battle",
+    "units": [
+      {
+        "unitId": "elf_2",
+        "count": 16
+      }
+    ],
+    "draws": 1,
+    "imageReady": true,
+    "actualUiMarch": true,
+    "saveVersion": 7,
+    "key": true
+  },
+  "enemyRendererCheck": {
+    "available": true,
+    "draws": 2,
+    "enemyHorizontalFlip": true,
+    "scales": [
+      1,
+      -1
+    ]
+  },
+  "artifacts": {
+    "elf-scout-npc-battle-chrome.png": {
+      "sha256": "142941E4187A86204EF33F80748345F68C3383F95F4E8374EF5F6129463665B4",
+      "bytes": 439553,
+      "resolution": "1440x1305"
+    }
+  }
+}

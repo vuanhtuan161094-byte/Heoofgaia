@@ -136,7 +136,7 @@ with sync_playwright() as playwright:
     check("Live dispatch and battle retain the v07 save key and schema",
           runtime["saveVersion"] == 7 and runtime["key"] and runtime["actualUiMarch"])
 
-    screenshot = EVIDENCE / "undead-skeleton-npc-battle-chrome.png"
+    screenshot = EVIDENCE / "undead-skeleton-combined-build-battle-chrome.png"
     page.screenshot(path=str(screenshot), full_page=True)
     shot_bytes = screenshot.read_bytes()
     width, height = struct.unpack(">II", shot_bytes[16:24])

@@ -46,4 +46,12 @@ Route: ChatGPT `image_gen.imagegen`, generated from text only. No original HOG1 
 >
 > Output one isolated figure on TRUE transparent alpha. No background, floor, cast shadow outside the feet, scenery, frame, text, watermark, extra character, alternate pose, sprite sheet or logo. Crisp alpha silhouette suitable for direct compositing into the live battle renderer.
 
-The image tool did not report generation time or cost. The untouched 1254×1254 RGBA master is retained. The cleaned 512×512 still uses a 247×380 px figure registered to `[256,446]`. This is one frame only; see `undead-skeleton-manifest.json` for hashes and pending gameplay checks.
+The image tool did not report generation time or cost. The untouched 1254×1254 RGBA master is retained. The cleaned 512×512 still uses a 247×380 px figure registered to `[256,446]`. This is one frame only; see `undead-skeleton-manifest.json` for hashes and accepted gameplay evidence.
+
+# Elf Scout sprite master prompt
+
+Route: ChatGPT `image_gen.imagegen`, generated from text only. No original HOG1 art, historical screenshot or third-party artwork was supplied as input. Raw tool output: `C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-45b388d3-11d0-411c-a7d7-b0615140d156.png`. The exact prompt is preserved in `elf-scout-contract.md#text-only-generation-prompt`.
+
+SRC02 supplies the dated English community roster identity and unit data. SRC22 (publisher-hosted Chinese guide, 2010-10) describes Elf Scouts as very fast and weak in combat; the visual maps that role to a light foot messenger with a rolled map and small hip blade. It is a new character design, not a recovered HOG1 image. The generated 1254×1254 alpha master was reviewed and cleaned for a narrow red edge fringe before high-quality 512×512 runtime export. Runtime figure: 176×380 px, pivot `[256,446]`, visible bounds `[168,66,343,445]`; see `elf-scout-manifest.json` for all hashes and counts.
+
+This is one static frame with zero animation frames. The offline browser receipt covers actual Scouting research, recruitment, queue completion, formation, dispatch, battle draw, v07 Save/Reload and a separate renderer-only enemy flip: `docs/qa/hg11/elf-scout-battle-chrome.json`.

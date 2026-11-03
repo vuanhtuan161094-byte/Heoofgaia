@@ -1,0 +1,139 @@
+{
+  "schema": "hog1-unit-art-v1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "assetId": "HOG1-HG11-ELF-SCOUT-MASTER-v1",
+  "unitId": "elf_2",
+  "historicalIdentity": "Elf tier-2 Elf Scout, melee in SRC02. SRC22 describes the Chinese-edition Elf Scout as a reconnaissance unit with very high speed and very low combat strength. This is role evidence, not recovered sprite appearance or proof of region parity.",
+  "sourceEvidence": {
+    "id": "SRC02",
+    "sourceUrl": "https://heroesofgaia.wikidot.com/game-units",
+    "sourceVersion": "page revision 19, 2009-12-06",
+    "recordedUnit": "Elf Scout; Elf; tier 2; melee",
+    "confidence": "A for the printed dated community roster identity and stats; not an original server export or sprite"
+  },
+  "crossReferenceEvidence": {
+    "id": "SRC22",
+    "sourceUrl": "https://www.snsfun.com/yxzc/201010/7753.html",
+    "sourceVersion": "publisher-hosted Chinese four-race strategy guide, 2010-10; retrieval lines 87-89",
+    "recordedRole": "Elf Scout is a scouting unit with very high speed and very weak combat power; Elf characters have pointed ears and an elegant/ethereal style.",
+    "confidence": "B for the guide's described Chinese edition; does not prove international visual art or exact gate parity"
+  },
+  "chineseRosterEvidence": {
+    "id": "SRC32",
+    "sourceUrl": "https://games.sina.com.cn/o/z/yxzc/2009-08-27/1618347334.shtml",
+    "recordedName": "精灵斥候 (Elf Scout); localized English mapping is a crosswalk, not a literal translation"
+  },
+  "prerequisiteEvidence": {
+    "runtimeModel": "Barracks 2 + Scouting 1",
+    "status": "DERIVED / CROSS-EDITION",
+    "sources": [
+      "SRC02",
+      "SRC03",
+      "SRC04",
+      "SRC11",
+      "SRC22"
+    ],
+    "note": "No exact same-build Elf Scout gate table was recovered. SRC03 supports one unit per Barracks level; applying English Scouting 1 to the Chinese scout identity is cross-edition. Additional Elf support-building gates remain missing."
+  },
+  "status": "RECREATED",
+  "provider": "ChatGPT image_gen.imagegen",
+  "generationPrompt": "assets/generated/hg11/units/elf-scout-contract.md#text-only-generation-prompt",
+  "sourceImageId": "exec-45b388d3-11d0-411c-a7d7-b0615140d156.png",
+  "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-45b388d3-11d0-411c-a7d7-b0615140d156.png",
+  "sourceRoute": "Generated from text only. No historical screenshot, original game art, or external image was supplied as generation input.",
+  "generationTimestamp": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "generationCost": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "licenseAssessment": "Independently generated project art with no supplied third-party input. It contains no recovered Heroes of Gaia asset. Commercial redistribution terms have not been independently adjudicated; this manifest does not grant third-party rights.",
+  "master": {
+    "projectPath": "assets/generated/hg11/units/elf-scout-master.png",
+    "resolution": "1254x1254",
+    "bytes": 907984,
+    "sha256": "6CA313E9A625156EE54CD991A3E8CE2E70AF5FF22483A146DEF2BB725111C351",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "nonzeroAlphaPixels": 371461,
+    "visibleBoundsAlpha8": [
+      304,
+      17,
+      865,
+      1235
+    ]
+  },
+  "cleanedMaster": {
+    "projectPath": "assets/generated/hg11/units/elf-scout-master-clean.png",
+    "resolution": "1254x1254",
+    "bytes": 1071159,
+    "sha256": "E4FC3C15701433F0B82F93475E0908CD6FD05E3E444C990087EBFCB1B498B5B7",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "nonzeroAlphaPixels": 350716,
+    "visibleBoundsAlpha8": [
+      304,
+      17,
+      865,
+      1235
+    ],
+    "processing": "Largest opaque 8-connected figure retained; contaminated detached/outer edge pixels removed and a narrow edge rebuilt from adjacent character colors. Raw image-generation master remains unchanged."
+  },
+  "runtime": {
+    "projectPath": "assets/generated/hg11/units/elf-scout.png",
+    "resolution": "512x512",
+    "bytes": 115826,
+    "sha256": "B683709979B5A078E8A10AC1519354EE562D3B672C0FDA7FBBD2D964F20E1E71",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "nonzeroAlphaPixels": 34579,
+    "visibleBoundsAlpha8": [
+      168,
+      66,
+      343,
+      445
+    ],
+    "trimAndScale": "tools/process-hg11-unit-sprite.ps1 uses cleaned-master alpha>=8 bounds [303,16,866,1236], then high-quality bicubic resizing to 176x380 and registration at x=168, y=66.",
+    "figurePixels": [
+      176,
+      380
+    ],
+    "pivotPixels": [
+      256,
+      446
+    ],
+    "pivotNormalized": [
+      0.5,
+      0.87109375
+    ]
+  },
+  "states": {
+    "masterCreated": true,
+    "transparentAlphaVerified": true,
+    "singleCharacterReviewed": true,
+    "runtimeExported": true,
+    "integratedInBattle": true,
+    "enemyFlipVerified": true,
+    "animationFrames": 0,
+    "saveLoadVerified": true
+  },
+  "qualityGate": {
+    "alphaScan": "PASS: raw, cleaned and runtime PNGs are RGBA with alpha range 0-255; alpha>=8 bounds and nonzero-pixel counts are recorded.",
+    "readabilityAtBattleScale": "PASS: actual offline Chrome capture shows the Elf Scout stack at the battle renderer's 90x90 draw box.",
+    "battleRender": "PASS: actual Scouting research, UI recruitment, training completion, formation and NPC battle produced 1 Elf Scout drawImage calls.",
+    "enemyFlip": "PASS: an isolated cloned battle snapshot drew enemy Elf Scout art under a negative horizontal canvas transform; this is renderer-only QA.",
+    "saveLoadImpact": "PASS: presentation-only; actual v07 Save/Reload retained the Elf Scout battle, deployed formation, stack and image asset."
+  },
+  "battleEvidence": {
+    "screenshot": "docs/evidence/hg11/elf-scout-npc-battle-chrome.png",
+    "resolution": "1440x1305",
+    "sha256": "142941E4187A86204EF33F80748345F68C3383F95F4E8374EF5F6129463665B4",
+    "receipt": "docs/qa/hg11/elf-scout-battle-chrome.json",
+    "chromeSpriteDraws": 1
+  }
+}

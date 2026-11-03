@@ -15,7 +15,7 @@ Research date: 2026-11-02. This table separates the dated English community cata
 | human_9 | Human 9 | Angel | 天使 | Angel | Same label. |
 | human_10 | Human 10 | Archangel | 大天使 | Archangel | Same label. |
 | elf_1 | Elf 1 | Centaur | 半人马 | Centaur | Chinese roster also describes its high speed. |
-| elf_2 | Elf 2 | Elf Scout | 精灵斥候 | Elf Scout | Chinese roster explicitly calls it a scout. |
+| elf_2 | Elf 2 | Elf Scout | 精灵斥候 | Elf Scout | SRC22 says the Chinese Scout is very fast but has very weak combat power; no numeric gate table or original sprite appearance is provided. |
 | elf_3 | Elf 3 | Dwarven Soldier | 矮人战士 | Dwarf Warrior | English label differs across pages. |
 | elf_4 | Elf 4 | Elf Archer | 精灵弓手 | Elf Archer | Chinese roster describes ranged attack. |
 | elf_5 | Elf 5 | Pegasus Warrior | 飞马战士 | Pegasus Warrior | Same role. |

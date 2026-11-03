@@ -52,7 +52,7 @@
     {
       "name": "March control dispatches the saved Skeleton Warrior formation",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": \"undead_1\", \"armyCount\": 16, \"ap\": 99.285}"
+      "detail": "{\"target\": \"5,6\", \"formation\": \"undead_1\", \"armyCount\": 16, \"ap\": 99.27925}"
     },
     {
       "name": "Natural NPC arrival opens a tactical battle",
@@ -116,9 +116,9 @@
     ]
   },
   "artifacts": {
-    "undead-skeleton-npc-battle-chrome.png": {
-      "sha256": "7CA330DE35FE6F36397EB418D35E7112C270AB147DD790D700E1BE563DA6ADC4",
-      "bytes": 441656,
+    "undead-skeleton-combined-build-battle-chrome.png": {
+      "sha256": "40E08EA8A32D6E30A0C16AF1EC9DF6D79EE152FC597BE81EF0FA1476CC77AD5F",
+      "bytes": 441616,
       "resolution": "1440x1305"
     }
   }

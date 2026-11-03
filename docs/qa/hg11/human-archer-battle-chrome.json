@@ -32,7 +32,7 @@
     {
       "name": "Recruit button spends resources and creates a real 16-Archer training queue",
       "passed": true,
-      "detail": "{\"unitId\": \"human_3\", \"count\": 16, \"remaining\": 3764, \"gold\": 268240, \"strict\": true}"
+      "detail": "{\"unitId\": \"human_3\", \"count\": 16, \"remaining\": 3734.9, \"gold\": 268241.94, \"strict\": true}"
     },
     {
       "name": "Real engine tick completes the queue and delivers 16 Archers to the city",
@@ -52,7 +52,7 @@
     {
       "name": "March control dispatches the saved Archer formation",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": \"human_3\", \"armyCount\": 16, \"ap\": 108.109}"
+      "detail": "{\"target\": \"5,6\", \"formation\": \"human_3\", \"armyCount\": 16, \"ap\": 108.12125}"
     },
     {
       "name": "Natural NPC arrival opens a tactical battle",
@@ -116,9 +116,9 @@
     ]
   },
   "artifacts": {
-    "human-archer-combined-build-battle-chrome.png": {
-      "sha256": "4D6BE7B0214608663CDB3C57D004DDB580DC11188FCB907D4BFF89C5518F713C",
-      "bytes": 437690,
+    "human-archer-elf-scout-combined-build-battle-chrome.png": {
+      "sha256": "00934C4999B8ECB4D4C06A615128F7965417FADC4A824D391331E0C15019DF24",
+      "bytes": 437836,
       "resolution": "1440x1305"
     }
   }

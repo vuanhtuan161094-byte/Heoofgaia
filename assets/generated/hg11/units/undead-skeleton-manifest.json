@@ -104,9 +104,9 @@
     "saveLoadImpact": "PASS: presentation-only; actual v07 Save/Reload retained the Skeleton Warrior battle, deployed formation, stack and image asset."
   },
   "battleEvidence": {
-    "screenshot": "docs/evidence/hg11/undead-skeleton-npc-battle-chrome.png",
+    "screenshot": "docs/evidence/hg11/undead-skeleton-combined-build-battle-chrome.png",
     "resolution": "1440x1305",
-    "sha256": "7CA330DE35FE6F36397EB418D35E7112C270AB147DD790D700E1BE563DA6ADC4",
+    "sha256": "40E08EA8A32D6E30A0C16AF1EC9DF6D79EE152FC597BE81EF0FA1476CC77AD5F",
     "receipt": "docs/qa/hg11/undead-skeleton-battle-chrome.json",
     "chromeSpriteDraws": 1
   }

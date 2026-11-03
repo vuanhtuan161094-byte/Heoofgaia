@@ -28,3 +28,7 @@ The new art is independently generated and tagged `RECREATED`; it is not recover
 ## Undead tier-1 Skeleton Warrior (`undead_1`)
 
 See `undead-skeleton-contract.md` for the text-only visual contract and `undead-skeleton-manifest.json` for the dated roster identity, provenance and alpha/runtime measurements. The sprite is a static project recreation, not an original client export. Focused installed-Chrome `file://` testing passes UI recruitment, training, formation, map dispatch, NPC battle rendering, renderer-only enemy flip and v07 Save/Reload; see `docs/qa/hg11/undead-skeleton-battle-chrome.json`.
+
+## Elf tier-2 Scout (`elf_2`)
+
+See `elf-scout-contract.md` for the exact text-only visual prompt and `elf-scout-manifest.json` for source identity, gate confidence, provenance, alpha bounds, hashes and pivot. The independent static recreation follows SRC22's Chinese-edition role description (very fast scouting unit with low combat power) but does not claim historical sprite appearance. Actual offline Chrome testing runs Scouting research through Magic Tower UI, recruits through the real queue, forms and dispatches the squad, renders a natural NPC battle, checks renderer-only enemy flip and verifies v07 Save/Reload: 20/20 PASS, zero JS errors.
