@@ -696,9 +696,9 @@ test('HG10 repeatable NPC hunting spends AP per new march, pays once per win and
  assert.equal(second?.type,'win');assert.equal(reload.cleared.filter(key=>key===tile.key).length,1);
  assert(reload.fame>settled.fame,'separate paid battle should give a new reward');
  assert(E.strictSave(E.parseSave(E.serializeSave(reload))));
- const mine=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key));assert(mine);
- const oldAp=reload.ap;reload.cleared.push(mine.key);
- throws(()=>E.startMarch(reload,mine.key),/Mục tiêu đã hoàn thành/);assert.equal(reload.ap,oldAp);
+ const mineState=state(),mine=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key));assert(mine);
+ const oldAp=mineState.ap;mineState.cleared.push(mine.key);
+ throws(()=>E.startMarch(mineState,mine.key),/Mục tiêu đã hoàn thành/);assert.equal(mineState.ap,oldAp);
 });
 
 test('Mid-battle HG08 save resumes with the same positions, initiative and outcome',()=>{
