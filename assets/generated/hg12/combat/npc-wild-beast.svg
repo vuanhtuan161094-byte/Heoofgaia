@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 256 256"><defs>
+<linearGradient id="steel" x2="1" y2="1"><stop stop-color="#f7e6af"/><stop offset=".28" stop-color="#abc2cd"/><stop offset=".52" stop-color="#5c7b92"/><stop offset="1" stop-color="#253748"/></linearGradient>
+<linearGradient id="armor" x2=".1" y2="1"><stop stop-color="#7eacc0"/><stop offset=".45" stop-color="#326583"/><stop offset="1" stop-color="#152e48"/></linearGradient>
+<linearGradient id="leather" x2="0" y2="1"><stop stop-color="#b97b49"/><stop offset=".52" stop-color="#6b4434"/><stop offset="1" stop-color="#302c31"/></linearGradient>
+<linearGradient id="skin" x2="0" y2="1"><stop stop-color="#e6c6a2"/><stop offset="1" stop-color="#9d6a50"/></linearGradient>
+<linearGradient id="cloth" x2=".1" y2="1"><stop stop-color="#c9c9ac"/><stop offset=".6" stop-color="#8c957e"/><stop offset="1" stop-color="#4a504d"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#f6e1a0" stop-opacity=".8"/><stop offset="1" stop-color="#d2b272" stop-opacity="0"/></radialGradient>
+</defs><g stroke-linejoin="round" stroke-linecap="round">
+<!-- NPC wild beast: rugged stone-gray wolf creature, four-legged -->
+<ellipse cx="130" cy="234" rx="76" ry="12" fill="#0e2224" opacity=".34"/>
+<path d="M58 146 Q38 131 34 98 Q39 95 46 102 Q64 128 79 129" fill="#65736e" stroke="#354541" stroke-width="5"/>
+<path d="M75 139 Q103 103 155 123 Q181 130 190 156 L182 198 L163 213 L83 201 L60 170Z" fill="#5b6762" stroke="#303e3e" stroke-width="5"/>
+<path d="M73 142 Q101 120 132 125 L171 145 L153 174 L95 189 L68 173Z" fill="#8d9382" stroke="#424d47" stroke-width="3"/>
+<path d="M81 188 L69 225 L80 236 L102 235 L110 200Z M151 191 L160 231 L178 236 L192 226 L179 189Z" fill="#555d58" stroke="#303c3e" stroke-width="5"/>
+<path d="M76 229 L72 243 L82 244 L89 238 L94 245 L109 243 L104 232 M166 231 L164 244 L177 242 L183 235 L187 242 L201 241 L191 225" fill="#b6ab90" stroke="#485753" stroke-width="3"/>
+<path d="M141 135 L158 99 L181 96 L195 112 L209 121 L222 142 L209 161 L180 163 L161 151Z" fill="#6a7268" stroke="#344542" stroke-width="5"/>
+<path d="M159 113 L153 76 L178 89 L187 112 M190 111 L211 81 L211 126" fill="#48554e" stroke="#2c4140" stroke-width="5"/>
+<path d="M162 119 Q179 110 206 128 L202 148 L178 154 L160 142Z" fill="#9ba28f" stroke="#46524b" stroke-width="3"/>
+<path d="M198 141 L224 145 L220 157 L200 165 L176 159" fill="#3e4a44" stroke="#344342" stroke-width="3"/>
+<path d="M199 153 L205 162 L211 154 M183 156 L190 165 L195 157" fill="#f4e3c3" stroke="#584e42" stroke-width="2"/>
+<path d="M179 130 Q189 120 198 131 Q188 143 179 134Z" fill="#f2cd67"/><path d="M190 127 L193 134" stroke="#3e3123" stroke-width="3"/>
+<path d="M80 135 L89 110 L99 135 M103 131 L116 103 L127 130 M132 129 L147 112 L150 141" fill="#9c9b89" stroke="#54655d" stroke-width="3"/>
+<path d="M113 164 L120 153 L128 169 M135 170 L142 154 L150 174" stroke="#d0c3a2" stroke-width="3"/>
+<path d="M82 196 L88 185 M154 197 L162 184" stroke="#343d3a" stroke-width="5"/>
+</g></svg>

@@ -105,3 +105,39 @@ body.combat-mode .combat-journal{max-height:75px;overflow:auto}
 @media(max-height:620px) and (orientation:landscape){body.combat-mode .scene-title{min-height:35px}body.combat-mode .battle-frame canvas{height:65dvh}body.combat-mode .stack-card{min-height:35px}}
 
 body.combat-mode .scene-tools button[data-action="save-combat"]{font-size:12px;padding:5px 10px;border-color:#dfbe77;background:linear-gradient(#4f615e,#233b42);color:#ffe7b2;min-height:32px}
+
+/* HG-09 visual acceptance R2: quiet square-cell ground, readable combat actions,
+   no overlaying sticky controls, responsive 1280x720 and 960x540. */
+body.combat-mode #main{padding:4px 6px 8px;min-height:0}
+body.combat-mode .scene-title{margin:0 0 3px;min-height:42px}
+body.combat-mode .scene-title h1{font-size:clamp(18px,2vw,25px);line-height:1.15}
+body.combat-mode .battle-frame{overflow:hidden;border:1px solid #a48d63;border-radius:5px}
+body.combat-mode .battle-frame canvas{width:100%;height:clamp(245px,calc(100dvh - 205px),760px);aspect-ratio:auto}
+body.combat-mode .battle-ui{margin:4px 0 2px;gap:8px}
+body.combat-mode .battle-ui .eyebrow{font-size:10px;line-height:13px}
+body.combat-mode .stack-list{gap:5px;padding:1px 0 2px}
+body.combat-mode .stack-card{flex:0 0 134px;min-height:39px;padding:3px 6px;border-radius:4px}
+body.combat-mode .stack-card b{font-size:12px;line-height:13px}
+body.combat-mode .command-bar{position:static;bottom:auto;z-index:auto;display:flex;flex-wrap:nowrap;justify-content:flex-start;
+ align-items:center;gap:4px;min-height:49px;padding:5px 6px;margin:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;
+ border:1px solid #857653;border-radius:5px;background:linear-gradient(180deg,#263f45,#1b3136);
+ box-shadow:inset 0 1px 0 #ead29e19;backdrop-filter:none}
+body.combat-mode .command-bar>div{flex:1 0 150px;min-width:115px;margin:0 5px 0 0}
+body.combat-mode .command-bar button{flex:0 0 auto;min-height:34px;white-space:nowrap;padding:5px 8px;font-size:11px;line-height:1.2}
+body.combat-mode .command-bar .eyebrow{font-size:9px}
+body.combat-mode .command-bar small{display:block;font-size:10px}
+body.combat-mode .battle-move-prompt,body.combat-mode .battle-move-order{margin:4px}
+body.combat-mode .hg04-spellbar{margin:6px 0}
+body.combat-mode .battle-receipts{margin-top:6px}
+@media(max-width:1050px){body.combat-mode .command-bar>div{flex:0 0 130px}body.combat-mode .command-bar button{font-size:10px;padding:5px 7px}}
+@media(max-height:620px) and (orientation:landscape){
+ body.combat-mode .scene-title{min-height:36px}
+ body.combat-mode .battle-frame canvas{height:clamp(235px,calc(100dvh - 194px),480px)}
+ body.combat-mode .battle-ui .stack-card{min-height:35px}
+ body.combat-mode .command-bar{min-height:43px}
+}
+@media(max-width:700px) and (orientation:portrait){
+ body.combat-mode .battle-frame canvas{height:46dvh;min-height:250px}
+ body.combat-mode .battle-ui{grid-template-columns:1fr}
+ body.combat-mode .command-bar>div{flex:0 0 115px}
+}

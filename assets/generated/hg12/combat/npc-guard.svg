@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 256 256"><defs>
+<linearGradient id="steel" x2="1" y2="1"><stop stop-color="#f7e6af"/><stop offset=".28" stop-color="#abc2cd"/><stop offset=".52" stop-color="#5c7b92"/><stop offset="1" stop-color="#253748"/></linearGradient>
+<linearGradient id="armor" x2=".1" y2="1"><stop stop-color="#7eacc0"/><stop offset=".45" stop-color="#326583"/><stop offset="1" stop-color="#152e48"/></linearGradient>
+<linearGradient id="leather" x2="0" y2="1"><stop stop-color="#b97b49"/><stop offset=".52" stop-color="#6b4434"/><stop offset="1" stop-color="#302c31"/></linearGradient>
+<linearGradient id="skin" x2="0" y2="1"><stop stop-color="#e6c6a2"/><stop offset="1" stop-color="#9d6a50"/></linearGradient>
+<linearGradient id="cloth" x2=".1" y2="1"><stop stop-color="#c9c9ac"/><stop offset=".6" stop-color="#8c957e"/><stop offset="1" stop-color="#4a504d"/></linearGradient>
+<radialGradient id="glow"><stop stop-color="#f6e1a0" stop-opacity=".8"/><stop offset="1" stop-color="#d2b272" stop-opacity="0"/></radialGradient>
+</defs><g stroke-linejoin="round" stroke-linecap="round">
+<!-- NPC guard: iron helmet, dark red tabard, kite shield and sword -->
+<ellipse cx="132" cy="241" rx="50" ry="9" fill="#0e2028" opacity=".32"/>
+<path d="M114 151 L96 228 L99 239 L120 240 L134 180 L145 240 L168 238 L152 149" fill="#5e554e" stroke="#2a353c" stroke-width="4"/>
+<path d="M97 225 L86 240 L116 244 L121 230 M142 229 L143 243 L173 243 L163 228" fill="#373b3f" stroke="#172d36" stroke-width="3"/>
+<path d="M109 85 L90 109 L92 169 L110 193 L158 188 L168 113 L146 84Z" fill="url(#steel)" stroke="#1b3546" stroke-width="4"/>
+<path d="M107 105 L112 186 L149 181 L153 105" fill="#6d343a" stroke="#312b35" stroke-width="3"/>
+<path d="M127 101 L127 184" stroke="#e2b36e" stroke-width="5"/><path d="M111 150 L151 150" stroke="#c9a46b" stroke-width="5"/>
+<path d="M101 104 L75 135 L91 153 L116 120 M156 102 L176 131 L161 151 L145 119" fill="url(#steel)" stroke="#2d3f4f" stroke-width="4"/>
+<path d="M113 64 L112 85 Q129 100 143 86 L146 64" fill="url(#skin)" stroke="#64463b" stroke-width="3"/>
+<path d="M107 62 Q113 32 129 29 Q149 33 155 64 L148 79 Q129 84 109 76Z" fill="url(#steel)" stroke="#2c4356" stroke-width="4"/>
+<path d="M109 63 L154 63" stroke="#d3c6a2" stroke-width="5"/>
+<path d="M128 28 L129 76" stroke="#e2c88a" stroke-width="4"/>
+<path d="M88 126 Q53 133 45 171 Q48 206 87 219 Q125 200 122 168 Q114 134 88 126Z" fill="url(#steel)" stroke="#263a4b" stroke-width="5"/>
+<path d="M86 143 Q59 148 61 174 Q68 195 86 203 Q111 183 106 161 Q99 146 86 143Z" fill="#783842" stroke="#cca56a" stroke-width="3"/>
+<path d="M87 150 L87 194 M67 171 L105 171" stroke="#e6bc81" stroke-width="5"/>
+<path d="M165 130 L184 140" stroke="#9b7b51" stroke-width="7"/>
+<path d="M181 138 L194 38" stroke="#e1cfaa" stroke-width="6"/>
+<path d="M189 66 L198 14 L205 12 L201 65Z" fill="url(#steel)" stroke="#3c4c57" stroke-width="3"/>
+<path d="M184 66 L204 68" stroke="#c7a66b" stroke-width="5"/>
+<path d="M170 126 Q183 121 191 133 L184 144 L169 140Z" fill="url(#skin)" stroke="#754a39" stroke-width="3"/>
+</g></svg>

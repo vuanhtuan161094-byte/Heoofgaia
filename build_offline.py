@@ -36,6 +36,19 @@ for action in ['idle','walk','attack','hit','death']:
     assert html.count(needle)==1,(asset,html.count(needle))
     html=html.replace(needle,f'src="data:image/png;base64,{base64.b64encode((folder/asset).read_bytes()).decode("ascii")}"')
 assert 'assets/licensed/kaykit-heavy-soldier/rendered/' not in html
+# HG12 vector combat units are bundled into the same standalone HTML without
+# network dependencies. They are source-separated, transparent illustrated assets.
+for unit_asset in [
+    'assets/generated/hg12/combat/human-spear-militia.svg',
+    'assets/generated/hg12/combat/npc-wild-beast.svg',
+    'assets/generated/hg12/combat/npc-bandit-archer.svg',
+    'assets/generated/hg12/combat/npc-guard.svg',
+]:
+    needle=f'src="{unit_asset}"'
+    assert html.count(needle)==1,(unit_asset,html.count(needle))
+    data=base64.b64encode((folder/unit_asset).read_bytes()).decode('ascii')
+    html=html.replace(needle,f'src="data:image/svg+xml;base64,{data}"')
+assert 'assets/generated/hg12/combat/' not in html
 battlefield_asset='assets/generated/hg11/battlefield/human-meadow-1176x550.png'
 needle=f'src="{battlefield_asset}"'
 assert html.count(needle)==1,(battlefield_asset,html.count(needle))
