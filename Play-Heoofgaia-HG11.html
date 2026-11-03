@@ -475,11 +475,19 @@ function battlePath(b,actor,destination){
  if(!previous.has(goal))return null;
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
 }
-function battleMovementAllowance(b,actor){
+function battleMovementBudget(b,actor,commitCredit=false){
  const base=actor.range>1?1:actor.spd>=7?2:1,skill=b?.movementInstinct;
  if(actor.side!=='player'||actor.range>1||!skill||b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell.expiry)return base;
  const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
- const bonus=Math.floor(total+1e-9);actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
+ const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
+}
+function battleMovementAllowance(b,actor){return battleMovementBudget(b,actor,true)}
+function battleMovePreview(b,actorId){
+ const actor=b?.allies?.find(u=>u.id===actorId&&u.pool>0);if(!actor)return {unitId:actorId||null,steps:0,cells:[]};
+ const steps=battleMovementBudget(b,actor,false),{cols,rows}=BATTLE_GRID,occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
+ const dirs=[[1,0],[0,1],[-1,0],[0,-1]],queue=[{x:actor.x,y:actor.y,steps:0}],seen=new Set([battleCellKey(actor.x,actor.y)]),cells=[];
+ for(let i=0;i<queue.length;i++){const cell=queue[i];if(cell.steps>=steps)continue;for(const [dx,dy] of dirs){const x=cell.x+dx,y=cell.y+dy,key=battleCellKey(x,y);if(x<0||x>=cols||y<0||y>=rows||occupied.has(key)||seen.has(key))continue;seen.add(key);const next={x,y,steps:cell.steps+1};queue.push(next);cells.push(next)}}
+ return {unitId:actor.id,steps,cells};
 }
 function moveBattleStack(b,actor,destination){
  const path=battlePath(b,actor,destination);if(!path?.length)return null;
@@ -582,7 +590,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
+const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 </script><script>
@@ -2090,14 +2098,15 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null)
  if(archer){c.strokeStyle='#d8ab6f';c.lineWidth=3;c.beginPath();c.arc(17,-10,14,-Math.PI/2,Math.PI/2);c.stroke();line(c,18,-25,18,4,1,'#e9ddae')}
  else{line(c,20,-17,34,-50,4,'#d8d0b0');line(c,28,-46,40,-46,4,'#bbb4a6')}
  c.restore();}
-function drawBattle(canvas,E,s,now=visualNow()){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
+function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
  if(field?.complete&&field.naturalWidth===w&&field.naturalHeight===h)c.drawImage(field,0,0,w,h);
  else{const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#354a50');sky.addColorStop(.56,'#4e6659');sky.addColorStop(1,'#798060');c.fillStyle=sky;c.fillRect(0,0,w,h);
   for(let i=0;i<25;i++){const x=(i*79)%w;tree(c,x,142+random(i,4)*36,.95+random(i,6)*.6,'pine')}
   poly(c,[[0,196],[w,196],[w,h],[0,h]],'#766d56');for(let i=0;i<25;i++){const x=random(i,9)*w,y=210+random(i,8)*(h-220);line(c,x,y,x+19,y+8,2,'#c3b59050')}}
  const grid=E.BATTLE_GRID||{cols:12,rows:9,top:173,bottom:185},scaleX=w/grid.cols,scaleY=(h-grid.top-grid.bottom)/grid.rows,offsetY=grid.top;
- for(let i=0;i<grid.cols;i++)for(let j=0;j<grid.rows;j++){c.fillStyle=(i+j)%2===0?'#22371a15':'#fff4d90a';c.fillRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY);c.strokeStyle='#fff0c978';c.lineWidth=1;c.strokeRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY)}
+ const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]);
+ for(let i=0;i<grid.cols;i++)for(let j=0;j<grid.rows;j++){c.fillStyle=(i+j)%2===0?'#22371a15':'#fff4d90a';c.fillRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY);if(reachable.has(`${i},${j}`)){c.fillStyle='#3d9a983b';c.fillRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY);c.strokeStyle='#d2f5de';c.lineWidth=2;c.strokeRect(i*scaleX+2,offsetY+j*scaleY+2,scaleX-4,scaleY-4)}c.strokeStyle='#fff0c978';c.lineWidth=1;c.strokeRect(i*scaleX,offsetY+j*scaleY,scaleX,scaleY)}
  const units=[...b.allies,...b.enemies].sort((a,b)=>(a.pool>0?0:1)-(b.pool>0?0:1));
  for(const u of units){const visual=u.unitId==='human_4'?battleVisualState(b,u,elapsed,now):null;if(u.pool<=0){if(visual)animatedSoldier(c,(u.x+.5)*scaleX,offsetY+(u.y+.76)*scaleY,u.side==='enemy',visual);continue}const position=visual||u,x=(position.x+.5)*scaleX,y=offsetY+(position.y+.76)*scaleY,k=.9+Math.min(1.2,u.count/15);
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}
@@ -2280,7 +2289,7 @@ function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hi�
  <div class="command-bar"><div><div class="eyebrow">MỆNH LỆNH</div><small class="muted">${selected?'Đơn vị: '+esc(selected.name):'Chọn đơn vị'}${focused?' • Mục tiêu: '+esc(focused.name):''}</small></div>
  ${button('battle',{cmd:'attack'},'⚔ ATTACK',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN QUÂN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY CHỌN Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'↗ ĐẶT ĐIỂM ĐẾN',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 STAND BY',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 FOCUS',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI QUÂN',false,'secondary')}
  ${button('auto',{},state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh',false,'secondary')}</div>
- ${movementModeId?'<p class="hint battle-move-prompt" id="battle-move-prompt">Chọn ô đích. Đội sẽ tiếp tục di chuyển mỗi lượt đến đó, hoặc tới ô mới nếu đổi đích.</p>':selectedMoveTarget?'<p class="hint battle-move-order" id="battle-move-order">Đang tiến tới ('+selectedMoveTarget.x+', '+selectedMoveTarget.y+'). Lệnh được lưu; chọn ATTACK hoặc mệnh lệnh khác để đổi.</p>':'<p class="hint">Di chuyển: chọn đội quân → ĐẶT ĐIỂM ĐẾN → nhấp ô trống. Đội sẽ tiếp tục theo đường đi mỗi lượt.</p>'}
+ ${movementModeId?'<p class="hint battle-move-prompt" id="battle-move-prompt">Ô viền xanh là tầm di chuyển trong lượt kế tiếp theo mô hình hiện tại. Chọn ô đích; đường xa hơn sẽ tiếp tục qua các lượt.</p>':selectedMoveTarget?'<p class="hint battle-move-order" id="battle-move-order">Đang tiến tới ('+selectedMoveTarget.x+', '+selectedMoveTarget.y+'). Lệnh được lưu; chọn ATTACK hoặc mệnh lệnh khác để đổi.</p>':'<p class="hint">Di chuyển: chọn đội quân → ĐẶT ĐIỂM ĐẾN → nhấp ô trống. Đội sẽ tiếp tục theo đường đi mỗi lượt.</p>'}
  <div class="card hg04-spellbar"><span class="eyebrow">PHÉP CHIẾN ĐẤU TRANG BỊ</span><div class="hg04-spells">${(state.heroes.find(h=>h.id===state.activeHero)?.equippedSpells||[]).filter(id=>E.spell(state,id)?.kind!=='castellan').map(id=>{const sp=E.spell(state,id);if(!sp)return '';const wait=(b.spellCooldown?.[id]||0)>b.turn,used=b.castTurn===b.turn;
  return button('cast',{id},`✨ ${esc(sp.name)} Lv.${state.heroMagic[id]||0}${wait?' ⏳':''}`,wait||used,'small secondary');}).join('')||'<span class="muted">Chưa có phép trang bị. Nghiên cứu và trang bị trong Magic Tower trước khi xuất chinh.</span>'}</div><p class="hint">${b.activeSpell?`Đang hiệu lực: ${esc(E.spell(state,b.activeSpell.id)?.name||'')} · hết vào lượt ${b.activeSpell.expiry}`:'Không có phép đang hiệu lực'} · Mỗi lượt dùng tối đa 1 phép</p></div>
   <div class="combat-journal">${b.history.slice(0,3).map(l=>`<div>• ${esc(l)}</div>`).join('')}</div><p class="hint">Thứ tự hành động lượt trước: ${(b.lastActOrder||[]).map(id=>[...b.allies,...b.enemies].find(u=>u.id===id)?.name).filter(Boolean).map(esc).join(' → ')||'Chưa có'}. Mục tiêu theo AI lượt trước: ${esc(targetSummary||'Chưa có')}.</p><p class="hint">Bản thử nghiệm: tối đa 7 nhóm quân, lượt theo tốc độ; bằng tốc độ thì xét vị trí trái sang phải, trên xuống dưới theo hướng dẫn Trung Quốc 2009. Stand By bỏ lượt đội được chọn; Lùi quân dịch đội đó về sau 1 ô (khoảng cách là mô hình). Tầm đánh, chọn mục tiêu và Arena đang hoạt động. Công thức sát thương, AI và cân bằng vẫn là mô phỏng.</p>`;
@@ -2297,8 +2306,8 @@ function paint(){
   canvas.onwheel=e=>{e.preventDefault();P.zoomMap(e.deltaY>0?.9:1.1);draw()};
  }else if(tab==='city'){const canvas=$('city-canvas');P.drawCity(canvas,E,state,selectedBuilding);
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
- }else if(tab==='combat'){const canvas=$('battle-canvas');P.drawBattle(canvas,E,state);
-  if(P.hasAnimatedTroops(state.battle)){const battle=state.battle;let lastFrame=0;const animate=now=>{if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;if(now-lastFrame>=1000/30){P.drawBattle(canvas,E,state,now);lastFrame=now}requestAnimationFrame(animate)};requestAnimationFrame(animate)}
+ }else if(tab==='combat'){const canvas=$('battle-canvas'),interaction={movementModeId};P.drawBattle(canvas,E,state,undefined,interaction);
+  if(P.hasAnimatedTroops(state.battle)){const battle=state.battle;let lastFrame=0;const animate=now=>{if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;if(now-lastFrame>=1000/30){P.drawBattle(canvas,E,state,now,interaction);lastFrame=now}requestAnimationFrame(animate)};requestAnimationFrame(animate)}
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;
     const grid=E.BATTLE_GRID||{cols:12,rows:9,top:173,bottom:185};
     if(movementModeId){const cellWidth=canvas.width/grid.cols,cellHeight=(canvas.height-grid.top-grid.bottom)/grid.rows,gx=Math.floor(x/cellWidth),gy=Math.floor((y-grid.top)/cellHeight);if(gx<0||gx>=grid.cols||gy<0||gy>=grid.rows){toast('Hãy chọn một ô nằm trong lưới chiến trường.');return}fail(()=>{markBattleInput();const out=E.battleAct(state,'move',{x:gx,y:gy});movementModeId=null;const move=state.battle?.lastMoves?.find(m=>m.unitId===state.battle.selected);if(move)toast(`${state.battle.allies.find(u=>u.id===move.unitId)?.name||'Đội quân'} di chuyển ${move.steps} ô tới (${move.to.x}, ${move.to.y}).`);if(out.type==='win'){tab='map';toast('Chiến thắng!')}else if(out.type==='lose'){tab='heroes';toast('Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab='map';toast('Đã kết thúc giao tranh.')}});return}

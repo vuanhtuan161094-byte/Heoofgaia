@@ -1,6 +1,6 @@
 {
-  "total": 20,
-  "passed": 20,
+  "total": 21,
+  "passed": 21,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -14,6 +14,10 @@
     },
     {
       "name": "Battle UI arms a selected stack for direct cell movement",
+      "passed": true
+    },
+    {
+      "name": "Move preview highlights exactly the engine-legal next-turn cells",
       "passed": true
     },
     {

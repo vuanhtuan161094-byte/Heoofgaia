@@ -287,11 +287,19 @@ function battlePath(b,actor,destination){
  if(!previous.has(goal))return null;
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
 }
-function battleMovementAllowance(b,actor){
+function battleMovementBudget(b,actor,commitCredit=false){
  const base=actor.range>1?1:actor.spd>=7?2:1,skill=b?.movementInstinct;
  if(actor.side!=='player'||actor.range>1||!skill||b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell.expiry)return base;
  const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
- const bonus=Math.floor(total+1e-9);actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
+ const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
+}
+function battleMovementAllowance(b,actor){return battleMovementBudget(b,actor,true)}
+function battleMovePreview(b,actorId){
+ const actor=b?.allies?.find(u=>u.id===actorId&&u.pool>0);if(!actor)return {unitId:actorId||null,steps:0,cells:[]};
+ const steps=battleMovementBudget(b,actor,false),{cols,rows}=BATTLE_GRID,occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
+ const dirs=[[1,0],[0,1],[-1,0],[0,-1]],queue=[{x:actor.x,y:actor.y,steps:0}],seen=new Set([battleCellKey(actor.x,actor.y)]),cells=[];
+ for(let i=0;i<queue.length;i++){const cell=queue[i];if(cell.steps>=steps)continue;for(const [dx,dy] of dirs){const x=cell.x+dx,y=cell.y+dy,key=battleCellKey(x,y);if(x<0||x>=cols||y<0||y>=rows||occupied.has(key)||seen.has(key))continue;seen.add(key);const next={x,y,steps:cell.steps+1};queue.push(next);cells.push(next)}}
+ return {unitId:actor.id,steps,cells};
 }
 function moveBattleStack(b,actor,destination){
  const path=battlePath(b,actor,destination);if(!path?.length)return null;
@@ -394,7 +402,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleAct,heal,setSpeed,note,buildOrder};
+const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 

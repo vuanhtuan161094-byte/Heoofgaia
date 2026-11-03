@@ -33,7 +33,7 @@
     {
       "name": "Actual recruitment spends resources and queues two Heavy Soldiers",
       "passed": true,
-      "detail": "{\"unitId\": \"human_4\", \"count\": 2, \"remaining\": 784, \"gold\": 269680, \"strict\": true}"
+      "detail": "{\"unitId\": \"human_4\", \"count\": 2, \"remaining\": 751.54, \"gold\": 269682.5246666667, \"strict\": true}"
     },
     {
       "name": "Real engine tick completes the queue and delivers both recruited troops",
@@ -53,7 +53,7 @@
     {
       "name": "Actual March dispatch spends AP and carries the formed Heavy Soldier stack",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_1\", \"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 95.8465}"
+      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_1\", \"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 95.63525}"
     },
     {
       "name": "Natural travel arrival opens a live battle with the UI-recruited Heavy Soldier",
@@ -73,7 +73,7 @@
     {
       "name": "Live 30 FPS battle canvas samples distinct idle, walk and attack atlas frames",
       "passed": true,
-      "detail": "{\"samples\": 96, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"attack\": 11, \"walk\": 13, \"idle\": 10}}"
+      "detail": "{\"samples\": 95, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"walk\": 13, \"attack\": 11, \"idle\": 8}}"
     },
     {
       "name": "Actual Stand By turn receives engine-recorded damage on Heavy Soldier p1",
@@ -83,7 +83,7 @@
     {
       "name": "Received-damage playback samples multiple real Hit_A atlas frames",
       "passed": true,
-      "detail": "{\"distinctFrames\": 4, \"totalSamples\": 123}"
+      "detail": "{\"distinctFrames\": 4, \"totalSamples\": 118}"
     },
     {
       "name": "Actual defender attack kills Heavy Soldier p1 while militia keeps battle active",
@@ -93,7 +93,7 @@
     {
       "name": "Dead-stack playback samples the actual Death_A atlas while battle remains active",
       "passed": true,
-      "detail": "{\"distinctFrames\": 6, \"totalSamples\": 142}"
+      "detail": "{\"distinctFrames\": 6, \"totalSamples\": 136}"
     },
     {
       "name": "v07 Save/Reload preserves the actual death result, prior battle receipts and atlases",
@@ -580,13 +580,13 @@
       "walk"
     ],
     "distinctFramesByAction": {
-      "attack": 11,
       "walk": 13,
-      "idle": 10
+      "attack": 11,
+      "idle": 8
     },
     "hitFrames": 4,
     "deathFrames": 6,
-    "totalLiveCanvasSamples": 142
+    "totalLiveCanvasSamples": 136
   },
   "enemyRendererCheck": {
     "available": true,
@@ -599,8 +599,8 @@
   },
   "artifacts": {
     "human-heavy-soldier-battle-live-chrome.png": {
-      "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
-      "bytes": 1252116,
+      "sha256": "C2BB462B0A16BD2D545DFE44F1AF72DA1CDAB4ED95D118042D28A5B58430F90B",
+      "bytes": 1251957,
       "resolution": "1440x1408"
     },
     "human-heavy-soldier-death-frame-chrome.png": {

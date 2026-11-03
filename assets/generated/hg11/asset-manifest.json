@@ -1,7 +1,7 @@
 {
   "schema": "hog1-asset-manifest-v1",
   "project": "Hẻoofgaia / Heroes of Gaia 1 reconstruction",
-  "createdAt": "2026-11-03T04:48:16.063Z",
+  "createdAt": "2026-11-03T05:06:06.693Z",
   "target": "HG-11 four-faction scenic city art, Human Barracks detail, Human Meadow battlefield and one animated Human Heavy Soldier",
   "copyrightStatus": "RECREATED; not extracted or verified original commercial art",
   "referenceOnly": [
@@ -27,7 +27,7 @@
     ],
     "hitZoneRegression": "PASS: 4 factions × 12 live canvas actions",
     "browserAcceptance": "48/48 checks; PASS",
-    "fullGameRegression": "PASS: 172/172 Node engine regression",
+    "fullGameRegression": "PASS: 173/173 Node engine regression",
     "independentBuildingAssets": "PASS: Human Barracks detail and real paid v07 construction; static art, no animation",
     "animatedTroopAssets": "PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks",
     "battlefieldBackground": "PASS: independently generated 1176×550 meadow background is drawn under the real tactical grid in offline Chrome"
@@ -210,8 +210,8 @@
       "screenshot": {
         "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
         "resolution": "1440x1408",
-        "bytes": 1252116,
-        "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
+        "bytes": 1251957,
+        "sha256": "C2BB462B0A16BD2D545DFE44F1AF72DA1CDAB4ED95D118042D28A5B58430F90B",
         "pngColorType": 2
       }
     }

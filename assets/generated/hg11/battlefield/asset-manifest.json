@@ -2,7 +2,7 @@
   "schema": "hog1-asset-manifest-v1",
   "assetId": "HOG1-HG11-BATTLEFIELD-HUMAN-MEADOW-V1",
   "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
-  "createdAtUtc": "2026-11-03T04:48:14.849171+00:00",
+  "createdAtUtc": "2026-11-03T05:06:05.857939+00:00",
   "target": {
     "stage": "HG-11",
     "screen": "tactical battle canvas",
@@ -45,13 +45,13 @@
     "offlineEmbedded": true,
     "bundle": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "bytes": 15139640,
-      "sha256": "37D380F1EB4F338F48DFF89D61B639B2CED7A8A21E2C01C6F18201385BF3C724",
+      "bytes": 15141135,
+      "sha256": "5BD0D245B6A26429307138456A2E1B65306563C75756932C55C2036B6C662DF2",
       "runtimePngCount": 16
     },
     "nodeRegression": {
-      "passed": 172,
-      "total": 172,
+      "passed": 173,
+      "total": 173,
       "failed": 0,
       "result": "PASS"
     },
@@ -61,8 +61,8 @@
     "screenshot": {
       "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
       "resolution": "1440x1408",
-      "bytes": 1252116,
-      "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
+      "bytes": 1251957,
+      "sha256": "C2BB462B0A16BD2D545DFE44F1AF72DA1CDAB4ED95D118042D28A5B58430F90B",
       "pngColorType": 2
     }
   },

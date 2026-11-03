@@ -165,6 +165,13 @@ with sync_playwright() as p:
     check('file:// reload resumes the outbound hero and army', page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return s.march?.phase==="outbound"&&s.expedition?.army.human_1===16&&s.army.human_1===0})()'))
     page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();HOG_ENGINE.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);HOG_APP_DEBUG.render()})()')
     check('file:// march arrival opens the actual mine battle', page.evaluate('(()=>{const s=HOG_APP_DEBUG.getState();return !!s.battle&&s.battle.target==="6,3"&&s.battle.allies[0].count===16})()'))
+    page.locator('[data-action="stack"][data-id="p0"]').click()
+    page.evaluate("""(()=>{const proto=CanvasRenderingContext2D.prototype,stroke=proto.strokeRect;window.__moveRangeDraws=0;proto.strokeRect=function(...args){if(this.strokeStyle==='#d2f5de')window.__moveRangeDraws++;return stroke.apply(this,args)}})()""")
+    page.locator('[data-action="move-mode"]').click()
+    check('file:// battle renders real reachable-cell preview from the loaded engine', page.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle,p=HOG_ENGINE.battleMovePreview(b,"p0");return p.steps>0&&p.cells.length>0&&window.__moveRangeDraws===p.cells.length})()'))
+    page.screenshot(path=str(root / 'docs' / 'evidence' / 'hg09' / 'screenshot-battle-movement-range-file-chrome.png'), full_page=True)
+    page.locator('[data-action="move-mode"]').click()
+    check('file:// cancelling movement preview consumes no battle turn', page.evaluate('(()=>{const b=HOG_APP_DEBUG.getState().battle;return !!b&&b.turn===1&&!b.lastMoves?.length&&b.orders.p0===undefined})()'))
     for _ in range(72):
         if not page.evaluate('!!HOG_APP_DEBUG.getState().battle'):
             break

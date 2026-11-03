@@ -97,6 +97,14 @@
       "passed": true
     },
     {
+      "name": "file:// battle renders real reachable-cell preview from the loaded engine",
+      "passed": true
+    },
+    {
+      "name": "file:// cancelling movement preview consumes no battle turn",
+      "passed": true
+    },
+    {
       "name": "file:// natural starter battle captures the mine and stations the hero",
       "passed": true
     },
@@ -122,6 +130,6 @@
     }
   ],
   "errors": [],
-  "passed": 30,
-  "total": 30
+  "passed": 32,
+  "total": 32
 }

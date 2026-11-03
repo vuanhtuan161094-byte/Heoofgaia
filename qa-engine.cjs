@@ -128,6 +128,14 @@ test('SRC57 Battle Instinct applies the Orc melee movement bonus, saves fraction
  assert.deepEqual(moves,[2,2,3]);assert.equal(loaded.battle.allies[0].x,10);assert(loaded.battle.movementInstinct);assert(E.strictSave(loaded));
  E.battleAct(loaded,'attack',{preserveMoveOrders:true});assert.equal(loaded.battle.allies[0].x,11);assert.equal(loaded.battle.movementInstinct,undefined);assert.equal(loaded.battle.allies[0].moveCredit,undefined);assert(E.strictSave(loaded));
 });
+test('HG09 movement preview is side-effect-free, avoids occupied cells and matches the real speed-based turn move',()=>{
+ const s=E.make('human',1_000_001),target=E.NPC_CAMPS_2009.find(c=>c.stars===1),b=E.makeBattle(s,target.key);
+ b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_4',name:'Preview Soldier',range:1,count:1,initial:1,hp:1000,atk:0,def:10,spd:7,pool:1000,x:1,y:1},{id:'p1',slot:1,side:'player',unitId:'human_1',name:'Blocker',range:1,count:1,initial:1,hp:1000,atk:0,def:10,spd:2,pool:1000,x:2,y:1}];
+ b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Distant target',range:1,count:1,initial:1,hp:1000,atk:0,def:10,spd:1,pool:1000,x:8,y:7}];b.selected='p0';s.battle=b;
+ const preview=E.battleMovePreview(b,'p0');assert.equal(preview.steps,2);assert(preview.cells.some(c=>c.x===1&&c.y===3&&c.steps===2));assert(!preview.cells.some(c=>c.x===2&&c.y===1));assert.equal(b.allies[0].moveCredit,undefined);assert(E.strictSave(s));
+ const out=E.battleAct(s,'move',{x:1,y:3});assert.equal(out.type,'continue');const move=b.lastMoves.find(m=>m.unitId==='p0');assert.equal(move.steps,2);assert.equal(move.to.x,1);assert.equal(move.to.y,3);
+ const restored=E.parseSave(E.serializeSave(s));assert.equal(restored.version,7);assert(E.strictSave(restored));assert.deepEqual(JSON.parse(JSON.stringify(E.battleMovePreview(restored.battle,'p0'))),JSON.parse(JSON.stringify(E.battleMovePreview(s.battle,'p0'))));
+});
 test('HG08 evidence matrix has one row for every catalog troop',()=>{const matrix=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').match(/^\| (?:Human|Elf|Orc|Undead) \| \d+ \|/gm)||[];assert.equal(matrix.length,40)});
 test('HG08 unlock matrix names match the canonical 40-unit catalog',()=>{const lines=fs.readFileSync(path.join(dir,'docs/research/HG08-TROOP-UNLOCK-MATRIX.md'),'utf8').split(/\r?\n/);const race={human:'Human',elf:'Elf',orc:'Orc',undead:'Undead'};for(const [key,units] of Object.entries(C.units))for(const u of units)assert(lines.some(line=>line.startsWith(`| ${race[key]} | ${u.tier} | ${u.name} |`)),`${key} T${u.tier} ${u.name}`)});
 test('HG08 edition crosswalk maps every catalog ID and preserves localized labels',()=>{

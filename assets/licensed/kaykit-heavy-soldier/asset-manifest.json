@@ -2,7 +2,7 @@
   "schema": "hog1-asset-manifest-v1",
   "assetId": "HOG1-HG11-UNIT-HUMAN-HEAVY-SOLDIER-ANIM-V1",
   "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
-  "createdAtUtc": "2026-11-03T04:48:15.508762+00:00",
+  "createdAtUtc": "2026-11-03T05:06:06.225020+00:00",
   "target": {
     "stage": "HG-11",
     "unitId": "human_4",
@@ -1002,17 +1002,17 @@
     "gameplayEventSource": "engine.js writes per-stack movement, attack, received damage and death events; rendering observes receipts and does not alter battle state.",
     "standaloneHtml": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "bytes": 15139640,
-      "characters": 15126734,
-      "sha256": "37D380F1EB4F338F48DFF89D61B639B2CED7A8A21E2C01C6F18201385BF3C724",
+      "bytes": 15141135,
+      "characters": 15128219,
+      "sha256": "5BD0D245B6A26429307138456A2E1B65306563C75756932C55C2036B6C662DF2",
       "embeddedRuntimePngCount": 16,
       "allFiveAtlasesEmbedded": true
     },
     "saveSchema": "v07 unchanged; old saves without lastEvents remain accepted.",
     "nodeRegression": {
       "command": "node qa-engine.cjs",
-      "suiteTotal": 172,
-      "suitePassed": 172,
+      "suiteTotal": 173,
+      "suitePassed": 173,
       "suiteFailed": 0,
       "result": "PASS"
     },
@@ -1034,13 +1034,13 @@
           "walk"
         ],
         "distinctFramesByAction": {
-          "attack": 11,
           "walk": 13,
-          "idle": 10
+          "attack": 11,
+          "idle": 8
         },
         "hitFrames": 4,
         "deathFrames": 6,
-        "totalLiveCanvasSamples": 142
+        "totalLiveCanvasSamples": 136
       },
       "enemyRendererCheck": {
         "available": true,
@@ -1055,9 +1055,9 @@
     "screenshots": [
       {
         "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
-        "bytes": 1252116,
+        "bytes": 1251957,
         "resolution": "1440x1408",
-        "sha256": "EC4384309FA18D61467D94B4F56816C65527F8F8702FAC27B138DB31A78636A7",
+        "sha256": "C2BB462B0A16BD2D545DFE44F1AF72DA1CDAB4ED95D118042D28A5B58430F90B",
         "role": "Focused-QA receipt capture"
       },
       {
