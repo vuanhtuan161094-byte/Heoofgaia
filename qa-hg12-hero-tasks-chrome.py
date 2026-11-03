@@ -25,6 +25,19 @@ with sync_playwright() as pw:
     page.set_default_timeout(15000)
     page.goto(HTML.as_uri(),wait_until="load")
     page.locator('[data-action="start"]').click()
+    check("Three-action quickstart appears on playable world",page.locator(".quickstart-strip").is_visible())
+    check("Starter has no explicit formation before guided action",page.evaluate("HOG_APP_DEBUG.getState().formation.length===0"))
+    page.locator('.quickstart-strip [data-action="autoformation"]').click()
+    formed=page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
+      return {groups:s.formation.length,points:E.troopValue(s),
+       limit:E.heroLimit(s.heroes.find(h=>h.id===s.activeHero).level),valid:E.strictSave(s)};
+    }""")
+    check("Quickstart button saves legal army under hero capacity",formed["groups"]>0 and formed["points"]<=formed["limit"] and formed["valid"])
+    page.locator('.quickstart-strip [data-action="findnpc"]').click()
+    check("Quickstart selects actual NPC level 1 without dispatching","1★" in page.locator(".target-information h2").inner_text() and page.evaluate("HOG_APP_DEBUG.getState().march===null"))
+    quickshot=OUT/"hero-task-quickstart-desktop-chrome.png"
+    page.screenshot(path=str(quickshot),full_page=False)
     page.locator('#nav [data-tab="tasks"]').click()
     initial=page.evaluate("HOG_ENGINE.heroTaskStatus(HOG_APP_DEBUG.getState())")
     check("Hero Task accept button shown in task UI",page.locator('[data-action="acceptherotask"]').is_visible())
@@ -73,7 +86,10 @@ with sync_playwright() as pw:
     page.reload(wait_until="load")
     page.locator('#nav [data-tab="tasks"]').click()
     check("Cold reload preserves first claimed task",page.evaluate("HOG_ENGINE.heroTaskStatus(HOG_APP_DEBUG.getState()).completed===1"))
+    check("Cold reload preserves smart formation",page.evaluate("HOG_APP_DEBUG.getState().formation.length>0"))
     page.set_viewport_size({"width":960,"height":540})
+    page.locator('#nav [data-tab="map"]').click()
+    check("Compact quickstart has three working buttons at landscape width",page.locator(".quickstart-actions button").count()==3 and page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"))
     landscape=OUT/"hero-task-landscape-chrome.png"
     page.screenshot(path=str(landscape),full_page=False)
     check("Task UI fits landscape width",page.evaluate("document.documentElement.scrollWidth<=window.innerWidth+1"))
@@ -82,7 +98,7 @@ with sync_playwright() as pw:
 
 report={"passed":sum(x["passed"] for x in checks),"total":len(checks),"checks":checks,
         "errors":errors,"htmlSha256":hashlib.sha256(HTML.read_bytes()).hexdigest().upper(),
-        "screenshots":[str(desktop.relative_to(ROOT)),str(landscape.relative_to(ROOT))]}
+        "screenshots":[str(quickshot.relative_to(ROOT)),str(desktop.relative_to(ROOT)),str(landscape.relative_to(ROOT))]}
 (QA/"hero-task-chrome.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
 print(f"HERO TASK FILE CHROME {report['passed']}/{report['total']} PASS",flush=True)
 raise SystemExit(0 if report["passed"]==report["total"] else 1)
