@@ -1104,11 +1104,11 @@ test('HG14 battle renderer uses the real illustrated four-faction PNGs and never
  }finally{if(originalDocument===undefined)delete ctx.document;else ctx.document=originalDocument}
  const s=state('orc'),camp=E.NPC_CAMPS_2009.find(c=>c.stars===1);
  s.battle=E.makeBattle(s,camp.key);const unit=s.battle.allies.find(u=>u.unitId==='orc_1');
- assert(unit);const before=E.serializeSave(s);
+ assert(unit);const before=JSON.stringify(E.clone(s));
  const c={width:1176,height:550,getContext(){return new Proxy({createLinearGradient:()=>({addColorStop(){}}),measureText:()=>({width:40})},
  {get(o,k){if(k in o)return o[k];if(typeof k==='symbol')return undefined;return()=>{}},set(o,k,v){o[k]=v;return true}})}};
  P.drawBattle(c,E,s,500);P.drawBattle(c,E,s,800);
- assert.equal(E.serializeSave(s),before,'rendering is visual only and saves must not change');
+ assert.equal(JSON.stringify(E.clone(s)),before,'rendering is visual only and saves must not change');
 });
 test('HG11 KayKit Heavy Soldier keeps 57 distinct licensed rig-rendered frames and embedded action atlases',()=>{
  const base=path.join(dir,'assets/licensed/kaykit-heavy-soldier'),source=JSON.parse(fs.readFileSync(path.join(base,'source-manifest.json'),'utf8')),meta=JSON.parse(fs.readFileSync(path.join(base,'rendered/animation-metadata.json'),'utf8'));
