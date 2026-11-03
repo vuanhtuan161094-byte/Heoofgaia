@@ -427,7 +427,34 @@ function claimChina2009DailyTask(s,id,now=Date.now()){
 }
 function claim(s,id){ensure(s);if(!activeCity(s).main)throw Error('Theo hướng dẫn Trung Quốc 2009, thao tác nhiệm vụ chỉ thực hiện tại thành chính.');const result=prior.claim(s,id);syncChina2009TaskBoard(s,s.lastTick);return result}
 function appoint(s,id){ensure(s);const c=activeCity(s);if(s.cities.some(x=>x.id!==c.id&&x.local.castellan===id))throw Error('Một tướng không thể đồng thời làm Castellan ở hai thành.');return prior.appoint(s,id)}
+// HG13: explicitly requested formation aid; no automatic army redistribution.
+function recommendFormation(s){
+ ensure(s);
+ if(s.battle||(s.march&&s.march.phase!=='outbound'))throw Error('Không thể bố trí khi đang giao tranh hoặc trở về.');
+ const hero=s.heroes.find(h=>h.id===s.activeHero);
+ if(!hero||hero.id===s.castellan||E.heroAway?.(s,hero.id))throw Error('Hãy chọn một tướng ở thành, không làm Castellan.');
+ const limit=E.heroLimit(hero.level),formation=[];
+ let remaining=limit,points=0;
+ const units=E.activeArmy(s).filter(u=>Number.isSafeInteger(s.army[u.id])&&s.army[u.id]>0)
+  .sort((a,b)=>b.tier-a.tier||b.atk-a.atk||a.id.localeCompare(b.id));
+ for(const unit of units){
+  if(formation.length>=7)break;
+  const perUnit=E.unitValue(unit);
+  if(!Number.isSafeInteger(perUnit)||perUnit<=0)throw Error('Dữ liệu sức chứa binh chủng không hợp lệ.');
+  const count=Math.min(s.army[unit.id],Math.floor(remaining/perUnit));
+  if(count<1)continue;
+  formation.push({unitId:unit.id,count});points+=count*perUnit;remaining-=count*perUnit;
+ }
+ if(!formation.length)throw Error('Không có quân phù hợp giới hạn chỉ huy; hãy tuyển quân cấp thấp hoặc chọn tướng cấp cao hơn.');
+ return {formation,points,limit,heroId:hero.id,totalUnits:formation.reduce((n,g)=>n+g.count,0)};
+}
+function autoFormation(s){
+ const plan=recommendFormation(s);
+ E.setFormation(s,plan.formation);
+ E.note(s,`Bố trí nhanh: ${plan.totalUnits} quân / ${plan.formation.length} nhóm, điểm chỉ huy ${plan.points}/${plan.limit}.`);
+ return plan;
+}
 E.make=make;E.tick=tick;E.startMarch=startMarch;E.battleAct=battleAct;E.claim=claim;E.appoint=appoint;E.heroStats=heroStats;E.valid=valid;E.strictSave=strict;E.parseSave=parse;E.serializeSave=serialize;E.rate=rate;
-Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,CHINA_2009_DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,startCityTransport,transportUnit,transportWeight,dailyTasks,acceptDailyTask,claimDailyTask,heroTaskStatus,acceptHeroTask,claimHeroTask,china2009DailyTasks,acceptChina2009DailyTask,claimChina2009DailyTask});
+Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,recommendFormation,autoFormation,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,CHINA_2009_DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,startCityTransport,transportUnit,transportWeight,dailyTasks,acceptDailyTask,claimDailyTask,heroTaskStatus,acceptHeroTask,claimHeroTask,china2009DailyTasks,acceptChina2009DailyTask,claimChina2009DailyTask});
 root.HOG_HG10={status:'partial-world-building-visits',sourceStatus:'2009 Chinese guide daily visitation and listed rewards; UTC reset and instant visit are implementation models',saveVersion:7,depositArmy};
 })(typeof globalThis!=='undefined'?globalThis:this);

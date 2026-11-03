@@ -861,6 +861,30 @@ test('SRC54 China 2009 recruitment task is separated, counts completed real trai
  assert(before.wood>=0&&before.army>=0);
 });
 
+test('HG13 recommendFormation fits command limits, respects owned armies, persists for four races',()=>{
+ for(const race of ['human','elf','orc','undead']){
+  const s=state(race),units=E.arrUnits(s),before=JSON.stringify(s.formation);
+  s.army[units[0].id]=500000;s.army[units[2].id]=400000;s.army[units[8].id]=1000;
+  const plan=E.recommendFormation(s);
+  assert.equal(JSON.stringify(s.formation),before,'preview must be read-only');
+  assert(plan.points>0&&plan.points<=plan.limit);assert(plan.formation.length>0&&plan.formation.length<=7);
+  assert.equal(new Set(plan.formation.map(g=>g.unitId)).size,plan.formation.length);
+  for(const g of plan.formation)assert(g.count>0&&g.count<=s.army[g.unitId]);
+  assert.equal(E.formationPoints(s,plan.formation),plan.points);
+  const applied=E.autoFormation(s);assert.equal(E.troopValue(s),applied.points);
+  assert.equal(E.checkCapacity(s,s.formation).limit,applied.limit);
+  const loaded=E.parseSave(E.serializeSave(s));assert.equal(E.troopValue(loaded),applied.points);
+  assert(E.strictSave(loaded));E.setFormation(loaded,[{unitId:units[0].id,count:2}]);
+  assert.equal(loaded.formation[0].count,2,'manual formation remains available');
+ }
+});
+test('HG13 quick formation refuses invalid heroes and empty armies without loss',()=>{
+ const s=state(),before=JSON.stringify(s.army);E.appoint(s,s.activeHero);
+ throws(()=>E.autoFormation(s),/Castellan/);assert.equal(JSON.stringify(s.army),before);
+ assert.equal(s.formation.length,0);
+ const elf=state('elf');for(const u of E.arrUnits(elf))elf.army[u.id]=0;
+ throws(()=>E.autoFormation(elf),/Không có quân phù hợp/);assert.equal(elf.formation.length,0);
+});
 test('HG10 daily NPC tasks never credit previous victories and keep strict legacy v07 migration',()=>{
  const s=state('human'),taskId='getting_started',day=s.lastTick,npc=E.NPC_CAMPS_2009.find(t=>t.stars===1);
  assert(npc);s.cleared.push(npc.key);E.acceptDailyTask(s,taskId,day);
