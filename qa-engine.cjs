@@ -1068,6 +1068,48 @@ test('HG09 expedition victory report keeps the originating hero and return snaps
  const corrupt=state();corrupt.battle=E.makeBattle(corrupt,target.key);corrupt.battle.woundedByUnit={human_1:999};assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/không hợp lệ/);
 });
 
+test('HG14 four-race PNG sprite masters have deterministic Idle/Walk/Attack/Hit/Death transforms',()=>{
+ const expected={
+  human_3:'unit-human-archer',elf_1:'unit-elf-centaur',
+  elf_2:'unit-elf-scout',orc_1:'unit-orc-imp',undead_1:'unit-undead-skeleton'
+ };
+ assert.equal(Object.keys(P.MOTION_SPRITES).length,5);
+ for(const [unit,id] of Object.entries(expected)){assert.equal(P.MOTION_SPRITES[unit].id,id);
+  assert(P.MOTION_SPRITES[unit].pivot>0&&P.MOTION_SPRITES[unit].pivot<1);
+  assert(P.hasAnimatedTroops({allies:[{unitId:unit}],enemies:[]}));
+ }
+ const idle=P.motionPose('idle',0),idleMoving=P.motionPose('idle',230);
+ const walking=P.motionPose('walk',180,450),attacking=P.motionPose('attack',310,650);
+ const damaged=P.motionPose('hit',120,650),fallen=P.motionPose('death',850,1200);
+ assert.notEqual(idle.dy,idleMoving.dy);
+ assert(walking.dy<0,'walk moves the sprite vertically');
+ assert(attacking.dx>2&&attacking.angle>0,'attack lunges toward opponent');
+ assert(damaged.flash>0,'hit displays impact response');
+ assert(fallen.angle<-.8&&fallen.alpha<1,'death rotates and fades');
+ assert(P.motionPose('idle',230).dy===idleMoving.dy,'deterministic');
+ assert(P.hasAnimatedTroops({allies:[{unitId:'human_4'}],enemies:[]}));
+ assert(!P.hasAnimatedTroops({allies:[{unitId:'human_1'}],enemies:[]}));
+});
+test('HG14 battle renderer uses the real illustrated four-faction PNGs and never mutates combat Save',()=>{
+ const srcs=Object.values(P.MOTION_SPRITES),read=[],originalDocument=ctx.document;
+ ctx.document={getElementById(id){read.push(id);return {id,complete:true,naturalWidth:512,naturalHeight:512}}};
+ try{
+  const context={globalAlpha:1,save(){},restore(){},translate(){},scale(){},rotate(){},beginPath(){},ellipse(){},stroke(){} ,
+   drawImage(image){read.push('DRAW:'+image.id)}};
+  for(const [unit,profile] of Object.entries(P.MOTION_SPRITES)){
+   const visual={action:'idle',time:280,x:2,y:2,alpha:1};
+   assert(P.motionSprite(context,100,200,unit,false,visual,1.05),unit+' missing image draw');
+   assert(read.includes('DRAW:'+profile.id),unit+' did not draw the intended existing sprite');
+  }
+ }finally{if(originalDocument===undefined)delete ctx.document;else ctx.document=originalDocument}
+ const s=state('orc'),camp=E.NPC_CAMPS_2009.find(c=>c.stars===1);
+ s.battle=E.makeBattle(s,camp.key);const unit=s.battle.allies.find(u=>u.unitId==='orc_1');
+ assert(unit);const before=E.serializeSave(s);
+ const c={width:1176,height:550,getContext(){return new Proxy({createLinearGradient:()=>({addColorStop(){}}),measureText:()=>({width:40})},
+ {get(o,k){if(k in o)return o[k];if(typeof k==='symbol')return undefined;return()=>{}},set(o,k,v){o[k]=v;return true}})}};
+ P.drawBattle(c,E,s,500);P.drawBattle(c,E,s,800);
+ assert.equal(E.serializeSave(s),before,'rendering is visual only and saves must not change');
+});
 test('HG11 KayKit Heavy Soldier keeps 57 distinct licensed rig-rendered frames and embedded action atlases',()=>{
  const base=path.join(dir,'assets/licensed/kaykit-heavy-soldier'),source=JSON.parse(fs.readFileSync(path.join(base,'source-manifest.json'),'utf8')),meta=JSON.parse(fs.readFileSync(path.join(base,'rendered/animation-metadata.json'),'utf8'));
  const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
