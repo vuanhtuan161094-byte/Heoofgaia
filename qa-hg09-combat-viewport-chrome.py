@@ -64,8 +64,21 @@ with sync_playwright() as p:
       const x=c.width*(.255+(u.x+.5)*.057-(u.y+.76)*.023),y=c.height*(.17+(u.x+.5)*.020+(u.y+.76)*.061);
       return {id:u.id,x:r.left+x/c.width*r.width,y:r.top+y/c.height*r.height};
     }""")
+    before_click=page.evaluate("""({x,y,id}) => {
+      const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),s=HOG_APP_DEBUG.getState(),q=document.elementFromPoint(x,y);
+      const hit=HOG_PAINTER.battleHit(c,(x-r.left)*c.width/r.width,(y-r.top)*c.height/r.height,HOG_ENGINE,s);
+      return {expected:id,hit:hit?.id||null,element:q?.tagName+'#'+(q?.id||''),
+        canvasTarget:q===c,onclick:!!c.onclick,focusBefore:s.battle?.focused||null,
+        viewScroll:window.scrollY,toast:document.querySelector('#toast')?.innerText||''};
+    }""",enemy)
     page.mouse.click(enemy["x"],enemy["y"])
-    check("Real projected canvas click selects enemy unit",page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==enemy["id"])
+    after_click=page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();return {focus:s.battle?.focused||null,selected:s.battle?.selected||null,
+      toast:document.querySelector('#toast')?.innerText||''};
+    }""")
+    click_debug={"before":before_click,"after":after_click}
+    print("CHROME CLICK DEBUG",json.dumps(click_debug,ensure_ascii=False),flush=True)
+    check("Real projected canvas click selects enemy unit",after_click["focus"]==enemy["id"])
     page.locator('[data-action="save-combat"]').click()
     check("Visible combat Save writes v07 state",bool(page.evaluate("localStorage.getItem('heoofgaia_hg_only_v07')")))
     page.reload(wait_until="load")
@@ -84,7 +97,7 @@ with sync_playwright() as p:
     browser.close()
 report={"htmlSha256":hashlib.sha256(HTML.read_bytes()).hexdigest().upper(),
         "passed":sum(r["passed"] for r in results),"total":len(results),"checks":results,
-        "desktop":state,"landscape":mobile,"errors":errors,"screenshots":[str(desktop.relative_to(ROOT)),str(landscape.relative_to(ROOT))]}
+        "desktop":state,"landscape":mobile,"clickDebug":click_debug,"errors":errors,"screenshots":[str(desktop.relative_to(ROOT)),str(landscape.relative_to(ROOT))]}
 (QADIR/"fullscreen-combat-chrome.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
 print("HG09 Chrome viewport:",report["passed"],"/",report["total"],"PASS",flush=True)
 raise SystemExit(0 if report["passed"]==report["total"] else 1)

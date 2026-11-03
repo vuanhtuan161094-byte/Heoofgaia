@@ -54,3 +54,14 @@ jobs:
             docs/qa/hg09/fullscreen-combat-chrome.json
           retention-days: 7
           if-no-files-found: error
+
+      - name: Upload actual Chrome viewport evidence even on QA failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG09-combat-viewport-Chrome-evidence
+          path: |
+            docs/evidence/hg09/fullscreen-combat-*.png
+            docs/qa/hg09/fullscreen-combat-chrome.json
+          retention-days: 7
+          if-no-files-found: warn
