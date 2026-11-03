@@ -52,7 +52,7 @@
     {
       "name": "March control dispatches the saved Archer formation",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": \"human_3\", \"armyCount\": 16, \"ap\": 108.02}"
+      "detail": "{\"target\": \"5,6\", \"formation\": \"human_3\", \"armyCount\": 16, \"ap\": 108.109}"
     },
     {
       "name": "Natural NPC arrival opens a tactical battle",
@@ -116,9 +116,9 @@
     ]
   },
   "artifacts": {
-    "human-archer-npc-battle-chrome.png": {
-      "sha256": "754331DC407C6FC99053FBFBEE5BA657298289BFB68A1F87D935D17358E48D1F",
-      "bytes": 437821,
+    "human-archer-combined-build-battle-chrome.png": {
+      "sha256": "4D6BE7B0214608663CDB3C57D004DDB580DC11188FCB907D4BFF89C5518F713C",
+      "bytes": 437690,
       "resolution": "1440x1305"
     }
   }

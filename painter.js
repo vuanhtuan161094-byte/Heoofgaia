@@ -209,7 +209,7 @@ function drawCity(canvas,E,s,highlight){if(!canvas)return;canvas.dataset.race=s.
 }
 function cityHit(canvas,x,y){let best=null,d=38;for(const [key,px,py] of citySitesFor(canvas?.dataset?.race||'human')){const dx=x-canvas.width*px,dy=y-canvas.height*py;let v=Math.hypot(dx,dy);if(v<d){d=v;best=key}}return best}
 function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null){
- const spriteIds={orc_1:'unit-orc-imp',elf_1:'unit-elf-centaur',human_3:'unit-human-archer'};
+ const spriteIds={orc_1:'unit-orc-imp',elf_1:'unit-elf-centaur',human_3:'unit-human-archer',undead_1:'unit-undead-skeleton'};
  if(spriteIds[unitId]&&typeof document!=='undefined'){
   const sprite=document.getElementById(spriteIds[unitId]);
   if(sprite?.complete&&sprite.naturalWidth){const size=90;c.save();if(enemy){c.translate(x+size/2,y-size*(446/512));c.scale(-1,1);c.drawImage(sprite,0,0,size,size)}else c.drawImage(sprite,x-size/2,y-size*(446/512),size,size);c.restore();return true}

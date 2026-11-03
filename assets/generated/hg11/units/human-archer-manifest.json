@@ -99,9 +99,9 @@
     "saveLoadImpact": "PASS: presentation-only; actual v07 Save/Reload retained the Human Archer battle, deployed formation, stack and image asset."
   },
   "battleEvidence": {
-    "screenshot": "docs/evidence/hg11/human-archer-npc-battle-chrome.png",
+    "screenshot": "docs/evidence/hg11/human-archer-combined-build-battle-chrome.png",
     "resolution": "1440x1305",
-    "sha256": "754331DC407C6FC99053FBFBEE5BA657298289BFB68A1F87D935D17358E48D1F",
+    "sha256": "4D6BE7B0214608663CDB3C57D004DDB580DC11188FCB907D4BFF89C5518F713C",
     "receipt": "docs/qa/hg11/human-archer-battle-chrome.json",
     "chromeSpriteDraws": 1
   }

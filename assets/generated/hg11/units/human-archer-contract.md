@@ -1,7 +1,7 @@
 # HG-11 sprite contract — Human tier-3 Archer (`human_3`)
 
 Date: 2026-11-03
-Status: GENERATED, integrated and accepted for the bounded static-sprite slice; see `human-archer-manifest.json` and the focused 16/16 Chrome receipt.
+Status: GENERATED, integrated and accepted for the bounded static-sprite slice; see `human-archer-manifest.json`, the focused 16/16 Chrome receipt and the combined-build capture.
 
 ## Purpose and target
 

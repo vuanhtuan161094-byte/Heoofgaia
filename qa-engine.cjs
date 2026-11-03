@@ -62,6 +62,19 @@ test('HG11 Human Archer sprite preserves provenance, alpha, offline embed and ac
  const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8');assert(html.includes('id="unit-human-archer"'));assert(!html.includes('assets/generated/hg11/units/'));
  const runtime=fs.readFileSync(path.join(dir,manifest.runtime.projectPath));assert(html.includes(`src="data:image/png;base64,${runtime.toString('base64')}"`));
 });
+test('HG11 Undead Skeleton Warrior sprite preserves provenance, alpha, offline embed and actual NPC battle receipt',()=>{
+ const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/units/undead-skeleton-manifest.json'),'utf8'));
+ const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
+ assert.equal(manifest.unitId,'undead_1');assert.equal(manifest.status,'RECREATED');assert.equal(manifest.states.animationFrames,0);
+ assert.equal(manifest.states.integratedInBattle,true);assert.equal(manifest.states.enemyFlipVerified,true);assert.equal(manifest.states.saveLoadVerified,true);
+ for(const record of [manifest.master,manifest.cleanedMaster,manifest.runtime]){const file=path.join(dir,record.projectPath),bytes=fs.readFileSync(file);assert.equal(bytes.subarray(0,8).toString('hex'),'89504e470d0a1a0a');assert.equal(`${bytes.readUInt32BE(16)}x${bytes.readUInt32BE(20)}`,record.resolution);assert.equal(bytes[25],6);assert.equal(sha(bytes),record.sha256);assert.deepEqual(record.alphaRange,[0,255]);}
+ assert.deepEqual(manifest.runtime.pivotPixels,[256,446]);assert.deepEqual(manifest.runtime.visibleBoundsAlpha8,[132,66,378,445]);
+ assert.match(manifest.qualityGate.battleRender,/^PASS:/);assert.match(manifest.qualityGate.enemyFlip,/^PASS:/);assert.match(manifest.qualityGate.saveLoadImpact,/^PASS:/);
+ const evidence=manifest.battleEvidence,shot=fs.readFileSync(path.join(dir,evidence.screenshot));assert.equal(sha(shot),evidence.sha256);assert.equal(`${shot.readUInt32BE(16)}x${shot.readUInt32BE(20)}`,evidence.resolution);
+ const receipt=JSON.parse(fs.readFileSync(path.join(dir,evidence.receipt),'utf8'));assert.equal(receipt.failed,0);assert.equal(receipt.undeadSkeletonRuntime.imageReady,true);assert(receipt.undeadSkeletonRuntime.draws>0);assert(receipt.undeadSkeletonRuntime.actualUiMarch,true);assert.equal(receipt.enemyRendererCheck.enemyHorizontalFlip,true);
+ const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8');assert(html.includes('id="unit-undead-skeleton"'));assert(!html.includes('assets/generated/hg11/units/'));
+ const runtime=fs.readFileSync(path.join(dir,manifest.runtime.projectPath));assert(html.includes(`src="data:image/png;base64,${runtime.toString('base64')}"`));
+});
 test('4 races and 40 unique troops',()=>{assert.deepEqual(Object.keys(C.units).sort(),['elf','human','orc','undead']);assert.equal(Object.values(C.units).flat().length,40);assert.equal(new Set(Object.values(C.units).flat().map(x=>x.id)).size,40)});
 test('China 2009 Sina combat catalog is edition-separated across all four factions',()=>{
  const sources={human:['身先士卒','坚守阵地','背水一战','齐射'],elf:['自然之力','生命之源','百步穿杨'],orc:['经骨强化','狂暴','怒号'],undead:['诅咒术','亡灵巫术','灵力增幅']};

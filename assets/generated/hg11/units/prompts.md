@@ -33,3 +33,17 @@ Route: ChatGPT `image_gen.imagegen`, generated from text only. No original HOG1 
 > Output one isolated figure with TRUE transparent alpha. No background, no ground plane, no scenery, no cast shadow outside the feet, no frame, no lettering, no watermark, no alternate pose, no sprite sheet, no extra person, no extra arms/fingers, no glowing magic, no borrowed logos or recognizable franchise costume. Crisp clean alpha edges suitable for compositing into the live battle renderer.
 
 The image tool did not report generation time or cost. The untouched 1254×1254 RGBA master was retained; no reference image was passed to the generator. The runtime processor created a cleaned master and a static 512×512 runtime sprite with a 205×380 figure registered to pivot `[256,446]`. This asset has no animation frames. See `human-archer-manifest.json` for hashes and QA state.
+
+# Undead Skeleton Warrior sprite master prompt
+
+Route: ChatGPT `image_gen.imagegen`, generated from text only. No original HOG1 art, screenshot or third-party artwork was supplied as input. Raw tool output: `C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-17c4d420-dfea-4258-8b3c-5f9ef7252534.png`.
+
+> Create ONE original standalone game-ready character master for Anh Hùng Thời Loạn, an independent reconstruction inspired by the historical Heroes of Gaia 1 / Castle of Heroes / 英雄之城 roster. Unit identity: Undead faction tier-one Skeleton Warrior (`undead_1`), a common melee foot soldier. This is newly imagined project art, not copied from a game, illustration, screenshot or supplied image.
+>
+> Depict one disciplined skeletal infantry soldier with clear human-like bone anatomy, intact skull, natural jaw, two arms, two legs and readable hands. Give it a practical, weathered round shield and a short single-edged sword. The silhouette should communicate a basic low-tier melee guard, not a lich, ghost, knight hero or boss. Dress it in restrained worn charcoal mail, aged leather straps, a muted violet-gray torn half-cloak and a few bone-and-iron fittings. Keep the face and ribs readable without gore. Use premium painterly realism, controlled texture, strong clean silhouette, warm restrained edge light and cool desaturated ambient fill. Make it polished and attractive beyond 2009 Flash rendering while coherent with a premium medieval fantasy strategy game's Undead army. Do not resemble a named character or recognizable franchise design; avoid oversized weapons, glowing eyes that overwhelm the face, tiny noisy ornament, skull piles or gore.
+>
+> Pose: exactly one full-body 3/4 view facing screen-right in a balanced idle-ready infantry stance. Hold the sword low and the shield defensively; keep both feet, sword and shield completely within frame. Orthographic character-art camera, no dramatic foreshortening. Square 1254×1254 canvas, figure around 72% of canvas height, generous transparent padding. Put the center between both feet at the exact bottom-center ground pivot.
+>
+> Output one isolated figure on TRUE transparent alpha. No background, floor, cast shadow outside the feet, scenery, frame, text, watermark, extra character, alternate pose, sprite sheet or logo. Crisp alpha silhouette suitable for direct compositing into the live battle renderer.
+
+The image tool did not report generation time or cost. The untouched 1254×1254 RGBA master is retained. The cleaned 512×512 still uses a 247×380 px figure registered to `[256,446]`. This is one frame only; see `undead-skeleton-manifest.json` for hashes and pending gameplay checks.

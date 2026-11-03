@@ -1,0 +1,125 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg11-undead-skeleton-chrome.py",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "game": "Anh Hùng Thời Loạn",
+  "sourceMode": "standalone local file:// HTML in installed Chromium",
+  "fixtureDisclosure": "An Undead save is created through the intro. Graveyard 1, Warehouse 10 and capped prerequisite resources are seeded to skip construction/research. The recruit control queues real Skeleton Warriors and spends real resources; the actual engine tick is advanced by the queue's remaining duration so the real completion path delivers the stack. Formation, map click, March, NPC battle, sprite draw and v07 Save/Reload use the actual application. Enemy flip is checked separately with an isolated cloned renderer snapshot; it is not represented as gameplay.",
+  "total": 16,
+  "passed": 16,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Offline game opens with Anh Hùng Thời Loạn title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Undead kingdom starts in the actual game",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Skeleton Warrior fixture has its Graveyard gate and loaded runtime sprite",
+      "passed": true,
+      "detail": "{\"requirements\": {\"unitId\": \"undead_1\", \"checks\": [{\"kind\": \"building\", \"key\": \"graveyard\", \"level\": 1, \"actual\": 1}], \"unmet\": [], \"available\": true, \"confidence\": \"B\", \"status\": \"DERIVED_TROOP_BUILDING_TIER\", \"source\": \"SRC02; SRC11\"}, \"spriteReady\": true}"
+    },
+    {
+      "name": "Undead Skeleton Warrior has an enabled real recruitment control",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Recruit button spends resources and creates a real 16-Skeleton training queue",
+      "passed": true,
+      "detail": "{\"unitId\": \"undead_1\", \"count\": 16, \"remaining\": 1648, \"gold\": 269232, \"strict\": true}"
+    },
+    {
+      "name": "Real engine tick completes the queue and adds 16 Skeleton Warriors to the starting 16",
+      "passed": true,
+      "detail": "{\"count\": 32, \"queue\": 0, \"strict\": true}"
+    },
+    {
+      "name": "Army form commits the recruited Skeleton Warriors to the march formation",
+      "passed": true,
+      "detail": "{\"unitId\": \"undead_1\", \"count\": 16}"
+    },
+    {
+      "name": "World-map click selects the actual nearby Wolves NPC",
+      "passed": true,
+      "detail": "Trại Wolves · 1★ · (5,6)"
+    },
+    {
+      "name": "March control dispatches the saved Skeleton Warrior formation",
+      "passed": true,
+      "detail": "{\"target\": \"5,6\", \"formation\": \"undead_1\", \"armyCount\": 16, \"ap\": 99.285}"
+    },
+    {
+      "name": "Natural NPC arrival opens a tactical battle",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Loaded Skeleton Warrior is drawn into the real battle canvas",
+      "passed": true,
+      "detail": "{\"battle\": true, \"target\": \"5,6\", \"phase\": \"tactical-battle\", \"units\": [{\"unitId\": \"undead_1\", \"count\": 16}], \"draws\": 1, \"imageReady\": true, \"actualUiMarch\": true, \"saveVersion\": 7, \"key\": true}"
+    },
+    {
+      "name": "Live battle contains the UI-recruited Skeleton Warrior stack",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Live dispatch and battle retain the v07 save key and schema",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Renderer-only cloned battle check flips enemy Skeleton art horizontally",
+      "passed": true,
+      "detail": "{\"available\": true, \"draws\": 2, \"enemyHorizontalFlip\": true, \"scales\": [1, -1]}"
+    },
+    {
+      "name": "v07 Save/Reload preserves the Undead Skeleton Warrior battle and formation",
+      "passed": true,
+      "detail": "{\"version\": 7, \"race\": \"undead\", \"battle\": true, \"formation\": \"undead_1\", \"battleUnit\": true, \"key\": true, \"imageReady\": true}"
+    },
+    {
+      "name": "No JavaScript exceptions occur in the offline Skeleton Warrior flow",
+      "passed": true,
+      "detail": "[]"
+    }
+  ],
+  "undeadSkeletonRuntime": {
+    "battle": true,
+    "target": "5,6",
+    "phase": "tactical-battle",
+    "units": [
+      {
+        "unitId": "undead_1",
+        "count": 16
+      }
+    ],
+    "draws": 1,
+    "imageReady": true,
+    "actualUiMarch": true,
+    "saveVersion": 7,
+    "key": true
+  },
+  "enemyRendererCheck": {
+    "available": true,
+    "draws": 2,
+    "enemyHorizontalFlip": true,
+    "scales": [
+      1,
+      -1
+    ]
+  },
+  "artifacts": {
+    "undead-skeleton-npc-battle-chrome.png": {
+      "sha256": "7CA330DE35FE6F36397EB418D35E7112C270AB147DD790D700E1BE563DA6ADC4",
+      "bytes": 441656,
+      "resolution": "1440x1305"
+    }
+  }
+}

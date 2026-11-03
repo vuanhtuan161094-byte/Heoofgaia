@@ -23,4 +23,8 @@ Identity and troop role come from the dated 2009 English community unit table (S
 
 See `human-archer-contract.md` for the text-only creation brief and acceptance gate, and `prompts.md#human-archer-sprite-master-prompt` for the exact generation prompt and image-tool source ID. `human-archer-manifest.json` records the source identity, alpha scan, dimensions, pivot, hashes, rights assessment and current QA state.
 
-The new art is independently generated and tagged `RECREATED`; it is not recovered original art or an assertion about the historical sprite's appearance. Integration edits are in progress. Until the focused installed-Chrome `file://` receipt exists, battle rendering, enemy flip, readability and v07 Save/Reload remain pending. It is one static still with zero animation frames.
+The new art is independently generated and tagged `RECREATED`; it is not recovered original art or an assertion about the historical sprite's appearance. Focused installed-Chrome `file://` testing passes UI recruitment, training, formation, map dispatch, NPC battle rendering, renderer-only enemy flip and v07 Save/Reload. It remains one static still with zero animation frames.
+
+## Undead tier-1 Skeleton Warrior (`undead_1`)
+
+See `undead-skeleton-contract.md` for the text-only visual contract and `undead-skeleton-manifest.json` for the dated roster identity, provenance and alpha/runtime measurements. The sprite is a static project recreation, not an original client export. Focused installed-Chrome `file://` testing passes UI recruitment, training, formation, map dispatch, NPC battle rendering, renderer-only enemy flip and v07 Save/Reload; see `docs/qa/hg11/undead-skeleton-battle-chrome.json`.

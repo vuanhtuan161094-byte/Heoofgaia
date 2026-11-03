@@ -1,0 +1,113 @@
+{
+  "schema": "hog1-unit-art-v1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "assetId": "HOG1-HG11-UNDEAD-SKELETON-WARRIOR-MASTER-v1",
+  "unitId": "undead_1",
+  "historicalIdentity": "Undead tier 1 Skeleton Warrior, melee; SRC02 2009-12-06 community catalog. Locale and naming crosswalk is recorded in HG08-UNIT-VERSION-CROSSWALK.md.",
+  "sourceEvidence": {
+    "id": "SRC02",
+    "sourceUrl": "https://heroesofgaia.wikidot.com/game-units",
+    "sourceVersion": "page revision 19, 2009-12-06",
+    "recordedUnit": "Skeleton Warrior; Undead; tier 1; melee",
+    "confidence": "A for the printed community roster identity; not an original server export or proof of regional parity"
+  },
+  "crossReferenceEvidence": {
+    "id": "SRC32",
+    "sourceUrl": "https://games.sina.com.cn/o/z/yxzc/2009-08-27/1621347336.shtml",
+    "recordedName": "骷髅兵 (Skeleton) in the dated Chinese Undead roster; exact English label mapping is a crosswalk"
+  },
+  "status": "RECREATED",
+  "provider": "ChatGPT image_gen.imagegen",
+  "generationPrompt": "assets/generated/hg11/units/undead-skeleton-contract.md#text-only-generation-prompt",
+  "sourceImageId": "exec-17c4d420-dfea-4258-8b3c-5f9ef7252534.png",
+  "sourceFile": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-17c4d420-dfea-4258-8b3c-5f9ef7252534.png",
+  "sourceRoute": "Generated independently from text; no historical screenshot, original game art, or external image supplied as input.",
+  "generationTimestamp": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "generationCost": "NOT_REPORTED_BY_IMAGE_TOOL",
+  "licenseAssessment": "Project-created AI output with no supplied third-party image input. No original commercial HOG1 artwork is included. Commercial redistribution terms have not been independently adjudicated; this manifest does not grant third-party rights.",
+  "master": {
+    "projectPath": "assets/generated/hg11/units/undead-skeleton-master.png",
+    "resolution": "1254x1254",
+    "bytes": 1247187,
+    "sha256": "CF22F872ABF2ABC8A76C3390195073E76CC56CA13DB58CCCE475BED593E6B9F0",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      229,
+      77,
+      969,
+      1218
+    ]
+  },
+  "cleanedMaster": {
+    "projectPath": "assets/generated/hg11/units/undead-skeleton-master-clean.png",
+    "resolution": "1254x1254",
+    "bytes": 1416365,
+    "sha256": "505D56F0F06DD046FF68590919779CD957CCD9AA815E89A2A1B4B88121313E21",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      228,
+      76,
+      970,
+      1219
+    ],
+    "processing": "Largest opaque 8-connected figure retained; a two-pixel antialiased edge rebuilt from neighboring subject colors. Raw image-generation master remains unchanged."
+  },
+  "runtime": {
+    "projectPath": "assets/generated/hg11/units/undead-skeleton.png",
+    "resolution": "512x512",
+    "bytes": 165856,
+    "sha256": "02562FE141A51D9D643786646EE94B322557186B339C26625E7F1B5662C529C0",
+    "format": "RGBA PNG",
+    "alphaRange": [
+      0,
+      255
+    ],
+    "visibleBoundsAlpha8": [
+      132,
+      66,
+      378,
+      445
+    ],
+    "trimAndScale": "tools/process-hg11-unit-sprite.ps1 crops cleaned alpha>=8 bounds [228,76,970,1219], then high-quality bicubic resizes the full figure to 247x380 and centers it at (132,66).",
+    "pivotPixels": [
+      256,
+      446
+    ],
+    "pivotNormalized": [
+      0.5,
+      0.87109375
+    ]
+  },
+  "states": {
+    "masterCreated": true,
+    "transparentAlphaVerified": true,
+    "singleCharacterReviewed": true,
+    "runtimeExported": true,
+    "integratedInBattle": true,
+    "enemyFlipVerified": true,
+    "animationFrames": 0,
+    "saveLoadVerified": true
+  },
+  "qualityGate": {
+    "alphaScan": "PASS: PNG scan confirmed RGBA alpha range 0–255 and recorded alpha>=8 visible bounds for raw, cleaned and runtime files.",
+    "readabilityAtBattleScale": "PASS: actual offline Chrome capture shows the Skeleton Warrior stack at the battle renderer's 90x90 draw box.",
+    "battleRender": "PASS: actual UI recruitment, training completion, formation and NPC battle produced 1 Skeleton Warrior drawImage calls.",
+    "enemyFlip": "PASS: an isolated cloned battle snapshot drew enemy Skeleton Warrior art under a negative horizontal canvas transform; this is renderer-only QA.",
+    "saveLoadImpact": "PASS: presentation-only; actual v07 Save/Reload retained the Skeleton Warrior battle, deployed formation, stack and image asset."
+  },
+  "battleEvidence": {
+    "screenshot": "docs/evidence/hg11/undead-skeleton-npc-battle-chrome.png",
+    "resolution": "1440x1305",
+    "sha256": "7CA330DE35FE6F36397EB418D35E7112C270AB147DD790D700E1BE563DA6ADC4",
+    "receipt": "docs/qa/hg11/undead-skeleton-battle-chrome.json",
+    "chromeSpriteDraws": 1
+  }
+}
