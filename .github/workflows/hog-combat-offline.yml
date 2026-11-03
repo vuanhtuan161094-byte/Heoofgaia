@@ -18,8 +18,13 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Build current offline HTML
-        run: python build_offline.py
+      - name: Build current offline HTML reproducibly
+        run: |
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html > /tmp/heoofgaia-first.sha
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html > /tmp/heoofgaia-second.sha
+          diff -u /tmp/heoofgaia-first.sha /tmp/heoofgaia-second.sha
       - name: Check gameplay and battle viewport
         run: |
           node --check app.js
@@ -30,12 +35,14 @@ jobs:
       - name: Record build SHA and size
         run: |
           test -s Play-Heoofgaia-HG11.html
-          sha256sum Play-Heoofgaia-HG11.html
+          sha256sum Play-Heoofgaia-HG11.html | tee Build-SHA256.txt
           wc -c Play-Heoofgaia-HG11.html
       - name: Upload offline playable HTML
         uses: actions/upload-artifact@v4
         with:
           name: Play-Heoofgaia-HG11
-          path: Play-Heoofgaia-HG11.html
+          path: |
+            Play-Heoofgaia-HG11.html
+            Build-SHA256.txt
           retention-days: 7
           if-no-files-found: error
