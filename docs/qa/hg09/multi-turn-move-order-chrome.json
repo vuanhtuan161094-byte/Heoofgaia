@@ -1,0 +1,136 @@
+{
+  "suite": "HG-09 persistent battlefield movement order and continuous auto battle",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "build": "Play-Heoofgaia-HG11.html",
+  "fixtureDisclosure": "A real file:// game begins as Human, seeds only 40 Archers to skip recruitment, marches and advances actual travel into a dated 1-star NPC battle. Enemy HP is seeded at 400 and enemy attack is set to zero only to keep the movement order observable for multiple turns; the engine resolves movement, automatic actions, attacks, casualties and settlement naturally. No position, win or reward is injected.",
+  "checks": [
+    {
+      "name": "Standalone game title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Actual March and travel open a live NPC battle",
+      "passed": true
+    },
+    {
+      "name": "Clicked move advances one cell and retains the distant destination",
+      "passed": true,
+      "detail": {
+        "turn": 2,
+        "position": {
+          "x": 2,
+          "y": 0
+        },
+        "target": {
+          "x": 6,
+          "y": 0
+        },
+        "order": "move",
+        "playerTarget": null,
+        "enemyHp": 800,
+        "strict": true
+      }
+    },
+    {
+      "name": "v07 Save/Reload keeps the live move target and cell",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "position": {
+          "x": 2,
+          "y": 0
+        },
+        "target": {
+          "x": 6,
+          "y": 0
+        },
+        "order": "move",
+        "strict": true
+      }
+    },
+    {
+      "name": "Automatic mode repeats real turns and continues the saved path",
+      "passed": true,
+      "detail": {
+        "turn": 4,
+        "position": {
+          "x": 4,
+          "y": 0
+        },
+        "target": {
+          "x": 6,
+          "y": 0
+        },
+        "auto": true,
+        "valid": true
+      }
+    },
+    {
+      "name": "A second v07 reload keeps the in-progress path",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "position": {
+          "x": 4,
+          "y": 0
+        },
+        "target": {
+          "x": 6,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Move order clears only after the actual unit reaches its destination",
+      "passed": true,
+      "detail": {
+        "turn": 6,
+        "x": 6,
+        "target": null,
+        "lastMove": {
+          "unitId": "p0",
+          "from": {
+            "x": 5,
+            "y": 0
+          },
+          "to": {
+            "x": 6,
+            "y": 0
+          },
+          "steps": 1,
+          "destination": {
+            "x": 6,
+            "y": 0
+          }
+        },
+        "auto": true
+      }
+    },
+    {
+      "name": "Continuous automatic battle reaches natural NPC settlement",
+      "passed": true,
+      "detail": {
+        "battle": false,
+        "cleared": 1,
+        "army": 40,
+        "valid": true,
+        "auto": false
+      }
+    },
+    {
+      "name": "No browser JavaScript exceptions or console errors",
+      "passed": true,
+      "detail": {
+        "page": [],
+        "console": []
+      }
+    }
+  ],
+  "pageErrors": [],
+  "consoleErrors": [],
+  "passed": 9,
+  "total": 9,
+  "screenshot": "docs/evidence/hg09/multi-turn-move-order-chrome.png"
+}

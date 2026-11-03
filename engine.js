@@ -328,15 +328,14 @@ function strike(s,b,actor,target,order){
 }
 function battleAct(s,action,options){
  assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat','move'].includes(action),'Lệnh không hợp lệ');
- const b=s.battle;
- let requestedMove=null;
+ const b=s.battle;b.orders=b.orders||{};b.moveTargets=b.moveTargets||{};
  if(action==='move'){
   const actor=b.allies.find(u=>u.id===b.selected&&u.pool>0);assert(actor,'Hãy chọn một đội quân còn sống để di chuyển.');
-  const destination={x:options?.x,y:options?.y};const path=battlePath(b,actor,destination);
+  const destination={x:options?.x,y:options?.y},path=battlePath(b,actor,destination);
   assert(path&&path.length>0,'Ô đích không hợp lệ, đang bị chiếm hoặc không thể tới.');
-  requestedMove={unitId:actor.id,destination};
- }
- b.autoUntil=Date.now()+10_000;b.order=action;b.orders=b.orders||{};if(b.selected)b.orders[b.selected]=action;s.battleOrder=action;
+  b.moveTargets[actor.id]=destination;b.orders[actor.id]='move';
+ }else if(b.selected&&!options?.preserveMoveOrders){b.orders[b.selected]=action;delete b.moveTargets[b.selected]}
+ b.autoUntil=Date.now()+10_000;b.order=action;s.battleOrder=action;
  // 2009 Chinese player guidance describes speed-descending turns, then the
  // left formation column top-to-bottom followed by the next column. Keep the
  // equal-speed tie-break tied to the actual battlefield positions.
@@ -346,9 +345,15 @@ function battleAct(s,action,options){
   if(actor.pool<=0)continue;
   const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
   const stance=actor.side==='player'?(b.orders[actor.id]||'attack'):'attack';
-  if(actor.side==='player'&&requestedMove?.unitId===actor.id){
-   const movement=moveBattleStack(b,actor,requestedMove.destination);if(movement)lastMoves.push(movement);
-   acted.push(actor.id);b.orders[actor.id]='attack';continue;
+  const moveTarget=actor.side==='player'&&stance==='move'?b.moveTargets[actor.id]:null;
+  if(actor.side==='player'&&stance==='move'){
+   if(!moveTarget){b.orders[actor.id]='attack'}
+   else if(actor.x===moveTarget.x&&actor.y===moveTarget.y){delete b.moveTargets[actor.id];b.orders[actor.id]='attack';acted.push(actor.id);continue}
+   else{
+    const movement=moveBattleStack(b,actor,moveTarget);if(movement)lastMoves.push(movement);
+    if(actor.x===moveTarget.x&&actor.y===moveTarget.y){delete b.moveTargets[actor.id];b.orders[actor.id]='attack'}
+    acted.push(actor.id);continue;
+   }
   }
   if(actor.side==='player'&&stance==='defend'){acted.push(actor.id);b.orders[actor.id]='attack';continue}
   if(actor.side==='player'&&stance==='retreat'){actor.x=Math.max(0,actor.x-1);acted.push(actor.id);b.orders[actor.id]='attack';continue}
