@@ -34,6 +34,9 @@ with sync_playwright() as pw:
        limit:E.heroLimit(s.heroes.find(h=>h.id===s.activeHero).level),valid:E.strictSave(s)};
     }""")
     check("Quickstart button saves legal army under hero capacity",formed["groups"]>0 and formed["points"]<=formed["limit"] and formed["valid"])
+    page.reload(wait_until="load")
+    check("Cold reload keeps smart formation while troops are still in castle",
+          page.evaluate("HOG_APP_DEBUG.getState().formation.length>0"))
     page.locator('.quickstart-strip [data-action="findnpc"]').click()
     check("Quickstart selects actual NPC level 1 without dispatching","1★" in page.locator(".target-information h2").inner_text() and page.evaluate("HOG_APP_DEBUG.getState().march===null"))
     quickshot=OUT/"hero-task-quickstart-desktop-chrome.png"
@@ -86,7 +89,8 @@ with sync_playwright() as pw:
     page.reload(wait_until="load")
     page.locator('#nav [data-tab="tasks"]').click()
     check("Cold reload preserves first claimed task",page.evaluate("HOG_ENGINE.heroTaskStatus(HOG_APP_DEBUG.getState()).completed===1"))
-    check("Cold reload preserves smart formation",page.evaluate("HOG_APP_DEBUG.getState().formation.length>0"))
+    check("Cold reload keeps deployed army out of castle formation",
+          page.evaluate("HOG_APP_DEBUG.getState().formation.length===0"))
     page.set_viewport_size({"width":960,"height":540})
     page.locator('#nav [data-tab="map"]').click()
     check("Compact quickstart has three working buttons at landscape width",page.locator(".quickstart-actions button").count()==3 and page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"))
