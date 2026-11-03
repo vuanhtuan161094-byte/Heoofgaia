@@ -40,13 +40,25 @@ function syncChina2009TaskBoard(s,now=s.lastTick){
 }
 function syncDailyTaskBoard(s,now=s.lastTick){
  const day=worldDayKey(Number.isFinite(now)?now:Date.now());
- if(!s.dailyTaskState){s.dailyTaskState={day,accepted:[],claimed:[],progress:{}};return s.dailyTaskState}
+ if(!s.dailyTaskState){s.dailyTaskState={day,accepted:[],claimed:[],progress:{},heroTask:{completed:0,active:null}};return s.dailyTaskState}
  // International/community sources do not say that accepted work is erased.
  // The separate China 2009 board follows SRC61's Fame-stage reset in its own sync.
- if(s.dailyTaskState.day!==day)s.dailyTaskState={day,accepted:[],claimed:[],progress:{}};
+ if(s.dailyTaskState.day!==day)s.dailyTaskState={day,accepted:[],claimed:[],progress:{},heroTask:{completed:0,active:null}};
  if(own(s.dailyTaskState,'fameRank'))delete s.dailyTaskState.fameRank; // tolerate unreleased prototype saves
  if(!own(s.dailyTaskState,'progress'))s.dailyTaskState.progress={}; // old v07 boards have no per-day win ledger
+ if(!own(s.dailyTaskState,'heroTask'))s.dailyTaskState.heroTask={completed:0,active:null}; // legacy v07
  return s.dailyTaskState;
+}
+// Fandom Hero Tasks: 20 daily missions, XP 1200..3100, +100 each.
+// The star difficulty curve is a playable offline design rather than server RNG.
+const HERO_TASK_MAX=20;
+function heroTaskStars(completed){return completed<8?1:completed<15?2:3}
+function heroTaskExperience(completed){return 1200+100*completed}
+function validHeroTask(s,b){
+ if(!b||typeof b!=='object'||Array.isArray(b)||!Number.isSafeInteger(b.completed)||b.completed<0||b.completed>HERO_TASK_MAX)return false;
+ if(b.active===null)return true;
+ const q=b.active;
+ return b.completed<HERO_TASK_MAX&&q&&typeof q==='object'&&!Array.isArray(q)&&s.heroes.some(h=>h.id===q.heroId)&&q.stars===heroTaskStars(b.completed)&&typeof q.ready==='boolean';
 }
 function hasVisitedWorldBuilding(s,key,now=Date.now()){return s?.worldVisits?.[key]===worldDayKey(now)}
 function cityLimit(fame){let n=1;for(const [threshold,count] of CITY_LIMITS){if(fame>=threshold)n=count;else break}return n}
@@ -187,6 +199,8 @@ function battleAct(s,action,options){
  if(result?.type==='win'&&tile?.kind==='npc'){
   const board=syncDailyTaskBoard(s,s.lastTick),mainRace=s.cities.find(c=>c.main)?.race||s.race;
   for(const task of DAILY_TASKS)if(task.stars===tile.level&&(!task.race||task.race===mainRace)&&board.accepted.includes(task.id)&&!board.claimed.includes(task.id))board.progress[task.id]=1;
+  const quest=board.heroTask.active;
+  if(quest&&!quest.ready&&quest.heroId===hero?.id&&quest.stars===tile.level)quest.ready=true;
  }
  if(battle&&['win','lose','timeout','retreat'].includes(result?.type)){
   const groups=new Map();for(const u of battle.allies){const row=groups.get(u.unitId)||{unitId:u.unitId,name:u.name,initial:0,survived:0};row.initial+=u.initial;row.survived+=u.count;groups.set(u.unitId,row)}
@@ -246,7 +260,7 @@ function strict(s){
  const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));
  if(!china||typeof china!=='object'||Array.isArray(china)||typeof china.day!=='string'||!/^[0-9]{4}-[0-9]{2}-[0-9]{2}$/.test(china.day)||(own(china,'fameStage')&&!E.FAME_AP.some(([threshold])=>threshold===china.fameStage))||!Array.isArray(china.accepted)||!Array.isArray(china.claimed)||new Set(china.accepted).size!==china.accepted.length||new Set(china.claimed).size!==china.claimed.length||china.accepted.some(id=>!chinaIds.has(id))||china.claimed.some(id=>!chinaIds.has(id)||!china.accepted.includes(id))||!china.progress||typeof china.progress!=='object'||Array.isArray(china.progress)||Object.keys(china.progress).some(id=>!chinaIds.has(id))||CHINA_2009_DAILY_TASKS.some(t=>!Number.isSafeInteger(china.progress[t.id])||china.progress[t.id]<0||china.progress[t.id]>t.required))return false;
  const board=s.dailyTaskState,knownTaskIds=new Set(DAILY_TASKS.map(t=>t.id));
- if(!board||typeof board!=='object'||Array.isArray(board)||typeof board.day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(board.day)||!Array.isArray(board.accepted)||!Array.isArray(board.claimed)||new Set(board.accepted).size!==board.accepted.length||new Set(board.claimed).size!==board.claimed.length||board.accepted.some(id=>!knownTaskIds.has(id))||board.claimed.some(id=>!knownTaskIds.has(id)||!board.accepted.includes(id))||!board.progress||typeof board.progress!=='object'||Array.isArray(board.progress)||Object.entries(board.progress).some(([id,n])=>!knownTaskIds.has(id)||!board.accepted.includes(id)||!Number.isSafeInteger(n)||n<0||n>1))return false;
+ if(!board||typeof board!=='object'||Array.isArray(board)||typeof board.day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(board.day)||!Array.isArray(board.accepted)||!Array.isArray(board.claimed)||new Set(board.accepted).size!==board.accepted.length||new Set(board.claimed).size!==board.claimed.length||board.accepted.some(id=>!knownTaskIds.has(id))||board.claimed.some(id=>!knownTaskIds.has(id)||!board.accepted.includes(id))||!board.progress||typeof board.progress!=='object'||Array.isArray(board.progress)||Object.entries(board.progress).some(([id,n])=>!knownTaskIds.has(id)||!board.accepted.includes(id)||!Number.isSafeInteger(n)||n<0||n>1)||!validHeroTask(s,board.heroTask))return false;
  for(const [key,day] of Object.entries(s.worldVisits))if(!WORLD_BUILDING_BY_KEY.has(key)||typeof day!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(day))return false;
  for(const b of s.heroBuffs)if(!b||!s.heroes.some(h=>h.id===b.heroId)||!['atk','def','spd','int'].includes(b.stat)||!Number.isFinite(b.remaining)||b.remaining<=0||b.remaining>7200||!WORLD_BUILDING_BY_KEY.has(b.sourceKey))return false;
  if(!Array.isArray(s.cities)||s.cities.length<1||s.cities.length>6||typeof s.activeCityId!=='string')return false;
@@ -360,6 +374,36 @@ function claimDailyTask(s,id,now=Date.now()){
  E.note(s,`Hoàn thành nhiệm vụ “${task.name}”: +${task.gold} vàng${unitText}, +${apAward} AP thực nhận (tối đa ${task.ap}; AP không vượt trần).`);
  return {gold:task.gold,ap:apAward,...(task.rewardUnitId?{unitId:task.rewardUnitId,units:task.rewardUnits}:{})};
 }
+function heroTaskStatus(s,now=Date.now()){
+ ensure(s);syncDailyTaskBoard(s,now);
+ const board=s.dailyTaskState.heroTask,q=board.active,hero=s.heroes.find(h=>h.id===(q?.heroId||s.activeHero));
+ return {completed:board.completed,max:HERO_TASK_MAX,active:q?{...q}:null,heroId:hero?.id||null,heroName:hero?.name||'Chưa có tướng',
+  stars:q?.stars??heroTaskStars(board.completed),exp:board.completed<HERO_TASK_MAX?heroTaskExperience(board.completed):0,
+  available:board.completed<HERO_TASK_MAX,
+  canAccept:board.completed<HERO_TASK_MAX&&!q&&!!hero&&hero.id!==s.castellan&&!E.heroAway?.(s,hero.id)};
+}
+function acceptHeroTask(s,now=Date.now()){
+ ensure(s);syncDailyTaskBoard(s,now);
+ const board=s.dailyTaskState.heroTask,hero=s.heroes.find(h=>h.id===s.activeHero);
+ if(board.completed>=HERO_TASK_MAX)throw Error('Hôm nay đã hoàn thành 20 nhiệm vụ tướng.');
+ if(board.active)throw Error('Hãy hoàn thành nhiệm vụ tướng đang nhận trước.');
+ if(!hero||hero.id===s.castellan||E.heroAway?.(s,hero.id))throw Error('Hãy chọn một tướng đang sẵn sàng để nhận nhiệm vụ.');
+ board.active={heroId:hero.id,stars:heroTaskStars(board.completed),ready:false};
+ E.note(s,`Nhiệm vụ tướng ${board.completed+1}/20: ${hero.name} đánh thắng NPC ${board.active.stars}★ để nhận ${heroTaskExperience(board.completed)} EXP cơ bản.`);
+ return heroTaskStatus(s,now);
+}
+function claimHeroTask(s,now=Date.now()){
+ ensure(s);syncDailyTaskBoard(s,now);
+ const board=s.dailyTaskState.heroTask,task=board.active;
+ if(!task||!task.ready)throw Error('Nhiệm vụ tướng chưa hoàn thành: cần thắng NPC đúng cấp sao bằng tướng đã nhận.');
+ const hero=s.heroes.find(h=>h.id===task.heroId);
+ if(!hero)throw Error('Tướng nhận nhiệm vụ không còn tồn tại.');
+ const baseXp=heroTaskExperience(board.completed),ordinal=board.completed+1;
+ const reward=E.grantHeroExperience(s,hero.id,baseXp,'Hero Task · Fandom');
+ board.completed++;board.active=null;
+ E.note(s,`${hero.name} nhận ${reward.gained.toLocaleString('vi-VN',{maximumFractionDigits:3})} EXP cho nhiệm vụ tướng ${ordinal}/20.`);
+ return {heroId:hero.id,task:ordinal,baseXp,gained:reward.gained,completed:board.completed};
+}
 function china2009DailyTasks(s,now=Date.now()){
  ensure(s);syncChina2009TaskBoard(s,now);const main=s.cities.find(c=>c.main);if(main?.race!=='human')return [];
  const board=s.china2009DailyTaskState;
@@ -384,6 +428,6 @@ function claimChina2009DailyTask(s,id,now=Date.now()){
 function claim(s,id){ensure(s);if(!activeCity(s).main)throw Error('Theo hướng dẫn Trung Quốc 2009, thao tác nhiệm vụ chỉ thực hiện tại thành chính.');const result=prior.claim(s,id);syncChina2009TaskBoard(s,s.lastTick);return result}
 function appoint(s,id){ensure(s);const c=activeCity(s);if(s.cities.some(x=>x.id!==c.id&&x.local.castellan===id))throw Error('Một tướng không thể đồng thời làm Castellan ở hai thành.');return prior.appoint(s,id)}
 E.make=make;E.tick=tick;E.startMarch=startMarch;E.battleAct=battleAct;E.claim=claim;E.appoint=appoint;E.heroStats=heroStats;E.valid=valid;E.strictSave=strict;E.parseSave=parse;E.serializeSave=serialize;E.rate=rate;
-Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,CHINA_2009_DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,startCityTransport,transportUnit,transportWeight,dailyTasks,acceptDailyTask,claimDailyTask,china2009DailyTasks,acceptChina2009DailyTask,claimChina2009DailyTask});
+Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,CHINA_2009_DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,startCityTransport,transportUnit,transportWeight,dailyTasks,acceptDailyTask,claimDailyTask,heroTaskStatus,acceptHeroTask,claimHeroTask,china2009DailyTasks,acceptChina2009DailyTask,claimChina2009DailyTask});
 root.HOG_HG10={status:'partial-world-building-visits',sourceStatus:'2009 Chinese guide daily visitation and listed rewards; UTC reset and instant visit are implementation models',saveVersion:7,depositArmy};
 })(typeof globalThis!=='undefined'?globalThis:this);

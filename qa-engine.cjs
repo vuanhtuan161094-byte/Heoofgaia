@@ -871,6 +871,33 @@ test('HG10 daily NPC tasks never credit previous victories and keep strict legac
  const tampered=JSON.parse(E.serializeSave(s));tampered.state.dailyTaskState.progress={getting_started:2};
  assert.throws(()=>E.parseSave(JSON.stringify(tampered)),/Save HG-10/);
 });
+test('HG12 Fandom Hero Tasks grant exact-once EXP for actual matching NPC victory with v07 migration',()=>{
+ const s=state('human'),now=s.lastTick,hero=s.heroes.find(h=>h.id===s.activeHero);
+ assert.equal(E.heroTaskStatus(s,now).exp,1200);assert.equal(E.heroTaskStatus(s,now).stars,1);
+ E.acceptHeroTask(s,now);assert.throws(()=>E.acceptHeroTask(s,now),/đang nhận/);
+ assert.throws(()=>E.claimHeroTask(s,now),/chưa hoàn thành/);
+ const npc=E.NPC_CAMPS_2009.find(n=>n.stars===1);assert(npc);s.cleared.push(npc.key);
+ assert.equal(E.heroTaskStatus(s,now).active.ready,false,'previously cleared NPC cannot grant new task');
+ E.setFormation(s,[{unitId:'human_1',count:16}]);E.startMarch(s,npc.key);
+ E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);assert(s.battle);
+ let out=null,turns=0;while(s.battle&&turns++<50)out=E.battleAct(s,'attack');
+ assert.equal(out?.type,'win');assert(E.heroTaskStatus(s,s.lastTick).active.ready);
+ const beforeXp=lifetimeHeroXp(hero),bonus=E.heroTowerExperienceBonus(s),reward=E.claimHeroTask(s,s.lastTick);
+ assert.equal(reward.baseXp,1200);assert.equal(reward.task,1);
+ assert(Math.abs(reward.gained-(1200*(1+bonus/100)))<1e-7);
+ assert(Math.abs(lifetimeHeroXp(hero)-beforeXp-reward.gained)<1e-7);
+ assert.throws(()=>E.claimHeroTask(s,s.lastTick),/chưa hoàn thành/);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(E.heroTaskStatus(loaded,loaded.lastTick).completed,1);
+ assert.equal(E.heroTaskStatus(loaded,loaded.lastTick).exp,1300);assert(E.strictSave(loaded));
+ const corrupt=JSON.parse(E.serializeSave(loaded));corrupt.state.dailyTaskState.heroTask.completed=21;
+ assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/Save HG-10/);
+ const legacy=JSON.parse(E.serializeSave(loaded));delete legacy.state.dailyTaskState.heroTask;
+ assert.equal(E.heroTaskStatus(E.parseSave(JSON.stringify(legacy)),loaded.lastTick).completed,0);
+ E.tick(loaded,loaded.lastTick+86_400_000);assert.equal(E.heroTaskStatus(loaded,loaded.lastTick).completed,0);
+ const capped=state();capped.dailyTaskState.heroTask.completed=20;
+ assert.equal(E.heroTaskStatus(capped,capped.lastTick).available,false);
+ assert.throws(()=>E.acceptHeroTask(capped,capped.lastTick),/20 nhiệm vụ/);
+});
 test('HG10 source-cited daily task accepts, follows a real 1-star battle, pays once and survives v07 reload',()=>{
  const s=state('human'),taskId='getting_started',day=s.lastTick,target=E.NPC_CAMPS_2009.find(x=>x.stars===1);assert(target);assert.equal(E.dailyTasks(s,day)[0].progress,0);
  const before={gold:s.res.gold,ap:s.ap};E.acceptDailyTask(s,taskId,day);assert.equal(E.dailyTasks(s,day)[0].accepted,true);assert.equal(s.res.gold,before.gold);assert.equal(s.ap,before.ap);
