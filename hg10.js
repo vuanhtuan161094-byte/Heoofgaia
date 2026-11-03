@@ -227,6 +227,15 @@ function tick(s,now=Date.now()){
 function strict(s){
  if(!s||s.version!==7||!prior.strict(s))return false;
  if(!validBattleReports(s))return false;
+ if(s.battle?.lastEvents!==undefined){
+  const b=s.battle,ids=new Set([...b.allies,...b.enemies].map(u=>u.id)),events=b.lastEvents,seen=new Set(),cell=p=>p&&Number.isSafeInteger(p.x)&&Number.isSafeInteger(p.y)&&p.x>=0&&p.x<E.BATTLE_GRID.cols&&p.y>=0&&p.y<E.BATTLE_GRID.rows;
+  if(!Array.isArray(events)||events.length>ids.size)return false;
+  for(const e of events){
+   if(!e||!ids.has(e.actorId)||seen.has(e.actorId)||!cell(e.from)||!cell(e.to)||(e.targetId!==null&&!ids.has(e.targetId))||!Number.isFinite(e.damage)||e.damage<0||typeof e.death!=='boolean'||(e.death&&e.damage<=0)||!Array.isArray(e.path)||e.path.length>108)return false;
+   let previous=e.from;for(const p of e.path){if(!cell(p)||Math.abs(p.x-previous.x)+Math.abs(p.y-previous.y)!==1)return false;previous=p}
+   if(previous.x!==e.to.x||previous.y!==e.to.y)return false;seen.add(e.actorId);
+  }
+ }
  if(!['international','china2009'].includes(s.spellEdition))return false;
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits)||!Array.isArray(s.heroBuffs))return false;
  const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));

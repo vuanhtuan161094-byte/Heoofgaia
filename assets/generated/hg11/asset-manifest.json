@@ -1,8 +1,8 @@
 {
   "schema": "hog1-asset-manifest-v1",
   "project": "Hẻoofgaia / Heroes of Gaia 1 reconstruction",
-  "createdAt": "2026-11-03T03:06:54.270Z",
-  "target": "HG-11 four-faction scenic city art plus independently authored Human Barracks detail asset",
+  "createdAt": "2026-11-03T04:28:59.864Z",
+  "target": "HG-11 four-faction scenic city art, Human Barracks detail asset and one animated Human Heavy Soldier",
   "copyrightStatus": "RECREATED; not extracted or verified original commercial art",
   "referenceOnly": [
     "https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml",
@@ -19,12 +19,17 @@
       "docs/evidence/hg11/city-orc-chrome.png",
       "docs/evidence/hg11/city-undead-chrome.png",
       "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
-      "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png"
+      "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png",
+      "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
+      "docs/evidence/hg11/human-heavy-soldier-death-frame-chrome.png",
+      "docs/evidence/hg11/human-heavy-soldier-live-animation-chrome.png",
+      "docs/evidence/hg11/human-heavy-soldier-death-animation-chrome.png"
     ],
     "hitZoneRegression": "PASS: 4 factions × 12 live canvas actions",
     "browserAcceptance": "48/48 checks; PASS",
-    "fullGameRegression": "PASS: 158/158 Node engine regression",
-    "independentBuildingAssets": "PASS: Human Barracks detail and real paid v07 construction; static art, no animation"
+    "fullGameRegression": "PASS: 172/172 Node engine regression",
+    "independentBuildingAssets": "PASS: Human Barracks detail and real paid v07 construction; static art, no animation",
+    "animatedTroopAssets": "PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks"
   },
   "assets": [
     {
@@ -178,6 +183,81 @@
         "sceneIsFlattened": true,
         "hotspotIntegration": "PASS: 12 real actions per faction in Chrome"
       }
+    }
+  ],
+  "animatedTroopAssets": [
+    {
+      "assetId": "HOG1-HG11-UNIT-HUMAN-HEAVY-SOLDIER-ANIM-V1",
+      "unitId": "human_4",
+      "faction": "human",
+      "status": "RECREATED",
+      "sourceLicense": "CC0-1.0",
+      "sourceCommit": "672074b73ba276876a19e8816ecdc5241817ab47",
+      "distinctFrameCount": 57,
+      "actions": [
+        {
+          "name": "idle",
+          "sourceClip": "Idle",
+          "frameCount": 13,
+          "atlas": {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle.png",
+            "bytes": 256957,
+            "resolution": "2048x512",
+            "sha256": "9A7EDB6A89B74AAAC44B52E3DD2E2CC03FA1D575734A62866C4EAB3FEC0E0204"
+          }
+        },
+        {
+          "name": "walk",
+          "sourceClip": "Walking_A",
+          "frameCount": 13,
+          "atlas": {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk.png",
+            "bytes": 279784,
+            "resolution": "2048x512",
+            "sha256": "6C028E4B26C60E6C5D759321648DF84E31F6B368F76072CA6C33CC0EDDF6E34A"
+          }
+        },
+        {
+          "name": "attack",
+          "sourceClip": "1H_Melee_Attack_Chop",
+          "frameCount": 13,
+          "atlas": {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack.png",
+            "bytes": 279201,
+            "resolution": "2048x512",
+            "sha256": "0AA733113E3921D011E3C11515FEEE4406787712CAD9E9314C92E9C317012277"
+          }
+        },
+        {
+          "name": "hit",
+          "sourceClip": "Hit_A",
+          "frameCount": 8,
+          "atlas": {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit.png",
+            "bytes": 175420,
+            "resolution": "2048x256",
+            "sha256": "71B8B786E81BE7B2232F593651D74285FE2273B8C97E8AA9E1419C81F82483F2"
+          }
+        },
+        {
+          "name": "death",
+          "sourceClip": "Death_A",
+          "frameCount": 10,
+          "atlas": {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death.png",
+            "bytes": 248702,
+            "resolution": "2048x512",
+            "sha256": "10C430617F8C2B0F7B0B0B1532FA68A7BC16D1340DFC2366BB843FDF01BF1211"
+          }
+        }
+      ],
+      "manifest": "assets/licensed/kaykit-heavy-soldier/asset-manifest.json",
+      "screenshots": [
+        "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
+        "docs/evidence/hg11/human-heavy-soldier-death-frame-chrome.png",
+        "docs/evidence/hg11/human-heavy-soldier-live-animation-chrome.png",
+        "docs/evidence/hg11/human-heavy-soldier-death-animation-chrome.png"
+      ]
     }
   ],
   "buildingAssets": [

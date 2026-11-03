@@ -1,0 +1,1092 @@
+{
+  "schema": "hog1-asset-manifest-v1",
+  "assetId": "HOG1-HG11-UNIT-HUMAN-HEAVY-SOLDIER-ANIM-V1",
+  "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
+  "createdAtUtc": "2026-11-03T04:28:57.685423+00:00",
+  "target": {
+    "stage": "HG-11",
+    "unitId": "human_4",
+    "unitName": "Heavy Soldier",
+    "faction": "human"
+  },
+  "status": "RECREATED",
+  "historicalVisualParity": "UNVERIFIED: no original client capture or rights-cleared same-screen visual reference was available for direct comparison.",
+  "source": {
+    "author": "Kay Lousberg",
+    "license": "CC0-1.0",
+    "repository": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+    "commit": "672074b73ba276876a19e8816ecdc5241817ab47",
+    "licenseUrl": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/blob/672074b73ba276876a19e8816ecdc5241817ab47/LICENSE.txt",
+    "sourceFiles": [
+      {
+        "path": "assets/licensed/kaykit-heavy-soldier/source/LICENSE.txt",
+        "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/LICENSE.txt",
+        "bytes": 891,
+        "sha256": "AE322141814056DDA0DEEA7540D74C41D87AEE1DA319977CD1BD84EE5A923629",
+        "verified": true
+      },
+      {
+        "path": "assets/licensed/kaykit-heavy-soldier/source/Knight.glb",
+        "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Characters/gltf/Knight.glb",
+        "bytes": 3659532,
+        "sha256": "60428E3ABC09BA83E595D256E3AF8C5C976B46CDAE599F0802FC82B4A3445168",
+        "verified": true
+      },
+      {
+        "path": "assets/licensed/kaykit-heavy-soldier/source/knight_texture.png",
+        "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Characters/gltf/knight_texture.png",
+        "bytes": 14172,
+        "sha256": "5D250CCC5DA020E6126BFA3839F83BD9A465A951ED223E4D13C08B1925E154D4",
+        "verified": true
+      },
+      {
+        "path": "assets/licensed/kaykit-heavy-soldier/source/sword_1handed.gltf",
+        "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Assets/gltf/sword_1handed.gltf",
+        "bytes": 3080,
+        "sha256": "F88345D0C89D52710DDB00555964FE7A6F4024874D7EE902EE4C742C048A1958",
+        "verified": true
+      },
+      {
+        "path": "assets/licensed/kaykit-heavy-soldier/source/sword_1handed.bin",
+        "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Assets/gltf/sword_1handed.bin",
+        "bytes": 13256,
+        "sha256": "780EBFD002CD181FD5B1626F5A6AE8DDA0FF2DF58C3FF1FD6E7584F53A969D8A",
+        "verified": true
+      },
+      {
+        "path": "assets/licensed/kaykit-heavy-soldier/source/shield_square.gltf",
+        "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Assets/gltf/shield_square.gltf",
+        "bytes": 3081,
+        "sha256": "D2AF4FBE4C0E8B93F3C88594B99AB601D5589920D4B0B8DC629143413E7C66C1",
+        "verified": true
+      },
+      {
+        "path": "assets/licensed/kaykit-heavy-soldier/source/shield_square.bin",
+        "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Assets/gltf/shield_square.bin",
+        "bytes": 10724,
+        "sha256": "10937706E32DA2A09C3E9F2399C5DAF5FD3B47E22C8B898A06C0D28D7630A6B6",
+        "verified": true
+      }
+    ],
+    "animationClipCountInPinnedGLB": 76
+  },
+  "renderPipeline": {
+    "method": "Render the pinned rigged GLB source clips with local Three.js 0.160.0 and installed headless Chrome SwiftShader into registered transparent 256x256 cells; atlas output is baked into the game. No static still is presented as an animation.",
+    "threeJsLicense": {
+      "projectPath": "tools/asset-renderer/THREE-LICENSE.txt",
+      "license": "MIT",
+      "sha256": "852E0E8699169BF9F6FDC6BDA3E682D078DCBC738B5D33E74DF594721BFF271D"
+    },
+    "rendererSource": [
+      "tools/asset-renderer/export.html",
+      "tools/asset-renderer/render_kaykit.py",
+      "tools/asset-renderer/package.json",
+      "tools/asset-renderer/package-lock.json"
+    ]
+  },
+  "animation": {
+    "distinctFrameCount": 57,
+    "commonCellPixels": 256,
+    "commonFootPivotPixels": [
+      148,
+      216
+    ],
+    "actions": [
+      {
+        "name": "idle",
+        "sourceClip": "Idle",
+        "sourceDurationSeconds": 1.0666667222976685,
+        "sampleFps": 12.187499364372377,
+        "loop": true,
+        "frameCount": 13,
+        "cellPixels": 256,
+        "pivotPixels": [
+          148,
+          216
+        ],
+        "frames": [
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/000.png",
+            "bytes": 22819,
+            "resolution": "256x256",
+            "sha256": "4797874FF2DC4D362569CE27FFC5B8282C52DC554D4A973182462D7CCD4D1817",
+            "timeSeconds": 0,
+            "alphaPixels": 8307,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/001.png",
+            "bytes": 22905,
+            "resolution": "256x256",
+            "sha256": "EE1ED2D5B672650D51A00BB7541AC4CC5361FB6BD14A807E74098A9553250F83",
+            "timeSeconds": 0.08205128633058988,
+            "alphaPixels": 8305,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/002.png",
+            "bytes": 22798,
+            "resolution": "256x256",
+            "sha256": "8D0FF78D7C8DDA0B0E3A96E23317697939D8DFEBF0B6DA78099EA905176ACDEA",
+            "timeSeconds": 0.16410257266117975,
+            "alphaPixels": 8301,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/003.png",
+            "bytes": 23014,
+            "resolution": "256x256",
+            "sha256": "7ABC931F38A1E8A69E9BCD66A1FEE0C7B1F54397885A858BC05964CA97ECE76A",
+            "timeSeconds": 0.24615385899176964,
+            "alphaPixels": 8293,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/004.png",
+            "bytes": 22966,
+            "resolution": "256x256",
+            "sha256": "9B70765AC01DE2EF6562EE60D4C115A0874AE5FFA0E5E3CBE391F53FF41EEB72",
+            "timeSeconds": 0.3282051453223595,
+            "alphaPixels": 8292,
+            "alphaBounds": [
+              114,
+              86,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/005.png",
+            "bytes": 22920,
+            "resolution": "256x256",
+            "sha256": "64DF4490F9DC65EE408AF2EBDE9190048858066F9212C86C5553DCA067D82EA0",
+            "timeSeconds": 0.4102564316529494,
+            "alphaPixels": 8297,
+            "alphaBounds": [
+              114,
+              86,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/006.png",
+            "bytes": 22841,
+            "resolution": "256x256",
+            "sha256": "9B3CA2DFC7AD80EE3166519FB386FADA30BA2DD838E869330597BE98AB1AFBD4",
+            "timeSeconds": 0.4923077179835393,
+            "alphaPixels": 8292,
+            "alphaBounds": [
+              114,
+              86,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/007.png",
+            "bytes": 22843,
+            "resolution": "256x256",
+            "sha256": "037FFC9FB00529882483D4ACBAE2D5D923E01D33DA4573C614BF8EE1D81050C4",
+            "timeSeconds": 0.5743590043141291,
+            "alphaPixels": 8294,
+            "alphaBounds": [
+              114,
+              86,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/008.png",
+            "bytes": 22989,
+            "resolution": "256x256",
+            "sha256": "31DBD84F8925990609A47AA972CA3EA6FC6E8A20E38E443E7CB1FE7484A96102",
+            "timeSeconds": 0.656410290644719,
+            "alphaPixels": 8307,
+            "alphaBounds": [
+              114,
+              86,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/009.png",
+            "bytes": 23022,
+            "resolution": "256x256",
+            "sha256": "21F5B5A3AF32EBCE04CC85A2835A2109F49E59E5B6BCA7A58015B5C69BE52CCF",
+            "timeSeconds": 0.7384615769753089,
+            "alphaPixels": 8314,
+            "alphaBounds": [
+              114,
+              86,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/010.png",
+            "bytes": 23033,
+            "resolution": "256x256",
+            "sha256": "FF4837781E8AD08E6EEC7439CBFBFD5A5F57A9C95DBB1537BC7710EFC210B776",
+            "timeSeconds": 0.8205128633058988,
+            "alphaPixels": 8314,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/011.png",
+            "bytes": 22909,
+            "resolution": "256x256",
+            "sha256": "F245928CEE200A6238D2C1A633C3FA9E57C73E1B5C5C66135D8A2B0DE76A49CB",
+            "timeSeconds": 0.9025641496364887,
+            "alphaPixels": 8318,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/012.png",
+            "bytes": 23034,
+            "resolution": "256x256",
+            "sha256": "65361C90021AC0A41158F9AF50146C09F459CD353A7BDB1EAF81FC2A630C7307",
+            "timeSeconds": 0.9846154359670786,
+            "alphaPixels": 8313,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          }
+        ],
+        "atlas": {
+          "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle.png",
+          "bytes": 256957,
+          "resolution": "2048x512",
+          "sha256": "9A7EDB6A89B74AAAC44B52E3DD2E2CC03FA1D575734A62866C4EAB3FEC0E0204"
+        }
+      },
+      {
+        "name": "walk",
+        "sourceClip": "Walking_A",
+        "sourceDurationSeconds": 1.0666667222976685,
+        "sampleFps": 12.187499364372377,
+        "loop": true,
+        "frameCount": 13,
+        "cellPixels": 256,
+        "pivotPixels": [
+          148,
+          216
+        ],
+        "frames": [
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/000.png",
+            "bytes": 21701,
+            "resolution": "256x256",
+            "sha256": "59DEA4C4F351F730FFABB12FF66C2C7DCF35C57E92CA2A42F9E4D54A94810F63",
+            "timeSeconds": 0,
+            "alphaPixels": 7501,
+            "alphaBounds": [
+              115,
+              86,
+              188,
+              217
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/001.png",
+            "bytes": 21804,
+            "resolution": "256x256",
+            "sha256": "7105DA130682492D7FEFF2799EBB24D3111C9181CF9E4A2DE7AA66380C1A4DA1",
+            "timeSeconds": 0.08205128633058988,
+            "alphaPixels": 7532,
+            "alphaBounds": [
+              115,
+              87,
+              190,
+              218
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/002.png",
+            "bytes": 22030,
+            "resolution": "256x256",
+            "sha256": "75ECC4FAA99C57ACDDDDADC784DC29CD4E238F053971C2F502326FC668DE3886",
+            "timeSeconds": 0.16410257266117975,
+            "alphaPixels": 7652,
+            "alphaBounds": [
+              115,
+              88,
+              194,
+              217
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/003.png",
+            "bytes": 22459,
+            "resolution": "256x256",
+            "sha256": "B8B92FEB73D5A2C714D4B2948822546C61179224175FFD25FD9D6D7679887DF1",
+            "timeSeconds": 0.24615385899176964,
+            "alphaPixels": 7966,
+            "alphaBounds": [
+              114,
+              85,
+              197,
+              219
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/004.png",
+            "bytes": 22712,
+            "resolution": "256x256",
+            "sha256": "40CA79C69C6ED2E6AE288CCE5A3ECD0D33C1E51E3DB3DD0DD1CA4DB29BEF1783",
+            "timeSeconds": 0.3282051453223595,
+            "alphaPixels": 8109,
+            "alphaBounds": [
+              113,
+              85,
+              199,
+              220
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/005.png",
+            "bytes": 22988,
+            "resolution": "256x256",
+            "sha256": "DF8C43802BB854B51C3272491DFFB853F0737C607533638DF54B5BF38223B536",
+            "timeSeconds": 0.4102564316529494,
+            "alphaPixels": 8250,
+            "alphaBounds": [
+              110,
+              86,
+              200,
+              220
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/006.png",
+            "bytes": 23388,
+            "resolution": "256x256",
+            "sha256": "26331F4FE34459987E424155102B77FD5E3990F4F10B70AAF4825CFB2095E3A5",
+            "timeSeconds": 0.4923077179835393,
+            "alphaPixels": 8394,
+            "alphaBounds": [
+              107,
+              86,
+              200,
+              219
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/007.png",
+            "bytes": 23349,
+            "resolution": "256x256",
+            "sha256": "26D0EEF848ADBF669B84ACD5C4B01C375AACDAB1508999246371B07280C06AD3",
+            "timeSeconds": 0.5743590043141291,
+            "alphaPixels": 8405,
+            "alphaBounds": [
+              107,
+              87,
+              200,
+              220
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/008.png",
+            "bytes": 22925,
+            "resolution": "256x256",
+            "sha256": "B709E3456D675E9BDD17ED9DA8C18B46AB9FEC459DA533508F3AD32DA3C2FBDF",
+            "timeSeconds": 0.656410290644719,
+            "alphaPixels": 8288,
+            "alphaBounds": [
+              110,
+              88,
+              200,
+              222
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/009.png",
+            "bytes": 22812,
+            "resolution": "256x256",
+            "sha256": "694B325A626EB42C4372327E254D7871C7BD8D2CA086055BAF2F5E535A189368",
+            "timeSeconds": 0.7384615769753089,
+            "alphaPixels": 8163,
+            "alphaBounds": [
+              113,
+              87,
+              199,
+              221
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/010.png",
+            "bytes": 22550,
+            "resolution": "256x256",
+            "sha256": "9B268B69961F77D5234E583C17E01F076743B69D351885146D2FA562D000B944",
+            "timeSeconds": 0.8205128633058988,
+            "alphaPixels": 8024,
+            "alphaBounds": [
+              114,
+              85,
+              197,
+              220
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/011.png",
+            "bytes": 22438,
+            "resolution": "256x256",
+            "sha256": "26272FA5FD469EC6A11A112DD16D5C657DE9B1B7232AD867186EB9C1876EEBA8",
+            "timeSeconds": 0.9025641496364887,
+            "alphaPixels": 7767,
+            "alphaBounds": [
+              115,
+              85,
+              194,
+              219
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/012.png",
+            "bytes": 21859,
+            "resolution": "256x256",
+            "sha256": "16905F80EC6F70F33AA1182AE7501D9EF94AA9F399A803D5CCB35DA0B57D2317",
+            "timeSeconds": 0.9846154359670786,
+            "alphaPixels": 7567,
+            "alphaBounds": [
+              115,
+              86,
+              190,
+              217
+            ]
+          }
+        ],
+        "atlas": {
+          "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk.png",
+          "bytes": 279784,
+          "resolution": "2048x512",
+          "sha256": "6C028E4B26C60E6C5D759321648DF84E31F6B368F76072CA6C33CC0EDDF6E34A"
+        }
+      },
+      {
+        "name": "attack",
+        "sourceClip": "1H_Melee_Attack_Chop",
+        "sourceDurationSeconds": 1.0666667222976685,
+        "sampleFps": 12.187499364372377,
+        "loop": false,
+        "frameCount": 13,
+        "cellPixels": 256,
+        "pivotPixels": [
+          148,
+          216
+        ],
+        "frames": [
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/000.png",
+            "bytes": 22769,
+            "resolution": "256x256",
+            "sha256": "EC670BABAF1D19AC88B076712ADDF1DD99DAFABB5AFD09D4FCB40D6013DDD22F",
+            "timeSeconds": 0,
+            "alphaPixels": 8290,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/001.png",
+            "bytes": 22978,
+            "resolution": "256x256",
+            "sha256": "F22BFE7E64A1E8E8FC0F656C256F3BA0AFAB078998FF53528C5D6B576C90179A",
+            "timeSeconds": 0.08205128633058988,
+            "alphaPixels": 8276,
+            "alphaBounds": [
+              114,
+              84,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/002.png",
+            "bytes": 23284,
+            "resolution": "256x256",
+            "sha256": "A106FA857A6DB47FF73382823996A4524EE33FFE513C825CAE0286F30DF8F131",
+            "timeSeconds": 0.16410257266117975,
+            "alphaPixels": 8239,
+            "alphaBounds": [
+              113,
+              83,
+              195,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/003.png",
+            "bytes": 23240,
+            "resolution": "256x256",
+            "sha256": "8572A6261194FEC772778C4875684C7DC82A7AA3E3ADE0649FE8959995E4A0AB",
+            "timeSeconds": 0.24615385899176964,
+            "alphaPixels": 8175,
+            "alphaBounds": [
+              113,
+              83,
+              193,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/004.png",
+            "bytes": 23105,
+            "resolution": "256x256",
+            "sha256": "0105679199AFE4F9952712402CE812E2EF6E7F17AC1BAC5311622914469D7317",
+            "timeSeconds": 0.3282051453223595,
+            "alphaPixels": 8066,
+            "alphaBounds": [
+              114,
+              82,
+              191,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/005.png",
+            "bytes": 23274,
+            "resolution": "256x256",
+            "sha256": "35E2DAF7B530EFBFC8A9DE846E35D3F9682068806063B8313F9BA8329FA8AABB",
+            "timeSeconds": 0.4102564316529494,
+            "alphaPixels": 8045,
+            "alphaBounds": [
+              115,
+              81,
+              189,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/006.png",
+            "bytes": 23439,
+            "resolution": "256x256",
+            "sha256": "A3B81FD611120F5303231F85BB1C9FFFED5AF1AEBE7B6F30EF5BB96B4584EEDA",
+            "timeSeconds": 0.4923077179835393,
+            "alphaPixels": 8033,
+            "alphaBounds": [
+              112,
+              80,
+              188,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/007.png",
+            "bytes": 23226,
+            "resolution": "256x256",
+            "sha256": "3A9E2862627B165AD8213864B85C95BA69DF37F6232A9FE68B50E8B334B2DD8A",
+            "timeSeconds": 0.5743590043141291,
+            "alphaPixels": 8110,
+            "alphaBounds": [
+              114,
+              79,
+              192,
+              221
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/008.png",
+            "bytes": 20465,
+            "resolution": "256x256",
+            "sha256": "988401C1D4F8B20E8FB5D431F7DD91FE846012C43E12CBCA9E305E31A01ECFE0",
+            "timeSeconds": 0.656410290644719,
+            "alphaPixels": 7210,
+            "alphaBounds": [
+              114,
+              97,
+              196,
+              229
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/009.png",
+            "bytes": 19794,
+            "resolution": "256x256",
+            "sha256": "BF5F6B3C0A180B3CCE8819CEFB52009EEC2A4C0956F1D5DE158F65BFEEFFA3E3",
+            "timeSeconds": 0.7384615769753089,
+            "alphaPixels": 6973,
+            "alphaBounds": [
+              114,
+              103,
+              198,
+              229
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/010.png",
+            "bytes": 20884,
+            "resolution": "256x256",
+            "sha256": "83024F9EC1D2B79B8B30AAA6056E1E08F8AFE654ECE20DF88F35110DFBEBCAB7",
+            "timeSeconds": 0.8205128633058988,
+            "alphaPixels": 7498,
+            "alphaBounds": [
+              115,
+              97,
+              196,
+              229
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/011.png",
+            "bytes": 22067,
+            "resolution": "256x256",
+            "sha256": "D5D4A6A4F013A8F1E23091D3F795607DB940A115F5998D8931239793B6E024FE",
+            "timeSeconds": 0.9025641496364887,
+            "alphaPixels": 8006,
+            "alphaBounds": [
+              115,
+              90,
+              196,
+              226
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/012.png",
+            "bytes": 22667,
+            "resolution": "256x256",
+            "sha256": "FF1B874E6E90280680623620A9163AA93DCBD4DA4BE2BF6232154AF6903BBCC1",
+            "timeSeconds": 0.9846154359670786,
+            "alphaPixels": 8207,
+            "alphaBounds": [
+              114,
+              86,
+              196,
+              223
+            ]
+          }
+        ],
+        "atlas": {
+          "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack.png",
+          "bytes": 279201,
+          "resolution": "2048x512",
+          "sha256": "0AA733113E3921D011E3C11515FEEE4406787712CAD9E9314C92E9C317012277"
+        }
+      },
+      {
+        "name": "hit",
+        "sourceClip": "Hit_A",
+        "sourceDurationSeconds": 0.6666666865348816,
+        "sampleFps": 11.999999642372142,
+        "loop": false,
+        "frameCount": 8,
+        "cellPixels": 256,
+        "pivotPixels": [
+          148,
+          216
+        ],
+        "frames": [
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/000.png",
+            "bytes": 22819,
+            "resolution": "256x256",
+            "sha256": "4797874FF2DC4D362569CE27FFC5B8282C52DC554D4A973182462D7CCD4D1817",
+            "timeSeconds": 0,
+            "alphaPixels": 8307,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/001.png",
+            "bytes": 23300,
+            "resolution": "256x256",
+            "sha256": "D1083632175B5B91386ECA5ED2E5A8FF87A5AB4D620E0567142A965F699D6901",
+            "timeSeconds": 0.0833333358168602,
+            "alphaPixels": 8303,
+            "alphaBounds": [
+              104,
+              89,
+              208,
+              222
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/002.png",
+            "bytes": 22715,
+            "resolution": "256x256",
+            "sha256": "AE0A16D780D856C23CA85A9280D6BB2C07D74E704836173E1ECBAD7FB625BECC",
+            "timeSeconds": 0.1666666716337204,
+            "alphaPixels": 8160,
+            "alphaBounds": [
+              102,
+              94,
+              209,
+              222
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/003.png",
+            "bytes": 23772,
+            "resolution": "256x256",
+            "sha256": "E1CA4D89C47235C0836875481876483D23CA924386F5C9186EE6C2B59057C192",
+            "timeSeconds": 0.2500000074505806,
+            "alphaPixels": 8522,
+            "alphaBounds": [
+              108,
+              85,
+              207,
+              222
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/004.png",
+            "bytes": 24104,
+            "resolution": "256x256",
+            "sha256": "66652E04A0294CF95098E36F7F2A998D1751C2CA39E4288AE08A72EE74D2831B",
+            "timeSeconds": 0.3333333432674408,
+            "alphaPixels": 8602,
+            "alphaBounds": [
+              112,
+              82,
+              205,
+              222
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/005.png",
+            "bytes": 23718,
+            "resolution": "256x256",
+            "sha256": "98855B339BF50F56412291B70E40C9FAF4D127CDF740787A27441CFBC8E2FDA7",
+            "timeSeconds": 0.416666679084301,
+            "alphaPixels": 8530,
+            "alphaBounds": [
+              113,
+              83,
+              202,
+              222
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/006.png",
+            "bytes": 23447,
+            "resolution": "256x256",
+            "sha256": "1DC23E4A246B4B8ACBA1E2DF35D29BE9D69ADBC40B32F8B009B8C8A6523240F8",
+            "timeSeconds": 0.5000000149011612,
+            "alphaPixels": 8442,
+            "alphaBounds": [
+              114,
+              84,
+              198,
+              222
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/007.png",
+            "bytes": 23100,
+            "resolution": "256x256",
+            "sha256": "E6EB0F41B9896A9DB078FEF1570A073525F6544AB046B2A58B201C497BD438C1",
+            "timeSeconds": 0.5833333507180214,
+            "alphaPixels": 8344,
+            "alphaBounds": [
+              114,
+              84,
+              196,
+              223
+            ]
+          }
+        ],
+        "atlas": {
+          "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit.png",
+          "bytes": 175420,
+          "resolution": "2048x256",
+          "sha256": "71B8B786E81BE7B2232F593651D74285FE2273B8C97E8AA9E1419C81F82483F2"
+        }
+      },
+      {
+        "name": "death",
+        "sourceClip": "Death_A",
+        "sourceDurationSeconds": 0.800000011920929,
+        "sampleFps": 12.499999813735489,
+        "loop": false,
+        "frameCount": 10,
+        "cellPixels": 256,
+        "pivotPixels": [
+          148,
+          216
+        ],
+        "frames": [
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/000.png",
+            "bytes": 22819,
+            "resolution": "256x256",
+            "sha256": "4797874FF2DC4D362569CE27FFC5B8282C52DC554D4A973182462D7CCD4D1817",
+            "timeSeconds": 0,
+            "alphaPixels": 8307,
+            "alphaBounds": [
+              114,
+              85,
+              196,
+              223
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/001.png",
+            "bytes": 24086,
+            "resolution": "256x256",
+            "sha256": "BAC8A25AE26F05767A53DE3B9FB564D45A427479E5714D1A6DC846852CEC22C2",
+            "timeSeconds": 0.0800000011920929,
+            "alphaPixels": 8812,
+            "alphaBounds": [
+              110,
+              87,
+              205,
+              222
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/002.png",
+            "bytes": 25762,
+            "resolution": "256x256",
+            "sha256": "8CF2EBF7D62A8528C19CABB8DCD3C49EF34A87A327D483C5D1974F1BD8E109B3",
+            "timeSeconds": 0.1600000023841858,
+            "alphaPixels": 9486,
+            "alphaBounds": [
+              101,
+              79,
+              205,
+              219
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/003.png",
+            "bytes": 26462,
+            "resolution": "256x256",
+            "sha256": "A944BE20B9C56DC94EC4627EC4B58CE42458090F2012C87E454C497D58CD2D3A",
+            "timeSeconds": 0.24000000357627868,
+            "alphaPixels": 9473,
+            "alphaBounds": [
+              82,
+              71,
+              197,
+              211
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/004.png",
+            "bytes": 26082,
+            "resolution": "256x256",
+            "sha256": "A40D0E042F545A28A045046213B354092649A48364AAA156D21E239AD0135347",
+            "timeSeconds": 0.3200000047683716,
+            "alphaPixels": 9263,
+            "alphaBounds": [
+              45,
+              77,
+              183,
+              210
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/005.png",
+            "bytes": 26781,
+            "resolution": "256x256",
+            "sha256": "859398FFBFFCE25608756F572A75692B943F5CB6055C59F810E63B696F1949F5",
+            "timeSeconds": 0.4000000059604645,
+            "alphaPixels": 9172,
+            "alphaBounds": [
+              26,
+              95,
+              191,
+              219
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/006.png",
+            "bytes": 26096,
+            "resolution": "256x256",
+            "sha256": "1F655101D86060C99A815DFB1FB1CE97A04E2CADE22B55D07890C2B8BD625A1E",
+            "timeSeconds": 0.48000000715255736,
+            "alphaPixels": 8856,
+            "alphaBounds": [
+              22,
+              122,
+              191,
+              227
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/007.png",
+            "bytes": 25850,
+            "resolution": "256x256",
+            "sha256": "CE513D769D66A2C933598C610E0E4A309EE40EBE51FD3D3A517064BEECEAA95F",
+            "timeSeconds": 0.5600000083446502,
+            "alphaPixels": 8812,
+            "alphaBounds": [
+              23,
+              128,
+              188,
+              230
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/008.png",
+            "bytes": 26011,
+            "resolution": "256x256",
+            "sha256": "628D66D144839D83E62AFB46727F9B0CDA8CC5825A10F90035FA80FB29A46059",
+            "timeSeconds": 0.6400000095367432,
+            "alphaPixels": 8868,
+            "alphaBounds": [
+              25,
+              129,
+              187,
+              230
+            ]
+          },
+          {
+            "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/009.png",
+            "bytes": 25768,
+            "resolution": "256x256",
+            "sha256": "9E5F167B8E8BEEE84A950B68239EE41DBA8210659F71EADA418F01C1A4914CB6",
+            "timeSeconds": 0.720000010728836,
+            "alphaPixels": 8820,
+            "alphaBounds": [
+              26,
+              131,
+              187,
+              230
+            ]
+          }
+        ],
+        "atlas": {
+          "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death.png",
+          "bytes": 248702,
+          "resolution": "2048x512",
+          "sha256": "10C430617F8C2B0F7B0B0B1532FA68A7BC16D1340DFC2366BB843FDF01BF1211"
+        }
+      }
+    ]
+  },
+  "integration": {
+    "runtime": "painter.js battle renderer; only human_4 uses these atlases in this slice",
+    "gameplayEventSource": "engine.js writes per-stack movement, attack, received damage and death events; rendering observes receipts and does not alter battle state.",
+    "standaloneHtml": {
+      "projectPath": "Play-Heoofgaia-HG11.html",
+      "bytes": 13190388,
+      "characters": 13177485,
+      "sha256": "4D7510E4E411685F8A72DCA5488F83F57B56A2BCCFD82F3EAF44DF5227ECFB09",
+      "embeddedRuntimePngCount": 15,
+      "allFiveAtlasesEmbedded": true
+    },
+    "saveSchema": "v07 unchanged; old saves without lastEvents remain accepted.",
+    "nodeRegression": {
+      "command": "node qa-engine.cjs",
+      "suiteTotal": 172,
+      "suitePassed": 172,
+      "suiteFailed": 0,
+      "result": "PASS"
+    },
+    "focusedBrowserQa": {
+      "projectPath": "docs/qa/hg11/human-heavy-animation-chrome.json",
+      "command": ".venv\\Scripts\\python.exe qa-hg11-human-heavy-animation-chrome.py",
+      "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+      "mode": "installed Chrome on the standalone local file:// HTML",
+      "total": 20,
+      "passed": 20,
+      "failed": 0,
+      "errors": [],
+      "result": "PASS",
+      "fixtureDisclosure": "A new Human game is created normally. The fixture seeds Hall 4, Barracks 4, Blacksmith 1, Manufacturing 1, Bootcamp 1 and prerequisite resources to skip prerequisite wait time. The UI recruits two Heavy Soldiers and spends real resources; the actual engine tick completes the queue. Real formation deploys one Heavy Soldier and militia; map selection, March, travel, Attack and Stand By controls resolve every player movement, damage and casualty. Enemy-only durability, position and attack values are adjusted to keep battle observable and cause a real engine casualty; no player positions, damage, death or battle result are set. The second Heavy Soldier stays at the home city. Enemy sprite mirroring is tested only on an isolated clone after reload.",
+      "observedAnimation": {
+        "actions": [
+          "attack",
+          "idle",
+          "walk"
+        ],
+        "distinctFramesByAction": {
+          "idle": 9,
+          "attack": 11,
+          "walk": 12
+        },
+        "hitFrames": 4,
+        "deathFrames": 6,
+        "totalLiveCanvasSamples": 140
+      },
+      "enemyRendererCheck": {
+        "available": true,
+        "draws": 2,
+        "enemyHorizontalFlip": true,
+        "scales": [
+          -1,
+          1
+        ]
+      }
+    },
+    "screenshots": [
+      {
+        "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
+        "bytes": 480123,
+        "resolution": "1440x1408",
+        "sha256": "86C9AA953A3DCCDF4C6BC21A0FB87197E2C0B477CFFE4F896AD84070B8295CC9",
+        "role": "Focused-QA receipt capture"
+      },
+      {
+        "projectPath": "docs/evidence/hg11/human-heavy-soldier-death-frame-chrome.png",
+        "bytes": 107460,
+        "resolution": "1176x550",
+        "sha256": "DA1C0D47D551B720468B50E6FED749C516E9F680C9B09424F6737BF76CA4D905",
+        "role": "Focused-QA receipt capture"
+      },
+      {
+        "projectPath": "docs/evidence/hg11/human-heavy-soldier-live-animation-chrome.png",
+        "bytes": 485458,
+        "resolution": "1440x1423",
+        "sha256": "601C6225944247B84D25E62FD246BB51672C5C2A9D6162FBA0E016B96B7399CC",
+        "role": "Supplementary actual Chrome capture; not referenced by the focused machine receipt"
+      },
+      {
+        "projectPath": "docs/evidence/hg11/human-heavy-soldier-death-animation-chrome.png",
+        "bytes": 477614,
+        "resolution": "1440x1408",
+        "sha256": "860E8F0F1E8649F3FF6CE9B56CBBF5665C1534AFA322CF6426AC554A9EAF048C",
+        "role": "Supplementary actual Chrome capture; not referenced by the focused machine receipt"
+      }
+    ]
+  },
+  "scopeLimitations": [
+    "This is one modern licensed replacement for Human Heavy Soldier, not original Heroes of Gaia art.",
+    "Only this one unit identity has these five animated actions; the other 39 troops are not covered.",
+    "The focused QA uses disclosed enemy-only combat fixture adjustments so the battle stays observable and a real engine casualty occurs.",
+    "Visual parity against the original client remains unverified; the screenshot is of this reconstruction."
+  ]
+}

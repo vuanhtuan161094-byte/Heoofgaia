@@ -1,0 +1,7 @@
+{
+  "name": "heoofgaia-animation-exporter",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Offline production tooling only; no Three.js dependency in the delivered game",
+  "dependencies": {"three": "0.160.0"}
+}

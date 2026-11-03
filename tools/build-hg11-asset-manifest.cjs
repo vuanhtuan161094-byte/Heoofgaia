@@ -31,13 +31,26 @@ const buildingIntegrated = !!buildingManifest && !!buildingReceipt && buildingMa
   buildingManifest.states?.integratedInBuildingDetail === true && buildingReceipt.failed === 0 && buildingReceipt.total === 13 &&
   buildingManifest.integration.screenshots?.length === 2 && buildingManifest.integration.screenshots.every(s =>
     fs.existsSync(path.join(root, s.projectPath)) && fs.statSync(path.join(root, s.projectPath)).size === s.bytes);
+const heavyManifestPath = path.join(root, 'assets/licensed/kaykit-heavy-soldier/asset-manifest.json');
+let heavyManifest = null;
+try { heavyManifest = JSON.parse(fs.readFileSync(heavyManifestPath, 'utf8')); } catch {}
+let heavyReceipt = null;
+try { if (heavyManifest?.integration?.focusedBrowserQa?.projectPath) heavyReceipt = JSON.parse(fs.readFileSync(path.join(root, heavyManifest.integration.focusedBrowserQa.projectPath), 'utf8')); } catch {}
+const heavyIntegrated = !!heavyManifest && !!heavyReceipt && heavyManifest.status === 'RECREATED' && heavyManifest.target?.unitId === 'human_4' &&
+  heavyManifest.animation?.distinctFrameCount === 57 && heavyManifest.animation?.actions?.length === 5 &&
+  heavyManifest.integration?.standaloneHtml?.allFiveAtlasesEmbedded === true && heavyReceipt.failed === 0 && heavyReceipt.passed === 20 && heavyReceipt.total === 20 &&
+  heavyManifest.integration.screenshots?.length === 4 && heavyManifest.integration.screenshots.every(s =>
+    fs.existsSync(path.join(root, s.projectPath)) && fs.statSync(path.join(root, s.projectPath)).size === s.bytes);
 const offlinePath = path.join(root, 'Play-Heoofgaia-HG11.html');
 const bundle = fs.existsSync(offlinePath) ? fs.readFileSync(offlinePath, 'utf8') : '';
 const embeddedRuntimePaths = [
   ...races.map(race => `assets/generated/hg11/cities/${race}-city-1176x560.png`),
   'assets/generated/hg11/units/orc-imp.png', 'assets/generated/hg11/units/elf-centaur.png',
   'assets/generated/hg11/units/elf-scout.png', 'assets/generated/hg11/units/human-archer.png',
-  'assets/generated/hg11/units/undead-skeleton.png', 'assets/generated/hg11/buildings/human-barracks.png'
+  'assets/generated/hg11/units/undead-skeleton.png', 'assets/generated/hg11/buildings/human-barracks.png',
+  'assets/licensed/kaykit-heavy-soldier/rendered/idle.png', 'assets/licensed/kaykit-heavy-soldier/rendered/walk.png',
+  'assets/licensed/kaykit-heavy-soldier/rendered/attack.png', 'assets/licensed/kaykit-heavy-soldier/rendered/hit.png',
+  'assets/licensed/kaykit-heavy-soldier/rendered/death.png'
 ];
 const embeddedAssets = embeddedRuntimePaths.every(p => bundle.includes(`src="data:image/png;base64,${fs.readFileSync(path.join(root, p)).toString('base64')}"`)) &&
   (bundle.match(/data:image\/png;base64,/g) || []).length === embeddedRuntimePaths.length;
@@ -94,7 +107,7 @@ const manifest = {
   schema: 'hog1-asset-manifest-v1',
   project: 'Hẻoofgaia / Heroes of Gaia 1 reconstruction',
   createdAt: new Date().toISOString(),
-  target: 'HG-11 four-faction scenic city art plus independently authored Human Barracks detail asset',
+  target: 'HG-11 four-faction scenic city art, Human Barracks detail asset and one animated Human Heavy Soldier',
   copyrightStatus: 'RECREATED; not extracted or verified original commercial art',
   referenceOnly: [
     'https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml',
@@ -105,13 +118,20 @@ const manifest = {
   integration: {
     offlineBundlePath: 'Play-Heoofgaia-HG11.html',
     offlineBundleEmbeddedAssets: embeddedAssets,
-    browserScreenshot: browserIntegrated ? [...browserScreenshots, ...(buildingIntegrated ? buildingManifest.integration.screenshots.map(s => s.projectPath) : [])] : 'PENDING',
+    browserScreenshot: browserIntegrated ? [...browserScreenshots, ...(buildingIntegrated ? buildingManifest.integration.screenshots.map(s => s.projectPath) : []), ...(heavyIntegrated ? heavyManifest.integration.screenshots.map(s => s.projectPath) : [])] : 'PENDING',
     hitZoneRegression: hitZonesPass ? 'PASS: 4 factions × 12 live canvas actions' : 'PENDING',
     browserAcceptance: browserReport ? `${browserReport.passed}/${browserReport.passed + browserReport.failed} checks; ${browserReport.failed ? 'FAIL' : 'PASS'}` : 'PENDING',
     fullGameRegression: nodeRegression ? `PASS: ${nodeReport.suitePassed}/${nodeReport.suiteTotal} Node engine regression` : 'PENDING',
-    independentBuildingAssets: buildingIntegrated ? 'PASS: Human Barracks detail and real paid v07 construction; static art, no animation' : 'PENDING'
+    independentBuildingAssets: buildingIntegrated ? 'PASS: Human Barracks detail and real paid v07 construction; static art, no animation' : 'PENDING',
+    animatedTroopAssets: heavyIntegrated ? 'PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks' : 'PENDING'
   },
   assets,
+  animatedTroopAssets: heavyIntegrated ? [{
+    assetId: heavyManifest.assetId, unitId: heavyManifest.target.unitId, faction: heavyManifest.target.faction,
+    status: heavyManifest.status, sourceLicense: heavyManifest.source.license, sourceCommit: heavyManifest.source.commit,
+    distinctFrameCount: heavyManifest.animation.distinctFrameCount, actions: heavyManifest.animation.actions.map(a => ({name:a.name, sourceClip:a.sourceClip, frameCount:a.frameCount, atlas:a.atlas})),
+    manifest: 'assets/licensed/kaykit-heavy-soldier/asset-manifest.json', screenshots: heavyManifest.integration.screenshots.map(s => s.projectPath)
+  }] : [],
   buildingAssets: buildingIntegrated ? [{
     assetId: buildingManifest.assetId, faction: buildingManifest.faction, buildingKey: buildingManifest.buildingKey,
     status: buildingManifest.status, animationFrames: buildingManifest.states.animationFrames,

@@ -1,0 +1,50 @@
+<!doctype html><html><head><meta charset="utf-8"><title>Heoofgaia licensed animation exporter</title>
+<script>window.addEventListener('error',e=>window.exporterError=e.message);window.addEventListener('unhandledrejection',e=>window.exporterError=String(e.reason));</script>
+<script type="importmap">{"imports":{"three":"./node_modules/three/build/three.module.js","three/addons/":"./node_modules/three/examples/jsm/"}}</script></head><body style="margin:0;background:#243a43">
+<script type="module">
+import * as THREE from 'three';
+import {GLTFLoader} from 'three/addons/loaders/GLTFLoader.js';
+const loader=new GLTFLoader(),base='/assets/licensed/kaykit-heavy-soldier/source/';
+const [gltf,sword,shield]=await Promise.all(['Knight.glb','sword_1handed.gltf','shield_square.gltf'].map(f=>loader.loadAsync(base+f)));
+const model=gltf.scene;
+const removedAccessories=['1H_Sword_Offhand','Badge_Shield','Rectangle_Shield','Round_Shield','Spike_Shield','1H_Sword','2H_Sword'];
+for(const name of removedAccessories)model.getObjectByName(name)?.removeFromParent();
+for(const [slot,object] of [['handslot.r',sword.scene],['handslot.l',shield.scene]]){
+ const bone=model.getObjectByName(slot)||model.getObjectByName(slot.replaceAll('.',''));if(!bone)throw Error('Missing accessory slot '+slot);bone.add(object);
+}
+const scene=new THREE.Scene();scene.add(model);
+scene.add(new THREE.HemisphereLight(0xe5f0ff,0x736047,2));
+const sun=new THREE.DirectionalLight(0xffedce,3);sun.position.set(-3,7,5);scene.add(sun);
+const rim=new THREE.DirectionalLight(0xa7d9ff,1.6);rim.position.set(5,3,-4);scene.add(rim);
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,preserveDrawingBuffer:true});
+renderer.setSize(1024,1024);renderer.setClearColor(0,0);renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1;
+document.body.appendChild(renderer.domElement);
+const mixer=new THREE.AnimationMixer(model),clips=Object.fromEntries(gltf.animations.map(c=>[c.name,c]));
+const idle=mixer.clipAction(clips.Idle);idle.play();mixer.setTime(0);model.updateMatrixWorld(true);
+const bodyBox=new THREE.Box3().setFromObject(model),height=bodyBox.max.y-bodyBox.min.y;
+const target=new THREE.Vector3(0,height*.47,0),camera=new THREE.OrthographicCamera(-height*.925,height*.925,height*.925,-height*.925,.01,100);
+camera.position.copy(target).add(new THREE.Vector3(-6,3.8,8));camera.lookAt(target);camera.updateMatrixWorld();
+const rootPoint=new THREE.Vector3(0,0,0).project(camera),offset={x:148-(rootPoint.x+1)*128,y:216-(1-rootPoint.y)*128};
+const output=document.createElement('canvas');output.width=output.height=256;
+const ctx=output.getContext('2d',{willReadFrequently:true});
+function frame(clipName,time){
+ mixer.stopAllAction();const action=mixer.clipAction(clips[clipName]);action.reset();action.setLoop(THREE.LoopOnce,1);action.clampWhenFinished=true;action.play();mixer.setTime(time);
+ model.updateMatrixWorld(true);renderer.render(scene,camera);
+ ctx.clearRect(0,0,256,256);ctx.drawImage(renderer.domElement,offset.x,offset.y,256,256);
+ const pixels=ctx.getImageData(0,0,256,256).data;let x0=256,y0=256,x1=-1,y1=-1,alphaPixels=0;
+ for(let y=0;y<256;y++)for(let x=0;x<256;x++){if(pixels[(y*256+x)*4+3]>=8){x0=Math.min(x0,x);y0=Math.min(y0,y);x1=Math.max(x1,x);y1=Math.max(y1,y);alphaPixels++}}
+ return {png:output.toDataURL('image/png').split(',')[1],bounds:[x0,y0,x1,y1],alphaPixels};
+}
+window.exportMaster=()=>({...frame('Idle',0),height,offset,removedAccessories,clips:Object.fromEntries(gltf.animations.map(c=>[c.name,c.duration])),camera:{position:camera.position.toArray(),target:target.toArray(),verticalSpan:height*1.85},renderer:renderer.getContext().getParameter(renderer.getContext().VERSION)});
+window.exportAction=async(name,clipName,fps=12)=>{
+ const clip=clips[clipName];if(!clip)throw Error('Unknown animation '+clipName);
+ const loop=['idle','walk'].includes(name),count=Math.max(2,Math.ceil(clip.duration*fps-1e-6)),cols=8,rows=Math.ceil(count/cols),sheet=document.createElement('canvas');sheet.width=cols*256;sheet.height=rows*256;const sc=sheet.getContext('2d');
+ const frames=[];
+ for(let i=0;i<count;i++){
+  const time=i*clip.duration/count,result=frame(clipName,time),img=new Image();img.src='data:image/png;base64,'+result.png;await img.decode();sc.drawImage(img,(i%cols)*256,Math.floor(i/cols)*256);frames.push({...result,time});
+ }
+ return {name,clipName,sourceDuration:clip.duration,fps:count/clip.duration,loop,frameCount:count,cols,rows,cell:256,pivot:[148,216],frames,atlas:sheet.toDataURL('image/png').split(',')[1]};
+};
+window.exporterReady=true;
+</script></body></html>
