@@ -3,7 +3,7 @@
   "source": "SRC61, 17173, 2009-10-25; Fame stage thresholds derived from SRC20, 17173, 2009-12-27.",
   "browserExecutable": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
   "inputHtml": "Play-Heoofgaia-HG11.html",
-  "fixtureDisclosure": "Chrome opens the actual standalone file:// game. The QA fixture seeds only Fame=199, then the actual map-click/March/tick/Attack flow wins a real 1-star NPC and the existing combat settlement crosses the 200 Fame rank; this resets the accepted task. A controlled Fame value of 799 checks within-rank preservation before 800 checks the next reset. No battle, objective completion, reward or victory is injected.",
+  "fixtureDisclosure": "Chrome opens the actual standalone file:// game. The QA fixture seeds only Fame=199, then the actual map-click/March/tick/Attack flow wins a real 1-star NPC and the existing combat settlement crosses the 200 Fame rank; this resets the accepted task. A controlled Fame value of 799 checks within-rank preservation before 800 checks the next reset. A separate fresh in-browser engine state exercises all 14 transitions in the 15 dated SRC20 Fame ranks and 14 strict v07 save round-trips. No battle, objective completion, reward or victory is injected.",
   "checks": [
     {
       "name": "Offline build opens with canonical game title",
@@ -94,6 +94,17 @@
       }
     },
     {
+      "name": "Live Chrome engine resets at all 14 Fame promotions and round-trips v07 at each rank",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "thresholds": 15,
+        "resets": 14,
+        "v07RoundTrips": 14,
+        "version": 7
+      }
+    },
+    {
       "name": "No JavaScript exceptions or console errors",
       "passed": true,
       "detail": {
@@ -104,7 +115,7 @@
   ],
   "errors": [],
   "consoleErrors": [],
-  "passed": 13,
-  "total": 13,
+  "passed": 14,
+  "total": 14,
   "screenshot": "docs/evidence/hg08/china-daily-task-fame-reset-chrome.png"
 }

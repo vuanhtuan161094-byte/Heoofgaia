@@ -840,6 +840,28 @@ test('SRC61 Fame reset is triggered immediately by a real NPC victory crossing t
  const row=E.china2009DailyTasks(s,s.lastTick)[0];assert.deepEqual({accepted:row.accepted,claimed:row.claimed,progress:row.progress,fameStage:row.fameStage},{accepted:false,claimed:false,progress:0,fameStage:200});assert(s.log.some(x=>x.includes('được làm mới (SRC61)')));
  const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.deepEqual({accepted:E.china2009DailyTasks(loaded,loaded.lastTick)[0].accepted,stage:E.china2009DailyTasks(loaded,loaded.lastTick)[0].fameStage},{accepted:false,stage:200});assert(E.strictSave(loaded));
 });
+test('SRC61 resets the China daily board at every dated 2009 Fame threshold and preserves v07 saves',()=>{
+ const thresholds=[5,200,800,2200,5800,11500,21000,33000,54000,80000,150000,300000,500000,700000,1000000];
+ assert.deepEqual(JSON.parse(JSON.stringify(E.FAME_AP.map(([threshold])=>threshold))),thresholds,'17173 SRC20 rank thresholds, rows 250–264');
+ let s=state('human'),id='recruit_archers',sameStageAccepted=false;
+ assert.equal(E.china2009DailyTasks(s,s.lastTick)[0].fameStage,thresholds[0]);
+ for(let i=1;i<thresholds.length;i++){
+  const priorStage=thresholds[i-1],stage=thresholds[i],board=s.china2009DailyTaskState;
+  if(!sameStageAccepted)E.acceptChina2009DailyTask(s,id,s.lastTick);
+  board.progress[id]=i%2?12:20;if(i%2===0)board.claimed=[id];
+  s.fame=stage-1;let row=E.china2009DailyTasks(s,s.lastTick)[0];
+  assert.deepEqual({accepted:row.accepted,claimed:row.claimed,progress:row.progress,fameStage:row.fameStage},{accepted:true,claimed:i%2===0,progress:i%2?12:20,fameStage:priorStage},`retain below Fame ${stage}`);
+  s.fame=stage;row=E.china2009DailyTasks(s,s.lastTick)[0];
+  assert.deepEqual({accepted:row.accepted,claimed:row.claimed,progress:row.progress,fameStage:row.fameStage},{accepted:false,claimed:false,progress:0,fameStage:stage},`reset at Fame ${stage}`);
+  s=E.parseSave(E.serializeSave(s));assert.equal(s.version,7);assert(E.strictSave(s));
+  assert.equal(E.china2009DailyTasks(s,s.lastTick)[0].fameStage,stage,`v07 round-trip at Fame ${stage}`);
+  if(i<thresholds.length-1){
+   E.acceptChina2009DailyTask(s,id,s.lastTick);s.fame=stage+1;row=E.china2009DailyTasks(s,s.lastTick)[0];
+   assert.deepEqual({accepted:row.accepted,progress:row.progress,fameStage:row.fameStage},{accepted:true,progress:0,fameStage:stage},`retain within Fame ${stage} stage`);
+   sameStageAccepted=true;
+  }
+ }
+});
 
 function cityTransportFixture(){
  const s=state();s.fame=5800;s.ap=100;s.res.gold=2000;s.res.wood=500;s.army.human_1=3;

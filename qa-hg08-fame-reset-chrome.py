@@ -96,6 +96,22 @@ with sync_playwright() as playwright:
     page.reload(wait_until='load')
     persisted = page.evaluate('''(()=>{const s=HOG_APP_DEBUG.getState(),t=HOG_ENGINE.china2009DailyTasks(s)[0];return {version:s.version,stage:t.fameStage,accepted:t.accepted,progress:t.progress,valid:HOG_ENGINE.strictSave(s)}})()''')
     check('Browser reload retains the current Fame stage and refreshed board', persisted == {'version': 7, 'stage': 800, 'accepted': False, 'progress': 0, 'valid': True}, persisted)
+    stage_matrix = page.evaluate('''(()=>{
+      const thresholds=[5,200,800,2200,5800,11500,21000,33000,54000,80000,150000,300000,500000,700000,1000000],id='recruit_archers';
+      if(JSON.stringify(HOG_ENGINE.FAME_AP.map(row=>row[0]))!==JSON.stringify(thresholds))return {ok:false,reason:'historic Fame thresholds differ',thresholds:HOG_ENGINE.FAME_AP.map(row=>row[0])};
+      let s=HOG_ENGINE.make('human',Date.UTC(2026,10,3)),reset=0,roundTrips=0,prepared=false;
+      for(let i=1;i<thresholds.length;i++){
+        const stage=thresholds[i],prior=thresholds[i-1];if(!prepared)HOG_ENGINE.acceptChina2009DailyTask(s,id,s.lastTick);
+        s.china2009DailyTaskState.progress[id]=i%2?12:20;if(i%2===0)s.china2009DailyTaskState.claimed=[id];
+        s.fame=stage-1;let row=HOG_ENGINE.china2009DailyTasks(s,s.lastTick)[0];if(!row.accepted||row.fameStage!==prior||row.progress!==(i%2?12:20)||row.claimed!==(i%2===0))return {ok:false,reason:'premature reset',stage};
+        s.fame=stage;row=HOG_ENGINE.china2009DailyTasks(s,s.lastTick)[0];if(row.accepted||row.claimed||row.progress!==0||row.fameStage!==stage)return {ok:false,reason:'missing reset',stage};reset++;
+        s=HOG_ENGINE.parseSave(HOG_ENGINE.serializeSave(s));if(s.version!==7||!HOG_ENGINE.strictSave(s)||HOG_ENGINE.china2009DailyTasks(s,s.lastTick)[0].fameStage!==stage)return {ok:false,reason:'v07 round-trip',stage};roundTrips++;
+        prepared=false;
+        if(i<thresholds.length-1){HOG_ENGINE.acceptChina2009DailyTask(s,id,s.lastTick);s.fame=stage+1;row=HOG_ENGINE.china2009DailyTasks(s,s.lastTick)[0];if(!row.accepted||row.fameStage!==stage)return {ok:false,reason:'same-stage work lost',stage};prepared=true;}
+      }
+      return {ok:true,thresholds:thresholds.length,resets:reset,v07RoundTrips:roundTrips,version:s.version};
+    })()''')
+    check('Live Chrome engine resets at all 14 Fame promotions and round-trips v07 at each rank', stage_matrix.get('ok') and stage_matrix.get('thresholds') == 15 and stage_matrix.get('resets') == 14 and stage_matrix.get('v07RoundTrips') == 14 and stage_matrix.get('version') == 7, stage_matrix)
     check('No JavaScript exceptions or console errors', not errors and not console_errors, {'page': errors[:3], 'console': console_errors[:3]})
     context.close()
     profile.cleanup()
@@ -105,7 +121,7 @@ receipt = {
     'source': 'SRC61, 17173, 2009-10-25; Fame stage thresholds derived from SRC20, 17173, 2009-12-27.',
     'browserExecutable': browser,
     'inputHtml': HTML.name,
-    'fixtureDisclosure': 'Chrome opens the actual standalone file:// game. The QA fixture seeds only Fame=199, then the actual map-click/March/tick/Attack flow wins a real 1-star NPC and the existing combat settlement crosses the 200 Fame rank; this resets the accepted task. A controlled Fame value of 799 checks within-rank preservation before 800 checks the next reset. No battle, objective completion, reward or victory is injected.',
+    'fixtureDisclosure': 'Chrome opens the actual standalone file:// game. The QA fixture seeds only Fame=199, then the actual map-click/March/tick/Attack flow wins a real 1-star NPC and the existing combat settlement crosses the 200 Fame rank; this resets the accepted task. A controlled Fame value of 799 checks within-rank preservation before 800 checks the next reset. A separate fresh in-browser engine state exercises all 14 transitions in the 15 dated SRC20 Fame ranks and 14 strict v07 save round-trips. No battle, objective completion, reward or victory is injected.',
     'checks': checks,
     'errors': errors,
     'consoleErrors': console_errors,
