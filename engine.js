@@ -242,7 +242,7 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  for(const e of enemies){e.pool=Math.max(1,Math.ceil(e.pool*remainingRatio));e.count=Math.ceil(e.pool/e.hp)}
  return {target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(isTreasure?{treasureCamp:{...camp}}:{}),
    turn:1,order:'attack',orders:{},focused:null,selected:allies[0]?.id||null,autoUntil:Date.now()+10_000,allies,enemies,
-   history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
+   woundedByUnit:{},history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
 }
 function battleOpen(s){s.battle=makeBattle(s,s.march.target,1,s.march.targetKind);s.march=null;s.battleAuto=false;s.battleOrder='attack';note(s,`Đụng độ tại ${s.battle.name}. Chọn đội quân và ra lệnh.`)}
 function upgradeSaveV02(old){
@@ -306,7 +306,7 @@ function moveBattleStack(b,actor,destination){
 // SRC23 describes an auto target judged highest in military power; SRC24 says melee prefers the threatening stack in closest range while ranged attacks the strongest stack. The original score is missing; ATK×living-count is our explicit model.
 function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
- if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
+ if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;if(s.battle?.woundedByUnit)s.battle.woundedByUnit[unitId]=(s.battle.woundedByUnit[unitId]||0)+count;}}
 function advance(a,target,battle){
  // Find a legal route to attack range, rather than stepping through a living
  // stack. Axis preference preserves unobstructed movement; BFS finds detours.

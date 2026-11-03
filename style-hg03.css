@@ -58,3 +58,15 @@ button{transition:filter .12s,transform .09s;touch-action:manipulation}button:ac
 @media(max-width:700px){.target-information.has-building-art{grid-template-columns:minmax(118px,38%) minmax(0,1fr);gap:8px}.building-art-preview{min-height:144px;padding:4px}.building-art-preview img{height:118px}.building-art-preview figcaption{font-size:10px}.scene-bottom h2{font-size:19px}}
 
 
+
+/* Persisted tactical results, with horizontal table scrolling on narrow screens. */
+.battle-report{border:1px solid #637d7c;border-radius:8px;margin:14px 0;padding:14px;background:#172e35}
+.battle-report summary{cursor:pointer;line-height:1.6;color:#edce91}
+#main{min-width:0}
+.battle-report-table{width:100%;max-width:100%;overflow-x:auto}
+.battle-report table{border-collapse:collapse;width:100%;min-width:420px}
+.battle-report th,.battle-report td{text-align:right;padding:10px;border-bottom:1px solid #49636b}
+.battle-report th:first-child,.battle-report td:first-child{text-align:left}
+.report-rewards{padding:12px;background:#223e43;border-radius:6px;line-height:1.8}
+
+.report-scroll-hint{display:none}@media(max-width:600px){.report-scroll-hint{display:block}}

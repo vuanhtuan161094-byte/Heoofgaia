@@ -933,6 +933,39 @@ test('HG09 enemy melee detours around allies while dead stack cells remain trave
  const f=collisionFixture();f.b.allies[1].pool=0;f.b.allies[1].count=0;E.battleAct(f.s,'advance');assert.equal(f.b.allies[0].x,2);assert.equal(f.b.allies[0].y,1);assert(E.strictSave(f.s));
 });
 
+function reportFixture(){
+ const s=state();s.army.human_1=10;E.setFormation(s,[{unitId:'human_1',count:5},{unitId:'human_1',count:5}]);
+ const b=E.makeBattle(s,E.NPC_CAMPS_2009.find(t=>t.stars===1).key);s.battle=b;
+ for(const a of b.allies)Object.assign(a,{range:20,atk:0,hp:1,pool:5,spd:10});
+ b.enemies=b.enemies.slice(0,1);Object.assign(b.enemies[0],{range:20,count:1,initial:1,hp:1000000,pool:1000000,atk:10000,spd:1});return {s,b};
+}
+test('HG09 persistent report aggregates duplicate stacks, actual wounded and capped rewards once',()=>{
+ const {s,b}=reportFixture();s.res.gold=E.limits(s).gold;E.battleAct(s,'defend');assert.equal(s.battleReports.length,0);assert.equal(s.wounded.human_1,3);
+ b.selected='p1';b.allies[1].atk=10000000;const out=E.battleAct(s,'attack'),r=s.battleReports[0];
+ assert.equal(out.reportId,r.id);assert.equal(r.outcome,'win');assert.equal(r.allies.length,1);assert.equal(r.allies[0].initial,10);assert.equal(r.allies[0].survived,5);assert.equal(r.allies[0].lost,5);assert.equal(r.allies[0].wounded,3);assert.equal(r.resources.gold,0);assert(r.heroXp>0);assert.equal(r.fame,10);assert(E.strictSave(s));
+ const saved=E.serializeSave(s),loaded=E.parseSave(saved);assert.equal(JSON.stringify(loaded.battleReports),JSON.stringify(s.battleReports));throws(()=>E.battleAct(s,'attack'),/Không có trận/);assert.equal(s.battleReports.length,1);
+});
+test('HG09 defeat and timeout reports retain truthful surviving armies and no victory rewards',()=>{
+ for(const outcome of ['lose','timeout']){const {s,b}=reportFixture();if(outcome==='lose'){for(const a of b.allies)Object.assign(a,{pool:0,count:0});s.army.human_1=0}else b.turn=70;
+ E.battleAct(s,'defend');const r=s.battleReports[0];assert.equal(r.outcome,outcome);assert.equal(r.fame,0);assert.equal(r.heroXp,0);assert(Object.values(r.resources).every(n=>n===0));assert(E.strictSave(s));}
+});
+test('HG09 legacy v07 reports migrate empty and unknown mid-battle wounded remain unknown',()=>{
+ const {s,b}=reportFixture();delete s.battleReports;delete b.woundedByUnit;let loaded=E.parseSave(JSON.stringify(s));assert.equal(loaded.battleReports.length,0);loaded.battle.enemies[0].pool=1;loaded.battle.allies[0].atk=10000000;E.battleAct(loaded,'attack');assert.equal(loaded.battleReports[0].allies[0].wounded,null);assert(E.strictSave(loaded));
+});
+test('HG09 report history caps at thirty and rejects corrupt or duplicate saved receipts',()=>{
+ const {s,b}=reportFixture();b.enemies[0].pool=1;b.allies[0].atk=10000000;E.battleAct(s,'attack');const r=s.battleReports[0];
+ s.battleReports=Array.from({length:30},(_,i)=>({...JSON.parse(JSON.stringify(r)),id:`battle-${i+100}`}));s.serial=200;s.battle=E.makeBattle(s,E.NPC_CAMPS_2009.find(t=>t.stars===1).key);s.battle.enemies.forEach(e=>{e.pool=1});s.battle.allies.forEach(a=>{a.atk=10000000;a.range=20});for(let i=0;i<5&&s.battle;i++)E.battleAct(s,'attack');assert.equal(s.battleReports.length,30);assert.equal(s.battleReports[0].id,'battle-200');
+ for(const corrupt of [x=>x.battleReports[0].allies[0].wounded=-1,x=>x.battleReports[0].resources.gold=-1,x=>x.battleReports[0].items=[{uid:1,itemId:'nonexistent',name:'Invalid'}],x=>x.battleReports[1].id=x.battleReports[0].id]){const bad=JSON.parse(JSON.stringify(s));corrupt(bad);assert.throws(()=>E.parseSave(JSON.stringify(bad)),/không hợp lệ/)}
+});
+
+test('HG09 expedition victory report keeps the originating hero and return snapshot after arrival',()=>{
+ const s=state(),target=E.NPC_CAMPS_2009.find(t=>t.stars===1);E.startMarch(s,target.key);E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
+ s.battle.allies.forEach(a=>{a.atk=10000000;a.range=20});s.battle.enemies.forEach(e=>{e.pool=1});for(let i=0;i<10&&s.battle;i++)E.battleAct(s,'attack');
+ const r=JSON.stringify(s.battleReports[0]);assert.equal(s.battleReports[0].heroId,1);assert.equal(s.battleReports[0].homeCityId,'main');assert.equal(s.battleReports[0].disposition,'returning');assert.equal(s.march.phase,'return');assert.equal(s.battleReports[0].items.length,1);assert(s.inventory.some(i=>i.uid===s.battleReports[0].items[0].uid));
+ E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);assert.equal(s.march,null);assert.equal(JSON.stringify(s.battleReports[0]),r);assert.equal(E.parseSave(E.serializeSave(s)).battleReports.length,1);
+ const corrupt=state();corrupt.battle=E.makeBattle(corrupt,target.key);corrupt.battle.woundedByUnit={human_1:999};assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/không hợp lệ/);
+});
+
 const hg10=results.filter(x=>/^HG10 /.test(x.name));
 const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical|SRC45\/SRC46\/SRC47|SRC46)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});

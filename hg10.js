@@ -54,6 +54,9 @@ function storeCurrent(s){const c=s.cities?.find(x=>x.id===s.activeCityId);if(c)c
 function applyCity(s,c){for(const k of CITY_FIELDS)s[k]=clone(c.local[k]);s.activeCityId=c.id;s.activeCastleKey=c.key}
 function ensure(s){
  E.ensure08(s);
+ if(s.battleReports===undefined)s.battleReports=[];
+ if(!Array.isArray(s.battleReports))throw Error('Lịch sử chiến báo không hợp lệ.');
+ for(const r of s.battleReports)if(r&&typeof r==='object'&&r.items===undefined)r.items=null;
  if(s.worldVisits===undefined)s.worldVisits={};
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits))throw Error('Dữ liệu thăm công trình thế giới không hợp lệ.');
  if(s.heroBuffs===undefined)s.heroBuffs=[];
@@ -169,7 +172,9 @@ function startMarch(s,key,targetKind){
 }
 function battleAct(s,action,options){
  ensure(s);const tile=s.battle&&E.getTile(s.battle.target),homeCityId=s.expedition?.homeCityId||s.activeCityId;
+ const battle=s.battle,beforeResources={...s.res},beforeFame=s.fame,beforeItems=new Set(s.inventory.map(i=>i.uid));
  const hero=s.heroes.find(h=>h.id===(s.expedition?.heroId||s.activeHero)),old=hero?{atk:hero.atk,def:hero.def}:null;
+ const beforeXp=hero?reportHeroXp(hero):0;
  if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='atk'&&q.remaining>0))hero.atk*=1.1;
  if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='def'&&q.remaining>0))hero.def*=1.1;
  let result;try{result=prior.battleAct(s,action,options)}finally{if(hero&&old)Object.assign(hero,old)}
@@ -178,7 +183,28 @@ function battleAct(s,action,options){
   const mine=s.mines.find(m=>m.key===tile.key);if(mine)mine.cityId=homeCityId||'main';
  }
  syncChina2009TaskBoard(s,s.lastTick);
+ if(battle&&['win','lose','timeout','retreat'].includes(result?.type)){
+  const groups=new Map();for(const u of battle.allies){const row=groups.get(u.unitId)||{unitId:u.unitId,name:u.name,initial:0,survived:0};row.initial+=u.initial;row.survived+=u.count;groups.set(u.unitId,row)}
+  const allies=[...groups.values()].map(row=>({...row,lost:row.initial-row.survived,wounded:battle.woundedByUnit===undefined?null:(battle.woundedByUnit[row.unitId]||0)}));
+  let reportId;do{reportId=`battle-${s.serial++}`}while(s.battleReports.some(r=>r.id===reportId));
+  const report={id:reportId,outcome:result.type,target:battle.target,name:String(battle.kind==='mine'?'Mỏ '+E.C.resource[tile.value].label:battle.name||tile?.value||battle.target),kind:battle.kind,turns:battle.turn-1,completedAt:s.lastTick,homeCityId,heroId:hero?.id||s.activeHero,heroName:hero?.name||'Tướng',heroXp:hero?Math.max(0,reportHeroXp(hero)-beforeXp):0,fame:Math.max(0,s.fame-beforeFame),resources:Object.fromEntries(E.C.keys.map(k=>[k,Math.max(0,s.res[k]-beforeResources[k])])),items:s.inventory.filter(i=>!beforeItems.has(i.uid)).map(i=>({uid:i.uid,itemId:i.itemId,name:E.ITEMS[i.itemId].name})),allies,enemies:battle.enemies.map(u=>({name:u.name,initial:u.initial,survived:u.count,lost:u.initial-u.count})),disposition:s.stationedHeroes.some(g=>g.heroId===hero?.id&&g.key===battle.target)?'stationed':s.march?.heroId===hero?.id&&s.march.phase==='return'?'returning':'home'};
+  s.battleReports.unshift(report);s.battleReports=s.battleReports.slice(0,30);result.reportId=report.id;
+ }
  storeCurrent(s);return result;
+}
+function reportHeroXp(hero){let total=hero.xp;for(let level=1;level<hero.level;level++)total+=E.experienceToNext(level);return total}
+function validBattleReports(s){
+ if(!Array.isArray(s.battleReports)||s.battleReports.length>30)return false;
+ const nonnegative=n=>Number.isFinite(n)&&n>=0&&n<=1e12,integer=n=>Number.isSafeInteger(n)&&n>=0&&n<=1e12,text=(v,max)=>typeof v==='string'&&v.length>0&&v.length<=max;
+ const ids=new Set();for(const r of s.battleReports){
+  if(!r||!text(r.id,48)||!/^battle-[1-9]\d*$/.test(r.id)||ids.has(r.id)||!['win','lose','timeout','retreat'].includes(r.outcome)||!E.getTile(r.target)||!text(r.name,120)||!['npc','mine','castle','treasure'].includes(r.kind)||!integer(r.turns)||r.turns<1||r.turns>71||!Number.isFinite(r.completedAt)||r.completedAt<0||r.completedAt>1e15||!s.cities.some(c=>c.id===r.homeCityId)||!s.heroes.some(h=>h.id===r.heroId)||!text(r.heroName,120)||!nonnegative(r.heroXp)||!nonnegative(r.fame)||!['home','returning','stationed'].includes(r.disposition)||!r.resources||E.C.keys.some(k=>!nonnegative(r.resources[k]))||!Array.isArray(r.allies)||r.allies.length>7||!Array.isArray(r.enemies)||r.enemies.length>20)return false;
+  if(r.items!==null&&(!Array.isArray(r.items)||r.items.length>100||new Set(r.items.map(i=>i?.uid)).size!==r.items.length||r.items.some(i=>!i||!integer(i.uid)||!E.ITEMS[i.itemId]||!text(i.name,120))))return false;
+  for(const row of [...r.allies,...r.enemies])if(!row||!text(row.name,120)||![row.initial,row.survived,row.lost].every(integer)||row.initial!==row.survived+row.lost)return false;
+  for(const row of r.allies)if(!Object.values(E.C.units).flat().some(u=>u.id===row.unitId)||(row.wounded!==null&&(!integer(row.wounded)||row.wounded>row.lost)))return false;
+  ids.add(r.id);
+ }
+ const ledger=s.battle?.woundedByUnit;if(ledger!==undefined&&(!ledger||typeof ledger!=='object'||Array.isArray(ledger)||Object.entries(ledger).some(([id,n])=>!Object.values(E.C.units).flat().some(u=>u.id===id)||(!integer(n)||n>(s.battle.allies||[]).filter(u=>u.unitId===id).reduce((total,u)=>total+u.initial-u.count,0)))))return false;
+ return true;
 }
 function tickOtherCity(s,city,from,now){
  const activeId=s.activeCityId,activeData=currentLocal(s),globals={};
@@ -200,6 +226,7 @@ function tick(s,now=Date.now()){
 }
 function strict(s){
  if(!s||s.version!==7||!prior.strict(s))return false;
+ if(!validBattleReports(s))return false;
  if(!['international','china2009'].includes(s.spellEdition))return false;
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits)||!Array.isArray(s.heroBuffs))return false;
  const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));

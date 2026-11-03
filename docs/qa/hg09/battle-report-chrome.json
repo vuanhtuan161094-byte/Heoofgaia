@@ -1,0 +1,116 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg09-reports-chrome.py",
+  "inputHtml": "Play-Heoofgaia-HG11.html",
+  "inputHtmlSha256": "48FF9F759D96D9B74C98A385FAFE93724B3A81EAB5B00B14D6A9E22F13521A0E",
+  "total": 12,
+  "passed": 12,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Fresh offline game has a real empty report history",
+      "passed": true
+    },
+    {
+      "name": "Actual map pointer, March and travel open the starter mine encounter",
+      "passed": true
+    },
+    {
+      "name": "Real starter troops naturally win and station at the mine",
+      "passed": true
+    },
+    {
+      "name": "Exactly one final report describes the victory and garrison",
+      "passed": true
+    },
+    {
+      "name": "Report survivors and Arena wounded match the actual army ledger",
+      "passed": true
+    },
+    {
+      "name": "Mine report records actual Fame and hero XP without invented resource loot",
+      "passed": true
+    },
+    {
+      "name": "Report UI renders the real receipt, troop tables and award totals",
+      "passed": true
+    },
+    {
+      "name": "Gear receipt and UI match the actual empty first-mine drop",
+      "passed": true
+    },
+    {
+      "name": "Actual browser v07 Save/Reload preserves the complete report",
+      "passed": true
+    },
+    {
+      "name": "Repeated review never duplicates the report, reward or mine",
+      "passed": true
+    },
+    {
+      "name": "390px report stays readable without horizontal page overflow",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript page errors",
+      "passed": true
+    }
+  ],
+  "fixtureDisclosure": "Normal file:// Human start, unchanged 16 starter troops. Actual minimap pointer selects mine 6,3, actual March and Attack controls produce natural victory. Only travel is advanced through the real engine tick. No resources, troop counts, positions, casualty, victory or report values are seeded. Browser Save/Reload and repeated real report navigation verify persistence and no second settlement.",
+  "report": {
+    "id": "battle-1",
+    "outcome": "win",
+    "target": "6,3",
+    "name": "Mỏ Gỗ",
+    "kind": "mine",
+    "turns": 15,
+    "completedAt": 1793676907569.3333,
+    "homeCityId": "main",
+    "heroId": 1,
+    "heroName": "Aldric",
+    "heroXp": 30.3,
+    "fame": 10,
+    "resources": {
+      "gold": 0,
+      "wood": 0,
+      "ore": 0,
+      "sulfur": 0,
+      "crystal": 0
+    },
+    "items": [],
+    "allies": [
+      {
+        "unitId": "human_1",
+        "name": "Spear Militia",
+        "initial": 16,
+        "survived": 5,
+        "lost": 11,
+        "wounded": 8
+      }
+    ],
+    "enemies": [
+      {
+        "name": "Dã thú",
+        "initial": 5,
+        "survived": 0,
+        "lost": 5
+      },
+      {
+        "name": "Cung thủ cướp",
+        "initial": 3,
+        "survived": 0,
+        "lost": 3
+      }
+    ],
+    "disposition": "stationed"
+  },
+  "screenshots": [
+    {
+      "path": "docs/evidence/hg09/mine-battle-report-chrome.png",
+      "sha256": "27C94557EBCFE2557258D01A5869471652F2454BF98ABB266AFC039297D6C89C"
+    },
+    {
+      "path": "docs/evidence/hg09/mine-battle-report-mobile-chrome.png",
+      "sha256": "91C9AD60DE2A1D503193AEA28DF665683A001D133EB8B0AA1FF0960E4C9432B0"
+    }
+  ]
+}

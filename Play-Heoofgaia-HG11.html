@@ -62,6 +62,20 @@ button{transition:filter .12s,transform .09s;touch-action:manipulation}button:ac
 .building-art-preview img{display:block;width:100%;height:148px;object-fit:contain;image-rendering:auto}
 .building-art-preview figcaption{font:600 11px Georgia,serif;color:#edce91;text-align:center}
 @media(max-width:700px){.target-information.has-building-art{grid-template-columns:minmax(118px,38%) minmax(0,1fr);gap:8px}.building-art-preview{min-height:144px;padding:4px}.building-art-preview img{height:118px}.building-art-preview figcaption{font-size:10px}.scene-bottom h2{font-size:19px}}
+
+
+
+/* Persisted tactical results, with horizontal table scrolling on narrow screens. */
+.battle-report{border:1px solid #637d7c;border-radius:8px;margin:14px 0;padding:14px;background:#172e35}
+.battle-report summary{cursor:pointer;line-height:1.6;color:#edce91}
+#main{min-width:0}
+.battle-report-table{width:100%;max-width:100%;overflow-x:auto}
+.battle-report table{border-collapse:collapse;width:100%;min-width:420px}
+.battle-report th,.battle-report td{text-align:right;padding:10px;border-bottom:1px solid #49636b}
+.battle-report th:first-child,.battle-report td:first-child{text-align:left}
+.report-rewards{padding:12px;background:#223e43;border-radius:6px;line-height:1.8}
+
+.report-scroll-hint{display:none}@media(max-width:600px){.report-scroll-hint{display:block}}
 </style></head><body>
 <div id="app">
 <header class="top"><div class="masthead"><span class="crest">⚜</span><div><div class="brand">ANH HÙNG THỜI LOẠN</div><small>HEROES OF GAIA • HOG1 • HG-11</small></div></div><div id="resources" class="resources"></div></header>
@@ -410,7 +424,7 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  for(const e of enemies){e.pool=Math.max(1,Math.ceil(e.pool*remainingRatio));e.count=Math.ceil(e.pool/e.hp)}
  return {target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(isTreasure?{treasureCamp:{...camp}}:{}),
    turn:1,order:'attack',orders:{},focused:null,selected:allies[0]?.id||null,autoUntil:Date.now()+10_000,allies,enemies,
-   history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
+   woundedByUnit:{},history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
 }
 function battleOpen(s){s.battle=makeBattle(s,s.march.target,1,s.march.targetKind);s.march=null;s.battleAuto=false;s.battleOrder='attack';note(s,`Đụng độ tại ${s.battle.name}. Chọn đội quân và ra lệnh.`)}
 function upgradeSaveV02(old){
@@ -474,7 +488,7 @@ function moveBattleStack(b,actor,destination){
 // SRC23 describes an auto target judged highest in military power; SRC24 says melee prefers the threatening stack in closest range while ranged attacks the strongest stack. The original score is missing; ATK×living-count is our explicit model.
 function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
- if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;}}
+ if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;if(s.battle?.woundedByUnit)s.battle.woundedByUnit[unitId]=(s.battle.woundedByUnit[unitId]||0)+count;}}
 function advance(a,target,battle){
  // Find a legal route to attack range, rather than stepping through a living
  // stack. Axis preference preserves unobstructed movement; BFS finds detours.
@@ -1488,6 +1502,9 @@ function storeCurrent(s){const c=s.cities?.find(x=>x.id===s.activeCityId);if(c)c
 function applyCity(s,c){for(const k of CITY_FIELDS)s[k]=clone(c.local[k]);s.activeCityId=c.id;s.activeCastleKey=c.key}
 function ensure(s){
  E.ensure08(s);
+ if(s.battleReports===undefined)s.battleReports=[];
+ if(!Array.isArray(s.battleReports))throw Error('Lịch sử chiến báo không hợp lệ.');
+ for(const r of s.battleReports)if(r&&typeof r==='object'&&r.items===undefined)r.items=null;
  if(s.worldVisits===undefined)s.worldVisits={};
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits))throw Error('Dữ liệu thăm công trình thế giới không hợp lệ.');
  if(s.heroBuffs===undefined)s.heroBuffs=[];
@@ -1603,7 +1620,9 @@ function startMarch(s,key,targetKind){
 }
 function battleAct(s,action,options){
  ensure(s);const tile=s.battle&&E.getTile(s.battle.target),homeCityId=s.expedition?.homeCityId||s.activeCityId;
+ const battle=s.battle,beforeResources={...s.res},beforeFame=s.fame,beforeItems=new Set(s.inventory.map(i=>i.uid));
  const hero=s.heroes.find(h=>h.id===(s.expedition?.heroId||s.activeHero)),old=hero?{atk:hero.atk,def:hero.def}:null;
+ const beforeXp=hero?reportHeroXp(hero):0;
  if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='atk'&&q.remaining>0))hero.atk*=1.1;
  if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='def'&&q.remaining>0))hero.def*=1.1;
  let result;try{result=prior.battleAct(s,action,options)}finally{if(hero&&old)Object.assign(hero,old)}
@@ -1612,7 +1631,28 @@ function battleAct(s,action,options){
   const mine=s.mines.find(m=>m.key===tile.key);if(mine)mine.cityId=homeCityId||'main';
  }
  syncChina2009TaskBoard(s,s.lastTick);
+ if(battle&&['win','lose','timeout','retreat'].includes(result?.type)){
+  const groups=new Map();for(const u of battle.allies){const row=groups.get(u.unitId)||{unitId:u.unitId,name:u.name,initial:0,survived:0};row.initial+=u.initial;row.survived+=u.count;groups.set(u.unitId,row)}
+  const allies=[...groups.values()].map(row=>({...row,lost:row.initial-row.survived,wounded:battle.woundedByUnit===undefined?null:(battle.woundedByUnit[row.unitId]||0)}));
+  let reportId;do{reportId=`battle-${s.serial++}`}while(s.battleReports.some(r=>r.id===reportId));
+  const report={id:reportId,outcome:result.type,target:battle.target,name:String(battle.kind==='mine'?'Mỏ '+E.C.resource[tile.value].label:battle.name||tile?.value||battle.target),kind:battle.kind,turns:battle.turn-1,completedAt:s.lastTick,homeCityId,heroId:hero?.id||s.activeHero,heroName:hero?.name||'Tướng',heroXp:hero?Math.max(0,reportHeroXp(hero)-beforeXp):0,fame:Math.max(0,s.fame-beforeFame),resources:Object.fromEntries(E.C.keys.map(k=>[k,Math.max(0,s.res[k]-beforeResources[k])])),items:s.inventory.filter(i=>!beforeItems.has(i.uid)).map(i=>({uid:i.uid,itemId:i.itemId,name:E.ITEMS[i.itemId].name})),allies,enemies:battle.enemies.map(u=>({name:u.name,initial:u.initial,survived:u.count,lost:u.initial-u.count})),disposition:s.stationedHeroes.some(g=>g.heroId===hero?.id&&g.key===battle.target)?'stationed':s.march?.heroId===hero?.id&&s.march.phase==='return'?'returning':'home'};
+  s.battleReports.unshift(report);s.battleReports=s.battleReports.slice(0,30);result.reportId=report.id;
+ }
  storeCurrent(s);return result;
+}
+function reportHeroXp(hero){let total=hero.xp;for(let level=1;level<hero.level;level++)total+=E.experienceToNext(level);return total}
+function validBattleReports(s){
+ if(!Array.isArray(s.battleReports)||s.battleReports.length>30)return false;
+ const nonnegative=n=>Number.isFinite(n)&&n>=0&&n<=1e12,integer=n=>Number.isSafeInteger(n)&&n>=0&&n<=1e12,text=(v,max)=>typeof v==='string'&&v.length>0&&v.length<=max;
+ const ids=new Set();for(const r of s.battleReports){
+  if(!r||!text(r.id,48)||!/^battle-[1-9]\d*$/.test(r.id)||ids.has(r.id)||!['win','lose','timeout','retreat'].includes(r.outcome)||!E.getTile(r.target)||!text(r.name,120)||!['npc','mine','castle','treasure'].includes(r.kind)||!integer(r.turns)||r.turns<1||r.turns>71||!Number.isFinite(r.completedAt)||r.completedAt<0||r.completedAt>1e15||!s.cities.some(c=>c.id===r.homeCityId)||!s.heroes.some(h=>h.id===r.heroId)||!text(r.heroName,120)||!nonnegative(r.heroXp)||!nonnegative(r.fame)||!['home','returning','stationed'].includes(r.disposition)||!r.resources||E.C.keys.some(k=>!nonnegative(r.resources[k]))||!Array.isArray(r.allies)||r.allies.length>7||!Array.isArray(r.enemies)||r.enemies.length>20)return false;
+  if(r.items!==null&&(!Array.isArray(r.items)||r.items.length>100||new Set(r.items.map(i=>i?.uid)).size!==r.items.length||r.items.some(i=>!i||!integer(i.uid)||!E.ITEMS[i.itemId]||!text(i.name,120))))return false;
+  for(const row of [...r.allies,...r.enemies])if(!row||!text(row.name,120)||![row.initial,row.survived,row.lost].every(integer)||row.initial!==row.survived+row.lost)return false;
+  for(const row of r.allies)if(!Object.values(E.C.units).flat().some(u=>u.id===row.unitId)||(row.wounded!==null&&(!integer(row.wounded)||row.wounded>row.lost)))return false;
+  ids.add(r.id);
+ }
+ const ledger=s.battle?.woundedByUnit;if(ledger!==undefined&&(!ledger||typeof ledger!=='object'||Array.isArray(ledger)||Object.entries(ledger).some(([id,n])=>!Object.values(E.C.units).flat().some(u=>u.id===id)||(!integer(n)||n>(s.battle.allies||[]).filter(u=>u.unitId===id).reduce((total,u)=>total+u.initial-u.count,0)))))return false;
+ return true;
 }
 function tickOtherCity(s,city,from,now){
  const activeId=s.activeCityId,activeData=currentLocal(s),globals={};
@@ -1634,6 +1674,7 @@ function tick(s,now=Date.now()){
 }
 function strict(s){
  if(!s||s.version!==7||!prior.strict(s))return false;
+ if(!validBattleReports(s))return false;
  if(!['international','china2009'].includes(s.spellEdition))return false;
  if(!s.worldVisits||typeof s.worldVisits!=='object'||Array.isArray(s.worldVisits)||!Array.isArray(s.heroBuffs))return false;
  const china=s.china2009DailyTaskState,chinaIds=new Set(CHINA_2009_DAILY_TASKS.map(t=>t.id));
@@ -2029,7 +2070,7 @@ root.HOG_PAINTER={drawWorld,drawCity,drawBattle,mapHit,mapCamera,panMap,zoomMap,
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
 const $=id=>document.getElementById(id);let state=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null;
-const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['tasks','📜 Nhiệm vụ'],['sources','📚 Tư liệu']];
+const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['tasks','📜 Nhiệm vụ'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
 const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=900;
@@ -2062,6 +2103,7 @@ function renderIntro(){
 function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.map(k=>`<div class="resource">${C.resource[k].emoji} ${C.resource[k].label}<b>${format(state.res[k])}</b><small class="muted">/${format(lim[k])} · +${format(E.rate(state)[k])}/h</small></div>`).join('');
  $('nav').innerHTML=tabs.map(([id,name])=>`<button data-action="tab" data-tab="${id}" class="${tab===id?'active':''}">${name}</button>`).join('');
  const earning=E.rate(state);$('status').innerHTML=`<div class="vitals">${flags()}</div><div class="muted tiny">${C.races[state.race].emoji} ${C.races[state.race].name} · ${state.heroes.length} tướng · ${E.activeArmy(state).reduce((n,u)=>n+state.army[u.id],0)} lính</div><div class="hr"></div><div class="hint">Sản lượng / giờ game:</div><div class="tiny">${C.keys.map(k=>`${C.resource[k].emoji} +${format(earning[k])}`).join(' · ')}</div><div class="hr"></div><div class="hint"><b>🏗 Xây dựng:</b> ${state.buildingQueue?esc(C.buildings[state.buildingQueue.key].name)+' Lv.'+state.buildingQueue.level+' · '+Math.ceil(state.buildingQueue.remaining/state.speed)+'s thực':'Trống'}</div><div class="hr"></div><div class="hint">Hàng đợi: ${state.training.length?esc(E.getUnit(state,state.training[0].unitId).name)+' ('+format(state.training[0].remaining)+'s game)':'Trống'}</div>${state.march?`<p class="notice">🚩 Hành quân: ${Math.ceil(state.march.remaining)}s game</p>`:''}`;
+ if(state.battleReports?.length)$('status').innerHTML+=`<div class="hr"></div>${button('tab',{tab:'reports'},'⚔ Xem chiến báo gần nhất',false,'secondary')}`;
  $('logs').innerHTML=state.log.map(t=>`<div>• ${esc(t)}</div>`).join('');$('speed').textContent=`⏱ ×${state.speed}`;
 }
 function cityTransportView(){
@@ -2073,6 +2115,11 @@ function cityTransportForm(target){
  const units=E.arrUnits(state).filter(u=>(state.army[u.id]||0)>0),busy=!!state.march||!!state.battle||!!state.expedition||!!state.parallelMarches?.length;
  const unitOptions=units.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(state.army[u.id])} sẵn có · tải ${u.load}</option>`).join('');
  return `<section class="card city-transport"><div class="heading">🚚 Gửi tiếp tế tới ${esc(target.name)}</div><p class="hint">Hướng dẫn Trung Quốc 2009 SRC59 xác nhận phải điều quân chở tài nguyên, tính sức tải, và mỗi chuyến tốn 20 AP. Tải dùng bảng quân: 1 điểm tải = 10 vàng tương đương; Gỗ/Quặng ×5, Lưu huỳnh/Pha lê ×10. ETA, tự giao khi kho đủ chỗ và đường về là mô hình của bản dựng.</p>${units.length?`<div class="grid grid2"><label>Quân vận chuyển<select id="city-transport-unit">${unitOptions}</select></label><label>Số quân<input id="city-transport-count" type="number" min="1" step="1" value="1"></label></div><div class="grid grid3">${C.keys.map(k=>`<label>${C.resource[k].emoji} ${C.resource[k].label}<input id="city-transport-${k}" type="number" min="0" step="1" value="0"></label>`).join('')}</div><div class="actions">${button('city-transport',{city:target.id},'🚚 Gửi đoàn tiếp tế · 20 AP',busy||state.ap<20||state.cityTransports.length>=20,'primary')}</div>`:`<p class="notice">Thành đang mở không có quân sẵn để làm đoàn vận chuyển.</p>`}<p class="tiny muted">Quân và tài nguyên rời kho ngay khi xuất phát. Nếu kho đích chưa đủ chỗ cho toàn bộ hàng, đoàn sẽ chờ tại nơi nhận mà không làm mất hàng.</p></section>`;
+}
+function battleReportsView(){
+ const outcomes={win:'Chiến thắng',lose:'Thất bại',timeout:'Hết thời gian',retreat:'Rút lui'},locations={stationed:'Đóng quân tại mục tiêu',returning:'Lên đường quay về thành',home:'Ở thành'};
+ const table=(rows,allied)=>`<p class="report-scroll-hint hint">Vuốt ngang bảng để xem đủ số quân và thương binh.</p><div class="battle-report-table"><table><thead><tr><th>Đội quân</th><th>Xuất trận</th><th>Còn sống</th><th>Tổn thất</th>${allied?'<th>Tử trận</th><th>Vào Arena</th>':''}</tr></thead><tbody>${rows.map(u=>`<tr><td>${esc(u.name)}</td><td>${format(u.initial)}</td><td>${format(u.survived)}</td><td>${format(u.lost)}</td>${allied?`<td>${u.wounded===null?'Chưa đủ dữ liệu':format(u.lost-u.wounded)}</td><td>${u.wounded===null?'Chưa đủ dữ liệu':format(u.wounded)}</td>`:''}</tr>`).join('')}</tbody></table></div>`;
+ return `<section class="card"><span class="eyebrow">LỊCH SỬ GIAO TRANH</span><h1>Chiến báo</h1><p>Lưu tối đa 30 trận gần nhất trong bản lưu v07. Phần thưởng hiển thị là lượng thực nhận sau giới hạn kho; xem chiến báo không nhận lại thưởng.</p>${!state.battleReports?.length?'<p class="notice">Chưa có trận đã kết thúc. Hãy dẫn quân ra bản đồ và hoàn tất một trận đánh.</p>':state.battleReports.map((r,i)=>`<details class="battle-report" data-report-id="${esc(r.id)}" ${i===0?'open':''}><summary><b>${outcomes[r.outcome]}</b> · ${esc(r.name)} (${esc(r.target)}) · ${esc(r.heroName)} · ${r.turns} lượt</summary><p>Thành xuất quân: ${esc(state.cities.find(c=>c.id===r.homeCityId)?.name||r.homeCityId)} · Sau trận: ${locations[r.disposition]}</p><h3>Quân ta</h3>${table(r.allies,true)}<h3>Quân địch</h3>${table(r.enemies,false)}<p><b>Trang bị:</b> ${r.items===null?'Chưa đủ dữ liệu':r.items.map(i=>esc(i.name)).join(', ')||'Không nhận trang bị'}</p><p class="report-rewards"><b>Thực nhận:</b> ${money(r.resources)||'Không có tài nguyên'} · +${r.heroXp.toLocaleString('vi-VN',{maximumFractionDigits:6})} EXP tướng · +${format(r.fame)} danh vọng</p><p class="hint">Thương binh là số đã ghi vào Arena trong trận. Trận từ save cũ thiếu sổ thương binh sẽ ghi chưa đủ dữ liệu. Công thức giao tranh và phần thưởng vẫn theo mô hình được công bố trong Tư liệu.</p></details>`).join('')}</section>`;
 }
 function mapView(){
  const target=E.getTile(selected||E.activeCity(state).key),treasure=selectedTargetKind==='treasure'?E.getTreasureCamp(target?.key):target?.treasureCamp,treasureSelected=!!treasure&&(selectedTargetKind==='treasure'||target?.kind==='treasure'),treasureDone=!!(treasureSelected&&state.treasureCleared?.includes(target.key)),owned=target&&E.cityForKey(state,target.key),claimed=t=>state.mines.some(m=>m.key===t.key),cleared=t=>state.cleared.includes(t.key),worldDef=target?.kind==='visit'?E.WORLD_BUILDING_BY_KEY.get(target.key):null;
@@ -2211,7 +2258,7 @@ function paint(){
     if(target&&Math.hypot((target.x+.5)*cellWidth-x,grid.top+(target.y+.76)*cellHeight-y)<80)fail(()=>{markBattleInput();E.battleSelect(state,target.id)});};
  }
 }
-function render(){if(!state){renderIntro();return}if(!state.battle)movementModeId=null;renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():sourceView();$('main').innerHTML=content;paint();}
+function render(){if(!state){renderIntro();return}if(!state.battle)movementModeId=null;renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();$('main').innerHTML=content;paint();}
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;fail(()=>{
  if(action==='race'){newRace=target.dataset.race;render();return}
  if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
