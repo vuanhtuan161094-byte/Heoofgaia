@@ -50,6 +50,30 @@ with sync_playwright() as p:
         commandVisible:q.top<innerHeight-10&&q.bottom>0,grid:E.BATTLE_GRID,
         projectedCell:p.battleCellAt(c,px,py,E),scrollWidth:document.documentElement.scrollWidth};
     }""")
+    iso=page.evaluate("""() => {
+      const c=document.getElementById('battle-canvas'),E=HOG_ENGINE,P=HOG_PAINTER,
+       g=E.BATTLE_GRID,cam=P.battleProjection(c,E),ctx=c.getContext('2d');
+      const top=cam.point(0,0),right=cam.point(g.cols,0),bottom=cam.point(g.cols,g.rows),
+       left=cam.point(0,g.rows),middle=cam.point(g.cols/2,g.rows/2);
+      const color=(x,y)=>[...ctx.getImageData(Math.round(x),Math.round(y),1,1).data];
+      const units=[...HOG_APP_DEBUG.getState().battle.allies,...HOG_APP_DEBUG.getState().battle.enemies].filter(u=>u.pool>0);
+      return {ratio:cam.col.x/cam.col.y,symmetricX:cam.col.x===-cam.row.x,
+       symmetricY:cam.col.y===cam.row.y,center:(left.x+right.x)/2,
+       left,right,top,bottom,width:c.width,height:c.height,
+       allFootVisible:units.every(u=>{const p=cam.point(u.x+.5,u.y+.5);
+        return p.x>30&&p.x<c.width-30&&p.y>65&&p.y<c.height-25}),
+       allCells:Array.from({length:g.cols},(_,x)=>Array.from({length:g.rows},(_,y)=>{
+        const p=cam.point(x+.5,y+.5),v=P.battleCellAt(c,p.x,p.y,E);
+        return v?.x===x&&v?.y===y;
+       }).every(Boolean)).every(Boolean),
+       floor:color(middle.x,middle.y),outside:color(60,c.height*.55),
+       artwork:!!document.getElementById('battlefield-human-meadow')?.naturalWidth};
+    }""")
+    check("HG14.1 symmetric 2:1 isometric floor",abs(iso["ratio"]-2)<1e-7 and iso["symmetricX"] and iso["symmetricY"])
+    check("HG14.1 entire diamond is centered and within battlefield",iso["left"]["x"]>90 and iso["right"]["x"]<iso["width"]-90 and iso["top"]["y"]>65 and iso["bottom"]["y"]<iso["height"]-24 and abs(iso["center"]-iso["width"]/2)<1e-6)
+    check("HG14.1 all 108 playable cells map to diamonds",iso["allCells"])
+    check("HG14.1 real unit foot pivots remain within battlefield",iso["allFootVisible"])
+    check("HG14.1 solid isometric floor appears over meadow artwork",iso["artwork"] and iso["floor"]!=iso["outside"])
     check("Entering combat resets previous map page scroll",page.evaluate("window.scrollY")<2)
     check("Actual NPC March reaches combat",state["inBattle"])
     check("Illustrated combat troop sprites load from the offline HTML",page.evaluate("""() => ['battle-unit-human-spear','battle-unit-npc-beast','battle-unit-npc-archer','battle-unit-npc-guard'].every(id=>{const img=document.getElementById(id);return img&&img.complete&&img.naturalWidth===512&&img.naturalHeight===512})"""))
@@ -95,6 +119,12 @@ with sync_playwright() as p:
       return {width:r.width,vw:innerWidth,scrollWidth:document.documentElement.scrollWidth,sidebar:getComputedStyle(document.querySelector('.sidebar')).display,barY:bar.y};
     }""")
     check("Landscape canvas pixels preserve the rendered aspect ratio",page.evaluate("""() => {const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();return Math.abs(c.width/r.width-c.height/r.height)<.008}"""))
+    check("HG14.1 landscape projection remains symmetric and centered",page.evaluate("""() => {
+      const c=document.getElementById('battle-canvas'),E=HOG_ENGINE,cam=HOG_PAINTER.battleProjection(c,E),g=E.BATTLE_GRID,
+       left=cam.point(0,g.rows),right=cam.point(g.cols,0),bottom=cam.point(g.cols,g.rows);
+      return cam.col.x===-cam.row.x&&cam.col.y===cam.row.y&&Math.abs(cam.col.x/cam.col.y-2)<1e-7
+        &&Math.abs((left.x+right.x)/2-c.width/2)<1e-6&&bottom.y<c.height-24;
+    }"""))
     check("Landscape command bar does not overlap troop cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
     check("Landscape 960 by 540 remains wide with hidden sidebar",mobile["width"]>=mobile["vw"]*.90 and mobile["sidebar"]=="none")
     check("Landscape viewport has no horizontal overflow",mobile["scrollWidth"]<=mobile["vw"]+1)
@@ -104,7 +134,7 @@ with sync_playwright() as p:
     browser.close()
 report={"htmlSha256":hashlib.sha256(HTML.read_bytes()).hexdigest().upper(),
         "passed":sum(r["passed"] for r in results),"total":len(results),"checks":results,
-        "desktop":state,"landscape":mobile,"clickDebug":click_debug,"errors":errors,"screenshots":[str(desktop.relative_to(ROOT)),str(landscape.relative_to(ROOT))]}
+        "desktop":state,"isometric":iso,"landscape":mobile,"clickDebug":click_debug,"errors":errors,"screenshots":[str(desktop.relative_to(ROOT)),str(landscape.relative_to(ROOT))]}
 (QADIR/"fullscreen-combat-chrome.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
 print("HG09 Chrome viewport:",report["passed"],"/",report["total"],"PASS",flush=True)
 raise SystemExit(0 if report["passed"]==report["total"] else 1)
