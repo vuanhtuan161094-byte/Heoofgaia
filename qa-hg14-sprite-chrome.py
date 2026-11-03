@@ -58,7 +58,7 @@ with sync_playwright() as pw:
             const canvas=document.getElementById('battle-canvas'),context=canvas.getContext('2d');
             const original=context.drawImage,seen=[];
             context.drawImage=function(image,...args){if(image?.id)seen.push(image.id);return original.call(this,image,...args)};
-            const stateBefore=E.serializeSave(s);
+            const stateBefore=JSON.stringify(E.clone(s));
             try{
                 P.drawBattle(canvas,E,s,performance.now()+60);
                 const start=canvas.toDataURL('image/png');
@@ -66,7 +66,7 @@ with sync_playwright() as pw:
                 const end=canvas.toDataURL('image/png');
                 return {spriteDraws:seen.filter(x=>x===imageId).length,
                         changed:start!==end,
-                        stable:E.serializeSave(s)===stateBefore,
+                        stable:JSON.stringify(E.clone(s))===stateBefore,
                         pose:P.motionPose('attack',320,650),
                         hit:P.motionPose('hit',90,650),
                         death:P.motionPose('death',900,1200)};
