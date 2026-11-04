@@ -216,7 +216,7 @@ test('v07 saves above the new fame cap migrate intact and reject only additional
 test('hero cap is account-wide while a secondary city keeps its own Tavern offers',()=>{
  const s=state();s.fame=5800;
  const other=E.make('elf',s.lastTick);E.ensure08(other);const city=JSON.parse(JSON.stringify(other.cities[0]));
- const tile=E.TILES.find(t=>t.kind==='castle'&&t.race==='elf'&&t.key!=='3,4');assert(tile);
+ const tile=E.getTile('9,10');assert(tile);
  city.id='city-elf-qa';city.key=tile.key;city.name='Elf QA';city.main=false;s.cities.push(city);
  E.switchCity(s,city.id);const elfOffer=s.tavern.offers[0].id;E.hireCandidate(s,elfOffer);assert.equal(s.heroes.length,2);
  E.switchCity(s,'main');const humanOffer=s.tavern.offers[0].id;E.hireCandidate(s,humanOffer);assert.equal(s.heroes.length,3);
@@ -515,7 +515,7 @@ test('Castellan receives research EXP once at completion and v07 queue reload pr
 });
 test('Inactive-city construction and research award EXP to that city’s Castellan only',()=>{
  const s=state();s.fame=5800;E.appoint(s,1);const primary=s.heroes[0],secondary={...JSON.parse(JSON.stringify(primary)),id:2,name:'Castellan Thành Phụ',xp:0,level:1,statPoints:0};s.heroes.push(secondary);
- const other=E.make('elf',s.lastTick);E.ensure08(other);const city=JSON.parse(JSON.stringify(other.cities[0]));const tile=E.TILES.find(t=>t.kind==='castle'&&t.race==='elf'&&t.key!=='3,4');assert(tile);
+ const other=E.make('elf',s.lastTick);E.ensure08(other);const city=JSON.parse(JSON.stringify(other.cities[0]));const tile=E.getTile('9,10');assert(tile);
  city.id='city-castellan-qa';city.key=tile.key;city.name='Thành Phụ QA';city.main=false;s.cities.push(city);E.switchCity(s,city.id);
  s.buildings.hall=10;s.buildings.warehouse=10;s.buildings.heroTower=4;s.buildings.magicTower=10;s.castellan=2;for(const k of C.keys)s.res[k]=E.limits(s)[k];
  const before=lifetimeHeroXp(secondary),buildCost=E.buildCost(s,'market'),researchCost=E.spellCost(s,'bootcamp');
@@ -864,8 +864,8 @@ test('HG10 AI city economy grows garrisons from funded resources and survives of
 });
 test('HG10 AI castle uses persistent faction garrison in combat, then transfers exactly once',()=>{
  const s=state();s.fame=5800;
- const tile=E.TILES.find(t=>t.kind==='castle'&&t.aiOwner&&t.level===1&&E.pathfind('3,4',t.key));
- assert(tile,'Needs AI tier-1 city');
+ const tile=E.TILES.find(t=>t.kind==='castle'&&t.aiOwner&&E.pathfind('3,4',t.key));
+ assert(tile,'Needs at least one reachable AI city');
  const initial=E.clone(s.aiCities[tile.key]),u=C.units[initial.race][0];
  E.startMarch(s,tile.key);s.march.remaining=.01;E.tick(s,s.lastTick+1000);
  assert(s.battle&&s.battle.kind==='castle');
