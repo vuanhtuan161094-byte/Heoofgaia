@@ -65,4 +65,23 @@ chk('Reject empty wallet and corrupted Save; historical Save v07 migration works
  assert.equal(migrated.hg29.towerWins,legacy.state.hg20.tower.victories);
  return {corrupted:2,noFreeCraft:true};
 });
-console.log('HG29 '+pass+'/7 '+(process.exitCode?'FAIL':'PASS'));if(pass!==7)process.exitCode=1;
+
+chk('Fixture: real T11 Boss battle guarantees Abyss Core and strict Save',()=>{
+ let s=E.make('human',1e6),h=s.heroes[0];h.level=100;h.atk=240000;h.def=240000;h.spd=100;
+ s.army.human_10=500;s.ap=700;
+ const target=E.hg24RecommendBoss(s).filter(x=>x.eliteTier===11)[0];assert(target);
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_10',count:500}]);E.startMarch(s,target.key);
+ let ticks=0;while(s.march&&ticks++<8)E.tick(s,s.lastTick+Math.ceil((s.march.remaining+3)/s.speed*1000));
+ assert(s.battle);const {out,turns}=battleUntilWin(s);assert.equal(out.type,'win');
+ assert.equal(s.hg29.shards.abyss,1);assert.equal(s.hg29.last.source,'npc_boss');
+ s=saved(s);assert.equal(s.hg29.shards.abyss,1);assert.equal(s.hg29.history.length,1);
+ return {target:target.key,turns,bossDrop:1,fixture:'level 100 and paid T10 roster manually set'};
+});
+chk('Tower practice after five claimed wins pays no shards or HG27 tokens',()=>{
+ const s=E.make('human',1e6);s.hg20.tower.claims=5;E.autoFormation(s);
+ E.hg20ChooseTowerTeam(s,[1]);E.hg21TowerEnter(s);const {out}=battleUntilWin(s);
+ assert.equal(out.type,'win');assert.equal(out.claimed,false);assert.equal(s.hg29.shards.tower,0);
+ assert.equal(s.hg27.tower,0);assert.equal(s.hg29.history.length,0);saved(s);
+ return {towerTokens:0,paidClaims:5,practiceOnly:true};
+});
+console.log('HG29 '+pass+'/9 '+(process.exitCode?'FAIL':'PASS'));if(pass!==9)process.exitCode=1;
