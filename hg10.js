@@ -183,7 +183,9 @@ function startCityTransport(s,targetCityId,unitId,count,resources){
  for(const k of E.C.keys)if(cargo[k]>(s.res[k]||0))throw Error(`Không đủ ${E.C.resource[k].label} tại thành xuất phát.`);
  if(s.ap<20)throw Error('Mỗi chuyến vận chuyển tốn 20 AP theo hướng dẫn Trung Quốc 2009.');
  const path=E.pathfind(source.key,target.key);if(!path||path.length<2)throw Error('Không tìm được tuyến đường giữa hai thành.');
- const duration=Math.max(40,20+(path.length-1)*19);if(!Number.isSafeInteger(s.serial)||s.serial<1||s.serial>=Number.MAX_SAFE_INTEGER)throw Error('Bộ đếm save không hợp lệ.');
+ // Convoys have no Hero; use baseline Hero SPD 10 and carrier troop speed.
+ const carrierFactor=Math.max(.8,Math.min(1.10,.8+unit.spd/40));
+ const duration=E.marchDuration(10,path,carrierFactor);if(!Number.isSafeInteger(s.serial)||s.serial<1||s.serial>=Number.MAX_SAFE_INTEGER)throw Error('Bộ đếm save không hợp lệ.');
  s.army[unitId]-=n;for(const k of E.C.keys)s.res[k]-=cargo[k];s.ap-=20;
  const shipment={id:`convoy-${s.serial++}`,sourceCityId:source.id,targetCityId:target.id,fromKey:source.key,toKey:target.key,unitId,count:n,resources:cargo,weight,capacity,path:path.slice(),phase:'outbound',total:duration,remaining:duration,returnTotal:duration};
  s.cityTransports.push(shipment);E.note(s,`Đoàn ${n} ${unit.name} xuất phát tới ${target.name}, mang ${E.fmt(weight)}/${E.fmt(capacity)} sức chở vàng tương đương; -20 AP.`);return clone(shipment);
