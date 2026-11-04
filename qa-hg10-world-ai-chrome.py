@@ -48,12 +48,15 @@ try:
           const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
           const target=E.TILES.find(t=>t.kind==='castle'&&t.aiOwner&&t.level===1);
           const route=E.pathfind(s.activeCastleKey,target.key);
-          const game=E.marchDuration(E.heroStats(s,s.activeHero).spd,route);
-          return {steps:route.length-1,wall:Math.ceil(game/s.speed),game,ap:8};
+          const armyFactor=E.armyMarchFactor(s),terrain=E.pathTravelCost(route);
+          const game=E.marchDuration(E.heroStats(s,s.activeHero).spd,route,armyFactor);
+          return {steps:route.length-1,terrain,armyFactor,wall:Math.ceil(game/s.speed),game,ap:8};
         }""")
         displayed=page.locator('[aria-label="Ước tính hành quân"]').inner_text()
         check("World ETA/AP preview matches canonical path and dispatch formula",
               f"{predicted['steps']} bước" in displayed and
+              f"{predicted['terrain']} điểm địa hình" in displayed and
+              f"sức quân ×{predicted['armyFactor']:.2f}" in displayed and
               f"ETA {predicted['wall']} giây thực" in displayed and
               f"{predicted['game']} giây game" in displayed and
               f"{predicted['ap']} AP" in displayed)
