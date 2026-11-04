@@ -363,9 +363,12 @@ function strike(s,b,actor,target,order,trace){
  if(actor.pool<=0||target.pool<=0)return 0;
  if(order==='advance'){if(dist(actor,target)>actor.range)trace.path=advance(actor,target,b);return 0}
  if(dist(actor,target)>actor.range){trace.path=advance(actor,target,b);if(dist(actor,target)>actor.range)return 0;}
+ // A unit with zero attack must not inflict a fictitious minimum point.
+ // The community PvE base is ATK²/(ATK+DEF), including a valid DEF=0 target.
+ if(actor.atk<=0||actor.count<=0)return 0;
  const h=s.heroes.find(x=>x.id===s.activeHero);
  const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
- const base=actor.atk*actor.atk/(actor.atk+Math.max(1,target.def));
+ const base=actor.atk*actor.atk/(actor.atk+Math.max(0,target.def));
  const defendFactor=target.side==='player'?(1+(h?.def||0)/100):1;
  // The dated/community combat example reports 47,897 damage for an exact
  // 47,897.94 NPC calculation, so truncate the final stack result as observed.
