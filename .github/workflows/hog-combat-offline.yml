@@ -42,6 +42,8 @@ jobs:
           python -m playwright install chromium
       - name: Chrome battlefield viewport, pointer and Save/Reload acceptance
         run: python qa-hg09-combat-viewport-chrome.py
+      - name: HG10 offline world AI castle interaction and Save Reload in Chromium
+        run: python qa-hg10-world-ai-chrome.py
       - name: Verify Fandom Hero Tasks in offline Chromium
         run: python qa-hg12-hero-tasks-chrome.py
       - name: Chrome four-faction troop sprite motion and combat Save/Load
@@ -64,6 +66,8 @@ jobs:
             Build-SHA256.txt
             docs/evidence/hg09/fullscreen-combat-*.png
             docs/qa/hg09/fullscreen-combat-chrome.json
+            docs/evidence/hg10/ai-city-map-chrome.png
+            docs/qa/hg10/world-ai-chrome.json
             docs/evidence/hg12/hero-task-*.png
             docs/qa/hg12/hero-task-chrome.json
             docs/evidence/hg14/battle-*.png
