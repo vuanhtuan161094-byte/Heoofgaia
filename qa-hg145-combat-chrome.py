@@ -13,7 +13,7 @@ def check(label,passed):
  print(("PASS " if ok else "FAIL ")+label,flush=True)
 def shot(page,name):
  path=OUT/name;page.screenshot(path=str(path),full_page=False)
- screens.append(str(path.relative_to(ROOT))
+ screens.append(str(path.relative_to(ROOT)))
 with sync_playwright() as pw:
  browser=pw.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
  page=browser.new_page(viewport={"width":1280,"height":720})
