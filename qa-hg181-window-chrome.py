@@ -178,7 +178,6 @@ try:
   # command window can be checked at 3 x 2 without Tavern wait or QA gifts.
   page.evaluate("""() => {
     const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),u=s.race+'_1';
-    E.hg24SetAuto(s,1,false,false);
     const source=JSON.parse(JSON.stringify(s.heroes[0]));
     for(let i=2;i<=3;i++)s.heroes.push({...source,id:i,name:'QA Joint Hero '+i});
     E.hg20SetHeroPlan(s,1,[{unitId:u,count:2},{unitId:u,count:2}]);
