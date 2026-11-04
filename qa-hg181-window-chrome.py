@@ -133,7 +133,27 @@ try:
   })""")
   check('960x540 landscape game never scrolls main document',
     mobile['scrollH']<=mobile['h']+2 and mobile['scrollW']<=mobile['w']+2,mobile)
-  check('No uncaught runtime exceptions during modal switching',not errors,errors)
+  page.locator('[data-action="tab"][data-tab="army"]').first.click()
+  check('HG26 real browser exposes explicit OFF, Boss selector and safety limits',
+    page.locator('.game-window-body .hg26-autohunt').count()==1 and
+    page.locator('#hg26_boss option').count()>=1 and
+    page.evaluate("HOG_APP_DEBUG.getState().hg26.enabled===false"))
+  page.locator('#hg26_max_runs').fill('1')
+  page.locator('.game-window-body [data-action="hg26-start"]').click()
+  check('HG26 real click enables selected Boss policy without instantly claiming a victory',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),q=s.hg26;
+      return q.enabled===true&&q.config.maxRuns===1&&q.runs===0&&q.wins===0&&
+        HOG_ENGINE.strictSave(s);
+    }"""))
+  page.locator('[data-action="hg26-stop"]').first.click()
+  check('HG26 real stop click disables automation and preserves Save v07',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      return s.hg26.enabled===false&&s.hg26.phase==='halted'&&
+        HOG_ENGINE.strictSave(s);
+    }"""))
+    check('No uncaught runtime exceptions during modal switching',not errors,errors)
   browser.close()
 finally:
  receipt={'kind':'HG18.1 fixed-stage real Chromium UI','checks':checks,
