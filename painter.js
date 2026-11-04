@@ -299,7 +299,7 @@ function animatedArcher(c,x,y,enemy,visual,k=1){
  c.restore();return true;
 }
 function motionSprite(c,x,y,unitId,enemy,visual,k=1){
- const A=root.HOG_ART_PACK,profile=MOTION_SPRITES[unitId]||root.HOG_HG192_SPRITES?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
+ const A=root.HOG_ART_PACK,profile=MOTION_SPRITES[unitId]||root.HOG_HG192_SPRITES?.profile(unitId)||root.HOG_HG193_SPRITES?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
  if(!profile||!visual||typeof document==='undefined')return false;
  const image=profile.id?document.getElementById(profile.id):A.unitImage(unitId);
  if(!image?.complete||!image.naturalWidth)return false;
@@ -599,11 +599,11 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  for(const entry of units){
   const u=entry.u;
   const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=camera.point(position.x+.5,position.y+.5),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
-  if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual,k);else if(u.unitId==='human_3')animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k);else (root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k))}continue}
+  if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual,k);else if(u.unitId==='human_3')animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k);else (root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k))}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
-  const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual,k):u.unitId==='human_3'?(animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)):(root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k))))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+  const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual,k):u.unitId==='human_3'?(animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)):(root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k))))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
   // A unified 34px name/HP card is placed outside silhouette collision boxes.
   const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y,hpVisible=interaction.showHP!==false;
   if(plate.leader){

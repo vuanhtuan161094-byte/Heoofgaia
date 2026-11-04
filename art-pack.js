@@ -167,6 +167,7 @@ function unitHTML(id,size){
  const px=Math.max(24,Math.min(128,Number(size)||52));
  const imported=root.HOG_FREE_SPRITES?.thumb(id,px);if(imported)return imported;
  const sourceArt=root.HOG_HG192_SPRITES?.thumb(id,px);if(sourceArt)return sourceArt;
+ const finalArt=root.HOG_HG193_SPRITES?.thumb(id,px);if(finalArt)return finalArt;
  return '<img class="hog-unit-thumb" data-hog-unit="'+id+'" width="'+px+'" height="'+px+'" alt="" loading="lazy" src="'+unitSrc(id)+'">';
 }
 const ICON_GROUPS={

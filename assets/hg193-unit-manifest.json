@@ -1,0 +1,102 @@
+{
+  "schema": "HG193-sprite-map-v1",
+  "asOf": "2026-11-04",
+  "goal": "Complete 40/40 troop-specific PNG identity coverage",
+  "sourcePolicy": "4 imported sprites; 3 original raster artworks; no gameplay changes",
+  "units": [
+    {
+      "id": "human_6",
+      "name": "Monk",
+      "kind": "sheet",
+      "path": "assets/licensed/hg193/human_6.png",
+      "width": 784,
+      "height": 98,
+      "frames": 8,
+      "cell": 98,
+      "source": "SpriteCook/spritecook-free-game-assets",
+      "sourcePath": "examples/pixel-art-happy-monk/idle_sheet.png",
+      "sourceBlob": "8a9d73398c9494cf44e7807c8a3134fe605f3238",
+      "license": "CC0-1.0"
+    },
+    {
+      "id": "human_8",
+      "name": "Priest",
+      "kind": "static",
+      "path": "assets/licensed/hg193/human_8.png",
+      "width": 32,
+      "height": 32,
+      "frames": 1,
+      "source": "crawl/tiles",
+      "sourcePath": "releases/Nov-2015/mon/deep_elf_priest.png",
+      "sourceBlob": "03875c6b0682225efc9867be5243aa99bdb02b14",
+      "license": "curated CC0 export"
+    },
+    {
+      "id": "elf_4",
+      "name": "Elf Archer",
+      "kind": "static",
+      "path": "assets/licensed/hg193/elf_4.png",
+      "width": 32,
+      "height": 32,
+      "frames": 1,
+      "source": "crawl/tiles",
+      "sourcePath": "releases/Nov-2015/mon/unique/joseph.png",
+      "sourceBlob": "89731bb62f8f2287178bc27b75373fd56d4b7b61",
+      "license": "curated CC0 export",
+      "note": "Archer silhouette from humanoid tile; ears/costume are not elf-specific"
+    },
+    {
+      "id": "elf_5",
+      "name": "Pegasus Warrior",
+      "kind": "static",
+      "path": "assets/generated/hg193/elf_5.png",
+      "width": 64,
+      "height": 64,
+      "frames": 1,
+      "source": "original authored in this project",
+      "sourceBlob": "862b526dd0c2f863f627cbbced69245819897369",
+      "sha256": "b0a4274bae20ff4dd3dd8ddf8a0e6d567320d6cd6edbccd51ca583fcebf48852",
+      "license": "project-owned"
+    },
+    {
+      "id": "elf_7",
+      "name": "Unicorn",
+      "kind": "static",
+      "path": "assets/generated/hg193/elf_7.png",
+      "width": 64,
+      "height": 64,
+      "frames": 1,
+      "source": "original authored in this project",
+      "sourceBlob": "79934a984029b556a4f16f5b9968ed41bed839e3",
+      "sha256": "861dde4ee6bbcc2c7048684f96ed8079438c35ff317ca5b22d72cd82d1381bd8",
+      "license": "project-owned"
+    },
+    {
+      "id": "orc_2",
+      "name": "Wolf Rider",
+      "kind": "static",
+      "path": "assets/generated/hg193/orc_2.png",
+      "width": 64,
+      "height": 64,
+      "frames": 1,
+      "source": "original authored in this project",
+      "sourceBlob": "215c47a8738cfa1a5d9d8fbebec76a7654a7696e",
+      "sha256": "0fea4254eb1953c43f7ee6343b659d1ec386789bb6d491bbd8427321f9ca0806",
+      "license": "project-owned"
+    },
+    {
+      "id": "orc_7",
+      "name": "Thunderbird",
+      "kind": "static",
+      "path": "assets/licensed/hg193/orc_7.png",
+      "width": 32,
+      "height": 32,
+      "frames": 1,
+      "source": "crawl/tiles",
+      "sourcePath": "releases/Nov-2015/mon/animals/caustic_shrike.png",
+      "sourceBlob": "fdaba05c3dd071bcf0974bda8d5c5a6681073a53",
+      "license": "curated CC0 export",
+      "note": "Bird sprite with added battle lightning aura; no claim that source species itself is a Thunderbird"
+    }
+  ]
+}
