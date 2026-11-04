@@ -140,7 +140,7 @@ def build():
   hashes[action]=[]
   for i in range(COUNT):
    image=pose(action,i)
-   atlas.alpha_composite(image,(SIZE*i,SIZE*row))
+   atlas.paste(image,(SIZE*i,SIZE*row))
    frame_file=individual/f"human-archer-{action}-{i:02d}.png"
    image.save(frame_file,optimize=True)
    hashes[action].append(hashlib.sha256(image.tobytes()).hexdigest())
