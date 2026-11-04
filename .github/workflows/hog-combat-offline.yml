@@ -59,6 +59,11 @@ jobs:
           node --check hg20-private.js
           node --check qa-hg20-private.cjs
           node qa-hg20-private.cjs
+      - name: HG21 owner-bound 3x2 tactical tower acceptance
+        run: |
+          node --check hg21-tower-tactical.js
+          node --check qa-hg21-tactical.cjs
+          node qa-hg21-tactical.cjs
       - name: HG19 vector art coverage and icon regression
         run: |
           node --check art-pack.js
