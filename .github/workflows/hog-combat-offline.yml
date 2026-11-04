@@ -50,6 +50,8 @@ jobs:
           python -m playwright install chromium
       - name: Chrome battlefield viewport, pointer and Save/Reload acceptance
         run: python qa-hg09-combat-viewport-chrome.py
+      - name: HG17 first-launch organic build research recruit and mine Chromium
+        run: python qa-hg17-organic-newgame-chrome.py
       - name: HG10 offline world AI castle interaction and Save Reload in Chromium
         run: python qa-hg10-world-ai-chrome.py
       - name: Verify Fandom Hero Tasks in offline Chromium
@@ -78,6 +80,8 @@ jobs:
             docs/qa/hg10/world-ai-chrome.json
             docs/qa/hg16/g4-stress-receipt.json
             docs/qa/hg17/organic-newgame-receipt.json
+            docs/qa/hg17/organic-newgame-chrome.json
+            docs/evidence/hg17/rookie-first-mine-chromium.png
             docs/evidence/hg12/hero-task-*.png
             docs/qa/hg12/hero-task-chrome.json
             docs/evidence/hg14/battle-*.png
@@ -107,6 +111,17 @@ jobs:
         with:
           name: HG17-unseeded-playthrough
           path: docs/qa/hg17/organic-newgame-receipt.json
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Upload HG17 real Chromium New Game evidence on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG17-organic-Chromium
+          path: |
+            docs/qa/hg17/organic-newgame-chrome.json
+            docs/evidence/hg17/rookie-first-mine-chromium.png
           retention-days: 7
           if-no-files-found: warn
 
