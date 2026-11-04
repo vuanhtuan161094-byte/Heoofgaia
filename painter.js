@@ -326,7 +326,8 @@ function battleFxPlan(b,camera,elapsed,layout){
    casualties:event.casualties||0,death:!!event.death,ranged:actor.u.range>1,
    side:actor.u.side,time,index,
    start:{x:origin.x+actor.x-actor.baseX,y:origin.y+actor.y-actor.baseY-actor.size*.50},
-   end:{x:target.x,y:target.y-target.size*.52}}];
+   end:{x:target.x,y:target.y-target.size*.52},
+   floatX:target.x+(target.u.side==='player'?-1:1)*Math.max(82,target.size*.75)}];
  });
 }
 function motionImpactFx(c,camera,b,elapsed,layout){
@@ -356,8 +357,8 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    c.beginPath();c.arc(fx.end.x,fx.end.y,8+24*scale,0,TAU);c.stroke();
   }
   if(t>=260&&t<=960){
-   const age=(t-260)/700,x=fx.end.x+(fx.side==='player'?-26:24),
-    y=fx.end.y-28-43*age;
+   const age=(t-260)/700,x=fx.floatX,
+    y=fx.end.y-18-34*age;
    c.globalAlpha=clamp((960-t)/280,0,1);
    c.font='bold 17px sans-serif';c.textAlign='center';c.textBaseline='middle';
    c.lineWidth=3;c.strokeStyle='#1a191b';
