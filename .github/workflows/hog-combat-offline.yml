@@ -59,6 +59,11 @@ jobs:
           node --check hg20-private.js
           node --check qa-hg20-private.cjs
           node qa-hg20-private.cjs
+      - name: HG24 safe hero templates, paid logistics, private EXP and Boss dispatch
+        run: |
+          node --check hg24-private-automation.js
+          node --check qa-hg24-private.cjs
+          node qa-hg24-private.cjs
       - name: HG21 owner-bound 3x2 tactical tower acceptance
         run: |
           node --check hg21-tower-tactical.js
