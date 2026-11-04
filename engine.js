@@ -5,6 +5,10 @@ const C=root.HOG_CATALOG||(typeof require==='function'?require('./data.js'):null
 const V=5, SAVE_KEY='heoofgaia_hg_only_v04', PREV_SAVE_KEY='heoofgaia_hg_only_v03';
 const buildOrder=['hall','barracks','heroTower','tavern','warehouse','magicTower','arena','market','bazaar','embassy','stables','forge'];
 const BATTLE_GRID=Object.freeze({cols:12,rows:9,top:173,bottom:185});
+// HG-16 tactical balancing defaults; these are deliberate offline-game models.
+// A 12x9 stage has Manhattan diameter 19. Range 11–12 permits positioning.
+const TACTICAL_RANGE=Object.freeze({melee:1,ranged:11,eliteRanged:12});
+function unitTacticalRange(unit){return unit?.type==='Ranged'?(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged):TACTICAL_RANGE.melee;}
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG10 offline catch-up: process at most 24 real wall-clock hours in one suspended-time step.
 // This is a bounded runtime policy, not an asserted Heroes of Gaia server rule.
@@ -242,22 +246,19 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  const fieldArmy=s.expedition?.army||s.army,fieldFormation=s.expedition?.formation||s.formation;
  const available=arrUnits(s).filter(u=>(fieldArmy[u.id]||0)>0);
  const selected=(fieldFormation?.length?fieldFormation:available.sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:fieldArmy[u.id]})));
- // Historical guides distinguish ranged attacks and recommend that fast
- // ranged groups fire at enemy ranged groups, but the recovered 2009 catalog
- // has no numeric range. The 20-cell reach covers this prototype's whole grid;
- // this is an explicit playable approximation, not recovered server data.
+ // Ranged reach is a bounded 11–12-cell tactical model, not sourced 2009 range.
  const battleHeroSpeed=(root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10;
- const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,fieldArmy[u.id]||0);return {id:`p${i}`,slot:fieldFormation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
+ const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,fieldArmy[u.id]||0);return {id:`p${i}`,slot:fieldFormation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:unitTacticalRange(u),
    count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+heroSpeedAdjustment(battleHeroSpeed)),
    pool:count*u.hp,x:i<4?1:3,y:i<4?[0,2,5,8][i]:[1,4,7][i-4]}});
  const archetypes=[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
-  {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:20},
+  {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:TACTICAL_RANGE.ranged},
   {name:'Vệ binh',hp:55,atk:20,def:15,spd:3.8,range:1}];
  // AI fortresses deploy persisted resource-funded garrisons instead of generic monsters.
  const enemies=aiCity?Object.entries(aiCity.garrison).filter(([,count])=>count>0).slice(0,3).map(([unitId,count],i)=>{
   const u=C.units[aiCity.race].find(x=>x.id===unitId);
   assert(!!u&&Number.isSafeInteger(count)&&count>0,'Dữ liệu quân phòng thủ AI không hợp lệ');
-  return {id:`e${i}`,side:'enemy',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
+  return {id:`e${i}`,side:'enemy',unitId:u.id,name:u.name,range:unitTacticalRange(u),
    count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:u.spd,pool:count*u.hp,x:10,y:2+i*3};
  }):archetypes.slice(0,lv>=2?3:2).map((e,i)=>{
   const c=Math.max(2,Math.ceil((lv*.8+1.7)*(i===0?2:1)));
@@ -368,11 +369,15 @@ function strike(s,b,actor,target,order,trace){
  if(actor.atk<=0||actor.count<=0)return 0;
  const h=s.heroes.find(x=>x.id===s.activeHero);
  const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
- const base=actor.atk*actor.atk/(actor.atk+Math.max(0,target.def));
+ // Physical defense alone cannot reduce unit damage below 30% of raw attack.
+ // Equipment, Hero defense and stance reduction apply after that floor.
+ const base=Math.max(actor.atk*.30,actor.atk*actor.atk/(actor.atk+Math.max(0,target.def)));
  const defendFactor=target.side==='player'?(1+(h?.def||0)/100):1;
- // The dated/community combat example reports 47,897 damage for an exact
- // 47,897.94 NPC calculation, so truncate the final stack result as observed.
- const dmg=Math.max(1,Math.floor(actor.count*base*bonus/defendFactor));
+ const mods=root.HOG_ENGINE?.combatModifiers?.(s,s.activeHero)||{};
+ const weaponMod=actor.side==='player'?(mods.damageBonus||0)+(actor.range>1?(mods.rangedDamage||0):(mods.meleeDamage||0)):0;
+ const armorMod=target.side==='player'?Math.max(0,1-(mods.damageReduction||0)):1;
+ const guardMod=target.guardTurn===b.turn?.75:1;
+ const dmg=Math.max(1,Math.floor(actor.count*base*bonus/defendFactor*(1+weaponMod)*armorMod*guardMod));
  target.pool=Math.max(0,target.pool-dmg);
  const lost=Math.min(target.count,Math.max(0,target.count-Math.ceil(target.pool/target.hp)));
  if(lost>0){target.count-=lost;if(target.side==='player')casualty(s,target.unitId,lost,target.slot)}
@@ -388,6 +393,9 @@ function battleAct(s,action,options){
   b.moveTargets[actor.id]=destination;b.orders[actor.id]='move';
  }else if(b.selected&&!options?.preserveMoveOrders){b.orders[b.selected]=action;delete b.moveTargets[b.selected]}
  b.autoUntil=Date.now()+10_000;b.order=action;s.battleOrder=action;
+ // Defense is active for the whole current turn, even if a faster enemy moves
+ // before the defending group. It costs that group its attack this turn.
+ for(const u of alive(b.allies))if(b.orders[u.id]==='defend')u.guardTurn=b.turn;
  // 2009 Chinese player guidance describes speed-descending turns, then the
  // left formation column top-to-bottom followed by the next column. Keep the
  // equal-speed tie-break tied to the actual battlefield positions.
@@ -431,7 +439,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder};
+const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 
