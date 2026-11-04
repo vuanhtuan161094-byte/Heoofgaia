@@ -44,6 +44,11 @@ jobs:
         run: |
           node --check qa-hg17-organic-newgame.cjs
           node qa-hg17-organic-newgame.cjs
+      - name: HG18 equipment and quest economy progression gate
+        run: |
+          node --check hg18.js
+          node --check qa-hg18-core.cjs
+          node qa-hg18-core.cjs
       - name: Install headless Chromium for actual battlefield acceptance
         run: |
           python -m pip install playwright
@@ -81,6 +86,7 @@ jobs:
             docs/qa/hg16/g4-stress-receipt.json
             docs/qa/hg17/organic-newgame-receipt.json
             docs/qa/hg17/organic-newgame-chrome.json
+            docs/qa/hg18/core-progression.json
             docs/evidence/hg17/rookie-first-mine-chromium.png
             docs/evidence/hg12/hero-task-*.png
             docs/qa/hg12/hero-task-chrome.json
@@ -102,6 +108,15 @@ jobs:
         with:
           name: HG16-G4-core-stress
           path: docs/qa/hg16/g4-stress-receipt.json
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Upload HG18 progression QA even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG18-quest-items-hero-progression
+          path: docs/qa/hg18/core-progression.json
           retention-days: 7
           if-no-files-found: warn
 
