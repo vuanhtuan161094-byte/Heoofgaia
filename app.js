@@ -70,6 +70,22 @@ function load(){
 function money(cost){return Object.entries(cost).filter(([,v])=>v>0).map(([k,v])=>`${C.resource[k].emoji} ${format(v)}`).join(' · ')}
 function button(action,data,label,disabled=false,cls=''){return `<button ${disabled?'disabled':''} data-action="${esc(action)}" ${Object.entries(data||{}).map(([k,v])=>`data-${esc(k)}="${esc(v)}"`).join(' ')} class="${cls}">${label}</button>`}
 function flags(){const city=E.activeCity(state),ap=E.fameApStats(state.fame),next=ap.nextFame===null?'đã đạt bậc cao nhất':`còn ${format(ap.nextFame-state.fame)} Fame tới mốc tiếp`;return `<span class="tag">📍 ${esc(city.name)} (${city.key})</span><span class="tag" title="${ap.perHour} AP hồi mỗi giờ game · ${next}">🔋 AP ${Math.floor(state.ap)}/${ap.max} · +${ap.perHour}/giờ</span><span class="tag">🏅 Danh vọng ${format(state.fame)}</span><span class="tag">🏰 ${state.cities.length}/${E.cityLimit(state.fame)} thành</span><span class="tag">⏱ ×${state.speed} demo</span>`}
+// Compact, actionable New Game path. Progress is derived only from the
+// player's real state, not an unlock flag or bonus-resource tutorial seed.
+function newPlayerGuide(){
+ if(!state||state.cities.length>=2)return '';
+ const recruited=(state.army[state.race+'_1']||0)>16||state.training.some(t=>t.unitId===state.race+'_1');
+ const stages=[
+  ['city','🏪','Xây Market',state.buildings.market>=1],
+  ['magic','🌲','Nghiên cứu Forestry',!!state.spells.forestry],
+  ['army','🛡','Tuyển lính',recruited],
+  ['map','⛏','Chiếm mỏ',state.mines.length>0],
+  ['city','🏅','Đạt 5.800 Fame',state.fame>=5800],
+  ['map','🏰','Chiếm thành thứ hai',state.cities.length>=2]
+ ];
+ const done=stages.filter(x=>x[3]).length;
+ return `<section class="card" aria-label="Lộ trình phát triển New Game"><div class="entry"><b>🌱 Khởi nghiệp lãnh chúa · ${done}/6</b><span class="tag">🏅 ${format(state.fame)} / 5.800 Fame</span></div><div class="entry" style="flex-wrap:wrap">${stages.map(([tab,icon,label,ok])=>button('tab',{tab},`${ok?'✓':icon} ${esc(label)}`,false,ok?'small secondary':'small')).join('')}</div><p class="tiny muted">Dùng tài nguyên khởi đầu thật, xây dựng và tuyển quân để nhận Fame. Mốc thành thứ hai 5.800 là cân bằng offline (Fandom ghi 22.000). Không cấp quà QA.</p></section>`;
+}
 function renderIntro(){
  $('nav').innerHTML='';$('resources').innerHTML='';$('status').innerHTML='<p>Một bản tái dựng độc lập lấy cảm hứng từ Heroes of Gaia (2009).</p>';$('logs').innerHTML='';
  $('main').innerHTML=`<section class="welcome"><div class="welcome-scene"><canvas id="intro-canvas" width="1176" height="560" aria-label="Phong cảnh thành trì theo chủng tộc"></canvas><div class="welcome-copy"><div class="eyebrow">BỐN CHỦNG TỘC • MỘT CHIẾN TRƯỜNG</div><h1>ANH HÙNG THỜI LOẠN</h1><p>Phát triển thành trì • dẫn quân vượt thế giới • chinh phục mỏ và quái vật</p></div></div><div class="welcome-bottom"><h2>Chọn chủng tộc khởi đầu</h2><div class="race-grid">${Object.entries(C.races).map(([k,v])=>`<button data-action="race" data-race="${k}" class="race-card ${newRace===k?'active':''}"><span class="emoji">${v.emoji}</span><strong>${v.name}</strong><small>${v.english}</small></button>`).join('')}</div><h3>Bộ phép chiến đấu</h3><div class="entry">${button('spelledition',{edition:'international'},'Quốc tế · Fandom',false,newSpellEdition==='international'?'primary':'secondary')}${button('spelledition',{edition:'china2009'},'Trung Quốc 2009 · Sina',false,newSpellEdition==='china2009'?'primary':'secondary')}</div><p class="hint">Lựa chọn này lưu trong vương quốc mới. Bộ Sina tái hiện các kỹ năng chiến đấu chủ động đã có chỉ số xác nhận; kỹ năng di chuyển và nội tại chưa được mô hình hóa. Save cũ mặc định giữ bộ Quốc tế.</p>${button('start',{},'⚔ Thành lập thành Gaia',false,'primary wide')}<p class="hint">Chế độ chơi offline; hình ảnh tự dựng, công thức chiến đấu hiện là thử nghiệm, chưa phải game chính thức.</p></div></section>`;
@@ -296,7 +312,7 @@ function paint(){
     if(target)fail(()=>{markBattleInput();E.battleSelect(state,target.id)});};
  }
 }
-function render(){const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');document.body.classList.toggle('combat-mode',!!state?.battle);if(!state){renderIntro();return}if(!state.battle){movementModeId=null;if(tab==='combat')tab='map'}renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();$('main').innerHTML=content;paint();if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}}
+function render(){const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');document.body.classList.toggle('combat-mode',!!state?.battle);if(!state){renderIntro();return}if(!state.battle){movementModeId=null;if(tab==='combat')tab='map'}renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();$('main').innerHTML=(tab==='map'||tab==='city'?newPlayerGuide():'')+content;paint();if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}}
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
  if(action==='battle-grid'||action==='battle-hp'){toggleBattleDisplay(action==='battle-grid'?'grid':'hp');render();return}
  fail(()=>{
