@@ -96,10 +96,15 @@ try:
     }""")
     page.mouse.click(pt["x"],pt["y"])
     check("Real world-map pointer selects reachable level-1 mine",target["name"] in page.locator(".target-information").inner_text())
+    ap_before=page.evaluate("HOG_APP_DEBUG.getState().ap")
     page.locator('[data-action="march"]').first.click()
-    check("UI dispatch paid actual mine AP and reserved starter army",page.evaluate("""key => {
-      const s=HOG_APP_DEBUG.getState();return s.march?.target===key&&s.ap<100&&s.expedition?.army?.human_1===40;
-    }""",target["key"]))
+    march_receipt=page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();return {key:s.march?.target||null,
+        ap:s.ap,army:s.expedition?.army?.human_1??null};
+    }""")
+    check("UI dispatch paid actual mine AP and reserved starter army",
+          march_receipt["key"]==target["key"] and 5.8<=ap_before-march_receipt["ap"]<=6.1
+          and march_receipt["army"]==40,{"apBefore":ap_before,**march_receipt})
     page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();HOG_ENGINE.tick(s,s.lastTick+(s.march.remaining+2)*1000/s.speed);
       HOG_APP_DEBUG.render();
