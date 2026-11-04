@@ -7,7 +7,7 @@ const files=['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08
 'hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js',
 'hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js'];
 function engine(list=files){const ctx=vm.createContext({console});for(const p of list)vm.runInContext(fs.readFileSync(path.join(__dirname,p),'utf8'),ctx,{filename:p});return ctx.HOG_ENGINE;}
-const E=engine();let passed=0;const checks=[];
+const ctx=vm.createContext({console});for(const p of files)vm.runInContext(fs.readFileSync(path.join(__dirname,p),'utf8'),ctx,{filename:p});vm.runInContext(fs.readFileSync(path.join(__dirname,'painter.js'),'utf8'),ctx,{filename:'painter.js'});const E=ctx.HOG_ENGINE,P=ctx.HOG_PAINTER;let passed=0;const checks=[];
 function check(label,fn){try{const evidence=fn()||{};checks.push({label,pass:true,evidence});passed++;console.log('HG261 PASS '+label+' '+JSON.stringify(evidence))}
 catch(e){checks.push({label,pass:false,error:String(e.stack||e)});process.exitCode=1;console.error('HG261 FAIL '+label+' '+(e.stack||e))}}
 function saved(s){assert(E.strictSave(s));return E.parseSave(E.serializeSave(s))}
@@ -198,6 +198,28 @@ check('Old HG26 v07 solo save reads without forced change, HG21 3×2 Tower still
  assert.equal(enter.stacks,6);assert(t.battle.hg21Tower&&!t.battle.hg261Joint);
  assert(E.strictSave(t));return {legacy:true,towerOwners:Array.from(new Set(t.battle.allies.map(u=>u.heroId)))};
 });
-fs.mkdirSync(path.join(__dirname,'docs/qa/hg261'),{recursive:true});
+check('HG14.4 six-stack joint Boss nameplates avoid sprites, each other and viewport edges',()=>{
+ const x=setup(),s=x.s;takeoff(x);const b=arrive(s);
+ const viewports=[[930,320],[1250,500],[1800,610]],results=[];
+ for(const [w,h] of viewports){
+  const camera=P.battleProjection({width:w,height:h},E),layout=P.battleUnitLayout(b,camera,w,h);
+  assert.equal(layout.filter(e=>e.u.side==='player').length,6,'six legal allied stacks are visible');
+  assert.equal(layout.filter(e=>e.u.side==='enemy').length,3,'Boss battle has three enemy formations');
+  for(const e of layout){
+   const r=e.label;
+   assert(r.x>=11&&r.y>=60&&r.x+r.w<=w-11&&r.y+r.h<=h-5,'label stays in battlefield '+e.id);
+   assert(!P.battleRectOverlap(r,e.sprite,2),'own sprite covered '+w+'x'+h+' '+e.id+' '+JSON.stringify({label:r,sprite:e.sprite,y:e.y,size:e.size,mode:r.mode}));
+   for(const other of layout)if(other!==e&&other.u.pool>0){
+    assert(!P.battleRectOverlap(r,other.sprite,1),'other troop covered '+w+'x'+h+' '+e.id+' by '+other.id+' '+JSON.stringify({label:r,sprite:other.sprite,otherY:other.y,mode:r.mode}));
+    assert(!P.battleRectOverlap(r,other.countBox,1),'count badge covered '+w+'x'+h+' '+e.id+' by '+other.id+' '+JSON.stringify({label:r,count:other.countBox,mode:r.mode}));
+   }
+  }
+  for(let i=0;i<layout.length;i++)for(let j=i+1;j<layout.length;j++)
+   assert(!P.battleRectOverlap(layout[i].label,layout[j].label,2),'joint nameplates overlap '+w+'x'+h+' '+JSON.stringify({a:layout[i].id,ar:layout[i].label,b:layout[j].id,br:layout[j].label}));
+  results.push({width:w,height:h,nameplates:layout.length});
+ }
+ assert(E.strictSave(saved(s)),'layout must not mutate authoritative v07 battle');
+ return {fixture:'three legal synthetic hero records; real dispatch and engine-created Boss battle',viewports:results};
+});fs.mkdirSync(path.join(__dirname,'docs/qa/hg261'),{recursive:true});
 fs.writeFileSync(path.join(__dirname,'docs/qa/hg261/joint-boss.json'),JSON.stringify({passed,total:checks.length,checks},null,2));
 console.log('HG261 JOINT BOSS '+passed+'/'+checks.length+(passed===checks.length?' PASS':' FAIL'));

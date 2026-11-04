@@ -326,3 +326,18 @@ body:not(.combat-mode) .game-window h2,body:not(.combat-mode) .game-window h3{fo
 body:not(.combat-mode) button:not(.resource):focus-visible{outline:2px solid #f6d58d;outline-offset:2px}
 @media(max-width:1350px){body:not(.combat-mode) .tabs button{font-size:11px;padding:6px 2px}body:not(.combat-mode) .tabs{min-height:32px}body:not(.combat-mode) .masthead small{display:none}body:not(.combat-mode) #main>.scene-title h1{font-size:18px}}
 @media(max-height:720px){body:not(.combat-mode) #main>.card[aria-label="Lộ trình phát triển New Game"] .entry button{padding:4px 6px;min-height:24px}body:not(.combat-mode) #main>.scene-bottom{max-height:48px;min-height:42px}body:not(.combat-mode) #main>.scene-bottom .target-information{min-height:39px}}
+
+
+/* HG-09 joint battle header: keep long commander lists clear of the Save/status tools. */
+body.combat-mode .scene-title>div:first-child{flex:1 1 55%;min-width:0}
+body.combat-mode .scene-title h1{display:block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;min-width:0}
+body.combat-mode .scene-title .scene-tools{flex:0 1 45%;min-width:0;justify-content:flex-end}
+body.combat-mode .scene-title .scene-tools .tag{white-space:nowrap}
+@media(max-width:800px){
+ body.combat-mode .scene-title{flex-wrap:nowrap;align-items:flex-start}
+ body.combat-mode .scene-title>div:first-child{flex:1 1 58%}
+ body.combat-mode .scene-title .scene-tools{flex:0 1 42%;max-width:42%;gap:3px}
+ body.combat-mode .scene-title h1{font-size:clamp(15px,3vw,20px)}
+ body.combat-mode .scene-tools .tag{font-size:8px}
+}
+body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),760px)}

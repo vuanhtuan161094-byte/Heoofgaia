@@ -12,7 +12,7 @@
 ## Bản chơi canonical — KHÔNG nhân thêm game
 - **Chỉ một HTML offline được phân phối:** `Play-Heoofgaia-HG11.html`; hậu tố `HG11` là tên builder/artefact lịch sử, **không phải cấp gameplay mới nhất**. File được tạo từ `index.html` + JS module + PNG bằng `python build_offline.py`.
 - GitHub Actions `Heoofgaia offline combat QA` xuất artifact `Play-Heoofgaia-HG11`; chọn **run SUCCESS gần nhất** trên nhánh canonical để chơi. Không tải artefact của run FAIL làm bản nghiệm thu.
-- Các file `Play-Heoofgaia-HG07.html`, `HG08.html`, `HG10.html` trong git là snapshot lịch sử để tham chiếu/kiểm thử, **không được truyền thông như các game đang phát triển song song**. Không xóa cho tới khi kiểm tra phụ thuộc/migration.
+- Các snapshot `Play-Heoofgaia-HG07.html`, `HG08.html`, `HG10.html` đã được kiểm tra phụ thuộc; QA HG10 đã chuyển sang HTML canonical và kiểm thử migration v07 tiếp tục bao phủ save cũ. Snapshot được bỏ khỏi thư mục làm việc; lịch sử Git vẫn giữ các SHA cũ.
 - Mục tiêu desktop Chrome/Edge Windows; 1280×720 và landscape 960×540 có CI Chromium. Chưa chứng nhận chơi thủ công dài hạn trên Windows hoặc Android thực.
 - Save key duy nhất `heoofgaia_hg_only_v07`; `state.version=7`, tất cả subsystem HG20/HG21/HG24/HG26/HG26.1 lưu chung trong một state. Không tạo Save v08 hoặc thưởng/mint quân khi nâng cấp Save.
 

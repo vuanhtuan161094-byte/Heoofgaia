@@ -1,0 +1,129 @@
+{
+  "passed": 13,
+  "total": 13,
+  "receipts": [
+    {
+      "name": "human private: paid troop template, Save v07 and legacy behavior",
+      "pass": true,
+      "evidence": {
+        "race": "human",
+        "saved": 12,
+        "startingArmy": 16
+      }
+    },
+    {
+      "name": "elf private: paid troop template, Save v07 and legacy behavior",
+      "pass": true,
+      "evidence": {
+        "race": "elf",
+        "saved": 12,
+        "startingArmy": 16
+      }
+    },
+    {
+      "name": "orc private: paid troop template, Save v07 and legacy behavior",
+      "pass": true,
+      "evidence": {
+        "race": "orc",
+        "saved": 12,
+        "startingArmy": 16
+      }
+    },
+    {
+      "name": "undead private: paid troop template, Save v07 and legacy behavior",
+      "pass": true,
+      "evidence": {
+        "race": "undead",
+        "saved": 12,
+        "startingArmy": 16
+      }
+    },
+    {
+      "name": "No duplicate soldier allocation across two hero templates (controlled second-hero fixture)",
+      "pass": true,
+      "evidence": {
+        "reservedByHero1": 9,
+        "reservedByHero2": 7,
+        "army": 16
+      }
+    },
+    {
+      "name": "Auto-restock queues real paid recruitment only with explicit opt-in",
+      "pass": true,
+      "evidence": {
+        "queued": 32,
+        "retrained": 32,
+        "chargedGold": 892.8888888888905,
+        "army": 40
+      }
+    },
+    {
+      "name": "Auto training disabled never queues a soldier or pays resources",
+      "pass": true,
+      "evidence": {
+        "stock": 4,
+        "queued": 0
+      }
+    },
+    {
+      "name": "Boss planner rechecks casualty-reduced live stock and protects another hero (fixture)",
+      "pass": true,
+      "evidence": {
+        "boss": "18,92",
+        "hero1": 8,
+        "hero2": 7,
+        "army": 15
+      }
+    },
+    {
+      "name": "Hero-specific Boss scouting and one-click dispatch use actual AP and army receipts",
+      "pass": true,
+      "evidence": {
+        "hero": 1,
+        "boss": "99,81",
+        "apSpent": 8,
+        "army": 16
+      }
+    },
+    {
+      "name": "Private resource-paid hero drill grants EXP once and enforces daily limit",
+      "pass": true,
+      "evidence": {
+        "gained": 45450,
+        "level": 15,
+        "paidGold": 2720
+      }
+    },
+    {
+      "name": "Daily mine harvest requires an actually owned mine and pays only once (ownership fixture)",
+      "pass": true,
+      "evidence": {
+        "mine": "10,2",
+        "exp": 32320,
+        "goldAdded": 8500
+      }
+    },
+    {
+      "name": "HG21 tower 3 heroes x 2 slots and ownership remain unchanged with HG24",
+      "pass": true,
+      "evidence": {
+        "stacks": 6,
+        "heroOwners": [
+          1,
+          2,
+          3
+        ],
+        "unchangedArmy": 16
+      }
+    },
+    {
+      "name": "HG21 legacy Save v07 loads with no HG24 freebies",
+      "pass": true,
+      "evidence": {
+        "version": 7,
+        "gold": 33000,
+        "preservedArmy": 16
+      }
+    }
+  ]
+}

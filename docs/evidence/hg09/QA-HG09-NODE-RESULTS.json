@@ -1,10 +1,10 @@
 {
   "command": "node qa-engine.cjs",
-  "suiteTotal": 176,
-  "suitePassed": 176,
+  "suiteTotal": 213,
+  "suitePassed": 213,
   "suiteFailed": 0,
-  "hg10Total": 20,
-  "hg10Passed": 20,
+  "hg10Total": 29,
+  "hg10Passed": 29,
   "hg10Failed": 0,
   "hg10Checks": [
     {
@@ -13,6 +13,10 @@
     },
     {
       "name": "HG10 allows three concurrent hero marches, saves them, serializes battles, and blocks a fourth without cost",
+      "passed": true
+    },
+    {
+      "name": "HG10 repeatable NPC hunting spends AP per new march, pays once per win and preserves one-time clearing",
       "passed": true
     },
     {
@@ -29,6 +33,30 @@
     },
     {
       "name": "HG10 24-hour offline catch-up advances queues in active and inactive cities",
+      "passed": true
+    },
+    {
+      "name": "HG10 offline 24h wall-clock boundary is capped and cannot be replayed",
+      "passed": true
+    },
+    {
+      "name": "HG10 owned mine cannot be attacked twice or duplicate hourly income",
+      "passed": true
+    },
+    {
+      "name": "HG10 six cities retain isolated five-resource economy, training, construction and research over 24h offline",
+      "passed": true
+    },
+    {
+      "name": "HG10 world expands to 60 castle targets without replacing sourced locations",
+      "passed": true
+    },
+    {
+      "name": "HG10 AI city economy grows garrisons from funded resources and survives offline reload",
+      "passed": true
+    },
+    {
+      "name": "HG10 AI castle uses persistent faction garrison in combat, then transfers exactly once",
       "passed": true
     },
     {
@@ -68,6 +96,10 @@
       "passed": true
     },
     {
+      "name": "HG10 daily NPC tasks never credit previous victories and keep strict legacy v07 migration",
+      "passed": true
+    },
+    {
       "name": "HG10 source-cited daily task accepts, follows a real 1-star battle, pays once and survives v07 reload",
       "passed": true
     },
@@ -84,12 +116,16 @@
       "passed": true
     },
     {
+      "name": "HG10 offline elapsed time completes convoy outbound and return in one tick without double delivery",
+      "passed": true
+    },
+    {
       "name": "HG10 legacy v07 transport field migrates empty and malformed convoy saves are rejected",
       "passed": true
     }
   ],
-  "hg09Total": 18,
-  "hg09Passed": 18,
+  "hg09Total": 17,
+  "hg09Passed": 17,
   "hg09Failed": 0,
   "seededEncounters": 1000,
   "checks": [
@@ -135,10 +171,6 @@
     },
     {
       "name": "Casualty and Arena wound ledger are exact and never negative",
-      "passed": true
-    },
-    {
-      "name": "A completed NPC target cannot be settled or rewarded twice",
       "passed": true
     },
     {

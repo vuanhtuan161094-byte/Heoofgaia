@@ -1276,6 +1276,14 @@ test('HG12 Fandom Hero Tasks grant exact-once EXP for actual matching NPC victor
  assert.equal(E.heroTaskStatus(capped,capped.lastTick).available,false);
  assert.throws(()=>E.acceptHeroTask(capped,capped.lastTick),/20 nhiệm vụ/);
 });
+test('HG12 Hero Tasks can only be accepted or claimed from the main city',()=>{
+ const s=state('human'),secondary=E.make('elf',s.lastTick);E.ensure08(secondary);
+ const city=JSON.parse(JSON.stringify(secondary.cities[0]));city.id='city-hero-task-gate';city.key='9,10';city.main=false;s.cities.push(city);
+ assert(E.heroTaskStatus(s).canAccept);E.switchCity(s,city.id);assert.equal(E.heroTaskStatus(s).canAccept,false);
+ assert.throws(()=>E.acceptHeroTask(s,s.lastTick),/thành chính/);
+ E.switchCity(s,'main');E.acceptHeroTask(s,s.lastTick);E.switchCity(s,city.id);
+ assert.throws(()=>E.claimHeroTask(s,s.lastTick),/thành chính/);assert(E.strictSave(s));
+});
 test('HG10 source-cited daily task accepts, follows a real 1-star battle, pays once and survives v07 reload',()=>{
  const s=state('human'),taskId='getting_started',day=s.lastTick,target=E.NPC_CAMPS_2009.find(x=>x.stars===1);assert(target);assert.equal(E.dailyTasks(s,day)[0].progress,0);
  const before={gold:s.res.gold,ap:s.ap};E.acceptDailyTask(s,taskId,day);assert.equal(E.dailyTasks(s,day)[0].accepted,true);assert.equal(s.res.gold,before.gold);assert.equal(s.ap,before.ap);
@@ -1506,8 +1514,8 @@ test('HG14.5 real combat receipts drive damage numbers, arrows and death marks o
 });
 test('HG14.4 responsive troop scale improves 960x540 readability',()=>{
  const desktop=P.battleSpriteScale(516,2,9),mobile=P.battleSpriteScale(347,2,9);
- assert(desktop>=1.05&&desktop<=1.35);
- assert(mobile>=.82&&mobile<=1.05);
+ assert(desktop>=.95&&desktop<=1.18);
+ assert(mobile>=.76&&mobile<=.93);
  assert(mobile<desktop);
  assert(P.battleSpriteScale(347,8,9)>P.battleSpriteScale(347,0,9));
  for(const h of [347,516,600]){

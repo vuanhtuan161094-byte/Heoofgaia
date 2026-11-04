@@ -541,7 +541,7 @@ function battleUnitLayout(b,camera,width,height){
  }
  const reserved=[{x:14,y:14,w:225,h:42},{x:width-200,y:14,w:186,h:42}];
  for(const e of [...entries].filter(e=>e.u.pool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
-  const w=clamp(e.u.name.length*6.5+24,82,132),h=34,shift=e.size*.37+w/2+12;
+  const compact=width<1050,w=compact?clamp(e.u.name.length*4.8+12,68,90):clamp(e.u.name.length*6.5+24,82,132),h=28,shift=e.size*.37+w/2+12;
   const left={cx:e.x-shift,top:e.y-60,mode:'left'},
    right={cx:e.x+shift,top:e.y-60,mode:'right'},
    upperLeft={cx:e.x-shift,top:e.y-87,mode:'upper-left'},
@@ -554,29 +554,46 @@ function battleUnitLayout(b,camera,width,height){
    ...(preferRight?[right,left]:[left,right]),
    ...(preferRight?[upperRight,upperLeft]:[upperLeft,upperRight]),
    {cx:e.x,top:e.y-e.size*.83-54,mode:'high'},
-   ...(preferRight?[lowerRight,lowerLeft]:[lowerLeft,lowerRight])
+   ...(preferRight?[lowerRight,lowerLeft]:[lowerLeft,lowerRight]),
+   ...[-1,1].flatMap(sign=>[-1.35,1.35].map(mult=>({cx:e.x+sign*(e.size*.36+w*mult+24),top:e.y-e.size*.83-36,mode:'outer'}))),
+   ...[-1,1].flatMap(sign=>[-1.35,1.35].flatMap(mult=>[-82,-112,-142,12,42].map(offset=>({cx:e.x+sign*(e.size*.36+w*mult+24),top:e.y+offset,mode:'outer'})))),
+   ...[-1,1].flatMap(sign=>[-112,-142,12,42].map(offset=>({cx:e.x+sign*shift,top:e.y+offset,mode:'side'})))
   ];
-  const evaluated=candidates.map((choice,i)=>{
+  const scoreChoice=(choice,i)=>{
    const box={x:clamp(choice.cx-w/2,12,Math.max(12,width-w-12)),
     y:clamp(choice.top,60,Math.max(60,height-h-6)),w,h};
-   let penalty=i*.12+Math.abs(box.x+w/2-choice.cx)*.11+Math.abs(box.y-choice.top)*.12;
+   let conflicts=0;
    for(const other of entries){
     if(other.u.pool<=0)continue;
-    if(battleRectOverlap(box,other.sprite,3))penalty+=other===e?250:180;
-    if(other!==e&&battleRectOverlap(box,other.countBox,2))penalty+=120;
+    if(battleRectOverlap(box,other.sprite,3))conflicts+=other===e?100:10;
+    if(other!==e&&battleRectOverlap(box,other.countBox,2))conflicts+=5;
    }
-   for(const other of reserved)if(battleRectOverlap(box,other,3))penalty+=180;
-   return {...box,mode:choice.mode,score:penalty};
-  }).sort((a,b)=>a.score-b.score);
-  const best=evaluated[0];
-  e.label={x:best.x,y:best.y,w:best.w,h:best.h,mode:best.mode,
+   for(const other of reserved)if(battleRectOverlap(box,other,3))conflicts+=8;
+   const distance=Math.hypot(box.x+w/2-e.x,box.y-(e.y-e.size*.83-36));
+   return {...box,mode:choice.mode,conflicts,score:conflicts*100000+distance+i*.01};
+  };
+  const preferred=candidates.map(scoreChoice),preferredSafe=preferred.filter(c=>c.conflicts===0);
+  let best=preferredSafe.sort((a,b)=>a.score-b.score)[0];
+  if(!best){
+   const maxX=Math.max(12,width-w-12),maxY=Math.max(60,height-h-6),xs=[],ys=[];
+   for(let x=12;x<=maxX;x+=20)xs.push(x);if(xs[xs.length-1]!==maxX)xs.push(maxX);
+   for(let y=60;y<=maxY;y+=14)ys.push(y);if(ys[ys.length-1]!==maxY)ys.push(maxY);
+   let fallback=null;
+   for(const x of xs)for(const y of ys){
+    const candidate=scoreChoice({cx:x+w/2,top:y,mode:'field'},0);
+    if(candidate.conflicts===0){if(!best||candidate.score<best.score)best=candidate}
+    else if(!fallback||candidate.conflicts<fallback.conflicts||candidate.conflicts===fallback.conflicts&&candidate.score<fallback.score)fallback=candidate;
+   }
+   best=best||fallback;
+  }
+  e.label={x:best.x,y:best.y,w:best.w,h:best.h,fontSize:compact?9:11,mode:best.mode,
    leader:best.mode!=='above'&&best.mode!=='high'};
   reserved.push(e.label);
  }
  return entries;
 }
 function battleSpriteScale(height,row,rows=9){
- return clamp(.84+row/rows*.19,.84,1.06)*1.20*clamp(height/460,.85,1.08);
+ return clamp(.84+row/rows*.19,.84,1.06)*1.05*clamp(height/460,.85,1.08);
 }
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
@@ -604,7 +621,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
   const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual,k):u.unitId==='human_3'?(animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)):(root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k))))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
-  // A unified 34px name/HP card is placed outside silhouette collision boxes.
+  // A compact 28px name/HP card is placed outside silhouette collision boxes.
   const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y,hpVisible=interaction.showHP!==false;
   if(plate.leader){
    c.save();c.strokeStyle='#dccb947b';c.lineWidth=1;c.beginPath();
@@ -614,10 +631,10 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   rounded(c,bx,by,plate.w,hpVisible?plate.h:21,5,
    u.side==='enemy'?'#392b2fe9':'#1e3840ef',
    b.selected===u.id||b.focused===u.id?'#f4d996':'#abbdab65');
-  text(c,u.name,bx+plate.w/2,by+14,11,'#f7e8c7');
-  if(hpVisible){rounded(c,bx+8,by+22,plate.w-16,7,3,'#0b1d22e9');
+  text(c,u.name,bx+plate.w/2,by+14,plate.fontSize||11,'#f7e8c7');
+  if(hpVisible){rounded(c,bx+8,by+21,plate.w-16,6,3,'#0b1d22e9');
    c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
-   c.fillRect(bx+9,by+23,(plate.w-18)*clamp(u.pool/(u.initial*u.hp),0,1),5);}
+   c.fillRect(bx+9,by+22,(plate.w-18)*clamp(u.pool/(u.initial*u.hp),0,1),4);}
   rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
   text(c,'×'+u.count,x+40,y-9,12,'#fff0ca');
  }

@@ -472,10 +472,11 @@ function heroTaskStatus(s,now=Date.now()){
  return {completed:board.completed,max:HERO_TASK_MAX,active:q?{...q}:null,heroId:hero?.id||null,heroName:hero?.name||'Chưa có tướng',
   stars:q?.stars??heroTaskStars(board.completed),exp:board.completed<HERO_TASK_MAX?heroTaskExperience(board.completed):0,
   available:board.completed<HERO_TASK_MAX,
-  canAccept:board.completed<HERO_TASK_MAX&&!q&&!!hero&&hero.id!==s.castellan&&!E.heroAway?.(s,hero.id)};
+  canAccept:activeCity(s).main&&board.completed<HERO_TASK_MAX&&!q&&!!hero&&hero.id!==s.castellan&&!E.heroAway?.(s,hero.id)};
 }
 function acceptHeroTask(s,now=Date.now()){
  ensure(s);syncDailyTaskBoard(s,now);
+ if(!activeCity(s).main)throw Error('Nhiệm vụ tướng chỉ nhận tại thành chính.');
  const board=s.dailyTaskState.heroTask,hero=s.heroes.find(h=>h.id===s.activeHero);
  if(board.completed>=HERO_TASK_MAX)throw Error('Hôm nay đã hoàn thành 20 nhiệm vụ tướng.');
  if(board.active)throw Error('Hãy hoàn thành nhiệm vụ tướng đang nhận trước.');
@@ -486,6 +487,7 @@ function acceptHeroTask(s,now=Date.now()){
 }
 function claimHeroTask(s,now=Date.now()){
  ensure(s);syncDailyTaskBoard(s,now);
+ if(!activeCity(s).main)throw Error('Nhiệm vụ tướng chỉ nhận thưởng tại thành chính.');
  const board=s.dailyTaskState.heroTask,task=board.active;
  if(!task||!task.ready)throw Error('Nhiệm vụ tướng chưa hoàn thành: cần thắng NPC đúng cấp sao bằng tướng đã nhận.');
  const hero=s.heroes.find(h=>h.id===task.heroId);

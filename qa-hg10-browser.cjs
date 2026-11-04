@@ -1,8 +1,8 @@
 /* Real Chrome headless CDP smoke: opens the portable file, uses the real UI,
    plays a normal unmodified castle battle, then verifies capture/switch/save-load. */
 'use strict';
-const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),net=require('node:net'),{spawn}=require('node:child_process');
-const root=__dirname,html=path.join(root,'Play-Heoofgaia-HG10.html'),evidence=path.join(root,'docs','evidence','hg10'),qa=path.join(root,'docs','qa','hg10');
+const fs=require('node:fs'),path=require('node:path'),os=require('node:os'),net=require('node:net'),{spawn}=require('node:child_process'),{pathToFileURL}=require('node:url');
+const root=__dirname,html=path.join(root,'Play-Heoofgaia-HG11.html'),evidence=path.join(root,'docs','evidence','hg10'),qa=path.join(root,'docs','qa','hg10');
 const chrome='C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe';
 const checks=[];let exceptions=[];
 function check(name,ok,detail=''){checks.push({name,ok:!!ok,detail});if(!ok)throw new Error('FAIL '+name+': '+detail)}
@@ -21,7 +21,7 @@ async function main(){
   let seq=0;const pending=new Map();ws.addEventListener('message',ev=>{let m;try{m=JSON.parse(String(ev.data))}catch{return}if(m.method==='Runtime.exceptionThrown')exceptions.push(m.params.exceptionDetails?.text||'runtime exception');if(m.id&&pending.has(m.id)){const p=pending.get(m.id);pending.delete(m.id);m.error?p.reject(new Error(m.error.message)):p.resolve(m.result)}});
   const cdp={call(method,params={}){const id=++seq;return new Promise((resolve,reject)=>{pending.set(id,{resolve,reject});ws.send(JSON.stringify({id,method,params}))})}};
   await cdp.call('Page.enable');await cdp.call('Runtime.enable');await cdp.call('Emulation.setDeviceMetricsOverride',{width:1280,height:980,deviceScaleFactor:1,mobile:false});
-  const url='file:///E:/Heoofgaia/Play-Heoofgaia-HG10.html';await cdp.call('Page.navigate',{url});await pause(800);
+  const url=pathToFileURL(html).href;await cdp.call('Page.navigate',{url});await pause(800);
   async function evalPage(expression){const r=await cdp.call('Runtime.evaluate',{expression,returnByValue:true,awaitPromise:true});if(r.exceptionDetails)throw new Error(r.exceptionDetails.exception?.description||r.exceptionDetails.text);return r.result?.value}
   let info=await evalPage("({title:document.title,ready:document.readyState,engine:window.HOG_ENGINE?.V,body:!!document.querySelector('#app')})");check('Chrome rendered the offline game',info?.ready==='complete'&&info?.engine===7&&info?.body,JSON.stringify(info));
   await saveScreenshot(cdp,path.join(evidence,'screenshot-hg10-offline-intro-chrome.png'));
@@ -37,7 +37,7 @@ async function main(){
   await evalPage("document.querySelector('[data-action=tab][data-tab=city]')?.click()");await pause(200);
   let switchResult=await evalPage("(()=>{const b=document.querySelector('[data-action=city-switch][data-id=\\\"city-9-10\\\"]');if(!b)return 'missing city switch';b.click();const s=window.HOG_APP_DEBUG.getState();return {id:s.activeCityId,race:s.race,name:document.querySelector('h1')?.textContent}})()");
   check('City selector switches the actual active economy to Elf',switchResult?.id==='city-9-10'&&switchResult?.race==='elf',JSON.stringify(switchResult));
-  const taskControls=await evalPage("(()=>{document.querySelector('[data-action=tab][data-tab=tasks]')?.click();const q=[...document.querySelectorAll('[data-action=quest]')];return {count:q.length,allDisabled:q.length>0&&q.every(x=>x.disabled)}})()");check('Secondary-city task claims are visibly disabled',taskControls?.count>0&&taskControls.allDisabled,JSON.stringify(taskControls));await evalPage("document.querySelector('[data-action=tab][data-tab=city]')?.click()");
+  const taskControls=await evalPage("(()=>{document.querySelector('[data-action=tab][data-tab=tasks]')?.click();const q=[...document.querySelectorAll('[data-action=acceptdaily],[data-action=claimdaily],[data-action=acceptdaily2009],[data-action=claimdaily2009]')],hero=document.querySelector('[data-action=acceptherotask]');return {count:q.length,allDisabled:q.length>0&&q.every(x=>x.disabled),heroTaskDisabled:!!hero&&hero.disabled}})()");check('Secondary-city task claims are visibly disabled',taskControls?.count>0&&taskControls.allDisabled&&taskControls.heroTaskDisabled,JSON.stringify(taskControls));await evalPage("document.querySelector('[data-action=tab][data-tab=city]')?.click()");
   await saveScreenshot(cdp,path.join(evidence,'screenshot-hg10-secondary-city-chrome.png'));
   await evalPage('location.reload()');await pause(1000);
   const reload=await evalPage("(()=>{const s=window.HOG_APP_DEBUG.getState();return {id:s?.activeCityId,race:s?.race,cities:s?.cities?.length,stationed:s?.stationedHeroes?.some(h=>h.key==='9,10')}})()");

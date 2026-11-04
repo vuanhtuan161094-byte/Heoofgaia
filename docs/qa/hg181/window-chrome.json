@@ -1,0 +1,358 @@
+{
+  "kind": "HG18.1 fixed-stage real Chromium UI",
+  "checks": [
+    {
+      "name": "New Game creation remains clickable without document scrolling",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "1280x720 primary game stays inside a fixed document viewport",
+      "pass": true,
+      "details": {
+        "scrollHeight": 720,
+        "innerHeight": 720,
+        "scrollWidth": 1280,
+        "innerWidth": 1280,
+        "map": true,
+        "overlayHidden": true
+      }
+    },
+    {
+      "name": "City management opens dialog over the existing map",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Dialog dispatch opens selected Market upgrade instead of swallowing clicks",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Seven hero combat slots displayed in 4 rear and 3 front positions",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Private hero-based allocation panel shows selected commander and 7 editable stacks",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Real initial troops are assigned to the active hero without duplication",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG24 real button stores the active hero template without minting troops",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG24 opt-in auto-refill policy is saved with automatic hiring disabled",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG24 paid training click grants EXP and charges actual resources",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Tower is an actual on-demand game window with three hero slots",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Tower click enters real tactical battle with one hero and at most two stacks",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Real tactical turn clicks win floor 1 and grant exactly one of five daily claims",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG24 smart Boss preparation selects real encounter and commander without spending AP",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Task board is an on-demand dialog, not stacked beneath the map",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Save remains reachable while modal open and preserves strict v07 data",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Escape closes dialog without losing map or document sizing",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "World destination catalog opens only on request",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Closing catalog returns to world view",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "960x540 landscape game never scrolls main document",
+      "pass": true,
+      "details": {
+        "w": 960,
+        "h": 540,
+        "scrollW": 960,
+        "scrollH": 540
+      }
+    },
+    {
+      "name": "HG26 real browser exposes explicit OFF, Boss selector and safety limits",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG26 real click enables selected Boss policy without instantly claiming a victory",
+      "pass": true,
+      "details": {
+        "enabled": true,
+        "phase": "ready",
+        "limit": 1,
+        "runs": 0,
+        "wins": 0,
+        "strict": true,
+        "ap": 101.2005,
+        "target": "18,92",
+        "toast": "Đã bật HG-26: 1 tướng tham gia CÙNG một trận Azrael."
+      }
+    },
+    {
+      "name": "HG26 real stop click disables automation and preserves Save v07",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG26.1 actual selector exposes 3 heroes and 2 stack slots each",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG26.1 actual UI starts 3-owner policy with 6 real planned stacks",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG26.1 normal browser timer dispatches one real six-stack Boss expedition",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG26.1 real Save button accepts the outbound six-stack v07 state",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Cold reload preserves HG26.1 outbound owners, six stacks and strict Save",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "The real speed control returns the outbound march to 60x for bounded browser QA",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG26.1 actual route arrival opens one tactical Boss fight with six owner-tagged stacks",
+      "pass": true,
+      "details": {
+        "opened": "battle_open",
+        "battle": true,
+        "joint": [
+          1,
+          2,
+          3
+        ],
+        "stacks": 6,
+        "strict": true,
+        "wallEta": 40,
+        "reportCount": 0
+      }
+    },
+    {
+      "name": "Player Save button persists the live joint Boss encounter before resolution",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "960x540 joint Boss canvas, controls and title geometry",
+      "pass": true,
+      "details": {
+        "w": 960,
+        "h": 540,
+        "scrollW": 960,
+        "scrollH": 1012,
+        "canvas": {
+          "top": 51.828125,
+          "bottom": 371.828125,
+          "left": 15,
+          "right": 945
+        },
+        "commands": {
+          "top": 439.765625,
+          "bottom": 485.765625,
+          "left": 14,
+          "right": 946
+        },
+        "separated": true
+      }
+    },
+    {
+      "name": "1280x720 joint Boss canvas, controls and title geometry",
+      "pass": true,
+      "details": {
+        "w": 1280,
+        "h": 720,
+        "scrollW": 1280,
+        "scrollH": 1133,
+        "canvas": {
+          "top": 58.5,
+          "bottom": 558.5,
+          "left": 15,
+          "right": 1265
+        },
+        "commands": {
+          "top": 628.5,
+          "bottom": 677.5,
+          "left": 14,
+          "right": 1266
+        },
+        "separated": true
+      }
+    },
+    {
+      "name": "1366x768 joint Boss canvas, controls and title geometry",
+      "pass": true,
+      "details": {
+        "w": 1366,
+        "h": 768,
+        "scrollW": 1366,
+        "scrollH": 1181,
+        "canvas": {
+          "top": 58.5,
+          "bottom": 606.5,
+          "left": 15,
+          "right": 1351
+        },
+        "commands": {
+          "top": 676.5,
+          "bottom": 725.5,
+          "left": 14,
+          "right": 1352
+        },
+        "separated": true
+      }
+    },
+    {
+      "name": "1600x900 joint Boss canvas, controls and title geometry",
+      "pass": true,
+      "details": {
+        "w": 1600,
+        "h": 900,
+        "scrollW": 1600,
+        "scrollH": 1313,
+        "canvas": {
+          "top": 58.5,
+          "bottom": 738.5,
+          "left": 15,
+          "right": 1585
+        },
+        "commands": {
+          "top": 808.5,
+          "bottom": 857.5,
+          "left": 14,
+          "right": 1586
+        },
+        "separated": true
+      }
+    },
+    {
+      "name": "1920x1080 joint Boss canvas, controls and title geometry",
+      "pass": true,
+      "details": {
+        "w": 1920,
+        "h": 1080,
+        "scrollW": 1920,
+        "scrollH": 1376,
+        "canvas": {
+          "top": 58.5,
+          "bottom": 818.5,
+          "left": 15,
+          "right": 1905
+        },
+        "commands": {
+          "top": 888.5,
+          "bottom": 937.5,
+          "left": 14,
+          "right": 1906
+        },
+        "separated": true
+      }
+    },
+    {
+      "name": "1818x830 joint Boss canvas, controls and title geometry",
+      "pass": true,
+      "details": {
+        "w": 1818,
+        "h": 830,
+        "scrollW": 1818,
+        "scrollH": 1243,
+        "canvas": {
+          "top": 58.5,
+          "bottom": 668.5,
+          "left": 15,
+          "right": 1803
+        },
+        "commands": {
+          "top": 738.5,
+          "bottom": 787.5,
+          "left": 14,
+          "right": 1804
+        },
+        "separated": true
+      }
+    },
+    {
+      "name": "Cold reload during joint Boss combat restores all three owners and Save v07",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "No uncaught runtime exceptions during modal switching",
+      "pass": true,
+      "details": []
+    }
+  ],
+  "passed": 39,
+  "failed": 0,
+  "errors": [],
+  "screens": [
+    "world-fixed-1280x720.png",
+    "army-seven-stacks-window.png",
+    "world-fixed-960x540.png",
+    "private-tower-real-command.png",
+    "private-tower-six-stack-battle.png",
+    "joint-boss-combat-960x540.png",
+    "joint-boss-combat-1280x720.png",
+    "joint-boss-combat-1366x768.png",
+    "joint-boss-combat-1600x900.png",
+    "joint-boss-combat-1920x1080.png",
+    "joint-boss-combat-1818x830.png"
+  ]
+}

@@ -1,0 +1,168 @@
+{
+  "passed": 14,
+  "total": 14,
+  "checks": [
+    {
+      "label": "human three heroes share ONE battle, 2 slots each, real AP/army and Save",
+      "pass": true,
+      "evidence": {
+        "race": "human",
+        "heroes": 3,
+        "stacks": 6,
+        "apSpent": 8,
+        "garrison": 4,
+        "save": 7
+      }
+    },
+    {
+      "label": "elf three heroes share ONE battle, 2 slots each, real AP/army and Save",
+      "pass": true,
+      "evidence": {
+        "race": "elf",
+        "heroes": 3,
+        "stacks": 6,
+        "apSpent": 8,
+        "garrison": 4,
+        "save": 7
+      }
+    },
+    {
+      "label": "orc three heroes share ONE battle, 2 slots each, real AP/army and Save",
+      "pass": true,
+      "evidence": {
+        "race": "orc",
+        "heroes": 3,
+        "stacks": 6,
+        "apSpent": 8,
+        "garrison": 4,
+        "save": 7
+      }
+    },
+    {
+      "label": "undead three heroes share ONE battle, 2 slots each, real AP/army and Save",
+      "pass": true,
+      "evidence": {
+        "race": "undead",
+        "heroes": 3,
+        "stacks": 6,
+        "apSpent": 8,
+        "garrison": 4,
+        "save": 7
+      }
+    },
+    {
+      "label": "Different commanders have owner-specific battle damage and no cross-buff",
+      "pass": true,
+      "evidence": {
+        "hero1Unchanged": 33,
+        "hero2Buffed": 333,
+        "hero2Base": 33
+      }
+    },
+    {
+      "label": "Real casualty reduces combined expedition once, by 6 individual formation slots",
+      "pass": true,
+      "evidence": {
+        "before": 12,
+        "lost": 6,
+        "after": 6
+      }
+    },
+    {
+      "label": "Single real Boss victory shares hero EXP, pays loot once, returns one combined convoy",
+      "pass": true,
+      "evidence": {
+        "turns": 3,
+        "heroesWithXp": 3,
+        "report": "battle-1",
+        "armyReturned": 16
+      }
+    },
+    {
+      "label": "Three commander spells buff only their own two stacks in the same Boss fight",
+      "pass": true,
+      "evidence": {
+        "caster": 2,
+        "affected": [
+          "p2",
+          "p3"
+        ],
+        "otherHeroesUnaffected": true
+      }
+    },
+    {
+      "label": "Two consecutive Boss battles keep the SAME three commanders and exactly two canonical reports",
+      "pass": true,
+      "evidence": {
+        "heroes": 3,
+        "stacksPerHero": 2,
+        "bossWins": 2,
+        "reportCount": 2,
+        "apTrips": 2
+      }
+    },
+    {
+      "label": "HG21 Tower three-hero selections survive a real joint Boss expedition and return",
+      "pass": true,
+      "evidence": {
+        "restoredHeroes": 3,
+        "restoredPicks": 6,
+        "worldBossRewards": 1,
+        "towerFloor": 1
+      }
+    },
+    {
+      "label": "Crossing casualty threshold stops before next turn even with three heroes present (fixture)",
+      "pass": true,
+      "evidence": {
+        "liveHeroes": 3,
+        "manual": true,
+        "extraTurns": 0
+      }
+    },
+    {
+      "label": "Refuse same soldier being reserved for two heroes; reject >2 stacks and >3 leaders",
+      "pass": true,
+      "evidence": {
+        "remaining": 11,
+        "collisionsRejected": true
+      }
+    },
+    {
+      "label": "Old HG26 v07 solo save reads without forced change, HG21 3×2 Tower still real",
+      "pass": true,
+      "evidence": {
+        "legacy": true,
+        "towerOwners": [
+          1,
+          2,
+          3
+        ]
+      }
+    },
+    {
+      "label": "HG14.4 six-stack joint Boss nameplates avoid sprites, each other and viewport edges",
+      "pass": true,
+      "evidence": {
+        "fixture": "three legal synthetic hero records; real dispatch and engine-created Boss battle",
+        "viewports": [
+          {
+            "width": 930,
+            "height": 320,
+            "nameplates": 9
+          },
+          {
+            "width": 1250,
+            "height": 500,
+            "nameplates": 9
+          },
+          {
+            "width": 1800,
+            "height": 610,
+            "nameplates": 9
+          }
+        ]
+      }
+    }
+  ]
+}

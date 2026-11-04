@@ -3,6 +3,7 @@ No gameplay resources or hero/army stats are granted by this test.
 """
 from pathlib import Path
 import json
+import os
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).parent
 OUT=ROOT/'docs'/'evidence'/'hg181';QA=ROOT/'docs'/'qa'/'hg181'
@@ -14,8 +15,12 @@ def check(name,condition,details=None):
   if not ok:raise AssertionError(name)
 try:
  with sync_playwright() as pw:
-  browser=pw.chromium.launch(headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files'])
+  launch={'headless':True,'args':['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files']}
+  chrome=os.environ.get('HOG_CHROME_PATH')
+  if chrome: launch['executable_path']=chrome
+  browser=pw.chromium.launch(**launch)
   page=browser.new_page(viewport={'width':1280,'height':720})
+  page.set_default_timeout(8000)
   page.on('pageerror',lambda e:errors.append(str(e)))
   page.goto((ROOT/'Play-Heoofgaia-HG11.html').as_uri(),wait_until='load')
   check('New Game creation remains clickable without document scrolling',
@@ -192,16 +197,78 @@ try:
       return a.length===6&&new Set(a.map(g=>g.hg261HeroId)).size===3&&
         s.army[s.race+'_1']===4&&s.ap<101&&HOG_ENGINE.strictSave(s);
     }"""))
-  page.locator('.game-window-body [data-action="hg26-stop"]').click()
-  check('HG26.1 real stop preserves the already dispatched joint army and Save',
+  page.locator('#save').click()
+  check('HG26.1 real Save button accepts the outbound six-stack v07 state',
     page.evaluate("""() => {
-      const s=HOG_APP_DEBUG.getState();
-      return !s.hg26.enabled&&s.expedition?.formation.length===6&&HOG_ENGINE.strictSave(s);
+      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),raw=localStorage.getItem(E.SAVE_KEY);
+      const parsed=raw&&E.parseSave(raw);
+      return !!parsed&&E.strictSave(s)&&parsed.expedition?.formation.length===6&&parsed.hg26.joint.team.length===3;
     }"""))
-    check('No uncaught runtime exceptions during modal switching',not errors,errors)
+  page.reload(wait_until='load')
+  check('Cold reload preserves HG26.1 outbound owners, six stacks and strict Save',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),a=s.expedition?.formation||[];
+      return !!s.march&&s.march.phase==='outbound'&&a.length===6&&
+        new Set(a.map(g=>g.hg261HeroId)).size===3&&HOG_ENGINE.strictSave(s);
+    }"""))
+  page.locator('#speed').click()
+  check('The real speed control returns the outbound march to 60x for bounded browser QA',
+    page.evaluate("HOG_APP_DEBUG.getState().speed===60"))
+  boss=page.evaluate("""() => {
+    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
+    const wallEta=Math.ceil((s.march.remaining+1)/s.speed);
+    E.tick(s,s.lastTick+Math.ceil((s.march.remaining+1)/s.speed*1000));
+    const opened=E.hg26Step(s);
+    const strict=HOG_ENGINE.strictSave(s),joint=s.battle?.hg261Joint;
+    E.hg26Stop(s,'QA: giữ nguyên trận Boss để kiểm tra Save/Reload thủ công');
+    HOG_APP_DEBUG.render();
+    return {opened:opened.type,battle:!!s.battle,joint:joint?.team||[],
+      stacks:s.battle?.allies.length||0,strict,wallEta,reportCount:s.battleReports.length};
+  }""")
+  check('HG26.1 actual route arrival opens one tactical Boss fight with six owner-tagged stacks',
+    boss['opened']=='battle_open' and boss['battle'] and len(boss['joint'])==3 and
+    boss['stacks']==6 and boss['strict'] and boss['reportCount']==0,boss)
+  page.locator('.scene-tools [data-action="save-combat"]').click()
+  check('Player Save button persists the live joint Boss encounter before resolution',
+    page.evaluate("""() => {
+      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),raw=localStorage.getItem(E.SAVE_KEY);
+      const parsed=raw&&E.parseSave(raw);
+      return !!parsed?.battle?.hg261Joint&&parsed.battle.allies.length===6&&
+        parsed.battleReports.length===0&&E.strictSave(s);
+    }"""))
+  page.wait_for_timeout(3000)
+  viewports=[(960,540),(1280,720),(1366,768),(1600,900),(1920,1080),(1818,830)]
+  for width,height in viewports:
+    page.set_viewport_size({'width':width,'height':height})
+    page.wait_for_timeout(120)
+    geometry=page.evaluate("""({width,height}) => {
+      const rect=s=>{const r=document.querySelector(s)?.getBoundingClientRect();return r&&{top:r.top,bottom:r.bottom,left:r.left,right:r.right}};
+      const title=rect('.scene-title>div:first-child'),tools=rect('.scene-tools');
+      const canvas=rect('#battle-canvas'),commands=rect('.command-bar');
+      const separated=!!title&&!!tools&&(title.right<=tools.left+1||title.bottom<=tools.top+1||tools.bottom<=title.top+1);
+      return {w:innerWidth,h:innerHeight,scrollW:document.scrollingElement.scrollWidth,
+        scrollH:document.scrollingElement.scrollHeight,canvas,commands,separated};
+    }""",{'width':width,'height':height})
+    page.screenshot(path=str(OUT/f'joint-boss-combat-{width}x{height}.png'))
+    valid=(geometry['w']==width and geometry['h']==height and geometry['scrollW']<=width+2 and
+      geometry['canvas'] is not None and geometry['commands'] is not None and
+      geometry['canvas']['top']>=0 and geometry['canvas']['bottom']<=height and
+      geometry['commands']['top']>=0 and geometry['commands']['bottom']<=height and geometry['separated'])
+    check(f'{width}x{height} joint Boss canvas, controls and title geometry',valid,geometry)
+  page.set_viewport_size({'width':960,'height':540})
+  page.reload(wait_until='load')
+  check('Cold reload during joint Boss combat restores all three owners and Save v07',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),b=s.battle;
+      return !!b?.hg261Joint&&b.hg261Joint.team.length===3&&b.allies.length===6&&
+        s.expedition?.formation.length===6&&s.battleReports.length===0&&HOG_ENGINE.strictSave(s);
+    }"""))
+
+
+  check('No uncaught runtime exceptions during modal switching',not errors,errors)
   browser.close()
 finally:
  receipt={'kind':'HG18.1 fixed-stage real Chromium UI','checks':checks,
   'passed':sum(c['pass'] for c in checks),'failed':sum(not c['pass'] for c in checks),
-  'errors':errors,'screens':['world-fixed-1280x720.png','army-seven-stacks-window.png','world-fixed-960x540.png','private-tower-real-command.png','private-tower-six-stack-battle.png']}
+  'errors':errors,'screens':['world-fixed-1280x720.png','army-seven-stacks-window.png','world-fixed-960x540.png','private-tower-real-command.png','private-tower-six-stack-battle.png','joint-boss-combat-960x540.png','joint-boss-combat-1280x720.png','joint-boss-combat-1366x768.png','joint-boss-combat-1600x900.png','joint-boss-combat-1920x1080.png','joint-boss-combat-1818x830.png']}
  (QA/'window-chrome.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')

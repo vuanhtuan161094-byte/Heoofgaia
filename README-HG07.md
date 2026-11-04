@@ -1,9 +1,11 @@
 # Hẻoofgaia HG-07 — Hero command capacity
 
+> Archive note: this file records the old HG-07 prototype and its then-current v06 save format. The only current offline game is [Play-Heoofgaia-HG11.html](Play-Heoofgaia-HG11.html); it uses Save v07 and migrates older saves. Use this archive for historical HG-07 behavior only.
+
 The project remains an **offline playable prototype, not a complete clone** of Heroes of Gaia. This sprint performs a narrow, evidence-backed implementation: level 1–100 base hero command limits using the community wiki table. Hero Arena rank, items, guild and racial bonuses remain explicitly outside scope. 2009 client/server binaries have not been recovered.
 
 ## Launch
-- Windows: open `Play-Heoofgaia-HG07.html` in Chrome/Edge; export a backup JSON before upgrading.
+- Windows: open `Play-Heoofgaia-HG11.html` in Chrome/Edge; export a backup JSON before upgrading.
 - Developer: `python build_offline.py`; `node qa-engine.cjs`; `python qa-browser.py` (needs Playwright + Chromium).
 - Sources run with `index.html` and JS/CSS in the same directory.
 - Existing HG02–HG06 save data uses its previous format and is imported via existing migration; **save key remains v06**.

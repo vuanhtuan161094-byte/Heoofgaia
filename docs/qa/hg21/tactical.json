@@ -1,0 +1,85 @@
+{
+  "passed": 8,
+  "total": 8,
+  "receipts": [
+    {
+      "name": "human: real recruit payment -> 1 hero 1 stack -> actual tactical victory -> v07 Save",
+      "ok": true,
+      "data": {
+        "race": "human",
+        "turns": 11,
+        "stacks": 1,
+        "claims": 1
+      }
+    },
+    {
+      "name": "elf: real recruit payment -> 1 hero 1 stack -> actual tactical victory -> v07 Save",
+      "ok": true,
+      "data": {
+        "race": "elf",
+        "turns": 13,
+        "stacks": 1,
+        "claims": 1
+      }
+    },
+    {
+      "name": "orc: real recruit payment -> 1 hero 1 stack -> actual tactical victory -> v07 Save",
+      "ok": true,
+      "data": {
+        "race": "orc",
+        "turns": 11,
+        "stacks": 1,
+        "claims": 1
+      }
+    },
+    {
+      "name": "undead: real recruit payment -> 1 hero 1 stack -> actual tactical victory -> v07 Save",
+      "ok": true,
+      "data": {
+        "race": "undead",
+        "turns": 11,
+        "stacks": 1,
+        "claims": 1
+      }
+    },
+    {
+      "name": "Three heroes contribute 2 slots each; buffs and attack power never cross hero owners",
+      "ok": true,
+      "data": {
+        "heroes": 3,
+        "stacks": 6,
+        "hero1Damage": 28,
+        "hero2Before": 27,
+        "hero2After": 70
+      }
+    },
+    {
+      "name": "Five rewards/day, sixth victory practice only, daily reset",
+      "ok": true,
+      "data": {
+        "rewardWins": 5,
+        "currentFloor": 6,
+        "gold": 59000,
+        "preservedSave": 7
+      }
+    },
+    {
+      "name": "High floor 25: earned win drops actual wearable floor-scaled gear (fixture floor/rank)",
+      "ok": true,
+      "data": {
+        "item": "private_riftblade",
+        "floor": 25,
+        "next": 26
+      }
+    },
+    {
+      "name": "Pre-HG21 selected team migrates without minting wealth and can select slots later",
+      "ok": true,
+      "data": {
+        "version": 7,
+        "gold": 33000,
+        "legacySelectedHero": 1
+      }
+    }
+  ]
+}

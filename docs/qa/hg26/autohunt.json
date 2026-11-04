@@ -1,0 +1,132 @@
+{
+  "passed": 14,
+  "total": 14,
+  "details": [
+    {
+      "name": "human New Game: default OFF; Save v07 exact migration, no free resources",
+      "pass": true,
+      "receipt": {
+        "race": "human",
+        "save": 7,
+        "mode": false
+      }
+    },
+    {
+      "name": "elf New Game: default OFF; Save v07 exact migration, no free resources",
+      "pass": true,
+      "receipt": {
+        "race": "elf",
+        "save": 7,
+        "mode": false
+      }
+    },
+    {
+      "name": "orc New Game: default OFF; Save v07 exact migration, no free resources",
+      "pass": true,
+      "receipt": {
+        "race": "orc",
+        "save": 7,
+        "mode": false
+      }
+    },
+    {
+      "name": "undead New Game: default OFF; Save v07 exact migration, no free resources",
+      "pass": true,
+      "receipt": {
+        "race": "undead",
+        "save": 7,
+        "mode": false
+      }
+    },
+    {
+      "name": "Start, AP charged once, army leaves garrison once, Save/Reload during march",
+      "pass": true,
+      "receipt": {
+        "apSpent": 8,
+        "armyDispatched": 16,
+        "phase": "outbound"
+      }
+    },
+    {
+      "name": "Auto-engage requires real trip; battle incurs real turns and stops after a defeat",
+      "pass": true,
+      "receipt": {
+        "outcome": "lose",
+        "turns": 4,
+        "report": "battle-1"
+      }
+    },
+    {
+      "name": "Synthetic powerful commander: genuine tactical win, real reward once and no replay after Save",
+      "pass": true,
+      "receipt": {
+        "winner": true,
+        "turns": 6,
+        "report": "battle-1",
+        "totalRewards": 1
+      }
+    },
+    {
+      "name": "Two real consecutive Boss victories use two AP charges and two canonical battle reports (synthetic commander)",
+      "pass": true,
+      "receipt": {
+        "attempts": 2,
+        "receipts": 2,
+        "privateBossVictories": 2
+      }
+    },
+    {
+      "name": "During real battle, crossing casualty threshold pauses for manual control before another turn (attrition fixture)",
+      "pass": true,
+      "receipt": {
+        "lostPercent": 38,
+        "limit": 25,
+        "manual": true,
+        "bonusReports": 0
+      }
+    },
+    {
+      "name": "Safety policy blocks dispatch when AP reserve cannot be respected",
+      "pass": true,
+      "receipt": {
+        "safety": "AP reserve",
+        "troops": 16
+      }
+    },
+    {
+      "name": "Max casualty stop after return; no second dispatch, no second charge (fixture)",
+      "pass": true,
+      "receipt": {
+        "loss": 38,
+        "max": 20,
+        "dispatchesAfterReturn": 0
+      }
+    },
+    {
+      "name": "Auto-heal queues real Arena treatment and waits until completion (fixture)",
+      "pass": true,
+      "receipt": {
+        "healed": 5,
+        "goldCharged": 90,
+        "awaited": true
+      }
+    },
+    {
+      "name": "Explicit stop stops bot transitions but does not cancel an active real expedition",
+      "pass": true,
+      "receipt": {
+        "phase": "halted",
+        "tripStillExists": true
+      }
+    },
+    {
+      "name": "Old HG24 save without hg26 migrates without extra troop, EXP, or gold",
+      "pass": true,
+      "receipt": {
+        "version": 7,
+        "gold": 33000,
+        "winCount": 0
+      }
+    }
+  ]
+}

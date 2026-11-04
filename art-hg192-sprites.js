@@ -1,4 +1,4 @@
-/* HG19.2 — exact imported pixel sprites from curated DCSS CC0 export. 
+/* HG19.2 — exact imported pixel sprites from curated DCSS CC0 export.
  * Keep 32px masters and basic pose animation. See docs/art/HG192_ASSET_REPORT.md.
  */
 (function(root){'use strict';

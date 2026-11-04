@@ -1,14 +1,14 @@
 {
-  "date": "2026-11-02T15:10:46.943Z",
+  "date": "2026-11-04T18:02:20.724Z",
   "browser": "Google Chrome headless via local DevTools Protocol",
   "viewport": "1280x980",
-  "url": "file:///E:/Heoofgaia/Play-Heoofgaia-HG10.html",
+  "url": "file:///E:/Heoofgaia/Play-Heoofgaia-HG11.html",
   "seedDisclosure": "Fame set to 5,800 and outbound travel timer shortened after a real March click. Initial army, neutral defenders, battle rules and real Attack controls remained untouched.",
   "checks": [
     {
       "name": "Offline HTML exists",
       "ok": true,
-      "detail": "E:\\Heoofgaia\\Play-Heoofgaia-HG10.html"
+      "detail": "E:\\Heoofgaia\\Play-Heoofgaia-HG11.html"
     },
     {
       "name": "Chrome executable exists",
@@ -23,7 +23,7 @@
     {
       "name": "Chrome rendered the offline game",
       "ok": true,
-      "detail": "{\"title\":\"Hẻoofgaia HG-10 • Heroes of Gaia reconstruction\",\"ready\":\"complete\",\"engine\":7,\"body\":true}"
+      "detail": "{\"title\":\"Anh Hùng Thời Loạn\",\"ready\":\"complete\",\"engine\":7,\"body\":true}"
     },
     {
       "name": "New-game control starts a playable kingdom with fixture Fame",
@@ -48,17 +48,17 @@
     {
       "name": "Real attack control wins and captures the city",
       "ok": true,
-      "detail": "{\"battle\":false,\"cities\":2,\"city\":\"elf\",\"stationed\":{\"human_1\":5},\"army\":0}"
+      "detail": "{\"battle\":false,\"cities\":2,\"city\":\"elf\",\"stationed\":{\"human_1\":8},\"army\":0}"
     },
     {
       "name": "City selector switches the actual active economy to Elf",
       "ok": true,
-      "detail": "{\"id\":\"city-9-10\",\"race\":\"elf\",\"name\":\"Thành Nguyệt\"}"
+      "detail": "{\"id\":\"city-9-10\",\"race\":\"elf\",\"name\":\"Thế giới Gaia\"}"
     },
     {
       "name": "Secondary-city task claims are visibly disabled",
       "ok": true,
-      "detail": "{\"count\":4,\"allDisabled\":true}"
+      "detail": "{\"count\":2,\"allDisabled\":true,\"heroTaskDisabled\":true}"
     },
     {
       "name": "Save persists both castles and garrison across file reload",
