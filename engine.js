@@ -380,8 +380,8 @@ function battlePath(b,actor,destination){
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
 }
 function battleMovementBudget(b,actor,commitCredit=false){
- const base=actor.range>1?1:actor.spd>=7?2:1,skill=b?.movementInstinct;
- if(actor.side!=='player'||actor.range>1||!skill||b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell.expiry)return base;
+ const base=actor.range>1?1:actor.spd>=7?2:1,skill=b?.hg21Tower?b.heroMovementInstinct?.[actor.heroId]:b?.movementInstinct;
+ if(actor.side!=='player'||actor.range>1||!skill||(!b.hg21Tower&&b.activeSpell?.id!==skill.id)||b.turn>=skill.expiry)return base;
  const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
  const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
 }
@@ -432,15 +432,23 @@ function strike(s,b,actor,target,order,trace){
  // A unit with zero attack must not inflict a fictitious minimum point.
  // The community PvE base is ATK²/(ATK+DEF), including a valid DEF=0 target.
  if(actor.atk<=0||actor.count<=0)return 0;
- const h=s.heroes.find(x=>x.id===s.activeHero);
- const bonus=actor.side==='player'?(1+(h?.atk||0)/100):1;
+ // In a tower battle, each stack retains its own commander. The base world
+ // campaign continues to use its canonical single activeHero path unchanged.
+ const tower=!!b.hg21Tower;
+ const attackId=tower&&actor.side==='player'?actor.heroId:s.activeHero;
+ const defenseId=tower&&target.side==='player'?target.heroId:s.activeHero;
+ const attacker=s.heroes.find(x=>x.id===attackId),defender=s.heroes.find(x=>x.id===defenseId);
+ const attacking=tower&&actor.side==='player'?root.HOG_ENGINE?.heroStats?.(s,attackId):null;
+ const defending=tower&&target.side==='player'?root.HOG_ENGINE?.heroStats?.(s,defenseId):null;
+ const bonus=actor.side==='player'?(1+((attacking?.atk??attacker?.atk)||0)/100):1;
  // Physical defense alone cannot reduce unit damage below 30% of raw attack.
- // Equipment, Hero defense and stance reduction apply after that floor.
+ // Equipment and Hero defense must follow each stack's owner, never a team-wide buff.
  const base=Math.max(actor.atk*.30,actor.atk*actor.atk/(actor.atk+Math.max(0,target.def)));
- const defendFactor=target.side==='player'?(1+(h?.def||0)/100):1;
- const mods=root.HOG_ENGINE?.combatModifiers?.(s,s.activeHero)||{};
- const weaponMod=actor.side==='player'?(mods.damageBonus||0)+(actor.range>1?(mods.rangedDamage||0):(mods.meleeDamage||0)):0;
- const armorMod=target.side==='player'?Math.max(0,1-(mods.damageReduction||0)):1;
+ const defendFactor=target.side==='player'?(1+((defending?.def??defender?.def)||0)/100):1;
+ const attackMods=root.HOG_ENGINE?.combatModifiers?.(s,attackId)||{};
+ const defenseMods=tower?root.HOG_ENGINE?.combatModifiers?.(s,defenseId)||{}:attackMods;
+ const weaponMod=actor.side==='player'?(attackMods.damageBonus||0)+(actor.range>1?(attackMods.rangedDamage||0):(attackMods.meleeDamage||0)):0;
+ const armorMod=target.side==='player'?Math.max(0,1-(defenseMods.damageReduction||0)):1;
  const guardMod=target.guardTurn===b.turn?.75:1;
  const rawDamage=Math.max(1,Math.floor(actor.count*base*bonus/defendFactor*(1+weaponMod)*armorMod*guardMod));
  // HP actually removed is the authoritative damage receipt. Formerly the
@@ -448,7 +456,7 @@ function strike(s,b,actor,target,order,trace){
  const appliedDamage=Math.min(target.pool,rawDamage);
  target.pool=Math.max(0,target.pool-appliedDamage);
  const lost=Math.min(target.count,Math.max(0,target.count-Math.ceil(target.pool/target.hp)));
- if(lost>0){target.count-=lost;if(target.side==='player')casualty(s,target.unitId,lost,target.slot)}
+ if(lost>0){target.count-=lost;if(target.side==='player'&&!b.hg21Tower)casualty(s,target.unitId,lost,target.slot)}
  return appliedDamage;
 }
 function battleAct(s,action,options){
@@ -493,7 +501,9 @@ function battleAct(s,action,options){
   if(actor.side==='player')dealt+=amount;else lost+=amount;
  }
  const turn=b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.lastMoves=lastMoves;b.lastEvents=lastEvents;const movementSummary=lastMoves.map(m=>`${m.unitId} đi ${m.steps} ô tới (${m.to.x},${m.to.y})`).join('; ');b.history.unshift(`Lượt ${turn}: ${movementSummary?`${movementSummary}; `:''}quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
- if(!alive(b.enemies).length){const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
+ if(!alive(b.enemies).length){
+  if(b.hg21Tower){s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost,order:acted.slice()};}
+  const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
   if(b.kind==='treasure'){if(!Array.isArray(s.treasureCleared))s.treasureCleared=[];if(!s.treasureCleared.includes(tile.key))s.treasureCleared.push(tile.key);add(s,{gold:75*b.level,wood:8*b.level,ore:8*b.level,sulfur:5*b.level,crystal:5*b.level});note(s,`Đánh thắng kho báu cấp ${b.level}; đã dọn vị trí. Phần quà tài nguyên phụ là mô hình.`)}
   else if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level,cityId:s.activeCityId||'main'});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
   else if(tile.kind==='castle'){s.cleared.push(tile.key);note(s,`Đánh chiếm thành trung lập ${tile.value||tile.key}.`)}
@@ -507,7 +517,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder};
+const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 
