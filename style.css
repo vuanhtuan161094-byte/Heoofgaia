@@ -9,3 +9,6 @@
 
 /* HG19 fantasy icon family, offline and readable at small sizes. */
 .hog-ui-icon{display:inline-block;vertical-align:-.28em;object-fit:contain;flex-shrink:0;margin-right:2px}.hog-unit-thumb{display:inline-block;vertical-align:middle;object-fit:contain;filter:drop-shadow(0 2px 3px #08101880);margin:-8px 5px -8px -4px}.unitrow .heading{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.unitrow .heading .hog-unit-thumb{margin:-6px 4px -6px -3px;background:radial-gradient(ellipse at center,#3b54634d,transparent 72%);border-radius:10px}.race-card .hog-ui-icon{margin:auto;vertical-align:middle}.tabs .hog-ui-icon{width:20px;height:20px;vertical-align:middle}.resource .hog-ui-icon{width:21px;height:21px}.gear-card .hog-ui-icon{vertical-align:-.3em}
+
+/* HG19.2 sourced 32px CC0 fantasy sprites: preserve crisp shapes in 1280x720 landscape. */
+.hog-pixel-troop{image-rendering:pixelated;object-fit:contain;filter:drop-shadow(0 2px 2px #07121cb3) drop-shadow(0 0 3px #e1b76c55)}

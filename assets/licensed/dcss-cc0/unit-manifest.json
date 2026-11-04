@@ -1,0 +1,227 @@
+{
+  "schema": "HG192",
+  "version": 1,
+  "curatedSource": "crawl/tiles Nov-2015 release",
+  "sourceRepository": "https://github.com/crawl/tiles",
+  "sourceLicense": "Curated CC0 export (see repository README and excluded unknown-license list)",
+  "pixelArt": true,
+  "animation": "five HG14 basic motion states (no fabricated frame atlas)",
+  "units": [
+    {
+      "id": "human_5",
+      "path": "assets/licensed/dcss-cc0/human_5.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/griffon.png",
+      "sourceRelative": "mon/griffon.png",
+      "sourceBlob": "556f58e14868f226999f54faa8be36a8a4a9c57f",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "human_9",
+      "path": "assets/licensed/dcss-cc0/human_9.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/holy/angel.png",
+      "sourceRelative": "mon/holy/angel.png",
+      "sourceBlob": "3e1097994ed54628b3dd776d3899a1af73774a61",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "human_10",
+      "path": "assets/licensed/dcss-cc0/human_10.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/holy/seraph.png",
+      "sourceRelative": "mon/holy/seraph.png",
+      "sourceBlob": "5876290ba609643a0b89f42e6290c3adc16dffde",
+      "width": 32,
+      "height": 48
+    },
+    {
+      "id": "elf_3",
+      "path": "assets/licensed/dcss-cc0/elf_3.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dwarf.png",
+      "sourceRelative": "mon/dwarf.png",
+      "sourceBlob": "4b8376df63bf7889a6e4ecc64ae77f5498dfe677",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "elf_6",
+      "path": "assets/licensed/dcss-cc0/elf_6.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dryad.png",
+      "sourceRelative": "mon/dryad.png",
+      "sourceBlob": "d15cdb5c95b4c4f0c78f9babd74eb6f41192bd00",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "elf_8",
+      "path": "assets/licensed/dcss-cc0/elf_8.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/deep_elf_master_archer.png",
+      "sourceRelative": "mon/deep_elf_master_archer.png",
+      "sourceBlob": "0a94ec1d4bc8ea424446792e03c0027cc16897dd",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "elf_9",
+      "path": "assets/licensed/dcss-cc0/elf_9.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dragons/swamp_dragon.png",
+      "sourceRelative": "mon/dragons/swamp_dragon.png",
+      "sourceBlob": "27b13ab4c17bb89f1611d23f5fa8f32371f0c5b2",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "elf_10",
+      "path": "assets/licensed/dcss-cc0/elf_10.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dragons/quicksilver_dragon.png",
+      "sourceRelative": "mon/dragons/quicksilver_dragon.png",
+      "sourceBlob": "fc95fcd2064dbc7d2f0459501c5f12f84d07fb06",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "orc_3",
+      "path": "assets/licensed/dcss-cc0/orc_3.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/orc_warrior.png",
+      "sourceRelative": "mon/orc_warrior.png",
+      "sourceBlob": "fe120cd4b29dc1c925b995b578876e0fa5279c85",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "orc_4",
+      "path": "assets/licensed/dcss-cc0/orc_4.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/animals/wolf.png",
+      "sourceRelative": "mon/animals/wolf.png",
+      "sourceBlob": "30aeba087491cd2a337083008047afd8fb2f214d",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "orc_5",
+      "path": "assets/licensed/dcss-cc0/orc_5.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/ogre.png",
+      "sourceRelative": "mon/ogre.png",
+      "sourceBlob": "bacca8a73936d01fa933eda7c1a7cc89600177e8",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "orc_6",
+      "path": "assets/licensed/dcss-cc0/orc_6.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/harpy.png",
+      "sourceRelative": "mon/harpy.png",
+      "sourceBlob": "d671707072913f726c45ac1ffaa31ba175d2ad23",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "orc_8",
+      "path": "assets/licensed/dcss-cc0/orc_8.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/cyclops.png",
+      "sourceRelative": "mon/cyclops.png",
+      "sourceBlob": "f78aa44c65a6bd41de6d67fb9e77ddd77ab85664",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "orc_9",
+      "path": "assets/licensed/dcss-cc0/orc_9.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/mutant_beast.png",
+      "sourceRelative": "mon/mutant_beast.png",
+      "sourceBlob": "2ca93cda6ee7af858ce233ad529d50ce5905a348",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "orc_10",
+      "path": "assets/licensed/dcss-cc0/orc_10.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/juggernaut.png",
+      "sourceRelative": "mon/juggernaut.png",
+      "sourceBlob": "690ca214fdf7085e686eaa1a43958a2df54e752e",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_2",
+      "path": "assets/licensed/dcss-cc0/undead_2.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/ghost.png",
+      "sourceRelative": "mon/undead/ghost.png",
+      "sourceBlob": "ac3c858bfe37ede4a0635ffd7e321241d04f22c2",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_3",
+      "path": "assets/licensed/dcss-cc0/undead_3.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/necrophage.png",
+      "sourceRelative": "mon/undead/necrophage.png",
+      "sourceBlob": "7d91859c477fb6662cf24370339fb12e200bd22c",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_4",
+      "path": "assets/licensed/dcss-cc0/undead_4.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/shadow_wraith.png",
+      "sourceRelative": "mon/undead/shadow_wraith.png",
+      "sourceBlob": "1c347208131625cb39162780e5ffafe6a7c5cafe",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_5",
+      "path": "assets/licensed/dcss-cc0/undead_5.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/vampire.png",
+      "sourceRelative": "mon/undead/vampire.png",
+      "sourceBlob": "8505b59031ad59dabb9ce24ee5fb50e3524660fd",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_6",
+      "path": "assets/licensed/dcss-cc0/undead_6.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/lich.png",
+      "sourceRelative": "mon/undead/lich.png",
+      "sourceBlob": "0167b552ea0e92aa5497a52fccd998ece33360f8",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_7",
+      "path": "assets/licensed/dcss-cc0/undead_7.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/phantasmal_warrior.png",
+      "sourceRelative": "mon/undead/phantasmal_warrior.png",
+      "sourceBlob": "f4b1f0be9fd7298b01fdccd3a7173e93231f67a1",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_8",
+      "path": "assets/licensed/dcss-cc0/undead_8.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/ancient_lich.png",
+      "sourceRelative": "mon/undead/ancient_lich.png",
+      "sourceBlob": "4d2dc3f4f73366084b2ce4c36ee7046ce84b72d2",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_9",
+      "path": "assets/licensed/dcss-cc0/undead_9.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/bone_dragon.png",
+      "sourceRelative": "mon/undead/bone_dragon.png",
+      "sourceBlob": "e9941ec367f30b08ef7b933229d738f44119a4bd",
+      "width": 32,
+      "height": 32
+    },
+    {
+      "id": "undead_10",
+      "path": "assets/licensed/dcss-cc0/undead_10.png",
+      "source": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dragons/shadow_dragon.png",
+      "sourceRelative": "mon/dragons/shadow_dragon.png",
+      "sourceBlob": "b0feca01e1ed9af0fe194ec48cf9d77e64f249b5",
+      "width": 32,
+      "height": 32
+    }
+  ]
+}

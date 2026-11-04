@@ -66,6 +66,11 @@ jobs:
           node --check art-free-icons-extra.js
           node --check qa-hg191-assets.cjs
           node qa-hg191-assets.cjs
+      - name: HG19.2 24 species-matched CC0 source sprite integrity
+        run: |
+          node --check art-hg192-sprites.js
+          node --check qa-hg192-assets.cjs
+          node qa-hg192-assets.cjs
       - name: Install headless Chromium for actual battlefield acceptance
         run: |
           python -m pip install playwright
@@ -74,6 +79,8 @@ jobs:
         run: python qa-hg19-art-chrome.py
       - name: HG19.1 real PNG sprite frames and Game-Icons Chrome acceptance
         run: python qa-hg191-assets-chrome.py
+      - name: HG19.2 Chromium source sprite decode and battle readability
+        run: python qa-hg192-assets-chrome.py
       - name: Chrome battlefield viewport, pointer and Save/Reload acceptance
         run: python qa-hg09-combat-viewport-chrome.py
       - name: HG18 actual quest forging rebirth UI Chrome gate
@@ -141,6 +148,17 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+      - name: Upload HG19.2 sourced-creature artwork and QA independently
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG19.2-fantasy-source-creatures
+          path: |
+            docs/qa/hg192/source-assets.json
+            docs/qa/hg192/chrome-art.json
+            docs/qa/hg192/creature-contact-sheet.png
+          retention-days: 7
+          if-no-files-found: warn
       - name: Upload HG19.1 source-art screenshots and QA independently
         if: always()
         uses: actions/upload-artifact@v4

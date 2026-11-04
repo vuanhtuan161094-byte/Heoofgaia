@@ -299,7 +299,7 @@ function animatedArcher(c,x,y,enemy,visual,k=1){
  c.restore();return true;
 }
 function motionSprite(c,x,y,unitId,enemy,visual,k=1){
- const A=root.HOG_ART_PACK,profile=MOTION_SPRITES[unitId]||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
+ const A=root.HOG_ART_PACK,profile=MOTION_SPRITES[unitId]||root.HOG_HG192_SPRITES?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
  if(!profile||!visual||typeof document==='undefined')return false;
  const image=profile.id?document.getElementById(profile.id):A.unitImage(unitId);
  if(!image?.complete||!image.naturalWidth)return false;
@@ -308,7 +308,12 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1){
  c.translate(x,y);if(enemy)c.scale(-1,1);
  c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
  c.scale(pose.sx,pose.sy);c.translate(0,size*.39);
- c.drawImage(image,-size/2,-size*profile.pivot,size,size);
+ if(profile.pixelated)c.imageSmoothingEnabled=false;
+ if(profile.glow){c.shadowColor=profile.glow;c.shadowBlur=6;}
+ const aspect=profile.pixelated?image.naturalWidth/Math.max(1,image.naturalHeight):1;
+ const imgW=profile.pixelated&&aspect<1?size*aspect:size;
+ const imgH=profile.pixelated&&aspect>1?size/aspect:size;
+ c.drawImage(image,-imgW/2,-imgH*profile.pivot,imgW,imgH);
  if(pose.flash>0){
   // Compact impact halo follows the silhouette but does not repaint the entire battlefield.
   c.globalAlpha*=pose.flash*.54;c.strokeStyle='#ffbaa1';c.lineWidth=2.5;

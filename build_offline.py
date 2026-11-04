@@ -3,6 +3,7 @@ Run: python build_offline.py
 """
 from pathlib import Path
 import base64
+import json
 import re
 import subprocess
 import sys
@@ -13,7 +14,7 @@ for css in ['style.css','style-hg03.css']:
     pattern=re.compile(r'<link\s+rel="stylesheet"\s+href="'+re.escape(css)+r'">')
     html,n=pattern.subn(lambda _: '<style>\n'+(folder/css).read_text(encoding='utf-8').rstrip()+ '\n</style>',html)
     assert n==1,(css,n)
-for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-pack.js','painter.js','app.js']:
+for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-hg192-sprites.js','art-pack.js','painter.js','app.js']:
     pattern=re.compile(r'<script\s+src="'+re.escape(js)+r'"></script>')
     html,n=pattern.subn(lambda _: '<script>\n'+(folder/js).read_text(encoding='utf-8').rstrip()+'\n</script>',html)
     assert n==1,(js,n)
@@ -58,6 +59,15 @@ for asset in [
     html=html.replace(needle,'src="data:image/png;base64,'+base64.b64encode((folder/asset).read_bytes()).decode('ascii')+'"')
 assert 'assets/licensed/spritecook/' not in html
 assert 'assets/licensed/kaykit-heavy-soldier/rendered/' not in html
+# HG19.2: manifest-driven official sprite imports, one preloaded PNG per troop ID.
+hg192=json.loads((folder/'assets/licensed/dcss-cc0/unit-manifest.json').read_text(encoding='utf-8'))
+assert len(hg192['units'])==24
+for unit in hg192['units']:
+    asset=unit['path']
+    needle=f'src="{asset}"'
+    assert html.count(needle)==1,(asset,html.count(needle))
+    html=html.replace(needle, f'src="data:image/png;base64,{base64.b64encode((folder/asset).read_bytes()).decode("ascii")}"')
+assert 'assets/licensed/dcss-cc0/' not in html
 # HG12 vector combat units are bundled into the same standalone HTML without
 # network dependencies. They are source-separated, transparent illustrated assets.
 for unit_asset in [
@@ -81,6 +91,6 @@ assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
-assert html.count('<script>')==16
+assert html.count('<script>')==17
 (folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8')
 print('Built offline HTML:',len(html),'characters')

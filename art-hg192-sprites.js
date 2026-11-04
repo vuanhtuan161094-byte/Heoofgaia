@@ -1,0 +1,14 @@
+/* HG19.2 — exact imported pixel sprites from curated DCSS CC0 export. 
+ * Keep 32px masters and basic pose animation. See docs/art/HG192_ASSET_REPORT.md.
+ */
+(function(root){'use strict';
+const MAP=Object.freeze({"human_5":{"id":"hg192-unit-human_5","pivot":1,"size":128,"pixelated":true,"glow":null},"human_9":{"id":"hg192-unit-human_9","pivot":1,"size":112,"pixelated":true,"glow":null},"human_10":{"id":"hg192-unit-human_10","pivot":1,"size":112,"pixelated":true,"glow":"#f3d597"},"elf_3":{"id":"hg192-unit-elf_3","pivot":1,"size":112,"pixelated":true,"glow":null},"elf_6":{"id":"hg192-unit-elf_6","pivot":1,"size":112,"pixelated":true,"glow":null},"elf_8":{"id":"hg192-unit-elf_8","pivot":1,"size":112,"pixelated":true,"glow":null},"elf_9":{"id":"hg192-unit-elf_9","pivot":1,"size":128,"pixelated":true,"glow":null},"elf_10":{"id":"hg192-unit-elf_10","pivot":1,"size":128,"pixelated":true,"glow":"#b0f7d0"},"orc_3":{"id":"hg192-unit-orc_3","pivot":1,"size":112,"pixelated":true,"glow":null},"orc_4":{"id":"hg192-unit-orc_4","pivot":1,"size":112,"pixelated":true,"glow":null},"orc_5":{"id":"hg192-unit-orc_5","pivot":1,"size":112,"pixelated":true,"glow":null},"orc_6":{"id":"hg192-unit-orc_6","pivot":1,"size":112,"pixelated":true,"glow":null},"orc_8":{"id":"hg192-unit-orc_8","pivot":1,"size":112,"pixelated":true,"glow":null},"orc_9":{"id":"hg192-unit-orc_9","pivot":1,"size":128,"pixelated":true,"glow":null},"orc_10":{"id":"hg192-unit-orc_10","pivot":1,"size":128,"pixelated":true,"glow":"#f3d597"},"undead_2":{"id":"hg192-unit-undead_2","pivot":1,"size":112,"pixelated":true,"glow":null},"undead_3":{"id":"hg192-unit-undead_3","pivot":1,"size":112,"pixelated":true,"glow":null},"undead_4":{"id":"hg192-unit-undead_4","pivot":1,"size":112,"pixelated":true,"glow":null},"undead_5":{"id":"hg192-unit-undead_5","pivot":1,"size":112,"pixelated":true,"glow":null},"undead_6":{"id":"hg192-unit-undead_6","pivot":1,"size":112,"pixelated":true,"glow":null},"undead_7":{"id":"hg192-unit-undead_7","pivot":1,"size":112,"pixelated":true,"glow":null},"undead_8":{"id":"hg192-unit-undead_8","pivot":1,"size":112,"pixelated":true,"glow":"#97bcf5"},"undead_9":{"id":"hg192-unit-undead_9","pivot":1,"size":128,"pixelated":true,"glow":"#97bcf5"},"undead_10":{"id":"hg192-unit-undead_10","pivot":1,"size":128,"pixelated":true,"glow":"#97bcf5"}});
+function profile(id){return MAP[id]||null;}
+function thumb(id,size){
+ const spec=profile(id);if(!spec||typeof document==='undefined')return '';
+ const image=document.getElementById(spec.id);if(!image)return '';
+ const px=Math.max(24,Math.min(128,Number(size)||52));
+ return '<img class="hog-unit-thumb hog-pixel-troop" data-hog-unit="'+id+'" width="'+px+'" height="'+px+'" alt="" loading="lazy" src="'+image.src+'" style="image-rendering:pixelated;object-fit:contain">';
+}
+root.HOG_HG192_SPRITES=Object.freeze({profile,thumb,ids:()=>Object.keys(MAP)});
+})(typeof globalThis!=='undefined'?globalThis:this);
