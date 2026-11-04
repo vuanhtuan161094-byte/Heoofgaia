@@ -161,7 +161,8 @@ E.battleAct=(s,cmd,options)=>{ensure(s);const h=s.heroes.find(x=>x.id===s.active
    const pools=['copper_blade','iron_armor','ash_bow','traveler_cloak','quartz_ring','old_talisman'];
    const item=pools[(b.target.split(',').reduce((n,v)=>n+Number(v),0)+s.lootWins)%pools.length];
    const origin=isTreasure?`Kho báu cấp ${b.level} tại (${b.target}) · loot mô phỏng`:`PvE (${b.target})`;
-   addItem(s,item,origin);E.note(s,`Nhặt được ${ITEMS[item].name} sau giao tranh (drop mô phỏng).`);
+   if(s.inventory.length<2000){addItem(s,item,origin);E.note(s,`Nhặt được ${ITEMS[item].name} sau giao tranh (drop mô phỏng).`);}
+   else E.note(s,'Túi trang bị đã đầy (2.000 món); phần thưởng trang bị thường được bỏ qua, không làm hỏng Save. Hãy phân giải đồ cũ.');
   }
  }
  return out;
