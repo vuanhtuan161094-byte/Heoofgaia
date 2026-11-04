@@ -203,6 +203,21 @@ function castellanExperienceFromResources(cost){
  if(!Number.isFinite(value)||value<0||value>3e12)throw Error('Giá trị kinh nghiệm Castellan không hợp lệ');
  return value/3;
 }
+// Fandom Newbie Guide: finished buildings/recruitment are important Fame
+// sources. Coefficients here are offline-game balance, not historical ranks.
+// Credit occurs on actual completion, never when adding a queue item.
+function progressFame(s,cost,kind){
+ const factor=kind==='building'?.20:kind==='research'?.08:kind==='training'?.04:0;
+ if(!factor)throw Error('Loại thưởng Fame không hợp lệ.');
+ const value=E.castellanExperienceFromResources?E.castellanExperienceFromResources(cost)*3:
+  (cost.gold||0)+5*((cost.wood||0)+(cost.ore||0))+10*((cost.sulfur||0)+(cost.crystal||0));
+ if(!Number.isFinite(value)||value<0||value>3e12)throw Error('Giá trị Fame không hợp lệ.');
+ const gain=Math.max(1,Math.ceil(value*factor));
+ if(!Number.isSafeInteger(gain)||s.fame+gain>1e12)throw Error('Vượt giới hạn Fame.');
+ s.fame+=gain;const next=fameApStats(s.fame);s.apMax=next.max;s.ap=Math.min(s.ap,s.apMax);
+ E.note(s,`Hoàn thành ${kind==='building'?'xây dựng':kind==='research'?'nghiên cứu':'huấn luyện'}: +${gain} Fame (cân bằng offline).`);
+ return gain;
+}
 function grantCastellanActivityExperience(s,cost,activity){
  ensure(s);const hero=s.heroes.find(h=>h.id===s.castellan);if(!hero)return null;
  const base=castellanExperienceFromResources(cost);if(base<=0||hero.level>=100)return null;
@@ -239,6 +254,7 @@ function finishResearch(s){
  const cost=E.spellCost(s,q.key),spellName=E.C.spells[q.key].vi||E.C.spells[q.key].name;
  s.spells[q.key]=q.level;s.researchQueue=null;E.note(s,`Hoàn thành ${E.C.spells[q.key].vi||E.C.spells[q.key].name} cấp ${q.level}.`);
  grantCastellanActivityExperience(s,cost,`nghiên cứu ${spellName} cấp ${q.level}`);
+ progressFame(s,cost,'research');
 }
 function unitPrerequisites(s,u){
  const trainingBuilding=troopBuildingKey(s);
@@ -370,6 +386,12 @@ function tick(s,now=Date.now()){
   if(s.battle&&s.expedition){s.expedition.phase='battle';s.activeHero=s.expedition.heroId}
   if(s.tavern.round!==priorTavernRound){highTavernCommonStats(s);tavernOffers(s)}
   if(s.castellan){let value=0;for(const u of E.arrUnits(s)){const made=Math.max(0,(s.army[u.id]||0)-(before[u.id]||0));if(made)value+=castellanExperienceFromResources(u.cost)*made}if(value>0)grantHeroExperience(s,s.castellan,value,'đào tạo quân khi làm Castellan · công thức cộng đồng')}
+  // Fame from completed training only; Arena healing occurs later.
+  const recruitedCost={};for(const u of E.arrUnits(s)){
+   const made=Math.max(0,(s.army[u.id]||0)-(before[u.id]||0));
+   if(made)for(const k of E.C.keys)recruitedCost[k]=(recruitedCost[k]||0)+(u.cost[k]||0)*made;
+  }
+  if(Object.keys(recruitedCost).length)progressFame(s,recruitedCost,'training');
   progressArena(s,gameSeconds);
   if(s.march?.phase==='return'&&s.march.remaining<=1e-9)finishReturn(s);
   activateParallelMarch(s);
@@ -470,7 +492,7 @@ E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=t
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,FAME_AP,MINE_HOURLY,mineLimit,heroCountLimit,fameApStats,
  ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,NPC_BATTLE_XP,battleExperienceReward,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  buildingUpgradeGate,buildingUpgradeCapException,
-technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,castellanExperienceFromResources,grantCastellanActivityExperience,
+technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,castellanExperienceFromResources,grantCastellanActivityExperience,progressFame,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
 root.HOG_HG08={version:V,saveKey:KEY,status:'evidence-labelled-progression'};
 })(typeof globalThis!=='undefined'?globalThis:this);
