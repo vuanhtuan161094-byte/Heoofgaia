@@ -165,6 +165,7 @@ function unitImage(id){
 function unitHTML(id,size){
  if(!unitSVG(id))return '';
  const px=Math.max(24,Math.min(128,Number(size)||52));
+ const imported=root.HOG_FREE_SPRITES?.thumb(id,px);if(imported)return imported;
  return '<img class="hog-unit-thumb" data-hog-unit="'+id+'" width="'+px+'" height="'+px+'" alt="" loading="lazy" src="'+unitSrc(id)+'">';
 }
 const ICON_GROUPS={
@@ -217,10 +218,13 @@ function iconSVG(key){
  const def=ICON_GROUPS[key]||(ITEM_GROUPS[key]?[PALETTES.human.metal,ITEM_GROUPS[key]]:null);
  if(!def)return null;
  const col=def[0],type=def[1];
+ const alias={resource_card:'gold',enhance_stone:'crystal',astral_shard:'crystal',gear_pack:'armor',set_chest:'armor',resource_chest:'gold',hero_reset:'magic',city:'human',hall:'human',barracks:'army',magicTower:'magic',forge:'relics',blacksmith:'relics'};
+ const real=root.HOG_FREE_GLYPHS?.[key]||root.HOG_FREE_GLYPHS?.[alias[key]];
+ const art=real?'<g transform="translate(10 10) scale(.086)" fill="'+col+'"><path d="'+real+'"/></g>':iconGlyph(type,col);
  const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64"><defs><linearGradient id="bg" x2="0" y2="1"><stop stop-color="#304453"/><stop offset="1" stop-color="#0c192b"/></linearGradient></defs>'+
  p('M32 3 L54 14 L60 33 L51 53 L32 61 L13 53 L4 33 L10 14 Z','url(#bg)','#c2aa76')+
  p('M32 8 L51 17 L55 33 L48 49 L32 56 L16 49 L9 33 L14 17 Z','none',col)+
- iconGlyph(type,col)+'</svg>';
+ art+'</svg>';
  iconCache.set(key,svg);return svg;
 }
 function iconHTML(key,size){

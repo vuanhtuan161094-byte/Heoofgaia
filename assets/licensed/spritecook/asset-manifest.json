@@ -1,0 +1,97 @@
+{
+  "schema": "HG191-free-asset-intake-v1",
+  "date": "2026-11-04",
+  "license": "CC0-1.0",
+  "source": "https://github.com/SpriteCook/spritecook-free-game-assets",
+  "files": [
+    {
+      "unit": "human_2",
+      "clip": "idle",
+      "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-red-cloaked-rogue/idle_sheet.png",
+      "path": "assets/licensed/spritecook/human-scout/idle.png",
+      "sourceBlob": "024959bbf318384f7cbca7d8fc710b2e365410e3",
+      "frames": 8,
+      "cellSize": [
+        192,
+        192
+      ],
+      "format": "PNG RGBA"
+    },
+    {
+      "unit": "human_7",
+      "clip": "idle",
+      "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/idle_sheet.png",
+      "path": "assets/licensed/spritecook/human-elite/idle.png",
+      "sourceBlob": "d833b70d59cbb9dc470b33d3f86493f67d0b7969",
+      "frames": 8,
+      "cellSize": [
+        88,
+        88
+      ],
+      "format": "PNG RGBA"
+    },
+    {
+      "unit": "human_7",
+      "clip": "walk",
+      "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/walk_sheet.png",
+      "path": "assets/licensed/spritecook/human-elite/walk.png",
+      "sourceBlob": "6e45090ae9ae8cdffe9e3f7326f98a3f93f1e682",
+      "frames": 8,
+      "cellSize": [
+        88,
+        88
+      ],
+      "format": "PNG RGBA"
+    },
+    {
+      "unit": "human_7",
+      "clip": "attack",
+      "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/attack_sheet.png",
+      "path": "assets/licensed/spritecook/human-elite/attack.png",
+      "sourceBlob": "476874e8934e720ec29c91b31ea866dbbfcd1fec",
+      "frames": 8,
+      "cellSize": [
+        88,
+        88
+      ],
+      "format": "PNG RGBA"
+    },
+    {
+      "unit": "human_7",
+      "clip": "hit",
+      "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/hurt_sheet.png",
+      "path": "assets/licensed/spritecook/human-elite/hit.png",
+      "sourceBlob": "0f505dd26c443dd2134bb92427492723b46ea378",
+      "frames": 8,
+      "cellSize": [
+        88,
+        88
+      ],
+      "format": "PNG RGBA"
+    },
+    {
+      "unit": "human_7",
+      "clip": "death",
+      "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/death_sheet.png",
+      "path": "assets/licensed/spritecook/human-elite/death.png",
+      "sourceBlob": "e9178eca1168a33a6f731df9bca84f7ab25ec990",
+      "frames": 12,
+      "cellSize": [
+        88,
+        88
+      ],
+      "format": "PNG RGBA"
+    }
+  ],
+  "iconSource": {
+    "repo": "https://github.com/game-icons/icons",
+    "license": "CC-BY-3.0",
+    "authors": [
+      "Lorc",
+      "Delapouite",
+      "Sbed"
+    ],
+    "sourcePathMap": "art-free-icons-core.js / art-free-icons-extra.js"
+  },
+  "runtimeRule": "Use these only for human_2 and human_7; retain existing PNGs and vector fallback for remaining units"
+}

@@ -6,7 +6,7 @@
 <header class="top"><div class="masthead"><span class="crest">⚜</span><div><div class="brand">ANH HÙNG THỜI LOẠN</div><small>HEROES OF GAIA • HOG1 • HG-11</small></div></div><div id="resources" class="resources"></div></header>
 <nav id="nav" class="tabs" aria-label="Màn hình game"></nav>
 <div class="wrap"><main id="main" class="panel" aria-live="polite"></main><aside class="sidebar"><section class="panel side"><div class="sectiontitle">⚜ Lãnh địa</div><div id="status"></div></section><section class="panel side"><div class="sectiontitle">📜 Nhật ký</div><div id="logs" class="log"></div></section><section class="panel side"><div class="sectiontitle">⚙ Điều khiển</div><div class="buttons"><button id="save" class="small secondary">💾 Lưu</button><button id="export-save" class="small secondary">⬇ Sao lưu</button><button id="import-save" class="small secondary">⬆ Khôi phục</button><input id="import-file" type="file" accept=".json,application/json" hidden><button id="speed" class="small secondary">⏱ ×60</button><button id="reset" class="small danger">↻ Chơi lại</button></div><p class="muted tiny">Tự lưu vào trình duyệt. Phiên bản thử nghiệm offline, chưa có PvP hoặc máy chủ trực tuyến.</p></section></aside></div>
-<footer>HG-11 • Heroes of Gaia (2009) là trò chơi tham khảo • Đồ họa và mã engine độc lập • Chỉ số chưa xác minh được đánh dấu thử nghiệm.</footer>
+<footer>HG-11 • Heroes of Gaia (2009) là trò chơi tham khảo • Đồ họa và mã engine độc lập • Chỉ số chưa xác minh được đánh dấu thử nghiệm. • Icons: Lorc, Delapouite, Sbed (CC BY 3.0, game-icons.net).</footer>
 <section id="game-modal" class="game-modal" data-action="modal-backdrop" role="presentation" hidden>
   <div class="game-window" role="dialog" aria-modal="true" aria-labelledby="game-modal-title">
     <header class="game-window-head"><h2 id="game-modal-title"></h2><button type="button" data-action="modal-close" aria-label="Đóng cửa sổ và trở về bản đồ">✕</button></header>
@@ -37,11 +37,17 @@
 <img id="unit-human-heavy-attack" data-unit-animation="human_4:attack" src="assets/licensed/kaykit-heavy-soldier/rendered/attack.png" alt="">
 <img id="unit-human-heavy-hit" data-unit-animation="human_4:hit" src="assets/licensed/kaykit-heavy-soldier/rendered/hit.png" alt="">
 <img id="unit-human-heavy-death" data-unit-animation="human_4:death" src="assets/licensed/kaykit-heavy-soldier/rendered/death.png" alt="">
+<img id="hg191-human-scout-idle" data-free-unit="human_2:idle" src="assets/licensed/spritecook/human-scout/idle.png" width="1536" height="192" alt="">
+<img id="hg191-human-elite-idle" data-free-unit="human_7:idle" src="assets/licensed/spritecook/human-elite/idle.png" width="704" height="88" alt="">
+<img id="hg191-human-elite-walk" data-free-unit="human_7:walk" src="assets/licensed/spritecook/human-elite/walk.png" width="704" height="88" alt="">
+<img id="hg191-human-elite-attack" data-free-unit="human_7:attack" src="assets/licensed/spritecook/human-elite/attack.png" width="704" height="88" alt="">
+<img id="hg191-human-elite-hit" data-free-unit="human_7:hit" src="assets/licensed/spritecook/human-elite/hit.png" width="704" height="88" alt="">
+<img id="hg191-human-elite-death" data-free-unit="human_7:death" src="assets/licensed/spritecook/human-elite/death.png" width="1056" height="88" alt="">
 <img id="battle-unit-human-spear" data-battle-unit="true" src="assets/generated/hg12/combat/human-spear-militia.svg" width="512" height="512" alt="">
 <img id="battle-unit-npc-beast" data-battle-unit="true" src="assets/generated/hg12/combat/npc-wild-beast.svg" width="512" height="512" alt="">
 <img id="battle-unit-npc-archer" data-battle-unit="true" src="assets/generated/hg12/combat/npc-bandit-archer.svg" width="512" height="512" alt="">
 <img id="battle-unit-npc-guard" data-battle-unit="true" src="assets/generated/hg12/combat/npc-guard.svg" width="512" height="512" alt="">
 <img id="battlefield-human-meadow" data-battle-background="human-meadow-v1" src="assets/generated/hg11/battlefield/human-meadow-1176x550.png" width="1176" height="550" alt="">
 </div>
-<script src="data.js"></script><script src="engine.js"></script><script src="hg04.js"></script><script src="hg05.js"></script><script src="hg06.js"></script><script src="hg07.js"></script><script src="hg08.js"></script><script src="hg10.js"></script><script src="hg18.js"></script><script src="art-pack.js"></script><script src="painter.js"></script><script src="app.js"></script>
+<script src="data.js"></script><script src="engine.js"></script><script src="hg04.js"></script><script src="hg05.js"></script><script src="hg06.js"></script><script src="hg07.js"></script><script src="hg08.js"></script><script src="hg10.js"></script><script src="hg18.js"></script><script src="art-free-icons-core.js"></script><script src="art-free-icons-extra.js"></script><script src="art-free-sprites.js"></script><script src="art-pack.js"></script><script src="painter.js"></script><script src="app.js"></script>
 </body></html>
