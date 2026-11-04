@@ -800,7 +800,7 @@ test('HG10 owned mine cannot be attacked twice or duplicate hourly income',()=>{
 });
 test('HG10 six cities retain isolated five-resource economy, training, construction and research over 24h offline',()=>{
  const s=state();s.speed=1;s.fame=1_000_000;
- const castles=E.TILES.filter(t=>t.kind==='castle'&&t.key!=='3,4');
+ const castles=E.TILES.filter(t=>t.kind==='castle'&&t.key!=='3,4'&&!t.aiOwner&&!t.source?.startsWith('MODELED_')).slice(0,5);
  assert.equal(castles.length,5);
  for(const tile of castles){
   const seed=E.make(tile.race,s.lastTick),city=E.clone(seed.cities[0]);
@@ -838,6 +838,48 @@ test('HG10 six cities retain isolated five-resource economy, training, construct
  E.tick(loaded,end);assert.equal(JSON.stringify(loaded),snapshot);
  const reloaded=E.parseSave(E.serializeSave(loaded));assert(E.strictSave(reloaded));
  assert.equal(reloaded.cities.length,6);
+});
+test('HG10 world expands to 60 castle targets without replacing sourced locations',()=>{
+ const castles=E.TILES.filter(t=>t.kind==='castle'),modelled=castles.filter(t=>t.source==='MODELED_OFFLINE_CITY');
+ assert.equal(castles.length,60);assert.equal(modelled.length,54);
+ assert.equal(modelled.filter(t=>t.aiOwner).length,36);
+ assert.equal(modelled.filter(t=>!t.aiOwner).length,18);
+ assert.deepEqual(['3,4','9,10','16,5','23,8','5,13','12,12'].map(key=>E.getTile(key).kind),Array(6).fill('castle'));
+ assert.equal(E.NPC_CAMPS_2009.length,128);assert.equal(E.TREASURE_CAMPS_2009.length,76);
+ for(const tile of modelled)assert(E.pathfind('3,4',tile.key), 'Generated castle unreachable: '+tile.key);
+ const s=state();assert.equal(Object.keys(s.aiCities).length,36);assert(E.strictSave(s));
+ const legacy=E.clone(s);delete legacy.aiCities;
+ const upgraded=E.parseSave(JSON.stringify(legacy));
+ assert.equal(Object.keys(upgraded.aiCities).length,36);assert(E.strictSave(upgraded));
+});
+test('HG10 AI city economy grows garrisons from funded resources and survives offline reload',()=>{
+ const s=state();s.speed=1;const key=Object.keys(s.aiCities)[0],before=E.clone(s.aiCities[key]);
+ assert(E.aiCityAt(s,key));const t=s.lastTick+24*3600*1000;E.tick(s,t);
+ const after=E.aiCityAt(s,key);
+ assert(after.hours===24);assert(after.level>=before.level&&after.level<=5);
+ assert(Object.values(after.garrison).reduce((a,b)=>a+b,0)>Object.values(before.garrison).reduce((a,b)=>a+b,0));
+ for(const k of C.keys)assert(after.treasury[k]>=0&&Number.isFinite(after.treasury[k]));
+ const reloaded=E.parseSave(E.serializeSave(s)),snapshot=JSON.stringify(reloaded);
+ E.tick(reloaded,t);assert.equal(JSON.stringify(reloaded),snapshot);assert(E.strictSave(reloaded));
+});
+test('HG10 AI castle uses persistent faction garrison in combat, then transfers exactly once',()=>{
+ const s=state();s.fame=5800;
+ const tile=E.TILES.find(t=>t.kind==='castle'&&t.aiOwner&&t.level===1&&E.pathfind('3,4',t.key));
+ assert(tile,'Needs AI tier-1 city');
+ const initial=E.clone(s.aiCities[tile.key]),u=C.units[initial.race][0];
+ E.startMarch(s,tile.key);s.march.remaining=.01;E.tick(s,s.lastTick+1000);
+ assert(s.battle&&s.battle.kind==='castle');
+ const guard=s.battle.enemies.find(e=>e.unitId===u.id);
+ assert(guard);assert.equal(guard.initial,initial.garrison[u.id]);assert.equal(guard.hp,u.hp);assert.equal(guard.atk,u.atk);assert.equal(guard.def,u.def);
+ let saved=E.parseSave(E.serializeSave(s));assert.equal(saved.battle.enemies[0].initial,guard.initial);
+ for(const enemy of saved.battle.enemies){enemy.pool=1;enemy.hp=1;enemy.count=1;enemy.atk=0;enemy.def=0}
+ for(const ally of saved.battle.allies)ally.range=20;
+ let result;for(let i=0;i<9&&saved.battle;i++)result=E.battleAct(saved,'attack');
+ assert.equal(result.type,'win');assert.equal(saved.aiCities[tile.key],undefined);
+ assert(E.cityForKey(saved,tile.key));assert.equal(saved.cities.length,2);
+ assert(E.strictSave(saved));saved=E.parseSave(E.serializeSave(saved));
+ assert.equal(saved.aiCities[tile.key],undefined);assert(E.cityForKey(saved,tile.key));
+ throws(()=>E.startMarch(saved,tile.key),/đã thuộc quyền/);
 });
 test('HG10 recalled troops return to the originating city after switching castles',()=>{
  const s=state();s.fame=5800;E.startMarch(s,'9,10');s.march.remaining=.01;E.tick(s,s.lastTick+1000);
