@@ -174,6 +174,33 @@ check('P0 production five resources across 6 independent cities / 30 offline day
  const before=JSON.stringify(loaded);E.tick(loaded,now);assert.equal(JSON.stringify(loaded),before);
  return {days:30,ownedCities:6,aiCities:36,resources:5,offlineCapHours:24,snapshots:6};
 });
+check('P0 playable four-faction economy loop builds, researches, recruits, produces and sells exactly once',()=>{
+ const coverage=[];
+ for(const race of races){
+  const s=roundState(race),unit=C.units[race][0];
+  s.speed=1;
+  const initial={...s.res},buildingCost=E.buildCost(s,'market'),researchCost=E.spellCost(s,'bootcamp'),recruitCost=E.recruitCost(s,unit,3);
+  E.upgrade(s,'market');E.researchSpell(s,'bootcamp');E.recruit(s,unit.id,3);
+  for(const k of symbols)assert(Math.abs(s.res[k]-(initial[k]-buildingCost[k]-researchCost[k]-recruitCost[k]))<1e-6,race+' initial paid cost '+k);
+  assert.equal(s.buildings.market,0);assert.equal(s.spells.bootcamp||0,0);
+  const oneHourBefore={...s.res},hourly={...E.rate(s)},limits={...E.limits(s)},oldCount=s.army[unit.id],when=s.lastTick+3600000;
+  E.tick(s,when);
+  assert.equal(s.buildings.market,1,race+' market not completed');
+  assert.equal(s.buildingQueue,null);assert.equal(s.researchQueue,null);
+  assert.equal(s.spells.bootcamp,1,race+' research completion lost');
+  assert.equal(s.training.length,0);assert.equal(s.army[unit.id],oldCount+3,race+' recruited units missing');
+  for(const k of symbols){
+   const want=Math.min(limits[k],oneHourBefore[k]+hourly[k]);
+   assert(Math.abs(s.res[k]-want)<1e-5,race+' hourly '+k+': '+s.res[k]+' vs '+want);
+  }
+  const beforeSell={...s.res};E.sell(s,'wood',10);assert.equal(s.res.wood,beforeSell.wood-10);assert.equal(s.res.gold,beforeSell.gold+20);
+  const serialized=E.serializeSave(s),loaded=E.parseSave(serialized);
+  assert(E.strictSave(loaded));assert.equal(loaded.army[unit.id],oldCount+3);
+  const snap=JSON.stringify(loaded);E.tick(loaded,when);assert.equal(JSON.stringify(loaded),snap,'Replay duplicated resources');
+  coverage.push(race);
+ }
+ return {factions:coverage,build:'market',research:'bootcamp',troopTier:1,resources:5};
+});
 check('P0 warehouse caps and market/source consumption never create negative or duplicated resources',()=>{
  const s=roundState();s.speed=1;
  const beforeBuild={...s.res};
