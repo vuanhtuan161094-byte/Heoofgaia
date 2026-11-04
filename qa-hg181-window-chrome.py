@@ -164,13 +164,10 @@ try:
         HOG_ENGINE.strictSave(s);
     }"""))
   # Stop disables automation but intentionally leaves the real outbound march
-  # alone. Isolate the next joint-roster UI scenario in a fresh New Game rather
-  # than mutating the plan of a hero who is still on that legitimate march.
-  page.evaluate("""() => {
-    localStorage.removeItem(HOG_ENGINE.SAVE_KEY);
-    localStorage.removeItem(HOG_ENGINE.SAVE_KEY+'_backup');
-  }""")
-  page.reload(wait_until='load')
+  # alone. Use the actual reset flow to isolate the next roster scenario,
+  # rather than mutating the plan of a hero still on that legitimate march.
+  page.on('dialog',lambda dialog:dialog.accept())
+  page.locator('#reset').click()
   page.locator('[data-action="start"]').click()
   check('HG26 outbound state is isolated before the fresh joint-roster scenario',
     page.evaluate("""() => {
