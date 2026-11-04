@@ -150,7 +150,7 @@ check('Two consecutive Boss battles keep the SAME three commanders and exactly t
 check('Crossing casualty threshold stops before next turn even with three heroes present (fixture)',()=>{
  const x=setup('orc'),s=x.s;E.hg26Start(s,cfg(x,{maxLossPercent:20}));
  E.hg26Step(s);arrive(s);
- const u=s.battle.allies[2];u.count=1;u.pool=u.hp; // combat attrition fixture only
+ for(const u of s.battle.allies.slice(0,2)){u.count=0;u.pool=0} // synthetic 4/12 casualty event >20%
  const before=s.battle.turn,reportCount=s.battleReports.length;
  const stopped=E.hg26Step(s);
  assert.equal(stopped.type,'stopped');assert.equal(s.hg26.enabled,false);
