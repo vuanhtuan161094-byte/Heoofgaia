@@ -370,6 +370,39 @@ function battleGround(c,camera,w,h){
  grade.addColorStop(1,'#0e1c1421');
  c.fillStyle=grade;c.fillRect(0,0,w,h);
 }
+// HG14.5: identical 12x9 cell geometry for visible grid and pointer hit testing.
+function battleGridCells(camera){
+ const cells=[];
+ for(let y=0;y<camera.g.rows;y++)for(let x=0;x<camera.g.cols;x++)
+  cells.push({x,y,center:camera.point(x+.5,y+.5),
+   corners:[camera.point(x,y),camera.point(x+1,y),
+            camera.point(x+1,y+1),camera.point(x,y+1)]});
+ return cells;
+}
+function battleGridOverlay(c,camera,layout,reachable){
+ const cells=battleGridCells(camera);
+ c.save();
+ for(const cell of cells){
+  const highlighted=reachable.has(cell.x+','+cell.y);
+  c.lineWidth=highlighted?1.85:.85;
+  poly(c,cell.corners.map(p=>[p.x,p.y]),
+   highlighted?'#45d5ac4d':(cell.x+cell.y)%2===0?'#1a465115':'#061a2213',
+   highlighted?'#b8fff0ed':'#b5e6e46b');
+  if(cell.x%3===1&&cell.y%3===1)
+   text(c,cell.x+','+cell.y,cell.center.x,cell.center.y+3,9,'#d4f5da9e','center','500');
+ }
+ for(const entry of layout){
+  if(entry.u.pool<=0)continue;
+  const pt=camera.point(entry.u.x+.5,entry.u.y+.5);
+  if(Math.hypot(entry.x-pt.x,entry.y-pt.y)>4)
+   line(c,pt.x,pt.y,entry.x,entry.y,1.4,'#f0dc8cc7');
+  circle(c,pt.x,pt.y,3.1,entry.u.side==='enemy'?'#ffae96':'#9ce7d2');
+  c.strokeStyle='#1a3336c9';c.lineWidth=.9;
+  c.beginPath();c.arc(pt.x,pt.y,3.8,0,TAU);c.stroke();
+ }
+ c.restore();
+ return cells.length;
+}
 function battleCellAt(canvas,x,y,E){return battleProjection(canvas,E).cellAt(x,y)}
 function battleHit(canvas,x,y,E,s,now=visualNow()){
  const b=s.battle;if(!b)return null;
@@ -501,14 +534,12 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  const camera=battleProjection(canvas,E),grid=camera.g;
  battleGround(c,camera,w,h);
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
- // The logical square grid is invisible until the player explicitly selects move mode.
- for(let i=0;i<grid.cols;i++)for(let j=0;j<grid.rows;j++){
-  const highlight=reachable.has(`${i},${j}`);
-  if(!highlight)continue;
-  const corners=[camera.point(i,j),camera.point(i+1,j),camera.point(i+1,j+1),camera.point(i,j+1)];
-  c.lineWidth=1.8;poly(c,corners.map(p=>[p.x,p.y]),'#39bda334','#9eeac9a8');
- }
  const units=battleUnitLayout(b,camera,w,h).sort((a,b)=>a.y-b.y||a.x-b.x);
+ if(interaction.showGrid!==false)battleGridOverlay(c,camera,units,reachable);
+ else if(reachable.size)for(const cell of battleGridCells(camera)){
+  if(!reachable.has(cell.x+','+cell.y))continue;
+  c.lineWidth=1.8;poly(c,cell.corners.map(pt=>[pt.x,pt.y]),'#39bda334','#9eeac9a8');
+ }
  for(const entry of units){
   const u=entry.u;
   const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=camera.point(position.x+.5,position.y+.5),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
@@ -518,19 +549,19 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
   const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual,k):u.unitId==='human_3'?(animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)):motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
   // A unified 34px name/HP card is placed outside silhouette collision boxes.
-  const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y;
+  const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y,hpVisible=interaction.showHP!==false;
   if(plate.leader){
    c.save();c.strokeStyle='#dccb947b';c.lineWidth=1;c.beginPath();
    c.moveTo(clamp(x,bx+5,bx+plate.w-5),by+plate.h);
    c.lineTo(x,y-k*34);c.stroke();c.restore();
   }
-  rounded(c,bx,by,plate.w,plate.h,5,
+  rounded(c,bx,by,plate.w,hpVisible?plate.h:21,5,
    u.side==='enemy'?'#392b2fe9':'#1e3840ef',
    b.selected===u.id||b.focused===u.id?'#f4d996':'#abbdab65');
   text(c,u.name,bx+plate.w/2,by+14,11,'#f7e8c7');
-  rounded(c,bx+8,by+22,plate.w-16,7,3,'#0b1d22e9');
-  c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
-  c.fillRect(bx+9,by+23,(plate.w-18)*clamp(u.pool/(u.initial*u.hp),0,1),5);
+  if(hpVisible){rounded(c,bx+8,by+22,plate.w-16,7,3,'#0b1d22e9');
+   c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
+   c.fillRect(bx+9,by+23,(plate.w-18)*clamp(u.pool/(u.initial*u.hp),0,1),5);}
   rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
   text(c,'×'+u.count,x+40,y-9,12,'#fff0ca');
  }
@@ -539,7 +570,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleUnitLayout,battleRectOverlap,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleUnitLayout,battleRectOverlap,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 
