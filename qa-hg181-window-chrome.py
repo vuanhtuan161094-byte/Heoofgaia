@@ -56,6 +56,28 @@ try:
       return r.status==='home'&&r.army.reduce((a,g)=>a+g.count,0)===16&&
         HOG_ENGINE.strictSave(s);
     }"""))
+  # HG24: use real management actions, not direct Save fixtures.
+  page.locator('.game-window-body [data-action="hg24-save-template"]').click()
+  check('HG24 real button stores the active hero template without minting troops',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),t=HOG_ENGINE.hg24Template(s,1);
+      return t?.groups.length===1&&t.groups[0].count===16&&
+        s.army.human_1===16&&HOG_ENGINE.strictSave(s);
+    }"""))
+  page.locator('#hg24_auto_fill').check()
+  page.locator('.game-window-body [data-action="hg24-policy"]').click()
+  check('HG24 opt-in auto-refill policy is saved with automatic hiring disabled',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),t=HOG_ENGINE.hg24Template(s,1);
+      return t?.autoFill===true&&t?.autoTrain===false&&HOG_ENGINE.strictSave(s);
+    }"""))
+  page.locator('.game-window-body [data-action="hg24-drill"]').click()
+  check('HG24 paid training click grants EXP and charges actual resources',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      return s.hg24.daily.drills===1&&s.heroes[0].level>1&&
+        s.res.gold<33000&&HOG_ENGINE.strictSave(s);
+    }"""))
   page.locator('[data-action="tab"][data-tab="tower"]').first.click()
   check('Tower is an actual on-demand game window with three hero slots',
     page.locator('#game-modal:not([hidden]) #hg20_tower_0').count()==1 and
