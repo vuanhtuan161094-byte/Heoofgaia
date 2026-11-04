@@ -289,7 +289,7 @@ test('Derived world-march factor uses the dated increment and v07 keeps an under
 test('Outbound and return march timers both include equipped and active world SPD bonuses',()=>{
  const target=E.NPC_CAMPS_2009.find(q=>q.stars>=5&&E.pathfind('3,4',q.key)?.length>=8);assert(target);const itemFor=s=>{const item=E.addItem(s,'traveler_cloak','qa');E.equipItem(s,item.uid);s.heroBuffs.push({heroId:1,stat:'spd',remaining:7200,sourceKey:'62,57'})};
  const outbound=state();itemFor(outbound);const outSpeed=E.heroStats(outbound,1).spd,outPath=E.pathfind('3,4',target.key);E.startMarch(outbound,target.key);
- assert.equal(outbound.march.remaining,E.marchDuration(outSpeed,outPath,E.armyMarchFactor(outbound)));assert.equal(outbound.heroes[0].spd,7,'temporary dispatch stats are restored after path calculation');
+ assert.equal(outbound.march.remaining,E.marchDuration(outSpeed,outPath,E.armyMarchFactor(outbound,outbound.expedition.formation)));assert.equal(outbound.heroes[0].spd,7,'temporary dispatch stats are restored after path calculation');
  const returning=state();itemFor(returning);const from=target.key,backPath=E.pathfind(from,'3,4');returning.stationedHeroes=[{heroId:1,key:from,homeKey:'3,4',homeCityId:'main',army:{human_1:4},formation:[{unitId:'human_1',count:4}]}];
  const returnSpeed=E.heroStats(returning,1).spd,seconds=E.recallHero(returning,1);
  assert.equal(seconds,E.marchDuration(returnSpeed,backPath,E.armyMarchFactor(returning,[{unitId:'human_1',count:4}])));assert.equal(returning.march.phase,'return');assert.equal(returning.march.remaining,returning.march.total);assert.equal(E.strictSave(E.parseSave(E.serializeSave(returning))),true);
@@ -750,6 +750,8 @@ test('HG16 exact zero-DEF reference base and zero-ATK inert units (no phantom ch
 });
 test('HG16 canonical equipped Hero ATK then world buff affects real damage exactly once',()=>{
  const s=hg16FormulaFixture({heroAtk:12,enemyDef:10,allyCount:10});
+ // This is a melee-weapon oracle, so make the troop genuinely adjacent.
+ s.battle.allies[0].range=1;s.battle.allies[0].x=9;s.battle.allies[0].y=1;
  const battle=s.battle;s.battle=null;
  const item=E.addItem(s,'copper_blade','HG16 deterministic formula fixture');E.equipItem(s,item.uid);s.battle=battle;
  s.heroBuffs.push({heroId:1,stat:'atk',remaining:7200,sourceKey:'26,4'});
