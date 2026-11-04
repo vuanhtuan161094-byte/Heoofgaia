@@ -185,8 +185,8 @@ try:
     E.hg20SetHeroPlan(s,3,[{unitId:u,count:2},{unitId:u,count:2}]);
     HOG_APP_DEBUG.render();
   }""")
-  # Reset/New Game returns to the map, so reopen Tower through its real tab.
-  page.locator('[data-action="tab"][data-tab="tower"]').first.click()
+  # Reset/New Game returns to the map; the joint Boss roster is on Army.
+  page.locator('[data-action="tab"][data-tab="army"]').first.click()
   check('HG26.1 actual selector exposes 3 heroes and 2 stack slots each',
     all(page.locator(f'#hg261_team_{i}').count()==1 and
       page.locator(f'#hg261_slot_{i}_0').count()==1 and
