@@ -62,7 +62,7 @@ test('Three heroes contribute 2 slots each; buffs and attack power never cross h
  const spell=E.hg21TowerCast(s,1,'leadership');
  assert.deepEqual(Array.from(spell.targets),['p0','p1']);
  assert(s.battle.allies[0].atk>before[0]&&s.battle.allies[1].atk>before[1]);
- assert.deepEqual(Array.from(s.battle.allies.slice(2),u=>u.atk),before.slice(2));
+ assert.deepEqual(Array.from(s.battle.allies.slice(2),u=>u.atk),Array.from(before.slice(2)));
  assert(E.strictSave(s));
  const copy=save(s);assert.equal(copy.battle.allies.length,6);
  // Compare two copies of the same turn: only hero2 attack is modified.
