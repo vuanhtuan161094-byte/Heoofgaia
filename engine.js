@@ -380,9 +380,9 @@ function battlePath(b,actor,destination){
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
 }
 function battleMovementBudget(b,actor,commitCredit=false){
- const base=actor.range>1?1:actor.spd>=7?2:1,skill=b?.hg21Tower?b.heroMovementInstinct?.[actor.heroId]:b?.movementInstinct;
+ const joint=!!(b?.hg21Tower||b?.hg261Joint),base=actor.range>1?1:actor.spd>=7?2:1,skill=joint?b.heroMovementInstinct?.[actor.heroId]:b?.movementInstinct;
  if(actor.side!=='player'||actor.range>1||!skill)return base;
- if(b.hg21Tower?b.turn>=skill.expiry:b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell?.expiry)return base;
+ if(joint?b.turn>=skill.expiry:b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell?.expiry)return base;
  const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
  const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
 }
@@ -435,7 +435,7 @@ function strike(s,b,actor,target,order,trace){
  if(actor.atk<=0||actor.count<=0)return 0;
  // In a tower battle, each stack retains its own commander. The base world
  // campaign continues to use its canonical single activeHero path unchanged.
- const tower=!!b.hg21Tower;
+ const tower=!!(b.hg21Tower||b.hg261Joint);
  const attackId=tower&&actor.side==='player'?actor.heroId:s.activeHero;
  const defenseId=tower&&target.side==='player'?target.heroId:s.activeHero;
  const attacker=s.heroes.find(x=>x.id===attackId),defender=s.heroes.find(x=>x.id===defenseId);

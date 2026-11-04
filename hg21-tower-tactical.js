@@ -127,8 +127,8 @@ function clearEffects(s,b){
   if(data.expiry<=b.turn)delete b.heroMovementInstinct[id];
 }
 function towerCast(s,heroId,spellId){
- const b=s.battle;if(!b?.hg21Tower)throw Error('Chỉ được dùng phép đội tướng trong Bí Cảnh');
- if(!b.hg21Tower.team.includes(heroId))throw Error('Tướng không thuộc đội Bí Cảnh');
+ const b=s.battle;if(!b?.hg21Tower&&!b?.hg261Joint)throw Error('Chỉ được dùng phép của đội tướng trong Bí Cảnh hoặc săn Boss chung');
+ if(!(b.hg21Tower||b.hg261Joint).team.includes(heroId))throw Error('Tướng không thuộc đội chiến đấu');
  const hero=s.heroes.find(h=>h.id===heroId),spec=E.spell(s,spellId),level=s.heroMagic?.[spellId]||0;
  if(!hero?.equippedSpells?.includes(spellId)||!spec||level<1||spec.kind==='castellan')
   throw Error('Phép chưa trang bị hoặc chưa nghiên cứu cho tướng này');
@@ -199,7 +199,10 @@ function reward(s,b,outcome){
  return {...report,nextFloor:t.floor,dailyRewardsLeft:Math.max(0,5-t.claims),type:outcome};
 }
 function battleAct(s,action,opts){
- const b=s.battle;if(!b?.hg21Tower)return old.battleAct(s,action,opts);
+ const b=s.battle;
+ if(b?.hg261Joint){const out=old.battleAct(s,action,opts);
+  if(out.type==='continue')clearEffects(s,b);return out;}
+ if(!b?.hg21Tower)return old.battleAct(s,action,opts);
  // Direct canonical HG09 tactical turn; world wrappers must not grant
  // EXP/city/quest/loot or deduct real army during a tower projection.
  const output=E.battleActCore(s,action,opts);
