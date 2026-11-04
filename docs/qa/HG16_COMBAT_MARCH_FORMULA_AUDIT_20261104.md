@@ -1,4 +1,6 @@
 # HG-16 — Combat & March Formula Audit / Implementation Gate
+
+> **G2/G3 supersession notice (2026-11-04):** This document is the G1 historical baseline, not the latest implementation status. G2/G3 implemented a modeled 30% physical floor, equipment damage modifiers, bounded ranged reach, 25% Defend mitigation, weighted Dijkstra terrain, slowest-troop march speed, shared game/UI ETA, and corresponding v07 QA. See **[HG16_G2_G3_BALANCE_CONTRACT_20261104.md](HG16_G2_G3_BALANCE_CONTRACT_20261104.md)** for the authoritative current formulas and acceptance gates. Rows C06/C07/C14/C17/C20/C24 below describe pre-G2/G3 gaps; they must not be treated as current MISSING status. Original-2009 numerical parity is still unverified.
 Review date: 2026-11-04
 Baseline: `a93b13926d51d1010da2af7a8080e85bcd2401b1`.
 Scope: `data.js`, `engine.js`, `hg04.js`, `hg05.js`, `hg06.js`, `hg07.js`, `hg08.js`, `hg10.js`, `app.js`, `qa-engine.cjs`, `qa-hg10-world-ai-chrome.py`.
