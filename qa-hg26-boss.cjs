@@ -91,6 +91,30 @@ check('Synthetic powerful commander: genuine tactical win, real reward once and 
  assert(E.strictSave(save(returned)));
  return {winner:true,turns,report:returned.hg26.last.reportId,totalRewards:wins};
 });
+check('Two real consecutive Boss victories use two AP charges and two canonical battle reports (synthetic commander)',()=>{
+ const s=E.make('elf',1000000),target=boss(s);
+ s.heroes[0].atk=250000;s.heroes[0].def=250000;s.heroes[0].spd=100; // fixture only
+ E.hg26Start(s,config(target.key,{maxRuns:2,minUnits:16,autoHeal:false,maxLossPercent:100}));
+ let started=0;
+ for(let i=0;i<2;i++){
+  const go=E.hg26Step(s);assert.equal(go.type,'dispatched');started++;
+  assert(s.expedition&&s.march?.phase==='outbound');
+  const during=save(s);assert.equal(during.hg26.runs,i);
+  travel(s);assert.equal(E.hg26Step(s).type,'battle_open');
+  const {out}=fight(s);assert.equal(out.type,'win');
+  assert.equal(s.hg26.runs,i+1);
+  assert(E.strictSave(save(s)));
+  travel(s);assert.equal(E.hg26Step(s).type,'home');
+  const settle=E.hg26Step(s);
+  assert.equal(settle.type,i===0?'refilled':'stopped');
+ }
+ assert.equal(started,2);assert.equal(s.hg26.runs,2);assert.equal(s.hg26.wins,2);
+ assert.equal(s.hg24.bossWins,2);assert.equal(s.battleReports.length,2);
+ assert.equal(new Set(s.battleReports.map(x=>x.id)).size,2);
+ assert.equal(s.hg26.enabled,false);assert(!s.expedition&&!s.march);
+ assert(E.strictSave(save(s)));
+ return {attempts:started,receipts:s.battleReports.length,privateBossVictories:s.hg24.bossWins};
+});
 check('Safety policy blocks dispatch when AP reserve cannot be respected',()=>{
  const s=E.make('human',1000000),target=boss(s),before=s.army.human_1;
  assert.throws(()=>E.hg26Start(s,config(target.key,{keepAP:999})),/AP/);
