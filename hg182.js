@@ -31,7 +31,7 @@ function marchCost(s,key,targetKind){
 }
 function startMarch(s,key,kind){
  const effective=marchCost(s,key,kind);
- if(effective===8||effective===6)return raw.startMarch(s,key,kind);
+ if(effective===8||E.getTile(key)?.kind!=='npc'||(E.getTile(key)?.level||0)<4||kind==='treasure')return raw.startMarch(s,key,kind);
  if(!Number.isFinite(s.ap)||s.ap+1e-8<effective)throw Error('Thiếu AP');
  const before=s.ap;
  // The canonical startMarch validates the complete trip and charges 8 AP.
