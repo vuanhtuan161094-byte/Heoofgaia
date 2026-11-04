@@ -256,3 +256,8 @@ body:not(.combat-mode) #main>.scene-bottom .target-information{padding-left:340p
 body:not(.combat-mode) button.resource{color:var(--paper);background:linear-gradient(180deg,#19282c,#253c3f);border-color:#85795c;font-weight:400;border-radius:4px}
 body:not(.combat-mode) button.resource:focus-visible{outline:2px solid #f1d298}
 .game-window-body progress{max-width:100%;accent-color:#e0b971}
+
+/* HG18.1: keep the modal title and close hitbox below the always-accessible tab bar. */
+body:not(.combat-mode) .game-modal{padding:105px 12px 42px;align-items:flex-start}
+body:not(.combat-mode) .game-window{height:min(640px,calc(100dvh - 153px))}
+@media(max-height:610px){body:not(.combat-mode) .game-modal{padding-top:90px;padding-bottom:40px}body:not(.combat-mode) .game-window{height:calc(100dvh - 130px)}}
