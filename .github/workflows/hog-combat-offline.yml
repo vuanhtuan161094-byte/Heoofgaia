@@ -48,6 +48,8 @@ jobs:
         run: python qa-hg14-sprite-chrome.py
       - name: Chromium Human Archer six animations, real battle and Save/Load
         run: python qa-hg143-archer-chrome.py
+      - name: HG14.5 real Chromium grid and HP toggles, receipt FX, mobile and Save
+        run: python qa-hg145-combat-chrome.py
       - name: Record build SHA and size
         run: |
           test -s Play-Heoofgaia-HG11.html
@@ -71,6 +73,8 @@ jobs:
             docs/qa/hg143/archer-art-qa.json
             docs/qa/hg143/archer-chrome.json
             docs/evidence/hg143/*.png
+            docs/evidence/hg145/*.png
+            docs/qa/hg145/grid-hp-fx-chrome.json
           retention-days: 7
           if-no-files-found: error
 
@@ -119,5 +123,16 @@ jobs:
             docs/qa/hg143/archer-art-qa.json
             docs/qa/hg143/archer-chrome.json
             docs/evidence/hg143/*.png
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Upload HG14.5 tactical grid, HP and combat FX evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG14.5-grid-HP-real-PvE-Chromium-evidence
+          path: |
+            docs/evidence/hg145/*.png
+            docs/qa/hg145/grid-hp-fx-chrome.json
           retention-days: 7
           if-no-files-found: warn
