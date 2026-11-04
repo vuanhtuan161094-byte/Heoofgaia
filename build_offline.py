@@ -111,6 +111,6 @@ assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
-assert html.count('<script>')==25
+assert html.count('<script>')==26
 (folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8')
 print('Built offline HTML:',len(html),'characters')
