@@ -246,3 +246,8 @@ body:not(.combat-mode) .race-card .emoji{font-size:25px}
 body:not(.combat-mode) .welcome-bottom h2{font-size:18px;margin:3px}
 body:not(.combat-mode) .welcome-bottom h3{font-size:14px;margin:4px}
 body:not(.combat-mode) .welcome-bottom p.hint{display:none}
+
+/* HG18.1 pointer QA: toolbar must never cover target action at bottom-right. */
+body:not(.combat-mode) .sidebar{right:auto;left:10px;bottom:2px;width:auto}
+body:not(.combat-mode) #main>.scene-bottom .target-information{padding-left:340px}
+@media(max-width:750px){body:not(.combat-mode) .sidebar{left:4px;bottom:2px}body:not(.combat-mode) #main>.scene-bottom .target-information{padding-left:275px}}
