@@ -1206,7 +1206,7 @@ test('SRC54 China 2009 recruitment task is separated, counts completed real trai
 test('HG17 Fame earned from paid troop training triggers source-backed Chinese rank refresh',()=>{
  const s=state('human'),at=s.lastTick;
  E.acceptChina2009DailyTask(s,'recruit_archers',at);
- s.buildings.hall=3;s.buildings.barracks=3;for(const k of C.keys)s.res[k]=E.limits(s)[k];
+ s.buildings.hall=3;s.buildings.barracks=3;s.spells.bootcamp=1;for(const k of C.keys)s.res[k]=E.limits(s)[k];
  const base=s.fame;E.recruit(s,'human_3',20);
  assert.equal(s.fame,base,'No Fame for an incomplete training queue');
  E.tick(s,s.lastTick+s.training[0].remaining/s.speed*1000+1000);
