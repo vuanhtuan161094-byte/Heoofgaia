@@ -72,7 +72,7 @@ check('Mystic city exists as a real capturable world castle, not an icon-only un
 });
 check('Floor-25 collection yields real equipable gear and Save-preserved floor scaling (high-floor setup fixture)',()=>{
  const s=E.make('human',1_000_000);
- s.hg20.tower.floor=25;s.hg20.tower.rank=20; // declared high-floor fixture; no organic progression claim.
+ s.hg20.tower.floor=25;s.hg20.tower.rank=90; // declared high-floor fixture; no organic progression claim.
  E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:16}]);
  E.hg20ChooseTowerTeam(s,[1]);
  // Ensure the fixture army genuinely meets the calculated tower threshold.
