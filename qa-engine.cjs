@@ -766,6 +766,47 @@ test('HG10 24-hour offline catch-up advances queues in active and inactive citie
  const before=JSON.stringify(loaded);E.tick(loaded,end);assert.equal(JSON.stringify(loaded),before);
 });
 
+test('HG10 six cities retain isolated five-resource economy, training, construction and research over 24h offline',()=>{
+ const s=state();s.speed=1;s.fame=1_000_000;
+ const castles=E.TILES.filter(t=>t.kind==='castle'&&t.key!=='3,4');
+ assert.equal(castles.length,5);
+ for(const tile of castles){
+  const seed=E.make(tile.race,s.lastTick),city=E.clone(seed.cities[0]);
+  city.id='city-'+tile.key.replace(',','-');city.key=tile.key;city.name=tile.value;city.main=false;city.sourceStatus='QA_FIXTURE';
+  s.cities.push(city);
+ }
+ E.syncCityState(s);
+ const before=new Map(),start=s.lastTick;
+ for(const city of [...s.cities]){
+  E.switchCity(s,city.id);
+  const type=s.race+'_1',startingArmy=s.army[type];
+  E.upgrade(s,'market');
+  E.recruit(s,type,1);
+  if(city.id==='main')E.researchSpell(s,'bootcamp');
+  const res={...s.res},rates={...E.rate(s)},limit={...E.limits(s)};
+  before.set(city.id,{race:s.race,armyType:type,startingArmy,res,rates,limit});
+ }
+ E.switchCity(s,'main');
+ const end=start+24*3600*1000;
+ let loaded=E.parseSave(E.serializeSave(s));
+ E.tick(loaded,end);assert.equal(loaded.cities.length,6);
+ for(const city of loaded.cities){
+  E.switchCity(loaded,city.id);
+  const b=before.get(city.id);assert.equal(loaded.race,b.race);
+  for(const k of C.keys){
+   const expected=Math.min(b.limit[k],b.res[k]+b.rates[k]*24);
+   assert(Math.abs(loaded.res[k]-expected)<1e-6,city.id+' '+k+': '+loaded.res[k]+' vs '+expected);
+  }
+  assert.equal(loaded.buildings.market,1);assert.equal(loaded.buildingQueue,null);
+  assert.equal(loaded.training.length,0);assert.equal(loaded.army[b.armyType],b.startingArmy+1);
+  if(city.id==='main'){assert.equal(loaded.researchQueue,null);assert.equal(loaded.spells.bootcamp,1)}
+ }
+ E.switchCity(loaded,'main');
+ const snapshot=JSON.stringify(loaded);
+ E.tick(loaded,end);assert.equal(JSON.stringify(loaded),snapshot);
+ const reloaded=E.parseSave(E.serializeSave(loaded));assert(E.strictSave(reloaded));
+ assert.equal(reloaded.cities.length,6);
+});
 test('HG10 recalled troops return to the originating city after switching castles',()=>{
  const s=state();s.fame=5800;E.startMarch(s,'9,10');s.march.remaining=.01;E.tick(s,s.lastTick+1000);
  for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;e.atk=0;e.def=0}for(const a of s.battle.allies)a.range=20;
