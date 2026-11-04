@@ -169,7 +169,7 @@ try:
   }"""))
   check("Browser records zero uncaught JS exceptions",not errors,errors)
   check("High tier bosses are selectable via world-map landmark UI",page.evaluate("""() => {
-    const E=HOG_ENGINE;return E.TILES.filter(t=>t.eliteTier>=11).length===4;
+    const E=HOG_ENGINE;return E.TILES.filter(t=>t.eliteTier>=11&&t.source==='MODELED_HG18_BOSS').length===4 && E.TILES.filter(t=>t.privateBoss).length===2;
   }"""))
   page.locator('#save').click()
   page.reload(wait_until="load")
