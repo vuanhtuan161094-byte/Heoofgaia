@@ -689,7 +689,8 @@ test('HG16 exact zero-DEF reference base and zero-ATK inert units (no phantom ch
 });
 test('HG16 canonical equipped Hero ATK then world buff affects real damage exactly once',()=>{
  const s=hg16FormulaFixture({heroAtk:12,enemyDef:10,allyCount:10});
- const item=E.addItem(s,'copper_blade','HG16 deterministic formula fixture');E.equipItem(s,item.uid);
+ const battle=s.battle;s.battle=null;
+ const item=E.addItem(s,'copper_blade','HG16 deterministic formula fixture');E.equipItem(s,item.uid);s.battle=battle;
  s.heroBuffs.push({heroId:1,stat:'atk',remaining:7200,sourceKey:'26,4'});
  assert(Math.abs(E.heroStats(s,1).atk-16.5)<1e-9);
  const restored=E.parseSave(E.serializeSave(s));
@@ -702,7 +703,8 @@ test('HG16 canonical equipped Hero ATK then world buff affects real damage exact
 });
 test('HG16 defensive Hero equipment and world buff reduce real incoming damage once',()=>{
  const s=hg16FormulaFixture({allyAtk:0,enemyAtk:40,enemyCount:10,allyDef:10,heroDef:8,enemySpeed:100});
- const item=E.addItem(s,'iron_armor','HG16 defensive formula fixture');E.equipItem(s,item.uid);
+ const battle=s.battle;s.battle=null;
+ const item=E.addItem(s,'iron_armor','HG16 defensive formula fixture');E.equipItem(s,item.uid);s.battle=battle;
  s.heroBuffs.push({heroId:1,stat:'def',remaining:7200,sourceKey:'94,1'});
  assert(Math.abs(E.heroStats(s,1).def-13.2)<1e-9);
  const out=E.battleAct(s,'attack');
