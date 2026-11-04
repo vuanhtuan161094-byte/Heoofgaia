@@ -87,7 +87,7 @@ check('Synthetic powerful commander: genuine tactical win, real reward once and 
  assert.equal(E.hg26Step(returned).type,'stopped');
  assert.equal(returned.hg26.enabled,false);
  assert.equal(returned.hg24.bossWins,wins);assert.equal(returned.battleReports.length,reportCount);
- assert.equal(E.hg26Step(returned).type,'off');assert.equal(returned.ap,ap);
+ assert.equal(E.hg26Step(returned).type,'off');assert(returned.ap>=ap,'AP regen on return is legitimate; bot must not charge another march');
  assert(E.strictSave(save(returned)));
  return {winner:true,turns,report:returned.hg26.last.reportId,totalRewards:wins};
 });
