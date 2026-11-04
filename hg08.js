@@ -376,6 +376,10 @@ function tick(s,now=Date.now()){
 function startMarch(s,key,targetKind){
   ensure(s);
   const tile=E.getTile(key);
+  // A captured mine is an owned resource node, not another neutral encounter.
+  // Reject before AP/army reservation: re-fighting it previously appended a
+  // second mine receipt and could multiply hourly production.
+  if(targetKind!=='treasure'&&tile?.kind==='mine'&&s.mines?.some(m=>m.key===key))throw Error('Mỏ này đã thuộc quyền sở hữu; không thể chiếm lại để nhân đôi sản lượng.');
   if(targetKind!=='treasure'&&tile?.kind==='mine'&&(s.mines?.length||0)>=mineLimit(s))throw Error('Đã đạt hạn mức '+mineLimit(s)+' mỏ theo danh vọng '+E.fmt(s.fame)+'.');
   if(heroAway(s,s.activeHero))throw Error('Tướng đang đồn trú ngoài bản đồ');
   const selected=(s.formation?.length?s.formation:E.activeArmy(s).sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:s.army[u.id]}))).filter(g=>g?.unitId&&g.count>0);
