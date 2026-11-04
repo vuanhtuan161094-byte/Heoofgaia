@@ -148,11 +148,25 @@ function startCityTransport(s,targetCityId,unitId,count,resources){
 function advanceCityTransports(s,elapsedGame){
  if(!Array.isArray(s.cityTransports)||!s.cityTransports.length)return;
  for(const shipment of [...s.cityTransports]){
-  if(shipment.phase==='outbound'||shipment.phase==='return')shipment.remaining=Math.max(0,shipment.remaining-elapsedGame);
-  if(shipment.phase==='holding'){deliverCityTransport(s,shipment);continue}
-  if(shipment.remaining>1e-8)continue;
-  if(shipment.phase==='outbound'){deliverCityTransport(s,shipment);continue}
+  // Consume the same elapsed interval across both legs. Previously a long offline
+  // tick completed only the outbound leg, discarding unused time and delaying return.
+  let remainingElapsed=elapsedGame;
+  if(shipment.phase==='holding'){
+   // The time at which a blocked warehouse became available is unknown. Do not
+   // invent return progress from elapsed time spent in holding.
+   deliverCityTransport(s,shipment);
+   continue;
+  }
+  if(shipment.phase==='outbound'){
+   const spent=Math.min(remainingElapsed,shipment.remaining);
+   shipment.remaining=Math.max(0,shipment.remaining-spent);
+   remainingElapsed-=spent;
+   if(shipment.remaining>1e-8)continue;
+   if(!deliverCityTransport(s,shipment))continue;
+  }
   if(shipment.phase==='return'){
+   shipment.remaining=Math.max(0,shipment.remaining-remainingElapsed);
+   if(shipment.remaining>1e-8)continue;
    const source=s.cities.find(c=>c.id===shipment.sourceCityId),unit=transportUnit(shipment.unitId);
    if(!source||!unit)continue;
    withCityLocal(s,source,()=>{s.army[shipment.unitId]=(s.army[shipment.unitId]||0)+shipment.count});
