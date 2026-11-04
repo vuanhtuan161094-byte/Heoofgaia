@@ -67,6 +67,22 @@ check('Auto training disabled never queues a soldier or pays resources',()=>{
  assert.equal(E.hg20HeroPlan(s,1)[0].count,4);
  return {stock:4,queued:0};
 });
+check('Boss planner rechecks casualty-reduced live stock and protects another hero (fixture)',()=>{
+ const s=E.make('human',1000000),second=JSON.parse(JSON.stringify(s.heroes[0]));
+ s.heroes.push({...second,id:2,name:'Tướng thứ hai'});
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:9}]);
+ E.hg24SaveTemplate(s,1);
+ E.hg20SetHeroPlan(s,2,[{unitId:'human_1',count:7}]);
+ s.army.human_1=15; // previous world-battle casualty fixture
+ const boss=E.hg24RecommendBoss(s).find(q=>!q.privateBoss);
+ const prepared=E.hg24PrepareBoss(s,boss.key);
+ assert.equal(prepared.heroId,1);
+ assert.equal(prepared.units,8);
+ assert.equal(E.hg20HeroPlan(s,1)[0].count,8);
+ assert.equal(E.hg20HeroPlan(s,2)[0].count,7);
+ assert(E.strictSave(s));
+ return {boss:boss.key,hero1:8,hero2:7,army:15};
+});
 check('Hero-specific Boss scouting and one-click dispatch use actual AP and army receipts',()=>{
  const s=E.make('human',1000000),boss=E.hg24RecommendBoss(s).find(x=>x.privateBoss);
  assert(boss&&boss.recommended&&E.getTile(boss.key)?.privateBoss);
