@@ -225,7 +225,10 @@ function towerClimb(s){
   enemyPower:strength,rewardGold,rewardEssence,claimed:won&&t.claims<5};
  t.attempts++;
  if(won){
-  t.victories++;t.floor++;
+  t.victories++;
+  // Five rewarding advances/day. Further victories are practice only; do
+  // not silently skip a once-per-floor collectible when daily quota is empty.
+  if(report.claimed)t.floor++;
   if(report.claimed){
    E.add(s,{gold:rewardGold,wood:Math.min(50000,250+floor*70),
     ore:Math.min(50000,250+floor*70),sulfur:Math.min(25000,100+floor*25),
@@ -238,10 +241,15 @@ function towerClimb(s){
     report.specialUnit=unit.id;
    }
    if(floor%25===0){
-    const item='Huyền Binh · Tầng '+floor;
-    s.hg20.collection.artifacts.push(item);
+    const id=TOWER_GEAR[Math.floor(floor/25-1)%TOWER_GEAR.length][0];
+    const label=E.ITEMS[id].name+' · Tầng '+floor;
+    if(s.inventory.length<2000){
+     const gear=E.addItem(s,id,'Bí Cảnh tầng '+floor);
+     gear.towerFloor=floor;report.itemUid=gear.uid;
+    }
+    s.hg20.collection.artifacts.push(label);
     if(s.hg20.collection.artifacts.length>100)s.hg20.collection.artifacts.shift();
-    report.artifact=item;
+    report.artifact=label;
    }
   }
   if(floor>=25)s.hg20.collection.citadel=true;
@@ -258,13 +266,27 @@ function towerUpgrade(s){
  t.essence-=cost;t.rank++;E.note(s,'Thăng hoa bí cảnh +1, lực chiến toàn đội tháp +18% theo cộng dồn.');return t.rank;
 }
 function castleStatus(s){ensure(s);return {unlocked:s.hg20.collection.citadel,
- name:'Thiên Ngoại Bí Thành',description:'Thành sưu tầm: mở sau tầng 25; nâng sức mạnh đội tháp bằng tinh hoa, chưa là thành có bản đồ riêng.'};}
+ name:'Thiên Ngoại Bí Thành',worldCity:'Thành Huyền Tích',worldCityKey:PRIVATE_CASTLE.key,
+ worldCityOwned:!!s.hg20.collection.specialCityKey,
+ description:'Thành Huyền Tích là thành AI thật trên bản đồ, có thủ quân và có thể chiếm bằng đoàn viễn chinh.'};}
+function heroStats(s,id=s.activeHero){
+ const stats=old.heroStats(s,id);if(!stats)return stats;
+ for(const uid of Object.values(s.equipment?.[id]||{})){
+  const row=s.inventory.find(i=>i.uid===uid);
+  if(!row||!E.ITEMS[row.itemId]?.towerExclusive)continue;
+  const floor=Math.max(0,Math.min(1e9,row.towerFloor||0));
+  stats.atk+=Math.floor(floor*1.5);
+  stats.def+=Math.floor(floor*.8);
+  stats.int+=Math.floor(floor*.35);
+ }
+ return stats;
+}
 function strict(s){return old.strict(s)&&valid(s)}
 function make(...args){const s=ensure(old.make(...args));E.add(s,{gold:25000,wood:8000,ore:8000,sulfur:3000,crystal:3000});return s}
 function parse(text){const s=ensure(old.parse(text));if(!strict(s))throw Error('Save HG20 không hợp lệ');return s}
 function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG20 không hợp lệ');return old.serialize(s)}
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
- setFormation,selectHero,switchCity,autoFormation,startMarch,
+ setFormation,selectHero,switchCity,autoFormation,startMarch,heroStats,
  hg20Ensure:ensure,hg20HeroPlan:plan,hg20HeroRole:role,hg20Reservations:reservations,
  hg20SetHeroPlan:setPlan,hg20ChooseTowerTeam:chooseTowerTeam,
  hg20TowerStatus:towerStatus,hg20TowerClimb:towerClimb,hg20TowerUpgrade:towerUpgrade,
