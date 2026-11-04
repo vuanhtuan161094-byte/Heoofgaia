@@ -63,7 +63,7 @@ check('Auto training disabled never queues a soldier or pays resources',()=>{
  E.hg24SaveTemplate(s,1);E.hg24SetAuto(s,1,true,false);
  s.army.elf_1=4;const gold=s.res.gold;
  E.tick(s,s.lastTick+1000);
- assert.equal(s.training.length,0);assert.equal(s.res.gold,gold);
+ assert.equal(s.training.length,0);assert(s.res.gold>=gold,'Passive production may increase gold; auto-train OFF must never spend it');
  assert.equal(E.hg20HeroPlan(s,1)[0].count,4);
  return {stock:4,queued:0};
 });
