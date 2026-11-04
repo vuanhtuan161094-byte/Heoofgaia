@@ -1,0 +1,22 @@
+# HG-21 — Bí Cảnh Tháp: ba tướng, mỗi tướng hai stack
+**Checkpoint:** 04/11/2026. **Save:** v07; **repo:** vuanhtuan161094-byte/Heoofgaia; **branch:** feature/hog1-research-to-playable-20261102.
+**Code SHA fully green:** `26ef19172f8add37b2149fa7d41ceb91c4446fce`.
+**CI green:** [GitHub Actions 41826372655](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/41826372655).
+
+## Locked gameplay authority
+- One Tower team has **1–3 hero IDs**, each owning **one or two existing formation slots** (0–6) from its saved city-specific hero plan. **At most six player stacks (3 × 2)** per fight. The two chosen slots must be distinct and valid; the full seven-stack hero formation is still available for ordinary world marches.
+- Each Tower stack has `heroId`, `heroName`, `sourceSlot`. Damage and defense call the **effective stats and equipment modifiers of the owning hero** (not `state.activeHero`). Tower spell casting is **per hero** with distinct cast usage/cooldowns; allied spells change only that hero's stacks. No one-tower-team global hero-stat buff. Tower Essence rank supplies a separate global **Tower-only** stat scaling, not a cross-hero talent buff.
+- On `Thách đấu`, `E.hg21TowerEnter` creates a real HG09 12×9 battle using max six player stacks, dynamic enemy stacks, and the same turn commands as world battles. `E.battleAct` routes Tower combat to the canonical `E.battleActCore`; combat ends through actual HP depletion, defeat or 70-turn timeout.
+- Tower forces are **projections** of the actual garrison: still validated against real, nonduplicated per-hero plans; they do **not** deduct real troops/AP on entry, and tactical casualties affect only projection. World combat retains its normal true casualties, loot, AP, EXP and expedition semantics.
+- **Exactly five successful paid floor advances per UTC game day**; later floor attempts are practice, do not advance/skip collectible milestones or grant resources. The existing scaling Essence, original collectible armies, legendary equipment/UID and city rewards are granted **only after a real Tower victory**. Daily reset remains Save-stable.
+- Background/automatic combat can resolve Tower actions but returns to the **Tower window**, never to the world map as if it were a world encounter. Tactical cards show owner names; Tower spell controls list the three casters separately. No alteration to sprite/animation source.
+- `hg21-tower-tactical.js` runs after `hg20-world-bosses.js`. The old `hg20-private.js` instant model remains source for earlier HG20 regression tests, but the actual game runtime overrides `E.hg20TowerClimb` with the tactical entry function. Do not remove old source without updating legacy QA.
+- Extensions stored in v07 `s.hg20.tower.picks` and `s.battle.hg21Tower`; previous saves without `picks` are initialized without troop/resource minting. State/Save size limits unchanged.
+- Distinguish this Tower-only 3×2 rule from **ordinary 7-stack world expeditions**, which remain single-hero per expedition and can have up to three separate parallel dispatches.
+
+## Verified QA and limitations
+- **HG21 8/8 PASS:** Natural paid T1 recruits from four races → real tactical Tower victory, active battle Save/Reload, saved progression, 3 heroes × two slots, rejects duplicate/third slot, caster-buff ownership, two distinct hero damage receipts, exactly five daily reward claims, sixth practice only, daily reset, wearable floor-25 loot, legacy save migration.
+- **Core observed damages (synthetic three-hero fixture):** Hero A stack 28 damage in both states; Hero B stack rises **27 → 70** when *only* Hero B ATK changes. Individual ally spell affects only the caster's 2 stacks.
+- **Real Chromium UI PASS:** New Game → open management → auto assign troop → select Tower hero → click challenge → enter tactical battle → click actual attack turns → win floor 1 → exactly one reward/claim → Save. Fixed 1280×720 and 960×540 stages PASS, no JS errors.
+- **CI on SHA `26ef191`: SUCCESS all GitHub Actions workflow steps**, HG20 core 10/10, HG21 8/8, old organic endgame 186 combats/1 rebirth, visuals, AP and v07 Save regression.
+- Not yet a manually played Windows/Android endgame tower marathon. Later work can add bespoke Boss skills, tactical spell previews, multi-hero AI tactics, alternative tower branches, richer monster visuals. **Do not assign animations in this gameplay implementation.**
