@@ -7,7 +7,7 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path'),vm=require('node:vm');
 const ctx=vm.createContext({console});
-for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js'])
+for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js'])
  vm.runInContext(fs.readFileSync(path.join(__dirname,file),'utf8'),ctx,{filename:file});
 const E=ctx.HOG_ENGINE,C=ctx.HOG_CATALOG,s=E.make('human',1_000_000);
 const steps=[],meta={mode:'organic actions with accelerated elapsed game time',seeded:false,status:'PENDING',stages:steps,error:null};
@@ -104,8 +104,8 @@ try{
  assert(s.heroes[0].level===1&&!s.army.human_10&&Object.values(s.hg18.materials).every(v=>v===0));
  E.appoint(s,1); // real Castellan work grants activity XP
  receipt('fresh_new_game',{resources:s.res,starterArmy:s.army.human_1});
- buildTo('hall',10);buildTo('barracks',10);buildTo('stables',9);buildTo('blacksmith',10);buildTo('magicTower',9);
- learnTo('manufacturing',9);learnTo('bootcamp',9);
+ buildTo('hall',10);buildTo('barracks',10);buildTo('stables',9);buildTo('blacksmith',10);buildTo('magicTower',9);buildTo('heroTower',9);
+ learnTo('manufacturing',9);learnTo('bootcamp',9);learnTo('scouting',3);
  assert(E.troopPrerequisites(s,E.getUnit(s,'human_10')).available,'T10 gates still locked');
  receipt('unlocked_human_t10',{builds,studies,warehouse:s.buildings.warehouse,heroLevel:s.heroes[0].level});
  // Paid construction/research grants XP to the Castellan. Remove the role for battle.
@@ -140,6 +140,7 @@ try{
   if(xpBattles%100===0)receipt('experience_farming',{xpBattles,heroLevel:s.heroes[0].level,army:s.army.human_10||0});
  }
  assert.equal(s.heroes[0].level,100,'Long-form organic XP progression stalled; only Lv'+s.heroes[0].level+' after '+xpBattles+' wins');
+ assert(xpBattles<=350,'HG18.2 XP progression still requires '+xpBattles+' repeated 8-star fights (target <=350)');
  receipt('organic_level_100',{xpBattles,fromLevel:initialLv});
  recallIfNeeded();
  // Ensure rebirth Gold comes from production, not synthetic grants.
@@ -153,7 +154,7 @@ try{
  meta.status='PASS';
 }catch(err){meta.status='FAIL';meta.error=String(err.stack||err);console.error('HG181 ENDGAME FAIL '+meta.error);process.exitCode=1;}
 finally{
- meta.summary={builds,studies,recruits,waits,battles,simulatedHours,finalHeroLevel:s.heroes[0].level,rebirth:s.heroes[0].rebirth,rebirthCore:s.hg18?.materials.rebirth_core};
+ meta.summary={builds,studies,recruits,waits,battles,simulatedHours,experienceGrindBattles:typeof xpBattles==='number'?xpBattles:null,finalHeroLevel:s.heroes[0].level,rebirth:s.heroes[0].rebirth,rebirthCore:s.hg18?.materials.rebirth_core};
  fs.mkdirSync(path.join(__dirname,'docs','qa','hg181'),{recursive:true});
  fs.writeFileSync(path.join(__dirname,'docs','qa','hg181','organic-endgame.json'),JSON.stringify(meta,null,2));
  console.log('HG181 ENDGAME '+meta.status+' '+JSON.stringify(meta.summary));

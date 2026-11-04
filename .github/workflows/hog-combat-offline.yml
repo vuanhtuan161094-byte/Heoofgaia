@@ -49,6 +49,11 @@ jobs:
           node --check hg18.js
           node --check qa-hg18-core.cjs
           node qa-hg18-core.cjs
+      - name: HG18.2 elite logistics, NPC XP and scouting AP balance
+        run: |
+          node --check hg182.js
+          node --check qa-hg182-balance.cjs
+          node qa-hg182-balance.cjs
       - name: HG19 vector art coverage and icon regression
         run: |
           node --check art-pack.js

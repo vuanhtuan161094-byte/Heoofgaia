@@ -276,9 +276,22 @@ function conditionName(c){
  if(c.key==='manufacturing')return `Manufacturing (Chế tạo) cấp ${c.level}`;
  return `${E.C.spells[c.key]?.vi||E.C.spells[c.key]?.name||c.key} cấp ${c.level}`;
 }
+// HG18.2: modeled elite supply-chain efficiency. Unit source costs stay
+// immutable; only paid recruitment of T9/T10 receives logistics efficiency
+// after meaningful Blacksmith + Manufacturing investment.
+function eliteLogisticsEfficiency(s,u){
+ if(!u||u.tier<9||(s.buildings?.blacksmith||0)<8||(s.spells?.manufacturing||0)<6)return 0;
+ return Math.min(.22,(Math.min(10,s.buildings.blacksmith)-7)*.05+
+   (Math.min(10,s.spells.manufacturing)-6)*.02);
+}
 function recruitCost(s,u,count){
  const cost={};for(const k of E.C.keys)cost[k]=(u.cost[k]||0)*count;
- const level=s.spells?.manufacturing||0;cost.gold=Math.ceil(cost.gold*(1-Math.min(.2,level*.02)));return cost;
+ const level=s.spells?.manufacturing||0;
+ cost.gold=Math.ceil(cost.gold*(1-Math.min(.2,level*.02)));
+ const efficiency=eliteLogisticsEfficiency(s,u);
+ if(efficiency)for(const key of ['wood','ore','sulfur','crystal'])
+  cost[key]=Math.ceil(cost[key]*(1-efficiency));
+ return cost;
 }
 function recruit(s,id,count){
  ensure(s);const u=E.getUnit(s,id);if(!u)throw Error('Không có quân của chủng tộc này');
@@ -286,7 +299,10 @@ function recruit(s,id,count){
  if(!Number.isSafeInteger(count)||count<1||count>1000)throw Error('Số lượng không hợp lệ');
  const req=unitPrerequisites(s,u);if(!req.available)throw Error(`Chưa đủ điều kiện ${u.name}: ${conditionName(req.unmet[0])}.`);
  const cost=recruitCost(s,u,count);E.spend(s,cost);
- const time=Math.ceil(u.timeSec*count*(1-Math.min(.2,(s.spells.bootcamp||0)*.02)));
+ const bootcamp=s.spells.bootcamp||0,smith=s.buildings.blacksmith||0;
+ const eliteTime=u.tier>=9&&smith>=8&&bootcamp>=6?
+   Math.min(.22,(Math.min(10,smith)-7)*.025+(Math.min(10,bootcamp)-5)*.03):0;
+ const time=Math.ceil(u.timeSec*count*(1-Math.min(.45,Math.min(.2,bootcamp*.02)+eliteTime)));
  s.training.push({id:s.serial++,unitId:id,count,remaining:time,total:time});
  E.note(s,`Xếp hàng tuyển ${count} ${u.name}; thời gian cơ sở theo bảng unit 2009.`);return cost;
 }
