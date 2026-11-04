@@ -68,7 +68,7 @@ with sync_playwright() as p:
          return p.x>90&&p.x<c.width-90&&p.y>c.height*.36&&p.y<c.height*.96}),
         floorSource:!!document.getElementById('battlefield-human-meadow')?.naturalWidth,
         noPlatform:!P.battleGround.toString().includes('poly('),
-        hiddenGrid:P.drawBattle.toString().includes('if(!highlight)continue'),
+        gridSupported:typeof P.battleGridOverlay==='function'&&P.battleGridCells(cam).length===108,
         grass0:sample(c.width*.46,c.height*.53),
         grass1:sample(c.width*.54,c.height*.73)
       };
@@ -78,7 +78,7 @@ with sync_playwright() as p:
     check("HG14.2 all 108 invisible logical cells remain clickable",stage["everyCell"])
     check("HG14.2 real foot pivots fit the clearing",stage["everyFoot"])
     check("HG14.2 meadow is full-field without floating platform",stage["floorSource"] and stage["noPlatform"])
-    check("HG14.2 normal battle has no permanent white grid",stage["hiddenGrid"])
+    check("HG14.5 tactical overlay reuses canonical 108-cell projection",stage["gridSupported"])
     check("HG14.2 natural terrain texture remains visible",stage["grass0"]!=stage["grass1"])
     check("HG14.2 desktop troops retain legible sprite scale",page.evaluate("""() => {
       const c=document.getElementById('battle-canvas'),P=HOG_PAINTER;

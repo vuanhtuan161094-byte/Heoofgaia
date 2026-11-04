@@ -1084,6 +1084,52 @@ test('HG14.3 Human Archer addresses 48 unique animation cells, including draw/re
  assert.equal(P.archerAtlasFrame('attack',580,650).imageId,'unit-human-archer-atlas');
  assert(P.hasAnimatedTroops({allies:[{unitId:'human_3'}],enemies:[]}));
 });
+test('HG14.5 canonical battle grid is 108 cells, exact at mobile and desktop sizes',()=>{
+ const g=E.BATTLE_GRID;
+ for(const dims of [{width:1176,height:550},{width:931,height:348},{width:1250,height:516}]){
+  const cam=P.battleProjection(dims,E),cells=P.battleGridCells(cam);
+  assert.equal(cells.length,108);
+  for(const cell of cells){
+   assert.deepEqual(P.battleCellAt(dims,cell.center.x,cell.center.y,E),{x:cell.x,y:cell.y});
+   assert.equal(cell.corners.length,4);
+  }
+  const s=state(),tile=E.NPC_CAMPS_2009.find(x=>x.stars===1);
+  s.battle=E.makeBattle(s,tile.key);
+  const lay=P.battleUnitLayout(s.battle,cam,dims.width,dims.height);
+  for(const e of lay.filter(e=>e.u.pool>0)){
+   const center=cam.point(e.u.x+.5,e.u.y+.5);
+   assert(cells.some(c=>c.x===e.u.x&&c.y===e.u.y&&
+     Math.hypot(c.center.x-center.x,c.center.y-center.y)<1e-9));
+  }
+ }
+});
+test('HG14.5 real combat receipts drive damage numbers, arrows and death marks only',()=>{
+ const s=state('human'),npc=E.NPC_CAMPS_2009.find(n=>n.stars===1);
+ s.army.human_3=16;E.setFormation(s,[{unitId:'human_3',count:16}]);
+ s.battle=E.makeBattle(s,npc.key);const b=s.battle;
+ assert.deepEqual(b.lastEvents||[],[]);
+ const camera=P.battleProjection({width:1176,height:550},E);
+ const initial=P.battleUnitLayout(b,camera,1176,550);
+ assert.equal(P.battleFxPlan(b,camera,540,initial).length,0);
+ const outcome=E.battleAct(s,'attack');
+ assert.equal(outcome.type,'continue');assert(s.battle);
+ const canonicalBefore=JSON.stringify(E.clone(s));
+ const layout=P.battleUnitLayout(b,camera,1176,550);
+ const effects=P.battleFxPlan(b,camera,600,layout);
+ const hits=b.lastEvents.filter(e=>e.damage>0&&e.targetId);
+ assert.equal(effects.length,hits.length);
+ for(const effect of effects){
+  const receipt=hits.find(r=>r.actorId===effect.actorId&&r.targetId===effect.targetId);
+  assert(receipt);assert.equal(effect.damage,receipt.damage);
+  assert.equal(effect.casualties,receipt.casualties);
+  assert.equal(effect.death,receipt.death);
+  assert(Number.isFinite(effect.start.x)&&Number.isFinite(effect.end.y));
+ }
+ assert(effects.some(e=>e.ranged),'actual archer fires a projectile');
+ assert(effects.some(e=>e.death),'actual first encounter kills an enemy stack');
+ assert.equal(P.battleFxPlan(b,camera,1200,layout).length,0,'effect TTL expires');
+ assert.equal(JSON.stringify(E.clone(s)),canonicalBefore,'presentation never mutates game');
+});
 test('HG14.4 responsive troop scale improves 960x540 readability',()=>{
  const desktop=P.battleSpriteScale(516,2,9),mobile=P.battleSpriteScale(347,2,9);
  assert(desktop>=1.05&&desktop<=1.35);
@@ -1121,7 +1167,7 @@ test('HG14.2 continuous meadow battle projection keeps both armies in readable l
  const g=E.BATTLE_GRID;
  const painterSource=fs.readFileSync(path.join(dir,'painter.js'),'utf8');
  assert(!painterSource.includes('poly(c,outline'),'raised isometric board must not return');
- assert(painterSource.includes('if(!highlight)continue'),'no full-time grid overlay');
+ assert(painterSource.includes('battleGridOverlay(c,camera,units,reachable)'),'tactical grid can be displayed on actual battle cells');
  for(const dims of [{width:1176,height:550},{width:960,height:350},{width:1280,height:520}]){
   const p=P.battleProjection(dims,E);
   assert(p.col.x>p.row.x*10,'horizontal battlefield axis should dominate');
