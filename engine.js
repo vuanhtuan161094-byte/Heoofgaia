@@ -153,6 +153,24 @@ function mapTiles(){
  // recovered historical terrain feature.
  at(45,69).terrain='bridge';
  for(const building of WORLD_BUILDINGS){const t=at(building.x,building.y);t.kind='visit';t.value=building.name;t.structureId=building.id;t.terrain='plain';}
+ // Offline world expansion: preserve all existing castles and sourced NPC,
+ // treasure and visitable tiles. Generated sites are marked MODELED.
+ const candidates=[];
+ for(let y=7;y<97;y+=9)for(let x=7;x<97;x+=8){
+  const t=at(x,y);
+  if(t.kind!=='empty'||t.terrain==='water'||t.terrain==='bridge')continue;
+  if(tiles.some(other=>other.kind==='castle'&&Math.abs(other.x-x)+Math.abs(other.y-y)<6))continue;
+  candidates.push(t);
+ }
+ candidates.sort((a,b)=>((a.x*89+a.y*31)%997)-((b.x*89+b.y*31)%997)||a.y-b.y||a.x-b.x);
+ const EXTRA_CASTLES=54;
+ if(candidates.length<EXTRA_CASTLES)throw Error('Not enough unoccupied sites for modeled offline castles');
+ const races=['human','elf','orc','undead'];
+ for(let i=0;i<EXTRA_CASTLES;i++){
+  const t=candidates[i];t.kind='castle';t.race=races[(i+Math.floor(t.x/8)+Math.floor(t.y/9))%4];
+  t.level=Math.min(5,1+Math.floor((t.x+t.y)/45));t.value=`Thành biên ${String(i+1).padStart(2,'0')}`;
+  t.aiOwner=i%3!==0;t.source='MODELED_OFFLINE_CITY';t.terrain='plain';
+ }
  return tiles;
 }
 const TILES=mapTiles(), TILE_LOOKUP=new Map(TILES.map(t=>[t.key,t]));
@@ -234,7 +252,14 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  const archetypes=[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
   {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:20},
   {name:'Vệ binh',hp:55,atk:20,def:15,spd:3.8,range:1}];
- const enemies=archetypes.slice(0,lv>=2?3:2).map((e,i)=>{
+ // AI fortresses deploy persisted resource-funded garrisons instead of generic monsters.
+ const aiCity=tile.kind==='castle'?root.HOG_ENGINE?.aiCityAt?.(s,target):null;
+ const enemies=aiCity?Object.entries(aiCity.garrison).filter(([,count])=>count>0).slice(0,3).map(([unitId,count],i)=>{
+  const u=C.units[aiCity.race].find(x=>x.id===unitId);
+  assert(!!u&&Number.isSafeInteger(count)&&count>0,'Dữ liệu quân phòng thủ AI không hợp lệ');
+  return {id:`e${i}`,side:'enemy',unitId:u.id,name:u.name,range:u.type==='Ranged'?20:1,
+   count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:u.spd,pool:count*u.hp,x:10,y:2+i*3};
+ }):archetypes.slice(0,lv>=2?3:2).map((e,i)=>{
   const c=Math.max(2,Math.ceil((lv*.8+1.7)*(i===0?2:1)));
   return {id:`e${i}`,side:'enemy',unitId:null,name:e.name,range:e.range,count:c,initial:c,hp:e.hp,atk:e.atk+lv*2,def:e.def+lv,
    spd:e.spd,pool:c*e.hp,x:10,y:2+i*3};
