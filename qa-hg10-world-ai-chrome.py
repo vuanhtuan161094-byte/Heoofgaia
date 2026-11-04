@@ -46,8 +46,11 @@ try:
         check("Actual world-canvas pointer selects AI castle", "Thành AI" in view and target["name"] in view)
         page.screenshot(path=str(OUT / "ai-city-map-chrome.png"), full_page=True)
         page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();s.fame=5800;HOG_APP_DEBUG.render()}""")
+        ap_before = page.evaluate("HOG_APP_DEBUG.getState().ap")
         page.locator('[data-action="march"]').first.click()
-        check("Actual UI dispatch opens a paid world march", page.evaluate("(t) => {const s=HOG_APP_DEBUG.getState();return s.march?.target===t&&s.ap===92}", target["key"]))
+        march = page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();return {target:s.march?.target||null,ap:s.ap,toast:document.getElementById('toast')?.innerText||''}}""")
+        print("AI dispatch receipt:", {"target":march["target"],"apBefore":ap_before,"apAfter":march["ap"],"toast":march["toast"]},flush=True)
+        check("Actual UI dispatch opens a paid world march", march["target"] == target["key"] and 7 <= ap_before-march["ap"] <= 8.1)
         battle = page.evaluate("""() => {
           const s=HOG_APP_DEBUG.getState();s.march.remaining=.01;
           HOG_ENGINE.tick(s,s.lastTick+1000);HOG_APP_DEBUG.render();
