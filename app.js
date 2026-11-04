@@ -392,10 +392,21 @@ function heroAscensionView(){
   ${button('hg18-rebirth',{id:h.id},'🌟 Chuyển sinh cấp 100',!mat.rebirth_core||h.level!==100||h.rebirth>=5||!!state.march||!!state.battle||state.castellan===h.id,'small primary')}</div>
   <p class="tiny muted">Đang có: ${mat.rank_emblem} Ấn · ${mat.hero_reset} thẻ tẩy · ${mat.rebirth_core} lõi chuyển sinh. Lõi từ nhiệm vụ tuần đánh Boss 9–10★.</p></section>`;
 }
+function hg27ExchangeView(group){
+ if(!E.hg27Catalogue)return '';
+ const h=E.hg27Ensure(state),rows=E.hg27Catalogue(state).filter(r=>r.group===group),tokens=E.HG27_TOKENS;
+ return `<section class="card hg27-exchange" aria-label="Đổi thưởng chiến tích PvE"><span class="eyebrow">HG27 · FARM → GHÉP → ĐỔI THƯỞNG</span>
+ <h2>${group==='troop'?'⚔ Chuyển quân thường thành quân đặc biệt':'✨ Đổi chiến tích lấy trang bị cao cấp'}</h2>
+ <div class="hg27-wallet">${Object.entries(tokens).map(([k,v])=>`<span>${v.icon} ${esc(v.name)} <b>${format(h[k])}</b></span>`).join('')}</div>
+ <p class="tiny muted">Chiến tích từ thắng quái trên bản đồ · Ấn Boss từ thắng Boss cấp cao · Phù ấn Tháp từ tầng thắng thật (tối đa 5 lượt thưởng/ngày). Không phát quà khi thua hoặc đánh Tháp quá hạn thưởng.</p>
+ <div class="hg27-recipes">${rows.map(r=>`<div class="card hg27-recipe"><div><b>${esc(r.name)}</b><small>${Object.entries(r.need).map(([k,n])=>tokens[k].icon+' '+n+' '+esc(tokens[k].name)).join(' · ')} · 🪙 ${format(r.gold)}${r.troops?' · ⚔ '+r.troops+' lính cơ bản chưa phân đội':''}</small>${r.floor>1?`<small>Điều kiện: vượt Tháp tầng ${r.floor-1}</small>`:''}</div>
+ ${button('hg27-exchange',{id:r.id},r.canExchange?'Đổi ngay':!r.unlocked?'🔒 Khóa':'Thiếu nguyên liệu',!r.canExchange,'small primary')}</div>`).join('')}</div>
+ <p class="hint">Mọi nguyên liệu và lính cũ được trừ trước khi nhận vật phẩm; không đổi khi có đoàn quân đang hành quân. Đây là hệ thống offline mới của Hẻoofgaia.</p></section>`;
+}
 function relicView(){
  const mat=state.hg18.materials,sets=E.hg18SetCounts(state,state.activeHero);
  const opens=['resource_card','resource_chest','gear_pack','set_chest'];
- return `<h1>💎 Rèn đúc & kho di vật</h1>
+ return `<h1>💎 Rèn đúc & kho di vật</h1>${hg27ExchangeView('gear')}
   <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
   <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card"><b>${ico(key,25)||m.icon} ${esc(m.name)}</b><p>Số lượng <b>${format(mat[key])}</b></p>
   ${opens.includes(key)?button('hg18-open',{id:key},'Mở / Dùng',mat[key]<1,'small primary'):''}</div>`).join('')}</div></section>
@@ -442,7 +453,7 @@ function tasksView(){
  const ht=E.heroTaskStatus(state),heroTaskCard=`<section class="card"><span class="eyebrow">HERO TASKS · FANDOM / BABEL</span><h2>⚔ Nhiệm vụ tướng <span class="tag">${ht.completed}/${ht.max} hôm nay</span></h2><progress max="20" value="${ht.completed}"></progress><p class="hint">${ht.active?`<b>${esc(ht.heroName)}</b> cần thắng NPC <b>${ht.stars}★</b> bằng chính tướng đã nhận. ${ht.active.ready?'Đã hoàn thành, nhận EXP ngay.':'Đang chờ chiến thắng.'}`:ht.available?`Tướng đang chọn: <b>${esc(ht.heroName)}</b> · Nhiệm vụ tiếp: NPC <b>${ht.stars}★</b>.`:'Đã hoàn thành 20 lượt hôm nay.'}</p><div class="cost">${ht.available?'Thưởng cơ bản +'+format(ht.exp)+' EXP tướng · Hero Tower có thể cộng thêm':'Tổng 43.000 EXP cơ bản / ngày'}</div><div class="actions">${!ht.available?button('acceptherotask',{},'✓ Hết nhiệm vụ hôm nay',true,'secondary'):!ht.active?button('acceptherotask',{},'🎯 Nhận nhiệm vụ tướng',!ht.canAccept,'primary'):ht.active.ready?button('claimherotask',{},'🎁 Nhận EXP cho tướng',!main,'primary'):button('findherotask',{},'🗺 Tìm NPC '+ht.stars+'★',false,'primary')}</div><p class="tiny muted">Theo Fandom: 20 lượt/ngày, 1.200–3.100 EXP/lượt. Thứ tự 1★→2★→3★ là lựa chọn offline; giao tranh vẫn tốn AP/quân.</p></section>`;
  const international=`<h2>Quốc tế · nhiệm vụ cộng đồng</h2><p class="hint">Bảng này tách nhiệm vụ theo chủng tộc và nguồn cộng đồng. Kongregate mô tả Get Task/Get Reward (SRC52); “Getting Started” và nhiệm vụ Undead “Clean Up Remnants” lấy từ Fandom sống nhiều phiên bản (SRC30, SRC53; độ tin cậy C). SRC61 ghi riêng rằng Undead có thể nhận một quân đánh xa cấp 8 mỗi ngày năm 2009, nhưng không nêu đúng tên nhiệm vụ hay các phần thưởng.</p><div class="grid grid2">${tasks.map(t=>`<div class="card"><h2>${t.claimed?'✅ ':t.ready?'📩 ':'📜 '}${esc(t.nameVi)} <span class="tag">${t.name}</span></h2><p>Thắng bất kỳ trại NPC ${t.stars}★ trên bản đồ thế giới. Tiến độ ${t.progress}/1.</p><div class="cost">+${format(t.gold)} Vàng · tối đa +${t.ap} AP${t.rewardUnitId?` · +${t.rewardUnits} ${esc(E.getUnit(state,t.rewardUnitId)?.name||t.rewardUnitId)}`:''}</div><p class="tiny muted">Nguồn ${t.source} · độ tin cậy ${t.confidence}. Mốc reset UTC là mô hình offline; task nguồn Trung Quốc không nhập vào bảng này.</p>${t.claimed?button('claimdaily',{id:t.id},'✓ Đã nhận hôm nay',true,'primary'):!t.accepted?button('acceptdaily',{id:t.id},'📥 Nhận nhiệm vụ',!main||!t.available,'primary'):t.ready?button('claimdaily',{id:t.id},'🎁 Nhận thưởng',!main,'primary'):button('acceptdaily',{id:t.id},'Đang theo dõi · chờ chiến thắng',true,'secondary')}</div>`).join('')}</div><p class="tiny muted">Nhiệm vụ khác, Main/Holiday và toàn bộ lịch sử thưởng chưa được dựng. Save v07 cũ được nạp với bảng mới trống.</p>`;
  const chinese=china.length?`<section class="card"><span class="eyebrow">CHINA DAILY TASKS • SINA 2009</span><h2>Chuỗi nhiệm vụ Nhân tộc Trung Quốc 2009</h2><p class="hint">Bảng này tách riêng khỏi nhiệm vụ cộng đồng quốc tế. SRC54 ghi nhiệm vụ “招募弓箭手”: tuyển 20 Cung thủ, thưởng 100 Gỗ và 10 Cung thủ. FAQ SRC61 nói tăng mỗi bậc Danh vọng sẽ làm mới nhiệm vụ ngày; bậc được đối chiếu theo bảng Fame SRC20 (cùng năm nhưng khác ngày). Mốc reset UTC vẫn là mô hình offline; bản này không mô phỏng bảo trì máy chủ.</p>${china.map(t=>`<div class="card"><h3>${t.claimed?'✅ ':t.ready?'📩 ':'📜 '}${esc(t.nameVi)} <span class="tag">${t.name}</span></h3><p>Hoàn tất huấn luyện Cung thủ tại thành chính · ${t.progress}/${t.required}.</p><div class="cost">+${format(t.rewardWood)} Gỗ · +${t.rewardUnits} Cung thủ</div><p class="tiny muted">Nguồn: ${t.source}, Sina 24-08-2009 · độ tin cậy ${t.confidence}. Điều kiện “huấn luyện hoàn tất” là cách triển khai có thể chơi được; bài gốc chỉ nêu phải tuyển 20.</p>${t.claimed?button('claimdaily2009',{id:t.id},'✓ Đã nhận hôm nay',true,'primary'):!t.accepted?button('acceptdaily2009',{id:t.id},'📥 Nhận nhiệm vụ',!main,'primary'):t.ready?button('claimdaily2009',{id:t.id},'🎁 Nhận thưởng',!main,'primary'):button('acceptdaily2009',{id:t.id},'Đang theo dõi · hoàn tất huấn luyện',true,'secondary')}</div>`).join('')}</section>`:'';
- return `<h1>📜 Nhiệm vụ hằng ngày</h1>`+hg18QuestView()+heroTaskCard+international+chinese;
+ return `<h1>📜 Nhiệm vụ hằng ngày</h1>`+hg27ExchangeView('troop')+hg18QuestView()+heroTaskCard+international+chinese;
 }
 
 function towerSpellPanel(b){
@@ -617,6 +628,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='equipitem'){E.equipItem(state,Number(target.dataset.uid));return}
  if(action==='unequip'){E.unequipItem(state,target.dataset.slot);return}
  if(action==='buyitem'){E.buyItem(state,target.dataset.id);return}
+ if(action==='hg27-exchange'){const out=E.hg27Exchange(state,target.dataset.id);toast('Đổi thưởng thành công: '+out.id);return}
  if(action==='hg18-claim'){E.claimHG18Task(state,target.dataset.cycle,target.dataset.id);toast('Đã nhận thưởng nhiệm vụ.');return}
  if(action==='hg18-open'){E.openHG18Pack(state,target.dataset.id);toast('Đã sử dụng thẻ hoặc mở hòm.');return}
  if(action==='hg18-craft'){E.craftHG18(state,target.dataset.id);toast('Đã ghép trang bị Tinh Vân.');return}
