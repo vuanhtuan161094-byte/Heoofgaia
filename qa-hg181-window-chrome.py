@@ -169,6 +169,11 @@ try:
   page.on('dialog',lambda dialog:dialog.accept())
   page.locator('#reset').click()
   page.locator('[data-action="start"]').click()
+  check('Fresh New Game begins at 60x speed',
+    page.evaluate("HOG_APP_DEBUG.getState().speed===60"))
+  page.locator('#speed').click()
+  check('Real speed control sets the fresh joint-roster scenario to 1x',
+    page.evaluate("HOG_APP_DEBUG.getState().speed===1"))
   check('HG26 outbound state is isolated before the fresh joint-roster scenario',
     page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
