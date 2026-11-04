@@ -6,7 +6,7 @@ const crypto=require('node:crypto');
 const vm=require('node:vm');
 const ctx=vm.createContext({console});
 const dir=__dirname;
-for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
+for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
 vm.runInContext(fs.readFileSync(path.join(dir,'painter.js'),'utf8'),ctx,{filename:'painter.js'});
 const E=ctx.HOG_ENGINE, C=ctx.HOG_CATALOG;
 const P=ctx.HOG_PAINTER;
