@@ -11,7 +11,7 @@ vm.runInContext(fs.readFileSync(path.join(dir,'painter.js'),'utf8'),ctx,{filenam
 const E=ctx.HOG_ENGINE, C=ctx.HOG_CATALOG;
 const P=ctx.HOG_PAINTER;
 let pass=0,failed=0;const results=[];
-function test(name,fn){try{fn();pass++;results.push({name,passed:true});console.log('PASS '+name)}catch(e){failed++;results.push({name,passed:false});console.error('FAIL '+name+': '+e.message)}}
+function test(name,fn){try{fn();pass++;results.push({name,passed:true});console.log('PASS '+name)}catch(e){failed++;results.push({name,passed:false});console.error('FAIL '+name+': '+(e.stack||e.message))}}
 function state(race='human'){return E.make(race,1_000_000)}
 function expensive(s){for(const k of C.keys) s.res[k]=Math.min(E.limits(s)[k],1e6);return s}
 function lifetimeHeroXp(h){let xp=h.xp;for(let level=1;level<h.level;level++)xp+=E.experienceToNext(level);return xp}
