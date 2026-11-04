@@ -205,7 +205,7 @@ function heroArmyCommandView(){
  '. Sau khi bấm Xuất chinh, quân thật được giao cho tướng và sẽ xuất hiện ở trạng thái hành quân/chiến đấu/đồn trú.</p></section>';
 }
 function towerView(){
- const status=E.hg20TowerStatus(state),c=state.hg20.collection;
+ const status=E.hg20TowerStatus(state),c=state.hg20.collection,castle=E.hg20CastleStatus(state);
  const teamOptions=(selected)=>'<option value="">— Không chọn —</option>'+state.heroes.map(h=>{
   const duty=E.hg20HeroRole(state,h.id);
   return '<option value="'+h.id+'" '+(selected===h.id?'selected':'')+' '+(duty.status==='home'?'':'disabled')+'>'+
@@ -218,7 +218,7 @@ function towerView(){
   '<div class="grid grid2"><section class="card"><h2>👹 '+esc(status.enemy)+'</h2>'+
   '<p>Thể chất: '+esc(status.trait)+' · Lực chiến quái '+format(status.enemyPower)+'</p>'+
   '<p>Đội bạn: '+strength+'</p>'+
-  '<p>Ngày hôm nay còn <b>'+status.rewardLeft+'/5</b> lượt thắng có thưởng. Vẫn được leo sau khi hết thưởng, nhưng không nhận tài nguyên.</p>'+
+  '<p>Ngày hôm nay còn <b>'+status.rewardLeft+'/5</b> lượt thắng có thưởng. Hết lượt thưởng vẫn được luyện tập tầng hiện tại, không bỏ lỡ chiến lợi phẩm hiếm; sang ngày mới lại tiếp tục leo.</p>'+
   '<p class="hint">Bí cảnh dùng hình chiếu quân: không mất lính, không mất AP. Kết quả dựa trên lực chiến của từng tướng và quân đã được phân; quái mạnh dần theo tầng.</p>'+
   Array.from({length:3},(_,i)=>'<label>Tướng '+(i+1)+'<select id="hg20_tower_'+i+'">'+teamOptions(status.team[i])+'</select></label>').join('')+
   '<div class="actions">'+button('tower-team',{},'✓ Khóa đội 1–3 tướng',false,'primary')+
@@ -231,9 +231,9 @@ function towerView(){
   ' · mỗi cấp +18% lực chiến đội tháp (cộng dồn)</p>'+
   button('tower-upgrade',{},'⬆ Thăng hoa · '+format(status.upgradeCost)+' tinh hoa',status.essence<status.upgradeCost,'primary')+
   '<h3>🏰 Thành đặc biệt</h3><p>'+(c.citadel?'✓ Đã mở khóa Thiên Ngoại Bí Thành':'🔒 Thiên Ngoại Bí Thành · hoàn thành tầng 25')+
-  '</p><h3>🐉 Quân sưu tầm</h3><p>'+esc(troop.name)+' ×'+format(owns)+
+  '</p><p>🏰 '+esc(castle.worldCity)+' · tọa độ '+esc(castle.worldCityKey)+' · '+(castle.worldCityOwned?'✓ Đã chiếm, sản xuất +50%':'⚔ Thành AI thật, có thể đánh chiếm')+'</p><h3>🐉 Quân sưu tầm</h3><p>'+esc(troop.name)+' ×'+format(owns)+
   ' · nhận ở mỗi tầng 10, 20, 30… trong 5 lượt có thưởng/ngày.</p>'+
-  '<h3>💎 Di vật hiếm</h3><p>Nhận ở mỗi tầng 25, 50, 75… trong lượt có thưởng: '+
+  '<h3>💎 Di vật hiếm</h3><p>Nhận trang bị thật ở mỗi tầng 25, 50, 75… trong lượt có thưởng (có thể mặc, chỉ số tăng theo tầng): '+
   (c.artifacts.length?c.artifacts.slice(-5).map(esc).join(' · '):'chưa sở hữu')+'</p>'+
   '<p class="hint">Không có tầng cuối. Lực chiến quái và phần thưởng tăng theo tầng trong giới hạn số học an toàn của Save v07.</p>'+
   '</section></div>';

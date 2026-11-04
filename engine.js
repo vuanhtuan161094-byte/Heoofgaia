@@ -47,7 +47,11 @@ function rate(s){let out={...BASE_HOURLY};
  // community-reported and differs from an early Wikidot approximation; provisional.
  const castellan=s.heroes.find(h=>h.id===s.castellan);
  if(castellan)out.gold+=Math.max(0,castellan.int-10)*(BASE_HOURLY.gold+Math.max(0,s.buildings.hall-1)*40)/150;
- if(s.hg20?.version===1)for(const k of C.keys)out[k]*=5;
+ if(s.hg20?.version===1){
+  for(const k of C.keys)out[k]*=5;
+  if(s.hg20.collection?.specialCityKey&&s.cities?.some(q=>q.key===s.hg20.collection.specialCityKey))
+   for(const k of C.keys)out[k]*=1.5;
+ }
  return out;
 }
 function limits(s){const l=s.buildings.warehouse||0;const table={0:[1500,1500,750,750,15000],1:[1500,1500,750,750,15000],2:[1500,1500,750,750,15000],3:[1500,1500,750,750,15000],4:[3000,3000,1500,1500,30000],5:[5250,5250,2625,2625,52500],6:[8250,8250,4125,4125,82500],7:[12000,12000,6000,6000,120000],8:[16500,16500,8250,8250,165000],9:[21000,21000,10500,10500,210000],10:[27000,27000,13500,13500,270000]};const [wood,ore,sulfur,crystal,gold]=table[Math.min(10,l)]; const f=(1+(s.spells.storing||0)*.05)*(s.hg20?.version===1?10:1);return {gold:gold*f,wood:wood*f,ore:ore*f,sulfur:sulfur*f,crystal:crystal*f};}

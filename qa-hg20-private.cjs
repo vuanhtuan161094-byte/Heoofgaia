@@ -62,6 +62,33 @@ check('Special reward unit cannot be bought and has nonzero command value',()=>{
  assert.throws(()=>E.recruit(s,u.id,1),/chỉ nhận qua nhiệm vụ/);
  return {id:u.id,power:E.unitValue(u)};
 });
+check('Mystic city exists as a real capturable world castle, not an icon-only unlock',()=>{
+ const s=E.make('human',1_000_000),city=E.hg20CastleStatus(s),tile=E.getTile(city.worldCityKey);
+ assert(tile&&tile.kind==='castle'&&tile.aiOwner);
+ assert.equal(tile.value,'Thành Huyền Tích');
+ assert(E.pathfind('3,4',tile.key));
+ assert(!city.worldCityOwned);
+ return {key:tile.key,name:tile.value};
+});
+check('Floor-25 collection yields real equipable gear and Save-preserved floor scaling (high-floor setup fixture)',()=>{
+ const s=E.make('human',1_000_000);
+ s.hg20.tower.floor=25;s.hg20.tower.rank=20; // declared high-floor fixture; no organic progression claim.
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:16}]);
+ E.hg20ChooseTowerTeam(s,[1]);
+ // Ensure the fixture army genuinely meets the calculated tower threshold.
+ const power=E.hg20TowerPower(s);assert(power.power>E.hg20TowerStatus(s).enemyPower);
+ const r=E.hg20TowerClimb(s);
+ assert.equal(r.outcome,'win');assert(r.itemUid>0,'No actual inventory equipment');
+ const item=s.inventory.find(i=>i.uid===r.itemUid);assert(item);
+ assert(E.ITEMS[item.itemId].towerExclusive&&item.towerFloor===25);
+ const base=E.heroStats(s,1).atk;
+ E.equipItem(s,item.uid,1);
+ assert(E.heroStats(s,1).atk>base,'Equipping tower gear must improve hero');
+ assert(E.strictSave(s));
+ const loaded=serial(s);assert.equal(loaded.inventory.find(x=>x.uid===item.uid).towerFloor,25);
+ assert.equal(loaded.hg20.tower.floor,26);
+ return {item:item.itemId,level:item.towerFloor,powerDelta:E.heroStats(loaded,1).atk-base};
+});
 check('Legacy v07 save loads without minting free gold or units',()=>{
  const prev=vm.createContext({console});for(const p of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js'])vm.runInContext(fs.readFileSync(path.join(__dirname,p),'utf8'),prev,{filename:p});
  const legacy=prev.HOG_ENGINE.make('human',1000000),gold=legacy.res.gold;
