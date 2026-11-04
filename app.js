@@ -99,7 +99,7 @@ function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.m
  if(state.hg26?.enabled){
   const hunt=E.hg26Status(state);
   $('status').innerHTML+='<div class="banner hg26-hud"><b>🔁 Săn Boss tự động: '+esc(hunt.phase)+'</b> · '+hunt.runs+'/'+hunt.maxRuns+
-   ' trận · '+esc(hunt.targetName||'Boss')+' '+button('hg26-stop',{},'■ Dừng',false,'small secondary')+'</div>';
+   ' trận · '+esc(hunt.targetName||'Boss')+' · '+(hunt.team?.length||1)+' tướng '+button('hg26-stop',{},'■ Dừng',false,'small secondary')+'</div>';
  }
  if(state.battleReports?.length)$('status').innerHTML+=`<div class="hr"></div>${button('tab',{tab:'reports'},'⚔ Xem chiến báo gần nhất',false,'secondary')}`;
  $('logs').innerHTML=state.log.map(t=>`<div>• ${esc(t)}</div>`).join('');$('speed').textContent=`⏱ ×${state.speed}`;
@@ -220,13 +220,32 @@ function hg26AutohuntView(){
  const last=farm.last?'<p class="notice">Trận gần nhất: '+esc(farm.last.outcome)+' · '+farm.last.unitsSurvived+'/'+farm.last.unitsDeparted+
   ' lính sống sót · tổn thất '+farm.last.lossPercent+'%'+(farm.last.reportId?' · báo cáo '+esc(farm.last.reportId):'')+'</p>':'';
  return '<section class="card hg26-autohunt" aria-label="HG26 săn Boss tự động">'+
-  '<h2>🔁 HG-26 · Tự săn Boss thực chiến</h2>'+
+  '<h2>🔁 HG-26 · 3 tướng săn Boss chung</h2>'+
   '<p class="hint">Đội săn chỉ được hành quân và đánh Boss khi <b>bạn bật</b>. Mỗi tick xử lý tối đa một lệnh: mất AP thật, quân thật, thương vong thật, tiền hồi phục/tuyển thật. Nếu không thắng hoặc vượt mức nguy hiểm, dừng theo chính sách. Không đánh Bí Cảnh.</p>'+
   '<p class="notice">Trạng thái: <b>'+(farm.enabled?'ĐANG CHẠY · '+esc(farm.phase):'ĐÃ DỪNG')+
   '</b> · '+farm.runs+'/'+farm.maxRuns+' trận · thắng '+farm.wins+' · không thắng '+farm.losses+
   (farm.heroName?' · 🧙 '+esc(farm.heroName):'')+(farm.reason?' · '+esc(farm.reason):'')+'</p>'+
   last+
-  '<div class="grid grid2"><label>Boss mục tiêu<select id="hg26_boss" '+(farm.enabled?'disabled':'')+'>'+
+  '<h3>🧙 Các tướng cùng vào MỘT trận Boss · tối đa 2 stack / người</h3>'+
+  '<div class="grid grid3">'+Array.from({length:3},(_,i)=>{
+   const suggested=farm.team?.[i]?.heroId??state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status==='home'&&E.hg20HeroPlan(state,h.id).length).slice(0,3)[i]?.id;
+   const hero=state.heroes.find(h=>h.id===suggested);
+   const troops=hero?E.hg20HeroPlan(state,hero.id):[];
+   const slots=Array.from({length:2},(_,j)=>'<label>Stack '+(j+1)+
+    '<select id="hg261_slot_'+i+'_'+j+'" '+(farm.enabled?'disabled':'')+'>'+
+    '<option value="">— Trống —</option>'+
+    troops.map((g,k)=>'<option value="'+k+'" '+(j===k?'selected':'')+'>'+
+      esc(E.getUnit(state,g.unitId)?.name||g.unitId)+' ×'+format(g.count)+'</option>').join('')+
+    '</select></label>').join('');
+   return '<div class="card"><label>Tướng '+(i+1)+'<select id="hg261_team_'+i+'" '+(farm.enabled?'disabled':'')+'>'+
+    '<option value="">— Không tham gia —</option>'+
+    state.heroes.map(h=>'<option value="'+h.id+'" '+(h.id===suggested?'selected':'')+
+     (E.hg20HeroRole(state,h.id).status==='home'?'':' disabled')+'>'+
+      esc(h.name)+' · '+E.hg20HeroPlan(state,h.id).length+' nhóm đã phân</option>').join('')+
+    '</select></label>'+slots+'</div>';
+  }).join('')+'</div>'+
+  '<p class="tiny muted">Ba tướng xuất chinh chung, tạo tối đa sáu stack có chủ riêng trong CÙNG một chiến trường; quân và AP bị trừ một lần theo đoàn. Chọn tướng đã có quân ở màn hình Quân đội; không luân phiên tướng.</p>'+
+    '<div class="grid grid2"><label>Boss mục tiêu<select id="hg26_boss" '+(farm.enabled?'disabled':'')+'>'+
   [...bosses].sort((a,b)=>a.eliteTier-b.eliteTier||a.distance-b.distance).map(b=>
    '<option value="'+esc(b.key)+'" '+(chosen===b.key?'selected':'')+'>'+
    esc(b.name)+' · '+(b.privateBoss?'private · ':'')+b.stars+'★ · '+b.distance+' ô</option>').join('')+
@@ -427,7 +446,7 @@ function tasksView(){
 }
 
 function towerSpellPanel(b){
- const cards=b.hg21Tower.team.map(id=>{
+ const cards=(b.hg21Tower||b.hg261Joint).team.map(id=>{
   const hero=state.heroes.find(h=>h.id===id),spells=(hero?.equippedSpells||[]).filter(sid=>E.spell(state,sid)?.kind!=='castellan');
   const actions=spells.map(sid=>{const sp=E.spell(state,sid);if(!sp)return '';
    const wait=(b.heroSpellCooldown?.[id+':'+sid]||0)>b.turn,used=b.heroCastTurn?.[id]===b.turn;
@@ -448,8 +467,8 @@ function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hi�
   else text=`${name} tấn công ${targetName}`;
   const result=[];if(e.damage>0)result.push(`${format(e.damage)} sát thương`);if(e.casualties>0)result.push(`${format(e.casualties)} quân tổn thất`);if(e.death)result.push('đội bị tiêu diệt');if(!result.length&&e.order==='defend')result.push('bỏ lượt');else if(!result.length&&e.order==='retreat'&&!moved)result.push('không đổi vị trí');else if(!result.length&&e.order==='move'&&!e.path.length)result.push('đã chạm đích');else if(!result.length&&e.path.length)result.push('chưa vào tầm đánh');return {name,text,result:result.join(' · ')};};
  const lastEvents=b.lastEvents||[],visibleEvents=lastEvents.slice(0,8),eventRow=e=>{const r=eventText(e);return `<li data-battle-event="${esc(e.actorId)}" data-order="${esc(e.order||'')}" class="battle-event"><span><b>${esc(r.name)}</b><span>${esc(r.text)}</span></span><small>${esc(r.result||'Không có thay đổi')}</small></li>`};
- const cell=u=>`<button class="stack-card ${b.selected===u.id||b.focused===u.id?'chosen':''}" data-action="stack" data-id="${u.id}" ${u.pool<=0?'disabled':''}><span>${u.side==='enemy'?'☠':'⚔'} ${esc(u.name)}${b.hg21Tower&&u.side==='player'?' · 🧙 '+esc(u.heroName):''}</span><b>${u.count} quân</b><small>HP ${Math.ceil(u.pool)} · SPD ${format(u.spd)} · ${u.range>1?'Bắn xa':'Cận chiến'}${u.side==='enemy'&&inRange.has(u.id)?' · 🎯 Trong tầm đánh':''}</small></button>`;
- return `<div class="scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)} · 🧙 ${b.hg21Tower?b.hg21Tower.team.map(id=>esc(state.heroes.find(h=>h.id===id)?.name||id)).join(' + '):esc(commander?.name||'Tướng')}</h1></div><div class="scene-tools">${button('save-combat',{},'💾 Lưu',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${b.allies.filter(u=>u.pool>0).length+b.enemies.filter(u=>u.pool>0).length} nhóm hoạt động</span><span class="tag">${b.allies.filter(u=>u.pool>0).length} đội ta : ${b.enemies.filter(u=>u.pool>0).length} đội địch</span><span class="tag" id="battle-auto-clock" title="Bài đánh giá Sina ngày 21-01-2009 ghi trận tự chuyển sang đánh tự động nếu không có thao tác trong 10 giây; áp dụng ở đây theo tư liệu Trung Quốc.">${state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`}</span></div></div>
+ const cell=u=>`<button class="stack-card ${b.selected===u.id||b.focused===u.id?'chosen':''}" data-action="stack" data-id="${u.id}" ${u.pool<=0?'disabled':''}><span>${u.side==='enemy'?'☠':'⚔'} ${esc(u.name)}${(b.hg21Tower||b.hg261Joint)&&u.side==='player'?' · 🧙 '+esc(u.heroName):''}</span><b>${u.count} quân</b><small>HP ${Math.ceil(u.pool)} · SPD ${format(u.spd)} · ${u.range>1?'Bắn xa':'Cận chiến'}${u.side==='enemy'&&inRange.has(u.id)?' · 🎯 Trong tầm đánh':''}</small></button>`;
+ return `<div class="scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)} · 🧙 ${(b.hg21Tower||b.hg261Joint)?(b.hg21Tower||b.hg261Joint).team.map(id=>esc(state.heroes.find(h=>h.id===id)?.name||id)).join(' + '):esc(commander?.name||'Tướng')}</h1></div><div class="scene-tools">${button('save-combat',{},'💾 Lưu',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${b.allies.filter(u=>u.pool>0).length+b.enemies.filter(u=>u.pool>0).length} nhóm hoạt động</span><span class="tag">${b.allies.filter(u=>u.pool>0).length} đội ta : ${b.enemies.filter(u=>u.pool>0).length} đội địch</span><span class="tag" id="battle-auto-clock" title="Bài đánh giá Sina ngày 21-01-2009 ghi trận tự chuyển sang đánh tự động nếu không có thao tác trong 10 giây; áp dụng ở đây theo tư liệu Trung Quốc.">${state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`}</span></div></div>
  <div class="battle-frame"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường 12 cột 9 hàng: lưới và tâm ô hiển thị để thử tọa độ, có thể bật tắt"></canvas>
   <div class="battle-display-tools" role="group" aria-label="Bật tắt hiển thị chiến trường">
    <button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Lưới 12×9 và tâm tọa độ logic">${battleViewPrefs.grid?'▦ Lưới: Bật':'▢ Lưới: Tắt'}</button>
@@ -460,7 +479,7 @@ function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hi�
  ${button('battle',{cmd:'attack'},'⚔ ATTACK',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN QUÂN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY CHỌN Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'↗ ĐẶT ĐIỂM ĐẾN',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 STAND BY',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 FOCUS',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI QUÂN',false,'secondary')}
  ${button('auto',{},state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh',false,'secondary')}</div>
  ${movementModeId?'<p class="hint battle-move-prompt" id="battle-move-prompt">Ô viền xanh là tầm di chuyển trong lượt kế tiếp theo mô hình hiện tại. Chọn ô đích; đường xa hơn sẽ tiếp tục qua các lượt.</p>':selectedMoveTarget?'<p class="hint battle-move-order" id="battle-move-order">Đang tiến tới ('+selectedMoveTarget.x+', '+selectedMoveTarget.y+'). Lệnh được lưu; chọn ATTACK hoặc mệnh lệnh khác để đổi.</p>':'<p class="hint">Di chuyển: chọn đội quân → ĐẶT ĐIỂM ĐẾN → nhấp ô trống. Đội sẽ tiếp tục theo đường đi mỗi lượt.</p>'}
- ${b.hg21Tower?towerSpellPanel(b):''}<div class="card hg04-spellbar" style="${b.hg21Tower?'display:none':''}"><span class="eyebrow">PHÉP CHIẾN ĐẤU TRANG BỊ</span><div class="hg04-spells">${(state.heroes.find(h=>h.id===state.activeHero)?.equippedSpells||[]).filter(id=>E.spell(state,id)?.kind!=='castellan').map(id=>{const sp=E.spell(state,id);if(!sp)return '';const wait=(b.spellCooldown?.[id]||0)>b.turn,used=b.castTurn===b.turn;
+ ${(b.hg21Tower||b.hg261Joint)?towerSpellPanel(b):''}<div class="card hg04-spellbar" style="${(b.hg21Tower||b.hg261Joint)?'display:none':''}"><span class="eyebrow">PHÉP CHIẾN ĐẤU TRANG BỊ</span><div class="hg04-spells">${(state.heroes.find(h=>h.id===state.activeHero)?.equippedSpells||[]).filter(id=>E.spell(state,id)?.kind!=='castellan').map(id=>{const sp=E.spell(state,id);if(!sp)return '';const wait=(b.spellCooldown?.[id]||0)>b.turn,used=b.castTurn===b.turn;
  return button('cast',{id},`✨ ${esc(sp.name)} Lv.${state.heroMagic[id]||0}${wait?' ⏳':''}`,wait||used,'small secondary');}).join('')||'<span class="muted">Chưa có phép trang bị. Nghiên cứu và trang bị trong Magic Tower trước khi xuất chinh.</span>'}</div><p class="hint">${b.activeSpell?`Đang hiệu lực: ${esc(E.spell(state,b.activeSpell.id)?.name||'')} · hết vào lượt ${b.activeSpell.expiry}`:'Không có phép đang hiệu lực'} · Mỗi lượt dùng tối đa 1 phép</p></div>
   <section class="battle-receipts" aria-label="Kết quả hành động lượt vừa qua" data-battle-receipts><div class="battle-receipts-heading"><h2>DIỄN BIẾN LƯỢT ${Math.max(0,b.turn-1)}</h2><span>${lastEvents.length} hành động · ghi nhận từ trận thực</span></div>${lastEvents.length?`<ol class="battle-event-list">${visibleEvents.map(eventRow).join('')}</ol>${lastEvents.length>8?`<details class="battle-event-more"><summary>Xem ${lastEvents.length-8} hành động còn lại</summary><ol class="battle-event-list">${lastEvents.slice(8).map(eventRow).join('')}</ol></details>`:''}`:'<p class="battle-receipts-empty">Biên nhận từng đội sẽ xuất hiện sau khi lượt đầu phân giải.</p>'}</section>
   <div class="combat-journal">${b.history.slice(0,3).map(l=>`<div>• ${esc(l)}</div>`).join('')}</div><p class="hint">Thứ tự hành động lượt trước: ${(b.lastActOrder||[]).map(id=>[...b.allies,...b.enemies].find(u=>u.id===id)?.name).filter(Boolean).map(esc).join(' → ')||'Chưa có'}. Mục tiêu theo AI lượt trước: ${esc(targetSummary||'Chưa có')}.</p><p class="hint">Bản thử nghiệm: tối đa 7 nhóm quân, lượt theo tốc độ; bằng tốc độ thì xét vị trí trái sang phải, trên xuống dưới theo hướng dẫn Trung Quốc 2009. Stand By bỏ lượt đội được chọn; Lùi quân dịch đội đó về sau 1 ô (khoảng cách là mô hình). Tầm đánh, chọn mục tiêu và Arena đang hoạt động. Công thức sát thương, AI và cân bằng vẫn là mô phỏng.</p>`;
@@ -544,12 +563,15 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(action==='move-mode'){if(movementModeId){movementModeId=null;return}const unit=state.battle?.allies.find(u=>u.id===state.battle.selected&&u.pool>0);if(!unit)throw Error('Hãy chọn một đội quân còn sống để di chuyển.');movementModeId=unit.id;markBattleInput();return}
  if(action==='formation'){E.setFormation(state,Array.from({length:7},(_,i)=>({unitId:$('formation_unit_'+i).value,count:Number($('formation_count_'+i).value)})));toast('Đội hình đã lưu.');return}
  if(action==='hg26-start'){
-  const cfg={target:$('hg26_boss').value,heroId:null,
+  const team=Array.from({length:3},(_,i)=>({heroId:Number($('hg261_team_'+i)?.value||0),
+    slots:Array.from({length:2},(_,j)=>$('hg261_slot_'+i+'_'+j)?.value??'').filter(v=>v!=='').map(Number)}))
+    .filter(x=>x.heroId>0);
+  const cfg={target:$('hg26_boss').value,heroId:null,team,
    maxRuns:Number($('hg26_max_runs').value),keepAP:Number($('hg26_keep_ap').value),
    minUnits:Number($('hg26_min_units').value),minCoverage:Number($('hg26_coverage').value),
    maxLossPercent:Number($('hg26_loss').value),autoHeal:$('hg26_heal').checked,
    autoRecruit:$('hg26_recruit').checked,stopOnLoss:$('hg26_stop_loss').checked};
-  const r=E.hg26Start(state,cfg);toast('Đã bật HG-26: '+r.heroName+' săn '+r.targetName+'.');return
+  const r=E.hg26Start(state,cfg);toast('Đã bật HG-26: '+(r.team?.length||1)+' tướng tham gia CÙNG một trận '+r.targetName+'.');return
  }
  if(action==='hg26-stop'){E.hg26Stop(state,'Người chơi đã dừng tự săn');toast('Đã dừng tự săn; quân đang đi sẽ theo hành trình hiện tại.');return}
  if(action==='hg24-save-template'){E.hg24SaveTemplate(state);toast('Đã lưu đội hình mẫu của tướng.');return}

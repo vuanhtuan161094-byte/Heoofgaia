@@ -18,6 +18,8 @@ on:
       - 'hg21-tower-tactical.js'
       - 'hg24-private-automation.js'
       - 'hg26-boss-autohunt.js'
+      - 'hg261-joint-boss.js'
+      - 'qa-hg261-joint.cjs'
       - 'qa-hg26-boss.cjs'
       - 'qa-hg24-private.cjs'
       - 'qa-hg21-tactical.cjs'
@@ -39,6 +41,8 @@ jobs:
           node --check hg26-boss-autohunt.js
           node --check qa-hg26-boss.cjs
           node qa-hg26-boss.cjs
+          node --check hg261-joint-boss.js
+          node qa-hg261-joint.cjs
       - name: HG24 army ownership and opt-in paid supply regression
         run: node qa-hg24-private.cjs
       - name: HG21 independent 3 hero x 2 stack tower regression

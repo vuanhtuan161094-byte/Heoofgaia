@@ -64,6 +64,8 @@ jobs:
           node --check hg26-boss-autohunt.js
           node --check qa-hg26-boss.cjs
           node qa-hg26-boss.cjs
+          node --check hg261-joint-boss.js
+          node qa-hg261-joint.cjs
       - name: HG24 safe hero templates, paid logistics, private EXP and Boss dispatch
         run: |
           node --check hg24-private-automation.js
