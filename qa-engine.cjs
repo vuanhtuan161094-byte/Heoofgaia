@@ -766,6 +766,21 @@ test('HG10 24-hour offline catch-up advances queues in active and inactive citie
  const before=JSON.stringify(loaded);E.tick(loaded,end);assert.equal(JSON.stringify(loaded),before);
 });
 
+test('HG10 owned mine cannot be attacked twice or duplicate hourly income',()=>{
+ const s=state(),mine=E.TILES.find(t=>t.kind==='mine'&&t.value==='gold');
+ assert(mine);
+ const owned={key:mine.key,res:mine.value,level:mine.level,cityId:'main'};
+ s.mines.push(owned);
+ const before={ap:s.ap,army:JSON.stringify(s.army),mines:JSON.stringify(s.mines),rate:E.rate(s).gold};
+ assert.equal(E.rate(s).gold,360);
+ throws(()=>E.startMarch(s,mine.key),/đã thuộc quyền sở hữu/);
+ assert.equal(s.ap,before.ap);assert.equal(JSON.stringify(s.army),before.army);
+ assert.equal(JSON.stringify(s.mines),before.mines);assert.equal(E.rate(s).gold,before.rate);
+ assert.equal(s.march,null);assert.equal(s.expedition,null);
+ const saved=E.parseSave(E.serializeSave(s));
+ assert.equal(saved.mines.length,1);assert.equal(E.rate(saved).gold,before.rate);
+ assert(E.strictSave(saved));
+});
 test('HG10 six cities retain isolated five-resource economy, training, construction and research over 24h offline',()=>{
  const s=state();s.speed=1;s.fame=1_000_000;
  const castles=E.TILES.filter(t=>t.kind==='castle'&&t.key!=='3,4');
