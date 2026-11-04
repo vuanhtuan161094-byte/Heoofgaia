@@ -155,6 +155,21 @@ function craft(s,id){
  const item=['astral_sword','astral_plate','astral_seal'][s.hg18.craftSeq++%3];
  s.hg18.materials.astral_shard-=8;return E.addItem(s,item,'Ghép 8 mảnh hiếm · HG18');
 }
+// Salvage is the sustainable overflow sink for 2,000 equipment inventory slots.
+// Once dismantled, equipped objects can never be regenerated from the same UID.
+function salvage(s,uid){
+ sync(s);assert(!s.march&&!s.battle,'Không thể phân giải trong khi xuất chinh');
+ const row=s.inventory.find(i=>i.uid===uid);assert(row,'Trang bị không tồn tại');
+ assert(!Object.values(s.equipment).some(slots=>Object.values(slots).includes(uid)),'Hãy tháo trang bị trước khi phân giải');
+ const gear=E.ITEMS[row.itemId],stones=1+Math.floor((row.enhance||0)/2),shards=gear.set==='astral'?3:0;
+ assert(s.hg18.materials.enhance_stone+stones<=1e6,'Kho đá cường hóa đầy');
+ assert(s.hg18.materials.astral_shard+shards<=1e6,'Kho mảnh Tinh Vân đầy');
+ s.inventory=s.inventory.filter(i=>i.uid!==uid);
+ addMaterial(s,'enhance_stone',stones);
+ if(shards)addMaterial(s,'astral_shard',shards);
+ E.note(s,'Phân giải '+gear.name+' nhận '+stones+' đá cường hóa'+(shards?', '+shards+' mảnh tinh vân':'')+'.');
+ return {stones,shards};
+}
 function enhance(s,uid){
  sync(s);assert(!s.march&&!s.battle&&!E.heroAway?.(s,s.activeHero),'Không thể cường hóa khi tướng đang xuất chinh');
  const i=s.inventory.find(q=>q.uid===uid);assert(i,'Trang bị không tồn tại');
@@ -263,8 +278,8 @@ function battleAct(s,action,opts){
   // A fixed hash keyed by victory ordinal/coordinate prevents rerolling by
   // reloading before a drop. High-tier bosses guarantee one shard.
   const n=battle.target.split(',').map(Number).reduce((a,b)=>a*31+b,7),roll=(n+s.hg18.victories*97)%100;
-  if(high||roll<12){addMaterial(s,'astral_shard',high?2:1);E.note(s,'Nhận '+(high?'2':'1')+' mảnh Tinh Vân hiếm.');}
-  if(high)addMaterial(s,'enhance_stone',2);
+  if(high||roll<12){const n=high?2:1;if(s.hg18.materials.astral_shard+n<=1e6){addMaterial(s,'astral_shard',n);E.note(s,'Nhận '+n+' mảnh Tinh Vân hiếm.');}else E.note(s,'Túi mảnh Tinh Vân đầy; không nhận thêm mảnh từ trận này.');}
+  if(high){if(s.hg18.materials.enhance_stone+2<=1e6)addMaterial(s,'enhance_stone',2);else E.note(s,'Túi đá cường hóa đầy; không nhận thêm đá từ trận này.');}
  }
  return result;
 }
@@ -272,14 +287,14 @@ function make(...args){return ensure(raw.make(...args))}
 function parse(text){const s=raw.parse(text);ensure(s);assert(valid(s),'Save HG18 mở rộng không hợp lệ');return s}
 function strict(s){return raw.strict(s)&&valid(s)}
 function serialize(s){ensure(s);assert(strict(s),'Save HG18 không hợp lệ');return raw.serialize(s)}
-function buyItem(s,id){assert(E.ITEMS[id]?.shop!==false,'Vật phẩm bộ hiếm không bán trong Bazaar');return raw.buyItem(s,id)}
+function buyItem(s,id){assert(E.ITEMS[id]?.shop!==false,'Vật phẩm bộ hiếm không bán trong Bazaar');assert(s.inventory.length<2000,'Túi trang bị đầy');return raw.buyItem(s,id)}
 function hire(s,...args){const out=raw.hire(s,...args);ensure(s);return out}
 function hireCandidate(s,...args){const out=raw.hireCandidate(s,...args);ensure(s);return out}
 E.make=make;E.parseSave=parse;E.strictSave=strict;E.valid=strict;E.serializeSave=serialize;E.tick=tick;E.battleAct=battleAct;
 E.heroStats=heroStats;E.combatModifiers=combatModifiers;E.buyItem=buyItem;
 E.hire=hire;E.hireCandidate=hireCandidate;
 Object.assign(E,{HG18_MATERIALS:MATERIALS,HG18_SETS:SETS,HG18_TASKS:TASKS,ensure18:ensure,sync18:sync,
- hg18Tasks:tasks,claimHG18Task:claimTask,openHG18Pack:openPack,craftHG18:craft,enhanceHG18:enhance,
+ hg18Tasks:tasks,claimHG18Task:claimTask,openHG18Pack:openPack,craftHG18:craft,enhanceHG18:enhance,salvageHG18:salvage,
  rankHG18Hero:rankHero,resetHG18Hero:resetHero,rebirthHG18Hero:rebirthHero,
  hg18SetCounts:setCounts,hg18HeroStats:heroStats});
 root.HOG_HG18={version:1,status:'offline-expansion-modeled',materials:MATERIALS};
