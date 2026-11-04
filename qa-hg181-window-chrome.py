@@ -103,6 +103,15 @@ try:
         t.last?.outcome==='win'&&t.last?.turns>=1&&HOG_ENGINE.strictSave(s);
     }"""))
   page.screenshot(path=str(OUT/'private-tower-real-command.png'))
+  page.locator('[data-action="tab"][data-tab="army"]').first.click()
+  page.locator('.game-window-body [data-action="hg24-boss-prepare"]').click()
+  check('HG24 smart Boss preparation selects real encounter and commander without spending AP',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
+      const text=document.querySelector('.target-information')?.textContent||'';
+      return E.hg24RecommendBoss(s).some(b=>!b.privateBoss&&text.includes(b.name))&&
+        s.activeHero===1&&!s.march&&!s.expedition&&E.strictSave(s);
+    }"""))
   page.locator('[data-action="tab"][data-tab="tasks"]').first.click()
   check('Task board is an on-demand dialog, not stacked beneath the map',
     page.locator('.game-window-body [data-action="hg18-claim"][data-id="daily_build"]').count()==1)
