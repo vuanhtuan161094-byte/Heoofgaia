@@ -237,7 +237,8 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  assert(!isTreasure||!!camp,'Không có trại kho báu tại tọa độ này');
  assert(!!rawTile&&(rawTile.kind!=='empty'||isTreasure),'Mục tiêu trận chiến không hợp lệ');
  const tile=isTreasure?{...rawTile,kind:'treasure',value:`Kho báu cấp ${camp.level}`,level:camp.level,treasureCamp:camp}:rawTile;
- const lv=tile.level||1;
+ const aiCity=tile.kind==='castle'?root.HOG_ENGINE?.aiCityAt?.(s,target):null;
+ const lv=aiCity?.level||tile.level||1;
  const fieldArmy=s.expedition?.army||s.army,fieldFormation=s.expedition?.formation||s.formation;
  const available=arrUnits(s).filter(u=>(fieldArmy[u.id]||0)>0);
  const selected=(fieldFormation?.length?fieldFormation:available.sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:fieldArmy[u.id]})));
@@ -253,7 +254,6 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
   {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:20},
   {name:'Vệ binh',hp:55,atk:20,def:15,spd:3.8,range:1}];
  // AI fortresses deploy persisted resource-funded garrisons instead of generic monsters.
- const aiCity=tile.kind==='castle'?root.HOG_ENGINE?.aiCityAt?.(s,target):null;
  const enemies=aiCity?Object.entries(aiCity.garrison).filter(([,count])=>count>0).slice(0,3).map(([unitId,count],i)=>{
   const u=C.units[aiCity.race].find(x=>x.id===unitId);
   assert(!!u&&Number.isSafeInteger(count)&&count>0,'Dữ liệu quân phòng thủ AI không hợp lệ');
