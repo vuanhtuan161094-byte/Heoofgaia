@@ -38,12 +38,12 @@ const HERO_SPELLS_CHINA_2009={
          {id:'soul_boost',name:'Khuếch đại linh lực',sourceName:'灵力增幅',desc:'Tăng HP tối đa toàn quân +1%/cấp',affects:'ally',stat:'hp',kind:'all',delta:.01}]
 };
 const ITEMS={
- copper_blade:{id:'copper_blade',name:'Kiếm đồng hành trình',slot:'weapon',icon:'⚔',atk:3,def:0,spd:0,cost:450,level:1},
- ash_bow:{id:'ash_bow',name:'Cung tần bì',slot:'weapon',icon:'🏹',atk:4,def:0,spd:1,cost:650,level:2},
- iron_armor:{id:'iron_armor',name:'Giáp sắt trinh sát',slot:'armor',icon:'🛡',atk:0,def:4,spd:0,cost:540,level:1},
- traveler_cloak:{id:'traveler_cloak',name:'Áo choàng lữ khách',slot:'armor',icon:'🧥',atk:0,def:2,spd:2,cost:680,level:2},
- quartz_ring:{id:'quartz_ring',name:'Nhẫn thạch anh',slot:'charm',icon:'💍',atk:2,def:1,spd:1,cost:850,level:2},
- old_talisman:{id:'old_talisman',name:'Hộ phù cổ',slot:'charm',icon:'🔮',atk:1,def:3,spd:0,cost:980,level:3}
+ copper_blade:{id:'copper_blade',name:'Kiếm đồng hành trình',slot:'weapon',icon:'⚔',atk:3,def:0,spd:0,meleeDamage:.04,cost:450,level:1},
+ ash_bow:{id:'ash_bow',name:'Cung tần bì',slot:'weapon',icon:'🏹',atk:4,def:0,spd:1,rangedDamage:.06,cost:650,level:2},
+ iron_armor:{id:'iron_armor',name:'Giáp sắt trinh sát',slot:'armor',icon:'🛡',atk:0,def:4,spd:0,damageReduction:.06,cost:540,level:1},
+ traveler_cloak:{id:'traveler_cloak',name:'Áo choàng lữ khách',slot:'armor',icon:'🧥',atk:0,def:2,spd:2,damageReduction:.03,cost:680,level:2},
+ quartz_ring:{id:'quartz_ring',name:'Nhẫn thạch anh',slot:'charm',icon:'💍',atk:2,def:1,spd:1,damageBonus:.04,cost:850,level:2},
+ old_talisman:{id:'old_talisman',name:'Hộ phù cổ',slot:'charm',icon:'🔮',atk:1,def:3,spd:0,damageReduction:.04,cost:980,level:3}
 };
 const QUESTS=[
  {id:'hall_two',name:'Lãnh chúa trẻ',desc:'Nâng Town Hall lên cấp 2',reward:{gold:500,wood:120,ore:120},fame:10,ready:s=>s.buildings.hall>=2},
@@ -90,6 +90,22 @@ function heroStats(s,heroId=s.activeHero){ensure(s);const h=s.heroes.find(x=>x.i
   const found=s.inventory.find(x=>x.uid===uid),def=found&&ITEMS[found.itemId];if(!def)continue;
   for(const key of ['atk','def','spd'])res[key]+=(def[key]||0);
  }return res;
+}
+// HG16 modeled equipment effects are real battle modifiers, not just UI
+// descriptions. Multiple bonuses combine additively within their category.
+function combatModifiers(s,heroId=s.activeHero){
+ ensure(s);
+ const out={damageBonus:0,meleeDamage:0,rangedDamage:0,damageReduction:0};
+ for(const uid of Object.values(s.equipment?.[heroId]||{})){
+  const owned=s.inventory.find(x=>x.uid===uid),item=owned&&ITEMS[owned.itemId];
+  if(!item)continue;
+  for(const k of Object.keys(out))out[k]+=(item[k]||0);
+ }
+ out.damageBonus=Math.min(.25,Math.max(0,out.damageBonus));
+ out.meleeDamage=Math.min(.25,Math.max(0,out.meleeDamage));
+ out.rangedDamage=Math.min(.25,Math.max(0,out.rangedDamage));
+ out.damageReduction=Math.min(.20,Math.max(0,out.damageReduction));
+ return out;
 }
 function sell(s,key,qty){ensure(s);if((s.buildings.market||0)<1)throw Error('Xây Market trước');if(!['wood','ore','sulfur','crystal'].includes(key))throw Error('Chỉ bán được tài nguyên');
  if(!Number.isSafeInteger(qty)||qty<1||qty>50000)throw Error('Số lượng phải là số nguyên hợp lệ');
@@ -155,7 +171,7 @@ E.upgradeSaveV03=(old)=>{if(!old||old.version!==3||!E.C.races[old.race])throw Er
 E.upgradeSaveV02=(old)=>{const s=rawUpgradeSaveV02(old);s.version=4;E.note(s,'Chuyển save HG-02 sang HG-04.');return ensure(s)};
 C.buildings.market.state='observed';C.buildings.market.desc='Bán tài nguyên lấy vàng; tỷ giá mô phỏng. Không dùng vàng mua tài nguyên.';
 C.buildings.bazaar.state='observed';C.buildings.bazaar.desc='Mua trang bị tướng, cấp Bazaar mở vật phẩm (giá demo).';
-Object.assign(E,{SAVE_KEY:'heoofgaia_hg_only_v04',PREV_SAVE_KEY:'heoofgaia_hg_only_v03',HERO_SPELLS,HERO_SPELLS_CHINA_2009,ITEMS,QUESTS,ensure,spells,spell,heroSpellCost:spellCost,researchHeroSpell,equipSpell,addItem,buyItem,equipItem,unequipItem,heroStats,sell,claim,cast,resetEffects});
+Object.assign(E,{SAVE_KEY:'heoofgaia_hg_only_v04',PREV_SAVE_KEY:'heoofgaia_hg_only_v03',HERO_SPELLS,HERO_SPELLS_CHINA_2009,ITEMS,QUESTS,combatModifiers,ensure,spells,spell,heroSpellCost:spellCost,researchHeroSpell,equipSpell,addItem,buyItem,equipItem,unequipItem,heroStats,sell,claim,cast,resetEffects});
 root.HOG_HG04={HERO_SPELLS,HERO_SPELLS_CHINA_2009,ITEMS,QUESTS};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
