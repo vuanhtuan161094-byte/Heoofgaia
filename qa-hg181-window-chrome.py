@@ -158,7 +158,47 @@ try:
       return s.hg26.enabled===false&&s.hg26.phase==='halted'&&
         HOG_ENGINE.strictSave(s);
     }"""))
-  check('No uncaught runtime exceptions during modal switching',not errors,errors)
+  # HG26.1: fixture creates two extra legal hero records so the same real
+  # command window can be checked at 3 x 2 without Tavern wait or QA gifts.
+  page.evaluate("""() => {
+    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),u=s.race+'_1';
+    E.hg24SetAuto(s,1,false,false);
+    const source=JSON.parse(JSON.stringify(s.heroes[0]));
+    for(let i=2;i<=3;i++)s.heroes.push({...source,id:i,name:'QA Joint Hero '+i});
+    E.hg20SetHeroPlan(s,1,[{unitId:u,count:2},{unitId:u,count:2}]);
+    E.hg20SetHeroPlan(s,2,[{unitId:u,count:2},{unitId:u,count:2}]);
+    E.hg20SetHeroPlan(s,3,[{unitId:u,count:2},{unitId:u,count:2}]);
+    HOG_APP_DEBUG.render();
+  }""")
+  check('HG26.1 actual selector exposes 3 heroes and 2 stack slots each',
+    all(page.locator(f'#hg261_team_{i}').count()==1 and
+      page.locator(f'#hg261_slot_{i}_0').count()==1 and
+      page.locator(f'#hg261_slot_{i}_1').count()==1 for i in range(3)))
+  page.locator('.game-window-body [data-action="hg261-roster-refresh"]').click()
+  page.locator('#hg26_max_runs').fill('1')
+  page.locator('.game-window-body [data-action="hg26-start"]').click()
+  check('HG26.1 actual UI starts 3-owner policy with 6 real planned stacks',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      return s.hg26.enabled===true&&s.hg26.joint.team.length===3&&
+        s.hg26.joint.team.every(r=>r.groups.length===2)&&HOG_ENGINE.strictSave(s);
+    }"""))
+  page.wait_for_function("""() => {
+    const s=HOG_APP_DEBUG.getState();return s?.expedition?.formation?.length===6;
+  }""",timeout=8000)
+  check('HG26.1 normal browser timer dispatches one real six-stack Boss expedition',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),a=s.expedition?.formation||[];
+      return a.length===6&&new Set(a.map(g=>g.hg261HeroId)).size===3&&
+        s.army[s.race+'_1']===4&&s.ap<101&&HOG_ENGINE.strictSave(s);
+    }"""))
+  page.locator('.game-window-body [data-action="hg26-stop"]').click()
+  check('HG26.1 real stop preserves the already dispatched joint army and Save',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      return !s.hg26.enabled&&s.expedition?.formation.length===6&&HOG_ENGINE.strictSave(s);
+    }"""))
+    check('No uncaught runtime exceptions during modal switching',not errors,errors)
   browser.close()
 finally:
  receipt={'kind':'HG18.1 fixed-stage real Chromium UI','checks':checks,

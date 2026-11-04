@@ -2,7 +2,7 @@
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
 const A=window.HOG_ART_PACK,ico=(key,size)=>A?.iconHTML(key,size)||'';
-const $=id=>document.getElementById(id);let state=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0;
+const $=id=>document.getElementById(id);let state=null,hg261Draft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
@@ -228,7 +228,7 @@ function hg26AutohuntView(){
   last+
   '<h3>🧙 Các tướng cùng vào MỘT trận Boss · tối đa 2 stack / người</h3>'+
   '<div class="grid grid3">'+Array.from({length:3},(_,i)=>{
-   const suggested=farm.team?.[i]?.heroId??state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status==='home'&&E.hg20HeroPlan(state,h.id).length).slice(0,3)[i]?.id;
+   const suggested=hg261Draft?hg261Draft[i]:farm.team?.[i]?.heroId??state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status==='home'&&E.hg20HeroPlan(state,h.id).length).slice(0,3)[i]?.id;
    const hero=state.heroes.find(h=>h.id===suggested);
    const troops=hero?E.hg20HeroPlan(state,hero.id):[];
    const slots=Array.from({length:2},(_,j)=>'<label>Stack '+(j+1)+
@@ -244,7 +244,7 @@ function hg26AutohuntView(){
       esc(h.name)+' · '+E.hg20HeroPlan(state,h.id).length+' nhóm đã phân</option>').join('')+
     '</select></label>'+slots+'</div>';
   }).join('')+'</div>'+
-  '<p class="tiny muted">Ba tướng xuất chinh chung, tạo tối đa sáu stack có chủ riêng trong CÙNG một chiến trường; quân và AP bị trừ một lần theo đoàn. Chọn tướng đã có quân ở màn hình Quân đội; không luân phiên tướng.</p>'+
+  '<div class="actions">'+button('hg261-roster-refresh',{},'↻ Cập nhật ô quân sau khi chọn tướng',farm.enabled,'small secondary')+'</div>'+  '<p class="tiny muted">Ba tướng xuất chinh chung, tạo tối đa sáu stack có chủ riêng trong CÙNG một chiến trường; quân và AP bị trừ một lần theo đoàn. Chọn tướng đã có quân ở màn hình Quân đội; không luân phiên tướng.</p>'+
     '<div class="grid grid2"><label>Boss mục tiêu<select id="hg26_boss" '+(farm.enabled?'disabled':'')+'>'+
   [...bosses].sort((a,b)=>a.eliteTier-b.eliteTier||a.distance-b.distance).map(b=>
    '<option value="'+esc(b.key)+'" '+(chosen===b.key?'selected':'')+'>'+
@@ -551,7 +551,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='resource-info'){showResourceInfo=!showResourceInfo;showWorldIndex=false;tab='map';modalOffset=0;return}
  if(action==='race'){newRace=target.dataset.race;render();return}
  if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
- if(action==='start'){state=E.make(newRace,Date.now(),newSpellEdition);tab='map';selected='3,4';selectedTargetKind=null;return}
+ if(action==='start'){hg261Draft=null;state=E.make(newRace,Date.now(),newSpellEdition);tab='map';selected='3,4';selectedTargetKind=null;return}
  if(action==='tab'){tab=target.dataset.tab;showWorldIndex=false;showResourceInfo=false;modalOffset=0;return}
  if(action==='city-switch'){E.switchCity(state,target.dataset.id);selected=E.activeCity(state).key;tab='city';return}
  if(action==='city-transport'){const cargo=Object.fromEntries(C.keys.map(k=>[k,Number($(`city-transport-${k}`)?.value||0)])),convoy=E.startCityTransport(state,target.dataset.city,$('city-transport-unit')?.value,Number($('city-transport-count')?.value),cargo);toast(`Đoàn tiếp tế đã xuất phát; sức tải ${format(convoy.weight)}/${format(convoy.capacity)}.`);return}
@@ -562,6 +562,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(action==='stack'){movementModeId=null;markBattleInput();E.battleSelect(state,target.dataset.id);return}
   if(action==='move-mode'){if(movementModeId){movementModeId=null;return}const unit=state.battle?.allies.find(u=>u.id===state.battle.selected&&u.pool>0);if(!unit)throw Error('Hãy chọn một đội quân còn sống để di chuyển.');movementModeId=unit.id;markBattleInput();return}
  if(action==='formation'){E.setFormation(state,Array.from({length:7},(_,i)=>({unitId:$('formation_unit_'+i).value,count:Number($('formation_count_'+i).value)})));toast('Đội hình đã lưu.');return}
+ if(action==='hg261-roster-refresh'){hg261Draft=Array.from({length:3},(_,i)=>Number($('hg261_team_'+i)?.value)||null);toast('Đã cập nhật 2 ô quân riêng cho mỗi tướng.');return}
  if(action==='hg26-start'){
   const team=Array.from({length:3},(_,i)=>({heroId:Number($('hg261_team_'+i)?.value||0),
     slots:Array.from({length:2},(_,j)=>$('hg261_slot_'+i+'_'+j)?.value??'').filter(v=>v!=='').map(Number)}))
@@ -571,7 +572,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
    minUnits:Number($('hg26_min_units').value),minCoverage:Number($('hg26_coverage').value),
    maxLossPercent:Number($('hg26_loss').value),autoHeal:$('hg26_heal').checked,
    autoRecruit:$('hg26_recruit').checked,stopOnLoss:$('hg26_stop_loss').checked};
-  const r=E.hg26Start(state,cfg);toast('Đã bật HG-26: '+(r.team?.length||1)+' tướng tham gia CÙNG một trận '+r.targetName+'.');return
+  const r=E.hg26Start(state,cfg);hg261Draft=null;toast('Đã bật HG-26: '+(r.team?.length||1)+' tướng tham gia CÙNG một trận '+r.targetName+'.');return
  }
  if(action==='hg26-stop'){E.hg26Stop(state,'Người chơi đã dừng tự săn');toast('Đã dừng tự săn; quân đang đi sẽ theo hành trình hiện tại.');return}
  if(action==='hg24-save-template'){E.hg24SaveTemplate(state);toast('Đã lưu đội hình mẫu của tướng.');return}
