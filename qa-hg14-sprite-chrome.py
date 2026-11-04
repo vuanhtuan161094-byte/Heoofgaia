@@ -64,7 +64,7 @@ with sync_playwright() as pw:
                 const start=canvas.toDataURL('image/png');
                 P.drawBattle(canvas,E,s,performance.now()+360);
                 const end=canvas.toDataURL('image/png');
-                return {spriteDraws:seen.filter(x=>x===(unitId==='human_3'?'unit-human-archer-atlas':imageId)).length,
+                return {spriteDraws:seen.filter(x=>unitId==='undead_1'?x.startsWith('hg22-skeleton-'):x===(unitId==='human_3'?'unit-human-archer-atlas':imageId)).length,
                         changed:start!==end,
                         stable:JSON.stringify(E.clone(s))===stateBefore,
                         pose:P.motionPose('attack',320,650),
