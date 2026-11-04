@@ -49,7 +49,7 @@ try:
   check('Private hero-based allocation panel shows selected commander and 7 editable stacks',
     page.locator('.hg20-command').count()==1 and
     'Aldric' in page.locator('.hg20-command').inner_text())
-  page.locator('[data-action="autoformation"]').first.click()
+  page.locator('.game-window-body [data-action="autoformation"]').click()
   check('Real initial troops are assigned to the active hero without duplication',
     page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),r=HOG_ENGINE.hg20HeroRole(s,1);
