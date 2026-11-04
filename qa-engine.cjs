@@ -1090,7 +1090,8 @@ test('HG14.5 canonical battle grid is 108 cells, exact at mobile and desktop siz
   const cam=P.battleProjection(dims,E),cells=P.battleGridCells(cam);
   assert.equal(cells.length,108);
   for(const cell of cells){
-   assert.deepEqual(P.battleCellAt(dims,cell.center.x,cell.center.y,E),{x:cell.x,y:cell.y});
+   const point=P.battleCellAt(dims,cell.center.x,cell.center.y,E);
+   assert.equal(point?.x,cell.x);assert.equal(point?.y,cell.y);
    assert.equal(cell.corners.length,4);
   }
   const s=state(),tile=E.NPC_CAMPS_2009.find(x=>x.stars===1);
