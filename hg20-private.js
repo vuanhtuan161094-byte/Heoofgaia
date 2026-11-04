@@ -7,7 +7,8 @@ const E=root.HOG_ENGINE,C=E?.C;
 if(!E||E.V!==7||!E.HG18_TASKS)throw Error('HG20 requires completed v07 HG18');
 const old={make:E.make,parse:E.parseSave,serialize:E.serializeSave,strict:E.strictSave,
  setFormation:E.setFormation,selectHero:E.selectHero,startMarch:E.startMarch,
- switchCity:E.switchCity,autoFormation:E.autoFormation,battleAct:E.battleAct};
+ switchCity:E.switchCity,autoFormation:E.autoFormation,battleAct:E.battleAct,
+ heroStats:E.heroStats,appoint:E.appoint};
 const SPECIALS=Object.freeze({
  human:{name:'Thiên Giới Thánh Vệ',hp:1100,atk:490,def:365,spd:11,type:'Melee'},
  elf:{name:'Ngân Nguyệt Long Linh',hp:980,atk:520,def:310,spd:13,type:'Ranged'},
@@ -26,15 +27,29 @@ const TEMPLATE=(race,info)=>Object.freeze({id:race+'_tower_sovereign',race,tier:
  timeSec:0,rewardOnly:true,towerExclusive:true});
 C.rewardUnits=Object.freeze(Object.fromEntries(Object.entries(C.rewardUnits).map(([race,rows])=>
  [race,Object.freeze([...rows,TEMPLATE(race,SPECIALS[race])])])));
+// Unique capturable city at an existing modeled world position.
+const PRIVATE_CASTLE=E.TILES.filter(t=>t.kind==='castle'&&t.aiOwner)
+ .sort((a,b)=>(b.x+b.y)-(a.x+a.y)||b.x-a.x)[0];
+if(!PRIVATE_CASTLE)throw Error('No private collectible castle');
+PRIVATE_CASTLE.value='Thành Huyền Tích';
+PRIVATE_CASTLE.privateCollectible=true;
+const TOWER_GEAR=[
+ ['private_riftblade','Thần Kiếm Vô Tận','weapon','⚔',120,25,6],
+ ['private_riftplate','Huyền Giáp Vạn Giới','armor','🛡',20,120,8],
+ ['private_riftseal','Thiên Ngoại Thánh Ấn','charm','💠',55,45,18]
+];
+for(const [id,name,slot,icon,atk,def,spd] of TOWER_GEAR)
+ E.ITEMS[id]={id,name,slot,icon,atk,def,spd,int:15,cost:0,level:1,shop:false,towerExclusive:true};
 const date=ms=>new Date(ms).toISOString().slice(0,10);
 const key=(cityId,heroId)=>cityId+':'+heroId;
 const integer=(x,min=0,max=Number.MAX_SAFE_INTEGER)=>Number.isSafeInteger(x)&&x>=min&&x<=max;
 function ensure(s){
  if(!s.hg20)s.hg20={version:1,plans:{},tower:{floor:1,day:date(s.lastTick),claims:0,
   attempts:0,team:[],essence:0,rank:0,victories:0,last:null},
-  collection:{citadel:false,sovereignWins:0,artifacts:[]}};
+  collection:{citadel:false,specialCityKey:null,sovereignWins:0,artifacts:[]}};
  const h=s.hg20;
  if(!h||h.version!==1||!h.plans||!h.tower||!h.collection)throw Error('Save HG20 không hợp lệ');
+ if(h.collection.specialCityKey===undefined)h.collection.specialCityKey=null;
  if(h.tower.day!==date(s.lastTick)){h.tower.day=date(s.lastTick);h.tower.claims=0;}
  // Existing v07 saves have one active-city formation. It is migrated as the
  // current hero's *plan*, never as additional troops.
