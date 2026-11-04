@@ -129,12 +129,12 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
   let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):s.cleared.includes(t.key));
   if(t.kind==='castle'){
    const owned=E.cityForKey(s,t.key),ai=E.aiCityAt?.(s,t.key);
-   castle(c,x,y,q/145,owned?.race||t.race||s.race,owned?.local.buildings.hall||ai?.level||1);
+   castle(c,x,y,q/110,owned?.race||t.race||s.race,owned?.local.buildings.hall||ai?.level||1);
    if(ai){circle(c,x,y-q*.31,q*.11,'#9f3630');text(c,'AI',x,y-q*.27,Math.max(9,q*.20),'#fff0dc')}
   }
-  if(t.kind==='mine')mine(c,x,y,q/95,t.value);
-  if(t.kind==='npc'&&!done)monster(c,x,y,q/97,t.level);
-  if(t.kind==='treasure')treasureChest(c,x,y,q/96,!!done);
+  if(t.kind==='mine')mine(c,x,y,q/77,t.value);
+  if(t.kind==='npc'&&!done)monster(c,x,y,q/79,t.level);
+  if(t.kind==='treasure')treasureChest(c,x,y,q/82,!!done);
   if(t.treasureCamp&&t.kind!=='treasure')treasureChest(c,x+q*.27,y+q*.19,q/220,!!s.treasureCleared?.includes(t.key));
   if(t.kind==='visit'){worldBuilding(c,x,y,q/100,t.structureId?.startsWith('watermill')?'watermill':t.structureId==='windmill'?'windmill':t.structureId,!!E.hasVisitedWorldBuilding?.(s,t.key));}
   if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
