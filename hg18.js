@@ -9,7 +9,7 @@ const E=root.HOG_ENGINE,C=E?.C;
 if(!E||E.V!==7||!E.ensure10)throw Error('HG18 requires the HG10 v07 runtime');
 const raw={make:E.make,parse:E.parseSave,serialize:E.serializeSave,strict:E.strictSave,valid:E.valid,
  tick:E.tick,battleAct:E.battleAct,heroStats:E.heroStats,combatModifiers:E.combatModifiers,
- buyItem:E.buyItem};
+ buyItem:E.buyItem,hire:E.hire,hireCandidate:E.hireCandidate};
 const RACES=['human','elf','orc','undead'],PACK=['copper_blade','iron_armor','ash_bow','traveler_cloak','quartz_ring','old_talisman'];
 const MATERIALS=Object.freeze({
  resource_card:{name:'Thẻ tài nguyên nhỏ',icon:'💰'},
@@ -97,7 +97,9 @@ function valid(s){
  }
  if(!Array.isArray(s.inventory)||s.inventory.some(i=>!E.ITEMS[i?.itemId]||!integer(i.enhance||0,10)))return false;
  for(const h of s.heroes){
-  if(!integer(h.rebirth,5)||!integer(h.heroRank,5)||h.heroRank<1||!h.hg18Base||['atk','def','spd','int'].some(k=>!Number.isFinite(h.hg18Base[k])||h.hg18Base[k]<0||h.hg18Base[k]>1e5))return false;
+  const rebirth=h.rebirth??0,rank=h.heroRank??1;
+  const base=h.hg18Base||Object.fromEntries(['atk','def','spd','int'].map(k=>[k,h[k]-(h.spentAttributePoints?.[k]||0)]));
+  if(!integer(rebirth,5)||!integer(rank,5)||rank<1||['atk','def','spd','int'].some(k=>!Number.isFinite(base[k])||base[k]<0||base[k]>1e5))return false;
  }
  return true;
 }
@@ -202,7 +204,7 @@ function setCounts(s,id){const rows=equipped(s,id),counts={};
  return counts;
 }
 function heroStats(s,id=s.activeHero){
- const value=raw.heroStats(s,id);if(!value)return null;
+ ensure(s);const value=raw.heroStats(s,id);if(!value)return null;
  const h=s.heroes.find(q=>q.id===id);if(!h)return value;
  for(const row of equipped(s,id)){
   const gear=E.ITEMS[row.itemId],lv=row.enhance||0;
@@ -213,7 +215,7 @@ function heroStats(s,id=s.activeHero){
  return value;
 }
 function combatModifiers(s,id=s.activeHero){
- const v=raw.combatModifiers(s,id);
+ ensure(s);const v=raw.combatModifiers(s,id);
  for(const row of equipped(s,id)){
   const gear=E.ITEMS[row.itemId];for(const k of ['damageBonus','meleeDamage','rangedDamage','damageReduction'])
    v[k]+=(gear[k]||0)*(row.enhance||0)*.05;
@@ -271,8 +273,11 @@ function parse(text){const s=raw.parse(text);ensure(s);assert(valid(s),'Save HG1
 function strict(s){return raw.strict(s)&&valid(s)}
 function serialize(s){ensure(s);assert(strict(s),'Save HG18 không hợp lệ');return raw.serialize(s)}
 function buyItem(s,id){assert(E.ITEMS[id]?.shop!==false,'Vật phẩm bộ hiếm không bán trong Bazaar');return raw.buyItem(s,id)}
+function hire(s,...args){const out=raw.hire(s,...args);ensure(s);return out}
+function hireCandidate(s,...args){const out=raw.hireCandidate(s,...args);ensure(s);return out}
 E.make=make;E.parseSave=parse;E.strictSave=strict;E.valid=strict;E.serializeSave=serialize;E.tick=tick;E.battleAct=battleAct;
 E.heroStats=heroStats;E.combatModifiers=combatModifiers;E.buyItem=buyItem;
+E.hire=hire;E.hireCandidate=hireCandidate;
 Object.assign(E,{HG18_MATERIALS:MATERIALS,HG18_SETS:SETS,HG18_TASKS:TASKS,ensure18:ensure,sync18:sync,
  hg18Tasks:tasks,claimHG18Task:claimTask,openHG18Pack:openPack,craftHG18:craft,enhanceHG18:enhance,
  rankHG18Hero:rankHero,resetHG18Hero:resetHero,rebirthHG18Hero:rebirthHero,
