@@ -147,6 +147,26 @@ check('Two consecutive Boss battles keep the SAME three commanders and exactly t
  }
  return {heroes:3,stacksPerHero:2,bossWins:2,reportCount:s.battleReports.length,apTrips:2};
 });
+check('HG21 Tower three-hero selections survive a real joint Boss expedition and return',()=>{
+ const x=setup(),s=x.s;
+ for(const h of s.heroes){h.atk=240000;h.def=240000;h.spd=100}
+ E.hg20ChooseTowerTeam(s,[1,2,3]);
+ E.hg21SetTowerPicks(s,[1,2,3].map(heroId=>({heroId,slots:[0,1]})));
+ E.hg26Start(s,cfg(x));
+ assert.equal(E.hg26Step(s).type,'dispatched');
+ assert.equal(s.hg20.tower.team.length,0,'Tower selection must pause while real troops are deployed');
+ assert.equal(s.hg20.tower.picks.length,0);
+ assert(E.strictSave(saved(s)));
+ arrive(s);assert.equal(fight(s).out.type,'win');
+ E.tick(s,s.lastTick+Math.ceil((s.march.remaining+2)/s.speed*1000));
+ assert.equal(E.hg26Step(s).type,'home');
+ assert.equal(E.hg26Step(s).type,'stopped');
+ assert.deepEqual(Array.from(s.hg20.tower.team),[1,2,3]);
+ assert.equal(s.hg20.tower.picks.length,3);
+ assert(s.hg20.tower.picks.every(p=>p.slots.length===2));
+ assert(E.strictSave(saved(s)));
+ return {restoredHeroes:3,restoredPicks:6,worldBossRewards:1,towerFloor:s.hg20.tower.floor};
+});
 check('Crossing casualty threshold stops before next turn even with three heroes present (fixture)',()=>{
  const x=setup('orc'),s=x.s;E.hg26Start(s,cfg(x,{maxLossPercent:20}));
  E.hg26Step(s);arrive(s);
