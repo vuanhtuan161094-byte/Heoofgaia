@@ -1,3 +1,11 @@
+## HG-21 — REAL 3-HERO × 2-STACK TOWER · CHECKPOINT 04/11/2026
+
+- **Verified gameplay SHA:** `26ef19172f8add37b2149fa7d41ceb91c4446fce`; [GitHub Actions #41826372655](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/41826372655) SUCCESS all steps, no Codex, single branch, Save v07. Latest HG21 implementation: `hg21-tower-tactical.js`, small `engine.js` command ownership patch and `app.js` tower gameplay controls; no animation modifications.
+- **Locked rule:** Maximum 3 heroes per Tower team; **each hero owns at most two chosen formation slots**, total six combat stacks. Each stack saves `heroId`; only its own hero's equipment, ATK, DEF, skill buffs and independent spell cooldowns apply. The separate Essence upgrade is a Tower environment effect, not a borrowed Hero skill. The ordinary world seven-stack formation and world combat remain unchanged.
+- **Actual tactical fight:** enter from the Tower popup, choose up to two slots/hero, fight with HG09 12×9 combat turns, Save/Reload active encounter, defeat or win; five victories with rewards per UTC day, no troop/AP lost in Tower projection. Rewards are paid after actual victory; no instant model in user UI.
+- **QA:** HG21 **8/8 PASS**, 4 races clear floor 1 in real battles, three-hero six-slot stat isolation (Hero A 28 unchanged; Hero B 27→70 when B ATK alone is changed), 5 paid daily floors + sixth practice, floor25 gear, v07 prior-save migration; real Chromium UI battle, 1280×720 and 960×540 PASS. Comprehensive workflow SUCCESS.
+- **Handoff:** [`docs/qa/HG21_THREE_HERO_TWO_STACK_TOWER_20261104.md`](https://github.com/vuanhtuan161094-byte/Heoofgaia/blob/feature/hog1-research-to-playable-20261102/docs/qa/HG21_THREE_HERO_TWO_STACK_TOWER_20261104.md). The other animation/UI workstream should preserve Hero ownership IDs and the 3×2 Tower allocation rule. Do not silently replace with a global Hero stat buff.
+
 ## HG-18.2 — ENDGAME BALANCE + FIVE-MINE PRODUCTION · CHECKPOINT 04/11/2026
 
 - **Latest verified code commit:** `0ad7f8e5da71961b616f44c78c50106b84c07146` on `feature/hog1-research-to-playable-20261102`. [GitHub Actions run #41813719471](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/41813719471) **SUCCESS**, all steps; no Codex, no main merge, no Windows local workspace edits. HG19.2 asset source also passes on the same commit.
