@@ -419,11 +419,14 @@ function strike(s,b,actor,target,order,trace){
  const weaponMod=actor.side==='player'?(mods.damageBonus||0)+(actor.range>1?(mods.rangedDamage||0):(mods.meleeDamage||0)):0;
  const armorMod=target.side==='player'?Math.max(0,1-(mods.damageReduction||0)):1;
  const guardMod=target.guardTurn===b.turn?.75:1;
- const dmg=Math.max(1,Math.floor(actor.count*base*bonus/defendFactor*(1+weaponMod)*armorMod*guardMod));
- target.pool=Math.max(0,target.pool-dmg);
+ const rawDamage=Math.max(1,Math.floor(actor.count*base*bonus/defendFactor*(1+weaponMod)*armorMod*guardMod));
+ // HP actually removed is the authoritative damage receipt. Formerly the
+ // summary counted overkill beyond remaining HP while VFX used actual loss.
+ const appliedDamage=Math.min(target.pool,rawDamage);
+ target.pool=Math.max(0,target.pool-appliedDamage);
  const lost=Math.min(target.count,Math.max(0,target.count-Math.ceil(target.pool/target.hp)));
  if(lost>0){target.count-=lost;if(target.side==='player')casualty(s,target.unitId,lost,target.slot)}
- return dmg;
+ return appliedDamage;
 }
 function battleAct(s,action,options){
  assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat','move'].includes(action),'Lệnh không hợp lệ');
