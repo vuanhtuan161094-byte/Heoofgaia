@@ -55,6 +55,8 @@ jobs:
           python -m playwright install chromium
       - name: Chrome battlefield viewport, pointer and Save/Reload acceptance
         run: python qa-hg09-combat-viewport-chrome.py
+      - name: HG18 actual quest forging rebirth UI Chrome gate
+        run: python qa-hg18-ui-chrome.py
       - name: HG17 first-launch organic build research recruit and mine Chromium
         run: python qa-hg17-organic-newgame-chrome.py
       - name: HG10 offline world AI castle interaction and Save Reload in Chromium
@@ -87,6 +89,9 @@ jobs:
             docs/qa/hg17/organic-newgame-receipt.json
             docs/qa/hg17/organic-newgame-chrome.json
             docs/qa/hg18/core-progression.json
+            docs/qa/hg18/hg18-chrome.json
+            docs/evidence/hg18/daily-weekly-quests-chrome.png
+            docs/evidence/hg18/hero-rebirth-forge-chrome.png
             docs/evidence/hg17/rookie-first-mine-chromium.png
             docs/evidence/hg12/hero-task-*.png
             docs/qa/hg12/hero-task-chrome.json
@@ -108,6 +113,18 @@ jobs:
         with:
           name: HG16-G4-core-stress
           path: docs/qa/hg16/g4-stress-receipt.json
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Upload HG18 actual Chrome UI evidence on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG18-quest-rebirth-Chromium
+          path: |
+            docs/qa/hg18/hg18-chrome.json
+            docs/evidence/hg18/daily-weekly-quests-chrome.png
+            docs/evidence/hg18/hero-rebirth-forge-chrome.png
           retention-days: 7
           if-no-files-found: warn
 
