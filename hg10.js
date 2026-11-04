@@ -306,8 +306,11 @@ function tickOtherCity(s,city,from,now){
   // Preserve real secondary-city completion notices once, while bounding the
   // shared global log. No per-city tick may retain an aliased log array.
   const notices=Array.isArray(s.log)?s.log.slice(0,100):globals.log;
+  // Fame is global account progression; retain earned completion Fame from
+  // inactive cities rather than restoring the old total and losing rewards.
+  const earnedFame=Math.max(0,s.fame-globals.fame);
   for(const k of GLOBAL_DURING_CITY_TICK)s[k]=globals[k];
-  s.log=notices;
+  s.log=notices;s.fame=globals.fame+earnedFame;
   s.activeCityId=activeId;s.activeCastleKey=s.cities.find(c=>c.id===activeId)?.key||'3,4';
   for(const k of CITY_FIELDS)s[k]=clone(activeData[k]);s.version=7;
  }
