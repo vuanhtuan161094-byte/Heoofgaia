@@ -63,11 +63,22 @@ try:
   page.locator('#hg20_tower_0').select_option('1')
   page.locator('[data-action="tower-team"]').click()
   page.locator('[data-action="tower-climb"]').click()
-  check('Real click wins floor 1 and earns exactly one of five daily reward claims',
+  check('Tower click enters real tactical battle with one hero and at most two stacks',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),b=s.battle;
+      return b?.kind==='tower'&&b?.hg21Tower?.team.length===1&&
+        b.allies.length>=1&&b.allies.length<=2&&
+        b.allies.every(u=>u.heroId===1)&&HOG_ENGINE.strictSave(s);
+    }"""))
+  page.screenshot(path=str(OUT/'private-tower-six-stack-battle.png'))
+  for turn in range(70):
+    if not page.evaluate("!!HOG_APP_DEBUG.getState().battle"):break
+    page.locator('[data-action="battle"][data-cmd="attack"]').click()
+  check('Real tactical turn clicks win floor 1 and grant exactly one of five daily claims',
     page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),t=s.hg20.tower;
-      return t.floor===2&&t.claims===1&&t.team.length===1&&t.team[0]===1&&
-        t.last?.outcome==='win'&&HOG_ENGINE.strictSave(s);
+      return !s.battle&&t.floor===2&&t.claims===1&&t.team.length===1&&
+        t.last?.outcome==='win'&&t.last?.turns>=1&&HOG_ENGINE.strictSave(s);
     }"""))
   page.screenshot(path=str(OUT/'private-tower-real-command.png'))
   page.locator('[data-action="tab"][data-tab="tasks"]').first.click()
@@ -96,5 +107,5 @@ try:
 finally:
  receipt={'kind':'HG18.1 fixed-stage real Chromium UI','checks':checks,
   'passed':sum(c['pass'] for c in checks),'failed':sum(not c['pass'] for c in checks),
-  'errors':errors,'screens':['world-fixed-1280x720.png','army-seven-stacks-window.png','world-fixed-960x540.png','private-tower-real-command.png']}
+  'errors':errors,'screens':['world-fixed-1280x720.png','army-seven-stacks-window.png','world-fixed-960x540.png','private-tower-real-command.png','private-tower-six-stack-battle.png']}
  (QA/'window-chrome.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
