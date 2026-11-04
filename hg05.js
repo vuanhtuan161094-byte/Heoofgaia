@@ -36,6 +36,7 @@ function finishConstruction(s){
  s.buildings[q.key]=q.level;s.buildingQueue=null;
  E.note(s,`Hoàn thành ${E.C.buildings[q.key].name} Lv.${q.level}.`);
  if(typeof E.grantCastellanActivityExperience==='function')E.grantCastellanActivityExperience(s,cost,activity);
+ if(typeof E.progressFame==='function')E.progressFame(s,cost,'building');
 }
 function tick(s,now=Date.now()){
  ensure(s);const oldTime=s.lastTick;if(now<=oldTime)return;
