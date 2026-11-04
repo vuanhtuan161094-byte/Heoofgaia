@@ -261,3 +261,31 @@ body:not(.combat-mode) button.resource:focus-visible{outline:2px solid #f1d298}
 body:not(.combat-mode) .game-modal{padding:105px 12px 42px;align-items:flex-start}
 body:not(.combat-mode) .game-window{height:min(640px,calc(100dvh - 153px))}
 @media(max-height:610px){body:not(.combat-mode) .game-modal{padding-top:90px;padding-bottom:40px}body:not(.combat-mode) .game-window{height:calc(100dvh - 130px)}}
+
+/* HG18.1 fixed-stage target summary: preserve pointer-selected target type and
+ * route preview in the active game stage, without a document scrollbar. */
+body:not(.combat-mode) #main>.scene-bottom .target-information>p.muted{
+ display:block;
+ margin:0;
+ padding:0;
+ flex:0 1 auto;
+ min-width:0;
+ max-width:210px;
+ font-size:10px;
+ line-height:1.25;
+ white-space:nowrap;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+body:not(.combat-mode) #main>.scene-bottom .target-information>p[aria-label="Ước tính hành quân"]{max-width:220px}
+body:not(.combat-mode) #main>.scene-bottom .target-information>h2{
+ max-width:180px;
+ min-width:0;
+ overflow:hidden;
+ text-overflow:ellipsis;
+}
+body:not(.combat-mode) #main>.scene-bottom .target-information .actions{flex:0 0 auto}
+@media(max-width:1050px){
+ body:not(.combat-mode) #main>.scene-bottom .target-information>p.muted{max-width:135px;font-size:9px}
+ body:not(.combat-mode) #main>.scene-bottom .target-information>h2{max-width:115px}
+}
