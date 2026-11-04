@@ -138,10 +138,12 @@ function mapView(){
  const previewPath=active&&target?E.pathfind(E.activeCity(state).key,target.key):null;
  const previewHero=state.heroes.find(h=>h.id===state.activeHero);
  const previewSPD=previewHero?E.heroStats(state,previewHero.id)?.spd:null;
- const previewGameSeconds=previewPath?.length>1&&Number.isFinite(previewSPD)?E.marchDuration(previewSPD,previewPath):null;
+ const previewArmyFactor=E.armyMarchFactor(state);
+ const previewGameSeconds=previewPath?.length>1&&Number.isFinite(previewSPD)?E.marchDuration(previewSPD,previewPath,previewArmyFactor):null;
+ const previewTerrainUnits=previewPath?.length>1?E.pathTravelCost(previewPath):0;
  const previewAP=!treasureSelected&&target?.kind==='mine'?6:8;
  const previewText=!active?'':!previewPath?'Không có tuyến đường bộ tới mục tiêu.':previewGameSeconds===null?'Chưa chọn tướng đủ điều kiện hành quân.':
-  `🧭 ${previewPath.length-1} bước đường bộ · ETA ${Math.ceil(previewGameSeconds/(state.speed===1?1:60))} giây thực ở ${state.speed}× · ${previewGameSeconds} giây game · chi phí ${previewAP} AP (hệ số hành quân hiện là mô hình).`;
+  `🧭 ${previewPath.length-1} bước · ${previewTerrainUnits} điểm địa hình · sức quân ×${previewArmyFactor.toFixed(2)} · ETA ${Math.ceil(previewGameSeconds/(state.speed===1?1:60))} giây thực ở ${state.speed}× · ${previewGameSeconds} giây game · ${previewAP} AP (cân bằng offline).`;
  const quickHero=state.heroes.find(h=>h.id===state.activeHero),quickArmy=E.activeArmy(state).reduce((sum,u)=>sum+(state.army[u.id]||0),0),
   quickPoints=E.troopValue(state),quickLimit=E.heroLimit(quickHero?.level||1),
   quickQuest=E.heroTaskStatus(state),quickStars=quickQuest.active?.stars||1,
