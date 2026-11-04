@@ -32,7 +32,7 @@ function validatePicks(s,rows,strictReady=true){
   visited.add(entry.heroId);
   if(strictReady&&E.hg20HeroRole(s,entry.heroId).status!=='home')throw Error('Tướng đang bận, không thể vào Bí Cảnh');
   const plan=E.hg20HeroPlan(s,entry.heroId);
-  if(!Array.isArray(entry.slots)||entry.slots.length<1||entry.slots.length>OWNED_SLOTS||
+  if(!Array.isArray(entry.slots)||strictReady&&entry.slots.length<1||entry.slots.length>OWNED_SLOTS||
     new Set(entry.slots).size!==entry.slots.length||entry.slots.some(i=>!validIndex(i)||!plan[i]))
    throw Error('Mỗi tướng chỉ được chọn tối đa hai slot đã có quân');
  }
