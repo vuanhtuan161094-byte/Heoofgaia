@@ -766,6 +766,23 @@ test('HG10 24-hour offline catch-up advances queues in active and inactive citie
  const before=JSON.stringify(loaded);E.tick(loaded,end);assert.equal(JSON.stringify(loaded),before);
 });
 
+test('HG10 offline 24h wall-clock boundary is capped and cannot be replayed',()=>{
+ const base=state();base.speed=1;
+ for(const k of C.keys)base.res[k]=Math.min(base.res[k],E.limits(base)[k]*.3);
+ const start=base.lastTick,almost=E.clone(base),exact=E.clone(base),beyond=E.clone(base);
+ E.tick(almost,start+(24*3600-60)*1000);
+ E.tick(exact,start+24*3600*1000);
+ E.tick(beyond,start+(24*3600+60)*1000);
+ for(const k of C.keys){
+  assert(almost.res[k]<=exact.res[k]+1e-7,k+' must not decrease in last minute');
+  assert(Math.abs(exact.res[k]-beyond.res[k])<1e-7,k+' offline above 24h must cap');
+ }
+ assert.equal(beyond.lastTick,start+(24*3600+60)*1000);
+ const stable=E.parseSave(E.serializeSave(beyond)),snapshot=JSON.stringify(stable);
+ E.tick(stable,beyond.lastTick);assert.equal(JSON.stringify(stable),snapshot);
+ E.tick(stable,start+3600*1000);assert.equal(JSON.stringify(stable),snapshot);
+ assert(E.strictSave(stable));
+});
 test('HG10 owned mine cannot be attacked twice or duplicate hourly income',()=>{
  const s=state(),mine=E.TILES.find(t=>t.kind==='mine'&&t.value==='gold');
  assert(mine);
