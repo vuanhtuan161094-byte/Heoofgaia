@@ -4,7 +4,10 @@ Run: python build_offline.py
 from pathlib import Path
 import base64
 import re
+import subprocess
+import sys
 folder=Path(__file__).parent
+subprocess.check_call([sys.executable,str(folder/'tools/generate_hg143_archer.py')])
 html=(folder/'index.html').read_text(encoding='utf-8')
 for css in ['style.css','style-hg03.css']:
     pattern=re.compile(r'<link\s+rel="stylesheet"\s+href="'+re.escape(css)+r'">')
@@ -25,6 +28,12 @@ for unit_asset in ['assets/generated/hg11/units/orc-imp.png','assets/generated/h
     assert html.count(needle)==1,(unit_asset,html.count(needle))
     data=base64.b64encode((folder/unit_asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+archer_atlas='assets/generated/hg143/animation/human-archer-atlas.png'
+needle=f'src="{archer_atlas}"'
+assert html.count(needle)==1,(archer_atlas,html.count(needle))
+data=base64.b64encode((folder/archer_atlas).read_bytes()).decode('ascii')
+html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+assert archer_atlas not in html
 for building_asset in ['assets/generated/hg11/buildings/human-barracks.png','assets/generated/hg11/buildings/human-town-hall.png']:
     needle=f'src="{building_asset}"'
     assert html.count(needle)==1,(building_asset,html.count(needle))

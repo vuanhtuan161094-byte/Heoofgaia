@@ -1068,6 +1068,22 @@ test('HG09 expedition victory report keeps the originating hero and return snaps
  const corrupt=state();corrupt.battle=E.makeBattle(corrupt,target.key);corrupt.battle.woundedByUnit={human_1:999};assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/không hợp lệ/);
 });
 
+test('HG14.3 Human Archer addresses 48 unique animation cells, including draw/release split',()=>{
+ const clips=P.ARCHER_CLIPS,names=['idle','walk','draw','release','hit','death'];
+ assert.deepEqual(Object.keys(clips),names);
+ assert.equal(names.reduce((n,k)=>n+clips[k].count,0),48);
+ for(let row=0;row<names.length;row++){
+  const action=names[row],frame=P.archerAtlasFrame(action,0,clips[action].ms);
+  assert.equal(frame.action,action);assert.equal(frame.sx,0);
+  assert.equal(frame.sy,row*256);assert.equal(frame.sw,256);assert.equal(frame.sh,256);
+  assert.equal(P.archerAtlasFrame(action,clips[action].ms*.70,clips[action].ms).index,5);
+  assert.equal(P.archerAtlasFrame(action,clips[action].ms*1.80,clips[action].ms).index,clips[action].loop?6:7);
+ }
+ assert.equal(P.archerAtlasFrame('attack',170,650).action,'draw');
+ assert.equal(P.archerAtlasFrame('attack',580,650).action,'release');
+ assert.equal(P.archerAtlasFrame('attack',580,650).imageId,'unit-human-archer-atlas');
+ assert(P.hasAnimatedTroops({allies:[{unitId:'human_3'}],enemies:[]}));
+});
 test('HG14.2 responsive unit sprites fit portrait-safe desktop and 960x540 landscape battle',()=>{
  const desk=P.battleSpriteScale(515,2,9),mobile=P.battleSpriteScale(347,2,9);
  assert(desk>.8&&desk<1.1);assert(mobile<desk*.75&&mobile>desk*.6);
