@@ -122,9 +122,9 @@ function spirit(P,type){
 }
 function unitSVG(id){
  if(svgCache.has(id))return svgCache.get(id);
- const match=/^(human|elf|orc|undead)_(10|[1-9])$/.exec(String(id));
+ const match=/^(human|elf|orc|undead)_(10|[1-9]|quest_guard|tower_sovereign)$/.exec(String(id));
  if(!match)return null;
- const race=match[1],tier=Number(match[2]),type=TYPES[race][tier-1],P=PALETTES[race];
+ const race=match[1],special=match[2],tier=Number(special),type=special==='quest_guard'?'knight':special==='tower_sovereign'?'archangel':TYPES[race][tier-1],P=PALETTES[race];
  let s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 128" width="128" height="128" aria-label="'+id+'">';
  s+='<defs><linearGradient id="armor" x2="0.8" y2="1"><stop stop-color="'+P.light+'"/><stop offset=".48" stop-color="'+P.main+'"/><stop offset="1" stop-color="'+P.dark+'"/></linearGradient>';
  s+='<linearGradient id="steel" x2=".8" y2="1"><stop stop-color="#ffffff"/><stop offset=".55" stop-color="'+P.metal+'"/><stop offset="1" stop-color="'+P.dark+'"/></linearGradient>';
@@ -152,6 +152,8 @@ function unitSVG(id){
   if(type==='dryad')s+=line('M61 71 L56 103 M70 75 L76 103','#b4db98',4);
   s+=weapon(P,type);
  }
+ if(special==='quest_guard'){s+=ell(64,13,17,5,'none',P.metal)+p('M40 50 Q24 57 25 82 L32 94 L48 79 Z',P.metal)+p('M83 62 L105 65 L109 88 L94 101 L79 88 Z','url(#steel)');}
+ if(special==='tower_sovereign'){s+=ell(64,9,23,6,'none',P.light)+line('M26 24 L18 8 M100 24 L110 8',P.metal,3);}
  s+=ell(64,119,32,4,'#071a2a30');
  s+='</svg>';
  svgCache.set(id,s);return s;
