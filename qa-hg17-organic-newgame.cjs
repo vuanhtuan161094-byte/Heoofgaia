@@ -5,7 +5,7 @@
 'use strict';
 const fs=require('node:fs'),path=require('node:path'),vm=require('node:vm'),assert=require('node:assert/strict');
 const ctx=vm.createContext({console});
-for(const name of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js'])
+for(const name of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js'])
  vm.runInContext(fs.readFileSync(path.join(__dirname,name),'utf8'),ctx,{filename:name});
 const E=ctx.HOG_ENGINE,C=ctx.HOG_CATALOG;
 const now=1_000_000,START_GOLD=8000,START_WOOD=900;
