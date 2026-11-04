@@ -68,6 +68,8 @@ jobs:
         run: python qa-hg09-combat-viewport-chrome.py
       - name: HG18 actual quest forging rebirth UI Chrome gate
         run: python qa-hg18-ui-chrome.py
+      - name: HG18.1 fixed viewport and popup UX acceptance (1280x720 plus landscape)
+        run: python qa-hg181-window-chrome.py
       - name: HG17 first-launch organic build research recruit and mine Chromium
         run: python qa-hg17-organic-newgame-chrome.py
       - name: HG10 offline world AI castle interaction and Save Reload in Chromium
@@ -142,6 +144,15 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+      - name: Upload HG18.1 popup and viewport screenshots even on failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG18.1-window-UX-Chromium
+          path: |
+            docs/qa/hg181/window-chrome.json
+            docs/evidence/hg181/*.png
+          if-no-files-found: ignore
       - name: Upload HG18 progression QA even on failure
         if: always()
         uses: actions/upload-artifact@v4
