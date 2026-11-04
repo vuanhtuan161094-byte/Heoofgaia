@@ -8,6 +8,7 @@ if(!E?.hg26Start||!E?.hg21TowerCast||!E?.hg24RecommendBoss)throw Error('HG26.1 r
 const old={start:E.hg26Start,step:E.hg26Step,status:E.hg26Status,
  battleAct:E.battleAct,tick:E.tick,make:E.make,parse:E.parseSave,serialize:E.serializeSave,
  strict:E.strictSave,role:E.hg20HeroRole,select:E.selectHero,plan:E.hg20SetHeroPlan,
+ heroAway:E.heroAway,appoint:E.appoint,
  startMarch:E.startMarch};
 const isInt=(v,min=0,max=1e9)=>Number.isSafeInteger(v)&&v>=min&&v<=max;
 const sum=groups=>groups.reduce((n,g)=>n+g.count,0);
@@ -78,6 +79,46 @@ function select(s,id){
   throw Error('Tướng đang tham gia chung một trận Boss');
  return old.select(s,id);
 }
+function heroAway(s,id){
+ return !!old.heroAway?.(s,id)||!!(s.expedition&&participants(s).some(p=>p.heroId===id));
+}
+function appoint(s,id){
+ if(s.expedition&&participants(s).some(p=>p.heroId===id))
+  throw Error('Tướng đang cùng đoàn Boss không thể làm Castellan');
+ return old.appoint(s,id);
+}
+function pauseTower(s){
+ const j=s.hg26?.joint,t=s.hg20?.tower;
+ if(!j||!t?.picks?.length||j.towerBackup)return;
+ const members=new Set(j.team.map(p=>p.heroId));
+ if(!t.picks.some(p=>members.has(p.heroId)))return;
+ j.towerBackup={team:t.team.slice(),picks:t.picks.map(p=>({
+  heroId:p.heroId,slots:p.slots.slice(),
+  unitIds:p.slots.map(i=>E.hg20HeroPlan(s,p.heroId)[i]?.unitId||null)
+ }))};
+ t.picks=t.picks.filter(p=>!members.has(p.heroId));
+ t.team=t.picks.map(p=>p.heroId);
+ E.note(s,'HG26.1: tạm giữ lựa chọn Bí Cảnh để các tướng xuất quân thật; sẽ khôi phục khi đội về.');
+}
+function restoreTower(s){
+ const j=s.hg26?.joint,backup=j?.towerBackup,t=s.hg20?.tower;
+ if(!backup||s.expedition||s.battle)return false;
+ const rebuilt=[];
+ for(const p of backup.picks){
+  const form=E.hg20HeroPlan(s,p.heroId),used=new Set(),slots=[];
+  for(const unitId of p.unitIds){
+   let index=form.findIndex((g,i)=>g.unitId===unitId&&!used.has(i));
+   if(index<0)index=form.findIndex((g,i)=>!used.has(i));
+   if(index>=0){used.add(index);slots.push(index)}
+  }
+  if(!slots.length&&p.slots.length)return false;
+  rebuilt.push({heroId:p.heroId,slots});
+ }
+ t.team=backup.team.slice();t.picks=rebuilt;
+ delete j.towerBackup;
+ E.note(s,'HG26.1: đã khôi phục nhóm Bí Cảnh sau khi đoàn Boss trở về.');
+ return true;
+}
 function setPlan(s,id,groups){
  if(s.expedition&&participants(s).some(p=>p.heroId===id))
   throw Error('Không thể phân lại quân của tướng đang săn Boss');
@@ -138,6 +179,7 @@ function preflight(s,team){
 }
 function dispatch(s){
  const q=s.hg26,team=q.joint.team,p=preflight(s,team);
+ pauseTower(s);
  assignPlans(s,p.rows);
  const lead=p.rows[0];
  if(s.activeHero!==lead.heroId)old.select(s,lead.heroId);
@@ -192,6 +234,7 @@ function annotate(s){
 function tick(s,...args){
  const out=old.tick(s,...args);
  if(active(s)&&s.battle&&!s.battle.hg261Joint)annotate(s);
+ if(active(s)&&!s.hg26.enabled&&!s.expedition&&!s.battle)restoreTower(s);
  return out;
 }
 function topUp(s,team){
@@ -216,6 +259,7 @@ function topUp(s,team){
   return {type:'halt',reason:'Không đủ tài nguyên hoặc quân hợp lệ bổ sung đội '+(i+1)};
  }
  assignPlans(s,allocation);
+ restoreTower(s);
  const sumUnits=allocation.reduce((n,r)=>n+sum(r.groups),0);
  if(sumUnits<s.hg26.config.minUnits)return {type:'halt',reason:'Tổng số quân ba tướng quá thấp'};
  return {type:'ready',total:sumUnits};
@@ -248,7 +292,7 @@ function step(s){
  if(!active(s)||!q.enabled)return old.step(s);
  if(q.phase==='ready'){
   try{return dispatch(s)}
-  catch(e){return {changed:true,type:'stopped',status:E.hg26Stop(s,'Không thể xuất đoàn ba tướng: '+e.message)}}
+  catch(e){if(!s.expedition)restoreTower(s);return {changed:true,type:'stopped',status:E.hg26Stop(s,'Không thể xuất đoàn ba tướng: '+e.message)}}
  }
  if(q.phase==='recovery')return recovery(s);
  if(q.phase==='outbound'&&s.battle)annotate(s);
@@ -304,7 +348,7 @@ function status(s){
   units:sum(p.groups)}))};
 }
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
- tick,battleAct,startMarch:march,selectHero:select,hg20HeroRole:protectedRole,
+ tick,battleAct,startMarch:march,selectHero:select,heroAway,appoint,hg20HeroRole:protectedRole,
  hg20SetHeroPlan:setPlan,hg26Start:start,hg26Step:step,hg26Status:status,hg261Valid:valid});
 root.HOG_HG261=Object.freeze({version:1,heroesPerBoss:3,stacksPerHero:2,
  mode:'same-battle-real-casualties',saveVersion:7});
