@@ -296,11 +296,18 @@ function validBattleReports(s){
 }
 function tickOtherCity(s,city,from,now){
  const activeId=s.activeCityId,activeData=currentLocal(s),globals={};
- for(const k of GLOBAL_DURING_CITY_TICK)globals[k]=k==='parallelMarches'?clone(s[k]):s[k];
+ // A secondary city's E.note() unshifts into the *old* array before slicing
+ // the new array to 100 messages. Holding the old log by reference leaked
+ // uncapped entries into the global snapshot (Save v07 FAIL after 16 days).
+ for(const k of GLOBAL_DURING_CITY_TICK)globals[k]=k==='parallelMarches'||k==='log'?clone(s[k]):s[k];
  applyCity(s,city);s.lastTick=from;s.march=null;s.battle=null;
  try{timedTick(s,from,now);city.local=currentLocal(s)}
  finally{
+  // Preserve real secondary-city completion notices once, while bounding the
+  // shared global log. No per-city tick may retain an aliased log array.
+  const notices=Array.isArray(s.log)?s.log.slice(0,100):globals.log;
   for(const k of GLOBAL_DURING_CITY_TICK)s[k]=globals[k];
+  s.log=notices;
   s.activeCityId=activeId;s.activeCastleKey=s.cities.find(c=>c.id===activeId)?.key||'3,4';
   for(const k of CITY_FIELDS)s[k]=clone(activeData[k]);s.version=7;
  }
