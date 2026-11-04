@@ -11,7 +11,7 @@ for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js'
  vm.runInContext(fs.readFileSync(path.join(__dirname,file),'utf8'),ctx,{filename:file});
 const E=ctx.HOG_ENGINE,C=ctx.HOG_CATALOG,s=E.make('human',1_000_000);
 const steps=[],meta={mode:'organic actions with accelerated elapsed game time',seeded:false,status:'PENDING',stages:steps,error:null};
-let simulatedHours=0,waits=0,builds=0,studies=0,recruits=0,battles=0;
+let simulatedHours=0,waits=0,builds=0,studies=0,recruits=0,battles=0,minesCaptured=0,xpBattles=0;
 function strict(label){assert(E.strictSave(s),'Save validation failed: '+label)}
 function receipt(name,details={}){steps.push({name,heroLevel:s.heroes[0].level,armyT10:s.army.human_10||0,gold:Math.floor(s.res.gold),fame:s.fame,simulatedHours, ...details});console.log('HG181 '+name+' '+JSON.stringify(details));strict(name)}
 function advance(seconds){assert(seconds>0);E.tick(s,s.lastTick+(seconds+1)*1000/s.speed);simulatedHours+=seconds/3600;strict('tick')}
@@ -104,6 +104,31 @@ try{
  assert(s.heroes[0].level===1&&!s.army.human_10&&Object.values(s.hg18.materials).every(v=>v===0));
  E.appoint(s,1); // real Castellan work grants activity XP
  receipt('fresh_new_game',{resources:s.res,starterArmy:s.army.human_1});
+ // Invest in the existing production loop rather than passively waiting six
+ // months. Mine sites are discovered from the canonical map, fought over by
+ // paid rookie troops, and stationed/returned using real expedition actions.
+ train('human_1',24);
+ E.appoint(s,1); // release the Castellan for five real beginner mine battles
+ const mineCandidates=E.TILES.filter(t=>t.kind==='mine'&&t.level===1&&
+    E.pathfind('3,4',t.key))
+   .sort((a,b)=>E.pathTravelCost(E.pathfind('3,4',a.key))-
+       E.pathTravelCost(E.pathfind('3,4',b.key)));
+ const foundKinds=new Set(),starterMines=mineCandidates.filter(t=>{
+  if(foundKinds.has(t.value))return false;
+  foundKinds.add(t.value);return true;
+ }).slice(0,5);
+ assert(starterMines.length>=3,'Not enough distinct reachable beginner production mines');
+ for(const mine of starterMines){
+  if((s.army.human_1||0)<30)train('human_1',40-(s.army.human_1||0));
+  const outcome=dispatchAndWin(mine.key);
+  assert.equal(outcome,'win','Starter troops could not earn '+mine.value+' mine');
+  recallIfNeeded();
+  assert(s.mines.some(m=>m.key===mine.key),'Mine absent after real victory');
+  minesCaptured++;
+  receipt('production_mine_capture',{resource:mine.value,key:mine.key,rate:E.rate(s)[mine.value]});
+ }
+ E.appoint(s,1); // resume Castellan XP from paid building and research
+ receipt('self_funded_mine_economy',{minesCaptured,rates:E.rate(s)});
  buildTo('hall',10);buildTo('barracks',10);buildTo('stables',9);buildTo('blacksmith',10);buildTo('magicTower',9);buildTo('heroTower',9);
  learnTo('manufacturing',9);learnTo('bootcamp',9);learnTo('scouting',3);
  assert(E.troopPrerequisites(s,E.getUnit(s,'human_10')).available,'T10 gates still locked');
@@ -133,7 +158,7 @@ try{
  const xpTarget=E.TILES.find(t=>t.kind==='npc'&&t.level===8&&E.pathfind('3,4',t.key));
  assert(xpTarget,'No reachable 8-star NPC for experience farming');
  const initialLv=s.heroes[0].level;
- let xpBattles=0;
+ xpBattles=0;
  for(;s.heroes[0].level<100&&xpBattles<1700;xpBattles++){
   const outcome=dispatchAndWin(xpTarget.key);
   if(outcome!=='win')throw Error('Late-game paid army lost 8-star XP fight at iteration '+xpBattles);
@@ -154,7 +179,7 @@ try{
  meta.status='PASS';
 }catch(err){meta.status='FAIL';meta.error=String(err.stack||err);console.error('HG181 ENDGAME FAIL '+meta.error);process.exitCode=1;}
 finally{
- meta.summary={builds,studies,recruits,waits,battles,simulatedHours,experienceGrindBattles:typeof xpBattles==='number'?xpBattles:null,finalHeroLevel:s.heroes[0].level,rebirth:s.heroes[0].rebirth,rebirthCore:s.hg18?.materials.rebirth_core};
+ meta.summary={builds,studies,recruits,waits,battles,minesCaptured,simulatedHours,experienceGrindBattles:xpBattles,finalHeroLevel:s.heroes[0].level,rebirth:s.heroes[0].rebirth,rebirthCore:s.hg18?.materials.rebirth_core};
  fs.mkdirSync(path.join(__dirname,'docs','qa','hg181'),{recursive:true});
  fs.writeFileSync(path.join(__dirname,'docs','qa','hg181','organic-endgame.json'),JSON.stringify(meta,null,2));
  console.log('HG181 ENDGAME '+meta.status+' '+JSON.stringify(meta.summary));
