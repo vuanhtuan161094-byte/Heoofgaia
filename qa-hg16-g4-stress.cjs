@@ -132,6 +132,8 @@ check('P0 production five resources across 6 independent cities / 30 offline day
     assert(city.local.res[k]>=0&&city.local.res[k]<=stats.limits[k]+1e-5);
    }
   }
+  assert(Array.isArray(loaded.log)&&loaded.log.length<=100,'Global log must stay capped at day '+day+': '+loaded.log.length);
+  assert(loaded.log.every(line=>typeof line==='string'&&line.length<=500),'Log item limit at day '+day);
   const ownedKeys=new Set(loaded.cities.map(c=>c.key));
   assert.equal(ownedKeys.size,6);
   assert.equal(Object.keys(loaded.aiCities).length,36,'AI ownership must not duplicate');
