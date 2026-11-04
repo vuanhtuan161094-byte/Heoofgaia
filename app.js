@@ -3,7 +3,7 @@
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
 const A=window.HOG_ART_PACK,ico=(key,size)=>A?.iconHTML(key,size)||'';
 const $=id=>document.getElementById(id);let state=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0;
-const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
+const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
 const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=900;
@@ -94,7 +94,8 @@ function renderIntro(){
 }
 function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.map(k=>`<button type="button" class="resource" data-action="resource-info" title="${esc(C.resource[k].label)}: ${format(state.res[k])}/${format(lim[k])} · +${format(E.rate(state)[k])}/giờ">${(ico(k,20)||C.resource[k].emoji)} <span>${C.resource[k].label}</span><b>${format(state.res[k])}</b><small class="muted">/${format(lim[k])} · +${format(E.rate(state)[k])}/h</small></button>`).join('');
  $('nav').innerHTML=tabs.map(([id,name])=>`<button data-action="tab" data-tab="${id}" class="${tab===id?'active':''}">${A?(ico(id,20)+' '+esc(name.slice(name.indexOf(' ')+1))):name}</button>`).join('');
- const earning=E.rate(state);$('status').innerHTML=`<div class="vitals">${flags()}</div><div class="muted tiny">${(ico(state.race,20)||C.races[state.race].emoji)} ${C.races[state.race].name} · ${state.heroes.length} tướng · ${E.activeArmy(state).reduce((n,u)=>n+state.army[u.id],0)} lính</div><div class="hr"></div><div class="hint">Sản lượng / giờ game:</div><div class="tiny">${C.keys.map(k=>`${(ico(k,20)||C.resource[k].emoji)} +${format(earning[k])}`).join(' · ')}</div><div class="hr"></div><div class="hint"><b>🏗 Xây dựng:</b> ${state.buildingQueue?esc(C.buildings[state.buildingQueue.key].name)+' Lv.'+state.buildingQueue.level+' · '+Math.ceil(state.buildingQueue.remaining/state.speed)+'s thực':'Trống'}</div><div class="hr"></div><div class="hint">Hàng đợi: ${state.training.length?esc(E.getUnit(state,state.training[0].unitId).name)+' ('+format(state.training[0].remaining)+'s game)':'Trống'}</div>${state.march?`<p class="notice">🚩 Hành quân: ${Math.ceil(state.march.remaining)}s game</p>`:''}`;
+ const earning=E.rate(state),hero=state.heroes.find(h=>h.id===state.activeHero),duty=E.hg20HeroRole(state,state.activeHero);$('status').innerHTML=`<div class="vitals">${flags()}</div><div class="muted tiny">${(ico(state.race,20)||C.races[state.race].emoji)} ${C.races[state.race].name} · ${state.heroes.length} tướng · ${E.activeArmy(state).reduce((n,u)=>n+state.army[u.id],0)} lính</div><div class="hr"></div><div class="hint">Sản lượng / giờ game:</div><div class="tiny">${C.keys.map(k=>`${(ico(k,20)||C.resource[k].emoji)} +${format(earning[k])}`).join(' · ')}</div><div class="hr"></div><div class="hint"><b>🏗 Xây dựng:</b> ${state.buildingQueue?esc(C.buildings[state.buildingQueue.key].name)+' Lv.'+state.buildingQueue.level+' · '+Math.ceil(state.buildingQueue.remaining/state.speed)+'s thực':'Trống'}</div><div class="hr"></div><div class="hint">Hàng đợi: ${state.training.length?esc(E.getUnit(state,state.training[0].unitId).name)+' ('+format(state.training[0].remaining)+'s game)':'Trống'}</div>${state.march?`<p class="notice">🚩 Hành quân: ${Math.ceil(state.march.remaining)}s game</p>`:''}`;
+ $('status').innerHTML+='<div class="banner"><b>🎖 Tướng đang chọn: '+esc(hero?.name||'Không có')+'</b> · '+esc(duty.label)+' · '+format(duty.army.reduce((n,g)=>n+g.count,0))+' quân'+button('tab',{tab:'army'},'Điều binh',false,'small secondary')+'</div>';
  if(state.battleReports?.length)$('status').innerHTML+=`<div class="hr"></div>${button('tab',{tab:'reports'},'⚔ Xem chiến báo gần nhất',false,'secondary')}`;
  $('logs').innerHTML=state.log.map(t=>`<div>• ${esc(t)}</div>`).join('');$('speed').textContent=`⏱ ×${state.speed}`;
 }
@@ -180,11 +181,68 @@ function cityViewBase(){const k=selectedBuilding,b=C.buildings[k],lv=state.build
  <div class="scene-bottom"><div class="target-information${buildingArt?' has-building-art':''}">${buildingArt}<div class="target-building-copy"><span class="eyebrow">CÔNG TRÌNH ĐANG CHỌN</span><h2>${b.icon} ${esc(b.name)} · Lv.${lv}</h2><p>${esc(b.desc)}</p><p class="cost">Chi phí cấp tiếp: ${money(cost)}</p><div class="actions">${button('upgrade',{key:k},state.buildingQueue?'⏳ Đang xây dựng':'⬆ Nâng cấp công trình',!can,'primary')}<span class="hint">${b.state!=='observed'?'Tính năng chưa xác minh':!gate.allowed?esc(gate.reason):!E.canAfford(state,cost)?'Không đủ tài nguyên cho mức kho hiện tại.':'Giá và thời gian xây dựng vẫn là mô phỏng.'}</span></div></div></div>
  <div class="landmarks"><span class="eyebrow">DANH SÁCH CÔNG TRÌNH</span><div class="landmark-list">${E.cityBuildOrder(state).map(id=>button('building',{key:id},`${C.buildings[id].icon} ${C.buildings[id].name} ${state.buildings[id]}`,false,id===k?'small primary':'small secondary')).join('')}</div></div></div>`;
 }
+function heroArmyCommandView(){
+ const home=state.activeCityId||'main';
+ const occupied=state.heroes.map(h=>{
+  const duty=E.hg20HeroRole(state,h.id),troops=duty.army||[];
+  const count=troops.reduce((sum,g)=>sum+g.count,0);
+  const summary=troops.slice(0,3).map(g=>esc(E.getUnit(state,g.unitId)?.name||g.unitId)+' ×'+format(g.count)).join(' · ');
+  const selected=h.id===state.activeHero;
+  return '<div class="card"><div class="heading">🧙 '+esc(h.name)+' · Lv.'+h.level+
+   (selected?' <span class="tag">ĐANG CHỌN</span>':'')+'</div>'+
+   '<p class="hint">'+esc(duty.label)+' · <b>'+format(count)+' lính</b> · '+troops.length+' nhóm'+
+   (duty.target?' · mục tiêu '+esc(duty.target):'')+'</p>'+
+   '<p class="tiny muted">'+(summary||'Chưa phân quân')+'</p>'+
+   button('hero',{id:h.id},selected?'✓ Tướng hiện tại':'Chọn để điều binh',selected||duty.status!=='home','small secondary')+'</div>';
+ }).join('');
+ const other=E.hg20Reservations(state,state.activeHero);
+ const allocated=Object.entries(other).filter(([,v])=>v>0).map(([id,count])=>esc(E.getUnit(state,id)?.name||id)+' ×'+format(count)).join(' · ');
+ const hero=state.heroes.find(h=>h.id===state.activeHero),role=E.hg20HeroRole(state,state.activeHero);
+ const leader=hero?esc(hero.name):'Chưa chọn tướng';
+ return '<section class="card hg20-command"><h2>🎖 Điều binh theo từng tướng</h2>'+
+ '<p class="hint">Đang điều binh cho <b>'+leader+'</b> · '+esc(role.label)+'. Chọn tướng trước, sau đó phân quân ở 7 ô bên dưới và bấm <b>Lưu đội hình</b>. Quân đang đi trận đã tách khỏi kho thành; mỗi đơn vị trong thành chỉ được phân cho một tướng.</p>'+
+ '<div class="grid grid3">'+occupied+'</div><p class="tiny muted">Quân đã đặt trước cho tướng khác tại '+esc(home)+': '+(allocated||'không có')+
+ '. Sau khi bấm Xuất chinh, quân thật được giao cho tướng và sẽ xuất hiện ở trạng thái hành quân/chiến đấu/đồn trú.</p></section>';
+}
+function towerView(){
+ const status=E.hg20TowerStatus(state),c=state.hg20.collection;
+ const teamOptions=(selected)=>'<option value="">— Không chọn —</option>'+state.heroes.map(h=>{
+  const duty=E.hg20HeroRole(state,h.id);
+  return '<option value="'+h.id+'" '+(selected===h.id?'selected':'')+' '+(duty.status==='home'?'':'disabled')+'>'+
+   esc(h.name)+' · Lv.'+h.level+' · '+esc(duty.label)+'</option>';
+ }).join('');
+ const members=state.heroes.filter(h=>status.team.includes(h.id));
+ let strength='Chưa đủ quân';try{strength=format(E.hg20TowerPower(state).power)}catch(_){}
+ const troop=C.rewardUnits[state.race].find(u=>u.towerExclusive),owns=state.army[troop.id]||0;
+ return '<h1>🗼 Bí Cảnh Tháp · tầng '+format(status.floor)+'</h1>'+
+  '<div class="grid grid2"><section class="card"><h2>👹 '+esc(status.enemy)+'</h2>'+
+  '<p>Thể chất: '+esc(status.trait)+' · Lực chiến quái '+format(status.enemyPower)+'</p>'+
+  '<p>Đội bạn: '+strength+'</p>'+
+  '<p>Ngày hôm nay còn <b>'+status.rewardLeft+'/5</b> lượt thắng có thưởng. Vẫn được leo sau khi hết thưởng, nhưng không nhận tài nguyên.</p>'+
+  '<p class="hint">Bí cảnh dùng hình chiếu quân: không mất lính, không mất AP. Kết quả dựa trên lực chiến của từng tướng và quân đã được phân; quái mạnh dần theo tầng.</p>'+
+  Array.from({length:3},(_,i)=>'<label>Tướng '+(i+1)+'<select id="hg20_tower_'+i+'">'+teamOptions(status.team[i])+'</select></label>').join('')+
+  '<div class="actions">'+button('tower-team',{},'✓ Khóa đội 1–3 tướng',false,'primary')+
+   button('tower-climb',{},'⚔ Thách đấu tầng '+format(status.floor),!status.team.length,'primary')+
+   button('tab',{tab:'army'},'🎖 Điều binh cho tướng',false,'secondary')+'</div>'+
+  (status.last?'<p class="notice">Trận gần nhất: tầng '+format(status.last.floor)+' · '+(status.last.outcome==='win'?'THẮNG':'THUA')+
+   ' · đội '+format(status.last.teamPower)+' / quái '+format(status.last.enemyPower)+
+   ' · tinh hoa +'+format(status.last.rewardEssence)+'</p>':'')+'</section>'+
+  '<section class="card"><h2>✨ Phát triển vô hạn</h2><p>Tinh hoa: <b>'+format(status.essence)+'</b> · Thăng hoa +'+format(status.rank)+
+  ' · mỗi cấp +18% lực chiến đội tháp (cộng dồn)</p>'+
+  button('tower-upgrade',{},'⬆ Thăng hoa · '+format(status.upgradeCost)+' tinh hoa',status.essence<status.upgradeCost,'primary')+
+  '<h3>🏰 Thành đặc biệt</h3><p>'+(c.citadel?'✓ Đã mở khóa Thiên Ngoại Bí Thành':'🔒 Thiên Ngoại Bí Thành · hoàn thành tầng 25')+
+  '</p><h3>🐉 Quân sưu tầm</h3><p>'+esc(troop.name)+' ×'+format(owns)+
+  ' · nhận ở mỗi tầng 10, 20, 30… trong 5 lượt có thưởng/ngày.</p>'+
+  '<h3>💎 Di vật hiếm</h3><p>Nhận ở mỗi tầng 25, 50, 75… trong lượt có thưởng: '+
+  (c.artifacts.length?c.artifacts.slice(-5).map(esc).join(' · '):'chưa sở hữu')+'</p>'+
+  '<p class="hint">Không có tầng cuối. Lực chiến quái và phần thưởng tăng theo tầng trong giới hạn số học an toàn của Save v07.</p>'+
+  '</section></div>';
+}
 function armyView(){
- const formations=(state.formation?.length?state.formation:E.activeArmy(state).slice(0,1).map(u=>({unitId:u.id,count:state.army[u.id]})));
+ const formations=state.formation?.length?state.formation:[];
  const troopBuilding=E.troopBuildingKey(state),troopBuildingName=C.buildings[troopBuilding].name;
- const opt=(sel)=>`<option value="">— Để trống —</option>${E.arrUnits(state).map(u=>`<option value="${u.id}" ${sel===u.id?'selected':''}>${esc(u.name)} (${state.army[u.id]} có sẵn)</option>`).join('')}`;
- return `<h1>🛡 ${esc(troopBuildingName)} · Lv.${state.buildings[troopBuilding]}</h1><p class="hint">Dữ liệu 10 quân của ${C.races[state.race].english}. Nâng ${esc(troopBuildingName)} để mở bậc quân. Quân đang tuyển chưa được đưa vào đội hình.</p><p class="tiny muted">A = bảng Human trực tiếp; A* = tên Bootcamp là phép đối chiếu; B = điều kiện một phần; C = nguồn thứ cấp chưa đối chiếu client gốc; P = điều kiện mô hình tạm, chưa được nguồn lịch sử xác minh.</p>
+ const opt=(sel)=>`<option value="">— Để trống —</option>${E.arrUnits(state).map(u=>`<option value="${u.id}" ${sel===u.id?'selected':''}>${esc(u.name)} (${Math.max(0,(state.army[u.id]||0)-(E.hg20Reservations(state,state.activeHero)[u.id]||0))} còn có thể cấp)</option>`).join('')}`;
+ return heroArmyCommandView()+`<h1>🛡 ${esc(troopBuildingName)} · Lv.${state.buildings[troopBuilding]}</h1><p class="hint">Dữ liệu 10 quân của ${C.races[state.race].english}. Nâng ${esc(troopBuildingName)} để mở bậc quân. Quân đang tuyển chưa được đưa vào đội hình.</p><p class="tiny muted">A = bảng Human trực tiếp; A* = tên Bootcamp là phép đối chiếu; B = điều kiện một phần; C = nguồn thứ cấp chưa đối chiếu client gốc; P = điều kiện mô hình tạm, chưa được nguồn lịch sử xác minh.</p>
  <div class="banner"><b>Hàng đợi tuyển quân</b> ${state.training.length?state.training.map((q,i)=>`<div>⌛ ${i+1}. ${q.count} ${esc(E.getUnit(state,q.unitId).name)} · ${Math.ceil(q.remaining/state.speed)} giây thực</div>`).join(''):'Trống'} </div>
  <div class="card"><h2>⚔ Bố trí quân theo nhóm</h2><p class="hint">Giá trị đội hình: <b>${format(E.troopValue(state))}</b> / <b>${format(E.heroLimit(state.heroes.find(h=>h.id===state.activeHero)?.level||1))}</b> điểm chỉ huy cơ bản (bảng tướng Lv1–100 của cộng đồng; bonus Arena/trang bị chưa hỗ trợ). </p><p class="hint">Có thể tách cùng một binh chủng thành nhiều nhóm. Tối đa 7 nhóm trong HG-07 (4 hàng sau + 3 hàng trước, theo ghi nhận cộng đồng); số quân còn lại ở thành. Đây là giới hạn demo, không khẳng định là số ô đúng của client gốc.</p><div class="formation-grid">${Array.from({length:7},(_,i)=>`<div class="formation-slot ${i<4?'formation-back':'formation-front'}"><span class="tag" title="${i<4?'Hậu quân: x=1':'Tiền quân: x=3'} · Mỗi stack chịu giới hạn tổng điểm chỉ huy">${i<4?'⬅ Hậu':'➡ Tiền'} ${i<4?i+1:i-3}</span><select id="formation_unit_${i}" aria-label="Binh chủng nhóm ${i+1}">${opt(formations[i]?.unitId)}</select><input type="number" min="0" max="100000000" title="Không giới hạn cố định theo stack; số lượng chịu sức chứa chỉ huy và số quân đang có" aria-label="Số quân nhóm ${i+1}" id="formation_count_${i}" value="${formations[i]?.count||0}"></div>`).join('')}</div>${button('formation',{},'✓ Lưu đội hình',!!state.battle||!!(state.march&&state.march.phase!=='outbound'),'primary')} ${button('autoformation',{},'⚔ Bố trí quân nhanh',!!state.battle||!!(state.march&&state.march.phase!=='outbound')||!E.activeArmy(state).length,'secondary')} <small class="muted">Bố trí nhanh ưu tiên quân bậc cao trong giới hạn chỉ huy; có thể chỉnh thủ công bất cứ lúc nào.</small></div>
  <div class="grid grid2" style="margin-top:12px">${E.arrUnits(state).map(u=>{const unlock=E.troopPrerequisites(state,u),unlocked=unlock.available,cost=E.recruitCost(state,u,1),checks=unlock.checks.map(c=>{const label=c.kind==='building'?C.buildings[c.key]?.name||c.key:c.key==='bootcamp'?'Bootcamp (Huấn luyện)':c.key==='manufacturing'?'Manufacturing (Chế tạo)':`Phép ${C.spells[c.key]?.vi||c.key}`;return `${esc(label)} ${c.actual}/${c.level}`}).join(' · '),confidence=unlock.status==='OBSERVED'?'Đối chiếu bảng Human trong hướng dẫn Trung Quốc 2009 và xác nhận chéo 2010':unlock.status==='SECONDARY'?(unlock.source==='SRC26'?`SRC26: gate Thunderbird lấy từ bảng thứ cấp; chỉ số khớp catalog 2009 nhưng chưa đối chiếu client gốc`:`SRC28: bài 17173 năm 2010 nêu Centaur tuyển ở Barracks cấp 1; chưa đối chiếu client gốc`):unlock.status==='PARTIAL_SCOUT_HALL_GATE'?`SRC27 (Trung Quốc 2009): Barracks 2 + Scouting 1; Town Hall riêng chưa xác minh; phép Scouting đối chiếu SRC04 (wiki Anh 2009)`:unlock.status==='DERIVED_SCOUT_GATE'?`Vai trò trinh sát và Scouting 1 được đối chiếu chéo phiên bản; Town Hall riêng cho Scout chưa xác minh`:unlock.status==='DERIVED_TROOP_BUILDING_TIER'?(u.race==='undead'?(u.tier===2?`SRC02 + SRC11: Graveyard cấp cao mở quân cấp cao; ánh xạ cấp nhà = bậc quân là B* suy luận, chưa có bảng từng quân. Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009)`:`SRC02 + SRC11: Graveyard cấp cao mở quân cấp cao; ánh xạ cấp nhà = bậc quân là B* suy luận, chưa có bảng từng quân`):u.tier===2?`SRC02 + SRC03 + SRC11: suy luận B* theo bậc ${troopBuildingName}; Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009); cổng phụ chưa xác minh`:`SRC02 + SRC03 + SRC11: suy luận B* theo bậc đơn vị ${troopBuildingName}; chưa xác minh từng cổng phụ gốc`):unlock.status==='MODELED_SCOUT_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp 2 chưa có bảng gốc xác nhận; Scouting 1 được đối chiếu vai trò trinh sát (Trung Quốc 2010, wiki tiếng Anh 2009)` :unlock.status==='MODELED_TIER_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp ${u.tier} theo bậc quân; không phải số liệu lịch sử đã xác minh`:`Đã xác minh ${troopBuildingName} là nhà tuyển quân; cổng phụ từng đơn vị của chủng tộc còn thiếu nguồn`;return `<div class="card unitrow"><div><div class="heading">${A?.unitHTML(u.id,56)||(u.tier>=9?'🐉':u.type==='Ranged'?'🏹':'⚔️')} ${esc(u.name)} <span class="tag">Bậc ${u.tier}</span><span class="tag">${unlock.confidence}</span></div><div class="hint">${u.type} · HP ${u.hp} · ATK ${u.atk} · DEF ${u.def} · SPD ${u.spd} · Tầm ${E.unitTacticalRange(u)} ô · Hành quân ×${Math.max(.8,Math.min(1.10,.8+u.spd/40)).toFixed(2)}</div><div>Quân trong thành <b class="key">${state.army[u.id]||0}</b> · ${E.recruitDuration(state,u,1)}s/lính (hiện tại)</div><div class="tiny muted">Điều kiện: ${checks}</div><div class="tiny muted">${confidence}</div><div class="cost" title="Giá tuyển thực tế; quân T9/T10 nhận giảm nguyên liệu nhờ Blacksmith ≥8 và Manufacturing ≥6">Giá 1: ${money(cost)}${u.tier>=9&&(state.buildings.blacksmith||0)>=8&&(state.spells.manufacturing||0)>=6?' · ⚒ Hiệu suất tinh nhuệ':''}</div></div><div class="entry"><input id="q_${u.id}" aria-label="Số lượng ${esc(u.name)}" type="number" min="1" max="1000" value="3">${button('recruit',{id:u.id},unlocked?'Tuyển':'🔒',!unlocked)}</div></div>`}).join('')}</div>`;
@@ -358,7 +416,7 @@ function render(){
  if(state.battle){tab='combat';showWorldIndex=false;showResourceInfo=false}
  renderHUD();
  const popup=tab!=='map'&&tab!=='combat'||tab==='map'&&(showWorldIndex||showResourceInfo);
- const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
+ const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
  if(popup){
   $('main').innerHTML=mapView();
   $('game-modal-title').textContent=showResourceInfo&&tab==='map'?'💰 Tài nguyên & kho':showWorldIndex&&tab==='map'?'📍 Danh sách điểm đến':tabs.find(x=>x[0]===tab)?.[1]||'Quản lý';
@@ -396,6 +454,9 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(action==='stack'){movementModeId=null;markBattleInput();E.battleSelect(state,target.dataset.id);return}
   if(action==='move-mode'){if(movementModeId){movementModeId=null;return}const unit=state.battle?.allies.find(u=>u.id===state.battle.selected&&u.pool>0);if(!unit)throw Error('Hãy chọn một đội quân còn sống để di chuyển.');movementModeId=unit.id;markBattleInput();return}
  if(action==='formation'){E.setFormation(state,Array.from({length:7},(_,i)=>({unitId:$('formation_unit_'+i).value,count:Number($('formation_count_'+i).value)})));toast('Đội hình đã lưu.');return}
+ if(action==='tower-team'){const ids=Array.from({length:3},(_,i)=>Number($('hg20_tower_'+i).value)).filter(x=>x>0);E.hg20ChooseTowerTeam(state,ids);toast('Đã chọn '+ids.length+' tướng leo tháp.');return}
+ if(action==='tower-climb'){const r=E.hg20TowerClimb(state);toast(r.outcome==='win'?'Thắng tầng '+r.floor+' · tinh hoa +'+r.rewardEssence:'Lực chiến chưa đủ, hãy tuyển quân hoặc thăng hoa!');return}
+ if(action==='tower-upgrade'){E.hg20TowerUpgrade(state);toast('Đã tăng sức mạnh đội Bí Cảnh.');return}
  if(action==='autoformation'){const plan=E.autoFormation(state);toast(`Đã bố trí ${format(plan.totalUnits)} quân · ${format(plan.points)}/${format(plan.limit)} sức chứa.`);return}
  if(action==='findnpc'){selectNearestNpc(E.heroTaskStatus(state).active?.stars||1);return}
  if(action==='auto'){state.battleAuto=!state.battleAuto;if(state.battle)state.battle.autoUntil=Date.now()+(state.battleAuto?BATTLE_AUTO_TURN_DELAY_MS:BATTLE_AUTO_DELAY_MS);return}
@@ -404,7 +465,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='research'){E.researchTechnology(state,target.dataset.id);return}
  if(action==='heropoint'){E.allocateHeroPoint(state,Number(target.dataset.id),target.dataset.stat);return}
  if(action==='recruit'){const id=target.dataset.id,qty=Number($('q_'+id).value);E.recruit(state,id,qty);toast('Đã thêm hàng đợi tuyển quân.');return}
- if(action==='march'){E.startMarch(state,selected,target.dataset.kind==='treasure'?'treasure':undefined);toast('Tướng đã xuất chinh.');return}
+ if(action==='march'){const commander=state.heroes.find(h=>h.id===state.activeHero),count=state.formation?.reduce((n,g)=>n+g.count,0)||0;if(!count)throw Error('Hãy vào Quân đội, chọn tướng và phân quân trước khi xuất chinh.');E.startMarch(state,selected,target.dataset.kind==='treasure'?'treasure':undefined);toast((commander?.name||'Tướng')+' xuất chinh cùng '+count+' quân.');return}
  if(action==='visit'){const result=E.visitWorldBuilding(state,target.dataset.key);toast(result.reward?'Đã nhận thưởng từ công trình.':'Hiệu ứng đã áp dụng cho tướng.');return}
   if(action==='recall'){const seconds=E.recallHero(state,Number(target.dataset.id));toast(seconds===true?'Tướng đã về thành.':`Tướng đang trở về trong ${Math.ceil(seconds/state.speed)} giây thực.`);return}
   if(action==='save-combat'){$('save').click();return}

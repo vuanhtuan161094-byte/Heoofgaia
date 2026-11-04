@@ -242,7 +242,7 @@ function towerUpgrade(s){
 function castleStatus(s){ensure(s);return {unlocked:s.hg20.collection.citadel,
  name:'Thiên Ngoại Bí Thành',description:'Thành sưu tầm: mở sau tầng 25; nâng sức mạnh đội tháp bằng tinh hoa, chưa là thành có bản đồ riêng.'};}
 function strict(s){return old.strict(s)&&valid(s)}
-function make(...args){return ensure(old.make(...args))}
+function make(...args){const s=ensure(old.make(...args));E.add(s,{gold:25000,wood:8000,ore:8000,sulfur:3000,crystal:3000});return s}
 function parse(text){const s=ensure(old.parse(text));if(!strict(s))throw Error('Save HG20 không hợp lệ');return s}
 function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG20 không hợp lệ');return old.serialize(s)}
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
