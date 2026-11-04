@@ -168,7 +168,7 @@ function mapTiles(){
  const races=['human','elf','orc','undead'];
  for(let i=0;i<EXTRA_CASTLES;i++){
   const t=candidates[i];t.kind='castle';t.race=races[(i+Math.floor(t.x/8)+Math.floor(t.y/9))%4];
-  t.level=Math.min(5,1+Math.floor((t.x+t.y)/45));t.value=`Thành biên ${String(i+1).padStart(2,'0')}`;
+  t.level=i===1?1:Math.min(5,1+Math.floor((t.x+t.y)/45));t.value=`Thành biên ${String(i+1).padStart(2,'0')}`;
   t.aiOwner=i%3!==0;t.source='MODELED_OFFLINE_CITY';t.terrain='plain';
  }
  return tiles;
