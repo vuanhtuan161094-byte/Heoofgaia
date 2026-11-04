@@ -266,7 +266,7 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1){
  if(!profile||!visual||typeof document==='undefined')return false;
  const image=document.getElementById(profile.id);
  if(!image?.complete||!image.naturalWidth)return false;
- const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,92,134);
+ const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,64,134);
  c.save();c.globalAlpha*=clamp((visual.alpha??1)*pose.alpha,0,1);
  c.translate(x,y);if(enemy)c.scale(-1,1);
  c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
@@ -305,10 +305,10 @@ function motionImpactFx(c,camera,b,elapsed){
  }
 }
 function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>animatedUnitId(u.unitId))}
-function animatedSoldier(c,x,y,enemy,visual){
+function animatedSoldier(c,x,y,enemy,visual,k=1){
  if(typeof document==='undefined'||!visual)return false;const frame=animationFrame(visual.action,visual.time,visual.duration),image=document.getElementById(frame.id);
  if(!image?.complete||!image.naturalWidth)return false;
- const size=112;c.save();c.globalAlpha*=visual.alpha;c.translate(x,y);if(enemy)c.scale(-1,1);
+ const size=clamp(112*k,64,125);c.save();c.globalAlpha*=visual.alpha;c.translate(x,y);if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-size*148/256,-size*216/256,size,size);c.restore();return true;
 }
 // HG14.2: Heroes of Gaia 2009-style continuous scenic ground, no raised board.
@@ -362,7 +362,7 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
   human_1:'battle-unit-human-spear'
  };
  const spriteKey=spriteIds[unitId]||(!unitId?named[unitName]:null);
- const size=clamp(113*k,92,125);
+ const size=clamp(113*k,64,125);
  if(spriteKey&&typeof document!=='undefined'){
   const sprite=document.getElementById(spriteKey);
   if(sprite?.complete&&sprite.naturalWidth>0){
@@ -385,6 +385,10 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
  else{line(c,-r*.16,-r*.72,r*.15,r*.13,5,'#e4d4a3');poly(c,[[-r*.33,-r*.81],[-r*.11,-r*1.22],[r*.05,-r*.88]],'#c5d9df','#8a9eaf')}
  c.restore();return false;
 }
+// Consistent sprite sizes on desktop and compact mobile landscape battle scenes.
+function battleSpriteScale(height,row,rows=9){
+ return clamp(.84+row/rows*.19,.84,1.06)*clamp(height/510,.65,1);
+}
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
  if(field?.complete&&field.naturalWidth){
@@ -406,13 +410,13 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  }
  const units=[...b.allies,...b.enemies].sort((a,b)=>camera.point(a.x+.5,a.y+.5).y-camera.point(b.x+.5,b.y+.5).y||a.x-b.x);
  for(const u of units){
-  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.5),x=p.x,y=p.y,k=clamp(.84+position.y/grid.rows*.19,.84,1.06);
-  if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual);else motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)}continue}
+  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.5),x=p.x,y=p.y,k=battleSpriteScale(h,position.y,grid.rows);
+  if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual,k);else motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
-  const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual):motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
-  const nameTop=illustrated?108*k:74*k,hpTop=nameTop-17*k,labelWidth=clamp(u.name.length*7+20,76,130);
+  const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual,k):motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+  const nameTop=(illustrated?104:74)*k+7,hpTop=nameTop-22,labelWidth=clamp(u.name.length*7+20,76,130);
   rounded(c,x-labelWidth/2,y-nameTop,labelWidth,18,4,u.side==='enemy'?'#422c30e6':'#233e4ae6');
   text(c,u.name,x,y-nameTop+13,11,'#f8e6c5');
   rounded(c,x-28,y-hpTop,56,10,3,'#132633ee');
@@ -426,7 +430,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 

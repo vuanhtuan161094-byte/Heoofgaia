@@ -31,3 +31,7 @@ These references guide **layout and visual composition**, not copying source art
 ## Remaining / next batch
 
 After visual approval, proceed with HG-14.3 Human Archer frame-by-frame animation; do not substitute single-master warps for true authored pose frames.
+
+## Responsive visual follow-up
+
+Review of the first HG-14.2 real Chromium captures revealed another visual issue in 960×540: troop sprites were too large relative to the short canvas, hiding the left troop label behind the turn badge and crowding the right labels. All existing animated/static troop render paths now use `battleSpriteScale(canvas.height, unit.y, grid.rows)`. The source identity remains unchanged. The HP/name gap is made consistent. This is a visual-only fix; mechanics and save format remain unchanged.

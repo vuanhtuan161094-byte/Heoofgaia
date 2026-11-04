@@ -1068,6 +1068,15 @@ test('HG09 expedition victory report keeps the originating hero and return snaps
  const corrupt=state();corrupt.battle=E.makeBattle(corrupt,target.key);corrupt.battle.woundedByUnit={human_1:999};assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/không hợp lệ/);
 });
 
+test('HG14.2 responsive unit sprites fit portrait-safe desktop and 960x540 landscape battle',()=>{
+ const desk=P.battleSpriteScale(515,2,9),mobile=P.battleSpriteScale(347,2,9);
+ assert(desk>.8&&desk<1.1);assert(mobile<desk*.75&&mobile>desk*.6);
+ assert(P.battleSpriteScale(347,8,9)>P.battleSpriteScale(347,0,9));
+ for(const h of [347,515,600]){
+  const k=P.battleSpriteScale(h,2,9);
+  assert(k>.5&&k<=1.1);assert(Math.max(64,113*k)<=125);
+ }
+});
 test('HG14.2 continuous meadow battle projection keeps both armies in readable left-right lanes',()=>{
  const g=E.BATTLE_GRID;
  const painterSource=fs.readFileSync(path.join(dir,'painter.js'),'utf8');
