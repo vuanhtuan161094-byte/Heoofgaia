@@ -1010,6 +1010,25 @@ test('HG10 transport waits without cargo loss for destination warehouse capacity
  const {s,city}=cityTransportFixture();city.local.res.gold=14950;E.startCityTransport(s,city.id,'human_1',1,{gold:100});s.cityTransports[0].remaining=.25;E.tick(s,s.lastTick+1000);assert.equal(s.cityTransports[0].phase,'holding');assert(E.cityForKey(s,city.key).local.res.gold>14950&&E.cityForKey(s,city.key).local.res.gold<15000);assert(E.strictSave(s));
  let saved=E.parseSave(E.serializeSave(s));E.switchCity(saved,city.id);saved.res.gold=E.limits(saved).gold-104;E.syncCityState(saved);E.tick(saved,saved.lastTick+1000);assert.equal(saved.cityTransports[0].phase,'return');assert(saved.res.gold>14989&&saved.res.gold<=15000);assert(E.strictSave(saved));
 });
+test('HG10 offline elapsed time completes convoy outbound and return in one tick without double delivery',()=>{
+ const {s,city}=cityTransportFixture(),initialGold=s.res.gold,initialTroops=s.army.human_1;
+ const trip=E.startCityTransport(s,city.id,'human_1',1,{gold:100,wood:20});
+ const now=s.lastTick+Math.ceil((trip.total*2+60)/s.speed)*1000;
+ E.tick(s,now);
+ assert.equal(s.cityTransports.length,0,'both transport legs should finish during offline catch-up');
+ assert.equal(s.army.human_1,initialTroops,'carriers should return within the same tick');
+ const destination=E.cityForKey(s,city.key);
+ assert(destination.local.res.gold>=100&&destination.local.res.wood>=20,'cargo delivered to destination');
+ const receivedGold=destination.local.res.gold,receivedWood=destination.local.res.wood;
+ E.tick(s,now);
+ assert.equal(E.cityForKey(s,city.key).local.res.gold,receivedGold);
+ assert.equal(E.cityForKey(s,city.key).local.res.wood,receivedWood);
+ assert(s.res.gold>=initialGold-100,'origin only spends cargo, aside from normal production');
+ const loaded=E.parseSave(E.serializeSave(s));
+ assert.equal(loaded.cityTransports.length,0);
+ assert.equal(loaded.army.human_1,initialTroops);
+ assert(E.strictSave(loaded));
+});
 test('HG10 legacy v07 transport field migrates empty and malformed convoy saves are rejected',()=>{
  const legacy=state();delete legacy.cityTransports;const migrated=E.parseSave(JSON.stringify(legacy));assert.deepEqual(Array.from(migrated.cityTransports),[]);assert(E.strictSave(migrated));
  const {s,city}=cityTransportFixture();E.startCityTransport(s,city.id,'human_1',1,{gold:100});const raw=JSON.parse(E.serializeSave(s));raw.state.cityTransports[0].resources.gold=-1;assert.throws(()=>E.parseSave(JSON.stringify(raw)),/Save HG-10/);
