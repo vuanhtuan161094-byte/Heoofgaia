@@ -312,30 +312,71 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1){
  }
  c.restore();return true;
 }
-function motionImpactFx(c,camera,b,elapsed){
- if(elapsed<0||elapsed>800)return;
- for(const event of b.lastEvents||[]){
-  if(!(event.damage>0)||!event.targetId)continue;
-  const attacker=[...b.allies,...b.enemies].find(u=>u.id===event.actorId);
-  const victim=[...b.allies,...b.enemies].find(u=>u.id===event.targetId);
-  if(!attacker||!victim||!MOTION_SPRITES[attacker.unitId])continue;
-  const accent=MOTION_SPRITES[attacker.unitId].accent;
-  const start=camera.point(event.to.x+.5,event.to.y+.5),end=camera.point(victim.x+.5,victim.y+.5);
-  const travel=clamp((elapsed-115)/285,0,1),fade=1-clamp((elapsed-420)/270,0,1);
-  c.save();c.globalAlpha=clamp(fade,0,1);c.strokeStyle=accent;c.lineWidth=3;
-  if(attacker.range>1){
-   const px=start.x+(end.x-start.x)*travel,py=start.y+(end.y-start.y)*travel;
-   const dir=Math.atan2(end.y-start.y,end.x-start.x);
-   c.translate(px,py);c.rotate(dir);c.beginPath();c.moveTo(-15,0);c.lineTo(10,0);c.stroke();
-   c.beginPath();c.moveTo(10,0);c.lineTo(3,-5);c.moveTo(10,0);c.lineTo(3,5);c.stroke();
-  }else if(elapsed>185&&elapsed<560){
-   c.beginPath();c.arc(end.x,end.y-11,20+(elapsed-185)*.04,-1.05,1.4);c.stroke();
+// HG14.5: exact receipt-driven visuals, never speculative or backend-mutating.
+function battleFxPlan(b,camera,elapsed,layout){
+ const byId=new Map(layout.map(e=>[e.id,e]));
+ return (b.lastEvents||[]).flatMap((event,index)=>{
+  if(!(event.damage>0)||!event.targetId)return [];
+  const actor=byId.get(event.actorId),target=byId.get(event.targetId);
+  if(!actor||!target)return [];
+  const time=elapsed-Math.min(index,7)*62;
+  if(time<0||time>960)return [];
+  const origin=camera.point(event.to.x+.5,event.to.y+.5);
+  return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
+   casualties:event.casualties||0,death:!!event.death,ranged:actor.u.range>1,
+   side:actor.u.side,time,index,
+   start:{x:origin.x+actor.x-actor.baseX,y:origin.y+actor.y-actor.baseY-actor.size*.50},
+   end:{x:target.x,y:target.y-target.size*.52}}];
+ });
+}
+function motionImpactFx(c,camera,b,elapsed,layout){
+ const effects=battleFxPlan(b,camera,elapsed,layout);
+ for(const fx of effects){
+  const t=fx.time,bright=fx.side==='player'?'#ffe3a1':'#ff9e91';
+  c.save();
+  if(fx.ranged&&t>=65&&t<=510){
+   const travel=clamp((t-65)/445,0,1);
+   const x=fx.start.x+(fx.end.x-fx.start.x)*travel;
+   const y=fx.start.y+(fx.end.y-fx.start.y)*travel-19*Math.sin(Math.PI*travel);
+   const angle=Math.atan2(fx.end.y-fx.start.y,fx.end.x-fx.start.x);
+   c.translate(x,y);c.rotate(angle);c.globalAlpha=.95;
+   line(c,-22,0,9,0,3,bright);
+   line(c,9,0,1,-5,1.7,'#f9f6e0');line(c,9,0,1,5,1.7,'#f9f6e0');
+   line(c,-22,0,-30,0,1.5,fx.side==='player'?'#f5d698':'#e99b93');
+  }else if(!fx.ranged&&t>=130&&t<=480){
+   const fade=1-clamp((t-130)/350,0,1);
+   c.globalAlpha=.9*fade;c.strokeStyle=bright;c.lineWidth=3;
+   c.beginPath();c.arc(fx.end.x,fx.end.y,27+(t-130)*.04,-1.6,1.1);c.stroke();
+   c.beginPath();c.arc(fx.end.x+3,fx.end.y-3,19+(t-130)*.035,-1.4,.9);c.stroke();
   }
-  if(elapsed>350&&elapsed<740){
-   const t=(elapsed-350)/390;c.globalAlpha*=1-t;c.beginPath();c.arc(end.x,end.y,5+19*t,0,TAU);c.stroke();
+  if(t>=300&&t<=660){
+   const scale=clamp((t-300)/360,0,1);
+   c.globalAlpha=(1-scale)*.85;
+   c.strokeStyle=fx.side==='player'?'#ffecba':'#ffad9c';c.lineWidth=2.5;
+   c.beginPath();c.arc(fx.end.x,fx.end.y,8+24*scale,0,TAU);c.stroke();
+  }
+  if(t>=260&&t<=960){
+   const age=(t-260)/700,x=fx.end.x+(fx.side==='player'?-26:24),
+    y=fx.end.y-28-43*age;
+   c.globalAlpha=clamp((960-t)/280,0,1);
+   c.font='bold 17px sans-serif';c.textAlign='center';c.textBaseline='middle';
+   c.lineWidth=3;c.strokeStyle='#1a191b';
+   c.strokeText('-'+Math.round(fx.damage),x,y);
+   c.fillStyle=fx.side==='player'?'#ffe4a1':'#ffaea2';
+   c.fillText('-'+Math.round(fx.damage),x,y);
+   if(fx.casualties>0){c.font='bold 11px sans-serif';c.fillStyle='#fff1dc';
+    c.strokeText('-'+fx.casualties+' quân',x,y+16);c.fillText('-'+fx.casualties+' quân',x,y+16);}
+  }
+  if(fx.death&&t>=500&&t<=960){
+   c.globalAlpha=clamp((960-t)/350,0,1);
+   c.font='bold 22px sans-serif';c.textAlign='center';
+   c.strokeStyle='#202128';c.lineWidth=4;
+   c.strokeText('✖',fx.end.x,fx.end.y-50);
+   c.fillStyle='#ffd0b3';c.fillText('✖',fx.end.x,fx.end.y-50);
   }
   c.restore();
  }
+ return effects.length;
 }
 function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>animatedUnitId(u.unitId))}
 function animatedSoldier(c,x,y,enemy,visual,k=1){
@@ -565,12 +606,12 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
   text(c,'×'+u.count,x+40,y-9,12,'#fff0ca');
  }
- motionImpactFx(c,camera,b,elapsed);
+ motionImpactFx(c,camera,b,elapsed,units);
  if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
  rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleUnitLayout,battleRectOverlap,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleFxPlan,battleUnitLayout,battleRectOverlap,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 
