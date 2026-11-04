@@ -111,6 +111,53 @@ check('Single real Boss victory shares hero EXP, pays loot once, returns one com
  assert(E.strictSave(saved(round)));
  return {turns:n,heroesWithXp:3,report:round.hg26.last.reportId,armyReturned:round.army.human_1};
 });
+check('Three commander spells buff only their own two stacks in the same Boss fight',()=>{
+ const x=setup(),s=x.s;takeoff(x);arrive(s);
+ s.heroMagic.leadership=10;
+ s.heroes[1].equippedSpells=['leadership']; // second hero casts
+ const before=s.battle.allies.map(u=>u.atk);
+ const cast=E.hg21TowerCast(s,2,'leadership');
+ assert.deepEqual(Array.from(cast.targets),['p2','p3']);
+ assert.equal(s.battle.allies[0].atk,before[0]);
+ assert.equal(s.battle.allies[1].atk,before[1]);
+ assert(s.battle.allies[2].atk>before[2]);
+ assert(s.battle.allies[3].atk>before[3]);
+ assert.equal(s.battle.allies[4].atk,before[4]);
+ assert.equal(s.battle.allies[5].atk,before[5]);
+ assert.throws(()=>E.hg21TowerCast(s,2,'leadership'),/một phép/);
+ assert(E.strictSave(saved(s)));
+ return {caster:2,affected:cast.targets,otherHeroesUnaffected:true};
+});
+check('Two consecutive Boss battles keep the SAME three commanders and exactly two canonical reports',()=>{
+ const x=setup('elf'),s=x.s;
+ for(const h of s.heroes){h.atk=250000;h.def=250000;h.spd=100} // synthetic high-tier combat fixture
+ E.hg26Start(s,cfg(x,{maxRuns:2}));
+ for(let i=0;i<2;i++){
+  const sent=E.hg26Step(s);assert.equal(sent.type,'dispatched');assert.equal(sent.stacks,6);
+  const live=arrive(s);assert.equal(live.hg261Joint.team.length,3);
+  const outcome=fight(s);assert.equal(outcome.out.type,'win');
+  assert.equal(s.hg26.runs,i+1);
+  assert.equal(s.hg24.bossWins,i+1);
+  assert.equal(s.battleReports.length,i+1);
+  assert.equal(new Set(s.battleReports.map(r=>r.id)).size,i+1);
+  E.tick(s,s.lastTick+Math.ceil((s.march.remaining+2)/s.speed*1000));
+  assert.equal(E.hg26Step(s).type,'home');
+  assert.equal(E.hg26Step(s).type,i===0?'refilled':'stopped');
+  assert(E.strictSave(saved(s)));
+ }
+ return {heroes:3,stacksPerHero:2,bossWins:2,reportCount:s.battleReports.length,apTrips:2};
+});
+check('Crossing casualty threshold stops before next turn even with three heroes present (fixture)',()=>{
+ const x=setup('orc'),s=x.s;E.hg26Start(s,cfg(x,{maxLossPercent:20}));
+ E.hg26Step(s);arrive(s);
+ const u=s.battle.allies[2];u.count=1;u.pool=u.hp; // combat attrition fixture only
+ const before=s.battle.turn,reportCount=s.battleReports.length;
+ const stopped=E.hg26Step(s);
+ assert.equal(stopped.type,'stopped');assert.equal(s.hg26.enabled,false);
+ assert.equal(s.battle.turn,before);assert.equal(s.battleReports.length,reportCount);
+ assert(s.battle.hg26NeedsManual);
+ return {liveHeroes:3,manual:true,extraTurns:0};
+});
 check('Refuse same soldier being reserved for two heroes; reject >2 stacks and >3 leaders',()=>{
  const x=setup(),s=x.s;
  assert.throws(()=>E.hg26Start(s,cfg(x,{team:[{heroId:1,slots:[0,1,2]}]})),/2 slot|1 hoặc 2/);
