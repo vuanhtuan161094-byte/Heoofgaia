@@ -205,7 +205,22 @@ function teamPower(s,ids=s.hg20.tower.team){
  return {power:Math.floor(power*(1+s.hg20.tower.rank*.18)),groups,units};
 }
 function monster(floor){return ENEMIES[(Math.floor((floor-1)/10))%ENEMIES.length]}
-function enemyPower(floor){return Math.floor((700+floor*950)*(1+Math.floor((floor-1)/25)*.18))}
+function enemyPower(floor){return Math.min(Number.MAX_SAFE_INTEGER,Math.floor((700+floor*950)*(1+Math.floor((floor-1)/25)*.18)))}
+function matchup(s,ids,enemy){
+ let front=0,back=0,knowledge=0,special=0;
+ for(const id of ids){
+  knowledge+=E.heroStats(s,id)?.int||0;
+  for(const g of plan(s,id)){const unit=E.getUnit(s,g.unitId);if(!unit)continue;
+   if(unit.type==='Ranged')back+=g.count;else front+=g.count;
+   if(unit.towerExclusive)special+=g.count;
+  }
+ }
+ const total=Math.max(1,front+back);
+ return enemy.trait==='Giáp cứng'?1+Math.min(.3,back/total*.3):
+  enemy.trait==='Bạo kích'?1+Math.min(.3,front/total*.3):
+  enemy.trait==='Phép thuật'?1+Math.min(.3,knowledge/400):
+  1+Math.min(.3,special/total*.3);
+}
 function towerStatus(s){ensure(s);const t=s.hg20.tower,enemy=monster(t.floor);
  return {floor:t.floor,enemy:enemy.name,trait:enemy.trait,enemyPower:enemyPower(t.floor),
   claims:t.claims,rewardLeft:Math.max(0,5-t.claims),team:t.team.slice(),
@@ -218,6 +233,7 @@ function towerClimb(s){
  if(s.march||s.battle||s.expedition||s.parallelMarches?.length)throw Error('Đang có đội quân ra ngoài; hãy hoàn tất trận rồi leo tháp');
  if(t.team.length<1||t.team.length>3)throw Error('Chọn 1–3 tướng vào tổ đội tháp');
  const ready=teamPower(s),floor=t.floor,enemy=monster(floor),strength=enemyPower(floor);
+ ready.power=Math.min(Number.MAX_SAFE_INTEGER,Math.floor(ready.power*matchup(s,t.team,enemy)));
  const won=ready.power>=strength;
  const rewardGold=won&&t.claims<5?Math.min(1e8,2500+floor*900):0;
  const rewardEssence=won&&t.claims<5?Math.min(1000000,2+Math.floor(floor/4)):0;
@@ -281,12 +297,40 @@ function heroStats(s,id=s.activeHero){
  }
  return stats;
 }
+function appoint(s,id){
+ ensure(s);const result=old.appoint(s,id);
+ if(s.castellan===id){
+  delete s.hg20.plans[key(s.activeCityId||'main',id)];
+  if(s.activeHero===id)s.formation=[];
+ }
+ return result;
+}
+function battleAct(s,action,opts){
+ const before=s.battle?{key:s.battle.target,kind:s.battle.kind,level:s.battle.level}:null;
+ const result=old.battleAct(s,action,opts);
+ if(result?.type!=='win'||!before)return result;
+ ensure(s);
+ if(before.kind==='castle'&&before.key===PRIVATE_CASTLE.key&&s.cities.some(q=>q.key===before.key)&&
+   s.hg20.collection.specialCityKey!==before.key){
+  s.hg20.collection.specialCityKey=before.key;
+  s.hg20.tower.essence=Math.min(1e12,s.hg20.tower.essence+30);
+  E.note(s,'Đã chiếm Thành Huyền Tích: sản lượng toàn lãnh địa +50% và +30 tinh hoa.');
+ }
+ if(before.kind==='npc'&&before.level>=9){
+  s.hg20.collection.sovereignWins++;
+  if(s.hg20.collection.sovereignWins%3===0){
+   s.hg20.tower.essence=Math.min(1e12,s.hg20.tower.essence+8);
+   E.note(s,'Thưởng săn Boss: +8 tinh hoa Bí Cảnh (mỗi 3 trận thắng).');
+  }
+ }
+ return result;
+}
 function strict(s){return old.strict(s)&&valid(s)}
 function make(...args){const s=ensure(old.make(...args));E.add(s,{gold:25000,wood:8000,ore:8000,sulfur:3000,crystal:3000});return s}
 function parse(text){const s=ensure(old.parse(text));if(!strict(s))throw Error('Save HG20 không hợp lệ');return s}
 function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG20 không hợp lệ');return old.serialize(s)}
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
- setFormation,selectHero,switchCity,autoFormation,startMarch,heroStats,
+ setFormation,selectHero,switchCity,autoFormation,startMarch,heroStats,appoint,battleAct,
  hg20Ensure:ensure,hg20HeroPlan:plan,hg20HeroRole:role,hg20Reservations:reservations,
  hg20SetHeroPlan:setPlan,hg20ChooseTowerTeam:chooseTowerTeam,
  hg20TowerStatus:towerStatus,hg20TowerClimb:towerClimb,hg20TowerUpgrade:towerUpgrade,
