@@ -1,7 +1,7 @@
 """HG14.5 file:// Chromium QA: grid/HP toggles, live receipts, effects, Save/Reload."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-import json,hashlib,sys
+import json,hashlib,sys,base64
 if hasattr(sys.stdout,"reconfigure"):sys.stdout.reconfigure(encoding="utf8")
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/"Play-Heoofgaia-HG11.html"
@@ -87,7 +87,7 @@ with sync_playwright() as pw:
    P.drawBattle(c,E,s,stamp+600,{showGrid:true,showHP:true});
    const camera=P.battleProjection(c,E),layout=P.battleUnitLayout(b,camera,c.width,c.height),
      effects=P.battleFxPlan(b,camera,600,layout);
-   return {outcome:act.type,
+   return {outcome:act.type,effectFrame:c.toDataURL('image/png').split(',')[1],
      receipts:b.lastEvents.filter(e=>e.damage>0&&e.targetId).map(e=>({
        actorId:e.actorId,targetId:e.targetId,damage:e.damage,
        casualties:e.casualties,death:e.death})),
@@ -96,6 +96,11 @@ with sync_playwright() as pw:
      drawn:strings,stable:JSON.stringify(E.clone(s))===before,strict:E.strictSave(s)};
   }finally{ctx.fillText=origFill;ctx.strokeText=origStroke}
  }""")
+ frame=base64.b64decode(fx.pop("effectFrame"))
+ frame_path=OUT/"actual-receipt-FX-frame-600ms.png"
+ frame_path.write_bytes(frame)
+ screens.append(str(frame_path.relative_to(ROOT)))
+ check("Captured true 600ms damage and death frame",frame[:8]==b"\x89PNG\r\n\x1a\n")
  check("Actual engine turn generated nonzero damage receipts",fx["outcome"]=="continue" and len(fx["receipts"])>0)
  check("Each visual effect preserves exact damage and death receipt",
    len(fx["effects"])==len(fx["receipts"]) and all(
