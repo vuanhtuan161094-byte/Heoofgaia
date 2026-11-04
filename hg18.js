@@ -92,7 +92,7 @@ function valid(s){
   if(!p||typeof p.key!=='string'||!/^\d{4}-\d{2}-\d{2}$/.test(p.key)||!p.counts||typeof p.counts!=='object'||Array.isArray(p.counts)||!Array.isArray(p.claimed))return false;
   if(Object.keys(p.counts).some(k=>!['builds','trained','npcWins','mineWins','eliteWins'].includes(k))||
      ['builds','trained','npcWins','mineWins','eliteWins'].some(key=>!integer(p.counts[key],1e9)))return false;
-  const known=TASKS[k].map(t=>t.id);
+  const known=TASKS[k==='day'?'daily':'weekly'].map(t=>t.id);
   if(new Set(p.claimed).size!==p.claimed.length||p.claimed.some(id=>!known.includes(id)))return false;
  }
  if(!Array.isArray(s.inventory)||s.inventory.some(i=>!E.ITEMS[i?.itemId]||!integer(i.enhance||0,10)))return false;
