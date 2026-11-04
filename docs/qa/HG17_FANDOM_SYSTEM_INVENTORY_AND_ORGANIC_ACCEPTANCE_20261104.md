@@ -1,0 +1,52 @@
+# HG17 — Heroes of Gaia Fandom system inventory and playable-core reconciliation
+Date: 2026-11-04
+Game: `vuanhtuan161094-byte/Heoofgaia`, branch `feature/hog1-research-to-playable-20261102`
+Purpose: contrast indexed Heroes of Gaia Fandom reference material with **actual repository gameplay**, then execute an unseeded New Game to second-castle proof.
+
+## Coverage and provenance
+
+The Fandom home page advertises **608 articles**. Its direct site and full category traversal are blocked to automated retrieval (robots restrictions), so this **is not a claim of having read all 608 pages**. The pages below were retrieved through independently indexed public search results, and the scope of the comparison is the **playable core plus major category map**, not every equipment listing or historical event. Treat Fandom as a living fan wiki with mixed 2009–2010 patches, not a single canonical 2009 server specification.
+
+Main index: https://heroesofgaia.fandom.com/wiki/Heroes_of_Gaia_Wiki
+
+## Site taxonomy to reconcile
+
+| Fandom topic cluster (from home index) | Source entry points | Game system / code | Status | Next action |
+| --- | --- | --- | --- | --- |
+| Beginner progression | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [Tips & Tricks](https://heroesofgaia.fandom.com/wiki/Tips_%26_Tricks) | `engine.make`, `hg05`, `hg08`, `hg10`, `app.js` | PARTIAL -> HG17 organic QA | Prove starting stock → market → research → soldiers → mine → earned Fame → second city |
+| Main castles, production | [Castles](https://heroesofgaia.fandom.com/wiki/Castles) | `engine.rate`, `hg10.cityLimit` | BASIC PASS | Five basic hourly resources exactly gold160, wood12, ore12, sulfur6, crystal6; six city copies |
+| Fame/ranks | [Ranks](https://heroesofgaia.fandom.com/wiki/Ranks), [Castles](https://heroesofgaia.fandom.com/wiki/Castles) | `hg08.FAME_AP`, `hg10.CITY_LIMITS` | PARTIAL | **Discrepancy:** Fandom second city requires **22,000 Fame**, this offline game uses **5,800** to shorten solo progression; label model, do not silently claim 2009 parity |
+| Economic buildings | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [Orc](https://heroesofgaia.fandom.com/wiki/Orc), [Undead](https://heroesofgaia.fandom.com/wiki/Undead) | `data.buildings`, `engine.buildCost/limits`, `hg05.upgrade` | CORE PASS / PRICING MODELED | One real paid build queue per city, max Lv10, warehouse caps |
+| Training / 40 troops | [Units](https://heroesofgaia.fandom.com/wiki/Units), [Orc Barracks](https://heroesofgaia.fandom.com/wiki/Orc_Barracks) | `data.units`, `hg08.unitPrerequisites/recruit` | CORE PASS / RACE GATES PARTIAL | Four races × ten tiers. Additional T11/T12 in later expansion are special NPC, not required as recruitable player units |
+| Heroes / attributes | [Heroes](https://heroesofgaia.fandom.com/wiki/Heroes), [Hero attributes](https://heroesofgaia.fandom.com/wiki/Hero_attributes) | `hg08.grantHeroExperience`, `hg07.checkCapacity`, `hg04.heroStats` | CORE PASS | Hero +1% ATK per point, hero DEF denominator, hero speed additive 0.02 per point; equipped bonus model |
+| Tavern / Castellan | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [Heroes](https://heroesofgaia.fandom.com/wiki/Heroes) | `hg06`, `hg08.hireCandidate`, `engine.appoint` | CORE PASS / PRICES MODELED | Second hero and Castellan are early recommended, but first-game player can act without hiring in QA |
+| Spells / research | [Elf](https://heroesofgaia.fandom.com/wiki/Elf), [Undead](https://heroesofgaia.fandom.com/wiki/Undead), [Orc](https://heroesofgaia.fandom.com/wiki/Orc) | `data.spells`, `hg08.researchSpell`, `hg04.cast` | CORE PASS / SPELL SCOPE PARTIAL | Early forestry/mining/refining/polishing should boost production. Research Magic Tower first |
+| Resource piles / mines | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [Mines](https://heroesofgaia.fandom.com/wiki/Mines) | `engine.TILES/startMarch/battleAct/rate`, `hg08.mineLimit` | PASS PROTOTYPE | Mine capture is a paid guarded battle, owned mine production credited once, no duplicate ownership |
+| World buildings / daily rewards | [World Buildings](https://heroesofgaia.fandom.com/wiki/World_Buildings) | `hg10.visitWorldBuilding`, `WORLD_BUILDINGS` | PARTIAL | Water Wheel +2000 gold, Windmill +400 wood/ore or +200 sulfur/crystal daily, 10 AP and 24h reset. Babel resources, portals are not implemented |
+| Basic combat / damage | [Combat mechanics](https://heroesofgaia.fandom.com/wiki/Combat_mechanics), [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide) | `engine.strike`, `hg04`, `hg10`, `qa-hg16-g4-stress.cjs` | CORE PASS TECHNICAL | `ATK²/(ATK+DEF)`, count, Hero factors, spell/item buffs, 30% floor model, physical HP damage receipts |
+| Formation / wounds / Arena | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [Units](https://heroesofgaia.fandom.com/wiki/Units) | `engine.battleAct/casualty`, `hg08.heal` | CORE PASS TECHNICAL | 7 groups/hero, wounds ~75%, paid healing, no army duplication |
+| World action points / travel | [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide), [World Buildings](https://heroesofgaia.fandom.com/wiki/World_Buildings) | `engine.pathfind/marchDuration`, `hg08.FAME_AP` | BASIC PASS / TRAVEL COEFFICIENTS MODELED | 6 AP mine, 8 AP NPC/castle, 10 AP world building; Dijkstra terrain map weights are offline balance |
+| Hero tasks | [Hero Tasks](https://heroesofgaia.fandom.com/wiki/Hero_Tasks) | `hg10.heroTaskStatus/claimHeroTask` | PARTIAL | 20 daily tasks XP 1200→3100, sum 43k verified, not full random original objectives |
+| Daily/main tasks | [Undead](https://heroesofgaia.fandom.com/wiki/Undead), [Elf](https://heroesofgaia.fandom.com/wiki/Elf) | `hg10.dailyTasks`, `hg04.QUESTS`, `hg10.CHINA_2009_DAILY_TASKS` | PARTIAL | Different versions disagree on objectives; China 2009 stage reset stays separate |
+| Equipment / six outfit classes | [Wiki index](https://heroesofgaia.fandom.com/wiki/Heroes_of_Gaia_Wiki), [Units](https://heroesofgaia.fandom.com/wiki/Units) | `hg04.ITEMS` | PARTIAL | Current six sample items in three slots. Full Fandom gear database not implemented |
+| AI NPC / monsters / treasure / bosses | [World Buildings](https://heroesofgaia.fandom.com/wiki/World_Buildings) | `engine.NPC_CAMPS_2009`, `hg10.aiCities` | PARTIAL | 60 castles, 36 defensive AI, 128 NPC and 76 treasure entries; AI offense/bosses absent |
+| Guilds, PvP, Honor points, Blood Fort | [Guild](https://heroesofgaia.fandom.com/wiki/Guild), [Heroes of Gaia](https://heroesofgaia.fandom.com/wiki/Heroes_of_Gaia) | no equivalent online server | OUT OF OFFLINE SCOPE | Do not implement before core organic game-loop acceptance |
+| Expansion Babel / later castles, siege durability | [Castles](https://heroesofgaia.fandom.com/wiki/Castles), [World Buildings](https://heroesofgaia.fandom.com/wiki/World_Buildings) | neutral single-capture and offline AI | PARTIAL MODEL | Fandom says neutral NPC castles may be taken in one win; durability/siege applies to player-owned cities and is multiplayer-era |
+
+## Source reconciliation: concrete pitfalls
+
+1. **Castle Fame:** Fandom [Castles](https://heroesofgaia.fandom.com/wiki/Castles) lists castle slots at Fame 0 / 22,000 / 80,000 / 300,000 / 700,000 / 1,000,000. Current HG10 0 / 5,800 / 80,000 / 300,000 / 700,000 / 1,000,000. A single exact source table does **not** support 5,800; offline player-friendly first expansion is a documented balance override.
+2. **Progression Fame P0:** Fandom [Newbie Guide](https://heroesofgaia.fandom.com/wiki/Newbie_Guide) says building/upgrading produces a major share of Fame, whereas baseline Hẻoofgaia awarded no Fame for completing buildings/research/army training. HG17 credits paid, completed jobs using conservative modeled factors **20% construction**, **8% research**, **4% training** of resource gold-equivalent value. No Fame on queue insertion; Save/Load must not pay twice.
+3. **Resource generation:** Fandom [Castles](https://heroesofgaia.fandom.com/wiki/Castles) supports gold 160/h, wood & ore 12/h, sulfur & crystal 6/h. These remain unchanged; captured mines and spells add to production.
+4. **Unit strength:** Fandom [Units](https://heroesofgaia.fandom.com/wiki/Units) and 2009 Wikidot have edition/name conflicts (Orc Peon/Imp, Undead Phantom/Common Ghost, Elf Green Dragon DEF 109/199). Frozen data.js refers to dated Wikidot. Do not silently change troop table during New Game QA.
+5. **Original 2009 risks:** World player-castle capture may have durability and siege from later expansion, but [Castles](https://heroesofgaia.fandom.com/wiki/Castles) explicitly treats unowned NPC castles as one successful battle. Hẻoofgaia models the latter (no PvP).
+6. **Economy source sinks:** Newbie advises mines + resource technology + Warehouse + Market + daily Windmill/Water Wheel; no buying missing resources using gold in historical Market. Current Market implements sell-only. There is no need to add free resource generators to unblock legitimate New Game.
+7. **Military balance:** Newbie guide suggests a significantly stronger force for a second NPC castle than the offline game currently uses. An accelerated solo scenario may intentionally be easier, but must require **real troop production and actual tactical victory**, never a forced win.
+
+## HG17 end-to-end acceptance
+
+- Create game only through `E.make('human',timestamp,'international')`: 1 main castle, 1 hero, 16 starting infantry, gold 8,000, wood 900, ore 900, sulfur/crystal 350. This is the **actual gameplay starting kit**, not a QA grant.
+- Real `E.upgrade` paid Market, queue completion; `E.learn` forestry research; `E.recruit` infantry with verified costs and time; `E.startMarch` to 1-star mine; resolve actual battle; recall survivors to home; accrue Fame by paid economy/campaign activities; unlock city limit; fight one neutral castle; create second city; Save/Load v07 strict after each receipt.
+- All in-game time advances via `E.tick` with legitimate chosen 60× speed, never by mutating queue remaining, building levels, Fame, resources, AP, combat HP or enemy strength. Script records the steps in `docs/qa/hg17/organic-newgame-receipt.json`.
+- Browser test should separately verify intro race selection and New Game start, and GUI click on build/research/recruit actions without direct fixture injection.
+- If the unseeded loop fails, report the precise blocker and fix the governing engine rule before creating more gameplay systems.
