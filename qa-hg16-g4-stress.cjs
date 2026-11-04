@@ -8,7 +8,7 @@ const ctx=vm.createContext({console});
 for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js'])
  vm.runInContext(fs.readFileSync(path.join(__dirname,file),'utf8'),ctx,{filename:file});
 const E=ctx.HOG_ENGINE,C=ctx.HOG_CATALOG;
-const checks=[];let failures=0,encounters=0,fullBattles=0,sevenBySeven=0;
+const checks=[];let failures=0,encounters=0,fullBattles=0,sevenBySeven=0,maxLegalGroup=0;
 const races=['human','elf','orc','undead'],npc=E.TILES.find(t=>t.kind==='npc'),symbols=['gold','wood','ore','sulfur','crystal'];
 function check(label,run){
  try{const details=run();checks.push({label,status:'PASS',...(details||{})});console.log('PASS '+label,details?JSON.stringify(details):'');}
@@ -35,12 +35,13 @@ check('P0 overkill receipts report actual HP lost (damage, VFX, battle report)',
  assert(E.strictSave(E.parseSave(E.serializeSave(s))));
  return {rawAttack:'over 250',applied:250,reportCount:s.battleReports.length};
 });
-check('P0 1000 seeded complete encounters across all 40 units and actual 1..100000 troops',()=>{
+check('P0 1000 complete encounters under real Hero command-cap across all 40 units',()=>{
  const counts=[1,2,9,100,1000,10000,100000],heroMax=E.heroLimit(100);
  for(let i=0;i<1000;i++){
   const race=races[i%4],unit=C.units[race][Math.floor(i/4)%10],s=roundState(race);
   s.heroes[0].level=100;s.heroes[0].atk=8+(i*13)%120;s.heroes[0].def=0;
   const affordable=Math.floor(heroMax/E.unitValue(unit)),count=Math.max(1,Math.min(100000,affordable,counts[(i*13+Math.floor(i/40))%7]));
+  maxLegalGroup=Math.max(maxLegalGroup,count);
   s.army[unit.id]=count;E.setFormation(s,[{unitId:unit.id,count}]);
   const b=E.makeBattle(s,npc.key),p=b.allies[0];Object.assign(p,{x:9,y:4,spd:99});
   const defense=(i*7)%250,base=Math.max(unit.atk*.3,unit.atk*unit.atk/(unit.atk+defense));
@@ -68,7 +69,24 @@ check('P0 1000 seeded complete encounters across all 40 units and actual 1..1000
   }
   encounters++;fullBattles++;
  }
- return {fullBattles,unitCatalog:40,largeGroupMax:100000,checkpointReloadEvery:25};
+ return {fullBattles,unitCatalog:40,maxActuallyDeployed:maxLegalGroup,numericCandidateCap:100000,checkpointReloadEvery:25};
+});
+check('P0 synthetic 100000-soldier numeric edge never bypasses actual Hero command gate',()=>{
+ const s=roundState();s.heroes[0].level=100;s.army.human_1=100000;s.formation=[{unitId:'human_1',count:100000}];
+ assert.throws(()=>E.checkCapacity(s,s.formation),/Vượt giới hạn chỉ huy/,'Gameplay still rejects an unaffordable group');
+ // Synthetic battle is deliberately created without dispatch to measure
+ // numeric stability. It must never be described as a legal 100k deployment.
+ const b=E.makeBattle(s,npc.key),p=b.allies[0];p.x=9;p.y=4;p.spd=99;
+ const target={id:'e0',side:'enemy',unitId:null,name:'Large HP oracle',count:100000,initial:100000,
+  hp:100000,atk:0,def:10000,spd:1,pool:10000000000,range:1,x:10,y:4};
+ b.enemies=[target];s.battle=b;const prior=target.pool;
+ const oracle=Math.floor(100000*(15*.30)*1.12);
+ const result=E.battleAct(s,'attack');
+ assert.equal(result.dealt,oracle);
+ assert.equal(prior-target.pool,oracle);
+ assert(Number.isSafeInteger(target.count)&&target.count>=0&&Number.isFinite(target.pool));
+ assert(E.strictSave(E.parseSave(E.serializeSave(s))));
+ return {groupCount:100000,gameplayAuthorized:false,expectedDamage:oracle};
 });
 check('P0 7v7 mixed tactical 4-race scenarios have no negative armies, duplicate positions or invalid saves',()=>{
  for(const race of races)for(let trial=0;trial<8;trial++){
