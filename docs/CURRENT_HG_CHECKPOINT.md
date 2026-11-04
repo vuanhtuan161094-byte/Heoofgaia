@@ -1,3 +1,11 @@
+## HG-18 — Playable acceptance and Save fixes — 2026-11-04
+
+- Green baseline HG18 commit `aacf0557fa026f9f6fa7cdb3d2a2436b70d30c8d`; [Actions run 41807360041](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/41807360041) **SUCCESS**.
+- Real Chromium (no resource/army/XP seed for this segment): New Game -> paid Market -> task resource card -> paid 24-troop training -> 40-militia NPC victory -> daily gear chest -> equip/+1 from two earned stones -> cold reload. `docs/evidence/hg18/organic-dayone-quest-gear-chrome.png` uploaded as Actions evidence.
+- Core G1 fix: HG10 battle reports and wound validation accept HG18's four **quest-only** soldiers, but still reject unknown unit IDs. A real battle and Save/Load test passed; HG18 Core **17/17**, HG16 stress **8/8**, HG17 organic second-city **PASS**, HG09 Chromium viewport **32/32**.
+- Additional edge fix (this checkpoint commit, verify Actions before acceptance): `depositArmy` now permits a quest-only faction guard returning to its home city when another owned city is selected. New test uses a disclosed synthetic second-city fixture; the actual organic capture of a second city remains separately covered in HG17.
+- Endgame limitation: Boss 9-10 star and Lv100 rebirth are verified with explicit synthetic high-end fixture, **not** a complete organic Lv1-to-Lv100 campaign. No Windows physical playtest, Android acceptance or 2009 parity claim.
+
 ## HG-09 Combat Visual R4 — REAL BROWSER REVIEW, 2026-11-03
 
 - **Code HEAD tested:** `e5c25047d04491b01a0cc281834e30612d241d7a` on `feature/hog1-research-to-playable-20261102` (no branch fork, no main merge).

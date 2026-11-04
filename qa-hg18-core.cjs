@@ -108,6 +108,25 @@ test('Real quest-only troop enters battle report and survives v07 reload',()=>{
  assert.equal(E.strictSave(corrupt),false,'Unknown soldier must remain invalid');
  return {unitId:guard.id,target:target.key,reportId:report.id,outcome:result.type,save:'PASS'};
 });
+test('Quest-only guard returns to an inactive original city and survives Save',()=>{
+ const s=starter(),guard=C.rewardUnits.human[0];
+ s.hg18.week.counts.eliteWins=1; // explicit reward fixture
+ E.claimHG18Task(s,'weekly','weekly_boss');
+ E.syncCityState(s);
+ const main=s.cities.find(c=>c.main);
+ const tile=E.TILES.find(t=>t.kind==='castle'&&!t.aiOwner&&t.race==='human'&&t.key!==main.key);
+ assert(tile,'Missing neutral human castle for temporary multi-city fixture');
+ const aux=E.clone(main);aux.id='hg18-return-city';aux.key=tile.key;aux.name='HG18 QA second city';aux.main=false;
+ s.cities.push(aux);
+ E.switchCity(s,aux.id);
+ const before=s.cities.find(c=>c.main).local.army[guard.id]||0;
+ E.depositArmy(s,'main',{[guard.id]:1});
+ assert.equal(s.cities.find(c=>c.main).local.army[guard.id],before+1);
+ E.switchCity(s,'main');
+ assert.equal(s.army[guard.id],before+1);
+ const loaded=save(s);assert.equal(loaded.army[guard.id],before+1);
+ return {guard:guard.id,origin:'main',otherCity:tile.key,count:before+1,save:'PASS',fixture:'second city only'};
+});
 test('Gear pack sequence, 3-piece ordinary set and 3-piece rare crafted set are deterministic',()=>{
  const s=starter();s.hg18.materials.gear_pack=2;s.hg18.materials.set_chest=3;s.hg18.materials.astral_shard=24;
  const common1=E.openHG18Pack(s,'gear_pack'),common2=E.openHG18Pack(s,'gear_pack');

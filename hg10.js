@@ -145,8 +145,9 @@ function switchCity(s,id){
 function depositArmy(s,cityId,army){
  ensure(s);const c=s.cities.find(x=>x.id===cityId)||s.cities.find(x=>x.main);if(!c)throw Error('Không tìm thấy thành nhận quân trở về.');
  if(c.id===s.activeCityId){for(const [id,n] of Object.entries(army))s.army[id]=(s.army[id]||0)+n;return}
+ const allowed=E.C.units[c.race].concat(E.C.rewardUnits?.[c.race]||[]);
  for(const [id,n] of Object.entries(army)){
-  if(!E.C.units[c.race]?.some(u=>u.id===id))throw Error(`Quân ${id} không thuộc chủng tộc của thành gốc.`);
+  if(!allowed.some(u=>u.id===id))throw Error(`Quân ${id} không thuộc chủng tộc của thành gốc.`);
   c.local.army[id]=(c.local.army[id]||0)+n;
  }
 }
