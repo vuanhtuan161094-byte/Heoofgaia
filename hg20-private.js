@@ -205,7 +205,8 @@ function teamPower(s,ids=s.hg20.tower.team){
  return {power:Math.floor(power*(1+s.hg20.tower.rank*.18)),groups,units};
 }
 function monster(floor){return ENEMIES[(Math.floor((floor-1)/10))%ENEMIES.length]}
-function enemyPower(floor){return Math.min(Number.MAX_SAFE_INTEGER,Math.floor((700+floor*950)*(1+Math.floor((floor-1)/25)*.18)))}
+// Private infinite tower: floor strength grows linearly; milestone surcharge is fixed.
+function enemyPower(floor){return Math.min(Number.MAX_SAFE_INTEGER,Math.floor(700+1100*floor+2500*Math.floor((floor-1)/25)))}
 function matchup(s,ids,enemy){
  let front=0,back=0,knowledge=0,special=0;
  for(const id of ids){
@@ -235,8 +236,8 @@ function towerClimb(s){
  const ready=teamPower(s),floor=t.floor,enemy=monster(floor),strength=enemyPower(floor);
  ready.power=Math.min(Number.MAX_SAFE_INTEGER,Math.floor(ready.power*matchup(s,t.team,enemy)));
  const won=ready.power>=strength;
- const rewardGold=won&&t.claims<5?Math.min(1e8,2500+floor*900):0;
- const rewardEssence=won&&t.claims<5?Math.min(1000000,2+Math.floor(floor/4)):0;
+ const rewardGold=won&&t.claims<5?Math.min(1e12,2500+floor*900):0;
+ const rewardEssence=won&&t.claims<5?Math.min(1e12,2+Math.floor(floor/4)):0;
  const report={floor,outcome:won?'win':'lose',enemy:enemy.name,teamPower:ready.power,
   enemyPower:strength,rewardGold,rewardEssence,claimed:won&&t.claims<5};
  t.attempts++;
