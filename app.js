@@ -465,7 +465,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='research'){E.researchTechnology(state,target.dataset.id);return}
  if(action==='heropoint'){E.allocateHeroPoint(state,Number(target.dataset.id),target.dataset.stat);return}
  if(action==='recruit'){const id=target.dataset.id,qty=Number($('q_'+id).value);E.recruit(state,id,qty);toast('Đã thêm hàng đợi tuyển quân.');return}
- if(action==='march'){const commander=state.heroes.find(h=>h.id===state.activeHero),count=state.formation?.reduce((n,g)=>n+g.count,0)||0;if(!count)throw Error('Hãy vào Quân đội, chọn tướng và phân quân trước khi xuất chinh.');E.startMarch(state,selected,target.dataset.kind==='treasure'?'treasure':undefined);toast((commander?.name||'Tướng')+' xuất chinh cùng '+count+' quân.');return}
+ if(action==='march'){const commander=state.heroes.find(h=>h.id===state.activeHero);let count=state.formation?.reduce((n,g)=>n+g.count,0)||0;if(!count){const starter=E.autoFormation(state);count=starter.total;toast('Tự bố trí '+count+' quân cho '+(commander?.name||'tướng')+'. Có thể tùy chỉnh trong Quân đội.');}E.startMarch(state,selected,target.dataset.kind==='treasure'?'treasure':undefined);toast((commander?.name||'Tướng')+' xuất chinh cùng '+count+' quân.');return}
  if(action==='visit'){const result=E.visitWorldBuilding(state,target.dataset.key);toast(result.reward?'Đã nhận thưởng từ công trình.':'Hiệu ứng đã áp dụng cho tướng.');return}
   if(action==='recall'){const seconds=E.recallHero(state,Number(target.dataset.id));toast(seconds===true?'Tướng đã về thành.':`Tướng đang trở về trong ${Math.ceil(seconds/state.speed)} giây thực.`);return}
   if(action==='save-combat'){$('save').click();return}
