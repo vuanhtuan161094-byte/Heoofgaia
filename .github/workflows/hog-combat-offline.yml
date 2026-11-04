@@ -49,6 +49,10 @@ jobs:
           node --check hg18.js
           node --check qa-hg18-core.cjs
           node qa-hg18-core.cjs
+      - name: HG18.1 organic high-tier unlock Boss and rebirth contract
+        run: |
+          node --check qa-hg181-organic-endgame.cjs
+          node qa-hg181-organic-endgame.cjs
       - name: HG19 vector art coverage and icon regression
         run: |
           node --check art-pack.js
@@ -147,6 +151,13 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+      - name: Upload HG18.1 organic endgame receipt even on QA failure
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG18.1-organic-endgame
+          path: docs/qa/hg181/organic-endgame.json
+          if-no-files-found: ignore
       - name: Upload HG17 New Game economic-loop evidence even on QA failure
         if: always()
         uses: actions/upload-artifact@v4
