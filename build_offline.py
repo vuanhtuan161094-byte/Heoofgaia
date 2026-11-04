@@ -14,7 +14,7 @@ for css in ['style.css','style-hg03.css']:
     pattern=re.compile(r'<link\s+rel="stylesheet"\s+href="'+re.escape(css)+r'">')
     html,n=pattern.subn(lambda _: '<style>\n'+(folder/css).read_text(encoding='utf-8').rstrip()+ '\n</style>',html)
     assert n==1,(css,n)
-for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-pack.js','painter.js','app.js']:
+for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-hg22-skeleton.js','art-pack.js','painter.js','app.js']:
     pattern=re.compile(r'<script\s+src="'+re.escape(js)+r'"></script>')
     html,n=pattern.subn(lambda _: '<script>\n'+(folder/js).read_text(encoding='utf-8').rstrip()+'\n</script>',html)
     assert n==1,(js,n)
@@ -79,6 +79,15 @@ for unit in hg193['units']:
     html=html.replace(needle,f'src="data:image/png;base64,{encoded}"')
     assert asset not in html,asset
 assert 'src="assets/licensed/hg193/' not in html and 'src="assets/generated/hg193/' not in html
+# HG22.1: Five MIT-source Skeleton 256px 5x2 action sheets, bundled offline.
+hg22=json.loads((folder/'assets/licensed/hg22-skeleton/asset-manifest.json').read_text(encoding='utf-8'))
+assert hg22['gameUnitId']=='undead_1' and len(hg22['actions'])==5
+for action in hg22['actions']:
+    asset=action['path']
+    needle=f'src="{asset}"'
+    assert html.count(needle)==1,(asset,html.count(needle))
+    html=html.replace(needle,f'src="data:image/png;base64,{base64.b64encode((folder/asset).read_bytes()).decode("ascii")}"')
+assert 'src="assets/licensed/hg22-skeleton/' not in html
 # HG12 vector combat units are bundled into the same standalone HTML without
 # network dependencies. They are source-separated, transparent illustrated assets.
 for unit_asset in [
@@ -102,6 +111,6 @@ assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
-assert html.count('<script>')==23
+assert html.count('<script>')==24
 (folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8')
 print('Built offline HTML:',len(html),'characters')

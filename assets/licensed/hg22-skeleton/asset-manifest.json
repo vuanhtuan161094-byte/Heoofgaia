@@ -1,0 +1,80 @@
+{
+  "schema": "HG22-skeleton-animated-v1",
+  "gameUnitId": "undead_1",
+  "sourceRepo": "https://github.com/chongdashu/ai-pixel-snapped-game-sprites",
+  "sourceLicense": "MIT",
+  "sourceAuthor": "Chong-U Lim (2026)",
+  "notes": "Meowa public user gallery not bundled; this is independent MIT artwork.",
+  "actions": [
+    {
+      "action": "idle",
+      "path": "assets/licensed/hg22-skeleton/idle.png",
+      "sourcePath": "spritesheets/skeleton/idle/spritesheet.png",
+      "sourceBlob": "d043b2ec69b74b3fb2734e9b06ab1949d4fd47e0",
+      "frames": 10,
+      "columns": 5,
+      "rows": 2,
+      "width": 1280,
+      "height": 512,
+      "cell": 256,
+      "ms": 1200,
+      "loop": true
+    },
+    {
+      "action": "walk",
+      "path": "assets/licensed/hg22-skeleton/walk.png",
+      "sourcePath": "spritesheets/skeleton/walk/spritesheet.png",
+      "sourceBlob": "bd71635756397222887e6ea76b685635091b1f2d",
+      "frames": 10,
+      "columns": 5,
+      "rows": 2,
+      "width": 1280,
+      "height": 512,
+      "cell": 256,
+      "ms": 850,
+      "loop": true
+    },
+    {
+      "action": "attack",
+      "path": "assets/licensed/hg22-skeleton/attack.png",
+      "sourcePath": "spritesheets/skeleton/attack/spritesheet.png",
+      "sourceBlob": "3453841ea83f7d208019b74e7dd011eea9f1be8f",
+      "frames": 10,
+      "columns": 5,
+      "rows": 2,
+      "width": 1280,
+      "height": 512,
+      "cell": 256,
+      "ms": 700,
+      "loop": false
+    },
+    {
+      "action": "hit",
+      "path": "assets/licensed/hg22-skeleton/hit.png",
+      "sourcePath": "spritesheets/skeleton/hurt/spritesheet.png",
+      "sourceBlob": "15f208ca8dbdfdc26d25a4def80d56ea80b7dd4d",
+      "frames": 10,
+      "columns": 5,
+      "rows": 2,
+      "width": 1280,
+      "height": 512,
+      "cell": 256,
+      "ms": 550,
+      "loop": false
+    },
+    {
+      "action": "death",
+      "path": "assets/licensed/hg22-skeleton/death.png",
+      "sourcePath": "spritesheets/skeleton/death/spritesheet.png",
+      "sourceBlob": "f36b3c4089369ea0d564798dc37bf4e1378a4682",
+      "frames": 10,
+      "columns": 5,
+      "rows": 2,
+      "width": 1280,
+      "height": 512,
+      "cell": 256,
+      "ms": 1150,
+      "loop": false
+    }
+  ]
+}
