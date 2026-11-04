@@ -73,10 +73,16 @@ function gameBattle(s){
    reserved[g.unitId]=(reserved[g.unitId]||0)+g.count;
    if(reserved[g.unitId]>(s.army[g.unitId]||0))throw Error('Không đủ quân thật để ghép đội Bí Cảnh');
    const pos=positions[n],stats=E.heroStats(s,hero.id);
+   // Essence upgrade improves the tower projection only, never the real
+   // garrison. Hero buffs remain strictly keyed by this stack's heroId.
+   const blessing=1+t.rank*.18;
+   const hp=Math.min(1e9,Math.max(1,Math.round(unit.hp*blessing)));
+   const atk=Math.min(1e9,Math.max(1,Math.round(unit.atk*blessing)));
+   const def=Math.min(1e9,Math.max(0,Math.round(unit.def*blessing)));
    enlisted.push({id:'p'+n,side:'player',unitId:unit.id,name:unit.name,
     heroId:hero.id,heroName:hero.name,slot:n,sourceSlot:slot,range:E.unitTacticalRange(unit),
-    hp:unit.hp,atk:unit.atk,def:unit.def,spd:Math.max(.1,unit.spd+E.heroSpeedAdjustment(stats.spd)),
-    count:g.count,initial:g.count,pool:g.count*unit.hp,x:pos.x,y:pos.y});
+    hp,atk,def,spd:Math.max(.1,unit.spd+E.heroSpeedAdjustment(stats.spd)),
+    count:g.count,initial:g.count,pool:g.count*hp,x:pos.x,y:pos.y});
    n++;
   }
  }
