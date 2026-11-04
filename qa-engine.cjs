@@ -662,6 +662,89 @@ test('Ranged stacks fire across deployment distance without invented movement tu
  assert(out.dealt>0);assert(s.battle.enemies.reduce((n,u)=>n+u.pool,0)<before);assert.deepEqual({x:archer.x,y:archer.y},position);
 });
 
+function hg16FormulaFixture({allyAtk=40,enemyAtk=0,enemyDef=10,allyDef=20,heroAtk=0,heroDef=0,allyCount=10,enemyCount=1,enemySpeed=1}={}){
+ const s=state();s.heroes[0].atk=heroAtk;s.heroes[0].def=heroDef;
+ s.army.human_1=allyCount;
+ const tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key));
+ const b=E.makeBattle(s,tile.key);
+ b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Formula ally',
+   range:20,count:allyCount,initial:allyCount,hp:1e7,atk:allyAtk,def:allyDef,
+   spd:99,pool:allyCount*1e7,x:1,y:1}];
+ b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Formula enemy',
+   range:20,count:enemyCount,initial:enemyCount,hp:1e9,atk:enemyAtk,def:enemyDef,
+   spd:enemySpeed,pool:enemyCount*1e9,x:10,y:1}];
+ s.battle=b;return s;
+}
+test('HG16 exact zero-DEF reference base and zero-ATK inert units (no phantom chip)',()=>{
+ const noDefense=hg16FormulaFixture({enemyDef:0,heroAtk:0,allyCount:10});
+ const damage=E.battleAct(noDefense,'attack');
+ assert.equal(damage.dealt,400,'ATK 40, target DEF 0: base damage exactly 40 per soldier');
+ assert.equal(damage.lost,0,'Enemy ATK 0 must deal zero');
+ const noAttack=hg16FormulaFixture({allyAtk:0,enemyAtk:0});
+ const intact=noAttack.battle.enemies[0].pool,playerHP=noAttack.battle.allies[0].pool;
+ const result=E.battleAct(noAttack,'attack');
+ assert.equal(result.dealt,0);assert.equal(result.lost,0);
+ assert.equal(noAttack.battle.enemies[0].pool,intact);assert.equal(noAttack.battle.allies[0].pool,playerHP);
+ assert(E.strictSave(noAttack));
+});
+test('HG16 canonical equipped Hero ATK then world buff affects real damage exactly once',()=>{
+ const s=hg16FormulaFixture({heroAtk:12,enemyDef:10,allyCount:10});
+ const item=E.addItem(s,'copper_blade','HG16 deterministic formula fixture');E.equipItem(s,item.uid);
+ s.heroBuffs.push({heroId:1,stat:'atk',remaining:7200,sourceKey:'26,4'});
+ assert(Math.abs(E.heroStats(s,1).atk-16.5)<1e-9);
+ const restored=E.parseSave(E.serializeSave(s));
+ const actual=E.battleAct(s,'attack'),replayed=E.battleAct(restored,'attack');
+ const expected=Math.floor(10*(40*40/(40+10))*(1+16.5/100));
+ assert.equal(actual.dealt,expected);
+ assert.equal(replayed.dealt,expected);
+ assert.equal(s.heroes[0].atk,12,'Hero base ATK restored after battle');
+ assert(E.strictSave(s));assert(E.strictSave(restored));
+});
+test('HG16 defensive Hero equipment and world buff reduce real incoming damage once',()=>{
+ const s=hg16FormulaFixture({allyAtk:0,enemyAtk:40,enemyCount:10,allyDef:10,heroDef:8,enemySpeed:100});
+ const item=E.addItem(s,'iron_armor','HG16 defensive formula fixture');E.equipItem(s,item.uid);
+ s.heroBuffs.push({heroId:1,stat:'def',remaining:7200,sourceKey:'94,1'});
+ assert(Math.abs(E.heroStats(s,1).def-13.2)<1e-9);
+ const out=E.battleAct(s,'attack');
+ const expected=Math.floor(10*(40*40/(40+10))/(1+13.2/100));
+ assert.equal(out.lost,expected);assert.equal(s.heroes[0].def,8);
+ assert(E.strictSave(E.parseSave(E.serializeSave(s))));
+});
+test('HG16 march ETA uses shortest world path and equipped/buffed hero SPD at 1x and 60x',()=>{
+ const tile=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key)?.length>3);
+ assert(tile);
+ const initial=state(),start=initial.lastTick;
+ const cloak=E.addItem(initial,'traveler_cloak','HG16 ETA');E.equipItem(initial,cloak.uid);
+ initial.heroBuffs.push({heroId:1,stat:'spd',remaining:7200,sourceKey:'62,57'});
+ const effective=E.heroStats(initial,1).spd;
+ assert(Math.abs(effective-(7+2)*1.1)<1e-9);
+ for(const speed of [1,60]){
+  const s=E.parseSave(E.serializeSave(initial));s.speed=speed;
+  const path=E.pathfind(s.activeCastleKey,tile.key);
+  assert(path&&path.length>3);
+  for(let i=1;i<path.length;i++){
+   const a=E.getTile(path[i-1]),b=E.getTile(path[i]);
+   assert.equal(Math.abs(a.x-b.x)+Math.abs(a.y-b.y),1);
+   assert.notEqual(b.terrain,'water');
+  }
+  const eta=E.marchDuration(effective,path),before=s.ap;
+  E.startMarch(s,tile.key);
+  assert.equal(s.ap,before-6,'Mine dispatch costs exactly 6 AP');
+  assert.equal(s.march.total,eta);assert.equal(s.march.remaining,eta);
+  const mid=start+(eta-0.5)/speed*1000;
+  E.tick(s,mid);assert(s.march&&s.march.remaining>0,'March must not arrive ahead of ETA');
+  const loaded=E.parseSave(E.serializeSave(s));
+  E.tick(loaded,start+(eta+0.5)/speed*1000);
+  assert.equal(loaded.battle?.target,tile.key);
+  assert(E.strictSave(loaded));
+ }
+});
+test('HG16 rejects insufficient march AP atomically and preserves the route ledger',()=>{
+ const s=state(),tile=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key));
+ s.ap=5;E.syncCityState(s);const before=JSON.stringify(s);
+ assert.throws(()=>E.startMarch(s,tile.key),/Thiếu AP/);
+ assert.equal(JSON.stringify(s),before);assert(E.strictSave(s));
+});
 test('Published NPC battle example truncates the 47,897.94 result to 47,897',()=>{
  const s=state('human');s.heroes[0].atk=168;s.heroes[0].def=0;s.army.human_8=500;s.formation=[{unitId:'human_8',count:500}];
  s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const ally=s.battle.allies[0];
