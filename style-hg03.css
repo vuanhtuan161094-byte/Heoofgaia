@@ -141,3 +141,19 @@ body.combat-mode .battle-receipts{margin-top:6px}
  body.combat-mode .battle-ui{grid-template-columns:1fr}
  body.combat-mode .command-bar>div{flex:0 0 115px}
 }
+
+/* HG14.5 debug overlays: opt-in tactical grid/HP controls above the actual canvas. */
+body.combat-mode .battle-frame{position:relative}
+body.combat-mode .battle-display-tools{position:absolute;right:10px;top:60px;
+ display:flex;flex-wrap:wrap;gap:5px;z-index:4;pointer-events:none}
+body.combat-mode .battle-display-toggle{pointer-events:auto;background:#162d33e9;
+ color:#dfe8d3;border:1px solid #829789;border-radius:5px;
+ font-size:11px;font-weight:700;line-height:1.2;padding:6px 9px;min-height:29px;
+ box-shadow:0 2px 8px #06161c80}
+body.combat-mode .battle-display-toggle[aria-pressed="true"]{background:#2a5449ea;
+ border-color:#a2d2b5;color:#f1ffe5}
+body.combat-mode .battle-display-toggle:focus-visible{outline:2px solid #f2dc9a;outline-offset:2px}
+@media(max-width:1050px){
+ body.combat-mode .battle-display-tools{right:7px;top:58px}
+ body.combat-mode .battle-display-toggle{font-size:10px;padding:5px 7px;min-height:27px}
+}

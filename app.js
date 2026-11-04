@@ -6,6 +6,23 @@ const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','�
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
 const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=900;
+// Visual QA preferences are separate from the canonical v07 gameplay save.
+// Default both ON, as requested for verifying unit coordinates and HP.
+const BATTLE_VIEW_PREF_KEY='heoofgaia_battle_display_v1';
+const battleViewPrefs={grid:true,hp:true};
+try{
+ const stored=JSON.parse(localStorage.getItem(BATTLE_VIEW_PREF_KEY)||'null');
+ if(stored&&typeof stored==='object'){
+  if(typeof stored.grid==='boolean')battleViewPrefs.grid=stored.grid;
+  if(typeof stored.hp==='boolean')battleViewPrefs.hp=stored.hp;
+ }
+}catch(_error){}
+function toggleBattleDisplay(which){
+ if(which!=='grid'&&which!=='hp')return;
+ battleViewPrefs[which]=!battleViewPrefs[which];
+ try{localStorage.setItem(BATTLE_VIEW_PREF_KEY,JSON.stringify(battleViewPrefs))}catch(_error){}
+}
+
 function ensureBattleAutoTimer(s){if(s?.battle&&!Number.isFinite(s.battle.autoUntil))s.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS;return s}
 function markBattleInput(){if(!state?.battle)return;state.battleAuto=false;state.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS}
 function resolveAutomaticBattleTurn(){if(!state?.battle||!state.battleAuto)return;try{const out=E.battleAct(state,'attack',{preserveMoveOrders:true});if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab='map';if(out.type==='lose')tab='heroes';if(state.battle)state.battle.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;save();render()}catch(e){console.warn('Auto battle',e);state.battleAuto=false}}
@@ -214,7 +231,11 @@ function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hi�
  const lastEvents=b.lastEvents||[],visibleEvents=lastEvents.slice(0,8),eventRow=e=>{const r=eventText(e);return `<li data-battle-event="${esc(e.actorId)}" data-order="${esc(e.order||'')}" class="battle-event"><span><b>${esc(r.name)}</b><span>${esc(r.text)}</span></span><small>${esc(r.result||'Không có thay đổi')}</small></li>`};
  const cell=u=>`<button class="stack-card ${b.selected===u.id||b.focused===u.id?'chosen':''}" data-action="stack" data-id="${u.id}" ${u.pool<=0?'disabled':''}><span>${u.side==='enemy'?'☠':'⚔'} ${esc(u.name)}</span><b>${u.count} quân</b><small>HP ${Math.ceil(u.pool)} · SPD ${format(u.spd)} · ${u.range>1?'Bắn xa':'Cận chiến'}${u.side==='enemy'&&inRange.has(u.id)?' · 🎯 Trong tầm đánh':''}</small></button>`;
  return `<div class="scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)}</h1></div><div class="scene-tools">${button('save-combat',{},'💾 Lưu',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${b.allies.filter(u=>u.pool>0).length+b.enemies.filter(u=>u.pool>0).length} nhóm hoạt động</span><span class="tag">${b.allies.filter(u=>u.pool>0).length} đội ta : ${b.enemies.filter(u=>u.pool>0).length} đội địch</span><span class="tag" id="battle-auto-clock" title="Bài đánh giá Sina ngày 21-01-2009 ghi trận tự chuyển sang đánh tự động nếu không có thao tác trong 10 giây; áp dụng ở đây theo tư liệu Trung Quốc.">${state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`}</span></div></div>
- <div class="battle-frame"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường rừng nhìn từ trên xuống, 12 cột 9 hàng logic; chỉ hiện phạm vi ô khi chọn di chuyển"></canvas></div>
+ <div class="battle-frame"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường 12 cột 9 hàng: lưới và tâm ô hiển thị để thử tọa độ, có thể bật tắt"></canvas>
+  <div class="battle-display-tools" role="group" aria-label="Bật tắt hiển thị chiến trường">
+   <button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Lưới 12×9 và tâm tọa độ logic">${battleViewPrefs.grid?'▦ Lưới: Bật':'▢ Lưới: Tắt'}</button>
+   <button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu từng đội quân">${battleViewPrefs.hp?'♥ HP: Bật':'♡ HP: Tắt'}</button>
+  </div></div>
  <div class="battle-ui"><div><span class="eyebrow">QUÂN TA • BẤM CHỌN ĐƠN VỊ</span><div class="stack-list">${b.allies.map(cell).join('')}</div></div><div><span class="eyebrow">QUÂN ĐỊCH • BẤM CHỌN MỤC TIÊU</span><div class="stack-list">${b.enemies.map(cell).join('')}</div></div></div>
  <div class="command-bar"><div><div class="eyebrow">MỆNH LỆNH</div><small class="muted">${selected?'Đơn vị: '+esc(selected.name):'Chọn đơn vị'}${focused?' • Mục tiêu: '+esc(focused.name):''}</small></div>
  ${button('battle',{cmd:'attack'},'⚔ ATTACK',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN QUÂN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY CHỌN Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'↗ ĐẶT ĐIỂM ĐẾN',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 STAND BY',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 FOCUS',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI QUÂN',false,'secondary')}
@@ -238,7 +259,7 @@ function paint(){
  }else if(tab==='city'){const canvas=$('city-canvas');P.drawCity(canvas,E,state,selectedBuilding);
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
  }else if(tab==='combat'){
-  const canvas=$('battle-canvas'),interaction={movementModeId};
+  const canvas=$('battle-canvas'),interaction={movementModeId,showGrid:battleViewPrefs.grid,showHP:battleViewPrefs.hp};
   // Match the canvas backing aspect to the rendered frame. The prior fixed
   // 1176x550 surface was squeezed into 960x540 landscape CSS, distorting the
   // art, soldier silhouettes and square ground cells non-uniformly.
@@ -257,7 +278,9 @@ function paint(){
  }
 }
 function render(){const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');document.body.classList.toggle('combat-mode',!!state?.battle);if(!state){renderIntro();return}if(!state.battle){movementModeId=null;if(tab==='combat')tab='map'}renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();$('main').innerHTML=content;paint();if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}}
-$('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;fail(()=>{
+$('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
+ if(action==='battle-grid'||action==='battle-hp'){toggleBattleDisplay(action==='battle-grid'?'grid':'hp');render();return}
+ fail(()=>{
  if(action==='race'){newRace=target.dataset.race;render();return}
  if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
  if(action==='start'){state=E.make(newRace,Date.now(),newSpellEdition);tab='map';selected='3,4';selectedTargetKind=null;return}
@@ -340,5 +363,5 @@ window.addEventListener('resize',()=>{if(!state?.battle||battleResizeFrame)retur
 });
 setInterval(resolveAutomaticBattleTurn,2300);
 setInterval(save,10000);window.addEventListener('pagehide',save);
-window.HOG_APP_DEBUG={getState:()=>state,render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
+window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
 })();
