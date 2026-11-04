@@ -142,9 +142,9 @@ check('P0 production five resources across 6 independent cities / 30 offline day
 });
 check('P0 warehouse caps and market/source consumption never create negative or duplicated resources',()=>{
  const s=roundState();s.speed=1;
- const goldBefore=s.res.gold,woodBefore=s.res.wood;
+ const beforeBuild={...s.res};
  const cost=E.buildCost(s,'market');E.upgrade(s,'market');
- for(const k of symbols)assert(Math.abs(s.res[k]-(k==='gold'?goldBefore:k==='wood'?woodBefore:s.res[k]+cost[k])-cost[k])<1e-5||k!=='gold');
+ for(const k of symbols)assert(Math.abs(s.res[k]-(beforeBuild[k]-cost[k]))<1e-6,'Build cost not deducted exactly: '+k);
  assert(s.buildingQueue);
  const done=s.lastTick+(s.buildingQueue.remaining+1)*1000;
  E.tick(s,done);assert.equal(s.buildings.market,1);assert.equal(s.buildingQueue,null);
