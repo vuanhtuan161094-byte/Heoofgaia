@@ -109,8 +109,8 @@ try{
  E.appoint(s,1);
  // Prioritize a whole endgame detachment paid exclusively through warehouse/production.
  const unit=E.getUnit(s,'human_10'),commandLimit=E.heroLimit(s.heroes[0].level);
- const targetCount=Math.min(35,Math.floor(commandLimit/E.unitValue(unit)));
- assert(targetCount>=5,'Paid construction did not grow Hero capacity enough to use elite army: '+targetCount);
+ const targetCount=Math.min(90,Math.floor(commandLimit/E.unitValue(unit)));
+ assert(targetCount>=70,'Paid construction did not grow Hero capacity enough for 9-star raid: '+targetCount);
  for(let i=0;i<targetCount;i+=5)train(unit.id,Math.min(5,targetCount-i));
  receipt('recruited_pure_t10',{targetCount,points:targetCount*E.unitValue(unit),commandLimit});
  const stackCount=Math.min(7,targetCount),whole=Math.floor(targetCount/stackCount),rest=targetCount%stackCount;
