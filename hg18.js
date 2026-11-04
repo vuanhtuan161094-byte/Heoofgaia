@@ -105,9 +105,10 @@ function track(s,metric,n){
  sync(s);if(!Number.isSafeInteger(n)||n<1||n>1e6)throw Error('Số lượng tiến độ không hợp lệ');
  for(const p of [s.hg18.day,s.hg18.week])p.counts[metric]=Math.min(1e9,p.counts[metric]+n);
 }
+function taskBoard(s,cycle){return s.hg18[cycle==='daily'?'day':'week']}
 function tasks(s,cycle){sync(s);assert(TASKS[cycle],'Chu kỳ nhiệm vụ không hợp lệ');
- return TASKS[cycle].map(t=>({...t,progress:Math.min(t.need,s.hg18[cycle].counts[t.metric]),
-  claimed:s.hg18[cycle].claimed.includes(t.id),ready:s.hg18[cycle].counts[t.metric]>=t.need}));
+ const p=taskBoard(s,cycle);return TASKS[cycle].map(t=>({...t,progress:Math.min(t.need,p.counts[t.metric]),
+  claimed:p.claimed.includes(t.id),ready:p.counts[t.metric]>=t.need}));
 }
 function addMaterial(s,id,n){ensure(s);assert(MATERIALS[id],'Vật phẩm nguyên liệu không tồn tại');assert(Number.isSafeInteger(n)&&n>0&&n<=1e6,'Số nguyên liệu không hợp lệ');
  assert(s.hg18.materials[id]+n<=1e6,'Túi nguyên liệu đầy');s.hg18.materials[id]+=n;
@@ -120,7 +121,7 @@ function grantSpecial(s,n){
 }
 function claimTask(s,cycle,id){
  sync(s);const t=TASKS[cycle]?.find(q=>q.id===id);assert(t,'Nhiệm vụ không tồn tại');
- const p=s.hg18[cycle];assert(!p.claimed.includes(id),'Đã nhận thưởng chu kỳ này');assert(p.counts[t.metric]>=t.need,'Nhiệm vụ chưa đủ tiến độ');
+ const p=taskBoard(s,cycle);assert(!p.claimed.includes(id),'Đã nhận thưởng chu kỳ này');assert(p.counts[t.metric]>=t.need,'Nhiệm vụ chưa đủ tiến độ');
  for(const [k,n] of Object.entries(t.reward))if(k!=='specialSoldier')assert(s.hg18.materials[k]+n<=1e6,'Túi nguyên liệu đầy');
  if(t.reward.specialSoldier)assert((s.army[C.rewardUnits[s.race][0].id]||0)+t.reward.specialSoldier<=1e8,'Quân vượt giới hạn');
  for(const [k,n] of Object.entries(t.reward))k==='specialSoldier'?grantSpecial(s,n):addMaterial(s,k,n);
