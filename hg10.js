@@ -11,6 +11,45 @@ const prior={make:E.make,tick:E.tick,valid:E.valid,strict:E.strictSave,parse:E.p
 const CITY_FIELDS=['race','res','buildings','army','wounded','woundFraction','spells','training','formation','buildingQueue','researchQueue','arenaQueue','tavern','castellan'];
 const GLOBAL_DURING_CITY_TICK=['lastTick','ap','apMax','fame','mines','cleared','treasureCleared','worldVisits','heroBuffs','dailyTaskState','china2009DailyTaskState','cityTransports','expedition','parallelMarches','stationedHeroes','march','battle','battleAuto','battleOrder','battleTarget','activeHero','heroes','log','serial','speed','created','inventory','equipment','heroMagic','nextItem','lootWins','claimedQuests','version','selected'];
 const CITY_LIMITS=Object.freeze([[0,1],[5800,2],[80000,3],[300000,4],[700000,5],[1000000,6]]);
+ // Bounded deterministic OFFLINE enemy settlement simulation; these towns
+ // are modeled gameplay entities, not historical castle-coordinate evidence.
+ const AI_PRODUCTION=Object.freeze({gold:160,wood:12,ore:12,sulfur:6,crystal:6});
+ function makeAICity(tile){
+  const level=tile.level||1,unitId=tile.race+'_1';
+  return {key:tile.key,race:tile.race,level,treasury:{gold:3000+level*500,wood:450,ore:450,sulfur:180,crystal:180},
+   garrison:{[unitId]:10+5*level},hourProgress:0,hours:0};
+ }
+ function aiCityAt(s,key){return s?.aiCities?.[key]||null}
+ function advanceAICities(s,elapsedGame){
+  if(!Number.isFinite(elapsedGame)||elapsedGame<=0)return;
+  for(const ai of Object.values(s.aiCities||{})){
+   // During a live siege the saved defender formation is authoritative.
+   if(s.battle?.kind==='castle'&&s.battle.target===ai.key)continue;
+   const total=ai.hourProgress+elapsedGame,hours=Math.floor(total/3600);
+   ai.hourProgress=Math.max(0,total-hours*3600);
+   const limit=20000+ai.level*5000;
+   for(let hour=0;hour<hours;hour++){
+    ai.hours++;
+    for(const k of E.C.keys)ai.treasury[k]=Math.min(limit,ai.treasury[k]+AI_PRODUCTION[k]*(1+(ai.level-1)*.15));
+    // A city's garrison is purchased using its own five-resource treasury.
+    const unitId=ai.race+(ai.level>=3&&ai.hours%3===0?'_3':'_1');
+    const unit=E.C.units[ai.race].find(u=>u.id===unitId),maxGuard=20+ai.level*30;
+    const totalGuards=Object.values(ai.garrison).reduce((a,b)=>a+b,0);
+    if(unit&&totalGuards<maxGuard&&E.C.keys.every(k=>ai.treasury[k]>=unit.cost[k])){
+     for(const k of E.C.keys)ai.treasury[k]-=unit.cost[k];
+     ai.garrison[unitId]=(ai.garrison[unitId]||0)+1;
+    }
+    if(ai.hours%24===0&&ai.level<5){
+     const build={gold:800*ai.level,wood:160*ai.level,ore:160*ai.level,sulfur:40*ai.level,crystal:40*ai.level};
+     if(E.C.keys.every(k=>ai.treasury[k]>=build[k])){
+      for(const k of E.C.keys)ai.treasury[k]-=build[k];
+      ai.level++;
+     }
+    }
+   }
+  }
+ }
+
 const WORLD_BUILDINGS=E.WORLD_BUILDINGS||[];
 const WORLD_BUILDING_BY_KEY=new Map(WORLD_BUILDINGS.map(b=>[`${b.x},${b.y}`,b]));
 function clone(v){return JSON.parse(JSON.stringify(v))}
@@ -79,6 +118,10 @@ function ensure(s){
  syncDailyTaskBoard(s,s.lastTick);
  syncChina2009TaskBoard(s,s.lastTick);
  if(!Array.isArray(s.cities)||!s.cities.length){s.cities=[{id:'main',key:'3,4',name:'Thành Gaia',race:s.race,main:true,sourceStatus:'LEGACY_MAIN',local:currentLocal(s)}];s.activeCityId='main'}
+ // Older v07 saves do not contain AI data. Seed only unowned modeled
+ // castles, so loaded player conquests are never re-created as enemies.
+ if(s.aiCities===undefined)s.aiCities=Object.fromEntries(E.TILES.filter(t=>t.kind==='castle'&&t.aiOwner&&!s.cities.some(c=>c.key===t.key)).map(t=>[t.key,makeAICity(t)]));
+ if(!s.aiCities||typeof s.aiCities!=='object'||Array.isArray(s.aiCities))throw Error('Save AI thành trì không hợp lệ.');
  if(typeof s.activeCityId!=='string')throw Error('Save HG-10 thiếu thành đang mở.');
  const rootCity=s.cities.find(c=>c.id===s.activeCityId);
  if(!rootCity||!rootCity.local||typeof rootCity.local!=='object')throw Error('Save HG-10 tham chiếu thành không tồn tại.');
@@ -205,7 +248,16 @@ function battleAct(s,action,options){
  if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='atk'&&q.remaining>0))hero.atk*=1.1;
  if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='def'&&q.remaining>0))hero.def*=1.1;
  let result;try{result=prior.battleAct(s,action,options)}finally{if(hero&&old)Object.assign(hero,old)}
- if(result?.type==='win'&&tile?.kind==='castle'&&!cityForKey(s,tile.key))seedCapturedCity(s,tile);
+ if(result?.type==='win'&&tile?.kind==='castle'&&!cityForKey(s,tile.key)){
+  if(s.aiCities?.[tile.key])delete s.aiCities[tile.key];
+  seedCapturedCity(s,tile);
+ }
+ // Surviving defenders persist after defeats/retreats. They are not
+ // replaced by a new generic NPC army on the next visit.
+ if(battle?.kind==='castle'&&result&&result.type!=='continue'&&s.aiCities?.[battle.target]){
+  const ai=s.aiCities[battle.target];
+  ai.garrison=Object.fromEntries(battle.enemies.filter(u=>u.unitId&&u.count>0).map(u=>[u.unitId,u.count]));
+ }
  if(result?.type==='win'&&tile?.kind==='mine'){
   const mine=s.mines.find(m=>m.key===tile.key);if(mine)mine.cityId=homeCityId||'main';
  }
@@ -255,7 +307,7 @@ function tick(s,now=Date.now()){
  const from=s.lastTick,activeId=s.activeCityId,gameSeconds=E.gameElapsedSeconds(s,from,now);timedTick(s,from,now);storeCurrent(s);
  for(const c of [...s.cities])if(c.id!==activeId)tickOtherCity(s,c,from,now);
  // The active city's tick is the single source of world time/AP. Restore its live root after offline city work.
- const active=s.cities.find(c=>c.id===activeId);if(active)applyCity(s,active);advanceCityTransports(s,gameSeconds);storeCurrent(s);s.lastTick=now;s.version=7;syncDailyTaskBoard(s,now);syncChina2009TaskBoard(s,now);return s;
+ const active=s.cities.find(c=>c.id===activeId);if(active)applyCity(s,active);advanceCityTransports(s,gameSeconds);advanceAICities(s,gameSeconds);storeCurrent(s);s.lastTick=now;s.version=7;syncDailyTaskBoard(s,now);syncChina2009TaskBoard(s,now);return s;
 }
 function strict(s){
  if(!s||s.version!==7||!prior.strict(s))return false;
@@ -293,6 +345,15 @@ function strict(s){
   const source=s.cities.find(c=>c.id===q?.sourceCityId),target=s.cities.find(c=>c.id===q?.targetCityId),unit=transportUnit(q?.unitId),cargo=q?.resources;
   if(!q||typeof q.id!=='string'||!/^convoy-[1-9]\d*$/.test(q.id)||transportIds.has(q.id)||!source||!target||source.id===target.id||q.fromKey!==source.key||q.toKey!==target.key||!unit||unit.race!==source.race||!Number.isSafeInteger(q.count)||q.count<1||q.count>1_000_000_000||!Array.isArray(q.path)||q.path.length<2||q.path[0]!==source.key||q.path[q.path.length-1]!==target.key||q.path.length!==E.pathfind(source.key,target.key)?.length||q.path.some(key=>!E.getTile(key))||!['outbound','holding','return'].includes(q.phase)||!Number.isFinite(q.total)||q.total<40||q.total>200000||!Number.isFinite(q.returnTotal)||q.returnTotal!==q.total||!Number.isFinite(q.remaining)||q.remaining<0||q.remaining>q.total||!cargo||typeof cargo!=='object'||Array.isArray(cargo)||Object.keys(cargo).some(k=>!E.C.keys.includes(k))||E.C.keys.some(k=>!Number.isSafeInteger(cargo[k])||cargo[k]<0)||E.C.keys.every(k=>cargo[k]===0)||!Number.isSafeInteger(q.weight)||q.weight!==transportWeight(cargo)||q.weight>unit.load*q.count*10||q.capacity!==unit.load*q.count*10)return false;
   if(q.phase==='holding'&&q.remaining!==0)return false;transportIds.add(q.id);
+ }
+ if(!s.aiCities||typeof s.aiCities!=='object'||Array.isArray(s.aiCities))return false;
+ const expectedAiKeys=new Set(E.TILES.filter(t=>t.kind==='castle'&&t.aiOwner&&!s.cities.some(c=>c.key===t.key)).map(t=>t.key));
+ if(Object.keys(s.aiCities).length!==expectedAiKeys.size)return false;
+ for(const [key,ai] of Object.entries(s.aiCities)){
+  const tile=E.getTile(key);
+  if(!expectedAiKeys.has(key)||!tile||!ai||ai.key!==key||ai.race!==tile.race||!Number.isSafeInteger(ai.level)||ai.level<1||ai.level>5||!Number.isSafeInteger(ai.hours)||ai.hours<0||ai.hours>100000000||!Number.isFinite(ai.hourProgress)||ai.hourProgress<0||ai.hourProgress>=3600)return false;
+  if(!ai.treasury||typeof ai.treasury!=='object'||Array.isArray(ai.treasury)||E.C.keys.some(k=>!Number.isFinite(ai.treasury[k])||ai.treasury[k]<0||ai.treasury[k]>1e9))return false;
+  if(!ai.garrison||typeof ai.garrison!=='object'||Array.isArray(ai.garrison)||Object.entries(ai.garrison).some(([id,n])=>!E.C.units[ai.race].some(u=>u.id===id)||!Number.isSafeInteger(n)||n<0||n>100000))return false;
  }
  if(!Array.isArray(s.parallelMarches)||s.parallelMarches.some(g=>!s.cities.some(c=>c.id===g.homeCityId)))return false;
  return true;
@@ -469,6 +530,6 @@ function autoFormation(s){
  return plan;
 }
 E.make=make;E.tick=tick;E.startMarch=startMarch;E.battleAct=battleAct;E.claim=claim;E.appoint=appoint;E.heroStats=heroStats;E.valid=valid;E.strictSave=strict;E.parseSave=parse;E.serializeSave=serialize;E.rate=rate;
-Object.assign(E,{cityLimit,activeCity,cityForKey,switchCity,depositArmy,recommendFormation,autoFormation,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,CHINA_2009_DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,startCityTransport,transportUnit,transportWeight,dailyTasks,acceptDailyTask,claimDailyTask,heroTaskStatus,acceptHeroTask,claimHeroTask,china2009DailyTasks,acceptChina2009DailyTask,claimChina2009DailyTask});
+Object.assign(E,{aiCityAt,advanceAICities,cityLimit,activeCity,cityForKey,switchCity,depositArmy,recommendFormation,autoFormation,ensure10:ensure,syncCityState:storeCurrent,HG10_CITY_LIMITS:CITY_LIMITS,WORLD_BUILDING_BY_KEY,DAILY_TASKS,CHINA_2009_DAILY_TASKS,worldDayKey,hasVisitedWorldBuilding,visitWorldBuilding,startCityTransport,transportUnit,transportWeight,dailyTasks,acceptDailyTask,claimDailyTask,heroTaskStatus,acceptHeroTask,claimHeroTask,china2009DailyTasks,acceptChina2009DailyTask,claimChina2009DailyTask});
 root.HOG_HG10={status:'partial-world-building-visits',sourceStatus:'2009 Chinese guide daily visitation and listed rewards; UTC reset and instant visit are implementation models',saveVersion:7,depositArmy};
 })(typeof globalThis!=='undefined'?globalThis:this);
