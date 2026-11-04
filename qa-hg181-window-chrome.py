@@ -138,14 +138,19 @@ try:
     page.locator('.game-window-body .hg26-autohunt').count()==1 and
     page.locator('#hg26_boss option').count()>=1 and
     page.evaluate("HOG_APP_DEBUG.getState().hg26.enabled===false"))
+  # New Game defaults to 60×. Slow to 1× using the real speed command so the
+  # multi-minute expedition cannot finish during Playwright locator scrolling.
+  page.evaluate("HOG_ENGINE.setSpeed(HOG_APP_DEBUG.getState(),1)")
   page.locator('#hg26_max_runs').fill('1')
   page.locator('.game-window-body [data-action="hg26-start"]').click()
+  hunt=page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState(),q=s.hg26;
+    return {enabled:q.enabled,phase:q.phase,limit:q.config.maxRuns,runs:q.runs,
+      wins:q.wins,strict:HOG_ENGINE.strictSave(s),ap:s.ap,
+      target:q.config.target,toast:document.querySelector('#toast')?.textContent};
+  }""")
   check('HG26 real click enables selected Boss policy without instantly claiming a victory',
-    page.evaluate("""() => {
-      const s=HOG_APP_DEBUG.getState(),q=s.hg26;
-      return q.enabled===true&&q.config.maxRuns===1&&q.runs===0&&q.wins===0&&
-        HOG_ENGINE.strictSave(s);
-    }"""))
+    hunt['enabled'] and hunt['limit']==1 and hunt['runs']==0 and hunt['wins']==0 and hunt['strict'],hunt)
   page.locator('.game-window-body [data-action="hg26-stop"]').click()
   check('HG26 real stop click disables automation and preserves Save v07',
     page.evaluate("""() => {
