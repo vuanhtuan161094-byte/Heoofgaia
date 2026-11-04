@@ -243,11 +243,12 @@ function startMarch(s,key,targetKind){
 function battleAct(s,action,options){
  ensure(s);const tile=s.battle&&E.getTile(s.battle.target),homeCityId=s.expedition?.homeCityId||s.activeCityId;
  const battle=s.battle,beforeResources={...s.res},beforeFame=s.fame,beforeItems=new Set(s.inventory.map(i=>i.uid));
- const hero=s.heroes.find(h=>h.id===(s.expedition?.heroId||s.activeHero)),old=hero?{atk:hero.atk,def:hero.def}:null;
+ const hero=s.heroes.find(h=>h.id===(s.expedition?.heroId||s.activeHero));
  const beforeXp=hero?reportHeroXp(hero):0;
- if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='atk'&&q.remaining>0))hero.atk*=1.1;
- if(hero&&s.heroBuffs.some(q=>q.heroId===hero.id&&q.stat==='def'&&q.remaining>0))hero.def*=1.1;
- let result;try{result=prior.battleAct(s,action,options)}finally{if(hero&&old)Object.assign(hero,old)}
+ // HG04 now resolves the canonical E.heroStats during strike. Do not
+ // pre-multiply the raw Hero attributes here: that applied buffs before
+ // equipment (and would double-buff once the canonical path is used).
+ const result=prior.battleAct(s,action,options);
  if(result?.type==='win'&&tile?.kind==='castle'&&!cityForKey(s,tile.key)){
   if(s.aiCities?.[tile.key])delete s.aiCities[tile.key];
   seedCapturedCity(s,tile);
