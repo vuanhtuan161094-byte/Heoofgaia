@@ -122,7 +122,34 @@ try{
  const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.cities.length,2);
  assert(E.cityForKey(saved,target.key));
  const snapshot=JSON.stringify(saved);E.tick(saved,saved.lastTick);assert.equal(JSON.stringify(saved),snapshot);
- receipt.conquest={key:target.key,race:target.race,owned:2,strictSave:true};
+ // No subsidy and no test seed for captured settlement. Prove that its
+ // 0-resource economy can still build and train by ordinary time progression.
+ s=saved;
+ action('Switch to genuinely conquered zero-stock second city',()=>E.switchCity(s,owned.id));
+ const emptyBefore={...s.res};assert(C.keys.every(k=>emptyBefore[k]===0));
+ action('Wait for natural basic 5-resource income of the newly conquered city',()=>{
+  advance(12*3600);
+  assert(C.keys.every(k=>s.res[k]>0),'Captured city must regenerate all five resources');
+ });
+ const freshman=owned.race+'_1';
+ action('Recruit first native soldier in captured city without any QA grants',()=>{
+  const firstArmy=s.army[freshman]||0;
+  E.recruit(s,freshman,1);advance(s.training[0].remaining+1);
+  assert.equal(s.army[freshman],firstArmy+1);
+ });
+ action('Build Market with income earned after zero-stock capture',()=>{
+  E.upgrade(s,'market');finishJob('buildingQueue');
+  assert.equal(s.buildings.market,1);
+ });
+ action('Return to main city and retain both independent treasuries',()=>{
+  E.switchCity(s,'main');assert.equal(s.cities.length,2);
+  const secondary=E.cityForKey(s,target.key);
+  assert(secondary.local.res.gold>0);
+  assert.equal(secondary.local.buildings.market,1);
+  assert.equal(secondary.local.army[freshman],1);
+ });
+ assert(E.strictSave(E.parseSave(E.serializeSave(s))));
+ receipt.conquest={key:target.key,race:target.race,owned:2,secondaryZeroStockRecovered:true,nativeUnit:1,secondaryMarket:1,strictSave:true};
  receipt.passed=true;console.log('HG17 ORGANIC NEW GAME PASS '+JSON.stringify({progression:receipt.progression,conquest:receipt.conquest}));
 }catch(err){
  receipt.failure=String(err.stack||err);console.error('HG17 ORGANIC NEW GAME FAIL '+receipt.failure);process.exitCode=1;
