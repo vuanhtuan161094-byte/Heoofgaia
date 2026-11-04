@@ -90,6 +90,24 @@ test('Weekly completion payout is claim-only, and only quest claims can grant th
  assert(E.strictSave(save(s)));
  return {unitId:unit.id,owned:s.army[unit.id],commandCost:E.unitValue(unit)};
 });
+test('Real quest-only troop enters battle report and survives v07 reload',()=>{
+ const s=starter(),guard=C.rewardUnits.human[0];
+ s.hg18.week.counts.eliteWins=1; // explicit endgame quest completion fixture
+ E.claimHG18Task(s,'weekly','weekly_boss');
+ s.heroes[0].level=100; // command-cap fixture; actual battle has no stat/HP manipulation
+ E.setFormation(s,[{unitId:guard.id,count:1},{unitId:'human_1',count:16}]);
+ const target=E.TILES.find(t=>t.kind==='npc'&&t.level===1&&E.pathfind('3,4',t.key));
+ assert(target,'Missing reachable rookie NPC');
+ s.battle=E.makeBattle(s,target.key);
+ assert(E.strictSave(s),'Reward troop active battle is not save-safe');
+ let result;for(let i=0;i<70&&s.battle;i++)result=E.battleAct(s,'attack');
+ assert.equal(result?.type,'win','Quest-only troop must finish a real combat encounter');
+ const report=s.battleReports[0];assert(report.allies.some(x=>x.unitId===guard.id));
+ const loaded=save(s);assert(loaded.battleReports[0].allies.some(x=>x.unitId===guard.id));
+ const corrupt=E.clone(loaded);corrupt.battleReports[0].allies[0].unitId='fake_special';
+ assert.equal(E.strictSave(corrupt),false,'Unknown soldier must remain invalid');
+ return {unitId:guard.id,target:target.key,reportId:report.id,outcome:result.type,save:'PASS'};
+});
 test('Gear pack sequence, 3-piece ordinary set and 3-piece rare crafted set are deterministic',()=>{
  const s=starter();s.hg18.materials.gear_pack=2;s.hg18.materials.set_chest=3;s.hg18.materials.astral_shard=24;
  const common1=E.openHG18Pack(s,'gear_pack'),common2=E.openHG18Pack(s,'gear_pack');

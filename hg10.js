@@ -284,14 +284,17 @@ function reportHeroXp(hero){let total=hero.xp;for(let level=1;level<hero.level;l
 function validBattleReports(s){
  if(!Array.isArray(s.battleReports)||s.battleReports.length>30)return false;
  const nonnegative=n=>Number.isFinite(n)&&n>=0&&n<=1e12,integer=n=>Number.isSafeInteger(n)&&n>=0&&n<=1e12,text=(v,max)=>typeof v==='string'&&v.length>0&&v.length<=max;
- const ids=new Set();for(const r of s.battleReports){
+ const ids=new Set();
+ // HG18 quest-only soldiers are legal combatants in reports and casualty receipts.
+ const knownUnits=new Set(Object.values(E.C.units).concat(Object.values(E.C.rewardUnits||{})).flat().map(u=>u.id));
+ for(const r of s.battleReports){
   if(!r||!text(r.id,48)||!/^battle-[1-9]\d*$/.test(r.id)||ids.has(r.id)||!['win','lose','timeout','retreat'].includes(r.outcome)||!E.getTile(r.target)||!text(r.name,120)||!['npc','mine','castle','treasure'].includes(r.kind)||!integer(r.turns)||r.turns<1||r.turns>71||!Number.isFinite(r.completedAt)||r.completedAt<0||r.completedAt>1e15||!s.cities.some(c=>c.id===r.homeCityId)||!s.heroes.some(h=>h.id===r.heroId)||!text(r.heroName,120)||!nonnegative(r.heroXp)||!nonnegative(r.fame)||!['home','returning','stationed'].includes(r.disposition)||!r.resources||E.C.keys.some(k=>!nonnegative(r.resources[k]))||!Array.isArray(r.allies)||r.allies.length>7||!Array.isArray(r.enemies)||r.enemies.length>20)return false;
   if(r.items!==null&&(!Array.isArray(r.items)||r.items.length>100||new Set(r.items.map(i=>i?.uid)).size!==r.items.length||r.items.some(i=>!i||!integer(i.uid)||!E.ITEMS[i.itemId]||!text(i.name,120))))return false;
   for(const row of [...r.allies,...r.enemies])if(!row||!text(row.name,120)||![row.initial,row.survived,row.lost].every(integer)||row.initial!==row.survived+row.lost)return false;
-  for(const row of r.allies)if(!Object.values(E.C.units).flat().some(u=>u.id===row.unitId)||(row.wounded!==null&&(!integer(row.wounded)||row.wounded>row.lost)))return false;
+  for(const row of r.allies)if(!knownUnits.has(row.unitId)||(row.wounded!==null&&(!integer(row.wounded)||row.wounded>row.lost)))return false;
   ids.add(r.id);
  }
- const ledger=s.battle?.woundedByUnit;if(ledger!==undefined&&(!ledger||typeof ledger!=='object'||Array.isArray(ledger)||Object.entries(ledger).some(([id,n])=>!Object.values(E.C.units).flat().some(u=>u.id===id)||(!integer(n)||n>(s.battle.allies||[]).filter(u=>u.unitId===id).reduce((total,u)=>total+u.initial-u.count,0)))))return false;
+ const ledger=s.battle?.woundedByUnit;if(ledger!==undefined&&(!ledger||typeof ledger!=='object'||Array.isArray(ledger)||Object.entries(ledger).some(([id,n])=>!knownUnits.has(id)||(!integer(n)||n>(s.battle.allies||[]).filter(u=>u.unitId===id).reduce((total,u)=>total+u.initial-u.count,0)))))return false;
  return true;
 }
 function tickOtherCity(s,city,from,now){

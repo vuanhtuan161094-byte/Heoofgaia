@@ -56,6 +56,70 @@ try:
     const s=HOG_APP_DEBUG.getState();return s.hg18.day.claimed.includes('daily_build')&&
      s.hg18.materials.resource_card===0&&s.buildings.market===1&&HOG_ENGINE.strictSave(s);
   }"""))
+  # Organic continuation: real training -> NPC combat -> quest gear -> +1 -> reload.
+  # No artificial materials, XP, gold, or troop grants in this segment.
+  page.locator('[data-action="tab"][data-tab="army"]').first.click()
+  page.locator('#q_human_1').fill('24')
+  page.locator('[data-action="recruit"][data-id="human_1"]').click()
+  check("Paid New Game training queue has 24 recruits",page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState();return s.training.length===1&&s.training[0].count===24&&s.army.human_1===16;
+  }"""))
+  page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState(),q=s.training[0];
+    HOG_ENGINE.tick(s,s.lastTick+(q.remaining+2)*1000/s.speed);
+    HOG_APP_DEBUG.render();
+  }""")
+  page.locator('[data-action="tab"][data-tab="tasks"]').first.click()
+  check("Actual completed training unlocks daily quest",page.locator('[data-action="hg18-claim"][data-id="daily_recruit"]').is_enabled())
+  page.locator('[data-action="hg18-claim"][data-id="daily_recruit"]').click()
+  check("Daily recruitment credits two upgrade stones, without test grant",page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState();return s.army.human_1===40&&s.hg18.materials.enhance_stone===2;
+  }"""))
+  rookie_npc=page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
+    const tile=E.TILES.find(t=>t.kind==='npc'&&t.level===1&&E.pathfind('3,4',t.key));
+    if(!tile)throw Error('No reachable rookie NPC');
+    E.startMarch(s,tile.key);
+    E.tick(s,s.lastTick+(s.march.remaining+2)*1000/s.speed);
+    HOG_APP_DEBUG.render();
+    if(!s.battle)throw Error('NPC march did not enter battle');
+    return tile.key;
+  }""")
+  for turn in range(70):
+   if not page.evaluate("!!HOG_APP_DEBUG.getState().battle"):break
+   page.locator('[data-action="battle"][data-cmd="attack"]').click()
+  check("Unseeded 40-militia army defeats a real 1-star NPC",page.evaluate("""key => {
+    const s=HOG_APP_DEBUG.getState();return !s.battle&&
+      s.cleared.includes(key)&&s.hg18.day.counts.npcWins>=1&&HOG_ENGINE.strictSave(s);
+  }""",rookie_npc),{"npc":rookie_npc})
+  page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState();
+    if(s.march)HOG_ENGINE.tick(s,s.lastTick+(s.march.remaining+2)*1000/s.speed);
+    HOG_APP_DEBUG.render();
+  }""")
+  page.locator('[data-action="tab"][data-tab="tasks"]').first.click()
+  page.locator('[data-action="hg18-claim"][data-id="daily_npc"]').click()
+  page.locator('[data-action="tab"][data-tab="relics"]').first.click()
+  page.locator('[data-action="hg18-open"][data-id="gear_pack"]').click()
+  earned_uid=page.evaluate("""() => HOG_APP_DEBUG.getState().inventory.find(i=>i.origin==='HG18 mission chest')?.uid??null""")
+  check("Daily NPC mission yields an actual owned gear item",earned_uid is not None)
+  page.locator('[data-action="tab"][data-tab="heroes"]').first.click()
+  page.locator(f'[data-action="equipitem"][data-uid="{earned_uid}"]').click()
+  page.locator(f'[data-action="hg18-enhance"][data-uid="{earned_uid}"]').click()
+  check("Organic gear +1 spends two quest stones and is equipped",page.evaluate("""uid => {
+    const s=HOG_APP_DEBUG.getState(),item=s.inventory.find(i=>i.uid===uid);
+    return item?.enhance===1&&s.hg18.materials.enhance_stone===0&&
+      Object.values(s.equipment[s.activeHero]||{}).includes(uid)&&HOG_ENGINE.strictSave(s);
+  }""",earned_uid))
+  page.locator('#save').click()
+  page.reload(wait_until='load')
+  check("New Game -> paid training -> NPC -> earned gear +1 survives cold reload",page.evaluate("""uid => {
+    const s=HOG_APP_DEBUG.getState();
+    return s.buildings.market===1&&s.hg18.day.claimed.includes('daily_recruit')&&
+      s.hg18.day.claimed.includes('daily_npc')&&s.inventory.some(i=>i.uid===uid&&i.enhance===1)&&
+      HOG_ENGINE.strictSave(s);
+  }""",earned_uid))
+  page.screenshot(path=str(OUT/"organic-dayone-quest-gear-chrome.png"),full_page=True)
   # Explicit high-end fixture to test locked progression UI. These grants are
   # NOT part of the above organic New Game or of the shipped starting state.
   page.evaluate("""() => {
@@ -119,5 +183,5 @@ finally:
  output={"phase":"HG18 UI Chromium", "checks":checks,
    "passed":sum(x["ok"] for x in checks),"total":len(checks),
    "failed":sum(not x["ok"] for x in checks),"runtimeErrors":errors,
-   "fixturePolicy":"New Game unseeded through daily card and reload; endgame materials/Lv100 are separate explicit UI fixtures"}
+   "fixturePolicy":"New Game through paid build/training/NPC/gear +1 and reload is unseeded; endgame Lv100/materials remain explicit fixtures"}
  (QA/"hg18-chrome.json").write_text(json.dumps(output,ensure_ascii=False,indent=2),encoding="utf-8")
