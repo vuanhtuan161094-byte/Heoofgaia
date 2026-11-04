@@ -234,7 +234,10 @@ function annotate(s){
 function tick(s,...args){
  const out=old.tick(s,...args);
  if(active(s)&&s.battle&&!s.battle.hg261Joint)annotate(s);
- if(active(s)&&!s.hg26.enabled&&!s.expedition&&!s.battle)restoreTower(s);
+ if(active(s)&&!s.hg26.enabled&&!s.expedition&&!s.battle&&s.hg26.joint.towerBackup){
+  try{assignPlans(s,available(s,s.hg26.joint.team));restoreTower(s)}
+  catch(e){E.note(s,'HG26.1: cần phân quân lại trước khi khôi phục Bí Cảnh: '+e.message)}
+ }
  return out;
 }
 function topUp(s,team){
@@ -264,15 +267,20 @@ function topUp(s,team){
  if(sumUnits<s.hg26.config.minUnits)return {type:'halt',reason:'Tổng số quân ba tướng quá thấp'};
  return {type:'ready',total:sumUnits};
 }
+function finishAfterReturn(s,reason){
+ try{assignPlans(s,available(s,s.hg26.joint.team));restoreTower(s)}
+ catch(e){E.note(s,'HG26.1: cần bố trí lại quân sau trận trước khi vào Bí Cảnh: '+e.message)}
+ return {changed:true,type:'stopped',status:E.hg26Stop(s,reason)};
+}
 function recovery(s){
  const q=s.hg26,c=q.config;
  if(s.battle||s.expedition||s.march||s.parallelMarches?.length)
   return {changed:true,type:'stopped',status:E.hg26Stop(s,'Đoàn chưa về đủ ba tướng')};
- if(q.runs>=c.maxRuns)return {changed:true,type:'stopped',status:E.hg26Stop(s,'Đã hoàn thành số trận đặt trước')};
+ if(q.runs>=c.maxRuns)return finishAfterReturn(s,'Đã hoàn thành số trận đặt trước');
  if(c.stopOnLoss&&q.last?.outcome!=='win')
-  return {changed:true,type:'stopped',status:E.hg26Stop(s,'Trận trước chưa thắng')};
+  return finishAfterReturn(s,'Trận trước chưa thắng');
  if(q.last?.lossPercent>c.maxLossPercent)
-  return {changed:true,type:'stopped',status:E.hg26Stop(s,'Tổn thất vượt ngưỡng')};
+  return finishAfterReturn(s,'Tổn thất vượt ngưỡng');
  if(c.autoHeal){
   if(s.arenaQueue)return {changed:false,type:'healing',remaining:s.arenaQueue.remaining};
   if(totalArmy(s.wounded)){
