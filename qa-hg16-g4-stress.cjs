@@ -92,7 +92,7 @@ check('P0 7v7 mixed tactical 4-race scenarios have no negative armies, duplicate
    assert(b.lastEvents.length<=14);
    assert(b.lastEvents.every(e=>e.damage>=0&&Number.isFinite(e.damage)&&e.casualties>=0));
    assert(E.strictSave(s),'Invalid 7v7 combat state');
-   if(rounds===3&&s.battle){const clone=E.parseSave(E.serializeSave(s));assert.deepEqual(stableBattle(clone.battle),stableBattle(s.battle));}
+   if(rounds===3&&s.battle){const clone=E.parseSave(E.serializeSave(s));assert.equal(JSON.stringify(stableBattle(clone.battle)),JSON.stringify(stableBattle(s.battle)));}
   }
   assert(last&&['win','lose','timeout','continue'].includes(last.type));
   assert(rounds<31,'7v7 tactical stalemate not resolved within 30 turns');
@@ -135,7 +135,7 @@ check('P0 production five resources across 6 independent cities / 30 offline day
   const ownedKeys=new Set(loaded.cities.map(c=>c.key));
   assert.equal(ownedKeys.size,6);
   assert.equal(Object.keys(loaded.aiCities).length,36,'AI ownership must not duplicate');
-  assert(E.strictSave(loaded));
+  assert(E.strictSave(loaded),'Day '+day+' 6-city Save v07 strict failed; active='+loaded.activeCityId+' version='+loaded.version+' AI='+Object.keys(loaded.aiCities||{}).length+' AP='+loaded.ap+'/'+loaded.apMax);
  }
  const before=JSON.stringify(loaded);E.tick(loaded,now);assert.equal(JSON.stringify(loaded),before);
  return {days:30,ownedCities:6,aiCities:36,resources:5,offlineCapHours:24,snapshots:6};
@@ -151,7 +151,7 @@ check('P0 warehouse caps and market/source consumption never create negative or 
  const oldGold=s.res.gold,oldWood=s.res.wood;
  E.sell(s,'wood',10);assert.equal(s.res.wood,oldWood-10);assert.equal(s.res.gold,oldGold+20);
  const snapshot=E.parseSave(E.serializeSave(s));const res={...snapshot.res};E.tick(snapshot,done);
- assert.deepEqual(snapshot.res,res);
+ assert.equal(JSON.stringify(snapshot.res),JSON.stringify(res));
  snapshot.res.gold=E.limits(snapshot).gold;
  const before=JSON.stringify(snapshot);
  assert.throws(()=>E.sell(snapshot,'wood',1),/Kho vàng/);
