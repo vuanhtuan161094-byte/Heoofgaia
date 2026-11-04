@@ -1,6 +1,6 @@
 """Real file:// Chromium acceptance for 2009-inspired scenic battlefield and controls."""
 from pathlib import Path
-import hashlib, json, sys
+import hashlib, json, os, sys
 from playwright.sync_api import sync_playwright
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -19,7 +19,10 @@ def check(label,condition):
     print(("PASS " if passed else "FAIL ")+label,flush=True)
 
 with sync_playwright() as p:
-    browser=p.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
+    launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
+    chrome=os.environ.get("HOG_CHROME_PATH")
+    if chrome: launch["executable_path"]=chrome
+    browser=p.chromium.launch(**launch)
     page=browser.new_page(viewport={"width":1280,"height":720},device_scale_factor=1)
     page.set_default_timeout(10000)
     page.on("pageerror",lambda e: errors.append(str(e)))

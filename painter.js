@@ -593,7 +593,7 @@ function battleUnitLayout(b,camera,width,height){
  return entries;
 }
 function battleSpriteScale(height,row,rows=9){
- return clamp(.84+row/rows*.19,.84,1.06)*1.05*clamp(height/460,.85,1.08);
+ return clamp(.84+row/rows*.19,.84,1.06)*1.05*clamp(height/460,.95,1.08);
 }
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;

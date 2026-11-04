@@ -1515,7 +1515,8 @@ test('HG14.5 real combat receipts drive damage numbers, arrows and death marks o
 test('HG14.4 responsive troop scale improves 960x540 readability',()=>{
  const desktop=P.battleSpriteScale(516,2,9),mobile=P.battleSpriteScale(347,2,9);
  assert(desktop>=.95&&desktop<=1.18);
- assert(mobile>=.76&&mobile<=.93);
+ assert(mobile>=.82&&mobile<=.98);
+ assert(P.battleSpriteScale(320,0,9)>.82,'compact 960x540 battlefield sprites stay above the browser acceptance floor');
  assert(mobile<desktop);
  assert(P.battleSpriteScale(347,8,9)>P.battleSpriteScale(347,0,9));
  for(const h of [347,516,600]){
