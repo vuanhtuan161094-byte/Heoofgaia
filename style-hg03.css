@@ -157,3 +157,78 @@ body.combat-mode .battle-display-toggle:focus-visible{outline:2px solid #f2dc9a;
  body.combat-mode .battle-display-tools{right:7px;top:58px}
  body.combat-mode .battle-display-toggle{font-size:10px;padding:5px 7px;min-height:27px}
 }
+
+/* HG18.1 VIEWPORT CONTRACT — fixed game stage, all management in windows.
+ * Main document never scrolls; long optional detail advances with modal page controls.
+ * The v07 game state is unaffected. */
+html,body{height:100%;scroll-behavior:auto}
+body:not(.combat-mode){height:100dvh;overflow:hidden}
+body:not(.combat-mode) #app{height:100dvh;max-width:none;display:flex;flex-direction:column;gap:3px;padding:5px 8px;overflow:hidden}
+body:not(.combat-mode) .top{flex:0 0 auto;min-height:51px;padding:4px 10px;border-radius:5px;gap:8px}
+body:not(.combat-mode) .masthead{gap:6px}
+body:not(.combat-mode) .crest{font-size:25px}
+body:not(.combat-mode) .brand{font-size:18px;letter-spacing:.9px}
+body:not(.combat-mode) .masthead small{font-size:8px}
+body:not(.combat-mode) .resources{flex-wrap:nowrap;gap:4px}
+body:not(.combat-mode) .resource{min-width:0;display:flex;gap:4px;align-items:center;padding:3px 6px;font-size:10px}
+body:not(.combat-mode) .resource b{font:700 13px system-ui;color:#f6d99d}
+body:not(.combat-mode) .resource small{display:none}
+body:not(.combat-mode) .tabs{flex:0 0 auto;margin:0;display:flex;flex-wrap:nowrap;gap:3px;min-height:32px;overflow:hidden}
+body:not(.combat-mode) .tabs button{flex:1 1 0;min-width:0;white-space:nowrap;padding:5px 2px;font:700 clamp(10px,1vw,13px) system-ui}
+body:not(.combat-mode) .tabs .hog-ui-icon{height:16px;width:16px}
+body:not(.combat-mode) .wrap{flex:1 1 auto;min-height:0;display:flex;position:relative;gap:0}
+body:not(.combat-mode) #main{flex:1 1 auto;min-height:0;display:flex;flex-direction:column;gap:5px;overflow:hidden;padding:6px;position:relative}
+body:not(.combat-mode) #main>.scene-title{flex:0 0 auto;margin:0}
+body:not(.combat-mode) #main>.scene-title h1{font-size:20px}
+body:not(.combat-mode) #main>.quickstart-strip,body:not(.combat-mode) #main>.card[aria-label="Lộ trình phát triển New Game"]{flex:0 0 auto;padding:5px 9px;margin:0}
+body:not(.combat-mode) #main>.card[aria-label="Lộ trình phát triển New Game"] p{display:none}
+body:not(.combat-mode) .quickstart-strip .quickstart-copy small,body:not(.combat-mode) .quickstart-copy .eyebrow{display:none}
+body:not(.combat-mode) .quickstart-actions button{min-height:29px;padding:4px 7px}
+body:not(.combat-mode) #main>.map-frame{flex:1 1 auto;min-height:120px;overflow:hidden;box-shadow:none}
+body:not(.combat-mode) #main>.map-frame canvas{display:block;width:100%;height:100%;aspect-ratio:auto;max-width:none;margin:0}
+body:not(.combat-mode) #main>.scene-bottom{flex:0 0 auto;display:block;max-height:86px;padding:3px 6px;overflow:hidden}
+body:not(.combat-mode) #main>.scene-bottom .target-information{display:flex;align-items:center;gap:9px;min-height:58px;flex-wrap:nowrap}
+body:not(.combat-mode) #main>.scene-bottom .target-information h2{font-size:16px;white-space:nowrap;margin:0}
+body:not(.combat-mode) #main>.scene-bottom .target-information>.eyebrow,
+body:not(.combat-mode) #main>.scene-bottom .target-information>p,
+body:not(.combat-mode) #main>.scene-bottom .target-information .hint{display:none}
+body:not(.combat-mode) #main>.scene-bottom .target-information .actions{margin-left:auto}
+body:not(.combat-mode) #main>.scene-bottom .landmarks,body:not(.combat-mode) #main>.city-transport-ledger,
+body:not(.combat-mode) #main>.banner,body:not(.combat-mode) #main>.expedition-ledger,
+body:not(.combat-mode) #main>.city-transfer{display:none}
+body:not(.combat-mode) .sidebar{position:absolute;right:10px;bottom:2px;z-index:4;pointer-events:none}
+body:not(.combat-mode) .sidebar>.panel:not(:last-child){display:none}
+body:not(.combat-mode) .sidebar>.panel:last-child{display:block;padding:2px;background:#15282ee8;pointer-events:auto}
+body:not(.combat-mode) .sidebar .sectiontitle,body:not(.combat-mode) .sidebar .muted{display:none}
+body:not(.combat-mode) .sidebar .buttons{display:flex;flex-wrap:nowrap;gap:3px}
+body:not(.combat-mode) .sidebar .buttons button{font-size:10px;padding:4px 6px}
+body:not(.combat-mode) #app>footer{display:none}
+body:not(.combat-mode) #toast{z-index:100}
+
+.game-modal[hidden]{display:none!important}
+.game-modal{position:fixed;inset:0;display:flex;justify-content:center;align-items:center;z-index:40;background:rgba(3,12,17,.68);padding:50px 12px 48px}
+.game-window{display:flex;flex-direction:column;min-width:0;min-height:0;width:min(1100px,97vw);height:min(640px,calc(100dvh - 100px));border:2px solid #aa9264;border-radius:9px;background:linear-gradient(165deg,#223940,#142731);box-shadow:0 17px 60px #000b;overflow:hidden}
+.game-window-head{flex:0 0 45px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 12px;border-bottom:1px solid #937c55;background:#2b4142}
+.game-window-head h2{font:700 19px Georgia,serif;color:#f0d5a1;margin:0}
+.game-window-head button{min-width:34px;padding:4px;background:#593b3b;border-color:#b68175}
+.game-window-body{flex:1 1 auto;min-height:0;padding:11px 14px;overflow:hidden;overscroll-behavior:contain;scrollbar-width:none}
+.game-window-body::-webkit-scrollbar{display:none}
+.game-window-body>.landmarks{display:block;border:0;padding:0}
+.game-window-body .landmark-list{max-width:100%;gap:5px}
+.game-window-body .landmark-list button{font-size:12px}
+.game-window-body>.hint, .game-window-body>.tiny.muted{font-size:11px}
+.game-window-footer{flex:0 0 38px;display:flex;gap:8px;align-items:center;justify-content:space-between;padding:3px 12px;background:#15292f;border-top:1px solid #6b705b;color:#d3cdb7;font-size:11px}
+.game-window-footer button{font-size:11px;padding:4px 9px}
+.game-window-body :is(button,select,input){scroll-margin-top:12px;scroll-margin-bottom:12px}
+.game-window-body .formation-grid{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}
+.game-window-body .formation-slot{padding:5px;border-radius:6px}
+.game-window-body .formation-front{border-color:#b39c61;background:#354538}
+.game-window-body .formation-back{border-color:#547a8e;background:#203640}
+.game-window-body .formation-slot select,.game-window-body .formation-slot input{font-size:11px;padding:3px 5px}
+.game-window-body .formation-slot input{width:100%}
+.game-window-body .unitrow .hint,.game-window-body .unitrow .tiny{display:none}
+.game-window-body .unitrow:focus-within .hint,.game-window-body .unitrow:hover .hint{display:block}
+.game-window-body .unitrow .cost{font-size:11px}
+.game-window-body .unitrow{padding:7px}
+body.combat-mode .game-modal{display:none!important}
+@media(max-width:800px){body:not(.combat-mode) .brand{font-size:13px}body:not(.combat-mode) .masthead small{display:none}body:not(.combat-mode) .resource span{display:none}body:not(.combat-mode) .tabs button{font-size:10px}body:not(.combat-mode) .quickstart-actions button{font-size:10px}body:not(.combat-mode) #main>.scene-title h1{font-size:15px}.game-window-body .formation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-window-footer span{display:none}}
