@@ -62,6 +62,13 @@ for(const race of ['human','elf','orc','undead']){
 }
 check('Different commanders have owner-specific battle damage and no cross-buff',()=>{
  const x=setup(),s=x.s;takeoff(x);arrive(s);
+ // Isolate the owner-stat formula inside an otherwise *real tactical turn*:
+ // keep the enemy alive and move two stacks in range to avoid an all-zero
+ // first turn caused by the canonical 12x9 tactical battlefield distance.
+ for(const u of s.battle.enemies){u.count=0;u.pool=0;}
+ const foe=s.battle.enemies[0];foe.count=1;foe.hp=1000000000;foe.pool=1000000000;foe.atk=0;foe.def=0;
+ s.battle.allies[0].x=9;s.battle.allies[0].y=2;
+ s.battle.allies[2].x=9;s.battle.allies[2].y=3;
  const left=saved(s),right=saved(s);
  left.heroes.find(h=>h.id===2).atk+=1000;
  const a=E.battleActCore(left,'attack'),b=E.battleActCore(right,'attack');
@@ -72,7 +79,7 @@ check('Different commanders have owner-specific battle damage and no cross-buff'
 });
 check('Real casualty reduces combined expedition once, by 6 individual formation slots',()=>{
  const x=setup(),s=x.s;takeoff(x);const b=arrive(s),before=s.expedition.army.human_1;
- for(const u of b.enemies){u.atk=100000;u.spd=999}
+ for(const u of b.enemies){u.atk=100000;u.spd=999;u.range=E.TACTICAL_RANGE.ranged}
  E.battleActCore(s,'attack');
  const lost=b.allies.reduce((n,u)=>n+u.initial-u.count,0);
  assert(lost>0);
