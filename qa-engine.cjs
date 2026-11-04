@@ -1187,6 +1187,10 @@ test('HG10 world attack buff changes actual battle damage and expires before lat
 });
 test('SRC54 China 2009 recruitment task is separated, counts completed real training, pays once and migrates v07 saves',()=>{
  const s=state('human'),now=s.lastTick,taskId='recruit_archers';
+ // Fame from paid training now unlocks rank refreshes. Hold this isolated
+ // existing "claim once" fixture within one Fame band; the rank-reset
+ // behavior is verified separately below.
+ s.fame=5800;E.ensure08(s);
  assert.equal(E.china2009DailyTasks(s,now).length,1);assert.equal(E.dailyTasks(s,now).some(t=>t.id===taskId),false);
  const before={wood:s.res.wood,army:s.army.human_3||0};E.acceptChina2009DailyTask(s,taskId,now);assert.equal(s.china2009DailyTaskState.accepted.includes(taskId),true);
  s.buildings.hall=3;s.buildings.barracks=3;s.spells.bootcamp=1;for(const k of C.keys)s.res[k]=E.limits(s)[k];
@@ -1199,6 +1203,18 @@ test('SRC54 China 2009 recruitment task is separated, counts completed real trai
  assert(before.wood>=0&&before.army>=0);
 });
 
+test('HG17 Fame earned from paid troop training triggers source-backed Chinese rank refresh',()=>{
+ const s=state('human'),at=s.lastTick;
+ E.acceptChina2009DailyTask(s,'recruit_archers',at);
+ s.buildings.hall=3;s.buildings.barracks=3;for(const k of C.keys)s.res[k]=E.limits(s)[k];
+ const base=s.fame;E.recruit(s,'human_3',20);
+ assert.equal(s.fame,base,'No Fame for an incomplete training queue');
+ E.tick(s,s.lastTick+s.training[0].remaining/s.speed*1000+1000);
+ assert(s.fame>base,'Completed recruitment must produce Fame');
+ assert.equal(s.china2009DailyTaskState.fameStage,E.fameApStats(s.fame).threshold);
+ assert.equal(s.china2009DailyTaskState.progress.recruit_archers,0,'Fame-promotion restarts Chinese tasks as sourced');
+ assert(E.strictSave(E.parseSave(E.serializeSave(s))));
+});
 test('HG13 recommendFormation fits command limits, respects owned armies, persists for four races',()=>{
  for(const race of ['human','elf','orc','undead']){
   const s=state(race),units=E.arrUnits(s),before=JSON.stringify(s.formation);
