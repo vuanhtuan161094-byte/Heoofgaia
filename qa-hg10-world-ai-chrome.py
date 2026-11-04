@@ -44,6 +44,19 @@ try:
         page.mouse.click(point["x"], point["y"])
         view = page.locator(".target-information").inner_text()
         check("Actual world-canvas pointer selects AI castle", "Thành AI" in view and target["name"] in view)
+        predicted = page.evaluate("""() => {
+          const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
+          const target=E.TILES.find(t=>t.kind==='castle'&&t.aiOwner&&t.level===1);
+          const route=E.pathfind(s.activeCastleKey,target.key);
+          const game=E.marchDuration(E.heroStats(s,s.activeHero).spd,route);
+          return {steps:route.length-1,wall:Math.ceil(game/s.speed),game,ap:8};
+        }""")
+        displayed=page.locator('[aria-label="Ước tính hành quân"]').inner_text()
+        check("World ETA/AP preview matches canonical path and dispatch formula",
+              f"{predicted['steps']} bước" in displayed and
+              f"ETA {predicted['wall']} giây thực" in displayed and
+              f"{predicted['game']} giây game" in displayed and
+              f"{predicted['ap']} AP" in displayed)
         page.screenshot(path=str(OUT / "ai-city-map-chrome.png"), full_page=True)
         page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();s.fame=5800;HOG_APP_DEBUG.render()}""")
         ap_before = page.evaluate("HOG_APP_DEBUG.getState().ap")
