@@ -302,7 +302,10 @@ function progressArena(s,gameSeconds){
 function moveDuration(s,heroId,path){
  const hero=s.heroes.find(h=>h.id===heroId);if(!hero)throw Error('Không tìm thấy tướng hành quân');
  const speed=E.heroStats?.(s,heroId)?.spd??hero.spd;
- return E.marchDuration(speed,path);
+ // Expedition formation is preserved after departure, so the slowest survivor
+ // influences the return leg exactly as on the outward journey.
+ const formation=s.expedition?.formation||[];
+ return E.marchDuration(speed,path,E.armyMarchFactor(s,formation));
 }
 function finishReturn(s){
  const exp=s.expedition;if(!exp||exp.phase!=='returning')throw Error('Không có đội quân đang trở về');
