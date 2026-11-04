@@ -1,4 +1,7 @@
 # HG-26 — Boss Auto-Hunt: Canonical Tactical Loop and Safe Logistics
+
+> **HG26.1 override (04/11/2026):** Owner corrected the battle rule: **3 separate commanders fight TOGETHER in ONE Boss battle, up to 2 stacks per commander (6 total). No rotating/serial teams.** The original single-hero HG26 policy remains supported only for pre-existing saved runs. Canonical current design: [HG261_JOINT_BOSS_20261104.md](HG261_JOINT_BOSS_20261104.md).
+
 **Checkpoint:** 2026-11-04. **Repo:** `vuanhtuan161094-byte/Heoofgaia`.
 **Branch:** `feature/hog1-research-to-playable-20261102`. **Save version:** v07 (unchanged).
 **Implementation:** `hg26-boss-autohunt.js`; focused `qa-hg26-boss.cjs`.
