@@ -30,7 +30,7 @@ function make(race='human',now=Date.now(),spellEdition='international'){
   formation:[],training:[],march:null,battle:null,battleAuto:false,battleOrder:'attack',battleTarget:null,mines:[],cleared:[],treasureCleared:[],woundFraction:{},fame:5,log:['Khởi đầu một thành trì ở vùng đất Gaia.'],serial:1};
 }
 function valid(s){return !!(s&&s.version===V&&C.races[s.race]&&s.res&&s.army&&s.buildings&&Array.isArray(s.heroes)&&Array.isArray(s.training)&&Array.isArray(s.log)&&Number.isFinite(s.lastTick))}
-function arrUnits(s){return C.units[s.race]}
+function arrUnits(s){return C.units[s.race].concat(C.rewardUnits?.[s.race]||[])}
 function getUnit(s,id){return arrUnits(s).find(u=>u.id===id)}
 function clone(s){return JSON.parse(JSON.stringify(s))}
 function fmt(n){return Math.floor(n||0).toLocaleString('vi-VN')}
@@ -175,6 +175,16 @@ function mapTiles(){
   t.level=i===1?1:Math.min(5,1+Math.floor((t.x+t.y)/45));t.value=`Thành biên ${String(i+1).padStart(2,'0')}`;
   t.aiOwner=i%3!==0;t.source='MODELED_OFFLINE_CITY';t.terrain='plain';
  }
+ // HG18: 9-10 star boss sites are original offline-map placements. Fandom
+ // confirms Demon tier-11/12 monsters; positions and guardian counts are modeled.
+ let eliteCount=0;
+ for(const [x,y,star,name] of [[18,92,9,'Azrael'],[82,91,9,'Cyclop Tyrant'],[29,86,10,'Fiery Giant'],[70,76,10,'Earth Bear']]){
+  let t=at(x,y);
+  if(t.kind!=='empty'||t.terrain==='water')t=tiles.find(q=>q.kind==='empty'&&q.terrain!=='water'&&Math.abs(q.x-x)+Math.abs(q.y-y)<7);
+  if(!t)throw Error('HG18 elite world site blocked');
+  t.kind='npc';t.level=star;t.value=name;t.source='MODELED_HG18_BOSS';t.eliteTier=star===9?11:12;t.terrain='plain';eliteCount++;
+ }
+ if(eliteCount!==4)throw Error('Missing HG18 bosses');
  return tiles;
 }
 const TILES=mapTiles(), TILE_LOOKUP=new Map(TILES.map(t=>[t.key,t]));
@@ -293,7 +303,15 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,fieldArmy[u.id]||0);return {id:`p${i}`,slot:fieldFormation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:unitTacticalRange(u),
    count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+heroSpeedAdjustment(battleHeroSpeed)),
    pool:count*u.hp,x:i<4?1:3,y:i<4?[0,2,5,8][i]:[1,4,7][i-4]}});
- const archetypes=[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
+ const archetypes=tile.eliteTier>=11?(
+   tile.eliteTier===12?
+    [{name:'Fiery Giant',hp:1101,atk:290,def:170,spd:9.58,range:1},
+     {name:'Earth Bear',hp:1101,atk:290,def:170,spd:9.58,range:1},
+     {name:'Fallen Treant',hp:1101,atk:290,def:170,spd:9.58,range:1}]:
+    [{name:'Azrael',hp:800,atk:230,def:155,spd:11.89,range:1},
+     {name:'Demonlord Samurai',hp:800,atk:230,def:155,spd:11.89,range:1},
+     {name:'Cyclop Tyrant',hp:800,atk:230,def:155,spd:11.89,range:1}]
+  ):[{name:'Dã thú',hp:37,atk:13,def:9,spd:4,range:1},
   {name:'Cung thủ cướp',hp:34,atk:16,def:9,spd:5,range:TACTICAL_RANGE.ranged},
   {name:'Vệ binh',hp:55,atk:20,def:15,spd:3.8,range:1}];
  // AI fortresses deploy persisted resource-funded garrisons instead of generic monsters.
