@@ -131,7 +131,9 @@ function cast(s,id){ensure(s);const b=s.battle;if(!b)throw Error('Không có tr�
 const rawMake=E.make,rawTick=E.tick,rawBattleAct=E.battleAct,rawUpgradeSaveV02=E.upgradeSaveV02,rawUpgrade=E.upgrade;
 E.make=(...args)=>ensure(rawMake(...args));
 E.tick=(s,...args)=>{ensure(s);const had=!!s.battle;rawTick(s,...args);if(!had&&s.battle){s.battle.spellCooldown={};s.battle.castTurn=0;s.battle.activeSpell=null;}return s;};
-E.battleAct=(s,cmd,options)=>{ensure(s);const h=s.heroes.find(x=>x.id===s.activeHero);const stats=h?heroStats(s,h.id):null;
+// Use the canonical, dynamically extended effective Hero stats: equipment first,
+// then current world buffs. The old HG04-only helper omitted HG10 world buffs.
+E.battleAct=(s,cmd,options)=>{ensure(s);const h=s.heroes.find(x=>x.id===s.activeHero);const stats=h?(E.heroStats?.(s,h.id)||heroStats(s,h.id)):null;
  const initialAtk=h?.atk,initialDef=h?.def;if(h&&stats){h.atk=stats.atk;h.def=stats.def;}
  const b=s.battle;
  let out;try{out=rawBattleAct(s,cmd,options);}finally{if(h&&stats){h.atk-=stats.atk-initialAtk;h.def-=stats.def-initialDef;}}
