@@ -709,6 +709,47 @@ test('HG16-G2 bounded ranged reach keeps tactical positioning meaningful',()=>{
  assert(b.allies[0].x!==0||b.allies[0].y!==0,'Ranged unit walks to legal fire position');
  assert(E.strictSave(E.parseSave(E.serializeSave(s))));
 });
+test('HG16-G2 cast applies real attack buff once, then expires and preserves cooldown through Save',()=>{
+ const make=()=>{const s=state('human'),b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
+  s.army.human_1=40;
+  b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Melee',range:1,count:40,initial:40,hp:1000,
+   atk:40,def:12,spd:99,pool:40000,x:9,y:1}];
+  b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Practice wall',range:1,count:1,initial:1,hp:1e9,
+   atk:0,def:80,spd:1,pool:1e9,x:10,y:1}];s.battle=b;return s;};
+ const normal=make(),enhanced=make();
+ enhanced.heroMagic.leadership=1;enhanced.heroes[0].equippedSpells=['leadership'];
+ E.cast(enhanced,'leadership');assert.equal(enhanced.battle.allies[0].atk,40*1.015);
+ const firstNormal=E.battleAct(normal,'attack').dealt,firstEnhanced=E.battleAct(enhanced,'attack').dealt;
+ assert(firstEnhanced>firstNormal,'Level 1 Leadership must increase actual battle damage');
+ let loaded=E.parseSave(E.serializeSave(enhanced));
+ assert.equal(loaded.battle.allies[0]._spellAtk,40);assert(loaded.battle.activeSpell);
+ E.battleAct(loaded,'attack');E.battleAct(loaded,'attack');
+ assert.equal(loaded.battle.activeSpell,null);
+ assert.equal(loaded.battle.allies[0].atk,40);
+ assert.throws(()=>E.cast(loaded,'leadership'),/hồi/);
+ E.battleAct(loaded,'attack');E.battleAct(loaded,'attack');
+ assert.equal(loaded.battle.spellCooldown.leadership<=loaded.battle.turn,true);
+ const again=E.cast(loaded,'leadership');assert.equal(again.id,'leadership');
+ assert(E.strictSave(E.parseSave(E.serializeSave(loaded))));
+});
+test('HG16-G2 casualty/wounded fractional remainder is deterministic across interrupted Save',()=>{
+ const s=state();s.army.human_1=4;s.buildings.arena=1;
+ const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
+ b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Wounded',
+  range:20,count:4,initial:4,hp:100,atk:0,def:10,spd:1,pool:400,x:1,y:1}];
+ b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Attacker',range:20,count:1,initial:1,
+  hp:1e9,atk:120,def:0,spd:100,pool:1e9,x:10,y:1}];
+ s.battle=b;
+ E.battleAct(s,'attack');E.battleAct(s,'attack');
+ assert.equal(s.army.human_1,2);
+ assert.equal(s.wounded.human_1,1);assert.equal(s.woundFraction.human_1,.5);
+ const loaded=E.parseSave(E.serializeSave(s));
+ let last;for(let i=0;i<2&&loaded.battle;i++)last=E.battleAct(loaded,'attack');
+ assert.equal(last.type,'lose');assert.equal(loaded.army.human_1,0);
+ assert.equal(loaded.wounded.human_1,3);
+ assert.equal(loaded.woundFraction.human_1,0);
+ assert(E.strictSave(E.parseSave(E.serializeSave(loaded))));
+});
 test('HG16-G2 physical armor is floored at 30 percent raw ATK before hero mitigation',()=>{
  const s=hg16FormulaFixture({allyAtk:40,enemyDef:10_000,heroAtk:0,allyCount:10});
  const out=E.battleAct(s,'attack');
@@ -815,6 +856,15 @@ test('HG16-G3 roads cost less than plains, forests and hills; bridges remain leg
  assert(E.pathTravelCost(path)>0);
  assert.deepEqual(E.pathfind(start.key,goal.key),path,'Terrain route must be deterministic');
  assert.equal(JSON.stringify(E.TILES),before,'Path search must not mutate map');
+});
+test('HG16-G3 transport speed is derived from loaded carrier and weighted terrain once',()=>{
+ const {s,city}=cityTransportFixture(),unit=E.getUnit(s,'human_1'),path=E.pathfind('3,4',city.key);
+ const factor=Math.max(.8,Math.min(1.10,.8+unit.spd/40)),expected=E.marchDuration(10,path,factor);
+ const shipment=E.startCityTransport(s,city.id,'human_1',1,{gold:100});
+ assert.equal(shipment.total,expected);assert.equal(shipment.returnTotal,expected);
+ assert.deepEqual(shipment.path,path);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.cityTransports[0].total,expected);
+ assert(E.strictSave(loaded));
 });
 test('HG16-G3 slowest troop determines march factor, dispatch and return ETA',()=>{
  const start=state(),target=E.NPC_CAMPS_2009.find(t=>t.stars===1&&E.pathfind('3,4',t.key)?.length>3);
