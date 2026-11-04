@@ -5,7 +5,7 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const ctx=vm.createContext({console});
-for(const p of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js'])
+for(const p of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js'])
  vm.runInContext(fs.readFileSync(path.join(__dirname,p),'utf8'),ctx,{filename:p});
 const E=ctx.HOG_ENGINE,C=ctx.HOG_CATALOG;
 let pass=0;const checks=[];
@@ -61,6 +61,20 @@ check('Special reward unit cannot be bought and has nonzero command value',()=>{
  assert(u&&u.rewardOnly);assert(E.unitValue(u)>0);
  assert.throws(()=>E.recruit(s,u.id,1),/chỉ nhận qua nhiệm vụ/);
  return {id:u.id,power:E.unitValue(u)};
+});
+check('Two new hard world Bosses are real reachable NPC encounters and use stronger combat stats',()=>{
+ const s=E.make('human',1_000_000);
+ const bosses=E.hg20PrivateWorldBosses;
+ assert.equal(bosses.length,2);
+ for(const tile of bosses){
+  assert(tile.privateBoss&&tile.kind==='npc'&&tile.level===10&&tile.eliteTier===13);
+  assert(E.pathfind('3,4',tile.key));
+  const battle=E.makeBattle(s,tile.key);
+  assert(battle.enemies.length>=2);
+  assert(battle.enemies.every(x=>x.hp>=4800&&x.atk>=800),'Boss real battle stats not boosted');
+  assert.equal(battle.hg20BossBoosted,true);
+ }
+ return bosses.map(x=>({key:x.key,name:x.value}));
 });
 check('Mystic city exists as a real capturable world castle, not an icon-only unlock',()=>{
  const s=E.make('human',1_000_000),city=E.hg20CastleStatus(s),tile=E.getTile(city.worldCityKey);
