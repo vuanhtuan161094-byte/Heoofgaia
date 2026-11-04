@@ -163,6 +163,20 @@ try:
       return s.hg26.enabled===false&&s.hg26.phase==='halted'&&
         HOG_ENGINE.strictSave(s);
     }"""))
+  # Stop disables automation but intentionally leaves the real outbound march
+  # alone. Isolate the next joint-roster UI scenario in a fresh New Game rather
+  # than mutating the plan of a hero who is still on that legitimate march.
+  page.evaluate("""() => {
+    localStorage.removeItem(HOG_ENGINE.SAVE_KEY);
+    localStorage.removeItem(HOG_ENGINE.SAVE_KEY+'_backup');
+  }""")
+  page.reload(wait_until='load')
+  page.locator('[data-action="start"]').click()
+  check('HG26 outbound state is isolated before the fresh joint-roster scenario',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      return !!s&&!s.march&&!s.expedition&&!s.battle&&HOG_ENGINE.strictSave(s);
+    }"""))
   # HG26.1: fixture creates two extra legal hero records so the same real
   # command window can be checked at 3 x 2 without Tavern wait or QA gifts.
   page.evaluate("""() => {
