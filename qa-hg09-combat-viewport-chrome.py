@@ -26,6 +26,10 @@ with sync_playwright() as p:
     page.goto(HTML.as_uri(),wait_until="load")
     page.locator('[data-action="start"]').click()
     page.locator('#nav [data-tab="map"]').click()
+    # The rookie progress panel adds vertical content ahead of the map.
+    # Mouse coordinates must be computed after scrolling the real map canvas
+    # into the visible viewport; otherwise clicks can land below the screen.
+    page.locator("#world-canvas").scroll_into_view_if_needed()
     point=page.evaluate("""() => {
       const c=document.querySelector('#world-canvas'),r=c.getBoundingClientRect(),m=HOG_PAINTER.miniBounds(c),pad=9;
       return {x:r.left+(m.x+pad+6.5*(m.w-2*pad)/100)/c.width*r.width,
