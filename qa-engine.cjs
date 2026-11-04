@@ -843,6 +843,7 @@ test('HG10 world expands to 60 castle targets without replacing sourced location
  const castles=E.TILES.filter(t=>t.kind==='castle'),modelled=castles.filter(t=>t.source==='MODELED_OFFLINE_CITY');
  assert.equal(castles.length,60);assert.equal(modelled.length,54);
  assert.equal(modelled.filter(t=>t.aiOwner).length,36);
+ assert(modelled.some(t=>t.aiOwner&&t.level===1),'At least one introductory AI siege target');
  assert.equal(modelled.filter(t=>!t.aiOwner).length,18);
  assert.deepEqual(['3,4','9,10','16,5','23,8','5,13','12,12'].map(key=>E.getTile(key).kind),Array(6).fill('castle'));
  assert.equal(E.NPC_CAMPS_2009.length,128);assert.equal(E.TREASURE_CAMPS_2009.length,76);
