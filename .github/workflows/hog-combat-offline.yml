@@ -97,6 +97,7 @@ jobs:
           sha256sum Play-Heoofgaia-HG11.html | tee Build-SHA256.txt
           wc -c Play-Heoofgaia-HG11.html
       - name: Upload offline playable HTML
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: Play-Heoofgaia-HG11
@@ -133,7 +134,19 @@ jobs:
             docs/evidence/hg145/*.png
             docs/qa/hg145/grid-hp-fx-chrome.json
           retention-days: 7
-          if-no-files-found: error
+          if-no-files-found: warn
+
+      - name: Upload HG19.1 source-art screenshots and QA independently
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG19.1-free-fantasy-sprite-review
+          path: |
+            docs/qa/hg191/free-assets.json
+            docs/qa/hg191/free-assets-chrome.json
+            docs/qa/hg191/free-sprites-and-icons.png
+          retention-days: 7
+          if-no-files-found: warn
 
       - name: Upload HG16 G4 stress receipt even on QA failure
         if: always()
