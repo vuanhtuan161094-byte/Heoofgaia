@@ -180,6 +180,82 @@ test('Corrupted HG18 material, over-enhanced item, invalid rank and duplicate ta
  for(const fn of tests){const copy=E.clone(s);fn(copy);assert.equal(E.strictSave(copy),false);assert.throws(()=>E.parseSave(JSON.stringify(copy)));}
  return {corruptionsRejected:tests.length};
 });
+test('All 40 classic units have an actually playable training route at maximum legal research/buildings',()=>{
+ let trained=0;const unavailable=[];
+ for(const race of ['human','elf','orc','undead'])for(const troop of C.units[race]){
+  const s=starter(race);
+  for(const key of Object.keys(s.buildings))s.buildings[key]=10;
+  for(const key of Object.keys(C.spells))s.spells[key]=10;
+  for(const key of C.keys)s.res[key]=E.limits(s)[key];
+  const gate=E.troopPrerequisites(s,troop);
+  if(!gate.available){unavailable.push({unit:troop.id,unmet:gate.unmet});continue;}
+  const before=s.army[troop.id]||0,beforeRes={...s.res},cost=E.recruitCost(s,troop,1);
+  E.recruit(s,troop.id,1);
+  for(const key of C.keys)assert(Math.abs(s.res[key]-(beforeRes[key]-cost[key]))<1e-5,troop.id+' cost '+key);
+  advance(s,s.training[0].remaining+1);
+  assert.equal(s.army[troop.id],before+1);
+  assert.equal(s.training.length,0);assert(E.strictSave(save(s)));
+  trained++;
+ }
+ assert.deepEqual(unavailable,[],'Original player catalog must remain reachable by actual construction/research gates');
+ assert.equal(trained,40);
+ return {trained,unavailable};
+});
+test('2,000-equipment PvE loot cap does not corrupt save; salvage frees slots with deterministic materials',()=>{
+ const s=starter();const first=E.addItem(s,'iron_armor','salvage QA');
+ E.equipItem(s,first.uid);assert.throws(()=>E.salvageHG18(s,first.uid),/tháo/);
+ E.unequipItem(s,'armor');
+ const earned=E.salvageHG18(s,first.uid);assert.equal(earned.stones,1);
+ assert(!s.inventory.some(i=>i.uid===first.uid));assert.equal(s.hg18.materials.enhance_stone,1);
+ assert.throws(()=>E.salvageHG18(s,first.uid),/không tồn tại/);
+ while(s.inventory.length<2000)E.addItem(s,'copper_blade','capacity fixture');
+ assert(E.strictSave(s),'2,000 items must be valid');
+ const beforeGold=s.res.gold;
+ assert.throws(()=>E.buyItem(s,'copper_blade'),/Túi trang bị đầy/);
+ assert.equal(s.res.gold,beforeGold);
+ s.army.human_1=40;
+ const t=E.TILES.find(q=>q.kind==='npc'&&q.level===1);
+ const b=E.makeBattle(s,t.key);
+ s.battle=b;
+ for(const e of b.enemies){e.hp=1;e.count=1;e.pool=1;e.atk=0;e.def=0;}
+ for(const a of b.allies){a.x=9;a.y=2;a.range=11;}
+ let result;for(let i=0;i<10&&s.battle;i++)result=E.battleAct(s,'attack');
+ assert.equal(result.type,'win');
+ assert.equal(s.inventory.length,2000,'No PvE item can exceed the hard inventory cap');
+ assert(E.strictSave(save(s)));
+ const uid=s.inventory[0].uid;E.salvageHG18(s,uid);
+ assert.equal(s.inventory.length,1999);
+ return {bagLimit:2000,salvageStones:earned.stones,save:'valid'};
+});
+test('Rare shard/stone bags at cap cannot turn a won boss encounter into an invalid Save',()=>{
+ const s=starter();s.hg18.materials.astral_shard=1e6;s.hg18.materials.enhance_stone=1e6;
+ const target=E.TILES.find(t=>t.eliteTier===11),u=E.getUnit(s,'human_10');
+ s.heroes[0].level=100;s.army[u.id]=800;s.formation=[{unitId:u.id,count:800}];
+ const b=E.makeBattle(s,target.key);s.battle=b;
+ let result;for(let i=0;i<70&&s.battle;i++)result=E.battleAct(s,'attack');
+ assert.equal(result.type,'win');
+ assert.equal(s.hg18.materials.astral_shard,1e6);assert.equal(s.hg18.materials.enhance_stone,1e6);
+ assert.equal(s.hg18.week.counts.eliteWins,1);assert(E.strictSave(save(s)));
+ return {lootBag:'full',combat:'win',save:'valid'};
+});
+test('Seven daily production cycles retain five bounded resources without one-call multi-day offline exploit',()=>{
+ const stats=[];
+ for(const race of ['human','elf','orc','undead']){
+  const s=starter(race);s.speed=1;
+  const start={...s.res},rate={...E.rate(s)},limits={...E.limits(s)};
+  for(let day=1;day<=7;day++){
+   advance(s,86400);
+   for(const key of C.keys){
+    const want=Math.min(limits[key],start[key]+rate[key]*24*day);
+    assert(Math.abs(s.res[key]-want)<.01,race+' day '+day+' '+key);
+   }
+   assert(E.strictSave(s));
+  }
+  const once=JSON.stringify(s);E.tick(s,s.lastTick);assert.equal(JSON.stringify(s),once);
+  stats.push({race,final:{...s.res}});
+ }
+ return {days:7,races:stats.map(r=>r.race),sample:stats[0].final};
+});
 const dir=path.join(__dirname,'docs','qa','hg18');fs.mkdirSync(dir,{recursive:true});
 fs.writeFileSync(path.join(dir,'core-progression.json'),JSON.stringify({phase:'HG18',passed:pass,failed:fail,checks},null,2));
 console.log('HG18 CORE '+pass+'/'+(pass+fail)+' PASS');
