@@ -26,7 +26,7 @@ function toggleBattleDisplay(which){
 
 function ensureBattleAutoTimer(s){if(s?.battle&&!Number.isFinite(s.battle.autoUntil))s.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS;return s}
 function markBattleInput(){if(!state?.battle)return;state.battleAuto=false;state.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS}
-function resolveAutomaticBattleTurn(){if(!state?.battle||!state.battleAuto)return;try{const out=E.battleAct(state,'attack',{preserveMoveOrders:true});if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab='map';if(out.type==='lose')tab='heroes';if(state.battle)state.battle.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;save();render()}catch(e){console.warn('Auto battle',e);state.battleAuto=false}}
+function resolveAutomaticBattleTurn(){if(!state?.battle||!state.battleAuto)return;try{const wasTower=!!state.battle.hg21Tower,out=E.battleAct(state,'attack',{preserveMoveOrders:true});if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';if(out.type==='lose')tab=wasTower?'tower':'heroes';if(state.battle)state.battle.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;save();render()}catch(e){console.warn('Auto battle',e);state.battleAuto=false}}
 function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
 function fail(fn){try{const oldTab=tab;if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;fn();if(oldTab!==tab)modalOffset=0;save();render();}catch(e){toast(e.message||String(e))}}
 function save(){
@@ -454,8 +454,9 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(action==='stack'){movementModeId=null;markBattleInput();E.battleSelect(state,target.dataset.id);return}
   if(action==='move-mode'){if(movementModeId){movementModeId=null;return}const unit=state.battle?.allies.find(u=>u.id===state.battle.selected&&u.pool>0);if(!unit)throw Error('Hãy chọn một đội quân còn sống để di chuyển.');movementModeId=unit.id;markBattleInput();return}
  if(action==='formation'){E.setFormation(state,Array.from({length:7},(_,i)=>({unitId:$('formation_unit_'+i).value,count:Number($('formation_count_'+i).value)})));toast('Đội hình đã lưu.');return}
- if(action==='tower-team'){const ids=Array.from({length:3},(_,i)=>Number($('hg20_tower_'+i).value)).filter(x=>x>0);E.hg20ChooseTowerTeam(state,ids);toast('Đã chọn '+ids.length+' tướng leo tháp.');return}
- if(action==='tower-climb'){const r=E.hg20TowerClimb(state);toast(r.outcome==='win'?'Thắng tầng '+r.floor+' · tinh hoa +'+r.rewardEssence:'Lực chiến chưa đủ, hãy tuyển quân hoặc thăng hoa!');return}
+ if(action==='tower-team'){const ids=Array.from({length:3},(_,i)=>Number($('hg20_tower_'+i).value)).filter(x=>x>0);E.hg20ChooseTowerTeam(state,ids);toast('Đã chọn '+ids.length+' tướng; mỗi người góp tối đa hai stack.');return}
+ if(action==='tower-picks'){const rows=E.hg20TowerStatus(state).team.map((id,i)=>({heroId:id,slots:Array.from({length:2},(_,j)=>$('hg21_slot_'+i+'_'+j)?.value??'').filter(x=>x!=='').map(Number)}));E.hg21SetTowerPicks(state,rows);toast('Đã lưu '+rows.length+' tướng và '+rows.reduce((n,r)=>n+r.slots.length,0)+' stack.');return}
+ if(action==='tower-climb'){const r=E.hg21TowerEnter(state);tab='combat';toast('Tầng '+r.floor+': '+r.heroes+' tướng / '+r.stacks+' stack bắt đầu giao tranh.');return}
  if(action==='tower-upgrade'){E.hg20TowerUpgrade(state);toast('Đã tăng sức mạnh đội Bí Cảnh.');return}
  if(action==='autoformation'){const plan=E.autoFormation(state);toast(`Đã bố trí ${format(plan.totalUnits)} quân · ${format(plan.points)}/${format(plan.limit)} sức chứa.`);return}
  if(action==='findnpc'){selectNearestNpc(E.heroTaskStatus(state).active?.stars||1);return}
@@ -469,7 +470,8 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='visit'){const result=E.visitWorldBuilding(state,target.dataset.key);toast(result.reward?'Đã nhận thưởng từ công trình.':'Hiệu ứng đã áp dụng cho tướng.');return}
   if(action==='recall'){const seconds=E.recallHero(state,Number(target.dataset.id));toast(seconds===true?'Tướng đã về thành.':`Tướng đang trở về trong ${Math.ceil(seconds/state.speed)} giây thực.`);return}
   if(action==='save-combat'){$('save').click();return}
-  if(action==='battle'){movementModeId=null;state.battleAuto=false;const out=E.battleAct(state,target.dataset.cmd);if(out.type==='win'){tab='map';toast('Chiến thắng!')}else if(out.type==='lose'){tab='heroes';toast('Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab='map';toast('Đã kết thúc giao tranh.')}return}
+  if(action==='battle'){movementModeId=null;state.battleAuto=false;const wasTower=!!state.battle?.hg21Tower,out=E.battleAct(state,target.dataset.cmd);if(out.type==='win'){tab=wasTower?'tower':'map';toast(wasTower?'Thắng Bí Cảnh tầng '+out.floor+'!':'Chiến thắng!')}else if(out.type==='lose'){tab=wasTower?'tower':'heroes';toast(wasTower?'Bí Cảnh thất bại; không mất quân và lượt thưởng.':'Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab=wasTower?'tower':'map';toast('Đã kết thúc giao tranh.')}return}
+ if(action==='tower-cast'){markBattleInput();E.hg21TowerCast(state,Number(target.dataset.hero),target.dataset.id);toast('Phép đã áp dụng theo chủ tướng.');return}
  if(action==='herolearn'){E.researchHeroSpell(state,target.dataset.id);return}
  if(action==='heroequip'){E.equipSpell(state,target.dataset.id);return}
  if(action==='herocastellanequip'){if(!state.castellan)throw Error('Cần bổ nhiệm Castellan trước');E.equipSpell(state,target.dataset.id,state.castellan);return}
