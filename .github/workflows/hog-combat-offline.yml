@@ -49,10 +49,17 @@ jobs:
           node --check hg18.js
           node --check qa-hg18-core.cjs
           node qa-hg18-core.cjs
+      - name: HG19 vector art coverage and icon regression
+        run: |
+          node --check art-pack.js
+          node --check qa-hg19-art.cjs
+          node qa-hg19-art.cjs
       - name: Install headless Chromium for actual battlefield acceptance
         run: |
           python -m pip install playwright
           python -m playwright install chromium
+      - name: HG19 Chromium SVG decode and visual contact sheet
+        run: python qa-hg19-art-chrome.py
       - name: Chrome battlefield viewport, pointer and Save/Reload acceptance
         run: python qa-hg09-combat-viewport-chrome.py
       - name: HG18 actual quest forging rebirth UI Chrome gate
@@ -90,6 +97,9 @@ jobs:
             docs/qa/hg17/organic-newgame-chrome.json
             docs/qa/hg18/core-progression.json
             docs/qa/hg18/hg18-chrome.json
+            docs/qa/hg19/art-pack.json
+            docs/qa/hg19/chrome-art.json
+            docs/qa/hg19/contact-sheet.png
             docs/evidence/hg18/daily-weekly-quests-chrome.png
             docs/evidence/hg18/hero-rebirth-forge-chrome.png
             docs/evidence/hg17/rookie-first-mine-chromium.png
