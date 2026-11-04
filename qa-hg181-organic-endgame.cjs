@@ -86,6 +86,9 @@ function recallIfNeeded(){
 }
 function dispatchAndWin(targetKey){
  recallIfNeeded();
+ // AP is authoritative; in repeated organic PvE, wait for normal hourly regen.
+ for(let w=0;s.ap<8&&w<200;w++)advance(3600);
+ assert(s.ap>=8,'AP recovery stalled during long-form endgame grind');
  E.startMarch(s,targetKey);
  assert(s.march,'No paid march');
  advance(s.march.remaining+2);
