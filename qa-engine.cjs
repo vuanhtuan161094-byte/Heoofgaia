@@ -282,17 +282,17 @@ test('Derived world-march factor uses the dated increment and v07 keeps an under
  assert.equal(E.marchSpeedFactor(10),1);assert.equal(E.marchSpeedFactor(60),2);assert.equal(E.marchSpeedFactor(120),3.2);
  const path=['a','b','c','d','e'];assert.equal(E.marchDuration(10,path),96);assert.equal(E.marchDuration(60,path),58);assert.equal(E.marchDuration(120,path),44);
  const s=state();s.heroes[0].spd=10;const target=E.NPC_CAMPS_2009.find(q=>q.stars>=5&&E.pathfind('3,4',q.key)?.length>=8);assert(target,'Need a long source-listed target path');
- const route=E.pathfind('3,4',target.key),expected=E.marchDuration(10,route);E.startMarch(s,target.key);assert.equal(s.march.remaining,expected);assert.equal(s.heroes[0].spd,10);
+ const route=E.pathfind('3,4',target.key),expected=E.marchDuration(10,route,E.armyMarchFactor(s));E.startMarch(s,target.key);assert.equal(s.march.remaining,expected);assert.equal(s.heroes[0].spd,10);
  const loaded=E.parseSave(E.serializeSave(s)),remaining=loaded.march.remaining,total=loaded.march.total;loaded.heroes[0].spd=120;
  assert.equal(loaded.march.remaining,remaining);assert.equal(loaded.march.total,total);assert.equal(loaded.march.target,target.key);assert.equal(E.strictSave(loaded),true);
 });
 test('Outbound and return march timers both include equipped and active world SPD bonuses',()=>{
  const target=E.NPC_CAMPS_2009.find(q=>q.stars>=5&&E.pathfind('3,4',q.key)?.length>=8);assert(target);const itemFor=s=>{const item=E.addItem(s,'traveler_cloak','qa');E.equipItem(s,item.uid);s.heroBuffs.push({heroId:1,stat:'spd',remaining:7200,sourceKey:'62,57'})};
  const outbound=state();itemFor(outbound);const outSpeed=E.heroStats(outbound,1).spd,outPath=E.pathfind('3,4',target.key);E.startMarch(outbound,target.key);
- assert.equal(outbound.march.remaining,E.marchDuration(outSpeed,outPath));assert.equal(outbound.heroes[0].spd,7,'temporary dispatch stats are restored after path calculation');
+ assert.equal(outbound.march.remaining,E.marchDuration(outSpeed,outPath,E.armyMarchFactor(outbound)));assert.equal(outbound.heroes[0].spd,7,'temporary dispatch stats are restored after path calculation');
  const returning=state();itemFor(returning);const from=target.key,backPath=E.pathfind(from,'3,4');returning.stationedHeroes=[{heroId:1,key:from,homeKey:'3,4',homeCityId:'main',army:{human_1:4},formation:[{unitId:'human_1',count:4}]}];
  const returnSpeed=E.heroStats(returning,1).spd,seconds=E.recallHero(returning,1);
- assert.equal(seconds,E.marchDuration(returnSpeed,backPath));assert.equal(returning.march.phase,'return');assert.equal(returning.march.remaining,returning.march.total);assert.equal(E.strictSave(E.parseSave(E.serializeSave(returning))),true);
+ assert.equal(seconds,E.marchDuration(returnSpeed,backPath,E.armyMarchFactor(returning,[{unitId:'human_1',count:4}])));assert.equal(returning.march.phase,'return');assert.equal(returning.march.remaining,returning.march.total);assert.equal(E.strictSave(E.parseSave(E.serializeSave(returning))),true);
 });
 test('market cannot sell without building',()=>{const s=state();throws(()=>E.sell(s,'wood',1),/Market/)});
 test('market sell after build and gold capacity',()=>{const s=state();s.buildings.market=1;const before=s.res.gold;const wood=s.res.wood;E.sell(s,'wood',10);assert.equal(s.res.wood,wood-10);assert.equal(s.res.gold,before+20)});
@@ -658,7 +658,7 @@ test('HG09 move order advances across turns, survives v07 reload and can be manu
 });
 test('Ranged stacks fire across deployment distance without invented movement turns',()=>{
  const s=state();s.army.human_3=40;s.formation=[{unitId:'human_3',count:40}];s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
- const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y};assert.equal(archer.range,20);const out=E.battleAct(s,'attack');
+ const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y};assert.equal(archer.range,11);const out=E.battleAct(s,'attack');
  assert(out.dealt>0);assert(s.battle.enemies.reduce((n,u)=>n+u.pool,0)<before);assert.deepEqual({x:archer.x,y:archer.y},position);
 });
 
@@ -688,12 +688,53 @@ test('HG16 all 40 racial units follow the same deterministic base-damage and her
    count:1,initial:1,hp:1e9,atk:0,def:109,spd:1,pool:1e9,
    range:20,x:10,y:1}];
   const actual=E.battleAct(s,'attack');
-  const predicted=Math.max(1,Math.floor(unit.atk*unit.atk/(unit.atk+109)*1.2));
+  const predicted=Math.max(1,Math.floor(Math.max(unit.atk*.30,unit.atk*unit.atk/(unit.atk+109))*1.2));
   assert.equal(actual.dealt,predicted,`${unit.id} base damage`);
   assert.equal(actual.lost,0,unit.id+' zero-ATK defender');
   assert(E.strictSave(s),unit.id+' Save validation');checked++;
  }
  assert.equal(checked,40);
+});
+test('HG16-G2 bounded ranged reach keeps tactical positioning meaningful',()=>{
+ const s=state();s.army.human_3=20;s.formation=[{unitId:'human_3',count:20}];
+ const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
+ assert.equal(b.allies[0].range,11);
+ assert.equal(E.unitTacticalRange(E.getUnit(s,'human_8')),12);
+ assert.equal(E.unitTacticalRange(E.getUnit(s,'human_1')),1);
+ b.allies[0].x=0;b.allies[0].y=0;
+ b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Far target',range:1,count:1,initial:1,hp:1e7,
+  atk:0,def:0,spd:1,pool:1e7,x:11,y:8}];
+ b.selected='p0';s.battle=b;assert.equal(E.battleTargetsInRange(b,'p0').length,0);
+ const first=E.battleAct(s,'attack');assert.equal(first.dealt,0,'Ranged stack must move before distant damage');
+ assert(b.allies[0].x!==0||b.allies[0].y!==0,'Ranged unit walks to legal fire position');
+ assert(E.strictSave(E.parseSave(E.serializeSave(s))));
+});
+test('HG16-G2 physical armor is floored at 30 percent raw ATK before hero mitigation',()=>{
+ const s=hg16FormulaFixture({allyAtk:40,enemyDef:10_000,heroAtk:0,allyCount:10});
+ const out=E.battleAct(s,'attack');
+ assert.equal(out.dealt,120,'10 soldiers * ATK 40 * 30%');
+ assert(E.strictSave(s));
+});
+test('HG16-G2 Defend stance prevents 25 percent incoming damage even when enemy acts first',()=>{
+ const mk=()=>hg16FormulaFixture({allyAtk:0,enemyAtk:40,enemyCount:10,allyDef:10,heroDef:0,enemySpeed:100});
+ const baseline=mk(),guarded=mk();
+ const before=E.battleAct(baseline,'attack'),after=E.battleAct(guarded,'defend');
+ assert.equal(before.lost,320);assert.equal(after.lost,240);
+ assert.equal(guarded.battle.allies[0].guardTurn,1);
+ assert.equal(guarded.battle.orders.p0,'attack','Defend is a one-turn action');
+ const again=E.battleAct(guarded,'attack');
+ assert.equal(again.lost,320,'Defense must expire next turn');
+ assert(E.strictSave(E.parseSave(E.serializeSave(guarded))));
+});
+test('HG16-G2 ranged weapon and hero stats stack once and survive old v07 Save/Load',()=>{
+ const s=hg16FormulaFixture({heroAtk:12,allyAtk:40,enemyDef:10,allyCount:10});
+ const b=s.battle;s.battle=null;const item=E.addItem(s,'ash_bow','HG16-G2');E.equipItem(s,item.uid);s.battle=b;
+ assert.equal(E.combatModifiers(s,1).rangedDamage,.06);
+ assert.equal(E.combatModifiers(s,1).damageReduction,0);
+ const parsed=E.parseSave(E.serializeSave(s)),actual=E.battleAct(s,'attack'),replayed=E.battleAct(parsed,'attack');
+ const expect=Math.floor(10*32*1.16*1.06);
+ assert.equal(actual.dealt,expect);assert.equal(replayed.dealt,expect);
+ assert(E.strictSave(s));
 });
 test('HG16 exact zero-DEF reference base and zero-ATK inert units (no phantom chip)',()=>{
  const noDefense=hg16FormulaFixture({enemyDef:0,heroAtk:0,allyCount:10});
@@ -715,7 +756,7 @@ test('HG16 canonical equipped Hero ATK then world buff affects real damage exact
  assert(Math.abs(E.heroStats(s,1).atk-16.5)<1e-9);
  const restored=E.parseSave(E.serializeSave(s));
  const actual=E.battleAct(s,'attack'),replayed=E.battleAct(restored,'attack');
- const expected=Math.floor(10*(40*40/(40+10))*(1+16.5/100));
+ const expected=Math.floor(10*(40*40/(40+10))*(1+16.5/100)*1.04);
  assert.equal(actual.dealt,expected);
  assert.equal(replayed.dealt,expected);
  assert.equal(s.heroes[0].atk,12,'Hero base ATK restored after battle');
@@ -728,7 +769,7 @@ test('HG16 defensive Hero equipment and world buff reduce real incoming damage o
  s.heroBuffs.push({heroId:1,stat:'def',remaining:7200,sourceKey:'94,1'});
  assert(Math.abs(E.heroStats(s,1).def-13.2)<1e-9);
  const out=E.battleAct(s,'attack');
- const expected=Math.floor(10*(40*40/(40+10))/(1+13.2/100));
+ const expected=Math.floor(10*(40*40/(40+10))/(1+13.2/100)*.94);
  assert.equal(out.lost,expected);assert.equal(s.heroes[0].def,8);
  assert(E.strictSave(E.parseSave(E.serializeSave(s))));
 });
@@ -749,7 +790,7 @@ test('HG16 march ETA uses shortest world path and equipped/buffed hero SPD at 1x
    assert.equal(Math.abs(a.x-b.x)+Math.abs(a.y-b.y),1);
    assert.notEqual(b.terrain,'water');
   }
-  const eta=E.marchDuration(effective,path),before=s.ap;
+  const eta=E.marchDuration(effective,path,E.armyMarchFactor(s)),before=s.ap;
   E.startMarch(s,tile.key);
   assert.equal(s.ap,before-6,'Mine dispatch costs exactly 6 AP');
   assert.equal(s.march.total,eta);assert.equal(s.march.remaining,eta);
@@ -760,6 +801,30 @@ test('HG16 march ETA uses shortest world path and equipped/buffed hero SPD at 1x
   assert.equal(loaded.battle?.target,tile.key);
   assert(E.strictSave(loaded));
  }
+});
+test('HG16-G3 roads cost less than plains, forests and hills; bridges remain legal',()=>{
+ assert.deepEqual({...E.WORLD_TERRAIN_COST},{road:8,plain:10,bridge:11,forest:13,hill:15});
+ for(const [terrain,cost] of Object.entries(E.WORLD_TERRAIN_COST))assert.equal(E.terrainStepCost({terrain}),cost);
+ const a=E.getTile('3,4'),north=E.getTile('3,5');
+ if(north?.terrain!=='water')assert.equal(E.pathTravelCost([a.key,north.key]),E.terrainStepCost(north)/10);
+ const start=E.getTile('3,4'),goal=E.getTile('94,1');const before=JSON.stringify(E.TILES);
+ const path=E.pathfind(start.key,goal.key);
+ assert(path&&path.length>10);assert.equal(path[0],start.key);assert.equal(path.at(-1),goal.key);
+ assert(E.pathTravelCost(path)>0);
+ assert.deepEqual(E.pathfind(start.key,goal.key),path,'Terrain route must be deterministic');
+ assert.equal(JSON.stringify(E.TILES),before,'Path search must not mutate map');
+});
+test('HG16-G3 slowest troop determines march factor, dispatch and return ETA',()=>{
+ const start=state(),target=E.NPC_CAMPS_2009.find(t=>t.stars===1&&E.pathfind('3,4',t.key)?.length>3);
+ assert(target);
+ const militiaFactor=E.armyMarchFactor(start),slow=E.getUnit(start,'human_1').spd;
+ assert(Math.abs(militiaFactor-Math.max(.8,Math.min(1.10,.8+slow/40)))<1e-12);
+ start.army.human_2=1;start.formation=[{unitId:'human_2',count:1}];
+ const fast=E.armyMarchFactor(start);assert(fast>militiaFactor);
+ const path=E.pathfind('3,4',target.key),expected=E.marchDuration(E.heroStats(start,1).spd,path,fast);
+ E.startMarch(start,target.key);assert.equal(start.march.total,expected);
+ assert.equal(start.expedition.formation[0].unitId,'human_2');
+ const reload=E.parseSave(E.serializeSave(start));assert.equal(reload.march.remaining,expected);
 });
 test('HG16 rejects insufficient march AP atomically and preserves the route ledger',()=>{
  const s=state(),tile=E.TILES.find(t=>t.kind==='mine'&&E.pathfind('3,4',t.key));
