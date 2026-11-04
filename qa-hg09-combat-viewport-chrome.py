@@ -84,6 +84,13 @@ with sync_playwright() as p:
       const c=document.getElementById('battle-canvas'),P=HOG_PAINTER;
       return P.battleSpriteScale(c.height,0,9)>.78;
     }"""))
+    check("HG14.4 desktop troop HUD has separate nonoverlapping name/HP cards",page.evaluate("""() => {
+      const c=document.querySelector('#battle-canvas'),P=HOG_PAINTER,E=HOG_ENGINE,
+       b=HOG_APP_DEBUG.getState().battle,layout=P.battleUnitLayout(b,P.battleProjection(c,E),c.width,c.height);
+      return layout.every(e=>!layout.some(o=>
+       (o!==e&&P.battleRectOverlap(e.label,o.label,2))||
+       P.battleRectOverlap(e.label,o.sprite,1)));
+    }"""))
     check("Entering combat resets previous map page scroll",page.evaluate("window.scrollY")<2)
     check("Actual NPC March reaches combat",state["inBattle"])
     check("Illustrated combat troop sprites load from the offline HTML",page.evaluate("""() => ['battle-unit-human-spear','battle-unit-npc-beast','battle-unit-npc-archer','battle-unit-npc-guard'].every(id=>{const img=document.getElementById(id);return img&&img.complete&&img.naturalWidth===512&&img.naturalHeight===512})"""))
@@ -129,11 +136,14 @@ with sync_playwright() as p:
       return {width:r.width,vw:innerWidth,scrollWidth:document.documentElement.scrollWidth,sidebar:getComputedStyle(document.querySelector('.sidebar')).display,barY:bar.y};
     }""")
     check("Landscape canvas pixels preserve the rendered aspect ratio",page.evaluate("""() => {const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();return Math.abs(c.width/r.width-c.height/r.height)<.008}"""))
-    check("HG14.2 mobile sprites shrink and first label clears the turn badge",page.evaluate("""() => {
-      const c=document.getElementById('battle-canvas'),P=HOG_PAINTER;
-      const k=P.battleSpriteScale(c.height,0,9),foot=P.battleProjection(c,HOG_ENGINE).point(1.5,.5);
-      const labelTop=foot.y-((104*k)+7);
-      return k<.75&&labelTop>60;
+    check("HG14.4 mobile sprites are readable and all nameplates avoid silhouettes",page.evaluate("""() => {
+      const c=document.getElementById('battle-canvas'),P=HOG_PAINTER,E=HOG_ENGINE,
+        b=HOG_APP_DEBUG.getState().battle,cam=P.battleProjection(c,E),
+        layout=P.battleUnitLayout(b,cam,c.width,c.height);
+      return P.battleSpriteScale(c.height,0,9)>.82&&layout.every(e=>
+       e.label.y>=60&&e.label.x>=12&&e.label.x+e.label.w<=c.width-12&&
+       !layout.some(o=>P.battleRectOverlap(e.label,o.sprite,1))&&
+       !layout.some(o=>o!==e&&P.battleRectOverlap(e.label,o.label,2)));
     }"""))
     check("HG14.2 mobile stage spreads troops on scenic meadow",page.evaluate("""() => {
       const c=document.getElementById('battle-canvas'),E=HOG_ENGINE,cam=HOG_PAINTER.battleProjection(c,E);
@@ -144,6 +154,11 @@ with sync_playwright() as p:
     check("Landscape command bar does not overlap troop cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
     check("Landscape 960 by 540 remains wide with hidden sidebar",mobile["width"]>=mobile["vw"]*.90 and mobile["sidebar"]=="none")
     check("Landscape viewport has no horizontal overflow",mobile["scrollWidth"]<=mobile["vw"]+1)
+    check("HG14.4 click targets follow visually spaced troop positions",page.evaluate("""() => {
+      const c=document.querySelector('#battle-canvas'),P=HOG_PAINTER,E=HOG_ENGINE,
+       s=HOG_APP_DEBUG.getState(),layout=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height);
+      return layout.every(e=>P.battleHit(c,e.x,e.y,E,s)?.id===e.id);
+    }"""))
     landscape=SHOTDIR/"fullscreen-combat-landscape-chrome.png"
     page.screenshot(path=str(landscape),full_page=False)
     check("No JavaScript runtime errors",len(errors)==0)

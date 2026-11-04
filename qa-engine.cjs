@@ -1084,13 +1084,37 @@ test('HG14.3 Human Archer addresses 48 unique animation cells, including draw/re
  assert.equal(P.archerAtlasFrame('attack',580,650).imageId,'unit-human-archer-atlas');
  assert(P.hasAnimatedTroops({allies:[{unitId:'human_3'}],enemies:[]}));
 });
-test('HG14.2 responsive unit sprites fit portrait-safe desktop and 960x540 landscape battle',()=>{
- const desk=P.battleSpriteScale(515,2,9),mobile=P.battleSpriteScale(347,2,9);
- assert(desk>.8&&desk<1.1);assert(mobile<desk*.75&&mobile>desk*.6);
+test('HG14.4 responsive troop scale improves 960x540 readability',()=>{
+ const desktop=P.battleSpriteScale(516,2,9),mobile=P.battleSpriteScale(347,2,9);
+ assert(desktop>=1.05&&desktop<=1.35);
+ assert(mobile>=.82&&mobile<=1.05);
+ assert(mobile<desktop);
  assert(P.battleSpriteScale(347,8,9)>P.battleSpriteScale(347,0,9));
- for(const h of [347,515,600]){
+ for(const h of [347,516,600]){
   const k=P.battleSpriteScale(h,2,9);
-  assert(k>.5&&k<=1.1);assert(Math.max(64,113*k)<=125);
+  assert(k>.78&&k<1.5);
+ }
+});
+test('HG14.4 desktop/mobile nameplates avoid sprites, overlays and each other',()=>{
+ for(const [w,h] of [[931,348],[1250,516],[1176,550]]){
+  const s=state('human'),npc=E.NPC_CAMPS_2009.find(n=>n.stars===1);
+  s.battle=E.makeBattle(s,npc.key);
+  const camera=P.battleProjection({width:w,height:h},E),
+   layout=P.battleUnitLayout(s.battle,camera,w,h);
+  assert.equal(layout.length,3);
+  for(const e of layout){
+   const r=e.label;
+   assert(r.x>=11&&r.y>=60&&r.x+r.w<=w-11&&r.y+r.h<=h-5);
+   assert(!P.battleRectOverlap(r,e.sprite,2),'own sprite '+e.id);
+   for(const other of layout)if(other!==e)
+    assert(!P.battleRectOverlap(r,other.sprite,1),'other troop covered '+e.id);
+   assert.equal(P.battleHit({width:w,height:h},e.x,e.y,E,s)?.id,e.id);
+  }
+  for(let i=0;i<layout.length;i++)for(let j=i+1;j<layout.length;j++)
+   assert(!P.battleRectOverlap(layout[i].label,layout[j].label,2),'nameplates overlap');
+  const enemies=layout.filter(e=>e.u.side==='enemy').sort((a,b)=>a.y-b.y);
+  assert(enemies[1].x-enemies[0].x>75,'neighboring enemies have spaced silhouettes');
+  assert(E.strictSave(s),'layout must preserve canonical v07 state');
  }
 });
 test('HG14.2 continuous meadow battle projection keeps both armies in readable left-right lanes',()=>{

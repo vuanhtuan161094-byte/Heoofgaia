@@ -372,11 +372,15 @@ function battleGround(c,camera,w,h){
 }
 function battleCellAt(canvas,x,y,E){return battleProjection(canvas,E).cellAt(x,y)}
 function battleHit(canvas,x,y,E,s,now=visualNow()){
- const b=s.battle;if(!b)return null;const cam=battleProjection(canvas,E),elapsed=battleElapsed(b,now);
- let best=null,distance=Math.max(32,canvas.width*.050);
- for(const u of [...b.allies,...b.enemies]){
-  if(u.pool<=0)continue;
-  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):u,p=cam.point((visual||u).x+.5,(visual||u).y+.5),d=Math.hypot(p.x-x,p.y-y);
+ const b=s.battle;if(!b)return null;
+ const camera=battleProjection(canvas,E),elapsed=battleElapsed(b,now),
+  layout=battleUnitLayout(b,camera,canvas.width,canvas.height);
+ let best=null,distance=Math.max(38,canvas.width*.055);
+ for(const entry of layout){
+  const u=entry.u;if(u.pool<=0)continue;
+  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):u,
+   pt=camera.point((visual||u).x+.5,(visual||u).y+.5),
+   d=Math.hypot(pt.x+entry.x-entry.baseX-x,pt.y+entry.y-entry.baseY-y);
   if(d<distance){best=u;distance=d}
  }
  return best;
@@ -419,8 +423,71 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
  c.restore();return false;
 }
 // Consistent sprite sizes on desktop and compact mobile landscape battle scenes.
+// HG14.4: deterministic and presentation-only spacing + nameplate placement.
+// Canonical battle x/y, commands, receipts, and Save/Load are left untouched.
+function battleRectOverlap(a,b,pad=0){
+ return a.x<b.x+b.w+pad&&a.x+a.w+pad>b.x&&a.y<b.y+b.h+pad&&a.y+a.h+pad>b.y;
+}
+function battleUnitLayout(b,camera,width,height){
+ const entries=[...b.allies,...b.enemies].map(u=>{
+  const pt=camera.point(u.x+.5,u.y+.5);
+  const k=battleSpriteScale(height,u.y,camera.g.rows),size=clamp(113*k,64,134);
+  return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size};
+ });
+ for(const side of ['player','enemy']){
+  const team=entries.filter(e=>e.u.pool>0&&e.u.side===side).sort((a,b)=>a.y-b.y||a.x-b.x);
+  for(let i=0;i<team.length;i++)for(let j=i+1;j<team.length;j++){
+   const a=team[i],b=team[j],dy=Math.abs(a.y-b.y),dx=Math.abs(a.x-b.x),
+    needed=Math.max(85,Math.min(114,(a.size+b.size)*.46));
+   if(dy>Math.max(115,(a.size+b.size)*.95)||dx>=needed)continue;
+   const push=Math.min(44,(needed-dx)/2),direction=a.x<=b.x?1:-1;
+   a.x-=direction*push;b.x+=direction*push;
+  }
+ }
+ for(const e of entries){
+  e.x=clamp(e.x,70,width-70);
+  const half=e.size*.36;
+  e.sprite={x:e.x-half,y:e.y-e.size*.79,w:half*2,h:e.size*.79};
+  e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
+ }
+ const reserved=[{x:14,y:14,w:225,h:42},{x:width-200,y:14,w:186,h:42}];
+ for(const e of [...entries].filter(e=>e.u.pool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
+  const w=clamp(e.u.name.length*6.5+24,82,132),h=34,shift=e.size*.37+w/2+12;
+  const left={cx:e.x-shift,top:e.y-60,mode:'left'},
+   right={cx:e.x+shift,top:e.y-60,mode:'right'},
+   upperLeft={cx:e.x-shift,top:e.y-87,mode:'upper-left'},
+   upperRight={cx:e.x+shift,top:e.y-87,mode:'upper-right'},
+   lowerLeft={cx:e.x-shift,top:e.y-34,mode:'lower-left'},
+   lowerRight={cx:e.x+shift,top:e.y-34,mode:'lower-right'};
+  const preferRight=e.u.side==='player';
+  const candidates=[
+   {cx:e.x,top:e.y-e.size*.83-36,mode:'above'},
+   ...(preferRight?[right,left]:[left,right]),
+   ...(preferRight?[upperRight,upperLeft]:[upperLeft,upperRight]),
+   {cx:e.x,top:e.y-e.size*.83-54,mode:'high'},
+   ...(preferRight?[lowerRight,lowerLeft]:[lowerLeft,lowerRight])
+  ];
+  const evaluated=candidates.map((choice,i)=>{
+   const box={x:clamp(choice.cx-w/2,12,Math.max(12,width-w-12)),
+    y:clamp(choice.top,60,Math.max(60,height-h-6)),w,h};
+   let penalty=i*.12+Math.abs(box.x+w/2-choice.cx)*.11+Math.abs(box.y-choice.top)*.12;
+   for(const other of entries){
+    if(other.u.pool<=0)continue;
+    if(battleRectOverlap(box,other.sprite,3))penalty+=other===e?250:180;
+    if(other!==e&&battleRectOverlap(box,other.countBox,2))penalty+=120;
+   }
+   for(const other of reserved)if(battleRectOverlap(box,other,3))penalty+=180;
+   return {...box,mode:choice.mode,score:penalty};
+  }).sort((a,b)=>a.score-b.score);
+  const best=evaluated[0];
+  e.label={x:best.x,y:best.y,w:best.w,h:best.h,mode:best.mode,
+   leader:best.mode!=='above'&&best.mode!=='high'};
+  reserved.push(e.label);
+ }
+ return entries;
+}
 function battleSpriteScale(height,row,rows=9){
- return clamp(.84+row/rows*.19,.84,1.06)*clamp(height/510,.65,1);
+ return clamp(.84+row/rows*.19,.84,1.06)*1.20*clamp(height/460,.85,1.08);
 }
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
@@ -441,20 +508,29 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   const corners=[camera.point(i,j),camera.point(i+1,j),camera.point(i+1,j+1),camera.point(i,j+1)];
   c.lineWidth=1.8;poly(c,corners.map(p=>[p.x,p.y]),'#39bda334','#9eeac9a8');
  }
- const units=[...b.allies,...b.enemies].sort((a,b)=>camera.point(a.x+.5,a.y+.5).y-camera.point(b.x+.5,b.y+.5).y||a.x-b.x);
- for(const u of units){
-  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.5),x=p.x,y=p.y,k=battleSpriteScale(h,position.y,grid.rows);
+ const units=battleUnitLayout(b,camera,w,h).sort((a,b)=>a.y-b.y||a.x-b.x);
+ for(const entry of units){
+  const u=entry.u;
+  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=camera.point(position.x+.5,position.y+.5),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
   if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual,k);else if(u.unitId==='human_3')animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k);else motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
   const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual,k):u.unitId==='human_3'?(animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)):motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
-  const nameTop=(illustrated?104:74)*k+7,hpTop=nameTop-22,labelWidth=clamp(u.name.length*7+20,76,130);
-  rounded(c,x-labelWidth/2,y-nameTop,labelWidth,18,4,u.side==='enemy'?'#422c30e6':'#233e4ae6');
-  text(c,u.name,x,y-nameTop+13,11,'#f8e6c5');
-  rounded(c,x-28,y-hpTop,56,10,3,'#132633ee');
-  c.fillStyle=u.side==='enemy'?'#e4a08b':'#8dcf9f';
-  c.fillRect(x-26,y-hpTop+2,52*clamp(u.pool/(u.initial*u.hp),0,1),6);
+  // A unified 34px name/HP card is placed outside silhouette collision boxes.
+  const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y;
+  if(plate.leader){
+   c.save();c.strokeStyle='#dccb947b';c.lineWidth=1;c.beginPath();
+   c.moveTo(clamp(x,bx+5,bx+plate.w-5),by+plate.h);
+   c.lineTo(x,y-k*34);c.stroke();c.restore();
+  }
+  rounded(c,bx,by,plate.w,plate.h,5,
+   u.side==='enemy'?'#392b2fe9':'#1e3840ef',
+   b.selected===u.id||b.focused===u.id?'#f4d996':'#abbdab65');
+  text(c,u.name,bx+plate.w/2,by+14,11,'#f7e8c7');
+  rounded(c,bx+8,by+22,plate.w-16,7,3,'#0b1d22e9');
+  c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
+  c.fillRect(bx+9,by+23,(plate.w-18)*clamp(u.pool/(u.initial*u.hp),0,1),5);
   rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
   text(c,'×'+u.count,x+40,y-9,12,'#fff0ca');
  }
@@ -463,7 +539,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleUnitLayout,battleRectOverlap,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 
