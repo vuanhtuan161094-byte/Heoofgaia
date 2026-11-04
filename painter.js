@@ -240,7 +240,7 @@ const MOTION_SPRITES=Object.freeze({
  orc_1:Object.freeze({id:'unit-orc-imp',race:'orc',size:110,pivot:446/512,accent:'#ffa16b',ranged:false}),
  undead_1:Object.freeze({id:'unit-undead-skeleton',race:'undead',size:112,pivot:446/512,accent:'#c9a9f7',ranged:false})
 });
-function animatedUnitId(id){return id==='human_4'||Object.prototype.hasOwnProperty.call(MOTION_SPRITES,id)}
+function animatedUnitId(id){return id==='human_4'||Object.prototype.hasOwnProperty.call(MOTION_SPRITES,id)||!!root.HOG_ART_PACK?.hasUnit(id)}
 function motionPose(action,time=0,duration=null){
  // Bounded deterministic transforms with no gameplay mutation.
  const ms=Math.max(0,Number.isFinite(time)?time:0),phase=ms/1000;
@@ -299,9 +299,9 @@ function animatedArcher(c,x,y,enemy,visual,k=1){
  c.restore();return true;
 }
 function motionSprite(c,x,y,unitId,enemy,visual,k=1){
- const profile=MOTION_SPRITES[unitId];
+ const A=root.HOG_ART_PACK,profile=MOTION_SPRITES[unitId]||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
  if(!profile||!visual||typeof document==='undefined')return false;
- const image=document.getElementById(profile.id);
+ const image=profile.id?document.getElementById(profile.id):A.unitImage(unitId);
  if(!image?.complete||!image.naturalWidth)return false;
  const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,64,134);
  c.save();c.globalAlpha*=clamp((visual.alpha??1)*pose.alpha,0,1);
@@ -490,7 +490,12 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
    c.restore();return true;
   }
  }
- // Truthful temporary insignia for the still-unillustrated 40-unit catalog;
+ const generated=root.HOG_ART_PACK?.hasUnit(unitId)?root.HOG_ART_PACK.unitImage(unitId):null;
+ if(generated?.complete&&generated.naturalWidth){
+  c.save();c.translate(x,y);if(enemy)c.scale(-1,1);
+  c.drawImage(generated,-size/2,-size*118/128,size,size);c.restore();return true;
+ }
+ // Fallback for missing art and non-catalog NPCs.
  // intentionally no giant stick figures or incorrect reassignment to other races.
  c.save();c.translate(x,y);
  const r=clamp(34*k,29,39);
