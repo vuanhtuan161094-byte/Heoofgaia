@@ -135,7 +135,20 @@ check('P0 production five resources across 6 independent cities / 30 offline day
   const ownedKeys=new Set(loaded.cities.map(c=>c.key));
   assert.equal(ownedKeys.size,6);
   assert.equal(Object.keys(loaded.aiCities).length,36,'AI ownership must not duplicate');
-  assert(E.strictSave(loaded),'Day '+day+' 6-city Save v07 strict failed; active='+loaded.activeCityId+' version='+loaded.version+' AI='+Object.keys(loaded.aiCities||{}).length+' AP='+loaded.ap+'/'+loaded.apMax);
+  if(!E.strictSave(loaded)){
+   const trial=change=>{const x=E.clone(loaded);change(x);return E.strictSave(x)};
+   const fresh=E.make('human',loaded.lastTick);
+   const diagnostic={
+    day,now:loaded.lastTick,active:loaded.activeCityId,ap:loaded.ap,apMax:loaded.apMax,
+    aiCount:Object.keys(loaded.aiCities).length,aiLevels:Object.values(loaded.aiCities).reduce((o,a)=>(o[a.level]=(o[a.level]||0)+1,o),{}),
+    cities:loaded.cities.map(c=>({id:c.id,race:c.race,res:c.local.res,warehouse:c.local.buildings.warehouse,tavernRound:c.local.tavern.round})),
+    noMines:trial(x=>{x.mines=[]}),freshAI:trial(x=>{x.aiCities=E.clone(fresh.aiCities)}),
+    noLog:trial(x=>{x.log=[]}),freshDaily:trial(x=>{x.dailyTaskState=E.clone(fresh.dailyTaskState);x.china2009DailyTaskState=E.clone(fresh.china2009DailyTaskState)}),
+    freshTaverns:trial(x=>{for(const c of x.cities){c.local.tavern=E.clone(E.make(c.race,x.lastTick).tavern)}x.tavern=E.clone(x.cities.find(c=>c.id===x.activeCityId).local.tavern)}),
+    singleCity:trial(x=>{x.cities=[x.cities.find(c=>c.main)]}),
+   };
+   throw Error('P0 invalid production v07 snapshot: '+JSON.stringify(diagnostic));
+  }
  }
  const before=JSON.stringify(loaded);E.tick(loaded,now);assert.equal(JSON.stringify(loaded),before);
  return {days:30,ownedCities:6,aiCities:36,resources:5,offlineCapHours:24,snapshots:6};
