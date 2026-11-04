@@ -53,7 +53,7 @@ check('Start, AP charged once, army leaves garrison once, Save/Reload during mar
 });
 check('Auto-engage requires real trip; battle incurs real turns and stops after a defeat',()=>{
  const s=E.make('human',1000000),pick=boss(s),before={gold:s.res.gold,loot:s.inventory.length};
- E.hg26Start(s,config(pick.key,{maxRuns:2,minUnits:16}));
+ E.hg26Start(s,config(pick.key,{maxRuns:2,minUnits:16,maxLossPercent:100}));
  enter(s);
  const through=save(s),{out,turns}=fight(through);
  assert(turns>=1&&turns<=70);assert(['win','lose','timeout'].includes(out.type));
@@ -115,6 +115,22 @@ check('Two real consecutive Boss victories use two AP charges and two canonical 
  assert(E.strictSave(save(s)));
  return {attempts:started,receipts:s.battleReports.length,privateBossVictories:s.hg24.bossWins};
 });
+check('During real battle, crossing casualty threshold pauses for manual control before another turn (attrition fixture)',()=>{
+ const s=E.make('human',1000000),target=boss(s);
+ E.hg26Start(s,config(target.key,{maxLossPercent:25,minUnits:16}));
+ enter(s);
+ // Attribute a loss to this fixture in the real open tactical battle.
+ const unit=s.battle.allies[0];unit.count=10;unit.pool=unit.count*unit.hp;
+ const turn=s.battle.turn,ap=s.ap,reports=s.battleReports.length;
+ const result=E.hg26Step(s);
+ assert.equal(result.type,'stopped');assert.equal(s.hg26.enabled,false);
+ assert.equal(s.battle.turn,turn,'No additional battle turn after unsafe casualties');
+ assert.equal(s.battle.hg26NeedsManual,true);
+ assert.equal(s.battleReports.length,reports);assert.equal(s.hg26.runs,0);
+ assert.equal(s.ap,ap);assert(s.expedition&&s.battle);
+ assert(E.strictSave(save(s)));
+ return {lostPercent:38,limit:25,manual:true,bonusReports:0};
+});
 check('Safety policy blocks dispatch when AP reserve cannot be respected',()=>{
  const s=E.make('human',1000000),target=boss(s),before=s.army.human_1;
  assert.throws(()=>E.hg26Start(s,config(target.key,{keepAP:999})),/AP/);
@@ -143,6 +159,7 @@ check('Auto-heal queues real Arena treatment and waits until completion (fixture
  s.buildings.arena=1;s.army.human_1=11;s.wounded.human_1=5;
  const before=s.res.gold;
  const step=E.hg26Step(s);assert.equal(step.type,'heal_queued');
+ const actualPaidGold=before-s.res.gold;assert(actualPaidGold>0);
  assert(s.arenaQueue?.count===5);assert.equal(s.wounded.human_1,0);
  assert(s.res.gold<before);assert.equal(s.army.human_1,11);
  assert.equal(E.hg26Step(s).type,'healing');
@@ -152,7 +169,7 @@ check('Auto-heal queues real Arena treatment and waits until completion (fixture
  const next=E.hg26Step(reloaded);
  assert.equal(next.type,'refilled');assert.equal(reloaded.hg26.phase,'ready');
  assert.equal(E.hg20HeroPlan(reloaded,1)[0].count,16);
- return {healed:5,goldCharged:before-reloaded.res.gold,awaited:true};
+ return {healed:5,goldCharged:actualPaidGold,awaited:true};
 });
 check('Explicit stop stops bot transitions but does not cancel an active real expedition',()=>{
  const s=E.make('orc',1000000),target=boss(s);

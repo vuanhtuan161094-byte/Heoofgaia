@@ -42,7 +42,7 @@ function valid(s){
 function stop(s,reason='Người chơi đã dừng'){
  const q=ensure(s);
  q.enabled=false;q.phase='halted';q.reason=String(reason).slice(0,200);
- if(s.battle?.target===q.config.target)s.battleAuto=false;
+ if(s.battle?.target===q.config.target){s.battleAuto=false;s.battle.hg26NeedsManual=true;}
  E.note(s,'HG26: '+q.reason);
  return status(s);
 }
@@ -148,6 +148,15 @@ function step(s){
   if(!s.battle||s.battle.hg21Tower||s.battle.kind!=='npc'||
      s.battle.target!==c.target||!activeExp(s,q))
    return {changed:true,type:'stopped',status:stop(s,'Chiến trường không đúng đạo quân tự săn')};
+  // Stop before the next round when live combat losses exceed the owner's
+  // limit. Do not fake a retreat or complete the fight: leave the actual
+  // battlefield available for manual control with auto disabled.
+  const total=s.battle.allies.reduce((sum,u)=>sum+u.initial,0);
+  const living=s.battle.allies.reduce((sum,u)=>sum+u.count,0);
+  const liveLoss=total?Math.max(0,Math.round(100*(total-living)/total)):100;
+  if(liveLoss>c.maxLossPercent)
+   return {changed:true,type:'stopped',status:stop(s,
+    'Đã mất '+liveLoss+'% quân trong trận (ngưỡng '+c.maxLossPercent+'%); chuyển điều khiển thủ công')};
   // Canonical tactical engine, exactly one real combat turn per call. The
   // E.battleAct hook records terminal outcome once, after all reward layers.
   const out=E.battleAct(s,'attack',{preserveMoveOrders:true});
