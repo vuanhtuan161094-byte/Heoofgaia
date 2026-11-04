@@ -18,6 +18,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install Pillow for reproducible Human Archer sprite atlas
+        run: python -m pip install Pillow==11.3.0
       - name: Build current offline HTML reproducibly
         run: |
           python build_offline.py
@@ -25,6 +27,8 @@ jobs:
           python build_offline.py
           sha256sum Play-Heoofgaia-HG11.html > /tmp/heoofgaia-second.sha
           diff -u /tmp/heoofgaia-first.sha /tmp/heoofgaia-second.sha
+      - name: QA source-registered 48-frame Human Archer PNG atlas
+        run: python qa-hg143-archer-art.py
       - name: Check gameplay and battle viewport
         run: |
           node --check app.js
@@ -42,6 +46,8 @@ jobs:
         run: python qa-hg12-hero-tasks-chrome.py
       - name: Chrome four-faction troop sprite motion and combat Save/Load
         run: python qa-hg14-sprite-chrome.py
+      - name: Chromium Human Archer six animations, real battle and Save/Load
+        run: python qa-hg143-archer-chrome.py
       - name: Record build SHA and size
         run: |
           test -s Play-Heoofgaia-HG11.html
@@ -60,6 +66,11 @@ jobs:
             docs/qa/hg12/hero-task-chrome.json
             docs/evidence/hg14/battle-*.png
             docs/qa/hg14/batch01-chrome.json
+            assets/generated/hg143/animation/human-archer-atlas.png
+            assets/generated/hg143/animation/human-archer-atlas.json
+            docs/qa/hg143/archer-art-qa.json
+            docs/qa/hg143/archer-chrome.json
+            docs/evidence/hg143/*.png
           retention-days: 7
           if-no-files-found: error
 
@@ -93,5 +104,20 @@ jobs:
           path: |
             docs/evidence/hg14/battle-*.png
             docs/qa/hg14/batch01-chrome.json
+          retention-days: 7
+          if-no-files-found: warn
+
+      - name: Upload HG14.3 source-registered Archer atlas and 48 separate frames
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG14.3-Human-Archer-48-frame-Atlas-evidence
+          path: |
+            assets/generated/hg143/animation/human-archer-atlas.png
+            assets/generated/hg143/animation/human-archer-atlas.json
+            assets/generated/hg143/animation/frames/*.png
+            docs/qa/hg143/archer-art-qa.json
+            docs/qa/hg143/archer-chrome.json
+            docs/evidence/hg143/*.png
           retention-days: 7
           if-no-files-found: warn
