@@ -232,3 +232,17 @@ body:not(.combat-mode) #toast{z-index:100}
 .game-window-body .unitrow{padding:7px}
 body.combat-mode .game-modal{display:none!important}
 @media(max-width:800px){body:not(.combat-mode) .brand{font-size:13px}body:not(.combat-mode) .masthead small{display:none}body:not(.combat-mode) .resource span{display:none}body:not(.combat-mode) .tabs button{font-size:10px}body:not(.combat-mode) .quickstart-actions button{font-size:10px}body:not(.combat-mode) #main>.scene-title h1{font-size:15px}.game-window-body .formation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.game-window-footer span{display:none}}
+
+/* HG18.1 regression: global navigation and save controls remain reachable while a management window is open. */
+body:not(.combat-mode) .tabs{position:relative;z-index:60}
+body:not(.combat-mode) .sidebar{z-index:60}
+body:not(.combat-mode) .welcome{flex:1 1 auto;min-height:0;overflow:hidden;margin:0}
+body:not(.combat-mode) .welcome-scene{height:clamp(120px,25dvh,230px);min-height:0;max-height:none}
+body:not(.combat-mode) .welcome-scene canvas{height:100%;object-fit:cover}
+body:not(.combat-mode) .welcome-bottom{padding:7px 14px}
+body:not(.combat-mode) .welcome-bottom .race-grid{margin:5px auto 8px}
+body:not(.combat-mode) .race-card{min-height:58px;padding:6px 3px}
+body:not(.combat-mode) .race-card .emoji{font-size:25px}
+body:not(.combat-mode) .welcome-bottom h2{font-size:18px;margin:3px}
+body:not(.combat-mode) .welcome-bottom h3{font-size:14px;margin:4px}
+body:not(.combat-mode) .welcome-bottom p.hint{display:none}

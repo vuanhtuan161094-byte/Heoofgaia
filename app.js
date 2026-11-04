@@ -28,7 +28,7 @@ function ensureBattleAutoTimer(s){if(s?.battle&&!Number.isFinite(s.battle.autoUn
 function markBattleInput(){if(!state?.battle)return;state.battleAuto=false;state.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS}
 function resolveAutomaticBattleTurn(){if(!state?.battle||!state.battleAuto)return;try{const out=E.battleAct(state,'attack',{preserveMoveOrders:true});if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab='map';if(out.type==='lose')tab='heroes';if(state.battle)state.battle.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;save();render()}catch(e){console.warn('Auto battle',e);state.battleAuto=false}}
 function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
-function fail(fn){try{fn();save();render();}catch(e){toast(e.message||String(e))}}
+function fail(fn){try{const oldTab=tab;if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;fn();if(oldTab!==tab)modalOffset=0;save();render();}catch(e){toast(e.message||String(e))}}
 function save(){
  if(!state)return false;
  try{
