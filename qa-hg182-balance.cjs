@@ -80,7 +80,8 @@ test('Elite paid queue debits exactly displayed prices, speeds training, and col
  E.recruit(s,u.id,1);
  assert.equal(s.training.length,1);
  for(const k of C.keys)assert(Math.abs(s.res[k]-(before[k]-cost[k]))<1e-5,'Debited wrong '+k);
- const originalTraining=Math.ceil(u.timeSec*.8),newTime=s.training[0].total;
+ const originalTraining=Math.ceil(u.timeSec*(1-Math.min(.2,9*.02))),newTime=s.training[0].total;
+ assert.equal(newTime,E.recruitDuration(s,u,1),'Displayed training time must match paid queue');
  assert(newTime<originalTraining,'T10 production time not improved');
  const mid=E.parseSave(E.serializeSave(s));assert.equal(mid.training[0].total,newTime);
  E.tick(mid,mid.lastTick+(newTime+2)*1000/mid.speed);

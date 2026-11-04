@@ -293,16 +293,20 @@ function recruitCost(s,u,count){
   cost[key]=Math.ceil(cost[key]*(1-efficiency));
  return cost;
 }
+function recruitDuration(s,u,count){
+ if(!u||!Number.isSafeInteger(count)||count<1||count>1000)throw Error('Số quân tuyển không hợp lệ');
+ const bootcamp=s.spells?.bootcamp||0,smith=s.buildings?.blacksmith||0;
+ const eliteTime=u.tier>=9&&smith>=8&&bootcamp>=6?
+   Math.min(.22,(Math.min(10,smith)-7)*.025+(Math.min(10,bootcamp)-5)*.03):0;
+ return Math.ceil(u.timeSec*count*(1-Math.min(.45,Math.min(.2,bootcamp*.02)+eliteTime)));
+}
 function recruit(s,id,count){
  ensure(s);const u=E.getUnit(s,id);if(!u)throw Error('Không có quân của chủng tộc này');
  if(u.rewardOnly)throw Error('Quân đặc biệt chỉ nhận qua nhiệm vụ, không thể tuyển tại trại.');
  if(!Number.isSafeInteger(count)||count<1||count>1000)throw Error('Số lượng không hợp lệ');
  const req=unitPrerequisites(s,u);if(!req.available)throw Error(`Chưa đủ điều kiện ${u.name}: ${conditionName(req.unmet[0])}.`);
  const cost=recruitCost(s,u,count);E.spend(s,cost);
- const bootcamp=s.spells.bootcamp||0,smith=s.buildings.blacksmith||0;
- const eliteTime=u.tier>=9&&smith>=8&&bootcamp>=6?
-   Math.min(.22,(Math.min(10,smith)-7)*.025+(Math.min(10,bootcamp)-5)*.03):0;
- const time=Math.ceil(u.timeSec*count*(1-Math.min(.45,Math.min(.2,bootcamp*.02)+eliteTime)));
+ const time=recruitDuration(s,u,count);
  s.training.push({id:s.serial++,unitId:id,count,remaining:time,total:time});
  E.note(s,`Xếp hàng tuyển ${count} ${u.name}; thời gian cơ sở theo bảng unit 2009.`);return cost;
 }
@@ -510,6 +514,6 @@ Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGI
  ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,NPC_BATTLE_XP,battleExperienceReward,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  buildingUpgradeGate,buildingUpgradeCapException,
 technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,castellanExperienceFromResources,grantCastellanActivityExperience,progressFame,
- troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
+ troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,recruitDuration,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
 root.HOG_HG08={version:V,saveKey:KEY,status:'evidence-labelled-progression'};
 })(typeof globalThis!=='undefined'?globalThis:this);
