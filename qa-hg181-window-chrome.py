@@ -44,6 +44,32 @@ try:
     page.locator('.game-window-body .formation-back').count()==4 and
     page.locator('.game-window-body .formation-front').count()==3)
   page.screenshot(path=str(OUT/'army-seven-stacks-window.png'))
+  # Private gameplay: one actual recruitable commander, allocated real initial
+  # troops, tower selection via popup, real button-driven floor reward and Save.
+  check('Private hero-based allocation panel shows selected commander and 7 editable stacks',
+    page.locator('.hg20-command').count()==1 and
+    'Aldric' in page.locator('.hg20-command').inner_text())
+  page.locator('[data-action="autoformation"]').first.click()
+  check('Real initial troops are assigned to the active hero without duplication',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),r=HOG_ENGINE.hg20HeroRole(s,1);
+      return r.status==='home'&&r.army.reduce((a,g)=>a+g.count,0)===16&&
+        HOG_ENGINE.strictSave(s);
+    }"""))
+  page.locator('[data-action="tab"][data-tab="tower"]').first.click()
+  check('Tower is an actual on-demand game window with three hero slots',
+    page.locator('#game-modal:not([hidden]) #hg20_tower_0').count()==1 and
+    page.locator('#hg20_tower_1').count()==1 and page.locator('#hg20_tower_2').count()==1)
+  page.locator('#hg20_tower_0').select_option('1')
+  page.locator('[data-action="tower-team"]').click()
+  page.locator('[data-action="tower-climb"]').click()
+  check('Real click wins floor 1 and earns exactly one of five daily reward claims',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),t=s.hg20.tower;
+      return t.floor===2&&t.claims===1&&t.team.length===1&&t.team[0]===1&&
+        t.last?.outcome==='win'&&HOG_ENGINE.strictSave(s);
+    }"""))
+  page.screenshot(path=str(OUT/'private-tower-real-command.png'))
   page.locator('[data-action="tab"][data-tab="tasks"]').first.click()
   check('Task board is an on-demand dialog, not stacked beneath the map',
     page.locator('.game-window-body [data-action="hg18-claim"][data-id="daily_build"]').count()==1)
@@ -70,5 +96,5 @@ try:
 finally:
  receipt={'kind':'HG18.1 fixed-stage real Chromium UI','checks':checks,
   'passed':sum(c['pass'] for c in checks),'failed':sum(not c['pass'] for c in checks),
-  'errors':errors,'screens':['world-fixed-1280x720.png','army-seven-stacks-window.png','world-fixed-960x540.png']}
+  'errors':errors,'screens':['world-fixed-1280x720.png','army-seven-stacks-window.png','world-fixed-960x540.png','private-tower-real-command.png']}
  (QA/'window-chrome.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
