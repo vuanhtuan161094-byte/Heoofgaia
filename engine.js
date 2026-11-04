@@ -179,19 +179,60 @@ function mapTiles(){
 }
 const TILES=mapTiles(), TILE_LOOKUP=new Map(TILES.map(t=>[t.key,t]));
 function getTile(key){return TILE_LOOKUP.get(key)}
+// HG-16 offline navigation weights. A hill route is genuinely slower;
+// roads are worthwhile, so shortest-step BFS is not always the fastest route.
+const WORLD_TERRAIN_COST=Object.freeze({road:8,plain:10,bridge:11,forest:13,hill:15});
+function terrainStepCost(tile){return WORLD_TERRAIN_COST[tile?.terrain]??10;}
 function pathfind(fromKey,toKey){
  const start=getTile(fromKey),goal=getTile(toKey);assert(start&&goal,'Tọa độ không tồn tại');
- const queue=[start],visited=new Map([[start.key,null]]);
- for(let i=0;i<queue.length;i++){
-  const t=queue[i];if(t.key===goal.key)break;
+ if(start.terrain==='water'||goal.terrain==='water')return null;
+ // Dijkstra with a small binary heap. Four cardinal neighbors, deterministic
+ // tie order, and integral weights to avoid floating-point route drift.
+ const heap=[],scores=new Map([[start.key,0]]),previous=new Map([[start.key,null]]);
+ const push=(key,cost)=>{const v={key,cost};heap.push(v);let i=heap.length-1;
+  while(i){const p=(i-1)>>1;if(heap[p].cost<=v.cost)break;heap[i]=heap[p];i=p}heap[i]=v;};
+ const pop=()=>{const first=heap[0],last=heap.pop();if(heap.length){let i=0;
+  while(i*2+1<heap.length){let j=i*2+1;if(j+1<heap.length&&heap[j+1].cost<heap[j].cost)j++;
+   if(last.cost<=heap[j].cost)break;heap[i]=heap[j];i=j}heap[i]=last}return first;};
+ push(start.key,0);
+ while(heap.length){
+  const {key,cost}=pop();if(cost!==scores.get(key))continue;if(key===goal.key)break;
+  const tile=getTile(key);
   for(const [dx,dy] of [[1,0],[0,1],[-1,0],[0,-1]]){
-   const nb=getTile(`${t.x+dx},${t.y+dy}`);
-   if(!nb||visited.has(nb.key)||nb.terrain==='water')continue;
-   visited.set(nb.key,t.key);queue.push(nb);
+   const other=getTile(`${tile.x+dx},${tile.y+dy}`);
+   if(!other||other.terrain==='water')continue;
+   const next=cost+terrainStepCost(other);
+   if(next<(scores.get(other.key)??Infinity)){
+    scores.set(other.key,next);previous.set(other.key,key);push(other.key,next);
+   }
   }
  }
- if(!visited.has(goal.key))return null;
- const result=[];let k=goal.key;while(k){result.unshift(k);k=visited.get(k);}return result;
+ if(!scores.has(goal.key))return null;
+ const result=[];for(let k=goal.key;k!==null;k=previous.get(k))result.push(k);
+ return result.reverse();
+}
+function pathTravelCost(path){
+ assert(Array.isArray(path)&&path.length>0,'Đường hành quân không hợp lệ');
+ let units=0;
+ for(let i=1;i<path.length;i++){
+  const a=getTile(path[i-1]),b=getTile(path[i]);
+  // Preserve the original unit-test contract for symbolic paths; real game
+  // and serialized routes always contain known adjacent world coordinates.
+  if(!a||!b){units++;continue}
+  assert(b.terrain!=='water'&&Math.abs(a.x-b.x)+Math.abs(a.y-b.y)===1,'Đường bộ chứa đoạn không hợp lệ');
+  units+=terrainStepCost(b)/10;
+ }
+ return Math.round(units*1000)/1000;
+}
+function armyMarchFactor(s,groups){
+ const selected=groups||(s.formation?.length?s.formation:arrUnits(s).filter(u=>s.army[u.id]>0).map(u=>({unitId:u.id,count:s.army[u.id]})));
+ let slowest=Infinity;
+ for(const group of selected||[]){
+  if(!group?.count||group.count<=0)continue;
+  const unit=arrUnits(s).find(u=>u.id===group.unitId);
+  if(unit)slowest=Math.min(slowest,unit.spd);
+ }
+ return slowest===Infinity?1:Math.max(.8,Math.min(1.10,.8+slowest/40));
 }
 function setFormation(s,items){
  assert((!s.march||s.march.phase==='outbound')&&!s.battle,'Không thể đổi đội hình khi đang trở về hoặc chiến đấu');
@@ -217,9 +258,10 @@ function heroSpeedAdjustment(heroSpeed){
  return (heroSpeed-10)/50;
 }
 function marchSpeedFactor(heroSpeed){return Math.max(.1,1+heroSpeedAdjustment(heroSpeed));}
-function marchDuration(heroSpeed,path){
+function marchDuration(heroSpeed,path,armyFactor=1){
+ assert(Number.isFinite(armyFactor)&&armyFactor>0,'Hệ số hành quân quân đội không hợp lệ');
  assert(Array.isArray(path)&&path.length>0,'Đường hành quân không hợp lệ');
- return Math.max(40,Math.ceil(20+(path.length-1)*19/marchSpeedFactor(heroSpeed)));
+ return Math.max(40,Math.ceil(20+pathTravelCost(path)*19/(marchSpeedFactor(heroSpeed)*armyFactor)));
 }
 function startMarch(s,key,targetKind){
  assert(!s.march&&!s.battle,'Tướng đang bận');
@@ -231,7 +273,7 @@ function startMarch(s,key,targetKind){
  const hero=s.heroes.find(h=>h.id===s.activeHero);assert(hero&&s.castellan!==hero.id,'Tướng không sẵn sàng');
  const homeKey=s.activeCastleKey||'3,4';const path=pathfind(homeKey,key);assert(path&&path.length>1,'Không tìm thấy đường đi bộ qua địa hình');
  const apCost=!isTreasure&&t.kind==='mine'?6:8;assert(s.ap>=apCost,'Thiếu AP');s.ap-=apCost;
- const seconds=marchDuration(hero.spd,path);
+ const seconds=marchDuration(hero.spd,path,armyMarchFactor(s));
  s.march={target:key,...(isTreasure?{targetKind:'treasure'}:{}),fromKey:homeKey,remaining:seconds,total:seconds,heroId:hero.id,path};
  note(s,`${hero.name} dẫn quân đi ${path.length-1} ô tới (${t.x},${t.y}), -${apCost} AP.`);
 }
@@ -439,7 +481,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder};
+const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 
