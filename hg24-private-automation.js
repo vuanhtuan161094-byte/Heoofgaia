@@ -124,7 +124,7 @@ function recruitMissing(s,id){
   while(lo<hi){const n=Math.floor((lo+hi+1)/2);
    if(E.canAfford(s,E.recruitCost(s,unit,n)))lo=n;else hi=n-1;
   }
-  if(lo<1)return null;
+  if(lo<1)continue;
   const spent=E.recruit(s,unitId,lo);
   return {heroId:id,unitId,count:lo,paid:spent};
  }
@@ -156,6 +156,18 @@ function tick(s,...args){
  }
  return result;
 }
+function eligibleSquad(s,id,groups){
+ const other=E.hg20Reservations(s,id),use={};
+ let space=E.heroLimit(s.heroes.find(h=>h.id===id)?.level||1);
+ const real=[];
+ for(const g of groups){
+  const unit=E.getUnit(s,g.unitId),value=unit?E.unitValue(unit):0;
+  if(!unit||!value||!natural(g.count,1e8))continue;
+  const count=Math.min(g.count,Math.max(0,(s.army[g.unitId]||0)-(other[g.unitId]||0)-(use[g.unitId]||0)),Math.floor(space/value));
+  if(count>0){real.push({unitId:g.unitId,count});space-=count*value;use[g.unitId]=(use[g.unitId]||0)+count}
+ }
+ return real;
+}
 function bossCandidates(s){
  ensure(s);
  const home=E.activeCity(s),origin=home?.key||'3,4';
@@ -164,7 +176,8 @@ function bossCandidates(s){
  const rows=E.TILES.filter(t=>t.kind==='npc'&&t.eliteTier>=11).map(t=>{
   const route=E.pathfind(origin,t.key),ap=E.hg182MarchCost(s,t.key);
   const scored=heroes.map(h=>{
-   const saved=E.hg20HeroPlan(s,h.id),row=saved.length?saved:(savedTemplate(s,h.id)?.groups||[]);
+   const saved=E.hg20HeroPlan(s,h.id),desired=saved.length?saved:(savedTemplate(s,h.id)?.groups||[]);
+   const row=eligibleSquad(s,h.id,desired);
    const power=row.reduce((total,g)=>{
     const u=E.getUnit(s,g.unitId);return total+(u?(u.atk+u.def*.4+u.hp*.015)*g.count:0);
    },0);
@@ -185,7 +198,9 @@ function prepareBoss(s,key){
  if(s.ap<candidate.apCost)throw Error('Thiếu AP để đi săn Boss');
  const id=candidate.recommended.heroId;
  if(s.activeHero!==id)E.selectHero(s,id);
- if(!E.hg20HeroPlan(s,id).length){
+ const assigned=E.hg20HeroPlan(s,id);
+ const real=eligibleSquad(s,id,assigned);
+ if(!assigned.length||JSON.stringify(assigned)!==JSON.stringify(real)){
   if(savedTemplate(s,id))apply(s,id);
   else E.autoFormation(s);
  }
