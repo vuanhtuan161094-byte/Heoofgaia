@@ -48,8 +48,11 @@ function start(s,opts){
  if(max<(opts.minUnits??1))throw Error('Tổng quân ba đội không đạt giới hạn tối thiểu');
  // Validate canonical HG26 policy before storing the new co-operative roster.
  const previous=s.activeHero;
- const accepted=old.start(s,{...opts,heroId:leader});
+ const accepted=old.start(s,{...opts,heroId:leader,minUnits:Math.max(1,sum(party[0].groups)),minCoverage:1});
  const q=s.hg26;
+ // The legacy single-commander initializer checks only the leader. Restore
+ // the owner's squad-wide thresholds; cooperative preflight checks all heroes.
+ q.config.minUnits=opts.minUnits??1;q.config.minCoverage=opts.minCoverage??70;
  q.config.team=party.map(p=>p.heroId);
  q.joint={version:1,team:party.map(p=>({heroId:p.heroId,groups:copied(p.groups)})),
    lastVictoryShared:null};
