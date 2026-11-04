@@ -49,10 +49,6 @@ jobs:
           node --check hg18.js
           node --check qa-hg18-core.cjs
           node qa-hg18-core.cjs
-      - name: HG18.1 organic high-tier unlock Boss and rebirth contract
-        run: |
-          node --check qa-hg181-organic-endgame.cjs
-          node qa-hg181-organic-endgame.cjs
       - name: HG19 vector art coverage and icon regression
         run: |
           node --check art-pack.js
@@ -70,6 +66,10 @@ jobs:
         run: python qa-hg18-ui-chrome.py
       - name: HG18.1 fixed viewport and popup UX acceptance (1280x720 plus landscape)
         run: python qa-hg181-window-chrome.py
+      - name: HG18.1 organic high-tier unlock Boss and rebirth contract
+        run: |
+          node --check qa-hg181-organic-endgame.cjs
+          node qa-hg181-organic-endgame.cjs
       - name: HG17 first-launch organic build research recruit and mine Chromium
         run: python qa-hg17-organic-newgame-chrome.py
       - name: HG10 offline world AI castle interaction and Save Reload in Chromium

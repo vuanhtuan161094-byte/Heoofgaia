@@ -251,3 +251,8 @@ body:not(.combat-mode) .welcome-bottom p.hint{display:none}
 body:not(.combat-mode) .sidebar{right:auto;left:10px;bottom:2px;width:auto}
 body:not(.combat-mode) #main>.scene-bottom .target-information{padding-left:340px}
 @media(max-width:750px){body:not(.combat-mode) .sidebar{left:4px;bottom:2px}body:not(.combat-mode) #main>.scene-bottom .target-information{padding-left:275px}}
+
+/* HG18.1 resource details are optional: tap header chips or hover for rate/cap. */
+body:not(.combat-mode) button.resource{color:var(--paper);background:linear-gradient(180deg,#19282c,#253c3f);border-color:#85795c;font-weight:400;border-radius:4px}
+body:not(.combat-mode) button.resource:focus-visible{outline:2px solid #f1d298}
+.game-window-body progress{max-width:100%;accent-color:#e0b971}
