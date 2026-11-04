@@ -675,6 +675,26 @@ function hg16FormulaFixture({allyAtk=40,enemyAtk=0,enemyDef=10,allyDef=20,heroAt
    spd:enemySpeed,pool:enemyCount*1e9,x:10,y:1}];
  s.battle=b;return s;
 }
+test('HG16 all 40 racial units follow the same deterministic base-damage and hero-factor oracle',()=>{
+ const targetKey=E.TILES.find(t=>t.kind==='npc').key;
+ let checked=0;
+ for(const [race,units] of Object.entries(C.units))for(const unit of units){
+  const s=state(race);s.heroes[0].atk=20;s.heroes[0].def=0;
+  s.battle=E.makeBattle(s,targetKey);
+  s.battle.allies=[{id:'p0',slot:0,side:'player',unitId:unit.id,name:unit.name,
+   count:1,initial:1,hp:unit.hp,atk:unit.atk,def:unit.def,spd:99,pool:unit.hp,
+   range:20,x:1,y:1}];
+  s.battle.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Formula reference',
+   count:1,initial:1,hp:1e9,atk:0,def:109,spd:1,pool:1e9,
+   range:20,x:10,y:1}];
+  const actual=E.battleAct(s,'attack');
+  const predicted=Math.max(1,Math.floor(unit.atk*unit.atk/(unit.atk+109)*1.2));
+  assert.equal(actual.dealt,predicted,`${unit.id} base damage`);
+  assert.equal(actual.lost,0,unit.id+' zero-ATK defender');
+  assert(E.strictSave(s),unit.id+' Save validation');checked++;
+ }
+ assert.equal(checked,40);
+});
 test('HG16 exact zero-DEF reference base and zero-ATK inert units (no phantom chip)',()=>{
  const noDefense=hg16FormulaFixture({enemyDef:0,heroAtk:0,allyCount:10});
  const damage=E.battleAct(noDefense,'attack');
