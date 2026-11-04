@@ -88,8 +88,10 @@ try:
       Object.assign(HOG_PAINTER.mapCamera(),{centerX:t.x,centerY:t.y,zoom:1.12});
       HOG_APP_DEBUG.render();return {key:t.key,name:E.C.resource[t.value].label};
     }""")
-    canvas=page.locator("#world-canvas")
-    canvas.scroll_into_view_if_needed()
+    # The game intentionally re-renders its canvas every second. Playwright's
+    # "wait until stable" scroll can fail if the backing DOM node is replaced;
+    # scroll the *current* canvas in a synchronous browser evaluation instead.
+    page.evaluate("""() => document.getElementById('world-canvas').scrollIntoView({block:'center',behavior:'instant'})""")
     pt=page.evaluate("""() => {
       const c=document.getElementById('world-canvas'),r=c.getBoundingClientRect(),z=HOG_PAINTER.mapCamera().zoom*48;
       return {x:r.left+(c.width/2+z/2)/c.width*r.width,y:r.top+(c.height/2+z/2)/c.height*r.height};
