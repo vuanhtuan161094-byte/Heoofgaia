@@ -205,7 +205,7 @@ function heroArmyCommandView(){
  '. Sau khi bấm Xuất chinh, quân thật được giao cho tướng và sẽ xuất hiện ở trạng thái hành quân/chiến đấu/đồn trú.</p></section>';
 }
 function towerView(){
- const status=E.hg20TowerStatus(state),c=state.hg20.collection,castle=E.hg20CastleStatus(state);
+ const status=E.hg20TowerStatus(state),c=state.hg20.collection,castle=E.hg20CastleStatus(state),picks=E.hg21TowerPicks(state);
  const teamOptions=(selected)=>'<option value="">— Không chọn —</option>'+state.heroes.map(h=>{
   const duty=E.hg20HeroRole(state,h.id);
   return '<option value="'+h.id+'" '+(selected===h.id?'selected':'')+' '+(duty.status==='home'?'':'disabled')+'>'+
@@ -219,9 +219,20 @@ function towerView(){
   '<p>Thể chất: '+esc(status.trait)+' · Lực chiến quái '+format(status.enemyPower)+'</p>'+
   '<p>Đội bạn: '+strength+'</p>'+
   '<p>Ngày hôm nay còn <b>'+status.rewardLeft+'/5</b> lượt thắng có thưởng. Hết lượt thưởng vẫn được luyện tập tầng hiện tại, không bỏ lỡ chiến lợi phẩm hiếm; sang ngày mới lại tiếp tục leo.</p>'+
-  '<p class="hint">Bí cảnh dùng hình chiếu quân: không mất lính, không mất AP. Kết quả dựa trên lực chiến của từng tướng và quân đã được phân; quái mạnh dần theo tầng.</p>'+
+  '<p class="hint">Chiến đấu chiến thuật thật: tối đa 3 tướng, mỗi tướng góp 2 stack. Quân của ai nhận chỉ số, trang bị và phép của người đó. Tháp không tiêu hao quân thật hoặc AP.</p>'+
   Array.from({length:3},(_,i)=>'<label>Tướng '+(i+1)+'<select id="hg20_tower_'+i+'">'+teamOptions(status.team[i])+'</select></label>').join('')+
-  '<div class="actions">'+button('tower-team',{},'✓ Khóa đội 1–3 tướng',false,'primary')+
+  '<div class="actions">'+button('tower-team',{},'✓ Chọn 1–3 tướng',false,'primary')+'</div>'+
+  '<h3>⚔ Hai slot riêng cho mỗi tướng</h3>'+
+  picks.map((entry,i)=>{
+   const hero=state.heroes.find(h=>h.id===entry.heroId),formation=E.hg20HeroPlan(state,entry.heroId);
+   const dropdown=j=>'<label>Slot '+(j+1)+' · '+esc(hero?.name||'Tướng')+'<select id="hg21_slot_'+i+'_'+j+'">'+
+    '<option value="">— Không mang —</option>'+
+    formation.map((g,k)=>'<option value="'+k+'" '+(entry.slots[j]===k?'selected':'')+'>'+
+       esc(E.getUnit(state,g.unitId)?.name||g.unitId)+' ×'+format(g.count)+' · ô '+(k+1)+'</option>').join('')+
+    '</select></label>';
+   return '<div class="card"><b>🧙 '+esc(hero?.name||'Tướng')+'</b><div class="grid grid2">'+dropdown(0)+dropdown(1)+'</div></div>';
+  }).join('')+
+  '<div class="actions">'+button('tower-picks',{},'✓ Lưu 2 slot/tướng',!picks.length,'secondary')+
    button('tower-climb',{},'⚔ Thách đấu tầng '+format(status.floor),!status.team.length,'primary')+
    button('tab',{tab:'army'},'🎖 Điều binh cho tướng',false,'secondary')+'</div>'+
   (status.last?'<p class="notice">Trận gần nhất: tầng '+format(status.last.floor)+' · '+(status.last.outcome==='win'?'THẮNG':'THUA')+
