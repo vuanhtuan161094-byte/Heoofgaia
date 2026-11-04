@@ -1068,21 +1068,26 @@ test('HG09 expedition victory report keeps the originating hero and return snaps
  const corrupt=state();corrupt.battle=E.makeBattle(corrupt,target.key);corrupt.battle.woundedByUnit={human_1:999};assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/không hợp lệ/);
 });
 
-test('HG14.1 stage projects exactly 2:1 diamonds at real canvas dimensions',()=>{
+test('HG14.2 continuous meadow battle projection keeps both armies in readable left-right lanes',()=>{
  const g=E.BATTLE_GRID;
- for(const dims of [{width:1176,height:550},{width:960,height:449},{width:1280,height:600}]){
-  const p=P.battleProjection(dims,E),top=p.point(0,0),right=p.point(g.cols,0),
-   bottom=p.point(g.cols,g.rows),left=p.point(0,g.rows);
-  assert.equal(p.col.x,-p.row.x);
-  assert.equal(p.col.y,p.row.y);
-  assert.equal(p.col.x/p.col.y,2);
-  assert(Math.abs((right.x+left.x)/2-dims.width/2)<1e-7);
-  assert(top.y>0&&bottom.y<dims.height,'diamond must fit the viewport');
-  assert(left.x>0&&right.x<dims.width);
+ const painterSource=fs.readFileSync(path.join(dir,'painter.js'),'utf8');
+ assert(!painterSource.includes('poly(c,outline'),'raised isometric board must not return');
+ assert(painterSource.includes('if(!highlight)continue'),'no full-time grid overlay');
+ for(const dims of [{width:1176,height:550},{width:960,height:350},{width:1280,height:520}]){
+  const p=P.battleProjection(dims,E);
+  assert(p.col.x>p.row.x*10,'horizontal battlefield axis should dominate');
+  assert(p.row.y>p.col.y*12,'vertical lane spacing should dominate');
+  assert(Math.abs(p.col.y/p.col.x)<.09,'natural ground is nearly horizontal');
+  assert(p.point(0,0).x>0&&p.point(g.cols,g.rows).x<dims.width,'all logical cells fit width');
+  assert(p.point(0,0).y>dims.height*.3&&p.point(g.cols,g.rows).y<dims.height*.98,'field starts below treeline');
   for(let x=0;x<g.cols;x++)for(let y=0;y<g.rows;y++){
    const m=p.point(x+.5,y+.5),actual=P.battleCellAt(dims,m.x,m.y,E);
    assert.equal(actual.x,x);assert.equal(actual.y,y);
   }
+  const ally=p.point(1.5,.5),foe=p.point(10.5,2.5);
+  assert(foe.x-ally.x>dims.width*.6,'opposing armies are separated across the ground');
+  assert(ally.x>dims.width*.13&&foe.x<dims.width*.9,'troops have edge clearance');
+  assert(ally.y>dims.height*.36&&foe.y<dims.height*.7);
  }
 });
 test('HG14 four-race PNG sprite masters have deterministic Idle/Walk/Attack/Hit/Death transforms',()=>{

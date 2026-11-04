@@ -12,13 +12,13 @@ for(let x=0;x<grid.cols;x++)for(let y=0;y<grid.rows;y++){
  assert.deepEqual(P.battleCellAt(dims,px,py,E),{x,y},"project inverse "+x+","+y);checks++;
 }
 assert.equal(P.battleCellAt(dims,-10,-10,E),null);checks++;
-const iso=P.battleProjection(dims,E),top=iso.point(0,0),right=iso.point(grid.cols,0),bottom=iso.point(grid.cols,grid.rows),left=iso.point(0,grid.rows);
-assert.equal(iso.col.x,-iso.row.x,'symmetric isometric horizontal vectors');checks++;
-assert.equal(iso.col.y,iso.row.y,'symmetric isometric depth vectors');checks++;
-assert.equal(iso.col.x,2*iso.col.y,'2:1 isometric tile ratio');checks++;
-assert(Math.abs((right.x+left.x)/2-dims.width/2)<1e-6,'horizontal center');checks++;
-assert(top.y>70&&bottom.y<dims.height-30,'whole diamond fits scene');checks++;
-assert(left.x>90&&right.x<dims.width-90,'side sprite clearance');checks++;
+const field=P.battleProjection(dims,E),ally=field.point(1.5,.5),enemy=field.point(10.5,2.5);
+assert(field.col.x>field.row.x*10,'battlefield runs left to right');checks++;
+assert(field.row.y>field.col.y*12,'formations use visible depth');checks++;
+assert(Math.abs(field.col.y/field.col.x)<.09,'no steep diagonal stage');checks++;
+assert(enemy.x-ally.x>dims.width*.6,'armies are spaced across grass');checks++;
+assert(ally.y>dims.height*.36&&enemy.y<dims.height*.7,'troops stand in the open clearing');checks++;
+assert(!fs.readFileSync('painter.js','utf8').includes('poly(c,outline'),'raised board removed');checks++;
 const state=E.make("orc",1_000_000,"china2009"),camp=E.NPC_CAMPS_2009.find(c=>c.stars===1);
 assert.ok(camp);state.battle=E.makeBattle(state,camp.key);assert.ok(state.battle);
 let drawCalls=0;
@@ -40,7 +40,7 @@ assert.match(css,/body\.combat-mode \.top,body\.combat-mode \.tabs,body\.combat-
 const htmlPath="Play-Heoofgaia-HG11.html";
 if(fs.existsSync(htmlPath)){
  const html=fs.readFileSync(htmlPath,"utf8");
- assert.ok(html.includes("function battleProjection(canvas,E)"),"offline build embeds isometric camera");checks++;
+ assert.ok(html.includes("function battleProjection(canvas,E)"),"offline build embeds continuous ground camera");checks++;
  assert.ok(html.includes("body.combat-mode .battle-frame"),"offline build embeds viewport CSS");checks++;
 }
 console.log("HG09 viewport QA PASS:",checks,"checks; rendered calls:",drawCalls);

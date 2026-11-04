@@ -287,7 +287,7 @@ function motionImpactFx(c,camera,b,elapsed){
   const victim=[...b.allies,...b.enemies].find(u=>u.id===event.targetId);
   if(!attacker||!victim||!MOTION_SPRITES[attacker.unitId])continue;
   const accent=MOTION_SPRITES[attacker.unitId].accent;
-  const start=camera.point(event.to.x+.5,event.to.y+.47),end=camera.point(victim.x+.5,victim.y+.47);
+  const start=camera.point(event.to.x+.5,event.to.y+.5),end=camera.point(victim.x+.5,victim.y+.5);
   const travel=clamp((elapsed-115)/285,0,1),fade=1-clamp((elapsed-420)/270,0,1);
   c.save();c.globalAlpha=clamp(fade,0,1);c.strokeStyle=accent;c.lineWidth=3;
   if(attacker.range>1){
@@ -311,13 +311,14 @@ function animatedSoldier(c,x,y,enemy,visual){
  const size=112;c.save();c.globalAlpha*=visual.alpha;c.translate(x,y);if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-size*148/256,-size*216/256,size,size);c.restore();return true;
 }
-// HG14.1: true symmetric 2:1 isometric projection on a square logical 12×9 grid.
-// Logic, pathfinding, unit feet and pointer mapping share this single camera.
+// HG14.2: Heroes of Gaia 2009-style continuous scenic ground, no raised board.
+// The 12×9 logical squares remain, but their invisible pointer projection now
+// covers a wide field viewed slightly from above, with troop formations left/right.
+// Reference: GameGami original HoG combat gallery and Chinese 2009 battle captures.
 function battleProjection(canvas,E){
  const g=E.BATTLE_GRID||{cols:12,rows:9},w=canvas.width,h=canvas.height;
- const halfW=Math.min(w*.034,h*.069),halfH=halfW/2;
- const origin={x:w/2-(g.cols-g.rows)*halfW/2,y:h*.205};
- const col={x:halfW,y:halfH},row={x:-halfW,y:halfH};
+ const origin={x:w*.08,y:h*.35};
+ const col={x:w*.07,y:h*.004},row={x:w*.0045,y:h*.061};
  const det=col.x*row.y-col.y*row.x;
  const point=(x,y)=>({x:origin.x+x*col.x+y*row.x,y:origin.y+x*col.y+y*row.y});
  const cellAt=(px,py)=>{
@@ -325,33 +326,16 @@ function battleProjection(canvas,E){
   if(!Number.isFinite(gx)||!Number.isFinite(gy)||gx<0||gy<0||gx>=g.cols||gy>=g.rows)return null;
   return {x:Math.floor(gx),y:Math.floor(gy)};
  };
- return {g,origin,col,row,halfW,halfH,point,cellAt};
+ return {g,origin,col,row,point,cellAt};
 }
 function battleGround(c,camera,w,h){
- const g=camera.g,p0=camera.point(0,0),p1=camera.point(g.cols,0),p2=camera.point(g.cols,g.rows),p3=camera.point(0,g.rows);
- // The meadow is a distant scenic backdrop; the entire playable floor shares one
- // separate planar isometric footprint, without the original horizontal-grid tilt.
- const atmosphere=c.createLinearGradient(0,0,0,h);
- atmosphere.addColorStop(0,'#10272530');atmosphere.addColorStop(.42,'#091d176e');atmosphere.addColorStop(1,'#07160f80');
- c.fillStyle=atmosphere;c.fillRect(0,0,w,h);
- const corners=[p0,p1,p2,p3],outline=corners.map(p=>[p.x,p.y]);
- poly(c,corners.map(p=>[p.x,p.y+13]),'#06150ec0');
- poly(c,[[p1.x,p1.y],[p2.x,p2.y],[p2.x,p2.y+10],[p1.x,p1.y+10]],'#263e31','#73947a');
- poly(c,[[p2.x,p2.y],[p3.x,p3.y],[p3.x,p3.y+10],[p2.x,p2.y+10]],'#304837','#73947a');
- const turf=c.createLinearGradient(0,p0.y,0,p2.y);
- turf.addColorStop(0,'#45654d');turf.addColorStop(.48,'#53694b');turf.addColorStop(1,'#706e4c');
- poly(c,outline,turf,'#b4bc86');
- // Deterministic in-plane earth variation and ornamental edge markers.
- for(let i=0;i<g.cols;i++)for(let j=0;j<g.rows;j++){
-  const tile=[camera.point(i,j),camera.point(i+1,j),camera.point(i+1,j+1),camera.point(i,j+1)];
-  const tint=(i+j)%2===0?'#cdd1a70b':'#071d1710';
-  poly(c,tile.map(p=>[p.x,p.y]),tint,'#d5d5ac30');
-  if(random(i,j,37)>.73){
-   const mid=camera.point(i+.5,j+.5),r=random(i,j,38);
-   line(c,mid.x-5-r*7,mid.y+1,mid.x+3+r*6,mid.y-1,1,'#d0d6a724');
-  }
- }
- for(const corner of corners)circle(c,corner.x,corner.y,3.8,'#d5c89b');
+ // A transparent, landscape-consistent grade. The illustrated meadow is the
+ // playable surface itself: no polygon platform, board edges or permanent grid.
+ const grade=c.createLinearGradient(0,h*.28,0,h);
+ grade.addColorStop(0,'#183a2900');
+ grade.addColorStop(.65,'#16311e0a');
+ grade.addColorStop(1,'#0e1c1421');
+ c.fillStyle=grade;c.fillRect(0,0,w,h);
 }
 function battleCellAt(canvas,x,y,E){return battleProjection(canvas,E).cellAt(x,y)}
 function battleHit(canvas,x,y,E,s,now=visualNow()){
@@ -413,15 +397,16 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  const camera=battleProjection(canvas,E),grid=camera.g;
  battleGround(c,camera,w,h);
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
- // Each diamond represents one unchanged square logic tile and a real walkable cell.
+ // The logical square grid is invisible until the player explicitly selects move mode.
  for(let i=0;i<grid.cols;i++)for(let j=0;j<grid.rows;j++){
-  const corners=[camera.point(i,j),camera.point(i+1,j),camera.point(i+1,j+1),camera.point(i,j+1)],pts=corners.map(p=>[p.x,p.y]),highlight=reachable.has(`${i},${j}`);
-  c.lineWidth=highlight?2.2:1;
-  poly(c,pts,highlight?'#35c7d45c':'#00000000',highlight?'#b5fff1dd':'#d4d7ac10');
+  const highlight=reachable.has(`${i},${j}`);
+  if(!highlight)continue;
+  const corners=[camera.point(i,j),camera.point(i+1,j),camera.point(i+1,j+1),camera.point(i,j+1)];
+  c.lineWidth=1.8;poly(c,corners.map(p=>[p.x,p.y]),'#39bda334','#9eeac9a8');
  }
- const units=[...b.allies,...b.enemies].sort((a,b)=>(a.x+a.y)-(b.x+b.y)||a.x-b.x);
+ const units=[...b.allies,...b.enemies].sort((a,b)=>camera.point(a.x+.5,a.y+.5).y-camera.point(b.x+.5,b.y+.5).y||a.x-b.x);
  for(const u of units){
-  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.5),x=p.x,y=p.y,k=clamp(.79+(position.x+position.y)/(grid.cols+grid.rows)*.36,.79,1.12);
+  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,p=camera.point(position.x+.5,position.y+.5),x=p.x,y=p.y,k=clamp(.84+position.y/grid.rows*.19,.84,1.06);
   if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual);else motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
