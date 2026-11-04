@@ -65,7 +65,7 @@ test('T9/T10 cost efficiency needs high Blacksmith and Manufacturing investment'
  s.buildings.blacksmith=10;s.spells.manufacturing=9;s.spells.bootcamp=9;
  const discount=E.recruitCost(s,elite,1);
  assert(discount.wood<plain.wood||discount.ore<plain.ore||discount.sulfur<plain.sulfur||discount.crystal<plain.crystal);
- assert.equal(discount.gold,Math.ceil(base.gold*.8));
+ assert.equal(discount.gold,Math.ceil(base.gold*(1-Math.min(.2,9*.02)))); // Level 9 Manufacturing = 18%, not 20%.
  const low=C.units.human[0],lowCost=E.recruitCost(s,low,1);
  assert.equal(lowCost.wood,low.cost.wood,'T1 cost cannot be reduced by elite efficiency');
  assert.equal(JSON.stringify(elite.cost),JSON.stringify(base),'Unit catalog changed');
