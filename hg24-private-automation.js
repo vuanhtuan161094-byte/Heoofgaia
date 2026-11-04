@@ -68,7 +68,6 @@ function calculate(s,id){
  for(const group of template.groups){
   const unit=E.getUnit(s,group.unitId);
   if(!unit||!natural(group.count,1e8)||!group.count)throw Error('Mẫu quân đã lỗi thời');
-  const taken=total?0:0; // per-type consumption tracked by demands
   const used=demands[group.unitId]||0;
   const free=Math.max(0,(s.army[group.unitId]||0)-(reserved[group.unitId]||0)-used);
   const value=E.unitValue(unit);
@@ -80,9 +79,31 @@ function calculate(s,id){
   points:E.heroLimit(hero.level)-space,total};
 }
 function apply(s,id=s.activeHero){
- const receipt=calculate(s,id);
- E.hg20SetHeroPlan(s,id,receipt.groups);
- return {...receipt,partial:receipt.missing>0};
+ const receipt=calculate(s,id),previous=E.hg20HeroPlan(s,id);
+ const unchanged=JSON.stringify(previous)===JSON.stringify(receipt.groups);
+ if(!unchanged){
+  // Canonical setFormation refuses an empty party; an empty template fill is
+  // a legitimate waiting state, not an occasion to invent a soldier.
+  if(receipt.groups.length)E.hg20SetHeroPlan(s,id,receipt.groups);
+  else{
+   s.hg20.plans[templateKey(s.activeCityId||'main',id)]=[];
+   if(s.activeHero===id)s.formation=[];
+  }
+  // HG21 persisted Tower picks refer to positions, so remap their chosen
+  // unit identities when a partially filled plan compresses its slots.
+  const towerPick=s.hg20?.tower?.picks?.find(p=>p.heroId===id);
+  if(towerPick){
+   const source=towerPick.slots.map(i=>previous[i]?.unitId);
+   const used=new Set(),mapped=[];
+   for(const unitId of source){
+    let next=receipt.groups.findIndex((g,i)=>g.unitId===unitId&&!used.has(i));
+    if(next<0)next=receipt.groups.findIndex((g,i)=>!used.has(i));
+    if(next>=0){used.add(next);mapped.push(next)}
+   }
+   towerPick.slots=mapped;
+  }
+ }
+ return {...receipt,partial:receipt.missing>0,changed:!unchanged};
 }
 function recruitMissing(s,id){
  const row=savedTemplate(s,id);if(!row||!row.autoTrain)return null;
