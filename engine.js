@@ -381,7 +381,8 @@ function battlePath(b,actor,destination){
 }
 function battleMovementBudget(b,actor,commitCredit=false){
  const base=actor.range>1?1:actor.spd>=7?2:1,skill=b?.hg21Tower?b.heroMovementInstinct?.[actor.heroId]:b?.movementInstinct;
- if(actor.side!=='player'||actor.range>1||!skill||(!b.hg21Tower&&b.activeSpell?.id!==skill.id)||b.turn>=skill.expiry)return base;
+ if(actor.side!=='player'||actor.range>1||!skill)return base;
+ if(b.hg21Tower?b.turn>=skill.expiry:b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell?.expiry)return base;
  const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
  const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
 }
