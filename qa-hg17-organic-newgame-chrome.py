@@ -45,8 +45,8 @@ try:
       const s=HOG_APP_DEBUG.getState();return {res:s.res,army:s.army.human_1,
         fame:s.fame,cities:s.cities.length,buildings:s.buildings,valid:HOG_ENGINE.strictSave(s)};
     }""")
-    check("Browser New Game has only canonical starter kit, no QA resources",
-          baseline["res"]=={"gold":8000,"wood":900,"ore":900,"sulfur":350,"crystal":350}
+    check("Private New Game starts with declared generous resources and no QA troop injection",
+          baseline["res"]=={"gold":33000,"wood":8900,"ore":8900,"sulfur":3350,"crystal":3350}
           and baseline["army"]==16 and baseline["fame"]==5 and baseline["cities"]==1 and baseline["valid"],baseline)
     check("Visual rookie steps show progress from real state",
           page.locator('[aria-label="Lộ trình phát triển New Game"]').count()==1)
@@ -55,7 +55,7 @@ try:
     page.locator('[data-action="upgrade"][data-key="market"]').click()
     check("Actual city upgrade click spends resources and creates queue",page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
-      return s.buildingQueue?.key==="market"&&s.buildings.market===0&&s.res.gold<8000&&s.fame===5;
+      return s.buildingQueue?.key==="market"&&s.buildings.market===0&&s.res.gold<33000&&s.fame===5;
     }"""))
     build=advance_queue(page,"buildingQueue")
     check("Market Fame is earned only on completed construction, not button click",build["fame"]>5)
