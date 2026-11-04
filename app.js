@@ -26,7 +26,7 @@ function toggleBattleDisplay(which){
 
 function ensureBattleAutoTimer(s){if(s?.battle&&!Number.isFinite(s.battle.autoUntil))s.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS;return s}
 function markBattleInput(){if(!state?.battle)return;state.battleAuto=false;state.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS}
-function resolveAutomaticBattleTurn(){if(!state?.battle||!state.battleAuto)return;try{const wasTower=!!state.battle.hg21Tower,out=E.battleAct(state,'attack',{preserveMoveOrders:true});if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';if(out.type==='lose')tab=wasTower?'tower':'heroes';if(state.battle)state.battle.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;save();render()}catch(e){console.warn('Auto battle',e);state.battleAuto=false}}
+function resolveAutomaticBattleTurn(){if(!state?.battle||!state.battleAuto||state.hg26?.enabled&&state.battle?.target===state.hg26.config.target)return;try{const wasTower=!!state.battle.hg21Tower,out=E.battleAct(state,'attack',{preserveMoveOrders:true});if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';if(out.type==='lose')tab=wasTower?'tower':'heroes';if(state.battle)state.battle.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;save();render()}catch(e){console.warn('Auto battle',e);state.battleAuto=false}}
 function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
 function fail(fn){try{const oldTab=tab;if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;fn();if(oldTab!==tab)modalOffset=0;save();render();}catch(e){toast(e.message||String(e))}}
 function save(){
@@ -96,6 +96,11 @@ function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.m
  $('nav').innerHTML=tabs.map(([id,name])=>`<button data-action="tab" data-tab="${id}" class="${tab===id?'active':''}">${A?(ico(id,20)+' '+esc(name.slice(name.indexOf(' ')+1))):name}</button>`).join('');
  const earning=E.rate(state),hero=state.heroes.find(h=>h.id===state.activeHero),duty=E.hg20HeroRole(state,state.activeHero);$('status').innerHTML=`<div class="vitals">${flags()}</div><div class="muted tiny">${(ico(state.race,20)||C.races[state.race].emoji)} ${C.races[state.race].name} · ${state.heroes.length} tướng · ${E.activeArmy(state).reduce((n,u)=>n+state.army[u.id],0)} lính</div><div class="hr"></div><div class="hint">Sản lượng / giờ game:</div><div class="tiny">${C.keys.map(k=>`${(ico(k,20)||C.resource[k].emoji)} +${format(earning[k])}`).join(' · ')}</div><div class="hr"></div><div class="hint"><b>🏗 Xây dựng:</b> ${state.buildingQueue?esc(C.buildings[state.buildingQueue.key].name)+' Lv.'+state.buildingQueue.level+' · '+Math.ceil(state.buildingQueue.remaining/state.speed)+'s thực':'Trống'}</div><div class="hr"></div><div class="hint">Hàng đợi: ${state.training.length?esc(E.getUnit(state,state.training[0].unitId).name)+' ('+format(state.training[0].remaining)+'s game)':'Trống'}</div>${state.march?`<p class="notice">🚩 Hành quân: ${Math.ceil(state.march.remaining)}s game</p>`:''}`;
  $('status').innerHTML+='<div class="banner"><b>🎖 Tướng đang chọn: '+esc(hero?.name||'Không có')+'</b> · '+esc(duty.label)+' · '+format(duty.army.reduce((n,g)=>n+g.count,0))+' quân'+button('tab',{tab:'army'},'Điều binh',false,'small secondary')+'</div>';
+ if(state.hg26?.enabled){
+  const hunt=E.hg26Status(state);
+  $('status').innerHTML+='<div class="banner hg26-hud"><b>🔁 Săn Boss tự động: '+esc(hunt.phase)+'</b> · '+hunt.runs+'/'+hunt.maxRuns+
+   ' trận · '+esc(hunt.targetName||'Boss')+' '+button('hg26-stop',{},'■ Dừng',false,'small secondary')+'</div>';
+ }
  if(state.battleReports?.length)$('status').innerHTML+=`<div class="hr"></div>${button('tab',{tab:'reports'},'⚔ Xem chiến báo gần nhất',false,'secondary')}`;
  $('logs').innerHTML=state.log.map(t=>`<div>• ${esc(t)}</div>`).join('');$('speed').textContent=`⏱ ×${state.speed}`;
 }
@@ -204,6 +209,41 @@ function heroArmyCommandView(){
  '<div class="grid grid3">'+occupied+'</div><p class="tiny muted">Quân đã đặt trước cho tướng khác tại '+esc(home)+': '+(allocated||'không có')+
  '. Sau khi bấm Xuất chinh, quân thật được giao cho tướng và sẽ xuất hiện ở trạng thái hành quân/chiến đấu/đồn trú.</p></section>';
 }
+function hg26AutohuntView(){
+ const farm=E.hg26Status(state),bosses=E.hg24RecommendBoss(state);
+ const defaults=farm.enabled?farm.config:{target:null,maxRuns:3,keepAP:0,minUnits:10,
+  minCoverage:70,maxLossPercent:30,autoHeal:true,autoRecruit:false,stopOnLoss:true};
+ const first=[...bosses].sort((a,b)=>a.eliteTier-b.eliteTier||a.distance-b.distance)[0];
+ const chosen=defaults.target||first?.key;
+ const entry=(label,id,value,min,max)=>'<label>'+label+'<input id="'+id+'" type="number" min="'+min+'" max="'+max+'" step="1" value="'+value+'"></label>';
+ const check=(label,id,v)=>'<label><input type="checkbox" id="'+id+'" '+(v?'checked':'')+'> '+label+'</label>';
+ const last=farm.last?'<p class="notice">Trận gần nhất: '+esc(farm.last.outcome)+' · '+farm.last.unitsSurvived+'/'+farm.last.unitsDeparted+
+  ' lính sống sót · tổn thất '+farm.last.lossPercent+'%'+(farm.last.reportId?' · báo cáo '+esc(farm.last.reportId):'')+'</p>':'';
+ return '<section class="card hg26-autohunt" aria-label="HG26 săn Boss tự động">'+
+  '<h2>🔁 HG-26 · Tự săn Boss thực chiến</h2>'+
+  '<p class="hint">Đội săn chỉ được hành quân và đánh Boss khi <b>bạn bật</b>. Mỗi tick xử lý tối đa một lệnh: mất AP thật, quân thật, thương vong thật, tiền hồi phục/tuyển thật. Nếu không thắng hoặc vượt mức nguy hiểm, dừng theo chính sách. Không đánh Bí Cảnh.</p>'+
+  '<p class="notice">Trạng thái: <b>'+(farm.enabled?'ĐANG CHẠY · '+esc(farm.phase):'ĐÃ DỪNG')+
+  '</b> · '+farm.runs+'/'+farm.maxRuns+' trận · thắng '+farm.wins+' · không thắng '+farm.losses+
+  (farm.heroName?' · 🧙 '+esc(farm.heroName):'')+(farm.reason?' · '+esc(farm.reason):'')+'</p>'+
+  last+
+  '<div class="grid grid2"><label>Boss mục tiêu<select id="hg26_boss" '+(farm.enabled?'disabled':'')+'>'+
+  [...bosses].sort((a,b)=>a.eliteTier-b.eliteTier||a.distance-b.distance).map(b=>
+   '<option value="'+esc(b.key)+'" '+(chosen===b.key?'selected':'')+'>'+
+   esc(b.name)+' · '+(b.privateBoss?'private · ':'')+b.stars+'★ · '+b.distance+' ô</option>').join('')+
+  '</select></label>'+
+  entry('Số trận tối đa','hg26_max_runs',defaults.maxRuns,1,100)+
+  entry('Giữ lại AP tối thiểu','hg26_keep_ap',defaults.keepAP,0,1000)+
+  entry('Quân tối thiểu','hg26_min_units',defaults.minUnits,1,100000000)+
+  entry('Tỷ lệ quân theo mẫu (%)','hg26_coverage',defaults.minCoverage,1,100)+
+  entry('Tổn thất cho phép (%)','hg26_loss',defaults.maxLossPercent,0,100)+'</div>'+
+  '<div class="entry">'+
+  check('Chữa thương thật qua Arena','hg26_heal',defaults.autoHeal)+
+  check('Tự tuyển quân thiếu có trả phí','hg26_recruit',defaults.autoRecruit)+
+  check('Dừng khi không thắng','hg26_stop_loss',defaults.stopOnLoss)+'</div>'+
+  '<div class="actions">'+button('hg26-start',{},'▶ Bật săn Boss tự động',farm.enabled||!bosses.length||!!state.march||!!state.expedition||!!state.battle,'primary')+
+  button('hg26-stop',{},'■ Dừng săn Boss',!farm.enabled,'secondary')+'</div>'+
+  '<p class="tiny muted">Bot chỉ hoạt động khi trò chơi đang mở. Nếu dừng giữa chuyến, đạo quân đang đi vẫn cần hoàn thành lượt và trở về theo hệ thống thật. Không tự phát thắng hoặc loot. Bản lưu v07 giữ tiến độ; mở lại sẽ tiếp tục khi chính sách còn bật.</p></section>';
+}
 function hg24AutomationView(){
  const hero=state.heroes.find(h=>h.id===state.activeHero),duty=E.hg20HeroRole(state,state.activeHero),
   data=E.hg24Status(state),template=data.template,ready=duty.status==='home',
@@ -280,7 +320,7 @@ function armyView(){
  const formations=state.formation?.length?state.formation:[];
  const troopBuilding=E.troopBuildingKey(state),troopBuildingName=C.buildings[troopBuilding].name;
  const opt=(sel)=>`<option value="">— Để trống —</option>${E.arrUnits(state).map(u=>`<option value="${u.id}" ${sel===u.id?'selected':''}>${esc(u.name)} (${Math.max(0,(state.army[u.id]||0)-(E.hg20Reservations(state,state.activeHero)[u.id]||0))} còn có thể cấp)</option>`).join('')}`;
- return heroArmyCommandView()+hg24AutomationView()+`<h1>🛡 ${esc(troopBuildingName)} · Lv.${state.buildings[troopBuilding]}</h1><p class="hint">Dữ liệu 10 quân của ${C.races[state.race].english}. Nâng ${esc(troopBuildingName)} để mở bậc quân. Quân đang tuyển chưa được đưa vào đội hình.</p><p class="tiny muted">A = bảng Human trực tiếp; A* = tên Bootcamp là phép đối chiếu; B = điều kiện một phần; C = nguồn thứ cấp chưa đối chiếu client gốc; P = điều kiện mô hình tạm, chưa được nguồn lịch sử xác minh.</p>
+ return heroArmyCommandView()+hg24AutomationView()+hg26AutohuntView()+`<h1>🛡 ${esc(troopBuildingName)} · Lv.${state.buildings[troopBuilding]}</h1><p class="hint">Dữ liệu 10 quân của ${C.races[state.race].english}. Nâng ${esc(troopBuildingName)} để mở bậc quân. Quân đang tuyển chưa được đưa vào đội hình.</p><p class="tiny muted">A = bảng Human trực tiếp; A* = tên Bootcamp là phép đối chiếu; B = điều kiện một phần; C = nguồn thứ cấp chưa đối chiếu client gốc; P = điều kiện mô hình tạm, chưa được nguồn lịch sử xác minh.</p>
  <div class="banner"><b>Hàng đợi tuyển quân</b> ${state.training.length?state.training.map((q,i)=>`<div>⌛ ${i+1}. ${q.count} ${esc(E.getUnit(state,q.unitId).name)} · ${Math.ceil(q.remaining/state.speed)} giây thực</div>`).join(''):'Trống'} </div>
  <div class="card"><h2>⚔ Bố trí quân theo nhóm</h2><p class="hint">Giá trị đội hình: <b>${format(E.troopValue(state))}</b> / <b>${format(E.heroLimit(state.heroes.find(h=>h.id===state.activeHero)?.level||1))}</b> điểm chỉ huy cơ bản (bảng tướng Lv1–100 của cộng đồng; bonus Arena/trang bị chưa hỗ trợ). </p><p class="hint">Có thể tách cùng một binh chủng thành nhiều nhóm. Tối đa 7 nhóm trong HG-07 (4 hàng sau + 3 hàng trước, theo ghi nhận cộng đồng); số quân còn lại ở thành. Đây là giới hạn demo, không khẳng định là số ô đúng của client gốc.</p><div class="formation-grid">${Array.from({length:7},(_,i)=>`<div class="formation-slot ${i<4?'formation-back':'formation-front'}"><span class="tag" title="${i<4?'Hậu quân: x=1':'Tiền quân: x=3'} · Mỗi stack chịu giới hạn tổng điểm chỉ huy">${i<4?'⬅ Hậu':'➡ Tiền'} ${i<4?i+1:i-3}</span><select id="formation_unit_${i}" aria-label="Binh chủng nhóm ${i+1}">${opt(formations[i]?.unitId)}</select><input type="number" min="0" max="100000000" title="Không giới hạn cố định theo stack; số lượng chịu sức chứa chỉ huy và số quân đang có" aria-label="Số quân nhóm ${i+1}" id="formation_count_${i}" value="${formations[i]?.count||0}"></div>`).join('')}</div>${button('formation',{},'✓ Lưu đội hình',!!state.battle||!!(state.march&&state.march.phase!=='outbound'),'primary')} ${button('autoformation',{},'⚔ Bố trí quân nhanh',!!state.battle||!!(state.march&&state.march.phase!=='outbound')||!E.activeArmy(state).length,'secondary')} <small class="muted">Bố trí nhanh ưu tiên quân bậc cao trong giới hạn chỉ huy; có thể chỉnh thủ công bất cứ lúc nào.</small></div>
  <div class="grid grid2" style="margin-top:12px">${E.arrUnits(state).map(u=>{const unlock=E.troopPrerequisites(state,u),unlocked=unlock.available,cost=E.recruitCost(state,u,1),checks=unlock.checks.map(c=>{const label=c.kind==='building'?C.buildings[c.key]?.name||c.key:c.key==='bootcamp'?'Bootcamp (Huấn luyện)':c.key==='manufacturing'?'Manufacturing (Chế tạo)':`Phép ${C.spells[c.key]?.vi||c.key}`;return `${esc(label)} ${c.actual}/${c.level}`}).join(' · '),confidence=unlock.status==='OBSERVED'?'Đối chiếu bảng Human trong hướng dẫn Trung Quốc 2009 và xác nhận chéo 2010':unlock.status==='SECONDARY'?(unlock.source==='SRC26'?`SRC26: gate Thunderbird lấy từ bảng thứ cấp; chỉ số khớp catalog 2009 nhưng chưa đối chiếu client gốc`:`SRC28: bài 17173 năm 2010 nêu Centaur tuyển ở Barracks cấp 1; chưa đối chiếu client gốc`):unlock.status==='PARTIAL_SCOUT_HALL_GATE'?`SRC27 (Trung Quốc 2009): Barracks 2 + Scouting 1; Town Hall riêng chưa xác minh; phép Scouting đối chiếu SRC04 (wiki Anh 2009)`:unlock.status==='DERIVED_SCOUT_GATE'?`Vai trò trinh sát và Scouting 1 được đối chiếu chéo phiên bản; Town Hall riêng cho Scout chưa xác minh`:unlock.status==='DERIVED_TROOP_BUILDING_TIER'?(u.race==='undead'?(u.tier===2?`SRC02 + SRC11: Graveyard cấp cao mở quân cấp cao; ánh xạ cấp nhà = bậc quân là B* suy luận, chưa có bảng từng quân. Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009)`:`SRC02 + SRC11: Graveyard cấp cao mở quân cấp cao; ánh xạ cấp nhà = bậc quân là B* suy luận, chưa có bảng từng quân`):u.tier===2?`SRC02 + SRC03 + SRC11: suy luận B* theo bậc ${troopBuildingName}; Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009); cổng phụ chưa xác minh`:`SRC02 + SRC03 + SRC11: suy luận B* theo bậc đơn vị ${troopBuildingName}; chưa xác minh từng cổng phụ gốc`):unlock.status==='MODELED_SCOUT_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp 2 chưa có bảng gốc xác nhận; Scouting 1 được đối chiếu vai trò trinh sát (Trung Quốc 2010, wiki tiếng Anh 2009)` :unlock.status==='MODELED_TIER_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp ${u.tier} theo bậc quân; không phải số liệu lịch sử đã xác minh`:`Đã xác minh ${troopBuildingName} là nhà tuyển quân; cổng phụ từng đơn vị của chủng tộc còn thiếu nguồn`;return `<div class="card unitrow"><div><div class="heading">${A?.unitHTML(u.id,56)||(u.tier>=9?'🐉':u.type==='Ranged'?'🏹':'⚔️')} ${esc(u.name)} <span class="tag">Bậc ${u.tier}</span><span class="tag">${unlock.confidence}</span></div><div class="hint">${u.type} · HP ${u.hp} · ATK ${u.atk} · DEF ${u.def} · SPD ${u.spd} · Tầm ${E.unitTacticalRange(u)} ô · Hành quân ×${Math.max(.8,Math.min(1.10,.8+u.spd/40)).toFixed(2)}</div><div>Quân trong thành <b class="key">${state.army[u.id]||0}</b> · ${E.recruitDuration(state,u,1)}s/lính (hiện tại)</div><div class="tiny muted">Điều kiện: ${checks}</div><div class="tiny muted">${confidence}</div><div class="cost" title="Giá tuyển thực tế; quân T9/T10 nhận giảm nguyên liệu nhờ Blacksmith ≥8 và Manufacturing ≥6">Giá 1: ${money(cost)}${u.tier>=9&&(state.buildings.blacksmith||0)>=8&&(state.spells.manufacturing||0)>=6?' · ⚒ Hiệu suất tinh nhuệ':''}</div></div><div class="entry"><input id="q_${u.id}" aria-label="Số lượng ${esc(u.name)}" type="number" min="1" max="1000" value="3">${button('recruit',{id:u.id},unlocked?'Tuyển':'🔒',!unlocked)}</div></div>`}).join('')}</div>`;
@@ -503,6 +543,15 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(action==='stack'){movementModeId=null;markBattleInput();E.battleSelect(state,target.dataset.id);return}
   if(action==='move-mode'){if(movementModeId){movementModeId=null;return}const unit=state.battle?.allies.find(u=>u.id===state.battle.selected&&u.pool>0);if(!unit)throw Error('Hãy chọn một đội quân còn sống để di chuyển.');movementModeId=unit.id;markBattleInput();return}
  if(action==='formation'){E.setFormation(state,Array.from({length:7},(_,i)=>({unitId:$('formation_unit_'+i).value,count:Number($('formation_count_'+i).value)})));toast('Đội hình đã lưu.');return}
+ if(action==='hg26-start'){
+  const cfg={target:$('hg26_boss').value,heroId:null,
+   maxRuns:Number($('hg26_max_runs').value),keepAP:Number($('hg26_keep_ap').value),
+   minUnits:Number($('hg26_min_units').value),minCoverage:Number($('hg26_coverage').value),
+   maxLossPercent:Number($('hg26_loss').value),autoHeal:$('hg26_heal').checked,
+   autoRecruit:$('hg26_recruit').checked,stopOnLoss:$('hg26_stop_loss').checked};
+  const r=E.hg26Start(state,cfg);toast('Đã bật HG-26: '+r.heroName+' săn '+r.targetName+'.');return
+ }
+ if(action==='hg26-stop'){E.hg26Stop(state,'Người chơi đã dừng tự săn');toast('Đã dừng tự săn; quân đang đi sẽ theo hành trình hiện tại.');return}
  if(action==='hg24-save-template'){E.hg24SaveTemplate(state);toast('Đã lưu đội hình mẫu của tướng.');return}
  if(action==='hg24-apply-template'){const r=E.hg24Apply(state);toast('Đã bố trí '+r.total+' lính từ kho thành'+(r.partial?' · còn thiếu '+r.missing:'')+'.');return}
  if(action==='hg24-replenish'){const r=E.hg24Replenish(state,state.activeHero,true);toast('Đã bố trí '+r.total+' lính'+(r.queued?' · xếp hàng tuyển '+r.queued.count+' quân':'')+'.');return}
@@ -592,7 +641,7 @@ $('import-file').onchange=async e=>{
 $('reset').onclick=()=>{if(!confirm('Xóa save phiên bản HG-08 và tạo vương quốc khác?'))return;state=null;newRace='human';selected=null;selectedTargetKind=null;localStorage.removeItem(E.SAVE_KEY);localStorage.removeItem(E.SAVE_KEY+'_backup');localStorage.setItem('heoofgaia_hg08_skip_migration','1');render()};
  document.querySelectorAll('[data-city-art]').forEach(image=>image.addEventListener('load',()=>{if(state&&tab==='city')render()}));
  state=load();if(state){ensureBattleAutoTimer(state);selected='3,4';selectedTargetKind=null;state.battleAuto=false;tab=state.battle?'combat':'map'}render();
-setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);if(!before&&state.battle)tab='combat';if(state.battle&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;if(state.battle&&state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))resolveAutomaticBattleTurn();if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName)){renderHUD()}else render();if(before!==state.battle||training!==state.training.length||building!==(state.buildingQueue?.key||null)||arena!==(state.arenaQueue?.id||null))save();}catch(e){console.warn('Tick:',e)}},1000);
+setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);const farmPulse=state.hg26?.enabled?E.hg26Step(state):null;if(farmPulse?.changed)save();if(!before&&state.battle)tab='combat';if(state.battle&&!state.hg26?.enabled&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;if(state.battle&&state.battleAuto&&!state.hg26?.enabled&&Date.now()>=(state.battle.autoUntil||0))resolveAutomaticBattleTurn();if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName)){renderHUD()}else render();if(before!==state.battle||training!==state.training.length||building!==(state.buildingQueue?.key||null)||arena!==(state.arenaQueue?.id||null))save();}catch(e){console.warn('Tick:',e)}},1000);
 // Refit canvas immediately after device rotation/window resize; one render per frame.
 let battleResizeFrame=0;
 window.addEventListener('resize',()=>{if(!state?.battle||battleResizeFrame)return;
