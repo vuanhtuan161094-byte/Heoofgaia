@@ -146,7 +146,7 @@ try:
       return q.enabled===true&&q.config.maxRuns===1&&q.runs===0&&q.wins===0&&
         HOG_ENGINE.strictSave(s);
     }"""))
-  page.locator('[data-action="hg26-stop"]').first.click()
+  page.locator('.game-window-body [data-action="hg26-stop"]').click()
   check('HG26 real stop click disables automation and preserves Save v07',
     page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
