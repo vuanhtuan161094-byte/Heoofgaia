@@ -67,18 +67,21 @@ function valid(s){
   !Array.isArray(t.team)||t.team.length>3||new Set(t.team).size!==t.team.length||
   t.team.some(id=>!s.heroes.some(q=>q.id===id))||
   !integer(c.sovereignWins)||typeof c.citadel!=='boolean'||
+ (c.specialCityKey!==null&&(c.specialCityKey!==PRIVATE_CASTLE.key||!s.cities.some(x=>x.key===c.specialCityKey)))||
   !Array.isArray(c.artifacts)||c.artifacts.length>100||new Set(c.artifacts).size!==c.artifacts.length||
   c.artifacts.some(x=>typeof x!=='string'||x.length>80))return false;
  for(const [k,v] of Object.entries(h.plans)){
-  const [city,hero]=k.split(':');
-  if(!s.cities.some(q=>q.id===city)||!s.heroes.some(q=>String(q.id)===hero)||
-   !Array.isArray(v)||v.length>7)return false;
-  const total={};for(const x of v){
-   if(!x||!E.getUnit(s,x.unitId)||!integer(x.count,1,1e9))return false;
-   total[x.unitId]=(total[x.unitId]||0)+x.count;
+  const [city,hero]=k.split(':'),owner=s.cities.find(q=>q.id===city);
+  if(!owner||!s.heroes.some(q=>String(q.id)===hero)||!Array.isArray(v)||v.length>7)return false;
+  const catalog=[...(C.units[owner.race]||[]),...(C.rewardUnits[owner.race]||[])];
+  let points=0;
+  for(const x of v){
+   const unit=catalog.find(u=>u.id===x?.unitId);
+   if(!unit||!integer(x.count,1,1e9))return false;
+   points+=E.unitValue(unit)*x.count;
   }
-  const character=s.heroes.find(q=>String(q.id)===hero);
-  if(!character||!integer(E.formationPoints(s,v),0,E.heroLimit(character.level)))return false;
+  // Keep plans when hero rebirth lowers level; check the live cap on dispatch.
+  if(!integer(points))return false;
  }
  if(t.last!==null&&(!t.last||!integer(t.last.floor,1)||typeof t.last.outcome!=='string'||
   !['win','lose'].includes(t.last.outcome)||!integer(t.last.teamPower)||!integer(t.last.enemyPower)||
