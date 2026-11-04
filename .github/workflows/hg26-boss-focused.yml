@@ -1,0 +1,45 @@
+name: HG26 Boss Auto-Hunt Focused QA
+on:
+  push:
+    branches:
+      - feature/hog1-research-to-playable-20261102
+    paths:
+      - 'engine.js'
+      - 'hg04.js'
+      - 'hg05.js'
+      - 'hg06.js'
+      - 'hg07.js'
+      - 'hg08.js'
+      - 'hg10.js'
+      - 'hg18.js'
+      - 'hg182.js'
+      - 'hg20-private.js'
+      - 'hg20-world-bosses.js'
+      - 'hg21-tower-tactical.js'
+      - 'hg24-private-automation.js'
+      - 'hg26-boss-autohunt.js'
+      - 'qa-hg26-boss.cjs'
+      - 'qa-hg24-private.cjs'
+      - 'qa-hg21-tactical.cjs'
+      - '.github/workflows/hg26-boss-focused.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-pve:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: HG26 real AP, tactical Boss outcomes and Save v07
+        run: |
+          node --check hg26-boss-autohunt.js
+          node --check qa-hg26-boss.cjs
+          node qa-hg26-boss.cjs
+      - name: HG24 army ownership and opt-in paid supply regression
+        run: node qa-hg24-private.cjs
+      - name: HG21 independent 3 hero x 2 stack tower regression
+        run: node qa-hg21-tactical.cjs
