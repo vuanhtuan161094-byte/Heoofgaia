@@ -2,7 +2,7 @@
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
 const $=id=>document.getElementById(id);let state=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null;
-const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['tasks','📜 Nhiệm vụ'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
+const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
 const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=900;
@@ -207,11 +207,46 @@ function heroesView(){
  const h=state.heroes.find(x=>x.id===state.activeHero),stats=E.heroStats(state),eq=state.equipment[h.id]||{};
  const gear=Object.entries(E.ITEMS);
  const owned=state.inventory.map(i=>{const def=E.ITEMS[i.itemId],wearer=Object.entries(state.equipment).find(([,slots])=>Object.values(slots).includes(i.uid))?.[0];
- return `<div class="card gear-card"><div><b>${def.icon} ${esc(def.name)}</b><div class="hint">${def.slot} · ATK +${def.atk} · DEF +${def.def} · SPD +${def.spd}</div>${equipmentBattleText(def)?`<div class="tiny muted">${esc(equipmentBattleText(def))}</div>`:''}<small class="muted">${wearer?'Đang trang bị: '+esc(state.heroes.find(h=>String(h.id)===wearer)?.name||'tướng'):'Túi đồ'} · ${esc(i.origin||'')}</small></div>${button('equipitem',{uid:i.uid},wearer===String(h.id)?'Đã mặc':'Trang bị',!!state.march||!!state.battle||wearer===String(h.id),'small secondary')}</div>`}).join('');
- return heroesViewBase()+heroProgression()+`<section class="card hg04-section"><span class="eyebrow">HERO EQUIPMENT</span><h2>🎒 Túi trang bị và chỉ số tướng đang chọn</h2><p>${esc(h.name)} — ATK <b>${stats.atk}</b> · DEF <b>${stats.def}</b> · SPD <b>${stats.spd}</b> · INT <b>${stats.int}</b></p>
+ return `<div class="card gear-card"><div><b>${def.icon} ${esc(def.name)} +${i.enhance||0}</b><div class="hint">${def.slot} · ATK +${def.atk} · DEF +${def.def} · SPD +${def.spd}</div>${equipmentBattleText(def)?`<div class="tiny muted">${esc(equipmentBattleText(def))}</div>`:''}<small class="muted">${wearer?'Đang trang bị: '+esc(state.heroes.find(h=>String(h.id)===wearer)?.name||'tướng'):'Túi đồ'} · ${esc(i.origin||'')}</small></div>${button('equipitem',{uid:i.uid},wearer===String(h.id)?'Đã mặc':'Trang bị',!!state.march||!!state.battle||wearer===String(h.id),'small secondary')}${button('hg18-enhance',{uid:i.uid},'+1 Cường hóa',!!state.hg18?.materials.enhance_stone||(i.enhance||0)>=10||!!state.march||!!state.battle,'small secondary')}</div>`}).join('');
+ return heroesViewBase()+heroProgression()+heroAscensionView()+`<section class="card hg04-section"><span class="eyebrow">HERO EQUIPMENT</span><h2>🎒 Túi trang bị và chỉ số tướng đang chọn</h2><p>${esc(h.name)} — ATK <b>${stats.atk}</b> · DEF <b>${stats.def}</b> · SPD <b>${stats.spd}</b> · INT <b>${stats.int}</b></p>
  <div class="equipment-slots">${[['weapon','⚔ Vũ khí'],['armor','🛡 Giáp'],['charm','💍 Phụ kiện']].map(([k,label])=>`<div class="slot"><b>${label}</b><div>${esc(itemName(eq[k]))}</div>${eq[k]?button('unequip',{slot:k},'Tháo',!!state.march||!!state.battle,'small secondary'):''}</div>`).join('')}</div>
  <div class="grid grid2">${owned||'<p class="muted">Chưa có trang bị. Có thể mua ở Bazaar hoặc nhặt sau khi thắng quái.</p>'}</div>
  <p class="hint">Các loại ô lấy ý tưởng từ hệ trang bị Heroes of Gaia. Tên, chỉ số, giá và tỷ lệ rơi ở đây đều là demo.</p></section>`;
+}
+// HG18: only completed real actions increment these period boards.
+function hg18QuestView(){
+ const groups=[['daily','HÀNG NGÀY'],['weekly','HÀNG TUẦN']];
+ return groups.map(([cycle,label])=>{
+  const tasks=E.hg18Tasks(state,cycle);
+  return `<section class="card hg18-quests"><span class="eyebrow">HG18 • ${label} • MÔ HÌNH OFFLINE</span><h2>📜 Nhiệm vụ ${label.toLowerCase()}</h2>
+   <p class="tiny muted">Tự ghi nhận xây xong công trình, quân tuyển hoàn tất và chiến thắng thật. Reset theo UTC, đã nhận không cộng trùng. Nhiệm vụ tuần cấp cao mới tặng quân đặc biệt.</p>
+   <div class="grid grid2">${tasks.map(t=>`<div class="card"><b>${esc(t.name)}</b><span class="tag">${t.progress}/${t.need}</span>
+    <progress max="${t.need}" value="${t.progress}"></progress><div class="tiny muted">Thưởng: ${Object.entries(t.reward).map(([k,n])=>k==='specialSoldier'?n+' quân đặc biệt':(E.HG18_MATERIALS[k]?.icon||'📦')+' '+n+' '+(E.HG18_MATERIALS[k]?.name||k)).join(' · ')}</div>
+    ${button('hg18-claim',{cycle,id:t.id},t.claimed?'✓ Đã nhận':t.ready?'🎁 Nhận thưởng':'Chưa đủ tiến độ',!t.ready||t.claimed,'small primary')}</div>`).join('')}</div></section>`;
+ }).join('');
+}
+function heroAscensionView(){
+ const h=state.heroes.find(x=>x.id===state.activeHero),mat=state.hg18.materials,spent=Object.values(h.spentAttributePoints||{}).reduce((a,b)=>a+b,0);
+ return `<section class="card"><span class="eyebrow">HG18 • TIẾN HÓA TƯỚNG</span><h2>🌟 Chuyển sinh & nâng bậc</h2>
+  <p><b>${esc(h.name)}</b> · Cấp ${h.level}/100 · Bậc ${h.heroRank}/5 · Chuyển sinh ${h.rebirth}/5</p>
+  <p class="tiny muted">Mỗi bậc +2% chỉ số tướng, mỗi lần chuyển sinh +4% chỉ số. Chuyển sinh tại cấp 100, về cấp 1 và trả các chỉ số phân phối về gốc; giữ bậc, trang bị và phép. Thẻ tẩy chỉ hoàn điểm đã tự phân phối.</p>
+  <div class="entry">${button('hg18-rank',{id:h.id},'🔱 Nâng bậc (cần Lv '+(h.heroRank*20)+')',!mat.rank_emblem||h.heroRank>=5||h.level<h.heroRank*20||!!state.march||!!state.battle,'small secondary')}
+  ${button('hg18-reset',{id:h.id},'🔄 Tẩy '+spent+' điểm',!mat.hero_reset||!spent||!!state.march||!!state.battle,'small secondary')}
+  ${button('hg18-rebirth',{id:h.id},'🌟 Chuyển sinh cấp 100',!mat.rebirth_core||h.level!==100||h.rebirth>=5||!!state.march||!!state.battle||state.castellan===h.id,'small primary')}</div>
+  <p class="tiny muted">Đang có: ${mat.rank_emblem} Ấn · ${mat.hero_reset} thẻ tẩy · ${mat.rebirth_core} lõi chuyển sinh. Lõi từ nhiệm vụ tuần đánh Boss 9–10★.</p></section>`;
+}
+function relicView(){
+ const mat=state.hg18.materials,sets=E.hg18SetCounts(state,state.activeHero);
+ const opens=['resource_card','resource_chest','gear_pack','set_chest'];
+ return `<h1>💎 Rèn đúc & kho di vật</h1>
+  <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
+  <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card"><b>${m.icon} ${esc(m.name)}</b><p>Số lượng <b>${format(mat[key])}</b></p>
+  ${opens.includes(key)?button('hg18-open',{id:key},'Mở / Dùng',mat[key]<1,'small primary'):''}</div>`).join('')}</div></section>
+  <section class="card"><h2>✨ Ghép bộ Tinh Vân</h2><p>Cần <b>8 mảnh Tinh Vân</b> / món, thứ tự Kiếm → Giáp → Ấn; nhận qua thắng quái cấp cao, nhiệm vụ ngày/tuần. Không bán trong Bazaar.</p>
+   ${button('hg18-craft',{id:'astral'},'⚒ Ghép 8 mảnh (hiện '+format(mat.astral_shard)+')',mat.astral_shard<8,'primary')}</section>
+  <section class="card"><h2>🛡 Kích hoạt bộ trang bị</h2>
+   ${Object.entries(E.HG18_SETS).map(([id,set])=>`<p><b>${esc(set.name)}</b> · ${sets[id]||0}/3 món đang mặc · kích hoạt 2/3 và 3/3 theo bonus mô hình.</p>`).join('')}
+   <p class="tiny muted">Cường hóa: tối đa +10, dùng 2 + 2× cấp hiện tại đá và 250× cấp mới vàng. Thành công chắc chắn; không thất bại RNG. Thực hiện trên trang Tướng.</p></section>`;
 }
 function technologyView(){
  const queue=state.researchQueue,queuedSpell=queue&&C.spells[queue.key];
@@ -243,14 +278,14 @@ function cityView(){const market=state.buildings.market||0,bazaar=state.building
  return citySwitcher()+cityViewBase()+castleOverview()+`${state.buildingQueue?`<section class="card queue-card"><b>🏗 Công trình đang thi công: ${esc(C.buildings[state.buildingQueue.key].name)} Lv.${state.buildingQueue.level}</b><progress max="${state.buildingQueue.total}" value="${state.buildingQueue.total-state.buildingQueue.remaining}"></progress><small>${Math.ceil(state.buildingQueue.remaining/state.speed)} giây thực còn lại • tốc độ ×${state.speed} • thời gian mô phỏng</small></section>`:''}<section class="card hg04-section"><span class="eyebrow">CASTLE ECONOMY</span><h2>⚖ Market — bán tài nguyên lấy vàng</h2><p class="hint">Nguồn 2009 ghi nhận Market bán/đổi tài nguyên, không mua tài nguyên bằng vàng. Tỷ giá tại đây là mô phỏng.</p>
  <div class="trade-row"><select id="sell-type" aria-label="Loại tài nguyên bán">${['wood','ore','sulfur','crystal'].map(k=>`<option value="${k}">${C.resource[k].label}</option>`).join('')}</select><input type="number" min="1" max="50000" step="1" id="sell-qty" value="50" aria-label="Số tài nguyên bán">${button('sell',{},'Bán tài nguyên',market<1,'primary')}</div>
  <p class="hint">${market?'Market Lv.'+market:'Hãy xây Market ở danh sách công trình phía trên.'}</p>
- <h2>🏪 Bazaar — cửa hàng trang bị</h2><div class="grid grid3">${Object.values(E.ITEMS).map(item=>`<div class="card"><b>${item.icon} ${esc(item.name)}</b><p class="hint">${item.slot} · ATK +${item.atk} · DEF +${item.def} · SPD +${item.spd}</p><div class="cost">${format(item.cost)} 🪙 · cần Bazaar Lv.${item.level}</div>${button('buyitem',{id:item.id},'Mua vật phẩm',bazaar<item.level||state.res.gold<item.cost,'small secondary')}</div>`).join('')}</div></section>`;
+ <h2>🏪 Bazaar — cửa hàng trang bị</h2><div class="grid grid3">${Object.values(E.ITEMS).filter(item=>item.shop!==false).map(item=>`<div class="card"><b>${item.icon} ${esc(item.name)}</b><p class="hint">${item.slot} · ATK +${item.atk} · DEF +${item.def} · SPD +${item.spd}</p><div class="cost">${format(item.cost)} 🪙 · cần Bazaar Lv.${item.level}</div>${button('buyitem',{id:item.id},'Mua vật phẩm',bazaar<item.level||state.res.gold<item.cost,'small secondary')}</div>`).join('')}</div></section>`;
 }
 function tasksView(){
  const main=E.activeCity(state).main,tasks=E.dailyTasks(state),china=E.china2009DailyTasks(state);
  const ht=E.heroTaskStatus(state),heroTaskCard=`<section class="card"><span class="eyebrow">HERO TASKS · FANDOM / BABEL</span><h2>⚔ Nhiệm vụ tướng <span class="tag">${ht.completed}/${ht.max} hôm nay</span></h2><progress max="20" value="${ht.completed}"></progress><p class="hint">${ht.active?`<b>${esc(ht.heroName)}</b> cần thắng NPC <b>${ht.stars}★</b> bằng chính tướng đã nhận. ${ht.active.ready?'Đã hoàn thành, nhận EXP ngay.':'Đang chờ chiến thắng.'}`:ht.available?`Tướng đang chọn: <b>${esc(ht.heroName)}</b> · Nhiệm vụ tiếp: NPC <b>${ht.stars}★</b>.`:'Đã hoàn thành 20 lượt hôm nay.'}</p><div class="cost">${ht.available?'Thưởng cơ bản +'+format(ht.exp)+' EXP tướng · Hero Tower có thể cộng thêm':'Tổng 43.000 EXP cơ bản / ngày'}</div><div class="actions">${!ht.available?button('acceptherotask',{},'✓ Hết nhiệm vụ hôm nay',true,'secondary'):!ht.active?button('acceptherotask',{},'🎯 Nhận nhiệm vụ tướng',!ht.canAccept,'primary'):ht.active.ready?button('claimherotask',{},'🎁 Nhận EXP cho tướng',false,'primary'):button('findherotask',{},'🗺 Tìm NPC '+ht.stars+'★',false,'primary')}</div><p class="tiny muted">Theo Fandom: 20 lượt/ngày, 1.200–3.100 EXP/lượt. Thứ tự 1★→2★→3★ là lựa chọn offline; giao tranh vẫn tốn AP/quân.</p></section>`;
  const international=`<h2>Quốc tế · nhiệm vụ cộng đồng</h2><p class="hint">Bảng này tách nhiệm vụ theo chủng tộc và nguồn cộng đồng. Kongregate mô tả Get Task/Get Reward (SRC52); “Getting Started” và nhiệm vụ Undead “Clean Up Remnants” lấy từ Fandom sống nhiều phiên bản (SRC30, SRC53; độ tin cậy C). SRC61 ghi riêng rằng Undead có thể nhận một quân đánh xa cấp 8 mỗi ngày năm 2009, nhưng không nêu đúng tên nhiệm vụ hay các phần thưởng.</p><div class="grid grid2">${tasks.map(t=>`<div class="card"><h2>${t.claimed?'✅ ':t.ready?'📩 ':'📜 '}${esc(t.nameVi)} <span class="tag">${t.name}</span></h2><p>Thắng bất kỳ trại NPC ${t.stars}★ trên bản đồ thế giới. Tiến độ ${t.progress}/1.</p><div class="cost">+${format(t.gold)} Vàng · tối đa +${t.ap} AP${t.rewardUnitId?` · +${t.rewardUnits} ${esc(E.getUnit(state,t.rewardUnitId)?.name||t.rewardUnitId)}`:''}</div><p class="tiny muted">Nguồn ${t.source} · độ tin cậy ${t.confidence}. Mốc reset UTC là mô hình offline; task nguồn Trung Quốc không nhập vào bảng này.</p>${t.claimed?button('claimdaily',{id:t.id},'✓ Đã nhận hôm nay',true,'primary'):!t.accepted?button('acceptdaily',{id:t.id},'📥 Nhận nhiệm vụ',!main||!t.available,'primary'):t.ready?button('claimdaily',{id:t.id},'🎁 Nhận thưởng',!main,'primary'):button('acceptdaily',{id:t.id},'Đang theo dõi · chờ chiến thắng',true,'secondary')}</div>`).join('')}</div><p class="tiny muted">Nhiệm vụ khác, Main/Holiday và toàn bộ lịch sử thưởng chưa được dựng. Save v07 cũ được nạp với bảng mới trống.</p>`;
  const chinese=china.length?`<section class="card"><span class="eyebrow">CHINA DAILY TASKS • SINA 2009</span><h2>Chuỗi nhiệm vụ Nhân tộc Trung Quốc 2009</h2><p class="hint">Bảng này tách riêng khỏi nhiệm vụ cộng đồng quốc tế. SRC54 ghi nhiệm vụ “招募弓箭手”: tuyển 20 Cung thủ, thưởng 100 Gỗ và 10 Cung thủ. FAQ SRC61 nói tăng mỗi bậc Danh vọng sẽ làm mới nhiệm vụ ngày; bậc được đối chiếu theo bảng Fame SRC20 (cùng năm nhưng khác ngày). Mốc reset UTC vẫn là mô hình offline; bản này không mô phỏng bảo trì máy chủ.</p>${china.map(t=>`<div class="card"><h3>${t.claimed?'✅ ':t.ready?'📩 ':'📜 '}${esc(t.nameVi)} <span class="tag">${t.name}</span></h3><p>Hoàn tất huấn luyện Cung thủ tại thành chính · ${t.progress}/${t.required}.</p><div class="cost">+${format(t.rewardWood)} Gỗ · +${t.rewardUnits} Cung thủ</div><p class="tiny muted">Nguồn: ${t.source}, Sina 24-08-2009 · độ tin cậy ${t.confidence}. Điều kiện “huấn luyện hoàn tất” là cách triển khai có thể chơi được; bài gốc chỉ nêu phải tuyển 20.</p>${t.claimed?button('claimdaily2009',{id:t.id},'✓ Đã nhận hôm nay',true,'primary'):!t.accepted?button('acceptdaily2009',{id:t.id},'📥 Nhận nhiệm vụ',!main,'primary'):t.ready?button('claimdaily2009',{id:t.id},'🎁 Nhận thưởng',!main,'primary'):button('acceptdaily2009',{id:t.id},'Đang theo dõi · hoàn tất huấn luyện',true,'secondary')}</div>`).join('')}</section>`:'';
- return `<h1>📜 Nhiệm vụ hằng ngày</h1>${heroTaskCard}${international}${chinese}`;
+ return `<h1>📜 Nhiệm vụ hằng ngày</h1>`+hg18QuestView()+heroTaskCard+international+chinese;
 }
 
 function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hiện không có trận đánh.</p>${button('tab',{tab:'map'},'🗺 Trở lại thế giới')}`;
@@ -312,7 +347,7 @@ function paint(){
     if(target)fail(()=>{markBattleInput();E.battleSelect(state,target.id)});};
  }
 }
-function render(){const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');document.body.classList.toggle('combat-mode',!!state?.battle);if(!state){renderIntro();return}if(!state.battle){movementModeId=null;if(tab==='combat')tab='map'}renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();$('main').innerHTML=(tab==='map'||tab==='city'?newPlayerGuide():'')+content;paint();if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}}
+function render(){const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');document.body.classList.toggle('combat-mode',!!state?.battle);if(!state){renderIntro();return}if(!state.battle){movementModeId=null;if(tab==='combat')tab='map'}renderHUD();if(state.battle)tab='combat';const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();$('main').innerHTML=(tab==='map'||tab==='city'?newPlayerGuide():'')+content;paint();if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}}
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
  if(action==='battle-grid'||action==='battle-hp'){toggleBattleDisplay(action==='battle-grid'?'grid':'hp');render();return}
  fail(()=>{
@@ -349,6 +384,13 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='equipitem'){E.equipItem(state,Number(target.dataset.uid));return}
  if(action==='unequip'){E.unequipItem(state,target.dataset.slot);return}
  if(action==='buyitem'){E.buyItem(state,target.dataset.id);return}
+ if(action==='hg18-claim'){E.claimHG18Task(state,target.dataset.cycle,target.dataset.id);toast('Đã nhận thưởng nhiệm vụ.');return}
+ if(action==='hg18-open'){E.openHG18Pack(state,target.dataset.id);toast('Đã sử dụng thẻ hoặc mở hòm.');return}
+ if(action==='hg18-craft'){E.craftHG18(state,target.dataset.id);toast('Đã ghép trang bị Tinh Vân.');return}
+ if(action==='hg18-enhance'){E.enhanceHG18(state,Number(target.dataset.uid));toast('Cường hóa trang bị thành công.');return}
+ if(action==='hg18-rank'){E.rankHG18Hero(state,Number(target.dataset.id));return}
+ if(action==='hg18-reset'){E.resetHG18Hero(state,Number(target.dataset.id));return}
+ if(action==='hg18-rebirth'){if(!confirm('Chuyển sinh về cấp 1? Giữ trang bị, bậc và bonus chuyển sinh.'))return;E.rebirthHG18Hero(state,Number(target.dataset.id));return}
  if(action==='sell'){E.sell(state,$('sell-type').value,Number($('sell-qty').value));return}
  if(action==='quest'){E.claim(state,target.dataset.id);return}
  if(action==='acceptherotask'){E.acceptHeroTask(state);return}
