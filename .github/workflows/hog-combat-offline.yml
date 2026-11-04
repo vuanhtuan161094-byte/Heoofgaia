@@ -59,6 +59,11 @@ jobs:
           node --check hg20-private.js
           node --check qa-hg20-private.cjs
           node qa-hg20-private.cjs
+      - name: HG26 opt-in Boss hunts, real combat/AP/losses and recovery
+        run: |
+          node --check hg26-boss-autohunt.js
+          node --check qa-hg26-boss.cjs
+          node qa-hg26-boss.cjs
       - name: HG24 safe hero templates, paid logistics, private EXP and Boss dispatch
         run: |
           node --check hg24-private-automation.js
