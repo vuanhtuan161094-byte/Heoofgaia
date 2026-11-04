@@ -140,6 +140,7 @@ check('P0 production five resources across 6 independent cities / 30 offline day
    const fresh=E.make('human',loaded.lastTick);
    const diagnostic={
     day,now:loaded.lastTick,active:loaded.activeCityId,ap:loaded.ap,apMax:loaded.apMax,
+    logLength:loaded.log.length,logLargest:Math.max(...loaded.log.map(x=>x?.length||0)),badLogs:loaded.log.filter(x=>typeof x!=='string'||x.length>500).slice(0,3),
     aiCount:Object.keys(loaded.aiCities).length,aiLevels:Object.values(loaded.aiCities).reduce((o,a)=>(o[a.level]=(o[a.level]||0)+1,o),{}),
     cities:loaded.cities.map(c=>({id:c.id,race:c.race,res:c.local.res,warehouse:c.local.buildings.warehouse,tavernRound:c.local.tavern.round})),
     noMines:trial(x=>{x.mines=[]}),freshAI:trial(x=>{x.aiCities=E.clone(fresh.aiCities)}),
