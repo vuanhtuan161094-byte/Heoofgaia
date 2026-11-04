@@ -1,5 +1,7 @@
 # Anh Hùng Thời Loạn — Hẻoofgaia
 
+> **CHỈ MỘT BẢN GAME ĐANG PHÁT TRIỂN.** Xem [checkpoint hợp nhất hiện tại](docs/PROJECT_SINGLE_SOURCE_OF_TRUTH.md) để biết gameplay HG26.1 + mỹ thuật HG22.1, nhánh canonical, Save v07 và CI thật. Những ghi chú HG07–HG13 trong các tài liệu cũ là lịch sử, không phải một game khác. Chỉ tải HTML từ run GitHub Actions **SUCCESS** mới nhất.
+
 Standalone reconstruction project for Heroes of Gaia / Castle of Heroes / 英雄之城 (circa 2009–2010). The playable Vietnamese title is **Anh Hùng Thời Loạn**; Hẻoofgaia remains the project/repository name. This is an independent offline prototype, not the original game and not yet a complete or 1:1 reconstruction.
 
 ## Play
