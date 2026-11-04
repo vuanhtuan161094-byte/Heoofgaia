@@ -282,6 +282,7 @@ function recruitCost(s,u,count){
 }
 function recruit(s,id,count){
  ensure(s);const u=E.getUnit(s,id);if(!u)throw Error('Không có quân của chủng tộc này');
+ if(u.rewardOnly)throw Error('Quân đặc biệt chỉ nhận qua nhiệm vụ, không thể tuyển tại trại.');
  if(!Number.isSafeInteger(count)||count<1||count>1000)throw Error('Số lượng không hợp lệ');
  const req=unitPrerequisites(s,u);if(!req.available)throw Error(`Chưa đủ điều kiện ${u.name}: ${conditionName(req.unmet[0])}.`);
  const cost=recruitCost(s,u,count);E.spend(s,cost);
@@ -437,7 +438,7 @@ function selectHero(s,id){ensure(s);if(heroAway(s,id))throw Error('Tướng đan
 function valid(s){
  if(!s||s.version!==V||!prior.valid({...s,version:6}))return false;
  if(!Array.isArray(s.stationedHeroes)||!Array.isArray(s.parallelMarches)||!Object.prototype.hasOwnProperty.call(s,'expedition'))return false;
- const armyValid=pool=>obj(pool)&&Object.entries(pool).every(([id,n])=>Object.values(E.C.units).some(list=>list.some(u=>u.id===id))&&Number.isSafeInteger(n)&&n>=0&&n<=1e9);
+ const armyValid=pool=>obj(pool)&&Object.entries(pool).every(([id,n])=>Object.values(E.C.units).concat(Object.values(E.C.rewardUnits||{})).some(list=>list.some(u=>u.id===id))&&Number.isSafeInteger(n)&&n>=0&&n<=1e9);
  const stationedIds=new Set();for(const x of s.stationedHeroes){if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||stationedIds.has(x.heroId)||!E.getTile(x.key)||!armyValid(x.army)||!Object.values(x.army).some(n=>n>0)||!Array.isArray(x.formation))return false;stationedIds.add(x.heroId)}
  if(s.expedition!==null){const x=s.expedition;if(!obj(x)||!Number.isSafeInteger(x.heroId)||!s.heroes.some(h=>h.id===x.heroId)||x.heroId===s.castellan||!E.getTile(x.homeKey)||!armyValid(x.army)||(!Object.values(x.army).some(n=>n>0)&&x.phase!=='returning')||!Array.isArray(x.formation)||!['outbound','battle','returning'].includes(x.phase))return false}
  if(s.march&&(!['outbound','return'].includes(s.march.phase)||!s.expedition||s.march.heroId!==s.expedition.heroId))return false;
