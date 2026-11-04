@@ -153,7 +153,7 @@ try:
       return s.hg26.enabled===false&&s.hg26.phase==='halted'&&
         HOG_ENGINE.strictSave(s);
     }"""))
-    check('No uncaught runtime exceptions during modal switching',not errors,errors)
+  check('No uncaught runtime exceptions during modal switching',not errors,errors)
   browser.close()
 finally:
  receipt={'kind':'HG18.1 fixed-stage real Chromium UI','checks':checks,
