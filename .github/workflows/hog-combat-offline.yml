@@ -71,6 +71,11 @@ jobs:
           node --check hg27-farm-exchange.js
           node --check qa-hg27-farm.cjs
           node qa-hg27-farm.cjs
+      - name: HG29 six deterministic loot tables, real battles, Save and targeted crafting
+        run: |
+          node --check hg29-loot.js
+          node --check qa-hg29-loot.cjs
+          node qa-hg29-loot.cjs
       - name: HG24 safe hero templates, paid logistics, private EXP and Boss dispatch
         run: |
           node --check hg24-private-automation.js
@@ -114,6 +119,8 @@ jobs:
           python -m playwright install chromium
       - name: HG27 actual Chromium 10-screen UI and 3 landscape captures
         run: python qa-hg27-ui-chrome.py
+      - name: HG29 Chromium loot previews, fragment crafting, tasks and tower captures
+        run: python qa-hg29-ui-chrome.py
       - name: HG19 Chromium SVG decode and visual contact sheet
         run: python qa-hg19-art-chrome.py
       - name: HG19.1 real PNG sprite frames and Game-Icons Chrome acceptance
@@ -159,6 +166,15 @@ jobs:
           path: |
             docs/evidence/hg27/*.png
             docs/qa/hg27-ui.json
+          if-no-files-found: ignore
+      - name: Upload HG29 real Chromium screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG29-farm-loot-UI-Chromium
+          path: |
+            docs/evidence/hg29/*.png
+            docs/qa/hg29-ui.json
           if-no-files-found: ignore
       - name: Upload offline playable HTML
         if: always()
