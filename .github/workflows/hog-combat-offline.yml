@@ -81,6 +81,11 @@ jobs:
           node --check hg30-troop-ascension.js
           node --check qa-hg30-ascension.cjs
           node qa-hg30-ascension.cjs
+      - name: HG31 Boss-Tower fragments, targeted gear forging, set combat and Save v07
+        run: |
+          node --check hg31-legendary-gear.js
+          node --check qa-hg31-legendary.cjs
+          node qa-hg31-legendary.cjs
       - name: HG24 safe hero templates, paid logistics, private EXP and Boss dispatch
         run: |
           node --check hg24-private-automation.js
@@ -128,6 +133,8 @@ jobs:
         run: python qa-hg29-ui-chrome.py
       - name: HG30 Chromium 10-screen capture and paid conversion click verification
         run: python qa-hg30-ui-chrome.py
+      - name: HG31 real Chromium screenshots of 10 screens and legendary equip UI
+        run: python qa-hg31-ui-chrome.py
       - name: HG19 Chromium SVG decode and visual contact sheet
         run: python qa-hg19-art-chrome.py
       - name: HG19.1 real PNG sprite frames and Game-Icons Chrome acceptance
@@ -191,6 +198,15 @@ jobs:
           path: |
             docs/evidence/hg30/*.png
             docs/qa/hg30-ui.json
+          if-no-files-found: ignore
+      - name: Upload HG31 screenshots and receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG31-legendary-sets-Chromium
+          path: |
+            docs/evidence/hg31/*.png
+            docs/qa/hg31-ui.json
           if-no-files-found: ignore
       - name: Upload offline playable HTML
         if: always()
