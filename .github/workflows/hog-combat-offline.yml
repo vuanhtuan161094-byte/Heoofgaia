@@ -90,6 +90,8 @@ jobs:
         run: |
           node --check qa-hg32-organic-economy.cjs
           node qa-hg32-organic-economy.cjs
+          node --check qa-hg32-organic-full.cjs
+          node qa-hg32-organic-full.cjs
       - name: HG24 safe hero templates, paid logistics, private EXP and Boss dispatch
         run: |
           node --check hg24-private-automation.js
@@ -229,7 +231,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: HG32-organic-NoSeed-economy
-          path: docs/qa/hg32/organic-audit.json
+          path: |
+            docs/qa/hg32/organic-audit.json
+            docs/qa/hg32/organic-full-endgame.json
           if-no-files-found: ignore
       - name: Upload offline playable HTML
         if: always()
