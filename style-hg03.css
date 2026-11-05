@@ -386,3 +386,40 @@ body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),76
 .hg29-last p{margin:4px 0;font-size:12px}
 @media(max-width:800px){.hg29-recipes{grid-template-columns:repeat(2,minmax(0,1fr))}.hg29-preview{max-width:60%;padding:5px 7px}.hg29-wallet{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:550px){.hg29-preview{left:4px;top:4px;max-width:65%}.hg29-preview small:last-child{display:none}.hg29-recipes,.hg29-guides{grid-template-columns:1fr}}
+
+
+/* HG30 mission conversion panels: real troop sprites and visible resource gates. */
+.hg30-quest{margin:8px 0!important;padding:11px!important;border:1px solid #a8905e!important;background:linear-gradient(145deg,#20393d,#122830)!important}
+.hg30-quest .eyebrow{font:800 10px/1.2 system-ui;letter-spacing:.9px;color:#e8bd72}
+.hg30-top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+.hg30-top h2{font:800 18px/1.2 system-ui,'Segoe UI',sans-serif!important;margin:5px 0;color:#f0d8a8}
+.hg30-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:8px 0}
+.hg30-stage{border:1px solid #45666c;background:#1d3339;border-radius:6px;padding:7px;display:flex;gap:8px;align-items:center;min-width:0}
+.hg30-stage.active{border-color:#d3a75d;background:#31423f}.hg30-stage.done{border-color:#63916e;background:#203d35}.hg30-stage.locked{opacity:.65}
+.hg30-stage .hg30-num{border:1px solid #9d8b65;background:#283f42;border-radius:50%;min-width:25px;height:25px;display:grid;place-items:center;color:#f7dca4;font-weight:800}
+.hg30-stage b,.hg30-stage small{display:block;font:700 11px/1.25 system-ui;color:#e9e4cf}
+.hg30-stage small{font-weight:500;color:#a9c4ba;margin-top:2px}
+.hg30-trial{background:#193239;border:1px solid #486969;border-radius:6px;padding:8px 10px;margin:9px 0}
+.hg30-trial>b{font:750 12px system-ui;color:#eacb92}
+.hg30-progress{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:5px 0}
+.hg30-progress small{display:block;font:550 11px system-ui;color:#dce6db}
+.hg30-progress progress{width:100%;height:8px;accent-color:#c9a75f}
+.hg30-trial button{font:700 11px system-ui!important;padding:5px 9px}
+.hg30-recipes{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.hg30-recipe{padding:10px;background:linear-gradient(#294547,#1a333d);border:1px solid #61756c;border-radius:7px;min-width:0}
+.hg30-unit-line{display:grid;grid-template-columns:minmax(0,1fr) 32px minmax(0,1fr);align-items:center;gap:4px;min-height:82px}
+.hg30-unit-line>div{display:flex;align-items:center;gap:7px;min-width:0}.hg30-unit-line>div:last-child{flex-wrap:wrap}
+.hg30-unit-line img{max-width:62px;max-height:62px;object-fit:contain;flex-shrink:0}
+.hg30-unit-line small,.hg30-unit-line b{display:block;font:600 11px/1.25 system-ui;color:#d9e2d7}
+.hg30-unit-line b{color:#f0daab;font-size:12px}
+.hg30-arrow{font-size:22px;color:#f3cd76;text-align:center}
+.hg30-recipe h3{font:750 15px/1.2 system-ui!important;color:#f1d198;margin:7px 0}
+.hg30-recipe p{margin:5px 0!important}
+.hg30-costs{display:flex;gap:4px;flex-wrap:wrap;margin:7px 0}
+.hg30-costs span{padding:4px 6px;border-radius:5px;border:1px solid #59776c;font:550 10px/1.3 system-ui;color:#d4e2d7;background:#1a3637}
+.hg30-costs span.missing{border-color:#825a52;color:#f1b7ac}
+.hg30-costs span.has{border-color:#5c9078}
+.hg30-costs b{font-variant-numeric:tabular-nums;font-weight:750}
+.hg30-recipe button{font:700 11px system-ui!important;min-height:29px;padding:7px 9px}
+.hg30-recipe button:disabled{opacity:.6}
+@media(max-width:700px){.hg30-steps{grid-template-columns:1fr}.hg30-recipes{grid-template-columns:1fr}.hg30-progress{grid-template-columns:1fr}}
