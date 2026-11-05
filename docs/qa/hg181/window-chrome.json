@@ -374,5 +374,8 @@
     "joint-boss-combat-1600x900.png",
     "joint-boss-combat-1920x1080.png",
     "joint-boss-combat-1818x830.png"
-  ]
+  ],
+  "sourceCommit": "588606025c2a44466cb9c47a8c2820418d9c647c",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "832D3B975C081ACC835755216D40C8F898AF87DC7B0113354CCCFE7AC229C4BE"
 }

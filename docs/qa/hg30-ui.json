@@ -76,5 +76,8 @@
     "docs\\evidence\\hg30\\fixture-06-army-after-reload-1280x720.png"
   ],
   "errors": [],
-  "pass": true
+  "pass": true,
+  "sourceCommit": "588606025c2a44466cb9c47a8c2820418d9c647c",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "832D3B975C081ACC835755216D40C8F898AF87DC7B0113354CCCFE7AC229C4BE"
 }
