@@ -1,0 +1,62 @@
+{
+  "schema": "HG28-World-Art-v1",
+  "created": "2026-11-05",
+  "provenance": {
+    "method": "OpenAI ImageGen original generation",
+    "referenceInputs": [],
+    "sourceGameArtUsed": false,
+    "redistributionNote": "Project-generated replacement art; no third-party license is claimed. Prompts and source hashes are recorded beside these assets."
+  },
+  "assets": [
+    {
+      "id": "world-meadow-material",
+      "path": "assets/generated/hg28/world/meadow-tile.png",
+      "mime": "image/png",
+      "width": 1254,
+      "height": 1254,
+      "sha256": "86F858C28EAB4B3F6F889B9626DCD026AAD98FDA4F31F6BD104EEAFC9FF12D40",
+      "bytes": 3295864,
+      "use": "Repeating surface material beneath live map terrain, route, selection and landmark drawing."
+    },
+    {
+      "id": "world-creature-atlas",
+      "path": "assets/generated/hg28/world/world-creatures-atlas.png",
+      "mime": "image/png",
+      "width": 1261,
+      "height": 1247,
+      "sha256": "07C551844A30FA715A2B9042C72B9B7D40274196690D3B0A1E4E61934793211D",
+      "bytes": 2080566,
+      "regions": {
+        "wildland_beast": [48, 160, 530, 390],
+        "elite_guardian": [730, 0, 500, 588],
+        "boss_dragon": [0, 625, 650, 622],
+        "lich_warlord": [687, 585, 560, 662]
+      },
+      "use": "Distinct world encounter silhouettes; map coordinates and combat roster remain engine data."
+    },
+    {
+      "id": "broadleaf-tree-prop",
+      "path": "assets/generated/hg28/world/tree-broadleaf.png",
+      "mime": "image/png",
+      "width": 1312,
+      "height": 1199,
+      "alphaBounds": [0, 33, 1296, 1175],
+      "pivot": [0.5, 0.98],
+      "sha256": "9DFFBB890C2E57BFC7B372456F5F90B6CCA2C560F56825A77F364CC389362E73",
+      "bytes": 1574932,
+      "use": "Standalone broadleaf tree sprite drawn independently over interactive forest tiles."
+    },
+    {
+      "id": "pine-tree-prop",
+      "path": "assets/generated/hg28/world/tree-pine.png",
+      "mime": "image/png",
+      "width": 1086,
+      "height": 1448,
+      "alphaBounds": [0, 10, 1074, 1425],
+      "pivot": [0.5, 0.984],
+      "sha256": "8278A4EFE9384D27F7C327EFC38F0F9A4BE88144DE7CFAF033D6F18BB76DAE42",
+      "bytes": 1238781,
+      "use": "Standalone evergreen tree sprite drawn independently over interactive forest tiles."
+    }
+  ]
+}

@@ -51,7 +51,10 @@ try:
   page.screenshot(path=str(OUT/'army-seven-stacks-window.png'))
   # Private gameplay: one actual recruitable commander, allocated real initial
   # troops, tower selection via popup, real button-driven floor reward and Save.
-  check('Private hero-based allocation panel shows selected commander and 7 editable stacks',
+  # HG28 keeps optional command systems collapsed so the real troop roster is visible first.
+  # Open the actual control before asserting its selected hero and editable formation.
+  page.locator('.hg28-army-ops > summary').click()
+  check('Private hero-based allocation panel opens from the real Army command drawer',
     page.locator('.hg20-command').count()==1 and
     'Aldric' in page.locator('.hg20-command').inner_text())
   page.locator('.game-window-body [data-action="autoformation"]').click()
@@ -89,6 +92,16 @@ try:
     page.locator('#hg20_tower_1').count()==1 and page.locator('#hg20_tower_2').count()==1)
   page.locator('#hg20_tower_0').select_option('1')
   page.locator('[data-action="tower-team"]').click()
+  page.wait_for_function("""() => {
+    const s=HOG_APP_DEBUG.getState(),saved=JSON.parse(localStorage.getItem(HOG_ENGINE.SAVE_KEY)||'null');
+    return s.hg20.tower.team.length===1&&s.hg20.tower.team[0]===1&&
+      s.hg20.tower.picks.length===1&&s.hg20.tower.picks[0].slots.length>=1&&
+      HOG_ENGINE.strictSave(s)&&saved?.hg20?.tower?.team?.[0]===1&&
+      saved?.hg20?.tower?.picks?.[0]?.slots?.length>=1;
+  }""")
+  check('Tower team selection stores owned slots atomically in strict Save v07',
+    page.locator('[data-action="tower-climb"]').is_enabled() and
+    page.evaluate("HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())"))
   page.locator('[data-action="tower-climb"]').click()
   check('Tower click enters real tactical battle with one hero and at most two stacks',
     page.evaluate("""() => {

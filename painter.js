@@ -10,13 +10,28 @@ function line(c,x1,y1,x2,y2,width,color){c.strokeStyle=color;c.lineWidth=width;c
 function text(c,s,x,y,size=13,color='#f6e8bf',align='center',weight='600'){c.font=`${weight} ${size}px Georgia,serif`;c.textAlign=align;c.fillStyle=color;c.fillText(String(s),x,y)}
 function tree(c,x,y,k=1,kind='normal'){
  c.save();c.translate(x,y);c.scale(k,k);
- circle(c,1,6,10,'#091d1890');line(c,0,7,0,-12,4,'#63422f');
- const color=kind==='dark'?'#2c4553':kind==='pine'?'#214d3c':'#316849';
- if(kind==='pine'){for(let i=0;i<3;i++)poly(c,[[-12+i*2,-2-i*10],[0,-30-i*6],[12-i*2,-2-i*10]],i===0?'#204936':i===1?'#33704b':'#427b50');}
- else{circle(c,-6,-14,11,color);circle(c,6,-20,14,kind==='dark'?'#385369':'#3f7d54');circle(c,-7,-27,10,'#4e9763');circle(c,6,-29,7,'#78a16d')}
+ const sprite=typeof document!=='undefined'?document.getElementById(kind==='pine'?'hg28-world-tree-pine':'hg28-world-tree-broadleaf'):null;
+ if(sprite?.complete&&sprite.naturalWidth){const height=66,width=height*sprite.naturalWidth/sprite.naturalHeight;
+  c.fillStyle='#071a168a';c.beginPath();c.ellipse(1,4,Math.max(11,width*.36),7,-.12,0,TAU);c.fill();
+  c.shadowColor='#061511a8';c.shadowBlur=7;c.shadowOffsetY=3;c.drawImage(sprite,-width/2,-height,width,height);c.restore();return;
+ }
+ c.fillStyle='#071a168a';c.beginPath();c.ellipse(2,7,18,8,-.12,0,TAU);c.fill();
+ c.shadowColor='#0615119a';c.shadowBlur=6;c.shadowOffsetY=2;
+ if(kind==='pine'){
+  poly(c,[[-16,4],[0,-38],[16,4]],'#17382f','#172c27');
+  poly(c,[[-14,-8],[0,-46],[14,-8]],'#285648');
+  poly(c,[[-11,-21],[0,-54],[11,-21]],'#3a7357');
+  poly(c,[[-5,-33],[0,-53],[4,-34]],'#83a374');
+ }else{
+  line(c,1,9,0,-22,6,'#594535');line(c,0,-7,-8,-20,3,'#66503b');
+  const colors=kind==='dark'?['#243943','#2c4b4c','#416166','#81948a']:['#244d3a','#32684a','#4b8556','#a2ad77'];
+  const blobs=[[-9,-13,12,15],[-1,-26,16,18],[12,-17,13,15],[-10,-35,11,12],[7,-39,13,13]];
+  for(let i=0;i<blobs.length;i++){const [bx,by,rx,ry]=blobs[i],g=c.createRadialGradient(bx-rx*.25,by-ry*.55,1,bx,by,Math.max(rx,ry));g.addColorStop(0,colors[Math.min(colors.length-1,i+1)]);g.addColorStop(.72,colors[Math.min(colors.length-1,i)]);g.addColorStop(1,'#142d27');c.fillStyle=g;c.beginPath();c.ellipse(bx,by,rx,ry,-.2,0,TAU);c.fill()}
+  circle(c,-8,-31,2,'#d6d28b');circle(c,9,-23,1.6,'#e2d58d');
+ }
  c.restore();
 }
-function rock(c,x,y,k=1){c.save();c.translate(x,y);c.scale(k,k);poly(c,[[-18,4],[-13,-12],[0,-22],[13,-11],[19,5]],'#586c69');poly(c,[[-13,-12],[0,-22],[6,0],[-18,4]],'#899b92');poly(c,[[0,-22],[13,-11],[19,5],[6,0]],'#354e57');c.restore();}
+function rock(c,x,y,k=1){c.save();c.translate(x,y);c.scale(k,k);c.fillStyle='#0716158a';c.beginPath();c.ellipse(1,7,21,8,-.08,0,TAU);c.fill();poly(c,[[-18,5],[-16,-8],[-8,-18],[2,-23],[15,-14],[20,1],[10,7]],'#4d6263','#263e40');poly(c,[[-16,-8],[-8,-18],[2,-23],[4,-4],[-6,7],[-18,5]],'#92a29a');poly(c,[[2,-23],[15,-14],[20,1],[10,7],[4,-4]],'#374e53');poly(c,[[-9,-16],[2,-22],[0,-10]],'#c1c2a6');line(c,-10,-7,-4,-3,1.5,'#d0ceaf');line(c,7,-13,12,-9,1.2,'#7e918c');c.restore();}
 function castle(c,x,y,k=1,race='human',level=1){
  const pal={human:['#b7b4a4','#ded7bc','#5b697c','#e4b664'],elf:['#8ba894','#e3d6a7','#4e8078','#a8d6ae'],orc:['#786c5a','#9e8970','#6a493e','#e6a45e'],undead:['#6b6877','#aaa6b2','#343451','#a16bb1']}[race];
  c.save();c.translate(x,y);c.scale(k,k);c.shadowColor='#0a181baf';c.shadowBlur=10;circle(c,0,9,53,'#15272195');c.shadowBlur=0;
@@ -46,6 +61,28 @@ function monster(c,x,y,k=1,lv=1){
  circle(c,0,6,20,'#150c1a91');circle(c,0,-10,16,'#543e5a');
  poly(c,[[-10,-23],[-18,-38],[0,-27],[18,-38],[10,-23]],'#33293b');circle(c,-6,-13,3,'#fb9b5b');circle(c,6,-13,3,'#fb9b5b');
  rounded(c,-13,6,26,17,3,'#493d56');line(c,-15,5,-23,17,4,'#897d72');line(c,15,5,23,17,4,'#897d72');
+ c.restore();
+}
+const WORLD_CREATURES={
+ wildland_beast:{rect:[48,160,530,390],height:.88},
+ elite_guardian:{rect:[730,0,500,588],height:1.18},
+ boss_dragon:{rect:[0,625,650,622],height:1.22},
+ lich_warlord:{rect:[687,585,560,662],height:1.12}
+};
+function encounterKind(tile){return tile.eliteTier>=13?'lich_warlord':tile.eliteTier>=11?'boss_dragon':tile.eliteTier>0||tile.level>=5?'elite_guardian':'wildland_beast'}
+function drawWorldEncounter(c,atlas,tile,x,y,q,selected=false,viewport={}){
+ const kind=encounterKind(tile),source=WORLD_CREATURES[kind],boss=tile.eliteTier>=11,elite=kind==='elite_guardian';
+ const [sx,sy,sw,sh]=source.rect,h=q*source.height,w=h*sw/sh;
+ c.save();c.fillStyle=boss?'#11131bb5':elite?'#141714a8':'#071814a0';c.beginPath();c.ellipse(x,y+q*.12,w*.43,q*.105,0,0,TAU);c.fill();
+ if(atlas?.complete&&atlas.naturalWidth){c.shadowColor=boss?'#62c9d4b5':'#000b';c.shadowBlur=selected?14:7;c.shadowOffsetY=3;c.drawImage(atlas,sx,sy,sw,sh,x-w/2,y-h*.84,w,h);}
+ else monster(c,x,y,q/(boss?63:elite?74:79),tile.level);
+ c.shadowColor='transparent';c.shadowBlur=0;c.shadowOffsetY=0;
+ if(boss||elite){const label=boss?`BOSS · T${tile.eliteTier}`:`ELITE · ${tile.level}★`,bw=Math.max(64,Math.min(94,q*1.68));
+  const labelX=clamp(x+(viewport.offX||0),bw/2+5,(viewport.width||1260)-bw/2-5)-(viewport.offX||0);
+  const labelY=clamp(y+(viewport.offY||0)-h*.92-14,18,(viewport.height||600)-18)-(viewport.offY||0);
+  rounded(c,labelX-bw/2,labelY-7.5,bw,15,6,boss?'#3d2848eF':'#4a3c2ceF',boss?'#bb83b7':'#c2a36b');text(c,labelX,labelY+3,8.5,'#fff0cf','center','800')}
+ else{circle(c,x+w*.32,y-h*.57,7,'#172b2deF');text(c,`${tile.level}★`,x+w*.32,y-h*.57+3,8,'#ffe2a2','center','800')}
+ if(selected){c.beginPath();c.ellipse(x,y+q*.1,w*.56,q*.22,0,0,TAU);c.strokeStyle='#f4d58e';c.lineWidth=2.5;c.stroke()}
  c.restore();
 }
 function treasureChest(c,x,y,k=1,cleared=false){
@@ -104,10 +141,17 @@ function miniHit(canvas,x,y,E){const m=miniBounds(canvas),pad=9;if(x<m.x+pad||x>
  return E.getTile(`${tx},${ty}`)||null;
 }
 function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getContext('2d');const w=canvas.width,h=canvas.height;
- const grd=c.createLinearGradient(0,0,w,h);grd.addColorStop(0,'#213f35');grd.addColorStop(.5,'#446a50');grd.addColorStop(1,'#304338');c.fillStyle=grd;c.fillRect(0,0,w,h);
  const {scale:q,offX:ox,offY:oy}=mapProjection(canvas);
+ const grd=c.createLinearGradient(0,0,w,h);grd.addColorStop(0,'#213f35');grd.addColorStop(.5,'#446a50');grd.addColorStop(1,'#304338');c.fillStyle=grd;c.fillRect(0,0,w,h);
  const inside=(x,y)=>x+q>=-30&&x<w+30&&y+q>=-30&&y<h+30;
  c.save();c.translate(ox,oy);
+ // HG28-A: generated seamless meadow art under the interactive terrain layer.
+ // Pattern scale follows the world projection, so it stays anchored while panning/zooming.
+ const meadow=typeof document!=='undefined'?document.getElementById('hg28-world-meadow'):null;
+ if(meadow?.complete&&meadow.naturalWidth){const pattern=c.createPattern(meadow,'repeat');
+  if(pattern?.setTransform&&typeof DOMMatrix!=='undefined')pattern.setTransform(new DOMMatrix([q*7/meadow.naturalWidth,0,0,q*7/meadow.naturalHeight,0,0]));
+  if(pattern){c.save();c.globalAlpha=.52;c.fillStyle=pattern;c.fillRect(0,0,E.WIDTH*q,E.HEIGHT*q);c.restore();}
+ }
  // Continuous, curving river: one painted waterway instead of hard square map tiles.
  const riverX=y=>(49+3*Math.sin(y*.07)+.5)*q;
  c.lineJoin='round';c.lineCap='round';c.beginPath();
@@ -119,12 +163,13 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
   const r=random(t.x,t.y,3);if(t.terrain==='water'){
    for(let i=0;i<3;i++)line(c,x+q*(.15+i*.22),y+q*(.15+random(t.x+i,t.y)*.58),x+q*(.36+i*.2),y+q*(.14+random(t.x+i,t.y)*.58),1.4,'#a1ddc63d');
   }else if(t.terrain==='bridge'){c.fillStyle='#b8a67a';c.fillRect(x+3,y+q*.22,q-6,q*.57);for(let d=0;d<5;d++)line(c,x+5+d*(q-10)/4,y+q*.22,x+5+d*(q-10)/4,y+q*.79,1.4,'#685a41')}
-  else if(t.terrain==='forest')for(let j=0;j<4;j++)tree(c,x+q*(.12+random(t.x+j,t.y)*.72),y+q*(.2+random(t.x,t.y+j)*.67),q/70*(.62+random(j,t.y)*.25),r>.58?'pine':'normal');
-  else if(t.terrain==='hill'){rock(c,x+q*.46,y+q*.65,q/65);if(r>.5)rock(c,x+q*.72,y+q*.41,q/95)}
+  else if(t.terrain==='forest')for(let j=0;j<3;j++)tree(c,x+q*(.16+random(t.x+j,t.y)*.68),y+q*(.22+random(t.x,t.y+j)*.62),q/92*(.76+random(j,t.y)*.3),r>.58?'pine':'normal');
+  else if(t.terrain==='hill'){rock(c,x+q*.46,y+q*.65,q/108);if(r>.5)rock(c,x+q*.72,y+q*.41,q/168)}
   else {if(r>.72)tree(c,x+q*.68,y+q*.63,q/94);for(let j=0;j<6;j++)circle(c,x+q*random(t.x,j,t.y),y+q*random(j,t.y,t.x),1,'#8da96a8a')}
  }
  // original road network leads from the capital to landmark targets
  c.save();c.strokeStyle='#aa926372';c.lineWidth=q*.13;c.lineCap='round';c.lineJoin='round';c.beginPath();[[3.5,4.5],[5.4,4.7],[7.6,4.4],[10.4,5.7],[14.3,7.1],[17.8,7.5],[20.1,8.6],[23.8,11]].forEach(([x,y],i)=>i?c.lineTo(x*q,y*q):c.moveTo(x*q,y*q));c.stroke();c.restore();
+ const creatureAtlas=typeof document!=='undefined'?document.getElementById('hg28-world-creatures'):null;
  for(const t of E.TILES){if(t.kind==='empty')continue;const x=(t.x+.5)*q,y=(t.y+.54)*q;if(!inside(x+ox,y+oy))continue;
   let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):s.cleared.includes(t.key));
   if(t.kind==='castle'){
@@ -133,13 +178,17 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
    if(ai){circle(c,x,y-q*.31,q*.11,'#9f3630');text(c,'AI',x,y-q*.27,Math.max(9,q*.20),'#fff0dc')}
   }
   if(t.kind==='mine')mine(c,x,y,q/77,t.value);
-  if(t.kind==='npc'&&!done)monster(c,x,y,q/79,t.level);
+  if(t.kind==='npc'&&!done)drawWorldEncounter(c,creatureAtlas,t,x,y,q,selected===t.key,{offX:ox,offY:oy,width:w,height:h});
   if(t.kind==='treasure')treasureChest(c,x,y,q/82,!!done);
   if(t.treasureCamp&&t.kind!=='treasure')treasureChest(c,x+q*.27,y+q*.19,q/220,!!s.treasureCleared?.includes(t.key));
   if(t.kind==='visit'){worldBuilding(c,x,y,q/100,t.structureId?.startsWith('watermill')?'watermill':t.structureId==='windmill'?'windmill':t.structureId,!!E.hasVisitedWorldBuilding?.(s,t.key));}
   if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
   if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}
-  if(q>35&&((t.kind!=='castle')||q>=50||selected===t.key)){const city=E.cityForKey(s,t.key);text(c,t.kind==='castle'?(city?.name||t.value||'Thành trung lập'):t.kind==='mine'?{wood:'Rừng',ore:'Quặng',gold:'Mỏ vàng',sulfur:'Lưu huỳnh',crystal:'Pha lê'}[t.value]:t.value,x,y+q*.48,Math.max(11,Math.min(14,q*.21)),'#fff0c8');}
+  if(selected===t.key&&q>20){const city=E.cityForKey(s,t.key),label=t.kind==='castle'?(city?.name||t.value||'Thành trung lập'):t.kind==='mine'?{wood:'Mỏ gỗ',ore:'Mỏ quặng',gold:'Mỏ vàng',sulfur:'Mỏ lưu huỳnh',crystal:'Mỏ pha lê'}[t.value]:t.value;
+   const font=Math.max(10,Math.min(14,q*.24));c.font=`700 ${font}px system-ui`;const bw=Math.max(74,Math.min(176,c.measureText(label||'').width+22));
+   const lx=clamp(x+ox,bw/2+5,w-bw/2-5)-ox,ly=clamp(y+oy-q*.72,28,h-28)-oy;
+   rounded(c,lx-bw/2,ly-12,bw,24,7,'#10242beF','#d7b873');text(c,label,lx,ly+4,font,'#fff0cc','center','700');
+  }
  }
  // Garrisoned heroes remain visible at occupied mines; traveling heroes follow their saved route.
  for(const g of (s.stationedHeroes||[])){const t=E.getTile(g.key);if(!t)continue;const x=(t.x+.5)*q,y=(t.y+.44)*q;circle(c,x,y,q*.27,'#263e57');circle(c,x,y,q*.20,'#e3c373');poly(c,[[x-q*.12,y-q*.17],[x,y-q*.38],[x+q*.12,y-q*.17]],'#314f72');text(c,'⚔',x,y-q*.31,15,'#fff0c8');}
@@ -171,12 +220,12 @@ function drawCity(canvas,E,s,highlight){if(!canvas)return;canvas.dataset.race=s.
   const shade=c.createLinearGradient(0,0,0,74);shade.addColorStop(0,'#10191bcc');shade.addColorStop(1,'#10191b00');c.fillStyle=shade;c.fillRect(0,0,w,74);
   rounded(c,17,15,265,41,8,'#10252cce','#d4bb7b');text(c,`${E.C.races[s.race].english.toUpperCase()} • ${E.activeCity(s).name.toUpperCase()}`,32,42,17,'#fff0c8','left');
   rounded(c,w-215,15,200,41,8,'#10252cce','#d4bb7b');text(c,`TOWN HALL • LV ${s.buildings.hall}`,w-115,42,14,'#fff0c8');
-  for(const [key,px,py] of citySitesFor(s.race)){const x=w*px,y=h*py,level=s.buildings[key]||0,label=`${E.C.buildings[key].name} · Lv.${level}`;
-   c.font='700 12px Georgia,serif';const bw=Math.max(86,Math.min(150,c.measureText(label).width+16)),bh=22;
-   const ly=clamp(y+(py<.56?31:-31),bh/2+4,h-bh/2-4),lx=clamp(x,bw/2+4,w-bw/2-4);
-   if(highlight===key){c.strokeStyle='#ffdf9e';c.lineWidth=3;c.beginPath();c.ellipse(x,y+3,50,18,0,0,TAU);c.stroke()}
-   rounded(c,lx-bw/2,ly-bh/2,bw,bh,5,highlight===key?'#73552deF':'#10252cda',highlight===key?'#f3d58e':'#c1aa76');
-   circle(c,lx-bw/2+8,ly,3.5,level>0?'#f2cc7d':'#9ca7a1');text(c,label,lx+3,ly+4,11,'#fff0c8');
+  for(const [key,px,py] of citySitesFor(s.race)){const x=w*px,y=h*py,level=s.buildings[key]||0;
+   if(highlight===key){const label=`${E.C.buildings[key].name} · Lv.${level}`;c.font='700 12px Georgia,serif';const bw=Math.max(86,Math.min(150,c.measureText(label).width+18)),bh=22;
+    const ly=clamp(y+(py<.56?31:-31),bh/2+4,h-bh/2-4),lx=clamp(x,bw/2+4,w-bw/2-4);
+    c.strokeStyle='#ffe49b';c.lineWidth=3;c.beginPath();c.ellipse(x,y+3,48,19,0,0,TAU);c.stroke();
+    rounded(c,lx-bw/2,ly-bh/2,bw,bh,6,'#172a30ef','#f3d58e');circle(c,lx-bw/2+8,ly,3.5,level>0?'#f2cc7d':'#9ca7a1');text(c,label,lx+3,ly+4,11,'#fff0c8');
+   }else{circle(c,x,y+5,9,'#10252cda');circle(c,x,y+5,6.2,level>0?'#d9b968':'#9ba9a2');if(level>0)text(c,String(level),x,y+8,7,'#17282b','center','800')}
   }
   if(s.buildingQueue){const q=s.buildingQueue;rounded(c,w-267,64,252,39,5,'#10252cdd','#d2b273');text(c,`${E.C.buildings[q.key].name} Lv.${q.level} • CONSTRUCTION`,w-255,81,11,'#fff0c8','left');rounded(c,w-254,89,224,6,3,'#24383c');rounded(c,w-253,90,Math.max(0,222*(1-q.remaining/q.total)),4,2,'#e1be6f')}
   return;
@@ -299,7 +348,7 @@ function animatedArcher(c,x,y,enemy,visual,k=1){
  c.restore();return true;
 }
 function motionSprite(c,x,y,unitId,enemy,visual,k=1){
- const A=root.HOG_ART_PACK,profile=MOTION_SPRITES[unitId]||root.HOG_HG192_SPRITES?.profile(unitId)||root.HOG_HG193_SPRITES?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
+ const A=root.HOG_ART_PACK,profile=MOTION_SPRITES[unitId]||root.HOG_HG28_TROOPS?.profile(unitId)||root.HOG_HG192_SPRITES?.profile(unitId)||root.HOG_HG193_SPRITES?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
  if(!profile||!visual||typeof document==='undefined')return false;
  const image=profile.id?document.getElementById(profile.id):A.unitImage(unitId);
  if(!image?.complete||!image.naturalWidth)return false;

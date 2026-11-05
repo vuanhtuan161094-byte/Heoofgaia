@@ -247,6 +247,9 @@ function parse(text){const s=ensure(old.parse(text));if(!strict(s))throw Error('
 function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG21 không hợp lệ');return old.serialize(s)}
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
  battleAct,hg20TowerClimb:gameBattle,hg21TowerEnter:gameBattle,hg21TowerCast:towerCast,
- hg21TowerPicks:picks,hg21SetTowerPicks:setPicks,hg21TowerValid:valid});
+ // Keep team selection atomic with the HG21 owner-slot ledger. Exposing the
+ // HG20 chooser directly left team populated but picks empty until a later
+ // status render, so the first v07 write was correctly rejected as invalid.
+ hg20ChooseTowerTeam:choose,hg21TowerPicks:picks,hg21SetTowerPicks:setPicks,hg21TowerValid:valid});
 root.HOG_HG21=Object.freeze({version:1,gameMode:'tactical-tower',maxHeroes:MAX_HEROES,slotsPerHero:OWNED_SLOTS});
 })(typeof globalThis!=='undefined'?globalThis:this);

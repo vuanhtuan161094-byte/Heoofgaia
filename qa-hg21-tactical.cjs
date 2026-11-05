@@ -21,6 +21,18 @@ function fight(s,max=70){
  if(s.battle)throw Error('Tower battle did not end in 70 turns');
  return {out,turns};
 }
+test('Tower team selection atomically initializes owner slots and stays valid for immediate v07 Save',()=>{
+ const s=E.make('human',1000000);
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:16}]);
+ E.hg20ChooseTowerTeam(s,[1]);
+ assert.deepEqual(Array.from(s.hg20.tower.team),[1]);
+ assert.deepEqual(Array.from(s.hg20.tower.picks,entry=>({heroId:entry.heroId,slots:Array.from(entry.slots)})),[{heroId:1,slots:[0]}]);
+ assert(E.strictSave(s),'Team and stack ownership must be one valid transaction before any render');
+ const loaded=save(s);
+ assert.deepEqual(Array.from(loaded.hg20.tower.team),[1]);
+ assert.deepEqual(Array.from(loaded.hg20.tower.picks,entry=>Array.from(entry.slots)),[[0]]);
+ return {team:s.hg20.tower.team,ownerSlots:s.hg20.tower.picks,saveVersion:loaded.version};
+});
 for(const race of ['human','elf','orc','undead']){
  test(race+': real recruit payment -> 1 hero 1 stack -> actual tactical victory -> v07 Save',()=>{
   const s=E.make(race,1000000),u=C.units[race][0],before=s.res.gold;

@@ -160,6 +160,7 @@ function unitSVG(id){
 }
 function unitSrc(id){const s=unitSVG(id);return s?'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(s):null;}
 function unitImage(id){
+ const highTier=root.HOG_HG28_TROOPS?.image(id);if(highTier)return highTier;
  if(!unitSVG(id)||typeof Image==='undefined')return null;
  if(imgCache.has(id))return imgCache.get(id);
  const img=new Image();img.decoding='async';img.src=unitSrc(id);imgCache.set(id,img);return img;
@@ -169,6 +170,7 @@ function unitHTML(id,size){
  const px=Math.max(24,Math.min(128,Number(size)||52));
  const imported=root.HOG_FREE_SPRITES?.thumb(id,px);if(imported)return imported;
  const skeletal=root.HOG_HG22_SKELETON?.thumb(id,px);if(skeletal)return skeletal;
+ const highTier=root.HOG_HG28_TROOPS?.thumb(id,px);if(highTier)return highTier;
  const sourceArt=root.HOG_HG192_SPRITES?.thumb(id,px);if(sourceArt)return sourceArt;
  const finalArt=root.HOG_HG193_SPRITES?.thumb(id,px);if(finalArt)return finalArt;
  return '<img class="hog-unit-thumb" data-hog-unit="'+id+'" width="'+px+'" height="'+px+'" alt="" loading="lazy" src="'+unitSrc(id)+'">';

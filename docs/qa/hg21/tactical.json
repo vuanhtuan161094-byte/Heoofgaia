@@ -1,7 +1,25 @@
 {
-  "passed": 8,
-  "total": 8,
+  "passed": 9,
+  "total": 9,
   "receipts": [
+    {
+      "name": "Tower team selection atomically initializes owner slots and stays valid for immediate v07 Save",
+      "ok": true,
+      "data": {
+        "team": [
+          1
+        ],
+        "ownerSlots": [
+          {
+            "heroId": 1,
+            "slots": [
+              0
+            ]
+          }
+        ],
+        "saveVersion": 7
+      }
+    },
     {
       "name": "human: real recruit payment -> 1 hero 1 stack -> actual tactical victory -> v07 Save",
       "ok": true,

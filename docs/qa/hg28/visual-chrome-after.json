@@ -1,0 +1,589 @@
+{
+  "phase": "AFTER",
+  "sourceCommit": "a123b63db651245be8a0ab5209fc8b9b566b9e8c",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "2391E7F5D341E05351C9749F1E5CD67F807C159AD8DE4A320C68F40E547FCEBD",
+  "browser": "Playwright Chromium, local file://",
+  "sizes": [
+    "1280x720",
+    "960x540"
+  ],
+  "screenshots": [
+    {
+      "screen": "World",
+      "tab": "map",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/01-map.png",
+      "sha256": "EBDDB8F2F634E0C1EEEEFCC3055A4EDA0F38532C94246B136840E31BA52F8BBB",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "map",
+        "modalOpen": false,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 380,
+            "boxWidth": 1246,
+            "boxHeight": 380
+          }
+        ]
+      }
+    },
+    {
+      "screen": "City",
+      "tab": "city",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/02-city.png",
+      "sha256": "A56B482CBF77206222648B234579DA7C238C292C354F9AE0D3F6B0EFAC5BE411",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "city",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          },
+          {
+            "id": "city-canvas",
+            "width": 1176,
+            "height": 560,
+            "boxWidth": 670,
+            "boxHeight": 363
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Army",
+      "tab": "army",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/03-army.png",
+      "sha256": "9C36C9A18C999F447FEF178055595D7942CC8CB044CEC87C5FC74005B33C1B44",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "army",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Heroes",
+      "tab": "heroes",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/04-heroes.png",
+      "sha256": "687DC8DD8631B55D65E94E4642BA59754E8D2A4BB0D0CC214B10E9F98FE21287",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "heroes",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Magic",
+      "tab": "magic",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/05-magic.png",
+      "sha256": "7442E22504871D22D70401AFAF7F33F5493CF266570E6ADC5980D5301F0743B7",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "magic",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Relics",
+      "tab": "relics",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/06-relics.png",
+      "sha256": "6A14FE6B7F44DB274A529C3813CC05981B2C059F7D578D1CACD4C1C8727D6EA2",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "relics",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Tasks",
+      "tab": "tasks",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/07-tasks.png",
+      "sha256": "1F5442851545381CF2B05EE5047713E9DC6A7D284342FA719B347E59FAFB3AFD",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "tasks",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Tower",
+      "tab": "tower",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/08-tower.png",
+      "sha256": "6CF79E5D8729226F43C9EDD7BF8E09EAADAD23550358EABB875EA4B657D24D7E",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "tower",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Reports",
+      "tab": "reports",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/09-reports.png",
+      "sha256": "ECFABC4F836E0A46708DAD78C60D6697CF6280CAFA0A334724FD405351896D31",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "reports",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Sources",
+      "tab": "sources",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg28/after/1280x720/10-sources.png",
+      "sha256": "1C2C25264B55C73671A89823339F766B7B487C4C75F13D39020CFFFB0D5A8BA9",
+      "geometry": {
+        "width": 1280,
+        "height": 720,
+        "documentWidth": 1280,
+        "documentHeight": 720,
+        "activeTab": "sources",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 1246,
+            "height": 450,
+            "boxWidth": 1246,
+            "boxHeight": 450
+          }
+        ]
+      }
+    },
+    {
+      "screen": "World",
+      "tab": "map",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/01-map.png",
+      "sha256": "AE700E934B436DB4D7C2839504A8A2C1BC675B7F528A8F4080148EB368019DD4",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "map",
+        "modalOpen": false,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 200,
+            "boxWidth": 926,
+            "boxHeight": 200
+          }
+        ]
+      }
+    },
+    {
+      "screen": "City",
+      "tab": "city",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/02-city.png",
+      "sha256": "B89258922C846E80F12CD28BE01ACD291059F2BD2CFCF6D55AE98D872B85DC43",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "city",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          },
+          {
+            "id": "city-canvas",
+            "width": 1176,
+            "height": 560,
+            "boxWidth": 524,
+            "boxHeight": 213
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Army",
+      "tab": "army",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/03-army.png",
+      "sha256": "6C7737A421382424D00556C2B6E5F3A002EFE31EC09503083BB9D9176675F198",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "army",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Heroes",
+      "tab": "heroes",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/04-heroes.png",
+      "sha256": "1E8FA4F5DDD45A97F7423A11D7D31E4C2D6310B2A44CA4EE93FF5CB5D3B5EB91",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "heroes",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Magic",
+      "tab": "magic",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/05-magic.png",
+      "sha256": "5F3854CB6C3B2D3F4D8943874786C03D081AC8D0261F23F3A32B2EAAB949DFA6",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "magic",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Relics",
+      "tab": "relics",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/06-relics.png",
+      "sha256": "6491E958FE3EA857106D478C52AE52ABFA8C81246BEF94C03137E30EC07EFEB6",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "relics",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Tasks",
+      "tab": "tasks",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/07-tasks.png",
+      "sha256": "B5FED021D2F23DC760A00A8BE7EB3D63325B26A783C67131C0D8BC8D28480433",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "tasks",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Tower",
+      "tab": "tower",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/08-tower.png",
+      "sha256": "E4C235D064052659464F9EC4BF6536D74C5939782F9DD7F67E65370A169CEC15",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "tower",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Reports",
+      "tab": "reports",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/09-reports.png",
+      "sha256": "6D519A1BA637B2BFC2C653CFE0DC8D5404E3AFC34ED2DE159682488ED18C9442",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "reports",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          }
+        ]
+      }
+    },
+    {
+      "screen": "Sources",
+      "tab": "sources",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg28/after/960x540/10-sources.png",
+      "sha256": "6E4F5CD64FBDDD58261F0965044A86ABE59272BC52C8FBA2329252B5C1BB6DB8",
+      "geometry": {
+        "width": 960,
+        "height": 540,
+        "documentWidth": 960,
+        "documentHeight": 540,
+        "activeTab": "sources",
+        "modalOpen": true,
+        "uiOverlap": {
+          "navigation": false,
+          "saveControls": false
+        },
+        "canvases": [
+          {
+            "id": "world-canvas",
+            "width": 926,
+            "height": 270,
+            "boxWidth": 926,
+            "boxHeight": 270
+          }
+        ]
+      }
+    }
+  ],
+  "pageErrors": [],
+  "pass": true
+}

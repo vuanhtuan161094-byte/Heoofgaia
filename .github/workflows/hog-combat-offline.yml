@@ -35,6 +35,7 @@ jobs:
           node --check painter.js
           node --check engine.js
           node qa-engine.cjs
+          node qa-hg28-art.cjs
           node qa-hg09-combat-viewport.cjs
       - name: HG16 G4 core combat and production stress gate
         run: |
@@ -142,7 +143,9 @@ jobs:
       - name: HG31 real Chromium screenshots of 10 screens and legendary equip UI
         run: python qa-hg31-ui-chrome.py
       - name: HG28 baseline 20 real Chromium screens and layout-density receipt
-        run: python qa-hg28-baseline-chrome.py
+        run: node qa-hg28-baseline-evidence.cjs
+      - name: HG28 real file URL T9-T10 Army images at desktop and compact landscape sizes
+        run: python qa-hg28-art-chrome.py
       - name: HG19 Chromium SVG decode and visual contact sheet
         run: python qa-hg19-art-chrome.py
       - name: HG19.1 real PNG sprite frames and Game-Icons Chrome acceptance
@@ -222,9 +225,9 @@ jobs:
         with:
           name: HG28-BEFORE-art-20-Chromium-screens
           path: |
-            docs/evidence/hg28/before/*.png
-            docs/evidence/hg28/before/*.jpg
-            docs/qa/hg28/baseline.json
+            docs/evidence/hg28/before/**/*.png
+            docs/evidence/hg28/before/**/*.jpg
+            docs/qa/hg28/visual-chrome-before.json
           if-no-files-found: ignore
       - name: Upload HG32 organic progression and late-game economy report
         if: always()
@@ -234,6 +237,15 @@ jobs:
           path: |
             docs/qa/hg32/organic-audit.json
             docs/qa/hg32/organic-full-endgame.json
+      - name: Upload HG28 real T9-T10 Army screenshots and receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG28-high-tier-troops-Chromium
+          path: |
+            docs/evidence/hg28/after/*/14-t9-t10-*.png
+            docs/qa/hg28/art-chrome.json
+          retention-days: 7
           if-no-files-found: ignore
       - name: Upload offline playable HTML
         if: always()

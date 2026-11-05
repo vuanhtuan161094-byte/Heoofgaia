@@ -1,0 +1,12 @@
+{
+  "status": "RECREATED",
+  "route": "ChatGPT image generation; no source-game or third-party image reference",
+  "target": "HG28-A 2.5D world-map terrain props",
+  "camera": "three-quarter top-down, matching the existing 100x100 strategy map",
+  "masters": [
+    {"id": "broadleaf-tree", "file": "tree-broadleaf.png", "sourceCanvas": "1312x1199", "alphaBounds": [0, 33, 1296, 1175], "anchor": "bottom-center trunk base", "targetDisplayHeight": "30-42 px", "states": ["static map prop"]},
+    {"id": "pine-tree", "file": "tree-pine.png", "sourceCanvas": "1086x1448", "alphaBounds": [0, 10, 1074, 1425], "anchor": "bottom-center trunk base", "targetDisplayHeight": "30-42 px", "states": ["static map prop"]}
+  ],
+  "use": "Draw as separate transparent scenery objects at map tile scale; never as a flattened map or troop animation.",
+  "license": "Original AI-generated art; no third-party license is claimed."
+}

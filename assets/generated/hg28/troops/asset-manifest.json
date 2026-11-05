@@ -1,0 +1,303 @@
+{
+  "schema": "HG28-Troop-Masters-v1",
+  "status": "RECREATED",
+  "asOf": "2026-11-05",
+  "goal": "Eight modern original high-tier troop masters for the four Heroes of Gaia races.",
+  "source": {
+    "route": "OpenAI ImageGen",
+    "sheet": "assets/generated/hg28/troops/source/t9-t10-sheet.png",
+    "sheetResolution": [
+      1774,
+      887
+    ],
+    "sheetBytes": 2880768,
+    "sheetSha256": "381B29DA6235FF17C0534D4782832C1D45EF6A3D46244A857A181DD64713EAD0",
+    "promptFile": "assets/generated/hg28/troops/generation-prompts.md",
+    "promptSha256": "4430AD493A0F822CAE016E98E4AAB7383629FFA62871B9B00417BBFC7A411CE0",
+    "license": "AI-generated original art; no third-party source/license is asserted."
+  },
+  "processing": {
+    "pipeline": "tools/crop_hg28_troop_masters.py",
+    "registeredCanvas": "512x512",
+    "pivot": [
+      0.5,
+      0.95
+    ],
+    "alpha": "Keep largest connected character silhouette and antialiased edge; discard detached sheet artifacts."
+  },
+  "animationDisclosure": "These are still masters, not animation sheets. Existing battle animation systems remain intact. The video2dsprite skill requires real action clips; none are included in this source.",
+  "units": [
+    {
+      "id": "human_9",
+      "name": "Angel",
+      "race": "human",
+      "tier": 9,
+      "kind": "master-still",
+      "sourceCell": {
+        "row": 1,
+        "column": 1,
+        "rect": [
+          0,
+          0,
+          444,
+          444
+        ]
+      },
+      "path": "assets/generated/hg28/troops/human_9.png",
+      "resolution": "512x512",
+      "mode": "RGBA",
+      "pivot": [
+        0.5,
+        0.95
+      ],
+      "alphaVisiblePixels": 117321,
+      "alphaBounds": [
+        55,
+        36,
+        456,
+        495
+      ],
+      "bytes": 311445,
+      "sha256": "D6A2436847A8B0BCAA92F1B7824F120B218F74A19CAF110B0B9FB6E81DA53100",
+      "animation": "MASTER_STILL_ONLY; no generated action frames. Ready for video2dsprite when real action clips are available."
+    },
+    {
+      "id": "human_10",
+      "name": "Archangel",
+      "race": "human",
+      "tier": 10,
+      "kind": "master-still",
+      "sourceCell": {
+        "row": 1,
+        "column": 2,
+        "rect": [
+          444,
+          0,
+          887,
+          444
+        ]
+      },
+      "path": "assets/generated/hg28/troops/human_10.png",
+      "resolution": "512x512",
+      "mode": "RGBA",
+      "pivot": [
+        0.5,
+        0.95
+      ],
+      "alphaVisiblePixels": 154085,
+      "alphaBounds": [
+        26,
+        45,
+        486,
+        496
+      ],
+      "bytes": 410043,
+      "sha256": "8D8714CC4576946C687C0D07A7EF2CA5AA318A1DE057932966A1F85B10E61831",
+      "animation": "MASTER_STILL_ONLY; no generated action frames. Ready for video2dsprite when real action clips are available."
+    },
+    {
+      "id": "elf_9",
+      "name": "Green Dragon",
+      "race": "elf",
+      "tier": 9,
+      "kind": "master-still",
+      "sourceCell": {
+        "row": 1,
+        "column": 3,
+        "rect": [
+          887,
+          0,
+          1330,
+          444
+        ]
+      },
+      "path": "assets/generated/hg28/troops/elf_9.png",
+      "resolution": "512x512",
+      "mode": "RGBA",
+      "pivot": [
+        0.5,
+        0.95
+      ],
+      "alphaVisiblePixels": 124989,
+      "alphaBounds": [
+        26,
+        46,
+        486,
+        496
+      ],
+      "bytes": 363178,
+      "sha256": "A8E27BC3F36816A6B7BD5D7B836C3DDA8475A97749D3BB58726A38AA4800280F",
+      "animation": "MASTER_STILL_ONLY; no generated action frames. Ready for video2dsprite when real action clips are available."
+    },
+    {
+      "id": "elf_10",
+      "name": "Fairy Dragon",
+      "race": "elf",
+      "tier": 10,
+      "kind": "master-still",
+      "sourceCell": {
+        "row": 1,
+        "column": 4,
+        "rect": [
+          1330,
+          0,
+          1774,
+          444
+        ]
+      },
+      "path": "assets/generated/hg28/troops/elf_10.png",
+      "resolution": "512x512",
+      "mode": "RGBA",
+      "pivot": [
+        0.5,
+        0.95
+      ],
+      "alphaVisiblePixels": 124350,
+      "alphaBounds": [
+        26,
+        58,
+        486,
+        496
+      ],
+      "bytes": 362261,
+      "sha256": "67E2B494B3A5C2FD329B63DC877CF585FAF8719F736FD220DB99459E0809925B",
+      "animation": "MASTER_STILL_ONLY; no generated action frames. Ready for video2dsprite when real action clips are available."
+    },
+    {
+      "id": "orc_9",
+      "name": "Monster",
+      "race": "orc",
+      "tier": 9,
+      "kind": "master-still",
+      "sourceCell": {
+        "row": 2,
+        "column": 1,
+        "rect": [
+          0,
+          444,
+          444,
+          887
+        ]
+      },
+      "path": "assets/generated/hg28/troops/orc_9.png",
+      "resolution": "512x512",
+      "mode": "RGBA",
+      "pivot": [
+        0.5,
+        0.95
+      ],
+      "alphaVisiblePixels": 115251,
+      "alphaBounds": [
+        63,
+        36,
+        449,
+        496
+      ],
+      "bytes": 304376,
+      "sha256": "30099E65C21DFA318428FF30C03127C459FE113D4D994E5F655E18B223505A28",
+      "animation": "MASTER_STILL_ONLY; no generated action frames. Ready for video2dsprite when real action clips are available."
+    },
+    {
+      "id": "orc_10",
+      "name": "Behemoth",
+      "race": "orc",
+      "tier": 10,
+      "kind": "master-still",
+      "sourceCell": {
+        "row": 2,
+        "column": 2,
+        "rect": [
+          444,
+          444,
+          887,
+          887
+        ]
+      },
+      "path": "assets/generated/hg28/troops/orc_10.png",
+      "resolution": "512x512",
+      "mode": "RGBA",
+      "pivot": [
+        0.5,
+        0.95
+      ],
+      "alphaVisiblePixels": 141240,
+      "alphaBounds": [
+        49,
+        36,
+        463,
+        496
+      ],
+      "bytes": 374665,
+      "sha256": "644A1149567311F4B506E410A5C8477865CCF71AE7D6617302FBB9BFAA156714",
+      "animation": "MASTER_STILL_ONLY; no generated action frames. Ready for video2dsprite when real action clips are available."
+    },
+    {
+      "id": "undead_9",
+      "name": "Bone Dragon",
+      "race": "undead",
+      "tier": 9,
+      "kind": "master-still",
+      "sourceCell": {
+        "row": 2,
+        "column": 3,
+        "rect": [
+          887,
+          444,
+          1330,
+          887
+        ]
+      },
+      "path": "assets/generated/hg28/troops/undead_9.png",
+      "resolution": "512x512",
+      "mode": "RGBA",
+      "pivot": [
+        0.5,
+        0.95
+      ],
+      "alphaVisiblePixels": 109581,
+      "alphaBounds": [
+        26,
+        60,
+        486,
+        496
+      ],
+      "bytes": 345743,
+      "sha256": "E6C84101920DA87502C825998C1DBCE5395343A0E095578C2936E9FA53CA3D5F",
+      "animation": "MASTER_STILL_ONLY; no generated action frames. Ready for video2dsprite when real action clips are available."
+    },
+    {
+      "id": "undead_10",
+      "name": "Ghost Dragon",
+      "race": "undead",
+      "tier": 10,
+      "kind": "master-still",
+      "sourceCell": {
+        "row": 2,
+        "column": 4,
+        "rect": [
+          1330,
+          444,
+          1774,
+          887
+        ]
+      },
+      "path": "assets/generated/hg28/troops/undead_10.png",
+      "resolution": "512x512",
+      "mode": "RGBA",
+      "pivot": [
+        0.5,
+        0.95
+      ],
+      "alphaVisiblePixels": 166096,
+      "alphaBounds": [
+        26,
+        36,
+        486,
+        496
+      ],
+      "bytes": 434243,
+      "sha256": "0668EA580E47D2424C28234A8300762F25C0488E80D205C1CF6BA0742DB1830A",
+      "animation": "MASTER_STILL_ONLY; no generated action frames. Ready for video2dsprite when real action clips are available."
+    }
+  ]
+}

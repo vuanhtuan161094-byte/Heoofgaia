@@ -260,7 +260,7 @@ body:not(.combat-mode) button.resource:focus-visible{outline:2px solid #f1d298}
 /* HG18.1: keep the modal title and close hitbox below the always-accessible tab bar. */
 body:not(.combat-mode) .game-modal{padding:105px 12px 42px;align-items:flex-start}
 body:not(.combat-mode) .game-window{height:min(640px,calc(100dvh - 153px))}
-@media(max-height:610px){body:not(.combat-mode) .game-modal{padding-top:90px;padding-bottom:40px}body:not(.combat-mode) .game-window{height:calc(100dvh - 130px)}}
+@media(max-height:610px){body:not(.combat-mode) .game-modal{padding-top:100px;padding-bottom:40px}body:not(.combat-mode) .game-window{height:calc(100dvh - 150px)}}
 
 /* HG18.1 fixed-stage target summary: preserve pointer-selected target type and
  * route preview in the active game stage, without a document scrollbar. */
@@ -327,6 +327,36 @@ body:not(.combat-mode) button:not(.resource):focus-visible{outline:2px solid #f6
 @media(max-width:1350px){body:not(.combat-mode) .tabs button{font-size:11px;padding:6px 2px}body:not(.combat-mode) .tabs{min-height:32px}body:not(.combat-mode) .masthead small{display:none}body:not(.combat-mode) #main>.scene-title h1{font-size:18px}}
 @media(max-height:720px){body:not(.combat-mode) #main>.card[aria-label="Lộ trình phát triển New Game"] .entry button{padding:4px 6px;min-height:24px}body:not(.combat-mode) #main>.scene-bottom{max-height:48px;min-height:42px}body:not(.combat-mode) #main>.scene-bottom .target-information{min-height:39px}}
 
+/* HG28-City: interactive city panorama paired with a compact building command rail. */
+.hg28-art-cache{position:fixed;left:-2000px;top:0;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none;z-index:-1}.hg28-art-cache img{display:block;width:1px;height:1px}
+.game-window-body:has(.hg28-city-screen){overflow-y:auto}
+.hg28-city-switcher{display:flex;align-items:center;gap:10px;min-height:38px;padding:4px 8px;border:1px solid #4c6660;border-radius:7px;background:linear-gradient(100deg,#20363a,#172b31)}
+.hg28-city-count{flex:0 0 auto;color:#ecd19a;font-weight:800;font-size:13px}.hg28-city-count small{font-size:10px;color:#a8b4a8}
+.hg28-city-switch-list{display:flex;flex:1 1 auto;min-width:0;gap:5px;overflow-x:auto;scrollbar-width:thin}
+.hg28-city-switch-list button{flex:0 0 auto;white-space:nowrap;font:650 10px system-ui;padding:5px 8px;min-height:25px;border-radius:5px}
+.hg28-city-screen{display:flex;flex-direction:column;gap:5px;min-height:0}
+.hg28-city-title{flex:0 0 auto;display:flex;justify-content:space-between;align-items:center;min-height:34px;padding:0 3px}
+.hg28-city-title .eyebrow{font-size:9px;letter-spacing:1px;color:#c3a76d}.hg28-city-title h1{margin:1px 0 0;font:750 20px/1.05 system-ui;color:#f0d9aa}
+.hg28-city-stats{display:flex;gap:6px}.hg28-city-stats span{padding:5px 8px;border:1px solid #4a6866;border-radius:6px;background:#1b3339;color:#eed6a5;font-size:10px;font-weight:700}
+.hg28-city-stage{display:grid;grid-template-columns:minmax(0,1.75fr) minmax(300px,1fr);gap:8px;height:clamp(205px,calc(100dvh - 325px),365px);min-height:0}
+.hg28-city-stage>.city-frame{position:relative;min-width:0;min-height:0;height:100%;border:1px solid #bea56e;border-radius:6px;background:#263b38;box-shadow:inset 0 0 0 1px #080f1380;overflow:hidden}
+.hg28-city-stage>.city-frame canvas{display:block;width:100%;height:100%;aspect-ratio:auto;touch-action:manipulation;cursor:pointer}
+.hg28-city-hint{position:absolute;left:8px;bottom:7px;padding:4px 7px;border:1px solid #d8c38c70;border-radius:5px;background:#12252cc9;color:#f4e4bf;font-size:9px;pointer-events:none}
+.hg28-city-command{display:flex;flex-direction:column;gap:5px;min-width:0;min-height:0;padding:7px;border:1px solid #526960;border-radius:7px;background:linear-gradient(160deg,#213a3d,#172a31);overflow:auto;scrollbar-width:thin}
+.hg28-selected-building{display:flex;align-items:center;gap:9px;min-height:44px;padding:4px 6px;border:1px solid #887451;border-radius:6px;background:linear-gradient(100deg,#394239,#26383a)}
+.hg28-building-emblem{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border-radius:7px;border:1px solid #c6a96d;background:#182b31;color:#f0d59e;font-size:21px;box-shadow:inset 0 0 14px #d9b65b24}
+.hg28-selected-building small,.hg28-upgrade-cost small{display:block;font-size:8px;letter-spacing:.8px;color:#b8a778}.hg28-selected-building h2{margin:1px 0;font:750 14px/1.05 system-ui;color:#f1dcad}.hg28-selected-building span:not(.hg28-building-emblem){font-size:10px;color:#bbc6b9}
+.hg28-building-desc{display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:1;overflow:hidden;margin:0;color:#c4c8b9;font-size:10px;line-height:1.3}
+.hg28-upgrade{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:3px 6px;padding:5px 6px;border-radius:6px;background:#13272dde}
+.hg28-upgrade-cost b{display:block;margin-top:2px;color:#e8d2a0;font-size:10px;line-height:1.25}.hg28-upgrade>button{min-height:29px;padding:5px 9px;font-size:10px;white-space:nowrap}
+.hg28-upgrade-hint{grid-column:1/-1;color:#9fae9e;font-size:9px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg28-building-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px;min-height:0}
+.hg28-building-grid .hg28-building{display:grid;grid-template-columns:16px minmax(0,1fr);grid-template-rows:1fr auto;align-items:center;column-gap:3px;row-gap:0;min-width:0;min-height:32px;padding:3px 4px;border:1px solid #425c59;border-radius:5px;background:linear-gradient(#2b4140,#1b3034);color:#dbe0ce;text-align:left;font:600 8px/1.05 system-ui;overflow:hidden}
+.hg28-building-grid .hg28-building.active{border-color:#e0bd73;background:linear-gradient(#62543b,#394035);box-shadow:inset 0 0 0 1px #f1d69b55}
+.hg28-building-icon{grid-row:1/3;display:grid;place-items:center;color:#e8c981;font-size:13px}.hg28-building-grid .hg28-building span:nth-child(2){overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.hg28-building-grid .hg28-building b{font-size:7px;color:#aab7a8;font-weight:600}
+@media(max-width:1000px){.hg28-city-stage{grid-template-columns:minmax(0,1.45fr) minmax(285px,1fr);gap:6px}.hg28-city-command{padding:5px}.hg28-building-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.hg28-city-switcher{gap:6px;padding:3px 5px}.hg28-city-switch-list button{font-size:9px;padding:4px 6px}}
+@media(max-width:700px){.hg28-city-stage{grid-template-columns:minmax(0,1fr) minmax(255px,.9fr);height:clamp(205px,calc(100dvh - 325px),340px)}.hg28-city-stats span{padding:4px 5px}.hg28-city-title h1{font-size:17px}.hg28-city-stage>.city-frame canvas{width:100%;height:100%}}
+
 
 /* HG-09 joint battle header: keep long commander lists clear of the Save/status tools. */
 body.combat-mode .scene-title>div:first-child{flex:1 1 55%;min-width:0}
@@ -363,7 +393,7 @@ body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),76
 
 
 /* HG29 new PvE fragment wallet and transparent drop preview. */
-.hg29-preview{position:absolute;z-index:3;top:10px;left:10px;max-width:min(370px,45%);padding:9px 12px;pointer-events:none;border:1px solid #b6a36f;border-radius:7px;background:linear-gradient(#122934ed,#0d2526ec);color:#f7dfb0;box-shadow:0 4px 16px #0009;text-align:left}
+.hg29-preview{position:absolute;z-index:3;top:62px;left:10px;max-width:min(330px,40%);padding:7px 10px;pointer-events:none;border:1px solid #b6a36f;border-radius:7px;background:linear-gradient(#122934ed,#0d2526ec);color:#f7dfb0;box-shadow:0 4px 16px #0009;text-align:left}
 .hg29-preview b,.hg29-preview small{display:block;font:650 12px/1.35 system-ui,'Segoe UI',sans-serif}
 .hg29-preview small{font-weight:500;font-size:10px;color:#d2dfd4;margin-top:4px}
 .hg29-preview small:last-child{font-size:9px;color:#9db5ac}
@@ -465,3 +495,174 @@ body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),76
 .hg31-hero-sets small{font:500 11px system-ui;color:#d3dfd9}
 @media(max-width:1000px){.hg31-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:670px){.hg31-grid,.hg31-guide-row{grid-template-columns:1fr}.hg31-card{min-width:0}}
+
+/* HG28 visual overhaul — compact, art-led screens with native gameplay controls. */
+.game-window-body:has(.hg28-tab){overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#9a8459 #16282d}
+.hg28-tab{min-width:0;min-height:100%;padding:2px}
+.hg28-tab>h1{font:800 clamp(22px,2.5vw,31px)/1.1 Georgia,serif;color:#f4dcaa;margin:0 0 10px;text-shadow:0 2px 9px #0007}
+.hg28-tab .eyebrow{color:#d6b773}
+.hg28-provenance,.hg28-unit-evidence{border:1px solid #586e65;border-radius:6px;background:linear-gradient(110deg,#1c3237,#1b2e36);padding:7px 10px;margin:7px 0;color:#c8d2c6}
+.hg28-provenance summary,.hg28-unit-evidence summary{cursor:pointer;color:#dec892;font:700 11px/1.3 system-ui;list-style:none}
+.hg28-provenance summary::-webkit-details-marker,.hg28-unit-evidence summary::-webkit-details-marker{display:none}
+.hg28-provenance summary:before,.hg28-unit-evidence summary:before{content:'＋';display:inline-grid;place-items:center;width:17px;height:17px;margin-right:6px;border:1px solid #87744e;border-radius:50%;color:#e8c980}
+.hg28-provenance[open] summary:before,.hg28-unit-evidence[open] summary:before{content:'−'}
+.hg28-provenance p{font:400 11px/1.45 system-ui;margin:7px 0 0;color:#b8c6bb}
+/* Army: show real formation, inventory, and recruit controls before source notes. */
+.hg28-tab-army .hg28-army-main>h1{margin:0 0 4px;font-size:23px}
+.hg28-tab-army .hg28-army-main>p.hint{margin:0 0 7px;font-size:10px}
+.hg28-tab-army .hg28-army-main>.banner{margin:6px 0;padding:6px 9px;font-size:10px;line-height:1.3}
+.hg28-tab-army .hg28-army-main>.card{padding:8px;margin:7px 0}
+.hg28-tab-army .hg28-army-main>.card h2{font:750 15px/1.2 system-ui;margin:0 0 4px}
+.hg28-tab-army .hg28-army-main>.card>p.hint{font-size:10px;line-height:1.35;margin:4px 0}
+.hg28-tab-army .formation-grid{grid-template-columns:repeat(7,minmax(0,1fr));gap:4px;margin:7px 0}
+.hg28-tab-army .formation-slot{padding:5px;gap:3px;border-radius:5px}
+.hg28-tab-army .formation-slot select{font-size:9px;padding:4px;min-width:0}
+.hg28-tab-army .formation-slot input{font-size:11px;padding:4px;width:100%;min-width:0}
+.hg28-tab-army .formation-slot .tag{font-size:8px;white-space:nowrap}
+.hg28-tab-army .hg28-army-main>.grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:7px!important}
+.hg28-tab-army .unitrow{grid-template-columns:minmax(0,1fr);gap:4px;align-items:start;padding:7px;border-radius:7px;background:linear-gradient(140deg,#29434a,#1a3039)}
+.hg28-troop-thumb{object-fit:contain;image-rendering:auto;filter:drop-shadow(0 3px 5px #07131ab8);background:radial-gradient(ellipse at 50% 68%,#b8d2d233,transparent 70%);border-radius:9px}
+.hg28-tab-army .unitrow .heading{font-size:12px;line-height:1.2}
+.hg28-tab-army .unitrow .heading .hog-unit-thumb{width:38px!important;height:38px!important}
+.hg28-tab-army .unitrow .heading .hg28-troop-thumb{width:104px!important;height:104px!important;margin:-10px 2px -10px -6px;padding:3px;background:radial-gradient(ellipse at 50% 70%,#c4e5e84a 0,#9fcaab16 42%,transparent 72%);filter:drop-shadow(0 5px 9px #07131ad9);border:1px solid #c5ad715e;border-radius:10px}
+.hg28-tab-army .unitrow .hint{font-size:9px;line-height:1.3;margin:3px 0}
+.hg28-tab-army .unitrow .cost{font-size:10px}
+.hg28-tab-army .unitrow .entry{margin:3px 0 0;gap:4px}
+.hg28-tab-army .unitrow .entry input{width:58px;min-width:58px;padding:5px;font-size:11px}
+.hg28-tab-army .unitrow .entry button{padding:5px 8px;font-size:10px}
+.hg28-tab-army .hg28-unit-evidence{margin:4px 0 0;padding:4px 6px}
+.hg28-tab-army .hg28-unit-evidence summary{font-size:9px}
+.hg28-tab-army .hg28-unit-evidence small{display:block;font-size:9px;line-height:1.35;margin-top:4px;color:#bfcec3}
+.hg28-army-ops{margin:10px 0;border:1px solid #7f704f;border-radius:7px;background:#182d33;padding:9px}
+.hg28-army-ops>summary{cursor:pointer;color:#e9d09c;font-weight:750;font-size:12px}
+.hg28-army-ops[open]>summary{margin-bottom:8px}
+/* Tactical tower: three commander choices and two actual army stacks per hero. */
+.hg28-tower-view{max-width:1200px;margin:0 auto}
+.hg28-tower-title{display:flex;align-items:center;justify-content:space-between;gap:10px;margin:0 0 10px;padding:5px 8px 9px;border-bottom:1px solid #796943}
+.hg28-tower-title .eyebrow{font-size:9px;letter-spacing:1.4px}
+.hg28-tower-title h1{margin:2px 0 0;font:800 clamp(21px,2.6vw,29px)/1.1 Georgia,serif;color:#f3dca9}
+.hg28-tower-badges{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}
+.hg28-tower-badges span{border:1px solid #6e765d;border-radius:16px;padding:5px 9px;background:#1b3034;color:#e0d5b4;font-size:10px;white-space:nowrap}
+.hg28-tower-layout{display:grid;grid-template-columns:minmax(0,1.65fr) minmax(220px,.7fr);gap:9px;align-items:start}
+.hg28-tower-command{padding:9px!important;display:flex;flex-direction:column;gap:8px;background:linear-gradient(150deg,#233b40,#172c34)!important}
+.hg28-tower-enemy{display:flex;align-items:center;gap:10px;padding:8px 10px;border:1px solid #8c6750;border-radius:7px;background:radial-gradient(ellipse at 10% 45%,#764b3b,#2f3837 57%,#1c3035)}
+.hg28-tower-enemy-icon{display:grid;place-items:center;flex:0 0 46px;height:46px;border:1px solid #b27e53;border-radius:50%;background:#171f23;font-size:29px;box-shadow:0 0 18px #d2844b55}
+.hg28-tower-enemy>div{min-width:0;flex:1}
+.hg28-tower-enemy small{font-size:8px;letter-spacing:1px;color:#e4b883}
+.hg28-tower-enemy h2{font:800 17px/1.1 Georgia,serif;margin:2px 0;color:#f2dbb0}
+.hg28-tower-enemy b{font-size:10px;color:#d7c5a0}
+.hg28-tower-enemy>.tag{white-space:nowrap}
+.hg28-tower-team,.hg28-tower-stack-panel{padding:8px;border:1px solid #506a62;border-radius:7px;background:#1b3036}
+.hg28-tower-section-head{display:flex;align-items:center;justify-content:space-between;gap:7px;margin-bottom:6px}
+.hg28-tower-section-head h3{margin:0;font:750 12px/1.2 system-ui;color:#ead29e}
+.hg28-tower-section-head .hint{font-size:9px;margin:0}
+.hg28-hero-picker{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.hg28-hero-picker label,.hg28-tower-hero{min-width:0;padding:6px;border:1px solid #4e6964;border-radius:6px;background:linear-gradient(#263e43,#1b3036)}
+.hg28-hero-picker label small{display:block;margin:0 0 3px;font-size:8px;letter-spacing:.7px;color:#c6ad76}
+.hg28-hero-picker select,.hg28-tower-hero select{display:block;width:100%;min-width:0;padding:5px;font-size:10px}
+.hg28-tower-team>button{margin-top:6px;padding:5px 9px;font-size:10px}
+.hg28-tower-heroes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.hg28-tower-hero header{display:flex;align-items:center;gap:5px;min-width:0;color:#efd7a5;font-size:10px}
+.hg28-tower-hero header b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hg28-tower-hero header small{margin-left:auto;color:#a8b8aa;font-size:8px;white-space:nowrap}
+.hg28-tower-slots{display:grid;grid-template-columns:1fr;gap:4px;margin-top:5px}
+.hg28-tower-slots label{display:grid;grid-template-columns:33px minmax(0,1fr);align-items:center;gap:4px;color:#bdc8bc;font-size:9px}
+.hg28-tower-actions{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:7px}
+.hg28-tower-actions button{flex:1 1 140px;min-height:31px;padding:6px 8px;font-size:10px}
+.hg28-tower-empty{padding:10px;border:1px dashed #647467;border-radius:5px;color:#b3c3b8;font-size:10px}
+.hg28-tower-last{padding:7px 9px;border:1px solid #a18a56;border-radius:6px;background:#283b32;color:#f1d59b;font-size:10px}
+.hg28-tower-rewards{display:grid;grid-template-columns:1fr;gap:7px}
+.hg28-tower-rewards .card{padding:9px;background:linear-gradient(135deg,#263c40,#1c3038)}
+.hg28-essence{display:flex;align-items:center;gap:8px;margin:6px 0}
+.hg28-essence>span{font-size:28px;filter:drop-shadow(0 2px 4px #0008)}
+.hg28-essence b,.hg28-essence small{display:block}
+.hg28-essence b{font:800 20px Georgia,serif;color:#f5d999}
+.hg28-essence small{font-size:9px;color:#b9c7ba}
+.hg28-tower-rewards .hint,.hg28-tower-rewards p{font-size:9px;line-height:1.35;margin:4px 0}
+.hg28-tower-rewards h3{font:750 12px system-ui;margin:0 0 4px}
+.hg28-tower-rewards small{font-size:9px;line-height:1.35;color:#bdc9bd}
+.hg28-tower-help{margin-top:8px;padding:7px 9px;border:1px solid #51675e;border-radius:6px;background:#182c32}
+.hg28-tower-help summary{cursor:pointer;color:#ddc890;font-size:10px;font-weight:700}
+.hg28-tower-help p{font-size:10px;color:#bac7bc}
+/* Spell cards: let the real research queue and actions lead. */
+.hg28-tab-magic>.hg28-provenance{margin:0 0 9px}
+.hg28-tab-magic .grid3{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px}
+.hg28-tab-magic .grid3>.card{display:flex;flex-direction:column;align-items:flex-start;gap:5px;min-width:0;padding:9px;background:linear-gradient(145deg,#2a4347,#1b3038)}
+.hg28-tab-magic .grid3>.card .heading{font-size:13px}
+.hg28-tab-magic .grid3>.card .hint{font-size:10px;line-height:1.3;margin:0;min-height:27px}
+.hg28-tab-magic .grid3>.card .cost{font-size:10px;margin-top:auto}
+.hg28-tab-magic .grid3>.card button{padding:6px 9px;font-size:10px}
+/* Hero roster and equipment: make the character cards the visual focus. */
+.hg28-tab-heroes>details.hg28-provenance{margin:0 0 8px}
+.hg28-tab-heroes>.grid2{gap:8px}
+.hg28-tab-heroes>.grid2>div>h2{font:750 16px/1.2 Georgia,serif;margin:3px 0 7px}
+.hg28-tab-heroes>.grid2>div>.card{padding:9px;background:linear-gradient(145deg,#29424a,#1d3139)}
+.hg28-tab-heroes>.grid2>div>.card .heading{display:flex;flex-wrap:wrap;gap:5px;align-items:center;font-size:12px}
+.hg28-tab-heroes>.grid2>div>.card .hint{font-size:10px}
+.hg28-tab-heroes .tavern-offers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.hg28-tab-heroes .tavern-offers .card{padding:7px}
+.hg28-tab-heroes .tavern-offers p{font-size:9px;line-height:1.3}
+.hg28-tab-heroes .hg04-section{padding:10px;margin-top:9px}
+.hg28-tab-heroes .hg04-section>p.hint{margin:4px 0;font-size:10px}
+/* Relic inventory uses item art and short visual state chips; provenance stays expandable. */
+.hg28-tab-relics>.hg31-forge{margin:0 0 8px!important}
+.hg28-tab-relics>.hg31-forge>.tiny{font-size:10px;line-height:1.3;max-width:900px}
+.hg28-tab-relics .hg31-status span{padding:5px 7px;font-size:10px}
+.hg28-tab-relics .hg31-card{padding:7px;gap:4px}
+.hg28-tab-relics .hg31-gear-top{min-height:52px}
+.hg28-tab-relics .hg31-gear-top img{width:48px;height:48px}
+/* Real HG30 objectives stay in Tasks; cards wrap cleanly inside the game window. */
+.hg28-tab-tasks .hg30-steps{margin:6px 0}
+.hg28-tab-tasks .hg30-quest{padding:9px!important;margin:5px 0!important}
+.hg28-tab-tasks .hg30-recipes{gap:6px}
+.hg28-tab-tasks .hg30-recipe{padding:8px}
+.hg28-tab-tasks .hg30-recipe button{white-space:normal}
+/* Battle reports and source catalog get a designed empty state and compact archive. */
+.hg28-tab-reports>section.card{min-height:330px;padding:12px;background:radial-gradient(ellipse at 50% 38%,#314c4b,#1d333b 72%)}
+.hg28-tab-reports>section.card>h1{font:800 26px Georgia,serif;color:#f1d9a4;margin:0 0 5px}
+.hg28-tab-reports>section.card>.hint{margin:0 0 7px;font-size:10px}
+.hg28-empty-state{min-height:215px;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:20px;border:1px solid #69775e;border-radius:10px;background:radial-gradient(ellipse,#344d42,#182d34 72%);box-shadow:inset 0 0 42px #080e1655}
+.hg28-empty-state>span{font-size:48px;color:#e7c57b;filter:drop-shadow(0 4px 6px #0009)}
+.hg28-empty-state h2{margin:7px 0 2px;font:800 20px Georgia,serif;color:#f4daa4}
+.hg28-empty-state p{font-size:11px;color:#c2d0c6;margin:0 0 10px}
+.hg28-empty-state button{font-size:11px;padding:7px 11px}
+.hg28-tab-sources .hg28-source-view{max-width:1000px;margin:auto}
+.hg28-source-hero{padding:12px 14px;border:1px solid #927a52;border-radius:9px;background:radial-gradient(ellipse at 12% 0,#40574b,#203940 65%,#192f36);box-shadow:inset 0 0 0 1px #edcb8d20}
+.hg28-source-hero h1{font:800 clamp(22px,2.5vw,30px) Georgia,serif;color:#f3d9a5;margin:4px 0}
+.hg28-source-hero p{font-size:10px;color:#c6d1c6;margin:0}
+.hg28-source-facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:9px}
+.hg28-source-facts span{padding:7px;text-align:center;border:1px solid #60776a;border-radius:6px;background:#182f35;color:#bdcbbf;font-size:9px;text-transform:uppercase;letter-spacing:.5px}
+.hg28-source-facts b{display:block;font:800 19px Georgia,serif;color:#f2d69d}
+.hg28-source-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin:8px 0}
+.hg28-source-fold{padding:9px 11px;border:1px solid #587168;border-radius:7px;background:linear-gradient(130deg,#263f43,#1a3037)}
+.hg28-source-fold summary{cursor:pointer;color:#efd6a3;font-weight:750;font-size:11px;list-style:none}
+.hg28-source-fold summary::-webkit-details-marker{display:none}
+.hg28-source-fold summary:after{content:'＋';float:right;color:#d4b36e}
+.hg28-source-fold[open] summary:after{content:'−'}
+.hg28-source-fold ul{padding-left:18px;margin:8px 0 2px;color:#c8d4ca;font-size:10px;line-height:1.5}
+.hg28-source-links .source-links{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.hg28-source-links a{display:inline-block;padding:6px 8px;border:1px solid #65796b;border-radius:5px;background:#1a3438;font-size:10px;color:#dbd3b1;text-decoration:none}
+.hg28-source-links a:hover{border-color:#e3bf72;color:#fff0c7}
+.hg28-source-links>p{margin:6px 0 0;font-size:9px}
+@media(max-width:1050px){
+ .hg28-tab-army .formation-grid{grid-template-columns:repeat(7,minmax(0,1fr))}
+ .hg28-tab-army .hg28-army-main>.grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hg28-tab-magic .grid3{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .hg28-tower-layout{grid-template-columns:minmax(0,1fr)}
+ .hg28-tower-rewards{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hg28-tower-rewards>.card:first-child{grid-row:span 2}
+}
+@media(max-width:700px){
+ .hg28-tab-army .formation-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hg28-tab-army .hg28-army-main>.grid{grid-template-columns:1fr}
+ .hg28-tab-magic .grid3{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hg28-tab-heroes>.grid2{grid-template-columns:1fr}
+ .hg28-tab-heroes .tavern-offers{grid-template-columns:1fr}
+ .hg28-hero-picker{grid-template-columns:1fr}
+ .hg28-tower-heroes{grid-template-columns:1fr}
+ .hg28-tower-rewards{grid-template-columns:1fr}
+ .hg28-tower-rewards>.card:first-child{grid-row:auto}
+ .hg28-source-grid{grid-template-columns:1fr}
+}
+
+@media(max-height:600px) and (min-width:701px){body:not(.combat-mode) .sidebar>.panel:last-child{width:max-content}body:not(.combat-mode) .sidebar .buttons{width:max-content;max-width:calc(100vw - 24px);flex-wrap:nowrap;gap:2px}body:not(.combat-mode) .sidebar .buttons button{flex:0 0 auto;white-space:nowrap;font-size:9px;line-height:1;padding:3px 4px}.game-modal{padding-bottom:48px}}

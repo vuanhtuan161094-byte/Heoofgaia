@@ -34,7 +34,7 @@
       "details": null
     },
     {
-      "name": "Private hero-based allocation panel shows selected commander and 7 editable stacks",
+      "name": "Private hero-based allocation panel opens from the real Army command drawer",
       "pass": true,
       "details": null
     },
@@ -60,6 +60,11 @@
     },
     {
       "name": "Tower is an actual on-demand game window with three hero slots",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Tower team selection stores owned slots atomically in strict Save v07",
       "pass": true,
       "details": null
     },
@@ -128,13 +133,28 @@
         "runs": 0,
         "wins": 0,
         "strict": true,
-        "ap": 101.18600000000002,
+        "ap": 101.44,
         "target": "18,92",
         "toast": "Đã bật HG-26: 1 tướng tham gia CÙNG một trận Azrael."
       }
     },
     {
       "name": "HG26 real stop click disables automation and preserves Save v07",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Fresh New Game begins at 60x speed",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "Real speed control sets the fresh joint-roster scenario to 1x",
+      "pass": true,
+      "details": null
+    },
+    {
+      "name": "HG26 outbound state is isolated before the fresh joint-roster scenario",
       "pass": true,
       "details": null
     },
@@ -339,7 +359,7 @@
       "details": []
     }
   ],
-  "passed": 39,
+  "passed": 43,
   "failed": 0,
   "errors": [],
   "screens": [

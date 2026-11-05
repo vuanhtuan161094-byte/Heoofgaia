@@ -1,0 +1,165 @@
+{
+  "sourceCommit": "a123b63db651245be8a0ab5209fc8b9b566b9e8c",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "2391E7F5D341E05351C9749F1E5CD67F807C159AD8DE4A320C68F40E547FCEBD",
+  "browser": "Playwright Chromium, local file://; new game and actual Army UI",
+  "screenshots": [
+    {
+      "viewport": "1280x720",
+      "faction": "human",
+      "troops": [
+        "human_9",
+        "human_10"
+      ],
+      "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-human.png",
+      "sha256": "7E6704C4519F2BACA6859A5D3999C06D642060BA474DE824C0D92588239FD468"
+    },
+    {
+      "viewport": "1280x720",
+      "faction": "elf",
+      "troops": [
+        "elf_9",
+        "elf_10"
+      ],
+      "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-elf.png",
+      "sha256": "E1C1F1EB96CED8BBD0E50AA461127544007441516125F01A9F42A2C51122BF39"
+    },
+    {
+      "viewport": "1280x720",
+      "faction": "orc",
+      "troops": [
+        "orc_9",
+        "orc_10"
+      ],
+      "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-orc.png",
+      "sha256": "B886BB3A52C5ED14E2FCBD3BD26987B8CF965FB86E301155AFC2A311B678E42D"
+    },
+    {
+      "viewport": "1280x720",
+      "faction": "undead",
+      "troops": [
+        "undead_9",
+        "undead_10"
+      ],
+      "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-undead.png",
+      "sha256": "C9A91079A91B2E9F20914697593786AE774B250874D5F31CFB0D66D728C425E7"
+    },
+    {
+      "viewport": "960x540",
+      "faction": "human",
+      "troops": [
+        "human_9",
+        "human_10"
+      ],
+      "path": "docs/evidence/hg28/after/960x540/14-t9-t10-human.png",
+      "sha256": "C14146EFF87BE19880ECD140B3C2576BDA152E35B5003AF1108E84E4B86AFAEB"
+    },
+    {
+      "viewport": "960x540",
+      "faction": "elf",
+      "troops": [
+        "elf_9",
+        "elf_10"
+      ],
+      "path": "docs/evidence/hg28/after/960x540/14-t9-t10-elf.png",
+      "sha256": "513CDD6F0A2BD4AD25D8CFA8149840A6B50075E2D39B8DC158ADC0AFA8BD2BC8"
+    },
+    {
+      "viewport": "960x540",
+      "faction": "orc",
+      "troops": [
+        "orc_9",
+        "orc_10"
+      ],
+      "path": "docs/evidence/hg28/after/960x540/14-t9-t10-orc.png",
+      "sha256": "D35FB4FBFDF445FC5B209C9A61B4D1D4D9E375490E16C9586A6B1CF8CEF96F93"
+    },
+    {
+      "viewport": "960x540",
+      "faction": "undead",
+      "troops": [
+        "undead_9",
+        "undead_10"
+      ],
+      "path": "docs/evidence/hg28/after/960x540/14-t9-t10-undead.png",
+      "sha256": "72A935D39A554CD364103C7E4C605A6C46934E4F18413C55436DFFD8BB99B8FD"
+    }
+  ],
+  "checks": [
+    {
+      "viewport": "1280x720",
+      "check": "human T9/T10 PNGs load in live Army roster and v07 stays valid",
+      "pass": true,
+      "troops": [
+        "human_9",
+        "human_10"
+      ]
+    },
+    {
+      "viewport": "1280x720",
+      "check": "elf T9/T10 PNGs load in live Army roster and v07 stays valid",
+      "pass": true,
+      "troops": [
+        "elf_9",
+        "elf_10"
+      ]
+    },
+    {
+      "viewport": "1280x720",
+      "check": "orc T9/T10 PNGs load in live Army roster and v07 stays valid",
+      "pass": true,
+      "troops": [
+        "orc_9",
+        "orc_10"
+      ]
+    },
+    {
+      "viewport": "1280x720",
+      "check": "undead T9/T10 PNGs load in live Army roster and v07 stays valid",
+      "pass": true,
+      "troops": [
+        "undead_9",
+        "undead_10"
+      ]
+    },
+    {
+      "viewport": "960x540",
+      "check": "human T9/T10 PNGs load in live Army roster and v07 stays valid",
+      "pass": true,
+      "troops": [
+        "human_9",
+        "human_10"
+      ]
+    },
+    {
+      "viewport": "960x540",
+      "check": "elf T9/T10 PNGs load in live Army roster and v07 stays valid",
+      "pass": true,
+      "troops": [
+        "elf_9",
+        "elf_10"
+      ]
+    },
+    {
+      "viewport": "960x540",
+      "check": "orc T9/T10 PNGs load in live Army roster and v07 stays valid",
+      "pass": true,
+      "troops": [
+        "orc_9",
+        "orc_10"
+      ]
+    },
+    {
+      "viewport": "960x540",
+      "check": "undead T9/T10 PNGs load in live Army roster and v07 stays valid",
+      "pass": true,
+      "troops": [
+        "undead_9",
+        "undead_10"
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "animation": "Still masters in Army UI. Existing battle action rendering retained; these new masters have no fabricated action frames.",
+  "pass": true
+}

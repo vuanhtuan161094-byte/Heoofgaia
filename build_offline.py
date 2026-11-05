@@ -14,7 +14,7 @@ for css in ['style.css','style-hg03.css']:
     pattern=re.compile(r'<link\s+rel="stylesheet"\s+href="'+re.escape(css)+r'">')
     html,n=pattern.subn(lambda _: '<style>\n'+(folder/css).read_text(encoding='utf-8').rstrip()+ '\n</style>',html)
     assert n==1,(css,n)
-for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js','hg27-farm-exchange.js','hg29-loot.js','hg30-troop-ascension.js','hg31-legendary-gear.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-hg22-skeleton.js','art-pack.js','painter.js','app.js']:
+for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js','hg27-farm-exchange.js','hg29-loot.js','hg30-troop-ascension.js','hg31-legendary-gear.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-hg22-skeleton.js','art-hg28-troops.js','art-pack.js','painter.js','app.js']:
     pattern=re.compile(r'<script\s+src="'+re.escape(js)+r'"></script>')
     html,n=pattern.subn(lambda _: '<script>\n'+(folder/js).read_text(encoding='utf-8').rstrip()+'\n</script>',html)
     assert n==1,(js,n)
@@ -24,6 +24,21 @@ for race in ['human','elf','orc','undead']:
     assert html.count(needle)==1,(asset,html.count(needle))
     data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+for asset in ['assets/generated/hg28/world/meadow-tile.png','assets/generated/hg28/world/world-creatures-atlas.png','assets/generated/hg28/world/tree-broadleaf.png','assets/generated/hg28/world/tree-pine.png']:
+    needle=f'src="{asset}"'
+    assert html.count(needle)==1,(asset,html.count(needle))
+    data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
+    html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+assert 'assets/generated/hg28/world/' not in html
+hg28_troops=json.loads((folder/'assets/generated/hg28/troops/asset-manifest.json').read_text(encoding='utf-8'))
+assert hg28_troops['schema']=='HG28-Troop-Masters-v1' and len(hg28_troops['units'])==8
+for unit in hg28_troops['units']:
+    asset=unit['path']
+    needle=f'src="{asset}"'
+    assert html.count(needle)==1,(asset,html.count(needle))
+    data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
+    html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+assert 'assets/generated/hg28/troops/' not in html
 for unit_asset in ['assets/generated/hg11/units/orc-imp.png','assets/generated/hg11/units/elf-centaur.png','assets/generated/hg11/units/elf-scout.png','assets/generated/hg11/units/human-archer.png','assets/generated/hg11/units/undead-skeleton.png']:
     needle=f'src="{unit_asset}"'
     assert html.count(needle)==1,(unit_asset,html.count(needle))
@@ -111,6 +126,6 @@ assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
-assert html.count('<script>')==29
+assert html.count('<script>')==30
 (folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8')
 print('Built offline HTML:',len(html),'characters')
