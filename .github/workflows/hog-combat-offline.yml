@@ -86,6 +86,10 @@ jobs:
           node --check hg31-legendary-gear.js
           node --check qa-hg31-legendary.cjs
           node qa-hg31-legendary.cjs
+      - name: HG32 strictly organic New Game economy and late-stage reward budgets
+        run: |
+          node --check qa-hg32-organic-economy.cjs
+          node qa-hg32-organic-economy.cjs
       - name: HG24 safe hero templates, paid logistics, private EXP and Boss dispatch
         run: |
           node --check hg24-private-automation.js
@@ -219,6 +223,13 @@ jobs:
             docs/evidence/hg28/before/*.png
             docs/evidence/hg28/before/*.jpg
             docs/qa/hg28/baseline.json
+          if-no-files-found: ignore
+      - name: Upload HG32 organic progression and late-game economy report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG32-organic-NoSeed-economy
+          path: docs/qa/hg32/organic-audit.json
           if-no-files-found: ignore
       - name: Upload offline playable HTML
         if: always()
