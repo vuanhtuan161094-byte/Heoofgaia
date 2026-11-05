@@ -53,7 +53,7 @@ try:
   # troops, tower selection via popup, real button-driven floor reward and Save.
   # HG28 keeps optional command systems collapsed so the real troop roster is visible first.
   # Open the actual control before asserting its selected hero and editable formation.
-  page.locator('.hg28-army-ops > summary').click()
+  page.locator('.hg28-army-ops:not(.hg28-army-quest) > summary').click()
   check('Private hero-based allocation panel opens from the real Army command drawer',
     page.locator('.hg20-command').count()==1 and
     'Aldric' in page.locator('.hg20-command').inner_text())

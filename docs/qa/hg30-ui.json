@@ -1,0 +1,80 @@
+{
+  "checks": [
+    {
+      "name": "New Game available",
+      "pass": true
+    },
+    {
+      "name": "New Game HG30 stage0 strict v07",
+      "pass": true
+    },
+    {
+      "name": "HG30 army drawer opens real quest and recipe panel",
+      "pass": true
+    },
+    {
+      "name": "HG30 drawer stays open after render without opening command controls",
+      "pass": true
+    },
+    {
+      "name": "HG30 panel appears in army",
+      "pass": true
+    },
+    {
+      "name": "two real conversion recipes in army",
+      "pass": true
+    },
+    {
+      "name": "HG30 panel appears in tasks",
+      "pass": true
+    },
+    {
+      "name": "two real conversion recipes in tasks",
+      "pass": true
+    },
+    {
+      "name": "trial click unlocks stage1 without creating troops",
+      "pass": true
+    },
+    {
+      "name": "guard click spends 12 base units and generates canonical guard",
+      "pass": true
+    },
+    {
+      "name": "sovereign click spends guard & both wallets, reaches stage3",
+      "pass": true
+    },
+    {
+      "name": "cold reload keeps stage3 and cannot multiply sovereigns",
+      "pass": true
+    },
+    {
+      "name": "no Chromium page exceptions",
+      "pass": true
+    }
+  ],
+  "screens": [
+    "docs\\evidence\\hg30\\01-map-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\02-city-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\03-army-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\04-heroes-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\05-magic-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\06-relics-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\07-tasks-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\08-tower-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\09-reports-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\10-sources-newgame-1280x720.png",
+    "docs\\evidence\\hg30\\map-newgame-960x540.png",
+    "docs\\evidence\\hg30\\army-newgame-960x540.png",
+    "docs\\evidence\\hg30\\tasks-newgame-960x540.png",
+    "docs\\evidence\\hg30\\tower-newgame-960x540.png",
+    "docs\\evidence\\hg30\\fixture-01-trial-ready-1280x720.png",
+    "docs\\evidence\\hg30\\fixture-02-trial-claimed-1280x720.png",
+    "docs\\evidence\\hg30\\fixture-03-guard-converted-1280x720.png",
+    "docs\\evidence\\hg30\\fixture-04-sovereign-ready-1280x720.png",
+    "docs\\evidence\\hg30\\fixture-05-sovereign-converted-1280x720.png",
+    "docs\\evidence\\hg30\\fixture-06-army-after-reload-1280x720.png"
+  ],
+  "errors": [],
+  "pass": true
+}

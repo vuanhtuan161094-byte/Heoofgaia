@@ -1,7 +1,7 @@
 {
-  "sourceCommit": "a123b63db651245be8a0ab5209fc8b9b566b9e8c",
+  "sourceCommit": "0b8cb895a6ddec253d8288f5750ef4ad5dcf7057",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "2391E7F5D341E05351C9749F1E5CD67F807C159AD8DE4A320C68F40E547FCEBD",
+  "htmlSha256": "832D3B975C081ACC835755216D40C8F898AF87DC7B0113354CCCFE7AC229C4BE",
   "browser": "Playwright Chromium, local file://; new game and actual Army UI",
   "screenshots": [
     {
@@ -12,7 +12,7 @@
         "human_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-human.png",
-      "sha256": "7E6704C4519F2BACA6859A5D3999C06D642060BA474DE824C0D92588239FD468"
+      "sha256": "09459FC38477BD18C2141D233C27370487F285CF57A9557F0307C32C711BC3E5"
     },
     {
       "viewport": "1280x720",
@@ -22,7 +22,7 @@
         "elf_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-elf.png",
-      "sha256": "E1C1F1EB96CED8BBD0E50AA461127544007441516125F01A9F42A2C51122BF39"
+      "sha256": "51E1722FA016C1D73E647B74C6233F87B34886DECC425D3507516958AFC82935"
     },
     {
       "viewport": "1280x720",
@@ -32,7 +32,7 @@
         "orc_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-orc.png",
-      "sha256": "B886BB3A52C5ED14E2FCBD3BD26987B8CF965FB86E301155AFC2A311B678E42D"
+      "sha256": "03573486B3B253993E60A597DC2C23A734B7C7EFD27C8640DE19E607CE63E6CF"
     },
     {
       "viewport": "1280x720",
@@ -42,7 +42,7 @@
         "undead_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-undead.png",
-      "sha256": "C9A91079A91B2E9F20914697593786AE774B250874D5F31CFB0D66D728C425E7"
+      "sha256": "B9D8842F60A3E06069ED72AE685EC2B3728D8978F1577F3757C8EF5EEA7DFF20"
     },
     {
       "viewport": "960x540",
@@ -52,7 +52,7 @@
         "human_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-human.png",
-      "sha256": "C14146EFF87BE19880ECD140B3C2576BDA152E35B5003AF1108E84E4B86AFAEB"
+      "sha256": "C845C60D2E78C25CC15C6990BFAD8CF7A9900C94B870B1D0649DBFE48FF97D15"
     },
     {
       "viewport": "960x540",
@@ -62,7 +62,7 @@
         "elf_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-elf.png",
-      "sha256": "513CDD6F0A2BD4AD25D8CFA8149840A6B50075E2D39B8DC158ADC0AFA8BD2BC8"
+      "sha256": "D1B8D11719114EFF7613E33E705EC0D48BA65EB52B9391C672E20AE53024D4D2"
     },
     {
       "viewport": "960x540",
@@ -72,7 +72,7 @@
         "orc_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-orc.png",
-      "sha256": "D35FB4FBFDF445FC5B209C9A61B4D1D4D9E375490E16C9586A6B1CF8CEF96F93"
+      "sha256": "89F86D631C33770C7524DCD2FF64AD1E6CFBA5644B73DD65176DB212B8AB7522"
     },
     {
       "viewport": "960x540",
@@ -82,7 +82,7 @@
         "undead_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-undead.png",
-      "sha256": "72A935D39A554CD364103C7E4C605A6C46934E4F18413C55436DFFD8BB99B8FD"
+      "sha256": "E1356D843AE1CAFA65745E1482E9A1F1A3B7CA8993A84B9A98A91C4165741B3A"
     }
   ],
   "checks": [

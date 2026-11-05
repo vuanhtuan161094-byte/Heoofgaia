@@ -3,6 +3,7 @@ All quest buttons dispatch to the real engine and save through canonical UI.
 """
 from pathlib import Path
 import json
+import os
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).parent
 OUT=ROOT/'docs'/'evidence'/'hg30'
@@ -15,7 +16,10 @@ def ok(label,condition):
 def shot(page,name):
     p=OUT/name;page.screenshot(path=str(p));screens.append(str(p.relative_to(ROOT)))
 with sync_playwright() as pw:
-    browser=pw.chromium.launch(headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files'])
+    launch={'headless':True,'args':['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files']}
+    if os.environ.get('HOG_CHROME_PATH'):
+        launch['executable_path']=os.environ['HOG_CHROME_PATH']
+    browser=pw.chromium.launch(**launch)
     page=browser.new_page(viewport={'width':1280,'height':720})
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto((ROOT/'Play-Heoofgaia-HG11.html').as_uri(),wait_until='load')
@@ -29,6 +33,14 @@ with sync_playwright() as pw:
     for n,tab in enumerate(tablist,1):
         page.locator(f'[data-action="tab"][data-tab="{tab}"]').first.click()
         if tab in ('army','tasks'):
+            if tab=='army':
+                page.locator('.hg28-army-quest > summary').click()
+                ok('HG30 army drawer opens real quest and recipe panel',
+                   page.locator('.hg30-quest').is_visible())
+                page.evaluate('HOG_APP_DEBUG.render()')
+                ok('HG30 drawer stays open after render without opening command controls',
+                   page.locator('.hg28-army-quest').evaluate('(e)=>e.open') and
+                   not page.locator('.hg28-army-ops:not(.hg28-army-quest)').evaluate('(e)=>e.open'))
             ok('HG30 panel appears in '+tab,page.locator('.hg30-quest').count()==1)
             ok('two real conversion recipes in '+tab,page.locator('.hg30-recipe').count()==2)
         shot(page,f'{n:02d}-{tab}-newgame-1280x720.png')
