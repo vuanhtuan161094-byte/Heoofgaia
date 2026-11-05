@@ -72,6 +72,7 @@ def main() -> None:
                   documentHeight: document.documentElement.scrollHeight,
                   activeTab: document.querySelector('[data-action=tab].active')?.dataset.tab || null,
                   modalOpen: !document.querySelector('#game-modal')?.hidden,
+                  contentWidth: (() => {const body=document.querySelector('#game-modal-body');return body?{client:body.clientWidth,scroll:body.scrollWidth,horizontalOverflow:body.scrollWidth>body.clientWidth+1}:null})(),
                   uiOverlap: (() => {const box=s=>{const e=document.querySelector(s);if(!e)return null;const r=e.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom}};const overlap=(a,b)=>!!a&&!!b&&Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top);const win=box('.game-window');return {navigation:overlap(box('#nav'),win),saveControls:overlap(box('.sidebar .buttons'),win)}})(),
                   canvases: [...document.querySelectorAll('canvas')].map(c => ({id:c.id,width:c.width,height:c.height,boxWidth:Math.round(c.getBoundingClientRect().width),boxHeight:Math.round(c.getBoundingClientRect().height)}))
                 })""")
@@ -79,6 +80,7 @@ def main() -> None:
                 assert geometry["width"] == width and geometry["height"] == height
                 assert not geometry["uiOverlap"]["navigation"], f"{label} modal overlaps navigation at {width}x{height}"
                 assert not geometry["uiOverlap"]["saveControls"], f"{label} modal overlaps Save controls at {width}x{height}"
+                assert geometry["contentWidth"] and not geometry["contentWidth"]["horizontalOverflow"], f"{label} content overflows horizontally at {width}x{height}: {geometry['contentWidth']}"
                 file = folder / f"{ordinal:02d}-{tab}.png"
                 page.screenshot(path=str(file), animations="disabled")
                 captures.append({

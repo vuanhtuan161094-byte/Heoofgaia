@@ -1,4 +1,14 @@
-## HG28 — WORLD MAP / CITY RESPONSIVE ART SLICE · 05/11/2026 · CI #327 FAIL; SELECTOR FIX PENDING
+## HG28 — CURRENT CHECKPOINT · 05/11/2026 · CI #328 SUCCESS; SHORT-VIEWPORT PASS PENDING
+
+- **Current verified commit:** 81f38ec72812ffe9a7adbb9687e16bfdbd3529e5; [Actions #328](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42047694545) **SUCCESS** on the existing public feature branch.
+- **Real Chromium evidence:** CI captured 20/20 screens at 1280×720 and 960×540 with 0 browser errors. The HG28 gameplay gate passed 14/14 interaction checks and saved 6/6 screenshots: NPC selection, city building hotspot, paid construction, strict v07 Save and cold reload. AFTER artifact 13426100922; BEFORE artifact 13426046003. All gameplay/Save gates including HG29–HG32, eight T9–T10 source assets and Skeleton HG22.1 passed.
+- **Local verification:** Node engine regression **214/214 PASS**; Python QA/build syntax and git diff --check PASS. Two repository-venv builds match: canonical Play-Heoofgaia-HG11.html, 37,622,454 bytes, SHA-256 F9E28FFCB27E65BD132F8C6E691ABAA6ABCCE86E55587341C68CEDA39204D8CE. System Python lacks Pillow; repository venv has Pillow 11.3.0.
+- **In progress:** 960×540 short-landscape chrome compression and 20-screen horizontal-overflow assertions are coded, rebuilt and regression-tested locally; their full workflow is pending. No gameplay or Save schema changes; Save v07, HG29–HG32, eight T9–T10 masters and Skeleton HG22.1 are preserved.
+- **Visual review limit:** BEFORE image sheets were inspected locally. AFTER screenshots are genuine runner captures with geometry/interaction receipts in the artifact above. The desktop file-URL policy blocked local browser access, and the signed artifact proxy failed TLS download; therefore no manual pixel-by-pixel AFTER review is claimed.
+- **Next:** push the responsive all-screen change, require the full CI run to pass, then continue visual iterations on battlefield and the remaining screens. HG28 remains **PARTIAL**; no 1:1 claim.
+
+---
+## HG28 — PREVIOUS CHECKPOINT · 05/11/2026 · CI #327 FAILURE (SELECTOR BUG)
 
 - **Base checkout:** feature/hog1-research-to-playable-20261102, source SHA 8d5ab02c00e0ca5834493b75406d710703cb3e62; GitHub branch HEAD was verified equal before edits. Repo remains Public.
 - **Implementation:** integrated 12 separate generated transparent landmark PNGs: Human/Elf/Orc/Undead castles, four resource mines, watchtower, windmill, watermill and forest treasure camp. The renderer now draws these in the existing world tile/hotspot layer; hit cells, pan/zoom, selection, travel and combat state are unchanged. Added source-sheet hash, per-file SHA-256 and alpha-bound manifest; generated replacement art is not recovered Heroes of Gaia art.

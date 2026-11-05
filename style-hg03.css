@@ -674,3 +674,23 @@ body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),76
 }
 
 @media(max-height:600px) and (min-width:701px){body:not(.combat-mode) .sidebar>.panel:last-child{width:max-content}body:not(.combat-mode) .sidebar .buttons{width:max-content;max-width:calc(100vw - 24px);flex-wrap:nowrap;gap:2px}body:not(.combat-mode) .sidebar .buttons button{flex:0 0 auto;white-space:nowrap;font-size:9px;line-height:1;padding:3px 4px}.game-modal{padding-bottom:48px}}
+
+/* HG28: give short landscape screens more playable space without hiding actions. */
+@media(max-height:600px) and (min-width:701px){
+ #app{padding:4px 8px}
+ .top{padding:4px 10px;gap:6px}
+ .crest{font-size:28px}
+ .brand{font-size:18px}
+ .masthead small{display:none}
+ .resources{gap:3px}
+ .resource{min-width:66px;padding:2px 5px;font-size:9px}
+ .resource b{font-size:13px}
+ .resource .muted{display:none}
+ .tabs{gap:4px;margin:4px 0}
+ .tabs button{padding:4px 6px;font-size:10px;line-height:1.15}
+ body:not(.combat-mode) .game-modal{padding-top:78px;padding-bottom:40px}
+ body:not(.combat-mode) .game-window{height:calc(100dvh - 118px)}
+ body:not(.combat-mode) .game-window-head{flex-basis:36px}
+ body:not(.combat-mode) .game-window-body{padding:6px 9px}
+ body:not(.combat-mode) .game-window-footer{flex-basis:32px;font-size:9px}
+}
