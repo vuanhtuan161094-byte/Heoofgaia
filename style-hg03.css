@@ -423,3 +423,45 @@ body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),76
 .hg30-recipe button{font:700 11px system-ui!important;min-height:29px;padding:7px 9px}
 .hg30-recipe button:disabled{opacity:.6}
 @media(max-width:700px){.hg30-steps{grid-template-columns:1fr}.hg30-recipes{grid-template-columns:1fr}.hg30-progress{grid-template-columns:1fr}}
+
+
+/* HG31 native item art and targeted crafting. */
+.hg31-forge{padding:12px!important;margin:7px 0!important;border:1px solid #aa8d5e!important;background:linear-gradient(155deg,#203b42,#152c37)!important}
+.hg31-forge>.eyebrow{font:800 10px system-ui;letter-spacing:.75px;color:#ebbd6d}
+.hg31-forge>h2{font:800 19px/1.2 system-ui,'Segoe UI',sans-serif!important;color:#f7d9a2;margin:4px 0}
+.hg31-forge>.tiny{font-size:11px;line-height:1.4}
+.hg31-status{display:flex;flex-wrap:wrap;gap:6px;margin:8px 0}
+.hg31-status span{font:600 11px system-ui;color:#d9e6da;background:#1b333b;border:1px solid #55726b;border-radius:6px;padding:6px 8px}
+.hg31-status b{color:#f7db9e}
+.hg31-set{border:1px solid #527078;background:linear-gradient(120deg,#1a343c,#192f39);border-radius:7px;padding:9px;margin:9px 0}
+.hg31-set[data-hg31-set="dragon"]{border-color:#926648}
+.hg31-set[data-hg31-set="star"]{border-color:#646fa0}
+.hg31-set-heading{display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;align-items:center;margin:0 0 7px}
+.hg31-set-heading h3{font:750 17px system-ui;color:#eed3a3;margin:0}
+.hg31-set-heading small{display:block;font:500 11px/1.4 system-ui;color:#c7d5ce}
+.hg31-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.hg31-card{padding:10px;background:#213940;border:1px solid #45646b;border-radius:7px;min-width:0;display:flex;flex-direction:column;gap:6px}
+.hg31-card.selected{background:linear-gradient(#33483f,#233b41);border-color:#e1bb78}
+.hg31-gear-top{display:flex;gap:7px;align-items:center;min-height:66px}
+.hg31-gear-top img{width:62px;height:62px;object-fit:contain;flex-shrink:0;border-radius:10px}
+.hg31-gear-top b{font:750 12px/1.3 system-ui;color:#f6d9a3;display:block}
+.hg31-gear-top small{font:500 10px/1.35 system-ui;color:#cadbd5;display:block;margin-top:3px}
+.hg31-costs{display:flex;flex-wrap:wrap;gap:4px}
+.hg31-costs span{border-radius:4px;border:1px solid #526e66;padding:3px 5px;font:650 10px system-ui;color:#e0e4d6}
+.hg31-costs .missing{color:#f1beb0;border-color:#905e56}
+.hg31-costs .ready{color:#b7e5ca;border-color:#618974}
+.hg31-actions{display:flex;gap:5px;flex-wrap:wrap;margin-top:auto}
+.hg31-actions button{font:650 10px system-ui;min-height:30px;padding:6px 8px}
+.hg31-actions button:disabled{opacity:.62}
+.hg31-guide,.hg31-hero-sets{background:linear-gradient(120deg,#22373d,#192e36);border:1px solid #6b786e!important;padding:10px!important;margin:7px 0!important}
+.hg31-guide h2,.hg31-hero-sets h2{font:750 16px system-ui!important;color:#edd6a5}
+.hg31-guide-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.hg31-guide-row>div{display:flex;align-items:center;gap:7px;border:1px solid #57716a;background:#173039;border-radius:6px;padding:7px;flex-wrap:wrap}
+.hg31-guide-row img{flex-shrink:0}
+.hg31-guide-row b{font:750 11px system-ui;color:#f3d9ae}
+.hg31-guide-row small{font:500 11px system-ui;color:#cce1d6}
+.hg31-hero-sets>div{display:flex;align-items:center;flex-wrap:wrap;gap:8px;padding:5px}
+.hg31-hero-sets b{font:700 12px system-ui;color:#f3d8a5}
+.hg31-hero-sets small{font:500 11px system-ui;color:#d3dfd9}
+@media(max-width:1000px){.hg31-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:670px){.hg31-grid,.hg31-guide-row{grid-template-columns:1fr}.hg31-card{min-width:0}}
