@@ -260,10 +260,49 @@ try{
   recipe:forge,HG29:s.hg29.shards,HG27:s.hg27,Gold:s.res.gold}));
  const item=E.hg31Craft(s,'dragon_blade');
  assert.equal(item.itemId,'dragon_blade');hg32.dragonCrafted=true;
+ // HG32 ENDGAME: fully organic 3/3 Tinh Không.  Paid Tower loot is exactly
+ // one claimed victory per floor, max five/day.  Choose item focus only
+ // between real battles; never inject shards, seals, items or soldier stats.
+ E.hg31SetFocus(s,'star_plate');
+ while(s.hg20.tower.floor<41){
+  const w=s.hg31.fragments;
+  const target=w.star_plate<9?'star_plate':w.star_seal<9?'star_seal':'star_blade';
+  if(s.hg31.towerFocus!==target)E.hg31SetFocus(s,target);
+  paidTower();
+ }
+ assert(s.hg31.fragments.star_blade>=9&&s.hg31.fragments.star_plate>=9&&
+  s.hg31.fragments.star_seal>=9,'Forty paid Tower clears did not provide three targeted 9-piece shard sets');
+ // The rare Ấn Anh Hùng can also be farmed from real Elite NPCs.  If the
+ // random 8-star loot wasn't enough after the long XP grind, keep farming
+ // with a paid T10 detachment.  This is NOT a resource seed or test override.
+ let eliteExtra=0;
+ while(s.hg29.shards.hero<12&&eliteExtra++<120){
+  party();
+  assert.equal(dispatchAndWin(xpTarget.key),'win','Cannot grind HG29 hero fragments');
+ }
+ assert(s.hg29.shards.hero>=12,'HG29 rare Hero fragments are not farmable at sufficient volume');
+ hg32.extraEliteRuns=eliteExtra;
+ const starCraft=[];
+ for(const id of ['star_blade','star_plate','star_seal']){
+  const offer=E.hg31Catalogue(s).find(x=>x.id===id);
+  assert(offer.canCraft,'HG31 set part still organic-locked '+id+': '+JSON.stringify({
+   offer,hg29:s.hg29.shards,hg27:s.hg27,fragments:s.hg31.fragments,gold:s.res.gold}));
+  const piece=E.hg31Craft(s,id);starCraft.push(piece.uid);
+  E.equipItem(s,piece.uid,1);
+  assert(E.strictSave(s),'Save invalid after native HG31 equip '+id);
+ }
+ const set=E.hg18SetCounts(s,1),setBonus=E.combatModifiers(s,1);
+ assert.equal(set.star,3,'Organic Star 3/3 failed to equip');
+ assert(setBonus.damageBonus>=.079&&setBonus.damageReduction>=.084,
+  'Organic Star set fails to affect actual combat stats');
+ hg32.starPieces=3;hg32.starBonus={
+  damageBonus:setBonus.damageBonus,damageReduction:setBonus.damageReduction};
  let persisted=E.parseSave(E.serializeSave(s));
  assert.equal(persisted.hg30.stage,3);
  assert.equal(persisted.army.human_tower_sovereign,1);
  assert(persisted.inventory.some(x=>x.itemId==='dragon_blade'));
+ assert.equal(E.hg18SetCounts(persisted,1).star,3);
+ assert(E.combatModifiers(persisted,1).damageBonus>=.079);
  assert(E.strictSave(persisted));
  hg32.endGameHours=simulatedHours;
  hg32.gameDays=+(simulatedHours/24).toFixed(2);
