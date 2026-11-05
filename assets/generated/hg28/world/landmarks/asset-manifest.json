@@ -1,0 +1,248 @@
+{
+  "schema": "HG28-WorldLandmarks-v1",
+  "generatedBy": "OpenAI ImageGen through Codex; original replacement art for Anh Hùng Thời Loạn",
+  "generatedOn": "2026-11-05",
+  "source": {
+    "path": "assets/generated/hg28/world/landmarks/landmark-atlas-source.png",
+    "sha256": "d1db5781be1a5eb4c1b7d6b5ce08cc989a106e1b1751827d7925ccfbcc9971de",
+    "width": 1448,
+    "height": 1086
+  },
+  "promptIntent": "Transparent 4-column by 3-row atlas: four faction castles; gold, ore, crystal and sulfur mines; a watchtower, windmill, watermill and forest treasure camp. High-quality hand-painted fantasy 2.5D isometric/map-scale landmarks, consistent bottom anchors, no text or game-original art.",
+  "license": "Project-generated replacement artwork; not extracted from Heroes of Gaia",
+  "notes": [
+    "Each 362x362 source cell is kept as an individual transparent PNG for runtime use.",
+    "Alpha bounds are reported for pivot/QA; no animation is claimed.",
+    "Source image is retained for provenance."
+  ],
+  "assets": [
+    {
+      "name": "castle-human",
+      "path": "assets/generated/hg28/world/landmarks/castle-human.png",
+      "atlasCell": {
+        "column": 0,
+        "width": 362,
+        "row": 0,
+        "height": 362,
+        "x": 0,
+        "y": 0
+      },
+      "alphaBounds": {
+        "y": 6,
+        "width": 347,
+        "height": 337,
+        "x": 8
+      },
+      "sha256": "b0a8a832f24d286a674d6d123f9041eda2290ca68e4df4e93168f084e5100f24"
+    },
+    {
+      "name": "castle-elf",
+      "path": "assets/generated/hg28/world/landmarks/castle-elf.png",
+      "atlasCell": {
+        "column": 1,
+        "width": 362,
+        "row": 0,
+        "height": 362,
+        "x": 362,
+        "y": 0
+      },
+      "alphaBounds": {
+        "y": 4,
+        "width": 345,
+        "height": 340,
+        "x": 8
+      },
+      "sha256": "09081c2f2ac763b97a16808ccc688376c5197504fb708c5d2278729c869bf0cb"
+    },
+    {
+      "name": "castle-orc",
+      "path": "assets/generated/hg28/world/landmarks/castle-orc.png",
+      "atlasCell": {
+        "column": 2,
+        "width": 362,
+        "row": 0,
+        "height": 362,
+        "x": 724,
+        "y": 0
+      },
+      "alphaBounds": {
+        "y": 8,
+        "width": 348,
+        "height": 336,
+        "x": 7
+      },
+      "sha256": "605a9012c73623482620a08b1ab5367fa9815195549947fd339a70de2912252c"
+    },
+    {
+      "name": "castle-undead",
+      "path": "assets/generated/hg28/world/landmarks/castle-undead.png",
+      "atlasCell": {
+        "column": 3,
+        "width": 362,
+        "row": 0,
+        "height": 362,
+        "x": 1086,
+        "y": 0
+      },
+      "alphaBounds": {
+        "y": 7,
+        "width": 349,
+        "height": 337,
+        "x": 8
+      },
+      "sha256": "16b3189219ab86877b23e9a965b755b2deb0eadcac85cb4905549b92c7d6c5b6"
+    },
+    {
+      "name": "mine-gold",
+      "path": "assets/generated/hg28/world/landmarks/mine-gold.png",
+      "atlasCell": {
+        "column": 0,
+        "width": 362,
+        "row": 1,
+        "height": 362,
+        "x": 0,
+        "y": 362
+      },
+      "alphaBounds": {
+        "y": 23,
+        "width": 347,
+        "height": 311,
+        "x": 7
+      },
+      "sha256": "49d2ae22e602a9e86419154ada1e7695217548d36dbee373a3dc46be3c663b9c"
+    },
+    {
+      "name": "mine-ore",
+      "path": "assets/generated/hg28/world/landmarks/mine-ore.png",
+      "atlasCell": {
+        "column": 1,
+        "width": 362,
+        "row": 1,
+        "height": 362,
+        "x": 362,
+        "y": 362
+      },
+      "alphaBounds": {
+        "y": 25,
+        "width": 346,
+        "height": 308,
+        "x": 9
+      },
+      "sha256": "009a4e16119cbca77540d2ccdd9f98cf096d0f9cd527cc67491d29518f1daaf5"
+    },
+    {
+      "name": "mine-crystal",
+      "path": "assets/generated/hg28/world/landmarks/mine-crystal.png",
+      "atlasCell": {
+        "column": 2,
+        "width": 362,
+        "row": 1,
+        "height": 362,
+        "x": 724,
+        "y": 362
+      },
+      "alphaBounds": {
+        "y": 14,
+        "width": 347,
+        "height": 320,
+        "x": 8
+      },
+      "sha256": "e6fd3426259a67c8f793ce86d53932a5ef4ed3ffab05e7760520ad686a98e5ff"
+    },
+    {
+      "name": "mine-sulfur",
+      "path": "assets/generated/hg28/world/landmarks/mine-sulfur.png",
+      "atlasCell": {
+        "column": 3,
+        "width": 362,
+        "row": 1,
+        "height": 362,
+        "x": 1086,
+        "y": 362
+      },
+      "alphaBounds": {
+        "y": 5,
+        "width": 348,
+        "height": 329,
+        "x": 8
+      },
+      "sha256": "05c571cacc6553f184e2dab49509f984979aa6d76b2b973be6116c08a03ee9c3"
+    },
+    {
+      "name": "tower-watch",
+      "path": "assets/generated/hg28/world/landmarks/tower-watch.png",
+      "atlasCell": {
+        "column": 0,
+        "width": 362,
+        "row": 2,
+        "height": 362,
+        "x": 0,
+        "y": 724
+      },
+      "alphaBounds": {
+        "y": 2,
+        "width": 315,
+        "height": 346,
+        "x": 26
+      },
+      "sha256": "141237cda3790006a210677ac36ec002e36753a8cce8c7b7a94a66867db27294"
+    },
+    {
+      "name": "structure-windmill",
+      "path": "assets/generated/hg28/world/landmarks/structure-windmill.png",
+      "atlasCell": {
+        "column": 1,
+        "width": 362,
+        "row": 2,
+        "height": 362,
+        "x": 362,
+        "y": 724
+      },
+      "alphaBounds": {
+        "y": 10,
+        "width": 337,
+        "height": 339,
+        "x": 13
+      },
+      "sha256": "8b70f3aaec68ee3d8be8f5718acd09d6fac30da99a9d5ab085ebe3bff6d386ba"
+    },
+    {
+      "name": "structure-watermill",
+      "path": "assets/generated/hg28/world/landmarks/structure-watermill.png",
+      "atlasCell": {
+        "column": 2,
+        "width": 362,
+        "row": 2,
+        "height": 362,
+        "x": 724,
+        "y": 724
+      },
+      "alphaBounds": {
+        "y": 36,
+        "width": 348,
+        "height": 312,
+        "x": 7
+      },
+      "sha256": "0beb36e9a295f48bd2534fd98c52a7853a8397e5659582229ea99d3c9bee1fe5"
+    },
+    {
+      "name": "structure-forest-camp",
+      "path": "assets/generated/hg28/world/landmarks/structure-forest-camp.png",
+      "atlasCell": {
+        "column": 3,
+        "width": 362,
+        "row": 2,
+        "height": 362,
+        "x": 1086,
+        "y": 724
+      },
+      "alphaBounds": {
+        "y": 22,
+        "width": 345,
+        "height": 323,
+        "x": 8
+      },
+      "sha256": "05e6a162b51725934515742966dc49cf590c3d3f1fd4a75466500c98df930768"
+    }
+  ]
+}

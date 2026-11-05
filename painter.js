@@ -121,6 +121,15 @@ function worldBuilding(c,x,y,k=1,kind='windmill',visited=false){
  if(visited){circle(c,25,-31,10,'#2c6b53');text(c,'✓',25,-27,12,'#f2e2af')}
  c.restore();
 }
+function drawMapLandmark(c,key,x,y,q,sizeFactor=1){
+ if(!key||typeof document==='undefined')return false;
+ const sprite=document.getElementById('hg28-map-'+key);
+ if(!sprite?.complete||!sprite.naturalWidth)return false;
+ const size=q*sizeFactor;
+ c.save();c.fillStyle='#091714a1';c.beginPath();c.ellipse(x,y+q*.16,size*.36,q*.115,0,0,TAU);c.fill();
+ c.shadowColor='#06140ecc';c.shadowBlur=Math.min(q*.22,12);c.shadowOffsetY=q*.08;
+ c.drawImage(sprite,x-size/2,y+q*.18-size,size,size);c.restore();return true;
+}
 const M={centerX:9.5,centerY:7.4,zoom:1.12};
 function mapCamera(){return M}
 function mapProjection(canvas){const scale=clamp(M.zoom,.65,2.05)*48;return {scale,offX:canvas.width/2-M.centerX*scale,offY:canvas.height/2-M.centerY*scale}}
@@ -174,14 +183,26 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
   let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):s.cleared.includes(t.key));
   if(t.kind==='castle'){
    const owned=E.cityForKey(s,t.key),ai=E.aiCityAt?.(s,t.key);
-   castle(c,x,y,q/110,owned?.race||t.race||s.race,owned?.local.buildings.hall||ai?.level||1);
+   const race=owned?.race||t.race||s.race||'human';
+   if(!drawMapLandmark(c,'castle-'+race,x,y,q,1.28))castle(c,x,y,q/110,race,owned?.local.buildings.hall||ai?.level||1);
    if(ai){circle(c,x,y-q*.31,q*.11,'#9f3630');text(c,'AI',x,y-q*.27,Math.max(9,q*.20),'#fff0dc')}
   }
-  if(t.kind==='mine')mine(c,x,y,q/77,t.value);
+  if(t.kind==='mine'){
+   const mineSprite={gold:'mine-gold',ore:'mine-ore',crystal:'mine-crystal',sulfur:'mine-sulfur'}[t.value];
+   if(!drawMapLandmark(c,mineSprite,x,y,q,.98))mine(c,x,y,q/77,t.value);
+  }
   if(t.kind==='npc'&&!done)drawWorldEncounter(c,creatureAtlas,t,x,y,q,selected===t.key,{offX:ox,offY:oy,width:w,height:h});
-  if(t.kind==='treasure')treasureChest(c,x,y,q/82,!!done);
-  if(t.treasureCamp&&t.kind!=='treasure')treasureChest(c,x+q*.27,y+q*.19,q/220,!!s.treasureCleared?.includes(t.key));
-  if(t.kind==='visit'){worldBuilding(c,x,y,q/100,t.structureId?.startsWith('watermill')?'watermill':t.structureId==='windmill'?'windmill':t.structureId,!!E.hasVisitedWorldBuilding?.(s,t.key));}
+  if(t.kind==='treasure'){
+   if(!drawMapLandmark(c,'structure-forest-camp',x,y,q,1.02))treasureChest(c,x,y,q/82,!!done);
+  }
+  if(t.treasureCamp&&t.kind!=='treasure'){
+   if(!drawMapLandmark(c,'structure-forest-camp',x+q*.27,y+q*.19,q*.72,.98))treasureChest(c,x+q*.27,y+q*.19,q/220,!!s.treasureCleared?.includes(t.key));
+  }
+  if(t.kind==='visit'){
+   const kind=t.structureId?.startsWith('watermill')?'watermill':t.structureId==='windmill'?'windmill':t.structureId;
+   const visitSprite=kind==='defense-tower'?'tower-watch':kind==='windmill'?'structure-windmill':kind==='watermill'?'structure-watermill':null;
+   if(!drawMapLandmark(c,visitSprite,x,y,q,1.03))worldBuilding(c,x,y,q/100,kind,!!E.hasVisitedWorldBuilding?.(s,t.key));
+  }
   if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
   if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}
   if(selected===t.key&&q>20){const city=E.cityForKey(s,t.key),label=t.kind==='castle'?(city?.name||t.value||'Thành trung lập'):t.kind==='mine'?{wood:'Mỏ gỗ',ore:'Mỏ quặng',gold:'Mỏ vàng',sulfur:'Mỏ lưu huỳnh',crystal:'Mỏ pha lê'}[t.value]:t.value;

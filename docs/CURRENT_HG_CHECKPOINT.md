@@ -1,3 +1,14 @@
+## HG28 — WORLD MAP / CITY RESPONSIVE ART SLICE · 05/11/2026 · CI PENDING
+
+- **Base checkout:** feature/hog1-research-to-playable-20261102, source SHA 8d5ab02c00e0ca5834493b75406d710703cb3e62; GitHub branch HEAD was verified equal before edits. Repo remains Public.
+- **Implementation:** integrated 12 separate generated transparent landmark PNGs: Human/Elf/Orc/Undead castles, four resource mines, watchtower, windmill, watermill and forest treasure camp. The renderer now draws these in the existing world tile/hotspot layer; hit cells, pan/zoom, selection, travel and combat state are unchanged. Added source-sheet hash, per-file SHA-256 and alpha-bound manifest; generated replacement art is not recovered Heroes of Gaia art.
+- **City UX:** 960×540 city command rail now uses a compact four-column selector, reduced labels and keeps the upgrade action visible in the short viewport. 1280×720 retains the larger 3-column presentation. Both use the same active building buttons and paid queue.
+- **Preservation:** no Save schema/gameplay changes. Save v07 migration, HG29–HG32 code, eight T9–T10 masters and Skeleton HG22.1 source files are untouched.
+- **Local verification:** node qa-engine.cjs **214/214 PASS**, including SHA/dimension/alpha/offline-embedding checks for all 12 landmarks. JS/Python syntax and git diff --check **PASS**. Two consecutive offline builds matched: Play-Heoofgaia-HG11.html, 37,621,600 bytes, SHA-256 91772CA0C94A70B523F4B977CB682D501D08D30D99AE3D8FA8AEC2CD7A17CDB6.
+- **Chromium status:** local Playwright could not launch because its Chromium binary is absent. The desktop browser policy blocked opening the local file:// URL; no alternate local-browser route was used. Existing BEFORE screenshots were left unchanged. The branch workflow now runs 20 actual Chromium captures at 1280×720 and 960×540 plus real map/city clicks, paid construction, strict v07 Save and reload, and uploads the AFTER screenshots. CI screenshots/visual inspection are **PENDING** on this source commit.
+- **Checkpoint:** map/city visual slice **IMPLEMENTED; local Node/build PASS; browser/CI pending**. HG28 overall remains **PARTIAL**. Next: review the CI AFTER images/layout receipt, correct any visible clipping, then advance to battlefield and the seven remaining screens. No 1:1 claim.
+
+---
 ## HG32 — NGHIỆM THU KINH TẾ / PVE TỪ NEW GAME · 05/11/2026
 
 - **Code/gameplay tested SHA:** `6b0b9a869b39616b4141e3d143ab3590aad5d982`, [CI #41971073269](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/41971073269) **SUCCESS**. One branch `feature/hog1-research-to-playable-20261102`, Public, no main merge. Preserve Save v07; HG28/UI remain delegated to Codex and untouched by HG32.

@@ -144,6 +144,10 @@ jobs:
         run: python qa-hg31-ui-chrome.py
       - name: HG28 baseline 20 real Chromium screens and layout-density receipt
         run: node qa-hg28-baseline-evidence.cjs
+      - name: HG28 world and all-screen real Chromium visual and interaction acceptance
+        run: |
+          python qa-hg28-visual-chrome.py --phase after
+          python qa-hg28-interactive-chrome.py
       - name: HG28 real file URL T9-T10 Army images at desktop and compact landscape sizes
         run: python qa-hg28-art-chrome.py
       - name: HG19 Chromium SVG decode and visual contact sheet
@@ -228,6 +232,18 @@ jobs:
             docs/evidence/hg28/before/**/*.png
             docs/evidence/hg28/before/**/*.jpg
             docs/qa/hg28/visual-chrome-before.json
+          if-no-files-found: ignore
+      - name: Upload HG28 AFTER-art 20-screen Chromium review and gameplay interactions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG28-AFTER-art-20-Chromium-screens
+          path: |
+            docs/evidence/hg28/after/**/*.png
+            docs/evidence/hg28/after/**/*.jpg
+            docs/qa/hg28/visual-chrome-after.json
+            docs/qa/hg28/interactive-chrome.json
+          retention-days: 30
           if-no-files-found: ignore
       - name: Upload HG32 organic progression and late-game economy report
         if: always()

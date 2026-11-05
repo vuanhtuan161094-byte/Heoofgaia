@@ -29,6 +29,14 @@ for asset in ['assets/generated/hg28/world/meadow-tile.png','assets/generated/hg
     assert html.count(needle)==1,(asset,html.count(needle))
     data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/png;base64,{data}"')
+hg28_landmarks=json.loads((folder/'assets/generated/hg28/world/landmarks/asset-manifest.json').read_text(encoding='utf-8'))
+assert hg28_landmarks['schema']=='HG28-WorldLandmarks-v1' and len(hg28_landmarks['assets'])==12
+for item in hg28_landmarks['assets']:
+    asset=item['path']
+    needle=f'src="{asset}"'
+    assert html.count(needle)==1,(asset,html.count(needle))
+    data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
+    html=html.replace(needle,f'src="data:image/png;base64,{data}"')
 assert 'assets/generated/hg28/world/' not in html
 hg28_troops=json.loads((folder/'assets/generated/hg28/troops/asset-manifest.json').read_text(encoding='utf-8'))
 assert hg28_troops['schema']=='HG28-Troop-Masters-v1' and len(hg28_troops['units'])==8

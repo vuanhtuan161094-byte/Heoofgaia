@@ -8,7 +8,9 @@ const ctx=vm.createContext({console});
 const dir=__dirname;
 const hg28WorldAssets=['meadow-tile.png','world-creatures-atlas.png','tree-broadleaf.png','tree-pine.png'].map(name=>path.join(dir,'assets/generated/hg28/world',name));
 const hg28TroopAssets=['human_9.png','human_10.png','elf_9.png','elf_10.png','orc_9.png','orc_10.png','undead_9.png','undead_10.png'].map(name=>path.join(dir,'assets/generated/hg28/troops',name));
-const hg28OfflineAssets=[...hg28WorldAssets,...hg28TroopAssets];
+const hg28LandmarkManifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg28/world/landmarks/asset-manifest.json'),'utf8'));
+const hg28LandmarkAssets=hg28LandmarkManifest.assets.map(item=>path.join(dir,item.path));
+const hg28OfflineAssets=[...hg28WorldAssets,...hg28LandmarkAssets,...hg28TroopAssets];
 
 for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
 vm.runInContext(fs.readFileSync(path.join(dir,'painter.js'),'utf8'),ctx,{filename:'painter.js'});
@@ -16,6 +18,13 @@ const E=ctx.HOG_ENGINE, C=ctx.HOG_CATALOG;
 const P=ctx.HOG_PAINTER;
 let pass=0,failed=0;const results=[];
 function test(name,fn){try{fn();pass++;results.push({name,passed:true});console.log('PASS '+name)}catch(e){failed++;results.push({name,passed:false});console.error('FAIL '+name+': '+(e.stack||e.message))}}
+test('HG28 map landmark PNGs retain separate transparent art, generated provenance and offline embedding',()=>{
+ const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+ assert.equal(hg28LandmarkManifest.schema,'HG28-WorldLandmarks-v1');assert.equal(hg28LandmarkManifest.assets.length,12);
+ const source=fs.readFileSync(path.join(dir,hg28LandmarkManifest.source.path));assert.equal(sha(source),hg28LandmarkManifest.source.sha256);assert.equal(source.readUInt32BE(16),1448);assert.equal(source.readUInt32BE(20),1086);
+ const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8');
+ for(const item of hg28LandmarkManifest.assets){const image=fs.readFileSync(path.join(dir,item.path));assert.equal(sha(image),item.sha256,item.path);assert.equal(image.readUInt32BE(16),362,item.path);assert.equal(image.readUInt32BE(20),362,item.path);assert.equal(image[25],6,item.path+' must retain PNG alpha');assert(item.alphaBounds.width>0&&item.alphaBounds.height>0,item.path);assert(html.includes('src="data:image/png;base64,'+image.toString('base64')+'"'),item.path+' is offline embedded')}
+});
 function state(race='human'){return E.make(race,1_000_000)}
 function expensive(s){for(const k of C.keys) s.res[k]=Math.min(E.limits(s)[k],1e6);return s}
 function lifetimeHeroXp(h){let xp=h.xp;for(let level=1;level<h.level;level++)xp+=E.experienceToNext(level);return xp}

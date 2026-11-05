@@ -39,6 +39,9 @@ def main() -> None:
             page.goto(GAME.as_uri(), wait_until="load")
             page.locator('[data-action="start"]').click()
             assert page.evaluate("HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())")
+            landmark_assets = page.evaluate("""() => [...document.querySelectorAll('.hg28-art-cache img[id^="hg28-map-"]')].map(i=>({id:i.id,ready:i.complete&&i.naturalWidth===362&&i.naturalHeight===362}))""")
+            assert len(landmark_assets) == 12 and all(x["ready"] for x in landmark_assets), f"Offline landmark PNG decode failed at {width}x{height}: {landmark_assets}"
+            checks.append({"viewport": f"{width}x{height}", "check": "12 generated faction, mine and landmark sprites decode offline", "pass": True, "assets": [x["id"] for x in landmark_assets]})
             folder = ROOT / "docs" / "evidence" / "hg28" / "after" / f"{width}x{height}"
             folder.mkdir(parents=True, exist_ok=True)
 
@@ -89,6 +92,13 @@ def main() -> None:
             page.screenshot(path=str(selected_city), animations="disabled")
             images.append({"viewport": f"{width}x{height}", "state": "city-building-hotspot", "path": selected_city.relative_to(ROOT).as_posix(), "sha256": sha256(selected_city), "building": "barracks"})
             checks.append({"viewport": f"{width}x{height}", "check": "canvas hotspot selects building panel", "pass": True, "building": "barracks"})
+            city_layout = page.evaluate("""() => {
+              const rail=document.querySelector('.hg28-city-command'), box=rail.getBoundingClientRect(), grid=[...rail.querySelectorAll('.hg28-building')], upgrade=rail.querySelector('.hg28-upgrade').getBoundingClientRect();
+              const fullyVisible=grid.filter(e=>{const r=e.getBoundingClientRect();return r.top>=box.top-1&&r.bottom<=box.bottom+1}).length;
+              return {railHeight:Math.round(box.height),railScrollHeight:rail.scrollHeight,buildingButtons:grid.length,fullyVisible,upgradeVisible:upgrade.top>=box.top-1&&upgrade.bottom<=box.bottom+1};
+            }""")
+            assert city_layout["fullyVisible"] == city_layout["buildingButtons"] and city_layout["upgradeVisible"], f"City command rail clips live controls at {width}x{height}: {city_layout}"
+            checks.append({"viewport": f"{width}x{height}", "check": "city upgrade and every building selector fit in the visible command rail", "pass": True, "layout": city_layout})
 
             page.locator('[data-action="building"][data-key="hall"]').click()
             upgrade = page.locator('.hg28-upgrade [data-action="upgrade"]')
@@ -116,12 +126,12 @@ def main() -> None:
         "screenshots": images,
         "checks": checks,
         "pageErrors": errors,
-        "pass": len(checks) == 10 and len(images) == 6 and not errors,
+        "pass": len(checks) == 14 and len(images) == 6 and not errors,
     }
     receipt_path = ROOT / "docs" / "qa" / "hg28" / "interactive-chrome.json"
     receipt_path.parent.mkdir(parents=True, exist_ok=True)
     receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"HG28 interactive Chromium: {len(checks)}/10 gameplay checks; {len(images)}/6 screenshots; {len(errors)} page/console errors")
+    print(f"HG28 interactive Chromium: {len(checks)}/14 gameplay checks; {len(images)}/6 screenshots; {len(errors)} page/console errors")
     print(f"HTML SHA-256 {receipt['htmlSha256']} · receipt {receipt_path.relative_to(ROOT).as_posix()}")
     if not receipt["pass"]:
         raise SystemExit(1)
