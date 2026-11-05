@@ -135,6 +135,8 @@ jobs:
         run: python qa-hg30-ui-chrome.py
       - name: HG31 real Chromium screenshots of 10 screens and legendary equip UI
         run: python qa-hg31-ui-chrome.py
+      - name: HG28 baseline 20 real Chromium screens and layout-density receipt
+        run: python qa-hg28-baseline-chrome.py
       - name: HG19 Chromium SVG decode and visual contact sheet
         run: python qa-hg19-art-chrome.py
       - name: HG19.1 real PNG sprite frames and Game-Icons Chrome acceptance
@@ -207,6 +209,16 @@ jobs:
           path: |
             docs/evidence/hg31/*.png
             docs/qa/hg31-ui.json
+          if-no-files-found: ignore
+      - name: Upload HG28 BEFORE-art 20-screen visual review
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG28-BEFORE-art-20-Chromium-screens
+          path: |
+            docs/evidence/hg28/before/*.png
+            docs/evidence/hg28/before/*.jpg
+            docs/qa/hg28/baseline.json
           if-no-files-found: ignore
       - name: Upload offline playable HTML
         if: always()
