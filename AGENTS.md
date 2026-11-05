@@ -2,6 +2,13 @@
 
 **One game only:** Heroes of Gaia / Castle of Heroes / 英雄之城 (approx. 2009–2010). No import of gameplay systems from Call of Gods, Thánh Chiến, War of Legends or Đắc Kỷ.
 
+## OWNER OVERRIDE — HG28 CODEX DELEGATION · 05/11/2026
+- Owner explicitly **delegated HG28 graphics/UI/UX implementation to Codex**. This narrowly supersedes the older “direct ChatGPT only / no Codex” clause **for HG28**. Other scope remains unchanged.
+- Mandatory handoff: `docs/HG28_CODEX_VISUAL_OVERHAUL_20261105.md`. Visual-first coding, not mockups; capture real Chromium before/after screenshots and iterate.
+- Keep one repo, one existing branch `feature/hog1-research-to-playable-20261102`, one `Play-Heoofgaia-HG11.html`, preserve Save v07 and HG29–31.
+- Prior HG31 source workflow green; newest checkpoint-only workflow #41948299888 failed at HG18.1 Tower climb button being disabled. Reproduce and fix for a clean full CI on new HEAD; never claim latest green from older SHA.
+
+
 ## OWNER CURRENT CONTRACT — 04/11/2026 (OVERRIDES CONTRADICTORY OLDER NOTES)
 - **One repo, one branch, one HTML:** `vuanhtuan161094-byte/Heoofgaia`, `feature/hog1-research-to-playable-20261102` (also current default branch), `Play-Heoofgaia-HG11.html` (historical file suffix). See `docs/PROJECT_SINGLE_SOURCE_OF_TRUTH.md`. Old HG07/HG08/HG10 HTML files are not current release tracks.
 - Repo has been verified as public; *private* in current gameplay requests denotes the private/offline PvE balance **not** a repository permission claim. Do not promise a public repo cannot be discovered.
