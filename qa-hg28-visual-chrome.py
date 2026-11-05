@@ -73,7 +73,7 @@ def main() -> None:
                   activeTab: document.querySelector('[data-action=tab].active')?.dataset.tab || null,
                   modalOpen: !document.querySelector('#game-modal')?.hidden,
                   contentWidth: (() => {const body=document.querySelector('#game-modal-body');return body?{client:body.clientWidth,scroll:body.scrollWidth,horizontalOverflow:body.scrollWidth>body.clientWidth+1}:null})(),
-                  uiOverlap: (() => {const box=s=>{const e=document.querySelector(s);if(!e)return null;const r=e.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom}};const overlap=(a,b)=>!!a&&!!b&&Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top);const win=box('.game-window');return {navigation:overlap(box('#nav'),win),saveControls:overlap(box('.sidebar .buttons'),win)}})(),
+                  uiOverlap: (() => {const box=s=>{const e=document.querySelector(s);if(!e)return null;const r=e.getBoundingClientRect();return {left:r.left,right:r.right,top:r.top,bottom:r.bottom}};const overlap=(a,b)=>!!a&&!!b&&Math.min(a.right,b.right)>Math.max(a.left,b.left)&&Math.min(a.bottom,b.bottom)>Math.max(a.top,b.top);const nav=box('#nav'),win=box('.game-window'),save=box('.sidebar .buttons');return {navigation:overlap(nav,win),saveControls:overlap(save,win),bounds:{navigation:nav,window:win,saveControls:save}}})(),
                   canvases: [...document.querySelectorAll('canvas')].map(c => ({id:c.id,width:c.width,height:c.height,boxWidth:Math.round(c.getBoundingClientRect().width),boxHeight:Math.round(c.getBoundingClientRect().height)}))
                 })""")
                 assert geometry["activeTab"] == tab, f"{label} tab did not open: {geometry}"
