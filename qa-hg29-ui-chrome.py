@@ -48,6 +48,31 @@ with sync_playwright() as pw:
     for tab in ['map','relics','tasks']:
         page.locator(f'[data-action="tab"][data-tab="{tab}"]').first.click()
         shot(page,tab+'-960x540.png')
+    # Explicit UI fixture: test the real click path with a supplied shard wallet.
+    page.set_viewport_size({'width':1280,'height':720})
+    page.locator('[data-action="tab"][data-tab="relics"]').first.click()
+    check('HG29 crafting cards shown before HG27 old exchange panel',page.evaluate("""()=>{
+      const html=document.querySelector('#game-modal-body')?.innerHTML||'';
+      return html.indexOf('hg29-craft')>=0&&html.indexOf('hg29-craft')<html.indexOf('hg27-exchange');
+    }"""))
+    page.evaluate("""()=>{
+      const s=HOG_APP_DEBUG.getState();
+      s.hg29.shards.wild=12;s.hg29.shards.gear=12;
+      HOG_APP_DEBUG.render();
+    }""")
+    page.locator('[data-action="hg29-craft"][data-id="stone"]').first.click()
+    check('Actual button crafts 2 stones and deducts 8 wild/6 gear',page.evaluate("""()=>{
+      const s=HOG_APP_DEBUG.getState();
+      return s.hg29.shards.wild===4&&s.hg29.shards.gear===6&&
+        s.hg18.materials.enhance_stone===2&&s.hg29.crafted===1&&HOG_ENGINE.strictSave(s);
+    }"""))
+    shot(page,'fixture-stone-craft-1280x720.png')
+    page.reload(wait_until='load')
+    check('Cold browser reload preserves crafted output, no duplicate',page.evaluate("""()=>{
+      const s=HOG_APP_DEBUG.getState();
+      return s.hg29.shards.wild===4&&s.hg29.shards.gear===6&&
+        s.hg18.materials.enhance_stone===2&&s.hg29.crafted===1&&HOG_ENGINE.strictSave(s);
+    }"""))
     check('Zero uncaught JS errors',not errors)
     browser.close()
 receipt={'pass':all(q['pass'] for q in checks),'checks':checks,'errors':errors,'screens':screens}
