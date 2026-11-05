@@ -112,4 +112,21 @@ check('Reject corrupted stage/counters and undeclared receipts; old Save untouch
  assert.deepEqual({...s.hg27},original.tokens);assert.deepEqual({...s.hg29.shards},original.shards);
  assert(E.strictSave(s));return {invalidStates:2};
 });
-console.log('HG30 '+pass+'/10 '+(process.exitCode?'FAIL':'PASS'));if(pass!==10)process.exitCode=1;
+
+check('Fixture: converted sovereign is an actual world battle unit, not decorative inventory',()=>{
+ let s=enrich(E.make('human',1e6));E.hg30Convert(s,'guard');
+ s.hg30.bossWins=1;s.hg30.npcWins=3;s.hg30.paidTowerWins=3;
+ E.hg30Convert(s,'sovereign');
+ s.heroes[0].level=10;
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_tower_sovereign',count:1}]);
+ const home=E.getTile(E.activeCity(s).key);
+ const npc=E.TILES.filter(x=>x.kind==='npc'&&x.level===1).sort((a,b)=>
+  Math.abs(a.x-home.x)+Math.abs(a.y-home.y)-Math.abs(b.x-home.x)-Math.abs(b.y-home.y))[0];
+ E.startMarch(s,npc.key);
+ let ticks=0;while(s.march&&ticks++<15)E.tick(s,s.lastTick+Math.ceil((s.march.remaining+2)/s.speed*1000));
+ assert(s.battle);const stack=s.battle.allies.find(x=>x.unitId==='human_tower_sovereign');
+ assert(stack&&stack.hp>0&&stack.atk>0&&stack.pool>0);
+ s=saved(s);assert(s.battle.allies.some(x=>x.unitId==='human_tower_sovereign'));
+ return {target:npc.key,worldBattle:true,heroLevel:10,unitId:stack.unitId};
+});
+console.log('HG30 '+pass+'/11 '+(process.exitCode?'FAIL':'PASS'));if(pass!==11)process.exitCode=1;
