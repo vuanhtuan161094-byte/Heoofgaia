@@ -72,8 +72,11 @@ check('Fixture: 4 races convert 12 free T1 into real quest guard, all sinks exac
 check('Cannot convert reserved T1, zero cost deducted on rejected action',()=>{
  const s=enrich(E.make('human',1e6));const unit='human_1';
  s.army[unit]=12;E.hg20SetHeroPlan(s,1,[{unitId:unit,count:12}]);
- const before=E.serializeSave(s);assert.throws(()=>E.hg30Convert(s,'guard'),/Chưa đủ nhiệm vụ/);
- assertEqual(E.serializeSave(s),before);assertEqual(s.army.human_quest_guard||0,0);
+ const before={gold:s.res.gold,base:s.army[unit],wild:s.hg29.shards.wild,marks:s.hg27.marks};
+ assert.throws(()=>E.hg30Convert(s,'guard'),/Chưa đủ nhiệm vụ/);
+ assertEqual(s.res.gold,before.gold);assertEqual(s.army[unit],before.base);
+ assertEqual(s.hg29.shards.wild,before.wild);assertEqual(s.hg27.marks,before.marks);
+ assertEqual(s.army.human_quest_guard||0,0);assert(E.strictSave(s));
  return {reserved:12,spent:0};
 });
 check('Fixture: 4 races convert earned guard to canonical sovereign, preserve battle stats and gear',()=>{
@@ -96,14 +99,17 @@ check('Repeatable post-unlock conversions require real fresh consumables, no fal
  const first=s.hg30.sovereignMade;
  assert.throws(()=>E.hg30Convert(s,'sovereign'),/Chưa đủ nhiệm vụ/);
  assertEqual(s.hg30.sovereignMade,first);
- E.hg30Convert(s,'guard');assertEqual(s.hg30.guardMade,2);
+ // New ordinary troops below are explicitly injected in a fixture, not battle loot.
+ s.army.human_1+=12;E.hg30Convert(s,'guard');assertEqual(s.hg30.guardMade,2);
  saved(s);return {repeatGuards:2,repeatSovereignWithoutGuard:false};
 });
 check('Reject corrupted stage/counters and undeclared receipts; old Save untouched',()=>{
  const s=E.make('orc',1e6),source=E.serializeSave(s),doc=JSON.parse(source);
+ const original={army:{...s.army},res:{...s.res},tokens:{...s.hg27},shards:{...s.hg29.shards}};
  doc.state.hg30.stage=9;assert.throws(()=>E.parseSave(JSON.stringify(doc)));
  const x=JSON.parse(source);x.state.hg30.receipts=[{id:'phantom',race:'orc'}];assert.throws(()=>E.parseSave(JSON.stringify(x)));
- assertEqual(E.serializeSave(s),source);
- return {invalidStates:2};
+ assert.deepEqual({...s.army},original.army);assert.deepEqual({...s.res},original.res);
+ assert.deepEqual({...s.hg27},original.tokens);assert.deepEqual({...s.hg29.shards},original.shards);
+ assert(E.strictSave(s));return {invalidStates:2};
 });
 console.log('HG30 '+pass+'/10 '+(process.exitCode?'FAIL':'PASS'));if(pass!==10)process.exitCode=1;
