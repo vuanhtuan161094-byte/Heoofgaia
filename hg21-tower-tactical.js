@@ -212,8 +212,17 @@ function battleAct(s,action,opts){
 function valid(s){
  const t=s?.hg20?.tower;if(!t||!Array.isArray(t.picks)||t.picks.length>3)return false;
  if(t.team.length){
-  try{if(t.picks.length!==t.team.length)return false;validatePicks(s,t.picks,false)}catch{return false}
-  if(t.picks.some((p,i)=>p.heroId!==t.team[i]))return false;
+  // Saved Tower picks are a UI selection, not an active army allocation.
+  // HG20.startMarch removes a dispatching hero's home plan (the troops leave
+  // the city). Retaining a previously chosen Tower team must not corrupt the
+  // Save while the hero fights NPC/Boss encounters or returns home.
+  // The real entry gate gameBattle() still calls validatePicks(strictReady=true)
+  // and refuses missing units, busy heroes or nonexistent slots.
+  if(t.picks.length!==t.team.length)return false;
+  if(t.picks.some((p,i)=>!p||p.heroId!==t.team[i]||
+    !Number.isSafeInteger(p.heroId)||!Array.isArray(p.slots)||
+    p.slots.length>OWNED_SLOTS||new Set(p.slots).size!==p.slots.length||
+    p.slots.some(slot=>!validIndex(slot))))return false;
  }
  const b=s.battle;
  if(b?.hg21Tower){
