@@ -175,10 +175,14 @@ function reward(s,b,outcome){
     sulfur:Math.min(25000,100+floor*25),crystal:Math.min(25000,100+floor*25)});
    t.essence=Math.min(1e12,t.essence+essence);
    if(floor%10===0){
+    // HG32: Tower progression unlocks a *quest goal*, not free endgame troops.
+    // HG30 owns all new quest_guard -> tower_sovereign conversions, each with
+    // real fragments/seals/army/gold sinks. Do not erase already-owned soldiers
+    // from legacy Save v07 files; only stop future automatic minting.
     const unit=E.C.rewardUnits[s.race].find(u=>u.towerExclusive);
-    if(unit&&(s.army[unit.id]||0)<1e8){
-     const n=Math.min(1e8-(s.army[unit.id]||0),Math.max(1,Math.floor(floor/10)));
-     s.army[unit.id]=(s.army[unit.id]||0)+n;report.specialUnit=unit.id;
+    if(unit){
+     report.sovereignQuestUnit=unit.id;
+     E.note(s,'Tháp tầng '+floor+': mở mục tiêu nâng '+unit.name+' qua nhiệm vụ HG30 (không cấp quân miễn phí).');
     }
    }
    if(floor%25===0){
