@@ -197,7 +197,16 @@ try{
  }
  function paidTower(){
   recallIfNeeded();party();
-  if(s.hg20.tower.claims>=5)advance(86400);
+  if(s.hg20.tower.claims>=5){
+   // Daily claims use actual UTC wall calendar, not 60x simulated production
+   // time. Temporarily select 1x via the public game action, then run one
+   // actual modeled 24h elapsed day. No reward/quota counter mutation.
+   const previousSpeed=s.speed;
+   E.setSpeed(s,1);
+   advance(86400);
+   E.setSpeed(s,previousSpeed);
+   hg32.dailyResets=(hg32.dailyResets||0)+1;
+  }
   const start=s.hg20.tower.floor;
   E.hg21TowerEnter(s);
   let o,i=0;
