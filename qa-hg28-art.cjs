@@ -50,3 +50,62 @@ for(const unit of manifest.units){
 }
 assert(!html.includes('assets/generated/hg28/troops/'));
 console.log(`HG28 original high-tier masters and offline bundle: PASS ${manifest.units.length}/8; static-master disclosure verified`);
+
+const bosses=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg28/bosses/asset-manifest.json'),'utf8'));
+assert.equal(bosses.schema,'HG28-BossSprites-v1');
+assert.equal(bosses.assets.length,3);
+assert.equal(bosses.assets.every(a=>a.status==='RECREATED'&&a.source_route==='built-in image_gen'),true);
+const bossContext=vm.createContext({});
+vm.runInContext(fs.readFileSync(path.join(dir,'painter.js'),'utf8'),bossContext,{filename:'painter.js'});
+const painter=bossContext.HOG_PAINTER;
+assert(painter,'battle painter export is missing');
+for(const boss of bosses.assets){
+ const master=fs.readFileSync(path.join(dir,boss.source_master));
+ const png=fs.readFileSync(path.join(dir,boss.transparent_registered_png));
+ const webp=fs.readFileSync(path.join(dir,boss.runtime_path));
+ assert.equal(crypto.createHash('sha256').update(master).digest('hex'),boss.source_sha256,boss.name+' source master SHA-256');
+ assert.equal(crypto.createHash('sha256').update(png).digest('hex'),boss.png_sha256.toLowerCase(),boss.name+' registered PNG SHA-256');
+ assert.equal(crypto.createHash('sha256').update(webp).digest('hex'),boss.runtime_sha256,boss.name+' runtime WebP SHA-256');
+ assert.equal(webp.toString('ascii',0,4),'RIFF',boss.name+' WebP RIFF signature');
+ assert.equal(webp.toString('ascii',8,12),'WEBP',boss.name+' WebP signature');
+ assert.equal(png.readUInt32BE(16),512,boss.name+' PNG width');
+ assert.equal(png.readUInt32BE(20),512,boss.name+' PNG height');
+ assert.equal(png[25],6,boss.name+' PNG must preserve RGBA alpha');
+ assert(png.includes(Buffer.from([0x49,0x44,0x41,0x54])),boss.name+' PNG has no image data');
+ const profile=painter.bossSprite(boss.name.toUpperCase());
+ assert(profile,boss.name+' has no tactical battle profile');
+ assert.equal(profile.id,boss.image_id);
+ assert.equal(painter.animatedUnitId(null,boss.name),true,boss.name+' not recognized as battle animation actor');
+ assert.match(boss.animation_status,/master still/i);
+ assert.match(boss.animation_status,/real action footage/i);
+ assert.match(boss.prompt_summary,/single subject/i);
+ const expected=Buffer.from(webp).toString('base64');
+ assert(html.includes(`src="data:image/webp;base64,${expected}"`),boss.name+' WebP missing from offline HTML');
+}
+assert(!html.includes('assets/generated/hg28/bosses/'),'boss bundle must be fully offline');
+console.log(`HG28 boss art integrity and battle registration: PASS ${bosses.assets.length}/3; transparent sources and WebP offline bundle verified`);
+
+const spear=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg28/battle/asset-manifest.json'),'utf8'));
+assert.equal(spear.schema,'HG28-SingleBattleTroop-v1');
+assert.equal(spear.assets.length,1);
+const spearAsset=spear.assets[0];
+assert.equal(spearAsset.unit_id,'human_1');
+assert.equal(spearAsset.status,'RECREATED');
+assert.equal(spearAsset.source_route,'built-in image_gen');
+assert.match(spearAsset.animation_status,/master still/i);
+const spearMaster=fs.readFileSync(path.join(dir,spearAsset.source_master));
+const spearPng=fs.readFileSync(path.join(dir,spearAsset.transparent_registered_png));
+const spearWebp=fs.readFileSync(path.join(dir,spearAsset.runtime_path));
+assert.equal(crypto.createHash('sha256').update(spearMaster).digest('hex'),spearAsset.source_sha256);
+assert.equal(crypto.createHash('sha256').update(spearPng).digest('hex'),spearAsset.png_sha256);
+assert.equal(crypto.createHash('sha256').update(spearWebp).digest('hex'),spearAsset.runtime_sha256);
+assert.equal(spearPng.readUInt32BE(16),512);assert.equal(spearPng.readUInt32BE(20),512);assert.equal(spearPng[25],6);
+assert.equal(spearWebp.toString('ascii',0,4),'RIFF');assert.equal(spearWebp.toString('ascii',8,12),'WEBP');
+assert.equal(painter.MOTION_SPRITES.human_1.id,spearAsset.image_id);
+assert.equal(painter.animatedUnitId('human_1','Spear Militia'),true);
+const appSource=fs.readFileSync(path.join(dir,'app.js'),'utf8');
+assert.match(appSource,/function hg28ArmyUnitThumb\(unit,size\)/);
+assert.match(appSource,/data-hg28-unit-image="human_1"/);
+assert(html.includes(`src="data:image/webp;base64,${spearWebp.toString('base64')}"`));
+assert(!html.includes('assets/generated/hg28/battle/'));
+console.log('HG28 Human Spear Militia: PASS separate RGBA master, responsive battle profile and offline WebP bundle');

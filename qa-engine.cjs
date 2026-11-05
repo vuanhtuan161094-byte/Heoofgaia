@@ -1581,12 +1581,12 @@ test('HG14.2 continuous meadow battle projection keeps both armies in readable l
   assert(ally.y>dims.height*.36&&foe.y<dims.height*.7);
  }
 });
-test('HG14 four-race PNG sprite masters have deterministic Idle/Walk/Attack/Hit/Death transforms',()=>{
+test('HG28 Human Spear Militia plus four-race sprite masters use deterministic Idle/Walk/Attack/Hit/Death transforms',()=>{
  const expected={
-  human_3:'unit-human-archer',elf_1:'unit-elf-centaur',
+  human_1:'hg28-battle-human-spear-militia',human_3:'unit-human-archer',elf_1:'unit-elf-centaur',
   elf_2:'unit-elf-scout',orc_1:'unit-orc-imp',undead_1:'unit-undead-skeleton'
  };
- assert.equal(Object.keys(P.MOTION_SPRITES).length,5);
+ assert.equal(Object.keys(P.MOTION_SPRITES).length,6);
  for(const [unit,id] of Object.entries(expected)){assert.equal(P.MOTION_SPRITES[unit].id,id);
   assert(P.MOTION_SPRITES[unit].pivot>0&&P.MOTION_SPRITES[unit].pivot<1);
   assert(P.hasAnimatedTroops({allies:[{unitId:unit}],enemies:[]}));
@@ -1601,7 +1601,7 @@ test('HG14 four-race PNG sprite masters have deterministic Idle/Walk/Attack/Hit/
  assert(fallen.angle<-.8&&fallen.alpha<1,'death rotates and fades');
  assert(P.motionPose('idle',230).dy===idleMoving.dy,'deterministic');
  assert(P.hasAnimatedTroops({allies:[{unitId:'human_4'}],enemies:[]}));
- assert(!P.hasAnimatedTroops({allies:[{unitId:'human_1'}],enemies:[]}));
+ assert(P.hasAnimatedTroops({allies:[{unitId:'human_1'}],enemies:[]}));
 });
 test('HG14 battle renderer uses the real illustrated four-faction PNGs and never mutates combat Save',()=>{
  const srcs=Object.values(P.MOTION_SPRITES),read=[],originalDocument=ctx.document;

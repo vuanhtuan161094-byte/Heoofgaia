@@ -1,0 +1,103 @@
+{
+  "art_direction": "original dark teal/bronze dark-fantasy cutout masters",
+  "assets": [
+    {
+      "alpha": "true RGBA transparency; silhouette trimmed at alpha>=8 and foot registered",
+      "animation_status": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage",
+      "asset_id": "hg28-boss-azrael",
+      "glow": "#82e8e8",
+      "image_id": "hg28-boss-azrael",
+      "name": "Azrael",
+      "pivot": [
+        0.5,
+        0.988
+      ],
+      "png_sha256": "3653a3b3fff995cfa1654758543159c28c149e4620b25e680843f6214c0ce2ea",
+      "prompt_summary": "Original full-body undead lich king; layered charcoal robes, tarnished bronze armor, narrow crown, icy teal eyes, ornate blue-crystal staff. Premium dark-fantasy painted 3D-rendered game sprite, three-quarter view facing left, true transparent background, single subject, no text/UI/watermark. User image used only as a style reference; no exact character design or ornaments copied.",
+      "reference_role": "user-supplied image used only for broad style guidance",
+      "runtime_bytes": 111236,
+      "runtime_dimensions": [
+        512,
+        512
+      ],
+      "runtime_path": "assets/generated/hg28/bosses/azrael.webp",
+      "runtime_sha256": "b002b477a2e8e14445c259abd86c86cd75fcd478772043c1d5a1dcf4b359e8c9",
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "source_license": "original AI-generated project art; no third-party game asset used",
+      "source_master": "assets/generated/hg28/bosses/azrael-master.png",
+      "source_route": "built-in image_gen",
+      "source_sha256": "d8fda7a190a80f0a6c3efc9dba260d95dcc1ee828e01064152479f31a14f16ec",
+      "status": "RECREATED",
+      "transparent_registered_png": "assets/generated/hg28/bosses/azrael.png"
+    },
+    {
+      "alpha": "true RGBA transparency; silhouette trimmed at alpha>=8 and foot registered",
+      "animation_status": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage",
+      "asset_id": "hg28-boss-cyclops-tyrant",
+      "glow": "#74d9cf",
+      "image_id": "hg28-boss-cyclops-tyrant",
+      "name": "Cyclop Tyrant",
+      "pivot": [
+        0.5,
+        0.988
+      ],
+      "png_sha256": "42ff559328bd969ad84d0a60d5fe34b5b5f2b9a27bde6a60f3b22ce4b6a51701",
+      "prompt_summary": "Original full-body Cyclops Tyrant; huge one-eyed brute with exactly one visible central eye, dark iron and aged-bronze plates, teal runes, heavy stone maul. Premium dark-fantasy painted 3D-rendered game sprite, three-quarter view, true transparent background, single subject, no text/UI/watermark. User image used only as a style reference; no exact character design or ornaments copied.",
+      "reference_role": "user-supplied image used only for broad style guidance",
+      "runtime_bytes": 119906,
+      "runtime_dimensions": [
+        512,
+        512
+      ],
+      "runtime_path": "assets/generated/hg28/bosses/cyclops-tyrant.webp",
+      "runtime_sha256": "6f38a053462bb9553c76ece7d4ebc72c22b2f8b8b40276bfc60f49db6ecb9050",
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "source_license": "original AI-generated project art; no third-party game asset used",
+      "source_master": "assets/generated/hg28/bosses/cyclops-tyrant-master.png",
+      "source_route": "built-in image_gen",
+      "source_sha256": "9af00b816be31ea8c14fad8429ad94f279b4f7e99709fb072cc8dc918c58fccb",
+      "status": "RECREATED",
+      "transparent_registered_png": "assets/generated/hg28/bosses/cyclops-tyrant.png"
+    },
+    {
+      "alpha": "true RGBA transparency; silhouette trimmed at alpha>=8 and foot registered",
+      "animation_status": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage",
+      "asset_id": "hg28-boss-demonlord-samurai",
+      "glow": "#9fe2df",
+      "image_id": "hg28-boss-demonlord-samurai",
+      "name": "Demonlord Samurai",
+      "pivot": [
+        0.5,
+        0.988
+      ],
+      "png_sha256": "b0041e86bed135e0244e8ddc6f4cd0b05bd884993d46af464f5c5bd3e3b74aaf",
+      "prompt_summary": "Original full-body Demonlord Samurai; horned demon mask, dark lacquered armor with aged-bronze plates, restrained crimson cloth, teal spectral seams and one curved katana. Premium dark-fantasy painted 3D-rendered game sprite, three-quarter view facing left, true transparent background, single subject, no text/UI/watermark. User image used only as a style reference; no exact character design or ornaments copied.",
+      "reference_role": "user-supplied image used only for broad style guidance",
+      "runtime_bytes": 89544,
+      "runtime_dimensions": [
+        512,
+        512
+      ],
+      "runtime_path": "assets/generated/hg28/bosses/demonlord-samurai.webp",
+      "runtime_sha256": "5ede8de5228ec04bc9909d89d12333ae2b7f704169188578f99a652de9febb38",
+      "source_dimensions": [
+        1254,
+        1254
+      ],
+      "source_license": "original AI-generated project art; no third-party game asset used",
+      "source_master": "assets/generated/hg28/bosses/demonlord-samurai-master.png",
+      "source_route": "built-in image_gen",
+      "source_sha256": "ab79199634775e8948608491c64af3620dd6c181d8576fb512a1420b9bebdf65",
+      "status": "RECREATED",
+      "transparent_registered_png": "assets/generated/hg28/bosses/demonlord-samurai.png"
+    }
+  ],
+  "created_by": "tools/prepare_hg28_boss_sprites.py",
+  "schema": "HG28-BossSprites-v1"
+}

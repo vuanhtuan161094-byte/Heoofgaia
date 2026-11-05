@@ -1,8 +1,8 @@
 {
-  "sourceCommit": "588606025c2a44466cb9c47a8c2820418d9c647c",
+  "sourceCommit": "0a1bdbd5db8b02e82772bb8f811dc63294f4f3c5",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "832D3B975C081ACC835755216D40C8F898AF87DC7B0113354CCCFE7AC229C4BE",
-  "browser": "Playwright Chromium, local file://; new game and actual Army UI",
+  "htmlSha256": "199A2B670333D9C4ECAC498C5C4ECDEB6C6F801D4FE1687E3FC1020BB8311CA7",
+  "browser": "Playwright Chromium, local file://; Army UI plus actual engine March into the authored Azrael encounter; Boss visual lineup uses 16 deployed Human Spear Militias as a disclosed art fixture, not organic progression.",
   "screenshots": [
     {
       "viewport": "1280x720",
@@ -12,7 +12,7 @@
         "human_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-human.png",
-      "sha256": "09459FC38477BD18C2141D233C27370487F285CF57A9557F0307C32C711BC3E5"
+      "sha256": "762056D062AC786393CF4DC772D1D416A40C5D0E67471A69A0F340995975FCB9"
     },
     {
       "viewport": "1280x720",
@@ -22,7 +22,7 @@
         "elf_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-elf.png",
-      "sha256": "51E1722FA016C1D73E647B74C6233F87B34886DECC425D3507516958AFC82935"
+      "sha256": "B68DDB62C648FE7BAF9BEC41CB786203941DDB63F348ED70F9D9CDACDBF2CF92"
     },
     {
       "viewport": "1280x720",
@@ -32,7 +32,7 @@
         "orc_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-orc.png",
-      "sha256": "03573486B3B253993E60A597DC2C23A734B7C7EFD27C8640DE19E607CE63E6CF"
+      "sha256": "16504ABA05F79953424A448111F929C4FDAD162825A851B765AD13AB8665A764"
     },
     {
       "viewport": "1280x720",
@@ -42,7 +42,7 @@
         "undead_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-undead.png",
-      "sha256": "B9D8842F60A3E06069ED72AE685EC2B3728D8978F1577F3757C8EF5EEA7DFF20"
+      "sha256": "C2B4B3204F7A9C11EDD82762D0432905BE3EB404450ED6A05FD52BB856A6AFC1"
     },
     {
       "viewport": "960x540",
@@ -52,7 +52,7 @@
         "human_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-human.png",
-      "sha256": "C845C60D2E78C25CC15C6990BFAD8CF7A9900C94B870B1D0649DBFE48FF97D15"
+      "sha256": "A6B32EB7C6DB78A692619DF619A1B126D002E3B12F10209AE3B9A701444FE336"
     },
     {
       "viewport": "960x540",
@@ -62,7 +62,7 @@
         "elf_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-elf.png",
-      "sha256": "D1B8D11719114EFF7613E33E705EC0D48BA65EB52B9391C672E20AE53024D4D2"
+      "sha256": "934CCDE755299A27248586449DE43009DFB7F5F40F265323046A881866A0BD4E"
     },
     {
       "viewport": "960x540",
@@ -72,7 +72,7 @@
         "orc_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-orc.png",
-      "sha256": "89F86D631C33770C7524DCD2FF64AD1E6CFBA5644B73DD65176DB212B8AB7522"
+      "sha256": "5249BF9149B42F2D25C0346389F9C4C1271D47A2319BA66744272BD3B44D8093"
     },
     {
       "viewport": "960x540",
@@ -82,18 +82,90 @@
         "undead_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-undead.png",
-      "sha256": "E1356D843AE1CAFA65745E1482E9A1F1A3B7CA8993A84B9A98A91C4165741B3A"
+      "sha256": "71D35B10021AD3A13D000375234ABF274352928615E2F59D3EE7CC4610018150"
+    },
+    {
+      "viewport": "1280x720",
+      "state": "boss-art-before-controlled-fallback",
+      "path": "docs/evidence/hg28/before/1280x720/15-boss-battle.png",
+      "sha256": "B144022517E3469F2ACF4A97E9937BA0EA98CD1502FC451477CF44E2D567F29F"
+    },
+    {
+      "viewport": "1280x720",
+      "state": "boss-battle-after-art",
+      "path": "docs/evidence/hg28/after/1280x720/15-boss-battle.png",
+      "sha256": "32DCCC1292821A42AF9986FF41C0B7D00796EC1128FC39C51A6E6DEF4EA59944"
+    },
+    {
+      "viewport": "960x540",
+      "state": "boss-art-before-controlled-fallback",
+      "path": "docs/evidence/hg28/before/960x540/15-boss-battle.png",
+      "sha256": "D9996C55D8579218912164A0E626A203EBEC1F120DEC3A766487105455513B8E"
+    },
+    {
+      "viewport": "960x540",
+      "state": "boss-battle-after-art",
+      "path": "docs/evidence/hg28/after/960x540/15-boss-battle.png",
+      "sha256": "7A48C64576493410BAFD8227CD3FA34B5A7CBA316410D6C46DB739B89728157C"
     }
   ],
   "checks": [
     {
       "viewport": "1280x720",
+      "check": "human first troop and recruit action fit the visible Army panel",
+      "pass": true,
+      "layout": {
+        "unit": "human_1",
+        "buttonDisabled": false,
+        "rowVisible": true,
+        "recruitVisible": true,
+        "spearReady": true
+      }
+    },
+    {
+      "viewport": "1280x720",
+      "check": "human visible Recruit button starts a paid queue and preserves v07",
+      "pass": true,
+      "unit": "human_1"
+    },
+    {
+      "viewport": "1280x720",
+      "check": "human paid troop queue completes through game tick",
+      "pass": true,
+      "trained": 19
+    },
+    {
+      "viewport": "1280x720",
       "check": "human T9/T10 PNGs load in live Army roster and v07 stays valid",
       "pass": true,
       "troops": [
         "human_9",
         "human_10"
       ]
+    },
+    {
+      "viewport": "1280x720",
+      "check": "elf first troop and recruit action fit the visible Army panel",
+      "pass": true,
+      "layout": {
+        "unit": "elf_1",
+        "buttonDisabled": false,
+        "rowVisible": true,
+        "recruitVisible": true,
+        "spearReady": true
+      }
+    },
+    {
+      "viewport": "1280x720",
+      "check": "elf visible Recruit button starts a paid queue and preserves v07",
+      "pass": true,
+      "unit": "elf_1"
+    },
+    {
+      "viewport": "1280x720",
+      "check": "elf paid troop queue completes through game tick",
+      "pass": true,
+      "trained": 19
     },
     {
       "viewport": "1280x720",
@@ -106,12 +178,60 @@
     },
     {
       "viewport": "1280x720",
+      "check": "orc first troop and recruit action fit the visible Army panel",
+      "pass": true,
+      "layout": {
+        "unit": "orc_1",
+        "buttonDisabled": false,
+        "rowVisible": true,
+        "recruitVisible": true,
+        "spearReady": true
+      }
+    },
+    {
+      "viewport": "1280x720",
+      "check": "orc visible Recruit button starts a paid queue and preserves v07",
+      "pass": true,
+      "unit": "orc_1"
+    },
+    {
+      "viewport": "1280x720",
+      "check": "orc paid troop queue completes through game tick",
+      "pass": true,
+      "trained": 19
+    },
+    {
+      "viewport": "1280x720",
       "check": "orc T9/T10 PNGs load in live Army roster and v07 stays valid",
       "pass": true,
       "troops": [
         "orc_9",
         "orc_10"
       ]
+    },
+    {
+      "viewport": "1280x720",
+      "check": "undead first troop and recruit action fit the visible Army panel",
+      "pass": true,
+      "layout": {
+        "unit": "undead_1",
+        "buttonDisabled": false,
+        "rowVisible": true,
+        "recruitVisible": true,
+        "spearReady": true
+      }
+    },
+    {
+      "viewport": "1280x720",
+      "check": "undead visible Recruit button starts a paid queue and preserves v07",
+      "pass": true,
+      "unit": "undead_1"
+    },
+    {
+      "viewport": "1280x720",
+      "check": "undead paid troop queue completes through game tick",
+      "pass": true,
+      "trained": 19
     },
     {
       "viewport": "1280x720",
@@ -124,12 +244,60 @@
     },
     {
       "viewport": "960x540",
+      "check": "human first troop and recruit action fit the visible Army panel",
+      "pass": true,
+      "layout": {
+        "unit": "human_1",
+        "buttonDisabled": false,
+        "rowVisible": true,
+        "recruitVisible": true,
+        "spearReady": true
+      }
+    },
+    {
+      "viewport": "960x540",
+      "check": "human visible Recruit button starts a paid queue and preserves v07",
+      "pass": true,
+      "unit": "human_1"
+    },
+    {
+      "viewport": "960x540",
+      "check": "human paid troop queue completes through game tick",
+      "pass": true,
+      "trained": 19
+    },
+    {
+      "viewport": "960x540",
       "check": "human T9/T10 PNGs load in live Army roster and v07 stays valid",
       "pass": true,
       "troops": [
         "human_9",
         "human_10"
       ]
+    },
+    {
+      "viewport": "960x540",
+      "check": "elf first troop and recruit action fit the visible Army panel",
+      "pass": true,
+      "layout": {
+        "unit": "elf_1",
+        "buttonDisabled": false,
+        "rowVisible": true,
+        "recruitVisible": true,
+        "spearReady": true
+      }
+    },
+    {
+      "viewport": "960x540",
+      "check": "elf visible Recruit button starts a paid queue and preserves v07",
+      "pass": true,
+      "unit": "elf_1"
+    },
+    {
+      "viewport": "960x540",
+      "check": "elf paid troop queue completes through game tick",
+      "pass": true,
+      "trained": 19
     },
     {
       "viewport": "960x540",
@@ -142,6 +310,30 @@
     },
     {
       "viewport": "960x540",
+      "check": "orc first troop and recruit action fit the visible Army panel",
+      "pass": true,
+      "layout": {
+        "unit": "orc_1",
+        "buttonDisabled": false,
+        "rowVisible": true,
+        "recruitVisible": true,
+        "spearReady": true
+      }
+    },
+    {
+      "viewport": "960x540",
+      "check": "orc visible Recruit button starts a paid queue and preserves v07",
+      "pass": true,
+      "unit": "orc_1"
+    },
+    {
+      "viewport": "960x540",
+      "check": "orc paid troop queue completes through game tick",
+      "pass": true,
+      "trained": 19
+    },
+    {
+      "viewport": "960x540",
       "check": "orc T9/T10 PNGs load in live Army roster and v07 stays valid",
       "pass": true,
       "troops": [
@@ -151,15 +343,157 @@
     },
     {
       "viewport": "960x540",
+      "check": "undead first troop and recruit action fit the visible Army panel",
+      "pass": true,
+      "layout": {
+        "unit": "undead_1",
+        "buttonDisabled": false,
+        "rowVisible": true,
+        "recruitVisible": true,
+        "spearReady": true
+      }
+    },
+    {
+      "viewport": "960x540",
+      "check": "undead visible Recruit button starts a paid queue and preserves v07",
+      "pass": true,
+      "unit": "undead_1"
+    },
+    {
+      "viewport": "960x540",
+      "check": "undead paid troop queue completes through game tick",
+      "pass": true,
+      "trained": 19
+    },
+    {
+      "viewport": "960x540",
       "check": "undead T9/T10 PNGs load in live Army roster and v07 stays valid",
       "pass": true,
       "troops": [
         "undead_9",
         "undead_10"
       ]
+    },
+    {
+      "viewport": "1280x720",
+      "check": "three original transparent boss WebP assets decode from file:// HTML",
+      "pass": true,
+      "assets": [
+        {
+          "id": "hg28-boss-azrael",
+          "ready": true,
+          "offline": true
+        },
+        {
+          "id": "hg28-boss-cyclops-tyrant",
+          "ready": true,
+          "offline": true
+        },
+        {
+          "id": "hg28-boss-demonlord-samurai",
+          "ready": true,
+          "offline": true
+        }
+      ]
+    },
+    {
+      "viewport": "1280x720",
+      "check": "Human Spear Militia uses its own offline registered art and battle transform profile",
+      "pass": true,
+      "asset": {
+        "ready": true,
+        "offline": true,
+        "registered": true,
+        "animated": true
+      }
+    },
+    {
+      "viewport": "1280x720",
+      "check": "BEFORE Chromium frame uses the real fallback with generated sprite sources disabled and unchanged battle state",
+      "pass": true
+    },
+    {
+      "viewport": "1280x720",
+      "check": "real boss battle draws all three portraits and the custom Spear Militia, idle motion changes, HUD labels clear and game state stays unchanged",
+      "pass": true,
+      "drawn": [
+        "hg28-battle-human-spear-militia",
+        "hg28-boss-azrael",
+        "hg28-boss-demonlord-samurai",
+        "hg28-boss-cyclops-tyrant",
+        "hg28-battle-human-spear-militia",
+        "hg28-boss-azrael",
+        "hg28-boss-demonlord-samurai",
+        "hg28-boss-cyclops-tyrant"
+      ],
+      "labelsFit": true
+    },
+    {
+      "viewport": "1280x720",
+      "check": "AFTER actual boss battlefield screenshot captured at target size",
+      "pass": true
+    },
+    {
+      "viewport": "960x540",
+      "check": "three original transparent boss WebP assets decode from file:// HTML",
+      "pass": true,
+      "assets": [
+        {
+          "id": "hg28-boss-azrael",
+          "ready": true,
+          "offline": true
+        },
+        {
+          "id": "hg28-boss-cyclops-tyrant",
+          "ready": true,
+          "offline": true
+        },
+        {
+          "id": "hg28-boss-demonlord-samurai",
+          "ready": true,
+          "offline": true
+        }
+      ]
+    },
+    {
+      "viewport": "960x540",
+      "check": "Human Spear Militia uses its own offline registered art and battle transform profile",
+      "pass": true,
+      "asset": {
+        "ready": true,
+        "offline": true,
+        "registered": true,
+        "animated": true
+      }
+    },
+    {
+      "viewport": "960x540",
+      "check": "BEFORE Chromium frame uses the real fallback with generated sprite sources disabled and unchanged battle state",
+      "pass": true
+    },
+    {
+      "viewport": "960x540",
+      "check": "real boss battle draws all three portraits and the custom Spear Militia, idle motion changes, HUD labels clear and game state stays unchanged",
+      "pass": true,
+      "drawn": [
+        "hg28-battle-human-spear-militia",
+        "hg28-boss-azrael",
+        "hg28-boss-demonlord-samurai",
+        "hg28-boss-cyclops-tyrant",
+        "hg28-battle-human-spear-militia",
+        "hg28-boss-azrael",
+        "hg28-boss-demonlord-samurai",
+        "hg28-boss-cyclops-tyrant"
+      ],
+      "labelsFit": true
+    },
+    {
+      "viewport": "960x540",
+      "check": "AFTER actual boss battlefield screenshot captured at target size",
+      "pass": true
     }
   ],
   "pageErrors": [],
-  "animation": "Still masters in Army UI. Existing battle action rendering retained; these new masters have no fabricated action frames.",
+  "animation": "Boss and Spear Militia still masters use the existing event-linked Idle/Walk/Attack/Hit/Death transform renderer; no fabricated action frames. Human Archer retains its real 48-frame atlas; Skeleton HG22.1 remains untouched.",
   "pass": true
 }

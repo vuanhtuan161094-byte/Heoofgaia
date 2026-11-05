@@ -1,8 +1,8 @@
 {
   "phase": "AFTER",
-  "sourceCommit": "588606025c2a44466cb9c47a8c2820418d9c647c",
+  "sourceCommit": "0a1bdbd5db8b02e82772bb8f811dc63294f4f3c5",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "832D3B975C081ACC835755216D40C8F898AF87DC7B0113354CCCFE7AC229C4BE",
+  "htmlSha256": "199A2B670333D9C4ECAC498C5C4ECDEB6C6F801D4FE1687E3FC1020BB8311CA7",
   "browser": "Playwright Chromium, local file://",
   "sizes": [
     "1280x720",
@@ -14,7 +14,7 @@
       "tab": "map",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/01-map.png",
-      "sha256": "DF469A04866D9195BB58D031B4176219B7F387CA63E46B998D9D3D0852D3E950",
+      "sha256": "1C73209F13BD77B532763A480F2AAB1DE01D51304D1402D742B8230A6A1BFAF0",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -22,9 +22,34 @@
         "documentHeight": 720,
         "activeTab": "map",
         "modalOpen": false,
+        "contentWidth": {
+          "client": 0,
+          "scroll": 0,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -50,9 +75,34 @@
         "documentHeight": 720,
         "activeTab": "city",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -77,7 +127,7 @@
       "tab": "army",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/03-army.png",
-      "sha256": "314A21161B388E647BA359189FE0F6A75172671A25D20D084547F93BD3FC23FB",
+      "sha256": "5220665C2CC9AACF5FA536CD4BEC56A07B0CE84ECAA16A6904FD4FA47543817C",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -85,9 +135,34 @@
         "documentHeight": 720,
         "activeTab": "army",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -105,7 +180,7 @@
       "tab": "heroes",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/04-heroes.png",
-      "sha256": "EA91D47D5709D4BFC2870B771BBBB7B27824036C658437505B9F2366EB9D9147",
+      "sha256": "ED2473514ED65218C67AB794E29CDEA4F6E2B785091629CFB35FAFC62EC6A3E8",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -113,9 +188,34 @@
         "documentHeight": 720,
         "activeTab": "heroes",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -133,7 +233,7 @@
       "tab": "magic",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/05-magic.png",
-      "sha256": "DD1029AA695B18B05551598BE75D7C809BD4AE638C48F582EAB8DFA5C85CDCBC",
+      "sha256": "7B40124D383183FF0BBE30D3FEDA89E2E2ADE7AFA048D10D27077B6D055A2305",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -141,9 +241,34 @@
         "documentHeight": 720,
         "activeTab": "magic",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -161,7 +286,7 @@
       "tab": "relics",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/06-relics.png",
-      "sha256": "E3D97105AE0AB978A7C4EDC74316187798324DC2A2E1C854E20045B50EF208F9",
+      "sha256": "25128A8233B90C58F177AD607F587706B59322B8221278BA371F2DD0E752483C",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -169,9 +294,34 @@
         "documentHeight": 720,
         "activeTab": "relics",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -189,7 +339,7 @@
       "tab": "tasks",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/07-tasks.png",
-      "sha256": "3BCC5370E3511668150743F5B328385D89559E518B6F94FCE8BD50D679D2E35E",
+      "sha256": "E42B6A2439BED91C8F19CEFC4FC8B8BCE918AFB080571107276DA1F2EA42EF46",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -197,9 +347,34 @@
         "documentHeight": 720,
         "activeTab": "tasks",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -217,7 +392,7 @@
       "tab": "tower",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/08-tower.png",
-      "sha256": "D95E1AC5833E0C4956DDB0B4FC9050CC26BF05A7F95D0F5BEA935D64ED63063E",
+      "sha256": "24221777C4C511C5CE3B6D27F105F14B3FD3086365C5D6495043D1E73DA9EDFB",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -225,9 +400,34 @@
         "documentHeight": 720,
         "activeTab": "tower",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -245,7 +445,7 @@
       "tab": "reports",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/09-reports.png",
-      "sha256": "0A7BFCE63479BD2E8F9D4BAE28D610CC56D6BDC1635B7DA73329F8D316F5E238",
+      "sha256": "2A184E10AA5AF13EE90EC5AA86C31A77C4D260802B729E006F2776ECF0A3F559",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -253,9 +453,34 @@
         "documentHeight": 720,
         "activeTab": "reports",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -273,7 +498,7 @@
       "tab": "sources",
       "viewport": "1280x720",
       "path": "docs/evidence/hg28/after/1280x720/10-sources.png",
-      "sha256": "1D14607DB6FC977A173D4B9FAA41073FF8A40F696F9B6D11DC2A409B23610BF4",
+      "sha256": "6E9A7397C8445993EEC29CA4079200D411014BC238DD6EA6D4B51B30D648D401",
       "geometry": {
         "width": 1280,
         "height": 720,
@@ -281,9 +506,34 @@
         "documentHeight": 720,
         "activeTab": "sources",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 1096,
+          "scroll": 1096,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 1272,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 90,
+              "right": 1190,
+              "top": 105,
+              "bottom": 672
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 332.0625,
+              "top": 672,
+              "bottom": 698
+            }
+          }
         },
         "canvases": [
           {
@@ -301,7 +551,7 @@
       "tab": "map",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/01-map.png",
-      "sha256": "1BFBA8313CD703111597D93FFB76767C1568EA02CC899DFF0C5D18CB0C4F12BF",
+      "sha256": "FF5DB0C8B5B4226552ED82FADD8FD8732E732F805305AFE47BF9F17D779FC5C7",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -309,9 +559,34 @@
         "documentHeight": 540,
         "activeTab": "map",
         "modalOpen": false,
+        "contentWidth": {
+          "client": 0,
+          "scroll": 0,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 0,
+              "right": 0,
+              "top": 0,
+              "bottom": 0
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -329,7 +604,7 @@
       "tab": "city",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/02-city.png",
-      "sha256": "A15BB59B851B82939BB5A650D26C49D9D3B3A39E5E660A715B271319F1C9D3AF",
+      "sha256": "AC809938E6D7B28FB8B37FD2805C5CFEBD1060131F983CA6CB0400183A79B5CF",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -337,9 +612,34 @@
         "documentHeight": 540,
         "activeTab": "city",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -353,8 +653,8 @@
             "id": "city-canvas",
             "width": 1176,
             "height": 560,
-            "boxWidth": 524,
-            "boxHeight": 213
+            "boxWidth": 530,
+            "boxHeight": 208
           }
         ]
       }
@@ -364,7 +664,7 @@
       "tab": "army",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/03-army.png",
-      "sha256": "9348784C63036E0B8D4B4638151628C6145F757B9B84C30E25FF5000DC1B0BA8",
+      "sha256": "B6E792B44B2A3690CFDBD0485446B6FECF2A751B486944450E0E206055B4EA1A",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -372,9 +672,34 @@
         "documentHeight": 540,
         "activeTab": "army",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -392,7 +717,7 @@
       "tab": "heroes",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/04-heroes.png",
-      "sha256": "A13FB4BBBE3C89B830E0E1AC14F8AF4F7814C77C3635B8782E49CFFE1AB1DF27",
+      "sha256": "690CD517672742525CC6DEBF2BE44DB56E7F04C57C8B47ED40424B8A1298AA13",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -400,9 +725,34 @@
         "documentHeight": 540,
         "activeTab": "heroes",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -420,7 +770,7 @@
       "tab": "magic",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/05-magic.png",
-      "sha256": "8312C1F8C0DD3B5A30E855DE55C892C22257913BE3BF109BE6F349CB1240B7BC",
+      "sha256": "16112A576FCFEBBBEDAE64B053E0817937DCD4B6F1E0A730D5C267ED51F76000",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -428,9 +778,34 @@
         "documentHeight": 540,
         "activeTab": "magic",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -448,7 +823,7 @@
       "tab": "relics",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/06-relics.png",
-      "sha256": "2E1A714DC34B1AE28491831CAFF50636D1693EAD0F3B92616A8996693C938C97",
+      "sha256": "5A3D46AF8F6907A2CABB98E13257D0585BF47893E96B9CA0E8F003EC52DF8A55",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -456,9 +831,34 @@
         "documentHeight": 540,
         "activeTab": "relics",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -476,7 +876,7 @@
       "tab": "tasks",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/07-tasks.png",
-      "sha256": "736E3391536125199CE565633588A835C50BBD97F62F2C4B49BAC3993CFBD2AE",
+      "sha256": "C9D7DEB5C078BFEF90F26537A11D10E335FDA82950A625AFEFDE8B94AA076DB5",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -484,9 +884,34 @@
         "documentHeight": 540,
         "activeTab": "tasks",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -504,7 +929,7 @@
       "tab": "tower",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/08-tower.png",
-      "sha256": "B85ABEA42C2BF72AF764D9130A04555BA48C70CB08170DD7F37C4A9D6E6DCA89",
+      "sha256": "D1F962D395B5298768CFFEED40E7C128BE1477B060C62D95FDDC3CEA21483B6F",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -512,9 +937,34 @@
         "documentHeight": 540,
         "activeTab": "tower",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -532,7 +982,7 @@
       "tab": "reports",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/09-reports.png",
-      "sha256": "78240DF22E5ECF106697CEC6CB5F7DDAC1D4C6D58D8F91DA0C8AAF2B48DB11AF",
+      "sha256": "522DAF7A946630A7E17B2498B7F5415DEB9F40D68B1EDEDDFDAD6E7165AFAF63",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -540,9 +990,34 @@
         "documentHeight": 540,
         "activeTab": "reports",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {
@@ -560,7 +1035,7 @@
       "tab": "sources",
       "viewport": "960x540",
       "path": "docs/evidence/hg28/after/960x540/10-sources.png",
-      "sha256": "7185EB3FDAC91C8C2E5FB04F9E32C8E330B7E2599E9A5DA31775A09E15720799",
+      "sha256": "848084347C958E1FB8EA1D768199B26165245CB180A062432116E1CDC5ED982A",
       "geometry": {
         "width": 960,
         "height": 540,
@@ -568,9 +1043,34 @@
         "documentHeight": 540,
         "activeTab": "sources",
         "modalOpen": true,
+        "contentWidth": {
+          "client": 927,
+          "scroll": 927,
+          "horizontalOverflow": false
+        },
         "uiOverlap": {
           "navigation": false,
-          "saveControls": false
+          "saveControls": false,
+          "bounds": {
+            "navigation": {
+              "left": 8,
+              "right": 952,
+              "top": 64.5,
+              "bottom": 96.5
+            },
+            "window": {
+              "left": 14.40625,
+              "right": 945.59375,
+              "top": 100,
+              "bottom": 490
+            },
+            "saveControls": {
+              "left": 21,
+              "right": 297.046875,
+              "top": 505,
+              "bottom": 530
+            }
+          }
         },
         "canvases": [
           {

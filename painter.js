@@ -304,13 +304,23 @@ function battleVisualState(b,u,elapsed,now=elapsed){
 // Read-only procedural motion is derived from the same recorded battle events as Heavy Soldier.
 // Full skeletal/frame animations still require approved separated pose/frame sources.
 const MOTION_SPRITES=Object.freeze({
+ human_1:Object.freeze({id:'hg28-battle-human-spear-militia',race:'human',size:116,pivot:.988,accent:'#d3b273',ranged:false}),
  human_3:Object.freeze({id:'unit-human-archer',race:'human',size:112,pivot:446/512,accent:'#f0c46d',ranged:true}),
  elf_1:Object.freeze({id:'unit-elf-centaur',race:'elf',size:122,pivot:446/512,accent:'#95e7a7',ranged:false}),
  elf_2:Object.freeze({id:'unit-elf-scout',race:'elf',size:110,pivot:446/512,accent:'#b1db91',ranged:false}),
  orc_1:Object.freeze({id:'unit-orc-imp',race:'orc',size:110,pivot:446/512,accent:'#ffa16b',ranged:false}),
  undead_1:Object.freeze({id:'unit-undead-skeleton',race:'undead',size:112,pivot:446/512,accent:'#c9a9f7',ranged:false})
 });
-function animatedUnitId(id){return id==='human_4'||Object.prototype.hasOwnProperty.call(MOTION_SPRITES,id)||!!root.HOG_ART_PACK?.hasUnit(id)}
+const BOSS_SPRITES=Object.freeze({
+ azrael:Object.freeze({id:'hg28-boss-azrael',size:146,pivot:.988,glow:'#82e8e8',boss:true}),
+ 'cyclop tyrant':Object.freeze({id:'hg28-boss-cyclops-tyrant',size:154,pivot:.988,glow:'#74d9cf',boss:true}),
+ 'demonlord samurai':Object.freeze({id:'hg28-boss-demonlord-samurai',size:146,pivot:.988,glow:'#9fe2df',boss:true})
+});
+function bossSprite(name){
+ const key=String(name||'').trim().toLocaleLowerCase().replace(/\s+/g,' ');
+ return BOSS_SPRITES[key]||null;
+}
+function animatedUnitId(id,name=''){return id==='human_4'||Object.prototype.hasOwnProperty.call(MOTION_SPRITES,id)||!!root.HOG_ART_PACK?.hasUnit(id)||!!bossSprite(name)}
 function motionPose(action,time=0,duration=null){
  // Bounded deterministic transforms with no gameplay mutation.
  const ms=Math.max(0,Number.isFinite(time)?time:0),phase=ms/1000;
@@ -368,12 +378,12 @@ function animatedArcher(c,x,y,enemy,visual,k=1){
  c.drawImage(image,frame.sx,frame.sy,256,256,-size*.485,-size*.87,size,size);
  c.restore();return true;
 }
-function motionSprite(c,x,y,unitId,enemy,visual,k=1){
- const A=root.HOG_ART_PACK,profile=MOTION_SPRITES[unitId]||root.HOG_HG28_TROOPS?.profile(unitId)||root.HOG_HG192_SPRITES?.profile(unitId)||root.HOG_HG193_SPRITES?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
+function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
+ const A=root.HOG_ART_PACK,profile=bossSprite(unitName)||MOTION_SPRITES[unitId]||root.HOG_HG28_TROOPS?.profile(unitId)||root.HOG_HG192_SPRITES?.profile(unitId)||root.HOG_HG193_SPRITES?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
  if(!profile||!visual||typeof document==='undefined')return false;
  const image=profile.id?document.getElementById(profile.id):A.unitImage(unitId);
  if(!image?.complete||!image.naturalWidth)return false;
- const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,64,134);
+ const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,64,profile.boss?178:134);
  c.save();c.globalAlpha*=clamp((visual.alpha??1)*pose.alpha,0,1);
  c.translate(x,y);if(enemy)c.scale(-1,1);
  c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
@@ -458,7 +468,7 @@ function motionImpactFx(c,camera,b,elapsed,layout){
  }
  return effects.length;
 }
-function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>animatedUnitId(u.unitId))}
+function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>animatedUnitId(u.unitId,u.name))}
 function animatedSoldier(c,x,y,enemy,visual,k=1){
  if(typeof document==='undefined'||!visual)return false;const frame=animationFrame(visual.action,visual.time,visual.duration),image=document.getElementById(frame.id);
  if(!image?.complete||!image.naturalWidth)return false;
@@ -532,7 +542,7 @@ function battleHit(canvas,x,y,E,s,now=visualNow()){
  let best=null,distance=Math.max(38,canvas.width*.055);
  for(const entry of layout){
   const u=entry.u;if(u.pool<=0)continue;
-  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):u,
+  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):u,
    pt=camera.point((visual||u).x+.5,(visual||u).y+.5),
    d=Math.hypot(pt.x+entry.x-entry.baseX-x,pt.y+entry.y-entry.baseY-y);
   if(d<distance){best=u;distance=d}
@@ -543,22 +553,26 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
  // Illustrations are keyed to the actual troop archetype, not the quantity
  // of soldiers in its stack. Unknown troop art uses an honest emblem fallback.
  const named={
-  'Dã thú':'battle-unit-npc-beast',
-  'Cung thủ cướp':'battle-unit-npc-archer',
-  'Vệ binh':'battle-unit-npc-guard'
+  'dã thú':'battle-unit-npc-beast',
+  'cung thủ cướp':'battle-unit-npc-archer',
+  'vệ binh':'battle-unit-npc-guard',
+  'azrael':'hg28-boss-azrael',
+  'cyclop tyrant':'hg28-boss-cyclops-tyrant',
+  'demonlord samurai':'hg28-boss-demonlord-samurai'
  };
  const spriteIds={
   orc_1:'unit-orc-imp',elf_1:'unit-elf-centaur',elf_2:'unit-elf-scout',
   human_3:'unit-human-archer',undead_1:'unit-undead-skeleton',
-  human_1:'battle-unit-human-spear'
+  human_1:'hg28-battle-human-spear-militia'
  };
- const spriteKey=spriteIds[unitId]||(!unitId?named[unitName]:null);
- const size=clamp(113*k,64,125);
+ const normalizedName=String(unitName||'').trim().toLocaleLowerCase().replace(/\s+/g,' ');
+ const boss=bossSprite(unitName),spriteKey=spriteIds[unitId]||named[normalizedName]||null;
+ const size=clamp((boss?.size||113)*k,64,boss?178:125);
  if(spriteKey&&typeof document!=='undefined'){
   const sprite=document.getElementById(spriteKey);
   if(sprite?.complete&&sprite.naturalWidth>0){
    const isLegacy=spriteKey.startsWith('unit-');
-   const pivot=isLegacy?446/512:239/256;
+   const pivot=boss?.pivot||(isLegacy?446/512:239/256);
    c.save();
    if(enemy){c.translate(x,y);c.scale(-1,1);c.drawImage(sprite,-size/2,-size*pivot,size,size)}
    else c.drawImage(sprite,x-size/2,y-size*pivot,size,size);
@@ -587,11 +601,12 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
 function battleRectOverlap(a,b,pad=0){
  return a.x<b.x+b.w+pad&&a.x+a.w+pad>b.x&&a.y<b.y+b.h+pad&&a.y+a.h+pad>b.y;
 }
+function battleRoundHudX(width){return width<1050?clamp(width*.29,14,280):14}
 function battleUnitLayout(b,camera,width,height){
  const entries=[...b.allies,...b.enemies].map(u=>{
   const pt=camera.point(u.x+.5,u.y+.5);
-  const k=battleSpriteScale(height,u.y,camera.g.rows),size=clamp(113*k,64,134);
-  return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size};
+  const k=battleSpriteScale(height,u.y,camera.g.rows),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG28_TROOPS?.profile(u.unitId)||root.HOG_HG193_SPRITES?.profile(u.unitId)||root.HOG_HG192_SPRITES?.profile(u.unitId),size=clamp((profile?.size||113)*k,64,profile?.boss?178:134);
+  return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile};
  });
  for(const side of ['player','enemy']){
   const team=entries.filter(e=>e.u.pool>0&&e.u.side===side).sort((a,b)=>a.y-b.y||a.x-b.x);
@@ -605,11 +620,11 @@ function battleUnitLayout(b,camera,width,height){
  }
  for(const e of entries){
   e.x=clamp(e.x,70,width-70);
-  const half=e.size*.36;
-  e.sprite={x:e.x-half,y:e.y-e.size*.79,w:half*2,h:e.size*.79};
+  const half=e.size*.36,pivot=e.profile?.pivot??(e.u.unitId==='human_4'?216/256:.87);
+  e.sprite={x:e.x-half,y:e.y-e.size*pivot,w:half*2,h:e.size*pivot};
   e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
  }
- const reserved=[{x:14,y:14,w:225,h:42},{x:width-200,y:14,w:186,h:42}];
+ const reserved=[{x:battleRoundHudX(width),y:14,w:225,h:42},{x:width-200,y:14,w:186,h:42},{x:width-190,y:58,w:184,h:38}];
  for(const e of [...entries].filter(e=>e.u.pool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
   const compact=width<1050,w=compact?clamp(e.u.name.length*4.8+12,68,90):clamp(e.u.name.length*6.5+24,82,132),h=28,shift=e.size*.37+w/2+12;
   const left={cx:e.x-shift,top:e.y-60,mode:'left'},
@@ -685,12 +700,12 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  }
  for(const entry of units){
   const u=entry.u;
-  const visual=animatedUnitId(u.unitId)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=camera.point(position.x+.5,position.y+.5),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
-  if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual,k);else if(u.unitId==='human_3')animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k);else (root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k))}continue}
+  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=camera.point(position.x+.5,position.y+.5),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
+  if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual,k);else if(u.unitId==='human_3')animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k,u.name);else (root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k,u.name))}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
-  const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual,k):u.unitId==='human_3'?(animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k)):(root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k))))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+ const illustrated=(visual&&(u.unitId==='human_4'?animatedSoldier(c,x,y,u.side==='enemy',visual,k):u.unitId==='human_3'?(animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k,u.name)):(root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k,u.name))))||soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
   // A compact 28px name/HP card is placed outside silhouette collision boxes.
   const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y,hpVisible=interaction.showHP!==false;
   if(plate.leader){
@@ -710,10 +725,11 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  }
  motionImpactFx(c,camera,b,elapsed,units);
  if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
- rounded(c,14,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,26,41,18,'#f5dbad','left');
+ const leftHudX=battleRoundHudX(w);
+ rounded(c,leftHudX,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,leftHudX+12,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleFxPlan,battleUnitLayout,battleRectOverlap,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleFxPlan,battleUnitLayout,battleRectOverlap,animationFrame,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 
 

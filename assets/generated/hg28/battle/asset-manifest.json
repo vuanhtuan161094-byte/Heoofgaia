@@ -1,0 +1,46 @@
+{
+  "art_direction": "original practical Human infantry in dark teal, steel and aged bronze",
+  "assets": [
+    {
+      "alpha": "true RGBA transparency; alpha>=8 silhouette trimmed and feet registered",
+      "alpha_bbox_threshold8": [
+        105,
+        32,
+        407,
+        504
+      ],
+      "animation_status": "one generated master still; the existing event-linked Idle/Walk/Attack/Hit/Death transform renderer animates movement without changing gameplay; no per-action frame clips are claimed",
+      "asset_id": "hg28-human-spear-militia",
+      "image_id": "hg28-battle-human-spear-militia",
+      "name": "Human Spear Militia",
+      "pivot": [
+        0.5,
+        0.988
+      ],
+      "png_sha256": "684a46e9ac2cbed6eaa2e655dc1ec7344376c07fd1c8a3fe371216a6b6bbf678",
+      "prompt": "Create an original premium fantasy strategy-game unit sprite: a single Human Spear Militia infantryman, full body, centered, standing in a disciplined ready stance, three-quarter view facing left. He wears practical layered dark teal cloth, charcoal leather and weathered steel scale armor with restrained aged-bronze trim; a simple crested helmet, readable face, round shield on his back and a long iron-tipped spear held diagonally. Keep a believable low-rank militia silhouette and clear spear tip, distinct from an elite knight. Rich painterly 3D-rendered game character with crisp materials, strong readable shape at small UI size, refined lighting, muted woodland colors. Match only the broad premium dark-teal/bronze fantasy material richness of the style reference; do not copy any creatures, armor motifs, costume shapes, or composition from it. Exactly one character, isolated cutout, true transparent background, full boots visible, feet aligned near bottom edge, no ground shadow, no scenery, no text, no symbols, no watermark, no second weapon, no duplicate limbs.",
+      "reference_role": "user-supplied image used only for broad palette/material direction",
+      "runtime_bytes": 49696,
+      "runtime_dimensions": [
+        512,
+        512
+      ],
+      "runtime_path": "assets/generated/hg28/battle/human-spear-militia.webp",
+      "runtime_sha256": "62eb6d6381ab0814ea2206981a1f05eace1cefbfe460fd2e393bd35eca63d9ca",
+      "source_dimensions": [
+        1064,
+        1479
+      ],
+      "source_image_id": "human-spear-militia-master",
+      "source_license": "independent project art; no third-party game art supplied as source input",
+      "source_master": "assets/generated/hg28/battle/human-spear-militia-master.png",
+      "source_route": "built-in image_gen",
+      "source_sha256": "d3c1fe8964e90ca29bfe9fc7d1f9955a90a12151983e0e18625a4f7b2cae324c",
+      "status": "RECREATED",
+      "transparent_registered_png": "assets/generated/hg28/battle/human-spear-militia.png",
+      "unit_id": "human_1"
+    }
+  ],
+  "created_by": "tools/prepare_hg28_spear_militia.py",
+  "schema": "HG28-SingleBattleTroop-v1"
+}

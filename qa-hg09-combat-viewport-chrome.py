@@ -32,9 +32,11 @@ with sync_playwright() as p:
     # The rookie progress panel adds vertical content ahead of the map.
     # Mouse coordinates must be computed after scrolling the real map canvas
     # into the visible viewport; otherwise clicks can land below the screen.
-    page.locator("#world-canvas").scroll_into_view_if_needed()
     point=page.evaluate("""() => {
-      const c=document.querySelector('#world-canvas'),r=c.getBoundingClientRect(),m=HOG_PAINTER.miniBounds(c),pad=9;
+      const c=document.querySelector('#world-canvas');
+      if(!c)throw new Error('Map canvas detached before NPC dispatch');
+      c.scrollIntoView({block:'center',inline:'nearest'});
+      const r=c.getBoundingClientRect(),m=HOG_PAINTER.miniBounds(c),pad=9;
       return {x:r.left+(m.x+pad+6.5*(m.w-2*pad)/100)/c.width*r.width,
               y:r.top+(m.y+pad+3.5*(m.h-2*pad)/100)/c.height*r.height};
     }""")
@@ -149,7 +151,8 @@ with sync_playwright() as p:
         layout=P.battleUnitLayout(b,cam,c.width,c.height);
       return P.battleSpriteScale(c.height,0,9)>.82&&layout.every(e=>
        e.label.y>=60&&e.label.x>=12&&e.label.x+e.label.w<=c.width-12&&
-       !layout.some(o=>P.battleRectOverlap(e.label,o.sprite,1))&&
+        !layout.some(o=>P.battleRectOverlap(e.label,o.sprite,1))&&
+        !P.battleRectOverlap(e.label,{x:c.width-190,y:58,w:184,h:38},1)&&
        !layout.some(o=>o!==e&&P.battleRectOverlap(e.label,o.label,2)));
     }"""))
     check("HG14.2 mobile stage spreads troops on scenic meadow",page.evaluate("""() => {

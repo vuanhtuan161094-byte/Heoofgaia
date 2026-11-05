@@ -47,6 +47,26 @@ for unit in hg28_troops['units']:
     data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/png;base64,{data}"')
 assert 'assets/generated/hg28/troops/' not in html
+hg28_bosses=json.loads((folder/'assets/generated/hg28/bosses/asset-manifest.json').read_text(encoding='utf-8'))
+assert hg28_bosses['schema']=='HG28-BossSprites-v1' and len(hg28_bosses['assets'])==3
+for item in hg28_bosses['assets']:
+    asset=item['runtime_path']
+    needle=f'src="{asset}"'
+    assert html.count(needle)==1,(asset,html.count(needle))
+    data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
+    html=html.replace(needle,f'src="data:image/webp;base64,{data}"')
+    assert asset not in html,asset
+assert 'assets/generated/hg28/bosses/' not in html
+hg28_spear=json.loads((folder/'assets/generated/hg28/battle/asset-manifest.json').read_text(encoding='utf-8'))
+assert hg28_spear['schema']=='HG28-SingleBattleTroop-v1' and len(hg28_spear['assets'])==1
+for item in hg28_spear['assets']:
+    asset=item['runtime_path']
+    needle=f'src="{asset}"'
+    assert html.count(needle)==1,(asset,html.count(needle))
+    data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
+    html=html.replace(needle,f'src="data:image/webp;base64,{data}"')
+    assert asset not in html,asset
+assert 'assets/generated/hg28/battle/' not in html
 for unit_asset in ['assets/generated/hg11/units/orc-imp.png','assets/generated/hg11/units/elf-centaur.png','assets/generated/hg11/units/elf-scout.png','assets/generated/hg11/units/human-archer.png','assets/generated/hg11/units/undead-skeleton.png']:
     needle=f'src="{unit_asset}"'
     assert html.count(needle)==1,(unit_asset,html.count(needle))
@@ -135,5 +155,5 @@ assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
 assert html.count('<script>')==30
-(folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8')
+(folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8',newline='\n')
 print('Built offline HTML:',len(html),'characters')
