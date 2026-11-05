@@ -423,7 +423,7 @@ function hg27ExchangeView(group){
 function relicView(){
  const mat=state.hg18.materials,sets=E.hg18SetCounts(state,state.activeHero);
  const opens=['resource_card','resource_chest','gear_pack','set_chest'];
- return `<h1>💎 Rèn đúc & kho di vật</h1>${hg27ExchangeView('gear')}${hg29CraftView()}
+ return `<h1>💎 Rèn đúc & kho di vật</h1>${hg29CraftView()}${hg27ExchangeView('gear')}
   <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
   <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card"><b>${ico(key,25)||m.icon} ${esc(m.name)}</b><p>Số lượng <b>${format(mat[key])}</b></p>
   ${opens.includes(key)?button('hg18-open',{id:key},'Mở / Dùng',mat[key]<1,'small primary'):''}</div>`).join('')}</div></section>
