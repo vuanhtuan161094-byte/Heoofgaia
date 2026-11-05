@@ -364,8 +364,8 @@ function heroesView(){
  const h=state.heroes.find(x=>x.id===state.activeHero),stats=E.heroStats(state),eq=state.equipment[h.id]||{};
  const gear=Object.entries(E.ITEMS);
  const owned=state.inventory.map(i=>{const def=E.ITEMS[i.itemId],wearer=Object.entries(state.equipment).find(([,slots])=>Object.values(slots).includes(i.uid))?.[0];
- return `<div class="card gear-card"><div><b>${ico(def.id,23)||def.icon} ${esc(def.name)} +${i.enhance||0}</b><div class="hint">${def.slot} · ATK +${def.atk} · DEF +${def.def} · SPD +${def.spd}</div>${equipmentBattleText(def)?`<div class="tiny muted">${esc(equipmentBattleText(def))}</div>`:''}<small class="muted">${wearer?'Đang trang bị: '+esc(state.heroes.find(h=>String(h.id)===wearer)?.name||'tướng'):'Túi đồ'} · ${esc(i.origin||'')}</small></div>${button('equipitem',{uid:i.uid},wearer===String(h.id)?'Đã mặc':'Trang bị',!!state.march||!!state.battle||wearer===String(h.id),'small secondary')}${button('hg18-enhance',{uid:i.uid},'+1 Cường hóa',(state.hg18?.materials.enhance_stone||0)<(2+2*(i.enhance||0))||state.res.gold<250*((i.enhance||0)+1)||(i.enhance||0)>=10||!!state.march||!!state.battle,'small secondary')}${button('hg18-salvage',{uid:i.uid},'♻ Phân giải',!!wearer||!!state.march||!!state.battle,'small secondary')}</div>`}).join('');
- return heroesViewBase()+heroProgression()+heroAscensionView()+`<section class="card hg04-section"><span class="eyebrow">HERO EQUIPMENT</span><h2>🎒 Túi trang bị và chỉ số tướng đang chọn</h2><p>${esc(h.name)} — ATK <b>${stats.atk}</b> · DEF <b>${stats.def}</b> · SPD <b>${stats.spd}</b> · INT <b>${stats.int}</b></p>
+ return `<div class="card gear-card"><div><b>${E.hg31IconHTML?.(def.id,30)||ico(def.id,23)||def.icon} ${esc(def.name)} +${i.enhance||0}</b><div class="hint">${def.slot} · ATK +${def.atk} · DEF +${def.def} · SPD +${def.spd}</div>${equipmentBattleText(def)?`<div class="tiny muted">${esc(equipmentBattleText(def))}</div>`:''}<small class="muted">${wearer?'Đang trang bị: '+esc(state.heroes.find(h=>String(h.id)===wearer)?.name||'tướng'):'Túi đồ'} · ${esc(i.origin||'')}</small></div>${button('equipitem',{uid:i.uid},wearer===String(h.id)?'Đã mặc':'Trang bị',!!state.march||!!state.battle||wearer===String(h.id),'small secondary')}${button('hg18-enhance',{uid:i.uid},'+1 Cường hóa',(state.hg18?.materials.enhance_stone||0)<(2+2*(i.enhance||0))||state.res.gold<250*((i.enhance||0)+1)||(i.enhance||0)>=10||!!state.march||!!state.battle,'small secondary')}${button('hg18-salvage',{uid:i.uid},'♻ Phân giải',!!wearer||!!state.march||!!state.battle,'small secondary')}</div>`}).join('');
+ return heroesViewBase()+heroProgression()+heroAscensionView()+hg31HeroSetView()+`<section class="card hg04-section"><span class="eyebrow">HERO EQUIPMENT</span><h2>🎒 Túi trang bị và chỉ số tướng đang chọn</h2><p>${esc(h.name)} — ATK <b>${stats.atk}</b> · DEF <b>${stats.def}</b> · SPD <b>${stats.spd}</b> · INT <b>${stats.int}</b></p>
  <div class="equipment-slots">${[['weapon','⚔ Vũ khí'],['armor','🛡 Giáp'],['charm','💍 Phụ kiện']].map(([k,label])=>`<div class="slot"><b>${ico(k,22)||''} ${esc(label.slice(label.indexOf(' ')+1))}</b><div>${esc(itemName(eq[k]))}</div>${eq[k]?button('unequip',{slot:k},'Tháo',!!state.march||!!state.battle,'small secondary'):''}</div>`).join('')}</div>
  <div class="grid grid2">${owned||'<p class="muted">Chưa có trang bị. Có thể mua ở Bazaar hoặc nhặt sau khi thắng quái.</p>'}</div>
  <p class="hint">Các loại ô lấy ý tưởng từ hệ trang bị Heroes of Gaia. Tên, chỉ số, giá và tỷ lệ rơi ở đây đều là demo.</p></section>`;
@@ -426,6 +426,50 @@ function hg30QuestView(){
  </section>`;
 }
 
+function hg31ForgeView(){
+ if(!E.hg31Status)return '';
+ const s=E.hg31Status(state),busy=!!(state.battle||state.march||state.expedition||state.parallelMarches?.length||state.hg26?.enabled);
+ const wallet=E.HG29_ITEMS,tokens=E.HG27_TOKENS;
+ const section=setId=>{
+  const set=E.HG31_SETS[setId],rows=s.recipes.filter(r=>r.set===setId);
+  const isBoss=setId==='dragon';
+  return `<div class="hg31-set" data-hg31-set="${setId}"><div class="hg31-set-heading"><div><h3>${set.icon} ${esc(set.name)}</h3><small>${esc(set.source)} · ${isBoss?'T11/T12 +1 mảnh; T13 +2':'Thắng có thưởng +1; tầng bội 5 +2'} · ${esc(set.note)}</small></div><span class="tag">${s.setCounts[setId]||0}/3 đang mặc</span></div>
+   <div class="hg31-grid">${rows.map(r=>{
+    const n=r.need,selected=r.focus,need=[
+     `<span class="${r.have>=n.fragments?'ready':'missing'}">🧩 ${format(r.have)}/${n.fragments}</span>`,
+     ...[['abyss',n.abyss],['hunter',n.hunter],['tower',n.tower],['hero',n.hero]].filter(([,v])=>v).map(([id,v])=>`<span class="${state.hg29.shards[id]>=v?'ready':'missing'}">${wallet[id].icon} ${format(state.hg29.shards[id])}/${v}</span>`),
+     `<span class="${state.hg27.boss>=n.bossToken?'ready':'missing'}">${tokens.boss.icon} ${format(state.hg27.boss)}/${n.bossToken}</span>`,
+     `<span class="${state.res.gold>=r.price?'ready':'missing'}">🪙 ${format(state.res.gold)}/${format(r.price)}</span>`
+    ].join('');
+    return `<div class="hg31-card ${selected?'selected':''}" data-hg31-id="${r.id}">
+     <div class="hg31-gear-top">${E.hg31IconHTML(r.id,62)}<div><b>${esc(r.name)}</b><small>${r.slot==='weapon'?'Vũ khí':r.slot==='armor'?'Giáp':'Phụ kiện'} · ATK +${r.atk} · DEF +${r.def} · SPD +${r.spd}</small><small>Yêu cầu: vượt Tháp ${r.minFloor-1} · ${isBoss?'ít nhất 1 Boss':'ít nhất 3 tầng Tháp có thưởng'}</small></div></div>
+     <div class="hg31-costs">${need}</div>
+     <div class="hg31-actions">${button('hg31-focus',{id:r.id},selected?'🎯 Đang săn món này':'🎯 Chọn farm',selected||busy,'small secondary')}
+     ${button('hg31-craft',{id:r.id},r.canCraft?'⚒ Ghép đúng món':!r.unlocked?'🔒 Chưa mở':'Thiếu vật liệu',!r.canCraft,'small primary')}</div>
+     </div>`;
+   }).join('')}</div></div>`;
+ };
+ return `<section class="card hg31-forge" aria-label="HG31 bộ trang bị Long Hồn và Tinh Không">
+  <span class="eyebrow">HG31 · TRANG BỊ CAO CẤP · FARM ĐÚNG MÓN</span>
+  <h2>⚒ Lò Rèn Long Hồn & Tinh Không</h2>
+  <p class="tiny muted">Chọn trước món cần farm. Boss trả mảnh Long Hồn, Tháp có thưởng trả mảnh Tinh Không. Mảnh nhận bằng chiến thắng thật, không phát hồi tố khi nâng phiên bản. Sau khi ghép, vào <b>Tướng</b> để mặc và kích hoạt 2/3 – 3/3 bộ set.</p>
+  <div class="hg31-status"><span>🐉 Boss thắng: <b>${s.bossWins}</b></span><span>🌌 Tháp có thưởng: <b>${s.towerWins}</b></span><span>⚒ Đã ghép: <b>${s.crafted}</b></span>${s.last?`<span>Vừa nhận: +${s.last.count} mảnh ${esc(E.ITEMS[s.last.id].name)}</span>`:''}</div>
+  ${section('dragon')}${section('star')}
+ </section>`;
+}
+function hg31GuideView(){
+ const t=E.hg31Status(state);
+ return `<section class="card hg31-guide"><span class="eyebrow">HG31 · HÀNH TRÌNH SĂN TRANG BỊ</span>
+ <h2>🐉 Boss → Long Hồn · 🌌 Tháp → Tinh Không</h2>
+ <div class="hg31-guide-row"><div>${E.hg31IconHTML(t.focus.boss,42)}<b>${esc(E.ITEMS[t.focus.boss].name)}</b><small>${format(t.fragments[t.focus.boss])} mảnh · Boss T11/T12: +1, T13: +2</small></div>
+ <div>${E.hg31IconHTML(t.focus.tower,42)}<b>${esc(E.ITEMS[t.focus.tower].name)}</b><small>${format(t.fragments[t.focus.tower])} mảnh · Tháp thắng có thưởng: +1, tầng bội 5: +2</small></div></div>
+ <p class="tiny muted">Đến tab Rèn & Di vật để chọn món và ghép. Quy tắc này là thiết kế mới, không phải tỷ lệ HoG gốc.</p></section>`;
+}
+function hg31HeroSetView(){
+ const sets=E.hg31Status(state).setCounts;
+ return `<section class="card hg31-hero-sets"><h2>✦ Bộ trang bị cao cấp đang mặc</h2>${Object.entries(E.HG31_SETS).map(([id,set])=>`<div><b>${set.icon} ${esc(set.name)} · ${sets[id]||0}/3</b><small>${esc(set.note)} · ${sets[id]>=2?'Đã kích hoạt mốc 2':'Chưa mở mốc 2'} · ${sets[id]>=3?'Đã kích hoạt mốc 3':'Chưa mở mốc 3'}</small></div>`).join('')}</section>`;
+}
+
 function hg29PreviewUI(kind,target,level){
  const p=E.hg29Preview(state,{kind,target,level});if(!p||!p.paid)return '';
  return `<aside class='hg29-preview' aria-label='Dự kiến rơi mảnh từ điểm đang chọn'><b>🎲 ${esc(p.label)} · thưởng dự kiến</b><small>${p.guaranteed.map(x=>'✓ '+esc(x.name)+' ×'+x.count).concat(p.chances.map(x=>esc(x.name)+' '+x.percent+'%')).join(' · ')||'Không có mảnh'}</small><small>Cơ chế HG29 · không bao gồm EXP/vàng/thưởng HG18 và HG27</small></aside>`;
@@ -457,7 +501,7 @@ function hg27ExchangeView(group){
 function relicView(){
  const mat=state.hg18.materials,sets=E.hg18SetCounts(state,state.activeHero);
  const opens=['resource_card','resource_chest','gear_pack','set_chest'];
- return `<h1>💎 Rèn đúc & kho di vật</h1>${hg29CraftView()}${hg27ExchangeView('gear')}
+ return `<h1>💎 Rèn đúc & kho di vật</h1>${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}
   <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
   <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card"><b>${ico(key,25)||m.icon} ${esc(m.name)}</b><p>Số lượng <b>${format(mat[key])}</b></p>
   ${opens.includes(key)?button('hg18-open',{id:key},'Mở / Dùng',mat[key]<1,'small primary'):''}</div>`).join('')}</div></section>
@@ -504,7 +548,7 @@ function tasksView(){
  const ht=E.heroTaskStatus(state),heroTaskCard=`<section class="card"><span class="eyebrow">HERO TASKS · FANDOM / BABEL</span><h2>⚔ Nhiệm vụ tướng <span class="tag">${ht.completed}/${ht.max} hôm nay</span></h2><progress max="20" value="${ht.completed}"></progress><p class="hint">${ht.active?`<b>${esc(ht.heroName)}</b> cần thắng NPC <b>${ht.stars}★</b> bằng chính tướng đã nhận. ${ht.active.ready?'Đã hoàn thành, nhận EXP ngay.':'Đang chờ chiến thắng.'}`:ht.available?`Tướng đang chọn: <b>${esc(ht.heroName)}</b> · Nhiệm vụ tiếp: NPC <b>${ht.stars}★</b>.`:'Đã hoàn thành 20 lượt hôm nay.'}</p><div class="cost">${ht.available?'Thưởng cơ bản +'+format(ht.exp)+' EXP tướng · Hero Tower có thể cộng thêm':'Tổng 43.000 EXP cơ bản / ngày'}</div><div class="actions">${!ht.available?button('acceptherotask',{},'✓ Hết nhiệm vụ hôm nay',true,'secondary'):!ht.active?button('acceptherotask',{},'🎯 Nhận nhiệm vụ tướng',!ht.canAccept,'primary'):ht.active.ready?button('claimherotask',{},'🎁 Nhận EXP cho tướng',!main,'primary'):button('findherotask',{},'🗺 Tìm NPC '+ht.stars+'★',false,'primary')}</div><p class="tiny muted">Theo Fandom: 20 lượt/ngày, 1.200–3.100 EXP/lượt. Thứ tự 1★→2★→3★ là lựa chọn offline; giao tranh vẫn tốn AP/quân.</p></section>`;
  const international=`<h2>Quốc tế · nhiệm vụ cộng đồng</h2><p class="hint">Bảng này tách nhiệm vụ theo chủng tộc và nguồn cộng đồng. Kongregate mô tả Get Task/Get Reward (SRC52); “Getting Started” và nhiệm vụ Undead “Clean Up Remnants” lấy từ Fandom sống nhiều phiên bản (SRC30, SRC53; độ tin cậy C). SRC61 ghi riêng rằng Undead có thể nhận một quân đánh xa cấp 8 mỗi ngày năm 2009, nhưng không nêu đúng tên nhiệm vụ hay các phần thưởng.</p><div class="grid grid2">${tasks.map(t=>`<div class="card"><h2>${t.claimed?'✅ ':t.ready?'📩 ':'📜 '}${esc(t.nameVi)} <span class="tag">${t.name}</span></h2><p>Thắng bất kỳ trại NPC ${t.stars}★ trên bản đồ thế giới. Tiến độ ${t.progress}/1.</p><div class="cost">+${format(t.gold)} Vàng · tối đa +${t.ap} AP${t.rewardUnitId?` · +${t.rewardUnits} ${esc(E.getUnit(state,t.rewardUnitId)?.name||t.rewardUnitId)}`:''}</div><p class="tiny muted">Nguồn ${t.source} · độ tin cậy ${t.confidence}. Mốc reset UTC là mô hình offline; task nguồn Trung Quốc không nhập vào bảng này.</p>${t.claimed?button('claimdaily',{id:t.id},'✓ Đã nhận hôm nay',true,'primary'):!t.accepted?button('acceptdaily',{id:t.id},'📥 Nhận nhiệm vụ',!main||!t.available,'primary'):t.ready?button('claimdaily',{id:t.id},'🎁 Nhận thưởng',!main,'primary'):button('acceptdaily',{id:t.id},'Đang theo dõi · chờ chiến thắng',true,'secondary')}</div>`).join('')}</div><p class="tiny muted">Nhiệm vụ khác, Main/Holiday và toàn bộ lịch sử thưởng chưa được dựng. Save v07 cũ được nạp với bảng mới trống.</p>`;
  const chinese=china.length?`<section class="card"><span class="eyebrow">CHINA DAILY TASKS • SINA 2009</span><h2>Chuỗi nhiệm vụ Nhân tộc Trung Quốc 2009</h2><p class="hint">Bảng này tách riêng khỏi nhiệm vụ cộng đồng quốc tế. SRC54 ghi nhiệm vụ “招募弓箭手”: tuyển 20 Cung thủ, thưởng 100 Gỗ và 10 Cung thủ. FAQ SRC61 nói tăng mỗi bậc Danh vọng sẽ làm mới nhiệm vụ ngày; bậc được đối chiếu theo bảng Fame SRC20 (cùng năm nhưng khác ngày). Mốc reset UTC vẫn là mô hình offline; bản này không mô phỏng bảo trì máy chủ.</p>${china.map(t=>`<div class="card"><h3>${t.claimed?'✅ ':t.ready?'📩 ':'📜 '}${esc(t.nameVi)} <span class="tag">${t.name}</span></h3><p>Hoàn tất huấn luyện Cung thủ tại thành chính · ${t.progress}/${t.required}.</p><div class="cost">+${format(t.rewardWood)} Gỗ · +${t.rewardUnits} Cung thủ</div><p class="tiny muted">Nguồn: ${t.source}, Sina 24-08-2009 · độ tin cậy ${t.confidence}. Điều kiện “huấn luyện hoàn tất” là cách triển khai có thể chơi được; bài gốc chỉ nêu phải tuyển 20.</p>${t.claimed?button('claimdaily2009',{id:t.id},'✓ Đã nhận hôm nay',true,'primary'):!t.accepted?button('acceptdaily2009',{id:t.id},'📥 Nhận nhiệm vụ',!main,'primary'):t.ready?button('claimdaily2009',{id:t.id},'🎁 Nhận thưởng',!main,'primary'):button('acceptdaily2009',{id:t.id},'Đang theo dõi · hoàn tất huấn luyện',true,'secondary')}</div>`).join('')}</section>`:'';
- return hg30QuestView()+`<h1>📜 Nhiệm vụ hằng ngày</h1>`+hg29GuideView()+hg27ExchangeView('troop')+hg18QuestView()+heroTaskCard+international+chinese;
+ return hg30QuestView()+hg31GuideView()+`<h1>📜 Nhiệm vụ hằng ngày</h1>`+hg29GuideView()+hg27ExchangeView('troop')+hg18QuestView()+heroTaskCard+international+chinese;
 }
 
 function towerSpellPanel(b){
@@ -679,6 +723,8 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='equipitem'){E.equipItem(state,Number(target.dataset.uid));return}
  if(action==='unequip'){E.unequipItem(state,target.dataset.slot);return}
  if(action==='buyitem'){E.buyItem(state,target.dataset.id);return}
+ if(action==='hg31-focus'){const out=E.hg31SetFocus(state,target.dataset.id);toast('Đã chọn farm '+E.ITEMS[out.id].name);return}
+ if(action==='hg31-craft'){const out=E.hg31Craft(state,target.dataset.id);toast('Đã ghép '+E.ITEMS[out.itemId].name);return}
  if(action==='hg30-claim'){E.hg30ClaimTrial(state);toast('Đã mở nhiệm vụ chuyển hóa Chiến Vệ.');return}
  if(action==='hg30-convert'){const r=E.hg30Convert(state,target.dataset.id);toast('Đã chuyển hóa thành '+r.toName);return}
  if(action==='hg29-craft'){const out=E.hg29Craft(state,target.dataset.id);toast('Đã ghép mảnh: '+out.id);return}
