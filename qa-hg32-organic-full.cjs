@@ -176,8 +176,20 @@ try{
   started:simulatedHours};
  function party(){
   recallIfNeeded();
-  const usable=s.army.human_10||0;
-  assert(usable>=30,'Endgame world losses depleted paid T10 detachment: '+usable);
+  // Real paid upkeep: replenish battle casualties with the production economy,
+  // NOT state.army mutation, QA seed or synthetic funds.
+  let usable=s.army.human_10||0;
+  if(usable<50){
+   const before=usable;
+   while(usable<50){
+    const order=Math.min(5,50-usable);
+    train('human_10',order);
+    usable=s.army.human_10||0;
+   }
+   hg32.militaryRefits=(hg32.militaryRefits||0)+1;
+   hg32.recruitedExtraT10=(hg32.recruitedExtraT10||0)+(usable-before);
+  }
+  assert(usable>=30,'Organic T10 replenishment still failed '+usable);
   const count=Math.min(usable,75);
   const a=Math.ceil(count/2),b=count-a;
   E.hg20SetHeroPlan(s,1,[{unitId:'human_10',count:a},{unitId:'human_10',count:b}]);
