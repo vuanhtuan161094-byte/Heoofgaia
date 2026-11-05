@@ -9,10 +9,10 @@ if(!E?.hg29Ensure||!E?.hg27Ensure||!E?.hg20HeroPlan||!C?.rewardUnits)
 const old={make:E.make,parse:E.parseSave,serialize:E.serializeSave,strict:E.strictSave,battleAct:E.battleAct};
 const RACES=Object.freeze(['human','elf','orc','undead']);
 const NAMES=Object.freeze({
- human:{name:'Nhân tộc',first:'Thần Vệ Gaia',final:'Thiên Sứ Chí Tôn',icon:'⚜'},
- elf:{name:'Tinh Linh',first:'Nguyệt Vệ Tinh Linh',final:'Nguyên Tố Thánh Vương',icon:'🌿'},
- orc:{name:'Thú tộc',first:'Chiến Vệ Cuồng Phong',final:'Bá Chủ Thú Vương',icon:'🔥'},
- undead:{name:'Vong Linh',first:'U Minh Hộ Vệ',final:'U Minh Quân Vương',icon:'☠'}
+ human:{name:'Nhân tộc',first:'Thần Vệ Gaia',final:'Thiên Giới Thánh Vệ',icon:'⚜'},
+ elf:{name:'Tinh Linh',first:'Nguyệt Vệ Tinh Linh',final:'Ngân Nguyệt Long Linh',icon:'🌿'},
+ orc:{name:'Thú tộc',first:'Chiến Vệ Cuồng Phong',final:'Viễn Cổ Chiến Thần',icon:'🔥'},
+ undead:{name:'Vong Linh',first:'U Minh Hộ Vệ',final:'U Minh Bất Diệt Vương',icon:'☠'}
 });
 const MAX=1000000000;
 const RECIPES=Object.freeze({
