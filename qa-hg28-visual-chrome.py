@@ -78,8 +78,8 @@ def main() -> None:
                 })""")
                 assert geometry["activeTab"] == tab, f"{label} tab did not open: {geometry}"
                 assert geometry["width"] == width and geometry["height"] == height
-                assert not geometry["uiOverlap"]["navigation"], f"{label} modal overlaps navigation at {width}x{height}"
-                assert not geometry["uiOverlap"]["saveControls"], f"{label} modal overlaps Save controls at {width}x{height}"
+                assert not geometry["uiOverlap"]["navigation"], f"{label} modal overlaps navigation at {width}x{height}: {geometry['uiOverlap']}"
+                assert not geometry["uiOverlap"]["saveControls"], f"{label} modal overlaps Save controls at {width}x{height}: {geometry['uiOverlap']}"
                 assert geometry["contentWidth"] and not geometry["contentWidth"]["horizontalOverflow"], f"{label} content overflows horizontally at {width}x{height}: {geometry['contentWidth']}"
                 file = folder / f"{ordinal:02d}-{tab}.png"
                 page.screenshot(path=str(file), animations="disabled")

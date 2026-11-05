@@ -1,11 +1,11 @@
-## HG28 — CURRENT CHECKPOINT · 05/11/2026 · CI #328 SUCCESS; SHORT-VIEWPORT PASS PENDING
+## HG28 — CURRENT CHECKPOINT · 05/11/2026 · CI #329 FAIL; NAV OVERLAP FIX PENDING
 
 - **Current verified commit:** 81f38ec72812ffe9a7adbb9687e16bfdbd3529e5; [Actions #328](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42047694545) **SUCCESS** on the existing public feature branch.
 - **Real Chromium evidence:** CI captured 20/20 screens at 1280×720 and 960×540 with 0 browser errors. The HG28 gameplay gate passed 14/14 interaction checks and saved 6/6 screenshots: NPC selection, city building hotspot, paid construction, strict v07 Save and cold reload. AFTER artifact 13426100922; BEFORE artifact 13426046003. All gameplay/Save gates including HG29–HG32, eight T9–T10 source assets and Skeleton HG22.1 passed.
 - **Local verification:** Node engine regression **214/214 PASS**; Python QA/build syntax and git diff --check PASS. Two repository-venv builds match: canonical Play-Heoofgaia-HG11.html, 37,622,454 bytes, SHA-256 F9E28FFCB27E65BD132F8C6E691ABAA6ABCCE86E55587341C68CEDA39204D8CE. System Python lacks Pillow; repository venv has Pillow 11.3.0.
-- **In progress:** 960×540 short-landscape chrome compression and 20-screen horizontal-overflow assertions are coded, rebuilt and regression-tested locally; their full workflow is pending. No gameplay or Save schema changes; Save v07, HG29–HG32, eight T9–T10 masters and Skeleton HG22.1 are preserved.
+- **In progress:** CI #329 caught the city modal starting at 78 px and overlapping navigation at 960×540. I raised the modal top offset to 94 px while retaining the shorter game chrome and added bounding-box details to the failure message. The previous run's 20-screen captures passed; this responsive correction still needs a full CI pass. No gameplay or Save schema changes; Save v07, HG29–HG32, eight T9–T10 masters and Skeleton HG22.1 are preserved.
 - **Visual review limit:** BEFORE image sheets were inspected locally. AFTER screenshots are genuine runner captures with geometry/interaction receipts in the artifact above. The desktop file-URL policy blocked local browser access, and the signed artifact proxy failed TLS download; therefore no manual pixel-by-pixel AFTER review is claimed.
-- **Next:** push the responsive all-screen change, require the full CI run to pass, then continue visual iterations on battlefield and the remaining screens. HG28 remains **PARTIAL**; no 1:1 claim.
+- **Next:** rebuild the canonical offline HTML, rerun Node regression and the full CI suite on the modal-offset repair; then continue visual iterations on battlefield and the remaining screens. HG28 remains **PARTIAL**; no 1:1 claim.
 
 ---
 ## HG28 — PREVIOUS CHECKPOINT · 05/11/2026 · CI #327 FAILURE (SELECTOR BUG)
