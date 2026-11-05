@@ -69,6 +69,9 @@ function lowNpc(){
  for(const tile of targets.slice(0,8)){
   try{
    const result=E.startMarch(s,tile.key);
+   // Previously strictSave failed here after paid Tower wins: HG20 removes
+   // the in-flight hero plan but HG21 still validated stale saved UI picks.
+   assert(E.strictSave(s),'Tower roster must not invalidate Save during world march');
    assert(s.march||s.battle,'did not dispatch '+tile.key);
    if(s.march)wait(s.march.remaining+3);
    assert(s.battle,'no NPC encounter on arrival '+tile.key);
