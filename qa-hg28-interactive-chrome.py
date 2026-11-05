@@ -39,7 +39,7 @@ def main() -> None:
             page.goto(GAME.as_uri(), wait_until="load")
             page.locator('[data-action="start"]').click()
             assert page.evaluate("HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())")
-            landmark_assets = page.evaluate("""() => [...document.querySelectorAll('.hg28-art-cache img[id^="hg28-map-"]')].map(i=>({id:i.id,ready:i.complete&&i.naturalWidth===362&&i.naturalHeight===362}))""")
+            landmark_assets = page.evaluate("""() => [...document.querySelectorAll('img[id^="hg28-map-"]')].map(i=>({id:i.id,ready:i.complete&&i.naturalWidth===362&&i.naturalHeight===362}))""")
             assert len(landmark_assets) == 12 and all(x["ready"] for x in landmark_assets), f"Offline landmark PNG decode failed at {width}x{height}: {landmark_assets}"
             checks.append({"viewport": f"{width}x{height}", "check": "12 generated faction, mine and landmark sprites decode offline", "pass": True, "assets": [x["id"] for x in landmark_assets]})
             folder = ROOT / "docs" / "evidence" / "hg28" / "after" / f"{width}x{height}"
