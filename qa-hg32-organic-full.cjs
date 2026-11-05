@@ -242,6 +242,8 @@ try{
  }
  assert(s.hg31.fragments.dragon_blade>=6,'Real boss wins not paying selected Long Hồn shards');
  while(s.hg20.tower.floor<11)paidTower();
+ assert.equal(s.army.human_tower_sovereign||0,0,
+  'Tower 10 must not mint sovereign before earning HG30 conversion quest');
  assert(s.hg30.bossWins-s.hg30.bossAfterGuard>=1);
  assert(s.hg30.paidTowerWins-s.hg30.towerAfterGuard>=2);
  assert(s.hg29.shards.tower>=12,'10 paid Tower wins did not accumulate 12 guaranteed HG29 tower runes');
