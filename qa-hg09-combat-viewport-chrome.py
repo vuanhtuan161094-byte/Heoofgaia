@@ -18,6 +18,27 @@ def check(label,condition):
     results.append({"name":label,"passed":passed})
     print(("PASS " if passed else "FAIL ")+label,flush=True)
 
+def click_troop_upper_body(page, label):
+    # Drive a real mouse event well above the foot-radius selection zone.
+    point=page.evaluate("""() => {
+      const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),
+        P=HOG_PAINTER,E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),
+        entries=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height)
+          .filter(q=>q.u.side==='enemy'&&q.u.pool>0).sort((a,b)=>a.y-b.y);
+      if(!entries.length)throw new Error('No living enemy for upper-body hit test');
+      const e=entries[0],x=e.sprite.x+e.sprite.w*.5,y=e.sprite.y+e.sprite.h*.18,
+        hit=P.battleHit(c,x,y,E,s),clientX=r.left+x/c.width*r.width,
+        clientY=r.top+y/c.height*r.height;
+      return {id:e.id,hit:hit?.id||null,clientX,clientY,
+        fromFoot:e.y-y,legacyRadius:Math.max(38,c.width*.055),
+        onCanvas:document.elementFromPoint(clientX,clientY)===c};
+    }""")
+    check(label+" sprite upper-body hitbox",point["hit"]==point["id"] and
+          point["fromFoot"]>point["legacyRadius"] and point["onCanvas"])
+    page.mouse.click(point["clientX"],point["clientY"])
+    check(label+" real upper-body click selects the enemy",
+          page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==point["id"])
+
 with sync_playwright() as p:
     launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
     chrome=os.environ.get("HOG_CHROME_PATH")
@@ -136,6 +157,7 @@ with sync_playwright() as p:
     click_debug={"before":before_click,"after":after_click}
     print("CHROME CLICK DEBUG",json.dumps(click_debug,ensure_ascii=False),flush=True)
     check("Real projected canvas click selects enemy unit",after_click["focus"]==enemy["id"])
+    click_troop_upper_body(page, "1280x720")
     page.locator('[data-action="save-combat"]').click()
     check("Visible combat Save writes v07 state",bool(page.evaluate("localStorage.getItem('heoofgaia_hg_only_v07')")))
     page.reload(wait_until="load")
@@ -168,6 +190,7 @@ with sync_playwright() as p:
     check("Landscape command bar does not overlap troop cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
     check("Landscape 960 by 540 remains wide with hidden sidebar",mobile["width"]>=mobile["vw"]*.90 and mobile["sidebar"]=="none")
     check("Landscape viewport has no horizontal overflow",mobile["scrollWidth"]<=mobile["vw"]+1)
+    click_troop_upper_body(page, "960x540")
     check("HG14.4 click targets follow visually spaced troop positions",page.evaluate("""() => {
       const c=document.querySelector('#battle-canvas'),P=HOG_PAINTER,E=HOG_ENGINE,
        s=HOG_APP_DEBUG.getState(),layout=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height);

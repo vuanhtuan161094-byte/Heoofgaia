@@ -569,15 +569,39 @@ function battleHit(canvas,x,y,E,s,now=visualNow()){
  const b=s.battle;if(!b)return null;
  const camera=battleProjection(canvas,E),elapsed=battleElapsed(b,now),
   layout=battleUnitLayout(b,camera,canvas.width,canvas.height);
- let best=null,distance=Math.max(38,canvas.width*.055);
- for(const entry of layout){
-  const u=entry.u;if(u.pool<=0)continue;
-  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):u,
-   pt=camera.point((visual||u).x+.5,(visual||u).y+.5),
-   d=Math.hypot(pt.x+entry.x-entry.baseX-x,pt.y+entry.y-entry.baseY-y);
-  if(d<distance){best=u;distance=d}
+ // The image, number plate and foot pivot can occupy very different pixels:
+ // selecting by foot radius alone makes the upper half of tall troops unclickable.
+ // Transform hitboxes by the same animation/spacing offset as drawBattle().
+ const visible=layout.filter(entry=>entry.u.pool>0).map(entry=>{
+  const u=entry.u,visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):u,
+   pt=camera.point((visual||u).x+.5,(visual||u).y+.5);
+  return {entry,u,dx:pt.x-entry.baseX,dy:pt.y-entry.baseY,
+   footX:pt.x+entry.x-entry.baseX,footY:pt.y+entry.y-entry.baseY};
+ }).sort((a,b)=>a.entry.y-b.entry.y||a.entry.x-b.entry.x);
+ const inside=(rect)=>x>=rect.x&&x<=rect.x+rect.w&&y>=rect.y&&y<=rect.y+rect.h;
+ let anchored=null,anchorDistance=Math.max(16,canvas.width*.019);
+ for(const e of visible){
+  const d=Math.hypot(e.footX-x,e.footY-y);
+  if(d<anchorDistance){anchored=e.u;anchorDistance=d}
  }
- return best;
+ if(anchored)return anchored; // A genuine click on a unit's feet must win.
+ // Nameplates are rendered over silhouettes and are selectable too.
+ for(let i=visible.length-1;i>=0;i--){
+  const e=visible[i],l=e.entry.label;
+  if(l&&inside({x:l.x+e.dx,y:l.y+e.dy,w:l.w,h:l.h}))return e.u;
+ }
+ // Prefer the frontmost actually drawn sprite where silhouettes intersect.
+ for(let i=visible.length-1;i>=0;i--){
+  const e=visible[i],q=e.entry.sprite;
+  if(q&&inside({x:q.x+e.dx-2,y:q.y+e.dy-2,w:q.w+4,h:q.h+4}))return e.u;
+ }
+ // Retain forgiving taps around the ground markers for existing controls.
+ let nearest=null,distance=Math.max(38,canvas.width*.055);
+ for(const e of visible){
+  const d=Math.hypot(e.footX-x,e.footY-y);
+  if(d<distance){nearest=e.u;distance=d}
+ }
+ return nearest;
 }
 function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,unitName=''){
  // Illustrations are keyed to the actual troop archetype, not the quantity
