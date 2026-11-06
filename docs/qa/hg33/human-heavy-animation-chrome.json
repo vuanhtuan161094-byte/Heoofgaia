@@ -23,7 +23,7 @@
     {
       "name": "Chromium renderer contact sheets cover all 40 units and five states",
       "passed": true,
-      "detail": "{\"human\": {\"path\": \"docs/evidence/hg33/H3-troop-atlases/human-10-units-five-actions-chrome.png\", \"sha256\": \"FA296EB9FA9903FB51D541206CC92EF17250A9AF0C9F7848AE1D3FD11777EE3C\", \"bytes\": 1088031, \"resolution\": \"854x1518\"}, \"elf\": {\"path\": \"docs/evidence/hg33/H3-troop-atlases/elf-10-units-five-actions-chrome.png\", \"sha256\": \"E83381D2171B88DA3B1CC7CC867C499CCE65E3BADD653CB74977445202DB419A\", \"bytes\": 1149668, \"resolution\": \"854x1518\"}, \"orc\": {\"path\": \"docs/evidence/hg33/H3-troop-atlases/orc-10-units-five-actions-chrome.png\", \"sha256\": \"5DF35827706A7CFB49993E1A0DE750CB7B863746B835259862BB91AFAFEC0829\", \"bytes\": 1195191, \"resolution\": \"854x1518\"}, \"undead\": {\"path\": \"docs/evidence/hg33/H3-troop-atlases/undead-10-units-five-actions-chrome.png\", \"sha256\": \"776578088137F04D90F5B223C4329524FA227E110F7FAC532E749990891AD136\", \"bytes\": 1048518, \"resolution\": \"854x1518\"}}"
+      "detail": "{\"human\": {\"path\": \"docs/evidence/hg33/H3-troop-atlases/human-10-units-five-actions-chrome.png\", \"sha256\": \"9F8087AB469FBF193492147A9E8E78475AF0AAC951D102D29B066F8E233F6DC1\", \"bytes\": 1088143, \"resolution\": \"854x1518\"}, \"elf\": {\"path\": \"docs/evidence/hg33/H3-troop-atlases/elf-10-units-five-actions-chrome.png\", \"sha256\": \"E83381D2171B88DA3B1CC7CC867C499CCE65E3BADD653CB74977445202DB419A\", \"bytes\": 1149668, \"resolution\": \"854x1518\"}, \"orc\": {\"path\": \"docs/evidence/hg33/H3-troop-atlases/orc-10-units-five-actions-chrome.png\", \"sha256\": \"5DF35827706A7CFB49993E1A0DE750CB7B863746B835259862BB91AFAFEC0829\", \"bytes\": 1195191, \"resolution\": \"854x1518\"}, \"undead\": {\"path\": \"docs/evidence/hg33/H3-troop-atlases/undead-10-units-five-actions-chrome.png\", \"sha256\": \"29E258D697CB49EEDD4D3E71A596F17C3D3518DB28A141C7E1E12EEADB89A8A5\", \"bytes\": 1053630, \"resolution\": \"854x1518\"}}"
     },
     {
       "name": "Release has no KayKit combat frames or relative licensed-art paths",
@@ -68,7 +68,7 @@
     {
       "name": "Actual March dispatch spends AP and carries the formed Heavy Soldier stack",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 96.08275}"
+      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 96.11399999999999}"
     },
     {
       "name": "Natural travel arrival opens a live battle with the UI-recruited Heavy Soldier",
@@ -88,12 +88,12 @@
     {
       "name": "Live battle canvas samples distinct original idle, walk and attack frames",
       "passed": true,
-      "detail": "{\"samples\": 135, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"attack\": 8, \"idle\": 7, \"walk\": 8}}"
+      "detail": "{\"samples\": 136, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"walk\": 8, \"idle\": 8, \"attack\": 8}}"
     },
     {
       "name": "Real battle screenshots are exact 1280×720 and 960×540 Chromium viewports",
       "passed": true,
-      "detail": "{\"1280x720\": {\"sha256\": \"8874AF7CD4958C4552253CE1F85D0889564C7881242F74DEC206FAFC1B585B7C\", \"bytes\": 952033, \"resolution\": \"1280x720\"}, \"960x540\": {\"sha256\": \"8712F5F1CA737624198159F85A46F7AE6D11572DE8329619CD266620FAB090BD\", \"bytes\": 492791, \"resolution\": \"960x540\"}}"
+      "detail": "{\"1280x720\": {\"sha256\": \"84BF78C51805B2952F7E14095D8B6399AAF94513DD821BEB6C63B05EE189CD22\", \"bytes\": 952269, \"resolution\": \"1280x720\"}, \"960x540\": {\"sha256\": \"DBF3DB2A29E7D8A5D9AB0B888FFDAE6E9E4EE98D4B71E2D84E21C21BB043C508\", \"bytes\": 492720, \"resolution\": \"960x540\"}}"
     },
     {
       "name": "Real damage receipt selects and renders the Human Vanguard Hit atlas row",
@@ -506,8 +506,8 @@
   "troopContactSheets": {
     "human": {
       "path": "docs/evidence/hg33/H3-troop-atlases/human-10-units-five-actions-chrome.png",
-      "sha256": "FA296EB9FA9903FB51D541206CC92EF17250A9AF0C9F7848AE1D3FD11777EE3C",
-      "bytes": 1088031,
+      "sha256": "9F8087AB469FBF193492147A9E8E78475AF0AAC951D102D29B066F8E233F6DC1",
+      "bytes": 1088143,
       "resolution": "854x1518"
     },
     "elf": {
@@ -524,8 +524,8 @@
     },
     "undead": {
       "path": "docs/evidence/hg33/H3-troop-atlases/undead-10-units-five-actions-chrome.png",
-      "sha256": "776578088137F04D90F5B223C4329524FA227E110F7FAC532E749990891AD136",
-      "bytes": 1048518,
+      "sha256": "29E258D697CB49EEDD4D3E71A596F17C3D3518DB28A141C7E1E12EEADB89A8A5",
+      "bytes": 1053630,
       "resolution": "854x1518"
     }
   },
@@ -536,9 +536,9 @@
       "walk"
     ],
     "distinctFramesByAction": {
-      "attack": 8,
-      "idle": 7,
-      "walk": 8
+      "walk": 8,
+      "idle": 8,
+      "attack": 8
     },
     "hitFrames": 1,
     "deathFrames": 8,
@@ -546,18 +546,18 @@
   },
   "artifacts": {
     "human-heavy-soldier-battle-live-chrome.png": {
-      "sha256": "8874AF7CD4958C4552253CE1F85D0889564C7881242F74DEC206FAFC1B585B7C",
-      "bytes": 952033,
+      "sha256": "84BF78C51805B2952F7E14095D8B6399AAF94513DD821BEB6C63B05EE189CD22",
+      "bytes": 952269,
       "resolution": "1280x720"
     },
     "human-vanguard-battle-live-960x540.png": {
-      "sha256": "8712F5F1CA737624198159F85A46F7AE6D11572DE8329619CD266620FAB090BD",
-      "bytes": 492791,
+      "sha256": "DBF3DB2A29E7D8A5D9AB0B888FFDAE6E9E4EE98D4B71E2D84E21C21BB043C508",
+      "bytes": 492720,
       "resolution": "960x540"
     },
     "human-heavy-soldier-death-frame-chrome.png": {
-      "sha256": "7274D5FD08CBD50A74C3C53812264DD5059C5373775F8FF1DF182B2E29D238BB",
-      "bytes": 2186805,
+      "sha256": "15B888BFF7F2E2EC39F809B59C39A7002837B9906D0B164C6B4E20B4505817AB",
+      "bytes": 2186636,
       "resolution": "1410x760"
     }
   }

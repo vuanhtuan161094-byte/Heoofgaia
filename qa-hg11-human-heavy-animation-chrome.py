@@ -90,7 +90,7 @@ with sync_playwright() as playwright:
               const durations=durationByAction;
               if(unitId==='human_3'){const img=document.getElementById('unit-human-archer-atlas');if(img?.src)await img.decode();}
               if(unitId==='undead_1'){for(const spec of Object.values(HOG_HG22_SKELETON.CLIPS)){const img=document.getElementById(spec.id);if(img?.src)await img.decode();}}
-              for(const action of actions){const time=action==='attack'?Math.floor(durations[action]*.92):Math.floor(durations[action]*.55),
+              for(const action of actions){const time=action==='attack'?Math.floor(durations[action]*.45):Math.floor(durations[action]*.55),
                 visual={action,time,duration:durations[action],alpha:1};
                 if(!P.battleUnitArt(testCtx,160,300,false,visual,1,{unitId}))failures.push(unitId+'/'+action+': preserved renderer declined action');
                 else nativeFrames++;

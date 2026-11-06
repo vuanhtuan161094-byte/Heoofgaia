@@ -1,7 +1,7 @@
 {
-  "sourceCommit": "0a1bdbd5db8b02e82772bb8f811dc63294f4f3c5",
+  "sourceCommit": "b5828853be2832bc5fb4a27d2ab35723917de13a",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "199A2B670333D9C4ECAC498C5C4ECDEB6C6F801D4FE1687E3FC1020BB8311CA7",
+  "htmlSha256": "30302BECECDE4C08578D537FF056805610D311AFD0DCF16BB948A3959B3CC684",
   "browser": "Playwright Chromium, local file://; Army UI plus actual engine March into the authored Azrael encounter; Boss visual lineup uses 16 deployed Human Spear Militias as a disclosed art fixture, not organic progression.",
   "screenshots": [
     {
@@ -12,7 +12,7 @@
         "human_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-human.png",
-      "sha256": "762056D062AC786393CF4DC772D1D416A40C5D0E67471A69A0F340995975FCB9"
+      "sha256": "EC8B6230243F2819E4E45D1E755D2F5085D2E09C16410A1A2257D642356A8DEF"
     },
     {
       "viewport": "1280x720",
@@ -22,7 +22,7 @@
         "elf_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-elf.png",
-      "sha256": "B68DDB62C648FE7BAF9BEC41CB786203941DDB63F348ED70F9D9CDACDBF2CF92"
+      "sha256": "CA6D98D0CC5F88208D5F5D46CC68C682BBC058FD659DEBA06974246FD86CD0CB"
     },
     {
       "viewport": "1280x720",
@@ -32,7 +32,7 @@
         "orc_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-orc.png",
-      "sha256": "16504ABA05F79953424A448111F929C4FDAD162825A851B765AD13AB8665A764"
+      "sha256": "C75D6586358F9E680B0293A350489DB2371480AF1583A02386CE4F671D7FC304"
     },
     {
       "viewport": "1280x720",
@@ -42,7 +42,7 @@
         "undead_10"
       ],
       "path": "docs/evidence/hg28/after/1280x720/14-t9-t10-undead.png",
-      "sha256": "C2B4B3204F7A9C11EDD82762D0432905BE3EB404450ED6A05FD52BB856A6AFC1"
+      "sha256": "2E51C5C0FA0CAC44F2F22CAD184F122126818743FC4DC0AD10D7C68DD14D7D95"
     },
     {
       "viewport": "960x540",
@@ -52,7 +52,7 @@
         "human_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-human.png",
-      "sha256": "A6B32EB7C6DB78A692619DF619A1B126D002E3B12F10209AE3B9A701444FE336"
+      "sha256": "9DDF43760B8A8C5CED568833215C510111E66B52BB5F1F86344B4CCDABE91430"
     },
     {
       "viewport": "960x540",
@@ -62,7 +62,7 @@
         "elf_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-elf.png",
-      "sha256": "934CCDE755299A27248586449DE43009DFB7F5F40F265323046A881866A0BD4E"
+      "sha256": "0E59794EE05EB708C12D8727CA9D2F7DCBBF2FF478A235E253B8427383355000"
     },
     {
       "viewport": "960x540",
@@ -82,31 +82,31 @@
         "undead_10"
       ],
       "path": "docs/evidence/hg28/after/960x540/14-t9-t10-undead.png",
-      "sha256": "71D35B10021AD3A13D000375234ABF274352928615E2F59D3EE7CC4610018150"
+      "sha256": "28F2EF1931158821058DAA9891726E07B1F4912DE155CD3BA7B407911FB0C407"
     },
     {
       "viewport": "1280x720",
       "state": "boss-art-before-controlled-fallback",
       "path": "docs/evidence/hg28/before/1280x720/15-boss-battle.png",
-      "sha256": "B144022517E3469F2ACF4A97E9937BA0EA98CD1502FC451477CF44E2D567F29F"
+      "sha256": "78765FE1192C26BF260D0B3479D98226CE3B1335B3FDFE90F5F712B7DACA6EFD"
     },
     {
       "viewport": "1280x720",
       "state": "boss-battle-after-art",
       "path": "docs/evidence/hg28/after/1280x720/15-boss-battle.png",
-      "sha256": "32DCCC1292821A42AF9986FF41C0B7D00796EC1128FC39C51A6E6DEF4EA59944"
+      "sha256": "AED1A89A40C24BE49F9D09D7297C809797331DDEC421C2CE35CA03456714068F"
     },
     {
       "viewport": "960x540",
       "state": "boss-art-before-controlled-fallback",
       "path": "docs/evidence/hg28/before/960x540/15-boss-battle.png",
-      "sha256": "D9996C55D8579218912164A0E626A203EBEC1F120DEC3A766487105455513B8E"
+      "sha256": "BBF08D0F7BAEEB6ECEE2C9FBB9B1FA360E01B135EF19319121724FAB5AA8F8D4"
     },
     {
       "viewport": "960x540",
       "state": "boss-battle-after-art",
       "path": "docs/evidence/hg28/after/960x540/15-boss-battle.png",
-      "sha256": "7A48C64576493410BAFD8227CD3FA34B5A7CBA316410D6C46DB739B89728157C"
+      "sha256": "188E3B7326C3EA41C6B97B0B4EDA98499C7FDA1F50E204C81AEF7E1B55222F4A"
     }
   ],
   "checks": [
@@ -404,24 +404,28 @@
         "ready": true,
         "offline": true,
         "registered": true,
-        "animated": true
+        "animated": true,
+        "atlas": true
       }
     },
     {
       "viewport": "1280x720",
-      "check": "BEFORE Chromium frame uses the real fallback with generated sprite sources disabled and unchanged battle state",
-      "pass": true
+      "check": "BEFORE Chromium frame draws the preserved source sprite fallback after atlas rendering is disabled; battle state unchanged",
+      "pass": true,
+      "drawn": [
+        "hg28-battle-human-spear-militia"
+      ]
     },
     {
       "viewport": "1280x720",
-      "check": "real boss battle draws all three portraits and the custom Spear Militia, idle motion changes, HUD labels clear and game state stays unchanged",
+      "check": "real boss battle draws all three portraits and the authored eight-frame Spear Militia atlas, idle motion changes, HUD labels clear and game state stays unchanged",
       "pass": true,
       "drawn": [
-        "hg28-battle-human-spear-militia",
+        "unit-hg33-human-1-atlas",
         "hg28-boss-azrael",
         "hg28-boss-demonlord-samurai",
         "hg28-boss-cyclops-tyrant",
-        "hg28-battle-human-spear-militia",
+        "unit-hg33-human-1-atlas",
         "hg28-boss-azrael",
         "hg28-boss-demonlord-samurai",
         "hg28-boss-cyclops-tyrant"
@@ -463,24 +467,28 @@
         "ready": true,
         "offline": true,
         "registered": true,
-        "animated": true
+        "animated": true,
+        "atlas": true
       }
     },
     {
       "viewport": "960x540",
-      "check": "BEFORE Chromium frame uses the real fallback with generated sprite sources disabled and unchanged battle state",
-      "pass": true
+      "check": "BEFORE Chromium frame draws the preserved source sprite fallback after atlas rendering is disabled; battle state unchanged",
+      "pass": true,
+      "drawn": [
+        "hg28-battle-human-spear-militia"
+      ]
     },
     {
       "viewport": "960x540",
-      "check": "real boss battle draws all three portraits and the custom Spear Militia, idle motion changes, HUD labels clear and game state stays unchanged",
+      "check": "real boss battle draws all three portraits and the authored eight-frame Spear Militia atlas, idle motion changes, HUD labels clear and game state stays unchanged",
       "pass": true,
       "drawn": [
-        "hg28-battle-human-spear-militia",
+        "unit-hg33-human-1-atlas",
         "hg28-boss-azrael",
         "hg28-boss-demonlord-samurai",
         "hg28-boss-cyclops-tyrant",
-        "hg28-battle-human-spear-militia",
+        "unit-hg33-human-1-atlas",
         "hg28-boss-azrael",
         "hg28-boss-demonlord-samurai",
         "hg28-boss-cyclops-tyrant"
@@ -494,6 +502,6 @@
     }
   ],
   "pageErrors": [],
-  "animation": "Boss and Spear Militia still masters use the existing event-linked Idle/Walk/Attack/Hit/Death transform renderer; no fabricated action frames. Human Archer retains its real 48-frame atlas; Skeleton HG22.1 remains untouched.",
+  "animation": "Before/after captures exercise the preserved source sprite fallback and the new authored 8-frame five-action atlas separately. The 38 generated atlases complement Human Archer HG14.3 (48 source frames) and the unchanged Skeleton HG22.1 animation. Eight T9/T10 authored rig masters remain preserved by the HG28 Chromium gate.",
   "pass": true
 }
