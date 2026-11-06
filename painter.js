@@ -312,9 +312,9 @@ const MOTION_SPRITES=Object.freeze({
  undead_1:Object.freeze({id:'unit-undead-skeleton',race:'undead',size:112,pivot:446/512,accent:'#c9a9f7',ranged:false})
 });
 const BOSS_SPRITES=Object.freeze({
- azrael:Object.freeze({id:'hg28-boss-azrael',size:146,pivot:.988,glow:'#82e8e8',boss:true}),
- 'cyclop tyrant':Object.freeze({id:'hg28-boss-cyclops-tyrant',size:154,pivot:.988,glow:'#74d9cf',boss:true}),
- 'demonlord samurai':Object.freeze({id:'hg28-boss-demonlord-samurai',size:146,pivot:.988,glow:'#9fe2df',boss:true})
+ azrael:Object.freeze({id:'hg28-boss-azrael',size:126,pivot:.988,glow:'#82e8e8',boss:true}),
+ 'cyclop tyrant':Object.freeze({id:'hg28-boss-cyclops-tyrant',size:130,pivot:.988,glow:'#74d9cf',boss:true}),
+ 'demonlord samurai':Object.freeze({id:'hg28-boss-demonlord-samurai',size:126,pivot:.988,glow:'#9fe2df',boss:true})
 });
 function bossSprite(name){
  const key=String(name||'').trim().toLocaleLowerCase().replace(/\s+/g,' ');
@@ -481,8 +481,11 @@ function animatedSoldier(c,x,y,enemy,visual,k=1){
 // Reference: GameGami original HoG combat gallery and Chinese 2009 battle captures.
 function battleProjection(canvas,E){
  const g=E.BATTLE_GRID||{cols:12,rows:9},w=canvas.width,h=canvas.height;
+ // A rectangular logical overlay, not a skewed parallelogram projected on
+ // top of a photographic meadow. The world illustration already supplies depth.
+ // Use the *same* inverse transform for pointer hits and for unit foot anchors.
  const origin={x:w*.08,y:h*.35};
- const col={x:w*.07,y:h*.004},row={x:w*.0045,y:h*.061};
+ const col={x:w*.07,y:0},row={x:0,y:h*.061};
  const det=col.x*row.y-col.y*row.x;
  const point=(x,y)=>({x:origin.x+x*col.x+y*row.x,y:origin.y+x*col.y+y*row.y});
  const cellAt=(px,py)=>{
@@ -517,10 +520,10 @@ function battleGridOverlay(c,camera,layout,reachable){
   const highlighted=reachable.has(cell.x+','+cell.y);
   c.lineWidth=highlighted?1.85:.85;
   poly(c,cell.corners.map(p=>[p.x,p.y]),
-   highlighted?'#45d5ac4d':(cell.x+cell.y)%2===0?'#1a465115':'#061a2213',
-   highlighted?'#b8fff0ed':'#b5e6e46b');
-  if(cell.x%3===1&&cell.y%3===1)
-   text(c,cell.x+','+cell.y,cell.center.x,cell.center.y+3,9,'#d4f5da9e','center','500');
+   highlighted?'#45d5ac36':'#00000000',
+   highlighted?'#b8fff0ed':'#b5e6e42e');
+  // Coordinates are available on selection/hover. Never spam 108 numeric
+  // labels over character silhouettes and the high-quality battle backdrop.
  }
  for(const entry of layout){
   if(entry.u.pool<=0)continue;
@@ -613,14 +616,14 @@ function battleUnitLayout(b,camera,width,height){
   for(let i=0;i<team.length;i++)for(let j=i+1;j<team.length;j++){
    const a=team[i],b=team[j],dy=Math.abs(a.y-b.y),dx=Math.abs(a.x-b.x),
     needed=Math.max(85,Math.min(114,(a.size+b.size)*.46));
-   if(dy>Math.max(115,(a.size+b.size)*.95)||dx>=needed)continue;
-   const push=Math.min(44,(needed-dx)/2),direction=a.x<=b.x?1:-1;
+   if(dy>Math.max(76,(a.size+b.size)*.35)||dx>=needed)continue;
+   const push=Math.min(15,(needed-dx)/2),direction=a.x<=b.x?1:-1;
    a.x-=direction*push;b.x+=direction*push;
   }
  }
  for(const e of entries){
   e.x=clamp(e.x,70,width-70);
-  const half=e.size*.36,pivot=e.profile?.pivot??(e.u.unitId==='human_4'?216/256:.87);
+  const half=e.size*.48,pivot=e.profile?.pivot??(e.u.unitId==='human_4'?216/256:.87);
   e.sprite={x:e.x-half,y:e.y-e.size*pivot,w:half*2,h:e.size*pivot};
   e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
  }
