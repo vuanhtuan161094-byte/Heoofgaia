@@ -1525,16 +1525,21 @@ test('HG14.5 real combat receipts drive damage numbers, arrows and death marks o
  assert.equal(P.battleFxPlan(b,camera,1200,layout).length,0,'effect TTL expires');
  assert.equal(JSON.stringify(E.clone(s)),canonicalBefore,'presentation never mutates game');
 });
-test('HG14.4 responsive troop scale improves 960x540 readability',()=>{
+test('HG14.4 responsive sprites stay legible and fit real battlefield lanes',()=>{
  const desktop=P.battleSpriteScale(516,2,9),mobile=P.battleSpriteScale(347,2,9);
- assert(desktop>=.95&&desktop<=1.18);
- assert(mobile>=.82&&mobile<=.98);
- assert(P.battleSpriteScale(320,0,9)>.82,'compact 960x540 battlefield sprites stay above the browser acceptance floor');
- assert(mobile<desktop);
- assert(P.battleSpriteScale(347,8,9)>P.battleSpriteScale(347,0,9));
- for(const h of [347,516,600]){
-  const k=P.battleSpriteScale(h,2,9);
-  assert(k>.78&&k<1.5);
+ assert(desktop>.65&&desktop<.78,'desktop sprite scale must leave room for three Boss rows');
+ assert(mobile>.47&&mobile<.54,'compact combat sprites must respect real row height');
+ assert(mobile<desktop,'mobile and desktop scale adapt to available height');
+ assert(P.battleSpriteScale(347,8,9)>P.battleSpriteScale(347,0,9),'front row remains visually closer');
+ // Check actual rendered size after native sprite min/max, not only a scale
+ // factor. A 64px image is readable at 960×540 while a 130px Boss overlay
+ // would overlap neighboring cells and detach its feet from the grid.
+ for(const h of [320,347,516,550,600]){
+  const k=P.battleSpriteScale(h,2,9),size=Math.max(64,Math.min(125,113*k));
+  assert(size>=64&&size<=110,'rendered unit stays readable without lane overflow: '+h);
+  const neighborSpacing=h*.061*3;
+  const bossSize=Math.max(64,Math.min(178,130*P.battleSpriteScale(h,5,9)));
+  assert(bossSize*.988<=neighborSpacing+1.5,'Boss images respect neighboring logical rows: '+h);
  }
 });
 test('HG14.4 desktop/mobile nameplates avoid sprites, overlays and each other',()=>{
