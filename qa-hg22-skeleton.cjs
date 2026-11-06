@@ -37,7 +37,8 @@ for(const spec of M.actions)assert(index.includes('src="'+spec.path+'"'),'HTML p
 assert(index.includes('<script src="art-hg22-skeleton.js"></script>'));
 assert(build.includes("'art-hg22-skeleton.js'")&&build.includes("hg22['actions']"));
 assert(art.includes('root.HOG_HG22_SKELETON?.thumb(id,px)'));
-assert.equal(painter.split("root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId").length-1,2);
+assert.equal(painter.split("root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId").length-1,1,
+ 'the centralized battle renderer dispatches Skeleton animation once for all combat views');
 assert(workflow.includes('qa-hg22-skeleton-chrome.py'));
 fs.mkdirSync('docs/qa/hg22',{recursive:true});
 const report={status:'PASS',unit:'undead_1',actions:5,frames:50,source:'MIT Chong-U Lim',offline:true,saveChanged:false,engineChanged:false};
