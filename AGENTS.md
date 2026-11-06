@@ -1,5 +1,13 @@
 # AGENTS.md — Hẻoofgaia AI Engineering Contract
 
+## OWNER OVERRIDE — HG33 TRUE HEX + ALL-ORIGINAL COMBAT ART · 06/11/2026
+- Owner **explicitly delegated HG33 to Codex**: replace rectangular battle topology with **pointy-top odd-r true hex** and produce original sprites + five meaningful animations for 40 core troops, every inventoried Boss and 8 bonus soldiers. This supersedes contrary future-art/grid instructions in HG28 and the older Codex restriction **within HG33 scope only**.
+- **Mandatory executable contract:** `docs/HG33_HEX_ORIGINAL_ART_MASTER_20261106.md`; **Codex start prompt:** `docs/CODEX_EXECUTE_HG33_20261106.md`. Read both completely before editing combat.
+- Baseline verification: 06/11/2026 `faf17771f28bcdf34be759b97427bc64b1529948` / CI #383 SUCCESS 88/88. This is a *historical baseline*, never substitute for checking current remote HEAD.
+- Do **not** confuse hex drawing with actual six-neighbor movement. Keep canonical **12×9** IDs and Save v07 compatibility initially; hex distance/path/AI must match the painted geometry. Original means **new editable sources and genuinely articulated action frames**, not internet-sourced legacy sprites, rigid still transforms, or invented asset coverage.
+- Keep **one existing branch, one original repo, one playable HTML**, preserve 3×2 Boss/Tower authority, offline portability, and protected HG29–HG32 economy. Any code/art readiness is PARTIAL unless accepted by real Chromium, coverage audit and latest integrated CI.
+
+
 **One game only:** Heroes of Gaia / Castle of Heroes / 英雄之城 (approx. 2009–2010). No import of gameplay systems from Call of Gods, Thánh Chiến, War of Legends or Đắc Kỷ.
 
 ## OWNER OVERRIDE — HG28 CODEX DELEGATION · 05/11/2026
