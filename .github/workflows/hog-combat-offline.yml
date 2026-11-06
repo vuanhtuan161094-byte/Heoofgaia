@@ -180,6 +180,8 @@ jobs:
         run: python qa-hg14-sprite-chrome.py
       - name: Chromium Human Archer six animations, real battle and Save/Load
         run: python qa-hg143-archer-chrome.py
+      - name: HG28 PvE P0 automatic combat: single stable turn clock and focus
+        run: python qa-hg28-auto-stability-chrome.py
       - name: HG14.5 real Chromium grid and HP toggles, receipt FX, mobile and Save
         run: python qa-hg145-combat-chrome.py
       - name: Record build SHA and size
@@ -469,6 +471,15 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+      - name: Upload HG28 PvE P0 real auto-battle receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG28-PvE-auto-stability-Chromium
+          path: |
+            docs/qa/hg28/pve-auto-stability.json
+            docs/evidence/hg28/pve-p0/*.png
+          if-no-files-found: ignore
       - name: Upload HG14.5 tactical grid, HP and combat FX evidence
         if: always()
         uses: actions/upload-artifact@v4
