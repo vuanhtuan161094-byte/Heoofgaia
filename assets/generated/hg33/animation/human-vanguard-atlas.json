@@ -1,0 +1,477 @@
+{
+  "schema": "HG33-OriginalActionAtlas-v1",
+  "assetId": "human-vanguard-8x5",
+  "unitId": "human_4",
+  "name": "Human Vanguard / Heavy Soldier",
+  "sourcePath": "assets/original/hg33/troops/human-vanguard-atlas.png",
+  "sourceSha256": "2efa78c02a5eb647ff876a3ba35d10a083b90d642ff236255d549a1bc053a252",
+  "runtimeImageId": "unit-human-vanguard-atlas",
+  "runtimeUse": "Canvas source rectangles; frame animation follows actual battleVisualState actions",
+  "originalStatus": "verified-original-imagegen",
+  "creationMethod": "Original fantasy character and 40 action poses generated specifically for this project; no third-party game art or reference model used.",
+  "generationTool": "built-in image_gen",
+  "sourcePrompt": "One original mature Human Vanguard swordsman, transparent 8 columns by 5 rows. Rows: idle breathing/weight shifts; walk alternating strides; attack anticipation/strike/recovery; hit recoil/regain; death stagger/collapse/terminal prone. Same armor-blue/brass identity, fixed 3/4 camera, aligned feet, no backgrounds or text.",
+  "atlasDimensions": [
+    1536,
+    1024
+  ],
+  "frameDimensions": [
+    192,
+    204
+  ],
+  "columns": 8,
+  "rows": 5,
+  "pivot": [
+    0.5,
+    0.985
+  ],
+  "fps": 8,
+  "actions": {
+    "idle": {
+      "row": 0,
+      "duration_ms": 960,
+      "loop": true,
+      "count": 8,
+      "minimum_adjacent_rgba_mae": 0.01899,
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            0,
+            192,
+            204
+          ],
+          "sha256_rgba": "8896f78ae2092b88405863fac9a368f648cc004fa70df807336cc11f0c0f1566"
+        },
+        {
+          "index": 1,
+          "rect": [
+            192,
+            0,
+            192,
+            204
+          ],
+          "sha256_rgba": "752dea2ffd3d0fe562316647b50a7bc042b5d662b1a81902b147820dace67839"
+        },
+        {
+          "index": 2,
+          "rect": [
+            384,
+            0,
+            192,
+            204
+          ],
+          "sha256_rgba": "a4a3d3f45073e58a1e715c40aefbe307ee4870df0ca55859ee8473ef7faff4e2"
+        },
+        {
+          "index": 3,
+          "rect": [
+            576,
+            0,
+            192,
+            204
+          ],
+          "sha256_rgba": "9b2f6019a4f20283ed99b6effed8f648f4c3131494023750b12dabefadf227c9"
+        },
+        {
+          "index": 4,
+          "rect": [
+            768,
+            0,
+            192,
+            204
+          ],
+          "sha256_rgba": "cca6836561e143da694a8a76d22456aaf45fbd08a0181f2db5ee517fc521547e"
+        },
+        {
+          "index": 5,
+          "rect": [
+            960,
+            0,
+            192,
+            204
+          ],
+          "sha256_rgba": "3e73e42b36c6ae950be6720c399e2d8bdd1dc6084993916f029e2ef7268db4ce"
+        },
+        {
+          "index": 6,
+          "rect": [
+            1152,
+            0,
+            192,
+            204
+          ],
+          "sha256_rgba": "bcdcc07855b4ce102e2ed17b299425655388d5fcb90230be3ebc672160e35bea"
+        },
+        {
+          "index": 7,
+          "rect": [
+            1344,
+            0,
+            192,
+            204
+          ],
+          "sha256_rgba": "e70f0ad4c8e3572a4aec61765c9210cf92c68d978e64581ee1a55b8c8e4f8345"
+        }
+      ]
+    },
+    "walk": {
+      "row": 1,
+      "duration_ms": 640,
+      "loop": true,
+      "count": 8,
+      "minimum_adjacent_rgba_mae": 0.04414,
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            204,
+            192,
+            204
+          ],
+          "sha256_rgba": "669e679d502c443fc4aed4b82d0a748647a9ff6cf708c5ff09d2ae2b6f21a495"
+        },
+        {
+          "index": 1,
+          "rect": [
+            192,
+            204,
+            192,
+            204
+          ],
+          "sha256_rgba": "c1ea5f458cd1a5a1b0320c7781791222e8539662fadf24119c67d442c03561b9"
+        },
+        {
+          "index": 2,
+          "rect": [
+            384,
+            204,
+            192,
+            204
+          ],
+          "sha256_rgba": "b2d6975b90e087f187568fd64a4f292c3a8a5942213a317a98208c3c9e226a28"
+        },
+        {
+          "index": 3,
+          "rect": [
+            576,
+            204,
+            192,
+            204
+          ],
+          "sha256_rgba": "3138adecb382b809c8c42a1e62672a803dc8c31f15e83f27cd1889fec8a92ba1"
+        },
+        {
+          "index": 4,
+          "rect": [
+            768,
+            204,
+            192,
+            204
+          ],
+          "sha256_rgba": "345c6f784906055221c6692bedd2dc83c497e16d8df8adc5912504de58f201fd"
+        },
+        {
+          "index": 5,
+          "rect": [
+            960,
+            204,
+            192,
+            204
+          ],
+          "sha256_rgba": "f2b78a84548fbb23bd404bbaf6e11b7b4267b60a0f9102ab1860b565070307e5"
+        },
+        {
+          "index": 6,
+          "rect": [
+            1152,
+            204,
+            192,
+            204
+          ],
+          "sha256_rgba": "cee9f4d2fe3bceaeacfd58fc1701a44c9f82b988d789e60b8dcb36615a08f999"
+        },
+        {
+          "index": 7,
+          "rect": [
+            1344,
+            204,
+            192,
+            204
+          ],
+          "sha256_rgba": "4026244c2bdfac2db20917d8238221bda0772aba6d6f2434b6656a5f8194203d"
+        }
+      ]
+    },
+    "attack": {
+      "row": 2,
+      "duration_ms": 650,
+      "loop": false,
+      "count": 8,
+      "minimum_adjacent_rgba_mae": 0.07257,
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            408,
+            192,
+            204
+          ],
+          "sha256_rgba": "ceff5d79008135fc0da680f1824950f7df0917e817566b96b51ffbc9603c601e"
+        },
+        {
+          "index": 1,
+          "rect": [
+            192,
+            408,
+            192,
+            204
+          ],
+          "sha256_rgba": "621bfa8bbfeef7c782a527ba998fda384a47c7d5f20eb7ffa9f8c3cd581994ba"
+        },
+        {
+          "index": 2,
+          "rect": [
+            384,
+            408,
+            192,
+            204
+          ],
+          "sha256_rgba": "4e08b36390671588e3d81a6870d6c9a1d1bc7f4bab08cff3a5f5792a2d6eb68f"
+        },
+        {
+          "index": 3,
+          "rect": [
+            576,
+            408,
+            192,
+            204
+          ],
+          "sha256_rgba": "f5b7687b3899e9772021b5f110176b679f4d72c4567f99c08369c52c1657e764"
+        },
+        {
+          "index": 4,
+          "rect": [
+            768,
+            408,
+            192,
+            204
+          ],
+          "sha256_rgba": "0925568ab3f420c6b6fe4de30e674a396584f3220c6387d0f47cc9244ff8471d"
+        },
+        {
+          "index": 5,
+          "rect": [
+            960,
+            408,
+            192,
+            204
+          ],
+          "sha256_rgba": "cdea29b08dd3f59aac2cecc1d91d46c7f248b3f899844c3da6fef46c7f304644"
+        },
+        {
+          "index": 6,
+          "rect": [
+            1152,
+            408,
+            192,
+            204
+          ],
+          "sha256_rgba": "8f4cc21ae06eb3eb5c8b629619cfc3d0e483990cd3e767339668971788a81a96"
+        },
+        {
+          "index": 7,
+          "rect": [
+            1344,
+            408,
+            192,
+            204
+          ],
+          "sha256_rgba": "39ba921331a5749a46f59aa9dc7ca4737ec76e5fb9bcd3ad6e050cd086f7ad25"
+        }
+      ]
+    },
+    "hit": {
+      "row": 3,
+      "duration_ms": 560,
+      "loop": false,
+      "count": 8,
+      "minimum_adjacent_rgba_mae": 0.04664,
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            612,
+            192,
+            204
+          ],
+          "sha256_rgba": "42fa33e18425976b6d11b9dbd44c239614ead47b9822c370f23327fea3169562"
+        },
+        {
+          "index": 1,
+          "rect": [
+            192,
+            612,
+            192,
+            204
+          ],
+          "sha256_rgba": "e0b04cf8fd32698927ff1a69cdcc6202c7099195c29456ef1e8adf484f081e17"
+        },
+        {
+          "index": 2,
+          "rect": [
+            384,
+            612,
+            192,
+            204
+          ],
+          "sha256_rgba": "c78dfaa8ec61ae33447fd08f2a39fb33e7edc2ebbe09b49c19a9830aeace3f9f"
+        },
+        {
+          "index": 3,
+          "rect": [
+            576,
+            612,
+            192,
+            204
+          ],
+          "sha256_rgba": "03ee1fa3dd54961896395dcc494e1bb7282f1deb73ebefb0cad289dd1a76c797"
+        },
+        {
+          "index": 4,
+          "rect": [
+            768,
+            612,
+            192,
+            204
+          ],
+          "sha256_rgba": "28d86ff7a01a4e84607741eb4e2e07296ab53df8d4e14f62485370394fddecbb"
+        },
+        {
+          "index": 5,
+          "rect": [
+            960,
+            612,
+            192,
+            204
+          ],
+          "sha256_rgba": "942f3c8aae5c396c281bc8c1b9eb9594e93bda50118035ce3d2e71ccb292eafa"
+        },
+        {
+          "index": 6,
+          "rect": [
+            1152,
+            612,
+            192,
+            204
+          ],
+          "sha256_rgba": "121380fde4798ffc0859e373c23ad2b89e95c67c4ac079d03cb1e914db3044d5"
+        },
+        {
+          "index": 7,
+          "rect": [
+            1344,
+            612,
+            192,
+            204
+          ],
+          "sha256_rgba": "9e9e72fca70de0ae0c4fcb86d5be38f1557a159a71b3764eeff7a8fadf5e0d59"
+        }
+      ]
+    },
+    "death": {
+      "row": 4,
+      "duration_ms": 1200,
+      "loop": false,
+      "count": 8,
+      "minimum_adjacent_rgba_mae": 0.04766,
+      "frames": [
+        {
+          "index": 0,
+          "rect": [
+            0,
+            816,
+            192,
+            204
+          ],
+          "sha256_rgba": "4cb136b779ba18ecd2b2f039ee536706a1b41ce12526a07b3606c257c8976476"
+        },
+        {
+          "index": 1,
+          "rect": [
+            192,
+            816,
+            192,
+            204
+          ],
+          "sha256_rgba": "5854ea2385f3904433e13376f9396b1425ed6a0fc8062f044732444937fb78f6"
+        },
+        {
+          "index": 2,
+          "rect": [
+            384,
+            816,
+            192,
+            204
+          ],
+          "sha256_rgba": "6dbc351c200009c37dd973ce8f30fbfa08ad726e949a34588673757eea2f85b3"
+        },
+        {
+          "index": 3,
+          "rect": [
+            576,
+            816,
+            192,
+            204
+          ],
+          "sha256_rgba": "74e639e283cdd39be37645ac2cdf8f03030f3435bc52ced477e11ef465fdbad2"
+        },
+        {
+          "index": 4,
+          "rect": [
+            768,
+            816,
+            192,
+            204
+          ],
+          "sha256_rgba": "b6fa2659d642c5e84afe7349e23cf95a98c2e1c21a044393ce0c79554939a28b"
+        },
+        {
+          "index": 5,
+          "rect": [
+            960,
+            816,
+            192,
+            204
+          ],
+          "sha256_rgba": "510f1eb26a958af903ed8130fc957495e4da2214a6ad7dac5aee904c0b566635"
+        },
+        {
+          "index": 6,
+          "rect": [
+            1152,
+            816,
+            192,
+            204
+          ],
+          "sha256_rgba": "a186eb21b8e64af5634035a568974e84733fd30f3ad1611b1516857a434b15d4"
+        },
+        {
+          "index": 7,
+          "rect": [
+            1344,
+            816,
+            192,
+            204
+          ],
+          "sha256_rgba": "0158e986c23c61636cdbdd16103da14cb1630232f7959a64021c588cd14bd54e"
+        }
+      ]
+    }
+  },
+  "runtimeFrameCount": 40
+}

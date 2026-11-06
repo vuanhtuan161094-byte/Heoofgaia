@@ -12,7 +12,7 @@ const hg28LandmarkManifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/gene
 const hg28LandmarkAssets=hg28LandmarkManifest.assets.map(item=>path.join(dir,item.path));
 const hg28OfflineAssets=[...hg28WorldAssets,...hg28LandmarkAssets,...hg28TroopAssets];
 
-for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
+for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','art-hg33-troop-atlases.js','art-hg22-skeleton.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
 vm.runInContext(fs.readFileSync(path.join(dir,'painter.js'),'utf8'),ctx,{filename:'painter.js'});
 const E=ctx.HOG_ENGINE, C=ctx.HOG_CATALOG;
 const P=ctx.HOG_PAINTER;
@@ -1652,48 +1652,41 @@ test('HG14 battle renderer uses the real illustrated four-faction PNGs and never
  P.drawBattle(c,E,s,500);P.drawBattle(c,E,s,800);
  assert.equal(JSON.stringify(E.clone(s)),before,'rendering is visual only and saves must not change');
 });
-test('HG11 KayKit Heavy Soldier keeps 57 distinct licensed rig-rendered frames and embedded action atlases',()=>{
- const base=path.join(dir,'assets/licensed/kaykit-heavy-soldier'),source=JSON.parse(fs.readFileSync(path.join(base,'source-manifest.json'),'utf8')),meta=JSON.parse(fs.readFileSync(path.join(base,'rendered/animation-metadata.json'),'utf8'));
- const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
- assert.equal(source.author,'Kay Lousberg');assert.equal(source.license,'CC0-1.0');assert.equal(source.sourceCommit,'672074b73ba276876a19e8816ecdc5241817ab47');assert(source.animations.some(a=>a.name==='1H_Melee_Attack_Chop'));assert(source.animations.some(a=>a.name==='Death_A'));
- const runtimePaths=[];let frames=0;for(const [action,count] of [['idle',13],['walk',13],['attack',13],['hit',8],['death',10]]){const clip=meta.actions.find(a=>a.name===action);assert(clip,action);assert.equal(clip.frameCount,count);assert(clip.fps>=11.2&&clip.fps<12.7);assert.equal(clip.cell,256);assert.deepEqual(clip.pivot,[148,216]);const hashes=new Set();for(const frame of clip.frames){const b=fs.readFileSync(path.join(dir,frame.file.path));assert.equal(sha(b),frame.file.sha256,frame.file.path);assert.equal(b.readUInt32BE(16),256);assert.equal(b.readUInt32BE(20),256);assert(frame.alphaPixels>0);assert(frame.bounds[0]>=0&&frame.bounds[1]>=0&&frame.bounds[2]<256&&frame.bounds[3]<256);hashes.add(frame.file.sha256);frames++}assert.equal(hashes.size,count,`${action} has duplicate stills`);const atlasPath=path.join(base,`rendered/${action}.png`),atlas=fs.readFileSync(atlasPath);assert.equal(atlas.readUInt32BE(16),2048);assert.equal(atlas.readUInt32BE(20),count<=8?256:512);runtimePaths.push({path:`assets/licensed/kaykit-heavy-soldier/rendered/${action}.png`,bytes:atlas.length,sha256:sha(atlas)})}
- assert.equal(frames,57);const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8');for(const file of hg28OfflineAssets){const b=fs.readFileSync(file);assert(html.includes('data:image/png;base64,'+b.toString('base64')),file)}for(const asset of runtimePaths){const b=fs.readFileSync(path.join(dir,asset.path));assert(html.includes(`src=\"data:image/png;base64,${b.toString('base64')}\"`),asset.path)}assert.equal((html.match(/data:image\/png;base64,/g)||[]).length,17+JSON.parse(fs.readFileSync(path.join(dir,'assets/licensed/spritecook/asset-manifest.json'),'utf8')).files.length+JSON.parse(fs.readFileSync(path.join(dir,'assets/licensed/dcss-cc0/unit-manifest.json'),'utf8')).units.length+JSON.parse(fs.readFileSync(path.join(dir,'assets/hg193-unit-manifest.json'),'utf8')).units.length+JSON.parse(fs.readFileSync(path.join(dir,'assets/licensed/hg22-skeleton/asset-manifest.json'),'utf8')).actions.length+hg28OfflineAssets.length,'HG14.3 plus HG19.1 verified CC0 animation sheets and HG28 offline world and troop art');
+test('HG33 offline release embeds all 38 authored atlases and excludes KayKit combat art',()=>{
+ const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg33/animation/troop-atlas-manifest.json'),'utf8'));
+ const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8'),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
+ assert.equal(manifest.unitCount,40);assert.equal(manifest.atlasCount,38);assert.equal(manifest.frameCount,1520);assert.equal(manifest.assets.length,38);
+ assert.equal(Object.keys(manifest.nativePreserved).length,2);assert(manifest.nativePreserved.human_3);assert(manifest.nativePreserved.undead_1);
+ assert.equal((html.match(/data-hg33-atlas-src="data:image\/webp;base64,/g)||[]).length,38);
+ assert(!html.includes('assets/licensed/kaykit-heavy-soldier/rendered/'));assert(!html.includes('assets/generated/hg33/animation/runtime/'));
+ for(const item of manifest.assets){
+  const source=fs.readFileSync(path.join(dir,item.sourcePath)),runtime=fs.readFileSync(path.join(dir,item.runtimePath));
+  assert.equal(sha(source),item.sourceSha256,item.unitId+' source');assert.equal(source.readUInt32BE(16),1536);assert.equal(source.readUInt32BE(20),1024);
+  assert.equal(sha(runtime),item.runtimeSha256,item.unitId+' runtime');assert.equal(runtime.subarray(0,4).toString(),'RIFF');assert.equal(runtime.subarray(8,12).toString(),'WEBP');
+  assert.equal(item.actions&&Object.keys(item.actions).length,5,item.unitId+' actions');
+  for(const [action,clip] of Object.entries(item.actions)){
+   assert.equal(clip.count,8,item.unitId+'/'+action+' frames');assert.equal(new Set(clip.frames.map(f=>f.sha256Rgba)).size,8,item.unitId+'/'+action+' distinct poses');
+   for(let i=0;i<8;i++)assert.deepEqual(clip.frames[i].rect,[i*192,clip.row*204,192,204],item.unitId+'/'+action+'/'+i);
+  }
+ }
 });
-
-test('HG11 Heavy Soldier manifest ties CC0 sources, battle Save/Reload and actual Chrome screenshots to the standalone build',()=>{
- const base=path.join(dir,'assets/licensed/kaykit-heavy-soldier'),manifest=JSON.parse(fs.readFileSync(path.join(base,'asset-manifest.json'),'utf8'));
- const sha=b=>crypto.createHash('sha256').update(b).digest('hex').toUpperCase();
- assert.equal(manifest.status,'RECREATED');assert.equal(manifest.target.unitId,'human_4');assert.equal(manifest.source.license,'CC0-1.0');assert.equal(manifest.source.commit,'672074b73ba276876a19e8816ecdc5241817ab47');
- assert.equal(manifest.source.sourceFiles.length,7);for(const row of manifest.source.sourceFiles){const b=fs.readFileSync(path.join(dir,row.path));assert.equal(b.length,row.bytes);assert.equal(sha(b),row.sha256);assert.equal(row.verified,true)}
- assert.equal(manifest.animation.distinctFrameCount,57);assert.deepEqual(manifest.animation.actions.map(a=>[a.name,a.sourceClip,a.frameCount]),[['idle','Idle',13],['walk','Walking_A',13],['attack','1H_Melee_Attack_Chop',13],['hit','Hit_A',8],['death','Death_A',10]]);
- for(const action of manifest.animation.actions){const atlas=fs.readFileSync(path.join(dir,action.atlas.projectPath));assert.equal(sha(atlas),action.atlas.sha256);assert.equal(`${atlas.readUInt32BE(16)}x${atlas.readUInt32BE(20)}`,action.atlas.resolution);assert.equal(new Set(action.frames.map(x=>x.sha256)).size,action.frameCount)}
- const browser=manifest.integration.focusedBrowserQa;assert.equal(browser.total,20);assert.equal(browser.passed,20);assert.equal(browser.failed,0);assert.deepEqual(browser.errors,[]);assert.equal(browser.result,'PASS');assert(browser.fixtureDisclosure.toLowerCase().includes('enemy-only'));
- const receipt=JSON.parse(fs.readFileSync(path.join(dir,browser.projectPath),'utf8'));assert(receipt.checks.some(c=>c.name.startsWith('v07 Save/Reload preserves the actual death result')&&c.passed));assert.equal(receipt.deathReceipt.strict,true);
- for(const screen of manifest.integration.screenshots){const b=fs.readFileSync(path.join(dir,screen.projectPath));assert.equal(sha(b),screen.sha256);assert.equal(`${b.readUInt32BE(16)}x${b.readUInt32BE(20)}`,screen.resolution)}
- // The Heavy Soldier manifest records the immutable ORIGINAL acceptance-build receipt.
- // New gameplay/UI builds legitimately change the HTML hash; CI verifies their
- // SHA and reproducibility separately rather than mutating historical provenance.
- const standalone=manifest.integration.standaloneHtml,bundle=fs.readFileSync(path.join(dir,standalone.projectPath));
- assert.match(standalone.sha256,/^[0-9A-F]{64}$/);assert(standalone.bytes>10_000_000);
- assert(bundle.length>10_000_000);assert.match(sha(bundle),/^[0-9A-F]{64}$/);
- assert.equal(standalone.embeddedRuntimePngCount,17);assert.equal(standalone.allFiveAtlasesEmbedded,true);
- assert.equal((bundle.toString('utf8').match(/data:image\/png;base64,/g)||[]).length,17+JSON.parse(fs.readFileSync(path.join(dir,'assets/licensed/spritecook/asset-manifest.json'),'utf8')).files.length+JSON.parse(fs.readFileSync(path.join(dir,'assets/licensed/dcss-cc0/unit-manifest.json'),'utf8')).units.length+JSON.parse(fs.readFileSync(path.join(dir,'assets/hg193-unit-manifest.json'),'utf8')).units.length+JSON.parse(fs.readFileSync(path.join(dir,'assets/licensed/hg22-skeleton/asset-manifest.json'),'utf8')).actions.length+hg28OfflineAssets.length,'HG11 originals plus verified animation sheets and HG28 offline world and troop art');
- const standaloneHtml=bundle.toString('utf8');for(const file of hg28OfflineAssets){const b=fs.readFileSync(file);assert(standaloneHtml.includes('data:image/png;base64,'+b.toString('base64')),file)}const field=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/battlefield/asset-manifest.json'),'utf8')),fieldBytes=fs.readFileSync(path.join(dir,field.runtime.projectPath));assert.equal(field.status,'RECREATED');assert.equal(field.runtime.resolution,'1176x550');assert.equal(sha(fieldBytes),field.runtime.sha256);assert.equal(field.runtime.pngColorType,2);assert.equal(field.integration.focusedBrowserPass,true);assert.equal(field.integration.offlineEmbedded,true);assert.equal(field.integration.screenshot.sha256,manifest.integration.screenshots[0].sha256);
- assert(bundle.toString('utf8').includes(`src="data:image/png;base64,${fieldBytes.toString('base64')}"`));
- const parent=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg11/asset-manifest.json'),'utf8'));assert.equal(parent.animatedTroopAssets[0].unitId,'human_4');assert.match(parent.integration.animatedTroopAssets,/^PASS:/);assert.equal(parent.battlefieldAssets[0].assetId,field.assetId);assert.match(parent.integration.battlefieldBackground,/^PASS:/);
+test('HG33 atlas timelines loop Idle and Walk and clamp Attack, Hit and Death for all 38 units',()=>{
+ const A=ctx.HOG_HG33_TROOP_ATLASES,actions=['idle','walk','attack','hit','death'];assert.equal(Object.keys(A.units).length,38);
+ for(const [id,unit] of Object.entries(A.units))for(const action of actions){
+  const clip=unit.actions[action],first=P.troopAtlasFrame(id,action,0,clip.durationMs),next=P.troopAtlasFrame(id,action,Math.ceil(clip.durationMs/8),clip.durationMs),end=P.troopAtlasFrame(id,action,clip.durationMs*4,clip.durationMs);
+  assert.equal(first.frame,0,id+'/'+action+' first');assert.equal(next.frame,1,id+'/'+action+' next');assert.equal(first.row,clip.row);
+  assert.equal(end.frame,clip.loop?0:7,id+'/'+action+' end');assert.deepEqual([first.sx,first.sy,first.sw,first.sh],[0,clip.row*204,192,204]);
+ }
+ assert.equal(P.vanguardAtlasFrame('death',10_000).frame,7);
+ assert.equal(ctx.HOG_HG22_SKELETON.frame('attack',10_000).n,9);
+ assert.equal(ctx.HOG_HG22_SKELETON.frame('attack',10_000).sourceId,'hg22-skeleton-attack');
 });
-
-test('HG11 animated atlas timeline selects looping idle/walk and clamps one-shot actions',()=>{
- const first=P.animationFrame('idle',0),next=P.animationFrame('idle',90),wrap=P.animationFrame('walk',1_200),attackEnd=P.animationFrame('attack',10_000),deathEnd=P.animationFrame('death',10_000);
- assert.equal(first.frame,0);assert.equal(next.frame,1);assert.equal(wrap.frame,1);assert.deepEqual([next.sx,next.sy,next.sw,next.sh],[256,0,256,256]);assert.deepEqual([P.animationFrame('idle',700).frame,P.animationFrame('idle',1_500).frame],[8,5]);assert.equal(attackEnd.frame,12);assert.deepEqual([attackEnd.sx,attackEnd.sy],[1024,256]);const hitEnd=P.animationFrame('hit',10_000);assert.equal(hitEnd.frame,7);assert.deepEqual([hitEnd.sx,hitEnd.sy],[1792,0]);assert.equal(deathEnd.frame,9);assert.deepEqual([deathEnd.sx,deathEnd.sy],[256,256]);assert.equal(P.animationFrame('unsupported',0).action,'idle');
-});
-
-test('HG11 battle animation reads actual move, attack, hit and death receipts without mutating battle state',()=>{
+test('HG11 battle animation holds a full staggered Death clip without mutating combat state',()=>{
  const b={turn:4,allies:[],enemies:[],lastEvents:[{actorId:'p0',from:{x:1,y:1},to:{x:3,y:1},path:[{x:2,y:1},{x:3,y:1}],targetId:'h0',damage:30,death:false},{actorId:'e0',from:{x:4,y:1},to:{x:4,y:1},path:[],targetId:'p0',damage:25,death:false},{actorId:'p1',from:{x:2,y:2},to:{x:2,y:2},path:[],targetId:'e1',damage:50,death:true}]};
  const moved={id:'p0',pool:100,unitId:'human_4',x:3,y:1},hit={id:'h0',pool:75,unitId:'human_4',x:4,y:1},dead={id:'e1',pool:0,unitId:'human_4',x:5,y:2},before=JSON.stringify(b);
- assert.equal(P.battleVisualState(b,moved,225).action,'walk');assert.equal(P.battleVisualState(b,moved,225).x,2);assert.equal(P.battleVisualState(b,moved,460).action,'attack');assert.equal(P.battleVisualState(b,hit,200).action,'hit');assert.equal(P.battleVisualState(b,dead,300).action,'death');assert.equal(P.battleVisualState(b,dead,1_200),null);assert.equal(JSON.stringify(b),before);
+ assert.equal(P.battleVisualState(b,moved,225).action,'walk');assert.equal(P.battleVisualState(b,moved,225).x,2);assert.equal(P.battleVisualState(b,moved,460).action,'attack');assert.equal(P.battleVisualState(b,hit,200).action,'hit');assert.equal(P.battleVisualState(b,dead,300).action,'death');
+ assert.equal(P.battleVisualState(b,dead,1_369).time,1_199);assert.equal(P.battleVisualState(b,dead,1_370),null);assert.equal(JSON.stringify(b),before);
 });
-
 test('HG11 real battle action receipts and legacy eventless v07 saves validate strictly',()=>{
  const s=state(),tile=E.TILES.find(t=>t.kind==='npc'),b=E.makeBattle(s,tile.key);s.battle=b;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_4',name:'Heavy Soldier',range:1,count:1,initial:1,hp:1000,atk:20,def:10,spd:10,pool:1000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Wall',range:20,count:1,initial:1,hp:100000,atk:0,def:0,spd:1,pool:100000,x:6,y:1}];b.selected='p0';b.orders={};b.moveTargets={};const out=E.battleAct(s,'move',{x:4,y:1}),event=s.battle.lastEvents.find(e=>e.actorId==='p0');assert.equal(out.type,'continue');assert(event.path.length>0);assert.deepEqual({x:event.path[0].x,y:event.path[0].y},{x:2,y:1});assert.deepEqual({x:event.to.x,y:event.to.y},{x:3,y:1});assert.equal(event.path.length,2);assert.equal(event.order,'move');assert.equal(event.casualties,0);assert(E.strictSave(s));const saved=E.parseSave(E.serializeSave(s));assert.deepEqual(JSON.parse(JSON.stringify(saved.battle.lastEvents)),JSON.parse(JSON.stringify(s.battle.lastEvents)));
  const oldEventShape=JSON.parse(JSON.stringify(saved));for(const e of oldEventShape.battle.lastEvents){delete e.order;delete e.casualties}assert(E.strictSave(oldEventShape));assert(E.strictSave(E.parseSave(JSON.stringify(oldEventShape))));const legacy=JSON.parse(JSON.stringify(saved));delete legacy.battle.lastEvents;assert.equal(E.strictSave(legacy),true);assert(E.strictSave(E.parseSave(JSON.stringify(legacy))));const corrupt=JSON.parse(JSON.stringify(saved));corrupt.battle.lastEvents.find(e=>e.actorId==='p0').path=[{x:10,y:8}];assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/không hợp lệ/);const corruptOrder=JSON.parse(JSON.stringify(saved));corruptOrder.battle.lastEvents[0].order='invented';assert.throws(()=>E.parseSave(JSON.stringify(corruptOrder)),/không hợp lệ/);const corruptLoss=JSON.parse(JSON.stringify(saved));corruptLoss.battle.lastEvents[0].casualties=-1;assert.throws(()=>E.parseSave(JSON.stringify(corruptLoss)),/không hợp lệ/);

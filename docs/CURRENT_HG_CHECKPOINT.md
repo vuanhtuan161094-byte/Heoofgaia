@@ -1,3 +1,14 @@
+## HG33 — 40-UNIT ACTION ANIMATION SLICE · 2026-11-06 · LOCAL QA PASS
+
+- **Branch/base:** `feature/hog1-research-to-playable-20261102`, based on remote/local `2d3c32d704ea7e6b207e4ead7dc61732ff05e974` (fetch confirmed equal). Implementation commit is pending; push and full GitHub Actions are still pending.
+- **40-unit coverage:** 38 new editable RGBA atlases, each 1536×1024 with five action rows and eight source cells per action (Idle/Walk/Attack/Hit/Death). Human Archer HG14.3 (48 source frames) and Skeleton HG22.1 (5×10) remain on their existing renderers. Atlas manifest records source/runtime SHA-256, frame-cell hashes, prompts and provenance. A deterministic per-cell matte cleanup applies to Human Priest, Ghost Knight and Ghost Dragon during asset preparation; source PNGs remain intact.
+- **Real rendering:** installed Chrome opened the rebuilt standalone through `file://`. The battle renderer addressed all **1,520/1,520** cells for the 38 atlases and preserved 10 legacy action routes. Four real renderer contact sheets show all 40 units across five actions at `docs/evidence/hg33/H3-troop-atlases/`. The live Human Vanguard battle exercised recruit, formation, map march, attack, damage, Save/Reload v07, casualty and all eight Death frames: **22/22 Chromium checks PASS**, zero browser errors. Actual battle screenshots: 1280×720 and 960×540 under `docs/evidence/hg33/H2-human-vanguard/`.
+- **Local checks:** Node regression **213/213 PASS**; JavaScript/Python syntax and `git diff --check` PASS. Two consecutive offline builds matched: `Play-Heoofgaia-HG11.html`, **70,561,259 bytes**, SHA-256 `30302BECECDE4C08578D537FF056805610D311AFD0DCF16BB948A3959B3CC684`. It remains the only release HTML at the repository root; Save stays v07.
+- **Gate boundary:** this completes and verifies the requested 40-core troop animation slice. Overall HG33 remains **PARTIAL**: sequential H2 still needs its named Boss pilot and layered editable source gate; H4 Boss/eight-special animations and H5 full CI/release acceptance are open. No claim is made that every unit was fought in a separate manual encounter or that these are recovered 2009 client sprites.
+- **Next:** review/stage only the HG33 animation source, renderer, QA and evidence files; commit and push to the same feature branch; require the full workflow to succeed on the final pushed SHA.
+
+---
+
 ## HG33 — CHECKPOINT 2026-11-06 · H0/H1 PASS · H2 PARTIAL · H3/H4 NOT PASS · H5 OPEN
 
 - **Repository / branch:** public `vuanhtuan161094-byte/Heoofgaia`, `feature/hog1-research-to-playable-20261102`; no other branch, main merge, reset, or force-push. Verified local HEAD and remote-tracking HEAD match **`be5f0dac7e3ce57c4a9d35e379fe7ce6bae516ce`**. Only root release HTML: `Play-Heoofgaia-HG11.html`.
