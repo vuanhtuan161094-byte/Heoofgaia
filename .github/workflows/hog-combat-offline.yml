@@ -37,11 +37,6 @@ jobs:
           node qa-engine.cjs
           node qa-hg28-art.cjs
           node qa-hg09-combat-viewport.cjs
-      - name: HG28 eight high-tier original-art modular rig Chromium interaction gate
-        run: |
-          node --check art-hg28-rigs.js
-          python -m py_compile qa-hg28-rigs-chrome.py
-          python qa-hg28-rigs-chrome.py
       - name: HG28 animation 40-unit source authenticity and five-action atlas-packer gate
         run: |
           node --check qa-hg28-animation-coverage.cjs
@@ -146,6 +141,11 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
+      - name: HG28 eight high-tier original-art modular rig Chromium interaction gate
+        run: |
+          node --check art-hg28-rigs.js
+          python -m py_compile qa-hg28-rigs-chrome.py
+          python qa-hg28-rigs-chrome.py
       - name: HG27 actual Chromium 10-screen UI and 3 landscape captures
         run: python qa-hg27-ui-chrome.py
       - name: HG29 Chromium loot previews, fragment crafting, tasks and tower captures
