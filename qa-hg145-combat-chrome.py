@@ -1,7 +1,7 @@
 """HG14.5 file:// Chromium QA: grid/HP toggles, live receipts, effects, Save/Reload."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-import json,hashlib,sys,base64
+import json,hashlib,os,sys,base64
 if hasattr(sys.stdout,"reconfigure"):sys.stdout.reconfigure(encoding="utf8")
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/"Play-Heoofgaia-HG11.html"
@@ -15,7 +15,9 @@ def shot(page,name):
  path=OUT/name;page.screenshot(path=str(path),full_page=False)
  screens.append(str(path.relative_to(ROOT)))
 with sync_playwright() as pw:
- browser=pw.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
+ launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
+ if os.environ.get("HOG_CHROME_PATH"):launch["executable_path"]=os.environ["HOG_CHROME_PATH"]
+ browser=pw.chromium.launch(**launch)
  page=browser.new_page(viewport={"width":1280,"height":720})
  page.on("pageerror",lambda e:errors.append(str(e)))
  page.set_default_timeout(12000)
@@ -49,32 +51,32 @@ with sync_playwright() as pw:
     prefs:HOG_APP_DEBUG.battleViewPrefs()};
  }""")
  check("Real human Archer NPC march reaches playable battle",fixture["inBattle"] and fixture["valid"])
- check("Immersive combat hides technical grid but retains HP by default",fixture["prefs"]=={"grid":False,"hp":True})
+ check("Canonical hex grid and HP display are ON by default",fixture["prefs"]=={"grid":True,"hp":True})
  check("Tactical grid contains exactly 108 canonical invertible cells",fixture["grid"]==108 and fixture["cellsValid"])
  check("Displayed unit feet remain clickable in grid mode",fixture["feetValid"])
- check("Grid defaults OFF while HP toggle remains accessible ON",page.locator('.battle-display-toggle[aria-pressed="true"]').count()==1 and page.locator('[data-action="battle-grid"][aria-pressed="false"]').count()==1)
+ check("Grid and HP toggles expose their ON defaults",page.locator('.battle-display-toggle[aria-pressed="true"]').count()==2 and page.locator('[data-action="battle-grid"][aria-pressed="true"]').count()==1)
  original=page.evaluate("window._qaFrame()")
  stateBefore=page.evaluate("window._qaCombatState()")
- shot(page,"grid-hidden-hp-on-desktop.png")
+ shot(page,"grid-on-hp-on-desktop.png")
  page.locator('[data-action="battle-grid"]').click()
- check("Optional grid ON updates accessible control and preference",
-   page.locator('[data-action="battle-grid"]').get_attribute("aria-pressed")=="true" and
-   page.evaluate("HOG_APP_DEBUG.battleViewPrefs().grid"))
+ check("Optional grid OFF updates accessible control and preference",
+   page.locator('[data-action="battle-grid"]').get_attribute("aria-pressed")=="false" and
+   not page.evaluate("HOG_APP_DEBUG.battleViewPrefs().grid"))
  noGrid=page.evaluate("window._qaFrame()")
- check("Grid can be enabled without changing canonical battle",original!=noGrid)
+ check("Grid can be disabled without changing canonical battle",original!=noGrid)
  page.locator('[data-action="battle-hp"]').click()
  check("HP OFF updates accessible control and preference",
    page.locator('[data-action="battle-hp"]').get_attribute("aria-pressed")=="false" and
    not page.evaluate("HOG_APP_DEBUG.battleViewPrefs().hp"))
  noHp=page.evaluate("window._qaFrame()")
  check("HP switch really changes canvas pixels",noGrid!=noHp)
- shot(page,"grid-on-hp-off-desktop.png")
+ shot(page,"grid-off-hp-off-desktop.png")
  page.locator('[data-action="battle-grid"]').click()
  page.locator('[data-action="battle-hp"]').click()
  restored=page.evaluate("window._qaFrame()")
- check("Returning to immersive default restores deterministic canvas pixels",restored==original)
+ check("Restoring grid and HP ON restores deterministic canvas pixels",restored==original)
  check("Display-only toggles preserve actual combat state",stateBefore==page.evaluate("window._qaCombatState()"))
- shot(page,"grid-hidden-restored-desktop.png")
+ shot(page,"grid-on-hp-on-restored-desktop.png")
  fx=page.evaluate("""() => {
   const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,P=HOG_PAINTER,b=s.battle,
     c=document.getElementById('battle-canvas'),ctx=c.getContext('2d');
@@ -117,7 +119,7 @@ with sync_playwright() as pw:
  page.reload(wait_until="load")
  check("Grid and HP settings survive cold reload",page.evaluate("""() => {
   const p=HOG_APP_DEBUG.battleViewPrefs();
-  return p.grid===false&&p.hp===true;
+  return p.grid===true&&p.hp===true;
  }"""))
  check("Combat and receipts survive cold reload unchanged",page.evaluate("""() => {
   const s=HOG_APP_DEBUG.getState();
@@ -140,10 +142,10 @@ with sync_playwright() as pw:
  }""")
  check("960x540: precise grid, clickable units, no distortion or overflow",
    mobile["aspect"]<.008 and not mobile["overflow"] and mobile["cells"]==108 and mobile["clicks"])
- check("960x540: optional grid OFF and HP ON controls remain visible",len(mobile["buttons"])==2 and
-   [b["active"] for b in mobile["buttons"]]==[False,True] and
+ check("960x540: grid and HP ON controls remain visible",len(mobile["buttons"])==2 and
+   [b["active"] for b in mobile["buttons"]]==[True,True] and
    all(b["visible"] for b in mobile["buttons"]))
- shot(page,"grid-hidden-hp-on-mobile-960x540.png")
+ shot(page,"grid-on-hp-on-mobile-960x540.png")
  check("No uncaught Chromium JavaScript errors",len(errors)==0)
  browser.close()
 report={"status":"PASS" if all(c["passed"] for c in checks) else "FAIL",

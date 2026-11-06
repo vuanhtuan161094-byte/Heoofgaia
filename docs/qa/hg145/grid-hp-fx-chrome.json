@@ -1,0 +1,160 @@
+{
+  "status": "PASS",
+  "passed": 23,
+  "total": 23,
+  "checks": [
+    {
+      "name": "Real human Archer NPC march reaches playable battle",
+      "passed": true
+    },
+    {
+      "name": "Canonical hex grid and HP display are ON by default",
+      "passed": true
+    },
+    {
+      "name": "Tactical grid contains exactly 108 canonical invertible cells",
+      "passed": true
+    },
+    {
+      "name": "Displayed unit feet remain clickable in grid mode",
+      "passed": true
+    },
+    {
+      "name": "Grid and HP toggles expose their ON defaults",
+      "passed": true
+    },
+    {
+      "name": "Optional grid OFF updates accessible control and preference",
+      "passed": true
+    },
+    {
+      "name": "Grid can be disabled without changing canonical battle",
+      "passed": true
+    },
+    {
+      "name": "HP OFF updates accessible control and preference",
+      "passed": true
+    },
+    {
+      "name": "HP switch really changes canvas pixels",
+      "passed": true
+    },
+    {
+      "name": "Restoring grid and HP ON restores deterministic canvas pixels",
+      "passed": true
+    },
+    {
+      "name": "Display-only toggles preserve actual combat state",
+      "passed": true
+    },
+    {
+      "name": "Captured true 600ms damage and death frame",
+      "passed": true
+    },
+    {
+      "name": "Actual engine turn generated nonzero damage receipts",
+      "passed": true
+    },
+    {
+      "name": "Each visual effect preserves exact damage and death receipt",
+      "passed": true
+    },
+    {
+      "name": "Ranged attack produces real arrow effect",
+      "passed": true
+    },
+    {
+      "name": "Death effect only appears for a truly killed stack",
+      "passed": true
+    },
+    {
+      "name": "Visible floating values match actual engine damage",
+      "passed": true
+    },
+    {
+      "name": "Rendering effects never changes strict game save",
+      "passed": true
+    },
+    {
+      "name": "Grid and HP settings survive cold reload",
+      "passed": true
+    },
+    {
+      "name": "Combat and receipts survive cold reload unchanged",
+      "passed": true
+    },
+    {
+      "name": "960x540: precise grid, clickable units, no distortion or overflow",
+      "passed": true
+    },
+    {
+      "name": "960x540: grid and HP ON controls remain visible",
+      "passed": true
+    },
+    {
+      "name": "No uncaught Chromium JavaScript errors",
+      "passed": true
+    }
+  ],
+  "fx": {
+    "outcome": "continue",
+    "receipts": [
+      {
+        "actorId": "p0",
+        "targetId": "e0",
+        "damage": 185,
+        "casualties": 5,
+        "death": true
+      }
+    ],
+    "effects": [
+      {
+        "actorId": "p0",
+        "targetId": "e0",
+        "damage": 185,
+        "casualties": 5,
+        "death": true,
+        "ranged": true
+      }
+    ],
+    "drawn": [
+      "Archer",
+      "×16",
+      "Cung thủ cướp",
+      "×3",
+      "-185",
+      "-5 quân",
+      "✖",
+      "⚔  GIAO TRANH • LƯỢT 2",
+      "TA 16 : 3 ĐỊCH"
+    ],
+    "stable": true,
+    "strict": true
+  },
+  "mobile": {
+    "aspect": 0,
+    "overflow": false,
+    "cells": 108,
+    "clicks": true,
+    "buttons": [
+      {
+        "active": true,
+        "visible": true
+      },
+      {
+        "active": true,
+        "visible": true
+      }
+    ]
+  },
+  "screenshots": [
+    "docs\\evidence\\hg145\\grid-on-hp-on-desktop.png",
+    "docs\\evidence\\hg145\\grid-off-hp-off-desktop.png",
+    "docs\\evidence\\hg145\\grid-on-hp-on-restored-desktop.png",
+    "docs\\evidence\\hg145\\actual-receipt-FX-frame-600ms.png",
+    "docs\\evidence\\hg145\\actual-receipt-fx-desktop.png",
+    "docs\\evidence\\hg145\\grid-on-hp-on-mobile-960x540.png"
+  ],
+  "errors": [],
+  "html_sha256": "289546225a6002742fda810e8345abdf48ec9abd0bd61d55767442c08427d80c"
+}
