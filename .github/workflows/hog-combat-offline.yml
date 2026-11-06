@@ -180,7 +180,7 @@ jobs:
         run: python qa-hg14-sprite-chrome.py
       - name: Chromium Human Archer six animations, real battle and Save/Load
         run: python qa-hg143-archer-chrome.py
-      - name: HG28 PvE P0 automatic combat: single stable turn clock and focus
+      - name: "HG28 PvE P0 automatic combat: single stable turn clock and focus"
         run: python qa-hg28-auto-stability-chrome.py
       - name: HG14.5 real Chromium grid and HP toggles, receipt FX, mobile and Save
         run: python qa-hg145-combat-chrome.py
