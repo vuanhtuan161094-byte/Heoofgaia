@@ -508,11 +508,13 @@ function animatedSoldier(c,x,y,enemy,visual,k=1){
 // Reference: GameGami original HoG combat gallery and Chinese 2009 battle captures.
 function battleProjection(canvas,E){
  const g=E.BATTLE_GRID||{cols:12,rows:9},w=canvas.width,h=canvas.height;
- // A rectangular logical overlay, not a skewed parallelogram projected on
- // top of a photographic meadow. The world illustration already supplies depth.
- // Use the *same* inverse transform for pointer hits and for unit foot anchors.
- const origin={x:w*.08,y:h*.35};
- const col={x:w*.07,y:0},row={x:0,y:h*.068};
+ // A shallow 2.5D oblique projection: each successive row moves diagonally
+ // toward the foreground, so troops/Bosses behind one another no longer form
+ // one vertical occluding column.  Do NOT draw a raised rhombus board.
+ // The same affine inverse is used by hit-testing and movement previews.
+ // Units keep their canonical integer grid positions in Save v07.
+ const origin={x:w*.016,y:h*.35};
+ const col={x:w*.061,y:-h*.006},row={x:w*.026,y:h*.067};
  const det=col.x*row.y-col.y*row.x;
  const point=(x,y)=>({x:origin.x+x*col.x+y*row.x,y:origin.y+x*col.y+y*row.y});
  const cellAt=(px,py)=>{

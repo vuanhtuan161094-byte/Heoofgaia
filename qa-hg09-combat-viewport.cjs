@@ -13,7 +13,10 @@ for(let x=0;x<grid.cols;x++)for(let y=0;y<grid.rows;y++){
 }
 assert.equal(P.battleCellAt(dims,-10,-10,E),null);checks++;
 const field=P.battleProjection(dims,E),ally=field.point(1.5,.5),enemy=field.point(10.5,2.5);
-assert(field.col.x>field.row.x*10,'battlefield runs left to right');checks++;
+assert(field.col.x>field.row.x*2,'battlefield still runs left to right');checks++;
+assert(field.row.x>dims.width*.02&&field.col.y<0,'formation rows are staggered in 2.5D, not vertical');checks++;
+const corners=[field.point(0,0),field.point(grid.cols,0),field.point(0,grid.rows),field.point(grid.cols,grid.rows)];
+assert(corners.every(p=>p.x>=0&&p.x<=dims.width&&p.y>=0&&p.y<=dims.height),'all oblique grid corners remain on meadow');checks++;
 assert(field.row.y>field.col.y*12,'formations use visible depth');checks++;
 assert(Math.abs(field.col.y/field.col.x)<.09,'no steep diagonal stage');checks++;
 assert(enemy.x-ally.x>dims.width*.6,'armies are spaced across grass');checks++;

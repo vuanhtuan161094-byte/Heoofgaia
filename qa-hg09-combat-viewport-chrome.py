@@ -99,7 +99,8 @@ with sync_playwright() as p:
       const units=[...HOG_APP_DEBUG.getState().battle.allies,...HOG_APP_DEBUG.getState().battle.enemies].filter(u=>u.pool>0);
       const sample=(x,y)=>[...ctx.getImageData(Math.round(x),Math.round(y),1,1).data];
       return {width:c.width,height:c.height,ally,foe,
-        horizontal:cam.col.x>cam.row.x*10,depth:cam.row.y>cam.col.y*12,
+        horizontal:cam.col.x>cam.row.x*2,depth:cam.row.y>Math.abs(cam.col.y)*4,
+        stagger:cam.row.x>c.width*.02&&cam.col.y<0,
         shallow:Math.abs(cam.col.y/cam.col.x)<.09,
         edge:cam.point(0,0).x>0&&cam.point(g.cols,g.rows).x<c.width,
         everyCell:Array.from({length:g.cols},(_,x)=>Array.from({length:g.rows},(_,y)=>{
@@ -115,7 +116,7 @@ with sync_playwright() as p:
         grass1:sample(c.width*.54,c.height*.73)
       };
     }""")
-    check("HG14.2 armies are staged at left and right",stage["horizontal"] and stage["depth"] and stage["foe"]["x"]-stage["ally"]["x"]>stage["width"]*.6)
+    check("HG14.2 armies are staged at left and right",stage["horizontal"] and stage["depth"] and stage["stagger"] and stage["foe"]["x"]-stage["ally"]["x"]>stage["width"]*.6)
     check("HG14.2 shallow camera matches natural clearing",stage["shallow"] and stage["edge"])
     check("HG14.2 all 108 invisible logical cells remain clickable",stage["everyCell"])
     check("HG14.2 real foot pivots fit the clearing",stage["everyFoot"])
@@ -196,7 +197,7 @@ with sync_playwright() as p:
     check("HG14.2 mobile stage spreads troops on scenic meadow",page.evaluate("""() => {
       const c=document.getElementById('battle-canvas'),E=HOG_ENGINE,cam=HOG_PAINTER.battleProjection(c,E);
       const a=cam.point(1.5,.5),b=cam.point(10.5,2.5);
-      return cam.col.x>cam.row.x*10&&cam.row.y>cam.col.y*12
+      return cam.col.x>cam.row.x*2&&cam.row.x>c.width*.02&&cam.col.y<0&&cam.row.y>Math.abs(cam.col.y)*4
        &&b.x-a.x>c.width*.6&&a.y>c.height*.36&&b.y<c.height*.7;
     }"""))
     check("Landscape command bar does not overlap troop cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
