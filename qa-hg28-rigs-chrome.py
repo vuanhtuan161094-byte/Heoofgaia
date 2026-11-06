@@ -69,11 +69,19 @@ with sync_playwright() as pw:
  # setup fixture assigns a T9 warrior to inspect art, not XP, drops or wins.
  fixture=page.evaluate("""()=>{
   const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
-  s.army.human_9=5;E.setFormation(s,[{unitId:'human_9',count:5}]);
+  // Art fixture must respect the REAL hero command-capacity formula.
+  // Five T9 warriors cannot be assigned to a level-1 commander.
+  const formation=[{unitId:'human_9',count:5}],
+        required=E.formationPoints(s,formation),
+        level=Array.from({length:100},(_,i)=>i+1).find(v=>E.heroLimit(v)>=required);
+  if(!level)throw new Error('No legal commander level for five T9 units');
+  s.heroes[0].level=level;
+  s.army.human_9=5;E.setFormation(s,formation);
   const npc=E.NPC_CAMPS_2009.find(n=>n.stars===1&&E.pathfind(E.activeCity(s).key,n.key));
   E.startMarch(s,npc.key);E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
   HOG_APP_DEBUG.render();
-  return {valid:E.strictSave(s),battle:!!s.battle&&s.battle.allies.some(u=>u.unitId==='human_9')};
+  return {valid:E.strictSave(s),battle:!!s.battle&&s.battle.allies.some(u=>u.unitId==='human_9'),
+          legalLevel:level,commandPoints:required,commandLimit:E.heroLimit(level)};
  }""")
  check("Actual NPC battle paints articulated high-tier troop",fixture["valid"] and fixture["battle"],fixture)
  page.screenshot(path=str(OUT/'angel-rig-real-battle-1280x720.png'),full_page=False)
