@@ -683,7 +683,7 @@ function battleUnitLayout(b,camera,width,height){
 function battleSpriteScale(height,row,rows=9){
  // Keep full-height actor silhouettes inside their assigned battlefield lanes
  // even at 960×540. Avoid overlap-driven horizontal drift from the true cell.
- return clamp(height/690,.50,.86)*(.99+row/rows*.05);
+ return clamp(height/740,.48,.82)*(.99+row/rows*.05);
 }
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
