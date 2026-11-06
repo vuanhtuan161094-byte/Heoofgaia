@@ -35,6 +35,7 @@ with sync_playwright() as pw:
      e.atk=0;e.def=350;e.range=1;
    }
    s.battle.orders.p0="advance"; // a stale one-shot manual order
+   s.battle.lastTargets={p0:'e1'}; // existing last-turn receipt; auto must keep this living target
    HOG_APP_DEBUG.render();
    return {realNpc:s.battle.kind==='npc',strict:E.strictSave(s),target:npc.key};
   }""")
@@ -52,10 +53,13 @@ with sync_playwright() as pw:
    const s=HOG_APP_DEBUG.getState(),b=s.battle;
    return {turn:b.turn,auto:s.battleAuto,stance:b.orders.p0,
       firstOrder:b.lastEvents.find(e=>e.actorId==='p0')?.order,
+      target:b.lastTargets?.p0,
       strict:HOG_ENGINE.strictSave(s)};
   }""")
   check("Automatic first turn converts obsolete Advance into real Attack",
     after["turn"]==2 and after["auto"] and after["stance"]=="attack" and after["firstOrder"]=="attack" and after["strict"],after)
+  check("Auto retains previously engaged living target (no erratic flip)",
+    after["target"]=="e1",after)
   page.screenshot(path=str(OUT/"01-auto-first-turn-1280x720.png"))
   page.wait_for_timeout(650)
   check("No duplicate auto turn from a second scheduling interval",
@@ -94,7 +98,7 @@ with sync_playwright() as pw:
   page.screenshot(path=str(OUT/"02-reloaded-paused-1280x720.png"))
   check("No uncaught Chromium exceptions",not errors,errors[:3])
   browser.close()
-result={"pass":len(checks)==10 and all(x["pass"] for x in checks),
+result={"pass":len(checks)==11 and all(x["pass"] for x in checks),
         "checks":checks,"errors":errors,"fixture":"Actual NPC battle, only enemy HP/DEF/ATK adjusted to observe timing, no victory injected",
         "images":["01-auto-first-turn-1280x720.png","02-reloaded-paused-1280x720.png"]}
 REPORT.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf8")
