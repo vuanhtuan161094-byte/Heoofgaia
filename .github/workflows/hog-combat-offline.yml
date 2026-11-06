@@ -141,6 +141,10 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
+      - name: HG28 PvE2 oblique layout, 3 Boss and 3x2 owner-bound Chromium gate
+        run: |
+          python -m py_compile qa-hg28-pve2-chrome.py
+          python qa-hg28-pve2-chrome.py
       - name: HG28 eight high-tier original-art modular rig Chromium interaction gate
         run: |
           node --check art-hg28-rigs.js
@@ -501,6 +505,15 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+      - name: Upload HG28 PvE2 3 Boss and 3x2 Chromium screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG28-PvE2-3Boss-3x2-Chromium
+          path: |
+            docs/evidence/hg28/pve2/*.png
+            docs/qa/hg28/pve2-oblique-chrome.json
+          if-no-files-found: ignore
       - name: Upload HG28 PvE P0 real auto-battle receipts
         if: always()
         uses: actions/upload-artifact@v4

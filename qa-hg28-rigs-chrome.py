@@ -26,7 +26,10 @@ with sync_playwright() as pw:
   const ids=['human_9','human_10','elf_9','elf_10','orc_9','orc_10','undead_9','undead_10'],
   acts=['idle','walk','attack','hit','death'],
   R=HOG_HG28_RIGS,E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),
-  strictBefore=E.strictSave(s),saveBefore=E.serializeSave(s),
+  strictBefore=E.strictSave(s),
+  # HG08 serializer includes volatile exportedAt. Compare its actual v07 state
+  # payload, not the changing timestamp of the export envelope.
+  saveBefore=JSON.stringify(JSON.parse(E.serializeSave(s)).state),
   montage=document.createElement('canvas');montage.width=1280;montage.height=960;
   const ctx=montage.getContext('2d'),real=[],frames=[],bad=[];
   ctx.fillStyle='#142733';ctx.fillRect(0,0,1280,960);
@@ -55,12 +58,12 @@ with sync_playwright() as pw:
   }
   document.body.appendChild(montage);montage.id='hg28-rig-contact';
   return {ids:R.ids(),cases:frames.length,frames,bad,strictBefore,
-    strictAfter:E.strictSave(s),saveUnchanged:saveBefore===E.serializeSave(s)};
+    strictAfter:E.strictSave(s),saveUnchanged:saveBefore===JSON.stringify(JSON.parse(E.serializeSave(s)).state)};
  }""")
  check("All eight original T9/T10 masters retain image identity",result["ids"]==ids and not any(':src' in x for x in result["bad"]),result["bad"])
  check("40 individual real browser action render cases",result["cases"]==40,result["cases"])
  check("Independent component articulation yields differing visible poses",not result["bad"],result["bad"])
- check("40 draws are presentation-only; strict Save v07 bitwise unchanged",result["strictBefore"] and result["strictAfter"] and result["saveUnchanged"],{k:result.get(k) for k in ("strictBefore","strictAfter","saveUnchanged")})
+ check("40 draws are presentation-only; canonical Save v07 payload unchanged",result["strictBefore"] and result["strictAfter"] and result["saveUnchanged"],{k:result.get(k) for k in ("strictBefore","strictAfter","saveUnchanged")})
  page.locator('#hg28-rig-contact').screenshot(path=str(OUT/'rig-8-units-5-actions-Chromium.png'))
  # Open an actual engine-backed battle at both landscape sizes. The only
  # setup fixture assigns a T9 warrior to inspect art, not XP, drops or wins.
