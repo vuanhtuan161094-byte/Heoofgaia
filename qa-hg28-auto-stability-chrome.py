@@ -86,7 +86,7 @@ with sync_playwright() as pw:
   page.wait_for_timeout(1800)
   check("Manual pause does not launch any further auto turns",
         page.evaluate("HOG_APP_DEBUG.getState().battle.turn")==paused)
-  page.locator("#save").click()
+  page.locator('[data-action="save-combat"]').click()
   page.reload(wait_until="load")
   reloaded=page.evaluate("""()=>{
    const s=HOG_APP_DEBUG.getState();
