@@ -94,7 +94,7 @@ with sync_playwright() as pw:
   page.screenshot(path=str(OUT/"02-reloaded-paused-1280x720.png"))
   check("No uncaught Chromium exceptions",not errors,errors[:3])
   browser.close()
-result={"pass":len(checks)==9 and all(x["pass"] for x in checks),
+result={"pass":len(checks)==10 and all(x["pass"] for x in checks),
         "checks":checks,"errors":errors,"fixture":"Actual NPC battle, only enemy HP/DEF/ATK adjusted to observe timing, no victory injected",
         "images":["01-auto-first-turn-1280x720.png","02-reloaded-paused-1280x720.png"]}
 REPORT.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf8")
