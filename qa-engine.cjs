@@ -1555,7 +1555,15 @@ test('HG14.4 desktop/mobile nameplates avoid sprites, overlays and each other',(
   for(let i=0;i<layout.length;i++)for(let j=i+1;j<layout.length;j++)
    assert(!P.battleRectOverlap(layout[i].label,layout[j].label,2),'nameplates overlap');
   const enemies=layout.filter(e=>e.u.side==='enemy').sort((a,b)=>a.y-b.y);
-  assert(enemies[1].x-enemies[0].x>75,'neighboring enemies have spaced silhouettes');
+  // A horizontal 75px shift formerly made unit feet drift off their real
+  // tactical cells. Validate *physical* non-overlap and canonical foot anchors.
+  for(const e of layout){
+   assert(Math.abs(e.x-e.baseX)<=18.01,'visual foot must remain within 18 px of logical cell '+e.id);
+   assert(Math.abs(e.y-e.baseY)<.01,'visual feet must not jump to another logical row '+e.id);
+  }
+  for(let i=0;i<enemies.length;i++)for(let j=i+1;j<enemies.length;j++)
+   assert(!P.battleRectOverlap(enemies[i].sprite,enemies[j].sprite,0),
+    'neighboring enemies must have non-overlapping visible silhouettes');
   assert(E.strictSave(s),'layout must preserve canonical v07 state');
  }
 });
@@ -1569,6 +1577,7 @@ test('HG14.2 continuous meadow battle projection keeps both armies in readable l
   assert(p.col.x>p.row.x*10,'horizontal battlefield axis should dominate');
   assert(p.row.y>p.col.y*12,'vertical lane spacing should dominate');
   assert(Math.abs(p.col.y/p.col.x)<.09,'natural ground is nearly horizontal');
+  assert(Math.abs(p.col.y)<1e-9&&Math.abs(p.row.x)<1e-9,'visual cells must have orthogonal axes and align with feet');
   assert(p.point(0,0).x>0&&p.point(g.cols,g.rows).x<dims.width,'all logical cells fit width');
   assert(p.point(0,0).y>dims.height*.3&&p.point(g.cols,g.rows).y<dims.height*.98,'field starts below treeline');
   for(let x=0;x<g.cols;x++)for(let y=0;y<g.rows;y++){
