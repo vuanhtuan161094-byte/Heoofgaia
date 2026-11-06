@@ -49,32 +49,32 @@ with sync_playwright() as pw:
     prefs:HOG_APP_DEBUG.battleViewPrefs()};
  }""")
  check("Real human Archer NPC march reaches playable battle",fixture["inBattle"] and fixture["valid"])
- check("Both grid and HP visible ON by default",fixture["prefs"]=={"grid":True,"hp":True})
+ check("Immersive combat hides technical grid but retains HP by default",fixture["prefs"]=={"grid":False,"hp":True})
  check("Tactical grid contains exactly 108 canonical invertible cells",fixture["grid"]==108 and fixture["cellsValid"])
  check("Displayed unit feet remain clickable in grid mode",fixture["feetValid"])
- check("Two accessible buttons show ON state",page.locator('.battle-display-toggle[aria-pressed="true"]').count()==2)
+ check("Grid defaults OFF while HP toggle remains accessible ON",page.locator('.battle-display-toggle[aria-pressed="true"]').count()==1 and page.locator('[data-action="battle-grid"][aria-pressed="false"]').count()==1)
  original=page.evaluate("window._qaFrame()")
  stateBefore=page.evaluate("window._qaCombatState()")
- shot(page,"grid-hp-on-desktop.png")
+ shot(page,"grid-hidden-hp-on-desktop.png")
  page.locator('[data-action="battle-grid"]').click()
- check("Grid OFF updates accessible control and preference",
-   page.locator('[data-action="battle-grid"]').get_attribute("aria-pressed")=="false" and
-   not page.evaluate("HOG_APP_DEBUG.battleViewPrefs().grid"))
+ check("Optional grid ON updates accessible control and preference",
+   page.locator('[data-action="battle-grid"]').get_attribute("aria-pressed")=="true" and
+   page.evaluate("HOG_APP_DEBUG.battleViewPrefs().grid"))
  noGrid=page.evaluate("window._qaFrame()")
- check("Grid switch really changes canvas pixels",original!=noGrid)
+ check("Grid can be enabled without changing canonical battle",original!=noGrid)
  page.locator('[data-action="battle-hp"]').click()
  check("HP OFF updates accessible control and preference",
    page.locator('[data-action="battle-hp"]').get_attribute("aria-pressed")=="false" and
    not page.evaluate("HOG_APP_DEBUG.battleViewPrefs().hp"))
  noHp=page.evaluate("window._qaFrame()")
  check("HP switch really changes canvas pixels",noGrid!=noHp)
- shot(page,"grid-hp-off-desktop.png")
+ shot(page,"grid-on-hp-off-desktop.png")
  page.locator('[data-action="battle-grid"]').click()
  page.locator('[data-action="battle-hp"]').click()
  restored=page.evaluate("window._qaFrame()")
- check("Switching both back ON restores deterministic canvas pixels",restored==original)
+ check("Returning to immersive default restores deterministic canvas pixels",restored==original)
  check("Display-only toggles preserve actual combat state",stateBefore==page.evaluate("window._qaCombatState()"))
- shot(page,"grid-hp-restored-desktop.png")
+ shot(page,"grid-hidden-restored-desktop.png")
  fx=page.evaluate("""() => {
   const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,P=HOG_PAINTER,b=s.battle,
     c=document.getElementById('battle-canvas'),ctx=c.getContext('2d');
@@ -117,7 +117,7 @@ with sync_playwright() as pw:
  page.reload(wait_until="load")
  check("Grid and HP settings survive cold reload",page.evaluate("""() => {
   const p=HOG_APP_DEBUG.battleViewPrefs();
-  return p.grid===true&&p.hp===true;
+  return p.grid===false&&p.hp===true;
  }"""))
  check("Combat and receipts survive cold reload unchanged",page.evaluate("""() => {
   const s=HOG_APP_DEBUG.getState();
@@ -140,9 +140,10 @@ with sync_playwright() as pw:
  }""")
  check("960x540: precise grid, clickable units, no distortion or overflow",
    mobile["aspect"]<.008 and not mobile["overflow"] and mobile["cells"]==108 and mobile["clicks"])
- check("960x540: both ON controls remain visible",len(mobile["buttons"])==2 and
-   all(b["active"] and b["visible"] for b in mobile["buttons"]))
- shot(page,"grid-hp-on-mobile-960x540.png")
+ check("960x540: optional grid OFF and HP ON controls remain visible",len(mobile["buttons"])==2 and
+   [b["active"] for b in mobile["buttons"]]==[False,True] and
+   all(b["visible"] for b in mobile["buttons"]))
+ shot(page,"grid-hidden-hp-on-mobile-960x540.png")
  check("No uncaught Chromium JavaScript errors",len(errors)==0)
  browser.close()
 report={"status":"PASS" if all(c["passed"] for c in checks) else "FAIL",
