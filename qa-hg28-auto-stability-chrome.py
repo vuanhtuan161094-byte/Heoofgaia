@@ -96,11 +96,62 @@ with sync_playwright() as pw:
   check("Reload retains exact battle state and disables auto until requested",
     reloaded["valid"] and not reloaded["auto"] and reloaded["turn"]==paused and reloaded["kind"]=="npc",reloaded)
   page.screenshot(path=str(OUT/"02-reloaded-paused-1280x720.png"))
+  # Re-enable autoplay and observe twelve actual sequential battle turns,
+  # not merely a single click or a static state fixture.
+  page.locator('[data-action="auto"]').click()
+  observed=[]
+  for step in range(1,13):
+    expected=paused+step
+    page.wait_for_function("""n=>{
+      const b=HOG_APP_DEBUG.getState().battle;
+      return !!b&&b.turn>=n;
+    }""",arg=expected,timeout=5500)
+    sample=page.evaluate("""()=>{
+      const s=HOG_APP_DEBUG.getState(),b=s.battle,
+        live=[...b.allies,...b.enemies].filter(u=>u.pool>0),
+        positions=live.map(u=>u.x+','+u.y);
+      return {turn:b.turn,strict:HOG_ENGINE.strictSave(s),
+        auto:s.battleAuto,actorTarget:b.lastTargets?.p0||null,
+        live:live.length,uniqueCells:new Set(positions).size===positions.length,
+        receipts:b.lastEvents?.length||0};
+    }""")
+    sample["wallMs"]=round(time.monotonic()*1000)
+    observed.append(sample)
+    if step in (1,6,12):
+      page.screenshot(path=str(OUT/f"auto-sequence-turn-{step:02d}-1280x720.png"))
+  check("12 continuous auto turns resolve in exact order without timer double-firing",
+        [s["turn"] for s in observed]==list(range(paused+1,paused+13)),
+        {"turns":[s["turn"] for s in observed]})
+  gaps=[observed[i]["wallMs"]-observed[i-1]["wallMs"] for i in range(1,len(observed))]
+  check("All 12 automatic turn transitions preserve the animation clock",
+        min(gaps)>=1050,{"minimumGapMs":min(gaps),"gapsMs":gaps})
+  check("No phantom collision, empty receipts or invalid Save during sustained auto",
+        all(s["strict"] and s["uniqueCells"] and s["receipts"]>0 and s["auto"] for s in observed),
+        {"samples":observed})
+  check("Automatic target remains stable across living enemies",
+        len({s["actorTarget"] for s in observed})==1 and observed[0]["actorTarget"] is not None,
+        {"targetTrail":[s["actorTarget"] for s in observed]})
+  page.locator('[data-action="auto"]').click()
+  page.set_viewport_size({"width":960,"height":540})
+  page.evaluate("window.dispatchEvent(new Event('resize'))")
+  page.wait_for_timeout(220)
+  compact=page.evaluate("""()=>{
+    const c=document.getElementById('battle-canvas'),r=c.getBoundingClientRect(),
+      P=HOG_PAINTER,E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),
+      layout=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height);
+    return {aspectError:Math.abs(c.width/r.width-c.height/r.height),
+      xOverflow:document.documentElement.scrollWidth-innerWidth,
+      anchored:layout.every(u=>Math.abs(u.x-u.baseX)<=18.01&&Math.abs(u.y-u.baseY)<.01),
+      strict:E.strictSave(s),auto:s.battleAuto};
+  }""")
+  check("960×540 real auto frame remains aligned and without horizontal distortion",
+        compact["aspectError"]<.008 and compact["xOverflow"]<=1 and compact["anchored"] and compact["strict"] and not compact["auto"],compact)
+  page.screenshot(path=str(OUT/"auto-sequence-12-turns-960x540.png"))
   check("No uncaught Chromium exceptions",not errors,errors[:3])
   browser.close()
-result={"pass":len(checks)==11 and all(x["pass"] for x in checks),
+result={"pass":len(checks)==16 and all(x["pass"] for x in checks),
         "checks":checks,"errors":errors,"fixture":"Actual NPC battle, only enemy HP/DEF/ATK adjusted to observe timing, no victory injected",
-        "images":["01-auto-first-turn-1280x720.png","02-reloaded-paused-1280x720.png"]}
+        "images":["01-auto-first-turn-1280x720.png","02-reloaded-paused-1280x720.png","auto-sequence-turn-01-1280x720.png","auto-sequence-turn-06-1280x720.png","auto-sequence-turn-12-1280x720.png","auto-sequence-12-turns-960x540.png"],"observed":observed,"viewport":compact}
 REPORT.write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf8")
 assert result["pass"],"Not all auto stability gates passed"
 print("HG28 AUTO P0",len(checks),"/",len(checks),"PASS",flush=True)
