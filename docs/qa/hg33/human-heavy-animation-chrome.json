@@ -68,7 +68,7 @@
     {
       "name": "Actual March dispatch spends AP and carries the formed Heavy Soldier stack",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 96.11399999999999}"
+      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 96.46900000000001}"
     },
     {
       "name": "Natural travel arrival opens a live battle with the UI-recruited Heavy Soldier",
@@ -88,12 +88,12 @@
     {
       "name": "Live battle canvas samples distinct original idle, walk and attack frames",
       "passed": true,
-      "detail": "{\"samples\": 136, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"walk\": 8, \"idle\": 8, \"attack\": 8}}"
+      "detail": "{\"samples\": 135, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"idle\": 7, \"attack\": 8, \"walk\": 8}}"
     },
     {
       "name": "Real battle screenshots are exact 1280×720 and 960×540 Chromium viewports",
       "passed": true,
-      "detail": "{\"1280x720\": {\"sha256\": \"84BF78C51805B2952F7E14095D8B6399AAF94513DD821BEB6C63B05EE189CD22\", \"bytes\": 952269, \"resolution\": \"1280x720\"}, \"960x540\": {\"sha256\": \"DBF3DB2A29E7D8A5D9AB0B888FFDAE6E9E4EE98D4B71E2D84E21C21BB043C508\", \"bytes\": 492720, \"resolution\": \"960x540\"}}"
+      "detail": "{\"1280x720\": {\"sha256\": \"3B915759BC64444494EC29C2F3626369A354829FE24B93C6660098137430F97A\", \"bytes\": 952241, \"resolution\": \"1280x720\"}, \"960x540\": {\"sha256\": \"160FA82AF209B8016562B120C12CBC0C4CC39A6F8EBC33B30B5922FD2A7488B9\", \"bytes\": 492748, \"resolution\": \"960x540\"}}"
     },
     {
       "name": "Real damage receipt selects and renders the Human Vanguard Hit atlas row",
@@ -113,7 +113,7 @@
     {
       "name": "Dead-stack playback samples all eight Death_A atlas frames while battle remains active",
       "passed": true,
-      "detail": "{\"distinctFrames\": 8, \"totalSamples\": 30}"
+      "detail": "{\"distinctFrames\": 8, \"totalSamples\": 29}"
     },
     {
       "name": "No JavaScript or browser console errors occur during live animation play",
@@ -536,28 +536,28 @@
       "walk"
     ],
     "distinctFramesByAction": {
-      "walk": 8,
-      "idle": 8,
-      "attack": 8
+      "idle": 7,
+      "attack": 8,
+      "walk": 8
     },
     "hitFrames": 1,
     "deathFrames": 8,
-    "totalLiveCanvasSamples": 30
+    "totalLiveCanvasSamples": 29
   },
   "artifacts": {
     "human-heavy-soldier-battle-live-chrome.png": {
-      "sha256": "84BF78C51805B2952F7E14095D8B6399AAF94513DD821BEB6C63B05EE189CD22",
-      "bytes": 952269,
+      "sha256": "3B915759BC64444494EC29C2F3626369A354829FE24B93C6660098137430F97A",
+      "bytes": 952241,
       "resolution": "1280x720"
     },
     "human-vanguard-battle-live-960x540.png": {
-      "sha256": "DBF3DB2A29E7D8A5D9AB0B888FFDAE6E9E4EE98D4B71E2D84E21C21BB043C508",
-      "bytes": 492720,
+      "sha256": "160FA82AF209B8016562B120C12CBC0C4CC39A6F8EBC33B30B5922FD2A7488B9",
+      "bytes": 492748,
       "resolution": "960x540"
     },
     "human-heavy-soldier-death-frame-chrome.png": {
-      "sha256": "15B888BFF7F2E2EC39F809B59C39A7002837B9906D0B164C6B4E20B4505817AB",
-      "bytes": 2186636,
+      "sha256": "7274D5FD08CBD50A74C3C53812264DD5059C5373775F8FF1DF182B2E29D238BB",
+      "bytes": 2186805,
       "resolution": "1410x760"
     }
   }

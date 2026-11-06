@@ -17,15 +17,13 @@ EVIDENCE = ROOT / "docs" / "evidence" / "hg33" / "H2-human-vanguard"
 QA = ROOT / "docs" / "qa" / "hg33"
 EVIDENCE.mkdir(parents=True, exist_ok=True)
 QA.mkdir(parents=True, exist_ok=True)
-browser_env = os.environ.get("HOG_CHROMIUM_PATH")
+browser_env = os.environ.get("HOG_CHROMIUM_PATH") or os.environ.get("HOG_CHROME_PATH")
 candidates = [Path(browser_env)] if browser_env else [
     Path(os.environ.get("PROGRAMFILES", "C:/Program Files")) / "Google" / "Chrome" / "Application" / "chrome.exe",
     Path(os.environ.get("PROGRAMFILES(X86)", "C:/Program Files (x86)")) / "Microsoft" / "Edge" / "Application" / "msedge.exe",
     Path(os.environ.get("PROGRAMFILES", "C:/Program Files")) / "Microsoft" / "Edge" / "Application" / "msedge.exe",
 ]
 BROWSER = next((str(path) for path in candidates if path and path.is_file()), None)
-if not BROWSER:
-    raise SystemExit("Chrome/Edge not found; set HOG_CHROMIUM_PATH.")
 
 checks, errors = [], []
 
@@ -36,11 +34,10 @@ def check(name, passed, detail=""):
 
 
 with sync_playwright() as playwright:
-    browser = playwright.chromium.launch(
-        executable_path=BROWSER,
-        headless=True,
-        args=["--no-sandbox", "--allow-file-access-from-files", "--disable-dev-shm-usage"],
-    )
+    launch = {"headless": True, "args": ["--no-sandbox", "--allow-file-access-from-files", "--disable-dev-shm-usage"]}
+    if BROWSER:
+        launch["executable_path"] = BROWSER
+    browser = playwright.chromium.launch(**launch)
     context = browser.new_context(viewport={"width": 1440, "height": 1080}, device_scale_factor=1)
     page = context.new_page()
     page.on("pageerror", lambda exc: errors.append(str(exc)))
