@@ -290,14 +290,41 @@ function animationFrame(action,elapsed=0,duration=null){
  if(!HEAVY_CLIPS[action])action='idle';const clip=HEAVY_CLIPS[action],ms=duration||clip.ms,t=Number.isFinite(elapsed)?Math.max(0,elapsed):0,raw=Math.floor(t/ms*clip.count),frame=clip.loop?raw%clip.count:Math.min(clip.count-1,raw);
  return {action,frame,sx:(frame%8)*256,sy:Math.floor(frame/8)*256,sw:256,sh:256,id:'unit-human-heavy-'+action};
 }
+// Read-only animation timeline: a resolved turn contains multiple ordered
+// receipts. Playing every Attack/Hit simultaneously made auto-battles look
+// chaotic even when the canonical engine's decisions were deterministic.
+// Stagger visible events, but never alter logical positions or combat outcomes.
+const BATTLE_VISUAL_STAGGER_MS=85;
 function battleVisualState(b,u,elapsed,now=elapsed){
- const events=b.lastEvents||[],own=events.find(e=>e.actorId===u.id),incoming=events.filter(e=>e.targetId===u.id&&e.damage>0),movement=own?.path?.length>0;
+ const events=b.lastEvents||[],ownIndex=events.findIndex(e=>e.actorId===u.id),
+  own=ownIndex<0?null:events[ownIndex],
+  hitIndex=events.findIndex(e=>e.targetId===u.id&&e.damage>0),
+  incoming=hitIndex<0?null:events[hitIndex],
+  movement=own?.path?.length>0,
+  actionStart=ownIndex<0?0:Math.min(ownIndex,7)*BATTLE_VISUAL_STAGGER_MS,
+  hitStart=hitIndex<0?0:Math.min(hitIndex,7)*BATTLE_VISUAL_STAGGER_MS,
+  actionAge=elapsed-actionStart,hitAge=elapsed-hitStart;
  const base={action:'idle',time:now,duration:null,x:u.x,y:u.y,alpha:1};
- if(u.pool<=0){if(incoming.some(e=>e.death)&&elapsed<1200)return {...base,action:'death',time:elapsed,alpha:Math.min(1,(1200-elapsed)/400)};return null}
- if(movement&&elapsed<450){const progress=clamp(elapsed/450,0,1)*own.path.length,index=Math.min(own.path.length-1,Math.floor(progress)),from=index?own.path[index-1]:own.from,to=own.path[index],fraction=progress-index;return {...base,action:'walk',time:elapsed,duration:450,x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction}}
+ if(u.pool<=0){
+  if(incoming?.death&&elapsed>=hitStart&&elapsed<1200)
+   return {...base,action:'death',time:Math.max(0,hitAge),duration:1200,
+    alpha:Math.min(1,(1200-elapsed)/400)};
+  return null;
+ }
+ if(own&&actionAge<0)return base;
+ if(movement&&actionAge>=0&&actionAge<450){
+  const progress=clamp(actionAge/450,0,1)*own.path.length,
+   index=Math.min(own.path.length-1,Math.floor(progress)),
+   from=index?own.path[index-1]:own.from,to=own.path[index],
+   fraction=progress-index;
+  return {...base,action:'walk',time:actionAge,duration:450,
+   x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction};
+ }
  const attackStart=movement?450:0,attackDuration=movement?450:650;
- if(own?.damage>0&&elapsed>=attackStart&&elapsed<attackStart+attackDuration)return {...base,action:'attack',time:elapsed-attackStart,duration:attackDuration};
- if(incoming.length&&elapsed<650)return {...base,action:'hit',time:elapsed,duration:650};
+ if(own?.damage>0&&actionAge>=attackStart&&actionAge<attackStart+attackDuration)
+  return {...base,action:'attack',time:actionAge-attackStart,duration:attackDuration};
+ if(incoming&&hitAge>=120&&hitAge<770)
+  return {...base,action:'hit',time:hitAge-120,duration:650};
  return base;
 }
 // HG14 Batch 1: existing real transparent PNG masters, not fabricated multi-pose atlases.
@@ -408,7 +435,7 @@ function battleFxPlan(b,camera,elapsed,layout){
   if(!(event.damage>0)||!event.targetId)return [];
   const actor=byId.get(event.actorId),target=byId.get(event.targetId);
   if(!actor||!target)return [];
-  const time=elapsed-Math.min(index,7)*62;
+  const time=elapsed-Math.min(index,7)*BATTLE_VISUAL_STAGGER_MS;
   if(time<0||time>960)return [];
   const origin=camera.point(event.to.x+.5,event.to.y+.5);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
