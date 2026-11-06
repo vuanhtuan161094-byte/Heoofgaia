@@ -79,14 +79,14 @@ function angle(kind,action,t){
   if(action==='idle')return sign*(.025+sn*.045);
   if(action==='walk')return sign*(.055+Math.sin(phase*1.3)*.115);
   if(action==='attack')return sign*(.05+.30*Math.sin(Math.PI*Math.min(1,t))-.09*Math.sin(phase));
-  if(action==='hit')return sign*(-.12-.15*Math.sin(Math.PI*Math.min(1,t)));
+  if(action==='hit')return sign*(-.12-.19*Math.sin(Math.PI*Math.min(1,t))*(1-.48*t));
   if(action==='death')return sign*(-.48*Math.min(1,t));
  }
  if(kind==='tail'){
   if(action==='idle')return .045*sn;
   if(action==='walk')return .13*sn;
   if(action==='attack')return -.29*Math.sin(Math.PI*Math.min(1,t));
-  if(action==='hit')return .12*cycle;
+  if(action==='hit')return .16*Math.sin(Math.PI*Math.min(1,t))*(1-.52*t);
   if(action==='death')return -.22*Math.min(1,t);
  }
  if(kind==='armL'||kind==='armR'){
@@ -94,7 +94,7 @@ function angle(kind,action,t){
   if(action==='idle')return hand*.015*sn;
   if(action==='walk')return hand*.08*sn;
   if(action==='attack')return hand*(.38*Math.sin(Math.PI*Math.min(1,t))-.08*Math.sin(2*phase));
-  if(action==='hit')return -hand*.24*Math.sin(Math.PI*Math.min(1,t));
+  if(action==='hit')return -hand*.31*Math.sin(Math.PI*Math.min(1,t))*(1-.50*t);
   if(action==='death')return hand*.20*Math.min(1,t);
  }
  return 0;
