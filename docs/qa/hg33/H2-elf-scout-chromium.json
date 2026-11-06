@@ -1,7 +1,7 @@
 {
-  "sourceCommit": "51e0d1c27998030357463189f30692a28a9b4ebf",
+  "sourceCommit": "8763bbef8bd8f0d9d7e83c19ce2a8f82f8414aa8",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "5DD575E698CC604A9102FC947F4156A535646060C52810DBEE29DCE800F272DE",
+  "htmlSha256": "289546225A6002742FDA810E8345ABDF48EC9ABD0BD61D55767442C08427D80C",
   "browser": "Playwright using installed Chrome, local file://; actual Elf New Game selection and engine march into Azrael battle; 16-unit visual fixture (no battle outcome claimed).",
   "checks": [
     {
@@ -54,25 +54,25 @@
       "state": "before-fallback",
       "viewport": "1280x720",
       "path": "docs/evidence/hg33/H2-elf-scout/before/1280x720.png",
-      "sha256": "11F1A5652D54AE1450131D8D27AE9FCDDDDEC96AA144A33BB757CAB1C1992DA4"
+      "sha256": "FEC855129973725696357C99B0D4D488E70A2C15768B8667A723CC6F93A6EDD8"
     },
     {
       "state": "after-original-art",
       "viewport": "1280x720",
       "path": "docs/evidence/hg33/H2-elf-scout/after/1280x720.png",
-      "sha256": "E0E7F9F3EF752059D9EA074710A8C49654BA95C21660BBFE693A08312C962384"
+      "sha256": "A8560CA61406705C718A6F10447848F6317CA5CD7343FD6C0E7E9CBB6C8577C9"
     },
     {
       "state": "before-fallback",
       "viewport": "960x540",
       "path": "docs/evidence/hg33/H2-elf-scout/before/960x540.png",
-      "sha256": "8E8292EF8E34F27768128D253CE81EFB79EEFD5F2384A060C86A16EC91766FFE"
+      "sha256": "1213F7C8192046F4C0877505A2D045DC1CD4422E466665104B0AECDD11B35CA2"
     },
     {
       "state": "after-original-art",
       "viewport": "960x540",
       "path": "docs/evidence/hg33/H2-elf-scout/after/960x540.png",
-      "sha256": "DAB4C0C5E972B2797FAEF0B82CB456CEDAC635DE4C8FEC9A01E8DC29BA89CFA3"
+      "sha256": "73BFE0BBAB23BDD5C416853C8819D8E4B88D19D7FD50951563C96808D763D461"
     }
   ],
   "pageErrors": [],

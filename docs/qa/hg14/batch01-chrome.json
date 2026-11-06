@@ -1,0 +1,186 @@
+{
+  "status": "PASS",
+  "passed": 42,
+  "total": 42,
+  "checks": [
+    {
+      "name": "human/human_3 loads correct real 512px embedded sprite",
+      "passed": true
+    },
+    {
+      "name": "human/human_3 real march reaches illustrated battle",
+      "passed": true
+    },
+    {
+      "name": "human/human_3 animated battle keeps strict v07 save",
+      "passed": true
+    },
+    {
+      "name": "human/human_3 actual sprite is drawn on canvas",
+      "passed": true
+    },
+    {
+      "name": "human/human_3 idle is animated without mutating gameplay",
+      "passed": true
+    },
+    {
+      "name": "human/human_3 attack/hit/death are visibly distinct",
+      "passed": true
+    },
+    {
+      "name": "human/human_3 combat action writes actual v07 save",
+      "passed": true
+    },
+    {
+      "name": "human/human_3 cold reload preserves playable battle",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_1 loads correct real 512px embedded sprite",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_1 real march reaches illustrated battle",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_1 animated battle keeps strict v07 save",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_1 actual sprite is drawn on canvas",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_1 idle is animated without mutating gameplay",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_1 attack/hit/death are visibly distinct",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_1 combat action writes actual v07 save",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_1 cold reload preserves playable battle",
+      "passed": true
+    },
+    {
+      "name": "orc/orc_1 loads correct real 512px embedded sprite",
+      "passed": true
+    },
+    {
+      "name": "orc/orc_1 real march reaches illustrated battle",
+      "passed": true
+    },
+    {
+      "name": "orc/orc_1 animated battle keeps strict v07 save",
+      "passed": true
+    },
+    {
+      "name": "orc/orc_1 actual sprite is drawn on canvas",
+      "passed": true
+    },
+    {
+      "name": "orc/orc_1 idle is animated without mutating gameplay",
+      "passed": true
+    },
+    {
+      "name": "orc/orc_1 attack/hit/death are visibly distinct",
+      "passed": true
+    },
+    {
+      "name": "orc/orc_1 combat action writes actual v07 save",
+      "passed": true
+    },
+    {
+      "name": "orc/orc_1 cold reload preserves playable battle",
+      "passed": true
+    },
+    {
+      "name": "undead/undead_1 loads correct real 512px embedded sprite",
+      "passed": true
+    },
+    {
+      "name": "undead/undead_1 real march reaches illustrated battle",
+      "passed": true
+    },
+    {
+      "name": "undead/undead_1 animated battle keeps strict v07 save",
+      "passed": true
+    },
+    {
+      "name": "undead/undead_1 actual sprite is drawn on canvas",
+      "passed": true
+    },
+    {
+      "name": "undead/undead_1 idle is animated without mutating gameplay",
+      "passed": true
+    },
+    {
+      "name": "undead/undead_1 attack/hit/death are visibly distinct",
+      "passed": true
+    },
+    {
+      "name": "undead/undead_1 combat action writes actual v07 save",
+      "passed": true
+    },
+    {
+      "name": "undead/undead_1 cold reload preserves playable battle",
+      "passed": true
+    },
+    {
+      "name": "Undead battle keeps canvas proportional at mobile landscape",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_2 loads correct real 512px embedded sprite",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_2 real march reaches illustrated battle",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_2 animated battle keeps strict v07 save",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_2 actual sprite is drawn on canvas",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_2 idle is animated without mutating gameplay",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_2 attack/hit/death are visibly distinct",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_2 combat action writes actual v07 save",
+      "passed": true
+    },
+    {
+      "name": "elf/elf_2 cold reload preserves playable battle",
+      "passed": true
+    },
+    {
+      "name": "No Chromium JavaScript errors in five real battles",
+      "passed": true
+    }
+  ],
+  "htmlSha256": "289546225A6002742FDA810E8345ABDF48EC9ABD0BD61D55767442C08427D80C",
+  "screenshots": [
+    "docs\\evidence\\hg14\\battle-human-human_3-chrome.png",
+    "docs\\evidence\\hg14\\battle-elf-elf_1-chrome.png",
+    "docs\\evidence\\hg14\\battle-orc-orc_1-chrome.png",
+    "docs\\evidence\\hg14\\battle-undead-undead_1-chrome.png",
+    "docs\\evidence\\hg14\\battle-undead-landscape-chrome.png",
+    "docs\\evidence\\hg14\\battle-elf-elf_2-chrome.png"
+  ],
+  "errors": [],
+  "source": "Human Archer now uses 48 separate source-layered PNG frames; Elf Scout is an original 512px WebP still; other HG14 Batch1 troops use single-source procedural poses"
+}
