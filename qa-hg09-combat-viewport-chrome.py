@@ -19,24 +19,36 @@ def check(label,condition):
     print(("PASS " if passed else "FAIL ")+label,flush=True)
 
 def click_troop_upper_body(page, label):
-    # Drive a real mouse event well above the foot-radius selection zone.
+    # Real mouse events: the illustrated upper torso AND its nameplate are
+    # selectable. The plate is deliberately beyond the old foot-only radius.
     point=page.evaluate("""() => {
       const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),
         P=HOG_PAINTER,E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),
         entries=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height)
           .filter(q=>q.u.side==='enemy'&&q.u.pool>0).sort((a,b)=>a.y-b.y);
       if(!entries.length)throw new Error('No living enemy for upper-body hit test');
-      const e=entries[0],x=e.sprite.x+e.sprite.w*.5,y=e.sprite.y+e.sprite.h*.18,
-        hit=P.battleHit(c,x,y,E,s),clientX=r.left+x/c.width*r.width,
-        clientY=r.top+y/c.height*r.height;
-      return {id:e.id,hit:hit?.id||null,clientX,clientY,
-        fromFoot:e.y-y,legacyRadius:Math.max(38,c.width*.055),
-        onCanvas:document.elementFromPoint(clientX,clientY)===c};
+      const e=entries[0],legacyRadius=Math.max(38,c.width*.055),
+        project=(x,y)=>{const clientX=r.left+x/c.width*r.width,
+          clientY=r.top+y/c.height*r.height;
+          return {clientX,clientY,hit:P.battleHit(c,x,y,E,s)?.id||null,
+            onCanvas:document.elementFromPoint(clientX,clientY)===c,
+            fromFoot:Math.hypot(x-e.x,y-e.y)}};
+      return {id:e.id,legacyRadius,
+        torso:project(e.sprite.x+e.sprite.w*.5,e.sprite.y+e.sprite.h*.18),
+        plate:project(e.label.x+e.label.w*.5,e.label.y+e.label.h*.5)};
     }""")
-    check(label+" sprite upper-body hitbox",point["hit"]==point["id"] and
-          point["fromFoot"]>point["legacyRadius"] and point["onCanvas"])
-    page.mouse.click(point["clientX"],point["clientY"])
+    torso=point["torso"]
+    check(label+" sprite upper-body hitbox",torso["hit"]==point["id"] and
+          torso["fromFoot"]>28 and torso["onCanvas"])
+    page.mouse.click(torso["clientX"],torso["clientY"])
     check(label+" real upper-body click selects the enemy",
+          page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==point["id"])
+    plate=point["plate"]
+    check(label+" distant nameplate is a genuine selectable hitbox",
+          plate["hit"]==point["id"] and
+          plate["fromFoot"]>point["legacyRadius"] and plate["onCanvas"])
+    page.mouse.click(plate["clientX"],plate["clientY"])
+    check(label+" real nameplate click selects the enemy",
           page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==point["id"])
 
 with sync_playwright() as p:
