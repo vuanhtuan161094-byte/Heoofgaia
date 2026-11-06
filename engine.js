@@ -496,7 +496,13 @@ function battleAct(s,action,options){
   if(actor.side==='player'&&stance==='defend'){acted.push(actor.id);b.orders[actor.id]='attack';record(actor,null,0,[],'defend');continue}
   if(actor.side==='player'&&stance==='retreat'){const x=Math.max(0,actor.x-1);if(![...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===x&&u.y===actor.y))actor.x=x;acted.push(actor.id);b.orders[actor.id]='attack';record(actor,null,0,[],'retreat');continue}
   const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
-  const target=pref||[...enemy].sort((x,y)=>{const near=actor.range>1?0:dist(actor,x)-dist(actor,y),power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;return actor.range>1?power||near||x.id.localeCompare(y.id):near||power||x.id.localeCompare(y.id)})[0];
+  // Auto-only target memory: continue engaging the same living stack rather
+  // than flip targets whenever a different enemy's relative power changes.
+  // Uses existing lastTargets receipts (v07 compatible; no new Save fields).
+  // Manual commands and hostile AI preserve their original targeting rules.
+  const sticky=actor.side==='player'&&options?.stableTargets&&stance==='attack'&&b.lastTargets?.[actor.id]?
+   enemy.find(t=>t.id===b.lastTargets[actor.id]):null;
+  const target=pref||sticky||[...enemy].sort((x,y)=>{const near=actor.range>1?0:dist(actor,x)-dist(actor,y),power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;return actor.range>1?power||near||x.id.localeCompare(y.id):near||power||x.id.localeCompare(y.id)})[0];
   lastTargets[actor.id]=target.id;acted.push(actor.id);
   const beforePool=target.pool,beforeCount=target.count,trace={path:[]},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path,stance,beforeCount-target.count);
   if(actor.side==='player')dealt+=amount;else lost+=amount;
