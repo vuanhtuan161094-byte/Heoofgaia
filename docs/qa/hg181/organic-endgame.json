@@ -1,0 +1,252 @@
+{
+  "mode": "organic actions with accelerated elapsed game time",
+  "seeded": false,
+  "status": "PASS",
+  "stages": [
+    {
+      "name": "fresh_new_game",
+      "heroLevel": 1,
+      "armyT10": 0,
+      "gold": 8000,
+      "fame": 5,
+      "simulatedHours": 0,
+      "resources": {
+        "gold": 6808.133333333333,
+        "wood": 765.61,
+        "ore": 909.61,
+        "sulfur": 258.805,
+        "crystal": 354.805
+      },
+      "starterArmy": 16
+    },
+    {
+      "name": "production_mine_capture",
+      "heroLevel": 3,
+      "armyT10": 0,
+      "gold": 6818,
+      "fame": 135,
+      "simulatedHours": 0.8627777777777778,
+      "resource": "wood",
+      "key": "6,3",
+      "rate": 52
+    },
+    {
+      "name": "production_mine_capture",
+      "heroLevel": 3,
+      "armyT10": 0,
+      "gold": 6837,
+      "fame": 145,
+      "simulatedHours": 0.9377777777777777,
+      "resource": "gold",
+      "key": "1,7",
+      "rate": 360
+    },
+    {
+      "name": "production_mine_capture",
+      "heroLevel": 3,
+      "armyT10": 0,
+      "gold": 6277,
+      "fame": 225,
+      "simulatedHours": 1.518333333333333,
+      "resource": "crystal",
+      "key": "8,7",
+      "rate": 26
+    },
+    {
+      "name": "production_mine_capture",
+      "heroLevel": 3,
+      "armyT10": 0,
+      "gold": 6323,
+      "fame": 235,
+      "simulatedHours": 1.6466666666666665,
+      "resource": "ore",
+      "key": "10,2",
+      "rate": 52
+    },
+    {
+      "name": "production_mine_capture",
+      "heroLevel": 3,
+      "armyT10": 0,
+      "gold": 5776,
+      "fame": 315,
+      "simulatedHours": 2.2649999999999997,
+      "resource": "sulfur",
+      "key": "12,6",
+      "rate": 26
+    },
+    {
+      "name": "self_funded_mine_economy",
+      "heroLevel": 3,
+      "armyT10": 0,
+      "gold": 5776,
+      "fame": 315,
+      "simulatedHours": 2.2649999999999997,
+      "minesCaptured": 5,
+      "rates": {
+        "gold": 360,
+        "wood": 52,
+        "ore": 52,
+        "sulfur": 26,
+        "crystal": 26
+      }
+    },
+    {
+      "name": "construction_progress",
+      "heroLevel": 14,
+      "armyT10": 0,
+      "gold": 16343,
+      "fame": 20745,
+      "simulatedHours": 100.59972222222223,
+      "key": "warehouse",
+      "next": 5,
+      "builds": 10
+    },
+    {
+      "name": "construction_progress",
+      "heroLevel": 22,
+      "armyT10": 0,
+      "gold": 40886,
+      "fame": 73764,
+      "simulatedHours": 368.81277777777785,
+      "key": "barracks",
+      "next": 9,
+      "builds": 20
+    },
+    {
+      "name": "construction_progress",
+      "heroLevel": 24,
+      "armyT10": 0,
+      "gold": 39238,
+      "fame": 110881,
+      "simulatedHours": 515.9222222222223,
+      "key": "stables",
+      "next": 9,
+      "builds": 30
+    },
+    {
+      "name": "construction_progress",
+      "heroLevel": 26,
+      "armyT10": 0,
+      "gold": 32312,
+      "fame": 148854,
+      "simulatedHours": 735.0316666666668,
+      "key": "blacksmith",
+      "next": 10,
+      "builds": 40
+    },
+    {
+      "name": "construction_progress",
+      "heroLevel": 27,
+      "armyT10": 0,
+      "gold": 36055,
+      "fame": 175624,
+      "simulatedHours": 833.3277777777779,
+      "key": "heroTower",
+      "next": 3,
+      "builds": 50
+    },
+    {
+      "name": "unlocked_human_t10",
+      "heroLevel": 29,
+      "armyT10": 0,
+      "gold": 17422,
+      "fame": 209528,
+      "simulatedHours": 990.8802777777777,
+      "builds": 56,
+      "studies": 21,
+      "warehouse": 5
+    },
+    {
+      "name": "recruited_pure_t10",
+      "heroLevel": 29,
+      "armyT10": 90,
+      "gold": 16534,
+      "fame": 227528,
+      "simulatedHours": 1215.1402777777782,
+      "targetCount": 90,
+      "points": 450000,
+      "commandLimit": 514833
+    },
+    {
+      "name": "first_paid_boss",
+      "heroLevel": 32,
+      "armyT10": 0,
+      "gold": 17863,
+      "fame": 227618,
+      "simulatedHours": 1216.0477777777783,
+      "boss": "82,91",
+      "outcome": "win"
+    },
+    {
+      "name": "earned_boss_rebirth_core",
+      "heroLevel": 32,
+      "armyT10": 0,
+      "gold": 17863,
+      "fame": 227618,
+      "simulatedHours": 1216.0477777777783,
+      "core": 1,
+      "guard": 1
+    },
+    {
+      "name": "experience_farming",
+      "heroLevel": 34,
+      "armyT10": 0,
+      "gold": 20323,
+      "fame": 228898,
+      "simulatedHours": 1252.1683333333337,
+      "xpBattles": 0,
+      "army": 0
+    },
+    {
+      "name": "experience_farming",
+      "heroLevel": 83,
+      "armyT10": 0,
+      "gold": 52500,
+      "fame": 236898,
+      "simulatedHours": 1255.5572222222006,
+      "xpBattles": 100,
+      "army": 0
+    },
+    {
+      "name": "organic_level_100",
+      "heroLevel": 100,
+      "armyT10": 0,
+      "gold": 52500,
+      "fame": 243218,
+      "simulatedHours": 1262.2344444444054,
+      "xpBattles": 180,
+      "fromLevel": 32
+    },
+    {
+      "name": "organic_rebirth_v07_reload",
+      "heroLevel": 1,
+      "armyT10": 90,
+      "gold": 47500,
+      "fame": 243218,
+      "simulatedHours": 1262.2513888888498,
+      "xpBattles": 180,
+      "totalBattles": 186,
+      "builds": 56,
+      "studies": 21,
+      "recruits": 148,
+      "waits": 47
+    }
+  ],
+  "error": null,
+  "summary": {
+    "builds": 56,
+    "studies": 21,
+    "recruits": 148,
+    "waits": 47,
+    "battles": 186,
+    "minesCaptured": 5,
+    "simulatedHours": 1262.2513888888498,
+    "experienceGrindBattles": 180,
+    "finalHeroLevel": 1,
+    "rebirth": 1,
+    "rebirthCore": 0,
+    "arenaHealed": 44,
+    "arenaHealGold": 13323,
+    "arenaRefill": 6
+  }
+}

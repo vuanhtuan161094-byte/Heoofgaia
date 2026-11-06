@@ -79,12 +79,17 @@ function train(id,count){
 function prepareEndgameArmy(targetCount=90){
  recallIfNeeded();
  const unit=E.getUnit(s,'human_10');
- const wounded=Object.entries(s.wounded||{}).filter(([,n])=>n>0);
- const woundedCount=wounded.reduce((sum,[,n])=>sum+n,0);
- if(wounded.length){
-  assert((s.buildings.arena||0)>=1,'Arena recovery requires the built Arena');
-  const healGold=wounded.reduce((sum,[id,n])=>{const u=E.getUnit(s,id);return sum+(u?Math.ceil(u.cost.gold*.35*n):0)},0);
-  if(healGold>0){waitResources({gold:healGold},'Arena healing');arenaHealGold+=E.heal(s);arenaHealed+=woundedCount}
+ assert((s.buildings.arena||0)>=1,'Arena recovery requires the built Arena');
+ while(true){
+  const woundedUnit=E.arrUnits(s).find(u=>(s.wounded?.[u.id]||0)>0);
+  if(!woundedUnit)break;
+  const count=s.wounded[woundedUnit.id],gold=Math.ceil(E.unitValue(woundedUnit)*count/7);
+  waitResources({gold},'Arena healing '+woundedUnit.id);
+  const job=E.heal(s);
+  assert(job&&job.unitId===woundedUnit.id&&job.count===count,'Arena did not queue the wounded roster');
+  arenaHealGold+=job.paidGold;
+  advance(job.remaining+2);
+  arenaHealed+=job.count;
  }
  const current=s.army[unit.id]||0;
  const refill=Math.max(0,targetCount-current);
@@ -94,8 +99,7 @@ function prepareEndgameArmy(targetCount=90){
  const groups=Math.min(7,count),base=Math.floor(count/groups),extra=count%groups;
  E.setFormation(s,Array.from({length:groups},(_,i)=>({unitId:unit.id,count:base+(i<extra?1:0)})));
  strict('paid endgame army recovered');
-}
-function recallIfNeeded(){
+}function recallIfNeeded(){
  if(s.march&&s.march.phase==='return')advance(s.march.remaining+2);
  if(s.stationedHeroes?.some(q=>q.heroId===1)){
   const result=E.recallHero(s,1);
