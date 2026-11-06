@@ -1579,10 +1579,10 @@ test('HG14.2 continuous meadow battle projection keeps both armies in readable l
  assert(painterSource.includes('battleGridOverlay(c,camera,units,reachable)'),'tactical grid can be displayed on actual battle cells');
  for(const dims of [{width:1176,height:550},{width:960,height:350},{width:1280,height:520}]){
   const p=P.battleProjection(dims,E);
-  assert(p.col.x>p.row.x*10,'horizontal battlefield axis should dominate');
-  assert(p.row.y>p.col.y*12,'vertical lane spacing should dominate');
-  assert(Math.abs(p.col.y/p.col.x)<.09,'natural ground is nearly horizontal');
-  assert(Math.abs(p.col.y)<1e-9&&Math.abs(p.row.x)<1e-9,'visual cells must have orthogonal axes and align with feet');
+  assert(p.col.x>p.row.x*2,'left-to-right combat axis must remain dominant');
+  assert(p.row.x>dims.width*.02&&p.col.y<0,'rear troops must be staggered rather than vertically hidden');
+  assert(p.row.y>Math.abs(p.col.y)*4,'battlefield must preserve readable depth');
+  assert(Math.abs(p.col.y/p.col.x)<.09,'battlefield must use shallow oblique perspective, not steep skew');
   assert(p.point(0,0).x>0&&p.point(g.cols,g.rows).x<dims.width,'all logical cells fit width');
   assert(p.point(0,0).y>dims.height*.3&&p.point(g.cols,g.rows).y<dims.height*.98,'field starts below treeline');
   for(let x=0;x<g.cols;x++)for(let y=0;y<g.rows;y++){
@@ -1591,7 +1591,7 @@ test('HG14.2 continuous meadow battle projection keeps both armies in readable l
   }
   const ally=p.point(1.5,.5),foe=p.point(10.5,2.5);
   assert(foe.x-ally.x>dims.width*.6,'opposing armies are separated across the ground');
-  assert(ally.x>dims.width*.13&&foe.x<dims.width*.9,'troops have edge clearance');
+  assert(ally.x>dims.width*.11&&foe.x<dims.width*.9,'troops have edge clearance');
   assert(ally.y>dims.height*.36&&foe.y<dims.height*.7);
  }
 });
