@@ -37,6 +37,13 @@ jobs:
           node qa-engine.cjs
           node qa-hg28-art.cjs
           node qa-hg09-combat-viewport.cjs
+      - name: HG28 animation 40-unit source authenticity and five-action atlas-packer gate
+        run: |
+          node --check qa-hg28-animation-coverage.cjs
+          node qa-hg28-animation-coverage.cjs
+          python -m py_compile tools/pack_hg28_action_frames.py
+          python tools/pack_hg28_action_frames.py --unit human_4 --source assets/licensed/kaykit-heavy-soldier/rendered --output docs/qa/hg28-animation-pack-smoke --cell 192
+          python -c "import json; from pathlib import Path; m=json.loads(Path('docs/qa/hg28-animation-pack-smoke/atlas-manifest.json').read_text()); assert len(m['clips']) == 5 and sum(x['frames'] for x in m['clips'].values()) == 57"
       - name: HG16 G4 core combat and production stress gate
         run: |
           node --check qa-hg16-g4-stress.cjs
@@ -225,6 +232,15 @@ jobs:
             docs/evidence/hg31/*.png
             docs/qa/hg31-ui.json
           if-no-files-found: ignore
+      - name: Upload HG28 40-troop truthful animation audit and genuine clip packer smoke
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG28-40-troop-animation-coverage-and-atlas-smoke
+          path: |
+            docs/qa/hg28-animation-coverage.json
+            docs/qa/hg28-animation-pack-smoke/atlas-manifest.json
+          if-no-files-found: error
       - name: Upload HG28 BEFORE-art 20-screen visual review
         if: always()
         uses: actions/upload-artifact@v4
