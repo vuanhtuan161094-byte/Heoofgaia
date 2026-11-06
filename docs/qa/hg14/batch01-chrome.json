@@ -172,7 +172,7 @@
       "passed": true
     }
   ],
-  "htmlSha256": "289546225A6002742FDA810E8345ABDF48EC9ABD0BD61D55767442C08427D80C",
+  "htmlSha256": "30302BECECDE4C08578D537FF056805610D311AFD0DCF16BB948A3959B3CC684",
   "screenshots": [
     "docs\\evidence\\hg14\\battle-human-human_3-chrome.png",
     "docs\\evidence\\hg14\\battle-elf-elf_1-chrome.png",
@@ -182,5 +182,5 @@
     "docs\\evidence\\hg14\\battle-elf-elf_2-chrome.png"
   ],
   "errors": [],
-  "source": "Human Archer now uses 48 separate source-layered PNG frames; Elf Scout is an original 512px WebP still; other HG14 Batch1 troops use single-source procedural poses"
+  "source": "38 troops use authored eight-frame five-action atlases; Human Archer retains 48 source-layered PNG frames; Skeleton retains its five 10-frame action sheets; legacy 512px fallback masters remain embedded"
 }

@@ -67,7 +67,9 @@ with sync_playwright() as pw:
                 const start=canvas.toDataURL('image/png');
                 P.drawBattle(canvas,E,s,performance.now()+360);
                 const end=canvas.toDataURL('image/png');
-                return {spriteDraws:seen.filter(x=>unitId==='undead_1'?x.startsWith('hg22-skeleton-'):x===(unitId==='human_3'?'unit-human-archer-atlas':imageId)).length,
+                const atlasId=HOG_HG33_TROOP_ATLASES?.units?.[unitId]?.imageId,
+                    renderedId=atlasId||(unitId==='human_3'?'unit-human-archer-atlas':imageId);
+                return {spriteDraws:seen.filter(x=>unitId==='undead_1'?x.startsWith('hg22-skeleton-'):x===renderedId).length,
                         changed:start!==end,
                         stable:JSON.stringify(E.clone(s))===stateBefore,
                         pose:P.motionPose('attack',320,650),
@@ -109,7 +111,7 @@ result={"status":"PASS" if all(c["passed"] for c in checks) else "FAIL",
         "passed":sum(c["passed"] for c in checks),"total":len(checks),"checks":checks,
         "htmlSha256":hashlib.sha256(HTML.read_bytes()).hexdigest().upper(),
         "screenshots":screenshots,"errors":errors,
-        "source":"Human Archer now uses 48 separate source-layered PNG frames; Elf Scout is an original 512px WebP still; other HG14 Batch1 troops use single-source procedural poses"}
+        "source":"38 troops use authored eight-frame five-action atlases; Human Archer retains 48 source-layered PNG frames; Skeleton retains its five 10-frame action sheets; legacy 512px fallback masters remain embedded"}
 (REPORT/"batch01-chrome.json").write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
 print(f"HG14 Batch 01 Chromium {result['passed']}/{result['total']} PASS",flush=True)
 raise SystemExit(0 if result["status"]=="PASS" else 1)
