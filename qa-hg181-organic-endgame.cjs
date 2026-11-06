@@ -11,7 +11,7 @@ for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js'
  vm.runInContext(fs.readFileSync(path.join(__dirname,file),'utf8'),ctx,{filename:file});
 const E=ctx.HOG_ENGINE,C=ctx.HOG_CATALOG,s=E.make('human',1_000_000);
 const steps=[],meta={mode:'organic actions with accelerated elapsed game time',seeded:false,status:'PENDING',stages:steps,error:null};
-let simulatedHours=0,waits=0,builds=0,studies=0,recruits=0,battles=0,minesCaptured=0,xpBattles=0;
+let simulatedHours=0,waits=0,builds=0,studies=0,recruits=0,battles=0,minesCaptured=0,xpBattles=0,arenaHealed=0,arenaHealGold=0,arenaRefill=0;
 function strict(label){assert(E.strictSave(s),'Save validation failed: '+label)}
 function receipt(name,details={}){steps.push({name,heroLevel:s.heroes[0].level,armyT10:s.army.human_10||0,gold:Math.floor(s.res.gold),fame:s.fame,simulatedHours, ...details});console.log('HG181 '+name+' '+JSON.stringify(details));strict(name)}
 function advance(seconds){assert(seconds>0);E.tick(s,s.lastTick+(seconds+1)*1000/s.speed);simulatedHours+=seconds/3600;strict('tick')}
@@ -75,6 +75,25 @@ function train(id,count){
  const job=s.training.at(-1);assert(job,'Training not queued');
  advance(job.remaining+2);
  assert.equal(s.army[id],before+count,'Training did not deliver '+id);
+}
+function prepareEndgameArmy(targetCount=90){
+ recallIfNeeded();
+ const unit=E.getUnit(s,'human_10');
+ const wounded=Object.entries(s.wounded||{}).filter(([,n])=>n>0);
+ const woundedCount=wounded.reduce((sum,[,n])=>sum+n,0);
+ if(wounded.length){
+  assert((s.buildings.arena||0)>=1,'Arena recovery requires the built Arena');
+  const healGold=wounded.reduce((sum,[id,n])=>{const u=E.getUnit(s,id);return sum+(u?Math.ceil(u.cost.gold*.35*n):0)},0);
+  if(healGold>0){waitResources({gold:healGold},'Arena healing');arenaHealGold+=E.heal(s);arenaHealed+=woundedCount}
+ }
+ const current=s.army[unit.id]||0;
+ const refill=Math.max(0,targetCount-current);
+ if(refill){train(unit.id,refill);arenaRefill+=refill}
+ const count=s.army[unit.id]||0;
+ assert(count>=targetCount,'Paid Arena recovery could not restore the endgame detachment');
+ const groups=Math.min(7,count),base=Math.floor(count/groups),extra=count%groups;
+ E.setFormation(s,Array.from({length:groups},(_,i)=>({unitId:unit.id,count:base+(i<extra?1:0)})));
+ strict('paid endgame army recovered');
 }
 function recallIfNeeded(){
  if(s.march&&s.march.phase==='return')advance(s.march.remaining+2);
@@ -160,6 +179,7 @@ try{
  const initialLv=s.heroes[0].level;
  xpBattles=0;
  for(;s.heroes[0].level<100&&xpBattles<1700;xpBattles++){
+  prepareEndgameArmy();
   const outcome=dispatchAndWin(xpTarget.key);
   if(outcome!=='win')throw Error('Late-game paid army lost 8-star XP fight at iteration '+xpBattles);
   if(xpBattles%100===0)receipt('experience_farming',{xpBattles,heroLevel:s.heroes[0].level,army:s.army.human_10||0});
@@ -179,7 +199,7 @@ try{
  meta.status='PASS';
 }catch(err){meta.status='FAIL';meta.error=String(err.stack||err);console.error('HG181 ENDGAME FAIL '+meta.error);process.exitCode=1;}
 finally{
- meta.summary={builds,studies,recruits,waits,battles,minesCaptured,simulatedHours,experienceGrindBattles:xpBattles,finalHeroLevel:s.heroes[0].level,rebirth:s.heroes[0].rebirth,rebirthCore:s.hg18?.materials.rebirth_core};
+ meta.summary={builds,studies,recruits,waits,battles,minesCaptured,simulatedHours,experienceGrindBattles:xpBattles,finalHeroLevel:s.heroes[0].level,rebirth:s.heroes[0].rebirth,rebirthCore:s.hg18?.materials.rebirth_core,arenaHealed,arenaHealGold,arenaRefill};
  fs.mkdirSync(path.join(__dirname,'docs','qa','hg181'),{recursive:true});
  fs.writeFileSync(path.join(__dirname,'docs','qa','hg181','organic-endgame.json'),JSON.stringify(meta,null,2));
  console.log('HG181 ENDGAME '+meta.status+' '+JSON.stringify(meta.summary));
