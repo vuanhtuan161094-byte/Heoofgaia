@@ -60,7 +60,7 @@ with sync_playwright() as pw:
  check("All eight original T9/T10 masters retain image identity",result["ids"]==ids and not any(':src' in x for x in result["bad"]),result["bad"])
  check("40 individual real browser action render cases",result["cases"]==40,result["cases"])
  check("Independent component articulation yields differing visible poses",not result["bad"],result["bad"])
- check("40 draws are presentation-only; strict Save v07 bitwise unchanged",result["strictBefore"] and result["strictAfter"] and result["saveUnchanged"])
+ check("40 draws are presentation-only; strict Save v07 bitwise unchanged",result["strictBefore"] and result["strictAfter"] and result["saveUnchanged"],{k:result.get(k) for k in ("strictBefore","strictAfter","saveUnchanged")})
  page.locator('#hg28-rig-contact').screenshot(path=str(OUT/'rig-8-units-5-actions-Chromium.png'))
  # Open an actual engine-backed battle at both landscape sizes. The only
  # setup fixture assigns a T9 warrior to inspect art, not XP, drops or wins.
