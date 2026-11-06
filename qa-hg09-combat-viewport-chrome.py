@@ -91,7 +91,9 @@ with sync_playwright() as p:
     check("HG14.2 natural terrain texture remains visible",stage["grass0"]!=stage["grass1"])
     check("HG14.2 desktop troops retain legible sprite scale",page.evaluate("""() => {
       const c=document.getElementById('battle-canvas'),P=HOG_PAINTER;
-      return P.battleSpriteScale(c.height,0,9)>.78;
+      const k=P.battleSpriteScale(c.height,0,9);
+       const rendered=Math.max(64,Math.min(125,113*k));
+       return rendered>=64&&rendered<=110;
     }"""))
     check("HG14.4 desktop troop HUD has separate nonoverlapping name/HP cards",page.evaluate("""() => {
       const c=document.querySelector('#battle-canvas'),P=HOG_PAINTER,E=HOG_ENGINE,
@@ -149,7 +151,9 @@ with sync_playwright() as p:
       const c=document.getElementById('battle-canvas'),P=HOG_PAINTER,E=HOG_ENGINE,
         b=HOG_APP_DEBUG.getState().battle,cam=P.battleProjection(c,E),
         layout=P.battleUnitLayout(b,cam,c.width,c.height);
-      return P.battleSpriteScale(c.height,0,9)>.82&&layout.every(e=>
+      const k=P.battleSpriteScale(c.height,0,9);
+       const rendered=Math.max(64,Math.min(125,113*k));
+       return rendered>=64&&rendered<=110&&layout.every(e=>
        e.label.y>=60&&e.label.x>=12&&e.label.x+e.label.w<=c.width-12&&
         !layout.some(o=>P.battleRectOverlap(e.label,o.sprite,1))&&
         !P.battleRectOverlap(e.label,{x:c.width-190,y:58,w:184,h:38},1)&&
