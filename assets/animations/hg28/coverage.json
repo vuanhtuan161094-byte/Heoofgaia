@@ -1,0 +1,775 @@
+{
+  "schema": "HG28-40-TroopAnimationCoverage-v1",
+  "asOf": "2026-11-06",
+  "catalogue": "art-pack.js TYPES: 4 races x 10 canonical tiers",
+  "actionOrder": [
+    "idle",
+    "walk",
+    "attack",
+    "hit",
+    "death"
+  ],
+  "policy": "Only independently sourced/drawn action frames count. One still PNG with translate/rotate/scale does NOT count as an animation clip.",
+  "scope": "40 catalogue troops only; eight HG30 quest/tower units and Boss sprites must be planned separately.",
+  "frameContract": {
+    "requiredActions": 5,
+    "minRealFramesPerAction": 8,
+    "recommended": "idle 10-12, walk 10-12, attack 12-16, hit 8, death 10-12",
+    "master": "512px transparent RGBA; unit parts or action videos",
+    "runtimeCell": "192 or 256px RGBA",
+    "alpha": "transparent; feet pivot consistent within 2px",
+    "flip": "horizontal facing only unless original directional artwork available"
+  },
+  "units": [
+    {
+      "id": "human_1",
+      "race": "human",
+      "tier": 1,
+      "name": "Spear Militia",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "human_2",
+      "race": "human",
+      "tier": 2,
+      "name": "Scout",
+      "batch": "P1-FOUNDATION",
+      "status": "PARTIAL_VERIFIED",
+      "masterPath": null,
+      "actions": {
+        "idle": {
+          "frames": 8,
+          "source": "assets/licensed/spritecook/human-scout/idle.png",
+          "evidence": "assets/licensed/spritecook/asset-manifest.json",
+          "kind": "source-frames"
+        },
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "human_3",
+      "race": "human",
+      "tier": 3,
+      "name": "Archer",
+      "batch": "REFERENCE-EXISTING",
+      "status": "FULL_VERIFIED",
+      "masterPath": null,
+      "actions": {
+        "idle": {
+          "frames": 8,
+          "source": "assets/generated/hg143/animation/human-archer-atlas.png",
+          "evidence": "qa-engine.cjs: HG14.3 48 frames; attack=draw+release",
+          "kind": "source-frames"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/generated/hg143/animation/human-archer-atlas.png",
+          "evidence": "qa-engine.cjs: HG14.3 48 frames; attack=draw+release",
+          "kind": "source-frames"
+        },
+        "attack": {
+          "frames": 16,
+          "source": "assets/generated/hg143/animation/human-archer-atlas.png",
+          "evidence": "qa-engine.cjs: HG14.3 48 frames; attack=draw+release",
+          "kind": "source-frames"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/generated/hg143/animation/human-archer-atlas.png",
+          "evidence": "qa-engine.cjs: HG14.3 48 frames; attack=draw+release",
+          "kind": "source-frames"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/generated/hg143/animation/human-archer-atlas.png",
+          "evidence": "qa-engine.cjs: HG14.3 48 frames; attack=draw+release",
+          "kind": "source-frames"
+        }
+      }
+    },
+    {
+      "id": "human_4",
+      "race": "human",
+      "tier": 4,
+      "name": "Heavy Soldier",
+      "batch": "REFERENCE-EXISTING",
+      "status": "FULL_VERIFIED",
+      "masterPath": null,
+      "actions": {
+        "idle": {
+          "frames": 13,
+          "source": "assets/licensed/kaykit-heavy-soldier/rendered/idle.png",
+          "evidence": "assets/licensed/kaykit-heavy-soldier/rendered/animation-metadata.json",
+          "kind": "source-frames"
+        },
+        "walk": {
+          "frames": 13,
+          "source": "assets/licensed/kaykit-heavy-soldier/rendered/walk.png",
+          "evidence": "assets/licensed/kaykit-heavy-soldier/rendered/animation-metadata.json",
+          "kind": "source-frames"
+        },
+        "attack": {
+          "frames": 13,
+          "source": "assets/licensed/kaykit-heavy-soldier/rendered/attack.png",
+          "evidence": "assets/licensed/kaykit-heavy-soldier/rendered/animation-metadata.json",
+          "kind": "source-frames"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/licensed/kaykit-heavy-soldier/rendered/hit.png",
+          "evidence": "assets/licensed/kaykit-heavy-soldier/rendered/animation-metadata.json",
+          "kind": "source-frames"
+        },
+        "death": {
+          "frames": 10,
+          "source": "assets/licensed/kaykit-heavy-soldier/rendered/death.png",
+          "evidence": "assets/licensed/kaykit-heavy-soldier/rendered/animation-metadata.json",
+          "kind": "source-frames"
+        }
+      }
+    },
+    {
+      "id": "human_5",
+      "race": "human",
+      "tier": 5,
+      "name": "Gryphon",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "human_6",
+      "race": "human",
+      "tier": 6,
+      "name": "Monk",
+      "batch": "P2-MIDGAME",
+      "status": "PARTIAL_VERIFIED",
+      "masterPath": null,
+      "actions": {
+        "idle": {
+          "frames": 8,
+          "source": "assets/licensed/hg193/human_6.png",
+          "evidence": "assets/hg193-unit-manifest.json",
+          "kind": "source-frames"
+        },
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "human_7",
+      "race": "human",
+      "tier": 7,
+      "name": "Knight",
+      "batch": "REFERENCE-EXISTING",
+      "status": "FULL_VERIFIED",
+      "masterPath": null,
+      "actions": {
+        "idle": {
+          "frames": 8,
+          "source": "assets/licensed/spritecook/human-elite/idle.png",
+          "evidence": "assets/licensed/spritecook/asset-manifest.json",
+          "kind": "source-frames"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/licensed/spritecook/human-elite/walk.png",
+          "evidence": "assets/licensed/spritecook/asset-manifest.json",
+          "kind": "source-frames"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/licensed/spritecook/human-elite/attack.png",
+          "evidence": "assets/licensed/spritecook/asset-manifest.json",
+          "kind": "source-frames"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/licensed/spritecook/human-elite/hit.png",
+          "evidence": "assets/licensed/spritecook/asset-manifest.json",
+          "kind": "source-frames"
+        },
+        "death": {
+          "frames": 12,
+          "source": "assets/licensed/spritecook/human-elite/death.png",
+          "evidence": "assets/licensed/spritecook/asset-manifest.json",
+          "kind": "source-frames"
+        }
+      }
+    },
+    {
+      "id": "human_8",
+      "race": "human",
+      "tier": 8,
+      "name": "Priest",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "human_9",
+      "race": "human",
+      "tier": 9,
+      "name": "Angel",
+      "batch": "P0-T9T10",
+      "status": "MASTER_ONLY",
+      "masterPath": "assets/generated/hg28/troops/human_9.png",
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "human_10",
+      "race": "human",
+      "tier": 10,
+      "name": "Archangel",
+      "batch": "P0-T9T10",
+      "status": "MASTER_ONLY",
+      "masterPath": "assets/generated/hg28/troops/human_10.png",
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_1",
+      "race": "elf",
+      "tier": 1,
+      "name": "Centaur",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_2",
+      "race": "elf",
+      "tier": 2,
+      "name": "Scout",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_3",
+      "race": "elf",
+      "tier": 3,
+      "name": "Dwarf",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_4",
+      "race": "elf",
+      "tier": 4,
+      "name": "Archer",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_5",
+      "race": "elf",
+      "tier": 5,
+      "name": "Pegasus",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_6",
+      "race": "elf",
+      "tier": 6,
+      "name": "Dryad",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_7",
+      "race": "elf",
+      "tier": 7,
+      "name": "Unicorn",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_8",
+      "race": "elf",
+      "tier": 8,
+      "name": "Elite Archer",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_9",
+      "race": "elf",
+      "tier": 9,
+      "name": "Green Dragon",
+      "batch": "P0-T9T10",
+      "status": "MASTER_ONLY",
+      "masterPath": "assets/generated/hg28/troops/elf_9.png",
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "elf_10",
+      "race": "elf",
+      "tier": 10,
+      "name": "Fairy Dragon",
+      "batch": "P0-T9T10",
+      "status": "MASTER_ONLY",
+      "masterPath": "assets/generated/hg28/troops/elf_10.png",
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_1",
+      "race": "orc",
+      "tier": 1,
+      "name": "Imp",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_2",
+      "race": "orc",
+      "tier": 2,
+      "name": "Wolf Rider",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_3",
+      "race": "orc",
+      "tier": 3,
+      "name": "Axe Thrower",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_4",
+      "race": "orc",
+      "tier": 4,
+      "name": "Dire Wolf",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_5",
+      "race": "orc",
+      "tier": 5,
+      "name": "Ogre",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_6",
+      "race": "orc",
+      "tier": 6,
+      "name": "Harpy",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_7",
+      "race": "orc",
+      "tier": 7,
+      "name": "Thunderbird",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_8",
+      "race": "orc",
+      "tier": 8,
+      "name": "Cyclops",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_9",
+      "race": "orc",
+      "tier": 9,
+      "name": "Monster",
+      "batch": "P0-T9T10",
+      "status": "MASTER_ONLY",
+      "masterPath": "assets/generated/hg28/troops/orc_9.png",
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "orc_10",
+      "race": "orc",
+      "tier": 10,
+      "name": "Behemoth",
+      "batch": "P0-T9T10",
+      "status": "MASTER_ONLY",
+      "masterPath": "assets/generated/hg28/troops/orc_10.png",
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_1",
+      "race": "undead",
+      "tier": 1,
+      "name": "Skeleton",
+      "batch": "REFERENCE-EXISTING",
+      "status": "FULL_VERIFIED",
+      "masterPath": null,
+      "actions": {
+        "idle": {
+          "frames": 10,
+          "source": "assets/licensed/hg22-skeleton/idle.png",
+          "evidence": "art-hg22-skeleton.js: HG22.1 five genuine clips",
+          "kind": "source-frames"
+        },
+        "walk": {
+          "frames": 10,
+          "source": "assets/licensed/hg22-skeleton/walk.png",
+          "evidence": "art-hg22-skeleton.js: HG22.1 five genuine clips",
+          "kind": "source-frames"
+        },
+        "attack": {
+          "frames": 10,
+          "source": "assets/licensed/hg22-skeleton/attack.png",
+          "evidence": "art-hg22-skeleton.js: HG22.1 five genuine clips",
+          "kind": "source-frames"
+        },
+        "hit": {
+          "frames": 10,
+          "source": "assets/licensed/hg22-skeleton/hit.png",
+          "evidence": "art-hg22-skeleton.js: HG22.1 five genuine clips",
+          "kind": "source-frames"
+        },
+        "death": {
+          "frames": 10,
+          "source": "assets/licensed/hg22-skeleton/death.png",
+          "evidence": "art-hg22-skeleton.js: HG22.1 five genuine clips",
+          "kind": "source-frames"
+        }
+      }
+    },
+    {
+      "id": "undead_2",
+      "race": "undead",
+      "tier": 2,
+      "name": "Common Ghost",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_3",
+      "race": "undead",
+      "tier": 3,
+      "name": "Zombie",
+      "batch": "P1-FOUNDATION",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_4",
+      "race": "undead",
+      "tier": 4,
+      "name": "Ghost",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_5",
+      "race": "undead",
+      "tier": 5,
+      "name": "Vampire",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_6",
+      "race": "undead",
+      "tier": 6,
+      "name": "Lich",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_7",
+      "race": "undead",
+      "tier": 7,
+      "name": "Ghost Knight",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_8",
+      "race": "undead",
+      "tier": 8,
+      "name": "Lich King",
+      "batch": "P2-MIDGAME",
+      "status": "MASTER_ONLY",
+      "masterPath": null,
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_9",
+      "race": "undead",
+      "tier": 9,
+      "name": "Bone Dragon",
+      "batch": "P0-T9T10",
+      "status": "MASTER_ONLY",
+      "masterPath": "assets/generated/hg28/troops/undead_9.png",
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    },
+    {
+      "id": "undead_10",
+      "race": "undead",
+      "tier": 10,
+      "name": "Ghost Dragon",
+      "batch": "P0-T9T10",
+      "status": "MASTER_ONLY",
+      "masterPath": "assets/generated/hg28/troops/undead_10.png",
+      "actions": {
+        "idle": null,
+        "walk": null,
+        "attack": null,
+        "hit": null,
+        "death": null
+      }
+    }
+  ]
+}
