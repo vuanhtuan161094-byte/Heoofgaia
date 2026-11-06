@@ -485,7 +485,7 @@ function battleProjection(canvas,E){
  // top of a photographic meadow. The world illustration already supplies depth.
  // Use the *same* inverse transform for pointer hits and for unit foot anchors.
  const origin={x:w*.08,y:h*.35};
- const col={x:w*.07,y:0},row={x:0,y:h*.061};
+ const col={x:w*.07,y:0},row={x:0,y:h*.068};
  const det=col.x*row.y-col.y*row.x;
  const point=(x,y)=>({x:origin.x+x*col.x+y*row.x,y:origin.y+x*col.y+y*row.y});
  const cellAt=(px,py)=>{
