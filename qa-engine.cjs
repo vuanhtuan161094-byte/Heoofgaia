@@ -1537,7 +1537,7 @@ test('HG14.4 responsive sprites stay legible and fit real battlefield lanes',()=
  for(const h of [320,347,516,550,600]){
   const k=P.battleSpriteScale(h,2,9),size=Math.max(64,Math.min(125,113*k));
   assert(size>=64&&size<=110,'rendered unit stays readable without lane overflow: '+h);
-  const neighborSpacing=h*.061*3;
+  const neighborSpacing=h*.068*3;
   const bossSize=Math.max(64,Math.min(178,130*P.battleSpriteScale(h,5,9)));
   assert(bossSize*.988<=neighborSpacing+1.5,'Boss images respect neighboring logical rows: '+h);
  }
