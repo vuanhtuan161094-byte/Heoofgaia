@@ -335,7 +335,7 @@ const MOTION_SPRITES=Object.freeze({
  human_1:Object.freeze({id:'hg28-battle-human-spear-militia',race:'human',size:116,pivot:.988,accent:'#d3b273',ranged:false}),
  human_3:Object.freeze({id:'unit-human-archer',race:'human',size:112,pivot:446/512,accent:'#f0c46d',ranged:true}),
  elf_1:Object.freeze({id:'unit-elf-centaur',race:'elf',size:122,pivot:446/512,accent:'#95e7a7',ranged:false}),
- elf_2:Object.freeze({id:'unit-elf-scout',race:'elf',size:110,pivot:446/512,accent:'#b1db91',ranged:false}),
+ elf_2:Object.freeze({id:'unit-elf-scout',race:'elf',size:130,pivot:446/512,accent:'#b1db91',ranged:false}),
  orc_1:Object.freeze({id:'unit-orc-imp',race:'orc',size:110,pivot:446/512,accent:'#ffa16b',ranged:false}),
  undead_1:Object.freeze({id:'unit-undead-skeleton',race:'undead',size:112,pivot:446/512,accent:'#c9a9f7',ranged:false})
 });

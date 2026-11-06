@@ -1,0 +1,50 @@
+{
+  "schema": "HG33-OriginalBattleSprite-v1",
+  "status": "RECREATED",
+  "assetId": "hg33-elf-scout",
+  "unitId": "elf_2",
+  "name": "Elf Scout",
+  "sourceRoute": "built-in image_gen",
+  "artist_route": "OpenAI built-in image_gen tool",
+  "creation_method": "AI-generated original raster master; alpha-registered and converted to WebP for offline runtime",
+  "source_file": "assets/original/hg33/troops/elf-scout-master.png",
+  "sourceImageId": "exec-f75ca6b5-d391-43ba-9b4c-47ad1e074a62",
+  "sourceLicense": "AI-generated original project art; no third-party art supplied as input",
+  "license_status": "Original generated work; no third-party art input",
+  "original_status": "verified-original",
+  "action_art_kind": "missing",
+  "prompt": "Create one original, production-quality troop character master for the offline fantasy strategy game Anh Hùng Thời Loạn, inspired by premium dark teal and aged bronze fantasy materials, without copying any known game art. A forest elf scout archer, adult, full body, lean agile silhouette, three-quarter view facing right, poised in a calm ready stance with a recurved bow held low and a single visible quiver. Elegant but practical layered moss-green leather and muted teal cloth, fine silver leaf-shaped armor details, subtle bronze fasteners, expressive face, realistic hands, anatomically clean limbs, refined painterly 3D-rendered game art, high material detail that remains readable as a small battlefield unit. One character only, centered cutout, full boots and bow visible, feet aligned close to bottom, true transparent background, no ground shadow, no forest, no scenery, no text, no logo, no watermark, no extra weapons, no duplicate limbs, no motion blur.",
+  "sourceMaster": "assets/original/hg33/troops/elf-scout-master.png",
+  "sourceSha256": "b9ea8dd06e6af1bc8c8f10e7f51ccb2a4d7f5a794461654fa623535ebaf2dbc0",
+  "sourceDimensions": [
+    1024,
+    1536
+  ],
+  "sourceMode": "RGBA",
+  "sourceEditability": "Original high-resolution raster master; no separate articulated layers.",
+  "processedBy": "tools/prepare_hg33_elf_scout.py",
+  "registeredPng": "assets/generated/hg33/troops/elf-scout.png",
+  "registeredPngSha256": "3d2415ab76d30d28239527c81935b36a4dbfb5ff6376757d4ed1886a8803ac81",
+  "runtimePath": "assets/generated/hg33/troops/elf-scout.webp",
+  "runtimeSha256": "ccbe6a42d2dbff2e28fe1d3e17a442ed5ea84e78f92bff78bc6f8e0422876514",
+  "runtimeBytes": 57774,
+  "runtimeDimensions": [
+    512,
+    512
+  ],
+  "alpha": "Verified RGBA cutout; outside silhouette transparent, feet registered at y=506",
+  "alphaBoundsThreshold8": [
+    109,
+    6,
+    402,
+    506
+  ],
+  "alphaVisiblePixels": 58830,
+  "pivot": [
+    0.5,
+    0.988
+  ],
+  "assetQcPass": true,
+  "animationCoverage": "NONE; no video-frame route or articulated layer source available.",
+  "animationStatus": "MASTER_STILL_ONLY; existing battle event transforms remain; no original five-action frame clips are claimed."
+}

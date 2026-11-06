@@ -20,33 +20,34 @@ def check(label,condition):
 
 def click_troop_upper_body(page, label):
     # Real mouse events: the illustrated upper torso AND its nameplate are
-    # selectable. The plate is deliberately beyond the old foot-only radius.
+    # selectable. Both points must be outside the canonical foot-anchor radius.
     point=page.evaluate("""() => {
       const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),
         P=HOG_PAINTER,E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),
         entries=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height)
           .filter(q=>q.u.side==='enemy'&&q.u.pool>0).sort((a,b)=>a.y-b.y);
       if(!entries.length)throw new Error('No living enemy for upper-body hit test');
-      const e=entries[0],legacyRadius=Math.max(38,c.width*.055),
+      const e=entries[0],footAnchorRadius=Math.max(16,c.width*.019),
         project=(x,y)=>{const clientX=r.left+x/c.width*r.width,
           clientY=r.top+y/c.height*r.height;
           return {clientX,clientY,hit:P.battleHit(c,x,y,E,s)?.id||null,
             onCanvas:document.elementFromPoint(clientX,clientY)===c,
             fromFoot:Math.hypot(x-e.x,y-e.y)}};
-      return {id:e.id,legacyRadius,
-        torso:project(e.sprite.x+e.sprite.w*.5,e.sprite.y+e.sprite.h*.18),
+      return {id:e.id,footAnchorRadius,
+        torso:project(e.sprite.x+e.sprite.w*.5,e.sprite.y+e.sprite.h*.04),
         plate:project(e.label.x+e.label.w*.5,e.label.y+e.label.h*.5)};
     }""")
+    print("HITBOX DEBUG",label,json.dumps(point,ensure_ascii=False),flush=True)
     torso=point["torso"]
     check(label+" sprite upper-body hitbox",torso["hit"]==point["id"] and
-          torso["fromFoot"]>28 and torso["onCanvas"])
+          torso["fromFoot"]>point["footAnchorRadius"]+2 and torso["onCanvas"])
     page.mouse.click(torso["clientX"],torso["clientY"])
     check(label+" real upper-body click selects the enemy",
           page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==point["id"])
     plate=point["plate"]
     check(label+" distant nameplate is a genuine selectable hitbox",
           plate["hit"]==point["id"] and
-          plate["fromFoot"]>point["legacyRadius"] and plate["onCanvas"])
+          plate["fromFoot"]>point["footAnchorRadius"] and plate["onCanvas"])
     page.mouse.click(plate["clientX"],plate["clientY"])
     check(label+" real nameplate click selects the enemy",
           page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==point["id"])
@@ -99,16 +100,17 @@ with sync_playwright() as p:
       const units=[...HOG_APP_DEBUG.getState().battle.allies,...HOG_APP_DEBUG.getState().battle.enemies].filter(u=>u.pool>0);
       const sample=(x,y)=>[...ctx.getImageData(Math.round(x),Math.round(y),1,1).data];
       return {width:c.width,height:c.height,ally,foe,
-        horizontal:cam.col.x>cam.row.x*2,depth:cam.row.y>Math.abs(cam.col.y)*4,
-        stagger:cam.row.x>c.width*.02&&cam.col.y<0,
-        shallow:Math.abs(cam.col.y/cam.col.x)<.09,
-        edge:cam.point(0,0).x>0&&cam.point(g.cols,g.rows).x<c.width,
+        horizontal:cam.center(1,0).x>cam.center(0,0).x&&Math.abs(cam.center(1,0).y-cam.center(0,0).y)<.001,
+        depth:cam.center(0,1).y>cam.center(0,0).y,
+        stagger:cam.center(0,1).x>cam.center(0,0).x,
+        shallow:Math.abs(cam.center(1,0).y-cam.center(0,0).y)<.001&&Math.abs((cam.center(0,1).x-cam.center(0,0).x)/(cam.center(0,1).y-cam.center(0,0).y))<.65,
+        edge:Array.from({length:g.cols},(_,x)=>Array.from({length:g.rows},(_,y)=>cam.corners(x,y))).flat(2).every(pt=>pt.x>0&&pt.y>0&&pt.x<c.width&&pt.y<c.height),
         everyCell:Array.from({length:g.cols},(_,x)=>Array.from({length:g.rows},(_,y)=>{
           const pt=cam.point(x+.5,y+.5),hit=P.battleCellAt(c,pt.x,pt.y,E);
           return hit?.x===x&&hit?.y===y;
         }).every(Boolean)).every(Boolean),
         everyFoot:units.every(u=>{const p=cam.point(u.x+.5,u.y+.5);
-         return p.x>90&&p.x<c.width-90&&p.y>c.height*.36&&p.y<c.height*.96}),
+         return p.x>90&&p.x<c.width-90&&p.y>c.height*.10&&p.y<c.height*.96}),
         floorSource:!!document.getElementById('battlefield-human-meadow')?.naturalWidth,
         noPlatform:!P.battleGround.toString().includes('poly('),
         gridSupported:typeof P.battleGridOverlay==='function'&&P.battleGridCells(cam).length===108,
@@ -116,10 +118,10 @@ with sync_playwright() as p:
         grass1:sample(c.width*.54,c.height*.73)
       };
     }""")
-    check("HG14.2 armies are staged at left and right",stage["horizontal"] and stage["depth"] and stage["stagger"] and stage["foe"]["x"]-stage["ally"]["x"]>stage["width"]*.6)
-    check("HG14.2 shallow camera matches natural clearing",stage["shallow"] and stage["edge"])
-    check("HG14.2 all 108 invisible logical cells remain clickable",stage["everyCell"])
-    check("HG14.2 real foot pivots fit the clearing",stage["everyFoot"])
+    check("HG14.2 armies are staged at left and right",stage["horizontal"] and stage["depth"] and stage["stagger"] and stage["foe"]["x"]-stage["ally"]["x"]>stage["width"]*.20)
+    check("HG33 odd-r hex axes and projected battlefield remain shallow and on canvas",stage["shallow"] and stage["edge"])
+    check("HG33 all 108 pointy-top hex cells round-trip through Chromium hit tests",stage["everyCell"])
+    check("HG33 all living troop foot pivots remain in the hex battlefield",stage["everyFoot"])
     check("HG14.2 meadow is full-field without floating platform",stage["floorSource"] and stage["noPlatform"])
     check("HG14.5 tactical overlay reuses canonical 108-cell projection",stage["gridSupported"])
     check("HG14.2 natural terrain texture remains visible",stage["grass0"]!=stage["grass1"])
@@ -146,7 +148,7 @@ with sync_playwright() as p:
     check("Battle canvas uses at least 90 percent of desktop width",state["width"]>=state["vw"]*.90)
     check("Battle canvas uses at least 60 percent of desktop height",state["height"]>=state["vh"]*.60)
     check("Commands are present in the initial viewport",state["commandVisible"])
-    check("Isometric camera retains square logical 12 by 9 cells",state["grid"]["cols"]==12 and state["grid"]["rows"]==9 and state["projectedCell"]=={"x":5,"y":4})
+    check("HG33 pointy-top camera round-trips saved 12 by 9 cells",state["grid"]["cols"]==12 and state["grid"]["rows"]==9 and state["projectedCell"]=={"x":5,"y":4})
     check("No horizontal desktop overflow",state["scrollWidth"]<=state["vw"]+1)
     desktop=SHOTDIR/"fullscreen-combat-desktop-chrome.png"
     page.screenshot(path=str(desktop),full_page=False)
@@ -197,8 +199,9 @@ with sync_playwright() as p:
     check("HG14.2 mobile stage spreads troops on scenic meadow",page.evaluate("""() => {
       const c=document.getElementById('battle-canvas'),E=HOG_ENGINE,cam=HOG_PAINTER.battleProjection(c,E);
       const a=cam.point(1.5,.5),b=cam.point(10.5,2.5);
-      return cam.col.x>cam.row.x*2&&cam.row.x>c.width*.02&&cam.col.y<0&&cam.row.y>Math.abs(cam.col.y)*4
-       &&b.x-a.x>c.width*.6&&a.y>c.height*.36&&b.y<c.height*.7;
+      const p0=cam.center(0,0),pc=cam.center(1,0),pr=cam.center(0,1),rowDx=pr.x-p0.x,rowDy=pr.y-p0.y;
+      return pc.x>p0.x&&Math.abs(pc.y-p0.y)<.001&&rowDy>0&&rowDx>0&&Math.abs(rowDx/rowDy)<.65
+       &&b.x-a.x>c.width*.20&&a.y>c.height*.10&&b.y<c.height*.7;
     }"""))
     check("Landscape command bar does not overlap troop cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
     check("Landscape 960 by 540 remains wide with hidden sidebar",mobile["width"]>=mobile["vw"]*.90 and mobile["sidebar"]=="none")

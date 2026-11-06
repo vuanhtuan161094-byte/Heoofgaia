@@ -64,8 +64,8 @@
       "pass": true,
       "evidence": {
         "before": 12,
-        "lost": 6,
-        "after": 6
+        "lost": 2,
+        "after": 10
       }
     },
     {

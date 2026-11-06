@@ -1,22 +1,22 @@
 {
-  "htmlSha256": "199A2B670333D9C4ECAC498C5C4ECDEB6C6F801D4FE1687E3FC1020BB8311CA7",
-  "passed": 32,
-  "total": 32,
+  "htmlSha256": "5DD575E698CC604A9102FC947F4156A535646060C52810DBEE29DCE800F272DE",
+  "passed": 40,
+  "total": 40,
   "checks": [
     {
       "name": "HG14.2 armies are staged at left and right",
       "passed": true
     },
     {
-      "name": "HG14.2 shallow camera matches natural clearing",
+      "name": "HG33 odd-r hex axes and projected battlefield remain shallow and on canvas",
       "passed": true
     },
     {
-      "name": "HG14.2 all 108 invisible logical cells remain clickable",
+      "name": "HG33 all 108 pointy-top hex cells round-trip through Chromium hit tests",
       "passed": true
     },
     {
-      "name": "HG14.2 real foot pivots fit the clearing",
+      "name": "HG33 all living troop foot pivots remain in the hex battlefield",
       "passed": true
     },
     {
@@ -80,7 +80,7 @@
       "passed": true
     },
     {
-      "name": "Isometric camera retains square logical 12 by 9 cells",
+      "name": "HG33 pointy-top camera round-trips saved 12 by 9 cells",
       "passed": true
     },
     {
@@ -89,6 +89,22 @@
     },
     {
       "name": "Real projected canvas click selects enemy unit",
+      "passed": true
+    },
+    {
+      "name": "1280x720 sprite upper-body hitbox",
+      "passed": true
+    },
+    {
+      "name": "1280x720 real upper-body click selects the enemy",
+      "passed": true
+    },
+    {
+      "name": "1280x720 distant nameplate is a genuine selectable hitbox",
+      "passed": true
+    },
+    {
+      "name": "1280x720 real nameplate click selects the enemy",
       "passed": true
     },
     {
@@ -124,6 +140,22 @@
       "passed": true
     },
     {
+      "name": "960x540 sprite upper-body hitbox",
+      "passed": true
+    },
+    {
+      "name": "960x540 real upper-body click selects the enemy",
+      "passed": true
+    },
+    {
+      "name": "960x540 distant nameplate is a genuine selectable hitbox",
+      "passed": true
+    },
+    {
+      "name": "960x540 real nameplate click selects the enemy",
+      "passed": true
+    },
+    {
       "name": "HG14.4 click targets follow visually spaced troop positions",
       "passed": true
     },
@@ -136,7 +168,7 @@
     "inBattle": true,
     "combatMode": true,
     "width": 1250,
-    "height": 500,
+    "height": 460,
     "vw": 1280,
     "vh": 720,
     "sidebarHidden": true,
@@ -156,17 +188,18 @@
   },
   "continuousGround": {
     "width": 1250,
-    "height": 500,
+    "height": 460,
     "ally": {
-      "x": 234.06250000000003,
-      "y": 193.25
+      "x": 407.56576469269277,
+      "y": 90.82857142857144
     },
     "foe": {
-      "x": 1032.8125,
-      "y": 272.25
+      "x": 819.5464210644328,
+      "y": 170.1142857142857
     },
     "horizontal": true,
     "depth": true,
+    "stagger": true,
     "shallow": true,
     "edge": true,
     "everyCell": true,
@@ -177,13 +210,13 @@
     "grass0": [
       138,
       145,
-      46,
+      41,
       255
     ],
     "grass1": [
-      127,
-      138,
-      38,
+      134,
+      144,
+      39,
       255
     ]
   },
@@ -192,7 +225,7 @@
     "vw": 960,
     "scrollWidth": 960,
     "sidebar": "none",
-    "barY": 439.765625
+    "barY": 399.765625
   },
   "clickDebug": {
     "before": {

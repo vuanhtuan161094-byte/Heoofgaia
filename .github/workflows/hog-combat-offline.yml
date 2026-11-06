@@ -18,10 +18,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install Pillow for reproducible Human Archer sprite atlas
+      - name: Install Pillow for reproducible sprite processing
         run: python -m pip install Pillow==11.3.0
       - name: Build current offline HTML reproducibly
         run: |
+          python -m py_compile tools/prepare_hg33_elf_scout.py
+          python tools/prepare_hg33_elf_scout.py
           python build_offline.py
           sha256sum Play-Heoofgaia-HG11.html > /tmp/heoofgaia-first.sha
           python build_offline.py
@@ -39,6 +41,8 @@ jobs:
           node qa-hg09-combat-viewport.cjs
           node --check qa-hg33-hex.cjs
           node qa-hg33-hex.cjs
+          node --check qa-hg33-assets.cjs
+          node qa-hg33-assets.cjs
       - name: HG28 animation 40-unit source authenticity and five-action atlas-packer gate
         run: |
           node --check qa-hg28-animation-coverage.cjs
@@ -168,6 +172,8 @@ jobs:
           python qa-hg28-interactive-chrome.py
       - name: HG28 real file URL T9-T10 Army images at desktop and compact landscape sizes
         run: python qa-hg28-art-chrome.py
+      - name: HG33 original Elf Scout offline battle and 1280/960 screenshots
+        run: python qa-hg33-elf-scout-chrome.py
       - name: HG19 Chromium SVG decode and visual contact sheet
         run: python qa-hg19-art-chrome.py
       - name: HG19.1 real PNG sprite frames and Game-Icons Chrome acceptance

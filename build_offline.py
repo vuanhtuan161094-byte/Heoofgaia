@@ -67,7 +67,16 @@ for item in hg28_spear['assets']:
     html=html.replace(needle,f'src="data:image/webp;base64,{data}"')
     assert asset not in html,asset
 assert 'assets/generated/hg28/battle/' not in html
-for unit_asset in ['assets/generated/hg11/units/orc-imp.png','assets/generated/hg11/units/elf-centaur.png','assets/generated/hg11/units/elf-scout.png','assets/generated/hg11/units/human-archer.png','assets/generated/hg11/units/undead-skeleton.png']:
+hg33_elf=json.loads((folder/'assets/generated/hg33/troops/asset-manifest.json').read_text(encoding='utf-8'))
+assert hg33_elf['schema']=='HG33-OriginalBattleSprite-v1' and hg33_elf['unitId']=='elf_2'
+asset=hg33_elf['runtimePath']
+needle=f'src="{asset}"'
+assert html.count(needle)==1,(asset,html.count(needle))
+data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
+html=html.replace(needle,f'src="data:image/webp;base64,{data}"')
+assert asset not in html,asset
+assert 'assets/generated/hg33/troops/' not in html
+for unit_asset in ['assets/generated/hg11/units/orc-imp.png','assets/generated/hg11/units/elf-centaur.png','assets/generated/hg11/units/human-archer.png','assets/generated/hg11/units/undead-skeleton.png']:
     needle=f'src="{unit_asset}"'
     assert html.count(needle)==1,(unit_asset,html.count(needle))
     data=base64.b64encode((folder/unit_asset).read_bytes()).decode('ascii')

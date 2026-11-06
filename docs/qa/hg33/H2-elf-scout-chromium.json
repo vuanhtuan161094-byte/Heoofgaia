@@ -1,0 +1,81 @@
+{
+  "sourceCommit": "51e0d1c27998030357463189f30692a28a9b4ebf",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "5DD575E698CC604A9102FC947F4156A535646060C52810DBEE29DCE800F272DE",
+  "browser": "Playwright using installed Chrome, local file://; actual Elf New Game selection and engine march into Azrael battle; 16-unit visual fixture (no battle outcome claimed).",
+  "checks": [
+    {
+      "viewport": "1280x720",
+      "check": "Original 512px RGBA-derived Elf Scout decodes from standalone file HTML",
+      "pass": true
+    },
+    {
+      "viewport": "1280x720",
+      "check": "real engine march enters valid Elf Scout vs Azrael encounter; Save v07 remains strict",
+      "pass": true,
+      "target": "18,92"
+    },
+    {
+      "viewport": "1280x720",
+      "check": "before fallback and after original-art full-game screenshots captured",
+      "pass": true
+    },
+    {
+      "viewport": "1280x720",
+      "check": "battle renderer draws source-linked Elf Scout and state remains unchanged",
+      "pass": true,
+      "drawCalls": 1
+    },
+    {
+      "viewport": "960x540",
+      "check": "Original 512px RGBA-derived Elf Scout decodes from standalone file HTML",
+      "pass": true
+    },
+    {
+      "viewport": "960x540",
+      "check": "real engine march enters valid Elf Scout vs Azrael encounter; Save v07 remains strict",
+      "pass": true,
+      "target": "18,92"
+    },
+    {
+      "viewport": "960x540",
+      "check": "before fallback and after original-art full-game screenshots captured",
+      "pass": true
+    },
+    {
+      "viewport": "960x540",
+      "check": "battle renderer draws source-linked Elf Scout and state remains unchanged",
+      "pass": true,
+      "drawCalls": 1
+    }
+  ],
+  "screenshots": [
+    {
+      "state": "before-fallback",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg33/H2-elf-scout/before/1280x720.png",
+      "sha256": "11F1A5652D54AE1450131D8D27AE9FCDDDDEC96AA144A33BB757CAB1C1992DA4"
+    },
+    {
+      "state": "after-original-art",
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg33/H2-elf-scout/after/1280x720.png",
+      "sha256": "E0E7F9F3EF752059D9EA074710A8C49654BA95C21660BBFE693A08312C962384"
+    },
+    {
+      "state": "before-fallback",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg33/H2-elf-scout/before/960x540.png",
+      "sha256": "8E8292EF8E34F27768128D253CE81EFB79EEFD5F2384A060C86A16EC91766FFE"
+    },
+    {
+      "state": "after-original-art",
+      "viewport": "960x540",
+      "path": "docs/evidence/hg33/H2-elf-scout/after/960x540.png",
+      "sha256": "DAB4C0C5E972B2797FAEF0B82CB456CEDAC635DE4C8FEC9A01E8DC29BA89CFA3"
+    }
+  ],
+  "pageErrors": [],
+  "animation": "Still master only. This capture does not claim original Idle/Walk/Attack/Hit/Death frames.",
+  "pass": true
+}
