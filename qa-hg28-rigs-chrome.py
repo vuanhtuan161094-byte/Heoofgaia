@@ -27,8 +27,8 @@ with sync_playwright() as pw:
   acts=['idle','walk','attack','hit','death'],
   R=HOG_HG28_RIGS,E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),
   strictBefore=E.strictSave(s),
-  # HG08 serializer includes volatile exportedAt. Compare its actual v07 state
-  # payload, not the changing timestamp of the export envelope.
+  // HG08 serializer includes volatile exportedAt; compare the canonical v07
+  // state payload, not the timestamp of the export envelope.
   saveBefore=JSON.stringify(JSON.parse(E.serializeSave(s)).state),
   montage=document.createElement('canvas');montage.width=1280;montage.height=960;
   const ctx=montage.getContext('2d'),real=[],frames=[],bad=[];
