@@ -812,6 +812,13 @@ setInterval(()=>{if(!state)return;const before=state.battle,training=state.train
     'Tự động sau '+Math.max(0,Math.ceil((state.battle.autoUntil-Date.now())/1000))+' giây';
   const toggle=document.querySelector('.command-bar [data-action="auto"]');
   if(toggle)toggle.textContent=state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh';
+ }else if(!changed){
+  // Passive resource ticks must not destroy the control a player is editing.
+  // Replacing <select>/<input> every second silently discards an in-progress
+  // troop/hero selection and can make the Tower confirmation pick empty slots.
+  // Gameplay actions already call render() immediately via fail(); completed
+  // build/research/training events still set changed and repaint.
+  renderHUD();
  }else if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName))renderHUD();
  else render();
  if(changed)save();}catch(e){console.warn('Tick:',e)}},1000);
