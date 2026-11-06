@@ -37,6 +37,11 @@ jobs:
           node qa-engine.cjs
           node qa-hg28-art.cjs
           node qa-hg09-combat-viewport.cjs
+      - name: HG28 eight high-tier original-art modular rig Chromium interaction gate
+        run: |
+          node --check art-hg28-rigs.js
+          python -m py_compile qa-hg28-rigs-chrome.py
+          python qa-hg28-rigs-chrome.py
       - name: HG28 animation 40-unit source authenticity and five-action atlas-packer gate
         run: |
           node --check qa-hg28-animation-coverage.cjs
@@ -231,6 +236,15 @@ jobs:
           path: |
             docs/evidence/hg31/*.png
             docs/qa/hg31-ui.json
+          if-no-files-found: ignore
+      - name: Upload HG28 eight-unit modular rig Chromium contact and game screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG28-high-tier-8-part-rigs-Chromium
+          path: |
+            docs/qa/hg28-rigs-chrome.json
+            docs/evidence/hg28/rigs/*.png
           if-no-files-found: ignore
       - name: Upload HG28 40-troop truthful animation audit and genuine clip packer smoke
         if: always()
