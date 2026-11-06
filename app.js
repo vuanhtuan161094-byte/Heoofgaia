@@ -800,7 +800,21 @@ $('import-file').onchange=async e=>{
 $('reset').onclick=()=>{if(!confirm('Xóa save phiên bản HG-08 và tạo vương quốc khác?'))return;state=null;newRace='human';selected=null;selectedTargetKind=null;localStorage.removeItem(E.SAVE_KEY);localStorage.removeItem(E.SAVE_KEY+'_backup');localStorage.setItem('heoofgaia_hg08_skip_migration','1');render()};
  document.querySelectorAll('[data-city-art]').forEach(image=>image.addEventListener('load',()=>{if(state&&tab==='city')render()}));
  state=load();if(state){ensureBattleAutoTimer(state);selected='3,4';selectedTargetKind=null;state.battleAuto=false;tab=state.battle?'combat':'map'}render();
-setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);const farmPulse=state.hg26?.enabled?E.hg26Step(state):null;if(farmPulse?.changed)save();if(!before&&state.battle)tab='combat';if(state.battle&&!state.hg26?.enabled&&!state.battle.hg26NeedsManual&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName)){renderHUD()}else render();if(before!==state.battle||training!==state.training.length||building!==(state.buildingQueue?.key||null)||arena!==(state.arenaQueue?.id||null))save();}catch(e){console.warn('Tick:',e)}},1000);
+setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);const farmPulse=state.hg26?.enabled?E.hg26Step(state):null;if(farmPulse?.changed)save();if(!before&&state.battle)tab='combat';if(state.battle&&!state.hg26?.enabled&&!state.battle.hg26NeedsManual&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;const changed=before!==state.battle||!!farmPulse?.changed||
+ training!==state.training.length||building!==(state.buildingQueue?.key||null)||
+ arena!==(state.arenaQueue?.id||null);
+ // Preserve the existing battle canvas and 24fps RAF visual clock during
+ // idle seconds. Recreating the entire DOM every 1s interrupted animations
+ // and caused labels/controls to flicker between automatic turns.
+ if(state.battle&&!changed){
+  const clock=$('battle-auto-clock');
+  if(clock)clock.textContent=state.battleAuto?'Đang tự động':
+    'Tự động sau '+Math.max(0,Math.ceil((state.battle.autoUntil-Date.now())/1000))+' giây';
+  const toggle=document.querySelector('.command-bar [data-action="auto"]');
+  if(toggle)toggle.textContent=state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh';
+ }else if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName))renderHUD();
+ else render();
+ if(changed)save();}catch(e){console.warn('Tick:',e)}},1000);
 // Refit canvas immediately after device rotation/window resize; one render per frame.
 let battleResizeFrame=0;
 window.addEventListener('resize',()=>{if(!state?.battle&&$('world-canvas')){paint();return;}if(!state?.battle||battleResizeFrame)return;
