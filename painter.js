@@ -622,7 +622,7 @@ function battleUnitLayout(b,camera,width,height){
   }
  }
  for(const e of entries){
-  e.x=clamp(e.x,70,width-70);
+  e.x=clamp(e.baseX+clamp(e.x-e.baseX,-18,18),Math.min(70,width*.06),width-Math.min(70,width*.06));
   const half=e.size*.48,pivot=e.profile?.pivot??(e.u.unitId==='human_4'?216/256:.87);
   e.sprite={x:e.x-half,y:e.y-e.size*pivot,w:half*2,h:e.size*pivot};
   e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
@@ -681,7 +681,9 @@ function battleUnitLayout(b,camera,width,height){
  return entries;
 }
 function battleSpriteScale(height,row,rows=9){
- return clamp(.84+row/rows*.19,.84,1.06)*1.05*clamp(height/460,.95,1.08);
+ // Keep full-height actor silhouettes inside their assigned battlefield lanes
+ // even at 960×540. Avoid overlap-driven horizontal drift from the true cell.
+ return clamp(height/690,.50,.86)*(.99+row/rows*.05);
 }
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
