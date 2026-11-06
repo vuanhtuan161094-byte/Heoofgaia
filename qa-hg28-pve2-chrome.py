@@ -49,7 +49,13 @@ def inspect(page):
       const corners=[camera.point(0,0),camera.point(12,0),
                      camera.point(0,9),camera.point(12,9)];
       const cells=P.battleGridCells(camera);
-      const hitAll=alive.every(e=>P.battleHit(c,e.x,e.y,E,s)?.id===e.id);
+      // In a live HG26 auto turn, current actor cells lead their animated
+      // walking frames by up to 450 ms. Check logical feet against the SAME
+      // post-animation time, rather than comparing new cells to old pixels.
+      const sampleNow=performance.now();
+      P.drawBattle(c,E,s,sampleNow,{showGrid:false,showHP:true});
+      const hitAll=alive.every(e=>
+        P.battleHit(c,e.x,e.y,E,s,sampleNow+2000)?.id===e.id);
       const cellsInvert=cells.every(e=>{const h=P.battleCellAt(c,e.center.x,e.center.y,E);
         return h?.x===e.x&&h?.y===e.y});
       return {valid:E.strictSave(s),inCombat:!!b,cols:camera.g.cols,rows:camera.g.rows,
