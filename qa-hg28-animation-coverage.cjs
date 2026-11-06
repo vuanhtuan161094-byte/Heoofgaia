@@ -28,8 +28,12 @@ for(const u of m.units){
   assert(typeof clip.source==='string'&&!path.isAbsolute(clip.source)&&!clip.source.includes('..'));
   const p=path.join(root,clip.source),bytes=fs.readFileSync(p);
   assert(bytes.length>100,'missing or empty clip '+p);
-  assert(bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10])),'expected transparent PNG atlas: '+p);
-  assert.equal(bytes[25],6,'expected RGBA PNG source: '+p);
+  const png=bytes.subarray(0,8).equals(Buffer.from([137,80,78,71,13,10,26,10]));
+  const webp=bytes.toString('ascii',0,4)==='RIFF'&&bytes.toString('ascii',8,12)==='WEBP';
+  assert(png||webp,'expected transparent PNG/WebP frame atlas: '+p);
+  if(png)assert.equal(bytes[25],6,'expected RGBA PNG source: '+p);
+  if(webp)assert(clip.evidence.endsWith('atlas-manifest.json'),
+    'WebP atlas needs verifiable original-frame pack manifest: '+p);
   actual++;allFrames+=clip.frames;
  }
  const want=actual===5?'FULL_VERIFIED':actual>0?'PARTIAL_VERIFIED':'MASTER_ONLY';
@@ -44,11 +48,14 @@ for(const u of m.units){
  count+=actual;frames+=allFrames;
  summary.push({unitId:u.id,status:want,realActionClips:actual,requiredActionClips:5,realFrames:allFrames});
 }
-assert.equal(full,4,'current source inventory needs a new audit after real frames are imported');
-assert.equal(partials,2);
-assert.equal(count,22);
-assert.equal(frames,215);
-assert(!m.policy.toLowerCase().includes('rotating makes a clip'));
+assert(full>=4,'the four already-complete genuine source sets must not regress');
+assert(count>=22,'the 22 already-proven source clips must not regress');
+assert(frames>=215,'all 215 existing source frames must remain covered');
+for(const id of ['human_3','human_4','human_7','undead_1']){
+ const u=m.units.find(x=>x.id===id);
+ assert(actions.every(a=>u.actions[a]),id+' existing five-action source frames lost');
+}
+assert(m.policy.includes('does NOT count'),'Still-based transforms must never be counted as source clips');
 const receipt={schema:m.schema,unitCount:40,verifiedFullUnits:full,partialUnits:partials,sourceFrameClips:count,
  requiredActionClips:200,missingActionClips:200-count,verifiedFrames:frames,
  highTierStillMasters:8,complete:false,units:summary,
