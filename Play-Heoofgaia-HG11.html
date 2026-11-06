@@ -6688,7 +6688,7 @@ function battleUnitLayout(b,camera,width,height){
    for(const other of entries){
     if(other.u.pool<=0)continue;
     if(battleRectOverlap(box,other.sprite,3))conflicts+=other===e?100:10;
-    if(other!==e&&battleRectOverlap(box,other.countBox,2))conflicts+=5;
+    if(battleRectOverlap(box,other.countBox,2))conflicts+=5;
    }
    for(const other of reserved)if(battleRectOverlap(box,other,3))conflicts+=8;
    const distance=Math.hypot(box.x+w/2-e.x,box.y-(e.y-e.size*.83-36));

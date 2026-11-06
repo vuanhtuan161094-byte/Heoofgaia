@@ -1,6 +1,6 @@
 """HG14 Batch 1: real file:// Chromium sprite motion acceptance for four factions."""
 from pathlib import Path
-import hashlib, json, sys
+import hashlib, json, os, sys
 from playwright.sync_api import sync_playwright
 
 if hasattr(sys.stdout,"reconfigure"):
@@ -28,7 +28,9 @@ fixtures=[
 ]
 
 with sync_playwright() as pw:
-    browser=pw.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
+    launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
+    if os.environ.get("HOG_CHROME_PATH"):launch["executable_path"]=os.environ["HOG_CHROME_PATH"]
+    browser=pw.chromium.launch(**launch)
     for race,unit_id,image_id in fixtures:
         page=browser.new_page(viewport={"width":1280,"height":720})
         page.set_default_timeout(12000)
@@ -39,8 +41,9 @@ with sync_playwright() as pw:
         fixture=page.evaluate("""({unitId,imageId}) => {
             const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState();
             const img=document.getElementById(imageId),src=P.MOTION_SPRITES[unitId];
+            const mime=imageId==='unit-elf-scout'?'data:image/webp;base64,':'data:image/png;base64,';
             const fresh={race:s.race,loaded:!!img?.complete&&img.naturalWidth===512&&img.naturalHeight===512,
-                inline:!!img?.src.startsWith('data:image/png;base64,'),registered:src?.id===imageId};
+                inline:!!img?.src.startsWith(mime),registered:src?.id===imageId};
             s.army[unitId]=16;E.setFormation(s,[{unitId,count:16}]);
             const target=E.NPC_CAMPS_2009.find(n=>n.stars===1&&E.pathfind(E.activeCity(s).key,n.key));
             E.startMarch(s,target.key);
@@ -50,7 +53,7 @@ with sync_playwright() as pw:
                     battle:!!s.battle,selected:s.battle?.allies.some(u=>u.unitId===unitId),
                     saveValid:E.strictSave(s),animated:P.hasAnimatedTroops(s.battle)};
         }""",{"unitId":unit_id,"imageId":image_id})
-        check(f"{race}/{unit_id} loads correct real 512px embedded PNG",fixture["loaded"] and fixture["inline"] and fixture["registered"])
+        check(f"{race}/{unit_id} loads correct real 512px embedded sprite",fixture["loaded"] and fixture["inline"] and fixture["registered"])
         check(f"{race}/{unit_id} real march reaches illustrated battle",fixture["race"]==race and fixture["battle"] and fixture["selected"])
         check(f"{race}/{unit_id} animated battle keeps strict v07 save",fixture["saveValid"] and fixture["animated"])
         painted=page.evaluate("""({unitId,imageId})=>{
@@ -106,7 +109,7 @@ result={"status":"PASS" if all(c["passed"] for c in checks) else "FAIL",
         "passed":sum(c["passed"] for c in checks),"total":len(checks),"checks":checks,
         "htmlSha256":hashlib.sha256(HTML.read_bytes()).hexdigest().upper(),
         "screenshots":screenshots,"errors":errors,
-        "source":"Human Archer now uses 48 separate source-layered PNG frames; other HG14 Batch1 troops use single-source procedural poses"}
+        "source":"Human Archer now uses 48 separate source-layered PNG frames; Elf Scout is an original 512px WebP still; other HG14 Batch1 troops use single-source procedural poses"}
 (REPORT/"batch01-chrome.json").write_text(json.dumps(result,ensure_ascii=False,indent=2),encoding="utf-8")
 print(f"HG14 Batch 01 Chromium {result['passed']}/{result['total']} PASS",flush=True)
 raise SystemExit(0 if result["status"]=="PASS" else 1)
