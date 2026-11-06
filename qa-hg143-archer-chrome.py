@@ -69,8 +69,14 @@ with sync_playwright() as pw:
  page.wait_for_timeout(180)
  check("Mobile landscape retains proper sprite and canvas aspect",page.evaluate("""() => {
   const c=document.getElementById('battle-canvas'),r=c.getBoundingClientRect(),P=HOG_PAINTER;
-  return Math.abs(c.width/r.width-c.height/r.height)<.008&&P.battleSpriteScale(c.height,0,9)>.82
-   &&document.documentElement.scrollWidth<=innerWidth+1;
+  const k=P.battleSpriteScale(c.height,0,9),
+   soldierPx=Math.max(64,Math.min(125,113*k)),
+   s=HOG_APP_DEBUG.getState(),
+   layout=P.battleUnitLayout(s.battle,P.battleProjection(c,HOG_ENGINE),c.width,c.height);
+  return Math.abs(c.width/r.width-c.height/r.height)<.008&&
+   soldierPx>=64&&soldierPx<=110&&
+   layout.every(e=>Math.abs(e.x-e.baseX)<=18.01&&Math.abs(e.y-e.baseY)<.01)&&
+   document.documentElement.scrollWidth<=innerWidth+1;
  }"""))
  path=OUT/"human-archer-live-battle-landscape.png"
  page.screenshot(path=str(path),full_page=False);screenshots.append(str(path.relative_to(ROOT)))
