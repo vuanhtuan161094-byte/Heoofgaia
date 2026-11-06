@@ -1,12 +1,12 @@
 {
-  "sourceCommit": "8763bbef8bd8f0d9d7e83c19ce2a8f82f8414aa8",
+  "sourceCommit": "5f81b9bc02271b94e3e72f58ff84ac1558cf6c34",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "289546225A6002742FDA810E8345ABDF48EC9ABD0BD61D55767442C08427D80C",
+  "htmlSha256": "30302BECECDE4C08578D537FF056805610D311AFD0DCF16BB948A3959B3CC684",
   "browser": "Playwright using installed Chrome, local file://; actual Elf New Game selection and engine march into Azrael battle; 16-unit visual fixture (no battle outcome claimed).",
   "checks": [
     {
       "viewport": "1280x720",
-      "check": "Original 512px RGBA-derived Elf Scout decodes from standalone file HTML",
+      "check": "preserved 512px RGBA-derived Elf Scout source and authored 8x5 atlas decode offline",
       "pass": true
     },
     {
@@ -17,18 +17,19 @@
     },
     {
       "viewport": "1280x720",
-      "check": "before fallback and after original-art full-game screenshots captured",
+      "check": "before preserved-master fallback and after atlas screenshots captured",
       "pass": true
     },
     {
       "viewport": "1280x720",
-      "check": "battle renderer draws source-linked Elf Scout and state remains unchanged",
+      "check": "BEFORE draws preserved Elf Scout master and AFTER draws the new atlas; battle state stays unchanged",
       "pass": true,
-      "drawCalls": 1
+      "fallbackDrawCalls": 1,
+      "atlasDrawCalls": 1
     },
     {
       "viewport": "960x540",
-      "check": "Original 512px RGBA-derived Elf Scout decodes from standalone file HTML",
+      "check": "preserved 512px RGBA-derived Elf Scout source and authored 8x5 atlas decode offline",
       "pass": true
     },
     {
@@ -39,43 +40,44 @@
     },
     {
       "viewport": "960x540",
-      "check": "before fallback and after original-art full-game screenshots captured",
+      "check": "before preserved-master fallback and after atlas screenshots captured",
       "pass": true
     },
     {
       "viewport": "960x540",
-      "check": "battle renderer draws source-linked Elf Scout and state remains unchanged",
+      "check": "BEFORE draws preserved Elf Scout master and AFTER draws the new atlas; battle state stays unchanged",
       "pass": true,
-      "drawCalls": 1
+      "fallbackDrawCalls": 1,
+      "atlasDrawCalls": 1
     }
   ],
   "screenshots": [
     {
-      "state": "before-fallback",
+      "state": "before-preserved-master-fallback",
       "viewport": "1280x720",
       "path": "docs/evidence/hg33/H2-elf-scout/before/1280x720.png",
-      "sha256": "FEC855129973725696357C99B0D4D488E70A2C15768B8667A723CC6F93A6EDD8"
+      "sha256": "9FD542F48917B9A09B89FD57B44FC69DEC083200AEDF9C046F2FBC0F0B2844DC"
     },
     {
-      "state": "after-original-art",
+      "state": "after-hg33-action-atlas",
       "viewport": "1280x720",
       "path": "docs/evidence/hg33/H2-elf-scout/after/1280x720.png",
-      "sha256": "A8560CA61406705C718A6F10447848F6317CA5CD7343FD6C0E7E9CBB6C8577C9"
+      "sha256": "CE07DE666C78357F968243C2A941B324E43D891F7237840A2619D5A4D6C528B8"
     },
     {
-      "state": "before-fallback",
+      "state": "before-preserved-master-fallback",
       "viewport": "960x540",
       "path": "docs/evidence/hg33/H2-elf-scout/before/960x540.png",
-      "sha256": "1213F7C8192046F4C0877505A2D045DC1CD4422E466665104B0AECDD11B35CA2"
+      "sha256": "D62F4729DE5202E6E42A381ECB694DBEA539F70046BF6B4FE68129C4865B25FD"
     },
     {
-      "state": "after-original-art",
+      "state": "after-hg33-action-atlas",
       "viewport": "960x540",
       "path": "docs/evidence/hg33/H2-elf-scout/after/960x540.png",
-      "sha256": "73BFE0BBAB23BDD5C416853C8819D8E4B88D19D7FD50951563C96808D763D461"
+      "sha256": "88EFBB54C97A3E241D9F0A1476FEDBDDF76893C6D29BE2ED108F384E163E1FF1"
     }
   ],
   "pageErrors": [],
-  "animation": "Still master only. This capture does not claim original Idle/Walk/Attack/Hit/Death frames.",
+  "animation": "Before captures use the preserved 512px fallback master; after captures use the authored eight-frame Idle/Walk/Attack/Hit/Death atlas. This is project-created/replacement art, not a recovered client sprite.",
   "pass": true
 }
