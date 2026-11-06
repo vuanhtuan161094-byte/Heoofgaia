@@ -6,7 +6,8 @@ const $=id=>document.getElementById(id);let state=null,hg261Draft=null,tab='map'
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
-const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=900;
+const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=1350;
+let battleAutoPulseBusy=false;
 // Visual QA preferences are separate from the canonical v07 gameplay save.
 // Default both ON, as requested for verifying unit coordinates and HP.
 const BATTLE_VIEW_PREF_KEY='heoofgaia_battle_display_v1';
@@ -26,7 +27,35 @@ function toggleBattleDisplay(which){
 
 function ensureBattleAutoTimer(s){if(s?.battle&&!Number.isFinite(s.battle.autoUntil))s.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS;return s}
 function markBattleInput(){if(!state?.battle)return;state.battleAuto=false;state.battle.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS}
-function resolveAutomaticBattleTurn(){if(!state?.battle||!state.battleAuto||state.hg26?.enabled&&state.battle?.target===state.hg26.config.target)return;try{const wasTower=!!state.battle.hg21Tower,out=E.battleAct(state,'attack',{preserveMoveOrders:true});if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';if(out.type==='lose')tab=wasTower?'tower':'heroes';if(state.battle)state.battle.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;save();render()}catch(e){console.warn('Auto battle',e);state.battleAuto=false}}
+// Exactly one deadline-gated auto pulse handles the next battle turn. All game
+// ticks, clicks, and browser timer callbacks must share this guard: otherwise
+// double execution skips animation frames, changes targets and appears chaotic.
+// Preserve explicit multi-turn MOVE destinations but retire one-shot stances.
+function resolveAutomaticBattleTurn(){
+ const s=state,b=s?.battle;
+ if(!b||!s.battleAuto||battleAutoPulseBusy||Date.now()<(b.autoUntil||0)||
+    (s.hg26?.enabled&&b.target===s.hg26.config?.target))return;
+ battleAutoPulseBusy=true;
+ try{
+  b.orders=b.orders||{};
+  for(const unit of b.allies){
+   if(unit.pool>0&&['advance','defend','retreat'].includes(b.orders[unit.id]))
+    b.orders[unit.id]='attack';
+  }
+  if(b.focused&&!b.enemies.some(u=>u.id===b.focused&&u.pool>0)){
+   b.focused=null;
+   for(const unit of b.allies)if(b.orders[unit.id]==='focus')b.orders[unit.id]='attack';
+  }
+  const wasTower=!!b.hg21Tower,out=E.battleAct(s,'attack',{preserveMoveOrders:true});
+  if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';
+  if(out.type==='lose')tab=wasTower?'tower':'heroes';
+  if(s.battle===b)b.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;
+  save();render();
+ }catch(e){
+  console.warn('Auto battle',e);s.battleAuto=false;
+  if(s.battle===b)b.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS;
+ }finally{battleAutoPulseBusy=false}
+}
 function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
 function fail(fn){try{const oldTab=tab;if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;fn();if(oldTab!==tab)modalOffset=0;save();render();}catch(e){toast(e.message||String(e))}}
 function save(){
@@ -771,13 +800,14 @@ $('import-file').onchange=async e=>{
 $('reset').onclick=()=>{if(!confirm('Xóa save phiên bản HG-08 và tạo vương quốc khác?'))return;state=null;newRace='human';selected=null;selectedTargetKind=null;localStorage.removeItem(E.SAVE_KEY);localStorage.removeItem(E.SAVE_KEY+'_backup');localStorage.setItem('heoofgaia_hg08_skip_migration','1');render()};
  document.querySelectorAll('[data-city-art]').forEach(image=>image.addEventListener('load',()=>{if(state&&tab==='city')render()}));
  state=load();if(state){ensureBattleAutoTimer(state);selected='3,4';selectedTargetKind=null;state.battleAuto=false;tab=state.battle?'combat':'map'}render();
-setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);const farmPulse=state.hg26?.enabled?E.hg26Step(state):null;if(farmPulse?.changed)save();if(!before&&state.battle)tab='combat';if(state.battle&&!state.hg26?.enabled&&!state.battle.hg26NeedsManual&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;if(state.battle&&state.battleAuto&&!state.hg26?.enabled&&Date.now()>=(state.battle.autoUntil||0))resolveAutomaticBattleTurn();if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName)){renderHUD()}else render();if(before!==state.battle||training!==state.training.length||building!==(state.buildingQueue?.key||null)||arena!==(state.arenaQueue?.id||null))save();}catch(e){console.warn('Tick:',e)}},1000);
+setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);const farmPulse=state.hg26?.enabled?E.hg26Step(state):null;if(farmPulse?.changed)save();if(!before&&state.battle)tab='combat';if(state.battle&&!state.hg26?.enabled&&!state.battle.hg26NeedsManual&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName)){renderHUD()}else render();if(before!==state.battle||training!==state.training.length||building!==(state.buildingQueue?.key||null)||arena!==(state.arenaQueue?.id||null))save();}catch(e){console.warn('Tick:',e)}},1000);
 // Refit canvas immediately after device rotation/window resize; one render per frame.
 let battleResizeFrame=0;
 window.addEventListener('resize',()=>{if(!state?.battle&&$('world-canvas')){paint();return;}if(!state?.battle||battleResizeFrame)return;
  battleResizeFrame=requestAnimationFrame(()=>{battleResizeFrame=0;if(state?.battle)render()});
 });
-setInterval(resolveAutomaticBattleTurn,2300);
+// Single deadline-aware auto scheduler; the economy tick above never resolves battle turns.
+setInterval(resolveAutomaticBattleTurn,120);
 setInterval(save,10000);window.addEventListener('pagehide',save);
 window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
 })();
