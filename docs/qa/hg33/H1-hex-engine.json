@@ -1,0 +1,43 @@
+{
+  "schema": "HG33-H1-hex-engine-v1",
+  "generatedAt": "2026-11-06T06:44:22.631Z",
+  "branch": "feature/hog1-research-to-playable-20261102",
+  "grid": {
+    "cols": 12,
+    "rows": 9,
+    "cells": 108,
+    "orientation": "pointy-top",
+    "layout": "odd-r",
+    "saveCoordinates": "integer odd-r offset x/y; Save v07 unchanged"
+  },
+  "range": {
+    "historicalStatus": "SIMULATED; no verified original tactical range table located",
+    "oldManhattan": {
+      "ranged": 10344,
+      "eliteRanged": 10824
+    },
+    "newHex": {
+      "ranged": 10298,
+      "eliteRanged": 10862
+    },
+    "current": {
+      "melee": 1,
+      "ranged": 9,
+      "eliteRanged": 10
+    },
+    "reachabilityDeltaPercent": {
+      "ranged": -0.4447,
+      "eliteRanged": 0.3511
+    }
+  },
+  "checks": {
+    "passed": 5,
+    "failed": 0,
+    "result": "PASS"
+  },
+  "release": {
+    "path": "Play-Heoofgaia-HG11.html",
+    "sha256": "28caf2f61f1de7d158fb5248328a0a4975758e3db444cd35ccb71284cba2abe5"
+  },
+  "artStatus": "H1 changes geometry only; H2-H4 genuine action-frame animation and H5 internet-source art removal remain incomplete."
+}

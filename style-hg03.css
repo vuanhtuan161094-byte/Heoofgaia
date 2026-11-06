@@ -378,7 +378,7 @@ body.combat-mode .scene-title .scene-tools .tag{white-space:nowrap}
  body.combat-mode .scene-title h1{font-size:clamp(15px,3vw,20px)}
  body.combat-mode .scene-tools .tag{font-size:8px}
 }
-body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),760px)}
+body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 260px),760px)}
 
 
 /* HG27: token-exchange visuals, in-game panels, no fake buttons */
@@ -701,3 +701,7 @@ body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),76
  body:not(.combat-mode) .game-window-body{padding:6px 9px}
  body:not(.combat-mode) .game-window-footer{flex-basis:32px;font-size:9px}
 }
+
+/* HG33-H1: keep the six-stack roster fully visible; default combat guides are hexes. */
+body.combat-mode .battle-ui .stack-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;}
+body.combat-mode .battle-ui .stack-card{flex:initial;width:auto;min-width:0;}

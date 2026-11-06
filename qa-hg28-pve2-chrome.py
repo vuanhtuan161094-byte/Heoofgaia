@@ -1,4 +1,4 @@
-"""HG28-PvE2: real oblique battlefield, boss silhouettes and 3 commanders x 2 stacks.
+"""HG33-H1: real pointy-top odd-r battlefield, Bosses and 3 commanders x 2 stacks.
 Chromium file:// screenshots, live battle source, canonical 12x9 cells, no fake rewards.
 """
 from pathlib import Path
@@ -8,8 +8,8 @@ from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/"Play-Heoofgaia-HG11.html"
-OUT=ROOT/"docs/evidence/hg28/pve2"
-REPORT=ROOT/"docs/qa/hg28/pve2-oblique-chrome.json"
+OUT=ROOT/"docs/evidence/hg33/after"
+REPORT=ROOT/"docs/qa/hg33/H1-chromium.json"
 OUT.mkdir(parents=True,exist_ok=True)
 REPORT.parent.mkdir(parents=True,exist_ok=True)
 checks=[]
@@ -33,6 +33,11 @@ def inspect(page):
       const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),b=s.battle;
       const c=document.getElementById('battle-canvas'),r=c.getBoundingClientRect();
       const camera=P.battleProjection(c,E),layout=P.battleUnitLayout(b,camera,c.width,c.height);
+      const lists=[...document.querySelectorAll('.battle-ui .stack-list')],cards=[...document.querySelectorAll('.battle-ui .stack-card')];
+      const roster={cards:cards.length,columns:lists.map(q=>getComputedStyle(q).gridTemplateColumns.trim().split(/\\s+/).length),
+        visible:cards.every(q=>{const x=q.getBoundingClientRect();return x.top>=0&&x.bottom<=innerHeight}),
+        horizontalOverflow:lists.some(q=>q.scrollWidth>q.clientWidth+1)};
+      const heading=document.querySelector('.scene-title h1'),command=document.querySelector('.command-bar'),commandRect=command.getBoundingClientRect();
       const alive=layout.filter(q=>q.u.pool>0);
       const foes=alive.filter(q=>q.u.side==='enemy');
       const area=(a,b)=>Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))*
@@ -45,15 +50,18 @@ def inspect(page):
         bossOverlap+=fraction>0?1:0;
       }
       const labelConflicts=alive.flatMap(a=>alive.filter(b=>a!==b&&
-          (area(a.label,b.label)>0||area(a.label,b.sprite)>0))).length;
-      const corners=[camera.point(0,0),camera.point(12,0),
-                     camera.point(0,9),camera.point(12,9)];
+          (area(a.label,b.label)>0||area(a.label,b.sprite)>0||area(a.label,b.countBox)>0))).length;
+      const huds=[{x:14,y:14,w:225,h:42},
+        {x:c.width-200,y:14,w:186,h:42},{x:c.width-190,y:58,w:184,h:38}];
+      const hudConflicts=alive.flatMap(a=>huds.filter(q=>
+        area(q,a.label)>0||area(q,a.sprite)>0||area(q,a.countBox)>0)).length;
       const cells=P.battleGridCells(camera);
+      const corners=cells.flatMap(cell=>cell.corners);
       // In a live HG26 auto turn, current actor cells lead their animated
       // walking frames by up to 450 ms. Check logical feet against the SAME
       // post-animation time, rather than comparing new cells to old pixels.
       const sampleNow=performance.now();
-      P.drawBattle(c,E,s,sampleNow,{showGrid:false,showHP:true});
+      P.drawBattle(c,E,s,sampleNow,{showGrid:true,showHP:true});
       const hitAll=alive.every(e=>
         P.battleHit(c,e.x,e.y,E,s,sampleNow+2000)?.id===e.id);
       const cellsInvert=cells.every(e=>{const h=P.battleCellAt(c,e.center.x,e.center.y,E);
@@ -61,9 +69,14 @@ def inspect(page):
       return {valid:E.strictSave(s),inCombat:!!b,cols:camera.g.cols,rows:camera.g.rows,
         owners:alive.filter(e=>e.u.side==='player').map(e=>e.u.heroId),
         allUnits:alive.length,bossCount:foes.length,
-        foeLabels:foes.map(e=>e.u.name),bossMax,bossOverlap,labelConflicts,
+        foeLabels:foes.map(e=>e.u.name),bossMax,bossOverlap,labelConflicts,hudConflicts,
         bossCenters:foes.map(e=>({id:e.id,x:e.x,y:e.y})),
-        staggerX:camera.row.x,staggerY:camera.col.y,
+        hexOrientation:camera.hex.orientation,hexLayout:camera.hex.layout,
+        hexRadius:camera.radius,cellCount:cells.length,
+        gridShown:HOG_APP_DEBUG.battleViewPrefs().grid,roster,
+        headingFits:heading.scrollWidth<=heading.clientWidth+1,
+        commandBarVisible:commandRect.top>=0&&commandRect.bottom<=innerHeight,
+        commandBar:{top:commandRect.top,bottom:commandRect.bottom,height:commandRect.height},
         cornersInside:corners.every(p=>p.x>=0&&p.x<=c.width&&p.y>=0&&p.y<=c.height),
         cellsInvert,hitAll,aspect:Math.abs(c.width/r.width-c.height/r.height),
         overflow:document.documentElement.scrollWidth>innerWidth+1,
@@ -82,14 +95,19 @@ def pose(page,width,height,title):
     page.evaluate("HOG_APP_DEBUG.render()")
     d=inspect(page)
     key=f"{title} {width}x{height}"
-    check(key+" uses correct reversible 2.5D grid",d["inCombat"] and d["valid"] and
+    check(key+" uses the real reversible pointy-top odd-r hex grid",d["inCombat"] and d["valid"] and
           d["cols"]==12 and d["rows"]==9 and d["cellsInvert"] and d["cornersInside"] and
-          d["staggerX"]>d["canvas"]["width"]*.02 and d["staggerY"]<0,d)
+          d["cellCount"]==108 and d["hexOrientation"]=="pointy-top" and
+          d["hexLayout"]=="odd-r" and d["hexRadius"]>8 and d["gridShown"],d)
     check(key+" keeps image and pointer aligned",d["hitAll"] and d["aspect"]<.008 and
           not d["overflow"],d)
+    check(key+" keeps all 9 stack controls and the command bar visible",d["roster"]["cards"]==d["allUnits"] and
+          d["roster"]["columns"]==[3,3] and d["roster"]["visible"] and
+          not d["roster"]["horizontalOverflow"] and d["headingFits"] and
+          d["commandBarVisible"],d)
     check(key+" keeps three live Boss silhouettes individually readable",
           d["bossCount"]==3 and d["bossMax"]<=.16 and d["bossSpriteInside"] and
-          d["labelConflicts"]==0,d)
+          d["labelConflicts"]==0 and d["hudConflicts"]==0,d)
     capture(page,f"{title}-{width}x{height}.png")
     return d
 

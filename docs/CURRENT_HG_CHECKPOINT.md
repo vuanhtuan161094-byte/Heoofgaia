@@ -1,3 +1,15 @@
+## HG33 — 2026-11-06 · H0 BASELINE + H1 TRUE HEX BATTLEFIELD
+
+- **Branch/base:** `feature/hog1-research-to-playable-20261102`; HG33 H0 baseline commit `28efc8ad1a53650ae94db72901db8ba8922eacae` was fetched and matched `origin` before H1 edits. No other branch, reset, or main merge.
+- **H0:** local baseline checks and installed-Chrome `file://` captures completed at 1280×720 and 960×540; Save v07 cold reload of a joint 3-commanders × 2-stacks battle passed. H0 screenshots are in `docs/evidence/hg33/before/`; the asset/source inventory is `docs/qa/hg33/boss-art-inventory.json`. H0 Actions status was not available through this session's GitHub web/API route, so no CI result is claimed.
+- **H1 implementation:** replaced the oblique rectangular projection with 108 regular pointy-top hexes on the actual 12×9 battlefield. `engine.js` uses shared odd-r offset/axial geometry for range, six-neighbor movement, pathfinding and AI; Canvas drawing, pointer hit test and walk interpolation use the same cell centers. Save v07 integer x/y coordinates remain unchanged; strict receipt validation accepts new hex-neighbor paths and old orthogonal v07 paths. Range 9/10 is explicitly **SIMULATED** to preserve measured reachability; no original range table is claimed.
+- **H1 local acceptance:** gameplay Node **214/214 PASS**; combat viewport **1,530 checks PASS**; H1 hex engine **5/5 PASS**; asset registration checks **PASS**; real installed Chromium `file://` **24/24 PASS**, zero uncaught errors. Actual map march into the three-Boss encounter, target clicking, six owner-bound stacks, live Save and cold Save v07 reload were tested at **1280×720** and **960×540**. Four AFTER screenshots are under `docs/evidence/hg33/after/` with four H0 BEFORE captures in `docs/evidence/hg33/before/`; Chromium receipt: `docs/qa/hg33/H1-chromium.json`.
+- **Single offline build:** `Play-Heoofgaia-HG11.html`, two consecutive builds match at SHA-256 `28caf2f61f1de7d158fb5248328a0a4975758e3db444cd35ccb71284cba2abe5`. The only release HTML path remains this root file.
+- **Gate status:** H0 baseline **PASS locally**. H1 true-hex gameplay **PASS locally; Actions result pending** until pushed-run verification. Current source contains only **4/40** complete five-action unit timelines (**22/200** action clips, 215 frame cells); H2–H4 animation gates remain **OPEN/NOT PASS**. Five internet-origin combat packs remain embedded, so H5 release cleanup is **BLOCKED**. No assertion that HG33 or animation coverage is complete.
+- **Next:** push this H1 code/test checkpoint to the same feature branch, record exact commit and Actions result; then proceed to H2 six-pilot art/action evaluation. Preserve HG22.1 Skeleton gameplay until a reviewed original replacement is ready; any interim third-party attribution does not satisfy H5.
+
+---
+
 ## HG28 — CURRENT CHECKPOINT 2026-11-06 · FULL CI PASS
 
 - **Repository:** Public `vuanhtuan161094-byte/Heoofgaia`; only branch `feature/hog1-research-to-playable-20261102`. The remote branch was independently read through GitHub and matched local base `0a1bdbd5db8b02e82772bb8f811dc63294f4f3c5` before edits. No main merge.

@@ -160,10 +160,11 @@ test('HG09 movement preview is side-effect-free, avoids occupied cells and match
  const out=E.battleAct(s,'move',{x:1,y:3});assert.equal(out.type,'continue');const move=b.lastMoves.find(m=>m.unitId==='p0');assert.equal(move.steps,2);assert.equal(move.to.x,1);assert.equal(move.to.y,3);
  const restored=E.parseSave(E.serializeSave(s));assert.equal(restored.version,7);assert(E.strictSave(restored));assert.deepEqual(JSON.parse(JSON.stringify(E.battleMovePreview(restored.battle,'p0'))),JSON.parse(JSON.stringify(E.battleMovePreview(s.battle,'p0'))));
 });
-test('HG09 attack-range preview uses the real Manhattan hit check and remains unchanged through v07 reload',()=>{
+test('HG09 attack-range preview uses the real hex-distance hit check and remains unchanged through v07 reload',()=>{
  const s=E.make('human',1_000_002),target=E.NPC_CAMPS_2009.find(c=>c.stars===1),b=E.makeBattle(s,target.key);
  b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_3',name:'Range Archer',range:3,count:1,initial:1,hp:1000,atk:200,def:10,spd:9,pool:1000,x:1,y:1}];
- b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'In range',range:1,count:1,initial:1,hp:1e6,atk:0,def:100,pool:1e6,x:4,y:1},{id:'e1',side:'enemy',unitId:null,name:'Out of range',range:1,count:1,initial:1,hp:1e6,atk:0,def:100,pool:1e6,x:5,y:1},{id:'e2',side:'enemy',unitId:null,name:'Dead nearby',range:1,count:1,initial:1,hp:100,atk:0,def:1,pool:0,x:2,y:1}];b.selected='p0';s.battle=b;
+ b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'In hex range',range:1,count:1,initial:1,hp:1e6,atk:0,def:100,pool:1e6,x:4,y:2},{id:'e1',side:'enemy',unitId:null,name:'Out of hex range',range:1,count:1,initial:1,hp:1e6,atk:0,def:100,pool:1e6,x:5,y:1},{id:'e2',side:'enemy',unitId:null,name:'Dead nearby',range:1,count:1,initial:1,hp:100,atk:0,def:1,pool:0,x:2,y:1}];b.selected='p0';s.battle=b;
+ assert.equal(E.battleHex.distance({x:1,y:1},{x:4,y:2}),3,'offset-axis separation becomes three hexes');
  const before=JSON.stringify(s);assert.deepEqual(JSON.parse(JSON.stringify(E.battleTargetsInRange(b,'p0'))),['e0']);assert.deepEqual(JSON.parse(JSON.stringify(E.battleTargetsInRange(b,'missing'))),[]);assert.equal(JSON.stringify(s),before);const beforeBattle=E.parseSave(E.serializeSave(s));assert.equal(beforeBattle.version,7);assert.deepEqual(JSON.parse(JSON.stringify(E.battleTargetsInRange(beforeBattle.battle,'p0'))),['e0']);
  const out=E.battleAct(s,'attack'),event=b.lastEvents.find(e=>e.actorId==='p0');assert.equal(out.type,'continue');assert.equal(event.targetId,'e0');assert(event.damage>0);assert.equal(event.path.length,0);
  const expectedAfterBattle=JSON.parse(JSON.stringify(E.battleTargetsInRange(b,'p0'))),restored=E.parseSave(E.serializeSave(s));assert.equal(restored.version,7);assert(E.strictSave(restored));assert.deepEqual(JSON.parse(JSON.stringify(E.battleTargetsInRange(restored.battle,'p0'))),expectedAfterBattle);
@@ -648,14 +649,14 @@ test('Equal-speed combat initiative follows left-to-right battlefield position',
  const out=E.battleAct(s,'attack');assert.deepEqual(Array.from(out.order),['p0','p1','p2','p3','e0','e1']);assert.deepEqual(Array.from(s.battle.lastActOrder),Array.from(out.order));
 });
 
-test('Advance order moves without attacking and persists through save/load',()=>{const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const b=s.battle;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Infantry',range:1,count:1,initial:1,hp:10000,atk:100,def:0,spd:4,pool:10000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Stationary target',range:20,count:1,initial:1,hp:10000,atk:0,def:0,spd:1,pool:10000,x:6,y:5}];b.selected='p0';b.orders={};b.focused=null;const a=b.allies[0],e=b.enemies[0],hp=e.pool;let steps=0;while(Math.abs(a.x-e.x)+Math.abs(a.y-e.y)>a.range&&steps++<20){const before=Math.abs(a.x-e.x)+Math.abs(a.y-e.y),out=E.battleAct(s,'advance');assert.equal(out.dealt,0);assert(Math.abs(a.x-e.x)+Math.abs(a.y-e.y)<before);assert.equal(e.pool,hp)}assert(steps<=20);assert.equal(E.battleAct(s,'advance').dealt,0);assert.equal(e.pool,hp);const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.battle.orders.p0,'advance');assert.deepEqual({x:saved.battle.allies[0].x,y:saved.battle.allies[0].y},{x:a.x,y:a.y});const out=E.battleAct(saved,'attack');assert(out.dealt>0);assert(saved.battle.enemies[0].pool<hp)});
+test('Advance order moves without attacking and persists through save/load',()=>{const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const b=s.battle;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Infantry',range:1,count:1,initial:1,hp:10000,atk:100,def:0,spd:4,pool:10000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Stationary target',range:20,count:1,initial:1,hp:10000,atk:0,def:0,spd:1,pool:10000,x:6,y:5}];b.selected='p0';b.orders={};b.focused=null;const a=b.allies[0],e=b.enemies[0],hp=e.pool;let steps=0;while(E.battleHex.distance(a,e)>a.range&&steps++<20){const before=E.battleHex.distance(a,e),out=E.battleAct(s,'advance');assert.equal(out.dealt,0);assert(E.battleHex.distance(a,e)<before);assert.equal(e.pool,hp)}assert(steps<=20);assert.equal(E.battleAct(s,'advance').dealt,0);assert.equal(e.pool,hp);const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.battle.orders.p0,'advance');assert.deepEqual({x:saved.battle.allies[0].x,y:saved.battle.allies[0].y},{x:a.x,y:a.y});const out=E.battleAct(saved,'attack');assert(out.dealt>0);assert(saved.battle.enemies[0].pool<hp)});
 test('HG09 clicked battlefield destination uses a legal path, blocks occupied cells and survives v07 reload',()=>{
  const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const b=s.battle;
  b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Selected infantry',range:1,count:2,initial:2,hp:10000,atk:100,def:0,spd:4,pool:20000,x:1,y:1},{id:'p1',slot:1,side:'player',unitId:'human_1',name:'Blocking infantry',range:1,count:1,initial:1,hp:10000,atk:1,def:0,spd:1,pool:10000,x:2,y:1}];
  b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Hold point',range:1,count:1,initial:1,hp:1e9,atk:0,def:0,spd:.1,pool:1e9,x:5,y:1}];b.selected='p0';b.orders={};b.focused=null;
  const turn=b.turn,hp=b.enemies[0].pool,from={x:b.allies[0].x,y:b.allies[0].y};throws(()=>E.battleAct(s,'move',{x:5,y:1}),/Ô đích/);assert.equal(b.turn,turn);assert.deepEqual({x:b.allies[0].x,y:b.allies[0].y},from);assert.deepEqual(b.orders,{});
- const out=E.battleAct(s,'move',{x:4,y:1}),m=b.lastMoves.find(x=>x.unitId==='p0');assert.equal(out.type,'continue');assert.deepEqual(JSON.parse(JSON.stringify({from:m.from,to:m.to,steps:m.steps,destination:m.destination})),{from:{x:1,y:1},to:{x:1,y:2},steps:1,destination:{x:4,y:1}});assert.equal(b.lastTargets.p0,undefined);assert.equal(b.orders.p0,'move');assert.deepEqual(JSON.parse(JSON.stringify(b.moveTargets.p0)),{x:4,y:1});assert.equal(b.enemies[0].pool,hp);assert.match(b.history[0],/p0 đi 1 ô tới \(1,2\)/);
- const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.deepEqual(loaded.battle.lastMoves,b.lastMoves);assert.deepEqual({x:loaded.battle.allies[0].x,y:loaded.battle.allies[0].y},{x:1,y:2});assert.deepEqual(JSON.parse(JSON.stringify(loaded.battle.moveTargets.p0)),{x:4,y:1});assert(E.strictSave(loaded));
+ const out=E.battleAct(s,'move',{x:4,y:1}),m=b.lastMoves.find(x=>x.unitId==='p0');assert.equal(out.type,'continue');assert.deepEqual(JSON.parse(JSON.stringify({from:m.from,to:m.to,steps:m.steps,destination:m.destination})),{from:{x:1,y:1},to:{x:2,y:0},steps:1,destination:{x:4,y:1}});assert.equal(b.lastTargets.p0,undefined);assert.equal(b.orders.p0,'move');assert.deepEqual(JSON.parse(JSON.stringify(b.moveTargets.p0)),{x:4,y:1});assert.equal(b.enemies[0].pool,hp);assert.match(b.history[0],/p0 đi 1 ô tới \(2,0\)/);
+ const loaded=E.parseSave(E.serializeSave(s));assert.equal(loaded.version,7);assert.deepEqual(loaded.battle.lastMoves,b.lastMoves);assert.deepEqual({x:loaded.battle.allies[0].x,y:loaded.battle.allies[0].y},{x:2,y:0});assert.deepEqual(JSON.parse(JSON.stringify(loaded.battle.moveTargets.p0)),{x:4,y:1});assert(E.strictSave(loaded));
 });
 test('HG09 fast-stack clicked movement uses two modeled steps per order and rejects off-grid targets atomically',()=>{
  const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const b=s.battle;b.allies=[{id:'p0',slot:0,side:'player',unitId:'orc_2',name:'Fast stack',range:1,count:1,initial:1,hp:1e9,atk:1,def:0,spd:7,pool:1e9,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Distant target',range:1,count:1,initial:1,hp:1e9,atk:0,def:0,spd:.1,pool:1e9,x:10,y:8}];b.selected='p0';b.orders={};b.focused=null;
@@ -671,8 +672,11 @@ test('HG09 move order advances across turns, survives v07 reload and can be manu
 });
 test('Ranged stacks fire across deployment distance without invented movement turns',()=>{
  const s=state();s.army.human_3=40;s.formation=[{unitId:'human_3',count:40}];s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
- const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y};assert.equal(archer.range,11);const out=E.battleAct(s,'attack');
- assert(out.dealt>0);assert(s.battle.enemies.reduce((n,u)=>n+u.pool,0)<before);assert.deepEqual({x:archer.x,y:archer.y},position);
+ const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y},initialEnemies=new Map(s.battle.enemies.map(u=>[u.id,{x:u.x,y:u.y}]));assert.equal(archer.range,9);const out=E.battleAct(s,'attack');
+ assert(out.dealt>0);assert(s.battle.enemies.reduce((n,u)=>n+u.pool,0)<before);
+ const event=s.battle.lastEvents.find(e=>e.actorId===archer.id);assert(event&&event.damage>0&&event.targetId);
+ const target=s.battle.enemies.find(u=>u.id===event.targetId),initial=initialEnemies.get(event.targetId);
+ if(E.battleHex.distance(position,initial)>archer.range){assert(event.path.length>0,'out-of-range archer closes space and fires within one resolved turn');let previous=position;for(const cell of event.path){assert.equal(E.battleHex.distance(previous,cell),1);previous=cell;}assert(E.battleHex.distance(archer,target)<=archer.range);}
 });
 
 function hg16FormulaFixture({allyAtk=40,enemyAtk=0,enemyDef=10,allyDef=20,heroAtk=0,heroDef=0,allyCount=10,enemyCount=1,enemySpeed=1}={}){
@@ -711,8 +715,8 @@ test('HG16 all 40 racial units follow the same deterministic base-damage and her
 test('HG16-G2 bounded ranged reach keeps tactical positioning meaningful',()=>{
  const s=state();s.army.human_3=20;s.formation=[{unitId:'human_3',count:20}];
  const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
- assert.equal(b.allies[0].range,11);
- assert.equal(E.unitTacticalRange(E.getUnit(s,'human_8')),12);
+ assert.equal(b.allies[0].range,9);
+ assert.equal(E.unitTacticalRange(E.getUnit(s,'human_8')),10);
  assert.equal(E.unitTacticalRange(E.getUnit(s,'human_1')),1);
  b.allies[0].x=0;b.allies[0].y=0;
  b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Far target',range:1,count:1,initial:1,hp:1e7,
@@ -843,7 +847,7 @@ test('HG16 march ETA uses shortest world path and equipped/buffed hero SPD at 1x
   assert(path&&path.length>3);
   for(let i=1;i<path.length;i++){
    const a=E.getTile(path[i-1]),b=E.getTile(path[i]);
-   assert.equal(Math.abs(a.x-b.x)+Math.abs(a.y-b.y),1);
+   assert.equal(E.battleHex.distance(a,b),1);
    assert.notEqual(b.terrain,'water');
   }
   const eta=E.marchDuration(effective,path,E.armyMarchFactor(s)),before=s.ap;
@@ -1415,9 +1419,9 @@ function collisionFixture(){
  b.allies=[unit('p0','player',1,1),unit('p1','player',2,1,20)];b.enemies=[unit('e0','enemy',5,1,20)];b.selected='p0';return {s,b,unit};
 }
 test('HG09 automatic advance routes around a living stack and continues after v07 reload',()=>{
- let {s,b}=collisionFixture();const before=b.enemies[0].pool;b.orders.p1='defend';E.battleAct(s,'advance');assert.deepEqual({x:b.allies[0].x,y:b.allies[0].y},{x:1,y:2});assert.equal(b.enemies[0].pool,before);
+ let {s,b}=collisionFixture();const before=b.enemies[0].pool;b.orders.p1='defend';E.battleAct(s,'advance');assert.deepEqual({x:b.allies[0].x,y:b.allies[0].y},{x:2,y:0});assert.equal(b.enemies[0].pool,before);
  s=E.parseSave(E.serializeSave(s));for(let i=0;i<5;i++){E.battleAct(s,'advance');const live=[...s.battle.allies,...s.battle.enemies].filter(u=>u.pool>0);assert.equal(new Set(live.map(u=>`${u.x},${u.y}`)).size,live.length)}
- const a=s.battle.allies[0],e=s.battle.enemies[0];assert.equal(Math.abs(a.x-e.x)+Math.abs(a.y-e.y),1);assert(E.strictSave(s));
+ const a=s.battle.allies[0],e=s.battle.enemies[0];assert.equal(E.battleHex.distance(a,e),1);assert(E.strictSave(s));
 });
 test('HG09 enclosed advance and occupied retreat hold position without overlapping live troops',()=>{
  const {s,b,unit}=collisionFixture();b.allies=[unit('p0','player',0,0),unit('p1','player',1,0,20),unit('p2','player',0,1,20)];E.battleAct(s,'advance');assert.equal(b.allies[0].x,0);assert.equal(b.allies[0].y,0);
@@ -1425,7 +1429,7 @@ test('HG09 enclosed advance and occupied retreat hold position without overlappi
 });
 
 test('HG09 enemy melee detours around allies while dead stack cells remain traversable',()=>{
- const {s,b,unit}=collisionFixture();b.allies=[unit('p0','player',1,1,20)];b.enemies=[unit('e0','enemy',5,1),unit('e1','enemy',4,1,20)];b.selected='p0';E.battleAct(s,'defend');assert.deepEqual({x:b.enemies[0].x,y:b.enemies[0].y},{x:5,y:2});
+ const {s,b,unit}=collisionFixture();b.allies=[unit('p0','player',1,1,20)];b.enemies=[unit('e0','enemy',5,1),unit('e1','enemy',4,1,20)];b.selected='p0';E.battleAct(s,'defend');assert.deepEqual({x:b.enemies[0].x,y:b.enemies[0].y},{x:5,y:0});
  const f=collisionFixture();f.b.allies[1].pool=0;f.b.allies[1].count=0;E.battleAct(f.s,'advance');assert.equal(f.b.allies[0].x,2);assert.equal(f.b.allies[0].y,1);assert(E.strictSave(f.s));
 });
 
@@ -1478,21 +1482,23 @@ test('HG14.3 Human Archer addresses 48 unique animation cells, including draw/re
  assert.equal(P.archerAtlasFrame('attack',580,650).imageId,'unit-human-archer-atlas');
  assert(P.hasAnimatedTroops({allies:[{unitId:'human_3'}],enemies:[]}));
 });
-test('HG14.5 canonical battle grid is 108 cells, exact at mobile and desktop sizes',()=>{
+test('HG33-H1 canonical pointy-top odd-r grid is 108 real hexes at mobile and desktop sizes',()=>{
  const g=E.BATTLE_GRID;
+ assert.equal(E.battleHex.orientation,'pointy-top');assert.equal(E.battleHex.layout,'odd-r');
  for(const dims of [{width:1176,height:550},{width:931,height:348},{width:1250,height:516}]){
   const cam=P.battleProjection(dims,E),cells=P.battleGridCells(cam);
   assert.equal(cells.length,108);
   for(const cell of cells){
    const point=P.battleCellAt(dims,cell.center.x,cell.center.y,E);
    assert.equal(point?.x,cell.x);assert.equal(point?.y,cell.y);
-   assert.equal(cell.corners.length,4);
+   assert.equal(cell.corners.length,6);
+   assert(cell.corners.every(p=>Math.abs(Math.hypot(p.x-cell.center.x,p.y-cell.center.y)-cam.radius)<1e-7));
   }
   const s=state(),tile=E.NPC_CAMPS_2009.find(x=>x.stars===1);
   s.battle=E.makeBattle(s,tile.key);
   const lay=P.battleUnitLayout(s.battle,cam,dims.width,dims.height);
   for(const e of lay.filter(e=>e.u.pool>0)){
-   const center=cam.point(e.u.x+.5,e.u.y+.5);
+   const center=cam.center(e.u.x,e.u.y);
    assert(cells.some(c=>c.x===e.u.x&&c.y===e.u.y&&
      Math.hypot(c.center.x-center.x,c.center.y-center.y)<1e-9));
   }
@@ -1572,27 +1578,33 @@ test('HG14.4 desktop/mobile nameplates avoid sprites, overlays and each other',(
   assert(E.strictSave(s),'layout must preserve canonical v07 state');
  }
 });
-test('HG14.2 continuous meadow battle projection keeps both armies in readable left-right lanes',()=>{
+test('HG33-H1 pointy-top odd-r hex centers and hit tests share the engine geometry at three viewport sizes',()=>{
  const g=E.BATTLE_GRID;
  const painterSource=fs.readFileSync(path.join(dir,'painter.js'),'utf8');
- assert(!painterSource.includes('poly(c,outline'),'raised isometric board must not return');
- assert(painterSource.includes('battleGridOverlay(c,camera,units,reachable)'),'tactical grid can be displayed on actual battle cells');
+ assert(!painterSource.includes('staggerX'),'old oblique projection has been removed');
+ assert(painterSource.includes('E.battleHex'),'renderer consumes the engine geometry service');
+ assert(painterSource.includes('battleGridOverlay(c,camera,units,reachable)'),'tactical overlay uses the actual battle cells');
  for(const dims of [{width:1176,height:550},{width:960,height:350},{width:1280,height:520}]){
   const p=P.battleProjection(dims,E);
-  assert(p.col.x>p.row.x*2,'left-to-right combat axis must remain dominant');
-  assert(p.row.x>dims.width*.02&&p.col.y<0,'rear troops must be staggered rather than vertically hidden');
-  assert(p.row.y>Math.abs(p.col.y)*4,'battlefield must preserve readable depth');
-  assert(Math.abs(p.col.y/p.col.x)<.09,'battlefield must use shallow oblique perspective, not steep skew');
-  assert(p.point(0,0).x>0&&p.point(g.cols,g.rows).x<dims.width,'all logical cells fit width');
-  assert(p.point(0,0).y>dims.height*.3&&p.point(g.cols,g.rows).y<dims.height*.98,'field starts below treeline');
-  for(let x=0;x<g.cols;x++)for(let y=0;y<g.rows;y++){
-   const m=p.point(x+.5,y+.5),actual=P.battleCellAt(dims,m.x,m.y,E);
-   assert.equal(actual.x,x);assert.equal(actual.y,y);
+  assert(p.radius>8&&p.boardW<=dims.width&&p.boardH<=dims.height,'hex board fits viewport');
+  const cells=P.battleGridCells(p);assert.equal(cells.length,108);
+  for(const cell of cells){
+   assert.equal(cell.corners.length,6);
+   const actual=P.battleCellAt(dims,cell.center.x,cell.center.y,E);
+   assert.equal(actual?.x,cell.x);assert.equal(actual?.y,cell.y);
+   for(let i=0;i<6;i++){
+    const a=i*Math.PI/3-Math.PI/2,x=cell.center.x+p.radius*.65*Math.cos(a),y=cell.center.y+p.radius*.65*Math.sin(a);
+    const hit=P.battleCellAt(dims,x,y,E);assert.equal(hit?.x,cell.x);assert.equal(hit?.y,cell.y);
+   }
   }
-  const ally=p.point(1.5,.5),foe=p.point(10.5,2.5);
-  assert(foe.x-ally.x>dims.width*.6,'opposing armies are separated across the ground');
-  assert(ally.x>dims.width*.11&&foe.x<dims.width*.9,'troops have edge clearance');
-  assert(ally.y>dims.height*.36&&foe.y<dims.height*.7);
+  const even=p.center(3,2),odd=p.center(3,3),horizontal=p.center(4,2),vertical=p.center(3,3);
+  assert(Math.abs(odd.x-even.x-Math.sqrt(3)*p.radius/2)<1e-7,'odd-row horizontal offset');
+  assert(Math.abs(Math.hypot(horizontal.x-even.x,horizontal.y-even.y)-Math.sqrt(3)*p.radius)<1e-7,'regular hex neighbor pitch');
+  assert.equal(E.battleHex.distance({x:3,y:2},{x:4,y:2}),1);
+  assert.equal(E.battleHex.distance({x:3,y:2},{x:3,y:3}),1);
+  for(const cell of cells)for(const neighbor of E.battleHex.neighbors(cell.x,cell.y))
+   if(E.battleHex.inBounds(neighbor.x,neighbor.y))assert.equal(E.battleHex.distance(cell,neighbor),1);
+  assert(P.battleCellAt(dims,-10,-10,E)===null,'out-of-board pointer rejected');
  }
 });
 test('HG28 Human Spear Militia plus four-race sprite masters use deterministic Idle/Walk/Attack/Hit/Death transforms',()=>{

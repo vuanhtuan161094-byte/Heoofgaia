@@ -1,0 +1,295 @@
+{
+  "schema": "HG28-40-TroopAnimationCoverage-v1",
+  "unitCount": 40,
+  "verifiedFullUnits": 4,
+  "partialUnits": 2,
+  "sourceFrameClips": 22,
+  "requiredActionClips": 200,
+  "missingActionClips": 178,
+  "verifiedFrames": 215,
+  "highTierStillMasters": 8,
+  "complete": false,
+  "units": [
+    {
+      "unitId": "human_1",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "human_2",
+      "status": "PARTIAL_VERIFIED",
+      "realActionClips": 1,
+      "requiredActionClips": 5,
+      "realFrames": 8
+    },
+    {
+      "unitId": "human_3",
+      "status": "FULL_VERIFIED",
+      "realActionClips": 5,
+      "requiredActionClips": 5,
+      "realFrames": 48
+    },
+    {
+      "unitId": "human_4",
+      "status": "FULL_VERIFIED",
+      "realActionClips": 5,
+      "requiredActionClips": 5,
+      "realFrames": 57
+    },
+    {
+      "unitId": "human_5",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "human_6",
+      "status": "PARTIAL_VERIFIED",
+      "realActionClips": 1,
+      "requiredActionClips": 5,
+      "realFrames": 8
+    },
+    {
+      "unitId": "human_7",
+      "status": "FULL_VERIFIED",
+      "realActionClips": 5,
+      "requiredActionClips": 5,
+      "realFrames": 44
+    },
+    {
+      "unitId": "human_8",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "human_9",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "human_10",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_1",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_2",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_3",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_4",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_5",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_6",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_7",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_8",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_9",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "elf_10",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_1",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_2",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_3",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_4",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_5",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_6",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_7",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_8",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_9",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "orc_10",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_1",
+      "status": "FULL_VERIFIED",
+      "realActionClips": 5,
+      "requiredActionClips": 5,
+      "realFrames": 50
+    },
+    {
+      "unitId": "undead_2",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_3",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_4",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_5",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_6",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_7",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_8",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_9",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    },
+    {
+      "unitId": "undead_10",
+      "status": "MASTER_ONLY",
+      "realActionClips": 0,
+      "requiredActionClips": 5,
+      "realFrames": 0
+    }
+  ],
+  "note": "Current verified source frames, NOT completed 40-unit motion and NOT 200 actions."
+}

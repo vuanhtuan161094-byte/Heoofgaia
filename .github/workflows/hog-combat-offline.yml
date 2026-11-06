@@ -37,6 +37,8 @@ jobs:
           node qa-engine.cjs
           node qa-hg28-art.cjs
           node qa-hg09-combat-viewport.cjs
+          node --check qa-hg33-hex.cjs
+          node qa-hg33-hex.cjs
       - name: HG28 animation 40-unit source authenticity and five-action atlas-packer gate
         run: |
           node --check qa-hg28-animation-coverage.cjs
@@ -505,14 +507,14 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
-      - name: Upload HG28 PvE2 3 Boss and 3x2 Chromium screenshots
+      - name: Upload HG33 H1 true-hex 3 Boss and 3x2 Chromium screenshots
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: HG28-PvE2-3Boss-3x2-Chromium
+          name: HG33-H1-TrueHex-3Boss-3x2-Chromium
           path: |
-            docs/evidence/hg28/pve2/*.png
-            docs/qa/hg28/pve2-oblique-chrome.json
+            docs/evidence/hg33/after/*.png
+            docs/qa/hg33/H1-chromium.json
           if-no-files-found: ignore
       - name: Upload HG28 PvE P0 real auto-battle receipts
         if: always()

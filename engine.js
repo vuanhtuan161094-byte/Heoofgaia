@@ -5,9 +5,25 @@ const C=root.HOG_CATALOG||(typeof require==='function'?require('./data.js'):null
 const V=5, SAVE_KEY='heoofgaia_hg_only_v04', PREV_SAVE_KEY='heoofgaia_hg_only_v03';
 const buildOrder=['hall','barracks','heroTower','tavern','warehouse','magicTower','arena','market','bazaar','embassy','stables','forge'];
 const BATTLE_GRID=Object.freeze({cols:12,rows:9,top:173,bottom:185});
-// HG-16 tactical balancing defaults; these are deliberate offline-game models.
-// A 12x9 stage has Manhattan diameter 19. Range 11–12 permits positioning.
-const TACTICAL_RANGE=Object.freeze({melee:1,ranged:11,eliteRanged:12});
+// One geometry contract powers engine movement/range and the Canvas renderer.
+// Saved stack coordinates remain integer odd-r offset cells (Save v07).
+const HEX_DIRECTIONS=Object.freeze([[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]].map(d=>Object.freeze(d)));
+const battleHex=Object.freeze({
+ orientation:'pointy-top',layout:'odd-r',directions:HEX_DIRECTIONS,
+ offsetToAxial(x,y){return {q:x-Math.floor(y/2),r:y}},
+ axialToOffset(q,r){const x=q+Math.floor(r/2);return {x:Object.is(x,-0)?0:x,y:Object.is(r,-0)?0:r}},
+ offsetToCube(x,y){const a=this.offsetToAxial(x,y);return {x:a.q,y:-a.q-a.r,z:a.r}},
+ distance(a,b){const x=this.offsetToAxial(a.x,a.y),y=this.offsetToAxial(b.x,b.y),dq=x.q-y.q,dr=x.r-y.r;return Math.max(Math.abs(dq),Math.abs(dr),Math.abs(dq+dr))},
+ neighbors(x,y){const a=this.offsetToAxial(x,y);return HEX_DIRECTIONS.map(([q,r])=>this.axialToOffset(a.q+q,a.r+r))},
+ inBounds(x,y,grid=BATTLE_GRID){return Number.isSafeInteger(x)&&Number.isSafeInteger(y)&&x>=0&&y>=0&&x<grid.cols&&y<grid.rows},
+ center(x,y,radius,origin={x:0,y:0}){return {x:origin.x+Math.sqrt(3)*radius*(x+(y%2?0.5:0)),y:origin.y+1.5*radius*y}},
+ corners(x,y,radius,origin={x:0,y:0}){const c=this.center(x,y,radius,origin);return Array.from({length:6},(_,i)=>{const a=(-90+i*60)*Math.PI/180;return {x:c.x+radius*Math.cos(a),y:c.y+radius*Math.sin(a)}})},
+ cubeRound(q,r){let x=q,z=r,y=-x-z,rx=Math.round(x),ry=Math.round(y),rz=Math.round(z),dx=Math.abs(rx-x),dy=Math.abs(ry-y),dz=Math.abs(rz-z);if(dx>dy&&dx>dz)rx=-ry-rz;else if(dy>dz)ry=-rx-rz;else rz=-rx-ry;return {q:rx,r:rz}},
+ pixelToCell(px,py,radius,origin,grid=BATTLE_GRID){if(!(radius>0)||!Number.isFinite(px)||!Number.isFinite(py))return null;const dx=px-origin.x,dy=py-origin.y,q=(Math.sqrt(3)/3*dx-dy/3)/radius,r=(2/3*dy)/radius,a=this.cubeRound(q,r),cell=this.axialToOffset(a.q,a.r);return this.inBounds(cell.x,cell.y,grid)?cell:null}
+});
+// Simulated offline defaults: historical formation/range values are not verified.
+// Hex radii 9/10 stay close to the previous 11/12 Manhattan target reachability.
+const TACTICAL_RANGE=Object.freeze({melee:1,ranged:9,eliteRanged:10});
 function unitTacticalRange(unit){return unit?.type==='Ranged'?(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged):TACTICAL_RANGE.melee;}
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG10 offline catch-up: process at most 24 real wall-clock hours in one suspended-time step.
@@ -361,20 +377,18 @@ function killUnits(s,damage){let rest=damage,dead=0;for(let u of activeArmy(s).s
 }
 function battleSelect(s,id){assert(s.battle,'Không có trận chiến');const st=[...s.battle.allies,...s.battle.enemies].find(t=>t.id===id&&t.pool>0);assert(st,'Đội quân không tồn tại');if(st.side==='enemy')s.battle.focused=id;else s.battle.selected=id;return st;}
 function alive(arr){return arr.filter(u=>u.pool>0)}
-function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
+function dist(a,b){return battleHex.distance(a,b)}
 function battleTargetsInRange(b,actorId){const actor=b?.allies?.find(u=>u.id===actorId&&u.pool>0);return actor?alive(b.enemies||[]).filter(target=>dist(actor,target)<=actor.range).map(target=>target.id):[]}
 function battleCellKey(x,y){return `${x},${y}`}
 function battlePath(b,actor,destination){
- const {cols,rows}=BATTLE_GRID;
- if(!Number.isSafeInteger(destination?.x)||!Number.isSafeInteger(destination?.y)||destination.x<0||destination.x>=cols||destination.y<0||destination.y>=rows)return null;
+ if(!battleHex.inBounds(destination?.x,destination?.y))return null;
  if(destination.x===actor.x&&destination.y===actor.y)return [];
  const occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
  if(occupied.has(battleCellKey(destination.x,destination.y)))return null;
  const start=battleCellKey(actor.x,actor.y),goal=battleCellKey(destination.x,destination.y),queue=[[actor.x,actor.y]],previous=new Map([[start,null]]);
- const directions=[[1,0],[0,1],[-1,0],[0,-1]];
  for(let i=0;i<queue.length;i++){
   const [x,y]=queue[i],key=battleCellKey(x,y);if(key===goal)break;
-  for(const [dx,dy] of directions){const nx=x+dx,ny=y+dy,next=battleCellKey(nx,ny);if(nx<0||nx>=cols||ny<0||ny>=rows||occupied.has(next)||previous.has(next))continue;previous.set(next,key);queue.push([nx,ny])}
+  for(const cell of battleHex.neighbors(x,y)){const {x:nx,y:ny}=cell,next=battleCellKey(nx,ny);if(!battleHex.inBounds(nx,ny)||occupied.has(next)||previous.has(next))continue;previous.set(next,key);queue.push([nx,ny])}
  }
  if(!previous.has(goal))return null;
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
@@ -389,9 +403,9 @@ function battleMovementBudget(b,actor,commitCredit=false){
 function battleMovementAllowance(b,actor){return battleMovementBudget(b,actor,true)}
 function battleMovePreview(b,actorId){
  const actor=b?.allies?.find(u=>u.id===actorId&&u.pool>0);if(!actor)return {unitId:actorId||null,steps:0,cells:[]};
- const steps=battleMovementBudget(b,actor,false),{cols,rows}=BATTLE_GRID,occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
- const dirs=[[1,0],[0,1],[-1,0],[0,-1]],queue=[{x:actor.x,y:actor.y,steps:0}],seen=new Set([battleCellKey(actor.x,actor.y)]),cells=[];
- for(let i=0;i<queue.length;i++){const cell=queue[i];if(cell.steps>=steps)continue;for(const [dx,dy] of dirs){const x=cell.x+dx,y=cell.y+dy,key=battleCellKey(x,y);if(x<0||x>=cols||y<0||y>=rows||occupied.has(key)||seen.has(key))continue;seen.add(key);const next={x,y,steps:cell.steps+1};queue.push(next);cells.push(next)}}
+ const steps=battleMovementBudget(b,actor,false),occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
+ const queue=[{x:actor.x,y:actor.y,steps:0}],seen=new Set([battleCellKey(actor.x,actor.y)]),cells=[];
+ for(let i=0;i<queue.length;i++){const cell=queue[i];if(cell.steps>=steps)continue;for(const nextCell of battleHex.neighbors(cell.x,cell.y)){const {x,y}=nextCell,key=battleCellKey(x,y);if(!battleHex.inBounds(x,y)||occupied.has(key)||seen.has(key))continue;seen.add(key);const next={x,y,steps:cell.steps+1};queue.push(next);cells.push(next)}}
  return {unitId:actor.id,steps,cells};
 }
 function moveBattleStack(b,actor,destination){
@@ -409,16 +423,15 @@ function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;if(s.battle?.woundedByUnit)s.battle.woundedByUnit[unitId]=(s.battle.woundedByUnit[unitId]||0)+count;}}
 function advance(a,target,battle){
- // Find a legal route to attack range, rather than stepping through a living
- // stack. Axis preference preserves unobstructed movement; BFS finds detours.
+ // Find a legal shortest route to hex attack range without stepping through a
+ // living stack. The same six odd-r neighbors drive player path and hostile AI.
  const occupied=new Set([...battle.allies,...battle.enemies].filter(u=>u.pool>0&&u.id!==a.id).map(u=>battleCellKey(u.x,u.y)));
  const start=battleCellKey(a.x,a.y),queue=[{x:a.x,y:a.y}],previous=new Map([[start,null]]);let goal=null;
  for(let i=0;i<queue.length;i++){
   const p=queue[i],key=battleCellKey(p.x,p.y);if(dist(p,target)<=a.range){goal=key;break}
-  const dx=Math.sign(target.x-p.x),dy=Math.sign(target.y-p.y),preferred=Math.abs(target.x-p.x)>Math.abs(target.y-p.y)?[[dx,0],[0,dy]]:[[0,dy],[dx,0]];
-  for(const [sx,sy] of [...preferred,[1,0],[0,1],[-1,0],[0,-1]]){
-   if(!sx&&!sy)continue;const x=p.x+sx,y=p.y+sy,next=battleCellKey(x,y);
-   if(x<0||x>=BATTLE_GRID.cols||y<0||y>=BATTLE_GRID.rows||occupied.has(next)||previous.has(next))continue;
+  for(const cell of battleHex.neighbors(p.x,p.y)){
+   const {x,y}=cell,next=battleCellKey(x,y);
+   if(!battleHex.inBounds(x,y)||occupied.has(next)||previous.has(next))continue;
    previous.set(next,key);queue.push({x,y});
   }
  }
@@ -524,7 +537,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
+const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 

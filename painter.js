@@ -318,7 +318,8 @@ function battleVisualState(b,u,elapsed,now=elapsed){
    from=index?own.path[index-1]:own.from,to=own.path[index],
    fraction=progress-index;
   return {...base,action:'walk',time:actionAge,duration:450,
-   x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction};
+   x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction,
+   walkFrom:{x:from.x,y:from.y},walkTo:{x:to.x,y:to.y},walkFraction:fraction};
  }
  const attackStart=movement?450:0,attackDuration=movement?450:650;
  if(own?.damage>0&&actionAge>=attackStart&&actionAge<attackStart+attackDuration)
@@ -399,7 +400,7 @@ function animatedArcher(c,x,y,enemy,visual,k=1){
  if(typeof document==='undefined'||!visual)return false;
  const image=document.getElementById('unit-human-archer-atlas');
  if(!image?.complete||image.naturalWidth!==2048||image.naturalHeight!==1536)return false;
- const frame=archerAtlasFrame(visual.action,visual.time,visual.duration),size=clamp(112*k,64,134);
+ const frame=archerAtlasFrame(visual.action,visual.time,visual.duration),size=clamp(112*k,18,134);
  c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);
  if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,256,256,-size*.485,-size*.87,size,size);
@@ -410,7 +411,7 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
  if(!profile||!visual||typeof document==='undefined')return false;
  const image=profile.id?document.getElementById(profile.id):A.unitImage(unitId);
  if(!image?.complete||!image.naturalWidth)return false;
- const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,64,profile.boss?178:134);
+ const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,18,profile.boss?178:134);
  c.save();c.globalAlpha*=clamp((visual.alpha??1)*pose.alpha,0,1);
  c.translate(x,y);if(enemy)c.scale(-1,1);
  c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
@@ -437,7 +438,7 @@ function battleFxPlan(b,camera,elapsed,layout){
   if(!actor||!target)return [];
   const time=elapsed-Math.min(index,7)*BATTLE_VISUAL_STAGGER_MS;
   if(time<0||time>960)return [];
-  const origin=camera.point(event.to.x+.5,event.to.y+.5);
+  const origin=camera.center(event.to.x,event.to.y);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
    casualties:event.casualties||0,death:!!event.death,ranged:actor.u.range>1,
    side:actor.u.side,time,index,
@@ -499,30 +500,27 @@ function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>ani
 function animatedSoldier(c,x,y,enemy,visual,k=1){
  if(typeof document==='undefined'||!visual)return false;const frame=animationFrame(visual.action,visual.time,visual.duration),image=document.getElementById(frame.id);
  if(!image?.complete||!image.naturalWidth)return false;
- const size=clamp(112*k,64,125);c.save();c.globalAlpha*=visual.alpha;c.translate(x,y);if(enemy)c.scale(-1,1);
+ const size=clamp(112*k,18,125);c.save();c.globalAlpha*=visual.alpha;c.translate(x,y);if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-size*148/256,-size*216/256,size,size);c.restore();return true;
 }
-// HG14.2: Heroes of Gaia 2009-style continuous scenic ground, no raised board.
-// The 12×9 logical squares remain, but their invisible pointer projection now
-// covers a wide field viewed slightly from above, with troop formations left/right.
-// Reference: GameGami original HoG combat gallery and Chinese 2009 battle captures.
+// HG33-H1: one real pointy-top odd-r hex projection shared with engine.js.
+// Canonical Save v07 positions remain integer offset coordinates.
 function battleProjection(canvas,E){
- const g=E.BATTLE_GRID||{cols:12,rows:9},w=canvas.width,h=canvas.height;
- // A shallow 2.5D oblique projection: each successive row moves diagonally
- // toward the foreground, so troops/Bosses behind one another no longer form
- // one vertical occluding column.  Do NOT draw a raised rhombus board.
- // The same affine inverse is used by hit-testing and movement previews.
- // Units keep their canonical integer grid positions in Save v07.
- const origin={x:w*.016,y:h*.35};
- const col={x:w*.061,y:-h*.006},row={x:w*.026,y:h*.067};
- const det=col.x*row.y-col.y*row.x;
- const point=(x,y)=>({x:origin.x+x*col.x+y*row.x,y:origin.y+x*col.y+y*row.y});
- const cellAt=(px,py)=>{
-  const dx=px-origin.x,dy=py-origin.y,gx=(dx*row.y-dy*row.x)/det,gy=(dy*col.x-dx*col.y)/det;
-  if(!Number.isFinite(gx)||!Number.isFinite(gy)||gx<0||gy<0||gx>=g.cols||gy>=g.rows)return null;
-  return {x:Math.floor(gx),y:Math.floor(gy)};
- };
- return {g,origin,col,row,point,cellAt};
+ const g=E.BATTLE_GRID||{cols:12,rows:9},hex=E.battleHex,w=canvas.width,h=canvas.height;
+ const spanY=1.5*(g.rows-1)+2,spanX=Math.sqrt(3)*(g.cols+.5),
+  radius=Math.max(8,Math.min((w-24)/spanX,(h-90)/spanY)),
+  boardW=spanX*radius,boardH=spanY*radius,
+  left=(w-boardW)/2,top=Math.max(62,Math.min(h-boardH-10,h*.14)),
+  origin={x:left+Math.sqrt(3)*radius/2,y:top+radius};
+ const center=(x,y)=>hex.center(x,y,radius,origin),
+  corners=(x,y)=>hex.corners(x,y,radius,origin),
+  point=(cx,cy)=>center(Math.round(cx-.5),Math.round(cy-.5)),
+  pointBetween=(from,to,t)=>{const a=center(from.x,from.y),b=center(to.x,to.y),f=clamp(t,0,1);return {x:a.x+(b.x-a.x)*f,y:a.y+(b.y-a.y)*f}},
+  cellAt=(px,py)=>hex.pixelToCell(px,py,radius,origin,g);
+ return {g,hex,origin,radius,boardW,boardH,center,corners,point,pointBetween,cellAt};
+}
+function battleVisualPoint(camera,visual,fallback){
+ return visual?.walkFrom&&visual?.walkTo?camera.pointBetween(visual.walkFrom,visual.walkTo,visual.walkFraction||0):camera.center(visual?.x??fallback.x,visual?.y??fallback.y);
 }
 function battleGround(c,camera,w,h){
  // A transparent, landscape-consistent grade. The illustrated meadow is the
@@ -537,9 +535,7 @@ function battleGround(c,camera,w,h){
 function battleGridCells(camera){
  const cells=[];
  for(let y=0;y<camera.g.rows;y++)for(let x=0;x<camera.g.cols;x++)
-  cells.push({x,y,center:camera.point(x+.5,y+.5),
-   corners:[camera.point(x,y),camera.point(x+1,y),
-            camera.point(x+1,y+1),camera.point(x,y+1)]});
+  cells.push({x,y,center:camera.center(x,y),corners:camera.corners(x,y)});
  return cells;
 }
 function battleGridOverlay(c,camera,layout,reachable){
@@ -554,8 +550,8 @@ function battleGridOverlay(c,camera,layout,reachable){
    c.lineWidth=1.7;
    poly(c,cell.corners.map(p=>[p.x,p.y]),'#43cba52a','#9bead0b3');
   }else{
-   c.lineWidth=.55;
-   poly(c,cell.corners.map(p=>[p.x,p.y]),null,'#d9edd21c');
+   c.lineWidth=.8;
+   poly(c,cell.corners.map(p=>[p.x,p.y]),null,'#e9dfbd5c');
   }
  }
  // No floating origin dots, diagonal foot connectors or coordinate numbers:
@@ -573,7 +569,7 @@ function battleHit(canvas,x,y,E,s,now=visualNow()){
  // Transform hitboxes by the same animation/spacing offset as drawBattle().
  const visible=layout.filter(entry=>entry.u.pool>0).map(entry=>{
   const u=entry.u,visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):u,
-   pt=camera.point((visual||u).x+.5,(visual||u).y+.5);
+   pt=battleVisualPoint(camera,visual,u);
   return {entry,u,dx:pt.x-entry.baseX,dy:pt.y-entry.baseY,
    footX:pt.x+entry.x-entry.baseX,footY:pt.y+entry.y-entry.baseY};
  }).sort((a,b)=>a.entry.y-b.entry.y||a.entry.x-b.entry.x);
@@ -620,7 +616,7 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
  };
  const normalizedName=String(unitName||'').trim().toLocaleLowerCase().replace(/\s+/g,' ');
  const boss=bossSprite(unitName),spriteKey=spriteIds[unitId]||named[normalizedName]||null;
- const size=clamp((boss?.size||113)*k,64,boss?178:125);
+ const size=clamp((boss?.size||113)*k,18,boss?178:125);
  if(spriteKey&&typeof document!=='undefined'){
   const sprite=document.getElementById(spriteKey);
   if(sprite?.complete&&sprite.naturalWidth>0){
@@ -654,11 +650,13 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
 function battleRectOverlap(a,b,pad=0){
  return a.x<b.x+b.w+pad&&a.x+a.w+pad>b.x&&a.y<b.y+b.h+pad&&a.y+a.h+pad>b.y;
 }
-function battleRoundHudX(width){return width<1050?clamp(width*.29,14,280):14}
+// Keep the round badge in the upper-left gutter on every viewport. Centering it
+// on compact screens obscures the formation's first ranks and nameplates.
+function battleRoundHudX(width){return 14}
 function battleUnitLayout(b,camera,width,height){
  const entries=[...b.allies,...b.enemies].map(u=>{
-  const pt=camera.point(u.x+.5,u.y+.5);
-  const k=battleSpriteScale(height,u.y,camera.g.rows),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG28_TROOPS?.profile(u.unitId)||root.HOG_HG193_SPRITES?.profile(u.unitId)||root.HOG_HG192_SPRITES?.profile(u.unitId),size=clamp((profile?.size||113)*k,64,profile?.boss?178:134);
+  const pt=camera.center(u.x,u.y);
+  const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG28_TROOPS?.profile(u.unitId)||root.HOG_HG193_SPRITES?.profile(u.unitId)||root.HOG_HG192_SPRITES?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
   return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile};
  });
  for(const side of ['player','enemy']){
@@ -730,10 +728,11 @@ function battleUnitLayout(b,camera,width,height){
  }
  return entries;
 }
-function battleSpriteScale(height,row,rows=9){
- // Keep full-height actor silhouettes inside their assigned battlefield lanes
- // even at 960×540. Avoid overlap-driven horizontal drift from the true cell.
- return clamp(height/740,.48,.82)*(.99+row/rows*.05);
+function battleSpriteScale(height,row,rows=9,radius=null){
+ // A hex-based scale keeps silhouettes inside the pointy cells at compact
+ // viewports. Legacy callers without a radius retain their responsive scale.
+ const base=Number.isFinite(radius)?clamp(radius/60,.22,.82):clamp(height/740,.48,.82);
+ return base*(.99+row/rows*.05);
 }
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
@@ -755,7 +754,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  }
  for(const entry of units){
   const u=entry.u;
-  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=camera.point(position.x+.5,position.y+.5),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
+  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
   if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual,k);else if(u.unitId==='human_3')animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k,u.name);else (root.HOG_HG28_RIGS?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k,u.name))}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.

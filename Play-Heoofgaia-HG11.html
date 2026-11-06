@@ -397,7 +397,7 @@ body.combat-mode .scene-title .scene-tools .tag{white-space:nowrap}
  body.combat-mode .scene-title h1{font-size:clamp(15px,3vw,20px)}
  body.combat-mode .scene-tools .tag{font-size:8px}
 }
-body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),760px)}
+body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 260px),760px)}
 
 
 /* HG27: token-exchange visuals, in-game panels, no fake buttons */
@@ -720,6 +720,10 @@ body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 220px),76
  body:not(.combat-mode) .game-window-body{padding:6px 9px}
  body:not(.combat-mode) .game-window-footer{flex-basis:32px;font-size:9px}
 }
+
+/* HG33-H1: keep the six-stack roster fully visible; default combat guides are hexes. */
+body.combat-mode .battle-ui .stack-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;}
+body.combat-mode .battle-ui .stack-card{flex:initial;width:auto;min-width:0;}
 </style></head><body>
 <div id="app">
 <header class="top"><div class="masthead"><span class="crest">⚜</span><div><div class="brand">ANH HÙNG THỜI LOẠN</div><small>HEROES OF GAIA • HOG1 • HG-11</small></div></div><div id="resources" class="resources"></div></header>
@@ -926,9 +930,25 @@ const C=root.HOG_CATALOG||(typeof require==='function'?require('./data.js'):null
 const V=5, SAVE_KEY='heoofgaia_hg_only_v04', PREV_SAVE_KEY='heoofgaia_hg_only_v03';
 const buildOrder=['hall','barracks','heroTower','tavern','warehouse','magicTower','arena','market','bazaar','embassy','stables','forge'];
 const BATTLE_GRID=Object.freeze({cols:12,rows:9,top:173,bottom:185});
-// HG-16 tactical balancing defaults; these are deliberate offline-game models.
-// A 12x9 stage has Manhattan diameter 19. Range 11–12 permits positioning.
-const TACTICAL_RANGE=Object.freeze({melee:1,ranged:11,eliteRanged:12});
+// One geometry contract powers engine movement/range and the Canvas renderer.
+// Saved stack coordinates remain integer odd-r offset cells (Save v07).
+const HEX_DIRECTIONS=Object.freeze([[1,0],[1,-1],[0,-1],[-1,0],[-1,1],[0,1]].map(d=>Object.freeze(d)));
+const battleHex=Object.freeze({
+ orientation:'pointy-top',layout:'odd-r',directions:HEX_DIRECTIONS,
+ offsetToAxial(x,y){return {q:x-Math.floor(y/2),r:y}},
+ axialToOffset(q,r){const x=q+Math.floor(r/2);return {x:Object.is(x,-0)?0:x,y:Object.is(r,-0)?0:r}},
+ offsetToCube(x,y){const a=this.offsetToAxial(x,y);return {x:a.q,y:-a.q-a.r,z:a.r}},
+ distance(a,b){const x=this.offsetToAxial(a.x,a.y),y=this.offsetToAxial(b.x,b.y),dq=x.q-y.q,dr=x.r-y.r;return Math.max(Math.abs(dq),Math.abs(dr),Math.abs(dq+dr))},
+ neighbors(x,y){const a=this.offsetToAxial(x,y);return HEX_DIRECTIONS.map(([q,r])=>this.axialToOffset(a.q+q,a.r+r))},
+ inBounds(x,y,grid=BATTLE_GRID){return Number.isSafeInteger(x)&&Number.isSafeInteger(y)&&x>=0&&y>=0&&x<grid.cols&&y<grid.rows},
+ center(x,y,radius,origin={x:0,y:0}){return {x:origin.x+Math.sqrt(3)*radius*(x+(y%2?0.5:0)),y:origin.y+1.5*radius*y}},
+ corners(x,y,radius,origin={x:0,y:0}){const c=this.center(x,y,radius,origin);return Array.from({length:6},(_,i)=>{const a=(-90+i*60)*Math.PI/180;return {x:c.x+radius*Math.cos(a),y:c.y+radius*Math.sin(a)}})},
+ cubeRound(q,r){let x=q,z=r,y=-x-z,rx=Math.round(x),ry=Math.round(y),rz=Math.round(z),dx=Math.abs(rx-x),dy=Math.abs(ry-y),dz=Math.abs(rz-z);if(dx>dy&&dx>dz)rx=-ry-rz;else if(dy>dz)ry=-rx-rz;else rz=-rx-ry;return {q:rx,r:rz}},
+ pixelToCell(px,py,radius,origin,grid=BATTLE_GRID){if(!(radius>0)||!Number.isFinite(px)||!Number.isFinite(py))return null;const dx=px-origin.x,dy=py-origin.y,q=(Math.sqrt(3)/3*dx-dy/3)/radius,r=(2/3*dy)/radius,a=this.cubeRound(q,r),cell=this.axialToOffset(a.q,a.r);return this.inBounds(cell.x,cell.y,grid)?cell:null}
+});
+// Simulated offline defaults: historical formation/range values are not verified.
+// Hex radii 9/10 stay close to the previous 11/12 Manhattan target reachability.
+const TACTICAL_RANGE=Object.freeze({melee:1,ranged:9,eliteRanged:10});
 function unitTacticalRange(unit){return unit?.type==='Ranged'?(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged):TACTICAL_RANGE.melee;}
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG10 offline catch-up: process at most 24 real wall-clock hours in one suspended-time step.
@@ -1282,20 +1302,18 @@ function killUnits(s,damage){let rest=damage,dead=0;for(let u of activeArmy(s).s
 }
 function battleSelect(s,id){assert(s.battle,'Không có trận chiến');const st=[...s.battle.allies,...s.battle.enemies].find(t=>t.id===id&&t.pool>0);assert(st,'Đội quân không tồn tại');if(st.side==='enemy')s.battle.focused=id;else s.battle.selected=id;return st;}
 function alive(arr){return arr.filter(u=>u.pool>0)}
-function dist(a,b){return Math.abs(a.x-b.x)+Math.abs(a.y-b.y)}
+function dist(a,b){return battleHex.distance(a,b)}
 function battleTargetsInRange(b,actorId){const actor=b?.allies?.find(u=>u.id===actorId&&u.pool>0);return actor?alive(b.enemies||[]).filter(target=>dist(actor,target)<=actor.range).map(target=>target.id):[]}
 function battleCellKey(x,y){return `${x},${y}`}
 function battlePath(b,actor,destination){
- const {cols,rows}=BATTLE_GRID;
- if(!Number.isSafeInteger(destination?.x)||!Number.isSafeInteger(destination?.y)||destination.x<0||destination.x>=cols||destination.y<0||destination.y>=rows)return null;
+ if(!battleHex.inBounds(destination?.x,destination?.y))return null;
  if(destination.x===actor.x&&destination.y===actor.y)return [];
  const occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
  if(occupied.has(battleCellKey(destination.x,destination.y)))return null;
  const start=battleCellKey(actor.x,actor.y),goal=battleCellKey(destination.x,destination.y),queue=[[actor.x,actor.y]],previous=new Map([[start,null]]);
- const directions=[[1,0],[0,1],[-1,0],[0,-1]];
  for(let i=0;i<queue.length;i++){
   const [x,y]=queue[i],key=battleCellKey(x,y);if(key===goal)break;
-  for(const [dx,dy] of directions){const nx=x+dx,ny=y+dy,next=battleCellKey(nx,ny);if(nx<0||nx>=cols||ny<0||ny>=rows||occupied.has(next)||previous.has(next))continue;previous.set(next,key);queue.push([nx,ny])}
+  for(const cell of battleHex.neighbors(x,y)){const {x:nx,y:ny}=cell,next=battleCellKey(nx,ny);if(!battleHex.inBounds(nx,ny)||occupied.has(next)||previous.has(next))continue;previous.set(next,key);queue.push([nx,ny])}
  }
  if(!previous.has(goal))return null;
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
@@ -1310,9 +1328,9 @@ function battleMovementBudget(b,actor,commitCredit=false){
 function battleMovementAllowance(b,actor){return battleMovementBudget(b,actor,true)}
 function battleMovePreview(b,actorId){
  const actor=b?.allies?.find(u=>u.id===actorId&&u.pool>0);if(!actor)return {unitId:actorId||null,steps:0,cells:[]};
- const steps=battleMovementBudget(b,actor,false),{cols,rows}=BATTLE_GRID,occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
- const dirs=[[1,0],[0,1],[-1,0],[0,-1]],queue=[{x:actor.x,y:actor.y,steps:0}],seen=new Set([battleCellKey(actor.x,actor.y)]),cells=[];
- for(let i=0;i<queue.length;i++){const cell=queue[i];if(cell.steps>=steps)continue;for(const [dx,dy] of dirs){const x=cell.x+dx,y=cell.y+dy,key=battleCellKey(x,y);if(x<0||x>=cols||y<0||y>=rows||occupied.has(key)||seen.has(key))continue;seen.add(key);const next={x,y,steps:cell.steps+1};queue.push(next);cells.push(next)}}
+ const steps=battleMovementBudget(b,actor,false),occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
+ const queue=[{x:actor.x,y:actor.y,steps:0}],seen=new Set([battleCellKey(actor.x,actor.y)]),cells=[];
+ for(let i=0;i<queue.length;i++){const cell=queue[i];if(cell.steps>=steps)continue;for(const nextCell of battleHex.neighbors(cell.x,cell.y)){const {x,y}=nextCell,key=battleCellKey(x,y);if(!battleHex.inBounds(x,y)||occupied.has(key)||seen.has(key))continue;seen.add(key);const next={x,y,steps:cell.steps+1};queue.push(next);cells.push(next)}}
  return {unitId:actor.id,steps,cells};
 }
 function moveBattleStack(b,actor,destination){
@@ -1330,16 +1348,15 @@ function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;if(s.battle?.woundedByUnit)s.battle.woundedByUnit[unitId]=(s.battle.woundedByUnit[unitId]||0)+count;}}
 function advance(a,target,battle){
- // Find a legal route to attack range, rather than stepping through a living
- // stack. Axis preference preserves unobstructed movement; BFS finds detours.
+ // Find a legal shortest route to hex attack range without stepping through a
+ // living stack. The same six odd-r neighbors drive player path and hostile AI.
  const occupied=new Set([...battle.allies,...battle.enemies].filter(u=>u.pool>0&&u.id!==a.id).map(u=>battleCellKey(u.x,u.y)));
  const start=battleCellKey(a.x,a.y),queue=[{x:a.x,y:a.y}],previous=new Map([[start,null]]);let goal=null;
  for(let i=0;i<queue.length;i++){
   const p=queue[i],key=battleCellKey(p.x,p.y);if(dist(p,target)<=a.range){goal=key;break}
-  const dx=Math.sign(target.x-p.x),dy=Math.sign(target.y-p.y),preferred=Math.abs(target.x-p.x)>Math.abs(target.y-p.y)?[[dx,0],[0,dy]]:[[0,dy],[dx,0]];
-  for(const [sx,sy] of [...preferred,[1,0],[0,1],[-1,0],[0,-1]]){
-   if(!sx&&!sy)continue;const x=p.x+sx,y=p.y+sy,next=battleCellKey(x,y);
-   if(x<0||x>=BATTLE_GRID.cols||y<0||y>=BATTLE_GRID.rows||occupied.has(next)||previous.has(next))continue;
+  for(const cell of battleHex.neighbors(p.x,p.y)){
+   const {x,y}=cell,next=battleCellKey(x,y);
+   if(!battleHex.inBounds(x,y)||occupied.has(next)||previous.has(next))continue;
    previous.set(next,key);queue.push({x,y});
   }
  }
@@ -1445,7 +1462,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
+const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 </script><script>
@@ -2722,7 +2739,9 @@ function strict(s){
   if(!Array.isArray(events)||events.length>ids.size)return false;
   for(const e of events){
    if(!e||!ids.has(e.actorId)||seen.has(e.actorId)||!cell(e.from)||!cell(e.to)||(e.targetId!==null&&!ids.has(e.targetId))||!Number.isFinite(e.damage)||e.damage<0||typeof e.death!=='boolean'||(e.death&&e.damage<=0)||!Array.isArray(e.path)||e.path.length>108||('order'in e&&!['attack','advance','defend','focus','retreat','move'].includes(e.order))||('casualties'in e&&(!Number.isSafeInteger(e.casualties)||e.casualties<0||e.casualties>1e8)))return false;
-   let previous=e.from;for(const p of e.path){if(!cell(p)||Math.abs(p.x-previous.x)+Math.abs(p.y-previous.y)!==1)return false;previous=p}
+   // Accept HG33 odd-r diagonal neighbors while keeping every pre-HG33
+   // orthogonal v07 path valid (those cells are also adjacent on the hex grid).
+   let previous=e.from;for(const p of e.path){if(!cell(p)||E.battleHex.distance(previous,p)!==1)return false;previous=p}
    if(previous.x!==e.to.x||previous.y!==e.to.y)return false;seen.add(e.actorId);
   }
  }
@@ -6285,7 +6304,8 @@ function battleVisualState(b,u,elapsed,now=elapsed){
    from=index?own.path[index-1]:own.from,to=own.path[index],
    fraction=progress-index;
   return {...base,action:'walk',time:actionAge,duration:450,
-   x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction};
+   x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction,
+   walkFrom:{x:from.x,y:from.y},walkTo:{x:to.x,y:to.y},walkFraction:fraction};
  }
  const attackStart=movement?450:0,attackDuration=movement?450:650;
  if(own?.damage>0&&actionAge>=attackStart&&actionAge<attackStart+attackDuration)
@@ -6366,7 +6386,7 @@ function animatedArcher(c,x,y,enemy,visual,k=1){
  if(typeof document==='undefined'||!visual)return false;
  const image=document.getElementById('unit-human-archer-atlas');
  if(!image?.complete||image.naturalWidth!==2048||image.naturalHeight!==1536)return false;
- const frame=archerAtlasFrame(visual.action,visual.time,visual.duration),size=clamp(112*k,64,134);
+ const frame=archerAtlasFrame(visual.action,visual.time,visual.duration),size=clamp(112*k,18,134);
  c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);
  if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,256,256,-size*.485,-size*.87,size,size);
@@ -6377,7 +6397,7 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
  if(!profile||!visual||typeof document==='undefined')return false;
  const image=profile.id?document.getElementById(profile.id):A.unitImage(unitId);
  if(!image?.complete||!image.naturalWidth)return false;
- const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,64,profile.boss?178:134);
+ const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,18,profile.boss?178:134);
  c.save();c.globalAlpha*=clamp((visual.alpha??1)*pose.alpha,0,1);
  c.translate(x,y);if(enemy)c.scale(-1,1);
  c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
@@ -6404,7 +6424,7 @@ function battleFxPlan(b,camera,elapsed,layout){
   if(!actor||!target)return [];
   const time=elapsed-Math.min(index,7)*BATTLE_VISUAL_STAGGER_MS;
   if(time<0||time>960)return [];
-  const origin=camera.point(event.to.x+.5,event.to.y+.5);
+  const origin=camera.center(event.to.x,event.to.y);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
    casualties:event.casualties||0,death:!!event.death,ranged:actor.u.range>1,
    side:actor.u.side,time,index,
@@ -6466,30 +6486,27 @@ function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>ani
 function animatedSoldier(c,x,y,enemy,visual,k=1){
  if(typeof document==='undefined'||!visual)return false;const frame=animationFrame(visual.action,visual.time,visual.duration),image=document.getElementById(frame.id);
  if(!image?.complete||!image.naturalWidth)return false;
- const size=clamp(112*k,64,125);c.save();c.globalAlpha*=visual.alpha;c.translate(x,y);if(enemy)c.scale(-1,1);
+ const size=clamp(112*k,18,125);c.save();c.globalAlpha*=visual.alpha;c.translate(x,y);if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-size*148/256,-size*216/256,size,size);c.restore();return true;
 }
-// HG14.2: Heroes of Gaia 2009-style continuous scenic ground, no raised board.
-// The 12×9 logical squares remain, but their invisible pointer projection now
-// covers a wide field viewed slightly from above, with troop formations left/right.
-// Reference: GameGami original HoG combat gallery and Chinese 2009 battle captures.
+// HG33-H1: one real pointy-top odd-r hex projection shared with engine.js.
+// Canonical Save v07 positions remain integer offset coordinates.
 function battleProjection(canvas,E){
- const g=E.BATTLE_GRID||{cols:12,rows:9},w=canvas.width,h=canvas.height;
- // A shallow 2.5D oblique projection: each successive row moves diagonally
- // toward the foreground, so troops/Bosses behind one another no longer form
- // one vertical occluding column.  Do NOT draw a raised rhombus board.
- // The same affine inverse is used by hit-testing and movement previews.
- // Units keep their canonical integer grid positions in Save v07.
- const origin={x:w*.016,y:h*.35};
- const col={x:w*.061,y:-h*.006},row={x:w*.026,y:h*.067};
- const det=col.x*row.y-col.y*row.x;
- const point=(x,y)=>({x:origin.x+x*col.x+y*row.x,y:origin.y+x*col.y+y*row.y});
- const cellAt=(px,py)=>{
-  const dx=px-origin.x,dy=py-origin.y,gx=(dx*row.y-dy*row.x)/det,gy=(dy*col.x-dx*col.y)/det;
-  if(!Number.isFinite(gx)||!Number.isFinite(gy)||gx<0||gy<0||gx>=g.cols||gy>=g.rows)return null;
-  return {x:Math.floor(gx),y:Math.floor(gy)};
- };
- return {g,origin,col,row,point,cellAt};
+ const g=E.BATTLE_GRID||{cols:12,rows:9},hex=E.battleHex,w=canvas.width,h=canvas.height;
+ const spanY=1.5*(g.rows-1)+2,spanX=Math.sqrt(3)*(g.cols+.5),
+  radius=Math.max(8,Math.min((w-24)/spanX,(h-90)/spanY)),
+  boardW=spanX*radius,boardH=spanY*radius,
+  left=(w-boardW)/2,top=Math.max(62,Math.min(h-boardH-10,h*.14)),
+  origin={x:left+Math.sqrt(3)*radius/2,y:top+radius};
+ const center=(x,y)=>hex.center(x,y,radius,origin),
+  corners=(x,y)=>hex.corners(x,y,radius,origin),
+  point=(cx,cy)=>center(Math.round(cx-.5),Math.round(cy-.5)),
+  pointBetween=(from,to,t)=>{const a=center(from.x,from.y),b=center(to.x,to.y),f=clamp(t,0,1);return {x:a.x+(b.x-a.x)*f,y:a.y+(b.y-a.y)*f}},
+  cellAt=(px,py)=>hex.pixelToCell(px,py,radius,origin,g);
+ return {g,hex,origin,radius,boardW,boardH,center,corners,point,pointBetween,cellAt};
+}
+function battleVisualPoint(camera,visual,fallback){
+ return visual?.walkFrom&&visual?.walkTo?camera.pointBetween(visual.walkFrom,visual.walkTo,visual.walkFraction||0):camera.center(visual?.x??fallback.x,visual?.y??fallback.y);
 }
 function battleGround(c,camera,w,h){
  // A transparent, landscape-consistent grade. The illustrated meadow is the
@@ -6504,9 +6521,7 @@ function battleGround(c,camera,w,h){
 function battleGridCells(camera){
  const cells=[];
  for(let y=0;y<camera.g.rows;y++)for(let x=0;x<camera.g.cols;x++)
-  cells.push({x,y,center:camera.point(x+.5,y+.5),
-   corners:[camera.point(x,y),camera.point(x+1,y),
-            camera.point(x+1,y+1),camera.point(x,y+1)]});
+  cells.push({x,y,center:camera.center(x,y),corners:camera.corners(x,y)});
  return cells;
 }
 function battleGridOverlay(c,camera,layout,reachable){
@@ -6521,8 +6536,8 @@ function battleGridOverlay(c,camera,layout,reachable){
    c.lineWidth=1.7;
    poly(c,cell.corners.map(p=>[p.x,p.y]),'#43cba52a','#9bead0b3');
   }else{
-   c.lineWidth=.55;
-   poly(c,cell.corners.map(p=>[p.x,p.y]),null,'#d9edd21c');
+   c.lineWidth=.8;
+   poly(c,cell.corners.map(p=>[p.x,p.y]),null,'#e9dfbd5c');
   }
  }
  // No floating origin dots, diagonal foot connectors or coordinate numbers:
@@ -6540,7 +6555,7 @@ function battleHit(canvas,x,y,E,s,now=visualNow()){
  // Transform hitboxes by the same animation/spacing offset as drawBattle().
  const visible=layout.filter(entry=>entry.u.pool>0).map(entry=>{
   const u=entry.u,visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):u,
-   pt=camera.point((visual||u).x+.5,(visual||u).y+.5);
+   pt=battleVisualPoint(camera,visual,u);
   return {entry,u,dx:pt.x-entry.baseX,dy:pt.y-entry.baseY,
    footX:pt.x+entry.x-entry.baseX,footY:pt.y+entry.y-entry.baseY};
  }).sort((a,b)=>a.entry.y-b.entry.y||a.entry.x-b.entry.x);
@@ -6587,7 +6602,7 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
  };
  const normalizedName=String(unitName||'').trim().toLocaleLowerCase().replace(/\s+/g,' ');
  const boss=bossSprite(unitName),spriteKey=spriteIds[unitId]||named[normalizedName]||null;
- const size=clamp((boss?.size||113)*k,64,boss?178:125);
+ const size=clamp((boss?.size||113)*k,18,boss?178:125);
  if(spriteKey&&typeof document!=='undefined'){
   const sprite=document.getElementById(spriteKey);
   if(sprite?.complete&&sprite.naturalWidth>0){
@@ -6621,11 +6636,13 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
 function battleRectOverlap(a,b,pad=0){
  return a.x<b.x+b.w+pad&&a.x+a.w+pad>b.x&&a.y<b.y+b.h+pad&&a.y+a.h+pad>b.y;
 }
-function battleRoundHudX(width){return width<1050?clamp(width*.29,14,280):14}
+// Keep the round badge in the upper-left gutter on every viewport. Centering it
+// on compact screens obscures the formation's first ranks and nameplates.
+function battleRoundHudX(width){return 14}
 function battleUnitLayout(b,camera,width,height){
  const entries=[...b.allies,...b.enemies].map(u=>{
-  const pt=camera.point(u.x+.5,u.y+.5);
-  const k=battleSpriteScale(height,u.y,camera.g.rows),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG28_TROOPS?.profile(u.unitId)||root.HOG_HG193_SPRITES?.profile(u.unitId)||root.HOG_HG192_SPRITES?.profile(u.unitId),size=clamp((profile?.size||113)*k,64,profile?.boss?178:134);
+  const pt=camera.center(u.x,u.y);
+  const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG28_TROOPS?.profile(u.unitId)||root.HOG_HG193_SPRITES?.profile(u.unitId)||root.HOG_HG192_SPRITES?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
   return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile};
  });
  for(const side of ['player','enemy']){
@@ -6697,10 +6714,11 @@ function battleUnitLayout(b,camera,width,height){
  }
  return entries;
 }
-function battleSpriteScale(height,row,rows=9){
- // Keep full-height actor silhouettes inside their assigned battlefield lanes
- // even at 960×540. Avoid overlap-driven horizontal drift from the true cell.
- return clamp(height/740,.48,.82)*(.99+row/rows*.05);
+function battleSpriteScale(height,row,rows=9,radius=null){
+ // A hex-based scale keeps silhouettes inside the pointy cells at compact
+ // viewports. Legacy callers without a radius retain their responsive scale.
+ const base=Number.isFinite(radius)?clamp(radius/60,.22,.82):clamp(height/740,.48,.82);
+ return base*(.99+row/rows*.05);
 }
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
@@ -6722,7 +6740,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  }
  for(const entry of units){
   const u=entry.u;
-  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=camera.point(position.x+.5,position.y+.5),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
+  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
   if(u.pool<=0){if(visual){if(u.unitId==='human_4')animatedSoldier(c,x,y,u.side==='enemy',visual,k);else if(u.unitId==='human_3')animatedArcher(c,x,y,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k,u.name);else (root.HOG_HG28_RIGS?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,u.side==='enemy',visual,k)||motionSprite(c,x,y,u.unitId,u.side==='enemy',visual,k,u.name))}continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
@@ -6767,7 +6785,7 @@ let battleAutoPulseBusy=false;
 // Visual QA preferences are separate from the canonical v07 gameplay save.
 // Default both ON, as requested for verifying unit coordinates and HP.
 const BATTLE_VIEW_PREF_KEY='heoofgaia_battle_display_v2';
-const battleViewPrefs={grid:false,hp:true};
+const battleViewPrefs={grid:true,hp:true};
 try{
  const stored=JSON.parse(localStorage.getItem(BATTLE_VIEW_PREF_KEY)||'null');
  if(stored&&typeof stored==='object'){
@@ -7349,10 +7367,10 @@ function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hi�
   const result=[];if(e.damage>0)result.push(`${format(e.damage)} sát thương`);if(e.casualties>0)result.push(`${format(e.casualties)} quân tổn thất`);if(e.death)result.push('đội bị tiêu diệt');if(!result.length&&e.order==='defend')result.push('bỏ lượt');else if(!result.length&&e.order==='retreat'&&!moved)result.push('không đổi vị trí');else if(!result.length&&e.order==='move'&&!e.path.length)result.push('đã chạm đích');else if(!result.length&&e.path.length)result.push('chưa vào tầm đánh');return {name,text,result:result.join(' · ')};};
  const lastEvents=b.lastEvents||[],visibleEvents=lastEvents.slice(0,8),eventRow=e=>{const r=eventText(e);return `<li data-battle-event="${esc(e.actorId)}" data-order="${esc(e.order||'')}" class="battle-event"><span><b>${esc(r.name)}</b><span>${esc(r.text)}</span></span><small>${esc(r.result||'Không có thay đổi')}</small></li>`};
  const cell=u=>`<button class="stack-card ${b.selected===u.id||b.focused===u.id?'chosen':''}" data-action="stack" data-id="${u.id}" ${u.pool<=0?'disabled':''}><span>${u.side==='enemy'?'☠':'⚔'} ${esc(u.name)}${(b.hg21Tower||b.hg261Joint)&&u.side==='player'?' · 🧙 '+esc(u.heroName):''}</span><b>${u.count} quân</b><small>HP ${Math.ceil(u.pool)} · SPD ${format(u.spd)} · ${u.range>1?'Bắn xa':'Cận chiến'}${u.side==='enemy'&&inRange.has(u.id)?' · 🎯 Trong tầm đánh':''}</small></button>`;
- return `<div class="scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)} · 🧙 ${(b.hg21Tower||b.hg261Joint)?(b.hg21Tower||b.hg261Joint).team.map(id=>esc(state.heroes.find(h=>h.id===id)?.name||id)).join(' + '):esc(commander?.name||'Tướng')}</h1></div><div class="scene-tools">${button('save-combat',{},'💾 Lưu',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${b.allies.filter(u=>u.pool>0).length+b.enemies.filter(u=>u.pool>0).length} nhóm hoạt động</span><span class="tag">${b.allies.filter(u=>u.pool>0).length} đội ta : ${b.enemies.filter(u=>u.pool>0).length} đội địch</span><span class="tag" id="battle-auto-clock" title="Bài đánh giá Sina ngày 21-01-2009 ghi trận tự chuyển sang đánh tự động nếu không có thao tác trong 10 giây; áp dụng ở đây theo tư liệu Trung Quốc.">${state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`}</span></div></div>
+ return `<div class="scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)}</h1></div><div class="scene-tools">${button('save-combat',{},'💾 Lưu',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${b.allies.filter(u=>u.pool>0).length+b.enemies.filter(u=>u.pool>0).length} nhóm hoạt động</span><span class="tag">${b.allies.filter(u=>u.pool>0).length} đội ta : ${b.enemies.filter(u=>u.pool>0).length} đội địch</span><span class="tag" id="battle-auto-clock" title="Bài đánh giá Sina ngày 21-01-2009 ghi trận tự chuyển sang đánh tự động nếu không có thao tác trong 10 giây; áp dụng ở đây theo tư liệu Trung Quốc.">${state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`}</span></div></div>
  <div class="battle-frame"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường fantasy; ô tương tác chỉ xuất hiện khi ra lệnh di chuyển. Có thể bật lưới hỗ trợ."></canvas>
   <div class="battle-display-tools" role="group" aria-label="Bật tắt hiển thị chiến trường">
-   <button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Lưới định vị tùy chọn. Mặc định ẩn để nhìn rõ chiến trường.">${battleViewPrefs.grid?'▦ Lưới: Bật':'▢ Lưới: Tắt'}</button>
+   <button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn các ô lục giác chiến thuật">${battleViewPrefs.grid?'⬡ Hex: Bật':'⬡ Hex: Tắt'}</button>
    <button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu từng đội quân">${battleViewPrefs.hp?'♥ HP: Bật':'♡ HP: Tắt'}</button>
   </div></div>
  <div class="battle-ui"><div><span class="eyebrow">QUÂN TA • BẤM CHỌN ĐƠN VỊ</span><div class="stack-list">${b.allies.map(cell).join('')}</div></div><div><span class="eyebrow">QUÂN ĐỊCH • BẤM CHỌN MỤC TIÊU</span><div class="stack-list">${b.enemies.map(cell).join('')}</div></div></div>
