@@ -1,0 +1,2046 @@
+{
+  "schema": "HG33-H0-inventory-v1",
+  "generatedAt": "2026-11-06T06:02:24.761Z",
+  "repository": "vuanhtuan161094-byte/Heoofgaia",
+  "branch": "feature/hog1-research-to-playable-20261102",
+  "catalog": {
+    "coreCount": 40,
+    "coreIds": [
+      "human_1",
+      "human_2",
+      "human_3",
+      "human_4",
+      "human_5",
+      "human_6",
+      "human_7",
+      "human_8",
+      "human_9",
+      "human_10",
+      "elf_1",
+      "elf_2",
+      "elf_3",
+      "elf_4",
+      "elf_5",
+      "elf_6",
+      "elf_7",
+      "elf_8",
+      "elf_9",
+      "elf_10",
+      "orc_1",
+      "orc_2",
+      "orc_3",
+      "orc_4",
+      "orc_5",
+      "orc_6",
+      "orc_7",
+      "orc_8",
+      "orc_9",
+      "orc_10",
+      "undead_1",
+      "undead_2",
+      "undead_3",
+      "undead_4",
+      "undead_5",
+      "undead_6",
+      "undead_7",
+      "undead_8",
+      "undead_9",
+      "undead_10"
+    ],
+    "rewardCount": 8,
+    "rewardIds": [
+      "human_quest_guard",
+      "human_tower_sovereign",
+      "elf_quest_guard",
+      "elf_tower_sovereign",
+      "orc_quest_guard",
+      "orc_tower_sovereign",
+      "undead_quest_guard",
+      "undead_tower_sovereign"
+    ]
+  },
+  "bosses": {
+    "worldTargetCount": 6,
+    "worldTargets": [
+      {
+        "target": {
+          "key": "70,76",
+          "name": "Earth Bear",
+          "eliteTier": 12,
+          "privateBoss": false,
+          "source": "MODELED_HG18_BOSS"
+        },
+        "actualCombatStacks": [
+          {
+            "name": "Fiery Giant",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Earth Bear",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Fallen Treant",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          }
+        ]
+      },
+      {
+        "target": {
+          "key": "99,81",
+          "name": "Thời Không Tà Thần",
+          "eliteTier": 13,
+          "privateBoss": true,
+          "source": "PRIVATE_ELITE_WORLD"
+        },
+        "actualCombatStacks": [
+          {
+            "name": "Azrael",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Demonlord Samurai",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Cyclop Tyrant",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          }
+        ]
+      },
+      {
+        "target": {
+          "key": "29,86",
+          "name": "Fiery Giant",
+          "eliteTier": 12,
+          "privateBoss": false,
+          "source": "MODELED_HG18_BOSS"
+        },
+        "actualCombatStacks": [
+          {
+            "name": "Fiery Giant",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Earth Bear",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Fallen Treant",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          }
+        ]
+      },
+      {
+        "target": {
+          "key": "82,91",
+          "name": "Cyclop Tyrant",
+          "eliteTier": 11,
+          "privateBoss": false,
+          "source": "MODELED_HG18_BOSS"
+        },
+        "actualCombatStacks": [
+          {
+            "name": "Azrael",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Demonlord Samurai",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Cyclop Tyrant",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          }
+        ]
+      },
+      {
+        "target": {
+          "key": "18,92",
+          "name": "Azrael",
+          "eliteTier": 11,
+          "privateBoss": false,
+          "source": "MODELED_HG18_BOSS"
+        },
+        "actualCombatStacks": [
+          {
+            "name": "Azrael",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Demonlord Samurai",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Cyclop Tyrant",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          }
+        ]
+      },
+      {
+        "target": {
+          "key": "99,99",
+          "name": "Vực Thẳm Quỷ Hoàng",
+          "eliteTier": 13,
+          "privateBoss": true,
+          "source": "PRIVATE_ELITE_WORLD"
+        },
+        "actualCombatStacks": [
+          {
+            "name": "Azrael",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Demonlord Samurai",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          },
+          {
+            "name": "Cyclop Tyrant",
+            "unitId": null,
+            "range": 1,
+            "source": "engine.js makeBattle()"
+          }
+        ]
+      }
+    ],
+    "privateTargetCount": 2,
+    "privateTargets": [
+      {
+        "key": "99,99",
+        "name": "Vực Thẳm Quỷ Hoàng",
+        "eliteTier": 13,
+        "source": "PRIVATE_ELITE_WORLD"
+      },
+      {
+        "key": "99,81",
+        "name": "Thời Không Tà Thần",
+        "eliteTier": 13,
+        "source": "PRIVATE_ELITE_WORLD"
+      }
+    ],
+    "distinctCombatArchetypeCount": 10,
+    "combatArchetypes": [
+      {
+        "name": "Azrael",
+        "encounters": [
+          {
+            "target": "Thời Không Tà Thần",
+            "eliteTier": 13,
+            "privateBoss": true
+          },
+          {
+            "target": "Cyclop Tyrant",
+            "eliteTier": 11,
+            "privateBoss": false
+          },
+          {
+            "target": "Azrael",
+            "eliteTier": 11,
+            "privateBoss": false
+          },
+          {
+            "target": "Vực Thẳm Quỷ Hoàng",
+            "eliteTier": 13,
+            "privateBoss": true
+          }
+        ],
+        "source": "engine.js makeBattle()",
+        "artRegistration": {
+          "assetId": "hg28-boss-azrael",
+          "sourceRoute": "built-in image_gen",
+          "status": "RECREATED",
+          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+        }
+      },
+      {
+        "name": "Cyclop Tyrant",
+        "encounters": [
+          {
+            "target": "Thời Không Tà Thần",
+            "eliteTier": 13,
+            "privateBoss": true
+          },
+          {
+            "target": "Cyclop Tyrant",
+            "eliteTier": 11,
+            "privateBoss": false
+          },
+          {
+            "target": "Azrael",
+            "eliteTier": 11,
+            "privateBoss": false
+          },
+          {
+            "target": "Vực Thẳm Quỷ Hoàng",
+            "eliteTier": 13,
+            "privateBoss": true
+          }
+        ],
+        "source": "engine.js makeBattle()",
+        "artRegistration": {
+          "assetId": "hg28-boss-cyclops-tyrant",
+          "sourceRoute": "built-in image_gen",
+          "status": "RECREATED",
+          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+        }
+      },
+      {
+        "name": "Demonlord Samurai",
+        "encounters": [
+          {
+            "target": "Thời Không Tà Thần",
+            "eliteTier": 13,
+            "privateBoss": true
+          },
+          {
+            "target": "Cyclop Tyrant",
+            "eliteTier": 11,
+            "privateBoss": false
+          },
+          {
+            "target": "Azrael",
+            "eliteTier": 11,
+            "privateBoss": false
+          },
+          {
+            "target": "Vực Thẳm Quỷ Hoàng",
+            "eliteTier": 13,
+            "privateBoss": true
+          }
+        ],
+        "source": "engine.js makeBattle()",
+        "artRegistration": {
+          "assetId": "hg28-boss-demonlord-samurai",
+          "sourceRoute": "built-in image_gen",
+          "status": "RECREATED",
+          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+        }
+      },
+      {
+        "name": "Earth Bear",
+        "encounters": [
+          {
+            "target": "Earth Bear",
+            "eliteTier": 12,
+            "privateBoss": false
+          },
+          {
+            "target": "Fiery Giant",
+            "eliteTier": 12,
+            "privateBoss": false
+          }
+        ],
+        "source": "engine.js makeBattle()",
+        "artRegistration": {
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
+        }
+      },
+      {
+        "name": "Fallen Treant",
+        "encounters": [
+          {
+            "target": "Earth Bear",
+            "eliteTier": 12,
+            "privateBoss": false
+          },
+          {
+            "target": "Fiery Giant",
+            "eliteTier": 12,
+            "privateBoss": false
+          }
+        ],
+        "source": "engine.js makeBattle()",
+        "artRegistration": {
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
+        }
+      },
+      {
+        "name": "Fiery Giant",
+        "encounters": [
+          {
+            "target": "Earth Bear",
+            "eliteTier": 12,
+            "privateBoss": false
+          },
+          {
+            "target": "Fiery Giant",
+            "eliteTier": 12,
+            "privateBoss": false
+          }
+        ],
+        "source": "engine.js makeBattle()",
+        "artRegistration": {
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
+        }
+      },
+      {
+        "name": "Huyết Nguyệt Ma Thần",
+        "encounters": [
+          {
+            "towerFloors": "repeating four-model cycle",
+            "display": "<model> · Ảo ảnh <stack>"
+          }
+        ],
+        "source": "hg21-tower-tactical.js gameBattle()",
+        "artRegistration": {
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
+        }
+      },
+      {
+        "name": "Tinh Không Đại Ma",
+        "encounters": [
+          {
+            "towerFloors": "repeating four-model cycle",
+            "display": "<model> · Ảo ảnh <stack>"
+          }
+        ],
+        "source": "hg21-tower-tactical.js gameBattle()",
+        "artRegistration": {
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
+        }
+      },
+      {
+        "name": "U Minh Quỷ Vương",
+        "encounters": [
+          {
+            "towerFloors": "repeating four-model cycle",
+            "display": "<model> · Ảo ảnh <stack>"
+          }
+        ],
+        "source": "hg21-tower-tactical.js gameBattle()",
+        "artRegistration": {
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
+        }
+      },
+      {
+        "name": "Viễn Cổ Long Hoàng",
+        "encounters": [
+          {
+            "towerFloors": "repeating four-model cycle",
+            "display": "<model> · Ảo ảnh <stack>"
+          }
+        ],
+        "source": "hg21-tower-tactical.js gameBattle()",
+        "artRegistration": {
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
+        }
+      }
+    ],
+    "currentBossArtRegistered": [
+      "Azrael",
+      "Cyclop Tyrant",
+      "Demonlord Samurai"
+    ],
+    "missingBossArt": [
+      "Earth Bear",
+      "Fallen Treant",
+      "Fiery Giant",
+      "Huyết Nguyệt Ma Thần",
+      "Tinh Không Đại Ma",
+      "U Minh Quỷ Vương",
+      "Viễn Cổ Long Hoàng"
+    ]
+  },
+  "currentRuntimeArtAudit": {
+    "html": "Play-Heoofgaia-HG11.html",
+    "htmlBytes": 38125726,
+    "htmlSha256": "18aecfae926db6ec052d07d94716dd6763e54d208070cb2356180a22f6841f8b",
+    "packs": [
+      {
+        "name": "KayKit Heavy Soldier",
+        "category": "external web 3D source rendered to combat action atlases",
+        "manifest": "assets/licensed/kaykit-heavy-soldier/asset-manifest.json",
+        "source": {
+          "author": "Kay Lousberg",
+          "license": "CC0-1.0",
+          "repository": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+          "commit": "672074b73ba276876a19e8816ecdc5241817ab47",
+          "licenseUrl": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/blob/672074b73ba276876a19e8816ecdc5241817ab47/LICENSE.txt",
+          "sourceFiles": [
+            {
+              "path": "assets/licensed/kaykit-heavy-soldier/source/LICENSE.txt",
+              "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/LICENSE.txt",
+              "bytes": 891,
+              "sha256": "AE322141814056DDA0DEEA7540D74C41D87AEE1DA319977CD1BD84EE5A923629",
+              "verified": true
+            },
+            {
+              "path": "assets/licensed/kaykit-heavy-soldier/source/Knight.glb",
+              "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Characters/gltf/Knight.glb",
+              "bytes": 3659532,
+              "sha256": "60428E3ABC09BA83E595D256E3AF8C5C976B46CDAE599F0802FC82B4A3445168",
+              "verified": true
+            },
+            {
+              "path": "assets/licensed/kaykit-heavy-soldier/source/knight_texture.png",
+              "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Characters/gltf/knight_texture.png",
+              "bytes": 14172,
+              "sha256": "5D250CCC5DA020E6126BFA3839F83BD9A465A951ED223E4D13C08B1925E154D4",
+              "verified": true
+            },
+            {
+              "path": "assets/licensed/kaykit-heavy-soldier/source/sword_1handed.gltf",
+              "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Assets/gltf/sword_1handed.gltf",
+              "bytes": 3080,
+              "sha256": "F88345D0C89D52710DDB00555964FE7A6F4024874D7EE902EE4C742C048A1958",
+              "verified": true
+            },
+            {
+              "path": "assets/licensed/kaykit-heavy-soldier/source/sword_1handed.bin",
+              "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Assets/gltf/sword_1handed.bin",
+              "bytes": 13256,
+              "sha256": "780EBFD002CD181FD5B1626F5A6AE8DDA0FF2DF58C3FF1FD6E7584F53A969D8A",
+              "verified": true
+            },
+            {
+              "path": "assets/licensed/kaykit-heavy-soldier/source/shield_square.gltf",
+              "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Assets/gltf/shield_square.gltf",
+              "bytes": 3081,
+              "sha256": "D2AF4FBE4C0E8B93F3C88594B99AB601D5589920D4B0B8DC629143413E7C66C1",
+              "verified": true
+            },
+            {
+              "path": "assets/licensed/kaykit-heavy-soldier/source/shield_square.bin",
+              "sourceUrl": "https://raw.githubusercontent.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0/672074b73ba276876a19e8816ecdc5241817ab47/addons/kaykit_character_pack_adventures/Assets/gltf/shield_square.bin",
+              "bytes": 10724,
+              "sha256": "10937706E32DA2A09C3E9F2399C5DAF5FD3B47E22C8B898A06C0D28D7630A6B6",
+              "verified": true
+            }
+          ],
+          "animationClipCountInPinnedGLB": 76
+        },
+        "license": "CC0-1.0",
+        "recordedRows": 5,
+        "uniqueUnitIds": [
+          "human_4"
+        ],
+        "knownFrameCount": 57,
+        "checkedRuntimeFiles": 5,
+        "embeddedRuntimeFiles": 5,
+        "embeddedRuntimeBytes": 1240064,
+        "runtimeFiles": [
+          {
+            "path": "assets/licensed/kaykit-heavy-soldier/rendered/idle.png",
+            "unit": "human_4",
+            "action": "idle",
+            "frames": [
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/000.png",
+                "bytes": 22819,
+                "resolution": "256x256",
+                "sha256": "4797874FF2DC4D362569CE27FFC5B8282C52DC554D4A973182462D7CCD4D1817",
+                "timeSeconds": 0,
+                "alphaPixels": 8307,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/001.png",
+                "bytes": 22905,
+                "resolution": "256x256",
+                "sha256": "EE1ED2D5B672650D51A00BB7541AC4CC5361FB6BD14A807E74098A9553250F83",
+                "timeSeconds": 0.08205128633058988,
+                "alphaPixels": 8305,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/002.png",
+                "bytes": 22798,
+                "resolution": "256x256",
+                "sha256": "8D0FF78D7C8DDA0B0E3A96E23317697939D8DFEBF0B6DA78099EA905176ACDEA",
+                "timeSeconds": 0.16410257266117975,
+                "alphaPixels": 8301,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/003.png",
+                "bytes": 23014,
+                "resolution": "256x256",
+                "sha256": "7ABC931F38A1E8A69E9BCD66A1FEE0C7B1F54397885A858BC05964CA97ECE76A",
+                "timeSeconds": 0.24615385899176964,
+                "alphaPixels": 8293,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/004.png",
+                "bytes": 22966,
+                "resolution": "256x256",
+                "sha256": "9B70765AC01DE2EF6562EE60D4C115A0874AE5FFA0E5E3CBE391F53FF41EEB72",
+                "timeSeconds": 0.3282051453223595,
+                "alphaPixels": 8292,
+                "alphaBounds": [
+                  114,
+                  86,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/005.png",
+                "bytes": 22920,
+                "resolution": "256x256",
+                "sha256": "64DF4490F9DC65EE408AF2EBDE9190048858066F9212C86C5553DCA067D82EA0",
+                "timeSeconds": 0.4102564316529494,
+                "alphaPixels": 8297,
+                "alphaBounds": [
+                  114,
+                  86,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/006.png",
+                "bytes": 22841,
+                "resolution": "256x256",
+                "sha256": "9B3CA2DFC7AD80EE3166519FB386FADA30BA2DD838E869330597BE98AB1AFBD4",
+                "timeSeconds": 0.4923077179835393,
+                "alphaPixels": 8292,
+                "alphaBounds": [
+                  114,
+                  86,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/007.png",
+                "bytes": 22843,
+                "resolution": "256x256",
+                "sha256": "037FFC9FB00529882483D4ACBAE2D5D923E01D33DA4573C614BF8EE1D81050C4",
+                "timeSeconds": 0.5743590043141291,
+                "alphaPixels": 8294,
+                "alphaBounds": [
+                  114,
+                  86,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/008.png",
+                "bytes": 22989,
+                "resolution": "256x256",
+                "sha256": "31DBD84F8925990609A47AA972CA3EA6FC6E8A20E38E443E7CB1FE7484A96102",
+                "timeSeconds": 0.656410290644719,
+                "alphaPixels": 8307,
+                "alphaBounds": [
+                  114,
+                  86,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/009.png",
+                "bytes": 23022,
+                "resolution": "256x256",
+                "sha256": "21F5B5A3AF32EBCE04CC85A2835A2109F49E59E5B6BCA7A58015B5C69BE52CCF",
+                "timeSeconds": 0.7384615769753089,
+                "alphaPixels": 8314,
+                "alphaBounds": [
+                  114,
+                  86,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/010.png",
+                "bytes": 23033,
+                "resolution": "256x256",
+                "sha256": "FF4837781E8AD08E6EEC7439CBFBFD5A5F57A9C95DBB1537BC7710EFC210B776",
+                "timeSeconds": 0.8205128633058988,
+                "alphaPixels": 8314,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/011.png",
+                "bytes": 22909,
+                "resolution": "256x256",
+                "sha256": "F245928CEE200A6238D2C1A633C3FA9E57C73E1B5C5C66135D8A2B0DE76A49CB",
+                "timeSeconds": 0.9025641496364887,
+                "alphaPixels": 8318,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/idle/012.png",
+                "bytes": 23034,
+                "resolution": "256x256",
+                "sha256": "65361C90021AC0A41158F9AF50146C09F459CD353A7BDB1EAF81FC2A630C7307",
+                "timeSeconds": 0.9846154359670786,
+                "alphaPixels": 8313,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              }
+            ],
+            "bytes": 256957,
+            "sourceUrl": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+            "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
+            "license": "CC0-1.0",
+            "sha256": "9a7edb6a89b74aaac44b52e3dd2e2cc03fa1d575734a62866c4eab3fec0e0204",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/kaykit-heavy-soldier/rendered/walk.png",
+            "unit": "human_4",
+            "action": "walk",
+            "frames": [
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/000.png",
+                "bytes": 21701,
+                "resolution": "256x256",
+                "sha256": "59DEA4C4F351F730FFABB12FF66C2C7DCF35C57E92CA2A42F9E4D54A94810F63",
+                "timeSeconds": 0,
+                "alphaPixels": 7501,
+                "alphaBounds": [
+                  115,
+                  86,
+                  188,
+                  217
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/001.png",
+                "bytes": 21804,
+                "resolution": "256x256",
+                "sha256": "7105DA130682492D7FEFF2799EBB24D3111C9181CF9E4A2DE7AA66380C1A4DA1",
+                "timeSeconds": 0.08205128633058988,
+                "alphaPixels": 7532,
+                "alphaBounds": [
+                  115,
+                  87,
+                  190,
+                  218
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/002.png",
+                "bytes": 22030,
+                "resolution": "256x256",
+                "sha256": "75ECC4FAA99C57ACDDDDADC784DC29CD4E238F053971C2F502326FC668DE3886",
+                "timeSeconds": 0.16410257266117975,
+                "alphaPixels": 7652,
+                "alphaBounds": [
+                  115,
+                  88,
+                  194,
+                  217
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/003.png",
+                "bytes": 22459,
+                "resolution": "256x256",
+                "sha256": "B8B92FEB73D5A2C714D4B2948822546C61179224175FFD25FD9D6D7679887DF1",
+                "timeSeconds": 0.24615385899176964,
+                "alphaPixels": 7966,
+                "alphaBounds": [
+                  114,
+                  85,
+                  197,
+                  219
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/004.png",
+                "bytes": 22712,
+                "resolution": "256x256",
+                "sha256": "40CA79C69C6ED2E6AE288CCE5A3ECD0D33C1E51E3DB3DD0DD1CA4DB29BEF1783",
+                "timeSeconds": 0.3282051453223595,
+                "alphaPixels": 8109,
+                "alphaBounds": [
+                  113,
+                  85,
+                  199,
+                  220
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/005.png",
+                "bytes": 22988,
+                "resolution": "256x256",
+                "sha256": "DF8C43802BB854B51C3272491DFFB853F0737C607533638DF54B5BF38223B536",
+                "timeSeconds": 0.4102564316529494,
+                "alphaPixels": 8250,
+                "alphaBounds": [
+                  110,
+                  86,
+                  200,
+                  220
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/006.png",
+                "bytes": 23388,
+                "resolution": "256x256",
+                "sha256": "26331F4FE34459987E424155102B77FD5E3990F4F10B70AAF4825CFB2095E3A5",
+                "timeSeconds": 0.4923077179835393,
+                "alphaPixels": 8394,
+                "alphaBounds": [
+                  107,
+                  86,
+                  200,
+                  219
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/007.png",
+                "bytes": 23349,
+                "resolution": "256x256",
+                "sha256": "26D0EEF848ADBF669B84ACD5C4B01C375AACDAB1508999246371B07280C06AD3",
+                "timeSeconds": 0.5743590043141291,
+                "alphaPixels": 8405,
+                "alphaBounds": [
+                  107,
+                  87,
+                  200,
+                  220
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/008.png",
+                "bytes": 22925,
+                "resolution": "256x256",
+                "sha256": "B709E3456D675E9BDD17ED9DA8C18B46AB9FEC459DA533508F3AD32DA3C2FBDF",
+                "timeSeconds": 0.656410290644719,
+                "alphaPixels": 8288,
+                "alphaBounds": [
+                  110,
+                  88,
+                  200,
+                  222
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/009.png",
+                "bytes": 22812,
+                "resolution": "256x256",
+                "sha256": "694B325A626EB42C4372327E254D7871C7BD8D2CA086055BAF2F5E535A189368",
+                "timeSeconds": 0.7384615769753089,
+                "alphaPixels": 8163,
+                "alphaBounds": [
+                  113,
+                  87,
+                  199,
+                  221
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/010.png",
+                "bytes": 22550,
+                "resolution": "256x256",
+                "sha256": "9B268B69961F77D5234E583C17E01F076743B69D351885146D2FA562D000B944",
+                "timeSeconds": 0.8205128633058988,
+                "alphaPixels": 8024,
+                "alphaBounds": [
+                  114,
+                  85,
+                  197,
+                  220
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/011.png",
+                "bytes": 22438,
+                "resolution": "256x256",
+                "sha256": "26272FA5FD469EC6A11A112DD16D5C657DE9B1B7232AD867186EB9C1876EEBA8",
+                "timeSeconds": 0.9025641496364887,
+                "alphaPixels": 7767,
+                "alphaBounds": [
+                  115,
+                  85,
+                  194,
+                  219
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/walk/012.png",
+                "bytes": 21859,
+                "resolution": "256x256",
+                "sha256": "16905F80EC6F70F33AA1182AE7501D9EF94AA9F399A803D5CCB35DA0B57D2317",
+                "timeSeconds": 0.9846154359670786,
+                "alphaPixels": 7567,
+                "alphaBounds": [
+                  115,
+                  86,
+                  190,
+                  217
+                ]
+              }
+            ],
+            "bytes": 279784,
+            "sourceUrl": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+            "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
+            "license": "CC0-1.0",
+            "sha256": "6c028e4b26c60e6c5d759321648df84e31f6b368f76072ca6c33cc0eddf6e34a",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/kaykit-heavy-soldier/rendered/attack.png",
+            "unit": "human_4",
+            "action": "attack",
+            "frames": [
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/000.png",
+                "bytes": 22769,
+                "resolution": "256x256",
+                "sha256": "EC670BABAF1D19AC88B076712ADDF1DD99DAFABB5AFD09D4FCB40D6013DDD22F",
+                "timeSeconds": 0,
+                "alphaPixels": 8290,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/001.png",
+                "bytes": 22978,
+                "resolution": "256x256",
+                "sha256": "F22BFE7E64A1E8E8FC0F656C256F3BA0AFAB078998FF53528C5D6B576C90179A",
+                "timeSeconds": 0.08205128633058988,
+                "alphaPixels": 8276,
+                "alphaBounds": [
+                  114,
+                  84,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/002.png",
+                "bytes": 23284,
+                "resolution": "256x256",
+                "sha256": "A106FA857A6DB47FF73382823996A4524EE33FFE513C825CAE0286F30DF8F131",
+                "timeSeconds": 0.16410257266117975,
+                "alphaPixels": 8239,
+                "alphaBounds": [
+                  113,
+                  83,
+                  195,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/003.png",
+                "bytes": 23240,
+                "resolution": "256x256",
+                "sha256": "8572A6261194FEC772778C4875684C7DC82A7AA3E3ADE0649FE8959995E4A0AB",
+                "timeSeconds": 0.24615385899176964,
+                "alphaPixels": 8175,
+                "alphaBounds": [
+                  113,
+                  83,
+                  193,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/004.png",
+                "bytes": 23105,
+                "resolution": "256x256",
+                "sha256": "0105679199AFE4F9952712402CE812E2EF6E7F17AC1BAC5311622914469D7317",
+                "timeSeconds": 0.3282051453223595,
+                "alphaPixels": 8066,
+                "alphaBounds": [
+                  114,
+                  82,
+                  191,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/005.png",
+                "bytes": 23274,
+                "resolution": "256x256",
+                "sha256": "35E2DAF7B530EFBFC8A9DE846E35D3F9682068806063B8313F9BA8329FA8AABB",
+                "timeSeconds": 0.4102564316529494,
+                "alphaPixels": 8045,
+                "alphaBounds": [
+                  115,
+                  81,
+                  189,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/006.png",
+                "bytes": 23439,
+                "resolution": "256x256",
+                "sha256": "A3B81FD611120F5303231F85BB1C9FFFED5AF1AEBE7B6F30EF5BB96B4584EEDA",
+                "timeSeconds": 0.4923077179835393,
+                "alphaPixels": 8033,
+                "alphaBounds": [
+                  112,
+                  80,
+                  188,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/007.png",
+                "bytes": 23226,
+                "resolution": "256x256",
+                "sha256": "3A9E2862627B165AD8213864B85C95BA69DF37F6232A9FE68B50E8B334B2DD8A",
+                "timeSeconds": 0.5743590043141291,
+                "alphaPixels": 8110,
+                "alphaBounds": [
+                  114,
+                  79,
+                  192,
+                  221
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/008.png",
+                "bytes": 20465,
+                "resolution": "256x256",
+                "sha256": "988401C1D4F8B20E8FB5D431F7DD91FE846012C43E12CBCA9E305E31A01ECFE0",
+                "timeSeconds": 0.656410290644719,
+                "alphaPixels": 7210,
+                "alphaBounds": [
+                  114,
+                  97,
+                  196,
+                  229
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/009.png",
+                "bytes": 19794,
+                "resolution": "256x256",
+                "sha256": "BF5F6B3C0A180B3CCE8819CEFB52009EEC2A4C0956F1D5DE158F65BFEEFFA3E3",
+                "timeSeconds": 0.7384615769753089,
+                "alphaPixels": 6973,
+                "alphaBounds": [
+                  114,
+                  103,
+                  198,
+                  229
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/010.png",
+                "bytes": 20884,
+                "resolution": "256x256",
+                "sha256": "83024F9EC1D2B79B8B30AAA6056E1E08F8AFE654ECE20DF88F35110DFBEBCAB7",
+                "timeSeconds": 0.8205128633058988,
+                "alphaPixels": 7498,
+                "alphaBounds": [
+                  115,
+                  97,
+                  196,
+                  229
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/011.png",
+                "bytes": 22067,
+                "resolution": "256x256",
+                "sha256": "D5D4A6A4F013A8F1E23091D3F795607DB940A115F5998D8931239793B6E024FE",
+                "timeSeconds": 0.9025641496364887,
+                "alphaPixels": 8006,
+                "alphaBounds": [
+                  115,
+                  90,
+                  196,
+                  226
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/attack/012.png",
+                "bytes": 22667,
+                "resolution": "256x256",
+                "sha256": "FF1B874E6E90280680623620A9163AA93DCBD4DA4BE2BF6232154AF6903BBCC1",
+                "timeSeconds": 0.9846154359670786,
+                "alphaPixels": 8207,
+                "alphaBounds": [
+                  114,
+                  86,
+                  196,
+                  223
+                ]
+              }
+            ],
+            "bytes": 279201,
+            "sourceUrl": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+            "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
+            "license": "CC0-1.0",
+            "sha256": "0aa733113e3921d011e3c11515feee4406787712cad9e9314c92e9c317012277",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/kaykit-heavy-soldier/rendered/hit.png",
+            "unit": "human_4",
+            "action": "hit",
+            "frames": [
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/000.png",
+                "bytes": 22819,
+                "resolution": "256x256",
+                "sha256": "4797874FF2DC4D362569CE27FFC5B8282C52DC554D4A973182462D7CCD4D1817",
+                "timeSeconds": 0,
+                "alphaPixels": 8307,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/001.png",
+                "bytes": 23300,
+                "resolution": "256x256",
+                "sha256": "D1083632175B5B91386ECA5ED2E5A8FF87A5AB4D620E0567142A965F699D6901",
+                "timeSeconds": 0.0833333358168602,
+                "alphaPixels": 8303,
+                "alphaBounds": [
+                  104,
+                  89,
+                  208,
+                  222
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/002.png",
+                "bytes": 22715,
+                "resolution": "256x256",
+                "sha256": "AE0A16D780D856C23CA85A9280D6BB2C07D74E704836173E1ECBAD7FB625BECC",
+                "timeSeconds": 0.1666666716337204,
+                "alphaPixels": 8160,
+                "alphaBounds": [
+                  102,
+                  94,
+                  209,
+                  222
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/003.png",
+                "bytes": 23772,
+                "resolution": "256x256",
+                "sha256": "E1CA4D89C47235C0836875481876483D23CA924386F5C9186EE6C2B59057C192",
+                "timeSeconds": 0.2500000074505806,
+                "alphaPixels": 8522,
+                "alphaBounds": [
+                  108,
+                  85,
+                  207,
+                  222
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/004.png",
+                "bytes": 24104,
+                "resolution": "256x256",
+                "sha256": "66652E04A0294CF95098E36F7F2A998D1751C2CA39E4288AE08A72EE74D2831B",
+                "timeSeconds": 0.3333333432674408,
+                "alphaPixels": 8602,
+                "alphaBounds": [
+                  112,
+                  82,
+                  205,
+                  222
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/005.png",
+                "bytes": 23718,
+                "resolution": "256x256",
+                "sha256": "98855B339BF50F56412291B70E40C9FAF4D127CDF740787A27441CFBC8E2FDA7",
+                "timeSeconds": 0.416666679084301,
+                "alphaPixels": 8530,
+                "alphaBounds": [
+                  113,
+                  83,
+                  202,
+                  222
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/006.png",
+                "bytes": 23447,
+                "resolution": "256x256",
+                "sha256": "1DC23E4A246B4B8ACBA1E2DF35D29BE9D69ADBC40B32F8B009B8C8A6523240F8",
+                "timeSeconds": 0.5000000149011612,
+                "alphaPixels": 8442,
+                "alphaBounds": [
+                  114,
+                  84,
+                  198,
+                  222
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/hit/007.png",
+                "bytes": 23100,
+                "resolution": "256x256",
+                "sha256": "E6EB0F41B9896A9DB078FEF1570A073525F6544AB046B2A58B201C497BD438C1",
+                "timeSeconds": 0.5833333507180214,
+                "alphaPixels": 8344,
+                "alphaBounds": [
+                  114,
+                  84,
+                  196,
+                  223
+                ]
+              }
+            ],
+            "bytes": 175420,
+            "sourceUrl": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+            "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
+            "license": "CC0-1.0",
+            "sha256": "71b8b786e81be7b2232f593651d74285fe2273b8c97e8aa9e1419c81f82483f2",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/kaykit-heavy-soldier/rendered/death.png",
+            "unit": "human_4",
+            "action": "death",
+            "frames": [
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/000.png",
+                "bytes": 22819,
+                "resolution": "256x256",
+                "sha256": "4797874FF2DC4D362569CE27FFC5B8282C52DC554D4A973182462D7CCD4D1817",
+                "timeSeconds": 0,
+                "alphaPixels": 8307,
+                "alphaBounds": [
+                  114,
+                  85,
+                  196,
+                  223
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/001.png",
+                "bytes": 24086,
+                "resolution": "256x256",
+                "sha256": "BAC8A25AE26F05767A53DE3B9FB564D45A427479E5714D1A6DC846852CEC22C2",
+                "timeSeconds": 0.0800000011920929,
+                "alphaPixels": 8812,
+                "alphaBounds": [
+                  110,
+                  87,
+                  205,
+                  222
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/002.png",
+                "bytes": 25762,
+                "resolution": "256x256",
+                "sha256": "8CF2EBF7D62A8528C19CABB8DCD3C49EF34A87A327D483C5D1974F1BD8E109B3",
+                "timeSeconds": 0.1600000023841858,
+                "alphaPixels": 9486,
+                "alphaBounds": [
+                  101,
+                  79,
+                  205,
+                  219
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/003.png",
+                "bytes": 26462,
+                "resolution": "256x256",
+                "sha256": "A944BE20B9C56DC94EC4627EC4B58CE42458090F2012C87E454C497D58CD2D3A",
+                "timeSeconds": 0.24000000357627868,
+                "alphaPixels": 9473,
+                "alphaBounds": [
+                  82,
+                  71,
+                  197,
+                  211
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/004.png",
+                "bytes": 26082,
+                "resolution": "256x256",
+                "sha256": "A40D0E042F545A28A045046213B354092649A48364AAA156D21E239AD0135347",
+                "timeSeconds": 0.3200000047683716,
+                "alphaPixels": 9263,
+                "alphaBounds": [
+                  45,
+                  77,
+                  183,
+                  210
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/005.png",
+                "bytes": 26781,
+                "resolution": "256x256",
+                "sha256": "859398FFBFFCE25608756F572A75692B943F5CB6055C59F810E63B696F1949F5",
+                "timeSeconds": 0.4000000059604645,
+                "alphaPixels": 9172,
+                "alphaBounds": [
+                  26,
+                  95,
+                  191,
+                  219
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/006.png",
+                "bytes": 26096,
+                "resolution": "256x256",
+                "sha256": "1F655101D86060C99A815DFB1FB1CE97A04E2CADE22B55D07890C2B8BD625A1E",
+                "timeSeconds": 0.48000000715255736,
+                "alphaPixels": 8856,
+                "alphaBounds": [
+                  22,
+                  122,
+                  191,
+                  227
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/007.png",
+                "bytes": 25850,
+                "resolution": "256x256",
+                "sha256": "CE513D769D66A2C933598C610E0E4A309EE40EBE51FD3D3A517064BEECEAA95F",
+                "timeSeconds": 0.5600000083446502,
+                "alphaPixels": 8812,
+                "alphaBounds": [
+                  23,
+                  128,
+                  188,
+                  230
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/008.png",
+                "bytes": 26011,
+                "resolution": "256x256",
+                "sha256": "628D66D144839D83E62AFB46727F9B0CDA8CC5825A10F90035FA80FB29A46059",
+                "timeSeconds": 0.6400000095367432,
+                "alphaPixels": 8868,
+                "alphaBounds": [
+                  25,
+                  129,
+                  187,
+                  230
+                ]
+              },
+              {
+                "projectPath": "assets/licensed/kaykit-heavy-soldier/rendered/death/009.png",
+                "bytes": 25768,
+                "resolution": "256x256",
+                "sha256": "9E5F167B8E8BEEE84A950B68239EE41DBA8210659F71EADA418F01C1A4914CB6",
+                "timeSeconds": 0.720000010728836,
+                "alphaPixels": 8820,
+                "alphaBounds": [
+                  26,
+                  131,
+                  187,
+                  230
+                ]
+              }
+            ],
+            "bytes": 248702,
+            "sourceUrl": "https://github.com/KayKit-Game-Assets/KayKit-Character-Pack-Adventures-1.0",
+            "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
+            "license": "CC0-1.0",
+            "sha256": "10c430617f8c2b0f7b0b0b1532fa68a7bc16d1340dfc2366bb843fdf01bf1211",
+            "embeddedInOfflineHtml": true
+          }
+        ]
+      },
+      {
+        "name": "SpriteCook",
+        "category": "external web combat spritesheets",
+        "manifest": "assets/licensed/spritecook/asset-manifest.json",
+        "source": "https://github.com/SpriteCook/spritecook-free-game-assets",
+        "license": "CC0-1.0",
+        "recordedRows": 6,
+        "uniqueUnitIds": [
+          "human_2",
+          "human_7"
+        ],
+        "knownFrameCount": 52,
+        "checkedRuntimeFiles": 6,
+        "embeddedRuntimeFiles": 6,
+        "embeddedRuntimeBytes": 179174,
+        "runtimeFiles": [
+          {
+            "path": "assets/licensed/spritecook/human-scout/idle.png",
+            "unit": "human_2",
+            "action": "idle",
+            "frames": 8,
+            "bytes": 37991,
+            "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-red-cloaked-rogue/idle_sheet.png",
+            "sourceBlob": "024959bbf318384f7cbca7d8fc710b2e365410e3",
+            "license": "CC0-1.0",
+            "sha256": "64f3192d7be2099eb50c32e01e7931e9aa7e66706624b14331e2f8ddb2bbf891",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/spritecook/human-elite/idle.png",
+            "unit": "human_7",
+            "action": "idle",
+            "frames": 8,
+            "bytes": 15350,
+            "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/idle_sheet.png",
+            "sourceBlob": "d833b70d59cbb9dc470b33d3f86493f67d0b7969",
+            "license": "CC0-1.0",
+            "sha256": "45db0a2e297371d372f2a68d7c843505cf7a9b40578269f1912299b1cca54360",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/spritecook/human-elite/walk.png",
+            "unit": "human_7",
+            "action": "walk",
+            "frames": 8,
+            "bytes": 19938,
+            "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/walk_sheet.png",
+            "sourceBlob": "6e45090ae9ae8cdffe9e3f7326f98a3f93f1e682",
+            "license": "CC0-1.0",
+            "sha256": "f9dc9440c28fa66787223ec04d5f5cd0ba2aa68f3df7bcfa9ada2b1fdd88ba57",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/spritecook/human-elite/attack.png",
+            "unit": "human_7",
+            "action": "attack",
+            "frames": 8,
+            "bytes": 29803,
+            "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/attack_sheet.png",
+            "sourceBlob": "476874e8934e720ec29c91b31ea866dbbfcd1fec",
+            "license": "CC0-1.0",
+            "sha256": "01dc0abf8eca69e535feb4038ab21153aaf734464a041f37c2176e22aa64bc06",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/spritecook/human-elite/hit.png",
+            "unit": "human_7",
+            "action": "hit",
+            "frames": 8,
+            "bytes": 30311,
+            "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/hurt_sheet.png",
+            "sourceBlob": "0f505dd26c443dd2134bb92427492723b46ea378",
+            "license": "CC0-1.0",
+            "sha256": "f04929294a3b18a22814958e14f7011a354b05a1304c9e480d24c130f86f8498",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/spritecook/human-elite/death.png",
+            "unit": "human_7",
+            "action": "death",
+            "frames": 12,
+            "bytes": 45781,
+            "sourceUrl": "https://github.com/SpriteCook/spritecook-free-game-assets/blob/master/examples/pixel-art-paladin-knight/death_sheet.png",
+            "sourceBlob": "e9178eca1168a33a6f731df9bca84f7ab25ec990",
+            "license": "CC0-1.0",
+            "sha256": "f4c3a46bf13fb687a22aa8f3fd591a4d20b6ad519e5319962df3851bce8b6515",
+            "embeddedInOfflineHtml": true
+          }
+        ]
+      },
+      {
+        "name": "Dungeon Crawl Stone Soup tiles",
+        "category": "external web unit sprites",
+        "manifest": "assets/licensed/dcss-cc0/unit-manifest.json",
+        "source": "crawl/tiles Nov-2015 release",
+        "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+        "recordedRows": 24,
+        "uniqueUnitIds": [
+          "human_5",
+          "human_9",
+          "human_10",
+          "elf_3",
+          "elf_6",
+          "elf_8",
+          "elf_9",
+          "elf_10",
+          "orc_3",
+          "orc_4",
+          "orc_5",
+          "orc_6",
+          "orc_8",
+          "orc_9",
+          "orc_10",
+          "undead_2",
+          "undead_3",
+          "undead_4",
+          "undead_5",
+          "undead_6",
+          "undead_7",
+          "undead_8",
+          "undead_9",
+          "undead_10"
+        ],
+        "knownFrameCount": 24,
+        "checkedRuntimeFiles": 24,
+        "embeddedRuntimeFiles": 24,
+        "embeddedRuntimeBytes": 15877,
+        "runtimeFiles": [
+          {
+            "path": "assets/licensed/dcss-cc0/human_5.png",
+            "unit": "human_5",
+            "action": null,
+            "frames": null,
+            "bytes": 1935,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/griffon.png",
+            "sourceBlob": "556f58e14868f226999f54faa8be36a8a4a9c57f",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "3fcd80675751b891fd272d8bf73fbf4c4c718411a6d7365912cf3474d16ffbad",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/human_9.png",
+            "unit": "human_9",
+            "action": null,
+            "frames": null,
+            "bytes": 580,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/holy/angel.png",
+            "sourceBlob": "3e1097994ed54628b3dd776d3899a1af73774a61",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "c4f9af9ab08ef32c20897916a271731db3615b257e3a827f34c04348d1f576ad",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/human_10.png",
+            "unit": "human_10",
+            "action": null,
+            "frames": null,
+            "bytes": 734,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/holy/seraph.png",
+            "sourceBlob": "5876290ba609643a0b89f42e6290c3adc16dffde",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "e43deed5e3507e288ebbe05ac696ff5f636df926757ae58f4c850c49efa3901b",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/elf_3.png",
+            "unit": "elf_3",
+            "action": null,
+            "frames": null,
+            "bytes": 505,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dwarf.png",
+            "sourceBlob": "4b8376df63bf7889a6e4ecc64ae77f5498dfe677",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "36ca4ed016fb706ad40c0e0587c2894c5c32ed30c6e4d5b70cba3b80698cea66",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/elf_6.png",
+            "unit": "elf_6",
+            "action": null,
+            "frames": null,
+            "bytes": 338,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dryad.png",
+            "sourceBlob": "d15cdb5c95b4c4f0c78f9babd74eb6f41192bd00",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "cd3d69eccc4e8926db2d8ad19c495b1a84bb959e3018f30415050600701a3c8d",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/elf_8.png",
+            "unit": "elf_8",
+            "action": null,
+            "frames": null,
+            "bytes": 662,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/deep_elf_master_archer.png",
+            "sourceBlob": "0a94ec1d4bc8ea424446792e03c0027cc16897dd",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "c7d25fd67f8a900aed04d99a34bb5bd6eb2ab5ae1f7bf61f331844b012d108aa",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/elf_9.png",
+            "unit": "elf_9",
+            "action": null,
+            "frames": null,
+            "bytes": 602,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dragons/swamp_dragon.png",
+            "sourceBlob": "27b13ab4c17bb89f1611d23f5fa8f32371f0c5b2",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "973304d600910d72ccb309e86705f0a3155d1ae712758898c6f32d53e1ad01af",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/elf_10.png",
+            "unit": "elf_10",
+            "action": null,
+            "frames": null,
+            "bytes": 1627,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dragons/quicksilver_dragon.png",
+            "sourceBlob": "fc95fcd2064dbc7d2f0459501c5f12f84d07fb06",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "25055874d2b8bcd89fdccc575e78d7ad381f01723c9da70a64bb3ce07d531686",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/orc_3.png",
+            "unit": "orc_3",
+            "action": null,
+            "frames": null,
+            "bytes": 460,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/orc_warrior.png",
+            "sourceBlob": "fe120cd4b29dc1c925b995b578876e0fa5279c85",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "5e18152eb14f41389b0f2d92227268f061d8945186b07cd89e0db570cdf10ed9",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/orc_4.png",
+            "unit": "orc_4",
+            "action": null,
+            "frames": null,
+            "bytes": 712,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/animals/wolf.png",
+            "sourceBlob": "30aeba087491cd2a337083008047afd8fb2f214d",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "e560446c4bcefd0380e90318f98f03fd5da69a9eadc126c72007dd934ab52343",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/orc_5.png",
+            "unit": "orc_5",
+            "action": null,
+            "frames": null,
+            "bytes": 459,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/ogre.png",
+            "sourceBlob": "bacca8a73936d01fa933eda7c1a7cc89600177e8",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "ca7bb3d39de4ee595258a5caa4718cfcff077970a0175024117e087449f3c34f",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/orc_6.png",
+            "unit": "orc_6",
+            "action": null,
+            "frames": null,
+            "bytes": 458,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/harpy.png",
+            "sourceBlob": "d671707072913f726c45ac1ffaa31ba175d2ad23",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "bda003e5508a607f4226d4a889af3727c15339ffecadcd0aa0e9470ccffb3e66",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/orc_8.png",
+            "unit": "orc_8",
+            "action": null,
+            "frames": null,
+            "bytes": 506,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/cyclops.png",
+            "sourceBlob": "f78aa44c65a6bd41de6d67fb9e77ddd77ab85664",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "9a630b4cb1699af6f2e1eee056ba99272f4aa7cb0b18318ad4a020536cef9844",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/orc_9.png",
+            "unit": "orc_9",
+            "action": null,
+            "frames": null,
+            "bytes": 461,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/mutant_beast.png",
+            "sourceBlob": "2ca93cda6ee7af858ce233ad529d50ce5905a348",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "a18d784c7bebe7f60387e917202e535cca0d5d3fb26de3f1299ae3eba6c562a0",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/orc_10.png",
+            "unit": "orc_10",
+            "action": null,
+            "frames": null,
+            "bytes": 521,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/juggernaut.png",
+            "sourceBlob": "690ca214fdf7085e686eaa1a43958a2df54e752e",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "15400384ad704b3ad93a8f82ef9e43114cfd8833be90e7aeafd91c51ed8ad249",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_2.png",
+            "unit": "undead_2",
+            "action": null,
+            "frames": null,
+            "bytes": 237,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/ghost.png",
+            "sourceBlob": "ac3c858bfe37ede4a0635ffd7e321241d04f22c2",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "67a049ed83abe386bca7d5c697431f65d856560b157bee54593b2660187215bb",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_3.png",
+            "unit": "undead_3",
+            "action": null,
+            "frames": null,
+            "bytes": 436,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/necrophage.png",
+            "sourceBlob": "7d91859c477fb6662cf24370339fb12e200bd22c",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "eaa8d61fe1c639434797cbd61294959810ada5d85df489cd0ddfadfb23eb270b",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_4.png",
+            "unit": "undead_4",
+            "action": null,
+            "frames": null,
+            "bytes": 555,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/shadow_wraith.png",
+            "sourceBlob": "1c347208131625cb39162780e5ffafe6a7c5cafe",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "986b4803e4200ca21e94ff3a6fdaaae3c3652f5d810d6fe6907df7183de10520",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_5.png",
+            "unit": "undead_5",
+            "action": null,
+            "frames": null,
+            "bytes": 972,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/vampire.png",
+            "sourceBlob": "8505b59031ad59dabb9ce24ee5fb50e3524660fd",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "b0d1346d767c7e98119c6a2ae753878eec6660a2258c98fb7b4927362720e7e3",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_6.png",
+            "unit": "undead_6",
+            "action": null,
+            "frames": null,
+            "bytes": 800,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/lich.png",
+            "sourceBlob": "0167b552ea0e92aa5497a52fccd998ece33360f8",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "3c8d49538f2901a7f853646848978014b98bef538ce1b06beb81859b6f3233bf",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_7.png",
+            "unit": "undead_7",
+            "action": null,
+            "frames": null,
+            "bytes": 408,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/phantasmal_warrior.png",
+            "sourceBlob": "f4b1f0be9fd7298b01fdccd3a7173e93231f67a1",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "e6ee8938971103e735782c4a294b6940730d742b28602502e7051c4d1c432fd0",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_8.png",
+            "unit": "undead_8",
+            "action": null,
+            "frames": null,
+            "bytes": 476,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/ancient_lich.png",
+            "sourceBlob": "4d2dc3f4f73366084b2ce4c36ee7046ce84b72d2",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "59aa7f3e3d86c1c50d3616106f6c3d17d2fee1fb95ed1d215735112ed5accfcd",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_9.png",
+            "unit": "undead_9",
+            "action": null,
+            "frames": null,
+            "bytes": 546,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/undead/bone_dragon.png",
+            "sourceBlob": "e9941ec367f30b08ef7b933229d738f44119a4bd",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "a4fd2ceee1b9183de9e68703de5548ceaf0c8c4684ecb4c28ce47a8968825f35",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/dcss-cc0/undead_10.png",
+            "unit": "undead_10",
+            "action": null,
+            "frames": null,
+            "bytes": 887,
+            "sourceUrl": "https://github.com/crawl/tiles/blob/master/releases/Nov-2015/mon/dragons/shadow_dragon.png",
+            "sourceBlob": "b0feca01e1ed9af0fe194ec48cf9d77e64f249b5",
+            "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
+            "sha256": "4fec72e4ae63e35b525d843a22800fe4fd2148c87279852e85c359d5a472df39",
+            "embeddedInOfflineHtml": true
+          }
+        ]
+      },
+      {
+        "name": "HG22 Skeleton",
+        "category": "external web five-action combat atlases",
+        "manifest": "assets/licensed/hg22-skeleton/asset-manifest.json",
+        "source": "https://github.com/chongdashu/ai-pixel-snapped-game-sprites",
+        "license": "MIT",
+        "recordedRows": 5,
+        "uniqueUnitIds": [],
+        "knownFrameCount": 50,
+        "checkedRuntimeFiles": 5,
+        "embeddedRuntimeFiles": 5,
+        "embeddedRuntimeBytes": 340014,
+        "runtimeFiles": [
+          {
+            "path": "assets/licensed/hg22-skeleton/idle.png",
+            "unit": null,
+            "action": "idle",
+            "frames": 10,
+            "bytes": 68798,
+            "sourceUrl": "spritesheets/skeleton/idle/spritesheet.png",
+            "sourceBlob": "d043b2ec69b74b3fb2734e9b06ab1949d4fd47e0",
+            "license": "MIT",
+            "sha256": "3d7571be84c0bb5fc52fe499fc1d55720fa7cbf29c21040e98a7ff24ff1335ad",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/hg22-skeleton/walk.png",
+            "unit": null,
+            "action": "walk",
+            "frames": 10,
+            "bytes": 73019,
+            "sourceUrl": "spritesheets/skeleton/walk/spritesheet.png",
+            "sourceBlob": "bd71635756397222887e6ea76b685635091b1f2d",
+            "license": "MIT",
+            "sha256": "cfcd8f59a53ccbe994b969f8edf97afe1a156ce291c5c1a5dbbc9a9a92dc415f",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/hg22-skeleton/attack.png",
+            "unit": null,
+            "action": "attack",
+            "frames": 10,
+            "bytes": 71877,
+            "sourceUrl": "spritesheets/skeleton/attack/spritesheet.png",
+            "sourceBlob": "3453841ea83f7d208019b74e7dd011eea9f1be8f",
+            "license": "MIT",
+            "sha256": "78becec5233954409e761459a658f63ee37cd2d6c5fc4bd986ea2428cf92816f",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/hg22-skeleton/hit.png",
+            "unit": null,
+            "action": "hit",
+            "frames": 10,
+            "bytes": 51140,
+            "sourceUrl": "spritesheets/skeleton/hurt/spritesheet.png",
+            "sourceBlob": "15f208ca8dbdfdc26d25a4def80d56ea80b7dd4d",
+            "license": "MIT",
+            "sha256": "5c4f33c92837463cb16c042a2d899ce5910609db2c56773983aebc46ad6ed3db",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/hg22-skeleton/death.png",
+            "unit": null,
+            "action": "death",
+            "frames": 10,
+            "bytes": 75180,
+            "sourceUrl": "spritesheets/skeleton/death/spritesheet.png",
+            "sourceBlob": "f36b3c4089369ea0d564798dc37bf4e1378a4682",
+            "license": "MIT",
+            "sha256": "5c1553e32fef9a4f602c2e8cb7bbc830101f8b816bc7a8627c465a3b0d5b64a4",
+            "embeddedInOfflineHtml": true
+          }
+        ]
+      },
+      {
+        "name": "HG193 unit catalog",
+        "category": "mixed project-authored and external static combat sprites",
+        "manifest": "assets/hg193-unit-manifest.json",
+        "source": null,
+        "license": null,
+        "recordedRows": 7,
+        "uniqueUnitIds": [
+          "human_6",
+          "human_8",
+          "elf_4",
+          "elf_5",
+          "elf_7",
+          "orc_2",
+          "orc_7"
+        ],
+        "knownFrameCount": 14,
+        "checkedRuntimeFiles": 7,
+        "embeddedRuntimeFiles": 7,
+        "embeddedRuntimeBytes": 15707,
+        "runtimeFiles": [
+          {
+            "path": "assets/licensed/hg193/human_6.png",
+            "unit": "human_6",
+            "action": "Monk",
+            "frames": 8,
+            "bytes": 9219,
+            "sourceUrl": "SpriteCook/spritecook-free-game-assets",
+            "sourceBlob": "8a9d73398c9494cf44e7807c8a3134fe605f3238",
+            "license": "CC0-1.0",
+            "sha256": "ade6a53757120cac14e807109b5d8663df9c1aba0243e8c3b6237d05eefc2481",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/hg193/human_8.png",
+            "unit": "human_8",
+            "action": "Priest",
+            "frames": 1,
+            "bytes": 731,
+            "sourceUrl": "crawl/tiles",
+            "sourceBlob": "03875c6b0682225efc9867be5243aa99bdb02b14",
+            "license": "curated CC0 export",
+            "sha256": "5531a27d2d866aeceaaeddd771c95b6d36b7f2c547bf4665686c55855a6c6651",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/hg193/elf_4.png",
+            "unit": "elf_4",
+            "action": "Elf Archer",
+            "frames": 1,
+            "bytes": 394,
+            "sourceUrl": "crawl/tiles",
+            "sourceBlob": "89731bb62f8f2287178bc27b75373fd56d4b7b61",
+            "license": "curated CC0 export",
+            "sha256": "7e002d72c283fb278c792ecd0ac6b4b429c612bc16c75960451530d56eb7f394",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/generated/hg193/elf_5.png",
+            "unit": "elf_5",
+            "action": "Pegasus Warrior",
+            "frames": 1,
+            "bytes": 1759,
+            "sourceUrl": "original authored in this project",
+            "sourceBlob": "862b526dd0c2f863f627cbbced69245819897369",
+            "license": "project-owned",
+            "sha256": "b0a4274bae20ff4dd3dd8ddf8a0e6d567320d6cd6edbccd51ca583fcebf48852",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/generated/hg193/elf_7.png",
+            "unit": "elf_7",
+            "action": "Unicorn",
+            "frames": 1,
+            "bytes": 1381,
+            "sourceUrl": "original authored in this project",
+            "sourceBlob": "79934a984029b556a4f16f5b9968ed41bed839e3",
+            "license": "project-owned",
+            "sha256": "861dde4ee6bbcc2c7048684f96ed8079438c35ff317ca5b22d72cd82d1381bd8",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/generated/hg193/orc_2.png",
+            "unit": "orc_2",
+            "action": "Wolf Rider",
+            "frames": 1,
+            "bytes": 941,
+            "sourceUrl": "original authored in this project",
+            "sourceBlob": "ef7cb7522be671db6086226400aef261136bb23e",
+            "license": "project-owned",
+            "sha256": "2cefbe2071e8507e88d77acc2bda832323d488769739bf53532b0305e7ce2154",
+            "embeddedInOfflineHtml": true
+          },
+          {
+            "path": "assets/licensed/hg193/orc_7.png",
+            "unit": "orc_7",
+            "action": "Thunderbird",
+            "frames": 1,
+            "bytes": 1282,
+            "sourceUrl": "crawl/tiles",
+            "sourceBlob": "fdaba05c3dd071bcf0974bda8d5c5a6681073a53",
+            "license": "curated CC0 export",
+            "sha256": "811c5cf73f7496aedbdfdabc6e3f874479ae5b21aae4c6012656565f03a5a96a",
+            "embeddedInOfflineHtml": true
+          }
+        ]
+      }
+    ],
+    "packsWithExternalSource": [
+      "KayKit Heavy Soldier",
+      "SpriteCook",
+      "Dungeon Crawl Stone Soup tiles",
+      "HG22 Skeleton",
+      "HG193 unit catalog"
+    ],
+    "releaseBlocker": "External-source combat sprites/atlases remain in the current runtime; HG5 replacement gate is not yet passed."
+  },
+  "result": "PASS_H0_CENSUS_AND_PROVENANCE_AUDIT; ART_REPLACEMENT_NOT_COMPLETE"
+}

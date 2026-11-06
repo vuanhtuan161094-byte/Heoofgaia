@@ -1,0 +1,112 @@
+{
+  "schema": "HG33-H0-baseline-v1",
+  "date": "2026-11-06",
+  "repository": "vuanhtuan161094-byte/Heoofgaia",
+  "branch": "feature/hog1-research-to-playable-20261102",
+  "baseCommit": "3174f17a1f59788aa1452d99c373a4a6add5f14b",
+  "baseCi": {
+    "workflow": "GitHub Actions #384",
+    "url": "https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42167272189",
+    "testedCommit": "3174f17a1f59788aa1452d99c373a4a6add5f14b",
+    "result": "SUCCESS"
+  },
+  "release": {
+    "path": "Play-Heoofgaia-HG11.html",
+    "bytes": 38125726,
+    "characters": 38106668,
+    "sha256": "18aecfae926db6ec052d07d94716dd6763e54d208070cb2356180a22f6841f8b",
+    "deterministicBuilds": 2,
+    "buildResult": "PASS"
+  },
+  "regression": [
+    {
+      "command": "node qa-engine.cjs",
+      "passed": 214,
+      "failed": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "node qa-hg09-combat-viewport.cjs",
+      "checks": 126,
+      "renderedCalls": 1838,
+      "failed": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "node qa-hg261-joint.cjs",
+      "passed": 14,
+      "failed": 0,
+      "result": "PASS"
+    },
+    {
+      "command": "node qa-hg28-animation-coverage.cjs",
+      "registeredUnitsWithFiveActions": 4,
+      "realActionClips": 22,
+      "frameCells": 215,
+      "t9T10StillMasters": 8,
+      "auditResult": "PASS_WITH_RECORDED_COVERAGE_GAPS"
+    },
+    {
+      "command": ".venv\\Scripts\\python.exe -m py_compile build_offline.py qa-hg28-pve2-chrome.py",
+      "result": "PASS"
+    }
+  ],
+  "chromium": {
+    "browser": "Installed Google Chrome",
+    "mode": "Actual file:// release; local Playwright Chromium binary unavailable",
+    "result": "PASS",
+    "checks": 20,
+    "passed": 20,
+    "failed": 0,
+    "viewportSizes": [
+      "1280x720",
+      "960x540"
+    ],
+    "saveV07ColdReload": "PASS; restores owner-bound 3 heroes x 2 stacks",
+    "uncaughtErrors": 0,
+    "receipt": "docs/qa/hg33/H0-before-chromium.json"
+  },
+  "screenshots": [
+    {
+      "path": "docs/evidence/hg33/before/boss-three-1280x720.png",
+      "sha256": "781b3bf5288eafbc2b8321dc27fc6957ab145ba1ec889823d32f149a6f337d73",
+      "resolution": "1280x720",
+      "source": "actual installed Chrome screenshot"
+    },
+    {
+      "path": "docs/evidence/hg33/before/boss-three-960x540.png",
+      "sha256": "28f231c380994fd6a3793a4535215da2b01ad6199c911eb90068b680d884fcd0",
+      "resolution": "960x540",
+      "source": "actual installed Chrome screenshot"
+    },
+    {
+      "path": "docs/evidence/hg33/before/joint-three-heroes-six-stacks-1280x720.png",
+      "sha256": "61fbf5286104e819ea9f4f5e7f3f7970f9de079f0439e0bca758e0f92b89f021",
+      "resolution": "1280x720",
+      "source": "actual installed Chrome screenshot"
+    },
+    {
+      "path": "docs/evidence/hg33/before/joint-three-heroes-six-stacks-960x540.png",
+      "sha256": "b4b37f293a99f7134582da030ebb076f868b41c046827a1b85ca5d597d03d6fd",
+      "resolution": "960x540",
+      "source": "actual installed Chrome screenshot"
+    }
+  ],
+  "visualFindings": [
+    "Combat board is still the original oblique/isometric-like projection; replace it with actual pointy-top odd-r hex geometry in H1.",
+    "At 960x540 the compact combat header truncates text and the bottom roster cards clip; revisit HUD geometry during H1 without hiding gameplay controls."
+  ],
+  "assetCensus": {
+    "coreTroops": 40,
+    "rewardTroops": 8,
+    "worldBossTargets": 6,
+    "privateBossTargets": 2,
+    "combatArchetypesIncludingTowerCycle": 10,
+    "bossArchetypesWithRegisteredOriginalMasters": 3,
+    "bossArchetypesMissingRegisteredMasters": 7,
+    "externalSourceCombatPacksAudited": 5,
+    "receipt": "docs/qa/hg33/boss-art-inventory.json",
+    "h5InternetArtReleaseGate": "BLOCKED; current release still embeds externally sourced licensed sprite packs"
+  },
+  "result": "H0_PASS_BASELINE_AND_CENSUS_ONLY; H1_HEX_AND_H2_H4_ANIMATION_GATES_NOT_STARTED"
+}
