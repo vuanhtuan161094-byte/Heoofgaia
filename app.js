@@ -46,7 +46,7 @@ function resolveAutomaticBattleTurn(){
    b.focused=null;
    for(const unit of b.allies)if(b.orders[unit.id]==='focus')b.orders[unit.id]='attack';
   }
-  const wasTower=!!b.hg21Tower,out=E.battleAct(s,'attack',{preserveMoveOrders:true});
+  const wasTower=!!b.hg21Tower,out=E.battleAct(s,'attack',{preserveMoveOrders:true,stableTargets:true});
   if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';
   if(out.type==='lose')tab=wasTower?'tower':'heroes';
   if(s.battle===b)b.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;
