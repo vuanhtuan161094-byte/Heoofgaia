@@ -12,6 +12,7 @@ for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js'
 const E=ctx.HOG_ENGINE,C=ctx.HOG_CATALOG,s=E.make('human',1_000_000);
 const steps=[],meta={mode:'organic actions with accelerated elapsed game time',seeded:false,status:'PENDING',stages:steps,error:null};
 let simulatedHours=0,waits=0,builds=0,studies=0,recruits=0,battles=0,minesCaptured=0,xpBattles=0;
+let xpPaidRefits=0,xpRecruitedT10=0,xpRefitCostGold=0;
 function strict(label){assert(E.strictSave(s),'Save validation failed: '+label)}
 function receipt(name,details={}){steps.push({name,heroLevel:s.heroes[0].level,armyT10:s.army.human_10||0,gold:Math.floor(s.res.gold),fame:s.fame,simulatedHours, ...details});console.log('HG32 '+name+' '+JSON.stringify(details));strict(name)}
 function advance(seconds){assert(seconds>0);E.tick(s,s.lastTick+(seconds+1)*1000/s.speed);simulatedHours+=seconds/3600;strict('tick')}
@@ -160,13 +161,30 @@ try{
  const initialLv=s.heroes[0].level;
  xpBattles=0;
  for(;s.heroes[0].level<100&&xpBattles<1700;xpBattles++){
+  // True hex movement produces real attrition. Keep the long organic XP route
+  // sustainable by replacing casualties through canonical paid training.
+  recallIfNeeded();
+  const available=s.army.human_10||0;
+  if(available<targetCount-8){
+   const before=available,recruitsBefore=recruits,missing=targetCount-available;
+   for(let q=0;q<missing;q+=5){const order=Math.min(5,missing-q);xpRefitCostGold+=E.recruitCost(s,unit,order).gold;train(unit.id,order)}
+   const after=s.army.human_10||0;
+   assert.equal(after,targetCount,'Paid XP refit did not restore the modeled T10 army');
+   assert.equal(recruits-recruitsBefore,missing,'XP refit bypassed canonical paid recruitment');
+   const n=Math.min(7,after),per=Math.floor(after/n),extra=after%n;
+   E.setFormation(s,Array.from({length:n},(_,i)=>({unitId:unit.id,count:per+(i<extra?1:0)})));
+   xpPaidRefits++;xpRecruitedT10+=missing;
+   receipt('experience_t10_paid_refit',{before,bought:missing,after,canonicalRecruitActions:recruits-recruitsBefore,mode:'paid production and training'});
+  }
   const outcome=dispatchAndWin(xpTarget.key);
   if(outcome!=='win')throw Error('Late-game paid army lost 8-star XP fight at iteration '+xpBattles);
   if(xpBattles%100===0)receipt('experience_farming',{xpBattles,heroLevel:s.heroes[0].level,army:s.army.human_10||0});
  }
  assert.equal(s.heroes[0].level,100,'Long-form organic XP progression stalled; only Lv'+s.heroes[0].level+' after '+xpBattles+' wins');
  assert(xpBattles<=350,'HG18.2 XP progression still requires '+xpBattles+' repeated 8-star fights (target <=350)');
- receipt('organic_level_100',{xpBattles,fromLevel:initialLv});
+ assert(xpPaidRefits>0&&xpRecruitedT10>0&&xpRefitCostGold>0,'Hex battle attrition was not recovered with paid T10 training');
+ receipt('organic_level_100',{xpBattles,fromLevel:initialLv,paidRefits:xpPaidRefits,recruitedT10:xpRecruitedT10,modeledRefitGoldCost:xpRefitCostGold});
+ meta.xpRefit={paidRefits:xpPaidRefits,recruitedT10:xpRecruitedT10,modeledGoldCost:xpRefitCostGold};
  recallIfNeeded();
 
  // HG32 addition: test AFTER organic buildings, research, T10, first real T11,
@@ -323,7 +341,7 @@ try{
  meta.status='PASS';
 }catch(err){meta.status='FAIL';meta.error=String(err.stack||err);console.error('HG32 FULL ORGANIC FAIL '+meta.error);process.exitCode=1;}
 finally{
- meta.summary={builds,studies,recruits,waits,battles,minesCaptured,simulatedHours,experienceGrindBattles:xpBattles,finalHeroLevel:s.heroes[0].level,rebirth:s.heroes[0].rebirth,rebirthCore:s.hg18?.materials.rebirth_core};
+ meta.summary={builds,studies,recruits,waits,battles,minesCaptured,simulatedHours,experienceGrindBattles:xpBattles,xpPaidRefits,xpRecruitedT10,xpRefitCostGold,finalHeroLevel:s.heroes[0].level,rebirth:s.heroes[0].rebirth,rebirthCore:s.hg18?.materials.rebirth_core};
  fs.mkdirSync(path.join(__dirname,'docs','qa','hg32'),{recursive:true});
  fs.writeFileSync(path.join(__dirname,'docs','qa','hg32','organic-full-endgame.json'),JSON.stringify(meta,null,2));
  console.log('HG32 ENDGAME '+meta.status+' '+JSON.stringify(meta.summary));
