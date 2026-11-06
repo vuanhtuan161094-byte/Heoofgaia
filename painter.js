@@ -541,26 +541,23 @@ function battleGridCells(camera){
  return cells;
 }
 function battleGridOverlay(c,camera,layout,reachable){
+ // Optional tactical guide, deliberately distinct from the visual ground.
+ // The 108 logical hit cells always exist even when grid lines are hidden.
+ // Sparse soft edges prevent the wireframe from fighting the fantasy backdrop.
  const cells=battleGridCells(camera);
  c.save();
  for(const cell of cells){
   const highlighted=reachable.has(cell.x+','+cell.y);
-  c.lineWidth=highlighted?1.85:.85;
-  poly(c,cell.corners.map(p=>[p.x,p.y]),
-   highlighted?'#45d5ac36':'#00000000',
-   highlighted?'#b8fff0ed':'#b5e6e42e');
-  // Coordinates are available on selection/hover. Never spam 108 numeric
-  // labels over character silhouettes and the high-quality battle backdrop.
+  if(highlighted){
+   c.lineWidth=1.7;
+   poly(c,cell.corners.map(p=>[p.x,p.y]),'#43cba52a','#9bead0b3');
+  }else{
+   c.lineWidth=.55;
+   poly(c,cell.corners.map(p=>[p.x,p.y]),null,'#d9edd21c');
+  }
  }
- for(const entry of layout){
-  if(entry.u.pool<=0)continue;
-  const pt=camera.point(entry.u.x+.5,entry.u.y+.5);
-  if(Math.hypot(entry.x-pt.x,entry.y-pt.y)>4)
-   line(c,pt.x,pt.y,entry.x,entry.y,1.4,'#f0dc8cc7');
-  circle(c,pt.x,pt.y,3.1,entry.u.side==='enemy'?'#ffae96':'#9ce7d2');
-  c.strokeStyle='#1a3336c9';c.lineWidth=.9;
-  c.beginPath();c.arc(pt.x,pt.y,3.8,0,TAU);c.stroke();
- }
+ // No floating origin dots, diagonal foot connectors or coordinate numbers:
+ // selection rings already identify actors; the grid is just a guide.
  c.restore();
  return cells.length;
 }
