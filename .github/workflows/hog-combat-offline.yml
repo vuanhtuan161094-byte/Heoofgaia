@@ -161,6 +161,10 @@ jobs:
         run: |
           python -m py_compile qa-hg34-combat-smooth-chrome.py
           python qa-hg34-combat-smooth-chrome.py
+      - name: HG35 real city cost and max affordable recruitment Chromium acceptance
+        run: |
+          python -m py_compile qa-hg35-city-recruit-chrome.py
+          python qa-hg35-city-recruit-chrome.py
       - name: HG33 H2 six-pilot live Attack, Hit, Death and Save v07 gate
         run: |
           python -m py_compile qa-hg33-h2-pilot-live-chrome.py
@@ -337,6 +341,15 @@ jobs:
           path: |
             docs/qa/hg34/combat-smoothness.json
             docs/evidence/hg34/*.png
+          if-no-files-found: ignore
+      - name: Upload HG35 city and recruitment actual Chromium evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG35-City-Recruit-Actual-Chromium
+          path: |
+            docs/qa/hg35/city-recruit-chrome.json
+            docs/evidence/hg35/*.png
           if-no-files-found: ignore
       - name: Upload offline playable HTML
         if: always()
