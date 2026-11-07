@@ -22,15 +22,20 @@ def check(name,passed,details=None):
 def advance_queue(page,field):
     details=page.evaluate("""field => {
        const s=HOG_APP_DEBUG.getState(),q=s[field];
-       if(!q)throw Error("No queue: "+field);
-       HOG_ENGINE.tick(s,s.lastTick+(q.remaining+2)*1000/s.speed);
+       // At ×60 a short build may finish while Playwright is checking the
+       // speed control. Accept the already-finished state only when the real
+       // completion effect proves it; otherwise advance a live queue via E.tick.
+       if(q) HOG_ENGINE.tick(s,s.lastTick+(q.remaining+2)*1000/s.speed);
        HOG_APP_DEBUG.render();
+       const completed=field==="buildingQueue"
+         ? s.buildings?.market>=1
+         : field==="researchQueue" ? s.spells?.forestry===1 : false;
        if(!HOG_APP_DEBUG.save())throw Error("Unable to save after "+field);
-       return {fame:s.fame,remaining:s[field]?.remaining??null,valid:HOG_ENGINE.strictSave(s)};
+       return {fame:s.fame,remaining:s[field]?.remaining??null,valid:HOG_ENGINE.strictSave(s),completed,queueWasLive:!!q};
     }""",field)
-    check(field+" completes through engine time, valid Save",details["remaining"] is None and details["valid"],details)
+    check(field+" completes through engine time or verified ×60 completion, valid Save",
+          details["remaining"] is None and details["valid"] and details["completed"],details)
     return details
-
 try:
   with sync_playwright() as p:
     launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
@@ -64,6 +69,9 @@ try:
     page.locator('#speed').click()
     check("Real speed control restores ×60 before bounded queue completion",
           page.evaluate("HOG_APP_DEBUG.getState().speed===60 && document.querySelector('#speed').textContent.includes('×60')"))
+    # Let the real ×60 game clock run long enough to reproduce CI scheduling.
+    # The queue may finish before the next Playwright evaluation.
+    page.wait_for_timeout(5000)
     build=advance_queue(page,"buildingQueue")
     check("Market Fame is earned only on completed construction, not button click",build["fame"]>5)
     page.locator('[data-action="tab"][data-tab="magic"]').first.click()

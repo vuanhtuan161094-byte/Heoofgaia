@@ -60,12 +60,14 @@
       "details": null
     },
     {
-      "name": "buildingQueue completes through engine time, valid Save",
+      "name": "buildingQueue completes through engine time or verified ×60 completion, valid Save",
       "passed": true,
       "details": {
         "fame": 119,
         "remaining": null,
-        "valid": true
+        "valid": true,
+        "completed": true,
+        "queueWasLive": false
       }
     },
     {
@@ -79,12 +81,14 @@
       "details": null
     },
     {
-      "name": "researchQueue completes through engine time, valid Save",
+      "name": "researchQueue completes through engine time or verified ×60 completion, valid Save",
       "passed": true,
       "details": {
         "fame": 175,
         "remaining": null,
-        "valid": true
+        "valid": true,
+        "completed": true,
+        "queueWasLive": true
       }
     },
     {
@@ -111,9 +115,9 @@
       "name": "UI dispatch paid actual mine AP and reserved starter army",
       "passed": true,
       "details": {
-        "apBefore": 101.08702081298829,
+        "apBefore": 102.25282081298829,
         "key": "6,3",
-        "ap": 95.08702081298829,
+        "ap": 96.25282081298829,
         "army": 40
       }
     },
@@ -139,8 +143,8 @@
         "valid": true,
         "version": 7,
         "mineCount": 1,
-        "lastTickAheadMs": 2541,
-        "ap": 95.58479861246745,
+        "lastTickAheadMs": 2099,
+        "ap": 96.75059861246746,
         "apMax": 165,
         "battle": false,
         "march": null,
@@ -148,7 +152,7 @@
         "parallelMarches": 0,
         "reportCount": 0,
         "toast": "Chiến thắng!",
-        "payloadLength": 13446
+        "payloadLength": 13500
       }
     },
     {
