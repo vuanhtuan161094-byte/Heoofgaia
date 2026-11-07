@@ -1,0 +1,51 @@
+{
+  "commit": "daea17d13e3b3c0533bef649af64c90ee14f4e98",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "61956DEB38AEF763848C523C8A2B857E164581449737CF65C244238683724C4B",
+  "browser": "Playwright Chromium opening the built file:// HTML; New Game + actual engine march to Azrael NPC; no battle result is claimed.",
+  "checks": [
+    {
+      "viewport": "1280x720",
+      "pass": true,
+      "realNpcMarch": "18,92",
+      "battleEnemies": [
+        "Azrael",
+        "Demonlord Samurai",
+        "Cyclop Tyrant"
+      ],
+      "decodedOfflineAtlases": 21,
+      "actualCoreDrawCalls": 1,
+      "actualAzraelDrawCalls": 1,
+      "saveV07ValidBeforeAndAfterDraw": true
+    },
+    {
+      "viewport": "960x540",
+      "pass": true,
+      "realNpcMarch": "18,92",
+      "battleEnemies": [
+        "Azrael",
+        "Demonlord Samurai",
+        "Cyclop Tyrant"
+      ],
+      "decodedOfflineAtlases": 21,
+      "actualCoreDrawCalls": 1,
+      "actualAzraelDrawCalls": 1,
+      "saveV07ValidBeforeAndAfterDraw": true
+    }
+  ],
+  "screenshots": [
+    {
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg33/H4-boss-roster-chromium/azrael-real-battle-1280x720.png",
+      "sha256": "86552DC58A03B7362E4B7745002F98F03F3117AC7D399E406BC54D80A85F2979"
+    },
+    {
+      "viewport": "960x540",
+      "path": "docs/evidence/hg33/H4-boss-roster-chromium/azrael-real-battle-960x540.png",
+      "sha256": "7B32BB0B8F3225D339B34BF6F50D024C240B0DBFB2CBD014110AF61FFB8C20CD"
+    }
+  ],
+  "pageErrors": [],
+  "offlineAtlasImages": 21,
+  "result": "PASS"
+}

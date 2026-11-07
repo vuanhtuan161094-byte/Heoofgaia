@@ -352,7 +352,7 @@ function bossSprite(name){
  const key=String(name||'').trim().toLocaleLowerCase().replace(/\s+/g,' ');
  return BOSS_SPRITES[key]||null;
 }
-function animatedUnitId(id,name=''){return id==='human_4'||Object.prototype.hasOwnProperty.call(MOTION_SPRITES,id)||!!root.HOG_HG33_TROOP_ATLASES?.hasUnit(id)||!!root.HOG_ART_PACK?.hasUnit(id)||!!bossSprite(name)}
+function animatedUnitId(id,name=''){const atlas=root.HOG_HG33_TROOP_ATLASES;return id==='human_4'||Object.prototype.hasOwnProperty.call(MOTION_SPRITES,id)||!!atlas?.hasActor?.(id,name)||!!atlas?.hasUnit(id)||!!root.HOG_ART_PACK?.hasUnit(id)||!!bossSprite(name)}
 function motionPose(action,time=0,duration=null){
  // Bounded deterministic transforms with no gameplay mutation.
  const ms=Math.max(0,Number.isFinite(time)?time:0),phase=ms/1000;
@@ -507,22 +507,24 @@ function animatedSoldier(c,x,y,enemy,visual,k=1){
  const width=clamp(112*k,18,134),height=width*204/192;c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,-height*.985,width,height);c.restore();return true;
 }
-function troopAtlasFrame(unitId,action,time=0,duration=null){
- const unit=root.HOG_HG33_TROOP_ATLASES?.units?.[unitId];if(!unit)return null;
+function troopAtlasDefinition(unitId,actorName=''){return root.HOG_HG33_TROOP_ATLASES?.resolve?.(unitId,actorName)||root.HOG_HG33_TROOP_ATLASES?.units?.[unitId]||null}
+function troopAtlasFrame(unitId,action,time=0,duration=null,actorName=''){
+ const unit=troopAtlasDefinition(unitId,actorName);if(!unit)return null;
  const clip=unit.actions[action]||unit.actions.idle,ms=Math.max(1,duration||clip.durationMs),t=Math.max(0,Number.isFinite(time)?time:0),raw=Math.floor(t/ms*clip.count),frame=clip.loop?raw%clip.count:Math.min(clip.count-1,raw);
- return {unitId,action,frame,row:clip.row,sx:frame*unit.frameWidth,sy:clip.row*unit.frameHeight,sw:unit.frameWidth,sh:unit.frameHeight,imageId:unit.imageId};
+ const frameSize=unit.frameDimensions||[unit.frameWidth,unit.frameHeight];return {unitId,actorName,action,frame,row:clip.row,sx:frame*frameSize[0],sy:clip.row*frameSize[1],sw:frameSize[0],sh:frameSize[1],imageId:unit.imageId};
 }
-function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId){
- const unit=root.HOG_HG33_TROOP_ATLASES?.units?.[unitId];if(!unit||!visual||typeof document==='undefined')return false;
- const frame=troopAtlasFrame(unitId,visual.action,visual.time,visual.duration),image=document.getElementById(unit.imageId);if(!image)return false;
+function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
+ const unit=troopAtlasDefinition(unitId,actorName);if(!unit||!visual||typeof document==='undefined')return false;
+ const frame=troopAtlasFrame(unitId,visual.action,visual.time,visual.duration,actorName),image=document.getElementById(unit.imageId);if(!image)return false;
  if(!image.hasAttribute('src')){const src=image.dataset.hg33AtlasSrc;if(src){image.src=src;}return false;}
- if(!image.complete||image.naturalWidth!==unit.atlasWidth||image.naturalHeight!==unit.atlasHeight)return false;
- const width=clamp(unit.renderWidth*k,18,160),height=width*unit.frameHeight/unit.frameWidth;
- c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(enemy)c.scale(-1,1);
+ const atlasSize=unit.atlasDimensions||[unit.atlasWidth,unit.atlasHeight],frameSize=unit.frameDimensions||[unit.frameWidth,unit.frameHeight];
+ if(!image.complete||image.naturalWidth!==atlasSize[0]||image.naturalHeight!==atlasSize[1])return false;
+ const width=clamp(unit.renderWidth*k,18,160),height=width*frameSize[1]/frameSize[0];
+ c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(enemy&&unit.enemyFacing!=='left')c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,-height*unit.pivot,width,height);c.restore();return true;
 }
 function battleUnitArt(c,x,y,enemy,visual,k,u){
- if(root.HOG_HG33_TROOP_ATLASES?.units?.[u.unitId])return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId);
+ if(troopAtlasDefinition(u.unitId,u.name))return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId,u.name);
  if(u.unitId==='human_4')return animatedSoldier(c,x,y,enemy,visual,k);
  if(u.unitId==='human_3')return animatedArcher(c,x,y,enemy,visual,k)||motionSprite(c,x,y,u.unitId,enemy,visual,k,u.name);
  return root.HOG_HG28_RIGS?.draw(c,x,y,u.unitId,enemy,visual,k)||root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,enemy,visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,enemy,visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,enemy,visual,k)||motionSprite(c,x,y,u.unitId,enemy,visual,k,u.name);
@@ -679,7 +681,7 @@ function battleRoundHudX(width){return 14}
 function battleUnitLayout(b,camera,width,height){
  const entries=[...b.allies,...b.enemies].map(u=>{
   const pt=camera.center(u.x,u.y);
-  const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId)||root.HOG_HG28_TROOPS?.profile(u.unitId)||root.HOG_HG193_SPRITES?.profile(u.unitId)||root.HOG_HG192_SPRITES?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
+  const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId)||root.HOG_HG193_SPRITES?.profile(u.unitId)||root.HOG_HG192_SPRITES?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
   return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile};
  });
  for(const side of ['player','enemy']){
@@ -782,7 +784,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
- const atlasBacked=!!root.HOG_HG33_TROOP_ATLASES?.units?.[u.unitId],illustrated=visual?battleUnitArt(c,x,y,u.side==='enemy',visual,k,u):false;if(!illustrated&&!atlasBacked)soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+ const atlasBacked=!!troopAtlasDefinition(u.unitId,u.name),illustrated=visual?battleUnitArt(c,x,y,u.side==='enemy',visual,k,u):false;if(!illustrated&&!atlasBacked)soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
   // A compact 28px name/HP card is placed outside silhouette collision boxes.
   const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y,hpVisible=interaction.showHP!==false;
   if(plate.leader){

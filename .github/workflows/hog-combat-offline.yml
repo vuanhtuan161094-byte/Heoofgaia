@@ -210,6 +210,10 @@ jobs:
         run: |
           python -m py_compile qa-hg11-human-heavy-animation-chrome.py
           python qa-hg11-human-heavy-animation-chrome.py
+      - name: HG33 H4 10 Bosses and 8 reward action atlases in offline battle
+        run: |
+          python -m py_compile qa-hg33-roster-boss-chrome.py
+          python qa-hg33-roster-boss-chrome.py
       - name: "HG28 PvE P0 automatic combat: single stable turn clock and focus"
         run: python qa-hg28-auto-stability-chrome.py
       - name: HG14.5 real Chromium grid and HP toggles, receipt FX, mobile and Save
@@ -549,6 +553,17 @@ jobs:
             docs/evidence/hg33/H3-troop-atlases/*.png
             docs/qa/hg33/human-heavy-animation-chrome.json
             assets/generated/hg33/animation/troop-atlas-manifest.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Upload HG33 H4 Boss/reward offline battle screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG33-H4-Boss-reward-action-Chromium
+          path: |
+            docs/evidence/hg33/H4-boss-roster-chromium/*.png
+            docs/qa/hg33/H4-boss-roster-chromium.json
+            assets/generated/hg33/animation/additional-atlas-manifest.json
           retention-days: 30
           if-no-files-found: error
       - name: Upload HG28 PvE P0 real auto-battle receipts

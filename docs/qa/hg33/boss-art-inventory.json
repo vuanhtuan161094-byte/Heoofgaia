@@ -57,7 +57,38 @@
       "orc_tower_sovereign",
       "undead_quest_guard",
       "undead_tower_sovereign"
-    ]
+    ],
+    "actionAnimationCoverage": {
+      "coreUnits": 40,
+      "coreActions": [
+        "idle",
+        "walk",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "framesPerAction": 8,
+      "totalCoreFrames": 1600,
+      "bossArchetypes": 10,
+      "bossActions": [
+        "idle",
+        "walk",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "framesPerActionPerBoss": 8,
+      "rewardUnits": 8,
+      "rewardActions": [
+        "idle",
+        "walk",
+        "attack",
+        "hit",
+        "death"
+      ],
+      "framesPerActionPerReward": 8,
+      "skeletonHG22_1": "preserved; separate five-action, ten-frame source clip module remains embedded"
+    }
   },
   "bosses": {
     "worldTargetCount": 6,
@@ -280,10 +311,14 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg28-boss-azrael",
-          "sourceRoute": "built-in image_gen",
+          "assetId": "hg33-action-atlas-azrael",
           "status": "RECREATED",
-          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/azrael.png",
+          "sourceSha256": "92330bc07b5bbd8ea084b04ba52941d554e364f1e4bd52b8d1a51c0380b3f70c",
+          "runtimePath": "assets/generated/hg33/animation/runtime/azrael.webp",
+          "runtimeSha256": "e57072be474cfef51cff327685f8acfb3b079221961c000c0b3ca750d36df13b",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -312,10 +347,14 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg28-boss-cyclops-tyrant",
-          "sourceRoute": "built-in image_gen",
+          "assetId": "hg33-action-atlas-cyclop-tyrant",
           "status": "RECREATED",
-          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/cyclop-tyrant.png",
+          "sourceSha256": "f95d154a1d98ae446c4af9d47f7b081359436e44749ad07b9a1dfef8bca95bc2",
+          "runtimePath": "assets/generated/hg33/animation/runtime/cyclop-tyrant.webp",
+          "runtimeSha256": "cda9b2e9952d79ab2e59d6c775c2da291af936d23436d095b68b690c700a8c8a",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -344,10 +383,14 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg28-boss-demonlord-samurai",
-          "sourceRoute": "built-in image_gen",
+          "assetId": "hg33-action-atlas-demonlord-samurai",
           "status": "RECREATED",
-          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/demonlord-samurai.png",
+          "sourceSha256": "c0fd86b0029ceae1acbd094080a6ef09292b58206a6e6fdf37b9d2c4c51087e4",
+          "runtimePath": "assets/generated/hg33/animation/runtime/demonlord-samurai.webp",
+          "runtimeSha256": "4757fb57d0e36714f24c82553a0955072f4cd6ccde3ea48b667d7ae0eadb83f7",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -366,9 +409,14 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "hg33-action-atlas-earth-bear",
+          "status": "RECREATED",
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/earth-bear.png",
+          "sourceSha256": "df262ed0ded9a343e29c81bbc0ab20a83cea36b8e665549f8d225315be236788",
+          "runtimePath": "assets/generated/hg33/animation/runtime/earth-bear.webp",
+          "runtimeSha256": "facd0db401cb414619181d94d24dce382b6c5ca4d9d1219a47f565d14bdefc07",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -387,9 +435,14 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "hg33-action-atlas-fallen-treant",
+          "status": "RECREATED",
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/fallen-treant.png",
+          "sourceSha256": "6717aeb6e7ef56c20b5ccfb6a8a220643d7a0619485c135e11764a1429ba6db2",
+          "runtimePath": "assets/generated/hg33/animation/runtime/fallen-treant.webp",
+          "runtimeSha256": "b0240e080062b500980499f95cdd13b0eb34b1bc2cd304ac7fb977e0771bc619",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -408,9 +461,14 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "hg33-action-atlas-fiery-giant",
+          "status": "RECREATED",
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/fiery-giant.png",
+          "sourceSha256": "c1c6a8105ded3bcc78cf39b93822fe5acf1b377f12681fd9eef1f1a05dce28fb",
+          "runtimePath": "assets/generated/hg33/animation/runtime/fiery-giant.webp",
+          "runtimeSha256": "7463c57f9b56cc067eb187be4860b2f823bdf278ebe990266e8c98e32dd0724b",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -423,9 +481,14 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "hg33-action-atlas-blood-moon-demon-god",
+          "status": "RECREATED",
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/blood-moon-demon-god.png",
+          "sourceSha256": "0c8c0e473ac525ac7fd6db1607538fc6fe81cf09cde6fe53d5f2b8315ef714e1",
+          "runtimePath": "assets/generated/hg33/animation/runtime/blood-moon-demon-god.webp",
+          "runtimeSha256": "23460109454c9c52caec7ca7de7cf7c4a5cea1f85ce158637c589d8cd947b5f3",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -438,9 +501,14 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "hg33-action-atlas-cosmic-star-fiend",
+          "status": "RECREATED",
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/cosmic-star-fiend.png",
+          "sourceSha256": "bb4d346bef6d3739ac4114168d9c0be7137af1abeb81cf27a0e4906495d7108a",
+          "runtimePath": "assets/generated/hg33/animation/runtime/cosmic-star-fiend.webp",
+          "runtimeSha256": "d29428f7281da5cbe6b969b4e44dabbcbf319031044d382d278209a237238c73",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -453,9 +521,14 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "hg33-action-atlas-netherworld-ghost-king",
+          "status": "RECREATED",
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/netherworld-ghost-king.png",
+          "sourceSha256": "d4c160069c3d8798ac5bf3cfbd1d7f1e0a3c234b55bbb8421d4f4eac403bf593",
+          "runtimePath": "assets/generated/hg33/animation/runtime/netherworld-ghost-king.webp",
+          "runtimeSha256": "ffd1f86ad03feb142ede6337f88425d5a0b32e06467bc077f88e1dfcba2e9665",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       },
       {
@@ -468,18 +541,21 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "hg33-action-atlas-ancient-dragon-emperor",
+          "status": "RECREATED",
+          "sourceRoute": "OpenAI built-in image_gen",
+          "sourceMaster": "assets/original/hg33/action-atlases/ancient-dragon-emperor.png",
+          "sourceSha256": "ccf338f6f137c114d8af434430213a89af1535a32b8c55e3bd21455df635a536",
+          "runtimePath": "assets/generated/hg33/animation/runtime/ancient-dragon-emperor.webp",
+          "runtimeSha256": "434229d39630b779b985952daf2bc587c717088a8ae018acad0e13c296bfbe3f",
+          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
         }
       }
     ],
     "currentBossArtRegistered": [
       "Azrael",
       "Cyclop Tyrant",
-      "Demonlord Samurai"
-    ],
-    "missingBossArt": [
+      "Demonlord Samurai",
       "Earth Bear",
       "Fallen Treant",
       "Fiery Giant",
@@ -487,12 +563,13 @@
       "Tinh Không Đại Ma",
       "U Minh Quỷ Vương",
       "Viễn Cổ Long Hoàng"
-    ]
+    ],
+    "missingBossArt": []
   },
   "currentRuntimeArtAudit": {
     "html": "Play-Heoofgaia-HG11.html",
-    "htmlBytes": 38125726,
-    "htmlSha256": "18aecfae926db6ec052d07d94716dd6763e54d208070cb2356180a22f6841f8b",
+    "htmlBytes": 88024910,
+    "htmlSha256": "61956DEB38AEF763848C523C8A2B857E164581449737CF65C244238683724C4B",
     "packs": [
       {
         "name": "KayKit Heavy Soldier",
@@ -2040,7 +2117,7 @@
       "HG22 Skeleton",
       "HG193 unit catalog"
     ],
-    "releaseBlocker": "External-source combat sprites/atlases remain in the current runtime; HG5 replacement gate is not yet passed."
+    "releaseBlocker": "H5 remains open: external-source or licensed combat sprite modules are still embedded in the runtime; removal requires a separate release-wide dependency audit."
   },
-  "result": "PASS_H0_CENSUS_AND_PROVENANCE_AUDIT; ART_REPLACEMENT_NOT_COMPLETE"
+  "result": "PASS_H0_CENSUS; PASS_H3_ALL_40_CORE_ACTION_ATLASES; PASS_H4_ALL_10_BOSSES_AND_8_REWARD_ACTION_ATLASES; H2_LAYERED_SOURCE_GATE_AND_H5_RELEASE_WIDE_EXTERNAL_ART_AUDIT_REMAIN_OPEN"
 }

@@ -10,22 +10,43 @@ import sys
 folder=Path(__file__).parent
 subprocess.check_call([sys.executable,str(folder/'tools/generate_hg143_archer.py')])
 subprocess.check_call([sys.executable,str(folder/'tools/prepare_hg33_troop_atlases.py')])
+subprocess.check_call([sys.executable,str(folder/'tools/prepare_hg33_additional_atlases.py')])
 html=(folder/'index.html').read_text(encoding='utf-8')
 hg33=json.loads((folder/'assets/generated/hg33/animation/troop-atlas-manifest.json').read_text(encoding='utf-8'))
+extra_atlases=json.loads((folder/'assets/generated/hg33/animation/additional-atlas-manifest.json').read_text(encoding='utf-8'))
+assert extra_atlases['schema']=='HG33-AdditionalActionAtlases-v1'
 assert hg33['schema']=='HG33-OriginalTroopAnimationAtlases-v1' and hg33['unitCount']==40 and hg33['atlasCount']==38
+inventory=json.loads((folder/'docs/qa/hg33/boss-art-inventory.json').read_text(encoding='utf-8'))
+expected_units=set(inventory['catalog']['coreIds'])
+base_units={item['unitId'] for item in hg33['assets']}
+additional_units={item['unitId'] for item in extra_atlases['assets'] if item['kind']=='core' and item.get('unitId')}
+assert base_units|additional_units==expected_units, (len(base_units|additional_units), sorted(expected_units-(base_units|additional_units)))
+expected_bosses={item['name'] for item in inventory['bosses']['combatArchetypes']}
+actual_bosses={item['bossName'] for item in extra_atlases['assets'] if item['kind']=='boss'}
+assert actual_bosses==expected_bosses, (actual_bosses,expected_bosses)
+expected_rewards=set(inventory['catalog']['rewardIds'])
+actual_rewards={item['unitId'] for item in extra_atlases['assets'] if item['kind']=='reward'}
+assert actual_rewards==expected_rewards, (actual_rewards,expected_rewards)
+for item in extra_atlases['assets']:
+    assert set(item['actions'])=={'idle','walk','attack','hit','death'}, item['id']
+    assert all(action['count']==8 and len(action['frames'])==8 for action in item['actions'].values()), item['id']
+overridden_core_units={item['unitId'] for item in extra_atlases['assets'] if item['kind']=='core' and item.get('unitId')}
 atlas_marker='<!-- HG33_TROOP_ATLAS_IMAGES -->'
 assert html.count(atlas_marker)==1,(atlas_marker,html.count(atlas_marker))
 atlas_tags=[]
 for item in hg33['assets']:
-    if item['unitId']=='human_4':
+    if item['unitId']=='human_4' or item['unitId'] in overridden_core_units:
         continue
-    atlas_tags.append(f'<img id="{item["imageId"]}" data-hg33-atlas-src="{item["runtimePath"]}" data-unit-animation="{item["unitId"]}:40-original-frames" width="1536" height="1024" alt="">')
+    atlas_tags.append(f'<img id="{item["imageId"]}" data-hg33-atlas-src="{item["runtimePath"]}" data-unit-animation="{item["unitId"]}:40-atlas-frames" width="1536" height="1024" alt="">')
+for item in extra_atlases['assets']:
+    label=item.get('unitId') or item.get('bossName')
+    atlas_tags.append(f'<img id="{item["imageId"]}" data-hg33-atlas-src="{item["runtimePath"]}" data-additional-animation="{label}:40-atlas-frames" width="{item["atlasDimensions"][0]}" height="{item["atlasDimensions"][1]}" alt="">')
 html=html.replace(atlas_marker,'\n'.join(atlas_tags))
 for css in ['style.css','style-hg03.css']:
     pattern=re.compile(r'<link\s+rel="stylesheet"\s+href="'+re.escape(css)+r'">')
     html,n=pattern.subn(lambda _: '<style>\n'+(folder/css).read_text(encoding='utf-8').rstrip()+ '\n</style>',html)
     assert n==1,(css,n)
-for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js','hg27-farm-exchange.js','hg29-loot.js','hg30-troop-ascension.js','hg31-legendary-gear.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-hg22-skeleton.js','art-hg28-troops.js','art-hg28-rigs.js','art-pack.js','art-hg33-troop-atlases.js','painter.js','app.js']:
+for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js','hg27-farm-exchange.js','hg29-loot.js','hg30-troop-ascension.js','hg31-legendary-gear.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-hg22-skeleton.js','art-hg28-troops.js','art-hg28-rigs.js','art-pack.js','art-hg33-troop-atlases.js','art-hg33-additional-atlases.js','painter.js','app.js']:
     pattern=re.compile(r'<script\s+src="'+re.escape(js)+r'"></script>')
     html,n=pattern.subn(lambda _: '<script>\n'+(folder/js).read_text(encoding='utf-8').rstrip()+'\n</script>',html)
     assert n==1,(js,n)
@@ -104,7 +125,8 @@ for building_asset in ['assets/generated/hg11/buildings/human-barracks.png','ass
     data=base64.b64encode((folder/building_asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/png;base64,{data}"')
 assert hg33['atlasCount']==38 and len(hg33['assets'])==38
-for item in hg33['assets']:
+runtime_atlases=[item for item in hg33['assets'] if item['unitId'] not in overridden_core_units]+extra_atlases['assets']
+for item in runtime_atlases:
     asset=item['runtimePath']
     needle=f'data-hg33-atlas-src="{asset}"'
     assert html.count(needle)==1,(asset,html.count(needle))
@@ -180,7 +202,7 @@ assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
-assert html.count('<script>')==32, 'Expected 32 offline inline game modules including HG33 atlas index'
+assert html.count('<script>')==33, 'Expected 33 offline inline game modules including HG33 atlas indexes'
 html=html.rstrip()+'\n'
 (folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8',newline='\n')
 print('Built offline HTML:',len(html),'characters')

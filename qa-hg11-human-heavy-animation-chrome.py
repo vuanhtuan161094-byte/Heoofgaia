@@ -44,9 +44,9 @@ with sync_playwright() as playwright:
     page.on("console", lambda msg: errors.append(f"console.{msg.type}: {msg.text}") if msg.type == "error" else None)
     page.goto(HTML.as_uri(), wait_until="load")
     check("Standalone HTML opens with the game title", page.title() == "Anh Hùng Thời Loạn", page.title())
-    atlas_coverage = page.evaluate("""(async()=>{const A=HOG_HG33_TROOP_ATLASES,P=HOG_PAINTER,races=['human','elf','orc','undead'],ids=Object.keys(A.units).sort(),actions=['idle','walk','attack','hit','death'],
-      failures=[],expected=new Set(),actual=new Set(),imageIds=new Set(ids.map(id=>A.units[id].imageId)),testCtx=document.createElement('canvas').getContext('2d'),contacts={};
-      const durationByAction={idle:960,walk:640,attack:650,hit:560,death:1200},left=154,colW=140,rowH=148,top=38;
+    atlas_coverage = page.evaluate("""(async()=>{const A=HOG_HG33_TROOP_ATLASES,P=HOG_PAINTER,races=['human','elf','orc','undead'],catalog=HOG_CATALOG.units,ids=races.flatMap(r=>(catalog[r]||[]).map(u=>u.id)),actions=['idle','walk','attack','hit','death'],
+      failures=[],expected=new Set(),actual=new Set(),imageIds=new Set(ids.map(id=>A.resolve(id)?.imageId).filter(Boolean)),testCtx=document.createElement('canvas').getContext('2d'),contacts={};
+      const left=154,colW=140,rowH=148,top=38;
       for(const race of races){const canvas=document.createElement('canvas');canvas.width=left+5*colW;canvas.height=top+10*rowH;
         const c=canvas.getContext('2d');c.fillStyle='#14232a';c.fillRect(0,0,canvas.width,canvas.height);
         c.fillStyle='#e5c98f';c.font='bold 15px Georgia';c.textAlign='center';
@@ -58,40 +58,30 @@ with sync_playwright() as playwright:
         if(!P.battleUnitArt(c,cx,footY,false,visual,1,{unitId}))failures.push(unitId+'/'+action+': contact renderer declined');
       }
       function canvasWidth(race){return contacts[race].canvas.width}
-      let framesRendered=0,nativeFrames=0;
+      let framesRendered=0,atlasUnits=0;
       const proto=CanvasRenderingContext2D.prototype,draw=proto.drawImage;
       proto.drawImage=function(image,...args){if(imageIds.has(image?.id)&&args.length>=8)actual.add(image.id+':'+args[0]+':'+args[1]);return draw.call(this,image,...args)};
       try{
-        const catalog=HOG_CATALOG.units;
         for(const race of races){
           const all=(catalog[race]||[]).slice().sort((a,b)=>Number(a.id.split('_')[1])-Number(b.id.split('_')[1]));
           for(const unit of all){const unitId=unit.id,tier=Number(unitId.split('_')[1]);
-            if(A.units[unitId]){
-              const u=A.units[unitId],img=document.getElementById(u.imageId);
+            {
+              const u=A.resolve(unitId),img=u&&document.getElementById(u.imageId),atlasSize=u?.atlasDimensions||[u?.atlasWidth,u?.atlasHeight];
+              if(!u||!u.actions){failures.push(unitId+':missing five-action atlas');continue}
               if(!img||!img.dataset.hg33AtlasSrc){failures.push(unitId+':missing offline image');continue}
               if(!img.hasAttribute('src'))img.src=img.dataset.hg33AtlasSrc;
               await img.decode();
-              if(img.naturalWidth!==u.atlasWidth||img.naturalHeight!==u.atlasHeight){failures.push(unitId+':bad decoded dimensions');continue}
+              if(img.naturalWidth!==atlasSize[0]||img.naturalHeight!==atlasSize[1]){failures.push(unitId+':bad decoded dimensions');continue}
+              atlasUnits++;
               for(const action of actions){const clip=u.actions[action];
                 for(let f=0;f<clip.count;f++){const time=Math.ceil(f*clip.durationMs/clip.count),visual={action,time,duration:clip.durationMs,alpha:1},
-                  frame=P.troopAtlasFrame(unitId,action,time,clip.durationMs),key=u.imageId+':'+frame.sx+':'+frame.sy;
+                  frame=P.troopAtlasFrame(unitId,action,time,clip.durationMs,unit.name),key=u.imageId+':'+frame.sx+':'+frame.sy;
                   expected.add(key);
                   if(frame.frame!==f||frame.row!==clip.row){failures.push(unitId+'/'+action+'/'+f+':wrong source cell');continue}
-                  if(!P.battleUnitArt(testCtx,160,300,false,visual,1,{unitId}))failures.push(unitId+'/'+action+'/'+f+':battle renderer declined atlas frame');
+                  if(!P.battleUnitArt(testCtx,160,300,false,visual,1,{unitId,name:unit.name}))failures.push(unitId+'/'+action+'/'+f+':battle renderer declined atlas frame');
                   else framesRendered++;
                   if(f===4)contact(race,tier,unit.name,action,visual,unitId);
                 }
-              }
-              if(unitId!=='human_4')img.removeAttribute('src');
-            }else{
-              const durations=durationByAction;
-              if(unitId==='human_3'){const img=document.getElementById('unit-human-archer-atlas');if(img?.src)await img.decode();}
-              if(unitId==='undead_1'){for(const spec of Object.values(HOG_HG22_SKELETON.CLIPS)){const img=document.getElementById(spec.id);if(img?.src)await img.decode();}}
-              for(const action of actions){const time=action==='attack'?Math.floor(durations[action]*.45):Math.floor(durations[action]*.55),
-                visual={action,time,duration:durations[action],alpha:1};
-                if(!P.battleUnitArt(testCtx,160,300,false,visual,1,{unitId}))failures.push(unitId+'/'+action+': preserved renderer declined action');
-                else nativeFrames++;
-                contact(race,tier,unit.name,action,visual,unitId);
               }
             }
           }
@@ -99,15 +89,16 @@ with sync_playwright() as playwright:
       }catch(e){failures.push(String(e))}
       finally{proto.drawImage=draw}
       const sheets={};for(const race of races)sheets[race]=contacts[race].canvas.toDataURL('image/png');
-      return {atlasUnits:ids.length,retainedUnits:Object.keys(A.retained),actionsPerAtlas:actions.length,
-        frameCellsExpected:expected.size,frameCellsDrawn:framesRendered,sourceRectsObserved:actual.size,nativeFrames,
+      return {coreUnits:ids.length,atlasUnits,retainedUnits:Object.keys(A.retained),actionsPerAtlas:actions.length,
+        frameCellsExpected:expected.size,frameCellsDrawn:framesRendered,sourceRectsObserved:actual.size,
+        preservedSkeletonAttackFrames:HOG_HG22_SKELETON.FRAMES,
         contactUnits:Object.fromEntries(races.map(r=>[r,contacts[r].units])),contactSheets:sheets,
         failed:failures.length,failures:failures.slice(0,20)}})()""")
-    check("All 38 troop atlases render every Idle/Walk/Attack/Hit/Death frame through the battle renderer",
-          atlas_coverage["atlasUnits"] == 38 and len(atlas_coverage["retainedUnits"]) == 2 and
-          atlas_coverage["actionsPerAtlas"] == 5 and atlas_coverage["frameCellsExpected"] == 1520 and
-          atlas_coverage["frameCellsDrawn"] == 1520 and atlas_coverage["sourceRectsObserved"] == 1520 and
-          atlas_coverage["nativeFrames"] == 10 and atlas_coverage["contactUnits"] == {"human":10,"elf":10,"orc":10,"undead":10} and
+    check("All 40 effective troop atlases render every Idle/Walk/Attack/Hit/Death frame through the battle renderer",
+          atlas_coverage["coreUnits"] == 40 and atlas_coverage["atlasUnits"] == 40 and len(atlas_coverage["retainedUnits"]) == 2 and
+          atlas_coverage["actionsPerAtlas"] == 5 and atlas_coverage["frameCellsExpected"] == 1600 and
+          atlas_coverage["frameCellsDrawn"] == 1600 and atlas_coverage["sourceRectsObserved"] == 1600 and
+          atlas_coverage["preservedSkeletonAttackFrames"] == 10 and atlas_coverage["contactUnits"] == {"human":10,"elf":10,"orc":10,"undead":10} and
           atlas_coverage["failed"] == 0, json.dumps({k:v for k,v in atlas_coverage.items() if k!="contactSheets"}, ensure_ascii=False))
     CONTACT_EVIDENCE = ROOT / "docs" / "evidence" / "hg33" / "H3-troop-atlases"
     CONTACT_EVIDENCE.mkdir(parents=True, exist_ok=True)

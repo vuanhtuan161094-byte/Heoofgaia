@@ -12,7 +12,7 @@ const hg28LandmarkManifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/gene
 const hg28LandmarkAssets=hg28LandmarkManifest.assets.map(item=>path.join(dir,item.path));
 const hg28OfflineAssets=[...hg28WorldAssets,...hg28LandmarkAssets,...hg28TroopAssets];
 
-for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','art-hg33-troop-atlases.js','art-hg22-skeleton.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
+for(const file of ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','art-hg33-troop-atlases.js','art-hg33-additional-atlases.js','art-hg22-skeleton.js']) vm.runInContext(fs.readFileSync(path.join(dir,file),'utf8'),ctx,{filename:file});
 vm.runInContext(fs.readFileSync(path.join(dir,'painter.js'),'utf8'),ctx,{filename:'painter.js'});
 const E=ctx.HOG_ENGINE, C=ctx.HOG_CATALOG;
 const P=ctx.HOG_PAINTER;
@@ -1652,12 +1652,19 @@ test('HG14 battle renderer uses the real illustrated four-faction PNGs and never
  P.drawBattle(c,E,s,500);P.drawBattle(c,E,s,800);
  assert.equal(JSON.stringify(E.clone(s)),before,'rendering is visual only and saves must not change');
 });
-test('HG33 offline release embeds all 38 authored atlases and excludes KayKit combat art',()=>{
+test('HG33 offline release embeds each effective core, Boss and reward atlas and excludes KayKit combat art',()=>{
  const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg33/animation/troop-atlas-manifest.json'),'utf8'));
+ const additional=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg33/animation/additional-atlas-manifest.json'),'utf8'));
+ const inventory=JSON.parse(fs.readFileSync(path.join(dir,'docs/qa/hg33/boss-art-inventory.json'),'utf8'));
  const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8'),sha=b=>crypto.createHash('sha256').update(b).digest('hex');
  assert.equal(manifest.unitCount,40);assert.equal(manifest.atlasCount,38);assert.equal(manifest.frameCount,1520);assert.equal(manifest.assets.length,38);
  assert.equal(Object.keys(manifest.nativePreserved).length,2);assert(manifest.nativePreserved.human_3);assert(manifest.nativePreserved.undead_1);
- assert.equal((html.match(/data-hg33-atlas-src="data:image\/webp;base64,/g)||[]).length,38);
+ assert.equal(additional.assets.length,21);assert.equal(additional.assets.filter(x=>x.kind==='boss').length,10);assert.equal(additional.assets.filter(x=>x.kind==='reward').length,8);
+ const baseIds=new Set(manifest.assets.map(x=>x.unitId)),extraCore=new Set(additional.assets.filter(x=>x.kind==='core').map(x=>x.unitId));
+ assert.deepEqual([...new Set([...baseIds,...extraCore])].sort(),[...inventory.catalog.coreIds].sort());
+ assert.deepEqual(additional.assets.filter(x=>x.kind==='boss').map(x=>x.bossName).sort(),inventory.bosses.combatArchetypes.map(x=>x.name).sort());
+ assert.deepEqual(additional.assets.filter(x=>x.kind==='reward').map(x=>x.unitId).sort(),[...inventory.catalog.rewardIds].sort());
+ assert.equal((html.match(/data-hg33-atlas-src="data:image\/webp;base64,/g)||[]).length,58);
  assert(!html.includes('assets/licensed/kaykit-heavy-soldier/rendered/'));assert(!html.includes('assets/generated/hg33/animation/runtime/'));
  for(const item of manifest.assets){
   const source=fs.readFileSync(path.join(dir,item.sourcePath)),runtime=fs.readFileSync(path.join(dir,item.runtimePath));
@@ -1667,6 +1674,18 @@ test('HG33 offline release embeds all 38 authored atlases and excludes KayKit co
   for(const [action,clip] of Object.entries(item.actions)){
    assert.equal(clip.count,8,item.unitId+'/'+action+' frames');assert.equal(new Set(clip.frames.map(f=>f.sha256Rgba)).size,8,item.unitId+'/'+action+' distinct poses');
    for(let i=0;i<8;i++)assert.deepEqual(clip.frames[i].rect,[i*192,clip.row*204,192,204],item.unitId+'/'+action+'/'+i);
+  }
+ }
+ for(const item of additional.assets){
+  const source=fs.readFileSync(path.join(dir,item.sourcePath)),processed=fs.readFileSync(path.join(dir,item.processedPath||item.sourcePath)),runtime=fs.readFileSync(path.join(dir,item.runtimePath));
+  assert.equal(sha(source),item.sourceSha256,item.id+' raw source');assert.equal(source.readUInt32BE(16),1536);assert.equal(source.readUInt32BE(20),1024);
+  if(item.processedSha256)assert.equal(sha(processed),item.processedSha256,item.id+' processed source');assert.equal(sha(runtime),item.runtimeSha256,item.id+' runtime');
+  assert.equal(item.runtimeSourceSha256,sha(processed),item.id+' runtime source');assert.equal(runtime.subarray(0,4).toString(),'RIFF');assert.equal(runtime.subarray(8,12).toString(),'WEBP');
+  assert(item.prompt&&item.generationId,item.id+' generation provenance');assert(item.quality.backgroundCornerAlpha<=32,item.id+' transparent corner');
+  assert.deepEqual(Object.keys(item.actions).sort(),['attack','death','hit','idle','walk']);
+  for(const [action,clip] of Object.entries(item.actions)){
+   assert.equal(clip.count,8,item.id+'/'+action+' frames');assert.equal(new Set(clip.frames.map(f=>f.sha256Rgba)).size,8,item.id+'/'+action+' distinct frames');
+   for(let i=0;i<8;i++)assert.deepEqual(clip.frames[i].rect,[i*192,clip.row*204,192,204],item.id+'/'+action+'/'+i);
   }
  }
 });
@@ -1680,6 +1699,21 @@ test('HG33 atlas timelines loop Idle and Walk and clamp Attack, Hit and Death fo
  assert.equal(P.vanguardAtlasFrame('death',10_000).frame,7);
  assert.equal(ctx.HOG_HG22_SKELETON.frame('attack',10_000).n,9);
  assert.equal(ctx.HOG_HG22_SKELETON.frame('attack',10_000).sourceId,'hg22-skeleton-attack');
+});
+test('HG33 additional atlases animate the two preserved core exceptions, Priest, all Bosses and all eight rewards',()=>{
+ const A=ctx.HOG_HG33_TROOP_ATLASES,actions=['idle','walk','attack','hit','death'];
+ assert.equal(A.additional.length,21);
+ for(const id of ['human_1','human_2','human_3','human_4','human_5','human_6','human_7','human_8','human_9','human_10','elf_1','elf_2','elf_3','elf_4','elf_5','elf_6','elf_7','elf_8','elf_9','elf_10','orc_1','orc_2','orc_3','orc_4','orc_5','orc_6','orc_7','orc_8','orc_9','orc_10','undead_1','undead_2','undead_3','undead_4','undead_5','undead_6','undead_7','undead_8','undead_9','undead_10']){
+  const unit=A.resolve(id);assert(unit,id+' must resolve to an animated atlas');
+  for(const action of actions){const clip=unit.actions[action];assert.equal(clip.count,8,id+'/'+action);const f=P.troopAtlasFrame(id,action,clip.durationMs,clip.durationMs);assert.equal(f.frame,clip.loop?0:7,id+'/'+action+' loops or clamps correctly');assert.equal(f.sw,192);assert.equal(f.sh,204);}
+ }
+ for(const row of A.additional.filter(x=>x.kind==='boss')){const resolved=A.resolve(null,row.name);assert.equal(resolved.id,row.id);assert(A.hasActor(null,row.name));}
+ for(const row of A.additional.filter(x=>x.kind==='reward'))assert.equal(A.resolve(row.unitId).id,row.id);
+ assert.equal(A.resolve(null,'Huyết Nguyệt Ma Thần').id,'blood-moon-demon-god');
+ assert.equal(A.resolve(null,'Tinh Không Đại Ma').id,'cosmic-star-fiend');
+ assert.equal(A.resolve('human_3').imageId,'hg33-atlas-human-archer');
+ assert.equal(A.resolve('undead_1').imageId,'hg33-atlas-undead-skeleton');
+ assert.equal(A.resolve('human_8').imageId,'hg33-atlas-human-priest');
 });
 test('HG11 battle animation holds a full staggered Death clip without mutating combat state',()=>{
  const b={turn:4,allies:[],enemies:[],lastEvents:[{actorId:'p0',from:{x:1,y:1},to:{x:3,y:1},path:[{x:2,y:1},{x:3,y:1}],targetId:'h0',damage:30,death:false},{actorId:'e0',from:{x:4,y:1},to:{x:4,y:1},path:[],targetId:'p0',damage:25,death:false},{actorId:'p1',from:{x:2,y:2},to:{x:2,y:2},path:[],targetId:'e1',damage:50,death:true}]};
