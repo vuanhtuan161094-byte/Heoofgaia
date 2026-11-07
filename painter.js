@@ -310,14 +310,27 @@ function battleVisualState(b,u,elapsed,now=elapsed){
   actionAge=elapsed-actionStart,hitAge=elapsed-hitStart;
  const base={action:'idle',time:now,duration:null,x:u.x,y:u.y,alpha:1};
  if(u.pool<=0){
+  // The engine records the casualty immediately; its visual death cue can
+  // start later in the staggered receipt sequence. Keep the soldier visible
+  // before the cue instead of abruptly disappearing and reappearing.
+  if(incoming?.death&&hitAge<0)return base;
   if(incoming?.death&&hitAge>=0&&hitAge<1200)
    return {...base,action:'death',time:hitAge,duration:1200,
     alpha:Math.min(1,(1200-hitAge)/400)};
   return null;
  }
- if(own&&actionAge<0)return base;
+ if(own&&actionAge<0){
+  // Actor x/y already contain the POST-turn authoritative position. During
+  // an 85-595ms delayed movement, render the original cell. Previously the
+  // actor flashed at its destination, jumped backward, then walked forward.
+  if(movement&&own.from)return {...base,x:own.from.x,y:own.from.y};
+  return base;
+ }
  if(movement&&actionAge>=0&&actionAge<450){
-  const progress=clamp(actionAge/450,0,1)*own.path.length,
+  const t=clamp(actionAge/450,0,1),
+   // Ease only the visual path, not engine speed, action timing or receipts.
+   eased=t*t*(3-2*t),
+   progress=eased*own.path.length,
    index=Math.min(own.path.length-1,Math.floor(progress)),
    from=index?own.path[index-1]:own.from,to=own.path[index],
    fraction=progress-index;
