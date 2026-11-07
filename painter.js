@@ -768,7 +768,13 @@ function battleSpriteScale(height,row,rows=9,radius=null){
  const base=Number.isFinite(radius)?clamp(radius/60,.22,.82):clamp(height/740,.48,.82);
  return base*(.99+row/rows*.05);
 }
-function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
+// HG38: Open Field PNG, ground grade and the 108 static hex strokes have no
+// reason to be rasterized 60 times per second. Cache one canvas per active
+// battlefield canvas/viewport and rebuild ONLY if the image, size or grid
+// visibility changes. Preview highlights and every actor remain dynamic.
+const battleStaticLayers=new WeakMap();
+function paintBattleStaticScene(c,canvas,E,showGrid){
+ const w=canvas.width,h=canvas.height;
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
  if(field?.complete&&field.naturalWidth){
   const sw=field.naturalWidth,sh=field.naturalHeight,cropW=Math.min(sw,sh*w/h),cropH=Math.min(sh,sw*h/w);
@@ -777,14 +783,51 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  else{const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#354a50');sky.addColorStop(.56,'#4e6659');sky.addColorStop(1,'#798060');c.fillStyle=sky;c.fillRect(0,0,w,h);
   for(let i=0;i<25;i++){const x=(i*79)%w;tree(c,x,142+random(i,4)*36,.95+random(i,6)*.6,'pine')}
   poly(c,[[0,196],[w,196],[w,h],[0,h]],'#766d56');for(let i=0;i<25;i++){const x=random(i,9)*w,y=210+random(i,8)*(h-220);line(c,x,y,x+19,y+8,2,'#c3b59050')}}
- const camera=battleProjection(canvas,E),grid=camera.g;
+ const camera=battleProjection(canvas,E);
  battleGround(c,camera,w,h);
+ if(showGrid)battleGridOverlay(c,camera,[],new Set());
+}
+function battleStaticLayer(canvas,E,showGrid){
+ if(typeof document==='undefined'||typeof document.createElement!=='function')return null;
+ const img=document.getElementById('battlefield-human-meadow');
+ const src=img?.src||'',nw=img?.naturalWidth||0,nh=img?.naturalHeight||0;
+ const old=battleStaticLayers.get(canvas);
+ if(old&&old.width===canvas.width&&old.height===canvas.height&&
+    old.grid===showGrid&&old.img===img&&old.src===src&&old.nw===nw&&old.nh===nh){
+  old.hits++;return old.layer;
+ }
+ const layer=document.createElement('canvas');
+ layer.width=canvas.width;layer.height=canvas.height;
+ const cx=layer.getContext('2d');
+ if(!cx)return null;
+ paintBattleStaticScene(cx,canvas,E,showGrid);
+ battleStaticLayers.set(canvas,{layer,width:canvas.width,height:canvas.height,
+  grid:showGrid,img,src,nw,nh,builds:(old?.builds||0)+1,hits:old?.hits||0});
+ return layer;
+}
+function battleStaticCacheStats(canvas){
+ const o=battleStaticLayers.get(canvas);
+ return o?{builds:o.builds,hits:o.hits,width:o.width,height:o.height,
+  grid:o.grid,imageLoaded:o.nw>0&&o.nh>0}:null;
+}
+function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
+ if(!canvas||!s.battle)return;
+ const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,
+ elapsed=battleElapsed(b,now);
+ const base=battleStaticLayer(canvas,E,interaction.showGrid!==false);
+ if(base)c.drawImage(base,0,0);
+ else paintBattleStaticScene(c,canvas,E,interaction.showGrid!==false);
+ const camera=battleProjection(canvas,E),grid=camera.g;
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
  const units=battleUnitLayout(b,camera,w,h).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
- if(interaction.showGrid!==false)battleGridOverlay(c,camera,units,reachable);
- else if(reachable.size)for(const cell of battleGridCells(camera)){
+ // Static outlines are already in the cached background. Only draw
+ // changing reachable cells here, so hex hit-testing remains identical.
+ if(reachable.size)for(const cell of battleGridCells(camera)){
   if(!reachable.has(cell.x+','+cell.y))continue;
-  c.lineWidth=1.8;poly(c,cell.corners.map(pt=>[pt.x,pt.y]),'#39bda334','#9eeac9a8');
+  c.lineWidth=interaction.showGrid!==false?1.7:1.8;
+  poly(c,cell.corners.map(pt=>[pt.x,pt.y]),
+   interaction.showGrid!==false?'#43cba52a':'#39bda334',
+   interaction.showGrid!==false?'#9bead0b3':'#9eeac9a8');
  }
  for(const entry of units){
   const u=entry.u;
@@ -815,5 +858,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
