@@ -1079,11 +1079,12 @@ setInterval(()=>{if(!state)return;const before=state.battle,training=state.train
   if(training!==state.training.length||building!==(state.buildingQueue?.key||null)||
      arena!==(state.arenaQueue?.id||null))renderHUD();
  }else if(!changed){
-  // Passive resource ticks must not destroy the control a player is editing.
-  // Replacing <select>/<input> every second silently discards an in-progress
-  // troop/hero selection and can make the Tower confirmation pick empty slots.
-  // Gameplay actions already call render() immediately via fail(); completed
-  // build/research/training events still set changed and repaint.
+  // Update the real-time MAX and paid-total quote in place. Never replace an
+  // actively edited quantity input when passive resources arrive each second.
+  if(tab==='army'&&!$('game-modal')?.hidden)
+   for(const unit of E.arrUnits(state))hg35UpdateRecruitQuote(unit.id);
+  // Passive resource ticks must not destroy in-progress formation, Tower
+  // hero selection, or recruit quantity inputs.
   renderHUD();
  }else if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName))renderHUD();
  else render();
