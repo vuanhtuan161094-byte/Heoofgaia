@@ -1,0 +1,265 @@
+{
+  "htmlSha256": "574D60D539574646D49A7A44DB9289803A509AF5F68A03D4559C98B6ACFB187E",
+  "passed": 42,
+  "total": 42,
+  "checks": [
+    {
+      "name": "HG14.2 armies are staged at left and right",
+      "passed": true
+    },
+    {
+      "name": "HG33 odd-r hex axes and projected battlefield remain shallow and on canvas",
+      "passed": true
+    },
+    {
+      "name": "HG33 all 108 pointy-top hex cells round-trip through Chromium hit tests",
+      "passed": true
+    },
+    {
+      "name": "HG33 all living troop foot pivots remain in the hex battlefield",
+      "passed": true
+    },
+    {
+      "name": "HG14.2 meadow is full-field without floating platform",
+      "passed": true
+    },
+    {
+      "name": "HG14.5 tactical overlay reuses canonical 108-cell projection",
+      "passed": true
+    },
+    {
+      "name": "HG14.2 natural terrain texture remains visible",
+      "passed": true
+    },
+    {
+      "name": "HG14.2 desktop troops retain legible sprite scale",
+      "passed": true
+    },
+    {
+      "name": "HG14.4 desktop troop HUD has separate nonoverlapping name/HP cards",
+      "passed": true
+    },
+    {
+      "name": "Entering combat resets previous map page scroll",
+      "passed": true
+    },
+    {
+      "name": "Actual NPC March reaches combat",
+      "passed": true
+    },
+    {
+      "name": "Illustrated combat troop sprites load from the offline HTML",
+      "passed": true
+    },
+    {
+      "name": "Canvas pixels have the same aspect ratio as its CSS size",
+      "passed": true
+    },
+    {
+      "name": "Roster cards are hidden and field actions stay in the right command dock",
+      "passed": true
+    },
+    {
+      "name": "Old march toast no longer blocks combat commands",
+      "passed": true
+    },
+    {
+      "name": "Battle-only viewport mode activates",
+      "passed": true
+    },
+    {
+      "name": "Field-first stage fills the viewport and the hex board stays wide beside the dock",
+      "passed": true
+    },
+    {
+      "name": "Battle canvas uses at least 60 percent of desktop height",
+      "passed": true
+    },
+    {
+      "name": "Commands are present in the initial viewport",
+      "passed": true
+    },
+    {
+      "name": "HG33 pointy-top camera round-trips saved 12 by 9 cells",
+      "passed": true
+    },
+    {
+      "name": "No horizontal desktop overflow",
+      "passed": true
+    },
+    {
+      "name": "Right command dock collapses and returns screen space to the battlefield",
+      "passed": true
+    },
+    {
+      "name": "Right command dock reopens with the field-first layout restored",
+      "passed": true
+    },
+    {
+      "name": "Real projected canvas click selects enemy unit",
+      "passed": true
+    },
+    {
+      "name": "1280x720 sprite upper-body hitbox",
+      "passed": true
+    },
+    {
+      "name": "1280x720 real upper-body click selects the enemy",
+      "passed": true
+    },
+    {
+      "name": "1280x720 distant nameplate is a genuine selectable hitbox",
+      "passed": true
+    },
+    {
+      "name": "1280x720 real nameplate click selects the enemy",
+      "passed": true
+    },
+    {
+      "name": "Visible combat Save writes v07 state",
+      "passed": true
+    },
+    {
+      "name": "Reload restores in-progress battle and viewport mode",
+      "passed": true
+    },
+    {
+      "name": "Landscape canvas pixels preserve the rendered aspect ratio",
+      "passed": true
+    },
+    {
+      "name": "HG14.4 mobile sprites are readable and all nameplates avoid silhouettes",
+      "passed": true
+    },
+    {
+      "name": "HG14.2 mobile stage spreads troops on scenic meadow",
+      "passed": true
+    },
+    {
+      "name": "Landscape keeps roster cards hidden and right dock actionable",
+      "passed": true
+    },
+    {
+      "name": "Landscape 960 by 540 keeps a wide battlefield beside the right dock",
+      "passed": true
+    },
+    {
+      "name": "Landscape viewport has no horizontal overflow",
+      "passed": true
+    },
+    {
+      "name": "960x540 sprite upper-body hitbox",
+      "passed": true
+    },
+    {
+      "name": "960x540 real upper-body click selects the enemy",
+      "passed": true
+    },
+    {
+      "name": "960x540 distant nameplate is a genuine selectable hitbox",
+      "passed": true
+    },
+    {
+      "name": "960x540 real nameplate click selects the enemy",
+      "passed": true
+    },
+    {
+      "name": "HG14.4 click targets follow visually spaced troop positions",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript runtime errors",
+      "passed": true
+    }
+  ],
+  "desktop": {
+    "inBattle": true,
+    "combatMode": true,
+    "width": 1027.40625,
+    "height": 662.25,
+    "vw": 1280,
+    "vh": 720,
+    "sidebarHidden": true,
+    "navHidden": true,
+    "commandVisible": true,
+    "stageWidth": 1252,
+    "rightDock": true,
+    "grid": {
+      "cols": 12,
+      "rows": 9,
+      "top": 173,
+      "bottom": 185
+    },
+    "projectedCell": {
+      "x": 5,
+      "y": 4
+    },
+    "scrollWidth": 1280
+  },
+  "continuousGround": {
+    "width": 1027,
+    "height": 662,
+    "ally": {
+      "x": 177.35842541681149,
+      "y": 120.85714285714286
+    },
+    "foe": {
+      "x": 814.2582509428528,
+      "y": 243.42857142857142
+    },
+    "horizontal": true,
+    "depth": true,
+    "stagger": true,
+    "shallow": true,
+    "edge": true,
+    "everyCell": true,
+    "everyFoot": true,
+    "floorSource": true,
+    "noPlatform": true,
+    "gridSupported": true,
+    "grass0": [
+      150,
+      152,
+      46,
+      255
+    ],
+    "grass1": [
+      139,
+      147,
+      39,
+      255
+    ]
+  },
+  "landscape": {
+    "width": 751,
+    "canvasRight": 766,
+    "vw": 960,
+    "scrollWidth": 960,
+    "sidebar": "none",
+    "dockX": 771,
+    "dockY": 55,
+    "dockWidth": 169
+  },
+  "clickDebug": {
+    "before": {
+      "expected": "e0",
+      "hit": "e0",
+      "element": "CANVAS#battle-canvas",
+      "canvasTarget": true,
+      "onclick": true,
+      "focusBefore": null,
+      "viewScroll": 0,
+      "toast": "Aldric xuất chinh cùng 16 quân."
+    },
+    "after": {
+      "focus": "e0",
+      "selected": "p0",
+      "toast": "Aldric xuất chinh cùng 16 quân."
+    }
+  },
+  "errors": [],
+  "screenshots": [
+    "docs\\evidence\\hg33\\combat-layout\\hg09-retest\\fullscreen-combat-desktop-chrome.png",
+    "docs\\evidence\\hg33\\combat-layout\\hg09-retest\\fullscreen-combat-landscape-chrome.png"
+  ]
+}

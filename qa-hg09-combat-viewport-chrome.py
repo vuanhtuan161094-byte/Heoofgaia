@@ -7,10 +7,10 @@ if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/"Play-Heoofgaia-HG11.html"
-SHOTDIR=ROOT/"docs"/"evidence"/"hg09"
-QADIR=ROOT/"docs"/"qa"/"hg09"
+SHOTDIR=Path(os.environ.get("HOG_HG09_EVIDENCE_ROOT",ROOT/"docs"/"evidence"/"hg09"))
+REPORT=Path(os.environ.get("HOG_HG09_REPORT",ROOT/"docs"/"qa"/"hg09"/"fullscreen-combat-chrome.json"))
 SHOTDIR.mkdir(parents=True,exist_ok=True)
-QADIR.mkdir(parents=True,exist_ok=True)
+REPORT.parent.mkdir(parents=True,exist_ok=True)
 results=[]
 errors=[]
 def check(label,condition):
@@ -83,14 +83,17 @@ with sync_playwright() as p:
     }""")
     page.locator("#battle-canvas").wait_for(state="visible")
     state=page.evaluate("""() => {
-      const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),cmd=document.querySelector('.command-bar'),q=cmd.getBoundingClientRect();
+      const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),
+        stage=document.querySelector('.battle-stage'),sr=stage.getBoundingClientRect(),
+        dock=document.querySelector('.battle-command-dock'),q=dock.getBoundingClientRect();
       const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,p=HOG_PAINTER;
       const x=5,y=4,pt=p.battleProjection(c,E).point(x+.5,y+.5),px=pt.x,py=pt.y;
       return {inBattle:!!s.battle,combatMode:document.body.classList.contains('combat-mode'),
         width:r.width,height:r.height,vw:innerWidth,vh:innerHeight,
         sidebarHidden:getComputedStyle(document.querySelector('.sidebar')).display==='none',
         navHidden:getComputedStyle(document.querySelector('#nav')).display==='none',
-        commandVisible:q.top<innerHeight-10&&q.bottom>0,grid:E.BATTLE_GRID,
+        commandVisible:dock.open&&q.top<innerHeight-10&&q.bottom>0,
+        stageWidth:sr.width,rightDock:q.left>=r.right-1&&q.right<=sr.right+1,grid:E.BATTLE_GRID,
         projectedCell:p.battleCellAt(c,px,py,E),scrollWidth:document.documentElement.scrollWidth};
     }""")
     stage=page.evaluate("""() => {
@@ -142,16 +145,33 @@ with sync_playwright() as p:
     check("Actual NPC March reaches combat",state["inBattle"])
     check("Illustrated combat troop sprites load from the offline HTML",page.evaluate("""() => ['battle-unit-human-spear','battle-unit-npc-beast','battle-unit-npc-archer','battle-unit-npc-guard'].every(id=>{const img=document.getElementById(id);return img&&img.complete&&img.naturalWidth===512&&img.naturalHeight===512})"""))
     check("Canvas pixels have the same aspect ratio as its CSS size",page.evaluate("""() => {const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();return Math.abs(c.width/r.width-c.height/r.height)<.008}"""))
-    check("Battle orders do not overlay the troop selection cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
+    check("Roster cards are hidden and field actions stay in the right command dock",page.evaluate("""() => {
+      const c=document.querySelector('#battle-canvas').getBoundingClientRect(),dock=document.querySelector('.battle-command-dock'),r=dock.getBoundingClientRect(),
+        oldRoster=document.querySelector('.battle-ui'),oldBar=document.querySelector('.command-bar'),
+        actions=[...dock.querySelectorAll('.battle-action-grid button')];
+      return (!oldRoster||getComputedStyle(oldRoster).display==='none')&&
+        (!oldBar||getComputedStyle(oldBar).display==='none')&&dock.open&&
+        r.left>=c.right-1&&actions.some(b=>b.dataset.cmd==='attack')&&actions.some(b=>b.dataset.action==='auto');
+    }"""))
     check("Old march toast no longer blocks combat commands",page.evaluate("""() => !document.querySelector('#toast')?.classList.contains('show')"""))
     check("Battle-only viewport mode activates",state["combatMode"] and state["sidebarHidden"] and state["navHidden"])
-    check("Battle canvas uses at least 90 percent of desktop width",state["width"]>=state["vw"]*.90)
+    check("Field-first stage fills the viewport and the hex board stays wide beside the dock",state["stageWidth"]>=state["vw"]*.96 and state["width"]>=state["vw"]*.75 and state["rightDock"])
     check("Battle canvas uses at least 60 percent of desktop height",state["height"]>=state["vh"]*.60)
     check("Commands are present in the initial viewport",state["commandVisible"])
     check("HG33 pointy-top camera round-trips saved 12 by 9 cells",state["grid"]["cols"]==12 and state["grid"]["rows"]==9 and state["projectedCell"]=={"x":5,"y":4})
     check("No horizontal desktop overflow",state["scrollWidth"]<=state["vw"]+1)
     desktop=SHOTDIR/"fullscreen-combat-desktop-chrome.png"
     page.screenshot(path=str(desktop),full_page=False)
+    expanded_width=page.locator('#battle-canvas').evaluate("e=>e.getBoundingClientRect().width")
+    page.locator('.battle-command-dock>summary').click()
+    page.wait_for_function("document.querySelector('.battle-stage').classList.contains('battle-stage-collapsed')")
+    page.evaluate("HOG_APP_DEBUG.render()")
+    collapsed_width=page.locator('#battle-canvas').evaluate("e=>e.getBoundingClientRect().width")
+    check("Right command dock collapses and returns screen space to the battlefield",not page.locator('.battle-command-dock').evaluate("e=>e.open") and collapsed_width>expanded_width+30)
+    page.locator('.battle-command-dock>summary').click()
+    page.wait_for_function("!document.querySelector('.battle-stage').classList.contains('battle-stage-collapsed')")
+    page.evaluate("HOG_APP_DEBUG.render()")
+    check("Right command dock reopens with the field-first layout restored",page.locator('.battle-command-dock').evaluate("e=>e.open") and abs(page.locator('#battle-canvas').evaluate("e=>e.getBoundingClientRect().width")-expanded_width)<2)
     enemy=page.evaluate("""() => {
       const b=HOG_APP_DEBUG.getState().battle,u=b.enemies.find(q=>q.pool>0),c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();
       const pt=HOG_PAINTER.battleProjection(c,HOG_ENGINE).point(u.x+.5,u.y+.5),x=pt.x,y=pt.y;
@@ -180,8 +200,8 @@ with sync_playwright() as p:
     page.set_viewport_size({"width":960,"height":540})
     page.evaluate("HOG_APP_DEBUG.render()")
     mobile=page.evaluate("""() => {
-      const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),bar=document.querySelector('.command-bar').getBoundingClientRect();
-      return {width:r.width,vw:innerWidth,scrollWidth:document.documentElement.scrollWidth,sidebar:getComputedStyle(document.querySelector('.sidebar')).display,barY:bar.y};
+      const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),dock=document.querySelector('.battle-command-dock').getBoundingClientRect();
+      return {width:r.width,canvasRight:r.right,vw:innerWidth,scrollWidth:document.documentElement.scrollWidth,sidebar:getComputedStyle(document.querySelector('.sidebar')).display,dockX:dock.x,dockY:dock.y,dockWidth:dock.width};
     }""")
     check("Landscape canvas pixels preserve the rendered aspect ratio",page.evaluate("""() => {const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();return Math.abs(c.width/r.width-c.height/r.height)<.008}"""))
     check("HG14.4 mobile sprites are readable and all nameplates avoid silhouettes",page.evaluate("""() => {
@@ -193,7 +213,6 @@ with sync_playwright() as p:
        return rendered>=64&&rendered<=110&&layout.every(e=>
        e.label.y>=60&&e.label.x>=12&&e.label.x+e.label.w<=c.width-12&&
         !layout.some(o=>P.battleRectOverlap(e.label,o.sprite,1))&&
-        !P.battleRectOverlap(e.label,{x:c.width-190,y:58,w:184,h:38},1)&&
        !layout.some(o=>o!==e&&P.battleRectOverlap(e.label,o.label,2)));
     }"""))
     check("HG14.2 mobile stage spreads troops on scenic meadow",page.evaluate("""() => {
@@ -203,8 +222,15 @@ with sync_playwright() as p:
       return pc.x>p0.x&&Math.abs(pc.y-p0.y)<.001&&rowDy>0&&rowDx>0&&Math.abs(rowDx/rowDy)<.65
        &&b.x-a.x>c.width*.20&&a.y>c.height*.10&&b.y<c.height*.7;
     }"""))
-    check("Landscape command bar does not overlap troop cards",page.evaluate("""() => {const a=document.querySelector('.battle-ui').getBoundingClientRect(),b=document.querySelector('.command-bar').getBoundingClientRect();return b.top>=a.bottom-1&&b.bottom<=innerHeight+1}"""))
-    check("Landscape 960 by 540 remains wide with hidden sidebar",mobile["width"]>=mobile["vw"]*.90 and mobile["sidebar"]=="none")
+    check("Landscape keeps roster cards hidden and right dock actionable",page.evaluate("""() => {
+      const c=document.querySelector('#battle-canvas').getBoundingClientRect(),dock=document.querySelector('.battle-command-dock'),r=dock.getBoundingClientRect(),
+        oldRoster=document.querySelector('.battle-ui'),oldBar=document.querySelector('.command-bar'),
+        actions=[...dock.querySelectorAll('.battle-action-grid button')];
+      return (!oldRoster||getComputedStyle(oldRoster).display==='none')&&
+        (!oldBar||getComputedStyle(oldBar).display==='none')&&dock.open&&
+        r.left>=c.right-1&&actions.some(b=>b.dataset.cmd==='attack')&&actions.some(b=>b.dataset.action==='auto');
+    }"""))
+    check("Landscape 960 by 540 keeps a wide battlefield beside the right dock",mobile["width"]>=mobile["vw"]*.75 and mobile["sidebar"]=="none" and mobile["dockX"]>=mobile["canvasRight"]-1 and mobile["dockX"]+mobile["dockWidth"]<=mobile["vw"]+1)
     check("Landscape viewport has no horizontal overflow",mobile["scrollWidth"]<=mobile["vw"]+1)
     click_troop_upper_body(page, "960x540")
     check("HG14.4 click targets follow visually spaced troop positions",page.evaluate("""() => {
@@ -219,6 +245,6 @@ with sync_playwright() as p:
 report={"htmlSha256":hashlib.sha256(HTML.read_bytes()).hexdigest().upper(),
         "passed":sum(r["passed"] for r in results),"total":len(results),"checks":results,
         "desktop":state,"continuousGround":stage,"landscape":mobile,"clickDebug":click_debug,"errors":errors,"screenshots":[str(desktop.relative_to(ROOT)),str(landscape.relative_to(ROOT))]}
-(QADIR/"fullscreen-combat-chrome.json").write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
+REPORT.write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding="utf-8")
 print("HG09 Chrome viewport:",report["passed"],"/",report["total"],"PASS",flush=True)
 raise SystemExit(0 if report["passed"]==report["total"] else 1)
