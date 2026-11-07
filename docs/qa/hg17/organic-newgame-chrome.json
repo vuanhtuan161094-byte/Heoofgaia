@@ -1,0 +1,170 @@
+{
+  "phase": "HG17 unseeded New Game Chromium",
+  "checks": [
+    {
+      "name": "First launch shows race selector and genuine New Game action",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Private New Game starts with declared generous resources and no QA troop injection",
+      "passed": true,
+      "details": {
+        "res": {
+          "gold": 33000,
+          "wood": 8900,
+          "ore": 8900,
+          "sulfur": 3350,
+          "crystal": 3350
+        },
+        "army": 16,
+        "fame": 5,
+        "cities": 1,
+        "buildings": {
+          "hall": 1,
+          "barracks": 1,
+          "heroTower": 1,
+          "tavern": 1,
+          "warehouse": 2,
+          "magicTower": 1,
+          "arena": 1,
+          "market": 0,
+          "bazaar": 0,
+          "embassy": 0,
+          "stables": 0,
+          "forge": 0,
+          "blacksmith": 0,
+          "magicPool": 0,
+          "natureTower": 0,
+          "beastPen": 0,
+          "darkHall": 0,
+          "soulTower": 0,
+          "graveyard": 0
+        },
+        "valid": true
+      }
+    },
+    {
+      "name": "Visual rookie steps show progress from real state",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Actual city upgrade click spends resources and creates queue",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Real speed control restores ×60 before bounded queue completion",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "buildingQueue completes through engine time, valid Save",
+      "passed": true,
+      "details": {
+        "fame": 119,
+        "remaining": null,
+        "valid": true
+      }
+    },
+    {
+      "name": "Market Fame is earned only on completed construction, not button click",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Actual Magic Tower click starts Forestry research",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "researchQueue completes through engine time, valid Save",
+      "passed": true,
+      "details": {
+        "fame": 175,
+        "remaining": null,
+        "valid": true
+      }
+    },
+    {
+      "name": "Forestry researched and wood/hour increased",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Actual troop card click creates paid 24-unit training",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Real trained troop count and earned Fame from paid queue",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Real world-map pointer selects reachable level-1 mine",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "UI dispatch paid actual mine AP and reserved starter army",
+      "passed": true,
+      "details": {
+        "apBefore": 101.08702081298829,
+        "key": "6,3",
+        "ap": 95.08702081298829,
+        "army": 40
+      }
+    },
+    {
+      "name": "Genuine 40-militia detachment enters a guarded mine battle",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "Rookie wins first mine through real UI battle actions without cheats",
+      "passed": true,
+      "details": {
+        "result": "win",
+        "mine": "6,3"
+      }
+    },
+    {
+      "name": "Save stored real new-game mine conquest",
+      "passed": true,
+      "details": {
+        "saved": true,
+        "strict": true,
+        "valid": true,
+        "version": 7,
+        "mineCount": 1,
+        "lastTickAheadMs": 2541,
+        "ap": 95.58479861246745,
+        "apMax": 165,
+        "battle": false,
+        "march": null,
+        "expedition": null,
+        "parallelMarches": 0,
+        "reportCount": 0,
+        "toast": "Chiến thắng!",
+        "payloadLength": 13446
+      }
+    },
+    {
+      "name": "Cold browser reload retains money/Fame/mine/army without duplication",
+      "passed": true,
+      "details": null
+    },
+    {
+      "name": "No browser runtime exceptions",
+      "passed": true,
+      "details": []
+    }
+  ],
+  "total": 19,
+  "passed": 19,
+  "failed": 0,
+  "browserErrors": [],
+  "timePolicy": "Only E.tick queue/route time accelerated. No direct Fame/HP/army/resource or build-level writes."
+}

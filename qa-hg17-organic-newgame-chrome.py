@@ -3,6 +3,7 @@ canonical E.tick (never modify resources, Fame, building levels or troop HP).
 """
 from pathlib import Path
 import json
+import os
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parent
@@ -32,7 +33,9 @@ def advance_queue(page,field):
 
 try:
   with sync_playwright() as p:
-    browser=p.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
+    launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
+    if os.environ.get("HOG_CHROME_PATH"):launch["executable_path"]=os.environ["HOG_CHROME_PATH"]
+    browser=p.chromium.launch(**launch)
     context=browser.new_context(viewport={"width":1280,"height":900})
     page=context.new_page()
     page.set_default_timeout(15000)
@@ -52,11 +55,15 @@ try:
           page.locator('[aria-label="Lộ trình phát triển New Game"]').count()==1)
     page.locator('[data-action="tab"][data-tab="city"]').first.click()
     page.locator('[data-action="building"][data-key="market"]').click()
+    page.locator('#speed').click()
     page.locator('[data-action="upgrade"][data-key="market"]').click()
     check("Actual city upgrade click spends resources and creates queue",page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
-      return s.buildingQueue?.key==="market"&&s.buildings.market===0&&s.res.gold<33000&&s.fame===5;
+      return s.speed===1&&s.buildingQueue?.key==="market"&&s.buildings.market===0&&s.res.gold<33000&&s.fame===5;
     }"""))
+    page.locator('#speed').click()
+    check("Real speed control restores ×60 before bounded queue completion",
+          page.evaluate("HOG_APP_DEBUG.getState().speed===60 && document.querySelector('#speed').textContent.includes('×60')"))
     build=advance_queue(page,"buildingQueue")
     check("Market Fame is earned only on completed construction, not button click",build["fame"]>5)
     page.locator('[data-action="tab"][data-tab="magic"]').first.click()
@@ -99,7 +106,13 @@ try:
     page.mouse.click(pt["x"],pt["y"])
     check("Real world-map pointer selects reachable level-1 mine",target["name"] in page.locator(".target-information").inner_text())
     ap_before=page.evaluate("HOG_APP_DEBUG.getState().ap")
-    page.locator('[data-action="march"]').first.click()
+    page.locator('.hg39-map-target [data-action="dispatch-open"]').click()
+    page.locator('.hg39-dispatch').wait_for(state='visible')
+    page.locator('[data-action="dispatch-auto"]').click()
+    page.locator('[data-action="dispatch-confirm"]').wait_for(state='visible')
+    if not page.locator('[data-action="dispatch-confirm"]').is_enabled():
+      raise AssertionError('Organic mine expedition did not produce a valid dispatch formation')
+    page.locator('[data-action="dispatch-confirm"]').click()
     march_receipt=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();return {key:s.march?.target||null,
         ap:s.ap,army:s.expedition?.army?.human_1??null};
@@ -126,7 +139,15 @@ try:
     check("Rookie wins first mine through real UI battle actions without cheats",outcome=="win",
           {"result":outcome,"mine":target["key"]})
     page.screenshot(path=str(OUT/"rookie-first-mine-chromium.png"),full_page=True)
-    check("Save stored real new-game mine conquest",page.evaluate("HOG_APP_DEBUG.save()"))
+    save_receipt=page.evaluate("""() => {
+      const saved=HOG_APP_DEBUG.save(),s=HOG_APP_DEBUG.getState();
+      return {saved,strict:HOG_ENGINE.strictSave(s),valid:HOG_ENGINE.valid(s),version:s.version,mineCount:s.mines.length,
+        lastTickAheadMs:s.lastTick-Date.now(),ap:s.ap,apMax:s.apMax,battle:!!s.battle,march:s.march?.phase||null,
+        expedition:s.expedition?.phase||null,parallelMarches:s.parallelMarches?.length,
+        reportCount:s.hg18?.reports?.length||s.reports?.length||0,
+        toast:document.querySelector('#toast')?.textContent||'',payloadLength:JSON.stringify(s).length};
+    }""")
+    check("Save stored real new-game mine conquest",save_receipt['saved'],save_receipt)
     page.reload(wait_until="load")
     check("Cold browser reload retains money/Fame/mine/army without duplication",page.evaluate("""key=>{
       const s=HOG_APP_DEBUG.getState();return s.mines.some(m=>m.key===key)&&s.fame>5&&s.cities.length===1&&HOG_ENGINE.strictSave(s);
