@@ -1586,7 +1586,12 @@ test('HG33-H1 pointy-top odd-r hex centers and hit tests share the engine geomet
  const painterSource=fs.readFileSync(path.join(dir,'painter.js'),'utf8');
  assert(!painterSource.includes('staggerX'),'old oblique projection has been removed');
  assert(painterSource.includes('E.battleHex'),'renderer consumes the engine geometry service');
- assert(painterSource.includes('battleGridOverlay(c,camera,units,reachable)'),'tactical overlay uses the actual battle cells');
+ assert(painterSource.includes('if(showGrid)battleGridOverlay(c,camera,[],new Set())'),
+  'static cache draws the actual 108 hex cells only when the grid is enabled');
+ assert(painterSource.includes('if(reachable.size)for(const cell of battleGridCells(camera))'),
+  'dynamic reachable cells still use precisely the engine-driven hex geometry');
+ assert(painterSource.includes('const base=battleStaticLayer(canvas,E,interaction.showGrid!==false)'),
+  'battle renderer uses the cached Open Field/hex layer instead of repainting it every 60Hz frame');
  for(const dims of [{width:1176,height:550},{width:960,height:350},{width:1280,height:520}]){
   const p=P.battleProjection(dims,E);
   assert(p.radius>8&&p.boardW<=dims.width&&p.boardH<=dims.height,'hex board fits viewport');
