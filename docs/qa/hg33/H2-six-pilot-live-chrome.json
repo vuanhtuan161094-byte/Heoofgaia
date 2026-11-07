@@ -1,0 +1,2758 @@
+{
+  "commit": "d9f68d65cf159412248ec2557f7384ba7cffa01b",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "D4B329EA925D7A5B4C15BAEBC2A4A88300D87882C35489598B08C9B882A949CF",
+  "browser": "Playwright Chromium opening the built standalone file:// HTML",
+  "pilotCombat": "actual New Game, UI recruitment, resource spend, training tick, two-stack formation, real NPC selection and March, real Attack/Defend turns, engine damage, casualty and event-driven animation; only defenders are adjusted by the disclosed observation fixture",
+  "pilots": [
+    {
+      "race": "elf",
+      "unitId": "elf_4",
+      "name": "Elf Archer"
+    },
+    {
+      "race": "orc",
+      "unitId": "orc_5",
+      "name": "Ogre"
+    },
+    {
+      "race": "undead",
+      "unitId": "undead_1",
+      "name": "Skeleton Warrior"
+    },
+    {
+      "race": "elf",
+      "unitId": "elf_9",
+      "name": "Green Dragon"
+    },
+    {
+      "bossName": "Azrael",
+      "kind": "named Boss"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Elf Archer opens the standalone game",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Elf Archer scenario starts with valid Save v07",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "strict": true,
+        "unitCount": 10,
+        "resources": {
+          "gold": 2700000,
+          "wood": 270000,
+          "ore": 270000,
+          "sulfur": 135000,
+          "crystal": 135000
+        }
+      }
+    },
+    {
+      "name": "Elf Archer recruitment control is enabled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Elf Archer recruitment spends real resources and queues two units",
+      "passed": true,
+      "detail": {
+        "id": "elf_4",
+        "count": 2,
+        "gold": 2699644.6533333333,
+        "strict": true
+      }
+    },
+    {
+      "name": "Elf Archer is delivered by an actual engine training tick",
+      "passed": true,
+      "detail": {
+        "count": 2,
+        "queued": 0,
+        "strict": true,
+        "expected": 2
+      }
+    },
+    {
+      "name": "Real formation deploys two separate Elf Archer stacks",
+      "passed": true,
+      "detail": [
+        {
+          "unitId": "elf_4",
+          "count": 1
+        },
+        {
+          "unitId": "elf_4",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "Elf Archer scenario selects the real nearby NPC",
+      "passed": true,
+      "detail": {
+        "target": {
+          "key": "5,6",
+          "kind": "npc",
+          "value": "Wolves"
+        },
+        "hit": "5,6",
+        "point": {
+          "x": 407.96000000000004,
+          "y": 141.61599999999999
+        },
+        "size": [
+          1246,
+          380
+        ],
+        "selected": "Trại Wolves · 1★ · (5,6)"
+      }
+    },
+    {
+      "name": "Natural March arrival starts a real Elf Archer battle",
+      "passed": true,
+      "detail": {
+        "allies": [
+          {
+            "id": "p0",
+            "unitId": "elf_4",
+            "pool": 62,
+            "x": 1,
+            "y": 0
+          },
+          {
+            "id": "p1",
+            "unitId": "elf_4",
+            "pool": 62,
+            "x": 1,
+            "y": 2
+          }
+        ],
+        "enemyNames": [
+          "Dã thú",
+          "Cung thủ cướp"
+        ],
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Real battle renders Elf Archer Idle_A from its troop atlas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Elf Archer observation setup changes only defenders",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 62
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 0,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Elf Archer before Walk_A is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p1",
+        "hit": "p1",
+        "x": 192.42858302180232,
+        "y": 293.5205006473889
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Elf Archer before Walk_A",
+      "passed": true,
+      "detail": "p1"
+    },
+    {
+      "name": "Elf Archer has an actual reachable battle hex for manual Walk_A",
+      "passed": true,
+      "detail": {
+        "id": "p1",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "cell": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        },
+        "point": {
+          "x": 263.223223438265,
+          "y": 293.5205006473889
+        },
+        "canvas": [
+          1027,
+          662
+        ]
+      }
+    },
+    {
+      "name": "Real Elf Archer move command walks along the selected hex route",
+      "passed": true,
+      "detail": {
+        "receipt": {
+          "actorId": "p1",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ],
+          "targetId": null,
+          "damage": 0,
+          "death": false,
+          "order": "move",
+          "casualties": 0
+        },
+        "destination": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        }
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_4-walk is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-walk-1280x720.png",
+        "sha256": "F9B4F9E837E4077F22F36D0A237F182155438784E5BC061D4372D0BEB1397E34",
+        "bytes": 1058422,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Elf Archer actual Walk_A retains valid battle Save v07",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "receipt": {
+          "actorId": "p1",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ],
+          "targetId": null,
+          "damage": 0,
+          "death": false,
+          "order": "move",
+          "casualties": 0
+        },
+        "destination": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        }
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_4-attack is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-attack-1280x720.png",
+        "sha256": "004E95EB49A16CB4746894A4AD0058BABEF930305DC5D01C1BDBB77E6CC536B8",
+        "bytes": 1056988,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Actual Elf Archer Attack control produces engine movement/damage",
+      "passed": true,
+      "detail": {
+        "turns": 6,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 1,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 31,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        }
+      }
+    },
+    {
+      "name": "Real player Attack event renders Elf Archer Attack_A from its troop atlas",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 1,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 31,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "attack",
+          "time": 200,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-elf-4-atlas",
+          "sx": 384,
+          "sy": 408,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Elf Archer defender can deal a real nonlethal hit",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 62
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 20,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Elf Archer is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p0",
+        "hit": "p0",
+        "x": 192.42858302180232,
+        "y": 170.9027837721191
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Elf Archer",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real defender receipt selects and renders Elf Archer Hit_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 6,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "hit",
+          "time": 240,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-elf-4-atlas",
+          "sx": 384,
+          "sy": 612,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_4-hit is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-hit-1280x720.png",
+        "sha256": "ABAD1DF1D0F6D441B6CF9A947687F0D25FAF5E11309681E3011848F04B0A4B2E",
+        "bytes": 1072078,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Elf Archer Hit receipt and battle survive strict Save v07 reload",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "key": true,
+        "battle": true,
+        "battleUnitCount": 2,
+        "pool": 56,
+        "hitEvent": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 6,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Elf Archer lethal test retains a second live stack",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 56
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 100000,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Elf Archer before Death_A is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p0",
+        "hit": "p0",
+        "x": 192.42858302180232,
+        "y": 170.9027837721191
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Elf Archer before Death_A",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real hostile action kills one Elf Archer stack and selects Death_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 56,
+          "death": true,
+          "order": "attack",
+          "casualties": 1
+        },
+        "visual": {
+          "action": "death",
+          "time": 360,
+          "duration": 1200,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-elf-4-atlas",
+          "sx": 384,
+          "sy": 816,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_4-death is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-death-1280x720.png",
+        "sha256": "75AF5D99AB873EC3ED272F561372FE30732DC0C24F30F458B70E746348195DB0",
+        "bytes": 1074571,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_4-death is exact 960x540",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-death-960x540.png",
+        "sha256": "DC69CB41BBEF2EEE7AD66196A59D46AFA3BD622EFA6AB7C89F3AD396818CB022",
+        "bytes": 656509,
+        "viewport": "960x540",
+        "imageSize": "960x540"
+      }
+    },
+    {
+      "name": "Ogre opens the standalone game",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Ogre scenario starts with valid Save v07",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "strict": true,
+        "unitCount": 10,
+        "resources": {
+          "gold": 2700000,
+          "wood": 270000,
+          "ore": 270000,
+          "sulfur": 135000,
+          "crystal": 135000
+        }
+      }
+    },
+    {
+      "name": "Ogre recruitment control is enabled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Ogre recruitment spends real resources and queues two units",
+      "passed": true,
+      "detail": {
+        "id": "orc_5",
+        "count": 2,
+        "gold": 2699547.2666666666,
+        "strict": true
+      }
+    },
+    {
+      "name": "Ogre is delivered by an actual engine training tick",
+      "passed": true,
+      "detail": {
+        "count": 2,
+        "queued": 0,
+        "strict": true,
+        "expected": 2
+      }
+    },
+    {
+      "name": "Real formation deploys two separate Ogre stacks",
+      "passed": true,
+      "detail": [
+        {
+          "unitId": "orc_5",
+          "count": 1
+        },
+        {
+          "unitId": "orc_5",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "Ogre scenario selects the real nearby NPC",
+      "passed": true,
+      "detail": {
+        "target": {
+          "key": "5,6",
+          "kind": "npc",
+          "value": "Wolves"
+        },
+        "hit": "5,6",
+        "point": {
+          "x": 407.96000000000004,
+          "y": 141.61599999999999
+        },
+        "size": [
+          1246,
+          380
+        ],
+        "selected": "Trại Wolves · 1★ · (5,6)"
+      }
+    },
+    {
+      "name": "Natural March arrival starts a real Ogre battle",
+      "passed": true,
+      "detail": {
+        "allies": [
+          {
+            "id": "p0",
+            "unitId": "orc_5",
+            "pool": 130,
+            "x": 1,
+            "y": 0
+          },
+          {
+            "id": "p1",
+            "unitId": "orc_5",
+            "pool": 130,
+            "x": 1,
+            "y": 2
+          }
+        ],
+        "enemyNames": [
+          "Dã thú",
+          "Cung thủ cướp"
+        ],
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Real battle renders Ogre Idle_A from its troop atlas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Ogre observation setup changes only defenders",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 130
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 0,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Ogre before Walk_A is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p1",
+        "hit": "p1",
+        "x": 192.42858302180232,
+        "y": 293.5205006473889
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Ogre before Walk_A",
+      "passed": true,
+      "detail": "p1"
+    },
+    {
+      "name": "Ogre has an actual reachable battle hex for manual Walk_A",
+      "passed": true,
+      "detail": {
+        "id": "p1",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "cell": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        },
+        "point": {
+          "x": 263.223223438265,
+          "y": 293.5205006473889
+        },
+        "canvas": [
+          1027,
+          662
+        ]
+      }
+    },
+    {
+      "name": "Real Ogre move command walks along the selected hex route",
+      "passed": true,
+      "detail": {
+        "receipt": {
+          "actorId": "p1",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ],
+          "targetId": null,
+          "damage": 0,
+          "death": false,
+          "order": "move",
+          "casualties": 0
+        },
+        "destination": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        }
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot orc_5-walk is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-walk-1280x720.png",
+        "sha256": "BFA2CF5AE92F488D43D62ED7CCA0FB05D91BDE3031587C0C53FC8E0CC4415E8F",
+        "bytes": 1061568,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Ogre actual Walk_A retains valid battle Save v07",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "receipt": {
+          "actorId": "p1",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ],
+          "targetId": null,
+          "damage": 0,
+          "death": false,
+          "order": "move",
+          "casualties": 0
+        },
+        "destination": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        }
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot orc_5-attack is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-attack-1280x720.png",
+        "sha256": "AD8CA59786C6298079D6ED7AE4A6AEDE1DC27260E8BC10EFA08ED3D13E025B02",
+        "bytes": 1058966,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Actual Ogre Attack control produces engine movement/damage",
+      "passed": true,
+      "detail": {
+        "turns": 6,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 1,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 44,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        }
+      }
+    },
+    {
+      "name": "Real player Attack event renders Ogre Attack_A from its troop atlas",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 1,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 44,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "attack",
+          "time": 200,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-orc-5-atlas",
+          "sx": 384,
+          "sy": 408,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Ogre defender can deal a real nonlethal hit",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 130
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 20,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Ogre is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p0",
+        "hit": "p0",
+        "x": 192.42858302180232,
+        "y": 170.9027837721191
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Ogre",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real defender receipt selects and renders Ogre Hit_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 5,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "hit",
+          "time": 240,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-orc-5-atlas",
+          "sx": 384,
+          "sy": 612,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot orc_5-hit is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-hit-1280x720.png",
+        "sha256": "64CC859A5ECA1C5C89EF653D54C8CDB10BEE6A54CA7D7562294347AEB8F079B7",
+        "bytes": 1070844,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Ogre Hit receipt and battle survive strict Save v07 reload",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "key": true,
+        "battle": true,
+        "battleUnitCount": 2,
+        "pool": 125,
+        "hitEvent": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 5,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Ogre lethal test retains a second live stack",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 125
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 100000,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Ogre before Death_A is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p0",
+        "hit": "p0",
+        "x": 192.42858302180232,
+        "y": 170.9027837721191
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Ogre before Death_A",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real hostile action kills one Ogre stack and selects Death_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 125,
+          "death": true,
+          "order": "attack",
+          "casualties": 1
+        },
+        "visual": {
+          "action": "death",
+          "time": 360,
+          "duration": 1200,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-orc-5-atlas",
+          "sx": 384,
+          "sy": 816,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot orc_5-death is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-death-1280x720.png",
+        "sha256": "F65D855A277519BA18CCC7FBCA4E3607D3779B4E640C24B97038A3EE5615F821",
+        "bytes": 1072626,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot orc_5-death is exact 960x540",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-death-960x540.png",
+        "sha256": "110FA823D3EECC33781261B6F52392F9A05C6C612238EB64CD478D52539C3852",
+        "bytes": 656544,
+        "viewport": "960x540",
+        "imageSize": "960x540"
+      }
+    },
+    {
+      "name": "Skeleton Warrior opens the standalone game",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Skeleton Warrior scenario starts with valid Save v07",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "strict": true,
+        "unitCount": 10,
+        "resources": {
+          "gold": 2700000,
+          "wood": 270000,
+          "ore": 270000,
+          "sulfur": 135000,
+          "crystal": 135000
+        }
+      }
+    },
+    {
+      "name": "Skeleton Warrior recruitment control is enabled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Skeleton Warrior recruitment spends real resources and queues two units",
+      "passed": true,
+      "detail": {
+        "id": "undead_1",
+        "count": 2,
+        "gold": 2699905,
+        "strict": true
+      }
+    },
+    {
+      "name": "Skeleton Warrior is delivered by an actual engine training tick",
+      "passed": true,
+      "detail": {
+        "count": 18,
+        "queued": 0,
+        "strict": true,
+        "expected": 18
+      }
+    },
+    {
+      "name": "Real formation deploys two separate Skeleton Warrior stacks",
+      "passed": true,
+      "detail": [
+        {
+          "unitId": "undead_1",
+          "count": 1
+        },
+        {
+          "unitId": "undead_1",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "Skeleton Warrior scenario selects the real nearby NPC",
+      "passed": true,
+      "detail": {
+        "target": {
+          "key": "5,6",
+          "kind": "npc",
+          "value": "Wolves"
+        },
+        "hit": "5,6",
+        "point": {
+          "x": 407.96000000000004,
+          "y": 141.61599999999999
+        },
+        "size": [
+          1246,
+          380
+        ],
+        "selected": "Trại Wolves · 1★ · (5,6)"
+      }
+    },
+    {
+      "name": "Natural March arrival starts a real Skeleton Warrior battle",
+      "passed": true,
+      "detail": {
+        "allies": [
+          {
+            "id": "p0",
+            "unitId": "undead_1",
+            "pool": 37,
+            "x": 1,
+            "y": 0
+          },
+          {
+            "id": "p1",
+            "unitId": "undead_1",
+            "pool": 37,
+            "x": 1,
+            "y": 2
+          }
+        ],
+        "enemyNames": [
+          "Dã thú",
+          "Cung thủ cướp"
+        ],
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Real battle renders Skeleton Warrior Idle_A from its troop atlas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Skeleton Warrior observation setup changes only defenders",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 37
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 0,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Skeleton Warrior before Walk_A is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p1",
+        "hit": "p1",
+        "x": 192.42858302180232,
+        "y": 293.5205006473889
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Skeleton Warrior before Walk_A",
+      "passed": true,
+      "detail": "p1"
+    },
+    {
+      "name": "Skeleton Warrior has an actual reachable battle hex for manual Walk_A",
+      "passed": true,
+      "detail": {
+        "id": "p1",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "cell": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        },
+        "point": {
+          "x": 263.223223438265,
+          "y": 293.5205006473889
+        },
+        "canvas": [
+          1027,
+          662
+        ]
+      }
+    },
+    {
+      "name": "Real Skeleton Warrior move command walks along the selected hex route",
+      "passed": true,
+      "detail": {
+        "receipt": {
+          "actorId": "p1",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ],
+          "targetId": null,
+          "damage": 0,
+          "death": false,
+          "order": "move",
+          "casualties": 0
+        },
+        "destination": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        }
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot undead_1-walk is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-walk-1280x720.png",
+        "sha256": "89FB49928A7947F853C22F73B93368FF84E6212B3AD42A597C4CDB19ABB3D6B3",
+        "bytes": 1053981,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Skeleton Warrior actual Walk_A retains valid battle Save v07",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "receipt": {
+          "actorId": "p1",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ],
+          "targetId": null,
+          "damage": 0,
+          "death": false,
+          "order": "move",
+          "casualties": 0
+        },
+        "destination": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        }
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot undead_1-attack is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-attack-1280x720.png",
+        "sha256": "903D4578EC2722BBA11BC55541CCC1A9CCA1AD3FB73A9FBCECF37C1C92C7BA1E",
+        "bytes": 1050092,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Actual Skeleton Warrior Attack control produces engine movement/damage",
+      "passed": true,
+      "detail": {
+        "turns": 6,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 1,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 15,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        }
+      }
+    },
+    {
+      "name": "Real player Attack event renders Skeleton Warrior Attack_A from its troop atlas",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 1,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 15,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "attack",
+          "time": 200,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "hg33-atlas-undead-skeleton",
+          "sx": 384,
+          "sy": 408,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Skeleton Warrior defender can deal a real nonlethal hit",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 37
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 20,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Skeleton Warrior is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p0",
+        "hit": "p0",
+        "x": 192.42858302180232,
+        "y": 170.9027837721191
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Skeleton Warrior",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real defender receipt selects and renders Skeleton Warrior Hit_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 9,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "hit",
+          "time": 240,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "hg33-atlas-undead-skeleton",
+          "sx": 384,
+          "sy": 612,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot undead_1-hit is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-hit-1280x720.png",
+        "sha256": "9DA2FCE66D75C909064717ED0ACEC68CCCD96B7763B162C1B607C244CD257EFA",
+        "bytes": 1069662,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Skeleton Warrior Hit receipt and battle survive strict Save v07 reload",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "key": true,
+        "battle": true,
+        "battleUnitCount": 2,
+        "pool": 28,
+        "hitEvent": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 9,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Skeleton Warrior lethal test retains a second live stack",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 28
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 100000,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Skeleton Warrior before Death_A is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p0",
+        "hit": "p0",
+        "x": 192.42858302180232,
+        "y": 170.9027837721191
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Skeleton Warrior before Death_A",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real hostile action kills one Skeleton Warrior stack and selects Death_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 28,
+          "death": true,
+          "order": "attack",
+          "casualties": 1
+        },
+        "visual": {
+          "action": "death",
+          "time": 360,
+          "duration": 1200,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "hg33-atlas-undead-skeleton",
+          "sx": 384,
+          "sy": 816,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot undead_1-death is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-death-1280x720.png",
+        "sha256": "E2A82572CCCAC4A83AE74AC682032F8C7E212F30CEA17B357C83AEF44BAE988D",
+        "bytes": 1070937,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot undead_1-death is exact 960x540",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-death-960x540.png",
+        "sha256": "55225A8B3930A196751020BCD1AD16B73FC89AF2ACBB8B74AA938329DB48C983",
+        "bytes": 655194,
+        "viewport": "960x540",
+        "imageSize": "960x540"
+      }
+    },
+    {
+      "name": "Green Dragon opens the standalone game",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "Green Dragon scenario starts with valid Save v07",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "strict": true,
+        "unitCount": 10,
+        "resources": {
+          "gold": 2700000,
+          "wood": 270000,
+          "ore": 270000,
+          "sulfur": 135000,
+          "crystal": 135000
+        }
+      }
+    },
+    {
+      "name": "Green Dragon recruitment control is enabled",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Green Dragon recruitment spends real resources and queues two units",
+      "passed": true,
+      "detail": {
+        "id": "elf_9",
+        "count": 2,
+        "gold": 2697440.6,
+        "strict": true
+      }
+    },
+    {
+      "name": "Green Dragon is delivered by an actual engine training tick",
+      "passed": true,
+      "detail": {
+        "count": 2,
+        "queued": 0,
+        "strict": true,
+        "expected": 2
+      }
+    },
+    {
+      "name": "Real formation deploys two separate Green Dragon stacks",
+      "passed": true,
+      "detail": [
+        {
+          "unitId": "elf_9",
+          "count": 1
+        },
+        {
+          "unitId": "elf_9",
+          "count": 1
+        }
+      ]
+    },
+    {
+      "name": "Green Dragon scenario selects the real nearby NPC",
+      "passed": true,
+      "detail": {
+        "target": {
+          "key": "5,6",
+          "kind": "npc",
+          "value": "Wolves"
+        },
+        "hit": "5,6",
+        "point": {
+          "x": 407.96000000000004,
+          "y": 141.61599999999999
+        },
+        "size": [
+          1246,
+          380
+        ],
+        "selected": "Trại Wolves · 1★ · (5,6)"
+      }
+    },
+    {
+      "name": "Natural March arrival starts a real Green Dragon battle",
+      "passed": true,
+      "detail": {
+        "allies": [
+          {
+            "id": "p0",
+            "unitId": "elf_9",
+            "pool": 394,
+            "x": 1,
+            "y": 0
+          },
+          {
+            "id": "p1",
+            "unitId": "elf_9",
+            "pool": 394,
+            "x": 1,
+            "y": 2
+          }
+        ],
+        "enemyNames": [
+          "Dã thú",
+          "Cung thủ cướp"
+        ],
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Real battle renders Green Dragon Idle_A from its troop atlas",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Green Dragon observation setup changes only defenders",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 394
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 0,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Green Dragon before Walk_A is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p1",
+        "hit": "p1",
+        "x": 192.42858302180232,
+        "y": 293.5205006473889
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Green Dragon before Walk_A",
+      "passed": true,
+      "detail": "p1"
+    },
+    {
+      "name": "Green Dragon has an actual reachable battle hex for manual Walk_A",
+      "passed": true,
+      "detail": {
+        "id": "p1",
+        "from": {
+          "x": 1,
+          "y": 2
+        },
+        "cell": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        },
+        "point": {
+          "x": 263.223223438265,
+          "y": 293.5205006473889
+        },
+        "canvas": [
+          1027,
+          662
+        ]
+      }
+    },
+    {
+      "name": "Real Green Dragon move command walks along the selected hex route",
+      "passed": true,
+      "detail": {
+        "receipt": {
+          "actorId": "p1",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ],
+          "targetId": null,
+          "damage": 0,
+          "death": false,
+          "order": "move",
+          "casualties": 0
+        },
+        "destination": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        }
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_9-walk is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-walk-1280x720.png",
+        "sha256": "CD4CDE0130666024CEACBCF09349399E54CD6FB9C947B8E379AAA8CC967AF07F",
+        "bytes": 1058959,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Green Dragon actual Walk_A retains valid battle Save v07",
+      "passed": true,
+      "detail": {
+        "ok": true,
+        "receipt": {
+          "actorId": "p1",
+          "from": {
+            "x": 1,
+            "y": 2
+          },
+          "to": {
+            "x": 2,
+            "y": 2
+          },
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ],
+          "targetId": null,
+          "damage": 0,
+          "death": false,
+          "order": "move",
+          "casualties": 0
+        },
+        "destination": {
+          "x": 2,
+          "y": 2,
+          "steps": 1
+        }
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_9-attack is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-attack-1280x720.png",
+        "sha256": "4BD7B616BA2A361A677E4F5E70B547E1697B8218EA9F836CEEE97F0E2B07BBF2",
+        "bytes": 1057726,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Actual Green Dragon Attack control produces engine movement/damage",
+      "passed": true,
+      "detail": {
+        "turns": 6,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 1,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 138,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        }
+      }
+    },
+    {
+      "name": "Real player Attack event renders Green Dragon Attack_A from its troop atlas",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 1,
+            "y": 0
+          },
+          "to": {
+            "x": 1,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 138,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "attack",
+          "time": 200,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-elf-9-atlas",
+          "sx": 384,
+          "sy": 408,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Green Dragon defender can deal a real nonlethal hit",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 394
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 20,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Green Dragon is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p0",
+        "hit": "p0",
+        "x": 192.42858302180232,
+        "y": 170.9027837721191
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Green Dragon",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real defender receipt selects and renders Green Dragon Hit_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 4,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "hit",
+          "time": 240,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-elf-9-atlas",
+          "sx": 384,
+          "sy": 612,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_9-hit is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-hit-1280x720.png",
+        "sha256": "B610B55232F429698E06A9E4D225D792A30CC160FEAD2F1ACFE7936A2DE130A4",
+        "bytes": 1072545,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Green Dragon Hit receipt and battle survive strict Save v07 reload",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "key": true,
+        "battle": true,
+        "battleUnitCount": 2,
+        "pool": 390,
+        "hitEvent": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 4,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Green Dragon lethal test retains a second live stack",
+      "passed": true,
+      "detail": {
+        "actor": {
+          "id": "p0",
+          "x": 1,
+          "y": 0,
+          "pool": 390
+        },
+        "enemy": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Dã thú",
+          "range": 1,
+          "count": 1,
+          "initial": 5,
+          "hp": 1000000,
+          "atk": 100000,
+          "def": 0,
+          "spd": 4,
+          "pool": 1000000,
+          "x": 0,
+          "y": 0
+        },
+        "strict": true
+      }
+    },
+    {
+      "name": "Green Dragon before Death_A is selectable through its actual hex sprite",
+      "passed": true,
+      "detail": {
+        "id": "p0",
+        "hit": "p0",
+        "x": 192.42858302180232,
+        "y": 170.9027837721191
+      }
+    },
+    {
+      "name": "Battlefield pointer selects Green Dragon before Death_A",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real hostile action kills one Green Dragon stack and selects Death_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 0,
+            "y": 0
+          },
+          "to": {
+            "x": 0,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 390,
+          "death": true,
+          "order": "attack",
+          "casualties": 1
+        },
+        "visual": {
+          "action": "death",
+          "time": 360,
+          "duration": 1200,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "unit-hg33-elf-9-atlas",
+          "sx": 384,
+          "sy": 816,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_9-death is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-death-1280x720.png",
+        "sha256": "1A7F7241738FC5F3B6D406058E951D93668EB2E47379173DBC799C6A43D07A23",
+        "bytes": 1074290,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot elf_9-death is exact 960x540",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-death-960x540.png",
+        "sha256": "B5A6525E6F2158BC5C5198E00243E5F1748FAEBDA4478D8196711F8CB1947A1B",
+        "bytes": 656867,
+        "viewport": "960x540",
+        "imageSize": "960x540"
+      }
+    },
+    {
+      "name": "Real engine NPC march enters Azrael battle for the Boss animation pilot",
+      "passed": true,
+      "detail": {
+        "target": "18,92",
+        "battle": true,
+        "allies": [
+          "p0"
+        ],
+        "enemies": [
+          {
+            "id": "e0",
+            "name": "Azrael",
+            "unitId": null
+          },
+          {
+            "id": "e1",
+            "name": "Demonlord Samurai",
+            "unitId": null
+          },
+          {
+            "id": "e2",
+            "name": "Cyclop Tyrant",
+            "unitId": null
+          }
+        ],
+        "strict": true,
+        "version": 7,
+        "boss": {
+          "id": "e0",
+          "side": "enemy",
+          "unitId": null,
+          "name": "Azrael",
+          "range": 1,
+          "count": 18,
+          "initial": 18,
+          "hp": 800,
+          "atk": 248,
+          "def": 164,
+          "spd": 11.89,
+          "pool": 14400,
+          "x": 10,
+          "y": 2
+        }
+      }
+    },
+    {
+      "name": "Real Azrael battle renders the original Idle_A atlas row",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Chromium gameplay screenshot azrael-walk is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-walk-1280x720.png",
+        "sha256": "A59D0436A5631F950136375ED3EE014A824EFE1D1F354C8FE2E9F90D1065AA7C",
+        "bytes": 1082546,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Azrael's actual hostile advance walks through the battlefield atlas",
+      "passed": true,
+      "detail": {
+        "actorId": "e0",
+        "from": {
+          "x": 10,
+          "y": 2
+        },
+        "to": {
+          "x": 9,
+          "y": 0
+        },
+        "path": [
+          {
+            "x": 9,
+            "y": 1
+          },
+          {
+            "x": 9,
+            "y": 0
+          }
+        ],
+        "targetId": "p0",
+        "damage": 0,
+        "death": false,
+        "order": "attack",
+        "casualties": 0
+      }
+    },
+    {
+      "name": "Azrael's real hostile turn renders the original Attack_A atlas row",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "e0",
+          "from": {
+            "x": 4,
+            "y": 0
+          },
+          "to": {
+            "x": 4,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "p0",
+          "damage": 11,
+          "death": false,
+          "order": "attack",
+          "casualties": 1
+        },
+        "visual": {
+          "action": "attack",
+          "time": 200,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "hg33-atlas-azrael",
+          "sx": 384,
+          "sy": 408,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot azrael-attack is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-attack-1280x720.png",
+        "sha256": "C0C5AE5E3804A7A9BCDF9E6403901C3E960325C68F5DD00608AE97C92917135E",
+        "bytes": 1081969,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Real player damage selects and renders Azrael Hit_A",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "to": {
+            "x": 3,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 84,
+          "death": false,
+          "order": "attack",
+          "casualties": 0
+        },
+        "visual": {
+          "action": "hit",
+          "time": 240,
+          "duration": 650,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "hg33-atlas-azrael",
+          "sx": 384,
+          "sy": 612,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot azrael-hit is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-hit-1280x720.png",
+        "sha256": "EF8DA64FF32F603B67664EA410723FF267B43440566A6D75D6583042E69A5CC3",
+        "bytes": 1081122,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Actual player attack kills Azrael and renders the original Death_A row",
+      "passed": true,
+      "detail": {
+        "battle": true,
+        "event": {
+          "actorId": "p0",
+          "from": {
+            "x": 3,
+            "y": 0
+          },
+          "to": {
+            "x": 3,
+            "y": 0
+          },
+          "path": [],
+          "targetId": "e0",
+          "damage": 1,
+          "death": true,
+          "order": "attack",
+          "casualties": 1
+        },
+        "visual": {
+          "action": "death",
+          "time": 360,
+          "duration": 1200,
+          "alpha": 1
+        },
+        "rendered": true,
+        "source": {
+          "imageId": "hg33-atlas-azrael",
+          "sx": 384,
+          "sy": 816,
+          "sw": 192,
+          "sh": 204
+        },
+        "atlasLoaded": true,
+        "strict": true,
+        "version": 7
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot azrael-death is exact 1280x720",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-death-1280x720.png",
+        "sha256": "557100F631A3A072D7FAFA371BCF0509FA9542DEF325B6310A9EE66CEBFF5D2F",
+        "bytes": 1078997,
+        "viewport": "1280x720",
+        "imageSize": "1280x720"
+      }
+    },
+    {
+      "name": "Chromium gameplay screenshot azrael-death is exact 960x540",
+      "passed": true,
+      "detail": {
+        "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-death-960x540.png",
+        "sha256": "7062AFCFA269B0348D14040603234D7E0C2B1B472D98F85595BB2DF67174EDF0",
+        "bytes": 658321,
+        "viewport": "960x540",
+        "imageSize": "960x540"
+      }
+    },
+    {
+      "name": "Azrael death event and surviving Boss battle Save/Reload retain v07",
+      "passed": true,
+      "detail": {
+        "version": 7,
+        "battle": true,
+        "boss": 0,
+        "key": true,
+        "strict": true
+      }
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-walk-1280x720.png",
+      "sha256": "F9B4F9E837E4077F22F36D0A237F182155438784E5BC061D4372D0BEB1397E34",
+      "bytes": 1058422,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-attack-1280x720.png",
+      "sha256": "004E95EB49A16CB4746894A4AD0058BABEF930305DC5D01C1BDBB77E6CC536B8",
+      "bytes": 1056988,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-hit-1280x720.png",
+      "sha256": "ABAD1DF1D0F6D441B6CF9A947687F0D25FAF5E11309681E3011848F04B0A4B2E",
+      "bytes": 1072078,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-death-1280x720.png",
+      "sha256": "75AF5D99AB873EC3ED272F561372FE30732DC0C24F30F458B70E746348195DB0",
+      "bytes": 1074571,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-death-960x540.png",
+      "sha256": "DC69CB41BBEF2EEE7AD66196A59D46AFA3BD622EFA6AB7C89F3AD396818CB022",
+      "bytes": 656509,
+      "viewport": "960x540",
+      "imageSize": "960x540"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-walk-1280x720.png",
+      "sha256": "BFA2CF5AE92F488D43D62ED7CCA0FB05D91BDE3031587C0C53FC8E0CC4415E8F",
+      "bytes": 1061568,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-attack-1280x720.png",
+      "sha256": "AD8CA59786C6298079D6ED7AE4A6AEDE1DC27260E8BC10EFA08ED3D13E025B02",
+      "bytes": 1058966,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-hit-1280x720.png",
+      "sha256": "64CC859A5ECA1C5C89EF653D54C8CDB10BEE6A54CA7D7562294347AEB8F079B7",
+      "bytes": 1070844,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-death-1280x720.png",
+      "sha256": "F65D855A277519BA18CCC7FBCA4E3607D3779B4E640C24B97038A3EE5615F821",
+      "bytes": 1072626,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-death-960x540.png",
+      "sha256": "110FA823D3EECC33781261B6F52392F9A05C6C612238EB64CD478D52539C3852",
+      "bytes": 656544,
+      "viewport": "960x540",
+      "imageSize": "960x540"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-walk-1280x720.png",
+      "sha256": "89FB49928A7947F853C22F73B93368FF84E6212B3AD42A597C4CDB19ABB3D6B3",
+      "bytes": 1053981,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-attack-1280x720.png",
+      "sha256": "903D4578EC2722BBA11BC55541CCC1A9CCA1AD3FB73A9FBCECF37C1C92C7BA1E",
+      "bytes": 1050092,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-hit-1280x720.png",
+      "sha256": "9DA2FCE66D75C909064717ED0ACEC68CCCD96B7763B162C1B607C244CD257EFA",
+      "bytes": 1069662,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-death-1280x720.png",
+      "sha256": "E2A82572CCCAC4A83AE74AC682032F8C7E212F30CEA17B357C83AEF44BAE988D",
+      "bytes": 1070937,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-death-960x540.png",
+      "sha256": "55225A8B3930A196751020BCD1AD16B73FC89AF2ACBB8B74AA938329DB48C983",
+      "bytes": 655194,
+      "viewport": "960x540",
+      "imageSize": "960x540"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-walk-1280x720.png",
+      "sha256": "CD4CDE0130666024CEACBCF09349399E54CD6FB9C947B8E379AAA8CC967AF07F",
+      "bytes": 1058959,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-attack-1280x720.png",
+      "sha256": "4BD7B616BA2A361A677E4F5E70B547E1697B8218EA9F836CEEE97F0E2B07BBF2",
+      "bytes": 1057726,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-hit-1280x720.png",
+      "sha256": "B610B55232F429698E06A9E4D225D792A30CC160FEAD2F1ACFE7936A2DE130A4",
+      "bytes": 1072545,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-death-1280x720.png",
+      "sha256": "1A7F7241738FC5F3B6D406058E951D93668EB2E47379173DBC799C6A43D07A23",
+      "bytes": 1074290,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-death-960x540.png",
+      "sha256": "B5A6525E6F2158BC5C5198E00243E5F1748FAEBDA4478D8196711F8CB1947A1B",
+      "bytes": 656867,
+      "viewport": "960x540",
+      "imageSize": "960x540"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-walk-1280x720.png",
+      "sha256": "A59D0436A5631F950136375ED3EE014A824EFE1D1F354C8FE2E9F90D1065AA7C",
+      "bytes": 1082546,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-attack-1280x720.png",
+      "sha256": "C0C5AE5E3804A7A9BCDF9E6403901C3E960325C68F5DD00608AE97C92917135E",
+      "bytes": 1081969,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-hit-1280x720.png",
+      "sha256": "EF8DA64FF32F603B67664EA410723FF267B43440566A6D75D6583042E69A5CC3",
+      "bytes": 1081122,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-death-1280x720.png",
+      "sha256": "557100F631A3A072D7FAFA371BCF0509FA9542DEF325B6310A9EE66CEBFF5D2F",
+      "bytes": 1078997,
+      "viewport": "1280x720",
+      "imageSize": "1280x720"
+    },
+    {
+      "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-death-960x540.png",
+      "sha256": "7062AFCFA269B0348D14040603234D7E0C2B1B472D98F85595BB2DF67174EDF0",
+      "bytes": 658321,
+      "viewport": "960x540",
+      "imageSize": "960x540"
+    }
+  ],
+  "browserErrors": [],
+  "passed": 136,
+  "failed": 0,
+  "result": "PASS"
+}

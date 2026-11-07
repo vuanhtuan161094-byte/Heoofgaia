@@ -157,6 +157,10 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
+      - name: HG33 H2 six-pilot live Attack, Hit, Death and Save v07 gate
+        run: |
+          python -m py_compile qa-hg33-h2-pilot-live-chrome.py
+          python qa-hg33-h2-pilot-live-chrome.py
       - name: HG28 PvE2 oblique layout, 3 Boss and 3x2 owner-bound Chromium gate
         run: |
           python -m py_compile qa-hg28-pve2-chrome.py
@@ -525,6 +529,16 @@ jobs:
             assets/original/hg33/layered-source/h2-editable-frame-sources.json
             docs/evidence/hg33/H2-editable-sources/h2-pilot-atlas-review.png
             docs/qa/hg33/H2-editable-source-check.json
+          retention-days: 30
+          if-no-files-found: error
+      - name: Upload HG33 H2 actual six-pilot combat screenshots and receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG33-H2-six-pilot-live-combat
+          path: |
+            docs/evidence/hg33/H2-six-pilot-live/*.png
+            docs/qa/hg33/H2-six-pilot-live-chrome.json
           retention-days: 30
           if-no-files-found: error
       - name: Upload HG33 H3 all-race troop animation contact sheets
