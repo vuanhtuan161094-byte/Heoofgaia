@@ -858,3 +858,21 @@ body.combat-mode .battle-event-list{grid-template-columns:repeat(2,minmax(0,1fr)
 @media(max-width:660px){
  .hg28-tab-army .hg28-army-main>.grid{grid-template-columns:1fr}
 }
+
+/* HG35 960x540 landscape: the first troop must be immediately visible in a
+   full-width compact row; T9/T10 remain side-by-side for simultaneous review.
+   Keep MAX and paid total fully operable. */
+@media (min-width:701px) and (max-width:1000px){
+ .hg28-tab-army .hg28-army-main>.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+ .hg28-tab-army .hg28-army-main>.grid>.unitrow:nth-child(-n+8),
+ .hg28-tab-army .hg28-army-main>.grid>.unitrow:nth-child(n+11){grid-column:1/-1}
+ .hg28-tab-army .hg28-army-main>.grid>.unitrow:nth-child(9),
+ .hg28-tab-army .hg28-army-main>.grid>.unitrow:nth-child(10){grid-column:span 1}
+ .hg28-tab-army .unitrow{padding:4px!important;gap:2px!important}
+ .hg28-tab-army .unitrow .hint{margin:1px 0;font-size:8px}
+ .hg28-tab-army .hg35-recruit-preview{padding:4px;margin-top:2px;font-size:9px;line-height:1.15}
+ .hg28-tab-army .hg35-recruit-controls{gap:3px}
+ .hg28-tab-army .hg35-recruit-controls button{min-height:23px;padding:3px 5px;font-size:9px}
+ .hg28-tab-army .hg28-army-main>.grid>.unitrow:nth-child(9) .hg28-unit-evidence,
+ .hg28-tab-army .hg28-army-main>.grid>.unitrow:nth-child(10) .hg28-unit-evidence{margin:1px 0;padding:2px 3px}
+}
