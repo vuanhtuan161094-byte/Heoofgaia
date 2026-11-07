@@ -290,7 +290,7 @@ function hg35CostBreakdown(cost){
 }
 // HG35: the visible effects are computed from REAL engine gates/counters.
 // An unsupported building level is labelled as such, never given a fake buff.
-function hg35BuildingEffects(key,level){
+function hg35BuildingEffects(key,level,compact=false){
  const next=Math.min(10,level+1),after=E.clone(state);after.buildings[key]=next;
  const tierKeys=['barracks','graveyard','stables','blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower'];
  let title='Chức năng đang hoạt động',current='',future='',note='';
@@ -342,6 +342,13 @@ function hg35BuildingEffects(key,level){
   future='Cấp '+next+': chưa có tác dụng riêng đã triển khai.';
  }
  if(level>=10)future='Đã đạt giới hạn cấp hiện tại.';
+ // The full inspector sits BELOW the city canvas. Show the same calculated
+ // real effects immediately beside the selected building, in two short rows.
+ // Detailed text is preserved in the existing inspector and action below.
+ if(compact)return '<div class="hg35-building-brief" id="hg35-building-brief" aria-label="Tác dụng công trình hiện tại và cấp kế tiếp">'+
+  '<span class="hg35-brief-label">HIỆN</span><span title="'+esc(current)+'">'+esc(current)+'</span>'+
+  '<span class="hg35-brief-label">CẤP TIẾP</span><span title="'+esc(future)+'">'+esc(future)+'</span>'+
+  button('city-inspector',{},'ⓘ Chi tiết công dụng và tài nguyên',false,'small secondary')+'</div>';
  const action=actionTab[key]?button('tab',{tab:actionTab[key]},
   key==='magicTower'?'🔮 Mở nghiên cứu phép':key==='arena'?'⚕ Mở hồi phục':
    key==='tavern'?'🍺 Mở chiêu mộ tướng':key==='heroTower'?'🧙 Mở tướng':
@@ -360,6 +367,7 @@ function cityViewBase(){const k=selectedBuilding,b=C.buildings[k],lv=state.build
  <div class="hg28-city-stage"><div class="city-frame"><canvas id="city-canvas" width="1176" height="560" aria-label="Cảnh thành tương tác, nhấn vị trí công trình để chọn"></canvas><span class="hg28-city-hint">Chạm công trình trong thành để chọn</span></div>
  <aside class="hg28-city-command"><div class="hg28-selected-building"><span class="hg28-building-emblem">${b.icon}</span><div><small>CÔNG TRÌNH</small><h2>${esc(b.name)}</h2><span>Cấp ${lv} / 10</span></div></div>
  <p class="hg28-building-desc" title="${esc(b.desc)}">${esc(b.desc)}</p>
+ ${hg35BuildingEffects(k,lv,true)}
  <div class="hg28-upgrade"><div class="hg28-upgrade-cost">
  <small>${lv>=10?'ĐÃ TỐI ĐA':'NÂNG CẤP LÊN '+(lv+1)+' · TRỪ NGAY'}</small>
  <b>${lv<10?money(cost):'Đã đạt cấp 10'}</b></div>
@@ -927,6 +935,11 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='recruit-max'){
   const id=target.dataset.id,qty=E.recruitMax(state,id),input=$('q_'+id);
   if(input){input.value=String(qty);hg35UpdateRecruitQuote(id)}
+  return;
+ }
+ if(action==='city-inspector'){
+  const inspector=$('hg35-city-inspector');
+  if(inspector)inspector.scrollIntoView({block:'start',behavior:'instant'});
   return;
  }
  if(action==='city-service'){

@@ -876,3 +876,20 @@ body.combat-mode .battle-event-list{grid-template-columns:repeat(2,minmax(0,1fr)
  .hg28-tab-army .hg28-army-main>.grid>.unitrow:nth-child(9) .hg28-unit-evidence,
  .hg28-tab-army .hg28-army-main>.grid>.unitrow:nth-child(10) .hg28-unit-evidence{margin:1px 0;padding:2px 3px}
 }
+
+
+/* HG36.1: building effects must be readable on the first visible city screen.
+   The detailed source-derived level/cost inspector remains below the stage. */
+.hg35-building-brief{flex:0 0 auto;display:grid;grid-template-columns:51px minmax(0,1fr);
+ gap:2px 5px;padding:4px 6px;border:1px solid #57756a;border-radius:6px;
+ background:#19353a;color:#e6e3d4;min-width:0}
+.hg35-building-brief .hg35-brief-label{font-size:8px;font-weight:800;letter-spacing:.35px;color:#e9cf93;align-self:center}
+.hg35-building-brief>span:not(.hg35-brief-label){min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+ font-size:10px;line-height:1.35}
+.hg35-building-brief>button{grid-column:1/-1;padding:2px 4px;min-height:21px;max-height:24px;
+ font-size:9px;text-align:center;color:#e6dbb6}
+@media(max-width:1000px) and (max-height:600px){
+ .hg35-building-brief{padding:2px 4px;gap:1px 3px;grid-template-columns:44px minmax(0,1fr)}
+ .hg35-building-brief>span:not(.hg35-brief-label){font-size:9px}
+ .hg35-building-brief>button{min-height:19px;max-height:20px;font-size:8px}
+}

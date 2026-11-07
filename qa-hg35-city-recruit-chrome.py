@@ -43,12 +43,17 @@ with sync_playwright() as pw:
         level:s.buildings.hall,
         building:document.querySelector('.hg28-selected-building h2')?.textContent,
         effect:document.querySelector('.hg35-building-effects')?.innerText,
+        brief:document.querySelector('#hg35-building-brief')?.innerText,
+        briefVisible:(() => {const n=document.querySelector('#hg35-building-brief');
+          const r=n?.getBoundingClientRect(),panel=document.querySelector('.hg28-city-command')?.getBoundingClientRect();
+          return !!(r&&panel&&r.top>=panel.top-1&&r.bottom<=panel.bottom+1)})(),
         ledger:document.querySelectorAll('.hg35-cost-line').length};
     }""")
     check('Real New Game city displays implemented Hall effects and five resource deductions',
           selected['valid'] and selected['level']==1 and
           selected['building']=='Town Hall' and
-          'Vàng' in (selected['effect'] or '') and selected['ledger']==5,selected)
+          'Vàng' in (selected['effect'] or '') and selected['ledger']==5 and
+          'Vàng' in (selected['brief'] or '') and selected['briefVisible'],selected)
     page.locator('[data-action="building"][data-key="warehouse"]').click()
     warehouse=page.locator('.hg35-building-effects').inner_text()
     check('Warehouse explicitly distinguishes resource storage from troop command',
@@ -166,13 +171,26 @@ with sync_playwright() as pw:
     page.locator('[data-action="building"][data-key="warehouse"]').click()
     small=page.evaluate("""() => ({
       label:document.querySelector('.hg35-building-effects')?.innerText,
+      brief:document.querySelector('#hg35-building-brief')?.innerText,
+      briefVisible:(() => {const n=document.querySelector('#hg35-building-brief');
+        const r=n?.getBoundingClientRect(),p=document.querySelector('.hg28-city-command')?.getBoundingClientRect();
+        return !!(r&&p&&r.top>=p.top-1&&r.bottom<=p.bottom+1)})(),
       scrollOverflow:document.documentElement.scrollWidth-innerWidth,
       buildingButton:document.querySelectorAll('.hg28-building-grid [data-action="building"]').length,
       ledger:document.querySelectorAll('.hg35-cost-line').length
     })""")
     check('Compact landscape city retains building selection, effects and resource ledger',
           'KHÔNG giới hạn quân' in (small['label'] or '') and small['buildingButton']>=10 and
+          'Dung lượng' in (small['brief'] or '') and small['briefVisible'] and
           small['ledger']==5 and small['scrollOverflow']<=1,small)
+    page.locator('[data-action="city-inspector"]').click()
+    scrollInto=page.evaluate("""() => {
+      const pane=document.getElementById('game-modal-body'),box=document.getElementById('hg35-city-inspector');
+      const p=pane?.getBoundingClientRect(),r=box?.getBoundingClientRect();
+      return {found:!!box,within:!!(r&&p&&r.top>=p.top-2&&r.top<p.bottom)};
+    }""")
+    check('One click exposes the existing full building benefits and cost ledger without opening another game screen',
+          scrollInto['found'] and scrollInto['within'],scrollInto)
     capture(page,'city-warehouse-960x540.png')
     # Separate fixture: test that the old 1000-troop recruitment request
     # ceiling has actually been removed, not that large armies are gifted.
