@@ -5,9 +5,14 @@ The second hero in the 2-hero scenario is an explicitly labeled QA-only
 copy to test fairness and a shared 16-unit real starter garrison.
 """
 from pathlib import Path
+import os
+import sys
 from playwright.sync_api import sync_playwright
 import hashlib
 import json
+
+if hasattr(sys.stdout,'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8',errors='backslashreplace')
 
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/'Play-Heoofgaia-HG11.html'
@@ -30,8 +35,10 @@ def screenshot(page,name):
                         sha256=hashlib.sha256(target.read_bytes()).hexdigest()))
 
 with sync_playwright() as p:
-    browser=p.chromium.launch(headless=True,args=[
-        '--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files'])
+    launch={'headless':True,'args':['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files']}
+    if os.environ.get('HOG_CHROME_PATH'):
+        launch['executable_path']=os.environ['HOG_CHROME_PATH']
+    browser=p.chromium.launch(**launch)
     for w,h,heroes in ((1280,720,1),(960,540,2)):
         page=browser.new_page(viewport=dict(width=w,height=h))
         page.set_default_timeout(15000)

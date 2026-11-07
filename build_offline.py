@@ -173,7 +173,7 @@ for unit_asset in [
     data=base64.b64encode((folder/unit_asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/svg+xml;base64,{data}"')
 assert 'assets/generated/hg12/combat/' not in html
-battlefield_asset='assets/generated/hg11/battlefield/human-meadow-1176x550.png'
+battlefield_asset='assets/generated/hg11/battlefield/open-field-v2-1176x550.png'
 needle=f'src="{battlefield_asset}"'
 assert html.count(needle)==1,(battlefield_asset,html.count(needle))
 data=base64.b64encode((folder/battlefield_asset).read_bytes()).decode('ascii')

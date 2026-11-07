@@ -348,7 +348,7 @@ function hg35BuildingEffects(key,level,compact=false){
  if(compact)return '<div class="hg35-building-brief" id="hg35-building-brief" aria-label="Tác dụng công trình hiện tại và cấp kế tiếp">'+
   '<span class="hg35-brief-label">HIỆN</span><span title="'+esc(current)+'">'+esc(current)+'</span>'+
   '<span class="hg35-brief-label">CẤP TIẾP</span><span title="'+esc(future)+'">'+esc(future)+'</span>'+
-  button('city-inspector',{},'ⓘ Chi tiết công dụng và tài nguyên',false,'small secondary')+'</div>';
+  button('city-inspector',{},'ⓘ Chi tiết',false,'small secondary')+'</div>';
  const action=actionTab[key]?button('tab',{tab:actionTab[key]},
   key==='magicTower'?'🔮 Mở nghiên cứu phép':key==='arena'?'⚕ Mở hồi phục':
    key==='tavern'?'🍺 Mở chiêu mộ tướng':key==='heroTower'?'🧙 Mở tướng':

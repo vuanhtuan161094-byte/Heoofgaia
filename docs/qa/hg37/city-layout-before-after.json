@@ -1,0 +1,48 @@
+{
+  "test": "HG37 city selector layout before/after",
+  "browser": "Google Chrome real file://",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "6491c2fd7a695a6ff486a242768b8349cd3a45f7fea352a1951ef97c0c0f61e6",
+  "screenshots": [
+    {
+      "viewport": "1280x720",
+      "before": {
+        "path": "docs/evidence/hg37/before/city-1280x720-13-controls-clipped.png",
+        "sha256": "67cb6c76773e2f3d1b88572ebadf17bd707f645bdc61905c58cf28e171f661c5",
+        "restoredPreHG37Css": true,
+        "layout": {
+          "railHeight": 365,
+          "railScrollHeight": 384,
+          "buildingButtons": 13,
+          "fullyVisible": 12,
+          "upgradeVisible": true
+        }
+      },
+      "after": {
+        "path": "docs/evidence/hg37/after/city-1280x720-all-13-visible.png",
+        "sha256": "0800b041d5902b296f6f8fddbe2f9ce6898271eec25fe5c8f620ad19b0dfbe80",
+        "source": "real Chromium file:// current release; HG28 interactive QA"
+      }
+    },
+    {
+      "viewport": "960x540",
+      "before": {
+        "path": "docs/evidence/hg37/before/city-960x540-13-controls-clipped.png",
+        "sha256": "9421cb4dcb1ea13965d83312face82fdb4b0139f80ac3bd7a0992fbae46478e0",
+        "restoredPreHG37Css": true,
+        "layout": {
+          "railHeight": 210,
+          "railScrollHeight": 234,
+          "buildingButtons": 13,
+          "fullyVisible": 12,
+          "upgradeVisible": true
+        }
+      },
+      "after": {
+        "path": "docs/evidence/hg37/after/city-960x540-all-13-visible.png",
+        "sha256": "304be0fa2fc94b4de5946684de26d9f293053381ab7c63aab037159959a37556",
+        "source": "real Chromium file:// current release; HG28 interactive QA"
+      }
+    }
+  ]
+}

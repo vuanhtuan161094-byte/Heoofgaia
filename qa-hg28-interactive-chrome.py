@@ -5,9 +5,13 @@ import hashlib
 import json
 import os
 import subprocess
+import sys
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
+
+if hasattr(sys.stdout, 'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8', errors='backslashreplace')
 
 ROOT = Path(__file__).parent
 GAME = ROOT / "Play-Heoofgaia-HG11.html"
@@ -95,10 +99,18 @@ def main() -> None:
             city_layout = page.evaluate("""() => {
               const rail=document.querySelector('.hg28-city-command'), box=rail.getBoundingClientRect(), grid=[...rail.querySelectorAll('.hg28-building')], upgrade=rail.querySelector('.hg28-upgrade').getBoundingClientRect();
               const fullyVisible=grid.filter(e=>{const r=e.getBoundingClientRect();return r.top>=box.top-1&&r.bottom<=box.bottom+1}).length;
-              return {railHeight:Math.round(box.height),railScrollHeight:rail.scrollHeight,buildingButtons:grid.length,fullyVisible,upgradeVisible:upgrade.top>=box.top-1&&upgrade.bottom<=box.bottom+1};
+              return {railHeight:Math.round(box.height),railScrollHeight:rail.scrollHeight,railClientHeight:rail.clientHeight,buildingButtons:grid.length,fullyVisible,upgradeVisible:upgrade.top>=box.top-1&&upgrade.bottom<=box.bottom+1};
             }""")
-            assert city_layout["fullyVisible"] == city_layout["buildingButtons"] and city_layout["upgradeVisible"], f"City command rail clips live controls at {width}x{height}: {city_layout}"
-            checks.append({"viewport": f"{width}x{height}", "check": "city upgrade and every building selector fit in the visible command rail", "pass": True, "layout": city_layout})
+            assert city_layout["buildingButtons"] == 13 and city_layout["fullyVisible"] == 13 and city_layout["upgradeVisible"], f"City command rail clips or omits one of 13 live controls at {width}x{height}: {city_layout}"
+            checks.append({"viewport": f"{width}x{height}", "check": "all 13 building selectors and upgrade fit in the visible command rail", "pass": True, "layout": city_layout})
+
+            building_keys = page.locator('.hg28-building-grid .hg28-building').evaluate_all("nodes=>nodes.map(n=>n.dataset.key)")
+            assert len(building_keys) == 13 and len(set(building_keys)) == 13, f"Expected exactly 13 unique building selectors: {building_keys}"
+            for key in building_keys:
+                page.locator(f'.hg28-building-grid [data-key="{key}"]').click()
+                selected_key = page.locator('.hg28-building.active').get_attribute('data-key')
+                assert selected_key == key, f"Building selector {key} did not activate; got {selected_key}"
+            checks.append({"viewport": f"{width}x{height}", "check": "all 13 building selectors respond to real clicks", "pass": True, "keys": building_keys})
 
             page.locator('[data-action="building"][data-key="hall"]').click()
             upgrade = page.locator('.hg28-upgrade [data-action="upgrade"]')
@@ -126,12 +138,12 @@ def main() -> None:
         "screenshots": images,
         "checks": checks,
         "pageErrors": errors,
-        "pass": len(checks) == 14 and len(images) == 6 and not errors,
+        "pass": len(checks) == 16 and len(images) == 6 and not errors,
     }
     receipt_path = ROOT / "docs" / "qa" / "hg28" / "interactive-chrome.json"
     receipt_path.parent.mkdir(parents=True, exist_ok=True)
     receipt_path.write_text(json.dumps(receipt, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-    print(f"HG28 interactive Chromium: {len(checks)}/14 gameplay checks; {len(images)}/6 screenshots; {len(errors)} page/console errors")
+    print(f"HG28 interactive Chromium: {len(checks)}/16 gameplay checks; {len(images)}/6 screenshots; {len(errors)} page/console errors")
     print(f"HTML SHA-256 {receipt['htmlSha256']} · receipt {receipt_path.relative_to(ROOT).as_posix()}")
     if not receipt["pass"]:
         raise SystemExit(1)

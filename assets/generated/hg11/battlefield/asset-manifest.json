@@ -1,68 +1,68 @@
 {
   "schema": "hog1-asset-manifest-v1",
-  "assetId": "HOG1-HG11-BATTLEFIELD-HUMAN-MEADOW-V1",
+  "assetId": "HOG1-HG11-BATTLEFIELD-OPEN-FIELD-V2",
   "project": "Anh Hùng Thời Loạn / Heroes of Gaia 1 reconstruction",
-  "createdAtUtc": "2026-11-03T05:06:05.857939+00:00",
+  "createdAtUtc": "2026-11-07T14:38:33.808320+00:00",
   "target": {
     "stage": "HG-11",
     "screen": "tactical battle canvas",
-    "backgroundId": "human-meadow-v1"
+    "backgroundId": "open-field-v2"
   },
   "status": "RECREATED",
   "provider": "ChatGPT image_gen.imagegen",
-  "generationOutputId": "exec-bd3c4dfc-6dca-44c4-a199-e8f4d2e40a5d",
-  "generationPrompt": "assets/generated/hg11/battlefield/prompt.txt",
-  "promptSha256": "DE45F06423D098C4872B10C0FCB87A6B8F5D37579460D1001CEAEBC50BEA2083",
+  "generationOutputId": "exec-86cdd75d-4ac6-4822-8271-a3f31e123b0e",
+  "generationPrompt": "assets/generated/hg11/battlefield/prompt-open-field-v2.txt",
+  "promptSha256": "11525E039D80BFE9B682326CEBED8E34255C60E0E6BF05760D9F16F82C3C7AA9",
   "sourceRoute": "Generated from text only with no Heroes of Gaia screenshot or original art as image input; saved master is included in repository.",
   "historicalVisualParity": "UNVERIFIED; this is a new modern fantasy scene, not original HOG art.",
   "source": {
-    "projectPath": "assets/generated/hg11/battlefield/source/human-meadow-master.png",
+    "projectPath": "assets/generated/hg11/battlefield/source/open-field-v2-master.png",
     "resolution": "1817x866",
-    "bytes": 2589282,
-    "sha256": "4C0089E5D4939E9A4FA4AE9BF7A8EECCBF2DF786B42832CB1DDA01FA8E53A806",
+    "bytes": 2022024,
+    "sha256": "A981495802A374D187C61D4141FCFBE5856B748CB157963D61DAF971EE095EEB",
     "pngColorType": 2,
-    "providerDefaultOutputPath": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-bd3c4dfc-6dca-44c4-a199-e8f4d2e40a5d.png"
+    "providerDefaultOutputPath": "C:/Users/Admin/.codex/generated_images/01a19a08-e09e-7801-88a0-49e6d7322f34/exec-86cdd75d-4ac6-4822-8271-a3f31e123b0e.png"
   },
   "runtime": {
-    "projectPath": "assets/generated/hg11/battlefield/human-meadow-1176x550.png",
+    "projectPath": "assets/generated/hg11/battlefield/open-field-v2-1176x550.png",
     "resolution": "1176x550",
-    "bytes": 1461603,
-    "sha256": "2D70E2DFA60C88CF14445AD7892130F9A8F3D32D91E4F9F76B8675E15A70098A",
+    "bytes": 1212965,
+    "sha256": "439CF6EE5DA0998B29E91CEB26D8070E86525BE33003809E090095D5584FCB3A",
     "pngColorType": 2,
     "alpha": "opaque RGB24; PNG color type 2",
     "cropAndResize": {
-      "tool": "tools/build-human-meadow-battlefield.ps1",
+      "tool": "tools/build-open-field-battlefield.ps1",
       "sourceCrop": "x=0, y=8, width=1817, height=850",
       "destinationPixels": "1176x550",
       "interpolation": "HighQualityBicubic"
     },
-    "sampledUniqueRgb": 4791
+    "sampledUniqueRgb": 4180
   },
   "integration": {
     "canvas": "#battle-canvas 1176×550",
     "grid": "Engine-owned 12×9 BATTLE_GRID remains overlaid and traversability is unchanged.",
-    "drawPath": "painter.js drawBattle uses the meadow image; the pre-existing procedural background is retained only as an image-load fallback.",
+    "drawPath": "painter.js drawBattle uses the open-field-v2 image; the pre-existing procedural background is retained only as an image-load fallback.",
     "offlineEmbedded": true,
     "bundle": {
       "projectPath": "Play-Heoofgaia-HG11.html",
-      "bytes": 15622546,
-      "sha256": "75EC8E45B8282D7311B50AC626320924FD1BE60F5C88E3C483E48DC75982C9F6",
-      "runtimePngCount": 17
+      "bytes": 87855755,
+      "sha256": "6491C2FD7A695A6FF486A242768B8349CD3A45F7FEA352A1951EF97C0C0F61E6",
+      "runtimePngCount": 16
     },
     "nodeRegression": {
-      "passed": 175,
-      "total": 175,
+      "passed": 214,
+      "total": 214,
       "failed": 0,
       "result": "PASS"
     },
-    "focusedBrowserReceipt": "docs/qa/hg11/human-heavy-animation-chrome.json",
-    "focusedBrowserCheck": "All five action atlases and the 1176×550 battlefield background load and draw offline",
+    "focusedBrowserReceipt": "docs/qa/hg11/battlefield-open-field-v2/human-heavy-animation-chrome.json",
+    "focusedBrowserCheck": "Original action atlas and 1176×550 battlefield load and draw offline",
     "focusedBrowserPass": true,
     "screenshot": {
-      "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
-      "resolution": "1440x1620",
-      "bytes": 1304225,
-      "sha256": "1986BDDDE9CF3DB64E464B7C5DE56FF342D85885223C4587FEEB826C94F08391",
+      "projectPath": "docs/evidence/hg11/battlefield-open-field-v2/human-heavy-soldier-battle-live-chrome.png",
+      "resolution": "1280x720",
+      "bytes": 927063,
+      "sha256": "1659258D5B6E376CDFC433197EE7DFA701B804A3FCE392140A9BCB5BAED36079",
       "pngColorType": 2
     }
   },

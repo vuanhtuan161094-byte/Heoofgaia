@@ -7,7 +7,14 @@ test recruitment batches >1000; it never grants troops/resources to the player.
 from pathlib import Path
 import json
 import hashlib
+import os
+import base64
+import re
+import sys
 from playwright.sync_api import sync_playwright
+
+if hasattr(sys.stdout,'reconfigure'):
+    sys.stdout.reconfigure(encoding='utf-8',errors='backslashreplace')
 
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/'Play-Heoofgaia-HG11.html'
@@ -30,7 +37,10 @@ def capture(page,name):
                      'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
 
 with sync_playwright() as pw:
-    browser=pw.chromium.launch(headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files'])
+    launch={'headless':True,'args':['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files']}
+    if os.environ.get('HOG_CHROME_PATH'):
+        launch['executable_path']=os.environ['HOG_CHROME_PATH']
+    browser=pw.chromium.launch(**launch)
     page=browser.new_page(viewport={'width':1280,'height':720})
     page.set_default_timeout(14000)
     page.on('pageerror',lambda e:errors.append(str(e)))
@@ -180,7 +190,7 @@ with sync_playwright() as pw:
       ledger:document.querySelectorAll('.hg35-cost-line').length
     })""")
     check('Compact landscape city retains building selection, effects and resource ledger',
-          'KHÔNG giới hạn quân' in (small['label'] or '') and small['buildingButton']>=10 and
+          'KHÔNG giới hạn quân' in (small['label'] or '') and small['buildingButton']==13 and
           'Dung lượng' in (small['brief'] or '') and small['briefVisible'] and
           small['ledger']==5 and small['scrollOverflow']<=1,small)
     page.locator('[data-action="city-inspector"]').click()
@@ -214,10 +224,18 @@ with sync_playwright() as pw:
     page.close()
     check('No uncaught JavaScript errors',not errors,errors)
     browser.close()
+background=ROOT/'assets/generated/hg11/battlefield/open-field-v2-1176x550.png'
+html=HTML.read_text(encoding='utf8')
+match=re.search(r'<img\b[^>]*id="battlefield-human-meadow"[^>]*src="data:image/png;base64,([^"]+)"',html)
+source_hash=hashlib.sha256(background.read_bytes()).hexdigest().upper()
+embedded_hash=hashlib.sha256(base64.b64decode(match.group(1))).hexdigest().upper() if match else None
+check('Offline HTML embeds the exact Open Field V2 source image bytes',
+      match is not None and embedded_hash==source_hash,
+      {'source':source_hash,'embedded':embedded_hash})
 receipt={'pass':all(x['pass'] for x in checks),'checks':checks,'errors':errors,
          'screenshots':captures,
          'source_html_sha256':hashlib.sha256(HTML.read_bytes()).hexdigest(),
-         'background_note':'Open Field V2 local-only not available on GitHub; remote still embeds historical human-meadow until asset pushed',
+         'background':{'file':background.relative_to(ROOT).as_posix(),'source_sha256':source_hash,'embedded_sha256':embedded_hash},
          'fixture_note':'High-stock recruitment is a separate in-memory QA fixture, never player reward'}
 REPORT.write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf8')
 print('HG35 CITY & RECRUIT CHROMIUM',sum(x['pass'] for x in checks),'/',len(checks),

@@ -1,0 +1,318 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "1280x720 initial real NPC battle and reusable layout",
+      "pass": true,
+      "evidence": {
+        "valid": true,
+        "cachedLayout": true,
+        "canvasW": 1027,
+        "canvasH": 662,
+        "battleId": "2,21",
+        "initialTurn": 1
+      }
+    },
+    {
+      "name": "1280x720 automatic combat advanced without resetting canvas",
+      "pass": true,
+      "evidence": {
+        "observedFrames": 248,
+        "observedFps": 57.99,
+        "frameP50Ms": 16.699999999254942,
+        "frameP75Ms": 17,
+        "frameP95Ms": 17.300000000745058,
+        "drawP50Ms": 1.199999999254942,
+        "drawP95Ms": 1.699999999254942,
+        "drawWorstMs": 2.5,
+        "canvasStable": true,
+        "turn": 4,
+        "renderedTurns": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "header": "Lượt 4 · 1 : 2",
+        "valid": true,
+        "coldCopyTurn": 4,
+        "viewport": {
+          "innerWidth": 1280,
+          "innerHeight": 720
+        },
+        "scrollX": false
+      }
+    },
+    {
+      "name": "1280x720 frame pacing exceeds obsolete 24 FPS throttle",
+      "pass": true,
+      "evidence": {
+        "fps": 57.99,
+        "frameP75Ms": 17
+      }
+    },
+    {
+      "name": "1280x720 current turn HUD and Save v07 remain consistent",
+      "pass": true,
+      "evidence": {
+        "turn": 4,
+        "header": "Lượt 4 · 1 : 2",
+        "save": 4
+      }
+    },
+    {
+      "name": "1280x720 manual sprite/nameplate click does not recreate combat canvas",
+      "pass": true,
+      "evidence": "p0"
+    },
+    {
+      "name": "1280x720 grid toggle updates immediately without canvas replacement",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "name": "1280x720 movement mode is contextual without canvas replacement",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "name": "960x540 initial real NPC battle and reusable layout",
+      "pass": true,
+      "evidence": {
+        "valid": true,
+        "cachedLayout": true,
+        "canvasW": 751,
+        "canvasH": 482,
+        "battleId": "2,21",
+        "initialTurn": 1
+      }
+    },
+    {
+      "name": "960x540 automatic combat advanced without resetting canvas",
+      "pass": true,
+      "evidence": {
+        "observedFrames": 257,
+        "observedFps": 59.81,
+        "frameP50Ms": 16.699999999254942,
+        "frameP75Ms": 17,
+        "frameP95Ms": 17.5,
+        "drawP50Ms": 1.699999999254942,
+        "drawP95Ms": 2.2000000029802322,
+        "drawWorstMs": 2.400000002235174,
+        "canvasStable": true,
+        "turn": 4,
+        "renderedTurns": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "header": "Lượt 4 · 1 : 2",
+        "valid": true,
+        "coldCopyTurn": 4,
+        "viewport": {
+          "innerWidth": 960,
+          "innerHeight": 540
+        },
+        "scrollX": false
+      }
+    },
+    {
+      "name": "960x540 frame pacing exceeds obsolete 24 FPS throttle",
+      "pass": true,
+      "evidence": {
+        "fps": 59.81,
+        "frameP75Ms": 17
+      }
+    },
+    {
+      "name": "960x540 current turn HUD and Save v07 remain consistent",
+      "pass": true,
+      "evidence": {
+        "turn": 4,
+        "header": "Lượt 4 · 1 : 2",
+        "save": 4
+      }
+    },
+    {
+      "name": "960x540 manual sprite/nameplate click does not recreate combat canvas",
+      "pass": true,
+      "evidence": "p0"
+    },
+    {
+      "name": "960x540 grid toggle updates immediately without canvas replacement",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "name": "960x540 movement mode is contextual without canvas replacement",
+      "pass": true,
+      "evidence": null
+    },
+    {
+      "name": "HG26 real 3-hero × 2-stack Boss auto pacing fixture valid",
+      "pass": true,
+      "evidence": {
+        "valid": true,
+        "deployed": "dispatched",
+        "entered": "battle_open",
+        "turn": 1,
+        "ownerIds": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "bossNames": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ]
+      }
+    },
+    {
+      "name": "HG26 multi-hero Boss bot advances actual turns without canvas replacement",
+      "pass": true,
+      "evidence": {
+        "turn": 5,
+        "valid": true,
+        "sceneCanvasStable": true,
+        "frames": 208,
+        "fps": 57.78,
+        "header": "Lượt 5 · 6 : 3",
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ]
+      }
+    },
+    {
+      "name": "No uncaught JavaScript errors in either real browser battle",
+      "pass": true,
+      "evidence": []
+    }
+  ],
+  "metrics": [
+    {
+      "viewport": "1280x720",
+      "fixture": {
+        "valid": true,
+        "cachedLayout": true,
+        "canvasW": 1027,
+        "canvasH": 662,
+        "battleId": "2,21",
+        "initialTurn": 1
+      },
+      "result": {
+        "observedFrames": 248,
+        "observedFps": 57.99,
+        "frameP50Ms": 16.699999999254942,
+        "frameP75Ms": 17,
+        "frameP95Ms": 17.300000000745058,
+        "drawP50Ms": 1.199999999254942,
+        "drawP95Ms": 1.699999999254942,
+        "drawWorstMs": 2.5,
+        "canvasStable": true,
+        "turn": 4,
+        "renderedTurns": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "header": "Lượt 4 · 1 : 2",
+        "valid": true,
+        "coldCopyTurn": 4,
+        "viewport": {
+          "innerWidth": 1280,
+          "innerHeight": 720
+        },
+        "scrollX": false
+      }
+    },
+    {
+      "viewport": "960x540",
+      "fixture": {
+        "valid": true,
+        "cachedLayout": true,
+        "canvasW": 751,
+        "canvasH": 482,
+        "battleId": "2,21",
+        "initialTurn": 1
+      },
+      "result": {
+        "observedFrames": 257,
+        "observedFps": 59.81,
+        "frameP50Ms": 16.699999999254942,
+        "frameP75Ms": 17,
+        "frameP95Ms": 17.5,
+        "drawP50Ms": 1.699999999254942,
+        "drawP95Ms": 2.2000000029802322,
+        "drawWorstMs": 2.400000002235174,
+        "canvasStable": true,
+        "turn": 4,
+        "renderedTurns": [
+          1,
+          2,
+          3,
+          4
+        ],
+        "header": "Lượt 4 · 1 : 2",
+        "valid": true,
+        "coldCopyTurn": 4,
+        "viewport": {
+          "innerWidth": 960,
+          "innerHeight": 540
+        },
+        "scrollX": false
+      }
+    },
+    {
+      "viewport": "960x540 joint Boss HG26",
+      "fixture": {
+        "valid": true,
+        "deployed": "dispatched",
+        "entered": "battle_open",
+        "turn": 1,
+        "ownerIds": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "bossNames": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ]
+      },
+      "result": {
+        "turn": 5,
+        "valid": true,
+        "sceneCanvasStable": true,
+        "frames": 208,
+        "fps": 57.78,
+        "header": "Lượt 5 · 6 : 3",
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ]
+      }
+    }
+  ],
+  "errors": [],
+  "html_sha256": "6491c2fd7a695a6ff486a242768b8349cd3a45f7fea352a1951ef97c0c0f61e6",
+  "fixture_note": "Real NPC march and engine auto; enemy HP/ATK fixture prolongs the fight, no rewards or wins seeded"
+}

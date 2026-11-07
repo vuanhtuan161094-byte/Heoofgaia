@@ -22,15 +22,24 @@ const nodeRegression = nodeReport?.suiteFailed === 0 && nodeReport?.suitePassed 
 const browserScreenshots = races.map(race => `docs/evidence/hg11/city-${race}-chrome.png`);
 const browserIntegrated = !!browserReport && browserReport.failed === 0 && browserReport.screenshots?.length === 4 && browserScreenshots.every(p => fs.existsSync(path.join(root, p)) && fs.statSync(path.join(root, p)).size > 100000);
 const hitZonesPass = browserIntegrated && browserReport.checks.filter(c => c.name === 'All 12 real canvas hit zones select the correct building' && c.ok).length === 4;
-const buildingManifestPath = path.join(root, 'assets/generated/hg11/buildings/human-barracks-manifest.json');
-let buildingManifest = null;
-try { buildingManifest = JSON.parse(fs.readFileSync(buildingManifestPath, 'utf8')); } catch {}
-let buildingReceipt = null;
-try { if (buildingManifest?.integration?.receipt) buildingReceipt = JSON.parse(fs.readFileSync(path.join(root, buildingManifest.integration.receipt), 'utf8')); } catch {}
-const buildingIntegrated = !!buildingManifest && !!buildingReceipt && buildingManifest.status === 'RECREATED' &&
-  buildingManifest.states?.integratedInBuildingDetail === true && buildingReceipt.failed === 0 && buildingReceipt.total === 13 &&
-  buildingManifest.integration.screenshots?.length === 2 && buildingManifest.integration.screenshots.every(s =>
-    fs.existsSync(path.join(root, s.projectPath)) && fs.statSync(path.join(root, s.projectPath)).size === s.bytes);
+const buildingManifestPaths = [
+  'assets/generated/hg11/buildings/human-barracks-manifest.json',
+  'assets/generated/hg11/buildings/human-town-hall-manifest.json'
+];
+const buildingRecords = buildingManifestPaths.map(projectPath => {
+  let manifest = null, receipt = null;
+  try { manifest = JSON.parse(fs.readFileSync(path.join(root, projectPath), 'utf8')); } catch {}
+  try {
+    if (manifest?.integration?.receipt) receipt = JSON.parse(fs.readFileSync(path.join(root, manifest.integration.receipt), 'utf8'));
+  } catch {}
+  const screenshots = manifest?.integration?.screenshots || [];
+  const integrated = !!manifest && !!receipt && manifest.status === 'RECREATED' &&
+    manifest.states?.integratedInBuildingDetail === true && manifest.states?.v07SaveLoadQueueVerified === true &&
+    receipt.failed === 0 && receipt.passed === receipt.total && receipt.total > 0 && screenshots.length >= 2 &&
+    screenshots.every(s => fs.existsSync(path.join(root, s.projectPath)) && fs.statSync(path.join(root, s.projectPath)).size === s.bytes);
+  return { projectPath, manifest, receipt, integrated };
+});
+const buildingIntegrated = buildingRecords.length === 2 && buildingRecords.every(record => record.integrated);
 const heavyManifestPath = path.join(root, 'assets/licensed/kaykit-heavy-soldier/asset-manifest.json');
 let heavyManifest = null;
 try { heavyManifest = JSON.parse(fs.readFileSync(heavyManifestPath, 'utf8')); } catch {}
@@ -44,10 +53,11 @@ const heavyIntegrated = !!heavyManifest && !!heavyReceipt && heavyManifest.statu
 const battlefieldManifestPath = path.join(root, 'assets/generated/hg11/battlefield/asset-manifest.json');
 let battlefieldManifest = null;
 try { battlefieldManifest = JSON.parse(fs.readFileSync(battlefieldManifestPath, 'utf8')); } catch {}
-const battlefieldReceipt = heavyReceipt;
+let battlefieldReceipt = null;
+try { battlefieldReceipt = JSON.parse(fs.readFileSync(path.join(root, battlefieldManifest?.integration?.focusedBrowserReceipt || ''), 'utf8')); } catch {}
 const battlefieldIntegrated = !!battlefieldManifest && !!battlefieldReceipt && battlefieldManifest.status === 'RECREATED' &&
   battlefieldManifest.runtime?.resolution === '1176x550' && battlefieldManifest.integration?.offlineEmbedded === true &&
-  battlefieldManifest.integration?.focusedBrowserPass === true && battlefieldReceipt.failed === 0 && battlefieldReceipt.passed === 20 && battlefieldReceipt.total === 20 &&
+  battlefieldManifest.integration?.focusedBrowserPass === true && battlefieldReceipt.failed === 0 && battlefieldReceipt.passed === battlefieldReceipt.total && battlefieldReceipt.total >= 20 &&
   battlefieldManifest.integration?.screenshot?.projectPath && fs.existsSync(path.join(root, battlefieldManifest.integration.screenshot.projectPath));
 const offlinePath = path.join(root, 'Play-Heoofgaia-HG11.html');
 const bundle = fs.existsSync(offlinePath) ? fs.readFileSync(offlinePath, 'utf8') : '';
@@ -56,9 +66,10 @@ const embeddedRuntimePaths = [
   'assets/generated/hg11/units/orc-imp.png', 'assets/generated/hg11/units/elf-centaur.png',
   'assets/generated/hg11/units/elf-scout.png', 'assets/generated/hg11/units/human-archer.png',
   'assets/generated/hg11/units/undead-skeleton.png', 'assets/generated/hg11/buildings/human-barracks.png',
+  'assets/generated/hg11/buildings/human-town-hall.png',
   'assets/licensed/kaykit-heavy-soldier/rendered/idle.png', 'assets/licensed/kaykit-heavy-soldier/rendered/walk.png',
   'assets/licensed/kaykit-heavy-soldier/rendered/attack.png', 'assets/licensed/kaykit-heavy-soldier/rendered/hit.png',
-  'assets/licensed/kaykit-heavy-soldier/rendered/death.png', 'assets/generated/hg11/battlefield/human-meadow-1176x550.png'
+  'assets/licensed/kaykit-heavy-soldier/rendered/death.png', 'assets/generated/hg11/battlefield/open-field-v2-1176x550.png'
 ];
 const embeddedAssets = embeddedRuntimePaths.every(p => bundle.includes(`src="data:image/png;base64,${fs.readFileSync(path.join(root, p)).toString('base64')}"`)) &&
   (bundle.match(/data:image\/png;base64,/g) || []).length === embeddedRuntimePaths.length;
@@ -115,7 +126,7 @@ const manifest = {
   schema: 'hog1-asset-manifest-v1',
   project: 'Hẻoofgaia / Heroes of Gaia 1 reconstruction',
   createdAt: new Date().toISOString(),
-  target: 'HG-11 four-faction scenic city art, Human Barracks detail, Human Meadow battlefield and one animated Human Heavy Soldier',
+  target: 'HG-11 four-faction scenic city art, Human Barracks detail, Open Field battlefield and one animated Human Heavy Soldier',
   copyrightStatus: 'RECREATED; not extracted or verified original commercial art',
   referenceOnly: [
     'https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml',
@@ -126,13 +137,13 @@ const manifest = {
   integration: {
     offlineBundlePath: 'Play-Heoofgaia-HG11.html',
     offlineBundleEmbeddedAssets: embeddedAssets,
-    browserScreenshot: browserIntegrated ? [...browserScreenshots, ...(buildingIntegrated ? buildingManifest.integration.screenshots.map(s => s.projectPath) : []), ...(heavyIntegrated ? heavyManifest.integration.screenshots.map(s => s.projectPath) : [])] : 'PENDING',
+    browserScreenshot: browserIntegrated ? [...browserScreenshots, ...(buildingIntegrated ? buildingRecords.flatMap(record => record.manifest.integration.screenshots.map(s => s.projectPath)) : []), ...(heavyIntegrated ? heavyManifest.integration.screenshots.map(s => s.projectPath) : [])] : 'PENDING',
     hitZoneRegression: hitZonesPass ? 'PASS: 4 factions × 12 live canvas actions' : 'PENDING',
     browserAcceptance: browserReport ? `${browserReport.passed}/${browserReport.passed + browserReport.failed} checks; ${browserReport.failed ? 'FAIL' : 'PASS'}` : 'PENDING',
     fullGameRegression: nodeRegression ? `PASS: ${nodeReport.suitePassed}/${nodeReport.suiteTotal} Node engine regression` : 'PENDING',
-    independentBuildingAssets: buildingIntegrated ? 'PASS: Human Barracks detail and real paid v07 construction; static art, no animation' : 'PENDING',
+    independentBuildingAssets: buildingIntegrated ? 'PASS: Human Barracks and Town Hall detail; static art, real paid v07 construction, no animation' : 'PENDING',
     animatedTroopAssets: heavyIntegrated ? 'PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks' : 'PENDING',
-    battlefieldBackground: battlefieldIntegrated ? 'PASS: independently generated 1176×550 meadow background is drawn under the real tactical grid in offline Chrome' : 'PENDING'
+    battlefieldBackground: battlefieldIntegrated ? 'PASS: independently generated 1176×550 open field background is drawn under the real tactical grid in offline Chrome' : 'PENDING'
   },
   assets,
   battlefieldAssets: battlefieldIntegrated ? [{
@@ -146,11 +157,11 @@ const manifest = {
     distinctFrameCount: heavyManifest.animation.distinctFrameCount, actions: heavyManifest.animation.actions.map(a => ({name:a.name, sourceClip:a.sourceClip, frameCount:a.frameCount, atlas:a.atlas})),
     manifest: 'assets/licensed/kaykit-heavy-soldier/asset-manifest.json', screenshots: heavyManifest.integration.screenshots.map(s => s.projectPath)
   }] : [],
-  buildingAssets: buildingIntegrated ? [{
-    assetId: buildingManifest.assetId, faction: buildingManifest.faction, buildingKey: buildingManifest.buildingKey,
-    status: buildingManifest.status, animationFrames: buildingManifest.states.animationFrames,
-    manifest: 'assets/generated/hg11/buildings/human-barracks-manifest.json', runtime: buildingManifest.runtime
-  }] : []
+  buildingAssets: buildingIntegrated ? buildingRecords.map(record => ({
+    assetId: record.manifest.assetId, faction: record.manifest.faction, buildingKey: record.manifest.buildingKey,
+    status: record.manifest.status, animationFrames: record.manifest.states.animationFrames,
+    manifest: record.projectPath, runtime: record.manifest.runtime
+  })) : []
 };
 fs.writeFileSync(path.join(root, 'assets/generated/hg11/asset-manifest.json'), JSON.stringify(manifest, null, 2) + '\n');
 console.log(JSON.stringify(assets.map(a => ({

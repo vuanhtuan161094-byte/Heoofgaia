@@ -1,8 +1,8 @@
 {
   "schema": "hog1-asset-manifest-v1",
   "project": "Hẻoofgaia / Heroes of Gaia 1 reconstruction",
-  "createdAt": "2026-11-03T05:06:06.693Z",
-  "target": "HG-11 four-faction scenic city art, Human Barracks and Town Hall detail, Human Meadow battlefield and one animated Human Heavy Soldier",
+  "createdAt": "2026-11-07T14:38:39.499Z",
+  "target": "HG-11 four-faction scenic city art, Human Barracks detail, Open Field battlefield and one animated Human Heavy Soldier",
   "copyrightStatus": "RECREATED; not extracted or verified original commercial art",
   "referenceOnly": [
     "https://news.sfacg.com/Files/2009-6-9/7b77c6c3-c4a3-4e85-9d2b-c590e8241e1d.shtml",
@@ -12,7 +12,7 @@
   "interactionContract": "painter.js CITY_SITES/cityHit select real game building actions; background painting itself has no gameplay logic.",
   "integration": {
     "offlineBundlePath": "Play-Heoofgaia-HG11.html",
-    "offlineBundleEmbeddedAssets": true,
+    "offlineBundleEmbeddedAssets": false,
     "browserScreenshot": [
       "docs/evidence/hg11/city-human-chrome.png",
       "docs/evidence/hg11/city-elf-chrome.png",
@@ -20,19 +20,21 @@
       "docs/evidence/hg11/city-undead-chrome.png",
       "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
       "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png",
+      "docs/evidence/hg11/human-town-hall-building-detail-chrome.png",
+      "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
+      "docs/evidence/hg11/human-town-hall-building-detail-mobile-chrome.png",
+      "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png",
       "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
       "docs/evidence/hg11/human-heavy-soldier-death-frame-chrome.png",
       "docs/evidence/hg11/human-heavy-soldier-live-animation-chrome.png",
-      "docs/evidence/hg11/human-heavy-soldier-death-animation-chrome.png",
-      "docs/evidence/hg11/human-town-hall-building-detail-chrome.png",
-      "docs/evidence/hg11/human-town-hall-building-detail-mobile-chrome.png"
+      "docs/evidence/hg11/human-heavy-soldier-death-animation-chrome.png"
     ],
     "hitZoneRegression": "PASS: 4 factions × 12 live canvas actions",
     "browserAcceptance": "48/48 checks; PASS",
-    "fullGameRegression": "PASS: 175/175 Node engine regression",
-    "independentBuildingAssets": "PASS: Human Barracks and Town Hall have separate static detail art and real paid v07 construction receipts; focused Chrome 16/16; no animation or original parity claim.",
+    "fullGameRegression": "PASS: 214/214 Node engine regression",
+    "independentBuildingAssets": "PASS: Human Barracks and Town Hall detail; static art, real paid v07 construction, no animation",
     "animatedTroopAssets": "PASS: Human Heavy Soldier has five real rig-derived clips, actual battle event playback, v07 Save/Reload and 20/20 focused Chrome checks",
-    "battlefieldBackground": "PASS: independently generated 1176×550 meadow background is drawn under the real tactical grid in offline Chrome"
+    "battlefieldBackground": "PASS: independently generated 1176×550 open field background is drawn under the real tactical grid in offline Chrome"
   },
   "assets": [
     {
@@ -63,7 +65,7 @@
         "imageCreated": true,
         "fileExported": true,
         "assetQcPass": true,
-        "integratedInGame": true
+        "integratedInGame": false
       },
       "visualReview": {
         "noTextOrUiObserved": true,
@@ -101,7 +103,7 @@
         "imageCreated": true,
         "fileExported": true,
         "assetQcPass": true,
-        "integratedInGame": true
+        "integratedInGame": false
       },
       "visualReview": {
         "noTextOrUiObserved": true,
@@ -139,7 +141,7 @@
         "imageCreated": true,
         "fileExported": true,
         "assetQcPass": true,
-        "integratedInGame": true
+        "integratedInGame": false
       },
       "visualReview": {
         "noTextOrUiObserved": true,
@@ -177,7 +179,7 @@
         "imageCreated": true,
         "fileExported": true,
         "assetQcPass": true,
-        "integratedInGame": true
+        "integratedInGame": false
       },
       "visualReview": {
         "noTextOrUiObserved": true,
@@ -190,30 +192,30 @@
   ],
   "battlefieldAssets": [
     {
-      "assetId": "HOG1-HG11-BATTLEFIELD-HUMAN-MEADOW-V1",
+      "assetId": "HOG1-HG11-BATTLEFIELD-OPEN-FIELD-V2",
       "status": "RECREATED",
       "provider": "ChatGPT image_gen.imagegen",
       "runtime": {
-        "projectPath": "assets/generated/hg11/battlefield/human-meadow-1176x550.png",
+        "projectPath": "assets/generated/hg11/battlefield/open-field-v2-1176x550.png",
         "resolution": "1176x550",
-        "bytes": 1461603,
-        "sha256": "2D70E2DFA60C88CF14445AD7892130F9A8F3D32D91E4F9F76B8675E15A70098A",
+        "bytes": 1212965,
+        "sha256": "439CF6EE5DA0998B29E91CEB26D8070E86525BE33003809E090095D5584FCB3A",
         "pngColorType": 2,
         "alpha": "opaque RGB24; PNG color type 2",
         "cropAndResize": {
-          "tool": "tools/build-human-meadow-battlefield.ps1",
+          "tool": "tools/build-open-field-battlefield.ps1",
           "sourceCrop": "x=0, y=8, width=1817, height=850",
           "destinationPixels": "1176x550",
           "interpolation": "HighQualityBicubic"
         },
-        "sampledUniqueRgb": 4791
+        "sampledUniqueRgb": 4180
       },
       "manifest": "assets/generated/hg11/battlefield/asset-manifest.json",
       "screenshot": {
-        "projectPath": "docs/evidence/hg11/human-heavy-soldier-battle-live-chrome.png",
-        "resolution": "1440x1408",
-        "bytes": 1251957,
-        "sha256": "C2BB462B0A16BD2D545DFE44F1AF72DA1CDAB4ED95D118042D28A5B58430F90B",
+        "projectPath": "docs/evidence/hg11/battlefield-open-field-v2/human-heavy-soldier-battle-live-chrome.png",
+        "resolution": "1280x720",
+        "bytes": 927063,
+        "sha256": "1659258D5B6E376CDFC433197EE7DFA701B804A3FCE392140A9BCB5BAED36079",
         "pngColorType": 2
       }
     }
@@ -365,13 +367,7 @@
           0.5,
           0.953125
         ]
-      },
-      "detailScreenshots": [
-        "docs/evidence/hg11/human-town-hall-building-detail-chrome.png",
-        "docs/evidence/hg11/human-barracks-building-detail-chrome.png",
-        "docs/evidence/hg11/human-town-hall-building-detail-mobile-chrome.png",
-        "docs/evidence/hg11/human-barracks-building-detail-mobile-chrome.png"
-      ]
+      }
     }
   ]
 }

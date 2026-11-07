@@ -1,0 +1,9 @@
+Use case: game-background
+Asset type: offline browser strategy game combat arena, wide horizontal backdrop.
+Primary request: a calm, empty field that keeps tactical units and the hex grid easy to read.
+Scene/backdrop: a broad open grassy battlefield clearing beneath a pale sky; low distant hills and a very thin tree line at the far horizon only. Keep the full foreground and center open.
+Style/medium: polished hand-painted fantasy game environment with restrained painterly texture.
+Composition/framing: elevated tactical view; wide 2.1:1 composition; horizon in the upper quarter; no focal object.
+Lighting/mood: diffuse daylight, even lighting, quiet and readable.
+Color palette: muted moss and sage grass, warm earth, pale blue-gray sky.
+Constraints: background only; no troops, characters, creatures, buildings, roads, foreground trees, props, hex grid, interface, text, logo, border, watermark, vignette, dramatic contrast, or dark overlay.

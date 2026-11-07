@@ -5,6 +5,7 @@ battle alive long enough to observe multiple auto turns. No rewards are
 claimed; no performance metric is fabricated or obtained from a mock canvas.
 """
 from pathlib import Path
+import os
 from playwright.sync_api import sync_playwright
 import json
 import hashlib
@@ -27,7 +28,10 @@ def check(name,condition,evidence=None):
     print(('PASS ' if ok else 'FAIL ')+name+' '+(json.dumps(evidence,ensure_ascii=False)[:250] if evidence is not None else ''),flush=True)
 
 with sync_playwright() as pw:
-    browser=pw.chromium.launch(headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files'])
+    launch={'headless':True,'args':['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files']}
+    if os.environ.get('HOG_CHROME_PATH'):
+        launch['executable_path']=os.environ['HOG_CHROME_PATH']
+    browser=pw.chromium.launch(**launch)
     for width,height in ((1280,720),(960,540)):
         page=browser.new_page(viewport={'width':width,'height':height})
         page.set_default_timeout(15000)

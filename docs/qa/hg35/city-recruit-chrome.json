@@ -1,0 +1,247 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "Real New Game city displays implemented Hall effects and five resource deductions",
+      "pass": true,
+      "evidence": {
+        "valid": true,
+        "level": 1,
+        "building": "Town Hall",
+        "effect": "Chức năng đang hoạt động\n\nVàng: +800/giờ game (tổng sản lượng thành).\n\nÝ nghĩa cấp tiếp\n\nSau cấp 2: +1.000/giờ game; Town Hall còn giới hạn cấp của các nhà khác.",
+        "brief": "HIỆN\nVàng: +800/giờ game (tổng sản lượng thành).\nCẤP TIẾP\nSau cấp 2: +1.000/giờ game; Town Hall còn giới hạn cấp của các nhà khác.\nⓘ Chi tiết",
+        "briefVisible": true,
+        "ledger": 5
+      }
+    },
+    {
+      "name": "Warehouse explicitly distinguishes resource storage from troop command",
+      "pass": true,
+      "evidence": "Chức năng đang hoạt động\n\nDung lượng tài nguyên: Vàng 150.000 · Gỗ/Quặng 15.000.\n\nÝ nghĩa cấp tiếp\n\nSau cấp 3: Vàng 150.000 · Gỗ/Quặng 15.000 · Lưu huỳnh/Pha lê 7.500.\n\nKho chỉ chứa tài nguyên, KHÔNG giới hạn quân ở trong thành."
+    },
+    {
+      "name": "Market build clearly previews what is deducted before click",
+      "pass": true,
+      "evidence": {
+        "cost": {
+          "gold": 170,
+          "wood": 20,
+          "ore": 20,
+          "sulfur": 10,
+          "crystal": 10
+        },
+        "displays": [
+          "Vàng\n−170\n33.000 → 32.830",
+          "Gỗ\n−20\n8.900 → 8.880",
+          "Quặng\n−20\n8.900 → 8.880",
+          "Lưu huỳnh\n−10\n3.350 → 3.340",
+          "Pha lê\n−10\n3.350 → 3.340"
+        ],
+        "can": true,
+        "effect": "Chức năng đang hoạt động\n\nChưa mở chức năng bán tài nguyên.\n\nÝ nghĩa cấp tiếp\n\nCấp 1: mở giao dịch thực tế."
+      }
+    },
+    {
+      "name": "Actual Market button pays correct resources and starts one authentic building queue",
+      "pass": true,
+      "evidence": {
+        "queue": "market",
+        "valid": true,
+        "payments": [
+          {
+            "before": {
+              "gold": 33011.21333333333,
+              "wood": 8900.841,
+              "ore": 8900.841,
+              "sulfur": 3350.4205,
+              "crystal": 3350.4205
+            },
+            "after": {
+              "gold": 32841.21333333333,
+              "wood": 8880.841,
+              "ore": 8880.841,
+              "sulfur": 3340.4205,
+              "crystal": 3340.4205
+            },
+            "amount": {
+              "gold": 170,
+              "wood": 20,
+              "ore": 20,
+              "sulfur": 10,
+              "crystal": 10
+            },
+            "actual": {
+              "gold": 170,
+              "wood": 20,
+              "ore": 20,
+              "sulfur": 10,
+              "crystal": 10
+            }
+          }
+        ],
+        "paid": {
+          "gold": 170,
+          "wood": 20,
+          "ore": 20,
+          "sulfur": 10,
+          "crystal": 10
+        },
+        "toasting": "Đã trừ Vàng -170 · Gỗ -20 · Quặng -20 · Lưu huỳnh -10 · Pha lê -10; bắt đầu xây."
+      }
+    },
+    {
+      "name": "Troops in city have no fake hero-limit cap and real max-affordable UI",
+      "pass": true,
+      "evidence": {
+        "valid": true,
+        "hasMax": true,
+        "garrison": "Nhân tộc · 16 quân trong thành · 0 đang tuyển. Không áp dụng giới hạn chỉ huy cho kho quân. Chỉ quân đem đi đánh mới phải tuân thủ sức chứa của từng tướng.",
+        "quote": "TRỪ KHI TUYỂN 3 quân: Vàng -165 (còn 32.676) · Gỗ -18 (còn 8.862) · Lưu huỳnh -12 (còn 3.328) · Huấn luyện lô này ~6 giây thực (×60).",
+        "shownMax": "597",
+        "actualMax": 597
+      }
+    },
+    {
+      "name": "Changing quantity updates the actual 7-troop total and remaining-resource quote",
+      "pass": true,
+      "evidence": "TRỪ KHI TUYỂN 7 quân: Vàng -385 (còn 32.456) · Gỗ -42 (còn 8.838) · Lưu huỳnh -28 (còn 3.312) · Huấn luyện lô này ~14 giây thực (×60)."
+    },
+    {
+      "name": "One-click MAX picks exact affordable quantity, not old 1000 arbitrary cap",
+      "pass": true,
+      "evidence": {
+        "selected": 597,
+        "max": 597,
+        "quote": "TRỪ KHI TUYỂN 597 quân: Vàng -32.835 (còn 6) · Gỗ -3.582 (còn 5.298) · Lưu huỳnh -2.388 (còn 952) · Huấn luyện lô này ~1.194 giây thực (×60).",
+        "enabled": true
+      }
+    },
+    {
+      "name": "MAX recruitment subtracts exact resources and queues only paid troops",
+      "pass": true,
+      "evidence": {
+        "valid": true,
+        "army": 16,
+        "queue": 1,
+        "queued": 597,
+        "payments": [
+          {
+            "before": {
+              "gold": 32841.21333333333,
+              "wood": 8880.841,
+              "ore": 8880.841,
+              "sulfur": 3340.4205,
+              "crystal": 3340.4205
+            },
+            "after": {
+              "gold": 6.213333333333139,
+              "wood": 5298.841,
+              "ore": 8880.841,
+              "sulfur": 952.4205000000002,
+              "crystal": 3340.4205
+            },
+            "amount": {
+              "gold": 32835,
+              "wood": 3582,
+              "ore": 0,
+              "sulfur": 2388,
+              "crystal": 0
+            },
+            "actual": {
+              "gold": 32835,
+              "wood": 3582,
+              "ore": 0,
+              "sulfur": 2388,
+              "crystal": 0
+            }
+          }
+        ],
+        "toast": "Đã trừ Vàng -32.835 · Gỗ -3.582 · Lưu huỳnh -2.388; xếp hàng 597 quân."
+      }
+    },
+    {
+      "name": "Cold localStorage Save v07 preserves paid construction and recruitment",
+      "pass": true,
+      "evidence": {
+        "valid": true,
+        "market": 0,
+        "queue": "market",
+        "queued": 597
+      }
+    },
+    {
+      "name": "Compact landscape city retains building selection, effects and resource ledger",
+      "pass": true,
+      "evidence": {
+        "label": "Chức năng đang hoạt động\n\nDung lượng tài nguyên: Vàng 150.000 · Gỗ/Quặng 15.000.\n\nÝ nghĩa cấp tiếp\n\nSau cấp 3: Vàng 150.000 · Gỗ/Quặng 15.000 · Lưu huỳnh/Pha lê 7.500.\n\nKho chỉ chứa tài nguyên, KHÔNG giới hạn quân ở trong thành.",
+        "brief": "HIỆN\nDung lượng tài nguyên: Vàng 150.000 · Gỗ/Quặng 15.000.\nCẤP TIẾP\nSau cấp 3: Vàng 150.000 · Gỗ/Quặng 15.000 · Lưu huỳnh/Pha lê 7.500.\nⓘ Chi tiết",
+        "briefVisible": true,
+        "scrollOverflow": 0,
+        "buildingButton": 13,
+        "ledger": 5
+      }
+    },
+    {
+      "name": "One click exposes the existing full building benefits and cost ledger without opening another game screen",
+      "pass": true,
+      "evidence": {
+        "found": true,
+        "within": true
+      }
+    },
+    {
+      "name": "Independent warehouse-funded fixture can recruit >1000 without army capacity gate",
+      "pass": true,
+      "evidence": {
+        "max": 1875,
+        "oldLimit": 1000,
+        "price": {
+          "gold": 103125,
+          "wood": 11250,
+          "ore": 0,
+          "sulfur": 7500,
+          "crystal": 0
+        },
+        "queued": 1875,
+        "noTroopStorageCap": true,
+        "hasNoExcessGrant": true,
+        "commanderCapacity": 11500
+      }
+    },
+    {
+      "name": "No uncaught JavaScript errors",
+      "pass": true,
+      "evidence": []
+    },
+    {
+      "name": "Offline HTML embeds the exact Open Field V2 source image bytes",
+      "pass": true,
+      "evidence": {
+        "source": "439CF6EE5DA0998B29E91CEB26D8070E86525BE33003809E090095D5584FCB3A",
+        "embedded": "439CF6EE5DA0998B29E91CEB26D8070E86525BE33003809E090095D5584FCB3A"
+      }
+    }
+  ],
+  "errors": [],
+  "screenshots": [
+    {
+      "file": "docs\\evidence\\hg35\\city-market-cost-before-1280x720.png",
+      "sha256": "666e244602e31c5384117b660fb985cc1ae45cd7b348ab685adeaf85c193f1ee"
+    },
+    {
+      "file": "docs\\evidence\\hg35\\army-recruit-max-1280x720.png",
+      "sha256": "2957f98a3e93ccd2ea8bb5e1233dac2337c2dc33b7af554ea1aa8e01d1b70d38"
+    },
+    {
+      "file": "docs\\evidence\\hg35\\city-warehouse-960x540.png",
+      "sha256": "918bc4f4a8cacf60297009207d7f4dadf2d91f2c2166da46ff1d75824dbd688f"
+    }
+  ],
+  "source_html_sha256": "6491c2fd7a695a6ff486a242768b8349cd3a45f7fea352a1951ef97c0c0f61e6",
+  "background": {
+    "file": "assets/generated/hg11/battlefield/open-field-v2-1176x550.png",
+    "source_sha256": "439CF6EE5DA0998B29E91CEB26D8070E86525BE33003809E090095D5584FCB3A",
+    "embedded_sha256": "439CF6EE5DA0998B29E91CEB26D8070E86525BE33003809E090095D5584FCB3A"
+  },
+  "fixture_note": "High-stock recruitment is a separate in-memory QA fixture, never player reward"
+}
