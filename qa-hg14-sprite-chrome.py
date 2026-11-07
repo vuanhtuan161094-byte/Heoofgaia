@@ -7,8 +7,8 @@ if hasattr(sys.stdout,"reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/"Play-Heoofgaia-HG11.html"
-SHOT=ROOT/"docs"/"evidence"/"hg14"
-REPORT=ROOT/"docs"/"qa"/"hg14"
+SHOT=Path(os.environ.get("HOG_HG14_EVIDENCE_ROOT",ROOT/"docs"/"evidence"/"hg14"))
+REPORT=Path(os.environ.get("HOG_HG14_REPORT_ROOT",ROOT/"docs"/"qa"/"hg14"))
 SHOT.mkdir(parents=True,exist_ok=True)
 REPORT.mkdir(parents=True,exist_ok=True)
 checks=[]
@@ -99,9 +99,13 @@ with sync_playwright() as pw:
             page.set_viewport_size({"width":960,"height":540})
             page.evaluate("window.dispatchEvent(new Event('resize'))")
             page.wait_for_timeout(180)
-            check("Undead battle keeps canvas proportional at mobile landscape",
-                  page.evaluate("""() => {const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect();
-                    return r.width>=window.innerWidth*.9&&Math.abs(c.width/r.width-c.height/r.height)<.008&&document.documentElement.scrollWidth<=window.innerWidth+1}"""))
+            check("Undead landscape keeps the wide hex board beside the right dock",
+                  page.evaluate("""() => {
+                    const c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),
+                      dock=document.querySelector('.battle-command-dock'),d=dock.getBoundingClientRect();
+                    return r.width>=window.innerWidth*.75&&dock.open&&d.left>=r.right-1&&d.right<=window.innerWidth+1&&
+                      Math.abs(c.width/r.width-c.height/r.height)<.008&&document.documentElement.scrollWidth<=window.innerWidth+1;
+                  }"""))
             mobile=SHOT/"battle-undead-landscape-chrome.png"
             page.screenshot(path=str(mobile),full_page=False)
             screenshots.append(str(mobile.relative_to(ROOT)))
