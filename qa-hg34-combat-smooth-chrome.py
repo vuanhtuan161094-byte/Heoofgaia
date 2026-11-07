@@ -113,6 +113,77 @@ with sync_playwright() as pw:
               {'turn':result['turn'],'header':result['header'],'save':result['coldCopyTurn']})
         page.screenshot(path=str(SCREENS/f'combat-auto-live-{width}x{height}.png'),animations='disabled')
         page.close()
+    # A distinct HG26 real joint Boss expedition advances its turns through the
+    # 1-second economy tick, not the manual auto scheduler. This previously
+    # destroyed and recreated the canvas once per Boss turn.
+    bossPage=browser.new_page(viewport={'width':960,'height':540})
+    bossPage.on('pageerror',lambda e:errors.append(str(e)))
+    bossPage.goto(HTML.as_uri(),wait_until='load')
+    bossPage.locator('[data-action="start"]').click()
+    bossFixture=bossPage.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
+      const base=JSON.parse(JSON.stringify(s.heroes[0]));
+      for(let id=2;id<=3;id++)s.heroes.push({...base,id,name:'QA hero '+id});
+      for(let id=1;id<=3;id++)E.hg20SetHeroPlan(s,id,[
+        {unitId:'human_1',count:2},{unitId:'human_1',count:2}]);
+      const target=E.hg24RecommendBoss(s).filter(x=>!x.privateBoss)
+        .sort((a,b)=>a.stars-b.stars||a.distance-b.distance)[0];
+      if(!target)throw new Error('No reachable real world Boss');
+      const team=[1,2,3].map(heroId=>({heroId,slots:[0,1]}));
+      E.hg26Start(s,{target:target.key,heroId:null,maxRuns:1,keepAP:0,
+        minUnits:12,minCoverage:100,maxLossPercent:100,
+        autoHeal:false,autoRecruit:false,stopOnLoss:true,team});
+      const departed=E.hg26Step(s);
+      E.tick(s,s.lastTick+Math.ceil((s.march.remaining+1)/s.speed*1000));
+      const entered=E.hg26Step(s);
+      for(const enemy of s.battle.enemies){
+        enemy.hp=2000000;enemy.pool=enemy.count*enemy.hp;
+        enemy.atk=0;enemy.def=0;
+      }
+      HOG_APP_DEBUG.render();
+      const canvas=document.getElementById('battle-canvas');
+      const P=HOG_PAINTER,original=P.drawBattle;
+      const metric={calls:[],stable:true};
+      P.drawBattle=function(c,...args){
+        if(c.id==='battle-canvas'){
+          metric.calls.push(performance.now());
+          if(c!==canvas)metric.stable=false;
+        }
+        return original.call(this,c,...args);
+      };
+      window._bossPerf={original,metric,canvas};
+      return {valid:E.strictSave(s),deployed:departed.type,
+        entered:entered.type,turn:s.battle.turn,
+        ownerIds:s.battle.allies.map(u=>u.heroId),
+        bossNames:s.battle.enemies.map(u=>u.name)};
+    }""")
+    check('HG26 real 3-hero × 2-stack Boss auto pacing fixture valid',
+          bossFixture['valid'] and bossFixture['deployed']=='dispatched' and
+          bossFixture['entered']=='battle_open' and
+          bossFixture['ownerIds']==[1,1,2,2,3,3] and
+          len(bossFixture['bossNames'])==3,bossFixture)
+    bossPage.wait_for_timeout(3550)
+    bossResult=bossPage.evaluate("""() => {
+      const m=window._bossPerf,s=HOG_APP_DEBUG.getState(),
+        c=document.getElementById('battle-canvas');
+      HOG_PAINTER.drawBattle=m.original;
+      const n=m.metric.calls.length;
+      const fps=n>1?(n-1)*1000/(m.metric.calls[n-1]-m.metric.calls[0]):0;
+      return {turn:s.battle?.turn,valid:HOG_ENGINE.strictSave(s),
+        sceneCanvasStable:c===m.canvas&&m.metric.stable,
+        frames:n,fps:+fps.toFixed(2),
+        header:document.querySelector('.combat-scene-title .tag')?.textContent,
+        owners:s.battle?.allies.map(u=>u.heroId)};
+    }""")
+    metrics.append({'viewport':'960x540 joint Boss HG26','fixture':bossFixture,'result':bossResult})
+    check('HG26 multi-hero Boss bot advances actual turns without canvas replacement',
+          bossResult['turn']>=bossFixture['turn']+2 and bossResult['valid'] and
+          bossResult['sceneCanvasStable'] and bossResult['fps']>=24 and
+          bossResult['header'] is not None and
+          bossResult['header'].startswith('Lượt '+str(bossResult['turn'])+' ·'),
+          bossResult)
+    bossPage.screenshot(path=str(SCREENS/'combat-hg26-joint-boss-960x540.png'),animations='disabled')
+    bossPage.close()
     check('No uncaught JavaScript errors in either real browser battle',not errors,errors)
     browser.close()
 receipt={'status':'PASS' if all(x['pass'] for x in checks) else 'FAIL',
