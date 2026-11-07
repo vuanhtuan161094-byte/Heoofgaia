@@ -359,11 +359,18 @@ function cityViewBase(){const k=selectedBuilding,b=C.buildings[k],lv=state.build
  <div class="hg28-city-stage"><div class="city-frame"><canvas id="city-canvas" width="1176" height="560" aria-label="Cảnh thành tương tác, nhấn vị trí công trình để chọn"></canvas><span class="hg28-city-hint">Chạm công trình trong thành để chọn</span></div>
  <aside class="hg28-city-command"><div class="hg28-selected-building"><span class="hg28-building-emblem">${b.icon}</span><div><small>CÔNG TRÌNH</small><h2>${esc(b.name)}</h2><span>Cấp ${lv} / 10</span></div></div>
  <p class="hg28-building-desc" title="${esc(b.desc)}">${esc(b.desc)}</p>
- ${hg35BuildingEffects(k,lv)}
- <div class="hg28-upgrade hg35-upgrade"><div class="hg28-upgrade-cost"><small>${lv>=10?'ĐÃ ĐẠT CẤP TỐI ĐA':'NÂNG LÊN CẤP '+(lv+1)+' · TÀI NGUYÊN TRỪ NGAY'}</small>${lv<10?hg35CostBreakdown(cost):'<b>Không còn cấp để nâng</b>'}</div>
- ${button('upgrade',{key:k},state.buildingQueue?'⏳ Đang xây':'⬆ Nâng cấp · xác nhận trừ',!can,'primary')}
+ <div class="hg28-upgrade"><div class="hg28-upgrade-cost">
+ <small>${lv>=10?'ĐÃ TỐI ĐA':'NÂNG CẤP LÊN '+(lv+1)+' · TRỪ NGAY'}</small>
+ <b>${lv<10?money(cost):'Đã đạt cấp 10'}</b></div>
+ ${button('upgrade',{key:k},state.buildingQueue?'⏳ Đang xây':'⬆ Nâng cấp',!can,'primary')}
  <span class="hg28-upgrade-hint">${esc(stateHint)}</span></div>
- <div class="hg28-building-grid" aria-label="Chọn công trình">${buildings}</div></aside></div></section>`;
+ <div class="hg28-building-grid" aria-label="Chọn công trình">${buildings}</div></aside></div>
+ <div class="hg35-city-inspector" id="hg35-city-inspector" aria-label="Công dụng và chi phí chi tiết của công trình đã chọn">
+ <div class="hg35-city-inspector-title"><b>ⓘ ${esc(b.vi||b.name)} · Cấp ${lv}/10</b><span>Tác dụng thật, cấp kế tiếp và số dư sau khi trừ</span></div>
+ <div class="hg35-city-inspector-grid">${hg35BuildingEffects(k,lv)}
+ <div class="hg35-inspector-pay"><b>${lv<10?'Nâng lên cấp '+(lv+1)+' · trừ khi xác nhận':'Đã đạt cấp cao nhất'}</b>
+ ${lv<10?hg35CostBreakdown(cost):'<p>Không phát sinh chi phí xây tiếp.</p>'}
+ <small>${esc(stateHint)}</small></div></div></div></section>`;
 }
 function heroArmyCommandView(){
  const home=state.activeCityId||'main';
