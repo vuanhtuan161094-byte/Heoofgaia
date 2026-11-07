@@ -1,0 +1,13 @@
+{
+  "status": "PASS_ARCHIVE_ONLY",
+  "sources": "SpriteCook CC0 / Game-Icons CC BY 3.0",
+  "newImportedTroops": 2,
+  "sourcePngSheets": 6,
+  "fullFrameAssets": 5,
+  "totalSourceFrames": 52,
+  "upstreamIconKeys": 26,
+  "combatRuntime": "excluded; replaced by original HG33 action atlases",
+  "offlineReleaseBytesEmbedded": false,
+  "engineChanged": false,
+  "saveChanged": false
+}

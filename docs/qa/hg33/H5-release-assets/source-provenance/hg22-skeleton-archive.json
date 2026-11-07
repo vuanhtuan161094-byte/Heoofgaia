@@ -1,0 +1,16 @@
+{
+  "status": "PASS_ARCHIVE_ONLY",
+  "unit": "undead_1",
+  "historicalActions": 5,
+  "historicalFrames": 50,
+  "historicalSource": "MIT Chong-U Lim",
+  "offlineReleaseBytesEmbedded": false,
+  "replacement": {
+    "source": "assets/original/hg33/action-atlases/undead-skeleton.png",
+    "actions": 5,
+    "framesPerAction": 8,
+    "thirdPartySource": null
+  },
+  "saveChanged": false,
+  "engineChanged": false
+}

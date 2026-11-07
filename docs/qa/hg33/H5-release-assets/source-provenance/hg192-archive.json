@@ -1,0 +1,10 @@
+{
+  "status": "PASS_ARCHIVE_ONLY",
+  "sourceFileCount": 24,
+  "uniqueSourceBinaryCount": 24,
+  "format": "historical CC0 PNG source sprites",
+  "combatRuntime": "excluded; every affected catalog actor resolves to an original HG33 atlas",
+  "offlineReleaseBytesEmbedded": false,
+  "engineChanged": false,
+  "saveChanged": false
+}

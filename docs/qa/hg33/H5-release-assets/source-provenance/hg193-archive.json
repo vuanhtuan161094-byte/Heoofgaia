@@ -1,0 +1,19 @@
+{
+  "status": "PASS_ARCHIVE_ONLY",
+  "catalogUnits": 40,
+  "distinctTroopArt": 40,
+  "lastSeven": [
+    "human_6",
+    "human_8",
+    "elf_4",
+    "elf_5",
+    "elf_7",
+    "orc_2",
+    "orc_7"
+  ],
+  "historicalMixedSources": 7,
+  "combatRuntime": "excluded; replaced with original HG33 action atlases",
+  "offlineReleaseBytesEmbedded": false,
+  "engineRulesChanged": false,
+  "saveSchemaChanged": false
+}

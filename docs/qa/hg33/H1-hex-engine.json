@@ -1,6 +1,6 @@
 {
   "schema": "HG33-H1-hex-engine-v1",
-  "generatedAt": "2026-11-06T08:47:16.758Z",
+  "generatedAt": "2026-11-07T06:52:19.349Z",
   "branch": "feature/hog1-research-to-playable-20261102",
   "grid": {
     "cols": 12,
@@ -37,7 +37,7 @@
   },
   "release": {
     "path": "Play-Heoofgaia-HG11.html",
-    "sha256": "289546225a6002742fda810e8345abdf48ec9abd0bd61d55767442c08427d80c"
+    "sha256": "d4b329ea925d7a5b4c15baebc2a4a88300d87882c35489598b08c9b882a949cf"
   },
   "artStatus": "H1 changes geometry only; H2-H4 genuine action-frame animation and H5 internet-source art removal remain incomplete."
 }

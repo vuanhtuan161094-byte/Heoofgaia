@@ -1,3 +1,13 @@
+## HG33 — LOCAL H1/H5 RELEASE SLICE · 2026-11-07
+
+- **Branch / code commit:** public `vuanhtuan161094-byte/Heoofgaia`, `feature/hog1-research-to-playable-20261102`. GitHub branch API confirms remote base `2a804be740e0caf41f15c5c4c2e902519e32bb81`; local H5 code commit is **`f439c9f1d88a810783aef82564f391030a042d4b`**, not yet pushed. Shell `git ls-remote` cannot authenticate in this Windows session.
+- **H1 PASS:** true odd-r 12×9 hex checks **5/5**, including reciprocal six-neighbor topology, click movement, attack range and v07 reload (`docs/qa/hg33/H1-hex-engine.json`).
+- **H5 external-art exclusion sub-gate PASS:** the offline builder drops the four external/mixed sprite modules and five archived combat-art packs from runtime, and embeds 48 original atlas-derived unit thumbnails. Source provenance checks pass for HG19.1, HG19.2, HG19.3 and Skeleton HG22.1. Inventory reports zero external combat-pack payload bytes in the release. Node regression **214/214 PASS**.
+- **Chromium `file://` PASS:** 48 core/reward roster entries, five eight-frame action rows, v07 strict-save validation and no browser errors. Both viewports pass (1280×720 and 960×540); captures: `docs/evidence/hg33/H5-release-assets/army-original-unit-art-{1280x720,960x540}.png`; machine receipt: `docs/qa/hg33/H5-release-assets/chromium.json`.
+- **Offline build:** two consecutive builds match byte-for-byte; `Play-Heoofgaia-HG11.html`, SHA-256 `D4B329EA925D7A5B4C15BAEBC2A4A88300D87882C35489598B08C9B882A949CF`.
+- **Remaining / honest status:** HG33 is **PARTIAL**. H0 census finds 40 core, 8 reward and 10 named Boss targets, but only 3/10 Bosses have registered original masters. H2 layered editable-source review remains open. The source-exclusion sub-gate does not close the full H5 provenance review. No new SHA has been pushed, and CI for these changes is **NOT RUN**; base CI #413 is not evidence for this local diff.
+- **Next:** finish Boss-master coverage and editable-source review, then run/push exact-head full CI before changing HG33 status.
+
 ## Combat field-first screen — LOCAL PASS · CI #412 SUCCESS (94/94) · 2026-11-07
 
 - **Branch/source:** public `vuanhtuan161094-byte/Heoofgaia`, `feature/hog1-research-to-playable-20261102`. Field-first combat UI remains at `1d3af5e20edc9e9fe1ab23039899cfae249efa57`; the H3 pointer-selection regression correction was tested on code/evidence SHA `5c1d6efcf0d1683bd400eb211c0ec5905a4ec7eb`. That change only updates QA, receipts and screenshots; game HTML, Save v07 and combat rules were not changed.

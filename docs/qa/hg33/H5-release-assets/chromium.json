@@ -1,0 +1,1005 @@
+{
+  "commit": "f439c9f1d88a810783aef82564f391030a042d4b",
+  "html": "Play-Heoofgaia-HG11.html",
+  "htmlSha256": "D4B329EA925D7A5B4C15BAEBC2A4A88300D87882C35489598B08C9B882A949CF",
+  "browser": "Playwright Chromium opened the built offline file:// game; New Game -> Army tab; screenshots are real viewport captures.",
+  "externalCombatArt": "PASS: source modules, preload nodes and audited third-party payloads excluded from the offline release",
+  "screenshots": [
+    {
+      "viewport": "1280x720",
+      "path": "docs/evidence/hg33/H5-release-assets/army-original-unit-art-1280x720.png",
+      "sha256": "79C80A58FEDA3FA8CC79BD114A7BF26ED17035E58A7941933FDB5444D9458659"
+    },
+    {
+      "viewport": "960x540",
+      "path": "docs/evidence/hg33/H5-release-assets/army-original-unit-art-960x540.png",
+      "sha256": "07DBB50DA4303292A468AD82BBCBC7AD03A9343FF82733322592048FAC14FBF2"
+    }
+  ],
+  "checks": [
+    {
+      "viewport": "1280x720",
+      "status": "PASS",
+      "coreUnits": 40,
+      "rewardUnits": 8,
+      "checkedActionSequences": 240,
+      "visibleArmyThumbs": 16,
+      "saveV07Valid": true,
+      "coverage": [
+        {
+          "id": "human_1",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": 1197,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_2",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_3",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_4",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_5",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_6",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_7",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_8",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_9",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "human_10",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "elf_1",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": 1490,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_2",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_3",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_4",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_5",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_6",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_7",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_8",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_9",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "elf_10",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "orc_1",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": 2093,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_2",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_3",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_4",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_5",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_6",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_7",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_8",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_9",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "orc_10",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "undead_1",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": 1253,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_2",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_3",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_4",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_5",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_6",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_7",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_8",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_9",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "undead_10",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "human_quest_guard",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 2069,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_tower_sovereign",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1457,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_quest_guard",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1238,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_tower_sovereign",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1404,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_quest_guard",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1869,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_tower_sovereign",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1888,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_quest_guard",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1213,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_tower_sovereign",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1724,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        }
+      ]
+    },
+    {
+      "viewport": "960x540",
+      "status": "PASS",
+      "coreUnits": 40,
+      "rewardUnits": 8,
+      "checkedActionSequences": 240,
+      "visibleArmyThumbs": 16,
+      "saveV07Valid": true,
+      "coverage": [
+        {
+          "id": "human_1",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": 1197,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_2",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_3",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_4",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_5",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_6",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_7",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_8",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_9",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "human_10",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "elf_1",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": 1490,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_2",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_3",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_4",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_5",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_6",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_7",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_8",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_9",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "elf_10",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "orc_1",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": 2093,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_2",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_3",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_4",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_5",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_6",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_7",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_8",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_9",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "orc_10",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "undead_1",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": 1253,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_2",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_3",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_4",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_5",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_6",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_7",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_8",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_9",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "undead_10",
+          "thumbWidth": null,
+          "thumbHeight": null,
+          "kind": "core",
+          "fiveActions": true,
+          "visiblePixels": null,
+          "decoded": false,
+          "uiThumbSource": "preserved high-tier original master"
+        },
+        {
+          "id": "human_quest_guard",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 2069,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "human_tower_sovereign",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1457,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_quest_guard",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1238,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "elf_tower_sovereign",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1404,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_quest_guard",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1869,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "orc_tower_sovereign",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1888,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_quest_guard",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1213,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        },
+        {
+          "id": "undead_tower_sovereign",
+          "thumbWidth": 96,
+          "thumbHeight": 102,
+          "kind": "reward",
+          "fiveActions": true,
+          "visiblePixels": 1724,
+          "decoded": true,
+          "uiThumbSource": "HG33 atlas crop"
+        }
+      ]
+    }
+  ],
+  "pageErrors": [],
+  "result": "PASS"
+}

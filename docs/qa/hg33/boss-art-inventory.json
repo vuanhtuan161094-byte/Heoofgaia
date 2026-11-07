@@ -1,6 +1,6 @@
 {
   "schema": "HG33-H0-inventory-v1",
-  "generatedAt": "2026-11-06T06:02:24.761Z",
+  "generatedAt": "2026-11-07T06:52:08.229Z",
   "repository": "vuanhtuan161094-byte/Heoofgaia",
   "branch": "feature/hog1-research-to-playable-20261102",
   "catalog": {
@@ -57,38 +57,7 @@
       "orc_tower_sovereign",
       "undead_quest_guard",
       "undead_tower_sovereign"
-    ],
-    "actionAnimationCoverage": {
-      "coreUnits": 40,
-      "coreActions": [
-        "idle",
-        "walk",
-        "attack",
-        "hit",
-        "death"
-      ],
-      "framesPerAction": 8,
-      "totalCoreFrames": 1600,
-      "bossArchetypes": 10,
-      "bossActions": [
-        "idle",
-        "walk",
-        "attack",
-        "hit",
-        "death"
-      ],
-      "framesPerActionPerBoss": 8,
-      "rewardUnits": 8,
-      "rewardActions": [
-        "idle",
-        "walk",
-        "attack",
-        "hit",
-        "death"
-      ],
-      "framesPerActionPerReward": 8,
-      "skeletonHG22_1": "preserved; separate five-action, ten-frame source clip module remains embedded"
-    }
+    ]
   },
   "bosses": {
     "worldTargetCount": 6,
@@ -311,14 +280,10 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-azrael",
+          "assetId": "hg28-boss-azrael",
+          "sourceRoute": "built-in image_gen",
           "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/azrael.png",
-          "sourceSha256": "92330bc07b5bbd8ea084b04ba52941d554e364f1e4bd52b8d1a51c0380b3f70c",
-          "runtimePath": "assets/generated/hg33/animation/runtime/azrael.webp",
-          "runtimeSha256": "e57072be474cfef51cff327685f8acfb3b079221961c000c0b3ca750d36df13b",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
         }
       },
       {
@@ -347,14 +312,10 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-cyclop-tyrant",
+          "assetId": "hg28-boss-cyclops-tyrant",
+          "sourceRoute": "built-in image_gen",
           "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/cyclop-tyrant.png",
-          "sourceSha256": "f95d154a1d98ae446c4af9d47f7b081359436e44749ad07b9a1dfef8bca95bc2",
-          "runtimePath": "assets/generated/hg33/animation/runtime/cyclop-tyrant.webp",
-          "runtimeSha256": "cda9b2e9952d79ab2e59d6c775c2da291af936d23436d095b68b690c700a8c8a",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
         }
       },
       {
@@ -383,14 +344,10 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-demonlord-samurai",
+          "assetId": "hg28-boss-demonlord-samurai",
+          "sourceRoute": "built-in image_gen",
           "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/demonlord-samurai.png",
-          "sourceSha256": "c0fd86b0029ceae1acbd094080a6ef09292b58206a6e6fdf37b9d2c4c51087e4",
-          "runtimePath": "assets/generated/hg33/animation/runtime/demonlord-samurai.webp",
-          "runtimeSha256": "4757fb57d0e36714f24c82553a0955072f4cd6ccde3ea48b667d7ae0eadb83f7",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
         }
       },
       {
@@ -409,14 +366,9 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-earth-bear",
-          "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/earth-bear.png",
-          "sourceSha256": "df262ed0ded9a343e29c81bbc0ab20a83cea36b8e665549f8d225315be236788",
-          "runtimePath": "assets/generated/hg33/animation/runtime/earth-bear.webp",
-          "runtimeSha256": "facd0db401cb414619181d94d24dce382b6c5ca4d9d1219a47f565d14bdefc07",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
         }
       },
       {
@@ -435,14 +387,9 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-fallen-treant",
-          "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/fallen-treant.png",
-          "sourceSha256": "6717aeb6e7ef56c20b5ccfb6a8a220643d7a0619485c135e11764a1429ba6db2",
-          "runtimePath": "assets/generated/hg33/animation/runtime/fallen-treant.webp",
-          "runtimeSha256": "b0240e080062b500980499f95cdd13b0eb34b1bc2cd304ac7fb977e0771bc619",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
         }
       },
       {
@@ -461,14 +408,9 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-fiery-giant",
-          "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/fiery-giant.png",
-          "sourceSha256": "c1c6a8105ded3bcc78cf39b93822fe5acf1b377f12681fd9eef1f1a05dce28fb",
-          "runtimePath": "assets/generated/hg33/animation/runtime/fiery-giant.webp",
-          "runtimeSha256": "7463c57f9b56cc067eb187be4860b2f823bdf278ebe990266e8c98e32dd0724b",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
         }
       },
       {
@@ -481,14 +423,9 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-blood-moon-demon-god",
-          "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/blood-moon-demon-god.png",
-          "sourceSha256": "0c8c0e473ac525ac7fd6db1607538fc6fe81cf09cde6fe53d5f2b8315ef714e1",
-          "runtimePath": "assets/generated/hg33/animation/runtime/blood-moon-demon-god.webp",
-          "runtimeSha256": "23460109454c9c52caec7ca7de7cf7c4a5cea1f85ce158637c589d8cd947b5f3",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
         }
       },
       {
@@ -501,14 +438,9 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-cosmic-star-fiend",
-          "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/cosmic-star-fiend.png",
-          "sourceSha256": "bb4d346bef6d3739ac4114168d9c0be7137af1abeb81cf27a0e4906495d7108a",
-          "runtimePath": "assets/generated/hg33/animation/runtime/cosmic-star-fiend.webp",
-          "runtimeSha256": "d29428f7281da5cbe6b969b4e44dabbcbf319031044d382d278209a237238c73",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
         }
       },
       {
@@ -521,14 +453,9 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-netherworld-ghost-king",
-          "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/netherworld-ghost-king.png",
-          "sourceSha256": "d4c160069c3d8798ac5bf3cfbd1d7f1e0a3c234b55bbb8421d4f4eac403bf593",
-          "runtimePath": "assets/generated/hg33/animation/runtime/netherworld-ghost-king.webp",
-          "runtimeSha256": "ffd1f86ad03feb142ede6337f88425d5a0b32e06467bc077f88e1dfcba2e9665",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
         }
       },
       {
@@ -541,21 +468,18 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": "hg33-action-atlas-ancient-dragon-emperor",
-          "status": "RECREATED",
-          "sourceRoute": "OpenAI built-in image_gen",
-          "sourceMaster": "assets/original/hg33/action-atlases/ancient-dragon-emperor.png",
-          "sourceSha256": "ccf338f6f137c114d8af434430213a89af1535a32b8c55e3bd21455df635a536",
-          "runtimePath": "assets/generated/hg33/animation/runtime/ancient-dragon-emperor.webp",
-          "runtimeSha256": "434229d39630b779b985952daf2bc587c717088a8ae018acad0e13c296bfbe3f",
-          "animationStatus": "Five separately authored actions; eight alpha-checked frames per action (Idle, Walk, Attack, Hit, Death); integrated through the actual battle renderer. New project-created replacement art, not recovered Heroes of Gaia client art."
+          "assetId": null,
+          "status": "MISSING",
+          "animationStatus": "MISSING"
         }
       }
     ],
     "currentBossArtRegistered": [
       "Azrael",
       "Cyclop Tyrant",
-      "Demonlord Samurai",
+      "Demonlord Samurai"
+    ],
+    "missingBossArt": [
       "Earth Bear",
       "Fallen Treant",
       "Fiery Giant",
@@ -563,13 +487,12 @@
       "Tinh Không Đại Ma",
       "U Minh Quỷ Vương",
       "Viễn Cổ Long Hoàng"
-    ],
-    "missingBossArt": []
+    ]
   },
   "currentRuntimeArtAudit": {
     "html": "Play-Heoofgaia-HG11.html",
-    "htmlBytes": 88024910,
-    "htmlSha256": "68B0A3E3DFD95AD9990B618527CBB08C96CB1758754D5C18DDA7C28B8952653F",
+    "htmlBytes": 88158187,
+    "htmlSha256": "d4b329ea925d7a5b4c15baebc2a4a88300d87882c35489598b08c9b882a949cf",
     "packs": [
       {
         "name": "KayKit Heavy Soldier",
@@ -641,8 +564,8 @@
         ],
         "knownFrameCount": 57,
         "checkedRuntimeFiles": 5,
-        "embeddedRuntimeFiles": 5,
-        "embeddedRuntimeBytes": 1240064,
+        "embeddedRuntimeFiles": 0,
+        "embeddedRuntimeBytes": 0,
         "runtimeFiles": [
           {
             "path": "assets/licensed/kaykit-heavy-soldier/rendered/idle.png",
@@ -837,7 +760,7 @@
             "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
             "license": "CC0-1.0",
             "sha256": "9a7edb6a89b74aaac44b52e3dd2e2cc03fa1d575734a62866c4eab3fec0e0204",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/kaykit-heavy-soldier/rendered/walk.png",
@@ -1032,7 +955,7 @@
             "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
             "license": "CC0-1.0",
             "sha256": "6c028e4b26c60e6c5d759321648df84e31f6b368f76072ca6c33cc0eddf6e34a",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/kaykit-heavy-soldier/rendered/attack.png",
@@ -1227,7 +1150,7 @@
             "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
             "license": "CC0-1.0",
             "sha256": "0aa733113e3921d011e3c11515feee4406787712cad9e9314c92e9c317012277",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/kaykit-heavy-soldier/rendered/hit.png",
@@ -1352,7 +1275,7 @@
             "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
             "license": "CC0-1.0",
             "sha256": "71b8b786e81be7b2232f593651d74285fe2273b8c97e8aa9e1419c81f82483f2",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/kaykit-heavy-soldier/rendered/death.png",
@@ -1505,7 +1428,7 @@
             "sourceBlob": "672074b73ba276876a19e8816ecdc5241817ab47",
             "license": "CC0-1.0",
             "sha256": "10c430617f8c2b0f7b0b0b1532fa68a7bc16d1340dfc2366bb843fdf01bf1211",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           }
         ]
       },
@@ -1522,8 +1445,8 @@
         ],
         "knownFrameCount": 52,
         "checkedRuntimeFiles": 6,
-        "embeddedRuntimeFiles": 6,
-        "embeddedRuntimeBytes": 179174,
+        "embeddedRuntimeFiles": 0,
+        "embeddedRuntimeBytes": 0,
         "runtimeFiles": [
           {
             "path": "assets/licensed/spritecook/human-scout/idle.png",
@@ -1535,7 +1458,7 @@
             "sourceBlob": "024959bbf318384f7cbca7d8fc710b2e365410e3",
             "license": "CC0-1.0",
             "sha256": "64f3192d7be2099eb50c32e01e7931e9aa7e66706624b14331e2f8ddb2bbf891",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/spritecook/human-elite/idle.png",
@@ -1547,7 +1470,7 @@
             "sourceBlob": "d833b70d59cbb9dc470b33d3f86493f67d0b7969",
             "license": "CC0-1.0",
             "sha256": "45db0a2e297371d372f2a68d7c843505cf7a9b40578269f1912299b1cca54360",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/spritecook/human-elite/walk.png",
@@ -1559,7 +1482,7 @@
             "sourceBlob": "6e45090ae9ae8cdffe9e3f7326f98a3f93f1e682",
             "license": "CC0-1.0",
             "sha256": "f9dc9440c28fa66787223ec04d5f5cd0ba2aa68f3df7bcfa9ada2b1fdd88ba57",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/spritecook/human-elite/attack.png",
@@ -1571,7 +1494,7 @@
             "sourceBlob": "476874e8934e720ec29c91b31ea866dbbfcd1fec",
             "license": "CC0-1.0",
             "sha256": "01dc0abf8eca69e535feb4038ab21153aaf734464a041f37c2176e22aa64bc06",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/spritecook/human-elite/hit.png",
@@ -1583,7 +1506,7 @@
             "sourceBlob": "0f505dd26c443dd2134bb92427492723b46ea378",
             "license": "CC0-1.0",
             "sha256": "f04929294a3b18a22814958e14f7011a354b05a1304c9e480d24c130f86f8498",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/spritecook/human-elite/death.png",
@@ -1595,7 +1518,7 @@
             "sourceBlob": "e9178eca1168a33a6f731df9bca84f7ab25ec990",
             "license": "CC0-1.0",
             "sha256": "f4c3a46bf13fb687a22aa8f3fd591a4d20b6ad519e5319962df3851bce8b6515",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           }
         ]
       },
@@ -1634,8 +1557,8 @@
         ],
         "knownFrameCount": 24,
         "checkedRuntimeFiles": 24,
-        "embeddedRuntimeFiles": 24,
-        "embeddedRuntimeBytes": 15877,
+        "embeddedRuntimeFiles": 0,
+        "embeddedRuntimeBytes": 0,
         "runtimeFiles": [
           {
             "path": "assets/licensed/dcss-cc0/human_5.png",
@@ -1647,7 +1570,7 @@
             "sourceBlob": "556f58e14868f226999f54faa8be36a8a4a9c57f",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "3fcd80675751b891fd272d8bf73fbf4c4c718411a6d7365912cf3474d16ffbad",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/human_9.png",
@@ -1659,7 +1582,7 @@
             "sourceBlob": "3e1097994ed54628b3dd776d3899a1af73774a61",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "c4f9af9ab08ef32c20897916a271731db3615b257e3a827f34c04348d1f576ad",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/human_10.png",
@@ -1671,7 +1594,7 @@
             "sourceBlob": "5876290ba609643a0b89f42e6290c3adc16dffde",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "e43deed5e3507e288ebbe05ac696ff5f636df926757ae58f4c850c49efa3901b",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/elf_3.png",
@@ -1683,7 +1606,7 @@
             "sourceBlob": "4b8376df63bf7889a6e4ecc64ae77f5498dfe677",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "36ca4ed016fb706ad40c0e0587c2894c5c32ed30c6e4d5b70cba3b80698cea66",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/elf_6.png",
@@ -1695,7 +1618,7 @@
             "sourceBlob": "d15cdb5c95b4c4f0c78f9babd74eb6f41192bd00",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "cd3d69eccc4e8926db2d8ad19c495b1a84bb959e3018f30415050600701a3c8d",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/elf_8.png",
@@ -1707,7 +1630,7 @@
             "sourceBlob": "0a94ec1d4bc8ea424446792e03c0027cc16897dd",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "c7d25fd67f8a900aed04d99a34bb5bd6eb2ab5ae1f7bf61f331844b012d108aa",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/elf_9.png",
@@ -1719,7 +1642,7 @@
             "sourceBlob": "27b13ab4c17bb89f1611d23f5fa8f32371f0c5b2",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "973304d600910d72ccb309e86705f0a3155d1ae712758898c6f32d53e1ad01af",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/elf_10.png",
@@ -1731,7 +1654,7 @@
             "sourceBlob": "fc95fcd2064dbc7d2f0459501c5f12f84d07fb06",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "25055874d2b8bcd89fdccc575e78d7ad381f01723c9da70a64bb3ce07d531686",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/orc_3.png",
@@ -1743,7 +1666,7 @@
             "sourceBlob": "fe120cd4b29dc1c925b995b578876e0fa5279c85",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "5e18152eb14f41389b0f2d92227268f061d8945186b07cd89e0db570cdf10ed9",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/orc_4.png",
@@ -1755,7 +1678,7 @@
             "sourceBlob": "30aeba087491cd2a337083008047afd8fb2f214d",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "e560446c4bcefd0380e90318f98f03fd5da69a9eadc126c72007dd934ab52343",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/orc_5.png",
@@ -1767,7 +1690,7 @@
             "sourceBlob": "bacca8a73936d01fa933eda7c1a7cc89600177e8",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "ca7bb3d39de4ee595258a5caa4718cfcff077970a0175024117e087449f3c34f",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/orc_6.png",
@@ -1779,7 +1702,7 @@
             "sourceBlob": "d671707072913f726c45ac1ffaa31ba175d2ad23",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "bda003e5508a607f4226d4a889af3727c15339ffecadcd0aa0e9470ccffb3e66",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/orc_8.png",
@@ -1791,7 +1714,7 @@
             "sourceBlob": "f78aa44c65a6bd41de6d67fb9e77ddd77ab85664",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "9a630b4cb1699af6f2e1eee056ba99272f4aa7cb0b18318ad4a020536cef9844",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/orc_9.png",
@@ -1803,7 +1726,7 @@
             "sourceBlob": "2ca93cda6ee7af858ce233ad529d50ce5905a348",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "a18d784c7bebe7f60387e917202e535cca0d5d3fb26de3f1299ae3eba6c562a0",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/orc_10.png",
@@ -1815,7 +1738,7 @@
             "sourceBlob": "690ca214fdf7085e686eaa1a43958a2df54e752e",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "15400384ad704b3ad93a8f82ef9e43114cfd8833be90e7aeafd91c51ed8ad249",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_2.png",
@@ -1827,7 +1750,7 @@
             "sourceBlob": "ac3c858bfe37ede4a0635ffd7e321241d04f22c2",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "67a049ed83abe386bca7d5c697431f65d856560b157bee54593b2660187215bb",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_3.png",
@@ -1839,7 +1762,7 @@
             "sourceBlob": "7d91859c477fb6662cf24370339fb12e200bd22c",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "eaa8d61fe1c639434797cbd61294959810ada5d85df489cd0ddfadfb23eb270b",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_4.png",
@@ -1851,7 +1774,7 @@
             "sourceBlob": "1c347208131625cb39162780e5ffafe6a7c5cafe",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "986b4803e4200ca21e94ff3a6fdaaae3c3652f5d810d6fe6907df7183de10520",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_5.png",
@@ -1863,7 +1786,7 @@
             "sourceBlob": "8505b59031ad59dabb9ce24ee5fb50e3524660fd",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "b0d1346d767c7e98119c6a2ae753878eec6660a2258c98fb7b4927362720e7e3",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_6.png",
@@ -1875,7 +1798,7 @@
             "sourceBlob": "0167b552ea0e92aa5497a52fccd998ece33360f8",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "3c8d49538f2901a7f853646848978014b98bef538ce1b06beb81859b6f3233bf",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_7.png",
@@ -1887,7 +1810,7 @@
             "sourceBlob": "f4b1f0be9fd7298b01fdccd3a7173e93231f67a1",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "e6ee8938971103e735782c4a294b6940730d742b28602502e7051c4d1c432fd0",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_8.png",
@@ -1899,7 +1822,7 @@
             "sourceBlob": "4d2dc3f4f73366084b2ce4c36ee7046ce84b72d2",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "59aa7f3e3d86c1c50d3616106f6c3d17d2fee1fb95ed1d215735112ed5accfcd",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_9.png",
@@ -1911,7 +1834,7 @@
             "sourceBlob": "e9941ec367f30b08ef7b933229d738f44119a4bd",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "a4fd2ceee1b9183de9e68703de5548ceaf0c8c4684ecb4c28ce47a8968825f35",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/dcss-cc0/undead_10.png",
@@ -1923,7 +1846,7 @@
             "sourceBlob": "b0feca01e1ed9af0fe194ec48cf9d77e64f249b5",
             "license": "Curated CC0 export (see repository README and excluded unknown-license list)",
             "sha256": "4fec72e4ae63e35b525d843a22800fe4fd2148c87279852e85c359d5a472df39",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           }
         ]
       },
@@ -1937,8 +1860,8 @@
         "uniqueUnitIds": [],
         "knownFrameCount": 50,
         "checkedRuntimeFiles": 5,
-        "embeddedRuntimeFiles": 5,
-        "embeddedRuntimeBytes": 340014,
+        "embeddedRuntimeFiles": 0,
+        "embeddedRuntimeBytes": 0,
         "runtimeFiles": [
           {
             "path": "assets/licensed/hg22-skeleton/idle.png",
@@ -1950,7 +1873,7 @@
             "sourceBlob": "d043b2ec69b74b3fb2734e9b06ab1949d4fd47e0",
             "license": "MIT",
             "sha256": "3d7571be84c0bb5fc52fe499fc1d55720fa7cbf29c21040e98a7ff24ff1335ad",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/hg22-skeleton/walk.png",
@@ -1962,7 +1885,7 @@
             "sourceBlob": "bd71635756397222887e6ea76b685635091b1f2d",
             "license": "MIT",
             "sha256": "cfcd8f59a53ccbe994b969f8edf97afe1a156ce291c5c1a5dbbc9a9a92dc415f",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/hg22-skeleton/attack.png",
@@ -1974,7 +1897,7 @@
             "sourceBlob": "3453841ea83f7d208019b74e7dd011eea9f1be8f",
             "license": "MIT",
             "sha256": "78becec5233954409e761459a658f63ee37cd2d6c5fc4bd986ea2428cf92816f",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/hg22-skeleton/hit.png",
@@ -1986,7 +1909,7 @@
             "sourceBlob": "15f208ca8dbdfdc26d25a4def80d56ea80b7dd4d",
             "license": "MIT",
             "sha256": "5c4f33c92837463cb16c042a2d899ce5910609db2c56773983aebc46ad6ed3db",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/hg22-skeleton/death.png",
@@ -1998,7 +1921,7 @@
             "sourceBlob": "f36b3c4089369ea0d564798dc37bf4e1378a4682",
             "license": "MIT",
             "sha256": "5c1553e32fef9a4f602c2e8cb7bbc830101f8b816bc7a8627c465a3b0d5b64a4",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           }
         ]
       },
@@ -2020,8 +1943,8 @@
         ],
         "knownFrameCount": 14,
         "checkedRuntimeFiles": 7,
-        "embeddedRuntimeFiles": 7,
-        "embeddedRuntimeBytes": 15707,
+        "embeddedRuntimeFiles": 0,
+        "embeddedRuntimeBytes": 0,
         "runtimeFiles": [
           {
             "path": "assets/licensed/hg193/human_6.png",
@@ -2033,7 +1956,7 @@
             "sourceBlob": "8a9d73398c9494cf44e7807c8a3134fe605f3238",
             "license": "CC0-1.0",
             "sha256": "ade6a53757120cac14e807109b5d8663df9c1aba0243e8c3b6237d05eefc2481",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/hg193/human_8.png",
@@ -2045,7 +1968,7 @@
             "sourceBlob": "03875c6b0682225efc9867be5243aa99bdb02b14",
             "license": "curated CC0 export",
             "sha256": "5531a27d2d866aeceaaeddd771c95b6d36b7f2c547bf4665686c55855a6c6651",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/hg193/elf_4.png",
@@ -2057,7 +1980,7 @@
             "sourceBlob": "89731bb62f8f2287178bc27b75373fd56d4b7b61",
             "license": "curated CC0 export",
             "sha256": "7e002d72c283fb278c792ecd0ac6b4b429c612bc16c75960451530d56eb7f394",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/generated/hg193/elf_5.png",
@@ -2069,7 +1992,7 @@
             "sourceBlob": "862b526dd0c2f863f627cbbced69245819897369",
             "license": "project-owned",
             "sha256": "b0a4274bae20ff4dd3dd8ddf8a0e6d567320d6cd6edbccd51ca583fcebf48852",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/generated/hg193/elf_7.png",
@@ -2081,7 +2004,7 @@
             "sourceBlob": "79934a984029b556a4f16f5b9968ed41bed839e3",
             "license": "project-owned",
             "sha256": "861dde4ee6bbcc2c7048684f96ed8079438c35ff317ca5b22d72cd82d1381bd8",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/generated/hg193/orc_2.png",
@@ -2093,7 +2016,7 @@
             "sourceBlob": "ef7cb7522be671db6086226400aef261136bb23e",
             "license": "project-owned",
             "sha256": "2cefbe2071e8507e88d77acc2bda832323d488769739bf53532b0305e7ce2154",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           },
           {
             "path": "assets/licensed/hg193/orc_7.png",
@@ -2105,7 +2028,7 @@
             "sourceBlob": "fdaba05c3dd071bcf0974bda8d5c5a6681073a53",
             "license": "curated CC0 export",
             "sha256": "811c5cf73f7496aedbdfdabc6e3f874479ae5b21aae4c6012656565f03a5a96a",
-            "embeddedInOfflineHtml": true
+            "embeddedInOfflineHtml": false
           }
         ]
       }
@@ -2117,7 +2040,9 @@
       "HG22 Skeleton",
       "HG193 unit catalog"
     ],
-    "releaseBlocker": "H5 remains open: external-source or licensed combat sprite modules are still embedded in the runtime; removal requires a separate release-wide dependency audit."
+    "externalArtReleaseGate": "PASS",
+    "externalPacksEmbedded": [],
+    "releaseBlocker": "External combat art is excluded from the offline HTML. Editable layered sources and human-authored action review remain open; this is not a full HG33 release claim."
   },
-  "result": "PASS_H0_CENSUS; PASS_H3_ALL_40_CORE_ACTION_ATLASES; PASS_H4_ALL_10_BOSSES_AND_8_REWARD_ACTION_ATLASES; H2_LAYERED_SOURCE_GATE_AND_H5_RELEASE_WIDE_EXTERNAL_ART_AUDIT_REMAIN_OPEN"
+  "result": "PASS_H0_CENSUS_AND_PROVENANCE_AUDIT;PASS_H5_EXTERNAL_ART_EXCLUDED;H2_H5_EDITABLE_ART_REVIEW_OPEN"
 }
