@@ -4,10 +4,14 @@ No gameplay resources or hero/army stats are granted by this test.
 from pathlib import Path
 import json
 import os
+import sys
 from playwright.sync_api import sync_playwright
+if hasattr(sys.stdout,"reconfigure"):
+ sys.stdout.reconfigure(encoding="utf-8")
 ROOT=Path(__file__).parent
-OUT=ROOT/'docs'/'evidence'/'hg181';QA=ROOT/'docs'/'qa'/'hg181'
-OUT.mkdir(parents=True,exist_ok=True);QA.mkdir(parents=True,exist_ok=True)
+OUT=Path(os.environ.get('HOG_HG181_EVIDENCE_ROOT',ROOT/'docs'/'evidence'/'hg181'))
+REPORT=Path(os.environ.get('HOG_HG181_REPORT',ROOT/'docs'/'qa'/'hg181'/'window-chrome.json'))
+OUT.mkdir(parents=True,exist_ok=True);REPORT.parent.mkdir(parents=True,exist_ok=True)
 checks=[];errors=[]
 def check(name,condition,details=None):
   ok=bool(condition);checks.append({"name":name,"pass":ok,"details":details})
@@ -274,16 +278,22 @@ try:
     geometry=page.evaluate("""({width,height}) => {
       const rect=s=>{const r=document.querySelector(s)?.getBoundingClientRect();return r&&{top:r.top,bottom:r.bottom,left:r.left,right:r.right}};
       const title=rect('.scene-title>div:first-child'),tools=rect('.scene-tools');
-      const canvas=rect('#battle-canvas'),commands=rect('.command-bar');
+      const canvas=rect('#battle-canvas'),commands=rect('.battle-command-dock'),
+        dock=document.querySelector('.battle-command-dock'),stage=rect('.battle-stage'),
+        actions=[...document.querySelectorAll('.battle-command-dock .battle-action-grid button')];
       const separated=!!title&&!!tools&&(title.right<=tools.left+1||title.bottom<=tools.top+1||tools.bottom<=title.top+1);
       return {w:innerWidth,h:innerHeight,scrollW:document.scrollingElement.scrollWidth,
-        scrollH:document.scrollingElement.scrollHeight,canvas,commands,separated};
+        scrollH:document.scrollingElement.scrollHeight,canvas,commands,stage,separated,
+        dockOpen:!!dock?.open,actionsLive:actions.some(b=>b.dataset.cmd==='attack'&&b.getClientRects().length)&&
+          actions.some(b=>b.dataset.action==='auto'&&b.getClientRects().length),
+        sideBySide:!!canvas&&!!commands&&commands.left>=canvas.right-1};
     }""",{'width':width,'height':height})
     page.screenshot(path=str(OUT/f'joint-boss-combat-{width}x{height}.png'))
     valid=(geometry['w']==width and geometry['h']==height and geometry['scrollW']<=width+2 and
       geometry['canvas'] is not None and geometry['commands'] is not None and
       geometry['canvas']['top']>=0 and geometry['canvas']['bottom']<=height and
-      geometry['commands']['top']>=0 and geometry['commands']['bottom']<=height and geometry['separated'])
+      geometry['commands']['top']>=0 and geometry['commands']['bottom']<=height and geometry['separated'] and
+      geometry['dockOpen'] and geometry['actionsLive'] and geometry['sideBySide'])
     check(f'{width}x{height} joint Boss canvas, controls and title geometry',valid,geometry)
   page.set_viewport_size({'width':960,'height':540})
   page.reload(wait_until='load')
@@ -298,7 +308,7 @@ try:
   check('No uncaught runtime exceptions during modal switching',not errors,errors)
   browser.close()
 finally:
- receipt={'kind':'HG18.1 fixed-stage real Chromium UI','checks':checks,
+  receipt={'kind':'HG18.1 fixed-stage real Chromium UI','checks':checks,
   'passed':sum(c['pass'] for c in checks),'failed':sum(not c['pass'] for c in checks),
-  'errors':errors,'screens':['world-fixed-1280x720.png','army-seven-stacks-window.png','world-fixed-960x540.png','private-tower-real-command.png','private-tower-six-stack-battle.png','joint-boss-combat-960x540.png','joint-boss-combat-1280x720.png','joint-boss-combat-1366x768.png','joint-boss-combat-1600x900.png','joint-boss-combat-1920x1080.png','joint-boss-combat-1818x830.png']}
- (QA/'window-chrome.json').write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
+  'errors':errors,'screens':[str((OUT/name).relative_to(ROOT).as_posix()) for name in ['world-fixed-1280x720.png','army-seven-stacks-window.png','world-fixed-960x540.png','private-tower-real-command.png','private-tower-six-stack-battle.png','joint-boss-combat-960x540.png','joint-boss-combat-1280x720.png','joint-boss-combat-1366x768.png','joint-boss-combat-1600x900.png','joint-boss-combat-1920x1080.png','joint-boss-combat-1818x830.png']]}
+  REPORT.write_text(json.dumps(receipt,ensure_ascii=False,indent=2),encoding='utf-8')
