@@ -1,6 +1,6 @@
 {
   "schema": "HG33-H0-inventory-v1",
-  "generatedAt": "2026-11-07T06:52:08.229Z",
+  "generatedAt": "2026-11-07T07:00:07.779Z",
   "repository": "vuanhtuan161094-byte/Heoofgaia",
   "branch": "feature/hog1-research-to-playable-20261102",
   "catalog": {
@@ -280,10 +280,12 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg28-boss-azrael",
-          "sourceRoute": "built-in image_gen",
-          "status": "RECREATED",
-          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+          "assetId": "azrael",
+          "sourcePath": "assets/original/hg33/action-atlases/azrael.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "92330bc07b5bbd8ea084b04ba52941d554e364f1e4bd52b8d1a51c0380b3f70c",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -312,10 +314,12 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg28-boss-cyclops-tyrant",
-          "sourceRoute": "built-in image_gen",
-          "status": "RECREATED",
-          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+          "assetId": "cyclop-tyrant",
+          "sourcePath": "assets/original/hg33/action-atlases/cyclop-tyrant.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "f95d154a1d98ae446c4af9d47f7b081359436e44749ad07b9a1dfef8bca95bc2",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -344,10 +348,12 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": "hg28-boss-demonlord-samurai",
-          "sourceRoute": "built-in image_gen",
-          "status": "RECREATED",
-          "animationStatus": "master still; existing battle-state transform provides Idle/Walk/Attack/Hit/Death motion; full per-action frame clips remain unavailable without real action footage"
+          "assetId": "demonlord-samurai",
+          "sourcePath": "assets/original/hg33/action-atlases/demonlord-samurai.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "c0fd86b0029ceae1acbd094080a6ef09292b58206a6e6fdf37b9d2c4c51087e4",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -366,9 +372,12 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "earth-bear",
+          "sourcePath": "assets/original/hg33/action-atlases/earth-bear.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "df262ed0ded9a343e29c81bbc0ab20a83cea36b8e665549f8d225315be236788",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -387,9 +396,12 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "fallen-treant",
+          "sourcePath": "assets/original/hg33/action-atlases/fallen-treant.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "6717aeb6e7ef56c20b5ccfb6a8a220643d7a0619485c135e11764a1429ba6db2",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -408,9 +420,12 @@
         ],
         "source": "engine.js makeBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "fiery-giant",
+          "sourcePath": "assets/original/hg33/action-atlases/fiery-giant.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "c1c6a8105ded3bcc78cf39b93822fe5acf1b377f12681fd9eef1f1a05dce28fb",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -423,9 +438,12 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "blood-moon-demon-god",
+          "sourcePath": "assets/original/hg33/action-atlases/blood-moon-demon-god.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "0c8c0e473ac525ac7fd6db1607538fc6fe81cf09cde6fe53d5f2b8315ef714e1",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -438,9 +456,12 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "cosmic-star-fiend",
+          "sourcePath": "assets/original/hg33/action-atlases/cosmic-star-fiend.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "bb4d346bef6d3739ac4114168d9c0be7137af1abeb81cf27a0e4906495d7108a",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -453,9 +474,12 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "netherworld-ghost-king",
+          "sourcePath": "assets/original/hg33/action-atlases/netherworld-ghost-king.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "d4c160069c3d8798ac5bf3cfbd1d7f1e0a3c234b55bbb8421d4f4eac403bf593",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       },
       {
@@ -468,18 +492,25 @@
         ],
         "source": "hg21-tower-tactical.js gameBattle()",
         "artRegistration": {
-          "assetId": null,
-          "status": "MISSING",
-          "animationStatus": "MISSING"
+          "assetId": "ancient-dragon-emperor",
+          "sourcePath": "assets/original/hg33/action-atlases/ancient-dragon-emperor.png",
+          "sourceRoute": "project original atlas PNG; source prompt and SHA-256 recorded",
+          "sourceSha256": "ccf338f6f137c114d8af434430213a89af1535a32b8c55e3bd21455df635a536",
+          "status": "ORIGINAL_ACTION_ATLAS",
+          "animationStatus": "5 actions × 8 distinct frames; manifest and source hash verified"
         }
       }
     ],
+    "originalBossActionAtlasCoverage": {
+      "registeredCount": 10,
+      "requiredCount": 10,
+      "actionSequences": 50,
+      "frameCells": 400
+    },
     "currentBossArtRegistered": [
       "Azrael",
       "Cyclop Tyrant",
-      "Demonlord Samurai"
-    ],
-    "missingBossArt": [
+      "Demonlord Samurai",
       "Earth Bear",
       "Fallen Treant",
       "Fiery Giant",
@@ -487,7 +518,8 @@
       "Tinh Không Đại Ma",
       "U Minh Quỷ Vương",
       "Viễn Cổ Long Hoàng"
-    ]
+    ],
+    "missingBossArt": []
   },
   "currentRuntimeArtAudit": {
     "html": "Play-Heoofgaia-HG11.html",

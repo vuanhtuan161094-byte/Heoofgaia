@@ -8,6 +8,7 @@ const crypto=require('node:crypto');
 const vm=require('node:vm');
 
 const root=__dirname;
+const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const ctx=vm.createContext({console});
 const modules=[
  'data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js',
@@ -62,15 +63,50 @@ for(const name of towerModels){
 const registeredBosses=JSON.parse(fs.readFileSync(path.join(root,
  'assets/generated/hg28/bosses/asset-manifest.json'),'utf8'));
 const bossArt=new Map(registeredBosses.assets.map(a=>[a.name,a]));
+const additionalAtlases=JSON.parse(fs.readFileSync(path.join(root,
+ 'assets/generated/hg33/animation/additional-atlas-manifest.json'),'utf8'));
+assert.equal(additionalAtlases.schema,'HG33-AdditionalActionAtlases-v1');
+const normalizeBossName=value=>String(value||'').replace(/\s*[·•].*$/,'')
+ .normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/đ/g,'d')
+ .replace(/[^a-z0-9]+/g,' ').trim();
+const bossActionAssets=additionalAtlases.assets.filter(a=>a.kind==='boss');
+assert.equal(bossActionAssets.length,10,'all ten named Boss source atlases are registered');
+const bossActions=['idle','walk','attack','hit','death'];
+const bossActionByName=new Map();
+for(const atlas of bossActionAssets){
+ const sourcePath=path.join(root,atlas.sourcePath),source=fs.readFileSync(sourcePath);
+ assert.equal(sha(source),atlas.sourceSha256,`Boss source SHA-256: ${atlas.bossName}`);
+ assert.deepEqual(atlas.atlasDimensions,[1536,1024],`Boss atlas canvas: ${atlas.bossName}`);
+ assert.deepEqual(Object.keys(atlas.actions).sort(),[...bossActions].sort(),`Boss actions: ${atlas.bossName}`);
+ for(const action of bossActions){
+  const clip=atlas.actions[action];
+  assert.equal(clip.count,8,`Boss frame count: ${atlas.bossName} ${action}`);
+  assert.equal(clip.frames.length,8,`Boss frame metadata: ${atlas.bossName} ${action}`);
+  assert.equal(new Set(clip.frames.map(frame=>frame.sha256Rgba)).size,8,
+   `Boss frames must be distinct: ${atlas.bossName} ${action}`);
+ }
+ const key=normalizeBossName(atlas.bossName||atlas.name);
+ assert(!bossActionByName.has(key),`unique Boss atlas key: ${atlas.bossName}`);
+ bossActionByName.set(key,atlas);
+}
 const bossArchetypes=[...combatMap.values()].sort((a,b)=>a.name.localeCompare(b.name))
- .map(row=>({...row,artRegistration:bossArt.has(row.name)?
-  {assetId:bossArt.get(row.name).asset_id,sourceRoute:bossArt.get(row.name).source_route,
-   status:bossArt.get(row.name).status,animationStatus:bossArt.get(row.name).animation_status}:
-  {assetId:null,status:'MISSING',animationStatus:'MISSING'}}));
+ .map(row=>{
+  const atlas=bossActionByName.get(normalizeBossName(row.name));
+  if(atlas)return {...row,artRegistration:{assetId:atlas.id,sourcePath:atlas.sourcePath,
+   sourceRoute:'project original atlas PNG; source prompt and SHA-256 recorded',
+   sourceSha256:atlas.sourceSha256,status:'ORIGINAL_ACTION_ATLAS',
+   animationStatus:'5 actions × 8 distinct frames; manifest and source hash verified'}};
+  const legacy=bossArt.get(row.name);
+  return {...row,artRegistration:legacy?
+   {assetId:legacy.asset_id,sourceRoute:legacy.source_route,status:'LEGACY_STILL_MASTER_ONLY',
+    animationStatus:legacy.animation_status}:
+   {assetId:null,status:'MISSING',animationStatus:'MISSING'}};
+ });
+const bossAtlasesRegistered=bossArchetypes.filter(b=>b.artRegistration.status==='ORIGINAL_ACTION_ATLAS');
+assert.equal(bossAtlasesRegistered.length,10,'every modeled Boss has a verified original five-action atlas');
 
 const htmlPath=path.join(root,'Play-Heoofgaia-HG11.html');
 const html=fs.readFileSync(htmlPath,'utf8');
-const sha=b=>crypto.createHash('sha256').update(b).digest('hex');
 const packs=[
  {name:'KayKit Heavy Soldier',manifest:'assets/licensed/kaykit-heavy-soldier/asset-manifest.json',
   sourceManifest:'assets/licensed/kaykit-heavy-soldier/source-manifest.json',category:'external web 3D source rendered to combat action atlases'},
@@ -128,7 +164,10 @@ const inventory={schema:'HG33-H0-inventory-v1',generatedAt:new Date().toISOStrin
  bosses:{worldTargetCount:bossTiles.length,worldTargets:worldEncounters,
   privateTargetCount:privateBosses.length,privateTargets:privateBosses,
   distinctCombatArchetypeCount:bossArchetypes.length,combatArchetypes:bossArchetypes,
-  currentBossArtRegistered:bossArchetypes.filter(b=>b.artRegistration.status==='RECREATED').map(b=>b.name),
+  originalBossActionAtlasCoverage:{registeredCount:bossAtlasesRegistered.length,requiredCount:10,
+   actionSequences:bossAtlasesRegistered.length*bossActions.length,
+   frameCells:bossAtlasesRegistered.length*bossActions.length*8},
+  currentBossArtRegistered:bossArchetypes.filter(b=>['ORIGINAL_ACTION_ATLAS','RECREATED'].includes(b.artRegistration.status)).map(b=>b.name),
   missingBossArt:bossArchetypes.filter(b=>b.artRegistration.status==='MISSING').map(b=>b.name)},
  currentRuntimeArtAudit:{html: 'Play-Heoofgaia-HG11.html',htmlBytes:fs.statSync(htmlPath).size,
   htmlSha256:sha(fs.readFileSync(htmlPath)),packs:artPacks,
@@ -145,6 +184,6 @@ const out=path.join(root,'docs/qa/hg33/boss-art-inventory.json');
 fs.mkdirSync(path.dirname(out),{recursive:true});
 fs.writeFileSync(out,JSON.stringify(inventory,null,2)+'\n','utf8');
 console.log(`HG33 H0 INVENTORY PASS: ${core.length} core, ${rewards.length} reward, ${bossTiles.length} named world Boss targets, ${privateBosses.length} private targets, ${bossArchetypes.length} combat archetypes; ${externalSources.length} external-source combat packs audited.`);
-console.log(`Bosses with registered original masters ${inventory.bosses.currentBossArtRegistered.length}/${bossArchetypes.length}; missing ${inventory.bosses.missingBossArt.join(', ')}`);
+console.log(`Boss original five-action atlases ${bossAtlasesRegistered.length}/10; unique verified action sequences ${bossAtlasesRegistered.length*bossActions.length}; frame cells ${bossAtlasesRegistered.length*bossActions.length*8}`);
 console.log(`HG33 H5 external combat art release gate ${inventory.currentRuntimeArtAudit.externalArtReleaseGate}; external pack payloads embedded ${externalEmbedded.length}`);
 console.log(`Receipt: docs/qa/hg33/boss-art-inventory.json · HTML SHA-256 ${inventory.currentRuntimeArtAudit.htmlSha256}`);
