@@ -82,7 +82,15 @@ function syncCombatTurnHUD(){
  const auto=document.querySelector('.battle-command-dock [data-action="auto"]');
  if(auto)auto.textContent=state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH';
  const move=document.querySelector('.battle-command-dock [data-action="move-mode"]');
- if(move)move.disabled=!selected||selected.pool<=0;
+ const moveTarget=selected&&b.moveTargets?.[selected.id];
+ if(move){
+  move.disabled=!selected||selected.pool<=0;
+  move.textContent=movementModeId?'✕ HỦY Ô':moveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH';
+ }
+ const prompt=$('battle-move-prompt');
+ if(prompt)prompt.textContent=movementModeId?'Chọn ô lục giác viền sáng để đặt điểm đến.':
+  moveTarget?'Đang tiến tới ô ('+(moveTarget.x+1)+', '+(moveTarget.y+1)+').':
+  'Chọn quân ta trên bàn cờ rồi đặt điểm đến.';
  const report=document.querySelector('.battle-report-fold');
  if(report){
   const summary=report.querySelector('summary');
@@ -104,7 +112,17 @@ function syncCombatTurnHUD(){
  }
 }
 function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
-function fail(fn){try{const oldTab=tab;if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;fn();if(oldTab!==tab)modalOffset=0;save();render();}catch(e){toast(e.message||String(e))}}
+function fail(fn){try{
+ const oldTab=tab,oldBattle=state?.battle;
+ if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;
+ fn();if(oldTab!==tab)modalOffset=0;save();
+ // A selection, command, or spell inside the SAME battle must not destroy
+ // the RAF/canvas. New battles, terminal outcomes and tab changes still take
+ // the full authoritative render path.
+ if(oldTab==='combat'&&tab==='combat'&&oldBattle&&state?.battle===oldBattle&&$('battle-canvas'))
+  syncCombatTurnHUD();
+ else render();
+ }catch(e){toast(e.message||String(e))}}
 function save(){
  if(!state)return false;
  try{
@@ -709,7 +727,13 @@ function paint(){
    canvas.width=Math.max(1,Math.round(rect.width));
    canvas.height=Math.max(1,Math.round(rect.height));
   }
-  P.drawBattle(canvas,E,state,undefined,interaction);
+  const drawCombatFrame=now=>{
+   interaction.movementModeId=movementModeId;
+   interaction.showGrid=battleViewPrefs.grid;
+   interaction.showHP=battleViewPrefs.hp;
+   P.drawBattle(canvas,E,state,now,interaction);
+  };
+  drawCombatFrame(undefined);
   if(P.hasAnimatedTroops(state.battle)){
    const battle=state.battle;let lastFrame=0;
    // Display frames at the monitor cadence (capped at ~60Hz), not the old
@@ -717,7 +741,7 @@ function paint(){
    const animate=now=>{
     if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;
     if(!lastFrame||now-lastFrame>=1000/60-2){
-     P.drawBattle(canvas,E,state,now,interaction);lastFrame=now;
+     drawCombatFrame(now);lastFrame=now;
     }
     requestAnimationFrame(animate);
    };
@@ -762,7 +786,19 @@ function render(){
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
  if(action==='modal-page'){const body=$('game-modal-body');const dir=Number(target.dataset.dir)||1;body.scrollTop=Math.max(0,Math.min(body.scrollHeight-body.clientHeight,body.scrollTop+dir*body.clientHeight*.86));modalOffset=body.scrollTop;return;}
  if(action==='modal-backdrop'){if(evt.target===target){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;render();}return;}
- if(action==='battle-grid'||action==='battle-hp'){toggleBattleDisplay(action==='battle-grid'?'grid':'hp');render();return}
+ if(action==='battle-grid'||action==='battle-hp'){
+  const which=action==='battle-grid'?'grid':'hp';
+  toggleBattleDisplay(which);
+  const button=document.querySelector('.battle-command-dock [data-action="'+action+'"]');
+  if(button){
+   button.setAttribute('aria-pressed',String(battleViewPrefs[which]));
+   button.textContent=which==='grid'?(battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'):
+    (battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt');
+  }
+  // The continuously running RAF sees updated interaction preferences.
+  if(!$('battle-canvas'))render();
+  return;
+ }
  fail(()=>{
  if(action==='modal-close'){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;return}
  if(action==='world-index'){showWorldIndex=!showWorldIndex;showResourceInfo=false;modalOffset=0;return}
