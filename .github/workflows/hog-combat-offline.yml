@@ -161,6 +161,10 @@ jobs:
         run: |
           python -m py_compile qa-hg34-combat-smooth-chrome.py
           python qa-hg34-combat-smooth-chrome.py
+      - name: HG36 real Tower roster, no phantom troops, Save v07 and responsive UI
+        run: |
+          python -m py_compile qa-hg36-tower-roster-chrome.py
+          python qa-hg36-tower-roster-chrome.py
       - name: HG35 real city cost and max affordable recruitment Chromium acceptance
         run: |
           python -m py_compile qa-hg35-city-recruit-chrome.py
@@ -341,6 +345,15 @@ jobs:
           path: |
             docs/qa/hg34/combat-smoothness.json
             docs/evidence/hg34/*.png
+          if-no-files-found: ignore
+      - name: Upload HG36 actual Tower auto-allocation and combat screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG36-Tower-Roster-Chromium
+          path: |
+            docs/qa/hg36/tower-roster-chrome.json
+            docs/evidence/hg36/*.png
           if-no-files-found: ignore
       - name: Upload HG35 city and recruitment actual Chromium evidence
         if: always()
