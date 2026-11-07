@@ -1,6 +1,7 @@
 """HG29 real Chromium: screenshots and keyboard/mouse visible state, not mockups."""
 from pathlib import Path
 import json
+import os
 from playwright.sync_api import sync_playwright
 ROOT=Path(__file__).parent
 OUT=ROOT/'docs'/'evidence'/'hg29'
@@ -18,7 +19,9 @@ def shot(page,name):
     page.screenshot(path=str(p))
     screens.append(str(p.relative_to(ROOT)))
 with sync_playwright() as pw:
-    browser=pw.chromium.launch(headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files'])
+    launch={'headless':True,'args':['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files']}
+    if os.environ.get('HOG_CHROME_PATH'):launch['executable_path']=os.environ['HOG_CHROME_PATH']
+    browser=pw.chromium.launch(**launch)
     page=browser.new_page(viewport={'width':1280,'height':720})
     page.on('pageerror',lambda e:errors.append(str(e)))
     page.goto((ROOT/'Play-Heoofgaia-HG11.html').as_uri(),wait_until='load')
@@ -29,7 +32,26 @@ with sync_playwright() as pw:
       return s.version===7&&HOG_ENGINE.strictSave(s)&&s.hg29&&
         Object.values(s.hg29.shards).every(n=>n===0);
     }"""))
-    page.locator('[data-action="findnpc"]').first.click()
+    # HG39 replaced the old visible "find NPC" shortcut with the real map
+    # target card. Select a reachable NPC camp through the canvas itself; the
+    # legacy findnpc button remains in the DOM but is intentionally hidden.
+    npc=page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,P=HOG_PAINTER,
+        canvas=document.getElementById('world-canvas'),camera=P.mapCamera(),
+        scale=camera.zoom*48,offsetX=canvas.width/2-camera.centerX*scale,
+        offsetY=canvas.height/2-camera.centerY*scale,
+        rect=canvas.getBoundingClientRect(),home=E.activeCity(s);
+      const visible=E.NPC_CAMPS_2009.map(q=>{
+        const tile=E.getTile(q.key),x=offsetX+(tile.x+.5)*scale,y=offsetY+(tile.y+.5)*scale;
+        return {q,x,y};
+      }).filter(({q,x,y})=>E.pathfind(home.key,q.key)&&x>=0&&x<=canvas.width&&y>=0&&y<=canvas.height)
+        .sort((a,b)=>a.q.stars-b.q.stars);
+      if(!visible.length)throw new Error('No reachable NPC camp visible in the live map viewport');
+      const {q,x,y}=visible[0];
+      return {key:q.key,x:q.x,y:q.y,stars:q.stars,
+        click:{x:rect.left+x/canvas.width*rect.width,y:rect.top+y/canvas.height*rect.height}};
+    }""")
+    page.mouse.click(npc['click']['x'],npc['click']['y'])
     check('NPC selected map preview shown',page.locator('.hg29-preview').count()==1)
     shot(page,'01-world-NPC-1280x720.png')
     page.locator('[data-action="tab"][data-tab="relics"]').first.click()

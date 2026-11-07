@@ -1,0 +1,57 @@
+{
+  "pass": true,
+  "checks": [
+    {
+      "name": "New Game control visible",
+      "pass": true
+    },
+    {
+      "name": "New Game Save v07 HG29 initializes empty shards",
+      "pass": true
+    },
+    {
+      "name": "NPC selected map preview shown",
+      "pass": true
+    },
+    {
+      "name": "Real relic modal + 7 fragment recipes",
+      "pass": true
+    },
+    {
+      "name": "6 farm pools and paid rewards guide",
+      "pass": true
+    },
+    {
+      "name": "Tower remains available",
+      "pass": true
+    },
+    {
+      "name": "HG29 crafting cards shown before HG27 old exchange panel",
+      "pass": true
+    },
+    {
+      "name": "Actual button crafts 2 stones and deducts 8 wild/6 gear",
+      "pass": true
+    },
+    {
+      "name": "Cold browser reload preserves crafted output, no duplicate",
+      "pass": true
+    },
+    {
+      "name": "Zero uncaught JS errors",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "screens": [
+    "docs\\evidence\\hg29\\01-world-NPC-1280x720.png",
+    "docs\\evidence\\hg29\\02-relics-fragments-1280x720.png",
+    "docs\\evidence\\hg29\\03-tasks-drop-guide-1280x720.png",
+    "docs\\evidence\\hg29\\04-tower-1280x720.png",
+    "docs\\evidence\\hg29\\05-reports-1280x720.png",
+    "docs\\evidence\\hg29\\map-960x540.png",
+    "docs\\evidence\\hg29\\relics-960x540.png",
+    "docs\\evidence\\hg29\\tasks-960x540.png",
+    "docs\\evidence\\hg29\\fixture-stone-craft-1280x720.png"
+  ]
+}
