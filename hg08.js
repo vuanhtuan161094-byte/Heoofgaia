@@ -294,16 +294,17 @@ function recruitCost(s,u,count){
  return cost;
 }
 // The only bound is numeric Save v07 integrity, not town storage or hero command.
-const HG35_MAX_SAFE_TROOPS=1_000_000_000;
+const HG35_MAX_SAFE_TROOPS=100_000_000; // legacy Save v07 per-training-row integer bound
 function recruitMax(s,id){
  ensure(s);const u=E.getUnit(s,id);
- if(!u||u.rewardOnly||!unitPrerequisites(s,u).available)return 0;
+ if(!u||u.rewardOnly||!unitPrerequisites(s,u).available||s.training.length>=100)return 0;
  const pending=s.training.filter(q=>q.unitId===id).reduce((n,q)=>n+q.count,0);
  let lo=0,hi=Math.max(0,Math.min(HG35_MAX_SAFE_TROOPS,
-  HG35_MAX_SAFE_TROOPS-(s.army[id]||0)-pending));
+  1_000_000_000-(s.army[id]||0)-pending)); // existing v07 army integer guard
  while(lo<hi){
   const mid=Math.floor((lo+hi+1)/2);
-  if(E.canAfford(s,recruitCost(s,u,mid)))lo=mid;else hi=mid-1;
+  if(recruitDuration(s,u,mid)<=1e10&&E.canAfford(s,recruitCost(s,u,mid)))lo=mid;
+  else hi=mid-1;
  }
  return lo;
 }
