@@ -42,26 +42,32 @@
       }
     },
     {
+      "name": "Real speed control switches to ×1 before the construction receipt",
+      "pass": true,
+      "evidence": null
+    },
+    {
       "name": "Actual Market button pays correct resources and starts one authentic building queue",
       "pass": true,
       "evidence": {
         "queue": "market",
+        "building": 0,
         "valid": true,
         "payments": [
           {
             "before": {
-              "gold": 33232.26666666667,
-              "wood": 8917.42,
-              "ore": 8917.42,
-              "sulfur": 3358.71,
-              "crystal": 3358.71
+              "gold": 33228.8,
+              "wood": 8917.16,
+              "ore": 8917.16,
+              "sulfur": 3358.58,
+              "crystal": 3358.58
             },
             "after": {
-              "gold": 33062.26666666667,
-              "wood": 8897.42,
-              "ore": 8897.42,
-              "sulfur": 3348.71,
-              "crystal": 3348.71
+              "gold": 33058.8,
+              "wood": 8897.16,
+              "ore": 8897.16,
+              "sulfur": 3348.58,
+              "crystal": 3348.58
             },
             "amount": {
               "gold": 170,
@@ -90,29 +96,34 @@
       }
     },
     {
+      "name": "Real construction timer completes the paid Market upgrade at ×60",
+      "pass": true,
+      "evidence": null
+    },
+    {
       "name": "Troops in city have no fake hero-limit cap and real max-affordable UI",
       "pass": true,
       "evidence": {
         "valid": true,
         "hasMax": true,
         "garrison": "Nhân tộc · 16 quân trong thành · 0 đang tuyển. Không áp dụng giới hạn chỉ huy cho kho quân. Chỉ quân đem đi đánh mới phải tuân thủ sức chứa của từng tướng.",
-        "quote": "TRỪ KHI TUYỂN 3 quân: Vàng -165 (còn 32.897) · Gỗ -18 (còn 8.879) · Lưu huỳnh -12 (còn 3.336) · Huấn luyện lô này ~1 giây thực (×60).",
-        "shownMax": "601",
-        "actualMax": 601
+        "quote": "TRỪ KHI TUYỂN 3 quân: Vàng -165 (còn 33.154) · Gỗ -18 (còn 8.898) · Lưu huỳnh -12 (còn 3.346) · Huấn luyện lô này ~1 giây thực (×60).",
+        "shownMax": "605",
+        "actualMax": 605
       }
     },
     {
       "name": "Changing quantity updates the actual 7-troop total and remaining-resource quote",
       "pass": true,
-      "evidence": "TRỪ KHI TUYỂN 7 quân: Vàng -385 (còn 32.677) · Gỗ -42 (còn 8.855) · Lưu huỳnh -28 (còn 3.320) · Huấn luyện lô này ~1 giây thực (×60)."
+      "evidence": "TRỪ KHI TUYỂN 7 quân: Vàng -385 (còn 32.934) · Gỗ -42 (còn 8.874) · Lưu huỳnh -28 (còn 3.330) · Huấn luyện lô này ~1 giây thực (×60)."
     },
     {
       "name": "One-click MAX picks exact affordable quantity, not old 1000 arbitrary cap",
       "pass": true,
       "evidence": {
-        "selected": 601,
-        "max": 601,
-        "quote": "TRỪ KHI TUYỂN 601 quân: Vàng -33.055 (còn 7) · Gỗ -3.606 (còn 5.291) · Lưu huỳnh -2.404 (còn 944) · Huấn luyện lô này ~25 giây thực (×60).",
+        "selected": 605,
+        "max": 605,
+        "quote": "TRỪ KHI TUYỂN 605 quân: Vàng -33.275 (còn 44) · Gỗ -3.630 (còn 5.286) · Lưu huỳnh -2.420 (còn 938) · Huấn luyện lô này ~25 giây thực (×60).",
         "enabled": true
       }
     },
@@ -120,8 +131,8 @@
       "name": "MAX selection survives the next real UI render without reverting to the default batch",
       "pass": true,
       "evidence": {
-        "selectedAtMAX": 601,
-        "persistedDraft": 601,
+        "selectedAtMAX": 605,
+        "persistedDraft": 605,
         "liveMax": 605
       }
     },
@@ -132,40 +143,40 @@
         "valid": true,
         "army": 16,
         "queue": 1,
-        "queued": 601,
+        "queued": 605,
         "payments": [
           {
             "before": {
-              "gold": 33320.4,
-              "wood": 8916.78,
-              "ore": 8916.78,
-              "sulfur": 3358.39,
-              "crystal": 3358.39
+              "gold": 33319.066666666666,
+              "wood": 8916.68,
+              "ore": 8916.68,
+              "sulfur": 3358.3399999999997,
+              "crystal": 3358.3399999999997
             },
             "after": {
-              "gold": 265.40000000000146,
-              "wood": 5310.780000000001,
-              "ore": 8916.78,
-              "sulfur": 954.3899999999999,
-              "crystal": 3358.39
+              "gold": 44.0666666666657,
+              "wood": 5286.68,
+              "ore": 8916.68,
+              "sulfur": 938.3399999999997,
+              "crystal": 3358.3399999999997
             },
             "amount": {
-              "gold": 33055,
-              "wood": 3606,
+              "gold": 33275,
+              "wood": 3630,
               "ore": 0,
-              "sulfur": 2404,
+              "sulfur": 2420,
               "crystal": 0
             },
             "actual": {
-              "gold": 33055,
-              "wood": 3606,
+              "gold": 33275,
+              "wood": 3630,
               "ore": 0,
-              "sulfur": 2404,
+              "sulfur": 2420,
               "crystal": 0
             }
           }
         ],
-        "toast": "Đã trừ Vàng -33.055 · Gỗ -3.606 · Lưu huỳnh -2.404; xếp hàng 601 quân."
+        "toast": "Đã trừ Vàng -33.275 · Gỗ -3.630 · Lưu huỳnh -2.420; xếp hàng 605 quân."
       }
     },
     {
@@ -175,7 +186,7 @@
         "valid": true,
         "market": 1,
         "queue": null,
-        "queued": 601
+        "queued": 605
       }
     },
     {
@@ -235,15 +246,15 @@
   "screenshots": [
     {
       "file": "docs\\evidence\\hg35\\city-market-cost-before-1280x720.png",
-      "sha256": "d1e7974f162201c9026f823dc25e7ee5a79f112b1402c3779ac07048533338e6"
+      "sha256": "d19171adfcc5eaa028190a453abb46c97876a6d83940477e818875f6162f43aa"
     },
     {
       "file": "docs\\evidence\\hg35\\army-recruit-max-1280x720.png",
-      "sha256": "c6938b7a3eef5afcf9c9507bbf2adc062552f7947ed771e146773d2bd08fb1d1"
+      "sha256": "fc81339d438db066ce6b1a576037c4cb4411fd74b0230c4fe67236b2248d339d"
     },
     {
       "file": "docs\\evidence\\hg35\\city-warehouse-960x540.png",
-      "sha256": "eac8b21cd566d7f4c10ebee5fb98c1fca1241d3699f7595c9c37521ef606de58"
+      "sha256": "5199e88d050ecd7fcae0f000c881fa43ccce38bdae8515002e2cfca686e2d00f"
     }
   ],
   "source_html_sha256": "763f3aa444aa528751bd5d12537edb8e0f3cd251a270db48d709a457973ebc18",

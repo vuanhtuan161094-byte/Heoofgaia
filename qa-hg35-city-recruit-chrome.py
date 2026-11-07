@@ -91,19 +91,31 @@ with sync_playwright() as pw:
           all('→' in x and '−' in x for x in quoted['displays']) and
           'giao dịch' in quoted['effect'].lower(),quoted)
     capture(page,'city-market-cost-before-1280x720.png')
+    # Use the actual speed control so a short modeled queue does not finish
+    # between the purchase click and the queue assertion on a fast runner.
+    page.locator('#speed').click()
+    check('Real speed control switches to ×1 before the construction receipt',
+          page.evaluate("HOG_APP_DEBUG.getState().speed===1 && document.querySelector('#speed').textContent.includes('×1')"))
     page.locator('[data-action="upgrade"][data-key="market"]').click()
     built=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),before=window._hg35Before;
       const payments=window._hg35Spends.slice();
       window._hg35UnhookSpend();
-      return {queue:s.buildingQueue?.key,valid:HOG_ENGINE.strictSave(s),
+      return {queue:s.buildingQueue?.key,building:s.buildings.market,valid:HOG_ENGINE.strictSave(s),
         payments,paid:before.cost,toasting:document.getElementById('toast')?.textContent};
     }""")
     check('Actual Market button pays correct resources and starts one authentic building queue',
-          built['queue']=='market' and built['valid'] and
+          built['queue']=='market' and built['building']==0 and built['valid'] and
           len(built['payments'])==1 and
           all(abs(built['payments'][0]['actual'][k]-v)<1e-7 for k,v in built['paid'].items()) and
           'Đã trừ' in built['toasting'],built)
+    page.locator('#speed').click()
+    page.wait_for_function("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      return s.speed===60&&s.buildings.market===1&&s.buildingQueue===null;
+    }""",timeout=10000)
+    check('Real construction timer completes the paid Market upgrade at ×60',
+          page.evaluate("HOG_APP_DEBUG.getState().buildings.market===1 && HOG_APP_DEBUG.getState().buildingQueue===null"))
     page.locator('[data-action="tab"][data-tab="army"]').first.click()
     army=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
