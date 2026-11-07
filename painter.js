@@ -780,7 +780,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  const camera=battleProjection(canvas,E),grid=camera.g;
  battleGround(c,camera,w,h);
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
- const units=battleUnitLayout(b,camera,w,h).sort((a,b)=>a.y-b.y||a.x-b.x);
+ const units=battleUnitLayout(b,camera,w,h).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
  if(interaction.showGrid!==false)battleGridOverlay(c,camera,units,reachable);
  else if(reachable.size)for(const cell of battleGridCells(camera)){
   if(!reachable.has(cell.x+','+cell.y))continue;
