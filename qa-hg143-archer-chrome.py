@@ -1,7 +1,7 @@
 """HG14.3 live Chromium: source-registered 48-frame Archer in real combat."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-import hashlib,json,sys
+import hashlib,json,os,sys
 if hasattr(sys.stdout,"reconfigure"):sys.stdout.reconfigure(encoding="utf8")
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/"Play-Heoofgaia-HG11.html"
@@ -12,7 +12,9 @@ def check(label,condition):
  ok=bool(condition);checks.append({"name":label,"passed":ok})
  print(("PASS " if ok else "FAIL ")+label,flush=True)
 with sync_playwright() as pw:
- browser=pw.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
+ launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
+ if os.environ.get("HOG_CHROME_PATH"):launch["executable_path"]=os.environ["HOG_CHROME_PATH"]
+ browser=pw.chromium.launch(**launch)
  page=browser.new_page(viewport={"width":1280,"height":720})
  page.on("pageerror",lambda e:errors.append(str(e)))
  page.set_default_timeout(12000)
@@ -35,8 +37,8 @@ with sync_playwright() as pw:
  check("Renderer registers Idle Walk Draw Release Hit Death",fixture["clips"]==["idle","walk","draw","release","hit","death"])
  sample=page.evaluate("""() => {
    const c=document.getElementById('battle-canvas'),ctx=c.getContext('2d'),P=HOG_PAINTER,E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
-   const old=ctx.drawImage,calls=[];
-   ctx.drawImage=function(img,...args){if(img?.id==='unit-human-archer-atlas')calls.push([args[0],args[1],args.length]);return old.call(this,img,...args)};
+   const old=ctx.drawImage,calls=[],runtimeId=HOG_HG33_TROOP_ATLASES?.resolve?.('human_3')?.imageId;
+   ctx.drawImage=function(img,...args){if(img?.id==='unit-human-archer-atlas'||img?.id===runtimeId)calls.push([args[0],args[1],args.length]);return old.call(this,img,...args)};
    const before=JSON.stringify(E.clone(s));
    try{
     P.drawBattle(c,E,s,performance.now()+70);
@@ -45,10 +47,10 @@ with sync_playwright() as pw:
       P.animatedArcher(ctx,240,290,false,{action:act,time:t,duration:d,alpha:1},1);
       const call=calls[calls.length-1];frames.push([act,call?.[0]/256,call?.[1]/256]);
     }
-    return {actual,frames,unchanged:JSON.stringify(E.clone(s))===before};
+    return {actual,frames,runtimeAtlas:HOG_HG33_TROOP_ATLASES?.resolve?.('human_3')?.imageId||null,unchanged:JSON.stringify(E.clone(s))===before};
    }finally{ctx.drawImage=old}
  }""")
- check("Real battlefield renderer draws registered Human Archer atlas",sample["actual"]>=1)
+ check("Real battlefield renderer draws the runtime-resolved Archer atlas",sample["actual"]>=1)
  check("Renderer reads but never mutates battle state",sample["unchanged"])
  families={act:next((f[2] for f in sample["frames"] if f[0]==act),None) for act in ("idle","walk","draw","release","hit","death")}
  check("All six actions select their actual separate PNG rows",families=={"idle":0,"walk":1,"draw":2,"release":3,"hit":4,"death":5})

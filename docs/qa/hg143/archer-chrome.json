@@ -1,0 +1,122 @@
+{
+  "status": "PASS",
+  "passed": 13,
+  "total": 13,
+  "checks": [
+    {
+      "name": "Standalone file:// embeds actual 2048x1536 Archer PNG atlas",
+      "passed": true
+    },
+    {
+      "name": "Archer marches into live NPC battle with real 16 troops",
+      "passed": true
+    },
+    {
+      "name": "Battle state remains strict v07 save compatible",
+      "passed": true
+    },
+    {
+      "name": "Renderer registers Idle Walk Draw Release Hit Death",
+      "passed": true
+    },
+    {
+      "name": "Real battlefield renderer draws the runtime-resolved Archer atlas",
+      "passed": true
+    },
+    {
+      "name": "Renderer reads but never mutates battle state",
+      "passed": true
+    },
+    {
+      "name": "All six actions select their actual separate PNG rows",
+      "passed": true
+    },
+    {
+      "name": "Idle and walk select different sequential frames",
+      "passed": true
+    },
+    {
+      "name": "Attack triggers Draw then Release rather than a single-frame lunge",
+      "passed": true
+    },
+    {
+      "name": "All atlas frames stay within 0..7 columns",
+      "passed": true
+    },
+    {
+      "name": "Cold Save/Reload restores same playable Archer combat",
+      "passed": true
+    },
+    {
+      "name": "Mobile landscape retains proper sprite and canvas aspect",
+      "passed": true
+    },
+    {
+      "name": "No page JavaScript errors",
+      "passed": true
+    }
+  ],
+  "draw_receipt": {
+    "actual": 1,
+    "frames": [
+      [
+        "idle",
+        0,
+        0
+      ],
+      [
+        "idle",
+        2,
+        0
+      ],
+      [
+        "walk",
+        1,
+        1
+      ],
+      [
+        "walk",
+        5,
+        1
+      ],
+      [
+        "draw",
+        6,
+        2
+      ],
+      [
+        "release",
+        4,
+        3
+      ],
+      [
+        "attack",
+        3,
+        2
+      ],
+      [
+        "attack",
+        5,
+        3
+      ],
+      [
+        "hit",
+        1,
+        4
+      ],
+      [
+        "death",
+        6,
+        5
+      ]
+    ],
+    "runtimeAtlas": "hg33-atlas-human-archer",
+    "unchanged": true
+  },
+  "screenshots": [
+    "docs\\evidence\\hg143\\human-archer-live-battle-desktop.png",
+    "docs\\evidence\\hg143\\human-archer-live-battle-landscape.png"
+  ],
+  "errors": [],
+  "html_sha256": "68b0a3e3dfd95ad9990b618527cbb08c96cb1758754d5c18dda7c28b8952653f"
+}
