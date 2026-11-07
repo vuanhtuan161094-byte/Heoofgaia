@@ -779,3 +779,47 @@ body.combat-mode .battle-event-list{grid-template-columns:repeat(2,minmax(0,1fr)
  body.combat-mode .battle-command-content{display:grid;grid-template-columns:1fr 1fr;align-content:start}
  body.combat-mode .battle-selection-readout{grid-row:span 2}
 }
+
+/* HG35: transparent city cost and recruitment ledger.
+   The selected building must explain itself before charging resources. */
+.hg35-building-effects{display:flex;flex-direction:column;gap:3px;margin:3px 0;padding:7px 9px;
+ border:1px solid #658578;border-radius:7px;background:linear-gradient(125deg,#23413f,#1a323a);color:#e2e7d8}
+.hg35-building-effects>b{color:#f2d59a;font-size:11px;line-height:1.25}
+.hg35-building-effects>p{margin:0 0 2px;font-size:10px;line-height:1.35;color:#d2e0d4;overflow-wrap:anywhere}
+.hg35-building-effects>small{font-size:9px;line-height:1.3;color:#b9c7be}
+.hg35-building-actions{margin-top:3px;display:flex;gap:5px;flex-wrap:wrap}
+.hg35-building-actions button{font-size:10px;min-height:26px;padding:4px 7px}
+.hg35-upgrade{display:flex;flex-direction:column;align-items:stretch;gap:5px}
+.hg35-upgrade .hg28-upgrade-cost{min-width:0;overflow:visible}
+.hg35-upgrade .hg28-upgrade-cost small{font-size:9px}
+.hg35-upgrade>button{font-weight:700;min-height:29px}
+.hg35-cost-ledger{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:3px 6px;margin:4px 0}
+.hg35-cost-line{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:2px 5px;
+ padding:3px 5px;border:1px solid #4a7069;border-radius:5px;background:#142d36;color:#dee4d5;min-width:0}
+.hg35-cost-line>span{font-size:9px;display:flex;align-items:center;gap:3px;min-width:0}
+.hg35-cost-line .hog-ui-icon{width:15px;height:15px}
+.hg35-cost-line>strong{font-size:10px;color:#f6c998;font-variant-numeric:tabular-nums}
+.hg35-cost-line>small{grid-column:1/-1;font-size:9px;color:#a9c9bd;white-space:normal}
+.hg35-cost-short{border-color:#bf806e;background:#53332e}
+.hg35-cost-short>small{color:#ffcbba}
+.hg35-garrison-info{font-size:12px;line-height:1.35;padding:8px 10px;margin:2px 0 7px;
+ border:1px solid #647d6b;border-radius:6px;background:#223b39;color:#d8e6d6}
+.hg35-garrison-info>b{color:#f2d69f}
+.hg35-recruit-preview{font-size:10px;line-height:1.45;margin-top:5px;padding:7px;
+ border:1px solid #688276;border-radius:5px;background:#142e32;color:#e5d1a5;overflow-wrap:anywhere}
+.hg35-recruit-controls{display:flex;align-items:center;gap:5px;flex-wrap:wrap}
+.hg35-recruit-controls label{font-size:10px;color:#d6c79e}
+.hg35-recruit-controls input{width:94px!important;min-width:82px!important;flex:0 0 auto}
+.hg35-recruit-controls button{white-space:normal;min-height:29px}
+.hg35-recruit-controls [data-action="recruit-max"]{background:#2e5150;border-color:#789782;color:#eff1d6}
+.hg35-recruit-controls [data-action="recruit"]{background:#9a7947;border-color:#d6b87e;color:#fff4d8}
+@media(max-width:1000px){
+ .hg35-building-effects{padding:5px 6px}
+ .hg35-building-effects>p{font-size:9px}
+ .hg35-cost-line>small{font-size:8px}
+ .hg35-recruit-controls input{min-width:74px!important;width:81px!important}
+}
+@media(max-width:640px){
+ .hg35-cost-ledger{grid-template-columns:1fr}
+ .hg35-recruit-controls button{flex:1 1 115px}
+}
