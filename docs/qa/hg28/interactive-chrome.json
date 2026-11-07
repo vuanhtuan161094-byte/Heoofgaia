@@ -1,45 +1,45 @@
 {
-  "sourceCommit": "2f4de663fb2e0ad35f73074231affbf9317b8da2",
+  "sourceCommit": "835adf0734bbd99ca3cdd830a24b0b448cd2eb56",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "6491C2FD7A695A6FF486A242768B8349CD3A45F7FEA352A1951EF97C0C0F61E6",
+  "htmlSha256": "763F3AA444AA528751BD5D12537EDB8E0F3CD251A270DB48D709A457973EBC18",
   "browser": "Installed Google Chrome through Playwright, local file://",
   "screenshots": [
     {
       "viewport": "1280x720",
       "state": "selected-npc",
       "path": "docs/evidence/hg28/after/1280x720/11-map-selected-npc.png",
-      "sha256": "4A899277CB76F1E042924CD7610A9993FA980964DB9AD709DE531D51B8822505",
+      "sha256": "AA93E2972D24C43EFE72D72E0B2FB8A1ABCFBF0E232BD980D4EDDAB295F6A604",
       "target": {
-        "key": "1,4",
-        "x": 192.91999999999996,
-        "y": 36.246399999999994,
+        "key": "13,4",
+        "x": 722.6,
+        "y": 61.036,
         "kind": "npc",
-        "level": 8
+        "level": 2
       },
-      "visibleTitle": "Trại Quái vật 8★ · 8★ · (1,4)"
+      "visibleTitle": "Trại Goblins · 2★ · (13,4)"
     },
     {
       "viewport": "1280x720",
       "state": "city-building-hotspot",
       "path": "docs/evidence/hg28/after/1280x720/12-city-building-selected.png",
-      "sha256": "0800B041D5902B296F6F8FDDBE2F9CE6898271EEC25FE5C8F620AD19B0DFBE80",
+      "sha256": "305547A3012DFDF4260D787D88810110D0F7625748371A3A8DFCA9AF6249D617",
       "building": "barracks"
     },
     {
       "viewport": "1280x720",
       "state": "hall-construction-queued",
       "path": "docs/evidence/hg28/after/1280x720/13-city-construction-real.png",
-      "sha256": "4F8BD9E56502D461486CB6DE29B4C69D8EAA9770B4B82D4B0A9008B38D13B6ED"
+      "sha256": "CC536A1D836DCD469EB139FD2B4D0E241778CE3EA6BEE89EA48F1C3BF82A5806"
     },
     {
       "viewport": "960x540",
       "state": "selected-npc",
       "path": "docs/evidence/hg28/after/960x540/11-map-selected-npc.png",
-      "sha256": "BEEE17FCB9C7A97EA00D1AE1F19739E9E4BD16FA79680B61A26BBECB8F75F605",
+      "sha256": "14E79B265A388AA9D31FFCDB28FD40CAD0031EC9E04D234BB6F26665CDCB4EE9",
       "target": {
         "key": "5,6",
-        "x": 247.96000000000004,
-        "y": 53.766399999999976,
+        "x": 98.89999999999998,
+        "y": 95.83599999999996,
         "kind": "npc",
         "level": 1
       },
@@ -49,14 +49,14 @@
       "viewport": "960x540",
       "state": "city-building-hotspot",
       "path": "docs/evidence/hg28/after/960x540/12-city-building-selected.png",
-      "sha256": "304BE0FA2FC94B4DE5946684DE26D9F293053381AB7C63AAB037159959A37556",
+      "sha256": "0D784C0668B0AAEF9FCD6E1E91F19E1BE9CC823A1835A17FE8B52AE99FB9CDDE",
       "building": "barracks"
     },
     {
       "viewport": "960x540",
       "state": "hall-construction-queued",
       "path": "docs/evidence/hg28/after/960x540/13-city-construction-real.png",
-      "sha256": "7DA113C6B42AE22EFB73C0B71F626B975E79FC570853E87A9E080902B100AB14"
+      "sha256": "9CE9CAF4CAA958D7CBAE9A0C63AC6A36989D3F6219E9F1C5542869191D95C015"
     }
   ],
   "checks": [
@@ -83,15 +83,15 @@
       "viewport": "1280x720",
       "check": "pointer-select visible NPC",
       "pass": true,
-      "target": "1,4"
+      "target": "13,4"
     },
     {
       "viewport": "1280x720",
       "check": "zoom and pan controls mutate camera",
       "pass": true,
       "zoom": [
-        1.12,
-        1.4000000000000001
+        1.3,
+        1.625
       ],
       "center": [
         {
@@ -99,8 +99,8 @@
           "y": 7.4
         },
         {
-          "x": 8.9437499273391,
-          "y": 7.17380956013848
+          "x": 9.136153783553686,
+          "y": 7.154359115204743
         }
       ]
     },
@@ -145,7 +145,7 @@
     },
     {
       "viewport": "1280x720",
-      "check": "paid hall upgrade enters real build queue and strict v07 Save",
+      "check": "paid hall upgrade enters real build queue at ×1 and strict v07 Save",
       "pass": true
     },
     {
@@ -183,8 +183,8 @@
       "check": "zoom and pan controls mutate camera",
       "pass": true,
       "zoom": [
-        1.12,
-        1.4000000000000001
+        1.3,
+        1.625
       ],
       "center": [
         {
@@ -192,8 +192,8 @@
           "y": 7.4
         },
         {
-          "x": 9.08660670689174,
-          "y": 7.280952144822901
+          "x": 9.231923295959804,
+          "y": 7.246666572771333
         }
       ]
     },
@@ -238,7 +238,7 @@
     },
     {
       "viewport": "960x540",
-      "check": "paid hall upgrade enters real build queue and strict v07 Save",
+      "check": "paid hall upgrade enters real build queue at ×1 and strict v07 Save",
       "pass": true
     },
     {

@@ -63,7 +63,7 @@ def main() -> None:
             assert box
             page.mouse.click(box["x"] + target["x"] * box["width"] / backing["width"], box["y"] + target["y"] * box["height"] / backing["height"])
             page.wait_for_timeout(100)
-            selected_title = page.locator("#main .scene-bottom .target-information h2").inner_text()
+            selected_title = page.locator(".hg39-map-target .target-information h2").inner_text()
             assert selected_title and target["key"] not in ("3,4",), f"World target click did not select NPC: {target} / {selected_title}"
             map_file = folder / "11-map-selected-npc.png"
             page.screenshot(path=str(map_file), animations="disabled")
@@ -115,13 +115,18 @@ def main() -> None:
             page.locator('[data-action="building"][data-key="hall"]').click()
             upgrade = page.locator('.hg28-upgrade [data-action="upgrade"]')
             assert upgrade.is_enabled(), f"Hall upgrade is unavailable on the fresh starter save at {width}x{height}"
+            # Construction is deliberately brief at ×60. Use the real speed
+            # control at ×1 so the browser can inspect the active queue and
+            # cold-save it before completion.
+            page.locator('#speed').click()
+            assert page.evaluate("HOG_APP_DEBUG.getState().speed===1 && document.querySelector('#speed').textContent.includes('×1')"), f"Speed control did not switch to ×1 at {width}x{height}"
             upgrade.click()
             page.wait_for_function("HOG_APP_DEBUG.getState().buildingQueue?.key==='hall'")
             assert page.evaluate("HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())"), "Construction action broke strict v07 Save"
             queued = folder / "13-city-construction-real.png"
             page.screenshot(path=str(queued), animations="disabled")
             images.append({"viewport": f"{width}x{height}", "state": "hall-construction-queued", "path": queued.relative_to(ROOT).as_posix(), "sha256": sha256(queued)})
-            checks.append({"viewport": f"{width}x{height}", "check": "paid hall upgrade enters real build queue and strict v07 Save", "pass": True})
+            checks.append({"viewport": f"{width}x{height}", "check": "paid hall upgrade enters real build queue at ×1 and strict v07 Save", "pass": True})
 
             page.reload(wait_until="load")
             page.wait_for_function("!!HOG_APP_DEBUG.getState()?.buildingQueue")
