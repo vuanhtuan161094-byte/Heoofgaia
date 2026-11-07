@@ -55,11 +55,90 @@ function setPicks(s,rows){
  s.hg20.tower.picks=rows.map(x=>({heroId:x.heroId,slots:x.slots.slice()}));
  return picks(s);
 }
+// Owner UX fix: a selected Tower hero is NOT an army. Validate before
+// enabling Enter, rather than letting a visibly empty picker fail on click.
+// This is read-only except legacy HG21 ensure(s) migration.
+function readiness(s){
+ try{
+  const rows=picks(s);validatePicks(s,rows);
+  if(rows.length!==s.hg20.tower.team.length||
+     rows.some((r,i)=>r.heroId!==s.hg20.tower.team[i]))
+   throw Error('Lưu lại tướng và đội quân trước khi thách đấu');
+  const reserved={};let stacks=0,units=0;
+  for(const r of rows){
+   const formation=E.hg20HeroPlan(s,r.heroId);
+   const groups=r.slots.map(i=>formation[i]);
+   const hero=s.heroes.find(h=>h.id===r.heroId);
+   if(!hero)throw Error('Không tìm thấy tướng');
+   if(E.formationPoints(s,groups)>E.heroLimit(hero.level))
+    throw Error(hero.name+' vượt sức chỉ huy; cần chia lại quân');
+   for(const g of groups){
+    if(!g||!Number.isSafeInteger(g.count)||g.count<1)throw Error('Đội quân không hợp lệ');
+    reserved[g.unitId]=(reserved[g.unitId]||0)+g.count;
+    if(reserved[g.unitId]>(s.army[g.unitId]||0))
+     throw Error('Quân đã được phân trùng cho nhiều tướng');
+    stacks++;units+=g.count;
+   }
+  }
+  if(!stacks)throw Error('Chưa có đội quân nào trong Bí Cảnh');
+  return {ready:true,heroes:rows.length,stacks,units};
+ }catch(e){return {ready:false,reason:String(e.message||e)}}
+}
+// Reuses the *existing* HG20 per-hero formation ledger, respecting genuine
+// garrison stock, other hero reservations, command limits and max 2 slots.
+// Prepare in a cloned Save first: errors cannot leave half-assigned armies.
+// This action never recruits, grants, spends or dispatches a troop.
+function autoAssign(s){
+ ensure(s);
+ const team=s.hg20.tower.team.slice();
+ if(!team.length||team.length>MAX_HEROES)throw Error('Chọn và lưu ít nhất một tướng vào Bí Cảnh');
+ const staging=E.clone(s);
+ const missing=team.filter(id=>E.hg20HeroPlan(staging,id).length===0);
+ for(let i=0;i<missing.length;i++){
+  const id=missing[i],hero=staging.heroes.find(h=>h.id===id);
+  if(!hero||E.hg20HeroRole(staging,id).status!=='home')
+   throw Error('Tướng đang bận, không thể tự phân quân');
+  const reserved=E.hg20Reservations(staging,id),share=missing.length-i;
+  let freePoints=E.heroLimit(hero.level);
+  const groups=[];
+  const list=E.arrUnits(staging).filter(u=>(staging.army[u.id]||0)>(reserved[u.id]||0))
+   .sort((a,b)=>b.tier-a.tier||b.atk-a.atk);
+  for(const u of list){
+   if(groups.length===OWNED_SLOTS)break;
+   const cost=E.unitValue(u);
+   if(!Number.isFinite(cost)||cost<=0)continue;
+   const available=Math.max(0,(staging.army[u.id]||0)-(reserved[u.id]||0));
+   const count=Math.min(1e9,Math.ceil(available/share),Math.floor(freePoints/cost));
+   if(count<1)continue;
+   groups.push({unitId:u.id,count});freePoints-=count*cost;
+  }
+  if(!groups.length)
+   throw Error('Không đủ quân rảnh hoặc sức chỉ huy cho '+hero.name+
+    '. Hãy tuyển quân hoặc chọn ít tướng hơn.');
+  E.hg20SetHeroPlan(staging,id,groups);
+ }
+ // HG21 chooser links new plans to owner slots without allocating extra troops.
+ E.hg20ChooseTowerTeam(staging,team);
+ const ready=readiness(staging);
+ if(!ready.ready)throw Error(ready.reason);
+ if(!E.strictSave(staging))throw Error('Đội hình thử không hợp lệ với Save v07');
+ const oldPlans=s.hg20.plans,oldFormation=s.formation,oldPicks=s.hg20.tower.picks;
+ s.hg20.plans=staging.hg20.plans;
+ s.formation=staging.formation;
+ s.hg20.tower.picks=staging.hg20.tower.picks;
+ if(!E.strictSave(s)){
+  s.hg20.plans=oldPlans;s.formation=oldFormation;s.hg20.tower.picks=oldPicks;
+  throw Error('Không thể lưu đội hình mà không thay đổi Save v07');
+ }
+ return {...ready,assignedHeroes:missing.length};
+}
 function tile(){return E.TILES.find(t=>t.kind==='npc'&&t.level===1&&!t.privateBoss)}
 function gameBattle(s){
  ensure(s);
  const t=s.hg20.tower,roster=picks(s),enlisted=[];
  validatePicks(s,roster);
+ const isReady=readiness(s);
+ if(!isReady.ready)throw Error(isReady.reason);
  if(s.battle||s.march||s.expedition||s.parallelMarches?.length)throw Error('Hãy kết thúc hành quân hoặc giao tranh trước khi vào Tháp');
  if(s.stationedHeroes?.some(x=>roster.some(r=>r.heroId===x.heroId)))throw Error('Tướng đang đồn trú không thể tham chiến');
  const reserved={};let n=0;
@@ -250,6 +329,7 @@ Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,
  // Keep team selection atomic with the HG21 owner-slot ledger. Exposing the
  // HG20 chooser directly left team populated but picks empty until a later
  // status render, so the first v07 write was correctly rejected as invalid.
- hg20ChooseTowerTeam:choose,hg21TowerPicks:picks,hg21SetTowerPicks:setPicks,hg21TowerValid:valid});
+ hg20ChooseTowerTeam:choose,hg21TowerPicks:picks,hg21SetTowerPicks:setPicks,
+ hg21TowerReadiness:readiness,hg21TowerAutoAssign:autoAssign,hg21TowerValid:valid});
 root.HOG_HG21=Object.freeze({version:1,gameMode:'tactical-tower',maxHeroes:MAX_HEROES,slotsPerHero:OWNED_SLOTS});
 })(typeof globalThis!=='undefined'?globalThis:this);

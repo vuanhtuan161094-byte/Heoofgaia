@@ -33,6 +33,41 @@ test('Tower team selection atomically initializes owner slots and stays valid fo
  assert.deepEqual(Array.from(loaded.hg20.tower.picks,entry=>Array.from(entry.slots)),[[0]]);
  return {team:s.hg20.tower.team,ownerSlots:s.hg20.tower.picks,saveVersion:loaded.version};
 });
+test('Empty Tower hero picks cannot enter; auto-assign splits the 16 real starter troops fairly across two heroes',()=>{
+ const s=E.make('human',1000000),hero=JSON.parse(JSON.stringify(s.heroes[0]));
+ s.heroes.push({...hero,id:2,name:'QA second commander'});
+ E.hg20ChooseTowerTeam(s,[1,2]);
+ const before=JSON.parse(JSON.stringify({army:s.army,res:s.res,training:s.training,claims:s.hg20.tower.claims}));
+ assert.equal(E.hg21TowerReadiness(s).ready,false);
+ assert.throws(()=>E.hg21TowerEnter(s),/slot|quân|tướng/i);
+ assert.equal(s.battle,null);
+ const q=E.hg21TowerAutoAssign(s);
+ assert.equal(q.assignedHeroes,2);assert.equal(q.stacks,2);assert.equal(q.units,16);
+ assert.deepEqual(Array.from(s.hg20.tower.picks,p=>p.slots.length),[1,1]);
+ assert.deepEqual(JSON.parse(JSON.stringify({army:s.army,res:s.res,training:s.training,claims:s.hg20.tower.claims})),before);
+ assert(E.strictSave(s));
+ const roundtrip=save(s);
+ assert.equal(E.hg21TowerReadiness(roundtrip).ready,true);
+ const enter=E.hg21TowerEnter(roundtrip);
+ assert.equal(enter.stacks,2);assert.equal(roundtrip.battle.allies.length,2);
+ assert.deepEqual(Array.from(roundtrip.battle.allies,u=>u.heroId),[1,2]);
+ assert.equal(roundtrip.army.human_1,16,'Tower projection must not debit real garrison');
+ return {units:q.units,picks:s.hg20.tower.picks,ready:E.hg21TowerReadiness(s)};
+});
+test('Tower auto-assign refuses missing stock atomically without creating soldiers or losing v07 Save',()=>{
+ const s=E.make('human',1000000),hero=JSON.parse(JSON.stringify(s.heroes[0]));
+ s.heroes.push({...hero,id:2,name:'QA hero 2'}, {...hero,id:3,name:'QA hero 3'});
+ s.army.human_1=1;
+ E.hg20ChooseTowerTeam(s,[1,2,3]);
+ const before=JSON.stringify({plans:s.hg20.plans,formation:s.formation,picks:s.hg20.tower.picks,
+  army:s.army,res:s.res,training:s.training});
+ assert.throws(()=>E.hg21TowerAutoAssign(s),/Không đủ quân|sức chỉ huy/);
+ const after=JSON.stringify({plans:s.hg20.plans,formation:s.formation,picks:s.hg20.tower.picks,
+  army:s.army,res:s.res,training:s.training});
+ assert.equal(after,before,'Failed allocation must be transactionally no-op');
+ assert(E.strictSave(s));save(s);
+ return {stock:s.army.human_1,picks:s.hg20.tower.picks};
+});
 for(const race of ['human','elf','orc','undead']){
  test(race+': real recruit payment -> 1 hero 1 stack -> actual tactical victory -> v07 Save',()=>{
   const s=E.make(race,1000000),u=C.units[race][0],before=s.res.gold;
