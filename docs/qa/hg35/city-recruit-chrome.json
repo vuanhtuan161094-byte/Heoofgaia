@@ -8,8 +8,8 @@
         "valid": true,
         "level": 1,
         "building": "Town Hall",
-        "effect": "Chức năng đang hoạt động\n\nVàng: +800/giờ game (tổng sản lượng thành).\n\nÝ nghĩa cấp tiếp\n\nSau cấp 2: +1.000/giờ game; Town Hall còn giới hạn cấp của các nhà khác.",
-        "brief": "HIỆN\nVàng: +800/giờ game (tổng sản lượng thành).\nCẤP TIẾP\nSau cấp 2: +1.000/giờ game; Town Hall còn giới hạn cấp của các nhà khác.\nⓘ Chi tiết",
+        "effect": "Chức năng đang hoạt động\n\nVàng: +16.000/giờ game (tổng sản lượng thành).\n\nÝ nghĩa cấp tiếp\n\nSau cấp 2: +20.000/giờ game; Town Hall còn giới hạn cấp của các nhà khác.",
+        "brief": "HIỆN\nVàng: +16.000/giờ game (tổng sản lượng thành).\nCẤP TIẾP\nSau cấp 2: +20.000/giờ game; Town Hall còn giới hạn cấp của các nhà khác.\nⓘ Chi tiết",
         "briefVisible": true,
         "ledger": 5
       }
@@ -17,7 +17,7 @@
     {
       "name": "Warehouse explicitly distinguishes resource storage from troop command",
       "pass": true,
-      "evidence": "Chức năng đang hoạt động\n\nDung lượng tài nguyên: Vàng 150.000 · Gỗ/Quặng 15.000.\n\nÝ nghĩa cấp tiếp\n\nSau cấp 3: Vàng 150.000 · Gỗ/Quặng 15.000 · Lưu huỳnh/Pha lê 7.500.\n\nKho chỉ chứa tài nguyên, KHÔNG giới hạn quân ở trong thành."
+      "evidence": "Chức năng đang hoạt động\n\nDung lượng tài nguyên: Vàng 15.000.000 · Gỗ/Quặng 1.500.000.\n\nÝ nghĩa cấp tiếp\n\nSau cấp 3: Vàng 15.000.000 · Gỗ/Quặng 1.500.000 · Lưu huỳnh/Pha lê 750.000.\n\nKho chỉ chứa tài nguyên, KHÔNG giới hạn quân ở trong thành."
     },
     {
       "name": "Market build clearly previews what is deducted before click",
@@ -50,18 +50,18 @@
         "payments": [
           {
             "before": {
-              "gold": 33011.21333333333,
-              "wood": 8900.841,
-              "ore": 8900.841,
-              "sulfur": 3350.4205,
-              "crystal": 3350.4205
+              "gold": 33232.26666666667,
+              "wood": 8917.42,
+              "ore": 8917.42,
+              "sulfur": 3358.71,
+              "crystal": 3358.71
             },
             "after": {
-              "gold": 32841.21333333333,
-              "wood": 8880.841,
-              "ore": 8880.841,
-              "sulfur": 3340.4205,
-              "crystal": 3340.4205
+              "gold": 33062.26666666667,
+              "wood": 8897.42,
+              "ore": 8897.42,
+              "sulfur": 3348.71,
+              "crystal": 3348.71
             },
             "amount": {
               "gold": 170,
@@ -96,24 +96,33 @@
         "valid": true,
         "hasMax": true,
         "garrison": "Nhân tộc · 16 quân trong thành · 0 đang tuyển. Không áp dụng giới hạn chỉ huy cho kho quân. Chỉ quân đem đi đánh mới phải tuân thủ sức chứa của từng tướng.",
-        "quote": "TRỪ KHI TUYỂN 3 quân: Vàng -165 (còn 32.676) · Gỗ -18 (còn 8.862) · Lưu huỳnh -12 (còn 3.328) · Huấn luyện lô này ~6 giây thực (×60).",
-        "shownMax": "597",
-        "actualMax": 597
+        "quote": "TRỪ KHI TUYỂN 3 quân: Vàng -165 (còn 32.897) · Gỗ -18 (còn 8.879) · Lưu huỳnh -12 (còn 3.336) · Huấn luyện lô này ~1 giây thực (×60).",
+        "shownMax": "601",
+        "actualMax": 601
       }
     },
     {
       "name": "Changing quantity updates the actual 7-troop total and remaining-resource quote",
       "pass": true,
-      "evidence": "TRỪ KHI TUYỂN 7 quân: Vàng -385 (còn 32.456) · Gỗ -42 (còn 8.838) · Lưu huỳnh -28 (còn 3.312) · Huấn luyện lô này ~14 giây thực (×60)."
+      "evidence": "TRỪ KHI TUYỂN 7 quân: Vàng -385 (còn 32.677) · Gỗ -42 (còn 8.855) · Lưu huỳnh -28 (còn 3.320) · Huấn luyện lô này ~1 giây thực (×60)."
     },
     {
       "name": "One-click MAX picks exact affordable quantity, not old 1000 arbitrary cap",
       "pass": true,
       "evidence": {
-        "selected": 597,
-        "max": 597,
-        "quote": "TRỪ KHI TUYỂN 597 quân: Vàng -32.835 (còn 6) · Gỗ -3.582 (còn 5.298) · Lưu huỳnh -2.388 (còn 952) · Huấn luyện lô này ~1.194 giây thực (×60).",
+        "selected": 601,
+        "max": 601,
+        "quote": "TRỪ KHI TUYỂN 601 quân: Vàng -33.055 (còn 7) · Gỗ -3.606 (còn 5.291) · Lưu huỳnh -2.404 (còn 944) · Huấn luyện lô này ~25 giây thực (×60).",
         "enabled": true
+      }
+    },
+    {
+      "name": "MAX selection survives the next real UI render without reverting to the default batch",
+      "pass": true,
+      "evidence": {
+        "selectedAtMAX": 601,
+        "persistedDraft": 601,
+        "liveMax": 605
       }
     },
     {
@@ -123,40 +132,40 @@
         "valid": true,
         "army": 16,
         "queue": 1,
-        "queued": 597,
+        "queued": 601,
         "payments": [
           {
             "before": {
-              "gold": 32841.21333333333,
-              "wood": 8880.841,
-              "ore": 8880.841,
-              "sulfur": 3340.4205,
-              "crystal": 3340.4205
+              "gold": 33320.4,
+              "wood": 8916.78,
+              "ore": 8916.78,
+              "sulfur": 3358.39,
+              "crystal": 3358.39
             },
             "after": {
-              "gold": 6.213333333333139,
-              "wood": 5298.841,
-              "ore": 8880.841,
-              "sulfur": 952.4205000000002,
-              "crystal": 3340.4205
+              "gold": 265.40000000000146,
+              "wood": 5310.780000000001,
+              "ore": 8916.78,
+              "sulfur": 954.3899999999999,
+              "crystal": 3358.39
             },
             "amount": {
-              "gold": 32835,
-              "wood": 3582,
+              "gold": 33055,
+              "wood": 3606,
               "ore": 0,
-              "sulfur": 2388,
+              "sulfur": 2404,
               "crystal": 0
             },
             "actual": {
-              "gold": 32835,
-              "wood": 3582,
+              "gold": 33055,
+              "wood": 3606,
               "ore": 0,
-              "sulfur": 2388,
+              "sulfur": 2404,
               "crystal": 0
             }
           }
         ],
-        "toast": "Đã trừ Vàng -32.835 · Gỗ -3.582 · Lưu huỳnh -2.388; xếp hàng 597 quân."
+        "toast": "Đã trừ Vàng -33.055 · Gỗ -3.606 · Lưu huỳnh -2.404; xếp hàng 601 quân."
       }
     },
     {
@@ -164,17 +173,17 @@
       "pass": true,
       "evidence": {
         "valid": true,
-        "market": 0,
-        "queue": "market",
-        "queued": 597
+        "market": 1,
+        "queue": null,
+        "queued": 601
       }
     },
     {
       "name": "Compact landscape city retains building selection, effects and resource ledger",
       "pass": true,
       "evidence": {
-        "label": "Chức năng đang hoạt động\n\nDung lượng tài nguyên: Vàng 150.000 · Gỗ/Quặng 15.000.\n\nÝ nghĩa cấp tiếp\n\nSau cấp 3: Vàng 150.000 · Gỗ/Quặng 15.000 · Lưu huỳnh/Pha lê 7.500.\n\nKho chỉ chứa tài nguyên, KHÔNG giới hạn quân ở trong thành.",
-        "brief": "HIỆN\nDung lượng tài nguyên: Vàng 150.000 · Gỗ/Quặng 15.000.\nCẤP TIẾP\nSau cấp 3: Vàng 150.000 · Gỗ/Quặng 15.000 · Lưu huỳnh/Pha lê 7.500.\nⓘ Chi tiết",
+        "label": "Chức năng đang hoạt động\n\nDung lượng tài nguyên: Vàng 15.000.000 · Gỗ/Quặng 1.500.000.\n\nÝ nghĩa cấp tiếp\n\nSau cấp 3: Vàng 15.000.000 · Gỗ/Quặng 1.500.000 · Lưu huỳnh/Pha lê 750.000.\n\nKho chỉ chứa tài nguyên, KHÔNG giới hạn quân ở trong thành.",
+        "brief": "HIỆN\nDung lượng tài nguyên: Vàng 15.000.000 · Gỗ/Quặng 1.500.000.\nCẤP TIẾP\nSau cấp 3: Vàng 15.000.000 · Gỗ/Quặng 1.500.000 · Lưu huỳnh/Pha lê 750.000.\nⓘ Chi tiết",
         "briefVisible": true,
         "scrollOverflow": 0,
         "buildingButton": 13,
@@ -193,16 +202,16 @@
       "name": "Independent warehouse-funded fixture can recruit >1000 without army capacity gate",
       "pass": true,
       "evidence": {
-        "max": 1875,
+        "max": 187500,
         "oldLimit": 1000,
         "price": {
-          "gold": 103125,
-          "wood": 11250,
+          "gold": 10312500,
+          "wood": 1125000,
           "ore": 0,
-          "sulfur": 7500,
+          "sulfur": 750000,
           "crystal": 0
         },
-        "queued": 1875,
+        "queued": 187500,
         "noTroopStorageCap": true,
         "hasNoExcessGrant": true,
         "commanderCapacity": 11500
@@ -226,18 +235,18 @@
   "screenshots": [
     {
       "file": "docs\\evidence\\hg35\\city-market-cost-before-1280x720.png",
-      "sha256": "666e244602e31c5384117b660fb985cc1ae45cd7b348ab685adeaf85c193f1ee"
+      "sha256": "d1e7974f162201c9026f823dc25e7ee5a79f112b1402c3779ac07048533338e6"
     },
     {
       "file": "docs\\evidence\\hg35\\army-recruit-max-1280x720.png",
-      "sha256": "2957f98a3e93ccd2ea8bb5e1233dac2337c2dc33b7af554ea1aa8e01d1b70d38"
+      "sha256": "c6938b7a3eef5afcf9c9507bbf2adc062552f7947ed771e146773d2bd08fb1d1"
     },
     {
       "file": "docs\\evidence\\hg35\\city-warehouse-960x540.png",
-      "sha256": "918bc4f4a8cacf60297009207d7f4dadf2d91f2c2166da46ff1d75824dbd688f"
+      "sha256": "eac8b21cd566d7f4c10ebee5fb98c1fca1241d3699f7595c9c37521ef606de58"
     }
   ],
-  "source_html_sha256": "6491c2fd7a695a6ff486a242768b8349cd3a45f7fea352a1951ef97c0c0f61e6",
+  "source_html_sha256": "763f3aa444aa528751bd5d12537edb8e0f3cd251a270db48d709a457973ebc18",
   "background": {
     "file": "assets/generated/hg11/battlefield/open-field-v2-1176x550.png",
     "source_sha256": "439CF6EE5DA0998B29E91CEB26D8070E86525BE33003809E090095D5584FCB3A",

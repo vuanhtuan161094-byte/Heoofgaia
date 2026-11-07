@@ -136,7 +136,7 @@ with sync_playwright() as pw:
           str(maxSelect['max']) in maxSelect['quote'],maxSelect)
     capture(page,'army-recruit-max-1280x720.png')
     beforeRecruit=page.evaluate("""() => {
-      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),n=Number(document.querySelector('#q_human_1').value);
+      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),n=Number(document.querySelector('#q_human_1').value),max=E.recruitMax(s,'human_1');
       window._hg35UnitBefore={n,cost:E.recruitCost(s,E.getUnit(s,'human_1'),n),
                               res:{...s.res},army:s.army.human_1,queue:s.training.length};
       const previous=E.spend;
@@ -148,8 +148,11 @@ with sync_playwright() as pw:
         return result;
       };
       window._hg35UnhookSpend=()=>{E.spend=previous;};
-      return window._hg35UnitBefore;
+      return {...window._hg35UnitBefore,max};
     }""")
+    check('MAX selection survives the next real UI render without reverting to the default batch',
+          beforeRecruit['n']==maxSelect['selected'] and beforeRecruit['n']<=beforeRecruit['max'],
+          {'selectedAtMAX':maxSelect['selected'],'persistedDraft':beforeRecruit['n'],'liveMax':beforeRecruit['max']})
     page.locator('[data-action="recruit"][data-id="human_1"]').click()
     paid=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),o=window._hg35UnitBefore;
@@ -162,7 +165,7 @@ with sync_playwright() as pw:
     check('MAX recruitment subtracts exact resources and queues only paid troops',
           paid['valid'] and paid['army']==beforeRecruit['army'] and
           paid['queue']==beforeRecruit['queue']+1 and
-          paid['queued']==beforeRecruit['n'] and
+          paid['queued']==beforeRecruit['n'] and paid['queued']==maxSelect['selected'] and
           len(paid['payments'])==1 and
           all(abs(paid['payments'][0]['actual'][k]-v)<1e-7 for k,v in beforeRecruit['cost'].items()) and
           'Đã trừ' in paid['toast'],paid)

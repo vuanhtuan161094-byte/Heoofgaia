@@ -1,7 +1,7 @@
 {
-  "commit": "e2273024fb98c7eefc548b06a37ef8299b0e53c6",
+  "commit": "71c711555ca73cdd2e6bb3585a18218a24f5bb20",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "9575169FA5386838619193298458A7EC267E19498B4C5256211C4498325A4FBB",
+  "htmlSha256": "763F3AA444AA528751BD5D12537EDB8E0F3CD251A270DB48D709A457973EBC18",
   "browser": "Playwright Chromium opening the built standalone file:// HTML",
   "pilotCombat": "actual New Game, UI recruitment, resource spend, training tick, two-stack formation, real NPC selection and March, real Attack/Defend turns, engine damage, casualty and event-driven animation; only defenders are adjusted by the disclosed observation fixture",
   "pilots": [
@@ -63,7 +63,7 @@
       "detail": {
         "id": "elf_4",
         "count": 2,
-        "gold": 269999627.69555557,
+        "gold": 269999627.62333333,
         "strict": true
       }
     },
@@ -274,8 +274,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-walk-1280x720.png",
-        "sha256": "789D72908CFAC1F84BC4DF724626185DE03195A69DFEC399ACA118352936B092",
-        "bytes": 915703,
+        "sha256": "04F824CAFDA318C5093155C2068132A160727DAFCD1862752AE468368C238DB8",
+        "bytes": 915670,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -319,8 +319,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-attack-1280x720.png",
-        "sha256": "AB081027689871066C4CC9FA14464E63E0E03E8949DD209CC74507F0C7F2BE37",
-        "bytes": 915640,
+        "sha256": "C71FC733D16EA1A0AE78397B09E1BDEB258493B4896FC714D5707D18F3D5AC95",
+        "bytes": 915565,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -480,8 +480,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-hit-1280x720.png",
-        "sha256": "D1AE6B4C3DA301B6313DC68B9957280B6AB12A4F91B96C9DE259605676F81A56",
-        "bytes": 930380,
+        "sha256": "BA14543DFA8322957B8FBB8A65B3358176798B2233DEF0C16B164CE1096F7D2B",
+        "bytes": 930498,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -605,8 +605,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-death-1280x720.png",
-        "sha256": "99C8FCBAC68788DDD27535A467A000737821802AC9E914A46E5BB76CCE649E45",
-        "bytes": 928940,
+        "sha256": "1CF76DB055AB9B8B233CE45E789881C5A600439E7FDDCC7CCBD51E91B127C9F6",
+        "bytes": 929470,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -616,8 +616,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-death-960x540.png",
-        "sha256": "57F1B71B17BA6B58316EA26879469AE4695C4202DEFD318DEE1A570F1C9D13BA",
-        "bytes": 575399,
+        "sha256": "150498A1D4B9858612E03AE1E6E8AD6D072493629FA4C254CDF7E01BE60F3823",
+        "bytes": 575205,
         "viewport": "960x540",
         "imageSize": "960x540"
       }
@@ -654,7 +654,7 @@
       "detail": {
         "id": "orc_5",
         "count": 2,
-        "gold": 269999523,
+        "gold": 269999531.36333334,
         "strict": true
       }
     },
@@ -865,8 +865,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-walk-1280x720.png",
-        "sha256": "F236EDC386015A442BA89B38933FAC813B97429D325B560243658B6981509985",
-        "bytes": 920142,
+        "sha256": "C387A79F36B4F46B4567314E678C37D543D82FB035ECA622B7B979E6A1FC863F",
+        "bytes": 920226,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -910,8 +910,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-attack-1280x720.png",
-        "sha256": "19E84D42C18F59046F3A24040991C7F3C4416F69EE42D4F85611F49DC5A808F5",
-        "bytes": 920601,
+        "sha256": "84A03B230AC3CF5D8207E0DD3BFE6C796C8B718150BBDC69A6E5B1E45E39D7B2",
+        "bytes": 920614,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -1071,8 +1071,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-hit-1280x720.png",
-        "sha256": "5677A1E6915C8E857EC2CA644D1F7B1E4ACE9F3426B90D8AF7852953178ECB1C",
-        "bytes": 932352,
+        "sha256": "F19AD4CBC90ADACB04AE9D276FB59AB47689306F4FBDFE9A8DE0206D922B8ABE",
+        "bytes": 932465,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -1174,7 +1174,7 @@
         },
         "visual": {
           "action": "death",
-          "time": 400.0000000000002,
+          "time": 400,
           "duration": 1200,
           "alpha": 1
         },
@@ -1196,8 +1196,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-death-1280x720.png",
-        "sha256": "CFF274A4AFECA9F85ECC26033CF1C132B8CB259D2FB0AA3F379536C4A3614E7D",
-        "bytes": 931573,
+        "sha256": "BBE2E64F27C9F253068F0139344F0ED2D6C60F5CBACB874F9F0CA100A5A9B570",
+        "bytes": 931485,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -1207,8 +1207,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-death-960x540.png",
-        "sha256": "C528D35EE6966532B08AB914BFC34A36D8077FD7BDB9E9B077CC7A713B109003",
-        "bytes": 576689,
+        "sha256": "FCC8A976E842DB4A98F981CAF35905FE4B3C8664EC01CD87DA671B7BDDDDB447",
+        "bytes": 576428,
         "viewport": "960x540",
         "imageSize": "960x540"
       }
@@ -1245,7 +1245,7 @@
       "detail": {
         "id": "undead_1",
         "count": 2,
-        "gold": 269999913.5222222,
+        "gold": 269999905,
         "strict": true
       }
     },
@@ -1456,8 +1456,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-walk-1280x720.png",
-        "sha256": "7196508C2902EEB45A9C2938BA2A55A48E4EB2C304919D6DBE4ACDECEAFFA178",
-        "bytes": 912031,
+        "sha256": "C9ACAD289856C77CF1C2C5B8788E6AAF1024C45A1D970EC6312A2511BD0C5507",
+        "bytes": 912826,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -1501,8 +1501,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-attack-1280x720.png",
-        "sha256": "60C7FD0300AA52258EA8C5D2BEAD1B0E308B7E4F77B072F8D18F8E1D089F467B",
-        "bytes": 912018,
+        "sha256": "2D8976C2284EBA86E42A1DD2B1450D4A7867B18916D48347F17C9DA38658E468",
+        "bytes": 911806,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -1662,8 +1662,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-hit-1280x720.png",
-        "sha256": "570944A4376CBD6FD2E4C04E7E327B19D5A6B0B6E7F9153417B62FA95060D89F",
-        "bytes": 929929,
+        "sha256": "94E0EB8FF716FD63508FA466B2351E2657A8BEDD31F4302D8F33525511DAAE17",
+        "bytes": 929384,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -1765,7 +1765,7 @@
         },
         "visual": {
           "action": "death",
-          "time": 399.9999999999998,
+          "time": 400,
           "duration": 1200,
           "alpha": 1
         },
@@ -1787,8 +1787,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-death-1280x720.png",
-        "sha256": "647660A8615A890537617CC64BBF12F90E1472127F4E067C1DB7EC9AAEFC1ACB",
-        "bytes": 927921,
+        "sha256": "F094F51940A723BAC469898F163910A3D8C2D78F1658BBBAF999B65E7CCDF847",
+        "bytes": 927990,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -1798,8 +1798,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-death-960x540.png",
-        "sha256": "6F19599CDD218512197B0507E7C7787D23971A4FA4F9864DFBFB58059233E1DA",
-        "bytes": 574295,
+        "sha256": "619651FEC31EC4A91A3C9A8E4C16A2C72F2F8A80E63FF973C032EBEA3E7D2090",
+        "bytes": 574216,
         "viewport": "960x540",
         "imageSize": "960x540"
       }
@@ -1836,7 +1836,7 @@
       "detail": {
         "id": "elf_9",
         "count": 2,
-        "gold": 269997420.4211111,
+        "gold": 269997420.6811111,
         "strict": true
       }
     },
@@ -2092,8 +2092,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-attack-1280x720.png",
-        "sha256": "C105992BA7554F1CDF3488D655A55B91B11C2975B218C78505A023A17B280E83",
-        "bytes": 920183,
+        "sha256": "C7C573EFCA66D74E557BC2375D6FB2853A790B1BF927789D4ED72D02AF7F1B46",
+        "bytes": 920121,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -2356,7 +2356,7 @@
         },
         "visual": {
           "action": "death",
-          "time": 400,
+          "time": 400.0000000000002,
           "duration": 1200,
           "alpha": 1
         },
@@ -2378,8 +2378,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-death-1280x720.png",
-        "sha256": "B21615FB013A7AD9706F6AF1E32C9EC79067025BF80923746B70B21DE2CFE241",
-        "bytes": 935220,
+        "sha256": "A2A25D41CAB477B16C49F28C0E76BF3BAE5D544CE47B90C4E2823E371F925D2A",
+        "bytes": 935205,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -2389,8 +2389,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-death-960x540.png",
-        "sha256": "D374C21DBE06028A5BED87DEE9E02BBF1DE8F4B2786D545B7631E83F6672E12C",
-        "bytes": 578557,
+        "sha256": "6E61323173444A537CDB65C40D8A91340FC4A62956C54048079D70C9E9D7C5EF",
+        "bytes": 577851,
         "viewport": "960x540",
         "imageSize": "960x540"
       }
@@ -2451,8 +2451,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-walk-1280x720.png",
-        "sha256": "AFB283606528AFD1A4CD0570A33A78DB6A31008369BEEB43E42AE12294DC7AB6",
-        "bytes": 941103,
+        "sha256": "D1234A650B814443E89FF33C0AE7B4E819DF100648253E5C50CF83C3B8C4C546",
+        "bytes": 940571,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -2533,8 +2533,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-attack-1280x720.png",
-        "sha256": "EAA20109FD4E9983A5298C9749365D04FEC492A26922331B5BB189FA607A82C2",
-        "bytes": 945079,
+        "sha256": "9CE489B78EC3E55B748C390C535C4DA195D7F33CFD9DE0E1665C1A4F068B5DF2",
+        "bytes": 945068,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -2585,8 +2585,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-hit-1280x720.png",
-        "sha256": "68C2B86B4D14C0904B0C94B51A175C93E9AFC8DE30D0A7812E40A628233C636D",
-        "bytes": 943081,
+        "sha256": "DBF83A191658D1EC4F7192CCAAFCFCC3589917B75D913857CDE75904AC851D50",
+        "bytes": 942841,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -2637,8 +2637,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-death-1280x720.png",
-        "sha256": "E28EA21435806275E7C131C95FB3D455B5C626587E29AA25B67EDBBD4B446556",
-        "bytes": 930885,
+        "sha256": "DBCC8A9891C0516320BD074CDF1D5FCB6034C4909724624C616D1E81A5E9DC69",
+        "bytes": 928876,
         "viewport": "1280x720",
         "imageSize": "1280x720"
       }
@@ -2648,8 +2648,8 @@
       "passed": true,
       "detail": {
         "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-death-960x540.png",
-        "sha256": "04E27DBB46B54B7E14818BBA1333DFE0AF88D673E5743A3AF0854F7C5991CBF3",
-        "bytes": 579668,
+        "sha256": "870B478EEA6B0415A982EF17AE68741A804C336DE355E91F2039D9F86F837DEC",
+        "bytes": 581145,
         "viewport": "960x540",
         "imageSize": "960x540"
       }
@@ -2669,106 +2669,106 @@
   "screenshots": [
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-walk-1280x720.png",
-      "sha256": "789D72908CFAC1F84BC4DF724626185DE03195A69DFEC399ACA118352936B092",
-      "bytes": 915703,
+      "sha256": "04F824CAFDA318C5093155C2068132A160727DAFCD1862752AE468368C238DB8",
+      "bytes": 915670,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-attack-1280x720.png",
-      "sha256": "AB081027689871066C4CC9FA14464E63E0E03E8949DD209CC74507F0C7F2BE37",
-      "bytes": 915640,
+      "sha256": "C71FC733D16EA1A0AE78397B09E1BDEB258493B4896FC714D5707D18F3D5AC95",
+      "bytes": 915565,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-hit-1280x720.png",
-      "sha256": "D1AE6B4C3DA301B6313DC68B9957280B6AB12A4F91B96C9DE259605676F81A56",
-      "bytes": 930380,
+      "sha256": "BA14543DFA8322957B8FBB8A65B3358176798B2233DEF0C16B164CE1096F7D2B",
+      "bytes": 930498,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-death-1280x720.png",
-      "sha256": "99C8FCBAC68788DDD27535A467A000737821802AC9E914A46E5BB76CCE649E45",
-      "bytes": 928940,
+      "sha256": "1CF76DB055AB9B8B233CE45E789881C5A600439E7FDDCC7CCBD51E91B127C9F6",
+      "bytes": 929470,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/elf_4-death-960x540.png",
-      "sha256": "57F1B71B17BA6B58316EA26879469AE4695C4202DEFD318DEE1A570F1C9D13BA",
-      "bytes": 575399,
+      "sha256": "150498A1D4B9858612E03AE1E6E8AD6D072493629FA4C254CDF7E01BE60F3823",
+      "bytes": 575205,
       "viewport": "960x540",
       "imageSize": "960x540"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-walk-1280x720.png",
-      "sha256": "F236EDC386015A442BA89B38933FAC813B97429D325B560243658B6981509985",
-      "bytes": 920142,
+      "sha256": "C387A79F36B4F46B4567314E678C37D543D82FB035ECA622B7B979E6A1FC863F",
+      "bytes": 920226,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-attack-1280x720.png",
-      "sha256": "19E84D42C18F59046F3A24040991C7F3C4416F69EE42D4F85611F49DC5A808F5",
-      "bytes": 920601,
+      "sha256": "84A03B230AC3CF5D8207E0DD3BFE6C796C8B718150BBDC69A6E5B1E45E39D7B2",
+      "bytes": 920614,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-hit-1280x720.png",
-      "sha256": "5677A1E6915C8E857EC2CA644D1F7B1E4ACE9F3426B90D8AF7852953178ECB1C",
-      "bytes": 932352,
+      "sha256": "F19AD4CBC90ADACB04AE9D276FB59AB47689306F4FBDFE9A8DE0206D922B8ABE",
+      "bytes": 932465,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-death-1280x720.png",
-      "sha256": "CFF274A4AFECA9F85ECC26033CF1C132B8CB259D2FB0AA3F379536C4A3614E7D",
-      "bytes": 931573,
+      "sha256": "BBE2E64F27C9F253068F0139344F0ED2D6C60F5CBACB874F9F0CA100A5A9B570",
+      "bytes": 931485,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/orc_5-death-960x540.png",
-      "sha256": "C528D35EE6966532B08AB914BFC34A36D8077FD7BDB9E9B077CC7A713B109003",
-      "bytes": 576689,
+      "sha256": "FCC8A976E842DB4A98F981CAF35905FE4B3C8664EC01CD87DA671B7BDDDDB447",
+      "bytes": 576428,
       "viewport": "960x540",
       "imageSize": "960x540"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-walk-1280x720.png",
-      "sha256": "7196508C2902EEB45A9C2938BA2A55A48E4EB2C304919D6DBE4ACDECEAFFA178",
-      "bytes": 912031,
+      "sha256": "C9ACAD289856C77CF1C2C5B8788E6AAF1024C45A1D970EC6312A2511BD0C5507",
+      "bytes": 912826,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-attack-1280x720.png",
-      "sha256": "60C7FD0300AA52258EA8C5D2BEAD1B0E308B7E4F77B072F8D18F8E1D089F467B",
-      "bytes": 912018,
+      "sha256": "2D8976C2284EBA86E42A1DD2B1450D4A7867B18916D48347F17C9DA38658E468",
+      "bytes": 911806,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-hit-1280x720.png",
-      "sha256": "570944A4376CBD6FD2E4C04E7E327B19D5A6B0B6E7F9153417B62FA95060D89F",
-      "bytes": 929929,
+      "sha256": "94E0EB8FF716FD63508FA466B2351E2657A8BEDD31F4302D8F33525511DAAE17",
+      "bytes": 929384,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-death-1280x720.png",
-      "sha256": "647660A8615A890537617CC64BBF12F90E1472127F4E067C1DB7EC9AAEFC1ACB",
-      "bytes": 927921,
+      "sha256": "F094F51940A723BAC469898F163910A3D8C2D78F1658BBBAF999B65E7CCDF847",
+      "bytes": 927990,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/undead_1-death-960x540.png",
-      "sha256": "6F19599CDD218512197B0507E7C7787D23971A4FA4F9864DFBFB58059233E1DA",
-      "bytes": 574295,
+      "sha256": "619651FEC31EC4A91A3C9A8E4C16A2C72F2F8A80E63FF973C032EBEA3E7D2090",
+      "bytes": 574216,
       "viewport": "960x540",
       "imageSize": "960x540"
     },
@@ -2781,8 +2781,8 @@
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-attack-1280x720.png",
-      "sha256": "C105992BA7554F1CDF3488D655A55B91B11C2975B218C78505A023A17B280E83",
-      "bytes": 920183,
+      "sha256": "C7C573EFCA66D74E557BC2375D6FB2853A790B1BF927789D4ED72D02AF7F1B46",
+      "bytes": 920121,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
@@ -2795,50 +2795,50 @@
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-death-1280x720.png",
-      "sha256": "B21615FB013A7AD9706F6AF1E32C9EC79067025BF80923746B70B21DE2CFE241",
-      "bytes": 935220,
+      "sha256": "A2A25D41CAB477B16C49F28C0E76BF3BAE5D544CE47B90C4E2823E371F925D2A",
+      "bytes": 935205,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/elf_9-death-960x540.png",
-      "sha256": "D374C21DBE06028A5BED87DEE9E02BBF1DE8F4B2786D545B7631E83F6672E12C",
-      "bytes": 578557,
+      "sha256": "6E61323173444A537CDB65C40D8A91340FC4A62956C54048079D70C9E9D7C5EF",
+      "bytes": 577851,
       "viewport": "960x540",
       "imageSize": "960x540"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-walk-1280x720.png",
-      "sha256": "AFB283606528AFD1A4CD0570A33A78DB6A31008369BEEB43E42AE12294DC7AB6",
-      "bytes": 941103,
+      "sha256": "D1234A650B814443E89FF33C0AE7B4E819DF100648253E5C50CF83C3B8C4C546",
+      "bytes": 940571,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-attack-1280x720.png",
-      "sha256": "EAA20109FD4E9983A5298C9749365D04FEC492A26922331B5BB189FA607A82C2",
-      "bytes": 945079,
+      "sha256": "9CE489B78EC3E55B748C390C535C4DA195D7F33CFD9DE0E1665C1A4F068B5DF2",
+      "bytes": 945068,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-hit-1280x720.png",
-      "sha256": "68C2B86B4D14C0904B0C94B51A175C93E9AFC8DE30D0A7812E40A628233C636D",
-      "bytes": 943081,
+      "sha256": "DBF83A191658D1EC4F7192CCAAFCFCC3589917B75D913857CDE75904AC851D50",
+      "bytes": 942841,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-death-1280x720.png",
-      "sha256": "E28EA21435806275E7C131C95FB3D455B5C626587E29AA25B67EDBBD4B446556",
-      "bytes": 930885,
+      "sha256": "DBCC8A9891C0516320BD074CDF1D5FCB6034C4909724624C616D1E81A5E9DC69",
+      "bytes": 928876,
       "viewport": "1280x720",
       "imageSize": "1280x720"
     },
     {
       "path": "docs/evidence/hg33/H2-six-pilot-live/azrael-death-960x540.png",
-      "sha256": "04E27DBB46B54B7E14818BBA1333DFE0AF88D673E5743A3AF0854F7C5991CBF3",
-      "bytes": 579668,
+      "sha256": "870B478EEA6B0415A982EF17AE68741A804C336DE355E91F2039D9F86F837DEC",
+      "bytes": 581145,
       "viewport": "960x540",
       "imageSize": "960x540"
     }

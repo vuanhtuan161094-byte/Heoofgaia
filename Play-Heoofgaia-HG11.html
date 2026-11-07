@@ -7261,6 +7261,7 @@ root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battlePro
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
 const A=window.HOG_ART_PACK,ico=(key,size)=>A?.iconHTML(key,size)||'';
+const recruitDrafts=new Map();
 const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -7829,6 +7830,13 @@ function hg35RecruitQuote(unit,qty){
  return 'TRỪ KHI TUYỂN '+format(qty)+' quân: '+spend+
   ' · Huấn luyện lô này ~'+format(Math.ceil(seconds/state.speed))+' giây thực (×'+state.speed+').';
 }
+function hg35RecruitDraftQty(unit,maxQty){
+ const saved=recruitDrafts.get(unit.id);
+ if(!Number.isSafeInteger(saved)||saved<1)return Math.min(3,Math.max(1,maxQty));
+ const qty=Math.min(saved,Math.max(1,maxQty));
+ if(qty!==saved)recruitDrafts.set(unit.id,qty);
+ return qty;
+}
 function hg35UpdateRecruitQuote(id){
  const unit=state&&E.getUnit(state,id),input=$('q_'+id),preview=$('pay_'+id);
  if(!unit||!input||!preview)return;
@@ -7849,7 +7857,7 @@ function armyView(){
  <p class="hg35-garrison-info">${esc(C.races[state.race].name)} · <b>${format(townTroops)} quân trong thành</b> · ${format(pendingTroops)} đang tuyển. <b>Không áp dụng giới hạn chỉ huy cho kho quân.</b> Chỉ quân đem đi đánh mới phải tuân thủ sức chứa của từng tướng.</p>
  ${state.training.length?`<div class="banner"><b>Hàng đợi tuyển quân</b> ${state.training.map((q,i)=>`<div>⌛ ${i+1}. ${q.count} ${esc(E.getUnit(state,q.unitId).name)} · ${Math.ceil(q.remaining/state.speed)} giây thực</div>`).join('')} </div>`:''}
  <details class="hg28-army-ops hg28-army-quest" ${armyQuestOpen?'open':''}><summary>🎖 Nhiệm vụ đổi quân · giai đoạn ${Math.max(0,Number(state.hg30?.stage)||0)}/3</summary>${hg30QuestView()}</details>
- <div class="grid grid2" style="margin-top:12px">${E.arrUnits(state).map(u=>{const unlock=E.troopPrerequisites(state,u),unlocked=unlock.available&&!u.rewardOnly&&!u.towerExclusive,maxQty=E.recruitMax(state,u.id),defaultQty=Math.min(3,Math.max(1,maxQty)),cost=E.recruitCost(state,u,1),checks=unlock.checks.map(c=>{const label=c.kind==='building'?C.buildings[c.key]?.name||c.key:c.key==='bootcamp'?'Bootcamp (Huấn luyện)':c.key==='manufacturing'?'Manufacturing (Chế tạo)':`Phép ${C.spells[c.key]?.vi||c.key}`;return `${esc(label)} ${c.actual}/${c.level}`}).join(' · '),confidence=unlock.status==='OBSERVED'?'Đối chiếu bảng Human trong hướng dẫn Trung Quốc 2009 và xác nhận chéo 2010':unlock.status==='SECONDARY'?(unlock.source==='SRC26'?`SRC26: gate Thunderbird lấy từ bảng thứ cấp; chỉ số khớp catalog 2009 nhưng chưa đối chiếu client gốc`:`SRC28: bài 17173 năm 2010 nêu Centaur tuyển ở Barracks cấp 1; chưa đối chiếu client gốc`):unlock.status==='PARTIAL_SCOUT_HALL_GATE'?`SRC27 (Trung Quốc 2009): Barracks 2 + Scouting 1; Town Hall riêng chưa xác minh; phép Scouting đối chiếu SRC04 (wiki Anh 2009)`:unlock.status==='DERIVED_SCOUT_GATE'?`Vai trò trinh sát và Scouting 1 được đối chiếu chéo phiên bản; Town Hall riêng cho Scout chưa xác minh`:unlock.status==='DERIVED_TROOP_BUILDING_TIER'?(u.race==='undead'?(u.tier===2?`SRC02 + SRC11: Graveyard cấp cao mở quân cấp cao; ánh xạ cấp nhà = bậc quân là B* suy luận, chưa có bảng từng quân. Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009)`:`SRC02 + SRC11: Graveyard cấp cao mở quân cấp cao; ánh xạ cấp nhà = bậc quân là B* suy luận, chưa có bảng từng quân`):u.tier===2?`SRC02 + SRC03 + SRC11: suy luận B* theo bậc ${troopBuildingName}; Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009); cổng phụ chưa xác minh`:`SRC02 + SRC03 + SRC11: suy luận B* theo bậc đơn vị ${troopBuildingName}; chưa xác minh từng cổng phụ gốc`):unlock.status==='MODELED_SCOUT_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp 2 chưa có bảng gốc xác nhận; Scouting 1 được đối chiếu vai trò trinh sát (Trung Quốc 2010, wiki tiếng Anh 2009)` :unlock.status==='MODELED_TIER_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp ${u.tier} theo bậc quân; không phải số liệu lịch sử đã xác minh`:`Đã xác minh ${troopBuildingName} là nhà tuyển quân; cổng phụ từng đơn vị của chủng tộc còn thiếu nguồn`;return `<div class="card unitrow"><div><div class="heading">${hg28ArmyUnitThumb(u,56)} ${esc(u.name)} <span class="tag">Bậc ${u.tier}</span><span class="tag">${unlock.confidence}</span></div><div class="hint">${u.type} · HP ${u.hp} · ATK ${u.atk} · DEF ${u.def} · SPD ${u.spd} · Tầm ${E.unitTacticalRange(u)} ô · Hành quân ×${Math.max(.8,Math.min(1.10,.8+u.spd/40)).toFixed(2)}</div><div>Quân trong thành <b class="key">${state.army[u.id]||0}</b> · ${E.recruitDuration(state,u,1)}s/lính (hiện tại)</div><details class="hg28-unit-evidence"><summary>Điều kiện & nguồn</summary><small>Điều kiện: ${checks}</small><small>${confidence}</small></details><div class="cost" title="Giá 1 quân tính theo công thức engine thực tế">Giá 1: ${money(cost)}${u.tier>=9&&(state.buildings.blacksmith||0)>=8&&(state.spells.manufacturing||0)>=6?' · ⚒ Hiệu suất tinh nhuệ':''}</div>
+ <div class="grid grid2" style="margin-top:12px">${E.arrUnits(state).map(u=>{const unlock=E.troopPrerequisites(state,u),unlocked=unlock.available&&!u.rewardOnly&&!u.towerExclusive,maxQty=E.recruitMax(state,u.id),defaultQty=hg35RecruitDraftQty(u,maxQty),cost=E.recruitCost(state,u,1),checks=unlock.checks.map(c=>{const label=c.kind==='building'?C.buildings[c.key]?.name||c.key:c.key==='bootcamp'?'Bootcamp (Huấn luyện)':c.key==='manufacturing'?'Manufacturing (Chế tạo)':`Phép ${C.spells[c.key]?.vi||c.key}`;return `${esc(label)} ${c.actual}/${c.level}`}).join(' · '),confidence=unlock.status==='OBSERVED'?'Đối chiếu bảng Human trong hướng dẫn Trung Quốc 2009 và xác nhận chéo 2010':unlock.status==='SECONDARY'?(unlock.source==='SRC26'?`SRC26: gate Thunderbird lấy từ bảng thứ cấp; chỉ số khớp catalog 2009 nhưng chưa đối chiếu client gốc`:`SRC28: bài 17173 năm 2010 nêu Centaur tuyển ở Barracks cấp 1; chưa đối chiếu client gốc`):unlock.status==='PARTIAL_SCOUT_HALL_GATE'?`SRC27 (Trung Quốc 2009): Barracks 2 + Scouting 1; Town Hall riêng chưa xác minh; phép Scouting đối chiếu SRC04 (wiki Anh 2009)`:unlock.status==='DERIVED_SCOUT_GATE'?`Vai trò trinh sát và Scouting 1 được đối chiếu chéo phiên bản; Town Hall riêng cho Scout chưa xác minh`:unlock.status==='DERIVED_TROOP_BUILDING_TIER'?(u.race==='undead'?(u.tier===2?`SRC02 + SRC11: Graveyard cấp cao mở quân cấp cao; ánh xạ cấp nhà = bậc quân là B* suy luận, chưa có bảng từng quân. Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009)`:`SRC02 + SRC11: Graveyard cấp cao mở quân cấp cao; ánh xạ cấp nhà = bậc quân là B* suy luận, chưa có bảng từng quân`):u.tier===2?`SRC02 + SRC03 + SRC11: suy luận B* theo bậc ${troopBuildingName}; Scouting đối chiếu chéo SRC22 (Trung Quốc 2010) và SRC04 (wiki tiếng Anh 2009); cổng phụ chưa xác minh`:`SRC02 + SRC03 + SRC11: suy luận B* theo bậc đơn vị ${troopBuildingName}; chưa xác minh từng cổng phụ gốc`):unlock.status==='MODELED_SCOUT_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp 2 chưa có bảng gốc xác nhận; Scouting 1 được đối chiếu vai trò trinh sát (Trung Quốc 2010, wiki tiếng Anh 2009)` :unlock.status==='MODELED_TIER_PROXY'?`MÔ HÌNH TẠM: ${troopBuildingName} cấp ${u.tier} theo bậc quân; không phải số liệu lịch sử đã xác minh`:`Đã xác minh ${troopBuildingName} là nhà tuyển quân; cổng phụ từng đơn vị của chủng tộc còn thiếu nguồn`;return `<div class="card unitrow"><div><div class="heading">${hg28ArmyUnitThumb(u,56)} ${esc(u.name)} <span class="tag">Bậc ${u.tier}</span><span class="tag">${unlock.confidence}</span></div><div class="hint">${u.type} · HP ${u.hp} · ATK ${u.atk} · DEF ${u.def} · SPD ${u.spd} · Tầm ${E.unitTacticalRange(u)} ô · Hành quân ×${Math.max(.8,Math.min(1.10,.8+u.spd/40)).toFixed(2)}</div><div>Quân trong thành <b class="key">${state.army[u.id]||0}</b> · ${E.recruitDuration(state,u,1)}s/lính (hiện tại)</div><details class="hg28-unit-evidence"><summary>Điều kiện & nguồn</summary><small>Điều kiện: ${checks}</small><small>${confidence}</small></details><div class="cost" title="Giá 1 quân tính theo công thức engine thực tế">Giá 1: ${money(cost)}${u.tier>=9&&(state.buildings.blacksmith||0)>=8&&(state.spells.manufacturing||0)>=6?' · ⚒ Hiệu suất tinh nhuệ':''}</div>
  <div class="hg35-recruit-preview" id="pay_${u.id}" aria-live="polite">${esc(hg35RecruitQuote(u,defaultQty))}</div></div>
  <div class="entry hg35-recruit-controls">
  <label for="q_${u.id}">Số lượng</label><input id="q_${u.id}" aria-label="Số lượng ${esc(u.name)}" type="number" inputmode="numeric" min="1" max="${Math.max(1,maxQty)}" value="${defaultQty}">
@@ -8260,7 +8268,10 @@ function render(){
  if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}
 }
 $('app').addEventListener('input',evt=>{
- const field=evt.target;if(field?.id?.startsWith('q_'))hg35UpdateRecruitQuote(field.id.slice(2));
+ const field=evt.target;if(!field?.id?.startsWith('q_'))return;
+ const id=field.id.slice(2),qty=Number(field.value);
+ if(Number.isSafeInteger(qty)&&qty>=1)recruitDrafts.set(id,qty);else recruitDrafts.delete(id);
+ hg35UpdateRecruitQuote(id);
 });
 $('app').addEventListener('change',evt=>{
  const field=evt.target,unitId=field?.dataset?.dispatchCount;if(!unitId||!dispatchDraft)return;
@@ -8277,7 +8288,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='modal-backdrop'){if(evt.target===target){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;render();}return;}
  if(action==='recruit-max'){
   const id=target.dataset.id,qty=E.recruitMax(state,id),input=$('q_'+id);
-  if(input){input.value=String(qty);hg35UpdateRecruitQuote(id)}
+  if(input){input.value=String(qty);recruitDrafts.set(id,qty);hg35UpdateRecruitQuote(id)}
   return;
  }
  if(action==='city-inspector'){
@@ -8411,7 +8422,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='heropoint'){E.allocateHeroPoint(state,Number(target.dataset.id),target.dataset.stat);return}
  if(action==='recruit'){
   const id=target.dataset.id,qty=Number($('q_'+id).value);
-  const spent=E.recruit(state,id,qty);
+  const spent=E.recruit(state,id,qty);recruitDrafts.delete(id);
   toast('Đã trừ '+hg35ExpenseText(spent)+'; xếp hàng '+format(qty)+' quân.');return;
  }
  if(action==='march'){const commander=state.heroes.find(h=>h.id===state.activeHero);let count=state.formation?.reduce((n,g)=>n+g.count,0)||0;if(!count){const starter=E.autoFormation(state);count=starter.total;toast('Tự bố trí '+count+' quân cho '+(commander?.name||'tướng')+'. Có thể tùy chỉnh trong Quân đội.');}E.startMarch(state,selected,target.dataset.kind==='treasure'?'treasure':undefined);toast((commander?.name||'Tướng')+' xuất chinh cùng '+count+' quân.');return}
