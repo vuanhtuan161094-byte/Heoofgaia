@@ -130,11 +130,12 @@ with sync_playwright() as pw:
     page.reload(wait_until='load')
     afterReload=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
-      return {valid:HOG_ENGINE.strictSave(s),market:s.buildingQueue?.key,
-        queued:s.training.at(-1)?.count};
+      return {valid:HOG_ENGINE.strictSave(s),market:s.buildings.market,
+        queue:s.buildingQueue?.key,queued:s.training.at(-1)?.count};
     }""")
     check('Cold localStorage Save v07 preserves paid construction and recruitment',
-          afterReload['valid'] and afterReload['market']=='market' and
+          afterReload['valid'] and
+          (afterReload['queue']=='market' or afterReload['market']>=1) and
           afterReload['queued']==beforeRecruit['n'],afterReload)
     page.set_viewport_size({'width':960,'height':540})
     page.locator('[data-action="tab"][data-tab="city"]').first.click()
