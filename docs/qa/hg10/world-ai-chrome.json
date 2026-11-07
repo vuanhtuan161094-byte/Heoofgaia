@@ -1,0 +1,49 @@
+{
+  "total": 10,
+  "passed": 10,
+  "failed": 0,
+  "checks": [
+    {
+      "name": "60 castles, 36 AI cities and one reachable tier-1 fort",
+      "passed": true
+    },
+    {
+      "name": "Actual world-canvas pointer selects AI castle and shows its Fame gate",
+      "passed": true
+    },
+    {
+      "name": "World ETA/AP preview matches canonical path and dispatch formula",
+      "passed": true
+    },
+    {
+      "name": "Fame unlocks the actual AI-castle dispatch action",
+      "passed": true
+    },
+    {
+      "name": "Actual UI dispatch opens a paid world march",
+      "passed": true
+    },
+    {
+      "name": "AI defenders come from actual saved faction garrison",
+      "passed": true
+    },
+    {
+      "name": "Real combat viewport is visible",
+      "passed": true
+    },
+    {
+      "name": "Save v07 stores open AI battle",
+      "passed": true
+    },
+    {
+      "name": "Reload preserves AI battle, owner ledger and defender counts",
+      "passed": true
+    },
+    {
+      "name": "No browser JavaScript exceptions",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "fixture": "Fame is set to 5800 only for Chrome QA; normal gameplay remains unchanged."
+}

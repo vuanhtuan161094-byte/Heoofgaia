@@ -1,5 +1,6 @@
 """HG-10 focused real file:// Chromium acceptance for offline AI castle interaction."""
 from pathlib import Path
+import os
 import json
 from playwright.sync_api import sync_playwright
 
@@ -20,7 +21,10 @@ def check(name, ok):
 
 try:
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True, args=["--no-sandbox", "--disable-dev-shm-usage", "--allow-file-access-from-files"])
+        launch = {"headless": True, "args": ["--no-sandbox", "--disable-dev-shm-usage", "--allow-file-access-from-files"]}
+        if os.environ.get("HOG_CHROME_PATH"):
+            launch["executable_path"] = os.environ["HOG_CHROME_PATH"]
+        browser = p.chromium.launch(**launch)
         page = browser.new_page(viewport={"width": 1280, "height": 900})
         page.set_default_timeout(15000)
         page.on("pageerror", lambda exc: errors.append(str(exc)))
@@ -43,7 +47,11 @@ try:
         }""")
         page.mouse.click(point["x"], point["y"])
         view = page.locator(".target-information").inner_text()
-        check("Actual world-canvas pointer selects AI castle", "Thành AI" in view and target["name"] in view)
+        target_card = page.locator(".hg39-map-target .target-information")
+        dispatch_button = target_card.locator('[data-action="dispatch-open"]')
+        check("Actual world-canvas pointer selects AI castle and shows its Fame gate",
+              target["name"] in target_card.locator("h2").inner_text() and
+              dispatch_button.is_disabled() and "Cần thêm danh vọng" in dispatch_button.inner_text())
         predicted = page.evaluate("""() => {
           const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
           const target=E.TILES.find(t=>t.kind==='castle'&&t.aiOwner&&t.level===1);
@@ -62,8 +70,18 @@ try:
               f"{predicted['ap']} AP" in displayed)
         page.screenshot(path=str(OUT / "ai-city-map-chrome.png"), full_page=True)
         page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();s.fame=5800;HOG_APP_DEBUG.render()}""")
+        dispatch_button = page.locator('.hg39-map-target [data-action="dispatch-open"]')
+        check("Fame unlocks the actual AI-castle dispatch action",
+              dispatch_button.is_enabled() and "Xuất chinh" in dispatch_button.inner_text())
         ap_before = page.evaluate("HOG_APP_DEBUG.getState().ap")
-        page.locator('[data-action="march"]').first.click()
+        dispatch_button.click()
+        page.locator(".hg39-dispatch").wait_for(state="visible")
+        page.locator('[data-action="dispatch-auto"]').click()
+        confirm = page.locator('[data-action="dispatch-confirm"]')
+        confirm.wait_for(state="visible")
+        if not confirm.is_enabled():
+            raise AssertionError("AI castle did not produce a valid real army formation")
+        confirm.click()
         march = page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();return {target:s.march?.target||null,ap:s.ap,toast:document.getElementById('toast')?.innerText||''}}""")
         print("AI dispatch receipt:", {"target":march["target"],"apBefore":ap_before,"apAfter":march["ap"],"toast":march["toast"]},flush=True)
         check("Actual UI dispatch opens a paid world march", march["target"] == target["key"] and 7 <= ap_before-march["ap"] <= 8.1)
