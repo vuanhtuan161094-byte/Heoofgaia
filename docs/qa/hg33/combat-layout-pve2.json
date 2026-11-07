@@ -1,0 +1,1644 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "check": "Actual map march enters canonical Azrael 3-Boss combat",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "enemies": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ]
+      }
+    },
+    {
+      "check": "boss-three 1280x720 uses the real reversible pointy-top odd-r hex grid",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          null
+        ],
+        "allUnits": 4,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 814.2582509428528,
+            "y": 243.42857142857142
+          },
+          {
+            "id": "e1",
+            "x": 849.6415745831885,
+            "y": 427.2857142857142
+          },
+          {
+            "id": "e2",
+            "x": 814.2582509428528,
+            "y": 611.1428571428571
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 40.857142857142854,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 1252,
+          "h": 664
+        },
+        "dock": {
+          "x": 1047.40625,
+          "y": 55,
+          "w": 212.59375,
+          "h": 652.25
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 1.791226304881377e-05,
+        "overflow": false,
+        "canvas": {
+          "width": 1027,
+          "height": 662,
+          "screenX": 15,
+          "screenWidth": 1027.40625,
+          "screenHeight": 662.25
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "boss-three 1280x720 keeps image and pointer aligned",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          null
+        ],
+        "allUnits": 4,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 814.2582509428528,
+            "y": 243.42857142857142
+          },
+          {
+            "id": "e1",
+            "x": 849.6415745831885,
+            "y": 427.2857142857142
+          },
+          {
+            "id": "e2",
+            "x": 814.2582509428528,
+            "y": 611.1428571428571
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 40.857142857142854,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 1252,
+          "h": 664
+        },
+        "dock": {
+          "x": 1047.40625,
+          "y": 55,
+          "w": 212.59375,
+          "h": 652.25
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 1.791226304881377e-05,
+        "overflow": false,
+        "canvas": {
+          "width": 1027,
+          "height": 662,
+          "screenX": 15,
+          "screenWidth": 1027.40625,
+          "screenHeight": 662.25
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "boss-three 1280x720 removes duplicate stack cards and keeps field commands in the right dock",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          null
+        ],
+        "allUnits": 4,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 814.2582509428528,
+            "y": 243.42857142857142
+          },
+          {
+            "id": "e1",
+            "x": 849.6415745831885,
+            "y": 427.2857142857142
+          },
+          {
+            "id": "e2",
+            "x": 814.2582509428528,
+            "y": 611.1428571428571
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 40.857142857142854,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 1252,
+          "h": 664
+        },
+        "dock": {
+          "x": 1047.40625,
+          "y": 55,
+          "w": 212.59375,
+          "h": 652.25
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 1.791226304881377e-05,
+        "overflow": false,
+        "canvas": {
+          "width": 1027,
+          "height": 662,
+          "screenX": 15,
+          "screenWidth": 1027.40625,
+          "screenHeight": 662.25
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "boss-three 1280x720 keeps three live Boss silhouettes individually readable",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          null
+        ],
+        "allUnits": 4,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 814.2582509428528,
+            "y": 243.42857142857142
+          },
+          {
+            "id": "e1",
+            "x": 849.6415745831885,
+            "y": 427.2857142857142
+          },
+          {
+            "id": "e2",
+            "x": 814.2582509428528,
+            "y": 611.1428571428571
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 40.857142857142854,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 1252,
+          "h": 664
+        },
+        "dock": {
+          "x": 1047.40625,
+          "y": 55,
+          "w": 212.59375,
+          "h": 652.25
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 1.791226304881377e-05,
+        "overflow": false,
+        "canvas": {
+          "width": 1027,
+          "height": 662,
+          "screenX": 15,
+          "screenWidth": 1027.40625,
+          "screenHeight": 662.25
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "boss-three 1280x720 collapses the right dock and returns width to battlefield",
+      "pass": true,
+      "detail": {
+        "open": false,
+        "canvas": 1201,
+        "classSet": true
+      }
+    },
+    {
+      "check": "boss-three 1280x720 selects a friendly stack directly on the hex field",
+      "pass": true,
+      "detail": "p0"
+    },
+    {
+      "check": "Actual pointer selects first boss 1280x720",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "boss-three 960x540 uses the real reversible pointy-top odd-r hex grid",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          null
+        ],
+        "allUnits": 4,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 581.6140461006964,
+            "y": 179.48000000000002
+          },
+          {
+            "id": "e1",
+            "x": 605.8627574066608,
+            "y": 305.48
+          },
+          {
+            "id": "e2",
+            "x": 581.6140461006964,
+            "y": 431.48
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 28,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 932,
+          "h": 484
+        },
+        "dock": {
+          "x": 771,
+          "y": 55,
+          "w": 169,
+          "h": 472
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 0,
+        "overflow": false,
+        "canvas": {
+          "width": 751,
+          "height": 482,
+          "screenX": 15,
+          "screenWidth": 751,
+          "screenHeight": 482
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "boss-three 960x540 keeps image and pointer aligned",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          null
+        ],
+        "allUnits": 4,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 581.6140461006964,
+            "y": 179.48000000000002
+          },
+          {
+            "id": "e1",
+            "x": 605.8627574066608,
+            "y": 305.48
+          },
+          {
+            "id": "e2",
+            "x": 581.6140461006964,
+            "y": 431.48
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 28,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 932,
+          "h": 484
+        },
+        "dock": {
+          "x": 771,
+          "y": 55,
+          "w": 169,
+          "h": 472
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 0,
+        "overflow": false,
+        "canvas": {
+          "width": 751,
+          "height": 482,
+          "screenX": 15,
+          "screenWidth": 751,
+          "screenHeight": 482
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "boss-three 960x540 removes duplicate stack cards and keeps field commands in the right dock",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          null
+        ],
+        "allUnits": 4,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 581.6140461006964,
+            "y": 179.48000000000002
+          },
+          {
+            "id": "e1",
+            "x": 605.8627574066608,
+            "y": 305.48
+          },
+          {
+            "id": "e2",
+            "x": 581.6140461006964,
+            "y": 431.48
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 28,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 932,
+          "h": 484
+        },
+        "dock": {
+          "x": 771,
+          "y": 55,
+          "w": 169,
+          "h": 472
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 0,
+        "overflow": false,
+        "canvas": {
+          "width": 751,
+          "height": 482,
+          "screenX": 15,
+          "screenWidth": 751,
+          "screenHeight": 482
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "boss-three 960x540 keeps three live Boss silhouettes individually readable",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          null
+        ],
+        "allUnits": 4,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 581.6140461006964,
+            "y": 179.48000000000002
+          },
+          {
+            "id": "e1",
+            "x": 605.8627574066608,
+            "y": 305.48
+          },
+          {
+            "id": "e2",
+            "x": 581.6140461006964,
+            "y": 431.48
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 28,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 932,
+          "h": 484
+        },
+        "dock": {
+          "x": 771,
+          "y": 55,
+          "w": 169,
+          "h": 472
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 0,
+        "overflow": false,
+        "canvas": {
+          "width": 751,
+          "height": 482,
+          "screenX": 15,
+          "screenWidth": 751,
+          "screenHeight": 482
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "boss-three 960x540 collapses the right dock and returns width to battlefield",
+      "pass": true,
+      "detail": {
+        "open": false,
+        "canvas": 883,
+        "classSet": true
+      }
+    },
+    {
+      "check": "boss-three 960x540 selects a friendly stack directly on the hex field",
+      "pass": true,
+      "detail": "p0"
+    },
+    {
+      "check": "Actual pointer selects first boss 960x540",
+      "pass": true,
+      "detail": null
+    },
+    {
+      "check": "3 real commanders enter one joint Boss battle with 2 stacks each",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "departure": "dispatched",
+        "arrive": "battle_open",
+        "joint": true,
+        "heroes": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "enemies": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ]
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 1280x720 uses the real reversible pointy-top odd-r hex grid",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "allUnits": 9,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 708.108280021846,
+            "y": 182.14285714285714
+          },
+          {
+            "id": "e1",
+            "x": 743.4916036621815,
+            "y": 366
+          },
+          {
+            "id": "e2",
+            "x": 672.7249563815103,
+            "y": 611.1428571428571
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 40.857142857142854,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 1252,
+          "h": 664
+        },
+        "dock": {
+          "x": 1047.40625,
+          "y": 55,
+          "w": 212.59375,
+          "h": 652.25
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 1.791226304881377e-05,
+        "overflow": false,
+        "canvas": {
+          "width": 1027,
+          "height": 662,
+          "screenX": 15,
+          "screenWidth": 1027.40625,
+          "screenHeight": 662.25
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 1280x720 keeps image and pointer aligned",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "allUnits": 9,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 708.108280021846,
+            "y": 182.14285714285714
+          },
+          {
+            "id": "e1",
+            "x": 743.4916036621815,
+            "y": 366
+          },
+          {
+            "id": "e2",
+            "x": 672.7249563815103,
+            "y": 611.1428571428571
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 40.857142857142854,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 1252,
+          "h": 664
+        },
+        "dock": {
+          "x": 1047.40625,
+          "y": 55,
+          "w": 212.59375,
+          "h": 652.25
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 1.791226304881377e-05,
+        "overflow": false,
+        "canvas": {
+          "width": 1027,
+          "height": 662,
+          "screenX": 15,
+          "screenWidth": 1027.40625,
+          "screenHeight": 662.25
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 1280x720 removes duplicate stack cards and keeps field commands in the right dock",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "allUnits": 9,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 708.108280021846,
+            "y": 182.14285714285714
+          },
+          {
+            "id": "e1",
+            "x": 743.4916036621815,
+            "y": 366
+          },
+          {
+            "id": "e2",
+            "x": 672.7249563815103,
+            "y": 611.1428571428571
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 40.857142857142854,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 1252,
+          "h": 664
+        },
+        "dock": {
+          "x": 1047.40625,
+          "y": 55,
+          "w": 212.59375,
+          "h": 652.25
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 1.791226304881377e-05,
+        "overflow": false,
+        "canvas": {
+          "width": 1027,
+          "height": 662,
+          "screenX": 15,
+          "screenWidth": 1027.40625,
+          "screenHeight": 662.25
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 1280x720 keeps three live Boss silhouettes individually readable",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "allUnits": 9,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 708.108280021846,
+            "y": 182.14285714285714
+          },
+          {
+            "id": "e1",
+            "x": 743.4916036621815,
+            "y": 366
+          },
+          {
+            "id": "e2",
+            "x": 672.7249563815103,
+            "y": 611.1428571428571
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 40.857142857142854,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 1252,
+          "h": 664
+        },
+        "dock": {
+          "x": 1047.40625,
+          "y": 55,
+          "w": 212.59375,
+          "h": 652.25
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 1.791226304881377e-05,
+        "overflow": false,
+        "canvas": {
+          "width": 1027,
+          "height": 662,
+          "screenX": 15,
+          "screenWidth": 1027.40625,
+          "screenHeight": 662.25
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 1280x720 collapses the right dock and returns width to battlefield",
+      "pass": true,
+      "detail": {
+        "open": false,
+        "canvas": 1201,
+        "classSet": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 1280x720 selects a friendly stack directly on the hex field",
+      "pass": true,
+      "detail": "p0"
+    },
+    {
+      "check": "Six stacks keep 3 distinct hero owners at 1280x720",
+      "pass": true,
+      "detail": [
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 960x540 uses the real reversible pointy-top odd-r hex grid",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "allUnits": 9,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 508.86791218280354,
+            "y": 137.48000000000002
+          },
+          {
+            "id": "e1",
+            "x": 533.1166234887679,
+            "y": 263.48
+          },
+          {
+            "id": "e2",
+            "x": 484.6192008768393,
+            "y": 431.48
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 28,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 932,
+          "h": 484
+        },
+        "dock": {
+          "x": 771,
+          "y": 55,
+          "w": 169,
+          "h": 472
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 0,
+        "overflow": false,
+        "canvas": {
+          "width": 751,
+          "height": 482,
+          "screenX": 15,
+          "screenWidth": 751,
+          "screenHeight": 482
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 960x540 keeps image and pointer aligned",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "allUnits": 9,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 508.86791218280354,
+            "y": 137.48000000000002
+          },
+          {
+            "id": "e1",
+            "x": 533.1166234887679,
+            "y": 263.48
+          },
+          {
+            "id": "e2",
+            "x": 484.6192008768393,
+            "y": 431.48
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 28,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 932,
+          "h": 484
+        },
+        "dock": {
+          "x": 771,
+          "y": 55,
+          "w": 169,
+          "h": 472
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 0,
+        "overflow": false,
+        "canvas": {
+          "width": 751,
+          "height": 482,
+          "screenX": 15,
+          "screenWidth": 751,
+          "screenHeight": 482
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 960x540 removes duplicate stack cards and keeps field commands in the right dock",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "allUnits": 9,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 508.86791218280354,
+            "y": 137.48000000000002
+          },
+          {
+            "id": "e1",
+            "x": 533.1166234887679,
+            "y": 263.48
+          },
+          {
+            "id": "e2",
+            "x": 484.6192008768393,
+            "y": 431.48
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 28,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 932,
+          "h": 484
+        },
+        "dock": {
+          "x": 771,
+          "y": 55,
+          "w": 169,
+          "h": 472
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 0,
+        "overflow": false,
+        "canvas": {
+          "width": 751,
+          "height": 482,
+          "screenX": 15,
+          "screenWidth": 751,
+          "screenHeight": 482
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 960x540 keeps three live Boss silhouettes individually readable",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "inCombat": true,
+        "cols": 12,
+        "rows": 9,
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ],
+        "allUnits": 9,
+        "bossCount": 3,
+        "foeLabels": [
+          "Azrael",
+          "Demonlord Samurai",
+          "Cyclop Tyrant"
+        ],
+        "bossMax": 0,
+        "bossOverlap": 0,
+        "labelConflicts": 0,
+        "hudConflicts": 0,
+        "bossCenters": [
+          {
+            "id": "e0",
+            "x": 508.86791218280354,
+            "y": 137.48000000000002
+          },
+          {
+            "id": "e1",
+            "x": 533.1166234887679,
+            "y": 263.48
+          },
+          {
+            "id": "e2",
+            "x": 484.6192008768393,
+            "y": 431.48
+          }
+        ],
+        "hexOrientation": "pointy-top",
+        "hexLayout": "odd-r",
+        "hexRadius": 28,
+        "cellCount": 108,
+        "gridShown": true,
+        "roster": {
+          "cards": 0,
+          "rowsAbsent": true
+        },
+        "headingFits": true,
+        "actionFlags": {
+          "attack": true,
+          "advance": true,
+          "move": true,
+          "defend": true,
+          "focus": true,
+          "retreat": true,
+          "auto": true,
+          "grid": true,
+          "hp": true
+        },
+        "allActions": true,
+        "dockVisible": true,
+        "stage": {
+          "x": 14,
+          "y": 49,
+          "w": 932,
+          "h": 484
+        },
+        "dock": {
+          "x": 771,
+          "y": 55,
+          "w": 169,
+          "h": 472
+        },
+        "cornersInside": true,
+        "cellsInvert": true,
+        "hitAll": true,
+        "aspect": 0,
+        "overflow": false,
+        "canvas": {
+          "width": 751,
+          "height": 482,
+          "screenX": 15,
+          "screenWidth": 751,
+          "screenHeight": 482
+        },
+        "bossSpriteInside": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 960x540 collapses the right dock and returns width to battlefield",
+      "pass": true,
+      "detail": {
+        "open": false,
+        "canvas": 883,
+        "classSet": true
+      }
+    },
+    {
+      "check": "joint-three-heroes-six-stacks 960x540 selects a friendly stack directly on the hex field",
+      "pass": true,
+      "detail": "p0"
+    },
+    {
+      "check": "Six stacks keep 3 distinct hero owners at 960x540",
+      "pass": true,
+      "detail": [
+        1,
+        1,
+        2,
+        2,
+        3,
+        3
+      ]
+    },
+    {
+      "check": "Cold Save v07 restores joint 3x2 owner-bound battle",
+      "pass": true,
+      "detail": {
+        "valid": true,
+        "joint": {
+          "version": 1,
+          "team": [
+            1,
+            2,
+            3
+          ],
+          "slotsPerHero": 2
+        },
+        "owners": [
+          1,
+          1,
+          2,
+          2,
+          3,
+          3
+        ]
+      }
+    },
+    {
+      "check": "No uncaught Chromium JavaScript errors",
+      "pass": true,
+      "detail": []
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "docs\\evidence\\hg33\\combat-layout\\pve2-regression\\boss-three-1280x720.png",
+      "sha256": "42c402ce7fcca9cc039dd602ffc55a7fbc9e266e775ecc3f67af80cb7c92f0a3"
+    },
+    {
+      "path": "docs\\evidence\\hg33\\combat-layout\\pve2-regression\\boss-three-960x540.png",
+      "sha256": "87c86f53e30fe489e08aea1431a394c345793ad1c0ecc5455cd6fb4064507999"
+    },
+    {
+      "path": "docs\\evidence\\hg33\\combat-layout\\pve2-regression\\joint-three-heroes-six-stacks-1280x720.png",
+      "sha256": "e75efc5869122fe2acaf744e5dca36c39914f270e3246a69922d7ce482bc6d34"
+    },
+    {
+      "path": "docs\\evidence\\hg33\\combat-layout\\pve2-regression\\joint-three-heroes-six-stacks-960x540.png",
+      "sha256": "46a789e8713ef1bd051068b41e2239e90fff61cd0565ebab5bc3fc3236e2f092"
+    }
+  ],
+  "errors": [],
+  "html_sha256": "574d60d539574646d49a7a44db9289803a509af5f68a03d4559c98b6acfb187e",
+  "fixture": "Two extra hero records only; paid AP, troop dispatch and 3 Boss fight use real engine"
+}

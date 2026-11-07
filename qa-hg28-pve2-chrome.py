@@ -2,14 +2,15 @@
 Chromium file:// screenshots, live battle source, canonical 12x9 cells, no fake rewards.
 """
 from pathlib import Path
+import os
 import hashlib
 import json
 from playwright.sync_api import sync_playwright
 
 ROOT=Path(__file__).resolve().parent
 HTML=ROOT/"Play-Heoofgaia-HG11.html"
-OUT=ROOT/"docs/evidence/hg33/after"
-REPORT=ROOT/"docs/qa/hg33/H1-chromium.json"
+OUT=Path(os.environ.get("HOG_HG33_H1_OUTPUT",ROOT/"docs/evidence/hg33/after"))
+REPORT=Path(os.environ.get("HOG_HG33_H1_REPORT",ROOT/"docs/qa/hg33/H1-chromium.json"))
 OUT.mkdir(parents=True,exist_ok=True)
 REPORT.parent.mkdir(parents=True,exist_ok=True)
 checks=[]
@@ -33,54 +34,52 @@ def inspect(page):
       const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),b=s.battle;
       const c=document.getElementById('battle-canvas'),r=c.getBoundingClientRect();
       const camera=P.battleProjection(c,E),layout=P.battleUnitLayout(b,camera,c.width,c.height);
-      const lists=[...document.querySelectorAll('.battle-ui .stack-list')],cards=[...document.querySelectorAll('.battle-ui .stack-card')];
-      const roster={cards:cards.length,columns:lists.map(q=>getComputedStyle(q).gridTemplateColumns.trim().split(/\\s+/).length),
-        visible:cards.every(q=>{const x=q.getBoundingClientRect();return x.top>=0&&x.bottom<=innerHeight}),
-        horizontalOverflow:lists.some(q=>q.scrollWidth>q.clientWidth+1)};
-      const heading=document.querySelector('.scene-title h1'),command=document.querySelector('.command-bar'),commandRect=command.getBoundingClientRect();
-      const alive=layout.filter(q=>q.u.pool>0);
-      const foes=alive.filter(q=>q.u.side==='enemy');
+      const cards=[...document.querySelectorAll('.battle-ui .stack-card')],dock=document.querySelector('.battle-command-dock'),
+        dockRect=dock?.getBoundingClientRect(),stage=document.querySelector('.battle-stage'),stageRect=stage?.getBoundingClientRect(),
+        heading=document.querySelector('.scene-title h1');
+      const actionFlags={attack:!!dock?.querySelector('[data-action="battle"][data-cmd="attack"]'),
+        advance:!!dock?.querySelector('[data-action="battle"][data-cmd="advance"]'),
+        move:!!dock?.querySelector('[data-action="move-mode"]'),
+        defend:!!dock?.querySelector('[data-action="battle"][data-cmd="defend"]'),
+        focus:!!dock?.querySelector('[data-action="battle"][data-cmd="focus"]'),
+        retreat:!!dock?.querySelector('[data-action="battle"][data-cmd="retreat"]'),
+        auto:!!dock?.querySelector('[data-action="auto"]'),grid:!!dock?.querySelector('[data-action="battle-grid"]'),
+        hp:!!dock?.querySelector('[data-action="battle-hp"]')};
+      const visibleControls=[...dock?.querySelectorAll('.battle-action-grid button')||[]].every(q=>{
+        const x=q.getBoundingClientRect();return x.width>0&&x.top>=0&&x.bottom<=innerHeight});
+      const roster={cards:cards.length,rowsAbsent:!document.querySelector('.battle-ui')&&cards.length===0};
+      const alive=layout.filter(q=>q.u.pool>0),foes=alive.filter(q=>q.u.side==='enemy');
       const area=(a,b)=>Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x))*
                           Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y));
       let bossMax=0,bossOverlap=0;
       for(let i=0;i<foes.length;i++)for(let j=i+1;j<foes.length;j++){
         const x=foes[i].sprite,y=foes[j].sprite;
         const fraction=area(x,y)/Math.min(x.w*x.h,y.w*y.h);
-        bossMax=Math.max(bossMax,fraction);
-        bossOverlap+=fraction>0?1:0;
+        bossMax=Math.max(bossMax,fraction);bossOverlap+=fraction>0?1:0;
       }
       const labelConflicts=alive.flatMap(a=>alive.filter(b=>a!==b&&
           (area(a.label,b.label)>0||area(a.label,b.sprite)>0||area(a.label,b.countBox)>0))).length;
-      const huds=[{x:14,y:14,w:225,h:42},
-        {x:c.width-200,y:14,w:186,h:42},{x:c.width-190,y:58,w:184,h:38}];
+      // The redundant round badge was removed; only the compact troop-total
+      // counter still overlays the battlefield. Hex/HP are in the right dock.
+      const huds=[{x:c.width-200,y:14,w:186,h:42}];
       const hudConflicts=alive.flatMap(a=>huds.filter(q=>
         area(q,a.label)>0||area(q,a.sprite)>0||area(q,a.countBox)>0)).length;
-      const cells=P.battleGridCells(camera);
-      const corners=cells.flatMap(cell=>cell.corners);
-      // In a live HG26 auto turn, current actor cells lead their animated
-      // walking frames by up to 450 ms. Check logical feet against the SAME
-      // post-animation time, rather than comparing new cells to old pixels.
-      const sampleNow=performance.now();
+      const cells=P.battleGridCells(camera),corners=cells.flatMap(cell=>cell.corners),sampleNow=performance.now();
       P.drawBattle(c,E,s,sampleNow,{showGrid:true,showHP:true});
-      const hitAll=alive.every(e=>
-        P.battleHit(c,e.x,e.y,E,s,sampleNow+2000)?.id===e.id);
-      const cellsInvert=cells.every(e=>{const h=P.battleCellAt(c,e.center.x,e.center.y,E);
-        return h?.x===e.x&&h?.y===e.y});
+      const hitAll=alive.every(e=>P.battleHit(c,e.x,e.y,E,s,sampleNow+2000)?.id===e.id);
+      const cellsInvert=cells.every(e=>{const h=P.battleCellAt(c,e.center.x,e.center.y,E);return h?.x===e.x&&h?.y===e.y});
+      const allActions=Object.values(actionFlags).every(Boolean),dockVisible=!!dockRect&&dockRect.top>=0&&dockRect.bottom<=innerHeight&&visibleControls;
       return {valid:E.strictSave(s),inCombat:!!b,cols:camera.g.cols,rows:camera.g.rows,
-        owners:alive.filter(e=>e.u.side==='player').map(e=>e.u.heroId),
-        allUnits:alive.length,bossCount:foes.length,
+        owners:alive.filter(e=>e.u.side==='player').map(e=>e.u.heroId),allUnits:alive.length,bossCount:foes.length,
         foeLabels:foes.map(e=>e.u.name),bossMax,bossOverlap,labelConflicts,hudConflicts,
-        bossCenters:foes.map(e=>({id:e.id,x:e.x,y:e.y})),
-        hexOrientation:camera.hex.orientation,hexLayout:camera.hex.layout,
-        hexRadius:camera.radius,cellCount:cells.length,
-        gridShown:HOG_APP_DEBUG.battleViewPrefs().grid,roster,
-        headingFits:heading.scrollWidth<=heading.clientWidth+1,
-        commandBarVisible:commandRect.top>=0&&commandRect.bottom<=innerHeight,
-        commandBar:{top:commandRect.top,bottom:commandRect.bottom,height:commandRect.height},
+        bossCenters:foes.map(e=>({id:e.id,x:e.x,y:e.y})),hexOrientation:camera.hex.orientation,hexLayout:camera.hex.layout,
+        hexRadius:camera.radius,cellCount:cells.length,gridShown:HOG_APP_DEBUG.battleViewPrefs().grid,roster,
+        headingFits:heading.scrollWidth<=heading.clientWidth+1,actionFlags,allActions,dockVisible,
+        stage:{x:stageRect?.x,y:stageRect?.y,w:stageRect?.width,h:stageRect?.height},
+        dock:{x:dockRect?.x,y:dockRect?.y,w:dockRect?.width,h:dockRect?.height},
         cornersInside:corners.every(p=>p.x>=0&&p.x<=c.width&&p.y>=0&&p.y<=c.height),
         cellsInvert,hitAll,aspect:Math.abs(c.width/r.width-c.height/r.height),
-        overflow:document.documentElement.scrollWidth>innerWidth+1,
-        canvas:{width:c.width,height:c.height},
+        overflow:document.documentElement.scrollWidth>innerWidth+1,canvas:{width:c.width,height:c.height,screenX:r.x,screenWidth:r.width,screenHeight:r.height},
         bossSpriteInside:foes.every(e=>e.sprite.x>=0&&e.sprite.x+e.sprite.w<=c.width&&
           e.sprite.y>=0&&e.sprite.y+e.sprite.h<=c.height)};
     }""")
@@ -101,19 +100,35 @@ def pose(page,width,height,title):
           d["hexLayout"]=="odd-r" and d["hexRadius"]>8 and d["gridShown"],d)
     check(key+" keeps image and pointer aligned",d["hitAll"] and d["aspect"]<.008 and
           not d["overflow"],d)
-    check(key+" keeps all 9 stack controls and the command bar visible",d["roster"]["cards"]==d["allUnits"] and
-          d["roster"]["columns"]==[3,3] and d["roster"]["visible"] and
-          not d["roster"]["horizontalOverflow"] and d["headingFits"] and
-          d["commandBarVisible"],d)
+    check(key+" removes duplicate stack cards and keeps field commands in the right dock",
+          d["roster"]["cards"]==0 and d["roster"]["rowsAbsent"] and d["allActions"] and
+          d["dockVisible"] and d["dock"]["x"]>=d["canvas"]["screenX"]+d["canvas"]["screenWidth"]-2 and
+          d["canvas"]["height"]>=height-75 and d["headingFits"],d)
     check(key+" keeps three live Boss silhouettes individually readable",
           d["bossCount"]==3 and d["bossMax"]<=.16 and d["bossSpriteInside"] and
           d["labelConflicts"]==0 and d["hudConflicts"]==0,d)
     capture(page,f"{title}-{width}x{height}.png")
+    before_width=d["canvas"]["screenWidth"]
+    page.locator('.battle-command-dock>summary').click()
+    page.wait_for_timeout(80)
+    collapsed=page.evaluate("""() => ({open:document.querySelector('.battle-command-dock').open,
+      canvas:document.querySelector('#battle-canvas').getBoundingClientRect().width,
+      classSet:document.querySelector('.battle-stage').classList.contains('battle-stage-collapsed')})""")
+    check(key+" collapses the right dock and returns width to battlefield",
+          not collapsed["open"] and collapsed["classSet"] and collapsed["canvas"]>before_width+100,collapsed)
+    page.locator('.battle-command-dock>summary').click()
+    page.wait_for_timeout(80)
+    ally=page.evaluate("""() => {const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),u=s.battle.allies.find(x=>x.pool>0),e=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height).find(x=>x.u.id===u.id);return {id:u.id,x:r.x+e.label.x/c.width*r.width,y:r.y+e.label.y/c.height*r.height}}""")
+    page.mouse.click(ally["x"],ally["y"])
+    check(key+" selects a friendly stack directly on the hex field",
+          page.evaluate("id=>HOG_APP_DEBUG.getState().battle?.selected===id",ally["id"]),ally["id"])
     return d
 
 with sync_playwright() as pw:
-    browser=pw.chromium.launch(headless=True,args=[
-        "--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
+    launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
+    if os.environ.get("HOG_CHROME_PATH"):
+        launch["executable_path"]=os.environ["HOG_CHROME_PATH"]
+    browser=pw.chromium.launch(**launch)
     page=browser.new_page(viewport={"width":1280,"height":720})
     page.set_default_timeout(11000)
     page.on("pageerror",lambda e:errors.append(str(e)))

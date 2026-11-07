@@ -6818,9 +6818,6 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
 function battleRectOverlap(a,b,pad=0){
  return a.x<b.x+b.w+pad&&a.x+a.w+pad>b.x&&a.y<b.y+b.h+pad&&a.y+a.h+pad>b.y;
 }
-// Keep the round badge in the upper-left gutter on every viewport. Centering it
-// on compact screens obscures the formation's first ranks and nameplates.
-function battleRoundHudX(width){return 14}
 function battleUnitLayout(b,camera,width,height){
  const entries=[...b.allies,...b.enemies].map(u=>{
   const pt=camera.center(u.x,u.y);
@@ -6843,7 +6840,7 @@ function battleUnitLayout(b,camera,width,height){
   e.sprite={x:e.x-half,y:e.y-e.size*pivot,w:half*2,h:e.size*pivot};
   e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
  }
- const reserved=[{x:battleRoundHudX(width),y:14,w:225,h:42},{x:width-200,y:14,w:186,h:42},{x:width-190,y:58,w:184,h:38}];
+ const reserved=[{x:width-200,y:14,w:186,h:42}];
  for(const e of [...entries].filter(e=>e.u.pool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
   const compact=width<1050,w=compact?clamp(e.u.name.length*4.8+12,68,90):clamp(e.u.name.length*6.5+24,82,132),h=28,shift=e.size*.37+w/2+12;
   const left={cx:e.x-shift,top:e.y-60,mode:'left'},
@@ -6947,8 +6944,6 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  }
  motionImpactFx(c,camera,b,elapsed,units);
  if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
- const leftHudX=battleRoundHudX(w);
- rounded(c,leftHudX,14,225,42,9,'#172a32de','#968664');text(c,`⚔  GIAO TRANH • LƯỢT ${b.turn}`,leftHudX+12,41,18,'#f5dbad','left');
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
 root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
