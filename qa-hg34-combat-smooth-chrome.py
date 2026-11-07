@@ -111,6 +111,32 @@ with sync_playwright() as pw:
               result['header'].startswith('Lượt '+str(result['turn'])+' ·') and
               not result['scrollX'],
               {'turn':result['turn'],'header':result['header'],'save':result['coldCopyTurn']})
+        # Real pointer/UI interactions should never reset a live animation.
+        point=page.evaluate("""() => {
+          const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),
+            canvas=document.getElementById('battle-canvas'),r=canvas.getBoundingClientRect(),
+            layout=P.battleUnitLayout(s.battle,P.battleProjection(canvas,E),canvas.width,canvas.height),
+            e=layout.find(x=>x.u.side==='player'&&x.u.pool>0);
+          if(!e)throw new Error('Missing living friendly troop to select');
+          window._hg34ClickCanvas=canvas;
+          const x=e.label.x+e.label.w*.5,y=e.label.y+e.label.h*.5;
+          return {id:e.id,x:r.left+x/canvas.width*r.width,
+            y:r.top+y/canvas.height*r.height};
+        }""")
+        page.mouse.click(point['x'],point['y'])
+        check(label+' manual sprite/nameplate click does not recreate combat canvas',
+              page.evaluate("""id => HOG_APP_DEBUG.getState().battle?.selected===id&&
+                 document.getElementById('battle-canvas')===window._hg34ClickCanvas""",point['id']),point['id'])
+        oldToggle=page.locator('[data-action="battle-grid"]').get_attribute('aria-pressed')
+        page.locator('[data-action="battle-grid"]').click()
+        check(label+' grid toggle updates immediately without canvas replacement',
+              page.evaluate("""prev=>document.getElementById('battle-canvas')===window._hg34ClickCanvas&&
+                document.querySelector('[data-action="battle-grid"]')?.getAttribute('aria-pressed')!==prev""",oldToggle))
+        page.locator('[data-action="move-mode"]').click()
+        check(label+' movement mode is contextual without canvas replacement',
+              page.evaluate("""() =>document.getElementById('battle-canvas')===window._hg34ClickCanvas&&
+                document.querySelector('[data-action="move-mode"]')?.textContent.includes('HỦY Ô')&&
+                HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())"""))
         page.screenshot(path=str(SCREENS/f'combat-auto-live-{width}x{height}.png'),animations='disabled')
         page.close()
     # A distinct HG26 real joint Boss expedition advances its turns through the
