@@ -2,7 +2,7 @@
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
 const A=window.HOG_ART_PACK,ico=(key,size)=>A?.iconHTML(key,size)||'';
-const $=id=>document.getElementById(id);let state=null,hg261Draft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
+const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
@@ -50,7 +50,7 @@ function resolveAutomaticBattleTurn(){
   const wasTower=!!b.hg21Tower,out=E.battleAct(s,'attack',{preserveMoveOrders:true,stableTargets:true});
   if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';
   if(out.type==='lose')tab=wasTower?'tower':'heroes';
-  if(s.battle===b)b.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;
+  if(s.battle===b)b.autoUntil=Date.now()+Math.max(BATTLE_AUTO_TURN_DELAY_MS,P.battleTimelineTurnDuration?.(b)||0);
   save();
   // On a continuing auto turn, updating only the visible combat readouts keeps
   // the SAME canvas/RAF and decoded sprite atlases alive. Full render is only
@@ -149,13 +149,13 @@ function load(){
  try{
   const current=localStorage.getItem(E.SAVE_KEY);
   if(current){
-   try{const s=ensureBattleAutoTimer(E.parseSave(current));E.tick(s);return s}
+   try{const s=ensureBattleAutoTimer(E.parseSave(current));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);return s}
    catch(err){console.warn('Current save invalid',err.message)}
   }
   const backup=localStorage.getItem(E.SAVE_KEY+'_backup');
   if(backup){
    try{
-    const s=ensureBattleAutoTimer(E.parseSave(backup));E.tick(s);
+    const s=ensureBattleAutoTimer(E.parseSave(backup));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);
     try{localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));toast('Đã khôi phục bản lưu dự phòng.')}
     catch(err){toast('Đã mở bản lưu dự phòng nhưng chưa ghi lại được; hãy xuất file JSON.')}
     return s;
@@ -164,7 +164,7 @@ function load(){
   if((localStorage.getItem('heoofgaia_hg08_skip_migration')||localStorage.getItem('heoofgaia_hg06_skip_migration')))return null;
   for(const key of ['heoofgaia_hg_only_v06','heoofgaia_hg_only_v05','heoofgaia_hg_only_v04','heoofgaia_hg_only_v03','heoofgaia_hg_only_v02']){
    const raw=localStorage.getItem(key);if(!raw)continue;
-   try{const s=ensureBattleAutoTimer(E.parseSave(raw));E.tick(s);localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));return s}
+   try{const s=ensureBattleAutoTimer(E.parseSave(raw));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));return s}
    catch(err){console.warn('Legacy save skipped:',key,err.message)}
   }
  }catch(e){console.warn('Save storage unavailable',e)}return null;
@@ -276,11 +276,43 @@ function mapView(){
   quickBar=`<section class="quickstart-strip" aria-label="Hướng dẫn xuất quân nhanh"><div class="quickstart-copy"><span class="eyebrow">BẮT ĐẦU CHƠI · 3 THAO TÁC</span><strong>🛡 ${format(quickArmy)} quân · ${state.formation?.length||0} nhóm · ${format(quickPoints)}/${format(quickLimit)} điểm chỉ huy</strong><small>Bố trí quân → nhận nhiệm vụ → tìm quái trên bản đồ. Chọn mục tiêu không tự xuất quân.</small></div><div class="quickstart-actions">${button('autoformation',{},'① ⚔ Bố trí nhanh',quickArmy<1||quickBlocked,'small primary')}${button('tab',{tab:'tasks'},'② 📜 Nhiệm vụ',false,'small secondary')}${button('findnpc',{},'③ ☠ NPC '+quickStars+'★',false,'small secondary')}</div></section>`;
  return `<div class="scene-title"><div><span class="eyebrow">WORLD EXPLORATION • 100 × 100</span><h1>Thế giới Gaia</h1></div><div class="scene-tools">${button('world-index',{},'📍 Điểm đến',false,'small secondary')}${button('zoom',{dir:'in'},'＋',false,'secondary')}${button('zoom',{dir:'out'},'－',false,'secondary')}${button('center',{},'⌖ Về thành',false,'secondary')}</div></div>
  ${quickBar}<div class="map-frame"><canvas id="world-canvas" width="1176" height="620" aria-label="Bản đồ thế giới tương tác, kéo và chạm chọn tọa độ"></canvas>${hg29PreviewUI(treasureSelected?'treasure':target?.kind,target?.key,treasureSelected?treasure?.level:target?.level)}</div>
- <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${targetStatus}</p>${previewText?`<p class="tiny muted" aria-label="Ước tính hành quân">${esc(previewText)}</p>`:''}<div class="actions">${worldDef?button('visit',{key:target.key},visited?'✓ Đã ghé hôm nay':'✨ Ghé thăm',visitDisabled,'primary'):treasureSelected?button('march',{kind:'treasure'},treasureDone?'✓ Đã dọn kho báu':marchLabel,marchDisabled||treasureDone,'primary'):stationed?button('recall',{id:stationed.heroId},'↩ Gọi tướng về',!!state.march||!!state.battle||!!state.expedition,'primary'):owned?cityAction:button('march',{},marchLabel,marchDisabled,'primary')}<span class="hint">${esc(targetHint)}</span></div></div>
+ <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${targetStatus}</p>${previewText?`<p class="tiny muted" aria-label="Ước tính hành quân">${esc(previewText)}</p>`:''}<div class="actions">${worldDef?button('visit',{key:target.key},visited?'✓ Đã ghé hôm nay':'✨ Ghé thăm',visitDisabled,'primary'):treasureSelected?button('dispatch-open',{kind:'treasure'},treasureDone?'✓ Đã dọn kho báu':marchLabel,marchDisabled||treasureDone,'primary'):stationed?button('recall',{id:stationed.heroId},'↩ Gọi tướng về',!!state.march||!!state.battle||!!state.expedition,'primary'):owned?cityAction:button('dispatch-open',{},marchLabel,marchDisabled,'primary')}<span class="hint">${esc(targetHint)}</span></div></div>
  <div class="landmarks"><span class="eyebrow">THÀNH AI VÀ TRUNG LẬP • ${E.TILES.filter(q=>q.kind==='castle'&&!E.cityForKey(state,q.key)).length} ĐỊA ĐIỂM</span><p class="tiny muted">Hiển thị 16 thành gần thành đang mở nhất. Các thành còn lại vẫn xuất hiện trên bản đồ và minimap; chạm để xem quân phòng thủ.</p><div class="landmark-list">${E.TILES.filter(q=>q.kind==='castle'&&!E.cityForKey(state,q.key)).sort((a,b)=>{const home=E.getTile(E.activeCity(state).key);return Math.abs(a.x-home.x)+Math.abs(a.y-home.y)-Math.abs(b.x-home.x)-Math.abs(b.y-home.y)}).slice(0,16).map(q=>button('select',{key:q.key},`${E.aiCityAt(state,q.key)?'⚔ AI':'🏰'} ${esc(q.value)} · ${C.races[q.race].name} (${q.x},${q.y})`,false,selected===q.key?'small primary':'small secondary')).join('')}</div><span class="eyebrow">CÔNG TRÌNH NGOÀI THÀNH • TỌA ĐỘ 17173, 27-12-2009</span><div class="landmark-list">${E.WORLD_BUILDINGS.map(q=>button('select',{key:`${q.x},${q.y}`},`✨ ${esc(q.name)} (${q.x},${String(q.y).padStart(2,'0')})${E.hasVisitedWorldBuilding(state,`${q.x},${q.y}`)?' · Đã ghé':''}`,false,selected===q.key?'small primary':'small secondary')).join('')}</div><span class="eyebrow">MA GIỚI 9–10★ • QUÁI T11/T12 (FANDOM)</span><p class="tiny muted">Fandom xác nhận chỉ số quái Demon T11/T12, nhưng các tọa độ, số quân và xác suất rơi dưới đây là thiết kế HG18. Hạ Boss mở nhiệm vụ tuần, có mảnh Tinh Vân và đá cường hóa.</p><div class="landmark-list">${highTierBosses.map(q=>button('select',{key:q.key},`☠ ${q.level}★ · ${esc(q.value)} · T${q.eliteTier} (${q.x},${q.y})`,false,selected===q.key?'small primary':'small secondary')).join('')}</div><span class="eyebrow">QUÁI VẬT 5–8★ • TỌA ĐỘ HƯỚNG DẪN 17173, 27-07-2009</span><p class="tiny muted">${highStarNpc.length} mục tiêu. Chọn ở đây hoặc chạm ký hiệu trên bản đồ. Quân lực là khuyến nghị; roster trận chưa phục hồi từ dữ liệu gốc.</p><div class="landmark-list">${highStarNpc.map(q=>button('select',{key:q.key},`☠ ${q.stars}★ · (${String(q.x).padStart(2,'0')},${String(q.y).padStart(2,'0')}) · ${format(q.minimumForce)}+`,false,selected===q.key?'small primary':'small secondary')).join('')}</div><span class="eyebrow">TRẠI KHO BÁU • 76 TỌA ĐỘ HƯỚNG DẪN 17173, 27-12-2009</span><p class="tiny muted">Chọn theo cấp để xem địa điểm, lực lượng khuyến nghị SRC20 và báo cáo canh giữ SRC47. Danh sách dùng 76 tọa độ bài hướng dẫn Trung Quốc; quân địch, cách rơi và chỉ số loot vẫn mô phỏng.</p>${treasureGroups.map((group,i)=>{const row=E.TREASURE_GEAR_GUIDE[i+1],sel=selectedTargetKind==='treasure';return `<details class="treasure-level"><summary>🧰 Kho báu cấp ${i+1} · ${group.length} điểm · SRC47 canh giữ ${format(row.reportedGuardForce)}</summary><p class="tiny muted">SRC20: tối thiểu ${format(row.minimumForce)}; hoàn toàn ${format(row.completeForce)}.${row.completeForceStatus==='CONFLICT_SOURCE_TYPO_SUSPECTED'?' Mốc hoàn toàn do bài in thấp hơn mức tối thiểu; nghi lỗi nguồn, không dùng làm cổng.':''}</p><div class="landmark-list">${group.map(q=>button('select',{key:q.key,kind:'treasure'},`🧰 (${String(q.x).padStart(2,'0')},${String(q.y).padStart(2,'0')})${state.treasureCleared?.includes(q.key)?' · Đã dọn':''}`,false,sel&&selected===q.key?'small primary':'small secondary')).join('')}</div></details>`}).join('')}</div></div>
  ${cityTransfer||''}${cityTransportView()}${state.march?`<div class="banner">🚩 ${state.march.phase==='return'?'Đạo quân đang trở về thành từ '+state.march.fromKey:'Đạo quân đang tiến tới '+state.march.target} • ${Math.ceil(state.march.remaining/state.speed)} giây thực còn lại • ${awayCount}/3 tướng đang ở ngoài thành</div>`:''}${state.parallelMarches?.length?`<div class="card expedition-ledger"><b>🧭 Các đạo quân đang đi (${awayCount}/3)</b>${state.parallelMarches.map(q=>`<div class="entry"><span>${esc(state.heroes.find(h=>h.id===q.heroId)?.name||'Tướng')} → ${esc(E.getTile(q.target)?.value||q.target)} · ${q.phase==='arrived'?'đã tới, chờ giao tranh':Math.ceil(q.remaining/state.speed)+' giây còn lại'}</span></div>`).join('')}</div>`:''}`;
 }
 function citySwitcher(){const blocked=!!state.march||!!state.battle||!!state.expedition||!!state.parallelMarches?.length;return `<div class="hg28-city-switcher" aria-label="Các thành trì"><span class="hg28-city-count">🏰 ${state.cities.length}<small> / ${E.cityLimit(state.fame)}</small></span><div class="hg28-city-switch-list">${state.cities.map(c=>button('city-switch',{id:c.id},`${c.main?'♛':'🏰'} ${esc(c.name)} · ${C.races[c.race].name}`,blocked||c.id===state.activeCityId,c.id===state.activeCityId?'small primary':'small secondary')).join('')}</div></div>`}
+function dispatchView(){
+ const draft=dispatchDraft;if(!draft)return '';
+ const hero=state.heroes.find(h=>h.id===draft.heroId),role=hero&&E.hg20HeroRole(state,hero.id),
+  reserved=hero?E.hg20Reservations(state,hero.id):{},form=draft.form||[],
+  points=hero?E.formationPoints(state,form):0,limit=hero?E.heroLimit(hero.level):0,
+  freeFor=id=>Math.max(0,(state.army[id]||0)-(reserved[id]||0)),
+  target=E.getTile(draft.targetKey),targetLabel=target?.kind==='castle'?target.value:target?.kind==='mine'?`Mỏ ${C.resource[target.value]?.label||target.value}`:target?.value||draft.targetKey,
+  total=form.reduce((n,g)=>n+g.count,0),canLaunch=!!hero&&role?.status==='home'&&points<=limit&&total>0&&!!target;
+ const heroCards=state.heroes.map(h=>{const r=E.hg20HeroRole(state,h.id),selected=h.id===draft.heroId,ready=r.status==='home';return `<button type="button" data-action="dispatch-select-hero" data-id="${h.id}" class="hg39-dispatch-hero ${selected?'active':''}" ${ready?'':'disabled'}><b>${esc(h.name)}</b><small>Lv.${h.level} · ${esc(r.label)}</small></button>`}).join('');
+ const rows=form.map(g=>{const u=E.getUnit(state,g.unitId);if(!u)return '';const free=freeFor(g.unitId);return `<div class="hg39-dispatch-row"><span class="hg39-dispatch-unit">${hg28ArmyUnitThumb(u,38)}<b>${esc(u.name)}</b><small>${format(free)} rảnh / ${format(reserved[u.id]||0)} giữ cho tướng khác</small></span><div class="hg39-dispatch-count"><button data-action="dispatch-adjust" data-id="${esc(u.id)}" data-delta="-1" aria-label="Giảm quân" ${g.count<=1?'disabled':''}>−</button><input type="number" min="1" max="${free}" value="${g.count}" data-dispatch-count="${esc(u.id)}" aria-label="Số ${esc(u.name)} xuất chinh"><button data-action="dispatch-adjust" data-id="${esc(u.id)}" data-delta="1" aria-label="Tăng quân" ${g.count>=free?'disabled':''}>＋</button><button class="hg39-remove" data-action="dispatch-remove" data-id="${esc(u.id)}" aria-label="Bỏ ${esc(u.name)}">×</button></div></div>`}).join('');
+ const addable=E.arrUnits(state).filter(u=>freeFor(u.id)>(form.find(g=>g.unitId===u.id)?.count||0));
+ return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${esc(hero.name)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'}>⚔ Tự bố trí</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
+}
+function syncDispatchDraftUI(){
+ const draft=dispatchDraft;if(!draft)return;
+ const hero=state.heroes.find(h=>h.id===draft.heroId),role=hero&&E.hg20HeroRole(state,hero.id),form=draft.form||[],
+  held=hero?E.hg20Reservations(state,hero.id):{},points=hero?E.formationPoints(state,form):0,limit=hero?E.heroLimit(hero.level):0,
+  total=form.reduce((sum,g)=>sum+g.count,0),busy=state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length;
+ const pointLabel=$('game-modal-body')?.querySelector('[data-hg39-dispatch-points]'),meter=$('game-modal-body')?.querySelector('.hg39-command-meter progress'),
+  totalLabel=$('game-modal-body')?.querySelector('.hg39-dispatch-total'),confirm=$('game-modal-body')?.querySelector('[data-action="dispatch-confirm"]');
+ if(pointLabel&&hero)pointLabel.textContent=`⚔ ${hero.name} · ${format(points)} / ${format(limit)} điểm chỉ huy`;
+ if(meter){meter.max=Math.max(1,limit);meter.value=Math.min(points,limit)}
+ if(totalLabel)totalLabel.textContent=`${format(total)} quân · ${busy}/3 tướng đang bận`;
+ if(confirm)confirm.disabled=!(hero&&role?.status==='home'&&points<=limit&&total>0&&!!E.getTile(draft.targetKey));
+ for(const row of $('game-modal-body')?.querySelectorAll('.hg39-dispatch-row')||[]){
+  const input=row.querySelector('[data-dispatch-count]'),group=form.find(g=>g.unitId===input?.dataset.dispatchCount);if(!input)continue;
+  const id=input.dataset.dispatchCount,free=Math.max(0,(state.army[id]||0)-(held[id]||0));
+  row.hidden=!group;input.value=group?String(group.count):'0';input.max=String(free);
+  const minus=row.querySelector('[data-delta="-1"]'),plus=row.querySelector('[data-delta="1"]');
+  if(minus)minus.disabled=!group||group.count<=1;if(plus)plus.disabled=!group||group.count>=free;
+ }
+}
 
 function hg35ExpenseText(cost){return C.keys.filter(k=>cost[k]>0)
  .map(k=>C.resource[k].label+' -'+format(cost[k])).join(' · ')}
@@ -903,7 +935,31 @@ function paint(){
     if(target)fail(()=>{markBattleInput();E.battleSelect(state,target.id)});};
  }
 }
+let hg39DockMoves=[];
+function restoreWorldMapLayout(){
+ for(const {node,marker} of hg39DockMoves.reverse())if(marker.parentNode){marker.parentNode.insertBefore(node,marker);marker.remove()}
+ hg39DockMoves=[];document.querySelector('.hg39-map-dock')?.remove();
+ document.body.classList.remove('hg39-world-map-mode');
+}
+function enhanceWorldMapLayout(){
+ if(tab!=='map'||state?.battle||dispatchDraft||showWorldIndex||showResourceInfo)return;
+ const main=$('main'),wrap=main?.parentElement,sidebar=document.querySelector('.sidebar');if(!main||!wrap||!sidebar)return;
+ const dock=document.createElement('aside');dock.className='hg39-map-dock';dock.setAttribute('aria-label','Điều khiển bản đồ');
+ const controls=document.createElement('div');controls.className='hg39-map-tools';
+ const title=main.querySelector('.scene-title'),tools=title?.querySelector('.scene-tools');
+ const move=(node,parent)=>{if(!node)return;const marker=document.createComment('hg39-map-position');node.parentNode.insertBefore(marker,node);hg39DockMoves.push({node,marker});parent.append(node)};
+ const addDetails=(node,label,open=false)=>{if(!node)return;const details=document.createElement('details');details.className='hg39-map-details';details.open=open;const summary=document.createElement('summary');summary.textContent=label;details.append(summary);dock.append(details);move(node,details)};
+ if(tools)move(tools,controls);dock.append(controls);
+ const target=main.querySelector('.scene-bottom .target-information');if(target){const card=document.createElement('section');card.className='hg39-map-target';dock.append(card);move(target,card)}
+ addDetails(main.querySelector('.quickstart-strip'),'Tác vụ nhanh');
+ addDetails(main.querySelector('.scene-bottom .landmarks'),'Điểm đến & tọa độ');
+ addDetails(main.querySelector('.city-switcher'),'Thành trì');
+ for(const [selector,label] of [['.city-transfer','Chuyển thành'],['.city-transport-ledger','Vận tải'],['.banner','Đạo quân hiện tại'],['.expedition-ledger','Các đạo quân']])addDetails(main.querySelector(selector),label);
+ const actionButtons=sidebar.querySelector('.buttons');if(actionButtons){const utility=document.createElement('div');utility.className='hg39-map-utility';dock.append(utility);move(actionButtons,utility)}
+ wrap.append(dock);document.body.classList.add('hg39-world-map-mode');
+}
 function render(){
+ restoreWorldMapLayout();
  const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');
  if(enteringCombat)combatDockOpen=true;
  document.body.classList.toggle('combat-mode',!!state?.battle);
@@ -914,12 +970,12 @@ function render(){
  if(!state.battle){movementModeId=null;if(tab==='combat')tab='map'}
  if(state.battle){tab='combat';showWorldIndex=false;showResourceInfo=false}
  renderHUD();
- const popup=tab!=='map'&&tab!=='combat'||tab==='map'&&(showWorldIndex||showResourceInfo);
- const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
+ const popup=!!dispatchDraft||tab!=='map'&&tab!=='combat'||tab==='map'&&(showWorldIndex||showResourceInfo);
+ const content=dispatchDraft?dispatchView():tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
  if(popup){
   $('main').innerHTML=mapView();
-  $('game-modal-title').textContent=showResourceInfo&&tab==='map'?'💰 Tài nguyên & kho':showWorldIndex&&tab==='map'?'📍 Danh sách điểm đến':tabs.find(x=>x[0]===tab)?.[1]||'Quản lý';
-  body.innerHTML=showResourceInfo&&tab==='map'?'<div class="grid grid3">'+C.keys.map(k=>{
+  $('game-modal-title').textContent=dispatchDraft?'🚩 Chọn tướng & quân':showResourceInfo&&tab==='map'?'💰 Tài nguyên & kho':showWorldIndex&&tab==='map'?'📍 Danh sách điểm đến':tabs.find(x=>x[0]===tab)?.[1]||'Quản lý';
+  body.innerHTML=dispatchDraft?content:showResourceInfo&&tab==='map'?'<div class="grid grid3">'+C.keys.map(k=>{
    const limit=E.limits(state)[k],rate=E.rate(state)[k];
    return '<div class="card"><h2>'+esc(C.resource[k].label)+'</h2><strong>'+format(state.res[k])+' / '+format(limit)+'</strong><p class="hint">+'+format(rate)+' mỗi giờ game</p><progress max="'+limit+'" value="'+state.res[k]+'"></progress></div>';
   }).join('')+'</div>':showWorldIndex&&tab==='map'?$('main').querySelector('.landmarks')?.outerHTML||'':`<div class="hg28-tab hg28-tab-${tab}" data-hg28-screen="${tab}">${content}</div>`;
@@ -940,15 +996,26 @@ function render(){
   overlay.hidden=true;body.innerHTML='';document.body.classList.remove('window-open');
   $('main').innerHTML=(tab==='map'?newPlayerGuide():'')+content;
  }
+ enhanceWorldMapLayout();
  paint();
  if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}
 }
 $('app').addEventListener('input',evt=>{
  const field=evt.target;if(field?.id?.startsWith('q_'))hg35UpdateRecruitQuote(field.id.slice(2));
 });
+$('app').addEventListener('change',evt=>{
+ const field=evt.target,unitId=field?.dataset?.dispatchCount;if(!unitId||!dispatchDraft)return;
+ const hero=state.heroes.find(h=>h.id===dispatchDraft.heroId);if(!hero)return;
+ const held=E.hg20Reservations(state,hero.id),available=Math.max(0,(state.army[unitId]||0)-(held[unitId]||0));
+ let count=Math.max(0,Math.min(available,Math.floor(Number(field.value)||0)));
+ const next=(dispatchDraft.form||[]).filter(g=>g.unitId!==unitId);
+ while(count>0&&E.formationPoints(state,[...next,{unitId,count}])>E.heroLimit(hero.level))count--;
+ if(count>0)next.push({unitId,count});dispatchDraft.form=next;
+ field.value=count?String(count):'0';syncDispatchDraftUI();
+});
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
  if(action==='modal-page'){const body=$('game-modal-body');const dir=Number(target.dataset.dir)||1;body.scrollTop=Math.max(0,Math.min(body.scrollHeight-body.clientHeight,body.scrollTop+dir*body.clientHeight*.86));modalOffset=body.scrollTop;return;}
- if(action==='modal-backdrop'){if(evt.target===target){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;render();}return;}
+ if(action==='modal-backdrop'){if(evt.target===target){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;render();}return;}
  if(action==='recruit-max'){
   const id=target.dataset.id,qty=E.recruitMax(state,id),input=$('q_'+id);
   if(input){input.value=String(qty);hg35UpdateRecruitQuote(id)}
@@ -978,7 +1045,53 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   return;
  }
  fail(()=>{
- if(action==='modal-close'){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;return}
+ if(action==='modal-close'||action==='dispatch-close'){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;return}
+ if(action==='dispatch-open'){
+  const heroId=state.activeHero;if(!selected)throw Error('Chọn mục tiêu trên bản đồ trước.');
+  dispatchDraft={targetKey:selected,kind:target.dataset.kind||selectedTargetKind||null,heroId,
+   form:E.hg20HeroPlan(state,heroId).map(g=>({...g}))};
+  showWorldIndex=false;showResourceInfo=false;modalOffset=0;return;
+ }
+ if(action==='dispatch-select-hero'){
+  const heroId=Number(target.dataset.id);E.selectHero(state,heroId);dispatchDraft.heroId=heroId;
+  dispatchDraft.form=E.hg20HeroPlan(state,heroId).map(g=>({...g}));return;
+ }
+ if(action==='dispatch-add-unit'){
+  const unitId=$('hg39-dispatch-unit')?.value,hero=state.heroes.find(h=>h.id===dispatchDraft?.heroId);
+  if(!unitId||!hero)throw Error('Chọn loại quân và tướng trước.');
+  if(dispatchDraft.form.length>=7)throw Error('Đội hình tối đa 7 nhóm.');
+  if(dispatchDraft.form.some(g=>g.unitId===unitId))throw Error('Loại quân này đã có trong đội hình.');
+  const held=E.hg20Reservations(state,hero.id),available=Math.max(0,(state.army[unitId]||0)-(held[unitId]||0));
+  if(available<1)throw Error('Không còn quân rảnh thuộc thành này.');
+  dispatchDraft.form.push({unitId,count:1});return;
+ }
+ if(action==='dispatch-adjust'){
+  const group=dispatchDraft?.form.find(g=>g.unitId===target.dataset.id);if(!group)throw Error('Đơn vị không còn trong đội hình.');
+  const hero=state.heroes.find(h=>h.id===dispatchDraft.heroId),held=E.hg20Reservations(state,hero.id),max=Math.max(0,(state.army[group.unitId]||0)-(held[group.unitId]||0));
+  let count=Math.max(1,Math.min(max,group.count+Number(target.dataset.delta||0)));
+  while(count>1&&E.formationPoints(state,dispatchDraft.form.map(g=>g.unitId===group.unitId?{...g,count}:g))>E.heroLimit(hero.level))count--;
+  group.count=count;return;
+ }
+ if(action==='dispatch-remove'){
+  dispatchDraft.form=dispatchDraft.form.filter(g=>g.unitId!==target.dataset.id);return;
+ }
+ if(action==='dispatch-auto'){
+  const heroId=dispatchDraft.heroId;if(state.activeHero!==heroId)E.selectHero(state,heroId);
+  dispatchDraft.form=E.autoFormation(state).formation.map(g=>({...g}));return;
+ }
+ if(action==='dispatch-save'){
+  const saved=E.hg20SetHeroPlan(state,dispatchDraft.heroId,dispatchDraft.form);
+  toast('Đã lưu '+format(saved.total)+' quân · '+format(saved.points)+' điểm chỉ huy cho tướng.');return;
+ }
+ if(action==='dispatch-confirm'){
+  const draft=dispatchDraft,heroId=draft.heroId;
+  if(state.activeHero!==heroId)E.selectHero(state,heroId);
+  E.hg20SetHeroPlan(state,heroId,draft.form);
+  const units=draft.form.reduce((n,g)=>n+g.count,0),targetKey=draft.targetKey;
+  E.startMarch(state,targetKey,draft.kind==='treasure'?'treasure':undefined);
+  dispatchDraft=null;tab='map';modalOffset=0;
+  toast((state.heroes.find(h=>h.id===heroId)?.name||'Tướng')+' xuất chinh cùng '+format(units)+' quân.');return;
+ }
  if(action==='world-index'){showWorldIndex=!showWorldIndex;showResourceInfo=false;modalOffset=0;return}
  if(action==='resource-info'){showResourceInfo=!showResourceInfo;showWorldIndex=false;tab='map';modalOffset=0;return}
  if(action==='race'){newRace=target.dataset.race;render();return}
@@ -991,7 +1104,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='select'){selected=target.dataset.key;selectedTargetKind=target.dataset.kind==='treasure'?'treasure':null;const tile=E.getTile(selected);if(tile)Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y});return}
  if(action==='building'){selectedBuilding=target.dataset.key;return}
  if(action==='zoom'){P.zoomMap(target.dataset.dir==='in'?1.25:.8);return}
- if(action==='center'){const city=E.activeCity(state),tile=E.getTile(city.key);Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y,zoom:1.12});selected=city.key;selectedTargetKind=null;return}
+ if(action==='center'){const city=E.activeCity(state),tile=E.getTile(city.key);Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y,zoom:1.3});selected=city.key;selectedTargetKind=null;return}
   if(action==='stack'){movementModeId=null;markBattleInput();E.battleSelect(state,target.dataset.id);return}
   if(action==='move-mode'){if(movementModeId){movementModeId=null;return}const unit=state.battle?.allies.find(u=>u.id===state.battle.selected&&u.pool>0);if(!unit)throw Error('Hãy chọn một đội quân còn sống để di chuyển.');movementModeId=unit.id;markBattleInput();return}
  if(action==='formation'){E.setFormation(state,Array.from({length:7},(_,i)=>({unitId:$('formation_unit_'+i).value,count:Number($('formation_count_'+i).value)})));toast('Đội hình đã lưu.');return}
@@ -1103,7 +1216,7 @@ $('import-file').onchange=async e=>{
  const file=e.target.files?.[0];e.target.value='';if(!file)return;
  try{
   if(file.size>2_000_000)throw Error('Tệp vượt giới hạn 2 MB');
-  const imported=E.parseSave(await file.text());
+  const imported=E.parseSave(await file.text());if(imported.battle)P.battleTimelinePrime?.(imported.battle,performance.now(),false);
   if(!confirm('Khôi phục save từ file? Tiến độ HG-08 hiện tại sẽ được thay bằng dữ liệu trong file.'))return;
   const beforeImport=state;try{state=imported;E.tick(state);if(!save())throw Error('Không thể lưu bản nhập; bản lưu cũ vẫn được giữ nguyên.');selected='3,4';selectedTargetKind=null;tab=state.battle?'combat':'map';render();toast('Đã khôi phục save.')}catch(error){state=beforeImport;throw error}
  }catch(err){toast('Không thể nhập save: '+(err.message||String(err)))}

@@ -917,6 +917,68 @@ body.combat-mode .battle-event-list{grid-template-columns:repeat(2,minmax(0,1fr)
  .hg35-building-brief>span:not(.hg35-brief-label){font-size:9px}
  .hg35-building-brief>button{font-size:8px;padding:2px 4px}
 }
+
+/* HG39 world-map dock: preserve the same interactive canvas and hit targets. */
+body.hg39-world-map-mode .wrap{display:flex;gap:8px;min-width:0}
+body.hg39-world-map-mode #main{flex:1 1 auto;min-width:0}
+body.hg39-world-map-mode #main>.scene-title{min-height:32px}
+body.hg39-world-map-mode #main>.map-frame{flex:1 1 auto;min-height:130px}
+body.hg39-world-map-mode #main>.scene-bottom{display:none}
+body.hg39-world-map-mode .sidebar{display:none!important}
+.hg39-map-dock{flex:0 0 clamp(218px,23vw,292px);width:clamp(218px,23vw,292px);min-width:0;align-self:stretch;display:flex;flex-direction:column;gap:7px;padding:8px;border:1px solid #4c6962;border-radius:8px;background:linear-gradient(165deg,#1d343a,#13262d);box-shadow:inset 0 1px #ffffff10;overflow:auto;overscroll-behavior:contain}
+.hg39-map-tools{display:flex;align-items:center;justify-content:flex-end;gap:5px;flex-wrap:wrap;min-height:34px}
+.hg39-map-tools .scene-tools{display:flex;flex-wrap:wrap;justify-content:flex-end;gap:5px}
+.hg39-map-tools .scene-tools button{font:650 11px system-ui;min-height:30px;padding:5px 8px}
+.hg39-map-target{padding:9px;border:1px solid #596b5d;border-radius:7px;background:linear-gradient(130deg,#283d3c,#1b3036)}
+.hg39-map-target .target-information{display:flex;flex-direction:column;align-items:stretch;gap:4px}
+.hg39-map-target .target-information h2{font:750 16px/1.2 system-ui;color:#f0d4a0;margin:0}
+.hg39-map-target .target-information>p,.hg39-map-target .target-information>.eyebrow,.hg39-map-target .target-information .hint{display:none}
+.hg39-map-target .target-information .actions{display:flex;flex-direction:column;align-items:stretch;gap:5px;margin:6px 0 0}
+.hg39-map-target .target-information .actions button{width:100%;min-height:36px}
+.hg39-map-details{border:1px solid #405b59;border-radius:6px;background:#1a3036;overflow:hidden}
+.hg39-map-details>summary{padding:8px 9px;cursor:pointer;color:#e4c98d;font-size:12px;font-weight:750;list-style-position:inside}
+.hg39-map-details[open]{padding-bottom:8px}
+.hg39-map-details[open]>:not(summary){max-height:210px;overflow:auto;padding:0 8px}
+.hg39-map-details .landmarks{display:block;border:0;padding:0}
+.hg39-map-details .landmarks>p{display:none}
+.hg39-map-details .landmark-list{gap:5px;margin-top:5px}
+.hg39-map-details .landmark-list button{font:600 10px/1.2 system-ui;padding:5px 7px}
+.hg39-map-details .city-transfer,.hg39-map-details .city-transport-ledger,.hg39-map-details .expedition-ledger{margin:0}
+.hg39-map-utility{margin-top:auto;padding-top:6px;border-top:1px solid #3f5d5b}
+.hg39-map-utility .buttons{display:flex;flex-wrap:wrap;gap:4px}
+.hg39-map-utility .buttons button{font:650 10px system-ui;padding:5px 7px;min-height:27px}
+.hg39-dispatch{display:flex;flex-direction:column;gap:10px;max-width:940px;margin:auto}
+.hg39-dispatch>header{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.hg39-dispatch>header h2{margin:3px 0 0;font:750 19px system-ui;color:#f0d5a1}
+.hg39-dispatch>header h2 small{font-size:12px;color:#9bb2aa}
+.hg39-dispatch-heroes{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:6px;max-height:130px;overflow:auto}
+.hg39-dispatch-hero{display:flex;flex-direction:column;align-items:flex-start;gap:3px;text-align:left;padding:7px 9px;background:#20383e;border:1px solid #496662;border-radius:6px}
+.hg39-dispatch-hero.active{border-color:#f0cf87;box-shadow:inset 0 0 0 1px #e1bd72;background:#39443b}
+.hg39-dispatch-hero small{font-size:10px;color:#adc1b8}
+.hg39-command-meter{display:grid;grid-template-columns:1fr;gap:4px;padding:7px 9px;border:1px solid #48645f;border-radius:6px;background:#1d3439;font-size:12px}
+.hg39-command-meter progress{width:100%;height:8px;accent-color:#c9a35c}
+.hg39-command-meter small{font-size:10px;color:#a8b8b2}
+.hg39-army-roster{display:flex;flex-direction:column;gap:5px}
+.hg39-dispatch-row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:5px 7px;border:1px solid #3f5b58;border-radius:6px;background:#1b3038}
+.hg39-dispatch-row[hidden]{display:none!important}
+.hg39-dispatch-unit{display:grid;grid-template-columns:38px minmax(100px,1fr);align-items:center;column-gap:7px;min-width:0}
+.hg39-dispatch-unit img{grid-row:span 2;width:38px;height:38px;object-fit:contain}
+.hg39-dispatch-unit b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;color:#f0d9a9}
+.hg39-dispatch-unit small{font-size:10px;color:#a8b9b3}
+.hg39-dispatch-count{display:flex;align-items:center;gap:4px;flex:0 0 auto}
+.hg39-dispatch-count button{min-width:31px;min-height:32px;padding:3px 7px}
+.hg39-dispatch-count input{width:88px;min-width:55px;text-align:center;padding:5px}
+.hg39-dispatch-count .hg39-remove{background:#543d3c;border-color:#805d55}
+.hg39-dispatch-add{display:flex;gap:6px}
+.hg39-dispatch-add select{flex:1 1 auto;min-width:0}
+.hg39-dispatch>footer{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap;padding-top:8px;border-top:1px solid #52685f}
+.hg39-dispatch>footer>span{margin-right:auto;color:#b5c5ba;font-size:11px}
+.hg39-dispatch>footer button{font-size:11px;padding:7px 9px}
+.game-window-body:has(.hg39-dispatch){overflow-y:auto}
+@media(max-width:800px){body.hg39-world-map-mode .wrap{flex-direction:column;overflow:auto}body.hg39-world-map-mode #main{flex:1 0 54dvh;min-height:300px}.hg39-map-dock{flex:0 0 auto;width:100%;max-height:34dvh}.hg39-map-tools{justify-content:center}.hg39-map-target{padding:7px}.hg39-map-details[open]>:not(summary){max-height:130px}.game-window:has(.hg39-dispatch){width:98vw;height:calc(100dvh - 24px)}.hg39-dispatch-heroes{max-height:102px}}
+@media(max-width:560px){.hg39-dispatch-heroes{grid-template-columns:repeat(2,minmax(0,1fr))}.hg39-dispatch-row{align-items:flex-start;flex-direction:column}.hg39-dispatch-count{width:100%;justify-content:flex-end}.hg39-dispatch-count input{flex:1 1 auto}.hg39-dispatch>footer{justify-content:stretch}.hg39-dispatch>footer button{flex:1 1 auto}.hg39-dispatch>footer>span{width:100%;margin:0}}
+@media(max-width:560px){body:not(.combat-mode) .tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));flex-wrap:wrap;overflow:visible;min-height:0}body:not(.combat-mode) .tabs button{min-width:0;min-height:34px;white-space:normal;padding:4px 2px;font-size:9px;line-height:1.1}}
+@media(max-width:560px){body:not(.combat-mode) .top{align-items:stretch;gap:6px;padding:7px 8px}body:not(.combat-mode) .masthead{gap:6px}.masthead .crest{font-size:28px}.masthead .brand{font-size:18px}body:not(.combat-mode) .resources{width:100%;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}body:not(.combat-mode) .resource{width:100%;min-width:0;padding:4px 2px;text-align:center}body:not(.combat-mode) .resource b{font-size:10px}body:not(.combat-mode) .resource .hog-ui-icon{height:13px;width:13px}}
 </style></head><body>
 <div id="app">
 <header class="top"><div class="masthead"><span class="crest">⚜</span><div><div class="brand">ANH HÙNG THỜI LOẠN</div><small>HEROES OF GAIA • HOG1 • HG-11</small></div></div><div id="resources" class="resources"></div></header>
@@ -1245,6 +1307,11 @@ const battleHex=Object.freeze({
 const TACTICAL_RANGE=Object.freeze({melee:1,ranged:9,eliteRanged:10});
 function unitTacticalRange(unit){return unit?.type==='Ranged'?(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged):TACTICAL_RANGE.melee;}
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
+// HG39 pacing profile is applied once after all effective HG38 modifiers.
+// This is an offline game-speed setting, not a claim about the original server.
+const HG39_CONFIG=Object.freeze({productionMultiplier:20,recruitSpeedMultiplier:50,
+ constructionSpeedMultiplier:10,warehouseCapacityMultiplier:100,
+ minimumRecruitGameSeconds:1,minimumConstructionGameSeconds:1});
 // HG10 offline catch-up: process at most 24 real wall-clock hours in one suspended-time step.
 // This is a bounded runtime policy, not an asserted Heroes of Gaia server rule.
 const MAX_OFFLINE_WALL_SECONDS=24*3600;
@@ -1287,9 +1354,10 @@ function rate(s){let out={...BASE_HOURLY};
   if(s.hg20.collection?.specialCityKey&&s.cities?.some(q=>q.key===s.hg20.collection.specialCityKey))
    for(const k of C.keys)out[k]*=1.5;
  }
+ for(const k of C.keys)out[k]*=HG39_CONFIG.productionMultiplier;
  return out;
 }
-function limits(s){const l=s.buildings.warehouse||0;const table={0:[1500,1500,750,750,15000],1:[1500,1500,750,750,15000],2:[1500,1500,750,750,15000],3:[1500,1500,750,750,15000],4:[3000,3000,1500,1500,30000],5:[5250,5250,2625,2625,52500],6:[8250,8250,4125,4125,82500],7:[12000,12000,6000,6000,120000],8:[16500,16500,8250,8250,165000],9:[21000,21000,10500,10500,210000],10:[27000,27000,13500,13500,270000]};const [wood,ore,sulfur,crystal,gold]=table[Math.min(10,l)]; const f=(1+(s.spells.storing||0)*.05)*(s.hg20?.version===1?10:1);return {gold:gold*f,wood:wood*f,ore:ore*f,sulfur:sulfur*f,crystal:crystal*f};}
+function limits(s){const l=s.buildings.warehouse||0;const table={0:[1500,1500,750,750,15000],1:[1500,1500,750,750,15000],2:[1500,1500,750,750,15000],3:[1500,1500,750,750,15000],4:[3000,3000,1500,1500,30000],5:[5250,5250,2625,2625,52500],6:[8250,8250,4125,4125,82500],7:[12000,12000,6000,6000,120000],8:[16500,16500,8250,8250,165000],9:[21000,21000,10500,10500,210000],10:[27000,27000,13500,13500,270000]};const [wood,ore,sulfur,crystal,gold]=table[Math.min(10,l)]; const f=(1+(s.spells.storing||0)*.05)*(s.hg20?.version===1?10:1)*HG39_CONFIG.warehouseCapacityMultiplier;return {gold:gold*f,wood:wood*f,ore:ore*f,sulfur:sulfur*f,crystal:crystal*f};}
 function cap(s){let lim=limits(s);for(let k of C.keys) s.res[k]=Math.max(0,Math.min(lim[k],s.res[k]));}
 function canAfford(s,cost){return Object.entries(cost).every(([k,v])=>s.res[k]+1e-8>=v)}
 function spend(s,cost){assert(canAfford(s,cost),'Không đủ tài nguyên');for(let [k,v] of Object.entries(cost))s.res[k]-=v}
@@ -1756,7 +1824,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
+const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,HG39_CONFIG,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 </script><script>
@@ -1948,11 +2016,29 @@ if(!E||!E.ensure)throw Error('HG-05 must load after hg04.js');
 const original={make:E.make,tick:E.tick,upgrade:E.upgrade,valid:E.valid,
  migrate02:E.upgradeSaveV02,migrate03:E.upgradeSaveV03};
 const VERSION=5, KEY='heoofgaia_hg_only_v05';
-function ensure(s){E.ensure(s);if(!Object.prototype.hasOwnProperty.call(s,'buildingQueue'))s.buildingQueue=null;return s;}
+function scaleLegacyQueue(q,divisor,minimum){
+ if(!q||!Number.isFinite(q.total)||!Number.isFinite(q.remaining))return;
+ const nextTotal=Math.max(minimum,Math.ceil(q.total/divisor));
+ q.remaining=Math.max(0,Math.min(nextTotal,q.remaining/divisor));q.total=nextTotal;
+}
+function ensure(s){
+ E.ensure(s);if(!Object.prototype.hasOwnProperty.call(s,'buildingQueue'))s.buildingQueue=null;
+ // HG39 is a one-time v07 migration. Paid work and completed fraction remain intact.
+ if(!s.hg39||s.hg39.version!==1){
+  const pace=E.HG39_CONFIG||{constructionSpeedMultiplier:10,recruitSpeedMultiplier:50,minimumConstructionGameSeconds:1,minimumRecruitGameSeconds:1};
+  scaleLegacyQueue(s.buildingQueue,pace.constructionSpeedMultiplier,pace.minimumConstructionGameSeconds);
+  for(const q of s.training||[])scaleLegacyQueue(q,pace.recruitSpeedMultiplier,pace.minimumRecruitGameSeconds);
+  for(const city of s.cities||[]){scaleLegacyQueue(city.local?.buildingQueue,pace.constructionSpeedMultiplier,pace.minimumConstructionGameSeconds);
+   for(const q of city.local?.training||[])scaleLegacyQueue(q,pace.recruitSpeedMultiplier,pace.minimumRecruitGameSeconds)}
+  s.hg39={version:1,migratedAt:Date.now()};
+ }
+ return s;
+}
 function duration(s,key){const next=(s.buildings[key]||0)+1;
  // SIMULATED seconds, deliberately NOT claimed to match the original 2009 client.
  const base=key==='hall'?210:160;
- return Math.max(30,Math.ceil(base*Math.pow(1.4,next-1)*(1-Math.min(.27,(s.spells.construction||0)*.03))));
+ const config=E.HG39_CONFIG||{constructionSpeedMultiplier:10,minimumConstructionGameSeconds:1};
+ return Math.max(config.minimumConstructionGameSeconds,Math.ceil(base*Math.pow(1.4,next-1)*(1-Math.min(.27,(s.spells.construction||0)*.03))/config.constructionSpeedMultiplier));
 }
 function upgrade(s,key){ensure(s);
  if(s.buildingQueue)throw Error('Đang có một công trình trong hàng đợi. Hãy đợi hoàn tất.');
@@ -2492,7 +2578,8 @@ function recruitDuration(s,u,count){
  const bootcamp=s.spells?.bootcamp||0,smith=s.buildings?.blacksmith||0;
  const eliteTime=u.tier>=9&&smith>=8&&bootcamp>=6?
    Math.min(.22,(Math.min(10,smith)-7)*.025+(Math.min(10,bootcamp)-5)*.03):0;
- return Math.ceil(u.timeSec*count*(1-Math.min(.45,Math.min(.2,bootcamp*.02)+eliteTime)));
+ const config=E.HG39_CONFIG||{recruitSpeedMultiplier:50,minimumRecruitGameSeconds:1};
+ return Math.max(config.minimumRecruitGameSeconds,Math.ceil(u.timeSec*count*(1-Math.min(.45,Math.min(.2,bootcamp*.02)+eliteTime))/config.recruitSpeedMultiplier));
 }
 function recruit(s,id,count){
  ensure(s);const u=E.getUnit(s,id);if(!u)throw Error('Không có quân của chủng tộc này');
@@ -6385,12 +6472,12 @@ function drawMapLandmark(c,key,x,y,q,sizeFactor=1){
  c.shadowColor='#06140ecc';c.shadowBlur=Math.min(q*.22,12);c.shadowOffsetY=q*.08;
  c.drawImage(sprite,x-size/2,y+q*.18-size,size,size);c.restore();return true;
 }
-const M={centerX:9.5,centerY:7.4,zoom:1.12};
+const M={centerX:9.5,centerY:7.4,zoom:1.3};
 function mapCamera(){return M}
 function mapProjection(canvas){const scale=clamp(M.zoom,.65,2.05)*48;return {scale,offX:canvas.width/2-M.centerX*scale,offY:canvas.height/2-M.centerY*scale}}
-function miniBounds(canvas){return {x:canvas.width-220,y:canvas.height-178,w:203,h:146};}
+function miniBounds(canvas){const scale=clamp(Math.min(1,canvas.width*.24/203,canvas.height*.28/146),.42,1),w=203*scale,h=146*scale;return {x:canvas.width-w-17,y:canvas.height-h-32,w,h};}
 function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=(m.w-2*pad)/E.WIDTH,th=(m.h-2*pad)/E.HEIGHT;
- rounded(c,m.x-2,m.y-23,m.w+4,m.h+25,7,'#12272cdb','#c5a66c');text(c,'BẢN ĐỒ THU NHỎ',m.x+6,m.y-7,13,'#e7c78e','left');
+ rounded(c,m.x-2,m.y-23,m.w+4,m.h+25,7,'#12272cdb','#c5a66c');text(c,m.w<120?'BẢN ĐỒ':'BẢN ĐỒ THU NHỎ',m.x+6,m.y-7,Math.max(8,13*m.w/203),'#e7c78e','left');
  for(const t of E.TILES){let color={plain:'#6d8559',road:'#9e956a',bridge:'#d5c08a',forest:'#28533c',hill:'#6a7262',water:'#408b9c'}[t.terrain]||'#68805b';
   c.fillStyle=color;c.fillRect(m.x+pad+t.x*tw,m.y+pad+t.y*th,tw+.28,th+.28)}
  for(const t of E.TILES){if(t.kind==='empty')continue;
@@ -6542,49 +6629,98 @@ const VANGUARD_CLIPS=Object.freeze({
  attack:{row:2,count:8,ms:650,loop:false},hit:{row:3,count:8,ms:560,loop:false},
  death:{row:4,count:8,ms:1200,loop:false}
 });
-const battleVisualClocks=new WeakMap();
+const battleVisualTimelines=new WeakMap();
 function visualNow(){return typeof performance!=='undefined'?performance.now():0}
-function battleElapsed(b,now){let clock=battleVisualClocks.get(b);if(!clock||clock.turn!==b.turn){clock={turn:b.turn,start:now};battleVisualClocks.set(b,clock)}return Math.max(0,now-clock.start)}
+const EMPTY_BATTLE_EVENTS=Object.freeze([]),BATTLE_VISUAL_STAGGER_MS=85,BATTLE_HEX_TRAVEL_MS=225;
+function battleTimelinePrime(b,now=visualNow(),replay=false){
+ if(!b||typeof b!=='object')return null;
+ const events=Array.isArray(b.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
+ const timeline={seen:events,items:[],nextStart:now};
+ battleVisualTimelines.set(b,timeline);
+ if(replay&&events.length)enqueueBattleReceipts(timeline,events,now);
+ return timeline;
+}
+function enqueueBattleReceipts(timeline,events,now){
+ const start=Math.max(now,timeline.nextStart||now);let span=0;
+ for(let i=0;i<events.length;i++){
+  const event=events[i];if(!event||typeof event.actorId!=='string')continue;
+  const route=Array.isArray(event.path)?event.path.map(p=>({x:p.x,y:p.y})):[];
+  const moveMs=route.length*BATTLE_HEX_TRAVEL_MS,attackMs=event.damage>0?(route.length?450:650):0,
+   at=start+i*BATTLE_VISUAL_STAGGER_MS,impactAt=at+moveMs+attackMs*.58,
+   animationEnd=at+moveMs+attackMs;
+  timeline.items.push({event:{...event,from:event.from?{...event.from}:null,to:event.to?{...event.to}:null,path:route},start:at,moveMs,attackMs,impactAt,animationEnd,
+   deathEnd:event.death?impactAt+1200:0,effectEnd:event.death?impactAt+1200:event.damage>0?impactAt+960:animationEnd});
+  span=Math.max(span,i*BATTLE_VISUAL_STAGGER_MS+moveMs+attackMs);
+ }
+ timeline.nextStart=Math.max(start+Math.max(900,span)+85,now);
+}
+function battleTimelineFor(b,now=visualNow()){
+ if(!b||typeof b!=='object')return null;
+ let timeline=battleVisualTimelines.get(b);
+ if(!timeline)timeline=battleTimelinePrime(b,now,true);
+ const events=Array.isArray(b.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
+ if(timeline.seen!==events){timeline.seen=events;enqueueBattleReceipts(timeline,events,now)}
+ if(timeline.items.length>180)timeline.items=timeline.items.filter(item=>item.deathEnd>now||item.effectEnd>now||item.animationEnd>now).slice(-160);
+ else if(timeline.items.length>24)timeline.items=timeline.items.filter(item=>item.deathEnd>now||item.effectEnd>now||item.animationEnd>now);
+ return timeline;
+}
+function battleTimelineTurnDuration(b){
+ const timeline=battleVisualTimelines.get(b),events=Array.isArray(b?.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
+ if(!events.length)return 0;
+ let span=0;for(let i=0;i<events.length;i++){
+  const e=events[i],move=(e.path?.length||0)*BATTLE_HEX_TRAVEL_MS,attack=e.damage>0?(move?450:650):0;
+  span=Math.max(span,i*BATTLE_VISUAL_STAGGER_MS+move+attack);
+ }
+ return Math.max(900,span)+85;
+}
+function battleElapsed(b,now){battleTimelineFor(b,now);return Math.max(0,now)}
 function vanguardAtlasFrame(action,elapsed=0,duration=null){
  if(!VANGUARD_CLIPS[action])action='idle';const clip=VANGUARD_CLIPS[action],ms=duration||clip.ms,t=Number.isFinite(elapsed)?Math.max(0,elapsed):0,raw=Math.floor(t/ms*clip.count),frame=clip.loop?raw%clip.count:Math.min(clip.count-1,raw);
  return {action,frame,sx:frame*192,sy:clip.row*204,sw:192,sh:204,id:'unit-human-vanguard-atlas'};
 }
-// Read-only animation timeline: a resolved turn contains multiple ordered
-// receipts. Playing every Attack/Hit simultaneously made auto-battles look
-// chaotic even when the canonical engine's decisions were deterministic.
-// Stagger visible events, but never alter logical positions or combat outcomes.
-const BATTLE_VISUAL_STAGGER_MS=85;
+function battleVisualPool(b,u,now=visualNow()){
+ const pending=(battleTimelineFor(b,now)?.items||[]).reduce((sum,item)=>
+  item.event.targetId===u.id&&item.event.damage>0&&now<item.impactAt?sum+item.event.damage:sum,0);
+ return clamp((u.pool||0)+pending,0,Math.max(0,(u.initial||u.count||0)*(u.hp||1)));
+}
 function battleVisualState(b,u,elapsed,now=elapsed){
- const events=b.lastEvents||[],ownIndex=events.findIndex(e=>e.actorId===u.id),
-  own=ownIndex<0?null:events[ownIndex],
-  hitIndex=events.findIndex(e=>e.targetId===u.id&&e.damage>0),
-  incoming=hitIndex<0?null:events[hitIndex],
-  movement=own?.path?.length>0,
-  actionStart=ownIndex<0?0:Math.min(ownIndex,7)*BATTLE_VISUAL_STAGGER_MS,
-  hitStart=hitIndex<0?0:Math.min(hitIndex,7)*BATTLE_VISUAL_STAGGER_MS,
-  actionAge=elapsed-actionStart,hitAge=elapsed-hitStart;
- const base={action:'idle',time:now,duration:null,x:u.x,y:u.y,alpha:1};
+ const timeline=battleTimelineFor(b,now),items=timeline?.items||[],
+  own=items.find(item=>item.event.actorId===u.id&&now<item.animationEnd)||null,
+  incoming=items.find(item=>item.event.targetId===u.id&&item.event.damage>0&&now<item.effectEnd)||null;
+ const base={action:'idle',time:now,duration:null,x:u.x,y:u.y,alpha:1,pool:battleVisualPool(b,u,now)};
+ const pointFor=item=>{
+  const e=item.event,route=item.event.path||[];
+  if(!route.length)return {x:e.to?.x??u.x,y:e.to?.y??u.y};
+  if(now<=item.start)return {x:e.from?.x??route[0].x,y:e.from?.y??route[0].y};
+  const progress=clamp((now-item.start)/Math.max(1,item.moveMs),0,1)*route.length,
+   index=Math.min(route.length-1,Math.floor(progress)),fraction=Math.min(1,progress-index),
+   from=index?route[index-1]:(e.from||route[0]),to=route[index];
+  return {x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction};
+ };
  if(u.pool<=0){
-  if(incoming?.death&&hitAge>=0&&hitAge<1200)
-   return {...base,action:'death',time:hitAge,duration:1200,
-    alpha:Math.min(1,(1200-hitAge)/400)};
+  if(incoming?.event.death&&now>=incoming.impactAt&&now<incoming.deathEnd){
+   const position=own?pointFor(own):(incoming.event.to||base);
+   return {...base,...position,action:'death',time:now-incoming.impactAt,duration:1200,
+    alpha:Math.min(1,(incoming.deathEnd-now)/400)};
+  }
+  if(incoming?.event.death&&now<incoming.impactAt){
+   const position=own?pointFor(own):(incoming.event.to||base);
+   return {...base,...position};
+  }
   return null;
  }
- if(own&&actionAge<0)return base;
- if(movement&&actionAge>=0&&actionAge<450){
-  const progress=clamp(actionAge/450,0,1)*own.path.length,
-   index=Math.min(own.path.length-1,Math.floor(progress)),
-   from=index?own.path[index-1]:own.from,to=own.path[index],
-   fraction=progress-index;
-  return {...base,action:'walk',time:actionAge,duration:450,
-   x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction,
-   walkFrom:{x:from.x,y:from.y},walkTo:{x:to.x,y:to.y},walkFraction:fraction};
+ if(own){
+  const position=pointFor(own),e=own.event;
+  if(now<own.start)return {...base,...position};
+  if(own.moveMs>0&&now<own.start+own.moveMs)
+   return {...base,...position,action:'walk',time:Math.max(0,now-own.start),duration:own.moveMs,
+    walkFrom:e.from,walkTo:e.to,walkFraction:clamp((now-own.start)/own.moveMs,0,1)};
+  if(own.attackMs>0&&now<own.animationEnd)
+   return {...base,...position,action:'attack',time:Math.max(0,now-own.start-own.moveMs),duration:own.attackMs};
+  if(now<own.start)return {...base,...position};
  }
- const attackStart=movement?450:0,attackDuration=movement?450:650;
- if(own?.damage>0&&actionAge>=attackStart&&actionAge<attackStart+attackDuration)
-  return {...base,action:'attack',time:actionAge-attackStart,duration:attackDuration};
- if(incoming&&hitAge>=120&&hitAge<770)
-  return {...base,action:'hit',time:hitAge-120,duration:650};
+ if(incoming&&now>=incoming.impactAt&&now<incoming.impactAt+650)
+  return {...base,action:'hit',time:now-incoming.impactAt,duration:650};
  return base;
 }
 // HG14 Batch 1: existing real transparent PNG masters, not fabricated multi-pose atlases.
@@ -6690,20 +6826,19 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
 }
 // HG14.5: exact receipt-driven visuals, never speculative or backend-mutating.
 function battleFxPlan(b,camera,elapsed,layout){
- const byId=new Map(layout.map(e=>[e.id,e]));
- return (b.lastEvents||[]).flatMap((event,index)=>{
-  if(!(event.damage>0)||!event.targetId)return [];
+ const byId=new Map(layout.map(e=>[e.id,e])),timeline=battleTimelineFor(b,elapsed);
+ return (timeline?.items||[]).flatMap(item=>{
+  const event=item.event;if(!(event.damage>0)||!event.targetId||elapsed<item.start||elapsed>item.impactAt+960)return [];
   const actor=byId.get(event.actorId),target=byId.get(event.targetId);
   if(!actor||!target)return [];
-  const time=elapsed-Math.min(index,7)*BATTLE_VISUAL_STAGGER_MS;
-  if(time<0||time>960)return [];
-  const origin=camera.center(event.to.x,event.to.y);
+  const time=elapsed-item.start,actorCell=camera.center(event.to?.x??actor.u.x,event.to?.y??actor.u.y),
+   targetCell=camera.center(target.u.x,target.u.y);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
    casualties:event.casualties||0,death:!!event.death,ranged:actor.u.range>1,
-   side:actor.u.side,time,index,
-   start:{x:origin.x+actor.x-actor.baseX,y:origin.y+actor.y-actor.baseY-actor.size*.50},
-   end:{x:target.x,y:target.y-target.size*.52},
-   floatX:target.x+(target.u.side==='player'?-1:1)*Math.max(82,target.size*.75)}];
+   side:actor.u.side,time,attackStart:item.moveMs,impactMs:item.impactAt-item.start,
+   start:{x:actorCell.x+actor.x-actor.baseX,y:actorCell.y+actor.y-actor.baseY-actor.size*.50},
+   end:{x:targetCell.x+target.x-target.baseX,y:targetCell.y+target.y-target.baseY-target.size*.52},
+   floatX:targetCell.x+target.x-target.baseX+(target.u.side==='player'?-1:1)*Math.max(82,target.size*.75)}];
  });
 }
 function motionImpactFx(c,camera,b,elapsed,layout){
@@ -6711,8 +6846,8 @@ function motionImpactFx(c,camera,b,elapsed,layout){
  for(const fx of effects){
   const t=fx.time,bright=fx.side==='player'?'#ffe3a1':'#ff9e91';
   c.save();
-  if(fx.ranged&&t>=65&&t<=510){
-   const travel=clamp((t-65)/445,0,1);
+  if(fx.ranged&&t>=fx.attackStart&&t<=fx.impactMs){
+   const travel=clamp((t-fx.attackStart)/Math.max(1,fx.impactMs-fx.attackStart),0,1);
    const x=fx.start.x+(fx.end.x-fx.start.x)*travel;
    const y=fx.start.y+(fx.end.y-fx.start.y)*travel-19*Math.sin(Math.PI*travel);
    const angle=Math.atan2(fx.end.y-fx.start.y,fx.end.x-fx.start.x);
@@ -6720,22 +6855,23 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    line(c,-22,0,9,0,3,bright);
    line(c,9,0,1,-5,1.7,'#f9f6e0');line(c,9,0,1,5,1.7,'#f9f6e0');
    line(c,-22,0,-30,0,1.5,fx.side==='player'?'#f5d698':'#e99b93');
-  }else if(!fx.ranged&&t>=130&&t<=480){
-   const fade=1-clamp((t-130)/350,0,1);
+  }else if(!fx.ranged&&t>=fx.attackStart&&t<=fx.impactMs){
+   const phase=clamp((t-fx.attackStart)/Math.max(1,fx.impactMs-fx.attackStart),0,1),fade=1-phase;
    c.globalAlpha=.9*fade;c.strokeStyle=bright;c.lineWidth=3;
-   c.beginPath();c.arc(fx.end.x,fx.end.y,27+(t-130)*.04,-1.6,1.1);c.stroke();
-   c.beginPath();c.arc(fx.end.x+3,fx.end.y-3,19+(t-130)*.035,-1.4,.9);c.stroke();
+   c.beginPath();c.arc(fx.end.x,fx.end.y,27+phase*16,-1.6,1.1);c.stroke();
+   c.beginPath();c.arc(fx.end.x+3,fx.end.y-3,19+phase*13,-1.4,.9);c.stroke();
   }
-  if(t>=300&&t<=660){
-   const scale=clamp((t-300)/360,0,1);
+  const afterImpact=t-fx.impactMs;
+  if(afterImpact>=0&&afterImpact<=360){
+   const scale=clamp(afterImpact/360,0,1);
    c.globalAlpha=(1-scale)*.85;
    c.strokeStyle=fx.side==='player'?'#ffecba':'#ffad9c';c.lineWidth=2.5;
    c.beginPath();c.arc(fx.end.x,fx.end.y,8+24*scale,0,TAU);c.stroke();
   }
-  if(t>=260&&t<=960){
-   const age=(t-260)/700,x=fx.floatX,
+  if(afterImpact>=0&&afterImpact<=700){
+   const age=afterImpact/700,x=fx.floatX,
     y=fx.end.y-18-34*age;
-   c.globalAlpha=clamp((960-t)/280,0,1);
+   c.globalAlpha=clamp((700-afterImpact)/280,0,1);
    c.font='bold 17px sans-serif';c.textAlign='center';c.textBaseline='middle';
    c.lineWidth=3;c.strokeStyle='#1a191b';
    c.strokeText('-'+Math.round(fx.damage),x,y);
@@ -6744,8 +6880,8 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    if(fx.casualties>0){c.font='bold 11px sans-serif';c.fillStyle='#fff1dc';
     c.strokeText('-'+fx.casualties+' quân',x,y+16);c.fillText('-'+fx.casualties+' quân',x,y+16);}
   }
-  if(fx.death&&t>=500&&t<=960){
-   c.globalAlpha=clamp((960-t)/350,0,1);
+  if(fx.death&&afterImpact>=0&&afterImpact<=460){
+   c.globalAlpha=clamp((460-afterImpact)/350,0,1);
    c.font='bold 22px sans-serif';c.textAlign='center';
    c.strokeStyle='#202128';c.lineWidth=4;
    c.strokeText('✖',fx.end.x,fx.end.y-50);
@@ -6845,7 +6981,7 @@ function battleCellAt(canvas,x,y,E){return battleProjection(canvas,E).cellAt(x,y
 function battleHit(canvas,x,y,E,s,now=visualNow()){
  const b=s.battle;if(!b)return null;
  const camera=battleProjection(canvas,E),elapsed=battleElapsed(b,now),
-  layout=battleUnitLayout(b,camera,canvas.width,canvas.height);
+  layout=battleUnitLayout(b,camera,canvas.width,canvas.height,now);
  // The image, number plate and foot pivot can occupy very different pixels:
  // selecting by foot radius alone makes the upper half of tall troops unclickable.
  // Transform hitboxes by the same animation/spacing offset as drawBattle().
@@ -6936,19 +7072,19 @@ function battleRectOverlap(a,b,pad=0){
 // repeated 60 times a second while actors remain on the same canonical cells.
 // A WeakMap keeps this strictly presentation-only: no Save v07 fields added.
 const battleLayoutCache=new WeakMap();
-function battleUnitLayout(b,camera,width,height){
+function battleUnitLayout(b,camera,width,height,now=visualNow()){
  const actors=[...b.allies,...b.enemies];
  const signature=width+'x'+height+'|'+camera.radius+'|'+b.turn+'|'+actors.map(u=>
-  [u.id,u.side,u.unitId,u.name,u.x,u.y,u.pool>0?1:0].join(':')).join('|');
+  [u.id,u.side,u.unitId,u.name,u.x,u.y,battleVisualPool(b,u,now)>0?1:0].join(':')).join('|');
  const cached=battleLayoutCache.get(b);
  if(cached?.signature===signature)return cached.entries;
  const entries=actors.map(u=>{
   const pt=camera.center(u.x,u.y);
   const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
-  return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile};
+  return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile,displayPool:battleVisualPool(b,u,now)};
  });
  for(const side of ['player','enemy']){
-  const team=entries.filter(e=>e.u.pool>0&&e.u.side===side).sort((a,b)=>a.y-b.y||a.x-b.x);
+  const team=entries.filter(e=>e.displayPool>0&&e.u.side===side).sort((a,b)=>a.y-b.y||a.x-b.x);
   for(let i=0;i<team.length;i++)for(let j=i+1;j<team.length;j++){
    const a=team[i],b=team[j],dy=Math.abs(a.y-b.y),dx=Math.abs(a.x-b.x),
     needed=Math.max(85,Math.min(114,(a.size+b.size)*.46));
@@ -6964,7 +7100,7 @@ function battleUnitLayout(b,camera,width,height){
   e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
  }
  const reserved=[{x:width-200,y:14,w:186,h:42}];
- for(const e of [...entries].filter(e=>e.u.pool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
+ for(const e of [...entries].filter(e=>e.displayPool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
   const compact=width<1050,w=compact?clamp(e.u.name.length*4.8+12,68,90):clamp(e.u.name.length*6.5+24,82,132),h=28,shift=e.size*.37+w/2+12;
   const left={cx:e.x-shift,top:e.y-60,mode:'left'},
    right={cx:e.x+shift,top:e.y-60,mode:'right'},
@@ -6988,7 +7124,7 @@ function battleUnitLayout(b,camera,width,height){
     y:clamp(choice.top,60,Math.max(60,height-h-6)),w,h};
    let conflicts=0;
    for(const other of entries){
-    if(other.u.pool<=0)continue;
+    if(other.displayPool<=0)continue;
     if(battleRectOverlap(box,other.sprite,3))conflicts+=other===e?100:10;
     if(battleRectOverlap(box,other.countBox,2))conflicts+=5;
    }
@@ -7023,7 +7159,13 @@ function battleSpriteScale(height,row,rows=9,radius=null){
  const base=Number.isFinite(radius)?clamp(radius/60,.22,.82):clamp(height/740,.48,.82);
  return base*(.99+row/rows*.05);
 }
-function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.battle)return;const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,elapsed=battleElapsed(b,now);
+// HG38: Open Field PNG, ground grade and the 108 static hex strokes have no
+// reason to be rasterized 60 times per second. Cache one canvas per active
+// battlefield canvas/viewport and rebuild ONLY if the image, size or grid
+// visibility changes. Preview highlights and every actor remain dynamic.
+const battleStaticLayers=new WeakMap();
+function paintBattleStaticScene(c,canvas,E,showGrid){
+ const w=canvas.width,h=canvas.height;
  const field=typeof document!=='undefined'?document.getElementById('battlefield-human-meadow'):null;
  if(field?.complete&&field.naturalWidth){
   const sw=field.naturalWidth,sh=field.naturalHeight,cropW=Math.min(sw,sh*w/h),cropH=Math.min(sh,sw*h/w);
@@ -7032,19 +7174,61 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
  else{const sky=c.createLinearGradient(0,0,0,h);sky.addColorStop(0,'#354a50');sky.addColorStop(.56,'#4e6659');sky.addColorStop(1,'#798060');c.fillStyle=sky;c.fillRect(0,0,w,h);
   for(let i=0;i<25;i++){const x=(i*79)%w;tree(c,x,142+random(i,4)*36,.95+random(i,6)*.6,'pine')}
   poly(c,[[0,196],[w,196],[w,h],[0,h]],'#766d56');for(let i=0;i<25;i++){const x=random(i,9)*w,y=210+random(i,8)*(h-220);line(c,x,y,x+19,y+8,2,'#c3b59050')}}
- const camera=battleProjection(canvas,E),grid=camera.g;
+ const camera=battleProjection(canvas,E);
  battleGround(c,camera,w,h);
+ if(showGrid)battleGridOverlay(c,camera,[],new Set());
+}
+function battleStaticLayer(canvas,E,showGrid){
+ if(typeof document==='undefined'||typeof document.createElement!=='function')return null;
+ const img=document.getElementById('battlefield-human-meadow');
+ // The single-file HTML embeds a large base64 PNG as img.src. Reading and
+ // comparing that megabyte-scale URL 60×/s defeats a hot-path cache.
+ // Source identity is fixed for the running HTML; decoded dimensions detect
+ // the load transition, and the version tag identifies the original asset.
+ const src=img?.dataset?.battleBackground||'',
+  nw=img?.naturalWidth||0,nh=img?.naturalHeight||0;
+ const old=battleStaticLayers.get(canvas);
+ if(old&&old.width===canvas.width&&old.height===canvas.height&&
+    old.grid===showGrid&&old.img===img&&old.src===src&&old.nw===nw&&old.nh===nh){
+  old.hits++;return old.layer;
+ }
+ const layer=document.createElement('canvas');
+ layer.width=canvas.width;layer.height=canvas.height;
+ const cx=layer.getContext('2d');
+ if(!cx)return null;
+ paintBattleStaticScene(cx,canvas,E,showGrid);
+ battleStaticLayers.set(canvas,{layer,width:canvas.width,height:canvas.height,
+  grid:showGrid,img,src,nw,nh,builds:(old?.builds||0)+1,hits:old?.hits||0});
+ return layer;
+}
+function battleStaticCacheStats(canvas){
+ const o=battleStaticLayers.get(canvas);
+ return o?{builds:o.builds,hits:o.hits,width:o.width,height:o.height,
+  grid:o.grid,imageLoaded:o.nw>0&&o.nh>0}:null;
+}
+function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
+ if(!canvas||!s.battle)return;
+ const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,
+ elapsed=battleElapsed(b,now);
+ const base=battleStaticLayer(canvas,E,interaction.showGrid!==false);
+ if(base)c.drawImage(base,0,0);
+ else paintBattleStaticScene(c,canvas,E,interaction.showGrid!==false);
+ const camera=battleProjection(canvas,E),grid=camera.g;
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
- const units=battleUnitLayout(b,camera,w,h).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
- if(interaction.showGrid!==false)battleGridOverlay(c,camera,units,reachable);
- else if(reachable.size)for(const cell of battleGridCells(camera)){
+ const units=battleUnitLayout(b,camera,w,h,now).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
+ // Static outlines are already in the cached background. Only draw
+ // changing reachable cells here, so hex hit-testing remains identical.
+ if(reachable.size)for(const cell of battleGridCells(camera)){
   if(!reachable.has(cell.x+','+cell.y))continue;
-  c.lineWidth=1.8;poly(c,cell.corners.map(pt=>[pt.x,pt.y]),'#39bda334','#9eeac9a8');
+  c.lineWidth=interaction.showGrid!==false?1.7:1.8;
+  poly(c,cell.corners.map(pt=>[pt.x,pt.y]),
+   interaction.showGrid!==false?'#43cba52a':'#39bda334',
+   interaction.showGrid!==false?'#9bead0b3':'#9eeac9a8');
  }
  for(const entry of units){
   const u=entry.u;
-  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
-  if(u.pool<=0){if(visual)battleUnitArt(c,x,y,u.side==='enemy',visual,k,u);continue}
+  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,displayPool=visual?.pool??u.pool,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
+  if(displayPool<=0){if(visual)battleUnitArt(c,x,y,u.side==='enemy',visual,k,u);continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
@@ -7062,22 +7246,22 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){if(!canvas||!s.ba
   text(c,u.name,bx+plate.w/2,by+14,plate.fontSize||11,'#f7e8c7');
   if(hpVisible){rounded(c,bx+8,by+21,plate.w-16,6,3,'#0b1d22e9');
    c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
-   c.fillRect(bx+9,by+22,(plate.w-18)*clamp(u.pool/(u.initial*u.hp),0,1),4);}
+   c.fillRect(bx+9,by+22,(plate.w-18)*clamp(displayPool/(u.initial*u.hp),0,1),4);}
   rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
-  text(c,'×'+u.count,x+40,y-9,12,'#fff0ca');
+  text(c,'×'+Math.ceil(displayPool/u.hp),x+40,y-9,12,'#fff0ca');
  }
  motionImpactFx(c,camera,b,elapsed,units);
  if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
 </script><script>
 (function(){
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
 const A=window.HOG_ART_PACK,ico=(key,size)=>A?.iconHTML(key,size)||'';
-const $=id=>document.getElementById(id);let state=null,hg261Draft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
+const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
@@ -7125,7 +7309,7 @@ function resolveAutomaticBattleTurn(){
   const wasTower=!!b.hg21Tower,out=E.battleAct(s,'attack',{preserveMoveOrders:true,stableTargets:true});
   if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';
   if(out.type==='lose')tab=wasTower?'tower':'heroes';
-  if(s.battle===b)b.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;
+  if(s.battle===b)b.autoUntil=Date.now()+Math.max(BATTLE_AUTO_TURN_DELAY_MS,P.battleTimelineTurnDuration?.(b)||0);
   save();
   // On a continuing auto turn, updating only the visible combat readouts keeps
   // the SAME canvas/RAF and decoded sprite atlases alive. Full render is only
@@ -7140,6 +7324,12 @@ function resolveAutomaticBattleTurn(){
 // HG34-P0: update live combat readouts without replacing a canvas every turn.
 // The delegated action handlers remain on #app, and no canonical battle fields
 // are changed here. Open auxiliary panels can refresh independently.
+// Uniform rAF decimation avoids 75Hz/90Hz half-rate aliasing and protects
+// 8GB machines from unbounded 144Hz+ Canvas work. Presentation-only.
+function battleRenderStride(periodMs){
+ if(!Number.isFinite(periodMs)||periodMs<=0)return 1;
+ return periodMs<5.6?3:periodMs<9.8?2:1;
+}
 function syncCombatTurnHUD(){
  const b=state?.battle,canvas=$('battle-canvas');if(!b||!canvas)return;
  const allies=b.allies.filter(u=>u.pool>0).length,enemies=b.enemies.filter(u=>u.pool>0).length;
@@ -7218,13 +7408,13 @@ function load(){
  try{
   const current=localStorage.getItem(E.SAVE_KEY);
   if(current){
-   try{const s=ensureBattleAutoTimer(E.parseSave(current));E.tick(s);return s}
+   try{const s=ensureBattleAutoTimer(E.parseSave(current));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);return s}
    catch(err){console.warn('Current save invalid',err.message)}
   }
   const backup=localStorage.getItem(E.SAVE_KEY+'_backup');
   if(backup){
    try{
-    const s=ensureBattleAutoTimer(E.parseSave(backup));E.tick(s);
+    const s=ensureBattleAutoTimer(E.parseSave(backup));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);
     try{localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));toast('Đã khôi phục bản lưu dự phòng.')}
     catch(err){toast('Đã mở bản lưu dự phòng nhưng chưa ghi lại được; hãy xuất file JSON.')}
     return s;
@@ -7233,7 +7423,7 @@ function load(){
   if((localStorage.getItem('heoofgaia_hg08_skip_migration')||localStorage.getItem('heoofgaia_hg06_skip_migration')))return null;
   for(const key of ['heoofgaia_hg_only_v06','heoofgaia_hg_only_v05','heoofgaia_hg_only_v04','heoofgaia_hg_only_v03','heoofgaia_hg_only_v02']){
    const raw=localStorage.getItem(key);if(!raw)continue;
-   try{const s=ensureBattleAutoTimer(E.parseSave(raw));E.tick(s);localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));return s}
+   try{const s=ensureBattleAutoTimer(E.parseSave(raw));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));return s}
    catch(err){console.warn('Legacy save skipped:',key,err.message)}
   }
  }catch(e){console.warn('Save storage unavailable',e)}return null;
@@ -7345,11 +7535,43 @@ function mapView(){
   quickBar=`<section class="quickstart-strip" aria-label="Hướng dẫn xuất quân nhanh"><div class="quickstart-copy"><span class="eyebrow">BẮT ĐẦU CHƠI · 3 THAO TÁC</span><strong>🛡 ${format(quickArmy)} quân · ${state.formation?.length||0} nhóm · ${format(quickPoints)}/${format(quickLimit)} điểm chỉ huy</strong><small>Bố trí quân → nhận nhiệm vụ → tìm quái trên bản đồ. Chọn mục tiêu không tự xuất quân.</small></div><div class="quickstart-actions">${button('autoformation',{},'① ⚔ Bố trí nhanh',quickArmy<1||quickBlocked,'small primary')}${button('tab',{tab:'tasks'},'② 📜 Nhiệm vụ',false,'small secondary')}${button('findnpc',{},'③ ☠ NPC '+quickStars+'★',false,'small secondary')}</div></section>`;
  return `<div class="scene-title"><div><span class="eyebrow">WORLD EXPLORATION • 100 × 100</span><h1>Thế giới Gaia</h1></div><div class="scene-tools">${button('world-index',{},'📍 Điểm đến',false,'small secondary')}${button('zoom',{dir:'in'},'＋',false,'secondary')}${button('zoom',{dir:'out'},'－',false,'secondary')}${button('center',{},'⌖ Về thành',false,'secondary')}</div></div>
  ${quickBar}<div class="map-frame"><canvas id="world-canvas" width="1176" height="620" aria-label="Bản đồ thế giới tương tác, kéo và chạm chọn tọa độ"></canvas>${hg29PreviewUI(treasureSelected?'treasure':target?.kind,target?.key,treasureSelected?treasure?.level:target?.level)}</div>
- <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${targetStatus}</p>${previewText?`<p class="tiny muted" aria-label="Ước tính hành quân">${esc(previewText)}</p>`:''}<div class="actions">${worldDef?button('visit',{key:target.key},visited?'✓ Đã ghé hôm nay':'✨ Ghé thăm',visitDisabled,'primary'):treasureSelected?button('march',{kind:'treasure'},treasureDone?'✓ Đã dọn kho báu':marchLabel,marchDisabled||treasureDone,'primary'):stationed?button('recall',{id:stationed.heroId},'↩ Gọi tướng về',!!state.march||!!state.battle||!!state.expedition,'primary'):owned?cityAction:button('march',{},marchLabel,marchDisabled,'primary')}<span class="hint">${esc(targetHint)}</span></div></div>
+ <div class="scene-bottom"><div class="target-information"><span class="eyebrow">MỤC TIÊU ĐANG CHỌN</span><h2>${esc(desc)}</h2><p class="muted">${targetStatus}</p>${previewText?`<p class="tiny muted" aria-label="Ước tính hành quân">${esc(previewText)}</p>`:''}<div class="actions">${worldDef?button('visit',{key:target.key},visited?'✓ Đã ghé hôm nay':'✨ Ghé thăm',visitDisabled,'primary'):treasureSelected?button('dispatch-open',{kind:'treasure'},treasureDone?'✓ Đã dọn kho báu':marchLabel,marchDisabled||treasureDone,'primary'):stationed?button('recall',{id:stationed.heroId},'↩ Gọi tướng về',!!state.march||!!state.battle||!!state.expedition,'primary'):owned?cityAction:button('dispatch-open',{},marchLabel,marchDisabled,'primary')}<span class="hint">${esc(targetHint)}</span></div></div>
  <div class="landmarks"><span class="eyebrow">THÀNH AI VÀ TRUNG LẬP • ${E.TILES.filter(q=>q.kind==='castle'&&!E.cityForKey(state,q.key)).length} ĐỊA ĐIỂM</span><p class="tiny muted">Hiển thị 16 thành gần thành đang mở nhất. Các thành còn lại vẫn xuất hiện trên bản đồ và minimap; chạm để xem quân phòng thủ.</p><div class="landmark-list">${E.TILES.filter(q=>q.kind==='castle'&&!E.cityForKey(state,q.key)).sort((a,b)=>{const home=E.getTile(E.activeCity(state).key);return Math.abs(a.x-home.x)+Math.abs(a.y-home.y)-Math.abs(b.x-home.x)-Math.abs(b.y-home.y)}).slice(0,16).map(q=>button('select',{key:q.key},`${E.aiCityAt(state,q.key)?'⚔ AI':'🏰'} ${esc(q.value)} · ${C.races[q.race].name} (${q.x},${q.y})`,false,selected===q.key?'small primary':'small secondary')).join('')}</div><span class="eyebrow">CÔNG TRÌNH NGOÀI THÀNH • TỌA ĐỘ 17173, 27-12-2009</span><div class="landmark-list">${E.WORLD_BUILDINGS.map(q=>button('select',{key:`${q.x},${q.y}`},`✨ ${esc(q.name)} (${q.x},${String(q.y).padStart(2,'0')})${E.hasVisitedWorldBuilding(state,`${q.x},${q.y}`)?' · Đã ghé':''}`,false,selected===q.key?'small primary':'small secondary')).join('')}</div><span class="eyebrow">MA GIỚI 9–10★ • QUÁI T11/T12 (FANDOM)</span><p class="tiny muted">Fandom xác nhận chỉ số quái Demon T11/T12, nhưng các tọa độ, số quân và xác suất rơi dưới đây là thiết kế HG18. Hạ Boss mở nhiệm vụ tuần, có mảnh Tinh Vân và đá cường hóa.</p><div class="landmark-list">${highTierBosses.map(q=>button('select',{key:q.key},`☠ ${q.level}★ · ${esc(q.value)} · T${q.eliteTier} (${q.x},${q.y})`,false,selected===q.key?'small primary':'small secondary')).join('')}</div><span class="eyebrow">QUÁI VẬT 5–8★ • TỌA ĐỘ HƯỚNG DẪN 17173, 27-07-2009</span><p class="tiny muted">${highStarNpc.length} mục tiêu. Chọn ở đây hoặc chạm ký hiệu trên bản đồ. Quân lực là khuyến nghị; roster trận chưa phục hồi từ dữ liệu gốc.</p><div class="landmark-list">${highStarNpc.map(q=>button('select',{key:q.key},`☠ ${q.stars}★ · (${String(q.x).padStart(2,'0')},${String(q.y).padStart(2,'0')}) · ${format(q.minimumForce)}+`,false,selected===q.key?'small primary':'small secondary')).join('')}</div><span class="eyebrow">TRẠI KHO BÁU • 76 TỌA ĐỘ HƯỚNG DẪN 17173, 27-12-2009</span><p class="tiny muted">Chọn theo cấp để xem địa điểm, lực lượng khuyến nghị SRC20 và báo cáo canh giữ SRC47. Danh sách dùng 76 tọa độ bài hướng dẫn Trung Quốc; quân địch, cách rơi và chỉ số loot vẫn mô phỏng.</p>${treasureGroups.map((group,i)=>{const row=E.TREASURE_GEAR_GUIDE[i+1],sel=selectedTargetKind==='treasure';return `<details class="treasure-level"><summary>🧰 Kho báu cấp ${i+1} · ${group.length} điểm · SRC47 canh giữ ${format(row.reportedGuardForce)}</summary><p class="tiny muted">SRC20: tối thiểu ${format(row.minimumForce)}; hoàn toàn ${format(row.completeForce)}.${row.completeForceStatus==='CONFLICT_SOURCE_TYPO_SUSPECTED'?' Mốc hoàn toàn do bài in thấp hơn mức tối thiểu; nghi lỗi nguồn, không dùng làm cổng.':''}</p><div class="landmark-list">${group.map(q=>button('select',{key:q.key,kind:'treasure'},`🧰 (${String(q.x).padStart(2,'0')},${String(q.y).padStart(2,'0')})${state.treasureCleared?.includes(q.key)?' · Đã dọn':''}`,false,sel&&selected===q.key?'small primary':'small secondary')).join('')}</div></details>`}).join('')}</div></div>
  ${cityTransfer||''}${cityTransportView()}${state.march?`<div class="banner">🚩 ${state.march.phase==='return'?'Đạo quân đang trở về thành từ '+state.march.fromKey:'Đạo quân đang tiến tới '+state.march.target} • ${Math.ceil(state.march.remaining/state.speed)} giây thực còn lại • ${awayCount}/3 tướng đang ở ngoài thành</div>`:''}${state.parallelMarches?.length?`<div class="card expedition-ledger"><b>🧭 Các đạo quân đang đi (${awayCount}/3)</b>${state.parallelMarches.map(q=>`<div class="entry"><span>${esc(state.heroes.find(h=>h.id===q.heroId)?.name||'Tướng')} → ${esc(E.getTile(q.target)?.value||q.target)} · ${q.phase==='arrived'?'đã tới, chờ giao tranh':Math.ceil(q.remaining/state.speed)+' giây còn lại'}</span></div>`).join('')}</div>`:''}`;
 }
 function citySwitcher(){const blocked=!!state.march||!!state.battle||!!state.expedition||!!state.parallelMarches?.length;return `<div class="hg28-city-switcher" aria-label="Các thành trì"><span class="hg28-city-count">🏰 ${state.cities.length}<small> / ${E.cityLimit(state.fame)}</small></span><div class="hg28-city-switch-list">${state.cities.map(c=>button('city-switch',{id:c.id},`${c.main?'♛':'🏰'} ${esc(c.name)} · ${C.races[c.race].name}`,blocked||c.id===state.activeCityId,c.id===state.activeCityId?'small primary':'small secondary')).join('')}</div></div>`}
+function dispatchView(){
+ const draft=dispatchDraft;if(!draft)return '';
+ const hero=state.heroes.find(h=>h.id===draft.heroId),role=hero&&E.hg20HeroRole(state,hero.id),
+  reserved=hero?E.hg20Reservations(state,hero.id):{},form=draft.form||[],
+  points=hero?E.formationPoints(state,form):0,limit=hero?E.heroLimit(hero.level):0,
+  freeFor=id=>Math.max(0,(state.army[id]||0)-(reserved[id]||0)),
+  target=E.getTile(draft.targetKey),targetLabel=target?.kind==='castle'?target.value:target?.kind==='mine'?`Mỏ ${C.resource[target.value]?.label||target.value}`:target?.value||draft.targetKey,
+  total=form.reduce((n,g)=>n+g.count,0),canLaunch=!!hero&&role?.status==='home'&&points<=limit&&total>0&&!!target;
+ const heroCards=state.heroes.map(h=>{const r=E.hg20HeroRole(state,h.id),selected=h.id===draft.heroId,ready=r.status==='home';return `<button type="button" data-action="dispatch-select-hero" data-id="${h.id}" class="hg39-dispatch-hero ${selected?'active':''}" ${ready?'':'disabled'}><b>${esc(h.name)}</b><small>Lv.${h.level} · ${esc(r.label)}</small></button>`}).join('');
+ const rows=form.map(g=>{const u=E.getUnit(state,g.unitId);if(!u)return '';const free=freeFor(g.unitId);return `<div class="hg39-dispatch-row"><span class="hg39-dispatch-unit">${hg28ArmyUnitThumb(u,38)}<b>${esc(u.name)}</b><small>${format(free)} rảnh / ${format(reserved[u.id]||0)} giữ cho tướng khác</small></span><div class="hg39-dispatch-count"><button data-action="dispatch-adjust" data-id="${esc(u.id)}" data-delta="-1" aria-label="Giảm quân" ${g.count<=1?'disabled':''}>−</button><input type="number" min="1" max="${free}" value="${g.count}" data-dispatch-count="${esc(u.id)}" aria-label="Số ${esc(u.name)} xuất chinh"><button data-action="dispatch-adjust" data-id="${esc(u.id)}" data-delta="1" aria-label="Tăng quân" ${g.count>=free?'disabled':''}>＋</button><button class="hg39-remove" data-action="dispatch-remove" data-id="${esc(u.id)}" aria-label="Bỏ ${esc(u.name)}">×</button></div></div>`}).join('');
+ const addable=E.arrUnits(state).filter(u=>freeFor(u.id)>(form.find(g=>g.unitId===u.id)?.count||0));
+ return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${esc(hero.name)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'}>⚔ Tự bố trí</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
+}
+function syncDispatchDraftUI(){
+ const draft=dispatchDraft;if(!draft)return;
+ const hero=state.heroes.find(h=>h.id===draft.heroId),role=hero&&E.hg20HeroRole(state,hero.id),form=draft.form||[],
+  held=hero?E.hg20Reservations(state,hero.id):{},points=hero?E.formationPoints(state,form):0,limit=hero?E.heroLimit(hero.level):0,
+  total=form.reduce((sum,g)=>sum+g.count,0),busy=state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length;
+ const pointLabel=$('game-modal-body')?.querySelector('[data-hg39-dispatch-points]'),meter=$('game-modal-body')?.querySelector('.hg39-command-meter progress'),
+  totalLabel=$('game-modal-body')?.querySelector('.hg39-dispatch-total'),confirm=$('game-modal-body')?.querySelector('[data-action="dispatch-confirm"]');
+ if(pointLabel&&hero)pointLabel.textContent=`⚔ ${hero.name} · ${format(points)} / ${format(limit)} điểm chỉ huy`;
+ if(meter){meter.max=Math.max(1,limit);meter.value=Math.min(points,limit)}
+ if(totalLabel)totalLabel.textContent=`${format(total)} quân · ${busy}/3 tướng đang bận`;
+ if(confirm)confirm.disabled=!(hero&&role?.status==='home'&&points<=limit&&total>0&&!!E.getTile(draft.targetKey));
+ for(const row of $('game-modal-body')?.querySelectorAll('.hg39-dispatch-row')||[]){
+  const input=row.querySelector('[data-dispatch-count]'),group=form.find(g=>g.unitId===input?.dataset.dispatchCount);if(!input)continue;
+  const id=input.dataset.dispatchCount,free=Math.max(0,(state.army[id]||0)-(held[id]||0));
+  row.hidden=!group;input.value=group?String(group.count):'0';input.max=String(free);
+  const minus=row.querySelector('[data-delta="-1"]'),plus=row.querySelector('[data-delta="1"]');
+  if(minus)minus.disabled=!group||group.count<=1;if(plus)plus.disabled=!group||group.count>=free;
+ }
+}
 
 function hg35ExpenseText(cost){return C.keys.filter(k=>cost[k]>0)
  .map(k=>C.resource[k].label+' -'+format(cost[k])).join(' · ')}
@@ -7942,14 +8164,25 @@ function paint(){
   };
   drawCombatFrame(undefined);
   if(P.hasAnimatedTroops(state.battle)){
-   const battle=state.battle;let lastFrame=0;
-   // Display frames at the monitor cadence (capped at ~60Hz), not the old
-   // enforced 24fps jitter. The RAF dies when navigation replaces the canvas.
+   const battle=state.battle;
+   let lastRaf=0,rafPeriod=0,samples=0,rafCount=0,stride=1;
+   // 60Hz-threshold filtering used to alias 75Hz monitors to ~37.5Hz:
+   // each 13.3ms RAF failed a 14.7ms test, so only every OTHER refresh
+   // was painted. Instead paint every native refresh up to ~100Hz; on
+   // 120/144/165/240Hz monitors skip uniformly by an integer stride.
+   // Never rewrite canonical turn clocks or insert a second animation loop.
    const animate=now=>{
     if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;
-    if(!lastFrame||now-lastFrame>=1000/60-2){
-     drawCombatFrame(now);lastFrame=now;
+    if(lastRaf){
+     const gap=now-lastRaf;
+     if(gap>=3&&gap<=36){
+      rafPeriod=rafPeriod?rafPeriod*.9+gap*.1:gap;
+      samples++;
+      if(samples===10||samples%120===0)stride=battleRenderStride(rafPeriod);
+     }
     }
+    lastRaf=now;
+    if(rafCount++%stride===0)drawCombatFrame(now);
     requestAnimationFrame(animate);
    };
    requestAnimationFrame(animate);
@@ -7961,7 +8194,31 @@ function paint(){
     if(target)fail(()=>{markBattleInput();E.battleSelect(state,target.id)});};
  }
 }
+let hg39DockMoves=[];
+function restoreWorldMapLayout(){
+ for(const {node,marker} of hg39DockMoves.reverse())if(marker.parentNode){marker.parentNode.insertBefore(node,marker);marker.remove()}
+ hg39DockMoves=[];document.querySelector('.hg39-map-dock')?.remove();
+ document.body.classList.remove('hg39-world-map-mode');
+}
+function enhanceWorldMapLayout(){
+ if(tab!=='map'||state?.battle||dispatchDraft||showWorldIndex||showResourceInfo)return;
+ const main=$('main'),wrap=main?.parentElement,sidebar=document.querySelector('.sidebar');if(!main||!wrap||!sidebar)return;
+ const dock=document.createElement('aside');dock.className='hg39-map-dock';dock.setAttribute('aria-label','Điều khiển bản đồ');
+ const controls=document.createElement('div');controls.className='hg39-map-tools';
+ const title=main.querySelector('.scene-title'),tools=title?.querySelector('.scene-tools');
+ const move=(node,parent)=>{if(!node)return;const marker=document.createComment('hg39-map-position');node.parentNode.insertBefore(marker,node);hg39DockMoves.push({node,marker});parent.append(node)};
+ const addDetails=(node,label,open=false)=>{if(!node)return;const details=document.createElement('details');details.className='hg39-map-details';details.open=open;const summary=document.createElement('summary');summary.textContent=label;details.append(summary);dock.append(details);move(node,details)};
+ if(tools)move(tools,controls);dock.append(controls);
+ const target=main.querySelector('.scene-bottom .target-information');if(target){const card=document.createElement('section');card.className='hg39-map-target';dock.append(card);move(target,card)}
+ addDetails(main.querySelector('.quickstart-strip'),'Tác vụ nhanh');
+ addDetails(main.querySelector('.scene-bottom .landmarks'),'Điểm đến & tọa độ');
+ addDetails(main.querySelector('.city-switcher'),'Thành trì');
+ for(const [selector,label] of [['.city-transfer','Chuyển thành'],['.city-transport-ledger','Vận tải'],['.banner','Đạo quân hiện tại'],['.expedition-ledger','Các đạo quân']])addDetails(main.querySelector(selector),label);
+ const actionButtons=sidebar.querySelector('.buttons');if(actionButtons){const utility=document.createElement('div');utility.className='hg39-map-utility';dock.append(utility);move(actionButtons,utility)}
+ wrap.append(dock);document.body.classList.add('hg39-world-map-mode');
+}
 function render(){
+ restoreWorldMapLayout();
  const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');
  if(enteringCombat)combatDockOpen=true;
  document.body.classList.toggle('combat-mode',!!state?.battle);
@@ -7972,12 +8229,12 @@ function render(){
  if(!state.battle){movementModeId=null;if(tab==='combat')tab='map'}
  if(state.battle){tab='combat';showWorldIndex=false;showResourceInfo=false}
  renderHUD();
- const popup=tab!=='map'&&tab!=='combat'||tab==='map'&&(showWorldIndex||showResourceInfo);
- const content=tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
+ const popup=!!dispatchDraft||tab!=='map'&&tab!=='combat'||tab==='map'&&(showWorldIndex||showResourceInfo);
+ const content=dispatchDraft?dispatchView():tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
  if(popup){
   $('main').innerHTML=mapView();
-  $('game-modal-title').textContent=showResourceInfo&&tab==='map'?'💰 Tài nguyên & kho':showWorldIndex&&tab==='map'?'📍 Danh sách điểm đến':tabs.find(x=>x[0]===tab)?.[1]||'Quản lý';
-  body.innerHTML=showResourceInfo&&tab==='map'?'<div class="grid grid3">'+C.keys.map(k=>{
+  $('game-modal-title').textContent=dispatchDraft?'🚩 Chọn tướng & quân':showResourceInfo&&tab==='map'?'💰 Tài nguyên & kho':showWorldIndex&&tab==='map'?'📍 Danh sách điểm đến':tabs.find(x=>x[0]===tab)?.[1]||'Quản lý';
+  body.innerHTML=dispatchDraft?content:showResourceInfo&&tab==='map'?'<div class="grid grid3">'+C.keys.map(k=>{
    const limit=E.limits(state)[k],rate=E.rate(state)[k];
    return '<div class="card"><h2>'+esc(C.resource[k].label)+'</h2><strong>'+format(state.res[k])+' / '+format(limit)+'</strong><p class="hint">+'+format(rate)+' mỗi giờ game</p><progress max="'+limit+'" value="'+state.res[k]+'"></progress></div>';
   }).join('')+'</div>':showWorldIndex&&tab==='map'?$('main').querySelector('.landmarks')?.outerHTML||'':`<div class="hg28-tab hg28-tab-${tab}" data-hg28-screen="${tab}">${content}</div>`;
@@ -7998,15 +8255,26 @@ function render(){
   overlay.hidden=true;body.innerHTML='';document.body.classList.remove('window-open');
   $('main').innerHTML=(tab==='map'?newPlayerGuide():'')+content;
  }
+ enhanceWorldMapLayout();
  paint();
  if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}
 }
 $('app').addEventListener('input',evt=>{
  const field=evt.target;if(field?.id?.startsWith('q_'))hg35UpdateRecruitQuote(field.id.slice(2));
 });
+$('app').addEventListener('change',evt=>{
+ const field=evt.target,unitId=field?.dataset?.dispatchCount;if(!unitId||!dispatchDraft)return;
+ const hero=state.heroes.find(h=>h.id===dispatchDraft.heroId);if(!hero)return;
+ const held=E.hg20Reservations(state,hero.id),available=Math.max(0,(state.army[unitId]||0)-(held[unitId]||0));
+ let count=Math.max(0,Math.min(available,Math.floor(Number(field.value)||0)));
+ const next=(dispatchDraft.form||[]).filter(g=>g.unitId!==unitId);
+ while(count>0&&E.formationPoints(state,[...next,{unitId,count}])>E.heroLimit(hero.level))count--;
+ if(count>0)next.push({unitId,count});dispatchDraft.form=next;
+ field.value=count?String(count):'0';syncDispatchDraftUI();
+});
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
  if(action==='modal-page'){const body=$('game-modal-body');const dir=Number(target.dataset.dir)||1;body.scrollTop=Math.max(0,Math.min(body.scrollHeight-body.clientHeight,body.scrollTop+dir*body.clientHeight*.86));modalOffset=body.scrollTop;return;}
- if(action==='modal-backdrop'){if(evt.target===target){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;render();}return;}
+ if(action==='modal-backdrop'){if(evt.target===target){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;render();}return;}
  if(action==='recruit-max'){
   const id=target.dataset.id,qty=E.recruitMax(state,id),input=$('q_'+id);
   if(input){input.value=String(qty);hg35UpdateRecruitQuote(id)}
@@ -8036,7 +8304,53 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   return;
  }
  fail(()=>{
- if(action==='modal-close'){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;return}
+ if(action==='modal-close'||action==='dispatch-close'){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;return}
+ if(action==='dispatch-open'){
+  const heroId=state.activeHero;if(!selected)throw Error('Chọn mục tiêu trên bản đồ trước.');
+  dispatchDraft={targetKey:selected,kind:target.dataset.kind||selectedTargetKind||null,heroId,
+   form:E.hg20HeroPlan(state,heroId).map(g=>({...g}))};
+  showWorldIndex=false;showResourceInfo=false;modalOffset=0;return;
+ }
+ if(action==='dispatch-select-hero'){
+  const heroId=Number(target.dataset.id);E.selectHero(state,heroId);dispatchDraft.heroId=heroId;
+  dispatchDraft.form=E.hg20HeroPlan(state,heroId).map(g=>({...g}));return;
+ }
+ if(action==='dispatch-add-unit'){
+  const unitId=$('hg39-dispatch-unit')?.value,hero=state.heroes.find(h=>h.id===dispatchDraft?.heroId);
+  if(!unitId||!hero)throw Error('Chọn loại quân và tướng trước.');
+  if(dispatchDraft.form.length>=7)throw Error('Đội hình tối đa 7 nhóm.');
+  if(dispatchDraft.form.some(g=>g.unitId===unitId))throw Error('Loại quân này đã có trong đội hình.');
+  const held=E.hg20Reservations(state,hero.id),available=Math.max(0,(state.army[unitId]||0)-(held[unitId]||0));
+  if(available<1)throw Error('Không còn quân rảnh thuộc thành này.');
+  dispatchDraft.form.push({unitId,count:1});return;
+ }
+ if(action==='dispatch-adjust'){
+  const group=dispatchDraft?.form.find(g=>g.unitId===target.dataset.id);if(!group)throw Error('Đơn vị không còn trong đội hình.');
+  const hero=state.heroes.find(h=>h.id===dispatchDraft.heroId),held=E.hg20Reservations(state,hero.id),max=Math.max(0,(state.army[group.unitId]||0)-(held[group.unitId]||0));
+  let count=Math.max(1,Math.min(max,group.count+Number(target.dataset.delta||0)));
+  while(count>1&&E.formationPoints(state,dispatchDraft.form.map(g=>g.unitId===group.unitId?{...g,count}:g))>E.heroLimit(hero.level))count--;
+  group.count=count;return;
+ }
+ if(action==='dispatch-remove'){
+  dispatchDraft.form=dispatchDraft.form.filter(g=>g.unitId!==target.dataset.id);return;
+ }
+ if(action==='dispatch-auto'){
+  const heroId=dispatchDraft.heroId;if(state.activeHero!==heroId)E.selectHero(state,heroId);
+  dispatchDraft.form=E.autoFormation(state).formation.map(g=>({...g}));return;
+ }
+ if(action==='dispatch-save'){
+  const saved=E.hg20SetHeroPlan(state,dispatchDraft.heroId,dispatchDraft.form);
+  toast('Đã lưu '+format(saved.total)+' quân · '+format(saved.points)+' điểm chỉ huy cho tướng.');return;
+ }
+ if(action==='dispatch-confirm'){
+  const draft=dispatchDraft,heroId=draft.heroId;
+  if(state.activeHero!==heroId)E.selectHero(state,heroId);
+  E.hg20SetHeroPlan(state,heroId,draft.form);
+  const units=draft.form.reduce((n,g)=>n+g.count,0),targetKey=draft.targetKey;
+  E.startMarch(state,targetKey,draft.kind==='treasure'?'treasure':undefined);
+  dispatchDraft=null;tab='map';modalOffset=0;
+  toast((state.heroes.find(h=>h.id===heroId)?.name||'Tướng')+' xuất chinh cùng '+format(units)+' quân.');return;
+ }
  if(action==='world-index'){showWorldIndex=!showWorldIndex;showResourceInfo=false;modalOffset=0;return}
  if(action==='resource-info'){showResourceInfo=!showResourceInfo;showWorldIndex=false;tab='map';modalOffset=0;return}
  if(action==='race'){newRace=target.dataset.race;render();return}
@@ -8049,7 +8363,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='select'){selected=target.dataset.key;selectedTargetKind=target.dataset.kind==='treasure'?'treasure':null;const tile=E.getTile(selected);if(tile)Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y});return}
  if(action==='building'){selectedBuilding=target.dataset.key;return}
  if(action==='zoom'){P.zoomMap(target.dataset.dir==='in'?1.25:.8);return}
- if(action==='center'){const city=E.activeCity(state),tile=E.getTile(city.key);Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y,zoom:1.12});selected=city.key;selectedTargetKind=null;return}
+ if(action==='center'){const city=E.activeCity(state),tile=E.getTile(city.key);Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y,zoom:1.3});selected=city.key;selectedTargetKind=null;return}
   if(action==='stack'){movementModeId=null;markBattleInput();E.battleSelect(state,target.dataset.id);return}
   if(action==='move-mode'){if(movementModeId){movementModeId=null;return}const unit=state.battle?.allies.find(u=>u.id===state.battle.selected&&u.pool>0);if(!unit)throw Error('Hãy chọn một đội quân còn sống để di chuyển.');movementModeId=unit.id;markBattleInput();return}
  if(action==='formation'){E.setFormation(state,Array.from({length:7},(_,i)=>({unitId:$('formation_unit_'+i).value,count:Number($('formation_count_'+i).value)})));toast('Đội hình đã lưu.');return}
@@ -8161,7 +8475,7 @@ $('import-file').onchange=async e=>{
  const file=e.target.files?.[0];e.target.value='';if(!file)return;
  try{
   if(file.size>2_000_000)throw Error('Tệp vượt giới hạn 2 MB');
-  const imported=E.parseSave(await file.text());
+  const imported=E.parseSave(await file.text());if(imported.battle)P.battleTimelinePrime?.(imported.battle,performance.now(),false);
   if(!confirm('Khôi phục save từ file? Tiến độ HG-08 hiện tại sẽ được thay bằng dữ liệu trong file.'))return;
   const beforeImport=state;try{state=imported;E.tick(state);if(!save())throw Error('Không thể lưu bản nhập; bản lưu cũ vẫn được giữ nguyên.');selected='3,4';selectedTargetKind=null;tab=state.battle?'combat':'map';render();toast('Đã khôi phục save.')}catch(error){state=beforeImport;throw error}
  }catch(err){toast('Không thể nhập save: '+(err.message||String(err)))}
@@ -8201,7 +8515,7 @@ window.addEventListener('resize',()=>{if(!state?.battle&&$('world-canvas')){pain
 // Single deadline-aware auto scheduler; the economy tick above never resolves battle turns.
 setInterval(resolveAutomaticBattleTurn,120);
 setInterval(save,10000);window.addEventListener('pagehide',save);
-window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
+window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),battleRenderStride,render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
 })();
 </script>
 </body></html>

@@ -81,15 +81,15 @@ with sync_playwright() as pw:
             {actorId:'visual-qa',from:{x:3,y:3},path:[{x:4,y:3}],damage:0}]};
           const alive={id:'visual-qa',x:4,y:3,pool:100};
           const before=P.battleVisualState(fake,alive,20,20),
-            walkStart=P.battleVisualState(fake,alive,85,85),
+            walkStart=P.battleVisualState(fake,alive,105,105),
             walkMid=P.battleVisualState(fake,alive,270,270),
             after=P.battleVisualState(fake,alive,570,570);
           const dying={turn:8,lastEvents:[{actorId:'different'},
             {actorId:'enemy',targetId:'visual-qa',damage:50,death:true}]};
           const dead={...alive,pool:0};
           const deadBefore=P.battleVisualState(dying,dead,20,20),
-            deadDuring=P.battleVisualState(dying,dead,160,160),
-            deadAfter=P.battleVisualState(dying,dead,1400,1400);
+            deadDuring=P.battleVisualState(dying,dead,600,600),
+            deadAfter=P.battleVisualState(dying,dead,1800,1800);
           const motionOracle={
             sourceCadence,
             before:{x:before?.x,y:before?.y,action:before?.action},

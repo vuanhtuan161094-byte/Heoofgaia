@@ -268,7 +268,7 @@ test('HG10 24-hour offline catch-up completes concurrent paid queues and settles
  assert.equal(s.buildings.market,1);assert.equal(s.buildingQueue,null);assert.equal(s.training.length,0);
  assert.equal(s.researchQueue,null);assert.equal(s.spells.bootcamp,1);
  assert.equal(s.arenaQueue,null);assert.equal(s.wounded.human_1,0);assert.equal(s.army.human_1,20);
- assert.equal((s.res.gold-goldBefore)-(control.res.gold-goldBefore),4800, 'gold must include the source-listed 24h mine yield');
+ assert.equal(s.res.gold-control.res.gold,4800*E.HG39_CONFIG.productionMultiplier, 'gold mine output follows the HG39 periodic-production multiplier');
  const settled=JSON.stringify(s),loaded=E.parseSave(E.serializeSave(s));E.tick(s,end);E.tick(loaded,end);
  assert.equal(JSON.stringify(s),settled);assert.equal(JSON.stringify(loaded),settled);assert(E.strictSave(loaded));
 });
@@ -319,14 +319,14 @@ test('cannot assign beyond available army',()=>{const s=state();throws(()=>E.set
 test('Captured mines add the dated 2009 resource output and do not scale by unverified mine level',()=>{
  const s=state(),base=E.rate(s),expected={gold:200,wood:40,ore:40,sulfur:20,crystal:20};
  assert.deepEqual({...E.MINE_HOURLY},expected);
- for(const res of Object.keys(expected)){const testState={...s,mines:[{key:'test-'+res,res,level:7}]};assert.equal(E.rate(testState)[res]-base[res],expected[res],res)}
+ for(const res of Object.keys(expected)){const testState={...s,mines:[{key:'test-'+res,res,level:7}]};assert.equal(E.rate(testState)[res]-base[res],expected[res]*E.HG39_CONFIG.productionMultiplier,res)}
  const two={...s,mines:[{key:'wood-a',res:'wood',level:1},{key:'wood-b',res:'wood',level:2}]};
- assert.equal(E.rate(two).wood-base.wood,80);
+ assert.equal(E.rate(two).wood-base.wood,80*E.HG39_CONFIG.productionMultiplier);
 });
 test('Mine income is credited by an in-game hour tick and survives v07 save/reload',()=>{
  const owned=state(),empty=state();owned.speed=empty.speed=1;owned.mines=Object.entries(E.MINE_HOURLY).map(([res])=>({key:'mine-'+res,res,level:1}));
  const beforeOwned={...owned.res},beforeEmpty={...empty.res},end=owned.lastTick+3600000;E.tick(owned,end);E.tick(empty,end);
- for(const res of Object.keys(E.MINE_HOURLY))assert.equal((owned.res[res]-beforeOwned[res])-(empty.res[res]-beforeEmpty[res]),E.MINE_HOURLY[res],res);
+ for(const res of Object.keys(E.MINE_HOURLY))assert.equal((owned.res[res]-beforeOwned[res])-(empty.res[res]-beforeEmpty[res]),E.MINE_HOURLY[res]*E.HG39_CONFIG.productionMultiplier,res);
  const loaded=E.parseSave(E.serializeSave(owned)),before={...loaded.res};E.tick(loaded,loaded.lastTick+3600000);
  for(const res of Object.keys(E.MINE_HOURLY))assert.equal(loaded.res[res]-before[res],E.rate(owned)[res],res);
 });
@@ -393,7 +393,7 @@ test('Mine victory stations hero and troops; recall returns them once without AP
  const beforeAP=s.ap,seconds=E.recallHero(s,1);assert(seconds>0);assert.equal(s.ap,beforeAP);assert.equal(s.stationedHeroes.length,0);assert.equal(s.march.phase,'return');assert.equal(s.expedition.army.human_1,16);
  const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.march.phase,'return');assert.equal(saved.expedition.army.human_1,16);E.tick(saved,saved.lastTick+saved.march.remaining/saved.speed*1000+1000);
  assert.equal(saved.march,null);assert.equal(saved.expedition,null);assert.equal(saved.army.human_1,16);assert.equal(saved.mines.length,1);assert.equal(E.strictSave(saved),true);
- assert.equal(E.rate(saved)[tile.value],E.rate(state())[tile.value]+E.MINE_HOURLY[tile.value]);throws(()=>E.recallHero(saved,1),/không đồn trú/);
+ assert.equal(E.rate(saved)[tile.value],E.rate(state())[tile.value]+E.MINE_HOURLY[tile.value]*E.HG39_CONFIG.productionMultiplier);throws(()=>E.recallHero(saved,1),/không đồn trú/);
 });
 test('Defeated hero returns along a saved route after the expedition army is lost',()=>{
  const s=state(),tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key));s.formation=[{unitId:'human_1',count:1}];E.startMarch(s,tile.key);E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
@@ -573,7 +573,7 @@ test('Manufacturing legacy spell level remains recognized by requirements and di
  assert.equal(E.troopPrerequisites(s,C.units.human[3]).available,true);assert.equal(E.recruitCost(s,C.units.human[3],1).gold,Math.ceil(C.units.human[3].cost.gold*.98));
 });
 test('Bootcamp and Manufacturing apply the documented two-percent per level to recruitment',()=>{
- const s=state();const u=C.units.human[0];s.spells.bootcamp=1;assert.equal(E.recruit(s,u.id,1).gold,u.cost.gold);assert.equal(s.training[0].total,Math.ceil(u.timeSec*.98));
+ const s=state();const u=C.units.human[0];s.spells.bootcamp=1;assert.equal(E.recruit(s,u.id,1).gold,u.cost.gold);assert.equal(s.training[0].total,Math.max(E.HG39_CONFIG.minimumRecruitGameSeconds,Math.ceil(u.timeSec*.98/E.HG39_CONFIG.recruitSpeedMultiplier)));
  s.spells.manufacturing=10;assert.equal(E.recruitCost(s,u,1).gold,Math.ceil(u.cost.gold*.8));
 });
 test('Hero allocation blocked during march or battle',()=>{
@@ -986,7 +986,7 @@ test('HG10 city switching isolates race, resources, troops and offline recruitme
  const s=state();s.fame=5800;E.startMarch(s,'9,10');s.march.remaining=.01;E.tick(s,s.lastTick+1000);
  for(const e of s.battle.enemies){e.hp=1;e.pool=1;e.count=1;e.atk=0;e.def=0}for(const a of s.battle.allies)a.range=20;
  let out;for(let i=0;i<8&&s.battle;i++)out=E.battleAct(s,'attack');assert.equal(out.type,'win');
- const elf=E.cityForKey(s,'9,10');E.switchCity(s,elf.id);assert.equal(s.race,'elf');assert(Object.keys(s.army).every(id=>id.startsWith('elf_')));throws(()=>E.claim(s,'any-task'),/thành chính/i);const elfBase=E.rate(s).gold;s.mines.push({key:'10,2',res:'gold',level:1,cityId:'main'});assert.equal(E.rate(s).gold,elfBase);E.switchCity(s,'main');assert.equal(E.rate(s).gold-160,200);E.switchCity(s,elf.id);
+ const elf=E.cityForKey(s,'9,10');E.switchCity(s,elf.id);assert.equal(s.race,'elf');assert(Object.keys(s.army).every(id=>id.startsWith('elf_')));throws(()=>E.claim(s,'any-task'),/thành chính/i);const elfBase=E.rate(s).gold;s.mines.push({key:'10,2',res:'gold',level:1,cityId:'main'});assert.equal(E.rate(s).gold,elfBase);E.switchCity(s,'main');assert.equal(E.rate(s).gold-E.rate({...s,mines:[]}).gold,200*E.HG39_CONFIG.productionMultiplier);E.switchCity(s,elf.id);
  for(const k of C.keys)s.res[k]=E.limits(s)[k];const unit=C.units.elf[0];E.recruit(s,unit.id,1);const queued=s.training[0].total;E.syncCityState(s);
  const elfBefore={...s.res};E.switchCity(s,'main');s.res.gold-=0;const now=s.lastTick+Math.ceil(queued/60*1000)+2000;E.tick(s,now);
  const savedElf=E.cityForKey(s,'9,10');assert.equal(savedElf.local.training.length,0);assert.equal(savedElf.local.army[unit.id],1);
@@ -1031,7 +1031,7 @@ test('HG10 owned mine cannot be attacked twice or duplicate hourly income',()=>{
  const owned={key:mine.key,res:mine.value,level:mine.level,cityId:'main'};
  s.mines.push(owned);
  const before={ap:s.ap,army:JSON.stringify(s.army),mines:JSON.stringify(s.mines),rate:E.rate(s).gold};
- assert.equal(E.rate(s).gold,360);
+ assert.equal(E.rate(s).gold,360*E.HG39_CONFIG.productionMultiplier);
  throws(()=>E.startMarch(s,mine.key),/đã thuộc quyền sở hữu/);
  assert.equal(s.ap,before.ap);assert.equal(JSON.stringify(s.army),before.army);
  assert.equal(JSON.stringify(s.mines),before.mines);assert.equal(E.rate(s).gold,before.rate);
@@ -1203,7 +1203,7 @@ test('HG10 world attack buff changes actual battle damage and expires before lat
  assert(setup(boosted)>setup(base));
  const buffed=state(),plain=state();for(const s of [buffed,plain]){s.speed=1;s.heroes[0].int=40}
  E.visitWorldBuilding(buffed,'21,65',buffed.lastTick);E.appoint(buffed,1);E.appoint(plain,1);const beforeB=buffed.res.gold,beforeP=plain.res.gold;E.tick(buffed,buffed.lastTick+3*60*60*1000);E.tick(plain,plain.lastTick+3*60*60*1000);
- assert.equal(buffed.heroBuffs.length,0);assert(Math.abs((buffed.res.gold-beforeB)-(plain.res.gold-beforeP)-(4*160/150*2))<1e-6);
+ assert.equal(buffed.heroBuffs.length,0);assert(Math.abs((buffed.res.gold-beforeB)-(plain.res.gold-beforeP)-(4*160/150*2*E.HG39_CONFIG.productionMultiplier))<1e-6);
 });
 test('SRC54 China 2009 recruitment task is separated, counts completed real training, pays once and migrates v07 saves',()=>{
  const s=state('human'),now=s.lastTick,taskId='recruit_archers';
@@ -1389,8 +1389,8 @@ test('HG10 transport arrives, delivers once, returns troops across city switch a
  saved.cityTransports[0].remaining=.25;saved=E.parseSave(E.serializeSave(saved));E.switchCity(saved,city.id);E.tick(saved,saved.lastTick+1000);assert.equal(saved.cityTransports.length,0);assert.equal(E.cityForKey(saved,'3,4').local.army.human_1,3);assert.equal(saved.race,'elf');const reloaded=E.parseSave(E.serializeSave(saved));assert.equal(E.cityForKey(reloaded,'3,4').local.army.human_1,3);assert(E.strictSave(reloaded));
 });
 test('HG10 transport waits without cargo loss for destination warehouse capacity then resumes',()=>{
- const {s,city}=cityTransportFixture();city.local.res.gold=14950;E.startCityTransport(s,city.id,'human_1',1,{gold:100});s.cityTransports[0].remaining=.25;E.tick(s,s.lastTick+1000);assert.equal(s.cityTransports[0].phase,'holding');assert(E.cityForKey(s,city.key).local.res.gold>14950&&E.cityForKey(s,city.key).local.res.gold<15000);assert(E.strictSave(s));
- let saved=E.parseSave(E.serializeSave(s));E.switchCity(saved,city.id);saved.res.gold=E.limits(saved).gold-104;E.syncCityState(saved);E.tick(saved,saved.lastTick+1000);assert.equal(saved.cityTransports[0].phase,'return');assert(saved.res.gold>14989&&saved.res.gold<=15000);assert(E.strictSave(saved));
+ const {s,city}=cityTransportFixture();s.speed=1;const destinationCap=E.limits(city.local).gold;city.local.res.gold=destinationCap-50;E.startCityTransport(s,city.id,'human_1',1,{gold:100});s.cityTransports[0].remaining=.25;E.tick(s,s.lastTick+1000);assert.equal(s.cityTransports[0].phase,'holding');assert(E.cityForKey(s,city.key).local.res.gold>destinationCap-51&&E.cityForKey(s,city.key).local.res.gold<=destinationCap);assert(E.strictSave(s));
+ let saved=E.parseSave(E.serializeSave(s));E.switchCity(saved,city.id);const homeCap=E.limits(saved).gold;saved.res.gold=homeCap-102;E.syncCityState(saved);E.tick(saved,saved.lastTick+1000);assert.equal(saved.cityTransports[0].phase,'return');assert(saved.res.gold>homeCap-2&&saved.res.gold<=homeCap);assert(E.strictSave(saved));
 });
 test('HG10 offline elapsed time completes convoy outbound and return in one tick without double delivery',()=>{
  const {s,city}=cityTransportFixture(),initialGold=s.res.gold,initialTroops=s.army.human_1;
@@ -1511,15 +1511,16 @@ test('HG14.5 real combat receipts drive damage numbers, arrows and death marks o
  const s=state('human'),npc=E.NPC_CAMPS_2009.find(n=>n.stars===1);
  s.army.human_3=16;E.setFormation(s,[{unitId:'human_3',count:16}]);
  s.battle=E.makeBattle(s,npc.key);const b=s.battle;
+ P.battleTimelinePrime(b,0,false);
  assert.deepEqual(b.lastEvents||[],[]);
  const camera=P.battleProjection({width:1176,height:550},E);
- const initial=P.battleUnitLayout(b,camera,1176,550);
- assert.equal(P.battleFxPlan(b,camera,540,initial).length,0);
+ const initial=P.battleUnitLayout(b,camera,1176,550,0);
+ assert.equal(P.battleFxPlan(b,camera,0,initial).length,0);
  const outcome=E.battleAct(s,'attack');
  assert.equal(outcome.type,'continue');assert(s.battle);
  const canonicalBefore=JSON.stringify(E.clone(s));
- const layout=P.battleUnitLayout(b,camera,1176,550);
- const effects=P.battleFxPlan(b,camera,600,layout);
+ const layout=P.battleUnitLayout(b,camera,1176,550,1);
+ const effects=P.battleFxPlan(b,camera,100,layout);
  const hits=b.lastEvents.filter(e=>e.damage>0&&e.targetId);
  assert.equal(effects.length,hits.length);
  for(const effect of effects){
@@ -1531,7 +1532,7 @@ test('HG14.5 real combat receipts drive damage numbers, arrows and death marks o
  }
  assert(effects.some(e=>e.ranged),'actual archer fires a projectile');
  assert(effects.some(e=>e.death),'actual first encounter kills an enemy stack');
- assert.equal(P.battleFxPlan(b,camera,1200,layout).length,0,'effect TTL expires');
+ assert.equal(P.battleFxPlan(b,camera,2400,layout).length,0,'effect TTL expires');
  assert.equal(JSON.stringify(E.clone(s)),canonicalBefore,'presentation never mutates game');
 });
 test('HG14.4 responsive sprites stay legible and fit real battlefield lanes',()=>{
@@ -1734,8 +1735,12 @@ test('HG33 additional atlases animate the two preserved core exceptions, Priest,
 test('HG11 battle animation holds a full staggered Death clip without mutating combat state',()=>{
  const b={turn:4,allies:[],enemies:[],lastEvents:[{actorId:'p0',from:{x:1,y:1},to:{x:3,y:1},path:[{x:2,y:1},{x:3,y:1}],targetId:'h0',damage:30,death:false},{actorId:'e0',from:{x:4,y:1},to:{x:4,y:1},path:[],targetId:'p0',damage:25,death:false},{actorId:'p1',from:{x:2,y:2},to:{x:2,y:2},path:[],targetId:'e1',damage:50,death:true}]};
  const moved={id:'p0',pool:100,unitId:'human_4',x:3,y:1},hit={id:'h0',pool:75,unitId:'human_4',x:4,y:1},dead={id:'e1',pool:0,unitId:'human_4',x:5,y:2},before=JSON.stringify(b);
- assert.equal(P.battleVisualState(b,moved,225).action,'walk');assert.equal(P.battleVisualState(b,moved,225).x,2);assert.equal(P.battleVisualState(b,moved,460).action,'attack');assert.equal(P.battleVisualState(b,hit,200).action,'hit');assert.equal(P.battleVisualState(b,dead,300).action,'death');
- assert.equal(P.battleVisualState(b,dead,1_369).time,1_199);assert.equal(P.battleVisualState(b,dead,1_370),null);assert.equal(JSON.stringify(b),before);
+ P.battleTimelinePrime(b,0,true);
+ const walking=P.battleVisualState(b,moved,225),attacking=P.battleVisualState(b,moved,460),beforeImpact=P.battleVisualState(b,hit,200),hitting=P.battleVisualState(b,hit,750),deathBefore=P.battleVisualState(b,dead,546),dying=P.battleVisualState(b,dead,547),deathEnd=P.battleVisualState(b,dead,1_746),deadAfter=P.battleVisualState(b,dead,1_747);
+ assert.equal(walking.action,'walk');assert.equal(walking.x,2,'a two-hex route takes two equal, visible steps');assert.equal(attacking.action,'attack');
+ assert.equal(beforeImpact.action,'idle');assert.equal(hitting.action,'hit','target Hit starts when its visual receipt reaches impact');
+ assert.equal(deathBefore.action,'idle');assert.equal(dying.action,'death');assert.equal(deathEnd.time,1_199);assert.equal(deadAfter,null);
+ assert.equal(JSON.stringify(b),before,'timeline reads receipts without adding Save v07 fields');
 });
 test('HG11 real battle action receipts and legacy eventless v07 saves validate strictly',()=>{
  const s=state(),tile=E.TILES.find(t=>t.kind==='npc'),b=E.makeBattle(s,tile.key);s.battle=b;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_4',name:'Heavy Soldier',range:1,count:1,initial:1,hp:1000,atk:20,def:10,spd:10,pool:1000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Wall',range:20,count:1,initial:1,hp:100000,atk:0,def:0,spd:1,pool:100000,x:6,y:1}];b.selected='p0';b.orders={};b.moveTargets={};const out=E.battleAct(s,'move',{x:4,y:1}),event=s.battle.lastEvents.find(e=>e.actorId==='p0');assert.equal(out.type,'continue');assert(event.path.length>0);assert.deepEqual({x:event.path[0].x,y:event.path[0].y},{x:2,y:1});assert.deepEqual({x:event.to.x,y:event.to.y},{x:3,y:1});assert.equal(event.path.length,2);assert.equal(event.order,'move');assert.equal(event.casualties,0);assert(E.strictSave(s));const saved=E.parseSave(E.serializeSave(s));assert.deepEqual(JSON.parse(JSON.stringify(saved.battle.lastEvents)),JSON.parse(JSON.stringify(s.battle.lastEvents)));
@@ -1765,6 +1770,35 @@ test('HG12 browser Save rejects invalid v07 without overwriting prior data and r
  const second=data.get(E.SAVE_KEY);failPrimary=true;s.fame+=10;assert.equal(api.save(),false);assert.equal(data.get(E.SAVE_KEY),second,'storage failure never discards last valid save');
  assert(src.includes("localStorage.removeItem(E.SAVE_KEY+'_backup')"),'reset clears the emergency backup');
  assert(alerts.some(m=>/khôi phục bản lưu dự phòng/.test(m)),'UI notifies recovery');
+});
+test('HG39 periodic production and warehouse capacity scale after HG38 modifiers for all five resources',()=>{
+ const s=state(),config=E.HG39_CONFIG;assert.deepEqual(JSON.parse(JSON.stringify(config)),{productionMultiplier:20,recruitSpeedMultiplier:50,constructionSpeedMultiplier:10,warehouseCapacityMultiplier:100,minimumRecruitGameSeconds:1,minimumConstructionGameSeconds:1});
+ assert.equal(E.rate(s).gold,160*20);assert.equal(E.rate(s).wood,12*20);assert.equal(E.rate(s).ore,12*20);assert.equal(E.rate(s).sulfur,6*20);assert.equal(E.rate(s).crystal,6*20);
+ const capacity=E.limits(s);assert.equal(capacity.gold,15000*100);assert.equal(capacity.wood,1500*100);assert.equal(capacity.ore,1500*100);assert.equal(capacity.sulfur,750*100);assert.equal(capacity.crystal,750*100);
+ const base=E.rate(s);s.mines=Object.entries(E.MINE_HOURLY).map(([res],i)=>({key:`hg39-${i}`,res,level:1,cityId:'main'}));
+ for(const [res,amount] of Object.entries(E.MINE_HOURLY))assert.equal(E.rate(s)[res]-base[res],amount*20,`${res} periodic mine income is multiplied exactly once`);
+});
+test('HG39 recruitment and construction timers honor their final HG38 bonuses and minimums',()=>{
+ const s=expensive(state()),u=E.getUnit(s,'human_1');assert(u);
+ assert.equal(E.recruitDuration(s,u,1),Math.max(1,Math.ceil(u.timeSec/50)));
+ s.spells.bootcamp=10;s.buildings.blacksmith=10;const elite=Math.min(.22,(10-7)*.025+(10-5)*.03),factor=1-Math.min(.45,Math.min(.2,10*.02)+elite);
+ assert.equal(E.recruitDuration(s,u,1),Math.max(1,Math.ceil(u.timeSec*factor/50)));
+ s.spells.construction=5;E.upgrade(s,'market');assert.equal(s.buildingQueue.total,Math.max(1,Math.ceil(160*(1-.15)/10)));
+ assert(E.strictSave(E.parseSave(E.serializeSave(s))));
+});
+test('HG39 migrates old v07 construction and training timers exactly once without changing paid work',()=>{
+ const legacy=state();delete legacy.hg39;legacy.buildingQueue={id:legacy.serial++,key:'hall',level:2,total:294,remaining:147};
+ legacy.training=[{id:legacy.serial++,unitId:'human_1',count:2,total:100,remaining:50}];const beforeResources={...legacy.res};
+ const migrated=E.parseSave(JSON.stringify(legacy));assert.equal(migrated.version,7);assert.equal(migrated.buildingQueue.total,30);assert.equal(migrated.buildingQueue.remaining,14.7);
+ assert.equal(migrated.training[0].total,2);assert.equal(migrated.training[0].remaining,1);assert.deepEqual({...migrated.res},beforeResources);assert.equal(migrated.hg39.version,1);
+ const snapshot=JSON.stringify(migrated),reloaded=E.parseSave(E.serializeSave(migrated));assert.equal(JSON.stringify(reloaded),snapshot,'a second load does not scale an HG39 queue again');assert(E.strictSave(reloaded));
+});
+test('HG39 minimap scales down so the phone-size world-map tap lane remains clear',()=>{
+ for(const [width,height] of [[378,380],[697,299],[946,479]]){
+  const box=P.miniBounds({width,height}),scale=P.mapCamera().zoom*48,cell={x:width/2+scale*.5,y:height/2+scale*.5};
+  assert(box.w<=width*.241+1&&box.h<=height*.281+1,`${width}x${height} minimap must stay compact`);
+  assert(!(cell.x>=box.x&&cell.x<=box.x+box.w&&cell.y>=box.y&&cell.y<=box.y+box.h),`${width}x${height} target cell center must not be captured by the minimap`);
+ }
 });
 const hg10=results.filter(x=>/^HG10 /.test(x.name));
 const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical|SRC45\/SRC46\/SRC47|SRC46|HG09 all six player battle commands)/.test(x.name));

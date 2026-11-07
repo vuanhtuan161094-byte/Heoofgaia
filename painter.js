@@ -130,12 +130,12 @@ function drawMapLandmark(c,key,x,y,q,sizeFactor=1){
  c.shadowColor='#06140ecc';c.shadowBlur=Math.min(q*.22,12);c.shadowOffsetY=q*.08;
  c.drawImage(sprite,x-size/2,y+q*.18-size,size,size);c.restore();return true;
 }
-const M={centerX:9.5,centerY:7.4,zoom:1.12};
+const M={centerX:9.5,centerY:7.4,zoom:1.3};
 function mapCamera(){return M}
 function mapProjection(canvas){const scale=clamp(M.zoom,.65,2.05)*48;return {scale,offX:canvas.width/2-M.centerX*scale,offY:canvas.height/2-M.centerY*scale}}
-function miniBounds(canvas){return {x:canvas.width-220,y:canvas.height-178,w:203,h:146};}
+function miniBounds(canvas){const scale=clamp(Math.min(1,canvas.width*.24/203,canvas.height*.28/146),.42,1),w=203*scale,h=146*scale;return {x:canvas.width-w-17,y:canvas.height-h-32,w,h};}
 function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=(m.w-2*pad)/E.WIDTH,th=(m.h-2*pad)/E.HEIGHT;
- rounded(c,m.x-2,m.y-23,m.w+4,m.h+25,7,'#12272cdb','#c5a66c');text(c,'BẢN ĐỒ THU NHỎ',m.x+6,m.y-7,13,'#e7c78e','left');
+ rounded(c,m.x-2,m.y-23,m.w+4,m.h+25,7,'#12272cdb','#c5a66c');text(c,m.w<120?'BẢN ĐỒ':'BẢN ĐỒ THU NHỎ',m.x+6,m.y-7,Math.max(8,13*m.w/203),'#e7c78e','left');
  for(const t of E.TILES){let color={plain:'#6d8559',road:'#9e956a',bridge:'#d5c08a',forest:'#28533c',hill:'#6a7262',water:'#408b9c'}[t.terrain]||'#68805b';
   c.fillStyle=color;c.fillRect(m.x+pad+t.x*tw,m.y+pad+t.y*th,tw+.28,th+.28)}
  for(const t of E.TILES){if(t.kind==='empty')continue;
@@ -287,62 +287,98 @@ const VANGUARD_CLIPS=Object.freeze({
  attack:{row:2,count:8,ms:650,loop:false},hit:{row:3,count:8,ms:560,loop:false},
  death:{row:4,count:8,ms:1200,loop:false}
 });
-const battleVisualClocks=new WeakMap();
+const battleVisualTimelines=new WeakMap();
 function visualNow(){return typeof performance!=='undefined'?performance.now():0}
-function battleElapsed(b,now){let clock=battleVisualClocks.get(b);if(!clock||clock.turn!==b.turn){clock={turn:b.turn,start:now};battleVisualClocks.set(b,clock)}return Math.max(0,now-clock.start)}
+const EMPTY_BATTLE_EVENTS=Object.freeze([]),BATTLE_VISUAL_STAGGER_MS=85,BATTLE_HEX_TRAVEL_MS=225;
+function battleTimelinePrime(b,now=visualNow(),replay=false){
+ if(!b||typeof b!=='object')return null;
+ const events=Array.isArray(b.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
+ const timeline={seen:events,items:[],nextStart:now};
+ battleVisualTimelines.set(b,timeline);
+ if(replay&&events.length)enqueueBattleReceipts(timeline,events,now);
+ return timeline;
+}
+function enqueueBattleReceipts(timeline,events,now){
+ const start=Math.max(now,timeline.nextStart||now);let span=0;
+ for(let i=0;i<events.length;i++){
+  const event=events[i];if(!event||typeof event.actorId!=='string')continue;
+  const route=Array.isArray(event.path)?event.path.map(p=>({x:p.x,y:p.y})):[];
+  const moveMs=route.length*BATTLE_HEX_TRAVEL_MS,attackMs=event.damage>0?(route.length?450:650):0,
+   at=start+i*BATTLE_VISUAL_STAGGER_MS,impactAt=at+moveMs+attackMs*.58,
+   animationEnd=at+moveMs+attackMs;
+  timeline.items.push({event:{...event,from:event.from?{...event.from}:null,to:event.to?{...event.to}:null,path:route},start:at,moveMs,attackMs,impactAt,animationEnd,
+   deathEnd:event.death?impactAt+1200:0,effectEnd:event.death?impactAt+1200:event.damage>0?impactAt+960:animationEnd});
+  span=Math.max(span,i*BATTLE_VISUAL_STAGGER_MS+moveMs+attackMs);
+ }
+ timeline.nextStart=Math.max(start+Math.max(900,span)+85,now);
+}
+function battleTimelineFor(b,now=visualNow()){
+ if(!b||typeof b!=='object')return null;
+ let timeline=battleVisualTimelines.get(b);
+ if(!timeline)timeline=battleTimelinePrime(b,now,true);
+ const events=Array.isArray(b.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
+ if(timeline.seen!==events){timeline.seen=events;enqueueBattleReceipts(timeline,events,now)}
+ if(timeline.items.length>180)timeline.items=timeline.items.filter(item=>item.deathEnd>now||item.effectEnd>now||item.animationEnd>now).slice(-160);
+ else if(timeline.items.length>24)timeline.items=timeline.items.filter(item=>item.deathEnd>now||item.effectEnd>now||item.animationEnd>now);
+ return timeline;
+}
+function battleTimelineTurnDuration(b){
+ const timeline=battleVisualTimelines.get(b),events=Array.isArray(b?.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
+ if(!events.length)return 0;
+ let span=0;for(let i=0;i<events.length;i++){
+  const e=events[i],move=(e.path?.length||0)*BATTLE_HEX_TRAVEL_MS,attack=e.damage>0?(move?450:650):0;
+  span=Math.max(span,i*BATTLE_VISUAL_STAGGER_MS+move+attack);
+ }
+ return Math.max(900,span)+85;
+}
+function battleElapsed(b,now){battleTimelineFor(b,now);return Math.max(0,now)}
 function vanguardAtlasFrame(action,elapsed=0,duration=null){
  if(!VANGUARD_CLIPS[action])action='idle';const clip=VANGUARD_CLIPS[action],ms=duration||clip.ms,t=Number.isFinite(elapsed)?Math.max(0,elapsed):0,raw=Math.floor(t/ms*clip.count),frame=clip.loop?raw%clip.count:Math.min(clip.count-1,raw);
  return {action,frame,sx:frame*192,sy:clip.row*204,sw:192,sh:204,id:'unit-human-vanguard-atlas'};
 }
-// Read-only animation timeline: a resolved turn contains multiple ordered
-// receipts. Playing every Attack/Hit simultaneously made auto-battles look
-// chaotic even when the canonical engine's decisions were deterministic.
-// Stagger visible events, but never alter logical positions or combat outcomes.
-const BATTLE_VISUAL_STAGGER_MS=85;
+function battleVisualPool(b,u,now=visualNow()){
+ const pending=(battleTimelineFor(b,now)?.items||[]).reduce((sum,item)=>
+  item.event.targetId===u.id&&item.event.damage>0&&now<item.impactAt?sum+item.event.damage:sum,0);
+ return clamp((u.pool||0)+pending,0,Math.max(0,(u.initial||u.count||0)*(u.hp||1)));
+}
 function battleVisualState(b,u,elapsed,now=elapsed){
- const events=b.lastEvents||[],ownIndex=events.findIndex(e=>e.actorId===u.id),
-  own=ownIndex<0?null:events[ownIndex],
-  hitIndex=events.findIndex(e=>e.targetId===u.id&&e.damage>0),
-  incoming=hitIndex<0?null:events[hitIndex],
-  movement=own?.path?.length>0,
-  actionStart=ownIndex<0?0:Math.min(ownIndex,7)*BATTLE_VISUAL_STAGGER_MS,
-  hitStart=hitIndex<0?0:Math.min(hitIndex,7)*BATTLE_VISUAL_STAGGER_MS,
-  actionAge=elapsed-actionStart,hitAge=elapsed-hitStart;
- const base={action:'idle',time:now,duration:null,x:u.x,y:u.y,alpha:1};
+ const timeline=battleTimelineFor(b,now),items=timeline?.items||[],
+  own=items.find(item=>item.event.actorId===u.id&&now<item.animationEnd)||null,
+  incoming=items.find(item=>item.event.targetId===u.id&&item.event.damage>0&&now<item.effectEnd)||null;
+ const base={action:'idle',time:now,duration:null,x:u.x,y:u.y,alpha:1,pool:battleVisualPool(b,u,now)};
+ const pointFor=item=>{
+  const e=item.event,route=item.event.path||[];
+  if(!route.length)return {x:e.to?.x??u.x,y:e.to?.y??u.y};
+  if(now<=item.start)return {x:e.from?.x??route[0].x,y:e.from?.y??route[0].y};
+  const progress=clamp((now-item.start)/Math.max(1,item.moveMs),0,1)*route.length,
+   index=Math.min(route.length-1,Math.floor(progress)),fraction=Math.min(1,progress-index),
+   from=index?route[index-1]:(e.from||route[0]),to=route[index];
+  return {x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction};
+ };
  if(u.pool<=0){
-  // The engine records the casualty immediately; its visual death cue can
-  // start later in the staggered receipt sequence. Keep the soldier visible
-  // before the cue instead of abruptly disappearing and reappearing.
-  if(incoming?.death&&hitAge<0)return base;
-  if(incoming?.death&&hitAge>=0&&hitAge<1200)
-   return {...base,action:'death',time:hitAge,duration:1200,
-    alpha:Math.min(1,(1200-hitAge)/400)};
+  if(incoming?.event.death&&now>=incoming.impactAt&&now<incoming.deathEnd){
+   const position=own?pointFor(own):(incoming.event.to||base);
+   return {...base,...position,action:'death',time:now-incoming.impactAt,duration:1200,
+    alpha:Math.min(1,(incoming.deathEnd-now)/400)};
+  }
+  if(incoming?.event.death&&now<incoming.impactAt){
+   const position=own?pointFor(own):(incoming.event.to||base);
+   return {...base,...position};
+  }
   return null;
  }
- if(own&&actionAge<0){
-  // Actor x/y already contain the POST-turn authoritative position. During
-  // an 85-595ms delayed movement, render the original cell. Previously the
-  // actor flashed at its destination, jumped backward, then walked forward.
-  if(movement&&own.from)return {...base,x:own.from.x,y:own.from.y};
-  return base;
+ if(own){
+  const position=pointFor(own),e=own.event;
+  if(now<own.start)return {...base,...position};
+  if(own.moveMs>0&&now<own.start+own.moveMs)
+   return {...base,...position,action:'walk',time:Math.max(0,now-own.start),duration:own.moveMs,
+    walkFrom:e.from,walkTo:e.to,walkFraction:clamp((now-own.start)/own.moveMs,0,1)};
+  if(own.attackMs>0&&now<own.animationEnd)
+   return {...base,...position,action:'attack',time:Math.max(0,now-own.start-own.moveMs),duration:own.attackMs};
+  if(now<own.start)return {...base,...position};
  }
- if(movement&&actionAge>=0&&actionAge<450){
-  const t=clamp(actionAge/450,0,1),
-   // Ease only the visual path, not engine speed, action timing or receipts.
-   eased=t*t*(3-2*t),
-   progress=eased*own.path.length,
-   index=Math.min(own.path.length-1,Math.floor(progress)),
-   from=index?own.path[index-1]:own.from,to=own.path[index],
-   fraction=progress-index;
-  return {...base,action:'walk',time:actionAge,duration:450,
-   x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction,
-   walkFrom:{x:from.x,y:from.y},walkTo:{x:to.x,y:to.y},walkFraction:fraction};
- }
- const attackStart=movement?450:0,attackDuration=movement?450:650;
- if(own?.damage>0&&actionAge>=attackStart&&actionAge<attackStart+attackDuration)
-  return {...base,action:'attack',time:actionAge-attackStart,duration:attackDuration};
- if(incoming&&hitAge>=120&&hitAge<770)
-  return {...base,action:'hit',time:hitAge-120,duration:650};
+ if(incoming&&now>=incoming.impactAt&&now<incoming.impactAt+650)
+  return {...base,action:'hit',time:now-incoming.impactAt,duration:650};
  return base;
 }
 // HG14 Batch 1: existing real transparent PNG masters, not fabricated multi-pose atlases.
@@ -448,20 +484,19 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
 }
 // HG14.5: exact receipt-driven visuals, never speculative or backend-mutating.
 function battleFxPlan(b,camera,elapsed,layout){
- const byId=new Map(layout.map(e=>[e.id,e]));
- return (b.lastEvents||[]).flatMap((event,index)=>{
-  if(!(event.damage>0)||!event.targetId)return [];
+ const byId=new Map(layout.map(e=>[e.id,e])),timeline=battleTimelineFor(b,elapsed);
+ return (timeline?.items||[]).flatMap(item=>{
+  const event=item.event;if(!(event.damage>0)||!event.targetId||elapsed<item.start||elapsed>item.impactAt+960)return [];
   const actor=byId.get(event.actorId),target=byId.get(event.targetId);
   if(!actor||!target)return [];
-  const time=elapsed-Math.min(index,7)*BATTLE_VISUAL_STAGGER_MS;
-  if(time<0||time>960)return [];
-  const origin=camera.center(event.to.x,event.to.y);
+  const time=elapsed-item.start,actorCell=camera.center(event.to?.x??actor.u.x,event.to?.y??actor.u.y),
+   targetCell=camera.center(target.u.x,target.u.y);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
    casualties:event.casualties||0,death:!!event.death,ranged:actor.u.range>1,
-   side:actor.u.side,time,index,
-   start:{x:origin.x+actor.x-actor.baseX,y:origin.y+actor.y-actor.baseY-actor.size*.50},
-   end:{x:target.x,y:target.y-target.size*.52},
-   floatX:target.x+(target.u.side==='player'?-1:1)*Math.max(82,target.size*.75)}];
+   side:actor.u.side,time,attackStart:item.moveMs,impactMs:item.impactAt-item.start,
+   start:{x:actorCell.x+actor.x-actor.baseX,y:actorCell.y+actor.y-actor.baseY-actor.size*.50},
+   end:{x:targetCell.x+target.x-target.baseX,y:targetCell.y+target.y-target.baseY-target.size*.52},
+   floatX:targetCell.x+target.x-target.baseX+(target.u.side==='player'?-1:1)*Math.max(82,target.size*.75)}];
  });
 }
 function motionImpactFx(c,camera,b,elapsed,layout){
@@ -469,8 +504,8 @@ function motionImpactFx(c,camera,b,elapsed,layout){
  for(const fx of effects){
   const t=fx.time,bright=fx.side==='player'?'#ffe3a1':'#ff9e91';
   c.save();
-  if(fx.ranged&&t>=65&&t<=510){
-   const travel=clamp((t-65)/445,0,1);
+  if(fx.ranged&&t>=fx.attackStart&&t<=fx.impactMs){
+   const travel=clamp((t-fx.attackStart)/Math.max(1,fx.impactMs-fx.attackStart),0,1);
    const x=fx.start.x+(fx.end.x-fx.start.x)*travel;
    const y=fx.start.y+(fx.end.y-fx.start.y)*travel-19*Math.sin(Math.PI*travel);
    const angle=Math.atan2(fx.end.y-fx.start.y,fx.end.x-fx.start.x);
@@ -478,22 +513,23 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    line(c,-22,0,9,0,3,bright);
    line(c,9,0,1,-5,1.7,'#f9f6e0');line(c,9,0,1,5,1.7,'#f9f6e0');
    line(c,-22,0,-30,0,1.5,fx.side==='player'?'#f5d698':'#e99b93');
-  }else if(!fx.ranged&&t>=130&&t<=480){
-   const fade=1-clamp((t-130)/350,0,1);
+  }else if(!fx.ranged&&t>=fx.attackStart&&t<=fx.impactMs){
+   const phase=clamp((t-fx.attackStart)/Math.max(1,fx.impactMs-fx.attackStart),0,1),fade=1-phase;
    c.globalAlpha=.9*fade;c.strokeStyle=bright;c.lineWidth=3;
-   c.beginPath();c.arc(fx.end.x,fx.end.y,27+(t-130)*.04,-1.6,1.1);c.stroke();
-   c.beginPath();c.arc(fx.end.x+3,fx.end.y-3,19+(t-130)*.035,-1.4,.9);c.stroke();
+   c.beginPath();c.arc(fx.end.x,fx.end.y,27+phase*16,-1.6,1.1);c.stroke();
+   c.beginPath();c.arc(fx.end.x+3,fx.end.y-3,19+phase*13,-1.4,.9);c.stroke();
   }
-  if(t>=300&&t<=660){
-   const scale=clamp((t-300)/360,0,1);
+  const afterImpact=t-fx.impactMs;
+  if(afterImpact>=0&&afterImpact<=360){
+   const scale=clamp(afterImpact/360,0,1);
    c.globalAlpha=(1-scale)*.85;
    c.strokeStyle=fx.side==='player'?'#ffecba':'#ffad9c';c.lineWidth=2.5;
    c.beginPath();c.arc(fx.end.x,fx.end.y,8+24*scale,0,TAU);c.stroke();
   }
-  if(t>=260&&t<=960){
-   const age=(t-260)/700,x=fx.floatX,
+  if(afterImpact>=0&&afterImpact<=700){
+   const age=afterImpact/700,x=fx.floatX,
     y=fx.end.y-18-34*age;
-   c.globalAlpha=clamp((960-t)/280,0,1);
+   c.globalAlpha=clamp((700-afterImpact)/280,0,1);
    c.font='bold 17px sans-serif';c.textAlign='center';c.textBaseline='middle';
    c.lineWidth=3;c.strokeStyle='#1a191b';
    c.strokeText('-'+Math.round(fx.damage),x,y);
@@ -502,8 +538,8 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    if(fx.casualties>0){c.font='bold 11px sans-serif';c.fillStyle='#fff1dc';
     c.strokeText('-'+fx.casualties+' quân',x,y+16);c.fillText('-'+fx.casualties+' quân',x,y+16);}
   }
-  if(fx.death&&t>=500&&t<=960){
-   c.globalAlpha=clamp((960-t)/350,0,1);
+  if(fx.death&&afterImpact>=0&&afterImpact<=460){
+   c.globalAlpha=clamp((460-afterImpact)/350,0,1);
    c.font='bold 22px sans-serif';c.textAlign='center';
    c.strokeStyle='#202128';c.lineWidth=4;
    c.strokeText('✖',fx.end.x,fx.end.y-50);
@@ -603,7 +639,7 @@ function battleCellAt(canvas,x,y,E){return battleProjection(canvas,E).cellAt(x,y
 function battleHit(canvas,x,y,E,s,now=visualNow()){
  const b=s.battle;if(!b)return null;
  const camera=battleProjection(canvas,E),elapsed=battleElapsed(b,now),
-  layout=battleUnitLayout(b,camera,canvas.width,canvas.height);
+  layout=battleUnitLayout(b,camera,canvas.width,canvas.height,now);
  // The image, number plate and foot pivot can occupy very different pixels:
  // selecting by foot radius alone makes the upper half of tall troops unclickable.
  // Transform hitboxes by the same animation/spacing offset as drawBattle().
@@ -694,19 +730,19 @@ function battleRectOverlap(a,b,pad=0){
 // repeated 60 times a second while actors remain on the same canonical cells.
 // A WeakMap keeps this strictly presentation-only: no Save v07 fields added.
 const battleLayoutCache=new WeakMap();
-function battleUnitLayout(b,camera,width,height){
+function battleUnitLayout(b,camera,width,height,now=visualNow()){
  const actors=[...b.allies,...b.enemies];
  const signature=width+'x'+height+'|'+camera.radius+'|'+b.turn+'|'+actors.map(u=>
-  [u.id,u.side,u.unitId,u.name,u.x,u.y,u.pool>0?1:0].join(':')).join('|');
+  [u.id,u.side,u.unitId,u.name,u.x,u.y,battleVisualPool(b,u,now)>0?1:0].join(':')).join('|');
  const cached=battleLayoutCache.get(b);
  if(cached?.signature===signature)return cached.entries;
  const entries=actors.map(u=>{
   const pt=camera.center(u.x,u.y);
   const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
-  return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile};
+  return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile,displayPool:battleVisualPool(b,u,now)};
  });
  for(const side of ['player','enemy']){
-  const team=entries.filter(e=>e.u.pool>0&&e.u.side===side).sort((a,b)=>a.y-b.y||a.x-b.x);
+  const team=entries.filter(e=>e.displayPool>0&&e.u.side===side).sort((a,b)=>a.y-b.y||a.x-b.x);
   for(let i=0;i<team.length;i++)for(let j=i+1;j<team.length;j++){
    const a=team[i],b=team[j],dy=Math.abs(a.y-b.y),dx=Math.abs(a.x-b.x),
     needed=Math.max(85,Math.min(114,(a.size+b.size)*.46));
@@ -722,7 +758,7 @@ function battleUnitLayout(b,camera,width,height){
   e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
  }
  const reserved=[{x:width-200,y:14,w:186,h:42}];
- for(const e of [...entries].filter(e=>e.u.pool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
+ for(const e of [...entries].filter(e=>e.displayPool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
   const compact=width<1050,w=compact?clamp(e.u.name.length*4.8+12,68,90):clamp(e.u.name.length*6.5+24,82,132),h=28,shift=e.size*.37+w/2+12;
   const left={cx:e.x-shift,top:e.y-60,mode:'left'},
    right={cx:e.x+shift,top:e.y-60,mode:'right'},
@@ -746,7 +782,7 @@ function battleUnitLayout(b,camera,width,height){
     y:clamp(choice.top,60,Math.max(60,height-h-6)),w,h};
    let conflicts=0;
    for(const other of entries){
-    if(other.u.pool<=0)continue;
+    if(other.displayPool<=0)continue;
     if(battleRectOverlap(box,other.sprite,3))conflicts+=other===e?100:10;
     if(battleRectOverlap(box,other.countBox,2))conflicts+=5;
    }
@@ -837,7 +873,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  else paintBattleStaticScene(c,canvas,E,interaction.showGrid!==false);
  const camera=battleProjection(canvas,E),grid=camera.g;
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
- const units=battleUnitLayout(b,camera,w,h).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
+ const units=battleUnitLayout(b,camera,w,h,now).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
  // Static outlines are already in the cached background. Only draw
  // changing reachable cells here, so hex hit-testing remains identical.
  if(reachable.size)for(const cell of battleGridCells(camera)){
@@ -849,8 +885,8 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  }
  for(const entry of units){
   const u=entry.u;
-  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
-  if(u.pool<=0){if(visual)battleUnitArt(c,x,y,u.side==='enemy',visual,k,u);continue}
+  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,displayPool=visual?.pool??u.pool,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
+  if(displayPool<=0){if(visual)battleUnitArt(c,x,y,u.side==='enemy',visual,k,u);continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
@@ -868,13 +904,13 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   text(c,u.name,bx+plate.w/2,by+14,plate.fontSize||11,'#f7e8c7');
   if(hpVisible){rounded(c,bx+8,by+21,plate.w-16,6,3,'#0b1d22e9');
    c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
-   c.fillRect(bx+9,by+22,(plate.w-18)*clamp(u.pool/(u.initial*u.hp),0,1),4);}
+   c.fillRect(bx+9,by+22,(plate.w-18)*clamp(displayPool/(u.initial*u.hp),0,1),4);}
   rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
-  text(c,'×'+u.count,x+40,y-9,12,'#fff0ca');
+  text(c,'×'+Math.ceil(displayPool/u.hp),x+40,y-9,12,'#fff0ca');
  }
  motionImpactFx(c,camera,b,elapsed,units);
  if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualState,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);

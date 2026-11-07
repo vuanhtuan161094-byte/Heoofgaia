@@ -8,11 +8,29 @@ if(!E||!E.ensure)throw Error('HG-05 must load after hg04.js');
 const original={make:E.make,tick:E.tick,upgrade:E.upgrade,valid:E.valid,
  migrate02:E.upgradeSaveV02,migrate03:E.upgradeSaveV03};
 const VERSION=5, KEY='heoofgaia_hg_only_v05';
-function ensure(s){E.ensure(s);if(!Object.prototype.hasOwnProperty.call(s,'buildingQueue'))s.buildingQueue=null;return s;}
+function scaleLegacyQueue(q,divisor,minimum){
+ if(!q||!Number.isFinite(q.total)||!Number.isFinite(q.remaining))return;
+ const nextTotal=Math.max(minimum,Math.ceil(q.total/divisor));
+ q.remaining=Math.max(0,Math.min(nextTotal,q.remaining/divisor));q.total=nextTotal;
+}
+function ensure(s){
+ E.ensure(s);if(!Object.prototype.hasOwnProperty.call(s,'buildingQueue'))s.buildingQueue=null;
+ // HG39 is a one-time v07 migration. Paid work and completed fraction remain intact.
+ if(!s.hg39||s.hg39.version!==1){
+  const pace=E.HG39_CONFIG||{constructionSpeedMultiplier:10,recruitSpeedMultiplier:50,minimumConstructionGameSeconds:1,minimumRecruitGameSeconds:1};
+  scaleLegacyQueue(s.buildingQueue,pace.constructionSpeedMultiplier,pace.minimumConstructionGameSeconds);
+  for(const q of s.training||[])scaleLegacyQueue(q,pace.recruitSpeedMultiplier,pace.minimumRecruitGameSeconds);
+  for(const city of s.cities||[]){scaleLegacyQueue(city.local?.buildingQueue,pace.constructionSpeedMultiplier,pace.minimumConstructionGameSeconds);
+   for(const q of city.local?.training||[])scaleLegacyQueue(q,pace.recruitSpeedMultiplier,pace.minimumRecruitGameSeconds)}
+  s.hg39={version:1,migratedAt:Date.now()};
+ }
+ return s;
+}
 function duration(s,key){const next=(s.buildings[key]||0)+1;
  // SIMULATED seconds, deliberately NOT claimed to match the original 2009 client.
  const base=key==='hall'?210:160;
- return Math.max(30,Math.ceil(base*Math.pow(1.4,next-1)*(1-Math.min(.27,(s.spells.construction||0)*.03))));
+ const config=E.HG39_CONFIG||{constructionSpeedMultiplier:10,minimumConstructionGameSeconds:1};
+ return Math.max(config.minimumConstructionGameSeconds,Math.ceil(base*Math.pow(1.4,next-1)*(1-Math.min(.27,(s.spells.construction||0)*.03))/config.constructionSpeedMultiplier));
 }
 function upgrade(s,key){ensure(s);
  if(s.buildingQueue)throw Error('Đang có một công trình trong hàng đợi. Hãy đợi hoàn tất.');

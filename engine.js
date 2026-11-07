@@ -26,6 +26,11 @@ const battleHex=Object.freeze({
 const TACTICAL_RANGE=Object.freeze({melee:1,ranged:9,eliteRanged:10});
 function unitTacticalRange(unit){return unit?.type==='Ranged'?(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged):TACTICAL_RANGE.melee;}
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
+// HG39 pacing profile is applied once after all effective HG38 modifiers.
+// This is an offline game-speed setting, not a claim about the original server.
+const HG39_CONFIG=Object.freeze({productionMultiplier:20,recruitSpeedMultiplier:50,
+ constructionSpeedMultiplier:10,warehouseCapacityMultiplier:100,
+ minimumRecruitGameSeconds:1,minimumConstructionGameSeconds:1});
 // HG10 offline catch-up: process at most 24 real wall-clock hours in one suspended-time step.
 // This is a bounded runtime policy, not an asserted Heroes of Gaia server rule.
 const MAX_OFFLINE_WALL_SECONDS=24*3600;
@@ -68,9 +73,10 @@ function rate(s){let out={...BASE_HOURLY};
   if(s.hg20.collection?.specialCityKey&&s.cities?.some(q=>q.key===s.hg20.collection.specialCityKey))
    for(const k of C.keys)out[k]*=1.5;
  }
+ for(const k of C.keys)out[k]*=HG39_CONFIG.productionMultiplier;
  return out;
 }
-function limits(s){const l=s.buildings.warehouse||0;const table={0:[1500,1500,750,750,15000],1:[1500,1500,750,750,15000],2:[1500,1500,750,750,15000],3:[1500,1500,750,750,15000],4:[3000,3000,1500,1500,30000],5:[5250,5250,2625,2625,52500],6:[8250,8250,4125,4125,82500],7:[12000,12000,6000,6000,120000],8:[16500,16500,8250,8250,165000],9:[21000,21000,10500,10500,210000],10:[27000,27000,13500,13500,270000]};const [wood,ore,sulfur,crystal,gold]=table[Math.min(10,l)]; const f=(1+(s.spells.storing||0)*.05)*(s.hg20?.version===1?10:1);return {gold:gold*f,wood:wood*f,ore:ore*f,sulfur:sulfur*f,crystal:crystal*f};}
+function limits(s){const l=s.buildings.warehouse||0;const table={0:[1500,1500,750,750,15000],1:[1500,1500,750,750,15000],2:[1500,1500,750,750,15000],3:[1500,1500,750,750,15000],4:[3000,3000,1500,1500,30000],5:[5250,5250,2625,2625,52500],6:[8250,8250,4125,4125,82500],7:[12000,12000,6000,6000,120000],8:[16500,16500,8250,8250,165000],9:[21000,21000,10500,10500,210000],10:[27000,27000,13500,13500,270000]};const [wood,ore,sulfur,crystal,gold]=table[Math.min(10,l)]; const f=(1+(s.spells.storing||0)*.05)*(s.hg20?.version===1?10:1)*HG39_CONFIG.warehouseCapacityMultiplier;return {gold:gold*f,wood:wood*f,ore:ore*f,sulfur:sulfur*f,crystal:crystal*f};}
 function cap(s){let lim=limits(s);for(let k of C.keys) s.res[k]=Math.max(0,Math.min(lim[k],s.res[k]));}
 function canAfford(s,cost){return Object.entries(cost).every(([k,v])=>s.res[k]+1e-8>=v)}
 function spend(s,cost){assert(canAfford(s,cost),'Không đủ tài nguyên');for(let [k,v] of Object.entries(cost))s.res[k]-=v}
@@ -537,7 +543,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
+const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,HG39_CONFIG,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 

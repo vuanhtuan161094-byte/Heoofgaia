@@ -47,6 +47,8 @@ jobs:
           node --check painter.js
           node --check engine.js
           node qa-engine.cjs
+          node --check qa-hg39-engine.cjs
+          node qa-hg39-engine.cjs
           node qa-hg28-art.cjs
           node qa-hg09-combat-viewport.cjs
           node --check qa-hg33-hex.cjs
@@ -161,6 +163,10 @@ jobs:
         run: |
           python -m py_compile qa-hg34-combat-smooth-chrome.py
           python qa-hg34-combat-smooth-chrome.py
+      - name: HG39 real map targeting, responsive dispatch, reservations and Save v07
+        run: |
+          python -m py_compile qa-hg39-map-dispatch-chrome.py
+          python qa-hg39-map-dispatch-chrome.py
       - name: HG36 real Tower roster, no phantom troops, Save v07 and responsive UI
         run: |
           python -m py_compile qa-hg36-tower-roster-chrome.py
@@ -345,6 +351,16 @@ jobs:
           path: |
             docs/qa/hg34/combat-smoothness.json
             docs/evidence/hg34/*.png
+          if-no-files-found: ignore
+      - name: Upload HG39 map and dispatch Chromium receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG39-world-map-dispatch-Chromium
+          path: |
+            docs/qa/hg39/map-dispatch-chrome.json
+            docs/evidence/hg39/*.png
+          retention-days: 7
           if-no-files-found: ignore
       - name: Upload HG36 actual Tower auto-allocation and combat screenshots
         if: always()

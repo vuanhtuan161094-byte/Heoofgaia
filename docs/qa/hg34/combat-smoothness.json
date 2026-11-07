@@ -7,6 +7,54 @@
       "evidence": {
         "valid": true,
         "cachedLayout": true,
+        "motionOracle": {
+          "sourceCadence": {
+            "idle": {
+              "frames": 8,
+              "poseFps": 8.33
+            },
+            "walk": {
+              "frames": 8,
+              "poseFps": 12.5
+            },
+            "attack": {
+              "frames": 8,
+              "poseFps": 12.31
+            }
+          },
+          "before": {
+            "x": 3,
+            "y": 3,
+            "action": "idle"
+          },
+          "walkStart": {
+            "x": 3,
+            "y": 3,
+            "action": "walk"
+          },
+          "walkMid": {
+            "x": 3.7333333333333334,
+            "y": 3,
+            "action": "walk"
+          },
+          "after": {
+            "x": 4,
+            "y": 3,
+            "action": "idle"
+          },
+          "deathBefore": "idle",
+          "deathDuring": "death",
+          "deathAfter": null
+        },
+        "renderStride": {
+          "60": 1,
+          "75": 1,
+          "90": 1,
+          "120": 2,
+          "144": 2,
+          "165": 2,
+          "240": 3
+        },
         "canvasW": 1027,
         "canvasH": 662,
         "battleId": "2,21",
@@ -14,17 +62,81 @@
       }
     },
     {
+      "name": "1280x720 60/75/90Hz display cadence does not fall to half monitor refresh",
+      "pass": true,
+      "evidence": {
+        "60": 1,
+        "75": 1,
+        "90": 1,
+        "120": 2,
+        "144": 2,
+        "165": 2,
+        "240": 3
+      }
+    },
+    {
+      "name": "1280x720 delayed walk starts at origin and dying actor stays visible before cue",
+      "pass": true,
+      "evidence": {
+        "sourceCadence": {
+          "idle": {
+            "frames": 8,
+            "poseFps": 8.33
+          },
+          "walk": {
+            "frames": 8,
+            "poseFps": 12.5
+          },
+          "attack": {
+            "frames": 8,
+            "poseFps": 12.31
+          }
+        },
+        "before": {
+          "x": 3,
+          "y": 3,
+          "action": "idle"
+        },
+        "walkStart": {
+          "x": 3,
+          "y": 3,
+          "action": "walk"
+        },
+        "walkMid": {
+          "x": 3.7333333333333334,
+          "y": 3,
+          "action": "walk"
+        },
+        "after": {
+          "x": 4,
+          "y": 3,
+          "action": "idle"
+        },
+        "deathBefore": "idle",
+        "deathDuring": "death",
+        "deathAfter": null
+      }
+    },
+    {
       "name": "1280x720 automatic combat advanced without resetting canvas",
       "pass": true,
       "evidence": {
-        "observedFrames": 248,
-        "observedFps": 57.99,
-        "frameP50Ms": 16.699999999254942,
-        "frameP75Ms": 17,
-        "frameP95Ms": 17.300000000745058,
-        "drawP50Ms": 1.199999999254942,
-        "drawP95Ms": 1.699999999254942,
+        "observedFrames": 249,
+        "observedFps": 58.07,
+        "frameP50Ms": 16.69999999552965,
+        "frameP75Ms": 16.899999998509884,
+        "frameP95Ms": 17.299999997019768,
+        "drawP50Ms": 1.1000000014901161,
+        "drawP95Ms": 1.6000000014901161,
         "drawWorstMs": 2.5,
+        "staticLayer": {
+          "builds": 1,
+          "hits": 249,
+          "width": 1027,
+          "height": 662,
+          "grid": true,
+          "imageLoaded": true
+        },
         "canvasStable": true,
         "turn": 4,
         "renderedTurns": [
@@ -47,8 +159,25 @@
       "name": "1280x720 frame pacing exceeds obsolete 24 FPS throttle",
       "pass": true,
       "evidence": {
-        "fps": 57.99,
-        "frameP75Ms": 17
+        "fps": 58.07,
+        "frameP75Ms": 16.899999998509884
+      }
+    },
+    {
+      "name": "1280x720 static Open Field and hex layer reused across hundreds of draws",
+      "pass": true,
+      "evidence": {
+        "staticLayer": {
+          "builds": 1,
+          "hits": 249,
+          "width": 1027,
+          "height": 662,
+          "grid": true,
+          "imageLoaded": true
+        },
+        "frames": 249,
+        "drawP95Ms": 1.6000000014901161,
+        "frameP95Ms": 17.299999997019768
       }
     },
     {
@@ -66,6 +195,18 @@
       "evidence": "p0"
     },
     {
+      "name": "1280x720 grid toggle invalidates cached layer once without discarding RAF",
+      "pass": true,
+      "evidence": {
+        "builds": 2,
+        "hits": 263,
+        "width": 1027,
+        "height": 662,
+        "grid": false,
+        "imageLoaded": true
+      }
+    },
+    {
       "name": "1280x720 grid toggle updates immediately without canvas replacement",
       "pass": true,
       "evidence": null
@@ -81,6 +222,54 @@
       "evidence": {
         "valid": true,
         "cachedLayout": true,
+        "motionOracle": {
+          "sourceCadence": {
+            "idle": {
+              "frames": 8,
+              "poseFps": 8.33
+            },
+            "walk": {
+              "frames": 8,
+              "poseFps": 12.5
+            },
+            "attack": {
+              "frames": 8,
+              "poseFps": 12.31
+            }
+          },
+          "before": {
+            "x": 3,
+            "y": 3,
+            "action": "idle"
+          },
+          "walkStart": {
+            "x": 3,
+            "y": 3,
+            "action": "walk"
+          },
+          "walkMid": {
+            "x": 3.7333333333333334,
+            "y": 3,
+            "action": "walk"
+          },
+          "after": {
+            "x": 4,
+            "y": 3,
+            "action": "idle"
+          },
+          "deathBefore": "idle",
+          "deathDuring": "death",
+          "deathAfter": null
+        },
+        "renderStride": {
+          "60": 1,
+          "75": 1,
+          "90": 1,
+          "120": 2,
+          "144": 2,
+          "165": 2,
+          "240": 3
+        },
         "canvasW": 751,
         "canvasH": 482,
         "battleId": "2,21",
@@ -88,17 +277,81 @@
       }
     },
     {
+      "name": "960x540 60/75/90Hz display cadence does not fall to half monitor refresh",
+      "pass": true,
+      "evidence": {
+        "60": 1,
+        "75": 1,
+        "90": 1,
+        "120": 2,
+        "144": 2,
+        "165": 2,
+        "240": 3
+      }
+    },
+    {
+      "name": "960x540 delayed walk starts at origin and dying actor stays visible before cue",
+      "pass": true,
+      "evidence": {
+        "sourceCadence": {
+          "idle": {
+            "frames": 8,
+            "poseFps": 8.33
+          },
+          "walk": {
+            "frames": 8,
+            "poseFps": 12.5
+          },
+          "attack": {
+            "frames": 8,
+            "poseFps": 12.31
+          }
+        },
+        "before": {
+          "x": 3,
+          "y": 3,
+          "action": "idle"
+        },
+        "walkStart": {
+          "x": 3,
+          "y": 3,
+          "action": "walk"
+        },
+        "walkMid": {
+          "x": 3.7333333333333334,
+          "y": 3,
+          "action": "walk"
+        },
+        "after": {
+          "x": 4,
+          "y": 3,
+          "action": "idle"
+        },
+        "deathBefore": "idle",
+        "deathDuring": "death",
+        "deathAfter": null
+      }
+    },
+    {
       "name": "960x540 automatic combat advanced without resetting canvas",
       "pass": true,
       "evidence": {
-        "observedFrames": 257,
-        "observedFps": 59.81,
-        "frameP50Ms": 16.699999999254942,
-        "frameP75Ms": 17,
-        "frameP95Ms": 17.5,
-        "drawP50Ms": 1.699999999254942,
-        "drawP95Ms": 2.2000000029802322,
-        "drawWorstMs": 2.400000002235174,
+        "observedFrames": 255,
+        "observedFps": 59.51,
+        "frameP50Ms": 16.69999999552965,
+        "frameP75Ms": 16.80000000447035,
+        "frameP95Ms": 17.299999997019768,
+        "drawP50Ms": 1.1000000014901161,
+        "drawP95Ms": 1.3999999985098839,
+        "drawWorstMs": 1.8999999985098839,
+        "staticLayer": {
+          "builds": 1,
+          "hits": 255,
+          "width": 751,
+          "height": 482,
+          "grid": true,
+          "imageLoaded": true
+        },
         "canvasStable": true,
         "turn": 4,
         "renderedTurns": [
@@ -121,8 +374,25 @@
       "name": "960x540 frame pacing exceeds obsolete 24 FPS throttle",
       "pass": true,
       "evidence": {
-        "fps": 59.81,
-        "frameP75Ms": 17
+        "fps": 59.51,
+        "frameP75Ms": 16.80000000447035
+      }
+    },
+    {
+      "name": "960x540 static Open Field and hex layer reused across hundreds of draws",
+      "pass": true,
+      "evidence": {
+        "staticLayer": {
+          "builds": 1,
+          "hits": 255,
+          "width": 751,
+          "height": 482,
+          "grid": true,
+          "imageLoaded": true
+        },
+        "frames": 255,
+        "drawP95Ms": 1.3999999985098839,
+        "frameP95Ms": 17.299999997019768
       }
     },
     {
@@ -138,6 +408,18 @@
       "name": "960x540 manual sprite/nameplate click does not recreate combat canvas",
       "pass": true,
       "evidence": "p0"
+    },
+    {
+      "name": "960x540 grid toggle invalidates cached layer once without discarding RAF",
+      "pass": true,
+      "evidence": {
+        "builds": 2,
+        "hits": 268,
+        "width": 751,
+        "height": 482,
+        "grid": false,
+        "imageLoaded": true
+      }
     },
     {
       "name": "960x540 grid toggle updates immediately without canvas replacement",
@@ -179,8 +461,8 @@
         "turn": 5,
         "valid": true,
         "sceneCanvasStable": true,
-        "frames": 208,
-        "fps": 57.78,
+        "frames": 210,
+        "fps": 57.76,
         "header": "Lượt 5 · 6 : 3",
         "owners": [
           1,
@@ -204,20 +486,76 @@
       "fixture": {
         "valid": true,
         "cachedLayout": true,
+        "motionOracle": {
+          "sourceCadence": {
+            "idle": {
+              "frames": 8,
+              "poseFps": 8.33
+            },
+            "walk": {
+              "frames": 8,
+              "poseFps": 12.5
+            },
+            "attack": {
+              "frames": 8,
+              "poseFps": 12.31
+            }
+          },
+          "before": {
+            "x": 3,
+            "y": 3,
+            "action": "idle"
+          },
+          "walkStart": {
+            "x": 3,
+            "y": 3,
+            "action": "walk"
+          },
+          "walkMid": {
+            "x": 3.7333333333333334,
+            "y": 3,
+            "action": "walk"
+          },
+          "after": {
+            "x": 4,
+            "y": 3,
+            "action": "idle"
+          },
+          "deathBefore": "idle",
+          "deathDuring": "death",
+          "deathAfter": null
+        },
+        "renderStride": {
+          "60": 1,
+          "75": 1,
+          "90": 1,
+          "120": 2,
+          "144": 2,
+          "165": 2,
+          "240": 3
+        },
         "canvasW": 1027,
         "canvasH": 662,
         "battleId": "2,21",
         "initialTurn": 1
       },
       "result": {
-        "observedFrames": 248,
-        "observedFps": 57.99,
-        "frameP50Ms": 16.699999999254942,
-        "frameP75Ms": 17,
-        "frameP95Ms": 17.300000000745058,
-        "drawP50Ms": 1.199999999254942,
-        "drawP95Ms": 1.699999999254942,
+        "observedFrames": 249,
+        "observedFps": 58.07,
+        "frameP50Ms": 16.69999999552965,
+        "frameP75Ms": 16.899999998509884,
+        "frameP95Ms": 17.299999997019768,
+        "drawP50Ms": 1.1000000014901161,
+        "drawP95Ms": 1.6000000014901161,
         "drawWorstMs": 2.5,
+        "staticLayer": {
+          "builds": 1,
+          "hits": 249,
+          "width": 1027,
+          "height": 662,
+          "grid": true,
+          "imageLoaded": true
+        },
         "canvasStable": true,
         "turn": 4,
         "renderedTurns": [
@@ -241,20 +579,76 @@
       "fixture": {
         "valid": true,
         "cachedLayout": true,
+        "motionOracle": {
+          "sourceCadence": {
+            "idle": {
+              "frames": 8,
+              "poseFps": 8.33
+            },
+            "walk": {
+              "frames": 8,
+              "poseFps": 12.5
+            },
+            "attack": {
+              "frames": 8,
+              "poseFps": 12.31
+            }
+          },
+          "before": {
+            "x": 3,
+            "y": 3,
+            "action": "idle"
+          },
+          "walkStart": {
+            "x": 3,
+            "y": 3,
+            "action": "walk"
+          },
+          "walkMid": {
+            "x": 3.7333333333333334,
+            "y": 3,
+            "action": "walk"
+          },
+          "after": {
+            "x": 4,
+            "y": 3,
+            "action": "idle"
+          },
+          "deathBefore": "idle",
+          "deathDuring": "death",
+          "deathAfter": null
+        },
+        "renderStride": {
+          "60": 1,
+          "75": 1,
+          "90": 1,
+          "120": 2,
+          "144": 2,
+          "165": 2,
+          "240": 3
+        },
         "canvasW": 751,
         "canvasH": 482,
         "battleId": "2,21",
         "initialTurn": 1
       },
       "result": {
-        "observedFrames": 257,
-        "observedFps": 59.81,
-        "frameP50Ms": 16.699999999254942,
-        "frameP75Ms": 17,
-        "frameP95Ms": 17.5,
-        "drawP50Ms": 1.699999999254942,
-        "drawP95Ms": 2.2000000029802322,
-        "drawWorstMs": 2.400000002235174,
+        "observedFrames": 255,
+        "observedFps": 59.51,
+        "frameP50Ms": 16.69999999552965,
+        "frameP75Ms": 16.80000000447035,
+        "frameP95Ms": 17.299999997019768,
+        "drawP50Ms": 1.1000000014901161,
+        "drawP95Ms": 1.3999999985098839,
+        "drawWorstMs": 1.8999999985098839,
+        "staticLayer": {
+          "builds": 1,
+          "hits": 255,
+          "width": 751,
+          "height": 482,
+          "grid": true,
+          "imageLoaded": true
+        },
         "canvasStable": true,
         "turn": 4,
         "renderedTurns": [
@@ -298,8 +692,8 @@
         "turn": 5,
         "valid": true,
         "sceneCanvasStable": true,
-        "frames": 208,
-        "fps": 57.78,
+        "frames": 210,
+        "fps": 57.76,
         "header": "Lượt 5 · 6 : 3",
         "owners": [
           1,
@@ -313,6 +707,6 @@
     }
   ],
   "errors": [],
-  "html_sha256": "6491c2fd7a695a6ff486a242768b8349cd3a45f7fea352a1951ef97c0c0f61e6",
+  "html_sha256": "9575169fa5386838619193298458a7ec267e19498b4c5256211c4498325a4fbb",
   "fixture_note": "Real NPC march and engine auto; enemy HP/ATK fixture prolongs the fight, no rewards or wins seeded"
 }

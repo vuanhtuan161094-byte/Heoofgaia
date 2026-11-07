@@ -12,3 +12,4 @@ node_modules/
 *.swf
 *.flv
 assets/reference-raw/
+dist/

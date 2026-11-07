@@ -313,7 +313,8 @@ function recruitDuration(s,u,count){
  const bootcamp=s.spells?.bootcamp||0,smith=s.buildings?.blacksmith||0;
  const eliteTime=u.tier>=9&&smith>=8&&bootcamp>=6?
    Math.min(.22,(Math.min(10,smith)-7)*.025+(Math.min(10,bootcamp)-5)*.03):0;
- return Math.ceil(u.timeSec*count*(1-Math.min(.45,Math.min(.2,bootcamp*.02)+eliteTime)));
+ const config=E.HG39_CONFIG||{recruitSpeedMultiplier:50,minimumRecruitGameSeconds:1};
+ return Math.max(config.minimumRecruitGameSeconds,Math.ceil(u.timeSec*count*(1-Math.min(.45,Math.min(.2,bootcamp*.02)+eliteTime))/config.recruitSpeedMultiplier));
 }
 function recruit(s,id,count){
  ensure(s);const u=E.getUnit(s,id);if(!u)throw Error('Không có quân của chủng tộc này');
