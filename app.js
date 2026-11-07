@@ -274,13 +274,95 @@ function mapView(){
  ${cityTransfer||''}${cityTransportView()}${state.march?`<div class="banner">🚩 ${state.march.phase==='return'?'Đạo quân đang trở về thành từ '+state.march.fromKey:'Đạo quân đang tiến tới '+state.march.target} • ${Math.ceil(state.march.remaining/state.speed)} giây thực còn lại • ${awayCount}/3 tướng đang ở ngoài thành</div>`:''}${state.parallelMarches?.length?`<div class="card expedition-ledger"><b>🧭 Các đạo quân đang đi (${awayCount}/3)</b>${state.parallelMarches.map(q=>`<div class="entry"><span>${esc(state.heroes.find(h=>h.id===q.heroId)?.name||'Tướng')} → ${esc(E.getTile(q.target)?.value||q.target)} · ${q.phase==='arrived'?'đã tới, chờ giao tranh':Math.ceil(q.remaining/state.speed)+' giây còn lại'}</span></div>`).join('')}</div>`:''}`;
 }
 function citySwitcher(){const blocked=!!state.march||!!state.battle||!!state.expedition||!!state.parallelMarches?.length;return `<div class="hg28-city-switcher" aria-label="Các thành trì"><span class="hg28-city-count">🏰 ${state.cities.length}<small> / ${E.cityLimit(state.fame)}</small></span><div class="hg28-city-switch-list">${state.cities.map(c=>button('city-switch',{id:c.id},`${c.main?'♛':'🏰'} ${esc(c.name)} · ${C.races[c.race].name}`,blocked||c.id===state.activeCityId,c.id===state.activeCityId?'small primary':'small secondary')).join('')}</div></div>`}
+
+function hg35ExpenseText(cost){return C.keys.filter(k=>cost[k]>0)
+ .map(k=>C.resource[k].label+' -'+format(cost[k])).join(' · ')}
+function hg35CostBreakdown(cost){
+ return '<div class="hg35-cost-ledger" aria-label="Tài nguyên sẽ trừ khi xác nhận">'+
+ C.keys.filter(k=>cost[k]>0).map(k=>{
+  const before=state.res[k],spent=cost[k],left=before-spent;
+  return '<div class="hg35-cost-line'+(left<0?' hg35-cost-short':'')+'">'+
+   '<span>'+(ico(k,18)||C.resource[k].emoji)+' '+esc(C.resource[k].label)+'</span>'+
+   '<strong>−'+format(spent)+'</strong>'+
+   '<small>'+format(before)+' → '+(left<0?'Thiếu '+format(-left):format(left))+'</small></div>';
+ }).join('')+'</div>';
+}
+// HG35: the visible effects are computed from REAL engine gates/counters.
+// An unsupported building level is labelled as such, never given a fake buff.
+function hg35BuildingEffects(key,level){
+ const next=Math.min(10,level+1),after=E.clone(state);after.buildings[key]=next;
+ const tierKeys=['barracks','graveyard','stables','blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower'];
+ let title='Chức năng đang hoạt động',current='',future='',note='';
+ const actionTab={barracks:'army',graveyard:'army',heroTower:'heroes',tavern:'heroes',
+  magicTower:'magic',arena:'heroes'};
+ if(key==='hall'){
+  const rateNow=E.rate(state).gold,rateNext=E.rate(after).gold;
+  current='Vàng: +'+format(rateNow)+'/giờ game (tổng sản lượng thành).';
+  future='Sau cấp '+next+': +'+format(rateNext)+'/giờ game; Town Hall còn giới hạn cấp của các nhà khác.';
+ }else if(key==='warehouse'){
+  const a=E.limits(state),b=E.limits(after);
+  current='Dung lượng tài nguyên: Vàng '+format(a.gold)+' · Gỗ/Quặng '+format(a.wood)+'.';
+  future='Sau cấp '+next+': Vàng '+format(b.gold)+' · Gỗ/Quặng '+format(b.wood)+
+   ' · Lưu huỳnh/Pha lê '+format(b.sulfur)+'.';
+  note='Kho chỉ chứa tài nguyên, KHÔNG giới hạn quân ở trong thành.';
+ }else if(key==='heroTower'){
+  current='Thưởng kinh nghiệm tướng: +'+(E.heroTowerExperienceBonus?.(state)||0)+'%.';
+  future='Sau cấp '+next+': +'+next+'% EXP; điều kiện tuyển tướng và Castellan vẫn áp dụng.';
+ }else if(key==='tavern'){
+  current='Chiêu mộ và làm mới ứng viên (Tavern Lv.'+level+').';
+  future='Cấp '+next+' mở chất lượng ứng viên theo bảng Tavern hiện có; không bảo đảm mỗi lượt ra tướng hiếm.';
+ }else if(key==='magicTower'){
+  current='Nghiên cứu phép tại cấp '+level+'; phép đã học vẫn giữ nguyên.';
+  future='Sau cấp '+next+': nghiên cứu các phép tiếp theo tối đa cấp '+next+' nếu đủ tài nguyên.';
+ }else if(key==='arena'){
+  current=level>0?'Hồi phục quân bị thương tại Đấu trường.':'Chưa mở hồi phục quân bị thương.';
+  future='Cấp '+next+': vẫn dùng hàng đợi hồi phục hiện có.';
+  note='Game chưa gắn thêm hệ số hồi phục riêng cho từng cấp Arena.';
+ }else if(key==='market'){
+  current=level?'Đã mở bán Gỗ, Quặng, Lưu huỳnh và Pha lê để nhận Vàng.':'Chưa mở chức năng bán tài nguyên.';
+  future='Cấp '+next+': '+(next===1?'mở giao dịch thực tế.':'giữ giao dịch; tỷ giá đang mô phỏng, chưa có tăng tỷ giá theo cấp.');
+ }else if(key==='bazaar'){
+  const items=Object.values(E.ITEMS||{}).filter(i=>i.shop!==false);
+  const available=items.filter(i=>i.level<=level),incoming=items.filter(i=>i.level===next);
+  current='Đang bán '+available.length+' món đồ theo cấp Bazaar.';
+  future='Cấp '+next+': '+(incoming.length?'mở '+incoming.slice(0,4).map(i=>i.name).join(', ')+'.':'không có món mới đã triển khai.');
+ }else if(tierKeys.includes(key)){
+  const all=E.arrUnits(state).filter(u=>!u.rewardOnly);
+  const open=s=>all.filter(u=>E.troopPrerequisites(s,u).available);
+  const have=open(state),will=open(after),ids=new Set(have.map(u=>u.id));
+  const newly=will.filter(u=>!ids.has(u.id));
+  current='Đã đủ điều kiện tuyển '+have.length+' loại quân của chủng tộc.';
+  future='Cấp '+next+': '+(newly.length?'mở thêm '+newly.map(u=>u.name).join(', ')+'.':
+   'chưa mở thêm quân nếu chỉ nâng nhà này; có thể còn thiếu nhà/phép khác.');
+  note=key==='blacksmith'?'Blacksmith Lv.8 cùng Manufacturing Lv.6 trở lên còn giảm chi phí quân T9/T10 theo kinh tế hiện tại.':
+   'Công trình này là điều kiện mở quân, không có buff chiến đấu độc lập đã code.';
+ }else{
+  current='Mô tả: '+(C.buildings[key]?.desc||'Chưa có cơ chế hoạt động.');
+  future='Cấp '+next+': chưa có tác dụng riêng đã triển khai.';
+ }
+ if(level>=10)future='Đã đạt giới hạn cấp hiện tại.';
+ const action=actionTab[key]?button('tab',{tab:actionTab[key]},
+  key==='magicTower'?'🔮 Mở nghiên cứu phép':key==='arena'?'⚕ Mở hồi phục':
+   key==='tavern'?'🍺 Mở chiêu mộ tướng':key==='heroTower'?'🧙 Mở tướng':
+   '🛡 Mở tuyển quân',false,'small secondary'):
+  (key==='market'||key==='bazaar')&&level>0?button('city-service',{key},
+   key==='market'?'⚖ Mở giao dịch Market':'🏪 Mở cửa hàng Bazaar',false,'small secondary'):'';
+ return '<div class="hg35-building-effects"><b>'+title+'</b><p>'+esc(current)+'</p>'+
+  '<b>Ý nghĩa cấp tiếp</b><p>'+esc(future)+'</p>'+
+  (note?'<small>'+esc(note)+'</small>':'')+
+  (action?'<div class="hg35-building-actions">'+action+'</div>':'')+'</div>';
+}
 function cityViewBase(){const k=selectedBuilding,b=C.buildings[k],lv=state.buildings[k],cost=E.buildCost(state,k),gate=E.buildingUpgradeGate?.(state,k)||{allowed:k==='hall'||lv<state.buildings.hall,reason:k!=='hall'&&lv>=state.buildings.hall?'Cần nâng Town Hall trước.':''},can=!state.buildingQueue&&b.state==='observed'&&lv<10&&gate.allowed&&E.canAfford(state,cost),city=E.activeCity(state);
  const buildings=E.cityBuildOrder(state).map(id=>{const item=C.buildings[id],level=state.buildings[id]||0;return button('building',{key:id},`<span class="hg28-building-icon">${item.icon}</span><span>${esc(item.name)}</span><b>Lv.${level}</b>`,false,id===k?'hg28-building active':'hg28-building')}).join('');
  const stateHint=b.state!=='observed'?'Chưa thể nâng công trình này.':!gate.allowed?gate.reason:!E.canAfford(state,cost)?'Thiếu tài nguyên.':state.buildingQueue?'Đang có công trình trong hàng đợi.':'Sẵn sàng nâng cấp.';
  return `<section class="hg28-city-screen"><div class="hg28-city-title"><div><span class="eyebrow">${esc(C.races[city.race].english.toUpperCase())} · ${city.main?'THÀNH CHÍNH':'THÀNH PHỤ'}</span><h1>${esc(city.name)}</h1></div><div class="hg28-city-stats"><span>♛ Lv.${state.buildings.hall}</span><span>⚒ ${E.buildOrder.filter(id=>state.buildings[id]>0).length}</span></div></div>
  <div class="hg28-city-stage"><div class="city-frame"><canvas id="city-canvas" width="1176" height="560" aria-label="Cảnh thành tương tác, nhấn vị trí công trình để chọn"></canvas><span class="hg28-city-hint">Chạm công trình trong thành để chọn</span></div>
- <aside class="hg28-city-command"><div class="hg28-selected-building"><span class="hg28-building-emblem">${b.icon}</span><div><small>CÔNG TRÌNH</small><h2>${esc(b.name)}</h2><span>Cấp ${lv} / 10</span></div></div><p class="hg28-building-desc" title="${esc(b.desc)}">${esc(b.desc)}</p>
- <div class="hg28-upgrade"><div class="hg28-upgrade-cost"><small>NÂNG CẤP LÊN CẤP ${Math.min(10,lv+1)}</small><b>${money(cost)||'—'}</b></div>${button('upgrade',{key:k},state.buildingQueue?'⏳ Đang xây':'⬆ Nâng cấp',!can,'primary')}<span class="hg28-upgrade-hint">${esc(stateHint)}</span></div>
+ <aside class="hg28-city-command"><div class="hg28-selected-building"><span class="hg28-building-emblem">${b.icon}</span><div><small>CÔNG TRÌNH</small><h2>${esc(b.name)}</h2><span>Cấp ${lv} / 10</span></div></div>
+ <p class="hg28-building-desc" title="${esc(b.desc)}">${esc(b.desc)}</p>
+ ${hg35BuildingEffects(k,lv)}
+ <div class="hg28-upgrade hg35-upgrade"><div class="hg28-upgrade-cost"><small>${lv>=10?'ĐÃ ĐẠT CẤP TỐI ĐA':'NÂNG LÊN CẤP '+(lv+1)+' · TÀI NGUYÊN TRỪ NGAY'}</small>${lv<10?hg35CostBreakdown(cost):'<b>Không còn cấp để nâng</b>'}</div>
+ ${button('upgrade',{key:k},state.buildingQueue?'⏳ Đang xây':'⬆ Nâng cấp · xác nhận trừ',!can,'primary')}
+ <span class="hg28-upgrade-hint">${esc(stateHint)}</span></div>
  <div class="hg28-building-grid" aria-label="Chọn công trình">${buildings}</div></aside></div></section>`;
 }
 function heroArmyCommandView(){
@@ -622,10 +704,10 @@ function castleOverview(){
  <p class="hint">${esc(C.buildings[E.troopBuildingKey(state)].name)} Lv.${state.buildings[E.troopBuildingKey(state)]} · Arena Lv.${state.buildings.arena}</p></div></div></section>`;
 }
 function cityView(){const market=state.buildings.market||0,bazaar=state.buildings.bazaar||0;
- return citySwitcher()+cityViewBase()+castleOverview()+`${state.buildingQueue?`<section class="card queue-card"><b>🏗 Công trình đang thi công: ${esc(C.buildings[state.buildingQueue.key].name)} Lv.${state.buildingQueue.level}</b><progress max="${state.buildingQueue.total}" value="${state.buildingQueue.total-state.buildingQueue.remaining}"></progress><small>${Math.ceil(state.buildingQueue.remaining/state.speed)} giây thực còn lại • tốc độ ×${state.speed} • thời gian mô phỏng</small></section>`:''}<section class="card hg04-section"><span class="eyebrow">CASTLE ECONOMY</span><h2>⚖ Market — bán tài nguyên lấy vàng</h2><p class="hint">Nguồn 2009 ghi nhận Market bán/đổi tài nguyên, không mua tài nguyên bằng vàng. Tỷ giá tại đây là mô phỏng.</p>
+ return citySwitcher()+cityViewBase()+castleOverview()+`${state.buildingQueue?`<section class="card queue-card"><b>🏗 Công trình đang thi công: ${esc(C.buildings[state.buildingQueue.key].name)} Lv.${state.buildingQueue.level}</b><progress max="${state.buildingQueue.total}" value="${state.buildingQueue.total-state.buildingQueue.remaining}"></progress><small>${Math.ceil(state.buildingQueue.remaining/state.speed)} giây thực còn lại • tốc độ ×${state.speed} • thời gian mô phỏng</small></section>`:''}<section class="card hg04-section"><span class="eyebrow">CASTLE ECONOMY</span><h2 id="city-market-service">⚖ Market — bán tài nguyên lấy vàng</h2><p class="hint">Nguồn 2009 ghi nhận Market bán/đổi tài nguyên, không mua tài nguyên bằng vàng. Tỷ giá tại đây là mô phỏng.</p>
  <div class="trade-row"><select id="sell-type" aria-label="Loại tài nguyên bán">${['wood','ore','sulfur','crystal'].map(k=>`<option value="${k}">${C.resource[k].label}</option>`).join('')}</select><input type="number" min="1" max="50000" step="1" id="sell-qty" value="50" aria-label="Số tài nguyên bán">${button('sell',{},'Bán tài nguyên',market<1,'primary')}</div>
  <p class="hint">${market?'Market Lv.'+market:'Hãy xây Market ở danh sách công trình phía trên.'}</p>
- <h2>🏪 Bazaar — cửa hàng trang bị</h2><div class="grid grid3">${Object.values(E.ITEMS).filter(item=>item.shop!==false).map(item=>`<div class="card"><b>${ico(item.id,23)||item.icon} ${esc(item.name)}</b><p class="hint">${item.slot} · ATK +${item.atk} · DEF +${item.def} · SPD +${item.spd}</p><div class="cost">${format(item.cost)} 🪙 · cần Bazaar Lv.${item.level}</div>${button('buyitem',{id:item.id},'Mua vật phẩm',bazaar<item.level||state.res.gold<item.cost,'small secondary')}</div>`).join('')}</div></section>`;
+ <h2 id="city-bazaar-service">🏪 Bazaar — cửa hàng trang bị</h2><div class="grid grid3">${Object.values(E.ITEMS).filter(item=>item.shop!==false).map(item=>`<div class="card"><b>${ico(item.id,23)||item.icon} ${esc(item.name)}</b><p class="hint">${item.slot} · ATK +${item.atk} · DEF +${item.def} · SPD +${item.spd}</p><div class="cost">${format(item.cost)} 🪙 · cần Bazaar Lv.${item.level}</div>${button('buyitem',{id:item.id},'Mua vật phẩm',bazaar<item.level||state.res.gold<item.cost,'small secondary')}</div>`).join('')}</div></section>`;
 }
 function tasksView(){
  const main=E.activeCity(state).main,tasks=E.dailyTasks(state),china=E.china2009DailyTasks(state);
@@ -786,6 +868,11 @@ function render(){
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
  if(action==='modal-page'){const body=$('game-modal-body');const dir=Number(target.dataset.dir)||1;body.scrollTop=Math.max(0,Math.min(body.scrollHeight-body.clientHeight,body.scrollTop+dir*body.clientHeight*.86));modalOffset=body.scrollTop;return;}
  if(action==='modal-backdrop'){if(evt.target===target){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;render();}return;}
+ if(action==='city-service'){
+  const section=$('city-'+target.dataset.key+'-service');
+  if(section)section.scrollIntoView({block:'center',behavior:'instant'});
+  return;
+ }
  if(action==='battle-grid'||action==='battle-hp'){
   const which=action==='battle-grid'?'grid':'hp';
   toggleBattleDisplay(which);
@@ -850,7 +937,10 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='autoformation'){const plan=E.autoFormation(state);toast(`Đã bố trí ${format(plan.totalUnits)} quân · ${format(plan.points)}/${format(plan.limit)} sức chứa.`);return}
  if(action==='findnpc'){selectNearestNpc(E.heroTaskStatus(state).active?.stars||1);return}
  if(action==='auto'){if(state.battle?.hg26NeedsManual)delete state.battle.hg26NeedsManual;state.battleAuto=!state.battleAuto;if(state.battle)state.battle.autoUntil=Date.now()+(state.battleAuto?BATTLE_AUTO_TURN_DELAY_MS:BATTLE_AUTO_DELAY_MS);return}
- if(action==='upgrade'){E.upgrade(state,target.dataset.key);toast('Đã xếp hàng xây dựng.');return}
+ if(action==='upgrade'){
+  const cost=E.upgrade(state,target.dataset.key);
+  toast('Đã trừ '+hg35ExpenseText(cost)+'; bắt đầu xây.');return;
+ }
  if(action==='learn'){E.learn(state,target.dataset.id);return}
  if(action==='research'){E.researchTechnology(state,target.dataset.id);return}
  if(action==='heropoint'){E.allocateHeroPoint(state,Number(target.dataset.id),target.dataset.stat);return}
