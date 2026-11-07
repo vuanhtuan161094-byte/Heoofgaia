@@ -1,7 +1,7 @@
 {
-  "htmlSha256": "5DD575E698CC604A9102FC947F4156A535646060C52810DBEE29DCE800F272DE",
-  "passed": 40,
-  "total": 40,
+  "htmlSha256": "763F3AA444AA528751BD5D12537EDB8E0F3CD251A270DB48D709A457973EBC18",
+  "passed": 42,
+  "total": 42,
   "checks": [
     {
       "name": "HG14.2 armies are staged at left and right",
@@ -56,7 +56,7 @@
       "passed": true
     },
     {
-      "name": "Battle orders do not overlay the troop selection cards",
+      "name": "Roster cards are hidden and field actions stay in the right command dock",
       "passed": true
     },
     {
@@ -68,7 +68,7 @@
       "passed": true
     },
     {
-      "name": "Battle canvas uses at least 90 percent of desktop width",
+      "name": "Field-first stage fills the viewport and the hex board stays wide beside the dock",
       "passed": true
     },
     {
@@ -85,6 +85,14 @@
     },
     {
       "name": "No horizontal desktop overflow",
+      "passed": true
+    },
+    {
+      "name": "Right command dock collapses and returns screen space to the battlefield",
+      "passed": true
+    },
+    {
+      "name": "Right command dock reopens with the field-first layout restored",
       "passed": true
     },
     {
@@ -128,11 +136,11 @@
       "passed": true
     },
     {
-      "name": "Landscape command bar does not overlap troop cards",
+      "name": "Landscape keeps roster cards hidden and right dock actionable",
       "passed": true
     },
     {
-      "name": "Landscape 960 by 540 remains wide with hidden sidebar",
+      "name": "Landscape 960 by 540 keeps a wide battlefield beside the right dock",
       "passed": true
     },
     {
@@ -167,13 +175,15 @@
   "desktop": {
     "inBattle": true,
     "combatMode": true,
-    "width": 1250,
-    "height": 460,
+    "width": 1027.40625,
+    "height": 662.25,
     "vw": 1280,
     "vh": 720,
     "sidebarHidden": true,
     "navHidden": true,
     "commandVisible": true,
+    "stageWidth": 1252,
+    "rightDock": true,
     "grid": {
       "cols": 12,
       "rows": 9,
@@ -187,15 +197,15 @@
     "scrollWidth": 1280
   },
   "continuousGround": {
-    "width": 1250,
-    "height": 460,
+    "width": 1027,
+    "height": 662,
     "ally": {
-      "x": 407.56576469269277,
-      "y": 90.82857142857144
+      "x": 177.35842541681149,
+      "y": 120.85714285714286
     },
     "foe": {
-      "x": 819.5464210644328,
-      "y": 170.1142857142857
+      "x": 814.2582509428528,
+      "y": 243.42857142857142
     },
     "horizontal": true,
     "depth": true,
@@ -208,24 +218,27 @@
     "noPlatform": true,
     "gridSupported": true,
     "grass0": [
-      138,
-      145,
-      41,
+      131,
+      140,
+      72,
       255
     ],
     "grass1": [
-      134,
-      144,
-      39,
+      127,
+      137,
+      64,
       255
     ]
   },
   "landscape": {
-    "width": 930,
+    "width": 751,
+    "canvasRight": 766,
     "vw": 960,
     "scrollWidth": 960,
     "sidebar": "none",
-    "barY": 399.765625
+    "dockX": 771,
+    "dockY": 55,
+    "dockWidth": 169
   },
   "clickDebug": {
     "before": {

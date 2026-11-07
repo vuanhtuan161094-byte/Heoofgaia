@@ -63,19 +63,30 @@ with sync_playwright() as p:
     page.goto(HTML.as_uri(),wait_until="load")
     page.locator('[data-action="start"]').click()
     page.locator('#nav [data-tab="map"]').click()
-    # The rookie progress panel adds vertical content ahead of the map.
-    # Mouse coordinates must be computed after scrolling the real map canvas
-    # into the visible viewport; otherwise clicks can land below the screen.
-    point=page.evaluate("""() => {
-      const c=document.querySelector('#world-canvas');
-      if(!c)throw new Error('Map canvas detached before NPC dispatch');
+    # HG39 moved dispatch into the target card/planner. Recenter only the view
+    # so a real reachable NPC tile is visible, then select and dispatch through
+    # actual canvas and UI events instead of the removed direct-March control.
+    target=page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,P=HOG_PAINTER,
+        home=E.activeCity(s),npc=E.NPC_CAMPS_2009.filter(q=>q.stars===1&&E.pathfind(home.key,q.key))
+          .sort((a,b)=>E.pathfind(home.key,a.key).length-E.pathfind(home.key,b.key).length)[0];
+      if(!npc)throw new Error('No reachable one-star NPC for combat viewport gate');
+      Object.assign(P.mapCamera(),{centerX:npc.x,centerY:npc.y,zoom:1.3});HOG_APP_DEBUG.render();
+      const c=document.querySelector('#world-canvas'),r=c.getBoundingClientRect(),tile=E.getTile(npc.key),m=P.mapCamera(),scale=m.zoom*48,
+        x=c.width/2-m.centerX*scale+(tile.x+.5)*scale,
+        y=c.height/2-m.centerY*scale+(tile.y+.5)*scale;
       c.scrollIntoView({block:'center',inline:'nearest'});
-      const r=c.getBoundingClientRect(),m=HOG_PAINTER.miniBounds(c),pad=9;
-      return {x:r.left+(m.x+pad+6.5*(m.w-2*pad)/100)/c.width*r.width,
-              y:r.top+(m.y+pad+3.5*(m.h-2*pad)/100)/c.height*r.height};
+      const rect=c.getBoundingClientRect();
+      return {key:npc.key,x:rect.left+x/c.width*rect.width,y:rect.top+y/c.height*rect.height};
     }""")
-    page.mouse.click(point["x"],point["y"])
-    page.locator('[data-action="march"]').click()
+    page.mouse.click(target["x"],target["y"])
+    page.locator('.hg39-map-target [data-action="dispatch-open"]').click()
+    page.locator('.hg39-dispatch').wait_for(state='visible')
+    page.locator('[data-action="dispatch-auto"]').click()
+    page.locator('[data-action="dispatch-confirm"]').wait_for(state='visible')
+    if not page.locator('[data-action="dispatch-confirm"]').is_enabled():
+        raise AssertionError('Real dispatch planner did not produce an enabled formation')
+    page.locator('[data-action="dispatch-confirm"]').click()
     page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
       HOG_ENGINE.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
