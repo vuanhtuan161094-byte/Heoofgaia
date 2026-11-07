@@ -894,12 +894,13 @@ setInterval(()=>{if(!state)return;const before=state.battle,training=state.train
  // Preserve the existing battle canvas and 24fps RAF visual clock during
  // idle seconds. Recreating the entire DOM every 1s interrupted animations
  // and caused labels/controls to flicker between automatic turns.
- if(state.battle&&!changed){
-  const clock=$('battle-auto-clock');
-  if(clock)clock.textContent=state.battleAuto?'Đang tự động':
-    'Tự động sau '+Math.max(0,Math.ceil((state.battle.autoUntil-Date.now())/1000))+' giây';
-  const toggle=document.querySelector('.battle-command-dock [data-action="auto"]');
-  if(toggle)toggle.textContent=state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh';
+ // HG26 Boss farming resolves its canonical turn inside this 1s tick
+ // (farmPulse.changed). Recreating the canvas on every such turn caused a
+ // visible animation reset even after the manual auto-turn fix.
+ if(state.battle&&before===state.battle&&$('battle-canvas')){
+  syncCombatTurnHUD();
+  if(training!==state.training.length||building!==(state.buildingQueue?.key||null)||
+     arena!==(state.arenaQueue?.id||null))renderHUD();
  }else if(!changed){
   // Passive resource ticks must not destroy the control a player is editing.
   // Replacing <select>/<input> every second silently discards an in-progress
