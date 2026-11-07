@@ -1,3 +1,16 @@
+## HG39 continuation — quickstart drawer, touch landscape and CI #467 repair · 2026-11-08
+
+- **Repository / branch:** `vuanhtuan161094-byte/Heoofgaia`, `feature/hog1-research-to-playable-20261102`. Implementation SHA **`5cb1b71cddd1aaea2e50c6f08673c30d78258e44`** is committed locally; it has not yet been pushed. No other branch, `main` merge, reset or force-push.
+- **CI failure and actual defect:** Actions #467 failed HG12 because the map dock rebuilt its `<details>` drawers every game tick and reset “Tác vụ nhanh” to closed. Its previous test also tried a removed direct-March control. The implementation now preserves drawer state through render, and HG12 follows the live dispatch planner and confirms a real march. CI is **PENDING** on this correction; #467 remains a recorded **FAIL**, not a pass.
+- **Phone layout correction:** short landscape CSS keeps the map canvas and dock within the viewport, compresses the launch checklist, and prevents dock controls from shrinking into unreachable targets. Save version remains v07; no economy or combat rules changed.
+- **Local verification on the exact HTML:** `node qa-engine.cjs` **218/218 PASS**; `node qa-hg39-engine.cjs` **3/3 PASS**; real installed Edge on `file://`: HG12 **25/25 PASS**, HG39 map/dispatch **20/20 PASS**, zero page errors. The latter includes map pan/zoom, real dispatch/payment, v07 save/reload, touch taps and real auto-formation at **412×915**, **844×390**, and **667×375**. The landscape map bottoms are within their viewport and there is no horizontal overflow. Physical Android/iPhone acceptance is not yet tested.
+- **Offline HTML:** sole release remains `Play-Heoofgaia-HG11.html`, **87,886,419 bytes**, Windows SHA-256 **`E406F084D625D09DE100E764A111BFB184698B74B29D13CE7F6248BEDEF2DCAB`**. The builder succeeded after source edits. CI’s reproducible-build gate remains pending.
+- **Evidence:** live HG12 screenshots and receipt: `docs/evidence/hg12/` and `docs/qa/hg12/hero-task-chrome.json`; responsive map/dispatch receipt: `docs/qa/hg39/map-dispatch-chrome.json`; touch-emulated short-landscape captures: `docs/evidence/hg39/phone-quickstart-phone-landscape-844x390.png` and `docs/evidence/hg39/phone-quickstart-compact-landscape-667x375.png`. Captures are from the actual running local HTML, not mockups.
+- **Phone package:** the existing ZIP still contains the older HTML and is **STALE**. Do not deliver it as the new build. Regenerate `dist/Heoofgaia-HG39-Phone.zip` only after the correction is pushed and CI is green; include the one offline HTML, phone README and matching SHA-256 manifest, then verify archive contents and checksums.
+- **Next:** push the implementation plus this checkpoint to the existing branch, run the full offline Actions workflow on its latest head, repair any remaining true failures, then rebuild and verify the phone ZIP. Do not claim physical-device testing or overall 1:1 parity.
+
+---
+
 ## HG39 — Offline pacing, combat timeline, world-map dispatch · local PASS · phone ZIP ready · CI retry pending · 2026-11-08
 
 - **Repository/branch:** public `vuanhtuan161094-byte/Heoofgaia`, `feature/hog1-research-to-playable-20261102`. HG39 commits `e2273024fb98c7eefc548b06a37ef8299b0e53c6` and `71c711555ca73cdd2e6bb3585a18218a24f5bb20` are pushed on this branch. No new branch, `main` merge, reset or force-push.
