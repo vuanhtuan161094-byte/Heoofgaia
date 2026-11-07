@@ -110,11 +110,13 @@ def set_enemy_observation_fixture(page, stack_id: str, attack: int) -> dict:
 
 def get_action_receipt(page, stack_id: str, expected_action: str, event_kind: str) -> dict:
     return page.evaluate("""({stackId,expectedAction,eventKind})=>{
-      const s=HOG_APP_DEBUG.getState(),b=s?.battle,all=[...(b?.allies||[]),...(b?.enemies||[])],u=all.find(x=>x.id===stackId);
-      const eventIndex=(b?.lastEvents||[]).findIndex(e=>eventKind==='actor'?e.actorId===stackId:e.targetId===stackId&&e.damage>0),
-        event=eventIndex<0?null:b.lastEvents[eventIndex],
-        elapsed=eventIndex<0?0:Math.min(eventIndex,7)*85+(expectedAction==='attack'?200:360),
-        visual=b&&u?HOG_PAINTER.battleVisualState(b,u,elapsed,performance.now()):null,
+      const s=HOG_APP_DEBUG.getState(),b=s?.battle,all=[...(b?.allies||[]),...(b?.enemies||[])],u=all.find(x=>x.id===stackId),
+        timeline=b&&HOG_PAINTER.battleTimelineFor(b,performance.now()),
+        item=(timeline?.items||[]).filter(row=>{const e=row.event;return eventKind==='actor'?e.actorId===stackId&&e.damage>0:
+          e.targetId===stackId&&e.damage>0&&(expectedAction!=='death'||e.death)}).at(-1),event=item?.event||null,
+        sampleAt=item?(expectedAction==='attack'?item.start+item.moveMs+200:
+          item.impactAt+(expectedAction==='death'?400:240)):performance.now(),
+        visual=b&&u?HOG_PAINTER.battleVisualState(b,u,sampleAt,sampleAt):null,
         ctx=document.createElement('canvas').getContext('2d'),proto=CanvasRenderingContext2D.prototype,draw=proto.drawImage;
       let source=null,rendered=false;const definition=HOG_HG33_TROOP_ATLASES?.resolve?.(u?.unitId,u?.name),
         frame=definition?HOG_PAINTER.troopAtlasFrame(u.unitId,visual?.action,visual?.time,visual?.duration,u.name):null;
@@ -144,7 +146,7 @@ def run_troop_pilot(browser, pilot: dict) -> None:
       const E=HOG_ENGINE,C=HOG_CATALOG,s=HOG_APP_DEBUG.getState();
       // Only prerequisite buildings, research and resources are seeded.
       s.buildings.hall=10;s.buildings.barracks=10;s.buildings.warehouse=10;
-      s.buildings.blacksmith=1;s.spells.manufacturing=1;s.spells.bootcamp=1;s.spells.scouting=1;s.speed=60;
+      s.buildings.blacksmith=1;s.spells.manufacturing=1;s.spells.bootcamp=1;s.spells.scouting=1;s.speed=1;
       for(const k of C.keys)s.res[k]=E.limits(s)[k];
       s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render();
       return {version:s.version,strict:E.strictSave(s),unitCount:C.units[s.race].length,resources:{...s.res}};
@@ -162,7 +164,7 @@ def run_troop_pilot(browser, pilot: dict) -> None:
     check(f"{name} recruitment spends real resources and queues two units",
           queue["id"] == unit_id and queue["count"] == 2 and queue["gold"] < before["gold"] and queue["strict"], queue)
     page.evaluate("""()=>{const s=HOG_APP_DEBUG.getState(),seconds=Math.ceil(s.training[0].remaining/s.speed)+1;
-      HOG_ENGINE.tick(s,s.lastTick+seconds*1000);s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""")
+      HOG_ENGINE.tick(s,s.lastTick+seconds*1000);s.speed=60;s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""")
     recruited = page.evaluate("""id=>{const s=HOG_APP_DEBUG.getState();return {count:s.army[id],queued:s.training.length,strict:HOG_ENGINE.strictSave(s)}}""", unit_id)
     expected_recruited = before["army"] + 2
     check(f"{name} is delivered by an actual engine training tick", recruited["count"] == expected_recruited and recruited["queued"] == 0 and recruited["strict"], {**recruited,"expected":expected_recruited})
@@ -194,7 +196,19 @@ def run_troop_pilot(browser, pilot: dict) -> None:
       p.drawImage=function(img,...args){if(img?.id===window.__hg33TargetAtlasId&&args.length>=8)
         window.__hg33PilotSamples.push({imageId:img.id,row:Math.floor(args[1]/204),frame:Math.floor(args[0]/192),at:performance.now()});
         return draw.call(this,img,...args)}}""", unit_id)
-    page.locator('[data-action="march"]').click()
+    dispatch_button = page.locator('[data-action="dispatch-open"]')
+    check(f"{name} target opens the real HG39 dispatch planner", dispatch_button.count() == 1)
+    if dispatch_button.count() != 1:
+        raise RuntimeError(f"{name}: selected NPC does not expose one real dispatch action")
+    dispatch_button.click()
+    page.locator('.hg39-dispatch [data-action="dispatch-confirm"]').wait_for(state="visible")
+    dispatch = page.evaluate("""()=>{const panel=document.querySelector('.hg39-dispatch');return {
+      rows:[...panel.querySelectorAll('[data-dispatch-count]')].map(input=>({unit:input.dataset.dispatchCount,count:Number(input.value)})),
+      enabled:!panel.querySelector('[data-action="dispatch-confirm"]').disabled,
+      title:panel.querySelector('header h2')?.innerText};}""")
+    check(f"{name} planner preserves the two real formation stacks and enables confirmation",
+          len(dispatch["rows"]) == 2 and all(row["unit"] == unit_id and row["count"] == 1 for row in dispatch["rows"]) and dispatch["enabled"], dispatch)
+    page.locator('.hg39-dispatch [data-action="dispatch-confirm"]').click()
     page.wait_for_function("HOG_APP_DEBUG.getState()?.battle", timeout=30_000)
     battle = page.evaluate("""id=>{const s=HOG_APP_DEBUG.getState(),b=s.battle;return {allies:b.allies.filter(u=>u.unitId===id).map(u=>({id:u.id,unitId:u.unitId,pool:u.pool,x:u.x,y:u.y})),
       enemyNames:b.enemies.map(e=>e.name),strict:HOG_ENGINE.strictSave(s),version:s.version}}""", unit_id)
