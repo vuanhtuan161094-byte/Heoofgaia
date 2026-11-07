@@ -803,7 +803,12 @@ function paintBattleStaticScene(c,canvas,E,showGrid){
 function battleStaticLayer(canvas,E,showGrid){
  if(typeof document==='undefined'||typeof document.createElement!=='function')return null;
  const img=document.getElementById('battlefield-human-meadow');
- const src=img?.src||'',nw=img?.naturalWidth||0,nh=img?.naturalHeight||0;
+ // The single-file HTML embeds a large base64 PNG as img.src. Reading and
+ // comparing that megabyte-scale URL 60×/s defeats a hot-path cache.
+ // Source identity is fixed for the running HTML; decoded dimensions detect
+ // the load transition, and the version tag identifies the original asset.
+ const src=img?.dataset?.battleBackground||'',
+  nw=img?.naturalWidth||0,nh=img?.naturalHeight||0;
  const old=battleStaticLayers.get(canvas);
  if(old&&old.width===canvas.width&&old.height===canvas.height&&
     old.grid===showGrid&&old.img===img&&old.src===src&&old.nw===nw&&old.nh===nh){
