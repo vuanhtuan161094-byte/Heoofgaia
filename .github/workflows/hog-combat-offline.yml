@@ -157,6 +157,10 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
+      - name: HG34 P0 Chromium battle smoothness, RAF continuity, HUD and Save v07
+        run: |
+          python -m py_compile qa-hg34-combat-smooth-chrome.py
+          python qa-hg34-combat-smooth-chrome.py
       - name: HG33 H2 six-pilot live Attack, Hit, Death and Save v07 gate
         run: |
           python -m py_compile qa-hg33-h2-pilot-live-chrome.py
@@ -324,6 +328,15 @@ jobs:
             docs/evidence/hg28/after/*/14-t9-t10-*.png
             docs/qa/hg28/art-chrome.json
           retention-days: 7
+          if-no-files-found: ignore
+      - name: Upload HG34 combat performance and live-frame screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG34-combat-smoothness-Chromium
+          path: |
+            docs/qa/hg34/combat-smoothness.json
+            docs/evidence/hg34/*.png
           if-no-files-found: ignore
       - name: Upload offline playable HTML
         if: always()
