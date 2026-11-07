@@ -960,3 +960,25 @@ body.hg39-world-map-mode .sidebar{display:none!important}
 @media(max-width:560px){.hg39-dispatch-heroes{grid-template-columns:repeat(2,minmax(0,1fr))}.hg39-dispatch-row{align-items:flex-start;flex-direction:column}.hg39-dispatch-count{width:100%;justify-content:flex-end}.hg39-dispatch-count input{flex:1 1 auto}.hg39-dispatch>footer{justify-content:stretch}.hg39-dispatch>footer button{flex:1 1 auto}.hg39-dispatch>footer>span{width:100%;margin:0}}
 @media(max-width:560px){body:not(.combat-mode) .tabs{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));flex-wrap:wrap;overflow:visible;min-height:0}body:not(.combat-mode) .tabs button{min-width:0;min-height:34px;white-space:normal;padding:4px 2px;font-size:9px;line-height:1.1}}
 @media(max-width:560px){body:not(.combat-mode) .top{align-items:stretch;gap:6px;padding:7px 8px}body:not(.combat-mode) .masthead{gap:6px}.masthead .crest{font-size:28px}.masthead .brand{font-size:18px}body:not(.combat-mode) .resources{width:100%;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:3px}body:not(.combat-mode) .resource{width:100%;min-width:0;padding:4px 2px;text-align:center}body:not(.combat-mode) .resource b{font-size:10px}body:not(.combat-mode) .resource .hog-ui-icon{height:13px;width:13px}}
+
+/* HG39: short phone landscape must keep the map and its command rail inside the viewport. */
+@media(max-height:500px){
+ body.hg39-world-map-mode .wrap{flex-direction:row;min-height:0;overflow:hidden;align-items:stretch}
+ body.hg39-world-map-mode #main{flex:1 1 0;min-width:0;min-height:0}
+ body.hg39-world-map-mode #main>.scene-title{min-height:27px}
+ body.hg39-world-map-mode #main>.scene-title h1{font-size:15px}
+ body.hg39-world-map-mode #main>.card[aria-label="Lộ trình phát triển New Game"]{padding:3px 6px}
+ body.hg39-world-map-mode #main>.card[aria-label="Lộ trình phát triển New Game"] .entry:first-child{display:flex;flex-wrap:nowrap;gap:6px;margin:0;align-items:center}
+ body.hg39-world-map-mode #main>.card[aria-label="Lộ trình phát triển New Game"] .entry:first-child>b{min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px}
+ body.hg39-world-map-mode #main>.card[aria-label="Lộ trình phát triển New Game"] .entry:first-child>.tag{flex:0 0 auto;font-size:9px;padding:2px 4px}
+ body.hg39-world-map-mode #main>.card[aria-label="Lộ trình phát triển New Game"] .entry{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;margin:2px 0}
+ body.hg39-world-map-mode #main>.card[aria-label="Lộ trình phát triển New Game"] .entry button{min-width:0;min-height:22px;padding:3px 4px;font-size:clamp(8px,1.15vw,10px);line-height:1.05;white-space:normal}
+ body.hg39-world-map-mode #main>.map-frame{flex:1 1 0;min-height:0}
+ .hg39-map-dock{flex:0 0 clamp(178px,26vw,230px);width:clamp(178px,26vw,230px);min-height:0;max-height:none}
+ .hg39-map-dock>.hg39-map-tools,.hg39-map-dock>.hg39-map-target,.hg39-map-dock>.hg39-map-details,.hg39-map-dock>.hg39-map-utility{flex-shrink:0}
+}
+@media(max-height:500px) and (max-width:700px){
+ body:not(.combat-mode) .tabs{overflow-x:auto;scrollbar-width:none}
+ body:not(.combat-mode) .tabs::-webkit-scrollbar{display:none}
+ body:not(.combat-mode) .tabs button{flex:0 0 68px;min-width:68px;min-height:30px;padding:3px 2px;font-size:9px;line-height:1.1;white-space:normal}
+}

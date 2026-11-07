@@ -1,0 +1,113 @@
+{
+  "passed": 25,
+  "total": 25,
+  "checks": [
+    {
+      "name": "Playable world exposes the compact quickstart drawer",
+      "passed": true
+    },
+    {
+      "name": "Three-action quickstart opens in the real map dock",
+      "passed": true
+    },
+    {
+      "name": "Expanded quickstart survives the normal game-tick rerender",
+      "passed": true
+    },
+    {
+      "name": "Starter has no explicit formation before guided action",
+      "passed": true
+    },
+    {
+      "name": "Quickstart button saves legal army under hero capacity",
+      "passed": true
+    },
+    {
+      "name": "Cold reload keeps smart formation while troops are still in castle",
+      "passed": true
+    },
+    {
+      "name": "Quickstart selects actual NPC level 1 without dispatching",
+      "passed": true
+    },
+    {
+      "name": "Hero Task accept button shown in task UI",
+      "passed": true
+    },
+    {
+      "name": "First mission is 1-star for 1200 EXP",
+      "passed": true
+    },
+    {
+      "name": "UI accepts task for selected hero",
+      "passed": true
+    },
+    {
+      "name": "Find target opens playable world map",
+      "passed": true
+    },
+    {
+      "name": "World target panel selects NPC camp",
+      "passed": true
+    },
+    {
+      "name": "Hero-task target enables the actual dispatch planner",
+      "passed": true
+    },
+    {
+      "name": "NPC dispatch uses real AP",
+      "passed": true
+    },
+    {
+      "name": "Real march enters tactical combat",
+      "passed": true
+    },
+    {
+      "name": "Real NPC win completes same hero task",
+      "passed": true
+    },
+    {
+      "name": "Combat and quest progress save in v07",
+      "passed": true
+    },
+    {
+      "name": "Reward claim button appears after real victory",
+      "passed": true
+    },
+    {
+      "name": "Claim advances to second mission exactly once",
+      "passed": true
+    },
+    {
+      "name": "Claimed state passes strict Save validator",
+      "passed": true
+    },
+    {
+      "name": "Cold reload preserves first claimed task",
+      "passed": true
+    },
+    {
+      "name": "Cold reload keeps deployed army out of castle formation",
+      "passed": true
+    },
+    {
+      "name": "Compact quickstart exposes three working buttons at landscape width",
+      "passed": true
+    },
+    {
+      "name": "Task UI fits landscape width",
+      "passed": true
+    },
+    {
+      "name": "No JavaScript page exceptions",
+      "passed": true
+    }
+  ],
+  "errors": [],
+  "htmlSha256": "E406F084D625D09DE100E764A111BFB184698B74B29D13CE7F6248BEDEF2DCAB",
+  "screenshots": [
+    "docs\\evidence\\hg12\\hero-task-quickstart-desktop-chrome.png",
+    "docs\\evidence\\hg12\\hero-task-desktop-chrome.png",
+    "docs\\evidence\\hg12\\hero-task-landscape-chrome.png"
+  ]
+}

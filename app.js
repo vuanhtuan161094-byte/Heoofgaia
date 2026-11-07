@@ -944,7 +944,9 @@ function paint(){
  }
 }
 let hg39DockMoves=[];
+let hg39MapDetailsOpen={};
 function restoreWorldMapLayout(){
+ for(const details of document.querySelectorAll('.hg39-map-dock .hg39-map-details')){const key=details.dataset.hg39Drawer;if(key)hg39MapDetailsOpen[key]=details.open}
  for(const {node,marker} of hg39DockMoves.reverse())if(marker.parentNode){marker.parentNode.insertBefore(node,marker);marker.remove()}
  hg39DockMoves=[];document.querySelector('.hg39-map-dock')?.remove();
  document.body.classList.remove('hg39-world-map-mode');
@@ -956,7 +958,7 @@ function enhanceWorldMapLayout(){
  const controls=document.createElement('div');controls.className='hg39-map-tools';
  const title=main.querySelector('.scene-title'),tools=title?.querySelector('.scene-tools');
  const move=(node,parent)=>{if(!node)return;const marker=document.createComment('hg39-map-position');node.parentNode.insertBefore(marker,node);hg39DockMoves.push({node,marker});parent.append(node)};
- const addDetails=(node,label,open=false)=>{if(!node)return;const details=document.createElement('details');details.className='hg39-map-details';details.open=open;const summary=document.createElement('summary');summary.textContent=label;details.append(summary);dock.append(details);move(node,details)};
+ const addDetails=(node,label,open=false)=>{if(!node)return;const details=document.createElement('details');details.className='hg39-map-details';details.dataset.hg39Drawer=label;details.open=hg39MapDetailsOpen[label]??open;const summary=document.createElement('summary');summary.textContent=label;details.append(summary);dock.append(details);move(node,details)};
  if(tools)move(tools,controls);dock.append(controls);
  const target=main.querySelector('.scene-bottom .target-information');if(target){const card=document.createElement('section');card.className='hg39-map-target';dock.append(card);move(target,card)}
  addDetails(main.querySelector('.quickstart-strip'),'Tác vụ nhanh');

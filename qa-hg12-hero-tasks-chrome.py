@@ -1,6 +1,6 @@
 """Acceptance: Fandom Hero Tasks from actual offline HTML, real click-to-combat and v07 reload."""
 from pathlib import Path
-import json, hashlib, sys
+import json, hashlib, sys, os
 from playwright.sync_api import sync_playwright
 
 if hasattr(sys.stdout, "reconfigure"):
@@ -19,13 +19,21 @@ def check(title,value):
     print(("PASS " if result else "FAIL ")+title,flush=True)
 
 with sync_playwright() as pw:
-    browser=pw.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"])
+    launch={"headless":True,"args":["--no-sandbox","--disable-dev-shm-usage","--allow-file-access-from-files"]}
+    if os.environ.get("HOG_CHROME_PATH"):launch["executable_path"]=os.environ["HOG_CHROME_PATH"]
+    browser=pw.chromium.launch(**launch)
     page=browser.new_page(viewport={"width":1280,"height":720})
     page.on("pageerror",lambda error:errors.append(str(error)))
     page.set_default_timeout(15000)
     page.goto(HTML.as_uri(),wait_until="load")
     page.locator('[data-action="start"]').click()
-    check("Three-action quickstart appears on playable world",page.locator(".quickstart-strip").is_visible())
+    quickstart_drawer=page.locator('.hg39-map-dock .hg39-map-details').filter(has_text="Tác vụ nhanh")
+    check("Playable world exposes the compact quickstart drawer",quickstart_drawer.is_visible())
+    quickstart_drawer.locator("summary").click()
+    check("Three-action quickstart opens in the real map dock",page.locator(".quickstart-strip").is_visible())
+    page.wait_for_timeout(1200)
+    check("Expanded quickstart survives the normal game-tick rerender",
+          quickstart_drawer.evaluate("el=>el.open") and page.locator(".quickstart-strip").is_visible())
     check("Starter has no explicit formation before guided action",page.evaluate("HOG_APP_DEBUG.getState().formation.length===0"))
     page.locator('.quickstart-strip [data-action="autoformation"]').click()
     formed=page.evaluate("""() => {
@@ -37,6 +45,8 @@ with sync_playwright() as pw:
     page.reload(wait_until="load")
     check("Cold reload keeps smart formation while troops are still in castle",
           page.evaluate("HOG_APP_DEBUG.getState().formation.length>0"))
+    quickstart_drawer=page.locator('.hg39-map-dock .hg39-map-details').filter(has_text="Tác vụ nhanh")
+    quickstart_drawer.locator("summary").click()
     page.locator('.quickstart-strip [data-action="findnpc"]').click()
     check("Quickstart selects actual NPC level 1 without dispatching","1★" in page.locator(".target-information h2").inner_text() and page.evaluate("HOG_APP_DEBUG.getState().march===null"))
     quickshot=OUT/"hero-task-quickstart-desktop-chrome.png"
@@ -51,8 +61,16 @@ with sync_playwright() as pw:
     page.locator('[data-action="findherotask"]').click()
     check("Find target opens playable world map",page.locator("#world-canvas").is_visible())
     check("World target panel selects NPC camp","Trại" in page.locator(".target-information h2").inner_text())
+    dispatch_button=page.locator('.hg39-map-target [data-action="dispatch-open"]')
+    check("Hero-task target enables the actual dispatch planner",dispatch_button.is_enabled())
     before_ap=page.evaluate("HOG_APP_DEBUG.getState().ap")
-    page.locator('[data-action="march"]').click()
+    dispatch_button.click()
+    page.locator(".hg39-dispatch").wait_for(state="visible")
+    page.locator('[data-action="dispatch-auto"]').click()
+    confirm=page.locator('[data-action="dispatch-confirm"]')
+    confirm.wait_for(state="visible")
+    if not confirm.is_enabled():raise AssertionError("Hero-task NPC did not produce a valid army formation")
+    confirm.click()
     dispatch=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),tile=HOG_ENGINE.getTile(s.march?.target);
       return {ap:s.ap,kind:tile?.kind,stars:tile?.level};
@@ -93,7 +111,9 @@ with sync_playwright() as pw:
           page.evaluate("HOG_APP_DEBUG.getState().formation.length===0"))
     page.set_viewport_size({"width":960,"height":540})
     page.locator('#nav [data-tab="map"]').click()
-    check("Compact quickstart has three working buttons at landscape width",page.locator(".quickstart-actions button").count()==3 and page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"))
+    quickstart_drawer=page.locator('.hg39-map-dock .hg39-map-details').filter(has_text="Tác vụ nhanh")
+    if not quickstart_drawer.evaluate("el=>el.open"):quickstart_drawer.locator("summary").click()
+    check("Compact quickstart exposes three working buttons at landscape width",page.locator(".quickstart-actions button:visible").count()==3 and page.evaluate("document.documentElement.scrollWidth<=innerWidth+1"))
     landscape=OUT/"hero-task-landscape-chrome.png"
     page.screenshot(path=str(landscape),full_page=False)
     check("Task UI fits landscape width",page.evaluate("document.documentElement.scrollWidth<=window.innerWidth+1"))

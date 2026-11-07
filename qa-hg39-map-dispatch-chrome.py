@@ -181,6 +181,29 @@ with sync_playwright() as pw:
           phone_panel['heroes']==1 and phone_panel['width']<=412 and phone_panel['panel']['w']>350 and phone_panel['confirm'],phone_panel)
     phone.screenshot(path=str(SHOTS/'dispatch-phone-412x915.png'),animations='disabled')
     phone.close()
+    for width,height,label in ((844,390,'phone-landscape-844x390'),(667,375,'compact-landscape-667x375')):
+        context=browser.new_context(viewport={'width':width,'height':height},is_mobile=True,has_touch=True)
+        touch_page=context.new_page();touch_page.set_default_timeout(12000)
+        touch_page.on('pageerror',lambda err:errors.append(str(err)))
+        touch_page.goto(HTML.as_uri(),wait_until='load')
+        touch_page.locator('[data-action="start"]').tap()
+        quickstart=touch_page.locator('.hg39-map-dock .hg39-map-details').filter(has_text='Tác vụ nhanh')
+        quickstart.locator('summary').tap()
+        touch_page.wait_for_timeout(1200)
+        check(label+' quickstart drawer stays open across the real game-tick render',
+              quickstart.evaluate('el=>el.open') and touch_page.locator('.quickstart-strip').is_visible())
+        touch_page.locator('.hg39-map-dock .quickstart-actions [data-action="autoformation"]').tap()
+        touch_layout=touch_page.evaluate("""() => {
+          const map=document.querySelector('#world-canvas').getBoundingClientRect();
+          return {width:document.documentElement.scrollWidth,viewport:innerWidth,height:innerHeight,
+            mapBottom:map.bottom,formation:HOG_APP_DEBUG.getState().formation.length,
+            quickstartOpen:document.querySelector('.hg39-map-dock .hg39-map-details')?.open};
+        }""")
+        check(label+' touch auto-formation performs the real game action and map stays in the viewport',
+              touch_layout['formation']>0 and touch_layout['width']<=width+1 and
+              touch_layout['mapBottom']<=height+1 and touch_layout['quickstartOpen'],touch_layout)
+        touch_page.screenshot(path=str(SHOTS/f'phone-quickstart-{label}.png'),animations='disabled')
+        context.close()
     check('No uncaught browser errors during map, dispatch or Save/Reload',not errors,errors)
     browser.close()
 
