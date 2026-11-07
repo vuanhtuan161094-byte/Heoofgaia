@@ -823,3 +823,27 @@ body.combat-mode .battle-event-list{grid-template-columns:repeat(2,minmax(0,1fr)
  .hg35-cost-ledger{grid-template-columns:1fr}
  .hg35-recruit-controls button{flex:1 1 115px}
 }
+
+/* HG35 selected-building inspector below the command rail: never push
+   the primary building selector or upgrade button off-screen. */
+.hg35-city-inspector{display:flex;flex-direction:column;gap:6px;padding:9px 10px;
+ border:1px solid #6f866c;border-radius:8px;background:linear-gradient(140deg,#1e3738,#152a33);min-width:0}
+.hg35-city-inspector-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;flex-wrap:wrap;
+ border-bottom:1px solid #517269;padding:0 0 5px}
+.hg35-city-inspector-title b{font-size:13px;color:#f2d79f}
+.hg35-city-inspector-title span{font-size:10px;color:#b9d2c9}
+.hg35-city-inspector-grid{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:10px;align-items:start}
+.hg35-city-inspector .hg35-building-effects{margin:0;min-height:100%}
+.hg35-inspector-pay{display:flex;flex-direction:column;gap:6px;padding:8px 10px;min-width:0;
+ border:1px solid #57796f;border-radius:7px;background:#19313a}
+.hg35-inspector-pay>b{font-size:12px;color:#f2d79f}
+.hg35-inspector-pay>small{font-size:10px;color:#b7c6b9}
+.hg35-inspector-pay .hg35-cost-ledger{margin:0}
+@media(max-width:900px){
+ .hg35-city-inspector-grid{gap:6px}
+ .hg35-city-inspector{padding:6px}
+ .hg35-inspector-pay{padding:6px}
+}
+@media(max-width:660px){
+ .hg35-city-inspector-grid{grid-template-columns:1fr}
+}
