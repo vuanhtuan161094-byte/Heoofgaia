@@ -1,3 +1,12 @@
+## Combat field-first screen — PASS · 2026-11-07
+
+- **Branch/base:** `feature/hog1-research-to-playable-20261102`, tested from base `81096b72ecd5edbb41a3a9eea4bfa80ba0dc46ef`; combat UI change is staged for its release commit. This slice changes layout only; Save v07, combat rules and economy were not modified. HG33 remains **H2 PARTIAL / H5 OPEN**.
+- **Implemented:** the 12×9 battlefield fills nearly the full viewport height; the friendly/enemy roster cards are removed because stacks can be selected on the canvas. Attack, advance, move-to-cell, stand by, focus, retreat, auto, grid/HP toggles and spells live in a collapsible right dock. Turn receipts/history are folded below the board; selected stack and target show only count and remaining HP.
+- **Real offline Chrome (`file://`):** 1280×720 canvas 1027×662 px, hex radius 40.86 px, unit footprint 77.6 px; 960×540 canvas 751×482 px, hex radius 28 px, footprint 53.2 px. Direct friendly and enemy selection, dock collapse (expands board), auto toggle, actual attack resolution, save/parse/reload v07 all **PASS** at both viewports. Separate actual move command **PASS**: selected reachable hex (2,0), stack moved from (1,0), strict Save v07 valid. No console/page errors.
+- **Evidence:** BEFORE `docs/evidence/hg33/combat-layout/before/{1280x720,960x540}.png`; AFTER `docs/evidence/hg33/combat-layout/after/{1280x720,960x540}.png`; browser receipt `docs/evidence/hg33/combat-layout/after/receipt.json`.
+- **Offline artifact:** sole root game `Play-Heoofgaia-HG11.html`, 88,032,159 bytes, SHA-256 `956A1A74148FF94C341634136030A51B3A719725F0CB7E20B69B7C8D7640DDCF`.
+- **Next:** commit/push this slice to the same branch, confirm full CI on the exact code SHA, then continue HG33 H2 layered-source gate and H5 external-art audit. Do not mark HG33 complete.
+
 ## HG33 — CHECKPOINT 2026-11-07 · H0/H1 PASS · H2 PARTIAL · H3/H4 PASS · H5 OPEN
 
 - **Repository / branch:** public `vuanhtuan161094-byte/Heoofgaia`, `feature/hog1-research-to-playable-20261102`. Functional code tested on **`85dd9c8a83ba237cd596bbeea36874f0fb7277f7`**. Commits `94e3f2e`, `870cc4e` and `85dd9c8` are pushed; no other branch, main merge, reset or force-push.

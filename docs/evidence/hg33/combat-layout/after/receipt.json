@@ -1,0 +1,80 @@
+{
+  "file": "Play-Heoofgaia-HG11.html",
+  "sha256": "956A1A74148FF94C341634136030A51B3A719725F0CB7E20B69B7C8D7640DDCF",
+  "browser": "Google Chrome / Playwright / file:// real New Game + Wolves march and battle",
+  "checks": [
+    {
+      "viewport": "1280x720",
+      "pass": true,
+      "canvasSelection": [
+        "friendly",
+        "enemy"
+      ],
+      "collapseExpandsField": true,
+      "realAttackAndAuto": true,
+      "saveV07Reload": true,
+      "metrics": {
+        "canvas": {
+          "x": 15,
+          "y": 50,
+          "w": 1027.40625,
+          "h": 662.25
+        },
+        "dock": {
+          "x": 1047.40625,
+          "w": 212.59375
+        },
+        "hexRadius": 40.857142857142854,
+        "unitSize": 77.62857142857142,
+        "cards": 0,
+        "controlTitle": "⚔ LỆNH\n⌄"
+      },
+      "screenshot": "docs/evidence/hg33/combat-layout/after/1280x720.png",
+      "screenshotSha256": "9F43C198D16A2CD1F8090BE395CA71043DDCF6D4FAE509308D32F4C0355FF764"
+    },
+    {
+      "viewport": "960x540",
+      "pass": true,
+      "canvasSelection": [
+        "friendly",
+        "enemy"
+      ],
+      "collapseExpandsField": true,
+      "realAttackAndAuto": true,
+      "saveV07Reload": true,
+      "metrics": {
+        "canvas": {
+          "x": 15,
+          "y": 50,
+          "w": 751,
+          "h": 482
+        },
+        "dock": {
+          "x": 771,
+          "w": 169
+        },
+        "hexRadius": 28,
+        "unitSize": 53.199999999999996,
+        "cards": 0,
+        "controlTitle": "⚔ LỆNH\n⌄"
+      },
+      "screenshot": "docs/evidence/hg33/combat-layout/after/960x540.png",
+      "screenshotSha256": "20DB21A5384BC4AD5E09719C3A2B4134AC2B34F935D7C45B492D1CEABBF18857"
+    }
+  ],
+  "errors": [],
+  "result": "PASS",
+  "focusedMovementCheck": {
+    "viewport": "1280x720",
+    "result": "PASS",
+    "from": {
+      "x": 1,
+      "y": 0
+    },
+    "selectedHex": {
+      "x": 2,
+      "y": 0
+    },
+    "savedBattleValid": true
+  }
+}

@@ -724,6 +724,80 @@ body.combat-mode .battle-frame canvas{height:clamp(245px,calc(100dvh - 260px),76
 /* HG33-H1: keep the six-stack roster fully visible; default combat guides are hexes. */
 body.combat-mode .battle-ui .stack-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible;}
 body.combat-mode .battle-ui .stack-card{flex:initial;width:auto;min-width:0;}
+
+
+/* HG33 combat field-first controls: make the tactical board the primary surface. */
+body.combat-mode #app{height:100dvh;max-height:100dvh;overflow-x:hidden;overflow-y:auto}
+body.combat-mode #main{padding:4px 6px 8px;min-height:0}
+body.combat-mode .combat-scene-title{min-height:42px;height:42px;margin:0 0 3px;align-items:center}
+body.combat-mode .combat-scene-title>div:first-child{min-width:0}
+body.combat-mode .combat-scene-title>.scene-tools{flex:0 0 auto;gap:5px}
+body.combat-mode .combat-scene-title .eyebrow{display:none}
+body.combat-mode .combat-scene-title h1{font:700 clamp(17px,2vw,23px)/1.1 Georgia,serif;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+body.combat-mode .combat-scene-title .scene-tools .tag{font-size:10px;padding:4px 7px}
+body.combat-mode .combat-scene-title .scene-tools button{min-width:34px;min-height:30px;padding:4px 8px}
+body.combat-mode .battle-stage{display:grid;grid-template-columns:minmax(0,1fr) clamp(174px,17vw,220px);gap:5px;width:100%;height:calc(100dvh - 56px);min-height:300px;max-height:900px;border:1px solid #a48d63;border-radius:6px;overflow:hidden;background:#1a3032;box-shadow:0 3px 18px #07101480}
+body.combat-mode .battle-stage.battle-stage-collapsed{grid-template-columns:minmax(0,1fr) 44px}
+body.combat-mode .battle-stage #battle-canvas{display:block;width:100%;height:100%;min-width:0;aspect-ratio:auto;max-width:none;touch-action:manipulation;cursor:crosshair}
+body.combat-mode .battle-command-dock{display:flex;flex-direction:column;min-width:0;min-height:0;margin:5px 5px 5px 0;border:1px solid #786b4b;border-radius:6px;background:linear-gradient(165deg,#20383c,#15292f 78%);box-shadow:inset 0 1px #f4dc9b1a;overflow:hidden}
+body.combat-mode .battle-command-dock>summary{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;gap:5px;min-height:38px;padding:7px 9px;list-style:none;cursor:pointer;color:#f0d69e;font:750 11px/1 system-ui,'Segoe UI',sans-serif;letter-spacing:.6px;border-bottom:1px solid #716446;background:linear-gradient(#34494a,#263b3e);user-select:none}
+body.combat-mode .battle-command-dock>summary::-webkit-details-marker{display:none}
+body.combat-mode .battle-dock-chevron{color:#d3c393;font-size:16px;transition:transform .15s}
+body.combat-mode .battle-command-dock:not([open]) .battle-dock-chevron{transform:rotate(-90deg)}
+body.combat-mode .battle-command-dock:not([open])>summary{justify-content:center;writing-mode:vertical-rl;min-height:0;height:100%;border:0;padding:8px 3px}
+body.combat-mode .battle-command-dock:not([open]) .battle-dock-chevron,body.combat-mode .battle-command-dock:not([open]) .sr-only{display:none}
+body.combat-mode .battle-command-content{display:flex;flex:1 1 auto;flex-direction:column;gap:7px;min-height:0;padding:8px;overflow:auto;scrollbar-width:thin;scrollbar-color:#766846 #172b30}
+body.combat-mode .battle-selection-readout{display:grid;gap:5px}
+body.combat-mode .battle-side-readout{display:grid;gap:2px;min-width:0;padding:6px 7px;border-left:2px solid #c6a867;border-radius:3px;background:#263e40}
+body.combat-mode .battle-side-readout.enemy{border-left-color:#b77c68;background:#342f31}
+body.combat-mode .battle-side-readout small{font:750 8px/1 system-ui;color:#d5bd80;letter-spacing:.7px}
+body.combat-mode .battle-side-readout b{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font:700 11px/1.2 Georgia,serif;color:#f3e4c5}
+body.combat-mode .battle-side-readout span{font:9px/1.25 system-ui;color:#b9c7bd}
+body.combat-mode .battle-auto-state{font:650 9px/1.1 system-ui;color:#d6c28e;text-align:center}
+body.combat-mode .battle-display-tools{position:static;display:grid;grid-template-columns:1fr 1fr;gap:4px}
+body.combat-mode .battle-display-toggle{min-width:0;min-height:28px;padding:4px 5px;border:1px solid #526b65;border-radius:4px;background:#263f42;color:#d9d8bc;font:650 9px/1 system-ui;white-space:nowrap}
+body.combat-mode .battle-display-toggle[aria-pressed="false"]{color:#aab9b2;background:#1d3034}
+body.combat-mode .battle-action-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+body.combat-mode .battle-action-grid button{min-width:0;min-height:32px;padding:5px 3px;border-radius:4px;white-space:normal;font:700 9px/1.12 system-ui,'Segoe UI',sans-serif;letter-spacing:.1px}
+body.combat-mode .battle-action-grid button[data-cmd="attack"],body.combat-mode .battle-action-grid button[data-action="auto"]{grid-column:1/-1;min-height:35px;font-size:10px}
+body.combat-mode .battle-action-grid button[data-action="auto"]{border-color:#8d7d59;background:linear-gradient(#34464a,#22383b);color:#eed8a6}
+body.combat-mode .battle-move-prompt{margin:0;color:#b8c8bf;font:9px/1.3 system-ui,sans-serif}
+body.combat-mode .battle-spell-fold{border:1px solid #4c625d;border-radius:4px;background:#1b3035}
+body.combat-mode .battle-spell-fold>summary{padding:6px 7px;cursor:pointer;color:#e4cf9c;font:700 9px/1.2 system-ui;list-style:none}
+body.combat-mode .battle-spell-fold>summary::-webkit-details-marker{display:none}
+body.combat-mode .battle-spell-fold>div{padding:0 6px 6px}
+body.combat-mode .battle-spell-fold .card{margin:3px 0;padding:5px;background:#243a3d;border-color:#536761}
+body.combat-mode .battle-spell-fold .card b{font-size:9px}
+body.combat-mode .battle-spell-fold .hg04-spells{display:flex;flex-direction:column;gap:3px}
+body.combat-mode .battle-spell-fold button{width:100%;min-height:28px;padding:4px;font-size:9px;white-space:normal;text-align:left}
+body.combat-mode .battle-spell-state{display:block;margin-top:4px;color:#b6c2b9;font:8px/1.25 system-ui}
+body.combat-mode .battle-report-fold{margin:5px 0 0;border:1px solid #4b625e;border-radius:5px;background:#192e34}
+body.combat-mode .battle-report-fold>summary{padding:6px 9px;cursor:pointer;color:#d9c58f;font:650 10px/1.2 system-ui;list-style:none}
+body.combat-mode .battle-report-fold>summary::-webkit-details-marker{display:none}
+body.combat-mode .battle-report-fold[open]{padding:0 7px 7px}
+body.combat-mode .battle-report-fold .battle-receipts{margin-top:3px;padding:7px}
+body.combat-mode .battle-report-fold .combat-journal{max-height:90px;overflow:auto;padding:4px;font-size:10px}
+body.combat-mode .battle-report-fold>.hint{margin:4px 2px;font-size:9px;line-height:1.3}
+body.combat-mode .battle-ui,body.combat-mode .command-bar,body.combat-mode .battle-event-more{display:none!important}
+body.combat-mode .battle-event-list{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:1050px){
+ body.combat-mode .battle-stage{grid-template-columns:minmax(0,1fr) 174px}
+ body.combat-mode .battle-stage.battle-stage-collapsed{grid-template-columns:minmax(0,1fr) 42px}
+ body.combat-mode .battle-command-content{gap:5px;padding:6px}
+ body.combat-mode .battle-side-readout{padding:5px}
+ body.combat-mode .battle-action-grid button{min-height:30px;font-size:9px}
+}
+@media(max-width:700px){
+ body.combat-mode #app{padding:0 2px}
+ body.combat-mode .combat-scene-title{padding:0 2px}
+ body.combat-mode .combat-scene-title .scene-tools .tag{font-size:8px;padding:3px 4px}
+ body.combat-mode .battle-stage,body.combat-mode .battle-stage.battle-stage-collapsed{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(220px,1fr) auto;height:calc(100dvh - 100px)}
+ body.combat-mode .battle-command-dock{max-height:34dvh;margin:0 4px 4px}
+ body.combat-mode .battle-command-dock:not([open])>summary{writing-mode:horizontal-tb;height:auto;min-height:32px;justify-content:space-between}
+ body.combat-mode .battle-command-dock:not([open]) .battle-dock-chevron{display:block}
+ body.combat-mode .battle-command-content{display:grid;grid-template-columns:1fr 1fr;align-content:start}
+ body.combat-mode .battle-selection-readout{grid-row:span 2}
+}
 </style></head><body>
 <div id="app">
 <header class="top"><div class="masthead"><span class="crest">⚜</span><div><div class="brand">ANH HÙNG THỜI LOẠN</div><small>HEROES OF GAIA • HOG1 • HG-11</small></div></div><div id="resources" class="resources"></div></header>
@@ -6884,7 +6958,7 @@ root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battlePro
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER;
 const A=window.HOG_ART_PACK,ico=(key,size)=>A?.iconHTML(key,size)||'';
-const $=id=>document.getElementById(id);let state=null,hg261Draft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false;
+const $=id=>document.getElementById(id);let state=null,hg261Draft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
@@ -7463,33 +7537,60 @@ function towerSpellPanel(b){
  }).join('');
  return '<div class="card hg04-spellbar"><span class="eyebrow">PHÉP RIÊNG CỦA TỪNG TƯỚNG</span><div class="hg04-spells">'+cards+'</div><p class="hint">Buff của tướng nào chỉ tác động các stack do tướng đó chỉ huy. Mỗi tướng dùng tối đa một phép/lượt.</p></div>';
 }
-function combatView(){if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hiện không có trận đánh.</p>${button('tab',{tab:'map'},'🗺 Trở lại thế giới')}`;
- const b=state.battle,commander=state.heroes.find(h=>h.id===(state.expedition?.heroId||state.activeHero));let selected=b.allies.find(u=>u.id===b.selected),focused=b.enemies.find(u=>u.id===b.focused);const selectedMoveTarget=selected&&b.moveTargets?.[selected.id],inRange=new Set(E.battleTargetsInRange(b,b.selected));const targetSummary=Object.entries(b.lastTargets||{}).map(([a,t])=>{const actor=[...b.allies,...b.enemies].find(x=>x.id===a),target=[...b.allies,...b.enemies].find(x=>x.id===t);return actor&&target?`${actor.name} → ${target.name}`:''}).filter(Boolean).join(' · ');
- const eventText=e=>{const actor=[...b.allies,...b.enemies].find(u=>u.id===e.actorId),target=[...b.allies,...b.enemies].find(u=>u.id===e.targetId),name=actor?.name||'Đội quân',targetName=target?.name||'mục tiêu',moved=e.from.x!==e.to.x||e.from.y!==e.to.y;let text;
+function combatView(){
+ if(!state.battle)return `<h1>⚔ Chiến đấu</h1><p>Hiện không có trận đánh.</p>${button('tab',{tab:'map'},'🗺 Trở lại thế giới')}`;
+ const b=state.battle;
+ const selected=b.allies.find(u=>u.id===b.selected),focused=b.enemies.find(u=>u.id===b.focused);
+ const selectedMoveTarget=selected&&b.moveTargets?.[selected.id];
+ const targetSummary=Object.entries(b.lastTargets||{}).map(([a,t])=>{
+  const actor=[...b.allies,...b.enemies].find(x=>x.id===a),target=[...b.allies,...b.enemies].find(x=>x.id===t);
+  return actor&&target?`${actor.name} → ${target.name}`:'';
+ }).filter(Boolean).join(' · ');
+ const aliveAllies=b.allies.filter(u=>u.pool>0).length,aliveEnemies=b.enemies.filter(u=>u.pool>0).length;
+ const statLine=u=>u?`${format(u.count)} quân · ${format(Math.ceil(u.pool))} HP`:'';
+ const selectedName=selected?esc(selected.name):'Chạm quân ta trên chiến trường';
+ const focusedName=focused?esc(focused.name):'Chạm quân địch để chọn mục tiêu';
+ const eventText=e=>{
+  const actor=[...b.allies,...b.enemies].find(u=>u.id===e.actorId),target=[...b.allies,...b.enemies].find(u=>u.id===e.targetId),name=actor?.name||'Đội quân',targetName=target?.name||'mục tiêu',moved=e.from.x!==e.to.x||e.from.y!==e.to.y;
+  let text;
   if(e.order==='defend')text=`${name} chờ lệnh (Stand By)`;
   else if(e.order==='retreat')text=moved?`${name} lùi về ô (${e.to.x+1}, ${e.to.y+1})`:`${name} không thể lùi vì ô phía sau bị chặn`;
   else if(e.order==='move')text=e.path.length?`${name} di chuyển ${e.path.length} ô tới (${e.to.x+1}, ${e.to.y+1})`:`${name} đã tới điểm đến`;
   else if(e.order==='advance')text=moved?`${name} tiến về phía ${targetName} (${e.path.length} ô)`:`${name} giữ vị trí trước ${targetName}`;
   else if(e.order==='focus')text=`${name} tập trung đánh ${targetName}`;
   else text=`${name} tấn công ${targetName}`;
-  const result=[];if(e.damage>0)result.push(`${format(e.damage)} sát thương`);if(e.casualties>0)result.push(`${format(e.casualties)} quân tổn thất`);if(e.death)result.push('đội bị tiêu diệt');if(!result.length&&e.order==='defend')result.push('bỏ lượt');else if(!result.length&&e.order==='retreat'&&!moved)result.push('không đổi vị trí');else if(!result.length&&e.order==='move'&&!e.path.length)result.push('đã chạm đích');else if(!result.length&&e.path.length)result.push('chưa vào tầm đánh');return {name,text,result:result.join(' · ')};};
- const lastEvents=b.lastEvents||[],visibleEvents=lastEvents.slice(0,8),eventRow=e=>{const r=eventText(e);return `<li data-battle-event="${esc(e.actorId)}" data-order="${esc(e.order||'')}" class="battle-event"><span><b>${esc(r.name)}</b><span>${esc(r.text)}</span></span><small>${esc(r.result||'Không có thay đổi')}</small></li>`};
- const cell=u=>`<button class="stack-card ${b.selected===u.id||b.focused===u.id?'chosen':''}" data-action="stack" data-id="${u.id}" ${u.pool<=0?'disabled':''}><span>${u.side==='enemy'?'☠':'⚔'} ${esc(u.name)}${(b.hg21Tower||b.hg261Joint)&&u.side==='player'?' · 🧙 '+esc(u.heroName):''}</span><b>${u.count} quân</b><small>HP ${Math.ceil(u.pool)} · SPD ${format(u.spd)} · ${u.range>1?'Bắn xa':'Cận chiến'}${u.side==='enemy'&&inRange.has(u.id)?' · 🎯 Trong tầm đánh':''}</small></button>`;
- return `<div class="scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)}</h1></div><div class="scene-tools">${button('save-combat',{},'💾 Lưu',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${b.allies.filter(u=>u.pool>0).length+b.enemies.filter(u=>u.pool>0).length} nhóm hoạt động</span><span class="tag">${b.allies.filter(u=>u.pool>0).length} đội ta : ${b.enemies.filter(u=>u.pool>0).length} đội địch</span><span class="tag" id="battle-auto-clock" title="Bài đánh giá Sina ngày 21-01-2009 ghi trận tự chuyển sang đánh tự động nếu không có thao tác trong 10 giây; áp dụng ở đây theo tư liệu Trung Quốc.">${state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`}</span></div></div>
- <div class="battle-frame"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường fantasy; ô tương tác chỉ xuất hiện khi ra lệnh di chuyển. Có thể bật lưới hỗ trợ."></canvas>
-  <div class="battle-display-tools" role="group" aria-label="Bật tắt hiển thị chiến trường">
-   <button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn các ô lục giác chiến thuật">${battleViewPrefs.grid?'⬡ Hex: Bật':'⬡ Hex: Tắt'}</button>
-   <button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu từng đội quân">${battleViewPrefs.hp?'♥ HP: Bật':'♡ HP: Tắt'}</button>
-  </div></div>
- <div class="battle-ui"><div><span class="eyebrow">QUÂN TA • BẤM CHỌN ĐƠN VỊ</span><div class="stack-list">${b.allies.map(cell).join('')}</div></div><div><span class="eyebrow">QUÂN ĐỊCH • BẤM CHỌN MỤC TIÊU</span><div class="stack-list">${b.enemies.map(cell).join('')}</div></div></div>
- <div class="command-bar"><div><div class="eyebrow">MỆNH LỆNH</div><small class="muted">${selected?'Đơn vị: '+esc(selected.name):'Chọn đơn vị'}${focused?' • Mục tiêu: '+esc(focused.name):''}</small></div>
- ${button('battle',{cmd:'attack'},'⚔ ATTACK',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN QUÂN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY CHỌN Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'↗ ĐẶT ĐIỂM ĐẾN',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 STAND BY',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 FOCUS',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI QUÂN',false,'secondary')}
- ${button('auto',{},state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh',false,'secondary')}</div>
- ${movementModeId?'<p class="hint battle-move-prompt" id="battle-move-prompt">Ô viền xanh là tầm di chuyển trong lượt kế tiếp theo mô hình hiện tại. Chọn ô đích; đường xa hơn sẽ tiếp tục qua các lượt.</p>':selectedMoveTarget?'<p class="hint battle-move-order" id="battle-move-order">Đang tiến tới ('+selectedMoveTarget.x+', '+selectedMoveTarget.y+'). Lệnh được lưu; chọn ATTACK hoặc mệnh lệnh khác để đổi.</p>':'<p class="hint">Di chuyển: chọn đội quân → ĐẶT ĐIỂM ĐẾN → nhấp ô trống. Đội sẽ tiếp tục theo đường đi mỗi lượt.</p>'}
- ${(b.hg21Tower||b.hg261Joint)?towerSpellPanel(b):''}<div class="card hg04-spellbar" style="${(b.hg21Tower||b.hg261Joint)?'display:none':''}"><span class="eyebrow">PHÉP CHIẾN ĐẤU TRANG BỊ</span><div class="hg04-spells">${(state.heroes.find(h=>h.id===state.activeHero)?.equippedSpells||[]).filter(id=>E.spell(state,id)?.kind!=='castellan').map(id=>{const sp=E.spell(state,id);if(!sp)return '';const wait=(b.spellCooldown?.[id]||0)>b.turn,used=b.castTurn===b.turn;
- return button('cast',{id},`✨ ${esc(sp.name)} Lv.${state.heroMagic[id]||0}${wait?' ⏳':''}`,wait||used,'small secondary');}).join('')||'<span class="muted">Chưa có phép trang bị. Nghiên cứu và trang bị trong Magic Tower trước khi xuất chinh.</span>'}</div><p class="hint">${b.activeSpell?`Đang hiệu lực: ${esc(E.spell(state,b.activeSpell.id)?.name||'')} · hết vào lượt ${b.activeSpell.expiry}`:'Không có phép đang hiệu lực'} · Mỗi lượt dùng tối đa 1 phép</p></div>
-  <section class="battle-receipts" aria-label="Kết quả hành động lượt vừa qua" data-battle-receipts><div class="battle-receipts-heading"><h2>DIỄN BIẾN LƯỢT ${Math.max(0,b.turn-1)}</h2><span>${lastEvents.length} hành động · ghi nhận từ trận thực</span></div>${lastEvents.length?`<ol class="battle-event-list">${visibleEvents.map(eventRow).join('')}</ol>${lastEvents.length>8?`<details class="battle-event-more"><summary>Xem ${lastEvents.length-8} hành động còn lại</summary><ol class="battle-event-list">${lastEvents.slice(8).map(eventRow).join('')}</ol></details>`:''}`:'<p class="battle-receipts-empty">Biên nhận từng đội sẽ xuất hiện sau khi lượt đầu phân giải.</p>'}</section>
-  <div class="combat-journal">${b.history.slice(0,3).map(l=>`<div>• ${esc(l)}</div>`).join('')}</div><p class="hint">Thứ tự hành động lượt trước: ${(b.lastActOrder||[]).map(id=>[...b.allies,...b.enemies].find(u=>u.id===id)?.name).filter(Boolean).map(esc).join(' → ')||'Chưa có'}. Mục tiêu theo AI lượt trước: ${esc(targetSummary||'Chưa có')}.</p><p class="hint">Bản thử nghiệm: tối đa 7 nhóm quân, lượt theo tốc độ; bằng tốc độ thì xét vị trí trái sang phải, trên xuống dưới theo hướng dẫn Trung Quốc 2009. Stand By bỏ lượt đội được chọn; Lùi quân dịch đội đó về sau 1 ô (khoảng cách là mô hình). Tầm đánh, chọn mục tiêu và Arena đang hoạt động. Công thức sát thương, AI và cân bằng vẫn là mô phỏng.</p>`;
+  const result=[];
+  if(e.damage>0)result.push(`${format(e.damage)} sát thương`);
+  if(e.casualties>0)result.push(`${format(e.casualties)} quân tổn thất`);
+  if(e.death)result.push('đội bị tiêu diệt');
+  if(!result.length&&e.order==='defend')result.push('bỏ lượt');
+  else if(!result.length&&e.order==='retreat'&&!moved)result.push('không đổi vị trí');
+  else if(!result.length&&e.order==='move'&&!e.path.length)result.push('đã chạm đích');
+  else if(!result.length&&e.path.length)result.push('chưa vào tầm đánh');
+  return {name,text,result:result.join(' · ')};
+ };
+ const lastEvents=b.lastEvents||[],visibleEvents=lastEvents.slice(0,8);
+ const eventRow=e=>{const r=eventText(e);return `<li data-battle-event="${esc(e.actorId)}" data-order="${esc(e.order||'')}" class="battle-event"><span><b>${esc(r.name)}</b><span>${esc(r.text)}</span></span><small>${esc(r.result||'Không có thay đổi')}</small></li>`};
+ const spellIds=(state.heroes.find(h=>h.id===state.activeHero)?.equippedSpells||[]).filter(id=>E.spell(state,id)?.kind!=='castellan');
+ const spellButtons=spellIds.map(id=>{const sp=E.spell(state,id);if(!sp)return '';const wait=(b.spellCooldown?.[id]||0)>b.turn,used=b.castTurn===b.turn;return button('cast',{id},`✨ ${esc(sp.name)} Lv.${state.heroMagic[id]||0}${wait?' ⏳':''}`,wait||used,'small secondary')}).join('')||'<span class="muted">Chưa có phép trang bị</span>';
+ const spells=(b.hg21Tower||b.hg261Joint)?towerSpellPanel(b):`<div class="hg04-spells">${spellButtons}</div><small class="battle-spell-state">${b.activeSpell?`Đang hiệu lực: ${esc(E.spell(state,b.activeSpell.id)?.name||'')} · hết lượt ${b.activeSpell.expiry}`:'Không có phép đang hiệu lực'} · tối đa 1 phép/lượt</small>`;
+ const movementHint=movementModeId?'Chọn ô lục giác viền sáng để đặt điểm đến.':selectedMoveTarget?`Đang tiến tới ô (${selectedMoveTarget.x+1}, ${selectedMoveTarget.y+1}).`:'Chọn quân ta trên bàn cờ rồi đặt điểm đến.';
+ const autoLabel=state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`;
+ return `<div class="scene-title combat-scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)}</h1></div><div class="scene-tools">${button('save-combat',{},'💾',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${aliveAllies} : ${aliveEnemies}</span></div></div>
+ <div class="battle-frame battle-stage${combatDockOpen?'':' battle-stage-collapsed'}"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường lục giác. Bấm vào quân ta để chọn đội, quân địch để chọn mục tiêu; ra lệnh di chuyển rồi chọn ô trống."></canvas>
+  <details class="battle-command-dock" ${combatDockOpen?'open':''}>
+   <summary title="Thu gọn hoặc mở bảng lệnh" aria-label="Thu gọn hoặc mở bảng lệnh chiến đấu"><span class="battle-dock-label">⚔ LỆNH</span><span class="battle-dock-chevron" aria-hidden="true">⌄</span></summary>
+   <div class="battle-command-content">
+    <div class="battle-selection-readout"><div class="battle-side-readout"><small>QUÂN TA</small><b>${selectedName}</b><span>${selected?esc(statLine(selected)):'Chạm quân ta trên bàn cờ'}</span></div><div class="battle-side-readout enemy"><small>MỤC TIÊU</small><b>${focusedName}</b><span>${focused?esc(statLine(focused)):movementModeId?'Chọn ô lục giác để di chuyển':'Bấm quân địch trên ô'}</span></div></div>
+    <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div>
+    <div class="battle-display-tools" role="group" aria-label="Tùy chọn chiến trường"><button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn lưới lục giác">${battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu">${battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'}</button></div>
+    <div class="battle-action-grid">${button('battle',{cmd:'attack'},'⚔ ĐÁNH',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 CHỜ',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 TẬP TRUNG',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI',false,'secondary')}${button('auto',{},state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH',false,'auto secondary')}</div>
+    <p class="battle-move-prompt" id="battle-move-prompt">${movementHint}</p>
+    <details class="battle-spell-fold"><summary>✨ Phép chiến đấu · ${spellIds.length||((b.hg21Tower||b.hg261Joint)?'tướng':'0')}</summary><div>${spells}</div></details>
+   </div>
+  </details>
+ </div>
+ <details class="battle-report-fold"><summary>📜 Diễn biến lượt ${Math.max(0,b.turn-1)} · ${lastEvents.length} hành động</summary><section class="battle-receipts" aria-label="Kết quả hành động lượt vừa qua" data-battle-receipts><div class="battle-receipts-heading"><h2>LƯỢT ${Math.max(0,b.turn-1)}</h2><span>${lastEvents.length} hành động</span></div>${lastEvents.length?`<ol class="battle-event-list">${visibleEvents.map(eventRow).join('')}</ol>${lastEvents.length>8?`<details class="battle-event-more"><summary>Xem ${lastEvents.length-8} hành động còn lại</summary><ol class="battle-event-list">${lastEvents.slice(8).map(eventRow).join('')}</ol></details>`:''}`:'<p class="battle-receipts-empty">Biên nhận sẽ hiện sau khi lượt đầu phân giải.</p>'}</section><div class="combat-journal">${b.history.slice(0,3).map(l=>`<div>• ${esc(l)}</div>`).join('')}</div><p class="hint">Thứ tự lượt trước: ${(b.lastActOrder||[]).map(id=>[...b.allies,...b.enemies].find(u=>u.id===id)?.name).filter(Boolean).map(esc).join(' → ')||'Chưa có'} · AI: ${esc(targetSummary||'Chưa có')}.</p><p class="hint">Mô hình hiện tại: lượt theo tốc độ; Stand By bỏ lượt; Lùi quân dịch 1 ô. Công thức sát thương và AI vẫn đang mô phỏng.</p></details>`;
 }
 function sourceView(){return `<section class="hg28-source-view"><header class="hg28-source-hero"><span class="eyebrow">HEROES OF GAIA · CASTLE OF HEROES · 英雄之城</span><h1>📚 Tư liệu game gốc</h1><p>Chỉ nghiên cứu Heroes of Gaia 2009–2010. Đồ họa và engine của bản này được tạo độc lập.</p><div class="hg28-source-facts"><span><b>4</b> chủng tộc</span><span><b>40</b> binh chủng</span><span><b>5</b> tài nguyên</span><span><b>v07</b> save</span></div></header><div class="hg28-source-grid"><details class="hg28-source-fold"><summary>✓ Dữ liệu đã xác minh</summary><ul><li>Bốn chủng tộc; 40 quân, 10 bậc/chủng tộc.</li><li>Năm tài nguyên gold, lumber, ore, sulfur, crystal.</li><li>Town Hall, Barracks, Graveyard cho Undead, Tavern, Hero Tower, Arena, Warehouse, Magic Tower.</li><li>AP tối đa 150–700 và hồi 15–70/giờ theo hạng Fame (bảng rank 2009, SRC20); mỏ tài nguyên tiêu tốn 6 AP.</li><li>Các phép thành trì ghi trong catalog.</li></ul></details><details class="hg28-source-fold"><summary>◷ Các điểm đang mô phỏng</summary><ul><li>Giá và thời gian nâng công trình; cấp mở quân phụ và thời gian tuyển.</li><li>Xác suất/giá tướng, AI và sức mạnh NPC. Tavern làm mới mỗi giờ (SRC48); L6–L9 có một ứng viên xanh theo mô hình định tính.</li><li>Bonus mỏ, quà chiến đấu, tiêu hao và thời gian di chuyển.</li><li>Giá/tỷ lệ rơi trang bị, vị trí bản đồ, đa thành, PvP và multiplayer.</li></ul></details></div><details class="hg28-source-fold hg28-source-links"><summary>🔎 Mở danh mục nguồn lịch sử</summary><div class="source-links"><a href="https://heroesofgaia.wikidot.com/game-units" target="_blank" rel="noopener">Bảng 40 quân · Wikidot 2009</a><a href="https://heroesofgaia.wikidot.com/game-buildings" target="_blank" rel="noopener">Công trình</a><a href="https://games.sina.com.cn/o/z/yxzc/2009-08-24/0019346777.shtml" target="_blank" rel="noopener">Undead · Sina 2009</a><a href="https://heroesofgaia.wikidot.com/heroes-action" target="_blank" rel="noopener">AP & hành quân</a><a href="https://heroesofgaia.wikidot.com/game-spells" target="_blank" rel="noopener">Phép thuật</a><a href="https://heroesofgaia.wikidot.com/game-combat" target="_blank" rel="noopener">Chiến đấu</a><a href="https://web.17173.com/content/2009-10-25/1256486243.shtml" target="_blank" rel="noopener">Tavern · 17173 2009</a></div><p class="tiny muted">Wikidot ghi công nguồn và dẫn link; giấy phép CC BY-SA 3.0 được nêu trong SOURCES.md. Tư liệu tham khảo không bao gồm asset gốc.</p></details></section>`;}
 function paint(){
@@ -7508,6 +7609,7 @@ function paint(){
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
  }else if(tab==='combat'){
   const canvas=$('battle-canvas'),interaction={movementModeId,showGrid:battleViewPrefs.grid,showHP:battleViewPrefs.hp};
+  const dock=document.querySelector('.battle-command-dock');if(dock)dock.addEventListener('toggle',()=>{combatDockOpen=dock.open;dock.closest('.battle-stage')?.classList.toggle('battle-stage-collapsed',!dock.open)});
   // Match the canvas backing aspect to the rendered frame. The prior fixed
   // 1176x550 surface was squeezed into 960x540 landscape CSS, distorting the
   // art, soldier silhouettes and square ground cells non-uniformly.
@@ -7527,6 +7629,7 @@ function paint(){
 }
 function render(){
  const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');
+ if(enteringCombat)combatDockOpen=true;
  document.body.classList.toggle('combat-mode',!!state?.battle);
  const overlay=$('game-modal'),body=$('game-modal-body');
  const existingArmyOps=body?.querySelector('.hg28-army-ops:not(.hg28-army-quest)');if(existingArmyOps)armyOpsOpen=existingArmyOps.open;
@@ -7692,7 +7795,7 @@ setInterval(()=>{if(!state)return;const before=state.battle,training=state.train
   const clock=$('battle-auto-clock');
   if(clock)clock.textContent=state.battleAuto?'Đang tự động':
     'Tự động sau '+Math.max(0,Math.ceil((state.battle.autoUntil-Date.now())/1000))+' giây';
-  const toggle=document.querySelector('.command-bar [data-action="auto"]');
+  const toggle=document.querySelector('.battle-command-dock [data-action="auto"]');
   if(toggle)toggle.textContent=state.battleAuto?'⏸ Dừng tự đánh':'▶ Tự đánh';
  }else if(!changed){
   // Passive resource ticks must not destroy the control a player is editing.
