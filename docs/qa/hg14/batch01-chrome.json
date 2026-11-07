@@ -16,7 +16,7 @@
       "passed": true
     },
     {
-      "name": "human/human_3 actual sprite is drawn on canvas",
+      "name": "human/human_3 runtime-resolved art is drawn on canvas",
       "passed": true
     },
     {
@@ -48,7 +48,7 @@
       "passed": true
     },
     {
-      "name": "elf/elf_1 actual sprite is drawn on canvas",
+      "name": "elf/elf_1 runtime-resolved art is drawn on canvas",
       "passed": true
     },
     {
@@ -80,7 +80,7 @@
       "passed": true
     },
     {
-      "name": "orc/orc_1 actual sprite is drawn on canvas",
+      "name": "orc/orc_1 runtime-resolved art is drawn on canvas",
       "passed": true
     },
     {
@@ -112,7 +112,7 @@
       "passed": true
     },
     {
-      "name": "undead/undead_1 actual sprite is drawn on canvas",
+      "name": "undead/undead_1 runtime-resolved art is drawn on canvas",
       "passed": true
     },
     {
@@ -148,7 +148,7 @@
       "passed": true
     },
     {
-      "name": "elf/elf_2 actual sprite is drawn on canvas",
+      "name": "elf/elf_2 runtime-resolved art is drawn on canvas",
       "passed": true
     },
     {
@@ -172,7 +172,7 @@
       "passed": true
     }
   ],
-  "htmlSha256": "30302BECECDE4C08578D537FF056805610D311AFD0DCF16BB948A3959B3CC684",
+  "htmlSha256": "68B0A3E3DFD95AD9990B618527CBB08C96CB1758754D5C18DDA7C28B8952653F",
   "screenshots": [
     "docs\\evidence\\hg14\\battle-human-human_3-chrome.png",
     "docs\\evidence\\hg14\\battle-elf-elf_1-chrome.png",

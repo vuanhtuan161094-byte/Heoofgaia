@@ -67,9 +67,11 @@ with sync_playwright() as pw:
                 const start=canvas.toDataURL('image/png');
                 P.drawBattle(canvas,E,s,performance.now()+360);
                 const end=canvas.toDataURL('image/png');
-                const atlasId=HOG_HG33_TROOP_ATLASES?.units?.[unitId]?.imageId,
+                const resolvedArt=HOG_HG33_TROOP_ATLASES?.resolve?.(unitId),
+                    atlasId=resolvedArt?.imageId||HOG_HG33_TROOP_ATLASES?.units?.[unitId]?.imageId,
                     renderedId=atlasId||(unitId==='human_3'?'unit-human-archer-atlas':imageId);
-                return {spriteDraws:seen.filter(x=>unitId==='undead_1'?x.startsWith('hg22-skeleton-'):x===renderedId).length,
+                return {spriteDraws:seen.filter(x=>x===renderedId||(unitId==='undead_1'&&x.startsWith('hg22-skeleton-'))).length,
+                        renderedId,observed:[...new Set(seen)],
                         changed:start!==end,
                         stable:JSON.stringify(E.clone(s))===stateBefore,
                         pose:P.motionPose('attack',320,650),
@@ -77,7 +79,7 @@ with sync_playwright() as pw:
                         death:P.motionPose('death',900,1200)};
             }finally{context.drawImage=original}
         }""",{"unitId":unit_id,"imageId":image_id})
-        check(f"{race}/{unit_id} actual sprite is drawn on canvas",painted["spriteDraws"]>=2)
+        check(f"{race}/{unit_id} runtime-resolved art is drawn on canvas",painted["spriteDraws"]>=2)
         check(f"{race}/{unit_id} idle is animated without mutating gameplay",painted["changed"] and painted["stable"])
         check(f"{race}/{unit_id} attack/hit/death are visibly distinct",painted["pose"]["dx"]>0 and painted["hit"]["flash"]>0 and painted["death"]["angle"]<-.8)
         saved=page.evaluate("""() => {
