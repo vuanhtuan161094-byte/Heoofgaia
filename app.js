@@ -65,6 +65,12 @@ function resolveAutomaticBattleTurn(){
 // HG34-P0: update live combat readouts without replacing a canvas every turn.
 // The delegated action handlers remain on #app, and no canonical battle fields
 // are changed here. Open auxiliary panels can refresh independently.
+// Uniform rAF decimation avoids 75Hz/90Hz half-rate aliasing and protects
+// 8GB machines from unbounded 144Hz+ Canvas work. Presentation-only.
+function battleRenderStride(periodMs){
+ if(!Number.isFinite(periodMs)||periodMs<=0)return 1;
+ return periodMs<5.6?3:periodMs<9.8?2:1;
+}
 function syncCombatTurnHUD(){
  const b=state?.battle,canvas=$('battle-canvas');if(!b||!canvas)return;
  const allies=b.allies.filter(u=>u.pool>0).length,enemies=b.enemies.filter(u=>u.pool>0).length;
@@ -867,14 +873,25 @@ function paint(){
   };
   drawCombatFrame(undefined);
   if(P.hasAnimatedTroops(state.battle)){
-   const battle=state.battle;let lastFrame=0;
-   // Display frames at the monitor cadence (capped at ~60Hz), not the old
-   // enforced 24fps jitter. The RAF dies when navigation replaces the canvas.
+   const battle=state.battle;
+   let lastRaf=0,rafPeriod=0,samples=0,rafCount=0,stride=1;
+   // 60Hz-threshold filtering used to alias 75Hz monitors to ~37.5Hz:
+   // each 13.3ms RAF failed a 14.7ms test, so only every OTHER refresh
+   // was painted. Instead paint every native refresh up to ~100Hz; on
+   // 120/144/165/240Hz monitors skip uniformly by an integer stride.
+   // Never rewrite canonical turn clocks or insert a second animation loop.
    const animate=now=>{
     if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;
-    if(!lastFrame||now-lastFrame>=1000/60-2){
-     drawCombatFrame(now);lastFrame=now;
+    if(lastRaf){
+     const gap=now-lastRaf;
+     if(gap>=3&&gap<=36){
+      rafPeriod=rafPeriod?rafPeriod*.9+gap*.1:gap;
+      samples++;
+      if(samples===10||samples%120===0)stride=battleRenderStride(rafPeriod);
+     }
     }
+    lastRaf=now;
+    if(rafCount++%stride===0)drawCombatFrame(now);
     requestAnimationFrame(animate);
    };
    requestAnimationFrame(animate);
@@ -1126,5 +1143,5 @@ window.addEventListener('resize',()=>{if(!state?.battle&&$('world-canvas')){pain
 // Single deadline-aware auto scheduler; the economy tick above never resolves battle turns.
 setInterval(resolveAutomaticBattleTurn,120);
 setInterval(save,10000);window.addEventListener('pagehide',save);
-window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
+window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),battleRenderStride,render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
 })();
