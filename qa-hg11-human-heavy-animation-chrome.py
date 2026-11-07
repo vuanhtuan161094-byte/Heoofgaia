@@ -148,7 +148,7 @@ with sync_playwright() as playwright:
       // Skip construction/research time only. Recruitment, formation, March,
       // travel, combat actions, casualties and Save/Reload use real game paths.
       s.buildings.hall=4;s.buildings.barracks=4;s.buildings.blacksmith=1;
-      s.buildings.warehouse=10;s.spells.manufacturing=1;s.spells.bootcamp=1;s.speed=60;
+      s.buildings.warehouse=10;s.spells.manufacturing=1;s.spells.bootcamp=1;s.speed=1;
       for(const k of C.keys)s.res[k]=E.limits(s)[k];
       s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render();
       const u=C.units.human.find(x=>x.id==='human_4'),image=document.getElementById('unit-human-vanguard-atlas');
@@ -171,7 +171,7 @@ with sync_playwright() as playwright:
           queued["unitId"] == "human_4" and queued["count"] == 2 and queued["remaining"] > 0 and
           queued["gold"] < gold_before and queued["strict"], json.dumps(queued, ensure_ascii=False))
     page.evaluate("""(()=>{const s=HOG_APP_DEBUG.getState(),seconds=Math.ceil(s.training[0].remaining/s.speed)+1;
-      HOG_ENGINE.tick(s,s.lastTick+seconds*1000);s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()})()""")
+      HOG_ENGINE.tick(s,s.lastTick+seconds*1000);s.speed=60;s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()})()""")
     recruited = page.evaluate("""(()=>{const s=HOG_APP_DEBUG.getState();return {count:s.army.human_4,queue:s.training.length,
       strict:HOG_ENGINE.strictSave(s),unitCount:s.army.human_1}})()""")
     check("Real engine tick completes the queue and delivers both recruited troops",
@@ -214,7 +214,32 @@ with sync_playwright() as playwright:
           requestAnimationFrame(()=>{try{window.__heavyDeathFrameData=canvas.toDataURL('image/png')}catch(e){window.__heavyDeathCaptureError=String(e)}finally{window.__heavyDeathCapturePending=false}})}
         return draw.call(this,image,...args)};})()""")
     ap_before = page.evaluate("HOG_APP_DEBUG.getState().ap")
-    page.locator('[data-action="march"]').click()
+    # Use the current HG39 dispatch planner; the old direct-March control no
+    # longer exists. Build/confirm the Heavy Soldier through its real UI so
+    # this gate still exercises troop reservations, point limits and AP debit.
+    page.locator('.hg39-map-target [data-action="dispatch-open"]').click()
+    page.locator('.hg39-dispatch').wait_for(state="visible", timeout=5_000)
+    page.locator('[data-action="dispatch-auto"]').click()
+    heavy_row = page.locator('[data-dispatch-count="human_4"]')
+    if not heavy_row.count():
+        page.locator('#hg39-dispatch-unit').select_option('human_4')
+        page.locator('[data-action="dispatch-add-unit"]').click()
+        heavy_row = page.locator('[data-dispatch-count="human_4"]')
+    # Recruitment above intentionally queued two Heavy Soldiers, while the
+    # battle receipt gate verifies a single front-line stack. Reduce it with
+    # the planner's real decrement control, preserving the normal UI path.
+    for _ in range(3):
+        if not heavy_row.count() or int(heavy_row.input_value() or "0") <= 1:
+            break
+        page.locator('[data-action="dispatch-adjust"][data-id="human_4"][data-delta="-1"]').click()
+        page.wait_for_function("document.querySelector('[data-dispatch-count=\"human_4\"]')?.value === '1'", timeout=3_000)
+    check("The real dispatch planner includes the UI-recruited Heavy Soldier",
+          heavy_row.count() == 1 and heavy_row.input_value() == "1",
+          json.dumps({"heavyRows":heavy_row.count(),"heavyCount":heavy_row.input_value() if heavy_row.count() else None},ensure_ascii=False))
+    page.locator('[data-action="dispatch-confirm"]').wait_for(state="visible", timeout=5_000)
+    if page.locator('[data-action="dispatch-confirm"]').is_disabled():
+        raise AssertionError("The actual dispatch planner did not enable confirmation for the formed Heavy Soldier stack.")
+    page.locator('[data-action="dispatch-confirm"]').click()
     dispatched = page.evaluate("""(()=>{const s=HOG_APP_DEBUG.getState();return {target:s.march?.target,
       formation:s.expedition?.formation?.map(x=>x.unitId),heavy:s.expedition?.army?.human_4,ap:s.ap}})()""")
     check("Actual March dispatch spends AP and carries the formed Heavy Soldier stack",
@@ -281,9 +306,12 @@ with sync_playwright() as playwright:
       e.x=Math.min(heavy.x+1,10);e.y=heavy.y;e.atk=20;e.range=1;b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""",heavy_id)
     select_unit_on_battlefield(page,heavy_id,"Heavy Soldier before Hit animation")
     page.locator('[data-action="battle"][data-cmd="defend"]').click()
-    page.wait_for_timeout(260)
+    # Wait for the renderer's receipt timeline to reach the real impact window
+    # instead of sampling a fixed delay that can precede a staggered enemy.
+    page.wait_for_function("""()=>{const s=HOG_APP_DEBUG.getState(),b=s?.battle,h=b?.allies.find(u=>u.unitId==='human_4'),now=performance.now(),timeline=HOG_PAINTER.battleTimelineFor(b,now);
+      return !!h&&timeline?.items?.some(item=>item.event.targetId===h.id&&item.event.damage>0&&now>=item.impactAt&&now<item.effectEnd)}""", timeout=5_000)
     hit = page.evaluate("""(heavyId)=>{const s=HOG_APP_DEBUG.getState(),b=s?.battle,heavy=b?.allies.find(u=>u.id===heavyId),
-      event=b?.lastEvents?.find(e=>e.targetId===heavyId&&e.damage>0),hitIndex=b?.lastEvents?.findIndex(e=>e.targetId===heavyId&&e.damage>0)??-1,hitAge=260,visual=b&&heavy?HOG_PAINTER.battleVisualState(b,heavy,Math.min(hitIndex,7)*85+hitAge,performance.now()):null,
+      event=b?.lastEvents?.find(e=>e.targetId===heavyId&&e.damage>0),hitIndex=b?.lastEvents?.findIndex(e=>e.targetId===heavyId&&e.damage>0)??-1,now=performance.now(),visual=b&&heavy?HOG_PAINTER.battleVisualState(b,heavy,now,now):null,
       ctx=document.createElement('canvas').getContext('2d'),proto=CanvasRenderingContext2D.prototype,draw=proto.drawImage;let rendered=false,source=null;
       proto.drawImage=function(image,...args){if(image?.id==='unit-human-vanguard-atlas'&&args.length>=8)source={sx:args[0],sy:args[1]};return draw.call(this,image,...args)};
       try{rendered=!!visual&&HOG_PAINTER.battleUnitArt(ctx,80,180,false,visual,1,heavy)}finally{proto.drawImage=draw}
@@ -348,7 +376,7 @@ result = {
     "command": ".venv\\Scripts\\python.exe qa-hg11-human-heavy-animation-chrome.py",
     "browser": BROWSER,
     "game": "Anh Hùng Thời Loạn",
-    "sourceMode": "installed Chrome on the standalone local file:// HTML",
+    "sourceMode": "installed Chromium browser on the standalone local file:// HTML",
     "assetSource": "Original built-in image_gen atlas for Human Vanguard; assets/original/hg33/troops/human-vanguard-atlas.png; five action rows with eight frames each; no external image source.",
     "fixtureDisclosure": "A new Human game is created normally. The fixture seeds Hall 4, Barracks 4, Blacksmith 1, Manufacturing 1, Bootcamp 1 and prerequisite resources to skip prerequisite wait time. The UI recruits two Heavy Soldiers and spends real resources; the actual engine tick completes the queue. Real formation deploys one Heavy Soldier and militia; map selection, March, travel, Attack and Stand By controls resolve every player movement, damage and casualty. Enemy-only durability, position and attack values are adjusted to keep battle observable and cause a real engine casualty; no player positions, damage, death or battle result are set. The second Heavy Soldier stays at the home city. Enemy sprite mirroring is tested only on an isolated clone after reload.",
     "total": len(checks), "passed": sum(item["passed"] for item in checks),
