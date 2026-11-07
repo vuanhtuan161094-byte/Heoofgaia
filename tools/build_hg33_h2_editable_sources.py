@@ -251,9 +251,37 @@ def verify_ora(path: Path, asset: dict, entry: dict) -> None:
                 raise ValueError(f"OpenRaster thumbnail exceeds 256px: {entry['oraPath']}")
 
 
+def verify_ora_equivalent(actual_path: Path, expected_bytes: bytes, entry: dict) -> None:
+    """Compare the editable document independent of ZIP/PNG compressor versions.
+
+    Pillow/zlib can encode the same PNG pixels into different compressed bytes on
+    Windows and Linux. Validate the actual image pixels and exact layer stack
+    instead of requiring a cross-platform byte-identical compressed container.
+    The manifest still pins the hash of the committed ORA file itself.
+    """
+    with zipfile.ZipFile(actual_path, "r") as actual, zipfile.ZipFile(BytesIO(expected_bytes), "r") as expected:
+        actual_names = [info.filename for info in actual.infolist()]
+        expected_names = [info.filename for info in expected.infolist()]
+        if actual_names != expected_names or len(set(actual_names)) != len(actual_names):
+            raise ValueError(f"OpenRaster members differ from source: {entry['oraPath']}")
+        for name in expected_names:
+            actual_payload = actual.read(name)
+            expected_payload = expected.read(name)
+            if name.lower().endswith(".png"):
+                with Image.open(BytesIO(actual_payload)) as actual_image, Image.open(BytesIO(expected_payload)) as expected_image:
+                    actual_rgba = actual_image.convert("RGBA")
+                    expected_rgba = expected_image.convert("RGBA")
+                    if actual_rgba.size != expected_rgba.size or actual_rgba.tobytes() != expected_rgba.tobytes():
+                        raise ValueError(f"OpenRaster image pixels differ from source: {entry['oraPath']} {name}")
+            elif actual_payload != expected_payload:
+                raise ValueError(f"OpenRaster metadata differs from source: {entry['oraPath']} {name}")
+
+
 def main() -> None:
     check = "--check" in sys.argv[1:]
     assets = find_assets()
+    stored_manifest = load_json(OUT_MANIFEST) if check and OUT_MANIFEST.exists() else None
+    stored_entries = {row["key"]: row for row in (stored_manifest or {}).get("actors", [])}
     entries = []
     for pilot in PILOTS:
         lookup = pilot.get("unitId") or f"boss:{pilot['bossName']}"
@@ -262,11 +290,20 @@ def main() -> None:
         ora, entry = make_ora(pilot, assets[lookup])
         out_path = ROOT / entry["oraPath"]
         if check:
-            if not out_path.exists() or sha(out_path.read_bytes()) != entry["oraSha256"]:
-                raise ValueError(f"editable ORA missing or nondeterministic: {entry['oraPath']}")
+            stored = stored_entries.get(entry["key"])
+            if not out_path.exists() or stored is None:
+                raise ValueError(f"editable ORA or manifest entry missing: {entry['oraPath']}")
+            actual_bytes = out_path.read_bytes()
+            if len(actual_bytes) != stored.get("oraBytes") or sha(actual_bytes) != stored.get("oraSha256"):
+                raise ValueError(f"committed editable ORA hash differs from its manifest: {entry['oraPath']}")
+            verify_ora_equivalent(out_path, ora, entry)
+            entry["oraSha256"] = stored["oraSha256"]
+            entry["oraBytes"] = stored["oraBytes"]
         else:
             out_path.parent.mkdir(parents=True, exist_ok=True)
             out_path.write_bytes(ora)
+            entry["oraSha256"] = sha(ora)
+            entry["oraBytes"] = len(ora)
         verify_ora(out_path, assets[lookup], entry)
         entries.append(entry)
     manifest = {
