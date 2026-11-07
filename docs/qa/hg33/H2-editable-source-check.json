@@ -1,0 +1,84 @@
+{
+  "commit": "272245ccf43f27a14fe00d934352288a0c6d598c",
+  "result": "PASS",
+  "schema": "HG33-H2-EditableFrameLayerSources-v1",
+  "actors": 6,
+  "actionStacks": 30,
+  "independentFrameLayers": 240,
+  "sourceAtlasesAndOraHashesVerified": true,
+  "visibleFramePixelsMatchSource": true,
+  "oraLayerTreesAndImagesDecoded": true,
+  "anatomicalRigs": false,
+  "contactSheet": {
+    "path": "docs/evidence/hg33/H2-editable-sources/h2-pilot-atlas-review.png",
+    "sha256": "210816716c137f3c7be35f560e694911e1d65780c5aa7b1d3bc1f89a9f6cba96"
+  },
+  "assets": [
+    {
+      "key": "human-melee-heavy-soldier",
+      "name": "Heavy Soldier",
+      "sourceAtlas": "assets/original/hg33/troops/human-vanguard-atlas.png",
+      "sourceAtlasSha256": "2efa78c02a5eb647ff876a3ba35d10a083b90d642ff236255d549a1bc053a252",
+      "oraPath": "assets/original/hg33/layered-source/human-melee-heavy-soldier.ora",
+      "oraSha256": "a72886fa72de13222c6cae30c0ce1c479d8ea5dfc7f8d7613c3e21f840c68376",
+      "editableLayers": 40,
+      "supportLayers": 1,
+      "framePixelHashes": 40
+    },
+    {
+      "key": "elf-ranged-archer",
+      "name": "Elf Archer",
+      "sourceAtlas": "assets/original/hg33/troops/elf-4-atlas.png",
+      "sourceAtlasSha256": "4457eca5220834bde11c5735075dec9190f89fb7e49f4a20e444e3391f323f77",
+      "oraPath": "assets/original/hg33/layered-source/elf-ranged-archer.ora",
+      "oraSha256": "70bfe25fce40d2966d22c0f77c53b18fb109bd2ffcb94f6925e10c06e6c11ea0",
+      "editableLayers": 40,
+      "supportLayers": 1,
+      "framePixelHashes": 40
+    },
+    {
+      "key": "orc-brute-ogre",
+      "name": "Ogre",
+      "sourceAtlas": "assets/original/hg33/troops/orc-5-atlas.png",
+      "sourceAtlasSha256": "a9d25a4331cfb6bc7709d90ab4cbc5b9eeb09ee0903e869a60fd6b868f312cdf",
+      "oraPath": "assets/original/hg33/layered-source/orc-brute-ogre.ora",
+      "oraSha256": "945d500697b54dfd306a81404b103d42abb6357e91661a56d5e980d31ff6c911",
+      "editableLayers": 40,
+      "supportLayers": 1,
+      "framePixelHashes": 40
+    },
+    {
+      "key": "undead-skeleton-warrior",
+      "name": "Skeleton Warrior",
+      "sourceAtlas": "assets/original/hg33/action-atlases/undead-skeleton.png",
+      "sourceAtlasSha256": "c36bb24bb06e659ccc40cb6d624d2093981f651576ca9321a6bf12cf59f8178b",
+      "oraPath": "assets/original/hg33/layered-source/undead-skeleton-warrior.ora",
+      "oraSha256": "9e73a646ee8d0dd9ec404bbf66b98eb2d68ee010f7a8b36200b5a7843e03d2a6",
+      "editableLayers": 40,
+      "supportLayers": 1,
+      "framePixelHashes": 40
+    },
+    {
+      "key": "winged-dragon-green-dragon",
+      "name": "Green Dragon",
+      "sourceAtlas": "assets/original/hg33/troops/elf-9-atlas.png",
+      "sourceAtlasSha256": "fbc297799b1f228674bb90d8cdf4d86091ada642601a3197aca7c5868b9f0620",
+      "oraPath": "assets/original/hg33/layered-source/winged-dragon-green-dragon.ora",
+      "oraSha256": "1cacf4c6015066a85ec5c2d9c62dba92b14d479c7154991144b2dbeb9fcff151",
+      "editableLayers": 40,
+      "supportLayers": 1,
+      "framePixelHashes": 40
+    },
+    {
+      "key": "named-boss-azrael",
+      "name": "Azrael",
+      "sourceAtlas": "assets/original/hg33/action-atlases/azrael.png",
+      "sourceAtlasSha256": "92330bc07b5bbd8ea084b04ba52941d554e364f1e4bd52b8d1a51c0380b3f70c",
+      "oraPath": "assets/original/hg33/layered-source/named-boss-azrael.ora",
+      "oraSha256": "308f87496750e7eaa4af62ab21a57d6a24def715f2f1e5d0073f102722a386e6",
+      "editableLayers": 40,
+      "supportLayers": 1,
+      "framePixelHashes": 40
+    }
+  ]
+}
