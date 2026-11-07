@@ -1,11 +1,11 @@
 # AGENTS.md — Hẻoofgaia AI Engineering Contract
 
 ## OWNER OVERRIDE — HG37 ONE PLAYABLE RELEASE & BUGFIX FREEZE · 07/11/2026
-- Current owner priority: **NO feature expansion.** Protect and merge Windows-local original Open Field V2 into the existing GitHub branch and **ONE** standalone \`Play-Heoofgaia-HG11.html\` release. Fix current UI/gameplay and harden tests.
-- Codex must read \`docs/CODEX_EXECUTE_HG37_ONE_GAME_MERGE_FIX_20261107.md\` before changing code. It supersedes older HG28/HG33 roadmaps where they conflict with freeze.
-- Known current RED CI #444 at \`4b612267\`: 1280×720 city rail clips 1/13 construction buttons after adding benefit brief; fix real layout, **never weaken QA**.
-- **Windows-local files are not on remote GitHub:** safeguard \`E:\Heoofgaia\` local changes and Open Field V2 image bytes before pulling/merging; no destructive git reset/clean or user Save loss. Do not claim V2 integrated until source committed and CI browser screen verifies it.
-- Single repo, single existing branch \`feature/hog1-research-to-playable-20261102\`, single root HTML, Save v07 exactly-once, normal 3×2 tower/boss ownership and genuine resource debits. Keep the latest exact HEAD CI green before announcing final playable release.
+- Current owner priority: **NO feature expansion.** Protect and merge Windows-local original Open Field V2 into the existing GitHub branch and **ONE** standalone `Play-Heoofgaia-HG11.html` release. Fix current UI/gameplay and harden tests.
+- Codex must read `docs/CODEX_EXECUTE_HG37_ONE_GAME_MERGE_FIX_20261107.md` before changing code. It supersedes older HG28/HG33 roadmaps where they conflict with freeze.
+- Known current RED CI #444 at `4b612267`: 1280×720 city rail clips 1/13 construction buttons after adding benefit brief; fix real layout, **never weaken QA**.
+- **Windows-local files are not on remote GitHub:** safeguard `E:\Heoofgaia` local changes and Open Field V2 image bytes before pulling/merging; no destructive git reset/clean or user Save loss. Do not claim V2 integrated until source committed and CI browser screen verifies it.
+- Single repo, single existing branch `feature/hog1-research-to-playable-20261102`, single root HTML, Save v07 exactly-once, normal 3×2 tower/boss ownership and genuine resource debits. Keep the latest exact HEAD CI green before announcing final playable release.
 
 
 ## OWNER OVERRIDE — HG33 TRUE HEX + ALL-ORIGINAL COMBAT ART · 06/11/2026
