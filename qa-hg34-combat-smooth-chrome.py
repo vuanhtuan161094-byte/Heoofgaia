@@ -100,13 +100,18 @@ with sync_playwright() as pw:
             deathDuring:deadDuring?.action||null,
             deathAfter:deadAfter?.action||null
           };
-          return {valid:E.strictSave(s),cachedLayout:a===a2,motionOracle,
+          const renderStride=Object.fromEntries([60,75,90,120,144,165,240].map(hz=>
+            [hz,window.HOG_APP_DEBUG.battleRenderStride(1000/hz)]));
+          return {valid:E.strictSave(s),cachedLayout:a===a2,motionOracle,renderStride,
             canvasW:c.width,canvasH:c.height,
             battleId:b.target,initialTurn:b.turn};
         }""")
         label=f'{width}x{height}'
         check(label+' initial real NPC battle and reusable layout',
               fixture['valid'] and fixture['cachedLayout'] and fixture['canvasW']>300 and fixture['canvasH']>250,fixture)
+        check(label+' 60/75/90Hz display cadence does not fall to half monitor refresh',
+              fixture['renderStride']=={'60':1,'75':1,'90':1,'120':2,'144':2,'165':2,'240':3},
+              fixture['renderStride'])
         check(label+' delayed walk starts at origin and dying actor stays visible before cue',
               bool(fixture['motionOracle']['sourceCadence']) and
               fixture['motionOracle']['before']['x']==3 and
