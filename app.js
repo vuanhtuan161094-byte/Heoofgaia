@@ -50,11 +50,58 @@ function resolveAutomaticBattleTurn(){
   if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';
   if(out.type==='lose')tab=wasTower?'tower':'heroes';
   if(s.battle===b)b.autoUntil=Date.now()+BATTLE_AUTO_TURN_DELAY_MS;
-  save();render();
+  save();
+  // On a continuing auto turn, updating only the visible combat readouts keeps
+  // the SAME canvas/RAF and decoded sprite atlases alive. Full render is only
+  // needed when the battle ends or the scene changes.
+  if(s.battle===b&&$('battle-canvas'))syncCombatTurnHUD();
+  else render();
  }catch(e){
   console.warn('Auto battle',e);s.battleAuto=false;
   if(s.battle===b)b.autoUntil=Date.now()+BATTLE_AUTO_DELAY_MS;
  }finally{battleAutoPulseBusy=false}
+}
+// HG34-P0: update live combat readouts without replacing a canvas every turn.
+// The delegated action handlers remain on #app, and no canonical battle fields
+// are changed here. Open auxiliary panels can refresh independently.
+function syncCombatTurnHUD(){
+ const b=state?.battle,canvas=$('battle-canvas');if(!b||!canvas)return;
+ const allies=b.allies.filter(u=>u.pool>0).length,enemies=b.enemies.filter(u=>u.pool>0).length;
+ const tag=document.querySelector('.combat-scene-title .tag');
+ if(tag)tag.textContent='Lượt '+b.turn+' · '+allies+' : '+enemies;
+ const selected=b.allies.find(u=>u.id===b.selected),focused=b.enemies.find(u=>u.id===b.focused);
+ const sides=document.querySelectorAll('.battle-selection-readout .battle-side-readout');
+ for(const [node,actor,prompt] of [[sides[0],selected,'Chạm quân ta trên bàn cờ'],[sides[1],focused,'Bấm quân địch trên ô']]){
+  if(!node)continue;
+  const title=node.querySelector('b'),stats=node.querySelector('span');
+  if(title)title.textContent=actor?.name||prompt;
+  if(stats)stats.textContent=actor?format(actor.count)+' quân · '+format(Math.ceil(actor.pool))+' HP':prompt;
+ }
+ const clock=$('battle-auto-clock');
+ if(clock)clock.textContent=state.battleAuto?'Đang tự động':'Tự động sau '+Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))+' giây';
+ const auto=document.querySelector('.battle-command-dock [data-action="auto"]');
+ if(auto)auto.textContent=state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH';
+ const move=document.querySelector('.battle-command-dock [data-action="move-mode"]');
+ if(move)move.disabled=!selected||selected.pool<=0;
+ const report=document.querySelector('.battle-report-fold');
+ if(report){
+  const summary=report.querySelector('summary');
+  if(summary)summary.textContent='📜 Diễn biến lượt '+Math.max(0,b.turn-1)+' · '+(b.lastEvents||[]).length+' hành động';
+ }
+ // Updating the expanded report/spell list must not destroy the battle
+ // canvas or the 60Hz animation timeline.
+ const spell=document.querySelector('.battle-spell-fold');
+ if(report?.open||spell?.open){
+  const temp=document.createElement('template');temp.innerHTML=combatView();
+  if(report?.open){
+   const next=temp.content.querySelector('.battle-report-fold');
+   if(next)report.innerHTML=next.innerHTML;
+  }
+  if(spell?.open){
+   const next=temp.content.querySelector('.battle-spell-fold');
+   if(next){spell.innerHTML=next.innerHTML;spell.open=true;}
+  }
+ }
 }
 function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
 function fail(fn){try{const oldTab=tab;if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;fn();if(oldTab!==tab)modalOffset=0;save();render();}catch(e){toast(e.message||String(e))}}
@@ -663,7 +710,19 @@ function paint(){
    canvas.height=Math.max(1,Math.round(rect.height));
   }
   P.drawBattle(canvas,E,state,undefined,interaction);
-  if(P.hasAnimatedTroops(state.battle)){const battle=state.battle;let lastFrame=0;const animate=now=>{if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;if(now-lastFrame>=1000/24){P.drawBattle(canvas,E,state,now,interaction);lastFrame=now}requestAnimationFrame(animate)};requestAnimationFrame(animate)}
+  if(P.hasAnimatedTroops(state.battle)){
+   const battle=state.battle;let lastFrame=0;
+   // Display frames at the monitor cadence (capped at ~60Hz), not the old
+   // enforced 24fps jitter. The RAF dies when navigation replaces the canvas.
+   const animate=now=>{
+    if(!state||state.battle!==battle||$('battle-canvas')!==canvas)return;
+    if(!lastFrame||now-lastFrame>=1000/60-2){
+     P.drawBattle(canvas,E,state,now,interaction);lastFrame=now;
+    }
+    requestAnimationFrame(animate);
+   };
+   requestAnimationFrame(animate);
+  }
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;
     const grid=E.BATTLE_GRID||{cols:12,rows:9,top:173,bottom:185};
     if(movementModeId){const cell=P.battleCellAt(canvas,x,y,E);if(!cell){toast('Hãy chọn một ô nằm trong lưới chiến trường.');return}fail(()=>{markBattleInput();const out=E.battleAct(state,'move',{x:cell.x,y:cell.y});movementModeId=null;const move=state.battle?.lastMoves?.find(m=>m.unitId===state.battle.selected);if(move)toast(`${state.battle.allies.find(u=>u.id===move.unitId)?.name||'Đội quân'} di chuyển ${move.steps} ô tới (${move.to.x}, ${move.to.y}).`);if(out.type==='win'){tab='map';toast('Chiến thắng!')}else if(out.type==='lose'){tab='heroes';toast('Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab='map';toast('Đã kết thúc giao tranh.')}});return}

@@ -677,8 +677,17 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
 function battleRectOverlap(a,b,pad=0){
  return a.x<b.x+b.w+pad&&a.x+a.w+pad>b.x&&a.y<b.y+b.h+pad&&a.y+a.h+pad>b.y;
 }
+// Label collision resolution has a wide candidate search and must never be
+// repeated 60 times a second while actors remain on the same canonical cells.
+// A WeakMap keeps this strictly presentation-only: no Save v07 fields added.
+const battleLayoutCache=new WeakMap();
 function battleUnitLayout(b,camera,width,height){
- const entries=[...b.allies,...b.enemies].map(u=>{
+ const actors=[...b.allies,...b.enemies];
+ const signature=width+'x'+height+'|'+camera.radius+'|'+b.turn+'|'+actors.map(u=>
+  [u.id,u.side,u.unitId,u.name,u.x,u.y,u.pool>0?1:0].join(':')).join('|');
+ const cached=battleLayoutCache.get(b);
+ if(cached?.signature===signature)return cached.entries;
+ const entries=actors.map(u=>{
   const pt=camera.center(u.x,u.y);
   const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
   return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile};
@@ -750,6 +759,7 @@ function battleUnitLayout(b,camera,width,height){
    leader:best.mode!=='above'&&best.mode!=='high'};
   reserved.push(e.label);
  }
+ battleLayoutCache.set(b,{signature,entries});
  return entries;
 }
 function battleSpriteScale(height,row,rows=9,radius=null){
