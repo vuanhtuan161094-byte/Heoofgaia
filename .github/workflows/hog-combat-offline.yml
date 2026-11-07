@@ -31,6 +31,10 @@ jobs:
           python build_offline.py
           sha256sum Play-Heoofgaia-HG11.html > /tmp/heoofgaia-second.sha
           diff -u /tmp/heoofgaia-first.sha /tmp/heoofgaia-second.sha
+      - name: HG33 H0 inventory and H5 external-art release gate
+        run: |
+          node --check qa-hg33-inventory.cjs
+          node qa-hg33-inventory.cjs
       - name: QA source-registered 48-frame Human Archer PNG atlas
         run: python qa-hg143-archer-art.py
       - name: Check gameplay and battle viewport
@@ -123,24 +127,24 @@ jobs:
           node --check art-pack.js
           node --check qa-hg19-art.cjs
           node qa-hg19-art.cjs
-      - name: HG19.1 free-source sprites and icon license regression
+      - name: HG33 archive-only SpriteCook and icon-license provenance
         run: |
           node --check art-free-sprites.js
           node --check art-free-icons-core.js
           node --check art-free-icons-extra.js
           node --check qa-hg191-assets.cjs
           node qa-hg191-assets.cjs
-      - name: HG19.2 24 species-matched CC0 source sprite integrity
+      - name: HG33 archive-only CC0 sprite provenance and replacement coverage
         run: |
           node --check art-hg192-sprites.js
           node --check qa-hg192-assets.cjs
           node qa-hg192-assets.cjs
-      - name: HG19.3 final seven troop PNGs and 40/40 art inventory
+      - name: HG33 archive-only mixed sprite provenance and replacement coverage
         run: |
           node --check art-hg193-sprites.js
           node --check qa-hg193-assets.cjs
           node qa-hg193-assets.cjs
-      - name: HG22.1 five-action authentic Skeleton source integrity
+      - name: HG33 archive-only Skeleton provenance and original-atlas replacement
         run: |
           node --check art-hg22-skeleton.js
           node --check qa-hg22-skeleton.cjs
@@ -178,14 +182,10 @@ jobs:
         run: python qa-hg33-elf-scout-chrome.py
       - name: HG19 Chromium SVG decode and visual contact sheet
         run: python qa-hg19-art-chrome.py
-      - name: HG19.1 real PNG sprite frames and Game-Icons Chrome acceptance
-        run: python qa-hg191-assets-chrome.py
-      - name: HG19.2 Chromium source sprite decode and battle readability
-        run: python qa-hg192-assets-chrome.py
-      - name: HG19.3 seven PNGs, 35 combat renders and 40-unit Chromium check
-        run: python qa-hg193-assets-chrome.py
-      - name: HG22.1 real Chrome five-action Skeleton and offline art proof
-        run: python qa-hg22-skeleton-chrome.py
+      - name: HG33 H5 real Chromium offline art exclusion and 48 unit thumbnails
+        run: |
+          python -m py_compile qa-hg33-release-art-chrome.py
+          python qa-hg33-release-art-chrome.py
       - name: Chrome battlefield viewport, pointer and Save/Reload acceptance
         run: python qa-hg09-combat-viewport-chrome.py
       - name: HG18 actual quest forging rebirth UI Chrome gate
@@ -357,48 +357,15 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
-      - name: Upload HG22.1 battle art source and real Chrome frames
+      - name: Upload HG33 H5 original unit art and no-external release evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: HG22.1-Undead-Skeleton-50-frames
+          name: HG33-H5-Original-Offline-Art
           path: |
-            docs/qa/hg22/skeleton-source.json
-            docs/qa/hg22/skeleton-chrome.json
-            docs/qa/hg22/skeleton-five-actions.png
-          retention-days: 7
-          if-no-files-found: warn
-      - name: Upload HG19.3 final seven source images and Chrome evidence
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: HG19.3-final-40-troop-art
-          path: |
-            docs/qa/hg193/assets.json
-            docs/qa/hg193/chrome-art.json
-            docs/qa/hg193/contact-sheet.png
-          retention-days: 7
-          if-no-files-found: warn
-      - name: Upload HG19.2 sourced-creature artwork and QA independently
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: HG19.2-fantasy-source-creatures
-          path: |
-            docs/qa/hg192/source-assets.json
-            docs/qa/hg192/chrome-art.json
-            docs/qa/hg192/creature-contact-sheet.png
-          retention-days: 7
-          if-no-files-found: warn
-      - name: Upload HG19.1 source-art screenshots and QA independently
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: HG19.1-free-fantasy-sprite-review
-          path: |
-            docs/qa/hg191/free-assets.json
-            docs/qa/hg191/free-assets-chrome.json
-            docs/qa/hg191/free-sprites-and-icons.png
+            docs/qa/hg33/H5-release-assets/chromium.json
+            docs/qa/hg33/H5-release-assets/source-provenance/*.json
+            docs/evidence/hg33/H5-release-assets/*.png
           retention-days: 7
           if-no-files-found: warn
 

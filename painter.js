@@ -411,7 +411,7 @@ function animatedArcher(c,x,y,enemy,visual,k=1){
  c.restore();return true;
 }
 function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
- const A=root.HOG_ART_PACK,profile=bossSprite(unitName)||MOTION_SPRITES[unitId]||root.HOG_HG28_TROOPS?.profile(unitId)||root.HOG_HG192_SPRITES?.profile(unitId)||root.HOG_HG193_SPRITES?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
+ const A=root.HOG_ART_PACK,profile=bossSprite(unitName)||MOTION_SPRITES[unitId]||root.HOG_HG28_TROOPS?.profile(unitId)||(A?.hasUnit(unitId)?{id:null,size:112,pivot:118/128}:null);
  if(!profile||!visual||typeof document==='undefined')return false;
  const image=profile.id?document.getElementById(profile.id):A.unitImage(unitId);
  if(!image?.complete||!image.naturalWidth)return false;
@@ -527,7 +527,9 @@ function battleUnitArt(c,x,y,enemy,visual,k,u){
  if(troopAtlasDefinition(u.unitId,u.name))return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId,u.name);
  if(u.unitId==='human_4')return animatedSoldier(c,x,y,enemy,visual,k);
  if(u.unitId==='human_3')return animatedArcher(c,x,y,enemy,visual,k)||motionSprite(c,x,y,u.unitId,enemy,visual,k,u.name);
- return root.HOG_HG28_RIGS?.draw(c,x,y,u.unitId,enemy,visual,k)||root.HOG_HG22_SKELETON?.draw(c,x,y,u.unitId,enemy,visual,k)||root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId,enemy,visual,k)||root.HOG_FREE_SPRITES?.draw(c,x,y,u.unitId,enemy,visual,k)||motionSprite(c,x,y,u.unitId,enemy,visual,k,u.name);
+ // Catalog actors use the original HG33 atlases above. Any uncovered NPC
+ // falls back only to project-authored rigs or locally drawn geometry.
+ return root.HOG_HG28_RIGS?.draw(c,x,y,u.unitId,enemy,visual,k)||motionSprite(c,x,y,u.unitId,enemy,visual,k,u.name);
 }// HG33-H1: one real pointy-top odd-r hex projection shared with engine.js.
 // Canonical Save v07 positions remain integer offset coordinates.
 function battleProjection(canvas,E){
@@ -678,7 +680,7 @@ function battleRectOverlap(a,b,pad=0){
 function battleUnitLayout(b,camera,width,height){
  const entries=[...b.allies,...b.enemies].map(u=>{
   const pt=camera.center(u.x,u.y);
-  const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId)||root.HOG_HG193_SPRITES?.profile(u.unitId)||root.HOG_HG192_SPRITES?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
+  const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
   return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile};
  });
  for(const side of ['player','enemy']){

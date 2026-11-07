@@ -168,11 +168,14 @@ function unitImage(id){
 function unitHTML(id,size){
  if(!unitSVG(id))return '';
  const px=Math.max(24,Math.min(128,Number(size)||52));
- const imported=root.HOG_FREE_SPRITES?.thumb(id,px);if(imported)return imported;
- const skeletal=root.HOG_HG22_SKELETON?.thumb(id,px);if(skeletal)return skeletal;
+ // The offline game uses project-authored HG33 Idle crops first. Keep the
+ // eight established high-tier masters intact, then use the atlas-derived
+ // thumbnail for every other roster entry. The old licensed imports remain
+ // in the source archive for provenance tests but are not runtime art.
  const highTier=root.HOG_HG28_TROOPS?.thumb(id,px);if(highTier)return highTier;
- const sourceArt=root.HOG_HG192_SPRITES?.thumb(id,px);if(sourceArt)return sourceArt;
- const finalArt=root.HOG_HG193_SPRITES?.thumb(id,px);if(finalArt)return finalArt;
+ const original=typeof document==='undefined'?null:document.getElementById('hg33-thumb-'+id);
+ const src=original?.getAttribute('src')||original?.dataset?.hg33ThumbSrc;
+ if(src)return '<img class="hog-unit-thumb hg33-original-thumb" data-hog-unit="'+id+'" width="'+px+'" height="'+px+'" alt="" loading="lazy" src="'+src+'">';
  return '<img class="hog-unit-thumb" data-hog-unit="'+id+'" width="'+px+'" height="'+px+'" alt="" loading="lazy" src="'+unitSrc(id)+'">';
 }
 const ICON_GROUPS={

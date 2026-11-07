@@ -29,15 +29,22 @@ for(const original of ['human_1','human_2','human_3','human_4','human_7','elf_1'
  assert.equal(X.profile(original),null,'preserve existing master '+original);
 }
 const html=fs.readFileSync('index.html','utf8'),builder=fs.readFileSync('build_offline.py','utf8');
-const painter=fs.readFileSync('painter.js','utf8'),art=fs.readFileSync('art-pack.js','utf8');
-assert(html.includes('<script src="art-hg192-sprites.js"></script>'));
-assert(builder.includes("'art-hg192-sprites.js'"));
-assert(builder.includes("hg192['units']"));
-assert(painter.includes('root.HOG_HG192_SPRITES?.profile(unitId)'));
-assert(painter.includes('imageSmoothingEnabled=false'));
-assert(art.includes('root.HOG_HG192_SPRITES?.thumb'));
-for(const unit of M.units)assert(html.includes('src="'+unit.path+'"'),unit.id+' DOM preload');
-const output={status:'PASS',sourceFileCount:M.units.length,uniqueSourceBinaryCount:new Set(M.units.map(u=>u.sourceBlob)).size,format:'PNG originals, 32px pixel art',animation:'existing event-driven Idle/Walk/Attack/Hit/Death',engineChanged:false,saveChanged:false};
-fs.mkdirSync('docs/qa/hg192',{recursive:true});
-fs.writeFileSync('docs/qa/hg192/source-assets.json',JSON.stringify(output,null,2)+'\n');
-console.log('HG19.2 PASS 24/24 curated CC0 species-matched source sprites and offline wiring');
+const painter=fs.readFileSync('painter.js','utf8'),release=fs.readFileSync('Play-Heoofgaia-HG11.html','utf8');
+const bundledScripts=builder.match(/for js in \[(.*?)\]:/s)?.[1]||'';
+assert(!html.includes('<script src="art-hg192-sprites.js"></script>'));
+assert(!bundledScripts.includes("'art-hg192-sprites.js'"));
+assert(!builder.includes("hg192['units']"));
+assert(!painter.includes('HOG_HG192_SPRITES'));
+for(const unit of M.units){
+ const bytes=fs.readFileSync(unit.path);
+ assert(!html.includes('src="'+unit.path+'"'),unit.id+' must not preload external art');
+ assert(!release.includes(bytes.toString('base64')),unit.id+' bytes must not ship');
+}
+const original=JSON.parse(fs.readFileSync('assets/generated/hg33/animation/troop-atlas-manifest.json','utf8'));
+const originalAdditional=JSON.parse(fs.readFileSync('assets/generated/hg33/animation/additional-atlas-manifest.json','utf8'));
+const replaced=new Set([...original.assets.map(x=>x.unitId),...originalAdditional.assets.filter(x=>x.kind==='core').map(x=>x.unitId)]);
+for(const unit of M.units)assert(replaced.has(unit.id),unit.id+' is replaced by an original HG33 atlas');
+const output={status:'PASS_ARCHIVE_ONLY',sourceFileCount:M.units.length,uniqueSourceBinaryCount:new Set(M.units.map(u=>u.sourceBlob)).size,format:'historical CC0 PNG source sprites',combatRuntime:'excluded; every affected catalog actor resolves to an original HG33 atlas',offlineReleaseBytesEmbedded:false,engineChanged:false,saveChanged:false};
+fs.mkdirSync('docs/qa/hg33/H5-release-assets/source-provenance',{recursive:true});
+fs.writeFileSync('docs/qa/hg33/H5-release-assets/source-provenance/hg192-archive.json',JSON.stringify(output,null,2)+'\n');
+console.log('HG33 H5 SOURCE AUDIT PASS: 24 curated external sprites are excluded and replaced');

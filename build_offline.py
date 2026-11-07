@@ -3,10 +3,12 @@ Run: python build_offline.py
 """
 from pathlib import Path
 import base64
+from io import BytesIO
 import json
 import re
 import subprocess
 import sys
+from PIL import Image
 folder=Path(__file__).parent
 subprocess.check_call([sys.executable,str(folder/'tools/generate_hg143_archer.py')])
 subprocess.check_call([sys.executable,str(folder/'tools/prepare_hg33_troop_atlases.py')])
@@ -42,11 +44,25 @@ for item in extra_atlases['assets']:
     label=item.get('unitId') or item.get('bossName')
     atlas_tags.append(f'<img id="{item["imageId"]}" data-hg33-atlas-src="{item["runtimePath"]}" data-additional-animation="{label}:40-atlas-frames" width="{item["atlasDimensions"][0]}" height="{item["atlasDimensions"][1]}" alt="">')
 html=html.replace(atlas_marker,'\n'.join(atlas_tags))
+thumb_marker='<!-- HG33_UNIT_THUMB_IMAGES -->'
+assert html.count(thumb_marker)==1,(thumb_marker,html.count(thumb_marker))
+runtime_atlases=[item for item in hg33['assets'] if item['unitId'] not in overridden_core_units]+extra_atlases['assets']
+unit_assets={item['unitId']:item for item in runtime_atlases if item.get('unitId')}
+assert set(unit_assets)==expected_units|expected_rewards,(len(unit_assets),sorted((expected_units|expected_rewards)-set(unit_assets)))
+thumb_tags=[]
+for unit_id,item in sorted(unit_assets.items()):
+    with Image.open(folder/item['sourcePath']) as atlas:
+        frame=atlas.convert('RGBA').crop((0,0,192,204)).resize((96,102),Image.Resampling.LANCZOS)
+        thumb=BytesIO()
+        frame.save(thumb,format='WEBP',lossless=True,method=6)
+    encoded=base64.b64encode(thumb.getvalue()).decode('ascii')
+    thumb_tags.append(f'<img id="hg33-thumb-{unit_id}" data-hg33-thumb-src="data:image/webp;base64,{encoded}" width="96" height="102" alt="">')
+html=html.replace(thumb_marker,'\n'.join(thumb_tags))
 for css in ['style.css','style-hg03.css']:
     pattern=re.compile(r'<link\s+rel="stylesheet"\s+href="'+re.escape(css)+r'">')
     html,n=pattern.subn(lambda _: '<style>\n'+(folder/css).read_text(encoding='utf-8').rstrip()+ '\n</style>',html)
     assert n==1,(css,n)
-for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js','hg27-farm-exchange.js','hg29-loot.js','hg30-troop-ascension.js','hg31-legendary-gear.js','art-free-icons-core.js','art-free-icons-extra.js','art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-hg22-skeleton.js','art-hg28-troops.js','art-hg28-rigs.js','art-pack.js','art-hg33-troop-atlases.js','art-hg33-additional-atlases.js','painter.js','app.js']:
+for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js','hg27-farm-exchange.js','hg29-loot.js','hg30-troop-ascension.js','hg31-legendary-gear.js','art-free-icons-core.js','art-free-icons-extra.js','art-hg28-troops.js','art-hg28-rigs.js','art-pack.js','art-hg33-troop-atlases.js','art-hg33-additional-atlases.js','painter.js','app.js']:
     pattern=re.compile(r'<script\s+src="'+re.escape(js)+r'"></script>')
     html,n=pattern.subn(lambda _: '<script>\n'+(folder/js).read_text(encoding='utf-8').rstrip()+'\n</script>',html)
     assert n==1,(js,n)
@@ -125,7 +141,6 @@ for building_asset in ['assets/generated/hg11/buildings/human-barracks.png','ass
     data=base64.b64encode((folder/building_asset).read_bytes()).decode('ascii')
     html=html.replace(needle,f'src="data:image/png;base64,{data}"')
 assert hg33['atlasCount']==38 and len(hg33['assets'])==38
-runtime_atlases=[item for item in hg33['assets'] if item['unitId'] not in overridden_core_units]+extra_atlases['assets']
 for item in runtime_atlases:
     asset=item['runtimePath']
     needle=f'data-hg33-atlas-src="{asset}"'
@@ -136,49 +151,15 @@ for item in runtime_atlases:
 assert 'assets/generated/hg33/animation/runtime/' not in html
 assert 'assets/original/hg33/troops/' not in html
 assert 'assets/licensed/kaykit-heavy-soldier/rendered/' not in html
-# HG19.1: Embed CC0 sprites locally in offline HTML.
-for asset in [
-    'assets/licensed/spritecook/human-scout/idle.png',
-    'assets/licensed/spritecook/human-elite/idle.png',
-    'assets/licensed/spritecook/human-elite/walk.png',
-    'assets/licensed/spritecook/human-elite/attack.png',
-    'assets/licensed/spritecook/human-elite/hit.png',
-    'assets/licensed/spritecook/human-elite/death.png',
-]:
-    needle=f'src="{asset}"'
-    assert html.count(needle)==1,(asset,html.count(needle))
-    html=html.replace(needle,'src="data:image/png;base64,'+base64.b64encode((folder/asset).read_bytes()).decode('ascii')+'"')
-assert 'assets/licensed/spritecook/' not in html
-assert 'assets/licensed/kaykit-heavy-soldier/rendered/' not in html
-# HG19.2: manifest-driven official sprite imports, one preloaded PNG per troop ID.
-hg192=json.loads((folder/'assets/licensed/dcss-cc0/unit-manifest.json').read_text(encoding='utf-8'))
-assert len(hg192['units'])==24
-for unit in hg192['units']:
-    asset=unit['path']
-    needle=f'src="{asset}"'
-    assert html.count(needle)==1,(asset,html.count(needle))
-    html=html.replace(needle, f'src="data:image/png;base64,{base64.b64encode((folder/asset).read_bytes()).decode("ascii")}"')
-assert 'assets/licensed/dcss-cc0/' not in html
-# HG19.3: final seven source/created PNG masters; embed all into offline HTML.
-hg193=json.loads((folder/'assets/hg193-unit-manifest.json').read_text(encoding='utf-8'))
-assert hg193['schema']=='HG193-sprite-map-v1' and len(hg193['units'])==7
-for unit in hg193['units']:
-    asset=unit['path']
-    needle=f'src="{asset}"'
-    assert html.count(needle)==1,(asset,html.count(needle))
-    encoded=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
-    html=html.replace(needle,f'src="data:image/png;base64,{encoded}"')
-    assert asset not in html,asset
-assert 'src="assets/licensed/hg193/' not in html and 'src="assets/generated/hg193/' not in html
-# HG22.1: Five MIT-source Skeleton 256px 5x2 action sheets, bundled offline.
-hg22=json.loads((folder/'assets/licensed/hg22-skeleton/asset-manifest.json').read_text(encoding='utf-8'))
-assert hg22['gameUnitId']=='undead_1' and len(hg22['actions'])==5
-for action in hg22['actions']:
-    asset=action['path']
-    needle=f'src="{asset}"'
-    assert html.count(needle)==1,(asset,html.count(needle))
-    html=html.replace(needle,f'src="data:image/png;base64,{base64.b64encode((folder/asset).read_bytes()).decode("ascii")}"')
-assert 'src="assets/licensed/hg22-skeleton/' not in html
+# HG33 H5: release runtime excludes internet-sourced sprite packs. Original
+# HG33 atlases stay bundled; legacy source files remain available only for
+# provenance tests and are never referenced by this playable HTML.
+forbidden_runtime_paths=['assets/licensed/spritecook/','assets/licensed/dcss-cc0/','assets/licensed/hg22-skeleton/','assets/licensed/hg193/','assets/generated/hg193/']
+for asset_path in forbidden_runtime_paths:
+    assert asset_path not in html,asset_path
+for module in ['art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-hg22-skeleton.js']:
+    assert module not in html,module
+assert html.count('id="hg33-thumb-')==48
 # HG12 vector combat units are bundled into the same standalone HTML without
 # network dependencies. They are source-separated, transparent illustrated assets.
 for unit_asset in [
@@ -202,7 +183,7 @@ assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
-assert html.count('<script>')==33, 'Expected 33 offline inline game modules including HG33 atlas indexes'
+assert html.count('<script>')==29, 'Expected 29 offline inline game modules; external combat sprite packs are excluded'
 html=html.rstrip()+'\n'
 (folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8',newline='\n')
 print('Built offline HTML:',len(html),'characters')

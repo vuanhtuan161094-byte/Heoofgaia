@@ -23,14 +23,23 @@ for(const u of M.units){
 }
 assert.equal(X.monkFrame(0),0);assert.equal(X.monkFrame(140),1);assert.equal(X.monkFrame(1120),0);
 const html=fs.readFileSync('index.html','utf8'),builder=fs.readFileSync('build_offline.py','utf8');
-const art=fs.readFileSync('art-pack.js','utf8'),painter=fs.readFileSync('painter.js','utf8');
-assert(html.includes('<script src="art-hg193-sprites.js"></script>'));
-assert(builder.includes("'art-hg193-sprites.js'")&&builder.includes("hg193['units']"));
-assert(painter.includes('root.HOG_HG193_SPRITES?.draw(c,x,y,u.unitId'));
-assert(painter.includes('root.HOG_HG193_SPRITES?.profile(unitId)'));
-assert(art.includes('root.HOG_HG193_SPRITES?.thumb(id,px)'));
-for(const u of M.units)assert(html.includes('src="'+u.path+'"'),u.id+' preload');
-const result={status:'PASS',catalogUnits:40,distinctTroopArt:40,lastSeven:IDs,imported:4,original:3,animation:['idle','walk','attack','hit','death'],engineRulesChanged:false,saveSchemaChanged:false};
-fs.mkdirSync('docs/qa/hg193',{recursive:true});
-fs.writeFileSync('docs/qa/hg193/assets.json',JSON.stringify(result,null,2)+'\n');
-console.log('HG19.3 PASS — all 40 troop identities have separate sprite artwork');
+const art=fs.readFileSync('art-pack.js','utf8'),painter=fs.readFileSync('painter.js','utf8'),release=fs.readFileSync('Play-Heoofgaia-HG11.html','utf8');
+const bundledScripts=builder.match(/for js in \[(.*?)\]:/s)?.[1]||'';
+assert(!html.includes('<script src="art-hg193-sprites.js"></script>'));
+assert(!bundledScripts.includes("'art-hg193-sprites.js'")&&!builder.includes("hg193['units']"));
+assert(!painter.includes('HOG_HG193_SPRITES'));
+assert(!art.includes('HOG_HG193_SPRITES'));
+for(const u of M.units){
+ const bytes=fs.readFileSync(u.path);
+ assert(!html.includes('src="'+u.path+'"'),u.id+' must not preload mixed external art');
+ assert(!release.includes(bytes.toString('base64')),u.id+' bytes must not ship');
+}
+const atlas=JSON.parse(fs.readFileSync('assets/generated/hg33/animation/troop-atlas-manifest.json','utf8'));
+const additional=JSON.parse(fs.readFileSync('assets/generated/hg33/animation/additional-atlas-manifest.json','utf8'));
+const active=new Set([...atlas.assets.map(x=>x.unitId),...additional.assets.filter(x=>x.kind==='core').map(x=>x.unitId)]);
+for(const u of M.units)assert(active.has(u.id),u.id+' must use an original HG33 animation atlas');
+assert(art.includes('hg33-thumb-'),'UI previews use original HG33 atlas crops');
+const result={status:'PASS_ARCHIVE_ONLY',catalogUnits:40,distinctTroopArt:40,lastSeven:IDs,historicalMixedSources:7,combatRuntime:'excluded; replaced with original HG33 action atlases',offlineReleaseBytesEmbedded:false,engineRulesChanged:false,saveSchemaChanged:false};
+fs.mkdirSync('docs/qa/hg33/H5-release-assets/source-provenance',{recursive:true});
+fs.writeFileSync('docs/qa/hg33/H5-release-assets/source-provenance/hg193-archive.json',JSON.stringify(result,null,2)+'\n');
+console.log('HG33 H5 SOURCE AUDIT PASS: mixed HG193 sprites are excluded and replaced');

@@ -1652,7 +1652,7 @@ test('HG14 battle renderer uses the real illustrated four-faction PNGs and never
  P.drawBattle(c,E,s,500);P.drawBattle(c,E,s,800);
  assert.equal(JSON.stringify(E.clone(s)),before,'rendering is visual only and saves must not change');
 });
-test('HG33 offline release embeds each effective core, Boss and reward atlas and excludes KayKit combat art',()=>{
+test('HG33 offline release embeds original atlases/thumbs and excludes every external combat-art pack',()=>{
  const manifest=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg33/animation/troop-atlas-manifest.json'),'utf8'));
  const additional=JSON.parse(fs.readFileSync(path.join(dir,'assets/generated/hg33/animation/additional-atlas-manifest.json'),'utf8'));
  const inventory=JSON.parse(fs.readFileSync(path.join(dir,'docs/qa/hg33/boss-art-inventory.json'),'utf8'));
@@ -1665,7 +1665,16 @@ test('HG33 offline release embeds each effective core, Boss and reward atlas and
  assert.deepEqual(additional.assets.filter(x=>x.kind==='boss').map(x=>x.bossName).sort(),inventory.bosses.combatArchetypes.map(x=>x.name).sort());
  assert.deepEqual(additional.assets.filter(x=>x.kind==='reward').map(x=>x.unitId).sort(),[...inventory.catalog.rewardIds].sort());
  assert.equal((html.match(/data-hg33-atlas-src="data:image\/webp;base64,/g)||[]).length,58);
- assert(!html.includes('assets/licensed/kaykit-heavy-soldier/rendered/'));assert(!html.includes('assets/generated/hg33/animation/runtime/'));
+ assert.equal((html.match(/id="hg33-thumb-/g)||[]).length,48,'all 40 core and 8 reward identities have atlas-derived UI thumbs');
+ assert(!html.includes('assets/generated/hg33/animation/runtime/'));
+ for(const forbidden of ['assets/licensed/kaykit-heavy-soldier/rendered/','assets/licensed/spritecook/','assets/licensed/dcss-cc0/','assets/licensed/hg22-skeleton/','assets/licensed/hg193/','assets/generated/hg193/','art-free-sprites.js','art-hg192-sprites.js','art-hg193-sprites.js','art-hg22-skeleton.js'])assert(!html.includes(forbidden),forbidden+' excluded from the playable release');
+ const releaseAudit=inventory.currentRuntimeArtAudit;
+ assert.equal(releaseAudit.externalArtReleaseGate,'PASS','H5 excludes all mapped external combat-art payloads');
+ assert.deepEqual(releaseAudit.externalPacksEmbedded,[]);
+ for(const pack of releaseAudit.packs.filter(x=>/external|mixed/i.test(x.category))){
+  assert.equal(pack.embeddedRuntimeFiles,0,pack.name+' external files must not ship');
+  for(const file of pack.runtimeFiles)assert.equal(file.embeddedInOfflineHtml,false,pack.name+'/'+file.path);
+ }
  for(const item of manifest.assets){
   const source=fs.readFileSync(path.join(dir,item.sourcePath)),runtime=fs.readFileSync(path.join(dir,item.runtimePath));
   assert.equal(sha(source),item.sourceSha256,item.unitId+' source');assert.equal(source.readUInt32BE(16),1536);assert.equal(source.readUInt32BE(20),1024);
@@ -1755,5 +1764,7 @@ test('HG12 browser Save rejects invalid v07 without overwriting prior data and r
 const hg10=results.filter(x=>/^HG10 /.test(x.name));
 const hg09=results.filter(x=>/^(Advance order|Arena rehabilitation|Undead Reincarnation|Arena healing|HG07 v07 saves without the newer Arena|Equal-speed combat|Ranged stacks fire|Ranged auto-target|automatic melee selects|Published NPC battle example|Casualty and Arena|A completed NPC|Mid-battle HG08|1000 seeded tactical|SRC45\/SRC46\/SRC47|SRC46|HG09 all six player battle commands)/.test(x.name));
 const evidence=path.join(dir,'docs','evidence','hg09');fs.mkdirSync(evidence,{recursive:true});
-fs.writeFileSync(path.join(evidence,'QA-HG09-NODE-RESULTS.json'),JSON.stringify({command:'node qa-engine.cjs',suiteTotal:pass+failed,suitePassed:pass,suiteFailed:failed,hg10Total:hg10.length,hg10Passed:hg10.filter(x=>x.passed).length,hg10Failed:hg10.filter(x=>!x.passed).length,hg10Checks:hg10,hg09Total:hg09.length,hg09Passed:hg09.filter(x=>x.passed).length,hg09Failed:hg09.filter(x=>!x.passed).length,seededEncounters:1000,checks:hg09},null,2),'utf8');
+const resultsPath=process.env.HOG_QA_RESULTS_PATH?path.resolve(dir,process.env.HOG_QA_RESULTS_PATH):path.join(evidence,'QA-HG09-NODE-RESULTS.json');
+fs.mkdirSync(path.dirname(resultsPath),{recursive:true});
+fs.writeFileSync(resultsPath,JSON.stringify({command:'node qa-engine.cjs',suiteTotal:pass+failed,suitePassed:pass,suiteFailed:failed,hg10Total:hg10.length,hg10Passed:hg10.filter(x=>x.passed).length,hg10Failed:hg10.filter(x=>!x.passed).length,hg10Checks:hg10,hg09Total:hg09.length,hg09Passed:hg09.filter(x=>x.passed).length,hg09Failed:hg09.filter(x=>!x.passed).length,seededEncounters:1000,checks:hg09},null,2),'utf8');
 console.log(`TOTAL ${pass}/${pass+failed} PASS`);process.exitCode=failed?1:0;

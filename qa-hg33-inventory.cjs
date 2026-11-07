@@ -120,6 +120,7 @@ function manifestSummary(pack){
 }
 const artPacks=packs.map(manifestSummary);
 const externalSources=artPacks.filter(p=>/external|mixed/i.test(p.category));
+const externalEmbedded=externalSources.filter(pack=>pack.embeddedRuntimeFiles>0);
 const inventory={schema:'HG33-H0-inventory-v1',generatedAt:new Date().toISOString(),
  repository:'vuanhtuan161094-byte/Heoofgaia',branch:'feature/hog1-research-to-playable-20261102',
  catalog:{coreCount:core.length,coreIds:core.map(u=>u.id),rewardCount:rewards.length,
@@ -132,11 +133,18 @@ const inventory={schema:'HG33-H0-inventory-v1',generatedAt:new Date().toISOStrin
  currentRuntimeArtAudit:{html: 'Play-Heoofgaia-HG11.html',htmlBytes:fs.statSync(htmlPath).size,
   htmlSha256:sha(fs.readFileSync(htmlPath)),packs:artPacks,
   packsWithExternalSource:externalSources.map(p=>p.name),
-  releaseBlocker:'External-source combat sprites/atlases remain in the current runtime; HG5 replacement gate is not yet passed.'},
- result:'PASS_H0_CENSUS_AND_PROVENANCE_AUDIT; ART_REPLACEMENT_NOT_COMPLETE'};
+  externalArtReleaseGate:externalEmbedded.length?'FAIL':'PASS',
+  externalPacksEmbedded:externalEmbedded.map(p=>({name:p.name,files:p.embeddedRuntimeFiles,bytes:p.embeddedRuntimeBytes})),
+  releaseBlocker:externalEmbedded.length?
+   'External-source combat sprites/atlases remain in the offline HTML; HG33 H5 art exclusion is not passed.':
+   'External combat art is excluded from the offline HTML. Editable layered sources and human-authored action review remain open; this is not a full HG33 release claim.'},
+ result:externalEmbedded.length?
+  'PASS_H0_CENSUS_AND_PROVENANCE_AUDIT;FAIL_H5_EXTERNAL_ART_STILL_EMBEDDED':
+  'PASS_H0_CENSUS_AND_PROVENANCE_AUDIT;PASS_H5_EXTERNAL_ART_EXCLUDED;H2_H5_EDITABLE_ART_REVIEW_OPEN'};
 const out=path.join(root,'docs/qa/hg33/boss-art-inventory.json');
 fs.mkdirSync(path.dirname(out),{recursive:true});
 fs.writeFileSync(out,JSON.stringify(inventory,null,2)+'\n','utf8');
 console.log(`HG33 H0 INVENTORY PASS: ${core.length} core, ${rewards.length} reward, ${bossTiles.length} named world Boss targets, ${privateBosses.length} private targets, ${bossArchetypes.length} combat archetypes; ${externalSources.length} external-source combat packs audited.`);
 console.log(`Bosses with registered original masters ${inventory.bosses.currentBossArtRegistered.length}/${bossArchetypes.length}; missing ${inventory.bosses.missingBossArt.join(', ')}`);
+console.log(`HG33 H5 external combat art release gate ${inventory.currentRuntimeArtAudit.externalArtReleaseGate}; external pack payloads embedded ${externalEmbedded.length}`);
 console.log(`Receipt: docs/qa/hg33/boss-art-inventory.json · HTML SHA-256 ${inventory.currentRuntimeArtAudit.htmlSha256}`);
