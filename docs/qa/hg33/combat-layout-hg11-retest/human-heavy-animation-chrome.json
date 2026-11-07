@@ -1,0 +1,585 @@
+{
+  "command": ".venv\\Scripts\\python.exe qa-hg11-human-heavy-animation-chrome.py",
+  "browser": "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe",
+  "game": "Anh Hùng Thời Loạn",
+  "sourceMode": "installed Chrome on the standalone local file:// HTML",
+  "assetSource": "Original built-in image_gen atlas for Human Vanguard; assets/original/hg33/troops/human-vanguard-atlas.png; five action rows with eight frames each; no external image source.",
+  "fixtureDisclosure": "A new Human game is created normally. The fixture seeds Hall 4, Barracks 4, Blacksmith 1, Manufacturing 1, Bootcamp 1 and prerequisite resources to skip prerequisite wait time. The UI recruits two Heavy Soldiers and spends real resources; the actual engine tick completes the queue. Real formation deploys one Heavy Soldier and militia; map selection, March, travel, Attack and Stand By controls resolve every player movement, damage and casualty. Enemy-only durability, position and attack values are adjusted to keep battle observable and cause a real engine casualty; no player positions, damage, death or battle result are set. The second Heavy Soldier stays at the home city. Enemy sprite mirroring is tested only on an isolated clone after reload.",
+  "total": 26,
+  "passed": 26,
+  "failed": 0,
+  "errors": [],
+  "checks": [
+    {
+      "name": "Standalone HTML opens with the game title",
+      "passed": true,
+      "detail": "Anh Hùng Thời Loạn"
+    },
+    {
+      "name": "All 40 effective troop atlases render every Idle/Walk/Attack/Hit/Death frame through the battle renderer",
+      "passed": true,
+      "detail": "{\"coreUnits\": 40, \"atlasUnits\": 40, \"retainedUnits\": [\"human_3\", \"undead_1\"], \"actionsPerAtlas\": 5, \"frameCellsExpected\": 1600, \"frameCellsDrawn\": 1600, \"sourceRectsObserved\": 1600, \"preservedSkeletonAttackFrames\": 10, \"contactUnits\": {\"human\": 10, \"elf\": 10, \"orc\": 10, \"undead\": 10}, \"failed\": 0, \"failures\": []}"
+    },
+    {
+      "name": "Chromium renderer contact sheets cover all 40 units and five states",
+      "passed": true,
+      "detail": "{\"human\": {\"path\": \"docs/evidence/hg33/combat-layout/hg11-retest/contact-sheets/human-10-units-five-actions-chrome.png\", \"sha256\": \"DD28F50EC694C79A1C96D14ACD7066DC8F451F0F11FE8B2287B4EBBBDBC0CB6E\", \"bytes\": 1163285, \"resolution\": \"854x1518\"}, \"elf\": {\"path\": \"docs/evidence/hg33/combat-layout/hg11-retest/contact-sheets/elf-10-units-five-actions-chrome.png\", \"sha256\": \"E83381D2171B88DA3B1CC7CC867C499CCE65E3BADD653CB74977445202DB419A\", \"bytes\": 1149668, \"resolution\": \"854x1518\"}, \"orc\": {\"path\": \"docs/evidence/hg33/combat-layout/hg11-retest/contact-sheets/orc-10-units-five-actions-chrome.png\", \"sha256\": \"5DF35827706A7CFB49993E1A0DE750CB7B863746B835259862BB91AFAFEC0829\", \"bytes\": 1195191, \"resolution\": \"854x1518\"}, \"undead\": {\"path\": \"docs/evidence/hg33/combat-layout/hg11-retest/contact-sheets/undead-10-units-five-actions-chrome.png\", \"sha256\": \"52E4A1E66CCFD5C5962B3D8B963361E1AF2248D7D5A23E7882CCC110D97074FB\", \"bytes\": 1094690, \"resolution\": \"854x1518\"}}"
+    },
+    {
+      "name": "Release has no KayKit combat frames or relative licensed-art paths",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Actual Human game start creates a version-7 save",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Seeded Heavy Soldier gates are met and original 1536×1024 8×5 atlas is loaded",
+      "passed": true,
+      "detail": "{\"version\": 7, \"requirements\": {\"unitId\": \"human_4\", \"checks\": [{\"kind\": \"building\", \"key\": \"hall\", \"level\": 4, \"actual\": 4}, {\"kind\": \"building\", \"key\": \"barracks\", \"level\": 4, \"actual\": 4}, {\"kind\": \"building\", \"key\": \"blacksmith\", \"level\": 1, \"actual\": 1}, {\"kind\": \"spell\", \"key\": \"manufacturing\", \"level\": 1, \"actual\": 1}], \"unmet\": [], \"available\": true, \"confidence\": \"A\", \"status\": \"OBSERVED\", \"source\": \"SRC19; SRC20\"}, \"imageReady\": true, \"resources\": {\"gold\": 2700000, \"wood\": 270000, \"ore\": 270000, \"sulfur\": 135000, \"crystal\": 135000}, \"buildingLevels\": {\"hall\": 4, \"barracks\": 4, \"blacksmith\": 1}, \"manufacturing\": 1}"
+    },
+    {
+      "name": "Heavy Soldier recruitment control is enabled by its real prerequisite matrix",
+      "passed": true,
+      "detail": ""
+    },
+    {
+      "name": "Actual recruitment spends resources and queues two Heavy Soldiers",
+      "passed": true,
+      "detail": "{\"unitId\": \"human_4\", \"count\": 2, \"remaining\": 784, \"gold\": 2699680, \"strict\": true}"
+    },
+    {
+      "name": "Real engine tick completes the queue and delivers both recruited troops",
+      "passed": true,
+      "detail": "{\"count\": 2, \"queue\": 0, \"strict\": true, \"unitCount\": 16}"
+    },
+    {
+      "name": "Real formation control puts the Heavy Soldier in the front group beside the militia",
+      "passed": true,
+      "detail": "[{\"unitId\": \"human_4\", \"count\": 1}, {\"unitId\": \"human_1\", \"count\": 15}]"
+    },
+    {
+      "name": "Actual map click selects the dated nearby NPC",
+      "passed": true,
+      "detail": "{\"point\": {\"x\": 487.96000000000004, \"y\": 312.116, \"target\": {\"key\": \"5,6\", \"kind\": \"npc\", \"name\": \"Wolves\"}, \"hit\": {\"key\": \"5,6\", \"kind\": \"npc\", \"name\": \"Wolves\"}, \"canvas\": [1406, 721]}, \"selection\": \"Trại Wolves · 1★ · (5,6)\", \"canvasRect\": {\"x\": 17, \"y\": 281.1875, \"width\": 1406, \"height\": 720.515625}}"
+    },
+    {
+      "name": "Actual March dispatch spends AP and carries the formed Heavy Soldier stack",
+      "passed": true,
+      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 96.53750000000001}"
+    },
+    {
+      "name": "Natural travel arrival opens a live battle with the UI-recruited Heavy Soldier",
+      "passed": true,
+      "detail": "{\"battle\": true, \"turn\": 1, \"allies\": [{\"id\": \"p0\", \"unitId\": \"human_4\", \"count\": 1, \"x\": 1, \"y\": 0, \"pool\": 81}, {\"id\": \"p1\", \"unitId\": \"human_1\", \"count\": 15, \"x\": 1, \"y\": 2, \"pool\": 600}], \"atlas\": [true, 1536, 1024], \"battlefield\": {\"loaded\": true, \"width\": 1176, \"height\": 550, \"draws\": 3}, \"saveVersion\": 7, \"saveKey\": true}"
+    },
+    {
+      "name": "Original action atlas and 1176×550 battlefield load and draw offline",
+      "passed": true,
+      "detail": "{\"battle\": true, \"turn\": 1, \"allies\": [{\"id\": \"p0\", \"unitId\": \"human_4\", \"count\": 1, \"x\": 1, \"y\": 0, \"pool\": 81}, {\"id\": \"p1\", \"unitId\": \"human_1\", \"count\": 15, \"x\": 1, \"y\": 2, \"pool\": 600}], \"atlas\": [true, 1536, 1024], \"battlefield\": {\"loaded\": true, \"width\": 1176, \"height\": 550, \"draws\": 3}, \"saveVersion\": 7, \"saveKey\": true}"
+    },
+    {
+      "name": "Real Attack controls drive both a recorded Heavy Soldier route and actual damage",
+      "passed": true,
+      "detail": "{\"turns\": [{\"turn\": 2, \"events\": [{\"actorId\": \"p0\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 2, \"y\": 0}]}, {\"actorId\": \"e1\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"e0\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"p1\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 2, \"y\": 2}]}], \"heavy\": [{\"id\": \"p0\", \"x\": 2, \"y\": 0, \"pool\": 81}]}, {\"turn\": 3, \"events\": [{\"actorId\": \"p0\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 3, \"y\": 0}]}, {\"actorId\": \"e1\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"e0\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"p1\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 3, \"y\": 2}]}], \"heavy\": [{\"id\": \"p0\", \"x\": 3, \"y\": 0, \"pool\": 81}]}, {\"turn\": 4, \"events\": [{\"actorId\": \"p0\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 4, \"y\": 0}]}, {\"actorId\": \"e1\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"e0\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"p1\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 4, \"y\": 2}]}], \"heavy\": [{\"id\": \"p0\", \"x\": 4, \"y\": 0, \"pool\": 81}]}, {\"turn\": 5, \"events\": [{\"actorId\": \"p0\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 5, \"y\": 0}]}, {\"actorId\": \"e1\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"e0\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"p1\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 5, \"y\": 2}]}], \"heavy\": [{\"id\": \"p0\", \"x\": 5, \"y\": 0, \"pool\": 81}]}, {\"turn\": 6, \"events\": [{\"actorId\": \"p0\", \"targetId\": \"e0\", \"damage\": 0, \"death\": false, \"path\": [{\"x\": 6, \"y\": 0}]}, {\"actorId\": \"e1\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"e0\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"p1\", \"targetId\": \"e0\", \"damage\": 252, \"death\": false, \"path\": [{\"x\": 6, \"y\": 2}]}], \"heavy\": [{\"id\": \"p0\", \"x\": 6, \"y\": 0, \"pool\": 81}]}, {\"turn\": 7, \"events\": [{\"actorId\": \"p0\", \"targetId\": \"e0\", \"damage\": 40, \"death\": false, \"path\": [{\"x\": 6, \"y\": 1}]}, {\"actorId\": \"e1\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"e0\", \"targetId\": \"p1\", \"damage\": 0, \"death\": false, \"path\": []}, {\"actorId\": \"p1\", \"targetId\": \"e0\", \"damage\": 252, \"death\": false, \"path\": []}], \"heavy\": [{\"id\": \"p0\", \"x\": 6, \"y\": 1, \"pool\": 81}]}], \"sampledActions\": [\"attack\", \"idle\", \"walk\"]}"
+    },
+    {
+      "name": "Live battle canvas samples distinct original idle, walk and attack frames",
+      "passed": true,
+      "detail": "{\"samples\": 131, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"walk\": 8, \"attack\": 8, \"idle\": 6}}"
+    },
+    {
+      "name": "Real battle screenshots are exact 1280×720 and 960×540 Chromium viewports",
+      "passed": true,
+      "detail": "{\"1280x720\": {\"sha256\": \"DFE88BC4128E95E627653DE6DE2D49EA4A339A276F6E02B1A9AA44BAF3557C9C\", \"bytes\": 1075198, \"resolution\": \"1280x720\"}, \"960x540\": {\"sha256\": \"A799D85AC0370800EC609BB0CC3D44688EFA9AAC1FE1E63DA62BC65C25C8C08F\", \"bytes\": 658058, \"resolution\": \"960x540\"}}"
+    },
+    {
+      "name": "Heavy Soldier before Hit animation is hit-testable at its battlefield hex",
+      "passed": true,
+      "detail": "{\"id\": \"p0\", \"hit\": \"p0\", \"clientX\": 677.1600000000001, \"clientY\": 309.7807325058311}"
+    },
+    {
+      "name": "Real battlefield click selects Heavy Soldier before Hit animation",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Real damage receipt selects and renders the Human Vanguard Hit atlas row",
+      "passed": true,
+      "detail": "{\"live\": true, \"pool\": 76, \"event\": {\"actorId\": \"e0\", \"from\": {\"x\": 7, \"y\": 1}, \"to\": {\"x\": 7, \"y\": 1}, \"path\": [], \"targetId\": \"p0\", \"damage\": 5, \"death\": false, \"order\": \"attack\", \"casualties\": 0}, \"visual\": {\"action\": \"hit\", \"time\": 140, \"duration\": 650}, \"rendered\": true, \"source\": {\"sx\": 192, \"sy\": 612}}"
+    },
+    {
+      "name": "v07 Save/Reload preserves the active battle, damage event and offline atlas",
+      "passed": true,
+      "detail": "{\"version\": 7, \"race\": \"human\", \"battle\": true, \"key\": true, \"unit\": \"human_4\", \"pool\": 76, \"enemyEvent\": {\"actorId\": \"e0\", \"from\": {\"x\": 7, \"y\": 1}, \"to\": {\"x\": 7, \"y\": 1}, \"path\": [], \"targetId\": \"p0\", \"damage\": 5, \"death\": false, \"order\": \"attack\", \"casualties\": 0}, \"strict\": true, \"atlasReady\": true}"
+    },
+    {
+      "name": "Heavy Soldier before Death animation is hit-testable at its battlefield hex",
+      "passed": true,
+      "detail": "{\"id\": \"p0\", \"hit\": \"p0\", \"clientX\": 677.1600000000001, \"clientY\": 309.7807325058311}"
+    },
+    {
+      "name": "Real battlefield click selects Heavy Soldier before Death animation",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
+      "name": "Actual defender attack kills the Heavy Soldier while militia keeps battle active",
+      "passed": true,
+      "detail": "{\"live\": true, \"p1\": 0, \"survivingMilitia\": 600, \"event\": {\"actorId\": \"e0\", \"from\": {\"x\": 6, \"y\": 1}, \"to\": {\"x\": 6, \"y\": 1}, \"path\": [], \"targetId\": \"p0\", \"damage\": 76, \"death\": true, \"order\": \"attack\", \"casualties\": 1}, \"strict\": true, \"version\": 7}"
+    },
+    {
+      "name": "Dead-stack playback samples all eight Death_A atlas frames while battle remains active",
+      "passed": true,
+      "detail": "{\"distinctFrames\": 8, \"totalSamples\": 28}"
+    },
+    {
+      "name": "No JavaScript or browser console errors occur during live animation play",
+      "passed": true,
+      "detail": "[]"
+    }
+  ],
+  "observedTurns": [
+    {
+      "turn": 2,
+      "events": [
+        {
+          "actorId": "p0",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 2,
+              "y": 0
+            }
+          ]
+        },
+        {
+          "actorId": "e1",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "e0",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "p1",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 2,
+              "y": 2
+            }
+          ]
+        }
+      ],
+      "heavy": [
+        {
+          "id": "p0",
+          "x": 2,
+          "y": 0,
+          "pool": 81
+        }
+      ]
+    },
+    {
+      "turn": 3,
+      "events": [
+        {
+          "actorId": "p0",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 3,
+              "y": 0
+            }
+          ]
+        },
+        {
+          "actorId": "e1",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "e0",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "p1",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 3,
+              "y": 2
+            }
+          ]
+        }
+      ],
+      "heavy": [
+        {
+          "id": "p0",
+          "x": 3,
+          "y": 0,
+          "pool": 81
+        }
+      ]
+    },
+    {
+      "turn": 4,
+      "events": [
+        {
+          "actorId": "p0",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 4,
+              "y": 0
+            }
+          ]
+        },
+        {
+          "actorId": "e1",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "e0",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "p1",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 4,
+              "y": 2
+            }
+          ]
+        }
+      ],
+      "heavy": [
+        {
+          "id": "p0",
+          "x": 4,
+          "y": 0,
+          "pool": 81
+        }
+      ]
+    },
+    {
+      "turn": 5,
+      "events": [
+        {
+          "actorId": "p0",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 5,
+              "y": 0
+            }
+          ]
+        },
+        {
+          "actorId": "e1",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "e0",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "p1",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 5,
+              "y": 2
+            }
+          ]
+        }
+      ],
+      "heavy": [
+        {
+          "id": "p0",
+          "x": 5,
+          "y": 0,
+          "pool": 81
+        }
+      ]
+    },
+    {
+      "turn": 6,
+      "events": [
+        {
+          "actorId": "p0",
+          "targetId": "e0",
+          "damage": 0,
+          "death": false,
+          "path": [
+            {
+              "x": 6,
+              "y": 0
+            }
+          ]
+        },
+        {
+          "actorId": "e1",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "e0",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "p1",
+          "targetId": "e0",
+          "damage": 252,
+          "death": false,
+          "path": [
+            {
+              "x": 6,
+              "y": 2
+            }
+          ]
+        }
+      ],
+      "heavy": [
+        {
+          "id": "p0",
+          "x": 6,
+          "y": 0,
+          "pool": 81
+        }
+      ]
+    },
+    {
+      "turn": 7,
+      "events": [
+        {
+          "actorId": "p0",
+          "targetId": "e0",
+          "damage": 40,
+          "death": false,
+          "path": [
+            {
+              "x": 6,
+              "y": 1
+            }
+          ]
+        },
+        {
+          "actorId": "e1",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "e0",
+          "targetId": "p1",
+          "damage": 0,
+          "death": false,
+          "path": []
+        },
+        {
+          "actorId": "p1",
+          "targetId": "e0",
+          "damage": 252,
+          "death": false,
+          "path": []
+        }
+      ],
+      "heavy": [
+        {
+          "id": "p0",
+          "x": 6,
+          "y": 1,
+          "pool": 81
+        }
+      ]
+    }
+  ],
+  "initialBattle": {
+    "battle": true,
+    "turn": 1,
+    "allies": [
+      {
+        "id": "p0",
+        "unitId": "human_4",
+        "count": 1,
+        "x": 1,
+        "y": 0,
+        "pool": 81
+      },
+      {
+        "id": "p1",
+        "unitId": "human_1",
+        "count": 15,
+        "x": 1,
+        "y": 2,
+        "pool": 600
+      }
+    ],
+    "atlas": [
+      true,
+      1536,
+      1024
+    ],
+    "battlefield": {
+      "loaded": true,
+      "width": 1176,
+      "height": 550,
+      "draws": 3
+    },
+    "saveVersion": 7,
+    "saveKey": true
+  },
+  "deathReceipt": {
+    "live": true,
+    "p1": 0,
+    "survivingMilitia": 600,
+    "event": {
+      "actorId": "e0",
+      "from": {
+        "x": 6,
+        "y": 1
+      },
+      "to": {
+        "x": 6,
+        "y": 1
+      },
+      "path": [],
+      "targetId": "p0",
+      "damage": 76,
+      "death": true,
+      "order": "attack",
+      "casualties": 1
+    },
+    "strict": true,
+    "version": 7
+  },
+  "troopAtlasCoverage": {
+    "coreUnits": 40,
+    "atlasUnits": 40,
+    "retainedUnits": [
+      "human_3",
+      "undead_1"
+    ],
+    "actionsPerAtlas": 5,
+    "frameCellsExpected": 1600,
+    "frameCellsDrawn": 1600,
+    "sourceRectsObserved": 1600,
+    "preservedSkeletonAttackFrames": 10,
+    "contactUnits": {
+      "human": 10,
+      "elf": 10,
+      "orc": 10,
+      "undead": 10
+    },
+    "failed": 0,
+    "failures": []
+  },
+  "troopContactSheets": {
+    "human": {
+      "path": "docs/evidence/hg33/combat-layout/hg11-retest/contact-sheets/human-10-units-five-actions-chrome.png",
+      "sha256": "DD28F50EC694C79A1C96D14ACD7066DC8F451F0F11FE8B2287B4EBBBDBC0CB6E",
+      "bytes": 1163285,
+      "resolution": "854x1518"
+    },
+    "elf": {
+      "path": "docs/evidence/hg33/combat-layout/hg11-retest/contact-sheets/elf-10-units-five-actions-chrome.png",
+      "sha256": "E83381D2171B88DA3B1CC7CC867C499CCE65E3BADD653CB74977445202DB419A",
+      "bytes": 1149668,
+      "resolution": "854x1518"
+    },
+    "orc": {
+      "path": "docs/evidence/hg33/combat-layout/hg11-retest/contact-sheets/orc-10-units-five-actions-chrome.png",
+      "sha256": "5DF35827706A7CFB49993E1A0DE750CB7B863746B835259862BB91AFAFEC0829",
+      "bytes": 1195191,
+      "resolution": "854x1518"
+    },
+    "undead": {
+      "path": "docs/evidence/hg33/combat-layout/hg11-retest/contact-sheets/undead-10-units-five-actions-chrome.png",
+      "sha256": "52E4A1E66CCFD5C5962B3D8B963361E1AF2248D7D5A23E7882CCC110D97074FB",
+      "bytes": 1094690,
+      "resolution": "854x1518"
+    }
+  },
+  "observedAnimation": {
+    "actions": [
+      "attack",
+      "idle",
+      "walk"
+    ],
+    "distinctFramesByAction": {
+      "walk": 8,
+      "attack": 8,
+      "idle": 6
+    },
+    "hitFrames": 1,
+    "deathFrames": 8,
+    "totalLiveCanvasSamples": 28
+  },
+  "artifacts": {
+    "human-heavy-soldier-battle-live-chrome.png": {
+      "sha256": "DFE88BC4128E95E627653DE6DE2D49EA4A339A276F6E02B1A9AA44BAF3557C9C",
+      "bytes": 1075198,
+      "resolution": "1280x720"
+    },
+    "human-vanguard-battle-live-960x540.png": {
+      "sha256": "A799D85AC0370800EC609BB0CC3D44688EFA9AAC1FE1E63DA62BC65C25C8C08F",
+      "bytes": 658058,
+      "resolution": "960x540"
+    },
+    "human-heavy-soldier-death-frame-chrome.png": {
+      "sha256": "714D8396295B41208C3E4204B442E5331C74E03E3F94B92767F79D9EF9F0912F",
+      "bytes": 2077882,
+      "resolution": "1185x898"
+    }
+  }
+}

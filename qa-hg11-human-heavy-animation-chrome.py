@@ -13,8 +13,9 @@ if hasattr(sys.stdout, "reconfigure"):
 
 ROOT = Path(__file__).resolve().parent
 HTML = ROOT / "Play-Heoofgaia-HG11.html"
-EVIDENCE = ROOT / "docs" / "evidence" / "hg33" / "H2-human-vanguard"
-QA = ROOT / "docs" / "qa" / "hg33"
+EVIDENCE = Path(os.environ.get("HOG_HG11_EVIDENCE_ROOT",ROOT / "docs" / "evidence" / "hg33" / "H2-human-vanguard"))
+CONTACT_EVIDENCE = Path(os.environ.get("HOG_HG11_CONTACT_EVIDENCE_ROOT",ROOT / "docs" / "evidence" / "hg33" / "H3-troop-atlases"))
+QA = Path(os.environ.get("HOG_HG11_REPORT_ROOT",ROOT / "docs" / "qa" / "hg33"))
 EVIDENCE.mkdir(parents=True, exist_ok=True)
 QA.mkdir(parents=True, exist_ok=True)
 browser_env = os.environ.get("HOG_CHROMIUM_PATH") or os.environ.get("HOG_CHROME_PATH")
@@ -31,6 +32,23 @@ checks, errors = [], []
 def check(name, passed, detail=""):
     checks.append({"name": name, "passed": bool(passed), "detail": detail})
     print(("PASS " if passed else "FAIL ") + name + (f" — {detail}" if detail else ""), flush=True)
+
+
+def select_unit_on_battlefield(page, unit_id, label):
+    pointer = page.evaluate("""unitId=>{
+      const s=HOG_APP_DEBUG.getState(),b=s?.battle,c=document.querySelector('#battle-canvas'),
+        r=c.getBoundingClientRect(),E=HOG_ENGINE,P=HOG_PAINTER,u=b?.allies.find(x=>x.id===unitId);
+      if(!u)return {id:null,hit:null,clientX:0,clientY:0};
+      const p=P.battleProjection(c,E).point(u.x+.5,u.y+.5),
+        hit=P.battleHit(c,p.x,p.y,E,s)?.id||null;
+      return {id:u.id,hit,clientX:r.left+p.x/c.width*r.width,clientY:r.top+p.y/c.height*r.height};
+    }""",unit_id)
+    check(f"{label} is hit-testable at its battlefield hex",pointer["id"]==unit_id and pointer["hit"]==unit_id,
+          json.dumps(pointer,ensure_ascii=False))
+    page.mouse.click(pointer["clientX"],pointer["clientY"])
+    selected=page.evaluate("HOG_APP_DEBUG.getState().battle?.selected")
+    check(f"Real battlefield click selects {label}",selected==unit_id,str(selected))
+    return selected==unit_id
 
 
 with sync_playwright() as playwright:
@@ -100,7 +118,6 @@ with sync_playwright() as playwright:
           atlas_coverage["frameCellsDrawn"] == 1600 and atlas_coverage["sourceRectsObserved"] == 1600 and
           atlas_coverage["preservedSkeletonAttackFrames"] == 10 and atlas_coverage["contactUnits"] == {"human":10,"elf":10,"orc":10,"undead":10} and
           atlas_coverage["failed"] == 0, json.dumps({k:v for k,v in atlas_coverage.items() if k!="contactSheets"}, ensure_ascii=False))
-    CONTACT_EVIDENCE = ROOT / "docs" / "evidence" / "hg33" / "H3-troop-atlases"
     CONTACT_EVIDENCE.mkdir(parents=True, exist_ok=True)
     contact_sheets = atlas_coverage.pop("contactSheets")
     contact_sheet_info = {}
@@ -259,7 +276,7 @@ with sync_playwright() as playwright:
 
     page.evaluate("""(heavyId)=>{const s=HOG_APP_DEBUG.getState(),b=s.battle,heavy=b.allies.find(u=>u.id===heavyId),e=b.enemies[0];
       e.x=Math.min(heavy.x+1,10);e.y=heavy.y;e.atk=20;e.range=1;b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""",heavy_id)
-    page.locator(f'[data-action="stack"][data-id="{heavy_id}"]').click()
+    select_unit_on_battlefield(page,heavy_id,"Heavy Soldier before Hit animation")
     page.locator('[data-action="battle"][data-cmd="defend"]').click()
     page.wait_for_timeout(260)
     hit = page.evaluate("""(heavyId)=>{const s=HOG_APP_DEBUG.getState(),b=s?.battle,heavy=b?.allies.find(u=>u.id===heavyId),
@@ -297,7 +314,7 @@ with sync_playwright() as playwright:
     page.evaluate("""(heavyId)=>{const s=HOG_APP_DEBUG.getState(),b=s.battle,e=b.enemies[0];
       const heavy=b.allies.find(u=>u.id===heavyId);e.atk=100_000;e.range=1;e.x=heavy.x;e.y=heavy.y;
       b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""",heavy_id)
-    page.locator(f'[data-action="stack"][data-id="{heavy_id}"]').click()
+    select_unit_on_battlefield(page,heavy_id,"Heavy Soldier before Death animation")
     page.locator('[data-action="battle"][data-cmd="defend"]').click()
     page.wait_for_timeout(260)
     death = page.evaluate("""(heavyId)=>{const s=HOG_APP_DEBUG.getState(),b=s.battle,event=b?.lastEvents?.find(e=>e.actorId===b.enemies[0].id);
