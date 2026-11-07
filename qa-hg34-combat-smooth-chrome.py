@@ -1,4 +1,4 @@
-"""HG34/P0: real file:// battle animation pacing, canvas continuity and Save v07.
+"""HG34/38: real file:// draw pacing, source-pose cadence, static cache and Save v07.
 
 A synthetic high-HP / zero-ATK opponent is used ONLY to keep a real NPC
 battle alive long enough to observe multiple auto turns. No rewards are
@@ -71,13 +71,54 @@ with sync_playwright() as pw:
             return output;
           };
           window._hg34={canvas:c,metrics,original:draw};
-          return {valid:E.strictSave(s),cachedLayout:a===a2,
+          // HG38: source-frame cadence and deliberate visual-only stagger QA.
+          // It is NOT valid to conflate 60 canvas redraws/s with 60 unique poses.
+          const source=window.HOG_HG33_TROOP_ATLASES?.units?.human_1;
+          const sourceCadence=source?Object.fromEntries(['idle','walk','attack'].map(action=>
+            [action,{frames:source.actions[action].count,
+              poseFps:+(source.actions[action].count*1000/source.actions[action].durationMs).toFixed(2)}])):null;
+          const fake={turn:7,lastEvents:[{actorId:'different'},
+            {actorId:'visual-qa',from:{x:3,y:3},path:[{x:4,y:3}],damage:0}]};
+          const alive={id:'visual-qa',x:4,y:3,pool:100};
+          const before=P.battleVisualState(fake,alive,20,20),
+            walkStart=P.battleVisualState(fake,alive,85,85),
+            walkMid=P.battleVisualState(fake,alive,270,270),
+            after=P.battleVisualState(fake,alive,570,570);
+          const dying={turn:8,lastEvents:[{actorId:'different'},
+            {actorId:'enemy',targetId:'visual-qa',damage:50,death:true}]};
+          const dead={...alive,pool:0};
+          const deadBefore=P.battleVisualState(dying,dead,20,20),
+            deadDuring=P.battleVisualState(dying,dead,160,160),
+            deadAfter=P.battleVisualState(dying,dead,1400,1400);
+          const motionOracle={
+            sourceCadence,
+            before:{x:before?.x,y:before?.y,action:before?.action},
+            walkStart:{x:walkStart?.x,y:walkStart?.y,action:walkStart?.action},
+            walkMid:{x:walkMid?.x,y:walkMid?.y,action:walkMid?.action},
+            after:{x:after?.x,y:after?.y,action:after?.action},
+            deathBefore:deadBefore?.action||null,
+            deathDuring:deadDuring?.action||null,
+            deathAfter:deadAfter?.action||null
+          };
+          return {valid:E.strictSave(s),cachedLayout:a===a2,motionOracle,
             canvasW:c.width,canvasH:c.height,
             battleId:b.target,initialTurn:b.turn};
         }""")
         label=f'{width}x{height}'
         check(label+' initial real NPC battle and reusable layout',
               fixture['valid'] and fixture['cachedLayout'] and fixture['canvasW']>300 and fixture['canvasH']>250,fixture)
+        check(label+' delayed walk starts at origin and dying actor stays visible before cue',
+              bool(fixture['motionOracle']['sourceCadence']) and
+              fixture['motionOracle']['before']['x']==3 and
+              fixture['motionOracle']['before']['y']==3 and
+              fixture['motionOracle']['walkStart']['x']==3 and
+              fixture['motionOracle']['walkStart']['action']=='walk' and
+              3<fixture['motionOracle']['walkMid']['x']<4 and
+              fixture['motionOracle']['after']['x']==4 and
+              fixture['motionOracle']['deathBefore']=='idle' and
+              fixture['motionOracle']['deathDuring']=='death' and
+              fixture['motionOracle']['deathAfter'] is None,
+              fixture['motionOracle'])
         page.wait_for_timeout(4250)
         result=page.evaluate("""() => {
           const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),b=s.battle;
@@ -95,6 +136,7 @@ with sync_playwright() as pw:
             frameP50Ms:pct(deltas,.50),frameP75Ms:pct(deltas,.75),frameP95Ms:pct(deltas,.95),
             drawP50Ms:pct(sorted,.5),drawP95Ms:pct(sorted,.95),
             drawWorstMs:sorted[sorted.length-1],
+            staticLayer:HOG_PAINTER.battleStaticCacheStats(now),
             canvasStable:now===window._hg34.canvas&&m.canvasChanged===0,
             turn,renderedTurns:[...new Set(m.turns)],header:document.querySelector('.combat-scene-title .tag')?.textContent,
             valid:E.strictSave(s),coldCopyTurn:reload,
@@ -109,6 +151,13 @@ with sync_playwright() as pw:
         check(label+' frame pacing exceeds obsolete 24 FPS throttle',
               result['observedFps']>=29 and result['frameP75Ms'] is not None and
               result['frameP75Ms']<40.5,{'fps':result['observedFps'],'frameP75Ms':result['frameP75Ms']})
+        check(label+' static Open Field and hex layer reused across hundreds of draws',
+              result['staticLayer'] is not None and
+              result['staticLayer']['imageLoaded'] and
+              result['staticLayer']['builds']<=3 and
+              result['staticLayer']['hits']>=result['observedFrames']-3,
+              {'staticLayer':result['staticLayer'],'frames':result['observedFrames'],
+               'drawP95Ms':result['drawP95Ms'],'frameP95Ms':result['frameP95Ms']})
         check(label+' current turn HUD and Save v07 remain consistent',
               result['valid'] and result['coldCopyTurn']==result['turn'] and
               result['header'] is not None and
@@ -132,7 +181,14 @@ with sync_playwright() as pw:
               page.evaluate("""id => HOG_APP_DEBUG.getState().battle?.selected===id&&
                  document.getElementById('battle-canvas')===window._hg34ClickCanvas""",point['id']),point['id'])
         oldToggle=page.locator('[data-action="battle-grid"]').get_attribute('aria-pressed')
+        buildsBefore=page.evaluate("""() => HOG_PAINTER.battleStaticCacheStats(document.getElementById('battle-canvas')).builds""")
         page.locator('[data-action="battle-grid"]').click()
+        page.wait_for_timeout(120)
+        cacheToggle=page.evaluate("""() => HOG_PAINTER.battleStaticCacheStats(document.getElementById('battle-canvas'))""")
+        check(label+' grid toggle invalidates cached layer once without discarding RAF',
+              cacheToggle is not None and cacheToggle['builds']==buildsBefore+1 and
+              cacheToggle['hits']>result['staticLayer']['hits'],
+              cacheToggle)
         check(label+' grid toggle updates immediately without canvas replacement',
               page.evaluate("""prev=>document.getElementById('battle-canvas')===window._hg34ClickCanvas&&
                 document.querySelector('[data-action="battle-grid"]')?.getAttribute('aria-pressed')!==prev""",oldToggle))
