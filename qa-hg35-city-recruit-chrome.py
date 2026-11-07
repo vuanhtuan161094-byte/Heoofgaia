@@ -57,7 +57,18 @@ with sync_playwright() as pw:
     quoted=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,cost=E.buildCost(s,'market');
       const displays=[...document.querySelectorAll('.hg35-cost-line')].map(node=>node.innerText);
+      // Capture the atomic actual spend, not before-vs-after resource deltas:
+      // passive production can legally tick during the browser click.
       window._hg35Before={res:{...s.res},cost};
+      const previous=E.spend;
+      window._hg35Spends=[];
+      E.spend=function(st,amount){
+        const before={...st.res},result=previous.call(this,st,amount),after={...st.res};
+        window._hg35Spends.push({before,after,amount:{...amount},
+          actual:Object.fromEntries(Object.keys(amount).map(k=>[k,before[k]-after[k]]))});
+        return result;
+      };
+      window._hg35UnhookSpend=()=>{E.spend=previous;};
       return {cost,displays,can:E.canAfford(s,cost),effect:document.querySelector('.hg35-building-effects')?.innerText};
     }""")
     check('Market build clearly previews what is deducted before click',
@@ -68,13 +79,15 @@ with sync_playwright() as pw:
     page.locator('[data-action="upgrade"][data-key="market"]').click()
     built=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),before=window._hg35Before;
-      const lost=Object.fromEntries(Object.keys(before.cost).map(k=>[k,before.res[k]-s.res[k]]));
-      return {queue:s.buildingQueue?.key,valid:HOG_ENGINE.strictSave(s),lost,
-        paid:before.cost,toasting:document.getElementById('toast')?.textContent};
+      const payments=window._hg35Spends.slice();
+      window._hg35UnhookSpend();
+      return {queue:s.buildingQueue?.key,valid:HOG_ENGINE.strictSave(s),
+        payments,paid:before.cost,toasting:document.getElementById('toast')?.textContent};
     }""")
     check('Actual Market button pays correct resources and starts one authentic building queue',
           built['queue']=='market' and built['valid'] and
-          all(abs(built['lost'][k]-v)<2 for k,v in built['paid'].items()) and
+          len(built['payments'])==1 and
+          all(abs(built['payments'][0]['actual'][k]-v)<1e-7 for k,v in built['paid'].items()) and
           'Đã trừ' in built['toasting'],built)
     page.locator('[data-action="tab"][data-tab="army"]').first.click()
     army=page.evaluate("""() => {
@@ -111,21 +124,32 @@ with sync_playwright() as pw:
       const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),n=Number(document.querySelector('#q_human_1').value);
       window._hg35UnitBefore={n,cost:E.recruitCost(s,E.getUnit(s,'human_1'),n),
                               res:{...s.res},army:s.army.human_1,queue:s.training.length};
+      const previous=E.spend;
+      window._hg35Spends=[];
+      E.spend=function(st,amount){
+        const before={...st.res},result=previous.call(this,st,amount),after={...st.res};
+        window._hg35Spends.push({before,after,amount:{...amount},
+          actual:Object.fromEntries(Object.keys(amount).map(k=>[k,before[k]-after[k]]))});
+        return result;
+      };
+      window._hg35UnhookSpend=()=>{E.spend=previous;};
       return window._hg35UnitBefore;
     }""")
     page.locator('[data-action="recruit"][data-id="human_1"]').click()
     paid=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState(),o=window._hg35UnitBefore;
+      const payments=window._hg35Spends.slice();
+      window._hg35UnhookSpend();
       return {valid:HOG_ENGINE.strictSave(s),army:s.army.human_1,
         queue:s.training.length,queued:s.training.at(-1)?.count,
-        cost:Object.fromEntries(Object.keys(o.cost).map(k=>[k,o.res[k]-s.res[k]])),
-        toast:document.getElementById('toast')?.textContent};
+        payments,toast:document.getElementById('toast')?.textContent};
     }""")
     check('MAX recruitment subtracts exact resources and queues only paid troops',
           paid['valid'] and paid['army']==beforeRecruit['army'] and
           paid['queue']==beforeRecruit['queue']+1 and
           paid['queued']==beforeRecruit['n'] and
-          all(abs(paid['cost'][k]-v)<2 for k,v in beforeRecruit['cost'].items()) and
+          len(paid['payments'])==1 and
+          all(abs(paid['payments'][0]['actual'][k]-v)<1e-7 for k,v in beforeRecruit['cost'].items()) and
           'Đã trừ' in paid['toast'],paid)
     page.reload(wait_until='load')
     afterReload=page.evaluate("""() => {
