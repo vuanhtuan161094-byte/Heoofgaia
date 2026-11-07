@@ -125,7 +125,6 @@
       "-185",
       "-5 quân",
       "✖",
-      "⚔  GIAO TRANH • LƯỢT 2",
       "TA 16 : 3 ĐỊCH"
     ],
     "stable": true,
@@ -156,5 +155,5 @@
     "docs\\evidence\\hg145\\grid-on-hp-on-mobile-960x540.png"
   ],
   "errors": [],
-  "html_sha256": "289546225a6002742fda810e8345abdf48ec9abd0bd61d55767442c08427d80c"
+  "html_sha256": "e406f084d625d09de100e764a111bfb184698b74b29d13ce7f6248bedef2dcab"
 }

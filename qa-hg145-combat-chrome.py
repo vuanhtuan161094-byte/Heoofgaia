@@ -88,7 +88,7 @@ with sync_playwright() as pw:
   try{
    P.drawBattle(c,E,s,stamp+600,{showGrid:true,showHP:true});
    const camera=P.battleProjection(c,E),layout=P.battleUnitLayout(b,camera,c.width,c.height),
-     effects=P.battleFxPlan(b,camera,600,layout);
+     effects=P.battleFxPlan(b,camera,stamp+600,layout);
    return {outcome:act.type,effectFrame:c.toDataURL('image/png').split(',')[1],
      receipts:b.lastEvents.filter(e=>e.damage>0&&e.targetId).map(e=>({
        actorId:e.actorId,targetId:e.targetId,damage:e.damage,
