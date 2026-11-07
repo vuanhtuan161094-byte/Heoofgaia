@@ -293,8 +293,22 @@ function recruitCost(s,u,count){
   cost[key]=Math.ceil(cost[key]*(1-efficiency));
  return cost;
 }
+// The only bound is numeric Save v07 integrity, not town storage or hero command.
+const HG35_MAX_SAFE_TROOPS=1_000_000_000;
+function recruitMax(s,id){
+ ensure(s);const u=E.getUnit(s,id);
+ if(!u||u.rewardOnly||!unitPrerequisites(s,u).available)return 0;
+ const pending=s.training.filter(q=>q.unitId===id).reduce((n,q)=>n+q.count,0);
+ let lo=0,hi=Math.max(0,Math.min(HG35_MAX_SAFE_TROOPS,
+  HG35_MAX_SAFE_TROOPS-(s.army[id]||0)-pending));
+ while(lo<hi){
+  const mid=Math.floor((lo+hi+1)/2);
+  if(E.canAfford(s,recruitCost(s,u,mid)))lo=mid;else hi=mid-1;
+ }
+ return lo;
+}
 function recruitDuration(s,u,count){
- if(!u||!Number.isSafeInteger(count)||count<1||count>1000)throw Error('Số quân tuyển không hợp lệ');
+ if(!u||!Number.isSafeInteger(count)||count<1||count>HG35_MAX_SAFE_TROOPS)throw Error('Số quân tuyển không hợp lệ');
  const bootcamp=s.spells?.bootcamp||0,smith=s.buildings?.blacksmith||0;
  const eliteTime=u.tier>=9&&smith>=8&&bootcamp>=6?
    Math.min(.22,(Math.min(10,smith)-7)*.025+(Math.min(10,bootcamp)-5)*.03):0;
@@ -303,8 +317,11 @@ function recruitDuration(s,u,count){
 function recruit(s,id,count){
  ensure(s);const u=E.getUnit(s,id);if(!u)throw Error('Không có quân của chủng tộc này');
  if(u.rewardOnly)throw Error('Quân đặc biệt chỉ nhận qua nhiệm vụ, không thể tuyển tại trại.');
- if(!Number.isSafeInteger(count)||count<1||count>1000)throw Error('Số lượng không hợp lệ');
+ if(!Number.isSafeInteger(count)||count<1||count>HG35_MAX_SAFE_TROOPS)throw Error('Số lượng không hợp lệ');
  const req=unitPrerequisites(s,u);if(!req.available)throw Error(`Chưa đủ điều kiện ${u.name}: ${conditionName(req.unmet[0])}.`);
+ // Prevent eventual stock integer overflow (including pending queues) without
+ // ever using the hero command-point limit as a city garrison limit.
+ if(count>recruitMax(s,id))throw Error('Số quân tuyển vượt tài nguyên hiện tại hoặc giới hạn an toàn Save.');
  const cost=recruitCost(s,u,count);E.spend(s,cost);
  const time=recruitDuration(s,u,count);
  s.training.push({id:s.serial++,unitId:id,count,remaining:time,total:time});
@@ -514,6 +531,6 @@ Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGI
  ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,NPC_BATTLE_XP,battleExperienceReward,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  buildingUpgradeGate,buildingUpgradeCapException,
 technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,castellanExperienceFromResources,grantCastellanActivityExperience,progressFame,
- troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,recruitDuration,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
+ troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,recruitDuration,recruitMax,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
 root.HOG_HG08={version:V,saveKey:KEY,status:'evidence-labelled-progression'};
 })(typeof globalThis!=='undefined'?globalThis:this);
