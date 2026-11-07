@@ -133,20 +133,21 @@ with sync_playwright() as pw:
   page.screenshot(path=str(before_path),animations='disabled')
   before_draw=page.evaluate("""() => {
    const c=document.querySelector('#battle-canvas'),ctx=c.getContext('2d'),calls=[],original=ctx.drawImage;
-   ctx.drawImage=function(image,...args){if(image?.id?.startsWith('hg28-boss-')||image?.id?.startsWith('hg28-battle-')||image?.id?.startsWith('unit-hg33-'))calls.push(image.id);return original.call(this,image,...args)};
+   ctx.drawImage=function(image,...args){if(image?.id?.startsWith('hg28-boss-')||image?.id?.startsWith('hg28-battle-')||image?.id?.startsWith('unit-hg33-')||image?.id?.startsWith('hg33-atlas-'))calls.push(image.id);return original.call(this,image,...args)};
    try{return {calls:(HOG_PAINTER.drawBattle(c,HOG_ENGINE,HOG_APP_DEBUG.getState(),performance.now(),{showGrid:false}),calls),state:JSON.stringify(HOG_ENGINE.clone(HOG_APP_DEBUG.getState()))}}
    finally{ctx.drawImage=original}
   }""")
   assert before_draw['calls'].count('hg28-battle-human-spear-militia')>=1 and not any(i.startswith('unit-hg33-') or i.startswith('hg28-boss-') for i in before_draw['calls']) and before_draw['state']==before['state'],f'{width}x{height} BEFORE frame did not use the preserved master fallback cleanly: {before_draw}'
   page.evaluate("""images=>{window.HOG_HG33_TROOP_ATLASES=window.__hg28AtlasForVisualQA;delete window.__hg28AtlasForVisualQA;for(const item of images){const e=document.getElementById(item.id);if(e&&item.src)e.setAttribute('src',item.src)}}""",before['images'])
   page.wait_for_function("ids=>ids.every(id=>{const e=document.getElementById(id);return e?.complete&&e.naturalWidth===512})",arg=['hg28-boss-azrael','hg28-boss-demonlord-samurai','hg28-boss-cyclops-tyrant','hg28-battle-human-spear-militia'])
+  page.evaluate("""async ids=>Promise.all(ids.map(async id=>{const e=document.getElementById(id);if(!e.hasAttribute('src'))e.src=e.dataset.hg33AtlasSrc;await e.decode();return e.naturalWidth===1536&&e.naturalHeight===1024}))""",['hg33-atlas-azrael','hg33-atlas-demonlord-samurai','hg33-atlas-cyclop-tyrant'])
   assert page.evaluate("s=>JSON.stringify(HOG_ENGINE.clone(HOG_APP_DEBUG.getState()))===s",before['state']),f'{width}x{height} art comparison changed live battle state'
   screenshots.append({'viewport':f'{width}x{height}','state':'boss-art-before-controlled-fallback','path':before_path.relative_to(ROOT).as_posix(),'sha256':sha(before_path)})
   checks.append({'viewport':f'{width}x{height}','check':'BEFORE Chromium frame draws the preserved source sprite fallback after atlas rendering is disabled; battle state unchanged','pass':before_path.stat().st_size>10000 and before_draw['calls'].count('hg28-battle-human-spear-militia')>=1 and before_draw['state']==before['state'],'drawn':before_draw['calls']})
   painted=page.evaluate("""() => {
    const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),c=document.querySelector('#battle-canvas'),ctx=c.getContext('2d');
    const calls=[],original=ctx.drawImage,stateBefore=JSON.stringify(E.clone(s));
-   ctx.drawImage=function(image,...args){if(image?.id?.startsWith('hg28-boss-')||image?.id?.startsWith('hg28-battle-')||image?.id?.startsWith('unit-hg33-'))calls.push(image.id);return original.call(this,image,...args)};
+   ctx.drawImage=function(image,...args){if(image?.id?.startsWith('hg28-boss-')||image?.id?.startsWith('hg28-battle-')||image?.id?.startsWith('unit-hg33-')||image?.id?.startsWith('hg33-atlas-'))calls.push(image.id);return original.call(this,image,...args)};
    try{
     P.drawBattle(c,E,s,performance.now(),{showGrid:false});const first=c.toDataURL('image/png');
     P.drawBattle(c,E,s,performance.now()+250,{showGrid:false});const second=c.toDataURL('image/png');
@@ -156,9 +157,10 @@ with sync_playwright() as pw:
      profileNames:s.battle.enemies.map(u=>P.bossSprite(u.name)?.id||null)};
    }finally{ctx.drawImage=original}
   }""")
-  expected=['hg28-boss-azrael','hg28-boss-demonlord-samurai','hg28-boss-cyclops-tyrant']
+  expected=['hg33-atlas-azrael','hg33-atlas-demonlord-samurai','hg33-atlas-cyclop-tyrant']
+  expected_profiles=['hg28-boss-azrael','hg28-boss-demonlord-samurai','hg28-boss-cyclops-tyrant']
   atlas_drawn=painted['calls'].count('unit-hg33-human-1-atlas')>=2
-  assert all(painted['calls'].count(asset)>=2 for asset in expected) and atlas_drawn and painted['changed'] and painted['stable'] and painted['labelsFit'] and painted['profileNames']==expected,f'{width}x{height} battle failed to draw/animate registered battle troops cleanly: {painted}'
+  assert all(painted['calls'].count(asset)>=2 for asset in expected) and atlas_drawn and painted['changed'] and painted['stable'] and painted['labelsFit'] and painted['profileNames']==expected_profiles,f'{width}x{height} battle failed to draw/animate registered battle troops cleanly: {painted}'
   checks.append({'viewport':f'{width}x{height}','check':'real boss battle draws all three portraits and the authored eight-frame Spear Militia atlas, idle motion changes, HUD labels clear and game state stays unchanged','pass':True,'drawn':painted['calls'],'labelsFit':painted['labelsFit']})
   after_path=ROOT/'docs'/'evidence'/'hg28'/'after'/f'{width}x{height}'/'15-boss-battle.png'
   after_path.parent.mkdir(parents=True,exist_ok=True)
@@ -168,7 +170,7 @@ with sync_playwright() as pw:
   page.close()
  browser.close()
 
-receipt={'sourceCommit':subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'html':GAME.name,'htmlSha256':sha(GAME),'browser':'Playwright Chromium, local file://; Army UI plus actual engine March into the authored Azrael encounter; Boss visual lineup uses 16 deployed Human Spear Militias as a disclosed art fixture, not organic progression.','screenshots':screenshots,'checks':checks,'pageErrors':errors,'animation':'Before/after captures exercise the preserved source sprite fallback and the new authored 8-frame five-action atlas separately. The 38 generated atlases complement Human Archer HG14.3 (48 source frames) and the unchanged Skeleton HG22.1 animation. Eight T9/T10 authored rig masters remain preserved by the HG28 Chromium gate.','pass':len(checks)==42 and len(screenshots)==12 and not errors}
+receipt={'sourceCommit':subprocess.check_output(['git','-c',f'safe.directory={ROOT.resolve().as_posix()}','rev-parse','HEAD'],cwd=ROOT,text=True).strip(),'html':GAME.name,'htmlSha256':sha(GAME),'browser':'Playwright Chromium, local file://; Army UI plus actual engine March into the authored Azrael encounter; Boss visual lineup uses 16 deployed Human Spear Militias as a disclosed art fixture, not organic progression.','screenshots':screenshots,'checks':checks,'pageErrors':errors,'animation':'Before/after captures exercise the preserved source sprite fallback and the new authored 8-frame five-action atlas separately. The 38 generated atlases complement Human Archer HG14.3 (48 source frames) and the unchanged Skeleton HG22.1 animation. Eight T9/T10 authored rig masters remain preserved by the HG28 Chromium gate.','pass':len(checks)==42 and len(screenshots)==12 and not errors}
 qa=ROOT/'docs'/'qa'/'hg28'/'art-chrome.json';qa.parent.mkdir(parents=True,exist_ok=True);qa.write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
 print(f"HG28 Army/T9-T10 and Boss Chromium: {len(checks)}/42 checks; {len(screenshots)}/12 screenshots; {len(errors)} page/console errors")
 print(f"HTML SHA-256 {receipt['htmlSha256']} · receipt {qa.relative_to(ROOT).as_posix()}")

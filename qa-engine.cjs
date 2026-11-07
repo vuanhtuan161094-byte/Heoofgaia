@@ -1708,6 +1708,8 @@ test('HG33 additional atlases animate the two preserved core exceptions, Priest,
   for(const action of actions){const clip=unit.actions[action];assert.equal(clip.count,8,id+'/'+action);const f=P.troopAtlasFrame(id,action,clip.durationMs,clip.durationMs);assert.equal(f.frame,clip.loop?0:7,id+'/'+action+' loops or clamps correctly');assert.equal(f.sw,192);assert.equal(f.sh,204);}
  }
  for(const row of A.additional.filter(x=>x.kind==='boss')){const resolved=A.resolve(null,row.name);assert.equal(resolved.id,row.id);assert(A.hasActor(null,row.name));}
+ assert.equal(A.resolve('human_1','Azrael').id,'azrael','legacy NPC generic unit IDs must not hide named Boss art');
+ assert.equal(A.resolve('orc_8','Cyclop Tyrant').id,'cyclop-tyrant','named Boss atlas takes priority over generic legacy roster ID');
  for(const row of A.additional.filter(x=>x.kind==='reward'))assert.equal(A.resolve(row.unitId).id,row.id);
  assert.equal(A.resolve(null,'Huyết Nguyệt Ma Thần').id,'blood-moon-demon-god');
  assert.equal(A.resolve(null,'Tinh Không Đại Ma').id,'cosmic-star-fiend');

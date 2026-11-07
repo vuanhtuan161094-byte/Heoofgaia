@@ -6059,7 +6059,7 @@ const base=root.HOG_HG33_TROOP_ATLASES||{units:{},retained:{},hasUnit(id){return
 function normalizeName(value){return String(value||'').replace(/\s*[·•].*$/,'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/đ/g,'d').replace(/[^a-z0-9]+/g,' ').trim();}
 const merged=Object.freeze({
  ...base, additional:Object.freeze(rows), additionalByUnit:Object.freeze(byUnit), additionalByBoss:Object.freeze(byBoss),
- resolve(unitId,actorName=''){return byUnit[unitId]||base.units?.[unitId]||byBoss[normalizeName(actorName)]||null;},
+ resolve(unitId,actorName=''){return byBoss[normalizeName(actorName)]||byUnit[unitId]||base.units?.[unitId]||null;},
  hasUnit(id){return !!byUnit[id]||base.hasUnit(id);},
  hasActor(id,name=''){return !!this.resolve(id,name);},
  profile(id,name=''){const d=this.resolve(id,name);return d?{size:d.renderWidth,pivot:d.pivot,boss:d.kind==='boss'}:base.profile(id);}
