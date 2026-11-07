@@ -1,7 +1,7 @@
 {
-  "commit": "daea17d13e3b3c0533bef649af64c90ee14f4e98",
+  "commit": "d65cad9758c2ce02243f02aef14fd73360cae416",
   "html": "Play-Heoofgaia-HG11.html",
-  "htmlSha256": "61956DEB38AEF763848C523C8A2B857E164581449737CF65C244238683724C4B",
+  "htmlSha256": "D4B329EA925D7A5B4C15BAEBC2A4A88300D87882C35489598B08C9B882A949CF",
   "browser": "Playwright Chromium opening the built file:// HTML; New Game + actual engine march to Azrael NPC; no battle result is claimed.",
   "checks": [
     {
@@ -37,12 +37,12 @@
     {
       "viewport": "1280x720",
       "path": "docs/evidence/hg33/H4-boss-roster-chromium/azrael-real-battle-1280x720.png",
-      "sha256": "86552DC58A03B7362E4B7745002F98F03F3117AC7D399E406BC54D80A85F2979"
+      "sha256": "E44A91BB3A0B0EE48BD592CCA36CAF1B99991EC51998CD0EA0304F26380F385E"
     },
     {
       "viewport": "960x540",
       "path": "docs/evidence/hg33/H4-boss-roster-chromium/azrael-real-battle-960x540.png",
-      "sha256": "7B32BB0B8F3225D339B34BF6F50D024C240B0DBFB2CBD014110AF61FFB8C20CD"
+      "sha256": "2B5AD7893BA5DB733EF993C8B18E2416290687F612F5295795AF996C187A54A1"
     }
   ],
   "pageErrors": [],

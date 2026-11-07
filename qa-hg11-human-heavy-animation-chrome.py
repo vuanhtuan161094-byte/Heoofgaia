@@ -109,14 +109,17 @@ with sync_playwright() as playwright:
       const sheets={};for(const race of races)sheets[race]=contacts[race].canvas.toDataURL('image/png');
       return {coreUnits:ids.length,atlasUnits,retainedUnits:Object.keys(A.retained),actionsPerAtlas:actions.length,
         frameCellsExpected:expected.size,frameCellsDrawn:framesRendered,sourceRectsObserved:actual.size,
-        preservedSkeletonAttackFrames:HOG_HG22_SKELETON.FRAMES,
+        originalSkeletonAtlas:A.resolve('undead_1')?.imageId||null,
+        originalSkeletonAttackFrames:A.resolve('undead_1')?.actions?.attack?.count||0,
+        legacySkeletonModuleAbsent:!Object.prototype.hasOwnProperty.call(globalThis,'HOG_HG22_SKELETON'),
         contactUnits:Object.fromEntries(races.map(r=>[r,contacts[r].units])),contactSheets:sheets,
         failed:failures.length,failures:failures.slice(0,20)}})()""")
     check("All 40 effective troop atlases render every Idle/Walk/Attack/Hit/Death frame through the battle renderer",
           atlas_coverage["coreUnits"] == 40 and atlas_coverage["atlasUnits"] == 40 and len(atlas_coverage["retainedUnits"]) == 2 and
           atlas_coverage["actionsPerAtlas"] == 5 and atlas_coverage["frameCellsExpected"] == 1600 and
           atlas_coverage["frameCellsDrawn"] == 1600 and atlas_coverage["sourceRectsObserved"] == 1600 and
-          atlas_coverage["preservedSkeletonAttackFrames"] == 10 and atlas_coverage["contactUnits"] == {"human":10,"elf":10,"orc":10,"undead":10} and
+          atlas_coverage["originalSkeletonAtlas"] == "hg33-atlas-undead-skeleton" and atlas_coverage["originalSkeletonAttackFrames"] == 8 and
+          atlas_coverage["legacySkeletonModuleAbsent"] and atlas_coverage["contactUnits"] == {"human":10,"elf":10,"orc":10,"undead":10} and
           atlas_coverage["failed"] == 0, json.dumps({k:v for k,v in atlas_coverage.items() if k!="contactSheets"}, ensure_ascii=False))
     CONTACT_EVIDENCE.mkdir(parents=True, exist_ok=True)
     contact_sheets = atlas_coverage.pop("contactSheets")

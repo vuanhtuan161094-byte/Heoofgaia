@@ -5,8 +5,8 @@
   "sourceMode": "installed Chrome on the standalone local file:// HTML",
   "assetSource": "Original built-in image_gen atlas for Human Vanguard; assets/original/hg33/troops/human-vanguard-atlas.png; five action rows with eight frames each; no external image source.",
   "fixtureDisclosure": "A new Human game is created normally. The fixture seeds Hall 4, Barracks 4, Blacksmith 1, Manufacturing 1, Bootcamp 1 and prerequisite resources to skip prerequisite wait time. The UI recruits two Heavy Soldiers and spends real resources; the actual engine tick completes the queue. Real formation deploys one Heavy Soldier and militia; map selection, March, travel, Attack and Stand By controls resolve every player movement, damage and casualty. Enemy-only durability, position and attack values are adjusted to keep battle observable and cause a real engine casualty; no player positions, damage, death or battle result are set. The second Heavy Soldier stays at the home city. Enemy sprite mirroring is tested only on an isolated clone after reload.",
-  "total": 22,
-  "passed": 22,
+  "total": 26,
+  "passed": 26,
   "failed": 0,
   "errors": [],
   "checks": [
@@ -18,7 +18,7 @@
     {
       "name": "All 40 effective troop atlases render every Idle/Walk/Attack/Hit/Death frame through the battle renderer",
       "passed": true,
-      "detail": "{\"coreUnits\": 40, \"atlasUnits\": 40, \"retainedUnits\": [\"human_3\", \"undead_1\"], \"actionsPerAtlas\": 5, \"frameCellsExpected\": 1600, \"frameCellsDrawn\": 1600, \"sourceRectsObserved\": 1600, \"preservedSkeletonAttackFrames\": 10, \"contactUnits\": {\"human\": 10, \"elf\": 10, \"orc\": 10, \"undead\": 10}, \"failed\": 0, \"failures\": []}"
+      "detail": "{\"coreUnits\": 40, \"atlasUnits\": 40, \"retainedUnits\": [\"human_3\", \"undead_1\"], \"actionsPerAtlas\": 5, \"frameCellsExpected\": 1600, \"frameCellsDrawn\": 1600, \"sourceRectsObserved\": 1600, \"originalSkeletonAtlas\": \"hg33-atlas-undead-skeleton\", \"originalSkeletonAttackFrames\": 8, \"legacySkeletonModuleAbsent\": true, \"contactUnits\": {\"human\": 10, \"elf\": 10, \"orc\": 10, \"undead\": 10}, \"failed\": 0, \"failures\": []}"
     },
     {
       "name": "Chromium renderer contact sheets cover all 40 units and five states",
@@ -48,7 +48,7 @@
     {
       "name": "Actual recruitment spends resources and queues two Heavy Soldiers",
       "passed": true,
-      "detail": "{\"unitId\": \"human_4\", \"count\": 2, \"remaining\": 673.3, \"gold\": 2699723.05, \"strict\": true}"
+      "detail": "{\"unitId\": \"human_4\", \"count\": 2, \"remaining\": 784, \"gold\": 2699680, \"strict\": true}"
     },
     {
       "name": "Real engine tick completes the queue and delivers both recruited troops",
@@ -68,7 +68,7 @@
     {
       "name": "Actual March dispatch spends AP and carries the formed Heavy Soldier stack",
       "passed": true,
-      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 96.31225}"
+      "detail": "{\"target\": \"5,6\", \"formation\": [\"human_4\", \"human_1\"], \"heavy\": 1, \"ap\": 96.57925}"
     },
     {
       "name": "Natural travel arrival opens a live battle with the UI-recruited Heavy Soldier",
@@ -88,12 +88,22 @@
     {
       "name": "Live battle canvas samples distinct original idle, walk and attack frames",
       "passed": true,
-      "detail": "{\"samples\": 130, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"walk\": 8, \"attack\": 8, \"idle\": 6}}"
+      "detail": "{\"samples\": 136, \"actions\": [\"attack\", \"idle\", \"walk\"], \"distinctFrames\": {\"idle\": 7, \"walk\": 8, \"attack\": 8}}"
     },
     {
       "name": "Real battle screenshots are exact 1280×720 and 960×540 Chromium viewports",
       "passed": true,
-      "detail": "{\"1280x720\": {\"sha256\": \"8548FE031E97441C5F2F45920989143C37E7255D4F07D774B229AE0927F3565A\", \"bytes\": 952673, \"resolution\": \"1280x720\"}, \"960x540\": {\"sha256\": \"C50DFCE4EAC0F77262C52EE2AFF8004F2C90A9CDEF7CD590F22A461E08EB1F10\", \"bytes\": 492798, \"resolution\": \"960x540\"}}"
+      "detail": "{\"1280x720\": {\"sha256\": \"45823CB10574F467958621A256AC122EFB7C95B7477A16B482571E4E16F0278D\", \"bytes\": 1075253, \"resolution\": \"1280x720\"}, \"960x540\": {\"sha256\": \"27E99F22DE78A52E53CDE017E0F0747CDFAB01C517549B2C6CB32F8B3A3F140C\", \"bytes\": 658061, \"resolution\": \"960x540\"}}"
+    },
+    {
+      "name": "Heavy Soldier before Hit animation is hit-testable at its battlefield hex",
+      "passed": true,
+      "detail": "{\"id\": \"p0\", \"hit\": \"p0\", \"clientX\": 677.1600000000001, \"clientY\": 309.7807325058311}"
+    },
+    {
+      "name": "Real battlefield click selects Heavy Soldier before Hit animation",
+      "passed": true,
+      "detail": "p0"
     },
     {
       "name": "Real damage receipt selects and renders the Human Vanguard Hit atlas row",
@@ -106,6 +116,16 @@
       "detail": "{\"version\": 7, \"race\": \"human\", \"battle\": true, \"key\": true, \"unit\": \"human_4\", \"pool\": 76, \"enemyEvent\": {\"actorId\": \"e0\", \"from\": {\"x\": 7, \"y\": 1}, \"to\": {\"x\": 7, \"y\": 1}, \"path\": [], \"targetId\": \"p0\", \"damage\": 5, \"death\": false, \"order\": \"attack\", \"casualties\": 0}, \"strict\": true, \"atlasReady\": true}"
     },
     {
+      "name": "Heavy Soldier before Death animation is hit-testable at its battlefield hex",
+      "passed": true,
+      "detail": "{\"id\": \"p0\", \"hit\": \"p0\", \"clientX\": 677.1600000000001, \"clientY\": 309.7807325058311}"
+    },
+    {
+      "name": "Real battlefield click selects Heavy Soldier before Death animation",
+      "passed": true,
+      "detail": "p0"
+    },
+    {
       "name": "Actual defender attack kills the Heavy Soldier while militia keeps battle active",
       "passed": true,
       "detail": "{\"live\": true, \"p1\": 0, \"survivingMilitia\": 600, \"event\": {\"actorId\": \"e0\", \"from\": {\"x\": 6, \"y\": 1}, \"to\": {\"x\": 6, \"y\": 1}, \"path\": [], \"targetId\": \"p0\", \"damage\": 76, \"death\": true, \"order\": \"attack\", \"casualties\": 1}, \"strict\": true, \"version\": 7}"
@@ -113,7 +133,7 @@
     {
       "name": "Dead-stack playback samples all eight Death_A atlas frames while battle remains active",
       "passed": true,
-      "detail": "{\"distinctFrames\": 8, \"totalSamples\": 29}"
+      "detail": "{\"distinctFrames\": 8, \"totalSamples\": 28}"
     },
     {
       "name": "No JavaScript or browser console errors occur during live animation play",
@@ -494,7 +514,9 @@
     "frameCellsExpected": 1600,
     "frameCellsDrawn": 1600,
     "sourceRectsObserved": 1600,
-    "preservedSkeletonAttackFrames": 10,
+    "originalSkeletonAtlas": "hg33-atlas-undead-skeleton",
+    "originalSkeletonAttackFrames": 8,
+    "legacySkeletonModuleAbsent": true,
     "contactUnits": {
       "human": 10,
       "elf": 10,
@@ -537,29 +559,29 @@
       "walk"
     ],
     "distinctFramesByAction": {
+      "idle": 7,
       "walk": 8,
-      "attack": 8,
-      "idle": 6
+      "attack": 8
     },
     "hitFrames": 1,
     "deathFrames": 8,
-    "totalLiveCanvasSamples": 29
+    "totalLiveCanvasSamples": 28
   },
   "artifacts": {
     "human-heavy-soldier-battle-live-chrome.png": {
-      "sha256": "8548FE031E97441C5F2F45920989143C37E7255D4F07D774B229AE0927F3565A",
-      "bytes": 952673,
+      "sha256": "45823CB10574F467958621A256AC122EFB7C95B7477A16B482571E4E16F0278D",
+      "bytes": 1075253,
       "resolution": "1280x720"
     },
     "human-vanguard-battle-live-960x540.png": {
-      "sha256": "C50DFCE4EAC0F77262C52EE2AFF8004F2C90A9CDEF7CD590F22A461E08EB1F10",
-      "bytes": 492798,
+      "sha256": "27E99F22DE78A52E53CDE017E0F0747CDFAB01C517549B2C6CB32F8B3A3F140C",
+      "bytes": 658061,
       "resolution": "960x540"
     },
     "human-heavy-soldier-death-frame-chrome.png": {
-      "sha256": "67834FC660EE9D4849032174B17DE5383222AC9143F59908B1BB8CC854CD5FF3",
-      "bytes": 2187283,
-      "resolution": "1410x760"
+      "sha256": "714D8396295B41208C3E4204B442E5331C74E03E3F94B92767F79D9EF9F0912F",
+      "bytes": 2077882,
+      "resolution": "1185x898"
     }
   }
 }

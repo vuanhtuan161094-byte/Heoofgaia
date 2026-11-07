@@ -35,6 +35,10 @@ jobs:
         run: |
           node --check qa-hg33-inventory.cjs
           node qa-hg33-inventory.cjs
+      - name: HG33 H2 six layered original action-atlas sources
+        run: |
+          python -m py_compile tools/build_hg33_h2_editable_sources.py
+          python tools/build_hg33_h2_editable_sources.py --check
       - name: QA source-registered 48-frame Human Archer PNG atlas
         run: python qa-hg143-archer-art.py
       - name: Check gameplay and battle viewport
@@ -511,6 +515,18 @@ jobs:
             docs/qa/hg33/human-heavy-animation-chrome.json
           retention-days: 30
           if-no-files-found: ignore
+      - name: Upload HG33 H2 editable six-pilot OpenRaster sources
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG33-H2-six-editable-frame-layer-sources
+          path: |
+            assets/original/hg33/layered-source/*.ora
+            assets/original/hg33/layered-source/h2-editable-frame-sources.json
+            docs/evidence/hg33/H2-editable-sources/h2-pilot-atlas-review.png
+            docs/qa/hg33/H2-editable-source-check.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Upload HG33 H3 all-race troop animation contact sheets
         if: always()
         uses: actions/upload-artifact@v4
