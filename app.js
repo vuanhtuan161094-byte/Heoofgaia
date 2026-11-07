@@ -8,6 +8,7 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const format=E.fmt;
 const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=1350;
 let battleAutoPulseBusy=false;
+let focusArmyRecruitOnOpen=false; // New Army-tab entry goes to actionable recruitment, not passive text.
 // Visual QA preferences are separate from the canonical v07 gameplay save.
 // Default both ON, as requested for verifying unit coordinates and HP.
 const BATTLE_VIEW_PREF_KEY='heoofgaia_battle_display_v2';
@@ -897,6 +898,17 @@ function render(){
   }).join('')+'</div>':showWorldIndex&&tab==='map'?$('main').querySelector('.landmarks')?.outerHTML||'':`<div class="hg28-tab hg28-tab-${tab}" data-hg28-screen="${tab}">${content}</div>`;
   overlay.hidden=false;document.body.classList.add('window-open');
   body.scrollTop=modalOffset;
+  // At 960x540 the modal's visible height is small. Open the Army tab on its
+  // first actionable troop card, leaving status/tasks accessible by scrolling
+  // upward. Re-renders preserve the user's current scroll position.
+  if(tab==='army'&&focusArmyRecruitOnOpen){
+   const first=body.querySelector('.hg28-tab-army .unitrow');
+   if(first){
+    const bodyBox=body.getBoundingClientRect(),rowBox=first.getBoundingClientRect();
+    body.scrollTop+=rowBox.top-bodyBox.top-5;
+   }
+   focusArmyRecruitOnOpen=false;
+  }
  }else{
   overlay.hidden=true;body.innerHTML='';document.body.classList.remove('window-open');
   $('main').innerHTML=(tab==='map'?newPlayerGuide():'')+content;
@@ -940,7 +952,8 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='race'){newRace=target.dataset.race;render();return}
  if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
  if(action==='start'){hg261Draft=null;state=E.make(newRace,Date.now(),newSpellEdition);tab='map';selected='3,4';selectedTargetKind=null;return}
- if(action==='tab'){tab=target.dataset.tab;showWorldIndex=false;showResourceInfo=false;modalOffset=0;return}
+ if(action==='tab'){tab=target.dataset.tab;showWorldIndex=false;showResourceInfo=false;modalOffset=0;
+  focusArmyRecruitOnOpen=tab==='army';return}
  if(action==='city-switch'){E.switchCity(state,target.dataset.id);selected=E.activeCity(state).key;tab='city';return}
  if(action==='city-transport'){const cargo=Object.fromEntries(C.keys.map(k=>[k,Number($(`city-transport-${k}`)?.value||0)])),convoy=E.startCityTransport(state,target.dataset.city,$('city-transport-unit')?.value,Number($('city-transport-count')?.value),cargo);toast(`Đoàn tiếp tế đã xuất phát; sức tải ${format(convoy.weight)}/${format(convoy.capacity)}.`);return}
  if(action==='select'){selected=target.dataset.key;selectedTargetKind=target.dataset.kind==='treasure'?'treasure':null;const tile=E.getTile(selected);if(tile)Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y});return}
