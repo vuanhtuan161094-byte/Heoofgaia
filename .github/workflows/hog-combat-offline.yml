@@ -71,6 +71,10 @@ jobs:
           python -m py_compile tools/pack_hg28_action_frames.py
           python tools/pack_hg28_action_frames.py --unit human_4 --source assets/licensed/kaykit-heavy-soldier/rendered --output docs/qa/hg28-animation-pack-smoke --cell 192
           python -c "import json; from pathlib import Path; m=json.loads(Path('docs/qa/hg28-animation-pack-smoke/atlas-manifest.json').read_text()); assert len(m['clips']) == 5 and sum(x['frames'] for x in m['clips'].values()) == 57"
+      - name: HG40.3 AF40 verify 178 sourced clips, original RGBA frame hashes and T9-T10 visual contact sheets
+        run: |
+          python -m py_compile qa-hg403-source-frames.py
+          python qa-hg403-source-frames.py
       - name: HG16 G4 core combat and production stress gate
         run: |
           node --check qa-hg16-g4-stress.cjs
@@ -283,6 +287,17 @@ jobs:
             docs/evidence/hg40/hg40-1-real-skill-*.png
             docs/evidence/hg40/hg403-*.png
           if-no-files-found: ignore
+      - name: Upload HG40.3 AF40 200-source-clip integrity and eight high-tier animation evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG40-3-AF40-Animation-Sources-200
+          path: |
+            docs/qa/hg403/source-animation-200.json
+            docs/qa/hg28-animation-coverage.json
+            docs/evidence/hg403/source-animation/*.png
+          retention-days: 30
+          if-no-files-found: error
       - name: Upload HG40.3 Visual Gate per-faction real Chromium Canvas battle sheets and receipts
         if: always()
         uses: actions/upload-artifact@v4
