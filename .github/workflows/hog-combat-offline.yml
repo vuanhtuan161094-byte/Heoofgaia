@@ -54,6 +54,8 @@ jobs:
           node qa-engine.cjs
           node --check qa-hg39-engine.cjs
           node qa-hg39-engine.cjs
+          node --check qa-hg405-recruit100.cjs
+          node qa-hg405-recruit100.cjs
           node qa-hg28-art.cjs
           node qa-hg09-combat-viewport.cjs
           node --check qa-hg33-hex.cjs
@@ -176,6 +178,10 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
+      - name: HG40.5 actual PC and touch-phone viewport New Game, recruitment and world-map acceptance
+        run: |
+          python -m py_compile qa-hg405-desktop-phone-chrome.py
+          python qa-hg405-desktop-phone-chrome.py
       - name: HG40.1 real file Chromium skill shield, Save v07 and responsive UI
         run: |
           python -m py_compile qa-hg40-real-skill-chrome.py
@@ -274,6 +280,17 @@ jobs:
           test -s Play-Heoofgaia-HG11.html
           sha256sum Play-Heoofgaia-HG11.html | tee Build-SHA256.txt
           wc -c Play-Heoofgaia-HG11.html
+      - name: Upload HG40.5 training 100x and PC-phone touch Chromium receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG40-5-Desktop-Phone-Training100x-Evidence
+          path: |
+            docs/qa/hg405-training-100x.json
+            docs/qa/hg405/desktop-phone-chrome.json
+            docs/evidence/hg405/*.png
+          retention-days: 30
+          if-no-files-found: ignore
       - name: Upload HG40.4 40-unit four-faction Boss Tower quick-balance telemetry
         if: always()
         uses: actions/upload-artifact@v4
