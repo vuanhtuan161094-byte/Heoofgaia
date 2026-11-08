@@ -995,7 +995,9 @@ function drawHG403ProcCues(c,b,elapsed,layout){
   const note=b.hg40.lastSkills.find(n=>n.turn===item.round&&
    n.skill===skill.name&&n.detail.startsWith(actor.u.name+' kích hoạt '));
   if(!note)continue;
-  const x=actor.x,y=actor.y-actor.size*.65;
+  // Skill names on top-row actors must stay below the 46px team/turn HUD.
+  // Clamp only the floating receipt cue, never the actor or canonical hex.
+  const x=actor.x,y=Math.max(99,actor.y-actor.size*.65);
   drawHG403Sigil(c,actor.u.unitId,x,y,age/620,Math.max(.65,actor.k));
   c.save();c.globalAlpha=clamp((620-age)/220,0,1);
   c.font='bold 12px sans-serif';c.textAlign='center';c.textBaseline='middle';
