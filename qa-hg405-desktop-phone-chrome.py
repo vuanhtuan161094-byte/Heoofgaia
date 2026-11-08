@@ -58,6 +58,12 @@ with sync_playwright() as playwright:
               data['save']==7 and data['valid'] and data['speed']==5000 and
               data['queueGameSeconds']>=1 and data['map'] and data['map']['w']>195 and
               data['buttons']>=5,data)
+        # Mobile world map must actually be playable; 99px was formally
+        # interactive but too shallow for meaningful hex map navigation.
+        min_map_height=155 if label=='phone-landscape-844x390' else 170 if mobile else 250
+        check(label+' keeps enough world-map HEIGHT to navigate visually',
+              data['map'] and data['map']['h']>=min_map_height,
+              {'map':data['map'],'minHeight':min_map_height})
         check(label+' has no horizontal page overflow',
               data['bodyW']<=data['innerW']+2,
               {'bodyW':data['bodyW'],'viewportW':data['innerW']})
