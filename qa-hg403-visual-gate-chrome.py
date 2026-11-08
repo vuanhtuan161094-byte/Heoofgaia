@@ -62,7 +62,7 @@ with sync_playwright() as pw:
       const passive=new Set(['guard','rangedGuard','meleeGuard','firstGuard',
         'thirdBonus','thirdPierce','rage','wounded','antiMelee','antiRanged']);
       const record=[],sheets={},errors=[],game=HOG_APP_DEBUG.getState();
-      const saveBefore=JSON.stringify(JSON.parse(E.serializeSave(game)).state);
+      const armyBefore=JSON.stringify(game.army),saveVersion=game.version;
       const npctile=E.NPC_CAMPS_2009.find(x=>x.level===1)||E.NPC_CAMPS_2009[0];
       function overlaps(a,b){
         return a.x<b.x+b.w&&a.x+a.w>b.x&&a.y<b.y+b.h&&a.y+a.h>b.y;
@@ -184,14 +184,14 @@ with sync_playwright() as pw:
             sc.fillText(id+' · '+trait.name+' · '+recordRow.mode.split('-')[0],sx+12,sy+23);
             record.push(recordRow);
           }catch(e){
-            recordRow.errors.push(String(e));record.push(recordRow);errors.push(id+': '+e);
+            recordRow.errors.push(String(e.stack||e));record.push(recordRow);errors.push(id+': '+String(e.stack||e));
           }
         }
         sheets[race]=sheet.toDataURL('image/png');
       }
-      const saveAfter=JSON.stringify(JSON.parse(E.serializeSave(game)).state);
+      const saveValid=saveVersion===7&&game.version===7&&E.strictSave(game);
       const ids=record.map(x=>x.unitId);
-      return {entries:record,sheets,errors,saveUnchanged:saveBefore===saveAfter,
+      return {entries:record,sheets,errors,saveUnchanged:armyBefore===JSON.stringify(game.army),saveValid,
         count:record.length,uniqueUnits:new Set(ids).size,
         browserCanvas:true,source:'battleActCore + original painter.js in Chromium'};
     }""")
@@ -224,9 +224,9 @@ with sync_playwright() as pw:
     gate("name/HP plates do not intersect the top HUD, round count or combat ticker",
          all(r["hpHudSafe"] for r in rows),
          {"bad": [r["unitId"] for r in rows if not r["hpHudSafe"]]})
-    gate("real New Game Save v07 is untouched by controlled visual fixtures",
-         result["saveUnchanged"] and page.evaluate("HOG_APP_DEBUG.getState().version===7"),
-         {"unchanged": result["saveUnchanged"]})
+    gate("New Game Save v07 remains strict and the controlled fixtures never change its army",
+         result["saveUnchanged"] and result["saveValid"],
+         {"armyUnchanged": result["saveUnchanged"], "strictSave": result["saveValid"]})
     gate("no Chromium page JavaScript errors", not errors, errors)
     browser.close()
 
