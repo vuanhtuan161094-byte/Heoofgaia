@@ -624,8 +624,10 @@ function armyView(){
  const troopBuilding=E.troopBuildingKey(state),troopBuildingName=C.buildings[troopBuilding].name;
  const opt=(sel)=>`<option value="">— Để trống —</option>${E.arrUnits(state).map(u=>`<option value="${u.id}" ${sel===u.id?'selected':''}>${esc(u.name)} (${Math.max(0,(state.army[u.id]||0)-(E.hg20Reservations(state,state.activeHero)[u.id]||0))} còn có thể cấp)</option>`).join('')}`;
  const townTroops=E.arrUnits(state).reduce((n,u)=>n+(state.army[u.id]||0),0),
-  pendingTroops=state.training.reduce((n,q)=>n+q.count,0),
-  queueEtaReal=state.training.map((q,i)=>Math.ceil(state.training.slice(0,i+1).reduce((t,job)=>t+job.remaining,0)/state.speed));
+  pendingTroops=state.training.reduce((n,q)=>n+q.count,0);
+ // Train jobs run sequentially; prefix sums are both accurate and linear.
+ let queuedGameSeconds=0;
+ const queueEtaReal=state.training.map(q=>Math.ceil((queuedGameSeconds+=q.remaining)/state.speed));
  return `<div class="hg28-army-main"><h1>🛡 ${esc(troopBuildingName)} · Lv.${state.buildings[troopBuilding]}</h1>
  <p class="hg35-garrison-info">${esc(C.races[state.race].name)} · <b>${format(townTroops)} quân trong thành</b> · ${format(pendingTroops)} đang tuyển. <b>Không áp dụng giới hạn chỉ huy cho kho quân.</b> Chỉ quân đem đi đánh mới phải tuân thủ sức chứa của từng tướng.</p>
  ${state.training.length?`<div class="banner"><b>Hàng đợi tuyển quân</b> ${state.training.map((q,i)=>`<div>⌛ ${i+1}. ${q.count} ${esc(E.getUnit(state,q.unitId).name)} · ${queueEtaReal[i]} giây thực đến khi xong</div>`).join('')} </div>`:''}
