@@ -1015,3 +1015,9 @@ body.hg39-world-map-mode .sidebar{display:none!important}
  body.combat-mode .battle-move-prompt{display:none}
  body.combat-mode .battle-spell-fold>summary{padding:4px 6px}
 }
+
+/* HG40.5 Android/iOS: the world is a draggable game canvas, not a scroll
+ * surface. Without touch-action:none, mobile browsers cancel pointermove and
+ * the player cannot pan the map reliably. Outside the map, normal scrolling
+ * and all button gestures remain untouched. */
+#world-canvas{touch-action:none;overscroll-behavior:contain}
