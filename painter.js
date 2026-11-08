@@ -482,6 +482,96 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
  }
  c.restore();return true;
 }
+
+const HG403_SKILL_SIGILS=Object.freeze({
+ 'human_1':Object.freeze({unitId:'human_1',race:'human',tier:1,motif:'rampart',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_2':Object.freeze({unitId:'human_2',race:'human',tier:2,motif:'crosshair',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_3':Object.freeze({unitId:'human_3',race:'human',tier:3,motif:'triple-arrow',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_4':Object.freeze({unitId:'human_4',race:'human',tier:4,motif:'citadel',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_5':Object.freeze({unitId:'human_5',race:'human',tier:5,motif:'comet',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_6':Object.freeze({unitId:'human_6',race:'human',tier:6,motif:'healing-cross',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_7':Object.freeze({unitId:'human_7',race:'human',tier:7,motif:'banner',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_8':Object.freeze({unitId:'human_8',race:'human',tier:8,motif:'sanctuary',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_9':Object.freeze({unitId:'human_9',race:'human',tier:9,motif:'sunblade',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'human_10':Object.freeze({unitId:'human_10',race:'human',tier:10,motif:'sky-aegis',primary:'#ffd88e',pale:'#fff0c5',shadow:'#d19947'}),
+ 'elf_1':Object.freeze({unitId:'elf_1',race:'elf',tier:1,motif:'windblade',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_2':Object.freeze({unitId:'elf_2',race:'elf',tier:2,motif:'veil',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_3':Object.freeze({unitId:'elf_3',race:'elf',tier:3,motif:'oak',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_4':Object.freeze({unitId:'elf_4',race:'elf',tier:4,motif:'snare',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_5':Object.freeze({unitId:'elf_5',race:'elf',tier:5,motif:'windstep',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_6':Object.freeze({unitId:'elf_6',race:'elf',tier:6,motif:'root-cage',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_7':Object.freeze({unitId:'elf_7',race:'elf',tier:7,motif:'purify',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_8':Object.freeze({unitId:'elf_8',race:'elf',tier:8,motif:'twin-arrows',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_9':Object.freeze({unitId:'elf_9',race:'elf',tier:9,motif:'dragonbreath',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'elf_10':Object.freeze({unitId:'elf_10',race:'elf',tier:10,motif:'forest-shield',primary:'#75e9b9',pale:'#d4ffeb',shadow:'#3da779'}),
+ 'orc_1':Object.freeze({unitId:'orc_1',race:'orc',tier:1,motif:'fury',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_2':Object.freeze({unitId:'orc_2',race:'orc',tier:2,motif:'hunter',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_3':Object.freeze({unitId:'orc_3',race:'orc',tier:3,motif:'shatter',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_4':Object.freeze({unitId:'orc_4',race:'orc',tier:4,motif:'fang',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_5':Object.freeze({unitId:'orc_5',race:'orc',tier:5,motif:'stun-hammer',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_6':Object.freeze({unitId:'orc_6',race:'orc',tier:6,motif:'ambush',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_7':Object.freeze({unitId:'orc_7',race:'orc',tier:7,motif:'storm-chain',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_8':Object.freeze({unitId:'orc_8',race:'orc',tier:8,motif:'earthshock',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_9':Object.freeze({unitId:'orc_9',race:'orc',tier:9,motif:'overlord',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'orc_10':Object.freeze({unitId:'orc_10',race:'orc',tier:10,motif:'armor-rend',primary:'#ffab68',pale:'#ffe1a7',shadow:'#d55b36'}),
+ 'undead_1':Object.freeze({unitId:'undead_1',race:'undead',tier:1,motif:'bone-wall',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_2':Object.freeze({unitId:'undead_2',race:'undead',tier:2,motif:'phantom',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_3':Object.freeze({unitId:'undead_3',race:'undead',tier:3,motif:'plague',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_4':Object.freeze({unitId:'undead_4',race:'undead',tier:4,motif:'shadow-pierce',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_5':Object.freeze({unitId:'undead_5',race:'undead',tier:5,motif:'blood-drain',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_6':Object.freeze({unitId:'undead_6',race:'undead',tier:6,motif:'hex-curse',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_7':Object.freeze({unitId:'undead_7',race:'undead',tier:7,motif:'dark-surge',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_8':Object.freeze({unitId:'undead_8',race:'undead',tier:8,motif:'wither',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_9':Object.freeze({unitId:'undead_9',race:'undead',tier:9,motif:'death-breath',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'}),
+ 'undead_10':Object.freeze({unitId:'undead_10',race:'undead',tier:10,motif:'soul-sunder',primary:'#bf9dff',pale:'#efd7ff',shadow:'#8351c6'})
+});
+function hg403SkillProfile(id){return HG403_SKILL_SIGILS[id]||null}
+function drawHG403Sigil(c,id,x,y,age,k=1){
+ const p=hg403SkillProfile(id);if(!p||!Number.isFinite(age)||age<0||age>1)return false;
+ const fade=Math.pow(1-age,1.2),r=(12+age*24)*Math.max(.45,k),n=3+p.tier%6,
+  angle=age*Math.PI*.6+p.tier*.13;
+ c.save();c.translate(x,y);c.globalAlpha*=fade*.85;
+ c.lineWidth=1.6;c.strokeStyle=p.primary;c.fillStyle=p.pale;
+ c.shadowColor=p.shadow;c.shadowBlur=7;
+ c.beginPath();c.arc(0,0,r,0,TAU);c.stroke();c.rotate(angle);
+ const motif=p.motif;
+ if(/shield|aegis|rampart|citadel|sanctuary|oak|bone-wall/.test(motif)){
+  c.beginPath();c.moveTo(0,-r*.8);c.lineTo(r*.55,-r*.4);
+  c.lineTo(r*.4,r*.5);c.lineTo(0,r*.85);c.lineTo(-r*.4,r*.5);
+  c.lineTo(-r*.55,-r*.4);c.closePath();c.stroke();
+ }else if(/healing|purify|blood-drain/.test(motif)){
+  c.beginPath();c.moveTo(-r*.4,0);c.lineTo(r*.4,0);c.moveTo(0,-r*.4);c.lineTo(0,r*.4);c.stroke();
+ }else if(/root|snare|forest|plague|wither/.test(motif)){
+  for(let j=0;j<5;j++){const a=j*TAU/5;
+   c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(
+    Math.cos(a+.35)*r*.4,Math.sin(a+.35)*r*.45,
+    Math.cos(a)*r*.82,Math.sin(a)*r*.82);c.stroke();}
+ }else if(/arrow|crosshair|hunter|banner/.test(motif)){
+  for(let j=0;j<3;j++){c.save();c.rotate(j*TAU/3);
+   c.beginPath();c.moveTo(-r*.6,0);c.lineTo(r*.6,0);
+   c.lineTo(r*.3,-r*.22);c.moveTo(r*.6,0);c.lineTo(r*.3,r*.22);c.stroke();c.restore();}
+ }else if(/storm|stun|sunblade|dragonbreath|death-breath|earthshock/.test(motif)){
+  c.beginPath();c.moveTo(-r*.28,-r*.82);c.lineTo(r*.12,-r*.2);
+  c.lineTo(-r*.16,0);c.lineTo(r*.36,r*.74);c.stroke();
+ }else if(/phantom|veil|shadow|wind|dash|dark-surge/.test(motif)){
+  for(let j=0;j<3;j++){c.beginPath();c.arc(0,0,r*(.28+j*.2),
+   -Math.PI*.7+j*.22,Math.PI*.23+j*.14);c.stroke();}
+ }else if(/fang|shatter|rend|sunder|pierce|ambush|comet/.test(motif)){
+  for(let j=0;j<3;j++){c.save();c.rotate(j*TAU/3);
+   c.beginPath();c.moveTo(-r*.25,r*.6);c.lineTo(0,-r*.85);
+   c.lineTo(r*.20,r*.12);c.stroke();c.restore();}
+ }else{
+  c.beginPath();for(let j=0;j<2*n;j++){
+   const a=j*Math.PI/n-Math.PI/2,t=j%2?r*.28:r*.75;
+   if(!j)c.moveTo(Math.cos(a)*t,Math.sin(a)*t);
+   else c.lineTo(Math.cos(a)*t,Math.sin(a)*t);
+  }c.closePath();c.stroke();
+ }
+ for(let j=0;j<n;j++){const a=j*TAU/n+age*.9;
+  c.beginPath();c.arc(Math.cos(a)*r*.85,Math.sin(a)*r*.85,1.3+p.tier%3*.3,0,TAU);c.fill();
+ }
+ c.restore();return true;
+}
 // HG14.5: exact receipt-driven visuals, never speculative or backend-mutating.
 function battleFxPlan(b,camera,elapsed,layout){
  const byId=new Map(layout.map(e=>[e.id,e])),timeline=battleTimelineFor(b,elapsed);
@@ -493,7 +583,7 @@ function battleFxPlan(b,camera,elapsed,layout){
    targetCell=camera.center(target.u.x,target.u.y);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
    casualties:event.casualties||0,death:!!event.death,
-   kind:event.order||'attack',skill:event.skill||null,
+   kind:event.order||'attack',skill:event.skill||null,actorUnitId:actor.u.unitId,
    ranged:event.order!=='dot'&&actor.u.range>1,
    side:actor.u.side,time,attackStart:item.moveMs,impactMs:item.impactAt-item.start,
    start:{x:actorCell.x+actor.x-actor.baseX,y:actorCell.y+actor.y-actor.baseY-actor.size*.50},
@@ -504,8 +594,9 @@ function battleFxPlan(b,camera,elapsed,layout){
 function motionImpactFx(c,camera,b,elapsed,layout){
  const effects=battleFxPlan(b,camera,elapsed,layout);
  for(const fx of effects){
-  const t=fx.time,bright=fx.kind==='dot'?'#c896ed':
-   fx.kind==='skill'?'#a4e8ff':fx.side==='player'?'#ffe3a1':'#ff9e91';
+  const t=fx.time,signature=b.hg40?.v===1?hg403SkillProfile(fx.actorUnitId):null,
+   bright=signature?.primary||(fx.kind==='dot'?'#c896ed':
+   fx.kind==='skill'?'#a4e8ff':fx.side==='player'?'#ffe3a1':'#ff9e91');
   c.save();
   if(fx.ranged&&t>=fx.attackStart&&t<=fx.impactMs){
    const travel=clamp((t-fx.attackStart)/Math.max(1,fx.impactMs-fx.attackStart),0,1);
@@ -523,6 +614,8 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    c.beginPath();c.arc(fx.end.x+3,fx.end.y-3,19+phase*13,-1.4,.9);c.stroke();
   }
   const afterImpact=t-fx.impactMs;
+  if(signature&&afterImpact>=0&&afterImpact<=480)
+   drawHG403Sigil(c,fx.actorUnitId,fx.end.x,fx.end.y,afterImpact/480,clamp(camera.radius/38,.52,1.12));
   if(afterImpact>=0&&afterImpact<=360){
    const scale=clamp(afterImpact/360,0,1);
    c.globalAlpha=(1-scale)*.85;
@@ -990,5 +1083,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
