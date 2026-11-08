@@ -86,6 +86,7 @@ ok("HUD shows only real counters and leaves combat actors untouched");
 const state=E.make("human",421207);
 const before=E.serializeSave(state);
 assert.equal(JSON.parse(before).state.version,7);
-assert.equal(E.serializeSave(state),before);
+// exportedAt is intentionally wall-clock metadata and may differ by milliseconds.
+assert.deepEqual(JSON.parse(E.serializeSave(state)).state,JSON.parse(before).state);
 ok("strict Save v07 schema and source objects not modified");
 console.log("HG40.3 PRESENTATION "+checks+"/"+checks+" PASS");
