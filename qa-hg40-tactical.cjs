@@ -333,4 +333,43 @@ test('27/27 logged HG40 reactive skills trigger through actual battleActCore tur
  assert.equal(covered,27,'passive/reactive inventory changed; audit coverage');
 });
 
+
+test('13/13 HG40 passive effects change canonical battle receipts versus matched controls',()=>{
+ const passive=new Set(['guard','rangedGuard','meleeGuard','firstGuard',
+  'thirdBonus','thirdPierce','rage','wounded','antiMelee','antiRanged']);
+ const defensive=new Set(['guard','rangedGuard','meleeGuard','firstGuard']);
+ function run(race,tier,withTrait){
+  const {s,b,u}=scenario(race,tier),actor=b.allies[0],foe=b.enemies[0];
+  const t=E.HG40_TRAITS[u.id];
+  actor.count=100;actor.initial=100;actor.pool=100*actor.hp;s.army[u.id]=100;
+  if(defensive.has(t.kind)){
+   foe.atk=40;foe.count=3;foe.initial=3;foe.pool=3*foe.hp;
+   if(t.kind==='rangedGuard')foe.range=9;
+  }else{
+   if(t.kind==='rage'){actor.count=30;actor.pool=20*actor.hp;}
+   if(t.kind==='wounded')foe.pool-=1;
+   if(t.kind==='antiRanged')foe.range=9;
+   if(t.kind==='thirdPierce')foe.def=Math.round(actor.atk*1.5);
+  }
+  if(!withTrait)actor.unitId=null;
+  let dealt=0,lost=0;
+  for(let i=0;i<3&&s.battle;i++){
+   const outcome=E.battleActCore(s,'attack',{stableTargets:true});
+   dealt+=outcome.dealt||0;lost+=outcome.lost||0;
+   if(outcome.type!=='continue')break;
+  }
+  return {dealt,lost};
+ }
+ let covered=0;
+ for(const race of ['human','elf','orc','undead'])for(let tier=1;tier<=10;tier++){
+  const t=E.HG40_TRAITS[race+'_'+tier];if(!passive.has(t.kind))continue;
+  const on=run(race,tier,true),off=run(race,tier,false);
+  if(defensive.has(t.kind))
+   assert(on.lost<off.lost,t.unitId+' protection must reduce actual casualties/HP loss');
+  else assert(on.dealt>off.dealt,t.unitId+' passive must increase actual applied damage');
+  covered++;
+ }
+ assert.equal(covered,13,'passive inventory or coverage unexpectedly changed');
+});
+
 console.log('HG40 focused '+cases+'/'+cases+' PASS');
