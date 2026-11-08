@@ -33,7 +33,7 @@ with sync_playwright() as playwright:
         launch['executable_path']=os.environ['HOG_CHROME_PATH']
     browser=playwright.chromium.launch(**launch)
     for label,w,h,mobile in [('pc-1280x720',1280,720,False),('phone-landscape-844x390',844,390,True),
-                              ('phone-portrait-412x915',412,915,True)]:
+                              ('phone-chrome-768x260',768,260,True),('phone-portrait-412x915',412,915,True)]:
         context=browser.new_context(viewport={'width':w,'height':h},is_mobile=mobile,
                                     has_touch=mobile,device_scale_factor=2 if mobile else 1)
         page=context.new_page()
@@ -47,7 +47,9 @@ with sync_playwright() as playwright:
            u=E.getUnit(s,'human_1'),
            t=E.recruitDuration(s,u,1000);
           return {save:s.version,valid:E.strictSave(s),speed:E.HG39_CONFIG.recruitSpeedMultiplier,
-            queueGameSeconds:t,bodyW:document.documentElement.scrollWidth,
+            queueGameSeconds:t,backing:c?{w:c.width,h:c.height}:null,
+            guideInRail:!!document.querySelector('.hg39-map-dock [aria-label="Lộ trình phát triển New Game"]'),
+            bodyW:document.documentElement.scrollWidth,
             innerW:innerWidth,innerH:innerHeight,
             map:r?{x:r.x,y:r.y,w:r.width,h:r.height}:null,
             mapTouchAction:c?getComputedStyle(c).touchAction:null,
@@ -60,13 +62,47 @@ with sync_playwright() as playwright:
               data['buttons']>=5,data)
         # Mobile world map must actually be playable; 99px was formally
         # interactive but too shallow for meaningful hex map navigation.
-        min_map_height=155 if label=='phone-landscape-844x390' else 170 if mobile else 250
+        min_map_height=(150 if label=='phone-chrome-768x260' else
+                        225 if label=='phone-landscape-844x390' else
+                        170 if mobile else 250)
         check(label+' keeps enough world-map HEIGHT to navigate visually',
               data['map'] and data['map']['h']>=min_map_height,
               {'map':data['map'],'minHeight':min_map_height})
         check(label+' has no horizontal page overflow',
               data['bodyW']<=data['innerW']+2,
               {'bodyW':data['bodyW'],'viewportW':data['innerW']})
+        if label in ('phone-chrome-768x260','phone-landscape-844x390'):
+            check(label+' onboarding checklist is retained in collapsible rail, not blocking Canvas',
+                  data['guideInRail'],{'movedIntoRail':data['guideInRail']})
+            check(label+' Canvas backing resolution matches final visible flex geometry',
+                  abs(data['map']['w']-data['backing']['w'])<=3 and
+                  abs(data['map']['h']-data['backing']['h'])<=3,
+                  {'backing':data['backing'],'css':data['map']})
+            initial=page.evaluate("""() => {
+              const map=document.querySelector('#world-canvas').getBoundingClientRect();
+              return {width:map.width,height:map.height,
+                rail:getComputedStyle(document.querySelector('.hg39-map-dock')).display};
+            }""")
+            page.locator('[data-action="map-expand"]').click()
+            expanded=page.evaluate("""() => {
+              const map=document.querySelector('#world-canvas').getBoundingClientRect();
+              return {width:map.width,height:map.height,
+                rail:getComputedStyle(document.querySelector('.hg39-map-dock')).display,
+                expanded:document.body.classList.contains('hg40-map-expanded')};
+            }""")
+            check(label+' one-tap fullscreen expands playable map and hides rail',
+                  expanded['expanded'] and expanded['rail']=='none' and
+                  expanded['width']>=initial['width']+110 and
+                  expanded['height']>=initial['height']-3,
+                  {'before':initial,'expanded':expanded})
+            page.locator('[data-action="map-expand"]').click()
+            restored=page.evaluate("""() => ({
+              expanded:document.body.classList.contains('hg40-map-expanded'),
+              rail:getComputedStyle(document.querySelector('.hg39-map-dock')).display,
+              guide:!!document.querySelector('.hg39-map-dock [aria-label="Lộ trình phát triển New Game"]')
+            })""")
+            check(label+' fullscreen toggle restores map commands and tutorial',
+                  not restored['expanded'] and restored['rail']!='none' and restored['guide'],restored)
         check(label+' world canvas preserves touch pan without stealing other gestures',
               data['mapTouchAction']=='none',data['mapTouchAction'])
         if mobile:
