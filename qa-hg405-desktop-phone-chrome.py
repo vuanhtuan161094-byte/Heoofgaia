@@ -62,7 +62,7 @@ with sync_playwright() as playwright:
               data['buttons']>=5,data)
         # Mobile world map must actually be playable; 99px was formally
         # interactive but too shallow for meaningful hex map navigation.
-        min_map_height=(150 if label=='phone-chrome-768x260' else
+        min_map_height=(160 if label=='phone-chrome-768x260' else
                         225 if label=='phone-landscape-844x390' else
                         170 if mobile else 250)
         check(label+' keeps enough world-map HEIGHT to navigate visually',
