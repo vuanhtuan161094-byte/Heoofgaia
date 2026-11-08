@@ -353,9 +353,10 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
    spd:e.spd,pool:c*e.hp,x:10,y:2+i*3};
  });
  for(const e of enemies){e.pool=Math.max(1,Math.ceil(e.pool*remainingRatio));e.count=Math.ceil(e.pool/e.hp)}
- return {target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(isTreasure?{treasureCamp:{...camp}}:{}),
+ const battle={target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(isTreasure?{treasureCamp:{...camp}}:{}),
    turn:1,order:'attack',orders:{},focused:null,selected:allies[0]?.id||null,autoUntil:Date.now()+10_000,allies,enemies,
    woundedByUnit:{},history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
+ return root.HOG_ENGINE?.hg40PrepareBattle?.(s,battle)||battle;
 }
 function battleOpen(s){s.battle=makeBattle(s,s.march.target,1,s.march.targetKind);s.march=null;s.battleAuto=false;s.battleOrder='attack';note(s,`Đụng độ tại ${s.battle.name}. Chọn đội quân và ra lệnh.`)}
 function upgradeSaveV02(old){
@@ -400,7 +401,10 @@ function battlePath(b,actor,destination){
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
 }
 function battleMovementBudget(b,actor,commitCredit=false){
- const joint=!!(b?.hg21Tower||b?.hg261Joint),base=actor.range>1?1:actor.spd>=7?2:1,skill=joint?b.heroMovementInstinct?.[actor.heroId]:b?.movementInstinct;
+ const joint=!!(b?.hg21Tower||b?.hg261Joint);
+ let base=actor.range>1?1:actor.spd>=7?2:1;
+ base=Math.max(1,Math.min(3,base+(root.HOG_ENGINE?.hg40MoveModifier?.(b,actor)||0)));
+ const skill=joint?b.heroMovementInstinct?.[actor.heroId]:b?.movementInstinct;
  if(actor.side!=='player'||actor.range>1||!skill)return base;
  if(joint?b.turn>=skill.expiry:b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell?.expiry)return base;
  const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
@@ -445,6 +449,18 @@ function advance(a,target,battle){
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}path.reverse();
  const allowance=battleMovementAllowance(battle,a),traversed=path.slice(0,allowance),last=traversed[traversed.length-1];a.x=last.x;a.y=last.y;return traversed;
 }
+// One casualty authority for direct hits, secondary damage and DoT.
+function applyBattleDamage(s,b,target,incoming){
+ const shield=root.HOG_ENGINE?.hg40Absorb?.(b,target,incoming)||{remaining:incoming,absorbed:0};
+ const applied=Math.min(target.pool,Math.max(0,shield.remaining));
+ target.pool=Math.max(0,target.pool-applied);
+ const casualties=Math.min(target.count,Math.max(0,target.count-Math.ceil(target.pool/target.hp)));
+ if(casualties>0){
+  target.count-=casualties;
+  if(target.side==='player'&&!b.hg21Tower)casualty(s,target.unitId,casualties,target.slot);
+ }
+ return {applied,absorbed:shield.absorbed,casualties};
+}
 function strike(s,b,actor,target,order,trace){
  if(actor.pool<=0||target.pool<=0)return 0;
  if(order==='advance'){if(dist(actor,target)>actor.range)trace.path=advance(actor,target,b);return 0}
@@ -463,25 +479,28 @@ function strike(s,b,actor,target,order,trace){
  const bonus=actor.side==='player'?(1+((attacking?.atk??attacker?.atk)||0)/100):1;
  // Physical defense alone cannot reduce unit damage below 30% of raw attack.
  // Equipment and Hero defense must follow each stack's owner, never a team-wide buff.
- const base=Math.max(actor.atk*.30,actor.atk*actor.atk/(actor.atk+Math.max(0,target.def)));
+ const rules=root.HOG_ENGINE?.hg40PlanStrike?.(s,b,actor,target,trace)||null;
+ const effectiveAtk=Math.max(0,actor.atk*(1-(rules?.atkPenalty||0)));
+ const effectiveDef=Math.max(0,target.def*(1-(rules?.defPenalty||0))*(1-(rules?.pierce||0)));
+ const base=Math.max(effectiveAtk*.30,effectiveAtk*effectiveAtk/(effectiveAtk+effectiveDef||1));
  const defendFactor=target.side==='player'?(1+((defending?.def??defender?.def)||0)/100):1;
  const attackMods=root.HOG_ENGINE?.combatModifiers?.(s,attackId)||{};
  const defenseMods=tower?root.HOG_ENGINE?.combatModifiers?.(s,defenseId)||{}:attackMods;
  const weaponMod=actor.side==='player'?(attackMods.damageBonus||0)+(actor.range>1?(attackMods.rangedDamage||0):(attackMods.meleeDamage||0)):0;
  const armorMod=target.side==='player'?Math.max(0,1-(defenseMods.damageReduction||0)):1;
  const guardMod=target.guardTurn===b.turn?.75:1;
- const rawDamage=Math.max(1,Math.floor(actor.count*base*bonus/defendFactor*(1+weaponMod)*armorMod*guardMod));
- // HP actually removed is the authoritative damage receipt. Formerly the
- // summary counted overkill beyond remaining HP while VFX used actual loss.
- const appliedDamage=Math.min(target.pool,rawDamage);
- target.pool=Math.max(0,target.pool-appliedDamage);
- const lost=Math.min(target.count,Math.max(0,target.count-Math.ceil(target.pool/target.hp)));
- if(lost>0){target.count-=lost;if(target.side==='player'&&!b.hg21Tower)casualty(s,target.unitId,lost,target.slot)}
- return appliedDamage;
+ const mitigation=rules?Math.max(.35,armorMod*guardMod*(1-(rules.reduction||0))):armorMod*guardMod;
+ const rawDamage=Math.max(1,Math.floor(actor.count*base*bonus/defendFactor*
+  (1+weaponMod)*mitigation*(1+(rules?.bonus||0))));
+ const hit=applyBattleDamage(s,b,target,rawDamage);
+ const secondary=root.HOG_ENGINE?.hg40AfterHit?.(s,b,actor,target,hit,trace,
+  (u,amount)=>applyBattleDamage(s,b,u,amount))||0;
+ return hit.applied+secondary;
 }
 function battleAct(s,action,options){
  assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat','move'].includes(action),'Lệnh không hợp lệ');
  const b=s.battle;b.orders=b.orders||{};b.moveTargets=b.moveTargets||{};
+ if(b.hg40?.v===1)b.hg40.events=[];
  if(action==='move'){
   const actor=b.allies.find(u=>u.id===b.selected&&u.pool>0);assert(actor,'Hãy chọn một đội quân còn sống để di chuyển.');
   const destination={x:options?.x,y:options?.y},path=battlePath(b,actor,destination);
@@ -500,6 +519,9 @@ function battleAct(s,action,options){
  const record=(actor,target=null,damage=0,path=null,order='attack',casualties=0)=>{const from=origins.get(actor.id),to={x:actor.x,y:actor.y},route=path?.length?path:(from.x!==to.x||from.y!==to.y?[to]:[]);lastEvents.push({actorId:actor.id,from,to,path:route,targetId:target?.id||null,damage,death:!!(damage>0&&target?.pool<=0),order,casualties})};
  for(const actor of participants){
   if(actor.pool<=0)continue;
+  if(root.HOG_ENGINE?.hg40BeforeAction?.(s,b,actor)){
+   acted.push(actor.id);record(actor,null,0,[],'stunned');continue;
+  }
   const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
   const stance=actor.side==='player'?(b.orders[actor.id]||'attack'):'attack';
   const moveTarget=actor.side==='player'&&stance==='move'?b.moveTargets[actor.id]:null;
@@ -526,7 +548,12 @@ function battleAct(s,action,options){
   const beforePool=target.pool,beforeCount=target.count,trace={path:[]},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path,stance,beforeCount-target.count);
   if(actor.side==='player')dealt+=amount;else lost+=amount;
  }
- const turn=b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.lastMoves=lastMoves;b.lastEvents=lastEvents;const movementSummary=lastMoves.map(m=>`${m.unitId} đi ${m.steps} ô tới (${m.to.x},${m.to.y})`).join('; ');b.history.unshift(`Lượt ${turn}: ${movementSummary?`${movementSummary}; `:''}quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
+ const turn=b.turn;
+ const dot=root.HOG_ENGINE?.hg40EndTurn?.(s,b,turn,
+  (u,amount)=>applyBattleDamage(s,b,u,amount))||{dealt:0,lost:0};
+ dealt+=dot.dealt;lost+=dot.lost;
+ if(b.hg40?.events?.length)lastEvents.push(...b.hg40.events);
+ b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.lastMoves=lastMoves;b.lastEvents=lastEvents;const movementSummary=lastMoves.map(m=>`${m.unitId} đi ${m.steps} ô tới (${m.to.x},${m.to.y})`).join('; ');b.history.unshift(`Lượt ${turn}: ${movementSummary?`${movementSummary}; `:''}quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
  if(!alive(b.enemies).length){
   if(b.hg21Tower){s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost,order:acted.slice()};}
   const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);

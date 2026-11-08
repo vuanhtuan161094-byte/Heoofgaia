@@ -185,6 +185,7 @@ function gameBattle(s){
   woundedByUnit:{},history:['Bí Cảnh: mỗi tướng sở hữu tối đa hai stack; không tiêu hao quân thật.'],
   hg21Tower:{floor,team:roster.map(r=>r.heroId),picks:roster},
   heroCastTurn:{},heroSpellCooldown:{},heroEffects:[],heroMovementInstinct:{}};
+ E.hg40PrepareBattle?.(s,s.battle);
  s.battleAuto=false;s.battleOrder='attack';
  E.note(s,'Bí Cảnh tầng '+floor+': '+roster.length+' tướng / '+enlisted.length+' stack bước vào trận.');
  return {type:'battle',floor,heroes:roster.length,stacks:enlisted.length,enemies:enemies.length};

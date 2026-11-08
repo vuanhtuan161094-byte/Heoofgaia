@@ -93,6 +93,7 @@ function addStatus(s,b,u,kind,value,duration,source,extra={}){
  }
  const before=h.statuses.findIndex(x=>x.target===u.id&&x.kind===kind);
  const item={target:u.id,kind,value,source:String(source),until:b.turn+duration,...extra};
+ if(kind==='dot'){item.nextTick=b.turn+1;item.ticks=duration;}
  if(before>=0){
   const prev=h.statuses[before];if(prev.value>value)item.value=prev.value;
   item.until=Math.max(prev.until,item.until);
@@ -268,15 +269,12 @@ function endTurn(s,b,turn,deal){
  const h=stateOf(b);if(!h||h.turnApplied>=turn)return {dealt:0,lost:0};
  let dealt=0,lost=0;
  for(const effect of h.statuses){
-  if(effect.kind!=='dot'||effect.nextTick===undefined){
-   if(effect.kind==='dot')effect.nextTick=turn+1;
-   continue;
-  }
+  if(effect.kind!=='dot')continue;
   if(effect.nextTick>turn||effect.ticks===0)continue;
   const target=[...b.allies,...b.enemies].find(u=>u.id===effect.target);
   if(alive(target)){
    const result=deal(target,effect.value);if(target.side==='player')lost+=result.applied;else dealt+=result.applied;
-   h.events.push({actorId:null,targetId:target.id,from:{x:target.x,y:target.y},
+   h.events.push({actorId:target.id,targetId:target.id,from:{x:target.x,y:target.y},
     to:{x:target.x,y:target.y},path:[],damage:result.applied,
     casualties:result.casualties,death:target.pool<=0,order:'dot',skill:'DoT'});
   }

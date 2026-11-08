@@ -46,6 +46,7 @@ jobs:
           node --check app.js
           node --check painter.js
           node --check engine.js
+          node --check hg40-tactical.js
           node qa-engine.cjs
           node --check qa-hg39-engine.cjs
           node qa-hg39-engine.cjs
