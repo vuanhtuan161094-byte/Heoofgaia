@@ -1021,3 +1021,26 @@ body.hg39-world-map-mode .sidebar{display:none!important}
  * the player cannot pan the map reliably. Outside the map, normal scrolling
  * and all button gestures remain untouched. */
 #world-canvas{touch-action:none;overscroll-behavior:contain}
+
+/* HG40.5 Short landscape phone: protect actual usable game-map height.
+ * Previously the wrapping 74px header plus navigation consumed the 390px
+ * viewport, leaving only ~99px for the interactive 100x100 world canvas.
+ * Apply only to phone-sized LANDSCAPE world navigation, never dialogs,
+ * tower/battle, desktop layouts or tall portrait scrolling. */
+@media (min-width:701px) and (max-width:900px) and (max-height:430px) and (orientation:landscape){
+ body.hg39-world-map-mode #app{padding:2px 4px;height:100dvh;max-height:100dvh;overflow:hidden}
+ body.hg39-world-map-mode .top{min-height:39px;height:39px;max-height:39px;padding:2px 5px;gap:5px;flex-wrap:nowrap;overflow:hidden;align-items:center}
+ body.hg39-world-map-mode .masthead{flex:0 0 auto;gap:4px;min-width:0;max-width:170px}
+ body.hg39-world-map-mode .masthead .crest{font-size:18px}
+ body.hg39-world-map-mode .masthead .brand{font-size:12px;letter-spacing:.4px;white-space:nowrap}
+ body.hg39-world-map-mode .resources{flex:1 1 auto;min-width:0;flex-wrap:nowrap;gap:2px;overflow:hidden}
+ body.hg39-world-map-mode .resource{flex:1 1 0;min-width:0;max-width:none;padding:1px 2px;font-size:8px;text-align:center}
+ body.hg39-world-map-mode .resource b{font-size:11px;line-height:1.1}
+ body.hg39-world-map-mode .resource span,body.hg39-world-map-mode .resource small{display:none}
+ body.hg39-world-map-mode .tabs{display:flex;flex-wrap:nowrap;gap:2px;margin:2px 0;height:28px;min-height:28px;overflow:hidden}
+ body.hg39-world-map-mode .tabs button{flex:1 1 0;min-width:0;padding:2px 3px;font-size:9px;min-height:26px;white-space:nowrap}
+ body.hg39-world-map-mode .wrap{height:calc(100dvh - 78px);min-height:0;overflow:hidden}
+ body.hg39-world-map-mode #main{display:flex;flex-direction:column;min-width:0;min-height:0;overflow:hidden;padding:4px}
+ body.hg39-world-map-mode #main>.scene-title{flex:0 0 26px;min-height:26px;margin:0 0 3px}
+ body.hg39-world-map-mode #main>.map-frame{flex:1 1 0;min-height:165px}
+}
