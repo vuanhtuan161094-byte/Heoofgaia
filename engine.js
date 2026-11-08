@@ -577,6 +577,12 @@ function battleAct(s,action,options){
  // original six order names. Additional HG40 splash/DoT receipts remain in
  // battle.hg40.events rather than corrupting lastEvents/Save.
  b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.lastMoves=lastMoves;b.lastEvents=lastEvents;const movementSummary=lastMoves.map(m=>`${m.unitId} đi ${m.steps} ô tới (${m.to.x},${m.to.y})`).join('; ');b.history.unshift(`Lượt ${turn}: ${movementSummary?`${movementSummary}; `:''}quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
+ // HG40: simultaneous DoT annihilation is a loss, never a rewardable victory.
+ // Keep HG39 legacy midbattle resolution unchanged for Save v07 compatibility.
+ if(b.hg40?.v===1&&!alive(b.allies).length&&!alive(b.enemies).length){
+  note(s,'Hai phe bị tiêu diệt đồng thời; trận thất bại, không nhận thưởng.');
+  s.battle=null;s.battleAuto=false;return {type:'lose',dealt,lost,order:acted.slice()};
+ }
  if(!alive(b.enemies).length){
   if(b.hg21Tower){s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost,order:acted.slice()};}
   const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
