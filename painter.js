@@ -133,7 +133,14 @@ function drawMapLandmark(c,key,x,y,q,sizeFactor=1){
 const M={centerX:9.5,centerY:7.4,zoom:1.3};
 function mapCamera(){return M}
 function mapProjection(canvas){const scale=clamp(M.zoom,.65,2.05)*48;return {scale,offX:canvas.width/2-M.centerX*scale,offY:canvas.height/2-M.centerY*scale}}
-function miniBounds(canvas){const scale=clamp(Math.min(1,canvas.width*.24/203,canvas.height*.28/146),.42,1),w=203*scale,h=146*scale;return {x:canvas.width-w-17,y:canvas.height-h-32,w,h};}
+function miniBounds(canvas){
+ // On phone Chrome the address bar may leave only 176 CSS px for the map.
+ // Preserve minimap hit testing, but reclaim enough space to see the units.
+ const compact=canvas.height<280;
+ const scale=clamp(Math.min(1,canvas.width*.24/203,canvas.height*(compact?.22:.28)/146),compact?.30:.42,1);
+ const w=203*scale,h=146*scale;
+ return {x:canvas.width-w-(compact?8:17),y:canvas.height-h-(compact?8:32),w,h};
+}
 function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=(m.w-2*pad)/E.WIDTH,th=(m.h-2*pad)/E.HEIGHT;
  rounded(c,m.x-2,m.y-23,m.w+4,m.h+25,7,'#12272cdb','#c5a66c');text(c,m.w<120?'BẢN ĐỒ':'BẢN ĐỒ THU NHỎ',m.x+6,m.y-7,Math.max(8,13*m.w/203),'#e7c78e','left');
  for(const t of E.TILES){let color={plain:'#6d8559',road:'#9e956a',bridge:'#d5c08a',forest:'#28533c',hill:'#6a7262',water:'#408b9c'}[t.terrain]||'#68805b';
@@ -217,10 +224,16 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
   circle(c,x,y,q*.3,'#f0cc6388');circle(c,x,y,q*.16,'#eac77d');poly(c,[[x-q*.14,y-q*.2],[x,y-q*.47],[x+q*.14,y-q*.2]],'#344f6e');text(c,'⚔',x,y-q*.38,17,'#f9e0aa');}}
  for(const m of (s.parallelMarches||[])){const indices=m.path||[m.homeKey,m.target],progress=m.phase==='arrived'?1:clamp(1-m.remaining/m.total,0,.999),t=progress*(indices.length-1),i=Math.floor(t),a=E.getTile(indices[i]),b=E.getTile(indices[Math.min(i+1,indices.length-1)]);if(a&&b){const x=(a.x+(b.x-a.x)*(t-i)+.5)*q,y=(a.y+(b.y-a.y)*(t-i)+.5)*q;circle(c,x,y,q*.27,'#236e79dd');circle(c,x,y,q*.16,'#7fd7ce');poly(c,[[x-q*.12,y-q*.17],[x,y-q*.39],[x+q*.12,y-q*.17]],'#284c63');text(c,'⚔',x,y-q*.30,14,'#fff0c8');}}
  c.restore();
- // screen ornaments
- rounded(c,13,13,176,40,8,'#122a2ccf','#9b9160');text(c,'TÂN LỤC ĐỊA • GAIA',27,39,17,'#e7d29b','left');
- rounded(c,w-174,13,161,43,8,'#122a2ccf','#9b9160');text(c,`X ${Math.round(M.centerX)}  ·  Y ${Math.round(M.centerY)}`,w-94,40,16);
- rounded(c,13,h-36,280,25,5,'#172d2ecf');text(c,'Kéo bản đồ • Cuộn để zoom • Chạm mục tiêu',20,h-19,12,'#f0ddbb','left','500');
+ // Screen ornaments: keep the world itself visible on small mobile
+ // WebView/Chrome content:// viewports, not two huge badges and help ribbons.
+ if(h<280){
+  rounded(c,6,6,132,23,5,'#122a2cbb','#9b9160');
+  text(c,`GAIA · X${Math.round(M.centerX)} Y${Math.round(M.centerY)}`,12,22,11,'#f0d99f','left');
+ }else{
+  rounded(c,13,13,176,40,8,'#122a2ccf','#9b9160');text(c,'TÂN LỤC ĐỊA • GAIA',27,39,17,'#e7d29b','left');
+  rounded(c,w-174,13,161,43,8,'#122a2ccf','#9b9160');text(c,`X ${Math.round(M.centerX)}  ·  Y ${Math.round(M.centerY)}`,w-94,40,16);
+  rounded(c,13,h-36,280,25,5,'#172d2ecf');text(c,'Kéo bản đồ • Cuộn để zoom • Chạm mục tiêu',20,h-19,12,'#f0ddbb','left','500');
+ }
  drawMiniMap(c,canvas,E,s,selected);
 }
 function mapHit(canvas,x,y,E){const {scale,offX,offY}=mapProjection(canvas);const tx=Math.floor((x-offX)/scale),ty=Math.floor((y-offY)/scale);return E.getTile(`${tx},${ty}`)||null}
