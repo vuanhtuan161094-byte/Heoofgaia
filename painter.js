@@ -926,6 +926,30 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   text(c,'×'+Math.ceil(displayPool/u.hp),x+40,y-9,12,'#fff0ca');
  }
  motionImpactFx(c,camera,b,elapsed,units);
+ // HG40 supplemental damage must stay OUT of canonical v07 lastEvents:
+ // one event/actor is enforced by HG10 strictSave. Render actual extra
+ // damage receipts as a separate floating overlay instead of re-playing an
+ // actor's Attack animation or modifying its primary hit record.
+ if(b.hg40?.events?.length){
+  const timeline=battleTimelineFor(b,elapsed)?.items||[];
+  for(const fx of b.hg40.events){
+   if(!(fx.damage>0))continue;
+   const entry=units.find(q=>q.u.id===fx.targetId);if(!entry)continue;
+   const owner=timeline.find(q=>q.event.actorId===fx.actorId)||timeline[timeline.length-1];
+   if(!owner)continue;
+   const age=elapsed-owner.impactAt;
+   if(age<0||age>700)continue;
+   const pos=camera.center(entry.u.x,entry.u.y),
+    x=pos.x+entry.x-entry.baseX+Math.max(44,entry.size*.4),
+    y=pos.y+entry.y-entry.baseY-27-27*age/700;
+   c.save();c.globalAlpha=clamp((700-age)/250,0,1);
+   c.font='bold 13px sans-serif';c.textAlign='center';c.textBaseline='middle';
+   c.lineWidth=2.5;c.strokeStyle='#1b1830';
+   const label=(fx.order==='dot'?'☣ ':'✦ ')+'-'+Math.round(fx.damage);
+   c.strokeText(label,x,y);c.fillStyle=fx.order==='dot'?'#d6a9ff':'#9ce8ff';
+   c.fillText(label,x,y);c.restore();
+  }
+ }
  if(b.activeSpell){rounded(c,250,16,245,38,8,'#52466adc','#d4b6e8');text(c,`✨ ${b.activeSpell.id.toUpperCase().replace(/_/g,' ')} • ${b.activeSpell.expiry-b.turn} lượt`,267,41,14,'#fff1db','left')}
  rounded(c,w-200,14,186,42,9,'#172a32de','#968664');text(c,`TA ${b.allies.reduce((n,u)=>n+u.count,0)} : ${b.enemies.reduce((n,u)=>n+u.count,0)} ĐỊCH`,w-108,41,15);
 }
