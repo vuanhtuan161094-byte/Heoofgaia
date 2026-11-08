@@ -403,7 +403,9 @@ function battlePath(b,actor,destination){
 function battleMovementBudget(b,actor,commitCredit=false){
  const joint=!!(b?.hg21Tower||b?.hg261Joint);
  let base=actor.range>1?1:actor.spd>=7?2:1;
- base=Math.max(1,Math.min(3,base+(root.HOG_ENGINE?.hg40MoveModifier?.(b,actor)||0)));
+ const movementModifier=root.HOG_ENGINE?.hg40MoveModifier?.(b,actor)||0;
+ if(movementModifier<=-100)return 0;
+ base=Math.max(1,Math.min(3,base+movementModifier));
  const skill=joint?b.heroMovementInstinct?.[actor.heroId]:b?.movementInstinct;
  if(actor.side!=='player'||actor.range>1||!skill)return base;
  if(joint?b.turn>=skill.expiry:b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell?.expiry)return base;
@@ -447,7 +449,10 @@ function advance(a,target,battle){
  }
  if(goal===null||goal===start)return [];
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}path.reverse();
- const allowance=battleMovementAllowance(battle,a),traversed=path.slice(0,allowance),last=traversed[traversed.length-1];a.x=last.x;a.y=last.y;return traversed;
+ const allowance=battleMovementAllowance(battle,a);
+ if(allowance<=0)return [];
+ const traversed=path.slice(0,allowance),last=traversed[traversed.length-1];
+ a.x=last.x;a.y=last.y;return traversed;
 }
 // One casualty authority for direct hits, secondary damage and DoT.
 function applyBattleDamage(s,b,target,incoming){

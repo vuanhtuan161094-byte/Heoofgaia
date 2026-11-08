@@ -187,4 +187,25 @@ test('HG40 splash applies exactly one independent casualty receipt',()=>{
  assert.equal(splash[0].damage,200-b.enemies[1].pool);
 });
 
+
+test('HG40 Dryad root blocks all next-turn hex movement without throwing',()=>{
+ const {s,b}=scenario('elf',6);
+ b.enemies[0].x=10;b.enemies[1].x=11;
+ b.turn=2;
+ b.hg40.statuses.push({target:'p0',kind:'root',value:1,source:'enemy',starts:2,until:2});
+ const before={x:b.allies[0].x,y:b.allies[0].y};
+ assert.equal(E.battleMovePreview(b,'p0').steps,0,'root blocks all cells');
+ assert.equal(E.hg40MoveModifier(b,b.allies[0]),-100);
+ const result=E.battleActCore(s,'attack',{stableTargets:true});
+ assert.equal(result.type,'continue');
+ assert.deepEqual({x:b.allies[0].x,y:b.allies[0].y},before,
+  'rooted actor must not move to the target');
+});
+test('HG40 slow never prevents the mandatory one-hex Boss movement',()=>{
+ const {s,b}=scenario('elf',6);
+ b.turn=2;
+ b.hg40.statuses.push({target:'p0',kind:'slow',value:1,source:'enemy',starts:2,until:2});
+ assert.equal(E.battleMovePreview(b,'p0').steps,1,'slow allows at least one cell');
+});
+
 console.log('HG40 focused '+cases+'/'+cases+' PASS');

@@ -155,9 +155,12 @@ function beforeAction(s,b,u){
 }
 function movement(b,u){
  if(!stateOf(b))return 0;
- const slow=getStatus(b,u,'slow')?1:0,rooted=getStatus(b,u,'root')?1:0;
+ const slow=getStatus(b,u,'slow')?1:0,rooted=!!getStatus(b,u,'root');
  const dash=getStatus(b,u,'dash')?1:0;
- return Math.max(-2,Math.min(1,dash-slow-rooted));
+ // A normal unit rooted for the next turn cannot move at all. Boss root
+ // is already converted to slow on application and always retains 1 step.
+ if(rooted)return -100;
+ return Math.max(-1,Math.min(1,dash-slow));
 }
 function plan(s,b,actor,target,trace){
  const h=stateOf(b);if(!h)return null;

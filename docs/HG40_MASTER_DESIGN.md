@@ -45,3 +45,5 @@ Design values are original game balancing proposals, not claims about the origin
 - Combined defense reduction and penetration share 25% (ordinary) / 15% (Boss) cap rather than multiplying beyond design.
 - Save version 7 and old midcombat battle behavior are unchanged; no new persisted top-level keys.
 - The targeted tests are independent from 400 broad synthetic scenarios and assert expiry, owner isolation, stun timing, splash receipts and localized combat statuses.
+
+- HG40.1 root fix: normal Dryad roots set exact 0 movement on subsequent turn; boss-targeted roots become a soft 1-cell slowdown. Canonical advance handles 0 allowance without undefined-cell access; movement preview and manual moves use the same rule.
