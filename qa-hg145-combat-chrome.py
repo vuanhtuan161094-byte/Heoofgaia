@@ -80,7 +80,13 @@ with sync_playwright() as pw:
  fx=page.evaluate("""() => {
   const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,P=HOG_PAINTER,b=s.battle,
     c=document.getElementById('battle-canvas'),ctx=c.getContext('2d');
-  const act=E.battleAct(s,'attack'),stamp=performance.now()+10;
+  // HG40 can require several genuine movement turns before a ranged
+  // actor reaches attack range. Require a real HP receipt, never fabricate one.
+  let act=null,turns=0;
+  do{
+   act=E.battleAct(s,'attack');turns++;
+  }while(turns<6&&act.type==='continue'&&!b.lastEvents.some(e=>e.damage>0&&e.targetId));
+  const stamp=performance.now()+10;
   P.drawBattle(c,E,s,stamp,{showGrid:true,showHP:true});
   const before=JSON.stringify(E.clone(s)),origFill=ctx.fillText,origStroke=ctx.strokeText,strings=[];
   ctx.fillText=function(value,...args){strings.push(String(value));return origFill.call(this,value,...args)};
@@ -89,7 +95,7 @@ with sync_playwright() as pw:
    P.drawBattle(c,E,s,stamp+600,{showGrid:true,showHP:true});
    const camera=P.battleProjection(c,E),layout=P.battleUnitLayout(b,camera,c.width,c.height),
      effects=P.battleFxPlan(b,camera,stamp+600,layout);
-   return {outcome:act.type,effectFrame:c.toDataURL('image/png').split(',')[1],
+   return {outcome:act.type,turns,effectFrame:c.toDataURL('image/png').split(',')[1],
      receipts:b.lastEvents.filter(e=>e.damage>0&&e.targetId).map(e=>({
        actorId:e.actorId,targetId:e.targetId,damage:e.damage,
        casualties:e.casualties,death:e.death})),
