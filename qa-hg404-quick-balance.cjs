@@ -65,7 +65,9 @@ function towerScenario(race,tier,ratio,floor,threeHero=false){
  const level=Math.min(100,tier*10);
  s.hg20.tower.floor=floor;
  // Rank grows only as a controlled fixture. No premium stat seeding.
- s.hg20.tower.rank=Math.min(100,Math.max(1,Math.round(floor*1.8)));
+ // Conservative Tower rank fixture: rank 1/3/7 for floors 1/15/35.
+ // The former floor*1.8 ratio made level-35 units >12x as strong as intended.
+ s.hg20.tower.rank=Math.max(1,Math.floor(floor/5));
  const initialHero=JSON.parse(JSON.stringify(s.heroes[0]));
  if(threeHero)for(let id=2;id<=3;id++)
   s.heroes.push({...JSON.parse(JSON.stringify(initialHero)),id,name:race+' benchmark hero '+id});
@@ -139,7 +141,7 @@ const report={
  ownerIntent:'Fast audit; only correct egregious faction disparities, preserve powerful combat pacing',
  benchmark:'Controlled synthetic legal command-cap rosters; original canonical E.makeBattle/E.hg21TowerEnter/E.battleAct (delegates to battleActCore); no mocked damage or rewards',
  limitations:['T9/T10 NPC use highest real camp star '+maxNpcStars+'; T13 private Boss is a separate stronger category, no fictional NPC targets.',
-  'Tower tests contain rank/level fixtures and are not proof of organic multi-month progression.',
+  'Tower tests use controlled 1/3/7 ranks at floors 1/15/35; they are not proof of organic multi-month progression.',
   'Each per-race NPC tier has only three samples: flags identify gross gaps, not statistical significance.',
   'No 40x40 duel matrix or monetization balancing is claimed.'],
  totalExpected:expected,totalCompleted:scenarios.length,errors,
