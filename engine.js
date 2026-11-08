@@ -481,7 +481,11 @@ function strike(s,b,actor,target,order,trace){
  // Equipment and Hero defense must follow each stack's owner, never a team-wide buff.
  const rules=root.HOG_ENGINE?.hg40PlanStrike?.(s,b,actor,target,trace)||null;
  const effectiveAtk=Math.max(0,actor.atk*(1-(rules?.atkPenalty||0)));
- const effectiveDef=Math.max(0,target.def*(1-(rules?.defPenalty||0))*(1-(rules?.pierce||0)));
+ // HG40 DEF reductions and direct penetration share one total cap: 25%,
+ // 15% against Boss. Previously stacking the two bypassed both limits.
+ const defensePenetration=rules?Math.min(rules.defCap??.25,
+  1-(1-(rules.defPenalty||0))*(1-(rules.pierce||0))):0;
+ const effectiveDef=Math.max(0,target.def*(1-defensePenetration));
  const base=Math.max(effectiveAtk*.30,effectiveAtk*effectiveAtk/(effectiveAtk+effectiveDef||1));
  const defendFactor=target.side==='player'?(1+((defending?.def??defender?.def)||0)/100):1;
  const attackMods=root.HOG_ENGINE?.combatModifiers?.(s,attackId)||{};

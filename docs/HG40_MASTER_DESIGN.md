@@ -38,3 +38,10 @@ Undead: undead_1 Xương cứng; 2 Mờ ảo; 3 Ôn dịch; 4 Xuyên ảnh; 5 Hu
 7. G6: Full CI PASS on final SHA, real device playtest separately labelled PENDING.
 
 Design values are original game balancing proposals, not claims about the original Heroes of Gaia client/server. Full long-term game balance must be verified with live playtime; automated CI success is not a guarantee of bug-free game.
+## HG40.1 focused repair notes (implementation)
+
+- Shield receipts expire after two subsequent combat turns, with a live-soldier HP cap; combat effects cannot create permanent shields.
+- Stun, root, slow and dash activate only from the subsequent turn, preventing low-SPD units losing a placement-round action plus another action next turn.
+- Combined defense reduction and penetration share 25% (ordinary) / 15% (Boss) cap rather than multiplying beyond design.
+- Save version 7 and old midcombat battle behavior are unchanged; no new persisted top-level keys.
+- The targeted tests are independent from 400 broad synthetic scenarios and assert expiry, owner isolation, stun timing, splash receipts and localized combat statuses.

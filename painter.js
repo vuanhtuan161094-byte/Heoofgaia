@@ -899,7 +899,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   // No sprite replacement, label overlay, timer or new canvas is created.
   if(b.hg40?.v===1){
    const shield=b.hg40.shields?.[u.id]?.amount||0;
-   const statuses=(b.hg40.statuses||[]).filter(st=>st.target===u.id&&st.until>=b.turn);
+   const statuses=(b.hg40.statuses||[]).filter(st=>st.target===u.id&&st.until>=b.turn&&(st.starts??0)<=b.turn);
    const threatened=statuses.some(st=>['dot','stun','root','defdown','atkdown','damageDown'].includes(st.kind));
    if(shield>0||threatened){
     c.save();c.lineWidth=shield>0?2.5:1.7;

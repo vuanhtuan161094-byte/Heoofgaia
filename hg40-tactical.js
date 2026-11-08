@@ -80,7 +80,7 @@ function prepare(s,b){
 }
 function getStatus(b,u,kind){
  const h=stateOf(b);if(!h)return null;
- return h.statuses.filter(x=>x.target===u.id&&x.kind===kind&&x.until>=b.turn)
+ return h.statuses.filter(x=>x.target===u.id&&x.kind===kind&&x.until>=b.turn&&(x.starts??0)<=b.turn)
   .sort((x,y)=>y.value-x.value||x.source.localeCompare(y.source))[0]||null;
 }
 function addStatus(s,b,u,kind,value,duration,source,extra={}){
@@ -92,7 +92,11 @@ function addStatus(s,b,u,kind,value,duration,source,extra={}){
   if(existing.length>=3)return false;
  }
  const before=h.statuses.findIndex(x=>x.target===u.id&&x.kind===kind);
- const item={target:u.id,kind,value,source:String(source),until:b.turn+duration,...extra};
+ // CC/slow takes effect on the next tactical turn, never twice when a
+ // low-SPD unit has not acted yet in the placement turn.
+ const item={target:u.id,kind,value,source:String(source),
+  starts:b.turn+(['stun','root','slow','dash'].includes(kind)?1:0),
+  until:b.turn+duration,...extra};
  if(kind==='dot'){item.nextTick=b.turn+1;item.ticks=duration;}
  if(before>=0){
   const prev=h.statuses[before];if(prev.value>value)item.value=prev.value;
@@ -109,12 +113,19 @@ function note(b,spec,message){
  h.lastSkills.push({turn:b.turn,skill:spec.name,detail:message});
  h.lastSkills=h.lastSkills.slice(-15);
 }
-function currentShield(b,u){return stateOf(b)?.shields[u.id]?.amount||0}
+function currentShield(b,u){
+ const entry=stateOf(b)?.shields[u.id];if(!entry)return 0;
+ const cap=alive(u)?Math.ceil(u.count*u.hp*.25):0;
+ entry.amount=Math.max(0,Math.min(entry.amount,cap));
+ return entry.amount;
+}
 function addShield(b,u,pct){
  const h=stateOf(b);if(!h||!alive(u))return 0;
  const cap=Math.ceil(u.count*u.hp*.25),old=currentShield(b,u);
  const actual=Math.max(0,Math.min(cap-old,Math.ceil(u.count*u.hp*pct)));
- if(actual){h.shields[u.id]={amount:old+actual};}
+ if(actual){h.shields[u.id]={amount:old+actual,
+  // Shield lasts through two subsequent completed turns, not forever.
+  until:Math.max(h.shields[u.id]?.until||0,b.turn+2)};}
  return actual;
 }
 function absorb(b,target,incoming){
@@ -192,7 +203,8 @@ function plan(s,b,actor,target,trace){
  }
  return {bonus:Math.min(.65,bonus),pierce:Math.min(.25,pierce),
   reduction:Math.min(.65,reduction),atkPenalty:debuff?.value||0,
-  defPenalty:defdown?.value||0,skill:t,kind,marked:!!marked};
+  defPenalty:defdown?.value||0,defCap:boss(s,b,target)?.15:.25,
+  skill:t,kind,marked:!!marked};
 }
 function afterHit(s,b,actor,target,hit,trace,deal){
  const h=stateOf(b),t=TRAITS[actor.unitId];
@@ -283,12 +295,17 @@ function endTurn(s,b,turn,deal){
   effect.ticks--;effect.nextTick=turn+1;
  }
  h.statuses=h.statuses.filter(x=>(x.kind==='dot'&&x.ticks>0)||x.until>turn);
+ // End-of-turn expiry keeps Priest/Archangel/Fairy Dragon shields bounded.
+ for(const [id,shield] of Object.entries(h.shields))if(shield.until!==undefined&&shield.until<=turn)delete h.shields[id];
  h.turnApplied=turn;
  return {dealt,lost};
 }
 function statusText(b,u){
  const h=stateOf(b);if(!h||!u)return '';
- const list=h.statuses.filter(x=>x.target===u.id&&x.until>=b.turn).map(x=>x.kind);
+ const labels={stun:'Choáng',root:'Trói',slow:'Chậm',defdown:'Phá giáp',
+  atkdown:'Giảm ATK',damageDown:'Suy yếu',dot:'Chảy máu',mark:'Đánh dấu',
+  buff:'Áp đảo',dash:'Bứt tốc'};
+ const list=h.statuses.filter(x=>x.target===u.id&&x.until>=b.turn&&(x.starts??0)<=b.turn).map(x=>labels[x.kind]||x.kind);
  if(currentShield(b,u))list.unshift('Khiên '+currentShield(b,u));
  return list.slice(0,3).join(' · ');
 }
@@ -312,7 +329,9 @@ function targetScore(s,b,actor,target){
 function skillText(b,u){
  const t=TRAITS[u?.unitId];if(!t)return '';
  const h=stateOf(b),until=h?.cd[u.id+':'+t.kind]||0;
- return t.name+(until>b.turn?' · CD '+(until-b.turn):' · sẵn sàng');
+ const passive=['guard','rangedGuard','meleeGuard','firstGuard','thirdBonus','thirdPierce',
+  'rage','wounded','antiMelee','antiRanged','killBuff'];
+ return t.name+(passive.includes(t.kind)?' · Nội tại':until>b.turn?' · CD '+(until-b.turn):' · sẵn sàng');
 }
 Object.assign(E,{HG40_TRAITS:TRAITS,hg40PrepareBattle:prepare,hg40BeforeAction:beforeAction,
  hg40MoveModifier:movement,hg40PlanStrike:plan,hg40Absorb:absorb,

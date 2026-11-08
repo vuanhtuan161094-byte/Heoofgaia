@@ -118,4 +118,73 @@ test('canonical world expedition can save/reload v07 during HG40 battle',()=>{
  const loaded=E.parseSave(E.serializeSave(s));
  assert.equal(loaded.version,7);assert.equal(loaded.battle.hg40.v,1);
 });
+
+test('HG40 shield expires after two subsequent resolved rounds',()=>{
+ const {s,b}=scenario('human',8);
+ E.battleActCore(s,'attack',{stableTargets:true});
+ const shield=b.hg40.shields.p0;
+ assert(shield?.amount>0,'Priest must create a real shield');
+ assert.equal(shield.until,3,'starts at turn 1, active until turn 3');
+ E.battleActCore(s,'attack',{stableTargets:true});
+ assert(b.hg40.shields.p0?.amount>0,'shield remains on subsequent turn');
+ E.battleActCore(s,'attack',{stableTargets:true});
+ assert.equal(b.hg40.shields.p0,undefined,'shield must expire, not be permanent');
+});
+test('HG40 stun hits exactly the next action, not both current and next',()=>{
+ const {s,b}=scenario('orc',5);
+ b.enemies[0].atk=5;b.enemies[1].atk=0;
+ E.battleActCore(s,'attack',{stableTargets:true});
+ assert.equal(b.lastEvents.find(x=>x.actorId==='e0')?.order,'attack',
+  'low-SPD target still acts in placement round');
+ E.battleActCore(s,'attack',{stableTargets:true});
+ assert.equal(b.lastEvents.find(x=>x.actorId==='e0')?.order,'defend',
+  'target skips the next action exactly once');
+ E.battleActCore(s,'attack',{stableTargets:true});
+ assert.equal(b.lastEvents.find(x=>x.actorId==='e0')?.order,'attack',
+  'target regains agency after one blocked action');
+});
+test('HG40 shield owner isolation in 3x2 roster',()=>{
+ const {s,b}=scenario('human',10);
+ const outsider={...b.allies[0],id:'p1',heroId:2,x:1,y:5};
+ b.allies[0].heroId=1;b.allies.push(outsider);
+ E.hg40AfterHit(s,b,b.allies[0],b.enemies[0],
+  {applied:100,casualties:0},{path:[]},()=>({applied:0,casualties:0}));
+ assert(b.hg40.shields.p0?.amount>0,'original owner protected');
+ assert.equal(b.hg40.shields.p1,undefined,'second hero must not receive first hero shield');
+});
+test('HG40 shared DEF-penetration ceiling is 25% or Boss 15%',()=>{
+ const {s,b}=scenario('orc',10);
+ const target=b.enemies[0],actor=b.allies[0];
+ b.hg40.hits.p0=2; b.enemies[0].def=200;
+ b.hg40.statuses.push({target:target.id,kind:'defdown',value:.18,source:'1',until:9});
+ const normal=E.hg40PlanStrike(s,b,actor,target,{path:[]});
+ const combined=1-(1-normal.defPenalty)*(1-normal.pierce);
+ assert(combined>.25,'exercises former stacking overflow');
+ assert.equal(normal.defCap,.25);
+ const privateBoss=E.TILES.find(x=>x.privateBoss);assert(privateBoss);
+ b.target=privateBoss.key;
+ const againstBoss=E.hg40PlanStrike(s,b,actor,target,{path:[]});
+ assert.equal(againstBoss.defCap,.15);
+});
+test('HG40 skill presentation labels passives and localized statuses',()=>{
+ const {s,b}=scenario('human',1);
+ assert(E.hg40SkillText(b,b.allies[0]).includes('Nội tại'));
+ b.hg40.statuses.push({target:'p0',kind:'slow',value:1,source:'enemy',
+  starts:2,until:3});
+ assert(!E.hg40StatusText(b,b.allies[0]).includes('Chậm'),'not yet applied');
+ b.turn=2;
+ assert(E.hg40StatusText(b,b.allies[0]).includes('Chậm'),'localized next-turn status');
+});
+test('HG40 splash applies exactly one independent casualty receipt',()=>{
+ const {s,b}=scenario('orc',7);
+ b.enemies[1].hp=100;b.enemies[1].count=2;b.enemies[1].initial=2;
+ b.enemies[1].pool=200;
+ E.battleActCore(s,'attack',{stableTargets:true});
+ const splash=b.hg40.events.filter(x=>x.order==='skill');
+ assert.equal(splash.length,1);
+ assert(splash[0].damage>0);
+ assert(splash[0].casualties>=0);
+ assert.equal(splash[0].damage,200-b.enemies[1].pool);
+});
+
 console.log('HG40 focused '+cases+'/'+cases+' PASS');
