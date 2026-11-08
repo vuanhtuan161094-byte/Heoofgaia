@@ -680,6 +680,38 @@ function troopAtlasFrame(unitId,action,time=0,duration=null,actorName=''){
  const clip=unit.actions[action]||unit.actions.idle,ms=Math.max(1,duration||clip.durationMs),t=Math.max(0,Number.isFinite(time)?time:0),raw=Math.floor(t/ms*clip.count),frame=clip.loop?raw%clip.count:Math.min(clip.count-1,raw);
  const frameSize=unit.frameDimensions||[unit.frameWidth,unit.frameHeight];return {unitId,actorName,action,frame,row:clip.row,sx:frame*frameSize[0],sy:clip.row*frameSize[1],sw:frameSize[0],sh:frameSize[1],imageId:unit.imageId};
 }
+// HG40.7 presentation-only Walk foot stabilization, measured from authored
+// runtime alpha: central x=52..140, alpha>45, 192x204 original cells.
+// Reference is each unit's median idle contact row; full-height frame-edge
+// effects are interpolated from real adjacent valid walk frames. Native HG14
+// Archer is unchanged. No gameplay, collision or Save v07 coordinates shift.
+const HG407_WALK_FOOT=Object.freeze({
+ human_1:[0,-1,-1,3,-1,3,1,4],human_2:[0,2,0,0,1,2,2,0],
+ human_4:[4,4,4,4,4,4,4,4],human_5:[-1,4,7,-1,-1,-1,4,-2],
+ human_6:[5,4,4,5,5,5,7,4],human_7:[2,2,4,1,2,2,1,2],
+ human_8:[-1,-1,-1,-1,-1,0,0,-1],human_9:[0,1,1,-1,1,0,0,1],
+ human_10:[1,2,13,8,4,2,3,3],
+ elf_1:[3,4,4,4,3,2,2,7],elf_2:[3,4,5,6,6,6,6,4],
+ elf_3:[2,0,-2,-1,0,-1,-2,6],elf_4:[-1,3,1,2,2,2,2,3],
+ elf_5:[0,2,8,8,6,0,0,0],elf_6:[2,6,0,2,2,2,2,4],
+ elf_7:[-1,3,4,6,8,7,8,4],elf_8:[6,6,8,9,9,9,8,7],
+ elf_9:[0,-1,0,0,1,2,2,0],elf_10:[7,5,7,9,3,7,1,10],
+ orc_1:[0,2,1,1,1,1,1,0],orc_2:[5,6,6,7,5,5,5,5],
+ orc_3:[-1,0,2,1,0,0,0,-1],orc_4:[4,4,10,4,4,4,4,10],
+ orc_5:[2,9,6,7,4,1,2,2],orc_6:[2,0,8,-2,0,19,2,2],
+ orc_7:[-2,-2,1,-4,-5,-1,1,0],orc_8:[-3,8,-2,-1,0,2,4,1],
+ orc_9:[1,1,1,2,4,0,0,-3],orc_10:[18,23,20,19,17,13,12,13],
+ undead_1:[0,0,1,0,0,0,0,0],undead_2:[2,4,8,14,10,16,0,6],
+ undead_3:[0,2,2,0,-2,-3,-2,0],undead_4:[8,16,28,26,24,20,12,8],
+ undead_5:[-1,2,2,1,1,2,0,2],undead_6:[2,5,3,3,3,4,5,3],
+ undead_7:[1,1,1,4,3,6,5,4],undead_8:[17,15,13,13,13,13,12,13],
+ undead_9:[3,3,15,15,14,14,14,13],undead_10:[6,10,22,36,36,36,36,36]
+});
+function hg407FootOffset(unitId,action,frame,drawHeight,frameHeight=204){
+ if(action!=='walk'||!Number.isFinite(drawHeight)||drawHeight<=0)return 0;
+ const source=HG407_WALK_FOOT[unitId]?.[frame];
+ return Number.isFinite(source)?source*drawHeight/frameHeight:0;
+}
 function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  const unit=troopAtlasDefinition(unitId,actorName);if(!unit||!visual||typeof document==='undefined')return false;
  const frame=troopAtlasFrame(unitId,visual.action,visual.time,visual.duration,actorName),image=document.getElementById(unit.imageId);if(!image)return false;
@@ -688,7 +720,8 @@ function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  if(!image.complete||image.naturalWidth!==atlasSize[0]||image.naturalHeight!==atlasSize[1])return false;
  const width=clamp(unit.renderWidth*k,18,160),height=width*frameSize[1]/frameSize[0];
  c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(enemy&&unit.enemyFacing!=='left')c.scale(-1,1);
- c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,-height*unit.pivot,width,height);c.restore();return true;
+ const groundFix=hg407FootOffset(unitId,frame.action,frame.frame,height,frameSize[1]);
+ c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,-height*unit.pivot+groundFix,width,height);c.restore();return true;
 }
 function battleUnitArt(c,x,y,enemy,visual,k,u){
  if(troopAtlasDefinition(u.unitId,u.name))return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId,u.name);
@@ -1150,5 +1183,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
