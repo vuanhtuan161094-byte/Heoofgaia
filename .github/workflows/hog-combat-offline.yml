@@ -58,6 +58,10 @@ jobs:
           node qa-hg33-hex.cjs
           node --check qa-hg33-assets.cjs
           node qa-hg33-assets.cjs
+      - name: HG40.1 controlled 160 real tactical outcomes across four factions and tiers
+        run: |
+          node --check qa-hg40-balance.cjs
+          node qa-hg40-balance.cjs
       - name: HG28 animation 40-unit source authenticity and five-action atlas-packer gate
         run: |
           node --check qa-hg28-animation-coverage.cjs
@@ -256,6 +260,13 @@ jobs:
           test -s Play-Heoofgaia-HG11.html
           sha256sum Play-Heoofgaia-HG11.html | tee Build-SHA256.txt
           wc -c Play-Heoofgaia-HG11.html
+      - name: Upload HG40.1 controlled 160-battle balance ledger
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG40-1-controlled-PvE-balance-160
+          path: docs/qa/hg40/balance-controlled-160.json
+          if-no-files-found: ignore
       - name: Upload HG40.1 live skill and responsive Chromium screenshots
         if: always()
         uses: actions/upload-artifact@v4
