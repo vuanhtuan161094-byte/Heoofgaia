@@ -528,11 +528,11 @@ const HG403_SKILL_SIGILS=Object.freeze({
 function hg403SkillProfile(id){return HG403_SKILL_SIGILS[id]||null}
 function drawHG403Sigil(c,id,x,y,age,k=1){
  const p=hg403SkillProfile(id);if(!p||!Number.isFinite(age)||age<0||age>1)return false;
- const fade=Math.pow(1-age,1.2),r=(12+age*24)*Math.max(.45,k),n=3+p.tier%6,
+ const fade=Math.pow(1-age,1.15),r=(17+age*32)*Math.max(.45,k),n=3+p.tier%6,
   angle=age*Math.PI*.6+p.tier*.13;
- c.save();c.translate(x,y);c.globalAlpha*=fade*.85;
- c.lineWidth=1.6;c.strokeStyle=p.primary;c.fillStyle=p.pale;
- c.shadowColor=p.shadow;c.shadowBlur=7;
+ c.save();c.translate(x,y);c.globalAlpha*=fade*.94;
+ c.lineWidth=2.1;c.strokeStyle=p.primary;c.fillStyle=p.pale;
+ c.shadowColor=p.shadow;c.shadowBlur=9;
  c.beginPath();c.arc(0,0,r,0,TAU);c.stroke();c.rotate(angle);
  const motif=p.motif;
  if(/shield|aegis|rampart|citadel|sanctuary|oak|bone-wall/.test(motif)){
@@ -566,6 +566,14 @@ function drawHG403Sigil(c,id,x,y,age,k=1){
    if(!j)c.moveTo(Math.cos(a)*t,Math.sin(a)*t);
    else c.lineTo(Math.cos(a)*t,Math.sin(a)*t);
   }c.closePath();c.stroke();
+ }
+ // Faction color, per-skill motif AND per-tier rune count ensure that a
+ // shared Canvas primitive cannot collapse all forty spells into one icon.
+ // These rays are decorative receipt effects only, never combat actions.
+ for(let j=0;j<2+p.tier;j++){
+  const a=j*TAU/(2+p.tier)+age*.35;
+  c.beginPath();c.moveTo(Math.cos(a)*r*.66,Math.sin(a)*r*.66);
+  c.lineTo(Math.cos(a)*r*.77,Math.sin(a)*r*.77);c.stroke();
  }
  for(let j=0;j<n;j++){const a=j*TAU/n+age*.9;
   c.beginPath();c.arc(Math.cos(a)*r*.85,Math.sin(a)*r*.85,1.3+p.tier%3*.3,0,TAU);c.fill();
