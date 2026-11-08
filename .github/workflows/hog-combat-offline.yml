@@ -64,6 +64,10 @@ jobs:
         run: |
           node --check qa-hg40-balance.cjs
           node qa-hg40-balance.cjs
+      - name: HG40.4 quick real combat balance matrix — 40 units, four races, Boss and Tower 3x2
+        run: |
+          node --check qa-hg404-quick-balance.cjs
+          node qa-hg404-quick-balance.cjs
       - name: HG28 animation 40-unit source authenticity and five-action atlas-packer gate
         run: |
           node --check qa-hg28-animation-coverage.cjs
@@ -270,6 +274,14 @@ jobs:
           test -s Play-Heoofgaia-HG11.html
           sha256sum Play-Heoofgaia-HG11.html | tee Build-SHA256.txt
           wc -c Play-Heoofgaia-HG11.html
+      - name: Upload HG40.4 40-unit four-faction Boss Tower quick-balance telemetry
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG40-4-Quick-Balance-40-Units-Boss-Tower
+          path: docs/qa/hg40/balance-quick-40x4-boss-tower.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Upload HG40.1 controlled 160-battle balance ledger
         if: always()
         uses: actions/upload-artifact@v4
