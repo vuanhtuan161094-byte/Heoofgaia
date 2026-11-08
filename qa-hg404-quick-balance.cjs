@@ -19,7 +19,9 @@ function execute(s,kind,beforeStock,unitId,cap=70){
  let n=0,turns=0,outcome='pending',dealt=0,lost=0,notes=0;
  while(s.battle&&n<cap){
   const b=s.battle,before=b.turn;
-  const event=E.battleActCore(s,'attack',{stableTargets:true});
+  // Execute the public battle entrypoint: Tower/Boss wrappers must apply
+  // their native settlement, then delegate to the canonical tactical core.
+  const event=E.battleAct(s,'attack',{stableTargets:true});
   n++;turns=n;dealt+=event.dealt||0;lost+=event.lost||0;
   assert(Number.isFinite(dealt)&&Number.isFinite(lost)&&dealt>=0&&lost>=0,'bad finite damage receipt');
   notes+=(b.hg40?.lastSkills||[]).filter(x=>x.turn===before).length;
@@ -133,7 +135,7 @@ const report={
  schema:'HG40.4-Quick-Canonical-Balance-v1',
  status:errors.length?'FAIL':'PASS',
  ownerIntent:'Fast audit; only correct egregious faction disparities, preserve powerful combat pacing',
- benchmark:'Controlled synthetic legal command-cap rosters; original canonical E.makeBattle/E.hg21TowerEnter/E.battleActCore; no mocked damage or rewards',
+ benchmark:'Controlled synthetic legal command-cap rosters; original canonical E.makeBattle/E.hg21TowerEnter/E.battleAct (delegates to battleActCore); no mocked damage or rewards',
  limitations:['T10 NPC uses real 9-star camp because 10-star camp is unavailable; treat T10 Boss T13 as a separate stronger category.',
   'Tower tests contain rank/level fixtures and are not proof of organic multi-month progression.',
   'Each per-race NPC tier has only three samples: flags identify gross gaps, not statistical significance.',
