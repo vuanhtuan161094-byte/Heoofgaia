@@ -299,4 +299,38 @@ test('HG40 mutual DoT wipe cannot grant NPC or Boss victory rewards',()=>{
  }
 });
 
+
+test('27/27 logged HG40 reactive skills trigger through actual battleActCore turns',()=>{
+ const passive=new Set(['guard','rangedGuard','meleeGuard','firstGuard',
+  'thirdBonus','thirdPierce','rage','wounded','antiMelee','antiRanged']);
+ let covered=0;
+ for(const race of ['human','elf','orc','undead'])for(let tier=1;tier<=10;tier++){
+  const {s,b,u}=scenario(race,tier),t=E.HG40_TRAITS[u.id];
+  if(passive.has(t.kind))continue;
+  const actor=b.allies[0],enemy=b.enemies[0];
+  if(t.kind==='heal'||t.kind==='lifesteal')actor.pool=actor.hp*5;
+  if(t.kind==='cleanse')b.hg40.statuses.push({target:'p0',
+   kind:'slow',value:1,source:'enemy',starts:1,until:4});
+  if(t.kind==='multiShield')b.allies.push({...actor,id:'p1',x:1,y:5});
+  if(t.kind==='charge'){
+   actor.x=0;enemy.x=4;b.enemies[1].x=5;
+   enemy.range=9;b.enemies[1].range=9;
+  }
+  if(t.kind==='killBuff'){
+   enemy.hp=10;enemy.count=3;enemy.initial=3;enemy.pool=30;
+  }
+  let executed=0;
+  while(s.battle&&executed<8){
+   const result=E.battleActCore(s,'attack',{stableTargets:true});
+   executed++;
+   assert(['continue','win','lose','timeout'].includes(result.type));
+   if(result.type!=='continue')break;
+  }
+  assert(b.hg40.lastSkills.some(row=>row.skill===t.name),
+   u.id+' '+t.name+' has no activation note after '+executed+' actual rounds');
+  covered++;
+ }
+ assert.equal(covered,27,'passive/reactive inventory changed; audit coverage');
+});
+
 console.log('HG40 focused '+cases+'/'+cases+' PASS');
