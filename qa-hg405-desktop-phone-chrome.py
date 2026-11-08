@@ -78,6 +78,12 @@ with sync_playwright() as playwright:
                   abs(data['map']['w']-data['backing']['w'])<=3 and
                   abs(data['map']['h']-data['backing']['h'])<=3,
                   {'backing':data['backing'],'css':data['map']})
+            # Evidence MUST show the map itself, not only a screenshot after
+            # the Army modal opens later in this test.
+            mapshot=ART/(label+'-world-map.png')
+            page.screenshot(path=str(mapshot),animations='disabled')
+            captures.append({'file':str(mapshot.relative_to(ROOT)),
+                             'sha256':hashlib.sha256(mapshot.read_bytes()).hexdigest()})
             initial=page.evaluate("""() => {
               const map=document.querySelector('#world-canvas').getBoundingClientRect();
               return {width:map.width,height:map.height,
@@ -90,6 +96,10 @@ with sync_playwright() as playwright:
                 rail:getComputedStyle(document.querySelector('.hg39-map-dock')).display,
                 expanded:document.body.classList.contains('hg40-map-expanded')};
             }""")
+            expandedshot=ART/(label+'-expanded-world-map.png')
+            page.screenshot(path=str(expandedshot),animations='disabled')
+            captures.append({'file':str(expandedshot.relative_to(ROOT)),
+                             'sha256':hashlib.sha256(expandedshot.read_bytes()).hexdigest()})
             check(label+' one-tap fullscreen expands playable map and hides rail',
                   expanded['expanded'] and expanded['rail']=='none' and
                   expanded['width']>=initial['width']+110 and
