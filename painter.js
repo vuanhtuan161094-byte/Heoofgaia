@@ -731,8 +731,8 @@ function battleGridOverlay(c,camera,layout,reachable){
    c.lineWidth=1.7;
    poly(c,cell.corners.map(p=>[p.x,p.y]),'#43cba52a','#9bead0b3');
   }else{
-   c.lineWidth=.8;
-   poly(c,cell.corners.map(p=>[p.x,p.y]),null,'#e9dfbd5c');
+   c.lineWidth=.72;
+   poly(c,cell.corners.map(p=>[p.x,p.y]),null,'#e9dfbd27');
   }
  }
  // No floating origin dots, diagonal foot connectors or coordinate numbers:
@@ -1012,14 +1012,14 @@ function drawHG403BattleHUD(c,b,w,h){
   latest=(b.history||[]).find(x=>/^Lượt \d+:/.test(x)),
   report=note?.detail||latest||'';
  if(report){
-  rounded(c,gap,49,w-gap*2,27,6,'#152831d9','#c8d4c75c');
+  rounded(c,gap,h-36,w-gap*2,27,6,'#152831dc','#c8d4c75c');
   c.save();c.font='bold 12px sans-serif';c.textAlign='center';c.textBaseline='middle';
   c.fillStyle=note?'#baf3c6':'#f5e5d0';
   let value=report.slice(0,160);const max=w-gap*2-22;
   while(value.length>4&&c.measureText(value).width>max){
    value=value.endsWith('…')?value.slice(0,-5)+'…':value.slice(0,-4)+'…';
   }
-  c.fillText(value,w/2,63);c.restore();
+  c.fillText(value,w/2,h-22);c.restore();
  }
 }
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
