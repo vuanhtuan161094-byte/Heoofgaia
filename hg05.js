@@ -13,16 +13,38 @@ function scaleLegacyQueue(q,divisor,minimum){
  const nextTotal=Math.max(minimum,Math.ceil(q.total/divisor));
  q.remaining=Math.max(0,Math.min(nextTotal,q.remaining/divisor));q.total=nextTotal;
 }
+// One-time HG40.5 migration of ALREADY PAID training. Preserve the share
+// of work left as the effective total is divided by 100; never charge again.
+// The one-game-second floor means short jobs cannot become zero-duration.
+function scaleExistingRecruitQueue(q){
+ if(!q||!Number.isFinite(q.total)||!Number.isFinite(q.remaining)||
+    q.total<=0||q.remaining<0||q.remaining>q.total)return;
+ const oldTotal=q.total,oldLeft=q.remaining;
+ const nextTotal=Math.max(1,Math.ceil(oldTotal/100));
+ q.total=nextTotal;
+ q.remaining=oldLeft===0?0:Math.min(nextTotal,nextTotal*(oldLeft/oldTotal));
+}
 function ensure(s){
  E.ensure(s);if(!Object.prototype.hasOwnProperty.call(s,'buildingQueue'))s.buildingQueue=null;
  // HG39 is a one-time v07 migration. Paid work and completed fraction remain intact.
  if(!s.hg39||s.hg39.version!==1){
-  const pace=E.HG39_CONFIG||{constructionSpeedMultiplier:10,recruitSpeedMultiplier:50,minimumConstructionGameSeconds:1,minimumRecruitGameSeconds:1};
+  const pace=E.HG39_CONFIG||{constructionSpeedMultiplier:10,minimumConstructionGameSeconds:1,minimumRecruitGameSeconds:1};
+  // HG39 was 50x when first released. Historical saves without its marker
+  // must still receive exactly that original migration BEFORE HG40.5 /100.
+  const legacyRecruitMultiplier=50;
   scaleLegacyQueue(s.buildingQueue,pace.constructionSpeedMultiplier,pace.minimumConstructionGameSeconds);
-  for(const q of s.training||[])scaleLegacyQueue(q,pace.recruitSpeedMultiplier,pace.minimumRecruitGameSeconds);
+  for(const q of s.training||[])scaleLegacyQueue(q,legacyRecruitMultiplier,pace.minimumRecruitGameSeconds);
   for(const city of s.cities||[]){scaleLegacyQueue(city.local?.buildingQueue,pace.constructionSpeedMultiplier,pace.minimumConstructionGameSeconds);
-   for(const q of city.local?.training||[])scaleLegacyQueue(q,pace.recruitSpeedMultiplier,pace.minimumRecruitGameSeconds)}
+   for(const q of city.local?.training||[])scaleLegacyQueue(q,legacyRecruitMultiplier,pace.minimumRecruitGameSeconds)}
   s.hg39={version:1,migratedAt:Date.now()};
+ }
+ // These are two independent, additive save transitions:
+ // HG39 historical /50 and HG40.5 new /100. Do not tie the marker to
+ // HG39_CONFIG which now carries the 5000x NEW-TRAINING divisor.
+ if(!s.hgRecruit100||s.hgRecruit100.version!==1){
+  for(const q of s.training||[])scaleExistingRecruitQueue(q);
+  for(const city of s.cities||[])for(const q of city.local?.training||[])scaleExistingRecruitQueue(q);
+  s.hgRecruit100={version:1};
  }
  return s;
 }
