@@ -277,6 +277,7 @@ jobs:
           path: |
             docs/qa/hg40/chromium-real-skill.json
             docs/evidence/hg40/hg40-1-real-skill-*.png
+            docs/evidence/hg40/hg403-*.png
           if-no-files-found: ignore
       - name: Upload HG27 UI review screenshots
         if: always()
