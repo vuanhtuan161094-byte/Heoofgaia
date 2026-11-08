@@ -492,7 +492,9 @@ function battleFxPlan(b,camera,elapsed,layout){
   const time=elapsed-item.start,actorCell=camera.center(event.to?.x??actor.u.x,event.to?.y??actor.u.y),
    targetCell=camera.center(target.u.x,target.u.y);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
-   casualties:event.casualties||0,death:!!event.death,ranged:actor.u.range>1,
+   casualties:event.casualties||0,death:!!event.death,
+   kind:event.order||'attack',skill:event.skill||null,
+   ranged:event.order!=='dot'&&actor.u.range>1,
    side:actor.u.side,time,attackStart:item.moveMs,impactMs:item.impactAt-item.start,
    start:{x:actorCell.x+actor.x-actor.baseX,y:actorCell.y+actor.y-actor.baseY-actor.size*.50},
    end:{x:targetCell.x+target.x-target.baseX,y:targetCell.y+target.y-target.baseY-target.size*.52},
@@ -502,7 +504,8 @@ function battleFxPlan(b,camera,elapsed,layout){
 function motionImpactFx(c,camera,b,elapsed,layout){
  const effects=battleFxPlan(b,camera,elapsed,layout);
  for(const fx of effects){
-  const t=fx.time,bright=fx.side==='player'?'#ffe3a1':'#ff9e91';
+  const t=fx.time,bright=fx.kind==='dot'?'#c896ed':
+   fx.kind==='skill'?'#a4e8ff':fx.side==='player'?'#ffe3a1':'#ff9e91';
   c.save();
   if(fx.ranged&&t>=fx.attackStart&&t<=fx.impactMs){
    const travel=clamp((t-fx.attackStart)/Math.max(1,fx.impactMs-fx.attackStart),0,1);
@@ -533,7 +536,8 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    c.font='bold 17px sans-serif';c.textAlign='center';c.textBaseline='middle';
    c.lineWidth=3;c.strokeStyle='#1a191b';
    c.strokeText('-'+Math.round(fx.damage),x,y);
-   c.fillStyle=fx.side==='player'?'#ffe4a1':'#ffaea2';
+   c.fillStyle=fx.kind==='dot'?'#d7afff':fx.kind==='skill'?'#b8edff':
+    fx.side==='player'?'#ffe4a1':'#ffaea2';
    c.fillText('-'+Math.round(fx.damage),x,y);
    if(fx.casualties>0){c.font='bold 11px sans-serif';c.fillStyle='#fff1dc';
     c.strokeText('-'+fx.casualties+' quân',x,y+16);c.fillText('-'+fx.casualties+' quân',x,y+16);}
@@ -891,6 +895,19 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
  const atlasBacked=!!troopAtlasDefinition(u.unitId,u.name),illustrated=visual?battleUnitArt(c,x,y,u.side==='enemy',visual,k,u):false;if(!illustrated&&!atlasBacked)soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+  // HG40: render a light aura around the actual animated sprite foot pivot.
+  // No sprite replacement, label overlay, timer or new canvas is created.
+  if(b.hg40?.v===1){
+   const shield=b.hg40.shields?.[u.id]?.amount||0;
+   const statuses=(b.hg40.statuses||[]).filter(st=>st.target===u.id&&st.until>=b.turn);
+   const threatened=statuses.some(st=>['dot','stun','root','defdown','atkdown','damageDown'].includes(st.kind));
+   if(shield>0||threatened){
+    c.save();c.lineWidth=shield>0?2.5:1.7;
+    c.strokeStyle=shield>0?'#a0ecff9c':'#c59cf6a8';
+    c.beginPath();c.ellipse(x,y-k*18,25*k,36*k,0,0,TAU);c.stroke();
+    c.restore();
+   }
+  }
   // A compact 28px name/HP card is placed outside silhouette collision boxes.
   const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y,hpVisible=interaction.showHP!==false;
   if(plate.leader){

@@ -543,7 +543,17 @@ function battleAct(s,action,options){
   // Manual commands and hostile AI preserve their original targeting rules.
   const sticky=actor.side==='player'&&options?.stableTargets&&stance==='attack'&&b.lastTargets?.[actor.id]?
    enemy.find(t=>t.id===b.lastTargets[actor.id]):null;
-  const target=pref||sticky||[...enemy].sort((x,y)=>{const near=actor.range>1?0:dist(actor,x)-dist(actor,y),power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;return actor.range>1?power||near||x.id.localeCompare(y.id):near||power||x.id.localeCompare(y.id)})[0];
+  const target=pref||sticky||[...enemy].sort((x,y)=>{
+   if(b.hg40?.v===1&&root.HOG_ENGINE?.hg40TargetScore){
+    const sx=root.HOG_ENGINE.hg40TargetScore(s,b,actor,x);
+    const sy=root.HOG_ENGINE.hg40TargetScore(s,b,actor,y);
+    return sy-sx||x.id.localeCompare(y.id);
+   }
+   const near=actor.range>1?0:dist(actor,x)-dist(actor,y),
+    power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;
+   return actor.range>1?power||near||x.id.localeCompare(y.id):
+    near||power||x.id.localeCompare(y.id);
+  })[0];
   lastTargets[actor.id]=target.id;acted.push(actor.id);
   const beforePool=target.pool,beforeCount=target.count,trace={path:[]},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path,stance,beforeCount-target.count);
   if(actor.side==='player')dealt+=amount;else lost+=amount;

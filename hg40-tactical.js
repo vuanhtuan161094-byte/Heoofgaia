@@ -290,6 +290,23 @@ function statusText(b,u){
  if(currentShield(b,u))list.unshift('Khiên '+currentShield(b,u));
  return list.slice(0,3).join(' · ');
 }
+// HG40 AI only ranks otherwise-unlocked targets. Explicit player Focus and
+// previously sticky auto target still win at the canonical battleActCore layer.
+function targetScore(s,b,actor,target){
+ const a=TRAITS[actor.unitId],t=TRAITS[target.unitId],
+  distance=E.battleHex.distance(actor,target);
+ let score=-distance*4;
+ if(distance<=actor.range)score+=30;
+ if((a?.role==='C'&&t?.role==='X')||(a?.role==='X'&&t?.role==='H')||
+    (a?.role==='H'&&t?.role==='T'))score+=18;
+ // A deterministic rough finishability metric, not actual strike damage.
+ if(target.pool<=actor.count*Math.max(1,actor.atk))score+=20;
+ if(stateOf(b)?.statuses.some(x=>x.target===target.id&&x.until>=b.turn&&
+   ['defdown','atkdown','dot','slow','root'].includes(x.kind)))score+=10;
+ const others=actor.side==='player'?b.enemies:b.allies;
+ if(target.atk===Math.max(...others.filter(alive).map(x=>x.atk)))score+=12;
+ return score;
+}
 function skillText(b,u){
  const t=TRAITS[u?.unitId];if(!t)return '';
  const h=stateOf(b),until=h?.cd[u.id+':'+t.kind]||0;
@@ -297,6 +314,7 @@ function skillText(b,u){
 }
 Object.assign(E,{HG40_TRAITS:TRAITS,hg40PrepareBattle:prepare,hg40BeforeAction:beforeAction,
  hg40MoveModifier:movement,hg40PlanStrike:plan,hg40Absorb:absorb,
- hg40AfterHit:afterHit,hg40EndTurn:endTurn,hg40StatusText:statusText,hg40SkillText:skillText});
+ hg40AfterHit:afterHit,hg40EndTurn:endTurn,hg40StatusText:statusText,
+ hg40SkillText:skillText,hg40TargetScore:targetScore});
 root.HOG_HG40=Object.freeze({version:1,traits:40,save:7,mode:'deterministic-auto-tactical'});
 })(typeof globalThis!=='undefined'?globalThis:this);
