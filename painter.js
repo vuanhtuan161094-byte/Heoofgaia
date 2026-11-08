@@ -962,6 +962,33 @@ function battleStaticCacheStats(canvas){
   grid:o.grid,imageLoaded:o.nw>0&&o.nh>0}:null;
 }
 
+function drawHG403ProcCues(c,b,elapsed,layout){
+ if(b.hg40?.v!==1||!b.hg40.lastSkills?.length)return 0;
+ const timeline=battleTimelineFor(b,elapsed)?.items||[],
+  byId=new Map(layout.map(e=>[e.id,e]));
+ let shown=0;
+ // Only confirmed HG40 journal activations on an actual actor hit.
+ // Generic hit sigils alone are NOT a claim of a passive skill proc.
+ for(const item of timeline){
+  const actor=byId.get(item.event.actorId),age=elapsed-item.impactAt;
+  if(!actor||!(item.event.damage>0)||age<0||age>620)continue;
+  const skill=root.HOG_ENGINE?.HG40_TRAITS?.[actor.u.unitId];
+  if(!skill)continue;
+  const note=b.hg40.lastSkills.find(n=>n.turn===item.round&&
+   n.skill===skill.name&&n.detail.startsWith(actor.u.name+' kích hoạt '));
+  if(!note)continue;
+  const x=actor.x,y=actor.y-actor.size*.65;
+  drawHG403Sigil(c,actor.u.unitId,x,y,age/620,Math.max(.65,actor.k));
+  c.save();c.globalAlpha=clamp((620-age)/220,0,1);
+  c.font='bold 12px sans-serif';c.textAlign='center';c.textBaseline='middle';
+  c.lineWidth=3;c.strokeStyle='#192128';
+  c.strokeText(note.skill,x,y-24-age*.025);
+  c.fillStyle=hg403SkillProfile(actor.u.unitId)?.pale||'#fff0c5';
+  c.fillText(note.skill,x,y-24-age*.025);
+  c.restore();shown++;
+ }
+ return shown;
+}
 function drawHG403BattleHUD(c,b,w,h){
  const width=clamp(w*.205,155,235),gap=12,
   sides=[{troops:b.allies,x:gap,label:'QUÂN TA',color:'#8cdfa5'},
@@ -1054,6 +1081,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   text(c,'×'+Math.ceil(displayPool/u.hp),x+40,y-9,12,'#fff0ca');
  }
  motionImpactFx(c,camera,b,elapsed,units);
+ drawHG403ProcCues(c,b,elapsed,units);
  // HG40 supplemental damage must stay OUT of canonical v07 lastEvents:
  // one event/actor is enforced by HG10 strictSave. Render actual extra
  // damage receipts as a separate floating overlay instead of re-playing an
@@ -1089,5 +1117,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
