@@ -991,3 +991,27 @@ body.hg39-world-map-mode .sidebar{display:none!important}
 .hg40-readout .hg40-enemy{border-color:#80595a;background:#352731;color:#e7beb1}
 @media(max-width:700px){.hg40-readout{grid-template-columns:minmax(0,1fr);gap:2px}
  .hg40-readout span{font-size:9px;padding:2px 5px}}
+
+
+/* HG40.3 Visual Gate: all seven core orders must fit inside 844x390
+   landscape without scrolling the battle dock. Battle Canvas keeps its
+   original size; hide only duplicate selection prose, never commands. */
+@media (min-width:701px) and (max-height:430px){
+ body.combat-mode .battle-command-dock>summary{min-height:28px;padding:4px 6px}
+ body.combat-mode .battle-command-content{gap:3px;padding:4px}
+ body.combat-mode .battle-selection-readout{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:3px}
+ body.combat-mode .battle-side-readout{min-height:21px;padding:3px 4px}
+ body.combat-mode .battle-side-readout small,body.combat-mode .battle-side-readout span{display:none}
+ body.combat-mode .battle-side-readout b{font-size:9px;line-height:1.1}
+ body.combat-mode .hg40-readout{gap:3px;font-size:9px}
+ body.combat-mode .hg40-readout span{padding:3px 4px}
+ body.combat-mode .battle-auto-state{font-size:8px;line-height:1}
+ body.combat-mode .battle-display-tools{gap:3px}
+ body.combat-mode .battle-display-toggle{min-height:23px;padding:3px 4px}
+ body.combat-mode .battle-action-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+ body.combat-mode .battle-action-grid button{min-height:27px;padding:3px 2px;font-size:8px;line-height:1.1}
+ body.combat-mode .battle-action-grid button[data-cmd="attack"]{grid-column:auto;min-height:27px;font-size:9px}
+ body.combat-mode .battle-action-grid button[data-action="auto"]{grid-column:1/-1;min-height:27px;font-size:9px}
+ body.combat-mode .battle-move-prompt{display:none}
+ body.combat-mode .battle-spell-fold>summary{padding:4px 6px}
+}
