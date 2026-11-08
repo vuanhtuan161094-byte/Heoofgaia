@@ -28,7 +28,10 @@ function unitTacticalRange(unit){return unit?.type==='Ranged'?(unit.tier>=8?TACT
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG39 pacing profile is applied once after all effective HG38 modifiers.
 // This is an offline game-speed setting, not a claim about the original server.
-const HG39_CONFIG=Object.freeze({productionMultiplier:20,recruitSpeedMultiplier:50,
+// HG40.5 / player fast-play setting: existing HG39 50x recruitment is 100x
+// faster again. Keep construction/production and the historic 50x save
+// migration independent. Clamps to one game-second per batch for safety.
+const HG39_CONFIG=Object.freeze({productionMultiplier:20,recruitSpeedMultiplier:5000,
  constructionSpeedMultiplier:10,warehouseCapacityMultiplier:100,
  minimumRecruitGameSeconds:1,minimumConstructionGameSeconds:1});
 // HG10 offline catch-up: process at most 24 real wall-clock hours in one suspended-time step.
