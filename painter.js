@@ -854,7 +854,17 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
   e.sprite={x:e.x-half,y:e.y-e.size*pivot,w:half*2,h:e.size*pivot};
   e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
  }
- const reserved=[{x:width-200,y:14,w:186,h:42}];
+ // HG40.3 Visual Gate: keep every dynamic name/HP plate clear of the
+ // two team meters, round clock and bottom battle ticker, at all viewports.
+ // These are the exact HUD bounds used by drawHG403BattleHUD; do not move
+ // canonical hex anchors or alter combat receipts to solve a visual overlap.
+ const hudWidth=clamp(width*.205,155,235);
+ const reserved=[
+  {x:12,y:9,w:hudWidth,h:37},
+  {x:width/2-58,y:9,w:116,h:37},
+  {x:width-12-hudWidth,y:9,w:hudWidth,h:37},
+  {x:12,y:height-36,w:Math.max(0,width-24),h:27}
+ ];
  for(const e of [...entries].filter(e=>e.displayPool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
   const compact=width<1050,w=compact?clamp(e.u.name.length*4.8+12,68,90):clamp(e.u.name.length*6.5+24,82,132),h=28,shift=e.size*.37+w/2+12;
   const left={cx:e.x-shift,top:e.y-60,mode:'left'},
