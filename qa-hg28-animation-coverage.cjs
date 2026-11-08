@@ -1,8 +1,10 @@
-/* HG28 coverage gate — guarantees honest 40×5 animation accounting.
+/* HG40.3 AF40 source-reconciliation gate: cross-check existing HG28 clips
+ * plus original HG33 eight-frame-per-action atlas rows, preserving source hashes.
  * A static PNG plus procedural transforms never counts as a true action clip.
+ * Pixel-different frames alone do NOT certify perfect animation quality.
  */
 'use strict';
-const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict');
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');
 const root=__dirname,file=path.join(root,'assets/animations/hg28/coverage.json');
 const m=JSON.parse(fs.readFileSync(file,'utf8')),actions=['idle','walk','attack','hit','death'];
 assert.equal(m.schema,'HG28-40-TroopAnimationCoverage-v1');
@@ -10,7 +12,7 @@ assert.deepEqual(m.actionOrder,actions);
 assert.equal(m.units.length,40);
 const expected=['human','elf','orc','undead'].flatMap(r=>Array.from({length:10},(_,i)=>r+'_'+(i+1)));
 assert.deepEqual(m.units.map(u=>u.id),expected);
-let count=0,full=0,frames=0,partials=0;
+let count=0,full=0,frames=0,partials=0,registeredHg33=0;const shaCache=new Map();
 const summary=[];
 for(const u of m.units){
  assert.match(u.id,/^(human|elf|orc|undead)_(?:[1-9]|10)$/);
@@ -34,6 +36,20 @@ for(const u of m.units){
   if(png)assert.equal(bytes[25],6,'expected RGBA PNG source: '+p);
   if(webp)assert(clip.evidence.endsWith('atlas-manifest.json'),
     'WebP atlas needs verifiable original-frame pack manifest: '+p);
+  if(clip.authoring==='HG33-original-image-gen-atlas'){
+   assert.equal(clip.kind,'source-frames',u.id+'/'+a);
+   assert(clip.source.startsWith('assets/original/hg33/troops/')&&png,
+    u.id+'/'+a+' must point to the authored RGBA source, never a runtime WebP');
+   assert.equal(clip.frames,8);assert.equal(clip.columns,8);
+   assert.equal(clip.frameWidth,192);assert.equal(clip.frameHeight,204);
+   assert.equal(clip.row,actions.indexOf(a));
+   assert.equal(clip.evidence,'assets/generated/hg33/animation/troop-atlas-manifest.json');
+   let digest=shaCache.get(clip.source);
+   if(!digest){digest=crypto.createHash('sha256').update(bytes).digest('hex');shaCache.set(clip.source,digest);}
+   assert.equal(digest,clip.sourceSha256,'HG33 source digest changed without verification: '+u.id+'/'+a);
+   assert(clip.minimumAdjacentMae>=0.004,'source animation too static: '+u.id+'/'+a);
+   registeredHg33++;
+  }
   actual++;allFrames+=clip.frames;
  }
  const want=actual===5?'FULL_VERIFIED':actual>0?'PARTIAL_VERIFIED':'MASTER_ONLY';
@@ -43,14 +59,17 @@ for(const u of m.units){
   const p=path.join(root,u.masterPath||'');
   assert.equal(u.masterPath,'assets/generated/hg28/troops/'+u.id+'.png');
   assert(fs.existsSync(p),'T9/T10 master missing: '+u.id);
-  assert.equal(u.status,'MASTER_ONLY','Still master is not an action sheet: '+u.id);
+  assert.equal(u.status,'FULL_VERIFIED','T9/T10 must have authored action-atlas frames, not merely a still: '+u.id);
+  assert(actions.every(a=>u.actions[a]&&u.actions[a].authoring==='HG33-original-image-gen-atlas'),
+    'T9/T10 original master cannot substitute for source clips: '+u.id);
  }
  count+=actual;frames+=allFrames;
  summary.push({unitId:u.id,status:want,realActionClips:actual,requiredActionClips:5,realFrames:allFrames});
 }
-assert(full>=4,'the four already-complete genuine source sets must not regress');
-assert(count>=22,'the 22 already-proven source clips must not regress');
-assert(frames>=215,'all 215 existing source frames must remain covered');
+assert.equal(full,40,'all 40 units require source clips in five actions');
+assert.equal(count,200,'all 200 source action clips required');
+assert.equal(registeredHg33,178,'the 178 newly recovered authored source atlas rows must remain verified');
+assert(frames>=215+178*8,'215 previously registered source frames plus eight per recovered clip must remain');
 for(const id of ['human_3','human_4','human_7','undead_1']){
  const u=m.units.find(x=>x.id===id);
  assert(actions.every(a=>u.actions[a]),id+' existing five-action source frames lost');
@@ -58,12 +77,13 @@ for(const id of ['human_3','human_4','human_7','undead_1']){
 assert(m.policy.includes('does NOT count'),'Still-based transforms must never be counted as source clips');
 const receipt={schema:m.schema,unitCount:40,verifiedFullUnits:full,partialUnits:partials,sourceFrameClips:count,
  requiredActionClips:200,missingActionClips:200-count,verifiedFrames:frames,
- highTierStillMasters:8,complete:false,units:summary,
- note:'Current verified source frames, NOT completed 40-unit motion and NOT 200 actions.'};
+ highTierStillMasters:8,highTierVerifiedSourceAtlases:8,
+ recoveredHg33SourceClips:registeredHg33,sourceAtlasFiles:shaCache.size,complete:full===40&&count===200,units:summary,
+ note:'40 units have 200 frame-distinct source action clips. HG33 source rows are independently-authored project image-gen atlases, not static HG28 masters. This validates frame provenance/structure, not visual polish or anatomical continuity.'};
 const out=path.join(root,'docs/qa/hg28-animation-coverage.json');
 fs.mkdirSync(path.dirname(out),{recursive:true});
 fs.writeFileSync(out,JSON.stringify(receipt,null,2)+'\n');
-console.log('HG28 ANIM BASELINE: '+full+'/40 full action coverage; '+count+'/200 real action clips; '+frames+' frame cells; 8 T9/T10 still masters');
+console.log('HG40.3 AF40 VERIFIED: '+full+'/40 source-complete troops; '+count+'/200 authored action clips; '+frames+' source-frame cells; '+registeredHg33+' HG33 source rows reconciled; 8/8 T9/T10 high-tier atlases.');
 if(process.argv.includes('--require-full')){
  assert.equal(full,40,'RELEASE GATE FAIL: all 40 units must have five genuine clips');
  assert.equal(count,200,'RELEASE GATE FAIL: 200 clips required');
