@@ -220,7 +220,7 @@ with sync_playwright() as pw:
           const map=document.querySelector('#world-canvas').getBoundingClientRect();
           return {width:document.documentElement.scrollWidth,viewport:innerWidth,height:innerHeight,
             mapBottom:map.bottom,formation:HOG_APP_DEBUG.getState().formation.length,
-            quickstartOpen:document.querySelector('.hg39-map-dock .hg39-map-details')?.open};
+            quickstartOpen:document.querySelector('.hg39-map-dock .hg39-map-details[data-hg39-drawer="Tác vụ nhanh"]')?.open};
         }""")
         check(label+' touch auto-formation performs the real game action and map stays in the viewport',
               touch_layout['formation']>0 and touch_layout['width']<=width+1 and
