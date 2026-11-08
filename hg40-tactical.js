@@ -85,10 +85,10 @@ function getStatus(b,u,kind){
 }
 function addStatus(s,b,u,kind,value,duration,source,extra={}){
  const h=stateOf(b);if(!h||!alive(u))return false;
- const harmful=!['buff','mark'].includes(kind);
+ const harmful=['atkdown','defdown','slow','root','stun','damageDown','dot','mark'].includes(kind);
  if(harmful){
   const existing=h.statuses.filter(x=>x.target===u.id&&x.kind!==kind&&x.until>=b.turn&&
-   !['buff','mark'].includes(x.kind));
+   ['atkdown','defdown','slow','root','stun','damageDown','dot','mark'].includes(x.kind));
   if(existing.length>=3)return false;
  }
  const before=h.statuses.findIndex(x=>x.target===u.id&&x.kind===kind);
@@ -128,10 +128,11 @@ function alliesOf(s,b,actor){
 }
 function chooseAlly(s,b,actor,mode){
  const rows=alliesOf(s,b,actor);
- if(mode==='heal')return rows.filter(u=>u.pool<u.count*u.hp)
+ if(mode==='heal')return rows.filter(u=>E.battleHex.distance(u,actor)<=2&&u.pool<u.count*u.hp)
   .sort((a,c)=>(c.count*c.hp-c.pool)-(a.count*a.hp-a.pool)||a.id.localeCompare(c.id))[0]||null;
- if(mode==='cleanse')return rows.filter(u=>b.hg40.statuses.some(st=>st.target===u.id&&st.until>=b.turn&&
-  !['mark','buff'].includes(st.kind)))
+ if(mode==='cleanse')return rows.filter(u=>E.battleHex.distance(u,actor)<=2&&
+  b.hg40.statuses.some(st=>st.target===u.id&&st.until>=b.turn&&
+   ['atkdown','defdown','slow','root','stun','damageDown','dot','mark'].includes(st.kind)))
   .sort((a,c)=>a.id.localeCompare(c.id))[0]||null;
  const inRange=rows.filter(u=>E.battleHex.distance(u,actor)<=2);
  return inRange.sort((a,c)=>(currentShield(b,a)/(a.count*a.hp))-(currentShield(b,c)/(c.count*c.hp))||a.id.localeCompare(c.id))[0]||null;
@@ -241,7 +242,8 @@ function afterHit(s,b,actor,target,hit,trace,deal){
   }else if(kind==='cleanse'){
    const chosen=chooseAlly(s,b,actor,'cleanse');
    if(chosen){
-    const ix=h.statuses.findIndex(x=>x.target===chosen.id&&x.until>=b.turn&&!['mark','buff'].includes(x.kind));
+    const ix=h.statuses.findIndex(x=>x.target===chosen.id&&x.until>=b.turn&&
+     ['atkdown','defdown','slow','root','stun','damageDown','dot','mark'].includes(x.kind));
     if(ix>=0){h.statuses.splice(ix,1);used=true;}
    }else{
     const u=chooseAlly(s,b,actor,'shield');if(u&&addShield(b,u,t.a)>0)used=true;
