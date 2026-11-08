@@ -1044,3 +1044,88 @@ body.hg39-world-map-mode .sidebar{display:none!important}
  body.hg39-world-map-mode #main>.scene-title{flex:0 0 26px;min-height:26px;margin:0 0 3px}
  body.hg39-world-map-mode #main>.map-frame{flex:1 1 0;min-height:165px}
 }
+
+/* HG40.6: MOBILE CHROME 768x260 (browser address/status bars consume ~130px
+ * physical). The world map is the primary surface. No second screen/HTML.
+ * Keep the six-step New Game checklist under the collapsible side controls.
+ * The player may toggle the dock without losing actual map state or Save v07. */
+.hg40-map-expand{display:none}
+@media (max-width:950px) and (max-height:500px) and (orientation:landscape){
+ body.hg39-world-map-mode{overflow:hidden}
+ body.hg39-world-map-mode #app{
+  height:100dvh;max-height:100dvh;min-height:0;
+  padding:2px 3px;overflow:hidden;display:flex;flex-direction:column
+ }
+ body.hg39-world-map-mode .top{
+  flex:0 0 34px;min-height:34px;height:34px;max-height:34px;
+  padding:2px 5px;gap:4px;flex-wrap:nowrap;overflow:hidden
+ }
+ body.hg39-world-map-mode .masthead{flex:0 0 auto;max-width:170px;gap:4px;min-width:0}
+ body.hg39-world-map-mode .masthead .crest{font-size:17px}
+ body.hg39-world-map-mode .masthead .brand{font-size:12px;letter-spacing:.2px;white-space:nowrap}
+ body.hg39-world-map-mode .masthead small{display:none}
+ body.hg39-world-map-mode .resources{display:flex;flex:1 1 auto;min-width:0;gap:2px;flex-wrap:nowrap;overflow:hidden}
+ body.hg39-world-map-mode .resource{
+  flex:1 1 0;min-width:0;width:auto;max-width:none;
+  padding:1px 2px;font-size:8px;text-align:center
+ }
+ body.hg39-world-map-mode .resource b{font-size:11px;line-height:1.1}
+ body.hg39-world-map-mode .resource span,body.hg39-world-map-mode .resource small{display:none}
+ body.hg39-world-map-mode .tabs{
+  flex:0 0 26px;min-height:26px;height:26px;max-height:26px;
+  display:flex;flex-wrap:nowrap;gap:2px;margin:2px 0;overflow:hidden
+ }
+ body.hg39-world-map-mode .tabs button{
+  flex:1 1 0;min-width:0;min-height:24px;max-height:24px;
+  padding:1px 2px;font-size:9px;line-height:1.1;white-space:nowrap;
+  overflow:hidden;text-overflow:clip
+ }
+ body.hg39-world-map-mode .tabs .hog-ui-icon{width:14px;height:14px}
+ body.hg39-world-map-mode .wrap{
+  flex:1 1 auto;height:auto;max-height:none;min-height:0;
+  display:flex;flex-direction:row;align-items:stretch;
+  gap:4px;overflow:hidden
+ }
+ body.hg39-world-map-mode #main{
+  display:flex;flex-direction:column;flex:1 1 auto;min-width:0;min-height:0;
+  padding:2px;overflow:hidden
+ }
+ body.hg39-world-map-mode #main>.scene-title{
+  display:flex;align-items:center;flex:0 0 20px;height:20px;
+  min-height:20px;margin:0 0 2px;gap:2px
+ }
+ body.hg39-world-map-mode #main>.scene-title h1{font:700 14px/1 Georgia,serif}
+ body.hg39-world-map-mode #main>.scene-title .eyebrow{display:none}
+ body.hg39-world-map-mode #main>[aria-label="Lộ trình phát triển New Game"]{display:none}
+ body.hg39-world-map-mode #main>.map-frame{
+  display:block;flex:1 1 auto;min-height:0;height:auto;max-height:none;
+  margin:0;padding:0;overflow:hidden
+ }
+ body.hg39-world-map-mode #main>.map-frame #world-canvas{
+  display:block;width:100%;height:100%;max-width:none;
+  aspect-ratio:auto;touch-action:none;overscroll-behavior:contain
+ }
+ body.hg39-world-map-mode .hg39-map-dock{
+  flex:0 0 clamp(150px,22vw,188px);width:clamp(150px,22vw,188px);
+  height:100%;max-height:none;min-height:0;
+  padding:4px;gap:3px;overflow:auto
+ }
+ body.hg39-world-map-mode .hg39-map-tools{gap:2px;min-height:0}
+ body.hg39-world-map-mode .hg39-map-tools .scene-tools{gap:2px}
+ body.hg39-world-map-mode .hg39-map-tools .scene-tools button{
+  min-height:24px;padding:2px 4px;font-size:10px
+ }
+ body.hg39-world-map-mode .hg39-map-target{padding:4px}
+ body.hg39-world-map-mode .hg39-map-target .target-information h2{font-size:12px;line-height:1.1}
+ body.hg39-world-map-mode .hg39-map-target .target-information .actions button{min-height:27px;font-size:10px}
+ body.hg39-world-map-mode .hg39-map-details>summary{padding:4px 5px;font-size:10px}
+ body.hg39-world-map-mode .hg39-map-details[open]>:not(summary){max-height:100px}
+ body.hg39-world-map-mode .hg40-map-expand{
+  display:block;position:absolute;left:6px;bottom:6px;z-index:7;
+  font:700 11px system-ui;padding:5px 8px;min-height:30px;
+  color:#f4e6c8;background:#203d45e8;border:1px solid #d9bf85;
+  box-shadow:0 2px 7px #0008
+ }
+ body.hg39-world-map-mode.hg40-map-expanded .hg39-map-dock{display:none}
+ body.hg39-world-map-mode.hg40-map-expanded #main{flex:1 1 100%;width:100%}
+}
