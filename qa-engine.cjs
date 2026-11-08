@@ -1772,7 +1772,7 @@ test('HG12 browser Save rejects invalid v07 without overwriting prior data and r
  assert(alerts.some(m=>/khôi phục bản lưu dự phòng/.test(m)),'UI notifies recovery');
 });
 test('HG39 periodic production and warehouse capacity scale after HG38 modifiers for all five resources',()=>{
- const s=state(),config=E.HG39_CONFIG;assert.deepEqual(JSON.parse(JSON.stringify(config)),{productionMultiplier:20,recruitSpeedMultiplier:50,constructionSpeedMultiplier:10,warehouseCapacityMultiplier:100,minimumRecruitGameSeconds:1,minimumConstructionGameSeconds:1});
+ const s=state(),config=E.HG39_CONFIG;assert.deepEqual(JSON.parse(JSON.stringify(config)),{productionMultiplier:20,recruitSpeedMultiplier:5000,constructionSpeedMultiplier:10,warehouseCapacityMultiplier:100,minimumRecruitGameSeconds:1,minimumConstructionGameSeconds:1});
  assert.equal(E.rate(s).gold,160*20);assert.equal(E.rate(s).wood,12*20);assert.equal(E.rate(s).ore,12*20);assert.equal(E.rate(s).sulfur,6*20);assert.equal(E.rate(s).crystal,6*20);
  const capacity=E.limits(s);assert.equal(capacity.gold,15000*100);assert.equal(capacity.wood,1500*100);assert.equal(capacity.ore,1500*100);assert.equal(capacity.sulfur,750*100);assert.equal(capacity.crystal,750*100);
  const base=E.rate(s);s.mines=Object.entries(E.MINE_HOURLY).map(([res],i)=>({key:`hg39-${i}`,res,level:1,cityId:'main'}));
@@ -1780,9 +1780,9 @@ test('HG39 periodic production and warehouse capacity scale after HG38 modifiers
 });
 test('HG39 recruitment and construction timers honor their final HG38 bonuses and minimums',()=>{
  const s=expensive(state()),u=E.getUnit(s,'human_1');assert(u);
- assert.equal(E.recruitDuration(s,u,1),Math.max(1,Math.ceil(u.timeSec/50)));
+ assert.equal(E.recruitDuration(s,u,1),Math.max(1,Math.ceil(u.timeSec/5000)));
  s.spells.bootcamp=10;s.buildings.blacksmith=10;const elite=Math.min(.22,(10-7)*.025+(10-5)*.03),factor=1-Math.min(.45,Math.min(.2,10*.02)+elite);
- assert.equal(E.recruitDuration(s,u,1),Math.max(1,Math.ceil(u.timeSec*factor/50)));
+ assert.equal(E.recruitDuration(s,u,1),Math.max(1,Math.ceil(u.timeSec*factor/5000)));
  s.spells.construction=5;E.upgrade(s,'market');assert.equal(s.buildingQueue.total,Math.max(1,Math.ceil(160*(1-.15)/10)));
  assert(E.strictSave(E.parseSave(E.serializeSave(s))));
 });
