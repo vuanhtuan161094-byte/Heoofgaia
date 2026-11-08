@@ -267,4 +267,36 @@ test('40/40 independently asserted skill activation and passive contracts',()=>{
  console.log('HG40 individual skill oracles 40/40 PASS');
 });
 
+
+test('HG40 mutual DoT wipe cannot grant NPC or Boss victory rewards',()=>{
+ for(const mode of ['npc','boss']){
+  const {s,b,u}=scenario('orc',4);
+  if(mode==='boss'){
+   const tile=E.TILES.find(x=>x.privateBoss);assert(tile);
+   b.target=tile.key;
+  }
+  b.enemies=[b.enemies[0]];
+  for(const actor of [b.allies[0],b.enemies[0]]){
+   actor.hp=10;actor.pool=1;actor.count=1;actor.initial=1;actor.atk=0;
+  }
+  s.army[u.id]=1;
+  const enemy=b.enemies[0],ally=b.allies[0],gold=s.res.gold,fame=s.fame;
+  const cleared=s.cleared.slice();
+  b.hg40.statuses=[
+   {target:ally.id,kind:'dot',value:10,source:'enemy',
+    starts:b.turn,until:b.turn,ticks:1,nextTick:b.turn},
+   {target:enemy.id,kind:'dot',value:10,source:'player',
+    starts:b.turn,until:b.turn,ticks:1,nextTick:b.turn}
+  ];
+  const outcome=E.battleActCore(s,'attack',{stableTargets:true});
+  assert.equal(outcome.type,'lose',mode+' must not reward a mutual wipe');
+  assert.equal(s.battle,null,'fight must resolve exactly once');
+  assert.equal(s.version,7,'save version must stay stable');
+  assert.equal(s.res.gold,gold,'mutual wipe must not mint gold');
+  assert.equal(s.fame,fame,'mutual wipe must not mint fame');
+  assert.deepEqual(s.cleared,cleared,'mutual wipe must not clear camp');
+  assert.equal(s.army[u.id],0,'last soldier casualty is still canonical');
+ }
+});
+
 console.log('HG40 focused '+cases+'/'+cases+' PASS');
