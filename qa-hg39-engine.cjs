@@ -11,7 +11,7 @@ function test(name,run){run();console.log('PASS '+name)}
 
 test('HG39 pacing applies exactly once after full HG38 HG20 production and storage',()=>{
  const s=E.make('human',1_000_000),config=E.HG39_CONFIG;
- assert.deepEqual(JSON.parse(JSON.stringify(config)),{productionMultiplier:20,recruitSpeedMultiplier:50,constructionSpeedMultiplier:10,warehouseCapacityMultiplier:100,minimumRecruitGameSeconds:1,minimumConstructionGameSeconds:1});
+ assert.deepEqual(JSON.parse(JSON.stringify(config)),{productionMultiplier:20,recruitSpeedMultiplier:5000,constructionSpeedMultiplier:10,warehouseCapacityMultiplier:100,minimumRecruitGameSeconds:1,minimumConstructionGameSeconds:1});
  assert.equal(E.rate(s).gold,160*5*20);assert.equal(E.rate(s).wood,12*5*20);assert.equal(E.rate(s).ore,12*5*20);assert.equal(E.rate(s).sulfur,6*5*20);assert.equal(E.rate(s).crystal,6*5*20);
  const cap=E.limits(s);assert.equal(cap.gold,15_000*10*100);assert.equal(cap.wood,1_500*10*100);assert.equal(cap.ore,1_500*10*100);assert.equal(cap.sulfur,750*10*100);assert.equal(cap.crystal,750*10*100);
  const base=E.rate(s);s.mines=Object.entries(E.MINE_HOURLY).map(([res],i)=>({key:`hg39-${i}`,res,level:1,cityId:'main'}));
