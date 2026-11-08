@@ -1,0 +1,41 @@
+name: HG40.5 recruit and Save integrity fast gate
+on:
+  push:
+    branches:
+      - feature/hog1-research-to-playable-20261102
+    paths:
+      - 'engine.js'
+      - 'hg05.js'
+      - 'qa-hg405-recruit100.cjs'
+      - 'qa-hg39-engine.cjs'
+      - '.github/workflows/hg405-recruit-mobile-fast.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 7
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify new recruit 100x and paid v07 queue migration
+        run: |
+          node --check engine.js
+          node --check hg05.js
+          node --check qa-hg405-recruit100.cjs
+          node qa-hg405-recruit100.cjs
+      - name: Existing HG39 and full engine regression
+        run: |
+          node qa-hg39-engine.cjs
+          node qa-engine.cjs
+      - name: Export training Save audit
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG405-Training100x-v07-Tests
+          path: docs/qa/hg405-training-100x.json
+          retention-days: 30
+          if-no-files-found: ignore
