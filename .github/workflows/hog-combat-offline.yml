@@ -162,6 +162,10 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
+      - name: HG40.1 real file Chromium skill shield, Save v07 and responsive UI
+        run: |
+          python -m py_compile qa-hg40-real-skill-chrome.py
+          python qa-hg40-real-skill-chrome.py
       - name: HG34 P0 Chromium battle smoothness, RAF continuity, HUD and Save v07
         run: |
           python -m py_compile qa-hg34-combat-smooth-chrome.py
@@ -252,6 +256,15 @@ jobs:
           test -s Play-Heoofgaia-HG11.html
           sha256sum Play-Heoofgaia-HG11.html | tee Build-SHA256.txt
           wc -c Play-Heoofgaia-HG11.html
+      - name: Upload HG40.1 live skill and responsive Chromium screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG40-1-real-skill-Chromium
+          path: |
+            docs/qa/hg40/chromium-real-skill.json
+            docs/evidence/hg40/hg40-1-real-skill-*.png
+          if-no-files-found: ignore
       - name: Upload HG27 UI review screenshots
         if: always()
         uses: actions/upload-artifact@v4
