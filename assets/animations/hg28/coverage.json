@@ -1,6 +1,6 @@
 {
   "schema": "HG28-40-TroopAnimationCoverage-v1",
-  "asOf": "2026-11-06",
+  "asOf": "2026-11-08",
   "catalogue": "art-pack.js TYPES: 4 races x 10 canonical tiers",
   "actionOrder": [
     "idle",
@@ -27,14 +27,74 @@
       "tier": 1,
       "name": "Spear Militia",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "8ea7124cf75863a43c4397ef0a98e86dabb68c5912424cff8564d5e0b6dc1c3f",
+          "minimumAdjacentMae": 0.02172,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "8ea7124cf75863a43c4397ef0a98e86dabb68c5912424cff8564d5e0b6dc1c3f",
+          "minimumAdjacentMae": 0.03783,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "8ea7124cf75863a43c4397ef0a98e86dabb68c5912424cff8564d5e0b6dc1c3f",
+          "minimumAdjacentMae": 0.03496,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "8ea7124cf75863a43c4397ef0a98e86dabb68c5912424cff8564d5e0b6dc1c3f",
+          "minimumAdjacentMae": 0.06153,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "8ea7124cf75863a43c4397ef0a98e86dabb68c5912424cff8564d5e0b6dc1c3f",
+          "minimumAdjacentMae": 0.05262,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -43,7 +103,7 @@
       "tier": 2,
       "name": "Scout",
       "batch": "P1-FOUNDATION",
-      "status": "PARTIAL_VERIFIED",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
         "idle": {
@@ -52,10 +112,58 @@
           "evidence": "assets/licensed/spritecook/asset-manifest.json",
           "kind": "source-frames"
         },
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1e31531f1bfc9e478bdde8abc0d35d1c271de6d3dd6a01dcfa10dcf64cb99053",
+          "minimumAdjacentMae": 0.03571,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1e31531f1bfc9e478bdde8abc0d35d1c271de6d3dd6a01dcfa10dcf64cb99053",
+          "minimumAdjacentMae": 0.04959,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1e31531f1bfc9e478bdde8abc0d35d1c271de6d3dd6a01dcfa10dcf64cb99053",
+          "minimumAdjacentMae": 0.04537,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1e31531f1bfc9e478bdde8abc0d35d1c271de6d3dd6a01dcfa10dcf64cb99053",
+          "minimumAdjacentMae": 0.05464,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -146,14 +254,74 @@
       "tier": 5,
       "name": "Gryphon",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ef23a947ed09956d2f3ecb4bf3ee09a02f4f7ab0338673b9250df83658960ba8",
+          "minimumAdjacentMae": 0.02267,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ef23a947ed09956d2f3ecb4bf3ee09a02f4f7ab0338673b9250df83658960ba8",
+          "minimumAdjacentMae": 0.03269,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ef23a947ed09956d2f3ecb4bf3ee09a02f4f7ab0338673b9250df83658960ba8",
+          "minimumAdjacentMae": 0.0658,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ef23a947ed09956d2f3ecb4bf3ee09a02f4f7ab0338673b9250df83658960ba8",
+          "minimumAdjacentMae": 0.05538,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ef23a947ed09956d2f3ecb4bf3ee09a02f4f7ab0338673b9250df83658960ba8",
+          "minimumAdjacentMae": 0.02833,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -162,7 +330,7 @@
       "tier": 6,
       "name": "Monk",
       "batch": "P2-MIDGAME",
-      "status": "PARTIAL_VERIFIED",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
         "idle": {
@@ -171,10 +339,58 @@
           "evidence": "assets/hg193-unit-manifest.json",
           "kind": "source-frames"
         },
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "abc49fc02db73219039066f05dd79b4fdd1587131c68b14bffa2455a062a0621",
+          "minimumAdjacentMae": 0.02867,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "abc49fc02db73219039066f05dd79b4fdd1587131c68b14bffa2455a062a0621",
+          "minimumAdjacentMae": 0.07537,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "abc49fc02db73219039066f05dd79b4fdd1587131c68b14bffa2455a062a0621",
+          "minimumAdjacentMae": 0.05281,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "abc49fc02db73219039066f05dd79b4fdd1587131c68b14bffa2455a062a0621",
+          "minimumAdjacentMae": 0.05517,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -224,14 +440,74 @@
       "tier": 8,
       "name": "Priest",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c11f782f1389fe7ee73e4e54aba5b459b0d25d206909a86377ef0fe203217039",
+          "minimumAdjacentMae": 0.02949,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c11f782f1389fe7ee73e4e54aba5b459b0d25d206909a86377ef0fe203217039",
+          "minimumAdjacentMae": 0.04501,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c11f782f1389fe7ee73e4e54aba5b459b0d25d206909a86377ef0fe203217039",
+          "minimumAdjacentMae": 0.07929,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c11f782f1389fe7ee73e4e54aba5b459b0d25d206909a86377ef0fe203217039",
+          "minimumAdjacentMae": 0.071,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c11f782f1389fe7ee73e4e54aba5b459b0d25d206909a86377ef0fe203217039",
+          "minimumAdjacentMae": 0.05979,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -240,14 +516,74 @@
       "tier": 9,
       "name": "Angel",
       "batch": "P0-T9T10",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": "assets/generated/hg28/troops/human_9.png",
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5e07ceedbabc0c5011845ac601438fcff202caad83f1a739d61b69143857e950",
+          "minimumAdjacentMae": 0.02043,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5e07ceedbabc0c5011845ac601438fcff202caad83f1a739d61b69143857e950",
+          "minimumAdjacentMae": 0.05095,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5e07ceedbabc0c5011845ac601438fcff202caad83f1a739d61b69143857e950",
+          "minimumAdjacentMae": 0.0889,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5e07ceedbabc0c5011845ac601438fcff202caad83f1a739d61b69143857e950",
+          "minimumAdjacentMae": 0.06837,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5e07ceedbabc0c5011845ac601438fcff202caad83f1a739d61b69143857e950",
+          "minimumAdjacentMae": 0.0831,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -256,14 +592,74 @@
       "tier": 10,
       "name": "Archangel",
       "batch": "P0-T9T10",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": "assets/generated/hg28/troops/human_10.png",
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "dedc5e72e65b4a17d55ec31a972767c46a7e753b81093b294f7fa526ac4494ef",
+          "minimumAdjacentMae": 0.02476,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "dedc5e72e65b4a17d55ec31a972767c46a7e753b81093b294f7fa526ac4494ef",
+          "minimumAdjacentMae": 0.06466,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "dedc5e72e65b4a17d55ec31a972767c46a7e753b81093b294f7fa526ac4494ef",
+          "minimumAdjacentMae": 0.08761,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "dedc5e72e65b4a17d55ec31a972767c46a7e753b81093b294f7fa526ac4494ef",
+          "minimumAdjacentMae": 0.06477,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/human-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "dedc5e72e65b4a17d55ec31a972767c46a7e753b81093b294f7fa526ac4494ef",
+          "minimumAdjacentMae": 0.07171,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -272,14 +668,74 @@
       "tier": 1,
       "name": "Centaur",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "13f3a6fdcb1be2ef7c6e7ae9bc8bb1caef7d77abb2157cfd220fb88ebce453ba",
+          "minimumAdjacentMae": 0.02407,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "13f3a6fdcb1be2ef7c6e7ae9bc8bb1caef7d77abb2157cfd220fb88ebce453ba",
+          "minimumAdjacentMae": 0.02991,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "13f3a6fdcb1be2ef7c6e7ae9bc8bb1caef7d77abb2157cfd220fb88ebce453ba",
+          "minimumAdjacentMae": 0.04954,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "13f3a6fdcb1be2ef7c6e7ae9bc8bb1caef7d77abb2157cfd220fb88ebce453ba",
+          "minimumAdjacentMae": 0.06296,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "13f3a6fdcb1be2ef7c6e7ae9bc8bb1caef7d77abb2157cfd220fb88ebce453ba",
+          "minimumAdjacentMae": 0.03739,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -288,14 +744,74 @@
       "tier": 2,
       "name": "Scout",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "25e5f0acc5bb124c2500690d720f4d3f572c3254c6b9fc8c9ebe41c563af07c4",
+          "minimumAdjacentMae": 0.0181,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "25e5f0acc5bb124c2500690d720f4d3f572c3254c6b9fc8c9ebe41c563af07c4",
+          "minimumAdjacentMae": 0.03165,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "25e5f0acc5bb124c2500690d720f4d3f572c3254c6b9fc8c9ebe41c563af07c4",
+          "minimumAdjacentMae": 0.04823,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "25e5f0acc5bb124c2500690d720f4d3f572c3254c6b9fc8c9ebe41c563af07c4",
+          "minimumAdjacentMae": 0.04344,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "25e5f0acc5bb124c2500690d720f4d3f572c3254c6b9fc8c9ebe41c563af07c4",
+          "minimumAdjacentMae": 0.04707,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -304,14 +820,74 @@
       "tier": 3,
       "name": "Dwarf",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c7c273a1337dfafa89044d819916697ca91ab092d5cf378b496eed15cd63a1c1",
+          "minimumAdjacentMae": 0.04792,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c7c273a1337dfafa89044d819916697ca91ab092d5cf378b496eed15cd63a1c1",
+          "minimumAdjacentMae": 0.04989,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c7c273a1337dfafa89044d819916697ca91ab092d5cf378b496eed15cd63a1c1",
+          "minimumAdjacentMae": 0.09535,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c7c273a1337dfafa89044d819916697ca91ab092d5cf378b496eed15cd63a1c1",
+          "minimumAdjacentMae": 0.07017,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "c7c273a1337dfafa89044d819916697ca91ab092d5cf378b496eed15cd63a1c1",
+          "minimumAdjacentMae": 0.05118,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -320,14 +896,74 @@
       "tier": 4,
       "name": "Archer",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4457eca5220834bde11c5735075dec9190f89fb7e49f4a20e444e3391f323f77",
+          "minimumAdjacentMae": 0.02286,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4457eca5220834bde11c5735075dec9190f89fb7e49f4a20e444e3391f323f77",
+          "minimumAdjacentMae": 0.03465,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4457eca5220834bde11c5735075dec9190f89fb7e49f4a20e444e3391f323f77",
+          "minimumAdjacentMae": 0.04932,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4457eca5220834bde11c5735075dec9190f89fb7e49f4a20e444e3391f323f77",
+          "minimumAdjacentMae": 0.05509,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4457eca5220834bde11c5735075dec9190f89fb7e49f4a20e444e3391f323f77",
+          "minimumAdjacentMae": 0.03734,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -336,14 +972,74 @@
       "tier": 5,
       "name": "Pegasus",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f39665dd86a68d9983e8b25cda3a6e00fa9e091030cdeaf7e7435e457b2aca36",
+          "minimumAdjacentMae": 0.03624,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f39665dd86a68d9983e8b25cda3a6e00fa9e091030cdeaf7e7435e457b2aca36",
+          "minimumAdjacentMae": 0.05437,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f39665dd86a68d9983e8b25cda3a6e00fa9e091030cdeaf7e7435e457b2aca36",
+          "minimumAdjacentMae": 0.07264,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f39665dd86a68d9983e8b25cda3a6e00fa9e091030cdeaf7e7435e457b2aca36",
+          "minimumAdjacentMae": 0.07385,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f39665dd86a68d9983e8b25cda3a6e00fa9e091030cdeaf7e7435e457b2aca36",
+          "minimumAdjacentMae": 0.05358,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -352,14 +1048,74 @@
       "tier": 6,
       "name": "Dryad",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "9b9e858ede8b20cfd0fec75e155791199e13d6ceec579984405b0dfd7d64b8fb",
+          "minimumAdjacentMae": 0.03286,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "9b9e858ede8b20cfd0fec75e155791199e13d6ceec579984405b0dfd7d64b8fb",
+          "minimumAdjacentMae": 0.03856,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "9b9e858ede8b20cfd0fec75e155791199e13d6ceec579984405b0dfd7d64b8fb",
+          "minimumAdjacentMae": 0.06546,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "9b9e858ede8b20cfd0fec75e155791199e13d6ceec579984405b0dfd7d64b8fb",
+          "minimumAdjacentMae": 0.06608,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "9b9e858ede8b20cfd0fec75e155791199e13d6ceec579984405b0dfd7d64b8fb",
+          "minimumAdjacentMae": 0.04792,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -368,14 +1124,74 @@
       "tier": 7,
       "name": "Unicorn",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "04545069934c361f6ff07e52b63268b84b3bce0fd050b2936ac6e673fdddf5f6",
+          "minimumAdjacentMae": 0.02176,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "04545069934c361f6ff07e52b63268b84b3bce0fd050b2936ac6e673fdddf5f6",
+          "minimumAdjacentMae": 0.03377,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "04545069934c361f6ff07e52b63268b84b3bce0fd050b2936ac6e673fdddf5f6",
+          "minimumAdjacentMae": 0.08124,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "04545069934c361f6ff07e52b63268b84b3bce0fd050b2936ac6e673fdddf5f6",
+          "minimumAdjacentMae": 0.0853,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "04545069934c361f6ff07e52b63268b84b3bce0fd050b2936ac6e673fdddf5f6",
+          "minimumAdjacentMae": 0.04875,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -384,14 +1200,74 @@
       "tier": 8,
       "name": "Elite Archer",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5dcb974d4c85e6f6d01c247ea81b36701faf66d7129551b659199fc09266c185",
+          "minimumAdjacentMae": 0.0235,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5dcb974d4c85e6f6d01c247ea81b36701faf66d7129551b659199fc09266c185",
+          "minimumAdjacentMae": 0.04527,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5dcb974d4c85e6f6d01c247ea81b36701faf66d7129551b659199fc09266c185",
+          "minimumAdjacentMae": 0.04643,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5dcb974d4c85e6f6d01c247ea81b36701faf66d7129551b659199fc09266c185",
+          "minimumAdjacentMae": 0.05546,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "5dcb974d4c85e6f6d01c247ea81b36701faf66d7129551b659199fc09266c185",
+          "minimumAdjacentMae": 0.05169,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -400,14 +1276,74 @@
       "tier": 9,
       "name": "Green Dragon",
       "batch": "P0-T9T10",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": "assets/generated/hg28/troops/elf_9.png",
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fbc297799b1f228674bb90d8cdf4d86091ada642601a3197aca7c5868b9f0620",
+          "minimumAdjacentMae": 0.02161,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fbc297799b1f228674bb90d8cdf4d86091ada642601a3197aca7c5868b9f0620",
+          "minimumAdjacentMae": 0.02428,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fbc297799b1f228674bb90d8cdf4d86091ada642601a3197aca7c5868b9f0620",
+          "minimumAdjacentMae": 0.05814,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fbc297799b1f228674bb90d8cdf4d86091ada642601a3197aca7c5868b9f0620",
+          "minimumAdjacentMae": 0.03971,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fbc297799b1f228674bb90d8cdf4d86091ada642601a3197aca7c5868b9f0620",
+          "minimumAdjacentMae": 0.04569,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -416,14 +1352,74 @@
       "tier": 10,
       "name": "Fairy Dragon",
       "batch": "P0-T9T10",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": "assets/generated/hg28/troops/elf_10.png",
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ce34609d6c7976e427b9fbd529dae6e8a1740da02d51f33feadbc75a972c98b9",
+          "minimumAdjacentMae": 0.04153,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ce34609d6c7976e427b9fbd529dae6e8a1740da02d51f33feadbc75a972c98b9",
+          "minimumAdjacentMae": 0.0508,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ce34609d6c7976e427b9fbd529dae6e8a1740da02d51f33feadbc75a972c98b9",
+          "minimumAdjacentMae": 0.07491,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ce34609d6c7976e427b9fbd529dae6e8a1740da02d51f33feadbc75a972c98b9",
+          "minimumAdjacentMae": 0.07135,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/elf-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ce34609d6c7976e427b9fbd529dae6e8a1740da02d51f33feadbc75a972c98b9",
+          "minimumAdjacentMae": 0.05558,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -432,14 +1428,74 @@
       "tier": 1,
       "name": "Imp",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "cc1c7db3dda8106e5ee2367b9a50fda86855c89fdc8492a148e5bc31f04f5dd1",
+          "minimumAdjacentMae": 0.04396,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "cc1c7db3dda8106e5ee2367b9a50fda86855c89fdc8492a148e5bc31f04f5dd1",
+          "minimumAdjacentMae": 0.05099,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "cc1c7db3dda8106e5ee2367b9a50fda86855c89fdc8492a148e5bc31f04f5dd1",
+          "minimumAdjacentMae": 0.07213,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "cc1c7db3dda8106e5ee2367b9a50fda86855c89fdc8492a148e5bc31f04f5dd1",
+          "minimumAdjacentMae": 0.06082,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-1-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "cc1c7db3dda8106e5ee2367b9a50fda86855c89fdc8492a148e5bc31f04f5dd1",
+          "minimumAdjacentMae": 0.0357,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -448,14 +1504,74 @@
       "tier": 2,
       "name": "Wolf Rider",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1645eddff0c9d839470100f74c04e54924a8e3a4bb94564132571c0a8e8ec268",
+          "minimumAdjacentMae": 0.02974,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1645eddff0c9d839470100f74c04e54924a8e3a4bb94564132571c0a8e8ec268",
+          "minimumAdjacentMae": 0.04068,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1645eddff0c9d839470100f74c04e54924a8e3a4bb94564132571c0a8e8ec268",
+          "minimumAdjacentMae": 0.06757,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1645eddff0c9d839470100f74c04e54924a8e3a4bb94564132571c0a8e8ec268",
+          "minimumAdjacentMae": 0.06749,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "1645eddff0c9d839470100f74c04e54924a8e3a4bb94564132571c0a8e8ec268",
+          "minimumAdjacentMae": 0.03396,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -464,14 +1580,74 @@
       "tier": 3,
       "name": "Axe Thrower",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "36617c7b42e80afd5a18774246f765e5ff1dd0d3d5c17f9acdad964f0bdb7435",
+          "minimumAdjacentMae": 0.04511,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "36617c7b42e80afd5a18774246f765e5ff1dd0d3d5c17f9acdad964f0bdb7435",
+          "minimumAdjacentMae": 0.05861,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "36617c7b42e80afd5a18774246f765e5ff1dd0d3d5c17f9acdad964f0bdb7435",
+          "minimumAdjacentMae": 0.06676,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "36617c7b42e80afd5a18774246f765e5ff1dd0d3d5c17f9acdad964f0bdb7435",
+          "minimumAdjacentMae": 0.05694,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "36617c7b42e80afd5a18774246f765e5ff1dd0d3d5c17f9acdad964f0bdb7435",
+          "minimumAdjacentMae": 0.05377,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -480,14 +1656,74 @@
       "tier": 4,
       "name": "Dire Wolf",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "0f34d5a8e1a3f1327725491dffdfc757c1dab3f832f8fdfeafed9af9edc836cc",
+          "minimumAdjacentMae": 0.02457,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "0f34d5a8e1a3f1327725491dffdfc757c1dab3f832f8fdfeafed9af9edc836cc",
+          "minimumAdjacentMae": 0.0306,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "0f34d5a8e1a3f1327725491dffdfc757c1dab3f832f8fdfeafed9af9edc836cc",
+          "minimumAdjacentMae": 0.04116,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "0f34d5a8e1a3f1327725491dffdfc757c1dab3f832f8fdfeafed9af9edc836cc",
+          "minimumAdjacentMae": 0.04899,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "0f34d5a8e1a3f1327725491dffdfc757c1dab3f832f8fdfeafed9af9edc836cc",
+          "minimumAdjacentMae": 0.02046,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -496,14 +1732,74 @@
       "tier": 5,
       "name": "Ogre",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "a9d25a4331cfb6bc7709d90ab4cbc5b9eeb09ee0903e869a60fd6b868f312cdf",
+          "minimumAdjacentMae": 0.02722,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "a9d25a4331cfb6bc7709d90ab4cbc5b9eeb09ee0903e869a60fd6b868f312cdf",
+          "minimumAdjacentMae": 0.05334,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "a9d25a4331cfb6bc7709d90ab4cbc5b9eeb09ee0903e869a60fd6b868f312cdf",
+          "minimumAdjacentMae": 0.06867,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "a9d25a4331cfb6bc7709d90ab4cbc5b9eeb09ee0903e869a60fd6b868f312cdf",
+          "minimumAdjacentMae": 0.05146,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "a9d25a4331cfb6bc7709d90ab4cbc5b9eeb09ee0903e869a60fd6b868f312cdf",
+          "minimumAdjacentMae": 0.05664,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -512,14 +1808,74 @@
       "tier": 6,
       "name": "Harpy",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fcf2babb6a0980ebe68129dd64983b1e2903fcd1589cfcef7761b448c39f8a60",
+          "minimumAdjacentMae": 0.02344,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fcf2babb6a0980ebe68129dd64983b1e2903fcd1589cfcef7761b448c39f8a60",
+          "minimumAdjacentMae": 0.04335,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fcf2babb6a0980ebe68129dd64983b1e2903fcd1589cfcef7761b448c39f8a60",
+          "minimumAdjacentMae": 0.05129,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fcf2babb6a0980ebe68129dd64983b1e2903fcd1589cfcef7761b448c39f8a60",
+          "minimumAdjacentMae": 0.03573,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "fcf2babb6a0980ebe68129dd64983b1e2903fcd1589cfcef7761b448c39f8a60",
+          "minimumAdjacentMae": 0.02627,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -528,14 +1884,74 @@
       "tier": 7,
       "name": "Thunderbird",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "400523c5d924cd77a82929617fd0cbb5fdf69b0c4117093d603fa07697d15365",
+          "minimumAdjacentMae": 0.02601,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "400523c5d924cd77a82929617fd0cbb5fdf69b0c4117093d603fa07697d15365",
+          "minimumAdjacentMae": 0.05701,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "400523c5d924cd77a82929617fd0cbb5fdf69b0c4117093d603fa07697d15365",
+          "minimumAdjacentMae": 0.08848,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "400523c5d924cd77a82929617fd0cbb5fdf69b0c4117093d603fa07697d15365",
+          "minimumAdjacentMae": 0.05924,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "400523c5d924cd77a82929617fd0cbb5fdf69b0c4117093d603fa07697d15365",
+          "minimumAdjacentMae": 0.04645,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -544,14 +1960,74 @@
       "tier": 8,
       "name": "Cyclops",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ab549b56bd1053f188498c3982fbb84a46d34c16fcb008478ecac9198fa22756",
+          "minimumAdjacentMae": 0.03082,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ab549b56bd1053f188498c3982fbb84a46d34c16fcb008478ecac9198fa22756",
+          "minimumAdjacentMae": 0.0566,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ab549b56bd1053f188498c3982fbb84a46d34c16fcb008478ecac9198fa22756",
+          "minimumAdjacentMae": 0.0937,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ab549b56bd1053f188498c3982fbb84a46d34c16fcb008478ecac9198fa22756",
+          "minimumAdjacentMae": 0.07304,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "ab549b56bd1053f188498c3982fbb84a46d34c16fcb008478ecac9198fa22756",
+          "minimumAdjacentMae": 0.04928,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -560,14 +2036,74 @@
       "tier": 9,
       "name": "Monster",
       "batch": "P0-T9T10",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": "assets/generated/hg28/troops/orc_9.png",
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "bf771eefe87f46f760cf879ae189ea38e2c001d5cc4c46add91477e8150a6c4b",
+          "minimumAdjacentMae": 0.02246,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "bf771eefe87f46f760cf879ae189ea38e2c001d5cc4c46add91477e8150a6c4b",
+          "minimumAdjacentMae": 0.05134,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "bf771eefe87f46f760cf879ae189ea38e2c001d5cc4c46add91477e8150a6c4b",
+          "minimumAdjacentMae": 0.05828,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "bf771eefe87f46f760cf879ae189ea38e2c001d5cc4c46add91477e8150a6c4b",
+          "minimumAdjacentMae": 0.05175,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "bf771eefe87f46f760cf879ae189ea38e2c001d5cc4c46add91477e8150a6c4b",
+          "minimumAdjacentMae": 0.05094,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -576,14 +2112,74 @@
       "tier": 10,
       "name": "Behemoth",
       "batch": "P0-T9T10",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": "assets/generated/hg28/troops/orc_10.png",
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b613f406300352242e91b5386b11ec2b593dc81a520ec0fb8a6c138ae971215",
+          "minimumAdjacentMae": 0.01931,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b613f406300352242e91b5386b11ec2b593dc81a520ec0fb8a6c138ae971215",
+          "minimumAdjacentMae": 0.05345,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b613f406300352242e91b5386b11ec2b593dc81a520ec0fb8a6c138ae971215",
+          "minimumAdjacentMae": 0.05924,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b613f406300352242e91b5386b11ec2b593dc81a520ec0fb8a6c138ae971215",
+          "minimumAdjacentMae": 0.065,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/orc-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b613f406300352242e91b5386b11ec2b593dc81a520ec0fb8a6c138ae971215",
+          "minimumAdjacentMae": 0.0612,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -633,14 +2229,74 @@
       "tier": 2,
       "name": "Common Ghost",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "88130f12dba80beab9dfc55d24bd80acb670f62a1893977731c0c610c8cf4c62",
+          "minimumAdjacentMae": 0.02772,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "88130f12dba80beab9dfc55d24bd80acb670f62a1893977731c0c610c8cf4c62",
+          "minimumAdjacentMae": 0.04985,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "88130f12dba80beab9dfc55d24bd80acb670f62a1893977731c0c610c8cf4c62",
+          "minimumAdjacentMae": 0.06696,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "88130f12dba80beab9dfc55d24bd80acb670f62a1893977731c0c610c8cf4c62",
+          "minimumAdjacentMae": 0.05324,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-2-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "88130f12dba80beab9dfc55d24bd80acb670f62a1893977731c0c610c8cf4c62",
+          "minimumAdjacentMae": 0.03579,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -649,14 +2305,74 @@
       "tier": 3,
       "name": "Zombie",
       "batch": "P1-FOUNDATION",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f6d8788c61c7db0479fe160238c994a0fbe3fe4fb2517d9b6ccef85e979d6ca7",
+          "minimumAdjacentMae": 0.02616,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f6d8788c61c7db0479fe160238c994a0fbe3fe4fb2517d9b6ccef85e979d6ca7",
+          "minimumAdjacentMae": 0.05333,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f6d8788c61c7db0479fe160238c994a0fbe3fe4fb2517d9b6ccef85e979d6ca7",
+          "minimumAdjacentMae": 0.08214,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f6d8788c61c7db0479fe160238c994a0fbe3fe4fb2517d9b6ccef85e979d6ca7",
+          "minimumAdjacentMae": 0.04868,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-3-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "f6d8788c61c7db0479fe160238c994a0fbe3fe4fb2517d9b6ccef85e979d6ca7",
+          "minimumAdjacentMae": 0.08281,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -665,14 +2381,74 @@
       "tier": 4,
       "name": "Ghost",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b73c5edb87a4ab1fb3e1703995687e2464b3f2177219fa3a9f664af728d27d0",
+          "minimumAdjacentMae": 0.02777,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b73c5edb87a4ab1fb3e1703995687e2464b3f2177219fa3a9f664af728d27d0",
+          "minimumAdjacentMae": 0.04543,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b73c5edb87a4ab1fb3e1703995687e2464b3f2177219fa3a9f664af728d27d0",
+          "minimumAdjacentMae": 0.05625,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b73c5edb87a4ab1fb3e1703995687e2464b3f2177219fa3a9f664af728d27d0",
+          "minimumAdjacentMae": 0.05401,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-4-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "3b73c5edb87a4ab1fb3e1703995687e2464b3f2177219fa3a9f664af728d27d0",
+          "minimumAdjacentMae": 0.05956,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -681,14 +2457,74 @@
       "tier": 5,
       "name": "Vampire",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "789577ffb05e39dfc342941155b1239bc6c2c9436baebbdc736a937f38f70185",
+          "minimumAdjacentMae": 0.01918,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "789577ffb05e39dfc342941155b1239bc6c2c9436baebbdc736a937f38f70185",
+          "minimumAdjacentMae": 0.03915,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "789577ffb05e39dfc342941155b1239bc6c2c9436baebbdc736a937f38f70185",
+          "minimumAdjacentMae": 0.06021,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "789577ffb05e39dfc342941155b1239bc6c2c9436baebbdc736a937f38f70185",
+          "minimumAdjacentMae": 0.05353,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-5-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "789577ffb05e39dfc342941155b1239bc6c2c9436baebbdc736a937f38f70185",
+          "minimumAdjacentMae": 0.06771,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -697,14 +2533,74 @@
       "tier": 6,
       "name": "Lich",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4c2e37c38888ab81e16cd8ba265691e3dde8f0e4641ee6f2bd449e6a5ea7ab6e",
+          "minimumAdjacentMae": 0.03462,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4c2e37c38888ab81e16cd8ba265691e3dde8f0e4641ee6f2bd449e6a5ea7ab6e",
+          "minimumAdjacentMae": 0.04703,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4c2e37c38888ab81e16cd8ba265691e3dde8f0e4641ee6f2bd449e6a5ea7ab6e",
+          "minimumAdjacentMae": 0.06007,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4c2e37c38888ab81e16cd8ba265691e3dde8f0e4641ee6f2bd449e6a5ea7ab6e",
+          "minimumAdjacentMae": 0.04891,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-6-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4c2e37c38888ab81e16cd8ba265691e3dde8f0e4641ee6f2bd449e6a5ea7ab6e",
+          "minimumAdjacentMae": 0.06303,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -713,14 +2609,74 @@
       "tier": 7,
       "name": "Ghost Knight",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "38456f273091187b35dfab3259d11cf40c8c3bbbf17ddeb1c7d2b7c65711360b",
+          "minimumAdjacentMae": 0.02991,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "38456f273091187b35dfab3259d11cf40c8c3bbbf17ddeb1c7d2b7c65711360b",
+          "minimumAdjacentMae": 0.05577,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "38456f273091187b35dfab3259d11cf40c8c3bbbf17ddeb1c7d2b7c65711360b",
+          "minimumAdjacentMae": 0.07486,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "38456f273091187b35dfab3259d11cf40c8c3bbbf17ddeb1c7d2b7c65711360b",
+          "minimumAdjacentMae": 0.05221,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-7-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "38456f273091187b35dfab3259d11cf40c8c3bbbf17ddeb1c7d2b7c65711360b",
+          "minimumAdjacentMae": 0.06673,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -729,14 +2685,74 @@
       "tier": 8,
       "name": "Lich King",
       "batch": "P2-MIDGAME",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": null,
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "67f0cb0f955cdfbaa1e126386485ffb4b02afc55d9a9d4352888fd0dff2e9066",
+          "minimumAdjacentMae": 0.03123,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "67f0cb0f955cdfbaa1e126386485ffb4b02afc55d9a9d4352888fd0dff2e9066",
+          "minimumAdjacentMae": 0.03914,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "67f0cb0f955cdfbaa1e126386485ffb4b02afc55d9a9d4352888fd0dff2e9066",
+          "minimumAdjacentMae": 0.0577,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "67f0cb0f955cdfbaa1e126386485ffb4b02afc55d9a9d4352888fd0dff2e9066",
+          "minimumAdjacentMae": 0.0658,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-8-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "67f0cb0f955cdfbaa1e126386485ffb4b02afc55d9a9d4352888fd0dff2e9066",
+          "minimumAdjacentMae": 0.06918,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -745,14 +2761,74 @@
       "tier": 9,
       "name": "Bone Dragon",
       "batch": "P0-T9T10",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": "assets/generated/hg28/troops/undead_9.png",
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "870f1e9f4a08b6546f6e15863987b6dcb3aae01ff7c1b49a95ac39b4c12e7832",
+          "minimumAdjacentMae": 0.03484,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "870f1e9f4a08b6546f6e15863987b6dcb3aae01ff7c1b49a95ac39b4c12e7832",
+          "minimumAdjacentMae": 0.04668,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "870f1e9f4a08b6546f6e15863987b6dcb3aae01ff7c1b49a95ac39b4c12e7832",
+          "minimumAdjacentMae": 0.07021,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "870f1e9f4a08b6546f6e15863987b6dcb3aae01ff7c1b49a95ac39b4c12e7832",
+          "minimumAdjacentMae": 0.06016,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-9-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "870f1e9f4a08b6546f6e15863987b6dcb3aae01ff7c1b49a95ac39b4c12e7832",
+          "minimumAdjacentMae": 0.05621,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     },
     {
@@ -761,15 +2837,81 @@
       "tier": 10,
       "name": "Ghost Dragon",
       "batch": "P0-T9T10",
-      "status": "MASTER_ONLY",
+      "status": "FULL_VERIFIED",
       "masterPath": "assets/generated/hg28/troops/undead_10.png",
       "actions": {
-        "idle": null,
-        "walk": null,
-        "attack": null,
-        "hit": null,
-        "death": null
+        "idle": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 0,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4cf0b253dbcb74b7170871b92f9e266c0b712fcff20eaf30630f05b34862cc0d",
+          "minimumAdjacentMae": 0.04959,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "walk": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 1,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4cf0b253dbcb74b7170871b92f9e266c0b712fcff20eaf30630f05b34862cc0d",
+          "minimumAdjacentMae": 0.05584,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "attack": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 2,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4cf0b253dbcb74b7170871b92f9e266c0b712fcff20eaf30630f05b34862cc0d",
+          "minimumAdjacentMae": 0.04931,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "hit": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 3,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4cf0b253dbcb74b7170871b92f9e266c0b712fcff20eaf30630f05b34862cc0d",
+          "minimumAdjacentMae": 0.07538,
+          "authoring": "HG33-original-image-gen-atlas"
+        },
+        "death": {
+          "frames": 8,
+          "source": "assets/original/hg33/troops/undead-10-atlas.png",
+          "evidence": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+          "kind": "source-frames",
+          "row": 4,
+          "columns": 8,
+          "frameWidth": 192,
+          "frameHeight": 204,
+          "sourceSha256": "4cf0b253dbcb74b7170871b92f9e266c0b712fcff20eaf30630f05b34862cc0d",
+          "minimumAdjacentMae": 0.03941,
+          "authoring": "HG33-original-image-gen-atlas"
+        }
       }
     }
-  ]
+  ],
+  "integration": "HG40.3-AF40 verified source atlas reconciliation; preserve 22 previously registered independent source clips",
+  "hg33OriginalSource": "assets/generated/hg33/animation/troop-atlas-manifest.json",
+  "sourcePolicy": "Clip rows sourced from original HG33 per-unit RGBA PNG atlas, 8 distinct pose cells per action. Source hashes and per-cell geometry validated independently by qa-hg403-source-frames.py; no procedural transforms or static masters count.",
+  "highTierPolicy": "T9/T10 static HG28 masters kept for comparison but do not count. Only 8-frame HG33 original atlas action rows qualify.",
+  "newSourceClips": 178,
+  "sourceTotalClips": 200
 }
