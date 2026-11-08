@@ -298,6 +298,16 @@ jobs:
             docs/evidence/hg403/source-animation/*.png
           retention-days: 30
           if-no-files-found: error
+      - name: Upload HG40.3 AF40 178 lossless source animation clips (8 frames per action)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG40-3-AF40-178-Original-Animation-Clips
+          path: |
+            docs/evidence/hg403/source-animation/clips/*.png
+            docs/qa/hg403/source-animation-200.json
+          retention-days: 30
+          if-no-files-found: error
       - name: Upload HG40.3 Visual Gate per-faction real Chromium Canvas battle sheets and receipts
         if: always()
         uses: actions/upload-artifact@v4
