@@ -172,6 +172,10 @@ jobs:
         run: |
           python -m py_compile qa-hg40-real-skill-chrome.py
           python qa-hg40-real-skill-chrome.py
+      - name: HG40.3 Visual Gate 40 real battle-skill Canvas screenshots and truthful animation source coverage
+        run: |
+          python -m py_compile qa-hg403-visual-gate-chrome.py
+          python qa-hg403-visual-gate-chrome.py
       - name: HG34 P0 Chromium battle smoothness, RAF continuity, HUD and Save v07
         run: |
           python -m py_compile qa-hg34-combat-smooth-chrome.py
@@ -278,6 +282,16 @@ jobs:
             docs/qa/hg40/chromium-real-skill.json
             docs/evidence/hg40/hg40-1-real-skill-*.png
             docs/evidence/hg40/hg403-*.png
+          if-no-files-found: ignore
+      - name: Upload HG40.3 Visual Gate per-faction real Chromium Canvas battle sheets and receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG40-3-Visual-Gate-40-Skills-Chromium
+          path: |
+            docs/qa/hg403/chromium-40-visual-gate.json
+            docs/evidence/hg403/visual-gate/*.png
+          retention-days: 30
           if-no-files-found: ignore
       - name: Upload HG27 UI review screenshots
         if: always()
