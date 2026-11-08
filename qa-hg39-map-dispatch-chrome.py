@@ -96,6 +96,29 @@ with sync_playwright() as pw:
         }""")
         check(label+' real dispatch planner is usable and fits the viewport',panel['heroes']==2 and panel['confirmEnabled'] and
               panel['scrollWidth']<=width+1 and panel['panel']['w']>180,panel)
+        # HG40/bugfix: march AP can be insufficient after selecting a
+        # valid hero and a valid paid army. The button must be disabled BEFORE
+        # a click, and re-enable without minting AP/army on the real UI.
+        apCase=page.evaluate("""() => {
+          const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,original=s.ap;
+          const before={army:{...s.army},plans:JSON.stringify(s.hg20.plans),march:s.march,
+            exp:s.expedition,ap:original};
+          const get=()=>{
+            const btn=document.querySelector('.hg39-dispatch [data-action="dispatch-confirm"]'),
+              label=document.querySelector('[data-hg39-dispatch-ap]');
+            return {disabled:btn?.disabled,ap:label?.textContent};
+          };
+          s.ap=0;HOG_APP_DEBUG.render();const insufficient=get();
+          s.ap=original;HOG_APP_DEBUG.render();const affordable=get();
+          return {insufficient,affordable,required:parseInt((affordable.ap||'').match(/cần ([\d,.]+)/)?.[1]||'0',10),
+            valid:E.strictSave(s),unchanged:JSON.stringify(s.army)===JSON.stringify(before.army)&&
+             JSON.stringify(s.hg20.plans)===before.plans&&s.march===before.march&&
+             s.expedition===before.exp&&s.ap===before.ap};
+        }""")
+        check(label+' dispatch blocks low-AP attempt and enables it again when AP is sufficient',
+              apCase['valid'] and apCase['unchanged'] and apCase['insufficient']['disabled'] and
+              'thiếu AP' in (apCase['insufficient']['ap'] or '') and
+              not apCase['affordable']['disabled'] and 'cần ' in (apCase['affordable']['ap'] or ''),apCase)
         page.screenshot(path=str(SHOTS/f'dispatch-{label}.png'),animations='disabled')
         if label=='960x540':
             page.locator('[data-action="dispatch-select-hero"][data-id="2"]').click()
