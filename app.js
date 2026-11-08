@@ -930,6 +930,10 @@ function paint(){
   canvas.onpointermove=e=>{if(!down)return;const dx=e.clientX-down.x,dy=e.clientY-down.y;if(Math.abs(dx)+Math.abs(dy)>4)dragging=true;
    if(dragging){const rect=canvas.getBoundingClientRect(),unit=P.mapCamera().zoom*48;P.panMap(dx*canvas.width/rect.width/unit,dy*canvas.height/rect.height/unit,E.WIDTH,E.HEIGHT);draw();down={x:e.clientX,y:e.clientY}}};
   canvas.onpointerup=e=>{if(down&&!dragging){const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;const mini=P.miniHit(canvas,x,y,E);if(mini){Object.assign(P.mapCamera(),{centerX:mini.x,centerY:mini.y});selected=mini.key;selectedTargetKind=null;render();return}const t=P.mapHit(canvas,x,y,E);if(t){selected=t.key;selectedTargetKind=null;render();return}}down=null;};
+  // A phone call, orientation change or interrupted touch must not leave
+  // the map in a phantom drag state after the browser cancels the pointer.
+  canvas.onpointercancel=()=>{down=null;dragging=false};
+  canvas.onlostpointercapture=()=>{down=null;dragging=false};
   canvas.onwheel=e=>{e.preventDefault();P.zoomMap(e.deltaY>0?.9:1.1);draw()};
  }if(tab==='city'){const canvas=$('city-canvas');P.drawCity(canvas,E,state,selectedBuilding);
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
@@ -953,7 +957,12 @@ function paint(){
   drawCombatFrame(undefined);
   if(P.hasAnimatedTroops(state.battle)){
    const battle=state.battle;
-   let lastRaf=0,rafPeriod=0,samples=0,rafCount=0,stride=1;
+   let lastRaf=0,rafPeriod=0,samples=0,rafCount=0,stride=1,lastPaint=-Infinity;
+   // On touch/compact phones, painting a full fantasy battle at 60Hz
+   // wastes CPU/GPU and heats the device. Preserve 60/75Hz desktop cadence;
+   // the canonical auto-combat clock, frame timeline and Save are unchanged.
+   const mobilePaintMinMs=((typeof matchMedia==='function'&&matchMedia('(pointer: coarse)').matches)||
+     (innerWidth<=960&&innerHeight<=480))?29:0;
    // 60Hz-threshold filtering used to alias 75Hz monitors to ~37.5Hz:
    // each 13.3ms RAF failed a 14.7ms test, so only every OTHER refresh
    // was painted. Instead paint every native refresh up to ~100Hz; on
@@ -970,7 +979,9 @@ function paint(){
      }
     }
     lastRaf=now;
-    if(rafCount++%stride===0)drawCombatFrame(now);
+    if(rafCount++%stride===0&&(!mobilePaintMinMs||now-lastPaint>=mobilePaintMinMs)){
+     drawCombatFrame(now);lastPaint=now;
+    }
     requestAnimationFrame(animate);
    };
    requestAnimationFrame(animate);
