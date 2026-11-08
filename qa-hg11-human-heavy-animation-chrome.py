@@ -326,7 +326,7 @@ with sync_playwright() as playwright:
     page.reload(wait_until="load")
     loaded = page.evaluate("""(heavyId)=>{const s=HOG_APP_DEBUG.getState(),b=s?.battle,heavy=b?.allies.find(u=>u.id===heavyId);return {version:s?.version,race:s?.race,battle:!!b,
       key:localStorage.getItem('heoofgaia_hg_only_v07')!==null,unit:heavy?.unitId,pool:heavy?.pool,
-      enemyEvent:b?.lastEvents?.find(e=>e.targetId===heavyId),strict:HOG_ENGINE.strictSave(s),
+      enemyEvent:b?.lastEvents?.find(e=>e.targetId===heavyId&&e.damage>0),strict:HOG_ENGINE.strictSave(s),
       atlasReady:(()=>{const i=document.getElementById('unit-human-vanguard-atlas');return i.complete&&i.naturalWidth===1536&&i.naturalHeight===1024})()}}""",heavy_id)
     check("v07 Save/Reload preserves the active battle, damage event and offline atlas",
           loaded["version"] == 7 and loaded["race"] == "human" and loaded["battle"] and loaded["unit"] == "human_4" and
