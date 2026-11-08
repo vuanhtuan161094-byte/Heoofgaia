@@ -87,6 +87,10 @@ function syncCombatTurnHUD(){
  }
  const clock=$('battle-auto-clock');
  if(clock)clock.textContent=state.battleAuto?'Đang tự động':'Tự động sau '+Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))+' giây';
+ const hg40Own=document.querySelector('.hg40-player'),hg40Enemy=document.querySelector('.hg40-enemy');
+ if(hg40Own)hg40Own.textContent='⚔ '+(E.hg40SkillText?.(b,selected)||'Chọn quân để xem kỹ năng')+
+  ' · '+(E.hg40StatusText?.(b,selected)||'Không trạng thái');
+ if(hg40Enemy)hg40Enemy.textContent='☠ '+(E.hg40StatusText?.(b,focused)||'Chưa chọn mục tiêu');
  const auto=document.querySelector('.battle-command-dock [data-action="auto"]');
  if(auto)auto.textContent=state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH';
  const move=document.querySelector('.battle-command-dock [data-action="move-mode"]');
@@ -865,7 +869,10 @@ function combatView(){
  const eventText=e=>{
   const actor=[...b.allies,...b.enemies].find(u=>u.id===e.actorId),target=[...b.allies,...b.enemies].find(u=>u.id===e.targetId),name=actor?.name||'Đội quân',targetName=target?.name||'mục tiêu',moved=e.from.x!==e.to.x||e.from.y!==e.to.y;
   let text;
-  if(e.order==='defend')text=`${name} chờ lệnh (Stand By)`;
+  if(e.order==='dot')text=`${name} chịu sát thương theo thời gian`;
+  else if(e.order==='skill')text=`${name} kích hoạt ${e.skill||'kỹ năng'} lên ${targetName}`;
+  else if(e.order==='stunned')text=`${name} bị choáng, không thể hành động`;
+  else if(e.order==='defend')text=`${name} chờ lệnh (Stand By)`;
   else if(e.order==='retreat')text=moved?`${name} lùi về ô (${e.to.x+1}, ${e.to.y+1})`:`${name} không thể lùi vì ô phía sau bị chặn`;
   else if(e.order==='move')text=e.path.length?`${name} di chuyển ${e.path.length} ô tới (${e.to.x+1}, ${e.to.y+1})`:`${name} đã tới điểm đến`;
   else if(e.order==='advance')text=moved?`${name} tiến về phía ${targetName} (${e.path.length} ô)`:`${name} giữ vị trí trước ${targetName}`;
@@ -888,12 +895,17 @@ function combatView(){
  const spells=(b.hg21Tower||b.hg261Joint)?towerSpellPanel(b):`<div class="hg04-spells">${spellButtons}</div><small class="battle-spell-state">${b.activeSpell?`Đang hiệu lực: ${esc(E.spell(state,b.activeSpell.id)?.name||'')} · hết lượt ${b.activeSpell.expiry}`:'Không có phép đang hiệu lực'} · tối đa 1 phép/lượt</small>`;
  const movementHint=movementModeId?'Chọn ô lục giác viền sáng để đặt điểm đến.':selectedMoveTarget?`Đang tiến tới ô (${selectedMoveTarget.x+1}, ${selectedMoveTarget.y+1}).`:'Chọn quân ta trên bàn cờ rồi đặt điểm đến.';
  const autoLabel=state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`;
+ const hg40Info=b.hg40?.v===1?'<div class="hg40-readout" aria-label="Kỹ năng và trạng thái chiến thuật">'+
+  '<span class="hg40-player">⚔ '+esc(E.hg40SkillText?.(b,selected)||'Chọn quân để xem kỹ năng')+
+  ' · '+esc(E.hg40StatusText?.(b,selected)||'Không trạng thái')+'</span>'+
+  '<span class="hg40-enemy">☠ '+esc(E.hg40StatusText?.(b,focused)||'Chưa chọn mục tiêu')+'</span></div>':'';
  return `<div class="scene-title combat-scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)}</h1></div><div class="scene-tools">${button('save-combat',{},'💾',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${aliveAllies} : ${aliveEnemies}</span></div></div>
  <div class="battle-frame battle-stage${combatDockOpen?'':' battle-stage-collapsed'}"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường lục giác. Bấm vào quân ta để chọn đội, quân địch để chọn mục tiêu; ra lệnh di chuyển rồi chọn ô trống."></canvas>
   <details class="battle-command-dock" ${combatDockOpen?'open':''}>
    <summary title="Thu gọn hoặc mở bảng lệnh" aria-label="Thu gọn hoặc mở bảng lệnh chiến đấu"><span class="battle-dock-label">⚔ LỆNH</span><span class="battle-dock-chevron" aria-hidden="true">⌄</span></summary>
    <div class="battle-command-content">
     <div class="battle-selection-readout"><div class="battle-side-readout"><small>QUÂN TA</small><b>${selectedName}</b><span>${selected?esc(statLine(selected)):'Chạm quân ta trên bàn cờ'}</span></div><div class="battle-side-readout enemy"><small>MỤC TIÊU</small><b>${focusedName}</b><span>${focused?esc(statLine(focused)):movementModeId?'Chọn ô lục giác để di chuyển':'Bấm quân địch trên ô'}</span></div></div>
+    ${hg40Info}
     <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div>
     <div class="battle-display-tools" role="group" aria-label="Tùy chọn chiến trường"><button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn lưới lục giác">${battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu">${battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'}</button></div>
     <div class="battle-action-grid">${button('battle',{cmd:'attack'},'⚔ ĐÁNH',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 CHỜ',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 TẬP TRUNG',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI',false,'secondary')}${button('auto',{},state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH',false,'auto secondary')}</div>

@@ -982,3 +982,12 @@ body.hg39-world-map-mode .sidebar{display:none!important}
  body:not(.combat-mode) .tabs::-webkit-scrollbar{display:none}
  body:not(.combat-mode) .tabs button{flex:0 0 68px;min-width:68px;min-height:30px;padding:3px 2px;font-size:9px;line-height:1.1;white-space:normal}
 }
+
+/* HG40: real passive/cooldown/status readout in existing battle command dock. */
+.hg40-readout{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:4px;
+ font:600 10px system-ui;max-width:100%;min-width:0}
+.hg40-readout span{display:block;min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;
+ padding:4px 6px;border:1px solid #527768;border-radius:5px;background:#173239;color:#e7e4d6}
+.hg40-readout .hg40-enemy{border-color:#80595a;background:#352731;color:#e7beb1}
+@media(max-width:700px){.hg40-readout{grid-template-columns:minmax(0,1fr);gap:2px}
+ .hg40-readout span{font-size:9px;padding:2px 5px}}
