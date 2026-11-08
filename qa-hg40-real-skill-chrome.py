@@ -117,13 +117,18 @@ with sync_playwright() as pw:
           const c=document.getElementById('battle-canvas'),rect=c.getBoundingClientRect();
           const projection=P.battleProjection(c,E),layout=P.battleUnitLayout(s.battle,projection,c.width,c.height);
           const dock=document.querySelector('.battle-command-dock'),hd=document.querySelector('.hg40-readout');
-          const dr=dock?.getBoundingClientRect(),hr=hd?.getBoundingClientRect();
+          const dr=dock?.getBoundingClientRect(),hr=hd?.getBoundingClientRect(),
+            content=document.querySelector('.battle-command-content')?.getBoundingClientRect(),
+            orders=[...document.querySelectorAll('.battle-action-grid button')];
+          const ordersAboveFold=!!content&&orders.length===7&&orders.every(btn=>{
+            const rect=btn.getBoundingClientRect();return rect.top>=content.top-1&&rect.bottom<=content.bottom+1;
+          });
           return {valid:E.strictSave(s),units:layout.length,grid:P.battleGridCells(projection).length,
             canvasStable:c===window._hg40Canvas||!window._hg40Canvas,
             canvasSize:{width:c.width,height:c.height},
             displayed:rect.width>100&&rect.height>100,
             hud:!!hr&&hr.width>60&&hr.height>0,
-            dock:!!dr&&dr.width>100&&dr.height>10,
+            dock:!!dr&&dr.width>100&&dr.height>10,ordersAboveFold,orderCount:orders.length,
             horizontalOverflow:document.documentElement.scrollWidth>innerWidth+2,
             spell:hd?.textContent?.includes('Thánh thuẫn'),
             clicked:layout.filter(x=>x.u.pool>0).every(x=>P.battleHit(c,x.x,x.y,E,s)?.id===x.id)};
@@ -131,7 +136,7 @@ with sync_playwright() as pw:
         metrics.append({'viewport':f'{width}x{height}','snapshot':view})
         check(f'HG40 {width}x{height} live HUD, hex hitbox and no horizontal overflow',
               view['valid'] and view['grid']==108 and view['displayed'] and view['hud'] and
-              view['dock'] and not view['horizontalOverflow'] and view['spell'] and view['clicked'],view)
+              view['dock'] and view['ordersAboveFold'] and not view['horizontalOverflow'] and view['spell'] and view['clicked'],view)
         capture(page,f'hg40-1-real-skill-{width}x{height}.png')
 
     page.set_viewport_size({'width':1280,'height':720})
