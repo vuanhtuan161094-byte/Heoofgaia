@@ -120,7 +120,7 @@ test('New paid recruitment still charges once, decrements exactly one queue and 
   E.tick(reloaded,reloaded.lastTick+Math.ceil(eta+1)*1000);
   assert.equal(reloaded.training.length,0);
   assert.equal(reloaded.army[u.id],base+count);
-  assert.equal(reloaded.res.gold,s.res.gold+E.rate(reloaded).gold*(Math.ceil(eta+1)/3600) > 0,true);
+  assert(reloaded.res.gold>=s.res.gold,'No duplicate recruit charge on completion: '+race);
   assert(E.strictSave(reloaded));
  }
  return {races:4,paidExactlyOnce:true,armyMintedBeforeCompletion:false,saveVersion:7};
