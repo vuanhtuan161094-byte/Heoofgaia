@@ -232,9 +232,11 @@ with sync_playwright() as pw:
     gate("no Chromium page JavaScript errors", not errors, errors)
     browser.close()
 
-gate("source animation manifest accurately records unfinished independent five-action coverage",
-     len(coverage["units"]) == 40 and source_full < 40 and source_clips < 200,
-     {"fullSourceUnits": source_full, "fullSourceClips": source_clips, "needed": 200})
+gate("HG40.3 AF40 source animation manifest records all independently-authored five-action rows",
+     len(coverage["units"]) == 40 and source_full == 40 and source_clips == 200 and
+     coverage.get("newSourceClips") == 178,
+     {"fullSourceUnits": source_full, "sourceClips": source_clips,
+      "recoveredOriginalHg33Rows": coverage.get("newSourceClips"), "needed": 200})
 report = {
     "schema": "HG40.3-VisualGate-Chromium-v1",
     "status": "PASS" if all(c["pass"] for c in checks) else "FAIL",
@@ -245,7 +247,7 @@ report = {
                   "totalRequiredIndependentSourceActionClips": 200,
                   "independentSourceComplete": source_full == 40 and source_clips == 200},
     "replayNote": "Controlled battleActCore scenarios, actual shipping Chromium Canvas. 27 genuine logged procs; 13 passive presence with real impact but NOT asserted proc.",
-    "gameplayNote": "Do not claim organic campaign, art quality acceptance or Android device certification.",
+    "gameplayNote": "40/40 eight-frame source rows are registered and separately SHA/pose verified; animation art continuity, physical foot tracking in all poses and Android hardware remain distinct visual release gates. These are controlled real gameplay hits, not organic campaign progression.",
     "sourceHtmlSha256": hashlib.sha256(HTML.read_bytes()).hexdigest()
 }
 (QA / "chromium-40-visual-gate.json").write_text(
