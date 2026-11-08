@@ -520,7 +520,9 @@ function battleAct(s,action,options){
  for(const actor of participants){
   if(actor.pool<=0)continue;
   if(root.HOG_ENGINE?.hg40BeforeAction?.(s,b,actor)){
-   acted.push(actor.id);record(actor,null,0,[],'stunned');continue;
+   // Keep the canonical HG10 v07 action enum unchanged. HG40 status data
+   // and visual journal carry the reason for this non-attacking turn.
+   acted.push(actor.id);record(actor,null,0,[],'defend');continue;
   }
   const enemy=actor.side==='player'?alive(b.enemies):alive(b.allies);if(!enemy.length)break;
   const stance=actor.side==='player'?(b.orders[actor.id]||'attack'):'attack';
@@ -562,7 +564,9 @@ function battleAct(s,action,options){
  const dot=root.HOG_ENGINE?.hg40EndTurn?.(s,b,turn,
   (u,amount)=>applyBattleDamage(s,b,u,amount))||{dealt:0,lost:0};
  dealt+=dot.dealt;lost+=dot.lost;
- if(b.hg40?.events?.length)lastEvents.push(...b.hg40.events);
+ // HG10 Save v07 enforces one canonical lastEvent per actor and the
+ // original six order names. Additional HG40 splash/DoT receipts remain in
+ // battle.hg40.events rather than corrupting lastEvents/Save.
  b.turn++;b.lastActOrder=acted.slice();b.lastTargets=lastTargets;b.lastMoves=lastMoves;b.lastEvents=lastEvents;const movementSummary=lastMoves.map(m=>`${m.unitId} đi ${m.steps} ô tới (${m.to.x},${m.to.y})`).join('; ');b.history.unshift(`Lượt ${turn}: ${movementSummary?`${movementSummary}; `:''}quân ta gây ${dealt} sát thương, chịu ${lost}.`);b.history=b.history.slice(0,12);
  if(!alive(b.enemies).length){
   if(b.hg21Tower){s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost,order:acted.slice()};}
