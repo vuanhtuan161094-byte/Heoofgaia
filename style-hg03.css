@@ -1081,6 +1081,7 @@ body.hg39-world-map-mode .sidebar{display:none!important}
   overflow:hidden;text-overflow:clip
  }
  body.hg39-world-map-mode .tabs .hog-ui-icon{width:14px;height:14px}
+ body.hg39-world-map-mode #app>footer{display:none}
  body.hg39-world-map-mode .wrap{
   flex:1 1 auto;height:auto;max-height:none;min-height:0;
   display:flex;flex-direction:row;align-items:stretch;
