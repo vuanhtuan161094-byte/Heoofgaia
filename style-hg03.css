@@ -1130,3 +1130,13 @@ body.hg39-world-map-mode .sidebar{display:none!important}
  body.hg39-world-map-mode.hg40-map-expanded .hg39-map-dock{display:none}
  body.hg39-world-map-mode.hg40-map-expanded #main{flex:1 1 100%;width:100%}
 }
+
+/* HG40.6: at 768×260 CSS pixels, the browser's address bar has already
+ * consumed the missing vertical space. "Thế giới" is selected in the nav
+ * and the map tools are in the right dock, so this repeated heading has no
+ * functional role. Recover its 22px for the actual map without hiding any
+ * actions, targets, or tutorial content. */
+@media (max-width:950px) and (max-height:300px) and (orientation:landscape){
+ body.hg39-world-map-mode #main>.scene-title{display:none}
+ body.hg39-world-map-mode #main>.map-frame{flex:1 1 auto}
+}
