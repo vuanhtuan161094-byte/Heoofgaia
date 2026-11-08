@@ -1,0 +1,31 @@
+name: HG40.4 quick balance matrix
+on:
+  push:
+    branches:
+      - feature/hog1-research-to-playable-20261102
+    paths:
+      - 'qa-hg404-quick-balance.cjs'
+      - '.github/workflows/hg404-fast-balance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  quick:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Run 40-troop cross-faction real PvE, Boss and Tower matrix
+        run: |
+          node --check qa-hg404-quick-balance.cjs
+          node qa-hg404-quick-balance.cjs
+      - name: Upload full controlled balance ledger
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG404-Quick-Balance-Data
+          path: docs/qa/hg40/balance-quick-40x4-boss-tower.json
+          if-no-files-found: ignore
