@@ -2,7 +2,7 @@
 responsive HUD, deterministic Save v07, and actual animation-frame sampling.
 The high-HP enemy fixture prevents a win/reward; it never grants resources.
 """
-import json, hashlib, os, sys
+import json, hashlib, os, sys, base64
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 
@@ -68,6 +68,45 @@ with sync_playwright() as pw:
           turn['type']=='continue' and turn['turn']==2 and turn['valid'] and
           bool(turn['shield']) and turn['shield']['amount']>0 and
           turn['shield']['until']==3 and 'Thánh thuẫn' in (turn['hud'] or ''),turn)
+
+
+    # HG40.3: actual file:// NPC battle, genuine hit and shield activation.
+    # Seek its recorded impact frame in the very same Canvas used by the game;
+    # a PNG taken via toDataURL is the real renderer output, not a mock image.
+    scene=page.evaluate("""() => {
+      const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),b=s.battle;
+      const c=document.getElementById('battle-canvas');
+      if(!b||!c)return {error:'battle/canvas absent'};
+      const timeline=P.battleTimelineFor(b,performance.now());
+      const impact=timeline.items.find(x=>x.event.actorId===b.allies[0].id&&x.event.damage>0);
+      if(!impact)return {error:'no real hit receipt'};
+      const at=impact.impactAt+85,cam=P.battleProjection(c,E);
+      const layout=P.battleUnitLayout(b,cam,c.width,c.height,at);
+      const fx=P.battleFxPlan(b,cam,at,layout);
+      const cue=P.drawHG403ProcCues(c.getContext('2d'),b,at,layout);
+      const foot=layout.every(x=>{
+        const p=cam.center(x.u.x,x.u.y);
+        return Math.abs(x.x-p.x)<.00001&&Math.abs(x.y-p.y)<.00001;
+      });
+      P.drawBattle(c,E,s,at,{showGrid:true,showHP:true});
+      return {actor:b.allies[0].unitId,skill:E.hg40SkillText(b,b.allies[0]),
+        vfx:P.hg403SkillProfile(b.allies[0].unitId)?.motif,
+        profiles:Object.keys(P.HG403_SKILL_SIGILS).length,
+        actualHits:fx.length,confirmedProc:cue,allBootsOnHex:foot,
+        valid:E.strictSave(s),canvas:{w:c.width,h:c.height},
+        png:c.toDataURL('image/png')};
+    }""")
+    png=scene.pop('png',None)
+    check('HG40.3 real NPC hit paints distinct Priest sigil, confirmed shield proc and canonical hex feet',
+          scene.get('actor')=='human_8' and scene.get('profiles')==40 and
+          scene.get('actualHits',0)>=1 and scene.get('confirmedProc',0)>=1 and
+          scene.get('allBootsOnHex') and scene.get('valid') and
+          bool(png and png.startswith('data:image/png;base64,')),scene)
+    if png and png.startswith('data:image/png;base64,'):
+        artifact=ART/'hg403-npc-priest-shield-real-canvas.png'
+        artifact.write_bytes(base64.b64decode(png.split(',',1)[1]))
+        screenshots.append({'path':str(artifact.relative_to(ROOT)),
+                            'sha256':hashlib.sha256(artifact.read_bytes()).hexdigest()})
 
     for width,height in ((1280,720),(960,540),(844,390)):
         page.set_viewport_size({'width':width,'height':height})
