@@ -13,8 +13,12 @@ const E=context.HOG_ENGINE,C=context.HOG_CATALOG;
 const groups=[],matches=[];
 for(const race of ['human','elf','orc','undead']){
  for(const tier of [1,4,7,10]){
-  const npc=E.NPC_CAMPS_2009.find(x=>x.stars===tier);
-  assert(npc,'No NPC '+tier+' star found');
+  // The historical NPC camp catalogue ends below ten stars. For the T10
+  // progression checkpoint use an actual private world Boss (elite T13),
+  // never invent a nonexistent 10-star NPC camp.
+  const npc=tier===10?E.TILES.find(x=>x.kind==='npc'&&x.privateBoss):
+   E.NPC_CAMPS_2009.find(x=>x.stars===tier);
+  assert(npc,'No genuine PvE target for progression tier '+tier);
   const outputs=[];
   for(let variant=1;variant<=10;variant++){
    const s=E.make(race,1000000);
@@ -40,7 +44,8 @@ for(const race of ['human','elf','orc','undead']){
    assert(Number.isSafeInteger(remain)&&remain>=0&&remain<=count,
     'Soldiers must never be minted by tactical skills');
    assert(turns>=1&&turns<=70,'Battle must honor 70-turn limit');
-   const row={race,tier,variant,heroLevel:lvl,unitId:unit.id,
+   const row={race,tier,encounter:tier===10?'private-world-boss-T13':'NPC-'+tier+'star',
+    variant,heroLevel:lvl,unitId:unit.id,
     troops:count,remaining:remain,turns,outcome,dealt,lost,
     enemies:beforeEnemies};
    outputs.push(row);matches.push(row);
@@ -58,7 +63,8 @@ assert.equal(matches.length,160);
 assert(groups.length===16&&groups.every(g=>g.wins+g.losses+g.timeouts===10));
 const report={status:'PASS',count:matches.length,kind:'controlled-synthetic-tactical',
  evidence:'Engine battleActCore resolves every trial; no forced wins or fabricated damage',
- saveVersion:E.V,stages:[1,4,7,10],groups,matches};
+ saveVersion:E.V,stages:[1,4,7,10],lateStageEncounter:'T10 army versus real private-world Boss T13',
+ groups,matches};
 const dest=path.join(__dirname,'docs/qa/hg40');
 fs.mkdirSync(dest,{recursive:true});
 fs.writeFileSync(path.join(dest,'balance-controlled-160.json'),JSON.stringify(report,null,2)+'\n');
