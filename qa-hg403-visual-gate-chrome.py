@@ -159,7 +159,9 @@ with sync_playwright() as pw:
               {x:c.width-12-hudW,y:9,w:hudW,h:37},
               {x:12,y:c.height-36,w:c.width-24,h:27}
             ];
-            recordRow.hpHudSafe=layout.every(e=>!reserved.some(rect=>overlaps(e.label,rect)));
+            // Dead actors legitimately have no live HP/name card.
+            recordRow.hpHudSafe=layout.filter(e=>e.displayPool>0).every(e=>
+              !!e.label&&!reserved.some(rect=>overlaps(e.label,rect)));
             P.drawBattle(c,E,s,at,{showGrid:true,showHP:true});
             const dx=Math.max(0,Math.min(c.width-120,Math.round(receipt.end.x-60)));
             const dy=Math.max(0,Math.min(c.height-120,Math.round(receipt.end.y-60)));
