@@ -185,12 +185,22 @@ with sync_playwright() as pw:
     afterReload=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
       return {valid:HOG_ENGINE.strictSave(s),market:s.buildings.market,
-        queue:s.buildingQueue?.key,queued:s.training.at(-1)?.count};
+        queue:s.buildingQueue?.key,queued:s.training.at(-1)?.count,
+        army:s.army.human_1,trainRemaining:s.training.at(-1)?.remaining??null};
     }""")
-    check('Cold localStorage Save v07 preserves paid construction and recruitment',
+    # HG40.5: at 5000x recruitment, a paid MAX batch may finish in the
+    # one-second UI tick while Chromium is reloading. Both the still-paid
+    # queue and the exact completed stock are correct; zero or bonus troops
+    # would be a genuine Save v07 regression.
+    queued=(afterReload['queued']==beforeRecruit['n'] and
+            afterReload['army']==beforeRecruit['army'])
+    delivered=(afterReload['queued'] is None and
+               afterReload['army']==beforeRecruit['army']+beforeRecruit['n'])
+    check('Cold localStorage Save v07 preserves either paid queue or exactly delivered 100x-trained troops',
           afterReload['valid'] and
           (afterReload['queue']=='market' or afterReload['market']>=1) and
-          afterReload['queued']==beforeRecruit['n'],afterReload)
+          (queued or delivered),{**afterReload,'queuedValid':queued,'deliveredValid':delivered,
+                                'purchased':beforeRecruit['n']})
     page.set_viewport_size({'width':960,'height':540})
     page.locator('[data-action="tab"][data-tab="city"]').first.click()
     page.locator('[data-action="building"][data-key="warehouse"]').click()
