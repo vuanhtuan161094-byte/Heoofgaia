@@ -11,6 +11,8 @@ for(const file of scripts)vm.runInContext(fs.readFileSync(path.join(__dirname,fi
 const E=ctx.HOG_ENGINE,C=ctx.HOG_CATALOG,races=['human','elf','orc','undead'];
 const scenarios=[],flags=[],errors=[],targetByStars={};
 for(const camp of E.NPC_CAMPS_2009||[])if(!targetByStars[camp.stars])targetByStars[camp.stars]=camp;
+const maxNpcStars=Math.max(...Object.keys(targetByStars).map(Number).filter(Number.isFinite));
+assert(maxNpcStars>=7,'Need a genuine high-tier NPC camp');
 const boss=E.TILES.find(x=>x.kind==='npc'&&x.privateBoss);
 assert(boss,'Private-world boss source missing');
 function execute(s,kind,beforeStock,unitId,cap=70){
@@ -92,7 +94,7 @@ function record(call,details){
 }
 for(const race of races){
  for(let tier=1;tier<=10;tier++){
-  const realNpc=targetByStars[Math.min(tier,9)];
+  const realNpc=targetByStars[Math.min(tier,maxNpcStars)];
   assert(realNpc,'Real NPC not found for tier '+tier);
   for(const ratio of [.25,.60,.95])
    record(()=>npcScenario(race,tier,ratio,realNpc),{kind:'npc',race,tier,ratio});
@@ -136,7 +138,7 @@ const report={
  status:errors.length?'FAIL':'PASS',
  ownerIntent:'Fast audit; only correct egregious faction disparities, preserve powerful combat pacing',
  benchmark:'Controlled synthetic legal command-cap rosters; original canonical E.makeBattle/E.hg21TowerEnter/E.battleAct (delegates to battleActCore); no mocked damage or rewards',
- limitations:['T10 NPC uses real 9-star camp because 10-star camp is unavailable; treat T10 Boss T13 as a separate stronger category.',
+ limitations:['T9/T10 NPC use highest real camp star '+maxNpcStars+'; T13 private Boss is a separate stronger category, no fictional NPC targets.',
   'Tower tests contain rank/level fixtures and are not proof of organic multi-month progression.',
   'Each per-race NPC tier has only three samples: flags identify gross gaps, not statistical significance.',
   'No 40x40 duel matrix or monetization balancing is claimed.'],
