@@ -208,4 +208,63 @@ test('HG40 slow never prevents the mandatory one-hex Boss movement',()=>{
  assert.equal(E.battleMovePreview(b,'p0').steps,1,'slow allows at least one cell');
 });
 
+
+test('40/40 independently asserted skill activation and passive contracts',()=>{
+ let verified=0;
+ const passiveDefense=new Set(['guard','rangedGuard','meleeGuard','firstGuard']);
+ const offensive=new Set(['charge','thirdBonus','thirdPierce','judgment',
+  'rage','wounded','antiMelee','antiRanged']);
+ const application=new Map([
+  ['mark','mark'],['slow','slow'],['root','root'],['dash','dash'],
+  ['atkdown','atkdown'],['defdown','defdown'],['stun','stun'],
+  ['dot','dot'],['killBuff','buff']
+ ]);
+ for(const race of ['human','elf','orc','undead'])for(let tier=1;tier<=10;tier++){
+  const {s,b,u}=scenario(race,tier),actor=b.allies[0],target=b.enemies[0];
+  const trait=E.HG40_TRAITS[u.id],kind=trait.kind;
+  target.unitId='human_3';target.range=kind==='antiRanged'||kind==='rangedGuard'?9:1;
+  let triggered=false;
+  if(passiveDefense.has(kind)){
+   const incoming=E.hg40PlanStrike(s,b,target,actor,{path:[]});
+   triggered=incoming.reduction>=trait.a-1e-9;
+  }else if(offensive.has(kind)){
+   if(kind==='rage'){actor.count=5;actor.pool=5*actor.hp;}
+   if(kind==='wounded')target.pool-=1;
+   if(kind==='thirdBonus'||kind==='thirdPierce')b.hg40.hits.p0=2;
+   const outgoing=E.hg40PlanStrike(s,b,actor,target,
+    {path:kind==='charge'?[{x:2,y:4}]:[]});
+   triggered=kind==='thirdPierce'?outgoing.pierce>=trait.a-1e-9:
+    outgoing.bonus>= (kind==='judgment'?trait.b:trait.a)-1e-9;
+  }else{
+   if(kind==='heal'||kind==='lifesteal'){actor.pool=Math.floor(actor.count*actor.hp*.7);}
+   if(kind==='cleanse')b.hg40.statuses.push(
+    {target:'p0',kind:'slow',value:1,source:'enemy',starts:1,until:4});
+   if(kind==='multiShield'){
+    b.allies.push({...actor,id:'p1',x:1,y:5,pool:actor.pool});
+   }
+   const before=actor.pool;
+   const hit={applied:500,casualties:kind==='killBuff'?1:0};
+   const extra=E.hg40AfterHit(s,b,actor,target,hit,{path:[]},
+    (other,amount)=>({applied:amount,casualties:0}));
+   if(application.has(kind)){
+    triggered=b.hg40.statuses.some(x=>x.kind===application.get(kind)&&
+      x.target===(kind==='dash'||kind==='killBuff'?'p0':'e0'));
+   }else if(kind==='heal'||kind==='lifesteal')triggered=actor.pool>before;
+   else if(kind==='shield'||kind==='multiShield')
+    triggered=(b.hg40.shields.p0?.amount||0)>0;
+   else if(kind==='cleanse')triggered=!b.hg40.statuses.some(x=>x.kind==='slow'&&x.target==='p0');
+   else if(kind==='splash'||kind==='splashSlow')
+    triggered=extra>0&&b.hg40.events.some(x=>x.targetId==='e1'&&x.damage>0);
+   else throw Error('Missing HG40 independent effect oracle: '+u.id+' '+kind);
+   if(kind==='multiShield')triggered=triggered&&(b.hg40.shields.p1?.amount||0)>0;
+   if(kind==='splashSlow')triggered=triggered&&b.hg40.statuses.some(x=>x.kind==='slow'&&x.target==='e1');
+   if(kind==='dot')triggered=triggered&&b.hg40.statuses.some(x=>x.kind==='dot'&&x.ticks===2);
+  }
+  assert(triggered,u.id+' '+trait.name+' must demonstrate its distinct effect');
+  verified++;
+ }
+ assert.equal(verified,40);
+ console.log('HG40 individual skill oracles 40/40 PASS');
+});
+
 console.log('HG40 focused '+cases+'/'+cases+' PASS');
