@@ -21,6 +21,8 @@ ACTIONS = ("idle", "walk", "attack", "hit", "death")
 W, H = 192, 204
 assert REPORT.parent.is_dir() or REPORT.parent.mkdir(parents=True) is None
 EVIDENCE.mkdir(parents=True, exist_ok=True)
+CLIPS = EVIDENCE / "clips"
+CLIPS.mkdir(parents=True, exist_ok=True)
 
 def digest(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
@@ -68,7 +70,11 @@ frames_inspected=0
 authored_rows=0
 recovered=0
 units=[]
-for u in coverage["units"]:
+source_strips=[]
+# Review high-tier originals before common units; all 178 recovered strips are exported.
+ordered_units=sorted(coverage["units"],key=lambda u:(0 if u["tier"]>=9 else 1,
+  0 if u["tier"]<=3 else 1,u["race"],u["tier"]))
+for u in ordered_units:
     key=u["id"]
     if key not in by_id:
         assert all(u["actions"][a] for a in ACTIONS), key+" retained original animation missing"
@@ -97,6 +103,18 @@ for u in coverage["units"]:
             assert clip["evidence"]=="assets/generated/hg33/animation/troop-atlas-manifest.json"
             assert clip["frames"]==8
             recovered+=1
+            # Exactly one independent 8-frame strip per recovered action.
+            # Crop the raw original artwork cells; no interpolation, rotation,
+            # frame synthesis or still-image transforms are used here.
+            strip=sheet.crop((0,row*H,8*W,(row+1)*H))
+            strip_path=CLIPS/(key+"-"+action+"-8frames.png")
+            strip.save(strip_path,optimize=True)
+            source_strips.append({"unitId":key,"action":action,"frames":8,
+                "sourcePath":asset["sourcePath"],"sourceSha256":asset["sourceSha256"],
+                "stripPath":str(strip_path.relative_to(ROOT)),
+                "stripSha256":digest(strip_path.read_bytes()),
+                "bytes":strip_path.stat().st_size,
+                "priority":"T9-T10" if u["tier"]>=9 else "COMMON" if u["tier"]<=3 else "MID"})
         images=[rgba_frame(sheet,row,col) for col in range(8)]
         hashes=[digest(frame.tobytes()) for frame in images]
         for col,frame in enumerate(images):
@@ -123,6 +141,7 @@ for u in coverage["units"]:
 
 assert authored_rows==190,(authored_rows,190)
 assert recovered==178,(recovered,178)
+assert len(source_strips)==178 and len({x["stripPath"] for x in source_strips})==178
 assert frames_inspected==1520,(frames_inspected,1520)
 assert len(sheets)==38
 assert all(u["status"]=="FULL_VERIFIED" for u in coverage["units"])
@@ -139,6 +158,8 @@ receipt={
     "verifiedHg33OriginalAtlasFiles":len(sheets),
     "verifiedHg33OriginalActionRows":authored_rows,
     "verifiedHg33OriginalFrameCells":frames_inspected,
+    "actualRecoveredEightFramePngStrips":len(source_strips),
+    "sourceStrips":source_strips,
     "highTierUnitCount":len(high_tier),
     "highTierOriginalAtlasCount":8,
     "highTierSourceContactSheets":contacts,
@@ -151,3 +172,4 @@ receipt["actionSourceKinds"]=dict(receipt["actionSourceKinds"])
 REPORT.write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
 print("HG40.3 AF40 SOURCE PASS: 40/40 troops, 200/200 authored action clips, 178 recovered from 38 pre-existing original HG33 PNG atlases",flush=True)
 print("HG40.3 AF40 inspected 190 HG33 source action rows and 1,520 individual RGBA frame cells; high-tier source 8/8",flush=True)
+print("HG40.3 AF40 materialized 178 lossless original 8-frame clip PNG strips for export (not game HTML copies)",flush=True)
