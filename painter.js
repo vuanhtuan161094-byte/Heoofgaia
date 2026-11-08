@@ -600,8 +600,13 @@ function battleFxPlan(b,camera,elapsed,layout){
   const event=item.event;if(!(event.damage>0)||!event.targetId||elapsed<item.start||elapsed>item.impactAt+960)return [];
   const actor=byId.get(event.actorId),target=byId.get(event.targetId);
   if(!actor||!target)return [];
-  const time=elapsed-item.start,actorCell=camera.center(event.to?.x??actor.u.x,event.to?.y??actor.u.y),
-   targetCell=camera.center(target.u.x,target.u.y);
+  const time=elapsed-item.start,
+   // Move impacts with the displayed actors, including real recorded Walk
+   // paths: a projectile must not strike an obsolete stationary cell.
+   actorState=animatedUnitId(actor.u.unitId,actor.u.name)?battleVisualState(b,actor.u,elapsed,elapsed):null,
+   targetState=animatedUnitId(target.u.unitId,target.u.name)?battleVisualState(b,target.u,elapsed,elapsed):null,
+   actorCell=battleVisualPoint(camera,actorState,actor.u),
+   targetCell=battleVisualPoint(camera,targetState,target.u);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
    casualties:event.casualties||0,death:!!event.death,
    kind:event.order||'attack',skill:event.skill||null,actorUnitId:actor.u.unitId,
@@ -904,8 +909,14 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
  // separate sprites: painter's depth sort and label solver handle overlap.
  for(const e of entries){
   e.x=e.baseX;e.y=e.baseY;
-  const half=e.size*.48,pivot=e.profile?.pivot??(e.u.unitId==='human_4'?216/256:.87);
-  e.sprite={x:e.x-half,y:e.y-e.size*pivot,w:half*2,h:e.size*pivot};
+  const atlas=troopAtlasDefinition(e.u.unitId,e.u.name),
+   dims=atlas?.frameDimensions||[atlas?.frameWidth||192,atlas?.frameHeight||204],
+   width=atlas?clamp(atlas.renderWidth*e.k,18,160):e.size*.96,
+   spriteH=width*dims[1]/dims[0],
+   pivot=atlas?.pivot??e.profile?.pivot??.87;
+  // The old approximate 0.96*size box did not match the real rendered atlas.
+  // Share exactly the atlas's dest rectangle with hit testing & labels.
+  e.sprite={x:e.x-width/2,y:e.y-spriteH*pivot,w:width,h:spriteH};
   e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
  }
  // HG40.3 Visual Gate: keep every dynamic name/HP plate clear of the
