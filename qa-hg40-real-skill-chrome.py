@@ -34,7 +34,9 @@ with sync_playwright() as pw:
     page.locator('[data-action="start"]').click()
     prepared=page.evaluate("""() => {
       const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
-      s.army.human_8=12;E.setFormation(s,[{unitId:'human_8',count:12}]);
+      const max=Math.min(12,Math.floor(E.heroLimit(s.heroes.find(h=>h.id===s.activeHero).level)/E.unitValue(E.getUnit(s,'human_8'))));
+      if(max<1)throw Error('HG40 hero command cap does not fit a single Priest');
+      s.army.human_8=max;E.setFormation(s,[{unitId:'human_8',count:max}]);
       const npc=E.NPC_CAMPS_2009.find(n=>n.stars===1&&E.pathfind(E.activeCity(s).key,n.key));
       if(!npc)throw Error('HG40 no reachable NPC');
       E.startMarch(s,npc.key);
