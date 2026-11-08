@@ -33,8 +33,22 @@ for(const race of ['human','elf','orc','undead']){
    assert(s.battle?.hg40?.v===1,'HG40 absent '+race+'/'+tier);
    const beforeEnemies=s.battle.enemies.map(u=>({hp:u.hp,atk:u.atk,def:u.def}));
    let turns=0,outcome=null,dealt=0,lost=0;
+   // HG40.2: real battle skill notes and damage receipts, not synthetic triggers.
+   // Unnoted defensive passives are NOT counted as inactive skills.
+   let skillNotes=0,directDamage=0,secondaryDamage=0,dotDamage=0;
+   const skillNotesByName={};
    while(s.battle&&turns<72){
+    const liveBattle=s.battle,resolvedTurn=liveBattle.turn;
     const result=E.battleActCore(s,'attack',{stableTargets:true});
+    for(const note of (liveBattle.hg40?.lastSkills||[]).filter(x=>x.turn===resolvedTurn)){
+     skillNotes++;skillNotesByName[note.skill]=(skillNotesByName[note.skill]||0)+1;
+    }
+    directDamage+=liveBattle.lastEvents.filter(e=>e.actorId.startsWith('p'))
+     .reduce((sum,e)=>sum+(e.damage||0),0);
+    for(const e of (liveBattle.hg40?.events||[])){
+     if(e.order==='skill'&&e.actorId.startsWith('p'))secondaryDamage+=e.damage||0;
+     if(e.order==='dot'&&e.targetId.startsWith('e'))dotDamage+=e.damage||0;
+    }
     turns++;dealt+=result.dealt||0;lost+=result.lost||0;
     assert(Number.isFinite(dealt)&&Number.isFinite(lost)&&dealt>=0&&lost>=0);
     if(result.type!=='continue')outcome=result.type;
@@ -44,19 +58,28 @@ for(const race of ['human','elf','orc','undead']){
    assert(Number.isSafeInteger(remain)&&remain>=0&&remain<=count,
     'Soldiers must never be minted by tactical skills');
    assert(turns>=1&&turns<=70,'Battle must honor 70-turn limit');
+   assert.equal(directDamage+secondaryDamage+dotDamage,dealt,
+    'Damage receipt components must reconcile with shared engine total');
    const row={race,tier,encounter:tier===10?'private-world-boss-T13':'NPC-'+tier+'star',
     variant,heroLevel:lvl,unitId:unit.id,
     troops:count,remaining:remain,turns,outcome,dealt,lost,
+    skillNotes,skillNotesByName,directDamage,secondaryDamage,dotDamage,
     enemies:beforeEnemies};
    outputs.push(row);matches.push(row);
   }
   const rate=outputs.filter(o=>o.outcome==='win').length;
   const average=key=>+(outputs.reduce((sum,o)=>sum+o[key],0)/outputs.length).toFixed(2);
+  const skillNoteTotals={};
+  for(const row of outputs)for(const [name,count] of Object.entries(row.skillNotesByName))
+   skillNoteTotals[name]=(skillNoteTotals[name]||0)+count;
   groups.push({race,tier,wins:rate,losses:outputs.filter(o=>o.outcome==='lose').length,
    timeouts:outputs.filter(o=>o.outcome==='timeout').length,
    winRatePct:rate*10,avgTurns:average('turns'),
    avgLossPct:+(outputs.reduce((sum,o)=>sum+100*(o.troops-o.remaining)/o.troops,0)/outputs.length).toFixed(2),
-   avgDamage:average('dealt'),avgReceived:average('lost')});
+   avgDamage:average('dealt'),avgReceived:average('lost'),
+   avgSkillNotes:average('skillNotes'),skillNoteTotals,
+   avgDirectDamage:average('directDamage'),
+   avgSecondaryDamage:average('secondaryDamage'),avgDotDamage:average('dotDamage')});
  }
 }
 assert.equal(matches.length,160);
@@ -64,6 +87,7 @@ assert(groups.length===16&&groups.every(g=>g.wins+g.losses+g.timeouts===10));
 const report={status:'PASS',count:matches.length,kind:'controlled-synthetic-tactical',
  evidence:'Engine battleActCore resolves every trial; no forced wins or fabricated damage',
  saveVersion:E.V,stages:[1,4,7,10],lateStageEncounter:'T10 army versus real private-world Boss T13',
+ telemetryScope:'Skill notes record real triggers only; unnoted defensive passives and 24 unselected unit tiers are not measured',
  groups,matches};
 const dest=path.join(__dirname,'docs/qa/hg40');
 fs.mkdirSync(dest,{recursive:true});
