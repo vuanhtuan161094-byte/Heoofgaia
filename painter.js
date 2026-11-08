@@ -935,7 +935,9 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   for(const fx of b.hg40.events){
    if(!(fx.damage>0))continue;
    const entry=units.find(q=>q.u.id===fx.targetId);if(!entry)continue;
-   const owner=timeline.find(q=>q.event.actorId===fx.actorId)||timeline[timeline.length-1];
+   let owner=null;
+   for(let i=timeline.length-1;i>=0;i--)if(timeline[i].event.actorId===fx.actorId){owner=timeline[i];break;}
+   owner=owner||timeline[timeline.length-1];
    if(!owner)continue;
    const age=elapsed-owner.impactAt;
    if(age<0||age>700)continue;

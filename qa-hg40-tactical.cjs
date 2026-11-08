@@ -50,6 +50,32 @@ for(const race of ['human','elf','orc','undead']){
   }
  });
 }
+test('400 distinct unit/target/defense situations preserve tactical receipts and troop conservation',()=>{
+ let scenarios=0;
+ for(const race of ['human','elf','orc','undead'])for(let tier=1;tier<=10;tier++){
+  for(let variant=0;variant<10;variant++){
+   const {s,b,u}=scenario(race,tier),count=variant+2;
+   b.allies[0].count=count;b.allies[0].initial=count;
+   b.allies[0].pool=count*b.allies[0].hp;s.army[u.id]=count;
+   b.enemies[0].def=variant*15;b.enemies[0].x=2+variant%3;
+   b.enemies[1].x=5+variant%2;
+   for(let i=0;i<3;i++){
+    const result=E.battleActCore(s,'attack',{stableTargets:true});
+    assert.equal(result.type,'continue',u.id+' v'+variant);
+    const events=b.lastEvents,ids=new Set([...b.allies,...b.enemies].map(x=>x.id));
+    assert(events.length<=ids.size,'one canonical event per actor');
+    assert.equal(new Set(events.map(x=>x.actorId)).size,events.length);
+    assert(events.every(x=>['attack','advance','defend','focus','retreat','move'].includes(x.order)));
+    assert.equal(s.army[u.id],count,'skill may not mint troops');
+    assert(b.hg40.statuses.every(x=>x.kind!=='dot'||(Number.isSafeInteger(x.ticks)&&x.ticks>=1&&x.ticks<=2)));
+   }
+   scenarios++;
+  }
+ }
+ assert.equal(scenarios,400);
+ console.log('HG40 real turn matrix 400/400 scenarios PASS');
+});
+
 test('a legacy midbattle save is not upgraded to HG40 in-place',()=>{
  const {s,b}=scenario('human',1,true);
  assert.equal(b.hg40,undefined);
