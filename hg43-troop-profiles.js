@@ -138,7 +138,8 @@ function battleCard(b,actor,other,side){
   ['Tầm',actor.range+' ô']
  ];
  return '<section class="hg43-battle-unit" data-hg43-combat-unit="'+safe(actor.id)+'" data-side="'+safe(side)+'">'+
-  '<header><b>'+safe(actor.name)+'</b><span>'+safe(p?p.role:'Quái / Boss')+'</span></header>'+
+  '<header><b>'+safe(actor.name)+'</b><span>'+safe(p?p.role:'Quái / Boss')+
+   (side==='enemy'&&b.focused!==actor.id?' · Xem trước':' · Đang chọn')+'</span></header>'+
   '<div class="hg43-battle-stats">'+rows.map(([key,val])=>'<span><small>'+key+'</small><b>'+val+'</b></span>').join('')+'</div>'+
   '<div class="hg43-battle-hp"><i style="width:'+pctHP.toFixed(2)+'%"></i></div>'+
   (p?'<div class="hg43-battle-skill"><b>✦ '+safe(p.trait.name)+'</b><span>'+
