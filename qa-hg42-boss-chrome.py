@@ -47,6 +47,13 @@ with sync_playwright() as pw:
     bool(frame) and frame['separate'] and frame['modal'] and
     frame['left']>=-1 and frame['right']<=w+2 and
     frame['top']>=0 and frame['bottom']<=h+2,frame)
+   check(label+' original Save stays clickable on '+route,
+    page.locator('#save').is_visible() and page.locator('.hg42-screen-tool-menu summary').count()==1)
+   if route=='city':
+    page.locator('.hg42-screen-tool-menu summary').click()
+    check(label+' original export/import tools accessible in screen menu',
+     page.locator('#export-save').is_visible() and page.locator('#import-save').is_visible())
+    page.locator('.hg42-screen-tool-menu summary').click()
    if route in ('heroes','army'):shot(page,label+'-screen-'+route)
   page.locator('#nav [data-action="tab"][data-tab="map"]').click()
   page.locator('#nav [data-action="tab"][data-tab="boss"]').click()
