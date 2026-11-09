@@ -21,6 +21,10 @@ on:
       - 'qa-engine.cjs'
       - 'qa-hg409-pve-chrome.py'
       - 'qa-hg410-ui-chrome.py'
+      - 'qa-hg28-pve2-chrome.py'
+      - 'qa-hg181-window-chrome.py'
+      - 'painter.js'
+      - 'style-hg03.css'
       - '.github/workflows/hg410-combat-overhaul.yml'
   workflow_dispatch:
 permissions:
@@ -60,6 +64,11 @@ jobs:
           python qa-hg409-pve-chrome.py
           python -m py_compile qa-hg410-ui-chrome.py
           python qa-hg410-ui-chrome.py
+          # HG44-H focused actual UI regression: dense 16-stack hex clicking,
+          # funded Tower claim, real reset/tools drawer and Save v07.
+          python -m py_compile qa-hg28-pve2-chrome.py qa-hg181-window-chrome.py
+          python qa-hg28-pve2-chrome.py
+          python qa-hg181-window-chrome.py
       - name: Upload focused engine and visual evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -70,6 +79,10 @@ jobs:
             docs/evidence/hg410/*.png
             docs/qa/hg409/*.json
             docs/evidence/hg409/*.png
+            docs/qa/hg33/H1-chromium.json
+            docs/evidence/hg33/after/*.png
+            docs/qa/hg181/window-chrome.json
+            docs/evidence/hg181/*.png
           if-no-files-found: ignore
           retention-days: 30
       - name: Deliver exactly one tested offline playable HTML
