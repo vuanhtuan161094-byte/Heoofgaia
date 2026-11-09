@@ -54,20 +54,38 @@ with sync_playwright() as pw:
           prepared['save']==7,prepared)
     check('real selected T8 unit displays proper skill', 'Thánh thuẫn' in prepared['skill'],prepared['skill'])
 
+    # HG44-A: HG41 starts each side at its own board edge (x=0–1 vs
+    # x=10–11). A melee Priest MUST walk into attack range before a real hit
+    # can proc the HG40 shield. The old single-turn oracle expected a hit
+    # from across the board, then falsely marked the real skill as broken.
+    # Advance through *canonical* battleAct turns until the FIRST verified
+    # Priest hit; do not teleport the unit, force the skill or inject a shield.
     turn=page.evaluate("""() => {
-      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
-      const r=E.battleAct(s,'attack',{stableTargets:true}),b=s.battle;
+      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),b=s.battle;
+      const actor=b.allies[0],trace=[];let r=null,realHit=false;
+      for(let step=0;step<18;step++){
+        r=E.battleAct(s,'attack',{stableTargets:true});
+        const hit=(b.lastEvents||[]).some(e=>e.actorId===actor.id&&e.damage>0);
+        trace.push({turn:b.turn-1,position:{x:actor.x,y:actor.y},
+          distance:Math.min(...b.enemies.filter(x=>x.pool>0).map(x=>E.battleHex.distance(actor,x))),
+          hit,shield:b.hg40.shields[actor.id]?.amount||0});
+        if(hit){realHit=true;break}
+        if(r.type!=='continue')break;
+      }
       HOG_APP_DEBUG.render();
-      return {type:r.type,turn:b.turn,valid:E.strictSave(s),
-        shield:b.hg40.shields[b.allies[0].id]||null,
-        skill:E.hg40SkillText(b,b.allies[0]),
+      return {type:r?.type,turn:b.turn,valid:E.strictSave(s),realHit,
+        attempted:trace.length,trace,
+        shield:b.hg40.shields[actor.id]||null,
+        skill:E.hg40SkillText(b,actor),
         hud:document.querySelector('.hg40-player')?.textContent,
         last:b.hg40.lastSkills.slice(-1)[0]||null};
     }""")
-    check('real attack automatically creates finite and capped Priest shield',
-          turn['type']=='continue' and turn['turn']==2 and turn['valid'] and
-          bool(turn['shield']) and turn['shield']['amount']>0 and
-          turn['shield']['until']==3 and 'Thánh thuẫn' in (turn['hud'] or ''),turn)
+    check('HG44-A canonical march-to-hit triggers finite and capped Priest shield',
+          turn['type']=='continue' and turn['realHit'] and turn['attempted']>1 and
+          turn['valid'] and bool(turn['shield']) and turn['shield']['amount']>0 and
+          turn['shield']['until']==turn['turn']+1 and
+          'Thánh thuẫn' in (turn['hud'] or '') and
+          'Thánh thuẫn' in (turn['last'] or {}).get('skill',''),turn)
 
 
     # HG40.3: actual file:// NPC battle, genuine hit and shield activation.
