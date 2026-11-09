@@ -98,6 +98,69 @@ test('Unrecognized persistent heroId reference blocks operation and leaves state
  const before=json(s);assert.throws(()=>E.hg408DismissHero(s,2),/tham chiếu/);assert.equal(json(s),before);
  return {blocked:true};
 });
+// HG45: first-class quality tiers, deterministic Tavern odds and real combat
+// modifiers. No test modifies released resources or fakes a live battle.
+test('HG45 Tavern offers have disjoint quality bands and 25% purple odds at Lv10',()=>{
+ const s=newGame();s.buildings.tavern=10;
+ const tiers=E.HERO_QUALITY_V2,chances=E.heroQualityChances(10);
+ assert.equal(tiers.length,7);assert.equal(chances.reduce((a,b)=>a+b,0),100);
+ assert.equal(chances[4],25);assert.equal(chances[5],9);assert.equal(chances[6],2);
+ const counts=Object.fromEntries(tiers.map(q=>[q.id,0]));
+ let total=0;
+ for(let round=0;round<150;round++){
+  E.refreshTavern(s);
+  assert.equal(s.tavern.offers.length,8);
+  for(const o of s.tavern.offers){
+   const q=tiers.find(t=>t.id===o.quality);
+   assert(q,'unexpected tier '+o.quality);
+   assert.equal(o.qualityModel,2);
+   for(const k of ['atk','def','spd','int'])assert(o[k]>=q.min&&o[k]<=q.max,k);
+   assert(o.gold>=q.price&&o.gold<q.price*1.12+1);
+   assert(E.hg408HeroQualityInfo(o).id===q.id);
+   counts[q.id]++;total++;
+  }
+ }
+ assert(total===1200);assert(counts.purple/total>.17&&counts.purple/total<.33,JSON.stringify(counts));
+ assert(counts.platinum>0&&counts.rainbow>0,JSON.stringify(counts));
+ E.syncCityState(s);assert(E.strictSave(s));
+ return {total,counts,purplePercent:Math.round(counts.purple/total*1000)/10,save:s.version};
+});
+test('HG45 real paid rainbow recruitment persists v07 and grants combat stats + damage + mitigation',()=>{
+ const s=newGame();s.buildings.tavern=10;s.buildings.warehouse=10;s.fame=1_000_000;
+ s.res.gold=E.limits(s).gold;E.syncCityState(s);
+ let offer;
+ for(let n=0;n<500&&!offer;n++){
+  E.refreshTavern(s);offer=s.tavern.offers.find(q=>q.quality==='rainbow');
+ }
+ assert(offer,'rainbow not sampled in bounded natural refreshes');
+ const paid=offer.gold,before=s.res.gold,source={...offer};
+ const heroId=E.hireCandidate(s,offer.id),hero=s.heroes.find(h=>h.id===heroId);
+ assert.equal(before-s.res.gold,paid);assert.equal(hero.quality,'rainbow');
+ assert.equal(hero.qualityModel,2);
+ assert(!s.tavern.offers.some(q=>q.id===offer.id));
+ const combat=E.heroStats(s,heroId),mods=E.combatModifiers(s,heroId);
+ for(const k of ['atk','def','spd','int'])assert.equal(combat[k],Math.round(source[k]*1.60*1000)/1000);
+ assert(mods.damageBonus>=.20&&mods.damageReduction>=.10,JSON.stringify(mods));
+ E.syncCityState(s);
+ const restored=save(s),h=restored.heroes.find(q=>q.id===heroId);
+ assert.equal(h.quality,'rainbow');assert.equal(restored.res.gold,s.res.gold);
+ assert.deepEqual(JSON.parse(JSON.stringify(E.heroStats(restored,heroId))),JSON.parse(JSON.stringify(combat)));
+ assert.equal(E.combatModifiers(restored,heroId).damageReduction,mods.damageReduction);
+ return {tier:h.quality,paid,stats:combat,damageBonus:mods.damageBonus,reduction:mods.damageReduction,save:restored.version};
+});
+test('HG45 previous v07 heroes keep all original raw attributes and immutable quality',()=>{
+ const s=newGame(),h=s.heroes[0];
+ const start={atk:h.atk,def:h.def,spd:h.spd,int:h.int,quality:h.quality};
+ h.quality='purple';const buffed=E.heroStats(s,h.id);
+ assert(buffed.atk>h.atk);
+ assert.equal(h.atk,start.atk);
+ E.syncCityState(s);
+ const restored=save(s),old=restored.heroes[0];
+ for(const k of ['atk','def','spd','int'])assert.equal(old[k],start[k]);
+ assert.equal(old.quality,'purple');
+ assert(E.heroStats(restored,old.id).atk>old.atk);
+ return {raw:start,effective:E.heroStats(restored,old.id),save:restored.version};
+});
 const root=path.join(__dirname,'docs','qa','hg408');fs.mkdirSync(root,{recursive:true});
 fs.writeFileSync(path.join(root,'hero-engine.json'),JSON.stringify({suite:'HG40.8 hero management',tests:evidence,passed:evidence.filter(x=>x.status==='PASS').length,total:evidence.length},null,2)+'\n');
 console.log('HG40.8 SUMMARY '+evidence.filter(x=>x.status==='PASS').length+'/'+evidence.length);
