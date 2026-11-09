@@ -93,7 +93,15 @@ with sync_playwright() as pw:
     capture(page,'city-market-cost-before-1280x720.png')
     # Use the actual speed control so a short modeled queue does not finish
     # between the purchase click and the queue assertion on a fast runner.
-    page.locator('#speed').click()
+    # HG42 relocated the genuine speed control into the screen's collapsed
+    # tools menu. Open the visible menu before clicking instead of invoking
+    # a hidden legacy button or mutating the game state directly.
+    def click_visible_speed_control():
+        tools=page.locator('.hg42-screen-tool-menu')
+        if not tools.evaluate('(el) => el.open'):
+            tools.locator('summary').click()
+        tools.locator('#speed').click()
+    click_visible_speed_control()
     check('Real speed control switches to ×1 before the construction receipt',
           page.evaluate("HOG_APP_DEBUG.getState().speed===1 && document.querySelector('#speed').textContent.includes('×1')"))
     page.locator('[data-action="upgrade"][data-key="market"]').click()
@@ -109,7 +117,7 @@ with sync_playwright() as pw:
           len(built['payments'])==1 and
           all(abs(built['payments'][0]['actual'][k]-v)<1e-7 for k,v in built['paid'].items()) and
           'Đã trừ' in built['toasting'],built)
-    page.locator('#speed').click()
+    click_visible_speed_control()
     page.wait_for_function("""() => {
       const s=HOG_APP_DEBUG.getState();
       return s.speed===60&&s.buildings.market===1&&s.buildingQueue===null;
