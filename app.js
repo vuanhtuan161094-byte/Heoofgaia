@@ -201,18 +201,60 @@ function flags(){const city=E.activeCity(state),ap=E.fameApStats(state.fame),nex
 // Compact, actionable New Game path. Progress is derived only from the
 // player's real state, not an unlock flag or bonus-resource tutorial seed.
 function newPlayerGuide(){
- if(!state||state.cities.length>=2)return '';
- const recruited=(state.army[state.race+'_1']||0)>16||state.training.some(t=>t.unitId===state.race+'_1');
- const stages=[
+ if(!state)return '';
+ // HG44-B: guide is a pure projection of real paid progression, not a
+ // second quest ledger or another Save field. Compact by default to leave
+ // the world canvas as the primary touch/desktop surface.
+ const hg30=state.hg30||{},towerFloor=state.hg20?.tower?.floor||1;
+ const cityCount=state.cities.length;
+ const recruited=(state.army[state.race+'_1']||0)>16||
+   state.training.some(t=>t.unitId===state.race+'_1');
+ const first=[
   ['city','🏪','Xây Market',state.buildings.market>=1],
   ['magic','🌲','Nghiên cứu Forestry',!!state.spells.forestry],
   ['army','🛡','Tuyển lính',recruited],
   ['map','⛏','Chiếm mỏ',state.mines.length>0],
   ['city','🏅','Đạt 5.800 Fame',state.fame>=5800],
-  ['map','🏰','Chiếm thành thứ hai',state.cities.length>=2]
+  ['map','🏰','Chiếm thành thứ hai',cityCount>=2]
  ];
- const done=stages.filter(x=>x[3]).length;
- return `<section class="card" aria-label="Lộ trình phát triển New Game"><div class="entry"><b>🌱 Khởi nghiệp lãnh chúa · ${done}/6</b><span class="tag">🏅 ${format(state.fame)} / 5.800 Fame</span></div><div class="entry" style="flex-wrap:wrap">${stages.map(([tab,icon,label,ok])=>button('tab',{tab},`${ok?'✓':icon} ${esc(label)}`,false,ok?'small secondary':'small')).join('')}</div><p class="tiny muted">Dùng tài nguyên khởi đầu thật, xây dựng và tuyển quân để nhận Fame. Mốc thành thứ hai 5.800 là cân bằng offline (Fandom ghi 22.000). Không cấp quà QA.</p></section>`;
+ const expansion=[
+  ['map','⚔','Thắng 2 NPC',(hg30.npcWins||0)>=2],
+  ['tower','🗼','Vượt 1 tầng Tháp có thưởng',(hg30.paidTowerWins||0)>=1],
+  ['army','🎖','Mở thử thách nâng quân',(hg30.stage||0)>=1],
+  ['army','🛡','Đổi quân thường thành quân đặc biệt',(hg30.stage||0)>=2],
+  ['heroes','🧙','Chiêu mộ đủ 3 tướng',state.heroes.length>=3],
+  ['boss','☠','Hạ Boss đầu tiên',(hg30.bossWins||0)>=1]
+ ];
+ const endgame=[
+  ['army','⚒','Hoàn thành thử thách đổi quân cuối',(hg30.stage||0)>=3],
+  ['tower','🗼','Chinh phục tầng Tháp 10',towerFloor>=11],
+  ['boss','☠','Thắng ít nhất 3 Boss',(hg30.bossWins||0)>=3],
+  ['heroes','🧙','Sở hữu ít nhất 3 tướng',state.heroes.length>=3],
+  ['tower','🏆','Chinh phục tầng Tháp 20',towerFloor>=21],
+  ['boss','👑','Thắng ít nhất 10 Boss',(hg30.bossWins||0)>=10]
+ ];
+ const phase=cityCount<2?0:(hg30.stage||0)<2?1:2;
+ const names=['🌱 Khởi nghiệp lãnh chúa','⚔ Mở rộng thế lực','👑 Chinh phục hậu kỳ'];
+ const stages=[first,expansion,endgame][phase],done=stages.filter(x=>x[3]).length;
+ const next=stages.find(x=>!x[3]);
+ const mainAction=next?button('tab',{tab:next[0]},next[1]+' '+esc(next[2]),false,'small primary'):
+  button('tab',{tab:'tower'},'✓ Đã đạt toàn bộ mốc · Mở Tháp',false,'small secondary');
+ const all=stages.map(([target,icon,label,ok])=>button('tab',{tab:target},
+  (ok?'✓':icon)+' '+esc(label),false,ok?'small secondary':'small')).join('');
+ const detail=phase===0?'Dùng tài nguyên và quân thực; không cấp thưởng QA.':
+  phase===1?'Mốc thắng trận và phần thưởng đều đọc từ sổ HG30 hiện có.':
+  'Mốc Tháp tính theo tầng đã vượt: hiển thị tầng đang mở. Không cấp thêm lượt hoặc Boss.';
+ return '<section class="card hg44-journey" aria-label="Lộ trình phát triển New Game" data-hg44-phase="'+phase+'">'+
+  '<div class="hg44-journey-head"><b>'+names[phase]+'</b><span class="tag">'+done+'/6 mốc</span></div>'+
+  '<div class="hg44-journey-next"><small>'+ (next?'BƯỚC TIẾP THEO':'ĐÃ ĐẠT CÁC MỐC HIỆN TẠI')+'</small>'+
+    mainAction+'<span class="hg44-journey-stats">'+
+    (phase===0?'Fame '+format(state.fame)+' · '+cityCount+' thành':
+     'NPC '+format(hg30.npcWins||0)+' · Boss '+format(hg30.bossWins||0)+
+     ' · Tháp '+towerFloor+' · Thử thách '+format(hg30.stage||0))+
+    '</span></div>'+
+  '<details class="hg44-journey-details"><summary>▸ Toàn bộ 6 mốc và điều kiện</summary>'+
+    '<div class="hg44-journey-all">'+all+'</div>'+
+    '<p class="tiny muted">'+detail+'</p></details></section>';
 }
 function renderIntro(){
  $('nav').innerHTML='';$('resources').innerHTML='';$('status').innerHTML='<p>Một bản tái dựng độc lập lấy cảm hứng từ Heroes of Gaia (2009).</p>';$('logs').innerHTML='';
