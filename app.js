@@ -1190,6 +1190,9 @@ function render(){
  if(enteringCombat)combatDockOpen=true;
  document.body.classList.toggle('combat-mode',!!state?.battle);
  document.body.classList.toggle('hg42-boss-screen-open',!!state&&!state.battle&&tab==='boss');
+ // Each management route is its own full-stage view, instead of a narrow
+ // floating card with the world map visible underneath. Presentation only.
+ document.body.classList.toggle('hg42-management-screen-open',!!state&&!state.battle&&tab!=='map'&&tab!=='boss');
  const overlay=$('game-modal'),body=$('game-modal-body');
  const existingArmyOps=body?.querySelector('.hg28-army-ops:not(.hg28-army-quest)');if(existingArmyOps)armyOpsOpen=existingArmyOps.open;
  const existingArmyQuest=body?.querySelector('.hg28-army-quest');if(existingArmyQuest)armyQuestOpen=existingArmyQuest.open;
