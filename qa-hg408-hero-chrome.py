@@ -99,27 +99,31 @@ with sync_playwright() as browser_tool:
               page.locator('.hg408-offer [data-action="hirecandidate"]').count()>0)
         screenshot(page,label+'-hero-tavern.png')
         if label=='pc-1280x720':
-            # Natural rarity rolls only; do not inject a fake platinum/rainbow
-            # candidate or weaken their odds to manufacture the screenshot.
-            rare=page.evaluate("""() => {
-                const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
-                s.buildings.tavern=10;let rounds=0;
-                do{E.refreshTavern(s);rounds++}
-                while(rounds<200&&!(s.tavern.offers.some(x=>x.quality==='rainbow')&&
-                                     s.tavern.offers.some(x=>x.quality==='platinum')));
-                E.syncCityState(s);HOG_APP_DEBUG.render();
-                return {rounds,quality:s.tavern.offers.map(x=>x.quality),
+            # At 1% each, both rare qualities in ONE eight-offer refresh
+            # is uncommon. Independently observe each real natural roll.
+            for rare_kind in ('platinum','rainbow'):
+                rare=page.evaluate("""rarity => {
+                    const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
+                    s.buildings.tavern=10;let rounds=0;
+                    do{E.refreshTavern(s);rounds++}
+                    while(rounds<600&&!s.tavern.offers.some(x=>x.quality===rarity));
+                    E.syncCityState(s);HOG_APP_DEBUG.render();
+                    const selected=s.tavern.offers.find(x=>x.quality===rarity);
+                    return {rounds,quality:s.tavern.offers.map(x=>x.quality),
+                        score:selected?.qualityScore,
+                        derived:selected&&E.heroTierByTotal(selected.atk+selected.def+selected.spd+selected.int).id,
                         strict:E.strictSave(s),chance:E.heroQualityChances(10)};
-            }""")
-            check('Live Tavern naturally rolls platinum and rainbow with strict Save',
-                  rare['rounds']<200 and rare['strict'] and
-                  'rainbow' in rare['quality'] and 'platinum' in rare['quality'] and
-                  rare['chance'][4:]==[25,9,2],rare)
-            check('Rarity cards display real quality-driven stats and aura copy',
-                  page.locator('.hg408-offer.hg45-tier-rainbow').count()>=1 and
-                  page.locator('.hg408-offer.hg45-tier-platinum').count()>=1 and
-                  page.locator('.hg408-offer .hg45-offer-buff').count()==len(rare['quality']))
-            screenshot(page,'pc-1280x720-platinum-rainbow-natural-tavern.png')
+                }""",rare_kind)
+                check('Live Tavern naturally rolls '+rare_kind+' with summed-stat quality and strict Save',
+                      rare['rounds']<600 and rare['strict'] and
+                      rare_kind in rare['quality'] and
+                      rare['derived']==rare_kind and
+                      rare['chance'][5:]==[1,1],rare)
+                check('Rarity card '+rare_kind+' has real SVG portrait, readable sum and aura',
+                      page.locator('.hg408-offer.hg45-tier-'+rare_kind).count()>=1 and
+                      page.locator('.hg408-offer.hg45-tier-'+rare_kind+' .hg45-portrait-art svg').count()>=1 and
+                      page.locator('.hg408-offer.hg45-tier-'+rare_kind+' .hg45-offer-buff').count()>=1)
+                screenshot(page,'pc-1280x720-'+rare_kind+'-natural-tavern.png')
             # Fame is elevated only as a test fixture to allow recruiting a second hero.
             prepared=page.evaluate("""() => {
                 const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
