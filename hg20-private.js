@@ -128,11 +128,11 @@ function setPlan(s,heroId,groups){
    throw Error('Không đủ '+E.getUnit(s,unitId).name+' trong thành: đã phân cho tướng khác '+(totals[unitId]||0));
  }
  const points=E.formationPoints(s,validGroups);
- if(points>E.heroLimit(hero.level))throw Error('Quá sức chỉ huy '+hero.name);
+ if(points>E.heroLimit(hero.level,hero))throw Error('Quá sức chỉ huy '+hero.name);
  // Nonactive plans are written without switching away the current hero.
  if(heroId===s.activeHero)old.setFormation(s,validGroups);
  s.hg20.plans[key(s.activeCityId||'main',heroId)]=validGroups;
- return {heroId,points,limit:E.heroLimit(hero.level),total:validGroups.reduce((a,g)=>a+g.count,0)};
+ return {heroId,points,limit:E.heroLimit(hero.level,hero),total:validGroups.reduce((a,g)=>a+g.count,0)};
 }
 function setFormation(s,groups){
  return setPlan(s,s.activeHero,groups);
@@ -155,7 +155,7 @@ function switchCity(s,id){
 function autoFormation(s){
  ensure(s);const hero=s.heroes.find(q=>q.id===s.activeHero);
  if(!hero||role(s,hero.id).status!=='home')throw Error('Tướng đang bận');
- const reserved=reservations(s,hero.id),limit=E.heroLimit(hero.level);
+ const reserved=reservations(s,hero.id),limit=E.heroLimit(hero.level,hero);
  const formation=[];let remaining=limit;
  const units=E.arrUnits(s).filter(u=>(s.army[u.id]||0)>(reserved[u.id]||0))
   .sort((a,b)=>b.tier-a.tier||b.atk-a.atk);
