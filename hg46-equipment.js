@@ -80,11 +80,11 @@
  }
  function sets(s,id){
   const counts=E.hg18SetCounts(s,id);
-  return {...E.HG18_SETS,...E.HG31_SETS}?
-   Object.entries({...E.HG18_SETS,...E.HG31_SETS}).map(([key,set])=>({
-    id:key,name:set.name,count:counts[key]||0,
-    two:JSON.stringify(set.two),three:JSON.stringify(set.three),note:set.note||'Kích hoạt bộ khi đủ 2/3 và 3/3 món'
-   })):[];
+  return Object.entries({...E.HG18_SETS,...E.HG31_SETS}).map(([key,set])=>({
+   id:key,name:set.name,count:counts[key]||0,
+   two:JSON.stringify(set.two),three:JSON.stringify(set.three),
+   note:set.note||'Kích hoạt khi đủ 2/3 hoặc 3/3 món; hiện đủ '+(counts[key]||0)+'/3.'
+  }));
  }
  function metrics(s,id,mode){
   const stats=E.heroStats(s,id),mod=E.combatModifiers(s,id);
