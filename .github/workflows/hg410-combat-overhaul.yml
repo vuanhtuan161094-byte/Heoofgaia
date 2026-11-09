@@ -19,6 +19,7 @@ on:
       - 'qa-hg261-joint.cjs'
       - 'qa-hg33-hex.cjs'
       - 'qa-hg409-pve-chrome.py'
+      - 'qa-hg410-ui-chrome.py'
       - '.github/workflows/hg410-combat-overhaul.yml'
   workflow_dispatch:
 permissions:
@@ -54,6 +55,8 @@ jobs:
           python -m playwright install chromium
           python -m py_compile qa-hg409-pve-chrome.py
           python qa-hg409-pve-chrome.py
+          python -m py_compile qa-hg410-ui-chrome.py
+          python qa-hg410-ui-chrome.py
       - name: Upload focused engine and visual evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -61,6 +64,7 @@ jobs:
           name: HG41-Real-Gameplay-Save-and-Chromium-Evidence
           path: |
             docs/qa/hg410/*.json
+            docs/evidence/hg410/*.png
             docs/qa/hg409/*.json
             docs/evidence/hg409/*.png
           if-no-files-found: ignore
