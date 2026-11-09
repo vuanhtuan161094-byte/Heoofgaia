@@ -914,7 +914,12 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
  if(cached?.signature===signature)return cached.entries;
  const entries=actors.map(u=>{
   const pt=camera.center(u.x,u.y);
-  const k=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*1.05,camera.radius*(profile?.boss?3.15:1.9));
+  // 16 real Boss actors occupy neighboring HG41 hexes. Scale only their
+  // presentation sprites so every source atlas, foot anchor and hitbox stays
+  // legible in two nine-cell columns; do not alter HP, stacks or Save v07.
+  const sourceK=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),
+   k=denseBoss&&u.side==='enemy'?sourceK*.54:sourceK,
+   profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*(denseBoss&&u.side==='enemy'?.45:1.05),camera.radius*(profile?.boss?3.15:1.9));
   return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile,displayPool:battleVisualPool(b,u,now)};
  });
  // Do not shift the boot anchor away from the canonical hex centre to
@@ -929,7 +934,11 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
   // The old approximate 0.96*size box did not match the real rendered atlas.
   // Share exactly the atlas's dest rectangle with hit testing & labels.
   e.sprite={x:e.x-width/2,y:e.y-spriteH*pivot,w:width,h:spriteH};
-  e.countBox={x:e.x+22,y:e.y-23,w:37,h:19};
+  // Dense Boss badges sit at their own feet, rather than across the next
+  // enemy column. Keep atlas and badge rectangles shared with the QA solver.
+  e.countBox=denseBoss&&e.u.side==='enemy'
+   ?{x:e.x-18,y:e.y-10,w:36,h:14}
+   :{x:e.x+22,y:e.y-23,w:37,h:19};
  }
  // HG40.3 Visual Gate: keep every dynamic name/HP plate clear of the
  // two team meters, round clock and bottom battle ticker, at all viewports.
@@ -1205,8 +1214,10 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
    c.fillRect(bx+9,by+22,(plate.w-18)*clamp(displayPool/(u.initial*u.hp),0,1),4);}
   }
-  rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
-  text(c,'×'+Math.ceil(displayPool/u.hp),x+40,y-9,12,'#fff0ca');
+  const badge=entry.countBox,ox=x-entry.x,oy=y-entry.y;
+  rounded(c,badge.x+ox,badge.y+oy,badge.w,badge.h,6,'#17292cdd','#c0aa7a77');
+  text(c,'×'+Math.ceil(displayPool/u.hp),badge.x+ox+badge.w/2,
+   badge.y+oy+badge.h*(badge.h<19?.76:.74),badge.h<19?10:12,'#fff0ca');
  }
  motionImpactFx(c,camera,b,elapsed,units);
  drawHG403ProcCues(c,b,elapsed,units);
