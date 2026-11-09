@@ -1391,3 +1391,15 @@ body:not(.combat-mode).hg42-boss-screen-open .game-window-body{
  .hg42-boss-roster-grid{grid-template-columns:1fr;max-height:36dvh}
  .hg42-boss-roster>summary{padding:4px 6px;font-size:9px}
 }
+
+/* HG42 QA-discovered mobile bug: legacy save toolbar is z60 over a z40
+ * full-screen Boss stage and intercepted "Locate" on 844x390. In every Boss
+ * screen, navigation stays clickable but map and background toolbar do not. */
+body:not(.combat-mode).hg42-boss-screen-open .wrap{
+ pointer-events:none!important;
+}
+body:not(.combat-mode).hg42-boss-screen-open .sidebar,
+body:not(.combat-mode).hg42-boss-screen-open .hg39-map-dock{
+ display:none!important;
+ pointer-events:none!important;
+}
