@@ -109,6 +109,14 @@ with sync_playwright() as pw:
               allies:[actor],enemies:[enemy('e0',2,4),enemy('e1',3,4)],
               woundedByUnit:{},history:[],moveTargets:{}};
             E.hg40PrepareBattle(s,b);s.battle=b;
+            // HG44-E root cause: HG40.9 purple commander enforces ATK>=1
+            // during battle preparation, so a fixture with 1000 durable
+            // enemies each KILLS HP10 Scout-tier actors before VFX sampling.
+            // Suppress enemy damage AFTER the real HG40.9/HG41 preparation,
+            // as in the already verified Priest acceptance. This fixture
+            // still obtains genuine hits/procs/receipts through battleActCore;
+            // it does not synthesize damage, victory or player rewards.
+            b.enemies.forEach(foe=>{foe.atk=0;});
             // HG44-A/E: HG41 deliberately redeploys each side across the
             // 12x9 board. This is a CONTROLLED skill/Canvas fixture, not an
             // organic march: arrange one real target 2 hexes from the actor
