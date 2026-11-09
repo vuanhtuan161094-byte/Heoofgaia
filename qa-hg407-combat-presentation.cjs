@@ -59,7 +59,8 @@ P.battleTimelinePrime(b,1000,true);
 const now=1410,visual=P.battleVisualState(b,v,now,now),pt=P.battleVisualPoint(camera,visual,v);
 const fx=P.battleFxPlan(b,camera,now,layout);
 assert.equal(fx.length,1);
-assert(Math.abs(fx[0].end.x-pt.x)>0||Math.abs(fx[0].end.y-pt.y)>0); // entry visual offset correction path should be nontrivial
+assert(Math.abs(fx[0].end.x-pt.x)<1e-8 && Math.abs(fx[0].end.y-(pt.y-layout.find(e=>e.id==='e0').size*.52))<1e-8);
+assert(Math.abs(pt.x-camera.center(v.x,v.y).x)>1,'moving target differs from its settled canonical cell');
 pass('actual receipt-path impact plan returns one legitimate damage event');
 const state=E.make('human',950407);assert.equal(state.version,7);
 const saved=JSON.parse(E.serializeSave(state));
