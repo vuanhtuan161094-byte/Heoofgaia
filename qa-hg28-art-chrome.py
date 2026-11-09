@@ -115,7 +115,7 @@ with sync_playwright() as pw:
   spear=page.evaluate("""() => {const img=document.getElementById('hg28-battle-human-spear-militia'),profile=HOG_PAINTER.MOTION_SPRITES.human_1,atlas=HOG_HG33_TROOP_ATLASES?.units?.human_1;return {ready:!!img?.complete&&img.naturalWidth===512&&img.naturalHeight===512,offline:img?.src.startsWith('data:image/webp;base64,'),registered:profile?.id===img?.id,animated:HOG_PAINTER.animatedUnitId('human_1','Spear Militia'),atlas:!!atlas&&['idle','walk','attack','hit','death'].every(a=>atlas.actions[a]?.count===8)}}""")
   assert all(spear.values()),f'{width}x{height} Human Spear Militia offline sprite or motion profile failed: {spear}'
   checks.append({'viewport':f'{width}x{height}','check':'Human Spear Militia uses its own offline registered art and battle transform profile','pass':True,'asset':spear})
-  assert setup['inBattle'] and setup['names']==['Azrael','Demonlord Samurai','Cyclop Tyrant'] and setup['saveValid'],f'{width}x{height} real engine march did not construct the authored boss fight: {setup}'
+  assert setup['inBattle'] and len(setup['names'])==16 and set(setup['names'])=={'Azrael','Demonlord Samurai','Cyclop Tyrant'} and setup['names'][:3]==['Azrael','Demonlord Samurai','Cyclop Tyrant'] and setup['saveValid'],f'{width}x{height} real engine march did not construct the authored boss fight: {setup}'
   canvas=page.locator('#battle-canvas')
   assert canvas.is_visible(),f'{width}x{height} boss battlefield is not visible'
   # BEFORE is the same live battle rendered with the preserved HG28 master art;
@@ -155,15 +155,16 @@ with sync_playwright() as pw:
     P.drawBattle(c,E,s,performance.now()+250,{showGrid:false});const second=c.toDataURL('image/png');
     const layout=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height);
     return {calls,changed:first!==second,stable:JSON.stringify(E.clone(s))===stateBefore,
-     labelsFit:layout.every(e=>!layout.some(o=>o!==e&&P.battleRectOverlap(e.label,o.sprite,1))),
+     labelsFit:layout.filter(e=>e.label).every(e=>!layout.some(o=>o!==e&&P.battleRectOverlap(e.label,o.sprite,1))),
+     bossActorCount:s.battle.enemies.length,
      profileNames:s.battle.enemies.map(u=>P.bossSprite(u.name)?.id||null)};
    }finally{ctx.drawImage=original}
   }""")
   expected=['hg33-atlas-azrael','hg33-atlas-demonlord-samurai','hg33-atlas-cyclop-tyrant']
   expected_profiles=['hg28-boss-azrael','hg28-boss-demonlord-samurai','hg28-boss-cyclops-tyrant']
   atlas_drawn=painted['calls'].count('unit-hg33-human-1-atlas')>=2
-  assert all(painted['calls'].count(asset)>=2 for asset in expected) and atlas_drawn and painted['changed'] and painted['stable'] and painted['labelsFit'] and painted['profileNames']==expected_profiles,f'{width}x{height} battle failed to draw/animate registered battle troops cleanly: {painted}'
-  checks.append({'viewport':f'{width}x{height}','check':'real boss battle draws all three portraits and the authored eight-frame Spear Militia atlas, idle motion changes, HUD labels clear and game state stays unchanged','pass':True,'drawn':painted['calls'],'labelsFit':painted['labelsFit']})
+  assert all(painted['calls'].count(asset)>=2 for asset in expected) and atlas_drawn and painted['changed'] and painted['stable'] and painted['labelsFit'] and painted['bossActorCount']==16 and set(painted['profileNames'])==set(expected_profiles) and painted['profileNames'][:3]==expected_profiles,f'{width}x{height} battle failed to draw/animate registered battle troops cleanly: {painted}'
+  checks.append({'viewport':f'{width}x{height}','check':'real sixteen-stack Boss battle draws all three authored atlas archetypes and eight-frame Spear Militia, with live animation, safe visible labels and unchanged Save','pass':True,'drawn':painted['calls'],'labelsFit':painted['labelsFit']})
   after_path=EVIDENCE/'after'/f'{width}x{height}'/'15-boss-battle.png'
   after_path.parent.mkdir(parents=True,exist_ok=True)
   page.screenshot(path=str(after_path),animations='disabled')
