@@ -790,7 +790,7 @@ function hg46GearView(h){
   const row=state.inventory.find(i=>i.uid===slots[slot]),def=row&&E.ITEMS[row.itemId];
   const kind=row?E.hg46Kind(row):'empty',p=row?E.hg46Stats(row):null;
   const attrs=p?['atk','def','spd'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · '):'Chưa có trang bị';
-  return '<article class="hg46-slot hg46-kind-'+kind+'" data-hg46-slot="'+slot+'">'+
+  return '<article class="hg46-slot hg408-slot hg46-kind-'+kind+'" data-hg46-slot="'+slot+'">'+
    '<div class="hg46-slot-head"><b>'+esc(names[slot])+'</b><small>'+ (row?'+'+(row.enhance||0)+' cường hóa':'Trống')+'</small></div>'+
    '<div class="hg46-slot-content"><div class="hg46-gear-art">'+(row?icon(row):'◇')+'</div>'+
    '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+
