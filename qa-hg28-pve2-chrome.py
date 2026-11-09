@@ -118,10 +118,14 @@ def pose(page,width,height,title):
           not collapsed["open"] and collapsed["classSet"] and collapsed["canvas"]>before_width+100,collapsed)
     page.locator('.battle-command-dock>summary').click()
     page.wait_for_timeout(80)
-    ally=page.evaluate("""() => {const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),u=s.battle.allies.find(x=>x.pool>0),e=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height).find(x=>x.u.id===u.id);return {id:u.id,x:r.x+e.label.x/c.width*r.width,y:r.y+e.label.y/c.height*r.height}}""")
+    ally=page.evaluate("""() => {const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),c=document.querySelector('#battle-canvas'),r=c.getBoundingClientRect(),u=s.battle.allies.find(x=>x.pool>0),e=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height).find(x=>x.u.id===u.id);return {id:u.id,hitId:P.battleHit(c,e.x,e.y,E,s,performance.now()+2000)?.id,x:r.x+e.x/c.width*r.width,y:r.y+e.y/c.height*r.height}}""")
+    # In HG41 dense 3x2 PvE the label can move across hexes, but the foot
+    # pivot belongs to one real actor and remains selectable after dock reflow.
+    check(key+" actual friendly foot hex resolves to the intended live stack",
+          ally["hitId"]==ally["id"],ally)
     page.mouse.click(ally["x"],ally["y"])
     check(key+" selects a friendly stack directly on the hex field",
-          page.evaluate("id=>HOG_APP_DEBUG.getState().battle?.selected===id",ally["id"]),ally["id"])
+          page.evaluate("id=>HOG_APP_DEBUG.getState().battle?.selected===id",ally["id"]),ally)
     return d
 
 with sync_playwright() as pw:
