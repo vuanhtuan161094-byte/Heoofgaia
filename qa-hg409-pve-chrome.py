@@ -43,7 +43,11 @@ with sync_playwright() as pw:
     return {key:t?.key,preview:HOG_ENGINE.hg409Preview('npc',t.key,1,5)};
   }""")
   check(label+' real 5star NPC has purple Lv100 CS5 and preview',npc['preview']['cs']==5 and npc['preview']['commander']['quality']=='purple',npc)
-  page.locator('[data-action="select"][data-key="'+npc['key']+'"]').first.click()
+  # The map landmark rail is intentionally hidden at small heights: open the
+  # actual visible destination picker, select the NPC, then close the popup.
+  page.locator('[data-action="world-index"]').first.click()
+  page.locator('#game-modal-body [data-action="select"][data-key="'+npc['key']+'"]').first.click()
+  page.locator('[data-action="modal-close"]').first.click()
   check(label+' map labels increased risk and guaranteed reward',page.locator('.hg409-target-preview').count()==1 and 'CS5' in page.locator('.hg409-target-preview').inner_text())
   shot(page,label+'-map-enemy-preview.png')
   # Visual battle fixture opens the authoritative engine battle directly,
