@@ -203,11 +203,17 @@ def run_troop_pilot(browser, pilot: dict) -> None:
     dispatch_button.click()
     page.locator('.hg39-dispatch [data-action="dispatch-confirm"]').wait_for(state="visible")
     dispatch = page.evaluate("""()=>{const panel=document.querySelector('.hg39-dispatch');return {
-      rows:[...panel.querySelectorAll('[data-dispatch-count]')].map(input=>({unit:input.dataset.dispatchCount,count:Number(input.value)})),
+      rows:[...panel.querySelectorAll('.hg39-dispatch-row')].map(row=>{
+        const input=row.querySelector('[data-dispatch-slot]'),slot=Number(input?.dataset.dispatchSlot),
+          s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,plan=E.hg20HeroPlan(s,s.activeHero),unit=plan[slot]?.unitId;
+        return {slot,unit,count:Number(input?.value),
+          displayed:row.querySelector('.hg39-dispatch-unit b')?.textContent,
+          expected:unit?E.getUnit(s,unit)?.name:null};
+      }),
       enabled:!panel.querySelector('[data-action="dispatch-confirm"]').disabled,
       title:panel.querySelector('header h2')?.innerText};}""")
     check(f"{name} planner preserves the two real formation stacks and enables confirmation",
-          len(dispatch["rows"]) == 2 and all(row["unit"] == unit_id and row["count"] == 1 for row in dispatch["rows"]) and dispatch["enabled"], dispatch)
+          len(dispatch["rows"]) == 2 and all(row["unit"] == unit_id and row["count"] == 1 and row["displayed"] == row["expected"] for row in dispatch["rows"]) and dispatch["enabled"], dispatch)
     page.locator('.hg39-dispatch [data-action="dispatch-confirm"]').click()
     page.wait_for_function("HOG_APP_DEBUG.getState()?.battle", timeout=30_000)
     battle = page.evaluate("""id=>{const s=HOG_APP_DEBUG.getState(),b=s.battle;return {allies:b.allies.filter(u=>u.unitId===id).map(u=>({id:u.id,unitId:u.unitId,pool:u.pool,x:u.x,y:u.y})),
