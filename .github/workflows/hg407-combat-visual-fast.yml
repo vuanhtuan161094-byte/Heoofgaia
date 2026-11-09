@@ -40,6 +40,10 @@ jobs:
           python qa-hg403-visual-gate-chrome.py
       - name: Chromium 60Hz combat, HUD, foot placement and Save v07
         run: python qa-hg34-combat-smooth-chrome.py
+      - name: Actual Chromium 8-frame Walk alpha contact measurements before and after
+        run: |
+          python -m py_compile qa-hg407-foot-frames-chrome.py
+          python qa-hg407-foot-frames-chrome.py
       - name: Upload genuine battle screenshot and QA receipts
         if: always()
         uses: actions/upload-artifact@v4
@@ -50,6 +54,8 @@ jobs:
             docs/evidence/hg403/visual-gate/*.png
             docs/qa/hg34/combat-smooth-chrome.json
             docs/evidence/hg34/*.png
+            docs/qa/hg407/*.json
+            docs/evidence/hg407/*.png
           if-no-files-found: ignore
           retention-days: 30
       - name: Upload same-checkout single playable HTML
