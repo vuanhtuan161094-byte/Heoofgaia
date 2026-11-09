@@ -108,6 +108,40 @@ test('One troop type occupies two distinct real slots for one hero; another hero
  placement(b);s.battle=b;save(s);
  return {slots:E.hg20HeroPlan(s,1).map(x=>x.count),reserved:75,unitsInCity:s.army.human_1};
 });
+test('HG44-H Tower floor 1 requires funded troop growth; defeat pays nothing and paid victory pays once',()=>{
+ const s=game(),id='human_1',original=s.army[id],before=JSON.stringify({resources:s.res,materials:s.hg18.materials});
+ E.hg20SetHeroPlan(s,1,[{unitId:id,count:original}]);E.hg20ChooseTowerTeam(s,[1]);
+ E.hg21TowerEnter(s);
+ assert.equal(s.battle.hg410.enemyStacks,10,'CS1 Tower must spawn ten genuine opponents');
+ let turns=0,initial={type:'continue'};
+ while(s.battle&&turns<70){initial=E.battleAct(s,'attack');turns++;}
+ assert(!s.battle,'Tower battle must settle by 70 real turns');
+ assert.notEqual(initial.type,'win','Unfunded 16 starter spears must not beat HG41 ten-stack Tower');
+ assert.equal(s.hg20.tower.claims,0);
+ assert.equal(s.hg20.tower.floor,1);
+ assert.equal(s.hg20.tower.last.outcome,'lose');
+ assert.equal(JSON.stringify({resources:s.res,materials:s.hg18.materials}),before,'Defeat must not mint loot');
+ save(s);
+ const gold=s.res.gold,extra=45;
+ E.recruit(s,id,extra);
+ assert(s.res.gold<gold,'Paid recruitment must debit real gold');
+ const queue=s.training[0];assert(queue&&queue.count===extra);
+ E.tick(s,s.lastTick+(queue.remaining+2)*1000/s.speed);
+ assert.equal(s.army[id],original+extra,'Recruitment must deliver exact paid units');
+ E.hg20SetHeroPlan(s,1,[{unitId:id,count:original+extra}]);
+ E.hg20ChooseTowerTeam(s,[1]);E.hg21TowerEnter(s);
+ let funded={type:'continue'},fundedTurns=0;
+ while(s.battle&&fundedTurns<70){funded=E.battleAct(s,'attack');fundedTurns++;}
+ assert(!s.battle,'Paid Tower battle must settle');
+ assert.equal(funded.type,'win',JSON.stringify({fundedTurns,outcome:funded.type,allies:original+extra,tower:s.hg20.tower.last}));
+ assert.equal(s.hg20.tower.floor,2);assert.equal(s.hg20.tower.claims,1);
+ assert.equal(s.hg20.tower.last?.outcome,'win');
+ assert.equal(s.army[id],original+extra,'Tower projection must never debit garrison');
+ save(s);
+ return {initialOutcome:initial.type,unpaidTurns:turns,paidTurns:fundedTurns,
+  initialSoldiers:original,paidSoldiers:extra,finalSoldiers:s.army[id],
+  claims:s.hg20.tower.claims,save:s.version};
+});
 test('HG30 permanent conversion can be repeated after stage 3 with exact materials and real troop debit',()=>{
  const s=game(),q=E.hg30Ensure(s);q.stage=3;s.hg20.tower.floor=25;
  s.res.gold=200000;s.army.human_1=100;s.army.human_quest_guard=4;
