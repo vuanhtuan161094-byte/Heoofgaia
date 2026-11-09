@@ -37,6 +37,19 @@ test('Four races spawn six-or-more real enemy stacks in only two edge columns, v
  }
  return output;
 });
+test('Mine and AI castle fights also obey edge anchors without duplicating garrison',()=>{
+ const result=[];
+ for(const kind of ['mine','castle']){
+  const s=game(),t=E.TILES.find(x=>x.kind===kind);assert(t);
+  const stock=JSON.stringify(s.army),b=E.makeBattle(s,t.key);
+  assert(b.enemies.length>0&&b.enemies.length<=3);
+  assert.equal(b.hg410.cs,0);
+  assert.equal(JSON.stringify(s.army),stock);
+  placement(b);s.battle=b;save(s);
+  result.push({kind,enemyStacks:b.enemies.length,playerColumn:b.allies.map(x=>x.x),enemyColumns:b.enemies.map(x=>x.x)});
+ }
+ return result;
+});
 test('Boss T11/T12/T13 spawn 16 actual aggressive stacks and large live troop counts',()=>{
  const output=[];
  for(const tier of [11,12,13]){
