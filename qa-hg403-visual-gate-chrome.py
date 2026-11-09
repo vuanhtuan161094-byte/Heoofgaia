@@ -163,8 +163,14 @@ with sync_playwright() as pw:
               const p=cam.center(x.u.x,x.u.y);
               return Math.abs(x.baseX-p.x)<.0001&&Math.abs(x.baseY-p.y)<.0001;
             });
-            recordRow.hitbox=P.battleHit(c,cam.center(actor.x,actor.y).x,
-              cam.center(actor.x,actor.y).y,E,s,at)?.id==='p0';
+            // HG44-E: Scouts (tier 2, SPD=50) legitimately animate along
+            // their recorded hex route at this impact timestamp. Clicking
+            // their FINAL logical coordinate before Walk ends is not a test
+            // of the actually drawn sprite/hitbox. Query the same visible
+            // foot projection used by the shipping painter and tap that.
+            const actorVisual=P.battleVisualState(b,actor,at,at),
+              actorFoot=P.battleVisualPoint(cam,actorVisual,actor);
+            recordRow.hitbox=P.battleHit(c,actorFoot.x,actorFoot.y,E,s,at)?.id==='p0';
             const hudW=Math.max(155,Math.min(235,c.width*.205));
             const reserved=[
               {x:12,y:9,w:hudW,h:37},
@@ -176,15 +182,19 @@ with sync_playwright() as pw:
             recordRow.hpHudSafe=layout.filter(e=>e.displayPool>0).every(e=>
               !!e.label&&!reserved.some(rect=>overlaps(e.label,rect)));
             P.drawBattle(c,E,s,at,{showGrid:true,showHP:true});
-            const dx=Math.max(0,Math.min(c.width-120,Math.round(receipt.end.x-60)));
-            const dy=Math.max(0,Math.min(c.height-120,Math.round(receipt.end.y-60)));
-            const visible=cc.getImageData(dx,dy,120,120).data;
-            // With the same canonical receipts but HG40 identity hidden,
-            // only presentation changes. The VFX delta must be measurable.
+            // Compare the real *playfield* instead of an arbitrary 120px
+            // square around the final target cell. Fast Scout (SPD=50)
+            // attacks can animate away from that cell while their legit
+            // skill mark is visibly on the active route. Exclude top HUD
+            // and bottom battle ticker, so HUD text alone cannot pass VFX.
+            const fieldY=60,fieldH=c.height-100;
+            const visible=cc.getImageData(0,fieldY,c.width,fieldH).data;
+            // With identical canonical receipts but HG40 identity hidden,
+            // only actual drawn, in-bounds skill presentation can differ.
             const original=b.hg40;b.hg40=null;
             try{P.drawBattle(c,E,s,at,{showGrid:true,showHP:true});}
             finally{b.hg40=original;}
-            const control=cc.getImageData(dx,dy,120,120).data;
+            const control=cc.getImageData(0,fieldY,c.width,fieldH).data;
             let delta=0;
             for(let i=0;i<visible.length;i+=4)
               if(Math.abs(visible[i]-control[i])+Math.abs(visible[i+1]-control[i+1])+
