@@ -49,6 +49,11 @@ with sync_playwright() as pw:
     # can legitimately lose. Recruit using actual paid UI before accepting
     # the Hero Task; never mint soldier counts/loot or downgrade PvE.
     page.locator('#nav [data-tab="army"]').click()
+    speed_tools=page.locator('.hg42-screen-tool-menu')
+    if not speed_tools.evaluate('el=>el.open'):speed_tools.locator('summary').click()
+    speed_tools.locator('#speed').click()
+    check('HG41 paid Hero Task recruiting uses real 1x control to observe the queue',
+          page.evaluate('HOG_APP_DEBUG.getState().speed===1'))
     prebuy=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
       return {gold:s.res.gold,army:s.army.human_1,save:HOG_ENGINE.strictSave(s)};
