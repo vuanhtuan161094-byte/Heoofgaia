@@ -252,7 +252,10 @@ with sync_playwright() as pw:
           bossFixture['valid'] and bossFixture['deployed']=='dispatched' and
           bossFixture['entered']=='battle_open' and
           bossFixture['ownerIds']==[1,1,2,2,3,3] and
-          len(bossFixture['bossNames'])==3,bossFixture)
+          # HG41: three distinct source Boss archetypes now deploy SIXTEEN
+          # canonical live defender stacks (not three copied UI labels).
+          len(bossFixture['bossNames'])==16 and
+          len(set(bossFixture['bossNames']))==3,bossFixture)
     bossPage.wait_for_timeout(3550)
     bossResult=bossPage.evaluate("""() => {
       const m=window._bossPerf,s=HOG_APP_DEBUG.getState(),
