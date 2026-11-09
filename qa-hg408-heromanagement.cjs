@@ -105,6 +105,7 @@ test('HG45.1 1% platinum and 1% rainbow derive ONLY from innate total score',()=
  const tiers=E.HERO_QUALITY_V2,chances=E.heroQualityChances(10);
  assert.equal(tiers.length,7);assert.equal(chances.reduce((a,b)=>a+b,0),100);
  assert.deepEqual(Array.from(chances),[8,18,20,18,34,1,1]);
+ assert.deepEqual(Array.from(E.heroQualityChances(6).slice(5)),[1,1]);
  const counts=Object.fromEntries(tiers.map(q=>[q.id,0]));
  let total=0;
  for(let round=0;round<1300;round++){
