@@ -8,6 +8,10 @@ function render(s,E,ui,{screen='targets',tier=11}={}){
  const screens=[['targets','☠ Boss thế giới'],['hunt','🧙 Đội săn & Auto'],['loot','🎁 Thưởng & chiến báo']];
  const targets=E.TILES.filter(t=>t.kind==='npc'&&Number.isInteger(t.eliteTier)&&t.eliteTier>=11)
   .sort((a,b)=>a.eliteTier-b.eliteTier||a.key.localeCompare(b.key));
+ // Reading the active city through E.activeCity() synchronizes the root
+ // local snapshot and can mutate an older Save just by opening a screen.
+ // Boss previews must use the already-stored city key without that side effect.
+ const homeKey=s.cities?.find(c=>c.id===s.activeCityId)?.key||s.cities?.find(c=>c.main)?.key||null;
  const selected=targets.filter(t=>t.eliteTier===tier);
  const available=selected.length?selected:targets.filter(t=>t.eliteTier===11);
  const preview=t=>E.hg409Preview('npc',t.key);
@@ -19,7 +23,7 @@ function render(s,E,ui,{screen='targets',tier=11}={}){
  };
  const tileCard=t=>{
   const p=preview(t),a=layout(t),
-   path=E.pathfind(E.activeCity(s).key,t.key),reach=!!path,
+   path=homeKey?E.pathfind(homeKey,t.key):null,reach=!!path,
    time=path?Math.max(0,path.length-1):null;
   return '<article class="hg42-boss-target" data-boss-id="'+esc(t.key)+'">'+
    '<header><div class="hg42-boss-emblem">☠</div><div><strong>'+esc(t.value||t.name||'Ma Vương')+'</strong>'+
