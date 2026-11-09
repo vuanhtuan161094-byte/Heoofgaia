@@ -45,8 +45,42 @@ with sync_playwright() as pw:
     page.reload(wait_until="load")
     check("Cold reload keeps smart formation while troops are still in castle",
           page.evaluate("HOG_APP_DEBUG.getState().formation.length>0"))
+    # HG41 fields six real NPC stacks at 1-star. Starter 16 Spear Militia
+    # can legitimately lose. Recruit using actual paid UI before accepting
+    # the Hero Task; never mint soldier counts/loot or downgrade PvE.
+    page.locator('#nav [data-tab="army"]').click()
+    prebuy=page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      return {gold:s.res.gold,army:s.army.human_1,save:HOG_ENGINE.strictSave(s)};
+    }""")
+    page.locator('.game-window-body #q_human_1').fill('45')
+    page.locator('.game-window-body [data-action="recruit"][data-id="human_1"]').click()
+    receipt=page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),q=s.training.find(q=>q.unitId==='human_1');
+      return {gold:s.res.gold,count:q?.count,remaining:q?.remaining,save:HOG_ENGINE.strictSave(s)};
+    }""")
+    check("HG41 Hero Task preparation charges real gold and queues 45 troops",
+          prebuy["army"]==16 and receipt["gold"]<prebuy["gold"] and
+          receipt["count"]==45 and receipt["save"])
+    supplied=page.evaluate("""() => {
+      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),q=s.training.find(q=>q.unitId==='human_1');
+      if(!q)throw Error('Paid Hero Task recruitment queue was lost');
+      E.tick(s,s.lastTick+(q.remaining+2)*1000/s.speed);HOG_APP_DEBUG.render();
+      return {troops:s.army.human_1,pending:s.training.length,valid:E.strictSave(s)};
+    }""")
+    check("HG41 paid Hero Task squad receives 61 troops exactly once",
+          supplied["troops"]==61 and supplied["pending"]==0 and supplied["valid"])
+    page.locator('.game-window-body [data-action="autoformation"]').click()
+    roster=page.evaluate("""() => {
+      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),p=E.hg20HeroPlan(s,s.activeHero);
+      return {troops:p.reduce((n,g)=>n+g.count,0),garrison:s.army.human_1,
+        valid:E.strictSave(s)};
+    }""")
+    check("HG41 real auto-formation assigns only paid and owned troops",
+          roster["troops"]==61 and roster["garrison"]==61 and roster["valid"])
+    page.locator('#nav [data-tab="map"]').click()
     quickstart_drawer=page.locator('.hg39-map-dock .hg39-map-details').filter(has_text="Tác vụ nhanh")
-    quickstart_drawer.locator("summary").click()
+    if not quickstart_drawer.evaluate("el=>el.open"):quickstart_drawer.locator("summary").click()
     page.locator('.quickstart-strip [data-action="findnpc"]').click()
     check("Quickstart selects actual NPC level 1 without dispatching","1★" in page.locator(".target-information h2").inner_text() and page.evaluate("HOG_APP_DEBUG.getState().march===null"))
     quickshot=OUT/"hero-task-quickstart-desktop-chrome.png"
