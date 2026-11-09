@@ -1050,7 +1050,7 @@ function combatView(){
  const enemyCS=b.hg409EnemyCommander,enemyCSInfo=enemyCS?'<div class="hg409-combat-boss"><b class="hg408-quality-purple">♜ '+esc(enemyCS.name)+' · TÍM Lv100 · B5 · CS'+enemyCS.cs+'/10</b><span>ATK/DEF/SPD/INT 100/100/100/100; HP ×'+enemyCS.boost.hp+' · ATK ×'+enemyCS.boost.atk+' · DEF ×'+enemyCS.boost.def+'</span></div>':'';
  const hg410Info=b.hg410?.v===1?'<div class="hg410-combat-army">⚔ Đội hình thực: '+b.allies.length+' stack ta / '+b.hg410.enemyStacks+' stack địch ('+format(b.hg410.enemyTroops)+' quân địch). Neo hai cột đầu mỗi bên · cận chiến 1 ô, cung 4–5 ô.</div>':'';
  const bossRoster=b.hg410?.boss&&b.enemies.length>=12?
-  '<details class="hg42-boss-roster"><summary>🎯 Chọn riêng 1 trong '+aliveEnemies+' stack Boss đang sống · chạm để tập trung</summary>'+
+  '<details class="hg42-boss-roster"><summary>🎯 Chọn riêng 1 trong '+aliveEnemies+' stack Boss đang sống · chạm để chọn, rồi bấm Tập trung</summary>'+
   '<div class="hg42-boss-roster-grid">'+b.enemies.filter(u=>u.pool>0).map(u=>
    button('hg42-boss-focus',{id:u.id},'☠ '+u.id.toUpperCase()+' · '+esc(u.name)+' ×'+format(u.count),
     false,b.focused===u.id?'small primary':'small secondary')).join('')+'</div></details>':'';
@@ -1118,8 +1118,12 @@ function paint(){
    // On touch/compact phones, painting a full fantasy battle at 60Hz
    // wastes CPU/GPU and heats the device. Preserve 60/75Hz desktop cadence;
    // the canonical auto-combat clock, frame timeline and Save are unchanged.
-   const mobilePaintMinMs=((typeof matchMedia==='function'&&matchMedia('(pointer: coarse)').matches)||
-     (innerWidth<=960&&innerHeight<=480))?29:0;
+   const denseBoss=!!state.battle?.hg410?.boss&&state.battle.hg410.enemyStacks>=12;
+   const touchOrCompact=(typeof matchMedia==='function'&&matchMedia('(pointer: coarse)').matches)||
+     (innerWidth<=960&&innerHeight<=480);
+   // 16 actors and their receipts remain canonical. Cap only presentation to
+   // 25 fps touch / 50 fps desktop; never change attack turns, AI or rewards.
+   const mobilePaintMinMs=denseBoss?(touchOrCompact?40:20):(touchOrCompact?29:0);
    // 60Hz-threshold filtering used to alias 75Hz monitors to ~37.5Hz:
    // each 13.3ms RAF failed a 14.7ms test, so only every OTHER refresh
    // was painted. Instead paint every native refresh up to ~100Hz; on
