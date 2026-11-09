@@ -1229,6 +1229,13 @@ function render(){
  if(!state.battle){movementModeId=null;if(tab==='combat')tab='map'}
  if(state.battle){tab='combat';showWorldIndex=false;showResourceInfo=false}
  renderHUD();
+ // HG42: nav position varies with resources, viewport and device rotation.
+ // Derive the management/Boss stage top from its ACTUAL lower edge rather than
+ // guessing 68/100/145px. Separate screen controls must never sit under tabs.
+ if(!state.battle&&tab!=='map'){
+  const navBottom=$('nav')?.getBoundingClientRect().bottom||96;
+  document.body.style.setProperty('--hg42-stage-top',Math.ceil(Math.max(55,navBottom+5))+'px');
+ }
  const popup=!!dispatchDraft||tab!=='map'&&tab!=='combat'||tab==='map'&&(showWorldIndex||showResourceInfo);
  const content=dispatchDraft?dispatchView():tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?hg408HeroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='boss'?bossView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
  if(popup){
