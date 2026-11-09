@@ -1,0 +1,71 @@
+name: HG43 40 troop encyclopedia and live tactical combat profiles
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'hg43-troop-profiles.js'
+      - 'hg40-tactical.js'
+      - 'app.js'
+      - 'style-hg03.css'
+      - 'index.html'
+      - 'build_offline.py'
+      - 'qa-hg43-troop-profiles.cjs'
+      - 'qa-hg43-troop-chrome.py'
+      - '.github/workflows/hg43-40-troop-profiles.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  profiles:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: HG43 engine-trait consistency and full combat regression
+        run: |
+          node --check hg43-troop-profiles.js
+          node --check app.js
+          node --check qa-hg43-troop-profiles.cjs
+          node qa-hg43-troop-profiles.cjs
+          node qa-hg40-tactical.cjs
+          node qa-hg42-boss-screens.cjs
+          node qa-hg410-overhaul.cjs
+          node qa-engine.cjs
+      - name: Build ONLY existing offline single HTML game (35 modules)
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Chromium 40 troop profiles PC, landscape and portrait phones
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python -m py_compile qa-hg43-troop-chrome.py qa-hg42-boss-chrome.py
+          python qa-hg43-troop-chrome.py
+          python qa-hg42-boss-chrome.py
+      - name: Evidence from actual UI/Save and all four viewports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG43-Troop-Profile-Combat-Real-QA
+          path: |
+            docs/qa/hg43/*.json
+            docs/evidence/hg43/*.png
+            docs/qa/hg42/*.json
+            docs/evidence/hg42/*.png
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: Deliver exactly one playable HG43 offline HTML
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG43-One-Playable-Offline-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error
