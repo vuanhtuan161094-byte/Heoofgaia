@@ -25,6 +25,7 @@ on:
       - 'qa-hg181-window-chrome.py'
       - 'qa-hg12-hero-tasks-chrome.py'
       - 'qa-hg11-human-heavy-animation-chrome.py'
+      - 'qa-hg145-combat-chrome.py'
       - 'painter.js'
       - 'style-hg03.css'
       - '.github/workflows/hg410-combat-overhaul.yml'
@@ -75,6 +76,10 @@ jobs:
           python qa-hg12-hero-tasks-chrome.py
           python -m py_compile qa-hg11-human-heavy-animation-chrome.py
           python qa-hg11-human-heavy-animation-chrome.py
+          # HG44-H receipt FX must follow actual impact timing, not a stale
+          # three-stack assumption; keep phone viewport and Save v07 coverage.
+          python -m py_compile qa-hg145-combat-chrome.py
+          python qa-hg145-combat-chrome.py
       - name: Upload focused engine and visual evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -91,6 +96,8 @@ jobs:
             docs/evidence/hg181/*.png
             docs/qa/hg12/hero-task-chrome.json
             docs/evidence/hg12/*.png
+            docs/qa/hg145/grid-hp-fx-chrome.json
+            docs/evidence/hg145/*.png
             docs/qa/hg33/*.json
             docs/evidence/hg33/H2-human-vanguard/*.png
             docs/evidence/hg33/H3-troop-atlases/*.png
