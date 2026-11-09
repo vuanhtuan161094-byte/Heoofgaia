@@ -6,6 +6,8 @@ const recruitDrafts=new Map();
 // Presentation-only: the phone can hide the command rail to give the map
 // the entire landscape viewport. This is not written into Save v07.
 let mapExpanded=false;
+// HG40.8: presentation-only hero selection; never stored inside Save v07.
+let hg408InspectId=null,hg408Tab='overview',hg408DismissFor=null,hg408DismissStage=0;
 const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -659,6 +661,95 @@ function equipmentBattleText(item){
  if(item.damageReduction)rows.push(`🛡 sát thương nhận -${Math.round(item.damageReduction*100)}%`);
  return rows.join(' · ');
 }
+function hg408HeroesView(){
+ const validTabs=[['overview','♛ Tổng quan'],['stats','📈 Thuộc tính'],['gear','🛡 Trang bị'],['ascend','✦ Nâng bậc'],['tavern','🍺 Tavern']];
+ if(!validTabs.some(q=>q[0]===hg408Tab))hg408Tab='overview';
+ let h=state.heroes.find(x=>x.id===hg408InspectId);
+ if(!h){h=state.heroes.find(x=>x.id===state.activeHero)||state.heroes[0];hg408InspectId=h.id;}
+ const qual=q=>E.hg408HeroQuality(q);
+ const color=q=>'hg408-quality-'+qual(q);
+ const role=E.hg20HeroRole(state,h.id),check=E.hg408DismissCheck(state,h.id);
+ const stats=E.heroStats(state,h.id);
+ const rank=h.heroRank||1,rebirth=h.rebirth||0,need=E.experienceToNext(h.level);
+ const expMax=need===null?1:Math.max(1,need),exp=need===null?1:Math.min(expMax,h.xp);
+ const cap=E.heroCountLimit(state.fame),slots=state.equipment[h.id]||{};
+ const available=!state.march&&!state.battle&&!E.heroAway(state,h.id);
+ let combatPower=null;
+ try{combatPower=E.hg20TowerPower(state,[h.id]).power}catch(_error){}
+ const roster=state.heroes.map(q=>{
+   const active=q.id===h.id,ready=E.hg20HeroRole(state,q.id);
+   return `<button type="button" data-action="hg408-inspect" data-id="${q.id}" class="hg408-roster-card ${active?'selected':''}" aria-pressed="${active}" title="${esc(ready.label)}">
+    <span class="hg408-mini-portrait" aria-hidden="true">♜</span><span class="hg408-roster-name"><b class="${color(q)}">${esc(q.name)}</b><small>Lv.${q.level} · B${q.heroRank||1} · ✧${q.rebirth||0}</small></span><span class="hg408-role-dot ${ready.status==='home'?'free':'busy'}" title="${esc(ready.label)}"></span>
+   </button>`;
+ }).join('');
+ const identity=`<div class="hg408-identity">
+    <div class="hg408-portrait" aria-hidden="true"><span>♜</span><small>${esc(C.races[state.race].english)}</small></div>
+    <div class="hg408-identity-main"><span class="hg408-eyebrow">HỒ SƠ TƯỚNG · ${esc(role.label)}</span>
+      <h2 class="${color(h)}">${esc(h.name)}</h2>
+      <div class="hg408-badges"><span>Lv ${h.level}/100</span><span>🔱 Bậc ${rank}/5</span><span>✦ Chuyển sinh ${rebirth}/5</span><span class="${color(h)}">${qual(h).toUpperCase()}</span></div>
+      <div class="hg408-exp"><span>EXP <b>${format(Math.floor(h.xp))}${need===null?' · MAX':' / '+format(need)}</b></span><progress max="${expMax}" value="${exp}"></progress></div>
+    </div>
+    <div class="hg408-power"><small>Chiến lực đội hình</small><strong>${combatPower===null?'—':format(combatPower)}</strong><small>${combatPower===null?'Chưa bố trí quân':'Chỉ số chiến đấu thực'}</small></div>
+   </div>`;
+ const statsGrid=`<div class="hg408-stats-grid">${[['atk','⚔','ATK'],['def','🛡','DEF'],['spd','➤','SPD'],['int','✧','INT']].map(([key,icon,label])=>`<div class="hg408-stat"><span>${icon} ${label}</span><strong>${Number(stats[key]).toLocaleString('vi-VN',{maximumFractionDigits:2})}</strong></div>`).join('')}</div>`;
+ const actions=`<div class="hg408-action-grid">
+    ${button('hero',{id:h.id},h.id===state.activeHero?'✓ Đang chỉ huy':'♛ Chọn chỉ huy',h.id===state.activeHero||h.id===state.castellan||!available,'small primary')}
+    ${button('castellan',{id:h.id},h.id===state.castellan?'Bỏ Castellan':'🏰 Bổ nhiệm',!available,'small secondary')}
+    ${button('recall',{id:h.id},'↩ Gọi về',!state.stationedHeroes?.some(q=>q.heroId===h.id)||!!state.march||!!state.battle||!!state.expedition,'small secondary')}
+    ${button('hg408-dismiss-review',{id:h.id},'✕ Sa thải',false,'small danger')}
+   </div>`;
+ let page='';
+ if(hg408Tab==='overview'){
+   page=statsGrid+actions+`<div class="hg408-note">Sức chỉ huy ${format(E.heroLimit(h.level))} điểm · ${role.status==='home'?'Có mặt ở thành':'Đang thực hiện nhiệm vụ'} · ${Object.keys(slots).length}/3 ô trang bị</div>
+     <details class="hg408-more"><summary>Chỉ số và tác động thực tế</summary><p>Chỉ số chiến đấu gồm thưởng trang bị và nâng bậc; sức mạnh đội hình chỉ hiển thị khi đã bố trí quân thật. Tướng đang giữ chức Castellan không thể đi chiến đấu.</p></details>`;
+ }else if(hg408Tab==='stats'){
+   page=statsGrid+`<div class="hg408-note">Điểm thuộc tính còn lại: <b>${h.statPoints||0}</b> · EXP từ chiến đấu, nhiệm vụ và huấn luyện</div>
+    <div class="hg408-point-actions">${[['atk','ATK'],['def','DEF'],['spd','SPD'],['int','INT']].map(([k,label])=>button('heropoint',{id:h.id,stat:k},'+1 '+label,!(h.statPoints>0)||!available,'small secondary')).join('')}</div>
+    <details class="hg408-more"><summary>Công thức và nguồn EXP</summary><p>Hero Tower Lv${E.heroTowerExperienceBonus(state)} tăng EXP cơ sở ${E.heroTowerExperienceBonus(state)}%; các nhiệm vụ và quái cấp cao vẫn sử dụng engine HG08/HG18.2. Chỉ số phân phối không thay đổi phẩm chất.</p></details>`;
+ }else if(hg408Tab==='gear'){
+   const equipped=[['weapon','⚔ Vũ khí'],['armor','🛡 Giáp'],['charm','◈ Phụ kiện']].map(([k,name])=>`<div class="hg408-slot"><b>${name}</b><span>${esc(slots[k]?itemName(slots[k]):'Trống')}</span>${slots[k]?button('hg408-unequip',{id:h.id,slot:k},'Tháo',!available,'small secondary'):''}</div>`).join('');
+   const inventory=state.inventory.map(i=>{
+     const def=E.ITEMS[i.itemId],wearer=Object.entries(state.equipment).find(([,equips])=>Object.values(equips).includes(i.uid))?.[0];
+     const usedHere=Number(wearer)===h.id;
+     return `<div class="hg408-item">
+       <div class="hg408-item-thumb">${E.hg31IconHTML?.(def.id,34)||ico(def.id,30)||def.icon||'⚔'}</div>
+       <div><b>${esc(def.name)} +${i.enhance||0}</b><small>${esc(def.slot)} · ATK +${def.atk||0} · DEF +${def.def||0} · SPD +${def.spd||0}</small><small>${wearer?'Đang mặc: '+esc(state.heroes.find(q=>String(q.id)===wearer)?.name||'?'):'Trong kho'}</small></div>
+       <div class="hg408-item-actions">${button('hg408-equip',{id:h.id,uid:i.uid},usedHere?'Đã mặc':'Mặc',!available||usedHere,'small secondary')}
+       ${button('hg18-enhance',{uid:i.uid},'+1',!available||(state.hg18.materials.enhance_stone||0)<2+2*(i.enhance||0)||state.res.gold<250*((i.enhance||0)+1)||(i.enhance||0)>=10,'small secondary')}</div>
+      </div>`;
+   }).join('');
+   page=`<div class="hg408-slots">${equipped}</div><div class="hg408-inventory">${inventory||'<p>Chưa có trang bị trong kho.</p>'}</div>`;
+ }else if(hg408Tab==='ascend'){
+   const mat=state.hg18.materials,spent=Object.values(h.spentAttributePoints||{}).reduce((a,b)=>a+b,0);
+   page=`<div class="hg408-ascend-grid"><div><span>🔱 BẬC HIỆN TẠI</span><strong>${rank}/5</strong><small>Mỗi bậc +2% chỉ số</small>${button('hg18-rank',{id:h.id},'Nâng bậc',!available||!mat.rank_emblem||rank>=5||h.level<rank*20,'small primary')}<small>Yêu cầu: Lv${rank*20} · ${mat.rank_emblem} Ấn còn lại</small></div>
+   <div><span>✦ CHUYỂN SINH</span><strong>${rebirth}/5</strong><small>+4% mỗi lần chuyển sinh</small>${button('hg18-rebirth',{id:h.id},'Chuyển sinh',!available||!mat.rebirth_core||h.level!==100||rebirth>=5||state.castellan===h.id,'small primary')}<small>Cần Lv100 và lõi: ${mat.rebirth_core} còn lại</small></div></div>
+   <div class="hg408-note">Thẻ tẩy ${mat.hero_reset} · điểm đã phân ${spent} · ${button('hg18-reset',{id:h.id},'Tẩy điểm',!available||!mat.hero_reset||!spent,'small secondary')}</div>`;
+ }else{
+   const arena=state.arenaQueue,wounded=Object.entries(state.wounded||{}).filter(([,v])=>v>0);
+   const cost=wounded.length&&!arena?E.arenaHealCost(state,wounded[0][0],wounded[0][1]):0;
+   page=`<div class="hg408-tavern-top"><b>🍺 Tavern Lv${state.buildings.tavern}</b><span>Danh vọng: ${state.heroes.length}/${cap} tướng</span><span>Làm mới: ${Math.ceil(state.tavern.remaining/state.speed)}s</span></div>
+    <div class="hg408-offers">${state.tavern.offers.map(o=>`<div class="hg408-offer"><div class="hg408-mini-portrait">♜</div><div><b class="${color(o)}">${esc(o.name)}</b><small>${qual(o).toUpperCase()} · ATK ${o.atk} · DEF ${o.def} · SPD ${o.spd} · INT ${o.int}</small></div>${button('hirecandidate',{id:o.id},format(o.gold)+' 🪙',state.heroes.length>=cap||!E.canAfford(state,{gold:o.gold}),'small primary')}</div>`).join('')||'<p>Chờ lượt làm mới Tavern.</p>'}</div>
+    <details class="hg408-more"><summary>⚕ Arena · điều trị thương binh ${wounded.reduce((a,[,v])=>a+v,0)} quân</summary>
+     ${arena?`<p>Đang điều trị ${arena.count} quân, còn ${Math.ceil(arena.remaining/state.speed)} giây thực.</p>`:'<p>Chữa thương bằng vàng theo giá trị quân.</p>'}
+     ${button('heal',{},arena?'Arena đang bận':'Điều trị '+format(cost)+' 🪙',!!arena||!wounded.length||!E.canAfford(state,{gold:cost}),'small primary')}</details>`;
+ }
+ if(hg408DismissFor===h.id&&hg408DismissStage>0){
+   const bad=check.reasons.map(reason=>`<li>${esc(reason)}</li>`).join('');
+   page+=`<section class="hg408-dismiss-dialog" role="alertdialog" aria-label="Xác nhận sa thải tướng">
+    <h3>⚠ ${hg408DismissStage===1?'Kiểm tra điều kiện sa thải':'Xác nhận sa thải vĩnh viễn'}</h3>
+    <p><b class="${color(h)}">${esc(h.name)}</b> · ${check.gear} món trang bị sẽ trở lại kho · ${check.plans} đội hình dự kiến được giải phóng. Không hoàn vàng, không trừ quân.</p>
+    ${bad?`<ul>${bad}</ul>`:'<p class="hg408-clear">Đã đáp ứng điều kiện an toàn. Số suất tướng sẽ giảm 1.</p>'}
+    <div class="hg408-dialog-actions">${button('hg408-dismiss-cancel',{},'Hủy',false,'small secondary')}
+    ${hg408DismissStage===1?button('hg408-dismiss-next',{id:h.id},'Bước 2: Xác nhận',!check.allowed,'small danger'):button('hg408-dismiss-apply',{id:h.id},'Xác nhận sa thải',!check.allowed,'small danger')}</div></section>`;
+ }
+ return `<section class="hg408-screen" aria-label="HG40.8 quản lý tướng thật">
+ <header class="hg408-summary"><b>♛ QUẢN LÝ TƯỚNG</b><span>${state.heroes.length}/${cap} suất theo danh vọng</span><span>${state.heroes.filter(q=>E.hg20HeroRole(state,q.id).status!=='home').length} tướng đang bận</span></header>
+ <div class="hg408-layout">
+  <aside class="hg408-roster"><div class="hg408-roster-head">DANH SÁCH <span>${state.heroes.length}</span></div><div class="hg408-roster-scroll">${roster}</div></aside>
+  <section class="hg408-profile">${identity}<nav class="hg408-tabs" aria-label="Chức năng tướng">${validTabs.map(([id,label])=>`<button type="button" data-action="hg408-tab" data-id="${id}" class="${hg408Tab===id?'active':''}" aria-pressed="${hg408Tab===id}">${label}</button>`).join('')}</nav>
+  <div class="hg408-panel">${page}</div></section>
+ </div></section>`;
+}
 function heroesView(){
  const h=state.heroes.find(x=>x.id===state.activeHero),stats=E.heroStats(state),eq=state.equipment[h.id]||{};
  const gear=Object.entries(E.ITEMS);
@@ -1044,7 +1135,7 @@ function render(){
  if(state.battle){tab='combat';showWorldIndex=false;showResourceInfo=false}
  renderHUD();
  const popup=!!dispatchDraft||tab!=='map'&&tab!=='combat'||tab==='map'&&(showWorldIndex||showResourceInfo);
- const content=dispatchDraft?dispatchView():tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?heroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
+ const content=dispatchDraft?dispatchView():tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?hg408HeroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
  if(popup){
   $('main').innerHTML=mapView();
   $('game-modal-title').textContent=dispatchDraft?'🚩 Chọn tướng & quân':showResourceInfo&&tab==='map'?'💰 Tài nguyên & kho':showWorldIndex&&tab==='map'?'📍 Danh sách điểm đến':tabs.find(x=>x[0]===tab)?.[1]||'Quản lý';
@@ -1121,6 +1212,14 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   return;
  }
  fail(()=>{
+ if(action==='hg408-inspect'){hg408InspectId=Number(target.dataset.id);hg408DismissFor=null;hg408DismissStage=0;return}
+ if(action==='hg408-tab'){hg408Tab=target.dataset.id;hg408DismissFor=null;hg408DismissStage=0;modalOffset=0;return}
+ if(action==='hg408-dismiss-review'){hg408InspectId=Number(target.dataset.id);hg408DismissFor=hg408InspectId;hg408DismissStage=1;return}
+ if(action==='hg408-dismiss-cancel'){hg408DismissFor=null;hg408DismissStage=0;return}
+ if(action==='hg408-dismiss-next'){if(!E.hg408DismissCheck(state,Number(target.dataset.id)).allowed)throw Error('Tướng không đủ điều kiện sa thải.');hg408DismissStage=2;return}
+ if(action==='hg408-dismiss-apply'){const result=E.hg408DismissHero(state,Number(target.dataset.id));hg408InspectId=result.activeHero;hg408DismissFor=null;hg408DismissStage=0;toast('Đã sa thải '+result.name+'; trang bị giữ nguyên trong kho.');return}
+ if(action==='hg408-equip'){E.equipItem(state,Number(target.dataset.uid),Number(target.dataset.id));return}
+ if(action==='hg408-unequip'){E.unequipItem(state,target.dataset.slot,Number(target.dataset.id));return}
  if(action==='modal-close'||action==='dispatch-close'){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;return}
  if(action==='dispatch-open'){
   const heroId=state.activeHero;if(!selected)throw Error('Chọn mục tiêu trên bản đồ trước.');
