@@ -1258,3 +1258,7 @@ body.hg39-world-map-mode .sidebar{display:none!important}
  .hg409-combat-boss{font-size:9px;padding:2px 5px}
  .hg409-target-preview,.hg409-tower-reward{font-size:10px;padding:3px 5px}
 }
+
+/* HG40.9 mobile: destination picker close must stay above the navigation rail.
+   Scope to world-index only, preserving in-modal tab navigation elsewhere. */
+body.window-open .game-modal:has(.game-window-body>.landmarks){z-index:80}
