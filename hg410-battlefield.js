@@ -56,9 +56,18 @@ function deploy(units,side,useSavedSlots){
 function prepare(s,b){
  const result=oldPrepare(s,b);
  if(!result||result.hg410?.v===1)return result;
- if(!['npc','treasure','tower'].includes(result.kind))return result;
+ if(!Array.isArray(result.enemies)||!result.enemies.length||!Array.isArray(result.allies))return result;
  const c=result.hg409EnemyCommander;
- if(!c||!Array.isArray(result.enemies)||!result.enemies.length)return result;
+ if(!c||!['npc','treasure','tower'].includes(result.kind)){
+  // Mine and AI castle garrisons are canonical real troops. Re-anchor every
+  // new battle without minting a single defender or modifying their stats.
+  deploy(result.allies,'player',!result.hg21Tower);
+  deploy(result.enemies,'enemy',false);
+  result.hg410={v:1,cs:0,boss:false,enemyStacks:result.enemies.length,
+   enemyTroops:result.enemies.reduce((sum,u)=>sum+u.count,0),
+   formation:'two-columns',ranged:[1,E.TACTICAL_RANGE.ranged,E.TACTICAL_RANGE.eliteRanged]};
+  return result;
+ }
  const boss=isBossBattle(result),cs=c.rebirth,desired=stackCount(result.kind,cs,boss);
  const original=result.enemies.slice();
  const rebuilt=[];
