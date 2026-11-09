@@ -1497,3 +1497,15 @@ body:not(.combat-mode).hg42-management-screen-open .hg39-map-dock{
   height:calc(100dvh - 103px)!important;
  }
 }
+
+/* HG42 final geometry: measured bottom of the actual responsive navigation
+ * is authoritative. No guessed y-position on 412x915 or 768x260, and no
+ * stacking-context tricks that block either the nav or the screen toolbar. */
+body:not(.combat-mode):is(.hg42-management-screen-open,.hg42-boss-screen-open) .game-modal{
+ padding-top:var(--hg42-stage-top,105px)!important;
+ padding-bottom:4px!important;
+ align-items:flex-start!important;
+}
+body:not(.combat-mode):is(.hg42-management-screen-open,.hg42-boss-screen-open) .game-window{
+ height:calc(100dvh - var(--hg42-stage-top,105px) - 5px)!important;
+}
