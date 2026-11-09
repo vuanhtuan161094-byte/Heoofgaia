@@ -104,7 +104,8 @@ try:
   earned_uid=page.evaluate("""() => HOG_APP_DEBUG.getState().inventory.find(i=>i.origin==='HG18 mission chest')?.uid??null""")
   check("Daily NPC mission yields an actual owned gear item",earned_uid is not None)
   page.locator('[data-action="tab"][data-tab="heroes"]').first.click()
-  page.locator(f'[data-action="equipitem"][data-uid="{earned_uid}"]').click()
+  page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
+  page.locator(f'[data-action="hg408-equip"][data-uid="{earned_uid}"]').click()
   page.locator(f'[data-action="hg18-enhance"][data-uid="{earned_uid}"]').click()
   check("Organic gear +1 spends two quest stones and is equipped",page.evaluate("""uid => {
     const s=HOG_APP_DEBUG.getState(),item=s.inventory.find(i=>i.uid===uid);
@@ -138,9 +139,10 @@ try:
     return ids.length===3&&new Set(ids).size===3&&s.hg18.materials.astral_shard===0;
   }"""))
   page.locator('[data-action="tab"][data-tab="heroes"]').first.click()
+  page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
   for item in ['astral_sword','astral_plate','astral_seal']:
    uid=page.evaluate("""id => HOG_APP_DEBUG.getState().inventory.find(i=>i.itemId===id).uid""",item)
-   page.locator(f'[data-action="equipitem"][data-uid="{uid}"]').click()
+   page.locator(f'[data-action="hg408-equip"][data-uid="{uid}"]').click()
   check("Set bonus is actually equipped through three Hero screen clicks",page.evaluate("""() => {
     const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
     return E.hg18SetCounts(s,s.activeHero).astral===3&&E.combatModifiers(s).damageBonus>=.07;
@@ -151,6 +153,7 @@ try:
     const s=HOG_APP_DEBUG.getState();
     return s.inventory.find(i=>i.uid===uid).enhance===1&&s.hg18.materials.enhance_stone===108;
   }""",target_uid))
+  page.locator('[data-action="hg408-tab"][data-id="ascend"]').click()
   page.locator('[data-action="hg18-rank"]').first.click()
   check("Rank card action raises Hero rank under Lv100",page.evaluate("HOG_APP_DEBUG.getState().heroes[0].heroRank===2"))
   page.once("dialog",lambda d:d.accept())
