@@ -250,10 +250,15 @@ try:
   # alone. Use the actual reset flow to isolate the next roster scenario,
   # rather than mutating the plan of a hero still on that legitimate march.
   page.on('dialog',lambda dialog:dialog.accept())
-  page.locator('#reset').click()
+  tools=page.locator('.hg42-screen-tool-menu')
+  check('Chơi lại remains reachable inside the visible HG42 management tools menu',tools.count()==1)
+  if not tools.evaluate('e=>e.open'):tools.locator('summary').click()
+  check('Chơi lại becomes visible after opening the actual tools menu',tools.locator('#reset').is_visible())
+  tools.locator('#reset').click()
   page.locator('[data-action="start"]').click()
   check('Fresh New Game begins at 60x speed',
     page.evaluate("HOG_APP_DEBUG.getState().speed===60"))
+  # The world map relocates control buttons into its visible HG39 dock.
   page.locator('#speed').click()
   check('Real speed control sets the fresh joint-roster scenario to 1x',
     page.evaluate("HOG_APP_DEBUG.getState().speed===1"))
@@ -311,6 +316,10 @@ try:
       return !!s.march&&s.march.phase==='outbound'&&a.length===6&&
         new Set(a.map(g=>g.hg261HeroId)).size===3&&HOG_ENGINE.strictSave(s);
     }"""))
+  # The Army modal relocates the very same #speed into the HG42 tools fold.
+  # Open that real visible menu; never force-click the hidden legacy node.
+  tools=page.locator('.hg42-screen-tool-menu')
+  if tools.count() and not tools.evaluate('e=>e.open'):tools.locator('summary').click()
   page.locator('#speed').click()
   check('The real speed control returns the outbound march to 60x for bounded browser QA',
     page.evaluate("HOG_APP_DEBUG.getState().speed===60"))
