@@ -1478,5 +1478,5 @@ window.addEventListener('resize',()=>{if(!state?.battle&&$('world-canvas')){pain
 // Single deadline-aware auto scheduler; the economy tick above never resolves battle turns.
 setInterval(resolveAutomaticBattleTurn,120);
 setInterval(save,10000);window.addEventListener('pagehide',save);
-window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),battleRenderStride,render,save,resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
+window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),battleRenderStride,render,save,showCombatForTests:()=>{if(!state?.battle)throw Error('No live battle');tab='combat';render()},resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
 })();
