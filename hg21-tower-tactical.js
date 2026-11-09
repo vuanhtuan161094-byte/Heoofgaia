@@ -70,7 +70,7 @@ function readiness(s){
    const groups=r.slots.map(i=>formation[i]);
    const hero=s.heroes.find(h=>h.id===r.heroId);
    if(!hero)throw Error('Không tìm thấy tướng');
-   if(E.formationPoints(s,groups)>E.heroLimit(hero.level))
+   if(E.formationPoints(s,groups)>E.heroLimit(hero.level,hero))
     throw Error(hero.name+' vượt sức chỉ huy; cần chia lại quân');
    for(const g of groups){
     if(!g||!Number.isSafeInteger(g.count)||g.count<1)throw Error('Đội quân không hợp lệ');
@@ -99,7 +99,7 @@ function autoAssign(s){
   if(!hero||E.hg20HeroRole(staging,id).status!=='home')
    throw Error('Tướng đang bận, không thể tự phân quân');
   const reserved=E.hg20Reservations(staging,id),share=missing.length-i;
-  let freePoints=E.heroLimit(hero.level);
+  let freePoints=E.heroLimit(hero.level,hero);
   const groups=[];
   const list=E.arrUnits(staging).filter(u=>(staging.army[u.id]||0)>(reserved[u.id]||0))
    .sort((a,b)=>b.tier-a.tier||b.atk-a.atk);
