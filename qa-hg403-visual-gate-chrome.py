@@ -99,7 +99,10 @@ with sync_playwright() as pw:
               range:E.unitTacticalRange(unit),count:12,initial:12,
               pool:unit.hp*12,slot:0,x:1,y:4};
             const enemy=(eid,x,y)=>({id:eid,unitId:null,name:'Durable enemy',
-              side:'enemy',hp:100000,atk:0,def:30,spd:1,
+              // Low-DEF but high-HP target: HG40.9 purple enemy commander now
+              // raises real DEF. Visual impact gate must observe a nonzero hit
+              // from every low-tier troop; balance difficulty is audited separately.
+              side:'enemy',hp:100000,atk:0,def:8,spd:1,
               range:1,count:1000,initial:1000,pool:100000000,x,y});
             const b={target:npctile.key,kind:'npc',level:1,name:'Visual gate',turn:1,
               order:'attack',orders:{},focused:null,selected:'p0',autoUntil:1000000,
