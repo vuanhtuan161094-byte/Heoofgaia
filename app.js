@@ -1350,7 +1350,10 @@ $('app').addEventListener('change',evt=>{
  field.value=count?String(count):'0';syncDispatchDraftUI();
 });
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
- if(action==='modal-page'){const body=$('game-modal-body');const dir=Number(target.dataset.dir)||1;body.scrollTop=Math.max(0,Math.min(body.scrollHeight-body.clientHeight,body.scrollTop+dir*body.clientHeight*.86));modalOffset=body.scrollTop;return;}
+ if(action==='modal-page'){
+  // A half-window step preserves full visibility of neighboring troop artwork
+  // (T9/T10 on compact 960x540) instead of jumping past their shared row.
+  const body=$('game-modal-body');const dir=Number(target.dataset.dir)||1;body.scrollTop=Math.max(0,Math.min(body.scrollHeight-body.clientHeight,body.scrollTop+dir*body.clientHeight*.45));modalOffset=body.scrollTop;return;}
  if(action==='modal-backdrop'){if(evt.target===target){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;render();}return;}
  if(action==='recruit-max'){
   const id=target.dataset.id,qty=E.recruitMax(state,id),input=$('q_'+id);
