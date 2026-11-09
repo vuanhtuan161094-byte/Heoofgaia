@@ -1272,3 +1272,111 @@ body:not(.combat-mode) .game-modal:has(.game-window-body>.landmarks){
 /* HG41 mass-army HUD: consistent readable compact tactical overlay. */
 .hg410-combat-army{display:block;padding:4px 7px;border:1px solid #75807a;border-radius:5px;background:#1e332f;color:#d2e9dd;font:10px/1.3 system-ui,sans-serif}
 @media(max-height:440px) and (orientation:landscape){.hg410-combat-army{font-size:9px;padding:2px 5px}}
+
+/* HG42 — independent Boss screens + one-dimensional, readable screen navigation.
+ * No extra iframe, HTML game, screen-scaled map, or Save fields.
+ * Keep every existing [data-action=tab] reachable at all viewport sizes. */
+body:not(.combat-mode) #nav.tabs{overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin;scrollbar-color:#8f7e57 #142930;scroll-snap-type:x proximity;overscroll-behavior-x:contain}
+body:not(.combat-mode) #nav.tabs button{flex:0 0 clamp(91px,8.5vw,139px)!important;min-width:0;scroll-snap-align:start;white-space:nowrap!important;text-overflow:ellipsis;overflow:hidden}
+body:not(.combat-mode) #nav.tabs button[aria-current="page"]{box-shadow:inset 0 -3px #ffe4ae}
+@media(max-width:950px){
+ body:not(.combat-mode) #nav.tabs{display:flex!important;grid-template-columns:none!important;gap:3px!important}
+ body:not(.combat-mode) #nav.tabs button{flex-basis:76px!important;font-size:10px!important;min-height:28px!important;padding:3px 4px!important}
+}
+@media(max-height:370px) and (orientation:landscape){
+ body:not(.combat-mode) #nav.tabs{height:29px!important;min-height:29px!important}
+ body:not(.combat-mode) #nav.tabs button{min-height:27px!important}
+}
+body:not(.combat-mode).hg42-boss-screen-open .game-modal{
+ padding:103px 8px 4px!important;
+ align-items:flex-start!important;
+ background:#0c1d25!important;
+}
+body:not(.combat-mode).hg42-boss-screen-open .game-window{
+ width:min(1500px,calc(100vw - 16px))!important;
+ height:calc(100dvh - 108px)!important;
+ max-height:none!important;
+ border-radius:6px;
+ box-shadow:none;
+}
+body:not(.combat-mode).hg42-boss-screen-open .game-window-head{
+ flex:0 0 37px!important;padding:3px 10px!important;
+}
+body:not(.combat-mode).hg42-boss-screen-open .game-window-footer{display:none!important}
+body:not(.combat-mode).hg42-boss-screen-open .game-window-body{
+ overflow:hidden!important;padding:5px 8px!important;
+ display:flex;flex-direction:column;min-height:0;
+}
+.hg28-tab-boss{display:flex;flex:1;min-height:0;min-width:0}
+.hg42-boss-page{display:flex;flex-direction:column;gap:6px;width:100%;height:100%;min-height:0;color:#e5ebe4;font:12px/1.4 system-ui,'Segoe UI',sans-serif}
+.hg42-boss-page *{box-sizing:border-box;min-width:0}
+.hg42-boss-page-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:4px 8px;background:linear-gradient(95deg,#263b45,#1a3038);border:1px solid #63767b;border-radius:6px}
+.hg42-boss-page-head h1{font:700 21px/1 Georgia,serif;color:#ffe2a3;margin:2px 0!important}
+.hg42-boss-page-head .eyebrow{font-size:9px;color:#cdbf9d}
+.hg42-boss-summary{display:flex;flex-direction:column;align-items:end}
+.hg42-boss-summary b{color:#f5ddad;font-size:13px}
+.hg42-boss-summary small{color:#a8bdb9;font-size:10px}
+.hg42-boss-subnav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px;flex:0 0 auto}
+.hg42-boss-subnav button{min-height:37px!important;padding:6px!important;font-size:12px!important}
+.hg42-boss-content{flex:1;min-height:0;overflow-y:auto;overflow-x:hidden;overscroll-behavior:contain;scrollbar-width:thin;padding:1px 3px 4px}
+.hg42-boss-select{display:flex;flex-direction:column;gap:7px;min-height:0}
+.hg42-boss-select>p{margin:0;color:#b8d0c9;font-size:11px}
+.hg42-boss-tiers{display:flex;flex-wrap:wrap;gap:6px}
+.hg42-boss-tiers button{min-width:115px;font-weight:800}
+.hg42-boss-targets{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,335px),1fr));gap:8px;align-items:start}
+.hg42-boss-target{display:flex;flex-direction:column;gap:7px;padding:11px;border:1px solid #897153;border-radius:8px;background:linear-gradient(145deg,#31404b,#1b2c35);box-shadow:inset 0 1px #ffffff14}
+.hg42-boss-target header{display:flex;align-items:center;gap:9px}
+.hg42-boss-target header>div:nth-child(2){display:flex;flex:1;flex-direction:column;gap:2px}
+.hg42-boss-target header strong{font:700 17px Georgia,serif;color:#f7deb3}
+.hg42-boss-target header small{font-size:10px;color:#b7c8c6}
+.hg42-boss-emblem{display:grid;place-items:center;width:46px;height:46px;flex:0 0 46px;background:#47303b;border:1px solid #b98d72;border-radius:9px;font-size:31px}
+.hg42-boss-stage{padding:4px 7px;background:#473353;border:1px solid #c99ee1;border-radius:6px;color:#efd2fa;font-size:13px;font-weight:800}
+.hg42-boss-threat{font-size:11px;color:#dfb9f1}
+.hg42-boss-payout{display:flex;flex-direction:column;gap:3px;padding:6px 8px;background:#173737;border:1px solid #3c6c65;border-radius:5px}
+.hg42-boss-payout b{font-size:10px;color:#e7dbaf}.hg42-boss-payout span{font-size:11px;color:#bce7cb}
+.hg42-boss-detail{font-size:10px!important;color:#b6c7c6!important;margin:0!important}
+.hg42-boss-buttons{display:flex;flex-wrap:wrap;gap:6px}
+.hg42-boss-buttons button{flex:1;min-height:34px}
+.hg42-boss-hunt{display:flex;flex-direction:column;gap:6px;min-height:0}
+.hg42-boss-running{padding:7px 10px;border:1px solid #8e9e6d;background:#2b3b34;border-radius:6px;color:#d8e6b9}
+.hg42-boss-running.idle{border-color:#617c84;background:#22323e;color:#bacad7}
+.hg42-boss-hunt-layout>.hg26-autohunt{margin:0;max-width:none}
+.hg42-boss-hunt-layout .card{padding:7px}
+.hg42-boss-hunt-layout :is(h2,h3){font-family:system-ui!important;margin:3px 0 6px!important}
+.hg42-boss-hunt-layout .hg26-autohunt>.hint{font-size:10px}
+.hg42-boss-hunt-layout .hg26-autohunt .grid{gap:5px}
+.hg42-boss-hunt-layout .hg26-autohunt input,.hg42-boss-hunt-layout .hg26-autohunt select{max-width:100%;font-size:11px;min-height:29px}
+.hg42-boss-reward-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.hg42-reward-tier{padding:9px;border:1px solid #8b795d;background:#233842;border-radius:7px}
+.hg42-reward-tier h3{font:700 16px Georgia,serif;color:#f4d6b3;margin:0 0 5px}
+.hg42-reward-gold{font-size:18px;font-weight:800;color:#f9d88e}
+.hg42-reward-tier p{font-size:10px;color:#c4d8cd;margin:5px 0}
+.hg42-reward-items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.hg42-reward-item{display:flex;justify-content:space-between;gap:5px;font-size:10px;border:1px solid #4a7473;border-radius:4px;padding:5px;background:#1b3039}
+.hg42-reward-item b{overflow-wrap:anywhere;color:#d7dfbe}
+.hg42-reward-item span{color:#ffe2aa;font-weight:800}
+.hg42-boss-receipts{margin-top:9px;padding:8px;background:#1b3037;border:1px solid #536a71;border-radius:7px}
+.hg42-boss-receipts h3{font-size:14px;margin:0 0 6px}
+.hg42-boss-receipts>div{display:flex;justify-content:space-between;gap:8px;border-top:1px solid #40565c;padding:5px 0}
+.hg42-boss-receipts small{color:#a9c5c5}
+@media(max-width:730px){
+ .hg42-boss-reward-grid{grid-template-columns:1fr}
+ .hg42-boss-subnav button{font-size:10px!important;padding:4px!important;min-height:30px!important}
+ .hg42-boss-page-head h1{font-size:17px}
+ .hg42-boss-summary small{display:none}
+}
+@media(max-height:440px) and (orientation:landscape){
+ body:not(.combat-mode).hg42-boss-screen-open .game-modal{padding:68px 2px 2px!important}
+ body:not(.combat-mode).hg42-boss-screen-open .game-window{width:calc(100vw - 4px)!important;height:calc(100dvh - 70px)!important}
+ body:not(.combat-mode).hg42-boss-screen-open .game-window-head{flex-basis:25px!important;padding:1px 7px!important}
+ body:not(.combat-mode).hg42-boss-screen-open .game-window-head h2{font-size:12px!important}
+ body:not(.combat-mode).hg42-boss-screen-open .game-window-body{padding:2px 4px!important}
+ .hg42-boss-page{gap:3px}.hg42-boss-page-head{padding:2px 6px}
+ .hg42-boss-page-head h1{font-size:16px}
+ .hg42-boss-subnav button{min-height:24px!important;padding:2px 4px!important;font-size:10px!important}
+ .hg42-boss-select{gap:3px}
+ .hg42-boss-target{padding:6px;gap:3px}
+ .hg42-boss-target header strong{font-size:13px}
+ .hg42-boss-emblem{width:29px;height:29px;flex-basis:29px;font-size:18px}
+ .hg42-boss-buttons button{min-height:27px;font-size:10px!important;padding:3px 5px!important}
+}
