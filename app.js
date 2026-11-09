@@ -19,6 +19,33 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const format=E.fmt;
 const hg408QualityClass=h=>'hg408-quality-'+E.hg408HeroQuality(h);
 const hg408HeroNameHTML=h=>h?'<span class="'+hg408QualityClass(h)+'">'+esc(h.name)+'</span>':'Chưa có tướng';
+// HG45.1: original vector hero portrait, drawn inside the actual hero cards.
+// Unique hair/crown silhouette is stable per hero; rarity changes the frame
+// and magical aura, not the face or troop art. No assets/network/extra HTML.
+function hg45Portrait(hero){
+ const name=String(hero?.name||''),hash=[...name].reduce((n,c)=>Math.imul(n,33)+c.charCodeAt(0)|0,hero?.id||0)>>>0;
+ const hair=hash%3,crest=(hash>>>3)%3,rare=E.hg408HeroQuality(hero);
+ const crown=crest===0?'<path class="hg45-crest" d="M24 32l-5-13 14 7 7-16 7 16 14-7-5 13Z"/>':
+  crest===1?'<path class="hg45-crest" d="M20 33l8-18 12 11 12-11 8 18-10-5-10 5-10-5Z"/>':
+  '<path class="hg45-crest" d="M28 30L22 12l18 12 18-12-6 18Z"/>';
+ const fringe=hair===0?'<path class="hg45-hair" d="M22 34Q21 11 41 14Q62 16 60 35L49 30 44 22 34 31 27 27Z"/>':
+  hair===1?'<path class="hg45-hair" d="M18 32Q17 10 40 13Q66 10 62 35L50 27 45 32 35 23 27 34Z"/>':
+  '<path class="hg45-hair" d="M21 37Q17 17 30 14Q42 6 54 16Q67 22 58 37L45 27 34 35 28 25Z"/>';
+ return '<span class="hg45-portrait-art hg45-portrait-'+rare+'" aria-hidden="true"><span class="hg45-portrait-aura"></span>'+
+  '<svg viewBox="0 0 80 94" width="100%" height="100%" focusable="false" aria-hidden="true" preserveAspectRatio="xMidYMid meet">'+
+  '<path class="hg45-cloak" d="M2 90Q9 58 27 60L52 60Q70 61 78 90Z"/>'+
+  '<path class="hg45-armor" d="M16 90L22 65 34 60 40 72 46 60 59 65 66 90Z"/>'+
+  '<path class="hg45-neck" d="M35 56h10v12H35z"/>'+
+  '<path class="hg45-face" d="M25 30Q29 22 40 22Q55 23 56 36L54 54Q50 65 40 65Q29 64 26 52Z"/>'+
+  '<path class="hg45-ear" d="M25 43l-4-6v13l5 3M55 43l4-6v13l-5 3"/>'+
+  fringe+crown+
+  '<path class="hg45-mask" d="M27 48l13 5 13-5-3 9-10 6-10-6Z"/>'+
+  '<path class="hg45-eye" d="M30 42l8 2-8 2ZM42 44l8-2-1 4Z"/>'+
+  '<path class="hg45-armor-trim" d="M20 70l12 3 8 16 8-16 12-3M40 71v18"/>'+
+  '<path class="hg45-emblem" d="M40 67l5 8-5 8-5-8Z"/>'+
+  '</svg><span class="hg45-portrait-stars"></span></span>';
+}
+
 const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=1350;
 let battleAutoPulseBusy=false;
 let focusArmyRecruitOnOpen=false; // New Army-tab entry goes to actionable recruitment, not passive text.
@@ -755,6 +782,7 @@ function hg408HeroesView(){
  const tier=q=>E.hg408HeroQualityInfo(q);
  const qualityGlyph=q=>({white:'♜',blue:'♞',yellow:'♛',green:'✣',purple:'✦',platinum:'✧',rainbow:'✺'})[qual(q)]||'♜';
  const chances=E.heroQualityChances(state.buildings.tavern||1);
+ const total=q=>E.heroInnateTotal(q);
  const rankEmblem=x=>['','◆','✦','❖','✺','♛'][Math.max(1,Math.min(5,x||1))];
  const color=q=>'hg408-quality-'+qual(q);
  const role=E.hg20HeroRole(state,h.id),check=E.hg408DismissCheck(state,h.id);
@@ -768,15 +796,15 @@ function hg408HeroesView(){
  const roster=state.heroes.map(q=>{
    const active=q.id===h.id,ready=E.hg20HeroRole(state,q.id);
    return `<button type="button" data-action="hg408-inspect" data-id="${q.id}" class="hg408-roster-card ${active?'selected':''}" aria-pressed="${active}" title="${esc(ready.label)}">
-    <span class="hg408-mini-portrait ${color(q)}" aria-hidden="true">${qualityGlyph(q)}</span><span class="hg408-roster-name"><b class="${color(q)}">${esc(q.name)}</b><small>${esc(tier(q).label)} · Lv.${q.level} · ${rankEmblem(q.heroRank)} B${q.heroRank||1}</small></span><span class="hg408-role-dot ${ready.status==='home'?'free':'busy'}" title="${esc(ready.label)}"></span>
+    <span class="hg408-mini-portrait ${color(q)}" aria-hidden="true">${hg45Portrait(q)}</span><span class="hg408-roster-name"><b class="${color(q)}">${esc(q.name)}</b><small>${esc(tier(q).label)} · Σ ${format(total(q))} · Lv.${q.level}</small></span><span class="hg408-role-dot ${ready.status==='home'?'free':'busy'}" title="${esc(ready.label)}"></span>
    </button>`;
  }).join('');
- const qualityLegend=`<section class="hg45-quality-legend" aria-label="Bảy phẩm chất tướng"><b>THẺ PHẨM CHẤT</b><div>${E.HERO_QUALITY_V2.map(q=>`<span class="hg45-legend-chip hg408-quality-${q.id}" title="${esc(q.buff)}">${esc(q.label)}</span>`).join('')}</div><small>Tướng phẩm cao có chỉ số nền và thiên phú mạnh hơn.</small></section>`;
+ const qualityLegend=`<section class="hg45-quality-legend" aria-label="Bảy phẩm chất tướng"><b>THẺ PHẨM CHẤT</b><div>${E.HERO_QUALITY_V2.map(q=>`<span class="hg45-legend-chip hg408-quality-${q.id}" title="${esc(q.buff)}">${esc(q.label)}</span>`).join('')}</div><small>Phẩm chất do tổng 4 chỉ số gốc quyết định, không do trang bị/cấp.</small></section>`;
  const identity=`<div class="hg408-identity">
-    <div class="hg408-portrait ${color(h)}" aria-hidden="true"><span>${qualityGlyph(h)}</span><small>${esc(tier(h).label)}</small></div>
+    <div class="hg408-portrait ${color(h)}" aria-hidden="true">${hg45Portrait(h)}<small>${esc(tier(h).label)}</small></div>
     <div class="hg408-identity-main"><span class="hg408-eyebrow">HỒ SƠ TƯỚNG · ${esc(role.label)}</span>
       <h2 class="${color(h)}">${esc(h.name)}</h2>
-      <div class="hg408-badges"><span>Lv ${h.level}/100</span><span>${rankEmblem(rank)} Bậc ${rank}/5</span><span>✦ Chuyển sinh ${rebirth}/5</span><span class="${color(h)}">${esc(tier(h).label)}</span></div><div class="hg45-hero-buff ${color(h)}">✦ ${esc(tier(h).buff)}</div>
+      <div class="hg408-badges"><span>Lv ${h.level}/100</span><span>${rankEmblem(rank)} Bậc ${rank}/5</span><span>✦ Chuyển sinh ${rebirth}/5</span><span class="${color(h)}">${esc(tier(h).label)}</span><span>Σ ${format(total(h))} điểm gốc</span></div><div class="hg45-hero-buff ${color(h)}">✦ ${esc(tier(h).buff)}</div>
       <div class="hg408-exp"><span>EXP <b>${format(Math.floor(h.xp))}${need===null?' · MAX':' / '+format(need)}</b></span><progress max="${expMax}" value="${exp}"></progress></div>
     </div>
     <div class="hg408-power"><small>Chiến lực đội hình</small><strong>${combatPower===null?'—':format(combatPower)}</strong><small>${combatPower===null?'Chưa bố trí quân':'Chỉ số chiến đấu thực'}</small></div>
@@ -818,8 +846,8 @@ function hg408HeroesView(){
    const arena=state.arenaQueue,wounded=Object.entries(state.wounded||{}).filter(([,v])=>v>0);
    const cost=wounded.length&&!arena?E.arenaHealCost(state,wounded[0][0],wounded[0][1]):0;
    page=`<div class="hg408-tavern-top"><b>🍺 Tavern Lv${state.buildings.tavern}</b><span>Danh vọng: ${state.heroes.length}/${cap} tướng</span><span>Làm mới: ${Math.ceil(state.tavern.remaining/state.speed)}s</span></div><div class="hg45-rate-bar"><span class="hg408-quality-purple">✦ Tím ${chances[4]}%</span><span class="hg408-quality-platinum">✧ Bạch Kim ${chances[5]}%</span><span class="hg408-quality-rainbow">✺ Cầu Vồng ${chances[6]}%</span></div>
-    <div class="hg408-offers">${state.tavern.offers.map(o=>`<div class="hg408-offer hg45-tier-${qual(o)}"><div class="hg408-mini-portrait ${color(o)}">${qualityGlyph(o)}</div><div class="hg45-offer-info"><b class="${color(o)}">${esc(o.name)} <span class="hg45-tier-tag">${esc(tier(o).label)}</span></b><small>ATK ${o.atk} · DEF ${o.def} · SPD ${o.spd} · INT ${o.int} · Tổng ${o.heroValue}</small><small class="hg45-offer-buff">✦ ${esc(tier(o).buff)}</small></div>${button('hirecandidate',{id:o.id},format(o.gold)+' 🪙',state.heroes.length>=cap||!E.canAfford(state,{gold:o.gold}),'small primary')}</div>`).join('')||'<p>Chờ lượt làm mới Tavern.</p>'}</div>
-    <details class="hg408-more"><summary>ⓘ Xác suất & sức mạnh theo phẩm chất</summary><p>Mô hình HG45 riêng của game, không phải tỷ lệ server năm 2009. ${E.HERO_QUALITY_V2.map((q,i)=>esc(q.label)+' '+chances[i]+'% (chỉ số gốc '+q.min+'–'+q.max+'/thuộc tính)').join(' · ')}. Tăng phẩm chất chỉ khi Tavern làm mới hoặc chiêu mộ tướng mới; tướng đã sở hữu giữ nguyên phẩm chất và điểm gốc.</p></details>
+    <div class="hg408-offers">${state.tavern.offers.map(o=>`<div class="hg408-offer hg45-tier-${qual(o)}"><div class="hg408-mini-portrait ${color(o)}">${hg45Portrait(o)}</div><div class="hg45-offer-info"><b class="${color(o)}">${esc(o.name)} <span class="hg45-tier-tag">${esc(tier(o).label)}</span></b><small>ATK ${o.atk} · DEF ${o.def} · SPD ${o.spd} · INT ${o.int} · Σ ${format(total(o))}</small><small class="hg45-offer-buff">✦ ${esc(tier(o).buff)}</small></div>${button('hirecandidate',{id:o.id},format(o.gold)+' 🪙',state.heroes.length>=cap||!E.canAfford(state,{gold:o.gold}),'small primary')}</div>`).join('')||'<p>Chờ lượt làm mới Tavern.</p>'}</div>
+    <details class="hg408-more"><summary>ⓘ Xác suất & sức mạnh theo phẩm chất</summary><p>Mô hình HG45 riêng của game, không phải tỷ lệ server năm 2009. ${E.HERO_QUALITY_V2.map((q,i)=>esc(q.label)+' '+chances[i]+'% (tổng điểm '+q.totalMin+'–'+q.totalMax+')').join(' · ')}. Phẩm chất của ứng viên HG45.1 tính theo tổng 4 chỉ số nền. Khi lên cấp, phân điểm, mặc đồ hoặc chuyển sinh không đổi phẩm chất; tướng cũ giữ dữ liệu đã tuyển.</p></details>
     <details class="hg408-more"><summary>⚕ Arena · điều trị thương binh ${wounded.reduce((a,[,v])=>a+v,0)} quân</summary>
      ${arena?`<p>Đang điều trị ${arena.count} quân, còn ${Math.ceil(arena.remaining/state.speed)} giây thực.</p>`:'<p>Chữa thương bằng vàng theo giá trị quân.</p>'}
      ${button('heal',{},arena?'Arena đang bận':'Điều trị '+format(cost)+' 🪙',!!arena||!wounded.length||!E.canAfford(state,{gold:cost}),'small primary')}</details>`;
