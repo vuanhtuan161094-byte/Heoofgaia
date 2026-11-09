@@ -72,6 +72,26 @@ with sync_playwright() as pw:
   page.evaluate("() => HOG_APP_DEBUG.showCombatForTests()")
   check(label+" genuine combat canvas and 2-column army HUD",page.locator("#battle-canvas").count()==1 and page.locator(".hg410-combat-army").count()==1)
   shot(page,label+"-actual-deployed-battle")
+  # Stress the actual 16-stack T13 Boss layout on both viewport sizes.
+  # This opens an engine-created battle; it does not grant victory/loot.
+  boss=page.evaluate("""() => {
+   const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,P=HOG_PAINTER;
+   const t=E.TILES.find(x=>x.kind==='npc'&&x.eliteTier===13);
+   s.battle=E.makeBattle(s,t.key);s.battle.autoUntil=Date.now()+3600000;
+   HOG_APP_DEBUG.showCombatForTests();
+   const b=s.battle,canvas=document.getElementById('battle-canvas'),
+    cam=P.battleProjection(canvas,E),
+    units=[...b.allies,...b.enemies];
+   return {count:b.enemies.length,force:b.hg410.enemyTroops,
+    distinct:new Set(units.map(u=>u.x+','+u.y)).size===units.length,
+    anchors:units.every(u=>u.side==='player'?u.x<=1:u.x>=10),
+    footlock:units.every(u=>{const pt=cam.center(u.x,u.y);
+      const cell=P.battleCellAt(canvas,pt.x,pt.y,E);
+      return cell?.x===u.x&&cell?.y===u.y}),
+    save:E.strictSave(s),visible:!!canvas};
+  }""")
+  check(label+" real T13 Boss has 16 stacks, exact footprint and Save v07",boss["count"]==16 and boss["force"]>100000 and boss["distinct"] and boss["anchors"] and boss["footlock"] and boss["save"] and boss["visible"],boss)
+  shot(page,label+"-real-16-stack-boss")
   check(label+" no browser JS exceptions",not [x for x in errors if x["viewport"]==label],errors)
   ctx.close()
  browser.close()
