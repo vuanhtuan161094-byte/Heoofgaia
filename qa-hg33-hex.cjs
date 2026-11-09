@@ -25,14 +25,13 @@ const oldReach={ranged:0,eliteRanged:0},newReach={ranged:0,eliteRanged:0},all=G.
 for(let y=0;y<G.rows;y++)for(let x=0;x<G.cols;x++)for(let yy=0;yy<G.rows;yy++)for(let xx=0;xx<G.cols;xx++){
  const a={x,y},b={x:xx,y:yy},man=Math.abs(x-xx)+Math.abs(y-yy),hex=H.distance(a,b);
  if(man<=11)oldReach.ranged++;if(man<=12)oldReach.eliteRanged++;
- if(hex<=9)newReach.ranged++;if(hex<=10)newReach.eliteRanged++;
+ if(hex<=E.TACTICAL_RANGE.ranged)newReach.ranged++;if(hex<=E.TACTICAL_RANGE.eliteRanged)newReach.eliteRanged++;
 }
 assert.deepEqual(oldReach,{ranged:10344,eliteRanged:10824});
-assert.deepEqual(newReach,{ranged:10298,eliteRanged:10862});
-assert.deepEqual({...E.TACTICAL_RANGE},{melee:1,ranged:9,eliteRanged:10});
-assert(Math.abs(newReach.ranged-oldReach.ranged)/oldReach.ranged<.005);
-assert(Math.abs(newReach.eliteRanged-oldReach.eliteRanged)/oldReach.eliteRanged<.005);
-pass("modeled ranged reach stays within 0.5% of prior all-cell reach counts; values remain SIMULATED");
+assert.deepEqual({...E.TACTICAL_RANGE},{melee:1,ranged:4,eliteRanged:5});
+assert(newReach.ranged>0&&newReach.eliteRanged>newReach.ranged);
+assert(newReach.ranged<oldReach.ranged&&newReach.eliteRanged<oldReach.eliteRanged);
+pass("HG41: shorter 4/5-cell ranged reach is genuinely narrower than obsolete 9/10; Save v07 geometry unchanged");
 
 for(const dims of [{width:1176,height:550},{width:930,height:320},{width:1250,height:500}]){
  const cam=P.battleProjection(dims,E),cells=P.battleGridCells(cam),bounds={l:Infinity,t:Infinity,r:-Infinity,b:-Infinity};
