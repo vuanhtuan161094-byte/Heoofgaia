@@ -51,6 +51,8 @@ jobs:
           node qa-hg40-tactical.cjs
           node --check qa-hg403-presentation.cjs
           node qa-hg403-presentation.cjs
+          node --check qa-hg407-combat-presentation.cjs
+          node qa-hg407-combat-presentation.cjs
           node qa-engine.cjs
           node --check qa-hg39-engine.cjs
           node qa-hg39-engine.cjs
