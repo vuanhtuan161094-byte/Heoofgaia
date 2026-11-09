@@ -1030,7 +1030,7 @@ function combatView(){
  const movementHint=movementModeId?'Chọn ô lục giác viền sáng để đặt điểm đến.':selectedMoveTarget?`Đang tiến tới ô (${selectedMoveTarget.x+1}, ${selectedMoveTarget.y+1}).`:'Chọn quân ta trên bàn cờ rồi đặt điểm đến.';
  const autoLabel=state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`;
  const enemyCS=b.hg409EnemyCommander,enemyCSInfo=enemyCS?'<div class="hg409-combat-boss"><b class="hg408-quality-purple">♜ '+esc(enemyCS.name)+' · TÍM Lv100 · B5 · CS'+enemyCS.cs+'/10</b><span>ATK/DEF/SPD/INT 100/100/100/100; HP ×'+enemyCS.boost.hp+' · ATK ×'+enemyCS.boost.atk+' · DEF ×'+enemyCS.boost.def+'</span></div>':'';
- const hg410Info=b.hg410?.v===1?'<div class="hg409-combat-boss">⚔ Đội hình thực: '+b.allies.length+' stack ta / '+b.hg410.enemyStacks+' stack địch ('+format(b.hg410.enemyTroops)+' quân địch). Neo hai cột đầu mỗi bên · cận chiến 1 ô, cung 4–5 ô.</div>':'';
+ const hg410Info=b.hg410?.v===1?'<div class="hg410-combat-army">⚔ Đội hình thực: '+b.allies.length+' stack ta / '+b.hg410.enemyStacks+' stack địch ('+format(b.hg410.enemyTroops)+' quân địch). Neo hai cột đầu mỗi bên · cận chiến 1 ô, cung 4–5 ô.</div>':'';
  const hg40Info=b.hg40?.v===1?'<div class="hg40-readout" aria-label="Kỹ năng và trạng thái chiến thuật">'+
   '<span class="hg40-player">⚔ '+esc(E.hg40SkillText?.(b,selected)||'Chọn quân để xem kỹ năng')+
   ' · '+esc(E.hg40StatusText?.(b,selected)||'Không trạng thái')+'</span>'+
