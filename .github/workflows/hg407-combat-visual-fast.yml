@@ -6,6 +6,7 @@ on:
     paths:
       - painter.js
       - qa-hg407-combat-presentation.cjs
+      - qa-hg407-foot-frames-chrome.py
       - .github/workflows/hg407-combat-visual-fast.yml
   workflow_dispatch:
 permissions:
