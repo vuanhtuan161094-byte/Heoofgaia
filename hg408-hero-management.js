@@ -76,6 +76,20 @@
      tower.team=tower.team.filter(q=>q!==id);
      if(Array.isArray(tower.picks))tower.picks=tower.picks.filter(q=>q.heroId!==id);
    }
+   // Tower's last encounter is history, not a live hero reference. Retain its
+   // identity as a name snapshot without an orphan foreign-key value.
+   if(tower?.last){
+     const last=tower.last;
+     if(Array.isArray(last.team)&&last.team.includes(id)){
+       last.retiredHeroNames=[...(last.retiredHeroNames||[]),removed.name];
+       last.team=last.team.filter(q=>q!==id);
+     }
+     if(Array.isArray(last.stackLosses))last.stackLosses=last.stackLosses.map(q=>{
+       if(q.heroId!==id)return q;
+       const {heroId,...battleRecord}=q;
+       return {...battleRecord,retiredHeroName:removed.name};
+     });
+   }
    if(Array.isArray(trial.heroBuffs))trial.heroBuffs=trial.heroBuffs.filter(q=>q.heroId!==id);
    const hunt=trial.hg26;
    if(hunt){
@@ -88,6 +102,8 @@
    }
    trial.heroes=trial.heroes.filter(h=>h.id!==id);
    if(trial.activeHero===id){
+     // Prevent HG20's old v07 formation migration from re-creating a deleted plan.
+     trial.formation=[];
      const fallback=trial.heroes.find(h=>h.id!==trial.castellan&&E.hg20HeroRole(trial,h.id).status==='home');
      if(!fallback)throw Error('Không thể chọn chỉ huy thay thế.');
      trial.activeHero=fallback.id;
