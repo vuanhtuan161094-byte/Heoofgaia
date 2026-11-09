@@ -42,10 +42,10 @@ function preview(kind,target='',floor=1,level=null){
  // Enemy unit multiplier from a real max-stat purple commander.
  // Numbers are fixed and bounded. Existing 40-skill AI remains the authority.
  const boost={
-  hp:Math.round((1.25+cs*.12)*(boss?1.28:1)*100)/100,
-  atk:Math.round((1.20+cs*.09)*(boss?1.20:1)*100)/100,
-  def:Math.round((1.10+cs*.075)*(boss?1.16:1)*100)/100,
-  spd:Math.round((.07+cs*.025)*100)/100
+  hp:Math.round((1+(commander.def+commander.int)/800+cs*.12)*(boss?1.28:1)*100)/100,
+  atk:Math.round((1+(commander.atk+commander.int)/1000+cs*.09)*(boss?1.20:1)*100)/100,
+  def:Math.round((1+commander.def/1000+cs*.075)*(boss?1.16:1)*100)/100,
+  spd:Math.round((commander.spd*.0007+cs*.025)*100)/100
  };
  let resources,materials={};
  if(meta.kind==='boss'){
