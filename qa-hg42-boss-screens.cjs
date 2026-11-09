@@ -72,7 +72,7 @@ test('Nonboss encounters retain their ordinary full nameplate labels',()=>{
  return {enemies:b.enemies.length,labels:b.enemies.length};
 });
 test('Three physically separated Boss pages render without writing to Save',()=>{
- const s=game(),before=E.serializeSave(s),screens=U.sections;
+ const s=game(),before=JSON.stringify(s),screens=U.sections;
  assert.deepEqual([...screens],['targets','hunt','loot']);
  for(const screen of screens){
   const html=U.render(s,E,ui,{screen,tier:13});
