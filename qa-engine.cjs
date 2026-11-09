@@ -673,13 +673,16 @@ test('HG09 move order advances across turns, survives v07 reload and can be manu
  const resumed=E.parseSave(E.serializeSave(saved));E.battleAct(resumed,'attack',{preserveMoveOrders:true});assert.deepEqual({x:resumed.battle.allies[0].x,y:resumed.battle.allies[0].y},{x:6,y:1});assert.equal(resumed.battle.moveTargets.p0,undefined);assert.equal(resumed.battle.orders.p0,'attack');assert.equal(resumed.battle.lastTargets.p0,undefined);assert(E.strictSave(resumed));
  const interrupted=E.parseSave(E.serializeSave(s));interrupted.battle.allies[0].range=20;const before=interrupted.battle.enemies[0].pool;E.battleAct(interrupted,'attack');assert.equal(interrupted.battle.moveTargets.p0,undefined);assert.equal(interrupted.battle.lastMoves.length,0);assert.equal(interrupted.battle.lastTargets.p0,'e0');assert(interrupted.battle.enemies[0].pool<before);assert.deepEqual({x:interrupted.battle.allies[0].x,y:interrupted.battle.allies[0].y},{x:3,y:1});assert(E.strictSave(interrupted));
 });
-test('Ranged stacks fire across deployment distance without invented movement turns',()=>{
+test('HG41 archers cannot fire from spawn when target is farther than four hexes',()=>{
  const s=state();s.army.human_3=40;s.formation=[{unitId:'human_3',count:40}];s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
- const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y},initialEnemies=new Map(s.battle.enemies.map(u=>[u.id,{x:u.x,y:u.y}]));assert.equal(archer.range,9);const out=E.battleAct(s,'attack');
- assert(out.dealt>0);assert(s.battle.enemies.reduce((n,u)=>n+u.pool,0)<before);
- const event=s.battle.lastEvents.find(e=>e.actorId===archer.id);assert(event&&event.damage>0&&event.targetId);
- const target=s.battle.enemies.find(u=>u.id===event.targetId),initial=initialEnemies.get(event.targetId);
- if(E.battleHex.distance(position,initial)>archer.range){assert(event.path.length>0,'out-of-range archer closes space and fires within one resolved turn');let previous=position;for(const cell of event.path){assert.equal(E.battleHex.distance(previous,cell),1);previous=cell;}assert(E.battleHex.distance(archer,target)<=archer.range);}
+ const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y},initialEnemies=new Map(s.battle.enemies.map(u=>[u.id,{x:u.x,y:u.y}]));assert.equal(archer.range,4);const out=E.battleAct(s,'attack');
+ assert.equal(out.dealt,0,'Archer must not shoot over the whole 12x9 map');
+ assert.equal(s.battle.enemies.reduce((n,u)=>n+u.pool,0),before);
+ const event=s.battle.lastEvents.find(e=>e.actorId===archer.id);
+ assert(event&&event.damage===0&&event.path.length>0,'Archer closes distance before first shot');
+ let previous=position;
+ for(const cell of event.path){assert.equal(E.battleHex.distance(previous,cell),1);previous=cell;}
+ assert(E.battleHex.distance(archer,initialEnemies.get(event.targetId||'e0'))<E.battleHex.distance(position,initialEnemies.get(event.targetId||'e0')),'Movement brings archer closer');
 });
 
 function hg16FormulaFixture({allyAtk=40,enemyAtk=0,enemyDef=10,allyDef=20,heroAtk=0,heroDef=0,allyCount=10,enemyCount=1,enemySpeed=1}={}){
@@ -718,8 +721,8 @@ test('HG16 all 40 racial units follow the same deterministic base-damage and her
 test('HG16-G2 bounded ranged reach keeps tactical positioning meaningful',()=>{
  const s=state();s.army.human_3=20;s.formation=[{unitId:'human_3',count:20}];
  const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
- assert.equal(b.allies[0].range,9);
- assert.equal(E.unitTacticalRange(E.getUnit(s,'human_8')),10);
+ assert.equal(b.allies[0].range,4);
+ assert.equal(E.unitTacticalRange(E.getUnit(s,'human_8')),5);
  assert.equal(E.unitTacticalRange(E.getUnit(s,'human_1')),1);
  b.allies[0].x=0;b.allies[0].y=0;
  b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Far target',range:1,count:1,initial:1,hp:1e7,
@@ -1511,6 +1514,10 @@ test('HG14.5 real combat receipts drive damage numbers, arrows and death marks o
  const s=state('human'),npc=E.NPC_CAMPS_2009.find(n=>n.stars===1);
  s.army.human_3=16;E.setFormation(s,[{unitId:'human_3',count:16}]);
  s.battle=E.makeBattle(s,npc.key);const b=s.battle;
+ // Genuine damage/arrow test uses a legal 4-hex firing position, rather
+ // than demanding a projectile from the far edge of a 12x9 board.
+ for(let i=0;i<b.enemies.length;i++){const u=b.enemies[i];u.x=3+i;u.y=4;
+  u.hp=1;u.count=1;u.initial=1;u.pool=1;u.def=0;u.atk=0;}
  P.battleTimelinePrime(b,0,false);
  assert.deepEqual(b.lastEvents||[],[]);
  const camera=P.battleProjection({width:1176,height:550},E);
