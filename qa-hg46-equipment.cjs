@@ -69,7 +69,7 @@ test('Auto-build derives actual combat stats and activates 3/3 earned-set mechan
  assert.equal(Object.keys(s.equipment[1]).length,0,'preview must not equip');
  const result=E.hg46AutoEquip(s,1,'balanced');
  assert.equal(result.applied,true);assert.equal(result.changed,3);
- assert.equal(s.hg18SetCounts(s,1).sentinel,3);
+ assert.equal(E.hg18SetCounts(s,1).sentinel,3);
  const after=E.hg46Metrics(s,1,'balanced');
  assert(after.score>initial.score);assert(after.mod.damageBonus>initial.mod.damageBonus);
  assert.equal(snapshot(s.res),before.res);assert.equal(snapshot(s.army),before.army);
