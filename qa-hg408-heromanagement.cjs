@@ -170,6 +170,21 @@ test('HG45.1 paid rainbow recruit uses total score and preserves quality on poin
  assert.equal(E.combatModifiers(restored,heroId).damageReduction,mods.damageReduction);
  return {total:h.qualityScore,paid,buff:mods,save:restored.version};
 });
+test('HG45.1 prestige cannot be spoofed by cached grade/score; v07 reload derives raw sum',()=>{
+ const s=newGame();s.buildings.tavern=10;E.refreshTavern(s);
+ const offer=s.tavern.offers.find(o=>o.quality!=='rainbow');assert(offer);
+ s.fame=1000000;s.res.gold=E.limits(s).gold;
+ const id=E.hireCandidate(s,offer.id),h=s.heroes.find(o=>o.id===id),raw=E.heroInnateTotal(h);
+ const original=E.heroTierByTotal(raw).id;
+ h.quality='rainbow';h.qualityScore=999;
+ assert.equal(E.hg408HeroQuality(h),original,'grade must come from actual innate sum');
+ E.syncCityState(s);
+ const reloaded=save(s),again=reloaded.heroes.find(o=>o.id===id);
+ assert.equal(again.qualityScore,raw);
+ assert.equal(again.quality,original);
+ assert.equal(E.hg408HeroQuality(again),original);
+ return {original,sum:raw,retained:again.quality,version:reloaded.version};
+});
 test('HG45 previous v07 heroes keep all original raw attributes and immutable quality',()=>{
  const s=newGame(),h=s.heroes[0];
  const start={atk:h.atk,def:h.def,spd:h.spd,int:h.int,quality:h.quality};
