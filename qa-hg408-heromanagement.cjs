@@ -100,53 +100,74 @@ test('Unrecognized persistent heroId reference blocks operation and leaves state
 });
 // HG45: first-class quality tiers, deterministic Tavern odds and real combat
 // modifiers. No test modifies released resources or fakes a live battle.
-test('HG45 Tavern offers have disjoint quality bands and 25% purple odds at Lv10',()=>{
+test('HG45.1 1% platinum and 1% rainbow derive ONLY from innate total score',()=>{
  const s=newGame();s.buildings.tavern=10;
  const tiers=E.HERO_QUALITY_V2,chances=E.heroQualityChances(10);
  assert.equal(tiers.length,7);assert.equal(chances.reduce((a,b)=>a+b,0),100);
- assert.equal(chances[4],25);assert.equal(chances[5],9);assert.equal(chances[6],2);
+ assert.deepEqual(Array.from(chances),[8,18,20,18,34,1,1]);
  const counts=Object.fromEntries(tiers.map(q=>[q.id,0]));
  let total=0;
- for(let round=0;round<150;round++){
+ for(let round=0;round<1300;round++){
   E.refreshTavern(s);
   assert.equal(s.tavern.offers.length,8);
   for(const o of s.tavern.offers){
-   const q=tiers.find(t=>t.id===o.quality);
-   assert(q,'unexpected tier '+o.quality);
-   assert.equal(o.qualityModel,2);
+   const actual=o.atk+o.def+o.spd+o.int,q=E.heroTierByTotal(actual);
+   assert.equal(o.quality,q.id);assert.equal(o.qualityScore,actual);
+   assert.equal(o.qualityModel,3);
+   assert(actual>=q.totalMin&&actual<=q.totalMax);
    for(const k of ['atk','def','spd','int'])assert(o[k]>=q.min&&o[k]<=q.max,k);
    assert(o.gold>=q.price&&o.gold<q.price*1.12+1);
-   assert(E.hg408HeroQualityInfo(o).id===q.id);
+   assert.equal(E.hg408HeroQualityInfo(o).id,q.id);
    counts[q.id]++;total++;
   }
  }
- assert(total===1200);assert(counts.purple/total>.17&&counts.purple/total<.33,JSON.stringify(counts));
- assert(counts.platinum>0&&counts.rainbow>0,JSON.stringify(counts));
+ assert.equal(total,10400);
+ assert(counts.purple/total>.29&&counts.purple/total<.39,JSON.stringify(counts));
+ for(const rarity of ['platinum','rainbow'])
+  assert(counts[rarity]/total>.005&&counts[rarity]/total<.016,JSON.stringify(counts));
  E.syncCityState(s);assert(E.strictSave(s));
- return {total,counts,purplePercent:Math.round(counts.purple/total*1000)/10,save:s.version};
+ return {total,counts,platinumPercent:Math.round(counts.platinum/total*1e4)/100,
+  rainbowPercent:Math.round(counts.rainbow/total*1e4)/100,save:s.version};
 });
-test('HG45 real paid rainbow recruitment persists v07 and grants combat stats + damage + mitigation',()=>{
+test('HG45.1 two equally rare hero paths have same base price and balanced distinct buffs',()=>{
+ const t=E.HERO_QUALITY_V2,a=t.find(q=>q.id==='platinum'),b=t.find(q=>q.id==='rainbow');
+ assert.equal(a.price,b.price);
+ assert.equal(a.stat,b.stat);
+ assert.equal(a.damage,b.reduction);
+ assert.equal(a.reduction,b.damage);
+ assert.equal(E.heroTierByTotal(a.totalMin).id,'platinum');
+ assert.equal(E.heroTierByTotal(b.totalMin).id,'rainbow');
+ // Product of output and effective damage resistance must stay within 10%.
+ const score=q=>(q.totalMin+q.totalMax)/2*q.stat*(1+q.damage)/(1-q.reduction);
+ assert(Math.abs(score(a)-score(b))/Math.min(score(a),score(b))<.10);
+ return {price:a.price,platinum:{damage:a.damage,mitigation:a.reduction},
+  rainbow:{damage:b.damage,mitigation:b.reduction},scoreRatio:score(a)/score(b)};
+});
+test('HG45.1 paid rainbow recruit uses total score and preserves quality on points, Save v07',()=>{
  const s=newGame();s.buildings.tavern=10;s.buildings.warehouse=10;s.fame=1_000_000;
  s.res.gold=E.limits(s).gold;E.syncCityState(s);
  let offer;
- for(let n=0;n<500&&!offer;n++){
-  E.refreshTavern(s);offer=s.tavern.offers.find(q=>q.quality==='rainbow');
- }
- assert(offer,'rainbow not sampled in bounded natural refreshes');
+ for(let n=0;n<600&&!offer;n++){E.refreshTavern(s);offer=s.tavern.offers.find(q=>q.quality==='rainbow')}
+ assert(offer,'rainbow not sampled from natural total draws');
  const paid=offer.gold,before=s.res.gold,source={...offer};
  const heroId=E.hireCandidate(s,offer.id),hero=s.heroes.find(h=>h.id===heroId);
  assert.equal(before-s.res.gold,paid);assert.equal(hero.quality,'rainbow');
- assert.equal(hero.qualityModel,2);
- assert(!s.tavern.offers.some(q=>q.id===offer.id));
+ assert.equal(hero.qualityModel,3);
+ assert.equal(hero.qualityScore,source.atk+source.def+source.spd+source.int);
+ assert.equal(E.heroTierByTotal(hero.qualityScore).id,'rainbow');
  const combat=E.heroStats(s,heroId),mods=E.combatModifiers(s,heroId);
- for(const k of ['atk','def','spd','int'])assert.equal(combat[k],Math.round(source[k]*1.60*1000)/1000);
- assert(mods.damageBonus>=.20&&mods.damageReduction>=.10,JSON.stringify(mods));
+ for(const k of ['atk','def','spd','int'])assert.equal(combat[k],Math.round(source[k]*1.35*1000)/1000);
+ assert(mods.damageBonus>=.17&&mods.damageReduction>=.05,JSON.stringify(mods));
+ const born=hero.qualityScore;
+ hero.statPoints=1;E.allocateHeroPoint(s,heroId,'atk');
+ assert.equal(E.hg408HeroQuality(hero),'rainbow');
+ assert.equal(E.heroInnateTotal(hero),born);
  E.syncCityState(s);
  const restored=save(s),h=restored.heroes.find(q=>q.id===heroId);
  assert.equal(h.quality,'rainbow');assert.equal(restored.res.gold,s.res.gold);
- assert.deepEqual(JSON.parse(JSON.stringify(E.heroStats(restored,heroId))),JSON.parse(JSON.stringify(combat)));
+ assert.equal(E.hg408HeroQuality(h),'rainbow');
  assert.equal(E.combatModifiers(restored,heroId).damageReduction,mods.damageReduction);
- return {tier:h.quality,paid,stats:combat,damageBonus:mods.damageBonus,reduction:mods.damageReduction,save:restored.version};
+ return {total:h.qualityScore,paid,buff:mods,save:restored.version};
 });
 test('HG45 previous v07 heroes keep all original raw attributes and immutable quality',()=>{
  const s=newGame(),h=s.heroes[0];
