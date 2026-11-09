@@ -80,9 +80,11 @@ for rowno,entry in enumerate(rows):
     raw_span=max(raw)-min(raw);fixed_span=max(fixed)-min(fixed)
     print('HG40.7 LIVE FOOT '+entry['id']+' BEFORE '+str(raw_span)+
           'px AFTER '+str(fixed_span)+'px',flush=True)
-    if entry['id'] in ('undead_10','undead_4') and not fixed_span<raw_span:
+    if not fixed_span<raw_span:
         raise AssertionError('Actual browser boot drift not improved '+entry['id']+
                              ': before '+str(raw_span)+' after '+str(fixed_span))
+    if entry['id']=='orc_10' and fixed_span>15:
+        raise AssertionError('Orc T10 bottom-edge atlas debris still visible: '+str(fixed_span)+'px');
     for f in frames:
         image=Image.open(io.BytesIO(base64.b64decode(f.pop('image').split(',',1)[1]))).convert('RGBA')
         # Visual evidence only: a projected baseline, not a sprite frame edit.
