@@ -104,7 +104,7 @@ function syncCombatTurnHUD(){
  const hg43Panel=document.querySelector('.hg43-combat-cards');
  if(hg43Panel){
   const fresh=document.createElement('template');
-  fresh.innerHTML=U43.battle(b,selected,focused);
+  fresh.innerHTML=U43.battle(b,selected,focused||b.enemies.find(u=>u.pool>0)||null);
   const cards=fresh.content.querySelector('.hg43-combat-cards');
   if(cards&&cards.innerHTML!==hg43Panel.innerHTML)hg43Panel.innerHTML=cards.innerHTML;
  }
@@ -1083,7 +1083,7 @@ function combatView(){
    <summary title="Thu gọn hoặc mở bảng lệnh" aria-label="Thu gọn hoặc mở bảng lệnh chiến đấu"><span class="battle-dock-label">⚔ LỆNH</span><span class="battle-dock-chevron" aria-hidden="true">⌄</span></summary>
    <div class="battle-command-content">
     <div class="battle-selection-readout"><div class="battle-side-readout"><small>QUÂN TA</small><b>${selectedName}</b><span>${selected?esc(statLine(selected)):'Chạm quân ta trên bàn cờ'}</span></div><div class="battle-side-readout enemy"><small>MỤC TIÊU</small><b>${focusedName}</b><span>${focused?esc(statLine(focused)):movementModeId?'Chọn ô lục giác để di chuyển':'Bấm quân địch trên ô'}</span></div></div>
-    ${hg40Info}${U43.battle(b,selected,focused)}${enemyCSInfo}${hg410Info}${bossRoster}
+    ${hg40Info}${U43.battle(b,selected,focused||b.enemies.find(u=>u.pool>0)||null)}${enemyCSInfo}${hg410Info}${bossRoster}
     <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div>
     <div class="battle-display-tools" role="group" aria-label="Tùy chọn chiến trường"><button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn lưới lục giác">${battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu">${battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'}</button></div>
     <div class="battle-action-grid">${button('auto',{},state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH',false,'auto secondary')}${button('battle',{cmd:'attack'},'⚔ ĐÁNH',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 CHỜ',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 TẬP TRUNG',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI',false,'secondary')}</div>
