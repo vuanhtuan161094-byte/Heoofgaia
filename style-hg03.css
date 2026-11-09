@@ -1651,3 +1651,12 @@ body.combat-mode .hg43-battle-unit.empty{font:10px/1.3 system-ui;color:#9db8b2}
 .hg44-boss-preparation>small{display:block;flex:1 1 100%;color:#bbcec3;font:10px/1.32 system-ui}
 @media(max-width:850px){.hg44-boss-preparation{padding:5px 6px;gap:4px 7px;font-size:10px}}
 @media(max-height:360px) and (orientation:landscape){.hg44-boss-preparation{margin:2px 0 4px;padding:4px;line-height:1.1}.hg44-boss-preparation>small{font-size:9px}}
+
+/* HG44-H: Always keep the live command controls above scrollable Boss intel.
+   HG41's 16 true hostile actors add dense status/gear text; the previous
+   DOM flow pushed Attack/Move/Defend outside the visible dock viewport.
+   CSS order is presentation-only: all real commands, actor coordinates,
+   AI and Save v07 remain unchanged. */
+body.combat-mode .battle-command-content>.battle-selection-readout{order:-30;flex:0 0 auto}
+body.combat-mode .battle-command-content>.battle-display-tools{order:-29;flex:0 0 auto}
+body.combat-mode .battle-command-content>.battle-action-grid{order:-28;flex:0 0 auto}
