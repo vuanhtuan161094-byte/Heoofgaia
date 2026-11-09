@@ -6,10 +6,12 @@ const recruitDrafts=new Map();
 // Presentation-only: the phone can hide the command rail to give the map
 // the entire landscape viewport. This is not written into Save v07.
 let mapExpanded=false;
+// HG42: Boss screens are independent presentation routes, never Save fields.
+let hg42BossScreen='targets',hg42BossTier=11;
 // HG40.8: presentation-only hero selection; never stored inside Save v07.
 let hg408InspectId=null,hg408Tab='overview',hg408DismissFor=null,hg408DismissStage=0;
 const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
-const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
+const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['boss','☠ Boss'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
 const hg408QualityClass=h=>'hg408-quality-'+E.hg408HeroQuality(h);
@@ -562,6 +564,12 @@ function hg24AutomationView(){
  '<div class="actions">'+button('hg24-drill',{},'📚 Huấn luyện tướng',!canDrill,'small primary')+
  button('hg24-harvest',{},'⛏ Thu hoạch mỏ + EXP',!data.harvestAvailable,'small secondary')+'</div>'+
  '<p class="tiny muted">Đã săn thắng '+format(data.bossWins)+' Boss private trong hành trình; thắng Boss 9★+ cho thêm EXP và tài nguyên thực tế.</p></section>';
+}
+function bossView(){
+ if(!window.HOG_HG42_SCREEN?.render)throw Error('Thiếu mô-đun màn Boss HG42');
+ return window.HOG_HG42_SCREEN.render(state,E,
+  {esc,format,button,lootText:hg409LootText,hunt:hg26AutohuntView},
+  {screen:hg42BossScreen,tier:hg42BossTier});
 }
 function towerView(){
  const status=E.hg20TowerStatus(state),c=state.hg20.collection,castle=E.hg20CastleStatus(state),picks=E.hg21TowerPicks(state),purpleBoss=E.hg409Preview('tower','',status.floor,status.floor);
@@ -1162,6 +1170,7 @@ function render(){
  const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');
  if(enteringCombat)combatDockOpen=true;
  document.body.classList.toggle('combat-mode',!!state?.battle);
+ document.body.classList.toggle('hg42-boss-screen-open',!!state&&!state.battle&&tab==='boss');
  const overlay=$('game-modal'),body=$('game-modal-body');
  const existingArmyOps=body?.querySelector('.hg28-army-ops:not(.hg28-army-quest)');if(existingArmyOps)armyOpsOpen=existingArmyOps.open;
  const existingArmyQuest=body?.querySelector('.hg28-army-quest');if(existingArmyQuest)armyQuestOpen=existingArmyQuest.open;
@@ -1170,7 +1179,7 @@ function render(){
  if(state.battle){tab='combat';showWorldIndex=false;showResourceInfo=false}
  renderHUD();
  const popup=!!dispatchDraft||tab!=='map'&&tab!=='combat'||tab==='map'&&(showWorldIndex||showResourceInfo);
- const content=dispatchDraft?dispatchView():tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?hg408HeroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
+ const content=dispatchDraft?dispatchView():tab==='map'?mapView():tab==='city'?cityView():tab==='army'?armyView():tab==='heroes'?hg408HeroesView():tab==='magic'?magicView():tab==='relics'?relicView():tab==='boss'?bossView():tab==='tower'?towerView():tab==='combat'?combatView():tab==='tasks'?tasksView():tab==='reports'?battleReportsView():sourceView();
  if(popup){
   $('main').innerHTML=mapView();
   $('game-modal-title').textContent=dispatchDraft?'🚩 Chọn tướng & quân':showResourceInfo&&tab==='map'?'💰 Tài nguyên & kho':showWorldIndex&&tab==='map'?'📍 Danh sách điểm đến':tabs.find(x=>x[0]===tab)?.[1]||'Quản lý';
@@ -1310,12 +1319,35 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   dispatchDraft=null;tab='map';modalOffset=0;
   toast((state.heroes.find(h=>h.id===heroId)?.name||'Tướng')+' xuất chinh cùng '+format(units)+' quân.');return;
  }
+ if(action==='hg42-boss-screen'){
+  const id=target.dataset.id;
+  if(!window.HOG_HG42_SCREEN.sections.includes(id))throw Error('Màn Boss không hợp lệ');
+  hg42BossScreen=id;modalOffset=0;return;
+ }
+ if(action==='hg42-boss-tier'){
+  const next=Number(target.dataset.tier);
+  if(!window.HOG_HG42_SCREEN.bossTiers.includes(next))throw Error('Cấp Boss không hợp lệ');
+  hg42BossTier=next;modalOffset=0;return;
+ }
+ if(action==='hg42-boss-locate'||action==='hg42-boss-dispatch'){
+  const key=target.dataset.key,tile=E.getTile(key);
+  if(!tile||tile.kind!=='npc'||(tile.eliteTier||0)<11)throw Error('Boss mục tiêu không hợp lệ');
+  selected=key;selectedTargetKind=null;
+  Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y});
+  tab='map';showWorldIndex=false;showResourceInfo=false;modalOffset=0;
+  if(action==='hg42-boss-dispatch'){
+   if(state.battle)throw Error('Đang chiến đấu');
+   const heroId=state.activeHero;
+   dispatchDraft={targetKey:key,kind:null,heroId,form:E.hg20HeroPlan(state,heroId).map(g=>({...g}))};
+  }
+  return;
+ }
  if(action==='map-expand'){mapExpanded=!mapExpanded;return}
  if(action==='world-index'){showWorldIndex=!showWorldIndex;showResourceInfo=false;modalOffset=0;return}
  if(action==='resource-info'){showResourceInfo=!showResourceInfo;showWorldIndex=false;tab='map';modalOffset=0;return}
  if(action==='race'){newRace=target.dataset.race;render();return}
  if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
- if(action==='start'){hg261Draft=null;state=E.make(newRace,Date.now(),newSpellEdition);tab='map';selected='3,4';selectedTargetKind=null;return}
+ if(action==='start'){hg261Draft=null;hg42BossScreen='targets';hg42BossTier=11;state=E.make(newRace,Date.now(),newSpellEdition);tab='map';selected='3,4';selectedTargetKind=null;return}
  if(action==='tab'){tab=target.dataset.tab;showWorldIndex=false;showResourceInfo=false;modalOffset=0;
   focusArmyRecruitOnOpen=tab==='army';return}
  if(action==='city-switch'){E.switchCity(state,target.dataset.id);selected=E.activeCity(state).key;tab='city';return}
