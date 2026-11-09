@@ -1,0 +1,73 @@
+name: HG42 Boss screens, dense combat UI and single offline HTML
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'hg42-boss-screen.js'
+      - 'hg410-battlefield.js'
+      - 'app.js'
+      - 'painter.js'
+      - 'style-hg03.css'
+      - 'index.html'
+      - 'build_offline.py'
+      - 'qa-hg42-boss-screens.cjs'
+      - 'qa-hg42-boss-chrome.py'
+      - 'qa-hg42-boss-chrome.py'
+      - '.github/workflows/hg42-boss-screen-ux.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  boss:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Syntax, Boss Canvas and Save v07 regression
+        run: |
+          node --check hg42-boss-screen.js
+          node --check painter.js
+          node --check app.js
+          node --check qa-hg42-boss-screens.cjs
+          node qa-hg42-boss-screens.cjs
+          node qa-hg410-overhaul.cjs
+          node qa-hg409-pve-commanders.cjs
+          node qa-engine.cjs
+      - name: Build EXACTLY the same sole HTML offline game
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Real Chromium Boss split screens and existing four viewport PvE
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python -m py_compile qa-hg42-boss-chrome.py qa-hg409-pve-chrome.py
+          python qa-hg42-boss-chrome.py
+          python qa-hg409-pve-chrome.py
+      - name: Store Boss viewport screenshots and engine reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG42-Real-Boss-UI-Canvas-QA
+          path: |
+            docs/qa/hg42/*.json
+            docs/evidence/hg42/*.png
+            docs/qa/hg409/*.json
+            docs/evidence/hg409/*.png
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Deliver ONE tested HTML offline for PC and phone
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG42-One-Playable-Offline-HTML
+          path: Play-Heoofgaia-HG11.html
+          if-no-files-found: error
+          retention-days: 30
