@@ -24,7 +24,7 @@
  }
  function normalize(s){
    if(s?.heroes)for(const h of s.heroes){
-     if(h.qualityModel===3)h.quality=baseQuality(h);
+     if(h.qualityModel===3){h.qualityScore=E.heroInnateTotal(h);h.quality=baseQuality(h);}
      else if(!colors.has(h.quality))h.quality=baseQuality(h);
    }
    return s;
