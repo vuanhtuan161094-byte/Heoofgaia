@@ -1296,6 +1296,80 @@ body.hg39-world-map-mode .sidebar{display:none!important}
 @media(max-height:440px) and (orientation:landscape){.hg45-quality-legend{display:none}.hg45-hero-buff{font-size:9px}}
 @media(prefers-reduced-motion:reduce){.hg408-roster-name b.hg408-quality-rainbow,.hg408-offer b.hg408-quality-rainbow,.hg408-identity-main h2.hg408-quality-rainbow{animation:none}}
 
+/* HG45.1 generated-in-game fantasy hero busts + rarity-specific VFX.
+   Real SVG portrait layers (not chess-piece placeholder), no network assets. */
+.hg45-portrait-art{
+ --p-armor:#506878;--p-cloak:#1f3444;--p-crown:#ccad75;--p-glow:#d9bc80;
+ display:block;position:relative;width:100%;height:100%;isolation:isolate;overflow:hidden;
+ border-radius:inherit;background:radial-gradient(ellipse at 53% 20%,#526879,#1c2c39 67%,#121c29);
+}
+.hg45-portrait-art svg{display:block;position:relative;z-index:2;filter:drop-shadow(0 2px 3px #0b1117aa)}
+.hg45-portrait-art .hg45-cloak{fill:var(--p-cloak);stroke:#a4afbe;stroke-width:1.3}
+.hg45-portrait-art .hg45-armor{fill:var(--p-armor);stroke:var(--p-crown);stroke-width:1.5}
+.hg45-portrait-art .hg45-armor-trim{fill:none;stroke:var(--p-crown);stroke-width:1.5}
+.hg45-portrait-art .hg45-neck{fill:#c8a28b}
+.hg45-portrait-art .hg45-face{fill:#e2b59c;stroke:#866354;stroke-width:1.2}
+.hg45-portrait-art .hg45-ear{fill:#c99680}
+.hg45-portrait-art .hg45-hair{fill:#1b2736;stroke:#738193;stroke-width:1}
+.hg45-portrait-art .hg45-crest{fill:var(--p-crown);stroke:#edf1e1;stroke-width:.8}
+.hg45-portrait-art .hg45-mask{fill:#283849;stroke:#baad8d;stroke-width:1}
+.hg45-portrait-art .hg45-eye{fill:var(--p-glow);filter:drop-shadow(0 0 3px var(--p-glow))}
+.hg45-portrait-art .hg45-emblem{fill:var(--p-glow);stroke:#fbf4ce;stroke-width:.5}
+.hg45-portrait-white{--p-armor:#506878;--p-cloak:#1f3444;--p-glow:#d5dce9}
+.hg45-portrait-blue{--p-armor:#355c85;--p-cloak:#203c61;--p-glow:#91d0ff}
+.hg45-portrait-yellow{--p-armor:#8b753f;--p-cloak:#504a2d;--p-glow:#ffe193}
+.hg45-portrait-green{--p-armor:#3a7563;--p-cloak:#254b49;--p-glow:#a0ffd0}
+.hg45-portrait-purple{--p-armor:#705495;--p-cloak:#3b2e5b;--p-glow:#dfabff}
+.hg45-portrait-platinum{--p-armor:#7b9aaf;--p-cloak:#30465f;--p-crown:#d1f3ff;--p-glow:#dcfaff}
+.hg45-portrait-rainbow{--p-armor:#7a5a9f;--p-cloak:#2d3b6e;--p-crown:#ffdb94;--p-glow:#ffd0fb}
+.hg45-portrait-aura,.hg45-portrait-stars{position:absolute;inset:0;pointer-events:none}
+.hg45-portrait-aura{z-index:1;background:radial-gradient(ellipse at 50% 54%,#c3e7ff22,transparent 70%)}
+.hg45-portrait-platinum .hg45-portrait-aura{
+ background:conic-gradient(from 0deg at 50% 50%,#7ad9ff00,#bdeaff88,#9dceff00,#ddfbff88,#7ad9ff00);
+ animation:hg451-platinum-aura 7s linear infinite;
+}
+.hg45-portrait-rainbow .hg45-portrait-aura{
+ background:conic-gradient(from 0deg at 50% 50%,#f7849b77,#f6d07977,#9af9c477,#89c8ff77,#cba1ff77,#f7849b77);
+ opacity:.68;animation:hg451-rainbow-aura 9s linear infinite;
+}
+.hg45-portrait-platinum .hg45-portrait-stars,.hg45-portrait-rainbow .hg45-portrait-stars{
+ z-index:3;background:radial-gradient(circle at 24% 22%,#fff 0 1px,transparent 3px),
+ radial-gradient(circle at 78% 34%,#fff 0 1px,transparent 3px),
+ radial-gradient(circle at 59% 9%,#fff 0 1px,transparent 3px);
+ animation:hg451-sparkle 3.4s ease-in-out infinite;
+}
+@keyframes hg451-platinum-aura{to{transform:rotate(360deg)}}
+@keyframes hg451-rainbow-aura{to{transform:rotate(-360deg)}}
+@keyframes hg451-sparkle{50%{opacity:.36;transform:scale(1.045)}}
+.hg408-mini-portrait:has(.hg45-portrait-art){padding:0!important;overflow:hidden;position:relative}
+.hg408-portrait:has(.hg45-portrait-art){padding:0!important;overflow:hidden;position:relative}
+.hg408-portrait>.hg45-portrait-art{flex:1;min-height:0;align-self:stretch}
+.hg408-portrait:has(.hg45-portrait-art)>small{
+ position:absolute;z-index:4;bottom:0;left:0;right:0;
+ background:#0d1926c9;padding:2px 1px;letter-spacing:.02em;color:#f6dfb8;
+}
+.hg408-offer .hg408-mini-portrait:has(.hg45-portrait-art){
+ flex:0 0 52px;width:52px;height:60px;border-radius:7px;
+ box-shadow:0 0 8px #0005;
+}
+.hg408-roster-card .hg408-mini-portrait:has(.hg45-portrait-art){flex:0 0 43px;width:43px;height:48px}
+.hg408-roster-card:has(.hg45-portrait-platinum),.hg408-offer:has(.hg45-portrait-platinum){
+ box-shadow:inset 0 0 0 1px #bde9ff48,0 0 9px #7acfff1f
+}
+.hg408-roster-card:has(.hg45-portrait-rainbow),.hg408-offer:has(.hg45-portrait-rainbow){
+ box-shadow:inset 0 0 0 1px #ffb3e848,0 0 9px #edabff24
+}
+.hg408-portrait:has(.hg45-portrait-platinum){border:2px solid #d7f6ff}
+.hg408-portrait:has(.hg45-portrait-rainbow){border:2px solid #f5bcff}
+.hg45-rate-bar:has(.hg408-quality-platinum){font-variant-numeric:tabular-nums}
+@media(max-width:850px){
+ .hg408-roster-card .hg408-mini-portrait:has(.hg45-portrait-art){width:31px;height:36px;flex-basis:31px}
+ .hg408-offer .hg408-mini-portrait:has(.hg45-portrait-art){width:39px;height:45px;flex-basis:39px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hg45-portrait-art .hg45-portrait-aura,.hg45-portrait-art .hg45-portrait-stars{animation:none!important}
+}
+
 /* HG40.9 — compact purple PvE commander and readable item/reward receipts. */
 .hg409-target-preview,.hg409-tower-reward{margin:4px 0!important;padding:5px 8px;border:1px solid #76599b;border-radius:5px;background:#302b43;color:#e4d5ee;font:11px/1.3 system-ui,sans-serif}
 .hg409-combat-boss{display:flex;flex-wrap:wrap;gap:5px 10px;align-items:center;background:#322943;border:1px solid #8768a9;border-radius:5px;padding:4px 7px;color:#eadcf7;font:10px/1.25 system-ui,sans-serif}
