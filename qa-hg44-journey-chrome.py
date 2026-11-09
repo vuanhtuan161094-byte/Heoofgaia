@@ -35,7 +35,7 @@ with sync_playwright() as pw:
    guide.get_attribute('data-hg44-phase')=='0')
   drawer=page.locator('.hg39-map-details').filter(has=guide)
   if drawer.count() and not drawer.first.evaluate('(d)=>d.open'):
-   drawer.first.locator('summary').click()
+   drawer.first.locator('summary').first.click()
   check(label+' compact journey next step stays accessible on the map',
    guide.is_visible() and guide.locator('.hg44-journey-next button[data-action="tab"]').count()==1)
   before=page.evaluate("""() => {
