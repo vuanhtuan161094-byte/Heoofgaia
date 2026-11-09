@@ -1463,3 +1463,23 @@ body:not(.combat-mode).hg42-management-screen-open .hg39-map-dock{
   flex-basis:21px!important;font-size:9px!important;
  }
 }
+
+/* HG42 actual game controls remain available on every standalone screen:
+ * real Save button + compact utility dropdown reusing the original elements
+ * (no duplicate action handlers and no inaccessible background toolbar). */
+.hg42-screen-utility{display:flex;align-items:center;gap:4px;margin-left:auto;flex:0 0 auto;min-width:0;position:relative;z-index:6}
+.hg42-screen-utility>#save{min-height:29px;white-space:nowrap;padding:4px 7px;font-size:11px!important;background:#28463d;border:1px solid #b4ad75;color:#f9ebca}
+.hg42-screen-tool-menu{position:relative;min-width:0}
+.hg42-screen-tool-menu>summary{cursor:pointer;display:grid;place-items:center;width:34px;height:29px;border:1px solid #718892;border-radius:5px;background:#273d49;color:#e9e1c9;list-style:none;font-size:16px}
+.hg42-screen-tool-menu>summary::-webkit-details-marker{display:none}
+.hg42-screen-tool-menu[open]>.buttons{position:absolute;right:0;top:calc(100% + 4px);width:max-content;max-width:min(90vw,320px);display:flex!important;flex-wrap:wrap;justify-content:flex-end;gap:4px;background:#172c36;border:1px solid #baa06e;border-radius:7px;padding:7px;box-shadow:0 10px 30px #000b;z-index:90}
+.hg42-screen-tool-menu[open]>.buttons button{display:inline-flex!important;align-items:center;min-height:28px;padding:5px 7px;font-size:11px;white-space:nowrap}
+@media(max-height:440px) and (orientation:landscape){
+ .hg42-screen-utility>#save{font-size:10px!important;min-height:22px;padding:2px 5px}
+ .hg42-screen-tool-menu>summary{height:22px;width:27px;font-size:12px}
+ .hg42-screen-tool-menu[open]>.buttons{max-width:75vw}
+}
+@media(max-width:480px) and (orientation:portrait){
+ .hg42-screen-utility>#save{font-size:10px!important;padding:3px 5px}
+ .hg42-screen-tool-menu>summary{width:29px}
+}
