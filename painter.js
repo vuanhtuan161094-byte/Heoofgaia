@@ -1160,6 +1160,38 @@ function hg407FitName(c,value,maxWidth,fontSize=11){
  battleNameplateTextCache.set(key,result);
  return result;
 }
+// HG45.1: real combat-side commander aura. It is pure canvas paint on the
+// already-rendered army pivot, never a synthetic hit, damage, buff or Save field.
+function hg451RarityAura(c,x,y,scale,kind,now){
+ if(kind!=='platinum'&&kind!=='rainbow')return;
+ const t=Number.isFinite(now)?now/1000:0;
+ const rad=Math.max(13,Math.min(42,20*scale)),pulse=1+.05*Math.sin(t*2);
+ c.save();c.translate(x,y+2);c.lineWidth=kind==='platinum'?2.2:1.7;
+ if(kind==='platinum'){
+  c.strokeStyle='#bfeeffc4';c.shadowColor='#a7e7ff';c.shadowBlur=9;
+  c.beginPath();c.ellipse(0,0,rad*pulse,rad*.35*pulse,0,0,TAU);c.stroke();
+  // Pale six-point protection glyph, no invented HP effect.
+  c.strokeStyle='#e3fcffb9';c.beginPath();
+  for(let n=0;n<6;n++){const a=n*TAU/6+t*.18;const px=Math.cos(a)*rad*.9,py=Math.sin(a)*rad*.30;
+   if(n===0)c.moveTo(px,py);else c.lineTo(px,py)}
+  c.closePath();c.stroke();
+  for(let n=0;n<3;n++){const angle=n*TAU/3+t*.4;
+   const px=rad*Math.cos(angle),py=rad*.42*Math.sin(angle)-rad*1.2;
+   c.fillStyle='#e8faffc9';c.beginPath();c.arc(px,py,1.5,0,TAU);c.fill()}
+ }else{
+  const colors=['#ff88b9','#ffdf89','#93f1bf','#8fcdff','#d7a5ff'];
+  c.shadowBlur=6;
+  for(let i=0;i<colors.length;i++){
+   const start=t*.34+i*TAU/colors.length;
+   c.strokeStyle=colors[i]+'cc';c.shadowColor=colors[i];c.beginPath();
+   c.ellipse(0,0,rad*pulse,rad*.33*pulse,0,start,start+TAU/colors.length*.86);c.stroke();
+   const a=start+TAU/colors.length*.4;
+   c.fillStyle=colors[i];c.beginPath();
+   c.arc(Math.cos(a)*rad,Math.sin(a)*rad*.33-rad*.5,1.3,0,TAU);c.fill();
+  }
+ }
+ c.restore();
+}
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(!canvas||!s.battle)return;
  const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,
@@ -1170,6 +1202,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  const camera=battleProjection(canvas,E),grid=camera.g;
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
  const units=battleUnitLayout(b,camera,w,h,now).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
+ const hg451Owners=new Map((s.heroes||[]).map(h=>[h.id,E.hg408HeroQuality?.(h)||h.quality]));
  // Static outlines are already in the cached background. Only draw
  // changing reachable cells here, so hex hit-testing remains identical.
  if(reachable.size)for(const cell of battleGridCells(camera)){
@@ -1184,6 +1217,13 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,displayPool=visual?.pool??u.pool,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
   if(displayPool<=0){if(visual)battleUnitArt(c,x,y,u.side==='enemy',visual,k,u);continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
+  // Commander-bound premium aura also works in 3-hero / 6-stack Tower combat.
+  // An unbound ordinary PvE stack inherits the actual active commander.
+  if(u.side==='player'){
+   const commanderQuality=hg451Owners.get(u.heroId??s.activeHero);
+   if(commanderQuality==='platinum'||commanderQuality==='rainbow')
+    hg451RarityAura(c,x,y,k,commanderQuality,elapsed);
+  }
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
  const atlasBacked=!!troopAtlasDefinition(u.unitId,u.name),illustrated=visual?battleUnitArt(c,x,y,u.side==='enemy',visual,k,u):false;if(!illustrated)soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
