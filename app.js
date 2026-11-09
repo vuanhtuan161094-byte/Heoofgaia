@@ -1049,6 +1049,11 @@ function combatView(){
  const autoLabel=state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`;
  const enemyCS=b.hg409EnemyCommander,enemyCSInfo=enemyCS?'<div class="hg409-combat-boss"><b class="hg408-quality-purple">♜ '+esc(enemyCS.name)+' · TÍM Lv100 · B5 · CS'+enemyCS.cs+'/10</b><span>ATK/DEF/SPD/INT 100/100/100/100; HP ×'+enemyCS.boost.hp+' · ATK ×'+enemyCS.boost.atk+' · DEF ×'+enemyCS.boost.def+'</span></div>':'';
  const hg410Info=b.hg410?.v===1?'<div class="hg410-combat-army">⚔ Đội hình thực: '+b.allies.length+' stack ta / '+b.hg410.enemyStacks+' stack địch ('+format(b.hg410.enemyTroops)+' quân địch). Neo hai cột đầu mỗi bên · cận chiến 1 ô, cung 4–5 ô.</div>':'';
+ const bossRoster=b.hg410?.boss&&b.enemies.length>=12?
+  '<details class="hg42-boss-roster"><summary>🎯 Chọn riêng 1 trong '+aliveEnemies+' stack Boss đang sống · chạm để tập trung</summary>'+
+  '<div class="hg42-boss-roster-grid">'+b.enemies.filter(u=>u.pool>0).map(u=>
+   button('hg42-boss-focus',{id:u.id},'☠ '+u.id.toUpperCase()+' · '+esc(u.name)+' ×'+format(u.count),
+    false,b.focused===u.id?'small primary':'small secondary')).join('')+'</div></details>':'';
  const hg40Info=b.hg40?.v===1?'<div class="hg40-readout" aria-label="Kỹ năng và trạng thái chiến thuật">'+
   '<span class="hg40-player">⚔ '+esc(E.hg40SkillText?.(b,selected)||'Chọn quân để xem kỹ năng')+
   ' · '+esc(E.hg40StatusText?.(b,selected)||'Không trạng thái')+'</span>'+
@@ -1059,7 +1064,7 @@ function combatView(){
    <summary title="Thu gọn hoặc mở bảng lệnh" aria-label="Thu gọn hoặc mở bảng lệnh chiến đấu"><span class="battle-dock-label">⚔ LỆNH</span><span class="battle-dock-chevron" aria-hidden="true">⌄</span></summary>
    <div class="battle-command-content">
     <div class="battle-selection-readout"><div class="battle-side-readout"><small>QUÂN TA</small><b>${selectedName}</b><span>${selected?esc(statLine(selected)):'Chạm quân ta trên bàn cờ'}</span></div><div class="battle-side-readout enemy"><small>MỤC TIÊU</small><b>${focusedName}</b><span>${focused?esc(statLine(focused)):movementModeId?'Chọn ô lục giác để di chuyển':'Bấm quân địch trên ô'}</span></div></div>
-    ${hg40Info}${enemyCSInfo}${hg410Info}
+    ${hg40Info}${enemyCSInfo}${hg410Info}${bossRoster}
     <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div>
     <div class="battle-display-tools" role="group" aria-label="Tùy chọn chiến trường"><button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn lưới lục giác">${battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu">${battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'}</button></div>
     <div class="battle-action-grid">${button('auto',{},state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH',false,'auto secondary')}${button('battle',{cmd:'attack'},'⚔ ĐÁNH',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 CHỜ',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 TẬP TRUNG',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI',false,'secondary')}</div>
@@ -1270,6 +1275,10 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   return;
  }
  fail(()=>{
+ if(action==='hg42-boss-focus'){
+  if(!state.battle?.hg410?.boss)throw Error('Không có Boss đang giao tranh');
+  markBattleInput();E.battleSelect(state,target.dataset.id);return;
+ }
  if(action==='hg408-inspect'){hg408InspectId=Number(target.dataset.id);hg408DismissFor=null;hg408DismissStage=0;return}
  if(action==='hg408-tab'){hg408Tab=target.dataset.id;hg408DismissFor=null;hg408DismissStage=0;modalOffset=0;return}
  if(action==='hg408-dismiss-review'){hg408InspectId=Number(target.dataset.id);hg408DismissFor=hg408InspectId;hg408DismissStage=1;return}
