@@ -57,13 +57,13 @@ def inspect(page):
         const fraction=area(x,y)/Math.min(x.w*x.h,y.w*y.h);
         bossMax=Math.max(bossMax,fraction);bossOverlap+=fraction>0?1:0;
       }
-      const labelConflicts=alive.flatMap(a=>alive.filter(b=>a!==b&&
-          (area(a.label,b.label)>0||area(a.label,b.sprite)>0||area(a.label,b.countBox)>0))).length;
+      const labelConflicts=alive.filter(a=>a.label).flatMap(a=>alive.filter(b=>a!==b&&
+          (b.label&&area(a.label,b.label)>0||area(a.label,b.sprite)>0||area(a.label,b.countBox)>0))).length;
       // The redundant round badge was removed; only the compact troop-total
       // counter still overlays the battlefield. Hex/HP are in the right dock.
       const huds=[{x:c.width-200,y:14,w:186,h:42}];
       const hudConflicts=alive.flatMap(a=>huds.filter(q=>
-        area(q,a.label)>0||area(q,a.sprite)>0||area(q,a.countBox)>0)).length;
+        (a.label&&area(q,a.label)>0)||area(q,a.sprite)>0||area(q,a.countBox)>0)).length;
       const cells=P.battleGridCells(camera),corners=cells.flatMap(cell=>cell.corners),sampleNow=performance.now();
       P.drawBattle(c,E,s,sampleNow,{showGrid:true,showHP:true});
       const hitAll=alive.every(e=>P.battleHit(c,e.x,e.y,E,s,sampleNow+2000)?.id===e.id);
@@ -104,8 +104,8 @@ def pose(page,width,height,title):
           d["roster"]["cards"]==0 and d["roster"]["rowsAbsent"] and d["allActions"] and
           d["dockVisible"] and d["dock"]["x"]>=d["canvas"]["screenX"]+d["canvas"]["screenWidth"]-2 and
           d["canvas"]["height"]>=height-75 and d["headingFits"],d)
-    check(key+" keeps three live Boss silhouettes individually readable",
-          d["bossCount"]==3 and d["bossMax"]<=.16 and d["bossSpriteInside"] and
+    check(key+" keeps all sixteen live Boss stacks legible at their real hexes",
+          d["bossCount"]==16 and d["bossMax"]<=.16 and d["bossSpriteInside"] and
           d["labelConflicts"]==0 and d["hudConflicts"]==0,d)
     capture(page,f"{title}-{width}x{height}.png")
     before_width=d["canvas"]["screenWidth"]
@@ -137,17 +137,18 @@ with sync_playwright() as pw:
       const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
       s.army.human_1=16;E.setFormation(s,[{unitId:'human_1',count:16}]);
       const azrael=E.TILES.find(t=>t.kind==='npc'&&t.value==='Azrael');
-      if(!azrael)throw new Error('Azrael 3-Boss NPC is missing');
+      if(!azrael)throw new Error('Azrael Boss NPC is missing');
       E.startMarch(s,azrael.key);
       E.tick(s,s.lastTick+s.march.remaining/s.speed*1000+1000);
       HOG_APP_DEBUG.render();
       return {valid:E.strictSave(s),enemies:s.battle?.enemies.map(u=>u.name)};
     }""")
-    check("Actual map march enters canonical Azrael 3-Boss combat",
-          encounter["valid"] and encounter["enemies"]==
-          ["Azrael","Demonlord Samurai","Cyclop Tyrant"],encounter)
+    check("Actual map march enters canonical Azrael sixteen-stack combat",
+          encounter["valid"] and len(encounter["enemies"])==16 and
+          set(encounter["enemies"])=={"Azrael","Demonlord Samurai","Cyclop Tyrant"} and
+          encounter["enemies"][0:3]==["Azrael","Demonlord Samurai","Cyclop Tyrant"],encounter)
     for w,h in ((1280,720),(960,540)):
-        pose(page,w,h,"boss-three")
+        pose(page,w,h,"boss-sixteen")
         # Click the first visible Boss by its real nameplate, not by a forced
         # debug state change or a centered invisible grid coordinate.
         point=page.evaluate("""() => {
@@ -155,12 +156,13 @@ with sync_playwright() as pw:
             P=HOG_PAINTER,E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),
             layout=P.battleUnitLayout(s.battle,P.battleProjection(c,E),c.width,c.height),
             e=layout.find(q=>q.u.side==='enemy');
-          const x=e.label.x+e.label.w*.5,y=e.label.y+e.label.h*.5;
-          return {id:e.id,x:r.left+x/c.width*r.width,y:r.top+y/c.height*r.height};
+          const x=e.x,y=e.y,hit=P.battleHit(c,x,y,E,s,performance.now()+2000);
+          return {id:e.id,hitId:hit?.id,x:r.left+x/c.width*r.width,y:r.top+y/c.height*r.height};
         }""")
         page.mouse.click(point["x"],point["y"])
-        check(f"Actual pointer selects first boss {w}x{h}",
-              page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==point["id"])
+        check(f"Actual pointer selects first boss by real foot hex {w}x{h}",
+              point["hitId"]==point["id"] and
+              page.evaluate("HOG_APP_DEBUG.getState().battle?.focused")==point["id"],point)
     page.close()
 
     # True HG26.1 joint Boss expedition: six owner-bound stacks are sent by
