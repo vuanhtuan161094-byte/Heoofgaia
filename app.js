@@ -12,6 +12,8 @@ const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchD
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const format=E.fmt;
+const hg408QualityClass=h=>'hg408-quality-'+E.hg408HeroQuality(h);
+const hg408HeroNameHTML=h=>h?'<span class="'+hg408QualityClass(h)+'">'+esc(h.name)+'</span>':'Chưa có tướng';
 const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=1350;
 let battleAutoPulseBusy=false;
 let focusArmyRecruitOnOpen=false; // New Army-tab entry goes to actionable recruitment, not passive text.
@@ -323,10 +325,10 @@ function dispatchView(){
   freeFor=id=>Math.max(0,(state.army[id]||0)-(reserved[id]||0)),
   target=E.getTile(draft.targetKey),targetLabel=target?.kind==='castle'?target.value:target?.kind==='mine'?`Mỏ ${C.resource[target.value]?.label||target.value}`:target?.value||draft.targetKey,
   total=form.reduce((n,g)=>n+g.count,0),canLaunch=!!hero&&role?.status==='home'&&points<=limit&&total>0&&!!target&&dispatchAPReady(draft);
- const heroCards=state.heroes.map(h=>{const r=E.hg20HeroRole(state,h.id),selected=h.id===draft.heroId,ready=r.status==='home';return `<button type="button" data-action="dispatch-select-hero" data-id="${h.id}" class="hg39-dispatch-hero ${selected?'active':''}" ${ready?'':'disabled'}><b>${esc(h.name)}</b><small>Lv.${h.level} · ${esc(r.label)}</small></button>`}).join('');
+ const heroCards=state.heroes.map(h=>{const r=E.hg20HeroRole(state,h.id),selected=h.id===draft.heroId,ready=r.status==='home';return `<button type="button" data-action="dispatch-select-hero" data-id="${h.id}" class="hg39-dispatch-hero ${selected?'active':''}" ${ready?'':'disabled'}><b>${hg408HeroNameHTML(h)}</b><small>Lv.${h.level} · ${esc(r.label)}</small></button>`}).join('');
  const rows=form.map(g=>{const u=E.getUnit(state,g.unitId);if(!u)return '';const free=freeFor(g.unitId);return `<div class="hg39-dispatch-row"><span class="hg39-dispatch-unit">${hg28ArmyUnitThumb(u,38)}<b>${esc(u.name)}</b><small>${format(free)} rảnh / ${format(reserved[u.id]||0)} giữ cho tướng khác</small></span><div class="hg39-dispatch-count"><button data-action="dispatch-adjust" data-id="${esc(u.id)}" data-delta="-1" aria-label="Giảm quân" ${g.count<=1?'disabled':''}>−</button><input type="number" min="1" max="${free}" value="${g.count}" data-dispatch-count="${esc(u.id)}" aria-label="Số ${esc(u.name)} xuất chinh"><button data-action="dispatch-adjust" data-id="${esc(u.id)}" data-delta="1" aria-label="Tăng quân" ${g.count>=free?'disabled':''}>＋</button><button class="hg39-remove" data-action="dispatch-remove" data-id="${esc(u.id)}" aria-label="Bỏ ${esc(u.name)}">×</button></div></div>`}).join('');
  const addable=E.arrUnits(state).filter(u=>freeFor(u.id)>(form.find(g=>g.unitId===u.id)?.count||0));
- return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${esc(hero.name)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><span data-hg39-dispatch-ap class="hg39-dispatch-ap" aria-live="polite">${esc(dispatchAPReadout(draft))}</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'}>⚔ Tự bố trí</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
+ return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${hg408HeroNameHTML(hero)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><span data-hg39-dispatch-ap class="hg39-dispatch-ap" aria-live="polite">${esc(dispatchAPReadout(draft))}</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'}>⚔ Tự bố trí</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
 }
 function syncDispatchDraftUI(){
  const draft=dispatchDraft;if(!draft)return;
@@ -461,7 +463,7 @@ function heroArmyCommandView(){
   const count=troops.reduce((sum,g)=>sum+g.count,0);
   const summary=troops.slice(0,3).map(g=>esc(E.getUnit(state,g.unitId)?.name||g.unitId)+' ×'+format(g.count)).join(' · ');
   const selected=h.id===state.activeHero;
-  return '<div class="card"><div class="heading">🧙 '+esc(h.name)+' · Lv.'+h.level+
+  return '<div class="card"><div class="heading">🧙 '+hg408HeroNameHTML(h)+' · Lv.'+h.level+
    (selected?' <span class="tag">ĐANG CHỌN</span>':'')+'</div>'+
    '<p class="hint">'+esc(duty.label)+' · <b>'+format(count)+' lính</b> · '+troops.length+' nhóm'+
    (duty.target?' · mục tiêu '+esc(duty.target):'')+'</p>'+
@@ -471,7 +473,7 @@ function heroArmyCommandView(){
  const other=E.hg20Reservations(state,state.activeHero);
  const allocated=Object.entries(other).filter(([,v])=>v>0).map(([id,count])=>esc(E.getUnit(state,id)?.name||id)+' ×'+format(count)).join(' · ');
  const hero=state.heroes.find(h=>h.id===state.activeHero),role=E.hg20HeroRole(state,state.activeHero);
- const leader=hero?esc(hero.name):'Chưa chọn tướng';
+ const leader=hg408HeroNameHTML(hero);
  return '<section class="card hg20-command"><h2>🎖 Điều binh theo từng tướng</h2>'+
  '<p class="hint">Đang điều binh cho <b>'+leader+'</b> · '+esc(role.label)+'. Chọn tướng trước, sau đó phân quân ở 7 ô bên dưới và bấm <b>Lưu đội hình</b>. Quân đang đi trận đã tách khỏi kho thành; mỗi đơn vị trong thành chỉ được phân cho một tướng.</p>'+
  '<div class="grid grid3">'+occupied+'</div><p class="tiny muted">Quân đã đặt trước cho tướng khác tại '+esc(home)+': '+(allocated||'không có')+
@@ -538,7 +540,7 @@ function hg24AutomationView(){
  const listed=template?template.groups.map(g=>esc(E.getUnit(state,g.unitId)?.name||g.unitId)+' ×'+format(g.count)).join(' · '):'Chưa lưu';
  return '<section class="card hg24-controls" aria-label="Tự động hóa private HG24">'+
  '<h2>⚙ Điều binh tự động & tu luyện</h2>'+
- '<p class="hint">Mẫu của <b>'+esc(hero?.name||'Tướng')+'</b> tại '+esc(state.activeCityId||'main')+
+ '<p class="hint">Mẫu của <b>'+hg408HeroNameHTML(hero)+'</b> tại '+esc(state.activeCityId||'main')+
  '. Giữ nguyên quân của tướng khác; tự tuyển chỉ khi chủ động bật và đủ tài nguyên, nhà tuyển và điều kiện binh chủng.</p>'+
  '<p class="tiny muted">Mẫu: '+listed+'</p>'+
  '<div class="actions">'+
@@ -562,7 +564,7 @@ function towerView(){
  const status=E.hg20TowerStatus(state),c=state.hg20.collection,castle=E.hg20CastleStatus(state),picks=E.hg21TowerPicks(state);
  const teamOptions=selected=>'<option value="">— Không chọn —</option>'+state.heroes.map(h=>{
   const duty=E.hg20HeroRole(state,h.id);
-  return '<option value="'+h.id+'" '+(selected===h.id?'selected':'')+' '+(duty.status==='home'?'':'disabled')+'>'+esc(h.name)+' · Lv.'+h.level+' · '+esc(duty.label)+'</option>';
+  return '<option value="'+h.id+'" '+(selected===h.id?'selected':'')+' '+(duty.status==='home'?'':'disabled')+' class="'+hg408QualityClass(h)+'">'+esc(h.name)+' · Lv.'+h.level+' · '+esc(duty.label)+'</option>';
  }).join('');
  const ready=E.hg21TowerReadiness(state);
  let strength='Chưa đủ quân';if(ready.ready){try{strength=format(E.hg20TowerPower(state).power)}catch(_){}}
@@ -570,7 +572,7 @@ function towerView(){
  const slots=picks.map((entry,i)=>{
   const hero=state.heroes.find(h=>h.id===entry.heroId),formation=E.hg20HeroPlan(state,entry.heroId);
   const dropdown=j=>'<label>Đội '+(j+1)+'<select id="hg21_slot_'+i+'_'+j+'"><option value="">Không mang</option>'+formation.map((g,k)=>'<option value="'+k+'" '+(entry.slots[j]===k?'selected':'')+'>'+esc(E.getUnit(state,g.unitId)?.name||g.unitId)+' ×'+format(g.count)+' · ô '+(k+1)+'</option>').join('')+'</select></label>';
-  return '<section class="hg28-tower-hero"><header><span>🧙</span><b>'+esc(hero?.name||'Tướng')+'</b><small>2 đội riêng</small></header><div class="hg28-tower-slots">'+dropdown(0)+dropdown(1)+'</div></section>';
+  return '<section class="hg28-tower-hero"><header><span>🧙</span><b>'+hg408HeroNameHTML(hero)+'</b><small>2 đội riêng</small></header><div class="hg28-tower-slots">'+dropdown(0)+dropdown(1)+'</div></section>';
  }).join('');
  return `<section class="hg28-tower-view"><header class="hg28-tower-title"><div><span class="eyebrow">BÍ CẢNH · CHIẾN THUẬT</span><h1>🗼 Tháp tầng ${format(status.floor)}</h1></div><div class="hg28-tower-badges"><span>🎁 ${status.rewardLeft}/5 lượt thưởng</span><span>⚔ ${strength}</span></div></header>
  <div class="hg28-tower-layout"><section class="card hg28-tower-command"><div class="hg28-tower-enemy"><span class="hg28-tower-enemy-icon">👹</span><div><small>ĐỐI THỦ · ${esc(status.trait)}</small><h2>${esc(status.enemy)}</h2><b>${format(status.enemyPower)} lực chiến</b></div><span class="tag">Tầng ${format(status.floor)}</span></div>
@@ -908,7 +910,7 @@ function technologyView(){
 }
 function magicView(){const active=state.heroes.find(h=>h.id===state.activeHero),castellan=state.heroes.find(h=>h.id===state.castellan);
  return magicViewBase()+technologyView()+`<section class="card hg04-section"><span class="eyebrow">HERO SPELLS • MAGIC TOWER</span><h2>✨ Phép tướng theo chủng tộc ${esc(C.races[state.race].english)}</h2><p class="hint">Bộ đang chọn: ${state.spellEdition==='china2009'?'Trung Quốc 2009 · Sina':'Quốc tế · Fandom'}. Nghiên cứu tại Magic Tower rồi trang bị cho tướng (tối đa 5 ô). Trong bộ Trung Quốc, Bản năng chiến đấu của Thú tộc áp dụng đúng +1,5% quãng di chuyển cận chiến mỗi cấp; thời hạn, hồi chiêu và cách cộng dồn phần lẻ để đổi ra ô là mô hình vì Sina không ghi các chi tiết này.</p>
- <p>Chỉ huy hiện tại: <b>${esc(active.name)}</b> · ${active.equippedSpells.filter(id=>E.spell(state,id)?.kind!=='castellan').length}/5 phép chiến đấu · Castellan: <b>${castellan?esc(castellan.name):'chưa bổ nhiệm'}</b></p>
+ <p>Chỉ huy hiện tại: <b>${hg408HeroNameHTML(active)}</b> · ${active.equippedSpells.filter(id=>E.spell(state,id)?.kind!=='castellan').length}/5 phép chiến đấu · Castellan: <b>${castellan?hg408HeroNameHTML(castellan):'chưa bổ nhiệm'}</b></p>
  <div class="grid grid3">${E.spells(state).map(q=>{const level=state.heroMagic[q.id]||0,cost=E.heroSpellCost(state,q.id),wearer=q.kind==='castellan'?castellan:active,equipped=!!wearer?.equippedSpells.includes(q.id),action=q.kind==='castellan'?'herocastellanequip':'heroequip',label=q.kind==='castellan'?(equipped?'Gỡ khỏi Castellan':castellan?'Gắn cho Castellan':'Cần bổ nhiệm Castellan'):equipped?'Gỡ phép':'Trang bị',blocked=q.kind==='castellan'?!castellan||!level:!level;
  return `<div class="card"><b>✧ ${esc(q.name)}</b>${q.sourceName?`<span class="muted tiny"> · ${esc(q.sourceName)}</span>`:''}<span class="tag">Lv ${level}</span>${q.kind==='castellan'?'<span class="tag">CASTELLAN</span>':''}<p class="hint">${esc(q.desc)}</p><p class="cost">${money(cost)}</p><div class="entry">${button('herolearn',{id:q.id},'Nghiên cứu',level>=state.buildings.magicTower||!E.canAfford(state,cost)||!!state.march||!!state.battle,'small')}${button(action,{id:q.id},label,blocked||!!state.march||!!state.battle,'small secondary')}</div></div>`}).join('')}</div></section>`;
 }
@@ -920,9 +922,9 @@ function castleOverview(){
  ${button('tab',{tab:'army'},'⚔ TROOPS',false,'secondary')}
  ${button('tab',{tab:'tasks'},'📜 TASK',false,'secondary')}
  </div><div class="hg05-castle-grid"><div><span class="eyebrow">CASTELLAN & LORD</span>
- <h3>⚜ ${esc(hero.name)} · Lv.${hero.level}</h3>
+ <h3>⚜ ${hg408HeroNameHTML(hero)} · Lv.${hero.level}</h3>
  <p class="hint">${esc(C.races[state.race].english)} · ATK ${hero.atk} · DEF ${hero.def} · SPD ${hero.spd} · INT ${hero.int}</p>
- <p class="hint">Thành thủ: ${esc(state.heroes.find(h=>h.id===state.castellan)?.name||'Chưa bổ nhiệm')} · Danh vọng ${format(state.fame)}</p></div>
+ <p class="hint">Thành thủ: ${hg408HeroNameHTML(state.heroes.find(h=>h.id===state.castellan))} · Danh vọng ${format(state.fame)}</p></div>
  <div><span class="eyebrow">ARMY AT CASTLE</span><h3>${format(count)} lính · ${military.length} binh chủng</h3>
  <p class="hint">${military.slice(0,4).map(u=>esc(u.name)+' ×'+format(state.army[u.id])).join(' · ')||'Chưa có quân'}</p>
  <p class="hint">${esc(C.buildings[E.troopBuildingKey(state)].name)} Lv.${state.buildings[E.troopBuildingKey(state)]} · Arena Lv.${state.buildings.arena}</p></div></div></section>`;
