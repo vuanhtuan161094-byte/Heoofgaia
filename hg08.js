@@ -139,6 +139,10 @@ function qualityOffer(s,offer,i){
   Math.imul(raceIndex+1,1597334677)^Math.imul(level,374761393))>>>0);
  const weights=qualityChances(level),roll=seed%100;let sum=0,tier=HERO_QUALITY_V2[0];
  for(let j=0;j<weights.length;j++){sum+=weights[j];if(roll<sum){tier=HERO_QUALITY_V2[j];break}}
+ // Preserve the observed Lv6-9 qualitative rule: at least one blue
+ // candidate per refresh. Remaining candidates use the explicit HG45 odds.
+ const guaranteed=(round+Math.max(0,raceIndex))%Math.max(1,s.tavern.offers.length);
+ if(level>=6&&level<10&&i===guaranteed)tier=HERO_QUALITY_V2[1];
  for(let j=0;j<attrKeys.length;j++){
   const key=attrKeys[j],span=tier.max-tier.min+1;
   offer[key]=tier.min+(heroQualityHash(seed^Math.imul(j+1,2246822519))%span);
