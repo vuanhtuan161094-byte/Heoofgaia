@@ -22,12 +22,13 @@ function fight(s,target,opts={}){
  while(s.battle&&turns<20){out=E.battleAct(s,'attack');turns++}
  assert(!s.battle,'Battle did not terminate');return {out,turns};
 }
-test('CS1–CS10 enemy purple stat100 level100 rank5 is a real battlefield multiplier',()=>{
+test('Real NPC stars and elite tiers use purple max-stat commanders with correct CS progression',()=>{
  const result=[];
  for(const level of [1,2,3,4,5,6,7,8,9,10]){
   const tile=target(level),s=game(),p=E.hg409Preview('npc',tile.key),battle=E.makeBattle(s,tile.key);
   const c=battle.hg409EnemyCommander;assert(c,'Enemy commander missing');
-  assert.equal(p.cs,level);assert.equal(c.cs,level);assert.equal(c.quality,'purple');
+  const expected=tile.eliteTier>=13?10:tile.eliteTier===12?9:tile.eliteTier===11?8:level;
+  assert.equal(p.cs,expected);assert.equal(c.cs,expected);assert.equal(c.quality,'purple');
   assert.equal(c.level,100);assert.equal(c.rank,5);
   for(const k of ['atk','def','spd','int'])assert.equal(c[k],100);
   assert.equal(battle.enemies.length,level===1?2:3);
@@ -35,7 +36,7 @@ test('CS1–CS10 enemy purple stat100 level100 rank5 is a real battlefield multi
   assert(E.strictSave({...s,battle}), 'New combat Save v07 must stay valid');
   result.push({star:level,cs:c.cs,hp:Math.round(battle.enemies[0].hp),atk:battle.enemies[0].atk});
  }
- for(let i=1;i<result.length;i++)assert(result[i].cs>result[i-1].cs);
+ for(let i=1;i<result.length;i++)assert(result[i].cs>=result[i-1].cs);
  return result;
 });
 test('T11, T12 and T13 Bosses receive CS8, CS9, CS10 without minting any troops',()=>{
