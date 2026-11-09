@@ -208,7 +208,17 @@ function renderIntro(){
  P.drawCity($('intro-canvas'),E,E.make(newRace),'hall');
 }
 function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.map(k=>`<button type="button" class="resource" data-action="resource-info" title="${esc(C.resource[k].label)}: ${format(state.res[k])}/${format(lim[k])} · +${format(E.rate(state)[k])}/giờ">${(ico(k,20)||C.resource[k].emoji)} <span>${C.resource[k].label}</span><b>${format(state.res[k])}</b><small class="muted">/${format(lim[k])} · +${format(E.rate(state)[k])}/h</small></button>`).join('');
- $('nav').innerHTML=tabs.map(([id,name])=>`<button data-action="tab" data-tab="${id}" class="${tab===id?'active':''}">${A?(ico(id,20)+' '+esc(name.slice(name.indexOf(' ')+1))):name}</button>`).join('');
+ const rail=$('nav'),oldNavScroll=rail.scrollLeft;
+ rail.innerHTML=tabs.map(([id,name])=>`<button data-action="tab" data-tab="${id}" title="${esc(name)}" aria-current="${tab===id?'page':'false'}" class="${tab===id?'active':''}">${A?(ico(id,20)+' '+esc(name.slice(name.indexOf(' ')+1))):name}</button>`).join('');
+ // A rebuild on passive economy ticks must not snap the navigation back to
+ // the map or lose the active screen on touch devices.
+ rail.scrollLeft=oldNavScroll;
+ const currentTab=rail.querySelector('button.active');
+ if(currentTab){
+  const left=currentTab.offsetLeft-rail.offsetLeft,right=left+currentTab.offsetWidth;
+  if(left<rail.scrollLeft)rail.scrollLeft=left;
+  else if(right>rail.scrollLeft+rail.clientWidth)rail.scrollLeft=right-rail.clientWidth;
+ }
  const earning=E.rate(state),hero=state.heroes.find(h=>h.id===state.activeHero),duty=E.hg20HeroRole(state,state.activeHero);$('status').innerHTML=`<div class="vitals">${flags()}</div><div class="muted tiny">${(ico(state.race,20)||C.races[state.race].emoji)} ${C.races[state.race].name} · ${state.heroes.length} tướng · ${E.activeArmy(state).reduce((n,u)=>n+state.army[u.id],0)} lính</div><div class="hr"></div><div class="hint">Sản lượng / giờ game:</div><div class="tiny">${C.keys.map(k=>`${(ico(k,20)||C.resource[k].emoji)} +${format(earning[k])}`).join(' · ')}</div><div class="hr"></div><div class="hint"><b>🏗 Xây dựng:</b> ${state.buildingQueue?esc(C.buildings[state.buildingQueue.key].name)+' Lv.'+state.buildingQueue.level+' · '+Math.ceil(state.buildingQueue.remaining/state.speed)+'s thực':'Trống'}</div><div class="hr"></div><div class="hint">Hàng đợi: ${state.training.length?esc(E.getUnit(state,state.training[0].unitId).name)+' ('+Math.ceil(state.training[0].remaining/state.speed)+' giây thực)':'Trống'}</div>${state.march?`<p class="notice">🚩 Hành quân: ${Math.ceil(state.march.remaining)}s game</p>`:''}`;
  $('status').innerHTML+='<div class="banner"><b>🎖 Tướng đang chọn: '+esc(hero?.name||'Không có')+'</b> · '+esc(duty.label)+' · '+format(duty.army.reduce((n,g)=>n+g.count,0))+' quân'+button('tab',{tab:'army'},'Điều binh',false,'small secondary')+'</div>';
  if(state.hg26?.enabled){
