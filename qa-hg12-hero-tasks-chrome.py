@@ -83,6 +83,16 @@ with sync_playwright() as pw:
     }""")
     check("HG41 real auto-formation assigns only paid and owned troops",
           roster["troops"]==61 and roster["garrison"]==61 and roster["valid"])
+    # Diagnostic at HG44-H confirmed that fast-forwarding a long march at 1x
+    # put lastTick 437,090 ms into the future. Strict v07 correctly rejects
+    # timestamps >5 minutes ahead. Restore the real 60x UI control BEFORE
+    # the bounded tactical march test. Do not weaken the Save validator or
+    # rewind any live game state to manufacture a passing receipt.
+    speed_tools=page.locator('.hg42-screen-tool-menu')
+    if not speed_tools.evaluate('el=>el.open'):speed_tools.locator('summary').click()
+    speed_tools.locator('#speed').click()
+    check("HG44-H restore 60x before QA march to respect Save v07 wall-clock bound",
+          page.evaluate("HOG_APP_DEBUG.getState().speed===60"))
     page.locator('#nav [data-tab="map"]').click()
     quickstart_drawer=page.locator('.hg39-map-dock .hg39-map-details').filter(has_text="Tác vụ nhanh")
     if not quickstart_drawer.evaluate("el=>el.open"):quickstart_drawer.locator("summary").click()
