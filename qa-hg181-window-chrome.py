@@ -118,12 +118,78 @@ try:
   for turn in range(70):
     if not page.evaluate("!!HOG_APP_DEBUG.getState().battle"):break
     page.locator('[data-action="battle"][data-cmd="attack"]').click()
-  check('Real tactical turn clicks win floor 1 and grant exactly one of five daily claims',
+  # HG41 legitimately fields TEN real enemy stacks at floor 1. Sixteen free
+  # starter spears now lose: no fake victory, reward, soldier or Save mutation.
+  unpaid=page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState(),t=s.hg20.tower;
+    return {battle:!!s.battle,floor:t.floor,claims:t.claims,
+      outcome:t.last?.outcome,turns:t.last?.turns,
+      garrison:s.army.human_1,valid:HOG_ENGINE.strictSave(s)};
+  }""")
+  check('Unfunded 16-soldier Tower defeat grants zero claims and preserves real army',
+    not unpaid['battle'] and unpaid['floor']==1 and unpaid['claims']==0 and
+    unpaid['outcome']=='lose' and unpaid['turns']>=1 and
+    unpaid['garrison']==16 and unpaid['valid'],unpaid)
+  # A real gameplay upgrade, not a QA troop grant: pay for another 45 Spear
+  # Militia from the Army screen, let the paid training queue finish via tick,
+  # then assign the actually owned 61 troops using the visible formation button.
+  page.locator('[data-action="tab"][data-tab="army"]').first.click()
+  before_paid=page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState();
+    return {gold:s.res.gold,garrison:s.army.human_1,claims:s.hg20.tower.claims};
+  }""")
+  page.locator('.game-window-body #q_human_1').fill('45')
+  page.locator('.game-window-body [data-action="recruit"][data-id="human_1"]').click()
+  paid=page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState(),q=s.training.find(t=>t.unitId==='human_1');
+    return {gold:s.res.gold,queue:q?.count,remaining:q?.remaining,
+      valid:HOG_ENGINE.strictSave(s)};
+  }""")
+  check('Actual Recruit button charges gold and queues exactly 45 additional soldiers',
+    paid['gold']<before_paid['gold'] and paid['queue']==45 and paid['remaining']>0 and paid['valid'],paid)
+  delivered=page.evaluate("""() => {
+    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),q=s.training.find(t=>t.unitId==='human_1');
+    E.tick(s,s.lastTick+(q.remaining+2)*1000/s.speed);HOG_APP_DEBUG.render();
+    return {garrison:s.army.human_1,remaining:s.training.length,valid:E.strictSave(s)};
+  }""")
+  check('Paid recruitment completes exactly once with 61 genuine garrison soldiers',
+    delivered['garrison']==61 and delivered['remaining']==0 and delivered['valid'],delivered)
+  drawer=page.locator('.hg28-army-ops:not(.hg28-army-quest)')
+  if not drawer.evaluate('e=>e.open'):drawer.locator('summary').click()
+  page.locator('.game-window-body [data-action="autoformation"]').click()
+  check('Real Auto Formation assigns only the 61 paid-and-owned soldiers',
     page.evaluate("""() => {
-      const s=HOG_APP_DEBUG.getState(),t=s.hg20.tower;
-      return !s.battle&&t.floor===2&&t.claims===1&&t.team.length===1&&
-        t.last?.outcome==='win'&&t.last?.turns>=1&&HOG_ENGINE.strictSave(s);
+      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),p=E.hg20HeroPlan(s,1);
+      return p.length===1&&p[0].unitId==='human_1'&&p[0].count===61&&
+        s.army.human_1===61&&E.strictSave(s);
     }"""))
+  page.locator('[data-action="tab"][data-tab="tower"]').first.click()
+  check('Tower is still on floor 1 with exactly zero rewards before the funded attempt',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState();
+      return s.hg20.tower.floor===1&&s.hg20.tower.claims===0&&
+        HOG_ENGINE.strictSave(s);
+    }"""))
+  page.locator('[data-action="tower-climb"]').click()
+  check('The funded Tower attempt fields the same real enemy army without nerfing CS',
+    page.evaluate("""() => {
+      const s=HOG_APP_DEBUG.getState(),b=s.battle;
+      return b?.kind==='tower'&&b.hg410?.enemyStacks===10&&
+        b.hg409EnemyCommander?.cs===1&&
+        b.allies.reduce((n,u)=>n+u.count,0)===61&&HOG_ENGINE.strictSave(s);
+    }"""))
+  for turn in range(70):
+    if not page.evaluate("!!HOG_APP_DEBUG.getState().battle"):break
+    page.locator('[data-action="battle"][data-cmd="attack"]').click()
+  funded=page.evaluate("""() => {
+    const s=HOG_APP_DEBUG.getState(),t=s.hg20.tower;
+    return {battle:!!s.battle,floor:t.floor,claims:t.claims,outcome:t.last?.outcome,
+      turns:t.last?.turns,garrison:s.army.human_1,save:HOG_ENGINE.strictSave(s)};
+  }""")
+  check('Funded real 61-soldier tactical victory pays exactly one of five daily claims',
+    not funded['battle'] and funded['floor']==2 and funded['claims']==1 and
+    funded['outcome']=='win' and funded['turns']>=1 and
+    funded['garrison']==61 and funded['save'],funded)
   page.screenshot(path=str(OUT/'private-tower-real-command.png'))
   page.locator('[data-action="tab"][data-tab="army"]').first.click()
   page.locator('.game-window-body [data-action="hg24-boss-prepare"]').click()
