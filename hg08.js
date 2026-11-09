@@ -110,7 +110,7 @@ const HERO_QUALITY_BY_ID=Object.fromEntries(HERO_QUALITY_V2.map(t=>[t.id,t]));
 const HERO_QUALITY_CHANCES=Object.freeze({
  early:Object.freeze([80,20,0,0,0,0,0]),
  middle:Object.freeze([45,35,15,5,0,0,0]),
- upper:Object.freeze([15,30,25,16,13,1,0]),
+ upper:Object.freeze([15,30,25,15,13,1,1]),
  master:Object.freeze([8,18,20,18,34,1,1])
 });
 function qualityChances(level){
