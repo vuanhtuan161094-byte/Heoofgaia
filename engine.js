@@ -22,8 +22,8 @@ const battleHex=Object.freeze({
  pixelToCell(px,py,radius,origin,grid=BATTLE_GRID){if(!(radius>0)||!Number.isFinite(px)||!Number.isFinite(py))return null;const dx=px-origin.x,dy=py-origin.y,q=(Math.sqrt(3)/3*dx-dy/3)/radius,r=(2/3*dy)/radius,a=this.cubeRound(q,r),cell=this.axialToOffset(a.q,a.r);return this.inBounds(cell.x,cell.y,grid)?cell:null}
 });
 // Simulated offline defaults: historical formation/range values are not verified.
-// Hex radii 9/10 stay close to the previous 11/12 Manhattan target reachability.
-const TACTICAL_RANGE=Object.freeze({melee:1,ranged:9,eliteRanged:10});
+// HG41: melee 1, normal ranged 4, elite ranged 5 hexes on 12x9.
+const TACTICAL_RANGE=Object.freeze({melee:1,ranged:4,eliteRanged:5});
 function unitTacticalRange(unit){return unit?.type==='Ranged'?(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged):TACTICAL_RANGE.melee;}
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG39 pacing profile is applied once after all effective HG38 modifiers.
