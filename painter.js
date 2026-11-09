@@ -1099,6 +1099,29 @@ function drawHG403BattleHUD(c,b,w,h){
   c.fillText(value,w/2,h-22);c.restore();
  }
 }
+// HG40.7: atlas profiles can carry long names (especially T9/T10).
+// Keep the entire label inside its native Canvas plate instead of drawing
+// across a neighbor's HP bar. Cache by literal text/width/font for RAF cost.
+const battleNameplateTextCache=new Map();
+function hg407FitName(c,value,maxWidth,fontSize=11){
+ const name=String(value??''),width=Math.max(5,maxWidth||0),
+  key=fontSize+'|'+Math.round(width)+'|'+name;
+ if(battleNameplateTextCache.has(key))return battleNameplateTextCache.get(key);
+ c.save();c.font='600 '+fontSize+'px Georgia,serif';
+ let result=name;
+ if(c.measureText(result).width>width){
+  let lo=0,hi=name.length;
+  while(lo<hi){const mid=Math.ceil((lo+hi)/2);
+   if(c.measureText(name.slice(0,mid)+'…').width<=width)lo=mid;
+   else hi=mid-1;
+  }
+  result=name.slice(0,lo).trimEnd()+'…';
+ }
+ c.restore();
+ if(battleNameplateTextCache.size>400)battleNameplateTextCache.clear();
+ battleNameplateTextCache.set(key,result);
+ return result;
+}
 function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(!canvas||!s.battle)return;
  const c=canvas.getContext('2d'),b=s.battle,w=canvas.width,h=canvas.height,
@@ -1150,7 +1173,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   rounded(c,bx,by,plate.w,hpVisible?plate.h:21,5,
    u.side==='enemy'?'#392b2fe9':'#1e3840ef',
    b.selected===u.id||b.focused===u.id?'#f4d996':'#abbdab65');
-  text(c,u.name,bx+plate.w/2,by+14,plate.fontSize||11,'#f7e8c7');
+  text(c,hg407FitName(c,u.name,plate.w-12,plate.fontSize||11),bx+plate.w/2,by+14,plate.fontSize||11,'#f7e8c7');
   if(hpVisible){rounded(c,bx+8,by+21,plate.w-16,6,3,'#0b1d22e9');
    c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
    c.fillRect(bx+9,by+22,(plate.w-18)*clamp(displayPool/(u.initial*u.hp),0,1),4);}
@@ -1194,5 +1217,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
