@@ -134,6 +134,14 @@ try:
   # Militia from the Army screen, let the paid training queue finish via tick,
   # then assign the actually owned 61 troops using the visible formation button.
   page.locator('[data-action="tab"][data-tab="army"]').first.click()
+  # HG42 moves the original speed button into a visible tools fold.
+  # Switch from 60x to 1x via real UI: the 45-troop paid queue otherwise
+  # sometimes finishes before the next browser read on fast CI runners.
+  speed_tools=page.locator('.hg42-screen-tool-menu')
+  if not speed_tools.evaluate('el=>el.open'):speed_tools.locator('summary').click()
+  speed_tools.locator('#speed').click()
+  check('Real speed control protects paid recruitment queue inspection at 1x',
+        page.evaluate('HOG_APP_DEBUG.getState().speed===1'))
   before_paid=page.evaluate("""() => {
     const s=HOG_APP_DEBUG.getState();
     return {gold:s.res.gold,garrison:s.army.human_1,claims:s.hg20.tower.claims};
