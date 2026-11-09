@@ -822,6 +822,19 @@ function battleHit(canvas,x,y,E,s,now=visualNow()){
    footX:pt.x+entry.x-entry.baseX,footY:pt.y+entry.y-entry.baseY};
  }).sort((a,b)=>a.entry.y-b.entry.y||a.entry.x-b.entry.x);
  const inside=(rect)=>x>=rect.x&&x<=rect.x+rect.w&&y>=rect.y&&y<=rect.y+rect.h;
+ // HG44-H: A deliberate tap at the actual unit hex center must select its
+ // canonical owner, even while a neighboring troop is visibly walking across
+ // that pivot on the previous turn's animation timeline. HG41's 3x2 stacks
+ // exposed the bug: a p0 foot tap could select p4 during a mid-walk frame.
+ // Use a narrow center-only priority; sprite/label/hit animation remains
+ // active for taps elsewhere. Pure hit testing; Save v07 is untouched.
+ const homeRadius=Math.max(9,camera.radius*.32);
+ let home=null,homeDistance=homeRadius;
+ for(const e of visible){
+  const d=Math.hypot(e.entry.baseX-x,e.entry.baseY-y);
+  if(d<homeDistance){home=e.u;homeDistance=d}
+ }
+ if(home)return home;
  let anchored=null,anchorDistance=Math.max(16,canvas.width*.019);
  for(const e of visible){
   const d=Math.hypot(e.footX-x,e.footY-y);
