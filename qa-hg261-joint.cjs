@@ -79,7 +79,9 @@ check('Different commanders have owner-specific battle damage and no cross-buff'
 });
 check('Real casualty reduces combined expedition once, by 6 individual formation slots',()=>{
  const x=setup(),s=x.s;takeoff(x);const b=arrive(s),before=s.expedition.army.human_1;
- for(const u of b.enemies){u.atk=100000;u.spd=999;u.range=E.TACTICAL_RANGE.ranged}
+ for(const u of b.enemies){u.atk=100000;u.spd=999;u.range=E.TACTICAL_RANGE.ranged;u.x=4;}
+ // Forced first-turn casualty fixture: keep targets within the new authentic
+ // 4-hex ranged model, not the obsolete 9-hex long-range setting.
  E.battleActCore(s,'attack');
  const lost=b.allies.reduce((n,u)=>n+u.initial-u.count,0);
  assert(lost>0);
