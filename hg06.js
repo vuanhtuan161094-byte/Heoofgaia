@@ -52,7 +52,7 @@ function tick(s,now=Date.now()){
 function valid(s){return !!(s&&s.version===V&&old.valid({...s,version:5}));}
 function strict(s){if(!valid(s)||!old.strict({...s,version:5}))return false;
  const t=s.tavern;if(!t||!Number.isSafeInteger(t.round)||t.round<0||t.round>1e9||!Number.isFinite(t.remaining)||t.remaining<0||t.remaining>3600||!Array.isArray(t.offers)||t.offers.length>8)return false;
- const ids=new Set();for(const h of t.offers){if(!h||typeof h.id!=='string'||h.id.length>24||ids.has(h.id)||typeof h.name!=='string'||h.name.length>64||!['white','blue','yellow','green','purple'].includes(h.quality)||!['atk','def','spd','int','gold'].every(k=>Number.isSafeInteger(h[k])&&h[k]>=0&&h[k]<=10000))return false;ids.add(h.id)}
+ const ids=new Set();for(const h of t.offers){if(!h||typeof h.id!=='string'||h.id.length>24||ids.has(h.id)||typeof h.name!=='string'||h.name.length>64||!['white','blue','yellow','green','purple','platinum','rainbow'].includes(h.quality)||!['atk','def','spd','int'].every(k=>Number.isSafeInteger(h[k])&&h[k]>=0&&h[k]<=10000)||!Number.isSafeInteger(h.gold)||h.gold<0||h.gold>100000)return false;ids.add(h.id)}
  return true;
 }
 function parse(text){if(typeof text!=='string'||text.length>2000000)throw Error('Tệp sao lưu vượt giới hạn 2 MB');
