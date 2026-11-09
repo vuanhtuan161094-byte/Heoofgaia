@@ -3,8 +3,8 @@
  'use strict';
  const E=root.HOG_ENGINE;
  if(!E||E.V!==7||!E.hg20HeroRole||!E.hg21TowerEnter||!E.hg26Status)throw Error('HG40.8 requires the complete Save v07 hero engine');
- const previous={make:E.make,parseSave:E.parseSave};
- const colors=new Set(['white','blue','yellow','green','purple']);
+ const previous={make:E.make,parseSave:E.parseSave,heroStats:E.heroStats,combatModifiers:E.combatModifiers};
+ const colors=new Set(['white','blue','yellow','green','purple','platinum','rainbow']);
  const own=(v,k)=>Object.prototype.hasOwnProperty.call(v||{},k);
  const heroById=(s,id)=>s.heroes.find(h=>h.id===id);
  function baseQuality(h){
@@ -20,6 +20,28 @@
  function normalize(s){
    if(s?.heroes)for(const h of s.heroes)if(!colors.has(h.quality))h.quality=baseQuality(h);
    return s;
+ }
+ function qualityInfo(hero){
+   const key=baseQuality(hero);
+   return E.HERO_QUALITY_V2?.find(t=>t.id===key)||
+    E.HERO_QUALITY_V2?.[0]||{id:'white',label:'Trắng',stat:1,damage:0,reduction:0,buff:'—'};
+ }
+ // Effects are derived, not stored in the save: old recruited heroes keep
+ // every original attribute, and no quality can be rerolled by Save/Reload.
+ function qualityStats(s,id=s.activeHero){
+   const stats=previous.heroStats(s,id),hero=s?.heroes?.find(h=>h.id===id);
+   if(!stats||!hero)return stats;
+   const multiplier=qualityInfo(hero).stat||1;
+   return Object.fromEntries(Object.entries(stats).map(([key,val])=>
+    [key,['atk','def','spd','int'].includes(key)&&Number.isFinite(val)?
+      Math.round(val*multiplier*1000)/1000:val]));
+ }
+ function qualityCombat(s,id=s.activeHero){
+   const base=previous.combatModifiers?.(s,id)||{},hero=s?.heroes?.find(h=>h.id===id);
+   if(!hero)return base;
+   const tier=qualityInfo(hero);
+   return {...base,damageBonus:Math.min(.5,(base.damageBonus||0)+(tier.damage||0)),
+    damageReduction:Math.min(.4,(base.damageReduction||0)+(tier.reduction||0))};
  }
  function refs(s,id){
    const matches=[];
@@ -118,8 +140,10 @@
    E.note(s,'Sa thải '+removed.name+'; trả '+owned.length+' món trang bị về kho, giải phóng '+check.plans+' đội hình dự kiến; không hoàn vàng hoặc thay đổi quân.');
    return {heroId:id,name:removed.name,returnedGear:owned.length,removedPlans:check.plans,activeHero:s.activeHero,slotsFree:1};
  }
+ E.heroStats=qualityStats;
+ E.combatModifiers=qualityCombat;
  E.make=function(...args){return normalize(previous.make(...args))};
  E.parseSave=function(...args){return normalize(previous.parseSave(...args))};
- Object.assign(E,{hg408HeroQuality:baseQuality,hg408DismissCheck:inspect,hg408DismissHero:dismiss,hg408DanglingRefs:refs});
+ Object.assign(E,{hg408HeroQuality:baseQuality,hg408HeroQualityInfo:qualityInfo,hg408DismissCheck:inspect,hg408DismissHero:dismiss,hg408DanglingRefs:refs});
  root.HOG_HG408=Object.freeze({version:1,saveVersion:7});
 })(typeof globalThis!=='undefined'?globalThis:this);
