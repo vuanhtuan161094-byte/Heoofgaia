@@ -726,7 +726,15 @@ function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  const width=clamp(unit.renderWidth*k,18,160),height=width*frameSize[1]/frameSize[0];
  c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(enemy&&unit.enemyFacing!=='left')c.scale(-1,1);
  const groundFix=hg407FootOffset(unitId,frame.action,frame.frame,height,frameSize[1]);
- c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,-height*unit.pivot+groundFix,width,height);c.restore();return true;
+ const paintedY=-height*unit.pivot+groundFix;
+ // Original Orc T10 Walk frames 2/3 contain stray duplicate alpha at the
+ // atlas-row bottom, distinct from the main creature silhouette (observed
+ // by real Chromium alpha audit). Mask ONLY those two source-frame overflows;
+ // preserve the authored art, movement, hex anchor and all damage receipts.
+ if(unitId==='orc_10'&&frame.action==='walk'&&(frame.frame===2||frame.frame===3)){
+  c.beginPath();c.rect(-width*.5-1,paintedY-1,width+2,Math.max(1,3-paintedY));c.clip();
+ }
+ c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,paintedY,width,height);c.restore();return true;
 }
 function battleUnitArt(c,x,y,enemy,visual,k,u){
  if(troopAtlasDefinition(u.unitId,u.name))return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId,u.name);
