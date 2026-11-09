@@ -31,6 +31,24 @@ with sync_playwright() as pw:
   page.goto(HTML.as_uri(),wait_until='load',timeout=60000)
   page.locator('[data-action="start"]').click()
   check(label+' new game has strict Save v07',page.evaluate("() => HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())"))
+  # Distinct full-screen management screens, not floating panels over the
+  # world map. Every original action is still on its canonical route.
+  for route in ['city','army','heroes','magic','relics','tasks','tower','reports','sources']:
+   page.locator('#nav [data-action="tab"][data-tab="'+route+'"]').click()
+   frame=page.evaluate("""() => {
+    const m=document.querySelector('#game-modal'),w=m?.querySelector('.game-window');
+    if(!w)return null;
+    const r=w.getBoundingClientRect();
+    return {separate:document.body.classList.contains('hg42-management-screen-open'),
+     modal:!m.hidden,left:r.left,right:r.right,top:r.top,bottom:r.bottom,
+     viewportWidth:innerWidth,viewportHeight:innerHeight};
+   }""")
+   check(label+' standalone '+route+' screen fits without overlapping viewport',
+    bool(frame) and frame['separate'] and frame['modal'] and
+    frame['left']>=-1 and frame['right']<=w+2 and
+    frame['top']>=0 and frame['bottom']<=h+2,frame)
+   if route in ('heroes','army'):shot(page,label+'-screen-'+route)
+  page.locator('#nav [data-action="tab"][data-tab="map"]').click()
   page.locator('#nav [data-action="tab"][data-tab="boss"]').click()
   check(label+' dedicated Boss page opens',page.locator('.hg42-boss-page[data-hg42-boss-screen="targets"]').count()==1)
   check(label+' separate tabs have three routes',page.locator('.hg42-boss-subnav [data-action="hg42-boss-screen"]').count()==3)
