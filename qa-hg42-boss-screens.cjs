@@ -102,6 +102,18 @@ test('Boss route screen itself grants no army, XP, loot, AP or progress',()=>{
  assertReadOnly(before,s);
  return {tiers:[11,12,13],screens:U.sections.length,unchanged:true};
 });
+test('HG44-D Boss readiness shows actual army and eligible heroes, no phantom power or Save mutation',()=>{
+ const s=game(),before=JSON.stringify(s),stock=Object.values(s.army).reduce((n,v)=>n+Math.max(0,Number(v)||0),0);
+ const ready=s.heroes.filter(h=>h.id!==s.castellan).length;
+ const html=U.render(s,E,ui,{screen:'targets',tier:13});
+ assert(html.includes('data-hg44-boss-preparation="true"'));
+ assert(html.includes(E.fmt(stock)+'<'+'/b> quân trong thành'));
+ assert(html.includes('<b>'+ready+'</b> tướng chưa bận'));
+ assert(html.includes('không phải dự báo thắng Boss')||html.includes('Chưa có quân'));
+ assert(!html.includes('Chắc chắn thắng')&&!html.includes('data-action="grant"'));
+ assertReadOnly(before,s);roundTrip(s);
+ return {stock,eligibleHeroes:ready,strictSave:true};
+});
 const out=path.join(__dirname,'docs/qa/hg42');fs.mkdirSync(out,{recursive:true});
 fs.writeFileSync(path.join(out,'boss-engine-and-painter.json'),JSON.stringify({
  suite:'HG42 boss stage/view/painter nonmutating real engine',passed:tests.filter(t=>t.pass).length,total:tests.length,tests
