@@ -328,8 +328,8 @@ function dispatchView(){
   target=E.getTile(draft.targetKey),targetLabel=target?.kind==='castle'?target.value:target?.kind==='mine'?`Mỏ ${C.resource[target.value]?.label||target.value}`:target?.value||draft.targetKey,
   total=form.reduce((n,g)=>n+g.count,0),canLaunch=!!hero&&role?.status==='home'&&points<=limit&&total>0&&!!target&&dispatchAPReady(draft);
  const heroCards=state.heroes.map(h=>{const r=E.hg20HeroRole(state,h.id),selected=h.id===draft.heroId,ready=r.status==='home';return `<button type="button" data-action="dispatch-select-hero" data-id="${h.id}" class="hg39-dispatch-hero ${selected?'active':''}" ${ready?'':'disabled'}><b>${hg408HeroNameHTML(h)}</b><small>Lv.${h.level} · ${esc(r.label)}</small></button>`}).join('');
- const rows=form.map(g=>{const u=E.getUnit(state,g.unitId);if(!u)return '';const free=freeFor(g.unitId);return `<div class="hg39-dispatch-row"><span class="hg39-dispatch-unit">${hg28ArmyUnitThumb(u,38)}<b>${esc(u.name)}</b><small>${format(free)} rảnh / ${format(reserved[u.id]||0)} giữ cho tướng khác</small></span><div class="hg39-dispatch-count"><button data-action="dispatch-adjust" data-id="${esc(u.id)}" data-delta="-1" aria-label="Giảm quân" ${g.count<=1?'disabled':''}>−</button><input type="number" min="1" max="${free}" value="${g.count}" data-dispatch-count="${esc(u.id)}" aria-label="Số ${esc(u.name)} xuất chinh"><button data-action="dispatch-adjust" data-id="${esc(u.id)}" data-delta="1" aria-label="Tăng quân" ${g.count>=free?'disabled':''}>＋</button><button class="hg39-remove" data-action="dispatch-remove" data-id="${esc(u.id)}" aria-label="Bỏ ${esc(u.name)}">×</button></div></div>`}).join('');
- const addable=E.arrUnits(state).filter(u=>freeFor(u.id)>(form.find(g=>g.unitId===u.id)?.count||0));
+ const rows=form.map((g,i)=>{const u=E.getUnit(state,g.unitId);if(!u)return '';const free=Math.max(0,freeFor(g.unitId)-form.reduce((n,x,j)=>n+(j!==i&&x.unitId===g.unitId?x.count:0),0));return `<div class="hg39-dispatch-row"><span class="hg39-dispatch-unit">${hg28ArmyUnitThumb(u,38)}<b>${esc(u.name)}</b><small>${format(free)} rảnh / ${format(reserved[u.id]||0)} giữ cho tướng khác</small></span><div class="hg39-dispatch-count"><button data-action="dispatch-adjust" data-slot="${i}" data-delta="-1" aria-label="Giảm quân" ${g.count<=1?'disabled':''}>−</button><input type="number" min="1" max="${free}" value="${g.count}" data-dispatch-slot="${i}" aria-label="Số ${esc(u.name)} xuất chinh"><button data-action="dispatch-adjust" data-slot="${i}" data-delta="1" aria-label="Tăng quân" ${g.count>=free?'disabled':''}>＋</button><button class="hg39-remove" data-action="dispatch-remove" data-slot="${i}" aria-label="Bỏ ${esc(u.name)}">×</button></div></div>`}).join('');
+ const addable=E.arrUnits(state).filter(u=>freeFor(u.id)>form.reduce((n,g)=>n+(g.unitId===u.id?g.count:0),0));
  return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${hg408HeroNameHTML(hero)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><span data-hg39-dispatch-ap class="hg39-dispatch-ap" aria-live="polite">${esc(dispatchAPReadout(draft))}</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'}>⚔ Tự bố trí</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
 }
 function syncDispatchDraftUI(){
@@ -345,8 +345,9 @@ function syncDispatchDraftUI(){
  if(confirm)confirm.disabled=!(hero&&role?.status==='home'&&points<=limit&&total>0&&!!E.getTile(draft.targetKey)&&dispatchAPReady(draft));
  syncDispatchAP();
  for(const row of $('game-modal-body')?.querySelectorAll('.hg39-dispatch-row')||[]){
-  const input=row.querySelector('[data-dispatch-count]'),group=form.find(g=>g.unitId===input?.dataset.dispatchCount);if(!input)continue;
-  const id=input.dataset.dispatchCount,free=Math.max(0,(state.army[id]||0)-(held[id]||0));
+  const input=row.querySelector('[data-dispatch-slot]');if(!input)continue;
+  const index=Number(input.dataset.dispatchSlot),group=form[index];
+  const id=group?.unitId,free=id?Math.max(0,(state.army[id]||0)-(held[id]||0)-form.reduce((n,g,i)=>n+(i!==index&&g.unitId===id?g.count:0),0)):0;
   row.hidden=!group;input.value=group?String(group.count):'0';input.max=String(free);
   const minus=row.querySelector('[data-delta="-1"]'),plus=row.querySelector('[data-delta="1"]');
   if(minus)minus.disabled=!group||group.count<=1;if(plus)plus.disabled=!group||group.count>=free;
@@ -1205,13 +1206,17 @@ $('app').addEventListener('input',evt=>{
  hg35UpdateRecruitQuote(id);
 });
 $('app').addEventListener('change',evt=>{
- const field=evt.target,unitId=field?.dataset?.dispatchCount;if(!unitId||!dispatchDraft)return;
- const hero=state.heroes.find(h=>h.id===dispatchDraft.heroId);if(!hero)return;
- const held=E.hg20Reservations(state,hero.id),available=Math.max(0,(state.army[unitId]||0)-(held[unitId]||0));
- let count=Math.max(0,Math.min(available,Math.floor(Number(field.value)||0)));
- const next=(dispatchDraft.form||[]).filter(g=>g.unitId!==unitId);
- while(count>0&&E.formationPoints(state,[...next,{unitId,count}])>E.heroLimit(hero.level,hero))count--;
- if(count>0)next.push({unitId,count});dispatchDraft.form=next;
+ const field=evt.target,slot=Number(field?.dataset?.dispatchSlot);
+ if(!dispatchDraft||!field?.hasAttribute('data-dispatch-slot')||!Number.isSafeInteger(slot))return;
+ const hero=state.heroes.find(h=>h.id===dispatchDraft.heroId),form=dispatchDraft.form||[],group=form[slot];
+ if(!hero||!group)return;
+ const held=E.hg20Reservations(state,hero.id),other=form.filter((_,i)=>i!==slot),
+  already=other.filter(g=>g.unitId===group.unitId).reduce((n,g)=>n+g.count,0),
+  free=Math.max(0,(state.army[group.unitId]||0)-(held[group.unitId]||0)-already),
+  weight=E.unitValue(E.getUnit(state,group.unitId)),
+  remaining=Math.max(0,E.heroLimit(hero.level,hero)-E.formationPoints(state,other));
+ const count=Math.min(free,Math.floor(remaining/weight),Math.max(0,Math.floor(Number(field.value)||0)));
+ if(count>0)group.count=count;else form.splice(slot,1);
  field.value=count?String(count):'0';syncDispatchDraftUI();
 });
 $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-action]');if(!target)return;const action=target.dataset.action;
@@ -1269,20 +1274,24 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   const unitId=$('hg39-dispatch-unit')?.value,hero=state.heroes.find(h=>h.id===dispatchDraft?.heroId);
   if(!unitId||!hero)throw Error('Chọn loại quân và tướng trước.');
   if(dispatchDraft.form.length>=7)throw Error('Đội hình tối đa 7 nhóm.');
-  if(dispatchDraft.form.some(g=>g.unitId===unitId))throw Error('Loại quân này đã có trong đội hình.');
-  const held=E.hg20Reservations(state,hero.id),available=Math.max(0,(state.army[unitId]||0)-(held[unitId]||0));
+  const held=E.hg20Reservations(state,hero.id),already=dispatchDraft.form.filter(g=>g.unitId===unitId).reduce((n,g)=>n+g.count,0),available=Math.max(0,(state.army[unitId]||0)-(held[unitId]||0)-already);
   if(available<1)throw Error('Không còn quân rảnh thuộc thành này.');
   dispatchDraft.form.push({unitId,count:1});return;
  }
  if(action==='dispatch-adjust'){
-  const group=dispatchDraft?.form.find(g=>g.unitId===target.dataset.id);if(!group)throw Error('Đơn vị không còn trong đội hình.');
-  const hero=state.heroes.find(h=>h.id===dispatchDraft.heroId),held=E.hg20Reservations(state,hero.id),max=Math.max(0,(state.army[group.unitId]||0)-(held[group.unitId]||0));
-  let count=Math.max(1,Math.min(max,group.count+Number(target.dataset.delta||0)));
-  while(count>1&&E.formationPoints(state,dispatchDraft.form.map(g=>g.unitId===group.unitId?{...g,count}:g))>E.heroLimit(hero.level,hero))count--;
-  group.count=count;return;
+  const index=Number(target.dataset.slot),form=dispatchDraft?.form||[],group=form[index];
+  if(!Number.isSafeInteger(index)||!group)throw Error('Slot quân không còn tồn tại.');
+  const hero=state.heroes.find(h=>h.id===dispatchDraft.heroId),held=E.hg20Reservations(state,hero.id),
+   others=form.filter((_,i)=>i!==index),taken=others.filter(g=>g.unitId===group.unitId).reduce((n,g)=>n+g.count,0),
+   available=Math.max(0,(state.army[group.unitId]||0)-(held[group.unitId]||0)-taken),
+   byPoints=Math.floor(Math.max(0,E.heroLimit(hero.level,hero)-E.formationPoints(state,others))/E.unitValue(E.getUnit(state,group.unitId)));
+  if(Math.min(available,byPoints)<1)throw Error('Không đủ sức chỉ huy hoặc quân rảnh.');
+  group.count=Math.max(1,Math.min(available,byPoints,group.count+Number(target.dataset.delta||0)));return;
  }
  if(action==='dispatch-remove'){
-  dispatchDraft.form=dispatchDraft.form.filter(g=>g.unitId!==target.dataset.id);return;
+  const index=Number(target.dataset.slot);
+  if(!Number.isSafeInteger(index)||index<0||index>=dispatchDraft.form.length)throw Error('Slot quân không hợp lệ');
+  dispatchDraft.form.splice(index,1);return;
  }
  if(action==='dispatch-auto'){
   const heroId=dispatchDraft.heroId;if(state.activeHero!==heroId)E.selectHero(state,heroId);
