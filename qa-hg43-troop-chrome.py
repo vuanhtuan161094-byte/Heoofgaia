@@ -32,7 +32,10 @@ with sync_playwright() as pw:
   page.locator('[data-action="start"]').click()
   check(label+' game v07 valid',page.evaluate("() => HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())"))
   page.locator('#nav [data-action="tab"][data-tab="army"]').click()
-  check(label+' genuine recruitment shows 10 skill summaries',page.locator('.hg28-tab-army .unitrow').count()==10 and page.locator('.hg43-recruit-intel').count()==10)
+  recruit_counts={'all_recruitable_rows':page.locator('.hg28-tab-army .unitrow').count(),
+    'hg40_standard_skill_rows':page.locator('.hg43-recruit-intel').count()}
+  check(label+' all 10 canonical HG40 troops have skill panels, reward-only troops do not get invented skills',
+    recruit_counts['all_recruitable_rows']>=10 and recruit_counts['hg40_standard_skill_rows']==10,recruit_counts)
   page.locator('.hg43-recruit-intel').first.locator('summary').click()
   check(label+' recruit displays HP/ATK/DEF/SPD plus deterministic skill magnitude',
     'Điều kiện:' in page.locator('.hg43-recruit-intel').first.inner_text() and
@@ -58,7 +61,7 @@ with sync_playwright() as pw:
    return HOG_ENGINE.strictSave(s)&&s.version===7&&!s.battle&&s.lootWins===0;
   }"""))
   page.locator('[data-action="hg43-army-page"][data-page="recruit"]').click()
-  check(label+' recruitment actions stay intact after codex',page.locator('.unitrow [data-action="recruit"]').count()==10)
+  check(label+' recruitment actions stay intact after codex',page.locator('.unitrow [data-action="recruit"]').count()>=10)
   # Open a real T13 battle with the canonical engine. No test kill/loot.
   combat=page.evaluate("""() => {
    const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
