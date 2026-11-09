@@ -186,16 +186,21 @@ test('HG08 edition crosswalk maps every catalog ID and preserves localized label
 test('troop point formula',()=>{const u=C.units.human[0];assert.equal(E.unitValue(u),u.cost.gold+5*(u.cost.wood+u.cost.ore)+10*(u.cost.sulfur+u.cost.crystal))});
 test('new game all races valid with the v07 starting AP amount and Fame rank cap',()=>{for(const race of Object.keys(C.races)){const s=state(race);assert.equal(s.version,7);assert.equal(s.race,race);assert.equal(s.fame,5);assert.equal(s.ap,100);assert.equal(s.apMax,150);assert.equal(E.strictSave(s),true)}});
 test('candidate slots at recorded level gates',()=>{assert.equal(E.tavernSlots(1),2);assert.equal(E.tavernSlots(2),3);assert.equal(E.tavernSlots(4),4);assert.equal(E.tavernSlots(9),7);assert.equal(E.tavernSlots(10),8)});
-test('Tavern level 10 samples the cited community attribute bands and v07 persists candidate stats',()=>{
- const s=state();s.buildings.tavern=10;
- const sequence=[0,0,6575.5/6708,0.999999,6576.5/6708,0,6706.5/6708,0.999999];
- const originalRandom=vm.runInContext("Math.random",ctx);ctx.__tavernRandomDraws=sequence;ctx.__tavernRandomIndex=0;ctx.__tavernOriginalRandom=originalRandom;vm.runInContext("Math.random=()=>__tavernRandomDraws[__tavernRandomIndex++]??0.5",ctx);
- try{E.refreshTavern(s)}finally{vm.runInContext("Math.random=__tavernOriginalRandom",ctx);delete ctx.__tavernRandomDraws;delete ctx.__tavernRandomIndex;delete ctx.__tavernOriginalRandom}
- const h=s.tavern.offers[0];
- assert.deepEqual([h.atk,h.def,h.spd,h.int],[20,50,51,70]);
- assert.deepEqual([h.statColors.atk,h.statColors.def,h.statColors.spd,h.statColors.int],['white','blue','yellow','green']);
- assert.equal(s.tavern.offers.length,8);assert.equal(s.tavern.round,1);assert.equal(s.version,7);assert.equal(E.strictSave(s),true);
- const loaded=E.parseSave(E.serializeSave(s));assert.deepEqual(loaded.tavern.offers,s.tavern.offers);assert.equal(E.strictSave(loaded),true);
+test('HG45 Tavern Lv10 rolls tier first, gives non-overlapping stat bands and preserves v07',()=>{
+ const s=state();s.buildings.tavern=10;E.refreshTavern(s);
+ const tiers=E.HERO_QUALITY_V2,chances=E.heroQualityChances(10);
+ assert.deepEqual(Array.from(chances),[8,18,20,18,25,9,2]);
+ assert.equal(s.tavern.offers.length,8);assert.equal(s.tavern.round,1);
+ for(const h of s.tavern.offers){
+  const t=tiers.find(q=>q.id===h.quality);assert(t,'unknown tier '+h.quality);
+  assert.equal(h.qualityModel,2);
+  for(const key of ['atk','def','spd','int'])assert(Number.isSafeInteger(h[key])&&h[key]>=t.min&&h[key]<=t.max);
+  assert.equal(h.heroValue,h.atk+h.def+h.spd+h.int-h.level+1);
+ }
+ assert.equal(s.version,7);assert.equal(E.strictSave(s),true);
+ const loaded=E.parseSave(E.serializeSave(s));
+ assert.deepEqual(loaded.tavern.offers,s.tavern.offers);
+ assert.equal(E.strictSave(loaded),true);
 });
 test('candidate hire exactly once',()=>{const s=state();s.fame=2200;const before=s.tavern.offers.length,id=s.tavern.offers[0].id;E.hireCandidate(s,id);assert.equal(s.tavern.offers.length,before-1);assert.equal(s.heroes.length,2);throws(()=>E.hireCandidate(s,id),/Ứng viên/)});
 test('hire rejects insufficient gold without removing offer',()=>{const s=state(),offer=s.tavern.offers[0];s.res.gold=0;throws(()=>E.hireCandidate(s,offer.id),/Không đủ/);assert.equal(s.tavern.offers[0].id,offer.id)});
@@ -602,19 +607,48 @@ test('Tavern name/stat colors follow dated and community threshold evidence',()=
  // 2010 Chinese guide overlaps White and Blue at 125; Fandom's explicit <=125 rule resolves it as White.
  for(const [value,color] of [[40,'white'],[41,'blue'],[50,'blue'],[51,'yellow'],[60,'yellow'],[61,'green'],[70,'green'],[71,'purple']])assert.equal(E.heroStatColor(value),color,'single stat '+value);
 });
-test('SRC48 Tavern level 6-9 refresh creates one simulated blue hero with valid source-band color',()=>{
- const low=state();low.buildings.tavern=5;E.refreshTavern(low);assert(low.tavern.offers.every(h=>h.quality==='white'));
- for(let level=6;level<=9;level++)for(let round=1;round<=8;round++){const s=state();s.buildings.tavern=level;s.tavern.round=round-1;E.refreshTavern(s);assert.equal(s.tavern.offers.length,E.tavernSlots(level));const blue=s.tavern.offers.filter(h=>h.quality==='blue');assert.equal(blue.length,1,`L${level}/round ${round}`);const hero=blue[0];assert(hero.heroValue>=126&&hero.heroValue<=160);for(const k of ['atk','def','spd','int'])assert(hero[k]>=20&&hero[k]<=50);for(const h of s.tavern.offers)assert.equal(h.quality,E.heroNameColor(h));assert.equal(E.strictSave(s),true);const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.tavern.offers.find(h=>h.id===hero.id).quality,'blue');}
+test('HG45 Tavern Lv6–9 guarantees a real blue candidate and allows stronger tiers',()=>{
+ for(let level=6;level<=9;level++)for(let round=1;round<=8;round++){
+  const s=state();s.buildings.tavern=level;s.tavern.round=round-1;
+  E.refreshTavern(s);assert.equal(s.tavern.offers.length,E.tavernSlots(level));
+  const blue=s.tavern.offers.filter(h=>h.quality==='blue');
+  assert(blue.length>=1,'no blue L'+level+'/round '+round);
+  for(const h of s.tavern.offers){
+   const tier=E.HERO_QUALITY_V2.find(q=>q.id===h.quality);assert(tier);
+   for(const key of ['atk','def','spd','int'])assert(h[key]>=tier.min&&h[key]<=tier.max);
+   assert.equal(h.quality,E.heroNameColor(h));
+  }
+  assert(E.strictSave(s));const saved=E.parseSave(E.serializeSave(s));
+  assert(saved.tavern.offers.some(h=>h.quality==='blue'));
+ }
 });
-test('Tavern level 10 refresh creates eight source-band heroes and persisted derived colors',()=>{
- const s=state();s.buildings.tavern=10;E.refreshTavern(s);assert.equal(s.tavern.offers.length,8);
- for(const h of s.tavern.offers){for(const key of ['atk','def','spd','int']){assert(Number.isSafeInteger(h[key])&&h[key]>=20&&h[key]<=70);assert.equal(h.statColors[key],E.heroStatColor(h[key]));}assert.equal(h.quality,E.heroNameColor(h));assert.equal(h.heroValue,h.atk+h.def+h.spd+h.int-h.level+1);assert.equal(E.strictSave(s),true);}
- const restored=E.parseSave(E.serializeSave(s));assert.equal(restored.tavern.offers[0].quality,E.heroNameColor(restored.tavern.offers[0]));
+test('HG45 Tavern Lv10 preserves all seven quality labels, prices and candidate values',()=>{
+ const s=state();s.buildings.tavern=10;E.refreshTavern(s);
+ assert.equal(s.tavern.offers.length,8);
+ for(const h of s.tavern.offers){
+  const t=E.HERO_QUALITY_V2.find(q=>q.id===h.quality);assert(t);
+  for(const key of ['atk','def','spd','int']){
+   assert(Number.isSafeInteger(h[key])&&h[key]>=t.min&&h[key]<=t.max);
+   assert.equal(h.statColors[key],E.heroStatColor(h[key]));
+  }
+  assert(h.gold>=t.price);assert.equal(h.quality,E.heroNameColor(h));
+  assert.equal(h.heroValue,h.atk+h.def+h.spd+h.int-h.level+1);
+  assert.equal(E.strictSave(s),true);
+ }
+ const restored=E.parseSave(E.serializeSave(s));
+ assert.equal(restored.tavern.offers[0].quality,E.heroNameColor(restored.tavern.offers[0]));
 });
-test('Automatic hourly Tavern refresh applies the current Tavern level model',()=>{
- const s=state();s.buildings.tavern=10;s.speed=1;const end=s.lastTick+3600*1000;E.tick(s,end);assert.equal(s.tavern.round,1);assert.equal(s.tavern.offers.length,8);assert(s.tavern.offers.every(h=>['atk','def','spd','int'].every(key=>Number.isSafeInteger(h[key])&&h[key]>=20&&h[key]<=70&&h.statColors[key]===E.heroStatColor(h[key]))));
+test('HG45 automatic hourly Tavern refresh uses the seven-tier quality model',()=>{
+ const s=state();s.buildings.tavern=10;s.speed=1;
+ const end=s.lastTick+3600*1000;E.tick(s,end);
+ assert.equal(s.tavern.round,1);assert.equal(s.tavern.offers.length,8);
+ assert(s.tavern.offers.every(h=>{
+  const tier=E.HERO_QUALITY_V2.find(q=>q.id===h.quality);
+  return tier&&h.qualityModel===2&&['atk','def','spd','int'].every(key=>
+   Number.isSafeInteger(h[key])&&h[key]>=tier.min&&h[key]<=tier.max&&
+   h.statColors[key]===E.heroStatColor(h[key]));
+ }));
 });
-
 test('Arena rehabilitation charges one-seventh unit value and runs at three-fifths training speed',()=>{
  const s=state();s.speed=1;s.wounded.human_1=2;const original=s.army.human_1;
  const q=E.heal(s);assert.equal(q.paidGold,36);assert.equal(q.total,400);assert.equal(s.res.gold,8000-36);
