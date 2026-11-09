@@ -200,21 +200,21 @@ function button(action,data,label,disabled=false,cls=''){return `<button ${disab
 function flags(){const city=E.activeCity(state),ap=E.fameApStats(state.fame),next=ap.nextFame===null?'đã đạt bậc cao nhất':`còn ${format(ap.nextFame-state.fame)} Fame tới mốc tiếp`;return `<span class="tag">📍 ${esc(city.name)} (${city.key})</span><span class="tag" title="${ap.perHour} AP hồi mỗi giờ game · ${next}">🔋 AP ${Math.floor(state.ap)}/${ap.max} · +${ap.perHour}/giờ</span><span class="tag">🏅 Danh vọng ${format(state.fame)}</span><span class="tag">🏰 ${state.cities.length}/${E.cityLimit(state.fame)} thành</span><span class="tag">⏱ ×${state.speed} demo</span>`}
 // Compact, actionable New Game path. Progress is derived only from the
 // player's real state, not an unlock flag or bonus-resource tutorial seed.
-function newPlayerGuide(){
- if(!state)return '';
+function hg44JourneyView(s){
+ if(!s)return '';
  // HG44-B: guide is a pure projection of real paid progression, not a
  // second quest ledger or another Save field. Compact by default to leave
  // the world canvas as the primary touch/desktop surface.
- const hg30=state.hg30||{},towerFloor=state.hg20?.tower?.floor||1;
- const cityCount=state.cities.length;
- const recruited=(state.army[state.race+'_1']||0)>16||
-   state.training.some(t=>t.unitId===state.race+'_1');
+ const hg30=s.hg30||{},towerFloor=s.hg20?.tower?.floor||1;
+ const cityCount=s.cities.length;
+ const recruited=(s.army[s.race+'_1']||0)>16||
+   s.training.some(t=>t.unitId===s.race+'_1');
  const first=[
-  ['city','🏪','Xây Market',state.buildings.market>=1],
-  ['magic','🌲','Nghiên cứu Forestry',!!state.spells.forestry],
+  ['city','🏪','Xây Market',s.buildings.market>=1],
+  ['magic','🌲','Nghiên cứu Forestry',!!s.spells.forestry],
   ['army','🛡','Tuyển lính',recruited],
-  ['map','⛏','Chiếm mỏ',state.mines.length>0],
-  ['city','🏅','Đạt 5.800 Fame',state.fame>=5800],
+  ['map','⛏','Chiếm mỏ',s.mines.length>0],
+  ['city','🏅','Đạt 5.800 Fame',s.fame>=5800],
   ['map','🏰','Chiếm thành thứ hai',cityCount>=2]
  ];
  const expansion=[
@@ -222,14 +222,14 @@ function newPlayerGuide(){
   ['tower','🗼','Vượt 1 tầng Tháp có thưởng',(hg30.paidTowerWins||0)>=1],
   ['army','🎖','Mở thử thách nâng quân',(hg30.stage||0)>=1],
   ['army','🛡','Đổi quân thường thành quân đặc biệt',(hg30.stage||0)>=2],
-  ['heroes','🧙','Chiêu mộ đủ 3 tướng',state.heroes.length>=3],
+  ['heroes','🧙','Chiêu mộ đủ 3 tướng',s.heroes.length>=3],
   ['boss','☠','Hạ Boss đầu tiên',(hg30.bossWins||0)>=1]
  ];
  const endgame=[
   ['army','⚒','Hoàn thành thử thách đổi quân cuối',(hg30.stage||0)>=3],
   ['tower','🗼','Chinh phục tầng Tháp 10',towerFloor>=11],
   ['boss','☠','Thắng ít nhất 3 Boss',(hg30.bossWins||0)>=3],
-  ['heroes','🧙','Sở hữu ít nhất 3 tướng',state.heroes.length>=3],
+  ['heroes','🧙','Sở hữu ít nhất 3 tướng',s.heroes.length>=3],
   ['tower','🏆','Chinh phục tầng Tháp 20',towerFloor>=21],
   ['boss','👑','Thắng ít nhất 10 Boss',(hg30.bossWins||0)>=10]
  ];
@@ -248,7 +248,7 @@ function newPlayerGuide(){
   '<div class="hg44-journey-head"><b>'+names[phase]+'</b><span class="tag">'+done+'/6 mốc</span></div>'+
   '<div class="hg44-journey-next"><small>'+ (next?'BƯỚC TIẾP THEO':'ĐÃ ĐẠT CÁC MỐC HIỆN TẠI')+'</small>'+
     mainAction+'<span class="hg44-journey-stats">'+
-    (phase===0?'Fame '+format(state.fame)+' · '+cityCount+' thành':
+    (phase===0?'Fame '+format(s.fame)+' · '+cityCount+' thành':
      'NPC '+format(hg30.npcWins||0)+' · Boss '+format(hg30.bossWins||0)+
      ' · Tháp '+towerFloor+' · Thử thách '+format(hg30.stage||0))+
     '</span></div>'+
@@ -256,6 +256,7 @@ function newPlayerGuide(){
     '<div class="hg44-journey-all">'+all+'</div>'+
     '<p class="tiny muted">'+detail+'</p></details></section>';
 }
+function newPlayerGuide(){return hg44JourneyView(state)}
 function renderIntro(){
  $('nav').innerHTML='';$('resources').innerHTML='';$('status').innerHTML='<p>Một bản tái dựng độc lập lấy cảm hứng từ Heroes of Gaia (2009).</p>';$('logs').innerHTML='';
  $('main').innerHTML=`<section class="welcome"><div class="welcome-scene"><canvas id="intro-canvas" width="1176" height="560" aria-label="Phong cảnh thành trì theo chủng tộc"></canvas><div class="welcome-copy"><div class="eyebrow">BỐN CHỦNG TỘC • MỘT CHIẾN TRƯỜNG</div><h1>ANH HÙNG THỜI LOẠN</h1><p>Phát triển thành trì • dẫn quân vượt thế giới • chinh phục mỏ và quái vật</p></div></div><div class="welcome-bottom"><h2>Chọn chủng tộc khởi đầu</h2><div class="race-grid">${Object.entries(C.races).map(([k,v])=>`<button data-action="race" data-race="${k}" class="race-card ${newRace===k?'active':''}"><span class="emoji">${ico(k,42)||v.emoji}</span><strong>${v.name}</strong><small>${v.english}</small></button>`).join('')}</div><h3>Bộ phép chiến đấu</h3><div class="entry">${button('spelledition',{edition:'international'},'Quốc tế · Fandom',false,newSpellEdition==='international'?'primary':'secondary')}${button('spelledition',{edition:'china2009'},'Trung Quốc 2009 · Sina',false,newSpellEdition==='china2009'?'primary':'secondary')}</div><p class="hint">Lựa chọn này lưu trong vương quốc mới. Bộ Sina tái hiện các kỹ năng chiến đấu chủ động đã có chỉ số xác nhận; kỹ năng di chuyển và nội tại chưa được mô hình hóa. Save cũ mặc định giữ bộ Quốc tế.</p>${button('start',{},'⚔ Thành lập thành Gaia',false,'primary wide')}<p class="hint">Chế độ chơi offline; hình ảnh tự dựng, công thức chiến đấu hiện là thử nghiệm, chưa phải game chính thức.</p></div></section>`;
@@ -1643,5 +1644,5 @@ window.addEventListener('resize',()=>{if(!state?.battle&&$('world-canvas')){pain
 // Single deadline-aware auto scheduler; the economy tick above never resolves battle turns.
 setInterval(resolveAutomaticBattleTurn,120);
 setInterval(save,10000);window.addEventListener('pagehide',save);
-window.HOG_APP_DEBUG={getState:()=>state,battleViewPrefs:()=>({...battleViewPrefs}),battleRenderStride,render,save,showCombatForTests:()=>{if(!state?.battle)throw Error('No live battle');tab='combat';render()},resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
+window.HOG_APP_DEBUG={getState:()=>state,hg44JourneyView,battleViewPrefs:()=>({...battleViewPrefs}),battleRenderStride,render,save,showCombatForTests:()=>{if(!state?.battle)throw Error('No live battle');tab='combat';render()},resetForTests:()=>{state=E.make('human',Date.now());selected='5,6';selectedTargetKind=null;render()}};
 })();
