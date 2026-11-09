@@ -12,6 +12,7 @@ on:
       - 'index.html'
       - 'build_offline.py'
       - 'qa-hg40-real-skill-chrome.py'
+      - 'qa-hg34-combat-smooth-chrome.py'
       - 'qa-hg403-visual-gate-chrome.py'
       - 'qa-hg44-journey-chrome.py'
       - '.github/workflows/hg44-playability-release-gates.yml'
@@ -53,12 +54,13 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
-          python -m py_compile qa-hg40-real-skill-chrome.py qa-hg403-visual-gate-chrome.py qa-hg44-journey-chrome.py
+          python -m py_compile qa-hg34-combat-smooth-chrome.py qa-hg40-real-skill-chrome.py qa-hg403-visual-gate-chrome.py qa-hg44-journey-chrome.py
           python qa-hg44-journey-chrome.py
           python qa-hg43-troop-chrome.py
           python qa-hg42-boss-chrome.py
           python qa-hg40-real-skill-chrome.py
           python qa-hg403-visual-gate-chrome.py
+          python qa-hg34-combat-smooth-chrome.py
       - name: Store all actual Chromium screenshots, checks and effect receipts
         if: always()
         uses: actions/upload-artifact@v4
@@ -66,6 +68,8 @@ jobs:
           name: HG44-G-Real-Playability-Visual-QA
           path: |
             docs/qa/hg44/*.json
+            docs/qa/hg34/combat-smoothness.json
+            docs/evidence/hg34/*.png
             docs/evidence/hg44/*.png
             docs/qa/hg40/chromium-real-skill.json
             docs/evidence/hg40/hg403-npc-priest-shield-real-canvas.png
