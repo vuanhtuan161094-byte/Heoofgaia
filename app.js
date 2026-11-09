@@ -752,6 +752,9 @@ function hg408HeroesView(){
  let h=state.heroes.find(x=>x.id===hg408InspectId);
  if(!h){h=state.heroes.find(x=>x.id===state.activeHero)||state.heroes[0];hg408InspectId=h.id;}
  const qual=q=>E.hg408HeroQuality(q);
+ const tier=q=>E.hg408HeroQualityInfo(q);
+ const qualityGlyph=q=>({white:'♜',blue:'♞',yellow:'♛',green:'✣',purple:'✦',platinum:'✧',rainbow:'✺'})[qual(q)]||'♜';
+ const chances=E.heroQualityChances(state.buildings.tavern||1);
  const rankEmblem=x=>['','◆','✦','❖','✺','♛'][Math.max(1,Math.min(5,x||1))];
  const color=q=>'hg408-quality-'+qual(q);
  const role=E.hg20HeroRole(state,h.id),check=E.hg408DismissCheck(state,h.id);
@@ -765,14 +768,15 @@ function hg408HeroesView(){
  const roster=state.heroes.map(q=>{
    const active=q.id===h.id,ready=E.hg20HeroRole(state,q.id);
    return `<button type="button" data-action="hg408-inspect" data-id="${q.id}" class="hg408-roster-card ${active?'selected':''}" aria-pressed="${active}" title="${esc(ready.label)}">
-    <span class="hg408-mini-portrait" aria-hidden="true">♜</span><span class="hg408-roster-name"><b class="${color(q)}">${esc(q.name)}</b><small>Lv.${q.level} · ${rankEmblem(q.heroRank)} B${q.heroRank||1} · ✧${q.rebirth||0}</small></span><span class="hg408-role-dot ${ready.status==='home'?'free':'busy'}" title="${esc(ready.label)}"></span>
+    <span class="hg408-mini-portrait ${color(q)}" aria-hidden="true">${qualityGlyph(q)}</span><span class="hg408-roster-name"><b class="${color(q)}">${esc(q.name)}</b><small>${esc(tier(q).label)} · Lv.${q.level} · ${rankEmblem(q.heroRank)} B${q.heroRank||1}</small></span><span class="hg408-role-dot ${ready.status==='home'?'free':'busy'}" title="${esc(ready.label)}"></span>
    </button>`;
  }).join('');
+ const qualityLegend=`<section class="hg45-quality-legend" aria-label="Bảy phẩm chất tướng"><b>THẺ PHẨM CHẤT</b><div>${E.HERO_QUALITY_V2.map(q=>`<span class="hg45-legend-chip hg408-quality-${q.id}" title="${esc(q.buff)}">${esc(q.label)}</span>`).join('')}</div><small>Tướng phẩm cao có chỉ số nền và thiên phú mạnh hơn.</small></section>`;
  const identity=`<div class="hg408-identity">
-    <div class="hg408-portrait" aria-hidden="true"><span>♜</span><small>${esc(C.races[state.race].english)}</small></div>
+    <div class="hg408-portrait ${color(h)}" aria-hidden="true"><span>${qualityGlyph(h)}</span><small>${esc(tier(h).label)}</small></div>
     <div class="hg408-identity-main"><span class="hg408-eyebrow">HỒ SƠ TƯỚNG · ${esc(role.label)}</span>
       <h2 class="${color(h)}">${esc(h.name)}</h2>
-      <div class="hg408-badges"><span>Lv ${h.level}/100</span><span>${rankEmblem(rank)} Bậc ${rank}/5</span><span>✦ Chuyển sinh ${rebirth}/5</span><span class="${color(h)}">${qual(h).toUpperCase()}</span></div>
+      <div class="hg408-badges"><span>Lv ${h.level}/100</span><span>${rankEmblem(rank)} Bậc ${rank}/5</span><span>✦ Chuyển sinh ${rebirth}/5</span><span class="${color(h)}">${esc(tier(h).label)}</span></div><div class="hg45-hero-buff ${color(h)}">✦ ${esc(tier(h).buff)}</div>
       <div class="hg408-exp"><span>EXP <b>${format(Math.floor(h.xp))}${need===null?' · MAX':' / '+format(need)}</b></span><progress max="${expMax}" value="${exp}"></progress></div>
     </div>
     <div class="hg408-power"><small>Chiến lực đội hình</small><strong>${combatPower===null?'—':format(combatPower)}</strong><small>${combatPower===null?'Chưa bố trí quân':'Chỉ số chiến đấu thực'}</small></div>
@@ -786,7 +790,7 @@ function hg408HeroesView(){
    </div>`;
  let page='';
  if(hg408Tab==='overview'){
-   page=statsGrid+actions+`<div class="hg408-note">Sức chỉ huy ${format(E.heroLimit(h.level,h))} điểm · ${role.status==='home'?'Có mặt ở thành':'Đang thực hiện nhiệm vụ'} · ${Object.keys(slots).length}/3 ô trang bị</div>
+   page=`<div class="hg45-stat-heading">Chỉ số chiến đấu thực · bao gồm hiệu ứng phẩm chất</div>`+statsGrid+actions+`<div class="hg408-note">Sức chỉ huy ${format(E.heroLimit(h.level,h))} điểm · ${role.status==='home'?'Có mặt ở thành':'Đang thực hiện nhiệm vụ'} · ${Object.keys(slots).length}/3 ô trang bị</div>
      <details class="hg408-more"><summary>Chỉ số và tác động thực tế</summary><p>Chỉ số chiến đấu gồm thưởng trang bị và nâng bậc; sức mạnh đội hình chỉ hiển thị khi đã bố trí quân thật. Tướng đang giữ chức Castellan không thể đi chiến đấu.</p></details>`;
  }else if(hg408Tab==='stats'){
    page=statsGrid+`<div class="hg408-note">Điểm thuộc tính còn lại: <b>${h.statPoints||0}</b> · EXP từ chiến đấu, nhiệm vụ và huấn luyện</div>
@@ -813,9 +817,9 @@ function hg408HeroesView(){
  }else{
    const arena=state.arenaQueue,wounded=Object.entries(state.wounded||{}).filter(([,v])=>v>0);
    const cost=wounded.length&&!arena?E.arenaHealCost(state,wounded[0][0],wounded[0][1]):0;
-   page=`<div class="hg408-tavern-top"><b>🍺 Tavern Lv${state.buildings.tavern}</b><span>Danh vọng: ${state.heroes.length}/${cap} tướng</span><span>Làm mới: ${Math.ceil(state.tavern.remaining/state.speed)}s</span></div>
-    <div class="hg408-offers">${state.tavern.offers.map(o=>`<div class="hg408-offer"><div class="hg408-mini-portrait">♜</div><div><b class="${color(o)}">${esc(o.name)}</b><small>${qual(o).toUpperCase()} · ATK ${o.atk} · DEF ${o.def} · SPD ${o.spd} · INT ${o.int}</small></div>${button('hirecandidate',{id:o.id},format(o.gold)+' 🪙',state.heroes.length>=cap||!E.canAfford(state,{gold:o.gold}),'small primary')}</div>`).join('')||'<p>Chờ lượt làm mới Tavern.</p>'}</div>
-    <details class="hg408-more"><summary>ⓘ Tavern · xác suất và nguồn tham chiếu</summary><p>Tavern — SRC48 (17173, 2009): cấp 6–9 mô phỏng một ứng viên xanh mỗi lượt; xác suất gốc chưa rõ. Tavern cấp 10 có 8 ứng viên, áp dụng mẫu cộng đồng; không khẳng định đây là xác suất máy chủ. Giá tuyển vẫn được đánh dấu mô phỏng.</p></details>
+   page=`<div class="hg408-tavern-top"><b>🍺 Tavern Lv${state.buildings.tavern}</b><span>Danh vọng: ${state.heroes.length}/${cap} tướng</span><span>Làm mới: ${Math.ceil(state.tavern.remaining/state.speed)}s</span></div><div class="hg45-rate-bar"><span class="hg408-quality-purple">✦ Tím ${chances[4]}%</span><span class="hg408-quality-platinum">✧ Bạch Kim ${chances[5]}%</span><span class="hg408-quality-rainbow">✺ Cầu Vồng ${chances[6]}%</span></div>
+    <div class="hg408-offers">${state.tavern.offers.map(o=>`<div class="hg408-offer hg45-tier-${qual(o)}"><div class="hg408-mini-portrait ${color(o)}">${qualityGlyph(o)}</div><div class="hg45-offer-info"><b class="${color(o)}">${esc(o.name)} <span class="hg45-tier-tag">${esc(tier(o).label)}</span></b><small>ATK ${o.atk} · DEF ${o.def} · SPD ${o.spd} · INT ${o.int} · Tổng ${o.heroValue}</small><small class="hg45-offer-buff">✦ ${esc(tier(o).buff)}</small></div>${button('hirecandidate',{id:o.id},format(o.gold)+' 🪙',state.heroes.length>=cap||!E.canAfford(state,{gold:o.gold}),'small primary')}</div>`).join('')||'<p>Chờ lượt làm mới Tavern.</p>'}</div>
+    <details class="hg408-more"><summary>ⓘ Xác suất & sức mạnh theo phẩm chất</summary><p>Mô hình HG45 riêng của game, không phải tỷ lệ server năm 2009. ${E.HERO_QUALITY_V2.map((q,i)=>esc(q.label)+' '+chances[i]+'% (chỉ số gốc '+q.min+'–'+q.max+'/thuộc tính)').join(' · ')}. Tăng phẩm chất chỉ khi Tavern làm mới hoặc chiêu mộ tướng mới; tướng đã sở hữu giữ nguyên phẩm chất và điểm gốc.</p></details>
     <details class="hg408-more"><summary>⚕ Arena · điều trị thương binh ${wounded.reduce((a,[,v])=>a+v,0)} quân</summary>
      ${arena?`<p>Đang điều trị ${arena.count} quân, còn ${Math.ceil(arena.remaining/state.speed)} giây thực.</p>`:'<p>Chữa thương bằng vàng theo giá trị quân.</p>'}
      ${button('heal',{},arena?'Arena đang bận':'Điều trị '+format(cost)+' 🪙',!!arena||!wounded.length||!E.canAfford(state,{gold:cost}),'small primary')}</details>`;
@@ -832,7 +836,7 @@ function hg408HeroesView(){
  return `<section class="hg408-screen" aria-label="HG40.8 quản lý tướng thật">
  <header class="hg408-summary"><b>♛ QUẢN LÝ TƯỚNG</b><span>${state.heroes.length}/${cap} suất theo danh vọng</span><span>${state.heroes.filter(q=>E.hg20HeroRole(state,q.id).status!=='home').length} tướng đang bận</span></header>
  <div class="hg408-layout">
-  <aside class="hg408-roster"><div class="hg408-roster-head">DANH SÁCH <span>${state.heroes.length}</span></div><div class="hg408-roster-scroll">${roster}</div></aside>
+  <aside class="hg408-roster"><div class="hg408-roster-head">DANH SÁCH <span>${state.heroes.length}</span></div><div class="hg408-roster-scroll">${roster}</div>${qualityLegend}</aside>
   <section class="hg408-profile">${identity}<nav class="hg408-tabs" aria-label="Chức năng tướng">${validTabs.map(([id,label])=>`<button type="button" data-action="hg408-tab" data-id="${id}" class="${hg408Tab===id?'active':''}" aria-pressed="${hg408Tab===id}">${label}</button>`).join('')}</nav>
   <div class="hg408-panel">${page}</div></section>
  </div></section>`;
