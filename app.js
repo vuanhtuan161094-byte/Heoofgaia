@@ -510,7 +510,7 @@ function hg26AutohuntView(){
    return '<div class="card"><label>Tướng '+(i+1)+'<select id="hg261_team_'+i+'" '+(farm.enabled?'disabled':'')+'>'+
     '<option value="">— Không tham gia —</option>'+
     state.heroes.map(h=>'<option value="'+h.id+'" '+(h.id===suggested?'selected':'')+
-     (E.hg20HeroRole(state,h.id).status==='home'?'':' disabled')+'>'+
+     (E.hg20HeroRole(state,h.id).status==='home'?'':' disabled')+' class="'+hg408QualityClass(h)+'">'+
       esc(h.name)+' · '+E.hg20HeroPlan(state,h.id).length+' nhóm đã phân</option>').join('')+
     '</select></label>'+slots+'</div>';
   }).join('')+'</div>'+
@@ -731,6 +731,7 @@ function hg408HeroesView(){
    const cost=wounded.length&&!arena?E.arenaHealCost(state,wounded[0][0],wounded[0][1]):0;
    page=`<div class="hg408-tavern-top"><b>🍺 Tavern Lv${state.buildings.tavern}</b><span>Danh vọng: ${state.heroes.length}/${cap} tướng</span><span>Làm mới: ${Math.ceil(state.tavern.remaining/state.speed)}s</span></div>
     <div class="hg408-offers">${state.tavern.offers.map(o=>`<div class="hg408-offer"><div class="hg408-mini-portrait">♜</div><div><b class="${color(o)}">${esc(o.name)}</b><small>${qual(o).toUpperCase()} · ATK ${o.atk} · DEF ${o.def} · SPD ${o.spd} · INT ${o.int}</small></div>${button('hirecandidate',{id:o.id},format(o.gold)+' 🪙',state.heroes.length>=cap||!E.canAfford(state,{gold:o.gold}),'small primary')}</div>`).join('')||'<p>Chờ lượt làm mới Tavern.</p>'}</div>
+    <details class="hg408-more"><summary>ⓘ Tavern · xác suất và nguồn tham chiếu</summary><p>Tavern — SRC48 (17173, 2009): cấp 6–9 mô phỏng một ứng viên xanh mỗi lượt; xác suất gốc chưa rõ. Tavern cấp 10 có 8 ứng viên, áp dụng mẫu cộng đồng; không khẳng định đây là xác suất máy chủ. Giá tuyển vẫn được đánh dấu mô phỏng.</p></details>
     <details class="hg408-more"><summary>⚕ Arena · điều trị thương binh ${wounded.reduce((a,[,v])=>a+v,0)} quân</summary>
      ${arena?`<p>Đang điều trị ${arena.count} quân, còn ${Math.ceil(arena.remaining/state.speed)} giây thực.</p>`:'<p>Chữa thương bằng vàng theo giá trị quân.</p>'}
      ${button('heal',{},arena?'Arena đang bận':'Điều trị '+format(cost)+' 🪙',!!arena||!wounded.length||!E.canAfford(state,{gold:cost}),'small primary')}</details>`;
