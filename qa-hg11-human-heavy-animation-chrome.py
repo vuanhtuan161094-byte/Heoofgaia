@@ -265,12 +265,22 @@ with sync_playwright() as playwright:
         u.x=i===0?7:10;u.y=i===0?2:(i===1?7:0)});
       b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()})()""")
     action_turns = []
-    for _ in range(6):
+    # HG41 expanded the enemy from three to six real stacks. A melee Heavy
+    # Soldier starts at the far edge and may spend >6 actual turns walking.
+    # Never fabricate a hit or freeze the enemy: play real Attack commands
+    # until both genuine damage receipts and at least two rendered Attack
+    # atlas frames are observed, with a strict 24-turn upper bound.
+    for _ in range(24):
         page.locator('[data-action="battle"][data-cmd="attack"]').click()
         page.wait_for_timeout(920)
         action_turns.append(page.evaluate("""(()=>{const b=HOG_APP_DEBUG.getState()?.battle;return b&&{
           turn:b.turn,events:(b.lastEvents||[]).map(e=>({actorId:e.actorId,targetId:e.targetId,damage:e.damage,death:e.death,path:e.path})),
           heavy:b.allies.filter(u=>u.unitId==='human_4').map(u=>({id:u.id,x:u.x,y:u.y,pool:u.pool}))}})()"""))
+        attacked = any(e["damage"]>0 for row in action_turns if row for e in row["events"] if e["actorId"]==heavy_id)
+        frames = page.evaluate("""()=>new Set((window.__heavyAnimationSamples||[])
+          .filter(q=>q.id==='attack').map(q=>q.frame)).size""")
+        if attacked and frames >= 2:
+            break
     samples = page.evaluate("window.__heavyAnimationSamples")
     action_ids = {x["id"] for x in samples}
     distinct_frames = {a: len({x["frame"] for x in samples if x["id"] == a}) for a in action_ids}
