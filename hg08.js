@@ -128,7 +128,8 @@ function tierByTotal(total){
  return HERO_QUALITY_V2[0];
 }
 function innateHeroTotal(hero){
- if(Number.isSafeInteger(hero?.qualityScore)&&hero.qualityScore>=0)return hero.qualityScore;
+ // The real raw attributes are authoritative, never a cached rarity tag.
+ // hg18Base is frozen at recruitment and survives training, rank and rebirth.
  const spent=hero?.spentAttributePoints||{},base=hero?.hg18Base||{};
  return ['atk','def','spd','int'].reduce((n,k)=>
   n+(Number.isFinite(base[k])?base[k]:Math.max(0,(Number(hero?.[k])||0)-(Number(spent[k])||0))),0);
