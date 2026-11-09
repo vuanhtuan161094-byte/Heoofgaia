@@ -1380,3 +1380,14 @@ body:not(.combat-mode).hg42-boss-screen-open .game-window-body{
  .hg42-boss-emblem{width:29px;height:29px;flex-basis:29px;font-size:18px}
  .hg42-boss-buttons button{min-height:27px;font-size:10px!important;padding:3px 5px!important}
 }
+
+/* HG42 — independent targeting list replaces unreadable 16 floating Boss labels.
+ * Canvas controls still use real hex foot anchors; tapping a stack selects it. */
+.hg42-boss-roster{border:1px solid #81688f;background:#2d3440;border-radius:6px;margin:4px 0;min-width:0}
+.hg42-boss-roster>summary{padding:7px 8px;font:700 10px system-ui;color:#e3d3f4;cursor:pointer}
+.hg42-boss-roster-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px;padding:5px;max-height:min(32dvh,175px);overflow-y:auto}
+.hg42-boss-roster-grid button{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;font-size:9px!important;min-height:27px;padding:4px!important;text-align:left}
+@media(max-height:430px) and (orientation:landscape){
+ .hg42-boss-roster-grid{grid-template-columns:1fr;max-height:36dvh}
+ .hg42-boss-roster>summary{padding:4px 6px;font-size:9px}
+}
