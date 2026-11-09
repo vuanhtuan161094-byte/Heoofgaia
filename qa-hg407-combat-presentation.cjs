@@ -26,6 +26,15 @@ for(const id of units){
  }
 }
 pass('39 native atlas troop IDs x8 Walk foot frames, legacy Human Archer preserved');
+const fontOracle={font:'',save(){},restore(){},
+ measureText(value){return {width:String(value).length*7.5}}};
+const longName='Netherworld Ghost Dragon Emperor';
+const clipped=P.hg407FitName(fontOracle,longName,89,10);
+assert(clipped.endsWith('…')&&clipped.length<longName.length);
+assert(fontOracle.measureText(clipped).width<=89);
+assert.equal(P.hg407FitName(fontOracle,'Scout',89,10),'Scout');
+assert.equal(P.hg407FitName(fontOracle,longName,89,10),clipped);
+pass('long combat HUD nameplates remain within real allotted label width');
 const ghostSource=[183,180,168,143,145,144,143,143],
  corrected=ghostSource.map((y,i)=>y+P.HG407_WALK_FOOT.undead_10[i]);
 const rawSpread=Math.max(...ghostSource)-Math.min(...ghostSource),
