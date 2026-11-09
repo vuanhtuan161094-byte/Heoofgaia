@@ -93,23 +93,25 @@ function ensure(s){
  }
  return s;
 }
-// HG45: private progression design. These are NEW game odds and tier bands,
-// deliberately not the historical 6,708-stat Fandom sample from SRC21.
+// HG45.1 — source of rarity is the SUM of the four innate stats, not a
+// preassigned colour. A discrete total-score distribution controls expected
+// chances; then the score is apportioned to four distinct raw attributes.
+// This is the game's OWN model, not original HoG server odds.
 const HERO_QUALITY_V2=Object.freeze([
- Object.freeze({id:'white',label:'Trắng',min:18,max:25,price:450,buff:'Chưa có thiên phú',stat:1,damage:0,reduction:0}),
- Object.freeze({id:'blue',label:'Xanh',min:28,max:35,price:750,buff:'Thuần thục · chỉ số hiệu quả +4%',stat:1.04,damage:0,reduction:0}),
- Object.freeze({id:'yellow',label:'Vàng',min:39,max:46,price:1300,buff:'Anh kiệt · chỉ số hiệu quả +12%',stat:1.12,damage:0,reduction:0}),
- Object.freeze({id:'green',label:'Lục',min:48,max:55,price:2200,buff:'Linh hoạt · chỉ số hiệu quả +18%',stat:1.18,damage:0,reduction:0}),
- Object.freeze({id:'purple',label:'Tím',min:60,max:69,price:4600,buff:'Chiến tướng · chỉ số +27%, sát thương +6%',stat:1.27,damage:.06,reduction:.025}),
- Object.freeze({id:'platinum',label:'Bạch Kim',min:75,max:87,price:12000,buff:'Hộ thần · chỉ số +42%, sát thương +12%, giảm sát thương 6%',stat:1.42,damage:.12,reduction:.06}),
- Object.freeze({id:'rainbow',label:'Cầu Vồng',min:95,max:110,price:30000,buff:'Thiên Mệnh · chỉ số +60%, sát thương +20%, giảm sát thương 10%',stat:1.60,damage:.20,reduction:.10})
+ Object.freeze({id:'white',label:'Trắng',totalMin:72,totalMax:103,min:14,max:31,price:450,buff:'Phàm binh · không có thiên phú',stat:1,damage:0,reduction:0}),
+ Object.freeze({id:'blue',label:'Xanh',totalMin:112,totalMax:143,min:23,max:41,price:750,buff:'Thuần thục · chỉ số hiệu quả +4%',stat:1.04,damage:0,reduction:0}),
+ Object.freeze({id:'yellow',label:'Vàng',totalMin:156,totalMax:187,min:34,max:53,price:1300,buff:'Anh kiệt · chỉ số hiệu quả +12%',stat:1.12,damage:0,reduction:0}),
+ Object.freeze({id:'green',label:'Lục',totalMin:192,totalMax:223,min:43,max:61,price:2200,buff:'Linh hoạt · chỉ số hiệu quả +18%',stat:1.18,damage:0,reduction:0}),
+ Object.freeze({id:'purple',label:'Tím',totalMin:240,totalMax:279,min:54,max:76,price:4600,buff:'Chiến tướng · chỉ số +27%, sát thương +6%',stat:1.27,damage:.06,reduction:.025}),
+ Object.freeze({id:'platinum',label:'Bạch Kim',totalMin:340,totalMax:359,min:78,max:99,price:20000,buff:'Thánh Hộ · chỉ số +35%, sát thương +5%, giảm sát thương 17%',stat:1.35,damage:.05,reduction:.17}),
+ Object.freeze({id:'rainbow',label:'Cầu Vồng',totalMin:360,totalMax:379,min:83,max:104,price:20000,buff:'Thất Sắc · chỉ số +35%, sát thương +17%, giảm sát thương 5%',stat:1.35,damage:.17,reduction:.05})
 ]);
 const HERO_QUALITY_BY_ID=Object.fromEntries(HERO_QUALITY_V2.map(t=>[t.id,t]));
 const HERO_QUALITY_CHANCES=Object.freeze({
  early:Object.freeze([80,20,0,0,0,0,0]),
  middle:Object.freeze([45,35,15,5,0,0,0]),
- upper:Object.freeze([15,30,25,15,14,1,0]),
- master:Object.freeze([8,18,20,18,25,9,2])
+ upper:Object.freeze([15,30,25,16,13,1,0]),
+ master:Object.freeze([8,18,20,18,34,1,1])
 });
 function qualityChances(level){
  return level>=10?HERO_QUALITY_CHANCES.master:level>=6?HERO_QUALITY_CHANCES.upper:
@@ -119,7 +121,20 @@ function heroQualityHash(x){
  x=(x^0x9e3779b9)>>>0;x=Math.imul(x^(x>>>16),0x7feb352d);
  x=Math.imul(x^(x>>>15),0x846ca68b);return (x^(x>>>16))>>>0;
 }
+function tierByTotal(total){
+ if(!Number.isFinite(total))return HERO_QUALITY_V2[0];
+ for(let i=HERO_QUALITY_V2.length-1;i>=0;i--)
+  if(total>=HERO_QUALITY_V2[i].totalMin)return HERO_QUALITY_V2[i];
+ return HERO_QUALITY_V2[0];
+}
+function innateHeroTotal(hero){
+ if(Number.isSafeInteger(hero?.qualityScore)&&hero.qualityScore>=0)return hero.qualityScore;
+ const spent=hero?.spentAttributePoints||{},base=hero?.hg18Base||{};
+ return ['atk','def','spd','int'].reduce((n,k)=>
+  n+(Number.isFinite(base[k])?base[k]:Math.max(0,(Number(hero?.[k])||0)-(Number(spent[k])||0))),0);
+}
 function nameColor(hero){
+ if(hero?.qualityModel===3)return tierByTotal(innateHeroTotal(hero)).id;
  if(hero?.qualityModel===2&&HERO_QUALITY_BY_ID[hero.quality])return hero.quality;
  const value=hero.atk+hero.def+hero.spd+hero.int-(hero.level||1)+1;
  return value<=125?'white':value<=160?'blue':value<=180?'yellow':value<=200?'green':'purple';
@@ -128,46 +143,61 @@ function statColor(value){return value<=40?'white':value<=50?'blue':value<=60?'y
 function enrichOffer(offer){
  if(!offer||typeof offer!=='object')return offer;
  if(!Number.isSafeInteger(offer.level)||offer.level<1)offer.level=1;
- if(offer.qualityModel!==2||!HERO_QUALITY_BY_ID[offer.quality])offer.quality=nameColor(offer);
+ if(offer.qualityModel===3){
+  offer.qualityScore=offer.atk+offer.def+offer.spd+offer.int;
+  offer.quality=tierByTotal(offer.qualityScore).id;
+ }else if(offer.qualityModel!==2||!HERO_QUALITY_BY_ID[offer.quality]){
+  offer.quality=nameColor(offer);
+ }
  offer.heroValue=offer.atk+offer.def+offer.spd+offer.int-offer.level+1;
- offer.statColors=Object.fromEntries(attrKeys.map(k=>[k,statColor(offer[k])]));return offer;
+ offer.statColors=Object.fromEntries(attrKeys.map(k=>[k,statColor(offer[k])]));
+ return offer;
 }
 function qualityOffer(s,offer,i){
  const level=Math.max(1,s.buildings.tavern||1),raceIndex=Object.keys(E.C.races).indexOf(s.race);
  const round=s.tavern.round||0;
  const seed=heroQualityHash((Math.imul(round+1,1103515245)^Math.imul(i+1,2654435761)^
   Math.imul(raceIndex+1,1597334677)^Math.imul(level,374761393))>>>0);
- const weights=qualityChances(level),roll=seed%100;let sum=0,tier=HERO_QUALITY_V2[0];
- for(let j=0;j<weights.length;j++){sum+=weights[j];if(roll<sum){tier=HERO_QUALITY_V2[j];break}}
- // Preserve the observed Lv6-9 qualitative rule: at least one blue
- // candidate per refresh. Remaining candidates use the explicit HG45 odds.
+ const weights=qualityChances(level),roll=seed%100;
+ // Sample a TOTAL first through a weighted score distribution. Colour is
+ // calculated from the total after all four numerical stats are finalized.
+ let cumulative=0,band=HERO_QUALITY_V2[0];
+ for(let j=0;j<weights.length;j++){cumulative+=weights[j];if(roll<cumulative){band=HERO_QUALITY_V2[j];break}}
  const guaranteed=(round+Math.max(0,raceIndex))%Math.max(1,s.tavern.offers.length);
- if(level>=6&&level<10&&i===guaranteed)tier=HERO_QUALITY_V2[1];
- for(let j=0;j<attrKeys.length;j++){
-  const key=attrKeys[j],span=tier.max-tier.min+1;
-  offer[key]=tier.min+(heroQualityHash(seed^Math.imul(j+1,2246822519))%span);
+ if(level>=6&&level<10&&i===guaranteed)band=HERO_QUALITY_V2[1];
+ const total=band.totalMin+heroQualityHash(seed^0x3ad76bd5)%(band.totalMax-band.totalMin+1);
+ const values=Array(4).fill(Math.floor(total/4));
+ for(let j=0;j<total%4;j++)values[(j+(seed%4))%4]++;
+ // Transfers preserve the aggregate exactly while giving each hero distinct
+ // ATK/DEF/SPD/INT. All stats remain within the sampled total's legal band.
+ for(let j=0;j<16;j++){
+  const a=heroQualityHash(seed^Math.imul(j+1,2246822519))%4;
+  const z=(a+1+(heroQualityHash(seed^Math.imul(j+1,3266489917))%3))%4;
+  if(a!==z&&values[a]<band.max&&values[z]>band.min){values[a]++;values[z]--}
  }
- offer.level=1;offer.qualityModel=2;offer.quality=tier.id;
- offer.gold=tier.price+(heroQualityHash(seed^0xa5a5a5a5)%Math.max(50,Math.floor(tier.price*.12)));
+ for(let j=0;j<attrKeys.length;j++)offer[attrKeys[j]]=values[j];
+ offer.level=1;offer.qualityModel=3;offer.qualityScore=total;
+ // Both ultra-rare paths have the same base price; spread is the same.
+ const actual=tierByTotal(total);
+ offer.quality=actual.id;
+ offer.gold=actual.price+heroQualityHash(seed^0xa5a5a5a5)%Math.max(50,Math.floor(actual.price*.12));
  return enrichOffer(offer);
 }
 function tavernOffers(s){
  if(!Array.isArray(s.tavern?.offers))return;
- // One-time migration changes ONLY unpurchased Tavern candidates. Existing
- // recruited heroes, attributes, equipment, army, rewards and Save v07 remain.
- if(s.tavern.qualityModel!==2){
+ if(s.tavern.qualityModel!==3){
+  // Candidates are not owned characters; migrate only pending offers to the
+  // new summed-stat generation without editing recruited heroes or inventory.
   s.tavern.offers.forEach((offer,i)=>qualityOffer(s,offer,i));
-  s.tavern.qualityModel=2;
+  s.tavern.qualityModel=3;
  }else for(const offer of s.tavern.offers)enrichOffer(offer);
 }
 function highTavernCommonStats(s){
  if(!Array.isArray(s.tavern?.offers))return;
  s.tavern.offers.forEach((offer,i)=>qualityOffer(s,offer,i));
- s.tavern.qualityModel=2;
+ s.tavern.qualityModel=3;
 }
-function refreshTavern(s){
- prior.refreshTavern(s);highTavernCommonStats(s);return s.tavern.offers;
-}
+function refreshTavern(s){prior.refreshTavern(s);highTavernCommonStats(s);return s.tavern.offers}
 function cityBuildOrder(s){
  const unique=['magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'];
  const map={human:['stables','blacksmith'],elf:['magicPool','natureTower'],orc:['beastPen','blacksmith'],undead:['graveyard','darkHall','soulTower']};
@@ -554,7 +584,7 @@ function hireCandidate(s,id){
  if(!offer)throw Error('Ứng viên không còn trong Tavern');
  E.spend(s,{gold:offer.gold});
  const heroId=Math.max(0,...s.heroes.map(h=>h.id))+1;
- s.heroes.push({id:heroId,name:offer.name,level:1,xp:0,atk:offer.atk,def:offer.def,spd:offer.spd,int:offer.int,quality:offer.quality,qualityModel:offer.qualityModel===2?2:undefined});
+ s.heroes.push({id:heroId,name:offer.name,level:1,xp:0,atk:offer.atk,def:offer.def,spd:offer.spd,int:offer.int,quality:offer.quality,qualityModel:offer.qualityModel===3?3:offer.qualityModel===2?2:undefined,qualityScore:offer.qualityModel===3?offer.qualityScore:undefined});
  s.tavern.offers=s.tavern.offers.filter(h=>h.id!==id);
  ensure(s);E.note(s,`Chiêu mộ ${offer.name} (${offer.quality}) từ Tavern; giới hạn hiện tại ${cap} tướng theo danh vọng · giá tuyển vẫn mô phỏng.`);
  return heroId;
@@ -562,7 +592,7 @@ function hireCandidate(s,id){
 if(Array.isArray(E.buildOrder)){for(const key of ['blacksmith','magicPool','natureTower','beastPen','darkHall','soulTower','graveyard'])if(!E.buildOrder.includes(key))E.buildOrder.push(key)}
 E.make=make;E.hireCandidate=hireCandidate;E.refreshTavern=refreshTavern;E.tick=tick;E.recruit=recruit;E.heal=heal;E.battleAct=battleAct;E.learn=learn;E.startMarch=startMarch;E.appoint=appoint;E.selectHero=selectHero;E.recallHero=recallHero;E.finishReturn=finishReturn;E.heroAway=heroAway;E.valid=valid;
 Object.assign(E,{V,SAVE_KEY:KEY,PREV_SAVE_KEY:'heoofgaia_hg_only_v06',TECHNOLOGIES,HUMAN_TROOP_REQUIREMENTS:HUMAN,FAME_MINE_CAPS,FAME_HERO_CAPS,FAME_AP,MINE_HOURLY,mineLimit,heroCountLimit,fameApStats,
- ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,HERO_QUALITY_V2,HERO_QUALITY_CHANCES,heroQualityChances:qualityChances,NPC_BATTLE_XP,battleExperienceReward,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
+ ensure08:ensure,experienceToNext:expToNext,heroTowerExperienceBonus,HERO_QUALITY_V2,HERO_QUALITY_CHANCES,heroQualityChances:qualityChances,heroInnateTotal:innateHeroTotal,heroTierByTotal:tierByTotal,NPC_BATTLE_XP,battleExperienceReward,grantHeroExperience,allocateHeroPoint,heroNameColor:nameColor,heroStatColor:statColor,cityBuildOrder,
  buildingUpgradeGate,buildingUpgradeCapException,
 technologyLevel:techLevel,technologyCost:techCost,technologyDuration:techDuration,researchTechnology,researchSpell,castellanExperienceFromResources,grantCastellanActivityExperience,progressFame,
  troopPrerequisites:unitPrerequisites,troopBuildingKey,recruitCost,recruitDuration,recruitMax,arenaHealCost,strictSave:strict,parseSave:parse,serializeSave:serialize});
