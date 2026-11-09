@@ -12,6 +12,24 @@ function render(s,E,ui,{screen='targets',tier=11}={}){
  // local snapshot and can mutate an older Save just by opening a screen.
  // Boss previews must use the already-stored city key without that side effect.
  const homeKey=s.cities?.find(c=>c.id===s.activeCityId)?.key||s.cities?.find(c=>c.main)?.key||null;
+ // HG44-D: read-only dispatch readiness from actual saved personnel and
+ // active-city troop stock. Never call E.hg20HeroRole/activeCity here: those
+ // may normalize old saves merely by viewing a Boss preview.
+ const busyHeroes=new Set([
+  s.expedition?.heroId,s.march?.heroId,
+  ...(s.parallelMarches||[]).map(x=>x.heroId),
+  ...(s.stationedHeroes||[]).map(x=>x.heroId)
+ ].filter(x=>x!==null&&x!==undefined));
+ const readyHeroes=(s.heroes||[]).filter(h=>h.id!==s.castellan&&!busyHeroes.has(h.id)).length;
+ const troopStock=Object.values(s.army||{}).reduce((n,v)=>n+Math.max(0,Number(v)||0),0);
+ const dispatchReadiness='<div class="hg44-boss-preparation" data-hg44-boss-preparation="true">'+
+  '<span>🛡 <b>'+format(troopStock)+'</b> quân trong thành đang mở</span>'+
+  '<span>🧙 <b>'+readyHeroes+'</b> tướng chưa bận</span>'+
+  '<span>⚔ Tự săn: tối đa 3 tướng × 2 nhóm quân/tướng</span>'+
+  '<small>'+(troopStock<1?'Chưa có quân: mở Quân đội để tuyển và bố trí.':
+   readyHeroes<1?'Chưa có tướng rảnh: thu hồi hoặc thay đổi tướng trước khi xuất quân.':
+   'Đây là quân trong kho, không phải dự báo thắng Boss. Kiểm tra đội hình và HP thực trước khi xuất chinh.')+
+  '</small></div>';
  const selected=targets.filter(t=>t.eliteTier===tier);
  const available=selected.length?selected:targets.filter(t=>t.eliteTier===11);
  const preview=t=>E.hg409Preview('npc',t.key);
@@ -63,7 +81,7 @@ function render(s,E,ui,{screen='targets',tier=11}={}){
     esc(Object.entries(r.resources||{}).map(([k,n])=>k+': '+format(n)).join(' · '))+'</small></div>').join(''):
     '<p>Chưa có chiến thắng Boss được ghi vào sổ HG40.9.</p>')+
    button('tab',{tab:'reports'},'⚔ Mở chiến báo đầy đủ',false,'small secondary')+'</section></div>':
-  '<div class="hg42-boss-select"><p>Chọn cấp Boss, xem lực lượng thật và thưởng trước khi xuất quân.</p>'+
+  '<div class="hg42-boss-select"><p>Chọn cấp Boss, xem lực lượng thật và thưởng trước khi xuất quân.</p>'+dispatchReadiness+
    '<div class="hg42-boss-tiers">'+[11,12,13].map(x=>button('hg42-boss-tier',{tier:x},
     'T'+x+' · CS'+(x-3),false,x===tier?'small primary':'small secondary')).join('')+'</div>'+
    '<div class="hg42-boss-targets">'+(available.length?available.map(tileCard).join(''):
