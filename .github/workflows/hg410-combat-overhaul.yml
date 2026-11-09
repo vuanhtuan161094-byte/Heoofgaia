@@ -18,6 +18,7 @@ on:
       - 'qa-hg410-overhaul.cjs'
       - 'qa-hg261-joint.cjs'
       - 'qa-hg33-hex.cjs'
+      - 'qa-engine.cjs'
       - 'qa-hg409-pve-chrome.py'
       - 'qa-hg410-ui-chrome.py'
       - '.github/workflows/hg410-combat-overhaul.yml'
@@ -44,6 +45,8 @@ jobs:
           node qa-hg30-ascension.cjs
           node qa-hg33-hex.cjs
           node qa-hg40-tactical.cjs
+          node qa-hg261-joint.cjs
+          node qa-engine.cjs
       - name: Build same single offline HTML with all actual JS and assets
         run: |
           python -m pip install Pillow==11.3.0
