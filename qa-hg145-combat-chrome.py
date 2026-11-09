@@ -88,19 +88,31 @@ with sync_playwright() as pw:
   }while(turns<6&&act.type==='continue'&&!b.lastEvents.some(e=>e.damage>0&&e.targetId));
   const stamp=performance.now()+10;
   P.drawBattle(c,E,s,stamp,{showGrid:true,showHP:true});
+  const camera=P.battleProjection(c,E),layout=P.battleUnitLayout(b,camera,c.width,c.height);
+  // HG41: six live enemy stacks may cause long projectile/stagger timelines.
+  // Sample a genuine impact window, not an arbitrary 600 ms after the turn.
+  // The painter's own timeline is the authority; never fake a damage receipt.
+  let impactSample=stamp+600;
+  for(let ms=600;ms<=12000;ms+=80){
+    const phases=P.battleFxPlan(b,camera,stamp+ms,layout);
+    if(phases.some(e=>e.time-e.impactMs>=80&&e.time-e.impactMs<=260)){
+      impactSample=stamp+ms;break;
+    }
+  }
   const before=JSON.stringify(E.clone(s)),origFill=ctx.fillText,origStroke=ctx.strokeText,strings=[];
   ctx.fillText=function(value,...args){strings.push(String(value));return origFill.call(this,value,...args)};
   ctx.strokeText=function(value,...args){return origStroke.call(this,value,...args)};
   try{
-   P.drawBattle(c,E,s,stamp+600,{showGrid:true,showHP:true});
-   const camera=P.battleProjection(c,E),layout=P.battleUnitLayout(b,camera,c.width,c.height),
-     effects=P.battleFxPlan(b,camera,stamp+600,layout);
-   return {outcome:act.type,turns,effectFrame:c.toDataURL('image/png').split(',')[1],
+   P.drawBattle(c,E,s,impactSample,{showGrid:true,showHP:true});
+   const effects=P.battleFxPlan(b,camera,impactSample,layout);
+   return {outcome:act.type,turns,impactSampleMs:impactSample-stamp,
+     effectFrame:c.toDataURL('image/png').split(',')[1],
      receipts:b.lastEvents.filter(e=>e.damage>0&&e.targetId).map(e=>({
        actorId:e.actorId,targetId:e.targetId,damage:e.damage,
        casualties:e.casualties,death:e.death})),
      effects:effects.map(e=>({actorId:e.actorId,targetId:e.targetId,damage:e.damage,
-       casualties:e.casualties,death:e.death,ranged:e.ranged})),
+       casualties:e.casualties,death:e.death,ranged:e.ranged,
+       sinceImpactMs:e.time-e.impactMs,damageLabel:'-'+Math.round(e.damage)})),
      drawn:strings,stable:JSON.stringify(E.clone(s))===before,strict:E.strictSave(s)};
   }finally{ctx.fillText=origFill;ctx.strokeText=origStroke}
  }""")
@@ -108,7 +120,7 @@ with sync_playwright() as pw:
  frame_path=OUT/"actual-receipt-FX-frame-600ms.png"
  frame_path.write_bytes(frame)
  screens.append(str(frame_path.relative_to(ROOT)))
- check("Captured true 600ms damage and death frame",frame[:8]==b"\x89PNG\r\n\x1a\n")
+ check("Captured real impact-window damage and death frame",frame[:8]==b"\x89PNG\r\n\x1a\n")
  check("Actual engine turn generated nonzero damage receipts",fx["outcome"]=="continue" and len(fx["receipts"])>0)
  check("Each visual effect preserves exact damage and death receipt",
    len(fx["effects"])==len(fx["receipts"]) and all(
@@ -116,9 +128,26 @@ with sync_playwright() as pw:
          e["damage"]==r["damage"] and e["casualties"]==r["casualties"] and
          e["death"]==r["death"] for e in fx["effects"]) for r in fx["receipts"]))
  check("Ranged attack produces real arrow effect",any(e["ranged"] for e in fx["effects"]))
- check("Death effect only appears for a truly killed stack",any(e["death"] for e in fx["effects"]))
- check("Visible floating values match actual engine damage",all(
-   "-"+str(round(e["damage"])) in fx["drawn"] for e in fx["effects"]))
+ # A live six-stack exchange does not guarantee a casualty in the opening
+ # turns. Zero death receipts MUST produce zero death markers; when there is
+ # an actual kill, the drawn marker must remain receipt-bound.
+ real_deaths=[r for r in fx["receipts"] if r["death"]]
+ drawn_deaths=[e for e in fx["effects"] if e["death"]]
+ check("Death marker count matches only actual fatal hit receipts",
+   len(drawn_deaths)==len(real_deaths) and all(
+     any(e["actorId"]==r["actorId"] and e["targetId"]==r["targetId"] for r in real_deaths)
+     for e in drawn_deaths))
+ # The painter intentionally shows arrows BEFORE impact, and damage numbers
+ # AFTER impact. Match only floats in their real 0..700 ms display interval.
+ visible=[e for e in fx["effects"] if 0<=e["sinceImpactMs"]<=700]
+ expected={e["damageLabel"] for e in visible}
+ drawn={text for text in fx["drawn"] if text.startswith("-") and text[1:].isdigit()}
+ check("Visible floating values match actual impact-phase damage receipts",
+   bool(visible) and expected==drawn)
+ if not visible or expected!=drawn:
+   print("HG44-H HG145 FX DIAGNOSTIC "+json.dumps(
+     {"sampleMs":fx["impactSampleMs"],"effects":fx["effects"],"drawn":fx["drawn"],
+      "receipts":fx["receipts"]},ensure_ascii=False)[:7000],flush=True)
  check("Rendering effects never changes strict game save",fx["stable"] and fx["strict"])
  shot(page,"actual-receipt-fx-desktop.png")
  page.locator('[data-action="save-combat"]').click()
