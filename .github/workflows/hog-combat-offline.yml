@@ -196,6 +196,10 @@ jobs:
         run: |
           python -m py_compile qa-hg34-combat-smooth-chrome.py
           python qa-hg34-combat-smooth-chrome.py
+      - name: HG40.7 actual Walk foot-lock Chromium pixels and VFX sprite contact visual acceptance
+        run: |
+          python -m py_compile qa-hg407-foot-frames-chrome.py
+          python qa-hg407-foot-frames-chrome.py
       - name: HG39 real map targeting, responsive dispatch, reservations and Save v07
         run: |
           python -m py_compile qa-hg39-map-dispatch-chrome.py
@@ -282,6 +286,16 @@ jobs:
           test -s Play-Heoofgaia-HG11.html
           sha256sum Play-Heoofgaia-HG11.html | tee Build-SHA256.txt
           wc -c Play-Heoofgaia-HG11.html
+      - name: Upload HG40.7 genuine 24-frame foot-lock before-after screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG40-7-Real-Frame-Foot-Lock-Crimson
+          path: |
+            docs/qa/hg407/foot-lock-live-chrome.json
+            docs/evidence/hg407/hg407-walk-foot-lock-3-units-eight-frames.png
+          retention-days: 30
+          if-no-files-found: ignore
       - name: Upload HG40.5 training 100x and PC-phone touch Chromium receipts
         if: always()
         uses: actions/upload-artifact@v4
