@@ -200,6 +200,24 @@ with sync_playwright() as pw:
               if(Math.abs(visible[i]-control[i])+Math.abs(visible[i+1]-control[i+1])+
                  Math.abs(visible[i+2]-control[i+2])>18)delta++;
             recordRow.vfxPixels=delta;
+            if(tier===2){
+              const actorLayout=layout.find(e=>e.id==='p0');
+              recordRow.diagnostic={
+                logical:{x:actor.x,y:actor.y,pool:actor.pool,count:actor.count},
+                receipt:{damage:event.damage,path:event.path,to:event.to,from:event.from},
+                timeline:{round:impact.round,start:impact.start,impactAt:impact.impactAt,moveMs:impact.moveMs,attackMs:impact.attackMs,
+                  actorEvent:impact.event.actorId,targetEvent:impact.event.targetId},
+                sampleTime:at,actorVisual:actorVisual,
+                visibleFoot:actorFoot,
+                rawFoot:cam.center(actor.x,actor.y),
+                hitAtVisible:P.battleHit(c,actorFoot.x,actorFoot.y,E,s,at)?.id||null,
+                hitAtRaw:P.battleHit(c,cam.center(actor.x,actor.y).x,cam.center(actor.x,actor.y).y,E,s,at)?.id||null,
+                actorLayout:{x:actorLayout?.x,y:actorLayout?.y,pool:actorLayout?.displayPool},
+                effects:fx.filter(x=>x.actorId==='p0').map(x=>({kind:x.kind,start:x.start,end:x.end,time:x.time,impactMs:x.impactMs})),
+                cueCount:b.hg40?.lastSkills.length,
+                renderedDelta:delta
+              };
+            }
             P.drawBattle(c,E,s,at,{showGrid:true,showHP:true});
             const col=(tier-1)%2,row=Math.floor((tier-1)/2),sx=col*550,sy=row*306;
             sc.fillStyle='#10272c';sc.fillRect(sx,sy,550,306);
@@ -224,6 +242,12 @@ with sync_playwright() as pw:
     images = [write_png("hg403-" + race + "-10-real-combat-skill-canvas.png", data)
               for race, data in sheets.items()]
     rows = result["entries"]
+    for scout in rows:
+        if scout['unitId'].endswith('_2'):
+            print('HG44 SCOUT DIAGNOSTIC '+json.dumps({'id':scout['unitId'],
+                'skill':scout['skill'],'hitbox':scout['hitbox'],
+                'vfxPixels':scout['vfxPixels'],'diagnostic':scout.get('diagnostic')},
+                ensure_ascii=False)[:2200],flush=True)
     reactive = [r for r in rows if r["mode"].startswith("reactive")]
     passive = [r for r in rows if r["mode"].startswith("passive")]
     gate("40 unique troops and skill receipts painted by the real Chromium Canvas",
