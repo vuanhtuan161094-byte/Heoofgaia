@@ -16,6 +16,8 @@ on:
       - 'index.html'
       - 'build_offline.py'
       - 'qa-hg410-overhaul.cjs'
+      - 'qa-hg261-joint.cjs'
+      - 'qa-hg33-hex.cjs'
       - 'qa-hg409-pve-chrome.py'
       - '.github/workflows/hg410-combat-overhaul.yml'
   workflow_dispatch:
