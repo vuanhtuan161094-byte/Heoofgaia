@@ -1,0 +1,73 @@
+name: HG41 mass PvE, hero command, slots and two-column combat
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'engine.js'
+      - 'hg07.js'
+      - 'hg10.js'
+      - 'hg20-private.js'
+      - 'hg21-tower-tactical.js'
+      - 'hg261-joint-boss.js'
+      - 'hg30-troop-ascension.js'
+      - 'hg409-enemy-commanders.js'
+      - 'hg410-battlefield.js'
+      - 'app.js'
+      - 'index.html'
+      - 'build_offline.py'
+      - 'qa-hg410-overhaul.cjs'
+      - 'qa-hg409-pve-chrome.py'
+      - '.github/workflows/hg410-combat-overhaul.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  battle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Verify code syntax and actual engine/Save v07/army ownership
+        run: |
+          for f in engine.js hg07.js hg10.js hg20-private.js hg21-tower-tactical.js hg261-joint-boss.js hg30-troop-ascension.js hg409-enemy-commanders.js hg410-battlefield.js app.js qa-hg410-overhaul.cjs; do node --check "$f"; done
+          node qa-hg410-overhaul.cjs
+          node qa-hg409-pve-commanders.cjs
+          node qa-hg30-ascension.cjs
+          node qa-hg33-hex.cjs
+          node qa-hg40-tactical.cjs
+      - name: Build same single offline HTML with all actual JS and assets
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Run genuine Chromium QA on desktop and phone viewports
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python -m py_compile qa-hg409-pve-chrome.py
+          python qa-hg409-pve-chrome.py
+      - name: Upload focused engine and visual evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG41-Real-Gameplay-Save-and-Chromium-Evidence
+          path: |
+            docs/qa/hg410/*.json
+            docs/qa/hg409/*.json
+            docs/evidence/hg409/*.png
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Deliver exactly one tested offline playable HTML
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG41-Playable-One-Offline-HTML
+          path: Play-Heoofgaia-HG11.html
+          if-no-files-found: error
+          retention-days: 30
