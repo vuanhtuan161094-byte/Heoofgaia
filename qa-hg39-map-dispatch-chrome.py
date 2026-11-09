@@ -124,11 +124,11 @@ with sync_playwright() as pw:
             page.locator('[data-action="dispatch-select-hero"][data-id="2"]').click()
             page.locator('[data-action="dispatch-save"]').click()
             page.locator('[data-action="dispatch-select-hero"][data-id="1"]').click()
-            reserved_text=page.locator('.hg39-dispatch-row [data-dispatch-count="human_1"]').locator('xpath=../..').inner_text()
-            page.locator('.hg39-dispatch-row [data-dispatch-count="human_1"]').fill('10')
+            reserved_text=page.locator('.hg39-dispatch-row').first.inner_text()
+            page.locator('.hg39-dispatch-row [data-dispatch-slot="0"]').fill('10')
             page.locator('#hg39-dispatch-unit').select_option('human_2')
             page.locator('[data-action="dispatch-add-unit"]').click()
-            page.locator('[data-action="dispatch-adjust"][data-id="human_2"][data-delta="1"]').click()
+            page.locator('[data-action="dispatch-adjust"][data-slot="1"][data-delta="1"]').click()
             page.locator('[data-action="dispatch-save"]').click()
             edited=page.evaluate("""() => {
               const s=HOG_APP_DEBUG.getState(),plan=HOG_ENGINE.hg20HeroPlan(s,1),other=HOG_ENGINE.hg20HeroPlan(s,2);
@@ -136,7 +136,7 @@ with sync_playwright() as pw:
                 limit:HOG_ENGINE.heroLimit(s.heroes[0].level),valid:HOG_ENGINE.strictSave(s),reserved:s.army.human_1-other.find(g=>g.unitId==='human_1').count};
             }""")
             check('Hero switching preserves separate troop reservations and edits a real saved formation',
-                  reserved_text and edited['valid'] and edited['reserved']==23 and edited['total']==12 and
+                  '5 giữ cho tướng khác' in reserved_text and edited['valid'] and edited['reserved']==23 and edited['total']==12 and
                   edited['points']<=edited['limit'] and {g['unitId'] for g in edited['other']}=={'human_1'},
                   {'visibleReservation':reserved_text,'edited':edited})
             page.locator('[data-action="dispatch-confirm"]').click()
