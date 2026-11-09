@@ -669,6 +669,7 @@ function hg408HeroesView(){
  let h=state.heroes.find(x=>x.id===hg408InspectId);
  if(!h){h=state.heroes.find(x=>x.id===state.activeHero)||state.heroes[0];hg408InspectId=h.id;}
  const qual=q=>E.hg408HeroQuality(q);
+ const rankEmblem=x=>['','◆','✦','❖','✺','♛'][Math.max(1,Math.min(5,x||1))];
  const color=q=>'hg408-quality-'+qual(q);
  const role=E.hg20HeroRole(state,h.id),check=E.hg408DismissCheck(state,h.id);
  const stats=E.heroStats(state,h.id);
@@ -681,19 +682,19 @@ function hg408HeroesView(){
  const roster=state.heroes.map(q=>{
    const active=q.id===h.id,ready=E.hg20HeroRole(state,q.id);
    return `<button type="button" data-action="hg408-inspect" data-id="${q.id}" class="hg408-roster-card ${active?'selected':''}" aria-pressed="${active}" title="${esc(ready.label)}">
-    <span class="hg408-mini-portrait" aria-hidden="true">♜</span><span class="hg408-roster-name"><b class="${color(q)}">${esc(q.name)}</b><small>Lv.${q.level} · B${q.heroRank||1} · ✧${q.rebirth||0}</small></span><span class="hg408-role-dot ${ready.status==='home'?'free':'busy'}" title="${esc(ready.label)}"></span>
+    <span class="hg408-mini-portrait" aria-hidden="true">♜</span><span class="hg408-roster-name"><b class="${color(q)}">${esc(q.name)}</b><small>Lv.${q.level} · ${rankEmblem(q.heroRank)} B${q.heroRank||1} · ✧${q.rebirth||0}</small></span><span class="hg408-role-dot ${ready.status==='home'?'free':'busy'}" title="${esc(ready.label)}"></span>
    </button>`;
  }).join('');
  const identity=`<div class="hg408-identity">
     <div class="hg408-portrait" aria-hidden="true"><span>♜</span><small>${esc(C.races[state.race].english)}</small></div>
     <div class="hg408-identity-main"><span class="hg408-eyebrow">HỒ SƠ TƯỚNG · ${esc(role.label)}</span>
       <h2 class="${color(h)}">${esc(h.name)}</h2>
-      <div class="hg408-badges"><span>Lv ${h.level}/100</span><span>🔱 Bậc ${rank}/5</span><span>✦ Chuyển sinh ${rebirth}/5</span><span class="${color(h)}">${qual(h).toUpperCase()}</span></div>
+      <div class="hg408-badges"><span>Lv ${h.level}/100</span><span>${rankEmblem(rank)} Bậc ${rank}/5</span><span>✦ Chuyển sinh ${rebirth}/5</span><span class="${color(h)}">${qual(h).toUpperCase()}</span></div>
       <div class="hg408-exp"><span>EXP <b>${format(Math.floor(h.xp))}${need===null?' · MAX':' / '+format(need)}</b></span><progress max="${expMax}" value="${exp}"></progress></div>
     </div>
     <div class="hg408-power"><small>Chiến lực đội hình</small><strong>${combatPower===null?'—':format(combatPower)}</strong><small>${combatPower===null?'Chưa bố trí quân':'Chỉ số chiến đấu thực'}</small></div>
    </div>`;
- const statsGrid=`<div class="hg408-stats-grid">${[['atk','⚔','ATK'],['def','🛡','DEF'],['spd','➤','SPD'],['int','✧','INT']].map(([key,icon,label])=>`<div class="hg408-stat"><span>${icon} ${label}</span><strong>${Number(stats[key]).toLocaleString('vi-VN',{maximumFractionDigits:2})}</strong></div>`).join('')}</div>`;
+ const statsGrid=`<div class="hg408-stats-grid">${[['atk','⚔','ATK'],['def','🛡','DEF'],['spd','➤','SPD'],['int','✧','INT']].map(([key,icon,label])=>`<div class="hg408-stat"><span>${icon} ${label}</span><strong class="hg408-quality-${E.heroStatColor(stats[key])}">${Number(stats[key]).toLocaleString('vi-VN',{maximumFractionDigits:2})}</strong></div>`).join('')}</div>`;
  const actions=`<div class="hg408-action-grid">
     ${button('hero',{id:h.id},h.id===state.activeHero?'✓ Đang chỉ huy':'♛ Chọn chỉ huy',h.id===state.activeHero||h.id===state.castellan||!available,'small primary')}
     ${button('castellan',{id:h.id},h.id===state.castellan?'Bỏ Castellan':'🏰 Bổ nhiệm',!available,'small secondary')}
@@ -723,7 +724,7 @@ function hg408HeroesView(){
    page=`<div class="hg408-slots">${equipped}</div><div class="hg408-inventory">${inventory||'<p>Chưa có trang bị trong kho.</p>'}</div>`;
  }else if(hg408Tab==='ascend'){
    const mat=state.hg18.materials,spent=Object.values(h.spentAttributePoints||{}).reduce((a,b)=>a+b,0);
-   page=`<div class="hg408-ascend-grid"><div><span>🔱 BẬC HIỆN TẠI</span><strong>${rank}/5</strong><small>Mỗi bậc +2% chỉ số</small>${button('hg18-rank',{id:h.id},'Nâng bậc',!available||!mat.rank_emblem||rank>=5||h.level<rank*20,'small primary')}<small>Yêu cầu: Lv${rank*20} · ${mat.rank_emblem} Ấn còn lại</small></div>
+   page=`<div class="hg408-ascend-grid"><div><span>🔱 BẬC HIỆN TẠI</span><strong>${rankEmblem(rank)} ${rank}/5</strong><small>Mỗi bậc +2% chỉ số</small>${button('hg18-rank',{id:h.id},'Nâng bậc',!available||!mat.rank_emblem||rank>=5||h.level<rank*20,'small primary')}<small>Yêu cầu: Lv${rank*20} · ${mat.rank_emblem} Ấn còn lại</small></div>
    <div><span>✦ CHUYỂN SINH</span><strong>${rebirth}/5</strong><small>+4% mỗi lần chuyển sinh</small>${button('hg18-rebirth',{id:h.id},'Chuyển sinh',!available||!mat.rebirth_core||h.level!==100||rebirth>=5||state.castellan===h.id,'small primary')}<small>Cần Lv100 và lõi: ${mat.rebirth_core} còn lại</small></div></div>
    <div class="hg408-note">Thẻ tẩy ${mat.hero_reset} · điểm đã phân ${spent} · ${button('hg18-reset',{id:h.id},'Tẩy điểm',!available||!mat.hero_reset||!spent,'small secondary')}</div>`;
  }else{
