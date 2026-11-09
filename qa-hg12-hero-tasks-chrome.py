@@ -130,6 +130,24 @@ with sync_playwright() as pw:
       HOG_APP_DEBUG.render();
       return {result,turns,ready:status.active?.ready,saved};
     }""")
+    if not verdict["saved"]:
+        diagnostic=page.evaluate("""() => {
+          const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),now=Date.now();
+          const check=(edit)=>{const copy=E.clone(s);edit(copy);return E.strictSave(copy)};
+          const report=s.battleReports?.at(-1);
+          return {clockSkewMs:s.lastTick-now,speed:s.speed,serial:s.serial,
+            reportCount:s.battleReports?.length,report,heroTask:s.dailyTaskState?.heroTask,
+            heroXp:s.heroes.map(h=>({id:h.id,level:h.level,xp:h.xp})),
+            city:s.activeCityId,formation:s.formation,expedition:s.expedition,
+            directStrict:E.strictSave(s),afterSync:(()=>{const c=E.clone(s);E.syncCityState(c);return E.strictSave(c)})(),
+            withCurrentClock:check(c=>{c.lastTick=Math.min(c.lastTick,now)}),
+            withoutLastReport:check(c=>{c.battleReports=c.battleReports.slice(0,-1)}),
+            noReport:check(c=>{c.battleReports=[]}),
+            emptyHeroBuffs:check(c=>{c.heroBuffs=[]}),
+            resetDailyProgress:check(c=>{c.dailyTaskState.heroTask={completed:0,active:null}}),
+            saveBytes:JSON.stringify(s).length};
+        }""")
+        print("HG44-H SAVE DIAGNOSTIC "+json.dumps(diagnostic,ensure_ascii=False,default=str)[:7500],flush=True)
     check("Real NPC win completes same hero task",verdict["result"]=="win" and verdict["ready"])
     check("Combat and quest progress save in v07",verdict["saved"])
     page.locator('#nav [data-tab="tasks"]').click()
