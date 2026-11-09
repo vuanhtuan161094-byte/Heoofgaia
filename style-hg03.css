@@ -1403,3 +1403,9 @@ body:not(.combat-mode).hg42-boss-screen-open .hg39-map-dock{
  display:none!important;
  pointer-events:none!important;
 }
+
+/* HG42: the small portrait screen may place the fixed navigation (z60)
+ * over the dispatch drawer's close control. The dispatch drawer is a
+ * transactional modal: keep it above the navigation until saved/closed.
+ * Other management pages keep their previous tab-switching behavior. */
+body.window-open .game-modal:has(.game-window-body .hg39-dispatch){z-index:82!important}
