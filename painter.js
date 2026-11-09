@@ -907,7 +907,7 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
  // HG42: 16 enemy Boss stacks must not each trigger the quadratic search for
  // a full floating nameplate. Keep one full label for the focused enemy only.
  // This is presentation-only; every actor stays drawn, targetable and saved.
- const denseBoss=!!b.hg410?.boss&&b.enemies.filter(u=>u.pool>0).length>=12;
+ const denseBoss=!!b.hg410?.boss&&b.hg410.enemyStacks>=12;
  const signature=width+'x'+height+'|'+camera.radius+'|'+b.turn+'|'+(denseBoss?(b.focused||'none'):'')+'|'+actors.map(u=>
   [u.id,u.side,u.unitId,u.name,u.x,u.y,battleVisualPool(b,u,now)>0?1:0].join(':')).join('|');
  const cached=battleLayoutCache.get(b);
