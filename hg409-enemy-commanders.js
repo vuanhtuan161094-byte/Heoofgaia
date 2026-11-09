@@ -23,7 +23,7 @@ function valid(s){
    E.C.keys.includes(k)&&ints(v))&&Object.entries(x.materials||{}).every(([k,v])=>
    !!E.HG18_MATERIALS[k]&&ints(v)));
 }
-function category(kind,target='',floor=1,level=1){
+function category(kind,target='',floor=1,level=null){
  const tile=E.getTile(target);
  if(kind==='tower')return {kind:'tower',cs:Math.min(10,1+Math.floor((Math.max(1,floor)-1)/10)),boss:floor%10===0,level:floor};
  if(kind!=='npc'&&kind!=='treasure')return null;
@@ -33,7 +33,7 @@ function category(kind,target='',floor=1,level=1){
   Math.max(1,Math.min(10,Number(level)||Number(tile?.level)||1));
  return {kind:boss?'boss':kind,cs,boss,level:Math.max(1,Number(level)||Number(tile?.level)||1),tier};
 }
-function preview(kind,target='',floor=1,level=1){
+function preview(kind,target='',floor=1,level=null){
  const meta=category(kind,target,floor,level);if(!meta)return null;
  const {cs,boss}=meta;
  const named=boss?(meta.kind==='tower'?'Chúa Tể Bí Cảnh':'Ma Vương Tái Sinh'):'Chiến Tướng Hắc Tinh';
