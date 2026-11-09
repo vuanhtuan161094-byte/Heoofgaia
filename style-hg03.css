@@ -1237,6 +1237,65 @@ body.hg39-world-map-mode .sidebar{display:none!important}
  .hg408-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
 
+/* HG45 — seven-tier Tavern/hero cards. All changes are scoped to the
+   existing single-screen hero manager. No new HTML entrypoint or canvas. */
+.hg408-quality-platinum{color:#e4f7ff!important;text-shadow:0 0 8px #9bd5ff78}
+.hg408-quality-rainbow{color:#ffd3f8!important;text-shadow:0 0 8px #a7dbff88,0 0 12px #ff8dd688}
+.hg408-roster-name b.hg408-quality-rainbow,
+.hg408-identity-main h2.hg408-quality-rainbow,
+.hg408-offer b.hg408-quality-rainbow{
+ background:linear-gradient(95deg,#ff86b0,#ffd989,#96efb4,#88d9ff,#cc9dff,#ff86b0);
+ background-size:220% 100%;-webkit-background-clip:text;background-clip:text;
+ color:transparent!important;animation:hg45-spectrum 5s linear infinite;
+}
+@keyframes hg45-spectrum{to{background-position:220% 0}}
+.hg408-mini-portrait.hg408-quality-purple{border-color:#ad79eb;background:radial-gradient(circle at 36% 22%,#725593,#293247 75%)}
+.hg408-mini-portrait.hg408-quality-platinum{border-color:#c5ebff;background:radial-gradient(circle at 35% 20%,#8daebe,#2b384a 75%);box-shadow:inset 0 0 8px #a6e5ff55}
+.hg408-mini-portrait.hg408-quality-rainbow{border-color:#e8bcff;background:linear-gradient(145deg,#6d438e,#28576b,#3f486e);box-shadow:inset 0 0 9px #d4a8ff65,0 0 8px #b789fc45}
+.hg408-portrait.hg408-quality-platinum{border-color:#c3e9ff;box-shadow:inset 0 0 10px #caeaff62}
+.hg408-portrait.hg408-quality-rainbow{border-color:#e9acff;background:radial-gradient(circle at 40% 20%,#6959a2,#283e5d 74%);box-shadow:inset 0 0 16px #d59aff66}
+.hg408-roster-card:has(.hg408-quality-platinum){border-left:3px solid #b6eaff}
+.hg408-roster-card:has(.hg408-quality-rainbow){border-left:3px solid #ffb6e9}
+.hg45-quality-legend{flex:0 0 auto;margin-top:7px;padding:7px;border:1px solid #516979;border-radius:6px;background:#203641}
+.hg45-quality-legend>b{display:block;color:#d9c793;font-size:10px;letter-spacing:.07em;margin-bottom:6px}
+.hg45-quality-legend>div{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:4px}
+.hg45-legend-chip{font-size:10px;font-weight:750;padding:4px 5px;border:1px solid #54707a;background:#293e48;border-radius:4px;text-align:center}
+.hg45-quality-legend>small{display:block;margin-top:5px;font-size:9px;color:#aabebd}
+.hg45-hero-buff{font-size:10px;margin:3px 0 1px;line-height:1.3}
+.hg45-stat-heading{color:#bacecc;font-size:10px;letter-spacing:.03em;margin:2px 0 6px}
+.hg45-rate-bar{display:flex;gap:6px;flex-wrap:wrap;margin:5px 0 9px}
+.hg45-rate-bar span{border:1px solid #567584;border-radius:5px;background:#263944;padding:3px 7px;font-size:11px;font-weight:800}
+.hg408-offer{min-height:66px;border-left:3px solid #667885;gap:9px}
+.hg408-offer.hg45-tier-white{border-left-color:#cbd8e2}
+.hg408-offer.hg45-tier-blue{border-left-color:#65b7ff}
+.hg408-offer.hg45-tier-yellow{border-left-color:#e4bf61}
+.hg408-offer.hg45-tier-green{border-left-color:#70dda2}
+.hg408-offer.hg45-tier-purple{border-left-color:#b887ec;background:linear-gradient(115deg,#30324f,#203b45)}
+.hg408-offer.hg45-tier-platinum{border-left-color:#c0eaff;background:linear-gradient(115deg,#2c4654,#203a45);box-shadow:inset 0 0 7px #b8dcff22}
+.hg408-offer.hg45-tier-rainbow{border-left-color:#e7aaf7;background:linear-gradient(115deg,#493655,#263d58,#314c53);box-shadow:inset 0 0 9px #dcb1ff38}
+.hg408-offer .hg45-offer-info{min-width:0}
+.hg408-offer .hg45-offer-info>b{font-size:12px}
+.hg45-tier-tag{margin-left:5px;padding:2px 5px;border-radius:4px;border:1px solid currentColor;font-size:9px;white-space:nowrap}
+.hg408-offer .hg45-offer-buff{color:#e1d2b0;font-size:10px}
+.hg408-offer .hg408-mini-portrait{flex:0 0 40px;width:40px;height:45px;font-size:26px}
+.hg408-offer>button{flex:0 0 auto;max-width:120px;white-space:nowrap}
+@media(max-width:1100px){
+ .hg408-offer .hg45-offer-buff{font-size:9px}
+ .hg408-offer .hg45-offer-info>b{font-size:11px}
+}
+@media(max-width:850px){
+ .hg45-quality-legend{padding:4px;margin-top:4px}
+ .hg45-quality-legend>div{grid-template-columns:1fr 1fr;gap:2px}
+ .hg45-legend-chip{font-size:9px;padding:2px}
+ .hg45-quality-legend>small{display:none}
+ .hg408-offer{padding:5px;min-height:57px}
+ .hg408-offer .hg408-mini-portrait{flex-basis:27px;width:27px;height:32px;font-size:19px}
+ .hg408-offer>button{max-width:86px;font-size:10px!important;padding:5px!important}
+ .hg45-rate-bar span{font-size:10px}
+}
+@media(max-height:440px) and (orientation:landscape){.hg45-quality-legend{display:none}.hg45-hero-buff{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.hg408-roster-name b.hg408-quality-rainbow,.hg408-offer b.hg408-quality-rainbow,.hg408-identity-main h2.hg408-quality-rainbow{animation:none}}
+
 /* HG40.9 — compact purple PvE commander and readable item/reward receipts. */
 .hg409-target-preview,.hg409-tower-reward{margin:4px 0!important;padding:5px 8px;border:1px solid #76599b;border-radius:5px;background:#302b43;color:#e4d5ee;font:11px/1.3 system-ui,sans-serif}
 .hg409-combat-boss{display:flex;flex-wrap:wrap;gap:5px 10px;align-items:center;background:#322943;border:1px solid #8768a9;border-radius:5px;padding:4px 7px;color:#eadcf7;font:10px/1.25 system-ui,sans-serif}
