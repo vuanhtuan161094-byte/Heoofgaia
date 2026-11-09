@@ -328,7 +328,7 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  const fieldArmy=s.expedition?.army||s.army,fieldFormation=s.expedition?.formation||s.formation;
  const available=arrUnits(s).filter(u=>(fieldArmy[u.id]||0)>0);
  const selected=(fieldFormation?.length?fieldFormation:available.sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:fieldArmy[u.id]})));
- // Ranged reach is a bounded 11–12-cell tactical model, not sourced 2009 range.
+ // HG41: melee 1, normal archers 4, elite archers 5 odd-r hexes; original 2009 attack range remains unverified.
  const battleHeroSpeed=(root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10;
  const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,fieldArmy[u.id]||0);return {id:`p${i}`,slot:fieldFormation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:unitTacticalRange(u),
    count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+heroSpeedAdjustment(battleHeroSpeed)),
