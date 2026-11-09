@@ -100,7 +100,8 @@ test('HG30 permanent conversion can be repeated after stage 3 with exact materia
  s.res.gold=200000;s.army.human_1=100;s.army.human_quest_guard=4;
  for(const id of ['wild','abyss','hunter','hero','tower'])s.hg29.shards[id]=1000;
  for(const id of ['marks','boss','tower'])s.hg27[id]=1000;
- s.hg26.enabled=true;
+ const boss=E.TILES.find(t=>t.kind==='npc'&&t.eliteTier>=11);
+ assert(boss);s.hg26.enabled=true;s.hg26.phase='ready';s.hg26.config.target=boss.key;s.hg26.config.heroId=1;
  const before=s.army.human_1,sovereign=s.army.human_tower_sovereign||0;
  for(let i=0;i<2;i++)E.hg30Convert(s,'guard');
  for(let i=0;i<2;i++)E.hg30Convert(s,'sovereign');
