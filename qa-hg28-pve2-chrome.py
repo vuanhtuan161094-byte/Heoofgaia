@@ -123,9 +123,12 @@ def pose(page,width,height,title):
     # pivot belongs to one real actor and remains selectable after dock reflow.
     check(key+" actual friendly foot hex resolves to the intended live stack",
           ally["hitId"]==ally["id"],ally)
+    before_click=page.evaluate("""pt=>{const el=document.elementFromPoint(pt.x,pt.y),b=HOG_APP_DEBUG.getState().battle;return {selected:b?.selected,element:el?.tagName,id:el?.id,classes:el?.className||'',canvasHit:el?.id==='battle-canvas',toast:document.querySelector('#toast')?.textContent}}""",ally)
     page.mouse.click(ally["x"],ally["y"])
+    after_click=page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();return {selected:s.battle?.selected,focused:s.battle?.focused,battle:!!s.battle,save:HOG_ENGINE.strictSave(s),toast:document.querySelector('#toast')?.textContent}}""")
+    if after_click["selected"]!=ally["id"]:capture(page,f"{title}-{width}x{height}-failed-real-hex-pointer.png")
     check(key+" selects a friendly stack directly on the hex field",
-          page.evaluate("id=>HOG_APP_DEBUG.getState().battle?.selected===id",ally["id"]),ally)
+          after_click["selected"]==ally["id"],{"ally":ally,"before":before_click,"after":after_click})
     return d
 
 with sync_playwright() as pw:
