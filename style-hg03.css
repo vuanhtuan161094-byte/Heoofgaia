@@ -1262,3 +1262,9 @@ body.hg39-world-map-mode .sidebar{display:none!important}
 /* HG40.9 mobile: destination picker close must stay above the navigation rail.
    Scope to world-index only, preserving in-modal tab navigation elsewhere. */
 body.window-open .game-modal:has(.game-window-body>.landmarks){z-index:80}
+
+/* HG40.9: the world-index popup must sit above the short-landscape command
+   tabs (z-index:60). Other windows retain normal tab-switch behaviour. */
+body:not(.combat-mode) .game-modal:has(.game-window-body>.landmarks){
+ z-index:75;
+}
