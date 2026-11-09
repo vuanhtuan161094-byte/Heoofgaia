@@ -225,7 +225,7 @@ with sync_playwright() as playwright:
     if not heavy_row.count():
         page.locator('#hg39-dispatch-unit').select_option('human_4')
         page.locator('[data-action="dispatch-add-unit"]').click()
-            heavy_row = page.locator('.hg39-dispatch-row').filter(has_text=heavy_name).locator('input[data-dispatch-slot]')
+        heavy_row = page.locator('.hg39-dispatch-row').filter(has_text=heavy_name).locator('input[data-dispatch-slot]')
     # Recruitment above intentionally queued two Heavy Soldiers, while the
     # battle receipt gate verifies a single front-line stack. Reduce it with
     # the planner's real decrement control, preserving the normal UI path.
