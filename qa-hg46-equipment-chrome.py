@@ -73,17 +73,32 @@ with sync_playwright() as pw:
             }""",sample['uids'][0])
             check('Real Wear action equips only one owned sword and keeps same inventory',
                   equip['worn'] and equip['owner']['heroId']==1 and equip['count']==4 and equip['strict'],equip)
+            # Record the exact paid transaction INSIDE the actual engine
+            # handler. Production accrues passively between UI clicks, so
+            # comparing wallet snapshots seconds apart is not a valid cost oracle.
+            page.evaluate("""() => {
+              const E=HOG_ENGINE,orig=E.enhanceHG18;
+              E.enhanceHG18=(state,uid)=>{
+                const gold=state.res.gold,stones=state.hg18.materials.enhance_stone;
+                const result=orig(state,uid);
+                window.__hg46EnhancePaid={gold:gold-state.res.gold,
+                  stones:stones-state.hg18.materials.enhance_stone,uid};
+                return result;
+              };
+            }""")
             page.locator('.hg46-inventory-card[data-hg46-uid="'+str(sample['uids'][0])+'"] [data-action="hg18-enhance"]').click()
             upgraded=page.evaluate("""uid => {
               const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
               return {level:s.inventory.find(x=>x.uid===uid).enhance,
                stones:s.hg18.materials.enhance_stone,gold:s.res.gold,
+               paid:window.__hg46EnhancePaid,
                stats:E.hg46Stats(s.inventory.find(x=>x.uid===uid)),strict:E.strictSave(s)};
             }""",sample['uids'][0])
-            check('Real Enhance charges 2 stones and 250 gold, equips actual +1 stats',
+            check('Real Enhance charges exactly 2 stones and 250 gold despite passive production',
                   upgraded['level']==1 and upgraded['stones']==38 and
-                  upgraded['gold']==sample['gold']-250 and upgraded['strict'] and
-                  upgraded['stats']['atk']>9,upgraded)
+                  upgraded['paid']['gold']==250 and upgraded['paid']['stones']==2 and
+                  upgraded['paid']['uid']==sample['uids'][0] and
+                  upgraded['strict'] and upgraded['stats']['atk']>9,upgraded)
             capture(page,'desktop-1280x720-equipped-enhanced-sword.png')
             page.locator('[data-action="hg46-auto"][data-mode="balanced"]').click()
             combo=page.evaluate("""() => {
