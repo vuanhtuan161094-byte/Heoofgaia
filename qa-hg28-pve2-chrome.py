@@ -191,7 +191,12 @@ with sync_playwright() as pw:
     check("3 real commanders enter one joint Boss battle with 2 stacks each",
           setup["valid"] and setup["departure"]=="dispatched" and
           setup["arrive"]=="battle_open" and setup["joint"] and
-          setup["heroes"]==[1,1,2,2,3,3] and len(setup["enemies"])==3,setup)
+          setup["heroes"]==[1,1,2,2,3,3] and
+          # HG41 has 16 actual hostile stack actors, derived from the
+          # original 3 canonical Boss troop archetypes. The old expectation
+          # of exactly 3 targetable enemies was obsolete after deployment V2.
+          len(setup["enemies"])==16 and
+          len(set(setup["enemies"]))==3,setup)
     for w,h in ((1280,720),(960,540)):
         d=pose(page,w,h,"joint-three-heroes-six-stacks")
         check(f"Six stacks keep 3 distinct hero owners at {w}x{h}",
@@ -214,6 +219,6 @@ with sync_playwright() as pw:
 receipt={"status":"PASS" if all(c["pass"] for c in checks) else "FAIL",
     "checks":checks,"screenshots":images,"errors":errors,
     "html_sha256":hashlib.sha256(HTML.read_bytes()).hexdigest(),
-    "fixture":"Two extra hero records only; paid AP, troop dispatch and 3 Boss fight use real engine"}
+    "fixture":"Two extra hero records only; paid AP, troop dispatch, six owner-bound allied and sixteen live Boss stacks use real engine"}
 REPORT.write_text(json.dumps(receipt,ensure_ascii=False,indent=2)+"\n",encoding="utf8")
 print("HG28 PvE2 projection/joint Boss Chromium",len(checks),"/",len(checks),"PASS",flush=True)
