@@ -28,7 +28,7 @@ function teamSelection(s,requested){
     throw Error('Mỗi tướng chỉ được chọn 1 hoặc 2 slot có quân đã phân');
   const groups=entry.slots.map(i=>({unitId:plan[i].unitId,count:plan[i].count}));
   if(groups.some(g=>!isInt(g.count,1,1e8)||!E.getUnit(s,g.unitId)))throw Error('Stack không hợp lệ');
-  if(E.formationPoints(s,groups)>E.heroLimit(hero.level))throw Error('Vượt sức chỉ huy riêng của '+hero.name);
+  if(E.formationPoints(s,groups)>E.heroLimit(hero.level,hero))throw Error('Vượt sức chỉ huy riêng của '+hero.name);
   rows.push({heroId:id,groups});
  }
  const demand={},members=new Set(rows.map(x=>x.heroId));
@@ -137,7 +137,7 @@ function available(s,team){
  }
  const used={},plans=[];
  for(const r of team){
-  let remain=E.heroLimit(s.heroes.find(h=>h.id===r.heroId)?.level||1);
+  let remain=E.heroLimit(s.heroes.find(h=>h.id===r.heroId)?.level||1,s.heroes.find(h=>h.id===r.heroId));
   const groups=[];
   for(const g of r.groups){
    const u=E.getUnit(s,g.unitId),weight=u&&E.unitValue(u);
