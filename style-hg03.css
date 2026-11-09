@@ -1409,3 +1409,57 @@ body:not(.combat-mode).hg42-boss-screen-open .hg39-map-dock{
  * transactional modal: keep it above the navigation until saved/closed.
  * Other management pages keep their previous tab-switching behavior. */
 body.window-open .game-modal:has(.game-window-body .hg39-dispatch){z-index:82!important}
+
+/* HG42: each top-level management tab has its own viewport-sized surface.
+ * The single HTML and navigation/actions do not change, and the world
+ * canvas no longer leaks through behind each separate application screen.
+ * Built-in content scrolling is confined to the current management screen. */
+body:not(.combat-mode).hg42-management-screen-open .game-modal{
+ padding:103px 6px 5px!important;align-items:flex-start!important;
+ background:#0b1b23!important;
+}
+body:not(.combat-mode).hg42-management-screen-open .game-window{
+ width:min(1550px,calc(100vw - 12px))!important;
+ height:calc(100dvh - 108px)!important;max-height:none!important;
+ border-radius:6px;box-shadow:none;
+}
+body:not(.combat-mode).hg42-management-screen-open .game-window-head{
+ flex:0 0 36px!important;padding:3px 11px!important;
+}
+body:not(.combat-mode).hg42-management-screen-open .game-window-body{
+ min-height:0;scrollbar-width:thin;
+}
+body:not(.combat-mode).hg42-management-screen-open .game-window-body:has(.hg28-tab):not(:has(.hg408-screen)){
+ overflow-y:auto!important;overflow-x:hidden!important;
+}
+body:not(.combat-mode).hg42-management-screen-open .game-window-footer{
+ flex:0 0 28px!important;padding:2px 10px!important
+}
+body:not(.combat-mode).hg42-management-screen-open .wrap{
+ pointer-events:none!important;
+}
+body:not(.combat-mode).hg42-management-screen-open .sidebar,
+body:not(.combat-mode).hg42-management-screen-open .hg39-map-dock{
+ display:none!important;pointer-events:none!important;
+}
+@media(max-height:440px) and (orientation:landscape){
+ body:not(.combat-mode).hg42-management-screen-open .game-modal{
+  padding:68px 2px 2px!important;
+ }
+ body:not(.combat-mode).hg42-management-screen-open .game-window{
+  width:calc(100vw - 4px)!important;
+  height:calc(100dvh - 70px)!important;
+ }
+ body:not(.combat-mode).hg42-management-screen-open .game-window-head{
+  flex-basis:25px!important;padding:1px 7px!important;
+ }
+ body:not(.combat-mode).hg42-management-screen-open .game-window-head h2{
+  font-size:12px!important;
+ }
+ body:not(.combat-mode).hg42-management-screen-open .game-window-body{
+  padding:3px 7px!important;
+ }
+ body:not(.combat-mode).hg42-management-screen-open .game-window-footer{
+  flex-basis:21px!important;font-size:9px!important;
+ }
+}
