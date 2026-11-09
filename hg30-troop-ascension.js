@@ -60,8 +60,9 @@ function reserved(s,id){
 }
 function free(s,id){return Math.max(0,(s.army[id]||0)-reserved(s,id));}
 function idle(s){return !s.battle&&!s.march&&!s.expedition&&
- (!s.parallelMarches||!s.parallelMarches.length)&&
- !(s.hg26?.enabled);}
+ (!s.parallelMarches||!s.parallelMarches.length);
+ // Configured but idle Boss hunt does not block endlessly repeatable conversions.
+}
 function recipe(s,id){
  const q=ensure(s),r=RECIPES[id],race=s.race;
  const fromUnit=race+(id==='guard'?'_1':'_quest_guard');
