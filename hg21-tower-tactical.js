@@ -314,7 +314,7 @@ function valid(s){
   if(b.kind!=='tower'||!Number.isSafeInteger(v.floor)||v.floor!==t.floor||
     !Array.isArray(v.team)||v.team.length<1||v.team.length>3||
     v.team.some(id=>!t.team.includes(id))||b.allies.length>6||!b.allies.length||
-    !Array.isArray(b.enemies)||!b.enemies.length||b.enemies.length>5||
+    !Array.isArray(b.enemies)||!b.enemies.length||b.enemies.length>18||
     !b.allies.every(u=>v.team.includes(u.heroId)&&u.side==='player'))return false;
   for(const u of b.allies){counts[u.heroId]=(counts[u.heroId]||0)+1;
    if(counts[u.heroId]>2)return false;}
