@@ -49,20 +49,21 @@ function preview(kind,target='',floor=1,level=null){
  };
  let resources,materials={};
  if(meta.kind==='boss'){
-  resources={gold:20000+6000*cs,wood:750+180*cs,ore:750+180*cs,
-   sulfur:260+90*cs,crystal:260+90*cs};
-  materials={resource_chest:1,enhance_stone:1+Math.floor(cs/4)};
-  if(cs>=9)materials.gear_pack=1;
+  resources={gold:20000+8000*cs*cs,wood:1200+80*cs*cs,ore:1200+80*cs*cs,
+   sulfur:500+30*cs*cs,crystal:500+30*cs*cs};
+  materials={resource_chest:1+Math.floor(cs/3),enhance_stone:2+3*cs,
+   gear_pack:1+Math.floor(cs/4),astral_shard:2*cs};
+  if(cs>=8)materials.rebirth_core=1;
  }else if(meta.kind==='tower'){
-  resources={gold:1800+1250*cs,wood:180+65*cs,ore:180+65*cs,
-   sulfur:55+25*cs,crystal:55+25*cs};
-  if(cs>=3)materials.enhance_stone=1;
-  if(cs>=5)materials.resource_card=1;
+  resources={gold:2000+3000*cs*cs,wood:200+50*cs*cs,ore:200+50*cs*cs,
+   sulfur:70+16*cs*cs,crystal:70+16*cs*cs};
+  if(cs>=3)materials.enhance_stone=Math.floor(cs/2);
+  if(cs>=5)materials.resource_card=Math.floor(cs/3);
  }else{
-  resources={gold:500+650*cs,wood:50+48*cs,ore:50+48*cs,
-   sulfur:15+18*cs,crystal:15+18*cs};
-  if(cs>=5)materials.resource_card=1;
-  if(cs>=8)materials.enhance_stone=1;
+  resources={gold:500+800*cs*cs,wood:50+45*cs*cs,ore:50+45*cs*cs,
+   sulfur:15+12*cs*cs,crystal:15+12*cs*cs};
+  if(cs>=5)materials.resource_card=Math.floor(cs/2);
+  if(cs>=8)materials.enhance_stone=Math.floor(cs/2);
  }
  return {...meta,commander,boost,resources,materials};
 }
