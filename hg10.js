@@ -529,7 +529,7 @@ function recommendFormation(s){
  if(s.battle||(s.march&&s.march.phase!=='outbound'))throw Error('Không thể bố trí khi đang giao tranh hoặc trở về.');
  const hero=s.heroes.find(h=>h.id===s.activeHero);
  if(!hero||hero.id===s.castellan||E.heroAway?.(s,hero.id))throw Error('Hãy chọn một tướng ở thành, không làm Castellan.');
- const limit=E.heroLimit(hero.level),formation=[];
+ const limit=E.heroLimit(hero.level,hero),formation=[];
  let remaining=limit,points=0;
  const units=E.activeArmy(s).filter(u=>Number.isSafeInteger(s.army[u.id])&&s.army[u.id]>0)
   .sort((a,b)=>b.tier-a.tier||b.atk-a.atk||a.id.localeCompare(b.id));
