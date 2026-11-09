@@ -12,6 +12,11 @@ function test(name,fn){try{const result=fn()||{};tests.push({name,pass:true,resu
  catch(e){tests.push({name,pass:false,error:String(e.stack||e)});process.exitCode=1;console.error('HG42 FAIL '+name+' '+String(e.stack||e));}}
 function game(){const s=E.make('human',Date.now());assert(E.strictSave(s));return s}
 function boss(tier){const t=E.TILES.find(t=>t.kind==='npc'&&t.eliteTier===tier);assert(t);return t}
+function assertReadOnly(before,s){
+ const after=JSON.stringify(s);
+ if(before!==after){let i=0;while(i<Math.min(before.length,after.length)&&before[i]===after[i])i++;
+  throw Error('HG42 read-only view changed persistent state at char '+i+': '+before.slice(Math.max(0,i-35),i+125)+' => '+after.slice(Math.max(0,i-35),i+125));}
+}
 function roundTrip(s){assert(E.strictSave(s));const q=E.parseSave(E.serializeSave(s));assert(E.strictSave(q));return q}
 const ui={esc:v=>String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;'),
  format:E.fmt,
@@ -34,7 +39,7 @@ test('Boss T11–13 keep 16 actual combat actors and Save v07',()=>{
 test('Heavy Boss 16-stack Canvas never creates 16 full labels; foot/HP retained',()=>{
  const s=game();s.battle=E.makeBattle(s,boss(13).key);
  const b=s.battle,camera=P.battleProjection({width:1176,height:550},E);
- const before=E.serializeSave(s),layout=P.battleUnitLayout(b,camera,1176,550,0);
+ const before=JSON.stringify(s),layout=P.battleUnitLayout(b,camera,1176,550,0);
  assert.equal(layout.filter(x=>x.u.side==='enemy'&&x.label).length,0);
  assert.equal(layout.filter(x=>x.u.side==='enemy').length,16);
  assert(layout.filter(x=>x.u.side==='enemy').every(x=>x.countBox&&x.sprite));
@@ -43,18 +48,18 @@ test('Heavy Boss 16-stack Canvas never creates 16 full labels; foot/HP retained'
   const pt=camera.center(e.u.x,e.u.y);
   assert.equal(P.battleHit({width:1176,height:550},pt.x,pt.y,E,s,0)?.id,e.u.id);
  }
- assert.equal(E.serializeSave(s),before,'presentation must not mutate Save');
+ assertReadOnly(before,s,'presentation must not mutate Save');
  return {fullEnemyLabels:0,targetable:16,save:7};
 });
 test('Selected Boss stack alone expands its name/HP plate and changes no gameplay fields',()=>{
  const s=game();s.battle=E.makeBattle(s,boss(13).key);
  const b=s.battle,camera=P.battleProjection({width:930,height:320},E);
  E.battleSelect(s,b.enemies[10].id);
- const before=E.serializeSave(s),layout=P.battleUnitLayout(b,camera,930,320,0);
+ const before=JSON.stringify(s),layout=P.battleUnitLayout(b,camera,930,320,0);
  const full=layout.filter(x=>x.u.side==='enemy'&&x.label);
  assert.equal(full.length,1);assert.equal(full[0].u.id,'e10');
  assert(layout.filter(x=>x.u.side==='enemy'&&!x.label).length===15);
- assert.equal(E.serializeSave(s),before);
+ assertReadOnly(before,s);
  roundTrip(s);return {focused:b.focused,labeled:1,compact:15};
 });
 test('Nonboss encounters retain their ordinary full nameplate labels',()=>{
@@ -74,7 +79,7 @@ test('Three physically separated Boss pages render without writing to Save',()=>
   assert(html.includes('data-hg42-boss-screen="'+screen+'"'));
   assert(html.includes('data-action="hg42-boss-screen"'));
  }
- assert.equal(E.serializeSave(s),before);
+ assertReadOnly(before,s);
  return {screens};
 });
 test('T13 target route is actionable; guaranteed loot screen has actual item quantities',()=>{
@@ -85,16 +90,16 @@ test('T13 target route is actionable; guaranteed loot screen has actual item qua
  assert(html.includes('T13'));assert(html.includes('CS10'));
  assert(html.includes('data-action="hg42-boss-dispatch"'));
  const loot=U.render(s,E,ui,{screen:'loot',tier:13});
- assert(loot.includes(String(p.resources.gold)));
+ assert(loot.includes(E.fmt(p.resources.gold)));
  assert(loot.includes('hg42-reward-tier'));
- assert.equal(JSON.stringify(s),before);
+ assertReadOnly(before,s);
  return {cs:p.cs,boss:p.boss,bonusGold:p.resources.gold};
 });
 test('Boss route screen itself grants no army, XP, loot, AP or progress',()=>{
  const s=game(),before=JSON.stringify(s);
  for(let tier=11;tier<=13;tier++)for(const screen of U.sections)
   U.render(s,E,ui,{screen,tier});
- assert.equal(JSON.stringify(s),before);
+ assertReadOnly(before,s);
  return {tiers:[11,12,13],screens:U.sections.length,unchanged:true};
 });
 const out=path.join(__dirname,'docs/qa/hg42');fs.mkdirSync(out,{recursive:true});
