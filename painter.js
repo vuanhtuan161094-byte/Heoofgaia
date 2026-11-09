@@ -904,7 +904,11 @@ function battleRectOverlap(a,b,pad=0){
 const battleLayoutCache=new WeakMap();
 function battleUnitLayout(b,camera,width,height,now=visualNow()){
  const actors=[...b.allies,...b.enemies];
- const signature=width+'x'+height+'|'+camera.radius+'|'+b.turn+'|'+actors.map(u=>
+ // HG42: 16 enemy Boss stacks must not each trigger the quadratic search for
+ // a full floating nameplate. Keep one full label for the focused enemy only.
+ // This is presentation-only; every actor stays drawn, targetable and saved.
+ const denseBoss=!!b.hg410?.boss&&b.enemies.filter(u=>u.pool>0).length>=12;
+ const signature=width+'x'+height+'|'+camera.radius+'|'+b.turn+'|'+(denseBoss?(b.focused||'none'):'')+'|'+actors.map(u=>
   [u.id,u.side,u.unitId,u.name,u.x,u.y,battleVisualPool(b,u,now)>0?1:0].join(':')).join('|');
  const cached=battleLayoutCache.get(b);
  if(cached?.signature===signature)return cached.entries;
@@ -939,6 +943,10 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
   {x:12,y:height-36,w:Math.max(0,width-24),h:27}
  ];
  for(const e of [...entries].filter(e=>e.displayPool>0).sort((a,b)=>a.y-b.y||a.x-b.x)){
+  if(denseBoss&&e.u.side==='enemy'&&e.u.id!==b.focused){
+   e.label=null; // Small HP/count only; selected enemy recovers full name.
+   continue;
+  }
   const compact=width<1050,w=compact?clamp(e.u.name.length*4.8+12,68,90):clamp(e.u.name.length*6.5+24,82,132),h=28,shift=e.size*.37+w/2+12;
   const left={cx:e.x-shift,top:e.y-60,mode:'left'},
    right={cx:e.x+shift,top:e.y-60,mode:'right'},
@@ -1172,7 +1180,18 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    }
   }
   // A compact 28px name/HP card is placed outside silhouette collision boxes.
-  const plate=entry.label,bx=plate.x+x-entry.x,by=plate.y+y-entry.y,hpVisible=interaction.showHP!==false;
+  const plate=entry.label,hpVisible=interaction.showHP!==false;
+  if(!plate){
+   // Dense Boss formation: small bar next to the genuine foot pivot, not
+   // a phantom floating label over another sprite or the HUD.
+   if(hpVisible){
+    const barWidth=clamp(camera.radius*1.3,20,48),barY=y+7;
+    rounded(c,x-barWidth/2,barY,barWidth,7,3,'#14252cdb','#b6b2a580');
+    c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
+    c.fillRect(x-barWidth/2+1,barY+1,(barWidth-2)*clamp(displayPool/(u.initial*u.hp),0,1),5);
+   }
+  }else{
+  const bx=plate.x+x-entry.x,by=plate.y+y-entry.y;
   if(plate.leader){
    c.save();c.strokeStyle='#dccb947b';c.lineWidth=1;c.beginPath();
    c.moveTo(clamp(x,bx+5,bx+plate.w-5),by+plate.h);
@@ -1185,6 +1204,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   if(hpVisible){rounded(c,bx+8,by+21,plate.w-16,6,3,'#0b1d22e9');
    c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
    c.fillRect(bx+9,by+22,(plate.w-18)*clamp(displayPool/(u.initial*u.hp),0,1),4);}
+  }
   rounded(c,x+22,y-23,37,19,6,'#17292cdd','#c0aa7a77');
   text(c,'×'+Math.ceil(displayPool/u.hp),x+40,y-9,12,'#fff0ca');
  }
