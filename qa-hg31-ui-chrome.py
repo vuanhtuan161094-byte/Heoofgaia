@@ -69,11 +69,12 @@ with sync_playwright() as pw:
  }"""))
  shot(page,'fixture-04-star-set-crafted-1280x720.png')
  page.locator('[data-action="tab"][data-tab="heroes"]').first.click()
+ page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
  for id in ['star_blade','star_plate','star_seal']:
   uid=page.evaluate("""(id)=>{
     const s=HOG_APP_DEBUG.getState();return s.inventory.find(x=>x.itemId===id).uid;
   }""",id)
-  page.locator(f'[data-action="equipitem"][data-uid="{uid}"]').first.click()
+  page.locator(f'[data-action="hg408-equip"][data-uid="{uid}"]').first.click()
  check('Native three-piece Star set activates 8% damage and 8.5% reduction',page.evaluate("""()=>{
   const s=HOG_APP_DEBUG.getState(),mods=HOG_ENGINE.combatModifiers(s,s.activeHero);
   return HOG_ENGINE.hg18SetCounts(s,s.activeHero).star===3&&mods.damageBonus>=.079&&
