@@ -1509,3 +1509,100 @@ body:not(.combat-mode):is(.hg42-management-screen-open,.hg42-boss-screen-open) .
 body:not(.combat-mode):is(.hg42-management-screen-open,.hg42-boss-screen-open) .game-window{
  height:calc(100dvh - var(--hg42-stage-top,105px) - 5px)!important;
 }
+
+/* HG43: canonical 40-troop skill profiles. The user sees actual catalog
+ * numbers and deterministic HG40 effects; no HTML-only combat attributes. */
+.hg43-army-nav{position:sticky;top:-6px;z-index:3;display:flex;gap:6px;padding:7px 4px;background:#162d36ee;border-bottom:1px solid #73856f}
+.hg43-army-nav button{min-width:0;flex:1;min-height:34px;padding:6px 8px;font:750 12px/1.2 system-ui}
+.hg43-recruit-intel{margin:5px 0;border:1px solid #6a8c7b;border-radius:7px;background:#203939;color:#e7e9d7}
+.hg43-recruit-intel>summary{padding:7px 9px;cursor:pointer;color:#f4d695;font:700 11px/1.25 system-ui}
+.hg43-recruit-intel[open]{padding-bottom:5px}
+.hg43-recruit-intel[open]>:not(summary){margin:4px 8px}
+.hg43-codex{min-height:0;max-width:1460px;margin:0 auto;padding:0 5px 8px}
+.hg43-codex>header{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 11px;background:linear-gradient(112deg,#2f4948,#1b3038);border:1px solid #6c887f;border-radius:8px}
+.hg43-codex>header h2{margin:1px 0 4px;font:700 24px Georgia,serif;color:#f1d59d}
+.hg43-codex>header p{margin:0;max-width:820px;font:11px/1.35 system-ui;color:#c9d6ca}
+.hg43-tally{border:1px solid #b49c66;padding:5px 8px;border-radius:5px;font:800 12px system-ui;color:#f5d99f;white-space:nowrap}
+.hg43-race-tabs{position:sticky;top:39px;z-index:2;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;margin:7px 0;padding:5px;background:#162b34}
+.hg43-race-tabs button{min-width:0;min-height:34px;padding:5px;font:750 11px system-ui;white-space:nowrap}
+.hg43-race-tabs button.active,.hg43-race-tabs button[aria-pressed=true]{background:#a58c5d;border-color:#e7c786;color:#17272a}
+.hg43-codex-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch;gap:9px}
+.hg43-profile-card{display:flex;flex-direction:column;gap:7px;min-width:0;padding:10px;background:linear-gradient(145deg,#2b4246,#1b3139);border:1px solid #6c8178;border-radius:9px;box-shadow:inset 0 1px #faf6d511}
+.hg43-profile-head{display:flex;align-items:center;gap:8px}
+.hg43-profile-head .hg28-troop-thumb{flex:0 0 auto}
+.hg43-profile-head>div:last-child{min-width:0;flex:1}
+.hg43-profile-head small{display:block;font:10px/1.2 system-ui;color:#a9c6c1}
+.hg43-profile-head h3{margin:2px 0 4px!important;font:750 16px/1.2 Georgia,serif;color:#f4e0ac;overflow-wrap:anywhere}
+.hg43-skill-name{font:750 12px/1.35 system-ui;color:#c4e7d7}
+.hg43-skill-pill{display:inline-block;padding:2px 6px;background:#403f49;border:1px solid #a99972;border-radius:9px;font:700 10px system-ui;color:#ffe0a8}
+.hg43-unit-stats{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:4px}
+.hg43-unit-stats span{display:flex;flex-direction:column;gap:2px;align-items:center;min-width:0;padding:5px 2px;background:#172c33;border:1px solid #4d6a68;border-radius:5px}
+.hg43-unit-stats small{color:#b1c5c0;font:750 9px/1 system-ui}
+.hg43-unit-stats b{color:#f9e7b2;font:750 13px/1.2 system-ui;overflow-wrap:anywhere;text-align:center}
+.hg43-skill-desc{font:11px/1.38 system-ui;color:#d2e0d7;margin:0!important}
+.hg43-skill-desc b{color:#f4d9a5}
+.hg43-counter{font:11px/1.38 system-ui;border:1px solid #456a68;background:#19363a;border-radius:5px;padding:6px 8px;color:#c6dbc7}
+.hg43-counter b{color:#f1cc88}
+.hg43-source-note{margin:8px 0;padding:8px;border:1px solid #687869;background:#203338;font:10px/1.4 system-ui;color:#c4d4cc;border-radius:7px}
+@media(max-width:850px){
+ .hg43-codex-grid{grid-template-columns:1fr}
+ .hg43-unit-stats{grid-template-columns:repeat(3,minmax(0,1fr))}
+ .hg43-race-tabs{top:39px}
+ .hg43-codex>header h2{font-size:17px}
+ .hg43-codex>header p{font-size:10px}
+ .hg43-profile-card{padding:7px}
+}
+@media(max-width:520px){
+ .hg43-army-nav button{font-size:10px;padding:4px 5px}
+ .hg43-race-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .hg43-race-tabs button{font-size:11px;min-height:29px}
+ .hg43-tally{font-size:10px}
+}
+@media(max-height:440px) and (orientation:landscape){
+ .hg43-army-nav{padding:2px 4px;top:-3px}
+ .hg43-army-nav button{min-height:24px;font-size:10px;padding:3px}
+ .hg43-race-tabs{top:27px;padding:3px;margin:3px 0}
+ .hg43-race-tabs button{min-height:24px;font-size:10px;padding:2px 3px}
+ .hg43-codex>header{padding:4px 7px}
+ .hg43-codex>header h2{font-size:15px}
+ .hg43-codex>header p{font-size:9px}
+ .hg43-profile-card{gap:4px;padding:5px}
+ .hg43-profile-head h3{font-size:14px}
+ .hg43-skill-desc,.hg43-counter{font-size:10px}
+}
+/* HG43: combat sidebar live comparison, readable on narrow landscape. */
+body.combat-mode .hg43-combat-intel{display:flex;flex-direction:column;flex:0 0 auto;min-height:0;max-height:clamp(108px,33dvh,300px);border:1px solid #6a8f7d;border-radius:6px;background:#1b3538;overflow:hidden}
+body.combat-mode .hg43-combat-intel-head{flex:0 0 auto;display:flex;flex-direction:column;gap:2px;padding:6px 7px;background:#2b4746;border-bottom:1px solid #597a74}
+body.combat-mode .hg43-combat-intel-head b{font:800 9px/1.2 system-ui;color:#ffe0a4;letter-spacing:.2px}
+body.combat-mode .hg43-combat-intel-head small{font:9px/1.15 system-ui;color:#aecbc4}
+body.combat-mode .hg43-combat-cards{flex:1;overflow-y:auto;overscroll-behavior:contain;scrollbar-width:thin;scrollbar-color:#859a83 #182c31;display:flex;flex-direction:column;gap:4px;padding:5px}
+body.combat-mode .hg43-battle-unit{min-width:0;padding:6px;background:#263d42;border:1px solid #5b766f;border-radius:5px}
+body.combat-mode .hg43-battle-unit[data-side=enemy]{border-color:#947079;background:#3b3038}
+body.combat-mode .hg43-battle-unit header{display:flex;align-items:center;gap:5px;justify-content:space-between;margin-bottom:5px}
+body.combat-mode .hg43-battle-unit header b{font:750 11px system-ui;color:#f2e0b6;overflow:hidden;text-overflow:ellipsis}
+body.combat-mode .hg43-battle-unit header span{font:700 9px system-ui;color:#c7d4c2}
+body.combat-mode .hg43-battle-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px}
+body.combat-mode .hg43-battle-stats>span{display:flex;flex-direction:column;min-width:0;gap:1px;border-radius:3px;background:#182d34;padding:3px}
+body.combat-mode .hg43-battle-stats small{font:8px/1.1 system-ui;color:#9db8b5}
+body.combat-mode .hg43-battle-stats b{font:750 10px/1.2 system-ui;color:#ffe5ad;overflow-wrap:anywhere}
+body.combat-mode .hg43-battle-hp{height:4px;margin:4px 0;background:#15272b;border-radius:3px;overflow:hidden}
+body.combat-mode .hg43-battle-hp i{display:block;height:100%;background:#7dbb9b}
+body.combat-mode .hg43-battle-unit[data-side=enemy] .hg43-battle-hp i{background:#e0a193}
+body.combat-mode .hg43-battle-skill{display:flex;flex-direction:column;gap:2px;margin:4px 0;color:#e4daab;font:700 10px/1.2 system-ui}
+body.combat-mode .hg43-battle-skill span{color:#b9d7d1}
+body.combat-mode .hg43-battle-unit p{font:9px/1.3 system-ui;color:#c9ddd1;margin:3px 0}
+body.combat-mode .hg43-battle-unit>small{display:block;font:8px/1.3 system-ui;color:#b8c5bf;margin:4px 0}
+body.combat-mode .hg43-live-matchup{color:#f1d699!important}
+body.combat-mode .hg43-live-status{display:flex;flex-wrap:wrap;gap:3px;align-items:center;font:9px/1.3 system-ui;color:#cbd9d4;margin-top:5px}
+body.combat-mode .hg43-live-status b{font-weight:700}
+body.combat-mode .hg43-live-status em{font:700 9px system-ui;background:#554244;color:#fee2d8;border:1px solid #9c7473;padding:2px 4px;border-radius:5px}
+body.combat-mode .hg43-battle-unit.empty{font:10px/1.3 system-ui;color:#9db8b2}
+@media(max-width:1050px){
+ body.combat-mode .hg43-combat-intel{max-height:clamp(93px,29dvh,205px)}
+ body.combat-mode .hg43-combat-intel-head{padding:4px}
+ body.combat-mode .hg43-battle-unit{padding:4px}
+}
+@media(max-width:700px){
+ body.combat-mode .hg43-combat-intel{max-height:clamp(92px,25dvh,210px)}
+ body.combat-mode .hg43-combat-cards{padding:3px}
+}
