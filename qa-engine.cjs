@@ -186,16 +186,18 @@ test('HG08 edition crosswalk maps every catalog ID and preserves localized label
 test('troop point formula',()=>{const u=C.units.human[0];assert.equal(E.unitValue(u),u.cost.gold+5*(u.cost.wood+u.cost.ore)+10*(u.cost.sulfur+u.cost.crystal))});
 test('new game all races valid with the v07 starting AP amount and Fame rank cap',()=>{for(const race of Object.keys(C.races)){const s=state(race);assert.equal(s.version,7);assert.equal(s.race,race);assert.equal(s.fame,5);assert.equal(s.ap,100);assert.equal(s.apMax,150);assert.equal(E.strictSave(s),true)}});
 test('candidate slots at recorded level gates',()=>{assert.equal(E.tavernSlots(1),2);assert.equal(E.tavernSlots(2),3);assert.equal(E.tavernSlots(4),4);assert.equal(E.tavernSlots(9),7);assert.equal(E.tavernSlots(10),8)});
-test('HG45 Tavern Lv10 rolls tier first, gives non-overlapping stat bands and preserves v07',()=>{
+test('HG45.1 Tavern Lv10 derives rarity from raw total and preserves v07',()=>{
  const s=state();s.buildings.tavern=10;E.refreshTavern(s);
  const tiers=E.HERO_QUALITY_V2,chances=E.heroQualityChances(10);
- assert.deepEqual(Array.from(chances),[8,18,20,18,25,9,2]);
+ assert.deepEqual(Array.from(chances),[8,18,20,18,34,1,1]);
  assert.equal(s.tavern.offers.length,8);assert.equal(s.tavern.round,1);
  for(const h of s.tavern.offers){
   const t=tiers.find(q=>q.id===h.quality);assert(t,'unknown tier '+h.quality);
-  assert.equal(h.qualityModel,2);
+  assert.equal(h.qualityModel,3);
   for(const key of ['atk','def','spd','int'])assert(Number.isSafeInteger(h[key])&&h[key]>=t.min&&h[key]<=t.max);
   assert.equal(h.heroValue,h.atk+h.def+h.spd+h.int-h.level+1);
+  assert.equal(h.qualityScore,h.atk+h.def+h.spd+h.int);
+  assert(h.qualityScore>=t.totalMin&&h.qualityScore<=t.totalMax);
  }
  assert.equal(s.version,7);assert.equal(E.strictSave(s),true);
  const loaded=E.parseSave(E.serializeSave(s));
@@ -633,6 +635,8 @@ test('HG45 Tavern Lv10 preserves all seven quality labels, prices and candidate 
   }
   assert(h.gold>=t.price);assert.equal(h.quality,E.heroNameColor(h));
   assert.equal(h.heroValue,h.atk+h.def+h.spd+h.int-h.level+1);
+  assert.equal(h.qualityScore,h.atk+h.def+h.spd+h.int);
+  assert(h.qualityScore>=t.totalMin&&h.qualityScore<=t.totalMax);
   assert.equal(E.strictSave(s),true);
  }
  const restored=E.parseSave(E.serializeSave(s));
@@ -644,7 +648,7 @@ test('HG45 automatic hourly Tavern refresh uses the seven-tier quality model',()
  assert.equal(s.tavern.round,1);assert.equal(s.tavern.offers.length,8);
  assert(s.tavern.offers.every(h=>{
   const tier=E.HERO_QUALITY_V2.find(q=>q.id===h.quality);
-  return tier&&h.qualityModel===2&&['atk','def','spd','int'].every(key=>
+  return tier&&h.qualityModel===3&&h.qualityScore>=tier.totalMin&&h.qualityScore<=tier.totalMax&&['atk','def','spd','int'].every(key=>
    Number.isSafeInteger(h[key])&&h[key]>=tier.min&&h[key]<=tier.max&&
    h.statColors[key]===E.heroStatColor(h[key]));
  }));
