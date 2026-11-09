@@ -1154,6 +1154,34 @@ function paint(){
     if(target)fail(()=>{markBattleInput();E.battleSelect(state,target.id)});};
  }
 }
+// HG42: real Save / export / import / speed / reset buttons must remain
+// reachable inside every full-stage screen. Move the original DOM controls,
+// never duplicate them or their onclick handlers. Restore before rerendering.
+let hg42ScreenToolbar=null;
+function restoreScreenToolbar(){
+ const q=hg42ScreenToolbar;if(!q)return;
+ q.group.insertBefore(q.save,q.group.firstChild);
+ if(q.marker.parentNode)q.marker.parentNode.insertBefore(q.group,q.marker);
+ q.marker.remove();q.toolbar.remove();hg42ScreenToolbar=null;
+}
+function attachScreenToolbar(){
+ if(!state||state.battle||tab==='map')return;
+ const group=document.querySelector('.sidebar .buttons'),
+  head=document.querySelector('.game-window-head'),close=head?.querySelector('[data-action="modal-close"]'),
+  saveButton=group?.querySelector('#save');
+ if(!group||!head||!saveButton||!close)return;
+ const marker=document.createComment('HG42 original screen controls');
+ group.parentNode.insertBefore(marker,group);
+ const toolbar=document.createElement('div');toolbar.className='hg42-screen-utility';
+ const menu=document.createElement('details');menu.className='hg42-screen-tool-menu';
+ const summary=document.createElement('summary');
+ summary.textContent='⚙';summary.title='Sao lưu, khôi phục, tốc độ và chơi lại';
+ summary.setAttribute('aria-label','Mở công cụ game');
+ menu.append(summary);menu.append(group);
+ toolbar.append(saveButton,menu);
+ head.insertBefore(toolbar,close);
+ hg42ScreenToolbar={group,marker,toolbar,save:saveButton};
+}
 let hg39DockMoves=[];
 let hg39MapDetailsOpen={};
 function restoreWorldMapLayout(){
@@ -1185,6 +1213,7 @@ function enhanceWorldMapLayout(){
  document.body.classList.toggle('hg40-map-expanded',mapExpanded);
 }
 function render(){
+ restoreScreenToolbar();
  restoreWorldMapLayout();
  const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');
  if(enteringCombat)combatDockOpen=true;
@@ -1227,6 +1256,7 @@ function render(){
   $('main').innerHTML=(tab==='map'?newPlayerGuide():'')+content;
  }
  enhanceWorldMapLayout();
+ attachScreenToolbar();
  paint();
  if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}
 }
