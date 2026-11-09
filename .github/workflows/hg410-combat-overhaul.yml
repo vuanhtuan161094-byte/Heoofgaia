@@ -24,6 +24,7 @@ on:
       - 'qa-hg28-pve2-chrome.py'
       - 'qa-hg181-window-chrome.py'
       - 'qa-hg12-hero-tasks-chrome.py'
+      - 'qa-hg11-human-heavy-animation-chrome.py'
       - 'painter.js'
       - 'style-hg03.css'
       - '.github/workflows/hg410-combat-overhaul.yml'
@@ -72,6 +73,8 @@ jobs:
           python qa-hg181-window-chrome.py
           python -m py_compile qa-hg12-hero-tasks-chrome.py
           python qa-hg12-hero-tasks-chrome.py
+          python -m py_compile qa-hg11-human-heavy-animation-chrome.py
+          python qa-hg11-human-heavy-animation-chrome.py
       - name: Upload focused engine and visual evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -88,6 +91,9 @@ jobs:
             docs/evidence/hg181/*.png
             docs/qa/hg12/hero-task-chrome.json
             docs/evidence/hg12/*.png
+            docs/qa/hg33/*.json
+            docs/evidence/hg33/H2-human-vanguard/*.png
+            docs/evidence/hg33/H3-troop-atlases/*.png
           if-no-files-found: ignore
           retention-days: 30
       - name: Deliver exactly one tested offline playable HTML
