@@ -1483,3 +1483,17 @@ body:not(.combat-mode).hg42-management-screen-open .hg39-map-dock{
  .hg42-screen-utility>#save{font-size:10px!important;padding:3px 5px}
  .hg42-screen-tool-menu>summary{width:29px}
 }
+
+/* HG42: at 768x260 the top navigation extends below the 68px header lane.
+ * Keep screen Save/settings and Boss actions physically below the nav hitboxes
+ * instead of raising a modal over navigation or force-clicking in QA. */
+@media(max-height:300px) and (orientation:landscape){
+ body:not(.combat-mode).hg42-management-screen-open .game-modal,
+ body:not(.combat-mode).hg42-boss-screen-open .game-modal{
+  padding-top:101px!important;
+ }
+ body:not(.combat-mode).hg42-management-screen-open .game-window,
+ body:not(.combat-mode).hg42-boss-screen-open .game-window{
+  height:calc(100dvh - 103px)!important;
+ }
+}
