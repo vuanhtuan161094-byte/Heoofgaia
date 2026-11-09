@@ -109,14 +109,24 @@ with sync_playwright() as pw:
               allies:[actor],enemies:[enemy('e0',2,4),enemy('e1',3,4)],
               woundedByUnit:{},history:[],moveTargets:{}};
             E.hg40PrepareBattle(s,b);s.battle=b;
+            // HG44-A/E: HG41 deliberately redeploys each side across the
+            // 12x9 board. This is a CONTROLLED skill/Canvas fixture, not an
+            // organic march: arrange one real target 2 hexes from the actor
+            // AFTER canonical preparation, then let battleActCore move and
+            // strike. A second adjacent enemy allows legitimate AoE procs.
+            // Nobody receives fictitious combat receipts or rewards.
+            actor.x=2;actor.y=4;
+            b.enemies.forEach((foe,i)=>{
+              if(i===0){foe.x=4;foe.y=4;}
+              else if(i===1){foe.x=5;foe.y=4;}
+              else {foe.x=10+i%2;foe.y=Math.min(8,1+2*Math.floor((i-2)/2));}
+            });
             if(trait.kind==='heal'||trait.kind==='lifesteal')actor.pool=actor.hp*5;
             if(trait.kind==='cleanse')b.hg40.statuses.push({
               target:'p0',kind:'slow',value:1,source:'enemy',starts:1,until:4});
             if(trait.kind==='multiShield')b.allies.push({...actor,id:'p1',x:1,y:5});
-            if(trait.kind==='charge'){
-              actor.x=0;b.enemies[0].x=4;b.enemies[1].x=5;
-              b.enemies.forEach(x=>x.range=9);
-            }
+            // Charge now uses the real same-action move+hit from (2,4) to
+            // the nearby (4,4) target. No artificial 9-range enemy required.
             if(trait.kind==='killBuff'){
               b.enemies[0].hp=10;b.enemies[0].count=3;
               b.enemies[0].initial=3;b.enemies[0].pool=30;
