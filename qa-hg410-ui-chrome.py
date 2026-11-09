@@ -67,7 +67,9 @@ with sync_playwright() as pw:
     safe:E.strictSave(s),range:[E.TACTICAL_RANGE.melee,E.TACTICAL_RANGE.ranged,E.TACTICAL_RANGE.eliteRanged]};
   }""",tile)
   check(label+" 12 enemy stacks on exactly two starting columns per side",battle["stacks"]==12 and set(battle["columns"]).issubset({0,1,10,11}) and battle["unique"] and battle["safe"],battle)
-  page.locator('[data-action="tab"][data-tab="combat"]').first.click()
+  # The live battle is opened via the existing QA-only view bridge: the
+  # normal map navigation intentionally has no Combat tab before marching.
+  page.evaluate("() => HOG_APP_DEBUG.showCombatForTests()")
   check(label+" genuine combat canvas and 2-column army HUD",page.locator("#battle-canvas").count()==1 and page.locator(".hg410-combat-army").count()==1)
   shot(page,label+"-actual-deployed-battle")
   check(label+" no browser JS exceptions",not [x for x in errors if x["viewport"]==label],errors)
