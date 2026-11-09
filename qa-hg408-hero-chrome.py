@@ -100,12 +100,14 @@ with sync_playwright() as browser_tool:
             # Fame is elevated only as a test fixture to allow recruiting a second hero.
             prepared=page.evaluate("""() => {
                 const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
-                s.fame=10000;E.ensure08(s);HOG_APP_DEBUG.render();
-                return {cap:E.heroCountLimit(s.fame),valid:E.strictSave(s),offers:s.tavern.offers.length};
+                s.fame=10000;s.buildings.tavern=6;s.tavern.round=0;
+                E.refreshTavern(s);E.ensure08(s);HOG_APP_DEBUG.render();
+                return {cap:E.heroCountLimit(s.fame),valid:E.strictSave(s),
+                        offers:s.tavern.offers.length,blue:s.tavern.offers.filter(o=>o.quality==='blue').length};
             }""")
             check('Fame-cap fixture has room for second hero and valid Save',
-                  prepared['cap']>=2 and prepared['valid'] and prepared['offers']>0,prepared)
-            page.locator('.hg408-offer [data-action="hirecandidate"]').first.click()
+                  prepared['cap']>=2 and prepared['valid'] and prepared['offers']>=5 and prepared['blue']==1,prepared)
+            page.locator('.hg408-offer:has(.hg408-quality-blue) [data-action="hirecandidate"]').click()
             recruited=page.evaluate("""() => {
                 const s=HOG_APP_DEBUG.getState(),h=s.heroes.at(-1);
                 return {id:h.id,quality:h.quality,count:s.heroes.length,
@@ -113,7 +115,7 @@ with sync_playwright() as browser_tool:
             }""")
             check('Real Tavern button hires exactly one hero and writes stable quality',
                   recruited['count']==2 and recruited['valid'] and
-                  recruited['quality'] in ('white','blue','yellow','green','purple'),recruited)
+                  recruited['quality']=='blue',recruited)
             second=recruited['id']
             page.locator('.hg408-roster-card[data-id="'+str(second)+'"]').click()
             check('Roster selection changes profile without changing combat commander',
