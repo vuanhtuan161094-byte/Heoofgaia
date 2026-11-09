@@ -1236,3 +1236,25 @@ body.hg39-world-map-mode .sidebar{display:none!important}
  .hg408-badges span{font-size:8px}.hg408-tabs button{font-size:9px}
  .hg408-stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* HG40.9 — compact purple PvE commander and readable item/reward receipts. */
+.hg409-target-preview,.hg409-tower-reward{margin:4px 0!important;padding:5px 8px;border:1px solid #76599b;border-radius:5px;background:#302b43;color:#e4d5ee;font:11px/1.3 system-ui,sans-serif}
+.hg409-combat-boss{display:flex;flex-wrap:wrap;gap:5px 10px;align-items:center;background:#322943;border:1px solid #8768a9;border-radius:5px;padding:4px 7px;color:#eadcf7;font:10px/1.25 system-ui,sans-serif}
+.hg409-combat-boss span{color:#cfd3df}
+.hg409-material-card{display:flex;flex-direction:column;gap:5px}
+.hg409-material-head{display:flex;gap:6px;align-items:center;justify-content:space-between}
+.hg409-material-head strong{color:#ffe3ab;white-space:nowrap}
+.hg409-material-card details{font-size:11px;border-top:1px solid #4c6671;padding-top:4px}
+.hg409-material-card summary{cursor:pointer;color:#d9c893}
+.hg409-material-card details p{color:#d0dacf;margin:5px 0;line-height:1.35}
+.hg409-material-card details small{color:#aebfbb;font-size:10px}
+.hg409-reward-history{margin:6px 0;padding:7px;border:1px solid #775d9d;border-radius:6px;background:#253342}
+.hg409-reward-history summary{color:#e1c5ff;cursor:pointer;font-weight:700}
+.hg409-reward-history>div{display:flex;gap:8px;align-items:baseline;border-top:1px solid #4e5067;padding:5px 2px}
+.hg409-reward-history>div b{min-width:102px;font-size:11px}
+.hg409-reward-history>div small{font-size:10px;color:#d1dbe0}
+.hg409-item-info{font-size:10px;color:#d6c2a1}
+@media(max-height:440px) and (orientation:landscape){
+ .hg409-combat-boss{font-size:9px;padding:2px 5px}
+ .hg409-target-preview,.hg409-tower-reward{font-size:10px;padding:3px 5px}
+}
