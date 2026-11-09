@@ -908,7 +908,7 @@ function hg409MaterialGuide(id){
  const info={
  resource_card:'Dùng 1 thẻ: +600 vàng, +80 gỗ, +80 quặng, +20 lưu huỳnh và +20 pha lê. Phải đủ chỗ trong kho để nhận toàn bộ.',
  resource_chest:'Dùng 1 thẻ: +2.400 vàng, +300 gỗ, +300 quặng, +100 lưu huỳnh và +100 pha lê. Phải đủ chỗ trong kho.',
- gear_pack:'Mỗi lượt mở nhận đúng 1 trang bị trong chu kỳ 6 món: Kiếm Đồng, Giáp Sắt, Cung Tro, Áo Du Hành, Nhẫn Thạch Anh, Bùa Cũ. Không phải quay thưởng xác suất.',
+ gear_pack:'Mỗi lượt mở nhận đúng 1 trang bị trong chu kỳ 6 món: Kiếm đồng hành trình, Giáp sắt trinh sát, Cung tần bì, Áo choàng lữ khách, Nhẫn thạch anh, Hộ phù cổ. Không phải quay thưởng xác suất.',
  set_chest:'Mỗi lượt mở nhận đúng 1 món trong chu kỳ Kiếm, Giáp, Ấn của bộ Vệ Binh. Mặc 2 món giảm 2,5% sát thương; 3 món tăng 3,5% sát thương.',
  enhance_stone:'Để cường hóa tại hồ sơ Tướng: cần 2 + 2×cấp hiện tại đá và 250×cấp tiếp theo vàng. Tối đa +10, không có rủi ro thất bại.',
  hero_reset:'Dùng tại Tướng → Nâng bậc. Trả điểm đã phân bổ, không đổi phẩm chất, trang bị, bậc hay chuyển sinh.',
