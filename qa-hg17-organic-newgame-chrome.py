@@ -60,13 +60,19 @@ try:
           page.locator('[aria-label="Lộ trình phát triển New Game"]').count()==1)
     page.locator('[data-action="tab"][data-tab="city"]').first.click()
     page.locator('[data-action="building"][data-key="market"]').click()
-    page.locator('#speed').click()
+    speed_tools=page.locator('.hg42-screen-tool-menu')
+    if not speed_tools.evaluate('(el) => el.open'):
+        speed_tools.locator('summary').click()
+    speed_tools.locator('#speed').click()
     page.locator('[data-action="upgrade"][data-key="market"]').click()
     check("Actual city upgrade click spends resources and creates queue",page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
       return s.speed===1&&s.buildingQueue?.key==="market"&&s.buildings.market===0&&s.res.gold<33000&&s.fame===5;
     }"""))
-    page.locator('#speed').click()
+    speed_tools=page.locator('.hg42-screen-tool-menu')
+    if not speed_tools.evaluate('(el) => el.open'):
+        speed_tools.locator('summary').click()
+    speed_tools.locator('#speed').click()
     check("Real speed control restores ×60 before bounded queue completion",
           page.evaluate("HOG_APP_DEBUG.getState().speed===60 && document.querySelector('#speed').textContent.includes('×60')"))
     # Let the real ×60 game clock run long enough to reproduce CI scheduling.

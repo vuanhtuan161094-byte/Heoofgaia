@@ -220,19 +220,20 @@ with sync_playwright() as playwright:
     page.locator('.hg39-map-target [data-action="dispatch-open"]').click()
     page.locator('.hg39-dispatch').wait_for(state="visible", timeout=5_000)
     page.locator('[data-action="dispatch-auto"]').click()
-    heavy_row = page.locator('[data-dispatch-count="human_4"]')
+    heavy_name = page.evaluate("HOG_ENGINE.getUnit(HOG_APP_DEBUG.getState(),'human_4').name")
+    heavy_row = page.locator('.hg39-dispatch-row').filter(has_text=heavy_name).locator('input[data-dispatch-slot]')
     if not heavy_row.count():
         page.locator('#hg39-dispatch-unit').select_option('human_4')
         page.locator('[data-action="dispatch-add-unit"]').click()
-        heavy_row = page.locator('[data-dispatch-count="human_4"]')
+            heavy_row = page.locator('.hg39-dispatch-row').filter(has_text=heavy_name).locator('input[data-dispatch-slot]')
     # Recruitment above intentionally queued two Heavy Soldiers, while the
     # battle receipt gate verifies a single front-line stack. Reduce it with
     # the planner's real decrement control, preserving the normal UI path.
     for _ in range(3):
         if not heavy_row.count() or int(heavy_row.input_value() or "0") <= 1:
             break
-        page.locator('[data-action="dispatch-adjust"][data-id="human_4"][data-delta="-1"]').click()
-        page.wait_for_function("document.querySelector('[data-dispatch-count=\"human_4\"]')?.value === '1'", timeout=3_000)
+        heavy_row.locator('xpath=..').locator('[data-action="dispatch-adjust"][data-delta="-1"]').click()
+        page.wait_for_timeout(60)  # UI rerender is synchronous; final count is asserted below
     check("The real dispatch planner includes the UI-recruited Heavy Soldier",
           heavy_row.count() == 1 and heavy_row.input_value() == "1",
           json.dumps({"heavyRows":heavy_row.count(),"heavyCount":heavy_row.input_value() if heavy_row.count() else None},ensure_ascii=False))

@@ -118,7 +118,10 @@ def main() -> None:
             # Construction is deliberately brief at ×60. Use the real speed
             # control at ×1 so the browser can inspect the active queue and
             # cold-save it before completion.
-            page.locator('#speed').click()
+            speed_tools=page.locator('.hg42-screen-tool-menu')
+            if not speed_tools.evaluate('(el) => el.open'):
+                speed_tools.locator('summary').click()
+            speed_tools.locator('#speed').click()
             assert page.evaluate("HOG_APP_DEBUG.getState().speed===1 && document.querySelector('#speed').textContent.includes('×1')"), f"Speed control did not switch to ×1 at {width}x{height}"
             upgrade.click()
             page.wait_for_function("HOG_APP_DEBUG.getState().buildingQueue?.key==='hall'")
