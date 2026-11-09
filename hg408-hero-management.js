@@ -8,7 +8,12 @@
  const own=(v,k)=>Object.prototype.hasOwnProperty.call(v||{},k);
  const heroById=(s,id)=>s.heroes.find(h=>h.id===id);
  function baseQuality(h){
-   if(colors.has(h?.quality))return h.quality;
+   if(h?.qualityModel===3){
+     // v3 quality always comes from the unallocated ATK+DEF+SPD+INT sum.
+     // Level points, inventory and reincarnation cannot re-roll its colour.
+     return E.heroTierByTotal(E.heroInnateTotal(h)).id;
+   }
+   if(colors.has(h?.quality))return h.quality; // preserve legacy v07 heroes
    const spent=h?.spentAttributePoints||{},base=h?.hg18Base||{};
    const initial={level:1};
    for(const k of ['atk','def','spd','int']){
@@ -18,7 +23,10 @@
    return E.heroNameColor(initial);
  }
  function normalize(s){
-   if(s?.heroes)for(const h of s.heroes)if(!colors.has(h.quality))h.quality=baseQuality(h);
+   if(s?.heroes)for(const h of s.heroes){
+     if(h.qualityModel===3)h.quality=baseQuality(h);
+     else if(!colors.has(h.quality))h.quality=baseQuality(h);
+   }
    return s;
  }
  function qualityInfo(hero){
