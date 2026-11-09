@@ -1642,3 +1642,12 @@ body.combat-mode .hg43-battle-unit.empty{font:10px/1.3 system-ui;color:#9db8b2}
  .hg44-journey-details>summary{font-size:9px}
  .hg44-journey-stats{font-size:9px}
 }
+
+/* HG44-D Boss preparation is anchored to actual stored army and duty values,
+ * not an invented power score or a false guaranteed-win forecast. */
+.hg44-boss-preparation{display:flex;flex-wrap:wrap;align-items:center;gap:5px 9px;padding:7px 9px;margin:4px 0 9px;border:1px solid #778c78;border-radius:7px;background:linear-gradient(115deg,#274440,#20353a);color:#d6e5d6;font:11px/1.25 system-ui}
+.hg44-boss-preparation>span{display:inline-flex;gap:4px;align-items:center;white-space:nowrap}
+.hg44-boss-preparation b{color:#f3deaf;font-size:12px}
+.hg44-boss-preparation>small{display:block;flex:1 1 100%;color:#bbcec3;font:10px/1.32 system-ui}
+@media(max-width:850px){.hg44-boss-preparation{padding:5px 6px;gap:4px 7px;font-size:10px}}
+@media(max-height:360px) and (orientation:landscape){.hg44-boss-preparation{margin:2px 0 4px;padding:4px;line-height:1.1}.hg44-boss-preparation>small{font-size:9px}}
