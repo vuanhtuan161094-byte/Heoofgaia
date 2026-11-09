@@ -81,6 +81,8 @@ with sync_playwright() as browser_tool:
         for i in range(1,len(geometry['tabs'])):
             check(label+' adjacent tabs do not overlap '+str(i),
                   geometry['tabs'][i]['x']>=geometry['tabs'][i-1]['right']-1)
+        check(label+' seven rarity cards are present in the hero roster',
+              page.locator('.hg45-quality-legend .hg45-legend-chip').count()==7)
         screenshot(page,label+'-hero-overview.png')
         page.locator('[data-action="hg408-tab"][data-id="stats"]').click()
         check(label+' stats are live and visible',page.locator('.hg408-stat').count()==4)
@@ -97,6 +99,27 @@ with sync_playwright() as browser_tool:
               page.locator('.hg408-offer [data-action="hirecandidate"]').count()>0)
         screenshot(page,label+'-hero-tavern.png')
         if label=='pc-1280x720':
+            # Natural rarity rolls only; do not inject a fake platinum/rainbow
+            # candidate or weaken their odds to manufacture the screenshot.
+            rare=page.evaluate("""() => {
+                const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
+                s.buildings.tavern=10;let rounds=0;
+                do{E.refreshTavern(s);rounds++}
+                while(rounds<200&&!(s.tavern.offers.some(x=>x.quality==='rainbow')&&
+                                     s.tavern.offers.some(x=>x.quality==='platinum')));
+                E.syncCityState(s);HOG_APP_DEBUG.render();
+                return {rounds,quality:s.tavern.offers.map(x=>x.quality),
+                        strict:E.strictSave(s),chance:E.heroQualityChances(10)};
+            }""")
+            check('Live Tavern naturally rolls platinum and rainbow with strict Save',
+                  rare['rounds']<200 and rare['strict'] and
+                  'rainbow' in rare['quality'] and 'platinum' in rare['quality'] and
+                  rare['chance'][4:]==[25,9,2],rare)
+            check('Rarity cards display real quality-driven stats and aura copy',
+                  page.locator('.hg408-offer.hg45-tier-rainbow').count()>=1 and
+                  page.locator('.hg408-offer.hg45-tier-platinum').count()>=1 and
+                  page.locator('.hg408-offer .hg45-offer-buff').count()==len(rare['quality']))
+            screenshot(page,'pc-1280x720-platinum-rainbow-natural-tavern.png')
             # Fame is elevated only as a test fixture to allow recruiting a second hero.
             prepared=page.evaluate("""() => {
                 const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
@@ -106,7 +129,7 @@ with sync_playwright() as browser_tool:
                         offers:s.tavern.offers.length,blue:s.tavern.offers.filter(o=>o.quality==='blue').length};
             }""")
             check('Fame-cap fixture has room for second hero and valid Save',
-                  prepared['cap']>=2 and prepared['valid'] and prepared['offers']>=5 and prepared['blue']==1,prepared)
+                  prepared['cap']>=2 and prepared['valid'] and prepared['offers']>=5 and prepared['blue']>=1,prepared)
             page.locator('.hg408-offer:has(.hg408-quality-blue) [data-action="hirecandidate"]').click()
             recruited=page.evaluate("""() => {
                 const s=HOG_APP_DEBUG.getState(),h=s.heroes.at(-1);
