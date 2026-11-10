@@ -39,23 +39,30 @@ jobs:
           node --check hg47-ten-slot.js
           node --check app.js
           node --check qa-hg47-10slot.cjs
+          echo "HG47 exact SHA: $(git rev-parse HEAD)"
           node qa-hg47-10slot.cjs
           node qa-hg46-equipment.cjs
           node qa-hg46b-balance.cjs
           node qa-hg29-loot.cjs
           node qa-hg31-legendary.cjs
+          node qa-hg18-core.cjs
+          node qa-hg40-tactical.cjs
       - name: Build one canonical standalone HTML
         run: |
           python -m pip install Pillow==11.3.0
           python build_offline.py
           sha256sum Play-Heoofgaia-HG11.html
+          node qa-engine.cjs
       - name: Chromium 5 phone/desktop viewports and v07 cold Save
         run: |
           python -m pip install playwright
           python -m playwright install chromium
-          python -m py_compile qa-hg47-ui-chrome.py qa-hg46-equipment-chrome.py
+          python -m py_compile qa-hg47-ui-chrome.py qa-hg46-equipment-chrome.py qa-hg408-hero-chrome.py qa-hg29-ui-chrome.py qa-hg31-ui-chrome.py
           python qa-hg47-ui-chrome.py
           python qa-hg46-equipment-chrome.py
+          python qa-hg408-hero-chrome.py
+          python qa-hg29-ui-chrome.py
+          python qa-hg31-ui-chrome.py
       - name: Evidence for every pass/fail, no generated victory receipts
         if: always()
         uses: actions/upload-artifact@v4
@@ -66,6 +73,12 @@ jobs:
             docs/evidence/hg47/*.png
             docs/qa/hg46/*.json
             docs/evidence/hg46/*.png
+            docs/qa/hg408/*.json
+            docs/evidence/hg408/*.png
+            docs/qa/hg29/*.json
+            docs/evidence/hg29/*.png
+            docs/qa/hg31/*.json
+            docs/evidence/hg31/*.png
           retention-days: 30
           if-no-files-found: ignore
       - name: ONE final HTML playable offline
