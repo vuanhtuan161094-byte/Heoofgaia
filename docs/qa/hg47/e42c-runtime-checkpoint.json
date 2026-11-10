@@ -1,0 +1,85 @@
+{
+  "id": "HG47-INTEGRATION-CHECKPOINT-20261110",
+  "testSourceSha": "e42c2436c5092ae821c12a532807e6223b82581c",
+  "testedAtUTC": "2026-11-10",
+  "environment": "JavaScript V8 isolate, 24 real repo runtime source modules retrieved at exact SHA, including HG47; no mocked engine; no browser/Android/Node process",
+  "scope": "Engine behavioral integration checks; fixture items and buffed Boss hero are clearly identified, not player-earned progression",
+  "results": [
+    {
+      "name": "4 races new game and strict Save v07 export/import",
+      "result": "PASS"
+    },
+    {
+      "name": "10 actual equipped UID slots, 3/6/10 set buffs, saved and unequipped",
+      "result": "PASS"
+    },
+    {
+      "name": "10-slot automatic equipment from canonical inventory without minted resources",
+      "result": "PASS"
+    },
+    {
+      "name": "cross-race item equip rejected without changing state",
+      "result": "PASS"
+    },
+    {
+      "name": "rare item crafting spends 8 targeted shards, HG29 resources and 3000 gold",
+      "result": "PASS"
+    },
+    {
+      "name": "divine item crafting gates Boss+Tower and spends both tokens and 18000 gold",
+      "result": "PASS",
+      "fixture": "Boss/Tower gate counters and materials manually seeded in this test"
+    },
+    {
+      "name": "real paid Tower combat yields 1 rare + 2 divine fragments",
+      "result": "PASS"
+    },
+    {
+      "name": "practice Tower win after 5 paid claims grants no fragments",
+      "result": "PASS"
+    },
+    {
+      "name": "historical v07 save without hg47 migrates with 80 zero counters",
+      "result": "PASS"
+    },
+    {
+      "name": "duplicate equipped UID and negative fragments rejected by strictSave",
+      "result": "PASS"
+    },
+    {
+      "name": "real world T11 Boss win yields 2 rare + 2 divine, 1 HG29 abyss core, saved",
+      "result": "PASS",
+      "fixture": "QA battle hero attributes and T10 unit roster raised for deterministic Boss defeat; reward engine unmodified",
+      "target": "18,92",
+      "turns": 5
+    },
+    {
+      "name": "complete 3-piece set wins when individual replacements each score -0.6",
+      "result": "PASS",
+      "individualDeltas": [
+        -0.6,
+        -0.6,
+        -0.6
+      ],
+      "setGain": 3.04,
+      "fixture": "Temporary alternative equipment prototypes adjusted, restored after test"
+    },
+    {
+      "name": "real 1-star NPC win pays no pre-win fragment, post-win 1 rare, strict v07",
+      "result": "PASS",
+      "target": "2,1",
+      "turns": 9
+    }
+  ],
+  "passed": 13,
+  "total": 13,
+  "fullCIStatus": "NOT VERIFIED",
+  "chromiumStatus": "NOT VERIFIED",
+  "offlineHtmlArtifact": "NOT VERIFIED",
+  "limitations": [
+    "This V8 exact-SHA integration does not replace GitHub Actions Node/Playwright jobs.",
+    "It does not test physical Android gameplay, browser memory/FPS or downloadable HTML.",
+    "The workflow and newly extended QA suites are committed but no provider run log was accessible in this session."
+  ],
+  "nextAction": "Confirm hg47-ten-slot.yml run per exact commit; inspect failing job logs and rerun only after verified fixes; obtain single offline HTML artifact."
+}
