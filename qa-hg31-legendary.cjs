@@ -59,6 +59,33 @@ check('Actual T11 Boss win deposits focused Dragon fragment; low NPC does not',(
  assert.equal(s.hg31.bossWins,1);s=saved(s);assert.equal(s.hg31.history.length,1);
  return {boss:target.key,fragment:'dragon_seal',fixture:'hero+paid T10 troops pre-set for actual battle'};
 });
+check('HG46-B actual T11 Boss win unlocks Dragon without unrelated Tower floor 11',()=>{
+ let s=E.make('human',1e6);const hero=s.heroes[0];
+ E.hg31SetFocus(s,'dragon_blade');hero.level=100;hero.atk=240000;hero.def=240000;hero.spd=100;
+ s.army.human_10=500;s.ap=700;
+ const target=E.hg24RecommendBoss(s).find(x=>x.eliteTier===11);assert(target);
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_10',count:500}]);E.startMarch(s,target.key);
+ let t=0;while(s.march&&t++<9)E.tick(s,s.lastTick+Math.ceil((s.march.remaining+3)/s.speed*1000));
+ assert(s.battle);win(s);
+ assert.equal(s.hg20.tower.floor,1);
+ const card=E.hg31Catalogue(s).find(x=>x.id==='dragon_blade');
+ assert.equal(card.unlocked,true,'real T11 win must release Dragon source gate');
+ assert.equal(card.canCraft,false,'not enough real drops to forge legendary');
+ assert.equal(card.missing.focused,5);
+ assert.equal(card.have,1);
+ s=saved(s);return {towerFloor:1,dragonUnlocked:card.unlocked,bossEarned:1,v07:s.version};
+});
+check('HG46-B Star needs earned Tower material but NO unrelated Boss token',()=>{
+ const s=prepare(E.make('human',1e6));s.hg27.boss=0;
+ const card=E.hg31Catalogue(s).find(x=>x.id==='star_plate');
+ assert.equal(card.need.bossToken,0);
+ assert.equal(card.unlocked,true);assert.equal(card.canCraft,true);
+ const boss0=s.hg27.boss,gold=s.res.gold;
+ const result=E.hg31Craft(s,'star_plate');assert(result.uid>0);
+ assert.equal(s.hg27.boss,boss0);assert.equal(s.res.gold,gold-card.price);
+ assert.equal(s.hg31.fragments.star_plate,30-card.need.fragments);
+ assert(E.strictSave(s));return {paidGold:card.price,bossSpent:0,starUid:result.uid,v07:saved(s).version};
+});
 check('Fragment targeting cannot reroll during march or combat',()=>{
  const s=E.make('human',1e6);E.autoFormation(s);
  const tile=E.getTile(E.activeCity(s).key),npc=E.TILES.filter(x=>x.kind==='npc'&&x.level===1)
@@ -120,4 +147,4 @@ check('Reject lack of shards, full inventory and corrupted Save without minting 
  assert(!E.hg31Catalogue(r).find(x=>x.id==='dragon_blade').canCraft);
  return {negativeSaveRejected:true,wrongFocusRejected:true,capacityBlocked:true};
 });
-console.log('HG31 '+passed+'/10 '+(process.exitCode?'FAIL':'PASS'));if(passed!==10)process.exitCode=1;
+console.log('HG31 '+passed+'/12 '+(process.exitCode?'FAIL':'PASS'));if(passed!==12)process.exitCode=1;
