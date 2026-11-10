@@ -90,12 +90,23 @@ with sync_playwright() as pw:
           return !!el?.closest('#app>.top');
          }"""))
    if tab in ('heroes','boss'):shot(page,label+'-'+tab+'-global-hud')
-  # Open gear if the hero screen contains actual ten-slot content.
+  # Enter both real nested equipment screens, rather than testing the
+  # overview only. Historical HG48 CSS explicitly hid the original HUD here.
   page.locator('#nav [data-action="tab"][data-tab="heroes"]').click()
-  has_gear=page.locator('.hg47-ten-slots').count()>0
-  if has_gear:
-   assert_hud(page,label+' gear 10 slots',w,h,True)
-   shot(page,label+'-gear-global-hud')
+  page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
+  gear=assert_hud(page,label+' nested 10-slot gear',w,h,True)
+  check(label+' real equipment 10-slot view below global nav, no clipped toolbar',
+    page.locator('.hg47-ten-slots .hg46-slot').count()==10 and
+    gear['modalTop']>=gear['navBottom']-2 and gear['saved'],
+    {'modalTop':gear['modalTop'],'navBottom':gear['navBottom']})
+  shot(page,label+'-gear-global-hud')
+  page.locator('#nav [data-action="tab"][data-tab="relics"]').click()
+  forge=assert_hud(page,label+' nested forge',w,h,True)
+  check(label+' forge recipes and original nav fit below HUD',
+    page.locator('.hg47-forge').count()>0 and
+    forge['modalTop']>=forge['navBottom']-2 and forge['saved'],
+    {'modalTop':forge['modalTop'],'navBottom':forge['navBottom']})
+  shot(page,label+'-forge-global-hud')
   # This is a visual-only frame fixture; do not dispatch, credit, or settle
   # a Boss for screenshots. The canonical engine owns combat and rewards.
   combat=page.evaluate("""() => {
