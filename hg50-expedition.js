@@ -16,6 +16,56 @@ const ROUTE_TILES=Object.freeze(TIERS.map(tier=>
 ));
 const old={make:E.make,parse:E.parseSave,strict:E.strictSave,battleAct:E.battleAct,prepare:E.hg40PrepareBattle,tick:E.tick};
 const fresh=()=>({v:1,unlocked:1,completed:[]});
+
+// HG50-C: non-monetary repeat milestones. Daily/weekly marks are sourced only
+// from canonical battle wins, using UTC day and Monday-start UTC week.
+// No additional gold, materials, army, loot or win is created here.
+const dayKey=s=>{
+ const n=Number(s?.lastTick),d=new Date(Number.isFinite(n)&&Math.abs(n)<8.64e15?n:0);
+ return d.toISOString().slice(0,10);
+};
+const weekKey=s=>{
+ const d=new Date(dayKey(s)+'T00:00:00.000Z');
+ d.setUTCDate(d.getUTCDate()-(d.getUTCDay()+6)%7);
+ return d.toISOString().slice(0,10);
+};
+const freshC=s=>({v:1,day:dayKey(s),week:weekKey(s),today:[],thisWeek:[],
+ total:{11:0,12:0,13:0}});
+const validC=s=>{
+ const q=s.hg50c;if(q===undefined)return true; // pre-C v07 historical Save
+ if(!q||q.v!==1||Object.keys(q).sort().join(',')!=='day,thisWeek,today,total,v,week'||
+  typeof q.day!=='string'||typeof q.week!=='string'||
+  !/^\d{4}-\d{2}-\d{2}$/.test(q.day)||!/^\d{4}-\d{2}-\d{2}$/.test(q.week)||
+  !Array.isArray(q.today)||!Array.isArray(q.thisWeek)||!q.total||
+  Array.isArray(q.total)||Object.keys(q.total).sort().join(',')!=='11,12,13')return false;
+ for(const row of [q.today,q.thisWeek]){
+  if(row.length>3||new Set(row).size!==row.length||row.some(t=>!TIERS.includes(t)))return false;
+ }
+ return TIERS.every(t=>Number.isSafeInteger(q.total[t])&&q.total[t]>=0&&q.total[t]<=100000000);
+};
+function ensureC(s){if(!s.hg50c)s.hg50c=freshC(s);return s.hg50c;}
+function replayStatus(s){
+ const c=s.hg50c||freshC(s),day=dayKey(s),week=weekKey(s);
+ return {v:1,day,week,today:c.day===day?c.today.slice():[],
+  thisWeek:c.week===week?c.thisWeek.slice():[],
+  dailyComplete:c.day===day&&c.today.length===3,
+  weeklyComplete:c.week===week&&c.thisWeek.length===3,
+  total:{...c.total},economicBonus:0,
+  rewardPolicy:'only-existing-real-boss-settlement'};
+}
+function recordReplay(s,tier){
+ const q=ensureC(s),day=dayKey(s),week=weekKey(s);
+ if(q.day!==day){q.day=day;q.today=[];}
+ if(q.week!==week){q.week=week;q.thisWeek=[];}
+ if(!q.today.includes(tier))q.today.push(tier);
+ if(!q.thisWeek.includes(tier))q.thisWeek.push(tier);
+ q.today.sort((a,b)=>a-b);q.thisWeek.sort((a,b)=>a-b);
+ q.total[tier]=Math.min(100000000,q.total[tier]+1);
+ // Existing hg409 and HG29/HG47/HG31 remain the only loot authority.
+ E.note(s,'🧭 Viễn Chinh T'+tier+': chiến tích thật ngày '+q.today.length+
+  '/3, tuần '+q.thisWeek.length+'/3. Không có thưởng Viễn Chinh cộng thêm.');
+}
+
 function ensure(s){if(!s.hg50)s.hg50=fresh();return s.hg50;}
 function valid(s){
  const q=s.hg50;
@@ -27,7 +77,7 @@ function valid(s){
 }
 function status(s){
  const q=s.hg50||fresh();
- return {v:1,unlocked:q.unlocked,completed:q.completed.slice(),done:q.completed.length===3,
+ return {v:1,unlocked:q.unlocked,completed:q.completed.slice(),done:q.completed.length===3,replay:replayStatus(s),
    stages:TIERS.map((tier,i)=>{
     const tile=ROUTE_TILES[i];
     const p=tile?E.hg409Preview('npc',tile.key):null;
@@ -180,6 +230,9 @@ function battleAct(s,action,options){
  const raw=old.battleAct(s,action,options);
  const result=phaseAfterAction(s,b,raw);
  if(result?.type!=='win'||!TIERS.includes(tier)||!target)return result;
+ // Real canonical victory only, including repeat fights after route completion.
+ // Never pay a second quest reward and never count an off-route same-tier Boss.
+ if(target===ROUTE_TILES[TIERS.indexOf(tier)]?.key)recordReplay(s,tier);
  const q=ensure(s);
  const expected=TIERS[q.completed.length];
  if(tier!==expected||target!==ROUTE_TILES[q.completed.length]?.key)return result; // only the route's exact canonical Boss can advance
@@ -189,11 +242,12 @@ function battleAct(s,action,options){
   ' tại '+target+'. Phần thưởng vẫn do hệ thống Boss gốc quyết toán.');
  return {...result,hg50Stage:tier};
 }
-function make(...args){const s=old.make(...args);ensure(s);return s;}
-function parse(...args){const s=old.parse(...args);ensure(s);if(!valid(s))throw Error('HG50 Save v07 hỏng');return s;}
-function strict(s){return old.strict(s)&&valid(s)&&(!s.battle||phaseValid(s.battle));}
+function make(...args){const s=old.make(...args);ensure(s);ensureC(s);return s;}
+function parse(...args){const s=old.parse(...args);ensure(s);ensureC(s);if(!valid(s)||!validC(s))throw Error('HG50 Save v07 hỏng');return s;}
+function strict(s){return old.strict(s)&&valid(s)&&validC(s)&&(!s.battle||phaseValid(s.battle));}
 Object.assign(E,{make,parseSave:parse,strictSave:strict,valid:strict,battleAct,
  hg40PrepareBattle:phasePrepare,tick,hg50Status:status,hg50Valid:valid,hg50Tiers:TIERS,
- hg50PhaseLabel:phaseLabel,hg50PhaseValid:phaseValid,hg50PhaseSpecs:PHASES});
-root.HOG_HG50=Object.freeze({version:2,save:7,stages:3,rewards:'existing-authoritative-only',bossPhases:[65,50,35]});
+ hg50PhaseLabel:phaseLabel,hg50PhaseValid:phaseValid,hg50PhaseSpecs:PHASES,
+ hg50ReplayStatus:replayStatus,hg50ReplayValid:validC});
+root.HOG_HG50=Object.freeze({version:3,save:7,stages:3,rewards:'existing-authoritative-only',bossPhases:[65,50,35],replay:'utc-daily-weekly-no-extra-payout'});
 })(typeof globalThis!=='undefined'?globalThis:this);
