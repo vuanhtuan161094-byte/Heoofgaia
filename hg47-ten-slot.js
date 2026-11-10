@@ -74,6 +74,38 @@ for(const [race,r] of Object.entries(RACES))for(const [tier,t] of Object.entries
   ITEM_IDS.push(id);
  }
 }
+
+/* Deterministic local SVG glyphs: 10 silhouettes, race-coloured frames, divine glow.
+ * No remote asset, extra HTML entry, image crop or asynchronous render dependency.
+ */
+function iconHTML(id,size=52){
+ const item=E.ITEMS[id];if(!item?.hg47)return '';
+ const color={human:'#ebce80',elf:'#7cdbb2',orc:'#ed9275',undead:'#baabea'}[item.race];
+ const glow=item.tier==='divine'?'#f6d779':color;
+ const shapes={
+  weapon:'<path d="M47 13h10l-3 51-6 9-6-9zM29 65h46v8H29zM45 73h14v23H45z"/>',
+  armor:'<path d="M26 25 39 15 52 25 65 15 78 25 84 52 73 60 70 93H34L31 60 20 52z"/><path d="M42 40h20v35H42z" fill="#11212c"/>',
+  helm:'<path d="M22 43 28 22 40 39 52 14 64 39 77 22 82 43 77 79 52 92 27 79z"/><path d="M30 50h44v12H30z" fill="#14252f"/>',
+  gloves:'<path d="M25 70 21 36 29 29 36 52V24l8-5 6 30V20l8-3 6 32V26l9 2 5 35-13 26H41z"/>',
+  boots:'<path d="M34 17h30v42l13 10 9 20-7 7H25l-9-11 15-16z"/><path d="M33 56h32v8H33z" fill="#132734"/>',
+  belt:'<path d="M12 37h80v32H12z"/><rect x="38" y="30" width="28" height="46" rx="3" fill="#1d313c"/><path d="M43 35h18v36H43z"/>',
+  necklace:'<path d="M23 22q-2 38 29 49 31-11 29-49" fill="none"/><path d="M52 54 68 73 52 97 36 73z"/>',
+  ring:'<ellipse cx="52" cy="63" rx="24" ry="30" fill="none"/><path d="M52 11 68 29 52 48 36 29z"/>',
+  charm:'<path d="M52 12 81 33 72 82 52 98 32 82 23 33z"/><path d="M52 27 66 51 52 76 38 51z" fill="#1c313b"/>',
+  relic:'<path d="M52 8 79 35 73 78 52 101 31 78 25 35z"/><path d="M52 17v72M31 38h42M34 78h36" fill="none"/>'
+ };
+ const px=Math.max(24,Math.min(112,Number(size)||52)),body=shapes[item.slot];
+ const svg='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 104 108">'+
+  '<defs><radialGradient id="bg"><stop stop-color="'+glow+'" stop-opacity=".25"/><stop offset="1" stop-color="#0d1b2a"/></radialGradient>'+
+  '<filter id="g"><feGaussianBlur stdDeviation="1.3"/></filter></defs>'+
+  '<rect x="4" y="4" width="96" height="100" rx="13" fill="url(#bg)" stroke="'+color+'" stroke-width="'+(item.tier==='divine'?3:1.5)+'"/>'+
+  (item.tier==='divine'?'<circle cx="52" cy="54" r="43" stroke="'+glow+'" stroke-width="2" opacity=".75" fill="none" filter="url(#g)"/>':'')+
+  '<g fill="'+color+'" stroke="'+glow+'" stroke-width="2.3" stroke-linejoin="round" stroke-linecap="round">'+body+'</g>'+
+  (item.tier==='divine'?'<path d="M52 4l5 8-5 8-5-8z" fill="#fff4bc"/>':'')+'</svg>';
+ return '<img class="hg47-art hg47-art-'+item.tier+'" src="data:image/svg+xml;charset=utf-8,'+
+  encodeURIComponent(svg)+'" width="'+px+'" height="'+px+'" alt="" loading="lazy">';
+}
+
 const ids=new Set(ITEM_IDS), int=(n,max=1e9)=>Number.isSafeInteger(n)&&n>=0&&n<=max;
 const blank=()=>Object.fromEntries(ITEM_IDS.map(k=>[k,0]));
 function ensure(s){
@@ -305,7 +337,7 @@ function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG47 không hợ
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
  battleAct,heroStats,combatModifiers,equipItem:equip,unequipItem:unequip,
  hg46Stats:gearStats,hg46Kind:gearKind,hg46Sets:sets,hg46Suggest:suggest,hg46AutoEquip:autoEquip,
- hg47Ensure:ensure,hg47Valid:valid,hg47Affixes:affixes,hg47Status:statuses,
+ hg47IconHTML:iconHTML,hg47Ensure:ensure,hg47Valid:valid,hg47Affixes:affixes,hg47Status:statuses,
  hg47SetFocus:focus,hg47Craft:craft,hg47ItemId:itemId,hg47SetCounts:counts,
  HG47_SLOTS:SLOTS,HG47_RACES:RACES,HG47_TIERS:TIERS,HG47_SETS:Object.freeze(SETS)});
 root.HOG_HG47=Object.freeze({version:1,saveVersion:7,slotCount:10,gearCount:ITEM_IDS.length,setCount:Object.keys(SETS).length});
