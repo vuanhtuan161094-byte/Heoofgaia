@@ -61,7 +61,12 @@ def inspect(page):
           (b.label&&area(a.label,b.label)>0||area(a.label,b.sprite)>0||area(a.label,b.countBox)>0))).length;
       // The redundant round badge was removed; only the compact troop-total
       // counter still overlays the battlefield. Hex/HP are in the right dock.
-      const huds=[{x:c.width-200,y:14,w:186,h:42}];
+      // Same three top meters + bottom ticker drawn by painter.drawHG403BattleHUD.
+      // Old x=width-200/y=14 rectangle was wider/lower than the real HUD and
+      // produced phantom sprite collisions after desktop viewport height fix.
+      const hudW=Math.max(155,Math.min(235,c.width*.205));
+      const huds=[{x:12,y:9,w:hudW,h:37},{x:c.width-12-hudW,y:9,w:hudW,h:37},
+        {x:c.width/2-58,y:9,w:116,h:37},{x:12,y:c.height-36,w:c.width-24,h:27}];
       const hudConflicts=alive.flatMap(a=>huds.filter(q=>
         (a.label&&area(q,a.label)>0)||area(q,a.sprite)>0||area(q,a.countBox)>0)).length;
       const cells=P.battleGridCells(camera),corners=cells.flatMap(cell=>cell.corners),sampleNow=performance.now();
