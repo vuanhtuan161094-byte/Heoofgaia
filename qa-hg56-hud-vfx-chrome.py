@@ -31,7 +31,7 @@ def hud(page):
    globalName:h.textContent.includes('ANH HÙNG THỜI LOẠN'),
    resourceCount:cards.length,resources:cards.map((c,i)=>({name:c.querySelector('span')?.textContent,
     amount:value(i),rect:rectOf(c),clickable:!c.disabled&&getComputedStyle(c).pointerEvents!=='none'})),
-   saved:s?HOG_ENGINE.strictSave(s):true,actual:s?HOG_ENGINE.C.keys.map(k=>s.res[k]):[],
+   saved:s?HOG_ENGINE.strictSave(s):true,actual:s?HOG_ENGINE.C.keys.map(k=>Math.floor(s.res[k]||0)):[],
    modalVisible:!!modal&&!modal.hidden,modalTop:mr?.top||null,
    navBottom:nav?.bottom||null,
    bodyOverflow:document.documentElement.scrollWidth>innerWidth+2,
