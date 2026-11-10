@@ -162,3 +162,50 @@ progress::-webkit-progress-value{background:linear-gradient(90deg,#52f1c3,#6ac8f
  *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
  .game-modal{backdrop-filter:none}
 }
+
+/* HG49-B: distinguish "currently selected" from unavailable. Existing
+   forge race/tier buttons are intentionally disabled when active. */
+.hg47-selector button.primary:disabled{
+ opacity:1!important;filter:none!important;color:#212344!important;
+ background:linear-gradient(125deg,#fff0b3 0%,#ebc98e 46%,#c7adf1 100%)!important;
+ border-color:#fff0c1!important;box-shadow:inset 0 1px #fff9df,0 0 14px #c8b9ff59!important
+}
+.hg47-recipe.is-focus [data-action="hg47-focus"]:disabled{
+ opacity:1!important;filter:none!important;color:#d6ffeb!important;
+ background:linear-gradient(140deg,#247c72,#26556e)!important;
+ border:1px solid #71f1ca!important;box-shadow:0 0 10px #54d6bc53!important
+}
+.hg47-recipe-actions [data-action="hg47-craft"]:disabled{opacity:.67;color:#bbcad9}
+.hg47-recipe.hg47-tier-divine{
+ background:linear-gradient(150deg,#3b346b,#292d64 52%,#3c274d);
+ border-color:#af8bde;box-shadow:inset 0 1px #dfbfff3b,0 0 12px #9a61cb24
+}
+.hg47-recipe.hg47-tier-divine .hg47-recipe-body b{color:#ffdfb0;text-shadow:0 0 11px #f5c3ff9d}
+.hg47-recipe.hg47-tier-divine .hg47-recipe-art{filter:drop-shadow(0 0 9px #d8a8ffba)}
+.hg47-recipe.hg47-tier-rare{border-color:#588eb0}
+.hg47-recipe.hg47-tier-divine:has([data-action="hg47-craft"]:not(:disabled)){
+ border-color:#ffe89e;box-shadow:0 0 20px #bd84ff73,inset 0 1px #fff2c58a
+}
+.welcome{color:#f5efff}
+.welcome-scene{border:1px solid #8b9ed4;border-radius:12px;overflow:hidden;
+ box-shadow:0 0 0 1px #829be147,0 17px 42px #01071f8c}
+.welcome-copy{background:linear-gradient(90deg,#1b2659a6,#291e5b93,transparent)}
+.welcome-copy h1{color:#ffe2a0;text-shadow:0 0 17px #e7a9ffb5,0 3px 10px #101027}
+.welcome-bottom{background:linear-gradient(130deg,#1a2d52,#281f54 70%,#242b4b);
+ border:1px solid #697ec0;border-radius:12px;box-shadow:0 10px 28px #0005}
+.welcome-bottom h2{color:#ffe4a2}
+.race-grid .race-card{position:relative;overflow:hidden;border:1px solid #8d9ed0;
+ background:linear-gradient(145deg,#294c76,#222c54);box-shadow:inset 0 1px #ffffff2e,0 5px 15px #0004}
+.race-grid .race-card[data-race="human"]{background:linear-gradient(145deg,#655034,#282d58);border-color:#d9bb75}
+.race-grid .race-card[data-race="elf"]{background:linear-gradient(145deg,#1e6258,#1d3257);border-color:#69dca8}
+.race-grid .race-card[data-race="orc"]{background:linear-gradient(145deg,#7d3c42,#342c59);border-color:#ee9980}
+.race-grid .race-card[data-race="undead"]{background:linear-gradient(145deg,#603e88,#292e60);border-color:#c0a0f2}
+.race-grid .race-card .emoji{filter:drop-shadow(0 0 10px #e2ceff8e)}
+.race-grid .race-card.active{outline:2px solid #ffecaa;outline-offset:2px;
+ box-shadow:0 0 20px #ecc38e82,inset 0 1px #fff9ee65;transform:translateY(-2px)}
+.race-grid .race-card:hover{filter:brightness(1.12) saturate(1.1)}
+@media(max-width:920px){
+ .race-grid .race-card.active{transform:none}
+ .hg47-selector button.primary:disabled{box-shadow:inset 0 1px #fff9df!important}
+ .hg47-recipe.hg47-tier-divine{box-shadow:inset 0 1px #dfbfff3b!important}
+}
