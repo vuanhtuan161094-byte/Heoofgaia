@@ -17,9 +17,9 @@ const SETS=Object.freeze({
    note:'2 món: +8% sát thương. 3 món: +8,5% giảm sát thương.'})
 });
 const GEAR=Object.freeze([
- {id:'dragon_blade',set:'dragon',name:'Long Hồn Chiến Kiếm',slot:'weapon',icon:'⚔',atk:42,def:9,spd:3,price:15000,minFloor:11,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
- {id:'dragon_plate',set:'dragon',name:'Long Hồn Thần Giáp',slot:'armor',icon:'🛡',atk:6,def:49,spd:2,price:15000,minFloor:11,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
- {id:'dragon_seal',set:'dragon',name:'Long Hồn Pháp Ấn',slot:'charm',icon:'💠',atk:15,def:22,spd:6,price:15000,minFloor:11,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
+ {id:'dragon_blade',set:'dragon',name:'Long Hồn Chiến Kiếm',slot:'weapon',icon:'⚔',atk:42,def:9,spd:3,price:15000,minFloor:0,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
+ {id:'dragon_plate',set:'dragon',name:'Long Hồn Thần Giáp',slot:'armor',icon:'🛡',atk:6,def:49,spd:2,price:15000,minFloor:0,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
+ {id:'dragon_seal',set:'dragon',name:'Long Hồn Pháp Ấn',slot:'charm',icon:'💠',atk:15,def:22,spd:6,price:15000,minFloor:0,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
  {id:'star_blade',set:'star',name:'Tinh Không Thần Kiếm',slot:'weapon',icon:'⚔',atk:64,def:13,spd:5,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:0}},
  {id:'star_plate',set:'star',name:'Tinh Không Thánh Giáp',slot:'armor',icon:'🛡',atk:12,def:68,spd:3,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:0}},
  {id:'star_seal',set:'star',name:'Tinh Không Thiên Ấn',slot:'charm',icon:'🔮',atk:22,def:31,spd:9,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:0}}
