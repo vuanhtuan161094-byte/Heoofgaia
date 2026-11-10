@@ -799,11 +799,11 @@ function hg46GearView(h){
    (row?button('hg408-unequip',{id:h.id,slot},'Tháo trang bị',busy,'small secondary'):'')+
    '</article>';
  }).join('');
- const buildChoices=modes.map(([id,label])=>{
-  const q=E.hg46Suggest(state,h.id,id);
-  return button('hg46-auto',{id:h.id,mode:id},label+(q.gain>0?'  +'+q.gain.toLocaleString('vi-VN',{maximumFractionDigits:2}):' ✓'),
-   !q.allowed||q.gain<=0,'small '+(id==='balanced'?'primary':'secondary'));
- }).join('');
+ // HG47 performance: never run 3 ten-slot searches on every UI repaint.
+ // The actual bounded planner runs only when the user clicks a build mode.
+ const buildChoices=modes.map(([id,label])=>button('hg46-auto',{id:h.id,mode:id},
+  '⚒ '+label,!E.hg20HeroRole||busy||E.hg20HeroRole(state,h.id).status!=='home',
+  'small '+(id==='balanced'?'primary':'secondary'))).join('');
  const setProgress=sets.map(q=>'<div class="hg46-set-progress">'+
   '<strong>'+esc(q.name)+'</strong><span>'+q.count+'/'+(q.max||3)+'</span>'+
   '<div class="hg46-progress-pips">'+Array.from({length:q.max||3},(_,i)=>'<i class="'+(q.count>i?'filled':'')+'"></i>').join('')+'</div>'+
