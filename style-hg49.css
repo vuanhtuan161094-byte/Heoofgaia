@@ -209,3 +209,7 @@ progress::-webkit-progress-value{background:linear-gradient(90deg,#52f1c3,#6ac8f
  .hg47-selector button.primary:disabled{box-shadow:inset 0 1px #fff9df!important}
  .hg47-recipe.hg47-tier-divine{box-shadow:inset 0 1px #dfbfff3b!important}
 }
+
+/* HG50-A Boss expedition: four route tabs fit landscape and wrap portrait. */
+.hg42-boss-subnav{grid-template-columns:repeat(4,minmax(0,1fr))}
+@media(max-width:560px){.hg42-boss-subnav{grid-template-columns:repeat(2,minmax(0,1fr))}}
