@@ -70,7 +70,11 @@ body #app>.top #resources .resource.hg56-gain{
  100%{filter:brightness(1);box-shadow:inset 0 1px #fff1}
 }
 /* Context-screen modals remain below the HUD but above the independent nav. */
-body:not(.combat-mode) .game-modal{z-index:100!important}
+/* The navigation rail is z=60 in the existing shell: keep normal route
+   windows behind it so every subtab remains clickable, not modal-trapped. */
+body:not(.combat-mode) .game-modal{z-index:40!important}
+body.window-open .game-modal:has(.game-window-body>.landmarks){z-index:80!important}
+body.window-open .game-modal:has(.game-window-body .hg39-dispatch){z-index:82!important}
 body #app>.top{z-index:500!important}
 body.combat-mode #app{min-height:100dvh}
 body.combat-mode .battle-stage{height:calc(100dvh - var(--hg56-hud-h) - 108px)!important}
