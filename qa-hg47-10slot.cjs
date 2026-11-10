@@ -162,6 +162,26 @@ check('Real paid Tower battle grants 1 focused rare + 2 divine fragments exactly
  assert.equal(s.hg47.history.length,2);assert.equal(s.hg47.fragments[d],2);
  return {turns,claimed:result.claimed,rare:1,divine:2,save:s.version};
 });
+check('Real unseeded 1-star NPC starts with no HG47 loot, pays only after completed victory',()=>{
+ let s=game('human');E.autoFormation(s);
+ const home=E.getTile(E.activeCity(s).key);
+ const target=E.TILES.filter(t=>t.kind==='npc'&&t.level===1).sort((a,b)=>
+  Math.abs(a.x-home.x)+Math.abs(a.y-home.y)-
+  Math.abs(b.x-home.x)-Math.abs(b.y-home.y))[0];
+ assert(target,'No 1-star NPC target');
+ E.startMarch(s,target.key);let ticks=0;
+ while(s.march&&ticks++<18)
+  E.tick(s,s.lastTick+Math.ceil((s.march.remaining+2)/s.speed*1000));
+ assert(s.battle);
+ assert(Object.values(s.hg47.fragments).every(n=>n===0),'Never pay before a win');
+ const {result,turns}=win(s);assert.equal(result.type,'win');
+ const received=Object.values(s.hg47.fragments).reduce((sum,n)=>sum+n,0);
+ assert(received===0||received===1,'A normal NPC drops at most 1 rare targeted shard');
+ assert.equal(s.hg47.history.length,received);
+ s=reload(s);
+ assert.equal(Object.values(s.hg47.fragments).reduce((sum,n)=>sum+n,0),received);
+ return {target:target.key,turns,received,save:s.version};
+});
 check('Real Boss T11 victory grants focused HG47 fragments alongside earned HG29 core',()=>{
  let s=game('human'),hero=s.heroes[0];hero.level=100;
  hero.atk=240000;hero.def=240000;hero.spd=100;
