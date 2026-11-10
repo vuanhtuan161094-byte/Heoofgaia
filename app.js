@@ -1021,11 +1021,11 @@ function hg31ForgeView(){
     const n=r.need,selected=r.focus,need=[
      `<span class="${r.have>=n.fragments?'ready':'missing'}">🧩 ${format(r.have)}/${n.fragments}</span>`,
      ...[['abyss',n.abyss],['hunter',n.hunter],['tower',n.tower],['hero',n.hero]].filter(([,v])=>v).map(([id,v])=>`<span class="${state.hg29.shards[id]>=v?'ready':'missing'}">${wallet[id].icon} ${format(state.hg29.shards[id])}/${v}</span>`),
-     `<span class="${state.hg27.boss>=n.bossToken?'ready':'missing'}">${tokens.boss.icon} ${format(state.hg27.boss)}/${n.bossToken}</span>`,
+     ...(n.bossToken?[ `<span class="${state.hg27.boss>=n.bossToken?'ready':'missing'}">${tokens.boss.icon} ${format(state.hg27.boss)}/${n.bossToken}</span>` ]:[]),
      `<span class="${state.res.gold>=r.price?'ready':'missing'}">🪙 ${format(state.res.gold)}/${format(r.price)}</span>`
     ].join('');
     return `<div class="hg31-card ${selected?'selected':''}" data-hg31-id="${r.id}">
-     <div class="hg31-gear-top">${E.hg31IconHTML(r.id,62)}<div><b>${esc(r.name)}</b><small>${r.slot==='weapon'?'Vũ khí':r.slot==='armor'?'Giáp':'Phụ kiện'} · ATK +${r.atk} · DEF +${r.def} · SPD +${r.spd}</small><small>Yêu cầu: vượt Tháp ${r.minFloor-1} · ${isBoss?'ít nhất 1 Boss':'ít nhất 3 tầng Tháp có thưởng'}</small><small>${esc(set.note)} · Cần đúng nguyên liệu và vàng, không quay rương ngẫu nhiên.</small></div></div>
+     <div class="hg31-gear-top">${E.hg31IconHTML(r.id,62)}<div><b>${esc(r.name)}</b><small>${r.slot==='weapon'?'Vũ khí':r.slot==='armor'?'Giáp':'Phụ kiện'} · ATK +${r.atk} · DEF +${r.def} · SPD +${r.spd}</small><small>🔓 ${esc(r.unlockLabel)} · ${isBoss?'Không khóa theo tầng Tháp':'Không bắt buộc Ấn Boss'}</small><small>🧩 Mảnh cần farm thêm: ${r.missing.focused} · ${r.sourceDays!==null?'Tối thiểu khoảng '+r.sourceDays+' ngày Tháp nếu đủ 5 lượt thưởng/ngày':'Nguồn Boss T11–T13'} · Không có thưởng khi thua</small><small>${esc(set.note)} · Cần đúng nguyên liệu và vàng, không quay rương ngẫu nhiên.</small></div></div>
      <div class="hg31-costs">${need}</div>
      <div class="hg31-actions">${button('hg31-focus',{id:r.id},selected?'🎯 Đang săn món này':'🎯 Chọn farm',selected||busy,'small secondary')}
      ${button('hg31-craft',{id:r.id},r.canCraft?'⚒ Ghép đúng món':!r.unlocked?'🔒 Chưa mở':'Thiếu vật liệu',!r.canCraft,'small primary')}</div>
@@ -1034,8 +1034,8 @@ function hg31ForgeView(){
  };
  return `<section class="card hg31-forge" aria-label="HG31 bộ trang bị Long Hồn và Tinh Không">
   <span class="eyebrow">HG31 · TRANG BỊ CAO CẤP · FARM ĐÚNG MÓN</span>
-  <h2>⚒ Lò Rèn Long Hồn & Tinh Không</h2>
-  <p class="tiny muted">Chọn trước món cần farm. Boss trả mảnh Long Hồn, Tháp có thưởng trả mảnh Tinh Không. Mảnh nhận bằng chiến thắng thật, không phát hồi tố khi nâng phiên bản. Sau khi ghép, vào <b>Tướng</b> để mặc và kích hoạt 2/3 – 3/3 bộ set.</p>
+  <h2>⚒ Lò Rèn Long Hồn & Tinh Không</h2><div class="hg46b-stage-rail"><span>Đầu: Bazaar & rương</span><span>Giữa: Vệ Binh / Tinh Vân</span><span>Cuối: Long Hồn / Tinh Không</span></div>
+  <p class="tiny muted">Chọn trước món cần farm: <b>Long Hồn</b> chỉ cần chiến thắng Boss T11–T13 và nguyên liệu Boss; không yêu cầu tầng Tháp. <b>Tinh Không</b> lấy từ Tháp, chỉ dùng mảnh Tháp và mảnh Anh Hùng, không khóa bằng Ấn Boss. Mỗi ngày tối đa 5 trận Tháp có thưởng. Mảnh rơi từ chiến thắng thật, không cấp hồi tố.</p>
   <div class="hg31-status"><span>🐉 Boss thắng: <b>${s.bossWins}</b></span><span>🌌 Tháp có thưởng: <b>${s.towerWins}</b></span><span>⚒ Đã ghép: <b>${s.crafted}</b></span>${s.last?`<span>Vừa nhận: +${s.last.count} mảnh ${esc(E.ITEMS[s.last.id].name)}</span>`:''}</div>
   ${section('dragon')}${section('star')}
  </section>`;
@@ -1044,7 +1044,7 @@ function hg31GuideView(){
  const t=E.hg31Status(state);
  return `<section class="card hg31-guide"><span class="eyebrow">HG31 · HÀNH TRÌNH SĂN TRANG BỊ</span>
  <h2>🐉 Boss → Long Hồn · 🌌 Tháp → Tinh Không</h2>
- <div class="hg31-guide-row"><div>${E.hg31IconHTML(t.focus.boss,42)}<b>${esc(E.ITEMS[t.focus.boss].name)}</b><small>${format(t.fragments[t.focus.boss])} mảnh · Boss T11/T12: +1, T13: +2</small></div>
+ <div class="hg31-guide-row"><div>${E.hg31IconHTML(t.focus.boss,42)}<b>${esc(E.ITEMS[t.focus.boss].name)}</b><small>${format(t.fragments[t.focus.boss])} mảnh · Boss T11/T12: +1, T13: +2 · Không cần mở tầng Tháp 11</small></div>
  <div>${E.hg31IconHTML(t.focus.tower,42)}<b>${esc(E.ITEMS[t.focus.tower].name)}</b><small>${format(t.fragments[t.focus.tower])} mảnh · Tháp thắng có thưởng: +1, tầng bội 5: +2</small></div></div>
  <p class="tiny muted">Đến tab Rèn & Di vật để chọn món và ghép. Quy tắc này là thiết kế mới, không phải tỷ lệ HoG gốc.</p></section>`;
 }
@@ -1060,11 +1060,11 @@ function hg29PreviewUI(kind,target,level){
 function hg29CraftView(){
  if(!E.hg29Catalogue)return '';
  const h=E.hg29Ensure(state),items=E.HG29_ITEMS,rows=E.hg29Catalogue(state);
- return `<section class='card hg29-craft' aria-label='HG29 Kho mảnh và ghép trang bị'><span class='eyebrow'>HG29 · SĂN QUÁI → NHẬT MẢNH → GHÉP</span><h2>🧩 Kho mảnh và chế tạo theo mục tiêu</h2><div class='hg29-wallet'>${Object.entries(items).map(([id,item])=>`<span title='Nguồn: ${esc(item.source)}'>${item.icon} ${esc(item.name)} <strong>${format(h.shards[id])}</strong></span>`).join('')}</div><div class='hg29-recipes'>${rows.map(r=>`<div class='card hg29-recipe'><b>${esc(r.name)}</b><small>${Object.entries(r.cost).map(([id,count])=>items[id].icon+' '+format(h.shards[id])+'/'+count).join(' · ')}</small>${button('hg29-craft',{id:r.id},r.canCraft?'⚒ Ghép':'Thiếu mảnh',!r.canCraft,'small primary')}</div>`).join('')}</div><p class='tiny muted'>Lựa chọn đúng món cần chế tạo; chỉ tiêu hao mảnh nhận qua chiến thắng thật. Không cộng trùng mảnh Tinh Vân / Ấn Boss cũ.</p></section>`;
+ return `<section class='card hg29-craft' aria-label='HG29 Kho mảnh và ghép trang bị'><span class='eyebrow'>HG29 · SĂN QUÁI → NHẬT MẢNH → GHÉP</span><h2>🧩 Kho mảnh và chế tạo theo mục tiêu</h2><p class="tiny muted">Đầu game: quái 1–3★ + Bazaar và rương ngày. Giữa game: Elite 4–10★, Vệ Binh và đá cường hóa. Cuối game: Boss T11–T13 cho Long Hồn, Tháp tầng 21+ cho Tinh Không. Không có quà miễn phí.</p><div class='hg29-wallet'>${Object.entries(items).map(([id,item])=>`<span title='Nguồn: ${esc(item.source)}'>${item.icon} ${esc(item.name)} <strong>${format(h.shards[id])}</strong></span>`).join('')}</div><div class='hg29-recipes'>${rows.map(r=>`<div class='card hg29-recipe'><b>${esc(r.name)}</b><small>${Object.entries(r.cost).map(([id,count])=>items[id].icon+' '+format(h.shards[id])+'/'+count).join(' · ')}</small>${button('hg29-craft',{id:r.id},r.canCraft?'⚒ Ghép':'Thiếu mảnh',!r.canCraft,'small primary')}</div>`).join('')}</div><p class='tiny muted'>Lựa chọn đúng món cần chế tạo; chỉ tiêu hao mảnh nhận qua chiến thắng thật. Không cộng trùng mảnh Tinh Vân / Ấn Boss cũ.</p></section>`;
 }
 function hg29GuideView(){
  if(!E.HG29_TABLES)return '';
- return `<section class='card hg29-guide'><span class='eyebrow'>HG29 · BẢNG RƠI MINH BẠCH</span><h2>🎯 Farm ở đâu?</h2><div class='hg29-guides'>${Object.entries(E.HG29_TABLES).map(([id,p])=>`<div class='card'><b>${esc(p.label)}</b><small>${p.guaranteed.map(([k,n])=>'✓ '+esc(E.HG29_ITEMS[k].name)+' ×'+n).concat(p.roll.filter(r=>r[0]!=='none').map(r=>esc(E.HG29_ITEMS[r[0]].name)+' '+r[3]/100+'%')).join(' · ')}</small></div>`).join('')}</div><p class='hint'>Tỷ lệ mới của Hẻoofgaia; mỗi trận thắng rút một lần trên bảng xác suất. Boss và Tháp có phần thưởng bảo đảm ngoài lần rút.</p></section>`;
+ return `<section class='card hg29-guide'><span class='eyebrow'>HG29 · BẢNG RƠI MINH BẠCH</span><h2>🎯 Farm ở đâu?</h2><div class='hg29-guides'>${Object.entries(E.HG29_TABLES).map(([id,p])=>`<div class='card'><b>${esc(p.label)}</b><small>${p.guaranteed.map(([k,n])=>'✓ '+esc(E.HG29_ITEMS[k].name)+' ×'+n).concat(p.roll.filter(r=>r[0]!=='none').map(r=>esc(E.HG29_ITEMS[r[0]].name)+' '+r[3]/100+'%')).join(' · ')}</small></div>`).join('')}</div><p class='hint'>Tỷ lệ HG46-B riêng của Hẻoofgaia, mỗi chiến thắng hợp lệ có đúng một lượt rút. Quái thường 30% rơi mảnh Rèn; quái 4★+ có 34% rơi mảnh Rèn. Boss/Tháp có phần bảo đảm ngoài lượt rút; đánh Tháp không còn lượt thưởng sẽ không nhận mảnh.</p></section>`;
 }
 function hg29LastView(){
  const r=state.hg29?.last;if(!r)return '';
