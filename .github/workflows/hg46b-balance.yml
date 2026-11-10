@@ -1,0 +1,77 @@
+name: HG46-B real loot, Boss/Tower gear economy and v07
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'hg18.js'
+      - 'hg27-farm-exchange.js'
+      - 'hg29-loot.js'
+      - 'hg31-legendary-gear.js'
+      - 'hg46-equipment.js'
+      - 'app.js'
+      - 'style-hg03.css'
+      - 'index.html'
+      - 'build_offline.py'
+      - 'qa-hg29-loot.cjs'
+      - 'qa-hg31-legendary.cjs'
+      - 'qa-hg46b-balance.cjs'
+      - 'qa-hg31-ui-chrome.py'
+      - 'qa-hg46-equipment-chrome.py'
+      - '.github/workflows/hg46b-balance.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  economic-balance:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: HG46-B audit real NPC, Tower, Boss receipts, four sets, enhancement, v07
+        run: |
+          node --check hg29-loot.js
+          node --check hg31-legendary-gear.js
+          node --check qa-hg46b-balance.cjs
+          node qa-hg29-loot.cjs
+          node qa-hg31-legendary.cjs
+          node qa-hg18-core.cjs
+          node qa-hg46-equipment.cjs
+          node qa-hg46b-balance.cjs
+      - name: Build existing ONE offline HTML, no second entrypoint
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Live Chromium forge, gear ownership, Boss/Tower set and v07 Save
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python -m py_compile qa-hg31-ui-chrome.py qa-hg46-equipment-chrome.py
+          python qa-hg31-ui-chrome.py
+          python qa-hg46-equipment-chrome.py
+      - name: Upload real receipt/stage/Chromium evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG46B-Earned-Progression-Evidence
+          path: |
+            docs/qa/hg46b/*.json
+            docs/qa/hg46/*.json
+            docs/evidence/hg31/*.png
+            docs/evidence/hg46/*.png
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: Deliver single tested HTML offline
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG46B-Playable-Standalone-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error
