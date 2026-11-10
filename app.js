@@ -291,7 +291,9 @@ function renderIntro(){
  $('main').innerHTML=`<section class="welcome"><div class="welcome-scene"><canvas id="intro-canvas" width="1176" height="560" aria-label="Phong cảnh thành trì theo chủng tộc"></canvas><div class="welcome-copy"><div class="eyebrow">BỐN CHỦNG TỘC • MỘT CHIẾN TRƯỜNG</div><h1>ANH HÙNG THỜI LOẠN</h1><p>Phát triển thành trì • dẫn quân vượt thế giới • chinh phục mỏ và quái vật</p></div></div><div class="welcome-bottom"><h2>Chọn chủng tộc khởi đầu</h2><div class="race-grid">${Object.entries(C.races).map(([k,v])=>`<button data-action="race" data-race="${k}" class="race-card ${newRace===k?'active':''}"><span class="emoji">${ico(k,42)||v.emoji}</span><strong>${v.name}</strong><small>${v.english}</small></button>`).join('')}</div><h3>Bộ phép chiến đấu</h3><div class="entry">${button('spelledition',{edition:'international'},'Quốc tế · Fandom',false,newSpellEdition==='international'?'primary':'secondary')}${button('spelledition',{edition:'china2009'},'Trung Quốc 2009 · Sina',false,newSpellEdition==='china2009'?'primary':'secondary')}</div><p class="hint">Lựa chọn này lưu trong vương quốc mới. Bộ Sina tái hiện các kỹ năng chiến đấu chủ động đã có chỉ số xác nhận; kỹ năng di chuyển và nội tại chưa được mô hình hóa. Save cũ mặc định giữ bộ Quốc tế.</p>${button('start',{},'⚔ Thành lập thành Gaia',false,'primary wide')}<p class="hint">Chế độ chơi offline; hình ảnh tự dựng, công thức chiến đấu hiện là thử nghiệm, chưa phải game chính thức.</p></div></section>`;
  P.drawCity($('intro-canvas'),E,E.make(newRace),'hall');
 }
-function renderHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.map(k=>`<button type="button" class="resource" data-action="resource-info" title="${esc(C.resource[k].label)}: ${format(state.res[k])}/${format(lim[k])} · +${format(E.rate(state)[k])}/giờ">${(ico(k,20)||C.resource[k].emoji)} <span>${C.resource[k].label}</span><b>${format(state.res[k])}</b><small class="muted">/${format(lim[k])} · +${format(E.rate(state)[k])}/h</small></button>`).join('');
+function renderResourceHUD(){const lim=E.limits(state);$('resources').innerHTML=C.keys.map(k=>`<button type="button" class="resource" data-action="resource-info" title="${esc(C.resource[k].label)}: ${format(state.res[k])}/${format(lim[k])} · +${format(E.rate(state)[k])}/giờ">${(ico(k,20)||C.resource[k].emoji)} <span>${C.resource[k].label}</span><b>${format(state.res[k])}</b><small class="muted">/${format(lim[k])} · +${format(E.rate(state)[k])}/h</small></button>`).join('');
+}
+function renderHUD(){renderResourceHUD();
  const rail=$('nav'),oldNavScroll=rail.scrollLeft;
  rail.innerHTML=tabs.map(([id,name])=>`<button data-action="tab" data-tab="${id}" title="${esc(name)}" aria-current="${tab===id?'page':'false'}" class="${tab===id?'active':''}">${A?(ico(id,20)+' '+esc(name.slice(name.indexOf(' ')+1))):name}</button>`).join('');
  // A rebuild on passive economy ticks must not snap the navigation back to
@@ -1797,6 +1799,9 @@ setInterval(()=>{if(!state)return;const before=state.battle,training=state.train
  // visible animation reset even after the manual auto-turn fix.
  if(state.battle&&before===state.battle&&$('battle-canvas')){
   syncCombatTurnHUD();
+  // HG56: keep the five real resource balances live even while combat RAF
+  // owns the canvas. Do not rerender nav, battle DOM or Save each second.
+  renderResourceHUD();
   if(training!==state.training.length||building!==(state.buildingQueue?.key||null)||
      arena!==(state.arenaQueue?.id||null))renderHUD();
  }else if(!changed){
