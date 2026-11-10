@@ -83,17 +83,18 @@ with sync_playwright() as pw:
       HOG_APP_DEBUG.render();
     }""")
     page.locator('[data-action="hg29-craft"][data-id="stone"]').first.click()
-    check('Actual button crafts 2 stones and deducts 8 wild/6 gear',page.evaluate("""()=>{
-      const s=HOG_APP_DEBUG.getState();
-      return s.hg29.shards.wild===4&&s.hg29.shards.gear===6&&
-        s.hg18.materials.enhance_stone===2&&s.hg29.crafted===1&&HOG_ENGINE.strictSave(s);
+    check('Actual button crafts 6 stones and deducts 6 wild/4 gear',page.evaluate("""()=>{
+      const s=HOG_APP_DEBUG.getState(),recipe=HOG_ENGINE.HG29_RECIPES.find(r=>r.id==='stone');
+      return recipe.cost.wild===6&&recipe.cost.gear===4&&recipe.output.count===6&&
+        s.hg29.shards.wild===6&&s.hg29.shards.gear===8&&
+        s.hg18.materials.enhance_stone===6&&s.hg29.crafted===1&&HOG_ENGINE.strictSave(s);
     }"""))
     shot(page,'fixture-stone-craft-1280x720.png')
     page.reload(wait_until='load')
     check('Cold browser reload preserves crafted output, no duplicate',page.evaluate("""()=>{
       const s=HOG_APP_DEBUG.getState();
-      return s.hg29.shards.wild===4&&s.hg29.shards.gear===6&&
-        s.hg18.materials.enhance_stone===2&&s.hg29.crafted===1&&HOG_ENGINE.strictSave(s);
+      return s.hg29.shards.wild===6&&s.hg29.shards.gear===8&&
+        s.hg18.materials.enhance_stone===6&&s.hg29.crafted===1&&HOG_ENGINE.strictSave(s);
     }"""))
     check('Zero uncaught JS errors',not errors)
     browser.close()

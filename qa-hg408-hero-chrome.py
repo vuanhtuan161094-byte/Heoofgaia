@@ -92,8 +92,14 @@ with sync_playwright() as browser_tool:
               page.locator('[data-action="hg18-rank"]').count()==1 and
               page.locator('[data-action="hg18-rebirth"]').count()==1)
         page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
-        check(label+' equipment has actual three slots',
-              page.locator('.hg408-slot').count()==3)
+        check(label+' equipment has ten distinct real slots',
+              page.locator('.hg47-ten-slots .hg408-slot').count()==10 and
+              page.evaluate("""() => {
+                const slots=[...document.querySelectorAll('.hg47-ten-slots .hg408-slot')]
+                  .map(el=>el.dataset.hg46Slot);
+                return slots.length===10 && new Set(slots).size===10 &&
+                  HOG_ENGINE.HG47_SLOTS.every(([key])=>slots.includes(key));
+              }"""))
         page.locator('[data-action="hg408-tab"][data-id="tavern"]').click()
         check(label+' Tavern offers actual hire action',
               page.locator('.hg408-offer [data-action="hirecandidate"]').count()>0)
