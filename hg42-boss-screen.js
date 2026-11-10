@@ -5,7 +5,7 @@
 (function(root){'use strict';
 function render(s,E,ui,{screen='targets',tier=11}={}){
  const {esc,format,button,lootText,hunt,prep}=ui;
- const screens=[['targets','☠ Boss thế giới'],['hunt','🧙 Đội săn & Auto'],['loot','🎁 Thưởng & chiến báo']];
+ const screens=[['targets','☠ Boss thế giới'],['expedition','🧭 Viễn Chinh'],['hunt','🧙 Đội săn & Auto'],['loot','🎁 Thưởng & chiến báo']];
  const targets=E.TILES.filter(t=>t.kind==='npc'&&Number.isInteger(t.eliteTier)&&t.eliteTier>=11)
   .sort((a,b)=>a.eliteTier-b.eliteTier||a.key.localeCompare(b.key));
  // Reading the active city through E.activeCity() synchronizes the root
@@ -67,11 +67,35 @@ function render(s,E,ui,{screen='targets',tier=11}={}){
    ' · Lưu huỳnh '+format(p.resources.sulfur)+' · Pha lê '+format(p.resources.crystal)+'</p>'+
    '<div class="hg42-reward-items">'+(material||'<span>Không có thẻ bổ sung</span>')+'</div></section>';
  }).join('');
+ const expeditionView=()=>{
+  const journey=E.hg50Status(s);
+  return '<div class="hg42-boss-select hg50-expedition" data-hg50-expedition="true">'+
+   '<p><b>🧭 Viễn Chinh 3 chặng</b> · '+journey.completed.length+'/3 đã hoàn thành. Mở khóa bằng chiến thắng Boss thật; không có thưởng giả.</p>'+
+   dispatchReadiness+
+   '<div class="hg42-boss-targets">'+journey.stages.map(stage=>{
+    const tile=stage.target?E.getTile(stage.target):null;
+    const route=tile&&homeKey?E.pathfind(homeKey,tile.key):null;
+    const reachable=!!route,ready=stage.unlocked&&!stage.completed;
+    const badge=stage.completed?'✓ Đã thắng':stage.unlocked?'⚔ Đang mở':'🔒 Chưa mở';
+    return '<article class="hg42-boss-target" data-hg50-stage="'+stage.stage+'">'+
+     '<header><div class="hg42-boss-emblem">🧭</div><div><strong>Chặng '+stage.stage+' · Boss T'+stage.tier+'</strong>'+
+     '<small>'+esc(stage.name)+' · '+(tile?'tọa độ '+esc(tile.key):'Không có Boss hợp lệ')+'</small></div>'+
+     '<span class="hg42-boss-stage">'+badge+'</span></header>'+
+     (tile?threat(tile):'<p>Chưa có Boss trên bản đồ. Không tạo quái thay thế.</p>')+
+     '<p class="hg42-boss-detail">'+(stage.completed?'Đã nghiệm thu chiến thắng thật.':ready?
+       'Phải sử dụng quân, AP và tổn thất thật.':'Hoàn thành chặng trước để tính tiến độ.')+
+      ' Boss thường vẫn có thể săn ở màn Boss thế giới.</p>'+
+     '<div class="hg42-boss-buttons">'+
+     (tile?button('hg42-boss-locate',{key:tile.key},'📍 Định vị',false,'small secondary'):'')+
+     (tile?button('hg42-boss-dispatch',{key:tile.key},'⚔ Chọn đội đánh Boss',!ready||!reachable||!!s.battle,'small primary'):'')+
+     '</div></article>';
+   }).join('')+'</div></div>';
+ };
  const status=E.hg26Status?.(s);
  const note=status?.enabled?
   '<div class="hg42-boss-running">🔁 Tự săn đang hoạt động · '+esc(status.phase)+' · '+status.runs+'/'+status.maxRuns+' trận</div>':
   '<div class="hg42-boss-running idle">🔁 Tự săn đang tắt · bật thủ công khi đã phân quân</div>';
- const body=screen==='hunt'?
+ const body=screen==='expedition'?expeditionView():screen==='hunt'?
   '<div class="hg42-boss-hunt">'+note+
    '<div class="hg42-boss-hunt-layout">'+hunt()+'</div></div>':
  screen==='loot'?
@@ -93,5 +117,5 @@ function render(s,E,ui,{screen='targets',tier=11}={}){
   screens.map(([id,name])=>button('hg42-boss-screen',{id},name,false,screen===id?'small primary':'small secondary')).join('')+
   '</nav><section class="hg42-boss-content" data-screen-content="'+esc(screen)+'">'+body+'</section></div>';
 }
-root.HOG_HG42_SCREEN=Object.freeze({render,sections:['targets','hunt','loot'],bossTiers:[11,12,13]});
+root.HOG_HG42_SCREEN=Object.freeze({render,sections:['targets','expedition','hunt','loot'],bossTiers:[11,12,13]});
 })(typeof globalThis!=='undefined'?globalThis:this);
