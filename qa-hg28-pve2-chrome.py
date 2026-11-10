@@ -103,7 +103,8 @@ def pose(page,width,height,title):
     check(key+" removes duplicate stack cards and keeps field commands in the right dock",
           d["roster"]["cards"]==0 and d["roster"]["rowsAbsent"] and d["allActions"] and
           d["dockVisible"] and d["dock"]["x"]>=d["canvas"]["screenX"]+d["canvas"]["screenWidth"]-2 and
-          d["canvas"]["height"]>=height-75 and d["headingFits"],d)
+          d["stage"]["y"]>=0 and d["stage"]["y"]+d["stage"]["h"]<=height-5 and
+          d["canvas"]["height"]>=d["stage"]["h"]-4 and d["headingFits"],d)
     check(key+" keeps all sixteen live Boss stacks legible at their real hexes",
           d["bossCount"]==16 and d["bossMax"]<=.16 and d["bossSpriteInside"] and
           d["labelConflicts"]==0 and d["hudConflicts"]==0,d)
