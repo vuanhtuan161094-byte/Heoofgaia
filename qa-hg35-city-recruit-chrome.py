@@ -259,12 +259,19 @@ with sync_playwright() as pw:
     browser.close()
 background=ROOT/'assets/generated/hg11/battlefield/open-field-v2-1176x550.png'
 html=HTML.read_text(encoding='utf8')
-match=re.search(r'<img\b[^>]*id="battlefield-human-meadow"[^>]*src="data:image/png;base64,([^"]+)"',html)
+# HG55 intentionally embeds this PNG master as lossless WebP; compare both
+# hashes against the source-provenance and pixel-exact optimizer receipt.
+pack=json.loads((ROOT/'docs/qa/hg55/build-image-pack.json').read_text(encoding='utf-8'))
+row=next(x for x in pack['images'] if x['id']=='battlefield-human-meadow')
+match=re.search(r'<img\\b[^>]*id="battlefield-human-meadow"[^>]*src="data:image/webp;base64,([^"]+)"',html)
 source_hash=hashlib.sha256(background.read_bytes()).hexdigest().upper()
 embedded_hash=hashlib.sha256(base64.b64decode(match.group(1))).hexdigest().upper() if match else None
-check('Offline HTML embeds the exact Open Field V2 source image bytes',
-      match is not None and embedded_hash==source_hash,
-      {'source':source_hash,'embedded':embedded_hash})
+check('Offline Open Field V2 preserves PNG provenance and exact visible RGBA pixels via HG55 lossless WebP',
+      match is not None and row['source_png_sha256'].upper()==source_hash and
+      row['embedded_webp_sha256'].upper()==embedded_hash and
+      row['alpha_exact_and_composites_identical'] and
+      row['width']==1176 and row['height']==550,
+      {'source':source_hash,'embedded':embedded_hash,'alpha_pixel_identical':row['alpha_exact_and_composites_identical']})
 receipt={'pass':all(x['pass'] for x in checks),'checks':checks,'errors':errors,
          'screenshots':captures,
          'source_html_sha256':hashlib.sha256(HTML.read_bytes()).hexdigest(),
