@@ -287,39 +287,106 @@ function gearStats(row){
 }
 function gearKind(row){const def=E.ITEMS[row?.itemId];return def?.hg47?def.tier:prior.kind(row)}
 function suggest(s,id=s.activeHero,mode='balanced'){
- const start=prior.metrics(s,id,mode),initial={...s.equipment?.[id]||{}};
  if(!['balanced','attack','defense'].includes(mode))throw Error('Kiểu trang bị không hợp lệ');
- const hero=s.heroes.find(h=>h.id===id);if(!hero)return {allowed:false,reason:'Không tìm thấy tướng',gain:0};
- const locked=Object.values(s.equipment||{}).filter(Boolean).flatMap(o=>Object.values(o)).filter(uid=>
-  !Object.values(initial).includes(uid));
+ const hero=s.heroes.find(h=>h.id===id);
+ if(!hero)return {allowed:false,reason:'Không tìm thấy tướng',gain:0};
+ const start=prior.metrics(s,id,mode),initial={...s.equipment?.[id]||{}};
  if(busy(s)||E.heroAway?.(s,id)||E.hg20HeroRole?.(s,id)?.status!=='home')
   return {allowed:false,reason:'Tướng đang bận',gain:0,score:start.score,changed:0,slots:initial};
- const trial=E.clone(s),bySlot=Object.fromEntries(SLOTS.map(([slot])=>[slot,s.inventory.filter(row=>{
-  const def=E.ITEMS[row.itemId];return def?.slot===slot&&!locked.includes(row.uid)&&
-   (!def.race||def.race===(hero.race||s.race));
- }).sort((a,b)=>((b.enhance||0)-(a.enhance||0))||
-  (E.ITEMS[b.itemId].atk+E.ITEMS[b.itemId].def)-(E.ITEMS[a.itemId].atk+E.ITEMS[a.itemId].def)).slice(0,8)]));
- let score=start.score,slots={...initial};
- // Bounded deterministic coordinate ascent: 10 slots, 2 sweeps, no 12^10 search.
- for(let pass=0;pass<2;pass++){
-  let changed=false;
-  for(const [slot] of SLOTS){
-   const current=slots[slot]||null,candidates=[null,current,...bySlot[slot].map(i=>i.uid)];
-   let next=current,best=score;
-   for(const uid of new Set(candidates)){
-    if(uid==null)delete trial.equipment[id][slot];
-    else trial.equipment[id][slot]=uid;
-    const value=prior.metrics(trial,id,mode).score;
-    if(value>best+.005){best=value;next=uid}
-   }
-   if(next==null)delete trial.equipment[id][slot];else trial.equipment[id][slot]=next;
-   if(next!==current){changed=true;slots={...trial.equipment[id]};score=best}
+ // Work only with canonical owned objects. Never borrow another hero's UID.
+ const forbidden=new Set(Object.entries(s.equipment||{}).filter(([owner])=>Number(owner)!==id)
+  .flatMap(([,items])=>Object.values(items||{})));
+ const race=hero.race||s.race;
+ const weights={
+  balanced:{atk:1,def:1,spd:.7,int:.45,damageBonus:220,meleeDamage:110,rangedDamage:110,damageReduction:220},
+  attack:{atk:1.65,def:.48,spd:.8,int:.45,damageBonus:360,meleeDamage:180,rangedDamage:180,damageReduction:100},
+  defense:{atk:.55,def:1.65,spd:.55,int:.5,damageBonus:90,meleeDamage:45,rangedDamage:45,damageReduction:430}
+ }[mode];
+ const itemValue=row=>{
+  if(!row)return 0;
+  const def=E.ITEMS[row.itemId],st=E.hg46Stats(row),value=st.atk*weights.atk+
+   st.def*weights.def+st.spd*weights.spd+(st.int||0)*weights.int;
+  let bonus=0;for(const key of ['damageBonus','meleeDamage','rangedDamage','damageReduction'])
+   bonus+=(def[key]||0)*weights[key];
+  // Affixes on a given UID affect combat and should influence candidate ordering.
+  for(const aff of affixes(row))if(weights[aff.key]&&
+   !['atk','def','spd','int'].includes(aff.key))bonus+=aff.value*weights[aff.key];
+  return value+bonus;
+ };
+ const bySlot=Object.fromEntries(SLOTS.map(([slot])=>[slot,[]]));
+ const bySet=new Map();
+ for(const row of s.inventory){
+  const def=E.ITEMS[row.itemId];
+  if(!def||!bySlot[def.slot]||forbidden.has(row.uid)||
+     (def.race&&def.race!==race))continue;
+  bySlot[def.slot].push(row);
+  if(def.set){
+   if(!bySet.has(def.set))bySet.set(def.set,new Map());
+   const group=bySet.get(def.set),priorItem=group.get(def.slot);
+   if(!priorItem||itemValue(row)>itemValue(priorItem))group.set(def.slot,row);
   }
-  if(!changed)break;
  }
- const n=SLOTS.filter(([slot])=>(initial[slot]||null)!==(slots[slot]||null)).length;
- return {allowed:true,score:start.score,targetScore:score,gain:Math.round((score-start.score)*100)/100,
-  changed:n,slots,mode,sets:sets(s,id)};
+ // Keep an affordable candidate budget regardless of the 2,000-slot inventory.
+ // A best-per-set item is always represented even when weaker than top singles.
+ for(const [slot] of SLOTS){
+  const all=bySlot[slot].sort((a,b)=>itemValue(b)-itemValue(a)||a.uid-b.uid);
+  const favorites=[...bySet.values()].map(m=>m.get(slot)).filter(Boolean);
+  bySlot[slot]=[...new Map([...all.slice(0,6),...favorites].map(row=>[row.uid,row])).values()].slice(0,14);
+ }
+ const trial=E.clone(s);
+ function evaluate(choice){
+  trial.equipment[id]={...choice};
+  return prior.metrics(trial,id,mode).score;
+ }
+ let best={score:start.score,slots:initial,changed:0};
+ function consider(choice,score=evaluate(choice)){
+  const changed=SLOTS.filter(([slot])=>(choice[slot]||null)!==(initial[slot]||null)).length;
+  if(score>best.score+.005||(Math.abs(score-best.score)<.005&&changed<best.changed))
+   best={score,slots:{...choice},changed};
+ }
+ // Start with actual complete set milestones, not only single-slot hill-climbing.
+ // Without this, a 3/6/10-piece bonus can be missed when every first swap loses
+ // some raw ATK/DEF but the completed combination is stronger.
+ for(const [setId,group] of bySet){
+  const levels=SETS[setId]?[3,6,10]:[2,3];
+  const options=[...group.entries()].map(([slot,row])=>{
+   const current=s.inventory.find(x=>x.uid===initial[slot]);
+   return {slot,row,delta:itemValue(row)-itemValue(current)};
+  }).sort((a,b)=>b.delta-a.delta||a.slot.localeCompare(b.slot));
+  for(const n of levels){
+   if(options.length<n)continue;
+   const candidate={...initial};
+   for(const {slot,row} of options.slice(0,n))candidate[slot]=row.uid;
+   consider(candidate);
+  }
+ }
+ // At most two bounded passes, starting from the current configuration and
+ // from the strongest *whole-set* seed. No exponential 10-slot search.
+ function refine(seed){
+  const choice={...seed};let score=evaluate(choice);
+  for(let pass=0;pass<2;pass++){
+   let updated=false;
+   for(const [slot] of SLOTS){
+    const before=choice[slot]||null;
+    let selected=before,selectedScore=score;
+    for(const uid of new Set([null,before,...bySlot[slot].map(row=>row.uid)])){
+     if(uid===before)continue;
+     if(uid===null)delete choice[slot];else choice[slot]=uid;
+     const candidateScore=evaluate(choice);
+     if(candidateScore>selectedScore+.005){selected=uid;selectedScore=candidateScore}
+    }
+    if(selected===null)delete choice[slot];else choice[slot]=selected;
+    if(selected!==before){score=selectedScore;updated=true}
+   }
+   if(!updated)break;
+  }
+  consider(choice,score);
+ }
+ refine(initial);
+ if(Object.keys(best.slots).some(slot=>best.slots[slot]!==initial[slot]))refine(best.slots);
+ return {allowed:true,score:start.score,targetScore:best.score,
+  gain:Math.round((best.score-start.score)*100)/100,
+  changed:best.changed,slots:best.slots,mode,sets:sets(s,id)};
 }
 function autoEquip(s,id=s.activeHero,mode='balanced'){
  const q=suggest(s,id,mode);if(!q.allowed)throw Error(q.reason);
