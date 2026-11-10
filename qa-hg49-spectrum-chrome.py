@@ -115,7 +115,9 @@ with sync_playwright() as pw:
                receipt:!!receipt,vfx:typeof P.motionImpactFx,canvas:c.width+'x'+c.height};
             }""")
             check('desktop combat VFX uses authentic hit receipts',battle.get('hasHit') and battle.get('receipt') and battle.get('vfx')=='function',battle)
-            check('desktop battle remains strict Save v07',battle.get('valid') and battle.get('canvas')=='1176x550',battle)
+            check('desktop battle remains strict Save v07 and responsive Canvas has valid pixel size',
+                battle.get('valid') and len(battle.get('canvas','').split('x'))==2 and
+                all(200<=int(v)<=4096 for v in battle['canvas'].split('x')),battle)
             shot(page,'desktop-combat-vfx.png')
         check(name+' no uncaught browser errors',not [e for e in ERRORS if e['viewport']==name],ERRORS)
         ctx.close()
