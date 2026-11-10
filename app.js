@@ -822,6 +822,7 @@ function hg46GearView(h){
   const def=E.ITEMS[row.itemId],owner=E.hg46Owner(state,row.uid),self=owner?.heroId===h.id,
    elsewhere=owner&&!self,kind=E.hg46Kind(row),p=E.hg46Stats(row),next=E.hg46NextEnhance(state,row.uid);
   const raw=['atk','def','spd'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · ');
+  const salvage=E.hg46SalvagePreview(state,row.uid);
   const battle=equipmentBattleText(def),source=owner?
     'Đang mặc: '+(state.heroes.find(x=>x.id===owner.heroId)?.name||'Tướng khác'):'Trong kho';
   const setName=setsById[def.set]?.name||'Thường';
@@ -832,7 +833,8 @@ function hg46GearView(h){
    '<small>'+esc(raw||'Không có điểm thuộc tính')+'</small>'+
    (battle?'<small class="hg46-effect">'+esc(battle)+'</small>':'')+
    (next.level<10?'<small class="hg46-cost">Nâng +'+(next.level+1)+': '+next.stones+' đá + '+format(next.gold)+' vàng · 100% thành công</small>':
-    '<small class="hg46-cost">Đã đạt cấp +10</small>')+'</div>'+
+    '<small class="hg46-cost">Đã đạt cấp +10</small>')+
+   '<small class="hg46-cost">Phân giải: +'+salvage.stones+' đá'+(salvage.astralShards?', +'+salvage.astralShards+' mảnh Tinh Vân':'')+'</small></div>'+
    '<div class="hg46-card-actions">'+
    button('hg408-equip',{id:h.id,uid:row.uid},self?'Đang mặc':elsewhere?'Tướng khác':'Mặc',
     busy||self||!!elsewhere,'small '+(!self&&!elsewhere?'primary':'secondary'))+
@@ -1514,7 +1516,8 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='hg46-auto'){const result=E.hg46AutoEquip(state,Number(target.dataset.id),target.dataset.mode);
   toast(result.applied?'Đã chọn bộ trang bị từ kho thực; thay '+result.changed+' ô.':'Bộ đang mặc đã phù hợp.');return}
  if(action==='hg46-salvage'){const uid=Number(target.dataset.uid),row=state.inventory.find(i=>i.uid===uid);
-  if(!row||!confirm('Phân giải vĩnh viễn '+(E.ITEMS[row.itemId]?.name||'trang bị')+' #'+uid+'? Không thể hoàn tác.'))return;
+  const reward=E.hg46SalvagePreview(state,uid);
+  if(!row||!reward||!confirm('Phân giải vĩnh viễn '+(E.ITEMS[row.itemId]?.name||'trang bị')+' #'+uid+'? Nhận '+reward.stones+' đá'+(reward.astralShards?' + '+reward.astralShards+' mảnh Tinh Vân':'')+'. Không thể hoàn tác.'))return;
   E.salvageHG18(state,uid);toast('Phân giải thành công, nguyên liệu về kho.');return}
  if(action==='hg46-open-gear'){tab='heroes';hg408Tab='gear';hg408InspectId=state.activeHero;return}
  if(action==='hg408-equip'){E.equipItem(state,Number(target.dataset.uid),Number(target.dataset.id));return}
