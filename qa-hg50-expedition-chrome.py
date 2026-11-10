@@ -51,6 +51,10 @@ with sync_playwright() as pw:
     strict:HOG_ENGINE.strictSave(s)};
   }""")
   check(name+' real planner without fake victory',after['stage']==1 and not after['battle'] and not after['expedition'] and after['planner'] and after['strict'],after)
+  # The dispatch planner is a blocking modal: close it through the live UI
+  # before clicking the ordinary Save control behind its backdrop.
+  page.locator('#game-modal [data-action="modal-close"]').click()
+  page.locator('#game-modal').wait_for(state='hidden')
   page.locator('#save').click()
   page.reload(wait_until='load',timeout=90000)
   saved=page.evaluate("""() => {
