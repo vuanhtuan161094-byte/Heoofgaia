@@ -24,7 +24,7 @@ check('4 races x 2 rarities x 10 slots -> 80 actual items and 8 real sets; empty
   assert.equal(s.version,7);assert.equal(rows.length,10);assert.equal(s.inventory.length,0);
   assert.equal(Object.values(s.hg47.fragments).reduce((a,b)=>a+b,0),0);
   assert.equal(rows.filter(r=>r.canCraft).length,0);
-  assert.equal(E.hg46Sets(s,1).length,12);
+  assert.equal(E.hg46Sets(s,1).length,6);
   reload(s);
  }
  return {raceCount:4,setCount:8,gearCount:80,save:7};
