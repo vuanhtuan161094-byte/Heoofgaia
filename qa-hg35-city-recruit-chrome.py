@@ -263,7 +263,7 @@ html=HTML.read_text(encoding='utf8')
 # hashes against the source-provenance and pixel-exact optimizer receipt.
 pack=json.loads((ROOT/'docs/qa/hg55/build-image-pack.json').read_text(encoding='utf-8'))
 row=next(x for x in pack['images'] if x['id']=='battlefield-human-meadow')
-match=re.search(r'<img\\b[^>]*id="battlefield-human-meadow"[^>]*src="data:image/webp;base64,([^"]+)"',html)
+match=re.search(r'<img\b[^>]*id="battlefield-human-meadow"[^>]*src="data:image/webp;base64,([^"]+)"',html)
 source_hash=hashlib.sha256(background.read_bytes()).hexdigest().upper()
 embedded_hash=hashlib.sha256(base64.b64decode(match.group(1))).hexdigest().upper() if match else None
 check('Offline Open Field V2 preserves PNG provenance and exact visible RGBA pixels via HG55 lossless WebP',
