@@ -1431,6 +1431,8 @@ function enhanceWorldMapLayout(){
  document.body.classList.toggle('hg40-map-expanded',mapExpanded);
 }
 function render(){
+ // HG49 visual faction palette only; never stored in Save v07.
+ document.body.dataset.hg49Race=['human','elf','orc','undead'].includes(state?.race)?state.race:'human';
  restoreScreenToolbar();
  restoreWorldMapLayout();
  const enteringCombat=!!state?.battle&&!document.body.classList.contains('combat-mode');
