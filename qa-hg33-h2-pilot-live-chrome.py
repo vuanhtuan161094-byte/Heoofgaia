@@ -333,7 +333,13 @@ def run_boss_pilot(browser) -> None:
           boss_walk["path"] and len(boss_walk["path"]) > 0 and
           page.evaluate("window.__hg33BossSamples.some(x=>x.row===1)"), boss_walk)
     page.wait_for_timeout(600)
+    # The following edits are a legacy v07 atlas-observation fixture.
+    # Artificially lowering all 16 enemy HP pools would invoke real HG50-B
+    # T11 shields at 65% and hide a deliberately tiny Hit_A probe.
+    # HG50-B phases are validated separately with genuine damage and Save.
     page.evaluate("""bossId=>{const s=HOG_APP_DEBUG.getState(),b=s.battle,a=b.allies[0],adjacent={x:a.x<10?a.x+1:a.x-1,y:a.y};
+      if(b.hg50b?.phase==='armed')delete b.hg50b;
+      if(!HOG_ENGINE.strictSave(s))throw Error('Legacy Azrael H2 fixture invalid Save v07');
       b.enemies.forEach((e,i)=>{e.hp=1_000_000;e.pool=1_000_000;e.count=1;e.def=0;e.atk=0;e.range=1;
         e.x=i===0?adjacent.x:11;e.y=i===0?adjacent.y:8-i});b.enemies.find(e=>e.id===bossId).atk=20;
       b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""", boss["id"])
