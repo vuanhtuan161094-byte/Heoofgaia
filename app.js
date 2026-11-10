@@ -14,7 +14,7 @@ let hg43ArmyPage='recruit',hg43ArmyRace='human';
 // HG40.8: presentation-only hero selection; never stored inside Save v07.
 let hg408InspectId=null,hg408Tab='overview',hg408DismissFor=null,hg408DismissStage=0;
 // HG46 view-only filter/pagination; never persisted in Save v07.
-let hg46GearFilter='all',hg46GearPage=0,hg47RaceView='human',hg47TierView='rare';
+let hg46GearFilter='all',hg46GearPage=0,hg47RaceView=null,hg47TierView='rare';
 const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['boss','☠ Boss'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
