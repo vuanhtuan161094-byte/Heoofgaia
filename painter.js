@@ -647,6 +647,64 @@ function hg49ImpactBloom(c,fx,color,age,camera){
  }
  c.restore();
 }
+// HG56 — additive battle VFX, tied to canonical damage receipts and Boss phase.
+// Frame-local and deterministic: no new timer, combat stat, reward or Save field.
+function hg56ImpactStreaks(c,fx,color,age,camera){
+ if(age<0||age>510)return;
+ const t=clamp(age/510,0,1),fade=Math.pow(1-t,1.45),
+  count=camera.radius<24?5:9,r=clamp(camera.radius*.87,13,43);
+ const x=fx.end.x,y=fx.end.y;
+ c.save();c.globalCompositeOperation='lighter';
+ c.lineCap='round';
+ for(let i=0;i<count;i++){
+  const theta=i*2.39996323+(fx.side==='enemy'?-.55:.36)+
+    (fx.kind==='dot'?1.2:0),span=r*(.30+t*(.9+(i%4)*.14));
+  const dx=Math.cos(theta),dy=Math.sin(theta)*.74;
+  c.globalAlpha=fade*(i%3===0?.75:.42);
+  c.strokeStyle=i%4===0?'#fff9e9':color;
+  c.lineWidth=i%3===0?2.4:1.45;
+  c.beginPath();c.moveTo(x+dx*span*.58,y+dy*span*.58);
+  c.lineTo(x+dx*span,y+dy*span);c.stroke();
+ }
+ // Staggered arc echoes make hits visually readable behind damage text.
+ for(let ring=0;ring<2;ring++){
+  c.globalAlpha=fade*(ring?.18:.40);
+  c.strokeStyle=ring?color:'#fff8df';
+  c.lineWidth=ring?1.35:2.1;
+  c.beginPath();c.arc(x,y,r*(.36+t*1.1+ring*.14),
+   -(Math.PI*.85)+t*.6+ring,Math.PI*.25+t*.8+ring);c.stroke();
+ }
+ c.restore();
+}
+function hg56BossPhaseAura(c,b,camera,elapsed,layout){
+ const q=b?.hg50b;if(!q||q.phase==='armed')return;
+ const targets=layout.filter(e=>e.u.side==='enemy'&&e.u.pool>0&&
+  (q.tier===11?(b.hg40?.shields?.[e.u.id]?.amount||0)>0:
+   q.tier===12?Number(e.u.id.replace(/^e/,''))>=16:
+   true)).slice(0,q.tier===13?3:4);
+ if(!targets.length)return;
+ const reduced=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches,
+  pulse=reduced?.38:.45+.17*Math.sin(elapsed/260),
+  tone=q.tier===11?'#7adfff':q.tier===12?'#c2a5ff':'#ff805d';
+ c.save();c.globalCompositeOperation='lighter';c.lineCap='round';
+ for(const entry of targets){
+  const u=entry.u,pos=camera.center(u.x,u.y),
+   x=pos.x+entry.x-entry.baseX,y=pos.y+entry.y-entry.baseY-entry.size*.39,
+   radius=clamp(entry.size*.34,12,37);
+  c.globalAlpha=pulse*(q.phase==='warning'?.82:.53);
+  c.strokeStyle=tone;c.lineWidth=q.phase==='warning'?3.4:2.2;
+  c.shadowColor=tone;c.shadowBlur=reduced?0:7;
+  c.beginPath();c.ellipse(x,y,radius*.91,radius*1.18,0,0,Math.PI*2);c.stroke();
+  c.shadowBlur=0;
+  for(let i=0;i<4;i++){
+   const a=i*Math.PI/2+(reduced?0:elapsed/1800)+(q.tier===12?.6:0);
+   c.beginPath();c.arc(x+radius*.83*Math.cos(a),
+     y+radius*.94*Math.sin(a),1.7,0,Math.PI*2);c.fillStyle=tone;c.fill();
+  }
+ }
+ c.restore();
+}
+
 function motionImpactFx(c,camera,b,elapsed,layout){
  const effects=battleFxPlan(b,camera,elapsed,layout);
  for(const fx of effects){
@@ -677,6 +735,7 @@ function motionImpactFx(c,camera,b,elapsed,layout){
   }
   const afterImpact=t-fx.impactMs;
   hg49ImpactBloom(c,fx,bright,afterImpact,camera);
+  hg56ImpactStreaks(c,fx,bright,afterImpact,camera);
   if(signature&&afterImpact>=0&&afterImpact<=480)
    drawHG403Sigil(c,fx.actorUnitId,fx.end.x,fx.end.y,afterImpact/480,clamp(camera.radius/38,.52,1.12));
   if(afterImpact>=0&&afterImpact<=360){
@@ -1312,6 +1371,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    badge.y+oy+badge.h*(badge.h<19?.76:.74),badge.h<19?10:12,'#fff0ca');
  }
  motionImpactFx(c,camera,b,elapsed,units);
+ hg56BossPhaseAura(c,b,camera,elapsed,units);
  drawHG403ProcCues(c,b,elapsed,units);
  // HG40 supplemental damage must stay OUT of canonical v07 lastEvents:
  // one event/actor is enforced by HG10 strictSave. Render actual extra
@@ -1348,5 +1408,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
