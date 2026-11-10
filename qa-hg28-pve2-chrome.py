@@ -67,8 +67,11 @@ def inspect(page):
       const hudW=Math.max(155,Math.min(235,c.width*.205));
       const huds=[{x:12,y:9,w:hudW,h:37},{x:c.width-12-hudW,y:9,w:hudW,h:37},
         {x:c.width/2-58,y:9,w:116,h:37},{x:12,y:c.height-36,w:c.width-24,h:27}];
-      const hudConflicts=alive.flatMap(a=>huds.filter(q=>
-        (a.label&&area(q,a.label)>0)||area(q,a.sprite)>0||area(q,a.countBox)>0)).length;
+      const hudHits=alive.flatMap(a=>huds.flatMap((q,i)=>{
+        const parts=['label','sprite','countBox'].filter(key=>a[key]&&area(q,a[key])>0);
+        return parts.map(part=>({actor:a.id,side:a.u.side,part,hud:i,rect:a[part],hudRect:q}));
+      }));
+      const hudConflicts=hudHits.length;
       const cells=P.battleGridCells(camera),corners=cells.flatMap(cell=>cell.corners),sampleNow=performance.now();
       P.drawBattle(c,E,s,sampleNow,{showGrid:true,showHP:true});
       const hitAll=alive.every(e=>P.battleHit(c,e.x,e.y,E,s,sampleNow+2000)?.id===e.id);
@@ -76,7 +79,7 @@ def inspect(page):
       const allActions=Object.values(actionFlags).every(Boolean),dockVisible=!!dockRect&&dockRect.top>=0&&dockRect.bottom<=innerHeight&&visibleControls;
       return {valid:E.strictSave(s),inCombat:!!b,cols:camera.g.cols,rows:camera.g.rows,
         owners:alive.filter(e=>e.u.side==='player').map(e=>e.u.heroId),allUnits:alive.length,bossCount:foes.length,
-        foeLabels:foes.map(e=>e.u.name),bossMax,bossOverlap,labelConflicts,hudConflicts,
+        foeLabels:foes.map(e=>e.u.name),bossMax,bossOverlap,labelConflicts,hudConflicts,hudHits,
         bossCenters:foes.map(e=>({id:e.id,x:e.x,y:e.y})),hexOrientation:camera.hex.orientation,hexLayout:camera.hex.layout,
         hexRadius:camera.radius,cellCount:cells.length,gridShown:HOG_APP_DEBUG.battleViewPrefs().grid,roster,
         headingFits:heading.scrollWidth<=heading.clientWidth+1,actionFlags,allActions,dockVisible,
