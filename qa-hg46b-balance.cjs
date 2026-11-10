@@ -147,6 +147,23 @@ check('Real legendary Star forge consumes only Tower/Hero shards, not Boss curre
  assert(save(s).inventory.some(x=>x.uid===receipt.uid));
  return {uid:receipt.uid,spendGold:item.price,usedBoss:0,v07:7};
 });
+check('HG46-B salvage respects four equipment tier values without free Boss/Tower tokens',()=>{
+ const rates={sentinel:3,astral:5,dragon:8,star:10};
+ const report={};
+ for(const [set,expected] of Object.entries(rates)){
+  const id={sentinel:'sentinel_seal',astral:'astral_seal',dragon:'dragon_seal',star:'star_seal'}[set];
+  const s=newGame(),it=E.addItem(s,id,'HG46-B explicit salvage fixture'),before=s.hg18.materials.enhance_stone,
+   boss=s.hg27.boss,tower=s.hg27.tower,abyss=s.hg29.shards.abyss;
+  const displayed=E.hg46SalvagePreview(s,it.uid);
+  assert.equal(displayed.stones,expected);assert.equal(displayed.owner,null);
+  const result=E.salvageHG18(s,it.uid);
+  assert.equal(result.stones,expected);assert.equal(s.hg18.materials.enhance_stone,before+expected);
+  assert.equal(s.hg27.boss,boss);assert.equal(s.hg27.tower,tower);assert.equal(s.hg29.shards.abyss,abyss);
+  assert.throws(()=>E.salvageHG18(s,it.uid),/không tồn tại/);
+  assert(E.strictSave(s));report[set]={stones:expected,astralReturned:result.shards};
+ }
+ return report;
+});
 check('Actual strict v07 load keeps zero retroactive gear-fragment rewards',()=>{
  const s=newGame(),before=E.clone(s);
  const doc=JSON.parse(E.serializeSave(s));
