@@ -55,6 +55,8 @@ check('four races x three tiers: real AP and unit replacement quotes, cap-aware 
    source:p.resources,actualStartingStockGain:earned,startingStock:before,storageLimit:limits,
    tier10Unit:u.id,tier10ReplacementPerUnit:perUnit,
    replacementGoldFor100:itemCost(perUnit,'gold')*100,
+   replacementFromOneBossReward:Math.floor(Math.min(...E.C.keys.filter(k=>(perUnit[k]||0)>0).map(k=>p.resources[k]/perUnit[k]))),
+   bindingReplacementResource:E.C.keys.filter(k=>(perUnit[k]||0)>0).sort((a,b)=>p.resources[a]/perUnit[a]-p.resources[b]/perUnit[b])[0],
    noFictiveCReward:true});
  }
  assert.equal(rows.length,12);
@@ -82,9 +84,13 @@ check('final accounting gate blocks independent HG50-C reward multiplier before 
  // affordability, battle casualties, healing and real troop replacement.
  assert(rows.some(x=>x.source.gold>100000));
  assert(rows.every(x=>x.noFictiveCReward));
- assert(totals.gold>rows[0].storageLimit.gold);
- return {status:'NO_EXTRA_CURRENCY',reason:'unbounded repeatable PvE rewards + existing warehouse cap; live losses and attainable endgame build remain unmeasured',
-  bossGrossGoldSum:totals.gold,firstWarehouseGoldLimit:rows[0].storageLimit.gold};
+ const goldCap=rows[0].storageLimit.gold;
+ const cyclesToFillStartingGold=Math.ceil((goldCap-rows[0].startingStock.gold)/totals.gold);
+ assert(goldCap>totals.gold&&cyclesToFillStartingGold>=2);
+ assert(rows.every(x=>x.replacementFromOneBossReward>=0&&E.C.keys.includes(x.bindingReplacementResource)));
+ return {status:'NO_EXTRA_CURRENCY',reason:'repeatable world Boss already pays premium loot; crystal/other materials constrain troop replacement; exact earned casualties and sustainable player progression remain unmeasured',
+  bossGrossGoldSum:totals.gold,firstWarehouseGoldLimit:goldCap,fullThreeBossCyclesUntilGoldCap:cyclesToFillStartingGold,
+  humanT11TroopReplacementLimit:rows.find(x=>x.race==='human'&&x.tier===11).replacementFromOneBossReward};
 });
 const report={gate:'HG50-C real economy source-versus-sink audit',
  source_sha:sourceSHA,save_version:7,passed:checks.filter(x=>x.pass).length,total:checks.length,
