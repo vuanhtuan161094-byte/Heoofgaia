@@ -17,15 +17,15 @@ const ITEMS=Object.freeze({
 });
 // Percent units use basis points. Each table, including 'none', totals 10,000.
 const TABLES=Object.freeze({
- npc_low:{label:'Quái thường 1–3★',guaranteed:[],roll:[['wild',1,2,5000],['gear',1,1,2500],['hero',1,1,500],['none',0,0,2000]]},
- npc_elite:{label:'Quái tinh anh 4–10★',guaranteed:[],roll:[['hunter',1,2,3800],['gear',1,2,3000],['hero',1,1,1600],['wild',2,2,1000],['none',0,0,600]]},
+ npc_low:{label:'Quái thường 1–3★',guaranteed:[],roll:[['wild',1,2,5000],['gear',1,1,3000],['hero',1,1,500],['none',0,0,1500]]},
+ npc_elite:{label:'Quái tinh anh 4–10★',guaranteed:[],roll:[['hunter',1,2,4000],['gear',1,2,3400],['hero',1,1,1600],['wild',2,2,700],['none',0,0,300]]},
  npc_boss:{label:'Boss Ma Giới T11–T13',guaranteed:[['abyss',1]],roll:[['hunter',2,2,3000],['gear',2,2,2000],['hero',1,1,1000],['none',0,0,4000]]},
  treasure:{label:'Kho báu thường',guaranteed:[],roll:[['gear',1,2,4500],['wild',1,2,3000],['hunter',1,1,500],['none',0,0,2000]]},
  treasure_boss:{label:'Kho báu 9–10 (Boss)',guaranteed:[['abyss',1]],roll:[['gear',2,2,4000],['hero',1,1,2000],['none',0,0,4000]]},
  tower:{label:'Bí Cảnh có thưởng',guaranteed:[['tower',1]],roll:[['gear',1,2,3000],['hero',1,1,2000],['wild',2,2,1000],['none',0,0,4000]]}
 });
 const RECIPES=Object.freeze([
- {id:'stone',name:'Luyện 2 đá cường hóa',cost:{wild:8,gear:6},output:{kind:'material',id:'enhance_stone',count:2}},
+ {id:'stone',name:'Luyện 4 đá cường hóa',cost:{wild:6,gear:4},output:{kind:'material',id:'enhance_stone',count:4}},
  {id:'gearbox',name:'Ghép 1 rương trang bị',cost:{gear:12,hunter:4},output:{kind:'material',id:'gear_pack',count:1}},
  {id:'herorank',name:'Đúc 1 ấn nâng bậc tướng',cost:{hero:8,tower:5},output:{kind:'material',id:'rank_emblem',count:1}},
  {id:'astral',name:'Chuyển hóa 2 mảnh Tinh Vân',cost:{abyss:4,tower:8},output:{kind:'material',id:'astral_shard',count:2}},
