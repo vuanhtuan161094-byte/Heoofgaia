@@ -29,6 +29,9 @@ def hud(page):
   return {display:mode.display,position:mode.position,visibility:mode.visibility,z:Number(mode.zIndex),
    x:r.x,y:r.y,w:r.width,height:r.height,bottom:r.bottom,winW:innerWidth,winH:innerHeight,
    globalName:h.textContent.includes('ANH HÙNG THỜI LOẠN'),
+   titleTop:document.querySelector('.masthead .brand').getBoundingClientRect().top,
+   titleBottom:document.querySelector('.masthead .brand').getBoundingClientRect().bottom,
+   subtitleBottom:document.querySelector('.masthead small').getBoundingClientRect().bottom,
    resourceCount:cards.length,resources:cards.map((c,i)=>({name:c.querySelector('span')?.textContent,
     amount:value(i),rect:rectOf(c),clickable:!c.disabled&&getComputedStyle(c).pointerEvents!=='none'})),
    saved:s?HOG_ENGINE.strictSave(s):true,actual:s?HOG_ENGINE.C.keys.map(k=>Math.floor(s.res[k]||0)):[],
@@ -48,6 +51,10 @@ def assert_hud(page,label,w,h,must_modal=False):
  if x['saved'] and x['actual']!=[row['amount'] for row in x['resources']]:
   page.wait_for_timeout(180)
   x=hud(page)
+ check(label+' full game title and subtitle never clipped by fixed top HUD',
+       x['titleTop']>=x['y']-0.25 and x['titleBottom']<=x['bottom']+0.25 and
+       x['subtitleBottom']<=x['bottom']+0.25,
+       {'titleTop':x['titleTop'],'subtitleBottom':x['subtitleBottom'],'hudBottom':x['bottom']})
  check(label+' five resource values from real active state, strict Save v07',
        x['saved'] and x['actual']==[row['amount'] for row in x['resources']],
        {'saved':x['saved'],'actual':x['actual'],'display':[row['amount'] for row in x['resources']]})
