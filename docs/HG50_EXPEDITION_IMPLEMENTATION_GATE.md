@@ -1,7 +1,6 @@
 # HG50 — Viễn Chinh / Boss: staged PvE design and executable gates
 
-Status: **DESIGN LOCKED, RUNTIME NOT STARTED**. HG55 full CI is the blocking
-release gate. No invented PASS, no new HTML, no Save v08. This feature is an
+Status (2026-11-10): **HG55 G0 CI PASS; HG50-A coded and focused engine tested; final A full-CI for route-target hotfix pending exact-SHA confirmation. HG50-B/C not started.** No invented PASS, no new HTML, no Save v08. This feature is an
 independent private/offline PvE design, not a claim about Heroes of Gaia 2009.
 
 ## Existing contracts (reused, not rebuilt)
@@ -64,3 +63,12 @@ G1: HG50-A focused Node + actual Chromium receipt/Save flow PASS.
 G2: HG50-B 65/50/35% phases validated with actual tactical hit receipts.
 G3: integrated build and one `Play-Heoofgaia-HG11.html` artifact, no new
 branch/merge, no Codex. Physical Android test remains PENDING USER if unavailable.
+
+## HG55/HG50-A verified handoff (2026-11-10)
+- HG55 Actions run `42828561859` on SHA `4cadb3a8c6f7d7f2004eed1d2f0f178c88808949` completed all CI steps successfully. Actual Linux Chromium mobile-emulation report: 27/27 assertions across desktop 1280×720, 960×540 and emulated touch 844×390, 768×260, 412×915. Measured navigation wall 840–899 ms, JS heap 7.67–9.13 MB; neither is a physical Android benchmark.
+- 22 PNG embeds converted to verified pixel-identical lossless WebP, source assets untouched; one offline build decreased from 88,169,270 to 78,688,956 bytes (9,480,314 bytes saved). Save remains v07.
+- HG50-A engine and Boss UI already integrated. Three canonical stage targets are T11 `18,92`, T12 `29,86`, T13 `99,81`; other same-tier Boss fights must remain normal playable Boss encounters, not expedition milestone wins.
+- Bugfix source commit `cd3a5a9007ce1432921ca709e2e1096dd2ec30e0`: checks the **exact canonical route target** in addition to the current tier before recording an expedition completion. Regression source commit `819c151574e0a375bf7ae4f173d8d6648a354809`: real alternative T11 Boss `82,91` victory must leave the expedition stage locked, while the original Boss receipt remains claimable.
+- Focused real-engine VM from the embedded game scripts: true Boss `82,91` victory (18 turns) did not advance HG50, true Boss `18,92` victory (18 turns) advanced to stage 2 and remained valid after Save/Load; four New Game races, malformed state rejection, historical Save migration also checked. This is not a substitute for GitHub FULL CI or Android.
+- HG50-A full workflow must be verified at **the exact hotfix+regression source SHA** before opening HG50-B or distributing its replacement HTML. Earlier CI on `cd3a5a9` was canceled after a newer push; don't label this canceled run PASS.
+- HG50-B release discipline: persist threshold crossing and combat phase in the existing v07 battle state, not a second store. Verify mid-battle Save→Reload, double-trigger prevention, real damage/casualties, boss phase VFX/telegraph, and exactly-once loot at each 65/50/35% phase before changing daily/weekly reward rules.
