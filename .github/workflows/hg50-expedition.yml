@@ -25,6 +25,7 @@ on:
       - 'hg50-expedition.js'
       - 'hg42-boss-screen.js'
       - 'qa-hg50-expedition.cjs'
+      - 'qa-hg50-boss-phases.cjs'
       - 'qa-hg50-expedition-chrome.py'
       - '.github/workflows/hg49-spectrum.yml'
       - '.github/workflows/hg55-performance.yml'
@@ -61,6 +62,8 @@ jobs:
           node --check hg50-expedition.js
           node --check qa-hg50-expedition.cjs
           node qa-hg50-expedition.cjs
+          node --check qa-hg50-boss-phases.cjs
+          node qa-hg50-boss-phases.cjs
           node qa-hg46-equipment.cjs
           node qa-hg46b-balance.cjs
           node qa-hg29-loot.cjs
