@@ -4,7 +4,7 @@
 'use strict';
 const assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),path=require('node:path');
 const ctx=vm.createContext({console});
-const scripts='data.js engine.js hg04.js hg05.js hg06.js hg07.js hg08.js hg10.js hg18.js hg182.js hg20-private.js hg20-world-bosses.js hg21-tower-tactical.js hg24-private-automation.js hg26-boss-autohunt.js hg261-joint-boss.js hg27-farm-exchange.js hg29-loot.js hg30-troop-ascension.js hg31-legendary-gear.js hg40-tactical.js hg408-hero-management.js hg409-enemy-commanders.js hg410-battlefield.js hg42-boss-screen.js painter.js'.split(' ');
+const scripts='data.js engine.js hg04.js hg05.js hg06.js hg07.js hg08.js hg10.js hg18.js hg182.js hg20-private.js hg20-world-bosses.js hg21-tower-tactical.js hg24-private-automation.js hg26-boss-autohunt.js hg261-joint-boss.js hg27-farm-exchange.js hg29-loot.js hg30-troop-ascension.js hg31-legendary-gear.js hg40-tactical.js hg408-hero-management.js hg46-equipment.js hg47-ten-slot.js hg409-enemy-commanders.js hg410-battlefield.js hg50-expedition.js hg42-boss-screen.js painter.js'.split(' ');
 for(const name of scripts)vm.runInContext(fs.readFileSync(path.join(__dirname,name),'utf8'),ctx,{filename:name});
 const E=ctx.HOG_ENGINE,P=ctx.HOG_PAINTER,U=ctx.HOG_HG42_SCREEN;
 const tests=[];
@@ -71,9 +71,9 @@ test('Nonboss encounters retain their ordinary full nameplate labels',()=>{
  assert.equal(layout.filter(x=>x.u.side==='enemy'&&x.label).length,b.enemies.length);
  return {enemies:b.enemies.length,labels:b.enemies.length};
 });
-test('Three physically separated Boss pages render without writing to Save',()=>{
+test('Four physically separated Boss pages render without writing to Save',()=>{
  const s=game(),before=JSON.stringify(s),screens=U.sections;
- assert.deepEqual([...screens],['targets','hunt','loot']);
+ assert.deepEqual([...screens],['targets','expedition','hunt','loot']);
  for(const screen of screens){
   const html=U.render(s,E,ui,{screen,tier:13});
   assert(html.includes('data-hg42-boss-screen="'+screen+'"'));
