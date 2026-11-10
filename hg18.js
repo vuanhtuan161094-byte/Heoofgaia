@@ -161,7 +161,13 @@ function salvage(s,uid){
  sync(s);assert(!s.march&&!s.battle,'Không thể phân giải trong khi xuất chinh');
  const row=s.inventory.find(i=>i.uid===uid);assert(row,'Trang bị không tồn tại');
  assert(!Object.values(s.equipment).some(slots=>Object.values(slots).includes(uid)),'Hãy tháo trang bị trước khi phân giải');
- const gear=E.ITEMS[row.itemId],stones=1+Math.floor((row.enhance||0)/2),shards=gear.set==='astral'?3:0;
+ const gear=E.ITEMS[row.itemId],
+  // HG46-B: a focused Boss/Tower item must not dismantle for the same
+  // return as a 450-gold Bazaar sword. Tier-based stones are a partial
+  // salvage RETURN, not new Boss/Tower fragments or combat receipts.
+  baseStones=({sentinel:3,astral:5,dragon:8,star:10})[gear.set]||1,
+  stones=baseStones+Math.floor((row.enhance||0)/2),
+  shards=gear.set==='astral'?3:0;
  assert(s.hg18.materials.enhance_stone+stones<=1e6,'Kho đá cường hóa đầy');
  assert(s.hg18.materials.astral_shard+shards<=1e6,'Kho mảnh Tinh Vân đầy');
  s.inventory=s.inventory.filter(i=>i.uid!==uid);
