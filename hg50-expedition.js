@@ -47,7 +47,7 @@ function battleAct(s,action,options){
  if(result?.type!=='win'||!TIERS.includes(tier)||!target)return result;
  const q=ensure(s);
  const expected=TIERS[q.completed.length];
- if(tier!==expected)return result; // unrelated repeat/later Boss: existing rewards unchanged
+ if(tier!==expected||target!==ROUTE_TILES[q.completed.length]?.key)return result; // only the route's exact canonical Boss can advance
  q.completed.push(tier);
  q.unlocked=q.completed.length+1;
  E.note(s,'🧭 Viễn Chinh: hoàn tất chặng '+q.completed.length+'/3 bằng chiến thắng Boss T'+tier+
