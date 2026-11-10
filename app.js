@@ -784,7 +784,7 @@ function hg46GearView(h){
  const setsById={...E.HG18_SETS,...E.HG31_SETS,...E.HG47_SETS};
  const icon=row=>{
   const item=E.ITEMS[row.itemId];
-  return E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
+  return E.hg47IconHTML?.(item.id,54)||E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
  };
  const worn=E.HG47_SLOTS.map(([slot])=>{
   const row=state.inventory.find(i=>i.uid===slots[slot]),def=row&&E.ITEMS[row.itemId];
@@ -1077,7 +1077,7 @@ function hg47ForgeView(){
      bossToken:'Ấn Boss',towerToken:'Ấn Tháp'})[key]+' '+format(n)).join(' · ');
   const label=q.gated?'Chưa thắng Boss T11+ và 3 lượt Tháp nhận thưởng':missing||'Đã đủ nguyên liệu';
   return '<article class="hg47-recipe '+(q.focused&&race===state.race?'is-focus':'')+'">'+
-    '<div class="hg47-recipe-art">'+q.icon+'</div><div class="hg47-recipe-body">'+
+    '<div class="hg47-recipe-art">'+(E.hg47IconHTML?.(q.id,44)||q.icon)+'</div><div class="hg47-recipe-body">'+
     '<b>'+esc(def.name)+'</b><small>'+esc(E.HG47_SLOTS.find(x=>x[0]===q.slot)?.[1]||q.slot)+
     ' · ⚔ '+def.atk+' · 🛡 '+def.def+' · ➤ '+def.spd+'</small>'+
     '<progress max="'+q.need+'" value="'+q.have+'"></progress>'+
