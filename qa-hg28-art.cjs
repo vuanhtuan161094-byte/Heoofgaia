@@ -43,9 +43,23 @@ for(const unit of manifest.units){
 }
 assert.equal(api.profile('human_1'),null);
 const html=fs.readFileSync(path.join(dir,'Play-Heoofgaia-HG11.html'),'utf8');
+const optimized=JSON.parse(fs.readFileSync(path.join(dir,'docs/qa/hg55/build-image-pack.json'),'utf8'));
+assert.equal(optimized.save_version,7);
+assert.equal(optimized.verified_image_count,22);
+assert.equal(optimized.all_visible_pixels_identical,true);
 for(const unit of manifest.units){
- const b64=fs.readFileSync(path.join(dir,unit.path)).toString('base64');
- assert(html.includes(`src="data:image/png;base64,${b64}"`),`${unit.id} missing from offline HTML`);
+ const imageId='hg28-troop-'+unit.id;
+ const rec=optimized.images.find(v=>v.id===imageId);
+ assert(rec&&rec.alpha_exact_and_composites_identical,imageId+' missing HG55 verified lossless transform');
+ const original=fs.readFileSync(path.join(dir,unit.path));
+ assert.equal(rec.source_png_sha256,crypto.createHash('sha256').update(original).digest('hex'));
+ assert.equal(rec.width,512);assert.equal(rec.height,512);
+ const match=html.match(new RegExp('<img[^>]*id="'+imageId+'"[^>]*src="data:image/webp;base64,([A-Za-z0-9+/=]+)"'));
+ assert(match,imageId+' missing embedded lossless WebP in offline HTML');
+ const actual=Buffer.from(match[1],'base64');
+ assert.equal(actual.toString('ascii',0,4),'RIFF');
+ assert.equal(actual.toString('ascii',8,12),'WEBP');
+ assert.equal(crypto.createHash('sha256').update(actual).digest('hex'),rec.embedded_webp_sha256,imageId+' output hash');
  assert(html.includes(`data-hg28-troop="${unit.id}"`)===false,'runtime thumb template must not be baked as a fake game card');
 }
 assert(!html.includes('assets/generated/hg28/troops/'));
