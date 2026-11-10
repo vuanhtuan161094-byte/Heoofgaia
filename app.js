@@ -1266,6 +1266,7 @@ function combatView(){
  const movementHint=movementModeId?'Chọn ô lục giác viền sáng để đặt điểm đến.':selectedMoveTarget?`Đang tiến tới ô (${selectedMoveTarget.x+1}, ${selectedMoveTarget.y+1}).`:'Chọn quân ta trên bàn cờ rồi đặt điểm đến.';
  const autoLabel=state.battleAuto?'Đang tự động':`Tự động sau ${Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))} giây`;
  const enemyCS=b.hg409EnemyCommander,enemyCSInfo=enemyCS?'<div class="hg409-combat-boss"><b class="hg408-quality-purple">♜ '+esc(enemyCS.name)+' · TÍM Lv100 · B5 · CS'+enemyCS.cs+'/10</b><span>ATK/DEF/SPD/INT 100/100/100/100; HP ×'+enemyCS.boost.hp+' · ATK ×'+enemyCS.boost.atk+' · DEF ×'+enemyCS.boost.def+'</span></div>':'';
+ const hg50PhaseInfo=b.hg50b?.v===1?'<div class="hg50-phase-alert hg50-phase-'+esc(b.hg50b.phase)+'" role="status" data-hg50-combat-phase="'+esc(b.hg50b.phase)+'"><strong>⚠ CHUYỂN PHA BOSS</strong><span>'+esc(E.hg50PhaseLabel?.(b)||'')+'</span></div>':'';
  const hg410Info=b.hg410?.v===1?'<div class="hg410-combat-army">⚔ Đội hình thực: '+b.allies.length+' stack ta / '+b.hg410.enemyStacks+' stack địch ('+format(b.hg410.enemyTroops)+' quân địch). Neo hai cột đầu mỗi bên · cận chiến 1 ô, cung 4–5 ô.</div>':'';
  const bossRoster=b.hg410?.boss&&b.enemies.length>=12?
   '<details class="hg42-boss-roster"><summary>🎯 Chọn riêng 1 trong '+aliveEnemies+' stack Boss đang sống · chạm để chọn, rồi bấm Tập trung</summary>'+
@@ -1277,6 +1278,7 @@ function combatView(){
   ' · '+esc(E.hg40StatusText?.(b,selected)||'Không trạng thái')+'</span>'+
   '<span class="hg40-enemy">☠ '+esc(E.hg40StatusText?.(b,focused)||'Chưa chọn mục tiêu')+'</span></div>':'';
  return `<div class="scene-title combat-scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)}</h1></div><div class="scene-tools">${button('save-combat',{},'💾',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${aliveAllies} : ${aliveEnemies}</span></div></div>
+ ${hg50PhaseInfo}
  <div class="battle-frame battle-stage${combatDockOpen?'':' battle-stage-collapsed'}"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường lục giác. Bấm vào quân ta để chọn đội, quân địch để chọn mục tiêu; ra lệnh di chuyển rồi chọn ô trống."></canvas>
   <details class="battle-command-dock" ${combatDockOpen?'open':''}>
    <summary title="Thu gọn hoặc mở bảng lệnh" aria-label="Thu gọn hoặc mở bảng lệnh chiến đấu"><span class="battle-dock-label">⚔ LỆNH</span><span class="battle-dock-chevron" aria-hidden="true">⌄</span></summary>
