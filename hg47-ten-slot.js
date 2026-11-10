@@ -127,7 +127,7 @@ function combatModifiers(s,id=s.activeHero){
  for(const row of worn(s,id))for(const a of affixes(row))if(['damageBonus','meleeDamage','rangedDamage','damageReduction'].includes(a.key))v[a.key]=(v[a.key]||0)+a.value;
  for(const [key,n] of Object.entries(count)){
   if(!SETS[key])continue;
-  for(const [level,bonus] of Object.entries(SETS[key].milestones))if(n>=Number(level))
+  for(const [level,bonus] of Object.entries(SETS[key].milestones))if(n>=({three:3,six:6,ten:10})[level])
    for(const [stat,value] of Object.entries(bonus))v[stat]=(v[stat]||0)+value;
  }
  for(const k of ['damageBonus','meleeDamage','rangedDamage','damageReduction'])v[k]=Math.min(k==='damageReduction'?.20:.25,Math.max(0,v[k]||0));
