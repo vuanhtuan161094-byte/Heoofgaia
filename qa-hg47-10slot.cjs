@@ -71,6 +71,50 @@ check('Real one-click optimizer can fill ten slots from unowned inventory with n
  assert.equal(snapshot(s.res),wallet);assert.equal(snapshot(s.inventory),inventory);
  assert(E.strictSave(s));return {slots:10,changed:out.changed,gain:out.gain};
 });
+check('Set-aware optimizer crosses the 3-piece threshold without losing wallet or transferring gear',()=>{
+ const s=game('human'),slots=['weapon','armor','charm'],commons=['copper_blade','iron_armor','quartz_ring'];
+ const saved=commons.map(id=>({...E.ITEMS[id]}));
+ try{
+  const old=[],divine=[];
+  for(let i=0;i<3;i++){
+   const id=commons[i],high=E.hg47ItemId('human','divine',slots[i]),d=E.ITEMS[high],c=E.ITEMS[id];
+   c.atk=d.atk;c.def=d.def;c.spd=d.spd;
+   for(const k of ['damageBonus','meleeDamage','rangedDamage','damageReduction'])c[k]=0;
+   const legacy=E.addItem(s,id,'HG47 optimizer fallback QA fixture');
+   old.push(legacy);E.equipItem(s,legacy.uid,1);
+   divine.push(E.addItem(s,high,'HG47 complete-set QA fixture'));
+  }
+  // Calibrate exactly half a point of individual disadvantage, without
+  // changing the 3-piece Human mitigation bonus or touching production data.
+  for(let i=0;i<3;i++){
+   const start=E.hg46Metrics(s,1,'balanced').score,trial=E.clone(s);
+   trial.equipment[1][slots[i]]=divine[i].uid;
+   const single=E.hg46Metrics(trial,1,'balanced').score;
+   if(single>start-.5)E.ITEMS[commons[i]].atk+=(single-start)+.6;
+  }
+  const before=E.hg46Metrics(s,1,'balanced').score;
+  for(let i=0;i<3;i++){
+   const trial=E.clone(s);trial.equipment[1][slots[i]]=divine[i].uid;
+   assert(E.hg46Metrics(trial,1,'balanced').score<before,'individual replacement must lose');
+  }
+  const complete=E.clone(s);for(let i=0;i<3;i++)complete.equipment[1][slots[i]]=divine[i].uid;
+  const achieved=E.hg46Metrics(complete,1,'balanced').score;
+  assert(achieved>before,'3-piece set must beat three stronger singles');
+  const bank=snapshot(s.res),inv=snapshot(s.inventory);
+  const suggestion=E.hg46Suggest(s,1,'balanced');
+  assert(suggestion.gain>0,JSON.stringify(suggestion));
+  const out=E.hg46AutoEquip(s,1,'balanced');
+  assert(out.applied);assert.equal(E.hg47SetCounts(s,1).human_divine,3);
+  assert.equal(snapshot(s.res),bank);assert.equal(snapshot(s.inventory),inv);
+  assert(E.strictSave(s));return {before,fullSet:achieved,auto:E.hg46Metrics(s,1,'balanced').score};
+ }finally{
+  for(let i=0;i<commons.length;i++){
+   const target=E.ITEMS[commons[i]];
+   for(const k of Object.keys(target))if(!(k in saved[i]))delete target[k];
+   Object.assign(target,saved[i]);
+  }
+ }
+});
 check('Rare craft targeted slot consumes 8 earned-style shards, HG29 materials and paid gold once',()=>{
  let s=game('human');
  const id=E.hg47ItemId('human','rare','boots'),before=snapshot(s);
@@ -117,6 +161,27 @@ check('Real paid Tower battle grants 1 focused rare + 2 divine fragments exactly
  s=reload(s);
  assert.equal(s.hg47.history.length,2);assert.equal(s.hg47.fragments[d],2);
  return {turns,claimed:result.claimed,rare:1,divine:2,save:s.version};
+});
+check('Real Boss T11 victory grants focused HG47 fragments alongside earned HG29 core',()=>{
+ let s=game('human'),hero=s.heroes[0];hero.level=100;
+ hero.atk=240000;hero.def=240000;hero.spd=100;
+ s.army.human_10=500;s.ap=700;
+ const target=E.hg24RecommendBoss(s).find(x=>x.eliteTier===11);
+ assert(target,'No T11 Boss target in the actual world');
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_10',count:500}]);E.startMarch(s,target.key);
+ let ticks=0;while(s.march&&ticks++<8)
+  E.tick(s,s.lastTick+Math.ceil((s.march.remaining+3)/s.speed*1000));
+ assert(s.battle);
+ const before=E.hg47ItemId('human','divine','weapon');
+ assert.equal(s.hg47.fragments[before],0);
+ const {result,turns}=win(s);assert.equal(result.type,'win');
+ assert.equal(s.hg47.fragments[E.hg47ItemId('human','rare','weapon')],2);
+ assert.equal(s.hg47.fragments[before],2);
+ assert(s.hg29.shards.abyss>=1,'HG29 Boss core must also be earned');
+ assert.equal(s.hg47.history.filter(x=>x.channel==='world').length,2);
+ s=reload(s);
+ assert.equal(s.hg47.fragments[before],2);
+ return {boss:target.key,turns,rare:2,divine:2,abyss:s.hg29.shards.abyss};
 });
 check('Practice Tower victory after 5 claimed wins grants ZERO HG47 drops',()=>{
  let s=game('human');s.hg20.tower.claims=5;E.autoFormation(s);
