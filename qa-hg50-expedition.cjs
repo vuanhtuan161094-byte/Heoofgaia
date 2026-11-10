@@ -86,6 +86,27 @@ check('defeating T11 after route advanced to T12 does not advance again',()=>{
  assert.equal(s.hg50.completed.join(','),'11');
  return {turns,unlocked:2,noExtraProgress:true};
 });
+check('same-tier T11 Boss outside selected route pays normal Boss but cannot unlock HG50',()=>{
+ const s=game();
+ const canonical=E.hg50Status(s).stages[0].target;
+ const other=E.TILES.find(t=>t.kind==='npc'&&t.eliteTier===11&&t.key!==canonical);
+ assert(other,'A second real T11 Boss tile must exist for regression');
+ const hero=s.heroes[0];hero.level=100;hero.atk=240000;hero.def=240000;hero.spd=100;
+ s.army.human_10=500;s.ap=900;
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_10',count:500}]);
+ E.startMarch(s,other.key);
+ let ticks=0;while(s.march&&ticks++<15)
+  E.tick(s,s.lastTick+Math.ceil((s.march.remaining+3)/s.speed*1000));
+ assert(s.battle,'Real outside-route Boss did not start');
+ let out,turns=0;while(s.battle&&turns++<110)out=E.battleAct(s,'attack');
+ assert.equal(out?.type,'win');
+ assert.equal(out.hg50Stage,undefined,'Out-of-route same-tier victory advanced expedition');
+ assert.equal(s.hg50.completed.length,0);
+ assert.equal(s.hg50.unlocked,1);
+ assert.equal(s.hg409.rewards.length,1,'Normal real Boss reward was lost');
+ assert(E.strictSave(s));reload(s);
+ return {canonical,outside:other.key,turns,expeditionUnlocked:1,normalBossReceipts:1};
+});
 check('historical v07 without HG50 migrates to empty route, no retroactive Boss grants',()=>{
  let s=game();let obj=JSON.parse(E.serializeSave(s));delete obj.state.hg50;
  s=E.parseSave(JSON.stringify(obj));
