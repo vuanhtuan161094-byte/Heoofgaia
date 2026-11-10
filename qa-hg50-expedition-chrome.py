@@ -62,6 +62,43 @@ with sync_playwright() as pw:
     return {version:s.version,strict:HOG_ENGINE.strictSave(s),stage:q.unlocked,done:q.done};
   }""")
   check(name+' cold reload v07 no retro progress',saved['version']==7 and saved['strict'] and saved['stage']==1 and not saved['done'],saved)
+  # HG50-C UI-only replay fixture: set ONLY the already-completed route marker,
+  # never invent a win, earned loot or record. Real Boss victories are covered
+  # by 9/9 C engine and 7/7 phase acceptance separately.
+  page.locator('[data-action="tab"][data-tab="boss"]').first.click()
+  page.locator('[data-action="hg42-boss-screen"][data-id="expedition"]').click()
+  page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();
+    s.hg50.completed=[11,12,13];s.hg50.unlocked=4;
+    if(!HOG_ENGINE.strictSave(s))throw Error('Completed route QA fixture is not strict v07');
+    HOG_APP_DEBUG.render();}""")
+  replay=page.evaluate("""() => {const s=HOG_APP_DEBUG.getState(),q=HOG_ENGINE.hg50Status(s);
+    return {version:s.version,strict:HOG_ENGINE.strictSave(s),done:q.done,
+      today:q.replay.today.length,week:q.replay.thisWeek.length,
+      rewards:s.hg409.rewards.length,fragments:s.hg47.fragments[HOG_ENGINE.hg47ItemId('human','rare','weapon')],
+      buttons:[...document.querySelectorAll('[data-hg50-expedition] [data-action="hg42-boss-dispatch"]')]
+       .map(n=>({disabled:n.disabled,text:n.textContent.trim()}))};}""")
+  check(name+' all 3 completed stages offer real replay without fabricated C credits',
+    replay['version']==7 and replay['strict'] and replay['done'] and
+    replay['today']==0 and replay['week']==0 and replay['rewards']==0 and replay['fragments']==0 and
+    len(replay['buttons'])==3 and all(not x['disabled'] and 'Tái chiến' in x['text'] for x in replay['buttons']),replay)
+  page.locator('[data-hg50-expedition] [data-action="hg42-boss-dispatch"]').first.click()
+  replay_planner=page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();return {
+    planner:!!document.querySelector('[data-action="dispatch-confirm"]'),
+    battle:!!s.battle,march:!!s.march,ap:s.ap,rewards:s.hg409.rewards.length,
+    replay:HOG_ENGINE.hg50ReplayStatus(s),strict:HOG_ENGINE.strictSave(s)};}""")
+  check(name+' replay dispatch opens original planner, no instant AP/loot settlement',
+    replay_planner['planner'] and not replay_planner['battle'] and not replay_planner['march'] and
+    replay_planner['rewards']==0 and replay_planner['strict'] and
+    replay_planner['replay']['today']==[],replay_planner)
+  page.locator('#game-modal [data-action="modal-close"]').click()
+  page.locator('#game-modal').wait_for(state='hidden')
+  page.locator('#save').click()
+  page.reload(wait_until='load',timeout=90000)
+  checked=page.evaluate("""() => {const s=HOG_APP_DEBUG.getState();return {
+     done:HOG_ENGINE.hg50Status(s).done,strict:HOG_ENGINE.strictSave(s),
+     replayWins:HOG_ENGINE.hg50ReplayStatus(s).today.length,loot:s.hg409.rewards.length};}""")
+  check(name+' completed route and untouched C credits survive cold v07 reload',
+    checked['done'] and checked['strict'] and checked['replayWins']==0 and checked['loot']==0,checked)
   check(name+' no page JS errors',not [e for e in ERRORS if e['viewport']==name],ERRORS)
   ctx.close()
  browser.close()
