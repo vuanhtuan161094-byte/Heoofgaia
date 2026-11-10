@@ -57,8 +57,9 @@ check('T11 65% shield actually reduces incoming damage and survives Save/Reload'
  s=fired.s;let b=s.battle,q=b.hg50b;
  assert(ratio(b)<=65);assert.equal(q.events.map(x=>x.kind).join(','),'threshold,active');
  assert.equal(q.extraStacks,0);assert.equal(q.triggeredTurn,q.activeTurn);
- console.log('HG50-B DIAG T11',JSON.stringify({turns:fired.turns,ratio:ratio(b),phase:q.phase,live:b.enemies.filter(u=>u.pool>0).length,shields:b.hg40.shields,armedEvent:q.events}));
- const units=Object.keys(b.hg40.shields).filter(id=>b.hg40.shields[id].amount>0);
+ // Existing HG40 Priest/Angel shields on player's side are not Boss buffs.
+ // Assert the 1-4 enemy shields only; the overall shield map can contain both sides.
+ const units=Object.keys(b.hg40.shields).filter(id=>b.enemies.some(u=>u.id===id)&&b.hg40.shields[id].amount>0);
  assert(units.length>=1&&units.length<=4,'no Boss defensive shield');
  for(const id of units){const u=b.enemies.find(x=>x.id===id),sh=b.hg40.shields[id];
   assert(sh.amount>0&&sh.amount<=Math.ceil(u.count*u.hp*.25));assert(sh.until>=b.turn);
