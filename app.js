@@ -1060,6 +1060,52 @@ function hg29PreviewUI(kind,target,level){
  const p=E.hg29Preview(state,{kind,target,level});if(!p||!p.paid)return '';
  return `<aside class='hg29-preview' aria-label='Dự kiến vật phẩm rơi'><b>🎁 ${esc(p.label)}</b><small>${p.guaranteed.map(x=>'✓ '+esc(x.name)+' ×'+x.count).concat(p.chances.map(x=>esc(x.name)+' '+x.percent+'%')).join(' · ')||'Không có mảnh'}</small></aside>`;
 }
+
+function hg47ForgeView(){
+ const race=E.HG47_RACES[hg47RaceView]?hg47RaceView:state.race;
+ const tier=E.HG47_TIERS[hg47TierView]?hg47TierView:'rare';
+ const info=E.HG47_TIERS[tier],rows=E.hg47Status(state,race,tier);
+ const busy=!!(state.march||state.battle||state.expedition||state.parallelMarches?.length||state.hg26?.enabled);
+ const races=Object.entries(E.HG47_RACES).map(([key,r])=>
+  button('hg47-race',{race:key},r.icon+' '+r.name,key===race,'small '+(key===race?'primary':'secondary'))).join('');
+ const tiers=Object.entries(E.HG47_TIERS).map(([key,t])=>
+  button('hg47-tier',{tier:key},t.icon+' '+t.name,key===tier,'small '+(key===tier?'primary':'secondary'))).join('');
+ const items=rows.map(q=>{
+  const def=E.ITEMS[q.id],counts=q.have+'/'+q.need,missing=Object.entries(q.missing)
+    .filter(([,n])=>n>0).map(([key,n])=>({fragments:'Mảnh đích',gold:'Vàng',gear:'Mảnh rèn',
+     hunter:'Huy hiệu',abyss:'Lõi Boss',tower:'Phù văn Tháp',hero:'Mảnh Anh Hùng',
+     bossToken:'Ấn Boss',towerToken:'Ấn Tháp'})[key]+' '+format(n)).join(' · ');
+  const label=q.gated?'Chưa thắng Boss T11+ và 3 lượt Tháp nhận thưởng':missing||'Đã đủ nguyên liệu';
+  return '<article class="hg47-recipe '+(q.focused&&race===state.race?'is-focus':'')+'">'+
+    '<div class="hg47-recipe-art">'+q.icon+'</div><div class="hg47-recipe-body">'+
+    '<b>'+esc(def.name)+'</b><small>'+esc(E.HG47_SLOTS.find(x=>x[0]===q.slot)?.[1]||q.slot)+
+    ' · ⚔ '+def.atk+' · 🛡 '+def.def+' · ➤ '+def.spd+'</small>'+
+    '<progress max="'+q.need+'" value="'+q.have+'"></progress>'+
+    '<small>🧩 '+counts+' mảnh · '+format(q.cost)+' vàng</small>'+
+    '<small title="'+esc(label)+'">'+esc(label)+'</small>'+
+    '</div><div class="hg47-recipe-actions">'+
+    button('hg47-focus',{tier,slot:q.slot},q.focused&&race===state.race?'✓ Đang săn':'🎯 Săn mảnh',
+     race!==state.race||q.focused||busy,'small secondary')+
+    button('hg47-craft',{id:q.id},'⚒ Ghép đúng món',!q.canCraft,'small primary')+'</div></article>';
+ }).join('');
+ const sets=Object.entries(E.HG47_SETS).filter(([,v])=>v.race===race).map(([id,v])=>
+  '<div class="hg47-set-chip"><b>'+v.icon+' '+esc(v.name)+'</b>'+
+  '<small>'+esc(v.note)+'</small><small>'+esc(v.source)+'</small></div>').join('');
+ return '<section class="card hg47-forge" aria-label="HG47 mảnh trang bị, bốn chủng tộc, mười ô">'+
+  '<span class="eyebrow">HG47 · 10 Ô / TƯỚNG · 4 CHỦNG TỘC · 8 BỘ</span>'+
+  '<h2>⚒ Chọn món để săn mảnh và tự ghép</h2>'+
+  '<p class="hint">Mỗi tướng có 10 ô riêng. Khi thắng quái, Boss hoặc Tháp, mảnh sẽ vào kho theo ô đang theo đuổi. Không tự phát đồ, không cần may rủi khi ghép. Chỉ chế tạo đồ của chủng tộc đang chơi.</p>'+
+  '<div class="hg47-selector">'+races+'</div><div class="hg47-selector">'+tiers+'</div>'+
+  '<div class="hg47-wallet"><span>Chủng tộc đang chơi: <b>'+esc(E.HG47_RACES[state.race].name)+'</b></span>'+
+  '<span>Ấn Boss '+format(state.hg27.boss)+'</span><span>Ấn Tháp '+format(state.hg27.tower)+'</span>'+
+  '<span>Lõi Boss '+format(state.hg29.shards.abyss)+'</span><span>Phù văn '+format(state.hg29.shards.tower)+'</span></div>'+
+  '<p class="tiny muted">'+esc(info.oddsLabel)+'. '+(tier==='divine'?
+    'Đồ Thần cần thêm 1 Ấn Boss, 1 Ấn Tháp, 3 Lõi Boss, 6 Phù văn, 2 Mảnh Ấn Anh Hùng và 18.000 vàng / món.':'Đồ Cổ cần thêm 5 Mảnh Rèn, 3 Huy hiệu Elite và 3.000 vàng / món.')+'</p>'+
+  '<div class="hg47-recipe-grid">'+items+'</div>'+
+  '<details class="hg47-set-info"><summary>✦ Hiệu ứng bộ và vị trí thu thập</summary><div class="hg47-set-grid">'+sets+'</div>'+
+  '<p class="hint">3/6/10 món mặc đúng bộ mới kích hoạt buff chiến đấu. Dòng phụ cố định theo UID từng món, giữ nguyên sau Save/Load. Tỉ lệ được xác định từ kết quả chiến thắng thật, không cộng khi xem màn hình.</p></details></section>';
+}
+
 function hg29CraftView(){
  if(!E.hg29Catalogue)return '';
  const h=E.hg29Ensure(state),items=E.HG29_ITEMS,rows=E.hg29Catalogue(state);
@@ -1114,7 +1160,7 @@ function relicView(){
  const mat=state.hg18.materials,sets=E.hg18SetCounts(state,state.activeHero);
  const opens=['resource_card','resource_chest','gear_pack','set_chest'];
  const gearEntry=button('hg46-open-gear',{},'🛡 Mở kho trang bị và mặc đồ tướng',false,'primary');
- return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}
+ return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg47ForgeView()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}
   <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
   <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card hg409-material-card"><div class="hg409-material-head"><b>${ico(key,25)||m.icon} ${esc(m.name)}</b><strong>×${format(mat[key])}</strong></div><details><summary>ⓘ Công dụng và định mức</summary><p>${esc(hg409MaterialGuide(key))}</p><small>Kiếm qua nhiệm vụ, chiến thắng Boss/Tháp, ghép mảnh. Không phát vật phẩm khi xem thẻ.</small></details>
   ${opens.includes(key)?button('hg18-open',{id:key},'Mở / Dùng',mat[key]<1,'small primary'):''}</div>`).join('')}</div></section>
@@ -1602,7 +1648,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='resource-info'){showResourceInfo=!showResourceInfo;showWorldIndex=false;tab='map';modalOffset=0;return}
  if(action==='race'){newRace=target.dataset.race;render();return}
  if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
- if(action==='start'){hg261Draft=null;hg42BossScreen='targets';hg42BossTier=11;hg43ArmyPage='recruit';hg43ArmyRace=newRace;state=E.make(newRace,Date.now(),newSpellEdition);tab='map';selected='3,4';selectedTargetKind=null;return}
+ if(action==='start'){hg261Draft=null;hg42BossScreen='targets';hg42BossTier=11;hg43ArmyPage='recruit';hg43ArmyRace=newRace;state=E.make(newRace,Date.now(),newSpellEdition);hg47RaceView=newRace;hg47TierView='rare';tab='map';selected='3,4';selectedTargetKind=null;return}
  if(action==='tab'){tab=target.dataset.tab;showWorldIndex=false;showResourceInfo=false;modalOffset=0;
   if(tab==='army'){hg43ArmyPage='recruit';hg43ArmyRace=state.race}
   focusArmyRecruitOnOpen=tab==='army';return}
@@ -1675,6 +1721,11 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='equipitem'){E.equipItem(state,Number(target.dataset.uid));return}
  if(action==='unequip'){E.unequipItem(state,target.dataset.slot);return}
  if(action==='buyitem'){E.buyItem(state,target.dataset.id);return}
+
+ if(action==='hg47-race'){hg47RaceView=target.dataset.race;return}
+ if(action==='hg47-tier'){hg47TierView=target.dataset.tier;return}
+ if(action==='hg47-focus'){const out=E.hg47SetFocus(state,target.dataset.tier,target.dataset.slot);toast('Đang săn mảnh '+E.ITEMS[out.id].name);return}
+ if(action==='hg47-craft'){const out=E.hg47Craft(state,target.dataset.id);toast('Đã ghép '+E.ITEMS[out.itemId].name+' từ nguyên liệu thật');return}
  if(action==='hg31-focus'){const out=E.hg31SetFocus(state,target.dataset.id);toast('Đã chọn farm '+E.ITEMS[out.id].name);return}
  if(action==='hg31-craft'){const out=E.hg31Craft(state,target.dataset.id);toast('Đã ghép '+E.ITEMS[out.itemId].name);return}
  if(action==='hg30-claim'){E.hg30ClaimTrial(state);toast('Đã mở nhiệm vụ chuyển hóa Chiến Vệ.');return}
