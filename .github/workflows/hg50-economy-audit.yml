@@ -4,6 +4,8 @@ on:
     branches: [feature/hog1-research-to-playable-20261102]
     paths:
       - 'qa-hg50-economy.cjs'
+      - 'qa-hg50-replay.cjs'
+      - 'qa-hg42-boss-screens.cjs'
       - '.github/workflows/hg50-economy-audit.yml'
       - 'hg50-expedition.js'
       - 'hg409-enemy-commanders.js'
@@ -26,6 +28,11 @@ jobs:
           echo "ECON_SOURCE_SHA=$(git rev-parse HEAD)"
           node --check qa-hg50-economy.cjs
           node qa-hg50-economy.cjs
+          node --check qa-hg50-replay.cjs
+          node qa-hg50-replay.cjs
+          node qa-hg42-boss-screens.cjs
+          node qa-hg50-expedition.cjs
+          node qa-hg50-boss-phases.cjs
       - uses: actions/upload-artifact@v4
         if: always()
         with:
