@@ -1,0 +1,34 @@
+name: HG50-C economic gate – no duplicated PvE reward
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'qa-hg50-economy.cjs'
+      - '.github/workflows/hg50-economy-audit.yml'
+      - 'hg50-expedition.js'
+      - 'hg409-enemy-commanders.js'
+      - 'hg47-ten-slot.js'
+      - 'hg29-loot.js'
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  economy-source-sink-audit:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Verify deterministic 4-race Boss reward, cost and Save v07 accounting
+        run: |
+          echo "ECON_SOURCE_SHA=$(git rev-parse HEAD)"
+          node --check qa-hg50-economy.cjs
+          node qa-hg50-economy.cjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: HG50-C-Economy-Verified-SHA-Report
+          path: docs/qa/hg50/economy-audit.json
+          retention-days: 30
