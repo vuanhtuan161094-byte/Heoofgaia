@@ -1,0 +1,165 @@
+/* HG56 — one persistent HUD, compact responsive layout, and budgeted UI VFX.
+   Cosmetic only: no duplicated economy, no extra window/Save authority. */
+:root{--hg56-hud-h:46px;--hg56-glow:#7ad6f7}
+html{scroll-padding-top:var(--hg56-hud-h)}
+body #app{padding-top:var(--hg56-hud-h)!important}
+body #app>.top,
+body.combat-mode #app>.top,
+body:not(.combat-mode):has(.hg47-ten-slots) #app>.top,
+body:not(.combat-mode):has(.hg47-forge) #app>.top{
+ display:flex!important;position:fixed!important;
+ top:0!important;left:50%!important;right:auto!important;
+ transform:translateX(-50%)!important;
+ width:min(100%,1660px)!important;height:var(--hg56-hud-h)!important;
+ min-height:0!important;max-height:var(--hg56-hud-h)!important;
+ padding:3px clamp(6px,1.1vw,14px)!important;margin:0!important;
+ border:0!important;border-bottom:1px solid #82d7f0a3!important;
+ border-radius:0 0 8px 8px!important;
+ background:linear-gradient(110deg,#152846f8 0%,#172e4af9 51%,#282846f8 100%)!important;
+ box-shadow:0 3px 15px #020b1a88,inset 0 1px #c9eeff23!important;
+ z-index:500!important;isolation:isolate;pointer-events:auto!important;
+ align-items:center!important;justify-content:space-between!important;
+ flex-wrap:nowrap!important;gap:8px!important;overflow:hidden!important
+}
+body #app>.top::after{left:9px;right:9px;opacity:.65}
+body #app>.top .masthead{display:flex!important;align-items:center!important;
+ flex:0 0 auto!important;min-width:0!important;max-width:235px;gap:6px!important;
+ white-space:nowrap;overflow:hidden}
+body #app>.top .crest{display:grid;place-items:center;flex:0 0 23px;
+ font-size:20px!important;line-height:1;color:#efdbab;
+ filter:drop-shadow(0 0 4px #edc78377)}
+body #app>.top .brand{font:800 clamp(12px,1.13vw,16px)/1.08 system-ui,'Segoe UI',sans-serif!important;
+ letter-spacing:.45px!important;color:#fff0c8!important;text-shadow:0 0 8px #f7cb8a33;
+ white-space:nowrap!important}
+body #app>.top .masthead small{display:block!important;
+ color:#a6c5dc!important;font:600 8px/1.2 system-ui!important;
+ letter-spacing:.38px!important;white-space:nowrap!important}
+body #app>.top #resources{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr));
+ flex:1 1 auto!important;min-width:0;max-width:1020px;
+ gap:clamp(2px,.55vw,7px)!important;align-items:center!important;
+ overflow:visible!important;white-space:nowrap}
+body #app>.top #resources button.resource{
+ box-sizing:border-box!important;position:relative;display:flex!important;
+ width:100%!important;min-width:0!important;max-width:none!important;
+ height:34px!important;min-height:0!important;max-height:34px!important;
+ align-items:center!important;justify-content:center!important;
+ gap:4px!important;padding:2px 5px!important;margin:0!important;
+ border:1px solid #688caf78!important;border-radius:7px!important;
+ background:linear-gradient(135deg,#254069ba,#1c3154c4)!important;
+ box-shadow:inset 0 1px #c7e6ff20!important;overflow:hidden;
+ color:#d8eaf9;font:600 10px/1.15 system-ui!important;
+ transition:border-color .16s ease,background .16s ease,box-shadow .16s ease;
+ cursor:pointer}
+body #app>.top #resources .resource .hog-ui-icon{width:15px!important;height:15px!important;
+ max-width:15px!important;max-height:15px!important;object-fit:contain;margin:0!important}
+body #app>.top #resources .resource>span{display:inline!important;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:10px!important}
+body #app>.top #resources .resource>b{display:inline!important;min-width:0;
+ font:800 clamp(10px,.94vw,13px)/1.15 system-ui!important;
+ font-variant-numeric:tabular-nums;color:#ffdfa0!important;
+ overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body #app>.top #resources .resource>small{display:none!important}
+body #app>.top #resources .resource:hover,
+body #app>.top #resources .resource:focus-visible{
+ border-color:#a3f0ff!important;background:#284d76!important;
+ box-shadow:0 0 10px #48baff55,inset 0 1px #fff3!important;outline:0}
+body #app>.top #resources .resource.hg56-gain{
+ animation:hg56ResourceFlash .53s ease-out 1}
+@keyframes hg56ResourceFlash{
+ 0%{filter:brightness(1.3);box-shadow:inset 0 0 0 1px #f7e8a0,0 0 14px #82eafa99}
+ 100%{filter:brightness(1);box-shadow:inset 0 1px #fff1}
+}
+/* Context-screen modals remain below the HUD but above the independent nav. */
+body:not(.combat-mode) .game-modal{z-index:100!important}
+body #app>.top{z-index:500!important}
+body.combat-mode #app{min-height:100dvh}
+body.combat-mode .battle-stage{height:calc(100dvh - var(--hg56-hud-h) - 108px)!important}
+body.combat-mode .combat-scene-title{flex:0 0 auto}
+body.combat-mode #main{min-height:0!important}
+/* The gear route had explicit 36px stage/popup overrides after hiding its header.
+   Recalculate with the restored HUD instead of allowing modal to cover resources. */
+@media(max-width:920px){
+ body:not(.combat-mode):has(.hg47-ten-slots),
+ body:not(.combat-mode):has(.hg47-forge){
+  --hg42-stage-top:calc(var(--hg56-hud-h) + 37px)!important;
+ }
+ body:not(.combat-mode):has(.hg47-ten-slots) .game-modal,
+ body:not(.combat-mode):has(.hg47-forge) .game-modal{
+  padding-top:var(--hg42-stage-top)!important;padding-bottom:3px!important
+ }
+ body:not(.combat-mode):has(.hg47-ten-slots) .game-window,
+ body:not(.combat-mode):has(.hg47-forge) .game-window{
+  height:calc(100dvh - var(--hg42-stage-top) - 3px)!important
+ }
+ body:not(.combat-mode):has(.hg47-ten-slots) #nav.tabs,
+ body:not(.combat-mode):has(.hg47-forge) #nav.tabs{z-index:90!important}
+}
+@media(max-width:1000px){
+ body #app>.top .masthead{max-width:190px}
+ body #app>.top .brand{font-size:12px!important}
+ body #app>.top #resources .resource>span{font-size:9px!important}
+ body #app>.top #resources .resource>b{font-size:11px!important}
+ body #app>.top #resources .resource .hog-ui-icon{width:12px!important;height:12px!important}
+}
+@media(max-width:700px){
+ body.combat-mode .battle-stage{height:calc(100dvh - var(--hg56-hud-h) - 100px)!important}
+}
+@media(max-width:620px) and (orientation:portrait){
+ :root{--hg56-hud-h:64px}
+ body #app>.top,body.combat-mode #app>.top{
+  flex-direction:column!important;justify-content:center!important;align-items:stretch!important;
+  gap:2px!important;padding:2px 3px!important;border-radius:0 0 6px 6px!important
+ }
+ body #app>.top .masthead{height:20px!important;max-width:100%;margin:0 auto;gap:4px!important}
+ body #app>.top .brand{font-size:11px!important;letter-spacing:.25px!important}
+ body #app>.top .masthead small{display:inline!important;font-size:7px!important}
+ body #app>.top .crest{flex-basis:16px!important;font-size:15px!important}
+ body #app>.top #resources{width:100%!important;flex:0 0 34px!important;gap:2px!important;max-width:none}
+ body #app>.top #resources button.resource{height:33px!important;min-height:0!important;
+  padding:1px 2px!important;display:flex!important;flex-direction:column!important;gap:0!important}
+ body #app>.top #resources .resource .hog-ui-icon{display:none!important}
+ body #app>.top #resources .resource>span{display:block!important;font-size:9px!important;line-height:1.1!important}
+ body #app>.top #resources .resource>b{font-size:11px!important;line-height:1.2!important}
+ body:not(.combat-mode):has(.hg47-ten-slots),
+ body:not(.combat-mode):has(.hg47-forge){
+  --hg42-stage-top:calc(var(--hg56-hud-h) + 63px)!important
+ }
+}
+/* Global UI micro-VFX: never allocate a perpetual particle loop. */
+body #app button:not(.resource),body #app summary{
+ transition:background-color .17s ease,border-color .17s ease,
+ box-shadow .17s ease,filter .17s ease}
+body #app button:not(.resource):hover,body #app summary:hover{
+ filter:brightness(1.075)}
+body #app :is(button,summary):focus-visible{outline:2px solid #9ae9ff;outline-offset:2px}
+body .game-window{box-shadow:0 14px 50px #071123c0,inset 0 1px #b9e4ff25}
+body .game-window-body > :first-child{animation:hg56PanelEnter .23s ease-out 1}
+@keyframes hg56PanelEnter{from{opacity:.65;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+body #app :is(.hg42-boss-target,.hg47-ten-slots .slot,.hg47-forge .card,.hg408-screen .card,.hg28-city-stage,.hg28-tab-tower .card){
+ transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+body #app :is(.hg42-boss-target,.hg47-ten-slots .slot,.hg47-forge .card,.hg408-screen .card,.hg28-tab-tower .card):hover{
+ border-color:#8fd9fa;box-shadow:inset 0 1px #def4ff22,0 3px 16px #54a8e52a}
+body .hg42-boss-stage{box-shadow:0 0 12px #d68cff3e}
+body .hg42-boss-target[data-hg50-stage] .hg42-boss-emblem{
+ background:radial-gradient(circle at 40% 35%,#604a78,#372b50);
+ box-shadow:inset 0 0 10px #e2bcff2c,0 0 12px #a887ff33}
+body :is(.hg47-rarity-rainbow,.hg408-quality-rainbow,.hg408-quality-platinum){
+ text-shadow:0 0 8px #c39bff66}
+body :is(.hg47-ten-slots,.hg47-forge,.hg42-boss-page,.hg408-screen) :is(button.primary,button.active){
+ box-shadow:inset 0 1px #fff5,0 2px 12px #70baff3d}
+.hg56-tap-spark{position:fixed;z-index:550;pointer-events:none;
+ width:37px;height:37px;border:2px solid #a5edffb0;border-radius:50%;
+ box-shadow:0 0 12px #80bcff99;transform:translate(-50%,-50%) scale(.2);
+ animation:hg56Tap .44s ease-out forwards}
+@keyframes hg56Tap{
+ 0%{opacity:.9;transform:translate(-50%,-50%) scale(.2)}
+ 75%{opacity:.4}100%{opacity:0;transform:translate(-50%,-50%) scale(1.55)}
+}
+@media(prefers-reduced-motion:reduce){
+ body #app button,body #app summary,body .game-window-body>:first-child,
+ body #app .resource.hg56-gain,.hg56-tap-spark{
+  animation:none!important;transition:none!important}
+ .hg56-tap-spark{display:none}
+}
+/* Avoid repaint-heavy animated filters at reduced phone heights. */
+@media(max-height:370px){body #app .game-window-body>:first-child{animation:none}}
