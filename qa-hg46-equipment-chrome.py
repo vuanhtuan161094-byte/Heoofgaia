@@ -16,6 +16,19 @@ def check(name,condition,details=None):
 def capture(page,name):
     f=OUT/name;page.screenshot(path=str(f),animations='disabled')
     SHOTS.append({'file':str(f.relative_to(ROOT)),'sha256':hashlib.sha256(f.read_bytes()).hexdigest()})
+
+# Always preserve partial QA evidence if a viewport assertion fails early.
+# GitHub Actions uploads these reports with if: always().
+import atexit
+def _save_partial_acceptance():
+    report={'suite':'qa-hg46-equipment-chrome.py' ,'passed':sum(bool(x.get('pass')) for x in CHECKS),
+            'total':len(CHECKS),
+            'checks':CHECKS,
+            'screenshots':SHOTS,'errors':ERRORS}
+    (QA/'equipment-chromium.json').write_text(
+        json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
+atexit.register(_save_partial_acceptance)
+
 with sync_playwright() as pw:
     browser=pw.chromium.launch(headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files'])
     for label,w,h,mobile in [
