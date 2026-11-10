@@ -174,7 +174,16 @@ body :is(.hg47-ten-slots,.hg47-forge,.hg42-boss-page,.hg408-screen) :is(button.p
 @media(max-height:370px){body #app .game-window-body>:first-child{animation:none}}
 
 @media(min-width:621px) and (max-width:900px){
- /* Keep all five balances readable on narrow landscape without ellipsis. */
- body #app>.top #resources .resource>span{display:none!important}
- body #app>.top #resources .resource>b{font-size:12px!important}
+ /* Two lines within each 34px chip: keep ALL five resource names and exact
+    formatted amounts visible without widening the 46px global shell. */
+ body #app>.top #resources .resource .hog-ui-icon{display:none!important}
+ body #app>.top #resources button.resource{
+  flex-direction:column!important;gap:0!important;padding:1px 3px!important
+ }
+ body #app>.top #resources .resource>span{
+  display:block!important;font-size:9px!important;line-height:1.05!important
+ }
+ body #app>.top #resources .resource>b{
+  display:block!important;font-size:11px!important;line-height:1.2!important
+ }
 }
