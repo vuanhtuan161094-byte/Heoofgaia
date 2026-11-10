@@ -292,7 +292,7 @@ function autoEquip(s,id=s.activeHero,mode='balanced'){
  E.note(s,'HG47: chọn tự động '+q.changed+' ô từ kho không có chủ; không tạo trang bị.');
  return {...q,applied:true};
 }
-function make(...args){return ensure(prior.make(...args))}
+function make(...args){const s=prior.make(...args);ensure(s);return s}
 function parse(raw){const s=prior.parse(raw);ensure(s);if(!valid(s)||!prior.strict(s))throw Error('Save HG47 không hợp lệ');return s}
 function strict(s){return prior.strict(s)&&valid(s)}
 function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG47 không hợp lệ');return prior.serialize(s)}
