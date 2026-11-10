@@ -1371,6 +1371,16 @@ body.hg39-world-map-mode .sidebar{display:none!important}
 }
 
 
+/* HG46-B short progression rail; no additional panels or scrolling document.
+ * The actual craft gate and wallet remain authoritative in HG31.
+ */
+.hg46b-stage-rail{display:flex;flex-wrap:wrap;gap:6px;margin:7px 0 11px}
+.hg46b-stage-rail>span{flex:1 1 155px;min-width:0;border:1px solid #5c7981;background:#263e48;
+ border-left:3px solid #b3a376;border-radius:5px;padding:6px 8px;font-size:11px;color:#e9d9ad}
+.hg46b-stage-rail>span:nth-child(2){border-left-color:#8fafd9}
+.hg46b-stage-rail>span:nth-child(3){border-left-color:#caa2ed}
+@media(max-width:700px){.hg46b-stage-rail{gap:3px;margin:4px 0 7px}
+ .hg46b-stage-rail>span{font-size:10px;padding:4px 5px;flex-basis:105px}}
 /* HG46 — real equipment inventory / 3 slots / no phantom gear.
  * Scoped to existing hero management popup, supports tiny landscape phones. */
 .hg46-manager{display:flex;flex-direction:column;gap:9px;min-width:0;font:11px/1.35 system-ui,'Segoe UI',sans-serif}
