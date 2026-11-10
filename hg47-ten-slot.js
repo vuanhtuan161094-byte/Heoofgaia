@@ -236,7 +236,7 @@ function battleAct(s,action,opts){
  return result;
 }
 function sets(s,id){
- return [...prior.sets(s,id),...Object.entries(SETS).map(([key,set])=>({
+ return [...prior.sets(s,id),...Object.entries(SETS).filter(([,set])=>set.race===(s.heroes.find(h=>h.id===id)?.race||s.race)).map(([key,set])=>({
   id:key,name:set.name,count:counts(s,id)[key]||0,max:10,
   note:set.note,source:set.source,milestones:[3,6,10]
  }))];
