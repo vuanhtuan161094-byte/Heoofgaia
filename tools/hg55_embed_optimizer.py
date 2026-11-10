@@ -26,7 +26,7 @@ OPTIMIZABLE_IDS=frozenset({
 })
 # The 12 HG28 landmark PNGs and two HG11 building PNGs are intentionally NOT
 # converted: qa-engine.cjs checks their byte-identical inlined provenance.
-_TAG=re.compile(r'(<img\\b[^>]*?\\bid="(?P<id>[^"]+)"[^>]*?\\bsrc=")data:image/png;base64,(?P<data>[A-Za-z0-9+/=]+)(")')
+_TAG=re.compile(r'(<img\b[^>]*?\bid="(?P<id>[^"]+)"[^>]*?\bsrc=")data:image/png;base64,(?P<data>[A-Za-z0-9+/=]+)(")')
 
 def optimize_html(html,report_path):
     original_bytes=len(html.encode("utf-8"))
@@ -76,7 +76,7 @@ def optimize_html(html,report_path):
         "images":records
     }
     path=Path(report_path);path.parent.mkdir(parents=True,exist_ok=True)
-    path.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\\n",encoding="utf-8")
+    path.write_text(json.dumps(report,indent=2,ensure_ascii=False)+"\n",encoding="utf-8")
     print("HG55_IMAGE_PACK",report["mode"],"images",len(records),
           "before",original_bytes,"after",optimized_bytes,
           "saved",report["saved_html_bytes"],flush=True)
