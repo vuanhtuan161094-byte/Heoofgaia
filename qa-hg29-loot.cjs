@@ -16,11 +16,21 @@ chk('Odds total 10000, deterministic previews and 7 valid recipe outputs',()=>{
  const s=E.make('human',1e6);for(const [id,t] of Object.entries(E.HG29_TABLES))assert.equal(t.roll.reduce((n,r)=>n+r[3],0),10000,id);
  for(const r of E.HG29_RECIPES)if(r.output.kind==='gear')assert(E.ITEMS[r.output.id]);else assert(E.HG18_MATERIALS[r.output.id]);
  const npc=E.TILES.find(t=>t.kind==='npc'&&t.level===1);
- const p=E.hg29Preview(s,{kind:'npc',target:npc.key});assert.equal(p.source,'npc_low');assert.equal(p.noDropPercent,20);
+ const p=E.hg29Preview(s,{kind:'npc',target:npc.key});assert.equal(p.source,'npc_low');assert.equal(p.noDropPercent,15);
  const b=E.TILES.find(t=>t.kind==='npc'&&t.eliteTier>=11);
  assert.equal(E.hg29Preview(s,{kind:'npc',target:b.key}).source,'npc_boss');
  assert.equal(E.hg29Preview(s,{kind:'tower',target:'tower',floor:5}).guaranteed[0].count,2);
  return {pools:Object.keys(E.HG29_TABLES).length,recipes:E.HG29_RECIPES.length};
+});
+chk('HG46-B balanced expected rates come from tables, real probabilities total 100%',()=>{
+ const low=E.hg29Expected('npc_low'),elite=E.hg29Expected('npc_elite'),boss=E.hg29Expected('npc_boss'),
+  tower=E.hg29Expected('tower'),milestone=E.hg29Expected('tower',5);
+ assert.equal(low.gear,.3);assert.equal(low.wild,.75);
+ assert(Math.abs(elite.gear-.51)<1e-10);assert.equal(boss.abyss,1);
+ assert.equal(tower.tower,1);assert.equal(milestone.tower,2);
+ const stone=E.HG29_RECIPES.find(x=>x.id==='stone');
+ assert.equal(stone.output.count,6);assert.deepEqual(JSON.parse(JSON.stringify(stone.cost)),{wild:6,gear:4});
+ return {low,elite,tower,milestone,stone};
 });
 chk('Real Tower battle, one guaranteed rune, persists Save reload without duplicate',()=>{
  let s=E.make('human',1e6);E.autoFormation(s);E.hg20ChooseTowerTeam(s,[1]);E.hg21TowerEnter(s);
@@ -50,8 +60,8 @@ chk('Fixture: spend exact fragment counts for selected gear and stones, Save rel
  const n=s.inventory.length,before={...s.hg29.shards};const out=E.hg29Craft(s,'sentinel_plate');
  assert.equal(out.output.itemId,'sentinel_plate');assert.equal(s.inventory.length,n+1);
  assert.equal(s.hg29.shards.gear,before.gear-16);assert.equal(s.hg29.shards.hunter,before.hunter-8);assert.equal(s.hg29.shards.tower,before.tower-3);
- const m=s.hg18.materials.enhance_stone;E.hg29Craft(s,'stone');assert.equal(s.hg18.materials.enhance_stone,m+2);
- s=saved(s);assert.equal(s.hg29.crafted,2);return {crafted:2,armor:'sentinel_plate',stones:2};
+ const m=s.hg18.materials.enhance_stone;E.hg29Craft(s,'stone');assert.equal(s.hg18.materials.enhance_stone,m+6);
+ s=saved(s);assert.equal(s.hg29.crafted,2);return {crafted:2,armor:'sentinel_plate',stones:6};
 });
 chk('Reject empty wallet and corrupted Save; historical Save v07 migration works',()=>{
  const s=E.make('orc',1e6),before=E.serializeSave(s);
@@ -84,4 +94,4 @@ chk('Tower practice after five claimed wins pays no shards or HG27 tokens',()=>{
  assert.equal(s.hg27.tower,0);assert.equal(s.hg29.history.length,0);saved(s);
  return {towerTokens:0,paidClaims:5,practiceOnly:true};
 });
-console.log('HG29 '+pass+'/9 '+(process.exitCode?'FAIL':'PASS'));if(pass!==9)process.exitCode=1;
+console.log('HG29 '+pass+'/10 '+(process.exitCode?'FAIL':'PASS'));if(pass!==10)process.exitCode=1;
