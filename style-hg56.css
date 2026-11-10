@@ -25,6 +25,11 @@ body #app>.top::after{left:9px;right:9px;opacity:.65}
 body #app>.top .masthead{display:flex!important;align-items:center!important;
  flex:0 0 auto!important;min-width:0!important;max-width:235px;gap:6px!important;
  white-space:nowrap;overflow:hidden}
+/* Keep the game title and its subtitle inside the 20px phone masthead:
+   inherited 21.75px line-height had pushed the brand to y=-3.3px. */
+body #app>.top .masthead>div{display:flex!important;flex-direction:column!important;
+ justify-content:center!important;align-items:flex-start!important;
+ line-height:1!important;min-width:0!important}
 body #app>.top .crest{display:grid;place-items:center;flex:0 0 23px;
  font-size:20px!important;line-height:1;color:#efdbab;
  filter:drop-shadow(0 0 4px #edc78377)}
@@ -116,7 +121,7 @@ body.combat-mode #main{min-height:0!important}
  }
  body #app>.top .masthead{height:20px!important;max-width:100%;margin:0 auto;gap:4px!important}
  body #app>.top .brand{font-size:11px!important;letter-spacing:.25px!important}
- body #app>.top .masthead small{display:inline!important;font-size:7px!important}
+ body #app>.top .masthead small{display:block!important;font-size:7px!important;line-height:1.05!important}
  body #app>.top .crest{flex-basis:16px!important;font-size:15px!important}
  body #app>.top #resources{width:100%!important;flex:0 0 34px!important;gap:2px!important;max-width:none}
  body #app>.top #resources button.resource{height:33px!important;min-height:0!important;
@@ -167,3 +172,9 @@ body :is(.hg47-ten-slots,.hg47-forge,.hg42-boss-page,.hg408-screen) :is(button.p
 }
 /* Avoid repaint-heavy animated filters at reduced phone heights. */
 @media(max-height:370px){body #app .game-window-body>:first-child{animation:none}}
+
+@media(min-width:621px) and (max-width:900px){
+ /* Keep all five balances readable on narrow landscape without ellipsis. */
+ body #app>.top #resources .resource>span{display:none!important}
+ body #app>.top #resources .resource>b{font-size:12px!important}
+}
