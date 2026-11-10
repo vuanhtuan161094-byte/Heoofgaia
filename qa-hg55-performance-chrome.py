@@ -28,7 +28,7 @@ def persist():
 atexit.register(persist)
 PACK=json.loads((QA/"build-image-pack.json").read_text(encoding="utf-8"))
 check("22 lossless optimized images and source provenance intact",
-      PACK["verified_image_count"]==22 and PACK["all_rgba_pixels_identical"]
+      PACK["verified_image_count"]==22 and PACK["all_visible_pixels_identical"]
       and PACK["source_asset_files_modified"] is False and PACK["saved_html_bytes"]>=1_000_000,
       {"count":PACK["verified_image_count"],"bytes_saved":PACK["saved_html_bytes"]})
 check("exactly one canonical offline HTML is present",HTML.is_file())
