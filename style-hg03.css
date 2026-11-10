@@ -1896,3 +1896,47 @@ body.combat-mode .hg43-battle-unit.empty{font:10px/1.3 system-ui;color:#9db8b2}
 body.combat-mode .battle-command-content>.battle-selection-readout{order:-30;flex:0 0 auto}
 body.combat-mode .battle-command-content>.battle-display-tools{order:-29;flex:0 0 auto}
 body.combat-mode .battle-command-content>.battle-action-grid{order:-28;flex:0 0 auto}
+
+
+/* HG47: compact fantasy gear management; 10 real slots and responsive forge. */
+.hg47-ten-slots{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:stretch}
+.hg47-ten-slots .hg46-slot{min-width:0;display:flex;flex-direction:column;gap:5px;padding:8px;background:linear-gradient(150deg,#182a38,#233b45);border:1px solid #627481;border-radius:10px}
+.hg47-ten-slots .hg46-slot-content{display:flex;flex:1;align-items:center;gap:7px;min-width:0}
+.hg47-ten-slots .hg46-slot-content>div:last-child{min-width:0;overflow-wrap:anywhere}
+.hg47-ten-slots .hg46-slot-head{display:flex;justify-content:space-between;gap:6px;align-items:center}
+.hg47-ten-slots .hg46-slot-head b{font-size:12px}
+.hg47-ten-slots .hg46-slot-content strong{display:block;font-size:12px;line-height:1.25}
+.hg47-ten-slots .hg46-gear-art{flex:none;width:46px;min-width:46px;min-height:46px;font-size:25px;display:grid;place-items:center}
+.hg47-ten-slots .hg46-gear-art img{max-width:44px;max-height:44px}
+.hg47-ten-slots .hg46-slot-content small{display:block;font-size:10px;line-height:1.3}
+.hg47-ten-slots .hg46-slot button{margin-top:auto;min-height:32px}
+.hg47-affix{color:#9ce6d1!important;font-weight:600}
+.hg46-kind-divine{border-color:#dfb861!important;box-shadow:inset 0 0 0 1px rgba(229,188,92,.24)}
+.hg46-kind-rare{border-color:#76a7d7!important}
+.hg46-progress-pips{display:flex;flex-wrap:nowrap;gap:3px;max-width:100%}
+.hg46-progress-pips i{flex:1 1 auto;min-width:4px;height:5px;border-radius:3px}
+.hg47-forge{background:linear-gradient(165deg,rgba(27,50,62,.92),rgba(31,35,50,.94))}
+.hg47-selector{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}
+.hg47-selector button{flex:1 1 110px;min-width:0}
+.hg47-wallet{display:flex;flex-wrap:wrap;gap:7px;margin:10px 0;padding:10px;background:#142a36;border:1px solid #526678;border-radius:9px}
+.hg47-wallet>span{border-right:1px solid #536574;padding:2px 10px 2px 0;font-size:11px}
+.hg47-recipe-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin:12px 0}
+.hg47-recipe{display:flex;align-items:center;gap:9px;min-width:0;border:1px solid #526a78;border-radius:10px;background:#1b3241;padding:9px}
+.hg47-recipe.is-focus{border-color:#d6b66c;background:#2d3b44}
+.hg47-recipe-art{font-size:30px;min-width:38px;text-align:center}
+.hg47-recipe-body{display:flex;flex:1;flex-direction:column;gap:4px;min-width:0}
+.hg47-recipe-body b{font-size:12px;line-height:1.35}
+.hg47-recipe-body small{font-size:10px;line-height:1.35;color:#bad1d5;overflow-wrap:anywhere}
+.hg47-recipe-body progress{width:100%;height:7px}
+.hg47-recipe-actions{display:flex;flex-direction:column;gap:5px;min-width:108px}
+.hg47-recipe-actions button{white-space:normal;font-size:10px;min-height:32px}
+.hg47-set-info{margin-top:12px}
+.hg47-set-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px;margin-top:10px}
+.hg47-set-chip{padding:10px;border:1px solid #4c6b77;border-radius:8px;display:flex;flex-direction:column;gap:4px;background:#162d3b}
+.hg47-set-chip small{font-size:11px;color:#bcd1da}
+@media(max-width:960px){.hg47-ten-slots{grid-template-columns:repeat(3,minmax(0,1fr))}.hg47-recipe-grid{grid-template-columns:1fr}}
+@media(max-width:520px){.hg47-ten-slots{grid-template-columns:repeat(2,minmax(0,1fr));gap:5px}
+.hg47-ten-slots .hg46-slot{padding:6px}.hg47-ten-slots .hg46-gear-art{width:32px;min-width:32px;min-height:32px;font-size:18px}
+.hg47-ten-slots .hg46-slot-content{gap:4px}.hg47-ten-slots .hg46-slot-content strong{font-size:11px}
+.hg47-recipe{gap:6px;padding:7px}.hg47-recipe-art{min-width:26px;font-size:20px}.hg47-recipe-actions{min-width:84px}
+.hg47-recipe-actions button{font-size:10px}.hg47-set-grid{grid-template-columns:1fr}}
