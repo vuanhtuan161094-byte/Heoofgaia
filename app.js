@@ -14,7 +14,7 @@ let hg43ArmyPage='recruit',hg43ArmyRace='human';
 // HG40.8: presentation-only hero selection; never stored inside Save v07.
 let hg408InspectId=null,hg408Tab='overview',hg408DismissFor=null,hg408DismissStage=0;
 // HG46 view-only filter/pagination; never persisted in Save v07.
-let hg46GearFilter='all',hg46GearPage=0;
+let hg46GearFilter='all',hg46GearPage=0,hg47RaceView='human',hg47TierView='rare';
 const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['boss','☠ Boss'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -777,23 +777,23 @@ function equipmentBattleText(item){
 }
 
 function hg46GearView(h){
- const slots=state.equipment[h.id]||{},busy=!!(state.march||state.battle||E.heroAway(state,h.id));
+ const slots=state.equipment[h.id]||{},busy=!!(state.march||state.battle||state.expedition||state.parallelMarches?.length||state.hg26?.enabled||E.heroAway(state,h.id));
  const sets=E.hg46Sets(state,h.id);
  const modes=[['balanced','⚖ Cân bằng'],['attack','⚔ Công'],['defense','🛡 Thủ']];
- const names={weapon:'Vũ khí',armor:'Giáp',charm:'Phụ kiện'};
- const setsById={...E.HG18_SETS,...E.HG31_SETS};
+ const names=Object.fromEntries(E.HG47_SLOTS.map(([key,label])=>[key,label]));
+ const setsById={...E.HG18_SETS,...E.HG31_SETS,...E.HG47_SETS};
  const icon=row=>{
   const item=E.ITEMS[row.itemId];
   return E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
  };
- const worn=['weapon','armor','charm'].map(slot=>{
+ const worn=E.HG47_SLOTS.map(([slot])=>{
   const row=state.inventory.find(i=>i.uid===slots[slot]),def=row&&E.ITEMS[row.itemId];
   const kind=row?E.hg46Kind(row):'empty',p=row?E.hg46Stats(row):null;
-  const attrs=p?['atk','def','spd'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · '):'Chưa có trang bị';
+  const attrs=p?['atk','def','spd','int'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · '):'Chưa có trang bị';
   return '<article class="hg46-slot hg408-slot hg46-kind-'+kind+'" data-hg46-slot="'+slot+'">'+
    '<div class="hg46-slot-head"><b>'+esc(names[slot])+'</b><small>'+ (row?'+'+(row.enhance||0)+' cường hóa':'Trống')+'</small></div>'+
    '<div class="hg46-slot-content"><div class="hg46-gear-art">'+(row?icon(row):'◇')+'</div>'+
-   '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+
+   '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+ (row&&E.hg47Affixes(row).length?'<small class="hg47-affix">'+esc(E.hg47Affixes(row).map(x=>x.label).join(' · '))+'</small>':'')+
    (def?.set?'<small class="hg46-set-tag">'+esc(setsById[def.set]?.name||def.set)+'</small>':'')+
    '</div></div>'+
    (row?button('hg408-unequip',{id:h.id,slot},'Tháo trang bị',busy,'small secondary'):'')+
@@ -805,23 +805,23 @@ function hg46GearView(h){
    !q.allowed||q.gain<=0,'small '+(id==='balanced'?'primary':'secondary'));
  }).join('');
  const setProgress=sets.map(q=>'<div class="hg46-set-progress">'+
-  '<strong>'+esc(q.name)+'</strong><span>'+q.count+'/3</span>'+
-  '<div class="hg46-progress-pips"><i class="'+(q.count>=1?'filled':'')+'"></i><i class="'+(q.count>=2?'filled':'')+'"></i><i class="'+(q.count>=3?'filled':'')+'"></i></div>'+
+  '<strong>'+esc(q.name)+'</strong><span>'+q.count+'/'+(q.max||3)+'</span>'+
+  '<div class="hg46-progress-pips">'+Array.from({length:q.max||3},(_,i)=>'<i class="'+(q.count>i?'filled':'')+'"></i>').join('')+'</div>'+
   '<small>'+esc(q.note)+'</small></div>').join('');
  const inventory=state.inventory.filter(i=>E.ITEMS[i.itemId]&&(hg46GearFilter==='all'||E.ITEMS[i.itemId].slot===hg46GearFilter));
- const tiers={star:5,dragon:4,astral:3,sentinel:2,common:1};
+ const tiers={divine:7,star:6,rare:5,dragon:4,astral:3,sentinel:2,common:1};
  inventory.sort((a,b)=>((tiers[E.hg46Kind(b)]||0)-(tiers[E.hg46Kind(a)]||0))||
   (b.enhance||0)-(a.enhance||0)||a.uid-b.uid);
  const pageSize=36,pages=Math.max(1,Math.ceil(inventory.length/pageSize));
  hg46GearPage=Math.min(hg46GearPage,pages-1);
  const visible=inventory.slice(hg46GearPage*pageSize,(hg46GearPage+1)*pageSize);
- const options=[['all','Tất cả'],['weapon','⚔ Vũ khí'],['armor','🛡 Giáp'],['charm','💠 Phụ kiện']];
+ const options=[['all','Tất cả'],...E.HG47_SLOTS.map(([key,name,icon])=>[key,icon+' '+name])];
  const filters=options.map(([key,label])=>button('hg46-filter',{slot:key},label+' '+(key==='all'?state.inventory.length:state.inventory.filter(i=>E.ITEMS[i.itemId]?.slot===key).length),
   key===hg46GearFilter,'small '+(key===hg46GearFilter?'primary':'secondary'))).join('');
  const rows=visible.map(row=>{
   const def=E.ITEMS[row.itemId],owner=E.hg46Owner(state,row.uid),self=owner?.heroId===h.id,
    elsewhere=owner&&!self,kind=E.hg46Kind(row),p=E.hg46Stats(row),next=E.hg46NextEnhance(state,row.uid);
-  const raw=['atk','def','spd'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · ');
+  const raw=['atk','def','spd','int'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · ');
   const salvage=E.hg46SalvagePreview(state,row.uid);
   const battle=equipmentBattleText(def),source=owner?
     'Đang mặc: '+(state.heroes.find(x=>x.id===owner.heroId)?.name||'Tướng khác'):'Trong kho';
@@ -832,6 +832,7 @@ function hg46GearView(h){
    '<small class="hg46-origin">'+esc(setName)+' · '+esc(source)+' · UID '+row.uid+'</small>'+
    '<small>'+esc(raw||'Không có điểm thuộc tính')+'</small>'+
    (battle?'<small class="hg46-effect">'+esc(battle)+'</small>':'')+
+   (E.hg47Affixes(row).length?'<small class="hg47-affix">Dòng phụ: '+esc(E.hg47Affixes(row).map(x=>x.label).join(' · '))+'</small>':'')+
    (next.level<10?'<small class="hg46-cost">Nâng +'+(next.level+1)+': '+next.stones+' đá + '+format(next.gold)+' vàng · 100% thành công</small>':
     '<small class="hg46-cost">Đã đạt cấp +10</small>')+
    '<small class="hg46-cost">Phân giải: +'+salvage.stones+' đá'+(salvage.astralShards?', +'+salvage.astralShards+' mảnh Tinh Vân':'')+'</small></div>'+
@@ -845,13 +846,13 @@ function hg46GearView(h){
  }).join('');
  return '<div class="hg46-manager" aria-label="Trang bị và bộ đồ của tướng">'+
   '<div class="hg46-strip"><span>🎒 Kho '+state.inventory.length+'/2000</span><span>💎 Đá '+format(state.hg18.materials.enhance_stone)+'</span>'+
-  '<span>🪙 Vàng '+format(state.res.gold)+'</span><span>3 ô · đồ của tướng khác không tự chuyển</span></div>'+
-  '<div class="hg46-slots">'+worn+'</div>'+
-  '<section class="hg46-build-panel"><div><b>⚒ Đề xuất trang bị thực</b><small>Tự chọn từ món rảnh trong kho và đồ đang mặc; tính chỉ số chiến đấu + hiệu ứng bộ. Không chuyển đồ từ tướng khác.</small></div>'+
+  '<span>🪙 Vàng '+format(state.res.gold)+'</span><span>10 ô · đồ của tướng khác không tự chuyển</span></div>'+ 
+  '<div class="hg46-slots hg47-ten-slots">'+worn+'</div>'+ 
+  '<section class="hg46-build-panel"><div><b>⚒ Đề xuất trang bị thực</b><small>Đánh giá 10 ô, dòng phụ và bộ đồ từ kho hiện có; không chuyển đồ từ tướng khác.</small></div>'+ 
   '<div class="hg46-build-buttons">'+buildChoices+'</div></section>'+
   '<details class="hg46-set-details"><summary>💠 Bộ trang bị · '+sets.filter(q=>q.count>=2).length+' bộ đang có hiệu ứng</summary>'+
   '<div class="hg46-set-grid">'+setProgress+'</div></details>'+
-  '<div class="hg46-inventory-head"><b>TRANG BỊ TRONG KHO</b><span>'+inventory.length+' món · '+pages+' trang</span></div>'+
+  '<div class="hg46-inventory-head"><b>TRANG BỊ TRONG KHO</b><span>'+inventory.length+' món · '+pages+' trang</span></div>'+ 
   '<div class="hg46-filter-bar">'+filters+'</div>'+
   '<div class="hg46-inventory-list">'+(rows||'<p class="hg408-note">Không có trang bị trong nhóm này. Kiếm rương từ nhiệm vụ hoặc ghép đồ tại Rèn & Di vật.</p>')+'</div>'+
   '<div class="hg46-pages">'+button('hg46-page',{direction:-1},'◀ Trang trước',hg46GearPage===0,'small secondary')+
@@ -905,7 +906,7 @@ function hg408HeroesView(){
    </div>`;
  let page='';
  if(hg408Tab==='overview'){
-   page=`<div class="hg45-stat-heading">Chỉ số chiến đấu thực · bao gồm hiệu ứng phẩm chất</div>`+statsGrid+actions+`<div class="hg408-note">Sức chỉ huy ${format(E.heroLimit(h.level,h))} điểm · ${role.status==='home'?'Có mặt ở thành':'Đang thực hiện nhiệm vụ'} · ${Object.keys(slots).length}/3 ô trang bị</div>
+   page=`<div class="hg45-stat-heading">Chỉ số chiến đấu thực · bao gồm hiệu ứng phẩm chất</div>`+statsGrid+actions+`<div class="hg408-note">Sức chỉ huy ${format(E.heroLimit(h.level,h))} điểm · ${role.status==='home'?'Có mặt ở thành':'Đang thực hiện nhiệm vụ'} · ${Object.keys(slots).length}/10 ô trang bị</div>
      <details class="hg408-more"><summary>Chỉ số và tác động thực tế</summary><p>Chỉ số chiến đấu gồm thưởng trang bị và nâng bậc; sức mạnh đội hình chỉ hiển thị khi đã bố trí quân thật. Tướng đang giữ chức Castellan không thể đi chiến đấu.</p></details>`;
  }else if(hg408Tab==='stats'){
    page=statsGrid+`<div class="hg408-note">Điểm thuộc tính còn lại: <b>${h.statPoints||0}</b> · EXP từ chiến đấu, nhiệm vụ và huấn luyện</div>
