@@ -67,9 +67,20 @@ def inspect(page):
       const hudW=Math.max(155,Math.min(235,c.width*.205));
       const huds=[{x:12,y:9,w:hudW,h:37},{x:c.width-12-hudW,y:9,w:hudW,h:37},
         {x:c.width/2-58,y:9,w:116,h:37},{x:12,y:c.height-36,w:c.width-24,h:27}];
+      // Canvas atlas rounding may touch a HUD edge by <1 source pixel.
+      // Verified three-hero p3 top=45.3068 versus HUD bottom=46: 0.6932px.
+      // This is a subpixel contact, not an occluding sprite. Reject both-axis
+      // penetration >= 1px; keep genuine overlapping avatars and text RED.
+      const overlaps=(a,b)=>({w:Math.max(0,Math.min(a.x+a.w,b.x+b.w)-Math.max(a.x,b.x)),
+        h:Math.max(0,Math.min(a.y+a.h,b.y+b.h)-Math.max(a.y,b.y))});
       const hudHits=alive.flatMap(a=>huds.flatMap((q,i)=>{
-        const parts=['label','sprite','countBox'].filter(key=>a[key]&&area(q,a[key])>0);
-        return parts.map(part=>({actor:a.id,side:a.u.side,part,hud:i,rect:a[part],hudRect:q}));
+        const parts=['label','sprite','countBox'].filter(key=>{
+          if(!a[key])return false;
+          const penetration=overlaps(q,a[key]);
+          return penetration.w>=1&&penetration.h>=1;
+        });
+        return parts.map(part=>({actor:a.id,side:a.u.side,part,hud:i,
+           penetration:overlaps(q,a[part]),rect:a[part],hudRect:q}));
       }));
       const hudConflicts=hudHits.length;
       const cells=P.battleGridCells(camera),corners=cells.flatMap(cell=>cell.corners),sampleNow=performance.now();
