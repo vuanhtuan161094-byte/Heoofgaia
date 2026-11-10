@@ -68,26 +68,40 @@ function render(s,E,ui,{screen='targets',tier=11}={}){
    '<div class="hg42-reward-items">'+(material||'<span>Không có thẻ bổ sung</span>')+'</div></section>';
  }).join('');
  const expeditionView=()=>{
-  const journey=E.hg50Status(s);
+  const journey=E.hg50Status(s),replay=journey.replay||E.hg50ReplayStatus(s);
+  const repeatLabel=journey.done?'Đã mở tái chiến: vẫn phải xuất quân, mất AP và nhận thưởng gốc đúng một lần.':'Hoàn tất ba Boss theo thứ tự để mở tái chiến.';
   return '<div class="hg42-boss-select hg50-expedition" data-hg50-expedition="true">'+
-   '<p><b>🧭 Viễn Chinh 3 chặng</b> · '+journey.completed.length+'/3 đã hoàn thành. Mở khóa bằng chiến thắng Boss thật; không có thưởng giả.</p>'+
+   '<p><b>🧭 Viễn Chinh 3 chặng</b> · '+journey.completed.length+'/3 đã hoàn thành. Mở khóa bằng chiến thắng Boss thật.</p>'+
+   '<div class="hg50-replay-meter" data-hg50-replay="true">'+
+    '<span>☀ Ngày (UTC) <b>'+replay.today.length+'/3</b></span>'+
+    '<span>📅 Tuần (UTC) <b>'+replay.thisWeek.length+'/3</b></span>'+
+    '<span>🏆 Chiến thắng thật <b>'+format(Object.values(replay.total).reduce((a,n)=>a+n,0))+'</b></span>'+
+    '<small>'+repeatLabel+' Không cấp vàng, mảnh hay quân lần hai cho chiến tích HG50-C.</small></div>'+
    dispatchReadiness+
    '<div class="hg42-boss-targets">'+journey.stages.map(stage=>{
     const tile=stage.target?E.getTile(stage.target):null;
     const route=tile&&homeKey?E.pathfind(homeKey,tile.key):null;
-    const reachable=!!route,ready=stage.unlocked&&!stage.completed;
-    const badge=stage.completed?'✓ Đã thắng':stage.unlocked?'⚔ Đang mở':'🔒 Chưa mở';
+    const reachable=!!route,repeat=journey.done&&stage.completed;
+    const ready=stage.unlocked&&(!stage.completed||repeat);
+    const p=tile?preview(tile):null,goldHeadroom=p?Math.max(0,Math.floor(E.limits(s).gold-s.res.gold)):0;
+    const goldNow=p?Math.min(p.resources.gold,goldHeadroom):0;
+    const ap=tile?E.hg182MarchCost(s,tile.key):null;
+    const badge=repeat?'↻ Tái chiến':stage.completed?'✓ Đã thắng':stage.unlocked?'⚔ Đang mở':'🔒 Chưa mở';
     return '<article class="hg42-boss-target" data-hg50-stage="'+stage.stage+'">'+
      '<header><div class="hg42-boss-emblem">🧭</div><div><strong>Chặng '+stage.stage+' · Boss T'+stage.tier+'</strong>'+
      '<small>'+esc(stage.name)+' · '+(tile?'tọa độ '+esc(tile.key):'Không có Boss hợp lệ')+'</small></div>'+
      '<span class="hg42-boss-stage">'+badge+'</span></header>'+
      (tile?threat(tile):'<p>Chưa có Boss trên bản đồ. Không tạo quái thay thế.</p>')+
-     '<p class="hg42-boss-detail">'+(stage.completed?'Đã nghiệm thu chiến thắng thật.':ready?
+     '<p class="hg42-boss-detail">'+(repeat?'Tái chiến từ Boss thật, không thưởng nhiệm vụ HG50 lần hai.':
+      stage.completed?'Đã ghi nhận chiến thắng chặng này.':ready?
        'Phải sử dụng quân, AP và tổn thất thật.':'Hoàn thành chặng trước để tính tiến độ.')+
       ' Boss thường vẫn có thể săn ở màn Boss thế giới.</p>'+
+     (p?'<p class="hg50-real-loot" data-hg50-loot="true">🪙 Thưởng Boss gốc: '+format(p.resources.gold)+
+      ' vàng; chỗ trống kho hiện tại nhận tối đa '+format(goldNow)+
+      ' vàng từ nguồn này · '+format(ap)+' AP/xuất chinh. Chưa trừ tổn thất hoặc tính các nguồn thưởng khác.</p>':'')+
      '<div class="hg42-boss-buttons">'+
      (tile?button('hg42-boss-locate',{key:tile.key},'📍 Định vị',false,'small secondary'):'')+
-     (tile?button('hg42-boss-dispatch',{key:tile.key},'⚔ Chọn đội đánh Boss',!ready||!reachable||!!s.battle,'small primary'):'')+
+     (tile?button('hg42-boss-dispatch',{key:tile.key},repeat?'↻ Tái chiến bằng quân thật':'⚔ Chọn đội đánh Boss',!ready||!reachable||!!s.battle,'small primary'):'')+
      '</div></article>';
    }).join('')+'</div></div>';
  };
