@@ -1,0 +1,78 @@
+name: HG56 Persistent HUD + Window VFX + Combat VFX
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'index.html'
+      - 'style-hg56.css'
+      - 'hg56-ui.js'
+      - 'painter.js'
+      - 'build_offline.py'
+      - 'qa-hg56-hud-vfx-chrome.py'
+      - '.github/workflows/hg56-global-ui.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: hg56-global-ui-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  hud-vfx-real-offline:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Exact SHA, syntax, preserved Boss phases and Save v07
+        run: |
+          echo "HG56_SOURCE_SHA=$(git rev-parse HEAD)"
+          node --check hg56-ui.js
+          node --check painter.js
+          node --check app.js
+          node qa-hg50-boss-phases.cjs
+          node qa-hg50-replay.cjs
+      - name: Build exactly one self-contained HTML
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          text=Path("Play-Heoofgaia-HG11.html").read_text(encoding="utf-8")
+          assert text.count('<script>')==39, "HG56 module must be in sole HTML"
+          assert 'hg56ImpactStreaks' in text and 'hg56BossPhaseAura' in text
+          assert '--hg56-hud-h' in text and 'HOG_HG56_UI' in text
+          assert not re.search(r'<script[^>]*\bsrc="https?://',text)
+          assert not re.search(r'<link[^>]*\bhref="https?://',text)
+          print('HG56 INLINE_BUNDLE PASS; JS=39; offline-only')
+          PY
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Real Chromium file URL across 5 viewports and all subtask screens
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python -m py_compile qa-hg56-hud-vfx-chrome.py
+          python qa-hg56-hud-vfx-chrome.py
+      - name: Screenshots and viewport reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG56-HUD-VFX-Browser-Evidence
+          path: |
+            docs/qa/hg56/*.json
+            docs/evidence/hg56/*.png
+          if-no-files-found: ignore
+          retention-days: 30
+      - name: Exactly one user playable offline HTML
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG56-Playable-Single-HTML
+          path: Play-Heoofgaia-HG11.html
+          if-no-files-found: error
+          retention-days: 30
