@@ -8,6 +8,12 @@ const E=root.HOG_ENGINE;
 if(!E?.hg409Preview||!E?.hg410EncounterPreview||!E?.hg47Status||E.V!==7)
  throw Error('HG50-A requires HG41/HG47, HG40.9 and Save v07');
 const TIERS=Object.freeze([11,12,13]);
+// Memoize world target lookup; do not scan/sort the entire tile catalog on
+// every Boss-screen rerender or every phone economy tick.
+const ROUTE_TILES=Object.freeze(TIERS.map(tier=>
+ E.TILES.filter(t=>t.kind==='npc'&&t.eliteTier===tier)
+   .sort((a,b)=>a.key.localeCompare(b.key))[0]||null
+));
 const old={make:E.make,parse:E.parseSave,strict:E.strictSave,battleAct:E.battleAct};
 const fresh=()=>({v:1,unlocked:1,completed:[]});
 function ensure(s){if(!s.hg50)s.hg50=fresh();return s.hg50;}
@@ -23,8 +29,7 @@ function status(s){
  const q=s.hg50||fresh();
  return {v:1,unlocked:q.unlocked,completed:q.completed.slice(),done:q.completed.length===3,
    stages:TIERS.map((tier,i)=>{
-    const tile=E.TILES.filter(t=>t.kind==='npc'&&t.eliteTier===tier)
-     .sort((a,b)=>a.key.localeCompare(b.key))[0]||null;
+    const tile=ROUTE_TILES[i];
     const p=tile?E.hg409Preview('npc',tile.key):null;
     const layout=tile?E.hg410EncounterPreview('npc',tile.key):null;
     return {stage:i+1,tier,target:tile?.key||null,name:tile?.value||tile?.name||'Boss T'+tier,
