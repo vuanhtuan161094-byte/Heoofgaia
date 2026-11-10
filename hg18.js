@@ -165,7 +165,7 @@ function salvage(s,uid){
   // HG46-B: a focused Boss/Tower item must not dismantle for the same
   // return as a 450-gold Bazaar sword. Tier-based stones are a partial
   // salvage RETURN, not new Boss/Tower fragments or combat receipts.
-  baseStones=({sentinel:3,astral:5,dragon:8,star:10})[gear.set]||1,
+  baseStones=({sentinel:3,astral:5,dragon:8,star:10})[gear.set]||(gear.hg47?(gear.tier==='divine'?12:4):1),
   stones=baseStones+Math.floor((row.enhance||0)/2),
   shards=gear.set==='astral'?3:0;
  assert(s.hg18.materials.enhance_stone+stones<=1e6,'Kho đá cường hóa đầy');
