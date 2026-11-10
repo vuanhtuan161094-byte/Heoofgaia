@@ -1076,7 +1076,7 @@ function hg47ForgeView(){
      hunter:'Huy hiệu',abyss:'Lõi Boss',tower:'Phù văn Tháp',hero:'Mảnh Anh Hùng',
      bossToken:'Ấn Boss',towerToken:'Ấn Tháp'})[key]+' '+format(n)).join(' · ');
   const label=q.gated?'Chưa thắng Boss T11+ và 3 lượt Tháp nhận thưởng':missing||'Đã đủ nguyên liệu';
-  return '<article class="hg47-recipe '+(q.focused&&race===state.race?'is-focus':'')+'">'+
+  return '<article class="hg47-recipe hg47-tier-'+tier+' '+(q.focused&&race===state.race?'is-focus':'')+'">'+
     '<div class="hg47-recipe-art">'+(E.hg47IconHTML?.(q.id,44)||q.icon)+'</div><div class="hg47-recipe-body">'+
     '<b>'+esc(def.name)+'</b><small>'+esc(E.HG47_SLOTS.find(x=>x[0]===q.slot)?.[1]||q.slot)+
     ' · ⚔ '+def.atk+' · 🛡 '+def.def+' · ➤ '+def.spd+'</small>'+
