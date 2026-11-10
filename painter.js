@@ -617,6 +617,36 @@ function battleFxPlan(b,camera,elapsed,layout){
    floatX:targetCell.x+target.x-target.baseX+(target.u.side==='player'?-1:1)*Math.max(82,target.size*.75)}];
  });
 }
+// HG49: chromatic impact paint from the same verified HG09/HG40 battle receipt.
+// Pure canvas, frame-local, deterministic spark positions; no extra hit/casualty.
+function hg49ImpactBloom(c,fx,color,age,camera){
+ if(age<0||age>520)return;
+ const t=clamp(age/520,0,1),alpha=(1-t)*(1-t),radius=clamp(camera.radius*.82,15,36);
+ const x=fx.end.x,y=fx.end.y;
+ c.save();c.globalCompositeOperation='lighter';
+ c.globalAlpha=.57*alpha;
+ const aura=c.createRadialGradient(x,y,0,x,y,radius*(1.15+t*1.4));
+ aura.addColorStop(0,'#fff5d0');
+ aura.addColorStop(.22,color);
+ aura.addColorStop(1,'#00000000');
+ c.fillStyle=aura;c.fillRect(x-radius*3,y-radius*3,radius*6,radius*6);
+ for(let ring=0;ring<2;ring++){
+  c.globalAlpha=(ring===0?.78:.37)*alpha;c.strokeStyle=ring===0?'#fff3d1':color;
+  c.lineWidth=ring===0?2.3:4.2;c.beginPath();
+  c.ellipse(x,y,radius*(.31+1.18*t+ring*.21),
+   radius*(.12+.55*t+ring*.18),-.14,0,TAU);c.stroke();
+ }
+ const key=String(fx.actorId)+'|'+String(fx.targetId),seed=[...key].reduce((a,ch)=>a*33+ch.charCodeAt(0),5381)>>>0;
+ for(let i=0;i<9;i++){
+  const theta=i*2.39996+(seed%73)*.021,span=(.24+((i*7+seed)%11)/14)*radius*(.5+1.3*t);
+  const sx=x+Math.cos(theta)*span,sy=y+Math.sin(theta)*span*.68;
+  c.globalAlpha=(.35+.60*(i%3)/2)*alpha;c.fillStyle=i%3===0?'#ffffff':color;
+  c.save();c.translate(sx,sy);c.rotate(theta);
+  c.fillRect(-1.2,-3.9+t*3,2.4,7.8*(1-t)+1.1);
+  c.restore();
+ }
+ c.restore();
+}
 function motionImpactFx(c,camera,b,elapsed,layout){
  const effects=battleFxPlan(b,camera,elapsed,layout);
  for(const fx of effects){
@@ -629,10 +659,16 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    const x=fx.start.x+(fx.end.x-fx.start.x)*travel;
    const y=fx.start.y+(fx.end.y-fx.start.y)*travel-19*Math.sin(Math.PI*travel);
    const angle=Math.atan2(fx.end.y-fx.start.y,fx.end.x-fx.start.x);
-   c.save();c.translate(x,y);c.rotate(angle);c.globalAlpha=.95;
-   line(c,-22,0,9,0,3,bright);
-   line(c,9,0,1,-5,1.7,'#f9f6e0');line(c,9,0,1,5,1.7,'#f9f6e0');
-   line(c,-22,0,-30,0,1.5,fx.side==='player'?'#f5d698':'#e99b93');c.restore();
+   c.save();c.translate(x,y);c.rotate(angle);c.globalAlpha=.96;
+   c.shadowColor=bright;c.shadowBlur=11;
+   line(c,-23,0,9,0,3.7,bright);
+   c.shadowBlur=0;
+   for(let trail=0;trail<3;trail++){c.globalAlpha=(.45-trail*.12)*Math.sin(Math.PI*travel);
+    line(c,-27-trail*10,0,-11-trail*8,0,2.6-trail*.5,bright);}
+   c.globalAlpha=.97;
+   line(c,9,0,1,-5,1.7,'#fffaf0');line(c,9,0,1,5,1.7,'#fffaf0');
+   c.fillStyle='#fffbe6';c.beginPath();c.arc(8,0,2.5,0,TAU);c.fill();
+   c.restore();
   }else if(!fx.ranged&&t>=fx.attackStart&&t<=fx.impactMs){
    const phase=clamp((t-fx.attackStart)/Math.max(1,fx.impactMs-fx.attackStart),0,1),fade=1-phase;
    c.globalAlpha=.9*fade;c.strokeStyle=bright;c.lineWidth=3;
@@ -640,6 +676,7 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    c.beginPath();c.arc(fx.end.x+3,fx.end.y-3,19+phase*13,-1.4,.9);c.stroke();
   }
   const afterImpact=t-fx.impactMs;
+  hg49ImpactBloom(c,fx,bright,afterImpact,camera);
   if(signature&&afterImpact>=0&&afterImpact<=480)
    drawHG403Sigil(c,fx.actorUnitId,fx.end.x,fx.end.y,afterImpact/480,clamp(camera.radius/38,.52,1.12));
   if(afterImpact>=0&&afterImpact<=360){
@@ -657,7 +694,9 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    c.strokeText('-'+Math.round(fx.damage),x,y);
    c.fillStyle=fx.kind==='dot'?'#d7afff':fx.kind==='skill'?'#b8edff':
     fx.side==='player'?'#ffe4a1':'#ffaea2';
+   c.shadowColor=bright;c.shadowBlur=7;
    c.fillText('-'+Math.round(fx.damage),x,y);
+   c.shadowBlur=0;
    if(fx.casualties>0){c.font='bold 11px sans-serif';c.fillStyle='#fff1dc';
     c.strokeText('-'+fx.casualties+' quân',x,y+16);c.fillText('-'+fx.casualties+' quân',x,y+16);}
   }
