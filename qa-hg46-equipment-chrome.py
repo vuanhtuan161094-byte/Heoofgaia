@@ -1,4 +1,4 @@
-"""HG46 real Chromium visual acceptance: owned 3-slot gear and actual actions.
+"""HG46/HG47 Chromium regression: legacy 3-item set in the 10-slot hero gear UI.
 Fixtures provide items only to exercise the UI, never pretend they dropped.
 """
 from pathlib import Path
@@ -32,9 +32,9 @@ with sync_playwright() as pw:
         page.locator('[data-action="start"]').click()
         page.locator('[data-action="tab"][data-tab="heroes"]').first.click()
         page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
-        check(label+' equipment management exists with three actual slots',
+        check(label+' equipment management exists with ten actual slots',
               page.locator('.hg46-manager').count()==1 and
-              page.locator('.hg46-slot').count()==3 and
+              page.locator('.hg46-slot').count()==10 and
               page.locator('.hg46-build-buttons button').count()==3)
         check(label+' original empty equipment is strict Save v07',
               page.evaluate('HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState()) && HOG_APP_DEBUG.getState().version===7'))
@@ -126,7 +126,7 @@ with sync_playwright() as pw:
                   page.locator('[data-action="hg46-open-gear"]').count()==1)
             page.locator('[data-action="hg46-open-gear"]').click()
             check('Forge link opens real hero gear tab without extra page',
-                  page.locator('.hg46-manager').count()==1 and page.locator('.hg46-slot').count()==3)
+                  page.locator('.hg46-manager').count()==1 and page.locator('.hg46-slot').count()==10)
             capture(page,'desktop-1280x720-forge-to-gear.png')
         check(label+' no uncaught JS errors',not [e for e in ERRORS if e['viewport']==label],ERRORS)
         ctx.close()
