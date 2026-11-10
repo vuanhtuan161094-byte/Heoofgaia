@@ -43,8 +43,14 @@ def assert_hud(page,label,w,h,must_modal=False):
        x['display']=='flex' and x['position']=='fixed' and x['visibility']!='hidden' and
        x['globalName'] and x['y']>=-1 and x['bottom']<=h+1 and x['x']>=-1 and x['w']<=w+2 and
        x['resourceCount']==5 and all(v['rect']['w']>25 for v in x['resources']),x)
+ # Economy tick and DOM paint may straddle a screenshot turn. Re-check on
+ # the same live state after one bounded browser update; never fake resources.
+ if x['saved'] and x['actual']!=[row['amount'] for row in x['resources']]:
+  page.wait_for_timeout(180)
+  x=hud(page)
  check(label+' five resource values from real active state, strict Save v07',
-       x['saved'] and x['actual']==[row['amount'] for row in x['resources']],x['resources'])
+       x['saved'] and x['actual']==[row['amount'] for row in x['resources']],
+       {'saved':x['saved'],'actual':x['actual'],'display':[row['amount'] for row in x['resources']]})
  check(label+' clickable HUD front of modal, independent of full screen content',
        all(row['clickable'] for row in x['resources']) and
        (not must_modal or x['modalVisible'] and x['modalTop']>=x['bottom']-3) and
