@@ -185,5 +185,9 @@ assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
 assert html.count('<script>')==37, 'Expected 37 offline game modules including HG47 ten-slot gear'
 html=html.rstrip()+'\n'
+# HG55 modifies only the release's inlined image encoding. Source files stay
+# byte-identical, and every optimized decoded RGBA pixel is checked losslessly.
+from tools.hg55_embed_optimizer import optimize_html
+html=optimize_html(html,folder/'docs/qa/hg55/build-image-pack.json')
 (folder/'Play-Heoofgaia-HG11.html').write_text(html,encoding='utf-8',newline='\n')
 print('Built offline HTML:',len(html),'characters')
