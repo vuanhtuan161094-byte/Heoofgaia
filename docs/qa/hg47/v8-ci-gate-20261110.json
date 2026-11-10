@@ -1,0 +1,59 @@
+{
+  "stage": "HG47-CI-GATE-2026-11-10",
+  "engine_runtime_source_sha": "e42c2436c5092ae821c12a532807e6223b82581c",
+  "qa_suite_and_workflow_revision_sha": "0f4a469ac663a4308f1c4443b22f1105246d6763",
+  "environment": "Connected GitHub source fetched into JavaScript V8. Node fs/vm/assert/path operations shimmed. Actual game engine and suite assertions executed; NOT a GitHub-hosted runner, not browser QA.",
+  "results": [
+    {
+      "suite": "qa-hg47-10slot.cjs",
+      "passed": 13,
+      "total": 13
+    },
+    {
+      "suite": "qa-hg46-equipment.cjs",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "suite": "qa-hg46b-balance.cjs",
+      "passed": 8,
+      "total": 8
+    },
+    {
+      "suite": "qa-hg29-loot.cjs",
+      "passed": 10,
+      "total": 10
+    },
+    {
+      "suite": "qa-hg31-legendary.cjs",
+      "passed": 12,
+      "total": 12
+    },
+    {
+      "suite": "qa-hg18-core.cjs",
+      "passed": 18,
+      "total": 18
+    },
+    {
+      "suite": "qa-hg40-tactical.cjs",
+      "passed": 23,
+      "total": 23
+    }
+  ],
+  "passed": 92,
+  "total": 92,
+  "status": "V8_ENGINE_QA_PASS_ONLY",
+  "explicit_limits": [
+    "Not equivalent to node CLI due emulated fs/vm/assert/path APIs",
+    "No qa-engine.cjs executed (requires local generated art and final HTML)",
+    "No browser Chromium 5 viewport executed on completed single HTML",
+    "No GitHub Actions log retrieved because linked GitHub app only enumerates PR-triggered runs and workflow is push-triggered",
+    "88 MB existing HTML cannot be read through connector 64 MB message bound; GitHub remote DNS unreachable from local container",
+    "One final current-HEAD HTML artifact not yet verified"
+  ],
+  "workflow": "https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/workflows/hg47-ten-slot.yml",
+  "self_reporting": "Workflow now PUTs docs/qa/hg47/actions-${GITHUB_SHA}.json after run, with run_id, steps, HTML size and SHA-256. GitHub Actions run result remains unverified until report exists.",
+  "source_vs_suite_note": "The 24 game runtime JS modules were collected from e42c2436, with no runtime JavaScript changes observed through subsequent GitHub commits to the workflow revision; QA scripts were fetched at current revision.",
+  "user_acceptance": "PENDING_ACTIONS_CHROMIUM_HTML",
+  "branch_policy": "One branch, Save v07, no merge"
+}
