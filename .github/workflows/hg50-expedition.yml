@@ -27,6 +27,7 @@ on:
       - 'qa-hg50-expedition.cjs'
       - 'qa-hg50-boss-phases.cjs'
       - 'qa-hg50-expedition-chrome.py'
+      - 'qa-hg50-boss-phases-chrome.py'
       - '.github/workflows/hg49-spectrum.yml'
       - '.github/workflows/hg55-performance.yml'
       - '.github/workflows/hg50-expedition.yml'
@@ -83,7 +84,7 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
-          python -m py_compile qa-hg50-expedition-chrome.py tools/hg55_embed_optimizer.py qa-hg55-performance-chrome.py qa-hg47-ui-chrome.py qa-hg46-equipment-chrome.py qa-hg408-hero-chrome.py qa-hg29-ui-chrome.py qa-hg31-ui-chrome.py qa-hg48-mobile-chrome.py qa-hg49-spectrum-chrome.py
+          python -m py_compile qa-hg50-expedition-chrome.py qa-hg50-boss-phases-chrome.py tools/hg55_embed_optimizer.py qa-hg55-performance-chrome.py qa-hg47-ui-chrome.py qa-hg46-equipment-chrome.py qa-hg408-hero-chrome.py qa-hg29-ui-chrome.py qa-hg31-ui-chrome.py qa-hg48-mobile-chrome.py qa-hg49-spectrum-chrome.py
           python qa-hg47-ui-chrome.py
           python qa-hg46-equipment-chrome.py
           python qa-hg408-hero-chrome.py
@@ -93,6 +94,7 @@ jobs:
           python qa-hg49-spectrum-chrome.py
           python qa-hg55-performance-chrome.py
           python qa-hg50-expedition-chrome.py
+          python qa-hg50-boss-phases-chrome.py
       - name: Evidence for every pass/fail, no generated victory receipts
         id: evidence
         if: always()
