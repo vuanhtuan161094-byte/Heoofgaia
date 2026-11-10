@@ -20,9 +20,9 @@ const GEAR=Object.freeze([
  {id:'dragon_blade',set:'dragon',name:'Long Hồn Chiến Kiếm',slot:'weapon',icon:'⚔',atk:42,def:9,spd:3,price:15000,minFloor:11,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
  {id:'dragon_plate',set:'dragon',name:'Long Hồn Thần Giáp',slot:'armor',icon:'🛡',atk:6,def:49,spd:2,price:15000,minFloor:11,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
  {id:'dragon_seal',set:'dragon',name:'Long Hồn Pháp Ấn',slot:'charm',icon:'💠',atk:15,def:22,spd:6,price:15000,minFloor:11,need:{fragments:6,abyss:4,hunter:3,bossToken:1}},
- {id:'star_blade',set:'star',name:'Tinh Không Thần Kiếm',slot:'weapon',icon:'⚔',atk:64,def:13,spd:5,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:2}},
- {id:'star_plate',set:'star',name:'Tinh Không Thánh Giáp',slot:'armor',icon:'🛡',atk:12,def:68,spd:3,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:2}},
- {id:'star_seal',set:'star',name:'Tinh Không Thiên Ấn',slot:'charm',icon:'🔮',atk:22,def:31,spd:9,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:2}}
+ {id:'star_blade',set:'star',name:'Tinh Không Thần Kiếm',slot:'weapon',icon:'⚔',atk:64,def:13,spd:5,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:0}},
+ {id:'star_plate',set:'star',name:'Tinh Không Thánh Giáp',slot:'armor',icon:'🛡',atk:12,def:68,spd:3,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:0}},
+ {id:'star_seal',set:'star',name:'Tinh Không Thiên Ấn',slot:'charm',icon:'🔮',atk:22,def:31,spd:9,price:24000,minFloor:21,need:{fragments:9,tower:12,hero:4,bossToken:0}}
 ]);
 const IDS=GEAR.map(r=>r.id),BY_ID=Object.fromEntries(GEAR.map(r=>[r.id,r]));
 for(const gear of GEAR){
@@ -95,12 +95,31 @@ function catalogue(s){
  const h=ensure(s),floor=s.hg20?.tower?.floor||1;
  return GEAR.map(g=>{
   const n=g.need,have=h.fragments[g.id],hg29=s.hg29.shards,hg27=s.hg27;
-  const unlocked=floor>=g.minFloor&&(g.set==='dragon'?h.bossWins>=1:h.paidTowerWins>=3);
-  const enough=have>=n.fragments&&(hg29.abyss||0)>=(n.abyss||0)&&
-   (hg29.hunter||0)>=(n.hunter||0)&&(hg29.tower||0)>=(n.tower||0)&&
-   (hg29.hero||0)>=(n.hero||0)&&(hg27.boss||0)>=n.bossToken&&s.res.gold>=g.price;
+  // HG46-B: a T11+ Boss item must not require unrelated Tower floors.
+  // Star is the high-end Tower set and has NO mandatory Boss token: each set
+  // can be finished from its documented actual combat source plus HG29 shards.
+  const unlocked=g.set==='dragon'?h.bossWins>=1:
+   floor>=g.minFloor&&h.paidTowerWins>=3;
+  const missing={
+   focused:Math.max(0,n.fragments-have),
+   abyss:Math.max(0,(n.abyss||0)-(hg29.abyss||0)),
+   hunter:Math.max(0,(n.hunter||0)-(hg29.hunter||0)),
+   tower:Math.max(0,(n.tower||0)-(hg29.tower||0)),
+   hero:Math.max(0,(n.hero||0)-(hg29.hero||0)),
+   boss:Math.max(0,(n.bossToken||0)-(hg27.boss||0)),
+   gold:Math.max(0,g.price-s.res.gold)
+  };
+  const enough=Object.values(missing).every(v=>v===0);
+  const sourceWins=g.set==='dragon'?missing.focused:
+   // A paid tower win guarantees one focused fragment and one HG29 rune.
+   // Every fifth claimed floor gives two of each. Unfocused fragments are
+   // not earned by this target; changing focus is deliberate, never retro.
+   Math.max(missing.focused,missing.tower);
   return {...g,have,focus:g.id===(g.set==='dragon'?h.bossFocus:h.towerFocus),
-   unlocked,enough,canCraft:unlocked&&enough&&idle(s)&&s.inventory.length<2000,
+   unlocked,enough,missing,sourceWins,sourceDays:g.set==='star'?Math.ceil(sourceWins/5):null,
+   canCraft:unlocked&&enough&&idle(s)&&s.inventory.length<2000,
+   unlockLabel:g.set==='dragon'?'Thắng Boss T11 trở lên':
+    'Vượt Tháp '+(g.minFloor-1)+' và có 3 trận Tháp nhận thưởng',
    source:SETS[g.set].source};
  });
 }
