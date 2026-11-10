@@ -60,9 +60,10 @@ for(const [race,r] of Object.entries(RACES))for(const [tier,t] of Object.entries
  for(const [index,[slot,,icon]]of SLOTS.entries()){
   const id=itemId(race,tier,slot),n=t.multi;
   if(E.ITEMS[id])throw Error('HG47 duplicate '+id);
+  const racial={human:[0,3,0],elf:[0,0,2],orc:[3,0,0],undead:[1,1,1]}[race];
   E.ITEMS[id]={id,name:r.base+' '+SLOT_NAMES[slot]+' · '+t.name,
-   slot,icon,atk:Math.round((5+(index%3)*2)*n),
-   def:Math.round((4+((index+1)%3)*2)*n),spd:Math.round((1+index%2)*n),
+   slot,icon,atk:Math.round((5+(index%3)*2+racial[0])*n),
+   def:Math.round((4+((index+1)%3)*2+racial[1])*n),spd:Math.round((1+index%2+racial[2])*n),
    int:0,set:race+'_'+tier,race,tier,cost:0,level:10,shop:false,hg47:true};
   ITEM_IDS.push(id);
  }
@@ -259,10 +260,10 @@ function suggest(s,id=s.activeHero,mode='balanced'){
   const def=E.ITEMS[row.itemId];return def?.slot===slot&&!locked.includes(row.uid)&&
    (!def.race||def.race===(hero.race||s.race));
  }).sort((a,b)=>((b.enhance||0)-(a.enhance||0))||
-  (E.ITEMS[b.itemId].atk+E.ITEMS[b.itemId].def)-(E.ITEMS[a.itemId].atk+E.ITEMS[a.itemId].def)).slice(0,18)]));
+  (E.ITEMS[b.itemId].atk+E.ITEMS[b.itemId].def)-(E.ITEMS[a.itemId].atk+E.ITEMS[a.itemId].def)).slice(0,8)]));
  let score=start.score,slots={...initial};
  // Bounded deterministic coordinate ascent: 10 slots, 2 sweeps, no 12^10 search.
- for(let pass=0;pass<3;pass++){
+ for(let pass=0;pass<2;pass++){
   let changed=false;
   for(const [slot] of SLOTS){
    const current=slots[slot]||null,candidates=[null,current,...bySlot[slot].map(i=>i.uid)];
