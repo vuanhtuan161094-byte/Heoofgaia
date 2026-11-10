@@ -158,9 +158,15 @@
    possible:lv<10&&(s.hg18?.materials?.enhance_stone||0)>=2+2*lv&&
     s.res.gold>=250*(lv+1)};
  }
+ function salvagePreview(s,uid){
+  const row=s.inventory.find(i=>i.uid===uid);if(!row)return null;
+  const def=E.ITEMS[row.itemId],base=({sentinel:3,astral:5,dragon:8,star:10})[def.set]||1;
+  return {uid,stones:base+Math.floor((row.enhance||0)/2),
+   astralShards:def.set==='astral'?3:0,owner:owned(s,uid)?.heroId||null};
+ }
  Object.assign(E,{equipItem:equip,unequipItem:unequip,enhanceHG18:enhance,
   hg46Owner:owned,hg46CanUse:canUse,hg46Stats:gearStats,hg46Kind:gearKind,
   hg46Sets:sets,hg46Metrics:metrics,hg46Suggest:suggest,
-  hg46AutoEquip:autoEquip,hg46NextEnhance:nextEnhance});
+  hg46AutoEquip:autoEquip,hg46NextEnhance:nextEnhance,hg46SalvagePreview:salvagePreview});
  root.HOG_HG46=Object.freeze({version:1,saveVersion:7,slotCount:3,builds:Object.keys(WEIGHTS)});
 })(typeof globalThis!=='undefined'?globalThis:this);
