@@ -14,7 +14,7 @@ const ROUTE_TILES=Object.freeze(TIERS.map(tier=>
  E.TILES.filter(t=>t.kind==='npc'&&t.eliteTier===tier)
    .sort((a,b)=>a.key.localeCompare(b.key))[0]||null
 ));
-const old={make:E.make,parse:E.parseSave,strict:E.strictSave,battleAct:E.battleAct,prepare:E.hg40PrepareBattle};
+const old={make:E.make,parse:E.parseSave,strict:E.strictSave,battleAct:E.battleAct,prepare:E.hg40PrepareBattle,tick:E.tick};
 const fresh=()=>({v:1,unlocked:1,completed:[]});
 function ensure(s){if(!s.hg50)s.hg50=fresh();return s.hg50;}
 function valid(s){
@@ -83,6 +83,17 @@ function phasePrepare(s,b){
  result.history.length=Math.min(12,result.history.length);
  return result;
 }
+// Some inherited world-march decorators finalize their enemies after the
+// HG40 prepare hook. The authoritative denominator is the complete LIVE roster
+// at battle open, after all wrapped tick/march decorators have finished.
+function finalizeInitialHp(s){
+ const b=s?.battle,q=b?.hg50b;
+ if(!q||q.phase!=='armed'||b.turn!==1||q.triggeredTurn!==null)return;
+ const hp=totalHp(b);
+ if(!Number.isSafeInteger(hp)||hp<=0)throw Error('HG50-B invalid finalized Boss total HP');
+ q.initialHp=hp;
+}
+function tick(s,...args){const result=old.tick(s,...args);finalizeInitialHp(s);return result;}
 function phaseEvent(b,q,kind,turn,message){
  q.events.push({kind,turn});
  b.history.unshift(message);b.history.length=Math.min(12,b.history.length);
@@ -165,6 +176,7 @@ function battleAct(s,action,options){
  const tile=b?.kind==='npc'?E.getTile(b.target):null;
  const tier=tile?.eliteTier;
  const target=b?.target;
+ finalizeInitialHp(s);
  const raw=old.battleAct(s,action,options);
  const result=phaseAfterAction(s,b,raw);
  if(result?.type!=='win'||!TIERS.includes(tier)||!target)return result;
@@ -181,7 +193,7 @@ function make(...args){const s=old.make(...args);ensure(s);return s;}
 function parse(...args){const s=old.parse(...args);ensure(s);if(!valid(s))throw Error('HG50 Save v07 hỏng');return s;}
 function strict(s){return old.strict(s)&&valid(s)&&(!s.battle||phaseValid(s.battle));}
 Object.assign(E,{make,parseSave:parse,strictSave:strict,valid:strict,battleAct,
- hg40PrepareBattle:phasePrepare,hg50Status:status,hg50Valid:valid,hg50Tiers:TIERS,
+ hg40PrepareBattle:phasePrepare,tick,hg50Status:status,hg50Valid:valid,hg50Tiers:TIERS,
  hg50PhaseLabel:phaseLabel,hg50PhaseValid:phaseValid,hg50PhaseSpecs:PHASES});
 root.HOG_HG50=Object.freeze({version:2,save:7,stages:3,rewards:'existing-authoritative-only',bossPhases:[65,50,35]});
 })(typeof globalThis!=='undefined'?globalThis:this);
