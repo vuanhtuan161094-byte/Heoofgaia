@@ -94,7 +94,7 @@ body:not(.combat-mode):has(.hg47-ten-slots) .game-window-head,body:not(.combat-m
 }
 @media(max-width:540px) and (orientation:portrait){
 body:not(.combat-mode):has(.hg47-ten-slots) #nav.tabs,body:not(.combat-mode):has(.hg47-forge) #nav.tabs{height:58px!important;min-height:58px!important;flex-wrap:wrap!important;overflow:hidden!important;align-content:center!important}
-body:not(.combat-mode):has(.hg47-ten-slots) #nav.tabs button,body:not(.combat-mode):has(.hg47-forge) #nav.tabs button{flex:0 0 18%!important;min-height:26px!important;height:26px!important;font-size:9px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) #nav.tabs button,body:not(.combat-mode):has(.hg47-forge) #nav.tabs button{flex:0 0 calc((100% - 15px)/6)!important;min-height:26px!important;height:26px!important;font-size:9px!important}
 body:not(.combat-mode):has(.hg47-ten-slots) .game-modal,body:not(.combat-mode):has(.hg47-forge) .game-modal{padding-top:63px!important}
 body:not(.combat-mode):has(.hg47-ten-slots) .game-window,body:not(.combat-mode):has(.hg47-forge) .game-window{height:calc(100dvh - 66px)!important}
 .hg408-screen:has(.hg47-ten-slots) .hg408-identity{min-height:52px!important;height:52px!important;flex-basis:52px!important}
@@ -121,3 +121,4 @@ body:not(.combat-mode):has(.hg47-ten-slots) .game-window,body:not(.combat-mode):
 body:not(.combat-mode):has(.hg47-ten-slots) .game-modal,body:not(.combat-mode):has(.hg47-forge) .game-modal{padding-top:67px!important}
 body:not(.combat-mode):has(.hg47-ten-slots) .game-window,body:not(.combat-mode):has(.hg47-forge) .game-window{height:calc(100dvh - 70px)!important}
 }
+@media(max-width:920px) and (max-height:310px) and (orientation:landscape){.hg408-screen:has(.hg47-ten-slots) .hg408-identity-main>small{display:none!important}}
