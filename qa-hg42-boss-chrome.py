@@ -58,7 +58,14 @@ with sync_playwright() as pw:
   page.locator('#nav [data-action="tab"][data-tab="map"]').click()
   page.locator('#nav [data-action="tab"][data-tab="boss"]').click()
   check(label+' dedicated Boss page opens',page.locator('.hg42-boss-page[data-hg42-boss-screen="targets"]').count()==1)
-  check(label+' separate tabs have three routes',page.locator('.hg42-boss-subnav [data-action="hg42-boss-screen"]').count()==3)
+  check(label+' separate tabs have four routes',page.locator('.hg42-boss-subnav [data-action="hg42-boss-screen"]').count()==4)
+  page.locator('[data-action="hg42-boss-screen"][data-id="expedition"]').click()
+  check(label+' expedition route shows three existing Boss stages and zero phantom grants',
+    page.locator('[data-hg50-expedition="true"]').count()==1 and
+    page.locator('[data-hg50-stage]').count()==3 and
+    page.locator('[data-hg50-replay="true"]').count()==1 and
+    page.evaluate("() => HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState()) && HOG_APP_DEBUG.getState().hg409.rewards.length===0"))
+  page.locator('[data-action="hg42-boss-screen"][data-id="targets"]').click()
   bounds=page.evaluate("""() => {
    const r=document.querySelector('.hg42-boss-page').getBoundingClientRect();
    return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,viewport:innerWidth,height:innerHeight};
@@ -118,6 +125,6 @@ with sync_playwright() as pw:
   ctx.close()
  browser.close()
 (QA/'chromium-boss-screen-and-paint.json').write_text(json.dumps({
- 'screens':'targets/hunt/loot','checks':results,'screenshots':captures,'errors':errors
+ 'screens':'targets/expedition/hunt/loot','checks':results,'screenshots':captures,'errors':errors
 },ensure_ascii=False,indent=2),encoding='utf-8')
 print('HG42 CHROMIUM '+str(sum(x['pass'] for x in results))+'/'+str(len(results)),flush=True)
