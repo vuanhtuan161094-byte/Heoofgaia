@@ -44,12 +44,20 @@ def optimize_html(html,report_path):
         with Image.open(BytesIO(source)) as pic:
             rgba=pic.convert("RGBA")
             dimensions=rgba.size
-            pixels=rgba.tobytes()
             converted=BytesIO()
             rgba.save(converted,format="WEBP",lossless=True,method=4)
             encoded=converted.getvalue()
         with Image.open(BytesIO(encoded)) as check:
-            assert check.size==dimensions and check.convert("RGBA").tobytes()==pixels, image_id+" pixel mismatch"
+            decoded=check.convert("RGBA")
+        # WebP can canonicalize hidden RGB under completely transparent pixels.
+        # Require exact alpha and identical visible results on black/white.
+        assert decoded.size==dimensions, image_id+" dimensions mismatch"
+        assert decoded.getchannel("A").tobytes()==rgba.getchannel("A").tobytes(), image_id+" alpha mismatch"
+        for matte_color in ((0,0,0,255),(255,255,255,255)):
+            matte=Image.new("RGBA",dimensions,matte_color)
+            expected=Image.alpha_composite(matte,rgba).tobytes()
+            actual=Image.alpha_composite(matte,decoded).tobytes()
+            assert expected==actual, image_id+" visible-pixel mismatch"
         if len(encoded)>=len(source):
             raise ValueError("lossless recompression did not shrink "+image_id)
         records.append({
@@ -57,7 +65,7 @@ def optimize_html(html,report_path):
             "source_png_sha256":sha256(source).hexdigest(),
             "embedded_webp_sha256":sha256(encoded).hexdigest(),
             "source_bytes":len(source),"webp_bytes":len(encoded),
-            "identical_rgba_pixels":True
+            "alpha_exact_and_composites_identical":True
         })
         return match.group(1)+"data:image/webp;base64,"+b64encode(encoded).decode("ascii")+match.group(4)
     optimized=_TAG.sub(replace,html)
@@ -72,7 +80,7 @@ def optimize_html(html,report_path):
         "optimized_html_bytes":optimized_bytes,
         "saved_html_bytes":original_bytes-optimized_bytes,
         "verified_image_count":len(records),
-        "all_rgba_pixels_identical":all(i["identical_rgba_pixels"] for i in records),
+        "all_visible_pixels_identical":all(i["alpha_exact_and_composites_identical"] for i in records),
         "images":records
     }
     path=Path(report_path);path.parent.mkdir(parents=True,exist_ok=True)
