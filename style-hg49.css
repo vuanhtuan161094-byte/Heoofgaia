@@ -250,3 +250,10 @@ progress::-webkit-progress-value{background:linear-gradient(90deg,#52f1c3,#6ac8f
  margin:5px 0;overflow-wrap:anywhere}
 @media(max-width:850px){.hg50-replay-meter{padding:5px 6px;gap:4px;font-size:11px}
 .hg50-replay-meter>span{padding:3px 5px}.hg50-real-loot{font-size:10px;line-height:1.32}}
+
+/* HG50 integration: combat field must fit below the existing navigation/topbar.
+   The older 100dvh-56px stage started ~95px down and clipped the bottom dock.
+   Desktop/landscape >900px retains its full open command pane without body scroll. */
+@media(min-width:900px) and (min-height:500px){
+ body.combat-mode .battle-stage{height:calc(100dvh - 108px)}
+}
