@@ -1,3 +1,13 @@
+# HG50-A/B/C release gate — 2026-11-10 (latest status)
+
+**IMPLEMENTED + HG50 focused FULL WORKFLOW PASS** on exact game-code SHA `4aa29bcd20b3bfee86310e4dc05f59401405774e`, [Actions #42849692293](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42849692293). Engine A 9/9, B 7/7, C 9/9; economy 4/4; Chromium A 28/28, B 27/27, HG55 27/27. Single offline `Play-Heoofgaia-HG11.html` artifact ID 13779343956, SHA256 `ad820d4f8de1e61fa5c38587fc993c3d43b391f848cb91e1a10fdd06886b5a8a`.
+
+**HG50-C is implemented as a *non-paying* repeat progression ledger:** real Boss replay and day/week UTC milestones retained inside strict Save v07; no extra reward, no duplicate grant, no fake fight. Original Boss rewards, AP, troop casualties, per-race equipment fragment systems and HG40.9 authoritative loot continue unchanged. The requested audit has run against 4 races × 3 tiers. Physical Android/Windows remain PENDING USER; entire historical monolithic combat workflow and latest additional 3×2 HUD regression are separate **PENDING CI** items, not mislabeled PASS.
+
+The original staged plan below remains as historical design; any statement there that HG50-B/C are not implemented is superseded by this status. Exact SHA updates and blockers: `docs/HG55_HG50_HANDOFF_20261110.md`.
+
+---
+
 # HG50 — Viễn Chinh / Boss: staged PvE design and executable gates
 
 Status (2026-11-10): **HG55 G0 CI PASS; HG50-A coded and focused engine tested; final A full-CI for route-target hotfix pending exact-SHA confirmation. HG50-B/C not started.** No invented PASS, no new HTML, no Save v08. This feature is an
