@@ -25,7 +25,7 @@ const TABLES=Object.freeze({
  tower:{label:'Bí Cảnh có thưởng',guaranteed:[['tower',1]],roll:[['gear',1,2,3000],['hero',1,1,2000],['wild',2,2,1000],['none',0,0,4000]]}
 });
 const RECIPES=Object.freeze([
- {id:'stone',name:'Luyện 4 đá cường hóa',cost:{wild:6,gear:4},output:{kind:'material',id:'enhance_stone',count:4}},
+ {id:'stone',name:'Luyện 6 đá cường hóa',cost:{wild:6,gear:4},output:{kind:'material',id:'enhance_stone',count:6}},
  {id:'gearbox',name:'Ghép 1 rương trang bị',cost:{gear:12,hunter:4},output:{kind:'material',id:'gear_pack',count:1}},
  {id:'herorank',name:'Đúc 1 ấn nâng bậc tướng',cost:{hero:8,tower:5},output:{kind:'material',id:'rank_emblem',count:1}},
  {id:'astral',name:'Chuyển hóa 2 mảnh Tinh Vân',cost:{abyss:4,tower:8},output:{kind:'material',id:'astral_shard',count:2}},
@@ -73,6 +73,16 @@ function preview(s,request={}){
  return {source,label:table.label,paid,guaranteed:paid?table.guaranteed.map(([id,n])=>({id,name:ITEMS[id].name,count:n+(source==='tower'&&floor%5===0?1:0)})):[],
   chances:paid?table.roll.filter(r=>r[0]!=='none').map(([id,min,max,bps])=>({id,name:ITEMS[id].name,min,max,percent:bps/100})):[],
   noDropPercent:paid?table.roll.find(r=>r[0]==='none')[3]/100:100};
+}
+// Mathematical expected receipts per eligible victory, derived only from
+// published roll tables. No simulated reward is added to game state.
+function expected(source,floor=1){
+ const t=TABLES[source];if(!t)throw Error('Nguồn HG29 không tồn tại');
+ const out=Object.fromEntries(Object.keys(ITEMS).map(id=>[id,0]));
+ for(const [id,n] of t.guaranteed)out[id]+=n+(source==='tower'&&floor%5===0?1:0);
+ for(const [id,min,max,bps] of t.roll)if(id!=='none')
+  out[id]+=bps/10000*(min+max)/2;
+ return out;
 }
 function drawDrops(source,target,ordinal,floor=1){
  const table=TABLES[source],seed=mix32((Math.imul(ordinal,2654435761)^coords(target)^Math.imul(floor,2246822519))>>>0);
@@ -133,7 +143,7 @@ function parse(data){const s=old.parse(data);ensure(s);if(!strict(s))throw Error
 function strict(s){return old.strict(s)&&valid(s);}
 function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG29 không hợp lệ');return old.serialize(s);}
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,battleAct,
- hg29Ensure:ensure,hg29Valid:valid,hg29Preview:preview,hg29Catalogue:catalogue,hg29Craft:craft,
+ hg29Ensure:ensure,hg29Valid:valid,hg29Preview:preview,hg29Expected:expected,hg29Catalogue:catalogue,hg29Craft:craft,
  HG29_ITEMS:ITEMS,HG29_TABLES:TABLES,HG29_RECIPES:RECIPES});
 root.HOG_HG29=Object.freeze({version:1,saveVersion:7,mode:'earned-deterministic-fragments'});
 })(typeof globalThis!=='undefined'?globalThis:this);
