@@ -41,12 +41,18 @@ for(const [race,r] of Object.entries(RACES))for(const [tier,t] of Object.entries
   six:{[special]:n===1?.018:.028},
   ten:{[special]:n===1?.025:.04,damageReduction:.01*n}
  };
+ // For Human, both the racial modifier and the 10-piece universal bonus
+ // are damageReduction. Combine them; object literal duplicate keys overwrite.
+ if(special==='damageReduction')bonuses.ten.damageReduction+=(n===1?.025:.04);
+ const tenNote=special==='damageReduction'?
+  Math.round(bonuses.ten.damageReduction*1e3)/10+'% giảm sát thương tổng':
+  Math.round(bonuses.ten[special]*1e3)/10+'% '+r.tag+' và +'+n+'% giảm sát thương';
  SETS[race+'_'+tier]=Object.freeze({
   name:r.base+' · '+t.name,race,tier,max:10,icon:r.icon,
   source:tier==='rare'?'Quái thường, Elite, Boss và Tháp có thưởng':'Elite hiếm, Boss T11+ và Tháp có thưởng',
   milestones:Object.freeze(bonuses),
   note:'3 món: '+Math.round(bonuses.three[special]*1e3)/10+'% · 6 món: +'+Math.round(bonuses.six[special]*1e3)/10+
-   '% · 10 món: +'+Math.round(bonuses.ten[special]*1e3)/10+'% '+r.tag+' và +'+n+'% giảm sát thương'
+   '% · 10 món: +'+tenNote
  });
 }
 const ITEM_IDS=[];
