@@ -1,0 +1,123 @@
+/* HG48 mobile equipment UX: responsive focus layouts. No gameplay or Save mutation. */
+@media(max-width:920px){
+body:not(.combat-mode):has(.hg47-ten-slots) .top,body:not(.combat-mode):has(.hg47-forge) .top{display:none!important}
+body:not(.combat-mode):has(.hg47-ten-slots),body:not(.combat-mode):has(.hg47-forge){--hg42-stage-top:42px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) #nav.tabs,body:not(.combat-mode):has(.hg47-forge) #nav.tabs{
+margin:2px 4px!important;padding:0!important;min-height:32px!important;height:32px!important;position:relative!important;z-index:90!important;
+display:flex!important;gap:3px!important;align-items:center!important;overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:none!important}
+body:not(.combat-mode):has(.hg47-ten-slots) #nav.tabs button,body:not(.combat-mode):has(.hg47-forge) #nav.tabs button{
+flex:0 0 78px!important;min-height:30px!important;height:30px!important;padding:2px 3px!important;font-size:10px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-modal,body:not(.combat-mode):has(.hg47-forge) .game-modal{padding:36px 3px 3px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window,body:not(.combat-mode):has(.hg47-forge) .game-window{
+width:calc(100vw - 6px)!important;height:calc(100dvh - 39px)!important;max-height:none!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window-head,body:not(.combat-mode):has(.hg47-forge) .game-window-head{
+flex:0 0 28px!important;min-height:28px!important;padding:1px 6px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window-head h2,body:not(.combat-mode):has(.hg47-forge) .game-window-head h2{font-size:13px!important;margin:0!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window-body,body:not(.combat-mode):has(.hg47-forge) .game-window-body{
+min-height:0!important;padding:3px 5px!important;overscroll-behavior:contain}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window-footer,body:not(.combat-mode):has(.hg47-forge) .game-window-footer{display:none!important}
+.game-window-body:has(.hg47-ten-slots){overflow:hidden!important}
+.hg408-screen:has(.hg47-ten-slots){gap:2px!important}
+.hg408-screen:has(.hg47-ten-slots)>.hg408-summary{display:none!important}
+.hg408-screen:has(.hg47-ten-slots)>.hg408-layout{
+display:grid!important;grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr)!important;
+height:100%!important;min-height:0!important;gap:0!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-roster{display:none!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-profile{width:100%!important;min-height:0!important;height:100%!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-identity{min-height:48px!important;height:48px!important;flex:0 0 48px!important;gap:6px!important;padding:3px 6px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-portrait{width:40px!important;height:41px!important;flex:0 0 40px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-eyebrow{display:none!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-identity-main h2{font-size:14px!important;margin:0 0 2px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-exp,.hg408-screen:has(.hg47-ten-slots) .hg408-power{display:none!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-badges{max-height:21px;overflow:hidden;white-space:nowrap;flex-wrap:nowrap}
+.hg408-screen:has(.hg47-ten-slots) .hg408-tabs{
+display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;padding:2px!important;gap:2px!important;flex:0 0 31px!important;height:31px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-tabs button{min-height:27px!important;height:27px!important;padding:2px!important;font-size:10px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-panel{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain;padding:3px!important;scrollbar-width:thin}
+.hg408-screen:has(.hg47-ten-slots) .hg46-manager{gap:5px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg46-strip{flex-wrap:nowrap!important;overflow:hidden;white-space:nowrap;gap:3px!important;min-height:19px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg46-strip span{font-size:9px!important;padding:1px 4px!important;white-space:nowrap}
+.hg47-ten-slots{grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:4px!important}
+.hg47-ten-slots .hg46-slot{min-height:72px!important;gap:2px!important;padding:4px!important;border-radius:6px!important}
+.hg47-ten-slots .hg46-slot-head b{font-size:10px!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hg47-ten-slots .hg46-slot-head small{font-size:9px!important}
+.hg47-ten-slots .hg46-slot-content{gap:4px!important;flex-direction:row!important;align-items:center!important}
+.hg47-ten-slots .hg46-gear-art{width:30px!important;min-width:30px!important;height:31px!important;min-height:31px!important;flex:0 0 30px!important;font-size:19px!important}
+.hg47-ten-slots .hg46-gear-art img{max-width:28px!important;max-height:28px!important}
+.hg47-ten-slots .hg46-slot-content strong{font-size:10px!important;line-height:1.12!important}
+.hg47-ten-slots .hg46-slot-content small{font-size:9px!important;line-height:1.13!important}
+.hg47-ten-slots .hg46-slot>button{min-height:27px!important;padding:3px!important;font-size:10px!important;align-self:stretch!important}
+.hg46-build-buttons button,.hg47-recipe-actions button{touch-action:manipulation}
+.game-window-body:has(.hg47-forge){overflow-y:auto!important;overflow-x:hidden!important;padding:4px!important}
+.game-window-body:has(.hg47-forge)>.hg28-tab-relics>h1,.game-window-body:has(.hg47-forge)>.hg28-tab>h1{display:none!important}
+.game-window-body:has(.hg47-forge) .hg46-forge-entry{margin:0 0 3px!important}
+.game-window-body:has(.hg47-forge) .hg46-forge-entry button{min-height:27px!important;padding:3px 6px!important;font-size:10px!important}
+.hg47-forge{padding:5px!important;margin:2px 0 8px!important}
+.hg47-forge>.eyebrow,.hg47-forge>h2{display:none!important}
+.hg47-forge>.hint{font-size:10px!important;line-height:1.25!important;margin:3px 0!important}
+.hg47-forge>.tiny.muted{font-size:10px!important;margin:3px 0!important;line-height:1.2!important}
+.hg47-selector{flex-wrap:nowrap!important;margin:4px 0!important;gap:4px!important}
+.hg47-selector button{flex:1 1 0!important;min-width:0!important;min-height:34px!important;padding:4px 3px!important;font-size:10px!important;white-space:normal!important;line-height:1.2!important}
+.hg47-wallet{margin:5px 0!important;padding:4px!important;gap:4px!important}
+.hg47-wallet>span{font-size:10px!important;padding:2px 5px 2px 0!important}
+.hg47-recipe-grid{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:5px!important;margin:5px 0!important}
+.hg47-recipe{gap:6px!important;padding:5px!important;min-height:84px!important;align-items:center!important}
+.hg47-recipe-art{min-width:30px!important;font-size:23px!important}
+.hg47-recipe-body{gap:2px!important}
+.hg47-recipe-body b{font-size:11px!important;line-height:1.2!important}
+.hg47-recipe-body small{font-size:9px!important;line-height:1.15!important}
+.hg47-recipe-body progress{height:6px!important}
+.hg47-recipe-actions{min-width:91px!important;gap:3px!important}
+.hg47-recipe-actions button{min-height:34px!important;padding:3px!important;font-size:10px!important;line-height:1.15!important}
+}
+@media(max-width:920px) and (max-height:310px) and (orientation:landscape){
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window-head,body:not(.combat-mode):has(.hg47-forge) .game-window-head{flex-basis:24px!important;min-height:24px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-identity{min-height:31px!important;height:31px!important;flex-basis:31px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-portrait{width:25px!important;height:27px!important;flex-basis:25px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-identity-main h2{font-size:12px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-badges{max-height:14px}
+.hg408-screen:has(.hg47-ten-slots) .hg408-tabs{height:25px!important;flex-basis:25px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-tabs button{height:21px!important;min-height:21px!important;font-size:9px!important}
+.hg47-ten-slots .hg46-slot{min-height:56px!important;height:56px!important;padding:2px 3px!important;gap:1px!important}
+.hg47-ten-slots .hg46-slot-head small{display:none!important}
+.hg47-ten-slots .hg46-gear-art{width:23px!important;height:23px!important;min-width:23px!important;min-height:23px!important;flex-basis:23px!important}
+.hg47-ten-slots .hg46-gear-art img{max-width:21px!important;max-height:21px!important}
+.hg47-ten-slots .hg46-slot-content small{display:none!important}
+.hg47-ten-slots .hg46-slot>button{min-height:21px!important;font-size:9px!important;padding:1px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg46-strip{display:none!important}
+.game-window-body:has(.hg47-forge) .hg46-forge-entry{display:none!important}
+.hg47-forge>.hint,.hg47-forge>.tiny.muted{display:none!important}
+.hg47-selector button{min-height:28px!important;height:28px!important;font-size:9px!important}
+.hg47-wallet{display:none!important}
+.hg47-recipe{min-height:67px!important;padding:3px!important}
+.hg47-recipe-actions button{min-height:29px!important}
+}
+@media(max-width:540px) and (orientation:portrait){
+body:not(.combat-mode):has(.hg47-ten-slots) #nav.tabs,body:not(.combat-mode):has(.hg47-forge) #nav.tabs{height:58px!important;min-height:58px!important;flex-wrap:wrap!important;overflow:hidden!important;align-content:center!important}
+body:not(.combat-mode):has(.hg47-ten-slots) #nav.tabs button,body:not(.combat-mode):has(.hg47-forge) #nav.tabs button{flex:0 0 18%!important;min-height:26px!important;height:26px!important;font-size:9px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-modal,body:not(.combat-mode):has(.hg47-forge) .game-modal{padding-top:63px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window,body:not(.combat-mode):has(.hg47-forge) .game-window{height:calc(100dvh - 66px)!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-identity{min-height:52px!important;height:52px!important;flex-basis:52px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-tabs{height:31px!important;flex-basis:31px!important}
+.hg408-screen:has(.hg47-ten-slots) .hg408-panel{padding:3px!important}
+.hg47-ten-slots{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px!important}
+.hg47-ten-slots .hg46-slot{height:69px!important;min-height:69px!important;gap:2px!important;padding:4px!important}
+.hg47-ten-slots .hg46-slot-content small{display:none!important}
+.hg47-ten-slots .hg46-slot>button{min-height:27px!important}
+.hg47-recipe-grid{grid-template-columns:1fr!important}
+.hg47-recipe{min-height:84px!important}
+.hg47-recipe-actions{min-width:98px!important}
+.hg47-recipe-actions button{min-height:38px!important}
+.hg47-selector{flex-wrap:wrap!important}
+.hg47-selector button{flex:1 1 22%!important;min-width:0!important;min-height:35px!important}
+.hg47-selector:nth-of-type(2) button{flex-basis:45%!important}
+.hg47-wallet>span{font-size:9px!important}
+}
+@media(max-width:920px) and (orientation:landscape){
+body:not(.combat-mode):has(.hg47-ten-slots) .game-modal,body:not(.combat-mode):has(.hg47-forge) .game-modal{padding-top:41px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window,body:not(.combat-mode):has(.hg47-forge) .game-window{height:calc(100dvh - 44px)!important}
+}
+@media(max-width:540px) and (orientation:portrait){
+body:not(.combat-mode):has(.hg47-ten-slots) .game-modal,body:not(.combat-mode):has(.hg47-forge) .game-modal{padding-top:67px!important}
+body:not(.combat-mode):has(.hg47-ten-slots) .game-window,body:not(.combat-mode):has(.hg47-forge) .game-window{height:calc(100dvh - 70px)!important}
+}
