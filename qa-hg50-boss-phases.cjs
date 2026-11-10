@@ -57,6 +57,7 @@ check('T11 65% shield actually reduces incoming damage and survives Save/Reload'
  s=fired.s;let b=s.battle,q=b.hg50b;
  assert(ratio(b)<=65);assert.equal(q.events.map(x=>x.kind).join(','),'threshold,active');
  assert.equal(q.extraStacks,0);assert.equal(q.triggeredTurn,q.activeTurn);
+ console.log('HG50-B DIAG T11',JSON.stringify({turns:fired.turns,ratio:ratio(b),phase:q.phase,live:b.enemies.filter(u=>u.pool>0).length,shields:b.hg40.shields,armedEvent:q.events}));
  const units=Object.keys(b.hg40.shields).filter(id=>b.hg40.shields[id].amount>0);
  assert(units.length>=1&&units.length<=4,'no Boss defensive shield');
  for(const id of units){const u=b.enemies.find(x=>x.id===id),sh=b.hg40.shields[id];
