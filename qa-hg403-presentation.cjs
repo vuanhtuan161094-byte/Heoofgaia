@@ -17,6 +17,11 @@ let paths=0,depth=0;
 const context=new Proxy({},{
  get(target,key){
   if(key==="measureText")return value=>({width:String(value).length*7.5});
+  // HG49 impact bloom uses the native CanvasGradient API; the previous
+  // generic noop returned undefined, although Chromium supports gradients.
+  // Preserve a strict two-method gradient stub for renderer-only Node QA.
+  if(key==="createRadialGradient"||key==="createLinearGradient")
+   return ()=>({addColorStop(offset,color){assert(Number.isFinite(offset)&&offset>=0&&offset<=1);assert(typeof color==="string");}});
   if(key==="save")return ()=>{depth++};
   if(key==="restore")return ()=>{depth--;assert(depth>=0)};
   if(key==="arc"||key==="lineTo"||key==="moveTo"||key==="stroke"
