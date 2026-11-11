@@ -32,6 +32,10 @@ function stackCount(kind,cs,boss){
 const PVE_TIERS=Object.freeze([1,3,4,6,5,8,7,9,10,2,4,6,8,5,9,10]);
 const PVE_RACES=Object.freeze(['undead','orc','human','elf']);
 function enemyTemplate(b,i,cs,boss){
+ // Bound a sixteen-actor Boss encounter to eight distinct reusable troop
+ // atlases. Every actor retains full HG40 skill/HP/AI authority while
+ // reducing mobile sprite decoding and texture memory demand.
+ if(boss)i=i%8;
  const seed=String(b.target||'tower').split('').reduce((h,ch)=>(h*31+ch.charCodeAt(0))%65521,0)+
   (b.hg21Tower?.floor||0);
  const race=PVE_RACES[(seed+Math.floor(i/3))%PVE_RACES.length];

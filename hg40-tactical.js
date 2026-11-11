@@ -91,6 +91,14 @@ function addStatus(s,b,u,kind,value,duration,source,extra={}){
    ['atkdown','defdown','slow','root','stun','damageDown','dot','mark'].includes(x.kind));
   if(existing.length>=3)return false;
  }
+ // Prevent sixteen enemies from chaining a fresh root on one player
+ // every round; the first legitimate root still takes effect next turn.
+ // Store the immunity window in existing canonical hg40.flags (Save v07).
+ if(kind==='root'&&u.side==='player'&&source==='enemy'){
+  const key='enemyRootWindow:'+u.id;
+  if((h.flags[key]||0)>=b.turn)return false;
+  h.flags[key]=b.turn+2;
+ }
  const before=h.statuses.findIndex(x=>x.target===u.id&&x.kind===kind);
  // CC/slow takes effect on the next tactical turn, never twice when a
  // low-SPD unit has not acted yet in the placement turn.

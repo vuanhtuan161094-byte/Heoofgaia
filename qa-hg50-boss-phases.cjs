@@ -76,7 +76,12 @@ check('T11 65% shield actually reduces incoming damage and survives Save/Reload'
 check('T12 50% summons <=2 authentic stacks in unused hexes, once, Save v07',()=>{
  let s=open(12,[11]);
  const fired=battleUntil(s,b=>b.battle?.hg50b.phase==='active');s=fired.s;
- const b=s.battle,q=b.hg50b;assert(ratio(b)<=50);
+ const b=s.battle,q=b.hg50b;
+ // Two real summoned squads increase total post-phase HP. Verify the
+ // original sixteen enemy squads crossed the intended 50% threshold.
+ const originalRemaining=b.enemies.slice(0,16).reduce((n,u)=>n+Math.max(0,u.pool),0);
+ assert(Math.round(originalRemaining*100/q.initialHp)<=50,
+  'summon fired before the original sixteen squads reached 50%');
  assert.equal(q.extraStacks,2);assert.equal(b.enemies.length,18);
  const all=[...b.allies,...b.enemies].filter(u=>u.pool>0);
  const positions=new Set(all.map(u=>u.x+','+u.y));
