@@ -16,7 +16,7 @@ function fresh(){
  let s=E.make('human',1e6);s.army.human_1=16;s.army.human_3=4;s.ap=900;
  // Small real mixed formation within the regular commander cap.
  E.hg20SetHeroPlan(s,s.activeHero,[{unitId:'human_1',count:8},{unitId:'human_3',count:2}]);
- const tile=E.TILES.find(t=>t.kind==='npc'&&t.level===1&&t.eliteTier<11);
+ const tile=E.TILES.find(t=>t.kind==='npc'&&t.level===1&&(t.eliteTier||0)<11);
  assert(tile,'No real world NPC found');
  E.startMarch(s,tile.key);let i=0;
  while(s.march&&i++<15)E.tick(s,s.lastTick+Math.ceil((s.march.remaining+3)/s.speed*1000));
