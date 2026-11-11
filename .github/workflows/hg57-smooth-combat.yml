@@ -1,4 +1,4 @@
-name: HG57 Smooth Phased Combat – Heroes, Hex Movement and UX
+name: HG57-B Smooth Combat 3x2 Boss, Tower and FPS
 on:
   push:
     branches: [feature/hog1-research-to-playable-20261102]
@@ -11,6 +11,9 @@ on:
       - 'build_offline.py'
       - 'qa-hg57-combat.cjs'
       - 'qa-hg57-chrome.py'
+      - 'qa-hg57b-joint-boss-chrome.py'
+      - 'qa-hg34-combat-smooth-chrome.py'
+      - 'qa-hg181-window-chrome.py'
       - '.github/workflows/hg57-smooth-combat.yml'
   workflow_dispatch:
 permissions:
@@ -54,8 +57,11 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install chromium
-          python -m py_compile qa-hg57-chrome.py
+          python -m py_compile qa-hg57-chrome.py qa-hg57b-joint-boss-chrome.py qa-hg34-combat-smooth-chrome.py qa-hg181-window-chrome.py
           python qa-hg57-chrome.py
+          python qa-hg57b-joint-boss-chrome.py
+          python qa-hg34-combat-smooth-chrome.py
+          python qa-hg181-window-chrome.py
       - name: Screenshots, engine, Chromium QA
         if: always()
         uses: actions/upload-artifact@v4
@@ -64,6 +70,12 @@ jobs:
           path: |
             docs/qa/hg57/*.json
             docs/evidence/hg57/*.png
+            docs/qa/hg57b/*.json
+            docs/evidence/hg57b/*.png
+            docs/qa/hg34/*.json
+            docs/evidence/hg34/*.png
+            docs/qa/hg181/*.json
+            docs/evidence/hg181/*.png
           retention-days: 30
           if-no-files-found: ignore
       - name: Downloadable single HTML game
