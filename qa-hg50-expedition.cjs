@@ -25,8 +25,20 @@ function realBoss(tier,priorStages=[]){
   E.tick(s,s.lastTick+Math.ceil((s.march.remaining+3)/s.speed*1000));
  assert(s.battle,'No real battle starts');
  const before=E.hg50Status(s).completed.length;
- let out,turns=0;while(s.battle&&turns++<110)out=E.battleAct(s,'attack');
- assert.equal(out?.type,'win','Battle did not resolve through real engine win '+JSON.stringify({tier,turns,final:out?.type,alive:s.battle?.allies.filter(u=>u.pool>0).map(u=>({id:u.id,pool:u.pool,x:u.x,y:u.y})),enemies:s.battle?.enemies.filter(u=>u.pool>0).map(u=>({id:u.id,unitId:u.unitId,pool:u.pool,x:u.x,y:u.y})),effects:s.battle?.hg40?.statuses?.slice(-12)}));
+ let out,turns=0;const rounds=[];
+ while(s.battle&&turns++<110){
+  const b=s.battle,p=b.allies[0],beforeHP=p?.pool,enemyHP=b.enemies.reduce((n,u)=>n+Math.max(0,u.pool),0);
+  out=E.battleAct(s,'attack');
+  if(tier===13&&(turns<=3||turns%3===0||!s.battle)){
+   const ev=b.lastEvents?.find(e=>e.actorId==='p0');
+   rounds.push({turn:turns,poolBefore:beforeHP,poolAfter:p?.pool,
+    action:ev?.order,moved:ev?.path?.length||0,damage:ev?.damage||0,
+    enemyBefore:enemyHP,enemyAfter:b.enemies.reduce((n,u)=>n+Math.max(0,u.pool),0),
+    control:b.hg40?.statuses?.filter(x=>x.target==='p0').map(x=>({kind:x.kind,starts:x.starts,until:x.until})),
+    result:out.type});
+  }
+ }
+ assert.equal(out?.type,'win','Battle did not resolve through real engine win '+JSON.stringify({tier,turns,final:out?.type,rounds,alive:s.battle?.allies.filter(u=>u.pool>0).map(u=>({id:u.id,pool:u.pool,x:u.x,y:u.y})),enemies:s.battle?.enemies.filter(u=>u.pool>0).map(u=>({id:u.id,unitId:u.unitId,pool:u.pool,x:u.x,y:u.y})),effects:s.battle?.hg40?.statuses?.slice(-12)}));
  assert(E.strictSave(s));
  return {s,out,turns,target:data.target,before};
 }
