@@ -181,9 +181,11 @@ function triggerSummon(b,q){
  }
 }
 function triggerBerserk(b){
- // Deferred until AFTER a full telegraphed action. No retroactive damage,
- // no change to player's stacks; bounded +20% existing melee enemy ATK.
- for(const u of b.enemies)if(live(u)&&u.range===1)
+ // Deferred until AFTER the full warning action. Buff surviving melee,
+ // or the living rear line if every melee defender has already fallen.
+ // Without this fallback the 35% phase can silently do nothing.
+ const living=b.enemies.filter(live),front=living.filter(u=>u.range===1);
+ for(const u of (front.length?front:living))
   u.atk=Math.max(0,Math.round(u.atk*1.20));
 }
 function phaseAfterAction(s,b,result){
@@ -191,7 +193,7 @@ function phaseAfterAction(s,b,result){
  if(!q||result?.type!=='continue'||s.battle!==b)return result;
  if(q.phase==='warning'&&b.turn>=q.triggeredTurn+2){
   triggerBerserk(b);q.phase='active';q.activeTurn=b.turn-1;
-  phaseEvent(b,q,'active',q.activeTurn,'🔥 Boss T13 CUỒNG NỘ: quân cận chiến địch ATK +20% sau một lượt cảnh báo.');
+  phaseEvent(b,q,'active',q.activeTurn,'🔥 Boss T13 CUỒNG NỘ: tuyến cận chiến (hoặc đội còn sống nếu tuyến trước đã ngã) ATK +20% sau một lượt cảnh báo.');
   return {...result,hg50BossPhase:'berserk'};
  }
  if(q.phase!=='armed'||totalHp(b)*100>q.initialHp*q.threshold)return result;
@@ -216,7 +218,7 @@ function phaseLabel(b){
  const state=q.phase==='armed'?'Chờ ngưỡng '+q.threshold+'%':
   q.phase==='warning'?'CẢNH BÁO 1 LƯỢT — chuẩn bị cuồng nộ':
   q.kind==='shield'?'Đã kích hoạt khiên':
-  q.kind==='summon'?'Đã triệu hồi '+q.extraStacks+' đội':'ATK cận chiến +20%';
+  q.kind==='summon'?'Đã triệu hồi '+q.extraStacks+' đội':'ATK tuyến trước +20%, dự phòng quân còn sống';
  return 'Boss T'+q.tier+' · HP đội hình '+ratio+'% · '+text+' · '+state;
 }
 

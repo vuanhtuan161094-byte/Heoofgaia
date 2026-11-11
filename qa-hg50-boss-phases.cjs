@@ -57,12 +57,19 @@ check('T11 65% shield actually reduces incoming damage and survives Save/Reload'
  s=fired.s;let b=s.battle,q=b.hg50b;
  assert(ratio(b)<=65);assert.equal(q.events.map(x=>x.kind).join(','),'threshold,active');
  assert.equal(q.extraStacks,0);assert.equal(q.triggeredTurn,q.activeTurn);
- // Existing HG40 Priest/Angel shields on player's side are not Boss buffs.
- // Assert the 1-4 enemy shields only; the overall shield map can contain both sides.
- const units=Object.keys(b.hg40.shields).filter(id=>b.enemies.some(u=>u.id===id)&&b.hg40.shields[id].amount>0);
- assert(units.length>=1&&units.length<=4,'no Boss defensive shield '+JSON.stringify({
-   phase:q.phase,turn:b.turn,events:q.events,live:b.enemies.filter(u=>u.pool>0).map(u=>
-    ({id:u.id,unitId:u.unitId,count:u.count,pool:u.pool,hp:u.hp})),shields:b.hg40.shields}));
+ // T11's scripted shield goes to the top four living defenders.
+ // HG61 troop-based support may additionally cast their OWN valid shields,
+ // so asserting a global maximum of four is no longer a correct oracle.
+ const selected=b.enemies.filter(u=>u.pool>0)
+  .sort((a,c)=>c.pool-a.pool||a.id.localeCompare(c.id)).slice(0,4);
+ assert(selected.length>0);
+ for(const u of selected){
+  const sh=b.hg40.shields[u.id];
+  assert(sh&&sh.amount>0,'T11 scripted shield missing for '+u.id);
+ }
+ const units=Object.keys(b.hg40.shields).filter(id=>
+  b.enemies.some(u=>u.id===id)&&b.hg40.shields[id].amount>0);
+ assert(units.length>=selected.length);
  for(const id of units){const u=b.enemies.find(x=>x.id===id),sh=b.hg40.shields[id];
   assert(sh.amount>0&&sh.amount<=Math.ceil(u.count*u.hp*.25));assert(sh.until>=b.turn);
  }
@@ -98,16 +105,18 @@ check('T13 35% one-turn berserk warning preserves pre-buff attack on Save/Load',
  let s=open(13,[11,12]);
  const fired=battleUntil(s,b=>b.battle?.hg50b.phase==='warning');s=fired.s;
  const b=s.battle,q=b.hg50b;assert(ratio(b)<=35);assert.equal(q.events.length,1);
- const melee=b.enemies.filter(u=>u.pool>0&&u.range===1);assert(melee.length);
- const attack=Object.fromEntries(melee.map(u=>[u.id,u.atk]));
+ const living=b.enemies.filter(u=>u.pool>0);
+ const melee=living.filter(u=>u.range===1),chosen=melee.length?melee:living;
+ assert(chosen.length,'T13 needs a living unit to buff');
+ const attack=Object.fromEntries(chosen.map(u=>[u.id,u.atk]));
  s=reload(s);assert.equal(s.battle.hg50b.phase,'warning');
- for(const u of s.battle.enemies.filter(u=>u.pool>0&&u.range===1))
+ for(const u of s.battle.enemies.filter(u=>u.pool>0&&Object.hasOwn(attack,u.id)))
   assert.equal(u.atk,attack[u.id]);
  let out=E.battleAct(s,'attack');assert(E.strictSave(s));
  if(!s.battle)throw Error('Boss died on the one warning turn: reduce focused QA damage; cannot verify active state');
  assert.equal(s.battle.hg50b.phase,'active');assert.equal(s.battle.hg50b.events.length,2);
  let changed=0;
- for(const u of s.battle.enemies.filter(u=>u.pool>0&&u.range===1)){
+ for(const u of s.battle.enemies.filter(u=>u.pool>0&&Object.hasOwn(attack,u.id))){
   assert.equal(u.atk,Math.round(attack[u.id]*1.2));changed++;
  }
  assert(changed>0);
@@ -115,7 +124,7 @@ check('T13 35% one-turn berserk warning preserves pre-buff attack on Save/Load',
  assert.equal(s.battle.hg50b.events.length,2);
  out=E.battleAct(s,'attack');assert(E.strictSave(s));
  if(s.battle)assert.equal(s.battle.hg50b.events.length,2,'duplicate rage');
- return {threshold:35,warnedForTurns:1,meleeBuffed:changed,triggerTurn:q.triggeredTurn};
+ return {threshold:35,warnedForTurns:1,buffed:changed,usedRearFallback:melee.length===0,triggerTurn:q.triggeredTurn};
 });
 check('old v07 mid-battle without HG50-B stays legacy, including Save after attack',()=>{
  let s=open(11);
