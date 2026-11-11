@@ -30,6 +30,7 @@ atexit.register(dump)
 with sync_playwright() as pw:
  browser=pw.chromium.launch(headless=True,args=['--no-sandbox','--disable-dev-shm-usage','--allow-file-access-from-files','--enable-precise-memory-info'])
  for label,w,h,touch in [('desktop-1280x720',1280,720,False),
+  ('ultrawide-1818x830',1818,830,False),
   ('mobile-landscape-844x390',844,390,True),('mobile-portrait-412x915',412,915,True)]:
   ctx=browser.new_context(viewport={'width':w,'height':h},device_scale_factor=1,is_mobile=touch,has_touch=touch)
   page=ctx.new_page();page.set_default_timeout(20000)
@@ -65,7 +66,12 @@ with sync_playwright() as pw:
       enemy.pool=enemy.hp*enemy.count;enemy.atk=0;enemy.def=0;}
     HOG_APP_DEBUG.render();
     original.commanders=document.querySelectorAll('[data-hg57-leaders] .hg57-hero-chip').length;
-    const canvas=document.getElementById('battle-canvas'),P=HOG_PAINTER,
+    const canvas=document.getElementById('battle-canvas'),stage=document.querySelector('.battle-stage');
+    const canvasRect=canvas.getBoundingClientRect(),stageRect=stage.getBoundingClientRect();
+    original.stageGeometry={canvasTop:canvasRect.top,canvasBottom:canvasRect.bottom,
+     stageTop:stageRect.top,stageBottom:stageRect.bottom,
+     fits:canvasRect.top>=stageRect.top-1&&canvasRect.bottom<=stageRect.bottom+1};
+    const P=HOG_PAINTER,
       old=P.drawBattle,metric={calls:[],drawMs:[],sameCanvas:true,
         heapBefore:performance.memory?.usedJSHeapSize??null};
     P.drawBattle=function(c,...args){
@@ -87,6 +93,9 @@ with sync_playwright() as pw:
    deployed['rewards']==0 and deployed['code']==7,deployed)
   check(label+' 3 actual hero portraits and actual opponent commander visible',
    deployed['commanders']==4,{'cards':deployed['commanders'],'heroes':deployed['heroNames']})
+  if w>=1000:
+   check(label+' battle canvas fits inside stage (feet/commands never clipped)',
+    deployed['stageGeometry']['fits'],deployed['stageGeometry'])
   page.wait_for_timeout(2600)
   frame=page.evaluate("""() => {
    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),P=HOG_PAINTER,m=window._hg57b.metric,
