@@ -19,7 +19,7 @@ function fresh(){
  return s;
 }
 function roundtrip(s){assert(E.strictSave(s),'Save v07 invalid');const copy=E.parseSave(E.serializeSave(s));assert(E.strictSave(copy));return copy}
-check('40 units: independent weapon range and legal 1-3 hex movement',()=>{
+check('40 units: SPD-independent weapon range and fixed 1-3 hex class movement',()=>{
  const rows=Object.values(E.C.units).flat();
  assert.equal(rows.length,40);
  const expected={human_3:4,human_6:3,human_8:3,elf_4:4,elf_8:5,orc_3:3,orc_8:4,undead_6:4,undead_8:5};
@@ -27,11 +27,24 @@ check('40 units: independent weapon range and legal 1-3 hex movement',()=>{
  const s=fresh(),b=s.battle,u=b.allies.find(a=>a.range===1),archer=b.allies.find(a=>a.range>1);
  assert(u&&archer);
  const results={};
- for(const speed of [4,7,9,50]){u.spd=speed;results['melee'+speed]=E.battleMovePreview(b,u.id).steps}
- for(const speed of [7,10,11]){archer.spd=speed;results['ranged'+speed]=E.battleMovePreview(b,archer.id).steps}
- assert.equal(results.melee4,1);assert.equal(results.melee7,2);assert.equal(results.melee9,3);assert.equal(results.melee50,3);
- assert.equal(results.ranged7,1);assert.equal(results.ranged10,1);assert.equal(results.ranged11,2);
- return {tested:rows.length,roles:expected,results};
+ const meleeExpected=E.unitTacticalMovement(E.getUnit(s,u.unitId));
+ const rangedExpected=E.unitTacticalMovement(E.getUnit(s,archer.unitId));
+ for(const speed of [.1,4,7,9,50,1000]){
+  u.spd=speed;archer.spd=speed;
+  results['spd'+speed]=[E.battleMovePreview(b,u.id).steps,E.battleMovePreview(b,archer.id).steps];
+  assert.equal(results['spd'+speed][0],meleeExpected,'melee steps changed with SPD '+speed);
+  assert.equal(results['spd'+speed][1],rangedExpected,'ranged steps changed with SPD '+speed);
+ }
+ for(const unit of rows){
+  const nominal=E.unitTacticalMovement(unit),higher=E.unitTacticalMovement({...unit,spd:100000});
+  assert.equal(nominal,higher,unit.id+' moved farther with SPD');
+  assert(nominal>=1&&nominal<=3);
+ }
+ assert.equal(E.unitTacticalMovement(E.C.units.human[3]),1,'Heavy Soldier armored');
+ assert.equal(E.unitTacticalMovement(E.C.units.human[4]),3,'Gryphon flying');
+ assert.equal(E.unitTacticalMovement(E.C.units.orc[1]),3,'Wolf Rider cavalry');
+ assert.equal(E.unitTacticalMovement(E.C.units.human[1]),2,'Scout world-speed does not imply extra combat hexes');
+ return {tested:rows.length,roles:expected,meleeExpected,rangedExpected,results};
 });
 check('AI attacks reachable targets before distant high-power targets',()=>{
  const s=fresh(),b=s.battle,u=b.allies.find(a=>a.range>1);
