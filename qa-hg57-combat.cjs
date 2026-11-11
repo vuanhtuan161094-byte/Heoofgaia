@@ -87,6 +87,60 @@ check('preexisting Save v07 keeps strict battle receipts and no extra hero actor
  return {version:s.version,allies:s.battle.allies.length,enemies:s.battle.enemies.length,
   realEnemyCommander:s.battle.hg409EnemyCommander.name};
 });
+
+check('HG57-B genuine three-hero x two-stack expedition fights sixteen live Boss stacks',()=>{
+ const s=E.make('human',1e6);
+ // Twelve soldiers are divided among six actual owner-bound slots. The only
+ // synthetic QA element is two cloned hero *profiles*, not resources or army.
+ const base=JSON.parse(JSON.stringify(s.heroes[0]));
+ for(let id=2;id<=3;id++)s.heroes.push({...base,id,name:'HG57-B QA hero '+id});
+ for(let id=1;id<=3;id++)E.hg20SetHeroPlan(s,id,[
+  {unitId:'human_1',count:2},{unitId:'human_1',count:2}]);
+ const boss=E.hg24RecommendBoss(s).filter(x=>!x.privateBoss)
+  .sort((a,b)=>a.stars-b.stars||a.distance-b.distance)[0];
+ assert(boss,'Missing reachable real NPC Boss');
+ E.hg26Start(s,{target:boss.key,heroId:null,maxRuns:1,keepAP:0,minUnits:12,
+  minCoverage:100,maxLossPercent:100,autoHeal:false,autoRecruit:false,
+  stopOnLoss:true,team:[1,2,3].map(heroId=>({heroId,slots:[0,1]}))});
+ const depart=E.hg26Step(s);assert.equal(depart.type,'dispatched');
+ E.tick(s,s.lastTick+Math.ceil((s.march.remaining+1)/s.speed*1000));
+ const entered=E.hg26Step(s);assert.equal(entered.type,'battle_open');
+ const b=s.battle;assert(b?.hg261Joint);assert.equal(b.allies.length,6);
+ assert.equal(b.enemies.length,16);assert.equal(b.hg410?.enemyStacks,16);
+ assert.deepEqual(Array.from(b.allies.map(u=>u.heroId)),[1,1,2,2,3,3]);
+ assert(E.strictSave(s),'Invalid true Boss Save v07 at battle start');
+ const roundtrip=E.parseSave(E.serializeSave(s));assert(E.strictSave(roundtrip));
+ assert.equal(roundtrip.battle.allies.length,6);
+ const originalArmy=s.army.human_1,originalClaims=s.hg409.rewards.length;
+ const seen=[],samples=[];let out={type:'continue'};
+ for(let i=0;i<71&&s.battle&&out.type==='continue';i++){
+  const current=s.battle,turn=current.turn;
+  out=E.battleAct(s,'attack',{stableTargets:true});
+  assert(E.strictSave(s),'Save v07 corrupted at round '+turn);
+  const events=current.lastEvents||[],owner=events.map(e=>e.actorId[0]);
+  assert(!owner.join('').includes('ep'),'Enemy acted before an ally in round '+turn);
+  for(const evt of events){
+   assert((evt.path||[]).length<=3,'Actor moves beyond legal max 3 hex');
+  }
+  const timing=P.battleVisualSchedule(events);
+  for(let k=1;k<timing.steps.length;k++)
+   assert(timing.steps[k].start>=timing.steps[k-1].animationEnd);
+  samples.push({turn,actors:events.length,durationMs:timing.duration,units:current.allies.filter(u=>u.pool>0).length+
+   current.enemies.filter(u=>u.pool>0).length});
+  seen.push(out.type);
+  if(out.type==='continue')assert.equal(current.turn,turn+1);
+ }
+ assert.notEqual(out.type,'continue','Real Boss battle did not terminate within 71 turns');
+ assert(!s.battle,'Battle not terminated by canonical engine');
+ // Unfunded defeat never creates an item/reward or additional troops.
+ assert(s.army.human_1<=originalArmy,'Boss minted real troops');
+ if(out.type==='lose')assert.equal(s.hg409.rewards.length,originalClaims);
+ return {target:boss.key,enemyStacks:16,owners:[1,1,2,2,3,3],
+  rounds:samples.length,outcome:out.type,actualArmyAfter:s.army.human_1,
+  rewards:s.hg409.rewards.length,firstRound:samples[0],
+  lastRound:samples[samples.length-1]};
+});
+
 const report={suite:'HG57 two-phase combat, hex move budget and sequential animation',
  passed:cases.filter(x=>x.pass).length,total:cases.length,cases};
 const output=path.join(__dirname,'docs/qa/hg57/engine-combat.json');
