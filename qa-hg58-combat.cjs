@@ -26,6 +26,32 @@ check('Unillustrated Tower monster moves smoothly on true hex route, not telepor
  assert(point.x>9*33&&point.x<10*33);
  return {movementMs:step.moveMs,interpX:visual.x,renderX:point.x};
 });
+check('Odd-r pixel movement follows each real receipt hex, including row transitions',()=>{
+ const camera=P.battleProjection({width:1176,height:550},E),
+  from={x:1,y:2},route=[{x:2,y:2},{x:3,y:2},{x:3,y:3}],
+  base={action:'walk',walkFrom:from,walkTo:route[2],walkRoute:route};
+ const at=fraction=>P.battleVisualPoint(camera,{...base,
+  // x/y are authoritative LOGICAL smoothstep positions, not pixel anchors.
+  x:3,y:2.5,walkFraction:fraction},route[2]);
+ const expected=[
+  camera.center(1,2),camera.pointBetween(from,route[0],.5),
+  camera.center(2,2),camera.pointBetween(route[0],route[1],.5),
+  camera.center(3,2),camera.pointBetween(route[1],route[2],.5),
+  camera.center(3,3)];
+ for(let i=0;i<expected.length;i++){
+  const point=at(i/6),goal=expected[i];
+  assert(Math.hypot(point.x-goal.x,point.y-goal.y)<1e-7,
+   'foot detached from true hex segment '+i+': '+JSON.stringify({point,goal}));
+ }
+ const before=at(2/3-.0001),after=at(2/3+.0001);
+ assert(Math.hypot(before.x-after.x,before.y-after.y)<camera.radius*.01,
+  'pixel foot jumps at odd-r segment boundary');
+ assert(Math.hypot(at(5/6).x-camera.center(3,2.5).x,
+  at(5/6).y-camera.center(3,2.5).y)>camera.radius*.1,
+  'test must detect invalid fractional-row centre shortcut');
+ return {routeLength:route.length,footMidpointsChecked:expected.length,
+  rowTransitionContinuous:true,saveStateMutation:false};
+});
 check('Per-hit target HP is reconstructed before and after actual impact',()=>{
  const enemy=fakeActor('e0','enemy',8,3,65),ally=fakeActor('p0','player',4,3);
  const event={actorId:'p0',from:{x:4,y:3},to:{x:4,y:3},path:[],

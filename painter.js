@@ -976,10 +976,22 @@ function battleProjection(canvas,E){
  return {g,hex,origin,radius,boardW,boardH,center,corners,point,pointBetween,cellAt};
 }
 function battleVisualPoint(camera,visual,fallback){
- // Use each ACTUAL hex in the receipt path; never cut a straight diagonal
- // across occupied cells. Rendering and hit testing share this projection.
- // HG58: state.x/y already includes smoothstep hex-segment interpolation.
- // Using walkFraction again bypassed easing and made feet slide/jump.
+ // HG59: odd-r offset rows are DISCRETE. Passing a fractional row into
+ // battleHex.center() changes row parity before reaching the next real hex,
+ // so a smooth logical walk can make the sprite foot jump sideways.
+ // Interpolate in PIXEL SPACE between the real neighboring hex centres.
+ // Reapply the same per-step smoothstep used by battleVisualState.
+ // Hitboxes and authoritative integer Save v07 positions are unchanged.
+ const route=Array.isArray(visual?.walkRoute)?visual.walkRoute:null;
+ if(route?.length&&Number.isFinite(visual?.walkFraction)){
+  const progress=clamp(visual.walkFraction,0,1)*route.length,
+   index=Math.min(route.length-1,Math.floor(progress)),
+   fraction=clamp(progress-index,0,1),
+   eased=fraction*fraction*(3-2*fraction),
+   from=index?route[index-1]:(visual.walkFrom||fallback),
+   to=route[index];
+  return camera.pointBetween(from,to,eased);
+ }
  return camera.center(visual?.x??fallback.x,visual?.y??fallback.y);
 }
 function battleGround(c,camera,w,h){
