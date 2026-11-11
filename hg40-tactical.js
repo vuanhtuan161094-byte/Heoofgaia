@@ -132,6 +132,7 @@ function skillReadiness(b,u){
  const special=t.cd>0,remaining=Math.max(0,(h.cd[u.id+':'+t.kind]||0)-b.turn);
  const mp=Math.max(0,Math.min(100,h.mana[u.id]??100));
  return {name:t.name,kind:t.kind,passive:!special,mp,maxMp:100,
+  regen:special?Math.ceil(100/t.cd):0,baseCooldown:t.cd,
   cooldown:remaining,ready:!special||(mp>=100&&remaining===0)};
 }
 function note(b,spec,message,actor){
@@ -177,8 +178,11 @@ function chooseAlly(s,b,actor,mode){
 }
 function beforeAction(s,b,u){
  const h=stateOf(b);if(!h)return false;
- // +25 MP exactly once when this actor gets its true turn.
- h.mana[u.id]=Math.min(100,(h.mana[u.id]??100)+25);
+ // Regenerate precisely enough to align with this actor's own CD.
+ // CD 3 -> 34MP/turn, CD 4 -> 25MP/turn, CD 5 -> 20MP/turn.
+ // An old CD-3 skill must not be silently nerfed into a 4-round recharge.
+ const trait=TRAITS[u.unitId],regen=trait?.cd>0?Math.ceil(100/trait.cd):0;
+ if(regen>0)h.mana[u.id]=Math.min(100,(h.mana[u.id]??100)+regen);
  const stun=getStatus(b,u,'stun');
  return !!stun;
 }
@@ -209,7 +213,7 @@ function plan(s,b,actor,target,trace){
   if(other.kind==='meleeGuard'&&actor.range===1)reduction+=other.a;
   if(other.kind==='firstGuard'&&!h.flags[target.id+':first']){
    reduction+=other.a;h.flags[target.id+':first']=true;
-   note(b,other,'Giảm sát thương đòn đầu');
+   note(b,other,target.name+' kích hoạt '+other.name+' · Giảm sát thương đòn đầu',target);
   }
  }
  if(getStatus(b,actor,'atkdown')){}
