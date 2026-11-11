@@ -15,6 +15,8 @@ on:
       - 'qa-hg34-combat-smooth-chrome.py'
       - 'qa-hg181-window-chrome.py'
       - 'qa-hg48-mobile-chrome.py'
+      - 'hg26-boss-autohunt.js'
+      - 'qa-hg26-boss.cjs'
       - '.github/workflows/hg57-smooth-combat.yml'
   workflow_dispatch:
 permissions:
@@ -39,6 +41,7 @@ jobs:
           node --check painter.js
           node --check app.js
           node qa-hg57-combat.cjs
+          node qa-hg26-boss.cjs
           node qa-hg50-boss-phases.cjs
           node qa-hg50-replay.cjs
       - name: Build one playable HTML only
