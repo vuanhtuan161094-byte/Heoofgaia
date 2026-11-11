@@ -302,7 +302,28 @@ const VANGUARD_CLIPS=Object.freeze({
 });
 const battleVisualTimelines=new WeakMap();
 function visualNow(){return typeof performance!=='undefined'?performance.now():0}
-const EMPTY_BATTLE_EVENTS=Object.freeze([]),BATTLE_VISUAL_STAGGER_MS=85,BATTLE_HEX_TRAVEL_MS=225;
+const EMPTY_BATTLE_EVENTS=Object.freeze([]),BATTLE_VISUAL_STAGGER_MS=62,BATTLE_HEX_TRAVEL_MS=165;
+// HG57 animation ledger: each stack completes its move/strike before the next
+// starts. Different sides have a readable pause. Dynamic density makes 16-18
+// Boss stacks brisk, while preserving actual sprite clips, hits and foot cells.
+function battleVisualSchedule(events){
+ const dense=events.length>=16,attackMs=dense?310:455,stepMs=dense?125:BATTLE_HEX_TRAVEL_MS;
+ let cursor=0,prevSide=null;
+ const steps=[];
+ for(const event of events){
+  const side=String(event?.actorId||'').startsWith('e')?'enemy':'player';
+  if(prevSide!==null&&side!==prevSide)cursor+=dense?270:360;
+  const path=Array.isArray(event?.path)?event.path:[],
+   moveMs=path.length*stepMs,actMs=event?.damage>0?attackMs:
+    ['attack','focus','skill'].includes(event?.order)?dense?220:290:110,
+   start=cursor,impact=start+moveMs+actMs*.63;
+  steps.push({start,moveMs,attackMs:actMs,impactAt:impact,
+   animationEnd:start+moveMs+actMs});
+  cursor+=moveMs+actMs+(dense?BATTLE_VISUAL_STAGGER_MS*.67:BATTLE_VISUAL_STAGGER_MS);
+  prevSide=side;
+ }
+ return {steps,duration:Math.max(900,Math.ceil(cursor+90))};
+}
 function battleTimelinePrime(b,now=visualNow(),replay=false){
  if(!b||typeof b!=='object')return null;
  const events=Array.isArray(b.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
@@ -312,18 +333,18 @@ function battleTimelinePrime(b,now=visualNow(),replay=false){
  return timeline;
 }
 function enqueueBattleReceipts(timeline,events,now,round=0){
- const start=Math.max(now,timeline.nextStart||now);let span=0;
+ const start=Math.max(now,timeline.nextStart||now),schedule=battleVisualSchedule(events);
  for(let i=0;i<events.length;i++){
   const event=events[i];if(!event||typeof event.actorId!=='string')continue;
-  const route=Array.isArray(event.path)?event.path.map(p=>({x:p.x,y:p.y})):[];
-  const moveMs=route.length*BATTLE_HEX_TRAVEL_MS,attackMs=event.damage>0?(route.length?450:650):0,
-   at=start+i*BATTLE_VISUAL_STAGGER_MS,impactAt=at+moveMs+attackMs*.58,
-   animationEnd=at+moveMs+attackMs;
-  timeline.items.push({round,event:{...event,from:event.from?{...event.from}:null,to:event.to?{...event.to}:null,path:route},start:at,moveMs,attackMs,impactAt,animationEnd,
-   deathEnd:event.death?impactAt+1200:0,effectEnd:event.death?impactAt+1200:event.damage>0?impactAt+960:animationEnd});
-  span=Math.max(span,i*BATTLE_VISUAL_STAGGER_MS+moveMs+attackMs);
+  const route=Array.isArray(event.path)?event.path.map(p=>({x:p.x,y:p.y})):[],
+   item=schedule.steps[i],at=start+item.start,impactAt=start+item.impactAt,
+   animationEnd=start+item.animationEnd;
+  timeline.items.push({round,event:{...event,from:event.from?{...event.from}:null,to:event.to?{...event.to}:null,path:route},
+   start:at,moveMs:item.moveMs,attackMs:item.attackMs,impactAt,animationEnd,
+   deathEnd:event.death?impactAt+1200:0,
+   effectEnd:event.death?impactAt+1200:event.damage>0?impactAt+760:animationEnd});
  }
- timeline.nextStart=Math.max(start+Math.max(900,span)+85,now);
+ timeline.nextStart=start+schedule.duration;
 }
 function battleTimelineFor(b,now=visualNow()){
  if(!b||typeof b!=='object')return null;
@@ -336,13 +357,8 @@ function battleTimelineFor(b,now=visualNow()){
  return timeline;
 }
 function battleTimelineTurnDuration(b){
- const timeline=battleVisualTimelines.get(b),events=Array.isArray(b?.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
- if(!events.length)return 0;
- let span=0;for(let i=0;i<events.length;i++){
-  const e=events[i],move=(e.path?.length||0)*BATTLE_HEX_TRAVEL_MS,attack=e.damage>0?(move?450:650):0;
-  span=Math.max(span,i*BATTLE_VISUAL_STAGGER_MS+move+attack);
- }
- return Math.max(900,span)+85;
+ const events=Array.isArray(b?.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
+ return events.length?battleVisualSchedule(events).duration:0;
 }
 function battleElapsed(b,now){battleTimelineFor(b,now);return Math.max(0,now)}
 function vanguardAtlasFrame(action,elapsed=0,duration=null){
@@ -365,8 +381,9 @@ function battleVisualState(b,u,elapsed,now=elapsed){
   if(now<=item.start)return {x:e.from?.x??route[0].x,y:e.from?.y??route[0].y};
   const progress=clamp((now-item.start)/Math.max(1,item.moveMs),0,1)*route.length,
    index=Math.min(route.length-1,Math.floor(progress)),fraction=Math.min(1,progress-index),
+   eased=fraction*fraction*(3-2*fraction),
    from=index?route[index-1]:(e.from||route[0]),to=route[index];
-  return {x:from.x+(to.x-from.x)*fraction,y:from.y+(to.y-from.y)*fraction};
+  return {x:from.x+(to.x-from.x)*eased,y:from.y+(to.y-from.y)*eased};
  };
  if(u.pool<=0){
   if(incoming?.event.death&&now>=incoming.impactAt&&now<incoming.deathEnd){
@@ -1408,5 +1425,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
