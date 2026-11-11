@@ -1025,16 +1025,39 @@ function hg46GearView(h){
   '<strong>'+esc(q.name)+'</strong><span>'+q.count+'/'+(q.max||3)+'</span>'+
   '<div class="hg46-progress-pips">'+Array.from({length:q.max||3},(_,i)=>'<i class="'+(q.count>i?'filled':'')+'"></i>').join('')+'</div>'+
   '<small>'+esc(q.note)+'</small></div>').join('');
- const inventory=state.inventory.filter(i=>E.ITEMS[i.itemId]&&(hg46GearFilter==='all'||E.ITEMS[i.itemId].slot===hg46GearFilter));
+ const norm=q=>String(q||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/đ/g,'d').toLowerCase();
+ const search=norm(hg46GearSearch);
+ const equipped=state.inventory.filter(i=>E.ITEMS[i.itemId]&&E.hg46Owner(state,i.uid)).length;
+ const matchesFilter=i=>{
+  const d=E.ITEMS[i.itemId],owner=E.hg46Owner(state,i.uid),kind=E.hg46Kind(i);
+  return hg46GearFilter==='all'||hg46GearFilter==='free'&&!owner||
+   hg46GearFilter==='worn'&&!!owner||hg46GearFilter==='rare'&&['rare','divine','star','dragon'].includes(kind)||
+   d.slot===hg46GearFilter;
+ };
+ const inventory=state.inventory.filter(i=>E.ITEMS[i.itemId]&&matchesFilter(i)&&
+  (!search||norm([E.ITEMS[i.itemId].name,E.ITEMS[i.itemId].slot,i.uid,i.source,
+    E.hg46Kind(i),E.HG47_SLOTS.find(q=>q[0]===E.ITEMS[i.itemId].slot)?.[1]].join(' ')).includes(search)));
  const tiers={divine:7,star:6,rare:5,dragon:4,astral:3,sentinel:2,common:1};
- inventory.sort((a,b)=>((tiers[E.hg46Kind(b)]||0)-(tiers[E.hg46Kind(a)]||0))||
-  (b.enhance||0)-(a.enhance||0)||a.uid-b.uid);
- const pageSize=36,pages=Math.max(1,Math.ceil(inventory.length/pageSize));
+ inventory.sort((a,b)=>hg46GearSort==='new'?b.uid-a.uid:
+  hg46GearSort==='attack'?(E.hg46Stats(b).atk||0)-(E.hg46Stats(a).atk||0)||b.uid-a.uid:
+  ((tiers[E.hg46Kind(b)]||0)-(tiers[E.hg46Kind(a)]||0))||(b.enhance||0)-(a.enhance||0)||a.uid-b.uid);
+ const pageSize=24,pages=Math.max(1,Math.ceil(inventory.length/pageSize));
  hg46GearPage=Math.min(hg46GearPage,pages-1);
  const visible=inventory.slice(hg46GearPage*pageSize,(hg46GearPage+1)*pageSize);
- const options=[['all','Tất cả'],...E.HG47_SLOTS.map(([key,name,icon])=>[key,icon+' '+name])];
- const filters=options.map(([key,label])=>button('hg46-filter',{slot:key},label+' '+(key==='all'?state.inventory.length:state.inventory.filter(i=>E.ITEMS[i.itemId]?.slot===key).length),
-  key===hg46GearFilter,'small '+(key===hg46GearFilter?'primary':'secondary'))).join('');
+ const options=[['all','Tất cả'],['free','Chưa mặc'],['worn','Đang mặc'],['rare','Đồ hiếm'],
+  ...E.HG47_SLOTS.map(([key,name,icon])=>[key,icon+' '+name])];
+ const groupCount=key=>key==='all'?state.inventory.length:key==='free'?state.inventory.length-equipped:
+  key==='worn'?equipped:key==='rare'?state.inventory.filter(i=>E.ITEMS[i.itemId]&&
+   ['rare','divine','star','dragon'].includes(E.hg46Kind(i))).length:
+   state.inventory.filter(i=>E.ITEMS[i.itemId]?.slot===key).length;
+ const filters=options.map(([key,label])=>button('hg46-filter',{slot:key},
+  label+' '+groupCount(key),key===hg46GearFilter,'small '+(key===hg46GearFilter?'primary':'secondary'))).join('');
+ const tools='<div class="hg70-inventory-tools"><label class="hg70-search">⌕ <input id="hg46-search-box" type="search" placeholder="Tìm tên, UID, nguồn nhận..." value="'+esc(hg46GearSearch)+'" autocomplete="off" aria-label="Tìm đồ trong toàn bộ kho"></label>'+
+  button('hg46-search',{},'Tìm',false,'small primary')+
+  button('hg46-search-reset',{},'Xóa lọc',!hg46GearSearch,'small secondary')+'</div>'+
+  '<div class="hg70-sort-tools"><b>Sắp xếp</b>'+[
+   ['rarity','Phẩm chất'],['attack','Tấn công'],['new','Mới nhận']].map(([id,name])=>
+   button('hg46-sort',{id},name,hg46GearSort===id,'small '+(hg46GearSort===id?'primary':'secondary'))).join('')+'</div>';
  const rows=visible.map(row=>{
   const def=E.ITEMS[row.itemId],owner=E.hg46Owner(state,row.uid),self=owner?.heroId===h.id,
    elsewhere=owner&&!self,kind=E.hg46Kind(row),p=E.hg46Stats(row),next=E.hg46NextEnhance(state,row.uid);
@@ -1069,8 +1092,8 @@ function hg46GearView(h){
   '<div class="hg46-build-buttons">'+buildChoices+'</div></section>'+
   '<details class="hg46-set-details"><summary>💠 Bộ trang bị · '+sets.filter(q=>q.count>=2).length+' bộ đang có hiệu ứng</summary>'+
   '<div class="hg46-set-grid">'+setProgress+'</div></details>'+
-  '<div class="hg46-inventory-head"><b>TRANG BỊ TRONG KHO</b><span>'+inventory.length+' món · '+pages+' trang</span></div>'+ 
-  '<div class="hg46-filter-bar">'+filters+'</div>'+
+  '<div class="hg46-inventory-head"><b>TRANG BỊ TRONG KHO</b><span>'+inventory.length+' kết quả / '+state.inventory.length+' món · '+pages+' trang · '+(state.inventory.length-equipped)+' chưa mặc</span></div>'+
+  tools+'<div class="hg46-filter-bar">'+filters+'</div>'+
   '<div class="hg46-inventory-list">'+(rows||'<p class="hg408-note">Không có trang bị trong nhóm này. Kiếm rương từ nhiệm vụ hoặc ghép đồ tại Rèn & Di vật.</p>')+'</div>'+
   '<div class="hg46-pages">'+button('hg46-page',{direction:-1},'◀ Trang trước',hg46GearPage===0,'small secondary')+
   '<span>Trang '+(hg46GearPage+1)+'/'+pages+'</span>'+
@@ -1809,6 +1832,9 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='hg408-dismiss-next'){if(!E.hg408DismissCheck(state,Number(target.dataset.id)).allowed)throw Error('Tướng không đủ điều kiện sa thải.');hg408DismissStage=2;return}
  if(action==='hg408-dismiss-apply'){const result=E.hg408DismissHero(state,Number(target.dataset.id));hg408InspectId=result.activeHero;hg408DismissFor=null;hg408DismissStage=0;toast('Đã sa thải '+result.name+'; trang bị giữ nguyên trong kho.');return}
  if(action==='hg46-filter'){hg46GearFilter=target.dataset.slot||'all';hg46GearPage=0;return}
+ if(action==='hg46-search'){hg46GearSearch=($('hg46-search-box')?.value||'').trim().slice(0,80);hg46GearPage=0;return}
+ if(action==='hg46-search-reset'){hg46GearSearch='';hg46GearFilter='all';hg46GearPage=0;return}
+ if(action==='hg46-sort'){hg46GearSort=['rarity','attack','new'].includes(target.dataset.id)?target.dataset.id:'rarity';hg46GearPage=0;return}
  if(action==='hg46-page'){hg46GearPage=Math.max(0,hg46GearPage+Number(target.dataset.direction||0));return}
  if(action==='hg46-auto'){const result=E.hg46AutoEquip(state,Number(target.dataset.id),target.dataset.mode);
   toast(result.applied?'Đã chọn bộ trang bị từ kho thực; thay '+result.changed+' ô.':'Bộ đang mặc đã phù hợp.');return}

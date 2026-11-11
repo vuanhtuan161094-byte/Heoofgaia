@@ -171,3 +171,24 @@ body.combat-mode .battle-stage{position:relative;isolation:isolate}
 .hg63-item-details small{color:#adc2c7}
 @media(max-width:600px){.hg63-report-overlay{padding:5px}.hg63-report-dialog{max-height:calc(100dvh - 10px);border-radius:10px}.hg63-report-head{padding:12px;gap:8px}.hg63-report-emblem{width:46px;height:52px;font-size:37px}.hg63-report-head h2{font-size:23px}.hg63-report-scroll{padding:6px 10px}.hg63-report-actions{padding:8px}.hg63-reward-token{font-size:12px;padding:6px 9px}}
 @media(prefers-reduced-motion:reduce){.hg63-report-vfx i{animation:none}}
+
+/* HG70: readable and touch-friendly inventory, no changes to Save v07. */
+.hg70-inventory-tools{display:flex;align-items:center;flex-wrap:wrap;gap:6px;min-width:0}
+.hg70-inventory-tools .hg70-search{display:flex;align-items:center;gap:6px;flex:1 1 240px;border:1px solid #65808b;background:#111f30;border-radius:8px;padding:5px 10px;color:#f3d78b;font-size:17px}
+.hg70-search input{border:0!important;outline:0!important;min-height:31px;width:100%;font-size:13px;background:transparent!important;color:#f3f6ff}
+.hg70-search:focus-within{border-color:#ead38a;box-shadow:0 0 0 2px #c9a65333}
+.hg70-sort-tools{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.hg70-sort-tools>b{font-size:11px;color:#ecd5a0}
+.hg46-inventory-list{grid-template-columns:repeat(auto-fit,minmax(min(100%,305px),1fr))!important;gap:8px!important}
+.hg46-inventory-card{min-height:104px!important;align-items:flex-start!important;box-shadow:0 2px 10px #07152266}
+.hg46-inventory-card>.hg46-gear-art{margin-top:2px}
+.hg46-item-description{flex:1 1 auto;min-width:0;overflow-wrap:anywhere}
+.hg46-item-description strong,.hg46-item-description b{line-height:1.4}
+.hg46-card-actions{flex:0 0 80px!important;gap:5px!important}
+.hg46-card-actions button{white-space:normal;min-height:29px!important}
+@media(max-width:700px){
+.hg46-inventory-list{grid-template-columns:1fr!important}
+.hg46-inventory-card{gap:6px!important}
+.hg70-inventory-tools .hg70-search{flex-basis:100%}
+.hg46-card-actions{flex-basis:72px!important}
+}
