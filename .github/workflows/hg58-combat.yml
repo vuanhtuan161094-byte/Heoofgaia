@@ -1,4 +1,4 @@
-name: HG58 Combat Integrity - Three Heroes, MP, VFX and Playback Speed
+name: HG58 Combat Integrity - Original Cooldowns, Passives, VFX and Playback Speed
 on:
   push:
     branches: [feature/hog1-research-to-playable-20261102]
@@ -29,7 +29,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Exact SHA - canonical 40-unit skills, MP and 3-hero HP evidence
+      - name: Exact SHA - 40-unit cooldowns/passives and real 3-hero HP evidence
         run: |
           echo "HG58_SHA=$(git rev-parse HEAD)"
           node --check engine.js
@@ -54,7 +54,7 @@ jobs:
           print('HG58 ONE OFFLINE HTML PASS')
           PY
           sha256sum Play-Heoofgaia-HG11.html
-      - name: "Real Chromium: speed 1x 2x 3x, HP, VFX, Boss and Tower"
+      - name: "Real Chromium: speed x1 x2 x3, cooldown HUD, Boss and Tower"
         run: |
           python -m pip install playwright
           python -m playwright install chromium
