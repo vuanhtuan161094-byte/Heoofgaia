@@ -272,7 +272,8 @@ with sync_playwright() as pw:
           # HG41: three distinct source Boss archetypes now deploy SIXTEEN
           # canonical live defender stacks (not three copied UI labels).
           len(bossFixture['bossNames'])==16 and
-          len(set(bossFixture['bossNames']))==3,bossFixture)
+          bossFixture['bossNames'][:3]==['Azrael','Demonlord Samurai','Cyclop Tyrant'] and
+          len(set(bossFixture['bossNames'][3:]))>=4,bossFixture)
     bossPage.wait_for_timeout(3550)
     bossResult=bossPage.evaluate("""() => {
       const m=window._bossPerf,s=HOG_APP_DEBUG.getState(),

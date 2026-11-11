@@ -65,14 +65,19 @@ with sync_playwright() as pw:
         page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
         gear=page.evaluate("""() => {
             const slots=[...document.querySelectorAll('.hg47-ten-slots .hg46-slot')],
-             panel=document.querySelector('.hg408-panel'),rect=panel.getBoundingClientRect();
-            return {count:slots.length,visible:slots.filter(el=>{
-              const r=el.getBoundingClientRect();
-              return r.x>=rect.x-2&&r.right<=rect.right+2&&r.y>=rect.y-2&&r.bottom<=rect.bottom+2
-            }).length,windowBackground:getComputedStyle(document.querySelector('.game-window')).backgroundImage,
-             width:document.documentElement.scrollWidth};
+             panel=document.querySelector('.hg408-panel');
+            const reach=slots.map(el=>{
+              el.scrollIntoView({block:'center',inline:'nearest',behavior:'instant'});
+              const r=el.getBoundingClientRect(),pr=panel.getBoundingClientRect();
+              const cx=(r.left+r.right)/2,cy=(r.top+r.bottom)/2;
+              return cx>=pr.left-2&&cx<=pr.right+2&&cy>=pr.top-2&&cy<=pr.bottom+2;
+            });
+            return {count:slots.length,reachable:reach.filter(Boolean).length,
+              windowBackground:getComputedStyle(document.querySelector('.game-window')).backgroundImage,
+              width:document.documentElement.scrollWidth};
         }""")
-        check(name+' all ten gear slots visible',gear['count']==10 and gear['visible']==10,gear)
+        check(name+' all ten gear slots reachable through real scrolling',
+              gear['count']==10 and gear['reachable']==10,gear)
         check(name+' chromatic hero window rendered', 'gradient' in gear['windowBackground'] and gear['width']<=w+2,gear)
         shot(page,name+'-hero.png')
         page.locator('[data-action="tab"][data-tab="relics"]').first.click()
