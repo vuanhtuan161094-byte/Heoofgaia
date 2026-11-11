@@ -1,3 +1,12 @@
+## HG57 — phased auto combat and Hero/HUD polish: focused release PASS · 2026-11-11
+
+- **Exact game SHA:** `ead2e7fcf5972309a1947aab1206aaafb77bc6a3`; [HG57 run #42940862822](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42940862822) **SUCCESS** (real engine **5/5** + Chromium desktop/phone **27/27**, Save v07 strict). Downloadable single `Play-Heoofgaia-HG11.html` artifact **13819649412**; 78,735,307 bytes; SHA256 `11ecf9c2f88f939b955ed0bbd2158a302596c6330da516dc5ca4dc17edf7478d` verified after extraction.
+- **Gameplay:** each round resolves **all player stack actions, then all enemy stack actions**, speed-priority within each side; real hex movement (melee SPD<7 one cell / SPD≥7 two cells, range 1; ranged move 1, shoot 4–5). Existing target authority, buffs, equipment, rewards, Save v07 untouched. Animation scheduling serializes individual actions and eases hex movement, with ~8.1s dense 22-actor boss pacing and no UI overlap.
+- **UI:** real allied leader portraits and existing actual HG40.9 enemy commander / NPC identifier, two-side visual phase, independent HP/names/grid toggles, compact dynamic HP meters (no overlap at 412px) and manual-auto spam guard. Hero portraits prepare future skills but are **not new attacking combat entities**. 5-resource global HG56 top HUD remains present.
+- **Remaining:** old monolithic offline QA run #42940862842 **PENDING latest outcome at handoff time**; physical Android/Windows FPS/thermal/touch QA **PENDING USER**. No full-repository PASS claim. See `docs/HG57_SMOOTH_COMBAT_HANDOFF_20261111.md` for exact files, proof, caveats, next steps. One branch/one HTML, no Codex, no merge.
+
+---
+
 ## HG50-A/B/C — confirmed playable release, reward-neutral replay, extended QA · 2026-11-10
 
 - **Sole repository/branch:** `vuanhtuan161094-byte/Heoofgaia`, `feature/hog1-research-to-playable-20261102`. No new branch, no merge, no Codex, no forced Save migration, no second HTML.
