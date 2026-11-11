@@ -54,16 +54,17 @@ let focusArmyRecruitOnOpen=false; // New Army-tab entry goes to actionable recru
 // Visual QA preferences are separate from the canonical v07 gameplay save.
 // Default both ON, as requested for verifying unit coordinates and HP.
 const BATTLE_VIEW_PREF_KEY='heoofgaia_battle_display_v2';
-const battleViewPrefs={grid:true,hp:true};
+const battleViewPrefs={grid:true,hp:true,labels:true};
 try{
  const stored=JSON.parse(localStorage.getItem(BATTLE_VIEW_PREF_KEY)||'null');
  if(stored&&typeof stored==='object'){
   if(typeof stored.grid==='boolean')battleViewPrefs.grid=stored.grid;
   if(typeof stored.hp==='boolean')battleViewPrefs.hp=stored.hp;
+  if(typeof stored.labels==='boolean')battleViewPrefs.labels=stored.labels;
  }
 }catch(_error){}
 function toggleBattleDisplay(which){
- if(which!=='grid'&&which!=='hp')return;
+ if(!['grid','hp','labels'].includes(which))return;
  battleViewPrefs[which]=!battleViewPrefs[which];
  try{localStorage.setItem(BATTLE_VIEW_PREF_KEY,JSON.stringify(battleViewPrefs))}catch(_error){}
 }
@@ -149,6 +150,9 @@ function syncCombatTurnHUD(){
   move.disabled=!selected||selected.pool<=0;
   move.textContent=movementModeId?'✕ HỦY Ô':moveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH';
  }
+ const steps=$('hg57-move-steps');if(steps)steps.textContent=selected?
+  'Di chuyển: '+(E.battleMovePreview?.(b,selected.id)?.steps||0)+' ô/lượt · Tầm đánh: '+selected.range+' ô':
+  'Chọn quân để xem tốc độ và tầm đánh';
  const prompt=$('battle-move-prompt');
  if(prompt)prompt.textContent=movementModeId?'Chọn ô lục giác viền sáng để đặt điểm đến.':
   moveTarget?'Đang tiến tới ô ('+(moveTarget.x+1)+', '+(moveTarget.y+1)+').':
@@ -1234,6 +1238,22 @@ function combatView(){
  }).filter(Boolean).join(' · ');
  const aliveAllies=b.allies.filter(u=>u.pool>0).length,aliveEnemies=b.enemies.filter(u=>u.pool>0).length;
  const statLine=u=>u?`${format(u.count)} quân · ${format(Math.ceil(u.pool))} HP`:'';
+ const realFriendly=[...new Set(b.allies.filter(u=>u.pool>0).map(u=>u.heroId??state.activeHero))]
+  .map(id=>state.heroes.find(h=>h.id===id)).filter(Boolean).slice(0,3);
+ const realEnemy=b.hg409EnemyCommander||null;
+ const heroBadge=(h,side)=>h?'<div class="hg57-hero-chip '+side+'">'+
+   hg45Portrait(h)+'<span class="hg57-hero-description"><b>'+esc(h.name)+'</b>'+
+   '<small>Lv.'+(h.level||100)+' · '+(side==='enemy'?'Chỉ huy địch':'Tướng tham chiến')+'</small></span></div>':'';
+ const enemyBadge=realEnemy?heroBadge(realEnemy,'enemy'):
+  '<div class="hg57-hero-chip enemy hg57-npc-commander"><span class="hg57-enemy-mark">☠</span>'+
+  '<span class="hg57-hero-description"><b>'+esc(b.name||'Đội phòng thủ')+'</b>'+
+  '<small>Thủ lĩnh NPC · không tạo tướng ảo</small></span></div>';
+ const leaders='<div class="hg57-commander-strip" aria-label="Tướng hai phe chiến trường" data-hg57-leaders>'+
+  '<div class="hg57-leader-team" data-hg57-friendly>'+realFriendly.map(h=>heroBadge(h,'friendly')).join('')+'</div>'+
+  '<span class="hg57-versus" aria-hidden="true">VS</span>'+
+  '<div class="hg57-leader-team enemy" data-hg57-enemy>'+enemyBadge+'</div></div>';
+ const moveAllowance=selected?E.battleMovePreview?.(b,selected.id)?.steps||0:0;
+
  const selectedName=selected?esc(selected.name):'Chạm quân ta trên chiến trường';
  const focusedName=focused?esc(focused.name):'Chạm quân địch để chọn mục tiêu';
  const eventText=e=>{
@@ -1281,14 +1301,14 @@ function combatView(){
   '<span class="hg40-enemy">☠ '+esc(E.hg40StatusText?.(b,focused)||'Chưa chọn mục tiêu')+'</span></div>':'';
  return `<div class="scene-title combat-scene-title"><div><span class="eyebrow">CHIẾN TRƯỜNG • CHIẾN THUẬT</span><h1>Giao tranh · ${esc(b.name)}</h1></div><div class="scene-tools">${button('save-combat',{},'💾',false,'small secondary')}<span class="tag">Lượt ${b.turn} · ${aliveAllies} : ${aliveEnemies}</span></div></div>
  ${hg50PhaseInfo}
- <div class="battle-frame battle-stage${combatDockOpen?'':' battle-stage-collapsed'}"><canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường lục giác. Bấm vào quân ta để chọn đội, quân địch để chọn mục tiêu; ra lệnh di chuyển rồi chọn ô trống."></canvas>
+ <div class="battle-frame battle-stage${combatDockOpen?'':' battle-stage-collapsed'}">${leaders}<canvas id="battle-canvas" width="1176" height="550" aria-label="Chiến trường lục giác. Bấm vào quân ta để chọn đội, quân địch để chọn mục tiêu; ra lệnh di chuyển rồi chọn ô trống."></canvas>
   <details class="battle-command-dock" ${combatDockOpen?'open':''}>
    <summary title="Thu gọn hoặc mở bảng lệnh" aria-label="Thu gọn hoặc mở bảng lệnh chiến đấu"><span class="battle-dock-label">⚔ LỆNH</span><span class="battle-dock-chevron" aria-hidden="true">⌄</span></summary>
    <div class="battle-command-content">
     <div class="battle-selection-readout"><div class="battle-side-readout"><small>QUÂN TA</small><b>${selectedName}</b><span>${selected?esc(statLine(selected)):'Chạm quân ta trên bàn cờ'}</span></div><div class="battle-side-readout enemy"><small>MỤC TIÊU</small><b>${focusedName}</b><span>${focused?esc(statLine(focused)):movementModeId?'Chọn ô lục giác để di chuyển':'Bấm quân địch trên ô'}</span></div></div>
     ${hg40Info}${U43.battle(b,selected,focused||b.enemies.find(u=>u.pool>0)||null)}${enemyCSInfo}${hg410Info}${bossRoster}
-    <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div>
-    <div class="battle-display-tools" role="group" aria-label="Tùy chọn chiến trường"><button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn lưới lục giác">${battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu">${battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'}</button></div>
+    <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div><div class="hg57-phase-and-move"><b id="hg57-phase">PHE TA → PHE ĐỊCH</b><span id="hg57-move-steps">${selected?("Di chuyển: "+moveAllowance+" ô/lượt · Tầm đánh: "+selected.range+" ô"):"Chọn quân để xem tốc độ và tầm đánh"}</span></div>
+    <div class="battle-display-tools" role="group" aria-label="Tùy chọn chiến trường"><button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn lưới lục giác">${battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu">${battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-labels" aria-pressed="${battleViewPrefs.labels}" title="Hiện hoặc ẩn tên quân và quái vật">${battleViewPrefs.labels?'Aa Tên':'Aa Ẩn tên'}</button></div>
     <div class="battle-action-grid">${button('auto',{},state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH',false,'auto secondary')}${button('battle',{cmd:'attack'},'⚔ ĐÁNH',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 CHỜ',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 TẬP TRUNG',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI',false,'secondary')}</div>
     <p class="battle-move-prompt" id="battle-move-prompt">${movementHint}</p>
     <details class="battle-spell-fold"><summary>✨ Phép chiến đấu · ${spellIds.length||((b.hg21Tower||b.hg261Joint)?'tướng':'0')}</summary><div>${spells}</div></details>
@@ -1317,7 +1337,7 @@ function paint(){
  }if(tab==='city'){const canvas=$('city-canvas');P.drawCity(canvas,E,state,selectedBuilding);
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
  }else if(tab==='combat'){
-  const canvas=$('battle-canvas'),interaction={movementModeId,showGrid:battleViewPrefs.grid,showHP:battleViewPrefs.hp};
+  const canvas=$('battle-canvas'),interaction={movementModeId,showGrid:battleViewPrefs.grid,showHP:battleViewPrefs.hp,showLabels:battleViewPrefs.labels};
   const dock=document.querySelector('.battle-command-dock');if(dock)dock.addEventListener('toggle',()=>{combatDockOpen=dock.open;dock.closest('.battle-stage')?.classList.toggle('battle-stage-collapsed',!dock.open)});
   // Match the canvas backing aspect to the rendered frame. The prior fixed
   // 1176x550 surface was squeezed into 960x540 landscape CSS, distorting the
@@ -1331,7 +1351,11 @@ function paint(){
    interaction.movementModeId=movementModeId;
    interaction.showGrid=battleViewPrefs.grid;
    interaction.showHP=battleViewPrefs.hp;
+   interaction.showLabels=battleViewPrefs.labels;
    P.drawBattle(canvas,E,state,now,interaction);
+   const phase=$('hg57-phase'),visual=P.battleVisualPhase?.(state.battle,now);
+   const label=visual?.side==='enemy'?'☠ PHE ĐỊCH ĐANG HÀNH ĐỘNG':visual?.side==='player'?'⚔ PHE TA ĐANG HÀNH ĐỘNG':'PHE TA → PHE ĐỊCH';
+   if(phase&&phase.textContent!==label)phase.textContent=label;
   };
   drawCombatFrame(undefined);
   if(P.hasAnimatedTroops(state.battle)){
@@ -1532,14 +1556,14 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(section)section.scrollIntoView({block:'center',behavior:'instant'});
   return;
  }
- if(action==='battle-grid'||action==='battle-hp'){
-  const which=action==='battle-grid'?'grid':'hp';
+ if(action==='battle-grid'||action==='battle-hp'||action==='battle-labels'){
+  const which=action==='battle-grid'?'grid':action==='battle-hp'?'hp':'labels';
   toggleBattleDisplay(which);
   const button=document.querySelector('.battle-command-dock [data-action="'+action+'"]');
   if(button){
    button.setAttribute('aria-pressed',String(battleViewPrefs[which]));
    button.textContent=which==='grid'?(battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'):
-    (battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt');
+    which==='hp'?(battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'):(battleViewPrefs.labels?'Aa Tên':'Aa Ẩn tên');
   }
   // The continuously running RAF sees updated interaction preferences.
   if(!$('battle-canvas'))render();
