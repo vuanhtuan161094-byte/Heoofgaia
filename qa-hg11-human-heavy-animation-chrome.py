@@ -330,12 +330,16 @@ with sync_playwright() as playwright:
       e.x=Math.min(heavy.x+1,10);e.y=heavy.y;e.atk=20;e.range=1;b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""",heavy_id)
     select_unit_on_battlefield(page,heavy_id,"Heavy Soldier before Hit animation")
     page.locator('[data-action="battle"][data-cmd="defend"]').click()
-    # Wait for the renderer's receipt timeline to reach the real impact window
-    # instead of sampling a fixed delay that can precede a staggered enemy.
-    page.wait_for_function("""()=>{const s=HOG_APP_DEBUG.getState(),b=s?.battle,h=b?.allies.find(u=>u.unitId==='human_4'),now=performance.now(),timeline=HOG_PAINTER.battleTimelineFor(b,now);
-      return !!h&&timeline?.items?.some(item=>item.event.targetId===h.id&&item.event.damage>0&&now>=item.impactAt&&now<item.effectEnd)}""", timeout=5_000)
+    # HG58 x3 uses a virtual presentation clock, not raw performance.now.
+    # Wait for an AUTHENTIC damage receipt, then sample precisely at that
+    # receipt's own impact timestamp. This is the same painter contract as
+    # production and does not inject fake damage or bypass the input lock.
+    page.wait_for_function("""()=>{const b=HOG_APP_DEBUG.getState()?.battle;
+      return !!b&&b.lastEvents?.some(e=>e.targetId===b.allies.find(u=>u.unitId==='human_4')?.id&&e.damage>0)}""", timeout=5_000)
     hit = page.evaluate("""(heavyId)=>{const s=HOG_APP_DEBUG.getState(),b=s?.battle,heavy=b?.allies.find(u=>u.id===heavyId),
-      event=b?.lastEvents?.find(e=>e.targetId===heavyId&&e.damage>0),hitIndex=b?.lastEvents?.findIndex(e=>e.targetId===heavyId&&e.damage>0)??-1,now=performance.now(),visual=b&&heavy?HOG_PAINTER.battleVisualState(b,heavy,now,now):null,
+      event=b?.lastEvents?.find(e=>e.targetId===heavyId&&e.damage>0),timeline=HOG_PAINTER.battleTimelineFor(b,performance.now()),
+      impact=timeline?.items.find(x=>x.event.targetId===heavyId&&x.event.damage>0)?.impactAt,
+      now=Number.isFinite(impact)?impact+16:performance.now(),visual=b&&heavy?HOG_PAINTER.battleVisualState(b,heavy,now,now):null,
       ctx=document.createElement('canvas').getContext('2d'),proto=CanvasRenderingContext2D.prototype,draw=proto.drawImage;let rendered=false,source=null;
       proto.drawImage=function(image,...args){if(image?.id==='unit-human-vanguard-atlas'&&args.length>=8)source={sx:args[0],sy:args[1]};return draw.call(this,image,...args)};
       try{rendered=!!visual&&HOG_PAINTER.battleUnitArt(ctx,80,180,false,visual,1,heavy)}finally{proto.drawImage=draw}
