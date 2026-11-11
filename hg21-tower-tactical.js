@@ -200,7 +200,15 @@ function gameBattle(s){
   woundedByUnit:{},history:['Bí Cảnh: mỗi tướng sở hữu tối đa hai stack; không tiêu hao quân thật.'],
   hg21Tower:{floor,team:roster.map(r=>r.heroId),picks:roster},
   heroCastTurn:{},heroSpellCooldown:{},heroEffects:[],heroMovementInstinct:{}};
+ // HG410 shared deployment may rearrange 3x2 Tower actors. Restore
+ // each owner's canonical lane AFTER all shared combat preparation, without
+ // changing troop count, target, AI, hex rules, or existing Save v07 fields.
+ const ownerHexes=new Map(enlisted.map(u=>[u.id,{x:u.x,y:u.y}]));
  E.hg40PrepareBattle?.(s,s.battle);
+ for(const u of s.battle.allies){
+  const hex=ownerHexes.get(u.id);
+  if(hex){u.x=hex.x;u.y=hex.y;}
+ }
  s.battleAuto=false;s.battleOrder='attack';
  E.note(s,'Bí Cảnh tầng '+floor+': '+roster.length+' tướng / '+enlisted.length+' stack bước vào trận.');
  return {type:'battle',floor,heroes:roster.length,stacks:enlisted.length,enemies:enemies.length};
