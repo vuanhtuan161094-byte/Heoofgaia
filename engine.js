@@ -34,8 +34,9 @@ const TACTICAL_RANGE=Object.freeze({melee:1,ranged:4,eliteRanged:5});
  // HG76 RULE: SPD is solely a world-map travel/scouting statistic, never
  // battlefield hex allowance, attack range, initiative or attack damage.
  // Each troop has a fixed movement class independent of SPD and equipment.
- // Ranged = 1; armored infantry = 1; regular infantry/scout = 2;
- // cavalry/flying = 3. HG40 root/slow/dash and cast movement remain effective.
+ // HG77: elite T8 always gets 2 hexes; T9/T10 get 3, except massive
+ // Orc Monster/Behemoth (2). Lower ranks use weapon and mobility roles.
+ // HG40 root/slow/dash and spell movement bonuses remain authoritative.
  const TACTICAL_SLOW_UNITS=Object.freeze(['human_4','elf_3','orc_5','orc_9','orc_10','undead_3']);
  const TACTICAL_MOBILE_UNITS=Object.freeze([
   'human_5','human_7','human_9','human_10',
@@ -44,6 +45,10 @@ const TACTICAL_RANGE=Object.freeze({melee:1,ranged:4,eliteRanged:5});
   'undead_2','undead_4','undead_5','undead_7','undead_9','undead_10'
  ]);
  function unitTacticalMovement(unit){
+  // Prestige troops must not be stranded at one hex by ranged/slow labels.
+  // Tier is the troop grade, NOT SPD; all four factions share these floors.
+  if((unit?.tier||0)>=9)return TACTICAL_SLOW_UNITS.includes(unit.id)?2:3;
+  if((unit?.tier||0)===8)return 2;
   if(unitTacticalRange(unit)>1)return 1;
   if(TACTICAL_SLOW_UNITS.includes(unit?.id))return 1;
   if(TACTICAL_MOBILE_UNITS.includes(unit?.id))return 3;
