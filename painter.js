@@ -389,14 +389,35 @@ function battleVisualPool(b,u,now=visualNow()){
  const timeline=battleTimelineFor(b,now),items=timeline?.items||[];
  let cache=battlePendingPoolByFrame.get(b);
  if(!cache||cache.now!==now||cache.seen!==timeline?.seen||cache.items!==items){
-  const pending=new Map();
+  const pending=new Map(),rounds=new Map();
   for(const item of items){
    const event=item.event;
-   if(event?.targetId&&event.damage>0&&now<item.impactAt)
+   if(event?.targetId&&Number.isFinite(event.poolBefore)&&
+      Number.isFinite(event.poolAfter)&&item.round===b.turn-1){
+    let row=rounds.get(event.targetId);
+    if(!row){row=[];rounds.set(event.targetId,row);}
+    row.push(item);
+   }else if(event?.targetId&&event.damage>0&&now<item.impactAt){
+    // Old Save v07 receipts remain playable with legacy pending-damage
+    // reconstruction, without migrating or inventing missing snapshots.
     pending.set(event.targetId,(pending.get(event.targetId)||0)+event.damage);
+   }
   }
-  cache={now,seen:timeline?.seen,items,pending};
+  cache={now,seen:timeline?.seen,items,pending,rounds};
   battlePendingPoolByFrame.set(b,cache);
+ }
+ const hits=cache.rounds.get(u.id);
+ if(hits?.length){
+  // Real per-strike receipts, not final-turn HP plus guessed cumulative hits.
+  // Multiple attackers from heroes 1/2/3 and enemy shields stay ordered.
+  let value=hits[0].event.poolBefore;
+  for(const item of hits){
+   if(now<item.impactAt)break;
+   value=item.event.poolAfter;
+  }
+  if(now>=hits[hits.length-1].animationEnd)
+   value=u.pool; // settle genuine end-turn DoT/heals after visible attacks
+  return clamp(value,0,Math.max(0,(u.initial||u.count||0)*(u.hp||1)));
  }
  return clamp((u.pool||0)+(cache.pending.get(u.id)||0),0,
   Math.max(0,(u.initial||u.count||0)*(u.hp||1)));
@@ -404,7 +425,9 @@ function battleVisualPool(b,u,now=visualNow()){
 function battleVisualState(b,u,elapsed,now=elapsed){
  const timeline=battleTimelineFor(b,now),items=timeline?.items||[],
   own=items.find(item=>item.event.actorId===u.id&&now<item.animationEnd)||null,
-  incoming=items.find(item=>item.event.targetId===u.id&&item.event.damage>0&&now<item.effectEnd)||null;
+  incoming=items.find(item=>item.event.targetId===u.id&&item.event.damage>0&&now<item.impactAt)||
+   items.filter(item=>item.event.targetId===u.id&&item.event.damage>0&&
+    now>=item.impactAt&&now<item.effectEnd).slice(-1)[0]||null;
  const base={action:'idle',time:now,duration:null,x:u.x,y:u.y,alpha:1,pool:battleVisualPool(b,u,now)};
  const pointFor=item=>{
   const e=item.event,route=item.event.path||[];
@@ -418,12 +441,12 @@ function battleVisualState(b,u,elapsed,now=elapsed){
  };
  if(u.pool<=0){
   if(incoming?.event.death&&now>=incoming.impactAt&&now<incoming.deathEnd){
-   const position=own?pointFor(own):(incoming.event.to||base);
+   const position=own?pointFor(own):(incoming.event.targetAt||base);
    return {...base,...position,action:'death',time:now-incoming.impactAt,duration:1200,
     alpha:Math.min(1,(incoming.deathEnd-now)/400)};
   }
   if(incoming?.event.death&&now<incoming.impactAt){
-   const position=own?pointFor(own):(incoming.event.to||base);
+   const position=own?pointFor(own):(incoming.event.targetAt||base);
    return {...base,...position};
   }
   return null;
@@ -645,7 +668,7 @@ function drawHG403Sigil(c,id,x,y,age,k=1){
 function battleFxPlan(b,camera,elapsed,layout){
  const byId=new Map(layout.map(e=>[e.id,e])),timeline=battleTimelineFor(b,elapsed);
  return (timeline?.items||[]).flatMap(item=>{
-  const event=item.event;if(!(event.damage>0)||!event.targetId||elapsed<item.start||elapsed>item.impactAt+960)return [];
+  const event=item.event;if(!(event.damage>0||event.shieldAbsorbed>0)||!event.targetId||elapsed<item.start||elapsed>item.impactAt+960)return [];
   const actor=byId.get(event.actorId),target=byId.get(event.targetId);
   if(!actor||!target)return [];
   const time=elapsed-item.start,
@@ -654,8 +677,10 @@ function battleFxPlan(b,camera,elapsed,layout){
    actorState=battleVisualState(b,actor.u,elapsed,elapsed),
    targetState=battleVisualState(b,target.u,elapsed,elapsed),
    actorCell=battleVisualPoint(camera,actorState,actor.u),
-   targetCell=battleVisualPoint(camera,targetState,target.u);
+   targetCell=event.targetAt?camera.center(event.targetAt.x,event.targetAt.y):
+    battleVisualPoint(camera,targetState,target.u);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
+   absorbed:event.shieldAbsorbed||0,
    casualties:event.casualties||0,death:!!event.death,
    kind:event.order||'attack',skill:event.skill||null,actorUnitId:actor.u.unitId,
    ranged:event.order!=='dot'&&actor.u.range>1,
@@ -798,11 +823,13 @@ function motionImpactFx(c,camera,b,elapsed,layout){
    c.globalAlpha=clamp((700-afterImpact)/280,0,1);
    c.font='bold 17px sans-serif';c.textAlign='center';c.textBaseline='middle';
    c.lineWidth=3;c.strokeStyle='#1a191b';
-   c.strokeText('-'+Math.round(fx.damage),x,y);
-   c.fillStyle=fx.kind==='dot'?'#d7afff':fx.kind==='skill'?'#b8edff':
+   const damageLabel=fx.damage>0?'-'+Math.round(fx.damage):
+     '🛡 CHẶN '+Math.round(fx.absorbed||0);
+   c.strokeText(damageLabel,x,y);
+   c.fillStyle=fx.damage<=0?'#b9e9ff':fx.kind==='dot'?'#d7afff':fx.kind==='skill'?'#b8edff':
     fx.side==='player'?'#ffe4a1':'#ffaea2';
-   c.shadowColor=bright;c.shadowBlur=7;
-   c.fillText('-'+Math.round(fx.damage),x,y);
+   c.shadowColor=bright;c.shadowBlur=4;
+   c.fillText(damageLabel,x,y);
    c.shadowBlur=0;
    if(fx.casualties>0){c.font='bold 11px sans-serif';c.fillStyle='#fff1dc';
     c.strokeText('-'+fx.casualties+' quân',x,y+16);c.fillText('-'+fx.casualties+' quân',x,y+16);}
