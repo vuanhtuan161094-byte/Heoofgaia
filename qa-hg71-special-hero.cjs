@@ -41,6 +41,12 @@ check('20th genuine Hero Task claim awards one non-tavern Rainbow hero with full
 });
 check('Roster-full reward remains pending, cannot mint twice and can claim later',()=>{
  let s=prepare();s.fame=0;
+ // Actual roster cap at fame zero is TWO, while New Game starts with one.
+ // Fill the vacant slot by the canonical Tavern hire; the building level
+ // and funds are explicit unrelated setup fixtures, not free game rewards.
+ s.buildings.tavern=1;s.res.gold=Math.max(s.res.gold,100000);
+ const hired=E.hireCandidate(s,s.tavern.offers[0].id);
+ assert(hired>1&&s.heroes.length===E.heroCountLimit(s.fame)&&E.strictSave(s));
  const before=s.heroes.length;
  const r=E.claimHeroTask(s,s.lastTick);
  assert.equal(r.completed,20);assert.equal(s.heroes.length,before);
