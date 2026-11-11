@@ -63,7 +63,7 @@ function profile(id){
  const unit=baseUnit(id),trait=traits[id];
  if(!unit||!trait)return null;
  return {unit,trait,role:names[trait.role]||trait.role,description:description(trait),
-  passive:passive.has(trait.kind),cooldown:trait.cd,range:E.unitTacticalRange(unit),
+  passive:passive.has(trait.kind),cooldown:trait.cd,range:E.unitTacticalRange(unit),movement:E.unitTacticalMovement(unit),
   counter:guardCounters[trait.role]};
 }
 function timing(b,actor){
@@ -102,7 +102,7 @@ function card(u,{art='',compact=false}={}){
  const {trait,unit,role,description:d}=p;
  const body='<div class="hg43-unit-stats">'+[
   ['HP',fmt(unit.hp)],['ATK',fmt(unit.atk)],['DEF',fmt(unit.def)],
-  ['SPD',fmt(unit.spd)],['Tầm',p.range+' ô'],['Chở',fmt(unit.load)]
+  ['SPD',fmt(unit.spd)],['Di chuyển',p.movement+' ô/lượt'],['Tầm đánh',p.range+' ô'],['Chở',fmt(unit.load)]
  ].map(([key,val])=>'<span><small>'+key+'</small><b>'+val+'</b></span>').join('')+'</div>'+
  '<p class="hg43-skill-desc"><b>Điều kiện:</b> '+safe(d.condition)+'</p>'+
  '<p class="hg43-skill-desc"><b>Mức hiệu ứng:</b> '+safe(d.effect)+'</p>'+
@@ -135,7 +135,7 @@ function battleCard(b,actor,other,side){
  const rows=[
   ['Quân',fmt(actor.count)],['HP thực',fmt(Math.ceil(actor.pool))+' / '+fmt(actor.initial*actor.hp)],
   ['ATK',fmt(actor.atk)],['DEF',fmt(actor.def)],['SPD',fmt(Number(actor.spd.toFixed(2)))],
-  ['Tầm',actor.range+' ô']
+  ['Tầm đánh',actor.range+' ô'],['Di chuyển',E.battleMovePreview(b,actor.id).steps+' ô/lượt']
  ];
  return '<section class="hg43-battle-unit" data-hg43-combat-unit="'+safe(actor.id)+'" data-side="'+safe(side)+'">'+
   '<header><b>'+safe(actor.name)+'</b><span>'+safe(p?p.role:'Quái / Boss')+
