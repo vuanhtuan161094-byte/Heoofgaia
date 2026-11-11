@@ -1085,7 +1085,7 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
  // two team meters, round clock and bottom battle ticker, at all viewports.
  // These are the exact HUD bounds used by drawHG403BattleHUD; do not move
  // canonical hex anchors or alter combat receipts to solve a visual overlap.
- const hudWidth=clamp(width*.205,155,235);
+ const hudWidth=clamp(width*.205,94,235);
  const reserved=[
   {x:12,y:9,w:hudWidth,h:37},
   {x:width/2-58,y:9,w:116,h:37},
@@ -1233,9 +1233,9 @@ function drawHG403ProcCues(c,b,elapsed,layout){
  return shown;
 }
 function drawHG403BattleHUD(c,b,w,h){
- const width=clamp(w*.205,155,235),gap=12,
-  sides=[{troops:b.allies,x:gap,label:'QUÂN TA',color:'#8cdfa5'},
-         {troops:b.enemies,x:w-gap-width,label:'ĐỐI THỦ',color:'#f3a18d'}];
+ const width=clamp(w*.205,94,235),gap=12,compact=w<520,
+  sides=[{troops:b.allies,x:gap,label:compact?'TA':'QUÂN TA',color:'#8cdfa5'},
+         {troops:b.enemies,x:w-gap-width,label:compact?'ĐỊCH':'ĐỐI THỦ',color:'#f3a18d'}];
  for(const v of sides){
   const active=v.troops.filter(u=>u.pool>0),
    hp=v.troops.reduce((n,u)=>n+Math.max(0,u.pool||0),0),
@@ -1244,7 +1244,7 @@ function drawHG403BattleHUD(c,b,w,h){
   c.save();c.font='bold 12px sans-serif';c.textBaseline='middle';
   c.textAlign='left';c.fillStyle=v.color;c.fillText(v.label,v.x+10,22);
   c.textAlign='right';c.fillStyle='#f7eddc';
-  c.fillText(active.length+' đội',v.x+width-10,22);
+  c.fillText(compact?String(active.length):active.length+' đội',v.x+width-10,22);
   rounded(c,v.x+10,30,width-20,7,3,'#071218df');
   c.fillStyle=v.color;c.fillRect(v.x+11,31,(width-22)*clamp(total?hp/total:0,0,1),5);
   c.restore();
@@ -1379,8 +1379,9 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    if(hpVisible){
     const barWidth=clamp(camera.radius*1.3,20,48),barY=y+7;
     rounded(c,x-barWidth/2,barY,barWidth,7,3,'#14252cdb','#b6b2a580');
-    c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
-    c.fillRect(x-barWidth/2+1,barY+1,(barWidth-2)*clamp(displayPool/(u.initial*u.hp),0,1),5);
+    const hpRatio=clamp(displayPool/(u.initial*u.hp),0,1);
+    c.fillStyle=hpRatio<.24?'#ff9775':u.side==='enemy'?'#ec9d89':'#88d1a0';
+    c.fillRect(x-barWidth/2+1,barY+1,(barWidth-2)*hpRatio,5);
    }
   }else{
   const bx=plate.x+x-entry.x,by=plate.y+y-entry.y;
@@ -1394,8 +1395,9 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    b.selected===u.id||b.focused===u.id?'#f4d996':'#abbdab65');
   text(c,hg407FitName(c,u.name,plate.w-12,plate.fontSize||11),bx+plate.w/2,by+14,plate.fontSize||11,'#f7e8c7');
   if(hpVisible){rounded(c,bx+8,by+21,plate.w-16,6,3,'#0b1d22e9');
-   c.fillStyle=u.side==='enemy'?'#ec9d89':'#88d1a0';
-   c.fillRect(bx+9,by+22,(plate.w-18)*clamp(displayPool/(u.initial*u.hp),0,1),4);}
+   const hpRatio=clamp(displayPool/(u.initial*u.hp),0,1);
+   c.fillStyle=hpRatio<.24?'#ff9775':u.side==='enemy'?'#ec9d89':'#88d1a0';
+   c.fillRect(bx+9,by+22,(plate.w-18)*hpRatio,4);}
   }
   const badge=entry.countBox,ox=x-entry.x,oy=y-entry.y;
   rounded(c,badge.x+ox,badge.y+oy,badge.w,badge.h,6,'#17292cdd','#c0aa7a77');
