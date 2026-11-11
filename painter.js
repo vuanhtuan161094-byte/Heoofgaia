@@ -315,8 +315,12 @@ function battleVisualSchedule(events){
   const side=String(event?.actorId||'').startsWith('e')?'enemy':'player';
   if(prevSide!==null&&side!==prevSide)cursor+=dense?350:440;
   const path=Array.isArray(event?.path)?event.path:[],
-   moveMs=path.length*stepMs,actMs=event?.damage>0?attackMs:
-    ['attack','focus','skill'].includes(event?.order)?dense?280:360:160,
+   // A movement-only event is NOT a strike; never stage an empty attack
+   // pose which makes people think damage failed or the enemy skipped a turn.
+   moveMs=path.length*stepMs,
+   attemptedHit=event?.damage>0||event?.shieldAbsorbed>0,
+   actMs=attemptedHit?attackMs:path.length?155:
+    ['attack','focus','skill'].includes(event?.order)?dense?165:200:130,
    start=cursor,impact=start+moveMs+actMs*.63;
   steps.push({start,moveMs,attackMs:actMs,impactAt:impact,
    animationEnd:start+moveMs+actMs});
@@ -458,7 +462,9 @@ function battleVisualState(b,u,elapsed,now=elapsed){
    return {...base,...position,action:'walk',time:Math.max(0,now-own.start),duration:own.moveMs,
     walkFrom:e.from,walkTo:e.to,walkRoute:e.path,walkFraction:clamp((now-own.start)/own.moveMs,0,1)};
   if(own.attackMs>0&&now<own.animationEnd)
-   return {...base,...position,action:'attack',time:Math.max(0,now-own.start-own.moveMs),duration:own.attackMs};
+   return {...base,...position,
+    action:(e.damage>0||e.shieldAbsorbed>0)?'attack':'idle',
+    time:Math.max(0,now-own.start-own.moveMs),duration:own.attackMs};
   if(now<own.start)return {...base,...position};
  }
  if(incoming&&now>=incoming.impactAt&&now<incoming.impactAt+650)
@@ -554,7 +560,10 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
  c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
  c.scale(pose.sx,pose.sy);c.translate(0,size*.39);
  if(profile.pixelated)c.imageSmoothingEnabled=false;
- if(profile.glow){c.shadowColor=profile.glow;c.shadowBlur=2;}
+ if(profile.glow){
+  c.shadowColor=profile.glow;c.shadowBlur=1.5;
+  c.imageSmoothingQuality='high'; // keep true Boss images crisp after scale
+ }
  const aspect=profile.pixelated?image.naturalWidth/Math.max(1,image.naturalHeight):1;
  const imgW=profile.pixelated&&aspect<1?size*aspect:size;
  const imgH=profile.pixelated&&aspect>1?size/aspect:size;
@@ -1429,7 +1438,16 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   }
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
- const atlasBacked=!!troopAtlasDefinition(u.unitId,u.name),illustrated=visual?battleUnitArt(c,x,y,u.side==='enemy',visual,k,u):false;if(!illustrated)soldier(c,x,y,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+ const atlasBacked=!!troopAtlasDefinition(u.unitId,u.name),illustrated=visual?battleUnitArt(c,x,y,u.side==='enemy',visual,k,u):false;
+ if(!illustrated){
+  // Unknown Tower NPCs have an honest fallback sprite, but still get the
+  // SAME recorded walk/attack/hit motion rather than teleporting on foot.
+  const pose=motionPose(visual?.action||'idle',visual?.time||0,visual?.duration);
+  c.save();c.translate(x,y);c.translate(pose.dx,pose.dy);
+  c.rotate(pose.angle*.35);
+  soldier(c,0,0,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+  c.restore();
+ }
   // HG40: render a light aura around the actual animated sprite foot pivot.
   // No sprite replacement, label overlay, timer or new canvas is created.
   if(b.hg40?.v===1){
