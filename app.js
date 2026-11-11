@@ -54,15 +54,32 @@ let focusArmyRecruitOnOpen=false; // New Army-tab entry goes to actionable recru
 // Visual QA preferences are separate from the canonical v07 gameplay save.
 // Default both ON, as requested for verifying unit coordinates and HP.
 const BATTLE_VIEW_PREF_KEY='heoofgaia_battle_display_v2';
-const battleViewPrefs={grid:true,hp:true,labels:true};
+const battleViewPrefs={grid:true,hp:true,labels:true,speed:1};
 try{
  const stored=JSON.parse(localStorage.getItem(BATTLE_VIEW_PREF_KEY)||'null');
  if(stored&&typeof stored==='object'){
   if(typeof stored.grid==='boolean')battleViewPrefs.grid=stored.grid;
   if(typeof stored.hp==='boolean')battleViewPrefs.hp=stored.hp;
   if(typeof stored.labels==='boolean')battleViewPrefs.labels=stored.labels;
+  if([1,2,3].includes(stored.speed))battleViewPrefs.speed=stored.speed;
  }
 }catch(_error){}
+// HG58 display-only speed keeps canonical turns/damage and Save v07 untouched.
+let combatClockReal=performance.now(),combatClockVisual=combatClockReal;
+function combatVisualNow(real=performance.now()){
+ return combatClockVisual+(real-combatClockReal)*battleViewPrefs.speed;
+}
+function setCombatVisualSpeed(speed){
+ if(![1,2,3].includes(speed))return;
+ const real=performance.now(),current=combatVisualNow(real),old=battleViewPrefs.speed;
+ combatClockReal=real;combatClockVisual=current;battleViewPrefs.speed=speed;
+ if(state?.battle){
+  combatVisualLockUntil=real+Math.max(0,combatVisualLockUntil-real)*old/speed;
+  state.battle.autoUntil=Date.now()+Math.max(0,(state.battle.autoUntil||Date.now())-Date.now())*old/speed;
+ }
+ try{localStorage.setItem(BATTLE_VIEW_PREF_KEY,JSON.stringify(battleViewPrefs))}catch(_error){}
+}
+function combatTurnWallMs(b){return Math.max(900,(P.battleTimelineTurnDuration?.(b)||900)/battleViewPrefs.speed)}
 function toggleBattleDisplay(which){
  if(!['grid','hp','labels'].includes(which))return;
  battleViewPrefs[which]=!battleViewPrefs[which];
@@ -91,10 +108,10 @@ function resolveAutomaticBattleTurn(){
    for(const unit of b.allies)if(b.orders[unit.id]==='focus')b.orders[unit.id]='attack';
   }
   const wasTower=!!b.hg21Tower,out=E.battleAct(s,'attack',{preserveMoveOrders:true,stableTargets:true});
-  if(s.battle===b)combatVisualLockUntil=performance.now()+Math.max(900,P.battleTimelineTurnDuration?.(b)||900);
+  if(s.battle===b)combatVisualLockUntil=performance.now()+combatTurnWallMs(b);
   if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';
   if(out.type==='lose')tab=wasTower?'tower':'heroes';
-  if(s.battle===b)b.autoUntil=Date.now()+Math.max(BATTLE_AUTO_TURN_DELAY_MS,P.battleTimelineTurnDuration?.(b)||0);
+  if(s.battle===b)b.autoUntil=Date.now()+Math.max(BATTLE_AUTO_TURN_DELAY_MS,combatTurnWallMs(b));
   save();
   // On a continuing auto turn, updating only the visible combat readouts keeps
   // the SAME canvas/RAF and decoded sprite atlases alive. Full render is only
@@ -143,6 +160,8 @@ function syncCombatTurnHUD(){
  if(hg40Own)hg40Own.textContent='⚔ '+(E.hg40SkillText?.(b,selected)||'Chọn quân để xem kỹ năng')+
   ' · '+(E.hg40StatusText?.(b,selected)||'Không trạng thái');
  if(hg40Enemy)hg40Enemy.textContent='☠ '+(E.hg40StatusText?.(b,focused)||'Chưa chọn mục tiêu');
+ for(const ctrl of document.querySelectorAll('[data-action="combat-speed"]'))
+  ctrl.setAttribute('aria-pressed',String(Number(ctrl.dataset.speed)===battleViewPrefs.speed));
  const auto=document.querySelector('.battle-command-dock [data-action="auto"]');
  if(auto)auto.textContent=state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH';
  const move=document.querySelector('.battle-command-dock [data-action="move-mode"]');
@@ -209,13 +228,13 @@ function load(){
  try{
   const current=localStorage.getItem(E.SAVE_KEY);
   if(current){
-   try{const s=ensureBattleAutoTimer(E.parseSave(current));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);return s}
+   try{const s=ensureBattleAutoTimer(E.parseSave(current));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,combatVisualNow(),false);return s}
    catch(err){console.warn('Current save invalid',err.message)}
   }
   const backup=localStorage.getItem(E.SAVE_KEY+'_backup');
   if(backup){
    try{
-    const s=ensureBattleAutoTimer(E.parseSave(backup));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);
+    const s=ensureBattleAutoTimer(E.parseSave(backup));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,combatVisualNow(),false);
     try{localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));toast('Đã khôi phục bản lưu dự phòng.')}
     catch(err){toast('Đã mở bản lưu dự phòng nhưng chưa ghi lại được; hãy xuất file JSON.')}
     return s;
@@ -224,7 +243,7 @@ function load(){
   if((localStorage.getItem('heoofgaia_hg08_skip_migration')||localStorage.getItem('heoofgaia_hg06_skip_migration')))return null;
   for(const key of ['heoofgaia_hg_only_v06','heoofgaia_hg_only_v05','heoofgaia_hg_only_v04','heoofgaia_hg_only_v03','heoofgaia_hg_only_v02']){
    const raw=localStorage.getItem(key);if(!raw)continue;
-   try{const s=ensureBattleAutoTimer(E.parseSave(raw));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,performance.now(),false);localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));return s}
+   try{const s=ensureBattleAutoTimer(E.parseSave(raw));E.tick(s);if(s.battle)P.battleTimelinePrime?.(s.battle,combatVisualNow(),false);localStorage.setItem(E.SAVE_KEY,JSON.stringify(s));return s}
    catch(err){console.warn('Legacy save skipped:',key,err.message)}
   }
  }catch(e){console.warn('Save storage unavailable',e)}return null;
@@ -1309,6 +1328,7 @@ function combatView(){
     <div class="battle-selection-readout"><div class="battle-side-readout"><small>QUÂN TA</small><b>${selectedName}</b><span>${selected?esc(statLine(selected)):'Chạm quân ta trên bàn cờ'}</span></div><div class="battle-side-readout enemy"><small>MỤC TIÊU</small><b>${focusedName}</b><span>${focused?esc(statLine(focused)):movementModeId?'Chọn ô lục giác để di chuyển':'Bấm quân địch trên ô'}</span></div></div>
     ${hg40Info}${U43.battle(b,selected,focused||b.enemies.find(u=>u.pool>0)||null)}${enemyCSInfo}${hg410Info}${bossRoster}
     <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div><div class="hg57-phase-and-move"><b id="hg57-phase">PHE TA → PHE ĐỊCH</b><span id="hg57-move-steps">${selected?("Di chuyển: "+moveAllowance+" ô/lượt · Tầm đánh: "+selected.range+" ô"):"Chọn quân để xem tốc độ và tầm đánh"}</span></div>
+    <div class="hg58-combat-speed" role="group" aria-label="Tốc độ xem hoạt ảnh">🌪 Tốc độ trận ${[1,2,3].map(v=>'<button type="button" data-action="combat-speed" data-speed="'+v+'" aria-pressed="'+(battleViewPrefs.speed===v)+'" title="Chỉ thay đổi tốc độ hiển thị, không đổi sát thương">×'+v+'</button>').join('')}<small>Chỉ hoạt ảnh · không đổi chỉ số</small></div>
     <div class="battle-display-tools" role="group" aria-label="Tùy chọn chiến trường"><button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn lưới lục giác">${battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu">${battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-labels" aria-pressed="${battleViewPrefs.labels}" title="Hiện hoặc ẩn tên quân và quái vật">${battleViewPrefs.labels?'Aa Tên':'Aa Ẩn tên'}</button></div>
     <div class="battle-action-grid">${button('auto',{},state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH',false,'auto secondary')}${button('battle',{cmd:'attack'},'⚔ ĐÁNH',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 CHỜ',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 TẬP TRUNG',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI',false,'secondary')}</div>
     <p class="battle-move-prompt" id="battle-move-prompt">${movementHint}</p>
@@ -1353,12 +1373,13 @@ function paint(){
    interaction.showGrid=battleViewPrefs.grid;
    interaction.showHP=battleViewPrefs.hp;
    interaction.showLabels=battleViewPrefs.labels;
-   P.drawBattle(canvas,E,state,now,interaction);
-   const phase=$('hg57-phase'),visual=P.battleVisualPhase?.(state.battle,now);
+   const virtualTime=combatVisualNow(now);
+   P.drawBattle(canvas,E,state,virtualTime,interaction);
+   const phase=$('hg57-phase'),visual=P.battleVisualPhase?.(state.battle,virtualTime);
    const label=visual?.side==='enemy'?'☠ PHE ĐỊCH ĐANG HÀNH ĐỘNG':visual?.side==='player'?'⚔ PHE TA ĐANG HÀNH ĐỘNG':'PHE TA → PHE ĐỊCH';
    if(phase&&phase.textContent!==label)phase.textContent=label;
   };
-  drawCombatFrame(undefined);
+  drawCombatFrame(performance.now());
   if(P.hasAnimatedTroops(state.battle)){
    const battle=state.battle;
    let lastRaf=0,rafPeriod=0,samples=0,rafCount=0,stride=1,lastPaint=-Infinity;
@@ -1401,7 +1422,7 @@ function paint(){
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;
     const grid=E.BATTLE_GRID||{cols:12,rows:9,top:173,bottom:185};
     if(movementModeId){const cell=P.battleCellAt(canvas,x,y,E);if(!cell){toast('Hãy chọn một ô nằm trong lưới chiến trường.');return}fail(()=>{markBattleInput();const out=E.battleAct(state,'move',{x:cell.x,y:cell.y});movementModeId=null;const move=state.battle?.lastMoves?.find(m=>m.unitId===state.battle.selected);if(move)toast(`${state.battle.allies.find(u=>u.id===move.unitId)?.name||'Đội quân'} di chuyển ${move.steps} ô tới (${move.to.x}, ${move.to.y}).`);if(out.type==='win'){tab='map';toast('Chiến thắng!')}else if(out.type==='lose'){tab='heroes';toast('Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab='map';toast('Đã kết thúc giao tranh.')}});return}
-    const target=P.battleHit(canvas,x,y,E,state);
+    const target=P.battleHit(canvas,x,y,E,state,combatVisualNow());
     if(target)fail(()=>{markBattleInput();E.battleSelect(state,target.id)});};
  }
 }
@@ -1730,6 +1751,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='tower-upgrade'){E.hg20TowerUpgrade(state);toast('Đã tăng sức mạnh đội Bí Cảnh.');return}
  if(action==='autoformation'){const plan=E.autoFormation(state);toast(`Đã bố trí ${format(plan.totalUnits)} quân · ${format(plan.points)}/${format(plan.limit)} sức chứa.`);return}
  if(action==='findnpc'){selectNearestNpc(E.heroTaskStatus(state).active?.stars||1);return}
+ if(action==='combat-speed'){setCombatVisualSpeed(Number(target.dataset.speed));syncCombatTurnHUD();return}
  if(action==='auto'){if(state.battle?.hg26NeedsManual)delete state.battle.hg26NeedsManual;state.battleAuto=!state.battleAuto;if(state.battle){const animationRemaining=Math.max(0,combatVisualLockUntil-performance.now());state.battle.autoUntil=Date.now()+Math.max(state.battleAuto?BATTLE_AUTO_TURN_DELAY_MS:BATTLE_AUTO_DELAY_MS,animationRemaining+110);}return}
  if(action==='upgrade'){
   const cost=E.upgrade(state,target.dataset.key);
@@ -1747,7 +1769,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='visit'){const result=E.visitWorldBuilding(state,target.dataset.key);toast(result.reward?'Đã nhận thưởng từ công trình.':'Hiệu ứng đã áp dụng cho tướng.');return}
   if(action==='recall'){const seconds=E.recallHero(state,Number(target.dataset.id));toast(seconds===true?'Tướng đã về thành.':`Tướng đang trở về trong ${Math.ceil(seconds/state.speed)} giây thực.`);return}
   if(action==='save-combat'){$('save').click();return}
-  if(action==='battle'){if(state.battle&&performance.now()<combatVisualLockUntil){toast('Đội quân đang kết thúc lượt, hãy chờ hiệu ứng hoàn tất.');return}movementModeId=null;state.battleAuto=false;const currentBattle=state.battle,wasTower=!!currentBattle?.hg21Tower,out=E.battleAct(state,target.dataset.cmd);if(state.battle===currentBattle)combatVisualLockUntil=performance.now()+Math.max(900,P.battleTimelineTurnDuration?.(currentBattle)||900);else combatVisualLockUntil=0;if(out.type==='win'){tab=wasTower?'tower':'map';toast(wasTower?'Thắng Bí Cảnh tầng '+out.floor+'!':'Chiến thắng!')}else if(out.type==='lose'){tab=wasTower?'tower':'heroes';toast(wasTower?'Bí Cảnh thất bại; không mất quân và lượt thưởng.':'Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab=wasTower?'tower':'map';toast('Đã kết thúc giao tranh.')}return}
+  if(action==='battle'){if(state.battle&&performance.now()<combatVisualLockUntil){toast('Đội quân đang kết thúc lượt, hãy chờ hiệu ứng hoàn tất.');return}movementModeId=null;state.battleAuto=false;const currentBattle=state.battle,wasTower=!!currentBattle?.hg21Tower,out=E.battleAct(state,target.dataset.cmd);if(state.battle===currentBattle)combatVisualLockUntil=performance.now()+combatTurnWallMs(currentBattle);else combatVisualLockUntil=0;if(out.type==='win'){tab=wasTower?'tower':'map';toast(wasTower?'Thắng Bí Cảnh tầng '+out.floor+'!':'Chiến thắng!')}else if(out.type==='lose'){tab=wasTower?'tower':'heroes';toast(wasTower?'Bí Cảnh thất bại; không mất quân và lượt thưởng.':'Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab=wasTower?'tower':'map';toast('Đã kết thúc giao tranh.')}return}
  if(action==='tower-cast'){markBattleInput();E.hg21TowerCast(state,Number(target.dataset.hero),target.dataset.id);toast('Phép đã áp dụng theo chủ tướng.');return}
  if(action==='herolearn'){E.researchHeroSpell(state,target.dataset.id);return}
  if(action==='heroequip'){E.equipSpell(state,target.dataset.id);return}
@@ -1809,7 +1831,7 @@ $('import-file').onchange=async e=>{
  const file=e.target.files?.[0];e.target.value='';if(!file)return;
  try{
   if(file.size>2_000_000)throw Error('Tệp vượt giới hạn 2 MB');
-  const imported=E.parseSave(await file.text());if(imported.battle)P.battleTimelinePrime?.(imported.battle,performance.now(),false);
+  const imported=E.parseSave(await file.text());if(imported.battle)P.battleTimelinePrime?.(imported.battle,combatVisualNow(),false);
   if(!confirm('Khôi phục save từ file? Tiến độ HG-08 hiện tại sẽ được thay bằng dữ liệu trong file.'))return;
   const beforeImport=state;try{state=imported;E.tick(state);if(!save())throw Error('Không thể lưu bản nhập; bản lưu cũ vẫn được giữ nguyên.');selected='3,4';selectedTargetKind=null;tab=state.battle?'combat':'map';render();toast('Đã khôi phục save.')}catch(error){state=beforeImport;throw error}
  }catch(err){toast('Không thể nhập save: '+(err.message||String(err)))}
