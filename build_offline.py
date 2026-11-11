@@ -58,7 +58,7 @@ for unit_id,item in sorted(unit_assets.items()):
     encoded=base64.b64encode(thumb.getvalue()).decode('ascii')
     thumb_tags.append(f'<img id="hg33-thumb-{unit_id}" data-hg33-thumb-src="data:image/webp;base64,{encoded}" width="96" height="102" alt="">')
 html=html.replace(thumb_marker,'\n'.join(thumb_tags))
-for css in ['style.css','style-hg03.css','style-hg48.css','style-hg49.css','style-hg56.css']:
+for css in ['style.css','style-hg03.css','style-hg48.css','style-hg49.css','style-hg56.css','style-hg57.css']:
     pattern=re.compile(r'<link\s+rel="stylesheet"\s+href="'+re.escape(css)+r'">')
     html,n=pattern.subn(lambda _: '<style>\n'+(folder/css).read_text(encoding='utf-8').rstrip()+ '\n</style>',html)
     assert n==1,(css,n)
