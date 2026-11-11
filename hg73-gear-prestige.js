@@ -72,7 +72,7 @@ function gains(row){
  for(const k of ['atk','def','spd','int']){
   const current=Number(original[k]||0);
   // SPD is a speed attribute, not a damage-scale number. A high-tier
-  // pair of boots cannot silently add 200 SPD and break turn scheduling.
+  // pair of boots must not mint extreme map-travel speed; combat turn order ignores SPD.
   const slotFloor=g.floor*(k==='spd'?.13:k==='int'?.66:1);
   const min=k===primary?slotFloor*(1+Math.min(10,Math.max(0,row.enhance||0))*.045):0;
   const total=Math.round(Math.max(current*g.mult,min,current));
