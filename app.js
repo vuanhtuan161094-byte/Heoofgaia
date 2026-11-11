@@ -1368,9 +1368,13 @@ function paint(){
    const denseBoss=!!state.battle?.hg410?.boss&&state.battle.hg410.enemyStacks>=12;
    const touchOrCompact=(typeof matchMedia==='function'&&matchMedia('(pointer: coarse)').matches)||
      (innerWidth<=960&&innerHeight<=480);
-   // 16 actors and their receipts remain canonical. Cap only presentation to
-   // 25 fps touch / 50 fps desktop; never change attack turns, AI or rewards.
-   const mobilePaintMinMs=denseBoss?(touchOrCompact?40:20):(touchOrCompact?29:0);
+   // HG57-B measured 22-actor Chromium draw p95 < 1ms while the OLD
+   // 40ms/20ms caps produced only ~19.5fps touch and ~29fps desktop on
+   // 60Hz: 16.7ms RAF rounding skips two refreshes. 29ms gives ~30fps
+   // touch; 14ms admits ~60fps desktop when the device keeps up.
+   // Real slower devices naturally throttle via their actual RAF cadence.
+   // No extra RAF, AI tick, skill receipt, reward or Save mutation.
+   const mobilePaintMinMs=denseBoss?(touchOrCompact?29:14):(touchOrCompact?29:0);
    // 60Hz-threshold filtering used to alias 75Hz monitors to ~37.5Hz:
    // each 13.3ms RAF failed a 14.7ms test, so only every OTHER refresh
    // was painted. Instead paint every native refresh up to ~100Hz; on
