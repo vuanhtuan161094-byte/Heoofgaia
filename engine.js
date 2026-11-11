@@ -31,8 +31,29 @@ const TACTICAL_RANGE=Object.freeze({melee:1,ranged:4,eliteRanged:5});
   if(unit?.type!=='Ranged')return TACTICAL_RANGE.melee;
   return TACTICAL_WEAPON_RANGE[unit.id]||(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged);
  }
- function tacticalMoveSteps(spd,range){return range>1?(spd>=11?2:1):spd>=9?3:spd>=7?2:1;}
- function unitTacticalMovement(unit){return tacticalMoveSteps(unit?.spd||0,unitTacticalRange(unit));}
+ // HG76 RULE: SPD is solely a world-map travel/scouting statistic, never
+ // battlefield hex allowance, attack range, initiative or attack damage.
+ // Each troop has a fixed movement class independent of SPD and equipment.
+ // Ranged = 1; armored infantry = 1; regular infantry/scout = 2;
+ // cavalry/flying = 3. HG40 root/slow/dash and cast movement remain effective.
+ const TACTICAL_SLOW_UNITS=Object.freeze(['human_4','elf_3','orc_5','orc_9','orc_10','undead_3']);
+ const TACTICAL_MOBILE_UNITS=Object.freeze([
+  'human_5','human_7','human_9','human_10',
+  'elf_1','elf_5','elf_7','elf_9','elf_10',
+  'orc_2','orc_4','orc_6','orc_7',
+  'undead_2','undead_4','undead_5','undead_7','undead_9','undead_10'
+ ]);
+ function unitTacticalMovement(unit){
+  if(unitTacticalRange(unit)>1)return 1;
+  if(TACTICAL_SLOW_UNITS.includes(unit?.id))return 1;
+  if(TACTICAL_MOBILE_UNITS.includes(unit?.id))return 3;
+  return 2;
+ }
+ function battleActorBaseMovement(actor){
+  const unit=actor?.unitId&&Object.values(C.units).flat().find(u=>u.id===actor.unitId);
+  // Legacy battle actors without a catalog unit use only weapon class.
+  return unit?unitTacticalMovement(unit):actor?.range>1?1:2;
+ }
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG39 pacing profile is applied once after all effective HG38 modifiers.
 // This is an offline game-speed setting, not a claim about the original server.
@@ -413,9 +434,9 @@ function battlePath(b,actor,destination){
 }
 function battleMovementBudget(b,actor,commitCredit=false){
  const joint=!!(b?.hg21Tower||b?.hg261Joint);
- // Slow infantry: 1, mobile melee: 2, scouts/fliers: 3 hexes.
-  // Ranged troops move 1 unless exceptionally fast (SPD >= 11).
-  let base=tacticalMoveSteps(actor.spd,actor.range);
+ // Class-based 1–3 hexes; HG40 movement effects are handled below.
+  // HG76: SPD cannot modify battlefield movement, even at extreme values.
+  let base=battleActorBaseMovement(actor);
  const movementModifier=root.HOG_ENGINE?.hg40MoveModifier?.(b,actor)||0;
  if(movementModifier<=-100)return 0;
  base=Math.max(1,Math.min(3,base+movementModifier));
@@ -577,9 +598,9 @@ function battleAct(s,action,options){
  // before the defending group. It costs that group its attack this turn.
  for(const u of alive(b.allies))if(b.orders[u.id]==='defend')u.guardTurn=b.turn;
  // HG57: sequential side phases. Friendly stacks resolve all movement
- // and strikes, then surviving defenders respond. SPD orders actors INSIDE
- // a side, preserving two-column formation tie breaks and canonical Save v07.
- const sideOrder=(a,c)=>c.spd-a.spd||a.x-c.x||a.y-c.y||a.id.localeCompare(c.id);
+ // and strikes, then surviving defenders respond. Formation coordinates order
+ // actors INSIDE a side: SPD affects world travel only, never initiative.
+ const sideOrder=(a,c)=>a.x-c.x||a.y-c.y||a.id.localeCompare(c.id);
  const participants=[...alive(b.allies).sort(sideOrder),...alive(b.enemies).sort(sideOrder)];
  let dealt=0,lost=0;const acted=[],lastTargets={},lastMoves=[],lastEvents=[],origins=new Map(participants.map(u=>[u.id,{x:u.x,y:u.y}]));
  const record=(actor,target=null,damage=0,path=null,order='attack',casualties=0,beforePool=null,absorbed=0)=>{
