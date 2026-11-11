@@ -264,6 +264,13 @@ with sync_playwright() as playwright:
       b.enemies.forEach((u,i)=>{u.hp=1_000_000;u.pool=1_000_000;u.def=0;u.atk=0;u.range=20;
         u.x=i===0?7:10;u.y=i===0?2:(i===1?7:0)});
       b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()})()""")
+    # HG58 turn-lock is a REAL player safety rule: fast repeated clicks
+    # during a 6-8 actor animation must not settle extra turns. Select the
+    # existing x3 playback option, then wait for each actual scheduled turn
+    # before clicking the next Attack; never bypass the engine lock.
+    page.locator('[data-action="combat-speed"][data-speed="3"]').click()
+    check("Combat playback x3 is selected without changing HP/Save rules",
+          page.locator('[data-action="combat-speed"][data-speed="3"]').get_attribute("aria-pressed")=="true")
     action_turns = []
     # HG41 expanded the enemy from three to six real stacks. A melee Heavy
     # Soldier starts at the far edge and may spend >6 actual turns walking.
@@ -272,7 +279,13 @@ with sync_playwright() as playwright:
     # atlas frames are observed, with a strict 24-turn upper bound.
     for _ in range(24):
         page.locator('[data-action="battle"][data-cmd="attack"]').click()
-        page.wait_for_timeout(920)
+        # The same renderer schedule drives the production input lock. Use
+        # its actual duration (in visual ms) converted to x3 wall-clock ms.
+        # No synthetic hits, direct engine turns or artificially moved troops.
+        wall_ms=page.evaluate("""() => Math.max(900,Math.ceil(
+          (HOG_PAINTER.battleTimelineTurnDuration(HOG_APP_DEBUG.getState().battle)||900)/3
+        ))""")
+        page.wait_for_timeout(wall_ms+160)
         action_turns.append(page.evaluate("""(()=>{const b=HOG_APP_DEBUG.getState()?.battle;return b&&{
           turn:b.turn,events:(b.lastEvents||[]).map(e=>({actorId:e.actorId,targetId:e.targetId,damage:e.damage,death:e.death,path:e.path})),
           heavy:b.allies.filter(u=>u.unitId==='human_4').map(u=>({id:u.id,x:u.x,y:u.y,pool:u.pool}))}})()"""))
