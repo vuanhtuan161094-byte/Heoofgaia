@@ -21,6 +21,13 @@
 7. Auto battle is deadline-scheduled to full animation duration, not 85ms overlapping stacks; manual repeated attack inputs are blocked while the preceding round's animation is playing. No combat economy, skill damage, item drops, AI target rules, or Save schema changed.
 8. `index.html` and `build_offline.py` embed the new CSS in the same `Play-Heoofgaia-HG11.html`.
 
+## Full aggregate regression follow-up (QA-only after playable SHA)
+
+- Historical monolithic `Heoofgaia offline combat QA` [#42940862842](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42940862842) **FAIL** on the verified playable source `ead2e7fc`. The focused engine/browser gates above remained PASS.
+- Exact log root cause: legacy `qa-engine.cjs` asserted that at 225ms the first two-hex path reached exactly x=2 (linear, fixed 225ms-per-hex), incompatible with intended HG57 eased, adaptive movement. This is a stale animation acceptance assertion; evidence did not show invalid geometry or data loss.
+- Repaired the test **only** to derive times from the actual `battleVisualSchedule`, assert smoothstep positions stay strictly within each real hex, verify friendly-side-before-enemy animation, full Death/Hit timeline and canonical Save untouched. Regressed auto duration to exact computed visual schedule. QA-only SHA `a9fcc61ec7383f68b968580821fa2d536d4eb67b`, no game source or HTML byte change.
+- New monolithic workflow [#42941697856](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42941697856) and HG41 [#42941697881](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42941697881) **PENDING final result** when written; do not mark overall FULL CI green without matching log. Single playable HTML SHA above remains valid.
+
 ## Known limitation and next gates
 
 One `E.battleAct` call still resolves the complete A→B combat round and commits its authoritative receipts immediately, while the renderer presents moves and strikes sequentially. It is **not** a new interruptible half-turn tactical command system; implementing one would require a separate explicit Save-compatible turn-state design. Hero portraits likewise do not yet mint independent hero actors or skill turns. The request was to stabilize existing auto combat and prepare visible hero skill UX without premature gameplay or Save mutation.
