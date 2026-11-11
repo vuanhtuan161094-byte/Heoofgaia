@@ -344,6 +344,10 @@ function afterHit(s,b,actor,target,hit,trace,deal){
   else if(kind==='lifesteal'){
    const gain=Math.min(Math.ceil(hit.applied*t.a),actor.count*actor.hp-actor.pool);
    if(gain>0){actor.pool+=gain;used=true;}
+   // Orc quest-guard signature must activate when at FULL HP as well:
+   // a genuine secondary cleave, and lifesteal if damage was received.
+   // Standard Undead lifesteal keeps its original cooldown/conditions.
+   if(t.rewardOnly){secondary(.35,false);used=true;}
   }else if(kind==='dash'){
    addStatus(s,b,actor,'dash',1,1,owner(s,actor));used=true;
   }else if(kind==='charge')used=move>0;
