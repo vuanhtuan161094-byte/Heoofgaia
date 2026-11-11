@@ -102,7 +102,7 @@ function card(u,{art='',compact=false}={}){
  const {trait,unit,role,description:d}=p;
  const body='<div class="hg43-unit-stats">'+[
   ['HP',fmt(unit.hp)],['ATK',fmt(unit.atk)],['DEF',fmt(unit.def)],
-  ['SPD',fmt(unit.spd)],['Di chuyển',p.movement+' ô/lượt'],['Tầm đánh',p.range+' ô'],['Chở',fmt(unit.load)]
+  ['SPD bản đồ',fmt(unit.spd)],['Di chuyển',p.movement+' ô/lượt'],['Tầm đánh',p.range+' ô'],['Chở',fmt(unit.load)]
  ].map(([key,val])=>'<span><small>'+key+'</small><b>'+val+'</b></span>').join('')+'</div>'+
  '<p class="hg43-skill-desc"><b>Điều kiện:</b> '+safe(d.condition)+'</p>'+
  '<p class="hg43-skill-desc"><b>Mức hiệu ứng:</b> '+safe(d.effect)+'</p>'+
@@ -122,7 +122,7 @@ function codex(race,art){
  const namesRace={human:'👑 Human',elf:'🌿 Elf',orc:'🔥 Orc',undead:'☠ Undead'};
  return '<section class="hg43-codex" data-hg43-race="'+safe(race)+'">'+
  '<header><div><span class="eyebrow">HG43 • BÁCH KHOA CHIẾN THUẬT</span><h2>📖 Hồ sơ 40 binh chủng</h2>'+
- '<p>Chọn chủng tộc để xem đủ 10 quân mỗi tộc. HP/ATK/DEF/SPD là số liệu cơ bản; kỹ năng và cơ chế khắc chế từ engine HG40 hiện tại.</p></div><span class="hg43-tally">40/40 kỹ năng</span></header>'+
+ '<p>Chọn chủng tộc để xem đủ 10 quân mỗi tộc. HP/ATK/DEF là chỉ số chiến đấu, SPD chỉ tăng tốc hành quân/trinh sát trên bản đồ; số ô di chuyển xác định theo loại quân và kỹ năng.</p></div><span class="hg43-tally">40/40 kỹ năng</span></header>'+
  '<nav class="hg43-race-tabs" aria-label="Chủng tộc trong bách khoa">'+Object.keys(namesRace).map(r=>
  '<button type="button" data-action="hg43-army-race" data-race="'+r+'" aria-pressed="'+(race===r)+'" class="'+(race===r?'active':'')+'">'+namesRace[r]+' · 10</button>').join('')+'</nav>'+
  '<div class="hg43-codex-grid">'+C.units[race].map(u=>card(u,{art:art?.(u)||''})).join('')+'</div>'+
@@ -134,7 +134,7 @@ function battleCard(b,actor,other,side){
  const pctHP=actor.count*actor.hp?Math.min(100,Math.max(0,actor.pool/(actor.initial*actor.hp)*100)):0;
  const rows=[
   ['Quân',fmt(actor.count)],['HP thực',fmt(Math.ceil(actor.pool))+' / '+fmt(actor.initial*actor.hp)],
-  ['ATK',fmt(actor.atk)],['DEF',fmt(actor.def)],['SPD',fmt(Number(actor.spd.toFixed(2)))],
+  ['ATK',fmt(actor.atk)],['DEF',fmt(actor.def)],['SPD bản đồ',fmt(Number(actor.spd.toFixed(2)))],
   ['Tầm đánh',actor.range+' ô'],['Di chuyển',E.battleMoveSteps(b,actor.id)+' ô/lượt']
  ];
  return '<section class="hg43-battle-unit" data-hg43-combat-unit="'+safe(actor.id)+'" data-side="'+safe(side)+'">'+
@@ -148,7 +148,7 @@ function battleCard(b,actor,other,side){
     '<small>Khắc chế: '+safe(p.counter)+'</small>':
    '<p class="hg43-unknown">Quái/Boss không thuộc 40 kỹ năng của bốn chủng tộc; không tự gán kỹ năng.</p>')+
   (unit?'<small class="hg43-base-note">Chỉ số gốc: HP '+fmt(unit.hp)+' · ATK '+fmt(unit.atk)+' · DEF '+fmt(unit.def)+
-    ' · SPD '+fmt(unit.spd)+'</small>':'')+
+    ' · SPD bản đồ '+fmt(unit.spd)+'</small>':'')+
   '<p class="hg43-live-matchup">⚖ '+safe(matchup(actor,other))+'</p>'+
   '<div class="hg43-live-status"><b>Trạng thái:</b> '+(statuses(b,actor).map(s=>'<em>'+safe(s)+'</em>').join('')||
     '<span>Không có hiệu ứng HG40 đang hoạt động</span>')+'</div></section>';
