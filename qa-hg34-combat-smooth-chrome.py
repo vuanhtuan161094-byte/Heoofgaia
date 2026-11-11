@@ -80,16 +80,25 @@ with sync_playwright() as pw:
           const fake={turn:7,lastEvents:[{actorId:'different'},
             {actorId:'visual-qa',from:{x:3,y:3},path:[{x:4,y:3}],damage:0}]};
           const alive={id:'visual-qa',x:4,y:3,pool:100};
-          const before=P.battleVisualState(fake,alive,20,20),
-            walkStart=P.battleVisualState(fake,alive,105,105),
-            walkMid=P.battleVisualState(fake,alive,270,270),
-            after=P.battleVisualState(fake,alive,570,570);
+          // HG57: visual actions are serialized. The old 105ms/270ms
+          // probes assumed 85ms stagger and linear walk motion; neither is
+          // true after sequential A -> B playback. Derive timing from the
+          // SAME authoritative renderer schedule, retaining real interpolation
+          // checks without weakening the motion/death acceptance.
+          const firstClock=20,walkStep=P.battleVisualSchedule(fake.lastEvents).steps[1];
+          const walkAt=firstClock+walkStep.start,walkUntil=firstClock+walkStep.animationEnd;
+          const before=P.battleVisualState(fake,alive,firstClock,firstClock),
+            walkStart=P.battleVisualState(fake,alive,walkAt,walkAt),
+            walkMid=P.battleVisualState(fake,alive,walkAt+walkStep.moveMs*.5,walkAt+walkStep.moveMs*.5),
+            after=P.battleVisualState(fake,alive,walkUntil+20,walkUntil+20);
           const dying={turn:8,lastEvents:[{actorId:'different'},
             {actorId:'enemy',targetId:'visual-qa',damage:50,death:true}]};
-          const dead={...alive,pool:0};
-          const deadBefore=P.battleVisualState(dying,dead,20,20),
-            deadDuring=P.battleVisualState(dying,dead,600,600),
-            deadAfter=P.battleVisualState(dying,dead,1800,1800);
+          const dead={...alive,pool:0},deathClock=20,
+            dyingStep=P.battleVisualSchedule(dying.lastEvents).steps[1],
+            dyingImpact=deathClock+dyingStep.impactAt;
+          const deadBefore=P.battleVisualState(dying,dead,deathClock,deathClock),
+            deadDuring=P.battleVisualState(dying,dead,dyingImpact+100,dyingImpact+100),
+            deadAfter=P.battleVisualState(dying,dead,dyingImpact+1250,dyingImpact+1250);
           const motionOracle={
             sourceCadence,
             before:{x:before?.x,y:before?.y,action:before?.action},
