@@ -1,0 +1,55 @@
+name: HG69 Real T9-T10 Alpha and Boss Roster Chromium
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths: [qa-hg28-art-chrome.py, .github/workflows/hg69-alpha.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  offline-alpha-and-boss:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Exact SHA plus syntax and original assets manifest
+        run: |
+          git rev-parse HEAD
+          python -m py_compile qa-hg28-art-chrome.py
+          node qa-hg28-art.cjs
+      - name: Build exactly one offline HTML with lossless RGBA masters
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Test pixel alpha, 8 T9-T10 Army screens, 16 Boss actors, Save v07
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python qa-hg28-art-chrome.py
+      - name: Capture live screenshots, exact SHA and QA receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG69-Real-T9T10-Boss-Alpha-Evidence
+          path: |
+            docs/qa/hg28/art-chrome.json
+            docs/evidence/hg28/after/*/14-t9-t10-*.png
+            docs/evidence/hg28/after/*/15-boss-battle.png
+            docs/evidence/hg28/before/*/15-boss-battle.png
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: One HTML only if all tests succeed
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG69-Playable-Single-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error

@@ -76,8 +76,24 @@ with sync_playwright() as pw:
    assert visible,f'{width}x{height} {faction} T9/T10 could not be reached with real page controls'
    for troop_id in troop_ids:
     page.wait_for_function("id=>{const e=document.querySelector(`[data-hg28-troop=\"${id}\"]`);return e&&e.complete&&e.naturalWidth===512}",arg=troop_id)
-   loaded=page.locator('.hg28-tab-army img[data-hg28-troop]').evaluate_all("els=>els.map(e=>({id:e.dataset.hg28Troop,width:e.naturalWidth,height:e.naturalHeight,transparent:e.src.startsWith('data:image/png;base64,'),masterMatch:e.src===document.getElementById('hg28-troop-'+e.dataset.hg28Troop)?.src}))")
-   assert len(loaded)==2 and all(x['width']==512 and x['height']==512 and x['transparent'] and x['masterMatch'] for x in loaded),loaded
+   # HG69: lossless offline pack encodes original RGBA masters as WebP.
+   # A data:image/png MIME prefix never proved pixel transparency, and was
+   # falsely rejecting perfectly loaded WebP assets. Check actual alpha via
+   # Chromium Canvas and preserve the exact original master-src comparison.
+   loaded=page.locator('.hg28-tab-army img[data-hg28-troop]').evaluate_all("""els=>els.map(e=>{
+     const c=document.createElement('canvas');c.width=e.naturalWidth;c.height=e.naturalHeight;
+     const cx=c.getContext('2d',{willReadFrequently:true});cx.drawImage(e,0,0);
+     const corners=[[0,0],[c.width-1,0],[0,c.height-1],[c.width-1,c.height-1]];
+     const alphas=corners.map(([x,y])=>cx.getImageData(x,y,1,1).data[3]);
+     const pixels=cx.getImageData(0,0,c.width,c.height).data;
+     let visible=0;for(let j=3;j<pixels.length;j+=4)if(pixels[j]>32)visible++;
+     return {id:e.dataset.hg28Troop,width:e.naturalWidth,height:e.naturalHeight,
+       offline:/^data:image\/(?:png|webp);base64,/.test(e.src),
+       transparent:alphas.every(alpha=>alpha<255),visiblePixels:visible,
+       masterMatch:e.src===document.getElementById('hg28-troop-'+e.dataset.hg28Troop)?.src};
+   })""")
+   assert (len(loaded)==2 and all(x['width']==512 and x['height']==512 and x['offline'] and
+      x['transparent'] and x['visiblePixels']>5000 and x['masterMatch'] for x in loaded)),loaded
    page.wait_for_timeout(100)
    path=EVIDENCE/'after'/f'{width}x{height}'/f'14-t9-t10-{faction}.png'
    path.parent.mkdir(parents=True,exist_ok=True)
@@ -89,7 +105,7 @@ with sync_playwright() as pw:
    assert len(visible_assets)==2 and all(x['visible'] and x['width']==512 and x['height']==512 and x['masterMatch'] for x in visible_assets),visible_assets
    page.screenshot(path=str(path),animations='disabled')
    screenshots.append({'viewport':f'{width}x{height}','faction':faction,'troops':troop_ids,'path':path.relative_to(ROOT).as_posix(),'sha256':sha(path)})
-   checks.append({'viewport':f'{width}x{height}','check':f'{faction} T9/T10 PNGs load in live Army roster and v07 stays valid','pass':page.evaluate('HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())'),'troops':troop_ids})
+   checks.append({'viewport':f'{width}x{height}','check':f'{faction} T9/T10 transparent optimized images load in Army roster and v07 stays valid','pass':page.evaluate('HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())'),'troops':troop_ids})
    page.close()
  for width,height in SIZES:
   page=browser.new_page(viewport={'width':width,'height':height},device_scale_factor=1)
@@ -115,7 +131,11 @@ with sync_playwright() as pw:
   spear=page.evaluate("""() => {const img=document.getElementById('hg28-battle-human-spear-militia'),profile=HOG_PAINTER.MOTION_SPRITES.human_1,atlas=HOG_HG33_TROOP_ATLASES?.units?.human_1;return {ready:!!img?.complete&&img.naturalWidth===512&&img.naturalHeight===512,offline:img?.src.startsWith('data:image/webp;base64,'),registered:profile?.id===img?.id,animated:HOG_PAINTER.animatedUnitId('human_1','Spear Militia'),atlas:!!atlas&&['idle','walk','attack','hit','death'].every(a=>atlas.actions[a]?.count===8)}}""")
   assert all(spear.values()),f'{width}x{height} Human Spear Militia offline sprite or motion profile failed: {spear}'
   checks.append({'viewport':f'{width}x{height}','check':'Human Spear Militia uses its own offline registered art and battle transform profile','pass':True,'asset':spear})
-  assert setup['inBattle'] and len(setup['names'])==16 and set(setup['names'])=={'Azrael','Demonlord Samurai','Cyclop Tyrant'} and setup['names'][:3]==['Azrael','Demonlord Samurai','Cyclop Tyrant'] and setup['saveValid'],f'{width}x{height} real engine march did not construct the authored boss fight: {setup}'
+  # HG61: three named Boss leaders keep their own atlases; the remaining
+  # thirteen are distinct genuine HG40 troop archetypes (not Boss clones).
+  assert (setup['inBattle'] and len(setup['names'])==16 and len(set(setup['names']))>=4 and
+   setup['names'][:3]==['Azrael','Demonlord Samurai','Cyclop Tyrant'] and
+   all(name.endswith(' · Hộ vệ') for name in setup['names'][3:]) and setup['saveValid']),f'{width}x{height} real engine march did not construct the authentic three-leader + thirteen-minion Boss fight: {setup}'
   canvas=page.locator('#battle-canvas')
   assert canvas.is_visible(),f'{width}x{height} boss battlefield is not visible'
   # BEFORE is the same live battle rendered with the preserved HG28 master art;
@@ -163,7 +183,10 @@ with sync_playwright() as pw:
   expected=['hg33-atlas-azrael','hg33-atlas-demonlord-samurai','hg33-atlas-cyclop-tyrant']
   expected_profiles=['hg28-boss-azrael','hg28-boss-demonlord-samurai','hg28-boss-cyclops-tyrant']
   atlas_drawn=painted['calls'].count('unit-hg33-human-1-atlas')>=2
-  assert all(painted['calls'].count(asset)>=2 for asset in expected) and atlas_drawn and painted['changed'] and painted['stable'] and painted['labelsFit'] and painted['bossActorCount']==16 and set(painted['profileNames'])==set(expected_profiles) and painted['profileNames'][:3]==expected_profiles,f'{width}x{height} battle failed to draw/animate registered battle troops cleanly: {painted}'
+  assert (all(painted['calls'].count(asset)>=2 for asset in expected) and atlas_drawn and
+   painted['changed'] and painted['stable'] and painted['labelsFit'] and
+   painted['bossActorCount']==16 and painted['profileNames'][:3]==expected_profiles and
+   painted['profileNames'][3:]==[None]*13),f'{width}x{height} battle failed to draw/animate three authentic Boss atlases and thirteen real troop atlases: {painted}'
   checks.append({'viewport':f'{width}x{height}','check':'real sixteen-stack Boss battle draws all three authored atlas archetypes and eight-frame Spear Militia, with live animation, safe visible labels and unchanged Save','pass':True,'drawn':painted['calls'],'labelsFit':painted['labelsFit']})
   after_path=EVIDENCE/'after'/f'{width}x{height}'/'15-boss-battle.png'
   after_path.parent.mkdir(parents=True,exist_ok=True)
