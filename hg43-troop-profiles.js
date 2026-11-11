@@ -135,7 +135,7 @@ function battleCard(b,actor,other,side){
  const rows=[
   ['Quân',fmt(actor.count)],['HP thực',fmt(Math.ceil(actor.pool))+' / '+fmt(actor.initial*actor.hp)],
   ['ATK',fmt(actor.atk)],['DEF',fmt(actor.def)],['SPD',fmt(Number(actor.spd.toFixed(2)))],
-  ['Tầm đánh',actor.range+' ô'],['Di chuyển',E.battleMovePreview(b,actor.id).steps+' ô/lượt']
+  ['Tầm đánh',actor.range+' ô'],['Di chuyển',E.battleMoveSteps(b,actor.id)+' ô/lượt']
  ];
  return '<section class="hg43-battle-unit" data-hg43-combat-unit="'+safe(actor.id)+'" data-side="'+safe(side)+'">'+
   '<header><b>'+safe(actor.name)+'</b><span>'+safe(p?p.role:'Quái / Boss')+
