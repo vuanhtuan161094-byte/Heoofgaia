@@ -31,6 +31,8 @@ const TACTICAL_RANGE=Object.freeze({melee:1,ranged:4,eliteRanged:5});
   if(unit?.type!=='Ranged')return TACTICAL_RANGE.melee;
   return TACTICAL_WEAPON_RANGE[unit.id]||(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged);
  }
+ function tacticalMoveSteps(spd,range){return range>1?(spd>=11?2:1):spd>=9?3:spd>=7?2:1;}
+ function unitTacticalMovement(unit){return tacticalMoveSteps(unit?.spd||0,unitTacticalRange(unit));}
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG39 pacing profile is applied once after all effective HG38 modifiers.
 // This is an offline game-speed setting, not a claim about the original server.
@@ -413,7 +415,7 @@ function battleMovementBudget(b,actor,commitCredit=false){
  const joint=!!(b?.hg21Tower||b?.hg261Joint);
  // Slow infantry: 1, mobile melee: 2, scouts/fliers: 3 hexes.
   // Ranged troops move 1 unless exceptionally fast (SPD >= 11).
-  let base=actor.range>1?(actor.spd>=11?2:1):actor.spd>=9?3:actor.spd>=7?2:1;
+  let base=tacticalMoveSteps(actor.spd,actor.range);
  const movementModifier=root.HOG_ENGINE?.hg40MoveModifier?.(b,actor)||0;
  if(movementModifier<=-100)return 0;
  base=Math.max(1,Math.min(3,base+movementModifier));
@@ -664,7 +666,7 @@ function battleAct(s,action,options){
 }
 function heal(s){let count=0,cost=0;for(const [id,n] of Object.entries(s.wounded)){const u=getUnit(s,id);if(!u||!n)continue;count+=n;cost+=Math.ceil(u.cost.gold*.35*n)}assert(count>0,'Không có quân thương');assert(s.res.gold>=cost,'Không đủ vàng chữa thương');s.res.gold-=cost;for(let [id,n] of Object.entries(s.wounded))s.army[id]=(s.army[id]||0)+n;s.wounded={};note(s,`Phục hồi ${count} quân tại Arena, -${cost} vàng (giá mô phỏng).`);return cost;}
 function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.speed=v;note(s,`Tốc độ ${v}× (chế độ trải nghiệm).`)}
-const API={TACTICAL_RANGE,unitTacticalRange,V,SAVE_KEY,PREV_SAVE_KEY,C,HG39_CONFIG,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
+const API={TACTICAL_RANGE,unitTacticalRange,unitTacticalMovement,V,SAVE_KEY,PREV_SAVE_KEY,C,HG39_CONFIG,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
 
