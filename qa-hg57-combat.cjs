@@ -23,14 +23,16 @@ function fresh(){
  assert(s.battle,'real battle did not open');assert(E.strictSave(s));
  return s;
 }
-check('melee speed budgets exactly 1 below SPD7 and 2 at SPD7; ranged 1',()=>{
+check('HG76 battlefield movement is unchanged by SPD; ranged one hex',()=>{
  const s=fresh(),b=s.battle,u=b.allies.find(x=>x.range===1),r=b.allies.find(x=>x.range>1);
  assert(u&&r);u.spd=6;r.spd=10;
- const slow=E.battleMovePreview(b,u.id).steps;
- u.spd=7;const fast=E.battleMovePreview(b,u.id).steps;
+ const low=E.battleMovePreview(b,u.id).steps;
+ u.spd=50;r.spd=1000;
+ const high=E.battleMovePreview(b,u.id).steps;
  const archer=E.battleMovePreview(b,r.id).steps;
- assert.equal(slow,1);assert.equal(fast,2);assert.equal(archer,1);
- assert(E.strictSave(s));return {slow,fast,archer,hex:E.battleHex.layout,board:E.BATTLE_GRID};
+ assert.equal(low,high);assert.equal(low,E.unitTacticalMovement(E.getUnit(s,u.unitId)));
+ assert.equal(archer,1);
+ assert(E.strictSave(s));return {low,high,archer,hex:E.battleHex.layout,board:E.BATTLE_GRID};
 });
 check('real one-round actions ALL player then ALL enemy; Save and rewards remain canonical',()=>{
  const s=fresh(),b=s.battle;const previousRewards=s.hg409.rewards.length,
