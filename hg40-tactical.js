@@ -35,6 +35,27 @@ const TRAITS=Object.freeze(Object.fromEntries(Object.entries(R).flatMap(([race,l
  list.map((row,i)=>[race+'_'+(i+1),Object.freeze({unitId:race+'_'+(i+1),role:row[0],
  name:row[1],kind:row[2],a:row[3],b:row[4],cd:row[5]})]))));
 if(Object.keys(TRAITS).length!==40)throw Error('HG40 requires exactly 40 traits');
+// HG70: quest- and Tower-only units must be substantively stronger than
+// recruitable units. They are NEVER part of the original HG40 40-unit matrix.
+// Combat reads this separate, immutable catalog from the genuine rewardUnits.
+const REWARD_TRAITS=Object.freeze(Object.fromEntries([
+ ['human_quest_guard','Thần Vệ Kết Giới','multiShield',.22,2,3],
+ ['elf_quest_guard','Nguyệt Tiễn Phong Ấn','splashSlow',.60,1,3],
+ ['orc_quest_guard','Cuồng Huyết Chiến Hồn','lifesteal',.35,0,3],
+ ['undead_quest_guard','U Minh Huyết Chú','dot',.22,3,3],
+ ['human_tower_sovereign','Thiên Phạt Thánh Quang','relicBurst',.68,2,3],
+ ['elf_tower_sovereign','Ngân Nguyệt Vạn Tiễn','relicBurst',.62,2,3],
+ ['orc_tower_sovereign','Viễn Cổ Diệt Thế','relicBurst',.75,2,3],
+ ['undead_tower_sovereign','U Minh Vạn Kiếp','relicBurst',.66,2,3]
+].map(([unitId,name,kind,a,b,cd])=>[unitId,Object.freeze({
+ unitId,name,kind,a,b,cd,role:unitId.includes('elf')?'X':'H',
+ rewardOnly:true,sovereign:unitId.endsWith('_tower_sovereign')
+})])));
+for(const [id,trait] of Object.entries(REWARD_TRAITS)){
+ const race=id.split('_')[0],unit=E.C.rewardUnits?.[race]?.find(u=>u.id===id);
+ if(!unit?.rewardOnly)throw Error('HG70 reward-only trait cannot be recruited: '+id);
+}
+const traitFor=id=>TRAITS[id]||REWARD_TRAITS[id];
 const round=n=>Math.max(0,Math.floor(Number.isFinite(n)?n:0));
 const alive=u=>!!u&&u.pool>0&&u.count>0;
 function stateOf(b){return b?.hg40?.v===1?b.hg40:null}
@@ -123,7 +144,7 @@ function commit(b,u,t){
  if(t.cd>0)stateOf(b).cd[u.id+':'+t.kind]=b.turn+t.cd;
 }
 function skillReadiness(b,u){
- const t=TRAITS[u?.unitId],h=stateOf(b);
+ const t=traitFor(u?.unitId),h=stateOf(b);
  if(!t||!h)return null;
  const passive=t.cd===0;
  const remaining=passive?0:Math.max(0,(h.cd[u.id+':'+t.kind]||0)-b.turn);
@@ -188,7 +209,7 @@ function movement(b,u){
 }
 function plan(s,b,actor,target,trace){
  const h=stateOf(b);if(!h)return null;
- const own=TRAITS[actor.unitId],other=TRAITS[target.unitId],t=own;
+ const own=traitFor(actor.unitId),other=traitFor(target.unitId),t=own;
  const step=trace?.path?.length||0,close=E.battleHex.distance(actor,target)===1;
  let bonus=0,pierce=0,reduction=0,kind=null;
  const fav=t?.role==='C'&&other?.role==='X'||t?.role==='X'&&other?.role==='H'||
@@ -214,6 +235,10 @@ function plan(s,b,actor,target,trace){
  if(marked&&marked.source===owner(s,actor))bonus+=marked.value;
  const empowered=getStatus(b,actor,'buff');if(empowered)bonus+=empowered.value;
  if(t){
+  // Reward-only warriors get a real baseline edge. Sovereigns receive their
+  // massive signature damage burst only when the original turn CD is ready.
+  if(t.rewardOnly)bonus+=t.sovereign?.19:.11;
+  if(t.kind==='relicBurst'&&ready(b,actor,t))bonus+=.23;
   switch(t.kind){
    case 'rage':if(actor.pool<actor.initial*actor.hp*.5)bonus+=t.a;break;
    case 'wounded':if(target.pool<target.initial*target.hp)bonus+=t.a;break;
@@ -234,7 +259,7 @@ function plan(s,b,actor,target,trace){
   skill:t,kind,marked:!!marked};
 }
 function afterHit(s,b,actor,target,hit,trace,deal){
- const h=stateOf(b),t=TRAITS[actor.unitId];
+ const h=stateOf(b),t=traitFor(actor.unitId);
  if(!h||!t||!hit.applied)return 0;
  h.hits[actor.id]=(h.hits[actor.id]||0)+1;
  const cd=ready(b,actor,t),kind=t.kind,move=trace?.path?.length||0;
@@ -288,6 +313,34 @@ function afterHit(s,b,actor,target,hit,trace,deal){
     const u=chooseAlly(s,b,actor,'shield');if(u&&addShield(b,u,t.a)>0)used=true;
    }
   }else if(kind==='splash'||kind==='splashSlow')secondary(t.a,kind==='splashSlow');
+  else if(kind==='relicBurst'){
+   // At most two real nearby enemy stacks: no phantom hits, no flat
+   // fabricated damage, and no extra action/MP. All secondary hits pass
+   // through the canonical shield and casualty calculation.
+   const targets=(actor.side==='player'?b.enemies:b.allies)
+    .filter(u=>u.id!==target.id&&alive(u)&&E.battleHex.distance(u,target)<=2)
+    .sort((a,z)=>E.battleHex.distance(a,target)-E.battleHex.distance(z,target)||a.id.localeCompare(z.id))
+    .slice(0,2);
+   for(const other of targets){
+    const amount=Math.max(1,Math.floor(hit.applied*t.a*(boss(s,b,other)?.65:1)));
+    const effect=deal(other,amount);extra+=effect.applied;
+    h.events.push({actorId:actor.id,targetId:other.id,from:{x:actor.x,y:actor.y},
+     to:{x:actor.x,y:actor.y},path:[],damage:effect.applied,
+     casualties:effect.casualties,death:other.pool<=0,order:'skill',skill:t.name});
+    if(actor.unitId.startsWith('elf_'))addStatus(s,b,other,'slow',1,1,owner(s,actor));
+    if(actor.unitId.startsWith('undead_'))
+     addStatus(s,b,other,'dot',Math.max(1,Math.floor(effect.applied*.12)),2,owner(s,actor));
+   }
+   // Every race has a special signature even against a single Boss.
+   if(actor.unitId.startsWith('human_')){
+    const ally=chooseAlly(s,b,actor,'shield');if(ally)addShield(b,ally,.20);
+   }else if(actor.unitId.startsWith('orc_')){
+    actor.pool=Math.min(actor.count*actor.hp,actor.pool+Math.ceil(hit.applied*.16));
+   }else if(actor.unitId.startsWith('elf_'))addStatus(s,b,target,'slow',1,1,owner(s,actor));
+   else if(actor.unitId.startsWith('undead_'))
+    addStatus(s,b,target,'dot',Math.max(1,Math.floor(hit.applied*.10)),2,owner(s,actor));
+   used=true;
+  }
   else if(kind==='lifesteal'){
    const gain=Math.min(Math.ceil(hit.applied*t.a),actor.count*actor.hp-actor.pool);
    if(gain>0){actor.pool+=gain;used=true;}
@@ -339,7 +392,7 @@ function statusText(b,u){
 // HG40 AI only ranks otherwise-unlocked targets. Explicit player Focus and
 // previously sticky auto target still win at the canonical battleActCore layer.
 function targetScore(s,b,actor,target){
- const a=TRAITS[actor.unitId],t=TRAITS[target.unitId],
+ const a=traitFor(actor.unitId),t=traitFor(target.unitId),
   distance=E.battleHex.distance(actor,target);
  let score=-distance*4;
  if(distance<=actor.range)score+=30;
@@ -354,14 +407,14 @@ function targetScore(s,b,actor,target){
  return score;
 }
 function skillText(b,u){
- const t=TRAITS[u?.unitId];if(!t)return '';
+ const t=traitFor(u?.unitId);if(!t)return '';
  const h=stateOf(b),until=h?.cd[u.id+':'+t.kind]||0;
  const passive=['guard','rangedGuard','meleeGuard','firstGuard','thirdBonus','thirdPierce',
   'rage','wounded','antiMelee','antiRanged','killBuff'];
  return t.name+(passive.includes(t.kind)?' · Nội tại':
   until>b.turn?' · CD '+(until-b.turn)+' lượt':' · sẵn sàng');
 }
-Object.assign(E,{HG40_TRAITS:TRAITS,hg40PrepareBattle:prepare,hg40BeforeAction:beforeAction,
+Object.assign(E,{HG40_TRAITS:TRAITS,HG40_REWARD_TRAITS:REWARD_TRAITS,hg40TraitForUnit:traitFor,hg40PrepareBattle:prepare,hg40BeforeAction:beforeAction,
  hg40MoveModifier:movement,hg40PlanStrike:plan,hg40Absorb:absorb,
  hg40AfterHit:afterHit,hg40EndTurn:endTurn,hg40StatusText:statusText,
  hg40SkillText:skillText,hg40SkillReadiness:skillReadiness,hg40TargetScore:targetScore});
