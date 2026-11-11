@@ -1,6 +1,17 @@
 /* HG57 phased combat: display-only commander lanes and tactical readouts.
  * Match the existing 12x9 true-hex canvas, preserve all hit-tests and v07. */
 body.combat-mode .battle-stage{position:relative;isolation:isolate}
+/* HG57-B: on wide desktops a CSS-grid canvas retains a 1176:550
+   intrinsic minimum height. At 1818×830 this grew the rendered canvas
+   to 731px inside a 676px stage, clipping feet and combat commands.
+   Bound the grid row and BOTH grid children to the stage's real height. */
+@media(min-width:1001px){
+ body.combat-mode .battle-stage{grid-template-rows:minmax(0,1fr)!important}
+ body.combat-mode .battle-stage #battle-canvas{
+  min-height:0!important;max-height:100%!important;
+  height:100%!important;align-self:stretch!important
+ }
+}
 .hg57-commander-strip{position:absolute;z-index:4;top:49px;left:7px;
  right:clamp(183px,18vw,230px);height:45px;display:flex;align-items:flex-start;
  justify-content:space-between;gap:8px;pointer-events:none;overflow:hidden}
