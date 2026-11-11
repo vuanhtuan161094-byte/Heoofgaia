@@ -92,3 +92,19 @@ body.combat-mode .battle-stage{position:relative;isolation:isolate}
 @media(prefers-reduced-motion:reduce){
  .hg57-hero-chip,.hg57-commander-strip{transition:none!important;animation:none!important}
 }
+
+/* HG58: real in-combat playback speed. Large enough tap targets, no save data. */
+.hg58-combat-speed{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+ gap:4px;padding:5px 3px;margin:4px 0;color:#f2debb;font:700 10px/1.1 system-ui}
+.hg58-combat-speed button{min-width:34px;min-height:31px;padding:4px 7px;border-radius:6px;
+ border:1px solid #7099ab;background:#173241;color:#c1e5ed;
+ font:800 12px/1 system-ui;cursor:pointer}
+.hg58-combat-speed button[aria-pressed="true"]{background:#286a75;color:#ffffff;
+ border-color:#9ee6df;box-shadow:0 0 0 1px #c0eecc4c}
+.hg58-combat-speed small{color:#a5cbd1;font-size:9px;font-weight:500}
+@media(max-height:450px) and (orientation:landscape){
+ .hg58-combat-speed{padding:2px;margin:1px 0;gap:2px}
+ .hg58-combat-speed button{min-height:25px;min-width:32px}
+ .hg58-combat-speed small{display:none}
+}
+@media(prefers-reduced-motion:reduce){.hg58-combat-speed button{transition:none}}
