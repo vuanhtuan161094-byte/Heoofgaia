@@ -1777,15 +1777,38 @@ test('HG33 additional atlases animate the two preserved core exceptions, Priest,
  assert.equal(A.resolve('undead_1').imageId,'hg33-atlas-undead-skeleton');
  assert.equal(A.resolve('human_8').imageId,'hg33-atlas-human-priest');
 });
-test('HG11 battle animation holds a full staggered Death clip without mutating combat state',()=>{
- const b={turn:4,allies:[],enemies:[],lastEvents:[{actorId:'p0',from:{x:1,y:1},to:{x:3,y:1},path:[{x:2,y:1},{x:3,y:1}],targetId:'h0',damage:30,death:false},{actorId:'e0',from:{x:4,y:1},to:{x:4,y:1},path:[],targetId:'p0',damage:25,death:false},{actorId:'p1',from:{x:2,y:2},to:{x:2,y:2},path:[],targetId:'e1',damage:50,death:true}]};
- const moved={id:'p0',pool:100,unitId:'human_4',x:3,y:1},hit={id:'h0',pool:75,unitId:'human_4',x:4,y:1},dead={id:'e1',pool:0,unitId:'human_4',x:5,y:2},before=JSON.stringify(b);
+test('HG57 staged smooth hex walk, side phases and complete Death clip do not mutate combat state',()=>{
+ // True phased order: both player actors first, then the enemy actor.
+ const b={turn:4,allies:[],enemies:[],lastEvents:[
+  {actorId:'p0',from:{x:1,y:1},to:{x:3,y:1},path:[{x:2,y:1},{x:3,y:1}],targetId:'h0',damage:30,death:false},
+  {actorId:'p1',from:{x:2,y:2},to:{x:2,y:2},path:[],targetId:'e1',damage:50,death:true},
+  {actorId:'e0',from:{x:4,y:1},to:{x:4,y:1},path:[],targetId:'p0',damage:25,death:false}
+ ]};
+ const moved={id:'p0',pool:100,unitId:'human_4',x:3,y:1},
+  hit={id:'h0',pool:75,unitId:'human_4',x:4,y:1},
+  dead={id:'e1',pool:0,unitId:'human_4',x:5,y:2},before=JSON.stringify(b);
+ const schedule=P.battleVisualSchedule(b.lastEvents),first=schedule.steps[0],death=schedule.steps[1];
+ assert(first.moveMs>0);
+ assert(schedule.steps[1].start>=first.animationEnd);
+ assert(schedule.steps[2].start>=death.animationEnd+250,'two friendly actions finish before enemy phase');
  P.battleTimelinePrime(b,0,true);
- const walking=P.battleVisualState(b,moved,225),attacking=P.battleVisualState(b,moved,460),beforeImpact=P.battleVisualState(b,hit,200),hitting=P.battleVisualState(b,hit,750),deathBefore=P.battleVisualState(b,dead,546),dying=P.battleVisualState(b,dead,547),deathEnd=P.battleVisualState(b,dead,1_746),deadAfter=P.battleVisualState(b,dead,1_747);
- assert.equal(walking.action,'walk');assert.equal(walking.x,2,'a two-hex route takes two equal, visible steps');assert.equal(attacking.action,'attack');
- assert.equal(beforeImpact.action,'idle');assert.equal(hitting.action,'hit','target Hit starts when its visual receipt reaches impact');
- assert.equal(deathBefore.action,'idle');assert.equal(dying.action,'death');assert.equal(deathEnd.time,1_199);assert.equal(deadAfter,null);
- assert.equal(JSON.stringify(b),before,'timeline reads receipts without adding Save v07 fields');
+ const walking=P.battleVisualState(b,moved,first.moveMs*.25),
+  advancing=P.battleVisualState(b,moved,first.moveMs*.75),
+  attacking=P.battleVisualState(b,moved,first.moveMs+first.attackMs*.5),
+  beforeImpact=P.battleVisualState(b,hit,first.impactAt-1),
+  hitting=P.battleVisualState(b,hit,first.impactAt+5),
+  deathBefore=P.battleVisualState(b,dead,death.impactAt-1),
+  dying=P.battleVisualState(b,dead,death.impactAt),
+  deathEnd=P.battleVisualState(b,dead,death.impactAt+1199),
+  deadAfter=P.battleVisualState(b,dead,death.impactAt+1200);
+ assert.equal(walking.action,'walk');
+ assert(walking.x>1&&walking.x<2,'smoothstep interpolates inside the first legal hex');
+ assert(advancing.x>2&&advancing.x<3,'smoothstep interpolates inside the second legal hex');
+ assert.equal(attacking.action,'attack');
+ assert.equal(beforeImpact.action,'idle');assert.equal(hitting.action,'hit');
+ assert.equal(deathBefore.action,'idle');assert.equal(dying.action,'death');
+ assert.equal(deathEnd.time,1199);assert.equal(deadAfter,null);
+ assert.equal(JSON.stringify(b),before,'timeline does not add Save v07 state');
 });
 test('HG11 real battle action receipts and legacy eventless v07 saves validate strictly',()=>{
  const s=state(),tile=E.TILES.find(t=>t.kind==='npc'),b=E.makeBattle(s,tile.key);s.battle=b;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_4',name:'Heavy Soldier',range:1,count:1,initial:1,hp:1000,atk:20,def:10,spd:10,pool:1000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Wall',range:20,count:1,initial:1,hp:100000,atk:0,def:0,spd:1,pool:100000,x:6,y:1}];b.selected='p0';b.orders={};b.moveTargets={};const out=E.battleAct(s,'move',{x:4,y:1}),event=s.battle.lastEvents.find(e=>e.actorId==='p0');assert.equal(out.type,'continue');assert(event.path.length>0);assert.deepEqual({x:event.path[0].x,y:event.path[0].y},{x:2,y:1});assert.deepEqual({x:event.to.x,y:event.to.y},{x:3,y:1});assert.equal(event.path.length,2);assert.equal(event.order,'move');assert.equal(event.casualties,0);assert(E.strictSave(s));const saved=E.parseSave(E.serializeSave(s));assert.deepEqual(JSON.parse(JSON.stringify(saved.battle.lastEvents)),JSON.parse(JSON.stringify(s.battle.lastEvents)));
