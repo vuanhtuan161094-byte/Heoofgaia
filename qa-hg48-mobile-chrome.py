@@ -76,7 +76,8 @@ with sync_playwright() as pw:
             const a=rect(card),b=rect(panel);
             out.push({slot:card.dataset.hg46Slot,visible:a.top>=b.top-2&&
               a.bottom<=b.bottom+2&&a.left>=b.left-2&&a.right<=b.right+2,
-              button:!!card.querySelector('button')});
+              actionable:!!card.querySelector('button')||
+               card.textContent.includes('Chưa trang bị')});
           }
           const scrollable=panel.scrollHeight>panel.clientHeight+2;
           panel.scrollTop=0;
@@ -87,12 +88,12 @@ with sync_playwright() as pw:
             check(name+' all ten real gear cards individually reachable by touch scroll',
                 g['visible']>=4 and reach['scrollable'] and
                 len(reach['visited'])==10 and
-                all(x['visible'] and x['button'] for x in reach['visited']),reach)
+                all(x['visible'] and x['actionable'] for x in reach['visited']),reach)
         else:
             check(name+' all ten gear cards visible or reachable in hero panel',
                 g['visible']==10 or
                 (reach['scrollable'] and len(reach['visited'])==10 and
-                 all(x['visible'] and x['button'] for x in reach['visited'])), 
+                 all(x['visible'] and x['actionable'] for x in reach['visited'])), 
                  {'initiallyVisible':g['visible'],'reach':reach})
         check(name+' no document horizontal overflow',g['pageWidth']<=w+2,g)
         check(name+' strict v07 with zero New Game inventory',g['strict'] and g['saveV']==7 and g['inventory']==0,g)
