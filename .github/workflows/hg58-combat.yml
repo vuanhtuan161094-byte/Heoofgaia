@@ -1,0 +1,86 @@
+name: HG58 Combat Integrity - Three Heroes, MP, VFX and Playback Speed
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'engine.js'
+      - 'painter.js'
+      - 'app.js'
+      - 'hg40-tactical.js'
+      - 'style-hg57.css'
+      - 'qa-hg58-combat.cjs'
+      - 'qa-hg58-chrome.py'
+      - '.github/workflows/hg58-combat.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: hg58-combat-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  exact-sha-combat-regression:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Exact SHA - canonical 40-unit skills, MP and 3-hero HP evidence
+        run: |
+          echo "HG58_SHA=$(git rev-parse HEAD)"
+          node --check engine.js
+          node --check painter.js
+          node --check app.js
+          node --check hg40-tactical.js
+          node qa-hg58-combat.cjs
+          node qa-hg40-tactical.cjs
+          node qa-hg57-combat.cjs
+          node qa-hg26-boss.cjs
+      - name: Build only one HTML offline
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          python - <<'PY'
+          from pathlib import Path
+          html=Path('Play-Heoofgaia-HG11.html').read_text(encoding='utf8')
+          assert html.count('<script>')==39
+          assert 'hg58-combat-speed' in html
+          assert 'drawHG58SkillCues' in html and 'hg40SkillReadiness' in html
+          assert 'Play-Heoofgaia-HG11.html' in str(Path('Play-Heoofgaia-HG11.html'))
+          print('HG58 ONE OFFLINE HTML PASS')
+          PY
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Real Chromium: speed 1x 2x 3x, HP, VFX, Boss and Tower
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python -m py_compile qa-hg58-chrome.py qa-hg57-chrome.py qa-hg57b-joint-boss-chrome.py
+          python qa-hg58-chrome.py
+          python qa-hg57-chrome.py
+          python qa-hg57b-joint-boss-chrome.py
+      - name: Engine and Chromium screenshots with actual SHA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG58-Combat-Real-QA-Evidence
+          path: |
+            docs/qa/hg58/*.json
+            docs/evidence/hg58/*.png
+            docs/qa/hg57/*.json
+            docs/evidence/hg57/*.png
+            docs/qa/hg57b/*.json
+            docs/evidence/hg57b/*.png
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: ONE playable HTML only
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG58-Playable-Single-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error
