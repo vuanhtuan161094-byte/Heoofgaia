@@ -26,7 +26,7 @@ function realBoss(tier,priorStages=[]){
  assert(s.battle,'No real battle starts');
  const before=E.hg50Status(s).completed.length;
  let out,turns=0;while(s.battle&&turns++<110)out=E.battleAct(s,'attack');
- assert.equal(out?.type,'win','Battle did not resolve through real engine win');
+ assert.equal(out?.type,'win','Battle did not resolve through real engine win '+JSON.stringify({tier,turns,final:out?.type,alive:s.battle?.allies.filter(u=>u.pool>0).map(u=>({id:u.id,pool:u.pool,x:u.x,y:u.y})),enemies:s.battle?.enemies.filter(u=>u.pool>0).map(u=>({id:u.id,unitId:u.unitId,pool:u.pool,x:u.x,y:u.y})),effects:s.battle?.hg40?.statuses?.slice(-12)}));
  assert(E.strictSave(s));
  return {s,out,turns,target:data.target,before};
 }

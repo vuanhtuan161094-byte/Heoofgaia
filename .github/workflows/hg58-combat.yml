@@ -14,6 +14,7 @@ on:
       - 'qa-hg58-combat.cjs'
       - 'qa-hg61-enemies.cjs'
       - 'qa-hg50-boss-phases.cjs'
+      - 'qa-hg50-expedition.cjs'
       - 'qa-hg58-chrome.py'
       - '.github/workflows/hg58-combat.yml'
   workflow_dispatch:
@@ -43,6 +44,8 @@ jobs:
           node --check hg40-tactical.js
           node qa-hg58-combat.cjs
           node qa-hg61-enemies.cjs
+          node qa-hg50-boss-phases.cjs
+          node qa-hg50-expedition.cjs
           node qa-hg40-tactical.cjs
           node qa-hg57-combat.cjs
           node qa-hg26-boss.cjs
