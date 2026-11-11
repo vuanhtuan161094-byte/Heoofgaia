@@ -990,7 +990,10 @@ function battleVisualPoint(camera,visual,fallback){
    eased=fraction*fraction*(3-2*fraction),
    from=index?route[index-1]:(visual.walkFrom||fallback),
    to=route[index];
-  return camera.pointBetween(from,to,eased);
+  // Some supported render callers supply only camera.center (e.g. NPC
+  // fallback previews). Use the two integer hex anchors directly.
+  const a=camera.center(from.x,from.y),z=camera.center(to.x,to.y);
+  return {x:a.x+(z.x-a.x)*eased,y:a.y+(z.y-a.y)*eased};
  }
  return camera.center(visual?.x??fallback.x,visual?.y??fallback.y);
 }
