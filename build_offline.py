@@ -183,7 +183,7 @@ assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
-assert html.count('<script>')==39, 'Expected 39 offline game modules including HG56 global HUD/VFX'
+assert html.count('<script>')==40, 'Expected 40 offline game modules including HG56 and HG71 quest hero'
 html=html.rstrip()+'\n'
 # HG55 modifies only the release's inlined image encoding. Source files stay
 # byte-identical, and every optimized decoded RGBA pixel is checked losslessly.
