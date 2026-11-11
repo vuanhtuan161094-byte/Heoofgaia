@@ -37,7 +37,14 @@ const TRAITS=Object.freeze(Object.fromEntries(Object.entries(R).flatMap(([race,l
 if(Object.keys(TRAITS).length!==40)throw Error('HG40 requires exactly 40 traits');
 const round=n=>Math.max(0,Math.floor(Number.isFinite(n)?n:0));
 const alive=u=>!!u&&u.pool>0&&u.count>0;
-function stateOf(b){return b?.hg40?.v===1?b.hg40:null}
+function stateOf(b){
+ const h=b?.hg40?.v===1?b.hg40:null;
+ if(h&&!h.mana){
+  // Older midbattle Save v07 had cooldowns but no per-actor MP.
+  h.mana=Object.fromEntries([...b.allies,...b.enemies].map(u=>[u.id,100]));
+ }
+ return h;
+}
 function owner(s,u){return u.side==='player'?String(u.heroId??s.expedition?.heroId??s.activeHero):'enemy'}
 function sameOwner(s,a,u){return a.side===u.side&&owner(s,a)===owner(s,u)}
 function boss(s,b,u){
@@ -64,7 +71,8 @@ function prepare(s,b){
  if(!b||b.hg40)return b;
  const multipliers=scaleFor(s,b);
  const h={v:1,mode:'hg40',multipliers,cd:{},hits:{},flags:{},shields:{},
-  statuses:[],stunImmune:{},events:[],lastSkills:[],turnApplied:0};
+  statuses:[],stunImmune:{},events:[],lastSkills:[],turnApplied:0,
+  mana:Object.fromEntries([...b.allies,...b.enemies].map(u=>[u.id,100]))};
  for(const u of b.enemies){
   // Do not multiply the persistent garrison or side-owned real troop data.
   const ratio=u.hp>0?Math.min(1,u.pool/(u.hp*Math.max(1,u.count))):1;
@@ -106,11 +114,30 @@ function addStatus(s,b,u,kind,value,duration,source,extra={}){
  }else h.statuses.push(item);
  return true;
 }
-function ready(b,actor,t){const h=stateOf(b);return !!h&&b.turn>=(h.cd[actor.id+':'+t.kind]||1)}
-function commit(b,u,t){if(t.cd>0)stateOf(b).cd[u.id+':'+t.kind]=b.turn+t.cd}
-function note(b,spec,message){
+function ready(b,actor,t){
+ const h=stateOf(b);
+ return !!h&&b.turn>=(h.cd[actor.id+':'+t.kind]||1)&&
+  (t.cd<=0||(h.mana[actor.id]??100)>=100);
+}
+function commit(b,u,t){
+ if(t.cd>0){
+  const h=stateOf(b);h.cd[u.id+':'+t.kind]=b.turn+t.cd;
+  // MP is genuinely consumed on special activation, never by painting.
+  h.mana[u.id]=Math.max(0,(h.mana[u.id]??100)-100);
+ }
+}
+function skillReadiness(b,u){
+ const t=TRAITS[u?.unitId],h=stateOf(b);
+ if(!t||!h)return null;
+ const special=t.cd>0,remaining=Math.max(0,(h.cd[u.id+':'+t.kind]||0)-b.turn);
+ const mp=Math.max(0,Math.min(100,h.mana[u.id]??100));
+ return {name:t.name,kind:t.kind,passive:!special,mp,maxMp:100,
+  cooldown:remaining,ready:!special||(mp>=100&&remaining===0)};
+}
+function note(b,spec,message,actor){
  const h=stateOf(b);if(!h)return;
- h.lastSkills.push({turn:b.turn,skill:spec.name,detail:message});
+ h.lastSkills.push({turn:b.turn,skill:spec.name,detail:message,
+  actorId:actor?.id||null,side:actor?.side||null});
  h.lastSkills=h.lastSkills.slice(-15);
 }
 function currentShield(b,u){
@@ -149,7 +176,9 @@ function chooseAlly(s,b,actor,mode){
  return inRange.sort((a,c)=>(currentShield(b,a)/(a.count*a.hp))-(currentShield(b,c)/(c.count*c.hp))||a.id.localeCompare(c.id))[0]||null;
 }
 function beforeAction(s,b,u){
- if(!stateOf(b))return false;
+ const h=stateOf(b);if(!h)return false;
+ // +25 MP exactly once when this actor gets its true turn.
+ h.mana[u.id]=Math.min(100,(h.mana[u.id]??100)+25);
  const stun=getStatus(b,u,'stun');
  return !!stun;
 }
@@ -278,7 +307,7 @@ function afterHit(s,b,actor,target,hit,trace,deal){
  if(kind==='thirdBonus'&&h.hits[actor.id]%3===0)used=true;
  if(kind==='thirdPierce'&&h.hits[actor.id]%3===0)used=true;
  if(used){
-  commit(b,actor,t);note(b,t,actor.name+' kích hoạt '+t.name);
+  commit(b,actor,t);note(b,t,actor.name+' kích hoạt '+t.name,actor);
  }
  return extra;
 }
@@ -334,11 +363,14 @@ function skillText(b,u){
  const h=stateOf(b),until=h?.cd[u.id+':'+t.kind]||0;
  const passive=['guard','rangedGuard','meleeGuard','firstGuard','thirdBonus','thirdPierce',
   'rage','wounded','antiMelee','antiRanged','killBuff'];
- return t.name+(passive.includes(t.kind)?' · Nội tại':until>b.turn?' · CD '+(until-b.turn):' · sẵn sàng');
+ const energy=skillReadiness(b,u);
+ return t.name+(passive.includes(t.kind)?' · Nội tại':
+  until>b.turn?' · CD '+(until-b.turn)+' · MP '+energy.mp+'/100':
+  energy.mp<100?' · MP '+energy.mp+'/100':' · sẵn sàng');
 }
 Object.assign(E,{HG40_TRAITS:TRAITS,hg40PrepareBattle:prepare,hg40BeforeAction:beforeAction,
  hg40MoveModifier:movement,hg40PlanStrike:plan,hg40Absorb:absorb,
  hg40AfterHit:afterHit,hg40EndTurn:endTurn,hg40StatusText:statusText,
- hg40SkillText:skillText,hg40TargetScore:targetScore});
+ hg40SkillText:skillText,hg40SkillReadiness:skillReadiness,hg40TargetScore:targetScore});
 root.HOG_HG40=Object.freeze({version:1,traits:40,save:7,mode:'deterministic-auto-tactical'});
 })(typeof globalThis!=='undefined'?globalThis:this);
