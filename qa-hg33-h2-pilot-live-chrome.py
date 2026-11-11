@@ -108,6 +108,28 @@ def set_enemy_observation_fixture(page, stack_id: str, attack: int) -> dict:
     }""", {"stackId": stack_id, "attack": attack})
 
 
+def accepted_battle_turn(page, command: str) -> dict:
+    """Click the real combat button only when the production animation lock permits.
+    Do not call battleAct directly, bypass the lock, or fabricate a hit.
+    """
+    before=page.evaluate("HOG_APP_DEBUG.getState().battle?.turn")
+    if before is None:raise AssertionError("No live battle before "+command)
+    for attempt in range(3):
+        page.locator(f'[data-action="battle"][data-cmd="{command}"]').click()
+        after=page.evaluate("HOG_APP_DEBUG.getState().battle?.turn")
+        if after is not None and after>before:
+            return {"before":before,"after":after,"attempts":attempt+1}
+        # A blocked input is expected during genuine HG58 animation playback.
+        # Wait the source renderer's actual turn length at x1/x2/x3 before retry.
+        duration=page.evaluate("""() => {
+          const b=HOG_APP_DEBUG.getState().battle;
+          const speed=HOG_APP_DEBUG.battleViewPrefs().speed;
+          return Math.max(900,Math.ceil((HOG_PAINTER.battleTimelineTurnDuration(b)||900)/speed));
+        }""")
+        page.wait_for_timeout(duration+180)
+    raise AssertionError("Real combat turn remained locked: "+command+" from "+str(before))
+
+
 def get_action_receipt(page, stack_id: str, expected_action: str, event_kind: str) -> dict:
     return page.evaluate("""({stackId,expectedAction,eventKind})=>{
       const s=HOG_APP_DEBUG.getState(),b=s?.battle,all=[...(b?.allies||[]),...(b?.enemies||[])],u=all.find(x=>x.id===stackId),
@@ -259,7 +281,7 @@ def run_troop_pilot(browser, pilot: dict) -> None:
     fixture = set_enemy_observation_fixture(page, first_id, 20)
     check(f"{name} defender can deal a real nonlethal hit", fixture["strict"], fixture)
     if battlefield_click(page, first_id, name):
-        page.locator('[data-action="battle"][data-cmd="defend"]').click()
+        accepted_battle_turn(page,"defend")
         page.wait_for_timeout(260)
     hit_target = page.evaluate("ids=>{const b=HOG_APP_DEBUG.getState()?.battle;return b?.lastEvents?.find(e=>ids.includes(b.allies.find(u=>u.id===e.targetId)?.id)&&e.damage>0)?.targetId||null}", pilot_ids)
     hit = get_action_receipt(page, hit_target, "hit", "target") if hit_target else {"battle": False, "event": None}
@@ -278,7 +300,8 @@ def run_troop_pilot(browser, pilot: dict) -> None:
       return {version:s.version,key:localStorage.getItem('heoofgaia_hg_only_v07')!==null,battle:!!b,battleUnitCount:total,pool:u?.pool,
         hitEvent:b?.lastEvents?.find(e=>e.targetId===target&&e.damage>0),strict:HOG_ENGINE.strictSave(s)}}""", {"id": unit_id, "target": hit_target})
     check(f"{name} Hit receipt and battle survive strict Save v07 reload", loaded["version"] == 7 and loaded["key"] and
-          loaded["battle"] and loaded["battleUnitCount"] == 2 and loaded["pool"] > 0 and loaded["hitEvent"] == hit["event"] and loaded["strict"], loaded)
+          loaded["battle"] and loaded["battleUnitCount"] == 2 and isinstance(loaded["pool"],(int,float)) and
+          loaded["pool"] > 0 and loaded["hitEvent"] == hit["event"] and loaded["strict"], loaded)
 
     page.evaluate("""id=>{window.__hg33PilotSamples=[];window.__hg33TargetAtlasId=HOG_HG33_TROOP_ATLASES.resolve(id)?.imageId;
       const p=CanvasRenderingContext2D.prototype,draw=p.drawImage;
@@ -290,7 +313,7 @@ def run_troop_pilot(browser, pilot: dict) -> None:
           len(page.evaluate("id=>HOG_APP_DEBUG.getState().battle.allies.filter(u=>u.unitId===id&&u.pool>0)", unit_id)) == 2,
           death_fixture)
     if battlefield_click(page, first_id, name + " before Death_A"):
-        page.locator('[data-action="battle"][data-cmd="defend"]').click()
+        accepted_battle_turn(page,"defend")
         page.wait_for_timeout(260)
     death_target = page.evaluate("ids=>{const b=HOG_APP_DEBUG.getState()?.battle;return b?.lastEvents?.find(e=>e.death&&ids.includes(b.allies.find(u=>u.id===e.targetId)?.id))?.targetId||null}", pilot_ids)
     death = get_action_receipt(page, death_target, "death", "target") if death_target else {"battle": False, "event": None}
@@ -325,7 +348,7 @@ def run_boss_pilot(browser) -> None:
         return draw.call(this,img,...args)}}""")
     page.wait_for_function("window.__hg33BossSamples.some(x=>x.row===0)", timeout=5_000)
     check("Real Azrael battle renders the original Idle_A atlas row", page.evaluate("window.__hg33BossSamples.some(x=>x.row===0)"))
-    page.locator('[data-action="battle"][data-cmd="attack"]').click()
+    accepted_battle_turn(page,"attack")
     page.wait_for_function("window.__hg33BossSamples.some(x=>x.row===1)", timeout=3_000)
     save_shot(page, "azrael-walk", 1280, 720)
     boss_walk = page.evaluate("id=>{const b=HOG_APP_DEBUG.getState().battle;return b.lastEvents.find(e=>e.actorId===id)||null}", boss["id"])
@@ -345,7 +368,7 @@ def run_boss_pilot(browser) -> None:
       b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""", boss["id"])
     allies = state["allies"]
     first_ally = allies[0]
-    page.locator('[data-action="battle"][data-cmd="defend"]').click()
+    accepted_battle_turn(page,"defend")
     page.wait_for_timeout(260)
     boss_attack = get_action_receipt(page, boss["id"], "attack", "actor")
     check("Azrael's real hostile turn renders the original Attack_A atlas row", boss_attack["event"] and
@@ -358,7 +381,7 @@ def run_boss_pilot(browser) -> None:
     page.evaluate("""bossId=>{const s=HOG_APP_DEBUG.getState(),b=s.battle,boss=b.enemies.find(e=>e.id===bossId),a=b.allies[0];
       b.enemies.forEach((e,i)=>{e.atk=0;e.pool=e.hp=1_000_000;e.def=0;e.count=1;e.x=i===0?a.x+1:11;e.y=i===0?a.y:8-i});
       boss.atk=0;boss.x=a.x+1;boss.y=a.y;b.autoUntil=Date.now()+600_000;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""", boss["id"])
-    page.locator('[data-action="battle"][data-cmd="attack"]').click()
+    accepted_battle_turn(page,"attack")
     page.wait_for_timeout(260)
     boss_hit = get_action_receipt(page, boss["id"], "hit", "target")
     check("Real player damage selects and renders Azrael Hit_A", boss_hit["event"] and boss_hit["event"]["damage"] > 0 and
@@ -371,7 +394,7 @@ def run_boss_pilot(browser) -> None:
       boss.hp=1;boss.pool=1;boss.def=0;boss.atk=0;boss.count=1;boss.x=a.x+1;boss.y=a.y;
       b.enemies.filter(e=>e.id!==bossId).forEach(e=>{e.atk=0;e.pool=e.hp=1_000_000;e.x=11;e.y=8});
       b.autoUntil=Date.now()+600_000;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""", boss["id"])
-    page.locator('[data-action="battle"][data-cmd="attack"]').click()
+    accepted_battle_turn(page,"attack")
     page.wait_for_timeout(260)
     boss_death = get_action_receipt(page, boss["id"], "death", "target")
     check("Actual player attack kills Azrael and renders the original Death_A row", boss_death["event"] and
