@@ -1,0 +1,76 @@
+name: HG57 Smooth Phased Combat – Heroes, Hex Movement and UX
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'engine.js'
+      - 'painter.js'
+      - 'app.js'
+      - 'index.html'
+      - 'style-hg57.css'
+      - 'build_offline.py'
+      - 'qa-hg57-combat.cjs'
+      - 'qa-hg57-chrome.py'
+      - '.github/workflows/hg57-smooth-combat.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: hg57-combat-release-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  smooth-serial-battle:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Exact source SHA, real two-sided battle and Save v07
+        run: |
+          echo "HG57_SOURCE_SHA=$(git rev-parse HEAD)"
+          node --check engine.js
+          node --check painter.js
+          node --check app.js
+          node qa-hg57-combat.cjs
+          node qa-hg50-boss-phases.cjs
+          node qa-hg50-replay.cjs
+      - name: Build one playable HTML only
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          python - <<'PY'
+          from pathlib import Path
+          text=Path('Play-Heoofgaia-HG11.html').read_text(encoding='utf8')
+          assert text.count('<script>')==39
+          assert 'battleVisualSchedule' in text and 'hg57-commander-strip' in text
+          assert 'battle-labels' in text and 'style-hg57.css' not in text
+          print('HG57 SINGLE OFFLINE HTML PASS')
+          PY
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Chromium real file 3 viewports, 2-side commanders and controls
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python -m py_compile qa-hg57-chrome.py
+          python qa-hg57-chrome.py
+      - name: Screenshots, engine, Chromium QA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG57-Combat-Visual-Evidence
+          path: |
+            docs/qa/hg57/*.json
+            docs/evidence/hg57/*.png
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: Downloadable single HTML game
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG57-Playable-Single-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error
