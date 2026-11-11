@@ -80,7 +80,8 @@ function prepare(s,b){
   u.hp=Math.max(1,Math.round(oldHp*p.boost.hp));
   u.atk=Math.max(1,Math.round(u.atk*p.boost.atk));
   u.def=Math.max(0,Math.round(u.def*p.boost.def));
-  u.spd=Math.round((u.spd+p.boost.spd)*100)/100;
+  // HG76: commander SPD is world-map/scouting metadata, not a combat buff.
+  // Preserve the legacy boost receipt shape for Save v07, but do not apply it.
   u.pool=Math.min(u.count*u.hp,Math.max(1,Math.ceil(u.count*u.hp*ratio)));
   u.count=Math.ceil(u.pool/u.hp);
  }
