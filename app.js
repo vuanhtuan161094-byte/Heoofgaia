@@ -425,7 +425,11 @@ function hg63CaptureBattleReport(beforeBattle,before,terminal){
   tower:beforeBattle.kind==='tower'&&nowTower&&nowTower!==previousTower?{
    claimed:!!nowTower.claimed,
    essence:Math.max(0,Number(state.hg20?.tower?.essence||0)-Number(before?.towerEssence||0)),
-   resources:walletDelta(C.keys,state.res,before?.resources),
+   // The HG409 commander is paid into the same wallet as the Tower reward.
+   // Render it separately rather than repeating it inside the Tower subtotal.
+   resources:Object.fromEntries(C.keys.map(k=>[k,Math.max(0,
+    Number(state.res?.[k]||0)-Number(before?.resources?.[k]||0)-
+    Number(r409&&r409!==before?.r409?r409.resources?.[k]||0:0))])),
    floor:nowTower.floor
   }:null
  };

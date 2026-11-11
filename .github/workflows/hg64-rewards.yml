@@ -1,0 +1,55 @@
+name: HG64 Real Boss and Tower Reward Receipt Chromium
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths: [app.js, qa-hg64-rewards-chrome.py, .github/workflows/hg64-rewards.yml]
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  real-boss-tower:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Exact SHA and combat/loot regression
+        run: |
+          echo "HG64_SHA=$(git rev-parse HEAD)"
+          node --check app.js
+          node qa-hg31-legendary.cjs
+          node qa-hg47-10slot.cjs
+          node qa-hg58-combat.cjs
+      - name: Build single deterministic offline HTML
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Chromium Boss real victory and Tower actual reward at landscape
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python qa-hg64-rewards-chrome.py
+      - name: Actual screenshots and receipt assertions
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG64-Boss-Tower-Receipt-Evidence
+          path: |
+            docs/qa/hg64/*.json
+            docs/evidence/hg64/*.png
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: Single HTML release candidate
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG64-Verified-Offline-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error
