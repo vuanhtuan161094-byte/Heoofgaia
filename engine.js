@@ -523,10 +523,11 @@ function battleAct(s,action,options){
  // Defense is active for the whole current turn, even if a faster enemy moves
  // before the defending group. It costs that group its attack this turn.
  for(const u of alive(b.allies))if(b.orders[u.id]==='defend')u.guardTurn=b.turn;
- // 2009 Chinese player guidance describes speed-descending turns, then the
- // left formation column top-to-bottom followed by the next column. Keep the
- // equal-speed tie-break tied to the actual battlefield positions.
- const participants=[...alive(b.allies),...alive(b.enemies)].sort((x,y)=>y.spd-x.spd||x.x-y.x||x.y-y.y||x.id.localeCompare(y.id));
+ // HG57: sequential side phases. Friendly stacks resolve all movement
+ // and strikes, then surviving defenders respond. SPD orders actors INSIDE
+ // a side, preserving two-column formation tie breaks and canonical Save v07.
+ const sideOrder=(a,c)=>c.spd-a.spd||a.x-c.x||a.y-c.y||a.id.localeCompare(c.id);
+ const participants=[...alive(b.allies).sort(sideOrder),...alive(b.enemies).sort(sideOrder)];
  let dealt=0,lost=0;const acted=[],lastTargets={},lastMoves=[],lastEvents=[],origins=new Map(participants.map(u=>[u.id,{x:u.x,y:u.y}]));
  const record=(actor,target=null,damage=0,path=null,order='attack',casualties=0)=>{const from=origins.get(actor.id),to={x:actor.x,y:actor.y},route=path?.length?path:(from.x!==to.x||from.y!==to.y?[to]:[]);lastEvents.push({actorId:actor.id,from,to,path:route,targetId:target?.id||null,damage,death:!!(damage>0&&target?.pool<=0),order,casualties})};
  for(const actor of participants){
