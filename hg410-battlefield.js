@@ -24,6 +24,33 @@ function stackCount(kind,cs,boss){
  if(cs<=4)return 8;
  return 12;
 }
+// HG61: one enemy uses exactly one canonical troop identity for art, 
+// animation and HG40 active/passive skill. Original troop stats are NOT
+// copied: HG40.9 remains the sole authority for NPC/CS encounter strength.
+// The roster is deterministic from the target, tier and actor slot. No RNG,
+// new Save version, extra troop objects, currencies or ability cooldowns.
+const PVE_TIERS=Object.freeze([1,3,4,6,5,8,7,9,10,2,4,6,8,5,9,10]);
+const PVE_RACES=Object.freeze(['undead','orc','human','elf']);
+function enemyTemplate(b,i,cs,boss){
+ const seed=String(b.target||'tower').split('').reduce((h,ch)=>(h*31+ch.charCodeAt(0))%65521,0)+
+  (b.hg21Tower?.floor||0);
+ const race=PVE_RACES[(seed+Math.floor(i/3))%PVE_RACES.length];
+ const maxTier=cs<=2?4:cs<=4?6:cs<=7?8:10;
+ const tier=Math.min(10,Math.max(1,boss?Math.max(6,PVE_TIERS[i%16]+Math.floor((cs-1)/4)):
+  Math.min(maxTier,PVE_TIERS[i%16]+Math.floor((cs-1)/3))));
+ return E.C.units[race][tier-1];
+}
+function tagEnemy(u,source,b,i,cs,boss){
+ // A first-row named Boss keeps its uniquely authored Boss atlas and name.
+ // Further groups use already-approved HG33 troop atlases and HG40 traits.
+ const troop=enemyTemplate(b,i,cs,boss);
+ const bossArt=!!root.HOG_HG33_TROOP_ATLASES?.resolve?.(null,source.name);
+ const namedLeader=boss&&i<Math.min(3,b.enemies.length)&&bossArt;
+ u.unitId=troop.id;
+ u.range=E.unitTacticalRange(troop);
+ if(!namedLeader)u.name=troop.name+(boss?' · Hộ vệ':' · Quái');
+ return u;
+}
 function minimumTroops(cs,boss){
  // No army-command ceiling for PvE. Increasing CS raises actual living count,
  // never only a visual label or the displayed power estimate.
@@ -79,6 +106,7 @@ function prepare(s,b){
   u.count=finiteCount(Math.max(source.count,minimum),u.hp);
   u.initial=u.count;
   u.pool=u.count*u.hp;
+  tagEnemy(u,source,result,i,cs,boss);
   rebuilt.push(u);
  }
  result.enemies=rebuilt;
@@ -89,6 +117,7 @@ function prepare(s,b){
  result.hg410={v:1,cs,boss,enemyStacks:result.enemies.length,
   enemyTroops:result.enemies.reduce((sum,u)=>sum+u.count,0),
   formation:'two-columns',ranged:[1,E.TACTICAL_RANGE.ranged,E.TACTICAL_RANGE.eliteRanged]};
+ result.history.unshift('HG61: '+result.enemies.length+' đội địch dùng binh chủng HG33/HG40 có hình, kỹ năng và hồi chiêu thực.');
  result.history.unshift('HG41: Địch '+result.enemies.length+' đội / '+
   result.hg410.enemyTroops+' quân; hai cột sát mép mỗi phe, cận chiến 1 ô, cung 4–5 ô.');
  result.history.length=Math.min(result.history.length,12);

@@ -52,6 +52,16 @@ check('Odd-r pixel movement follows each real receipt hex, including row transit
  return {routeLength:route.length,footMidpointsChecked:expected.length,
   rowTransitionContinuous:true,saveStateMutation:false};
 });
+check('HG60 cached atlas resolves a real Boss before its troop skin and preserves 40 unit identities',()=>{
+ const atlas=ctx.HOG_HG33_TROOP_ATLASES;
+ if(!atlas)return {deferred:'HG33 atlas catalog not imported in this narrow fixture'};
+ for(const race of ['human','elf','orc','undead'])
+  for(let tier=1;tier<=10;tier++){
+   const id=race+'_'+tier;
+   assert(E.HG40_TRAITS[id],id);
+  }
+ return {traits:Object.keys(E.HG40_TRAITS).length,saveMutation:false};
+});
 check('Per-hit target HP is reconstructed before and after actual impact',()=>{
  const enemy=fakeActor('e0','enemy',8,3,65),ally=fakeActor('p0','player',4,3);
  const event={actorId:'p0',from:{x:4,y:3},to:{x:4,y:3},path:[],

@@ -172,8 +172,8 @@ with sync_playwright() as pw:
     }""")
     check("Actual map march enters canonical Azrael sixteen-stack combat",
           encounter["valid"] and len(encounter["enemies"])==16 and
-          set(encounter["enemies"])=={"Azrael","Demonlord Samurai","Cyclop Tyrant"} and
-          encounter["enemies"][0:3]==["Azrael","Demonlord Samurai","Cyclop Tyrant"],encounter)
+          encounter["enemies"][0:3]==["Azrael","Demonlord Samurai","Cyclop Tyrant"] and
+          all(bool(name) for name in encounter["enemies"][3:]),encounter)
     for w,h in ((1280,720),(960,540)):
         pose(page,w,h,"boss-sixteen")
         # Click the first visible Boss by its real nameplate, not by a forced

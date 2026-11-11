@@ -895,7 +895,19 @@ function animatedSoldier(c,x,y,enemy,visual,k=1){
  const width=clamp(112*k,18,134),height=width*204/192;c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(enemy)c.scale(-1,1);
  c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,-height*.985,width,height);c.restore();return true;
 }
-function troopAtlasDefinition(unitId,actorName=''){return root.HOG_HG33_TROOP_ATLASES?.resolve?.(unitId,actorName)||root.HOG_HG33_TROOP_ATLASES?.units?.[unitId]||null}
+// HG60: repeated asset resolution previously normalized every Boss name and
+// re-resolved atlases for each frame, sprite, label and VFX. One bounded
+// presentation-only cache; preserve named Boss priority and all animation.
+const troopAtlasCache=new Map();
+function troopAtlasDefinition(unitId,actorName=''){
+ const key=String(unitId||'')+'|'+String(actorName||'');
+ if(troopAtlasCache.has(key))return troopAtlasCache.get(key);
+ const atlas=root.HOG_HG33_TROOP_ATLASES,
+  value=atlas?.resolve?.(unitId,actorName)||atlas?.units?.[unitId]||null;
+ if(troopAtlasCache.size>=128)troopAtlasCache.clear();
+ troopAtlasCache.set(key,value);
+ return value;
+}
 function troopAtlasFrame(unitId,action,time=0,duration=null,actorName=''){
  const unit=troopAtlasDefinition(unitId,actorName);if(!unit)return null;
  const clip=unit.actions[action]||unit.actions.idle,ms=Math.max(1,duration||clip.durationMs),t=Math.max(0,Number.isFinite(time)?time:0),raw=Math.floor(t/ms*clip.count),frame=clip.loop?raw%clip.count:Math.min(clip.count-1,raw);

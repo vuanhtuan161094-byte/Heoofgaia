@@ -63,7 +63,8 @@ with sync_playwright() as p:
           return {ready:E.hg21TowerReadiness(s),
             climbDisabled:document.querySelector('[data-action="tower-climb"]').disabled,
             choices:[...document.querySelectorAll('.hg28-tower-slots select')].map(x=>x.value),
-            garrison:s.army.human_1,resources:{...s.res}};
+            garrison:s.army.human_1,resources:{...s.res},lastTick:s.lastTick,speed:s.speed,
+            rates:E.rate(s),limits:E.limits(s)};
         }""")
         check(f'{w}x{h} empty Tower choices block phantom battle',
               not before['ready']['ready'] and before['climbDisabled'] and
@@ -75,15 +76,24 @@ with sync_playwright() as p:
             choices:[...document.querySelectorAll('.hg28-tower-slots select')].map(x=>x.value),
             perHero:[...s.hg20.tower.picks].map(x=>({
               id:x.heroId,slots:x.slots,formation:E.hg20HeroPlan(s,x.heroId)})),
-            garrison:s.army.human_1,resources:{...s.res},valid:E.strictSave(s),
+            garrison:s.army.human_1,resources:{...s.res},lastTick:s.lastTick,valid:E.strictSave(s),
             text:document.querySelector('#hg36-tower-readiness')?.textContent};
         }""")
+        # Auto-assignment itself must never credit resources. Clock ticks may
+        # legitimately produce income between DOM interactions (60x time).
+        # Match the actual engine production accrued between the two Save ticks.
+        game_seconds=max(0,(after['lastTick']-before['lastTick'])/1000)*(60 if before['speed']==60 else 1)
+        expected={k:min(before['limits'][k],v+before['rates'][k]*game_seconds/3600)
+                  for k,v in before['resources'].items()}
+        no_phantom_income=all(abs(after['resources'][k]-expected[k])<=0.05
+                              for k in before['resources'])
         check(f'{w}x{h} auto-splits existing 16 soldiers, never mints new troops',
               after['ready']['ready'] and after['ready']['heroes']==heroes and
               after['ready']['units']==16 and after['ready']['stacks']>=heroes and
               after['valid'] and not after['climbDisabled'] and
-              after['garrison']==16 and after['resources']==before['resources'] and
-              all(x['slots'] for x in after['perHero']),after)
+              after['garrison']==16 and no_phantom_income and
+              all(x['slots'] for x in after['perHero']),
+              {**after,'expectedPassiveProduction':expected,'noPhantomIncome':no_phantom_income})
         screenshot(page,f'tower-roster-{w}x{h}.png')
         page.locator('[data-action="tower-climb"]').click()
         opened=page.evaluate("""() => {
