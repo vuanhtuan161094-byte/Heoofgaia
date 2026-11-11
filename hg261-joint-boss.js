@@ -223,7 +223,7 @@ function annotate(s){
   byHero[hero.id]=(byHero[hero.id]||0)+1;
   if(byHero[hero.id]>2)throw Error('Một tướng vượt hai stack');
   actor.heroId=hero.id;actor.heroName=hero.name;actor.sourceSlot=i;
-  actor.spd=Math.max(.1,E.getUnit(s,actor.unitId).spd+E.heroSpeedAdjustment(E.heroStats(s,hero.id).spd));
+  actor.spd=E.getUnit(s,actor.unitId).spd; // World-only SPD; no combat buffs
  }
  b.hg261Joint={version:1,team:membership,slotsPerHero:2};
  b.heroCastTurn={};b.heroSpellCooldown={};b.heroEffects=[];b.heroMovementInstinct={};
