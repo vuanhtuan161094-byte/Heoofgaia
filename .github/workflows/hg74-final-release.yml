@@ -1,4 +1,4 @@
-name: HG74 Final Playable Release - Core Gates and One Offline HTML
+name: HG75 Tactical Combat Release - Core Gates and One Offline HTML
 on:
   workflow_dispatch:
   push:
@@ -10,6 +10,9 @@ on:
       - 'app.js'
       - 'engine.js'
       - 'hg40-tactical.js'
+      - 'hg43-troop-profiles.js'
+      - 'qa-engine.cjs'
+      - 'qa-hg75-chrome.py'
       - 'qa-hg75-tactics.cjs'
       - 'painter.js'
       - 'style-hg57.css'
@@ -40,6 +43,7 @@ jobs:
           node --check hg73-gear-prestige.js
           node --check app.js
           node --check engine.js
+          node --check hg43-troop-profiles.js
           node --check qa-hg75-tactics.cjs
           node --check painter.js
           node --check qa-hg74-release-check.cjs
@@ -88,6 +92,8 @@ jobs:
         run: python qa-hg44-journey-chrome.py
       - name: True live 8 battle controls, original 40 skills and hitboxes
         run: python qa-hg40-real-skill-chrome.py
+      - name: HG75 live four-viewport surrender, real fast-forward and Save v07
+        run: python qa-hg75-chrome.py
       - name: Real 10-slot inventory, eight item tiers, icy aura, Save/Load
         run: |
           python qa-hg72-inventory-chrome.py
@@ -113,6 +119,7 @@ jobs:
             docs/qa/hg72/*.json
             docs/qa/hg73/*.json
             docs/qa/hg75/*.json
+            docs/evidence/hg75/*.png
             docs/evidence/hg44/*.png
             docs/evidence/hg50/*.png
             docs/evidence/hg57b/*.png
@@ -123,7 +130,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: HEOOFGAIA-HG74-ONE-HTML-WINDOWS-ANDROID
+          name: HEOOFGAIA-HG75-ONE-HTML-WINDOWS-ANDROID
           path: Play-Heoofgaia-HG11.html
           if-no-files-found: error
           retention-days: 30
