@@ -148,8 +148,8 @@ try:
       outcome:t.last?.outcome,turns:t.last?.turns,
       garrison:s.army.human_1,valid:HOG_ENGINE.strictSave(s)};
   }""")
-  check('Unfunded 16-soldier Tower defeat grants zero claims and preserves real army',
-    not unpaid['battle'] and unpaid['floor']==1 and unpaid['claims']==0 and
+  check('Unfunded Tower defeat consumes exactly one endurance life; real army untouched',
+    not unpaid['battle'] and unpaid['floor']==1 and unpaid['claims']==1 and
     unpaid['outcome']=='lose' and unpaid['turns']>=1 and
     unpaid['garrison']==16 and unpaid['valid'],unpaid)
   # A real gameplay upgrade, not a QA troop grant: pay for another 45 Spear
@@ -216,7 +216,7 @@ try:
   check('Tower is still on floor 1 with exactly zero rewards before the funded attempt',
     page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
-      return s.hg20.tower.floor===1&&s.hg20.tower.claims===0&&
+      return s.hg20.tower.floor===1&&s.hg20.tower.claims===1&&
         HOG_ENGINE.strictSave(s);
     }"""))
   page.locator('[data-action="tower-climb"]').click()
@@ -257,7 +257,7 @@ try:
     return {battle:!!s.battle,floor:t.floor,claims:t.claims,outcome:t.last?.outcome,
       turns:t.last?.turns,garrison:s.army.human_1,save:HOG_ENGINE.strictSave(s)};
   }""")
-  check('Funded real 61-soldier tactical victory pays exactly one of five daily claims',
+  check('Funded Tower win advances floor without consuming another endurance life',
     not funded['battle'] and funded['floor']==2 and funded['claims']==1 and
     funded['outcome']=='win' and funded['turns']>=1 and
     funded['garrison']==61 and funded['save'],funded)

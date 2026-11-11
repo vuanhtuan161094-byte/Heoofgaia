@@ -40,6 +40,7 @@ with sync_playwright() as pw:
    guide.is_visible() and guide.locator('.hg44-journey-next button[data-action="tab"]').count()==1)
   before=page.evaluate("""() => {
    const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
+   window.__hg44Baseline=E.clone(s);
    return {res:{...s.res},training:s.training.length,cities:s.cities.length,
     version:s.version,valid:E.strictSave(s),battle:!!s.battle};
   }""")
@@ -87,11 +88,22 @@ with sync_playwright() as pw:
    page.locator('.hg28-tab-city').count()==1 and page.locator('#game-modal').is_visible())
   after=page.evaluate("""() => {
    const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
-   return {res:{...s.res},training:s.training.length,cities:s.cities.length,
+   const expected=E.clone(window.__hg44Baseline);
+   E.tick(expected,s.lastTick);
+   return {res:{...s.res},expectedRes:{...expected.res},
+    training:s.training.length,cities:s.cities.length,
     version:s.version,valid:E.strictSave(s),battle:!!s.battle};
   }""")
-  check(label+' roadmap navigation creates no resources, troops, combat or extra cities',
-   before==after,{'before':before,'after':after})
+  # Real 60x economy continues producing while the player navigates.
+  # Compare live resources to a separately cloned untouched Save advanced
+  # through the same canonical E.tick(now), not against frozen time.
+  # This catches any UI-only reward while allowing genuine production.
+  same_economy=all(abs(after['res'][k]-after['expectedRes'][k])<.01 for k in before['res'])
+  check(label+' roadmap navigation grants nothing beyond genuine production',
+   same_economy and before['training']==after['training'] and
+   before['cities']==after['cities'] and before['version']==after['version'] and
+   before['battle']==after['battle'] and after['valid'],
+   {'before':before,'after':after})
   check(label+' no uncaught JS runtime errors',not any(err['viewport']==label for err in errors),errors)
   ctx.close()
  browser.close()

@@ -12,6 +12,8 @@ on:
       - 'style-hg57.css'
       - 'build_offline.py'
       - 'qa-hg74-release-check.cjs'
+      - 'qa-hg44-journey-chrome.py'
+      - 'qa-hg181-window-chrome.py'
       - '.github/workflows/hg74-final-release.yml'
 permissions:
   contents: read
