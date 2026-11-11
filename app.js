@@ -15,6 +15,7 @@ let hg43ArmyPage='recruit',hg43ArmyRace='human';
 let hg408InspectId=null,hg408Tab='overview',hg408DismissFor=null,hg408DismissStage=0;
 // HG46 view-only filter/pagination; never persisted in Save v07.
 let hg46GearFilter='all',hg46GearPage=0,hg47RaceView=null,hg47TierView='rare';
+let hg63SeenReportId=null,hg63OpenReport=null;
 const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['boss','☠ Boss'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -107,7 +108,9 @@ function resolveAutomaticBattleTurn(){
    b.focused=null;
    for(const unit of b.allies)if(b.orders[unit.id]==='focus')b.orders[unit.id]='attack';
   }
+  const hg63Before=hg63BattleSnapshot();
   const wasTower=!!b.hg21Tower,out=E.battleAct(s,'attack',{preserveMoveOrders:true,stableTargets:true});
+  hg63CaptureBattleReport(b,hg63Before,out);
   if(s.battle===b)combatVisualLockUntil=performance.now()+combatTurnWallMs(b);
   if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';
   if(out.type==='lose')tab=wasTower?'tower':'heroes';
@@ -217,9 +220,9 @@ function syncCombatTurnHUD(){
 }
 function toast(message){const n=$('toast');n.textContent=message;n.classList.add('show');lastToast=Date.now();setTimeout(()=>{if(Date.now()-lastToast>=2700)n.classList.remove('show')},2800)}
 function fail(fn){try{
- const oldTab=tab,oldBattle=state?.battle;
+ const oldTab=tab,oldBattle=state?.battle,hg63Before=hg63BattleSnapshot();
  if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;
- fn();if(oldTab!==tab)modalOffset=0;save();
+ fn();hg63CaptureBattleReport(oldBattle,hg63Before);if(oldTab!==tab)modalOffset=0;save();
  // A selection, command, or spell inside the SAME battle must not destroy
  // the RAF/canvas. New battles, terminal outcomes and tab changes still take
  // the full authoritative render path.
@@ -366,6 +369,103 @@ function cityTransportForm(target){
  const units=E.arrUnits(state).filter(u=>(state.army[u.id]||0)>0),busy=!!state.march||!!state.battle||!!state.expedition||!!state.parallelMarches?.length;
  const unitOptions=units.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(state.army[u.id])} sẵn có · tải ${u.load}</option>`).join('');
  return `<section class="card city-transport"><div class="heading">🚚 Gửi tiếp tế tới ${esc(target.name)}</div><p class="hint">Hướng dẫn Trung Quốc 2009 SRC59 xác nhận phải điều quân chở tài nguyên, tính sức tải, và mỗi chuyến tốn 20 AP. Tải dùng bảng quân: 1 điểm tải = 10 vàng tương đương; Gỗ/Quặng ×5, Lưu huỳnh/Pha lê ×10. ETA, tự giao khi kho đủ chỗ và đường về là mô hình của bản dựng.</p>${units.length?`<div class="grid grid2"><label>Quân vận chuyển<select id="city-transport-unit">${unitOptions}</select></label><label>Số quân<input id="city-transport-count" type="number" min="1" step="1" value="1"></label></div><div class="grid grid3">${C.keys.map(k=>`<label>${(ico(k,20)||C.resource[k].emoji)} ${C.resource[k].label}<input id="city-transport-${k}" type="number" min="0" step="1" value="0"></label>`).join('')}</div><div class="actions">${button('city-transport',{city:target.id},'🚚 Gửi đoàn tiếp tế · 20 AP',busy||state.ap<20||state.cityTransports.length>=20,'primary')}</div>`:`<p class="notice">Thành đang mở không có quân sẵn để làm đoàn vận chuyển.</p>`}<p class="tiny muted">Quân và tài nguyên rời kho ngay khi xuất phát. Nếu kho đích chưa đủ chỗ cho toàn bộ hàng, đoàn sẽ chờ tại nơi nhận mà không làm mất hàng.</p></section>`;
+}
+function hg63BattleSnapshot(){
+ return {r29:state?.hg29?.last||null,r47:state?.hg47?.last||null,r409:state?.hg409?.rewards?.[0]||null};
+}
+function hg63CaptureBattleReport(beforeBattle,before,terminal){
+ if(!beforeBattle||!state||state.battle===beforeBattle)return;
+ const latest=state.battleReports?.[0]||null;
+ const canonical=latest&&latest.id!==hg63SeenReportId&&latest.target===beforeBattle.target;
+ const outcome=terminal?.type&&terminal.type!=='continue'?terminal.type:
+  beforeBattle.enemies?.every(u=>u.pool<=0)?'win':beforeBattle.allies?.every(u=>u.pool<=0)?'lose':'retreat';
+ const report=canonical?latest:{
+  id:'display-'+String(Date.now())+'-'+String(beforeBattle.turn||0),
+  target:beforeBattle.target||'',name:beforeBattle.name||('Bí Cảnh / '+(beforeBattle.target||'giao tranh')),
+  outcome,turns:Math.max(0,(beforeBattle.turn||1)-1),kind:beforeBattle.kind||'tower',
+  heroName:state.heroes?.find(h=>h.id===state.activeHero)?.name||'Đội hình',
+  allies:(beforeBattle.allies||[]).map(u=>({name:u.name,initial:u.initial,survived:u.count,lost:Math.max(0,u.initial-u.count),wounded:null})),
+  enemies:(beforeBattle.enemies||[]).map(u=>({name:u.name,initial:u.initial,survived:u.count,lost:Math.max(0,u.initial-u.count)})),
+  items:null,resources:null,heroXp:null,fame:null
+ };
+ if(canonical)hg63SeenReportId=report.id;
+ const same=(a,b)=>a===b||(a?.ordinal!==undefined&&a.ordinal===b?.ordinal&&a.target===b?.target);
+ const r29=state.hg29?.last||null,r47=state.hg47?.last||null,r409=state.hg409?.rewards?.[0]||null;
+ const extra={
+  fragments:r29&&!same(r29,before?.r29)?r29:null,
+  gearFragments:r47&&!same(r47,before?.r47)?r47:null,
+  commander:r409&&r409!==before?.r409?r409:null
+ };
+ hg63OpenReport={report,extra};
+}
+function hg63CloseReport(history=false){
+ hg63OpenReport=null;
+ document.getElementById('hg63-battle-result')?.remove();
+ if(history){tab='reports';modalOffset=0;showWorldIndex=false;showResourceInfo=false;render()}
+}
+function hg63ShowReport(){
+ const entry=hg63OpenReport,existing=document.getElementById('hg63-battle-result');
+ if(!entry){existing?.remove();return}
+ if(existing?.dataset.reportId===entry.report.id)return;
+ existing?.remove();
+ const r=entry.report,x=entry.extra||{},winning=r.outcome==='win';
+ const titles={win:'CHIẾN THẮNG',lose:'THẤT BẠI',timeout:'HẾT THỜI GIAN',retreat:'RÚT LUI'};
+ const resourceText=(resources)=>Object.entries(resources||{}).filter(([,n])=>Number(n)>0)
+  .map(([k,n])=>'<span class="hg63-reward-token">'+esc(C.resource[k]?.emoji||'✦')+' +'+format(n)+' '+esc(C.resource[k]?.label||k)+'</span>').join('');
+ const materialsText=(materials)=>Object.entries(materials||{}).filter(([,n])=>Number(n)>0)
+  .map(([k,n])=>'<span class="hg63-reward-token">'+esc(E.HG18_MATERIALS[k]?.icon||'✦')+' '+esc(E.HG18_MATERIALS[k]?.name||k)+' ×'+format(n)+'</span>').join('');
+ const base=resourceText(r.resources);
+ const acquired=Array.isArray(r.items)?r.items.map(i=>'<span class="hg63-reward-token">⚔ '+esc(i.name)+'</span>').join(''):'';
+ const upgrade=r.heroXp!==null&&r.heroXp!==undefined?'<span class="hg63-reward-token">✧ EXP +'+format(r.heroXp)+'</span>':'';
+ const fame=r.fame!==null&&r.fame!==undefined?'<span class="hg63-reward-token">♛ Danh vọng +'+format(r.fame)+'</span>':'';
+ const bonus=x.commander?(resourceText(x.commander.resources)+materialsText(x.commander.materials)):'';
+ const shards=x.fragments?.drops?.map(d=>'<span class="hg63-reward-token">'+esc(E.HG29_ITEMS[d.id]?.icon||'🧩')+' '+esc(E.HG29_ITEMS[d.id]?.name||d.id)+' ×'+format(d.count)+'</span>').join('')||'';
+ const gear=x.gearFragments?.count?'<span class="hg63-reward-token">💎 Mảnh '+esc(E.ITEMS[x.gearFragments.itemId]?.name||x.gearFragments.itemId)+' ×'+format(x.gearFragments.count)+'</span>':'';
+ const loss=(r.allies||[]).reduce((n,u)=>n+(u.lost||0),0),
+  healed=(r.allies||[]).reduce((n,u)=>n+(u.wounded||0),0);
+ const losses='<div class="hg63-losses"><span>🛡 Tổn thất <b>'+format(loss)+'</b></span><span>✚ Vào Arena <b>'+format(healed)+'</b></span><span>☠ Địch bị hạ <b>'+format((r.enemies||[]).reduce((n,u)=>n+(u.lost||0),0))+'</b></span></div>';
+ const rewardSection=(name,content)=>content?'<section class="hg63-reward-section"><h3>'+name+'</h3><div class="hg63-reward-grid">'+content+'</div></section>':'';
+ const sections=rewardSection('Phần thưởng trong chiến báo',base+acquired+upgrade+fame)+
+  rewardSection('Thưởng chỉ huy PvE thực nhận',bonus)+rewardSection('Mảnh đã nhận',shards+gear);
+ const unknown=r.resources===null?'<p class="hg63-evidence">Chế độ này chưa có báo cáo thưởng cơ bản hợp nhất. Chỉ các biên nhận có thật mới được hiển thị.</p>':'';
+ const none=!sections?'<p class="hg63-evidence">Không có phần thưởng mới được ghi nhận ở trận này.</p>':'';
+ const particles=Array.from({length:winning?12:5},(_,i)=>'<i style="--n:'+i+'"></i>').join('');
+ const html='<div id="hg63-battle-result" data-report-id="'+esc(r.id)+'" class="hg63-report-overlay" role="presentation">'+
+  '<section class="hg63-report-dialog '+(winning?'win':'loss')+'" role="dialog" aria-modal="true" aria-labelledby="hg63-report-title">'+
+  '<div class="hg63-report-vfx" aria-hidden="true">'+particles+'</div>'+
+  '<header class="hg63-report-head"><span class="hg63-report-emblem" aria-hidden="true">'+(winning?'✦':'☠')+'</span>'+
+  '<div><small>⚔ CHIẾN BÁO SAU TRẬN</small><h2 id="hg63-report-title">'+(titles[r.outcome]||'TRẬN ĐẤU KẾT THÚC')+'</h2>'+
+  '<p>'+esc(r.name)+' · '+format(r.turns)+' lượt · '+esc(r.heroName)+'</p></div></header>'+
+  losses+'<div class="hg63-report-scroll">'+sections+unknown+none+
+  '<p class="hg63-evidence">Dữ liệu đọc từ chiến báo và biên nhận phần thưởng trong Save v07; đã tự cộng vào kho, không có nút nhận lại.</p></div>'+
+  '<footer class="hg63-report-actions"><button type="button" data-hg63-action="history">📜 Xem chi tiết</button>'+
+  '<button type="button" data-hg63-action="close">Tiếp tục chơi</button></footer></section></div>';
+ document.body.insertAdjacentHTML('beforeend',html);
+ const node=document.getElementById('hg63-battle-result');
+ node.addEventListener('click',e=>{
+  const btn=e.target.closest('[data-hg63-action]');
+  if(btn){hg63CloseReport(btn.dataset.hg63Action==='history');return}
+  if(e.target===node)hg63CloseReport();
+ });
+ node.querySelector('[data-hg63-action="close"]')?.focus({preventScroll:true});
+}
+function hg63GearDetails(row,setsById){
+ const def=row&&E.ITEMS[row.itemId];if(!def)return '';
+ const stats=E.hg46Stats(row),slot=E.HG47_SLOTS.find(s=>s[0]===def.slot)?.[1]||def.slot;
+ const rank={common:'Phổ thông',sentinel:'Vệ Binh',astral:'Tinh Vân',dragon:'Long Hồn',star:'Tinh Không',rare:'Cổ vật',divine:'Thần khí'}[E.hg46Kind(row)]||'Đặc biệt';
+ const values=['atk','def','spd','int'].map(k=>{
+  const raw=Number(def[k]||0),current=Number(stats?.[k]||0);
+  return k.toUpperCase()+' '+format(current)+(current!==raw?' (gốc '+format(raw)+')':'');
+ }).join(' · ');
+ const set=setsById[def.set],affixes=E.hg47Affixes(row),effect=equipmentBattleText(def);
+ return '<details class="hg63-item-details"><summary>ⓘ Chi tiết vật phẩm</summary>'+
+  '<p><b>'+esc(def.name)+'</b> · '+esc(rank)+' · '+esc(slot)+' · cấp cường hóa +'+(row.enhance||0)+'</p>'+
+  '<p><b>Chỉ số thực:</b> '+esc(values)+'</p>'+
+  (effect?'<p><b>Hiệu ứng chiến đấu:</b> '+esc(effect)+'</p>':'')+
+  (affixes.length?'<p><b>Dòng phụ:</b> '+esc(affixes.map(a=>a.label).join(' · '))+'</p>':'')+
+  (set?'<p><b>Bộ '+esc(set.name)+':</b> '+esc(set.note||'Điều kiện kích hoạt theo số món đang mặc')+'</p>':'')+
+  '<p><b>Nguồn nhận:</b> '+esc(row.origin||set?.source||'Không có biên nhận nguồn trong vật phẩm này')+'</p>'+
+  '<small>Chỉ số hiển thị được đọc từ vật phẩm UID '+row.uid+'; nâng cấp/dòng phụ không tự tạo phần thưởng.</small></details>';
 }
 function battleReportsView(){
  const outcomes={win:'Chiến thắng',lose:'Thất bại',timeout:'Hết thời gian',retreat:'Rút lui'},locations={stationed:'Đóng quân tại mục tiêu',returning:'Lên đường quay về thành',home:'Ở thành'};
@@ -837,7 +937,7 @@ function hg46GearView(h){
   return '<article class="hg46-slot hg408-slot hg46-kind-'+kind+'" data-hg46-slot="'+slot+'">'+
    '<div class="hg46-slot-head"><b>'+esc(names[slot])+'</b><small>'+ (row?'+'+(row.enhance||0)+' cường hóa':'Trống')+'</small></div>'+
    '<div class="hg46-slot-content"><div class="hg46-gear-art">'+(row?icon(row):'◇')+'</div>'+
-   '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+ (row&&E.hg47Affixes(row).length?'<small class="hg47-affix">'+esc(E.hg47Affixes(row).map(x=>x.label).join(' · '))+'</small>':'')+
+   '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+(row?hg63GearDetails(row,setsById):'')+ (row&&E.hg47Affixes(row).length?'<small class="hg47-affix">'+esc(E.hg47Affixes(row).map(x=>x.label).join(' · '))+'</small>':'')+
    (def?.set?'<small class="hg46-set-tag">'+esc(setsById[def.set]?.name||def.set)+'</small>':'')+
    '</div></div>'+
    (row?button('hg408-unequip',{id:h.id,slot},'Tháo trang bị',busy,'small secondary'):'')+
@@ -874,7 +974,7 @@ function hg46GearView(h){
    '<div class="hg46-gear-art">'+icon(row)+'</div>'+
    '<div class="hg46-item-description"><b>'+esc(def.name)+' <span>+'+(row.enhance||0)+'</span></b>'+
    '<small class="hg46-origin">'+esc(setName)+' · '+esc(source)+' · UID '+row.uid+'</small>'+
-   '<small>'+esc(raw||'Không có điểm thuộc tính')+'</small>'+
+   '<small>'+esc(raw||'Không có điểm thuộc tính')+'</small>'+hg63GearDetails(row,setsById)+
    (battle?'<small class="hg46-effect">'+esc(battle)+'</small>':'')+
    (E.hg47Affixes(row).length?'<small class="hg47-affix">Dòng phụ: '+esc(E.hg47Affixes(row).map(x=>x.label).join(' · '))+'</small>':'')+
    (next.level<10?'<small class="hg46-cost">Nâng +'+(next.level+1)+': '+next.stones+' đá + '+format(next.gold)+' vàng · 100% thành công</small>':
@@ -1559,6 +1659,7 @@ function render(){
  enhanceWorldMapLayout();
  attachScreenToolbar();
  paint();
+ hg63ShowReport();
  if(enteringCombat){$('toast')?.classList.remove('show');window.scrollTo({top:0,left:0,behavior:'instant'});}
 }
 $('app').addEventListener('input',evt=>{
@@ -1834,7 +1935,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='castellan'){E.appoint(state,Number(target.dataset.id));return}
  if(action==='heal'){const q=E.heal(state);toast(`Arena bắt đầu điều trị ${q.count} quân; ${q.paidGold} vàng, ${Math.ceil(q.total/state.speed)} giây thực.`);return}
  });});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'&&!$('game-modal').hidden){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;render();}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'&&hg63OpenReport){hg63CloseReport();return}if(e.key==='Escape'&&!$('game-modal').hidden){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;render();}});
 $('save').onclick=()=>{if(save())toast('Đã lưu game vào trình duyệt.')};
 $('speed').onclick=()=>{if(!state)return;fail(()=>E.setSpeed(state,state.speed===60?1:60))};
 $('export-save').onclick=()=>{
@@ -1858,8 +1959,8 @@ $('import-file').onchange=async e=>{
 };
 $('reset').onclick=()=>{if(!confirm('Xóa save phiên bản HG-08 và tạo vương quốc khác?'))return;state=null;newRace='human';selected=null;selectedTargetKind=null;localStorage.removeItem(E.SAVE_KEY);localStorage.removeItem(E.SAVE_KEY+'_backup');localStorage.setItem('heoofgaia_hg08_skip_migration','1');render()};
  document.querySelectorAll('[data-city-art]').forEach(image=>image.addEventListener('load',()=>{if(state&&tab==='city')render()}));
- state=load();if(state){ensureBattleAutoTimer(state);selected='3,4';selectedTargetKind=null;state.battleAuto=false;tab=state.battle?'combat':'map'}render();
-setInterval(()=>{if(!state)return;const before=state.battle,training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);const farmPulse=state.hg26?.enabled?E.hg26Step(state):null;if(farmPulse?.changed)save();if(!before&&state.battle)tab='combat';if(state.battle&&!state.hg26?.enabled&&!state.battle.hg26NeedsManual&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;const changed=before!==state.battle||!!farmPulse?.changed||
+ state=load();hg63SeenReportId=state?.battleReports?.[0]?.id||null;if(state){ensureBattleAutoTimer(state);selected='3,4';selectedTargetKind=null;state.battleAuto=false;tab=state.battle?'combat':'map'}render();
+setInterval(()=>{if(!state)return;const before=state.battle,hg63Before=hg63BattleSnapshot(),training=state.training.length,building=state.buildingQueue?.key||null,arena=state.arenaQueue?.id||null;try{E.tick(state);const farmPulse=state.hg26?.enabled?E.hg26Step(state):null;hg63CaptureBattleReport(before,hg63Before);if(farmPulse?.changed)save();if(!before&&state.battle)tab='combat';if(state.battle&&!state.hg26?.enabled&&!state.battle.hg26NeedsManual&&!state.battleAuto&&Date.now()>=(state.battle.autoUntil||0))state.battleAuto=true;const changed=before!==state.battle||!!farmPulse?.changed||
  training!==state.training.length||building!==(state.buildingQueue?.key||null)||
  arena!==(state.arenaQueue?.id||null);
  // Preserve the existing battle canvas and 24fps RAF visual clock during

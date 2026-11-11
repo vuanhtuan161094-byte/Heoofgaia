@@ -491,6 +491,9 @@ function bossSprite(name){
  const key=String(name||'').trim().toLocaleLowerCase().replace(/\s+/g,' ');
  return BOSS_SPRITES[key]||null;
 }
+// HG63: source-facing metadata determines mirroring on BOTH deployment sides.
+// Boss original atlases face left; troop atlases face right. Render only.
+function hg63BattleMirror(enemy,sourceFacing='right'){return enemy?sourceFacing!=='left':sourceFacing==='left'}
 function animatedUnitId(id,name=''){const atlas=root.HOG_HG33_TROOP_ATLASES;return id==='human_4'||Object.prototype.hasOwnProperty.call(MOTION_SPRITES,id)||!!atlas?.hasActor?.(id,name)||!!atlas?.hasUnit(id)||!!root.HOG_ART_PACK?.hasUnit(id)||!!bossSprite(name)}
 function motionPose(action,time=0,duration=null){
  // Bounded deterministic transforms with no gameplay mutation.
@@ -556,7 +559,7 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
  if(!image?.complete||!image.naturalWidth)return false;
  const pose=motionPose(visual.action,visual.time,visual.duration),size=clamp(profile.size*k,18,profile.boss?178:134);
  c.save();c.globalAlpha*=clamp((visual.alpha??1)*pose.alpha,0,1);
- c.translate(x,y);if(enemy)c.scale(-1,1);
+ c.translate(x,y);if(hg63BattleMirror(enemy,profile.enemyFacing||(profile.boss?'left':'right')))c.scale(-1,1);
  c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
  c.scale(pose.sx,pose.sy);c.translate(0,size*.39);
  if(profile.pixelated)c.imageSmoothingEnabled=false;
@@ -952,7 +955,7 @@ function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  const atlasSize=unit.atlasDimensions||[unit.atlasWidth,unit.atlasHeight],frameSize=unit.frameDimensions||[unit.frameWidth,unit.frameHeight];
  if(!image.complete||image.naturalWidth!==atlasSize[0]||image.naturalHeight!==atlasSize[1])return false;
  const width=clamp(unit.renderWidth*k,18,160),height=width*frameSize[1]/frameSize[0];
- c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(enemy&&unit.enemyFacing!=='left')c.scale(-1,1);
+ c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(hg63BattleMirror(enemy,unit.enemyFacing||'right'))c.scale(-1,1);
  const groundFix=hg407FootOffset(unitId,frame.action,frame.frame,height,frameSize[1]);
  const paintedY=-height*unit.pivot+groundFix;
  // Original Orc T10 Walk frames 2/3 contain stray duplicate alpha at the
@@ -1123,7 +1126,7 @@ function soldier(c,x,y,k=1,color='#c5bc98',enemy=false,archer=false,unitId=null,
    const isLegacy=spriteKey.startsWith('unit-');
    const pivot=boss?.pivot||(isLegacy?446/512:239/256);
    c.save();
-   if(enemy){c.translate(x,y);c.scale(-1,1);c.drawImage(sprite,-size/2,-size*pivot,size,size)}
+   if(hg63BattleMirror(enemy,boss?'left':'right')){c.translate(x,y);c.scale(-1,1);c.drawImage(sprite,-size/2,-size*pivot,size,size)}
    else c.drawImage(sprite,x-size/2,y-size*pivot,size,size);
    c.restore();return true;
   }
