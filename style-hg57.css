@@ -46,6 +46,16 @@ body.combat-mode .battle-stage{position:relative;isolation:isolate}
  white-space:nowrap;font-size:10px!important;padding:3px!important}
 .battle-display-tools>.battle-display-toggle[aria-pressed="true"]{
  border-color:#92ceea!important;color:#eefaff}
+/* 3 real allied commanders must remain visible even on narrow phones.
+   Keep first nameplate expanded; remaining actual heroes are portrait icons
+   with real names accessible via title, never decorative invented units. */
+@media(max-width:1000px){
+ .hg57-leader-team:not(.enemy) .hg57-hero-chip:not(:first-child){
+  flex:0 0 27px;max-width:27px;width:27px;padding:1px;justify-content:center}
+ .hg57-leader-team:not(.enemy) .hg57-hero-chip:not(:first-child) .hg57-hero-description{display:none}
+ .hg57-leader-team:not(.enemy) .hg57-hero-chip:not(:first-child) .hg45-portrait-art{
+  width:23px!important;height:26px!important;min-width:23px!important;flex-basis:23px}
+}
 @media(max-width:1000px){
  .hg57-commander-strip{right:clamp(178px,18vw,196px);height:34px;top:46px}
  .hg57-hero-chip{height:31px;max-width:106px;padding:2px 4px}
