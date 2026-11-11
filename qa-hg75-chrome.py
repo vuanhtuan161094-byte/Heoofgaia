@@ -65,6 +65,7 @@ with sync_playwright() as pw:
   }""")
   check(label+' skip resolves actual battle to one report and Save v07',done['ended'] and done['valid'] and done['save']==7 and done['reportCount']==setup['reports']+1 and done['modal'] and done['outcome'] in ('win','lose','timeout','retreat') and done['turns']>=1,done)
   if label in ('desktop-1280x720','phone-landscape-844x390'):shot(page,'skip-report-'+label)
+  page.locator('[data-hg63-action="close"]').click()
   setup2=page.evaluate(PREPARE)
   check(label+' fresh battle ready for surrender',setup2['valid'] and setup2['reports']==0,setup2)
   page.once('dialog',lambda dialog:dialog.accept())
