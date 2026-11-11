@@ -67,6 +67,15 @@ function tagEnemy(u,source,b,i,cs,boss){
  const namedLeader=boss&&i<Math.min(3,b.enemies.length)&&bossArt;
  u.unitId=troop.id;
  u.range=E.unitTacticalRange(troop);
+ // HG61 real Boss role balance: three named Boss bodies remain full-strength.
+ // Hired/supporting troop groups have real damage and HG40 skills, but
+ // cannot all deal Boss-class raw ATK simultaneously. T13's prior 16x
+ // full-ATK roster defeated 800 well-equipped Archangels by turn 17,
+ // before the authored 35% phase could even trigger.
+ if(boss&&i>=3){
+  const scale=cs>=10?.30:cs>=8?.60:.75;
+  u.atk=Math.max(1,Math.round(u.atk*scale));
+ }
  if(!namedLeader)u.name=troop.name+(boss?' · Hộ vệ':' · Quái');
  return u;
 }

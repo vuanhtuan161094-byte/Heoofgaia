@@ -31,6 +31,9 @@ test('T11 live 16 actors retain original Boss art for leaders and canonical troo
  const ids=new Set();
  for(const u of b.enemies){assertEnemy(u);ids.add(u.unitId)}
  assert(ids.size>=5);
+ // Every minion still has positive actual attack power and skills, but
+ // its physical damage must be weaker than a named Boss at equal CS.
+ assert(b.enemies.slice(3).every(u=>u.atk>0&&u.atk<b.enemies[0].atk));
  assert.equal(JSON.stringify(s.army),before);cold(s);
  return {bossLeaders:3,actualMinions:13,uniqueTroopSkills:ids.size};
 });
