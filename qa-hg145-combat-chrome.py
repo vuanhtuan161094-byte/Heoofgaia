@@ -51,10 +51,10 @@ with sync_playwright() as pw:
     prefs:HOG_APP_DEBUG.battleViewPrefs()};
  }""")
  check("Real human Archer NPC march reaches playable battle",fixture["inBattle"] and fixture["valid"])
- check("Canonical hex grid and HP display are ON by default",fixture["prefs"]=={"grid":True,"hp":True})
+ check("Canonical hex grid and HP display are ON by default",all(fixture["prefs"].get(k)==v for k,v in {"grid":True,"hp":True,"labels":True,"speed":1}.items()))
  check("Tactical grid contains exactly 108 canonical invertible cells",fixture["grid"]==108 and fixture["cellsValid"])
  check("Displayed unit feet remain clickable in grid mode",fixture["feetValid"])
- check("Grid and HP toggles expose their ON defaults",page.locator('.battle-display-toggle[aria-pressed="true"]').count()==2 and page.locator('[data-action="battle-grid"][aria-pressed="true"]').count()==1)
+ check("Grid and HP toggles expose their ON defaults",page.locator('.battle-display-toggle[aria-pressed="true"]').count()==3 and page.locator('[data-action="battle-grid"][aria-pressed="true"]').count()==1)
  original=page.evaluate("window._qaFrame()")
  stateBefore=page.evaluate("window._qaCombatState()")
  shot(page,"grid-on-hp-on-desktop.png")
@@ -177,8 +177,8 @@ with sync_playwright() as pw:
  }""")
  check("960x540: precise grid, clickable units, no distortion or overflow",
    mobile["aspect"]<.008 and not mobile["overflow"] and mobile["cells"]==108 and mobile["clicks"])
- check("960x540: grid and HP ON controls remain visible",len(mobile["buttons"])==2 and
-   [b["active"] for b in mobile["buttons"]]==[True,True] and
+ check("960x540: grid and HP ON controls remain visible",len(mobile["buttons"])==3 and
+   [b["active"] for b in mobile["buttons"]]==[True,True,True] and
    all(b["visible"] for b in mobile["buttons"]))
  shot(page,"grid-on-hp-on-mobile-960x540.png")
  check("No uncaught Chromium JavaScript errors",len(errors)==0)
