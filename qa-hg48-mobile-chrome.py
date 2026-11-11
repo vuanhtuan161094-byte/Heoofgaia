@@ -62,7 +62,38 @@ with sync_playwright() as pw:
         page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
         g=page.evaluate(GEAR_JS)
         check(name+' 10 unique canonical slots',g['slots']==10 and len(set(g['keys']))==10,g['keys'])
-        check(name+' 10/10 gear cards fully visible in scroll panel',g['visible']==10,g)
+        # HG57-B: global resources remain fixed at the top. A 260px-tall
+        # landscape window cannot show two rows of 10 touch-sized slots at
+        # once. Verify all 10 REAL slots can be scrolled into the panel and
+        # operated, not that only the initial scroll frame contains all.
+        reach=page.evaluate("""() => {
+          const panel=document.querySelector('.hg408-panel'),
+            cards=[...document.querySelectorAll('.hg47-ten-slots .hg46-slot')],
+            rect=e=>e.getBoundingClientRect(),out=[];
+          if(!panel||cards.length!==10)return {visited:[],scrollable:false};
+          for(const card of cards){
+            card.scrollIntoView({block:'nearest',inline:'nearest',behavior:'instant'});
+            const a=rect(card),b=rect(panel);
+            out.push({slot:card.dataset.hg46Slot,visible:a.top>=b.top-2&&
+              a.bottom<=b.bottom+2&&a.left>=b.left-2&&a.right<=b.right+2,
+              button:!!card.querySelector('button')});
+          }
+          const scrollable=panel.scrollHeight>panel.clientHeight+2;
+          panel.scrollTop=0;
+          return {visited:out,scrollable,scrollHeight:panel.scrollHeight,
+            clientHeight:panel.clientHeight};
+        }""")
+        if mobile and h<=310:
+            check(name+' all ten real gear cards individually reachable by touch scroll',
+                g['visible']>=4 and reach['scrollable'] and
+                len(reach['visited'])==10 and
+                all(x['visible'] and x['button'] for x in reach['visited']),reach)
+        else:
+            check(name+' all ten gear cards visible or reachable in hero panel',
+                g['visible']==10 or
+                (reach['scrollable'] and len(reach['visited'])==10 and
+                 all(x['visible'] and x['button'] for x in reach['visited'])), 
+                 {'initiallyVisible':g['visible'],'reach':reach})
         check(name+' no document horizontal overflow',g['pageWidth']<=w+2,g)
         check(name+' strict v07 with zero New Game inventory',g['strict'] and g['saveV']==7 and g['inventory']==0,g)
         if mobile:
