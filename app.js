@@ -370,8 +370,22 @@ function cityTransportForm(target){
  const unitOptions=units.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(state.army[u.id])} sẵn có · tải ${u.load}</option>`).join('');
  return `<section class="card city-transport"><div class="heading">🚚 Gửi tiếp tế tới ${esc(target.name)}</div><p class="hint">Hướng dẫn Trung Quốc 2009 SRC59 xác nhận phải điều quân chở tài nguyên, tính sức tải, và mỗi chuyến tốn 20 AP. Tải dùng bảng quân: 1 điểm tải = 10 vàng tương đương; Gỗ/Quặng ×5, Lưu huỳnh/Pha lê ×10. ETA, tự giao khi kho đủ chỗ và đường về là mô hình của bản dựng.</p>${units.length?`<div class="grid grid2"><label>Quân vận chuyển<select id="city-transport-unit">${unitOptions}</select></label><label>Số quân<input id="city-transport-count" type="number" min="1" step="1" value="1"></label></div><div class="grid grid3">${C.keys.map(k=>`<label>${(ico(k,20)||C.resource[k].emoji)} ${C.resource[k].label}<input id="city-transport-${k}" type="number" min="0" step="1" value="0"></label>`).join('')}</div><div class="actions">${button('city-transport',{city:target.id},'🚚 Gửi đoàn tiếp tế · 20 AP',busy||state.ap<20||state.cityTransports.length>=20,'primary')}</div>`:`<p class="notice">Thành đang mở không có quân sẵn để làm đoàn vận chuyển.</p>`}<p class="tiny muted">Quân và tài nguyên rời kho ngay khi xuất phát. Nếu kho đích chưa đủ chỗ cho toàn bộ hàng, đoàn sẽ chờ tại nơi nhận mà không làm mất hàng.</p></section>`;
 }
+// Display-only per-battle baseline. The canonical Save v07 is never mutated.
+function hg63ReceiptKey(q){return [q?.channel||q?.source||'',q?.itemId||q?.id||'',q?.target||'',q?.ordinal??'',q?.count??''].join('|')}
 function hg63BattleSnapshot(){
- return {r29:state?.hg29?.last||null,r47:state?.hg47?.last||null,r409:state?.hg409?.rewards?.[0]||null};
+ const wallet=(keys,table)=>Object.fromEntries(keys.map(k=>[k,Number(table?.[k]||0)]));
+ return {
+  r29:state?.hg29?.last||null,
+  r47Seen:(state?.hg47?.history||[]).map(hg63ReceiptKey),
+  r31Seen:(state?.hg31?.history||[]).map(hg63ReceiptKey),
+  r409:state?.hg409?.rewards?.[0]||null,
+  tokens:wallet(Object.keys(E.HG27_TOKENS||{}),state?.hg27),
+  materials:wallet(Object.keys(E.HG18_MATERIALS||{}),state?.hg18?.materials),
+  inventoryUids:(state?.inventory||[]).map(x=>x.uid),
+  towerReport:state?.hg20?.tower?.last||null,
+  towerEssence:state?.hg20?.tower?.essence||0,
+  resources:wallet(C.keys,state?.res)
+ };
 }
 function hg63CaptureBattleReport(beforeBattle,before,terminal){
  if(!beforeBattle||!state||state.battle===beforeBattle)return;
@@ -381,7 +395,8 @@ function hg63CaptureBattleReport(beforeBattle,before,terminal){
   beforeBattle.enemies?.every(u=>u.pool<=0)?'win':beforeBattle.allies?.every(u=>u.pool<=0)?'lose':'retreat';
  const report=canonical?latest:{
   id:'display-'+String(Date.now())+'-'+String(beforeBattle.turn||0),
-  target:beforeBattle.target||'',name:beforeBattle.name||('Bí Cảnh / '+(beforeBattle.target||'giao tranh')),
+  target:beforeBattle.target||'',name:beforeBattle.hg21Tower?.floor?'Bí Cảnh tầng '+beforeBattle.hg21Tower.floor:
+   beforeBattle.name||('Trận '+(beforeBattle.target||'giao tranh')),
   outcome,turns:Math.max(0,(beforeBattle.turn||1)-1),kind:beforeBattle.kind||'tower',
   heroName:state.heroes?.find(h=>h.id===state.activeHero)?.name||'Đội hình',
   allies:(beforeBattle.allies||[]).map(u=>({name:u.name,initial:u.initial,survived:u.count,lost:Math.max(0,u.initial-u.count),wounded:null})),
@@ -390,18 +405,37 @@ function hg63CaptureBattleReport(beforeBattle,before,terminal){
  };
  if(canonical)hg63SeenReportId=report.id;
  const same=(a,b)=>a===b||(a?.ordinal!==undefined&&a.ordinal===b?.ordinal&&a.target===b?.target);
- const r29=state.hg29?.last||null,r47=state.hg47?.last||null,r409=state.hg409?.rewards?.[0]||null;
+ const r29=state.hg29?.last||null,r409=state.hg409?.rewards?.[0]||null;
+ const newlyEarned=(history,previous)=>{const seen=new Set(previous||[]);
+  return (history||[]).filter(q=>!seen.has(hg63ReceiptKey(q))).slice(0,8);
+ };
+ const walletDelta=(keys,after,baseline)=>Object.fromEntries(keys.map(k=>[k,
+  Math.max(0,Number(after?.[k]||0)-Number(baseline?.[k]||0))]));
+ const knownItemUids=new Set([...(before?.inventoryUids||[]),...((report.items||[]).map(i=>i.uid))]);
+ const previousTower=before?.towerReport,nowTower=state.hg20?.tower?.last||null;
  const extra={
   fragments:r29&&!same(r29,before?.r29)?r29:null,
-  gearFragments:r47&&!same(r47,before?.r47)?r47:null,
-  commander:r409&&r409!==before?.r409?r409:null
+  gearFragments:newlyEarned(state.hg47?.history,before?.r47Seen),
+  legendaryFragments:newlyEarned(state.hg31?.history,before?.r31Seen),
+  commander:r409&&r409!==before?.r409?r409:null,
+  materials:walletDelta(Object.keys(E.HG18_MATERIALS||{}),state.hg18?.materials,before?.materials),
+  tokens:walletDelta(Object.keys(E.HG27_TOKENS||{}),state.hg27,before?.tokens),
+  items:state.inventory.filter(i=>!knownItemUids.has(i.uid)&&E.ITEMS[i.itemId])
+   .map(i=>({uid:i.uid,name:E.ITEMS[i.itemId].name})),
+  tower:beforeBattle.kind==='tower'&&nowTower&&nowTower!==previousTower?{
+   claimed:!!nowTower.claimed,
+   essence:Math.max(0,Number(state.hg20?.tower?.essence||0)-Number(before?.towerEssence||0)),
+   resources:walletDelta(C.keys,state.res,before?.resources),
+   floor:nowTower.floor
+  }:null
  };
  hg63OpenReport={report,extra};
 }
 function hg63CloseReport(history=false){
+ const kind=hg63OpenReport?.report?.kind;
  hg63OpenReport=null;
  document.getElementById('hg63-battle-result')?.remove();
- if(history){tab='reports';modalOffset=0;showWorldIndex=false;showResourceInfo=false;render()}
+ if(history){tab=kind==='tower'?'tower':'reports';modalOffset=0;showWorldIndex=false;showResourceInfo=false;render()}
 }
 function hg63ShowReport(){
  const entry=hg63OpenReport,existing=document.getElementById('hg63-battle-result');
@@ -418,16 +452,26 @@ function hg63ShowReport(){
  const acquired=Array.isArray(r.items)?r.items.map(i=>'<span class="hg63-reward-token">⚔ '+esc(i.name)+'</span>').join(''):'';
  const upgrade=r.heroXp!==null&&r.heroXp!==undefined?'<span class="hg63-reward-token">✧ EXP +'+format(r.heroXp)+'</span>':'';
  const fame=r.fame!==null&&r.fame!==undefined?'<span class="hg63-reward-token">♛ Danh vọng +'+format(r.fame)+'</span>':'';
- const bonus=x.commander?(resourceText(x.commander.resources)+materialsText(x.commander.materials)):'';
+ const bonus=x.commander?resourceText(x.commander.resources):'';
  const shards=x.fragments?.drops?.map(d=>'<span class="hg63-reward-token">'+esc(E.HG29_ITEMS[d.id]?.icon||'🧩')+' '+esc(E.HG29_ITEMS[d.id]?.name||d.id)+' ×'+format(d.count)+'</span>').join('')||'';
- const gear=x.gearFragments?.count?'<span class="hg63-reward-token">💎 Mảnh '+esc(E.ITEMS[x.gearFragments.itemId]?.name||x.gearFragments.itemId)+' ×'+format(x.gearFragments.count)+'</span>':'';
+ const gear=[...(x.gearFragments||[]),...(x.legendaryFragments||[])].map(q=>
+  '<span class="hg63-reward-token">💎 Mảnh '+esc(E.ITEMS[q.itemId||q.id]?.name||q.itemId||q.id)+' ×'+format(q.count)+'</span>').join('');
+ const tokens=Object.entries(x.tokens||{}).filter(([,n])=>Number(n)>0).map(([k,n])=>
+  '<span class="hg63-reward-token">'+esc(E.HG27_TOKENS[k]?.icon||'✦')+' '+esc(E.HG27_TOKENS[k]?.name||k)+' ×'+format(n)+'</span>').join('');
+ const otherItems=(x.items||[]).map(i=>'<span class="hg63-reward-token">⚔ '+esc(i.name)+'</span>').join('');
+ const towerLoot=x.tower?.claimed?resourceText(x.tower.resources)+
+  (x.tower.essence?'<span class="hg63-reward-token">✨ Tinh hoa Bí Cảnh ×'+format(x.tower.essence)+'</span>':''):'';
+ const allMaterials=materialsText(x.materials);
  const loss=(r.allies||[]).reduce((n,u)=>n+(u.lost||0),0),
   healed=(r.allies||[]).reduce((n,u)=>n+(u.wounded||0),0);
  const losses='<div class="hg63-losses"><span>🛡 Tổn thất <b>'+format(loss)+'</b></span><span>✚ Vào Arena <b>'+format(healed)+'</b></span><span>☠ Địch bị hạ <b>'+format((r.enemies||[]).reduce((n,u)=>n+(u.lost||0),0))+'</b></span></div>';
  const rewardSection=(name,content)=>content?'<section class="hg63-reward-section"><h3>'+name+'</h3><div class="hg63-reward-grid">'+content+'</div></section>':'';
  const sections=rewardSection('Phần thưởng trong chiến báo',base+acquired+upgrade+fame)+
-  rewardSection('Thưởng chỉ huy PvE thực nhận',bonus)+rewardSection('Mảnh đã nhận',shards+gear);
- const unknown=r.resources===null?'<p class="hg63-evidence">Chế độ này chưa có báo cáo thưởng cơ bản hợp nhất. Chỉ các biên nhận có thật mới được hiển thị.</p>':'';
+  rewardSection('Thưởng tài nguyên Bí Cảnh thực nhận',towerLoot)+
+  rewardSection('Thưởng chỉ huy PvE thực nhận',bonus)+
+  rewardSection('Vật phẩm, thẻ và chiến tích đã vào kho',allMaterials+tokens+otherItems)+
+  rewardSection('Mảnh ghép đã vào kho',shards+gear);
+ const unknown=r.resources===null&&!x.tower?'<p class="hg63-evidence">Chế độ này chưa có báo cáo thưởng cơ bản hợp nhất. Chỉ các biên nhận có thật mới được hiển thị.</p>':'';
  const none=!sections?'<p class="hg63-evidence">Không có phần thưởng mới được ghi nhận ở trận này.</p>':'';
  const particles=Array.from({length:winning?12:5},(_,i)=>'<i style="--n:'+i+'"></i>').join('');
  const html='<div id="hg63-battle-result" data-report-id="'+esc(r.id)+'" class="hg63-report-overlay" role="presentation">'+
