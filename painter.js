@@ -303,20 +303,20 @@ const VANGUARD_CLIPS=Object.freeze({
 const battleVisualTimelines=new WeakMap();
 const battlePendingPoolByFrame=new WeakMap(); // HG57-B: one receipt pass per visual frame, not 22+ scans
 function visualNow(){return typeof performance!=='undefined'?performance.now():0}
-const EMPTY_BATTLE_EVENTS=Object.freeze([]),BATTLE_VISUAL_STAGGER_MS=62,BATTLE_HEX_TRAVEL_MS=165;
+const EMPTY_BATTLE_EVENTS=Object.freeze([]),BATTLE_VISUAL_STAGGER_MS=62,BATTLE_HEX_TRAVEL_MS=285;
 // HG57 animation ledger: each stack completes its move/strike before the next
 // starts. Different sides have a readable pause. Dynamic density makes 16-18
 // Boss stacks brisk, while preserving actual sprite clips, hits and foot cells.
 function battleVisualSchedule(events){
- const dense=events.length>=16,attackMs=dense?310:455,stepMs=dense?125:BATTLE_HEX_TRAVEL_MS;
+ const dense=events.length>=16,attackMs=dense?410:560,stepMs=dense?240:BATTLE_HEX_TRAVEL_MS;
  let cursor=0,prevSide=null;
  const steps=[];
  for(const event of events){
   const side=String(event?.actorId||'').startsWith('e')?'enemy':'player';
-  if(prevSide!==null&&side!==prevSide)cursor+=dense?270:360;
+  if(prevSide!==null&&side!==prevSide)cursor+=dense?350:440;
   const path=Array.isArray(event?.path)?event.path:[],
    moveMs=path.length*stepMs,actMs=event?.damage>0?attackMs:
-    ['attack','focus','skill'].includes(event?.order)?dense?220:290:110,
+    ['attack','focus','skill'].includes(event?.order)?dense?280:360:160,
    start=cursor,impact=start+moveMs+actMs*.63;
   steps.push({start,moveMs,attackMs:actMs,impactAt:impact,
    animationEnd:start+moveMs+actMs});
@@ -531,7 +531,7 @@ function motionSprite(c,x,y,unitId,enemy,visual,k=1,unitName=''){
  c.translate(pose.dx,pose.dy-size*.39);c.rotate(pose.angle);
  c.scale(pose.sx,pose.sy);c.translate(0,size*.39);
  if(profile.pixelated)c.imageSmoothingEnabled=false;
- if(profile.glow){c.shadowColor=profile.glow;c.shadowBlur=6;}
+ if(profile.glow){c.shadowColor=profile.glow;c.shadowBlur=2;}
  const aspect=profile.pixelated?image.naturalWidth/Math.max(1,image.naturalHeight):1;
  const imgW=profile.pixelated&&aspect<1?size*aspect:size;
  const imgH=profile.pixelated&&aspect>1?size/aspect:size;
@@ -651,8 +651,8 @@ function battleFxPlan(b,camera,elapsed,layout){
   const time=elapsed-item.start,
    // Move impacts with the displayed actors, including real recorded Walk
    // paths: a projectile must not strike an obsolete stationary cell.
-   actorState=animatedUnitId(actor.u.unitId,actor.u.name)?battleVisualState(b,actor.u,elapsed,elapsed):null,
-   targetState=animatedUnitId(target.u.unitId,target.u.name)?battleVisualState(b,target.u,elapsed,elapsed):null,
+   actorState=battleVisualState(b,actor.u,elapsed,elapsed),
+   targetState=battleVisualState(b,target.u,elapsed,elapsed),
    actorCell=battleVisualPoint(camera,actorState,actor.u),
    targetCell=battleVisualPoint(camera,targetState,target.u);
   return [{actorId:event.actorId,targetId:event.targetId,damage:event.damage,
@@ -818,7 +818,7 @@ function motionImpactFx(c,camera,b,elapsed,layout){
  }
  return effects.length;
 }
-function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>animatedUnitId(u.unitId,u.name))}
+function hasAnimatedTroops(b){return !!b&&[...b.allies,...b.enemies].some(u=>u.pool>0)}
 function animatedSoldier(c,x,y,enemy,visual,k=1){
  if(typeof document==='undefined'||!visual)return false;const frame=vanguardAtlasFrame(visual.action,visual.time,visual.duration),image=document.getElementById(frame.id);
  if(!image?.complete||image.naturalWidth!==1536||image.naturalHeight!==1024)return false;
@@ -908,12 +908,8 @@ function battleProjection(canvas,E){
 function battleVisualPoint(camera,visual,fallback){
  // Use each ACTUAL hex in the receipt path; never cut a straight diagonal
  // across occupied cells. Rendering and hit testing share this projection.
- if(visual?.walkRoute?.length){
-  const path=visual.walkRoute,progress=clamp(visual.walkFraction||0,0,1)*path.length,
-   i=Math.min(path.length-1,Math.floor(progress)),
-   t=clamp(progress-i,0,1),from=i?path[i-1]:visual.walkFrom;
-  return camera.pointBetween(from,path[i],t);
- }
+ // HG58: state.x/y already includes smoothstep hex-segment interpolation.
+ // Using walkFraction again bypassed easing and made feet slide/jump.
  return camera.center(visual?.x??fallback.x,visual?.y??fallback.y);
 }
 function battleGround(c,camera,w,h){
@@ -962,7 +958,7 @@ function battleHit(canvas,x,y,E,s,now=visualNow()){
  // selecting by foot radius alone makes the upper half of tall troops unclickable.
  // Transform hitboxes by the same animation/spacing offset as drawBattle().
  const visible=layout.filter(entry=>entry.u.pool>0).map(entry=>{
-  const u=entry.u,visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):u,
+  const u=entry.u,visual=battleVisualState(b,u,elapsed,now)||u,
    pt=battleVisualPoint(camera,visual,u);
   return {entry,u,dx:pt.x-entry.baseX,dy:pt.y-entry.baseY,
    footX:pt.x+entry.x-entry.baseX,footY:pt.y+entry.y-entry.baseY};
@@ -1360,7 +1356,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  }
  for(const entry of units){
   const u=entry.u;
-  const visual=animatedUnitId(u.unitId,u.name)?battleVisualState(b,u,elapsed,now):null,position=visual||u,displayPool=visual?.pool??u.pool,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
+  const visual=battleVisualState(b,u,elapsed,now),position=visual||u,displayPool=visual?.pool??u.pool,pt=battleVisualPoint(camera,visual,u),x=pt.x+entry.x-entry.baseX,y=pt.y+entry.y-entry.baseY,k=entry.k;
   if(displayPool<=0){if(visual)battleUnitArt(c,x,y,u.side==='enemy',visual,k,u);continue}
   if(b.selected===u.id||b.focused===u.id){c.strokeStyle=u.side==='enemy'?'#f3a389':'#ebd17d';c.lineWidth=3;c.beginPath();c.ellipse(x,y+2,38,13,0,0,TAU);c.stroke()}else if(u.side==='enemy'&&attackable.has(u.id)){c.strokeStyle='#f7cc75';c.lineWidth=2;c.beginPath();c.ellipse(x,y+2,44,17,0,0,TAU);c.stroke()}
   // Commander-bound premium aura also works in 3-hero / 6-stack Tower combat.
