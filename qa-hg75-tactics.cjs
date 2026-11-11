@@ -46,6 +46,19 @@ check('40 units: SPD-independent weapon range and fixed 1-3 hex class movement',
  assert.equal(E.unitTacticalMovement(E.C.units.human[1]),2,'Scout world-speed does not imply extra combat hexes');
  return {tested:rows.length,roles:expected,meleeExpected,rangedExpected,results};
 });
+
+check('World speed remains SPD-driven but battle turn order and damage never are',()=>{
+ const path=['a','b','c','d','e'];
+ assert(E.marchDuration(60,path)<E.marchDuration(10,path),'world-map SPD must reduce travel ETA');
+ const s=fresh(),b=s.battle;
+ const troop=b.allies.find(u=>u.range===1),initial=E.battleMovePreview(b,troop.id).steps;
+ troop.spd=1000;assert.equal(E.battleMovePreview(b,troop.id).steps,initial);
+ const initialOrder=[...b.allies].sort((a,c)=>a.x-c.x||a.y-c.y||a.id.localeCompare(c.id)).map(u=>u.id);
+ for(let i=0;i<b.allies.length;i++)b.allies[i].spd=i%2?1000:.1;
+ const opponent=E.battleAct(s,'defend');
+ assert.deepEqual(opponent.order.filter(id=>id.startsWith('p')),initialOrder);
+ roundtrip(s);return {etaSlow:E.marchDuration(10,path),etaFast:E.marchDuration(60,path),battleMoves:initial,order:initialOrder};
+});
 check('AI attacks reachable targets before distant high-power targets',()=>{
  const s=fresh(),b=s.battle,u=b.allies.find(a=>a.range>1);
  assert(b.enemies.length>=2);
