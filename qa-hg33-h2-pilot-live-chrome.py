@@ -181,12 +181,25 @@ def run_troop_pilot(browser, pilot: dict) -> None:
     before = page.evaluate("""id=>{const s=HOG_APP_DEBUG.getState();return {gold:s.res.gold,army:s.army[id]||0}}""", unit_id)
     page.locator(f"#q_{unit_id}").fill("2")
     page.locator(f'[data-action="recruit"][data-id="{unit_id}"]').click()
-    queue = page.evaluate("""id=>{const s=HOG_APP_DEBUG.getState();return {id:s.training[0]?.unitId,count:s.training[0]?.count,
+    queue = page.evaluate("""id=>{const s=HOG_APP_DEBUG.getState();return {id:s.training[0]?.unitId||null,
+      count:s.training[0]?.count||0,army:s.army[id]||0,
       gold:s.res.gold,strict:HOG_ENGINE.strictSave(s)}}""", unit_id)
-    check(f"{name} recruitment spends real resources and queues two units",
-          queue["id"] == unit_id and queue["count"] == 2 and queue["gold"] < before["gold"] and queue["strict"], queue)
-    page.evaluate("""()=>{const s=HOG_APP_DEBUG.getState(),seconds=Math.ceil(s.training[0].remaining/s.speed)+1;
-      HOG_ENGINE.tick(s,s.lastTick+seconds*1000);s.speed=60;s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""")
+    queued = queue["id"] == unit_id and queue["count"] == 2 and queue["army"] == before["army"]
+    delivered = queue["id"] is None and queue["count"] == 0 and queue["army"] == before["army"] + 2
+    # HG40.5: effective recruitment 5000x can complete a paid two-unit
+    # batch before a Chromium DOM inspection. Either state is legitimate;
+    # strict stock delta and actual resource debit must still be enforced.
+    check(f"{name} recruitment spends real resources for exactly two units",
+          (queued or delivered) and queue["gold"] < before["gold"] and queue["strict"],
+          {**queue,"queuedValid":queued,"deliveredValid":delivered})
+    if queued:
+        page.evaluate("""()=>{const s=HOG_APP_DEBUG.getState(),task=s.training[0],
+          seconds=Math.ceil(task.remaining/Math.max(.001,s.speed))+1;
+          HOG_ENGINE.tick(s,s.lastTick+seconds*1000);
+          s.speed=60;s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""")
+    else:
+        page.evaluate("""()=>{const s=HOG_APP_DEBUG.getState();
+          s.speed=60;s.lastTick=Date.now();HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""")
     recruited = page.evaluate("""id=>{const s=HOG_APP_DEBUG.getState();return {count:s.army[id],queued:s.training.length,strict:HOG_ENGINE.strictSave(s)}}""", unit_id)
     expected_recruited = before["army"] + 2
     check(f"{name} is delivered by an actual engine training tick", recruited["count"] == expected_recruited and recruited["queued"] == 0 and recruited["strict"], {**recruited,"expected":expected_recruited})
