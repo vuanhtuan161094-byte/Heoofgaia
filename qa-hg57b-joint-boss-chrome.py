@@ -49,13 +49,12 @@ with sync_playwright() as pw:
     E.hg26Start(s,{target:target.key,heroId:null,maxRuns:1,keepAP:0,
       minUnits:12,minCoverage:100,maxLossPercent:100,autoHeal:false,
       autoRecruit:false,stopOnLoss:true,team:[1,2,3].map(heroId=>({heroId,slots:[0,1]}))});
-    const departed=E.hg26Step(s);
+    const departed=E.hg26Step(s),apAfterDispatch=s.ap;
     E.tick(s,s.lastTick+Math.ceil((s.march.remaining+1)/s.speed*1000));
     const arrived=E.hg26Step(s),b=s.battle;
     const original={valid:E.strictSave(s),apBefore:ap,apAfter:s.ap,
-      armyBefore:army,armyAfter:s.army.human_1,rewards:s.hg409.rewards.length,
+      apAfterDispatch,armyBefore:army,armyAfter:s.army.human_1,rewards:s.hg409.rewards.length,
       roster:b?.allies.map(u=>u.heroId),enemies:b?.enemies.length,
-      commanders:[...document.querySelectorAll('[data-hg57-leaders] .hg57-hero-chip')].length,
       heroNames:s.heroes.slice(0,3).map(h=>h.name),
       phase:b?.hg261Joint?.version||b?.hg261Joint?.v,
       deployment:departed.type,arrival:arrived.type,
@@ -65,6 +64,7 @@ with sync_playwright() as pw:
     for(const enemy of b.enemies){enemy.hp=2000000;
       enemy.pool=enemy.hp*enemy.count;enemy.atk=0;enemy.def=0;}
     HOG_APP_DEBUG.render();
+    original.commanders=document.querySelectorAll('[data-hg57-leaders] .hg57-hero-chip').length;
     const canvas=document.getElementById('battle-canvas'),P=HOG_PAINTER,
       old=P.drawBattle,metric={calls:[],drawMs:[],sameCanvas:true,
         heapBefore:performance.memory?.usedJSHeapSize??null};
@@ -82,7 +82,7 @@ with sync_playwright() as pw:
    deployed['valid'] and deployed['postStressValid'] and
    deployed['roster']==[1,1,2,2,3,3] and deployed['enemies']==16 and
    deployed['deployment']=='dispatched' and deployed['arrival']=='battle_open' and
-   deployed['apAfter']<=deployed['apBefore'] and
+   deployed['apAfterDispatch']<deployed['apBefore'] and
    deployed['armyAfter']<=deployed['armyBefore'] and
    deployed['rewards']==0 and deployed['code']==7,deployed)
   check(label+' 3 actual hero portraits and actual opponent commander visible',
