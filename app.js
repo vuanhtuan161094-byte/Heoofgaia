@@ -141,8 +141,8 @@ function combatEnergyHTML(b,u){
   '" title="'+esc(r.name)+' · '+(r.passive?'Nội tại kích hoạt theo điều kiện, không CD':
     'CD '+r.baseCooldown+' lượt; tự dùng nếu thỏa điều kiện')+'">'+
   '<span>✦ '+esc(r.name)+' <b>'+label+'</b></span>'+
-  (r.passive?'<div class="hg58-mp-bar passive" aria-label="Kỹ năng nội tại"></div>':
-   '<div class="hg58-mp-bar" role="progressbar" aria-label="Tiến độ hồi chiêu" aria-valuenow="'+r.progress+
+  (r.passive?'<div class="hg58-cd-bar passive" aria-label="Kỹ năng nội tại"></div>':
+   '<div class="hg58-cd-bar" role="progressbar" aria-label="Tiến độ hồi chiêu" aria-valuenow="'+r.progress+
    '" aria-valuemin="0" aria-valuemax="100"><i style="width:'+r.progress+'%"></i></div>'+
    '<small>'+(r.ready?'Có thể kích hoạt':('Còn '+r.cooldown+' lượt'))+
    ' · CD gốc '+r.baseCooldown+' lượt</small>')+
