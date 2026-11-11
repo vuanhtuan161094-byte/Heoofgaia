@@ -300,6 +300,20 @@ try:
   # New Game defaults to 60×. Slow to 1× using the real speed command so the
   # multi-minute expedition cannot finish during Playwright locator scrolling.
   page.evaluate("HOG_ENGINE.setSpeed(HOG_APP_DEBUG.getState(),1)")
+  # HG24 smart Boss preparation is allowed to restore the saved smaller
+  # template. A previously typed minimum of 61 must NOT authorize a hunt
+  # with fewer actual deployed soldiers. Query the current canonical plan
+  # and enter its real troop count through the visible HG26 safety control.
+  actual_hunt_team=page.evaluate("""() => {
+    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),p=E.hg20HeroPlan(s,1);
+    return {plan:p,total:p.reduce((n,g)=>n+g.count,0),
+      inCity:s.army.human_1,strict:E.strictSave(s)};
+  }""")
+  check('Boss hunt safety minimum is derived from the current real squad',
+    actual_hunt_team['total']>=1 and
+    actual_hunt_team['total']<=actual_hunt_team['inCity'] and
+    actual_hunt_team['strict'],actual_hunt_team)
+  page.locator('#hg26_min_units').fill(str(actual_hunt_team['total']))
   page.locator('#hg26_max_runs').fill('1')
   page.locator('.game-window-body [data-action="hg26-start"]').click()
   hunt=page.evaluate("""() => {
