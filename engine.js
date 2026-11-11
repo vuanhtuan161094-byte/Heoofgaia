@@ -505,6 +505,7 @@ function strike(s,b,actor,target,order,trace){
  const rawDamage=Math.max(1,Math.floor(actor.count*base*bonus/defendFactor*
   (1+weaponMod)*mitigation*(1+(rules?.bonus||0))));
  const hit=applyBattleDamage(s,b,target,rawDamage);
+ if(trace)trace.shieldAbsorbed=hit.absorbed;
  const secondary=root.HOG_ENGINE?.hg40AfterHit?.(s,b,actor,target,hit,trace,
   (u,amount)=>applyBattleDamage(s,b,u,amount))||0;
  return hit.applied+secondary;
@@ -529,7 +530,17 @@ function battleAct(s,action,options){
  const sideOrder=(a,c)=>c.spd-a.spd||a.x-c.x||a.y-c.y||a.id.localeCompare(c.id);
  const participants=[...alive(b.allies).sort(sideOrder),...alive(b.enemies).sort(sideOrder)];
  let dealt=0,lost=0;const acted=[],lastTargets={},lastMoves=[],lastEvents=[],origins=new Map(participants.map(u=>[u.id,{x:u.x,y:u.y}]));
- const record=(actor,target=null,damage=0,path=null,order='attack',casualties=0)=>{const from=origins.get(actor.id),to={x:actor.x,y:actor.y},route=path?.length?path:(from.x!==to.x||from.y!==to.y?[to]:[]);lastEvents.push({actorId:actor.id,from,to,path:route,targetId:target?.id||null,damage,death:!!(damage>0&&target?.pool<=0),order,casualties})};
+ const record=(actor,target=null,damage=0,path=null,order='attack',casualties=0,beforePool=null,absorbed=0)=>{
+  const from=origins.get(actor.id),to={x:actor.x,y:actor.y},
+   route=path?.length?path:(from.x!==to.x||from.y!==to.y?[to]:[]);
+  // HG58: actual per-hit HP and target hex receipts are recorded AFTER the
+  // canonical strike (including shields). Renderer may replay them without
+  // inferring an entire completed round's HP from the final state.
+  lastEvents.push({actorId:actor.id,from,to,path:route,targetId:target?.id||null,
+   targetAt:target?{x:target.x,y:target.y}:null,
+   poolBefore:target?beforePool:null,poolAfter:target?target.pool:null,
+   shieldAbsorbed:absorbed||0,damage,death:!!(damage>0&&target?.pool<=0),order,casualties});
+ };
  for(const actor of participants){
   if(actor.pool<=0)continue;
   if(root.HOG_ENGINE?.hg40BeforeAction?.(s,b,actor)){
@@ -570,7 +581,7 @@ function battleAct(s,action,options){
     near||power||x.id.localeCompare(y.id);
   })[0];
   lastTargets[actor.id]=target.id;acted.push(actor.id);
-  const beforePool=target.pool,beforeCount=target.count,trace={path:[]},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path,stance,beforeCount-target.count);
+  const beforePool=target.pool,beforeCount=target.count,trace={path:[]},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path,stance,beforeCount-target.count,beforePool,trace.shieldAbsorbed||0);
   if(actor.side==='player')dealt+=amount;else lost+=amount;
  }
  const turn=b.turn;
