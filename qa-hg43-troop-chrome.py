@@ -71,7 +71,8 @@ with sync_playwright() as pw:
    const b=s.battle,u=b.allies[0],foe=b.enemies[0];
    window.__hg43_canvas_ref=document.getElementById('battle-canvas');
    return {kind:boss.eliteTier,stacks:b.enemies.length,unitId:u.unitId,
-    skill:E.HG40_TRAITS[u.unitId]?.name,actualAtk:u.atk,foeAtk:foe.atk,
+    skill:E.HG40_TRAITS[u.unitId]?.name,foeUnitId:foe.unitId,
+    foeSkill:E.HG40_TRAITS[foe.unitId]?.name,actualAtk:u.atk,foeAtk:foe.atk,
     valid:E.strictSave(s)};
   }""")
   check(label+' real 16-stack Boss and player skill metadata loaded',combat['stacks']==16 and combat['kind']==13 and combat['valid'] and bool(combat['skill']),combat)
@@ -79,8 +80,13 @@ with sync_playwright() as pw:
   player=page.locator('.hg43-battle-unit[data-side="player"]').inner_text()
   check(label+' in-combat skill, role, HP/ATK/DEF/SPD/range and counter visible',
     combat['skill'] in player and all(x in player for x in ['HP thực','ATK','DEF','SPD','Tầm','Khắc chế','Nội tại']),player[:550])
-  check(label+' Boss target not assigned fake 40-unit skill',
-    'không thuộc 40 kỹ năng' in page.locator('.hg43-battle-unit[data-side="enemy"]').inner_text())
+  # HG61 reused real original troop skills for Boss leaders/guards.
+  # Require the ACTUAL unitId skill in the enemy card; no invented ability.
+  enemy_profile=page.locator('.hg43-battle-unit[data-side="enemy"]').inner_text()
+  check(label+' Boss target displays its canonical HG40 skill, not a phantom ability',
+    bool(combat['foeSkill']) and combat['foeSkill'] in enemy_profile and
+    'không thuộc 40 kỹ năng' not in enemy_profile,
+    {'unitId':combat['foeUnitId'],'skill':combat['foeSkill'],'render':enemy_profile[:400]})
   shot(page,label+'-combat-boss-stats')
   page.locator('.hg42-boss-roster summary').click()
   page.locator('.hg42-boss-roster [data-action="hg42-boss-focus"][data-id="e10"]').click()
