@@ -56,7 +56,7 @@ check('World speed remains SPD-driven but battle turn order and damage never are
  const initialOrder=[...b.allies].sort((a,c)=>a.x-c.x||a.y-c.y||a.id.localeCompare(c.id)).map(u=>u.id);
  for(let i=0;i<b.allies.length;i++)b.allies[i].spd=i%2?1000:.1;
  const opponent=E.battleAct(s,'defend');
- assert.deepEqual(opponent.order.filter(id=>id.startsWith('p')),initialOrder);
+ assert.equal(opponent.order.filter(id=>id.startsWith('p')).join(','),initialOrder.join(','),'SPD cannot affect side formation order');
  roundtrip(s);return {etaSlow:E.marchDuration(10,path),etaFast:E.marchDuration(60,path),battleMoves:initial,order:initialOrder};
 });
 check('AI attacks reachable targets before distant high-power targets',()=>{
