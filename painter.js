@@ -301,6 +301,7 @@ const VANGUARD_CLIPS=Object.freeze({
  death:{row:4,count:8,ms:1200,loop:false}
 });
 const battleVisualTimelines=new WeakMap();
+const battlePendingPoolByFrame=new WeakMap(); // HG57-B: one receipt pass per visual frame, not 22+ scans
 function visualNow(){return typeof performance!=='undefined'?performance.now():0}
 const EMPTY_BATTLE_EVENTS=Object.freeze([]),BATTLE_VISUAL_STAGGER_MS=62,BATTLE_HEX_TRAVEL_MS=165;
 // HG57 animation ledger: each stack completes its move/strike before the next
@@ -352,8 +353,14 @@ function battleTimelineFor(b,now=visualNow()){
  if(!timeline)timeline=battleTimelinePrime(b,now,true);
  const events=Array.isArray(b.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
  if(timeline.seen!==events){timeline.seen=events;enqueueBattleReceipts(timeline,events,now,b.turn-1)}
- if(timeline.items.length>180)timeline.items=timeline.items.filter(item=>item.deathEnd>now||item.effectEnd>now||item.animationEnd>now).slice(-160);
- else if(timeline.items.length>24)timeline.items=timeline.items.filter(item=>item.deathEnd>now||item.effectEnd>now||item.animationEnd>now);
+ // Each of the up-to-22 drawn actors calls battleVisualState and
+ // battleVisualPool at the SAME frame timestamp. Cull at most once per
+ // frame/receipt, keeping identical expiration semantics on later frames.
+ if(timeline.lastCullNow!==now||timeline.lastCullEvents!==events){
+  if(timeline.items.length>180)timeline.items=timeline.items.filter(item=>item.deathEnd>now||item.effectEnd>now||item.animationEnd>now).slice(-160);
+  else if(timeline.items.length>24)timeline.items=timeline.items.filter(item=>item.deathEnd>now||item.effectEnd>now||item.animationEnd>now);
+  timeline.lastCullNow=now;timeline.lastCullEvents=events;
+ }
  return timeline;
 }
 function battleTimelineTurnDuration(b){
@@ -379,9 +386,20 @@ function vanguardAtlasFrame(action,elapsed=0,duration=null){
  return {action,frame,sx:frame*192,sy:clip.row*204,sw:192,sh:204,id:'unit-human-vanguard-atlas'};
 }
 function battleVisualPool(b,u,now=visualNow()){
- const pending=(battleTimelineFor(b,now)?.items||[]).reduce((sum,item)=>
-  item.event.targetId===u.id&&item.event.damage>0&&now<item.impactAt?sum+item.event.damage:sum,0);
- return clamp((u.pool||0)+pending,0,Math.max(0,(u.initial||u.count||0)*(u.hp||1)));
+ const timeline=battleTimelineFor(b,now),items=timeline?.items||[];
+ let cache=battlePendingPoolByFrame.get(b);
+ if(!cache||cache.now!==now||cache.seen!==timeline?.seen||cache.items!==items){
+  const pending=new Map();
+  for(const item of items){
+   const event=item.event;
+   if(event?.targetId&&event.damage>0&&now<item.impactAt)
+    pending.set(event.targetId,(pending.get(event.targetId)||0)+event.damage);
+  }
+  cache={now,seen:timeline?.seen,items,pending};
+  battlePendingPoolByFrame.set(b,cache);
+ }
+ return clamp((u.pool||0)+(cache.pending.get(u.id)||0),0,
+  Math.max(0,(u.initial||u.count||0)*(u.hp||1)));
 }
 function battleVisualState(b,u,elapsed,now=elapsed){
  const timeline=battleTimelineFor(b,now),items=timeline?.items||[],
