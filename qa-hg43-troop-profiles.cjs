@@ -102,7 +102,11 @@ test('Live Boss T13 rendering exposes actual 16-stack numbers without fabricatin
  assert(html.includes('data-hg43-combat-unit="'+actor.id+'"'));
  assert(html.includes('data-hg43-combat-unit="'+enemy.id+'"'));
  assert(html.includes(E.HG40_TRAITS[actor.unitId].name));
- assert(html.includes('không thuộc 40 kỹ năng'));
+ // HG61 binds real troop identities to monster squads: the enemy profile
+ // must display its ACTUAL HG40 ability, not the old no-skill placeholder.
+ assert(E.HG40_TRAITS[enemy.unitId],'Boss leader has no real HG40 troop skill');
+ assert(html.includes(E.HG40_TRAITS[enemy.unitId].name),'Enemy canonical skill not rendered');
+ assert(!html.includes('không thuộc 40 kỹ năng'),'Enemy incorrectly shown as skill-less');
  assert(html.includes(E.fmt(enemy.atk)),'Real enemy attack stat not rendered');
  assert.equal(JSON.stringify(s),before,'read-only combat UI changed persistent state');
  assert(E.strictSave(s));
