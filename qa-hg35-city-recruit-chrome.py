@@ -182,13 +182,22 @@ with sync_playwright() as pw:
         queue:s.training.length,queued:s.training.at(-1)?.count,
         payments,toast:document.getElementById('toast')?.textContent};
     }""")
-    check('MAX recruitment subtracts exact resources and queues only paid troops',
-          paid['valid'] and paid['army']==beforeRecruit['army'] and
-          paid['queue']==beforeRecruit['queue']+1 and
-          paid['queued']==beforeRecruit['n'] and paid['queued']==maxSelect['selected'] and
-          len(paid['payments'])==1 and
+    # HG40.5 5000x training can finish between a genuine UI click and
+    # the next synchronous Chromium snapshot. Both states are valid ONLY
+    # when the actual spend receipt is exact and the delivered quantity
+    # equals the purchased MAX. Never relax the no-free-troops invariant.
+    queued_now=(paid['army']==beforeRecruit['army'] and
+                paid['queue']==beforeRecruit['queue']+1 and
+                paid['queued']==beforeRecruit['n'])
+    delivered_now=(paid['army']==beforeRecruit['army']+beforeRecruit['n'] and
+                   paid['queue']==beforeRecruit['queue'] and
+                   paid['queued'] is None)
+    check('MAX recruitment deducts exact resources and queues or delivers only paid troops',
+          paid['valid'] and beforeRecruit['n']==maxSelect['selected'] and
+          (queued_now or delivered_now) and len(paid['payments'])==1 and
           all(abs(paid['payments'][0]['actual'][k]-v)<1e-7 for k,v in beforeRecruit['cost'].items()) and
-          'Đã trừ' in paid['toast'],paid)
+          'Đã trừ' in paid['toast'],
+          {**paid,'queuedValid':queued_now,'deliveredValid':delivered_now})
     page.reload(wait_until='load')
     afterReload=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();
