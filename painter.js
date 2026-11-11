@@ -360,6 +360,19 @@ function battleTimelineTurnDuration(b){
  const events=Array.isArray(b?.lastEvents)?b.lastEvents:EMPTY_BATTLE_EVENTS;
  return events.length?battleVisualSchedule(events).duration:0;
 }
+function battleVisualPhase(b,now=visualNow()){
+ const items=battleTimelineFor(b,now)?.items||[];
+ // Retain the last active side during the short handoff pause.
+ let current=null;
+ for(const item of items){
+  if(now>=item.start&&now<item.animationEnd)
+   return {side:String(item.event.actorId).startsWith('e')?'enemy':'player',actorId:item.event.actorId};
+  if(now>=item.animationEnd)current=item;
+ }
+ return current&&now<current.animationEnd+420?{
+  side:String(current.event.actorId).startsWith('e')?'enemy':'player',actorId:current.event.actorId
+ }:{side:null,actorId:null};
+}
 function battleElapsed(b,now){battleTimelineFor(b,now);return Math.max(0,now)}
 function vanguardAtlasFrame(action,elapsed=0,duration=null){
  if(!VANGUARD_CLIPS[action])action='idle';const clip=VANGUARD_CLIPS[action],ms=duration||clip.ms,t=Number.isFinite(elapsed)?Math.max(0,elapsed):0,raw=Math.floor(t/ms*clip.count),frame=clip.loop?raw%clip.count:Math.min(clip.count-1,raw);
@@ -1357,7 +1370,9 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    }
   }
   // A compact 28px name/HP card is placed outside silhouette collision boxes.
-  const plate=entry.label,hpVisible=interaction.showHP!==false;
+  // Nameplates can be hidden without hiding HP and stack counters. Every
+  // actor stays touch-selectable at its canonical hex; no Save modification.
+  const plate=interaction.showLabels===false?null:entry.label,hpVisible=interaction.showHP!==false;
   if(!plate){
    // Dense Boss formation: small bar next to the genuine foot pivot, not
    // a phantom floating label over another sprite or the HUD.
@@ -1425,5 +1440,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
