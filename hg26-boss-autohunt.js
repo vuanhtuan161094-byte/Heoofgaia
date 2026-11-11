@@ -70,8 +70,13 @@ function prepare(s,c){
  if(!h||E.hg20HeroRole(s,c.heroId).status!=='home')throw Error('Tướng săn Boss chưa về thành');
  if(s.activeHero!==c.heroId)E.selectHero(s,c.heroId);
  const assigned=E.hg20HeroPlan(s,c.heroId);
- // Replenish from the stored template; never treat an old plan as new units.
- if(E.hg24Template(s,c.heroId)){
+ const template=E.hg24Template(s,c.heroId);
+ // HG57-B: explicit manual squad owns the plan after the player disables
+ // HG24 auto-fill. A saved historical 16-unit template is not permission to
+ // silently replace a manually paid 61-unit team on HG26 Start.
+ // Only an enabled auto-fill policy, or an otherwise empty plan, restores
+ // the saved template. No new troops, AP or Save fields.
+ if(template&&(template.autoFill||!assigned.length)){
   E.hg24Apply(s,c.heroId);
  }else if(!assigned.length){
   E.autoFormation(s);
