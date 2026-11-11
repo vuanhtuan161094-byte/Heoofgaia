@@ -778,6 +778,40 @@ function hg56BossPhaseAura(c,b,camera,elapsed,layout){
  c.restore();
 }
 
+// HG58 actual HG40 skill trigger: keep names and VFX attached to the
+// serialized actor receipt, never infer "special skills" from ordinary hits.
+function drawHG58SkillCues(c,b,camera,elapsed,layout){
+ const signals=(b.hg40?.lastSkills||[]).filter(x=>x.turn===b.turn-1&&x.actorId);
+ if(!signals.length)return;
+ const timeline=battleTimelineFor(b,elapsed)?.items||[],byId=new Map(layout.map(e=>[e.id,e]));
+ for(const sig of signals){
+  const item=timeline.find(x=>x.round===sig.turn&&x.event.actorId===sig.actorId);
+  const actor=byId.get(sig.actorId);
+  if(!item||!actor||elapsed<item.start||elapsed>item.animationEnd+450)continue;
+  const age=Math.max(0,elapsed-item.start),fade=clamp((item.animationEnd+450-elapsed)/370,0,1),
+   visual=battleVisualState(b,actor.u,elapsed,elapsed),
+   pt=battleVisualPoint(camera,visual,actor.u),
+   x=pt.x+actor.x-actor.baseX,y=pt.y+actor.y-actor.baseY,
+   enemy=actor.u.side==='enemy',accent=enemy?'#ffae89':'#84eff2',
+   radius=clamp(actor.size*.31,11,27),rise=Math.min(16,age/42);
+  c.save();c.globalAlpha=fade;c.globalCompositeOperation='source-over';
+  c.strokeStyle=accent;c.lineWidth=2.3;
+  c.shadowColor=accent;c.shadowBlur=5;
+  c.beginPath();c.ellipse(x,y-actor.size*.48,radius*(1+.10*Math.sin(age/100)),
+   radius*.8,0,0,TAU);c.stroke();c.shadowBlur=0;
+  for(let i=0;i<5;i++){
+   const theta=i*TAU/5+age/470,px=x+radius*.8*Math.cos(theta),
+    py=y-actor.size*.48+radius*.65*Math.sin(theta);
+   c.fillStyle=i%2?'#fff7df':accent;c.beginPath();c.arc(px,py,1.7,0,TAU);c.fill();
+  }
+  c.font='bold 12px system-ui, sans-serif';c.textBaseline='middle';
+  const label='✦ '+sig.skill,width=Math.min(176,Math.max(72,c.measureText(label).width+20)),
+   top=Math.max(55,y-actor.size*.87-36-rise),left=clamp(x-width/2,4,c.canvas.width-width-4);
+  rounded(c,left,top,width,24,6,enemy?'#4b2335ee':'#14394bee',accent);
+  c.fillStyle='#fff5dc';c.textAlign='center';c.fillText(label,left+width/2,top+12);
+  c.restore();
+ }
+}
 function motionImpactFx(c,camera,b,elapsed,layout){
  const effects=battleFxPlan(b,camera,elapsed,layout);
  for(const fx of effects){
@@ -1414,6 +1448,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   // Nameplates can be hidden without hiding HP and stack counters. Every
   // actor stays touch-selectable at its canonical hex; no Save modification.
   const plate=interaction.showLabels===false?null:entry.label,hpVisible=interaction.showHP!==false;
+  const skillCharge=E.hg40SkillReadiness?.(b,u),mpShown=skillCharge&&!skillCharge.passive;
   if(!plate){
    // Dense Boss formation: small bar next to the genuine foot pivot, not
    // a phantom floating label over another sprite or the HUD.
@@ -1423,6 +1458,12 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
     const hpRatio=clamp(displayPool/(u.initial*u.hp),0,1);
     c.fillStyle=hpRatio<.24?'#ff9775':u.side==='enemy'?'#ec9d89':'#88d1a0';
     c.fillRect(x-barWidth/2+1,barY+1,(barWidth-2)*hpRatio,5);
+   }
+   if(mpShown){
+    const barWidth=clamp(camera.radius*1.3,20,48),barY=y+(hpVisible?15:7);
+    c.fillStyle='#122538e0';c.fillRect(x-barWidth/2,barY,barWidth,3);
+    c.fillStyle=skillCharge.ready?'#a8f4ff':'#609be9';
+    c.fillRect(x-barWidth/2,barY,barWidth*skillCharge.mp/100,3);
    }
   }else{
   const bx=plate.x+x-entry.x,by=plate.y+y-entry.y;
@@ -1439,6 +1480,11 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    const hpRatio=clamp(displayPool/(u.initial*u.hp),0,1);
    c.fillStyle=hpRatio<.24?'#ff9775':u.side==='enemy'?'#ec9d89':'#88d1a0';
    c.fillRect(bx+9,by+22,(plate.w-18)*hpRatio,4);}
+   if(mpShown){
+    c.fillStyle='#122538e6';c.fillRect(bx+8,by+(hpVisible?29:21),plate.w-16,3);
+    c.fillStyle=skillCharge.ready?'#a8f4ff':'#609be9';
+    c.fillRect(bx+8,by+(hpVisible?29:21),(plate.w-16)*skillCharge.mp/100,3);
+   }
   }
   const badge=entry.countBox,ox=x-entry.x,oy=y-entry.y;
   rounded(c,badge.x+ox,badge.y+oy,badge.w,badge.h,6,'#17292cdd','#c0aa7a77');
@@ -1446,6 +1492,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    badge.y+oy+badge.h*(badge.h<19?.76:.74),badge.h<19?10:12,'#fff0ca');
  }
  motionImpactFx(c,camera,b,elapsed,units);
+ drawHG58SkillCues(c,b,camera,elapsed,units);
  hg56BossPhaseAura(c,b,camera,elapsed,units);
  drawHG403ProcCues(c,b,elapsed,units);
  // HG40 supplemental damage must stay OUT of canonical v07 lastEvents:
