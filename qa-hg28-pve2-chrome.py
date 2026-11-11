@@ -225,7 +225,8 @@ with sync_playwright() as pw:
           # original 3 canonical Boss troop archetypes. The old expectation
           # of exactly 3 targetable enemies was obsolete after deployment V2.
           len(setup["enemies"])==16 and
-          len(set(setup["enemies"]))==3,setup)
+          setup["enemies"][:3]==["Azrael","Demonlord Samurai","Cyclop Tyrant"] and
+          len(set(setup["enemies"][3:]))>=4,setup)
     for w,h in ((1280,720),(960,540)):
         d=pose(page,w,h,"joint-three-heroes-six-stacks")
         check(f"Six stacks keep 3 distinct hero owners at {w}x{h}",

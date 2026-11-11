@@ -35,10 +35,21 @@ function enemyTemplate(b,i,cs,boss){
  const seed=String(b.target||'tower').split('').reduce((h,ch)=>(h*31+ch.charCodeAt(0))%65521,0)+
   (b.hg21Tower?.floor||0);
  const race=PVE_RACES[(seed+Math.floor(i/3))%PVE_RACES.length];
- const maxTier=cs<=2?4:cs<=4?6:cs<=7?8:10;
- const tier=Math.min(10,Math.max(1,boss?Math.max(6,PVE_TIERS[i%16]+Math.floor((cs-1)/4)):
-  Math.min(maxTier,PVE_TIERS[i%16]+Math.floor((cs-1)/3))));
- return E.C.units[race][tier-1];
+ const maxTier=cs<=2?4:cs<=4?6:cs<=7?8:10,minTier=boss?6:1;
+ const preferred=Math.min(maxTier,Math.max(minTier,PVE_TIERS[i%16]+Math.floor((cs-1)/4)));
+ const mode=i%4;
+ const roleOf=u=>E.HG40_TRAITS[u.id];
+ const roleMatch=u=>mode===1?u.type==='Ranged':
+  mode===2?roleOf(u)?.cd>0&&['defdown','atkdown','dot','mark','slow','root','stun'].includes(roleOf(u).kind):
+  mode===3?['H','T'].includes(roleOf(u)?.role):true;
+ const roster=E.C.units[race],eligible=roster.filter(u=>u.tier>=minTier&&u.tier<=maxTier&&roleMatch(u));
+ // Early Undead have no ranged unit below T6. In that case the encounter
+ // genuinely draws a ranged unit from another existing faction.
+ const alternate=Object.values(E.C.units).flat().filter(u=>u.tier>=minTier&&u.tier<=maxTier&&roleMatch(u));
+ const pool=eligible.length?eligible:alternate.length?alternate:roster.filter(u=>u.tier>=minTier&&u.tier<=maxTier);
+ const sorted=pool.slice().sort((x,y)=>Math.abs(x.tier-preferred)-Math.abs(y.tier-preferred)||
+  (x.race===race?-1:1)-(y.race===race?-1:1)||x.id.localeCompare(y.id));
+ return sorted[(seed+Math.floor(i/8))%Math.min(sorted.length,2)];
 }
 function tagEnemy(u,source,b,i,cs,boss){
  // A first-row named Boss keeps its uniquely authored Boss atlas and name.
