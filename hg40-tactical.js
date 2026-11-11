@@ -37,14 +37,7 @@ const TRAITS=Object.freeze(Object.fromEntries(Object.entries(R).flatMap(([race,l
 if(Object.keys(TRAITS).length!==40)throw Error('HG40 requires exactly 40 traits');
 const round=n=>Math.max(0,Math.floor(Number.isFinite(n)?n:0));
 const alive=u=>!!u&&u.pool>0&&u.count>0;
-function stateOf(b){
- const h=b?.hg40?.v===1?b.hg40:null;
- if(h&&!h.mana){
-  // Older midbattle Save v07 had cooldowns but no per-actor MP.
-  h.mana=Object.fromEntries([...b.allies,...b.enemies].map(u=>[u.id,100]));
- }
- return h;
-}
+function stateOf(b){return b?.hg40?.v===1?b.hg40:null}
 function owner(s,u){return u.side==='player'?String(u.heroId??s.expedition?.heroId??s.activeHero):'enemy'}
 function sameOwner(s,a,u){return a.side===u.side&&owner(s,a)===owner(s,u)}
 function boss(s,b,u){
@@ -71,8 +64,7 @@ function prepare(s,b){
  if(!b||b.hg40)return b;
  const multipliers=scaleFor(s,b);
  const h={v:1,mode:'hg40',multipliers,cd:{},hits:{},flags:{},shields:{},
-  statuses:[],stunImmune:{},events:[],lastSkills:[],turnApplied:0,
-  mana:Object.fromEntries([...b.allies,...b.enemies].map(u=>[u.id,100]))};
+  statuses:[],stunImmune:{},events:[],lastSkills:[],turnApplied:0};
  for(const u of b.enemies){
   // Do not multiply the persistent garrison or side-owned real troop data.
   const ratio=u.hp>0?Math.min(1,u.pool/(u.hp*Math.max(1,u.count))):1;
@@ -114,26 +106,23 @@ function addStatus(s,b,u,kind,value,duration,source,extra={}){
  }else h.statuses.push(item);
  return true;
 }
+// HG58-CD: one and only one special-skill gate. No secondary MP resource.
 function ready(b,actor,t){
  const h=stateOf(b);
- return !!h&&b.turn>=(h.cd[actor.id+':'+t.kind]||1)&&
-  (t.cd<=0||(h.mana[actor.id]??100)>=100);
+ return !!h&&(t.cd===0||b.turn>=(h.cd[actor.id+':'+t.kind]||1));
 }
 function commit(b,u,t){
- if(t.cd>0){
-  const h=stateOf(b);h.cd[u.id+':'+t.kind]=b.turn+t.cd;
-  // MP is genuinely consumed on special activation, never by painting.
-  h.mana[u.id]=Math.max(0,(h.mana[u.id]??100)-100);
- }
+ if(t.cd>0)stateOf(b).cd[u.id+':'+t.kind]=b.turn+t.cd;
 }
 function skillReadiness(b,u){
  const t=TRAITS[u?.unitId],h=stateOf(b);
  if(!t||!h)return null;
- const special=t.cd>0,remaining=Math.max(0,(h.cd[u.id+':'+t.kind]||0)-b.turn);
- const mp=Math.max(0,Math.min(100,h.mana[u.id]??100));
- return {name:t.name,kind:t.kind,passive:!special,mp,maxMp:100,
-  regen:special?Math.ceil(100/t.cd):0,baseCooldown:t.cd,
-  cooldown:remaining,ready:!special||(mp>=100&&remaining===0)};
+ const passive=t.cd===0;
+ const remaining=passive?0:Math.max(0,(h.cd[u.id+':'+t.kind]||0)-b.turn);
+ return {name:t.name,kind:t.kind,passive,baseCooldown:t.cd,
+  cooldown:remaining,progress:passive?100:Math.max(0,Math.min(100,
+   Math.round((t.cd-remaining)/t.cd*100))),
+  ready:passive||remaining===0};
 }
 function note(b,spec,message,actor){
  const h=stateOf(b);if(!h)return;
@@ -177,14 +166,8 @@ function chooseAlly(s,b,actor,mode){
  return inRange.sort((a,c)=>(currentShield(b,a)/(a.count*a.hp))-(currentShield(b,c)/(c.count*c.hp))||a.id.localeCompare(c.id))[0]||null;
 }
 function beforeAction(s,b,u){
- const h=stateOf(b);if(!h)return false;
- // Regenerate precisely enough to align with this actor's own CD.
- // CD 3 -> 34MP/turn, CD 4 -> 25MP/turn, CD 5 -> 20MP/turn.
- // An old CD-3 skill must not be silently nerfed into a 4-round recharge.
- const trait=TRAITS[u.unitId],regen=trait?.cd>0?Math.ceil(100/trait.cd):0;
- if(regen>0)h.mana[u.id]=Math.min(100,(h.mana[u.id]??100)+regen);
- const stun=getStatus(b,u,'stun');
- return !!stun;
+ if(!stateOf(b))return false;
+ return !!getStatus(b,u,'stun');
 }
 function movement(b,u){
  if(!stateOf(b))return 0;
@@ -367,10 +350,8 @@ function skillText(b,u){
  const h=stateOf(b),until=h?.cd[u.id+':'+t.kind]||0;
  const passive=['guard','rangedGuard','meleeGuard','firstGuard','thirdBonus','thirdPierce',
   'rage','wounded','antiMelee','antiRanged','killBuff'];
- const energy=skillReadiness(b,u);
  return t.name+(passive.includes(t.kind)?' · Nội tại':
-  until>b.turn?' · CD '+(until-b.turn)+' · MP '+energy.mp+'/100':
-  energy.mp<100?' · MP '+energy.mp+'/100':' · sẵn sàng');
+  until>b.turn?' · CD '+(until-b.turn)+' lượt':' · sẵn sàng');
 }
 Object.assign(E,{HG40_TRAITS:TRAITS,hg40PrepareBattle:prepare,hg40BeforeAction:beforeAction,
  hg40MoveModifier:movement,hg40PlanStrike:plan,hg40Absorb:absorb,
