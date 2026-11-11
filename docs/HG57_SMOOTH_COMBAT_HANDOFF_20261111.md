@@ -1,3 +1,15 @@
+# HG57-B — VERIFIED FOCUSED RELEASE 2026-11-11
+
+- **Game/source SHA**: `cad61f00aa24fd70ad8f81c4076282095f94f7d7` (existing single branch only, no merge, no Codex).
+- **SUCCESS focused workflow**: [HG57-B #42947692652](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42947692652); exact source SHA verified in Actions logs. Every job step succeeded, including one HTML artifact.
+- **Release HTML**: artifact [HG57-Playable-Single-HTML #13822479609](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42947692652/artifacts/13822479609). Exactly ONE member `Play-Heoofgaia-HG11.html`, 78,737,260 bytes, SHA256 `d009128f8ab03cafc9e65c9cc2d08d5d23327f17335f9fee06e3aef2c9a4f32d` (verified independently after download). Browser screenshots+metrics artifact [#13823746210](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42947692652/artifacts/13823746210).
+- **PASS focused**: HG57 engine 6/6 (including actual 3 heroes × 2 owner-bound stacks vs 16 Boss stacks, true march/AP/casualties/loss, Save v07); HG26 15/15 (real paid 61 manual troops preserved with stale 16-unit template autoFill OFF); HG57 Chromium 27/27; 4-viewport HG57B 22/22; HG34 25/25 (RAF, actual auto combat and 3×2 Boss); HG48 48/48 (10/10 scrollable slots/recipes, no phantom fragments); all HG181 checks including unpaid Tower loss and real paid 61-soldier Tower win, one reward, real HG26 start + 3 owner cold Save v07.
+- **Verified short live-Chromium FPS (22-actor render stress, actual Chrome runner; not Android hardware)**: 1280×720 ~57.77 FPS, 1818×830 ~56 FPS, 844×390 ~29 FPS, 412×915 ~29 FPS; draw p95 roughly 0.6–1.0ms. Fixed ultrawide stage overflow, preserved global resource HUD, independently toggled unit names and HP. No recreated canvas or uncaught browser JS errors. Movement/attack presentation remains sequential; canonical whole round resolves once, not separately interruptible half-turns.
+- **Distinct monolithic legacy offline QA**: [#42947692646](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42947692646) was IN_PROGRESS when this handoff was written. **Do not call global FULL CI PASS** until this workflow concludes. Physical Windows and Android remain PENDING USER.
+- **HG57-B source changes**: `painter.js` one pending-damage pass per frame for dense Boss battle; `app.js` 60Hz-compatible RAF caps; `style-hg57.css` intrinsic-size canvas clipped stage fix; `hg26-boss-autohunt.js` bugfix preventing disabled auto-fill from overwriting explicit paid manual formation; evidence-led HG34/HG181/HG48/3×2 QA and `.github/workflows/hg57-smooth-combat.yml` gated single HTML output.
+
+---
+
 # HG57 — Smooth phased combat, real commanders, labels and HP · 2026-11-11
 
 ## Verified playable checkpoint
