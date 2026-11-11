@@ -187,12 +187,18 @@ try:
   drawer=page.locator('.hg28-army-ops:not(.hg28-army-quest)')
   if not drawer.evaluate('e=>e.open'):drawer.locator('summary').click()
   page.locator('.game-window-body [data-action="autoformation"]').click()
+  formed=page.evaluate("""() => {
+      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),p=E.hg20HeroPlan(s,1),
+        hero=s.heroes.find(h=>h.id===1);
+      return {plan:p,available:s.army.human_1,heroLevel:hero?.level,
+        commandLimit:E.heroLimit(hero.level,hero),points:E.formationPoints(s,p),
+        template:E.hg24Template(s,1)?.groups,
+        strict:E.strictSave(s),role:E.hg20HeroRole(s,1).status};
+    }""")
   check('Real Auto Formation assigns only the 61 paid-and-owned soldiers',
-    page.evaluate("""() => {
-      const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),p=E.hg20HeroPlan(s,1);
-      return p.length===1&&p[0].unitId==='human_1'&&p[0].count===61&&
-        s.army.human_1===61&&E.strictSave(s);
-    }"""))
+    len(formed['plan'])==1 and formed['plan'][0]['unitId']=='human_1' and
+    formed['plan'][0]['count']==61 and formed['available']==61 and
+    formed['strict'],formed)
   page.locator('[data-action="tab"][data-tab="tower"]').first.click()
   check('Tower is still on floor 1 with exactly zero rewards before the funded attempt',
     page.evaluate("""() => {
