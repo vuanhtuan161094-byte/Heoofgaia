@@ -157,7 +157,7 @@ test('SRC57 Battle Instinct applies the Orc melee movement bonus, saves fraction
 });
 test('HG09 movement preview is side-effect-free, avoids occupied cells and matches the real speed-based turn move',()=>{
  const s=E.make('human',1_000_001),target=E.NPC_CAMPS_2009.find(c=>c.stars===1),b=E.makeBattle(s,target.key);
- b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_4',name:'Preview Soldier',range:1,count:1,initial:1,hp:1000,atk:0,def:10,spd:7,pool:1000,x:1,y:1},{id:'p1',slot:1,side:'player',unitId:'human_1',name:'Blocker',range:1,count:1,initial:1,hp:1000,atk:0,def:10,spd:2,pool:1000,x:2,y:1}];
+ b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Preview Soldier',range:1,count:1,initial:1,hp:1000,atk:0,def:10,spd:7,pool:1000,x:1,y:1},{id:'p1',slot:1,side:'player',unitId:'human_1',name:'Blocker',range:1,count:1,initial:1,hp:1000,atk:0,def:10,spd:2,pool:1000,x:2,y:1}];
  b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Distant target',range:1,count:1,initial:1,hp:1000,atk:0,def:10,spd:1,pool:1000,x:8,y:7}];b.selected='p0';s.battle=b;
  const preview=E.battleMovePreview(b,'p0');assert.equal(preview.steps,2);assert(preview.cells.some(c=>c.x===1&&c.y===3&&c.steps===2));assert(!preview.cells.some(c=>c.x===2&&c.y===1));assert.equal(b.allies[0].moveCredit,undefined);assert(E.strictSave(s));
  const out=E.battleAct(s,'move',{x:1,y:3});assert.equal(out.type,'continue');const move=b.lastMoves.find(m=>m.unitId==='p0');assert.equal(move.steps,2);assert.equal(move.to.x,1);assert.equal(move.to.y,3);
@@ -298,9 +298,17 @@ test('Town Hall caps each race recruitment building without charging on rejectio
 test('construction once, no duplication',()=>{const s=state();E.upgrade(s,'hall');const b=s.buildingQueue.remaining;const now=s.lastTick+b/60*1000+1200;E.tick(s,now);assert.equal(s.buildings.hall,2);const res=JSON.stringify(s.res);E.tick(s,now);assert.equal(JSON.stringify(s.res),res)});
 test('Castellan INT adds gold output',()=>{const s=state();const base=E.rate(s).gold;s.heroes[0].int=40;E.appoint(s,1);assert(E.rate(s).gold>base)});
 test('hero equipment influences combat stats',()=>{const s=state();const item=E.addItem(s,'copper_blade','qa');E.equipItem(s,item.uid);assert(E.heroStats(s).atk>s.heroes[0].atk)});
-test('SRC20/Sina Hero SPD adds the dated 0.02 battle-speed increment per point',()=>{
+test('HG76 Hero SPD applies to world travel only and cannot buff battle actor movement',()=>{
  const tile=E.TILES.find(t=>t.kind==='npc'&&E.pathfind('3,4',t.key)),unit=E.getUnit(state(),'human_1');assert(tile);
- for(const [heroSpeed,bonus] of [[10,0],[60,1],[120,2.2]]){const s=state();s.heroes[0].spd=heroSpeed;const battle=E.makeBattle(s,tile.key);assert.equal(battle.allies[0].spd,unit.spd+bonus,`Hero SPD ${heroSpeed}`)}
+ const previews=[];
+ for(const heroSpeed of [10,60,120]){
+  const s=state();s.heroes[0].spd=heroSpeed;const battle=E.makeBattle(s,tile.key);
+  assert.equal(battle.allies[0].spd,unit.spd);
+  const movement=E.unitTacticalMovement(unit);
+  assert.equal(movement,2);
+  previews.push({heroSpeed,movement,worldFactor:E.marchSpeedFactor(heroSpeed)});
+ }
+ assert(previews[0].worldFactor<previews[1].worldFactor&&previews[1].worldFactor<previews[2].worldFactor);
 });
 test('Derived world-march factor uses the dated increment and v07 keeps an underway ETA',()=>{
  assert.equal(E.marchSpeedFactor(10),1);assert.equal(E.marchSpeedFactor(60),2);assert.equal(E.marchSpeedFactor(120),3.2);
@@ -681,19 +689,19 @@ test('HG07 v07 saves without the newer Arena queue migrate without losing data',
  assert.equal(loaded.wounded.human_1,3);assert.equal(loaded.arenaQueue,null);assert.equal(E.strictSave(loaded),true);
 });
 
-test('Equal-speed combat initiative follows left-to-right battlefield position',()=>{
+test('HG76 initiative follows battlefield position regardless of SPD',()=>{
  const s=state();s.army.human_1=40;s.formation=Array.from({length:4},()=>({unitId:'human_1',count:10}));
  // Keep this fixture at a known one-star NPC after historical coordinates were added.
  const starter=E.NPC_CAMPS_2009.find(c=>c.stars===1);
  s.battle=E.makeBattle(s,starter.key);
- for(const u of [...s.battle.allies,...s.battle.enemies]){u.spd=5;u.hp=1e9;u.pool=1e9;u.count=1;u.atk=1;u.def=1;u.range=20;}
+ for(const [i,u] of [...s.battle.allies,...s.battle.enemies].entries()){u.spd=[50,1,99,0.1,100,5][i];u.hp=1e9;u.pool=1e9;u.count=1;u.atk=1;u.def=1;u.range=20;}
  const out=E.battleAct(s,'attack');assert.deepEqual(Array.from(out.order),['p0','p1','p2','p3','e0','e1']);assert.deepEqual(Array.from(s.battle.lastActOrder),Array.from(out.order));
 });
 
 test('Advance order moves without attacking and persists through save/load',()=>{const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const b=s.battle;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Infantry',range:1,count:1,initial:1,hp:10000,atk:100,def:0,spd:4,pool:10000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Stationary target',range:20,count:1,initial:1,hp:10000,atk:0,def:0,spd:1,pool:10000,x:6,y:5}];b.selected='p0';b.orders={};b.focused=null;const a=b.allies[0],e=b.enemies[0],hp=e.pool;let steps=0;while(E.battleHex.distance(a,e)>a.range&&steps++<20){const before=E.battleHex.distance(a,e),out=E.battleAct(s,'advance');assert.equal(out.dealt,0);assert(E.battleHex.distance(a,e)<before);assert.equal(e.pool,hp)}assert(steps<=20);assert.equal(E.battleAct(s,'advance').dealt,0);assert.equal(e.pool,hp);const saved=E.parseSave(E.serializeSave(s));assert.equal(saved.battle.orders.p0,'advance');assert.deepEqual({x:saved.battle.allies[0].x,y:saved.battle.allies[0].y},{x:a.x,y:a.y});const out=E.battleAct(saved,'attack');assert(out.dealt>0);assert(saved.battle.enemies[0].pool<hp)});
 test('HG09 clicked battlefield destination uses a legal path, blocks occupied cells and survives v07 reload',()=>{
  const s=state();s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);const b=s.battle;
- b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_1',name:'Selected infantry',range:1,count:2,initial:2,hp:10000,atk:100,def:0,spd:4,pool:20000,x:1,y:1},{id:'p1',slot:1,side:'player',unitId:'human_1',name:'Blocking infantry',range:1,count:1,initial:1,hp:10000,atk:1,def:0,spd:1,pool:10000,x:2,y:1}];
+ b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_4',name:'Selected heavy infantry',range:1,count:2,initial:2,hp:10000,atk:100,def:0,spd:4,pool:20000,x:1,y:1},{id:'p1',slot:1,side:'player',unitId:'human_1',name:'Blocking infantry',range:1,count:1,initial:1,hp:10000,atk:1,def:0,spd:1,pool:10000,x:2,y:1}];
  b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Hold point',range:1,count:1,initial:1,hp:1e9,atk:0,def:0,spd:.1,pool:1e9,x:5,y:1}];b.selected='p0';b.orders={};b.focused=null;
  const turn=b.turn,hp=b.enemies[0].pool,from={x:b.allies[0].x,y:b.allies[0].y};throws(()=>E.battleAct(s,'move',{x:5,y:1}),/Ô đích/);assert.equal(b.turn,turn);assert.deepEqual({x:b.allies[0].x,y:b.allies[0].y},from);assert.deepEqual(b.orders,{});
  const out=E.battleAct(s,'move',{x:4,y:1}),m=b.lastMoves.find(x=>x.unitId==='p0');assert.equal(out.type,'continue');assert.deepEqual(JSON.parse(JSON.stringify({from:m.from,to:m.to,steps:m.steps,destination:m.destination})),{from:{x:1,y:1},to:{x:2,y:0},steps:1,destination:{x:4,y:1}});assert.equal(b.lastTargets.p0,undefined);assert.equal(b.orders.p0,'move');assert.deepEqual(JSON.parse(JSON.stringify(b.moveTargets.p0)),{x:4,y:1});assert.equal(b.enemies[0].pool,hp);assert.match(b.history[0],/p0 đi 1 ô tới \(2,0\)/);
@@ -1812,7 +1820,7 @@ test('HG57 staged smooth hex walk, side phases and complete Death clip do not mu
  assert.equal(JSON.stringify(b),before,'timeline does not add Save v07 state');
 });
 test('HG11 real battle action receipts and legacy eventless v07 saves validate strictly',()=>{
- const s=state(),tile=E.TILES.find(t=>t.kind==='npc'),b=E.makeBattle(s,tile.key);s.battle=b;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_4',name:'Heavy Soldier',range:1,count:1,initial:1,hp:1000,atk:20,def:10,spd:10,pool:1000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Wall',range:20,count:1,initial:1,hp:100000,atk:0,def:0,spd:1,pool:100000,x:6,y:1}];b.selected='p0';b.orders={};b.moveTargets={};const out=E.battleAct(s,'move',{x:4,y:1}),event=s.battle.lastEvents.find(e=>e.actorId==='p0');assert.equal(out.type,'continue');assert(event.path.length>0);assert.deepEqual({x:event.path[0].x,y:event.path[0].y},{x:2,y:1});assert.deepEqual({x:event.to.x,y:event.to.y},{x:4,y:1});assert.equal(event.path.length,3);assert.equal(event.order,'move');assert.equal(event.casualties,0);assert(E.strictSave(s));const saved=E.parseSave(E.serializeSave(s));assert.deepEqual(JSON.parse(JSON.stringify(saved.battle.lastEvents)),JSON.parse(JSON.stringify(s.battle.lastEvents)));
+ const s=state(),tile=E.TILES.find(t=>t.kind==='npc'),b=E.makeBattle(s,tile.key);s.battle=b;b.allies=[{id:'p0',slot:0,side:'player',unitId:'human_5',name:'Gryphon',range:1,count:1,initial:1,hp:1000,atk:20,def:10,spd:10,pool:1000,x:1,y:1}];b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Wall',range:20,count:1,initial:1,hp:100000,atk:0,def:0,spd:1,pool:100000,x:6,y:1}];b.selected='p0';b.orders={};b.moveTargets={};const out=E.battleAct(s,'move',{x:4,y:1}),event=s.battle.lastEvents.find(e=>e.actorId==='p0');assert.equal(out.type,'continue');assert(event.path.length>0);assert.deepEqual({x:event.path[0].x,y:event.path[0].y},{x:2,y:1});assert.deepEqual({x:event.to.x,y:event.to.y},{x:4,y:1});assert.equal(event.path.length,3);assert.equal(event.order,'move');assert.equal(event.casualties,0);assert(E.strictSave(s));const saved=E.parseSave(E.serializeSave(s));assert.deepEqual(JSON.parse(JSON.stringify(saved.battle.lastEvents)),JSON.parse(JSON.stringify(s.battle.lastEvents)));
  const oldEventShape=JSON.parse(JSON.stringify(saved));for(const e of oldEventShape.battle.lastEvents){delete e.order;delete e.casualties}assert(E.strictSave(oldEventShape));assert(E.strictSave(E.parseSave(JSON.stringify(oldEventShape))));const legacy=JSON.parse(JSON.stringify(saved));delete legacy.battle.lastEvents;assert.equal(E.strictSave(legacy),true);assert(E.strictSave(E.parseSave(JSON.stringify(legacy))));const corrupt=JSON.parse(JSON.stringify(saved));corrupt.battle.lastEvents.find(e=>e.actorId==='p0').path=[{x:10,y:8}];assert.throws(()=>E.parseSave(JSON.stringify(corrupt)),/không hợp lệ/);const corruptOrder=JSON.parse(JSON.stringify(saved));corruptOrder.battle.lastEvents[0].order='invented';assert.throws(()=>E.parseSave(JSON.stringify(corruptOrder)),/không hợp lệ/);const corruptLoss=JSON.parse(JSON.stringify(saved));corruptLoss.battle.lastEvents[0].casualties=-1;assert.throws(()=>E.parseSave(JSON.stringify(corruptLoss)),/không hợp lệ/);
 });
 
