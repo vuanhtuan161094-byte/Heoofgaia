@@ -8,6 +8,9 @@ on:
       - 'hg73-gear-prestige.js'
       - 'hg47-ten-slot.js'
       - 'app.js'
+      - 'engine.js'
+      - 'hg40-tactical.js'
+      - 'qa-hg75-tactics.cjs'
       - 'painter.js'
       - 'style-hg57.css'
       - 'build_offline.py'
@@ -36,6 +39,8 @@ jobs:
           node --check hg21-tower-tactical.js
           node --check hg73-gear-prestige.js
           node --check app.js
+          node --check engine.js
+          node --check qa-hg75-tactics.cjs
           node --check painter.js
           node --check qa-hg74-release-check.cjs
       - name: All canonical game engine gates
@@ -43,6 +48,7 @@ jobs:
           set -euxo pipefail
           node qa-engine.cjs
           node qa-hg410-overhaul.cjs
+          node qa-hg75-tactics.cjs
           node qa-hg69-endurance.cjs
           node qa-hg47-10slot.cjs
           node qa-hg70-reward-skills.cjs
@@ -106,6 +112,7 @@ jobs:
             docs/qa/hg64/*.json
             docs/qa/hg72/*.json
             docs/qa/hg73/*.json
+            docs/qa/hg75/*.json
             docs/evidence/hg44/*.png
             docs/evidence/hg50/*.png
             docs/evidence/hg57b/*.png
