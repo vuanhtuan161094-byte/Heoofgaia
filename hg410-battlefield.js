@@ -35,7 +35,7 @@ function enemyTemplate(b,i,cs,boss){
  const seed=String(b.target||'tower').split('').reduce((h,ch)=>(h*31+ch.charCodeAt(0))%65521,0)+
   (b.hg21Tower?.floor||0);
  const race=PVE_RACES[(seed+Math.floor(i/3))%PVE_RACES.length];
- const maxTier=cs<=2?4:cs<=4?6:cs<=7?8:10,minTier=boss?6:1;
+ const maxTier=boss?10:cs<=2?4:cs<=4?6:cs<=7?8:10,minTier=boss?6:1;
  const preferred=Math.min(maxTier,Math.max(minTier,PVE_TIERS[i%16]+Math.floor((cs-1)/4)));
  const mode=i%4;
  const roleOf=u=>E.HG40_TRAITS[u.id];

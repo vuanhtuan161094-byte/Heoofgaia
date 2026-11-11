@@ -25,7 +25,7 @@ test('NPC 1-10 stars: troops have real sprites, ranged capability, cooldown and 
 test('T11 live 16 actors retain original Boss art for leaders and canonical troop art for minions',()=>{
  const t=E.TILES.find(x=>x.kind==='npc'&&x.eliteTier===11),s=E.make('human',1e6),before=JSON.stringify(s.army);
  const b=E.makeBattle(s,t.key);s.battle=b;assert.equal(b.enemies.length,16);
- assert.deepEqual(b.enemies.slice(0,3).map(u=>u.name),['Azrael','Demonlord Samurai','Cyclop Tyrant']);
+ assert.deepEqual(Array.from(b.enemies.slice(0,3),u=>u.name),['Azrael','Demonlord Samurai','Cyclop Tyrant']);
  assert(b.enemies.slice(0,3).every(u=>A.resolve(u.unitId,u.name).kind==='boss'));
  assert(b.enemies.slice(3).every(u=>A.resolve(u.unitId,u.name)?.kind!=='boss'));
  const ids=new Set();
