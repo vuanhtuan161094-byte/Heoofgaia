@@ -13,8 +13,9 @@ function check(label,fn){try{const value=fn()||{};cases.push({label,pass:true,va
  catch(error){cases.push({label,pass:false,error:String(error.stack||error)});
  console.error('HG57 FAIL '+label+' '+String(error.stack||error));process.exitCode=1;}}
 function fresh(){
- let s=E.make('human',1e6);s.army.human_1=65;s.army.human_3=45;s.ap=900;
- E.hg20SetHeroPlan(s,s.activeHero,[{unitId:'human_1',count:65},{unitId:'human_3',count:45}]);
+ let s=E.make('human',1e6);s.army.human_1=16;s.army.human_3=4;s.ap=900;
+ // Small real mixed formation within the regular commander cap.
+ E.hg20SetHeroPlan(s,s.activeHero,[{unitId:'human_1',count:8},{unitId:'human_3',count:2}]);
  const tile=E.TILES.find(t=>t.kind==='npc'&&t.level===1&&t.eliteTier<11);
  assert(tile,'No real world NPC found');
  E.startMarch(s,tile.key);let i=0;
