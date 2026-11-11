@@ -22,11 +22,11 @@ jobs:
         run: |
           git rev-parse HEAD
           python -m py_compile qa-hg28-art-chrome.py
-          node qa-hg28-art.cjs
       - name: Build exactly one offline HTML with lossless RGBA masters
         run: |
           python -m pip install Pillow==11.3.0
           python build_offline.py
+          node qa-hg28-art.cjs
           sha256sum Play-Heoofgaia-HG11.html
       - name: Test pixel alpha, 8 T9-T10 Army screens, 16 Boss actors, Save v07
         run: |
