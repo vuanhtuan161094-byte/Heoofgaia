@@ -49,7 +49,7 @@ function hg45Portrait(hero){
 }
 
 const BATTLE_AUTO_DELAY_MS=10_000,BATTLE_AUTO_TURN_DELAY_MS=1350;
-let battleAutoPulseBusy=false;
+let battleAutoPulseBusy=false,combatVisualLockUntil=0;
 let focusArmyRecruitOnOpen=false; // New Army-tab entry goes to actionable recruitment, not passive text.
 // Visual QA preferences are separate from the canonical v07 gameplay save.
 // Default both ON, as requested for verifying unit coordinates and HP.
@@ -91,6 +91,7 @@ function resolveAutomaticBattleTurn(){
    for(const unit of b.allies)if(b.orders[unit.id]==='focus')b.orders[unit.id]='attack';
   }
   const wasTower=!!b.hg21Tower,out=E.battleAct(s,'attack',{preserveMoveOrders:true,stableTargets:true});
+  if(s.battle===b)combatVisualLockUntil=performance.now()+Math.max(900,P.battleTimelineTurnDuration?.(b)||900);
   if(out.type==='win'||out.type==='retreat'||out.type==='timeout')tab=wasTower?'tower':'map';
   if(out.type==='lose')tab=wasTower?'tower':'heroes';
   if(s.battle===b)b.autoUntil=Date.now()+Math.max(BATTLE_AUTO_TURN_DELAY_MS,P.battleTimelineTurnDuration?.(b)||0);
@@ -1725,7 +1726,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='tower-upgrade'){E.hg20TowerUpgrade(state);toast('Đã tăng sức mạnh đội Bí Cảnh.');return}
  if(action==='autoformation'){const plan=E.autoFormation(state);toast(`Đã bố trí ${format(plan.totalUnits)} quân · ${format(plan.points)}/${format(plan.limit)} sức chứa.`);return}
  if(action==='findnpc'){selectNearestNpc(E.heroTaskStatus(state).active?.stars||1);return}
- if(action==='auto'){if(state.battle?.hg26NeedsManual)delete state.battle.hg26NeedsManual;state.battleAuto=!state.battleAuto;if(state.battle)state.battle.autoUntil=Date.now()+(state.battleAuto?BATTLE_AUTO_TURN_DELAY_MS:BATTLE_AUTO_DELAY_MS);return}
+ if(action==='auto'){if(state.battle?.hg26NeedsManual)delete state.battle.hg26NeedsManual;state.battleAuto=!state.battleAuto;if(state.battle){const animationRemaining=Math.max(0,combatVisualLockUntil-performance.now());state.battle.autoUntil=Date.now()+Math.max(state.battleAuto?BATTLE_AUTO_TURN_DELAY_MS:BATTLE_AUTO_DELAY_MS,animationRemaining+110);}return}
  if(action==='upgrade'){
   const cost=E.upgrade(state,target.dataset.key);
   toast('Đã trừ '+hg35ExpenseText(cost)+'; bắt đầu xây.');return;
@@ -1742,7 +1743,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='visit'){const result=E.visitWorldBuilding(state,target.dataset.key);toast(result.reward?'Đã nhận thưởng từ công trình.':'Hiệu ứng đã áp dụng cho tướng.');return}
   if(action==='recall'){const seconds=E.recallHero(state,Number(target.dataset.id));toast(seconds===true?'Tướng đã về thành.':`Tướng đang trở về trong ${Math.ceil(seconds/state.speed)} giây thực.`);return}
   if(action==='save-combat'){$('save').click();return}
-  if(action==='battle'){movementModeId=null;state.battleAuto=false;const wasTower=!!state.battle?.hg21Tower,out=E.battleAct(state,target.dataset.cmd);if(out.type==='win'){tab=wasTower?'tower':'map';toast(wasTower?'Thắng Bí Cảnh tầng '+out.floor+'!':'Chiến thắng!')}else if(out.type==='lose'){tab=wasTower?'tower':'heroes';toast(wasTower?'Bí Cảnh thất bại; không mất quân và lượt thưởng.':'Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab=wasTower?'tower':'map';toast('Đã kết thúc giao tranh.')}return}
+  if(action==='battle'){if(state.battle&&performance.now()<combatVisualLockUntil){toast('Đội quân đang kết thúc lượt, hãy chờ hiệu ứng hoàn tất.');return}movementModeId=null;state.battleAuto=false;const currentBattle=state.battle,wasTower=!!currentBattle?.hg21Tower,out=E.battleAct(state,target.dataset.cmd);if(state.battle===currentBattle)combatVisualLockUntil=performance.now()+Math.max(900,P.battleTimelineTurnDuration?.(currentBattle)||900);else combatVisualLockUntil=0;if(out.type==='win'){tab=wasTower?'tower':'map';toast(wasTower?'Thắng Bí Cảnh tầng '+out.floor+'!':'Chiến thắng!')}else if(out.type==='lose'){tab=wasTower?'tower':'heroes';toast(wasTower?'Bí Cảnh thất bại; không mất quân và lượt thưởng.':'Thất bại, có thể chữa thương.')}else if(out.type==='retreat'||out.type==='timeout'){tab=wasTower?'tower':'map';toast('Đã kết thúc giao tranh.')}return}
  if(action==='tower-cast'){markBattleInput();E.hg21TowerCast(state,Number(target.dataset.hero),target.dataset.id);toast('Phép đã áp dụng theo chủ tướng.');return}
  if(action==='herolearn'){E.researchHeroSpell(state,target.dataset.id);return}
  if(action==='heroequip'){E.equipSpell(state,target.dataset.id);return}
