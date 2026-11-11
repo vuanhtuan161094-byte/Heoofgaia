@@ -169,7 +169,7 @@ function gameBattle(s){
    // HG74: physically valid 12x9 front/back columns (0,1). The prior
    // x=3 frontline violated the HG410 shared edge deployment and broke
    // Tower/AI placement invariants. Keep OWNED y lanes intact.
-   const pos={x:arranged.length===1?(E.unitTacticalRange(unit)>1?0:1):localIndex===0?0:1,y:lanes[ownerIndex]},stats=E.heroStats(s,hero.id);
+   const pos={x:arranged.length===1?(E.unitTacticalRange(unit)>1?0:1):localIndex===0?0:1,y:lanes[ownerIndex]};
    // Essence upgrade improves the tower projection only, never the real
    // garrison. Hero buffs remain strictly keyed by this stack's heroId.
    const blessing=1+t.rank*.18;
@@ -178,7 +178,7 @@ function gameBattle(s){
    const def=Math.min(1e9,Math.max(0,Math.round(unit.def*blessing)));
    enlisted.push({id:'p'+n,side:'player',unitId:unit.id,name:unit.name,
     heroId:hero.id,heroName:hero.name,slot:n,sourceSlot:slot,range:E.unitTacticalRange(unit),
-    hp,atk,def,spd:Math.max(.1,unit.spd+E.heroSpeedAdjustment(stats.spd)),
+    hp,atk,def,spd:unit.spd,
     count:g.count,initial:g.count,pool:g.count*hp,x:pos.x,y:pos.y});
    n++;
   }
