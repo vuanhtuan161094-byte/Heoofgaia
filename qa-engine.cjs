@@ -1524,7 +1524,7 @@ test('HG14.3 Human Archer addresses 48 unique animation cells, including draw/re
  assert.equal(P.archerAtlasFrame('attack',170,650).action,'draw');
  assert.equal(P.archerAtlasFrame('attack',580,650).action,'release');
  assert.equal(P.archerAtlasFrame('attack',580,650).imageId,'unit-human-archer-atlas');
- assert(P.hasAnimatedTroops({allies:[{unitId:'human_3'}],enemies:[]}));
+ assert(P.hasAnimatedTroops({allies:[{unitId:'human_3',pool:100}],enemies:[]}));
 });
 test('HG33-H1 canonical pointy-top odd-r grid is 108 real hexes at mobile and desktop sizes',()=>{
  const g=E.BATTLE_GRID;
@@ -1669,7 +1669,7 @@ test('HG28 Human Spear Militia plus four-race sprite masters use deterministic I
  assert.equal(Object.keys(P.MOTION_SPRITES).length,6);
  for(const [unit,id] of Object.entries(expected)){assert.equal(P.MOTION_SPRITES[unit].id,id);
   assert(P.MOTION_SPRITES[unit].pivot>0&&P.MOTION_SPRITES[unit].pivot<1);
-  assert(P.hasAnimatedTroops({allies:[{unitId:unit}],enemies:[]}));
+  assert(P.hasAnimatedTroops({allies:[{unitId:unit,pool:100}],enemies:[]}));
  }
  const idle=P.motionPose('idle',0),idleMoving=P.motionPose('idle',230);
  const walking=P.motionPose('walk',180,450),attacking=P.motionPose('attack',310,650);
@@ -1680,8 +1680,8 @@ test('HG28 Human Spear Militia plus four-race sprite masters use deterministic I
  assert(damaged.flash>0,'hit displays impact response');
  assert(fallen.angle<-.8&&fallen.alpha<1,'death rotates and fades');
  assert(P.motionPose('idle',230).dy===idleMoving.dy,'deterministic');
- assert(P.hasAnimatedTroops({allies:[{unitId:'human_4'}],enemies:[]}));
- assert(P.hasAnimatedTroops({allies:[{unitId:'human_1'}],enemies:[]}));
+ assert(P.hasAnimatedTroops({allies:[{unitId:'human_4',pool:100}],enemies:[]}));
+ assert(P.hasAnimatedTroops({allies:[{unitId:'human_1',pool:100}],enemies:[]}));
 });
 test('HG14 battle renderer uses the real illustrated four-faction PNGs and never mutates combat Save',()=>{
  const srcs=Object.values(P.MOTION_SPRITES),read=[],originalDocument=ctx.document;
@@ -1808,7 +1808,7 @@ test('HG57 staged smooth hex walk, side phases and complete Death clip do not mu
  assert.equal(attacking.action,'attack');
  assert.equal(beforeImpact.action,'idle');assert.equal(hitting.action,'hit');
  assert.equal(deathBefore.action,'idle');assert.equal(dying.action,'death');
- assert.equal(deathEnd.time,1199);assert.equal(deadAfter,null);
+ assert(Math.abs(deathEnd.time-1199)<1e-8,'death animation should reach its last 1199ms frame');assert.equal(deadAfter,null);
  assert.equal(JSON.stringify(b),before,'timeline does not add Save v07 state');
 });
 test('HG11 real battle action receipts and legacy eventless v07 saves validate strictly',()=>{
