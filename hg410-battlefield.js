@@ -37,7 +37,11 @@ function enemyTemplate(b,i,cs,boss){
  const race=PVE_RACES[(seed+Math.floor(i/3))%PVE_RACES.length];
  const maxTier=boss?10:cs<=2?4:cs<=4?6:cs<=7?8:10,minTier=boss?6:1;
  const preferred=Math.min(maxTier,Math.max(minTier,PVE_TIERS[i%16]+Math.floor((cs-1)/4)));
- const mode=i%4;
+ // HG61 Boss budget: two ranged groups and two hard-control groups at
+ // most, rather than four of each. Every one still casts its own HG40
+ // skill, while the 16-stack Boss remains hard without early ranged/CC
+ // focus-fire erasing a heavily funded army before the scripted phase.
+ const mode=boss?(i===1||i===9?1:i===2||i===10?2:i%4===1||i%4===2?0:i%4):i%4;
  const roleOf=u=>E.HG40_TRAITS[u.id];
  const roleMatch=u=>mode===1?u.type==='Ranged':
   mode===2?roleOf(u)?.cd>0&&['defdown','atkdown','dot','mark','slow','root','stun'].includes(roleOf(u).kind):
