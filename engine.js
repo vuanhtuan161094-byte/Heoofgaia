@@ -24,7 +24,13 @@ const battleHex=Object.freeze({
 // Simulated offline defaults: historical formation/range values are not verified.
 // HG41: melee 1, normal ranged 4, elite ranged 5 hexes on 12x9.
 const TACTICAL_RANGE=Object.freeze({melee:1,ranged:4,eliteRanged:5});
-function unitTacticalRange(unit){return unit?.type==='Ranged'?(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged):TACTICAL_RANGE.melee;}
+// HG75 weapon range: shorter throws and support spells than dedicated bows.
+ // These are explicit game-balance rules, not verified 2009 server values.
+ const TACTICAL_WEAPON_RANGE=Object.freeze({human_6:3,human_8:3,orc_3:3,orc_8:4});
+ function unitTacticalRange(unit){
+  if(unit?.type!=='Ranged')return TACTICAL_RANGE.melee;
+  return TACTICAL_WEAPON_RANGE[unit.id]||(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged);
+ }
 const BASE_HOURLY={gold:160,wood:12,ore:12,sulfur:6,crystal:6}; // Wiki recorded base production
 // HG39 pacing profile is applied once after all effective HG38 modifiers.
 // This is an offline game-speed setting, not a claim about the original server.
@@ -405,7 +411,9 @@ function battlePath(b,actor,destination){
 }
 function battleMovementBudget(b,actor,commitCredit=false){
  const joint=!!(b?.hg21Tower||b?.hg261Joint);
- let base=actor.range>1?1:actor.spd>=7?2:1;
+ // Slow infantry: 1, mobile melee: 2, scouts/fliers: 3 hexes.
+  // Ranged troops move 1 unless exceptionally fast (SPD >= 11).
+  let base=actor.range>1?(actor.spd>=11?2:1):actor.spd>=9?3:actor.spd>=7?2:1;
  const movementModifier=root.HOG_ENGINE?.hg40MoveModifier?.(b,actor)||0;
  if(movementModifier<=-100)return 0;
  base=Math.max(1,Math.min(3,base+movementModifier));
@@ -413,7 +421,7 @@ function battleMovementBudget(b,actor,commitCredit=false){
  if(actor.side!=='player'||actor.range>1||!skill)return base;
  if(joint?b.turn>=skill.expiry:b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell?.expiry)return base;
  const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
- const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return base+bonus;
+ const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return Math.min(3,base+bonus);
 }
 function battleMovementAllowance(b,actor){return battleMovementBudget(b,actor,true)}
 function battleMovePreview(b,actorId){
@@ -469,7 +477,36 @@ function applyBattleDamage(s,b,target,incoming){
  }
  return {applied,absorbed:shield.absorbed,casualties};
 }
-function strike(s,b,actor,target,order,trace){
+// Retreat through free hexes to increase distance from the nearest enemy.
+ // Prevent blocked, off-board or "blind x-1" retreats.
+ function retreatStack(b,actor){
+  const foes=alive(actor.side==='player'?b.enemies:b.allies);
+  if(!foes.length)return [];
+  const budget=battleMovementAllowance(b,actor);
+  if(budget<=0)return [];
+  const occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
+  const start={x:actor.x,y:actor.y},startKey=battleCellKey(start.x,start.y);
+  const threat=p=>Math.min(...foes.map(u=>dist(p,u)));
+  const initial=threat(start),queue=[{...start,route:[]}],seen=new Set([startKey]);
+  let best=null;
+  for(let i=0;i<queue.length;i++){
+   const p=queue[i];if(p.route.length>=budget)continue;
+   for(const cell of battleHex.neighbors(p.x,p.y)){
+    const key=battleCellKey(cell.x,cell.y);
+    if(!battleHex.inBounds(cell.x,cell.y)||occupied.has(key)||seen.has(key))continue;
+    seen.add(key);
+    const next={...cell,route:[...p.route,cell]},distance=threat(cell);
+    queue.push(next);
+    const candidate={...next,score:distance};
+    if(distance>initial&&(!best||candidate.score>best.score||
+      candidate.score===best.score&&(actor.side==='player'?candidate.x<best.x:candidate.x>best.x)))best=candidate;
+   }
+  }
+  if(!best)return [];
+  actor.x=best.x;actor.y=best.y;
+  return best.route;
+ }
+ function strike(s,b,actor,target,order,trace){
  if(actor.pool<=0||target.pool<=0)return 0;
  if(order==='advance'){if(dist(actor,target)>actor.range)trace.path=advance(actor,target,b);return 0}
  if(dist(actor,target)>actor.range){trace.path=advance(actor,target,b);if(dist(actor,target)>actor.range)return 0;}
@@ -511,8 +548,17 @@ function strike(s,b,actor,target,order,trace){
  return hit.applied+secondary;
 }
 function battleAct(s,action,options){
- assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat','move'].includes(action),'Lệnh không hợp lệ');
- const b=s.battle;b.orders=b.orders||{};b.moveTargets=b.moveTargets||{};
+ assert(!!s.battle,'Không có trận chiến');assert(['attack','advance','defend','focus','retreat','move','surrender'].includes(action),'Lệnh không hợp lệ');
+ const b=s.battle;
+  // Explicit loss: no phantom damage, enemy turn, Boss reward or duplicate loot.
+  // Existing battle wrappers perform canonical Tower/expedition settlement.
+  if(action==='surrender'){
+   b.turn=Math.max(2,b.turn);
+   note(s,'Đã đầu hàng; giao tranh kết thúc, không nhận thưởng chiến thắng.');
+   s.battle=null;s.battleAuto=false;
+   return {type:'lose',dealt:0,lost:0,order:[],surrendered:true};
+  }
+  b.orders=b.orders||{};b.moveTargets=b.moveTargets||{};
  if(b.hg40?.v===1)b.hg40.events=[];
  if(action==='move'){
   const actor=b.allies.find(u=>u.id===b.selected&&u.pool>0);assert(actor,'Hãy chọn một đội quân còn sống để di chuyển.');
@@ -561,15 +607,19 @@ function battleAct(s,action,options){
    }
   }
   if(actor.side==='player'&&stance==='defend'){acted.push(actor.id);b.orders[actor.id]='attack';record(actor,null,0,[],'defend');continue}
-  if(actor.side==='player'&&stance==='retreat'){const x=Math.max(0,actor.x-1);if(![...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===x&&u.y===actor.y))actor.x=x;acted.push(actor.id);b.orders[actor.id]='attack';record(actor,null,0,[],'retreat');continue}
+  if(actor.side==='player'&&stance==='retreat'){const route=retreatStack(b,actor);acted.push(actor.id);b.orders[actor.id]='attack';record(actor,null,0,route,'retreat');continue}
   const pref=actor.side==='player'&&b.focused&&stance==='focus'?enemy.find(t=>t.id===b.focused):null;
   // Auto-only target memory: continue engaging the same living stack rather
   // than flip targets whenever a different enemy's relative power changes.
   // Uses existing lastTargets receipts (v07 compatible; no new Save fields).
   // Manual commands and hostile AI preserve their original targeting rules.
   const sticky=actor.side==='player'&&options?.stableTargets&&stance==='attack'&&b.lastTargets?.[actor.id]?
-   enemy.find(t=>t.id===b.lastTargets[actor.id]):null;
-  const target=pref||sticky||[...enemy].sort((x,y)=>{
+   enemy.find(t=>t.id===b.lastTargets[actor.id]&&dist(actor,t)<=actor.range):null;
+  // Avoid walking toward a distant priority target while another legal enemy
+   // already stands in this weapon's range; explicit Focus still overrides.
+   const inRange=enemy.filter(t=>dist(actor,t)<=actor.range);
+   const candidates=inRange.length?inRange:enemy;
+   const target=pref||sticky||[...candidates].sort((x,y)=>{
    if(b.hg40?.v===1&&root.HOG_ENGINE?.hg40TargetScore){
     const sx=root.HOG_ENGINE.hg40TargetScore(s,b,actor,x);
     const sy=root.HOG_ENGINE.hg40TargetScore(s,b,actor,y);
