@@ -171,6 +171,32 @@ check('Auto-heal queues real Arena treatment and waits until completion (fixture
  assert.equal(E.hg20HeroPlan(reloaded,1)[0].count,16);
  return {healed:5,goldCharged:actualPaidGold,awaited:true};
 });
+check('HG57-B saved 16-unit template OFF does not override manually paid 61-unit Boss squad',()=>{
+ const s=E.make('human',1000000),target=boss(s),startGold=s.res.gold;
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:16}]);
+ E.hg24SaveTemplate(s,1);
+ E.hg24SetAuto(s,1,true,false);
+ const cost=E.recruit(s,'human_1',45),job=s.training[0];
+ assert.equal(job.count,45);assert(s.res.gold<startGold);
+ E.tick(s,s.lastTick+Math.ceil((job.remaining+2)*1000/s.speed));
+ assert.equal(s.army.human_1,61);
+ E.hg24SetAuto(s,1,false,false);
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:61}]);
+ assert.equal(E.hg24Template(s,1).groups[0].count,16);
+ assert.equal(E.hg24Template(s,1).autoFill,false);
+ const before=save(s),money=before.res.gold;
+ const state=E.hg26Start(s,config(target.key,{maxRuns:1,minUnits:61,minCoverage:100}));
+ assert(state.enabled&&state.phase==='ready');
+ assert.equal(E.hg20HeroPlan(s,1)[0].count,61);
+ assert.equal(s.army.human_1,61);
+ assert.equal(s.res.gold,money);
+ assert(E.strictSave(s));
+ const go=E.hg26Step(s);assert.equal(go.type,'dispatched');
+ assert.equal(s.expedition.army.human_1,61);
+ assert.equal(s.army.human_1,0);
+ return {originalTemplate:16,autoFill:false,manualPaidSquad:61,actualDispatch:61,
+  apSpent:before.ap-s.ap,spentGold:startGold-money};
+});
 check('Explicit stop stops bot transitions but does not cancel an active real expedition',()=>{
  const s=E.make('orc',1000000),target=boss(s);
  E.hg26Start(s,config(target.key));const first=E.hg26Step(s);
