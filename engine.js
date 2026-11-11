@@ -358,9 +358,8 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
  const available=arrUnits(s).filter(u=>(fieldArmy[u.id]||0)>0);
  const selected=(fieldFormation?.length?fieldFormation:available.sort((a,b)=>b.tier-a.tier).slice(0,7).map(u=>({unitId:u.id,count:fieldArmy[u.id]})));
  // HG41: melee 1, normal archers 4, elite archers 5 odd-r hexes; original 2009 attack range remains unverified.
- const battleHeroSpeed=(root.HOG_ENGINE?.heroStats?root.HOG_ENGINE.heroStats(s,s.activeHero)?.spd:null)??s.heroes.find(h=>h.id===s.activeHero)?.spd??10;
  const allies=selected.filter(p=>p.count>0).map((p,i)=>{const u=getUnit(s,p.unitId),count=Math.min(p.count,fieldArmy[u.id]||0);return {id:`p${i}`,slot:fieldFormation?.length?i:null,side:'player',unitId:u.id,name:u.name,range:unitTacticalRange(u),
-   count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:Math.max(.1,u.spd+heroSpeedAdjustment(battleHeroSpeed)),
+   count,initial:count,hp:u.hp,atk:u.atk,def:u.def,spd:u.spd,
    pool:count*u.hp,x:i<4?1:3,y:i<4?[0,2,5,8][i]:[1,4,7][i-4]}});
  const archetypes=tile.eliteTier>=11?(
    tile.eliteTier===12?
