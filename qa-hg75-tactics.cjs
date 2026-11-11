@@ -47,6 +47,29 @@ check('40 units: SPD-independent weapon range and fixed 1-3 hex class movement',
  return {tested:rows.length,roles:expected,meleeExpected,rangedExpected,results};
 });
 
+check('HG77 every T8-T10 elite troop moves 2-3 hexes, independent of SPD and attack range',()=>{
+ const high=Object.values(E.C.units).flat().filter(u=>u.tier>=8);
+ assert.equal(high.length,12);
+ const result=[];
+ const scenario=fresh(),b=scenario.battle,actor=b.allies[0],saved={unitId:actor.unitId,range:actor.range,spd:actor.spd};
+ for(const u of high){
+  const expected=u.tier===8?2:['orc_9','orc_10'].includes(u.id)?2:3;
+  const actual=E.unitTacticalMovement(u);
+  assert.equal(actual,expected,u.id+' '+u.name);
+  actor.unitId=u.id;actor.range=E.unitTacticalRange(u);
+  for(const spd of [0.1,5,50,999]){
+   actor.spd=spd;
+   assert.equal(E.battleMovePreview(b,actor.id).steps,expected,u.id+' spd='+spd);
+   assert.equal(E.battleMoveSteps(b,actor.id),expected,u.id+' combat profile');
+  }
+  assert.equal(E.unitTacticalRange(u),u.type==='Ranged'?E.unitTacticalRange(u):1);
+  result.push({unit:u.id,name:u.name,tier:u.tier,attackRange:E.unitTacticalRange(u),move:actual});
+ }
+ actor.unitId=saved.unitId;actor.range=saved.range;actor.spd=saved.spd;
+ assert(E.strictSave(scenario),'Canonical scenario must remain v07 after movement preview');
+ return {tested:high.length,elite:result};
+});
+
 check('World speed remains SPD-driven but battle turn order and damage never are',()=>{
  const path=['a','b','c','d','e'];
  assert(E.marchDuration(60,path)<E.marchDuration(10,path),'world-map SPD must reduce travel ETA');
