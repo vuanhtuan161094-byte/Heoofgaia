@@ -115,9 +115,31 @@ try:
         b.allies.every(u=>u.heroId===1)&&HOG_ENGINE.strictSave(s);
     }"""))
   page.screenshot(path=str(OUT/'private-tower-six-stack-battle.png'))
-  for turn in range(70):
-    if not page.evaluate("!!HOG_APP_DEBUG.getState().battle"):break
+  # HG57-B: a real browser click starts the battle, but rapid consecutive
+  # button clicks must NOT bypass the 2-phase visual lock. Complete remaining
+  # rounds through the SAME canonical E.battleAct core in a bounded browser
+  # test; each turn still spends real health/skill state and strict Save v07.
+  # This is an explicit accelerated engine acceptance, not 70 UI actions.
+  if page.evaluate("!!HOG_APP_DEBUG.getState().battle"):
     page.locator('[data-action="battle"][data-cmd="attack"]').click()
+  progression=page.evaluate("""() => {
+    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
+    const original=s.battle,kind=original?.kind;
+    let count=0,outcome='pending',violations=0;
+    while(s.battle&&count<71){
+      const before=s.battle?.turn||0;
+      const out=E.battleAct(s,'attack');
+      count++;
+      if(!E.strictSave(s))violations++;
+      if(s.battle&&s.battle.turn!==before+1)violations++;
+      if(out.type!=='continue'){outcome=out.type;break;}
+    }
+    HOG_APP_DEBUG.save();HOG_APP_DEBUG.render();
+    return {rounds:count,outcome,violations,kind};
+  }""")
+  check('HG57 accelerated canonical Tower simulation terminates with strict v07',
+    progression['rounds']<=71 and progression['outcome'] in ('win','lose') and
+    progression['violations']==0 and progression['kind']=='tower',progression)
   # HG41 legitimately fields TEN real enemy stacks at floor 1. Sixteen free
   # starter spears now lose: no fake victory, reward, soldier or Save mutation.
   unpaid=page.evaluate("""() => {
@@ -186,9 +208,31 @@ try:
         b.hg409EnemyCommander?.cs===1&&
         b.allies.reduce((n,u)=>n+u.count,0)===61&&HOG_ENGINE.strictSave(s);
     }"""))
-  for turn in range(70):
-    if not page.evaluate("!!HOG_APP_DEBUG.getState().battle"):break
+  # HG57-B: a real browser click starts the battle, but rapid consecutive
+  # button clicks must NOT bypass the 2-phase visual lock. Complete remaining
+  # rounds through the SAME canonical E.battleAct core in a bounded browser
+  # test; each turn still spends real health/skill state and strict Save v07.
+  # This is an explicit accelerated engine acceptance, not 70 UI actions.
+  if page.evaluate("!!HOG_APP_DEBUG.getState().battle"):
     page.locator('[data-action="battle"][data-cmd="attack"]').click()
+  progression=page.evaluate("""() => {
+    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
+    const original=s.battle,kind=original?.kind;
+    let count=0,outcome='pending',violations=0;
+    while(s.battle&&count<71){
+      const before=s.battle?.turn||0;
+      const out=E.battleAct(s,'attack');
+      count++;
+      if(!E.strictSave(s))violations++;
+      if(s.battle&&s.battle.turn!==before+1)violations++;
+      if(out.type!=='continue'){outcome=out.type;break;}
+    }
+    HOG_APP_DEBUG.save();HOG_APP_DEBUG.render();
+    return {rounds:count,outcome,violations,kind};
+  }""")
+  check('HG57 accelerated canonical Tower simulation terminates with strict v07',
+    progression['rounds']<=71 and progression['outcome'] in ('win','lose') and
+    progression['violations']==0 and progression['kind']=='tower',progression)
   funded=page.evaluate("""() => {
     const s=HOG_APP_DEBUG.getState(),t=s.hg20.tower;
     return {battle:!!s.battle,floor:t.floor,claims:t.claims,outcome:t.last?.outcome,
