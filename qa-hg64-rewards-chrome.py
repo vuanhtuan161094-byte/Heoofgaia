@@ -49,12 +49,18 @@ def click_victory(page):
  return page.evaluate("""()=>{const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE,ui=document.querySelector('#hg63-battle-result');
    const goldTokens=[...ui.querySelectorAll('.hg63-reward-token')].map(e=>e.textContent.trim())
     .filter(s=>s.endsWith(' '+E.C.resource.gold.label)&&s.includes('+'));
+   // Exclude unrelated passive city production: source of truth is the paid
+   // Tower plus commander receipt (or world report plus commander receipt).
+   const baseReceipt=s.battleReports?.[0]||null, commanderReceipt=s.hg409?.rewards?.[0]||null,
+    towerReceipt=s.hg20?.tower?.last||null;
+   const goldReceiptExpected=(towerReceipt?.claimed?Number(towerReceipt.rewardGold||0):
+      Number(baseReceipt?.resources?.gold||0))+Number(commanderReceipt?.resources?.gold||0);
    const goldPaid=s.res.gold-window.__hg64Before.resources.gold;
    const totalDisplayedGold=goldTokens.reduce((n,t)=>n+Number((t.match(/\\+([\\d.,\\s]+)/)?.[1]||'0').replace(/\\D/g,'')),0);
    return {save:E.strictSave(s),version:s.version,outcome:s.battleReports?.[0]?.outcome||
      s.hg20?.tower?.last?.outcome,type:s.hg20?.tower?.last?.claimed? 'paid-tower':'other',
      ui:ui.innerText,tokens:[...ui.querySelectorAll('.hg63-reward-token')].map(e=>e.textContent.trim()),
-     goldPaid,goldTokens,totalDisplayedGold,battle:!!s.battle,
+     goldPaid,goldReceiptExpected,goldTokens,totalDisplayedGold,battle:!!s.battle,
      before:window.__hg64Before,now:{marks:s.hg27?.marks||0,bossToken:s.hg27?.boss||0,
        towerToken:s.hg27?.tower||0,gear:s.hg47?.history?.length||0,
        legendary:s.hg31?.history?.length||0,fragments:s.hg29?.history?.length||0,
@@ -96,8 +102,8 @@ with sync_playwright() as playwright:
        'Mảnh ghép đã vào kho' in boss['ui'] and 'Cổ vật' in boss['ui'] and
        'Thần khí' in boss['ui'] and 'Long Hồn' in boss['ui'] and
        'Chiến tích quái' in boss['ui'] and 'Ấn Boss' in boss['ui'],boss['tokens'])
- check('Boss wallet gold reward is presented exactly once, from real receipts',
-       boss['goldPaid']>=0 and boss['totalDisplayedGold']==round(boss['goldPaid']),boss)
+ check('Boss gold UI equals paid battle receipts without unrelated city income',
+       boss['goldReceiptExpected']>=0 and boss['totalDisplayedGold']==round(boss['goldReceiptExpected']),boss)
  shot(p,'boss-t11-reward-desktop')
  p.locator('[data-hg63-action="close"]').click()
  check('Boss report close is reward read-only',p.evaluate("""()=>{const s=HOG_APP_DEBUG.getState();
@@ -120,8 +126,8 @@ with sync_playwright() as playwright:
        'Thưởng tài nguyên Bí Cảnh thực nhận' in tower['ui'] and
        'Tinh hoa Bí Cảnh' in tower['ui'] and
        'Phù ấn Tháp' in tower['ui'] and 'Mảnh ghép đã vào kho' in tower['ui'],tower['tokens'])
- check('Tower displayed gold exactly equals delta, never double counts commander payout',
-       tower['goldPaid']>0 and tower['totalDisplayedGold']==round(tower['goldPaid']),tower)
+ check('Tower gold UI equals actual Tower and commander receipts exactly once',
+       tower['goldReceiptExpected']>0 and tower['totalDisplayedGold']==round(tower['goldReceiptExpected']),tower)
  shot(p,'claimed-tower-mobile')
  p.locator('[data-hg63-action="close"]').click()
  check('Tower postbattle Save remains strict v07',p.evaluate('HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())'))
