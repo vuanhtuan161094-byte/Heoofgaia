@@ -50,7 +50,7 @@ with sync_playwright() as pw:
    page.locator('.hg43-race-tabs [data-action="hg43-army-race"][data-race="'+race+'"]').click()
    entry=page.locator('.hg43-profile-card')
    check(label+' '+race+' ten profile cards with real stats & skill',entry.count()==10 and
-    entry.first.locator('.hg43-unit-stats span').count()==6 and
+    entry.first.locator('.hg43-unit-stats span').count()==7 and
     'CD' in entry.first.inner_text() and
     'Khắc chế' in entry.first.inner_text())
    ids.extend(entry.evaluate_all("(nodes) => nodes.map(n => n.dataset.hg43Unit)"))
