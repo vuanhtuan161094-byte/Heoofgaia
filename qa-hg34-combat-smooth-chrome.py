@@ -133,7 +133,15 @@ with sync_playwright() as pw:
               fixture['motionOracle']['deathDuring']=='death' and
               fixture['motionOracle']['deathAfter'] is None,
               fixture['motionOracle'])
-        page.wait_for_timeout(4250)
+        # HG57 serializes ALL moves and strikes before a second automatic
+        # turn is legal. The former hard-coded 4.25s window can end before
+        # the full first 6+enemy-stack timeline completes, so require TWO
+        # real completed turns within a bounded wall-clock test instead of
+        # forcing a faster replay or weakening the actor-order invariant.
+        page.wait_for_function("""(minimum) => {
+          const s=HOG_APP_DEBUG.getState();
+          return !!s.battle && s.battle.turn>=minimum;
+        }""",arg=fixture['initialTurn']+2,timeout=25000,polling=100)
         result=page.evaluate("""() => {
           const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),b=s.battle;
           const m=window._hg34.metrics,now=document.getElementById('battle-canvas');
