@@ -1788,6 +1788,7 @@ test('HG57 staged smooth hex walk, side phases and complete Death clip do not mu
   hit={id:'h0',pool:75,unitId:'human_4',x:4,y:1},
   dead={id:'e1',pool:0,unitId:'human_4',x:5,y:2},before=JSON.stringify(b);
  const schedule=P.battleVisualSchedule(b.lastEvents),first=schedule.steps[0],death=schedule.steps[1];
+ assert.equal(P.battleTimelineTurnDuration(b),schedule.duration,'automatic turn waits for complete friendly and enemy visual playback');
  assert(first.moveMs>0);
  assert(schedule.steps[1].start>=first.animationEnd);
  assert(schedule.steps[2].start>=death.animationEnd+250,'two friendly actions finish before enemy phase');
