@@ -54,6 +54,15 @@ with sync_playwright() as pw:
    x['labelCount']==1 and x['board']['width']>140 and x['hpButton'] and x['nameButton'],x)
   check(label+' unit movement budget is visible; visual fixture pays no phantom reward',
    'ô/lượt' in x['movement'] and x['resourcesUnchanged'] and x['rewardsUnchanged'],x['movement'])
+  hud=page.evaluate("""() => {
+    const w=document.getElementById('battle-canvas').width,
+      width=Math.min(235,Math.max(94,w*.205)),
+      left={start:12,end:12+width},center={start:w/2-58,end:w/2+58},
+      right={start:w-12-width,end:w-12};
+    return {w,left,center,right,notOverlapping:left.end<=center.start&&center.end<=right.start};
+  }""")
+  check(label+' team HP meters and central round marker do not overlap on canvas',
+    hud['notOverlapping'] and hud['right']['end']<=hud['w'],hud)
   check(label+' hero chips and global resource HUD are not obscured',
    page.evaluate("""() => {
      const a=document.querySelector('.hg57-commander-strip').getBoundingClientRect(),
