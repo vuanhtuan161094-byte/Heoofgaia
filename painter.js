@@ -428,7 +428,8 @@ function battleVisualPool(b,u,now=visualNow()){
 }
 function battleVisualState(b,u,elapsed,now=elapsed){
  const timeline=battleTimelineFor(b,now),items=timeline?.items||[],
-  own=items.find(item=>item.event.actorId===u.id&&now<item.animationEnd)||null,
+  // Queued future actions must never mask an incoming Hit pose.
+  own=items.find(item=>item.event.actorId===u.id&&now>=item.start&&now<item.animationEnd)||null,
   incoming=items.find(item=>item.event.targetId===u.id&&item.event.damage>0&&now<item.impactAt)||
    items.filter(item=>item.event.targetId===u.id&&item.event.damage>0&&
     now>=item.impactAt&&now<item.effectEnd).slice(-1)[0]||null;

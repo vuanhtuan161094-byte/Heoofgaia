@@ -400,7 +400,8 @@ def run_boss_pilot(browser) -> None:
       if(b.hg50b?.phase==='armed')delete b.hg50b;
       if(!HOG_ENGINE.strictSave(s))throw Error('Legacy Azrael H2 fixture invalid Save v07');
       b.enemies.forEach((e,i)=>{e.hp=1_000_000;e.pool=1_000_000;e.count=1;e.def=0;e.atk=0;e.range=1;
-        e.x=i===0?adjacent.x:11;e.y=i===0?adjacent.y:8-i});b.enemies.find(e=>e.id===bossId).atk=20;
+        e.x=i===0?adjacent.x:10+(i%2);e.y=i===0?adjacent.y:Math.floor((i-1)/2)});b.enemies.find(e=>e.id===bossId).atk=20;
+      if(!HOG_ENGINE.strictSave(s))throw Error('H2 Azrael Attack fixture violates Save v07');
       b.autoUntil=Date.now()+600_000;s.battleAuto=false;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""", boss["id"])
     allies = state["allies"]
     first_ally = allies[0]
@@ -415,7 +416,8 @@ def run_boss_pilot(browser) -> None:
         save_shot(page, "azrael-attack", 1280, 720)
 
     page.evaluate("""bossId=>{const s=HOG_APP_DEBUG.getState(),b=s.battle,boss=b.enemies.find(e=>e.id===bossId),a=b.allies[0];
-      b.enemies.forEach((e,i)=>{e.atk=0;e.pool=e.hp=1_000_000;e.def=0;e.count=1;e.x=i===0?a.x+1:11;e.y=i===0?a.y:8-i});
+      b.enemies.forEach((e,i)=>{e.atk=0;e.pool=e.hp=1_000_000;e.def=0;e.count=1;e.x=i===0?a.x+1:10+(i%2);e.y=i===0?a.y:Math.floor((i-1)/2)});
+      if(!HOG_ENGINE.strictSave(s))throw Error('H2 Azrael Hit fixture violates Save v07');
       boss.atk=0;boss.x=a.x+1;boss.y=a.y;b.autoUntil=Date.now()+600_000;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""", boss["id"])
     accepted_battle_turn(page,"attack")
     page.wait_for_timeout(260)
@@ -428,7 +430,8 @@ def run_boss_pilot(browser) -> None:
 
     page.evaluate("""bossId=>{const s=HOG_APP_DEBUG.getState(),b=s.battle,boss=b.enemies.find(e=>e.id===bossId),a=b.allies[0];
       boss.hp=1;boss.pool=1;boss.def=0;boss.atk=0;boss.count=1;boss.x=a.x+1;boss.y=a.y;
-      b.enemies.filter(e=>e.id!==bossId).forEach(e=>{e.atk=0;e.pool=e.hp=1_000_000;e.x=11;e.y=8});
+      b.enemies.filter(e=>e.id!==bossId).forEach((e,i)=>{e.atk=0;e.pool=e.hp=1_000_000;e.x=10+(i%2);e.y=Math.floor(i/2)});
+      if(!HOG_ENGINE.strictSave(s))throw Error('H2 Azrael Death fixture violates Save v07');
       b.autoUntil=Date.now()+600_000;HOG_APP_DEBUG.save();HOG_APP_DEBUG.render()}""", boss["id"])
     accepted_battle_turn(page,"attack")
     page.wait_for_timeout(260)
