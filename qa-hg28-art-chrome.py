@@ -49,16 +49,30 @@ with sync_playwright() as pw:
    checks.append({'viewport':f'{width}x{height}','check':f'{faction} first troop and recruit action fit the visible Army panel','pass':True,'layout':recruit_layout})
    recruit=page.locator('.hg28-tab-army .unitrow').first.locator('[data-action="recruit"]')
    assert recruit.is_enabled(),f'{width}x{height} {faction} starter troop is unexpectedly unavailable'
+   # HG62 production at 5000x can finish *before* the next Chromium poll.
+   # Snapshot canonical stock and accept only a paid queue OR delivered stock.
+   before_recruit=page.evaluate("""id=>{
+      const s=HOG_APP_DEBUG.getState();return {unitId:id,stock:s.army[id]||0,
+        queue:s.training.length,valid:HOG_ENGINE.strictSave(s)};
+   }""",recruit_layout['unit'])
    recruit.click()
-   page.wait_for_function('HOG_APP_DEBUG.getState().training.length===1')
-   assert page.evaluate('HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())'),f'{width}x{height} real Army recruit invalidated Save v07'
-   checks.append({'viewport':f'{width}x{height}','check':f'{faction} visible Recruit button starts a paid queue and preserves v07','pass':True,'unit':recruit_layout['unit']})
-   completed=page.evaluate("""() => {
-    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),q=s.training[0];
-    E.tick(s,s.lastTick+q.remaining/s.speed*1000+1000);HOG_APP_DEBUG.render();
-    return {count:s.army[q.unitId],queue:s.training.length,valid:E.strictSave(s)};
-   }""")
-   assert completed['count']>=3 and completed['queue']==0 and completed['valid'],f'{width}x{height} real troop queue did not complete cleanly: {completed}'
+   paid=page.evaluate("""id=>{
+     const s=HOG_APP_DEBUG.getState();return {unitId:id,stock:s.army[id]||0,
+       queue:s.training.length,queued:s.training.at(-1)?.unitId||null,
+       valid:HOG_ENGINE.strictSave(s)};
+   }""",recruit_layout['unit'])
+   queued=(paid['queue']==before_recruit['queue']+1 and paid['queued']==recruit_layout['unit'])
+   delivered=(paid['queue']==before_recruit['queue'] and paid['stock']>before_recruit['stock'])
+   assert before_recruit['valid'] and paid['valid'] and (queued or delivered),f'{width}x{height} real paid troop request neither queued nor delivered: {before_recruit} => {paid}'
+   checks.append({'viewport':f'{width}x{height}','check':f'{faction} Recruit really queues or immediately delivers paid stock and preserves v07',
+       'pass':True,'unit':recruit_layout['unit'],'mode':'queued' if queued else 'delivered'})
+   completed=page.evaluate("""id => {
+    const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),q=s.training.find(x=>x.unitId===id);
+    if(q)E.tick(s,s.lastTick+q.remaining/s.speed*1000+1000);
+    HOG_APP_DEBUG.render();
+    return {unitId:id,count:s.army[id]||0,queue:s.training.length,valid:E.strictSave(s)};
+   }""",recruit_layout['unit'])
+   assert completed['count']>before_recruit['stock'] and completed['queue']==0 and completed['valid'],f'{width}x{height} real troop delivery did not complete cleanly: {completed}'
    checks.append({'viewport':f'{width}x{height}','check':f'{faction} paid troop queue completes through game tick','pass':True,'trained':completed['count']})
    troop_ids=[f'{faction}_9',f'{faction}_10']
    assert page.locator('.hg28-tab-army img[data-hg28-troop]').count()==2
