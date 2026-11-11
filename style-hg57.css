@@ -128,3 +128,14 @@ body.combat-mode .battle-stage{position:relative;isolation:isolate}
  .hg58-unit-energy>span>b{font-size:8px}
  .hg58-cd-bar{height:4px}
 }
+
+/* HG59: in 960x540 and other short desktop landscapes, additional
+   HG58 speed/cooldown readouts pushed the ACTUAL command grid below
+   the scroll viewport. Keep primary battle actions reachable without
+   scrolling while leaving all hero/target information in the same pane.
+   Presentation only; canonical odd-r grid and Save v07 are untouched. */
+@media (min-width:701px) and (max-height:600px){
+ body.combat-mode .battle-command-content>.battle-action-grid{
+  order:-31;flex:0 0 auto
+ }
+}
