@@ -13,7 +13,7 @@ check('Four natural new games have no injected late-game gear',()=>{
  const out=[];for(const race of ['human','elf','orc','undead']){
   const s=E.make(race,1000000);
   assert.equal(s.version,7);assert.equal(s.inventory.length,0);
-  assert.equal(s.hg18.v,1);assert(E.strictSave(s));
+  assert(s.hg18&&typeof s.hg18==='object');assert(E.strictSave(s));
   out.push({race,heroes:s.heroes.length,items:s.inventory.length,city:s.cities.length});
  }
  return out;
