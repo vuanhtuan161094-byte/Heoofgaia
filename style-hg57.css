@@ -118,13 +118,13 @@ body.combat-mode .battle-stage{position:relative;isolation:isolate}
 .hg58-unit-energy>span>b{color:#e9d89f;font-size:9px}
 .hg58-unit-energy small{color:#bcdaf2;font:600 9px/1.1 system-ui}
 .hg58-unit-energy.absent{color:#a8bfc7;font-size:9px}
-.hg58-mp-bar{display:block;height:5px;border-radius:5px;background:#102334;overflow:hidden;
+.hg58-cd-bar{display:block;height:5px;border-radius:5px;background:#102334;overflow:hidden;
  border:1px solid #2a4d69;box-shadow:inset 0 1px 2px #020b13}
-.hg58-mp-bar i{display:block;height:100%;border-radius:5px;
+.hg58-cd-bar i{display:block;height:100%;border-radius:5px;
  background:linear-gradient(90deg,#3888d9,#65c8f7,#c9f6ff)}
-.hg58-mp-bar.passive{background:linear-gradient(90deg,#598d78,#a9d3bb)}
+.hg58-cd-bar.passive{background:linear-gradient(90deg,#598d78,#a9d3bb)}
 @media(max-height:450px) and (orientation:landscape){
  .hg58-unit-energy{padding:3px;gap:2px;margin:2px 0 0}
  .hg58-unit-energy>span>b{font-size:8px}
- .hg58-mp-bar{height:4px}
+ .hg58-cd-bar{height:4px}
 }
