@@ -64,7 +64,7 @@ def inspect(page):
       // Same three top meters + bottom ticker drawn by painter.drawHG403BattleHUD.
       // Old x=width-200/y=14 rectangle was wider/lower than the real HUD and
       // produced phantom sprite collisions after desktop viewport height fix.
-      const hudW=Math.max(155,Math.min(235,c.width*.205));
+      const hudW=Math.max(94,Math.min(235,c.width*.205));
       const huds=[{x:12,y:9,w:hudW,h:37},{x:c.width-12-hudW,y:9,w:hudW,h:37},
         {x:c.width/2-58,y:9,w:116,h:37},{x:12,y:c.height-36,w:c.width-24,h:27}];
       // Canvas atlas rounding may touch a HUD edge by <1 source pixel.
