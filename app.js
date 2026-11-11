@@ -391,8 +391,15 @@ function hg63CaptureBattleReport(beforeBattle,before,terminal){
  if(!beforeBattle||!state||state.battle===beforeBattle)return;
  const latest=state.battleReports?.[0]||null;
  const canonical=latest&&latest.id!==hg63SeenReportId&&latest.target===beforeBattle.target;
- const outcome=terminal?.type&&terminal.type!=='continue'?terminal.type:
-  beforeBattle.enemies?.every(u=>u.pool<=0)?'win':beforeBattle.allies?.every(u=>u.pool<=0)?'lose':'retreat';
+ // Tower settlement resolves a 70-turn timeout as a real defeat. Use its
+ // canonical receipt, not a heuristic over still-living combatants.
+ const towerResult=beforeBattle.kind==='tower'&&state.hg20?.tower?.last!==before?.towerReport?
+  state.hg20?.tower?.last?.outcome:null;
+ const outcome=terminal?.type&&terminal.type!=='continue'?
+  (beforeBattle.kind==='tower'&&terminal.type==='timeout'?'lose':terminal.type):
+  ['win','lose'].includes(towerResult)?towerResult:
+  beforeBattle.enemies?.every(u=>u.pool<=0)?'win':
+  beforeBattle.allies?.every(u=>u.pool<=0)?'lose':'retreat';
  const report=canonical?latest:{
   id:'display-'+String(Date.now())+'-'+String(beforeBattle.turn||0),
   target:beforeBattle.target||'',name:beforeBattle.hg21Tower?.floor?'Bí Cảnh tầng '+beforeBattle.hg21Tower.floor:

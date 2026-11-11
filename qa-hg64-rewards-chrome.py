@@ -132,5 +132,33 @@ with sync_playwright() as playwright:
  p.locator('[data-hg63-action="close"]').click()
  check('Tower postbattle Save remains strict v07',p.evaluate('HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState())'))
  ctx.close()
+ # A legitimate Tower timeout retains living units but is still a LOSS,
+ # never an ordinary retreat. Drive the real 70-turn terminal engine path.
+ ctx,p=new_game(browser,'tower-timeout',1280,720,False)
+ terminal=p.evaluate("""()=>{const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
+   E.autoFormation(s);E.hg20ChooseTowerTeam(s,[1]);E.hg21TowerEnter(s);
+   const b=s.battle;
+   b.turn=70;b.autoUntil=Date.now()+600000;s.battleAuto=false;
+   b.enemies.forEach(e=>{e.atk=0;e.def=1_000_000;});
+   HOG_APP_DEBUG.showCombatForTests();
+   return {valid:E.strictSave(s),turn:b.turn,allies:b.allies.filter(u=>u.pool>0).length,
+     enemies:b.enemies.filter(u=>u.pool>0).length};}""")
+ check('70-turn Tower timeout fixture is strict Save v07 with living armies',
+       terminal['valid'] and terminal['turn']==70 and terminal['allies']>0 and terminal['enemies']>0,terminal)
+ p.locator('[data-action="battle"][data-cmd="defend"]').click()
+ timeout=p.evaluate("""()=>{const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),
+   t=s.hg20?.tower?.last,u=document.querySelector('#hg63-battle-result');
+   return {valid:E.strictSave(s),type:t?.outcome,claimed:t?.claimed,
+    battle:!!s.battle,dialog:u?.innerText||'',vfx:u?.querySelectorAll('.hg63-report-vfx i').length||0};}""")
+ check('real Tower timeout displays defeat VFX and awards no loot',
+       timeout['valid'] and timeout['type']=='lose' and not timeout['claimed'] and
+       not timeout['battle'] and 'THẤT BẠI' in timeout['dialog'] and
+       timeout['vfx']>0 and 'RÚT LUI' not in timeout['dialog'],timeout)
+ shot(p,'tower-timeout-defeat-desktop')
+ p.locator('[data-hg63-action="close"]').click()
+ check('Tower defeat has no hidden popup or invalid v07 after dismissal',
+       p.evaluate("""()=>{const s=HOG_APP_DEBUG.getState();
+         return HOG_ENGINE.strictSave(s)&&!document.getElementById('hg63-battle-result')}"""))
+ ctx.close()
  browser.close()
 print('HG64',sum(c['pass'] for c in checks),'/',len(checks),'PASS',flush=True)
