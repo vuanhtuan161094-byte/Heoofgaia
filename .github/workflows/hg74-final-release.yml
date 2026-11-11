@@ -1,0 +1,117 @@
+name: HG74 Final Playable Release - Core Gates and One Offline HTML
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - 'hg21-tower-tactical.js'
+      - 'hg73-gear-prestige.js'
+      - 'hg47-ten-slot.js'
+      - 'app.js'
+      - 'painter.js'
+      - 'style-hg57.css'
+      - 'build_offline.py'
+      - 'qa-hg74-release-check.cjs'
+      - '.github/workflows/hg74-final-release.yml'
+permissions:
+  contents: read
+concurrency:
+  group: hg74-final-release-single-branch
+  cancel-in-progress: true
+jobs:
+  canonical-engine:
+    name: Canonical Save v07, New Game, Boss and Tower, exclusive gear
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Exact-SHA syntax checks
+        run: |
+          git rev-parse HEAD
+          node --check hg21-tower-tactical.js
+          node --check hg73-gear-prestige.js
+          node --check app.js
+          node --check painter.js
+          node --check qa-hg74-release-check.cjs
+      - name: All canonical game engine gates
+        run: |
+          set -euxo pipefail
+          node qa-engine.cjs
+          node qa-hg410-overhaul.cjs
+          node qa-hg69-endurance.cjs
+          node qa-hg47-10slot.cjs
+          node qa-hg70-reward-skills.cjs
+          node qa-hg71-special-hero.cjs
+          node qa-hg73-gear.cjs
+          node qa-hg74-release-check.cjs
+  single-html:
+    name: Offline game, 4-viewport New Game, Boss, Tower, gear VFX
+    needs: canonical-engine
+    runs-on: ubuntu-latest
+    timeout-minutes: 55
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Build canonical single offline HTML
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          python - <<'PY'
+          from pathlib import Path
+          html=Path('Play-Heoofgaia-HG11.html').read_text(encoding='utf-8')
+          assert html.count('<script>')==41
+          assert '<script src=' not in html
+          assert 'HG73' in html and 'hg73Grade' in html
+          assert 'hg21TowerEnter' in html
+          print('HG74 SINGLE OFFLINE HTML 41/41 PASS')
+          PY
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Install genuine headless Chromium
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: Organic New Game + map + castle + HUD on four viewport sizes
+        run: python qa-hg44-journey-chrome.py
+      - name: Real 10-slot inventory, eight item tiers, icy aura, Save/Load
+        run: |
+          python qa-hg72-inventory-chrome.py
+          python qa-hg73-visual-chrome.py
+      - name: Real expedition and independent Boss/Tower reward receipts
+        run: |
+          python qa-hg50-expedition-chrome.py
+          python qa-hg64-rewards-chrome.py
+      - name: Real three-hero vs sixteen-Boss actor rendering/FPS
+        run: python qa-hg57b-joint-boss-chrome.py
+      - name: Real browser QA screenshots and save receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG74-Release-Chromium-Gameplay-Evidence
+          retention-days: 30
+          if-no-files-found: ignore
+          path: |
+            docs/qa/hg44/*.json
+            docs/qa/hg50/*.json
+            docs/qa/hg57b/*.json
+            docs/qa/hg64/*.json
+            docs/qa/hg72/*.json
+            docs/qa/hg73/*.json
+            docs/evidence/hg44/*.png
+            docs/evidence/hg50/*.png
+            docs/evidence/hg57b/*.png
+            docs/evidence/hg64/*.png
+            docs/evidence/hg72/*.png
+            docs/evidence/hg73/*.png
+      - name: Release exactly one playable Windows/Android HTML
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HEOOFGAIA-HG74-ONE-HTML-WINDOWS-ANDROID
+          path: Play-Heoofgaia-HG11.html
+          if-no-files-found: error
+          retention-days: 30

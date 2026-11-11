@@ -955,6 +955,26 @@ function hg407FootOffset(unitId,action,frame,drawHeight,frameHeight=204){
  const source=HG407_WALK_FOOT[unitId]?.[frame];
  return Number.isFinite(source)?source*drawHeight/frameHeight:0;
 }
+// HG74: pre-grade 192x204 RGBA atlas cells ONCE in source resolution.
+// Canvas 2D filter on each 22-actor draw was a costly per-frame postprocess.
+// LRU cap bounds decoded offscreen frame RAM (~22 MB); foot anchor and
+// actual authored frame ID stay identical, without external assets.
+const hg74ColorFrames=new Map(),HG74_FRAME_CACHE_LIMIT=144;
+function hg74ColorFrame(image,frame){
+ if(typeof document==='undefined'||typeof document.createElement!=='function')return null;
+ const key=image.id+'|'+frame.sx+'|'+frame.sy+'|'+frame.sw+'x'+frame.sh;
+ if(hg74ColorFrames.has(key))return hg74ColorFrames.get(key);
+ const canvas=document.createElement('canvas');
+ canvas.width=frame.sw;canvas.height=frame.sh;
+ const ctx=canvas.getContext('2d');
+ if(!ctx)return null;
+ ctx.filter='contrast(1.17) saturate(1.13)';
+ ctx.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,0,0,frame.sw,frame.sh);
+ ctx.filter='none';
+ if(hg74ColorFrames.size>=HG74_FRAME_CACHE_LIMIT)hg74ColorFrames.delete(hg74ColorFrames.keys().next().value);
+ hg74ColorFrames.set(key,canvas);
+ return canvas;
+}
 function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  const unit=troopAtlasDefinition(unitId,actorName);if(!unit||!visual||typeof document==='undefined')return false;
  const frame=troopAtlasFrame(unitId,visual.action,visual.time,visual.duration,actorName),image=document.getElementById(unit.imageId);if(!image)return false;
@@ -967,7 +987,10 @@ function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  // packed hexes. Improve actual edge/colour definition without more sprites,
  // external assets, blur layers, or any altered foot anchor.
  c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
- c.filter='contrast(1.17) saturate(1.13)';
+ // HG74: coloured source frame is cached; do not run contrast/saturation
+ // as a CSS/Canvas filter on every actor on every animation frame.
+ const coloured=hg74ColorFrame(image,frame);
+ c.filter='none';
  c.translate(x,y);if(hg63BattleMirror(enemy,unit.enemyFacing||'right'))c.scale(-1,1);
  const groundFix=hg407FootOffset(unitId,frame.action,frame.frame,height,frameSize[1]);
  const paintedY=-height*unit.pivot+groundFix;
@@ -978,7 +1001,9 @@ function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  if(unitId==='orc_10'&&frame.action==='walk'&&(frame.frame===2||frame.frame===3)){
   c.beginPath();c.rect(-width*.5-1,paintedY-1,width+2,Math.max(1,3-paintedY));c.clip();
  }
- c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,paintedY,width,height);c.restore();return true;
+ if(coloured)c.drawImage(coloured,0,0,frame.sw,frame.sh,-width*.5,paintedY,width,height);
+ else c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,paintedY,width,height);
+ c.restore();return true;
 }
 function battleUnitArt(c,x,y,enemy,visual,k,u){
  if(troopAtlasDefinition(u.unitId,u.name))return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId,u.name);
