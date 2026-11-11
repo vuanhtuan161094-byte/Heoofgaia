@@ -525,15 +525,19 @@ function hg63ShowReport(){
 function hg63GearDetails(row,setsById){
  const def=row&&E.ITEMS[row.itemId];if(!def)return '';
  const stats=E.hg46Stats(row),slot=E.HG47_SLOTS.find(s=>s[0]===def.slot)?.[1]||def.slot;
- const rank={common:'Phổ thông',sentinel:'Vệ Binh',astral:'Tinh Vân',dragon:'Long Hồn',star:'Tinh Không',rare:'Cổ vật',divine:'Thần khí'}[E.hg46Kind(row)]||'Đặc biệt';
+ const rank=E.hg73Grade?.(row)?.label||{common:'Phổ thông',sentinel:'Vệ Binh',astral:'Tinh Vân',dragon:'Long Hồn',star:'Tinh Không',rare:'Cổ vật',divine:'Thần khí'}[E.hg46Kind(row)]||'Đặc biệt';
  const values=['atk','def','spd','int'].map(k=>{
   const raw=Number(def[k]||0),current=Number(stats?.[k]||0);
   return k.toUpperCase()+' '+format(current)+(current!==raw?' (gốc '+format(raw)+')':'');
  }).join(' · ');
- const set=setsById[def.set],affixes=E.hg47Affixes(row),effect=equipmentBattleText(def);
+ const set=setsById[def.set],affixes=E.hg47Affixes(row),effect=equipmentBattleText(def),prestige=E.hg73Inspect?.(row);
+ const boosted=prestige?Object.entries(prestige.delta).filter(([,v])=>v>0)
+  .map(([key,value])=>key.toUpperCase()+' +'+format(value)).join(' · '):'';
  return '<details class="hg63-item-details"><summary>ⓘ Chi tiết vật phẩm</summary>'+
   '<p><b>'+esc(def.name)+'</b> · '+esc(rank)+' · '+esc(slot)+' · cấp cường hóa +'+(row.enhance||0)+'</p>'+
   '<p><b>Chỉ số thực:</b> '+esc(values)+'</p>'+
+  (boosted?'<p class="hg73-effective"><b>✦ Cộng thêm theo phẩm chất:</b> '+esc(boosted)+'</p>':'')+
+  (prestige?.promotion?'<p><b>Thức tỉnh:</b> '+esc(prestige.promotion)+'</p>':'')+
   (effect?'<p><b>Hiệu ứng chiến đấu:</b> '+esc(effect)+'</p>':'')+
   (affixes.length?'<p><b>Dòng phụ:</b> '+esc(affixes.map(a=>a.label).join(' · '))+'</p>':'')+
   (set?'<p><b>Bộ '+esc(set.name)+':</b> '+esc(set.note||'Điều kiện kích hoạt theo số món đang mặc')+'</p>':'')+
@@ -1000,15 +1004,21 @@ function hg46GearView(h){
  const names=Object.fromEntries(E.HG47_SLOTS.map(([key,label])=>[key,label]));
  const setsById={...E.HG18_SETS,...E.HG31_SETS,...E.HG47_SETS};
  const icon=row=>{
-  const item=E.ITEMS[row.itemId];
-  return E.hg47IconHTML?.(item.id,54)||E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
+  const item=E.ITEMS[row.itemId],grade=E.hg73Grade?.(row);
+  const art=E.hg47IconHTML?.(item.id,54)||E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
+  return '<span class="hg73-gem '+(grade?'hg73-tier-'+grade.id:'')+'">'+art+'</span>';
+ };
+ const gradeBadge=row=>{
+  const g=E.hg73Grade?.(row);
+  return g?'<span class="hg73-grade-pill hg73-tier-'+g.id+'" aria-label="Phẩm chất '+esc(g.label)+'">✦ '+esc(g.label)+'</span>':'';
  };
  const worn=E.HG47_SLOTS.map(([slot])=>{
   const row=state.inventory.find(i=>i.uid===slots[slot]),def=row&&E.ITEMS[row.itemId];
   const kind=row?E.hg46Kind(row):'empty',p=row?E.hg46Stats(row):null;
   const attrs=p?['atk','def','spd','int'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · '):'Chưa có trang bị';
-  return '<article class="hg46-slot hg408-slot hg46-kind-'+kind+'" data-hg46-slot="'+slot+'">'+
-   '<div class="hg46-slot-head"><b>'+esc(names[slot])+'</b><small>'+ (row?'+'+(row.enhance||0)+' cường hóa':'Trống')+'</small></div>'+
+  const grade=row?E.hg73Grade?.(row):null;
+  return '<article class="hg46-slot hg408-slot hg46-kind-'+kind+' '+(grade?'hg73-tier-'+grade.id:'')+'" data-hg46-slot="'+slot+'">'+
+   '<div class="hg46-slot-head"><b>'+esc(names[slot])+'</b>'+(row?gradeBadge(row):'')+'<small>'+ (row?'+'+(row.enhance||0)+' cường hóa':'Trống')+'</small></div>'+
    '<div class="hg46-slot-content"><div class="hg46-gear-art">'+(row?icon(row):'◇')+'</div>'+
    '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+(row?hg63GearDetails(row,setsById):'')+ (row&&E.hg47Affixes(row).length?'<small class="hg47-affix">'+esc(E.hg47Affixes(row).map(x=>x.label).join(' · '))+'</small>':'')+
    (def?.set?'<small class="hg46-set-tag">'+esc(setsById[def.set]?.name||def.set)+'</small>':'')+
@@ -1031,24 +1041,30 @@ function hg46GearView(h){
  const matchesFilter=i=>{
   const d=E.ITEMS[i.itemId],owner=E.hg46Owner(state,i.uid),kind=E.hg46Kind(i);
   return hg46GearFilter==='all'||hg46GearFilter==='free'&&!owner||
-   hg46GearFilter==='worn'&&!!owner||hg46GearFilter==='rare'&&['rare','divine','star','dragon'].includes(kind)||
+   hg46GearFilter==='worn'&&!!owner||
+   hg46GearFilter==='rare'&&(E.hg73Grade?.(i)?.order||0)>=4||
+   hg46GearFilter.startsWith('grade:')&&E.hg73Kind?.(i)===hg46GearFilter.slice(6)||
    d.slot===hg46GearFilter;
  };
  const inventory=state.inventory.filter(i=>E.ITEMS[i.itemId]&&matchesFilter(i)&&
   (!search||norm([E.ITEMS[i.itemId].name,E.ITEMS[i.itemId].slot,i.uid,i.source,
-    E.hg46Kind(i),E.HG47_SLOTS.find(q=>q[0]===E.ITEMS[i.itemId].slot)?.[1]].join(' ')).includes(search)));
+    E.hg46Kind(i),E.hg73Grade?.(i)?.label||'',
+    E.HG47_SLOTS.find(q=>q[0]===E.ITEMS[i.itemId].slot)?.[1]].join(' ')).includes(search)));
  const tiers={divine:7,star:6,rare:5,dragon:4,astral:3,sentinel:2,common:1};
  inventory.sort((a,b)=>hg46GearSort==='new'?b.uid-a.uid:
   hg46GearSort==='attack'?(E.hg46Stats(b).atk||0)-(E.hg46Stats(a).atk||0)||b.uid-a.uid:
-  ((tiers[E.hg46Kind(b)]||0)-(tiers[E.hg46Kind(a)]||0))||(b.enhance||0)-(a.enhance||0)||a.uid-b.uid);
+  ((E.hg73Grade?.(b)?.order||tiers[E.hg46Kind(b)]||0)-
+   (E.hg73Grade?.(a)?.order||tiers[E.hg46Kind(a)]||0))||(b.enhance||0)-(a.enhance||0)||a.uid-b.uid);
  const pageSize=24,pages=Math.max(1,Math.ceil(inventory.length/pageSize));
  hg46GearPage=Math.min(hg46GearPage,pages-1);
  const visible=inventory.slice(hg46GearPage*pageSize,(hg46GearPage+1)*pageSize);
- const options=[['all','Tất cả'],['free','Chưa mặc'],['worn','Đang mặc'],['rare','Đồ hiếm'],
+ const options=[['all','Tất cả'],['free','Chưa mặc'],['worn','Đang mặc'],['rare','Sử thi+'],
+  ...['divine','rainbow','platinum','legendary','epic','rare','fine','common']
+   .map(id=>['grade:'+id,'✦ '+E.HG73_TIERS[id].label]),
   ...E.HG47_SLOTS.map(([key,name,icon])=>[key,icon+' '+name])];
  const groupCount=key=>key==='all'?state.inventory.length:key==='free'?state.inventory.length-equipped:
-  key==='worn'?equipped:key==='rare'?state.inventory.filter(i=>E.ITEMS[i.itemId]&&
-   ['rare','divine','star','dragon'].includes(E.hg46Kind(i))).length:
+  key==='worn'?equipped:key==='rare'?state.inventory.filter(i=>(E.hg73Grade?.(i)?.order||0)>=4).length:
+   key.startsWith('grade:')?state.inventory.filter(i=>E.hg73Kind?.(i)===key.slice(6)).length:
    state.inventory.filter(i=>E.ITEMS[i.itemId]?.slot===key).length;
  const filters=options.map(([key,label])=>button('hg46-filter',{slot:key},
   label+' '+groupCount(key),key===hg46GearFilter,'small '+(key===hg46GearFilter?'primary':'secondary'))).join('');
@@ -1066,9 +1082,10 @@ function hg46GearView(h){
   const battle=equipmentBattleText(def),source=owner?
     'Đang mặc: '+(state.heroes.find(x=>x.id===owner.heroId)?.name||'Tướng khác'):'Trong kho';
   const setName=setsById[def.set]?.name||'Thường';
-  return '<article class="hg46-inventory-card hg46-kind-'+kind+'" data-hg46-uid="'+row.uid+'">'+
+  const grade=E.hg73Grade?.(row);
+  return '<article class="hg46-inventory-card hg46-kind-'+kind+' '+(grade?'hg73-tier-'+grade.id:'')+'" data-hg46-uid="'+row.uid+'">'+
    '<div class="hg46-gear-art">'+icon(row)+'</div>'+
-   '<div class="hg46-item-description"><b>'+esc(def.name)+' <span>+'+(row.enhance||0)+'</span></b>'+
+   '<div class="hg46-item-description"><div class="hg73-item-head"><b>'+esc(def.name)+' <span>+'+(row.enhance||0)+'</span></b>'+gradeBadge(row)+'</div>'+
    '<small class="hg46-origin">'+esc(setName)+' · '+esc(source)+' · UID '+row.uid+'</small>'+
    '<small>'+esc(raw||'Không có điểm thuộc tính')+'</small>'+hg63GearDetails(row,setsById)+
    (battle?'<small class="hg46-effect">'+esc(battle)+'</small>':'')+

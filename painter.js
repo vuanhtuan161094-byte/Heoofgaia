@@ -1462,6 +1462,9 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  const preview=interaction.movementModeId===b.selected&&E.battleMovePreview?E.battleMovePreview(b,b.selected):null,reachable=new Set(preview?.cells.map(cell=>`${cell.x},${cell.y}`)||[]),attackable=new Set(E.battleTargetsInRange?E.battleTargetsInRange(b,b.selected):[]);
  const units=battleUnitLayout(b,camera,w,h,now).slice().sort((a,b)=>a.y-b.y||a.x-b.x);
  const hg451Owners=new Map((s.heroes||[]).map(h=>[h.id,E.hg408HeroQuality?.(h)||h.quality]));
+ // Per-hero cached grade: three-hero / six-stack Tower checks run once per
+ // painted frame, never per source atlas cell or effect particle.
+ const hg73Owners=E.hg73AuraForHero?new Map((s.heroes||[]).map(h=>[h.id,E.hg73AuraForHero(s,h.id)])):null;
  // Static outlines are already in the cached background. Only draw
  // changing reachable cells here, so hex hit-testing remains identical.
  if(reachable.size)for(const cell of battleGridCells(camera)){
@@ -1495,6 +1498,29 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   soldier(c,0,0,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
   c.restore();
  }
+  // HG73: genuine equipped Legendary+ items gain a small crystalline
+  // aura on their OWNER's real hex (never a cosmetic enemy loot grant).
+  // This overlays atlas art with no resampling, altered damage or Save writes.
+  const gearAura=u.side==='player'?hg73Owners?.get(u.heroId??s.activeHero):null;
+  if(gearAura){
+   const pulse=.72+.20*Math.sin(elapsed/480+u.x*.7+u.y*.4);
+   c.save();c.strokeStyle=gearAura.color;c.lineWidth=gearAura.order>=7?2:1.3;
+   c.globalAlpha=gearAura.order>=7?.78:pulse*.53;
+   c.shadowColor=gearAura.glow;c.shadowBlur=gearAura.order>=7?13:7;
+   c.beginPath();c.ellipse(x,y+1,clamp(20*k,14,30),clamp(7*k,5,10),0,0,TAU);c.stroke();
+   // Four sharp crystal points on attack/hit; soft glow stays OUTSIDE them.
+   if((visual?.action==='attack'||visual?.action==='hit')&&gearAura.order>=6){
+    const spin=elapsed/570,rad=clamp(24*k,15,33);
+    for(let q=0;q<4;q++){
+     const a=spin+q*TAU/4,px=x+Math.cos(a)*rad,
+      py=y-entry.size*.44+Math.sin(a)*rad*.62;
+     c.beginPath();c.moveTo(px,py-4);c.lineTo(px+2.4,py);
+     c.lineTo(px,py+4);c.lineTo(px-2.4,py);c.closePath();
+     c.fillStyle=q%2===0?'#f4ffff':gearAura.color;c.fill();
+    }
+   }
+   c.restore();
+  }
   // HG40: render a light aura around the actual animated sprite foot pivot.
   // No sprite replacement, label overlay, timer or new canvas is created.
   if(b.hg40?.v===1){

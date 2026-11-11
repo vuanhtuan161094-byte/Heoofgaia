@@ -199,3 +199,88 @@ body.combat-mode .battle-stage{position:relative;isolation:isolate}
 .hg71-quest-prize small{font-size:11px;line-height:1.5;color:#d6e0fb}
 .hg71-special-skill{display:grid;gap:3px;padding:7px 9px;border:1px solid #cfb073;background:#35264199;border-radius:8px;margin:6px 0}
 .hg71-special-skill b{color:#ffe4a1}.hg71-special-skill small{color:#d8e8ff;line-height:1.5}
+
+
+/* HG73 — prestige equipment: sharp crystalline core, soft exterior frost.
+ * CSS-only VFX; no animated bitmaps, no resource fetches or extra frame DOM.
+ * Keep the premium ring a presentation overlay; pointer actions stay native.
+ */
+.hg73-tier-common{--hg73-color:#93a8b9;--hg73-glow:#829ba6}
+.hg73-tier-fine{--hg73-color:#74d4aa;--hg73-glow:#7bf4c9}
+.hg73-tier-rare{--hg73-color:#69aefe;--hg73-glow:#8fcdff}
+.hg73-tier-epic{--hg73-color:#bd90ed;--hg73-glow:#d9b9ff}
+.hg73-tier-legendary{--hg73-color:#f8bb69;--hg73-glow:#ffd999}
+.hg73-tier-platinum{--hg73-color:#b0e9f2;--hg73-glow:#ebffff}
+.hg73-tier-rainbow{--hg73-color:#b9e9ed;--hg73-glow:#e9faff}
+.hg73-tier-divine{--hg73-color:#d8faff;--hg73-glow:#ffffff}
+.hg46-slot[class*="hg73-tier-"],.hg46-inventory-card[class*="hg73-tier-"]{
+ position:relative;isolation:isolate;overflow:visible;border-color:var(--hg73-color,#8492a0)!important;
+ background:linear-gradient(145deg,#122536 0%,#142338 52%,#101d31 100%)!important;
+}
+.hg46-slot[class*="hg73-tier-"]>*,
+.hg46-inventory-card[class*="hg73-tier-"]>*{position:relative;z-index:1}
+.hg46-slot:is(.hg73-tier-rare,.hg73-tier-epic,.hg73-tier-legendary,.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine),
+.hg46-inventory-card:is(.hg73-tier-rare,.hg73-tier-epic,.hg73-tier-legendary,.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine){
+ box-shadow:inset 0 0 0 1px #ffffff22,0 3px 14px #030b1a83,0 0 14px color-mix(in srgb,var(--hg73-glow),transparent 72%)!important
+}
+.hg46-slot:is(.hg73-tier-legendary,.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine)::before,
+.hg46-inventory-card:is(.hg73-tier-legendary,.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine)::before{
+ content:"";position:absolute;pointer-events:none;inset:-2px;border-radius:inherit;z-index:0;
+ background:
+  linear-gradient(135deg,#faffffbf 0 3px,transparent 3px 32%,#a6eafc77 36%,transparent 40% 62%,#fcffffa0 67%,transparent 72%),
+  linear-gradient(153deg,transparent 5%,#5ea2da30 24%,transparent 39%,#f4feff35 61%,transparent 77%);
+ border:1px solid var(--hg73-color);box-shadow:inset 0 0 0 1px #fcffff42,inset 0 0 10px #a8f2ff38;
+}
+.hg46-slot:is(.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine)::after,
+.hg46-inventory-card:is(.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine)::after{
+ content:"";position:absolute;pointer-events:none;inset:-5px;border-radius:inherit;z-index:0;
+ border:2px solid var(--hg73-color);opacity:.65;filter:blur(5px);
+ box-shadow:0 0 13px 3px var(--hg73-glow);
+ animation:hg73FrostBreath 3.8s ease-in-out infinite alternate
+}
+.hg73-tier-rainbow::before{
+ background:linear-gradient(105deg,#99f2ff72,#d4b1ff7c,#ffdfa27a,#9ceec57b,#9fbdff82)!important;
+ background-size:240% 100%!important;animation:hg73Prism 8s linear infinite
+}
+.hg73-tier-divine::before{
+ box-shadow:inset 0 0 0 2px #e6fcff7e,inset 0 0 13px #96e5ff7c,0 0 12px #c7eaff4e!important
+}
+.hg73-gem{position:relative;display:inline-flex;align-items:center;justify-content:center;
+ width:56px;height:56px;max-width:100%;border-radius:12px;isolation:isolate}
+.hg73-gem>*{position:relative;z-index:1;max-width:100%;height:auto}
+.hg73-gem:is(.hg73-tier-legendary,.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine)::before{
+ content:"";pointer-events:none;position:absolute;z-index:0;inset:4px;
+ border:1px solid #ecffffb6;border-radius:9px;transform:rotate(-5deg);
+ background:conic-gradient(from 25deg,#f7ffff18,#8cdffd66,#eefbff22,#7ecae933,#f7ffff18);
+ box-shadow:0 0 6px var(--hg73-glow),inset 0 0 8px #d0f9ff5e
+}
+.hg73-gem:is(.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine)::after{
+ content:"✦";position:absolute;z-index:2;top:-7px;right:-4px;pointer-events:none;
+ color:white;text-shadow:0 0 4px #ffffff,0 0 10px var(--hg73-glow);font-size:13px;
+ animation:hg73StarGlint 3.2s ease-in-out infinite
+}
+.hg73-item-head{display:flex;align-items:flex-start;flex-wrap:wrap;gap:5px 9px}
+.hg73-item-head b{min-width:0;flex:1 1 140px}
+.hg73-grade-pill{display:inline-flex;align-items:center;border-radius:999px;padding:2px 7px;
+ font-size:10px!important;line-height:1.6;font-weight:800;color:var(--hg73-color)!important;
+ border:1px solid var(--hg73-color);background:#0a182cda;
+ text-shadow:0 0 6px color-mix(in srgb,var(--hg73-glow),transparent 35%);white-space:nowrap}
+.hg73-tier-common .hg73-grade-pill,.hg73-tier-fine .hg73-grade-pill{box-shadow:none}
+.hg46-inventory-card[class*="hg73-tier-"] .hg46-item-description>b,
+.hg46-slot[class*="hg73-tier-"] .hg46-slot-content strong,
+.hg73-item-head>b{color:var(--hg73-color)!important;text-shadow:0 0 7px color-mix(in srgb,var(--hg73-glow),transparent 73%)}
+.hg73-effective{color:#d2f6f9!important}
+@keyframes hg73FrostBreath{0%{opacity:.40;filter:blur(5px)}100%{opacity:.83;filter:blur(7px)}}
+@keyframes hg73Prism{0%{background-position:0 50%}100%{background-position:240% 50%}}
+@keyframes hg73StarGlint{0%,80%,100%{opacity:.24;transform:scale(.76)}86%{opacity:1;transform:scale(1.25)}}
+@media(max-width:750px){
+ .hg46-slot:is(.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine)::after,
+ .hg46-inventory-card:is(.hg73-tier-platinum,.hg73-tier-rainbow,.hg73-tier-divine)::after{
+  filter:blur(3px);animation:none;opacity:.42}
+ .hg73-gem::after{animation:none!important}
+}
+@media(prefers-reduced-motion:reduce){
+ .hg73-tier-rainbow::before,.hg73-gem::after,
+ .hg46-slot[class*="hg73-tier-"]::after,.hg46-inventory-card[class*="hg73-tier-"]::after{
+  animation:none!important}
+}
