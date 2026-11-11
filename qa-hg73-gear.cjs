@@ -97,5 +97,23 @@ check('old Save v07 with common gear is unchanged by the visual/derived-rank lay
  assert.equal(JSON.stringify(E.serializeSave(copy)),old);
  return {uid:v.uid,unchanged:true,save:copy.version};
 });
-console.log('HG73 equipment engine',passed,'/',6,'PASS');
-if(passed!==6)process.exitCode=1;
+check('rare-to-divine equipment has 2–4 persistent UID-derived affixes without new inventory fields',()=>{
+ const s=fresh(),rows=src.map(([rank,id,lv])=>{const item=E.addItem(s,id,'QA UID-affix fixture');item.enhance=lv;return item});
+ const profiles=rows.map(row=>({rank:E.hg73Grade(row).id,n:E.hg73Affixes(row).length,uid:row.uid,
+  aff:E.hg73Affixes(row).map(a=>a.label)}));
+ for(const p of profiles){
+  const expected=p.rank==='divine'||p.rank==='rainbow'?4:
+   p.rank==='legendary'||p.rank==='platinum'?3:
+   p.rank==='rare'||p.rank==='epic'?2:0;
+  assert.equal(p.n,expected,p.rank);
+  assert.equal(new Set(p.aff).size,p.n,p.rank);
+ }
+ const before=rows.map(row=>JSON.stringify(E.hg73Affixes(row)));
+ const saved=E.parseSave(E.serializeSave(s));
+ assert(E.strictSave(saved));
+ assert.equal(JSON.stringify(saved.inventory.map(row=>JSON.stringify(E.hg73Affixes(row)))),JSON.stringify(before));
+ assert.equal(Object.keys(saved.inventory[0]).some(k=>k.startsWith('hg73')),false);
+ return {tiers:profiles,save:s.version};
+});
+console.log('HG73 equipment engine',passed,'/',7,'PASS');
+if(passed!==7)process.exitCode=1;

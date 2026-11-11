@@ -31,6 +31,40 @@ function kind(row){
  return 'common';
 }
 function grade(row){const key=kind(row);return key?{id:key,...TIERS[key]}:null}
+// Real deterministic extra affixes are derived from item UID + itemId,
+// with no reroll cost, stored field, random seed or phantom loot.
+const AFFIX_KEYS=Object.freeze(['atk','def','spd','int','damageBonus','damageReduction','meleeDamage','rangedDamage']);
+const AFFIX_NAMES=Object.freeze({atk:'⚔ Công',def:'🛡 Thủ',spd:'➤ Tốc',int:'✧ Trí',
+ damageBonus:'⚡ Toàn lực',damageReduction:'◈ Hộ thân',
+ meleeDamage:'⚔ Cận chiến',rangedDamage:'🏹 Tầm xa'});
+function hash(str){
+ let n=2166136261;for(let i=0;i<str.length;i++)n=Math.imul(n^str.charCodeAt(i),16777619);
+ return n>>>0;
+}
+function extraAffixes(row){
+ const g=grade(row);if(!g||g.order<3)return [];
+ const base=E.hg47Affixes?.(row)||[],need=(g.order>=7?4:g.order>=5?3:2)-base.length;
+ if(need<=0)return [];
+ const used=new Set(base.map(a=>a.key)),out=[];
+ for(let i=0;i<need;i++){
+  const seed=hash(row.itemId+'|'+row.uid+'|'+i+'|HG73');
+  // Loop over circular key order instead of accepting repeated attributes.
+  let chosen=null;for(let j=0;j<AFFIX_KEYS.length;j++){
+   const k=AFFIX_KEYS[(seed+j)%AFFIX_KEYS.length];if(!used.has(k)){chosen=k;break;}
+  }
+  if(!chosen)break;
+  used.add(chosen);
+  const isPercent=['damageBonus','damageReduction','meleeDamage','rangedDamage'].includes(chosen);
+  const value=isPercent?Math.round((.005+g.order*.0015+(seed%4)*.001)*1000)/1000:
+   chosen==='spd'?Math.max(1,Math.round(g.floor*.018+seed%3)):
+   chosen==='int'?Math.max(1,Math.round(g.floor*.033+seed%5)):
+   Math.max(1,Math.round(g.floor*.06+seed%5));
+  out.push({key:chosen,value,label:AFFIX_NAMES[chosen]+' +'+
+   (isPercent?Math.round(value*1000)/10+'%':value),origin:'HG73 canonical UID'});
+ }
+ return out;
+}
+function affixes(row){return [...(E.hg47Affixes?.(row)||[]),...extraAffixes(row)]}
 function gains(row){
  const def=E.ITEMS[row?.itemId],g=grade(row),original=prior.stats(row);
  if(!def||!g||!original)return null;
@@ -44,6 +78,7 @@ function gains(row){
   const total=Math.round(Math.max(current*g.mult,min,current));
   bonus[k]=Math.max(0,total-current);
  }
+ for(const affix of extraAffixes(row))if(Object.hasOwn(bonus,affix.key))bonus[affix.key]+=affix.value;
  return bonus;
 }
 function stats(row){
@@ -69,6 +104,8 @@ function modifiers(s,id=s.activeHero){
  let offensive=0,defensive=0;
  for(const row of equipped(s,id)){
   const g=grade(row),slot=E.ITEMS[row.itemId]?.slot;
+  for(const affix of extraAffixes(row))if(['damageBonus','damageReduction','meleeDamage','rangedDamage'].includes(affix.key))
+   v[affix.key]=(v[affix.key]||0)+affix.value;
   if(!g||g.order<5)continue;
   offensive+=Math.min(.014,(g.order-4)*.0035);
   if(['armor','helm','belt','charm','relic'].includes(slot))
@@ -79,6 +116,7 @@ function modifiers(s,id=s.activeHero){
  // God-tier pieces from making any Boss untouchable.
  v.damageBonus=Math.min(.32,Math.max(0,(v.damageBonus||0)+offensive));
  v.damageReduction=Math.min(.24,Math.max(0,(v.damageReduction||0)+defensive));
+ for(const key of ['meleeDamage','rangedDamage'])v[key]=Math.min(.30,Math.max(0,v[key]||0));
  return v;
 }
 function auraForHero(s,id){
@@ -93,11 +131,12 @@ function inspect(row){
  const g=grade(row);if(!g)return null;
  const newStats=stats(row),oldStats=prior.stats(row),delta=gains(row);
  return {id:g.id,label:g.label,order:g.order,accent:g.accent,
-  oldStats,newStats,delta,enhance:row.enhance||0,
+  oldStats,newStats,delta,affixes:affixes(row),enhance:row.enhance||0,
   promotion:g.id==='rainbow'?'Tinh Không +8 trở lên':'',
   sparkle:g.order>=5,source:row.origin||''};
 }
-Object.assign(E,{hg73Grade:grade,hg73Kind:kind,hg73StatGains:gains,hg73Inspect:inspect,
+Object.assign(E,{hg73Grade:grade,hg73Kind:kind,hg73Affixes:affixes,
+ hg73StatGains:gains,hg73Inspect:inspect,
  hg73AuraForHero:auraForHero,hg46Stats:stats,heroStats:hero,combatModifiers:modifiers,
  HG73_TIERS:TIERS});
 root.HOG_HG73=Object.freeze({version:1,saveVersion:7,tiers:8,

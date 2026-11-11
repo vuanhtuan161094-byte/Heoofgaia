@@ -530,7 +530,7 @@ function hg63GearDetails(row,setsById){
   const raw=Number(def[k]||0),current=Number(stats?.[k]||0);
   return k.toUpperCase()+' '+format(current)+(current!==raw?' (gốc '+format(raw)+')':'');
  }).join(' · ');
- const set=setsById[def.set],affixes=E.hg47Affixes(row),effect=equipmentBattleText(def),prestige=E.hg73Inspect?.(row);
+ const set=setsById[def.set],affixes=(E.hg73Affixes?.(row)||E.hg47Affixes(row)),effect=equipmentBattleText(def),prestige=E.hg73Inspect?.(row);
  const boosted=prestige?Object.entries(prestige.delta).filter(([,v])=>v>0)
   .map(([key,value])=>key.toUpperCase()+' +'+format(value)).join(' · '):'';
  return '<details class="hg63-item-details"><summary>ⓘ Chi tiết vật phẩm</summary>'+
@@ -1020,7 +1020,7 @@ function hg46GearView(h){
   return '<article class="hg46-slot hg408-slot hg46-kind-'+kind+' '+(grade?'hg73-tier-'+grade.id:'')+'" data-hg46-slot="'+slot+'">'+
    '<div class="hg46-slot-head"><b>'+esc(names[slot])+'</b>'+(row?gradeBadge(row):'')+'<small>'+ (row?'+'+(row.enhance||0)+' cường hóa':'Trống')+'</small></div>'+
    '<div class="hg46-slot-content"><div class="hg46-gear-art">'+(row?icon(row):'◇')+'</div>'+
-   '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+(row?hg63GearDetails(row,setsById):'')+ (row&&E.hg47Affixes(row).length?'<small class="hg47-affix">'+esc(E.hg47Affixes(row).map(x=>x.label).join(' · '))+'</small>':'')+
+   '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+(row?hg63GearDetails(row,setsById):'')+ (row&&(E.hg73Affixes?.(row)||E.hg47Affixes(row)).length?'<small class="hg47-affix">'+esc((E.hg73Affixes?.(row)||E.hg47Affixes(row)).map(x=>x.label).join(' · '))+'</small>':'')+
    (def?.set?'<small class="hg46-set-tag">'+esc(setsById[def.set]?.name||def.set)+'</small>':'')+
    '</div></div>'+
    (row?button('hg408-unequip',{id:h.id,slot},'Tháo trang bị',busy,'small secondary'):'')+
@@ -1089,7 +1089,7 @@ function hg46GearView(h){
    '<small class="hg46-origin">'+esc(setName)+' · '+esc(source)+' · UID '+row.uid+'</small>'+
    '<small>'+esc(raw||'Không có điểm thuộc tính')+'</small>'+hg63GearDetails(row,setsById)+
    (battle?'<small class="hg46-effect">'+esc(battle)+'</small>':'')+
-   (E.hg47Affixes(row).length?'<small class="hg47-affix">Dòng phụ: '+esc(E.hg47Affixes(row).map(x=>x.label).join(' · '))+'</small>':'')+
+   ((E.hg73Affixes?.(row)||E.hg47Affixes(row)).length?'<small class="hg47-affix">Dòng phụ: '+esc((E.hg73Affixes?.(row)||E.hg47Affixes(row)).map(x=>x.label).join(' · '))+'</small>':'')+
    (next.level<10?'<small class="hg46-cost">Nâng +'+(next.level+1)+': '+next.stones+' đá + '+format(next.gold)+' vàng · 100% thành công</small>':
     '<small class="hg46-cost">Đã đạt cấp +10</small>')+
    '<small class="hg46-cost">Phân giải: +'+salvage.stones+' đá'+(salvage.astralShards?', +'+salvage.astralShards+' mảnh Tinh Vân':'')+'</small></div>'+

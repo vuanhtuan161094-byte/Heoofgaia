@@ -309,7 +309,7 @@ function suggest(s,id=s.activeHero,mode='balanced'){
   let bonus=0;for(const key of ['damageBonus','meleeDamage','rangedDamage','damageReduction'])
    bonus+=(def[key]||0)*weights[key];
   // Affixes on a given UID affect combat and should influence candidate ordering.
-  for(const aff of affixes(row))if(weights[aff.key]&&
+  for(const aff of (E.hg73Affixes?.(row)||affixes(row)))if(weights[aff.key]&&
    !['atk','def','spd','int'].includes(aff.key))bonus+=aff.value*weights[aff.key];
   return value+bonus;
  };
