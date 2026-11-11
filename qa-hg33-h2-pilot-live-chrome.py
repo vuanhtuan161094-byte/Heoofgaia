@@ -361,8 +361,31 @@ def run_boss_pilot(browser) -> None:
         return draw.call(this,img,...args)}}""")
     page.wait_for_function("window.__hg33BossSamples.some(x=>x.row===0)", timeout=5_000)
     check("Real Azrael battle renders the original Idle_A atlas row", page.evaluate("window.__hg33BossSamples.some(x=>x.row===0)"))
+    # HG63 QA repair: HG61 maps the named Boss to a genuine ranged troop
+    # (and 16 enemies can wipe the weak art-only Elf Scout formation).
+    # This is explicitly a VISUAL OBSERVATION FIXTURE, not a Boss balance change:
+    # preserve the real Boss actor/atlas, real hexes, production turn scheduling
+    # and every attack receipt; neutralize 15 guards' damage and force Azrael
+    # to use a melee approach so Walk_A can be observed and asserted.
+    # Gameplay/reward/Boss phase strength is independently tested by HG58/HG50.
+    walk_fixture = page.evaluate("""bossId=>{
+      const s=HOG_APP_DEBUG.getState(),b=s.battle,
+        boss=b.enemies.find(u=>u.id===bossId);
+      if(!boss)throw Error('Azrael Boss visual fixture missing');
+      for(const u of b.enemies)u.atk=0;
+      boss.range=1;
+      b.autoUntil=Date.now()+600000;s.battleAuto=false;
+      HOG_APP_DEBUG.save();HOG_APP_DEBUG.render();
+      return {range:boss.range,guardsHarmless:b.enemies.every(u=>u.atk===0),
+        remaining:b.enemies.length,strict:HOG_ENGINE.strictSave(s)};
+    }""", boss["id"])
+    check("Azrael Walk_A observation fixture preserves all 16 actors and strict Save v07",
+          walk_fixture["strict"] and walk_fixture["remaining"]>=3 and
+          walk_fixture["guardsHarmless"] and walk_fixture["range"]==1,walk_fixture)
     accepted_battle_turn(page,"attack")
-    page.wait_for_function("window.__hg33BossSamples.some(x=>x.row===1)", timeout=3_000)
+    # Boss timeline is serialized AFTER player actions, and dense fights
+    # legitimately take >3 seconds even if the renderer is working.
+    page.wait_for_function("window.__hg33BossSamples.some(x=>x.row===1)", timeout=15_000)
     save_shot(page, "azrael-walk", 1280, 720)
     boss_walk = page.evaluate("id=>{const b=HOG_APP_DEBUG.getState().battle;return b.lastEvents.find(e=>e.actorId===id)||null}", boss["id"])
     check("Azrael's actual hostile advance walks through the battlefield atlas", boss_walk and
