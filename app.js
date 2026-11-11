@@ -132,6 +132,21 @@ function battleRenderStride(periodMs){
  if(!Number.isFinite(periodMs)||periodMs<=0)return 1;
  return periodMs<5.6?3:periodMs<9.8?2:1;
 }
+// HG58: always reflects an existing HG40 trait's REAL combat MP and
+// cooldown. NPCs without a trait get no fictitious skill/mana pool.
+function combatEnergyHTML(b,u){
+ const r=u&&E.hg40SkillReadiness?.(b,u);
+ if(!r)return '<div class="hg58-unit-energy absent">⚔ Đòn thường · không có MP kỹ năng</div>';
+ const label=r.passive?'NỘI TẠI':r.ready?'SẴN SÀNG':'ĐANG NẠP';
+ return '<div class="hg58-unit-energy" data-hg58-skill="'+esc(r.name)+
+  '" title="'+esc(r.name)+' · '+(r.passive?'nội tại':'MP +25 mỗi lượt, tiêu hao 100 khi kích hoạt')+'">'+
+  '<span>✦ '+esc(r.name)+' <b>'+label+'</b></span>'+
+  (r.passive?'<div class="hg58-mp-bar passive"></div>':
+   '<div class="hg58-mp-bar" role="progressbar" aria-label="MP kỹ năng" aria-valuenow="'+r.mp+
+   '" aria-valuemin="0" aria-valuemax="100"><i style="width:'+r.mp+'%"></i></div>'+
+   '<small>MP '+r.mp+'/100'+(r.cooldown?' · CD '+r.cooldown+' lượt':'')+'</small>')+
+  '</div>';
+}
 function syncCombatTurnHUD(){
  const b=state?.battle,canvas=$('battle-canvas');if(!b||!canvas)return;
  const allies=b.allies.filter(u=>u.pool>0).length,enemies=b.enemies.filter(u=>u.pool>0).length;
@@ -144,6 +159,8 @@ function syncCombatTurnHUD(){
   const title=node.querySelector('b'),stats=node.querySelector('span');
   if(title)title.textContent=actor?.name||prompt;
   if(stats)stats.textContent=actor?format(actor.count)+' quân · '+format(Math.ceil(actor.pool))+' HP':prompt;
+  const energy=node.querySelector('.hg58-unit-energy');
+  if(energy)energy.outerHTML=combatEnergyHTML(b,actor);
  }
  const clock=$('battle-auto-clock');
  if(clock)clock.textContent=state.battleAuto?'Đang tự động':'Tự động sau '+Math.max(0,Math.ceil((b.autoUntil-Date.now())/1000))+' giây';
@@ -1290,12 +1307,14 @@ function combatView(){
   else text=`${name} tấn công ${targetName}`;
   const result=[];
   if(e.damage>0)result.push(`${format(e.damage)} sát thương`);
+  if(e.shieldAbsorbed>0)result.push(`🛡 Chắn ${format(e.shieldAbsorbed)} sát thương`);
   if(e.casualties>0)result.push(`${format(e.casualties)} quân tổn thất`);
   if(e.death)result.push('đội bị tiêu diệt');
   if(!result.length&&e.order==='defend')result.push('bỏ lượt');
   else if(!result.length&&e.order==='retreat'&&!moved)result.push('không đổi vị trí');
   else if(!result.length&&e.order==='move'&&!e.path.length)result.push('đã chạm đích');
-  else if(!result.length&&e.path.length)result.push('chưa vào tầm đánh');
+  else if(!result.length&&e.path.length)result.push('Đang di chuyển vào tầm (KHÔNG ra đòn lượt này)');
+  else if(!result.length&&e.targetId)result.push('Chưa gây sát thương (kiểm tra tầm đánh/trạng thái)');
   return {name,text,result:result.join(' · ')};
  };
  const lastEvents=b.lastEvents||[],visibleEvents=lastEvents.slice(0,8);
@@ -1325,7 +1344,7 @@ function combatView(){
   <details class="battle-command-dock" ${combatDockOpen?'open':''}>
    <summary title="Thu gọn hoặc mở bảng lệnh" aria-label="Thu gọn hoặc mở bảng lệnh chiến đấu"><span class="battle-dock-label">⚔ LỆNH</span><span class="battle-dock-chevron" aria-hidden="true">⌄</span></summary>
    <div class="battle-command-content">
-    <div class="battle-selection-readout"><div class="battle-side-readout"><small>QUÂN TA</small><b>${selectedName}</b><span>${selected?esc(statLine(selected)):'Chạm quân ta trên bàn cờ'}</span></div><div class="battle-side-readout enemy"><small>MỤC TIÊU</small><b>${focusedName}</b><span>${focused?esc(statLine(focused)):movementModeId?'Chọn ô lục giác để di chuyển':'Bấm quân địch trên ô'}</span></div></div>
+    <div class="battle-selection-readout"><div class="battle-side-readout"><small>QUÂN TA</small><b>${selectedName}</b><span>${selected?esc(statLine(selected)):'Chạm quân ta trên bàn cờ'}</span>${combatEnergyHTML(b,selected)}</div><div class="battle-side-readout enemy"><small>MỤC TIÊU</small><b>${focusedName}</b><span>${focused?esc(statLine(focused)):movementModeId?'Chọn ô lục giác để di chuyển':'Bấm quân địch trên ô'}</span>${combatEnergyHTML(b,focused)}</div></div>
     ${hg40Info}${U43.battle(b,selected,focused||b.enemies.find(u=>u.pool>0)||null)}${enemyCSInfo}${hg410Info}${bossRoster}
     <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div><div class="hg57-phase-and-move"><b id="hg57-phase">PHE TA → PHE ĐỊCH</b><span id="hg57-move-steps">${selected?("Di chuyển: "+moveAllowance+" ô/lượt · Tầm đánh: "+selected.range+" ô"):"Chọn quân để xem tốc độ và tầm đánh"}</span></div>
     <div class="hg58-combat-speed" role="group" aria-label="Tốc độ xem hoạt ảnh">🌪 Tốc độ trận ${[1,2,3].map(v=>'<button type="button" data-action="combat-speed" data-speed="'+v+'" aria-pressed="'+(battleViewPrefs.speed===v)+'" title="Chỉ thay đổi tốc độ hiển thị, không đổi sát thương">×'+v+'</button>').join('')}<small>Chỉ hoạt ảnh · không đổi chỉ số</small></div>
