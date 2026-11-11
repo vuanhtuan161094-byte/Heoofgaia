@@ -66,12 +66,16 @@ with sync_playwright() as pw:
     const u=b.allies[0],trait=E.hg40SkillReadiness?.(b,u);
     const owner=document.querySelector('.battle-side-readout .hg58-unit-energy');
     return {strict:E.strictSave(s),trait,energyLabel:owner?.textContent,
-      meter:!!owner?.querySelector('[role="progressbar"]'),
+      meter:!!owner?.querySelector('[role="progressbar"][aria-label="Tiến độ hồi chiêu"]'),
       realNames:b.allies.map(a=>a.name)};
   }""")
-  check(label+' readout uses real HG40 skill metadata, never invented MP',
+  check(label+' only real HG40 skill and cooldown shown, no fake MP',
    energy['strict'] and bool(energy['energyLabel']) and
-   (energy['trait'] is None or energy['trait']['name'] in energy['energyLabel']),energy)
+   'MP ' not in energy['energyLabel'] and
+   (energy['trait'] is None or
+    (energy['trait']['name'] in energy['energyLabel'] and
+     'mp' not in energy['trait'] and
+     (energy['trait']['passive'] or energy['meter']))),energy)
   # The same live DOM must work with genuine three-owner Tower roster.
   tower=page.evaluate("""() => {
     const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),base=JSON.parse(JSON.stringify(s.heroes[0]));
