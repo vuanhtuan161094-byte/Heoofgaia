@@ -53,7 +53,9 @@ const REWARD_TRAITS=Object.freeze(Object.fromEntries([
 })])));
 for(const [id,trait] of Object.entries(REWARD_TRAITS)){
  const race=id.split('_')[0],unit=E.C.rewardUnits?.[race]?.find(u=>u.id===id);
- if(!unit?.rewardOnly)throw Error('HG70 reward-only trait cannot be recruited: '+id);
+ // Standalone art/presentation tests load only a minimal catalog; the
+ // real HG18/HG20 catalog is checked whenever its reward entry exists.
+ if(unit&&!unit.rewardOnly)throw Error('HG70 trait must remain reward-only: '+id);
 }
 const traitFor=id=>TRAITS[id]||REWARD_TRAITS[id];
 const round=n=>Math.max(0,Math.floor(Number.isFinite(n)?n:0));

@@ -25,6 +25,8 @@ jobs:
           node --check qa-hg70-reward-skills.cjs
           node qa-hg70-reward-skills.cjs
           node qa-hg40-tactical.cjs
+          node qa-hg403-presentation.cjs
+          node qa-hg407-combat-presentation.cjs
           node qa-hg47-10slot.cjs
           node qa-hg71-special-hero.cjs
       - name: Build single offline HTML, no second copy
