@@ -1,0 +1,73 @@
+/* HG57 phased combat: display-only commander lanes and tactical readouts.
+ * Match the existing 12x9 true-hex canvas, preserve all hit-tests and v07. */
+body.combat-mode .battle-stage{position:relative;isolation:isolate}
+.hg57-commander-strip{position:absolute;z-index:4;top:49px;left:7px;
+ right:clamp(183px,18vw,230px);height:45px;display:flex;align-items:flex-start;
+ justify-content:space-between;gap:8px;pointer-events:none;overflow:hidden}
+.hg57-leader-team{display:flex;gap:4px;align-items:center;flex:0 1 auto;min-width:0;
+ max-width:46%;overflow:hidden}
+.hg57-leader-team.enemy{justify-content:flex-end;direction:rtl}
+.hg57-hero-chip{display:flex;align-items:center;gap:5px;padding:3px 7px 3px 4px;
+ min-width:0;max-width:146px;height:41px;overflow:hidden;
+ background:linear-gradient(120deg,#14324bdc,#13283ad9);
+ border:1px solid #77c6d3a8;border-radius:9px;
+ box-shadow:0 2px 11px #01091088,inset 0 1px #d8f8ff30}
+.hg57-hero-chip.enemy{direction:ltr;background:linear-gradient(120deg,#372738df,#271f31e8);
+ border-color:#ffa0a0a8}
+.hg57-hero-chip .hg45-portrait-art{position:relative;display:block!important;
+ width:32px!important;height:34px!important;min-width:32px!important;
+ flex:0 0 32px;overflow:hidden!important;border-radius:7px;
+ background:radial-gradient(circle at 50% 30%,#597995,#223249);
+ border:1px solid #96dbee70}
+.hg57-hero-chip.enemy .hg45-portrait-art{border-color:#ffb0a8a6;
+ background:radial-gradient(circle at 50% 30%,#9d5761,#33283d)}
+.hg57-hero-chip .hg45-portrait-art :is(.hg45-portrait-aura,.hg45-portrait-stars){display:none}
+.hg57-hero-description{display:flex;flex-direction:column;min-width:0;
+ overflow:hidden;white-space:nowrap;line-height:1.16}
+.hg57-hero-description>b{font-size:10px;color:#e5f6ff;overflow:hidden;
+ text-overflow:ellipsis;white-space:nowrap}
+.hg57-hero-description>small{font-size:8px;color:#aad1e6;overflow:hidden;
+ text-overflow:ellipsis;white-space:nowrap}
+.hg57-hero-chip.enemy .hg57-hero-description>b{color:#ffdec7}
+.hg57-hero-chip.enemy .hg57-hero-description>small{color:#edafab}
+.hg57-enemy-mark{display:grid;place-items:center;width:28px;height:30px;
+ font-size:22px;color:#ffb4a1;text-shadow:0 0 8px #fc755a;flex:0 0 28px}
+.hg57-versus{display:grid;place-items:center;flex:0 0 auto;align-self:center;
+ font:bold 9px/1 system-ui;color:#fde6b9;text-shadow:0 0 6px #f9b76a;
+ padding:4px 5px;border-radius:100%;background:#1a2133a8}
+.hg57-phase-and-move{display:flex;flex-direction:column;align-items:center;
+ gap:3px;padding:5px 4px;border:1px solid #638aaa66;
+ border-radius:7px;background:linear-gradient(125deg,#1a3556a9,#1a2342a9);
+ margin:3px 0;font-size:10px;color:#c8eaff;text-align:center}
+.hg57-phase-and-move>b{font-size:11px;color:#ffe2a3;letter-spacing:.2px}
+.hg57-phase-and-move>span{font-size:10px;line-height:1.2;color:#b3d9e8}
+.battle-display-tools{display:flex;flex-wrap:wrap;gap:3px!important;justify-content:center}
+.battle-display-tools>.battle-display-toggle{flex:1 1 58px;min-width:0;
+ white-space:nowrap;font-size:10px!important;padding:3px!important}
+.battle-display-tools>.battle-display-toggle[aria-pressed="true"]{
+ border-color:#92ceea!important;color:#eefaff}
+@media(max-width:1000px){
+ .hg57-commander-strip{right:clamp(178px,18vw,196px);height:34px;top:46px}
+ .hg57-hero-chip{height:31px;max-width:106px;padding:2px 4px}
+ .hg57-hero-chip .hg45-portrait-art{width:24px!important;height:26px!important;
+ min-width:24px!important;flex-basis:24px}
+ .hg57-hero-description>b{font-size:9px}.hg57-hero-description>small{font-size:7px}
+ .hg57-leader-team{max-width:45%}
+ .hg57-versus{font-size:8px;padding:2px}
+}
+@media(max-height:450px) and (orientation:landscape){
+ .hg57-commander-strip{top:42px;height:28px;left:5px}
+ .hg57-hero-chip{height:25px;padding:1px 3px;max-width:88px;gap:2px}
+ .hg57-hero-chip .hg45-portrait-art{width:20px!important;height:22px!important;
+ min-width:20px!important;flex-basis:20px}
+ .hg57-hero-description>small{display:none}
+ .hg57-phase-and-move{padding:2px 3px;margin:2px 0}
+}
+@media(max-width:700px) and (orientation:portrait){
+ .hg57-commander-strip{top:45px;left:6px;right:6px;height:32px}
+ .hg57-leader-team{max-width:43%}
+ .hg57-hero-chip{max-width:124px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hg57-hero-chip,.hg57-commander-strip{transition:none!important;animation:none!important}
+}
