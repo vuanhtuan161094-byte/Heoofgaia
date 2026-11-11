@@ -138,7 +138,9 @@ with sync_playwright() as pw:
           const dr=dock?.getBoundingClientRect(),hr=hd?.getBoundingClientRect(),
             content=document.querySelector('.battle-command-content')?.getBoundingClientRect(),
             orders=[...document.querySelectorAll('.battle-action-grid button')];
-          const ordersAboveFold=!!content&&orders.length===7&&orders.every(btn=>{
+          // HG69 introduced the eighth real battle-always-auto setting button.
+          // All eight commands must remain physically visible in the dock.
+          const ordersAboveFold=!!content&&orders.length===8&&orders.every(btn=>{
             const rect=btn.getBoundingClientRect();return rect.top>=content.top-1&&rect.bottom<=content.bottom+1;
           });
           return {valid:E.strictSave(s),units:layout.length,grid:P.battleGridCells(projection).length,
@@ -147,6 +149,8 @@ with sync_playwright() as pw:
             displayed:rect.width>100&&rect.height>100,
             hud:!!hr&&hr.width>60&&hr.height>0,
             dock:!!dr&&dr.width>100&&dr.height>10,ordersAboveFold,orderCount:orders.length,
+            orderBounds:orders.map(btn=>{const r=btn.getBoundingClientRect();
+              return {action:btn.dataset.action,top:r.top,bottom:r.bottom}}),
             horizontalOverflow:document.documentElement.scrollWidth>innerWidth+2,
             spell:hd?.textContent?.includes('Thánh thuẫn'),
             clicked:layout.filter(x=>x.u.pool>0).every(x=>P.battleHit(c,x.x,x.y,E,s)?.id===x.id)};
