@@ -132,19 +132,20 @@ function battleRenderStride(periodMs){
  if(!Number.isFinite(periodMs)||periodMs<=0)return 1;
  return periodMs<5.6?3:periodMs<9.8?2:1;
 }
-// HG58: always reflects an existing HG40 trait's REAL combat MP and
-// cooldown. NPCs without a trait get no fictitious skill/mana pool.
+// HG58-CD: real cooldown-only signal; passive abilities never cost MP.
 function combatEnergyHTML(b,u){
  const r=u&&E.hg40SkillReadiness?.(b,u);
- if(!r)return '<div class="hg58-unit-energy absent">⚔ Đòn thường · không có MP kỹ năng</div>';
- const label=r.passive?'NỘI TẠI':r.ready?'SẴN SÀNG':'ĐANG NẠP';
+ if(!r)return '<div class="hg58-unit-energy absent">⚔ Đòn thường · không có kỹ năng HG40</div>';
+ const label=r.passive?'NỘI TẠI':r.ready?'SẴN SÀNG':'HỒI CHIÊU';
  return '<div class="hg58-unit-energy" data-hg58-skill="'+esc(r.name)+
-  '" title="'+esc(r.name)+' · '+(r.passive?'nội tại':'MP +25 mỗi lượt, tiêu hao 100 khi kích hoạt')+'">'+
+  '" title="'+esc(r.name)+' · '+(r.passive?'Nội tại kích hoạt theo điều kiện, không CD':
+    'CD '+r.baseCooldown+' lượt; tự dùng nếu thỏa điều kiện')+'">'+
   '<span>✦ '+esc(r.name)+' <b>'+label+'</b></span>'+
-  (r.passive?'<div class="hg58-mp-bar passive"></div>':
-   '<div class="hg58-mp-bar" role="progressbar" aria-label="MP kỹ năng" aria-valuenow="'+r.mp+
-   '" aria-valuemin="0" aria-valuemax="100"><i style="width:'+r.mp+'%"></i></div>'+
-   '<small>MP '+r.mp+'/100'+(r.cooldown?' · CD '+r.cooldown+' lượt':'')+'</small>')+
+  (r.passive?'<div class="hg58-mp-bar passive" aria-label="Kỹ năng nội tại"></div>':
+   '<div class="hg58-mp-bar" role="progressbar" aria-label="Tiến độ hồi chiêu" aria-valuenow="'+r.progress+
+   '" aria-valuemin="0" aria-valuemax="100"><i style="width:'+r.progress+'%"></i></div>'+
+   '<small>'+(r.ready?'Có thể kích hoạt':('Còn '+r.cooldown+' lượt'))+
+   ' · CD gốc '+r.baseCooldown+' lượt</small>')+
   '</div>';
 }
 function syncCombatTurnHUD(){
