@@ -192,3 +192,10 @@ body.combat-mode .battle-stage{position:relative;isolation:isolate}
 .hg70-inventory-tools .hg70-search{flex-basis:100%}
 .hg46-card-actions{flex-basis:72px!important}
 }
+
+/* HG71 quest-only heroes: inherited art frame, distinct skill identity */
+.hg71-quest-prize{display:flex;flex-direction:column;gap:5px;padding:10px;border:1px solid #e7c77a;background:linear-gradient(135deg,#342b48,#172b40);border-radius:9px;margin-top:8px}
+.hg71-quest-prize b,.hg71-special-tag{color:#ffe4a1;text-shadow:0 0 10px #e6b8ff88}
+.hg71-quest-prize small{font-size:11px;line-height:1.5;color:#d6e0fb}
+.hg71-special-skill{display:grid;gap:3px;padding:7px 9px;border:1px solid #cfb073;background:#35264199;border-radius:8px;margin:6px 0}
+.hg71-special-skill b{color:#ffe4a1}.hg71-special-skill small{color:#d8e8ff;line-height:1.5}

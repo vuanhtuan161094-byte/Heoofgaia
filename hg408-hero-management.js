@@ -72,6 +72,7 @@
    const h=heroById(s,id),reasons=[];
    if(!h)return {allowed:false,reasons:['Tướng không tồn tại.'],hero:null,gear:0,plans:0};
    if(s.heroes.length<=1)reasons.push('Không được sa thải tướng cuối cùng.');
+   if(h.questSpecial&&h.rewardOrigin==='hero_task_20')reasons.push('Tướng phần thưởng nhiệm vụ độc bản được bảo vệ, không thể sa thải.');
    if(s.castellan===id)reasons.push('Phải miễn nhiệm Castellan trước.');
    if(E.heroAway(s,id)||E.hg20HeroRole(s,id).status!=='home')reasons.push('Tướng còn hành quân, đồn trú hoặc trở về thành.');
    if(s.battle||s.march||s.expedition?.heroId===id||s.parallelMarches?.some(q=>q.heroId===id))reasons.push('Chờ kết thúc toàn bộ giao tranh và hành quân đang diễn ra.');
