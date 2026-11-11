@@ -105,6 +105,64 @@ check('Real 40-unit special MP starts full, spends 100, restores 25 each actor t
  return {initial:100,afterCast:0,afterNextTurn:25,
    skill:b.hg40.lastSkills[0].skill,sourceActor:b.hg40.lastSkills[0].actorId};
 });
+check('All 26 active traits respect their original 3/4/5-round CD with genuine synchronized MP',()=>{
+ const traits=Object.values(E.HG40_TRAITS),active=traits.filter(t=>t.cd>0);
+ assert.equal(active.length,26);
+ const counts={3:0,4:0,5:0},examples=[];
+ for(const t of active){
+  const s=E.make('human',1e6),
+   actor={...fakeActor('p0','player',1,4),unitId:t.unitId},
+   foe=fakeActor('e0','enemy',2,4);
+  const b={turn:1,kind:'tower',target:E.TILES.find(x=>x.kind==='npc').key,
+   allies:[actor],enemies:[foe],history:[]};
+  E.hg40PrepareBattle(s,b);
+  b.hg40.mana.p0=0;b.hg40.cd['p0:'+t.kind]=1+t.cd;
+  for(let elapsed=1;elapsed<=t.cd;elapsed++){
+   b.turn=1+elapsed;E.hg40BeforeAction(s,b,actor);
+   const state=E.hg40SkillReadiness(b,actor);
+   assert.equal(state.mp,Math.min(100,elapsed*Math.ceil(100/t.cd)),t.name+' MP at '+elapsed);
+   assert.equal(state.cooldown,Math.max(0,t.cd-elapsed),t.name+' CD at '+elapsed);
+   assert.equal(state.ready,elapsed===t.cd,t.name+' availability at '+elapsed);
+  }
+  counts[t.cd]++;
+  examples.push({trait:t.name,cd:t.cd,regen:Math.ceil(100/t.cd)});
+ }
+ return {active:active.length,counts,examples:examples.filter(x=>x.trait==='Bổ nhào'||x.trait==='Tịnh tâm'||x.trait==='Đập choáng')};
+});
+check('All 14 passive skills never require MP or CD to function',()=>{
+ const traits=Object.values(E.HG40_TRAITS),passives=traits.filter(t=>t.cd===0);
+ assert.equal(passives.length,14);
+ for(const trait of passives){
+  const s=E.make('human',1e6),
+   actor={...fakeActor('p0','player',1,4),unitId:trait.unitId},
+   foe=fakeActor('e0','enemy',2,4),
+   b={turn:1,kind:'tower',target:E.TILES.find(x=>x.kind==='npc').key,
+    allies:[actor],enemies:[foe],history:[]};
+  E.hg40PrepareBattle(s,b);
+  b.hg40.mana.p0=0;
+  for(let turn=1;turn<=6;turn++){
+   b.turn=turn;E.hg40BeforeAction(s,b,actor);
+   const state=E.hg40SkillReadiness(b,actor);
+   assert.equal(state.passive,true,trait.name);
+   assert.equal(state.ready,true,trait.name);
+   assert.equal(state.mp,0,trait.name+' is not MP-fed');
+  }
+ }
+ return {passives:passives.length,usesMP:false,requiresCD:false};
+});
+check('First-hit defensive passive emits its own real recipient-linked skill cue',()=>{
+ const s=E.make('elf',1e6),
+  ally={...fakeActor('p0','player',1,4),unitId:'elf_2'},
+  enemy={...fakeActor('e0','enemy',2,4),unitId:'orc_1'},
+  b={turn:1,kind:'tower',target:E.TILES.find(x=>x.kind==='npc').key,
+   allies:[ally],enemies:[enemy],history:[]};
+ E.hg40PrepareBattle(s,b);
+ const planned=E.hg40PlanStrike(s,b,enemy,ally,{path:[]});
+ assert(planned.reduction>=.38);
+ assert(b.hg40.lastSkills.some(x=>x.actorId==='p0'&&x.skill==='Thoắt ẩn'));
+ assert.equal(E.hg40SkillReadiness(b,ally).passive,true);
+ return {skill:'Thoắt ẩn',recipient:ally.id,reduction:planned.reduction};
+});
 const receipt={suite:'HG58 movement, 3x2 true HP, MP and truthful shield VFX',
  passed,total:checks.length,checks};
 fs.mkdirSync(path.join(__dirname,'docs/qa/hg58'),{recursive:true});
