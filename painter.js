@@ -1466,7 +1466,7 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   // Nameplates can be hidden without hiding HP and stack counters. Every
   // actor stays touch-selectable at its canonical hex; no Save modification.
   const plate=interaction.showLabels===false?null:entry.label,hpVisible=interaction.showHP!==false;
-  const skillCharge=E.hg40SkillReadiness?.(b,u),mpShown=skillCharge&&!skillCharge.passive;
+  const skillCharge=E.hg40SkillReadiness?.(b,u),cdShown=skillCharge&&!skillCharge.passive;
   if(!plate){
    // Dense Boss formation: small bar next to the genuine foot pivot, not
    // a phantom floating label over another sprite or the HUD.
@@ -1477,11 +1477,11 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
     c.fillStyle=hpRatio<.24?'#ff9775':u.side==='enemy'?'#ec9d89':'#88d1a0';
     c.fillRect(x-barWidth/2+1,barY+1,(barWidth-2)*hpRatio,5);
    }
-   if(mpShown){
+   if(cdShown){
     const barWidth=clamp(camera.radius*1.3,20,48),barY=y+(hpVisible?15:7);
     c.fillStyle='#122538e0';c.fillRect(x-barWidth/2,barY,barWidth,3);
-    c.fillStyle=skillCharge.ready?'#a8f4ff':'#609be9';
-    c.fillRect(x-barWidth/2,barY,barWidth*skillCharge.mp/100,3);
+    c.fillStyle=skillCharge.ready?'#9ef3c2':'#609be9';
+    c.fillRect(x-barWidth/2,barY,barWidth*skillCharge.progress/100,3);
    }
   }else{
   const bx=plate.x+x-entry.x,by=plate.y+y-entry.y;
@@ -1498,10 +1498,10 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    const hpRatio=clamp(displayPool/(u.initial*u.hp),0,1);
    c.fillStyle=hpRatio<.24?'#ff9775':u.side==='enemy'?'#ec9d89':'#88d1a0';
    c.fillRect(bx+9,by+22,(plate.w-18)*hpRatio,4);}
-   if(mpShown){
+   if(cdShown){
     c.fillStyle='#122538e6';c.fillRect(bx+8,by+(hpVisible?29:21),plate.w-16,3);
-    c.fillStyle=skillCharge.ready?'#a8f4ff':'#609be9';
-    c.fillRect(bx+8,by+(hpVisible?29:21),(plate.w-16)*skillCharge.mp/100,3);
+    c.fillStyle=skillCharge.ready?'#9ef3c2':'#609be9';
+    c.fillRect(bx+8,by+(hpVisible?29:21),(plate.w-16)*skillCharge.progress/100,3);
    }
   }
   const badge=entry.countBox,ox=x-entry.x,oy=y-entry.y;
