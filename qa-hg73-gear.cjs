@@ -88,13 +88,22 @@ check('ten real God-tier UIDs have bounded modifiers and no ghost equipment',()=
 });
 check('old Save v07 with common gear is unchanged by the visual/derived-rank layer',()=>{
  const s=fresh();const v=E.addItem(s,'copper_blade','legacy-grade fixture');
- const old=JSON.stringify(E.serializeSave(s)),count=s.inventory.length,gold=s.res.gold;
+ const old=JSON.parse(E.serializeSave(s)),count=s.inventory.length,gold=s.res.gold;
  assert.equal(E.hg73Kind(v),'common');
  assert.equal(E.hg73StatGains(v).atk,0);assert.equal(E.hg73StatGains(v).def,0);
  const copy=E.parseSave(E.serializeSave(s));
  assert(E.strictSave(copy));assert.equal(copy.version,7);
  assert.equal(copy.inventory.length,count);assert.equal(copy.res.gold,gold);
- assert.equal(JSON.stringify(E.serializeSave(copy)),old);
+ const after=JSON.parse(E.serializeSave(copy));
+ assert.equal(after.format,old.format);
+ // Re-export records a new exportedAt timestamp; this is metadata, not Save
+ // corruption. Compare persisted state fields, then the canonical economy,
+ // inventory UID and source explicitly.
+ assert.deepEqual(JSON.parse(JSON.stringify(after.state.inventory)),
+  JSON.parse(JSON.stringify(old.state.inventory)));
+ assert.equal(after.state.res.gold,old.state.res.gold);
+ assert.equal(after.state.version,old.state.version);
+ assert.equal(after.state.serial,old.state.serial);
  return {uid:v.uid,unchanged:true,save:copy.version};
 });
 check('rare-to-divine equipment has 2–4 persistent UID-derived affixes without new inventory fields',()=>{

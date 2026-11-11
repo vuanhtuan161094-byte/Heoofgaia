@@ -68,8 +68,8 @@ with sync_playwright() as runtime:
   page.locator('[data-action="hg46-filter"][data-slot="all"]').click()
   shot(page,label+'-crystal-inventory')
   actual=page.evaluate("""()=>{const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
-    s.army.human_1=20;E.autoFormation(s);
-    E.hg20ChooseTowerTeam(s,[1]);E.hg21TowerEnter(s);
+    E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:16}]);
+    E.hg20ChooseTowerTeam(s,[1]);E.hg21TowerEnableEndurance(s);E.hg21TowerEnter(s);
     HOG_APP_DEBUG.showCombatForTests();
     const canvas=document.querySelector('#battle-canvas');
     HOG_PAINTER.drawBattle(canvas,E,s,performance.now());

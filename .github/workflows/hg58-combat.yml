@@ -56,7 +56,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           html=Path('Play-Heoofgaia-HG11.html').read_text(encoding='utf8')
-          assert html.count('<script>')==39
+          assert html.count('<script>')==41
           assert 'hg58-combat-speed' in html
           assert 'drawHG58SkillCues' in html and 'hg40SkillReadiness' in html
           assert 'Play-Heoofgaia-HG11.html' in str(Path('Play-Heoofgaia-HG11.html'))

@@ -44,12 +44,12 @@ jobs:
           from pathlib import Path
           import re
           text=Path("Play-Heoofgaia-HG11.html").read_text(encoding="utf-8")
-          assert text.count('<script>')==39, "HG56 module must be in sole HTML"
+          assert text.count('<script>')==41, "HG56 module must be in sole HTML"
           assert 'hg56ImpactStreaks' in text and 'hg56BossPhaseAura' in text
           assert '--hg56-hud-h' in text and 'HOG_HG56_UI' in text
           assert not re.search(r'<script[^>]*\bsrc="https?://',text)
           assert not re.search(r'<link[^>]*\bhref="https?://',text)
-          print('HG56 INLINE_BUNDLE PASS; JS=39; offline-only')
+          print('HG56 INLINE_BUNDLE PASS; JS=41; offline-only')
           PY
           sha256sum Play-Heoofgaia-HG11.html
       - name: Real Chromium file URL across 5 viewports and all subtask screens

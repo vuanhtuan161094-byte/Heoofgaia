@@ -166,7 +166,10 @@ function gameBattle(s){
    if(!unit||g.count<=0)throw Error('Đội hình Bí Cảnh không hợp lệ');
    reserved[g.unitId]=(reserved[g.unitId]||0)+g.count;
    if(reserved[g.unitId]>(s.army[g.unitId]||0))throw Error('Không đủ quân thật để ghép đội Bí Cảnh');
-   const pos={x:arranged.length===1?(E.unitTacticalRange(unit)>1?1:3):localIndex===0?1:3,y:lanes[ownerIndex]},stats=E.heroStats(s,hero.id);
+   // HG74: physically valid 12x9 front/back columns (0,1). The prior
+   // x=3 frontline violated the HG410 shared edge deployment and broke
+   // Tower/AI placement invariants. Keep OWNED y lanes intact.
+   const pos={x:arranged.length===1?(E.unitTacticalRange(unit)>1?0:1):localIndex===0?0:1,y:lanes[ownerIndex]},stats=E.heroStats(s,hero.id);
    // Essence upgrade improves the tower projection only, never the real
    // garrison. Hero buffs remain strictly keyed by this stack's heroId.
    const blessing=1+t.rank*.18;
