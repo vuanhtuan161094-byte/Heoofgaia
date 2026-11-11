@@ -2,7 +2,7 @@ name: HG70 Exclusive Reward Skills and Offline Integrity
 on:
   push:
     branches: [feature/hog1-research-to-playable-20261102]
-    paths: [hg40-tactical.js, qa-hg70-reward-skills.cjs, .github/workflows/hg70-reward-skills.yml]
+    paths: [hg40-tactical.js, hg71-quest-heroes.js, build_offline.py, qa-hg70-reward-skills.cjs, qa-hg71-special-hero.cjs, .github/workflows/hg70-reward-skills.yml]
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,6 +26,7 @@ jobs:
           node qa-hg70-reward-skills.cjs
           node qa-hg40-tactical.cjs
           node qa-hg47-10slot.cjs
+          node qa-hg71-special-hero.cjs
       - name: Build single offline HTML, no second copy
         run: |
           python -m pip install Pillow==11.3.0
