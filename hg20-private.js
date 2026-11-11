@@ -200,7 +200,7 @@ function teamPower(s,ids=s.hg20.tower.team){
    units+=g.count;groups++;
   }
   const combat=E.heroStats(s,id)||h,points=E.formationPoints(s,formation);
-  power+=points*(1+(combat.atk+combat.def+combat.spd+combat.int)/400);
+  power+=points*(1+(combat.atk+combat.def+combat.int)/400); // SPD is world travel only, never Tower combat power
  }
  return {power:Math.floor(power*(1+s.hg20.tower.rank*.18)),groups,units};
 }
