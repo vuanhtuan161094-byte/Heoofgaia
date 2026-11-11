@@ -428,8 +428,10 @@ function battleVisualPool(b,u,now=visualNow()){
 }
 function battleVisualState(b,u,elapsed,now=elapsed){
  const timeline=battleTimelineFor(b,now),items=timeline?.items||[],
-  // Queued future actions must never mask an incoming Hit pose.
-  own=items.find(item=>item.event.actorId===u.id&&now>=item.start&&now<item.animationEnd)||null,
+  // Queued own motion anchors the sprite at its real FROM hex until Walk
+  // begins, even though canonical gameplay has already settled at TO.
+  // A hit arriving during that wait takes visual priority below.
+  own=items.find(item=>item.event.actorId===u.id&&now<item.animationEnd)||null,
   incoming=items.find(item=>item.event.targetId===u.id&&item.event.damage>0&&now<item.impactAt)||
    items.filter(item=>item.event.targetId===u.id&&item.event.damage>0&&
     now>=item.impactAt&&now<item.effectEnd).slice(-1)[0]||null;
@@ -458,7 +460,11 @@ function battleVisualState(b,u,elapsed,now=elapsed){
  }
  if(own){
   const position=pointFor(own),e=own.event;
-  if(now<own.start)return {...base,...position};
+  if(now<own.start){
+   if(incoming&&now>=incoming.impactAt&&now<incoming.impactAt+650)
+    return {...base,...position,action:'hit',time:now-incoming.impactAt,duration:650};
+   return {...base,...position};
+  }
   if(own.moveMs>0&&now<own.start+own.moveMs)
    return {...base,...position,action:'walk',time:Math.max(0,now-own.start),duration:own.moveMs,
     walkFrom:e.from,walkTo:e.to,walkRoute:e.path,walkFraction:clamp((now-own.start)/own.moveMs,0,1)};

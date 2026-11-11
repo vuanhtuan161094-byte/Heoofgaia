@@ -23,6 +23,7 @@ jobs:
           git rev-parse HEAD
           node --check painter.js
           node qa-hg58-combat.cjs
+          node qa-hg407-combat-presentation.cjs
       - name: Build one offline HTML
         run: |
           python -m pip install Pillow==11.3.0
