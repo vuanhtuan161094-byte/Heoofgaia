@@ -53,7 +53,7 @@ for(const race of ['human','elf','orc','undead'])for(const kind of ['quest_guard
   return {skill:t.name,cd:t.cd,firstDamage:before-after,turn:b.turn,v07:s.version};
  });
 }
-check('special effects work without MP and don't mint reward-only troops',()=>{
+check("special effects work without MP and no reward-only troop minting",()=>{
  const {s,b,ally}=battle('elf','elf_tower_sovereign');
  ally.mp=0;const stock=s.army.elf_tower_sovereign;
  const hit=E.battleActCore(s,'attack');
