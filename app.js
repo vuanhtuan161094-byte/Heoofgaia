@@ -14,7 +14,11 @@ let hg43ArmyPage='recruit',hg43ArmyRace='human';
 // HG40.8: presentation-only hero selection; never stored inside Save v07.
 let hg408InspectId=null,hg408Tab='overview',hg408DismissFor=null,hg408DismissStage=0;
 // HG46 view-only filter/pagination; never persisted in Save v07.
-let hg46GearFilter='all',hg46GearPage=0,hg47RaceView=null,hg47TierView='rare';
+let hg46GearFilter='all',hg46GearPage=0,hg46GearSearch='',hg46GearSort='rarity',hg47RaceView=null,hg47TierView='rare';
+// Device-only preferences, never injected into Save v07.
+let towerAutoChain=true,battleAlwaysAuto=false;
+try{towerAutoChain=localStorage.getItem('hg69_tower_auto')!=='off';
+ battleAlwaysAuto=localStorage.getItem('hg69_battle_always')==='on'}catch(_){} 
 let hg63SeenReportId=null,hg63OpenReport=null;
 const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['boss','☠ Boss'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
@@ -222,7 +226,8 @@ function toast(message){const n=$('toast');n.textContent=message;n.classList.add
 function fail(fn){try{
  const oldTab=tab,oldBattle=state?.battle,hg63Before=hg63BattleSnapshot();
  if(!$('game-modal')?.hidden)modalOffset=$('game-modal-body')?.scrollTop||0;
- fn();hg63CaptureBattleReport(oldBattle,hg63Before);if(oldTab!==tab)modalOffset=0;save();
+ fn();if(!oldBattle&&state?.battle&&battleAlwaysAuto){state.battleAuto=true;state.battle.autoUntil=Date.now()+1300;}
+ hg63CaptureBattleReport(oldBattle,hg63Before);if(oldTab!==tab)modalOffset=0;save();
  // A selection, command, or spell inside the SAME battle must not destroy
  // the RAF/canvas. New battles, terminal outcomes and tab changes still take
  // the full authoritative render path.
@@ -437,16 +442,23 @@ function hg63CaptureBattleReport(beforeBattle,before,terminal){
    resources:Object.fromEntries(C.keys.map(k=>[k,Math.max(0,
     Number(state.res?.[k]||0)-Number(before?.resources?.[k]||0)-
     Number(r409&&r409!==before?.r409?r409.resources?.[k]||0:0))])),
-   floor:nowTower.floor
+   floor:nowTower.floor,heroXpByHero:nowTower.heroXpByHero||[]
   }:null
  };
  hg63OpenReport={report,extra};
 }
 function hg63CloseReport(history=false){
- const kind=hg63OpenReport?.report?.kind;
+ const finished=hg63OpenReport,kind=finished?.report?.kind;
  hg63OpenReport=null;
  document.getElementById('hg63-battle-result')?.remove();
- if(history){tab=kind==='tower'?'tower':'reports';modalOffset=0;showWorldIndex=false;showResourceInfo=false;render()}
+ if(history){tab=kind==='tower'?'tower':'reports';modalOffset=0;showWorldIndex=false;showResourceInfo=false;render();return;}
+ if(kind==='tower'&&finished.report.outcome==='win'&&towerAutoChain&&state?.hg20?.tower?.enduranceMode&&!state.battle){
+  try{
+   const entered=E.hg21TowerEnter(state);
+   tab='combat';state.battleAuto=true;state.battle.autoUntil=Date.now()+1300;
+   save();render();toast('🔁 Tiếp tục Bí Cảnh tầng '+entered.floor+' · tự đánh');
+  }catch(e){tab='tower';render();toast(String(e.message||e));}
+ }
 }
 function hg63ShowReport(){
  const entry=hg63OpenReport,existing=document.getElementById('hg63-battle-result');
@@ -470,8 +482,11 @@ function hg63ShowReport(){
  const tokens=Object.entries(x.tokens||{}).filter(([,n])=>Number(n)>0).map(([k,n])=>
   '<span class="hg63-reward-token">'+esc(E.HG27_TOKENS[k]?.icon||'✦')+' '+esc(E.HG27_TOKENS[k]?.name||k)+' ×'+format(n)+'</span>').join('');
  const otherItems=(x.items||[]).map(i=>'<span class="hg63-reward-token">⚔ '+esc(i.name)+'</span>').join('');
+ const towerXp=(x.tower?.heroXpByHero||[]).filter(q=>q.xp>0).map(q=>
+  '<span class="hg63-reward-token">🧙 '+esc(q.name)+' EXP +'+format(q.xp)+
+  (q.levels?' · ↑'+format(q.levels)+' cấp':'')+'</span>').join('');
  const towerLoot=x.tower?.claimed?resourceText(x.tower.resources)+
-  (x.tower.essence?'<span class="hg63-reward-token">✨ Tinh hoa Bí Cảnh ×'+format(x.tower.essence)+'</span>':''):'';
+  (x.tower.essence?'<span class="hg63-reward-token">✨ Tinh hoa Bí Cảnh ×'+format(x.tower.essence)+'</span>':'')+towerXp:'';
  const allMaterials=materialsText(x.materials);
  const loss=(r.allies||[]).reduce((n,u)=>n+(u.lost||0),0),
   healed=(r.allies||[]).reduce((n,u)=>n+(u.wounded||0),0);
@@ -503,6 +518,9 @@ function hg63ShowReport(){
   if(e.target===node)hg63CloseReport();
  });
  node.querySelector('[data-hg63-action="close"]')?.focus({preventScroll:true});
+ if(r.kind==='tower'&&winning&&towerAutoChain&&state?.hg20?.tower?.enduranceMode){
+  setTimeout(()=>{if(hg63OpenReport===entry&&document.getElementById('hg63-battle-result')===node)hg63CloseReport(false)},3900);
+ }
 }
 function hg63GearDetails(row,setsById){
  const def=row&&E.ITEMS[row.itemId];if(!def)return '';
@@ -878,17 +896,17 @@ function towerView(){
   const dropdown=j=>'<label>Đội '+(j+1)+'<select id="hg21_slot_'+i+'_'+j+'"><option value="">Không mang</option>'+formation.map((g,k)=>'<option value="'+k+'" '+(entry.slots[j]===k?'selected':'')+'>'+esc(E.getUnit(state,g.unitId)?.name||g.unitId)+' ×'+format(g.count)+' · ô '+(k+1)+'</option>').join('')+'</select></label>';
   return '<section class="hg28-tower-hero"><header><span>🧙</span><b>'+hg408HeroNameHTML(hero)+'</b><small>2 đội riêng</small></header><div class="hg28-tower-slots">'+dropdown(0)+dropdown(1)+'</div></section>';
  }).join('');
- return `<section class="hg28-tower-view"><header class="hg28-tower-title"><div><span class="eyebrow">BÍ CẢNH · CHIẾN THUẬT</span><h1>🗼 Tháp tầng ${format(status.floor)}</h1></div><div class="hg28-tower-badges"><span>🎁 ${status.rewardLeft}/5 lượt thưởng</span><span>⚔ ${strength}</span><span class="hg408-quality-purple">♜ Địch TÍM CS${purpleBoss.cs}/10 · Lv100 B5</span></div></header>
- <div class="hg409-tower-reward">☠ Tướng địch 100/100/100/100, CS${purpleBoss.cs}: HP ×${purpleBoss.boost.hp}, ATK ×${purpleBoss.boost.atk}, DEF ×${purpleBoss.boost.def}. Thắng trong 5 lượt thưởng/ngày nhận thêm: ${esc(hg409LootText(purpleBoss))}.</div><div class="hg28-tower-layout"><section class="card hg28-tower-command"><div class="hg28-tower-enemy"><span class="hg28-tower-enemy-icon">👹</span><div><small>ĐỐI THỦ · ${esc(status.trait)}</small><h2>${esc(status.enemy)}</h2><b>${format(status.enemyPower)} lực chiến</b></div><span class="tag">Tầng ${format(status.floor)}</span></div>
+ return `<section class="hg28-tower-view"><header class="hg28-tower-title"><div><span class="eyebrow">BÍ CẢNH · CHIẾN THUẬT</span><h1>🗼 Tháp tầng ${format(status.floor)}</h1></div><div class="hg28-tower-badges"><span>${status.enduranceMode?'❤️ '+status.rewardLeft+'/5 mạng còn lại':'🎁 '+status.rewardLeft+'/5 lượt thưởng'}</span><span>⚔ ${strength}</span><span class="hg408-quality-purple">♜ Địch TÍM CS${purpleBoss.cs}/10 · Lv100 B5</span></div></header>
+ <div class="hg409-tower-reward">☠ Tướng địch 100/100/100/100, CS${purpleBoss.cs}: HP ×${purpleBoss.boost.hp}, ATK ×${purpleBoss.boost.atk}, DEF ×${purpleBoss.boost.def}. ${status.enduranceMode?'Thắng liên tiếp không mất mạng; chỉ thua mới trừ 1 trong 5 mạng/ngày.':'Chọn chế độ chinh phục để đổi 5 lượt thưởng thành 5 mạng/ngày.'} Thưởng thực: ${esc(hg409LootText(purpleBoss))}.</div><div class="hg28-tower-layout"><section class="card hg28-tower-command"><div class="hg28-tower-enemy"><span class="hg28-tower-enemy-icon">👹</span><div><small>ĐỐI THỦ · ${esc(status.trait)}</small><h2>${esc(status.enemy)}</h2><b>${format(status.enemyPower)} lực chiến</b></div><span class="tag">Tầng ${format(status.floor)}</span></div>
  <div class="hg28-tower-team"><div class="hg28-tower-section-head"><h3>Chọn tối đa 3 tướng</h3><span class="tag">${status.team.length}/3</span></div><div class="hg28-hero-picker">${Array.from({length:3},(_,i)=>'<label><small>TƯỚNG '+(i+1)+'</small><select id="hg20_tower_'+i+'">'+teamOptions(status.team[i])+'</select></label>').join('')}</div>${button('tower-team',{},'✓ Lưu đội hình tướng',false,'small primary')}</div>
- <div class="hg28-tower-stack-panel"><div class="hg28-tower-section-head"><h3>Quân đi theo chủ tướng</h3><span class="hint">Tối đa 2 đội / tướng</span></div>${slots?'<div class="hg28-tower-heroes">'+slots+'</div>':'<div class="hg28-tower-empty">Chọn và lưu tướng để gán đội quân.</div>'}<div class="hg28-tower-actions">${button('tower-auto-assign',{},'⚔ Tự chia quân từ kho',!status.team.length,'secondary')}${button('tower-picks',{},'Lưu 2 đội / tướng',!picks.length,'secondary')}${button('tower-climb',{},'⚔ Thách đấu tầng '+format(status.floor),!ready.ready,'primary')}</div>
+ <div class="hg28-tower-stack-panel"><div class="hg28-tower-section-head"><h3>Quân đi theo chủ tướng</h3><span class="hint">Tối đa 2 đội / tướng</span></div>${slots?'<div class="hg28-tower-heroes">'+slots+'</div>':'<div class="hg28-tower-empty">Chọn và lưu tướng để gán đội quân.</div>'}<div class="hg28-tower-actions">${button('tower-auto-assign',{},'⚔ Tự chia quân từ kho',!status.team.length,'secondary')}${button('tower-picks',{},'Lưu 2 đội / tướng',!picks.length,'secondary')}${button('tower-climb',{},status.enduranceMode?'⚔ Leo tầng '+format(status.floor)+' · 5 mạng/ngày':'⚔ Bắt đầu chinh phục từ tầng '+format(status.floor),!ready.ready||status.enduranceMode&&status.rewardLeft<=0,'primary')}${button('tower-autochain',{},towerAutoChain?'🔁 Tự leo Tháp: BẬT':'▶ Tự leo Tháp: TẮT',false,'secondary')}</div>
  <p class="hint" id="hg36-tower-readiness" aria-live="polite">${ready.ready?'✓ '+format(ready.heroes)+' tướng · '+format(ready.stacks)+' đội · '+format(ready.units)+' quân thật sẵn sàng':esc(ready.reason)+' · Chọn Tự chia quân từ kho hoặc phân quân trong Quân đội.'}</p></div>
  ${status.last?'<div class="hg28-tower-last">'+(status.last.outcome==='win'?'🏆 Thắng':'🛡 Thất bại')+' tầng '+format(status.last.floor)+' · '+format(status.last.teamPower)+' / '+format(status.last.enemyPower)+' lực chiến · thưởng tinh hoa +'+format(status.last.rewardEssence)+'</div>':''}</section>
  <aside class="hg28-tower-rewards"><section class="card"><span class="eyebrow">TIẾN ĐỘ VÔ HẠN</span><div class="hg28-essence"><span>✨</span><div><b>${format(status.essence)}</b><small>Tinh hoa · Thăng hoa ${format(status.rank)}</small></div></div><p class="hint">+18% sức mạnh đội Tháp mỗi cấp</p>${button('tower-upgrade',{},'⬆ Thăng hoa · '+format(status.upgradeCost),status.essence<status.upgradeCost,'small primary')}</section>
  <section class="card"><h3>🏰 Thành đặc biệt</h3><p>${c.citadel?'🔓 Thiên Ngoại Bí Thành':'🔒 Hoàn thành tầng 25'}</p><small>${esc(castle.worldCity)} · ${esc(castle.worldCityKey)} · ${castle.worldCityOwned?'Đã chiếm':'Thành AI có thể công chiếm'}</small></section>
  <section class="card"><h3>🎖 Quân sưu tầm</h3><p>${esc(troop.name)} ×${format(owns)}</p><small>Thưởng mốc tầng 10, 20, 30…</small></section>
  <section class="card"><h3>💎 Di vật Tháp</h3><p>${c.artifacts.length?c.artifacts.slice(-3).map(esc).join(' · '):'Chưa sở hữu'}</p><small>Thưởng mốc tầng 25, 50, 75…</small></section></aside></div>
- <details class="hg28-tower-help"><summary>Cách tính đội hình</summary><p>Tối đa 3 tướng, mỗi người mang tối đa hai stack. Chỉ số, trang bị và phép áp dụng theo đúng chủ tướng. Tháp không tiêu hao quân thật hoặc AP; hết năm lượt thưởng vẫn có thể luyện tập.</p></details></section>`;
+ <details class="hg28-tower-help"><summary>Cách tính đội hình</summary><p>Tối đa 3 tướng, mỗi người mang tối đa hai stack. Chỉ số, trang bị và phép áp dụng theo đúng chủ tướng. Chế độ chinh phục: thắng nhận thưởng và EXP cho đúng tướng tham chiến, không tiêu hao mạng; thua mới mất một trong 5 mạng/ngày. Đội hình không tiêu hao quân thật hoặc AP. Tự leo có thể bật/tắt.</p></details></section>`;
 }
 function hg28ArmyUnitThumb(unit,size){
  if(unit.id==='human_1'&&typeof document!=='undefined'){
@@ -1505,7 +1523,7 @@ function combatView(){
     <div class="battle-auto-state" id="battle-auto-clock">${autoLabel}</div><div class="hg57-phase-and-move"><b id="hg57-phase">PHE TA → PHE ĐỊCH</b><span id="hg57-move-steps">${selected?("Di chuyển: "+moveAllowance+" ô/lượt · Tầm đánh: "+selected.range+" ô"):"Chọn quân để xem tốc độ và tầm đánh"}</span></div>
     <div class="hg58-combat-speed" role="group" aria-label="Tốc độ xem hoạt ảnh">🌪 Tốc độ trận ${[1,2,3].map(v=>'<button type="button" data-action="combat-speed" data-speed="'+v+'" aria-pressed="'+(battleViewPrefs.speed===v)+'" title="Chỉ thay đổi tốc độ hiển thị, không đổi sát thương">×'+v+'</button>').join('')}<small>Chỉ hoạt ảnh · không đổi chỉ số</small></div>
     <div class="battle-display-tools" role="group" aria-label="Tùy chọn chiến trường"><button type="button" class="battle-display-toggle" data-action="battle-grid" aria-pressed="${battleViewPrefs.grid}" title="Hiện hoặc ẩn lưới lục giác">${battleViewPrefs.grid?'⬡ Lưới':'⬡ Lưới tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-hp" aria-pressed="${battleViewPrefs.hp}" title="Hiện hoặc ẩn thanh máu">${battleViewPrefs.hp?'♥ Máu':'♡ Máu tắt'}</button><button type="button" class="battle-display-toggle" data-action="battle-labels" aria-pressed="${battleViewPrefs.labels}" title="Hiện hoặc ẩn tên quân và quái vật">${battleViewPrefs.labels?'Aa Tên':'Aa Ẩn tên'}</button></div>
-    <div class="battle-action-grid">${button('auto',{},state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH',false,'auto secondary')}${button('battle',{cmd:'attack'},'⚔ ĐÁNH',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 CHỜ',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 TẬP TRUNG',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI',false,'secondary')}</div>
+    <div class="battle-action-grid">${button('auto',{},state.battleAuto?'⏸ DỪNG TỰ ĐÁNH':'▶ TỰ ĐÁNH',false,'auto secondary')}${button('battle-always',{},battleAlwaysAuto?'🔁 Trận mới: Auto':'⚙ Trận mới: Thủ công',false,'small secondary')}${button('battle',{cmd:'attack'},'⚔ ĐÁNH',false,'primary')}${button('battle',{cmd:'advance'},'↗ TIẾN',false,'secondary')}${button('move-mode',{},movementModeId?'✕ HỦY Ô':selectedMoveTarget?'↗ ĐỔI ĐÍCH':'⌖ ĐẶT ĐÍCH',!selected||selected.pool<=0,'secondary')}${button('battle',{cmd:'defend'},'🛡 CHỜ',false,'secondary')}${button('battle',{cmd:'focus'},'🎯 TẬP TRUNG',false,'secondary')}${button('battle',{cmd:'retreat'},'↙ LÙI',false,'secondary')}</div>
     <p class="battle-move-prompt" id="battle-move-prompt">${movementHint}</p>
     <details class="battle-spell-fold"><summary>✨ Phép chiến đấu · ${spellIds.length||((b.hg21Tower||b.hg261Joint)?'tướng':'0')}</summary><div>${spells}</div></details>
    </div>
@@ -1923,7 +1941,19 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='tower-team'){const ids=Array.from({length:3},(_,i)=>Number($('hg20_tower_'+i).value)).filter(x=>x>0);E.hg20ChooseTowerTeam(state,ids);toast('Đã chọn '+ids.length+' tướng; mỗi người góp tối đa hai stack.');return}
  if(action==='tower-auto-assign'){const q=E.hg21TowerAutoAssign(state);toast('Đã chia '+format(q.units)+' quân thật cho '+q.heroes+' tướng · '+q.stacks+' đội, không tuyển thêm quân.');return}
  if(action==='tower-picks'){const rows=E.hg20TowerStatus(state).team.map((id,i)=>({heroId:id,slots:Array.from({length:2},(_,j)=>$('hg21_slot_'+i+'_'+j)?.value??'').filter(x=>x!=='').map(Number)}));E.hg21SetTowerPicks(state,rows);toast('Đã lưu '+rows.length+' tướng và '+rows.reduce((n,r)=>n+r.slots.length,0)+' stack.');return}
- if(action==='tower-climb'){const r=E.hg21TowerEnter(state);tab='combat';toast('Tầng '+r.floor+': '+r.heroes+' tướng / '+r.stacks+' stack bắt đầu giao tranh.');return}
+ if(action==='tower-climb'){
+  E.hg21TowerEnableEndurance(state);
+  const r=E.hg21TowerEnter(state);state.battleAuto=towerAutoChain||battleAlwaysAuto;
+  if(state.battleAuto)state.battle.autoUntil=Date.now()+1300;
+  tab='combat';toast('Tầng '+r.floor+': '+r.heroes+' tướng / '+r.stacks+' đội · '+(state.battleAuto?'tự đánh':'đánh thủ công'));return
+ }
+ if(action==='tower-autochain'){towerAutoChain=!towerAutoChain;
+  try{localStorage.setItem('hg69_tower_auto',towerAutoChain?'on':'off')}catch(_){}
+  toast(towerAutoChain?'Đã bật tự leo Bí Cảnh':'Đã tắt tự leo Bí Cảnh');return}
+ if(action==='battle-always'){battleAlwaysAuto=!battleAlwaysAuto;
+  try{localStorage.setItem('hg69_battle_always',battleAlwaysAuto?'on':'off')}catch(_){}
+  if(state.battle&&battleAlwaysAuto){state.battleAuto=true;state.battle.autoUntil=Date.now()+1300;}
+  toast(battleAlwaysAuto?'Từ nay vào trận sẽ tự đánh':'Đã tắt tự đánh mặc định');return}
  if(action==='tower-upgrade'){E.hg20TowerUpgrade(state);toast('Đã tăng sức mạnh đội Bí Cảnh.');return}
  if(action==='autoformation'){const plan=E.autoFormation(state);toast(`Đã bố trí ${format(plan.totalUnits)} quân · ${format(plan.points)}/${format(plan.limit)} sức chứa.`);return}
  if(action==='findnpc'){selectNearestNpc(E.heroTaskStatus(state).active?.stars||1);return}

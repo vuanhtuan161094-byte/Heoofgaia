@@ -1,0 +1,62 @@
+name: HG69 Tower Endurance and Sharp Battle QA
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - hg21-tower-tactical.js
+      - hg20-private.js
+      - painter.js
+      - app.js
+      - qa-hg69-endurance.cjs
+      - .github/workflows/hg69-tower.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  tower-and-clarity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Exact SHA and truthful gameplay rules
+        run: |
+          git rev-parse HEAD
+          node --check app.js
+          node --check painter.js
+          node --check hg21-tower-tactical.js
+          node qa-hg69-endurance.cjs
+          node qa-hg21-tactical.cjs
+          node qa-hg20-private.cjs
+          node qa-hg58-combat.cjs
+      - name: Single bundled HTML
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: PC and landscape visual reward regression
+        run: |
+          python -m pip install playwright
+          python -m playwright install chromium
+          python qa-hg63-chrome.py
+      - name: Evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG69-Tower-Endurance-Visual-Receipts
+          path: |
+            docs/qa/hg63/*.json
+            docs/evidence/hg63/*.png
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: Offline playable
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG69-One-Playable-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error

@@ -62,7 +62,7 @@ function valid(s){
  const h=s?.hg20,t=h?.tower,c=h?.collection;
  if(!h||h.version!==1||!h.plans||typeof h.plans!=='object'||Array.isArray(h.plans)||
   !t||!c||!integer(t.floor,1)||!/^\d{4}-\d{2}-\d{2}$/.test(t.day||'')||
-  !integer(t.claims,0,5)||!integer(t.attempts)||!integer(t.victories)||
+  !integer(t.claims,0,5)||(t.enduranceMode!==undefined&&typeof t.enduranceMode!=='boolean')||!integer(t.attempts)||!integer(t.victories)||
   !integer(t.rank,0,100000000)||!integer(t.essence,0,1e12)||
   !Array.isArray(t.team)||t.team.length>3||new Set(t.team).size!==t.team.length||
   t.team.some(id=>!s.heroes.some(q=>q.id===id))||
@@ -224,7 +224,7 @@ function matchup(s,ids,enemy){
 }
 function towerStatus(s){ensure(s);const t=s.hg20.tower,enemy=monster(t.floor);
  return {floor:t.floor,enemy:enemy.name,trait:enemy.trait,enemyPower:enemyPower(t.floor),
-  claims:t.claims,rewardLeft:Math.max(0,5-t.claims),team:t.team.slice(),
+  claims:t.claims,rewardLeft:Math.max(0,5-t.claims),enduranceMode:!!t.enduranceMode,team:t.team.slice(),
   rank:t.rank,essence:t.essence,victories:t.victories,
   upgradeCost:3+Math.floor(t.rank*.65),
   cityUnlocked:s.hg20.collection.citadel,last:t.last};

@@ -133,25 +133,40 @@ function autoAssign(s){
  return {...ready,assignedHeroes:missing.length};
 }
 function tile(){return E.TILES.find(t=>t.kind==='npc'&&t.level===1&&!t.privateBoss)}
+// Endurance uses the existing five daily claims as LIVES LOST, not floors
+// cleared. Legacy v07 modes retain their original five-paid-floors behavior.
+function enableEndurance(s){
+ ensure(s);const t=s.hg20.tower;
+ if(!t.enduranceMode){t.enduranceMode=true;t.claims=0;}
+ return {mode:'endurance',livesLeft:Math.max(0,5-t.claims),floor:t.floor};
+}
 function gameBattle(s){
  ensure(s);
  const t=s.hg20.tower,roster=picks(s),enlisted=[];
+ if(t.enduranceMode&&t.claims>=5)throw Error('Đã hết 5 mạng Bí Cảnh hôm nay. Lượt mới mở vào ngày sau.');
  validatePicks(s,roster);
  const isReady=readiness(s);
  if(!isReady.ready)throw Error(isReady.reason);
  if(s.battle||s.march||s.expedition||s.parallelMarches?.length)throw Error('Hãy kết thúc hành quân hoặc giao tranh trước khi vào Tháp');
  if(s.stationedHeroes?.some(x=>roster.some(r=>r.heroId===x.heroId)))throw Error('Tướng đang đồn trú không thể tham chiến');
  const reserved={};let n=0;
- const positions=[{x:1,y:0},{x:3,y:1},{x:1,y:3},{x:3,y:4},{x:1,y:6},{x:3,y:7}];
- for(const r of roster){
+ // Three OWNER lanes: two hexes per hero, rear caster and front tank.
+ // Avoid the old interleaved 0/1/3/4/6/7 layout which obscured ownership.
+ const lanes=roster.length===1?[4]:roster.length===2?[2,6]:[1,4,7];
+ for(const [ownerIndex,r] of roster.entries()){
   const hero=s.heroes.find(h=>h.id===r.heroId);
   const formation=E.hg20HeroPlan(s,r.heroId);
-  for(const slot of r.slots){
+  const arranged=r.slots.slice().sort((a,b)=>{
+   const ra=E.unitTacticalRange(E.getUnit(s,formation[a].unitId));
+   const rb=E.unitTacticalRange(E.getUnit(s,formation[b].unitId));
+   return rb-ra||a-b;
+  });
+  for(const [localIndex,slot] of arranged.entries()){
    const g=formation[slot],unit=E.getUnit(s,g.unitId);
    if(!unit||g.count<=0)throw Error('Đội hình Bí Cảnh không hợp lệ');
    reserved[g.unitId]=(reserved[g.unitId]||0)+g.count;
    if(reserved[g.unitId]>(s.army[g.unitId]||0))throw Error('Không đủ quân thật để ghép đội Bí Cảnh');
-   const pos=positions[n],stats=E.heroStats(s,hero.id);
+   const pos={x:arranged.length===1?(E.unitTacticalRange(unit)>1?1:3):localIndex===0?1:3,y:lanes[ownerIndex]},stats=E.heroStats(s,hero.id);
    // Essence upgrade improves the tower projection only, never the real
    // garrison. Hero buffs remain strictly keyed by this stack's heroId.
    const blessing=1+t.rank*.18;
@@ -238,7 +253,8 @@ function towerCast(s,heroId,spellId){
 }
 function reward(s,b,outcome){
  const t=s.hg20.tower,floor=b.hg21Tower.floor;
- const won=outcome==='win',claimed=won&&t.claims<5;
+ const won=outcome==='win',endurance=t.enduranceMode===true,
+  claimed=won&&(endurance||t.claims<5);
  const gold=claimed?Math.min(1e12,2500+floor*900):0;
  const essence=claimed?Math.min(1e12,2+Math.floor(floor/4)):0;
  const report={floor,outcome:won?'win':'lose',enemy:b.enemies[0]?.name||'Quái Bí Cảnh',
@@ -250,7 +266,8 @@ function reward(s,b,outcome){
  if(won){
   t.victories++;
   if(claimed){
-   t.floor++;t.claims++;
+   t.floor++;
+   if(!endurance)t.claims++;
    E.add(s,{gold,wood:Math.min(50000,250+floor*70),ore:Math.min(50000,250+floor*70),
     sulfur:Math.min(25000,100+floor*25),crystal:Math.min(25000,100+floor*25)});
    t.essence=Math.min(1e12,t.essence+essence);
@@ -276,10 +293,24 @@ function reward(s,b,outcome){
    }
   }
   if(floor>=25)s.hg20.collection.citadel=true;
+  // Use canonical HG08 EXP progression (Lv100 ceiling, Hero Tower bonus).
+  // Only heroes actually deployed in this combat receive EXP.
+  if(claimed&&endurance){
+   const baseXp=Math.min(15000,Math.round(400+70*floor));
+   report.heroXpByHero=[...new Set(b.allies.map(u=>u.heroId))].map(id=>{
+    const hero=s.heroes.find(h=>h.id===id);
+    const receipt=E.grantHeroExperience(s,id,baseXp,'vượt Bí Cảnh tầng '+floor);
+    return {heroId:id,name:hero?.name||String(id),xp:receipt.gained,levels:receipt.levels};
+   });
+   report.heroXp=report.heroXpByHero.reduce((n,q)=>n+q.xp,0);
+  }
+ }else if(endurance){
+  // One failed climb consumes one of five daily lives. Wins cost none.
+  t.claims=Math.min(5,t.claims+1);
  }
  t.last=report;
  E.note(s,'Bí Cảnh tầng '+floor+': '+(won?'thắng sau '+(b.turn-1)+' lượt':'thua hoặc quá 70 lượt')+
-  (claimed?', nhận '+essence+' tinh hoa':' · không trừ lượt thưởng')+'.');
+  (claimed?', nhận '+essence+' tinh hoa':endurance?' · mất 1 mạng Bí Cảnh':' · không trừ lượt thưởng')+'.');
  return {...report,nextFloor:t.floor,dailyRewardsLeft:Math.max(0,5-t.claims),type:outcome};
 }
 function battleAct(s,action,opts){
@@ -331,6 +362,6 @@ Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,
  // HG20 chooser directly left team populated but picks empty until a later
  // status render, so the first v07 write was correctly rejected as invalid.
  hg20ChooseTowerTeam:choose,hg21TowerPicks:picks,hg21SetTowerPicks:setPicks,
- hg21TowerReadiness:readiness,hg21TowerAutoAssign:autoAssign,hg21TowerValid:valid});
+ hg21TowerReadiness:readiness,hg21TowerAutoAssign:autoAssign,hg21TowerEnableEndurance:enableEndurance,hg21TowerValid:valid});
 root.HOG_HG21=Object.freeze({version:1,gameMode:'tactical-tower',maxHeroes:MAX_HEROES,slotsPerHero:OWNED_SLOTS});
 })(typeof globalThis!=='undefined'?globalThis:this);

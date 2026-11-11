@@ -962,7 +962,13 @@ function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  const atlasSize=unit.atlasDimensions||[unit.atlasWidth,unit.atlasHeight],frameSize=unit.frameDimensions||[unit.frameWidth,unit.frameHeight];
  if(!image.complete||image.naturalWidth!==atlasSize[0]||image.naturalHeight!==atlasSize[1])return false;
  const width=clamp(unit.renderWidth*k,18,160),height=width*frameSize[1]/frameSize[0];
- c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);c.translate(x,y);if(hg63BattleMirror(enemy,unit.enemyFacing||'right'))c.scale(-1,1);
+ c.save();c.globalAlpha*=clamp(visual.alpha??1,0,1);
+ // HG69 clarity: the 192px source was softened twice when downscaled for
+ // packed hexes. Improve actual edge/colour definition without more sprites,
+ // external assets, blur layers, or any altered foot anchor.
+ c.imageSmoothingEnabled=true;c.imageSmoothingQuality='high';
+ c.filter='contrast(1.17) saturate(1.13)';
+ c.translate(x,y);if(hg63BattleMirror(enemy,unit.enemyFacing||'right'))c.scale(-1,1);
  const groundFix=hg407FootOffset(unitId,frame.action,frame.frame,height,frameSize[1]);
  const paintedY=-height*unit.pivot+groundFix;
  // Original Orc T10 Walk frames 2/3 contain stray duplicate alpha at the
@@ -1183,7 +1189,7 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
    // HG61: in compact desktop 960x540 3-hero Boss formation, player
    // top-row atlases overlapped the real 37px combat HUD by 3.6px.
    // Keep the foot exactly on its true hex; scale only that row's art.
-   k=denseBoss&&u.side==='enemy'?sourceK*.54:
+   k=denseBoss&&u.side==='enemy'?sourceK*(width>=1050?.61:.54):
     denseBoss&&u.side==='player'&&u.y===0&&width<=960?sourceK*.86:sourceK,
    profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*(denseBoss&&u.side==='enemy'?.45:1.05),camera.radius*(profile?.boss?3.15:1.9));
   return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile,displayPool:battleVisualPool(b,u,now)};
