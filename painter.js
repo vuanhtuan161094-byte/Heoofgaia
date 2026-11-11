@@ -1170,7 +1170,11 @@ function battleUnitLayout(b,camera,width,height,now=visualNow()){
   // presentation sprites so every source atlas, foot anchor and hitbox stays
   // legible in two nine-cell columns; do not alter HP, stacks or Save v07.
   const sourceK=battleSpriteScale(height,u.y,camera.g.rows,camera.radius),
-   k=denseBoss&&u.side==='enemy'?sourceK*.54:sourceK,
+   // HG61: in compact desktop 960x540 3-hero Boss formation, player
+   // top-row atlases overlapped the real 37px combat HUD by 3.6px.
+   // Keep the foot exactly on its true hex; scale only that row's art.
+   k=denseBoss&&u.side==='enemy'?sourceK*.54:
+    denseBoss&&u.side==='player'&&u.y===0&&width<=960?sourceK*.86:sourceK,
    profile=bossSprite(u.name)||MOTION_SPRITES[u.unitId]||root.HOG_HG33_TROOP_ATLASES?.profile(u.unitId,u.name)||root.HOG_HG28_TROOPS?.profile(u.unitId),size=clamp((profile?.size||113)*k,camera.radius*(denseBoss&&u.side==='enemy'?.45:1.05),camera.radius*(profile?.boss?3.15:1.9));
   return {id:u.id,u,x:pt.x,y:pt.y,baseX:pt.x,baseY:pt.y,k,size,profile,displayPool:battleVisualPool(b,u,now)};
  });
