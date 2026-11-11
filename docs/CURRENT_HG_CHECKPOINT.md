@@ -1,3 +1,12 @@
+## HG61 — Enemy skills, Boss balance and offline release · 2026-11-11
+- **Focused playable exact-SHA** `083d9e5d181222d737ba585b7fd613a593891a57`; [HG58 SUCCESS #42971960719](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42971960719): 10/10 HG58 engine, 3/3 HG61 monster atlas/skills, 7/7 HG50-B Boss phases, 9/9 HG50 expedition, Chromium 27/27 HG58 + 27/27 HG57 + 22/22 HG57-B.
+- [Only playable HTML artifact #13834315161](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42971960719/artifacts/13834315161), `Play-Heoofgaia-HG11.html`, SHA256 `192a8ccf87531adae67f8649af94076ed1b2cfcdbd0f8b2aee1b51fde68224d5`.
+- Enemy `unitId` now shares an existing HG33 original atlas and HG40 cooldown-only skill (no MP), with role-aware melee/ranged/control/support; 3 Boss leaders retain original Boss artwork and 13 troop-art guards remain true actors. Limited Boss guard attack, repeated-root control and bounded atlas cache; T13 rage fallback, T12 summon and T11 shields remain canonical. Save v07 preserved.
+- Later QA-only scripts repair stale 3-Boss-name assertions, short-phone 10-slot scroll reachability and HG11 manual turns respecting real animation lock at speed x3. Latest **FULL CI NOT CONFIRMED**; check exact current HEAD. Android/Windows physical QA PENDING USER. No branch/merge/Codex.
+- Ongoing issue evidence: historical GH41 had sprite/HUD contact at 960x540 (game renderer corrected in focused SHA); older QA assumed three identical Boss names and spammed input during animation. Repeat `qa-hg11-human-heavy-animation-chrome.py`, `qa-hg34-combat-smooth-chrome.py`, `qa-hg49-spectrum-chrome.py`, `qa-hg28-pve2-chrome.py`, focused/monolithic workflow on newest SHA before claiming FULL PASS.
+
+---
+
 ## HG57 — phased auto combat and Hero/HUD polish: focused release PASS · 2026-11-11
 
 - **Exact game SHA:** `ead2e7fcf5972309a1947aab1206aaafb77bc6a3`; [HG57 run #42940862822](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/42940862822) **SUCCESS** (real engine **5/5** + Chromium desktop/phone **27/27**, Save v07 strict). Downloadable single `Play-Heoofgaia-HG11.html` artifact **13819649412**; 78,735,307 bytes; SHA256 `11ecf9c2f88f939b955ed0bbd2158a302596c6330da516dc5ca4dc17edf7478d` verified after extraction.
