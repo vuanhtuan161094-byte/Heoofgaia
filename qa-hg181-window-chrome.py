@@ -186,7 +186,20 @@ try:
     delivered['garrison']==61 and delivered['remaining']==0 and delivered['valid'],delivered)
   drawer=page.locator('.hg28-army-ops:not(.hg28-army-quest)')
   if not drawer.evaluate('e=>e.open'):drawer.locator('summary').click()
+  # HG24 opt-in auto-fill still targets the explicitly saved 16-soldier
+  # template. Leaving it ON would legitimately replace a manual 61-soldier
+  # formation at the next 1-second economy tick. To test a larger manual
+  # formation, disable the old template policy through its real UI first.
+  page.locator('#hg24_auto_fill').uncheck()
+  page.locator('.game-window-body [data-action="hg24-policy"]').click()
+  check('Opt-in 16-soldier template is disabled before manual 61-soldier plan',
+        page.evaluate("""() => {
+          const s=HOG_APP_DEBUG.getState(),t=HOG_ENGINE.hg24Template(s,1);
+          return t?.autoFill===false&&t?.groups[0]?.count===16&&
+            HOG_ENGINE.strictSave(s);
+        }"""))
   page.locator('.game-window-body [data-action="autoformation"]').click()
+  page.wait_for_timeout(1050)
   formed=page.evaluate("""() => {
       const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),p=E.hg20HeroPlan(s,1),
         hero=s.heroes.find(h=>h.id===1);
