@@ -72,7 +72,11 @@ test('Three heroes occupy three readable lanes with 2 distinct hexes each',()=>{
  E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:2},{unitId:'human_1',count:2}]);
  E.hg20SetHeroPlan(s,2,[{unitId:'human_1',count:2},{unitId:'human_1',count:2}]);
  E.hg20SetHeroPlan(s,3,[{unitId:'human_1',count:2},{unitId:'human_1',count:2}]);
- E.hg20ChooseTowerTeam(s,[1,2,3]);E.hg21TowerEnableEndurance(s);
+ E.hg20ChooseTowerTeam(s,[1,2,3]);
+ // setup() had previously selected hero 1 with one slot. Explicitly choose
+ // both valid slots for each hero: no phantom army may be added implicitly.
+ E.hg21SetTowerPicks(s,[{heroId:1,slots:[0,1]},{heroId:2,slots:[0,1]},{heroId:3,slots:[0,1]}]);
+ E.hg21TowerEnableEndurance(s);
  const entered=E.hg21TowerEnter(s);
  assert.equal(entered.stacks,6);
  const coords=s.battle.allies.map(u=>[u.heroId,u.x,u.y]);
