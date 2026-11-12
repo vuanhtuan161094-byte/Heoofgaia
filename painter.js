@@ -1076,6 +1076,8 @@ function hg79EnemyVisualId(u){
 function battleUnitArt(c,x,y,enemy,visual,k,u){
  if(troopAtlasDefinition(u.unitId,u.name))return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId,u.name);
  const model=hg79EnemyVisualId(u);
+ // Human Archer uses the independent HG14.3 six-action master, not HG33 rows.
+ if(model==='human_3')return animatedArcher(c,x,y,enemy,visual,k);
  if(model&&troopAtlasDefinition(model))return animatedTroopAtlas(c,x,y,enemy,visual,k,model,'');
  if(u.unitId==='human_4')return animatedSoldier(c,x,y,enemy,visual,k);
  if(u.unitId==='human_3')return animatedArcher(c,x,y,enemy,visual,k)||motionSprite(c,x,y,u.unitId,enemy,visual,k,u.name);
