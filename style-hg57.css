@@ -404,3 +404,15 @@ body.hg39-world-map-mode #main>.map-frame{
  .hg408-screen .hg408-tabs{gap:1px!important;padding:2px!important}
  .hg408-screen .hg408-tabs button{font-size:8px!important;padding:2px 0!important}
 }
+
+/* HG81 phone portrait: rarity legend was taller than the 95px horizontal
+   roster row, intercepting touches on the second hero. Keep the roster
+   explicitly clipped/scrollable and let Tavern show rarity explanations. */
+@media(max-width:510px) and (orientation:portrait){
+ .hg408-layout{grid-template-rows:96px minmax(0,1fr)!important}
+ .hg408-roster{overflow:hidden!important;min-height:0!important;padding:4px!important}
+ .hg408-roster .hg45-quality-legend{display:none!important}
+ .hg408-roster-scroll{min-height:0!important;min-width:0!important;flex:1 1 auto!important;
+  overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin;touch-action:pan-x}
+ .hg408-roster-card{flex:0 0 115px!important;min-width:115px!important;max-height:72px!important}
+}
