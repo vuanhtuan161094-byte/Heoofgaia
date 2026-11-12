@@ -485,6 +485,68 @@ function moveBattleStack(b,actor,destination){
  return steps?{unitId:actor.id,from,to:{x:actor.x,y:actor.y},steps,destination:{x:destination.x,y:destination.y},path:path.slice(0,steps)}:null;
 }
 // SRC23 describes an auto target judged highest in military power; SRC24 says melee prefers the threatening stack in closest range while ranged attacks the strongest stack. The original score is missing; ATK×living-count is our explicit model.
+// HG78: path-aware target choice; flyers traverse stacks without landing.
+function autoApproachDistance(b,actor,target){
+ if(dist(actor,target)<=actor.range)return 0;
+ const occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
+ const seen=new Set([battleCellKey(actor.x,actor.y)]),queue=[{x:actor.x,y:actor.y,depth:0}],fly=isFlyingBattleActor(actor);
+ for(let i=0;i<queue.length;i++){
+  const p=queue[i],key=battleCellKey(p.x,p.y);
+  if(dist(p,target)<=actor.range&&!occupied.has(key))return p.depth;
+  for(const c of battleHex.neighbors(p.x,p.y)){
+   const ck=battleCellKey(c.x,c.y);
+   if(!battleHex.inBounds(c.x,c.y)||seen.has(ck)||(!fly&&occupied.has(ck)))continue;
+   seen.add(ck);queue.push({...c,depth:p.depth+1});
+  }
+ }
+ return Infinity;
+}
+// Rank lethal opportunities, threatening backline and efficient legal routes.
+// No RNG or persistent AI state; manual Focus still takes precedence.
+function autoTargetScore(s,b,actor,target){
+ const distance=autoApproachDistance(b,actor,target);
+ if(!Number.isFinite(distance))return -1e6;
+ const base=Number(root.HOG_ENGINE?.hg40TargetScore?.(s,b,actor,target)||0);
+ const moves=Math.max(1,battleMovementBudget(b,actor,false)),turns=Math.ceil(distance/moves);
+ const a=Math.max(0,actor.atk),estimate=actor.count*a*a/(a+Math.max(0,target.def)||1);
+ const finish=estimate>=target.pool?75:estimate*2>=target.pool?36:0;
+ const threats=alive(actor.side==='player'?b.enemies:b.allies);
+ const peak=Math.max(1,...threats.map(u=>Math.max(0,u.atk)*Math.sqrt(Math.max(0,u.count))));
+ const pressure=Math.max(0,target.atk)*Math.sqrt(Math.max(0,target.count))/peak;
+ return base+finish+pressure*24+(target.range>=4?16:0)-turns*18;
+}
+// Real movement first, then the normal attack. Never move through stacks or
+// exceed movement budget, and never spend an extra turn to fire after kiting.
+function autoKiteRanged(b,actor,target){
+ if(actor.range<=1||dist(actor,target)>actor.range)return [];
+ const foes=alive(actor.side==='player'?b.enemies:b.allies),melee=foes.filter(u=>u.range<=1);
+ if(!melee.length)return [];
+ const nearest=pos=>Math.min(...melee.map(u=>dist(pos,u)));
+ const current=nearest(actor);
+ if(current>2)return [];
+ const budget=battleMovementBudget(b,actor,false);
+ if(budget<=0)return [];
+ const occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
+ const queue=[{x:actor.x,y:actor.y,path:[]}],seen=new Set([battleCellKey(actor.x,actor.y)]);
+ let best=null,bestScore=current*10;
+ for(let i=0;i<queue.length;i++){
+  const pos=queue[i];if(pos.path.length>=budget)continue;
+  for(const c of battleHex.neighbors(pos.x,pos.y)){
+   const key=battleCellKey(c.x,c.y);
+   if(!battleHex.inBounds(c.x,c.y)||occupied.has(key)||seen.has(key))continue;
+   seen.add(key);
+   const path=[...pos.path,c],next={...c,path};queue.push(next);
+   if(dist(c,target)>actor.range)continue;
+   const safety=nearest(c),crossfire=foes.filter(u=>u.range>1&&dist(c,u)<=u.range).length;
+   const score=safety*10-crossfire*2-path.length*.1;
+   if(safety>current&&score>bestScore){best=next;bestScore=score}
+  }
+ }
+ if(!best)return [];
+ const allowance=battleMovementAllowance(b,actor);
+ if(best.path.length>allowance)return [];
+ actor.x=best.x;actor.y=best.y;return best.path;
+}
 function combatStackPower(u){return Math.max(0,u.atk*u.count)}
 function casualty(s,unitId,n,slot=null){if(n<=0)return;const pool=s.expedition?.army||s.army;pool[unitId]=Math.max(0,(pool[unitId]||0)-n);const formation=s.expedition?.formation||s.formation;if(slot!==null&&formation?.[slot])formation[slot].count=Math.max(0,formation[slot].count-n);
  if(s.buildings.arena>=1){const fraction=(s.woundFraction[unitId]||0)+n*.75;const count=Math.floor(fraction);s.woundFraction[unitId]=fraction-count;s.wounded[unitId]=(s.wounded[unitId]||0)+count;if(s.battle?.woundedByUnit)s.battle.woundedByUnit[unitId]=(s.battle.woundedByUnit[unitId]||0)+count;}}
@@ -666,19 +728,14 @@ function battleAct(s,action,options){
    // already stands in this weapon's range; explicit Focus still overrides.
    const inRange=enemy.filter(t=>dist(actor,t)<=actor.range);
    const candidates=inRange.length?inRange:enemy;
-   const target=pref||sticky||[...candidates].sort((x,y)=>{
-   if(b.hg40?.v===1&&root.HOG_ENGINE?.hg40TargetScore){
-    const sx=root.HOG_ENGINE.hg40TargetScore(s,b,actor,x);
-    const sy=root.HOG_ENGINE.hg40TargetScore(s,b,actor,y);
-    return sy-sx||x.id.localeCompare(y.id);
-   }
-   const near=actor.range>1?0:dist(actor,x)-dist(actor,y),
-    power=stance==='attack'?combatStackPower(y)-combatStackPower(x):0;
-   return actor.range>1?power||near||x.id.localeCompare(y.id):
-    near||power||x.id.localeCompare(y.id);
-  })[0];
+   const scores=new Map(candidates.map(t=>[t.id,autoTargetScore(s,b,actor,t)]));
+   const target=pref||sticky||[...candidates].sort((x,y)=>
+    (scores.get(y.id)-scores.get(x.id))||x.id.localeCompare(y.id))[0];
   lastTargets[actor.id]=target.id;acted.push(actor.id);
-  const beforePool=target.pool,beforeCount=target.count,trace={path:[]},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path,stance,beforeCount-target.count,beforePool,trace.shieldAbsorbed||0);
+  const beforePool=target.pool,beforeCount=target.count,
+   smartAuto=actor.side==='enemy'||(stance==='attack'&&options?.stableTargets===true),
+   kite=smartAuto?autoKiteRanged(b,actor,target):[],
+   trace={path:kite},amount=strike(s,b,actor,target,stance,trace);record(actor,target,beforePool-target.pool,trace.path,stance,beforeCount-target.count,beforePool,trace.shieldAbsorbed||0);
   if(actor.side==='player')dealt+=amount;else lost+=amount;
  }
  const turn=b.turn;
