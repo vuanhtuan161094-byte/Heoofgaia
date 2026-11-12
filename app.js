@@ -1611,10 +1611,9 @@ function paint(){
  if(tab==='map'||(tab!=='combat'&&$('world-canvas'))){const canvas=$('world-canvas');if(!canvas)return;
   const draw=()=>{
    const rect=canvas.getBoundingClientRect();
-   // Cap the Android backing store to protect low-memory phones. Both tiles
-   // and pointer coordinates use painter's same CSS-density projection.
-   const density=Math.min(1.65,Math.max(1,window.devicePixelRatio||1));
-   const w=Math.max(1,Math.round(rect.width*density)),h=Math.max(1,Math.round(rect.height*density));
+   // Keep backing pixels equal to CSS pixels. HG40.5 layout tests and
+   // Android low-memory rendering depend on this lightweight geometry.
+   const w=Math.max(1,Math.round(rect.width)),h=Math.max(1,Math.round(rect.height));
    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
    P.drawWorld(canvas,E,state,selected);
   };draw();
