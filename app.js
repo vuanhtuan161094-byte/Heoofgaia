@@ -683,7 +683,7 @@ function dispatchView(){
   </div></div>`;
  }).join('');
  const addable=E.arrUnits(state).filter(u=>freeFor(u.id)>form.reduce((n,g)=>n+(g.unitId===u.id?g.count:0),0));
- return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI · ${esc(E.activeCity(state).name)}</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards||'<p class="hg82-empty">Thành này chưa có tướng. Tuyển trong Tavern hoặc điều tướng từ thành khác.</p>'}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${hg408HeroNameHTML(hero)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><span data-hg39-dispatch-ap class="hg39-dispatch-ap" aria-live="polite">${esc(dispatchAPReadout(draft))}</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'?'disabled':''}>⚔ Tối đa quân</button><button data-action="dispatch-clear" class="secondary" ${!form.length?'disabled':''}>↙ Thu đội</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
+ return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI · ${esc(E.activeCity(state).name)}</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards||'<p class="hg82-empty">Thành này chưa có tướng. Tuyển trong Tavern hoặc điều tướng từ thành khác.</p>'}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${hg408HeroNameHTML(hero)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><span data-hg39-dispatch-ap class="hg39-dispatch-ap" aria-live="polite">${esc(dispatchAPReadout(draft))}</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'?'disabled':''}>⚔ Tối đa quân</button><button data-action="dispatch-clear" class="secondary" ${!form.length?'disabled':''}>↙ Thu đội</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'?'disabled':''}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
 }
 function syncDispatchDraftUI(){
  const draft=dispatchDraft;if(!draft)return;
@@ -1970,6 +1970,23 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  }
  if(action==='hg408-inspect'){hg408InspectId=Number(target.dataset.id);hg408DismissFor=null;hg408DismissStage=0;return}
  if(action==='hg408-tab'){hg408Tab=target.dataset.id;hg408DismissFor=null;hg408DismissStage=0;modalOffset=0;return}
+ if(action==='hg82-quick-dismiss'){
+  const id=Number(target.dataset.id),hero=state.heroes.find(h=>h.id===id);
+  const task=state.dailyTaskState?.heroTask?.active?.heroId===id;
+  if(!hero)throw Error('Không còn tướng để sa thải.');
+  if(!confirm('Sa thải vĩnh viễn '+hero.name+'? Trang bị vẫn trong kho, quân không mất.'+
+   (task?' NHIỆM VỤ TƯỚNG ĐANG NHẬN SẼ BỊ HỦY, không nhận thưởng.':'')+
+   ' Nếu tướng đang trấn thủ sẽ miễn nhiệm.'))return;
+  const result=E.hg82QuickDismiss(state,id);
+  hg408InspectId=result.activeHero;hg408DismissFor=null;hg408DismissStage=0;
+  toast('Đã giải ngũ '+result.name+'; giữ nguyên toàn bộ quân và trang bị.');return;
+ }
+ if(action==='hg82-transfer'){
+  const id=Number(target.dataset.id),destination=$('hg82-destination')?.value;
+  if(!destination)throw Error('Chọn thành đích trước.');
+  const r=E.hg82TransferHero(state,id,destination);
+  toast(r.name+' đang di chuyển sang '+state.cities.find(c=>c.id===destination).name+'.');return;
+ }
  if(action==='hg408-dismiss-review'){hg408InspectId=Number(target.dataset.id);hg408DismissFor=hg408InspectId;hg408DismissStage=1;return}
  if(action==='hg408-dismiss-cancel'){hg408DismissFor=null;hg408DismissStage=0;return}
  if(action==='hg408-dismiss-next'){if(!E.hg408DismissCheck(state,Number(target.dataset.id)).allowed)throw Error('Tướng không đủ điều kiện sa thải.');hg408DismissStage=2;return}
@@ -2010,7 +2027,10 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   }
  if(action==='modal-close'||action==='dispatch-close'){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;return}
  if(action==='dispatch-open'){
-  const heroId=state.activeHero;if(!selected)throw Error('Chọn mục tiêu trên bản đồ trước.');
+  if(!selected)throw Error('Chọn mục tiêu trên bản đồ trước.');
+  const local=E.hg82CityHeroes(state),heroId=local.some(h=>h.id===state.activeHero&&E.hg20HeroRole(state,h.id).status==='home')
+   ?state.activeHero:local.find(h=>E.hg20HeroRole(state,h.id).status==='home')?.id;
+  if(!heroId)throw Error('Thành này chưa có tướng rảnh. Hãy tuyển tại Tavern hoặc điều tướng từ thành khác.');
   dispatchDraft={targetKey:selected,kind:target.dataset.kind||selectedTargetKind||null,heroId,
    form:E.hg20HeroPlan(state,heroId).map(g=>({...g}))};
   showWorldIndex=false;showResourceInfo=false;modalOffset=0;return;
@@ -2025,7 +2045,11 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(dispatchDraft.form.length>=7)throw Error('Đội hình tối đa 7 nhóm.');
   const held=E.hg20Reservations(state,hero.id),already=dispatchDraft.form.filter(g=>g.unitId===unitId).reduce((n,g)=>n+g.count,0),available=Math.max(0,(state.army[unitId]||0)-(held[unitId]||0)-already);
   if(available<1)throw Error('Không còn quân rảnh thuộc thành này.');
-  dispatchDraft.form.push({unitId,count:1});return;
+  const others=E.formationPoints(state,dispatchDraft.form),price=E.unitValue(E.getUnit(state,unitId));
+  const byCap=Math.floor((E.heroLimit(hero.level,hero)-others)/price);
+  const count=Math.min(available,byCap);
+  if(count<1)throw Error('Sức chỉ huy đã đầy. Bỏ quân khác hoặc chọn tướng cấp cao.');
+  dispatchDraft.form.push({unitId,count});return;
  }
  if(action==='dispatch-adjust'){
   const index=Number(target.dataset.slot),form=dispatchDraft?.form||[],group=form[index];
@@ -2037,14 +2061,27 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(Math.min(available,byPoints)<1)throw Error('Không đủ sức chỉ huy hoặc quân rảnh.');
   group.count=Math.max(1,Math.min(available,byPoints,group.count+Number(target.dataset.delta||0)));return;
  }
+ if(action==='dispatch-max'){
+  const index=Number(target.dataset.slot),form=dispatchDraft?.form||[],group=form[index],hero=state.heroes.find(h=>h.id===dispatchDraft?.heroId);
+  if(!group||!hero)throw Error('Nhóm quân không tồn tại.');
+  const held=E.hg20Reservations(state,hero.id),others=form.filter((_,i)=>i!==index),
+    taken=others.filter(g=>g.unitId===group.unitId).reduce((n,g)=>n+g.count,0),
+    free=Math.max(0,(state.army[group.unitId]||0)-(held[group.unitId]||0)-taken),
+    remaining=E.heroLimit(hero.level,hero)-E.formationPoints(state,others);
+  const max=Math.min(free,Math.floor(Math.max(0,remaining)/E.unitValue(E.getUnit(state,group.unitId))));
+  if(max<1)throw Error('Không đủ quân rảnh hoặc sức chỉ huy');
+  group.count=max;return;
+ }
+ if(action==='dispatch-clear'){dispatchDraft.form=[];return}
  if(action==='dispatch-remove'){
   const index=Number(target.dataset.slot);
   if(!Number.isSafeInteger(index)||index<0||index>=dispatchDraft.form.length)throw Error('Slot quân không hợp lệ');
   dispatchDraft.form.splice(index,1);return;
  }
  if(action==='dispatch-auto'){
-  const heroId=dispatchDraft.heroId;if(state.activeHero!==heroId)E.selectHero(state,heroId);
-  dispatchDraft.form=E.autoFormation(state).formation.map(g=>({...g}));return;
+  const heroId=dispatchDraft.heroId,preview=E.hg82ProposePlan(state,heroId);
+  if(!preview.formation.length)throw Error('Không có quân rảnh phù hợp sức chỉ huy ở thành này.');
+  dispatchDraft.form=preview.formation.map(g=>({...g}));return;
  }
  if(action==='dispatch-save'){
   const saved=E.hg20SetHeroPlan(state,dispatchDraft.heroId,dispatchDraft.form);
@@ -2052,12 +2089,17 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  }
  if(action==='dispatch-confirm'){
   const draft=dispatchDraft,heroId=draft.heroId;
-  if(state.activeHero!==heroId)E.selectHero(state,heroId);
-  E.hg20SetHeroPlan(state,heroId,draft.form);
+  // Dispatch is all-or-nothing: never debit AP, garrison or create troop
+  // reservations until the complete canonical march passes v07 validation.
+  const trial=E.clone(state);
+  if(trial.activeHero!==heroId)E.selectHero(trial,heroId);
+  E.hg20SetHeroPlan(trial,heroId,draft.form);
   const units=draft.form.reduce((n,g)=>n+g.count,0),targetKey=draft.targetKey;
-  E.startMarch(state,targetKey,draft.kind==='treasure'?'treasure':undefined);
+  E.startMarch(trial,targetKey,draft.kind==='treasure'?'treasure':undefined);
+  if(!E.strictSave(trial))throw Error('Đạo quân không vượt kiểm tra Save v07; chưa trừ AP hoặc quân.');
+  Object.assign(state,trial);
   dispatchDraft=null;tab='map';modalOffset=0;
-  toast((state.heroes.find(h=>h.id===heroId)?.name||'Tướng')+' xuất chinh cùng '+format(units)+' quân.');return;
+  toast((state.heroes.find(h=>h.id===heroId)?.name||'Tướng')+' xuất chinh cùng '+format(units)+' quân từ '+E.activeCity(state).name+'.');return;
  }
  if(action==='hg42-boss-screen'){
   const id=target.dataset.id;
