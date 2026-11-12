@@ -212,6 +212,11 @@ with sync_playwright() as pw:
       const departure=E.hg26Step(s);
       E.tick(s,s.lastTick+Math.ceil((s.march.remaining+1)/s.speed*1000));
       const arrive=E.hg26Step(s);
+      // HG78: freeze the real automation only after its genuine Boss encounter
+      // opens. Otherwise repeated background hg26Step calls can resolve the
+      // battle while Chromium measures viewport geometry and taps the dock.
+      // Stop is canonical, Save-valid, and does not inject fake combat data.
+      if(arrive.type==='battle_open')E.hg26Stop(s,'QA: freeze combat for viewport acceptance');
       HOG_APP_DEBUG.render();
       return {valid:E.strictSave(s),departure:departure.type,arrive:arrive.type,
         joint:!!s.battle?.hg261Joint,heroes:s.battle?.allies.map(u=>u.heroId),
