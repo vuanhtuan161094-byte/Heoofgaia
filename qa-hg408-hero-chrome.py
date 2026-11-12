@@ -105,7 +105,7 @@ with sync_playwright() as browser_tool:
               page.locator('.hg408-offer [data-action="hirecandidate"]').count()>0)
         screenshot(page,label+'-hero-tavern.png')
         if label=='pc-1280x720':
-            # At 1% each, both rare qualities in ONE eight-offer refresh
+            # At 10% each, both rare qualities in ONE eight-offer refresh
             # is uncommon. Independently observe each real natural roll.
             for rare_kind in ('platinum','rainbow'):
                 rare=page.evaluate("""rarity => {
@@ -124,7 +124,7 @@ with sync_playwright() as browser_tool:
                       rare['rounds']<600 and rare['strict'] and
                       rare_kind in rare['quality'] and
                       rare['derived']==rare_kind and
-                      rare['chance'][5:]==[1,1],rare)
+                      rare['chance'][5:]==[10,10],rare)
                 check('Rarity card '+rare_kind+' has real SVG portrait, readable sum and aura',
                       page.locator('.hg408-offer.hg45-tier-'+rare_kind).count()>=1 and
                       page.locator('.hg408-offer.hg45-tier-'+rare_kind+' .hg45-portrait-art svg').count()>=1 and
