@@ -1227,6 +1227,7 @@ function hg408HeroesView(){
     ${button('hero',{id:h.id},h.id===state.activeHero?'✓ Đang chỉ huy':'♛ Chọn chỉ huy',h.id===state.activeHero||h.id===state.castellan||!available,'small primary')}
     ${button('castellan',{id:h.id},h.id===state.castellan?'Bỏ Castellan':'🏰 Bổ nhiệm',!available,'small secondary')}
     ${button('recall',{id:h.id},'↩ Gọi về',!state.stationedHeroes?.some(q=>q.heroId===h.id)||!!state.march||!!state.battle||!!state.expedition,'small secondary')}
+    ${button('hg82-assign-max',{id:h.id},'⚔ Phân quân tối đa',!available||!E.hg82ProposePlan(state,h.id).formation.length,'small primary')}
     ${button('hg81-strip',{id:h.id,mode:'gear'},'⤓ Tháo đồ nhanh',!available,'small secondary')}
     ${button('hg81-strip',{id:h.id,mode:'army'},'↙ Thu quân nhanh',!available,'small secondary')}
     ${button('hg81-strip',{id:h.id,mode:'all'},'🧹 Dọn để sa thải',!available,'small secondary')}
@@ -1970,6 +1971,15 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  }
  if(action==='hg408-inspect'){hg408InspectId=Number(target.dataset.id);hg408DismissFor=null;hg408DismissStage=0;return}
  if(action==='hg408-tab'){hg408Tab=target.dataset.id;hg408DismissFor=null;hg408DismissStage=0;modalOffset=0;return}
+ if(action==='hg82-assign-max'){
+  const id=Number(target.dataset.id),quote=E.hg82ProposePlan(state,id);
+  if(!quote.formation.length)throw Error('Thành này không còn quân rảnh phù hợp để phân bổ.');
+  const trial=E.clone(state);
+  E.hg20SetHeroPlan(trial,id,quote.formation);
+  if(!E.strictSave(trial))throw Error('Bố trí quân không hợp lệ, không thay đổi kho quân.');
+  Object.assign(state,trial);
+  toast('Đã phân '+format(quote.total)+' quân thật cho tướng tại '+E.activeCity(state).name+'; không trừ kho quân.');return;
+ }
  if(action==='hg82-quick-dismiss'){
   const id=Number(target.dataset.id),hero=state.heroes.find(h=>h.id===id);
   const task=state.dailyTaskState?.heroTask?.active?.heroId===id;
