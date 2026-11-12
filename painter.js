@@ -69,9 +69,19 @@ const WORLD_CREATURES={
  boss_dragon:{rect:[0,625,650,622],height:1.22},
  lich_warlord:{rect:[687,585,560,662],height:1.12}
 };
-function encounterKind(tile){return tile.eliteTier>=13?'lich_warlord':tile.eliteTier>=11?'boss_dragon':tile.eliteTier>0||tile.level>=5?'elite_guardian':'wildland_beast'}
+// HG80: distinguish the actual encounter's archetype on the WORLD map.
+ // Boss/elite strength still comes from engine tile data, never the artwork.
+ function encounterKind(tile){
+  const name=String(tile?.value||'').toLowerCase();
+  if(/azrael|lich|phantom|shadows|warlock|tử linh|u minh|bóng tối/.test(name))return 'lich_warlord';
+  if(/wyvern|dragon|rồng|long hoàng|drake/.test(name))return 'boss_dragon';
+  if(/wolves|wolf|bear|beast|dã thú|quái vật|sói/.test(name))return 'wildland_beast';
+  if(/bandit|rogue|guard|goblin|giant|cyclop|cướp|vệ binh|khổng lồ|độc nhãn/.test(name))return 'elite_guardian';
+  if((tile?.eliteTier||0)>=13)return 'lich_warlord';
+  return (tile?.eliteTier||0)>=11||tile?.level>=5?'elite_guardian':'wildland_beast';
+ }
 function drawWorldEncounter(c,atlas,tile,x,y,q,selected=false,viewport={}){
- const kind=encounterKind(tile),source=WORLD_CREATURES[kind],boss=tile.eliteTier>=11,elite=kind==='elite_guardian';
+ const kind=encounterKind(tile),source=WORLD_CREATURES[kind],boss=tile.eliteTier>=11,elite=!boss&&(tile.eliteTier>0||tile.level>=5);
  const [sx,sy,sw,sh]=source.rect,h=q*source.height,w=h*sw/sh;
  c.save();c.fillStyle=boss?'#11131bb5':elite?'#141714a8':'#071814a0';c.beginPath();c.ellipse(x,y+q*.12,w*.43,q*.105,0,0,TAU);c.fill();
  if(atlas?.complete&&atlas.naturalWidth){c.shadowColor=boss?'#62c9d4b5':'#000b';c.shadowBlur=selected?14:7;c.shadowOffsetY=3;c.drawImage(atlas,sx,sy,sw,sh,x-w/2,y-h*.84,w,h);}
@@ -202,6 +212,12 @@ function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
   if(phase==='base'){c.fillStyle=colors[0];c.fillRect(px+inset,py+inset,q-crisp,q-crisp)}
   else{
    c.strokeStyle=colors[1];c.strokeRect(px+inset,py+inset,q-crisp,q-crisp);
+   // Every fifth square receives a slightly stronger province edge.
+   if(x%5===0||y%5===0){c.strokeStyle='#f0d9a25b';c.lineWidth=crisp*1.25;
+    c.beginPath();if(x%5===0){c.moveTo(px+inset,py);c.lineTo(px+inset,py+q)}
+    if(y%5===0){c.moveTo(px,py+inset);c.lineTo(px+q,py+inset)}
+    c.stroke();c.lineWidth=crisp;
+   }
    if(q>=66&&x%5===0&&y%5===0){
     c.font='600 '+Math.min(10,q*.13)+'px system-ui';c.textAlign='left';c.fillStyle='#fff2ca99';c.fillText(x+','+y,px+5,py+12);
    }
@@ -1761,5 +1777,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,hg79WorldGridBounds,hg80VisibleTiles,hg80MiniTerrain,hg79EnemyVisualId,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,hg79WorldGridBounds,hg80VisibleTiles,hg80MiniTerrain,encounterKind,hg79EnemyVisualId,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
