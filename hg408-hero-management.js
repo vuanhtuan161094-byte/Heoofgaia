@@ -124,6 +124,11 @@
        return {...battleRecord,retiredHeroName:removed.name};
      });
    }
+   // HG82: keep actual combat reports after veteran retirement; never erase
+   // battle history or retain a dangling FK to the retired hero.
+   if(Array.isArray(trial.battleReports))for(const report of trial.battleReports){
+     if(report.heroId===id){report.heroId=null;report.retiredHeroName=removed.name;}
+   }
    if(Array.isArray(trial.heroBuffs))trial.heroBuffs=trial.heroBuffs.filter(q=>q.heroId!==id);
    const hunt=trial.hg26;
    if(hunt){
