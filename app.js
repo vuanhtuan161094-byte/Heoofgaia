@@ -657,27 +657,37 @@ function syncDispatchAP(){
  const display=container.querySelector('[data-hg39-dispatch-ap]');
  if(display)display.textContent=dispatchAPReadout(draft);
  const confirm=container.querySelector('[data-action="dispatch-confirm"]');
- const hero=state.heroes.find(h=>h.id===draft.heroId);
+ const hero=E.hg82CityHeroes(state).find(h=>h.id===draft.heroId);
  if(confirm)confirm.disabled=!(hero&&E.hg20HeroRole(state,hero.id).status==='home'&&
   E.formationPoints(state,draft.form)<=E.heroLimit(hero.level,hero)&&
   draft.form.some(g=>g.count>0)&&!!E.getTile(draft.targetKey)&&dispatchAPReady(draft));
 }
 function dispatchView(){
  const draft=dispatchDraft;if(!draft)return '';
- const hero=state.heroes.find(h=>h.id===draft.heroId),role=hero&&E.hg20HeroRole(state,hero.id),
+ const hero=E.hg82CityHeroes(state).find(h=>h.id===draft.heroId),role=hero&&E.hg20HeroRole(state,hero.id),
   reserved=hero?E.hg20Reservations(state,hero.id):{},form=draft.form||[],
   points=hero?E.formationPoints(state,form):0,limit=hero?E.heroLimit(hero.level,hero):0,
   freeFor=id=>Math.max(0,(state.army[id]||0)-(reserved[id]||0)),
   target=E.getTile(draft.targetKey),targetLabel=target?.kind==='castle'?target.value:target?.kind==='mine'?`Mỏ ${C.resource[target.value]?.label||target.value}`:target?.value||draft.targetKey,
   total=form.reduce((n,g)=>n+g.count,0),canLaunch=!!hero&&role?.status==='home'&&points<=limit&&total>0&&!!target&&dispatchAPReady(draft);
- const heroCards=state.heroes.map(h=>{const r=E.hg20HeroRole(state,h.id),selected=h.id===draft.heroId,ready=r.status==='home';return `<button type="button" data-action="dispatch-select-hero" data-id="${h.id}" class="hg39-dispatch-hero ${selected?'active':''}" ${ready?'':'disabled'}><b>${hg408HeroNameHTML(h)}</b><small>Lv.${h.level} · ${esc(r.label)}</small></button>`}).join('');
- const rows=form.map((g,i)=>{const u=E.getUnit(state,g.unitId);if(!u)return '';const free=Math.max(0,freeFor(g.unitId)-form.reduce((n,x,j)=>n+(j!==i&&x.unitId===g.unitId?x.count:0),0));return `<div class="hg39-dispatch-row"><span class="hg39-dispatch-unit">${hg28ArmyUnitThumb(u,38)}<b>${esc(u.name)}</b><small>${format(free)} rảnh / ${format(reserved[u.id]||0)} giữ cho tướng khác</small></span><div class="hg39-dispatch-count"><button data-action="dispatch-adjust" data-slot="${i}" data-delta="-1" aria-label="Giảm quân" ${g.count<=1?'disabled':''}>−</button><input type="number" min="1" max="${free}" value="${g.count}" data-dispatch-slot="${i}" aria-label="Số ${esc(u.name)} xuất chinh"><button data-action="dispatch-adjust" data-slot="${i}" data-delta="1" aria-label="Tăng quân" ${g.count>=free?'disabled':''}>＋</button><button class="hg39-remove" data-action="dispatch-remove" data-slot="${i}" aria-label="Bỏ ${esc(u.name)}">×</button></div></div>`}).join('');
+ const heroCards=E.hg82CityHeroes(state).map(h=>{const r=E.hg20HeroRole(state,h.id),selected=h.id===draft.heroId,ready=r.status==='home';return `<button type="button" data-action="dispatch-select-hero" data-id="${h.id}" class="hg39-dispatch-hero ${selected?'active':''}" ${ready?'':'disabled'}><b>${hg408HeroNameHTML(h)}</b><small>Lv.${h.level} · ${esc(r.label)}</small></button>`}).join('');
+ const rows=form.map((g,i)=>{const u=E.getUnit(state,g.unitId);if(!u)return '';
+  const free=Math.max(0,freeFor(g.unitId)-form.reduce((n,x,j)=>n+(j!==i&&x.unitId===g.unitId?x.count:0),0));
+  return `<div class="hg39-dispatch-row"><span class="hg39-dispatch-unit">${hg28ArmyUnitThumb(u,38)}<b>${esc(u.name)}</b><small>${format(free)} rảnh tại thành / ${format(reserved[u.id]||0)} đã phân</small></span><div class="hg39-dispatch-count">
+   <button data-action="dispatch-adjust" data-slot="${i}" data-delta="-10" aria-label="Giảm 10 quân">−10</button>
+   <button data-action="dispatch-adjust" data-slot="${i}" data-delta="-1" aria-label="Giảm 1 quân">−</button>
+   <input type="number" min="1" max="${free}" value="${g.count}" data-dispatch-slot="${i}" aria-label="Số ${esc(u.name)} xuất chinh">
+   <button data-action="dispatch-adjust" data-slot="${i}" data-delta="1" aria-label="Tăng 1 quân">＋</button>
+   <button data-action="dispatch-max" data-slot="${i}" class="hg82-max" aria-label="Chọn tối đa quân">MAX</button>
+   <button class="hg39-remove" data-action="dispatch-remove" data-slot="${i}" aria-label="Bỏ ${esc(u.name)}">×</button>
+  </div></div>`;
+ }).join('');
  const addable=E.arrUnits(state).filter(u=>freeFor(u.id)>form.reduce((n,g)=>n+(g.unitId===u.id?g.count:0),0));
- return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${hg408HeroNameHTML(hero)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><span data-hg39-dispatch-ap class="hg39-dispatch-ap" aria-live="polite">${esc(dispatchAPReadout(draft))}</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'}>⚔ Tự bố trí</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
+ return `<section class="hg39-dispatch"><header><div><span class="eyebrow">ĐẠO QUÂN MỚI · ${esc(E.activeCity(state).name)}</span><h2>${esc(targetLabel)} <small>(${target?.x}, ${target?.y})</small></h2></div><button data-action="dispatch-close" class="secondary" aria-label="Đóng">×</button></header><div class="hg39-dispatch-heroes" aria-label="Chọn tướng xuất chinh">${heroCards||'<p class="hg82-empty">Thành này chưa có tướng. Tuyển trong Tavern hoặc điều tướng từ thành khác.</p>'}</div>${hero?`<div class="hg39-command-meter"><span data-hg39-dispatch-points>⚔ ${hg408HeroNameHTML(hero)} · ${format(points)} / ${format(limit)} điểm chỉ huy</span><progress max="${Math.max(1,limit)}" value="${Math.min(points,limit)}"></progress><small>Quân trong thành vẫn thuộc thành đến khi xác nhận xuất chinh.</small></div>`:''}<div class="hg39-army-roster">${rows||'<p class="muted">Chưa có quân trong đội hình này. Thêm quân đang rảnh bên dưới.</p>'}</div><div class="hg39-dispatch-add"><select id="hg39-dispatch-unit" aria-label="Chọn quân để thêm">${addable.length?addable.map(u=>`<option value="${esc(u.id)}">${esc(u.name)} · ${format(freeFor(u.id))} còn rảnh</option>`).join(''):'<option value="">Không còn quân khả dụng</option>'}</select><button data-action="dispatch-add-unit" class="secondary" ${!addable.length||form.length>=7?'disabled':''}>＋ Thêm quân</button></div><footer><span class="hg39-dispatch-total">${format(total)} quân · ${state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length}/3 tướng đang bận</span><span data-hg39-dispatch-ap class="hg39-dispatch-ap" aria-live="polite">${esc(dispatchAPReadout(draft))}</span><button data-action="dispatch-auto" class="secondary" ${!hero||role?.status!=='home'?'disabled':''}>⚔ Tối đa quân</button><button data-action="dispatch-clear" class="secondary" ${!form.length?'disabled':''}>↙ Thu đội</button><button data-action="dispatch-save" class="secondary" ${!hero||role?.status!=='home'}>Lưu đội hình</button><button data-action="dispatch-confirm" class="primary" ${canLaunch?'':'disabled'}>🚩 Xuất chinh</button></footer></section>`;
 }
 function syncDispatchDraftUI(){
  const draft=dispatchDraft;if(!draft)return;
- const hero=state.heroes.find(h=>h.id===draft.heroId),role=hero&&E.hg20HeroRole(state,hero.id),form=draft.form||[],
+ const hero=E.hg82CityHeroes(state).find(h=>h.id===draft.heroId),role=hero&&E.hg20HeroRole(state,hero.id),form=draft.form||[],
   held=hero?E.hg20Reservations(state,hero.id):{},points=hero?E.formationPoints(state,form):0,limit=hero?E.heroLimit(hero.level,hero):0,
   total=form.reduce((sum,g)=>sum+g.count,0),busy=state.heroes.filter(h=>E.hg20HeroRole(state,h.id).status!=='home').length;
  const pointLabel=$('game-modal-body')?.querySelector('[data-hg39-dispatch-points]'),meter=$('game-modal-body')?.querySelector('.hg39-command-meter progress'),
@@ -692,8 +702,10 @@ function syncDispatchDraftUI(){
   const index=Number(input.dataset.dispatchSlot),group=form[index];
   const id=group?.unitId,free=id?Math.max(0,(state.army[id]||0)-(held[id]||0)-form.reduce((n,g,i)=>n+(i!==index&&g.unitId===id?g.count:0),0)):0;
   row.hidden=!group;input.value=group?String(group.count):'0';input.max=String(free);
-  const minus=row.querySelector('[data-delta="-1"]'),plus=row.querySelector('[data-delta="1"]');
-  if(minus)minus.disabled=!group||group.count<=1;if(plus)plus.disabled=!group||group.count>=free;
+  const minuses=row.querySelectorAll('[data-delta^="-"]'),plus=row.querySelector('[data-delta="1"]'),maximum=row.querySelector('[data-action="dispatch-max"]');
+  for(const minus of minuses)minus.disabled=!group||group.count<=1;
+  if(plus)plus.disabled=!group||group.count>=free;
+  if(maximum)maximum.disabled=!group||group.count>=free;
  }
 }
 
