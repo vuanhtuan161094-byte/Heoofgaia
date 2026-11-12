@@ -63,17 +63,17 @@ check('Fixture: 4 races convert 12 free T1 into real quest guard, all sinks exac
  const s=enrich(E.make(race,1e6)),unit=race+'_1',guard=race+'_quest_guard';
  const before={base:s.army[unit],guard:s.army[guard]||0,gold:s.res.gold,marks:s.hg27.marks,tower:s.hg27.tower,wild:s.hg29.shards.wild};
  const result=E.hg30Convert(s,'guard');assertEqual(result.toUnit,guard);
- assertEqual(s.army[unit],before.base-12);assertEqual(s.army[guard],before.guard+1);
+ assertEqual(s.army[unit],before.base-12);assertEqual(s.army[guard],before.guard+8);
  assertEqual(s.res.gold,before.gold-3000);assertEqual(s.hg27.marks,before.marks-12);
  assertEqual(s.hg27.tower,before.tower-3);assertEqual(s.hg29.shards.wild,before.wild-6);
  assertEqual(s.hg30.stage,2);assertEqual(s.hg30.guardMade,1);saved(s);}
- return {races:4,baseSpent:12,guardsAdded:1};
+ return {races:4,baseSpent:12,guardsAdded:8};
 });
 check('Cannot convert reserved T1, zero cost deducted on rejected action',()=>{
  const s=enrich(E.make('human',1e6));const unit='human_1';
  s.army[unit]=12;E.hg20SetHeroPlan(s,1,[{unitId:unit,count:12}]);
  const before={gold:s.res.gold,base:s.army[unit],wild:s.hg29.shards.wild,marks:s.hg27.marks};
- assert.throws(()=>E.hg30Convert(s,'guard'),/Chưa đủ nhiệm vụ/);
+ assert.throws(()=>E.hg30Convert(s,'guard'),/Số mẻ|chưa đủ/i);
  assertEqual(s.res.gold,before.gold);assertEqual(s.army[unit],before.base);
  assertEqual(s.hg29.shards.wild,before.wild);assertEqual(s.hg27.marks,before.marks);
  assertEqual(s.army.human_quest_guard||0,0);assert(E.strictSave(s));
@@ -83,11 +83,11 @@ check('Fixture: 4 races convert earned guard to canonical sovereign, preserve ba
  for(const race of ['human','elf','orc','undead']){
  const s=enrich(E.make(race,1e6)),guard=race+'_quest_guard',king=race+'_tower_sovereign';
  E.hg30Convert(s,'guard');assertEqual(s.hg30.stage,2);
- assert.throws(()=>E.hg30Convert(s,'sovereign'),/Chưa đủ nhiệm vụ/);
+ assert.throws(()=>E.hg30Convert(s,'sovereign'),/Số mẻ|chưa đủ/i);
  s.hg30.bossWins=1;s.hg30.npcWins=3;s.hg30.paidTowerWins=3;
  const stock=s.army[guard],gold=s.res.gold;
  const out=E.hg30Convert(s,'sovereign');
- assertEqual(out.toUnit,king);assertEqual(s.army[guard],stock-1);assertEqual(s.army[king],1);
+ assertEqual(out.toUnit,king);assertEqual(s.army[guard],stock-2);assertEqual(s.army[king],4);
  assertEqual(s.res.gold,gold-20000);assertEqual(s.hg30.stage,3);assertEqual(s.hg30.sovereignMade,1);
  assert(E.getUnit(s,king)?.atk>0);saved(s);}
  return {races:4,sovereigns:4};
@@ -97,11 +97,15 @@ check('Repeatable post-unlock conversions require real fresh consumables, no fal
  s.hg30.bossWins=1;s.hg30.npcWins=3;s.hg30.paidTowerWins=3;
  E.hg30Convert(s,'sovereign');assertEqual(s.hg30.stage,3);
  const first=s.hg30.sovereignMade;
- assert.throws(()=>E.hg30Convert(s,'sovereign'),/Chưa đủ nhiệm vụ/);
- assertEqual(s.hg30.sovereignMade,first);
+ // HG81: eight earned quest guards can fund more than one real Sovereign batch.
+ const second=E.hg30Convert(s,'sovereign');assert.equal(second.toCount,4);
+ assertEqual(s.hg30.sovereignMade,first+1);
+ const goldBefore=s.res.gold;s.hg29.shards.abyss=0;
+ assert.throws(()=>E.hg30Convert(s,'sovereign'),/Số mẻ|chưa đủ/i);
+ assertEqual(s.res.gold,goldBefore);
  // New ordinary troops below are explicitly injected in a fixture, not battle loot.
  s.army.human_1+=12;E.hg30Convert(s,'guard');assertEqual(s.hg30.guardMade,2);
- saved(s);return {repeatGuards:2,repeatSovereignWithoutGuard:false};
+ saved(s);return {repeatGuards:2,repeatSovereignWithRealGuards:true};
 });
 check('Reject corrupted stage/counters and undeclared receipts; old Save untouched',()=>{
  const s=E.make('orc',1e6),source=E.serializeSave(s),doc=JSON.parse(source);
