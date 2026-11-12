@@ -206,6 +206,49 @@
   }
   return r;
  }
+ function quickDismiss(s,id){
+  ensure(s);const h=requireLocal(s,id);
+  if(s.heroes.length<=1)throw Error('Không thể sa thải tướng cuối cùng. Hãy tuyển tướng thay thế trước.');
+  if(h.questSpecial&&h.rewardOrigin==='hero_task_20')
+   throw Error('Tướng nhiệm vụ độc bản được bảo vệ; không thể sa thải.');
+  if(s.hg82.transfers.some(q=>q.heroId===id)||E.heroAway(s,id)||
+   s.battle||s.march||s.expedition||s.parallelMarches?.length)
+   throw Error('Tướng đang ở ngoài hoặc còn chiến đấu/hành quân. Hãy gọi tướng về trước.');
+  const trial=copy(s);E.hg81Ensure(trial);
+  const cancelledTask=trial.dailyTaskState?.heroTask?.active?.heroId===id;
+  if(cancelledTask)trial.dailyTaskState.heroTask.active=null;
+  let releasedCastle=false;
+  if(trial.castellan===id){
+   trial.castellan=null;
+   const c=city(trial,active(trial));if(c?.local)c.local.castellan=null;
+   releasedCastle=true;
+  }
+  const hunt=trial.hg26;
+  const hunted=!!(hunt?.enabled&&(hunt.config?.heroId===id||hunt.config?.team?.includes(id)||
+   hunt.joint?.team?.some(p=>p.heroId===id)));
+  if(hunted)E.hg26Stop(trial,'Giải tán đội săn Boss để giải ngũ tướng '+h.name);
+  // If the target is the only active commander and the only alternative
+  // currently holds a castle, free that holder too. No troops are touched.
+  if(trial.activeHero===id){
+   const other=trial.heroes.find(a=>a.id!==id&&a.cityId===active(trial)&&
+    !E.heroAway(trial,a.id)&&!trial.hg82.transfers.some(t=>t.heroId===a.id));
+   if(other&&trial.castellan===other.id){
+    trial.castellan=null;
+    const c=city(trial,active(trial));if(c?.local)c.local.castellan=null;
+    releasedCastle=true;
+   }
+  }
+  // The canonical HG408/HG81 transaction returns gear from all ten slots,
+  // clears stored plans, Tower team, Boss config and training ledgers.
+  const result=old.dismiss(trial,id);
+  if(!strict(trial))throw Error('Sa thải nhanh không vượt kiểm tra Save v07; không thay đổi gì.');
+  for(const k of Object.keys(s))if(!own(trial,k))delete s[k];
+  Object.assign(s,trial);
+  E.note(s,'HG82: sa thải '+h.name+'; bảo toàn kho trang bị và quân'+
+   (cancelledTask?', hủy nhiệm vụ tướng chưa lĩnh thưởng':'')+
+   (releasedCastle?', miễn nhiệm chức Trấn thủ':'')+'.');
+  return {...result,cancelledTask,stoppedHunt:hunted,releasedCastle};
+ }
  function dismiss(s,id){
   ensure(s);const h=requireLocal(s,id);
   if(s.hg82.transfers.some(q=>q.heroId===id))throw Error('Tướng đang chuyển thành');
@@ -231,6 +274,6 @@
   hg408DismissHero:dismiss,hg408DismissCheck:dismissCheck,
   hg81SkillUp:skillUp,hg81StripHero:strip,
   hg82Ensure:ensure,hg82Valid:valid,hg82HeroCity:home,hg82CityHeroes:localHeroes,
-  hg82ProposePlan:propose,hg82TransferHero:transfer,hg82Transfers:s=>ensure(s).hg82.transfers});
+  hg82ProposePlan:propose,hg82TransferHero:transfer,hg82QuickDismiss:quickDismiss,hg82Transfers:s=>ensure(s).hg82.transfers});
  root.HOG_HG82=Object.freeze({version:1,saveVersion:7,model:'hero ownership scoped to city; world SPD transfer ETA; no shared city garrisons'});
 })(typeof globalThis!=='undefined'?globalThis:this);
