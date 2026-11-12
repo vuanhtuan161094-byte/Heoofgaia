@@ -108,18 +108,25 @@ check('T13 35% one-turn berserk warning preserves pre-buff attack on Save/Load',
  const living=b.enemies.filter(u=>u.pool>0);
  const melee=living.filter(u=>u.range===1),chosen=melee.length?melee:living;
  assert(chosen.length,'T13 needs a living unit to buff');
- const attack=Object.fromEntries(chosen.map(u=>[u.id,u.atk]));
+ const attack=Object.fromEntries(living.map(u=>[u.id,u.atk]));
  s=reload(s);assert.equal(s.battle.hg50b.phase,'warning');
  for(const u of s.battle.enemies.filter(u=>u.pool>0&&Object.hasOwn(attack,u.id)))
   assert.equal(u.atk,attack[u.id]);
  let out=E.battleAct(s,'attack');assert(E.strictSave(s));
  if(!s.battle)throw Error('Boss died on the one warning turn: reduce focused QA damage; cannot verify active state');
  assert.equal(s.battle.hg50b.phase,'active');assert.equal(s.battle.hg50b.events.length,2);
+ // HG78 AI can eliminate all melee defenders during the warning turn.
+ // The canonical phase then buffs the living rear line; verify whichever
+ // formation survives rather than requiring obsolete melee IDs to survive.
+ const survivors=s.battle.enemies.filter(u=>u.pool>0);
+ const front=survivors.filter(u=>u.range===1),buffed=front.length?front:survivors;
  let changed=0;
- for(const u of s.battle.enemies.filter(u=>u.pool>0&&Object.hasOwn(attack,u.id))){
-  assert.equal(u.atk,Math.round(attack[u.id]*1.2));changed++;
+ for(const u of survivors){
+  assert(Object.hasOwn(attack,u.id),'Unexpectedly invented Boss defender');
+  assert.equal(u.atk,Math.round(attack[u.id]*(buffed.includes(u)?1.2:1)),u.id+' phase buff');
+  if(buffed.includes(u))changed++;
  }
- assert(changed>0);
+ assert(changed>0,'No living defender received real phase buff');
  s=reload(s);assert.equal(s.battle.hg50b.phase,'active');
  assert.equal(s.battle.hg50b.events.length,2);
  out=E.battleAct(s,'attack');assert(E.strictSave(s));
