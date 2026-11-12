@@ -84,7 +84,7 @@
    if(hunt?.enabled&&listed)reasons.push('Tắt đội săn Boss tự động và chờ giải phóng tướng.');
    if(hunt?.joint?.towerBackup?.team?.includes(id)&&hunt.enabled)reasons.push('Tướng còn trong đội Tháp đang được Boss tạm giữ.');
    if(s.dailyTaskState?.heroTask?.active?.heroId===id)reasons.push('Còn nhiệm vụ tướng đang thực hiện; cần hoàn tất trước.');
-   if(s.activeHero===id&&!s.heroes.some(q=>q.id!==id&&q.id!==s.castellan&&E.hg20HeroRole(s,q.id).status==='home'))
+   if(s.activeHero===id&&!s.heroes.some(q=>q.id!==id&&q.id!==s.castellan&&!E.heroAway(s,q.id)&&E.hg20HeroRole(s,q.id).status!=='relocating'))
      reasons.push('Cần một tướng khác ở thành, không giữ chức Castellan, để thay chỉ huy.');
    const gear=Object.values(s.equipment?.[id]||{}).filter(x=>x!==null&&x!==undefined);
    if(gear.some(uid=>!s.inventory?.some(item=>item.uid===uid)))reasons.push('Trang bị đang mặc thiếu bản ghi trong kho; chặn để bảo toàn đồ.');
@@ -143,7 +143,8 @@
    if(trial.activeHero===id){
      // Prevent HG20's old v07 formation migration from re-creating a deleted plan.
      trial.formation=[];
-     const fallback=trial.heroes.find(h=>h.id!==trial.castellan&&E.hg20HeroRole(trial,h.id).status==='home');
+     const fallback=trial.heroes.find(h=>h.id!==trial.castellan&&E.hg20HeroRole(trial,h.id).status==='home')||
+       trial.heroes.find(h=>h.id!==trial.castellan&&!E.heroAway(trial,h.id)&&E.hg20HeroRole(trial,h.id).status!=='relocating');
      if(!fallback)throw Error('Không thể chọn chỉ huy thay thế.');
      trial.activeHero=fallback.id;
      trial.formation=E.hg20HeroPlan(trial,fallback.id).map(g=>({...g}));
