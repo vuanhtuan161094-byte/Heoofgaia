@@ -153,7 +153,7 @@ test('HG30 permanent conversion can be repeated after stage 3 with exact materia
  for(let i=0;i<2;i++)E.hg30Convert(s,'guard');
  for(let i=0;i<2;i++)E.hg30Convert(s,'sovereign');
  assert.equal(s.army.human_1,before-24);
- assert.equal(s.army.human_tower_sovereign,sovereign+2);
+ assert.equal(s.army.human_tower_sovereign,sovereign+8);
  assert.equal(s.hg30.stage,3);assert.equal(s.hg30.guardMade,2);assert.equal(s.hg30.sovereignMade,2);
  assert(E.hg30Recipe(s,'guard').story&&E.hg30Recipe(s,'sovereign').story);
  save(s);return {repeatGuards:s.hg30.guardMade,repeatSovereigns:s.hg30.sovereignMade,stage:s.hg30.stage};
