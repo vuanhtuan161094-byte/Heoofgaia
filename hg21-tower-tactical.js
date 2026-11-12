@@ -306,8 +306,10 @@ function reward(s,b,outcome){
   if(floor>=25)s.hg20.collection.citadel=true;
   // Use canonical HG08 EXP progression (Lv100 ceiling, Hero Tower bonus).
   // Only heroes actually deployed in this combat receive EXP.
-  if(claimed&&endurance){
-   const baseXp=Math.min(15000,Math.round(400+70*floor));
+  if(claimed){
+   // HG81: standard (up to five rewarded floors) and endurance victories
+   // both earn genuine EXP. Replays after reward cap cannot farm XP.
+   const baseXp=Math.min(75000,Math.round(700+100*floor));
    report.heroXpByHero=[...new Set(b.allies.map(u=>u.heroId))].map(id=>{
     const hero=s.heroes.find(h=>h.id===id);
     const receipt=E.grantHeroExperience(s,id,baseXp,'vượt Bí Cảnh tầng '+floor);
