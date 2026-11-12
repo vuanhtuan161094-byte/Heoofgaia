@@ -102,6 +102,29 @@ with sync_playwright() as pw:
               strip['gear']==0 and strip['plans']==0 and strip['inventory']==fresh['inventory'] and
               strip['stock']==fresh['stock'] and strip['valid'],strip)
         capture(page,label+'-quick-dismiss')
+        # Real two-stage retirement after one-click army/gear cleanup.
+        # It must free a roster slot and preserve the *same* paid inventory.
+        preflight=page.evaluate("""() => {
+            const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
+            const q=E.hg408DismissCheck(s,2);
+            return {allowed:q.allowed,reasons:q.reasons};
+        }""")
+        check(label+' actual trained hero retirement is enabled after cleanup',
+              preflight['allowed'],preflight)
+        page.locator('[data-action="hg408-dismiss-review"]').click()
+        page.locator('[data-action="hg408-dismiss-next"]').click()
+        page.locator('[data-action="hg408-dismiss-apply"]').click()
+        dismissed=page.evaluate("""() => {
+            const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
+            return {heroes:s.heroes.map(h=>h.id),inventory:s.inventory.length,
+               soldierStock:s.army.human_1,orphanSkills:Object.keys(s.hg81.skills),
+               orphanCredits:Object.keys(s.hg81.credits),valid:E.strictSave(s)};
+        }""")
+        check(label+' actual two-stage dismissal keeps gear and troops while clearing talent refs',
+              dismissed['heroes']==[1] and dismissed['inventory']==fresh['inventory'] and
+              dismissed['soldierStock']==fresh['stock'] and
+              '2' not in dismissed['orphanSkills'] and '2' not in dismissed['orphanCredits'] and
+              dismissed['valid'],dismissed)
         ctx.close()
     browser.close()
 check('zero uncaught Chromium JavaScript errors',not errors,errors)
