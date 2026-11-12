@@ -133,13 +133,18 @@
    r.fusionOrigin||p.fusionOrigin)throw Error('Hai nguyên liệu phải là Cầu Vồng và Bạch Kim Lv100/CS5 thật.');
   if(r.id===s.castellan||p.id===s.castellan||busy(s,r.id)||busy(s,p.id))
    throw Error('Hai tướng phải ở thành, không giữ chức Castellan hoặc bị điều động.');
-  const trial=E.clone(s),winner=trial.heroes.find(h=>h.id===rainbowId),donor=trial.heroes.find(h=>h.id===platinumId);
+  const trial=E.clone(s),donor=trial.heroes.find(h=>h.id===platinumId);
   // One protected rollback boundary: existing dismissal cleans the donor's
   // equipment, army plans, Tower slots, UI state and orphan references.
   // Remove skill ledger first: the canonical dismissal validates the draft
   // against HG81 strict Save before it commits its own transactional change.
   ensure(trial);delete trial.hg81.skills[platinumId];delete trial.hg81.credits[platinumId];
   const dismissed=E.hg408DismissHero(trial,platinumId);
+  // hg408DismissHero commits a CLONED roster via Object.assign(trial,...).
+  // Re-acquire its new survivor object; mutating the old reference would
+  // silently leave a Rainbow instead of creating the intended Origin hero.
+  const winner=trial.heroes.find(h=>h.id===rainbowId);
+  if(!winner)throw Error('Tướng Cầu Vồng không còn sau bước giải phóng tướng nguyên liệu.');
   for(const key of ['atk','def','spd','int']){
    const a=Number(winner.hg18Base?.[key]||winner[key]),b=Number(donor.hg18Base?.[key]||donor[key]);
    const combined=Math.round((a+b)*.90);
