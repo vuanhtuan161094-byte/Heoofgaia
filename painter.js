@@ -132,7 +132,14 @@ function drawMapLandmark(c,key,x,y,q,sizeFactor=1){
 }
 const M={centerX:9.5,centerY:7.4,zoom:1.3};
 function mapCamera(){return M}
-function mapProjection(canvas){const scale=clamp(M.zoom,.65,2.05)*48;return {scale,offX:canvas.width/2-M.centerX*scale,offY:canvas.height/2-M.centerY*scale}}
+function mapProjection(canvas){
+ // The world camera is anchored in CSS-sized squares even on high-DPI phones.
+ // One source of truth for visual world coordinates and tap hit-testing.
+ const rect=typeof canvas.getBoundingClientRect==='function'?canvas.getBoundingClientRect():null;
+ const density=rect?.width>0?clamp(canvas.width/rect.width,1,2):1;
+ const scale=clamp(M.zoom,.65,2.05)*48*density;
+ return {scale,offX:canvas.width/2-M.centerX*scale,offY:canvas.height/2-M.centerY*scale}
+}
 function miniBounds(canvas){
  // On phone Chrome the address bar may leave only 176 CSS px for the map.
  // Preserve minimap hit testing, but reclaim enough space to see the units.
@@ -156,6 +163,45 @@ function miniHit(canvas,x,y,E){const m=miniBounds(canvas),pad=9;if(x<m.x+pad||x>
  const tx=Math.floor((x-m.x-pad)/(m.w-2*pad)*E.WIDTH),ty=Math.floor((y-m.y-pad)/(m.h-2*pad)*E.HEIGHT);
  return E.getTile(`${tx},${ty}`)||null;
 }
+// HG79: world navigation uses FOUR-neighbour square cells, not the
+// unrelated battle hex rules. Draw cell boundaries without changing paths.
+const HG79_BIOMES={
+ plain:['#8baa6621','#e0e9bb74'],road:['#9f907135','#f0ddad88'],
+ bridge:['#b5a27842','#fff0bd99'],forest:['#2a68472c','#a9c99470'],
+ hill:['#697f7740','#e7e6cd73'],water:['#3c94a64a','#b4edef8b']
+};
+function hg79WorldGridBounds(E,q,ox,oy,w,h){
+ return {x0:clamp(Math.floor(-ox/q)-1,0,E.WIDTH-1),x1:clamp(Math.ceil((w-ox)/q)+1,0,E.WIDTH-1),
+  y0:clamp(Math.floor(-oy/q)-1,0,E.HEIGHT-1),y1:clamp(Math.ceil((h-oy)/q)+1,0,E.HEIGHT-1)};
+}
+function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
+ const bounds=hg79WorldGridBounds(E,q,ox,oy,w,h),crisp=clamp(q*.020,1,1.6),inset=crisp/2;
+ c.save();c.lineJoin='miter';c.lineWidth=crisp;
+ for(let y=bounds.y0;y<=bounds.y1;y++)for(let x=bounds.x0;x<=bounds.x1;x++){
+  const tile=E.getTile(x+','+y);if(!tile)continue;
+  const colors=HG79_BIOMES[tile.terrain]||HG79_BIOMES.plain,px=x*q,py=y*q;
+  if(phase==='base'){c.fillStyle=colors[0];c.fillRect(px+inset,py+inset,q-crisp,q-crisp)}
+  else{
+   c.strokeStyle=colors[1];c.strokeRect(px+inset,py+inset,q-crisp,q-crisp);
+   if(q>=66&&x%5===0&&y%5===0){
+    c.font='600 '+Math.min(10,q*.13)+'px system-ui';c.textAlign='left';c.fillStyle='#fff2ca99';c.fillText(x+','+y,px+5,py+12);
+   }
+  }
+ }
+ if(phase==='lines'&&selected){
+  const t=E.getTile(selected);
+  if(t&&t.x>=bounds.x0&&t.x<=bounds.x1&&t.y>=bounds.y0&&t.y<=bounds.y1){
+   const x=t.x*q,y=t.y*q,edge=Math.min(14,q*.23);
+   c.fillStyle='#ffe5a92c';c.fillRect(x+2,y+2,q-4,q-4);
+   c.strokeStyle='#fff4c6';c.lineWidth=Math.max(2,crisp*1.5);c.strokeRect(x+2,y+2,q-4,q-4);
+   c.beginPath();c.moveTo(x+2,y+edge);c.lineTo(x+2,y+2);c.lineTo(x+edge,y+2);
+   c.moveTo(x+q-edge,y+2);c.lineTo(x+q-2,y+2);c.lineTo(x+q-2,y+edge);
+   c.moveTo(x+q-2,y+q-edge);c.lineTo(x+q-2,y+q-2);c.lineTo(x+q-edge,y+q-2);
+   c.moveTo(x+edge,y+q-2);c.lineTo(x+2,y+q-2);c.lineTo(x+2,y+q-edge);c.stroke();
+  }
+ }
+ c.restore();
+}
 function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getContext('2d');const w=canvas.width,h=canvas.height;
  const {scale:q,offX:ox,offY:oy}=mapProjection(canvas);
  const grd=c.createLinearGradient(0,0,w,h);grd.addColorStop(0,'#213f35');grd.addColorStop(.5,'#446a50');grd.addColorStop(1,'#304338');c.fillStyle=grd;c.fillRect(0,0,w,h);
@@ -173,6 +219,7 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
  c.lineJoin='round';c.lineCap='round';c.beginPath();
  for(let y=-1;y<=E.HEIGHT+1;y+=.18){let xx=riverX(y),yy=(y+.5)*q;if(y===-1)c.moveTo(xx,yy);else c.lineTo(xx,yy)}
  c.strokeStyle='#234c61';c.lineWidth=q*1.24;c.stroke();c.strokeStyle='#36818b';c.lineWidth=q*1.03;c.stroke();c.strokeStyle='#70afb15c';c.lineWidth=q*.45;c.stroke();
+ hg79WorldGrid(c,E,q,ox,oy,w,h,'base',selected);
  for(const t of E.TILES){const x=t.x*q,y=t.y*q;if(!inside(x+ox,y+oy))continue;
   let colors={forest:['#29543c','#385e3e'],hill:['#566c57','#687760'],water:['#327588','#2d8c92'],bridge:['#8c8b69','#a59d70'],road:['#537050','#657b58'],plain:['#476b4b','#4d754f']}[t.terrain];
   if(t.terrain!=='plain'&&t.terrain!=='road'&&t.terrain!=='water'&&t.terrain!=='bridge'){const g=c.createRadialGradient(x+q*.5,y+q*.5,q*.08,x+q*.5,y+q*.5,q*1.12);g.addColorStop(0,colors[0]);g.addColorStop(.52,colors[1]);g.addColorStop(1,'#4e715000');c.fillStyle=g;c.fillRect(x-q*.62,y-q*.62,q*2.24,q*2.24);}
@@ -185,6 +232,7 @@ function drawWorld(canvas,E,s,selected){if(!canvas)return;const c=canvas.getCont
  }
  // original road network leads from the capital to landmark targets
  c.save();c.strokeStyle='#aa926372';c.lineWidth=q*.13;c.lineCap='round';c.lineJoin='round';c.beginPath();[[3.5,4.5],[5.4,4.7],[7.6,4.4],[10.4,5.7],[14.3,7.1],[17.8,7.5],[20.1,8.6],[23.8,11]].forEach(([x,y],i)=>i?c.lineTo(x*q,y*q):c.moveTo(x*q,y*q));c.stroke();c.restore();
+ hg79WorldGrid(c,E,q,ox,oy,w,h,'lines',selected);
  const creatureAtlas=typeof document!=='undefined'?document.getElementById('hg28-world-creatures'):null;
  for(const t of E.TILES){if(t.kind==='empty')continue;const x=(t.x+.5)*q,y=(t.y+.54)*q;if(!inside(x+ox,y+oy))continue;
   let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):s.cleared.includes(t.key));
@@ -1646,5 +1694,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,hg79WorldGridBounds,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
