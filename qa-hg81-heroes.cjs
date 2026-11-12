@@ -105,7 +105,18 @@ test('One-click unequip/army removal keeps exact item UIDs, stock and v07',()=>{
  assert.equal(Object.keys(s.equipment[2]).length,0);
  assert.equal(E.hg20HeroPlan(s,2).length,0);
  assert(E.strictSave(s));
- return {uid:gear.uid,returnedGear:r.gear,freedArmy:r.troops};
+ // After demobilization, even a hero WITH spent talent credits must be
+ // removable via the real canonical dismissal; the HG81 ledger cannot orphan.
+ s.hg81.credits[2]=1;
+ E.hg81SkillUp(s,2,'infantry');
+ assert.equal(E.hg81SkillStatus(s,2).used,1);
+ const dismissed=E.hg408DismissHero(s,2);
+ assert.equal(dismissed.heroId,2);assert(!s.heroes.some(h=>h.id===2));
+ assert(!Object.prototype.hasOwnProperty.call(s.hg81.credits,'2'));
+ assert(!Object.prototype.hasOwnProperty.call(s.hg81.skills,'2'));
+ assert.equal(JSON.stringify(s.inventory),state);assert.equal(JSON.stringify(s.army),army);
+ save(s);
+ return {uid:gear.uid,returnedGear:r.gear,freedArmy:r.troops,heroDismissed:2};
 });
 test('Fusion fails without both true level-100 CS5 rarities without mutating state',()=>{
  const s=create();addHero(s,2);const before=JSON.stringify(s);
