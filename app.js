@@ -1144,14 +1144,36 @@ function hg46GearView(h){
   '</div>';
 }
 
+function hg81SkillView(h,available){
+ const tree=E.hg81SkillStatus(state,h.id),xp=E.hg81XpStatus(state),fusion=E.hg81FusionStatus(state);
+ const nodes=tree.nodes.map(n=>`<div class="hg81-node">
+  <strong>${n.icon} ${esc(n.name)}</strong><span class="tag">${esc(n.type)}</span>
+  <div class="hg81-ranks">${Array.from({length:5},(_,i)=>`<span class="${i<n.level?'filled':''}">◆</span>`).join('')}</div>
+  <small>${esc(n.description)}</small>
+  ${button('hg81-skill-up',{id:h.id,skill:n.id},'Nâng cấp '+n.level+'/5',!tree.available||n.level>=5||!available,'small primary')}
+ </div>`).join('');
+ return `<section class="hg81-card"><div class="hg81-head"><h3>🌳 Cây kỹ năng anh hùng</h3><b>Điểm: ${tree.available}/${tree.earned}</b></div>
+  <p class="tiny muted">1 điểm mỗi 5 cấp, thêm 2 điểm/chuyển sinh. Kỹ năng tăng sát thương theo binh chủng; SPD vẫn chỉ tác dụng trên bản đồ.</p><div class="hg81-skill-grid">${nodes}</div></section>
+  <section class="hg81-card"><h3>✧ Thẻ EXP ×2</h3>
+   <p>Thẻ: <b>${xp.cards}</b> · lượt thưởng đang hiệu lực: <b>${xp.activeUses}/${xp.uses}</b></p>
+   <div class="actions">${button('hg81-buy-card',{},'Mua thẻ ×2 · '+format(xp.price)+' vàng',!xp.canBuy,'small secondary')}
+   ${button('hg81-use-card',{},'Kích hoạt ×2 cho '+xp.uses+' lần',!xp.canActivate,'small primary')}</div>
+   <small>Chỉ trừ lượt thẻ khi nhận được EXP từ chiến thắng quái hoặc Tháp.</small></section>
+  <section class="hg81-card hg81-fusion"><h3>✹ Hợp thể Thần Khởi Nguyên</h3>
+   <p>Cần 1 Cầu Vồng và 1 Bạch Kim cùng Lv100, chuyển sinh 5/5, đều ở thành. Tướng Bạch Kim sẽ được tiêu hao; mọi trang bị giữ nguyên trong kho và quân không mất.</p>
+   <small>Đạt chuẩn: ${fusion.candidates.rainbow} Cầu Vồng · ${fusion.candidates.platinum} Bạch Kim</small>
+   <div class="actions">${button('hg81-fuse',{rainbow:fusion.rainbow||0,platinum:fusion.platinum||0},'✹ Hợp thể Thần Khởi Nguyên',!fusion.allowed,'primary')}</div>
+   <small>Tướng hợp thể độc quyền không xuất hiện trong Tavern. Chỉ số +75%, sát thương +23%, giảm sát thương +23% (trước giới hạn cộng dồn).</small></section>`;
+}
+
 function hg408HeroesView(){
- const validTabs=[['overview','♛ Tổng quan'],['stats','📈 Thuộc tính'],['gear','🛡 Trang bị'],['ascend','✦ Nâng bậc'],['tavern','🍺 Tavern']];
+ const validTabs=[['overview','♛ Tổng quan'],['stats','📈 Thuộc tính'],['gear','🛡 Trang bị'],['skills','🌳 Kỹ năng'],['ascend','✦ Nâng bậc'],['tavern','🍺 Tavern']];
  if(!validTabs.some(q=>q[0]===hg408Tab))hg408Tab='overview';
  let h=state.heroes.find(x=>x.id===hg408InspectId);
  if(!h){h=state.heroes.find(x=>x.id===state.activeHero)||state.heroes[0];hg408InspectId=h.id;}
  const qual=q=>E.hg408HeroQuality(q);
  const tier=q=>E.hg408HeroQualityInfo(q);
- const qualityGlyph=q=>({white:'♜',blue:'♞',yellow:'♛',green:'✣',purple:'✦',platinum:'✧',rainbow:'✺'})[qual(q)]||'♜';
+ const qualityGlyph=q=>({white:'♜',blue:'♞',yellow:'♛',green:'✣',purple:'✦',platinum:'✧',rainbow:'✺',origin:'✹'})[qual(q)]||'♜';
  const chances=E.heroQualityChances(state.buildings.tavern||1);
  const total=q=>E.heroInnateTotal(q);
  const rankEmblem=x=>['','◆','✦','❖','✺','♛'][Math.max(1,Math.min(5,x||1))];
@@ -1185,6 +1207,9 @@ function hg408HeroesView(){
     ${button('hero',{id:h.id},h.id===state.activeHero?'✓ Đang chỉ huy':'♛ Chọn chỉ huy',h.id===state.activeHero||h.id===state.castellan||!available,'small primary')}
     ${button('castellan',{id:h.id},h.id===state.castellan?'Bỏ Castellan':'🏰 Bổ nhiệm',!available,'small secondary')}
     ${button('recall',{id:h.id},'↩ Gọi về',!state.stationedHeroes?.some(q=>q.heroId===h.id)||!!state.march||!!state.battle||!!state.expedition,'small secondary')}
+    ${button('hg81-strip',{id:h.id,mode:'gear'},'⤓ Tháo đồ nhanh',!available,'small secondary')}
+    ${button('hg81-strip',{id:h.id,mode:'army'},'↙ Thu quân nhanh',!available,'small secondary')}
+    ${button('hg81-strip',{id:h.id,mode:'all'},'🧹 Dọn để sa thải',!available,'small secondary')}
     ${button('hg408-dismiss-review',{id:h.id},'✕ Sa thải',false,'small danger')}
    </div>`;
  let page='';
@@ -1197,6 +1222,8 @@ function hg408HeroesView(){
     <details class="hg408-more"><summary>Công thức và nguồn EXP</summary><p>Hero Tower Lv${E.heroTowerExperienceBonus(state)} tăng EXP cơ sở ${E.heroTowerExperienceBonus(state)}%; các nhiệm vụ và quái cấp cao vẫn sử dụng engine HG08/HG18.2. Chỉ số phân phối không thay đổi phẩm chất.</p></details>`;
  }else if(hg408Tab==='gear'){
    page=hg46GearView(h);
+ }else if(hg408Tab==='skills'){
+   page=hg81SkillView(h,available);
  }else if(hg408Tab==='ascend'){
    const mat=state.hg18.materials,spent=Object.values(h.spentAttributePoints||{}).reduce((a,b)=>a+b,0);
    page=`<div class="hg408-ascend-grid"><div><span>🔱 BẬC HIỆN TẠI</span><strong>${rankEmblem(rank)} ${rank}/5</strong><small>Mỗi bậc +2% chỉ số</small>${button('hg18-rank',{id:h.id},'Nâng bậc',!available||!mat.rank_emblem||rank>=5||h.level<rank*20,'small primary')}<small>Yêu cầu: Lv${rank*20} · ${mat.rank_emblem} Ấn còn lại</small></div>
@@ -1275,10 +1302,11 @@ function hg30QuestView(){
    ...Object.entries(r.tokens).map(([key,n])=>`<span class="${state.hg27[key]>=n?'has':'missing'}">${E.HG27_TOKENS[key].icon} ${esc(E.HG27_TOKENS[key].name)} <b>${format(state.hg27[key])}/${n}</b></span>`)].join('');
   const unmet=id==='sovereign'&&q.stage<3?`<p class="tiny muted">Sau khi mở Chiến Vệ: cần thêm ${r.needsBoss} Boss T11+ và ${r.needsTower} tầng Tháp có thưởng.</p>`:'';
   return `<div class="hg30-recipe" data-hg30-recipe="${id}">
-   <div class="hg30-unit-line"><div>${A?.unitHTML(r.fromUnit,54)||'⚔'}<small>${esc(source?.name||r.fromUnit)} ×${r.fromCount}</small></div><span class="hg30-arrow">➜</span><div>${A?.unitHTML(r.toUnit,62)||icons[id]}<b>${esc(unit?.name||r.toName)}</b><small>Bậc ${unit?.tier||'-'} · ATK ${unit?.atk||0} · DEF ${unit?.def||0}</small></div></div>
+   <div class="hg30-unit-line"><div>${A?.unitHTML(r.fromUnit,54)||'⚔'}<small>${esc(source?.name||r.fromUnit)} ×${r.fromCount}/mẻ</small></div><span class="hg30-arrow">➜</span><div>${A?.unitHTML(r.toUnit,62)||icons[id]}<b>${esc(unit?.name||r.toName)}</b><small>+${r.toCount}/mẻ · Bậc ${unit?.tier||'-'} · ATK ${unit?.atk||0} · DEF ${unit?.def||0}</small></div></div>
    <h3>${esc(r.title)}</h3><p class="tiny muted">Quân rảnh ${format(r.free)}/${r.fromCount} · Vàng ${format(state.res.gold)}/${format(r.gold)} · Vượt Tháp tầng ${r.minFloor-1}</p>
    <div class="hg30-costs">${wallet}</div>${unmet}
-   ${button('hg30-convert',{id},r.canConvert?'⚔ Chuyển hóa 1 quân':!r.story?'🔒 Chưa mở nhiệm vụ':'Thiếu nguyên liệu / quân',!r.canConvert,'primary')}
+   ${button('hg30-convert',{id,batches:1},r.canConvert?'⚔ Đổi '+r.toCount+' quân xịn':!r.story?'🔒 Chưa mở nhiệm vụ':'Thiếu nguyên liệu / quân',!r.canConvert,'primary')}
+    ${button('hg30-convert',{id,batches:r.maxBatches},'⚡ Đổi tối đa '+format(r.maxBatches*r.toCount)+' quân ('+r.maxBatches+' mẻ)',!r.canConvert||r.maxBatches<2,'small secondary')}
   </div>`;
  };
  const trial=q.steps[0];
