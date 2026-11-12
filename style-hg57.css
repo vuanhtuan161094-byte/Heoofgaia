@@ -416,3 +416,32 @@ body.hg39-world-map-mode #main>.map-frame{
   overflow-x:auto!important;overflow-y:hidden!important;scrollbar-width:thin;touch-action:pan-x}
  .hg408-roster-card{flex:0 0 115px!important;min-width:115px!important;max-height:72px!important}
 }
+
+/* HG82 city hero ownership + fast demobilization + one-click troop MAX. */
+.hg82-empty-city{overflow-y:auto;min-height:260px}
+.hg82-empty{padding:16px;border:1px solid #668aa1;border-radius:10px;background:#20334acc;display:grid;gap:10px}
+.hg82-empty h3{color:#fee1a0;margin:0}.hg82-empty p{margin:0;line-height:1.5}
+.hg82-empty .hg408-offers{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
+.hg82-transfer{display:grid;gap:7px;padding:11px;margin:10px 0;border:1px solid #7d9fbd91;
+ border-radius:9px;background:linear-gradient(135deg,#273e52bf,#223341f0)}
+.hg82-transfer>b{color:#ffe8b0}
+.hg82-transfer-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.hg82-transfer-actions select{flex:1 1 150px;min-width:0;min-height:36px;color:#f6efdf;background:#1a3445;
+ border-radius:6px;border:1px solid #77909f;padding:7px}
+.hg82-transfer-actions button{flex:1 1 140px;min-height:38px}
+.hg82-retirement-hint{margin-top:8px;color:#efd2a0;font-size:11px;line-height:1.5;
+ border-left:3px solid #e4b379aa;background:#273c48c9;padding:8px}
+.hg39-dispatch-count{display:flex;flex-wrap:wrap;justify-content:flex-end;align-items:center;gap:3px}
+.hg39-dispatch-count button{min-width:30px;min-height:36px;padding:4px 6px!important}
+.hg39-dispatch-count button.hg82-max{min-width:48px;background:linear-gradient(140deg,#a9d7df,#a1baf0);
+ color:#1d3551;font-weight:800;border-color:#d1e5ff}
+.hg39-dispatch-count input{min-width:56px;max-width:92px;width:70px!important;min-height:36px;text-align:center}
+.hg39-dispatch-add button,.hg39-dispatch footer button{min-height:38px}
+@media(max-width:650px){
+ .hg82-transfer{padding:8px}
+ .hg39-dispatch-row{align-items:flex-start;flex-wrap:wrap}
+ .hg39-dispatch-count{width:100%;justify-content:flex-start}
+ .hg39-dispatch-count input{flex:1 1 65px;max-width:105px}
+ .hg39-dispatch footer{display:flex;flex-wrap:wrap;gap:5px}
+ .hg39-dispatch footer button{flex:1 1 125px}
+}
