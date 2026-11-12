@@ -22,11 +22,11 @@ const battleHex=Object.freeze({
  pixelToCell(px,py,radius,origin,grid=BATTLE_GRID){if(!(radius>0)||!Number.isFinite(px)||!Number.isFinite(py))return null;const dx=px-origin.x,dy=py-origin.y,q=(Math.sqrt(3)/3*dx-dy/3)/radius,r=(2/3*dy)/radius,a=this.cubeRound(q,r),cell=this.axialToOffset(a.q,a.r);return this.inBounds(cell.x,cell.y,grid)?cell:null}
 });
 // Simulated offline defaults: historical formation/range values are not verified.
-// HG41: melee 1, normal ranged 4, elite ranged 5 hexes on 12x9.
-const TACTICAL_RANGE=Object.freeze({melee:1,ranged:4,eliteRanged:5});
-// HG75 weapon range: shorter throws and support spells than dedicated bows.
+// HG78: melee 1, normal ranged 5, elite ranged 6 hexes on 12x9.
+const TACTICAL_RANGE=Object.freeze({melee:1,ranged:5,eliteRanged:6});
+// HG78 weapon range: advanced bows 5-6, support spells 4, Cyclops 5.
  // These are explicit game-balance rules, not verified 2009 server values.
- const TACTICAL_WEAPON_RANGE=Object.freeze({human_6:3,human_8:3,orc_3:3,orc_8:4});
+ const TACTICAL_WEAPON_RANGE=Object.freeze({human_6:4,human_8:4,orc_3:4,orc_8:5});
  function unitTacticalRange(unit){
   if(unit?.type!=='Ranged')return TACTICAL_RANGE.melee;
   return TACTICAL_WEAPON_RANGE[unit.id]||(unit.tier>=8?TACTICAL_RANGE.eliteRanged:TACTICAL_RANGE.ranged);
@@ -44,7 +44,15 @@ const TACTICAL_RANGE=Object.freeze({melee:1,ranged:4,eliteRanged:5});
   'orc_2','orc_4','orc_6','orc_7',
   'undead_2','undead_4','undead_5','undead_7','undead_9','undead_10'
  ]);
+ // HG78: flying units cross occupied hexes but end only on free cells.
+ // Strategic SPD does not contribute to this class-based movement.
+ const TACTICAL_FLYERS=Object.freeze({
+  human_5:4,human_9:4,human_10:5,elf_5:4,elf_9:5,elf_10:6,
+  orc_6:4,orc_7:4,undead_9:5,undead_10:6
+ });
+ function isFlyingBattleActor(actor){return !!TACTICAL_FLYERS[actor?.unitId]}
  function unitTacticalMovement(unit){
+  if(TACTICAL_FLYERS[unit?.id])return TACTICAL_FLYERS[unit.id];
   // Prestige troops must not be stranded at one hex by ranged/slow labels.
   // Tier is the troop grade, NOT SPD; all four factions share these floors.
   if((unit?.tier||0)>=9)return TACTICAL_SLOW_UNITS.includes(unit.id)?2:3;
@@ -438,17 +446,17 @@ function battlePath(b,actor,destination){
 }
 function battleMovementBudget(b,actor,commitCredit=false){
  const joint=!!(b?.hg21Tower||b?.hg261Joint);
- // Class-based 1–3 hexes; HG40 movement effects are handled below.
+ // Class-based 1–6 hexes, dragons fly 5–6; HG40 statuses apply below.
   // HG76: SPD cannot modify battlefield movement, even at extreme values.
   let base=battleActorBaseMovement(actor);
  const movementModifier=root.HOG_ENGINE?.hg40MoveModifier?.(b,actor)||0;
  if(movementModifier<=-100)return 0;
- base=Math.max(1,Math.min(3,base+movementModifier));
+ base=Math.max(1,Math.min(7,base+movementModifier));
  const skill=joint?b.heroMovementInstinct?.[actor.heroId]:b?.movementInstinct;
  if(actor.side!=='player'||actor.range>1||!skill)return base;
  if(joint?b.turn>=skill.expiry:b.activeSpell?.id!==skill.id||b.turn>=b.activeSpell?.expiry)return base;
  const total=(Number.isFinite(actor.moveCredit)?actor.moveCredit:0)+base*.015*skill.level;
- const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return Math.min(3,base+bonus);
+ const bonus=Math.floor(total+1e-9);if(commitCredit)actor.moveCredit=Number((total-bonus).toFixed(8));return Math.min(7,base+bonus);
 }
 function battleMovementAllowance(b,actor){return battleMovementBudget(b,actor,true)}
 function battleMoveSteps(b,actorId){
