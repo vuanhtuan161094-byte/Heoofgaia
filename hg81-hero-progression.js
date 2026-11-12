@@ -128,6 +128,9 @@
   const trial=E.clone(s),winner=trial.heroes.find(h=>h.id===rainbowId),donor=trial.heroes.find(h=>h.id===platinumId);
   // One protected rollback boundary: existing dismissal cleans the donor's
   // equipment, army plans, Tower slots, UI state and orphan references.
+  // Remove skill ledger first: the canonical dismissal validates the draft
+  // against HG81 strict Save before it commits its own transactional change.
+  ensure(trial);delete trial.hg81.skills[platinumId];
   const dismissed=E.hg408DismissHero(trial,platinumId);
   for(const key of ['atk','def','spd','int']){
    const a=Number(winner.hg18Base?.[key]||winner[key]),b=Number(donor.hg18Base?.[key]||donor[key]);
