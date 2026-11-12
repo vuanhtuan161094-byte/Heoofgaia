@@ -1835,7 +1835,7 @@ function enhanceWorldMapLayout(){
  // landscape phones; it stays accessible in the expandable command rail.
  if(typeof matchMedia==='function'&&matchMedia('(max-width:950px) and (max-height:500px) and (orientation:landscape)').matches)
   addDetails(main.querySelector('[aria-label="Lộ trình phát triển New Game"]'),'🌱 Tân thủ');
- addDetails(main.querySelector('.quickstart-strip'),'Tác vụ nhanh');
+ addDetails(main.querySelector('.quickstart-strip'),'Tác vụ nhanh',true);
  addDetails(main.querySelector('.scene-bottom .landmarks'),'Điểm đến & tọa độ');
  addDetails(main.querySelector('.city-switcher'),'Thành trì');
  for(const [selector,label] of [['.city-transfer','Chuyển thành'],['.city-transport-ledger','Vận tải'],['.banner','Đạo quân hiện tại'],['.expedition-ledger','Các đạo quân']])addDetails(main.querySelector(selector),label);
@@ -2133,7 +2133,12 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='tab'){tab=target.dataset.tab;showWorldIndex=false;showResourceInfo=false;modalOffset=0;
   if(tab==='army'){hg43ArmyPage='recruit';hg43ArmyRace=state.race}
   focusArmyRecruitOnOpen=tab==='army';return}
- if(action==='city-switch'){E.switchCity(state,target.dataset.id);selected=E.activeCity(state).key;tab='city';return}
+ if(action==='city-switch'){
+  const c=E.switchCity(state,target.dataset.id);selected=c.key;
+  const tile=E.getTile(c.key);if(tile)Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y});
+  tab='city';hg408InspectId=E.hg82CityHeroes(state)[0]?.id||null;
+  toast('Đang quản lý '+c.name+' · '+E.hg82CityHeroes(state).length+' tướng tại thành.');return;
+ }
  if(action==='city-transport'){const cargo=Object.fromEntries(C.keys.map(k=>[k,Number($(`city-transport-${k}`)?.value||0)])),convoy=E.startCityTransport(state,target.dataset.city,$('city-transport-unit')?.value,Number($('city-transport-count')?.value),cargo);toast(`Đoàn tiếp tế đã xuất phát; sức tải ${format(convoy.weight)}/${format(convoy.capacity)}.`);return}
  if(action==='select'){selected=target.dataset.key;selectedTargetKind=target.dataset.kind==='treasure'?'treasure':null;const tile=E.getTile(selected);if(tile)Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y});return}
  if(action==='building'){selectedBuilding=target.dataset.key;return}
