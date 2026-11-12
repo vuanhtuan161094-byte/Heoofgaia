@@ -390,3 +390,17 @@ body.hg39-world-map-mode #main>.map-frame{
 .hg45-portrait-origin .hg79-halo,.hg45-portrait-origin .hg79-hero-eyes{stroke:#ebfaff!important}
 @media(max-width:650px){.hg81-card{padding:10px}.hg81-skill-grid{grid-template-columns:1fr}.hg81-node{padding:10px}.hg81-card .actions button{width:100%}}
 @media(prefers-reduced-motion:reduce){.hg45-portrait-origin *{animation:none!important}}
+
+/* HG81 layout acceptance: SIX real tabs, including specialized skill tree.
+   Override HG47 five-tab gear overrides and avoid overflow on short phones. */
+.hg408-screen .hg408-tabs,.hg408-screen:has(.hg47-ten-slots) .hg408-tabs{
+ grid-template-columns:repeat(6,minmax(0,1fr))!important;
+}
+.hg408-screen .hg408-tabs button{min-width:0;max-width:100%;font-size:clamp(8px,.85vw,11px);text-overflow:ellipsis}
+@media(max-width:950px){
+ .hg408-screen .hg408-tabs button{font-size:9px!important;padding-inline:1px!important}
+}
+@media(max-width:450px){
+ .hg408-screen .hg408-tabs{gap:1px!important;padding:2px!important}
+ .hg408-screen .hg408-tabs button{font-size:8px!important;padding:2px 0!important}
+}
