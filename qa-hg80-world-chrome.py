@@ -39,6 +39,9 @@ with sync_playwright() as pw:
           const miniAgain=P.hg80MiniTerrain(E,Math.round(P.miniBounds(canvas).w)-18,Math.round(P.miniBounds(canvas).h)-18);
           const world=P.mapCamera(),q=world.zoom*48,ox=canvas.width/2-world.centerX*q,oy=canvas.height/2-world.centerY*q;
           const cells=P.hg80VisibleTiles(E,q,ox,oy,canvas.width,canvas.height);
+          // serializeSave intentionally stamps a new exportedAt time on
+          // every call. Compare canonical gameplay state independently.
+          const stateBefore=JSON.stringify(E.clone(s));
           const before=E.serializeSave(s),start=performance.now(),times=[];
           for(let i=0;i<12;i++){
            const t=performance.now();
@@ -48,11 +51,12 @@ with sync_playwright() as pw:
           }
           const elapsed=performance.now()-start;
           const hit=P.mapHit(canvas,canvas.width/2,canvas.height/2,E);
-          const after=E.serializeSave(s);
+          const stateAfter=JSON.stringify(E.clone(s)),after=E.serializeSave(s);
           const oldState=JSON.parse(before),newState=JSON.parse(after);
           const changed=Object.keys(newState).filter(k=>JSON.stringify(oldState[k])!==JSON.stringify(newState[k]));
+          const gameplaySaved=stateBefore===stateAfter&&changed.every(k=>k==='exportedAt');
           return {valid:E.strictSave(s),save:s.version,visible:cells.length,total:E.TILES.length,
-           cached:mini===miniAgain,saved:before===after,changedKeys:changed,
+           cached:mini===miniAgain,saved:gameplaySaved,changedKeys:changed,
            changedValues:Object.fromEntries(changed.slice(0,3).map(k=>[k,{
              old:JSON.stringify(oldState[k])?.slice(0,160),current:JSON.stringify(newState[k])?.slice(0,160)
            }])),cameraHit:hit?.key||null,
