@@ -1053,8 +1053,30 @@ function animatedTroopAtlas(c,x,y,enemy,visual,k,unitId,actorName=''){
  else c.drawImage(image,frame.sx,frame.sy,frame.sw,frame.sh,-width*.5,paintedY,width,height);
  c.restore();return true;
 }
+// HG79 visual casting: real catalog action atlases replace crude NPC
+// emblems. Actor IDs, hitbox coordinates, AI, HP, rewards and v07 are untouched.
+function hg79EnemyVisualId(u){
+ if(!u||u.unitId||u.side!=='enemy')return null;
+ const name=String(u.name||'').toLocaleLowerCase();
+ if(/dã thú|wild beast|wolf|beast|dã lang/.test(name))return 'orc_4';
+ if(/cung thủ|archer|bow|xạ thủ/.test(name))return 'human_3';
+ if(/vệ binh|guard|sentinel/.test(name))return 'human_4';
+ if(/fallen treant|treant|cổ thụ|mộc nhân/.test(name))return 'elf_6';
+ if(/earth bear|bear|gấu|quái thú/.test(name))return 'orc_9';
+ if(/fiery giant|giant|khổng lồ/.test(name))return 'orc_10';
+ if(/long hoàng|dragon|rồng|long vương/.test(name))return 'undead_10';
+ if(/u minh|quỷ vương|lich|necromancer/.test(name))return 'undead_8';
+ if(/huyết nguyệt|blood moon|ma thần|demon|devil/.test(name))return 'orc_9';
+ if(/cyclop|độc nhãn/.test(name))return 'orc_8';
+ // Uncatalogued Tower phantoms receive stable but visually distinct forms.
+ const pool=['orc_5','undead_5','elf_7','human_7'];
+ const hash=Array.from(name).reduce((v,c)=>(Math.imul(v,33)+c.charCodeAt(0))>>>0,5381);
+ return pool[hash%pool.length];
+}
 function battleUnitArt(c,x,y,enemy,visual,k,u){
  if(troopAtlasDefinition(u.unitId,u.name))return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId,u.name);
+ const model=hg79EnemyVisualId(u);
+ if(model&&troopAtlasDefinition(model))return animatedTroopAtlas(c,x,y,enemy,visual,k,model,'');
  if(u.unitId==='human_4')return animatedSoldier(c,x,y,enemy,visual,k);
  if(u.unitId==='human_3')return animatedArcher(c,x,y,enemy,visual,k)||motionSprite(c,x,y,u.unitId,enemy,visual,k,u.name);
  // Catalog actors use the original HG33 atlases above. Any uncovered NPC
@@ -1559,6 +1581,14 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
    if(commanderQuality==='platinum'||commanderQuality==='rainbow')
     hg451RarityAura(c,x,y,k,commanderQuality,elapsed);
   }
+  // Elite enemy aura is a modest ground-ring, not an additional fake sprite.
+  if(u.side==='enemy'&&(b.kind==='boss'||b.kind==='tower'||b.level>=9)){
+   const boss=b.kind==='boss'||b.level>=11,alpha=(boss?.68:.45)*(.86+.10*Math.sin(elapsed/520+u.x));
+   c.save();c.globalAlpha=alpha;c.strokeStyle=boss?'#dfa0f8':'#f2ce8a';c.lineWidth=boss?2:1.3;
+   c.beginPath();c.ellipse(x,y+1,clamp(21*k,13,35),clamp(8*k,4,12),0,0,TAU);c.stroke();
+   if(boss){c.beginPath();c.ellipse(x,y+1,clamp(15*k,9,25),clamp(6*k,3,9),0,0,TAU);c.stroke()}
+   c.restore();
+  }
   // Shared character foot pivot and compact, legible unit labels.
   c.save();c.fillStyle='#071a1a4d';c.beginPath();c.ellipse(x,y+2,32*k,9*k,0,0,TAU);c.fill();c.restore();
  const atlasBacked=!!troopAtlasDefinition(u.unitId,u.name),illustrated=visual?battleUnitArt(c,x,y,u.side==='enemy',visual,k,u):false;
@@ -1568,7 +1598,8 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
   const pose=motionPose(visual?.action||'idle',visual?.time||0,visual?.duration);
   c.save();c.translate(x,y);c.translate(pose.dx,pose.dy);
   c.rotate(pose.angle*.35);
-  soldier(c,0,0,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,u.unitId,u.name);
+  // While a real atlas decodes, show the matching catalog silhouette.
+  soldier(c,0,0,k,u.side==='enemy'?'#b9858c':'#c9c9b5',u.side==='enemy',u.range>1,hg79EnemyVisualId(u)||u.unitId,u.name);
   c.restore();
  }
   // HG73: genuine equipped Legendary+ items gain a small crystalline
@@ -1694,5 +1725,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,hg79WorldGridBounds,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,hg79WorldGridBounds,hg79EnemyVisualId,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
