@@ -159,6 +159,21 @@ with sync_playwright() as pw:
   # mutating the authoritative battle state or its existing Save v07.
   before_path=EVIDENCE/'before'/f'{width}x{height}'/'15-boss-battle.png'
   before_path.parent.mkdir(parents=True,exist_ok=True)
+  # HG80: the combat renderer lazily decodes native HG33 atlases.
+  # Ensure the real sources have decoded BEFORE asserting their live draw
+  # calls; this preserves honest native-first-frame coverage with no fallback.
+  load=page.evaluate("""async () => {
+   const ids=['unit-hg33-human-1-atlas','hg33-atlas-azrael',
+      'hg33-atlas-demonlord-samurai','hg33-atlas-cyclop-tyrant'];
+   return Promise.all(ids.map(async id=>{
+    const image=document.getElementById(id);
+    if(!image)throw Error('Missing native atlas: '+id);
+    if(!image.hasAttribute('src'))image.src=image.dataset.hg33AtlasSrc;
+    await image.decode();
+    return {id,w:image.naturalWidth,h:image.naturalHeight};
+   }));
+  }""")
+  assert len(load)==4 and all(q['w']==1536 and q['h']==1024 for q in load),load
   before=page.evaluate("""() => {
    const ids=['hg28-boss-azrael','hg28-boss-demonlord-samurai','hg28-boss-cyclops-tyrant','hg28-battle-human-spear-militia'];
    const images=ids.map(id=>{const e=document.getElementById(id);return {id,src:e?.getAttribute('src')}});
@@ -168,7 +183,7 @@ with sync_playwright() as pw:
   page.screenshot(path=str(before_path),animations='disabled')
   before_draw=page.evaluate("""() => {
    const c=document.querySelector('#battle-canvas'),ctx=c.getContext('2d'),calls=[],original=ctx.drawImage;
-   ctx.drawImage=function(image,...args){if(image?.id?.startsWith('hg28-boss-')||image?.id?.startsWith('hg28-battle-')||image?.id?.startsWith('unit-hg33-')||image?.id?.startsWith('hg33-atlas-'))calls.push(image.id);return original.call(this,image,...args)};
+   ctx.drawImage=function(image,...args){const native=image?.dataset?.hg74SourceId||image?.id||'';if(native.startsWith('hg28-boss-')||native.startsWith('hg28-battle-')||native.startsWith('unit-hg33-')||native.startsWith('hg33-atlas-'))calls.push(native);return original.call(this,image,...args)};
    try{return {calls:(HOG_PAINTER.drawBattle(c,HOG_ENGINE,HOG_APP_DEBUG.getState(),performance.now(),{showGrid:false}),calls),state:JSON.stringify(HOG_ENGINE.clone(HOG_APP_DEBUG.getState()))}}
    finally{ctx.drawImage=original}
   }""")
@@ -184,7 +199,7 @@ with sync_playwright() as pw:
   painted=page.evaluate("""() => {
    const E=HOG_ENGINE,P=HOG_PAINTER,s=HOG_APP_DEBUG.getState(),c=document.querySelector('#battle-canvas'),ctx=c.getContext('2d');
    const calls=[],original=ctx.drawImage,stateBefore=JSON.stringify(E.clone(s));
-   ctx.drawImage=function(image,...args){if(image?.id?.startsWith('hg28-boss-')||image?.id?.startsWith('hg28-battle-')||image?.id?.startsWith('unit-hg33-')||image?.id?.startsWith('hg33-atlas-'))calls.push(image.id);return original.call(this,image,...args)};
+   ctx.drawImage=function(image,...args){const native=image?.dataset?.hg74SourceId||image?.id||'';if(native.startsWith('hg28-boss-')||native.startsWith('hg28-battle-')||native.startsWith('unit-hg33-')||native.startsWith('hg33-atlas-'))calls.push(native);return original.call(this,image,...args)};
    try{
     P.drawBattle(c,E,s,performance.now(),{showGrid:false});const first=c.toDataURL('image/png');
     P.drawBattle(c,E,s,performance.now()+250,{showGrid:false});const second=c.toDataURL('image/png');
