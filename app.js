@@ -1181,8 +1181,16 @@ function hg81SkillView(h,available){
 function hg408HeroesView(){
  const validTabs=[['overview','♛ Tổng quan'],['stats','📈 Thuộc tính'],['gear','🛡 Trang bị'],['skills','🌳 Kỹ năng'],['ascend','✦ Nâng bậc'],['tavern','🍺 Tavern']];
  if(!validTabs.some(q=>q[0]===hg408Tab))hg408Tab='overview';
- let h=state.heroes.find(x=>x.id===hg408InspectId);
- if(!h){h=state.heroes.find(x=>x.id===state.activeHero)||state.heroes[0];hg408InspectId=h.id;}
+ const localHeroes=E.hg82CityHeroes(state),homeCity=E.activeCity(state);
+ if(!localHeroes.length){
+  const offers=(state.tavern?.offers||[]).map(o=>`<div class="hg408-offer"><b>${esc(o.name)}</b><small>${esc(E.hg408HeroQualityInfo(o).label)} · ATK ${o.atk} · DEF ${o.def}</small>
+   ${button('hirecandidate',{id:o.id},'Tuyển về '+esc(homeCity.name)+' · '+format(o.gold)+' vàng',state.heroes.length>=E.heroCountLimit(state.fame)||!E.canAfford(state,{gold:o.gold}),'small primary')}</div>`).join('');
+  return `<section class="hg408-screen hg82-empty-city"><header class="hg408-summary"><b>🏰 ${esc(homeCity.name)}</b><span>0 tướng trú quân · ${state.heroes.length}/${E.heroCountLimit(state.fame)} suất</span></header>
+   <div class="hg82-empty"><h3>Thành này chưa có tướng</h3><p>Tướng thuộc thành khác không tự chuyển đến đây. Tuyển mới tại Tavern thành này hoặc mở thành gốc và ra lệnh chuyển tướng qua bản đồ.</p>
+   <div class="hg408-offers">${offers||'<p>Tavern chưa có ứng viên, hãy xây hoặc chờ làm mới.</p>'}</div></div></section>`;
+ }
+ let h=localHeroes.find(x=>x.id===hg408InspectId);
+ if(!h){h=localHeroes.find(x=>x.id===state.activeHero)||localHeroes[0];hg408InspectId=h.id;}
  const qual=q=>E.hg408HeroQuality(q);
  const tier=q=>E.hg408HeroQualityInfo(q);
  const qualityGlyph=q=>({white:'♜',blue:'♞',yellow:'♛',green:'✣',purple:'✦',platinum:'✧',rainbow:'✺',origin:'✹'})[qual(q)]||'♜';
@@ -1195,10 +1203,10 @@ function hg408HeroesView(){
  const rank=h.heroRank||1,rebirth=h.rebirth||0,need=E.experienceToNext(h.level);
  const expMax=need===null?1:Math.max(1,need),exp=need===null?1:Math.min(expMax,h.xp);
  const cap=E.heroCountLimit(state.fame),slots=state.equipment[h.id]||{};
- const available=!state.march&&!state.battle&&!E.heroAway(state,h.id);
+ const available=!state.march&&!state.battle&&!E.heroAway(state,h.id)&&E.hg20HeroRole(state,h.id).status==='home';
  let combatPower=null;
  try{combatPower=E.hg20TowerPower(state,[h.id]).power}catch(_error){}
- const roster=state.heroes.map(q=>{
+ const roster=localHeroes.map(q=>{
    const active=q.id===h.id,ready=E.hg20HeroRole(state,q.id);
    return `<button type="button" data-action="hg408-inspect" data-id="${q.id}" class="hg408-roster-card ${active?'selected':''}" aria-pressed="${active}" title="${esc(ready.label)}">
     <span class="hg408-mini-portrait ${color(q)}" aria-hidden="true">${hg45Portrait(q)}</span><span class="hg408-roster-name"><b class="${color(q)}">${esc(q.name)}</b><small>${esc(tier(q).label)} · Σ ${format(total(q))} · Lv.${q.level}</small></span><span class="hg408-role-dot ${ready.status==='home'?'free':'busy'}" title="${esc(ready.label)}"></span>
@@ -1222,11 +1230,19 @@ function hg408HeroesView(){
     ${button('hg81-strip',{id:h.id,mode:'gear'},'⤓ Tháo đồ nhanh',!available,'small secondary')}
     ${button('hg81-strip',{id:h.id,mode:'army'},'↙ Thu quân nhanh',!available,'small secondary')}
     ${button('hg81-strip',{id:h.id,mode:'all'},'🧹 Dọn để sa thải',!available,'small secondary')}
-    ${button('hg408-dismiss-review',{id:h.id},'✕ Sa thải',false,'small danger')}
+    ${button('hg82-quick-dismiss',{id:h.id},'✕ Sa thải nhanh',state.heroes.length<=1||h.questSpecial&&h.rewardOrigin==='hero_task_20'||!!state.battle||!!state.march||!!state.expedition||E.heroAway(state,h.id),'small danger')}
+    ${button('hg408-dismiss-review',{id:h.id},'📋 Xem điều kiện',false,'small secondary')}
    </div>`;
+ const destinations=state.cities.filter(c=>c.id!==h.cityId);
+ const transferPanel=destinations.length?`<section class="hg82-transfer">
+  <b>🏰 Thành trú quân: ${esc(homeCity.name)}</b>
+  <div class="hg82-transfer-actions"><select id="hg82-destination" aria-label="Chọn thành để điều tướng">${destinations.map(c=>`<option value="${esc(c.id)}">${esc(c.name)} · ${esc(C.races[c.race].name)}</option>`).join('')}</select>
+  ${button('hg82-transfer',{id:h.id},'🚩 Điều tướng sang thành',!available||h.id===state.castellan||state.dailyTaskState?.heroTask?.active?.heroId===h.id,'small secondary')}</div>
+  <small>Di chuyển mất thời gian theo SPD bản đồ; không tự chuyển quân, trang bị vẫn theo tướng.</small></section>`:'';
  let page='';
  if(hg408Tab==='overview'){
-   page=`<div class="hg45-stat-heading">Chỉ số chiến đấu thực · bao gồm hiệu ứng phẩm chất</div>`+statsGrid+actions+`<div class="hg408-note">Sức chỉ huy ${format(E.heroLimit(h.level,h))} điểm · ${role.status==='home'?'Có mặt ở thành':'Đang thực hiện nhiệm vụ'} · ${Object.keys(slots).length}/10 ô trang bị</div>
+   page=`<div class="hg45-stat-heading">Chỉ số chiến đấu thực · bao gồm hiệu ứng phẩm chất</div>`+statsGrid+actions+`<div class="hg408-note">Sức chỉ huy ${format(E.heroLimit(h.level,h))} điểm · ${role.status==='home'?'Có mặt ở thành':'Đang thực hiện nhiệm vụ'} · ${Object.keys(slots).length}/10 ô trang bị</div>${transferPanel}
+     <div class="hg82-retirement-hint">${check.allowed?'✓ Đã đủ điều kiện sa thải.':'ⓘ Điều kiện sa thải: '+check.reasons.map(x=>esc(x)).join(' · ')}</div>
      <details class="hg408-more"><summary>Chỉ số và tác động thực tế</summary><p>Chỉ số chiến đấu gồm thưởng trang bị và nâng bậc; sức mạnh đội hình chỉ hiển thị khi đã bố trí quân thật. Tướng đang giữ chức Castellan không thể đi chiến đấu.</p></details>`;
  }else if(hg408Tab==='stats'){
    page=statsGrid+`<div class="hg408-note">Điểm thuộc tính còn lại: <b>${h.statPoints||0}</b> · EXP từ chiến đấu, nhiệm vụ và huấn luyện</div>
@@ -1261,9 +1277,9 @@ function hg408HeroesView(){
     ${hg408DismissStage===1?button('hg408-dismiss-next',{id:h.id},'Bước 2: Xác nhận',!check.allowed,'small danger'):button('hg408-dismiss-apply',{id:h.id},'Xác nhận sa thải',!check.allowed,'small danger')}</div></section>`;
  }
  return `<section class="hg408-screen" aria-label="HG40.8 quản lý tướng thật">
- <header class="hg408-summary"><b>♛ QUẢN LÝ TƯỚNG</b><span>${state.heroes.length}/${cap} suất theo danh vọng</span><span>${state.heroes.filter(q=>E.hg20HeroRole(state,q.id).status!=='home').length} tướng đang bận</span></header>
+ <header class="hg408-summary"><b>♛ ${esc(homeCity.name)}</b><span>${localHeroes.length} tướng trú quân · ${state.heroes.length}/${cap} toàn tài khoản</span><span>${localHeroes.filter(q=>E.hg20HeroRole(state,q.id).status!=='home').length} tướng đang bận tại thành</span></header>
  <div class="hg408-layout">
-  <aside class="hg408-roster"><div class="hg408-roster-head">DANH SÁCH <span>${state.heroes.length}</span></div><div class="hg408-roster-scroll">${roster}</div>${qualityLegend}</aside>
+  <aside class="hg408-roster"><div class="hg408-roster-head">TƯỚNG CỦA THÀNH <span>${localHeroes.length}</span></div><div class="hg408-roster-scroll">${roster}</div>${qualityLegend}</aside>
   <section class="hg408-profile">${identity}<nav class="hg408-tabs" aria-label="Chức năng tướng">${validTabs.map(([id,label])=>`<button type="button" data-action="hg408-tab" data-id="${id}" class="${hg408Tab===id?'active':''}" aria-pressed="${hg408Tab===id}">${label}</button>`).join('')}</nav>
   <div class="hg408-panel">${page}</div></section>
  </div></section>`;
