@@ -74,11 +74,11 @@ test('Tower floor 10 and 91 both use one genuine 3x2 battlefield and boss row an
  }
  return output;
 });
-test('Melee is 1 hex and ranged 4/5 hexes; no first-frame cross-map arrows',()=>{
- assert.deepEqual([E.TACTICAL_RANGE.melee,E.TACTICAL_RANGE.ranged,E.TACTICAL_RANGE.eliteRanged],[1,4,5]);
+test('Melee is 1 hex and ranged 5/6 hexes; no first-frame cross-map arrows',()=>{
+ assert.deepEqual([E.TACTICAL_RANGE.melee,E.TACTICAL_RANGE.ranged,E.TACTICAL_RANGE.eliteRanged],[1,5,6]);
  const s=game(),b=E.makeBattle(s,tile(5).key);
  for(const u of b.allies)for(const e of b.enemies)assert(E.battleHex.distance(u,e)>5);
- for(const u of E.C.units.human)assert.equal(E.unitTacticalRange(u),u.type==='Ranged'?([6,8].includes(u.tier)?3:u.tier>=8?5:4):1);
+ for(const u of E.C.units.human)assert.equal(E.unitTacticalRange(u),u.type==='Ranged'?([6,8].includes(u.tier)?4:u.tier>=8?6:5):1);
  return {range:E.TACTICAL_RANGE,firstFrameDistance:E.battleHex.distance(b.allies[0],b.enemies[0])};
 });
 test('Actual five rebirth operations double command exactly at each Lv100 -> Lv1 reset',()=>{
