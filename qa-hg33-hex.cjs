@@ -28,10 +28,10 @@ for(let y=0;y<G.rows;y++)for(let x=0;x<G.cols;x++)for(let yy=0;yy<G.rows;yy++)fo
  if(hex<=E.TACTICAL_RANGE.ranged)newReach.ranged++;if(hex<=E.TACTICAL_RANGE.eliteRanged)newReach.eliteRanged++;
 }
 assert.deepEqual(oldReach,{ranged:10344,eliteRanged:10824});
-assert.deepEqual({...E.TACTICAL_RANGE},{melee:1,ranged:4,eliteRanged:5});
+assert.deepEqual({...E.TACTICAL_RANGE},{melee:1,ranged:5,eliteRanged:6});
 assert(newReach.ranged>0&&newReach.eliteRanged>newReach.ranged);
 assert(newReach.ranged<oldReach.ranged&&newReach.eliteRanged<oldReach.eliteRanged);
-pass("HG41: shorter 4/5-cell ranged reach is genuinely narrower than obsolete 9/10; Save v07 geometry unchanged");
+pass("HG78: bounded 5/6-cell ranged reach stays narrower than obsolete near-global reach; Save v07 geometry unchanged");
 
 for(const dims of [{width:1176,height:550},{width:930,height:320},{width:1250,height:500}]){
  const cam=P.battleProjection(dims,E),cells=P.battleGridCells(cam),bounds={l:Infinity,t:Infinity,r:-Infinity,b:-Infinity};
