@@ -108,10 +108,12 @@ const HERO_QUALITY_V2=Object.freeze([
 ]);
 const HERO_QUALITY_BY_ID=Object.fromEntries(HERO_QUALITY_V2.map(t=>[t.id,t]));
 const HERO_QUALITY_CHANCES=Object.freeze({
- early:Object.freeze([80,20,0,0,0,0,0]),
- middle:Object.freeze([45,35,15,5,0,0,0]),
- upper:Object.freeze([15,30,25,15,13,1,1]),
- master:Object.freeze([8,18,20,18,34,1,1])
+ // HG81 intentional offline fantasy balance: each offer has 10% platinum
+ // and 10% rainbow independently; the fused Origin never rolls in Tavern.
+ early:Object.freeze([40,20,10,10,0,10,10]),
+ middle:Object.freeze([24,18,15,13,10,10,10]),
+ upper:Object.freeze([12,16,17,15,20,10,10]),
+ master:Object.freeze([7,12,14,15,32,10,10])
 });
 function qualityChances(level){
  return level>=10?HERO_QUALITY_CHANCES.master:level>=6?HERO_QUALITY_CHANCES.upper:
@@ -453,9 +455,9 @@ function recallHero(s,heroId){
 function battleAct(s,action,options){
  ensure(s);const b=s.battle,exp=s.expedition,hero=s.heroes.find(h=>h.id===(exp?.heroId||s.activeHero)),snapshot=hero?{level:hero.level,xp:hero.xp,atk:hero.atk,def:hero.def}:null;
  if(exp)s.activeHero=exp.heroId;
- const reward=b?battleExperienceReward(b):{star:1,baseXp:0,source:'SIM'};if(hero)hero.xp=0;
+ const reward=b?E.battleExperienceReward(b):{star:1,baseXp:0,source:'SIM'};if(hero)hero.xp=0;
  let result;try{result=prior.battleAct(s,action,options)}finally{if(hero&&snapshot)Object.assign(hero,snapshot)}
- if(result?.type==='win'&&hero){const label=b?.kind==='treasure'?`kho báu cấp ${reward.star}`:`${reward.star}★`,gained=grantHeroExperience(s,hero.id,reward.baseXp,`thắng trận ${label}`),shown=gained.gained.toLocaleString('vi-VN',{maximumFractionDigits:6});E.note(s,`${hero.name} nhận ${shown} EXP sau chiến thắng ${label} (${reward.source}).`)}
+ if(result?.type==='win'&&hero){const label=b?.kind==='treasure'?`kho báu cấp ${reward.star}`:`${reward.star}★`,gained=E.grantHeroExperience(s,hero.id,reward.baseXp,`thắng trận ${label}`),shown=gained.gained.toLocaleString('vi-VN',{maximumFractionDigits:6});E.note(s,`${hero.name} nhận ${shown} EXP sau chiến thắng ${label} (${reward.source}).`)}
  if(exp&&s.expedition===exp){
   const key=b?.target,tile=E.getTile(key);
   if(result?.type==='win'&&(tile?.kind==='mine'||tile?.kind==='castle')){
