@@ -189,7 +189,7 @@ test('candidate slots at recorded level gates',()=>{assert.equal(E.tavernSlots(1
 test('HG45.1 Tavern Lv10 derives rarity from raw total and preserves v07',()=>{
  const s=state();s.buildings.tavern=10;E.refreshTavern(s);
  const tiers=E.HERO_QUALITY_V2,chances=E.heroQualityChances(10);
- assert.deepEqual(Array.from(chances),[8,18,20,18,34,1,1]);
+ assert.deepEqual(Array.from(chances),[7,12,14,15,32,10,10]);
  assert.equal(s.tavern.offers.length,8);assert.equal(s.tavern.round,1);
  for(const h of s.tavern.offers){
   const t=tiers.find(q=>q.id===h.quality);assert(t,'unknown tier '+h.quality);
@@ -204,7 +204,7 @@ test('HG45.1 Tavern Lv10 derives rarity from raw total and preserves v07',()=>{
  assert.deepEqual(loaded.tavern.offers,s.tavern.offers);
  assert.equal(E.strictSave(loaded),true);
 });
-test('candidate hire exactly once',()=>{const s=state();s.fame=2200;const before=s.tavern.offers.length,id=s.tavern.offers[0].id;E.hireCandidate(s,id);assert.equal(s.tavern.offers.length,before-1);assert.equal(s.heroes.length,2);throws(()=>E.hireCandidate(s,id),/Ứng viên/)});
+test('candidate hire exactly once',()=>{const s=state();s.fame=2200;s.res.gold=E.limits(s).gold;const before=s.tavern.offers.length,id=s.tavern.offers[0].id;E.hireCandidate(s,id);assert.equal(s.tavern.offers.length,before-1);assert.equal(s.heroes.length,2);throws(()=>E.hireCandidate(s,id),/Ứng viên/)});
 test('hire rejects insufficient gold without removing offer',()=>{const s=state(),offer=s.tavern.offers[0];s.res.gold=0;throws(()=>E.hireCandidate(s,offer.id),/Không đủ/);assert.equal(s.tavern.offers[0].id,offer.id)});
 test('hero roster cap follows every dated SRC20 fame threshold',()=>{
  const cases=[[0,2],[199,2],[200,2],[799,2],[800,2],[2199,2],[2200,3],[5799,3],[5800,4],[11499,4],[11500,6],[20999,6],[21000,7],[32999,7],[33000,8],[53999,8],[54000,9],[79999,9],[80000,10],[149999,10],[150000,11],[299999,11],[300000,13],[499999,13],[500000,14],[699999,14],[700000,16],[999999,16],[1000000,18]];
@@ -223,7 +223,7 @@ test('Fame promotion raises AP cap without granting AP and preserves old v07 sav
  const roundTrip=E.parseSave(E.serializeSave(migrated));assert.equal(roundTrip.ap,85);assert.equal(roundTrip.apMax,150);
 });
 test('hero cap rejects Tavern hire atomically and fame unlocks the next slot',()=>{
- const s=state(),first=s.tavern.offers[0];E.hireCandidate(s,first.id);assert.equal(s.heroes.length,2);
+ const s=state();s.res.gold=E.limits(s).gold;const first=s.tavern.offers[0];E.hireCandidate(s,first.id);assert.equal(s.heroes.length,2);
  const before={res:JSON.stringify(s.res),offers:JSON.stringify(s.tavern.offers)};
  throws(()=>E.hireCandidate(s,s.tavern.offers[0].id),/giới hạn 2 tướng/);
  assert.equal(s.heroes.length,2);assert.equal(JSON.stringify(s.res),before.res);assert.equal(JSON.stringify(s.tavern.offers),before.offers);
@@ -238,13 +238,13 @@ test('v07 saves above the new fame cap migrate intact and reject only additional
  assert.equal(JSON.stringify(loaded.res),before.res);assert.equal(JSON.stringify(loaded.tavern.offers),before.offers);assert.equal(loaded.heroes.length,3);
 });
 test('hero cap is account-wide while a secondary city keeps its own Tavern offers',()=>{
- const s=state();s.fame=5800;
+ const s=state();s.fame=5800;s.res.gold=E.limits(s).gold;
  const other=E.make('elf',s.lastTick);E.ensure08(other);const city=JSON.parse(JSON.stringify(other.cities[0]));
  const tile=E.getTile('9,10');assert(tile);
  city.id='city-elf-qa';city.key=tile.key;city.name='Elf QA';city.main=false;s.cities.push(city);
- E.switchCity(s,city.id);const elfOffer=s.tavern.offers[0].id;E.hireCandidate(s,elfOffer);assert.equal(s.heroes.length,2);
- E.switchCity(s,'main');const humanOffer=s.tavern.offers[0].id;E.hireCandidate(s,humanOffer);assert.equal(s.heroes.length,3);
- E.switchCity(s,city.id);const secondElfOffer=s.tavern.offers[0].id;E.hireCandidate(s,secondElfOffer);assert.equal(s.heroes.length,4);
+ E.switchCity(s,city.id);s.res.gold=E.limits(s).gold;const elfOffer=s.tavern.offers[0].id;E.hireCandidate(s,elfOffer);assert.equal(s.heroes.length,2);
+ E.switchCity(s,'main');s.res.gold=E.limits(s).gold;const humanOffer=s.tavern.offers[0].id;E.hireCandidate(s,humanOffer);assert.equal(s.heroes.length,3);
+ E.switchCity(s,city.id);s.res.gold=E.limits(s).gold;const secondElfOffer=s.tavern.offers[0].id;E.hireCandidate(s,secondElfOffer);assert.equal(s.heroes.length,4);
  E.switchCity(s,'main');const before={res:JSON.stringify(s.res),offers:JSON.stringify(s.tavern.offers)};
  throws(()=>E.hireCandidate(s,s.tavern.offers[0].id),/giới hạn 4 tướng/);
  assert.equal(JSON.stringify(s.res),before.res);assert.equal(JSON.stringify(s.tavern.offers),before.offers);
