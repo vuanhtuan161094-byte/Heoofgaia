@@ -62,7 +62,7 @@ for css in ['style.css','style-hg03.css','style-hg48.css','style-hg49.css','styl
     pattern=re.compile(r'<link\s+rel="stylesheet"\s+href="'+re.escape(css)+r'">')
     html,n=pattern.subn(lambda _: '<style>\n'+(folder/css).read_text(encoding='utf-8').rstrip()+ '\n</style>',html)
     assert n==1,(css,n)
-for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js','hg27-farm-exchange.js','hg29-loot.js','hg30-troop-ascension.js','hg31-legendary-gear.js','hg40-tactical.js','hg408-hero-management.js','hg46-equipment.js','hg47-ten-slot.js','hg409-enemy-commanders.js','hg410-battlefield.js','hg50-expedition.js','hg42-boss-screen.js','hg43-troop-profiles.js','hg71-quest-heroes.js','hg73-gear-prestige.js','hg81-hero-progression.js','art-free-icons-core.js','art-free-icons-extra.js','art-hg28-troops.js','art-hg28-rigs.js','art-pack.js','art-hg33-troop-atlases.js','art-hg33-additional-atlases.js','painter.js','app.js','hg56-ui.js']:
+for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.js','hg10.js','hg18.js','hg182.js','hg20-private.js','hg20-world-bosses.js','hg21-tower-tactical.js','hg24-private-automation.js','hg26-boss-autohunt.js','hg261-joint-boss.js','hg27-farm-exchange.js','hg29-loot.js','hg30-troop-ascension.js','hg31-legendary-gear.js','hg40-tactical.js','hg408-hero-management.js','hg46-equipment.js','hg47-ten-slot.js','hg409-enemy-commanders.js','hg410-battlefield.js','hg50-expedition.js','hg42-boss-screen.js','hg43-troop-profiles.js','hg71-quest-heroes.js','hg73-gear-prestige.js','hg81-hero-progression.js','hg82-city-heroes.js','art-free-icons-core.js','art-free-icons-extra.js','art-hg28-troops.js','art-hg28-rigs.js','art-pack.js','art-hg33-troop-atlases.js','art-hg33-additional-atlases.js','painter.js','app.js','hg56-ui.js']:
     pattern=re.compile(r'<script\s+src="'+re.escape(js)+r'"></script>')
     html,n=pattern.subn(lambda _: '<script>\n'+(folder/js).read_text(encoding='utf-8').rstrip()+'\n</script>',html)
     assert n==1,(js,n)
@@ -183,7 +183,7 @@ assert 'src="data.js"' not in html and 'href="style.css"' not in html
 assert 'assets/generated/hg11/cities/' not in html
 assert 'assets/generated/hg11/units/' not in html
 assert 'assets/generated/hg11/buildings/' not in html
-assert html.count('<script>')==42, 'Expected 42 offline modules including HG56, HG71, HG73 and HG81 hero progression'
+assert html.count('<script>')==43, 'Expected 43 offline modules including HG81 and HG82 city-bound heroes'
 html=html.rstrip()+'\n'
 # HG55 modifies only the release's inlined image encoding. Source files stay
 # byte-identical, and every optimized decoded RGBA pixel is checked losslessly.
