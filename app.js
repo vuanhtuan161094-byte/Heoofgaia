@@ -30,26 +30,52 @@ const hg408HeroNameHTML=h=>h?'<span class="'+hg408QualityClass(h)+'"'+(h.questSp
 // Unique hair/crown silhouette is stable per hero; rarity changes the frame
 // and magical aura, not the face or troop art. No assets/network/extra HTML.
 function hg45Portrait(hero){
- const name=String(hero?.name||''),hash=[...name].reduce((n,c)=>Math.imul(n,33)+c.charCodeAt(0)|0,hero?.id||0)>>>0;
- const hair=hash%3,crest=(hash>>>3)%3,rare=E.hg408HeroQuality(hero);
- const crown=crest===0?'<path class="hg45-crest" d="M24 32l-5-13 14 7 7-16 7 16 14-7-5 13Z"/>':
-  crest===1?'<path class="hg45-crest" d="M20 33l8-18 12 11 12-11 8 18-10-5-10 5-10-5Z"/>':
-  '<path class="hg45-crest" d="M28 30L22 12l18 12 18-12-6 18Z"/>';
- const fringe=hair===0?'<path class="hg45-hair" d="M22 34Q21 11 41 14Q62 16 60 35L49 30 44 22 34 31 27 27Z"/>':
-  hair===1?'<path class="hg45-hair" d="M18 32Q17 10 40 13Q66 10 62 35L50 27 45 32 35 23 27 34Z"/>':
-  '<path class="hg45-hair" d="M21 37Q17 17 30 14Q42 6 54 16Q67 22 58 37L45 27 34 35 28 25Z"/>';
- return '<span class="hg45-portrait-art hg45-portrait-'+rare+'" aria-hidden="true"><span class="hg45-portrait-aura"></span>'+
+ // HG79: six illustrated archetypes, five silhouettes and distinct heraldry
+ // shared by recruitment, roster, hero detail and 3-commander combat. Identity
+ // is stable from name/id, independent of level, gear or mutable Save fields.
+ const name=String(hero?.name||'');
+ const hash=[...name].reduce((n,c)=>(Math.imul(n,33)+c.charCodeAt(0))|0,hero?.id||0)>>>0;
+ const rare=E.hg408HeroQuality(hero);
+ const roles=['knight','ranger','arcanist','warden','rogue','oracle'];
+ const role=hero?.questSpecial?'oracle':roles[(hash>>>3)%roles.length];
+ const hair=(hash>>>7)%5,crest=(hash>>>12)%4,face=(hash>>>16)%3;
+ const fringe=[
+  '<path class="hg45-hair" d="M20 41Q13 14 35 12Q57 5 64 33L55 33 47 22 34 31 27 29Z"/>',
+  '<path class="hg45-hair" d="M17 42Q12 9 45 10Q68 14 62 44L53 31 45 33 33 24 28 38Z"/>',
+  '<path class="hg45-hair" d="M19 38Q17 8 41 14Q65 9 61 37L48 27 39 34 31 27 27 40Z"/>',
+  '<path class="hg45-hair" d="M19 47Q14 23 26 12Q43 2 56 18Q70 37 58 74L55 48 49 28 34 33 26 70Z"/>',
+  '<path class="hg45-hair" d="M21 35Q17 8 39 9Q64 10 61 36L52 25 47 34 36 23 27 35Z"/>'
+ ][hair];
+ const crowns=[
+  '<path class="hg45-crest" d="M23 31l-5-16 14 8 8-16 8 16 14-8-5 16Z"/>',
+  '<path class="hg45-crest" d="M20 32l8-18 12 12 12-12 8 18-10-6-10 6-10-6Z"/>',
+  '<path class="hg45-crest" d="M27 28L24 10l16 11 16-11-3 18Z"/>',
+  '<path class="hg45-crest" d="M26 32Q20 17 30 14L40 20 50 14Q60 17 54 32Z"/>'
+ ][crest];
+ const gear={
+  knight:'<path class="hg79-hero-gear" d="M7 75L4 49l13-11 13 14-7 24ZM73 75l3-26-13-11-13 14 7 24Z"/><path class="hg79-metal" d="M21 13l19-9 19 9-2 18-17 12-17-12Z"/><path class="hg79-visor" d="M27 28h26l-4 7H31Z"/>',
+  ranger:'<path class="hg79-hood" d="M12 58Q8 16 39 8Q70 15 68 57L55 33 48 22 28 32Z"/><path class="hg79-hero-gear" d="M62 55l12-18-4-17-5 17-11 11Z"/><path class="hg79-metal" d="M56 66l-12 9 17 6Z"/>',
+  arcanist:'<path class="hg79-hood" d="M12 64L18 25 39 4 63 25 70 66 57 45 52 29 28 29 22 45Z"/><path class="hg79-hero-gear" d="M3 85L16 38 21 78 30 90Z"/><path class="hg79-metal" d="M40 3L44 15 56 19 44 23 40 35 36 23 24 19 36 15Z"/>',
+  warden:'<path class="hg79-hero-gear" d="M3 81L7 56 20 35 30 49 23 85ZM77 81l-4-25-13-21-10 14 7 36Z"/><path class="hg79-metal" d="M22 19L11 5 26 13 40 7 54 13 69 5 58 19 55 28 25 28Z"/>',
+  rogue:'<path class="hg79-hood" d="M10 66Q4 19 32 10L52 10Q75 24 70 66L56 38 47 27 35 27 24 39Z"/><path class="hg79-hero-gear" d="M5 90l15-32 15 18-11 16ZM75 90L60 58 45 76l11 16Z"/><path class="hg79-metal" d="M16 75l7-22 4 17 18 16-11-4Z"/>',
+  oracle:'<path class="hg79-hero-gear" d="M5 69Q7 35 25 22L34 51 16 75ZM75 69Q73 35 55 22L46 51 64 75Z"/><path class="hg79-halo" d="M14 20Q40-5 66 20"/><path class="hg79-metal" d="M40 4L46 19 62 24 46 29 40 44 34 29 18 24 34 19Z"/>'
+ }[role];
+ const eyelids=face===0?'M30 45l8-2 M42 43l8 2':face===1?'M30 44l8 1 M42 45l8-1':'M29 44l9-2 M42 42l9 2';
+ const shoulders=role==='ranger'||role==='rogue'?'M12 92L19 64 36 59 40 72 44 59 61 64 68 92Z':'M7 92L18 65 33 58 40 75 47 58 62 65 73 92Z';
+ const mark=role==='arcanist'?'M40 64l6 12-6 12-6-12Z':role==='oracle'?'M40 64l8 9-8 15-8-15Z':role==='ranger'?'M31 76q9-16 18 0-9-5-18 0Z':'M40 65l7 12-7 12-7-12Z';
+ return '<span class="hg45-portrait-art hg45-portrait-'+rare+' hg79-portrait-'+role+'" aria-hidden="true"><span class="hg45-portrait-aura"></span>'+
   '<svg viewBox="0 0 80 94" width="100%" height="100%" focusable="false" aria-hidden="true" preserveAspectRatio="xMidYMid meet">'+
-  '<path class="hg45-cloak" d="M2 90Q9 58 27 60L52 60Q70 61 78 90Z"/>'+
-  '<path class="hg45-armor" d="M16 90L22 65 34 60 40 72 46 60 59 65 66 90Z"/>'+
-  '<path class="hg45-neck" d="M35 56h10v12H35z"/>'+
-  '<path class="hg45-face" d="M25 30Q29 22 40 22Q55 23 56 36L54 54Q50 65 40 65Q29 64 26 52Z"/>'+
-  '<path class="hg45-ear" d="M25 43l-4-6v13l5 3M55 43l4-6v13l-5 3"/>'+
-  fringe+crown+
-  '<path class="hg45-mask" d="M27 48l13 5 13-5-3 9-10 6-10-6Z"/>'+
-  '<path class="hg45-eye" d="M30 42l8 2-8 2ZM42 44l8-2-1 4Z"/>'+
-  '<path class="hg45-armor-trim" d="M20 70l12 3 8 16 8-16 12-3M40 71v18"/>'+
-  '<path class="hg45-emblem" d="M40 67l5 8-5 8-5-8Z"/>'+
+  '<path class="hg79-arch" d="M5 89V36Q5 3 40 3Q75 3 75 36V89Z"/>'+
+  '<path class="hg45-cloak" d="M1 94Q7 59 28 60L53 60Q73 59 79 94Z"/>'+
+  '<path class="hg45-armor" d="'+shoulders+'"/>'+
+  '<path class="hg45-neck" d="M35 56h10v13H35z"/>'+
+  '<path class="hg45-ear" d="M25 42l-5-6v14l6 4M55 42l5-6v14l-6 4"/>'+
+  '<path class="hg45-face" d="M26 32Q29 22 40 22Q54 24 56 36L54 53Q50 64 40 66Q30 64 26 52Z"/>'+
+  fringe+gear+(role==='knight'||role==='warden'?crowns:'')+
+  '<path class="hg45-mask" d="'+(role==='rogue'?'M25 46l15 7 15-7-3 13-12 7-12-7Z':'M28 51l12 4 12-4-3 8-9 5-9-5Z')+'"/>'+
+  '<path class="hg45-armor-trim" d="M18 75l15 2 7 14 7-14 15-2M40 76v17"/>'+
+  '<path class="hg79-hero-eyes" d="'+eyelids+'"/>'+
+  '<path class="hg45-emblem" d="'+mark+'"/>'+
   '</svg><span class="hg45-portrait-stars"></span></span>';
 }
 
