@@ -19,11 +19,11 @@ function fresh(){
  return s;
 }
 function roundtrip(s){assert(E.strictSave(s),'Save v07 invalid');const copy=E.parseSave(E.serializeSave(s));assert(E.strictSave(copy));return copy}
-check('40 units: SPD-independent weapon range and fixed 1-3 hex class movement',()=>{
+check('40 units: SPD-independent range and class movement 1-6 hex',()=>{
  const rows=Object.values(E.C.units).flat();
  assert.equal(rows.length,40);
- const expected={human_3:4,human_6:3,human_8:3,elf_4:4,elf_8:5,orc_3:3,orc_8:4,undead_6:4,undead_8:5};
- for(const u of rows){const r=E.unitTacticalRange(u);assert(r>=1&&r<=5);assert.equal(r===1,u.type!=='Ranged');if(expected[u.id])assert.equal(r,expected[u.id],u.id)}
+ const expected={human_3:5,human_6:4,human_8:4,elf_4:5,elf_8:6,orc_3:4,orc_8:5,undead_6:5,undead_8:6};
+ for(const u of rows){const r=E.unitTacticalRange(u);assert(r>=1&&r<=6);assert.equal(r===1,u.type!=='Ranged');if(expected[u.id])assert.equal(r,expected[u.id],u.id)}
  const s=fresh(),b=s.battle,u=b.allies.find(a=>a.range===1),archer=b.allies.find(a=>a.range>1);
  assert(u&&archer);
  const results={};
@@ -38,22 +38,23 @@ check('40 units: SPD-independent weapon range and fixed 1-3 hex class movement',
  for(const unit of rows){
   const nominal=E.unitTacticalMovement(unit),higher=E.unitTacticalMovement({...unit,spd:100000});
   assert.equal(nominal,higher,unit.id+' moved farther with SPD');
-  assert(nominal>=1&&nominal<=3);
+  assert(nominal>=1&&nominal<=6);
  }
  assert.equal(E.unitTacticalMovement(E.C.units.human[3]),1,'Heavy Soldier armored');
- assert.equal(E.unitTacticalMovement(E.C.units.human[4]),3,'Gryphon flying');
+ assert.equal(E.unitTacticalMovement(E.C.units.human[4]),4,'Gryphon flying');
  assert.equal(E.unitTacticalMovement(E.C.units.orc[1]),3,'Wolf Rider cavalry');
  assert.equal(E.unitTacticalMovement(E.C.units.human[1]),2,'Scout world-speed does not imply extra combat hexes');
  return {tested:rows.length,roles:expected,meleeExpected,rangedExpected,results};
 });
 
-check('HG77 every T8-T10 elite troop moves 2-3 hexes, independent of SPD and attack range',()=>{
+check('HG78 T8-T10 2-6 hexes including Dragon flight, independent of SPD',()=>{
  const high=Object.values(E.C.units).flat().filter(u=>u.tier>=8);
  assert.equal(high.length,12);
  const result=[];
  const scenario=fresh(),b=scenario.battle,actor=b.allies[0],saved={unitId:actor.unitId,range:actor.range,spd:actor.spd};
  for(const u of high){
-  const expected=u.tier===8?2:['orc_9','orc_10'].includes(u.id)?2:3;
+  const dragon={elf_9:5,elf_10:6,undead_9:5,undead_10:6,human_9:4,human_10:5};
+  const expected=dragon[u.id]||(u.tier===8?2:['orc_9','orc_10'].includes(u.id)?2:3);
   const actual=E.unitTacticalMovement(u);
   assert.equal(actual,expected,u.id+' '+u.name);
   actor.unitId=u.id;actor.range=E.unitTacticalRange(u);
@@ -68,6 +69,42 @@ check('HG77 every T8-T10 elite troop moves 2-3 hexes, independent of SPD and att
  actor.unitId=saved.unitId;actor.range=saved.range;actor.spd=saved.spd;
  assert(E.strictSave(scenario),'Canonical scenario must remain v07 after movement preview');
  return {tested:high.length,elite:result};
+});
+
+check('HG78 flying dragon crosses occupied hex ring and lands only on a legal free cell',()=>{
+ const s=fresh(),b=s.battle,dragon=b.allies[0];dragon.unitId='elf_9';dragon.range=1;dragon.x=4;dragon.y=4;
+ // Surround the dragon with living blockers: ground units cannot leave, flight can.
+ const neighbors=E.battleHex.neighbors(4,4).filter(c=>E.battleHex.inBounds(c.x,c.y));
+ const blockers=neighbors.map((c,i)=>({id:'e'+i,side:'enemy',unitId:null,name:'Block '+i,range:1,
+  count:1,initial:1,hp:100,atk:0,def:10,spd:1,pool:100,x:c.x,y:c.y}));
+ b.allies=[dragon];b.enemies=blockers;
+ const destination={x:9,y:4},path=E.battlePath(b,dragon,destination);
+ assert(path&&path.length===5,'Dragon must fly straight through occupied hexes');
+ assert(path.some(c=>blockers.some(e=>e.x===c.x&&e.y===c.y)),'Flight path must pass an occupied hex');
+ const preview=E.battleMovePreview(b,dragon.id);
+ assert.equal(preview.steps,5);
+ assert(preview.cells.some(c=>c.x===9&&c.y===4),'Flight landing reachable within five hexes');
+ const out=E.battleAct(s,'move',destination),evt=b.lastEvents.find(e=>e.actorId===dragon.id);
+ assert.equal(out.type,'continue');
+ assert.equal(dragon.x,9);assert.equal(dragon.y,4);
+ assert(evt&&evt.path.length===5);
+ assert(!blockers.some(u=>u.pool>0&&u.x===dragon.x&&u.y===dragon.y));
+ return {path:evt.path,destination,move:preview.steps};
+});
+check('HG78 auto ranged stack kites adjacent melee and still fires on same turn',()=>{
+ const s=fresh(),b=s.battle,u=b.allies.find(a=>a.range>1);
+ assert(u);u.x=2;u.y=4;
+ b.enemies[0].x=4;b.enemies[0].y=4;b.enemies[0].range=1;b.enemies[0].atk=0;
+ b.enemies[1].x=11;b.enemies[1].y=8;b.enemies[1].atk=0;
+ const before={x:u.x,y:u.y},hp=b.enemies[0].pool;
+ const out=E.battleAct(s,'attack',{stableTargets:true});
+ const evt=b.lastEvents.find(e=>e.actorId===u.id);
+ assert(evt&&evt.path.length>0,'Ranged must reposition when threatened by melee');
+ assert(evt.path.length<=E.unitTacticalMovement(E.getUnit(s,u.unitId)));
+ assert(evt.damage>0&&evt.targetId===b.enemies[0].id,'Reposition must preserve the normal ranged attack');
+ assert(E.battleHex.distance(u,b.enemies[0])>E.battleHex.distance(before,b.enemies[0]));
+ assert(b.enemies[0].pool<hp);
+ return {from:before,to:evt.to,path:evt.path,damage:evt.damage,outcome:out.type};
 });
 
 check('World speed remains SPD-driven but battle turn order and damage never are',()=>{
