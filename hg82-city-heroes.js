@@ -115,11 +115,18 @@
  function hire(s,...args){
   ensure(s);const id=old.hire(s,...args),h=s.heroes.find(h=>h.id===id);
   if(h)h.cityId=active(s);
+  // A newly hired hero immediately becomes the commander only when the
+  // opened town previously had no local commander. Never teleport another.
+  if(h&&home(s,s.activeHero)!==active(s)&&!s.march&&!s.battle)old.selectHero(s,id);
   E.hg81Ensure(s);return id;
  }
  function newQuest(s,method,args){
   const before=new Set(s.heroes.map(h=>h.id)),res=method(s,...args);
-  for(const h of s.heroes)if(!before.has(h.id)){h.cityId=active(s);E.hg81Ensure(s)}
+  for(const h of s.heroes)if(!before.has(h.id)){
+   h.cityId=active(s);
+   if(home(s,s.activeHero)!==active(s)&&!s.march&&!s.battle)old.selectHero(s,h.id);
+   E.hg81Ensure(s);
+  }
   return res;
  }
  function chooseLocal(s){
