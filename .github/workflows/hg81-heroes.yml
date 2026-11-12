@@ -1,0 +1,95 @@
+name: HG81 Hero Ascension, Skill Tree and XP Economy
+on:
+  workflow_dispatch:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - hg08.js
+      - hg30-troop-ascension.js
+      - hg21-tower-tactical.js
+      - hg408-hero-management.js
+      - hg81-hero-progression.js
+      - app.js
+      - style-hg57.css
+      - index.html
+      - build_offline.py
+      - qa-hg81-heroes.cjs
+      - qa-hg81-heroes-chrome.py
+      - qa-hg30-ascension.cjs
+      - qa-hg408-heromanagement.cjs
+      - .github/workflows/hg81-heroes.yml
+permissions:
+  contents: read
+concurrency:
+  group: hg81-one-branch-hero
+  cancel-in-progress: true
+jobs:
+  game-integrity:
+    runs-on: ubuntu-latest
+    timeout-minutes: 28
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Exact SHA, parse checks, Save v07 and actual hero transactions
+        run: |
+          set -euxo pipefail
+          git rev-parse HEAD
+          for f in hg08.js hg30-troop-ascension.js hg21-tower-tactical.js hg408-hero-management.js hg81-hero-progression.js app.js qa-hg81-heroes.cjs; do node --check "$f"; done
+          node qa-hg81-heroes.cjs
+          node qa-hg30-ascension.cjs
+          node qa-hg408-heromanagement.cjs
+          node qa-hg71-special-hero.cjs
+          node qa-engine.cjs
+          node qa-hg75-tactics.cjs
+  one-html-chromium:
+    needs: game-integrity
+    runs-on: ubuntu-latest
+    timeout-minutes: 58
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Build and checksum exactly one offline playable HTML
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          test -s Play-Heoofgaia-HG11.html
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Install Chromium
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+      - name: "True hero UI XP cards, new skill tree, fusion, and quick dismissal"
+        run: python qa-hg81-heroes-chrome.py
+      - name: "Regression: equipment and hero screens"
+        run: python qa-hg408-hero-chrome.py
+      - name: "Regression: battle auto, surrender, report and Save v07"
+        run: python qa-hg75-chrome.py
+      - name: Upload evidence at exact SHA
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG81-Hero-Fusion-Quick-Strip-EXP-Chromium-Evidence
+          if-no-files-found: ignore
+          retention-days: 30
+          path: |
+            docs/qa/hg81/*.json
+            docs/evidence/hg81/*.png
+            docs/qa/hg408/*.json
+            docs/evidence/hg408/*.png
+            docs/qa/hg75/*.json
+            docs/evidence/hg75/*.png
+      - name: Deliver only successful one-file offline HTML
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HEOOFGAIA-HG81-HERO-SKILLS-FUSION-ONE-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error
