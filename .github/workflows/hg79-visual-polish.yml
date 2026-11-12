@@ -57,11 +57,11 @@ jobs:
         run: |
           python -m pip install playwright
           python -m playwright install --with-deps chromium
-      - name: HG79 real browser: maps, NPC art, hero identity, Save and mobile pinch
+      - name: 'HG79 real browser: maps, NPC art, hero identity, Save and mobile pinch'
         run: python qa-hg79-polish-chrome.py
-      - name: Regression: desktop plus actual Chrome touch mobile maps
+      - name: 'Regression: desktop plus actual Chrome touch mobile maps'
         run: python qa-hg405-desktop-phone-chrome.py
-      - name: Regression: true battle controls and Save v07 four-viewports
+      - name: 'Regression: true battle controls and Save v07 four-viewports'
         run: python qa-hg75-chrome.py
       - name: Upload screenshot and measurable browser QA
         if: always()
