@@ -5,7 +5,10 @@ const fs=require('node:fs'),vm=require('node:vm'),assert=require('node:assert/st
 const path=require('node:path'),root=__dirname;
 for(const file of ['app.js','painter.js'])new vm.Script(fs.readFileSync(path.join(root,file),'utf8'),{filename:file});
 const context=vm.createContext({console,Math,Date});
-for(const file of ['data.js','engine.js','painter.js'])
+// Load canonical wrappers in the same order as the one-file game. The bare
+// engine's initial make() is still a legacy version until migrations wrap it.
+const sources='data.js engine.js hg04.js hg05.js hg06.js hg07.js hg08.js hg10.js hg18.js hg182.js hg20-private.js hg20-world-bosses.js hg21-tower-tactical.js hg24-private-automation.js hg26-boss-autohunt.js hg261-joint-boss.js hg27-farm-exchange.js hg29-loot.js hg30-troop-ascension.js hg31-legendary-gear.js hg40-tactical.js hg408-hero-management.js hg46-equipment.js hg47-ten-slot.js hg409-enemy-commanders.js hg410-battlefield.js hg50-expedition.js hg42-boss-screen.js hg43-troop-profiles.js hg71-quest-heroes.js hg73-gear-prestige.js painter.js'.split(' ');
+for(const file of sources)
  vm.runInContext(fs.readFileSync(path.join(root,file),'utf8'),context,{filename:file});
 const E=context.HOG_ENGINE,P=context.HOG_PAINTER;
 assert(E&&P&&P.hg79WorldGridBounds&&P.hg79EnemyVisualId);
