@@ -90,6 +90,7 @@ with sync_playwright() as pw:
         }""")
         check(label+' strict fixture with a real gear UID and reserved troops',fresh['valid'],fresh)
         page.locator('[data-action="hg408-inspect"][data-id="2"]').click()
+        page.locator('[data-action="hg408-tab"][data-id="overview"]').click()
         page.locator('[data-action="hg81-strip"][data-mode="all"]').click()
         strip=page.evaluate("""() => {
           const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
