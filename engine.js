@@ -439,7 +439,7 @@ function battlePath(b,actor,destination){
  const start=battleCellKey(actor.x,actor.y),goal=battleCellKey(destination.x,destination.y),queue=[[actor.x,actor.y]],previous=new Map([[start,null]]);
  for(let i=0;i<queue.length;i++){
   const [x,y]=queue[i],key=battleCellKey(x,y);if(key===goal)break;
-  for(const cell of battleHex.neighbors(x,y)){const {x:nx,y:ny}=cell,next=battleCellKey(nx,ny);if(!battleHex.inBounds(nx,ny)||occupied.has(next)||previous.has(next))continue;previous.set(next,key);queue.push([nx,ny])}
+  for(const cell of battleHex.neighbors(x,y)){const {x:nx,y:ny}=cell,next=battleCellKey(nx,ny);if(!battleHex.inBounds(nx,ny)||(!isFlyingBattleActor(actor)&&occupied.has(next))||previous.has(next))continue;previous.set(next,key);queue.push([nx,ny])}
  }
  if(!previous.has(goal))return null;
  const path=[];for(let key=goal;key!==start;key=previous.get(key)){const [x,y]=key.split(',').map(Number);path.push({x,y})}return path.reverse();
@@ -467,17 +467,21 @@ function battleMoveSteps(b,actorId){
  const actor=b?.allies?.find(u=>u.id===actorId&&u.pool>0);if(!actor)return {unitId:actorId||null,steps:0,cells:[]};
  const steps=battleMovementBudget(b,actor,false),occupied=new Set([...b.allies,...b.enemies].filter(u=>u.pool>0&&u.id!==actor.id).map(u=>battleCellKey(u.x,u.y)));
  const queue=[{x:actor.x,y:actor.y,steps:0}],seen=new Set([battleCellKey(actor.x,actor.y)]),cells=[];
- for(let i=0;i<queue.length;i++){const cell=queue[i];if(cell.steps>=steps)continue;for(const nextCell of battleHex.neighbors(cell.x,cell.y)){const {x,y}=nextCell,key=battleCellKey(x,y);if(!battleHex.inBounds(x,y)||occupied.has(key)||seen.has(key))continue;seen.add(key);const next={x,y,steps:cell.steps+1};queue.push(next);cells.push(next)}}
+ for(let i=0;i<queue.length;i++){const cell=queue[i];if(cell.steps>=steps)continue;for(const nextCell of battleHex.neighbors(cell.x,cell.y)){const {x,y}=nextCell,key=battleCellKey(x,y);if(!battleHex.inBounds(x,y)||(!isFlyingBattleActor(actor)&&occupied.has(key))||seen.has(key))continue;seen.add(key);const next={x,y,steps:cell.steps+1};queue.push(next);if(!occupied.has(key))cells.push(next)}}
  return {unitId:actor.id,steps,cells};
 }
 function moveBattleStack(b,actor,destination){
  const path=battlePath(b,actor,destination);if(!path?.length)return null;
  // Reuse the existing Advance movement allowance. Exact original per-turn movement is unknown.
  const allowance=battleMovementAllowance(b,actor),from={x:actor.x,y:actor.y};let steps=0;
- for(const cell of path.slice(0,allowance)){
-  if([...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===cell.x&&u.y===cell.y))break;
-  actor.x=cell.x;actor.y=cell.y;steps++;
+ const flying=isFlyingBattleActor(actor),traveled=path.slice(0,allowance);
+ let reached=0;
+ for(let i=0;i<traveled.length;i++){
+  const cell=traveled[i],occupied=[...b.allies,...b.enemies].some(u=>u.pool>0&&u.id!==actor.id&&u.x===cell.x&&u.y===cell.y);
+  if(occupied&&!flying)break;
+  if(!occupied)reached=i+1; // flyers may cross but never land on a living stack
  }
+ if(reached){actor.x=path[reached-1].x;actor.y=path[reached-1].y;steps=reached}
  return steps?{unitId:actor.id,from,to:{x:actor.x,y:actor.y},steps,destination:{x:destination.x,y:destination.y},path:path.slice(0,steps)}:null;
 }
 // SRC23 describes an auto target judged highest in military power; SRC24 says melee prefers the threatening stack in closest range while ranged attacks the strongest stack. The original score is missing; ATK×living-count is our explicit model.
@@ -490,10 +494,10 @@ function advance(a,target,battle){
  const occupied=new Set([...battle.allies,...battle.enemies].filter(u=>u.pool>0&&u.id!==a.id).map(u=>battleCellKey(u.x,u.y)));
  const start=battleCellKey(a.x,a.y),queue=[{x:a.x,y:a.y}],previous=new Map([[start,null]]);let goal=null;
  for(let i=0;i<queue.length;i++){
-  const p=queue[i],key=battleCellKey(p.x,p.y);if(dist(p,target)<=a.range){goal=key;break}
+  const p=queue[i],key=battleCellKey(p.x,p.y);if(dist(p,target)<=a.range&&!occupied.has(key)){goal=key;break}
   for(const cell of battleHex.neighbors(p.x,p.y)){
    const {x,y}=cell,next=battleCellKey(x,y);
-   if(!battleHex.inBounds(x,y)||occupied.has(next)||previous.has(next))continue;
+   if(!battleHex.inBounds(x,y)||(!isFlyingBattleActor(a)&&occupied.has(next))||previous.has(next))continue;
    previous.set(next,key);queue.push({x,y});
   }
  }
@@ -502,7 +506,11 @@ function advance(a,target,battle){
  const allowance=battleMovementAllowance(battle,a);
  if(allowance<=0)return [];
  const traversed=path.slice(0,allowance),last=traversed[traversed.length-1];
- a.x=last.x;a.y=last.y;return traversed;
+ let end=traversed.length;
+ if(isFlyingBattleActor(a))while(end&&occupied.has(battleCellKey(traversed[end-1].x,traversed[end-1].y)))end--;
+ if(!end)return [];
+ const legal=traversed.slice(0,end),finish=legal[legal.length-1];
+ a.x=finish.x;a.y=finish.y;return legal;
 }
 // One casualty authority for direct hits, secondary damage and DoT.
 function applyBattleDamage(s,b,target,incoming){
@@ -532,12 +540,12 @@ function applyBattleDamage(s,b,target,incoming){
    const p=queue[i];if(p.route.length>=budget)continue;
    for(const cell of battleHex.neighbors(p.x,p.y)){
     const key=battleCellKey(cell.x,cell.y);
-    if(!battleHex.inBounds(cell.x,cell.y)||occupied.has(key)||seen.has(key))continue;
+    if(!battleHex.inBounds(cell.x,cell.y)||(!isFlyingBattleActor(actor)&&occupied.has(key))||seen.has(key))continue;
     seen.add(key);
     const next={...cell,route:[...p.route,cell]},distance=threat(cell);
     queue.push(next);
     const candidate={...next,score:distance};
-    if(distance>initial&&(!best||candidate.score>best.score||
+    if(!occupied.has(key)&&distance>initial&&(!best||candidate.score>best.score||
       candidate.score===best.score&&(actor.side==='player'?candidate.x<best.x:candidate.x>best.x)))best=candidate;
    }
   }
