@@ -7,7 +7,7 @@
  if(!E?.hg408DismissHero||!E?.hg30Convert||!E?.hg71SpecialStatus||!E?.hg47Status)
   throw Error('HG81 needs completed HG30/HG47/HG71/HG73 hero engine');
  const prior={make:E.make,parse:E.parseSave,serialize:E.serializeSave,strict:E.strictSave,
-  xp:E.grantHeroExperience,battleXp:E.battleExperienceReward,after:E.hg40AfterHit};
+  xp:E.grantHeroExperience,battleXp:E.battleExperienceReward,after:E.hg40AfterHit,rebirth:E.rebirthHG18Hero};
  const MAX=5,EXP_CARD_PRICE=12000,EXP_CARD_USES=8;
  const TREE=Object.freeze([
   Object.freeze({id:'infantry',name:'Quân Đoàn Thiết Giáp',icon:'🛡',type:'Cận chiến',
@@ -24,15 +24,21 @@
  const own=(x,k)=>Object.prototype.hasOwnProperty.call(x||{},k);
  const isInt=(n,min=0,max=100000000)=>Number.isSafeInteger(n)&&n>=min&&n<=max;
  function ensure(s){
-  if(!s.hg81)s.hg81={v:1,skills:{},cards:0,activeUses:0,fusions:[]};
-  return s.hg81;
+  if(!s.hg81)s.hg81={v:1,skills:{},credits:{},cards:0,activeUses:0,fusions:[]};
+  const q=s.hg81;
+  if(!q.credits)q.credits={};
+  for(const h of s.heroes||[]){
+   if(!own(q.credits,h.id))q.credits[h.id]=Math.max(points(h),
+    Object.values(q.skills[h.id]||{}).reduce((a,b)=>a+b,0));
+  }
+  return q;
  }
  function points(h){return Math.floor(Math.max(0,h.level-1)/5)+Math.max(0,h.rebirth||0)*2}
  function treeStatus(s,id){
   const h=s.heroes.find(h=>h.id===id),q=ensure(s);
   if(!h)throw Error('Tướng không tồn tại.');
   const levels=q.skills[id]||{},used=TREE.reduce((n,t)=>n+(levels[t.id]||0),0);
-  const earned=points(h);
+  const earned=q.credits[id]??points(h);
   return {heroId:id,earned,used,available:Math.max(0,earned-used),
    nodes:TREE.map(t=>({...t,level:levels[t.id]||0,max:MAX})),origin:!!h.fusionOrigin};
  }
@@ -40,13 +46,15 @@
   const q=s?.hg81;
   if(!q||q.v!==1||!isInt(q.cards,0,100)||!isInt(q.activeUses,0,EXP_CARD_USES)||
    !q.skills||typeof q.skills!=='object'||Array.isArray(q.skills)||
+   !q.credits||typeof q.credits!=='object'||Array.isArray(q.credits)||
+   Object.entries(q.credits).some(([id,n])=>!s.heroes.some(h=>String(h.id)===id)||!isInt(n,0,1000))||
    !Array.isArray(q.fusions)||q.fusions.length>12)return false;
   for(const [id,levels] of Object.entries(q.skills)){
    const h=s.heroes?.find(x=>String(x.id)===id);
    if(!h||!levels||typeof levels!=='object'||Array.isArray(levels)||
     Object.keys(levels).some(k=>!TREE.some(t=>t.id===k)))return false;
    const amount=Object.values(levels);
-   if(amount.some(n=>!isInt(n,0,MAX))||amount.reduce((a,b)=>a+b,0)>points(h))return false;
+   if(amount.some(n=>!isInt(n,0,MAX))||amount.reduce((a,b)=>a+b,0)>(q.credits[id]??points(h)))return false;
   }
   const seen=new Set();
   for(const h of s.heroes||[]){
@@ -130,7 +138,7 @@
   // equipment, army plans, Tower slots, UI state and orphan references.
   // Remove skill ledger first: the canonical dismissal validates the draft
   // against HG81 strict Save before it commits its own transactional change.
-  ensure(trial);delete trial.hg81.skills[platinumId];
+  ensure(trial);delete trial.hg81.skills[platinumId];delete trial.hg81.credits[platinumId];
   const dismissed=E.hg408DismissHero(trial,platinumId);
   for(const key of ['atk','def','spd','int']){
    const a=Number(winner.hg18Base?.[key]||winner[key]),b=Number(donor.hg18Base?.[key]||donor[key]);
@@ -177,7 +185,12 @@
   const factor=/vượt Bí Cảnh|vượt Tháp/i.test(reason)?3:1;
   const eligible=battle&&q.activeUses>0&&s.heroes.some(h=>h.id===id&&h.level<100)&&t>0;
   const adjusted=Number.isFinite(t)?Math.min(1e12,t*factor*(eligible?2:1)):amount;
+  const h=s.heroes.find(h=>h.id===id),beforeLevel=h?.level||1;
   const receipt=prior.xp(s,id,adjusted,reason);
+  if(h&&receipt.levels>0){
+   const newlyEarned=Math.floor((h.level-1)/5)-Math.floor((beforeLevel-1)/5);
+   if(newlyEarned>0)q.credits[id]=(q.credits[id]||0)+newlyEarned;
+  }
   if(eligible&&receipt.gained>0){q.activeUses--;E.note(s,'Thẻ EXP ×2: còn '+q.activeUses+' lần nhận EXP từ chiến đấu.');}
   return {...receipt,hg81Base:amount,hg81Factor:factor*(eligible?2:1),cardApplied:eligible};
  }
@@ -202,12 +215,19 @@
    casualties:landed.casualties||0,death:target.pool<=0,order:'skill',skill:'Chiến Thuật Tướng'});
   return base+landed.applied;
  }
+ function rebirth(s,id){
+  const q=ensure(s),h=s.heroes.find(h=>h.id===id);
+  if(!h)throw Error('Không có tướng chuyển sinh.');
+  const result=prior.rebirth(s,id);
+  q.credits[id]=(q.credits[id]||0)+2;
+  return result;
+ }
  function make(...a){const s=prior.make(...a);ensure(s);return s}
  function parse(...a){const s=prior.parse(...a);ensure(s);if(!strict(s))throw Error('Save HG81 không hợp lệ');return s}
  function strict(s){return prior.strict(s)&&valid(s)}
  function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG81 không hợp lệ');return prior.serialize(s)}
  Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
-  grantHeroExperience:grantXP,battleExperienceReward:xpReward,hg40AfterHit:afterHit,
+  grantHeroExperience:grantXP,battleExperienceReward:xpReward,hg40AfterHit:afterHit,rebirthHG18Hero:rebirth,
   hg81Ensure:ensure,hg81SkillStatus:treeStatus,hg81SkillUp:skillUp,hg81StripHero:strip,
   hg81FusionStatus:fusionCheck,hg81Fuse:fuse,hg81XpStatus:xpStatus,
   hg81BuyXpCard:buyXpCard,hg81ActivateXpCard:activateXpCard,hg81Valid:valid,HG81_SKILLS:TREE});
