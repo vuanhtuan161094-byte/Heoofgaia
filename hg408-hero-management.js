@@ -4,10 +4,11 @@
  const E=root.HOG_ENGINE;
  if(!E||E.V!==7||!E.hg20HeroRole||!E.hg21TowerEnter||!E.hg26Status)throw Error('HG40.8 requires the complete Save v07 hero engine');
  const previous={make:E.make,parseSave:E.parseSave,heroStats:E.heroStats,combatModifiers:E.combatModifiers};
- const colors=new Set(['white','blue','yellow','green','purple','platinum','rainbow']);
+ const colors=new Set(['white','blue','yellow','green','purple','platinum','rainbow','origin']);
  const own=(v,k)=>Object.prototype.hasOwnProperty.call(v||{},k);
  const heroById=(s,id)=>s.heroes.find(h=>h.id===id);
  function baseQuality(h){
+   if(h?.fusionOrigin===true)return 'origin';
    if(h?.qualityModel===3){
      // v3 quality always comes from the unallocated ATK+DEF+SPD+INT sum.
      // Level points, inventory and reincarnation cannot re-roll its colour.
@@ -30,6 +31,8 @@
    return s;
  }
  function qualityInfo(hero){
+   if(hero?.fusionOrigin===true)return {id:'origin',label:'Thần Khởi Nguyên',stat:1.75,
+    damage:.23,reduction:.23,buff:'Thần Hợp Nhất · chỉ số +75%, sát thương +23%, kháng sát thương +23%; hợp thể từ Bạch Kim và Cầu Vồng đạt Lv100/CS5'};
    const key=baseQuality(hero);
    return E.HERO_QUALITY_V2?.find(t=>t.id===key)||
     E.HERO_QUALITY_V2?.[0]||{id:'white',label:'Trắng',stat:1,damage:0,reduction:0,buff:'—'};
