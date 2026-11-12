@@ -177,12 +177,15 @@ function miniBounds(canvas){
   if(HG80_MINIMAP_CACHE.size>=HG80_MINIMAP_CACHE_CAP)HG80_MINIMAP_CACHE.delete(HG80_MINIMAP_CACHE.keys().next().value);
   HG80_MINIMAP_CACHE.set(key,image);return image;
  }
- function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=(m.w-2*pad)/E.WIDTH,th=(m.h-2*pad)/E.HEIGHT;
+ // Reading a city for the MAP must never call E.cityForKey, because that
+// canonical API runs ensure10() and rewrites active-city save mirrors.
+function hg80CityAt(s,key){return s?.cities?.find(city=>city.key===key)||null}
+function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=(m.w-2*pad)/E.WIDTH,th=(m.h-2*pad)/E.HEIGHT;
   rounded(c,m.x-2,m.y-23,m.w+4,m.h+25,7,'#12272cdb','#c5a66c');text(c,m.w<120?'BẢN ĐỒ':'BẢN ĐỒ THU NHỎ',m.x+6,m.y-7,Math.max(8,13*m.w/203),'#e7c78e','left');
   const terrain=hg80MiniTerrain(E,m.w-2*pad,m.h-2*pad);
   if(terrain)c.drawImage(terrain,m.x+pad,m.y+pad);
  for(const t of E.TILES){if(t.kind==='empty')continue;
-  const owned=E.cityForKey(s,t.key),ai=E.aiCityAt?.(s,t.key);c.fillStyle=t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):ai?'#e37a63':'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
+  const owned=hg80CityAt(s,t.key),ai=E.aiCityAt?.(s,t.key);c.fillStyle=t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):ai?'#e37a63':'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
   c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(3,tw*.72),Math.max(3,th*.72))}
  if(selected){const t=E.getTile(selected);if(t){c.strokeStyle='#fff';c.lineWidth=2;c.strokeRect(m.x+pad+t.x*tw-1,m.y+pad+t.y*th-1,tw+2,th+2)}}
  const view=mapProjection(canvas);const vw=canvas.width/view.scale,vh=canvas.height/view.scale;
@@ -284,7 +287,7 @@ function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
  for(const t of visibleTiles){if(t.kind==='empty')continue;const x=(t.x+.5)*q,y=(t.y+.54)*q;if(!inside(x+ox,y+oy))continue;
   let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):s.cleared.includes(t.key));
   if(t.kind==='castle'){
-   const owned=E.cityForKey(s,t.key),ai=E.aiCityAt?.(s,t.key);
+   const owned=hg80CityAt(s,t.key),ai=E.aiCityAt?.(s,t.key);
    const race=owned?.race||t.race||s.race||'human';
    if(!drawMapLandmark(c,'castle-'+race,x,y,q,1.28))castle(c,x,y,q/110,race,owned?.local.buildings.hall||ai?.level||1);
    if(ai){circle(c,x,y-q*.31,q*.11,'#9f3630');text(c,'AI',x,y-q*.27,Math.max(9,q*.20),'#fff0dc')}
@@ -307,7 +310,7 @@ function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
   }
   if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
   if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}
-  if(selected===t.key&&q>20){const city=E.cityForKey(s,t.key),label=t.kind==='castle'?(city?.name||t.value||'Thành trung lập'):t.kind==='mine'?{wood:'Mỏ gỗ',ore:'Mỏ quặng',gold:'Mỏ vàng',sulfur:'Mỏ lưu huỳnh',crystal:'Mỏ pha lê'}[t.value]:t.value;
+  if(selected===t.key&&q>20){const city=hg80CityAt(s,t.key),label=t.kind==='castle'?(city?.name||t.value||'Thành trung lập'):t.kind==='mine'?{wood:'Mỏ gỗ',ore:'Mỏ quặng',gold:'Mỏ vàng',sulfur:'Mỏ lưu huỳnh',crystal:'Mỏ pha lê'}[t.value]:t.value;
    const font=Math.max(10,Math.min(14,q*.24));c.font=`700 ${font}px system-ui`;const bw=Math.max(74,Math.min(176,c.measureText(label||'').width+22));
    const lx=clamp(x+ox,bw/2+5,w-bw/2-5)-ox,ly=clamp(y+oy-q*.72,28,h-28)-oy;
    rounded(c,lx-bw/2,ly-12,bw,24,7,'#10242beF','#d7b873');text(c,label,lx,ly+4,font,'#fff0cc','center','700');
@@ -1777,5 +1780,5 @@ function drawBattle(canvas,E,s,now=visualNow(),interaction={}){
  if(b.activeSpell){rounded(c,w/2-130,80,260,25,6,'#52466adc','#d4b6e8');
   text(c,'✨ '+b.activeSpell.id.toUpperCase().replace(/_/g,' ')+' · '+(b.activeSpell.expiry-b.turn)+' lượt',w/2,97,11,'#fff1db');}
 }
-root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,hg79WorldGridBounds,hg80VisibleTiles,hg80MiniTerrain,encounterKind,hg79EnemyVisualId,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
+root.HOG_PAINTER={drawWorld,drawCity,drawBattle,battleHit,battleCellAt,battleProjection,battleGround,battleSpriteScale,battleGridCells,battleGridOverlay,battleStaticCacheStats,hg80CityAt,hg79WorldGridBounds,hg80VisibleTiles,hg80MiniTerrain,encounterKind,hg79EnemyVisualId,HG407_WALK_FOOT,hg407FootOffset,hg407FitName,battleFxPlan,battleUnitLayout,battleRectOverlap,vanguardAtlasFrame,VANGUARD_CLIPS,troopAtlasFrame,animatedTroopAtlas,battleUnitArt,battleVisualPool,battleVisualState,battleVisualPoint,battleTimelinePrime,battleTimelineTurnDuration,battleTimelineFor,battleVisualSchedule,battleVisualPhase,hasAnimatedTroops,MOTION_SPRITES,BOSS_SPRITES,bossSprite,animatedUnitId,ARCHER_CLIPS,archerAtlasFrame,animatedArcher,motionPose,motionSprite,motionImpactFx,HG403_SKILL_SIGILS,hg403SkillProfile,drawHG403Sigil,drawHG403ProcCues,drawHG403BattleHUD,hg56ImpactStreaks,hg56BossPhaseAura,mapHit,mapCamera,panMap,zoomMap,miniHit,miniBounds,cityHit,CITY_SITES,citySitesFor};
 })(typeof globalThis!=='undefined'?globalThis:this);
