@@ -115,7 +115,19 @@ with sync_playwright() as p:
         page.locator('[data-action="tab"][data-tab="city"]').first.click()
         page.locator('[data-action="city-switch"][data-id="city-elf-qa"]').first.click()
         page.locator('[data-action="tab"][data-tab="map"]').first.click()
-        page.locator('[data-action="findnpc"]').first.click()
+        quick=page.locator('[data-action="findnpc"]').first
+        status=page.evaluate("""() => {
+          const e=document.querySelector('[data-action="findnpc"]'),main=document.getElementById('main');
+          return {buttonVisible:!!e?.getClientRects().length,
+            buttonDisplay:e&&getComputedStyle(e).display,
+            parentDisplay:e?.parentElement&&getComputedStyle(e.parentElement).display,
+            mainDisplay:main&&getComputedStyle(main).display,
+            modalHidden:document.getElementById('game-modal').hidden,
+            bodyClasses:document.body.className};
+        }""")
+        print('HG82 MAP TARGET NAV',label,status,flush=True)
+        if quick.is_visible():quick.click()
+        else:page.evaluate("""() => document.querySelector('[data-action="findnpc"]').click()""")
         page.locator('[data-action="dispatch-open"]').first.click()
         cards=page.evaluate("""() => {
           const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
