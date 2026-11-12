@@ -49,8 +49,13 @@ with sync_playwright() as pw:
           const elapsed=performance.now()-start;
           const hit=P.mapHit(canvas,canvas.width/2,canvas.height/2,E);
           const after=E.serializeSave(s);
+          const oldState=JSON.parse(before),newState=JSON.parse(after);
+          const changed=Object.keys(newState).filter(k=>JSON.stringify(oldState[k])!==JSON.stringify(newState[k]));
           return {valid:E.strictSave(s),save:s.version,visible:cells.length,total:E.TILES.length,
-           cached:mini===miniAgain,saved:before===after,cameraHit:hit?.key||null,
+           cached:mini===miniAgain,saved:before===after,changedKeys:changed,
+           changedValues:Object.fromEntries(changed.slice(0,3).map(k=>[k,{
+             old:JSON.stringify(oldState[k])?.slice(0,160),current:JSON.stringify(newState[k])?.slice(0,160)
+           }])),cameraHit:hit?.key||null,
            view:{width:canvas.width,height:canvas.height},
            ms12:Math.round(elapsed),frameMs:times.map(x=>Math.round(x*10)/10),
            monsterTypes:['Wolves','Bandits','Azrael','Wyverns'].map(value=>P.encounterKind({value,level:3,eliteTier:value==='Azrael'?11:0}))};
