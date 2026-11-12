@@ -16,9 +16,9 @@ const NAMES=Object.freeze({
 });
 const MAX=1000000000;
 const RECIPES=Object.freeze({
- guard:Object.freeze({id:'guard',title:'Nghi lễ phong Chiến Vệ',gold:3000,fromCount:12,
+ guard:Object.freeze({id:'guard',title:'Nghi lễ phong Chiến Vệ',gold:3000,fromCount:12,toCount:8,
   fragments:Object.freeze({wild:6}),tokens:Object.freeze({marks:12,tower:3}),minFloor:4}),
- sovereign:Object.freeze({id:'sovereign',title:'Thức tỉnh quân Tối Thượng',gold:20000,fromCount:1,
+ sovereign:Object.freeze({id:'sovereign',title:'Thức tỉnh quân Tối Thượng',gold:20000,fromCount:2,toCount:4,
   fragments:Object.freeze({abyss:4,hunter:8,hero:4,tower:12}),
   tokens:Object.freeze({boss:2,tower:4}),minFloor:11})
 });
@@ -43,7 +43,7 @@ function valid(s){
    q.bossWins>q.npcWins||q.bossAfterGuard>q.bossWins||q.towerAfterGuard>q.paidTowerWins)return false;
  if(q.receipts.some(r=>!r||!['guard','sovereign'].includes(r.id)||!RACES.includes(r.race)||
     !isInt(r.ordinal)||!isInt(r.gold)||!isInt(r.stage,3)||
-    !isInt(r.fromCount,12)||typeof r.fromUnit!=='string'||typeof r.toUnit!=='string'))return false;
+    (!isInt(r.fromCount,120)||r.fromCount<1)||(r.toCount!==undefined&&!isInt(r.toCount,80))||(r.batches!==undefined&&(!isInt(r.batches,10)||r.batches<1))||typeof r.fromUnit!=='string'||typeof r.toUnit!=='string'))return false;
  return true;
 }
 function reserved(s,id){
@@ -73,12 +73,15 @@ function recipe(s,id){
  const story=id==='guard'?stage>=1:
    stage>=2&&(stage>=3||(q.bossWins-q.bossAfterGuard>=1&&q.paidTowerWins-q.towerAfterGuard>=2));
  const floorOK=floor>=r.minFloor;
- const canConvert=story&&floorOK&&idle(s)&&free(s,fromUnit)>=r.fromCount&&
-  s.res.gold>=r.gold&&enoughFragments&&enoughTokens&&
-  (s.army[toUnit]||0)<100000000;
+ const maxBatches=Math.min(10,
+  Math.floor(free(s,fromUnit)/r.fromCount),Math.floor(s.res.gold/r.gold),
+  ...Object.entries(r.fragments).map(([k,n])=>Math.floor((s.hg29.shards[k]||0)/n)),
+  ...Object.entries(r.tokens).map(([k,n])=>Math.floor((s.hg27[k]||0)/n)),
+  Math.floor((100000000-(s.army[toUnit]||0))/r.toCount));
+ const canConvert=story&&floorOK&&idle(s)&&maxBatches>=1;
  return {...r,race,fromUnit,toUnit,fromName:E.getUnit(s,fromUnit)?.name||fromUnit,
   toName:E.getUnit(s,toUnit)?.name||toUnit,
-  free:free(s,fromUnit),owned:s.army[toUnit]||0,story,floorOK,enoughFragments,enoughTokens,
+  free:free(s,fromUnit),owned:s.army[toUnit]||0,maxBatches:Math.max(0,maxBatches),story,floorOK,enoughFragments,enoughTokens,
   canConvert,needsBoss:stage<3?Math.max(0,1-(q.bossWins-q.bossAfterGuard)):0,
   needsTower:stage<3?Math.max(0,2-(q.paidTowerWins-q.towerAfterGuard)):0};
 }
@@ -107,26 +110,28 @@ function claimTrial(s){
   throw Error('Chưa hoàn thành hai trận NPC và một tầng Tháp có thưởng, hoặc quân đang đi');
  q.stage=1;E.note(s,'HG30: Đã mở nghi lễ chuyển quân thường thành Chiến Vệ.');return status(s);
 }
-function convert(s,id){
+function convert(s,id,batches=1){
  const q=ensure(s),r=recipe(s,id);
  if(!r)throw Error('Công thức HG30 không tồn tại');
- if(!r.canConvert)throw Error('Chưa đủ nhiệm vụ, quân rảnh, mảnh HG29, ấn HG27, tầng Tháp hoặc vàng');
+ if(!Number.isSafeInteger(batches)||batches<1||batches>10||!r.canConvert||batches>r.maxBatches)
+  throw Error('Số mẻ không hợp lệ hoặc chưa đủ nhiệm vụ, quân rảnh, mảnh, ấn, tầng Tháp hay vàng');
  const cost=RECIPES[id],sourceId=r.fromUnit,targetId=r.toUnit;
  // All preconditions are checked before the first mutation.
  if(!E.getUnit(s,targetId)||!E.getUnit(s,sourceId))throw Error('Thiếu binh chủng canonical');
- E.spend(s,{gold:cost.gold});
- s.army[sourceId]-=cost.fromCount;
- s.army[targetId]=(s.army[targetId]||0)+1;
- for(const [k,n]of Object.entries(cost.fragments))s.hg29.shards[k]-=n;
- for(const [k,n]of Object.entries(cost.tokens))s.hg27[k]-=n;
+ E.spend(s,{gold:cost.gold*batches});
+ s.army[sourceId]-=cost.fromCount*batches;
+ s.army[targetId]=(s.army[targetId]||0)+cost.toCount*batches;
+ for(const [k,n]of Object.entries(cost.fragments))s.hg29.shards[k]-=n*batches;
+ for(const [k,n]of Object.entries(cost.tokens))s.hg27[k]-=n*batches;
  if(id==='guard'){
   q.guardMade++;
   if(q.stage===1){q.stage=2;q.bossAfterGuard=q.bossWins;q.towerAfterGuard=q.paidTowerWins;}
  }else{q.sovereignMade++;if(q.stage===2)q.stage=3;}
  const receipt={id,race:r.race,ordinal:id==='guard'?q.guardMade:q.sovereignMade,
-  fromUnit:sourceId,toUnit:targetId,fromCount:cost.fromCount,gold:cost.gold,stage:q.stage};
+  fromUnit:sourceId,toUnit:targetId,fromCount:cost.fromCount*batches,toCount:cost.toCount*batches,
+  batches,gold:cost.gold*batches,stage:q.stage};
  q.receipts.unshift(receipt);if(q.receipts.length>30)q.receipts.length=30;
- E.note(s,'HG30: -'+cost.fromCount+' '+r.fromName+', +1 '+r.toName+'; đã trừ đầy đủ mảnh, ấn và vàng.');
+ E.note(s,'HG81: -'+receipt.fromCount+' '+r.fromName+', +'+receipt.toCount+' '+r.toName+' ('+batches+' mẻ); đã trừ đủ mảnh, ấn và vàng.');
  return {...receipt,toName:r.toName};
 }
 function battleAct(s,action,options){
