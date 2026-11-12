@@ -1044,6 +1044,9 @@ function hg74ColorFrame(image,frame){
  const key=image.id+'|'+frame.sx+'|'+frame.sy+'|'+frame.sw+'x'+frame.sh;
  if(hg74ColorFrames.has(key))return hg74ColorFrames.get(key);
  const canvas=document.createElement('canvas');
+ // Preserve the native atlas provenance on colour-cached frames for real
+ // draw-call QA. No image pixels, duration, physics or Save data are changed.
+ canvas.dataset.hg74SourceId=image.id;
  canvas.width=frame.sw;canvas.height=frame.sh;
  const ctx=canvas.getContext('2d');
  if(!ctx)return null;
