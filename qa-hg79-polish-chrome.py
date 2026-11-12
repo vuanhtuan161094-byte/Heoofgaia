@@ -105,13 +105,15 @@ with sync_playwright() as pw:
            s.battleAuto=false;s.battle.autoUntil=Date.now()+10000000;A.showCombatForTests();
            const b=s.battle;
            return {valid:E.strictSave(s),save:s.version,enemy:b.enemies.map(u=>({
-             name:u.name,model:P.hg79EnemyVisualId(u)})),
+             name:u.name,unitId:u.unitId||null,
+             nativeAtlas:!!P.animatedUnitId(u.unitId,u.name),
+             alias:P.hg79EnemyVisualId(u)})),
              srcAtlas:!!document.querySelector('[data-hg33-atlas-src]'),
              heroBanners:document.querySelectorAll('[data-hg57-leaders] .hg79-portrait-knight,[data-hg57-leaders] .hg79-portrait-ranger,[data-hg57-leaders] .hg79-portrait-arcanist,[data-hg57-leaders] .hg79-portrait-warden,[data-hg57-leaders] .hg79-portrait-rogue,[data-hg57-leaders] .hg79-portrait-oracle').length};
         }""")
         check(label+' real NPC encounters resolve to character sprite identities',
               setup['valid'] and setup['save']==7 and setup['srcAtlas'] and
-              setup['enemy'] and all(e['model'] for e in setup['enemy']),setup)
+              setup['enemy'] and all(e['nativeAtlas'] or e['alias'] for e in setup['enemy']),setup)
         check(label+' real battle UI retains hero illustrated banner',
               setup['heroBanners']>=1,setup)
         page.wait_for_timeout(500)
