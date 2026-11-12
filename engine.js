@@ -518,7 +518,8 @@ function autoTargetScore(s,b,actor,target){
 // Real movement first, then the normal attack. Never move through stacks or
 // exceed movement budget, and never spend an extra turn to fire after kiting.
 function autoKiteRanged(b,actor,target){
- if(actor.range<=1||dist(actor,target)>actor.range)return [];
+ // Zero-attack stacks, stationary dummy targets and stunned defenders must not kite.
+ if(actor.atk<=0||actor.count<=0||actor.range<=1||dist(actor,target)>actor.range)return [];
  const foes=alive(actor.side==='player'?b.enemies:b.allies),melee=foes.filter(u=>u.range<=1);
  if(!melee.length)return [];
  const nearest=pos=>Math.min(...melee.map(u=>dist(pos,u)));
