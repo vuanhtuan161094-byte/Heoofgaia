@@ -100,12 +100,12 @@ test('Unrecognized persistent heroId reference blocks operation and leaves state
 });
 // HG45: first-class quality tiers, deterministic Tavern odds and real combat
 // modifiers. No test modifies released resources or fakes a live battle.
-test('HG45.1 1% platinum and 1% rainbow derive ONLY from innate total score',()=>{
+test('HG81 10% platinum and 10% rainbow derive ONLY from innate total score',()=>{
  const s=newGame();s.buildings.tavern=10;
  const tiers=E.HERO_QUALITY_V2,chances=E.heroQualityChances(10);
  assert.equal(tiers.length,7);assert.equal(chances.reduce((a,b)=>a+b,0),100);
- assert.deepEqual(Array.from(chances),[8,18,20,18,34,1,1]);
- assert.deepEqual(Array.from(E.heroQualityChances(6).slice(5)),[1,1]);
+ assert.deepEqual(Array.from(chances),[7,12,14,15,32,10,10]);
+ assert.deepEqual(Array.from(E.heroQualityChances(6).slice(5)),[10,10]);
  const counts=Object.fromEntries(tiers.map(q=>[q.id,0]));
  let total=0;
  for(let round=0;round<1300;round++){
@@ -125,7 +125,7 @@ test('HG45.1 1% platinum and 1% rainbow derive ONLY from innate total score',()=
  assert.equal(total,10400);
  assert(counts.purple/total>.29&&counts.purple/total<.39,JSON.stringify(counts));
  for(const rarity of ['platinum','rainbow'])
-  assert(counts[rarity]/total>.005&&counts[rarity]/total<.016,JSON.stringify(counts));
+  assert(counts[rarity]/total>.07&&counts[rarity]/total<.13,JSON.stringify(counts));
  E.syncCityState(s);assert(E.strictSave(s));
  return {total,counts,platinumPercent:Math.round(counts.platinum/total*1e4)/100,
   rainbowPercent:Math.round(counts.rainbow/total*1e4)/100,save:s.version};
