@@ -7,7 +7,7 @@
  if(!E?.hg408DismissHero||!E?.hg30Convert||!E?.hg71SpecialStatus||!E?.hg47Status)
   throw Error('HG81 needs completed HG30/HG47/HG71/HG73 hero engine');
  const prior={make:E.make,parse:E.parseSave,serialize:E.serializeSave,strict:E.strictSave,
-  xp:E.grantHeroExperience,battleXp:E.battleExperienceReward,after:E.hg40AfterHit,rebirth:E.rebirthHG18Hero};
+  xp:E.grantHeroExperience,battleXp:E.battleExperienceReward,after:E.hg40AfterHit,rebirth:E.rebirthHG18Hero,dismiss:E.hg408DismissHero};
  const MAX=5,EXP_CARD_PRICE=12000,EXP_CARD_USES=8;
  const TREE=Object.freeze([
   Object.freeze({id:'infantry',name:'Quân Đoàn Thiết Giáp',icon:'🛡',type:'Cận chiến',
@@ -112,6 +112,17 @@
   }
   E.note(s,'HG81: '+h.name+' tháo '+gear+' trang bị, giải phóng '+troops+' quân dự kiến. Không mất đồ hay quân.');
   return {heroId:id,gear,troops,version:s.version};
+ }
+ function dismiss(s,id){
+  // The canonical dismissal clones/replaces the Hero roster and verifies the
+  // strict v07 save. HG81 talent credits MUST be removed from that same
+  // preflight clone, otherwise dismissing a trained hero fails as an orphan.
+  const trial=E.clone(s);ensure(trial);
+  delete trial.hg81.skills[id];delete trial.hg81.credits[id];
+  const result=prior.dismiss(trial,id);
+  if(!strict(trial))throw Error('Sa thải HG81 không vượt kiểm tra Save v07.');
+  for(const k of Object.keys(s))if(!own(trial,k))delete s[k];
+  Object.assign(s,trial);return result;
  }
  function fusionCheck(s){
   const r=s.heroes.filter(h=>E.hg408HeroQuality(h)==='rainbow'&&h.level===100&&(h.rebirth||0)===5&&!h.fusionOrigin&&!h.questSpecial);
@@ -233,7 +244,7 @@
  function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG81 không hợp lệ');return prior.serialize(s)}
  Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
   grantHeroExperience:grantXP,battleExperienceReward:xpReward,hg40AfterHit:afterHit,rebirthHG18Hero:rebirth,
-  hg81Ensure:ensure,hg81SkillStatus:treeStatus,hg81SkillUp:skillUp,hg81StripHero:strip,
+  hg81Ensure:ensure,hg81SkillStatus:treeStatus,hg81SkillUp:skillUp,hg81StripHero:strip,hg408DismissHero:dismiss,
   hg81FusionStatus:fusionCheck,hg81Fuse:fuse,hg81XpStatus:xpStatus,
   hg81BuyXpCard:buyXpCard,hg81ActivateXpCard:activateXpCard,hg81Valid:valid,HG81_SKILLS:TREE});
  root.HOG_HG81=Object.freeze({version:1,saveVersion:7,skillCount:TREE.length,xpCardUses:EXP_CARD_USES,
