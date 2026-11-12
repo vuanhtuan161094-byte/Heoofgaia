@@ -1609,18 +1609,55 @@ function sourceView(){return `<section class="hg28-source-view"><header class="h
 function paint(){
  if(!state)return;
  if(tab==='map'||(tab!=='combat'&&$('world-canvas'))){const canvas=$('world-canvas');if(!canvas)return;
-  const draw=()=>{const rect=canvas.getBoundingClientRect();const w=Math.max(1,Math.round(rect.width)),h=Math.max(1,Math.round(rect.height));
-    if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
-    P.drawWorld(canvas,E,state,selected)};draw();
-  let down=null,dragging=false;
-  canvas.onpointerdown=e=>{down={x:e.clientX,y:e.clientY};dragging=false;canvas.setPointerCapture(e.pointerId)};
-  canvas.onpointermove=e=>{if(!down)return;const dx=e.clientX-down.x,dy=e.clientY-down.y;if(Math.abs(dx)+Math.abs(dy)>4)dragging=true;
-   if(dragging){const rect=canvas.getBoundingClientRect(),unit=P.mapCamera().zoom*48;P.panMap(dx*canvas.width/rect.width/unit,dy*canvas.height/rect.height/unit,E.WIDTH,E.HEIGHT);draw();down={x:e.clientX,y:e.clientY}}};
-  canvas.onpointerup=e=>{if(down&&!dragging){const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;const mini=P.miniHit(canvas,x,y,E);if(mini){Object.assign(P.mapCamera(),{centerX:mini.x,centerY:mini.y});selected=mini.key;selectedTargetKind=null;render();return}const t=P.mapHit(canvas,x,y,E);if(t){selected=t.key;selectedTargetKind=null;render();return}}down=null;};
-  // A phone call, orientation change or interrupted touch must not leave
-  // the map in a phantom drag state after the browser cancels the pointer.
-  canvas.onpointercancel=()=>{down=null;dragging=false};
-  canvas.onlostpointercapture=()=>{down=null;dragging=false};
+  const draw=()=>{
+   const rect=canvas.getBoundingClientRect();
+   // Cap the Android backing store to protect low-memory phones. Both tiles
+   // and pointer coordinates use painter's same CSS-density projection.
+   const density=Math.min(1.65,Math.max(1,window.devicePixelRatio||1));
+   const w=Math.max(1,Math.round(rect.width*density)),h=Math.max(1,Math.round(rect.height*density));
+   if(canvas.width!==w||canvas.height!==h){canvas.width=w;canvas.height=h;}
+   P.drawWorld(canvas,E,state,selected);
+  };draw();
+  let down=null,dragging=false,pinchDistance=0;
+  const pointers=new Map(),distance=()=>{
+   const a=[...pointers.values()];return a.length<2?0:Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);
+  };
+  canvas.onpointerdown=e=>{
+   const id=e.pointerId??1;pointers.set(id,{x:e.clientX,y:e.clientY});
+   if(pointers.size===1){down={x:e.clientX,y:e.clientY};dragging=false;pinchDistance=0}
+   else{down=null;dragging=true;pinchDistance=distance()}
+   try{canvas.setPointerCapture?.(id)}catch(_){}
+  };
+  canvas.onpointermove=e=>{
+   const id=e.pointerId??1;if(!pointers.has(id))return;
+   pointers.set(id,{x:e.clientX,y:e.clientY});
+   if(pointers.size>=2){
+    const next=distance();
+    if(pinchDistance>12&&next>12)P.zoomMap(next/pinchDistance);
+    pinchDistance=next;down=null;dragging=true;draw();return;
+   }
+   if(!down)return;
+   const dx=e.clientX-down.x,dy=e.clientY-down.y;
+   if(Math.abs(dx)+Math.abs(dy)>4)dragging=true;
+   if(dragging){const unit=P.mapCamera().zoom*48;
+    P.panMap(dx/unit,dy/unit,E.WIDTH,E.HEIGHT);draw();down={x:e.clientX,y:e.clientY}}
+  };
+  canvas.onpointerup=e=>{
+   const id=e.pointerId??1,wasPinch=pointers.size>=2||pinchDistance>0;
+   pointers.delete(id);
+   if(wasPinch){down=null;dragging=true;pinchDistance=0;return}
+   if(down&&!dragging){
+    const r=canvas.getBoundingClientRect(),x=(e.clientX-r.left)*canvas.width/r.width,y=(e.clientY-r.top)*canvas.height/r.height;
+    const mini=P.miniHit(canvas,x,y,E);
+    if(mini){Object.assign(P.mapCamera(),{centerX:mini.x,centerY:mini.y});selected=mini.key;selectedTargetKind=null;render();return}
+    const t=P.mapHit(canvas,x,y,E);
+    if(t){selected=t.key;selectedTargetKind=null;render();return}
+   }
+   down=null;
+  };
+  // Pointer cancellation or an interrupted orientation change clears gestures.
+  canvas.onpointercancel=()=>{down=null;dragging=false;pinchDistance=0;pointers.clear()};
+  canvas.onlostpointercapture=()=>{if(!pointers.size){down=null;dragging=false;pinchDistance=0}};
   canvas.onwheel=e=>{e.preventDefault();P.zoomMap(e.deltaY>0?.9:1.1);draw()};
  }if(tab==='city'){const canvas=$('city-canvas');P.drawCity(canvas,E,state,selectedBuilding);
   canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
