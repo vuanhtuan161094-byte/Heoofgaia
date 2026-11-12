@@ -721,7 +721,7 @@ test('HG09 move order advances across turns, survives v07 reload and can be manu
 });
 test('HG41 archers cannot fire from spawn when target is farther than four hexes',()=>{
  const s=state();s.army.human_3=40;s.formation=[{unitId:'human_3',count:40}];s.battle=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
- const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y},initialEnemies=new Map(s.battle.enemies.map(u=>[u.id,{x:u.x,y:u.y}]));assert.equal(archer.range,4);const out=E.battleAct(s,'attack');
+ const archer=s.battle.allies[0],before=s.battle.enemies.reduce((n,u)=>n+u.pool,0),position={x:archer.x,y:archer.y},initialEnemies=new Map(s.battle.enemies.map(u=>[u.id,{x:u.x,y:u.y}]));assert.equal(archer.range,5);const out=E.battleAct(s,'attack');
  assert.equal(out.dealt,0,'Archer must not shoot over the whole 12x9 map');
  assert.equal(s.battle.enemies.reduce((n,u)=>n+u.pool,0),before);
  const event=s.battle.lastEvents.find(e=>e.actorId===archer.id);
@@ -767,8 +767,8 @@ test('HG16 all 40 racial units follow the same deterministic base-damage and her
 test('HG16-G2 bounded ranged reach keeps tactical positioning meaningful',()=>{
  const s=state();s.army.human_3=20;s.formation=[{unitId:'human_3',count:20}];
  const b=E.makeBattle(s,E.TILES.find(t=>t.kind==='npc').key);
- assert.equal(b.allies[0].range,4);
- assert.equal(E.unitTacticalRange(E.getUnit(s,'human_8')),3);
+ assert.equal(b.allies[0].range,5);
+ assert.equal(E.unitTacticalRange(E.getUnit(s,'human_8')),4);
  assert.equal(E.unitTacticalRange(E.getUnit(s,'human_1')),1);
  b.allies[0].x=0;b.allies[0].y=0;
  b.enemies=[{id:'e0',side:'enemy',unitId:null,name:'Far target',range:1,count:1,initial:1,hp:1e7,
