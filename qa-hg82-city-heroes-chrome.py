@@ -115,20 +115,18 @@ with sync_playwright() as p:
         page.locator('[data-action="tab"][data-tab="city"]').first.click()
         page.locator('[data-action="city-switch"][data-id="city-elf-qa"]').first.click()
         page.locator('[data-action="tab"][data-tab="map"]').first.click()
-        quick=page.locator('[data-action="findnpc"]').first
-        status=page.evaluate("""() => {
-          const e=document.querySelector('[data-action="findnpc"]'),main=document.getElementById('main');
-          return {buttonVisible:!!e?.getClientRects().length,
-            buttonDisplay:e&&getComputedStyle(e).display,
-            parentDisplay:e?.parentElement&&getComputedStyle(e.parentElement).display,
-            mainDisplay:main&&getComputedStyle(main).display,
-            modalHidden:document.getElementById('game-modal').hidden,
-            bodyClasses:document.body.className};
-        }""")
-        print('HG82 MAP TARGET NAV',label,status,flush=True)
-        if quick.is_visible():quick.click()
-        else:page.evaluate("""() => document.querySelector('[data-action="findnpc"]').click()""")
-        page.locator('[data-action="dispatch-open"]').first.click()
+        # Real map quick-actions are in the right-dock expandable panel.
+        # Open it via an actual visible click if the user had closed it.
+        drawer=page.locator('[data-hg39-drawer="Tác vụ nhanh"]')
+        if drawer.count() and not drawer.evaluate('(e)=>e.open'):
+            drawer.locator('summary').click()
+        quick=page.locator('[data-action="findnpc"]:visible').first
+        check(label+' quick NPC action is accessible in map dock',
+              quick.count()==1)
+        quick.click()
+        dispatch=page.locator('[data-action="dispatch-open"]:visible').first
+        check(label+' map dispatch action is accessible',dispatch.count()==1)
+        dispatch.click()
         cards=page.evaluate("""() => {
           const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
           return {home:s.activeCityId,local:E.hg82CityHeroes(s).map(h=>h.id),
