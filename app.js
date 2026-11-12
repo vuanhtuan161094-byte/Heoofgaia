@@ -1960,6 +1960,26 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='hg46-open-gear'){tab='heroes';hg408Tab='gear';hg408InspectId=state.activeHero;return}
  if(action==='hg408-equip'){E.equipItem(state,Number(target.dataset.uid),Number(target.dataset.id));return}
  if(action==='hg408-unequip'){E.unequipItem(state,target.dataset.slot,Number(target.dataset.id));return}
+  if(action==='hg81-strip'){
+    const out=E.hg81StripHero(state,Number(target.dataset.id),target.dataset.mode);
+    toast('Đã tháo '+out.gear+' trang bị và thu hồi '+out.troops+' quân dự kiến, không mất quân/đồ.');return
+  }
+  if(action==='hg81-skill-up'){
+    const out=E.hg81SkillUp(state,Number(target.dataset.id),target.dataset.skill);
+    toast('Đã nâng kỹ năng cấp '+out.level+'; còn '+out.remaining+' điểm.');return
+  }
+  if(action==='hg81-buy-card'){
+    const out=E.hg81BuyXpCard(state);toast('Mua thẻ EXP ×2 thành công; còn '+out.cards+' thẻ.');return
+  }
+  if(action==='hg81-use-card'){
+    const out=E.hg81ActivateXpCard(state);toast('Thẻ EXP ×2 đang hoạt động trong '+out.activeUses+' lượt nhận EXP.');return
+  }
+  if(action==='hg81-fuse'){
+    const rainbow=Number(target.dataset.rainbow),platinum=Number(target.dataset.platinum);
+    if(!confirm('Hợp thể vĩnh viễn? Tướng Bạch Kim Lv100/CS5 bị tiêu hao. Trang bị vẫn ở kho, quân không mất.'))return;
+    const out=E.hg81Fuse(state,rainbow,platinum);
+    hg408InspectId=out.id;hg408Tab='skills';toast('✹ Đã nhận '+out.name+'!');return
+  }
  if(action==='modal-close'||action==='dispatch-close'){showWorldIndex=false;showResourceInfo=false;dispatchDraft=null;tab='map';modalOffset=0;return}
  if(action==='dispatch-open'){
   const heroId=state.activeHero;if(!selected)throw Error('Chọn mục tiêu trên bản đồ trước.');
@@ -2159,7 +2179,10 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='hg31-focus'){const out=E.hg31SetFocus(state,target.dataset.id);toast('Đã chọn farm '+E.ITEMS[out.id].name);return}
  if(action==='hg31-craft'){const out=E.hg31Craft(state,target.dataset.id);toast('Đã ghép '+E.ITEMS[out.itemId].name);return}
  if(action==='hg30-claim'){E.hg30ClaimTrial(state);toast('Đã mở nhiệm vụ chuyển hóa Chiến Vệ.');return}
- if(action==='hg30-convert'){const r=E.hg30Convert(state,target.dataset.id);toast('Đã chuyển hóa thành '+r.toName);return}
+ if(action==='hg30-convert'){
+  const r=E.hg30Convert(state,target.dataset.id,Number(target.dataset.batches||1));
+  toast('Đã đổi '+format(r.toCount)+' '+r.toName+' từ '+r.batches+' mẻ nguyên liệu thật.');return
+ }
  if(action==='hg29-craft'){const out=E.hg29Craft(state,target.dataset.id);toast('Đã ghép mảnh: '+out.id);return}
  if(action==='hg27-exchange'){const out=E.hg27Exchange(state,target.dataset.id);toast('Đổi thưởng thành công: '+out.id);return}
  if(action==='hg18-claim'){E.claimHG18Task(state,target.dataset.cycle,target.dataset.id);toast('Đã nhận thưởng nhiệm vụ.');return}
