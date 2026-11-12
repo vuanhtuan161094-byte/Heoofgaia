@@ -15,6 +15,7 @@ on:
       - build_offline.py
       - qa-hg81-heroes.cjs
       - qa-hg81-heroes-chrome.py
+      - qa-hg408-hero-chrome.py
       - qa-hg30-ascension.cjs
       - qa-hg408-heromanagement.cjs
       - .github/workflows/hg81-heroes.yml
