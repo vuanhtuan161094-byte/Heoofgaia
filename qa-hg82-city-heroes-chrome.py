@@ -103,6 +103,23 @@ with sync_playwright() as p:
         }""")
         check(label+' Tavern button hires into secondary city ONLY',
               hired['valid'] and hired['cityId']=='city-elf-qa' and hired['local']==[hired['heroId']],hired)
+        # Direct one-click army assignment from the recruited hero's Overview
+        # and one-click demobilization both operate on city-local real stock.
+        page.locator('[data-action="hg82-assign-max"]').click()
+        allocated=page.evaluate("""() => {
+          const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),h=s.heroes.find(h=>h.cityId==='city-elf-qa');
+          return {plan:E.hg20HeroPlan(s,h.id),stock:s.army.elf_1,valid:E.strictSave(s)};
+        }""")
+        check(label+' one-click hero Overview MAX allocates real Elf troops only',
+              allocated['valid'] and len(allocated['plan'])>0 and
+              allocated['stock']>0,allocated)
+        page.locator('[data-action="hg81-strip"][data-mode="army"]').click()
+        cleared=page.evaluate("""() => {
+          const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),h=s.heroes.find(h=>h.cityId==='city-elf-qa');
+          return {count:E.hg20HeroPlan(s,h.id).length,stock:s.army.elf_1,valid:E.strictSave(s)};
+        }""")
+        check(label+' one-click demobilization retains city garrison intact',
+              cleared['valid'] and cleared['count']==0 and cleared['stock']==allocated['stock'],cleared)
         page.locator('[data-action="tab"][data-tab="city"]').first.click()
         page.locator('[data-action="city-switch"][data-id="main"]').first.click()
         page.locator('[data-action="tab"][data-tab="heroes"]').first.click()
