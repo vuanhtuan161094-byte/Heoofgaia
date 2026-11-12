@@ -103,8 +103,8 @@ test('One-button retirement cancels ONLY that hero task, keeps completion counte
 });
 test('One-button retirement of Castellan frees same castle and keeps owned gear stock',()=>{
  const s=game(),h=s.heroes[0];second(s);
- s.castellan=h.id;s.cities[0].local.castellan=h.id;
  const item=E.addItem(s,'star_blade','HG82 retirement test');E.equipItem(s,item.uid,h.id);
+ s.castellan=h.id;s.cities[0].local.castellan=h.id;
  assert(E.strictSave(s));
  const count=s.inventory.length,r=E.hg82QuickDismiss(s,h.id);
  assert.equal(r.releasedCastle,true);assert.equal(s.castellan,null);
