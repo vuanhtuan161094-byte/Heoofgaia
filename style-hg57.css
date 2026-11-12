@@ -364,3 +364,29 @@ body.hg39-world-map-mode #main>.map-frame{
 @media(prefers-reduced-motion:reduce){
  .hg45-portrait-art .hg45-portrait-aura,.hg45-portrait-art .hg45-portrait-stars{animation:none!important}
 }
+
+
+/* HG81 – hero tactical doctrine, fast demobilization and exclusive Fusion. */
+.hg81-card{padding:14px;margin:10px 0;border:1px solid #a79a7b65;border-radius:10px;background:linear-gradient(150deg,#233341ee,#122332ef);display:grid;gap:10px}
+.hg81-head{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:8px}
+.hg81-head h3,.hg81-card h3{margin:0;color:#f3dfb4;font-weight:750;letter-spacing:.02em}
+.hg81-head b{color:#fff5d7;background:#203b4c;padding:5px 10px;border:1px solid #a7b9ac66;border-radius:12px}
+.hg81-card small{line-height:1.5;color:#c7d2dc}
+.hg81-skill-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.hg81-node{display:flex;flex-direction:column;gap:8px;min-width:0;padding:12px;border-radius:8px;border:1px solid #c5ad7a69;background:linear-gradient(155deg,#405264a8,#192c3bb0)}
+.hg81-node strong{color:#fce5ae;font-size:clamp(.82rem,1.2vw,1rem);line-height:1.35}
+.hg81-node .tag{align-self:flex-start;white-space:normal}
+.hg81-node button{margin-top:auto;min-height:36px}
+.hg81-ranks{display:flex;gap:5px;font-size:16px;color:#63717c}
+.hg81-ranks span.filled{color:#f9cc76;text-shadow:0 0 9px #e5a552b9}
+.hg81-fusion{border-color:#a7d5f0a8;background:radial-gradient(ellipse at 90% 8%,#5a56817a,transparent 65%),linear-gradient(135deg,#15293a,#2b2945)}
+.hg81-fusion h3{color:#fdf0bd;text-shadow:0 0 9px #8ae0ed55}
+.hg81-fusion .actions{display:flex;flex-wrap:wrap;gap:8px}
+.hg408-quality-origin{color:#fdf2c9!important;text-shadow:0 0 6px #aaf1ffab,0 0 13px #ea90e7bb,0 0 19px #d6b46380}
+.hg408-roster-card:has(.hg408-quality-origin),.hg408-offer:has(.hg408-quality-origin){border-color:#dfbfff!important;box-shadow:0 0 16px #7ba6c941}
+.hg45-portrait-origin{--p-glow:#bdfbff;--p-crown:#e7cfff;filter:drop-shadow(0 0 9px #89dff5a5)}
+.hg45-portrait-origin:before{background:conic-gradient(from 20deg,#92dfff,#ffe1b3,#ba93fa,#f5b8ec,#86f3ee,#92dfff);opacity:.63}
+.hg45-portrait-origin .hg79-arch{stroke:#d3f1ff!important;stroke-width:2.4!important}
+.hg45-portrait-origin .hg79-halo,.hg45-portrait-origin .hg79-hero-eyes{stroke:#ebfaff!important}
+@media(max-width:650px){.hg81-card{padding:10px}.hg81-skill-grid{grid-template-columns:1fr}.hg81-node{padding:10px}.hg81-card .actions button{width:100%}}
+@media(prefers-reduced-motion:reduce){.hg45-portrait-origin *{animation:none!important}}
