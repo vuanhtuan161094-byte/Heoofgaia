@@ -59,9 +59,9 @@ with sync_playwright() as browser_tool:
               initial['version']==7 and initial['valid'] and
               initial['quality'] in ('white','blue','yellow','green','purple'),initial)
         page.locator('[data-action="tab"][data-tab="heroes"]').first.click()
-        check(label+' new real five-tab hero screen exists',
+        check(label+' new real six-tab hero screen exists',
               page.locator('.hg408-screen').count()==1 and
-              page.locator('.hg408-tabs button').count()==5)
+              page.locator('.hg408-tabs button').count()==6)
         geometry=page.evaluate("""() => {
             const rect=e=>{const r=e.getBoundingClientRect();
                 return {x:r.x,y:r.y,w:r.width,h:r.height,right:r.right,bottom:r.bottom}};
