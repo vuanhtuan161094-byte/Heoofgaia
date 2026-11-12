@@ -47,7 +47,7 @@ check('real one-round actions ALL player then ALL enemy; Save and rewards remain
  assert(sides.slice(0,firstE).every(x=>x==='p'));
  assert(sides.slice(firstE).every(x=>x==='e'));
  const moves=b.lastEvents.filter(x=>x.path?.length>0);
- assert(moves.every(e=>e.path.length<=3));
+ assert(moves.every(e=>e.path.length<=7));
  assert(E.strictSave(s));
  if(out.type==='continue')assert.equal(s.hg409.rewards.length,previousRewards);
  return {type:out.type,sides:sides.join(''),actors:b.lastEvents.length,
@@ -122,7 +122,7 @@ check('HG57-B genuine three-hero x two-stack expedition fights sixteen live Boss
   const events=current.lastEvents||[],owner=events.map(e=>e.actorId[0]);
   assert(!owner.join('').includes('ep'),'Enemy acted before an ally in round '+turn);
   for(const evt of events){
-   assert((evt.path||[]).length<=3,'Actor moves beyond legal max 3 hex');
+   assert((evt.path||[]).length<=7,'Actor moves beyond legal maximum 7 hex including Dragon flight and a movement buff');
   }
   const timing=P.battleVisualSchedule(events);
   for(let k=1;k<timing.steps.length;k++)
