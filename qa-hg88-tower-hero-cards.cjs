@@ -135,5 +135,36 @@ test('reset ledger rejects invalid fields and no interrupted battle can reset',(
  assert.equal(team.hg20.tower.floor,floor);
  return {blocked:true,version:team.version};
 });
-console.log('HG88 '+passed+'/8 '+(process.exitCode?'FAIL':'PASS'));
-if(passed!==8)process.exitCode=1;
+test('real combat win -> reset -> replay never reclaims first-clear shards, gear, cards or XP',()=>{
+ const s=fresh();
+ // QA ONLY: strengthen the real starter garrison from 16 to 61 so a
+ // genuine 3x2 Tower battle settles without bypassing the battle engine.
+ s.army.human_1=61;
+ E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:61}]);
+ E.hg20ChooseTowerTeam(s,[1]);E.hg21TowerEnableEndurance(s);
+ function win(){
+  E.hg21TowerEnter(s);let out={type:'continue'};
+  for(let i=0;i<70&&s.battle;i++)out=E.battleAct(s,'attack');
+  assert.equal(out.type,'win');assert.equal(s.battle,null);return out;
+ }
+ const first=win();assert.equal(first.claimed,true);
+ assert.equal(s.hg20.tower.hg88.highest,1);
+ const xBefore={cards:s.hg18.materials.resource_card,large:s.hg18.materials.resource_chest,
+  inventory:s.inventory.length,shards:JSON.stringify(s.hg29.shards),
+  exp:s.heroes.find(h=>h.id===1).xp,essence:s.hg20.tower.essence};
+ E.hg88ResetTower(s);
+ const repeat=win();
+ assert.equal(repeat.claimed,false);assert.equal(repeat.replay,true);
+ assert.equal(s.hg20.tower.floor,2);assert.equal(s.hg20.tower.hg88.highest,1);
+ assert.equal(s.hg18.materials.resource_card,xBefore.cards);
+ assert.equal(s.hg18.materials.resource_chest,xBefore.large);
+ assert.equal(s.inventory.length,xBefore.inventory);
+ assert.equal(JSON.stringify(s.hg29.shards),xBefore.shards);
+ assert.equal(s.heroes.find(h=>h.id===1).xp,xBefore.exp);
+ assert(s.hg20.tower.essence>=xBefore.essence);
+ assert(save(s).version===7);
+ return {firstClaimed:first.claimed,replayClaimed:repeat.claimed,
+  replayEssence:repeat.rewardEssence,cardsUnchanged:true,gearUnchanged:true};
+});
+console.log('HG88 '+passed+'/9 '+(process.exitCode?'FAIL':'PASS'));
+if(passed!==9)process.exitCode=1;
