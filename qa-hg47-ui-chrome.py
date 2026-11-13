@@ -85,7 +85,8 @@ with sync_playwright() as pw:
               HOG_APP_DEBUG.render();return {uid:i.uid,affix:E.hg47Affixes(i),strict:E.strictSave(s)};
             }""")
             check('Fixture new helm has stable real affix and canonical UID',fixture['strict'] and len(fixture['affix'])==1,fixture)
-            page.locator('.hg46-inventory-card[data-hg46-uid="'+str(fixture['uid'])+'"] [data-action="hg408-equip"]').click()
+            page.locator('.hg46-inventory-card[data-hg46-uid="'+str(fixture['uid'])+'"]').click()
+            page.locator('.hg83-inspector [data-action="hg408-equip"]').click()
             worn=page.evaluate("""uid=>{
               const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState();
               return {worn:s.equipment[1].helm===uid,valid:E.strictSave(s),
