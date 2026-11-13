@@ -8,6 +8,7 @@ on:
       - app.js
       - qa-hg27-farm.cjs
       - qa-hg30-ascension.cjs
+      - qa-hg81-heroes.cjs
       - qa-hg30-ui-chrome.py
       - qa-hg85-troop-conversion.cjs
       - qa-hg85-city-no-flicker-chrome.py
@@ -37,6 +38,7 @@ jobs:
           node qa-hg85-troop-conversion.cjs
           node qa-hg27-farm.cjs
           node qa-hg30-ascension.cjs
+          node qa-hg81-heroes.cjs
           node qa-engine.cjs
   chromium:
     needs: engine
