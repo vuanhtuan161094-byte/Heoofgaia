@@ -69,7 +69,7 @@ with sync_playwright() as pw:
     ok('guard click spends 12 base units and generates canonical guard',page.evaluate("""()=>{
       const s=HOG_APP_DEBUG.getState();return s.hg30.stage===2&&
         s.hg30.guardMade===1&&s.hg27.marks===48&&s.hg29.shards.wild===54&&
-        s.army.human_quest_guard===1&&HOG_ENGINE.strictSave(s);
+        s.army.human_quest_guard===4000&&HOG_ENGINE.strictSave(s);
     }"""))
     shot(page,'fixture-03-guard-converted-1280x720.png')
     page.evaluate("""()=>{
@@ -80,15 +80,15 @@ with sync_playwright() as pw:
     page.locator('[data-action="hg30-convert"][data-id="sovereign"]').first.click()
     ok('sovereign click spends guard & both wallets, reaches stage3',page.evaluate("""()=>{
       const s=HOG_APP_DEBUG.getState();return s.hg30.stage===3&&
-        s.hg30.sovereignMade===1&&s.army.human_quest_guard===0&&
-        s.army.human_tower_sovereign===1&&s.hg29.shards.abyss===56&&
+        s.hg30.sovereignMade===1&&s.army.human_quest_guard===3998&&
+        s.army.human_tower_sovereign===4000&&s.hg29.shards.abyss===56&&
         s.hg27.boss===58&&HOG_ENGINE.strictSave(s);
     }"""))
     shot(page,'fixture-05-sovereign-converted-1280x720.png')
     page.reload(wait_until='load')
     ok('cold reload keeps stage3 and cannot multiply sovereigns',page.evaluate("""()=>{
       const s=HOG_APP_DEBUG.getState();return s.hg30.stage===3&&
-        s.hg30.sovereignMade===1&&s.army.human_tower_sovereign===1&&
+        s.hg30.sovereignMade===1&&s.army.human_tower_sovereign===4000&&
         HOG_ENGINE.strictSave(s);
     }"""))
     page.locator('[data-action="tab"][data-tab="army"]').first.click()
