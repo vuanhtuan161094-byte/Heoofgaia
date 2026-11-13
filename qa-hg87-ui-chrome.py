@@ -100,6 +100,17 @@ with sync_playwright() as pw:
         page.locator('details.hg87-forge > summary').click()
         recipe='hg87_'+race+'_armor'
         check(mode+' '+race+' eligible Epic forge is a real clickable recipe',page.locator(f'[data-hg87-recipe="{recipe}"] [data-action="hg87-craft"]:not([disabled])').count()==1)
+        # Measure the canonical spend call, not net wallet delta at x60:
+        # live production can credit gold between UI click and snapshot.
+        page.evaluate("""() => {
+          const E=HOG_ENGINE,old=E.spend;window.__hg88ForgePayments=[];
+          E.spend=(s,c)=>{
+            const before=s.res.gold,out=old(s,c);
+            window.__hg88ForgePayments.push({goldBefore:before,goldAfter:s.res.gold,
+              requested:c.gold||0,debited:before-s.res.gold});
+            return out;
+          };
+        }""")
         before=page.evaluate("""()=>{const s=HOG_APP_DEBUG.getState();return {gold:s.res.gold,
           gear:s.hg29.shards.gear,hunter:s.hg29.shards.hunter,tower:s.hg29.shards.tower,n:s.inventory.length};}""")
         page.locator(f'[data-hg87-recipe="{recipe}"] [data-action="hg87-craft"]').click()
@@ -107,10 +118,14 @@ with sync_playwright() as pw:
          const E=HOG_ENGINE,s=HOG_APP_DEBUG.getState(),q=E.hg87Catalogue(s).find(x=>x.id===id);
          return {count:s.inventory.filter(x=>x.itemId===id).length,n:s.inventory.length,
            gold:s.res.gold,gear:s.hg29.shards.gear,hunter:s.hg29.shards.hunter,tower:s.hg29.shards.tower,
-           cost:q.cost,valid:E.strictSave(s)};
+           cost:q.cost,valid:E.strictSave(s),
+           payments:window.__hg88ForgePayments||[]};
         }""",recipe)
         check(mode+' '+race+' paid Epic craft yields exactly one UID and real resource costs',crafted['count']==1 and
-          crafted['n']==before['n']+1 and crafted['gold']==before['gold']-crafted['cost']['gold'] and
+          crafted['n']==before['n']+1 and len(crafted['payments'])==1 and
+          crafted['payments'][0]['requested']==crafted['cost']['gold'] and
+          abs(crafted['payments'][0]['debited']-crafted['cost']['gold'])<0.0001 and
+          crafted['gold']>=before['gold']-crafted['cost']['gold']-0.0001 and
           crafted['gear']==before['gear']-crafted['cost']['gear'] and
           crafted['hunter']==before['hunter']-crafted['cost']['hunter'] and
           crafted['tower']==before['tower']-crafted['cost']['tower'] and crafted['valid'],crafted)
