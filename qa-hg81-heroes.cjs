@@ -39,7 +39,7 @@ test('All Tavern offer pools contain 10% platinum and 10% rainbow, no Origin rol
  assert(rainbow>50&&platinum>50,{rainbow,platinum});
  assert(E.strictSave(s));return {pools,rainbow,platinum};
 });
-test('Real-cost repeated four-race conversion yields eight guards from 12 T1',()=>{
+test('Real-cost repeated four-race conversion yields 12000 guards for 36 T1',()=>{
  const results=[];
  for(const race of Object.keys(E.C.races)){
   const s=E.make(race,1_000_000);s.hg30.stage=1;s.hg30.npcWins=2;s.hg30.paidTowerWins=1;
@@ -48,12 +48,12 @@ test('Real-cost repeated four-race conversion yields eight guards from 12 T1',()
   const before={gold:s.res.gold,wild:s.hg29.shards.wild,marks:s.hg27.marks,
    t1:s.army[race+'_1'],guard:s.army[race+'_quest_guard']||0};
   const r=E.hg30Convert(s,'guard',3);
-  assert.equal(r.batches,3);assert.equal(r.toCount,24);
+  assert.equal(r.batches,3);assert.equal(r.toCount,12000);
   assert.equal(s.army[race+'_1'],before.t1-36);
-  assert.equal(s.army[race+'_quest_guard'],before.guard+24);
+  assert.equal(s.army[race+'_quest_guard'],before.guard+12000);
   assert.equal(s.res.gold,before.gold-9000);assert.equal(s.hg29.shards.wild,before.wild-18);
   assert.equal(s.hg27.marks,before.marks-36);
-  assert(E.strictSave(s));results.push({race,guard:24,spentGold:9000});
+  assert(E.strictSave(s));results.push({race,guard:12000,spentGold:9000});
  }
  return results;
 });
