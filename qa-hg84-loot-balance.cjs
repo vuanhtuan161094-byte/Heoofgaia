@@ -124,5 +124,35 @@ check('Actual T11 Boss unlocks owned jackpot only on victory, once per ordinal a
  assert.equal(reload.hg47.worldSeen,ordinal);
  return {target:tile.key,ordinal,uid:entry.uid,itemId:entry.itemId,turns:result.turns,save:7};
 });
+check('Real T12/T13 victory receipts increase Boss and focused gear shards by tier',()=>{
+ const receipts=[];
+ for(const tier of [12,13]){
+  const s=fresh(),h=s.heroes[0];
+  h.level=100;h.atk=240000;h.def=240000;h.spd=100;
+  s.army.human_10=500;s.ap=700;
+  const target=E.hg24RecommendBoss(s).find(q=>q.eliteTier===tier);
+  assert(target,'No real Boss T'+tier+' target');
+  E.hg20SetHeroPlan(s,1,[{unitId:'human_10',count:500}]);
+  E.startMarch(s,target.key);
+  let ticks=0;while(s.march&&ticks++<12)
+   E.tick(s,s.lastTick+Math.ceil((s.march.remaining+3)/s.speed*1000));
+  assert(s.battle,'Boss must be fought before paying rewards');
+  assert.equal(s.hg29.shards.abyss,0);
+  const outcome=win(s);
+  const bossCore=s.hg29.shards.abyss,dragon=s.hg31.fragments.dragon_blade;
+  const rare=s.hg47.fragments[E.hg47ItemId('human','rare','weapon')];
+  const divine=s.hg47.fragments[E.hg47ItemId('human','divine','weapon')];
+  assert.equal(bossCore,tier-10);
+  assert.equal(dragon,tier-10);
+  assert.equal(rare,tier===13?4:3);
+  assert.equal(divine,tier===13?4:3);
+  assert.equal(s.hg29.last.source,'npc_boss');
+  assert.equal(s.hg31.history.filter(q=>q.source==='boss').length,1);
+  assert.equal(s.hg47.history.filter(q=>q.channel==='world').length,2);
+  saved(s);
+  receipts.push({tier,turns:outcome.turns,bossCore,dragon,rare,divine,save:7});
+ }
+ return {receipts,realBattles:true};
+});
 console.log('HG84 '+tests.filter(x=>x.pass).length+'/'+tests.length+' '+(process.exitCode?'FAIL':'PASS'));
 if(tests.some(x=>!x.pass))process.exitCode=1;
