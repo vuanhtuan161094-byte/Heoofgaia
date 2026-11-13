@@ -56,7 +56,7 @@ check('Lock and favorite flags follow canonical UID through cold Save and single
 });
 check('Bulk salvage respects own gear, locked, favorite, enhanced, rare tiers, UID and exact payout',()=>{
  const s=fresh();
- const a=E.addItem(s,'copper_blade','HG87 loose QA'),b=E.addItem(s,'copper_plate','HG87 loose QA');
+ const a=E.addItem(s,'copper_blade','HG87 loose QA'),b=E.addItem(s,'iron_armor','HG87 loose QA');
  const locked=E.addItem(s,'sentinel_sword','HG87 locked QA');
  const loved=E.addItem(s,'copper_blade','HG87 loved QA');
  const worn=E.addItem(s,'sentinel_plate','HG87 equipped QA');
