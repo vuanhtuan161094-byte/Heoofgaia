@@ -36,8 +36,12 @@ with sync_playwright() as pw:
   check(label+' gear instance created using canonical v07 inventory',data['valid'],data)
   page.locator('#nav [data-tab="heroes"]').click()
   page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
-  check(label+' all ten slots and item info present',page.locator('.hg46-slot').count()==10 and page.locator('.hg63-item-details').count()>0)
-  desc=page.locator('.hg46-inventory-card .hg63-item-details').first
+  check(label+' ten compact slots and hidden item details before click',
+        page.locator('.hg46-slot').count()==10 and page.locator('.hg83-inspector').count()==0)
+  page.locator('.hg46-inventory-card[data-hg46-uid="'+str(data['uid'])+'"]').click()
+  check(label+' details appear only when actual UID is selected',
+        page.locator('.hg83-inspector .hg63-item-details').count()==1)
+  desc=page.locator('.hg83-inspector .hg63-item-details').first
   desc.evaluate('(el)=>el.open=true')
   text=desc.inner_text()
   check(label+' actual stats, set and earned-source text',all(v in text for v in ['Chỉ số thực','Vệ Binh','Nguồn nhận','HG63 QA gear source']),text[:500])
