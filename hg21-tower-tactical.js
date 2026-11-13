@@ -14,6 +14,12 @@ const validIndex=x=>Number.isSafeInteger(x)&&x>=0&&x<7;
 function ensure(s){
  E.hg20Ensure(s);
  const t=s.hg20.tower;
+ // HG88 historical Save v07: a previously reached floor is already cleared.
+ // Free daily reset never recreates first-clear milestone rewards.
+ if(!t.hg88)t.hg88={v:1,highest:Math.max(0,t.floor-1),resetDay:day(s.lastTick),resetsUsed:0};
+ if(t.hg88.resetDay!==day(s.lastTick)){
+  t.hg88.resetDay=day(s.lastTick);t.hg88.resetsUsed=0;
+ }
  if(!Array.isArray(t.picks))t.picks=[];
  if(t.picks.length===0&&t.team.length){
   t.picks=t.team.map(id=>({heroId:id,slots:E.hg20HeroPlan(s,id).slice(0,OWNED_SLOTS).map((_,i)=>i)}));
@@ -264,11 +270,19 @@ function towerCast(s,heroId,spellId){
 }
 function reward(s,b,outcome){
  const t=s.hg20.tower,floor=b.hg21Tower.floor;
- const won=outcome==='win',endurance=t.enduranceMode===true,
-  claimed=won&&(endurance||t.claims<5);
- const gold=claimed?Math.min(1e12,2500+floor*900):0;
- const essence=claimed?Math.min(1e12,2+Math.floor(floor/4)):0;
- const report={floor,outcome:won?'win':'lose',enemy:b.enemies[0]?.name||'Quái Bí Cảnh',
+ const won=outcome==='win',endurance=t.enduranceMode===true;
+ const firstClear=floor>t.hg88.highest;
+ const advance=won&&(endurance||t.claims<5);
+ const claimed=advance&&firstClear;
+ // Replay floors pay only modest gold/essence. Never re-mint the original
+ // first-clear loot, Tower shards, Crown jackpots, cards or experience.
+ const repeat=advance&&!firstClear;
+ const gold=claimed?Math.min(1e12,2500+floor*900):
+  repeat?Math.floor(Math.min(1e12,2500+floor*900)*.20):0;
+ const essence=claimed?Math.min(1e12,2+Math.floor(floor/4)):
+  repeat?Math.floor(Math.min(1e12,2+Math.floor(floor/4))*.20):0;
+ const report={floor,outcome:won?'win':'lose',firstClear:claimed,replay:repeat,
+  enemy:b.enemies[0]?.name||'Quái Bí Cảnh',
   teamPower:Math.min(Number.MAX_SAFE_INTEGER,Math.floor(E.hg20TowerPower(s).power)),
   enemyPower:E.hg20TowerStatus(s).enemyPower,rewardGold:gold,rewardEssence:essence,
   claimed,turns:b.turn-1,team:b.hg21Tower.team.slice(),stackLosses:b.allies.map(u=>({
@@ -276,9 +290,14 @@ function reward(s,b,outcome){
  t.attempts++;
  if(won){
   t.victories++;
+  if(advance)t.floor++;
+  if(advance&&!endurance)t.claims++;
+  if(repeat){
+   E.add(s,{gold});
+   t.essence=Math.min(1e12,t.essence+essence);
+  }
   if(claimed){
-   t.floor++;
-   if(!endurance)t.claims++;
+   t.hg88.highest=Math.max(t.hg88.highest,floor);
    E.add(s,{gold,wood:Math.min(50000,250+floor*70),ore:Math.min(50000,250+floor*70),
     sulfur:Math.min(25000,100+floor*25),crystal:Math.min(25000,100+floor*25)});
    t.essence=Math.min(1e12,t.essence+essence);
@@ -293,6 +312,8 @@ function reward(s,b,outcome){
      E.note(s,'Tháp tầng '+floor+': mở mục tiêu nâng '+unit.name+' qua nhiệm vụ HG30 (không cấp quân miễn phí).');
     }
    }
+   // First-clear floor milestones, not each subsequent reset.
+   E.hg88AwardTower?.(s,floor,report);
    if(floor%25===0){
     const items=['private_riftblade','private_riftplate','private_riftseal'],id=items[Math.floor(floor/25-1)%items.length];
     const label=E.ITEMS[id].name+' · Tầng '+floor;
@@ -323,7 +344,9 @@ function reward(s,b,outcome){
  }
  t.last=report;
  E.note(s,'Bí Cảnh tầng '+floor+': '+(won?'thắng sau '+(b.turn-1)+' lượt':'thua hoặc quá 70 lượt')+
-  (claimed?', nhận '+essence+' tinh hoa':endurance?' · mất 1 mạng Bí Cảnh':' · không trừ lượt thưởng')+'.');
+  (claimed?', nhận thưởng tầng đầu tiên +'+essence+' tinh hoa':
+   repeat?' · tầng chơi lại: +'+essence+' tinh hoa, không lặp thẻ/đồ':
+   endurance?' · mất 1 mạng Bí Cảnh':' · không trừ lượt thưởng')+'.');
  return {...report,nextFloor:t.floor,dailyRewardsLeft:Math.max(0,5-t.claims),type:outcome};
 }
 function battleAct(s,action,opts){
@@ -339,6 +362,10 @@ function battleAct(s,action,opts){
 }
 function valid(s){
  const t=s?.hg20?.tower;if(!t||!Array.isArray(t.picks)||t.picks.length>3)return false;
+ const r=t.hg88;
+ if(r&&(r.v!==1||!Number.isSafeInteger(r.highest)||r.highest<0||
+  !/^\d{4}-\d{2}-\d{2}$/.test(r.resetDay||'')||
+  !Number.isSafeInteger(r.resetsUsed)||r.resetsUsed<0||r.resetsUsed>1))return false;
  if(t.team.length){
   // Saved Tower picks are a UI selection, not an active army allocation.
   // HG20.startMarch removes a dispatching hero's home plan (the troops leave
