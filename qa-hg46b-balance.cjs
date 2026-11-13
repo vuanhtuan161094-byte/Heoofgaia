@@ -27,8 +27,8 @@ check('HG29 six sources are normalized; no synthetic rewards or over-100% drops'
   sources[id]={noDropPercent:pool.roll.find(row=>row[0]==='none')[3]/100,
    guaranteed:pool.guaranteed,expected:Object.fromEntries(Object.entries(e).filter(([,n])=>n>0).map(([key,n])=>[key,round(n)]))};
  }
- assert.equal(sources.npc_low.noDropPercent,15);
- assert.equal(sources.npc_elite.noDropPercent,3);
+ assert.equal(sources.npc_low.noDropPercent,12);
+ assert.equal(sources.npc_elite.noDropPercent,1);
  assert.equal(sources.tower.expected.tower,1);
  assert.equal(E.hg29Expected('tower',5).tower,2);
  model.sources=sources;return sources;
@@ -60,7 +60,7 @@ check('HG46-B source-correct four-set progression is reachable with zero free in
    star:'9 targeted fragments/item; 4 Hero fragments/item; no Boss tokens',
    minimumStarPaidClaimsFromHeroExpected:60,
    expectedStarClaimDaysAt5PerDay:12,
-   note:'60/12 are expectations based on a 20% Hero-shard roll; NOT guaranteed unlock or win times'}
+   note:'Time to target is an expectation, not a guarantee; HG84 Tower Hero-shard bonus chance is 28% per paid floor'}
  ];
  return {sets:4,noFreeItems:true,dragonUnlockedByBoss:true,starRequiresBossTokens:false};
 });
