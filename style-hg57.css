@@ -564,3 +564,59 @@ body.hg39-world-map-mode #main>.map-frame{
  .hg83-worn-item .hg73-gem{width:35px;max-width:35px;min-width:35px}
  .hg83-worn-item .hg73-gem img{width:34px;height:34px}
 }
+
+/* HG86 rendered faction assets */
+/* Real 16-piece ImageGen WebP art pack: no polygon placeholders in hero
+   portraits or gear icons; premium grade borders/VFX remain interactive. */
+.hg86-rendered-portrait{position:relative;isolation:isolate;overflow:hidden}
+.hg86-rendered-portrait .hg86-rendered-hero-img{
+ position:absolute;inset:0;z-index:1;
+ width:100%;height:100%;display:block;
+ object-fit:cover;object-position:50% 22%;
+ image-rendering:auto;filter:contrast(1.07) saturate(1.09);
+ pointer-events:none;user-select:none;
+}
+.hg86-rendered-portrait .hg45-portrait-aura,
+.hg86-rendered-portrait .hg45-portrait-stars{position:absolute;z-index:2;pointer-events:none}
+.hg86-rendered-portrait::after{
+ content:'';position:absolute;z-index:2;inset:0;pointer-events:none;
+ border-radius:inherit;
+ box-shadow:inset 0 0 13px #050c1b77,inset 0 0 2px #fff6cf8c;
+ background:linear-gradient(140deg,#ffffff1d 0%,transparent 33%,transparent 72%,#000b18a3 100%);
+}
+.hg408-mini-portrait .hg86-rendered-hero-img,
+.hg57-hero-chip .hg86-rendered-hero-img{transform:scale(1.66);transform-origin:50% 22%}
+.hg408-portrait .hg86-rendered-hero-img{transform:scale(1.18);transform-origin:50% 25%}
+.hg86-rendered-gear{
+ position:relative;display:inline-grid;place-items:center;
+ vertical-align:middle;flex:0 0 auto;
+ width:var(--hg86-art-size,54px);
+ height:var(--hg86-art-size,54px);
+ max-width:100%;max-height:100%;border-radius:8px;
+ overflow:hidden;background:#101a28;
+ box-shadow:inset 0 1px 3px #d1dbe42a;
+}
+.hg86-rendered-gear-img{
+ display:block;width:100%;height:100%;max-width:100%;max-height:100%;
+ object-fit:cover;image-rendering:auto;pointer-events:none;
+ filter:saturate(1.1) contrast(1.06);
+}
+.hg86-crown>i{position:absolute;top:0;right:2px;z-index:2;font-style:normal;
+ color:#fff1b3;text-shadow:0 0 6px #fff9c1,0 0 12px #ffc55c;font-size:13px}
+.hg83-inventory-tile .hg86-rendered-gear{
+ width:100%;height:100%;max-width:53px;max-height:53px;
+}
+.hg83-worn-item .hg86-rendered-gear{max-width:46px;max-height:46px}
+.hg83-inspector-art .hg86-rendered-gear{width:64px;height:64px;max-width:64px;max-height:64px}
+.hg31-card .hg86-rendered-gear,.hg47-recipe .hg86-rendered-gear,.hg83-forge-recipe .hg86-rendered-gear{
+ box-shadow:0 3px 10px #02081589,inset 0 0 1px #fff;
+}
+.hg83-inventory-tile :is(.hg86-rendered-gear,.hg86-rendered-gear-img),
+.hg83-worn-item :is(.hg86-rendered-gear,.hg86-rendered-gear-img){pointer-events:none}
+@media(max-width:700px){
+ .hg83-inventory-tile .hg86-rendered-gear{max-width:44px;max-height:44px}
+ .hg83-worn-item .hg86-rendered-gear{max-width:34px;max-height:34px}
+}
+@media(prefers-reduced-motion:reduce){
+ .hg86-rendered-portrait .hg45-portrait-aura,.hg86-crown>i{animation:none!important}
+}
