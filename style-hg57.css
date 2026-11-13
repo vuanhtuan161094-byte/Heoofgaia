@@ -445,3 +445,93 @@ body.hg39-world-map-mode #main>.map-frame{
  .hg39-dispatch footer{display:flex;flex-wrap:wrap;gap:5px}
  .hg39-dispatch footer button{flex:1 1 125px}
 }
+
+
+/* HG83 compact inventory: only the selected UID reveals stats and actions.
+   Genuine 70-112px touch targets on desktop/landscape phone, not 300px cards. */
+.hg46-manager .hg46-inventory-list{
+ display:grid!important;
+ grid-template-columns:repeat(auto-fill,minmax(88px,1fr))!important;
+ gap:8px!important;align-items:start
+}
+.hg46-manager .hg83-inventory-tile{
+ appearance:none;position:relative;display:flex!important;flex-direction:column!important;
+ align-items:center!important;justify-content:flex-start!important;gap:3px!important;
+ width:100%;max-width:none!important;min-width:0;height:112px;min-height:112px!important;
+ padding:8px 4px 5px!important;overflow:hidden;
+ border:1px solid #648098;border-radius:11px;cursor:pointer;color:#e9effc;
+ background:linear-gradient(155deg,#1a2e48,#16243b);
+ box-shadow:inset 0 1px #ffffff18,0 2px 8px #050e1c5c;
+ -webkit-tap-highlight-color:transparent;
+}
+.hg83-inventory-tile .hg46-gear-art{
+ display:grid!important;place-items:center!important;
+ width:57px!important;height:58px!important;flex:0 0 58px!important;
+ margin:0!important;font-size:30px;overflow:visible
+}
+.hg83-inventory-tile .hg73-gem{width:57px;min-width:57px;max-width:57px}
+.hg83-inventory-tile .hg73-gem img{width:53px;height:53px;object-fit:contain}
+.hg83-tile-name{
+ display:-webkit-box;max-width:100%;overflow:hidden;-webkit-box-orient:vertical;
+ -webkit-line-clamp:2;line-clamp:2;text-overflow:ellipsis;text-align:center;
+ font-size:10px;line-height:1.18;font-weight:700;word-break:break-word
+}
+.hg83-tile-enhance,.hg83-tile-worn{
+ position:absolute;z-index:4;padding:1px 4px;border-radius:5px;
+ font-size:10px;font-weight:900;line-height:1.4;color:#fdf4c5;
+ background:#162239eb;border:1px solid #d7bd82a6
+}
+.hg83-tile-enhance{top:5px;right:5px}
+.hg83-tile-worn{top:5px;left:5px;color:#8af4ce}
+.hg46-manager .hg83-inventory-tile.is-selected,
+.hg46-manager .hg83-inventory-tile[aria-pressed="true"]{
+ border:2px solid #ffe2a0!important;outline:1px solid #e6c287;
+ box-shadow:0 0 0 2px #ecc47e40,0 0 13px #e6bd6f6b,inset 0 0 12px #e6bd6f17!important
+}
+.hg46-manager .hg83-inventory-tile:focus-visible{
+ outline:2px solid #76dfff;outline-offset:3px
+}
+.hg83-inventory-tile::before,.hg83-inventory-tile::after{pointer-events:none}
+.hg83-select-hint{color:#b0c5d9;font-size:12px;margin:6px 0;padding:9px 11px;
+ border:1px dashed #56768c;border-radius:9px}
+.hg83-inspector{display:grid;gap:8px;padding:12px;margin:8px 0 12px;
+ background:linear-gradient(130deg,#1a3551,#162338);
+ border:1px solid #9eb6c5;border-radius:12px;box-shadow:inset 0 1px #d7faff24}
+.hg83-inspector-top{display:flex;align-items:center;gap:9px;min-width:0}
+.hg83-inspector-art{display:grid;place-items:center;flex:0 0 64px;min-width:64px}
+.hg83-inspector-title{display:flex;flex:1 1 auto;align-items:flex-start;flex-wrap:wrap;gap:5px;min-width:0}
+.hg83-inspector-title>b{flex:1 1 100%;color:#ffe3ad;font-size:14px;line-height:1.35}
+.hg83-inspector-title>small{flex:1 1 100%;font-size:11px;color:#c7d8ea}
+.hg83-inspector-stats{display:flex;flex-wrap:wrap;gap:5px}
+.hg83-inspector-stats>span{padding:5px 8px;background:#10283d;border:1px solid #4f7791;
+ border-radius:7px;color:#d6e7f6;font-size:11px;line-height:1.5}
+.hg83-inspector-actions{display:flex;gap:7px;flex-wrap:wrap}
+.hg83-inspector-actions button{min-height:34px}
+.hg83-crown-icon{position:relative;display:inline-grid;place-items:center}
+.hg83-crown-icon>i{position:absolute;right:-1px;top:-6px;z-index:5;pointer-events:none;
+ font-size:14px;font-style:normal;color:#fff9c1;text-shadow:0 0 7px #ffffff,0 0 15px #f7c96e}
+.hg83-forge{margin:12px 0;border-color:#8fa9d3}
+.hg83-forge summary{cursor:pointer;color:#f5dc9b;font-weight:800;padding:5px 0}
+.hg83-forge-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:7px}
+.hg83-forge-recipe{display:flex;gap:8px;align-items:center;min-width:0;
+ border:1px solid #59798e;padding:7px;background:linear-gradient(140deg,#243b51,#1b2b42);border-radius:9px}
+.hg83-forge-art{flex:0 0 48px}
+.hg83-forge-recipe>div{flex:1 1 auto;min-width:0}
+.hg83-forge-recipe b{display:block;color:#ffdea1;font-size:12px;line-height:1.3}
+.hg83-forge-recipe small{display:block;color:#c6d6e7;font-size:10px;line-height:1.4}
+.hg83-forge-recipe>button{flex:0 0 auto}
+@media(max-width:700px){
+ .hg46-manager .hg46-inventory-list{
+  grid-template-columns:repeat(auto-fill,minmax(70px,1fr))!important;gap:5px!important
+ }
+ .hg46-manager .hg83-inventory-tile{height:96px;min-height:96px!important;padding:5px 3px!important}
+ .hg83-inventory-tile .hg46-gear-art{width:45px!important;height:47px!important;flex-basis:47px!important}
+ .hg83-inventory-tile .hg73-gem{width:45px;min-width:45px;max-width:45px}
+ .hg83-inventory-tile .hg73-gem img{width:44px;height:44px}
+ .hg83-tile-name{font-size:9px}
+ .hg83-inspector{padding:9px}
+ .hg83-inspector-top{flex-wrap:wrap}
+ .hg83-inspector-title{flex:1 1 calc(100% - 80px)}
+ .hg83-forge-grid{grid-template-columns:1fr}
+}
+@media(prefers-reduced-motion:reduce){.hg83-inventory-tile,.hg83-crown-icon{animation:none!important}}
