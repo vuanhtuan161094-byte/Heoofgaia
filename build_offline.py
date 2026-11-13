@@ -66,6 +66,23 @@ for js in ['data.js','engine.js','hg04.js','hg05.js','hg06.js','hg07.js','hg08.j
     pattern=re.compile(r'<script\s+src="'+re.escape(js)+r'"></script>')
     html,n=pattern.subn(lambda _: '<script>\n'+(folder/js).read_text(encoding='utf-8').rstrip()+'\n</script>',html)
     assert n==1,(js,n)
+# HG86 renders are real cropped WebP images derived from two original ImageGen
+# renders and shipped as local game assets. Embed once in ONE offline HTML;
+# hero/gear views reference these hidden art-cache sources, never a network URL.
+hg86=json.loads((folder/'assets/generated/hg86/manifest.json').read_text(encoding='utf-8'))
+assert hg86['schema']=='HG86-Original-Rendered-Asset-Pack-v1'
+assert hg86['assetCount']==16 and hg86['characters']==4 and hg86['gearIcons']==12
+assert len(hg86['assets'])==16 and len({a['path'] for a in hg86['assets']})==16
+for item in hg86['assets']:
+    asset=item['path']
+    assert asset.startswith('assets/generated/hg86/') and asset.endswith('.webp')
+    needle=f'src="{asset}"'
+    assert html.count(needle)==1,(asset,html.count(needle))
+    data=base64.b64encode((folder/asset).read_bytes()).decode('ascii')
+    html=html.replace(needle,f'src="data:image/webp;base64,{data}"')
+    assert asset not in html,asset
+assert html.count('data-hg86-kind=')==16
+assert 'assets/generated/hg86/' not in html
 for race in ['human','elf','orc','undead']:
     asset=f'assets/generated/hg11/cities/{race}-city-1176x560.png'
     needle=f'src="{asset}"'
