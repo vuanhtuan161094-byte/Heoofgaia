@@ -73,17 +73,17 @@ check('HG30 max conversion is 10 actual paid batches = 40000 troops, never free'
  const copy=load(s);assert.equal(copy.hg30.receipts[0].toCount,40000);
  return {batches:10,guards:result.toCount,save:copy.version};
 });
-check('Rejected conversions spend nothing and do not exceed army 1e9 cap',()=>{
+check('Rejected conversions spend nothing and do not exceed army 100m cap',()=>{
  const s=rich('human');s.hg30.stage=3;
- s.army.human_quest_guard=1000000000-3999;
+ s.army.human_quest_guard=100000000-3999;
  let gold=s.res.gold;
  assert.equal(E.hg30Recipe(s,'guard').maxBatches,0);
  assert.throws(()=>E.hg30Convert(s,'guard'),/Số mẻ|chưa đủ/i);
  assert.equal(s.res.gold,gold);
  assert.equal(E.hg27Catalogue(s).find(x=>x.id==='guard').canExchange,false);
  assert.throws(()=>E.hg27Exchange(s,'guard'),/Thiếu/i);
- assert.equal(s.army.human_quest_guard,1000000000-3999);
- load(s);return {cap:1000000000,rejected:true};
+ assert.equal(s.army.human_quest_guard,100000000-3999);
+ load(s);return {cap:100000000,rejected:true};
 });
 check('Historic Save v07 receipt with old 8/4 troop counts remains readable',()=>{
  const s=rich('human');
