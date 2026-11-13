@@ -1,0 +1,80 @@
+{
+  "schema": "HG86-Original-Rendered-Asset-Pack-v1",
+  "creator": "OpenAI ImageGen (original user-requested render art)",
+  "originalSources": [
+    "epic_four_faction_hero_lineup.png",
+    "fantasy_faction_arsenal_showcase.png"
+  ],
+  "rendered": true,
+  "sourceNotPrimitiveShapes": true,
+  "assetCount": 16,
+  "characters": 4,
+  "gearIcons": 12,
+  "notes": "Four faction-aligned hero renders; twelve equipment archetype icons. Multiple actual equipment IDs can share a visual archetype. All work offline and preserve Save v07.",
+  "assets": [
+    {
+      "name": "hero-human.webp",
+      "path": "assets/generated/hg86/hero-human.webp"
+    },
+    {
+      "name": "hero-elf.webp",
+      "path": "assets/generated/hg86/hero-elf.webp"
+    },
+    {
+      "name": "hero-orc.webp",
+      "path": "assets/generated/hg86/hero-orc.webp"
+    },
+    {
+      "name": "hero-undead.webp",
+      "path": "assets/generated/hg86/hero-undead.webp"
+    },
+    {
+      "name": "gear-human-weapon.webp",
+      "path": "assets/generated/hg86/gear-human-weapon.webp"
+    },
+    {
+      "name": "gear-human-offhand.webp",
+      "path": "assets/generated/hg86/gear-human-offhand.webp"
+    },
+    {
+      "name": "gear-human-armor.webp",
+      "path": "assets/generated/hg86/gear-human-armor.webp"
+    },
+    {
+      "name": "gear-elf-weapon.webp",
+      "path": "assets/generated/hg86/gear-elf-weapon.webp"
+    },
+    {
+      "name": "gear-elf-offhand.webp",
+      "path": "assets/generated/hg86/gear-elf-offhand.webp"
+    },
+    {
+      "name": "gear-elf-armor.webp",
+      "path": "assets/generated/hg86/gear-elf-armor.webp"
+    },
+    {
+      "name": "gear-orc-weapon.webp",
+      "path": "assets/generated/hg86/gear-orc-weapon.webp"
+    },
+    {
+      "name": "gear-orc-offhand.webp",
+      "path": "assets/generated/hg86/gear-orc-offhand.webp"
+    },
+    {
+      "name": "gear-orc-armor.webp",
+      "path": "assets/generated/hg86/gear-orc-armor.webp"
+    },
+    {
+      "name": "gear-undead-weapon.webp",
+      "path": "assets/generated/hg86/gear-undead-weapon.webp"
+    },
+    {
+      "name": "gear-undead-offhand.webp",
+      "path": "assets/generated/hg86/gear-undead-offhand.webp"
+    },
+    {
+      "name": "gear-undead-armor.webp",
+      "path": "assets/generated/hg86/gear-undead-armor.webp"
+    }
+  ]
+}
