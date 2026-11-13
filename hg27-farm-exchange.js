@@ -7,7 +7,7 @@ if(!E?.hg26Start||!E?.hg21TowerEnter||!E?.HG18_MATERIALS)throw Error('HG27 needs
 const old={make:E.make,parse:E.parseSave,strict:E.strictSave,serialize:E.serializeSave,battleAct:E.battleAct};
 const TYPES=Object.freeze({marks:{name:'Chiến tích quái',icon:'⚔'},boss:{name:'Ấn Boss',icon:'🔱'},tower:{name:'Phù ấn Tháp',icon:'🗼'}});
 const RECIPES=Object.freeze([
- {id:'guard',group:'troop',name:'Chuyển 12 quân cơ bản thành 1 Thần Vệ',need:{marks:12,tower:3},troops:12,gold:3000,floor:4},
+ {id:'guard',group:'troop',name:'Chuyển 12 quân cơ bản thành 4.000 Thần Vệ',need:{marks:12,tower:3},troops:12,gold:3000,floor:4},
  {id:'sentinel_sword',group:'gear',name:'Kiếm Vệ Binh Gaia',need:{marks:8,tower:2},gold:1800},
  {id:'sentinel_plate',group:'gear',name:'Giáp Vệ Binh Gaia',need:{marks:8,tower:2},gold:1800},
  {id:'sentinel_seal',group:'gear',name:'Ấn Vệ Binh Gaia',need:{marks:8,tower:2},gold:1800},
@@ -56,7 +56,7 @@ function catalogue(s){const h=ensure(s),floor=s.hg20?.tower?.floor||1,unitId=s.r
   const free=Math.max(0,(s.army[unitId]||0)-reserved(s,unitId));
   const unlocked=floor>=(r.floor||1);
   return {...r,unlocked,freeTroops:free,canExchange:unlocked&&enough&&
-   s.res.gold>=r.gold&&(!r.troops||free>=r.troops)&&(!r.troops||((s.army[s.race+'_quest_guard']||0)<1e8))&&
+   s.res.gold>=r.gold&&(!r.troops||free>=r.troops)&&(!r.troops||((s.army[s.race+'_quest_guard']||0)<=1000000000-4000))&&
    (r.troops||s.inventory.length<2000)};
  });
 }
@@ -70,7 +70,7 @@ function exchange(s,id){
  for(const [k,n] of Object.entries(r.need))h[k]-=n;
  let output;
  if(r.troops){s.army[unitId]-=r.troops;const special=s.race+'_quest_guard';
-  s.army[special]=(s.army[special]||0)+1;output={unitId:special,count:1};
+  s.army[special]=(s.army[special]||0)+4000;output={unitId:special,count:4000};
  }else{output=E.addItem(s,r.id,'HG27 đổi chiến tích từ quái/Boss/Tháp');}
  h.exchanges++;E.note(s,'HG27: đổi '+r.name+' sau khi tiêu hao nguyên liệu thật.');
  return {id:r.id,output,exchanges:h.exchanges};
