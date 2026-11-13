@@ -77,7 +77,7 @@ function recipe(s,id){
   Math.floor(free(s,fromUnit)/r.fromCount),Math.floor(s.res.gold/r.gold),
   ...Object.entries(r.fragments).map(([k,n])=>Math.floor((s.hg29.shards[k]||0)/n)),
   ...Object.entries(r.tokens).map(([k,n])=>Math.floor((s.hg27[k]||0)/n)),
-  Math.floor((1000000000-(s.army[toUnit]||0))/r.toCount));
+  Math.floor((100000000-(s.army[toUnit]||0))/r.toCount));
  const canConvert=story&&floorOK&&idle(s)&&maxBatches>=1;
  return {...r,race,fromUnit,toUnit,fromName:E.getUnit(s,fromUnit)?.name||fromUnit,
   toName:E.getUnit(s,toUnit)?.name||toUnit,
