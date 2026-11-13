@@ -2,7 +2,7 @@
 'use strict';
 const E=window.HOG_ENGINE, C=window.HOG_CATALOG, P=window.HOG_PAINTER, U43=window.HOG_HG43_UI;
 if(!U43||U43.total!==40)throw Error('HG43: thiếu bách khoa 40 quân đã nạp');
-const A=window.HOG_ART_PACK,ico=(key,size)=>A?.iconHTML(key,size)||'';
+const A=window.HOG_ART_PACK,ico=(key,size)=>hg86GearHTML(key,size)||A?.iconHTML(key,size)||'';
 const recruitDrafts=new Map();
 // Presentation-only: the phone can hide the command rail to give the map
 // the entire landscape viewport. This is not written into Save v07.
@@ -27,10 +27,56 @@ const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'
 const format=E.fmt;
 const hg408QualityClass=h=>'hg408-quality-'+E.hg408HeroQuality(h);
 const hg408HeroNameHTML=h=>h?'<span class="'+hg408QualityClass(h)+'"'+(h.questSpecial?' title="Tướng độc bản từ 20 nhiệm vụ · Thiên Khải Liên Kích"':'')+'>'+esc(h.name)+(h.questSpecial?' ✦':'')+'</span>':'Chưa có tướng';
+/* HG86: ImageGen-rendered source art, encoded from real cropped WEBP files.
+ * This layer is PRESENTATION-ONLY: no stats, new item IDs, RNG, gear UIDs,
+ * game saves, remote URLs, or procedural block/shape drawings.
+ */
+const hg86SourceCache=new Map();
+function hg86ArtURL(key){
+ if(hg86SourceCache.has(key))return hg86SourceCache.get(key);
+ const img=document.getElementById('hg86-'+key);
+ if(!img)return '';
+ let url=img.getAttribute('src')||'';
+ if(url.startsWith('data:image/webp;base64,')){
+  try{
+   const encoded=url.slice('data:image/webp;base64,'.length),bin=atob(encoded),
+     bytes=new Uint8Array(bin.length);
+   for(let i=0;i<bin.length;i++)bytes[i]=bin.charCodeAt(i);
+   url=URL.createObjectURL(new Blob([bytes],{type:'image/webp'}));
+  }catch(_){url=img.src}
+ }else url=img.src;
+ hg86SourceCache.set(key,url);
+ return url;
+}
+function hg86GearHTML(id,size=54){
+ const def=E.ITEMS?.[id];if(!def)return '';
+ const found=/^hg(?:47|83)_(human|elf|orc|undead)_/.exec(String(id));
+ const race=found?.[1]||state?.race||'human';
+ if(!['human','elf','orc','undead'].includes(race))return '';
+ const part=def.slot==='weapon'?'weapon':
+  ['armor','helm','boots','belt'].includes(def.slot)?'armor':'offhand';
+ const imageKey='gear-'+race+'-'+part,src=hg86ArtURL(imageKey);
+ if(!src)return '';
+ const pixels=Math.max(23,Math.min(74,Math.round(Number(size)||54)));
+ return '<span class="hg86-rendered-gear'+(String(id).startsWith('hg83_')?' hg86-crown':'')+
+  '" data-hg86-gear="'+imageKey+'" aria-hidden="true">'+
+  '<img class="hg86-rendered-gear-img" alt="" draggable="false" loading="eager" '+
+  'src="'+src+'" width="'+pixels+'" height="'+pixels+'">'+
+  (String(id).startsWith('hg83_')?'<i aria-hidden="true">✦</i>':'')+'</span>';
+}
 // HG45.1: original vector hero portrait, drawn inside the actual hero cards.
 // Unique hair/crown silhouette is stable per hero; rarity changes the frame
 // and magical aura, not the face or troop art. No assets/network/extra HTML.
 function hg45Portrait(hero){
+ const faction=hero?.race||E.activeCity?.(state)?.race||state?.race||'human';
+ const rendered=hg86ArtURL('hero-'+faction);
+ if(rendered){
+  const quality=E.hg408HeroQuality(hero);
+  return '<span class="hg45-portrait-art hg45-portrait-'+quality+' hg86-rendered-portrait" '+
+   'data-hg86-hero="'+faction+'" aria-hidden="true">'+
+   '<img class="hg86-rendered-hero-img" src="'+rendered+'" alt="" loading="eager" draggable="false">'+
+   '<span class="hg45-portrait-aura"></span><span class="hg45-portrait-stars"></span></span>';
+ }
  // HG79: six illustrated archetypes, five silhouettes and distinct heraldry
  // shared by recruitment, roster, hero detail and 3-commander combat. Identity
  // is stable from name/id, independent of level, gear or mutable Save fields.
@@ -1047,7 +1093,7 @@ function hg46GearView(h){
  const setsById={...E.HG18_SETS,...E.HG31_SETS,...E.HG47_SETS,...E.HG83_SETS};
  const icon=row=>{
   const item=E.ITEMS[row.itemId],grade=E.hg73Grade?.(row);
-  const art=E.hg83IconHTML?.(item.id,54)||E.hg47IconHTML?.(item.id,54)||E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
+  const art=hg86GearHTML(item.id,54)||E.hg83IconHTML?.(item.id,54)||E.hg47IconHTML?.(item.id,54)||E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
   return '<span class="hg73-gem '+(grade?'hg73-tier-'+grade.id:'')+'">'+art+'</span>';
  };
  const gradeBadge=row=>{
@@ -1306,7 +1352,7 @@ function heroesView(){
  const h=state.heroes.find(x=>x.id===state.activeHero),stats=E.heroStats(state),eq=state.equipment[h.id]||{};
  const gear=Object.entries(E.ITEMS);
  const owned=state.inventory.map(i=>{const def=E.ITEMS[i.itemId],wearer=Object.entries(state.equipment).find(([,slots])=>Object.values(slots).includes(i.uid))?.[0];
- return `<div class="card gear-card"><div><b>${E.hg31IconHTML?.(def.id,30)||ico(def.id,23)||def.icon} ${esc(def.name)} +${i.enhance||0}</b><div class="hint">${def.slot} · ATK +${def.atk} · DEF +${def.def} · SPD +${def.spd}</div>${equipmentBattleText(def)?`<div class="tiny muted">${esc(equipmentBattleText(def))}</div>`:''}<small class="muted">${wearer?'Đang trang bị: '+esc(state.heroes.find(h=>String(h.id)===wearer)?.name||'tướng'):'Túi đồ'} · ${esc(i.origin||'')}</small></div>${button('equipitem',{uid:i.uid},wearer===String(h.id)?'Đã mặc':'Trang bị',!!state.march||!!state.battle||wearer===String(h.id),'small secondary')}${button('hg18-enhance',{uid:i.uid},'+1 Cường hóa',(state.hg18?.materials.enhance_stone||0)<(2+2*(i.enhance||0))||state.res.gold<250*((i.enhance||0)+1)||(i.enhance||0)>=10||!!state.march||!!state.battle,'small secondary')}${button('hg18-salvage',{uid:i.uid},'♻ Phân giải',!!wearer||!!state.march||!!state.battle,'small secondary')}</div>`}).join('');
+ return `<div class="card gear-card"><div><b>${hg86GearHTML(def.id,30)||E.hg31IconHTML?.(def.id,30)||ico(def.id,23)||def.icon} ${esc(def.name)} +${i.enhance||0}</b><div class="hint">${def.slot} · ATK +${def.atk} · DEF +${def.def} · SPD +${def.spd}</div>${equipmentBattleText(def)?`<div class="tiny muted">${esc(equipmentBattleText(def))}</div>`:''}<small class="muted">${wearer?'Đang trang bị: '+esc(state.heroes.find(h=>String(h.id)===wearer)?.name||'tướng'):'Túi đồ'} · ${esc(i.origin||'')}</small></div>${button('equipitem',{uid:i.uid},wearer===String(h.id)?'Đã mặc':'Trang bị',!!state.march||!!state.battle||wearer===String(h.id),'small secondary')}${button('hg18-enhance',{uid:i.uid},'+1 Cường hóa',(state.hg18?.materials.enhance_stone||0)<(2+2*(i.enhance||0))||state.res.gold<250*((i.enhance||0)+1)||(i.enhance||0)>=10||!!state.march||!!state.battle,'small secondary')}${button('hg18-salvage',{uid:i.uid},'♻ Phân giải',!!wearer||!!state.march||!!state.battle,'small secondary')}</div>`}).join('');
  return heroesViewBase()+heroProgression()+heroAscensionView()+hg31HeroSetView()+`<section class="card hg04-section"><span class="eyebrow">HERO EQUIPMENT</span><h2>🎒 Túi trang bị và chỉ số tướng đang chọn</h2><p>${esc(h.name)} — ATK <b>${stats.atk}</b> · DEF <b>${stats.def}</b> · SPD <b>${stats.spd}</b> · INT <b>${stats.int}</b></p>
  <div class="equipment-slots">${[['weapon','⚔ Vũ khí'],['armor','🛡 Giáp'],['charm','💍 Phụ kiện']].map(([k,label])=>`<div class="slot"><b>${ico(k,22)||''} ${esc(label.slice(label.indexOf(' ')+1))}</b><div>${esc(itemName(eq[k]))}</div>${eq[k]?button('unequip',{slot:k},'Tháo',!!state.march||!!state.battle,'small secondary'):''}</div>`).join('')}</div>
  <div class="grid grid2">${owned||'<p class="muted">Chưa có trang bị. Có thể mua ở Bazaar hoặc nhặt sau khi thắng quái.</p>'}</div>
@@ -1385,7 +1431,7 @@ function hg31ForgeView(){
      `<span class="${state.res.gold>=r.price?'ready':'missing'}">🪙 ${format(state.res.gold)}/${format(r.price)}</span>`
     ].join('');
     return `<div class="hg31-card ${selected?'selected':''}" data-hg31-id="${r.id}">
-     <div class="hg31-gear-top">${E.hg31IconHTML(r.id,62)}<div><b>${esc(r.name)}</b><small>${r.slot==='weapon'?'Vũ khí':r.slot==='armor'?'Giáp':'Phụ kiện'} · ATK +${r.atk} · DEF +${r.def} · SPD +${r.spd}</small><small>🔓 ${esc(r.unlockLabel)} · ${isBoss?'Không khóa theo tầng Tháp':'Không bắt buộc Ấn Boss'}</small><small>🧩 Mảnh cần farm thêm: ${r.missing.focused} · ${r.sourceDays!==null?'Tối thiểu khoảng '+r.sourceDays+' ngày Tháp nếu đủ 5 lượt thưởng/ngày':'Nguồn Boss T11–T13'} · Không có thưởng khi thua</small><small>${esc(set.note)} · Cần đúng nguyên liệu và vàng, không quay rương ngẫu nhiên.</small></div></div>
+     <div class="hg31-gear-top">${hg86GearHTML(r.id,62)||E.hg31IconHTML(r.id,62)}<div><b>${esc(r.name)}</b><small>${r.slot==='weapon'?'Vũ khí':r.slot==='armor'?'Giáp':'Phụ kiện'} · ATK +${r.atk} · DEF +${r.def} · SPD +${r.spd}</small><small>🔓 ${esc(r.unlockLabel)} · ${isBoss?'Không khóa theo tầng Tháp':'Không bắt buộc Ấn Boss'}</small><small>🧩 Mảnh cần farm thêm: ${r.missing.focused} · ${r.sourceDays!==null?'Tối thiểu khoảng '+r.sourceDays+' ngày Tháp nếu đủ 5 lượt thưởng/ngày':'Nguồn Boss T11–T13'} · Không có thưởng khi thua</small><small>${esc(set.note)} · Cần đúng nguyên liệu và vàng, không quay rương ngẫu nhiên.</small></div></div>
      <div class="hg31-costs">${need}</div>
      <div class="hg31-actions">${button('hg31-focus',{id:r.id},selected?'🎯 Đang săn món này':'🎯 Chọn farm',selected||busy,'small secondary')}
      ${button('hg31-craft',{id:r.id},r.canCraft?'⚒ Ghép đúng món':!r.unlocked?'🔒 Chưa mở':'Thiếu vật liệu',!r.canCraft,'small primary')}</div>
@@ -1404,8 +1450,8 @@ function hg31GuideView(){
  const t=E.hg31Status(state);
  return `<section class="card hg31-guide"><span class="eyebrow">HG31 · HÀNH TRÌNH SĂN TRANG BỊ</span>
  <h2>🐉 Boss → Long Hồn · 🌌 Tháp → Tinh Không</h2>
- <div class="hg31-guide-row"><div>${E.hg31IconHTML(t.focus.boss,42)}<b>${esc(E.ITEMS[t.focus.boss].name)}</b><small>${format(t.fragments[t.focus.boss])} mảnh · Boss T11/T12/T13: +1/+2/+3 mảnh · Không cần mở tầng Tháp 11</small></div>
- <div>${E.hg31IconHTML(t.focus.tower,42)}<b>${esc(E.ITEMS[t.focus.tower].name)}</b><small>${format(t.fragments[t.focus.tower])} mảnh · Tháp có thưởng: +1; tầng bội 5: +2; từ tầng 25 bội 5: +3</small></div></div>
+ <div class="hg31-guide-row"><div>${hg86GearHTML(t.focus.boss,42)||E.hg31IconHTML(t.focus.boss,42)}<b>${esc(E.ITEMS[t.focus.boss].name)}</b><small>${format(t.fragments[t.focus.boss])} mảnh · Boss T11/T12/T13: +1/+2/+3 mảnh · Không cần mở tầng Tháp 11</small></div>
+ <div>${hg86GearHTML(t.focus.tower,42)||E.hg31IconHTML(t.focus.tower,42)}<b>${esc(E.ITEMS[t.focus.tower].name)}</b><small>${format(t.fragments[t.focus.tower])} mảnh · Tháp có thưởng: +1; tầng bội 5: +2; từ tầng 25 bội 5: +3</small></div></div>
  <p class="tiny muted">Đến tab Rèn & Di vật để chọn món và ghép. Quy tắc này là thiết kế mới, không phải tỷ lệ HoG gốc.</p></section>`;
 }
 function hg31HeroSetView(){
@@ -1436,7 +1482,7 @@ function hg47ForgeView(){
      bossToken:'Ấn Boss',towerToken:'Ấn Tháp'})[key]+' '+format(n)).join(' · ');
   const label=q.gated?'Chưa thắng Boss T11+ và 3 lượt Tháp nhận thưởng':missing||'Đã đủ nguyên liệu';
   return '<article class="hg47-recipe hg47-tier-'+tier+' '+(q.focused&&race===state.race?'is-focus':'')+'">'+
-    '<div class="hg47-recipe-art">'+(E.hg47IconHTML?.(q.id,44)||q.icon)+'</div><div class="hg47-recipe-body">'+
+    '<div class="hg47-recipe-art">'+(hg86GearHTML(q.id,44)||E.hg47IconHTML?.(q.id,44)||q.icon)+'</div><div class="hg47-recipe-body">'+
     '<b>'+esc(def.name)+'</b><small>'+esc(E.HG47_SLOTS.find(x=>x[0]===q.slot)?.[1]||q.slot)+
     ' · ⚔ '+def.atk+' · 🛡 '+def.def+' · ➤ '+def.spd+'</small>'+
     '<progress max="'+q.need+'" value="'+q.have+'"></progress>'+
@@ -1528,7 +1574,7 @@ function hg83ForgeView(){
   '<div class="hg83-forge-grid">'+rows.map(q=>{
    const missing=Object.entries(q.missing).filter(([,n])=>n>0)
     .map(([k,n])=>format(n)+' '+(sources[k]||k)).join(' · ');
-   return '<article class="hg83-forge-recipe"><span class="hg83-forge-art">'+E.hg83IconHTML(q.id,48)+'</span>'+
+   return '<article class="hg83-forge-recipe"><span class="hg83-forge-art">'+(hg86GearHTML(q.id,48)||E.hg83IconHTML(q.id,48))+'</span>'+
     '<div><b>'+esc(q.name)+'</b><small>'+esc(E.HG47_SLOTS.find(x=>x[0]===q.slot)?.[1]||q.slot)+
     ' · '+format(q.gold)+' vàng</small><small>'+esc(q.unlocked?(missing||'Đủ nguyên liệu'):'🔒 Cần thắng Boss T11+ và Tháp có thưởng')+'</small></div>'+
     button('hg83-craft',{id:q.id},'⚒ Rèn',!q.canCraft,'small primary')+'</article>';
