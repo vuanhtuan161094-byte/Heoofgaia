@@ -69,11 +69,15 @@ with sync_playwright() as pw:
     payments:window.__hg85Spend.slice(),save:HOG_ENGINE.strictSave(s),
     progress:!!document.querySelector('.queue-card progress')};
   }""")
+  # At game speed x60 a short real queue can finish between the click
+  # and the browser snapshot. BOTH genuine states must keep the SAME canvas.
+  honest_state=(after['queue']=='market' and after['markets']==0 and after['progress']) or (
+    after['queue'] is None and after['markets']==1 and not after['progress'])
   check(label+' paid upgrade keeps unchanged canvas, no full-screen repaint',after['sameCanvas'] and
-    after['sameStage'] and after['sameModal'] and after['queue']=='market' and
-    after['markets']==0 and after['save'] and after['progress'] and len(after['payments'])==1 and
+    after['sameStage'] and after['sameModal'] and honest_state and after['save'] and
+    len(after['payments'])==1 and
     after['payments'][0]['goldSpent']==after['payments'][0]['expectedGold'],after)
-  screenshot(page,'03-'+label+'-upgrade-queued.png')
+  screenshot(page,'03-'+label+'-after-real-upgrade-click.png')
   # Speed 60 is the New Game default. This is a genuine construction timer.
   page.wait_for_function("""() => {
    const s=HOG_APP_DEBUG.getState();
