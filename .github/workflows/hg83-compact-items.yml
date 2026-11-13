@@ -1,0 +1,78 @@
+name: HG83 Compact Inventory and Earned Crown Relics
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - app.js
+      - hg47-ten-slot.js
+      - hg73-gear-prestige.js
+      - style-hg57.css
+      - qa-hg83-crown-gear.cjs
+      - qa-hg72-inventory-chrome.py
+      - qa-hg73-visual-chrome.py
+      - .github/workflows/hg83-compact-items.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: hg83-compact-items-one-branch
+  cancel-in-progress: true
+jobs:
+  canonical:
+    runs-on: ubuntu-latest
+    timeout-minutes: 18
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Exact SHA and new item economy plus strict v07 tests
+        run: |
+          git rev-parse HEAD
+          node --check app.js
+          node --check hg47-ten-slot.js
+          node --check hg73-gear-prestige.js
+          node --check qa-hg83-crown-gear.cjs
+          node qa-hg83-crown-gear.cjs
+          node qa-hg47-10slot.cjs
+  chromium:
+    needs: canonical
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Build the only official offline HTML
+        run: |
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          test -s Play-Heoofgaia-HG11.html
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Real desktop and touch Chromium UX
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+          python qa-hg72-inventory-chrome.py
+          python qa-hg73-visual-chrome.py
+      - name: Chromium screenshots and test receipts
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG83-Compact-Inventory-Evidence
+          path: |
+            docs/evidence/hg72/*.png
+            docs/evidence/hg73/*.png
+            docs/qa/hg72/*.json
+            docs/qa/hg73/*.json
+          retention-days: 30
+          if-no-files-found: ignore
+      - name: One playable offline HTML - HG83
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: HG83-Heroes-of-Gaia-ONE-HTML
+          path: Play-Heoofgaia-HG11.html
+          retention-days: 30
+          if-no-files-found: error
