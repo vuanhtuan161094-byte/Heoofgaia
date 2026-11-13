@@ -13,6 +13,7 @@ on:
       - index.html
       - qa-hg88-tower-hero-cards.cjs
       - qa-hg88-ui-chrome.py
+      - qa-hg87-ui-chrome.py
       - .github/workflows/hg88-tower-heroes.yml
   workflow_dispatch:
 permissions:
