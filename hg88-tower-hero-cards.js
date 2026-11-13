@@ -22,17 +22,21 @@ const HERO_NAMES=Object.freeze({
 const MILESTONES=Object.freeze([10,25,50,100,200,500,1000]);
 const int=(n,max=1000000000)=>Number.isSafeInteger(n)&&n>=0&&n<=max;
 function ensure(s){
- if(!s.hg88)s.hg88={v:1,totalDrawn:0,summons:0,last:null};
+ if(!s.hg88)s.hg88={v:1,totalDrawn:0,summons:0,last:null,milestones:[]};
+ if(!Array.isArray(s.hg88.milestones))s.hg88.milestones=[];
  return s.hg88;
 }
 function valid(s){
  const q=s?.hg88;
  return !!q&&q.v===1&&int(q.totalDrawn)&&int(q.summons)&&
+  Array.isArray(q.milestones)&&q.milestones.length<=10000&&
+  new Set(q.milestones).size===q.milestones.length&&
+  q.milestones.every(f=>int(f,1000000)&&f>=5&&f%5===0)&&
   (q.last===null||!!q.last&&int(q.last.heroId)&&int(q.last.draws,500)&&
    ['platinum','rainbow','purple','green','yellow','blue','white'].includes(q.last.quality));
 }
 function strict(s){return old.strict(s)&&valid(s)}
-function make(...args){return Object.assign(old.make(...args),{hg88:{v:1,totalDrawn:0,summons:0,last:null}})}
+function make(...args){return Object.assign(old.make(...args),{hg88:{v:1,totalDrawn:0,summons:0,last:null,milestones:[]}})}
 function parse(text){const s=old.parse(text);ensure(s);if(!strict(s))throw Error('Save HG88 không hợp lệ');return s}
 function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG88 không hợp lệ');return old.serialize(s)}
 const hash=n=>{
@@ -146,6 +150,9 @@ function resetTower(s){
  return {from:original,to:1,highest:ledger.highest,used:t.hg88.resetsUsed};
 }
 function awardTower(s,floor,report){
+ const ledger=ensure(s);
+ if(floor%5===0&&ledger.milestones.includes(floor))
+  return {small:0,large:0,items:[],duplicateBlocked:true};
  const m=s.hg18?.materials,large=floor>=100?(floor===100?100:floor===200?200:floor===500?500:floor>=1000?500:0):
   floor%25===0?25:floor%10===0?10:0;
  const small=floor%5===0&&!large?Math.max(5,Math.min(20,Math.floor(floor/5))):0;
@@ -163,6 +170,7 @@ function awardTower(s,floor,report){
  if(added.small||added.large||added.items.length)
   E.note(s,'🏆 Tháp tầng '+floor+' đầu tiên: +'+added.small+' thẻ Anh Kiệt, +'+added.large+
    ' thẻ Thần Tướng'+(added.items.length?', và 1 Di vật Vương Miện':'')+'.');
+ if(floor%5===0)ledger.milestones.push(floor);
  report.heroCards=added;
  return added;
 }
