@@ -17,12 +17,12 @@ const ITEMS=Object.freeze({
 });
 // Percent units use basis points. Each table, including 'none', totals 10,000.
 const TABLES=Object.freeze({
- npc_low:{label:'Quái thường 1–3★',guaranteed:[],roll:[['wild',1,2,5000],['gear',1,1,3000],['hero',1,1,500],['none',0,0,1500]]},
- npc_elite:{label:'Quái tinh anh 4–10★',guaranteed:[],roll:[['hunter',1,2,4000],['gear',1,2,3400],['hero',1,1,1600],['wild',2,2,700],['none',0,0,300]]},
- npc_boss:{label:'Boss Ma Giới T11–T13',guaranteed:[['abyss',1]],roll:[['hunter',2,2,3000],['gear',2,2,2000],['hero',1,1,1000],['none',0,0,4000]]},
- treasure:{label:'Kho báu thường',guaranteed:[],roll:[['gear',1,2,4500],['wild',1,2,3000],['hunter',1,1,500],['none',0,0,2000]]},
- treasure_boss:{label:'Kho báu 9–10 (Boss)',guaranteed:[['abyss',1]],roll:[['gear',2,2,4000],['hero',1,1,2000],['none',0,0,4000]]},
- tower:{label:'Bí Cảnh có thưởng',guaranteed:[['tower',1]],roll:[['gear',1,2,3000],['hero',1,1,2000],['wild',2,2,1000],['none',0,0,4000]]}
+ npc_low:{label:'Quái thường 1–3★',guaranteed:[],roll:[['wild',1,2,5000],['gear',1,1,3200],['hero',1,1,600],['none',0,0,1200]]},
+ npc_elite:{label:'Quái tinh anh 4–10★',guaranteed:[],roll:[['hunter',1,2,4200],['gear',1,2,3500],['hero',1,1,1800],['wild',2,2,400],['none',0,0,100]]},
+ npc_boss:{label:'Boss Ma Giới T11–T13',guaranteed:[['abyss',1]],roll:[['hunter',2,3,3600],['gear',2,3,2700],['hero',1,2,2200],['none',0,0,1500]]},
+ treasure:{label:'Kho báu thường',guaranteed:[],roll:[['gear',1,2,5200],['wild',1,2,3000],['hunter',1,1,1000],['none',0,0,800]]},
+ treasure_boss:{label:'Kho báu 9–10 (Boss)',guaranteed:[['abyss',1]],roll:[['gear',2,3,5000],['hero',1,2,3200],['none',0,0,1800]]},
+ tower:{label:'Bí Cảnh có thưởng',guaranteed:[['tower',1]],roll:[['gear',1,2,3800],['hero',1,2,2800],['wild',2,2,1400],['none',0,0,2000]]}
 });
 const RECIPES=Object.freeze([
  {id:'stone',name:'Luyện 6 đá cường hóa',cost:{wild:6,gear:4},output:{kind:'material',id:'enhance_stone',count:6}},
@@ -64,29 +64,46 @@ function sourceFor(kind,target,level=0){
  const t=E.getTile(target);if((t?.eliteTier||0)>=11)return 'npc_boss';
  return (t?.level||level)>=4?'npc_elite':'npc_low';
 }
+// HG84: explicit late-game guarantees, derived from the ACTUAL conquered target.
+// This never creates rewards on preview, loss, or unpaid Tower replay.
+function guaranteed(source,target='',floor=1){
+ const table=TABLES[source];if(!table)throw Error('Nguồn HG29 không tồn tại');
+ const drops=new Map(),add=(id,n)=>drops.set(id,(drops.get(id)||0)+n);
+ for(const [id,n] of table.guaranteed)add(id,n);
+ if(source==='tower'){
+  if(floor%5===0)add('tower',1);
+  if(floor>=25&&floor%5===0)add('tower',1);
+  if(floor>=10&&floor%10===0)add('hero',1);
+ }else if(source==='npc_boss'){
+  const tier=E.getTile(target)?.eliteTier||11;
+  if(tier>=12)add('abyss',tier>=13?2:1);
+  if(tier>=13)add('hero',1);
+ }
+ return [...drops].map(([id,count])=>({id,count}));
+}
 function preview(s,request={}){
  const target=request.target||'',kind=request.kind||E.getTile(target)?.kind||'',level=request.level??E.getTile(target)?.level??0;
  const source=sourceFor(kind,target,level);
  if(!source)return null;
  const table=TABLES[source],paid=source!=='tower'||s.hg20?.tower?.claims<5;
  const floor=request.floor||s.hg20?.tower?.floor||1;
- return {source,label:table.label,paid,guaranteed:paid?table.guaranteed.map(([id,n])=>({id,name:ITEMS[id].name,count:n+(source==='tower'&&floor%5===0?1:0)})):[],
+ return {source,label:table.label,paid,guaranteed:paid?guaranteed(source,target,floor).map(({id,count})=>({id,name:ITEMS[id].name,count})):[],
   chances:paid?table.roll.filter(r=>r[0]!=='none').map(([id,min,max,bps])=>({id,name:ITEMS[id].name,min,max,percent:bps/100})):[],
   noDropPercent:paid?table.roll.find(r=>r[0]==='none')[3]/100:100};
 }
 // Mathematical expected receipts per eligible victory, derived only from
 // published roll tables. No simulated reward is added to game state.
-function expected(source,floor=1){
+function expected(source,floor=1,target=''){
  const t=TABLES[source];if(!t)throw Error('Nguồn HG29 không tồn tại');
  const out=Object.fromEntries(Object.keys(ITEMS).map(id=>[id,0]));
- for(const [id,n] of t.guaranteed)out[id]+=n+(source==='tower'&&floor%5===0?1:0);
+ for(const {id,count} of guaranteed(source,target,floor))out[id]+=count;
  for(const [id,min,max,bps] of t.roll)if(id!=='none')
   out[id]+=bps/10000*(min+max)/2;
  return out;
 }
 function drawDrops(source,target,ordinal,floor=1){
  const table=TABLES[source],seed=mix32((Math.imul(ordinal,2654435761)^coords(target)^Math.imul(floor,2246822519))>>>0);
- const result=table.guaranteed.map(([id,count])=>({id,count:count+(source==='tower'&&floor%5===0?1:0)}));
+ const result=guaranteed(source,target,floor);
  const dice=roll(seed);let cumulative=0;
  for(const [id,min,max,bps] of table.roll){cumulative+=bps;if(dice<cumulative){if(id!=='none'){
    const count=min+(max>min?mix32(seed^0x9e3779b9)%(max-min+1):0);
@@ -144,6 +161,6 @@ function strict(s){return old.strict(s)&&valid(s);}
 function serialize(s){ensure(s);if(!strict(s))throw Error('Save HG29 không hợp lệ');return old.serialize(s);}
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,battleAct,
  hg29Ensure:ensure,hg29Valid:valid,hg29Preview:preview,hg29Expected:expected,hg29Catalogue:catalogue,hg29Craft:craft,
- HG29_ITEMS:ITEMS,HG29_TABLES:TABLES,HG29_RECIPES:RECIPES});
+ hg29Guaranteed:guaranteed,HG29_ITEMS:ITEMS,HG29_TABLES:TABLES,HG29_RECIPES:RECIPES});
 root.HOG_HG29=Object.freeze({version:1,saveVersion:7,mode:'earned-deterministic-fragments'});
 })(typeof globalThis!=='undefined'?globalThis:this);
