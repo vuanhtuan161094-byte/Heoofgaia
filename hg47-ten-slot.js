@@ -409,3 +409,107 @@ Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,
  HG47_SLOTS:SLOTS,HG47_RACES:RACES,HG47_TIERS:TIERS,HG47_SETS:Object.freeze(SETS)});
 root.HOG_HG47=Object.freeze({version:1,saveVersion:7,slotCount:10,gearCount:ITEM_IDS.length,setCount:Object.keys(SETS).length});
 })(typeof globalThis!=='undefined'?globalThis:this);
+
+
+/* HG83 — earned Crown Relics: 40 NEW canonical pieces, no Save schema field.
+ * Four races x ten existing slots, distinct build bonuses and paid crafting.
+ * Existing HG47 80-item receipts/fragment wallets remain untouched.
+ */
+(function(root){'use strict';
+const E=root.HOG_ENGINE;
+if(!E?.HG47_SLOTS||!E?.HG47_RACES||!E?.hg31Status||!E?.hg29Ensure||E.V!==7)
+ throw Error('HG83 requires canonical HG47/HG29/HG31 Save v07 runtime');
+const RACES={
+ human:{title:'Thiên Thành',effect:'damageReduction',name:'Thành Lũy Vương Quyền'},
+ elf:{title:'Tinh Nguyệt',effect:'rangedDamage',name:'Nguyệt Quang Thần Tiễn'},
+ orc:{title:'Cuồng Vương',effect:'meleeDamage',name:'Cuồng Phong Chiến Thần'},
+ undead:{title:'U Minh',effect:'damageBonus',name:'Hắc Ám Tái Sinh'}
+};
+const TITLES={weapon:'Thần Binh',armor:'Vương Giáp',helm:'Hoàng Miện',
+ gloves:'Chiến Quyền',boots:'Hành Ngoa',belt:'Vương Đai',
+ necklace:'Tinh Liên',ring:'Vương Giới',charm:'Thiên Ấn',relic:'Thánh Tinh'};
+const RECIPES=[],SETS={};
+const idFor=(race,slot)=>'hg83_'+race+'_'+slot;
+for(const [race,r] of Object.entries(RACES)){
+ SETS['hg83_'+race]=Object.freeze({name:r.name,race,max:10,
+  note:'3 món: +2% sở trường · 6 món: +3% sở trường · 10 món: +4% sở trường và +1% giảm sát thương',
+  source:'Rèn nguyên liệu chiến đấu Boss T11+ và Tháp có thưởng'});
+ for(let index=0;index<E.HG47_SLOTS.length;index++){
+  const [slot,slotName,icon]=E.HG47_SLOTS[index],id=idFor(race,slot);
+  if(E.ITEMS[id])throw Error('HG83 duplicate item '+id);
+  const focus=slot==='weapon'||slot==='gloves'||slot==='ring'?'atk':
+   ['armor','helm','belt'].includes(slot)?'def':'spd';
+  const stats={atk:16+(index%3)*4,def:16+((index+1)%3)*4,spd:3+(index%3),int:0};
+  stats[focus]+=focus==='spd'?3:17;
+  E.ITEMS[id]={id,slot,icon,name:r.title+' '+TITLES[slot],race,
+   set:'hg83_'+race,atk:stats.atk,def:stats.def,spd:stats.spd,int:0,
+   cost:0,level:10,shop:false,hg83:true};
+  RECIPES.push(Object.freeze({id,race,slot,name:E.ITEMS[id].name,
+   gold:38000+index*2000,
+   need:Object.freeze({gear:10+2*(index%3),hunter:7,abyss:4,tower:8,hero:3,
+    bossToken:1,towerToken:1})}));
+ }
+}
+const BY_ID=Object.freeze(Object.fromEntries(RECIPES.map(q=>[q.id,q])));
+const idle=s=>!s.battle&&!s.march&&!s.expedition&&!(s.parallelMarches?.length)&&!s.hg26?.enabled;
+const owned=(s,key)=>key==='bossToken'?s.hg27?.boss||0:
+ key==='towerToken'?s.hg27?.tower||0:s.hg29?.shards?.[key]||0;
+function catalogue(s,race=s.race){
+ if(!RACES[race])throw Error('Chủng tộc không hợp lệ');
+ const open=(s.hg31?.bossWins||0)>=1&&(s.hg31?.paidTowerWins||0)>=1;
+ return RECIPES.filter(q=>q.race===race).map(q=>{
+  const missing={gold:Math.max(0,q.gold-(s.res?.gold||0))};
+  for(const [key,n] of Object.entries(q.need))missing[key]=Math.max(0,n-owned(s,key));
+  const ready=Object.values(missing).every(n=>n===0);
+  return {...q,missing,unlocked:open,canCraft:race===s.race&&open&&ready&&idle(s)&&s.inventory.length<2000};
+ });
+}
+function craft(s,id){
+ const q=BY_ID[id];if(!q||q.race!==s.race)throw Error('Chỉ được rèn vật phẩm thuộc chủng tộc hiện tại');
+ const status=catalogue(s,q.race).find(x=>x.id===id);
+ if(!status?.canCraft)throw Error('Chưa thắng Boss và Tháp nhận thưởng, thiếu nguyên liệu, đang hành quân hoặc kho đầy');
+ // One canonical transaction: prepare and validate a trial before updating Save v07.
+ const trial=E.clone(s);
+ E.spend(trial,{gold:q.gold});
+ for(const [key,n] of Object.entries(q.need)){
+  if(key==='bossToken')trial.hg27.boss-=n;
+  else if(key==='towerToken')trial.hg27.tower-=n;
+  else trial.hg29.shards[key]-=n;
+ }
+ const created=E.addItem(trial,id,'HG83 rèn bằng chiến lợi phẩm Boss/Tháp');
+ E.note(trial,'HG83: rèn '+q.name+' #'+created.uid+'; đã tiêu hao nguyên liệu thật.');
+ if(!E.strictSave(trial))throw Error('Đã chặn giao dịch: Save v07 không hợp lệ');
+ Object.assign(s,trial);
+ return {id,uid:created.uid,gold:q.gold,need:q.need};
+}
+function setProgress(s,id=s.activeHero){
+ const hero=s.heroes.find(h=>h.id===id);if(!hero)return [];
+ const race=hero.race||s.race,set=SETS['hg83_'+race];
+ const count=Object.values(s.equipment?.[id]||{}).reduce((n,uid)=>{
+  const row=s.inventory.find(x=>x.uid===uid);
+  return n+(E.ITEMS[row?.itemId]?.set==='hg83_'+race?1:0);
+ },0);
+ return [{id:'hg83_'+race,name:set.name,count,max:10,note:set.note,source:set.source}];
+}
+const oldCombat=E.combatModifiers;
+function modifiers(s,id=s.activeHero){
+ const result=oldCombat(s,id),set=setProgress(s,id)[0];
+ if(!result||!set||set.count<3)return result;
+ const key=RACES[set.id.slice(5)].effect;
+ const amount=set.count>=10?.04:set.count>=6?.03:.02;
+ result[key]=(result[key]||0)+amount;
+ if(set.count>=10)result.damageReduction=(result.damageReduction||0)+.01;
+ return result;
+}
+function iconHTML(id,size=52){
+ const q=BY_ID[id];if(!q)return '';
+ const px=Math.max(30,Math.min(112,Number(size)||52));
+ const original=E.hg47IconHTML('hg47_'+q.race+'_divine_'+q.slot,px);
+ return '<span class="hg83-crown-icon" aria-hidden="true">'+original+'<i>✦</i></span>';
+}
+Object.assign(E,{HG83_RECIPES:Object.freeze(RECIPES),HG83_SETS:Object.freeze(SETS),
+ hg83Catalogue:catalogue,hg83Craft:craft,hg83SetProgress:setProgress,hg83IconHTML:iconHTML,
+ hg83ItemId:idFor,combatModifiers:modifiers});
+root.HOG_HG83=Object.freeze({version:1,saveVersion:7,newItems:RECIPES.length,newSets:4,
+ source:'paid Boss/Tower resources; no new Save fields'});
+})(typeof globalThis!=='undefined'?globalThis:this);
