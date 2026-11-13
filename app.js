@@ -14,7 +14,7 @@ let hg43ArmyPage='recruit',hg43ArmyRace='human';
 // HG40.8: presentation-only hero selection; never stored inside Save v07.
 let hg408InspectId=null,hg408Tab='overview',hg408DismissFor=null,hg408DismissStage=0;
 // HG46 view-only filter/pagination; never persisted in Save v07.
-let hg46GearFilter='all',hg46GearPage=0,hg46GearSearch='',hg46GearSort='rarity',hg46GearInspectUID=null,hg47RaceView=null,hg47TierView='rare',hg87BatchTier='fine';
+let hg46GearFilter='all',hg46GearPage=0,hg46GearSearch='',hg46GearSort='rarity',hg46GearInspectUID=null,hg47RaceView=null,hg47TierView='rare',hg87BatchTier='fine',hg87ForgeOpen=false,hg83ForgeOpen=false;
 // Device-only preferences, never injected into Save v07.
 let towerAutoChain=true,battleAlwaysAuto=false;
 try{towerAutoChain=localStorage.getItem('hg69_tower_auto')!=='off';
@@ -1439,7 +1439,7 @@ function hg31ForgeView(){
  const section=setId=>{
   const set=E.HG31_SETS[setId],rows=s.recipes.filter(r=>r.set===setId);
   const isBoss=setId==='dragon';
-  return `<div class="hg31-set" data-hg31-set="${setId}"><div class="hg31-set-heading"><div><h3>${set.icon} ${esc(set.name)}</h3><small>${esc(set.source)} · ${isBoss?'T11/T12 +1 mảnh; T13 +2':'Thắng có thưởng +1; tầng bội 5 +2'} · ${esc(set.note)}</small></div><span class="tag">${s.setCounts[setId]||0}/3 đang mặc</span></div>
+  return `<div class="hg31-set" data-hg31-set="${setId}"><div class="hg31-set-heading"><div><h3>${set.icon} ${esc(set.name)}</h3><small>${esc(set.source)} · ${isBoss?'T11 +1, T12 +2, T13 +3 mảnh':'Thắng có thưởng +1; tầng bội 5 +2'} · ${esc(set.note)}</small></div><span class="tag">${s.setCounts[setId]||0}/3 đang mặc</span></div>
    <div class="hg31-grid">${rows.map(r=>{
     const n=r.need,selected=r.focus,need=[
      `<span class="${r.have>=n.fragments?'ready':'missing'}">🧩 ${format(r.have)}/${n.fragments}</span>`,
@@ -1581,7 +1581,7 @@ function hg409MaterialGuide(id){
 function hg87ForgeView(){
  const rows=E.hg87Catalogue(state),set=E.HG87_SETS?.['hg87_'+state.race],
    names={gold:'vàng',gear:'mảnh rèn',hunter:'huy hiệu săn',tower:'phù văn Tháp'};
- return '<details class="hg87-forge card" aria-label="Rèn trang bị Sử thi HG87">'+
+ return '<details class="hg87-forge card" '+(hg87ForgeOpen?'open':'')+' aria-label="Rèn trang bị Sử thi HG87">'+
   '<summary>⚒ Rèn Sử thi · 40 món / 4 chủng tộc · 10 ô</summary>'+
   '<p class="hint">Bộ '+esc(set?.name||'')+' · Hoàn thành ít nhất một tầng Tháp có thưởng để mở công thức. Mỗi món tốn vàng, mảnh rèn, huy hiệu và phù văn Tháp thật. Không dùng quay thưởng miễn phí.</p>'+
   '<p class="tiny muted">Hiệu ứng theo bộ: '+esc(set?.note||'')+'. Các món Sử thi là bước đệm giữa đồ Hiếm và Di vật Vương Miện.</p>'+
@@ -1600,7 +1600,7 @@ function hg83ForgeView(){
  const sources={gold:'vàng',gear:'mảnh rèn',hunter:'huy hiệu',abyss:'lõi Boss',
   tower:'phù văn Tháp',hero:'mảnh Anh Hùng',bossToken:'ấn Boss',towerToken:'ấn Tháp'};
  const set=E.HG83_SETS?.['hg83_'+state.race];
- return '<details class="hg83-forge card"><summary>✦ Di vật Vương Miện · 40 món mới · 4 bộ 10 ô</summary>'+
+ return '<details class="hg83-forge card" '+(hg83ForgeOpen?'open':'')+'><summary>✦ Di vật Vương Miện · 40 món mới · 4 bộ 10 ô</summary>'+
   '<p class="hint">Bộ '+esc(set?.name||'')+' cho '+esc(E.HG47_RACES[state.race].name)+
   '. Mở sau khi thắng Boss T11+ và Tháp có thưởng. Rèn cần vàng và chiến lợi phẩm thật; không phát đồ miễn phí.</p>'+
   '<p class="tiny muted">✦ Cơ hội rơi nguyên món sau chiến thắng Boss T11: 2%; T12: 5%; T13: 10%. Tháp tầng 20/30/40… có thưởng: 5%. Không rơi khi thua, lượt không thưởng hoặc túi đầy.</p>'+ 
@@ -2469,6 +2469,8 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='castellan'){E.appoint(state,Number(target.dataset.id));return}
  if(action==='heal'){const q=E.heal(state);toast(`Arena bắt đầu điều trị ${q.count} quân; ${q.paidGold} vàng, ${Math.ceil(q.total/state.speed)} giây thực.`);return}
  });});
+document.addEventListener('toggle',e=>{if(e.target?.matches?.('details.hg87-forge'))hg87ForgeOpen=e.target.open;
+ if(e.target?.matches?.('details.hg83-forge'))hg83ForgeOpen=e.target.open;},true);
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&hg63OpenReport){hg63CloseReport();return}if(e.key==='Escape'&&!$('game-modal').hidden){showWorldIndex=false;showResourceInfo=false;tab='map';modalOffset=0;render();}});
 $('save').onclick=()=>{if(save())toast('Đã lưu game vào trình duyệt.')};
 $('speed').onclick=()=>{if(!state)return;fail(()=>E.setSpeed(state,state.speed===60?1:60))};
