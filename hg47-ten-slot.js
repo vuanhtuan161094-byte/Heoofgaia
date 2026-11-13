@@ -25,7 +25,7 @@ const TIERS=Object.freeze({
   cost:Object.freeze({gear:5,hunter:3}),oddsLabel:'Quái 1–3★: 60%; Elite: luôn rơi 1–2 mảnh đúng mục tiêu',multi:1},
  divine:{name:'Thần khí',icon:'✺',fragmentCount:12,gold:18000,
   cost:Object.freeze({abyss:3,tower:6,hero:2,bossToken:1,towerToken:1}),
-  oddsLabel:'Boss T11+: 2 mảnh; Tháp có thưởng: 2 mảnh, Elite: 5% được 1 mảnh',multi:2}
+  oddsLabel:'Boss T11/T12/T13: +2/+3/+4 mảnh; Tháp +2 (tăng tại mốc tầng 10+); Elite 4–6★: 5%, Elite 7–10★: 10% được 1 mảnh',multi:2}
 });
 const KEYS=['atk','def','spd','int','damageBonus','meleeDamage','rangedDamage','damageReduction'];
 const AFFIXES=Object.freeze({
