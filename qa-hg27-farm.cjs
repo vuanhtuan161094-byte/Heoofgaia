@@ -23,8 +23,8 @@ check('Organic world NPC 1-star win earns one mark, not instant rewards',()=>{
 check('Fixture: 12 unreserved base troops + marks/tower + gold -> one special, exact once after reload',()=>{
  const s=E.make('human',1e6),h=s.hg27;h.marks=40;h.tower=20;h.boss=10;s.hg20.tower.floor=8;
  const before=s.army.human_1,gold=s.res.gold,receipt=E.hg27Exchange(s,'guard');
- assert.equal(receipt.output.unitId,'human_quest_guard');assert.equal(s.army.human_1,before-12);assert.equal(s.army.human_quest_guard,1);assert.equal(s.res.gold,gold-3000);assert.equal(h.marks,28);assert.equal(h.tower,17);
- const a=reload(s);assert.equal(a.army.human_quest_guard,1);assert.equal(a.hg27.exchanges,1);assert.throws(()=>E.hg27Exchange(a,'guard'),/Thiếu/);return {converted:1,spentOrdinary:12,exchanges:a.hg27.exchanges};
+ assert.equal(receipt.output.unitId,'human_quest_guard');assert.equal(s.army.human_1,before-12);assert.equal(s.army.human_quest_guard,4000);assert.equal(s.res.gold,gold-3000);assert.equal(h.marks,28);assert.equal(h.tower,17);
+ const a=reload(s);assert.equal(a.army.human_quest_guard,4000);assert.equal(a.hg27.exchanges,1);assert.throws(()=>E.hg27Exchange(a,'guard'),/Thiếu/);return {converted:4000,spentOrdinary:12,exchanges:a.hg27.exchanges};
 });
 check('Fixture: craft Sentinel and Astral items using separate earned currencies; reject impossible exchange',()=>{
  const s=E.make('elf',1e6);s.hg27.marks=80;s.hg27.tower=50;s.hg27.boss=10;s.hg20.tower.floor=8;
