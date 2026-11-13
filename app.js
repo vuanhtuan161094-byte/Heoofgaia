@@ -1578,6 +1578,23 @@ function hg409MaterialGuide(id){
  return info[id]||'Nguyên liệu chế tạo hoặc tiến hóa trong Rèn & Di vật.';
 }
 
+function hg87ForgeView(){
+ const rows=E.hg87Catalogue(state),set=E.HG87_SETS?.['hg87_'+state.race],
+   names={gold:'vàng',gear:'mảnh rèn',hunter:'huy hiệu săn',tower:'phù văn Tháp'};
+ return '<details class="hg87-forge card" aria-label="Rèn trang bị Sử thi HG87">'+
+  '<summary>⚒ Rèn Sử thi · 40 món / 4 chủng tộc · 10 ô</summary>'+
+  '<p class="hint">Bộ '+esc(set?.name||'')+' · Hoàn thành ít nhất một tầng Tháp có thưởng để mở công thức. Mỗi món tốn vàng, mảnh rèn, huy hiệu và phù văn Tháp thật. Không dùng quay thưởng miễn phí.</p>'+
+  '<p class="tiny muted">Hiệu ứng theo bộ: '+esc(set?.note||'')+'. Các món Sử thi là bước đệm giữa đồ Hiếm và Di vật Vương Miện.</p>'+
+  '<div class="hg87-forge-grid">'+rows.map(q=>{
+   const missing=Object.entries(q.missing).filter(([,v])=>v>0).map(([k,v])=>format(v)+' '+(names[k]||k)).join(' · ');
+   return '<article class="hg87-forge-item" data-hg87-recipe="'+esc(q.id)+'">'+
+    '<span class="hg87-forge-art">'+(hg86GearHTML(q.id,49)||E.ITEMS[q.id].icon)+'</span>'+
+    '<div class="hg87-forge-details"><b>'+esc(q.name)+'</b><small>'+esc(E.HG47_SLOTS.find(x=>x[0]===q.slot)?.[1]||q.slot)+
+     ' · '+format(q.cost.gold)+' vàng · '+q.cost.gear+' mảnh rèn · '+q.cost.hunter+' huy hiệu · '+q.cost.tower+' phù văn</small>'+
+    '<small>'+esc(!q.unlocked?'🔒 Cần thắng Tháp nhận thưởng':missing||'✓ Có thể rèn')+'</small></div>'+
+    button('hg87-craft',{id:q.id},'⚒ Rèn',!q.canCraft,'small primary')+'</article>';
+  }).join('')+'</div></details>';
+}
 function hg83ForgeView(){
  const rows=E.hg83Catalogue?.(state)||[];
  const sources={gold:'vàng',gear:'mảnh rèn',hunter:'huy hiệu',abyss:'lõi Boss',
@@ -1601,7 +1618,7 @@ function relicView(){
  const mat=state.hg18.materials,sets=E.hg18SetCounts(state,state.activeHero);
  const opens=['resource_card','resource_chest','gear_pack','set_chest'];
  const gearEntry=button('hg46-open-gear',{},'🛡 Mở kho trang bị và mặc đồ tướng',false,'primary');
- return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg47ForgeView()}${hg83ForgeView()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}
+ return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg47ForgeView()}${hg87ForgeView()}${hg83ForgeView()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}
   <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
   <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card hg409-material-card"><div class="hg409-material-head"><b>${ico(key,25)||m.icon} ${esc(m.name)}</b><strong>×${format(mat[key])}</strong></div><details><summary>ⓘ Công dụng và định mức</summary><p>${esc(hg409MaterialGuide(key))}</p><small>Kiếm qua nhiệm vụ, chiến thắng Boss/Tháp, ghép mảnh. Không phát vật phẩm khi xem thẻ.</small></details>
   ${opens.includes(key)?button('hg18-open',{id:key},'Mở / Dùng',mat[key]<1,'small primary'):''}</div>`).join('')}</div></section>
@@ -2130,12 +2147,31 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='hg408-dismiss-cancel'){hg408DismissFor=null;hg408DismissStage=0;return}
  if(action==='hg408-dismiss-next'){if(!E.hg408DismissCheck(state,Number(target.dataset.id)).allowed)throw Error('Tướng không đủ điều kiện sa thải.');hg408DismissStage=2;return}
  if(action==='hg408-dismiss-apply'){const result=E.hg408DismissHero(state,Number(target.dataset.id));hg408InspectId=result.activeHero;hg408DismissFor=null;hg408DismissStage=0;toast('Đã sa thải '+result.name+'; trang bị giữ nguyên trong kho.');return}
+ if(action==='hg87-mark'){
+  const uid=Number(target.dataset.uid),field=target.dataset.field,on=target.dataset.on==='1';
+  const result=E.hg87Mark(state,uid,field,on);
+  toast(result.enabled?'Đã bảo vệ vật phẩm #'+uid:'Đã bỏ dấu của vật phẩm #'+uid);return;
+ }
+ if(action==='hg87-batch-tier'){
+  hg87BatchTier=['common','fine','rare'].includes(target.dataset.id)?target.dataset.id:'fine';return;
+ }
+ if(action==='hg87-batch-salvage'){
+  const quote=E.hg87BatchPreview(state,hg87BatchTier);
+  if(!quote.canRun)throw Error('Không có món có thể phân giải hoặc kho đá đã đầy');
+  if(!confirm('Phân giải vĩnh viễn '+quote.count+' món +0 chưa mặc/không khóa/không yêu thích? Nhận '+format(quote.stones)+' đá cường hóa. Không thể hoàn tác.'))return;
+  const result=E.hg87BatchSalvage(state,hg87BatchTier);
+  hg46GearInspectUID=null;toast('Phân giải '+result.count+' món, nhận '+format(result.stones)+' đá.');return;
+ }
+ if(action==='hg87-craft'){
+  const result=E.hg87Craft(state,target.dataset.id);
+  toast('Đã rèn '+E.ITEMS[result.itemId].name+' #'+result.uid+' từ nguyên liệu thật.');return;
+ }
  if(action==='hg46-inspect'){const uid=Number(target.dataset.uid);if(!state.inventory.some(x=>x.uid===uid))throw Error('Vật phẩm không còn trong kho');hg46GearInspectUID=uid;return}
  if(action==='hg46-inspect-close'){hg46GearInspectUID=null;return}
  if(action==='hg46-filter'){hg46GearFilter=target.dataset.slot||'all';hg46GearPage=0;return}
  if(action==='hg46-search'){hg46GearSearch=($('hg46-search-box')?.value||'').trim().slice(0,80);hg46GearPage=0;return}
  if(action==='hg46-search-reset'){hg46GearSearch='';hg46GearFilter='all';hg46GearPage=0;return}
- if(action==='hg46-sort'){hg46GearSort=['rarity','attack','new'].includes(target.dataset.id)?target.dataset.id:'rarity';hg46GearPage=0;return}
+ if(action==='hg46-sort'){hg46GearSort=['rarity','attack','defense','speed','new'].includes(target.dataset.id)?target.dataset.id:'rarity';hg46GearPage=0;return}
  if(action==='hg46-page'){hg46GearPage=Math.max(0,hg46GearPage+Number(target.dataset.direction||0));return}
  if(action==='hg46-auto'){const result=E.hg46AutoEquip(state,Number(target.dataset.id),target.dataset.mode);
   toast(result.applied?'Đã chọn bộ trang bị từ kho thực; thay '+result.changed+' ô.':'Bộ đang mặc đã phù hợp.');return}
