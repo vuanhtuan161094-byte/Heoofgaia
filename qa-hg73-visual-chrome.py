@@ -46,8 +46,18 @@ with sync_playwright() as runtime:
         data['strict'] and data['version']==7 and data['n']==7 and data['aura']=='divine',data)
   page.locator('#nav [data-tab="heroes"]').click()
   page.locator('[data-action="hg408-tab"][data-id="gear"]').click()
-  check(label+' all actual items have clearly legible quality labels',
-        page.locator('.hg73-grade-pill').count()>=7)
+  check(label+' all seven actual items retain rarity frame identities',
+        page.locator('.hg46-inventory-card[class*="hg73-tier-"]').count()==7)
+  check(label+' compact cards conceal stats/actions until player selects an item',
+        page.locator('.hg83-inspector').count()==0 and
+        page.locator('.hg46-inventory-card .hg46-card-actions').count()==0)
+  page.locator('.hg46-inventory-card.hg73-tier-divine').click()
+  check(label+' selecting divine item reveals legible grade and verified UID details',
+        page.locator('.hg83-inspector .hg73-grade-pill').count()==1 and
+        page.locator('.hg83-inspector [data-action="hg46-inspect-close"]').count()==1)
+  page.locator('[data-action="hg46-inspect-close"]').click()
+  check(label+' closing item detail restores compact icon-only grid',
+        page.locator('.hg83-inspector').count()==0)
   crystal=page.locator('.hg46-inventory-card.hg73-tier-divine')
   check(label+' divine crystal UI appears on real equipment',crystal.count()==1)
   style=crystal.first.evaluate("""element=>{const outer=getComputedStyle(element,'::after'),
