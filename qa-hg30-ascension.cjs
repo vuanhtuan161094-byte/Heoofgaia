@@ -63,11 +63,11 @@ check('Fixture: 4 races convert 12 free T1 into real quest guard, all sinks exac
  const s=enrich(E.make(race,1e6)),unit=race+'_1',guard=race+'_quest_guard';
  const before={base:s.army[unit],guard:s.army[guard]||0,gold:s.res.gold,marks:s.hg27.marks,tower:s.hg27.tower,wild:s.hg29.shards.wild};
  const result=E.hg30Convert(s,'guard');assertEqual(result.toUnit,guard);
- assertEqual(s.army[unit],before.base-12);assertEqual(s.army[guard],before.guard+8);
+ assertEqual(s.army[unit],before.base-12);assertEqual(s.army[guard],before.guard+4000);
  assertEqual(s.res.gold,before.gold-3000);assertEqual(s.hg27.marks,before.marks-12);
  assertEqual(s.hg27.tower,before.tower-3);assertEqual(s.hg29.shards.wild,before.wild-6);
  assertEqual(s.hg30.stage,2);assertEqual(s.hg30.guardMade,1);saved(s);}
- return {races:4,baseSpent:12,guardsAdded:8};
+ return {races:4,baseSpent:12,guardsAdded:4000};
 });
 check('Cannot convert reserved T1, zero cost deducted on rejected action',()=>{
  const s=enrich(E.make('human',1e6));const unit='human_1';
@@ -87,18 +87,18 @@ check('Fixture: 4 races convert earned guard to canonical sovereign, preserve ba
  s.hg30.bossWins=1;s.hg30.npcWins=3;s.hg30.paidTowerWins=3;
  const stock=s.army[guard],gold=s.res.gold;
  const out=E.hg30Convert(s,'sovereign');
- assertEqual(out.toUnit,king);assertEqual(s.army[guard],stock-2);assertEqual(s.army[king],4);
+ assertEqual(out.toUnit,king);assertEqual(s.army[guard],stock-2);assertEqual(s.army[king],4000);
  assertEqual(s.res.gold,gold-20000);assertEqual(s.hg30.stage,3);assertEqual(s.hg30.sovereignMade,1);
  assert(E.getUnit(s,king)?.atk>0);saved(s);}
- return {races:4,sovereigns:4};
+ return {races:4,sovereigns:4000};
 });
 check('Repeatable post-unlock conversions require real fresh consumables, no false second gift',()=>{
  const s=enrich(E.make('human',1e6));E.hg30Convert(s,'guard');
  s.hg30.bossWins=1;s.hg30.npcWins=3;s.hg30.paidTowerWins=3;
  E.hg30Convert(s,'sovereign');assertEqual(s.hg30.stage,3);
  const first=s.hg30.sovereignMade;
- // HG81: eight earned quest guards can fund more than one real Sovereign batch.
- const second=E.hg30Convert(s,'sovereign');assert.equal(second.toCount,4);
+ // HG85: 4,000 earned quest guards can fund repeat Sovereign batches without new free resources.
+ const second=E.hg30Convert(s,'sovereign');assert.equal(second.toCount,4000);
  assertEqual(s.hg30.sovereignMade,first+1);
  const goldBefore=s.res.gold;s.hg29.shards.abyss=0;
  assert.throws(()=>E.hg30Convert(s,'sovereign'),/Số mẻ|chưa đủ/i);
