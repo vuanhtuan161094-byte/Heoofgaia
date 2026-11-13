@@ -1052,16 +1052,15 @@ function hg46GearView(h){
  };
  const worn=E.HG47_SLOTS.map(([slot])=>{
   const row=state.inventory.find(i=>i.uid===slots[slot]),def=row&&E.ITEMS[row.itemId];
-  const kind=row?E.hg46Kind(row):'empty',p=row?E.hg46Stats(row):null;
-  const attrs=p?['atk','def','spd','int'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · '):'Chưa có trang bị';
-  const grade=row?E.hg73Grade?.(row):null;
-  return '<article class="hg46-slot hg408-slot hg46-kind-'+kind+' '+(grade?'hg73-tier-'+grade.id:'')+'" data-hg46-slot="'+slot+'">'+
-   '<div class="hg46-slot-head"><b>'+esc(names[slot])+'</b>'+(row?gradeBadge(row):'')+'<small>'+ (row?'+'+(row.enhance||0)+' cường hóa':'Trống')+'</small></div>'+
-   '<div class="hg46-slot-content"><div class="hg46-gear-art">'+(row?icon(row):'◇')+'</div>'+
-   '<div><strong>'+esc(def?.name||'Chưa trang bị')+'</strong><small>'+esc(attrs)+'</small>'+(row?hg63GearDetails(row,setsById):'')+ (row&&(E.hg73Affixes?.(row)||E.hg47Affixes(row)).length?'<small class="hg47-affix">'+esc((E.hg73Affixes?.(row)||E.hg47Affixes(row)).map(x=>x.label).join(' · '))+'</small>':'')+
-   (def?.set?'<small class="hg46-set-tag">'+esc(setsById[def.set]?.name||def.set)+'</small>':'')+
-   '</div></div>'+
-   (row?button('hg408-unequip',{id:h.id,slot},'Tháo trang bị',busy,'small secondary'):'')+
+  const kind=row?E.hg46Kind(row):'empty',grade=row?E.hg73Grade?.(row):null;
+  return '<article class="hg46-slot hg408-slot hg83-worn-slot hg46-kind-'+kind+
+   ' '+(grade?'hg73-tier-'+grade.id:'')+'" data-hg46-slot="'+slot+'">'+
+   '<div class="hg46-slot-head"><b>'+esc(names[slot])+'</b>'+
+   '<small>'+(row?'+'+(row.enhance||0):'Trống')+'</small></div>'+
+   (row?'<button type="button" class="hg83-worn-item" data-action="hg46-inspect" data-uid="'+row.uid+
+    '" aria-label="Xem '+esc(def.name)+'"><span class="hg46-gear-art">'+icon(row)+'</span>'+
+    '<span class="hg83-worn-name">'+esc(def.name)+'</span></button>':
+    '<div class="hg83-worn-empty"><span>◇</span><small>Chưa mặc</small></div>')+
    '</article>';
  }).join('');
  // HG47 performance: never run 3 ten-slot searches on every UI repaint.
