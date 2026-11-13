@@ -56,7 +56,7 @@ function catalogue(s){const h=ensure(s),floor=s.hg20?.tower?.floor||1,unitId=s.r
   const free=Math.max(0,(s.army[unitId]||0)-reserved(s,unitId));
   const unlocked=floor>=(r.floor||1);
   return {...r,unlocked,freeTroops:free,canExchange:unlocked&&enough&&
-   s.res.gold>=r.gold&&(!r.troops||free>=r.troops)&&(!r.troops||((s.army[s.race+'_quest_guard']||0)<=1000000000-4000))&&
+   s.res.gold>=r.gold&&(!r.troops||free>=r.troops)&&(!r.troops||((s.army[s.race+'_quest_guard']||0)<=100000000-4000))&&
    (r.troops||s.inventory.length<2000)};
  });
 }
