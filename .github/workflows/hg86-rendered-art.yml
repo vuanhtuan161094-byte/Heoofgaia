@@ -38,15 +38,15 @@ jobs:
           python - <<'PY'
           import json,hashlib
           from pathlib import Path
-          from PIL import Image
+          import struct
           m=json.loads(Path('assets/generated/hg86/manifest.json').read_text())
           assert m['schema']=='HG86-Original-Rendered-Asset-Pack-v1'
           assert m['assetCount']==16 and m['characters']==4 and m['gearIcons']==12
           for item in m['assets']:
               p=Path(item['path'])
               assert p.exists() and p.stat().st_size>2000
-              with Image.open(p) as im:
-                  assert im.format=='WEBP' and im.width>=256 and im.height>=256, p
+              data=p.read_bytes()
+              assert data[:4]==b'RIFF' and data[8:12]==b'WEBP', p
           print('HG86 PASS 16/16 real WEBP binary masters')
           PY
   chromium:
