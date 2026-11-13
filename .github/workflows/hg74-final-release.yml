@@ -81,7 +81,7 @@ jobs:
           assert '<script src=' not in html
           assert 'HG73' in html and 'hg73Grade' in html
           assert 'hg21TowerEnter' in html
-          print('HG74 SINGLE OFFLINE HTML 41/41 PASS')
+          print('HG74 SINGLE OFFLINE HTML 43/43 PASS')
           PY
           sha256sum Play-Heoofgaia-HG11.html
       - name: Install genuine headless Chromium
