@@ -48,7 +48,7 @@ function valid(s){
  !Array.isArray(h.history)||h.history.length>20)return false;
  const receipt=r=>r&&['boss','tower'].includes(r.source)&&BY_ID[r.id]&&
   (r.source==='boss'?BY_ID[r.id].set==='dragon':BY_ID[r.id].set==='star')&&
-  iok(r.count,2)&&r.count>0&&iok(r.ordinal)&&r.ordinal>0&&
+  iok(r.count,3)&&r.count>0&&iok(r.ordinal)&&r.ordinal>0&&
   typeof r.target==='string'&&r.target.length<=48;
  return (h.last===null||receipt(h.last))&&h.history.every(receipt);
 }
@@ -78,14 +78,14 @@ function battleAct(s,action,options){
  if(b.kind==='tower'){
   const n=s.hg20?.tower?.victories||0;
   if(n>h.towerSeen){h.towerSeen=n;
-   if(out.claimed) {h.paidTowerWins++;grant(s,'tower','floor-'+b.floor,h.towerFocus,b.floor%5===0?2:1,n);}
+   if(out.claimed) {h.paidTowerWins++;grant(s,'tower','floor-'+b.floor,h.towerFocus,b.floor>=25&&b.floor%5===0?3:b.floor%5===0?2:1,n);}
   }
  }else{
   const n=s.hg18?.victories||0;
   if(n>h.worldSeen){h.worldSeen=n;
    const tile=E.getTile(b.target);
    if(b.kind==='npc'&&(tile?.eliteTier||0)>=11){
-    h.bossWins++;grant(s,'boss',b.target,h.bossFocus,(tile.eliteTier>=13)?2:1,n);
+    h.bossWins++;grant(s,'boss',b.target,h.bossFocus,tile.eliteTier>=13?3:tile.eliteTier>=12?2:1,n);
    }
   }
  }
