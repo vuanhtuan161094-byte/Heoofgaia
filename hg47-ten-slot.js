@@ -241,6 +241,26 @@ function grant(s,channel,tier,source,ordinal,target,count){
  x.last=receipt;x.history.unshift(receipt);x.history.length=Math.min(x.history.length,20);
  E.note(s,'HG47 '+source+': +'+actual+' mảnh '+E.ITEMS[id].name+' (đang theo đuổi).');
 }
+/* HG84 crown jackpot: a REAL item UID is awarded only after a paid win.
+ * No permanent pity counter, synthetic victories, extra Save fields or rerolls.
+ * Exact drop rates are calculated from battle channel and actual tier/floor.
+ */
+const CROWN_ODDS=Object.freeze({11:200,12:500,13:1000,tower:500});
+function crownChance(kind,tier=0,floor=0){
+ if(kind==='tower')return floor>=20&&floor%10===0?CROWN_ODDS.tower:0;
+ return kind==='npc'?(CROWN_ODDS[tier]||0):0;
+}
+function crownDrop(s,kind,target,ordinal,tier=0,floor=0){
+ const chance=crownChance(kind,tier,floor);
+ if(!chance||s.inventory.length>=2000)return null;
+ const key='HG84|crown|'+kind+'|'+target+'|'+ordinal+'|'+s.race;
+ if(hash(key)%10000>=chance)return null;
+ const slot=SLOTS[hash(key+'|slot')%SLOTS.length][0],itemId='hg83_'+s.race+'_'+slot;
+ if(!E.ITEMS[itemId]?.hg83)return null;
+ const result=E.addItem(s,itemId,'HG84 '+(kind==='tower'?'Tháp tầng '+floor:'Boss T'+tier)+' rơi hiếm');
+ E.note(s,'✦ CHIẾN LỢI PHẨM HIẾM: '+E.ITEMS[itemId].name+' #'+result.uid+' đã vào kho thật.');
+ return {uid:result.uid,itemId,channel:kind,tier, floor};
+}
 function battleAct(s,action,opts){
  const b=s.battle?{kind:s.battle.kind,target:String(s.battle.target||''),
   level:s.battle.level||0,floor:s.battle.hg21Tower?.floor||0}:null;
@@ -251,8 +271,12 @@ function battleAct(s,action,opts){
   const ordinal=s.hg20?.tower?.victories||0;
   if(ordinal>x.towerSeen){x.towerSeen=ordinal;
    if(result.claimed){
-    grant(s,'tower','rare','Tháp',ordinal,'floor-'+b.floor,1);
-    grant(s,'tower','divine','Tháp có thưởng',ordinal,'floor-'+b.floor,2);
+    const milestone=b.floor>=10&&b.floor%5===0?1:0;
+    const deep=b.floor>=25&&b.floor%10===0?1:0;
+    grant(s,'tower','rare','Tháp',ordinal,'floor-'+b.floor,1+milestone+deep);
+    grant(s,'tower','divine','Tháp có thưởng',ordinal,'floor-'+b.floor,2+milestone+deep);
+    const found=crownDrop(s,'tower','floor-'+b.floor,ordinal,0,b.floor);
+    if(found)return {...result,hg84CrownDrop:found};
    }
   }
  }else{
@@ -261,11 +285,13 @@ function battleAct(s,action,opts){
   const tile=E.getTile(b.target),elite=tile?.eliteTier||0;
   const hashRoll=hash(b.target+':'+ordinal+':'+s.race)%100;
   if(b.kind==='npc'&&elite>=11){
-   grant(s,'world','rare','Boss T11+',ordinal,b.target,2);
-   grant(s,'world','divine','Boss T11+',ordinal,b.target,elite>=13?3:2);
+   grant(s,'world','rare','Boss T'+elite,ordinal,b.target,elite>=13?4:elite>=12?3:2);
+   grant(s,'world','divine','Boss T'+elite,ordinal,b.target,elite>=13?4:elite>=12?3:2);
+   const found=crownDrop(s,'npc',b.target,ordinal,elite);
+   if(found)return {...result,hg84CrownDrop:found};
   }else if(b.kind==='npc'&&(tile?.level||b.level)>=4){
    grant(s,'world','rare','Quái Elite',ordinal,b.target,1+(hashRoll%2));
-   if(hashRoll<5)grant(s,'world','divine','Elite hiếm',ordinal,b.target,1);
+   if(hashRoll<((tile?.level||b.level)>=7?10:5))grant(s,'world','divine','Elite hiếm',ordinal,b.target,1);
   }else if(b.kind==='npc'&&hashRoll<60){
    grant(s,'world','rare','Quái thường',ordinal,b.target,1);
   }else if(b.kind==='treasure'){
@@ -406,6 +432,7 @@ Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,
  hg46Stats:gearStats,hg46Kind:gearKind,hg46Sets:sets,hg46Suggest:suggest,hg46AutoEquip:autoEquip,
  hg47IconHTML:iconHTML,hg47Ensure:ensure,hg47Valid:valid,hg47Affixes:affixes,hg47Status:statuses,
  hg47SetFocus:focus,hg47Craft:craft,hg47ItemId:itemId,hg47SetCounts:counts,
+ hg84CrownChance:crownChance,HG84_CROWN_ODDS:CROWN_ODDS,
  HG47_SLOTS:SLOTS,HG47_RACES:RACES,HG47_TIERS:TIERS,HG47_SETS:Object.freeze(SETS)});
 root.HOG_HG47=Object.freeze({version:1,saveVersion:7,slotCount:10,gearCount:ITEM_IDS.length,setCount:Object.keys(SETS).length});
 })(typeof globalThis!=='undefined'?globalThis:this);
@@ -432,15 +459,17 @@ const RECIPES=[],SETS={};
 const idFor=(race,slot)=>'hg83_'+race+'_'+slot;
 for(const [race,r] of Object.entries(RACES)){
  SETS['hg83_'+race]=Object.freeze({name:r.name,race,max:10,
-  note:'3 món: +2% sở trường · 6 món: +3% sở trường · 10 món: +4% sở trường và +1% giảm sát thương',
+  note:'3 món: +2,5% sở trường · 6 món: +4% sở trường · 10 món: +5% sở trường và +1% giảm sát thương',
   source:'Rèn nguyên liệu chiến đấu Boss T11+ và Tháp có thưởng'});
  for(let index=0;index<E.HG47_SLOTS.length;index++){
   const [slot,slotName,icon]=E.HG47_SLOTS[index],id=idFor(race,slot);
   if(E.ITEMS[id])throw Error('HG83 duplicate item '+id);
   const focus=slot==='weapon'||slot==='gloves'||slot==='ring'?'atk':
    ['armor','helm','belt'].includes(slot)?'def':'spd';
-  const stats={atk:16+(index%3)*4,def:16+((index+1)%3)*4,spd:3+(index%3),int:0};
-  stats[focus]+=focus==='spd'?3:17;
+  const variants={human:{def:7},elf:{spd:3,int:4},orc:{atk:7},undead:{atk:3,def:3,int:3}};
+  const stats={atk:27+(index%3)*6,def:25+((index+1)%3)*6,spd:3+(index%3),int:0};
+  for(const [key,value] of Object.entries(variants[race]))stats[key]+=value;
+  stats[focus]+=focus==='spd'?3:24;
   E.ITEMS[id]={id,slot,icon,name:r.title+' '+TITLES[slot],race,
    set:'hg83_'+race,atk:stats.atk,def:stats.def,spd:stats.spd,int:0,
    cost:0,level:10,shop:false,hg83:true};
@@ -496,9 +525,10 @@ function modifiers(s,id=s.activeHero){
  const result=oldCombat(s,id),set=setProgress(s,id)[0];
  if(!result||!set||set.count<3)return result;
  const key=RACES[set.id.slice(5)].effect;
- const amount=set.count>=10?.04:set.count>=6?.03:.02;
- result[key]=(result[key]||0)+amount;
- if(set.count>=10)result.damageReduction=(result.damageReduction||0)+.01;
+ const amount=set.count>=10?.05:set.count>=6?.04:.025;
+ const maximum=key==='damageReduction'?.24:key==='damageBonus'?.32:.30;
+ result[key]=Math.min(maximum,Math.max(0,(result[key]||0)+amount));
+ if(set.count>=10)result.damageReduction=Math.min(.24,(result.damageReduction||0)+.01);
  return result;
 }
 function iconHTML(id,size=52){
