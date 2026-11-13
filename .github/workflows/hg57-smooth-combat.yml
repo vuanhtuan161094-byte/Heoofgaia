@@ -51,7 +51,7 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           text=Path('Play-Heoofgaia-HG11.html').read_text(encoding='utf8')
-          assert text.count('<script>')==41
+          assert text.count('<script>')==43
           assert 'battleVisualSchedule' in text and 'hg57-commander-strip' in text
           assert 'battle-labels' in text and 'style-hg57.css' not in text
           print('HG57 SINGLE OFFLINE HTML PASS')
