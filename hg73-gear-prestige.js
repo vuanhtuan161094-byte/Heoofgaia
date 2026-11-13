@@ -24,6 +24,7 @@ function kind(row){
  const item=E.ITEMS[row?.itemId];if(!item)return null;
  if(item.hg47&&item.tier==='divine'||item.towerExclusive)return 'divine';
  if(item.set==='star')return (row.enhance||0)>=8?'rainbow':'platinum';
+ if(item.hg83)return 'legendary';
  if(item.set==='dragon')return 'legendary';
  if(item.set==='astral')return 'epic';
  if(item.hg47||item.tier==='rare')return 'rare';
