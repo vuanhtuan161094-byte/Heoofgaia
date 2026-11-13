@@ -39,7 +39,7 @@ with sync_playwright() as pw:
    window.__hg85Main=document.querySelector('#main');
    window.__hg85Spend=[];
    const orig=HOG_ENGINE.spend;
-   window.__hg85Unhook=()=>HOG_ENGINE.spend=orig;
+   window.__hg85Unhook=()=>{HOG_ENGINE.spend=orig;return true;};
    HOG_ENGINE.spend=function(s,c){
     const gold=s.res.gold,result=orig(s,c);
     window.__hg85Spend.push({goldSpent:gold-s.res.gold,expectedGold:c.gold});
