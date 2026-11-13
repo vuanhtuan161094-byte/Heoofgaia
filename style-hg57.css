@@ -678,3 +678,86 @@ body.hg39-world-map-mode #main>.map-frame{
  .hg87-batch{padding:8px}
  .hg87-tile-locked,.hg87-tile-favorite{font-size:10px;min-width:16px;min-height:16px}
 }
+
+/* HG88 — Tower progression, summoning cards and world-map clarity.
+ * Uses the existing original prerendered meadow and creature/landmark
+ * sprites: no replaced procedural geometry posing as rendered art.
+ */
+.hg88-tower-top{
+ display:flex;gap:10px;justify-content:space-between;align-items:center;
+ flex-wrap:wrap;padding:11px 14px;margin-bottom:10px;
+ border:1px solid #9abdc178;border-radius:12px;
+ background:linear-gradient(108deg,#132d3c,#213d46 55%,#2c2940);
+ box-shadow:0 5px 19px #08131d70,inset 0 1px #c9e2d92a;
+}
+.hg88-tower-balance{display:grid;gap:4px}
+.hg88-tower-balance>b{color:#f9d69b;font-size:14px}
+.hg88-tower-balance small{color:#d0e2e4;font-size:12px}
+.hg88-tower-milestones{display:grid;gap:9px}
+.hg88-milestone-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.hg88-milestone{
+ display:grid;gap:3px;padding:9px 8px;min-width:0;
+ border:1px solid #6f7080;border-radius:9px;
+ background:linear-gradient(145deg,#26344c,#1b2738)
+}
+.hg88-milestone strong{font-size:13px;color:#f9d99b}
+.hg88-milestone small{font-size:11px;color:#e5debd;line-height:1.3}
+.hg88-milestone span{font-size:10px;color:#c3b5bb}
+.hg88-milestone.is-done{
+ border-color:#a4d5ba;
+ background:linear-gradient(145deg,#274742,#193a37);
+ box-shadow:inset 0 1px 0 #e2f8cb4d
+}
+.hg88-milestone.is-done span{color:#9cf6c3}
+.hg88-hero-summon{
+ display:grid;gap:10px;margin:12px 0;
+ border:1px solid #d5aa64!important;
+ background:linear-gradient(137deg,#293448,#24243a 65%,#432f35)!important;
+ box-shadow:0 8px 24px #07121d8c,inset 0 1px #ffebbf32
+}
+.hg88-hero-summon header h2{color:#f5dfad;margin:5px 0}
+.hg88-hero-summon header p{color:#d0d9e5;font-size:12px;line-height:1.45}
+.hg88-card-banner{
+ display:grid;gap:8px;padding:10px 12px;border-radius:10px;
+ border:1px solid #c8a16b88;
+ background:linear-gradient(120deg,#162a3e,#2a3455)
+}
+.hg88-card-title{display:flex;justify-content:space-between;gap:10px}
+.hg88-card-title b{color:#f5dba4}
+.hg88-card-title strong{color:#e9f6fd;font-variant-numeric:tabular-nums}
+.hg88-batch-actions{display:flex;gap:6px;flex-wrap:wrap}
+.hg88-batch-actions>button{min-height:34px;min-width:65px}
+.hg88-world-legend{
+ position:absolute;top:12px;left:50%;transform:translateX(-50%);
+ display:flex;align-items:center;justify-content:center;gap:6px;
+ max-width:calc(100% - 28px);padding:4px 7px;
+ border:1px solid #b2c2a67a;border-radius:7px;
+ background:linear-gradient(120deg,#172c2fda,#243f3fd9);
+ box-shadow:0 2px 9px #07171b82;z-index:2;
+ pointer-events:none;white-space:nowrap;overflow:hidden;
+}
+.hg88-world-legend span{font:700 10px/1.4 system-ui,'Segoe UI',sans-serif;
+ color:#f3e4c5;text-shadow:0 1px 2px #061b20}
+body.hg39-world-map-mode #main>.map-frame{
+ position:relative;min-height:350px;border-radius:12px;
+ border-color:#b9bd936b;
+ box-shadow:inset 0 0 0 1px #b6c5a348,0 10px 38px #0b1827aa;
+}
+body.hg39-world-map-mode #world-canvas{
+ width:100%;height:100%;min-height:350px;object-fit:contain;
+ cursor:grab;user-select:none;
+}
+body.hg39-world-map-mode #world-canvas:active{cursor:grabbing}
+@media(max-width:960px) and (orientation:landscape){
+ body.hg39-world-map-mode #main>.map-frame{min-height:max(270px,calc(100dvh - 112px));height:max(270px,calc(100dvh - 112px));}
+ body.hg39-world-map-mode #world-canvas{height:100%;min-height:270px}
+ .hg88-world-legend{top:6px;max-width:calc(100% - 15px);gap:5px;padding:3px 5px}
+ .hg88-world-legend span{font-size:9px}
+ .hg88-world-legend span:last-child{display:none}
+}
+@media(max-width:540px){
+ .hg88-milestone-grid{grid-template-columns:1fr}
+ .hg88-hero-summon{padding:10px}
+ .hg88-world-legend{gap:4px}
+ .hg88-world-legend span{font-size:8px}
+}
