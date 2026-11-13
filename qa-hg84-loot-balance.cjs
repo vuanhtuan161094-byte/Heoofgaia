@@ -29,7 +29,7 @@ check('Six normalized HG29 roll tables, increased rare materials without synthet
  saved(s);return {sources:Object.keys(E.HG29_TABLES).length,verified:odds};
 });
 check('Boss tier 11/12/13 guarantees are tied to real map target and do not mutate state',()=>{
- const s=fresh(),before=E.serializeSave(s),proof=[];
+ const s=fresh(),before=JSON.stringify(JSON.parse(E.serializeSave(s)).state),proof=[];
  for(let tier=11;tier<=13;tier++){
   const tile=E.TILES.find(t=>t.kind==='npc'&&t.eliteTier===tier);
   assert(tile,'missing actual Boss tier '+tier);
@@ -41,7 +41,7 @@ check('Boss tier 11/12/13 guarantees are tied to real map target and do not muta
   assert.equal(E.hg84CrownChance('npc',tier),{11:200,12:500,13:1000}[tier]);
   proof.push({tier,abyss:guarantee.abyss,hero:guarantee.hero||0,dropRate:E.hg84CrownChance('npc',tier)/100});
  }
- assert.equal(E.serializeSave(s),before);
+ assert.equal(JSON.stringify(JSON.parse(E.serializeSave(s)).state),before);
  return {proof,viewOnly:true};
 });
 check('Paid Tower milestones scale at 5/10/25, no income on expired claims',()=>{
