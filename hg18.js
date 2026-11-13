@@ -12,8 +12,8 @@ const raw={make:E.make,parse:E.parseSave,serialize:E.serializeSave,strict:E.stri
  buyItem:E.buyItem,hire:E.hire,hireCandidate:E.hireCandidate};
 const RACES=['human','elf','orc','undead'],PACK=['copper_blade','iron_armor','ash_bow','traveler_cloak','quartz_ring','old_talisman'];
 const MATERIALS=Object.freeze({
- resource_card:{name:'Thẻ tài nguyên nhỏ',icon:'💰'},
- resource_chest:{name:'Thẻ tài nguyên lớn',icon:'📦'},
+ resource_card:{name:'Thẻ triệu hồi Anh Kiệt',icon:'🎴'},
+ resource_chest:{name:'Thẻ triệu hồi Thần Tướng',icon:'✨'},
  gear_pack:{name:'Rương trang bị phổ thông',icon:'🎒'},
  set_chest:{name:'Hòm bộ Vệ Binh',icon:'🛡'},
  enhance_stone:{name:'Đá cường hóa',icon:'💎'},
@@ -137,6 +137,9 @@ const CARDS=Object.freeze({
 function openPack(s,id){
  sync(s);assert(s.hg18.materials[id]>=1,'Không có thẻ hoặc rương này');
  assert(CARDS[id]||id==='gear_pack'||id==='set_chest','Vật phẩm này không thể mở trực tiếp');
+ // Real game HG88 changes cards into direct high-tier hero summons.
+ // Keep old-only QA able to verify legacy calculations without HG88 loaded.
+ if(CARDS[id]&&E.hg88Summon)return E.hg88Summon(s,id,1);
  if(CARDS[id]){
   const reward=CARDS[id],limit=E.limits(s);
   for(const k of C.keys)assert(s.res[k]+reward[k]<=limit[k]+1e-7,'Kho '+C.resource[k].label+' không đủ chỗ');
