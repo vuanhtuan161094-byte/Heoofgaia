@@ -1,0 +1,93 @@
+name: HG86 Real Rendered Heroes and Equipment - One Offline HTML
+on:
+  push:
+    branches: [feature/hog1-research-to-playable-20261102]
+    paths:
+      - assets/generated/hg86/**
+      - index.html
+      - app.js
+      - style-hg57.css
+      - build_offline.py
+      - qa-hg86-rendered-art-chrome.py
+      - .github/workflows/hg86-rendered-art.yml
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: hg86-real-render-art-one-html
+  cancel-in-progress: true
+jobs:
+  engine:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: '22'}
+      - name: Verify exact SHA, 16 original WEBP art files, gameplay and strict Save v07
+        run: |
+          set -euxo pipefail
+          git rev-parse HEAD
+          node --check app.js
+          node qa-hg85-troop-conversion.cjs
+          node qa-hg84-loot-balance.cjs
+          node qa-hg83-crown-gear.cjs
+          node qa-hg73-gear.cjs
+          node qa-hg47-10slot.cjs
+          node qa-engine.cjs
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          from PIL import Image
+          m=json.loads(Path('assets/generated/hg86/manifest.json').read_text())
+          assert m['schema']=='HG86-Original-Rendered-Asset-Pack-v1'
+          assert m['assetCount']==16 and m['characters']==4 and m['gearIcons']==12
+          for item in m['assets']:
+              p=Path(item['path'])
+              assert p.exists() and p.stat().st_size>2000
+              with Image.open(p) as im:
+                  assert im.format=='WEBP' and im.width>=256 and im.height>=256, p
+          print('HG86 PASS 16/16 real WEBP binary masters')
+          PY
+  chromium:
+    needs: engine
+    runs-on: ubuntu-latest
+    timeout-minutes: 65
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.11'}
+      - name: Build the one canonical HTML with 16 embedded real renders
+        run: |
+          set -euxo pipefail
+          python -m pip install Pillow==11.3.0
+          python build_offline.py
+          test -s Play-Heoofgaia-HG11.html
+          sha256sum Play-Heoofgaia-HG11.html
+      - name: Browser QA - real rendered hero and gear art across PC and mobile
+        run: |
+          python -m pip install playwright
+          python -m playwright install --with-deps chromium
+          python qa-hg86-rendered-art-chrome.py
+          python qa-hg73-visual-chrome.py
+          python qa-hg85-city-no-flicker-chrome.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: HG86-Rendered-Hero-and-Gear-Evidence
+          retention-days: 30
+          if-no-files-found: ignore
+          path: |
+            docs/evidence/hg86/*.png
+            docs/qa/hg86/*.json
+            docs/evidence/hg73/*.png
+            docs/qa/hg73/*.json
+            docs/evidence/hg85/*.png
+            docs/qa/hg85/*.json
+      - uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: HG86-Heroes-of-Gaia-ONE-HTML
+          retention-days: 30
+          if-no-files-found: error
+          path: Play-Heoofgaia-HG11.html
