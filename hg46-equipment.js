@@ -160,7 +160,7 @@
  }
  function salvagePreview(s,uid){
   const row=s.inventory.find(i=>i.uid===uid);if(!row)return null;
-  const def=E.ITEMS[row.itemId],base=({sentinel:3,astral:5,dragon:8,star:10})[def.set]||(def.hg47?(def.tier==='divine'?12:4):1);
+  const def=E.ITEMS[row.itemId],base=({sentinel:3,astral:5,dragon:8,star:10})[def.set]||(def.hg47?(def.tier==='divine'?12:4):def.hg87?5:def.hg83?9:1);
   return {uid,stones:base+Math.floor((row.enhance||0)/2),
    astralShards:def.set==='astral'?3:0,owner:owned(s,uid)?.heroId||null};
  }
