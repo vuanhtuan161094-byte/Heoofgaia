@@ -1,13 +1,18 @@
-name: HG83 Compact Inventory and Earned Crown Relics
+name: HG84 Rare Loot Balance - Boss Tower and Crown Relics
 on:
   push:
     branches: [feature/hog1-research-to-playable-20261102]
     paths:
       - app.js
+      - hg29-loot.js
+      - hg31-legendary-gear.js
       - hg47-ten-slot.js
       - hg73-gear-prestige.js
       - style-hg57.css
       - qa-hg83-crown-gear.cjs
+      - qa-hg84-loot-balance.cjs
+      - qa-hg29-loot.cjs
+      - qa-hg46b-balance.cjs
       - qa-hg72-inventory-chrome.py
       - qa-hg73-visual-chrome.py
       - .github/workflows/hg83-compact-items.yml
@@ -29,11 +34,19 @@ jobs:
         run: |
           git rev-parse HEAD
           node --check app.js
+          node --check hg29-loot.js
+          node --check hg31-legendary-gear.js
           node --check hg47-ten-slot.js
           node --check hg73-gear-prestige.js
           node --check qa-hg83-crown-gear.cjs
-          node qa-hg83-crown-gear.cjs
+          node --check qa-hg84-loot-balance.cjs
+          node qa-hg84-loot-balance.cjs
+          node qa-hg29-loot.cjs
+          node qa-hg31-legendary.cjs
+          node qa-hg46b-balance.cjs
           node qa-hg47-10slot.cjs
+          node qa-hg83-crown-gear.cjs
+          node qa-hg73-gear.cjs
   chromium:
     needs: canonical
     runs-on: ubuntu-latest
@@ -56,23 +69,26 @@ jobs:
           python -m playwright install --with-deps chromium
           python qa-hg72-inventory-chrome.py
           python qa-hg73-visual-chrome.py
+          python qa-hg29-ui-chrome.py
       - name: Chromium screenshots and test receipts
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: HG83-Compact-Inventory-Evidence
+          name: HG84-Rare-Loot-Inventory-Evidence
           path: |
             docs/evidence/hg72/*.png
             docs/evidence/hg73/*.png
+            docs/evidence/hg29/*.png
             docs/qa/hg72/*.json
             docs/qa/hg73/*.json
+            docs/qa/hg29/*.json
           retention-days: 30
           if-no-files-found: ignore
       - name: One playable offline HTML - HG83
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: HG83-Heroes-of-Gaia-ONE-HTML
+          name: HG84-Heroes-of-Gaia-ONE-HTML
           path: Play-Heoofgaia-HG11.html
           retention-days: 30
           if-no-files-found: error
