@@ -1400,8 +1400,8 @@ function hg31GuideView(){
  const t=E.hg31Status(state);
  return `<section class="card hg31-guide"><span class="eyebrow">HG31 · HÀNH TRÌNH SĂN TRANG BỊ</span>
  <h2>🐉 Boss → Long Hồn · 🌌 Tháp → Tinh Không</h2>
- <div class="hg31-guide-row"><div>${E.hg31IconHTML(t.focus.boss,42)}<b>${esc(E.ITEMS[t.focus.boss].name)}</b><small>${format(t.fragments[t.focus.boss])} mảnh · Boss T11/T12: +1, T13: +2 · Không cần mở tầng Tháp 11</small></div>
- <div>${E.hg31IconHTML(t.focus.tower,42)}<b>${esc(E.ITEMS[t.focus.tower].name)}</b><small>${format(t.fragments[t.focus.tower])} mảnh · Tháp thắng có thưởng: +1, tầng bội 5: +2</small></div></div>
+ <div class="hg31-guide-row"><div>${E.hg31IconHTML(t.focus.boss,42)}<b>${esc(E.ITEMS[t.focus.boss].name)}</b><small>${format(t.fragments[t.focus.boss])} mảnh · Boss T11/T12/T13: +1/+2/+3 mảnh · Không cần mở tầng Tháp 11</small></div>
+ <div>${E.hg31IconHTML(t.focus.tower,42)}<b>${esc(E.ITEMS[t.focus.tower].name)}</b><small>${format(t.fragments[t.focus.tower])} mảnh · Tháp có thưởng: +1; tầng bội 5: +2; từ tầng 25 bội 5: +3</small></div></div>
  <p class="tiny muted">Đến tab Rèn & Di vật để chọn món và ghép. Quy tắc này là thiết kế mới, không phải tỷ lệ HoG gốc.</p></section>`;
 }
 function hg31HeroSetView(){
@@ -1411,7 +1411,9 @@ function hg31HeroSetView(){
 
 function hg29PreviewUI(kind,target,level){
  const p=E.hg29Preview(state,{kind,target,level});if(!p||!p.paid)return '';
- return `<aside class='hg29-preview' aria-label='Dự kiến vật phẩm rơi'><b>🎁 ${esc(p.label)}</b><small>${p.guaranteed.map(x=>'✓ '+esc(x.name)+' ×'+x.count).concat(p.chances.map(x=>esc(x.name)+' '+x.percent+'%')).join(' · ')||'Không có mảnh'}</small></aside>`;
+ const bossTier=E.getTile(target)?.eliteTier||0;
+ const crown=bossTier>=11?E.hg84CrownChance?.('npc',bossTier,0)||0:0;
+ return `<aside class='hg29-preview' aria-label='Dự kiến vật phẩm rơi'><b>🎁 ${esc(p.label)}</b><small>${p.guaranteed.map(x=>'✓ '+esc(x.name)+' ×'+x.count).concat(p.chances.map(x=>esc(x.name)+' '+x.percent+'%')).join(' · ')||'Không có mảnh'}${crown?' · ✦ Di vật Vương Miện '+crown/100+'%':''}</small></aside>`;
 }
 
 function hg47ForgeView(){
@@ -1447,7 +1449,7 @@ function hg47ForgeView(){
  return '<section class="card hg47-forge" aria-label="HG47 mảnh trang bị, bốn chủng tộc, mười ô">'+
   '<span class="eyebrow">HG47 · 10 Ô / TƯỚNG · 4 CHỦNG TỘC · 8 BỘ</span>'+
   '<h2>⚒ Chọn món để săn mảnh và tự ghép</h2>'+
-  '<p class="hint">Mỗi tướng có 10 ô riêng. Khi thắng quái, Boss hoặc Tháp, mảnh sẽ vào kho theo ô đang theo đuổi. Không tự phát đồ, không cần may rủi khi ghép. Chỉ chế tạo đồ của chủng tộc đang chơi.</p>'+
+  '<p class="hint">Mỗi tướng có 10 ô riêng. Quái, Boss và Tháp trả mảnh theo mục tiêu đã chọn; ghép đủ nguyên liệu thì chắc chắn nhận đúng đồ. Boss còn có cơ hội hiếm rơi nguyên món Di vật Vương Miện từ chiến thắng thật. Không tặng miễn phí khi xem giao diện.</p>'+
   '<div class="hg47-selector">'+races+'</div><div class="hg47-selector">'+tiers+'</div>'+
   '<div class="hg47-wallet"><span>Chủng tộc đang chơi: <b>'+esc(E.HG47_RACES[state.race].name)+'</b></span>'+
   '<span>Ấn Boss '+format(state.hg27.boss)+'</span><span>Ấn Tháp '+format(state.hg27.tower)+'</span>'+
@@ -1466,7 +1468,7 @@ function hg29CraftView(){
 }
 function hg29GuideView(){
  if(!E.HG29_TABLES)return '';
- return `<section class='card hg29-guide'><span class='eyebrow'>HG29 · BẢNG RƠI MINH BẠCH</span><h2>🎯 Farm ở đâu?</h2><div class='hg29-guides'>${Object.entries(E.HG29_TABLES).map(([id,p])=>`<div class='card'><b>${esc(p.label)}</b><small>${p.guaranteed.map(([k,n])=>'✓ '+esc(E.HG29_ITEMS[k].name)+' ×'+n).concat(p.roll.filter(r=>r[0]!=='none').map(r=>esc(E.HG29_ITEMS[r[0]].name)+' '+r[3]/100+'%')).join(' · ')}</small></div>`).join('')}</div><p class='hint'>Tỷ lệ HG46-B riêng của Hẻoofgaia, mỗi chiến thắng hợp lệ có đúng một lượt rút. Quái thường 30% rơi mảnh Rèn; quái 4★+ có 34% rơi mảnh Rèn. Boss/Tháp có phần bảo đảm ngoài lượt rút; đánh Tháp không còn lượt thưởng sẽ không nhận mảnh.</p></section>`;
+ return `<section class='card hg29-guide'><span class='eyebrow'>HG29 · BẢNG RƠI MINH BẠCH</span><h2>🎯 Farm ở đâu?</h2><div class='hg29-guides'>${Object.entries(E.HG29_TABLES).map(([id,p])=>`<div class='card'><b>${esc(p.label)}</b><small>${p.guaranteed.map(([k,n])=>'✓ '+esc(E.HG29_ITEMS[k].name)+' ×'+n).concat(p.roll.filter(r=>r[0]!=='none').map(r=>esc(E.HG29_ITEMS[r[0]].name)+' '+r[3]/100+'%')).join(' · ')}</small></div>`).join('')}</div><p class='hint'>Tỷ lệ HG84 riêng của Hẻoofgaia. Quái thường có 32% rơi mảnh Rèn; Elite 35%. Boss T11/T12/T13 bảo đảm lần lượt 1/2/3 Lõi Ma Giới, T13 thêm 1 mảnh Anh Hùng. Tháp mốc 5/10/25+ tăng mảnh bảo đảm. Chỉ quyết toán sau khi thắng thật; lượt Tháp không có thưởng sẽ không tạo vật phẩm.</p></section>`;
 }
 function hg29LastView(){
  const r=state.hg29?.last;if(!r)return '';
@@ -1516,7 +1518,8 @@ function hg83ForgeView(){
  const set=E.HG83_SETS?.['hg83_'+state.race];
  return '<details class="hg83-forge card"><summary>✦ Di vật Vương Miện · 40 món mới · 4 bộ 10 ô</summary>'+
   '<p class="hint">Bộ '+esc(set?.name||'')+' cho '+esc(E.HG47_RACES[state.race].name)+
-  '. Mở sau khi thắng Boss T11+ và Tháp có thưởng. Mọi món rèn bằng vàng, mảnh quái và chiến lợi phẩm thật; không phát đồ miễn phí.</p>'+
+  '. Mở sau khi thắng Boss T11+ và Tháp có thưởng. Rèn cần vàng và chiến lợi phẩm thật; không phát đồ miễn phí.</p>'+
+  '<p class="tiny muted">✦ Cơ hội rơi nguyên món sau chiến thắng Boss T11: 2%; T12: 5%; T13: 10%. Tháp tầng 20/30/40… có thưởng: 5%. Không rơi khi thua, lượt không thưởng hoặc túi đầy.</p>'+ 
   '<p class="tiny muted">Hiệu ứng khi mặc cùng bộ: '+esc(set?.note||'')+'. Chọn đủ 10 món để tối ưu sức mạnh tướng.</p>'+
   '<div class="hg83-forge-grid">'+rows.map(q=>{
    const missing=Object.entries(q.missing).filter(([,n])=>n>0)
