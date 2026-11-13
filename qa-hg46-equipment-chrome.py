@@ -78,7 +78,8 @@ with sync_playwright() as pw:
                   page.locator('.hg46-inventory-card').count()==4)
             capture(page,'desktop-1280x720-four-gear-fixtures.png')
             page.locator('.hg46-inventory-card:has(.hg46-kind-sentinel)').count()
-            page.locator('.hg46-inventory-card[data-hg46-uid="'+str(sample['uids'][0])+'"] [data-action="hg408-equip"]').click()
+            page.locator('.hg46-inventory-card[data-hg46-uid="'+str(sample['uids'][0])+'"]').click()
+            page.locator('.hg83-inspector [data-action="hg408-equip"]').click()
             equip=page.evaluate("""uid => {
               const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
               return {worn:s.equipment[1].weapon===uid,owner:E.hg46Owner(s,uid),
@@ -99,7 +100,8 @@ with sync_playwright() as pw:
                 return result;
               };
             }""")
-            page.locator('.hg46-inventory-card[data-hg46-uid="'+str(sample['uids'][0])+'"] [data-action="hg18-enhance"]').click()
+            page.locator('.hg46-inventory-card[data-hg46-uid="'+str(sample['uids'][0])+'"]').click()
+            page.locator('.hg83-inspector [data-action="hg18-enhance"]').click()
             upgraded=page.evaluate("""uid => {
               const s=HOG_APP_DEBUG.getState(),E=HOG_ENGINE;
               return {level:s.inventory.find(x=>x.uid===uid).enhance,
