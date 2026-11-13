@@ -74,7 +74,8 @@ with sync_playwright() as pw:
   uid=page.evaluate("""(id)=>{
     const s=HOG_APP_DEBUG.getState();return s.inventory.find(x=>x.itemId===id).uid;
   }""",id)
-  page.locator(f'[data-action="hg408-equip"][data-uid="{uid}"]').first.click()
+  page.locator(f'.hg46-inventory-card[data-hg46-uid="{uid}"]').click()
+  page.locator(f'.hg83-inspector [data-action="hg408-equip"][data-uid="{uid}"]').click()
  check('Native three-piece Star set activates 8% damage and 8.5% reduction',page.evaluate("""()=>{
   const s=HOG_APP_DEBUG.getState(),mods=HOG_ENGINE.combatModifiers(s,s.activeHero);
   return HOG_ENGINE.hg18SetCounts(s,s.activeHero).star===3&&mods.damageBonus>=.079&&
