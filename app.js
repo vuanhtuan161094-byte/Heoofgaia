@@ -14,7 +14,7 @@ let hg43ArmyPage='recruit',hg43ArmyRace='human';
 // HG40.8: presentation-only hero selection; never stored inside Save v07.
 let hg408InspectId=null,hg408Tab='overview',hg408DismissFor=null,hg408DismissStage=0;
 // HG46 view-only filter/pagination; never persisted in Save v07.
-let hg46GearFilter='all',hg46GearPage=0,hg46GearSearch='',hg46GearSort='rarity',hg47RaceView=null,hg47TierView='rare';
+let hg46GearFilter='all',hg46GearPage=0,hg46GearSearch='',hg46GearSort='rarity',hg46GearInspectUID=null,hg47RaceView=null,hg47TierView='rare';
 // Device-only preferences, never injected into Save v07.
 let towerAutoChain=true,battleAlwaysAuto=false;
 try{towerAutoChain=localStorage.getItem('hg69_tower_auto')!=='off';
@@ -1037,13 +1037,13 @@ function equipmentBattleText(item){
 
 function hg46GearView(h){
  const slots=state.equipment[h.id]||{},busy=!!(state.march||state.battle||state.expedition||state.parallelMarches?.length||state.hg26?.enabled||E.heroAway(state,h.id));
- const sets=E.hg46Sets(state,h.id);
+ const sets=[...E.hg46Sets(state,h.id),...(E.hg83SetProgress?.(state,h.id)||[])];
  const modes=[['balanced','⚖ Cân bằng'],['attack','⚔ Công'],['defense','🛡 Thủ']];
  const names=Object.fromEntries(E.HG47_SLOTS.map(([key,label])=>[key,label]));
- const setsById={...E.HG18_SETS,...E.HG31_SETS,...E.HG47_SETS};
+ const setsById={...E.HG18_SETS,...E.HG31_SETS,...E.HG47_SETS,...E.HG83_SETS};
  const icon=row=>{
   const item=E.ITEMS[row.itemId],grade=E.hg73Grade?.(row);
-  const art=E.hg47IconHTML?.(item.id,54)||E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
+  const art=E.hg83IconHTML?.(item.id,54)||E.hg47IconHTML?.(item.id,54)||E.hg31IconHTML?.(item.id,54)||ico(item.id,50)||item.icon||'◆';
   return '<span class="hg73-gem '+(grade?'hg73-tier-'+grade.id:'')+'">'+art+'</span>';
  };
  const gradeBadge=row=>{
@@ -1113,32 +1113,46 @@ function hg46GearView(h){
    ['rarity','Phẩm chất'],['attack','Tấn công'],['new','Mới nhận']].map(([id,name])=>
    button('hg46-sort',{id},name,hg46GearSort===id,'small '+(hg46GearSort===id?'primary':'secondary'))).join('')+'</div>';
  const rows=visible.map(row=>{
-  const def=E.ITEMS[row.itemId],owner=E.hg46Owner(state,row.uid),self=owner?.heroId===h.id,
-   elsewhere=owner&&!self,kind=E.hg46Kind(row),p=E.hg46Stats(row),next=E.hg46NextEnhance(state,row.uid);
-  const raw=['atk','def','spd','int'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · ');
-  const salvage=E.hg46SalvagePreview(state,row.uid);
-  const battle=equipmentBattleText(def),source=owner?
-    'Đang mặc: '+(state.heroes.find(x=>x.id===owner.heroId)?.name||'Tướng khác'):'Trong kho';
-  const setName=setsById[def.set]?.name||'Thường';
-  const grade=E.hg73Grade?.(row);
-  return '<article class="hg46-inventory-card hg46-kind-'+kind+' '+(grade?'hg73-tier-'+grade.id:'')+'" data-hg46-uid="'+row.uid+'">'+
-   '<div class="hg46-gear-art">'+icon(row)+'</div>'+
-   '<div class="hg46-item-description"><div class="hg73-item-head"><b>'+esc(def.name)+' <span>+'+(row.enhance||0)+'</span></b>'+gradeBadge(row)+'</div>'+
-   '<small class="hg46-origin">'+esc(setName)+' · '+esc(source)+' · UID '+row.uid+'</small>'+
-   '<small>'+esc(raw||'Không có điểm thuộc tính')+'</small>'+hg63GearDetails(row,setsById)+
-   (battle?'<small class="hg46-effect">'+esc(battle)+'</small>':'')+
-   ((E.hg73Affixes?.(row)||E.hg47Affixes(row)).length?'<small class="hg47-affix">Dòng phụ: '+esc((E.hg73Affixes?.(row)||E.hg47Affixes(row)).map(x=>x.label).join(' · '))+'</small>':'')+
-   (next.level<10?'<small class="hg46-cost">Nâng +'+(next.level+1)+': '+next.stones+' đá + '+format(next.gold)+' vàng · 100% thành công</small>':
-    '<small class="hg46-cost">Đã đạt cấp +10</small>')+
-   '<small class="hg46-cost">Phân giải: +'+salvage.stones+' đá'+(salvage.astralShards?', +'+salvage.astralShards+' mảnh Tinh Vân':'')+'</small></div>'+
-   '<div class="hg46-card-actions">'+
-   button('hg408-equip',{id:h.id,uid:row.uid},self?'Đang mặc':elsewhere?'Tướng khác':'Mặc',
-    busy||self||!!elsewhere,'small '+(!self&&!elsewhere?'primary':'secondary'))+
-   button('hg18-enhance',{uid:row.uid},'⚒ +1',
-    busy||!!elsewhere||!next.possible,'small secondary')+
-   button('hg46-salvage',{uid:row.uid},'Phân giải',busy||!!owner,'small secondary')+
-   '</div></article>';
+  const def=E.ITEMS[row.itemId],owner=E.hg46Owner(state,row.uid),grade=E.hg73Grade?.(row);
+  const selected=hg46GearInspectUID===row.uid;
+  return '<button type="button" class="hg46-inventory-card hg83-inventory-tile hg46-kind-'+esc(E.hg46Kind(row))+
+   ' '+(grade?'hg73-tier-'+grade.id:'')+(selected?' is-selected':'')+
+   '" data-action="hg46-inspect" data-uid="'+row.uid+'" data-hg46-uid="'+row.uid+
+   '" aria-pressed="'+selected+'" aria-label="Xem '+esc(def.name)+' UID '+row.uid+'">'+
+   '<span class="hg46-gear-art">'+icon(row)+'</span>'+
+   '<span class="hg83-tile-name">'+esc(def.name)+'</span>'+
+   ((row.enhance||0)?'<span class="hg83-tile-enhance">+'+row.enhance+'</span>':'')+
+   (owner?'<span class="hg83-tile-worn" title="Đang mặc">●</span>':'')+
+   '</button>';
  }).join('');
+ const chosen=state.inventory.find(x=>x.uid===hg46GearInspectUID&&E.ITEMS[x.itemId]);
+ const inspector=chosen?(()=>{
+  const def=E.ITEMS[chosen.itemId],owner=E.hg46Owner(state,chosen.uid),
+   self=owner?.heroId===h.id,elsewhere=owner&&!self,p=E.hg46Stats(chosen),
+   next=E.hg46NextEnhance(state,chosen.uid),salvage=E.hg46SalvagePreview(state,chosen.uid),
+   grade=E.hg73Grade?.(chosen),aff=E.hg73Affixes?.(chosen)||E.hg47Affixes(chosen),
+   raw=['atk','def','spd','int'].filter(k=>p[k]>0).map(k=>k.toUpperCase()+' +'+p[k]).join(' · '),
+   source=owner?'Đang mặc: '+(state.heroes.find(x=>x.id===owner.heroId)?.name||'Tướng khác'):'Trong kho';
+  return '<section class="hg83-inspector" aria-label="Chi tiết vật phẩm đã chọn" aria-live="polite">'+
+   '<div class="hg83-inspector-top"><span class="hg83-inspector-art">'+icon(chosen)+'</span>'+
+   '<div class="hg83-inspector-title"><b>'+esc(def.name)+' +'+(chosen.enhance||0)+'</b>'+
+   gradeBadge(chosen)+'<small>'+esc(setsById[def.set]?.name||'Trang bị thường')+' · '+
+   esc(source)+' · UID '+chosen.uid+'</small></div>'+
+   button('hg46-inspect-close',{},'✕ Đóng',false,'small secondary')+'</div>'+
+   '<div class="hg83-inspector-stats"><span>'+esc(raw||'Không có thuộc tính')+'</span>'+
+   (equipmentBattleText(def)?'<span>'+esc(equipmentBattleText(def))+'</span>':'')+
+   (aff.length?'<span>✦ Dòng phụ: '+esc(aff.map(x=>x.label).join(' · '))+'</span>':'')+
+   '<span>⚒ '+(next.level<10?'Nâng +'+(next.level+1)+': '+next.stones+' đá / '+format(next.gold)+' vàng':'Đã tối đa +10')+
+   ' · ♻ Phân giải: '+salvage.stones+' đá'+(salvage.astralShards?' +'+salvage.astralShards+' mảnh Tinh Vân':'')+'</span></div>'+
+   hg63GearDetails(chosen,setsById)+
+   '<div class="hg83-inspector-actions">'+
+   (self?button('hg408-unequip',{id:h.id,slot:def.slot},'Tháo khỏi tướng',busy,'small secondary'):
+    button('hg408-equip',{id:h.id,uid:chosen.uid},elsewhere?'Đang được tướng khác mặc':'Trang bị cho tướng',
+     busy||!!elsewhere,'small primary'))+
+   button('hg18-enhance',{uid:chosen.uid},'⚒ Cường hóa +1',busy||!!elsewhere||!next.possible,'small secondary')+
+   button('hg46-salvage',{uid:chosen.uid},'♻ Phân giải',busy||!!owner,'small secondary')+
+   '</div></section>';
+ })():'<p class="hg83-select-hint">Chạm hoặc bấm một ô vật phẩm để xem chỉ số, dòng phụ, hiệu ứng và thao tác.</p>';
  return '<div class="hg46-manager" aria-label="Trang bị và bộ đồ của tướng">'+
   '<div class="hg46-strip"><span>🎒 Kho '+state.inventory.length+'/2000</span><span>💎 Đá '+format(state.hg18.materials.enhance_stone)+'</span>'+
   '<span>🪙 Vàng '+format(state.res.gold)+'</span><span>10 ô · đồ của tướng khác không tự chuyển</span></div>'+ 
@@ -1148,7 +1162,7 @@ function hg46GearView(h){
   '<details class="hg46-set-details"><summary>💠 Bộ trang bị · '+sets.filter(q=>q.count>=2).length+' bộ đang có hiệu ứng</summary>'+
   '<div class="hg46-set-grid">'+setProgress+'</div></details>'+
   '<div class="hg46-inventory-head"><b>TRANG BỊ TRONG KHO</b><span>'+inventory.length+' kết quả / '+state.inventory.length+' món · '+pages+' trang · '+(state.inventory.length-equipped)+' chưa mặc</span></div>'+
-  tools+'<div class="hg46-filter-bar">'+filters+'</div>'+
+  tools+'<div class="hg46-filter-bar">'+filters+'</div>'+inspector+
   '<div class="hg46-inventory-list">'+(rows||'<p class="hg408-note">Không có trang bị trong nhóm này. Kiếm rương từ nhiệm vụ hoặc ghép đồ tại Rèn & Di vật.</p>')+'</div>'+
   '<div class="hg46-pages">'+button('hg46-page',{direction:-1},'◀ Trang trước',hg46GearPage===0,'small secondary')+
   '<span>Trang '+(hg46GearPage+1)+'/'+pages+'</span>'+
@@ -1496,11 +1510,29 @@ function hg409MaterialGuide(id){
  return info[id]||'Nguyên liệu chế tạo hoặc tiến hóa trong Rèn & Di vật.';
 }
 
+function hg83ForgeView(){
+ const rows=E.hg83Catalogue?.(state)||[];
+ const sources={gold:'vàng',gear:'mảnh rèn',hunter:'huy hiệu',abyss:'lõi Boss',
+  tower:'phù văn Tháp',hero:'mảnh Anh Hùng',bossToken:'ấn Boss',towerToken:'ấn Tháp'};
+ const set=E.HG83_SETS?.['hg83_'+state.race];
+ return '<details class="hg83-forge card"><summary>✦ Di vật Vương Miện · 40 món mới · 4 bộ 10 ô</summary>'+
+  '<p class="hint">Bộ '+esc(set?.name||'')+' cho '+esc(E.HG47_RACES[state.race].name)+
+  '. Mở sau khi thắng Boss T11+ và Tháp có thưởng. Mọi món rèn bằng vàng, mảnh quái và chiến lợi phẩm thật; không phát đồ miễn phí.</p>'+
+  '<p class="tiny muted">Hiệu ứng khi mặc cùng bộ: '+esc(set?.note||'')+'. Chọn đủ 10 món để tối ưu sức mạnh tướng.</p>'+
+  '<div class="hg83-forge-grid">'+rows.map(q=>{
+   const missing=Object.entries(q.missing).filter(([,n])=>n>0)
+    .map(([k,n])=>format(n)+' '+(sources[k]||k)).join(' · ');
+   return '<article class="hg83-forge-recipe"><span class="hg83-forge-art">'+E.hg83IconHTML(q.id,48)+'</span>'+
+    '<div><b>'+esc(q.name)+'</b><small>'+esc(E.HG47_SLOTS.find(x=>x[0]===q.slot)?.[1]||q.slot)+
+    ' · '+format(q.gold)+' vàng</small><small>'+esc(q.unlocked?(missing||'Đủ nguyên liệu'):'🔒 Cần thắng Boss T11+ và Tháp có thưởng')+'</small></div>'+
+    button('hg83-craft',{id:q.id},'⚒ Rèn',!q.canCraft,'small primary')+'</article>';
+  }).join('')+'</div></details>';
+}
 function relicView(){
  const mat=state.hg18.materials,sets=E.hg18SetCounts(state,state.activeHero);
  const opens=['resource_card','resource_chest','gear_pack','set_chest'];
  const gearEntry=button('hg46-open-gear',{},'🛡 Mở kho trang bị và mặc đồ tướng',false,'primary');
- return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg47ForgeView()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}
+ return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg47ForgeView()}${hg83ForgeView()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}
   <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
   <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card hg409-material-card"><div class="hg409-material-head"><b>${ico(key,25)||m.icon} ${esc(m.name)}</b><strong>×${format(mat[key])}</strong></div><details><summary>ⓘ Công dụng và định mức</summary><p>${esc(hg409MaterialGuide(key))}</p><small>Kiếm qua nhiệm vụ, chiến thắng Boss/Tháp, ghép mảnh. Không phát vật phẩm khi xem thẻ.</small></details>
   ${opens.includes(key)?button('hg18-open',{id:key},'Mở / Dùng',mat[key]<1,'small primary'):''}</div>`).join('')}</div></section>
@@ -2001,6 +2033,8 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='hg408-dismiss-cancel'){hg408DismissFor=null;hg408DismissStage=0;return}
  if(action==='hg408-dismiss-next'){if(!E.hg408DismissCheck(state,Number(target.dataset.id)).allowed)throw Error('Tướng không đủ điều kiện sa thải.');hg408DismissStage=2;return}
  if(action==='hg408-dismiss-apply'){const result=E.hg408DismissHero(state,Number(target.dataset.id));hg408InspectId=result.activeHero;hg408DismissFor=null;hg408DismissStage=0;toast('Đã sa thải '+result.name+'; trang bị giữ nguyên trong kho.');return}
+ if(action==='hg46-inspect'){const uid=Number(target.dataset.uid);if(!state.inventory.some(x=>x.uid===uid))throw Error('Vật phẩm không còn trong kho');hg46GearInspectUID=uid;return}
+ if(action==='hg46-inspect-close'){hg46GearInspectUID=null;return}
  if(action==='hg46-filter'){hg46GearFilter=target.dataset.slot||'all';hg46GearPage=0;return}
  if(action==='hg46-search'){hg46GearSearch=($('hg46-search-box')?.value||'').trim().slice(0,80);hg46GearPage=0;return}
  if(action==='hg46-search-reset'){hg46GearSearch='';hg46GearFilter='all';hg46GearPage=0;return}
@@ -2139,7 +2173,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='resource-info'){showResourceInfo=!showResourceInfo;showWorldIndex=false;tab='map';modalOffset=0;return}
  if(action==='race'){newRace=target.dataset.race;render();return}
  if(action==='spelledition'){newSpellEdition=target.dataset.edition;render();return}
- if(action==='start'){hg261Draft=null;hg42BossScreen='targets';hg42BossTier=11;hg43ArmyPage='recruit';hg43ArmyRace=newRace;state=E.make(newRace,Date.now(),newSpellEdition);hg47RaceView=newRace;hg47TierView='rare';tab='map';selected='3,4';selectedTargetKind=null;return}
+ if(action==='start'){hg261Draft=null;hg42BossScreen='targets';hg42BossTier=11;hg43ArmyPage='recruit';hg43ArmyRace=newRace;state=E.make(newRace,Date.now(),newSpellEdition);hg47RaceView=newRace;hg47TierView='rare';hg46GearInspectUID=null;tab='map';selected='3,4';selectedTargetKind=null;return}
  if(action==='tab'){tab=target.dataset.tab;showWorldIndex=false;showResourceInfo=false;modalOffset=0;
   if(tab==='army'){hg43ArmyPage='recruit';hg43ArmyRace=state.race}
   focusArmyRecruitOnOpen=tab==='army';return}
@@ -2257,6 +2291,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='unequip'){E.unequipItem(state,target.dataset.slot);return}
  if(action==='buyitem'){E.buyItem(state,target.dataset.id);return}
 
+ if(action==='hg83-craft'){const out=E.hg83Craft(state,target.dataset.id);toast('Đã rèn '+E.ITEMS[out.id].name+' #'+out.uid+' từ nguyên liệu thật');return}
  if(action==='hg47-race'){hg47RaceView=target.dataset.race;return}
  if(action==='hg47-tier'){hg47TierView=target.dataset.tier;return}
  if(action==='hg47-focus'){const out=E.hg47SetFocus(state,target.dataset.tier,target.dataset.slot);toast('Đang săn mảnh '+E.ITEMS[out.id].name);return}
