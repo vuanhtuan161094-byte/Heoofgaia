@@ -20,6 +20,7 @@ let towerAutoChain=true,battleAlwaysAuto=false;
 try{towerAutoChain=localStorage.getItem('hg69_tower_auto')!=='off';
  battleAlwaysAuto=localStorage.getItem('hg69_battle_always')==='on'}catch(_){} 
 let hg63SeenReportId=null,hg63OpenReport=null;
+let cityPanelPatchPending=false; // HG85: building clicks preserve the same painted city canvas.
 const $=id=>document.getElementById(id);let state=null,hg261Draft=null,dispatchDraft=null,tab='map',newRace='human',newSpellEdition='international',selected=null,selectedTargetKind=null,lastToast=0,selectedBuilding='hall',movementModeId=null,showWorldIndex=false,showResourceInfo=false,modalOffset=0,armyOpsOpen=false,armyQuestOpen=false,combatDockOpen=true;
 const tabs=[['map','🗺 Thế giới'],['city','🏰 Thành trì'],['army','🛡 Quân đội'],['heroes','🧙 Tướng'],['magic','🔮 Pháp thuật'],['relics','💎 Rèn & Di vật'],['tasks','📜 Nhiệm vụ'],['boss','☠ Boss'],['tower','🗼 Bí Cảnh'],['reports','⚔ Chiến báo'],['sources','📚 Tư liệu']];
 const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -259,8 +260,11 @@ function fail(fn){try{
  // the full authoritative render path.
  if(oldTab==='combat'&&tab==='combat'&&oldBattle&&state?.battle===oldBattle&&$('battle-canvas'))
   syncCombatTurnHUD();
+ else if(cityPanelPatchPending&&oldTab==='city'&&tab==='city'&&!state?.battle&&refreshCityPanels())
+  renderHUD();
  else render();
- }catch(e){toast(e.message||String(e))}}
+ cityPanelPatchPending=false;
+ }catch(e){cityPanelPatchPending=false;toast(e.message||String(e))}}
 function save(){
  if(!state)return false;
  try{
@@ -1347,7 +1351,7 @@ function hg30QuestView(){
    <div class="hg30-unit-line"><div>${A?.unitHTML(r.fromUnit,54)||'⚔'}<small>${esc(source?.name||r.fromUnit)} ×${r.fromCount}/mẻ</small></div><span class="hg30-arrow">➜</span><div>${A?.unitHTML(r.toUnit,62)||icons[id]}<b>${esc(unit?.name||r.toName)}</b><small>+${r.toCount}/mẻ · Bậc ${unit?.tier||'-'} · ATK ${unit?.atk||0} · DEF ${unit?.def||0}</small></div></div>
    <h3>${esc(r.title)}</h3><p class="tiny muted">Quân rảnh ${format(r.free)}/${r.fromCount} · Vàng ${format(state.res.gold)}/${format(r.gold)} · Vượt Tháp tầng ${r.minFloor-1}</p>
    <div class="hg30-costs">${wallet}</div>${unmet}
-   ${button('hg30-convert',{id,batches:1},r.canConvert?'⚔ Đổi '+r.toCount+' quân xịn':!r.story?'🔒 Chưa mở nhiệm vụ':'Thiếu nguyên liệu / quân',!r.canConvert,'primary')}
+   ${button('hg30-convert',{id,batches:1},r.canConvert?'⚔ Đổi '+format(r.toCount)+' quân xịn':!r.story?'🔒 Chưa mở nhiệm vụ':'Thiếu nguyên liệu / quân',!r.canConvert,'primary')}
     ${button('hg30-convert',{id,batches:r.maxBatches},'⚡ Đổi tối đa '+format(r.maxBatches*r.toCount)+' quân ('+r.maxBatches+' mẻ)',!r.canConvert||r.maxBatches<2,'small secondary')}
   </div>`;
  };
@@ -1361,7 +1365,7 @@ function hg30QuestView(){
    ${button('hg30-claim',{},trial.done?'✓ Đã mở thử thách':'Nhận chứng nhận thử thách',!trial.available,'small primary')}
   </div>
   <div class="hg30-recipes">${card('guard')}${card('sovereign')}</div>
-  <p class="tiny muted">NHIỆM VỤ LIÊN TỤC: hoàn thành mở khóa một lần; về sau đổi bao nhiêu lần cũng được nếu đủ quân rảnh, vàng, mảnh, ấn và tầng Tháp. Không cần nhận lại nhiệm vụ hay chờ ngày mới. Quân của tướng khác không bị thu hồi.</p>
+  <p class="tiny muted">HG85: 4.000 quân đặc biệt/mẻ cho cả Chiến Vệ và quân Tối Thượng; chi phí quân gốc, vàng, mảnh và ấn không đổi. Có thể đổi tối đa 10 mẻ một lần nếu đủ nguyên liệu. NHIỆM VỤ LIÊN TỤC: mở khóa một lần, đổi tiếp không cần chờ ngày mới. Quân đã phân cho tướng khác không bị thu hồi.</p>
  </section>`;
 }
 
@@ -1576,6 +1580,34 @@ function cityView(){const market=state.buildings.market||0,bazaar=state.building
  <p class="hint">${market?'Market Lv.'+market:'Hãy xây Market ở danh sách công trình phía trên.'}</p>
  <h2 id="city-bazaar-service">🏪 Bazaar — cửa hàng trang bị</h2><div class="grid grid3">${Object.values(E.ITEMS).filter(item=>item.shop!==false).map(item=>`<div class="card"><b>${ico(item.id,23)||item.icon} ${esc(item.name)}</b><p class="hint">${item.slot} · ATK +${item.atk} · DEF +${item.def} · SPD +${item.spd}</p><div class="cost">${format(item.cost)} 🪙 · cần Bazaar Lv.${item.level}</div>${button('buyitem',{id:item.id},'Mua vật phẩm',bazaar<item.level||state.res.gold<item.cost,'small secondary')}</div>`).join('')}</div></section>`;
 }
+// HG85: update a building panel in place; NEVER replace #city-canvas or
+// #game-modal-body for selection/upgrade/completion. Both preserve texture,
+// animated background, current scroll, city frame and command accessibility.
+function refreshCityPanels(){
+ if(tab!=='city'||!state||state.battle||dispatchDraft)return false;
+ const host=$('game-modal-body')?.querySelector('.hg28-tab-city');
+ const canvas=host?.querySelector('#city-canvas');
+ if(!host||!canvas)return false;
+ const template=document.createElement('template');
+ template.innerHTML=cityView();
+ const fresh=template.content;
+ const fields=['.hg28-city-title','.hg28-city-command','.hg35-city-inspector',
+  '.hg05-castle-overview','.hg04-section'];
+ for(const selector of fields){
+  const node=host.querySelector(selector),next=fresh.querySelector(selector);
+  if(node&&next)node.innerHTML=next.innerHTML;
+ }
+ // Construction queue appears/disappears independently of the stage canvas.
+ const existingQueue=host.querySelector('.queue-card'),newQueue=fresh.querySelector('.queue-card');
+ if(existingQueue&&newQueue)existingQueue.innerHTML=newQueue.innerHTML;
+ else if(existingQueue&&!newQueue)existingQueue.remove();
+ else if(!existingQueue&&newQueue){
+  const next=host.querySelector('.hg04-section');
+  if(next)next.before(newQueue.cloneNode(true));
+ }
+ P.drawCity(canvas,E,state,selectedBuilding);
+ return true;
+}
 function tasksView(){
  const main=E.activeCity(state).main,tasks=E.dailyTasks(state),china=E.china2009DailyTasks(state);
  const special=E.hg71SpecialStatus(state);
@@ -1750,7 +1782,7 @@ function paint(){
   canvas.onlostpointercapture=()=>{if(!pointers.size){down=null;dragging=false;pinchDistance=0}};
   canvas.onwheel=e=>{e.preventDefault();P.zoomMap(e.deltaY>0?.9:1.1);draw()};
  }if(tab==='city'){const canvas=$('city-canvas');P.drawCity(canvas,E,state,selectedBuilding);
-  canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;render()}};
+  canvas.onclick=e=>{const r=canvas.getBoundingClientRect(),key=P.cityHit(canvas,(e.clientX-r.left)*canvas.width/r.width,(e.clientY-r.top)*canvas.height/r.height);if(key){selectedBuilding=key;if(refreshCityPanels())renderHUD();else render()}};
  }else if(tab==='combat'){
   const canvas=$('battle-canvas'),interaction={movementModeId,showGrid:battleViewPrefs.grid,showHP:battleViewPrefs.hp,showLabels:battleViewPrefs.labels};
   const dock=document.querySelector('.battle-command-dock');if(dock)dock.addEventListener('toggle',()=>{combatDockOpen=dock.open;dock.closest('.battle-stage')?.classList.toggle('battle-stage-collapsed',!dock.open)});
@@ -2187,7 +2219,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  }
  if(action==='city-transport'){const cargo=Object.fromEntries(C.keys.map(k=>[k,Number($(`city-transport-${k}`)?.value||0)])),convoy=E.startCityTransport(state,target.dataset.city,$('city-transport-unit')?.value,Number($('city-transport-count')?.value),cargo);toast(`Đoàn tiếp tế đã xuất phát; sức tải ${format(convoy.weight)}/${format(convoy.capacity)}.`);return}
  if(action==='select'){selected=target.dataset.key;selectedTargetKind=target.dataset.kind==='treasure'?'treasure':null;const tile=E.getTile(selected);if(tile)Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y});return}
- if(action==='building'){selectedBuilding=target.dataset.key;return}
+ if(action==='building'){selectedBuilding=target.dataset.key;cityPanelPatchPending=tab==='city';return}
  if(action==='zoom'){P.zoomMap(target.dataset.dir==='in'?1.25:.8);return}
  if(action==='center'){const city=E.activeCity(state),tile=E.getTile(city.key);Object.assign(P.mapCamera(),{centerX:tile.x,centerY:tile.y,zoom:1.3});selected=city.key;selectedTargetKind=null;return}
   if(action==='stack'){movementModeId=null;markBattleInput();E.battleSelect(state,target.dataset.id);return}
@@ -2243,6 +2275,7 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='auto'){if(state.battle?.hg26NeedsManual)delete state.battle.hg26NeedsManual;state.battleAuto=!state.battleAuto;if(state.battle){const animationRemaining=Math.max(0,combatVisualLockUntil-performance.now());state.battle.autoUntil=Date.now()+Math.max(state.battleAuto?BATTLE_AUTO_TURN_DELAY_MS:BATTLE_AUTO_DELAY_MS,animationRemaining+110);}return}
  if(action==='upgrade'){
   const cost=E.upgrade(state,target.dataset.key);
+  cityPanelPatchPending=tab==='city';
   toast('Đã trừ '+hg35ExpenseText(cost)+'; bắt đầu xây.');return;
  }
  if(action==='learn'){E.learn(state,target.dataset.id);return}
@@ -2390,6 +2423,7 @@ setInterval(()=>{if(!state)return;const before=state.battle,hg63Before=hg63Battl
   // hero selection, or recruit quantity inputs.
   renderHUD();
  }else if(document.activeElement&&['INPUT','SELECT'].includes(document.activeElement.tagName))renderHUD();
+ else if(tab==='city'&&refreshCityPanels())renderHUD();
  else render();
  if(changed)save();}catch(e){console.warn('Tick:',e)}},1000);
 // Refit canvas immediately after device rotation/window resize; one render per frame.
