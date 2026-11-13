@@ -114,6 +114,8 @@ with sync_playwright() as pw:
           crafted['gear']==before['gear']-crafted['cost']['gear'] and
           crafted['hunter']==before['hunter']-crafted['cost']['hunter'] and
           crafted['tower']==before['tower']-crafted['cost']['tower'] and crafted['valid'],crafted)
+        check(mode+' '+race+' Epic forge stays OPEN after paid crafting so follow-up recipes stay usable',
+          page.locator('details.hg87-forge[open] [data-hg87-recipe]').count()==10)
         shot(page,mode+'-'+race+'-epic-forge')
         page.evaluate('HOG_APP_DEBUG.save()')
         page.reload(wait_until='load',timeout=180000)
