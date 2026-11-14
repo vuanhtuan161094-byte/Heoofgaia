@@ -3,7 +3,7 @@
 <title>Anh Hùng Thời Loạn</title>
 <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="style-hg03.css"><link rel="stylesheet" href="style-hg48.css"><link rel="stylesheet" href="style-hg49.css"><link rel="stylesheet" href="style-hg56.css"><link rel="stylesheet" href="style-hg57.css"></head><body>
 <div id="app">
-<header class="top"><div class="masthead"><span class="crest">⚜</span><div><div class="brand">ANH HÙNG THỜI LOẠN</div><small>HEROES OF GAIA • HOG1 • HG-11</small></div></div><div id="resources" class="resources"></div></header>
+<header class="top"><div class="masthead"><span class="crest">⚜</span><div><div class="brand">ANH HÙNG THỜI LOẠN</div><small>INDEPENDENT FANTASY STRATEGY • EARLY ACCESS</small></div><button type="button" id="hg91-settings-trigger" class="hg91-settings-trigger" title="Cài đặt ngôn ngữ &amp; hướng dẫn" aria-label="Cài đặt ngôn ngữ &amp; hướng dẫn" aria-controls="hg91-menu" aria-expanded="false">🌐</button></div><div id="resources" class="resources"></div></header>
 <nav id="nav" class="tabs" aria-label="Màn hình game"></nav>
 <div class="wrap"><main id="main" class="panel" aria-live="polite"></main><aside class="sidebar"><section class="panel side"><div class="sectiontitle">⚜ Lãnh địa</div><div id="status"></div></section><section class="panel side"><div class="sectiontitle">📜 Nhật ký</div><div id="logs" class="log"></div></section><section class="panel side"><div class="sectiontitle">⚙ Điều khiển</div><div class="buttons"><button id="save" class="small secondary">💾 Lưu</button><button id="export-save" class="small secondary">⬇ Sao lưu</button><button id="import-save" class="small secondary">⬆ Khôi phục</button><input id="import-file" type="file" accept=".json,application/json" hidden><button id="speed" class="small secondary">⏱ ×60</button><button id="reset" class="small danger">↻ Chơi lại</button></div><p class="muted tiny">Tự lưu vào trình duyệt. Phiên bản thử nghiệm offline, chưa có PvP hoặc máy chủ trực tuyến.</p></section></aside></div>
 <footer>HG-11 • Heroes of Gaia (2009) là trò chơi tham khảo • Đồ họa và mã engine độc lập • Chỉ số chưa xác minh được đánh dấu thử nghiệm. • Icons: Lorc, Delapouite, Sbed (CC BY 3.0, game-icons.net).</footer>
@@ -18,6 +18,26 @@
     </footer>
   </div>
 </section></div>
+<section id="hg91-menu" class="hg91-menu" role="dialog" aria-modal="false" aria-label="Cài đặt & hướng dẫn" hidden>
+  <header><h2>⚙ Cài đặt & hướng dẫn</h2><button type="button" id="hg91-settings-close" aria-label="Đóng">✕</button></header>
+  <div class="hg91-setting-row"><label for="hg91-language">🌐 Ngôn ngữ</label>
+    <select id="hg91-language" aria-label="Lựa chọn ngôn ngữ">
+      <option value="vi" data-hg91-fixed>Tiếng Việt</option><option value="en" data-hg91-fixed>English</option>
+      <option value="zh" data-hg91-fixed>简体中文</option><option value="ja" data-hg91-fixed>日本語</option>
+      <option value="ko" data-hg91-fixed>한국어</option><option value="th" data-hg91-fixed>ไทย</option>
+    </select></div>
+  <div class="hg91-setting-row"><label for="hg91-sound">🔊 Âm thanh nút bấm</label>
+    <input id="hg91-sound" type="checkbox" aria-label="Bật âm thanh nút bấm"></div>
+  <details open><summary>📖 Hướng dẫn nhanh</summary><ol>
+    <li>Chọn một chủng tộc và bắt đầu vương quốc mới.</li>
+    <li>Vào Thành trì để nâng cấp công trình và sản xuất tài nguyên.</li>
+    <li>Vào Quân đội để tuyển và bố trí lính cho một tướng.</li>
+    <li>Tìm quái trên bản đồ rồi xuất chinh, nhận EXP và chiến lợi phẩm.</li>
+    <li>Dùng Sao lưu để tải tệp JSON trước khi đổi máy hoặc xóa dữ liệu.</li>
+  </ol></details>
+  <p class="hg91-warning">Dữ liệu trên itch.io tách biệt với bản HTML offline. Hãy xuất/nhập Save JSON khi chuyển giữa hai nơi.</p>
+  <p class="hg91-hint">Bản dịch giao diện đang hoàn thiện; tên kỹ năng và mô tả chuyên sâu có thể còn tiếng Việt.</p>
+</section>
 <div id="toast" role="status" aria-live="polite"></div>
 <div class="hg28-art-cache" aria-hidden="true">
 <img id="hg28-world-meadow" src="assets/generated/hg28/world/meadow-tile.png" width="1254" height="1254" alt="">
