@@ -252,6 +252,8 @@
   if(s.heroes.length<=1)throw Error('Không thể sa thải tướng cuối cùng. Hãy tuyển tướng thay thế trước.');
   if(h.questSpecial&&h.rewardOrigin==='hero_task_20')
    throw Error('Tướng nhiệm vụ độc bản được bảo vệ; không thể sa thải.');
+  if(h.mythicId&&h.mythicOrigin==='hg89_fragments')
+   throw Error('Thần Tướng thần thoại đã thức tỉnh là độc bản; không thể sa thải và mất vĩnh viễn.');
   if(s.hg82.transfers.some(q=>q.heroId===id)||E.heroAway(s,id)||
    s.battle||s.march||s.expedition||s.parallelMarches?.length)
    throw Error('Tướng đang ở ngoài hoặc còn chiến đấu/hành quân. Hãy gọi tướng về trước.');
@@ -292,6 +294,8 @@
  }
  function dismiss(s,id){
   ensure(s);const h=requireLocal(s,id);
+  if(h.mythicId&&h.mythicOrigin==='hg89_fragments')
+   throw Error('Không thể sa thải Thần Tướng độc bản. Hãy điều chuyển giữa các thành.');
   if(s.hg82.transfers.some(q=>q.heroId===id))throw Error('Tướng đang chuyển thành');
   const res=old.dismiss(s,id);
   // No heroic units were created or moved during dismissal.
@@ -303,6 +307,8 @@
   if(h&&h.cityId!==active(s))return {...q,allowed:false,reasons:[...q.reasons,'Tướng thuộc '+cityLabel(s,h.cityId)+'; mở đúng thành để sa thải.']};
   if(s.hg82?.transfers?.some(t=>t.heroId===id))
    return {...q,allowed:false,reasons:[...q.reasons,'Tướng đang trên đường chuyển thành.']};
+  if(h?.mythicId&&h.mythicOrigin==='hg89_fragments')
+   return {...q,allowed:false,reasons:[...q.reasons,'Thần Tướng thần thoại độc bản; không được sa thải.']};
   return q;
  }
  function skillUp(s,id,key){ensure(s);requireLocal(s,id);return old.skillUp(s,id,key)}
