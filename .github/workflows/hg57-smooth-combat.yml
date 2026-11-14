@@ -51,7 +51,12 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           text=Path('Play-Heoofgaia-HG11.html').read_text(encoding='utf8')
-          assert text.count('<script>')==43
+          # Scripts are versioned modules; all 46 current source scripts must be inline.
+          source=Path('index.html').read_text(encoding='utf8')
+          scripts=[line.split('"')[1] for line in source.splitlines() if '<script src="' in line]
+          assert len(scripts)>=41 and len(set(scripts))==len(scripts)
+          assert text.count('<script>')==len(scripts), (len(scripts),text.count('<script>'))
+          assert '<script src=' not in text
           assert 'battleVisualSchedule' in text and 'hg57-commander-strip' in text
           assert 'battle-labels' in text and 'style-hg57.css' not in text
           print('HG57 SINGLE OFFLINE HTML PASS')

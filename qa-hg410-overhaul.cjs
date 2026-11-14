@@ -150,10 +150,19 @@ test('HG30 permanent conversion can be repeated after stage 3 with exact materia
  const boss=E.TILES.find(t=>t.kind==='npc'&&t.eliteTier>=11);
  assert(boss);s.hg26.enabled=true;s.hg26.phase='ready';s.hg26.config.target=boss.key;s.hg26.config.heroId=1;
  const before=s.army.human_1,sovereign=s.army.human_tower_sovereign||0;
- for(let i=0;i<2;i++)E.hg30Convert(s,'guard');
- for(let i=0;i<2;i++)E.hg30Convert(s,'sovereign');
- assert.equal(s.army.human_1,before-24);
- assert.equal(s.army.human_tower_sovereign,sovereign+8);
+ const guard=E.HG30_RECIPES.guard,elite=E.HG30_RECIPES.sovereign;
+ const balanceGold=s.res.gold,shards={...s.hg29.shards},tokens={...s.hg27};
+ const receipts=[];
+ for(let i=0;i<2;i++)receipts.push(E.hg30Convert(s,'guard'));
+ for(let i=0;i<2;i++)receipts.push(E.hg30Convert(s,'sovereign'));
+ assert.equal(s.army.human_1,before-2*guard.fromCount);
+ assert.equal(s.army.human_tower_sovereign,sovereign+2*elite.toCount);
+ assert.deepEqual(receipts.map(x=>x.toCount),[guard.toCount,guard.toCount,elite.toCount,elite.toCount]);
+ assert.equal(s.res.gold,balanceGold-2*(guard.gold+elite.gold),'Conversions debit exact real gold');
+ for(const [key,value] of Object.entries(shards))
+  assert.equal(s.hg29.shards[key],value-2*((guard.fragments[key]||0)+(elite.fragments[key]||0)),'shards '+key);
+ for(const key of ['marks','boss','tower'])
+  assert.equal(s.hg27[key],tokens[key]-2*((guard.tokens[key]||0)+(elite.tokens[key]||0)),'tokens '+key);
  assert.equal(s.hg30.stage,3);assert.equal(s.hg30.guardMade,2);assert.equal(s.hg30.sovereignMade,2);
  assert(E.hg30Recipe(s,'guard').story&&E.hg30Recipe(s,'sovereign').story);
  save(s);return {repeatGuards:s.hg30.guardMade,repeatSovereigns:s.hg30.sovereignMade,stage:s.hg30.stage};

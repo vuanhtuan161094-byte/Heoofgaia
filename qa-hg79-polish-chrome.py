@@ -82,14 +82,22 @@ with sync_playwright() as pw:
                   after>before+.06,{'before':before,'after':after})
             shot(page,label+'-pinch-world')
         page.locator('[data-action="tab"][data-tab="heroes"]').first.click()
-        faces=page.evaluate("""() => ({
-           count:document.querySelectorAll('.hg79-portrait-knight,.hg79-portrait-ranger,.hg79-portrait-arcanist,.hg79-portrait-warden,.hg79-portrait-rogue,.hg79-portrait-oracle').length,
-           vectorCount:document.querySelectorAll('.hg79-portrait-knight svg,.hg79-portrait-ranger svg,.hg79-portrait-arcanist svg,.hg79-portrait-warden svg,.hg79-portrait-rogue svg,.hg79-portrait-oracle svg').length,
-           uniqueRoles:[...new Set([...document.querySelectorAll('[class*="hg79-portrait-"]')].flatMap(
-             e=>[...e.classList].filter(c=>c.startsWith('hg79-portrait-'))))]
-         })""")
-        check(label+' genuine hero portrait SVG shown in hero UI',
-              faces['count']>=1 and faces['vectorCount']>=1,faces)
+        # HG86 renders original WEBP character art in place of the HG79 SVG
+        # prototype. Verify the real image can decode and is visible in the UI.
+        decoded=page.locator('.hg408-profile .hg86-rendered-hero-img').first.evaluate(
+            'img => img.decode().then(() => true, () => false)')
+        faces=page.evaluate("""() => {
+           const arts=[...document.querySelectorAll('.hg408-profile .hg45-portrait-art, .hg408-roster .hg45-portrait-art')];
+           const images=arts.map(a=>a.querySelector('img.hg86-rendered-hero-img')).filter(Boolean);
+           const shown=images.filter(img=>{
+             const r=img.getBoundingClientRect();
+             return img.complete&&img.naturalWidth>0&&img.naturalHeight>0&&r.width>10&&r.height>10;
+           });
+           return {count:arts.length,realWEBP:images.length,visibleDecoded:shown.length,
+             aura:arts.filter(a=>a.querySelector('.hg45-portrait-aura')).length};
+         }""")
+        check(label+' original decoded WEBP hero portraits shown in real hero UI',
+              decoded and faces['count']>=1 and faces['visibleDecoded']>=1 and faces['aura']>=1,faces)
         shot(page,label+'-hero-portraits')
         setup=page.evaluate("""() => {
            const E=HOG_ENGINE,P=HOG_PAINTER,A=HOG_APP_DEBUG;
@@ -109,7 +117,7 @@ with sync_playwright() as pw:
              nativeAtlas:!!P.animatedUnitId(u.unitId,u.name),
              alias:P.hg79EnemyVisualId(u)})),
              srcAtlas:!!document.querySelector('[data-hg33-atlas-src]'),
-             heroBanners:document.querySelectorAll('[data-hg57-leaders] .hg79-portrait-knight,[data-hg57-leaders] .hg79-portrait-ranger,[data-hg57-leaders] .hg79-portrait-arcanist,[data-hg57-leaders] .hg79-portrait-warden,[data-hg57-leaders] .hg79-portrait-rogue,[data-hg57-leaders] .hg79-portrait-oracle').length};
+             heroBanners:document.querySelectorAll('[data-hg57-leaders] .hg45-portrait-art').length};
         }""")
         check(label+' real NPC encounters resolve to character sprite identities',
               setup['valid'] and setup['save']==7 and setup['srcAtlas'] and

@@ -31,8 +31,13 @@ with sync_playwright() as pw:
   check(label+' new Game v07 and HG40.9 live',page.evaluate("() => HOG_APP_DEBUG.getState().version===7 && HOG_ENGINE.strictSave(HOG_APP_DEBUG.getState()) && !!HOG_ENGINE.hg409Preview"))
   page.locator('[data-action="tab"][data-tab="relics"]').first.click()
   check(label+' nine actual material cards each explain use',page.locator('.hg409-material-card details').count()==9)
-  page.locator('.hg409-material-card:has([data-action="hg18-open"][data-id="resource_card"]) details summary').click()
-  check(label+' card states exact gold/wood/ore quantities','+600' in page.locator('.hg409-material-card').first.inner_text())
+  # HG88 moved resource_card opening to batch summon; the material guide
+  # remains a real card, now without the legacy inline open button.
+  material_name=page.evaluate('HOG_ENGINE.HG18_MATERIALS.resource_card.name')
+  resource=page.locator('.hg409-material-card').filter(has_text=material_name)
+  check(label+' authentic resource material card exists',resource.count()==1,material_name)
+  resource.locator('details summary').click()
+  check(label+' card states exact gold/wood/ore quantities','+600' in resource.inner_text())
   shot(page,label+'-item-info.png')
   page.locator('[data-action="tab"][data-tab="tower"]').first.click()
   check(label+' Tower discloses real purple commander CS, buffs and extra loot',page.locator('.hg409-tower-reward').count()==1 and 'CS1' in page.locator('.hg409-tower-reward').inner_text())
