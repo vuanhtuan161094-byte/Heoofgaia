@@ -66,14 +66,15 @@ def run():
                 # Locale changes run synchronously without changing game data. The
                 # one-second economy tick cannot execute inside the JS evaluation.
                 ledger=page.evaluate("""() => {
-                  const s=HOG_APP_DEBUG.getState(),a=HOG_ENGINE.serializeSave(s),i=HOG_HG91_I18N,
+                  const s=HOG_APP_DEBUG.getState(),a=JSON.stringify(s),i=HOG_HG91_I18N,
                   codes=['zh','ja','ko','th','en','vi'],names={};
                   for(const code of codes){
                     i.setLocale(code);names[code]=i.translate('Thế giới');
                   }
-                  return {same:a===HOG_ENGINE.serializeSave(s),v:s.version,
+                  return {same:a===JSON.stringify(s),v:s.version,
                     valid:HOG_ENGINE.strictSave(s),names,locale:i.getLocale()};
                 }""")
+                print("HG91_LEDGER_DIAG",json.dumps(ledger,ensure_ascii=False),flush=True)
                 check("All locale changes leave canonical Save v07 completely unchanged",
                       ledger["same"] and ledger["v"]==7 and ledger["valid"],ledger)
                 check("Chinese/Japanese/Korean/Thai translations are substantive",
