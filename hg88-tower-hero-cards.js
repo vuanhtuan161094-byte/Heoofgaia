@@ -96,7 +96,7 @@ function summon(s,type,draws=1){
  const index=hash(best.seed^0x34a7)%names.length;
  const stats={atk:values[0],def:values[1],spd:values[2],int:values[3]};
  const hero={...template,id:heroId,name:names[index]+' · '+(draws>=100?'Thiên Mệnh':'Anh Kiệt'),
-  cityId:trial.activeCityId,level:1,xp:0,...stats,
+  cityId:trial.activeCityId,race:trial.race,level:1,xp:0,...stats,
   qualityModel:3,qualityScore:total,quality:tier,
   cardSpecial:true,cardTier:draws>=500?500:draws>=200?200:draws>=100?100:10,
   rewardOrigin:'hg88_card_'+type,heroRank:1,rebirth:0,statPoints:0,
@@ -104,6 +104,7 @@ function summon(s,type,draws=1){
   equippedSpells:[]};
  trial.heroes.push(hero);
  trial.equipment[heroId]={};
+ E.hg82ActivateLocal?.(trial,heroId);
  trial.hg18.materials[type]-=draws;
  trial.hg88.totalDrawn+=draws;trial.hg88.summons++;
  trial.hg88.last={heroId,draws,quality:tier};
