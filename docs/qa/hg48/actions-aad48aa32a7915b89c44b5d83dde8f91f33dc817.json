@@ -1,0 +1,27 @@
+{
+  "gate": "HG48 mobile hero + forge exact-SHA",
+  "source_sha": "aad48aa32a7915b89c44b5d83dde8f91f33dc817",
+  "workflow_run_id": 43544247489,
+  "workflow_url": "https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43544247489",
+  "run_attempt": 1,
+  "branch": "feature/hog1-research-to-playable-20261102",
+  "steps": {
+    "engine": "success",
+    "build": "success",
+    "chromium": "failure",
+    "evidence": "success",
+    "offline_html": "skipped"
+  },
+  "engine_pass": true,
+  "build_pass": true,
+  "chromium_pass": false,
+  "single_html_uploaded": false,
+  "artifact": {
+    "file": "Play-Heoofgaia-HG11.html",
+    "exists": true,
+    "size_bytes": 79280428,
+    "sha256": "3f4b4748e18e5477d2b7e429e58cab09d703b93957d5c979b60a6d80954dd847"
+  },
+  "timestamp_utc": "2026-11-14T02:08:56.352662+00:00",
+  "status": "FAIL_OR_INCOMPLETE"
+}
