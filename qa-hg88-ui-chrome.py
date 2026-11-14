@@ -80,38 +80,41 @@ with sync_playwright() as pw:
    page.locator('[data-action="tab"][data-tab="relics"]').first.click()
    card_ui=page.evaluate("""() => ({
      panels:document.querySelectorAll('.hg88-card-banner').length,
-     fiveHundred:!!document.querySelector('[data-action="hg88-summon"][data-draws="500"]:not(:disabled)'),
-     hundred:document.querySelectorAll('[data-action="hg88-summon"][data-draws="100"]:not(:disabled)').length,
+     gods:document.querySelectorAll('.hg89-deity').length,
+     yang:!!document.querySelector('[data-action="hg89-awaken"][data-id="yang_jian"]:not(:disabled)'),
+     odin:!!document.querySelector('[data-action="hg89-awaken"][data-id="odin"]:not(:disabled)'),
+     divineRandom:document.querySelectorAll('[data-action="hg88-summon"][data-id="resource_chest"]').length,
      noResourceCard:!document.querySelector('.hg409-material-card .hg409-material-head b')?.textContent?.includes('Thẻ tài nguyên')
    })""")
-   check(label+' '+race+' 100/200/500 special hero batch card UI active',
-     card_ui['panels']==2 and card_ui['fiveHundred'] and card_ui['hundred']>=2 and card_ui['noResourceCard'],card_ui)
+   check(label+' '+race+' six mythic fragment crafting UI replaces Divine random cards',
+     card_ui['panels']==1 and card_ui['gods']==6 and card_ui['yang'] and
+     card_ui['odin'] and card_ui['divineRandom']==0 and card_ui['noResourceCard'],card_ui)
    snap(page,label+'-'+race+'-hero-cards-before')
-   page.locator('[data-action="hg88-summon"][data-id="resource_chest"][data-draws="500"]').click()
+   page.locator('[data-action="hg89-awaken"][data-id="yang_jian"]').click()
    result=page.evaluate("""() => {
-      const s=HOG_APP_DEBUG.getState(),h=s.heroes.find(h=>h.cardSpecial);
-      return {heroes:s.heroes.length,quality:h?.quality,tier:h?.cardTier,
-       level:h?.level,drawn:s.hg88.totalDrawn,summons:s.hg88.summons,
+      const s=HOG_APP_DEBUG.getState(),h=s.heroes.find(h=>h.mythicId==='yang_jian');
+      return {heroes:s.heroes.length,quality:h?.quality,myth:h?.mythicId,
+       level:h?.level,drawn:s.hg88.totalDrawn,assembled:s.hg89.assembled.length,
        remain:s.hg18.materials.resource_chest,valid:HOG_ENGINE.strictSave(s),
        version:s.version,screen:document.querySelector('.hg408-screen')!==null}
    }""")
-   check(label+' '+race+' 500 card draw grants ONE real Rainbow hero, no quest',
+   check(label+' '+race+' 100 paid fragments awaken ONE real Yang Jian mythic hero',
      result['heroes']==2 and result['quality']=='rainbow' and
-     result['tier']==500 and result['level']==1 and result['drawn']==500 and
-     result['summons']==1 and result['remain']==0 and result['valid'] and
+     result['myth']=='yang_jian' and result['level']==1 and result['drawn']==0 and
+     result['assembled']==1 and result['remain']==400 and result['valid'] and
      result['version']==7 and result['screen'],result)
    snap(page,label+'-'+race+'-summoned-hero-profile')
    page.evaluate('HOG_APP_DEBUG.save()')
    page.reload(wait_until='load',timeout=180000)
    cold=page.evaluate("""() => {
       const s=HOG_APP_DEBUG.getState();return {valid:HOG_ENGINE.strictSave(s),
-       version:s.version,heroes:s.heroes.length,rainbow:s.heroes.some(h=>h.cardSpecial&&h.quality==='rainbow'),
+       version:s.version,heroes:s.heroes.length,rainbow:s.heroes.some(h=>h.mythicId==='yang_jian'&&h.quality==='rainbow'),
        cards:s.hg18.materials.resource_chest,highest:s.hg20.tower.hg88.highest,
        floor:s.hg20.tower.floor,reset:s.hg20.tower.hg88.resetsUsed}
    }""")
    check(label+' '+race+' cold Save v07 protects reset, one hero and paid cards',
      cold['valid'] and cold['version']==7 and cold['heroes']==2 and
-     cold['rainbow'] and cold['cards']==0 and cold['highest']==20 and
+     cold['rainbow'] and cold['cards']==400 and cold['highest']==20 and
      cold['floor']==1 and cold['reset']==1,cold)
    page.close()
  browser.close()
