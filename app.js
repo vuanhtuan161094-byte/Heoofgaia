@@ -980,8 +980,8 @@ function towerView(){
  const towerMilestones='<section class="card hg88-tower-milestones"><h3>🏆 Mốc thưởng Tháp</h3><p class="tiny muted">Chỉ lần đầu vượt mốc mới nhận thẻ tướng và Di vật. Reset không nhân đôi phần thưởng.</p>'+
   '<div class="hg88-milestone-grid">'+hg88.milestones.map(m=>{
    const qty=m.floor===100?100:m.floor===200?200:m.floor===500?500:m.floor>=1000?500:m.floor;
-   const headline=[100,200,500].includes(m.floor)?'🎴 '+qty+' thẻ Thần Tướng + Di vật Vương Miện':
-    '🎴 '+qty+' thẻ Thần Tướng';
+   const headline=[100,200,500].includes(m.floor)?'🌟 '+qty+' mảnh Thần Tướng + Di vật Vương Miện':
+    '🌟 '+qty+' mảnh Thần Tướng';
    return '<div class="hg88-milestone '+(m.done?'is-done':'is-locked')+'"><strong>Tầng '+format(m.floor)+'</strong><small>'+headline+'</small><span>'+(m.done?'✓ Đã nhận':'Chưa mở')+'</span></div>';
   }).join('')+'</div></section>';
  const teamOptions=selected=>'<option value="">— Không chọn —</option>'+state.heroes.map(h=>{
@@ -997,7 +997,7 @@ function towerView(){
   return '<section class="hg28-tower-hero"><header><span>🧙</span><b>'+hg408HeroNameHTML(hero)+'</b><small>2 đội riêng</small></header><div class="hg28-tower-slots">'+dropdown(0)+dropdown(1)+'</div></section>';
  }).join('');
  return `<section class="hg28-tower-view"><header class="hg28-tower-title"><div><span class="eyebrow">BÍ CẢNH · CHIẾN THUẬT</span><h1>🗼 Tháp tầng ${format(status.floor)}</h1></div><div class="hg28-tower-badges"><span>${status.enduranceMode?'❤️ '+status.rewardLeft+'/5 mạng còn lại':'🎁 '+status.rewardLeft+'/5 lượt thưởng'}</span><span>⚔ ${strength}</span><span>🏆 Kỷ lục tầng ${format(hg88.highest)}</span><span class="hg408-quality-purple">♜ Địch TÍM CS${purpleBoss.cs}/10 · Lv100 B5</span></div></header>
- <div class="hg88-tower-top"><div class="hg88-tower-balance"><b>${hg88.repeat?'🔁 Đang leo lại tầng cũ':'✨ Tầng lần đầu'}</b><small>Đã vượt tầng ${format(hg88.highest)} · Reset: ${hg88.resetsUsed}/1 lần hôm nay</small><small>Kho thẻ: ${format(cardCount.small)} Anh Kiệt · ${format(cardCount.large)} Thần Tướng</small></div>${button('hg88-tower-reset',{},'🔁 Reset Tháp về tầng 1',!hg88.resetReady,'small secondary')}</div>
+ <div class="hg88-tower-top"><div class="hg88-tower-balance"><b>${hg88.repeat?'🔁 Đang leo lại tầng cũ':'✨ Tầng lần đầu'}</b><small>Đã vượt tầng ${format(hg88.highest)} · Reset: ${hg88.resetsUsed}/1 lần hôm nay</small><small>Kho thẻ: ${format(cardCount.small)} Anh Kiệt · ${format(cardCount.large)} mảnh Thần Tướng</small></div>${button('hg88-tower-reset',{},'🔁 Reset Tháp về tầng 1',!hg88.resetReady,'small secondary')}</div>
  <div class="hg409-tower-reward">☠ Tướng địch 100/100/100/100, CS${purpleBoss.cs}: HP ×${purpleBoss.boost.hp}, ATK ×${purpleBoss.boost.atk}, DEF ×${purpleBoss.boost.def}. ${status.enduranceMode?'Thắng liên tiếp không mất mạng; chỉ thua mới trừ 1 trong 5 mạng/ngày.':'Chọn chế độ chinh phục để đổi 5 lượt thưởng thành 5 mạng/ngày.'} Thưởng thực: ${esc(hg409LootText(purpleBoss))}.</div><div class="hg28-tower-layout"><section class="card hg28-tower-command"><div class="hg28-tower-enemy"><span class="hg28-tower-enemy-icon">👹</span><div><small>ĐỐI THỦ · ${esc(status.trait)}</small><h2>${esc(status.enemy)}</h2><b>${format(status.enemyPower)} lực chiến</b></div><span class="tag">Tầng ${format(status.floor)}</span></div>
  <div class="hg28-tower-team"><div class="hg28-tower-section-head"><h3>Chọn tối đa 3 tướng</h3><span class="tag">${status.team.length}/3</span></div><div class="hg28-hero-picker">${Array.from({length:3},(_,i)=>'<label><small>TƯỚNG '+(i+1)+'</small><select id="hg20_tower_'+i+'">'+teamOptions(status.team[i])+'</select></label>').join('')}</div>${button('tower-team',{},'✓ Lưu đội hình tướng',false,'small primary')}</div>
  <div class="hg28-tower-stack-panel"><div class="hg28-tower-section-head"><h3>Quân đi theo chủ tướng</h3><span class="hint">Tối đa 2 đội / tướng</span></div>${slots?'<div class="hg28-tower-heroes">'+slots+'</div>':'<div class="hg28-tower-empty">Chọn và lưu tướng để gán đội quân.</div>'}<div class="hg28-tower-actions">${button('tower-auto-assign',{},'⚔ Tự chia quân từ kho',!status.team.length,'secondary')}${button('tower-picks',{},'Lưu 2 đội / tướng',!picks.length,'secondary')}${button('tower-climb',{},status.enduranceMode?'⚔ Leo tầng '+format(status.floor)+' · 5 mạng/ngày':'⚔ Bắt đầu chinh phục từ tầng '+format(status.floor),!ready.ready||status.enduranceMode&&status.rewardLeft<=0,'primary')}${button('tower-autochain',{},towerAutoChain?'🔁 Tự leo Tháp: BẬT':'▶ Tự leo Tháp: TẮT',false,'secondary')}</div>
@@ -1575,7 +1575,7 @@ function hg409RewardHistoryUI(){
 function hg409MaterialGuide(id){
  const info={
  resource_card:'Thẻ triệu hồi Anh Kiệt. Mở 1, 10, 100, 200 hoặc 500 thẻ để chọn ra 1 tướng mạnh nhất trong số lần mở. Không yêu cầu nhiệm vụ. Phải còn ô tướng.',
- resource_chest:'Thẻ triệu hồi Thần Tướng. Có thể mở 1/10/100/200/500; 100 bảo đảm tối thiểu Bạch Kim, 200–500 bảo đảm Cầu Vồng. Mỗi lần mở lô chọn 1 tướng, trừ toàn bộ thẻ đúng số.',
+ resource_chest:'Mảnh Thần Tướng dùng ghép Dương Tiễn, Na Tra, Zeus, Athena, Tôn Ngộ Không và Odin tại Thần Điện Phong Thần. Mỗi thần cần 100–500 mảnh; nhận một lần và không mở ngẫu nhiên.',
  gear_pack:'Mỗi lượt mở nhận đúng 1 trang bị trong chu kỳ 6 món: Kiếm đồng hành trình, Giáp sắt trinh sát, Cung tần bì, Áo choàng lữ khách, Nhẫn thạch anh, Hộ phù cổ. Không phải quay thưởng xác suất.',
  set_chest:'Mỗi lượt mở nhận đúng 1 món trong chu kỳ Kiếm, Giáp, Ấn của bộ Vệ Binh. Mặc 2 món giảm 2,5% sát thương; 3 món tăng 3,5% sát thương.',
  enhance_stone:'Để cường hóa tại hồ sơ Tướng: cần 2 + 2×cấp hiện tại đá và 250×cấp tiếp theo vàng. Tối đa +10, không có rủi ro thất bại.',
@@ -1629,15 +1629,16 @@ function relicView(){
  const gearEntry=button('hg46-open-gear',{},'🛡 Mở kho trang bị và mặc đồ tướng',false,'primary');
  const heroCards=E.hg88CardStatus(state),heroCapReached=heroCards.roster>=heroCards.cap,
   batchOptions=[1,10,100,200,500],
-  summonPanel='<section class="card hg88-hero-summon" aria-label="Triệu hồi tướng đặc biệt không cần làm nhiệm vụ"><header><span class="eyebrow">THẺ TƯỚNG ĐẶC BIỆT · HG88</span><h2>🎴 Triệu hồi Anh Kiệt & Thần Tướng</h2><p>Thẻ kiếm từ nhiệm vụ xây dựng và Tháp; không cần hoàn thành chuỗi nhiệm vụ tướng. Mỗi lần mở 1–500 thẻ sẽ <b>chọn 1 tướng mạnh nhất</b> trong lô; không tạo 500 tướng vượt giới hạn Danh Vọng.</p></header>'+
-   ['resource_card','resource_chest'].map(id=>{
+  summonPanel='<section class="card hg88-hero-summon" aria-label="Triệu hồi Anh Kiệt theo thẻ"><header><span class="eyebrow">THẺ ANH KIỆT · HG88</span><h2>🎴 Triệu hồi Anh Kiệt</h2><p>Thẻ Anh Kiệt vẫn mở theo lô 1–500 và chọn ra một tướng mạnh nhất. <b>Thần Tướng thần thoại không mở ngẫu nhiên</b>; phải ghép đủ mảnh trong Thần Điện bên dưới.</p></header>'+
+   ['resource_card'].map(id=>{
     const m=E.HG18_MATERIALS[id],n=state.hg18.materials[id];
     return '<div class="hg88-card-banner"><div class="hg88-card-title"><b>'+m.icon+' '+esc(m.name)+'</b><strong>×'+format(n)+'</strong></div><div class="hg88-batch-actions">'+batchOptions.map(draws=>
      button('hg88-summon',{id,draws},'Mở '+format(draws),heroCapReached||n<draws||!!state.battle||!!state.march,'small '+(draws>=100?'primary':'secondary'))).join('')+'</div></div>';
    }).join('')+
    '<small>'+esc(heroCapReached?'Đã đủ '+heroCards.cap+' tướng theo Danh Vọng. Hãy giải phóng một ô tướng trước.':
-    'Đang có '+heroCards.roster+'/'+heroCards.cap+' tướng · Tích thẻ để mở lô 100/200/500 và nhận tướng phẩm cao.')+'</small></section>';
- return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg47ForgeView()}${hg87ForgeView()}${hg83ForgeView()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}${summonPanel}
+    'Đang có '+heroCards.roster+'/'+heroCards.cap+' tướng · Tích thẻ Anh Kiệt để mở lô 100/200/500.')+'</small></section>';
+ const pantheon=E.hg89Status(state),divinePanel='<section class="card hg89-pantheon" aria-label="Thần Điện Phong Thần: ghép mảnh thần tướng"><header><span class="eyebrow">THẦN ĐIỆN PHONG THẦN · HG89</span><h2>🌟 Tập hợp mảnh · thức tỉnh Thần Tướng</h2><p>Mảnh từ Tháp và chiến lợi phẩm; <b>mỗi thần chỉ thức tỉnh một lần</b>. Thần có nội tại và kỹ năng riêng kích hoạt khi thực chiến. Không phải làm nhiệm vụ tướng.</p></header><div class="hg89-frag-balance">🌟 Mảnh Thần Tướng <strong>×'+format(pantheon.fragments)+'</strong><small>Đội ngũ '+pantheon.roster+'/'+pantheon.cap+' tướng</small></div><div class="hg89-deities">'+pantheon.deities.map(d=>'<article class="hg89-deity '+(d.owned?'owned':'')+'" data-hg89-deity="'+esc(d.id)+'"><div class="hg89-deity-avatar">'+d.icon+'</div><div class="hg89-deity-info"><b>'+esc(d.name)+'</b><small>'+esc(d.title)+' · '+esc(d.myth)+'</small><span>'+esc(d.element)+' · '+esc(d.role)+'</span><small>⚡ '+esc(d.skill)+' · hồi '+d.cooldown+' lượt</small><div class="hg89-frag-progress"><i style="width:'+Math.min(100,100*pantheon.fragments/d.cost)+'%"></i></div><small>'+(d.owned?'✓ Đã thức tỉnh':format(pantheon.fragments)+' / '+d.cost+' mảnh'+(d.missing?' · thiếu '+d.missing:''))+'</small></div>'+button('hg89-awaken',{id:d.id},d.owned?'Đã có':'🌟 Ghép '+d.cost+' mảnh',!d.canAssemble,'small primary')+'</article>').join('')+'</div><small class="muted">Thần Tướng được nhận vào thành hiện tại, có phẩm Cầu Vồng và bộ kỹ năng riêng. Giới hạn số tướng theo Danh Vọng vẫn áp dụng.</small></section>';
+ return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg47ForgeView()}${hg87ForgeView()}${hg83ForgeView()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}${summonPanel}${divinePanel}
   <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
   <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card hg409-material-card"><div class="hg409-material-head"><b>${ico(key,25)||m.icon} ${esc(m.name)}</b><strong>×${format(mat[key])}</strong></div><details><summary>ⓘ Công dụng và định mức</summary><p>${esc(hg409MaterialGuide(key))}</p><small>Kiếm qua nhiệm vụ, chiến thắng Boss/Tháp, ghép mảnh. Không phát vật phẩm khi xem thẻ.</small></details>
   ${opens.includes(key)?button('hg18-open',{id:key},'Mở / Dùng',mat[key]<1,'small primary'):''}</div>`).join('')}</div></section>
@@ -2472,6 +2473,11 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
  if(action==='hg29-craft'){const out=E.hg29Craft(state,target.dataset.id);toast('Đã ghép mảnh: '+out.id);return}
  if(action==='hg27-exchange'){const out=E.hg27Exchange(state,target.dataset.id);toast('Đổi thưởng thành công: '+out.id);return}
  if(action==='hg18-claim'){E.claimHG18Task(state,target.dataset.cycle,target.dataset.id);toast('Đã nhận thưởng nhiệm vụ.');return}
+ if(action==='hg89-awaken'){
+  const result=E.hg89Awaken(state,target.dataset.id);
+  tab='heroes';hg408Tab='overview';hg408InspectId=result.heroId;
+  toast('🌟 Thức tỉnh '+result.name+' · '+result.skill+' · còn '+format(result.fragmentsLeft)+' mảnh.');return;
+ }
  if(action==='hg88-summon'){
   const result=E.hg88Summon(state,target.dataset.id,Number(target.dataset.draws));
   tab='heroes';hg408Tab='overview';hg408InspectId=result.heroId;
