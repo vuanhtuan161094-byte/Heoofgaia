@@ -48,6 +48,15 @@ function hg86ArtURL(key){
  hg86SourceCache.set(key,url);
  return url;
 }
+// HG89: six distinct original mythology portraits packed in ONE 30KB atlas.
+function hg89MythArtStyle(id){
+ const list=E.HG89_PANTHEON||[],index=list.findIndex(d=>d.id===id);
+ if(index<0)return '';
+ const src=hg86ArtURL('myth-atlas');
+ if(!src)return '';
+ return 'background-image:url('+src+');background-size:600% 100%;background-position:'+
+  (index*20)+'% 50%;background-repeat:no-repeat;';
+}
 function hg86GearHTML(id,size=54){
  const def=E.ITEMS?.[id];if(!def)return '';
  const found=/^hg(?:47|83|87)_(human|elf|orc|undead)_/.exec(String(id));
@@ -68,6 +77,13 @@ function hg86GearHTML(id,size=54){
 // Unique hair/crown silhouette is stable per hero; rarity changes the frame
 // and magical aura, not the face or troop art. No assets/network/extra HTML.
 function hg45Portrait(hero){
+ if(hero?.mythicId&&hg89MythArtStyle(hero.mythicId)){
+  const quality=E.hg408HeroQuality(hero);
+  return '<span class="hg45-portrait-art hg45-portrait-'+quality+
+   ' hg89-myth-main" data-hg89-myth="'+hero.mythicId+'" aria-hidden="true">'+
+   '<span class="hg89-myth-portrait" style="'+hg89MythArtStyle(hero.mythicId)+'"></span>'+
+   '<span class="hg45-portrait-aura"></span><span class="hg45-portrait-stars"></span></span>';
+ }
  const faction=hero?.race||E.activeCity?.(state)?.race||state?.race||'human';
  const rendered=hg86ArtURL('hero-'+faction);
  if(rendered){
@@ -1658,7 +1674,7 @@ function relicView(){
    }).join('')+
    '<small>'+esc(heroCapReached?'Đã đủ '+heroCards.cap+' tướng theo Danh Vọng. Hãy giải phóng một ô tướng trước.':
     'Đang có '+heroCards.roster+'/'+heroCards.cap+' tướng · Tích thẻ Anh Kiệt để mở lô 100/200/500.')+'</small></section>';
- const pantheon=E.hg89Status(state),divinePanel='<section class="card hg89-pantheon" aria-label="Thần Điện Phong Thần: ghép mảnh thần tướng"><header><span class="eyebrow">THẦN ĐIỆN PHONG THẦN · HG89</span><h2>🌟 Tập hợp mảnh · thức tỉnh Thần Tướng</h2><p>Mảnh từ Tháp và chiến lợi phẩm; <b>mỗi thần chỉ thức tỉnh một lần</b>. Thần có nội tại và kỹ năng riêng kích hoạt khi thực chiến. Không phải làm nhiệm vụ tướng.</p></header><div class="hg89-frag-balance">🌟 Mảnh Thần Tướng <strong>×'+format(pantheon.fragments)+'</strong><small>Đội ngũ '+pantheon.roster+'/'+pantheon.cap+' tướng</small></div><div class="hg89-deities">'+pantheon.deities.map(d=>'<article class="hg89-deity '+(d.owned?'owned':'')+'" data-hg89-deity="'+esc(d.id)+'"><div class="hg89-deity-avatar">'+d.icon+'</div><div class="hg89-deity-info"><b>'+esc(d.name)+'</b><small>'+esc(d.title)+' · '+esc(d.myth)+'</small><span>'+esc(d.element)+' · '+esc(d.role)+'</span><small>⚡ '+esc(d.skill)+' · hồi '+d.cooldown+' lượt</small><div class="hg89-frag-progress"><i style="width:'+Math.min(100,100*pantheon.fragments/d.cost)+'%"></i></div><small>'+(d.owned?'✓ Đã thức tỉnh':format(pantheon.fragments)+' / '+d.cost+' mảnh'+(d.missing?' · thiếu '+d.missing:''))+'</small></div>'+button('hg89-awaken',{id:d.id},d.owned?'Đã có':'🌟 Ghép '+d.cost+' mảnh',!d.canAssemble,'small primary')+'</article>').join('')+'</div><small class="muted">Thần Tướng được nhận vào thành hiện tại, có phẩm Cầu Vồng và bộ kỹ năng riêng. Giới hạn số tướng theo Danh Vọng vẫn áp dụng.</small></section>';
+ const pantheon=E.hg89Status(state),divinePanel='<section class="card hg89-pantheon" aria-label="Thần Điện Phong Thần: ghép mảnh thần tướng"><header><span class="eyebrow">THẦN ĐIỆN PHONG THẦN · HG89</span><h2>🌟 Tập hợp mảnh · thức tỉnh Thần Tướng</h2><p>Mảnh từ Tháp và chiến lợi phẩm; <b>mỗi thần chỉ thức tỉnh một lần</b>. Thần có nội tại và kỹ năng riêng kích hoạt khi thực chiến. Không phải làm nhiệm vụ tướng.</p></header><div class="hg89-frag-balance">🌟 Mảnh Thần Tướng <strong>×'+format(pantheon.fragments)+'</strong><small>Đội ngũ '+pantheon.roster+'/'+pantheon.cap+' tướng</small></div><div class="hg89-deities">'+pantheon.deities.map(d=>'<article class="hg89-deity '+(d.owned?'owned':'')+'" data-hg89-deity="'+esc(d.id)+'"><div class="hg89-deity-avatar" style="'+hg89MythArtStyle(d.id)+'">'+(hg89MythArtStyle(d.id)?'':d.icon)+'</div><div class="hg89-deity-info"><b>'+esc(d.name)+'</b><small>'+esc(d.title)+' · '+esc(d.myth)+'</small><span>'+esc(d.element)+' · '+esc(d.role)+'</span><small>⚡ '+esc(d.skill)+' · hồi '+d.cooldown+' lượt</small><div class="hg89-frag-progress"><i style="width:'+Math.min(100,100*pantheon.fragments/d.cost)+'%"></i></div><small>'+(d.owned?'✓ Đã thức tỉnh':format(pantheon.fragments)+' / '+d.cost+' mảnh'+(d.missing?' · thiếu '+d.missing:''))+'</small></div>'+button('hg89-awaken',{id:d.id},d.owned?'Đã có':'🌟 Ghép '+d.cost+' mảnh',!d.canAssemble,'small primary')+'</article>').join('')+'</div><small class="muted">Thần Tướng được nhận vào thành hiện tại, có phẩm Cầu Vồng và bộ kỹ năng riêng. Giới hạn số tướng theo Danh Vọng vẫn áp dụng.</small></section>';
  return `<h1>💎 Rèn đúc & kho di vật</h1><div class="hg46-forge-entry">${gearEntry}</div>${hg409RewardHistoryUI()}${hg47ForgeView()}${hg87ForgeView()}${hg83ForgeView()}${hg31ForgeView()}${hg29CraftView()}${hg27ExchangeView('gear')}${summonPanel}${divinePanel}
   <p class="hint">Thẻ, bộ trang bị, mảnh ghép và cường hóa do Hẻoofgaia thiết kế mới; Fandom xác nhận hệ trang bị và nguồn thưởng từ Bazaar/Babel, nhưng không xác nhận các công thức HG18 này.</p>
   <section class="card"><h2>🎒 Nguyên liệu và thẻ thưởng</h2><div class="grid grid3">${Object.entries(E.HG18_MATERIALS).map(([key,m])=>`<div class="card hg409-material-card"><div class="hg409-material-head"><b>${ico(key,25)||m.icon} ${esc(m.name)}</b><strong>×${format(mat[key])}</strong></div><details><summary>ⓘ Công dụng và định mức</summary><p>${esc(hg409MaterialGuide(key))}</p><small>Kiếm qua nhiệm vụ, chiến thắng Boss/Tháp, ghép mảnh. Không phát vật phẩm khi xem thẻ.</small></details>
