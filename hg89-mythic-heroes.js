@@ -97,12 +97,13 @@ function awaken(s,deityId){
  const h=E.clone(local),id=Math.max(0,...trial.heroes.map(x=>x.id))+1;
  for(const k of ['questSpecial','fusionOrigin','fusionSource','cardSpecial','cardTier',
   'rewardOrigin','mythicId','mythicOrigin'])delete h[k];
- Object.assign(h,{id,name:d.name,cityId:trial.activeCityId,level:1,xp:0,
+ Object.assign(h,{id,name:d.name,cityId:trial.activeCityId,race:trial.race,level:1,xp:0,
   ...stats,hg18Base:{...stats},qualityModel:3,qualityScore:total,quality:'rainbow',
   heroRank:1,rebirth:0,statPoints:0,spentAttributePoints:{atk:0,def:0,spd:0,int:0},
   equippedSpells:[],mythicId:d.id,mythicOrigin:'hg89_fragments'});
  trial.heroes.push(h);
  trial.equipment[id]={};
+ E.hg82ActivateLocal?.(trial,id);
  trial.hg18.materials[REWARD_KEY]-=d.cost;
  q.assembled.push(d.id);
  q.last={deityId:d.id,heroId:id};
