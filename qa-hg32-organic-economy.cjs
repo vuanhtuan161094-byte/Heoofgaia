@@ -114,16 +114,24 @@ try{
  const safeCount=Math.min(12,(s.army.human_1||0)-12);
  E.hg20SetHeroPlan(s,1,[{unitId:'human_1',count:safeCount}]);
  assert(E.hg30Recipe(s,'guard').canConvert,'natural HG30 Guard recipe still locked: '+JSON.stringify(E.hg30Recipe(s,'guard')));
- const before={gold:s.res.gold,stock:s.army.human_1,wild:s.hg29.shards.wild,marks:s.hg27.marks,tower:s.hg27.tower};
+ const recipe=E.hg30Recipe(s,'guard');
+ const before={gold:s.res.gold,stock:s.army.human_1,guards:s.army.human_quest_guard||0,
+  wild:s.hg29.shards.wild,marks:s.hg27.marks,tower:s.hg27.tower};
  const out=E.hg30Convert(s,'guard');
  assert.equal(out.toUnit,'human_quest_guard');assert.equal(s.hg30.stage,2);
- assert.equal(s.army.human_1,before.stock-12);assert.equal(s.army.human_quest_guard,1);
+ // HG85 intentionally grants 4000 special soldiers per earned conversion.
+ // Validate the real canonical recipe and exact paid army delta, never an old hardcoded 1.
+ assert.equal(out.fromCount,recipe.fromCount);
+ assert.equal(out.toCount,recipe.toCount);
+ assert(out.toCount>0);
+ assert.equal(s.army.human_1,before.stock-recipe.fromCount);
+ assert.equal(s.army.human_quest_guard,before.guards+out.toCount);
  assert.equal(s.res.gold,before.gold-3000);assert.equal(s.hg29.shards.wild,before.wild-6);
  assert.equal(s.hg27.marks,before.marks-12);assert.equal(s.hg27.tower,before.tower-3);
  safeSave('organic guard');
  record('organic Guard conversion fully paid',{npcsFought:worldWins,towerWins,grindAfterTrial:grind});
  receipt.metrics={elapsedGameDays:+(gameSeconds/86400).toFixed(3),worldWins,towerWins,
-  goldEnd:Math.floor(s.res.gold),firstGuard:1,remainingWild:s.hg29.shards.wild,trainingJobs:trainJobs};
+  goldEnd:Math.floor(s.res.gold),firstGuard:out.toCount,remainingWild:s.hg29.shards.wild,trainingJobs:trainJobs};
  // Derived BUDGET lower bounds, NOT claims of observed organic play.
  const sovereign=E.HG30_RECIPES.sovereign;
  const star=E.HG31_GEAR.filter(g=>g.set==='star');

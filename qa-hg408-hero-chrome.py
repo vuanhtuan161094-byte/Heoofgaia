@@ -125,10 +125,31 @@ with sync_playwright() as browser_tool:
                       rare_kind in rare['quality'] and
                       rare['derived']==rare_kind and
                       rare['chance'][5:]==[10,10],rare)
-                check('Rarity card '+rare_kind+' has real SVG portrait, readable sum and aura',
-                      page.locator('.hg408-offer.hg45-tier-'+rare_kind).count()>=1 and
-                      page.locator('.hg408-offer.hg45-tier-'+rare_kind+' .hg45-portrait-art svg').count()>=1 and
-                      page.locator('.hg408-offer.hg45-tier-'+rare_kind+' .hg45-offer-buff').count()>=1)
+                # HG86 replaced the former procedural SVG with real WEBP art.
+                # Assert that the shipped asset DECODES and is actually visible;
+                # the old SVG-only selector falsely rejects genuine new artwork.
+                selector='.hg408-offer.hg45-tier-'+rare_kind
+                decoded=page.locator(selector+' .hg86-rendered-hero-img').first.evaluate(
+                    '(img) => img.decode().then(() => true, () => false)')
+                visual=page.evaluate("""selector => {
+                    const card=document.querySelector(selector);
+                    const art=card?.querySelector('.hg45-portrait-art');
+                    const img=art?.querySelector('img.hg86-rendered-hero-img');
+                    const aura=art?.querySelector('.hg45-portrait-aura');
+                    const buff=card?.querySelector('.hg45-offer-buff');
+                    const info=card?.querySelector('.hg45-offer-info');
+                    const rect=art?.getBoundingClientRect();
+                    return {card:!!card,realImage:!!img,
+                        naturalWidth:img?.naturalWidth||0,naturalHeight:img?.naturalHeight||0,
+                        visible:!!rect&&rect.width>10&&rect.height>10,
+                        aura:!!aura,buff:!!buff&&buff.textContent.trim().length>2,
+                        total:!!info&&/Σ\\s*[\\d.,]+/.test(info.textContent)};
+                }""",selector)
+                check('Rarity card '+rare_kind+' has decoded HG86 portrait, readable sum and aura',
+                      decoded and visual['card'] and visual['realImage'] and
+                      visual['naturalWidth']>0 and visual['naturalHeight']>0 and
+                      visual['visible'] and visual['aura'] and
+                      visual['buff'] and visual['total'],visual)
                 screenshot(page,'pc-1280x720-'+rare_kind+'-natural-tavern.png')
             # Fame is elevated only as a test fixture to allow recruiting a second hero.
             prepared=page.evaluate("""() => {
