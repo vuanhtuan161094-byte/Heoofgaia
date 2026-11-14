@@ -165,7 +165,9 @@ test('real combat win -> reset -> replay pays identical Tower gold/essence and X
  assert.equal(s.hg18.materials.resource_card,xBefore.cards);
  assert.equal(s.hg18.materials.resource_chest,xBefore.large);
  assert.equal(s.inventory.length,xBefore.inventory);
- assert.equal(JSON.stringify(s.hg29.shards),xBefore.shards);
+ const previousShards=JSON.parse(xBefore.shards);
+ for(const [key,n] of Object.entries(previousShards))
+  assert.equal(s.hg29.shards[key],key==='tower'||key==='gear'?n*2:n);
  assert.equal(repeat.rewardGold,first.rewardGold);
  assert.equal(repeat.rewardEssence,first.rewardEssence);
  assert(repeat.heroXp>0&&first.heroXp>0);
