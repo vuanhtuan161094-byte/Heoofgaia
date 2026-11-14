@@ -129,6 +129,25 @@
   }
   return res;
  }
+
+ // HG90: pick a genuine local, idle commander after city switch, arrival or
+ // receiving a new hero. Never teleport the selected hero from another city.
+ function activateLocal(s,preferredId=null){
+  ensure(s);if(s.march||s.battle||s.expedition||s.parallelMarches?.length)return null;
+  const ready=h=>h&&h.cityId===active(s)&&h.id!==s.castellan&&
+    role(s,h.id).status==='home';
+  const chosen=s.heroes.find(h=>h.id===preferredId&&ready(h))||
+    (ready(s.heroes.find(h=>h.id===s.activeHero))?
+      s.heroes.find(h=>h.id===s.activeHero):null)||
+    localHeroes(s).find(ready);
+  if(!chosen)return null;
+  if(s.activeHero!==chosen.id){
+   s.activeHero=chosen.id;
+   s.formation=plan(s,chosen.id).map(g=>({...g}));
+   const c=city(s,active(s));if(c?.local)c.local.formation=s.formation.map(g=>({...g}));
+  }
+  return chosen.id;
+ }
  function chooseLocal(s){
   const rows=localHeroes(s),available=rows.filter(h=>role(s,h.id).status==='home'&&h.id!==s.castellan);
   return available[0]||rows.find(h=>role(s,h.id).status!=='relocating')||null;
@@ -146,8 +165,10 @@
   if(Array.isArray(dest.local?.formation))dest.local.formation=[];
   const result=old.switchCity(s,id);
   const local=chooseLocal(s);
-  if(local)s.activeHero=local.id;
-  s.formation=local&&local.id!==s.castellan?plan(s,local.id,id):[];
+  // Do not select a busy Castellan, transfer or foreign commander by default.
+  const ready=local&&role(s,local.id).status==='home'&&local.id!==s.castellan;
+  if(ready)s.activeHero=local.id;
+  s.formation=ready?plan(s,local.id,id):[];
   if(city(s,id)?.local)city(s,id).local.formation=s.formation.map(g=>({...g}));
   return result;
  }
@@ -188,6 +209,18 @@
    if(trial.hg24.templates[key]?.heroId===id)delete trial.hg24.templates[key];
   if(trial.activeHero===id)trial.formation=[];
   trial.hg82.transfers.push(q);
+  // The previous active commander is now relocating. Immediately switch to
+  // another local commander if available, leaving the outgoing one in transit.
+  if(trial.activeHero===id){
+   const replacement=trial.heroes.find(other=>other.id!==id&&
+     other.cityId===fromCityId&&other.id!==trial.castellan&&
+     !trial.hg82.transfers.some(t=>t.heroId===other.id)&&
+     !E.heroAway(trial,other.id));
+   if(replacement){
+    trial.activeHero=replacement.id;
+    trial.formation=plan(trial,replacement.id).map(g=>({...g}));
+   }
+  }
   if(!strict(trial))throw Error('Điều tướng không đạt Save v07; chưa thay đổi dữ liệu');
   Object.assign(s,trial);
   E.note(s,h.name+' đang đi bộ từ '+cityLabel(s,fromCityId)+' đến '+cityLabel(s,toCityId)+
@@ -211,6 +244,7 @@
    }
    E.note(s,h.name+' đã đến '+cityLabel(s,q.toCityId)+'. Tướng chỉ có thể nhận quân tại thành này.');
   }
+  activateLocal(s);
   return r;
  }
  function quickDismiss(s,id){
@@ -281,6 +315,7 @@
   hg408DismissHero:dismiss,hg408DismissCheck:dismissCheck,
   hg81SkillUp:skillUp,hg81StripHero:strip,
   hg82Ensure:ensure,hg82Valid:valid,hg82HeroCity:home,hg82CityHeroes:localHeroes,
-  hg82ProposePlan:propose,hg82TransferHero:transfer,hg82QuickDismiss:quickDismiss,hg82Transfers:s=>ensure(s).hg82.transfers});
+  hg82ProposePlan:propose,hg82TransferHero:transfer,hg82QuickDismiss:quickDismiss,hg82Transfers:s=>ensure(s).hg82.transfers,
+  hg82ActivateLocal:activateLocal});
  root.HOG_HG82=Object.freeze({version:1,saveVersion:7,model:'hero ownership scoped to city; world SPD transfer ETA; no shared city garrisons'});
 })(typeof globalThis!=='undefined'?globalThis:this);
