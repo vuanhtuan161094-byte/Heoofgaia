@@ -820,3 +820,17 @@ body.hg39-world-map-mode #world-canvas:active{cursor:grabbing}
  .hg89-deity>button{font-size:10px;max-width:85px}
  .hg89-raid-roster{grid-template-columns:1fr}
 }
+
+/* HG89 original mythic faces — one rendered six-portrait WebP atlas. */
+.hg89-deity-avatar{background-color:#273750;background-repeat:no-repeat;
+ background-size:600% 100%;box-shadow:0 0 12px #bcb7ed5a,inset 0 0 0 1px #e7d9af70;
+ border:1px solid #d4b77c}
+.hg89-myth-main{position:relative;display:inline-block;overflow:hidden}
+.hg89-myth-portrait{position:absolute;inset:0;z-index:1;display:block;
+ background-repeat:no-repeat;background-size:600% 100%;
+ filter:saturate(1.04) contrast(1.05);pointer-events:none}
+.hg89-myth-main .hg45-portrait-aura,.hg89-myth-main .hg45-portrait-stars{
+ position:absolute;z-index:2;pointer-events:none}
+@media(prefers-reduced-motion:reduce){
+ .hg89-myth-main .hg45-portrait-aura,.hg89-myth-main .hg45-portrait-stars{animation:none!important}
+}
