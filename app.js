@@ -1357,7 +1357,7 @@ function hg408HeroesView(){
     ${button('hg81-strip',{id:h.id,mode:'gear'},'⤓ Tháo đồ nhanh',!available,'small secondary')}
     ${button('hg81-strip',{id:h.id,mode:'army'},'↙ Thu quân nhanh',!available,'small secondary')}
     ${button('hg81-strip',{id:h.id,mode:'all'},'🧹 Dọn để sa thải',!available,'small secondary')}
-    ${button('hg82-quick-dismiss',{id:h.id},'✕ Sa thải nhanh',state.heroes.length<=1||h.questSpecial&&h.rewardOrigin==='hero_task_20'||!!state.battle||!!state.march||!!state.expedition||E.heroAway(state,h.id),'small danger')}
+    ${button('hg82-quick-dismiss',{id:h.id},'✕ Sa thải nhanh',state.heroes.length<=1||h.questSpecial&&h.rewardOrigin==='hero_task_20'||!!h.mythicId||!!state.battle||!!state.march||!!state.expedition||E.heroAway(state,h.id),'small danger')}
     ${button('hg408-dismiss-review',{id:h.id},'📋 Xem điều kiện',false,'small secondary')}
    </div>`;
  const destinations=state.cities.filter(c=>c.id!==h.cityId);
