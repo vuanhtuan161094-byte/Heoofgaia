@@ -143,7 +143,7 @@ with sync_playwright() as browser_tool:
                         naturalWidth:img?.naturalWidth||0,naturalHeight:img?.naturalHeight||0,
                         visible:!!rect&&rect.width>10&&rect.height>10,
                         aura:!!aura,buff:!!buff&&buff.textContent.trim().length>2,
-                        total:!!info&&/Σ\\s*[\\d.,]+/.test(info.textContent)};
+                        total:!!info&&/Σ[ ]*[0-9.,]+/.test(info.textContent)};
                 }""",selector)
                 check('Rarity card '+rare_kind+' has decoded HG86 portrait, readable sum and aura',
                       decoded and visual['card'] and visual['realImage'] and
