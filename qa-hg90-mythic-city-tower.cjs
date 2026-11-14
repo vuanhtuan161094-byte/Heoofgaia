@@ -187,5 +187,16 @@ test('transferring selected hero from main selects a REAL alternative local comm
  assert.equal(save(s).activeHero,1);
  return {transferred:1,sourceCommander:2,destination:c.id};
 });
+test('assembled deity cannot be irreversibly dismissed in main or secondary city',()=>{
+ const s=fresh(),c=secondary(s);
+ s.fame=1000000;E.switchCity(s,c.id);s.hg18.materials.resource_chest=150;
+ const h=E.hg89Awaken(s,'yang_jian'),old=digest(s);
+ assert.equal(E.hg408DismissCheck(s,h.heroId).allowed,false);
+ assert.throws(()=>E.hg82QuickDismiss(s,h.heroId),/độc bản/);
+ assert.throws(()=>E.hg408DismissHero(s,h.heroId),/Thần Tướng/);
+ assert.equal(digest(s),old);
+ assert.equal(save(s).heroes.find(x=>x.id===h.heroId).mythicId,'yang_jian');
+ return {heroId:h.heroId,city:c.id,fragmentLoss:0};
+});
 console.log('HG90 '+passed+'/'+count+(passed===count?' PASS':' FAIL'));
 if(passed!==count)process.exitCode=1;
