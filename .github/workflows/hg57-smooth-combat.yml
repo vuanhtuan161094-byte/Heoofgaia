@@ -53,7 +53,8 @@ jobs:
           text=Path('Play-Heoofgaia-HG11.html').read_text(encoding='utf8')
           # Scripts are versioned modules; all 46 current source scripts must be inline.
           source=Path('index.html').read_text(encoding='utf8')
-          scripts=[line.split('"')[1] for line in source.splitlines() if '<script src="' in line]
+          import re
+          scripts=re.findall(r'<script[ ]+src="([^"]+[.]js)"></script>',source)
           assert len(scripts)>=41 and len(set(scripts))==len(scripts)
           assert text.count('<script>')==len(scripts), (len(scripts),text.count('<script>'))
           assert '<script src=' not in text
