@@ -145,14 +145,12 @@ function resetTower(s){
  trial.hg20.tower.floor=1;trial.hg20.tower.hg88.resetsUsed++;
  if(!E.strictSave(trial))throw Error('Không thể reset Tháp: Save v07 không hợp lệ');
  t.floor=1;t.hg88.resetsUsed++;
- E.note(s,'🔁 Reset Bí Cảnh từ tầng '+original+' về tầng 1; mốc cao nhất '+ledger.highest+
-  ' được giữ. Tầng đã qua chỉ thưởng ít vàng/tinh hoa; không nhận lại đồ, thẻ hoặc mảnh hiếm.');
+ E.note(s,'🔁 Reset Bí Cảnh từ tầng '+original+' về tầng 1; kỷ lục '+ledger.highest+
+  ' được giữ. Thắng lại sẽ nhận ĐỦ tài nguyên, EXP, mảnh và trang bị đúng mốc.');
  return {from:original,to:1,highest:ledger.highest,used:t.hg88.resetsUsed};
 }
 function awardTower(s,floor,report){
  const ledger=ensure(s);
- if(floor%5===0&&ledger.milestones.includes(floor))
-  return {small:0,large:0,items:[],duplicateBlocked:true};
  const m=s.hg18?.materials,large=floor>=100?(floor===100?100:floor===200?200:floor===500?500:floor>=1000?500:0):
   floor%25===0?25:floor%10===0?10:0;
  const small=floor%5===0&&!large?Math.max(5,Math.min(20,Math.floor(floor/5))):0;
@@ -168,9 +166,10 @@ function awardTower(s,floor,report){
   }
  }
  if(added.small||added.large||added.items.length)
-  E.note(s,'🏆 Tháp tầng '+floor+' đầu tiên: +'+added.small+' thẻ Anh Kiệt, +'+added.large+
+  E.note(s,'🏆 Tháp tầng '+floor+(report?.replay?' (lượt reset)':'')+': +'+added.small+' thẻ Anh Kiệt, +'+added.large+
    ' mảnh Thần Tướng'+(added.items.length?', và 1 Di vật Vương Miện':'')+'.');
- if(floor%5===0)ledger.milestones.push(floor);
+ // Achievement ledger is unique, but no longer blocks genuine replay loot.
+ if(floor%5===0&&!ledger.milestones.includes(floor))ledger.milestones.push(floor);
  report.heroCards=added;
  return added;
 }
