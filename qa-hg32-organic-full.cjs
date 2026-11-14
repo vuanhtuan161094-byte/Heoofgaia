@@ -271,8 +271,14 @@ try{
  const sovereignPreview=E.hg30Recipe(s,'sovereign');
  assert(sovereignPreview.canConvert,'HG32 Sovereign not organic-fundable: '+JSON.stringify({
   recipe:sovereignPreview,HG29:s.hg29.shards,HG27:s.hg27,Gold:s.res.gold}));
+ const beforeSovereigns=s.army.human_tower_sovereign||0;
  const out=E.hg30Convert(s,'sovereign');
- assert.equal(out.toUnit,'human_tower_sovereign');hg32.sovereignConverted=true;
+ assert.equal(out.toUnit,'human_tower_sovereign');
+ // HG85 improved the genuine paid reward to 4,000. Validate the actual
+ // authoritative recipe and unit delta rather than obsolete fixed count 1.
+ assert.equal(out.toCount,sovereignPreview.toCount);
+ assert.equal(s.army.human_tower_sovereign,beforeSovereigns+out.toCount);
+ hg32.sovereignConverted=true;
  const forge=E.hg31Catalogue(s).find(x=>x.id==='dragon_blade');
  assert(forge.canCraft,'HG32 Long Hồn Sword not organic-fundable: '+JSON.stringify({
   recipe:forge,HG29:s.hg29.shards,HG27:s.hg27,Gold:s.res.gold}));
@@ -317,7 +323,7 @@ try{
   damageBonus:setBonus.damageBonus,damageReduction:setBonus.damageReduction};
  let persisted=E.parseSave(E.serializeSave(s));
  assert.equal(persisted.hg30.stage,3);
- assert.equal(persisted.army.human_tower_sovereign,1);
+ assert.equal(persisted.army.human_tower_sovereign,beforeSovereigns+out.toCount);
  assert(persisted.inventory.some(x=>x.itemId==='dragon_blade'));
  assert.equal(E.hg18SetCounts(persisted,1).star,3);
  assert(E.combatModifiers(persisted,1).damageBonus>=.079);
