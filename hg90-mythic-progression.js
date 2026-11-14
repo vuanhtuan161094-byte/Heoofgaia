@@ -136,7 +136,10 @@ function status(s){
    active:activeBonds(s).some(b=>b.id===x.id)})),
   army:{...MYTH_ARMY[s.race],owned:s.army[MYTH_ARMY[s.race].id]||0,cost:100,receive:60,
    available:q.shards>=100&&validIdle&&(s.army[MYTH_ARMY[s.race].id]||0)<=1e9-60},
-  relics:DIVINE.map(r=>{const h=s.heroes.find(x=>x.mythicId===r.deityId),owned=q.forged.includes(r.id);
+  relics:DIVINE.map(r=>{const h=s.heroes.find(x=>x.mythicId===r.deityId),
+   // Protect against permanent softlock when a unique gear piece was
+   // salvaged/sold: reforge at FULL cost, but never duplicate owned items.
+   owned=s.inventory.some(item=>item.itemId===r.id);
    return {...r,heroId:h?.id||null,owned,available:!owned&&!!h&&validIdle&&
     fragments>=r.cost&&q.shards>=r.shards&&s.res.gold>=r.gold&&s.inventory.length<2000};})};
 }
@@ -165,7 +168,8 @@ function forge(s,id){
  t.hg18.materials.resource_chest-=spec.cost;t.hg90.shards-=spec.shards;
  E.spend(t,{gold:spec.gold});
  const item=E.addItem(t,id,'HG90 rèn Thần khí riêng '+spec.deityId+' bằng mảnh và vàng thật');
- t.hg90.forged.push(id);t.hg90.last={type:'relic',count:1};
+ if(!t.hg90.forged.includes(id))t.hg90.forged.push(id);
+ t.hg90.last={type:'relic',count:1};
  if(!strict(t))throw Error('Lỗi kiểm tra Thần khí v07; chưa trừ nguyên liệu');
  Object.assign(s,t);
  E.note(s,'✦ Rèn '+E.ITEMS[id].name+' #'+item.uid+' cho '+spec.deityId+'.');
