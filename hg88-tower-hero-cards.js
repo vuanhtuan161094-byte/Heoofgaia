@@ -169,7 +169,7 @@ function awardTower(s,floor,report){
  }
  if(added.small||added.large||added.items.length)
   E.note(s,'🏆 Tháp tầng '+floor+' đầu tiên: +'+added.small+' thẻ Anh Kiệt, +'+added.large+
-   ' thẻ Thần Tướng'+(added.items.length?', và 1 Di vật Vương Miện':'')+'.');
+   ' mảnh Thần Tướng'+(added.items.length?', và 1 Di vật Vương Miện':'')+'.');
  if(floor%5===0)ledger.milestones.push(floor);
  report.heroCards=added;
  return added;
