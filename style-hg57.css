@@ -761,3 +761,62 @@ body.hg39-world-map-mode #world-canvas:active{cursor:grabbing}
  .hg88-world-legend{gap:4px}
  .hg88-world-legend span{font-size:8px}
 }
+
+/* HG89 — earned Pantheon forge and real multi-commander field assault.
+ * Presentation-only; no HTML art substitutes for future rendered portraits.
+ */
+.hg89-pantheon{display:grid;gap:12px;margin:12px 0;border:1px solid #b8a0ed!important;
+ background:linear-gradient(148deg,#182c40,#25243f 60%,#302b4d)!important;
+ box-shadow:0 9px 28px #090b2199,inset 0 1px 0 #c5e7ff30}
+.hg89-pantheon header h2{margin:4px 0 7px;color:#f4d9ff;font-size:clamp(17px,2.2vw,22px)}
+.hg89-pantheon header p{line-height:1.5;color:#cfdaea;font-size:12px}
+.hg89-frag-balance{display:flex;gap:12px;align-items:center;flex-wrap:wrap;
+ padding:10px 12px;border:1px solid #e0be72a0;border-radius:10px;
+ color:#ffe8a5;background:linear-gradient(120deg,#29394d,#23394c,#3a2948);font-weight:800}
+.hg89-frag-balance strong{font-size:20px;color:#fff5d2;font-variant-numeric:tabular-nums}
+.hg89-frag-balance small{margin-left:auto;color:#c8dce8;font-weight:500}
+.hg89-deities{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:10px}
+.hg89-deity{display:flex;min-width:0;gap:10px;align-items:center;
+ padding:12px;border-radius:12px;border:1px solid #777aa8;
+ background:linear-gradient(128deg,#21354c,#243049 64%,#333050);
+ box-shadow:inset 0 1px 0 #d5d9ff28}
+.hg89-deity.owned{border-color:#e6cc77;background:linear-gradient(110deg,#2a3b3d,#373342);
+ box-shadow:inset 0 1px #fff3bb38,0 0 17px #e8ce6e23}
+.hg89-deity-avatar{flex:0 0 48px;height:56px;display:grid;place-items:center;
+ border:1px solid #b6a5e6;border-radius:10px;
+ background:radial-gradient(ellipse at 50% 40%,#647b9c,#272e58 68%,#20233d);
+ font-size:31px;filter:drop-shadow(0 1px 7px #c7b2ff66)}
+.hg89-deity-info{flex:1;min-width:0;display:grid;gap:4px}
+.hg89-deity-info>b{font-size:17px;letter-spacing:.02em;color:#fbe2bc;
+ text-shadow:0 0 7px #f3b5fb62}
+.hg89-deity-info>small{color:#c7d7e8;font-size:10px;line-height:1.4;overflow-wrap:anywhere}
+.hg89-deity-info>span{color:#cfc2ff;font-size:11px}
+.hg89-deity>button{flex:0 0 auto;max-width:104px;font-size:11px;white-space:normal;line-height:1.35}
+.hg89-frag-progress{height:5px;border-radius:4px;overflow:hidden;background:#121d35;border:1px solid #9b9fc35b}
+.hg89-frag-progress>i{height:100%;display:block;background:linear-gradient(90deg,#89f0db,#b5c9ff,#e7adfa);
+ box-shadow:0 0 8px #e9c1ff}
+.hg89-raid-panel{margin:11px 0 0;border:1px solid #8c9ad3;border-radius:11px;
+ padding:10px;background:linear-gradient(135deg,#172d42,#222740)}
+.hg89-raid-panel summary{cursor:pointer;font-size:13px;font-weight:800;color:#e2d1ff;line-height:1.3}
+.hg89-raid-panel>.hint{color:#d0dded;font-size:11px;line-height:1.5}
+.hg89-raid-roster{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:7px}
+.hg89-raid-hero{display:grid;gap:6px;min-width:0;border:1px solid #5b7894;border-radius:8px;
+ padding:8px;background:#12283ac7}
+.hg89-raid-hero>label{display:flex;gap:6px;align-items:center;color:#eed7f5;font-size:12px}
+.hg89-raid-hero>label input{accent-color:#9bcfd7;width:19px;height:19px}
+.hg89-raid-hero>small{font-size:10px;color:#b3c5d4;line-height:1.3}
+.hg89-raid-slots{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.hg89-raid-slots>label{min-width:0;font-size:10px;color:#c4d9ec}
+.hg89-raid-slots select{width:100%;min-width:0;max-width:100%;font-size:11px;
+ color:#e8f2ff;background:#22374e;border:1px solid #8193ab;border-radius:5px;
+ padding:7px 3px;min-height:36px}
+.hg89-raid-panel>.actions{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}
+.hg89-raid-panel>small{color:#a9c0d4;font-size:10px}
+@media(max-width:740px){
+ .hg89-deities{grid-template-columns:1fr}
+ .hg89-deity{padding:8px;gap:7px}
+ .hg89-deity-avatar{flex-basis:40px;height:48px;font-size:26px}
+ .hg89-deity-info>b{font-size:14px}
+ .hg89-deity>button{font-size:10px;max-width:85px}
+ .hg89-raid-roster{grid-template-columns:1fr}
+}
