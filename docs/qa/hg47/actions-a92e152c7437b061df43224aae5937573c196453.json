@@ -1,0 +1,27 @@
+{
+  "gate": "HG47 ten-slot exact-SHA",
+  "source_sha": "a92e152c7437b061df43224aae5937573c196453",
+  "workflow_run_id": 43549071198,
+  "workflow_url": "https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43549071198",
+  "run_attempt": 1,
+  "branch": "feature/hog1-research-to-playable-20261102",
+  "steps": {
+    "engine": "success",
+    "build": "cancelled",
+    "chromium": "skipped",
+    "evidence": "success",
+    "offline_html": "skipped"
+  },
+  "engine_pass": true,
+  "build_pass": false,
+  "chromium_pass": false,
+  "single_html_uploaded": false,
+  "artifact": {
+    "file": "Play-Heoofgaia-HG11.html",
+    "exists": true,
+    "size_bytes": 79293550,
+    "sha256": "f31d89b0453b0f2c8a7e317b38afc00b9f585bb93170a3669921ba65b70b8cbe"
+  },
+  "timestamp_utc": "2026-11-14T02:59:36.877180+00:00",
+  "status": "FAIL_OR_INCOMPLETE"
+}
