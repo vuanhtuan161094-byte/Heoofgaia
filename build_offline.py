@@ -83,6 +83,15 @@ for item in hg86['assets']:
     assert asset not in html,asset
 assert html.count('data-hg86-kind=')==16
 assert 'assets/generated/hg86/' not in html
+# HG89 original rendered deity faces, six thumbnails in one WebP atlas.
+# The visual index is stable and matches HG89_PANTHEON ordering.
+hg89_image='assets/generated/hg89/mythic-portrait-atlas.webp'
+hg89_needle=f'src="{hg89_image}"'
+assert html.count(hg89_needle)==1,(hg89_image,html.count(hg89_needle))
+hg89_payload=base64.b64encode((folder/hg89_image).read_bytes()).decode('ascii')
+html=html.replace(hg89_needle,f'src="data:image/webp;base64,{hg89_payload}"')
+assert hg89_image not in html
+assert html.count('data-hg89-kind="mythic-portraits"')==1
 for race in ['human','elf','orc','undead']:
     asset=f'assets/generated/hg11/cities/{race}-city-1176x560.png'
     needle=f'src="{asset}"'
