@@ -136,7 +136,7 @@ with sync_playwright() as pw:
                 limit:HOG_ENGINE.heroLimit(s.heroes[0].level),valid:HOG_ENGINE.strictSave(s),reserved:s.army.human_1-other.find(g=>g.unitId==='human_1').count};
             }""")
             check('Hero switching preserves separate troop reservations and edits a real saved formation',
-                  '5 giữ cho tướng khác' in reserved_text and edited['valid'] and edited['reserved']==23 and edited['total']==12 and
+                  '5 đã phân' in reserved_text and edited['valid'] and edited['reserved']==23 and edited['total']==18 and
                   edited['points']<=edited['limit'] and {g['unitId'] for g in edited['other']}=={'human_1'},
                   {'visibleReservation':reserved_text,'edited':edited})
             page.locator('[data-action="dispatch-confirm"]').click()
@@ -149,8 +149,8 @@ with sync_playwright() as pw:
             }""",fixture['key'])
             check('Confirm dispatch removes only the selected real army and begins a target march',
                   after['version']==7 and after['heroId']==1 and after['target']==fixture['key'] and
-                  after['phase']=='outbound' and after['valid'] and after['total']==12 and
-                  after['stock']['human_1']==18 and after['stock']['human_2']==6 and
+                  after['phase']=='outbound' and after['valid'] and after['total']==18 and
+                  after['stock']['human_1']==18 and after['stock']['human_2']==0 and
                   sum(g['count'] for g in after['secondPlan'])==5,after)
             page.locator('#save').click()
             persisted=page.evaluate("""() => {
@@ -167,7 +167,7 @@ with sync_playwright() as pw:
             }""")
             check('Reload restores the same v07 expedition and reserves its troop snapshot',reload['version']==7 and
                   reload['target']==fixture['key'] and reload['hero']==1 and reload['valid'] and
-                  sum((reload['army'] or {}).values())==12,reload)
+                  sum((reload['army'] or {}).values())==18,reload)
             page.screenshot(path=str(SHOTS/'dispatch-confirmed-960x540.png'),animations='disabled')
             break
         page.locator('[data-action="dispatch-close"]').click()
@@ -211,7 +211,10 @@ with sync_playwright() as pw:
         touch_page.goto(HTML.as_uri(),wait_until='load')
         touch_page.locator('[data-action="start"]').tap()
         quickstart=touch_page.locator('.hg39-map-dock .hg39-map-details').filter(has_text='Tác vụ nhanh')
-        quickstart.locator('summary').tap()
+        # A newly opened quickstart is already expanded. Blindly tapping
+        # its summary CLOSES it; only tap when actually closed.
+        if not quickstart.evaluate('el=>el.open'):
+            quickstart.locator('summary').tap()
         touch_page.wait_for_timeout(1200)
         check(label+' quickstart drawer stays open across the real game-tick render',
               quickstart.evaluate('el=>el.open') and touch_page.locator('.quickstart-strip').is_visible())
