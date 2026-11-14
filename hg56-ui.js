@@ -81,7 +81,7 @@
   const trailing=value.slice(value.indexOf(trimmed)+trimmed.length);
   let translated=dict.get(trimmed);
   if(translated===undefined){
-   const parts=/^([^\\p{L}\\p{N}]*)([\\s\\S]+)$/u.exec(trimmed);
+   const parts=/^([^\p{L}\p{N}]*)([\s\S]+)$/u.exec(trimmed);
    if(parts) {
     const word=parts[2].trim(),piece=dict.get(word);
     if(piece!==undefined)translated=parts[1]+piece;
