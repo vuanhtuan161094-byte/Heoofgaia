@@ -1,0 +1,27 @@
+{
+  "gate": "HG49 global spectrum UI/UX VFX exact-SHA",
+  "source_sha": "4a985193a4d8ab23a57131bc2a0c7794ccf174b6",
+  "workflow_run_id": 43550263649,
+  "workflow_url": "https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43550263649",
+  "run_attempt": 1,
+  "branch": "feature/hog1-research-to-playable-20261102",
+  "steps": {
+    "engine": "success",
+    "build": "success",
+    "chromium": "failure",
+    "evidence": "success",
+    "offline_html": "skipped"
+  },
+  "engine_pass": true,
+  "build_pass": true,
+  "chromium_pass": false,
+  "single_html_uploaded": false,
+  "artifact": {
+    "file": "Play-Heoofgaia-HG11.html",
+    "exists": true,
+    "size_bytes": 79299769,
+    "sha256": "d04b367eb29038fdd6044564958391f40793f029411e45a870b36bfe4c1b602b"
+  },
+  "timestamp_utc": "2026-11-14T03:15:03.367528+00:00",
+  "status": "FAIL_OR_INCOMPLETE"
+}
