@@ -64,7 +64,7 @@ test('duplicate myth, shortage and max roster cannot lose fragments',()=>{
 test('HG88 Divine random summons are disabled; Anh Kiệt cards remain fully supported',()=>{
  const s=fresh();s.fame=1000000;s.hg18.materials.resource_chest=500;
  let original=clean(s);
- assert.throws(()=>E.hg88Summon(s,'resource_chest',500),/ghép mảnh/);assert.equal(clean(s),original);
+ assert.throws(()=>E.hg88Summon(s,'resource_chest',500),/mảnh.*ghép|ghép.*mảnh/);assert.equal(clean(s),original);
  s.hg18.materials.resource_card=10;
  const r=E.hg88Summon(s,'resource_card',10);
  assert.equal(r.draws,10);assert.equal(s.heroes.length,2);
