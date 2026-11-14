@@ -13,7 +13,7 @@ const raw={make:E.make,parse:E.parseSave,serialize:E.serializeSave,strict:E.stri
 const RACES=['human','elf','orc','undead'],PACK=['copper_blade','iron_armor','ash_bow','traveler_cloak','quartz_ring','old_talisman'];
 const MATERIALS=Object.freeze({
  resource_card:{name:'Thẻ triệu hồi Anh Kiệt',icon:'🎴'},
- resource_chest:{name:'Thẻ triệu hồi Thần Tướng',icon:'✨'},
+ resource_chest:{name:'Mảnh Thần Tướng',icon:'🌟'},
  gear_pack:{name:'Rương trang bị phổ thông',icon:'🎒'},
  set_chest:{name:'Hòm bộ Vệ Binh',icon:'🛡'},
  enhance_stone:{name:'Đá cường hóa',icon:'💎'},
