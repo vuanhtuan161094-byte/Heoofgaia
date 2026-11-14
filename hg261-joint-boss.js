@@ -215,7 +215,7 @@ function dispatch(s){
 function manualJoint(s,target,requested){
  const tile=E.getTile(target);
  if(!tile||tile.kind!=='npc')throw Error('Hãy chọn quái thường, Elite hoặc Boss trên bản đồ');
- if(s.cleared?.includes(target))throw Error('Quái đã bị tiêu diệt; chọn mục tiêu khác');
+ // Repeated NPC hunts are canonical and permitted, unlike re-capturing a mine.
  if(s.hg26?.enabled)throw Error('Tắt tự săn Boss trước khi xuất chinh nhóm thủ công');
  if(s.battle||s.march||s.expedition||s.parallelMarches?.length||
   s.hg82?.transfers?.length)throw Error('Có đội đang hành quân/chiến đấu hoặc chuyển thành');
