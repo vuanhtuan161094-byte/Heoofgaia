@@ -924,3 +924,18 @@ body.hg39-world-map-mode #world-canvas:active{cursor:grabbing}
 .hg91-menu .hg91-credits p{font-size:11px;line-height:1.6}
 .hg91-menu .hg91-credits a{color:#9bdeee;text-decoration:underline}
 .hg91-menu .hg91-credits pre{white-space:pre-wrap;overflow-wrap:anywhere;font:10px/1.55 ui-monospace,monospace;background:#122135;border-radius:6px;padding:8px;color:#d8e3ed}
+
+/* HG91 P0: 667x375 short-landscape map should never extend 7px beyond
+ * the viewport. HG88's global 270px !important-like map minimum is larger
+ * than the real available height after the HUD and navigation.
+ * Preserve real map touch interactions and all right-dock controls. */
+@media(max-width:700px) and (max-height:500px) and (orientation:landscape){
+ body.hg39-world-map-mode #main>.map-frame{
+  min-height:0!important;height:auto!important;max-height:100%!important;
+  flex:1 1 0!important;overflow:hidden!important
+ }
+ body.hg39-world-map-mode #world-canvas{
+  min-height:0!important;height:100%!important;max-height:100%!important;
+  object-fit:contain
+ }
+}

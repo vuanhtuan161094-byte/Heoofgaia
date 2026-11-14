@@ -8,6 +8,7 @@ on:
       - 'engine.js'
       - 'hg82-city-heroes.js'
       - 'hg56-ui.js'
+      - 'style-hg57.css'
       - '.github/workflows/hg91-hg39-compat.yml'
   workflow_dispatch:
 permissions:

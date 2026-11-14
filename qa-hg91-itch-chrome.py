@@ -56,7 +56,7 @@ def run():
                 page.locator("#hg91-language").select_option("en")
                 check("English translation applies to actual intro",
                       "Found Your Kingdom" in page.locator('[data-action="start"]').inner_text() and
-                      "Quick Start Guide" in page.locator('#hg91-menu summary').inner_text())
+                      "Quick Start Guide" in page.locator('#hg91-menu > details:first-of-type > summary').inner_text())
                 shot(page,"intro-english-desktop.png")
                 page.locator("#hg91-settings-close").click()
                 page.locator('[data-action="start"]').click()
