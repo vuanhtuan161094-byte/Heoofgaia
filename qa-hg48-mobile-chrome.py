@@ -77,7 +77,7 @@ with sync_playwright() as pw:
             out.push({slot:card.dataset.hg46Slot,visible:a.top>=b.top-2&&
               a.bottom<=b.bottom+2&&a.left>=b.left-2&&a.right<=b.right+2,
               actionable:!!card.querySelector('button')||
-               card.textContent.includes('Chưa trang bị'),
+               card.textContent.includes('Chưa mặc'),
               top:Math.round(a.top),bottom:Math.round(a.bottom),
               panelTop:Math.round(b.top),panelBottom:Math.round(b.bottom)});
           }
