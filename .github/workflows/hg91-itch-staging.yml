@@ -44,6 +44,15 @@ jobs:
           python qa-hg91-itch-chrome.py
       - name: Package one HTML5 entry point inside a verified ZIP
         run: python tools/hg91_itch_pack.py
+      - name: Make store cover and screenshots from authentic Chromium captures
+        run: python tools/hg91_promo.py
+      - name: Stage authentic itch.io store imagery
+        uses: actions/upload-artifact@v4
+        if: success()
+        with:
+          name: HG91-itch-store-cover-screenshots
+          path: dist/itch/store-media/
+          retention-days: 30
       - name: Stage itch.io HTML5 ZIP, DO NOT publish
         uses: actions/upload-artifact@v4
         if: success()

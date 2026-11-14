@@ -918,3 +918,9 @@ body.hg39-world-map-mode #world-canvas:active{cursor:grabbing}
 .hg91-menu header h2{font-size:14px!important}.hg91-menu li{margin:3px 0}
 }
 @media(max-width:520px){.hg91-settings-trigger{width:27px;min-width:27px;flex-basis:27px;height:27px;font-size:15px}}
+
+/* HG91 release credits: complete MIT notice remains readable on mobile. */
+.hg91-menu .hg91-credits{border-top:1px solid #71879b66;padding-top:8px}
+.hg91-menu .hg91-credits p{font-size:11px;line-height:1.6}
+.hg91-menu .hg91-credits a{color:#9bdeee;text-decoration:underline}
+.hg91-menu .hg91-credits pre{white-space:pre-wrap;overflow-wrap:anywhere;font:10px/1.55 ui-monospace,monospace;background:#122135;border-radius:6px;padding:8px;color:#d8e3ed}
