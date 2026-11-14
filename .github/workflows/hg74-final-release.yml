@@ -77,7 +77,13 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           html=Path('Play-Heoofgaia-HG11.html').read_text(encoding='utf-8')
-          assert html.count('<script>')==41
+          # Keep release assertion synchronized with each real source module;
+          # 41 was the old count before HG81/HG82/HG88/HG89/HG90.
+          import re
+          original=Path('index.html').read_text(encoding='utf-8')
+          expected=re.findall(r'<script[ ]+src="([^"]+[.]js)"></script>',original)
+          assert len(expected)>=41 and len(set(expected))==len(expected)
+          assert html.count('<script>')==len(expected), (html.count('<script>'),len(expected))
           assert '<script src=' not in html
           assert 'HG73' in html and 'hg73Grade' in html
           assert 'hg21TowerEnter' in html
