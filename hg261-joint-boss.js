@@ -206,6 +206,40 @@ function dispatch(s){
  return {changed:true,type:'dispatched',heroId:lead.heroId,heroes:p.rows.length,
   stacks:exp.formation.length,units:q.departureUnits,apSpent:before-s.ap};
 }
+
+/* HG89: one-off cooperative expedition to a NORMAL NPC/Elite/Boss.
+ * Reuse HG261's actual per-hero six-stack tactical battle, real world march,
+ * real AP, troop casualties, owner-specific buffs, and single loot receipt.
+ * No new phantom army, no automatic instant victory and no cloned rewards.
+ */
+function manualJoint(s,target,requested){
+ const tile=E.getTile(target);
+ if(!tile||tile.kind!=='npc')throw Error('Hãy chọn quái thường, Elite hoặc Boss trên bản đồ');
+ if(s.cleared?.includes(target))throw Error('Quái đã bị tiêu diệt; chọn mục tiêu khác');
+ if(s.hg26?.enabled)throw Error('Tắt tự săn Boss trước khi xuất chinh nhóm thủ công');
+ if(s.battle||s.march||s.expedition||s.parallelMarches?.length||
+  s.hg82?.transfers?.length)throw Error('Có đội đang hành quân/chiến đấu hoặc chuyển thành');
+ const party=teamSelection(s,requested);
+ if(party.some(p=>s.heroes.find(h=>h.id===p.heroId)?.cityId!==(s.activeCityId||'main')))
+  throw Error('Các tướng xuất chinh phải đang ở cùng thành hiện tại');
+ const draft=E.clone(s),q=draft.hg26;
+ q.config.target=target;
+ q.config.heroId=party[0].heroId;
+ q.config.keepAP=0;
+ q.config.minUnits=1;
+ q.config.minCoverage=100;
+ q.config.team=party.map(p=>p.heroId);
+ q.joint={version:1,manual:true,team:party.map(p=>({heroId:p.heroId,
+  groups:copied(p.groups)})),lastVictoryShared:null};
+ q.phase='ready';
+ const receipt=dispatch(draft);
+ if(!E.strictSave(draft))throw Error('Đoàn liên minh không đạt Save v07; quân và AP chưa bị trừ');
+ for(const key of Object.keys(s))if(!Object.prototype.hasOwnProperty.call(draft,key))delete s[key];
+ Object.assign(s,draft);
+ E.note(s,'HG89: '+party.length+' tướng xuất chung tới '+tile.value+' · '+
+  receipt.stacks+' stack trong một trận, '+receipt.apSpent+' AP.');
+ return {...receipt,target,name:tile.value,manual:true};
+}
 function annotate(s){
  const b=s.battle,q=s.hg26;
  if(!b||!q?.joint||!s.expedition||b.hg21Tower||
@@ -234,9 +268,19 @@ function annotate(s){
 function tick(s,...args){
  const out=old.tick(s,...args);
  if(active(s)&&s.battle&&!s.battle.hg261Joint)annotate(s);
- if(active(s)&&!s.hg26.enabled&&!s.expedition&&!s.battle&&s.hg26.joint.towerBackup){
-  try{assignPlans(s,available(s,s.hg26.joint.team));restoreTower(s)}
-  catch(e){E.note(s,'HG26.1: cần phân quân lại trước khi khôi phục Bí Cảnh: '+e.message)}
+ if(active(s)&&!s.hg26.enabled&&!s.expedition&&!s.battle&&!s.march){
+  const j=s.hg26.joint;
+  try{
+   assignPlans(s,available(s,j.team));
+   if(j.towerBackup&&!restoreTower(s))throw Error('Chưa khôi phục được đội Tháp');
+   if(j.manual){
+    delete s.hg26.joint;
+    delete s.hg26.config.team;
+    s.hg26.config.target=null;s.hg26.config.heroId=null;
+    s.hg26.phase='halted';s.hg26.departureUnits=0;
+    E.note(s,'HG89: đoàn tướng đã về thành, quân còn sống đã hoàn trả cho từng chủ tướng.');
+   }
+  }catch(e){E.note(s,'HG26.1: cần phân quân lại trước khi khôi phục Bí Cảnh: '+e.message)}
  }
  return out;
 }
@@ -357,7 +401,8 @@ function status(s){
 }
 Object.assign(E,{make,parseSave:parse,serializeSave:serialize,strictSave:strict,valid:strict,
  tick,battleAct,startMarch:march,selectHero:select,heroAway,appoint,hg20HeroRole:protectedRole,
- hg20SetHeroPlan:setPlan,hg26Start:start,hg26Step:step,hg26Status:status,hg261Valid:valid});
+ hg20SetHeroPlan:setPlan,hg26Start:start,hg26Step:step,hg26Status:status,hg261Valid:valid,
+ hg89JointMarch:manualJoint});
 root.HOG_HG261=Object.freeze({version:1,heroesPerBoss:3,stacksPerHero:2,
  mode:'same-battle-real-casualties',saveVersion:7});
 })(typeof globalThis!=='undefined'?globalThis:this);
