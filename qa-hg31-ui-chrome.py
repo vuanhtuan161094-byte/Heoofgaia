@@ -29,7 +29,17 @@ with sync_playwright() as pw:
   page.locator(f'[data-action="tab"][data-tab="{tab}"]').first.click()
   if tab=='relics':
    check('HG31 renders six actual selectable item recipes',page.locator('.hg31-card').count()==6)
-   check('Item arts SVG are visible in six cards',page.locator('.hg31-card img.hg31-icon').count()==6)
+   # HG86 uses original encoded WEBP item renders. Verify image decoding,
+   # positive intrinsic dimensions and actual rendered box in all six recipes.
+   arts=page.locator('.hg31-card img.hg86-rendered-gear-img')
+   decoded=arts.evaluate_all("""async imgs => Promise.all(imgs.map(async img => {
+       try { await img.decode(); const r=img.getBoundingClientRect();
+         return img.naturalWidth>0 && img.naturalHeight>0 &&
+                r.width>10 && r.height>10;
+       } catch (_) { return false; }
+   }))""")
+   check('Six original HG86 item WEBP renders are decoded and visible',
+         len(decoded)==6 and all(decoded))
   if tab=='tasks':check('HG31 targeted Boss and Tower preview present',page.locator('.hg31-guide-row>div').count()==2)
   shot(page,f'{i:02d}-{tab}-newgame-1280x720.png')
  for tab in ['map','heroes','relics','tasks','tower']:

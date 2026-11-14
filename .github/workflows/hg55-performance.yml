@@ -18,6 +18,8 @@ on:
       - 'qa-hg47-10slot.cjs'
       - 'qa-hg47-ui-chrome.py'
       - 'qa-hg46-equipment-chrome.py'
+      - 'qa-hg31-ui-chrome.py'
+      - 'qa-hg409-pve-chrome.py'
       - 'qa-hg408-hero-chrome.py'
       - 'qa-hg48-mobile-chrome.py'
       - 'qa-hg49-spectrum-chrome.py'

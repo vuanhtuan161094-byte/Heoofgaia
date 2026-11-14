@@ -37,7 +37,14 @@ with sync_playwright() as pw:
   resource=page.locator('.hg409-material-card').filter(has_text=material_name)
   check(label+' authentic resource material card exists',resource.count()==1,material_name)
   resource.locator('details summary').click()
-  check(label+' card states exact gold/wood/ore quantities','+600' in resource.inner_text())
+  # HG88 repurposed this card for legitimate batch hero summons, not +600
+  # resource rewards. Confirm the LIVE material guide explains real quantities
+  # and a real summon action exists; never accept phantom loot wording.
+  guide=resource.inner_text()
+  summon=page.locator('[data-action="hg88-summon"][data-draws="1"]')
+  check(label+' resource card documents real 1-500 hero summon and actual action',
+        'Thẻ triệu hồi Anh Kiệt' in guide and '500' in guide and
+        'Phải còn ô tướng' in guide and summon.count()==1,guide[:280])
   shot(page,label+'-item-info.png')
   page.locator('[data-action="tab"][data-tab="tower"]').first.click()
   check(label+' Tower discloses real purple commander CS, buffs and extra loot',page.locator('.hg409-tower-reward').count()==1 and 'CS1' in page.locator('.hg409-tower-reward').inner_text())
