@@ -83,15 +83,15 @@ test('named myth hero actually gains offense and defense buffs in live combatMod
  }
  return {passives:6,method:'real combatModifiers'};
 });
-test('one-time milestone award mints fragments, not myth heroes or free random summons',()=>{
+test('owner-approved Tower replay gives full shards again but never free myth heroes',()=>{
  const s=fresh();const before=s.heroes.length;
  const q=E.hg88AwardTower(s,100,{floor:100});
  assert.equal(q.large,100);assert.equal(s.hg18.materials.resource_chest,100);
  assert.equal(s.heroes.length,before);
- const twice=E.hg88AwardTower(s,100,{floor:100});
- assert(twice.duplicateBlocked);assert.equal(s.hg18.materials.resource_chest,100);
- assert.equal(saved(s).hg18.materials.resource_chest,100);
- return {milestone:100,fragments:100,noFreeHero:true};
+ const twice=E.hg88AwardTower(s,100,{floor:100,replay:true});
+ assert.equal(twice.large,100);assert.equal(s.hg18.materials.resource_chest,200);
+ assert.equal(saved(s).hg18.materials.resource_chest,200);
+ return {milestone:100,fragments:200,noFreeHero:true};
 });
 test('real group expedition to ordinary monster spends AP once and creates per-owner stacks',()=>{
  const s=fresh();const base=E.clone(s.heroes[0]);
