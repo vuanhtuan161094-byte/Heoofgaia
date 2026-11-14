@@ -119,7 +119,10 @@ def run():
 try:
     run()
 except Exception as ex:
-    failed=str(ex)
+    import traceback
+    failed=repr(ex)
+    print("HG91_EXCEPTION_DETAIL",failed,flush=True)
+    traceback.print_exc()
 else:
     failed=None
 receipt={
