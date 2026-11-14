@@ -273,15 +273,13 @@ function reward(s,b,outcome){
  const won=outcome==='win',endurance=t.enduranceMode===true;
  const firstClear=floor>t.hg88.highest;
  const advance=won&&(endurance||t.claims<5);
- const claimed=advance&&firstClear;
- // Replay floors pay only modest gold/essence. Never re-mint the original
- // first-clear loot, Tower shards, Crown jackpots, cards or experience.
- const repeat=advance&&!firstClear;
- const gold=claimed?Math.min(1e12,2500+floor*900):
-  repeat?Math.floor(Math.min(1e12,2500+floor*900)*.20):0;
- const essence=claimed?Math.min(1e12,2+Math.floor(floor/4)):
-  repeat?Math.floor(Math.min(1e12,2+Math.floor(floor/4))*.20):0;
- const report={floor,outcome:won?'win':'lose',firstClear:claimed,replay:repeat,
+ // HG90 owner-approved reset rule: each legitimately won floor pays its
+ // FULL normal reward, even on replay after the daily reset. Never multiply
+ // an award by calling the same battle receipt twice; only real wins pay.
+ const claimed=advance,repeat=advance&&!firstClear;
+ const gold=claimed?Math.min(1e12,2500+floor*900):0;
+ const essence=claimed?Math.min(1e12,2+Math.floor(floor/4)):0;
+ const report={floor,outcome:won?'win':'lose',firstClear:claimed&&firstClear,replay:repeat,
   enemy:b.enemies[0]?.name||'Quái Bí Cảnh',
   teamPower:Math.min(Number.MAX_SAFE_INTEGER,Math.floor(E.hg20TowerPower(s).power)),
   enemyPower:E.hg20TowerStatus(s).enemyPower,rewardGold:gold,rewardEssence:essence,
@@ -292,10 +290,6 @@ function reward(s,b,outcome){
   t.victories++;
   if(advance)t.floor++;
   if(advance&&!endurance)t.claims++;
-  if(repeat){
-   E.add(s,{gold});
-   t.essence=Math.min(1e12,t.essence+essence);
-  }
   if(claimed){
    t.hg88.highest=Math.max(t.hg88.highest,floor);
    E.add(s,{gold,wood:Math.min(50000,250+floor*70),ore:Math.min(50000,250+floor*70),
@@ -312,7 +306,7 @@ function reward(s,b,outcome){
      E.note(s,'Tháp tầng '+floor+': mở mục tiêu nâng '+unit.name+' qua nhiệm vụ HG30 (không cấp quân miễn phí).');
     }
    }
-   // First-clear floor milestones, not each subsequent reset.
+   // Full Tower materials and gear on every real reset victory.
    E.hg88AwardTower?.(s,floor,report);
    if(floor%25===0){
     const items=['private_riftblade','private_riftplate','private_riftseal'],id=items[Math.floor(floor/25-1)%items.length];
@@ -328,8 +322,8 @@ function reward(s,b,outcome){
   // Use canonical HG08 EXP progression (Lv100 ceiling, Hero Tower bonus).
   // Only heroes actually deployed in this combat receive EXP.
   if(claimed){
-   // HG81: standard (up to five rewarded floors) and endurance victories
-   // both earn genuine EXP. Replays after reward cap cannot farm XP.
+   // Each real Tower victory earns full XP, including repeat clears after
+   // daily reset. Failed runs and unpaid floors never mint experience.
    const baseXp=Math.min(75000,Math.round(700+100*floor));
    report.heroXpByHero=[...new Set(b.allies.map(u=>u.heroId))].map(id=>{
     const hero=s.heroes.find(h=>h.id===id);
@@ -344,9 +338,8 @@ function reward(s,b,outcome){
  }
  t.last=report;
  E.note(s,'Bí Cảnh tầng '+floor+': '+(won?'thắng sau '+(b.turn-1)+' lượt':'thua hoặc quá 70 lượt')+
-  (claimed?', nhận thưởng tầng đầu tiên +'+essence+' tinh hoa':
-   repeat?' · tầng chơi lại: +'+essence+' tinh hoa, không lặp thẻ/đồ':
-   endurance?' · mất 1 mạng Bí Cảnh':' · không trừ lượt thưởng')+'.');
+  (claimed?(repeat?', nhận ĐỦ thưởng tầng chơi lại +':', nhận thưởng tầng đầu tiên +')+
+    essence+' tinh hoa':endurance?' · mất 1 mạng Bí Cảnh':' · không trừ lượt thưởng')+'.');
  return {...report,nextFloor:t.floor,dailyRewardsLeft:Math.max(0,5-t.claims),type:outcome};
 }
 function battleAct(s,action,opts){
