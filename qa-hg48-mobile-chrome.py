@@ -77,14 +77,22 @@ with sync_playwright() as pw:
             out.push({slot:card.dataset.hg46Slot,visible:a.top>=b.top-2&&
               a.bottom<=b.bottom+2&&a.left>=b.left-2&&a.right<=b.right+2,
               actionable:!!card.querySelector('button')||
-               card.textContent.includes('Chưa trang bị')});
+               card.textContent.includes('Chưa trang bị'),
+              top:Math.round(a.top),bottom:Math.round(a.bottom),
+              panelTop:Math.round(b.top),panelBottom:Math.round(b.bottom)});
           }
           const scrollable=panel.scrollHeight>panel.clientHeight+2;
           panel.scrollTop=0;
+          const profile=panel.closest('.hg408-profile'),
+            body=panel.closest('.game-window-body');
           return {visited:out,scrollable,scrollHeight:panel.scrollHeight,
-            clientHeight:panel.clientHeight};
+            clientHeight:panel.clientHeight,panelRect:[rect(panel).top,rect(panel).bottom],
+            profileRect:profile?[rect(profile).top,rect(profile).bottom]:null,
+            bodyRect:body?[rect(body).top,rect(body).bottom]:null,
+            panelOverflow:getComputedStyle(panel).overflowY};
         }""")
         if mobile and h<=310:
+            print('HG48_MOBILE_LAYOUT_DIAG',name,json.dumps({'gear':g,'reach':reach},ensure_ascii=False),flush=True)
             check(name+' all ten real gear cards individually reachable by touch scroll',
                 g['visible']>=4 and reach['scrollable'] and
                 len(reach['visited'])==10 and
