@@ -34,7 +34,8 @@ function valid(s){
  integer(q.last.lossPercent,0,100)&&integer(q.last.turns,0,100)&&
  (q.last.reportId===undefined||typeof q.last.reportId==='string') )))return false;
  if(q.enabled&&(!c.target||!c.heroId||q.phase==='halted'))return false;
- if(c.target&&(!E.getTile(c.target)||E.getTile(c.target).kind!=='npc'||E.getTile(c.target).eliteTier<11))return false;
+ if(c.target&&(!E.getTile(c.target)||E.getTile(c.target).kind!=='npc'||
+  (E.getTile(c.target).eliteTier<11&&!(q.joint?.manual===true&&!q.enabled))))return false;
  if(c.heroId&&!s.heroes.some(h=>h.id===c.heroId))return false;
  if(q.runs>c.maxRuns)return false;
  return true;
