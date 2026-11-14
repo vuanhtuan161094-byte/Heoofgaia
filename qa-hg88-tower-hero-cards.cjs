@@ -101,7 +101,7 @@ test('one Tower reset per day keeps high-water, essence, roster, inventory and c
  assert.equal(old.hg20.tower.floor,2);
  return {highest:40,resetsUsed:1,save:old.version};
 });
-test('first-clear milestones 100 200 500 issue real cards and Crown relics exactly once',()=>{
+test('milestones 100 200 500 award full shards and Crown relics on every real paid clear',()=>{
  const s=fresh(),before=s.inventory.length,proof=[];
  for(const floor of [10,25,100,200,500]){
   const report={floor};
@@ -113,15 +113,21 @@ test('first-clear milestones 100 200 500 issue real cards and Crown relics exact
    assert.equal(q.items.length,1);
    assert(E.ITEMS[s.inventory.find(x=>x.uid===q.items[0].uid)?.itemId].hg83);
   }
-  const frozen=JSON.stringify({inventory:s.inventory,materials:s.hg18.materials,milestones:s.hg88.milestones});
-  const again=E.hg88AwardTower(s,floor,{floor});
-  assert(again.duplicateBlocked);
-  assert.equal(JSON.stringify({inventory:s.inventory,materials:s.hg18.materials,milestones:s.hg88.milestones}),frozen);
+  const beforeCards=s.hg18.materials.resource_chest,
+   beforeSmall=s.hg18.materials.resource_card,beforeInventory=s.inventory.length,
+   achieved=s.hg88.milestones.length;
+  const again=E.hg88AwardTower(s,floor,{floor,replay:true});
+  assert.equal(again.large,q.large);
+  assert.equal(again.small,q.small);
+  assert.equal(s.hg18.materials.resource_chest,beforeCards+q.large);
+  assert.equal(s.hg18.materials.resource_card,beforeSmall+q.small);
+  assert.equal(s.inventory.length,beforeInventory+q.items.length);
+  assert.equal(s.hg88.milestones.length,achieved);
   proof.push({floor,large:q.large,small:q.small,item:q.items.length});
  }
- assert.equal(s.inventory.length,before+3);
+ assert.equal(s.inventory.length,before+6);
  assert.equal(save(s).hg88.milestones.length,5);
- return {proof,cards:s.hg18.materials.resource_chest,inventory:3};
+ return {proof,cards:s.hg18.materials.resource_chest,inventory:6};
 });
 test('reset ledger rejects invalid fields and no interrupted battle can reset',()=>{
  const s=fresh();s.hg20.tower.floor=2;s.hg20.tower.hg88.highest=1;
@@ -135,7 +141,7 @@ test('reset ledger rejects invalid fields and no interrupted battle can reset',(
  assert.equal(team.hg20.tower.floor,floor);
  return {blocked:true,version:team.version};
 });
-test('real combat win -> reset -> replay never reclaims first-clear shards, gear, cards or XP',()=>{
+test('real combat win -> reset -> replay pays identical Tower gold/essence and XP, no fake battle',()=>{
  const s=fresh();
  // QA ONLY: strengthen the real starter garrison from 16 to 61 so a
  // genuine 3x2 Tower battle settles without bypassing the battle engine.
@@ -154,17 +160,20 @@ test('real combat win -> reset -> replay never reclaims first-clear shards, gear
   exp:s.heroes.find(h=>h.id===1).xp,essence:s.hg20.tower.essence};
  E.hg88ResetTower(s);
  const repeat=win();
- assert.equal(repeat.claimed,false);assert.equal(repeat.replay,true);
+ assert.equal(repeat.claimed,true);assert.equal(repeat.replay,true);
  assert.equal(s.hg20.tower.floor,2);assert.equal(s.hg20.tower.hg88.highest,1);
  assert.equal(s.hg18.materials.resource_card,xBefore.cards);
  assert.equal(s.hg18.materials.resource_chest,xBefore.large);
  assert.equal(s.inventory.length,xBefore.inventory);
  assert.equal(JSON.stringify(s.hg29.shards),xBefore.shards);
- assert.equal(s.heroes.find(h=>h.id===1).xp,xBefore.exp);
- assert(s.hg20.tower.essence>=xBefore.essence);
+ assert.equal(repeat.rewardGold,first.rewardGold);
+ assert.equal(repeat.rewardEssence,first.rewardEssence);
+ assert(repeat.heroXp>0&&first.heroXp>0);
+ assert.equal(repeat.heroXp,first.heroXp);
+ assert.equal(s.hg20.tower.essence,xBefore.essence+repeat.rewardEssence);
  assert(save(s).version===7);
  return {firstClaimed:first.claimed,replayClaimed:repeat.claimed,
-  replayEssence:repeat.rewardEssence,cardsUnchanged:true,gearUnchanged:true};
+  replayEssence:repeat.rewardEssence,fullRewards:true,noFakeReports:true};
 });
 console.log('HG88 '+passed+'/9 '+(process.exitCode?'FAIL':'PASS'));
 if(passed!==9)process.exitCode=1;
