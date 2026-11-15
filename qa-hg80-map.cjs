@@ -75,7 +75,10 @@ check('HG92 deterministic farm sites preserve all sourced locations and Save v07
  assert(E.NPC_CAMPS_2009.length>=120,'historical NPC list altered');
  assert.equal(E.TREASURE_CAMPS_2009.length,76);
  assert.equal(E.WORLD_BUILDINGS.length,10);
- assert.equal(E.TILES.filter(t=>t.eliteTier>=11).length,4);
+ // HG18/HG50 add more Boss sites beyond the four original modeled elites.
+ assert(E.TILES.filter(t=>t.eliteTier>=11).length>=4,'canonical Boss sites disappeared');
+ for(const name of ['Azrael','Cyclop Tyrant','Fiery Giant','Earth Bear'])
+  assert(E.TILES.some(t=>t.value===name&&t.eliteTier>=11),'missing modeled Boss '+name);
  const s=E.make('human',1000);assert(E.strictSave(s));
  return {farmTiles:farms.length,npc:farms.filter(t=>t.kind==='npc').length,
  mine:farms.filter(t=>t.kind==='mine').length,saveVersion:s.version};
