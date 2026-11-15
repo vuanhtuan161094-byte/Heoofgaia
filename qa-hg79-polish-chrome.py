@@ -51,7 +51,12 @@ with sync_playwright() as pw:
             const bounds=P.hg79WorldGridBounds(E,scale,
               canvas.width/2-camera.centerX*scale,
               canvas.height/2-camera.centerY*scale,canvas.width,canvas.height);
+            // HG92: mapHit must target a real POI, not arbitrary scenery
+            // in the center of the camera viewport.
+            const savedCamera={...camera},farm=E.getTile('4,3');
+            camera.centerX=farm.x+.5;camera.centerY=farm.y+.42;
             const tap=P.mapHit(canvas,canvas.width/2,canvas.height/2,E);
+            Object.assign(camera,savedCamera);
             return {v:A.getState().version,valid:E.strictSave(A.getState()),
               css:{w:r.width,h:r.height},backing:{w:canvas.width,h:canvas.height},
               bounds,selected:tap?.key,zoom:camera.zoom,
@@ -60,7 +65,7 @@ with sync_playwright() as pw:
         }""")
         check(label+' canonical Save v07 and square world visible',
             world['valid'] and world['v']==7 and world['gridCanvas'] and
-            world['css']['w']>190 and world['css']['h']>115 and world['selected'] is not None,world)
+            world['css']['w']>190 and world['css']['h']>115 and world['selected']=='4,3',world)
         check(label+' phone map remains same CSS-size low-memory buffer',
             abs(world['css']['w']-world['backing']['w'])<=3 and
             abs(world['css']['h']-world['backing']['h'])<=3)
