@@ -939,3 +939,14 @@ body.hg39-world-map-mode #world-canvas:active{cursor:grabbing}
   object-fit:contain
  }
 }
+
+/* HG92: clickable world farms use native buttons and the existing map dock. */
+.hg92-farm-directory{padding:10px 8px;margin:0 0 13px;border:1px solid #76b5a26a;
+ background:linear-gradient(145deg,#1b3d3cdb,#172d36e8);border-radius:9px}
+.hg92-farm-directory>.eyebrow{color:#c7f1d2;font-weight:800}
+.hg92-farm-directory p{margin:6px 0 9px}
+.hg92-farm-filters{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:9px}
+.hg92-farm-filters button{min-height:39px;min-width:72px}
+.hg92-farm-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(178px,1fr));gap:5px}
+.hg92-farm-list button{text-align:left;min-height:40px;white-space:normal}
+@media(max-width:740px){.hg92-farm-list{grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}.hg92-farm-directory{padding:8px 6px}}

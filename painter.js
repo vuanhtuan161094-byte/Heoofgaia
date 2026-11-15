@@ -185,8 +185,10 @@ function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=
   const terrain=hg80MiniTerrain(E,m.w-2*pad,m.h-2*pad);
   if(terrain)c.drawImage(terrain,m.x+pad,m.y+pad);
  for(const t of E.TILES){if(t.kind==='empty')continue;
-  const owned=hg80CityAt(s,t.key),ai=E.aiCityAt?.(s,t.key);c.fillStyle=t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):ai?'#e37a63':'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
-  c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(3,tw*.72),Math.max(3,th*.72))}
+  const owned=hg80CityAt(s,t.key),ai=E.aiCityAt?.(s,t.key);
+  c.fillStyle=t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):ai?'#e37a63':'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
+  const dot=t.source==='MODELED_HG92_FARM'?1.5:2.8;
+  c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(dot,tw*.72),Math.max(dot,th*.72))}
  if(selected){const t=E.getTile(selected);if(t){c.strokeStyle='#fff';c.lineWidth=2;c.strokeRect(m.x+pad+t.x*tw-1,m.y+pad+t.y*th-1,tw+2,th+2)}}
  const view=mapProjection(canvas);const vw=canvas.width/view.scale,vh=canvas.height/view.scale;
  c.strokeStyle='#f6dfb7';c.lineWidth=1.2;c.strokeRect(m.x+pad+clamp(M.centerX-vw/2,0,E.WIDTH)*tw,m.y+pad+clamp(M.centerY-vh/2,0,E.HEIGHT)*th,Math.min(vw,E.WIDTH)*tw,Math.min(vh,E.HEIGHT)*th);
@@ -276,16 +278,27 @@ function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
   const r=random(t.x,t.y,3);if(t.terrain==='water'){
    for(let i=0;i<3;i++)line(c,x+q*(.15+i*.22),y+q*(.15+random(t.x+i,t.y)*.58),x+q*(.36+i*.2),y+q*(.14+random(t.x+i,t.y)*.58),1.4,'#a1ddc63d');
   }else if(t.terrain==='bridge'){c.fillStyle='#b8a67a';c.fillRect(x+3,y+q*.22,q-6,q*.57);for(let d=0;d<5;d++)line(c,x+5+d*(q-10)/4,y+q*.22,x+5+d*(q-10)/4,y+q*.79,1.4,'#685a41')}
-  else if(t.terrain==='forest')for(let j=0;j<3;j++)tree(c,x+q*(.16+random(t.x+j,t.y)*.68),y+q*(.22+random(t.x,t.y+j)*.62),q/92*(.76+random(j,t.y)*.3),r>.58?'pine':'normal');
-  else if(t.terrain==='hill'){rock(c,x+q*.46,y+q*.65,q/108);if(r>.5)rock(c,x+q*.72,y+q*.41,q/168)}
-  else {if(r>.72)tree(c,x+q*.68,y+q*.63,q/94);for(let j=0;j<6;j++)circle(c,x+q*random(t.x,j,t.y),y+q*random(j,t.y,t.x),1,'#8da96a8a')}
+  // Flat terrain is not a button: only functional locations have silhouettes.
+  else if(t.terrain==='forest'){
+   c.fillStyle='#244b3b5a';c.beginPath();c.ellipse(x+q*.43,y+q*.48,q*.39,q*.27,r-.5,0,TAU);c.fill();
+   c.strokeStyle='#a0c49b45';c.lineWidth=Math.max(1,q*.014);
+   c.beginPath();c.moveTo(x+q*.18,y+q*.62);c.quadraticCurveTo(x+q*.49,y+q*.25,x+q*.77,y+q*.58);c.stroke();
+  }else if(t.terrain==='hill'){
+   c.strokeStyle='#d1cfad63';c.lineWidth=Math.max(1,q*.016);
+   for(let k=0;k<2;k++){c.beginPath();c.moveTo(x+q*.14,y+q*(.67+k*.1));
+    c.quadraticCurveTo(x+q*.46,y+q*(.22+k*.1),x+q*.86,y+q*(.62+k*.1));c.stroke();}
+  }else{
+   c.fillStyle='#bed58a66';for(let j=0;j<4;j++)
+    c.fillRect(x+q*random(t.x,j,t.y),y+q*random(j,t.y,t.x),Math.max(1,q*.024),Math.max(1,q*.024));
+  }
  }
  // original road network leads from the capital to landmark targets
  c.save();c.strokeStyle='#aa926372';c.lineWidth=q*.13;c.lineCap='round';c.lineJoin='round';c.beginPath();[[3.5,4.5],[5.4,4.7],[7.6,4.4],[10.4,5.7],[14.3,7.1],[17.8,7.5],[20.1,8.6],[23.8,11]].forEach(([x,y],i)=>i?c.lineTo(x*q,y*q):c.moveTo(x*q,y*q));c.stroke();c.restore();
  hg79WorldGrid(c,E,q,ox,oy,w,h,'lines',selected);
  const creatureAtlas=typeof document!=='undefined'?document.getElementById('hg28-world-creatures'):null;
  for(const t of visibleTiles){if(t.kind==='empty')continue;const x=(t.x+.5)*q,y=(t.y+.54)*q;if(!inside(x+ox,y+oy))continue;
-  let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):s.cleared.includes(t.key));
+  // NPCs remain visible after victory, because they are repeatable hunts.
+  let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):t.kind!=='npc'&&s.cleared.includes(t.key));
   if(t.kind==='castle'){
    const owned=hg80CityAt(s,t.key),ai=E.aiCityAt?.(s,t.key);
    const race=owned?.race||t.race||s.race||'human';
@@ -307,6 +320,16 @@ function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
    const kind=t.structureId?.startsWith('watermill')?'watermill':t.structureId==='windmill'?'windmill':t.structureId;
    const visitSprite=kind==='defense-tower'?'tower-watch':kind==='windmill'?'structure-windmill':kind==='watermill'?'structure-watermill':null;
    if(!drawMapLandmark(c,visitSprite,x,y,q,1.03))worldBuilding(c,x,y,q/100,kind,!!E.hasVisitedWorldBuilding?.(s,t.key));
+  }
+  // Colored ground halos communicate that these are REAL clickable locations.
+  const ring=t.kind==='npc'?'#f6b86d':t.kind==='mine'?'#88e6d3':
+   t.kind==='castle'?'#f3e1a1':t.kind==='treasure'?'#dcaaf4':'#b5d8ff';
+  c.save();c.strokeStyle=ring;c.lineWidth=Math.max(1.5,q*.042);c.globalAlpha=.83;
+  c.beginPath();c.ellipse(x,y+q*.27,q*.33,q*.125,0,0,TAU);c.stroke();c.restore();
+  if(t.source==='MODELED_HG92_FARM'&&q>=36){
+   const title=t.kind==='mine'?'MỎ':'FARM '+t.level+'★';
+   c.save();rounded(c,x-q*.37,y+q*.35,q*.74,Math.min(16,q*.24),5,'#102830e8',ring);
+   text(c,title,x,y+q*.35+Math.min(12,q*.17),Math.max(8,Math.min(10,q*.15)),'#fff4dc','center','800');c.restore();
   }
   if(done){c.save();c.globalAlpha=.88;circle(c,x+q*.3,y-q*.23,q*.13,'#d7bd70');c.restore()}
   if(selected===t.key){c.strokeStyle='#f3d7a1';c.lineWidth=3;c.strokeRect(t.x*q+2,t.y*q+2,q-4,q-4);}
@@ -334,7 +357,24 @@ function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
  }
  drawMiniMap(c,canvas,E,s,selected);
 }
-function mapHit(canvas,x,y,E){const {scale,offX,offY}=mapProjection(canvas);const tx=Math.floor((x-offX)/scale),ty=Math.floor((y-offY)/scale);return E.getTile(`${tx},${ty}`)||null}
+function mapHit(canvas,x,y,E){
+ const {scale:q,offX:ox,offY:oy}=mapProjection(canvas),wx=(x-ox)/q,wy=(y-oy)/q;
+ const tx=Math.floor(wx),ty=Math.floor(wy);
+ let nearest=null,best=Infinity;
+ // The painted sprite extends above its grid square; allow neighboring
+ // target footprints and a larger phone hit zone. Ignore empty terrain.
+ for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+  const t=E.getTile((tx+dx)+','+(ty+dy));
+  if(!t||t.kind==='empty')continue;
+  if(t.treasureCamp&&t.kind!=='treasure'){
+   const ex=wx-(t.x+.77),ey=wy-(t.y+.73),d=ex*ex+ey*ey;
+   if(d<.19*.19&&d<best){nearest={...t,hitTreasure:true};best=d}
+  }
+  const px=wx-(t.x+.5),py=wy-(t.y+.42),d=px*px+py*py;
+  if(d<.69*.69&&d<best){nearest=t;best=d}
+ }
+ return nearest;
+}
 function panMap(dx,dy,width=100,height=100){M.centerX=clamp(M.centerX-dx,0,width-1);M.centerY=clamp(M.centerY-dy,0,height-1)}
 function zoomMap(v){M.zoom=clamp(M.zoom*v,.65,2.05)}
 const CITY_SITES=[['hall',.51,.40],['barracks',.20,.62],['heroTower',.77,.23],['tavern',.40,.75],['warehouse',.77,.59],['magicTower',.17,.23],['arena',.63,.68],['market',.50,.87],['bazaar',.93,.44],['embassy',.35,.35],['stables',.09,.49],['forge',.92,.74]];

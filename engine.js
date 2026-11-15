@@ -257,6 +257,27 @@ function mapTiles(){
   t.kind='npc';t.level=star;t.value=name;t.source='MODELED_HG18_BOSS';t.eliteTier=star===9?11:12;t.terrain='plain';eliteCount++;
  }
  if(eliteCount!==4)throw Error('Missing HG18 bosses');
+ // HG92: deterministic playable sites on otherwise empty terrain. Preserve
+ // original city, Boss, sourced NPC/treasure and world-building coordinates.
+ // Combat and resource rewards reuse the existing march/battle/mine authority.
+ const names={forest:['Bầy sói rừng','Thú hoang'],hill:['Thổ phỉ sơn trại','Vệ binh hoang dã'],
+  plain:['Đạo tặc đồng hoang','Lũ yêu tinh']};
+ const resources=['wood','ore','gold','crystal','sulfur'];
+ for(let y=3;y<HEIGHT-2;y+=5){
+  const offset=(Math.floor(y/5)%2)*2;
+  for(let x=4+offset;x<WIDTH-2;x+=5){
+   const t=at(x,y);
+   if(t.kind!=='empty'||t.treasureCamp||t.terrain==='water'||t.terrain==='bridge')continue;
+   const biome=t.terrain,seed=x*17+y*29,d=Math.abs(x-3)+Math.abs(y-4),
+    mine=seed%7===0;
+   t.kind=mine?'mine':'npc';
+   t.level=mine?Math.min(3,1+Math.floor(d/55)):Math.min(8,1+Math.floor(d/19));
+   t.value=mine?resources[(x+3*y)%resources.length]:
+    (names[biome]||names.plain)[seed%2];
+   t.farmType=mine?'resource':'combat';
+   t.source='MODELED_HG92_FARM';
+  }
+ }
  return tiles;
 }
 const TILES=mapTiles(), TILE_LOOKUP=new Map(TILES.map(t=>[t.key,t]));

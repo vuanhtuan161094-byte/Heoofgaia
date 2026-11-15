@@ -66,5 +66,34 @@ check('Combat and map logic untouched, proper Save v07 serial roundtrip',()=>{
  assert(E.strictSave(round));assert.equal(round.version,7);
  return {version:7,tactical:'+ class-based; SPD is world-only',runtimeAuthority:'unchanged'};
 });
-console.log('HG80 SUMMARY '+passed+'/4');
-if(passed!==4)process.exitCode=1;
+check('HG92 deterministic farm sites preserve all sourced locations and Save v07',()=>{
+ const farms=E.TILES.filter(t=>t.source==='MODELED_HG92_FARM');
+ assert(farms.length>=200,'world still too empty');
+ assert(farms.some(t=>t.kind==='npc'&&t.level===1&&t.x<15&&t.y<16),'beginner farm missing');
+ assert(farms.some(t=>t.kind==='mine'),'no resource farm');
+ assert(farms.every(t=>(t.kind==='npc'||t.kind==='mine')&&!t.treasureCamp&&t.terrain!=='water'&&t.terrain!=='bridge'));
+ assert(E.NPC_CAMPS_2009.length>=120,'historical NPC list altered');
+ assert.equal(E.TREASURE_CAMPS_2009.length,76);
+ assert.equal(E.WORLD_BUILDINGS.length,10);
+ assert.equal(E.TILES.filter(t=>t.eliteTier>=11).length,4);
+ const s=E.make('human',1000);assert(E.strictSave(s));
+ return {farmTiles:farms.length,npc:farms.filter(t=>t.kind==='npc').length,
+ mine:farms.filter(t=>t.kind==='mine').length,saveVersion:s.version};
+});
+check('HG92 pointer targets working POIs, never noninteractive ground',()=>{
+ const canvas={width:1176,height:620,getBoundingClientRect:()=>({width:1176,height:620})};
+ const camera=P.mapCamera(),before={...camera};
+ try{
+  const farm=E.TILES.find(t=>t.source==='MODELED_HG92_FARM');
+  camera.centerX=farm.x+.5;camera.centerY=farm.y+.42;camera.zoom=1.3;
+  assert.equal(P.mapHit(canvas,588,310,E)?.key,farm.key);
+  const empty=E.TILES.find(t=>t.kind==='empty'&&t.x>1&&t.y>1&&t.x<98&&t.y<98&&
+   Array.from({length:9},(_,i)=>E.getTile((t.x+i%3-1)+','+(t.y+Math.floor(i/3)-1))).every(n=>n?.kind==='empty'));
+  assert(empty,'no empty background exists for test');
+  camera.centerX=empty.x+.5;camera.centerY=empty.y+.5;
+  assert.equal(P.mapHit(canvas,588,310,E),null,'scenery should not pretend to be a destination');
+  return {farm:farm.key,scenery:empty.key};
+ }finally{Object.assign(camera,before)}
+});
+console.log('HG80+HG92 SUMMARY '+passed+'/6');
+if(passed!==6)process.exitCode=1;
