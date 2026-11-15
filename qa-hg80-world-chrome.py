@@ -50,7 +50,16 @@ with sync_playwright() as pw:
            times.push(performance.now()-t);
           }
           const elapsed=performance.now()-start;
-          const hit=P.mapHit(canvas,canvas.width/2,canvas.height/2,E);
+          const cameraBefore={...world};
+          const farm=E.getTile('4,3');
+          world.centerX=farm.x+.5;world.centerY=farm.y+.42;
+          const farmHit=P.mapHit(canvas,canvas.width/2,canvas.height/2,E);
+          const empty=E.TILES.find(t=>t.kind==='empty'&&t.x>1&&t.y>1&&t.x<98&&t.y<98&&
+           Array.from({length:9},(_,i)=>E.getTile((t.x+i%3-1)+','+(t.y+Math.floor(i/3)-1))).every(v=>v?.kind==='empty'));
+          if(!empty)throw Error('HG92 requires some scenic terrain without interactive POIs');
+          world.centerX=empty.x+.5;world.centerY=empty.y+.5;
+          const sceneryHit=P.mapHit(canvas,canvas.width/2,canvas.height/2,E);
+          Object.assign(world,cameraBefore);
           const stateAfter=JSON.stringify(E.clone(s)),after=E.serializeSave(s);
           const oldState=JSON.parse(before),newState=JSON.parse(after);
           const changed=Object.keys(newState).filter(k=>JSON.stringify(oldState[k])!==JSON.stringify(newState[k]));
@@ -59,7 +68,7 @@ with sync_playwright() as pw:
            cached:mini===miniAgain,saved:gameplaySaved,changedKeys:changed,
            changedValues:Object.fromEntries(changed.slice(0,3).map(k=>[k,{
              old:JSON.stringify(oldState[k])?.slice(0,160),current:JSON.stringify(newState[k])?.slice(0,160)
-           }])),cameraHit:hit?.key||null,
+           }])),farmHit:farmHit?.key||null,sceneryHit:sceneryHit?.key||null,
            view:{width:canvas.width,height:canvas.height},
            ms12:Math.round(elapsed),frameMs:times.map(x=>Math.round(x*10)/10),
            monsterTypes:['Wolves','Bandits','Azrael','Wyverns'].map(value=>P.encounterKind({value,level:3,eliteTier:value==='Azrael'?11:0}))};
@@ -68,8 +77,9 @@ with sync_playwright() as pw:
               0<data['visible']<data['total']/5,data)
         check(label+' minimap reused immutable terrain raster and never changed Save v07',
               data['cached'] and data['saved'] and data['valid'] and data['save']==7,data)
-        check(label+' four distinct world monster silhouettes, correct square-map hit',
-              len(set(data['monsterTypes']))==4 and bool(data['cameraHit']),data['monsterTypes'])
+        check(label+' four distinct world monster silhouettes, farm hit and nonclickable scenery',
+              len(set(data['monsterTypes']))==4 and data['farmHit']=='4,3' and data['sceneryHit'] is None,
+              {'monsterTypes':data['monsterTypes'],'farmHit':data['farmHit'],'sceneryHit':data['sceneryHit']})
         check(label+' 12 continuous pans render without fatal synchronous jank',
               max(data['frameMs'])<1000,{'frameMs':data['frameMs'],'ms12':data['ms12']})
         target=ART/(label+'-polished-world.png')
