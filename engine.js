@@ -263,13 +263,15 @@ function mapTiles(){
  const names={forest:['Bầy sói rừng','Thú hoang'],hill:['Thổ phỉ sơn trại','Vệ binh hoang dã'],
   plain:['Đạo tặc đồng hoang','Lũ yêu tinh']};
  const resources=['wood','ore','gold','crystal','sulfur'];
+ let relocatedEarlyMines=0;
  for(let y=3;y<HEIGHT-2;y+=5){
   const offset=(Math.floor(y/5)%2)*2;
   for(let x=4+offset;x<WIDTH-2;x+=5){
    const t=at(x,y);
    if(t.kind!=='empty'||t.treasureCamp||t.terrain==='water'||t.terrain==='bridge')continue;
    const biome=t.terrain,seed=x*17+y*29,d=Math.abs(x-3)+Math.abs(y-4),
-    mine=seed%7===0;
+    mine=seed%7===0&&y>=19;
+   if(seed%7===0&&y<19)relocatedEarlyMines++;
    t.kind=mine?'mine':'npc';
    t.level=mine?Math.min(3,1+Math.floor(d/55)):Math.min(8,1+Math.floor(d/19));
    t.value=mine?resources[(x+3*y)%resources.length]:
@@ -278,6 +280,17 @@ function mapTiles(){
    t.source='MODELED_HG92_FARM';
   }
  }
+ // Preserve canonical early-game mine enumeration used by Fame/Save tests;
+ // relocate (not add) farm mines out of the starting province. The total
+ // count of new farm/resource sites stays exactly the same.
+ for(const t of tiles){
+  if(!relocatedEarlyMines)break;
+  if(t.source!=='MODELED_HG92_FARM'||t.kind!=='npc'||t.y<19)continue;
+  t.kind='mine';t.farmType='resource';t.value=resources[(t.x+3*t.y)%resources.length];
+  t.level=Math.min(3,1+Math.floor((Math.abs(t.x-3)+Math.abs(t.y-4))/55));
+  relocatedEarlyMines--;
+ }
+ if(relocatedEarlyMines)throw Error('HG92 unable to relocate starting-area resource farms');
  return tiles;
 }
 const TILES=mapTiles(), TILE_LOOKUP=new Map(TILES.map(t=>[t.key,t]));
