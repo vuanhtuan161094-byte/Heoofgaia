@@ -11,6 +11,8 @@ on:
       - qa-hg28-art-chrome.py
       - qa-hg80-map.cjs
       - qa-hg80-world-chrome.py
+      - qa-hg79-polish-chrome.py
+      - qa-hg405-desktop-phone-chrome.py
       - .github/workflows/hg80-world-performance.yml
 permissions:
   contents: read
