@@ -646,8 +646,13 @@ function battleReportsView(){
 function selectNearestNpc(stars=1){
  if(!Number.isSafeInteger(stars)||stars<1||stars>8)throw Error('Cấp sao NPC không hợp lệ.');
  const origin=E.activeCity(state).key;
- const targets=E.NPC_CAMPS_2009.filter(n=>n.stars===stars)
-  .map(n=>({npc:n,path:E.pathfind(origin,n.key)})).filter(n=>n.path)
+ // HG92: the beginner shortcut must point at the closest farm in the
+ // real world, not bypass newly playable sites for distant historic camps.
+ const candidates=[
+  ...E.NPC_CAMPS_2009.filter(n=>n.stars===stars),
+  ...E.TILES.filter(t=>t.source==='MODELED_HG92_FARM'&&t.kind==='npc'&&t.level===stars)
+ ];
+ const targets=candidates.map(n=>({npc:n,path:E.pathfind(origin,n.key)})).filter(n=>n.path)
   .sort((a,b)=>a.path.length-b.path.length||a.npc.key.localeCompare(b.npc.key));
  if(!targets.length)throw Error('Không tìm thấy NPC có đường đi từ thành đang mở.');
  const tile=E.getTile(targets[0].npc.key);
