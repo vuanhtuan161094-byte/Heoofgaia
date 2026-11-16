@@ -263,9 +263,9 @@ function crownDrop(s,kind,target,ordinal,tier=0,floor=0){
 }
 function battleAct(s,action,opts){
  const b=s.battle?{kind:s.battle.kind,target:String(s.battle.target||''),
-  level:s.battle.level||0,floor:s.battle.hg21Tower?.floor||0}:null;
+  level:s.battle.level||0,floor:s.battle.hg21Tower?.floor||0,hg94Action:s.battle.hg94Action}:null;
  const result=prior.battleAct(s,action,opts);
- if(!b||result?.type!=='win')return result;
+ if(!b||result?.type!=='win'||b.hg94Action)return result;
  const x=ensure(s);
  if(b.kind==='tower'){
   const ordinal=s.hg20?.tower?.victories||0;
