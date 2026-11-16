@@ -1,9 +1,18 @@
-# CURRENT PRODUCT DIRECTION OVERRIDE — 16/11/2026
+# CURRENT PRODUCT DIRECTION OVERRIDE — 17/11/2026
 - Owner withdrew Ngọa Long-first feature plan and selected **Chiến Loạn Tam Quốc (2025)** as gameplay reference. Keep game brand **Mưu Định Tam Quốc** as an original implementation; original screenshots/assets cannot be copied.
 - Product requirements and acceptance are in [CHIEN_LOAN_MASTER_SPEC.md](CHIEN_LOAN_MASTER_SPEC.md) and [CLTQ_REFERENCE_MATRIX.md](CLTQ_REFERENCE_MATRIX.md). Agent Codex authorization remains scoped to `main-ngoalong`; Hero isolation unchanged.
 - Older P2/P3/P4.1 results below are **legacy-system baselines**. CL gates are separately recorded in this current section and the CL reference matrix.
-- CL-P0–P2 are implemented and released. CL-P3 is implemented locally and awaits its own commit-SHA Actions run.
+- CL-P0–P3 are implemented and released. CL-P4 is implemented locally and awaits its own exact-commit-SHA Actions run.
 - Current owner acceptance for new CL gameplay: **PENDING**; retain exact-SHA CI and device/visual gates.
+
+## CL-P3 exact-SHA release and CL-P4 local candidate — 2026-11-17
+
+- Latest remote P3 SHA: `7a43cc650d77bbceef800994e6491d5694f2a8ec`. GitHub Actions run [43915734348](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43915734348) completed **SUCCESS** on that exact SHA. Published artifact: `muu-dinh-tam-quoc-cl-p3-playable`; Actions evidence artifact: `muu-dinh-tam-quoc-cl-qa-evidence`.
+- CL-P4 local code adds 25 recruitable generals to the existing 24 (49 total), seven alignments, 25 individual tactical skills, actual +6% faction synergy at three same-faction commanders, 5v5 named NPC squads, five chapters/15 encounters, terrain labels, sequential unlocks, first-clear rewards and loss/retry handling. Enemy scaling is measured across 360 seeded actual-engine battles; beginner/mid/veteran profiles have non-increasing win bands and the final stage has a 25% aggregate win rate.
+- CL-P4 portrait art adds 22 new generated historical portraits to eight existing illustrated portraits. The extra fantasy-alignment heroes retain original project icons. Three packed WebPs and their PNG sources are in `assets/p4/`; `tools/build_cl_p4_roster.py` embeds reproducibly from those files and manifest hashes.
+- Local CL-P4 evidence: `qa/cl_p4.py` **23/23**; `qa/cl_p4_balance.py` **360/360** seeded battles plus repeat-seed check; `qa/p4_assets.py` **7/7** exact legacy and new-asset byte checks; Node syntax check passed. Full legacy regression passed (smoke 7, CL-P1/P2 43, CL-P3 economy 31, P2 31+12, P3 74 plus 360 legacy balance, P4 art 14, P4.1 18). P4 GitHub Actions and the P4 playable artifact are pending.
+- P4 Chromium screenshots: `qa/cl-p4-roster-desktop.png`, `qa/cl-p4-campaign-desktop.png`, `qa/cl-p4-battle-desktop.png`, `qa/cl-p4-boss-battle.png`, `qa/cl-p4-campaign-mobile-390x844.png`.
+- Exact SHA for P4 will be entered after its commit and reported only after that exact-SHA workflow succeeds. Physical Windows/Android, owner balance review, and owner visual approval remain pending.
 
 ## CL-P0/P1/P2 release and CL-P3 implementation checkpoint — 2026-11-16
 

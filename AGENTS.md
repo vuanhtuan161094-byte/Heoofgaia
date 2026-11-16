@@ -2,14 +2,14 @@
 
 ## Quyền sở hữu và cô lập
 - Đây là nhánh **Mưu Định Tam Quốc**, chiến thuật SLG lấy cảm hứng chính từ **Chiến Loạn Tam Quốc (2025)**. Tên nhánh lịch sử **main-ngoalong** được giữ để bảo toàn Git và Save, không có nghĩa giữ Ngọa Long làm bản mẫu chính. Nhánh Hero `feature/hog1-research-to-playable-20261102` độc lập, tuyệt đối không sửa hoặc merge. Không thay default branch.
-- Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. P3 QA và docs là bằng chứng, không phải game khác.
+- Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. CL-P1–P4 QA và docs là bằng chứng, không phải game khác.
 - Trước sửa đọc chính xác HEAD SHA từ GitHub, `AGENTS.md`, `docs/REV_PROTOCOL.md`, `docs/CURRENT_CHECKPOINT.md` và code liên quan.
 - **Ủy quyền mới ngày 16/11/2026:** Chủ dự án cho phép **Codex chuyên trách duy nhất game Mưu Định Tam Quốc** trên `main-ngoalong`; ưu tiên mới là gameplay **Chiến Loạn Tam Quốc**. Không mở rộng quyền sang Hero, Tông Môn Bá Đạo hoặc CMP.
 - **MASTER SPEC PIVOT (ưu tiên cao nhất về product):** đọc `docs/CHIEN_LOAN_MASTER_SPEC.md` trước mọi thiết kế hoặc triển khai. `docs/NGOALONG_CODEX_AGENT.md` giữ phần bảo mật/cô lập/QA và chỉ áp dụng roadmap khi không xung đột master spec. Không tự động merge hoặc tự nhận hoàn thành khi chưa có bằng chứng.
 
 ## Gameplay data/authority
 - Combat duy nhất quyết toán tiền, EXP, quân chết, phần thưởng tại kết thúc trận; replay đọc bản ghi, không tạo đợt chi trả thứ hai.
-- Save key `muu_dinh_tam_quoc_v1`, schema v4; nâng cấp quân lưu trong `p3TroopTier`, preset trong `p3PresetId`, chiến dịch CL trong `cltq`. Giữ migration v1/v2/v3→v4 và JSON import/export, không sửa Save Hero v07.
+- Save key `muu_dinh_tam_quoc_v1`, schema v5; nâng cấp quân lưu trong `p3TroopTier`, preset trong `p3PresetId`, chiến dịch CL-P1–P4 trong `cltq` (kinh tế ở `cltq.economy`, chiến dịch ở `cltq.p4`). Giữ migration v1–v4→v5 và JSON import/export, không sửa Save Hero v07.
 - Giá luyện binh = bạc/lương/sắt thật, có gate cấp Doanh Trại; tier 1–4, không tự tăng số quân. Không tự phát tài nguyên.
 - Combat AI, 24 trận hình cũ, tier và cân bằng là SIMULATED. Thay mục tiêu gameplay bằng đội tướng 5v5 có quân lính thật, bản đồ điều quân/chiếm thành, giữ tính tương thích Save cũ và giải quyết thưởng một lần.
 - Không đưa artwork, mã nguồn, UI sao chép, âm thanh proprietary của **CMN Online / Chiến Loạn Tam Quốc**, **VNG / Ngọa Long** hoặc bên thứ ba vào repo khi không có quyền sử dụng.
@@ -17,7 +17,7 @@
 ## REV và release gates
 1. R: nguồn và phân loại VERIFIED/DERIVED/SIMULATED/UNKNOWN; quyết định thiết kế.
 2. E: one vertical slice và một state owner; test failure, snapshot, migration, idempotence.
-3. V0: syntax; V1: legacy smoke/P2 31+12/P3 74+360 balance/P4/P4.1 and `qa/cl_p1_p2.py`; V2: actual Chromium desktop 1280×720/mobile 390, file-save reload and screenshots/video; V3: GitHub Actions same SHA; V4: người dùng chơi máy thật; V5: duyệt mỹ thuật của owner.
+3. V0: syntax; V1: legacy smoke/P2 31+12/P3 74+360 balance/P4/P4.1 plus CL-P1/P2/P3/P4 focused QA; V2: actual Chromium desktop 1280×720/mobile 390, file-save reload and screenshots/video; V3: GitHub Actions same SHA; V4: người dùng chơi máy thật; V5: duyệt mỹ thuật của owner.
 4. **Chỉ khẳng định các gate có bằng chứng**, không đánh đồng GitHub PASS với Windows/Android thật.
 5. Không merge, force-push hoặc reset lịch sử của Hero. Mọi update branch dùng expected SHA.
 6. Cuối báo cáo: DONE / TESTED / PENDING, exact SHA + Actions link + 2–3 lựa chọn tiếp theo.

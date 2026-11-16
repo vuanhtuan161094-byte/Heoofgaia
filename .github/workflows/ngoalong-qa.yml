@@ -33,6 +33,10 @@ jobs:
         run: python qa/cl_p1_p2.py
       - name: CL-P3 territory economy and 30-minute strategy loop
         run: python qa/cl_p3_economy.py
+      - name: CL-P4 playable roster, faction synergies, boss campaign and settlement
+        run: python qa/cl_p4.py
+      - name: CL-P4 deterministic balance sweep across 360 campaign battles
+        run: python qa/cl_p4_balance.py
       - name: P2 full 31 tests
         run: python qa/p2_full.py
       - name: P2 advanced 12 tests
@@ -85,7 +89,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-p3-playable
+          name: muu-dinh-tam-quoc-cl-p4-playable
           path: |
             index.html
             qa/commit-sha.txt

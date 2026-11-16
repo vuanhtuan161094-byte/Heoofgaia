@@ -1,60 +1,33 @@
-# Mưu Định Tam Quốc — Chiến Loạn-style SLG (development pivot)
+# Mưu Định Tam Quốc
 
-> **Hướng phát triển cập nhật ngày 16/11/2026:** Game lấy **Chiến Loạn Tam Quốc (2025)** làm tham khảo gameplay chính: mỗi tướng điều khiển đội lính chiến đấu thật, bản đồ điều quân, công thành/chiếm cứ điểm, xây thành, nuôi quân và phát triển lãnh địa. Ngọa Long chỉ còn là tham khảo lịch sử. Đây là dự án nguyên bản, không liên quan chính thức CMN Online. **Mục tiêu mới CHƯA hoàn thành**; V0.6 P4.1 hiện hữu chỉ là baseline kỹ thuật. Kế hoạch thực thi: [docs/CHIEN_LOAN_MASTER_SPEC.md](docs/CHIEN_LOAN_MASTER_SPEC.md) và [Issue #4](https://github.com/vuanhtuan161094-byte/Heoofgaia/issues/4). Nhánh `main-ngoalong` chỉ giữ tên lịch sử, không được merge sang Hero.
+Game chiến thuật Tam Quốc độc lập, lấy **Chiến Loạn Tam Quốc (CMN Online, 2025)** làm tham chiếu gameplay chính. Ngọa Long chỉ còn là ảnh hưởng lịch sử trong một số hệ thống cũ. Mã nguồn, mỹ thuật và cách trình bày của dự án vẫn nguyên bản; không có liên kết chính thức với CMN Online, VNG hay sản phẩm được tham chiếu.
 
-## Baseline hiện có — lưu để tránh mất thành quả
+## Bản chơi mới nhất
 
-**Phiên bản cũ:** Một game HTML chiến thuật Tam Quốc độc lập, từng lấy cảm hứng Ngọa Long cổ điển. Đây không phải mã nguồn chính thức của VNG hoặc CMN Online. Mọi hệ số AI, quân cấp, đội hình, thiệt hại là SIMULATED.
+CL-P0 đến CL-P3 đã phát hành trên nhánh `main-ngoalong`. SHA `7a43cc650d77bbceef800994e6491d5694f2a8ec` vượt GitHub Actions run [43915734348](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43915734348) và tạo artifact `muu-dinh-tam-quoc-cl-p3-playable` cùng `muu-dinh-tam-quoc-cl-qa-evidence`. Mở trang run để tải HTML offline. Bản CL-P1/P2 trước đó ở run [43909024419](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43909024419).
 
-## Repository và bản chơi duy nhất
+CL-P4 đang được kiểm tra trước khi phát hành. Bản cục bộ hiện có 49 tướng, 30 chân dung lịch sử minh họa riêng, bảy liên minh, hiệp lực phe, năm chương/15 ải và trận boss 5v5. Sweep 360 trận cho thấy tỷ lệ thắng giảm theo cấp đội hình, hai ải đầu đạt 100%, boss cuối 25%; exact-SHA Actions của bản này chưa chạy.
 
-- Repo: `vuanhtuan161094-byte/Heoofgaia`; **nhánh chính riêng** `main-ngoalong`.
-- **Chỉ dùng `index.html`** trên `main-ngoalong` làm game Ngọa Long. Không tạo HTML phát hành song song.
-- Nhánh game Hero: `feature/hog1-research-to-playable-20261102`; không sửa, merge hay thay default branch.
-- Chơi trên Chrome/Edge offline bằng `index.html`. Lưu localStorage riêng `muu_dinh_tam_quoc_v1`, `version=3`; nên xuất JSON trước khi nâng cấp. Không sử dụng Save v07 Hero.
+## Gameplay đã phát hành
 
-## P3: các chức năng thực tế
+- Năm tướng chỉ huy các đội lính hiện diện và tham chiến; quân số còn lại ảnh hưởng sát thương, thương vong được lưu và hồi phục bằng tài nguyên.
+- Bản đồ có 10 cứ điểm tương tác: chọn quân, xem đường/ETA/lương, hành quân, công thành NPC, chiếm, đồn trú, phòng thủ và thu hoạch.
+- Thành có chín hạng mục nâng cấp. Tỉnh nối đường tạo bạc, lương, gỗ, sắt; quân đồn trú tiêu hao lương; sản xuất offline có giới hạn và sổ giao dịch chống cộng trùng.
+- Game chạy offline bằng một file `index.html`, dùng Save `muu_dinh_tam_quoc_v1`, schema 5 và giữ migration v1–v4 cùng hệ thống trận hình 3×3 cũ.
 
-- AI chọn mục tiêu ưu tiên tuyến trước, khắc chế binh chủng, tình trạng máu, vị trí theo làn và vai trò nguy hiểm. 4 phong cách ưu tiên, có khác biệt giữa phe địch và đội hình người chơi.
-- Binh chủng nâng cấp từng tướng **bốn cấp**; nâng tại Doanh Trại bằng bạc/lương/sắt thật; không tự tăng quân số.
-- Khắc chế Bộ > Kỵ > Cung > Bộ; Mưu gây áp lực lên Bộ; tướng trống, hỗ trợ có vai trò chiến thuật riêng.
-- **24 mẫu chiến thuật** = 6 trận pháp × 4 phương án bố trí 3×3. Chọn mẫu là sắp quân thực và cập nhật chiến pháp/AI; chỉ dùng tướng đã sở hữu.
-- Cân bằng kiểm toán **360 trận deterministic** (3 nhóm lực lượng × 5 mốc ải × 24 mẫu), làm mượt độ khó ở ải 13–20; ghi đầy đủ bằng chứng.
-- Giữ P2: 24 kỹ năng riêng, sĩ khí, tướng trống, replay snapshot, ba tuyến sát thương và quyết toán một lần.
+## Bắt đầu
 
-## P4.1: Animation sprite-first và VFX theo chiến báo
-- **288 frame PNG**: 4 quân (Bộ/Kỵ/Cung/Mưu) × 4 hướng (Front/Right/Back/Left) × 3 hành động (Idle/Attack/Hit) × 6 frame, atlas `assets/p41/troops_p41.webp` và manifest `assets/p41/troops_manifest.json`.
-- Frame được **tổng hợp bằng xử lý ảnh 2D từ các pose gốc P4**, có vẽ các nét hiệu ứng mới ở từng khung, không rig; chưa phải animation vẽ tay độc lập hay mỹ thuật được chủ game duyệt.
-- Hiệu ứng chiến đấu theo event thật: charge → release → contact → fade, chỉ đọc chiến báo; replay không nhân đôi thưởng hay ảnh hưởng Save.
-- Mã tái tạo: `tools/build_p41_atlas.py`; QA: `qa/p41_animation.py` (18 kiểm tra), `qa/p41_video.py` (52 khung Chromium 1280×720 → MP4 12 fps, lấy mẫu đồng hồ hình ảnh).
-- GitHub Actions xuất PNG frame archive, video Chromium và một HTML offline đã kiểm thử ở artifact `ngoalong-p41-playable`. Chi tiết `docs/P41_ANIMATION_VFX.md`; còn PENDING owner art approval/thiết bị thật.
-- **Không Codex, không rig, không thay gameplay/Save/P3 balance, không sửa nhánh Hero.**
+Trên GitHub vào workflow run **SUCCESS** mới nhất của `main-ngoalong`, tải artifact playable tương ứng với mốc cần chơi, giải nén và mở `index.html` bằng Chrome hoặc Edge. Artifact của P3 sẽ tiếp tục có sẵn trong lịch sử Actions sau khi P4 được phát hành.
 
-## P4: mỹ thuật gốc tích hợp thực tế
-- Background thành trì mới từ artwork AI nguyên bản; **7 nút công trình** hiện diện và thao tác thật.
-- Chân dung 8 danh tướng Tam Quốc đã dùng sprite atlas gốc, tướng khác giữ icon mặc định để không nhận là hoàn tất 24/24.
-- Sprite binh chủng Bộ/Kỵ/Cung/Mưu sĩ 4 góc nhìn × Idle/Attack; kết hợp trên canvas battle thật, phía người chơi và NPC.
-- VFX aura/chiến pháp từ sheet gốc được nạp ở trạng thái chiến pháp/trống; chỉ biểu diễn theo event chiến đấu thực, không sửa sát thương, morale hay Save.
-- **TẤT CẢ asset ảnh đã nén thành WebP và base64 nội bộ index.html** (chơi offline với duy nhất một tệp); ảnh PNG master và thông số provenance được lưu trong gói nguồn P4 riêng; 4 WebP pack được commit ở `assets/p4/` và kiểm tra đối chiếu exact-SHA. Ảnh PNG gốc chưa được commit riêng lên repo.
-- P4 Chromium visual gate **14/14 local PASS**, ảnh city/heroes/formation/battle/skill/mobile 1280×720 & 390 px; chất lượng animation/VFX chuyên nghiệp vẫn cần duyệt chủ dự án.
+## Kiểm chứng và tài liệu
 
-## Kiểm thử trực tiếp tại máy phát triển
+- `docs/CHIEN_LOAN_MASTER_SPEC.md` — đặc tả tham chiếu Chiến Loạn Tam Quốc và lộ trình CL-P0 đến CL-P6.
+- `docs/CLTQ_REFERENCE_MATRIX.md` — nguồn tham khảo cùng phân loại OBSERVED / DERIVED / SIMULATED / UNKNOWN.
+- `docs/CLTQ_GAP_AUDIT.md` — kiểm toán hệ thống, bằng chứng và phần còn thiếu.
+- `docs/CURRENT_CHECKPOINT.md` — SHA, trạng thái và cổng kiểm thử hiện tại.
+- `docs/REV_PROTOCOL.md` — Research, Engineering, Verification.
+- `docs/P4_ASSET_PROVENANCE.md` — nguồn mỹ thuật, nguồn PNG, WebP và hash.
 
-- P2 full **31/31**, P2 advanced **12/12**, P3 **74/74** và P3 balance **360/360 scenario executions**; báo cáo này là kết quả chạy local trước commit.
-- GitHub CI chỉ được coi là PASS sau khi workflow `NgoaLong P4.1 complete QA` hoàn thành trên **exact SHA mới nhất**.
-- CI: `python qa/smoke.py`, `python qa/p2_full.py`, `python qa/p2_advanced.py`, `python qa/p3.py`, `python qa/p3_balance.py`, `python qa/p4_assets.py`, `python qa/p4_art.py`.
-- Screenshots Chromium 1280×720 và mobile 390px xuất qua Actions artifacts; chưa chứng nhận Windows/Android thiết bị thật.
+Mỗi mốc cần Chromium thực tế, hồi quy và GitHub Actions trên exact SHA. Mốc Actions không thay QA thiết bị Windows/Android hoặc duyệt mỹ thuật của chủ dự án; hai cổng đó đang **PENDING**.
 
-**Bản chơi đã kiểm thử:** vào GitHub Actions trên nhánh `main-ngoalong`, chọn run **SUCCESS** mới nhất, tải artifact `ngoalong-p41-playable` (chứa `index.html` + SHA). Không dùng artifact từ run FAIL/PENDING.
-
-## Tài liệu
-
-- `AGENTS.md` — quy tắc làm việc với nhánh Ngọa Long.
-- `docs/REV_PROTOCOL.md` — pipeline Research → Engineering → Verification.
-- `docs/P3_DESIGN.md` — công thức và hành vi AI/cấp quân/đội hình.
-- `docs/P3_BALANCE.md` — mẫu cân bằng, kết quả và giới hạn.
-- `docs/CURRENT_CHECKPOINT.md` — trạng thái và SHA.
-
-## Tiếp theo
-
-**ĐÃ ĐỔI CHỈ ĐẠO:** Chuyên trách Codex được phép triển khai riêng trên nhánh `main-ngoalong`. Ưu tiên **CL-P0 audit → CL-P1 tướng+quân đánh thật → CL-P2 hành quân/công thành/chiếm đất**, rồi city economy, campaign và art. Xem [master spec](docs/CHIEN_LOAN_MASTER_SPEC.md). Không sửa Hero/merge.
+Nhánh Hero `feature/hog1-research-to-playable-20261102` là dự án riêng, không được sửa hoặc hợp nhất vào nhánh này. Không merge hoặc force-push.

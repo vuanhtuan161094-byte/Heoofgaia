@@ -28,8 +28,8 @@ The official sources are the [newcomer guide](https://chienloantamquoc.vn/tin-tu
 | 3×3 formation | Nine slots and 24 original presets | Keep as a separate formation system | Preserved; exact nine slots tested |
 | Existing combat/replay | P2/P3 deterministic turn-based engine and immutable replay | Reuse battle event and report pipeline; append troop receipt once | Adapted; CL report/casualty and loss idempotence tested |
 | Economy and city | Original buildings, recruitment, technology, shop, quests and patrol | Keep; CL territory and battle costs use existing resource ledger | Partially integrated; CL outpost yield is first-capture/harvest-once |
-| Hero assets | Project's own embedded P4/P4.1 art | Reuse only existing project-owned assets; no CMN/NgoaLong downloads | Preserved; no new art source introduced |
-| QA | Smoke, P2/P3 regression, P4/P4.1 Chromium and Actions | Keep every legacy gate; add CL browser flow and runtime evidence | P1/P2 exact-SHA run passed; P3 exact-SHA run pending push |
+| Hero assets | Project's own embedded P4/P4.1 art plus CL-P4 roster masters | Reuse existing owned assets and add provenance-tracked original generated portraits; no CMN/NgoaLong downloads | Preserved; CL-P4 adds source PNG, WebP derivatives and manifest |
+| QA | Smoke, P2/P3 regression, P4/P4.1 Chromium and Actions | Keep every legacy gate; add CL browser flow and runtime evidence | P1/P2 and P3 exact-SHA runs passed; CL-P4 local gates passed, exact-SHA run pending |
 | Hero branch/application | Separate codebase and branch | Do not modify, merge or force-push it | Not accessed by implementation |
 
 ## CL-P0 through CL-P2 implementation evidence
@@ -48,9 +48,9 @@ Local evidence command: `python qa/cl_p3_economy.py` in Chromium, 31/31 after th
 
 - CL-P2 browser coverage includes pause/resume across reload, retreat/retry, siege defeat then successful retry, duplicate command protection, backward clock skew and v1–v4 migration. Deterministic replay of a full campaign from each imported legacy fixture remains open.
 - CL-P3's four-resource economy and 30 accelerated transaction loop pass locally. The real-time 30–45-minute usability/balance session and owner review remain open.
-- CL-P4 needs 30+ authorized/original character content and balance sweeps across deeper campaign chapters; current roster and existing historical systems are smaller.
+- CL-P4 code now provides 49 recruitable commanders (46 historical figures plus 3 original alignment heroes), 30 unique illustrated historical characters, seven alignment groups, skill descriptors, real 6% three-commander faction synergy, five chapters/15 staged encounters, 5v5 NPC general lineups, named bosses, progression, resource costs/rewards and exactly-once first-clear receipts. Chromium `qa/cl_p4.py` passes 23/23 locally, including failed boss attempt, successful retry, duplicate settlement, file-save reload, actual tavern clicks and mobile 390px. `qa/cl_p4_balance.py` resolves 360 seeded 5v5 battles across four troop/level profiles; win rates are monotonic per profile and the first two stages stay accessible while the final boss's aggregate win rate is 25%. These are simulated balance sweeps, not a human 30–45 minute play session. Exact-SHA P4 GitHub Actions is pending.
 - CL-P5 remains pending owner visual approval and real Windows/Android device playtest. Current CL map uses original project UI shapes, CSS/SVG roads and Unicode node icons, not finished isometric region/city art. CI/video cannot substitute for art approval.
 - CL-P6 alliance diplomacy, seasons/weather, siege engines, multiple armies and PvE endgame are not implemented. Network PvP is out of scope without a separate owner-approved server.
-- V3 exact-SHA Actions and the P1/P2 playable artifact succeeded at commit `934775fc020f48d2a84894ce921f50a945d8e9de`, run [43909024419](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43909024419). The P3 changes are local pending their own exact-SHA CI run and playable artifact.
+- V3 exact-SHA Actions passed for P1/P2 at commit `934775fc020f48d2a84894ce921f50a945d8e9de`, run [43909024419](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43909024419), and for P3 at `7a43cc650d77bbceef800994e6491d5694f2a8ec`, run [43915734348](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43915734348). The P3 run published `muu-dinh-tam-quoc-cl-p3-playable`; the P4 exact-SHA Actions/artifact are pending.
 
 No merge, force-push or Hero edit is part of this milestone.

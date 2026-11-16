@@ -11,7 +11,7 @@ Tên gọi REV trong dự án này là QUY TRÌNH REVIEW ĐƯỢC GHI NHẬN; hi
 4. Đọc HEAD và AGENTS.md; sửa theo vertical slice nhỏ, không phát tán bản HTML rời rạc.
 5. Một canonical index.html; giữ bản đã được nhận vào Git với commit SHA thay vì ZIP phiên bản song song.
 6. Giữ đội hình 3×3, sĩ khí, chiến pháp, 24 preset, khắc chế và 3 damage lanes; bổ sung đội chỉ huy 5 tướng, quân sống/chết/bị thương và bản đồ CL bằng state riêng, có deterministic QA.
-7. Không cấp EXP/tài nguyên lần nữa khi replay; bảo toàn Save key, giữ migration v1/v2/v3 lên schema v4 và JSON import/export.
+7. Không cấp EXP/tài nguyên lần nữa khi replay; bảo toàn Save key, giữ migration v1–v4 lên schema v5 và JSON import/export. CL-P4 bổ sung trạng thái chương/ải và sổ thông quan một lần ở `cltq.p4`.
 
 ## V — Verification
 8. Gate V0 syntax/static; V1 unit/focused; V2 Chromium render/interaction/replay/save; V3 CI exact SHA; V4 QA máy thật; V5 duyệt mỹ thuật của owner.

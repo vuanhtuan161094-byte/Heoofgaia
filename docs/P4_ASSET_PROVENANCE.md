@@ -17,3 +17,11 @@ Packed artwork is **embedded once into the canonical index.html** as data URLs. 
 - The generated troop sheet consists of *distinct poses* (Idle & Attack) and directions, **not authored continuous walk/cast/death animation**. No rig. Portraits 8/24; quality gate remains OWNER_VISUAL_PENDING.
 - Known issues: possible colored fringe in alpha at 1×, VFX cell bleed, crowd readability; target follow-up P4.1.
 - Evidence: `qa/p4-art-report.json` and `qa/p4-*.png` published from exact-SHA GitHub Actions.
+
+## CL-P4 roster portraits — 2026-11-17
+
+CL-P4 adds twenty-two newly generated historical-character portraits: twenty different generals in a 5×5 atlas plus Hoàng Nguyệt Anh and Giả Hủ in two single portraits. The legacy portrait sheet already covered eight more figures, giving 30 distinct illustrated historical characters. Three additional playable original commanders (Hắc Vũ, Lăng Vân, Vân Khê) carry original fantasy alignments and use the project's existing icon treatment pending a later portrait pass. The 5×5 source sheet contains twenty distinct used cells; two duplicate cells and three empty cells are not mapped into the roster.
+
+The source PNGs are committed alongside their offline WebP derivatives under `assets/p4/`. `tools/build_cl_p4_roster.py` converts and embeds the three WebPs into the canonical `index.html`; `assets/p4/cl-p4-roster-manifest.json` records source and packed SHA256 hashes, dimensions and Pillow version. `qa/p4_assets.py` verifies all three source → WebP → embedded-byte chains. These generated depictions are stylized original artwork, not documented likenesses of the named historical people, and no source image from Chiến Loạn Tam Quốc or Ngọa Long was used.
+
+Local Chromium check: `qa/cl_p4.py` loads the three generated assets offline and checks the 49-hero roster renders 30 unique portrait elements. Owner review and physical-device image review remain pending.

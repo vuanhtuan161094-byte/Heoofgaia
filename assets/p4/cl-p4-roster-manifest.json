@@ -1,0 +1,49 @@
+{
+  "milestone": "CL-P4",
+  "sourceType": "Built-in image generation; original project art, not extracted reference-game assets",
+  "conversion": {
+    "format": "WebP",
+    "quality": 86,
+    "method": 6,
+    "pillow": "11.3.0"
+  },
+  "atlasLayout": "5x5; cells 0-19 distinct; cells 20-21 duplicated or unused; 22-24 blank",
+  "assets": {
+    "atlas": {
+      "source": "cl-p4-roster-atlas-source.png",
+      "sourceSha256": "ccae3ae04ff9bac36aaecc1923cc92e8214ab83acedbc622ab73e91deab822af",
+      "sourceBytes": 3296185,
+      "webp": "cl-p4-roster-atlas.webp",
+      "webpSha256": "357ebd135807db1748bcbc12b7ec92a20d4e0eb43f139fa2a6f0d16b7ab5ff4d",
+      "webpBytes": 384082,
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    "commander22": {
+      "source": "cl-p4-commander-22-source.png",
+      "sourceSha256": "159ca60624c73ff6ad1d09f6bef64f0b31b288f4327dbd951f1f399924ea511e",
+      "sourceBytes": 2885502,
+      "webp": "cl-p4-commander-22.webp",
+      "webpSha256": "02848ae4ddfac0f2ce9104a9c6c3ddc912a85ae1b3151633150b6898d363c734",
+      "webpBytes": 244178,
+      "dimensions": [
+        1254,
+        1254
+      ]
+    },
+    "commander23": {
+      "source": "cl-p4-commander-23-source.png",
+      "sourceSha256": "ed1e12fecc4583127dc123ab3137253d032a95db5912a8740e65b2a45c05ecb6",
+      "sourceBytes": 2748270,
+      "webp": "cl-p4-commander-23.webp",
+      "webpSha256": "7a90f4ccb57aafc08b53e101307e84f7258acd4f73186aa9f709bfd1d84ee904",
+      "webpBytes": 222508,
+      "dimensions": [
+        1254,
+        1254
+      ]
+    }
+  }
+}
