@@ -7,7 +7,9 @@
 - Git blob SHA: 7f21ba6fcdf9ec0248ccd41c67cd92b5ebfdf471 (nguồn HTML bytes được kiểm tra).
 - Local tests rerun: 31/31 P2 + 12/12 advanced, exit code 0 ngày 16/11/2026.
 - Local Chromium: headless Playwright DOM/battle/replay; shim localStorage.
-- CI exact-SHA: PENDING cho đến khi Actions trên commit mới trả về SUCCESS.
+- CI exact-SHA: SUCCESS tại commit 6f7a22a76baec03e6e52d6a3788afabdab92c312, workflow run #43820188003, Chromium smoke và screenshot upload đều SUCCESS.
+- Evidence: https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43820188003
+- Lưu ý: nếu chỉnh checkpoint/tài liệu sau mốc trên, phải xác minh Actions trên SHA mới trước khi đánh dấu bản mới đã nghiệm thu.
 - User physical Windows/Android/iOS QA và mỹ thuật: PENDING.
 - Nếu CI fail, sửa tập trung trên main-ngoalong mà không thay branch Hero.
 
