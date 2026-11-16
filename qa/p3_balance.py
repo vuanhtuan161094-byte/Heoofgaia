@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 import json,collections
 p=Path(__file__).resolve().parents[1]
 EVIDENCE=p/'qa'
-s=p.joinpath('index.html').read_text()
+s=p.joinpath('index.html').read_text(encoding='utf-8')
 stub="<script>window.__P2_ENABLE_QA__=true;const __data={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>__data[k]??null,setItem:(k,v)=>__data[k]=String(v),removeItem:k=>delete __data[k]}});</script>"
 s=s.replace('<script>',stub+'<script>',1)
 profiles={'weak':{'levels':[1,3,6,10,15],'troops':[220,280,320,380,450],'tier':[1,1,1,1,2]},'normal':{'levels':[2,5,9,15,23],'troops':[300,370,470,620,730],'tier':[1,1,2,2,3]},'strong':{'levels':[3,7,13,22,32],'troops':[380,510,650,800,900],'tier':[1,1,2,3,4]}}

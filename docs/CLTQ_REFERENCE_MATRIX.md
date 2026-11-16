@@ -23,3 +23,18 @@ Goal: Build an original game with the high-level experience requested by owner. 
 - All original project images and derivatives require master source, authoring/provenance documentation, and license record; no skeletal rigs.
 - Separate what is verified in Chiến Loạn Tam Quốc 2025 from what is observed in Loạn Tam Quốc 2018 and owner-recalled control design.
 - Detailed systems/acceptance priorities: `docs/CHIEN_LOAN_MASTER_SPEC.md`.
+
+## Current implementation evidence (2026-11-16)
+
+| Feature | Evidence class | Local evidence | Gate status |
+|---|---|---|---|
+| Five commander slots over legacy 3×3 formation | SIMULATED implementation, migration contract | `qa/cl_p1_p2.py`: five slots render; nine legacy slots survive reload | V2 Chromium |
+| Multiple animated project troop sprites, visible squad counts, attrition-based damage | SIMULATED original combat rule; uses existing project art | `qa/cl_p1_p2.py`: minimum three sprites, count scales, half-strength hit is lower, live event recorded | V2 Chromium |
+| Wounded/killed receipts and loss idempotence | SIMULATED | `qa/cl_p1_p2.py`: forced loss, persistent receipt, duplicate commit has no second receipt | V2 Chromium |
+| 10 connected map nodes, route/ETA/food, march, NPC siege and capture | Owner-desired interaction + SIMULATED rules | `qa/cl_p1_p2.py`: inaccessible route, cost, arrival, capture and save reload | V2 Chromium |
+| Harvest, garrison, defense, recovery | SIMULATED | `qa/cl_p1_p2.py`: first harvest only; five commanders garrison, defend and return | V2 Chromium |
+| CL-P2 pause/resume, retreat/retry, siege defeat/retry, duplicate order, backward clock skew | SIMULATED | `qa/cl_p1_p2.py`: covered in interactive Chromium route flow | V2 Chromium |
+| Deterministic repeat from imported v1/v2/v3 save fixtures | UNKNOWN/not covered yet | Legacy schema migration is tested; CL campaign repeat from each legacy fixture remains open | PENDING |
+| Public server, player-vs-player and owner visual acceptance | UNKNOWN/not in this offline build | No online implementation or physical-device/owner review | PENDING |
+
+The P0/P1/P2 browser gate reports its exact check list in `qa/CL_P1_P2.json`; Actions must rerun on the published commit SHA before the playable artifact is considered released.

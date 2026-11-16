@@ -53,6 +53,18 @@
 .portrait .p4-face{height:100%;width:100%;border-radius:3px}.slot .p4-face{width:39px;height:48px}.select-hero .p4-face{width:36px;height:39px;border:1px solid #ba9c63}
 .p4-tag{position:absolute;left:11px;top:11px;z-index:3;background:#0b211ddd;color:#fff0d2;border:1px solid #ecc98c;padding:5px 8px;border-radius:5px;font-size:10px;font-weight:700;pointer-events:none}
 @media(max-width:650px){.city-visual{min-height:415px;background-position:52% center}.city-visual .building{width:74px;min-height:55px;padding:5px 2px}.city-visual .building b{font-size:9px!important}.city-visual .building .symbol{font-size:15px!important}.p4-tag{font-size:8px}}
+/* CL-P1/P2 original commander detachments and selectable campaign map */
+.cl-map-grid{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(290px,.82fr);gap:15px;align-items:start}
+.cl-map{position:relative;min-height:470px;overflow:hidden;border:1px solid #8b805e;border-radius:10px;background:radial-gradient(ellipse at 50% 48%,#486c54 0%,#294d43 44%,#1b342f 100%);box-shadow:inset 0 0 65px #081612a8}
+.cl-map:before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(30deg,transparent 0 56px,#c8b77d0b 57px 58px),repeating-linear-gradient(150deg,transparent 0 60px,#c8b77d0b 61px 62px);pointer-events:none}
+.cl-map svg{position:absolute;inset:0;width:100%;height:100%;z-index:1}.cl-road{fill:none;stroke:#d9c68c66;stroke-width:8;stroke-linecap:round;stroke-dasharray:3 4}.cl-route{fill:none;stroke:#ffe5a0;stroke-width:13;stroke-linecap:round;stroke-dasharray:18 12;filter:drop-shadow(0 0 8px #f3ce73)}
+.cl-node{position:absolute;z-index:2;transform:translate(-50%,-50%);width:108px;min-height:58px;padding:6px;border:1px solid #9c8e67;border-radius:9px;background:#10211fef;color:#f8e7c1;box-shadow:0 6px 15px #07120dbb;text-align:center;line-height:1.2}.cl-node:hover,.cl-node:focus-visible{filter:brightness(1.25);outline:2px solid #f4d68e}.cl-node.selected{border:2px solid #ffdfa0;box-shadow:0 0 0 4px #dcb86a55,0 8px 20px #07120d}.cl-node.owned{background:#385536ef;border-color:#a9d293}.cl-node .cl-node-icon{font-size:19px;display:block}.cl-node strong{font-size:10px;display:block}.cl-node small{font-size:8px;color:#e1d5b7;display:block;margin-top:2px}
+.cl-march-token{position:absolute;z-index:3;transform:translate(-50%,-50%);font-size:23px;filter:drop-shadow(0 2px 3px #000);animation:cl-token-pulse .6s ease-in-out infinite alternate;pointer-events:none}@keyframes cl-token-pulse{to{filter:drop-shadow(0 0 9px #ffe69b);transform:translate(-50%,-50%) scale(1.12)}}
+.cl-map-legend{display:flex;flex-wrap:wrap;gap:9px;margin-top:8px;color:#d6c8a7;font-size:10px}.cl-map-panel{padding:15px}.cl-map-panel h3{margin:0 0 8px;color:var(--gold2);font-size:15px}.cl-commander-slots{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:12px 0}.cl-commander-slot{display:grid;grid-template-columns:26px minmax(0,1fr);align-items:center;gap:5px;padding:6px;border:1px solid #53685a;border-radius:5px;background:#112421}.cl-commander-slot b{font-size:10px;color:#d9c79c}.cl-commander-slot select{grid-column:1/-1;width:100%;padding:6px;background:#1a302b;color:#f5e7c9;border:1px solid #70836c;border-radius:4px;font-size:10px}
+.cl-army-list{display:grid;gap:5px;margin:9px 0}.cl-army-toggle{display:flex;justify-content:space-between;gap:8px;width:100%;padding:7px 9px;background:#18312c;color:#e8dfc7;border:1px solid #526c5d;border-radius:5px;text-align:left;font-size:11px}.cl-army-toggle.selected{border-color:#e4c47e;background:#493d2a;color:#fff0cf}.cl-army-toggle:disabled{opacity:.45}.cl-node-detail{margin:14px 0;padding:12px;border-radius:7px;background:#0e201f;border:1px solid #51685a}.cl-node-detail p{font-size:11px;line-height:1.7}.cl-node-detail .line{font-size:11px}.cl-map-actions{display:flex;flex-wrap:wrap;gap:7px;margin-top:10px}.cl-map-actions button{flex:1;min-width:110px;font-size:11px}.cl-map-status{padding:8px 10px;background:#202f29;border-left:3px solid #c5a86a;border-radius:4px;font-size:11px;line-height:1.6;margin:9px 0}
+.cl-field-panel{margin-top:15px;padding:14px}.cl-field-panel .quick-actions button{font-size:11px}.cl-old-patrol{margin-top:18px}.cl-old-patrol summary{cursor:pointer;color:#dfc48b;padding:10px}.cl-old-patrol[open]{padding:5px 12px 12px;background:#11221f;border:1px solid #425d50;border-radius:8px}.cl-recovery{margin-top:17px}.cl-recovery button{font-size:10px;padding:7px 10px}.cl-battle-tools{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.cl-battle-tools button{font-size:10px;padding:7px 9px}
+@media(max-width:950px){.cl-map-grid{grid-template-columns:1fr}.cl-map{min-height:445px}}@media(max-width:560px){.cl-map{min-height:365px}.cl-node{width:73px;min-height:47px;padding:4px}.cl-node .cl-node-icon{font-size:16px}.cl-node strong{font-size:8px}.cl-node small{font-size:7px}.cl-map-panel{padding:11px}.cl-commander-slots{grid-template-columns:1fr 1fr}.cl-field-panel{padding:10px}}
+
 </style>
 </head>
 <body>
@@ -12451,7 +12463,7 @@ function hydrateExtension(){const defaults=extDefaults();for(const [k,v] of Obje
  for(const id of Object.keys(game.gear)) if(!game.hero[id])delete game.gear[id];
  if(!Array.isArray(game.items))game.items=[];
  if(!game.activity||!game.activity.counts)game.activity=defaults.activity;
- resetDaily();if(!game.troopModes||typeof game.troopModes!=='object')game.troopModes={};if(!Array.isArray(game.battleReports))game.battleReports=[];game.battleReports=game.battleReports.slice(0,5);game.version=3;save();}
+ resetDaily();if(!game.troopModes||typeof game.troopModes!=='object')game.troopModes={};if(!Array.isArray(game.battleReports))game.battleReports=[];game.battleReports=game.battleReports.slice(0,5);game.version=4;save();}
 function resetDaily(){if(game.activity.day!==dayId()){game.activity={day:dayId(),counts:{},claimed:[],patrols:{},arenaTries:5,towerTries:3};log('Ngày mới: đặt lại nhiệm vụ, lôi đài và lượt tháp.');save();}}
 function credit(kind,amount){game[kind]=(game[kind]||0)+amount;}
 function payment(cost){for(const [k,v] of Object.entries(cost))if((game[k]||0)<v)return false;for(const [k,v] of Object.entries(cost))game[k]-=v;return true;}
@@ -12483,7 +12495,7 @@ function renderNation(){const n=NATIONS[game.nation];return head('Tam phân thi�
 function changeNation(id){if(!NATIONS[id]||game.nationLocked||game.cleared.length||id===game.nation)return;const previous=NATIONS[game.nation].starters;for(const h of previous){if(!game.roster.includes(h))continue;game.roster=game.roster.filter(x=>x!==h);delete game.hero[h];delete game.gear[h];}game.roster=[...new Set([...NATIONS[id].starters,...game.roster])];for(const h of NATIONS[id].starters)game.hero[h]||={level:1,xp:0,troops:320};game.slots=[null,NATIONS[id].starters[1],null,null,NATIONS[id].starters[2],null,null,NATIONS[id].starters[0],null];game.nation=id;game.nationLocked=true;gearHero=game.roster[0];log(`Tuyên thệ quốc gia ${NATIONS[id].name}.`);save();toast('Đã chọn phe '+NATIONS[id].name);render();}
 
 function fresh(){return {version:3,silver:14000,grain:6500,iron:3200,prestige:0,gems:140,reserve:600,buildings:{palace:1,farm:1,market:1,mine:1,barracks:1,academy:1,tavern:1},roster:['liu','guan','zhang'],hero:{liu:{level:1,xp:0,troops:300},guan:{level:1,xp:0,troops:320},zhang:{level:1,xp:0,troops:320}},slots:[null,'guan',null,null,'zhang',null,null,'liu',null],formation:'spear',cleared:[],lastTick:Date.now(),logs:[{time:Date.now(),msg:'Thiên hạ loạn lạc. Ngươi lên ngôi chủ thành và chiêu mộ ba anh hùng đầu tiên.'}],freeRecruit:true,...extDefaults()};}
-function load(){try{const v=JSON.parse(localStorage.getItem(STORAGE));if(v&&(v.version===1||v.version===2||v.version===3)&&v.buildings&&v.hero&&Array.isArray(v.slots)&&Array.isArray(v.roster)&&v.slots.length===9)return v;}catch(e){}return fresh();}
+function load(){try{const v=JSON.parse(localStorage.getItem(STORAGE));if(v&&(v.version===1||v.version===2||v.version===3||v.version===4)&&v.buildings&&v.hero&&Array.isArray(v.slots)&&Array.isArray(v.roster)&&v.slots.length===9)return v;}catch(e){}return fresh();}
 let battleAnimationActive=false;function p2ScheduleAnimation(){if(battleAnimationActive)return;battleAnimationActive=true;requestAnimationFrame(drawBattle);}
 let battleLastTab='campaign';let game=load(),tab='city',selectedHero=null,selectedStage=Math.min(STAGES.length,game.cleared.length+1),battle=null,toastTimer=null;hydrateExtension();
 function save(){try{localStorage.setItem(STORAGE,JSON.stringify(game));return true;}catch(e){return false;}}
@@ -12527,7 +12539,7 @@ function focusBuilding(id){if(id==='barracks'){tab='barracks';render();return;}i
 function addExp(id,amount){const d=game.hero[id];if(!d)return;d.xp+=amount;while(d.xp>=d.level*90&&d.level<40){d.xp-=d.level*90;d.level++;}}
 function exportSave(){save();let blob=new Blob([JSON.stringify(game,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='muu-dinh-tam-quoc-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);}
 function resetSave(){if(!confirm('Xóa toàn bộ tiến độ và chơi lại từ đầu?'))return;game=fresh();selectedStage=1;selectedHero=null;gearHero=null;tab='city';save();render();toast('Đã khởi tạo chiến dịch mới.');}
-function importSave(file){const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(![1,2,3].includes(d.version)||!d.buildings||!d.hero||!Array.isArray(d.slots)||d.slots.length!==9||!Array.isArray(d.roster))throw Error('Không đúng phiên bản save');game=d;hydrateExtension();game.lastTick=Date.now();selectedStage=Math.min(STAGES.length,game.cleared.length+1);tab='city';save();render();toast('Đã phục hồi bản lưu!');}catch(e){toast('Không thể nhập bản lưu: '+e.message);}};reader.readAsText(file);}
+function importSave(file){const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(![1,2,3,4].includes(d.version)||!d.buildings||!d.hero||!Array.isArray(d.slots)||d.slots.length!==9||!Array.isArray(d.roster))throw Error('Không đúng phiên bản save');game=d;hydrateExtension();game.lastTick=Date.now();selectedStage=Math.min(STAGES.length,game.cleared.length+1);tab='city';save();render();toast('Đã phục hồi bản lưu!');}catch(e){toast('Không thể nhập bản lưu: '+e.message);}};reader.readAsText(file);}
 // === Turn-based combat resolution with animated canvas feedback ===
 // P2 combat engine — independently modeled; no original VNG source or assets.
 const P2_SKILLS = {
@@ -12643,7 +12655,8 @@ function p2GetUnit(team,slot){return team==='p'||team==='e'?battle[team].find(u=
 function p2Perform(a){
  if(!a||a.hp<=0)return;
  const allies=p2CountAlive(a.team),enemies=p2CountAlive(a.team==='p'?'e':'p');if(!enemies.length)return;
- const before=a.morale,hits=[],skill=before>=100,descriptor=p2Skill(a),actorName=a.name;
+ const before=a.morale,hits=[],skill=before>=100&&(battle.mode!=='cltq'||battle.autoSkills!==false||battle.skillQueue?.includes(a.id)),descriptor=p2Skill(a),actorName=a.name;
+  if(skill&&battle.mode==='cltq'&&battle.autoSkills===false)battle.skillQueue=(battle.skillQueue||[]).filter(id=>id!==a.id);
  let kind='physical',mode=skill?'skill':'normal',description='',dazed=p2Has(a,'daze'),stunned=dazed&&p2Random()<.35;
  if(stunned){description=`${actorName} bị loạn trận, lỡ mất lượt!`;mode='stunned';}
  else if(a.troop==='drum'){
@@ -12797,10 +12810,10 @@ ctx.strokeStyle='#d0bc8f';ctx.lineWidth=3;ctx.beginPath();ctx.moveTo(x-22,y+16);
 const troopImage=P4_IMAGES.troops;
 const visual=p41VisualState(u,now);
 if(P41_IMAGE.complete&&P41_IMAGE.naturalWidth>0){
-  for(const [dx,dy,sc,alpha] of [[-20,7,.60,.71],[22,8,.60,.68],[0,0,1,1]]){
+  for(const [dx,dy,sc,alpha] of clSoldierFormation(u)){const lunge=active?clSquadLunge(u,now):0;
     ctx.globalAlpha=(alive?1:.25)*alpha;
     const dw=72*sc,dh=112*sc;
-    p41DrawFrame(ctx,u.troop,visual.dir,visual.action,visual.frame,x+dx-dw/2,y+33+dy-dh,dw,dh);
+    p41DrawFrame(ctx,u.troop,visual.dir,visual.action,visual.frame,x+dx+(u.team==='p'?lunge:-lunge)-dw/2,y+33+dy-dh,dw,dh);
   }
   ctx.globalAlpha=alive?1:.25;
 }else if(troopImage.complete&&troopImage.naturalWidth>0){
@@ -12840,7 +12853,7 @@ function p41DrawTrajectory(ctx,from,to,t,kind){
 function drawScene(now){
  if(!battle)return;let c=$('battle-canvas');if(!c)return;let ctx=c.getContext('2d');
  drawBackground(ctx,now);
- [...battle.e,...battle.p].sort((a,b)=>a.slot-b.slot).forEach(u=>drawUnit(ctx,u,now));
+ [...battle.e,...battle.p].sort((a,b)=>a.slot-b.slot).forEach(u=>{drawUnit(ctx,u,now);clDrawSquadCount(ctx,u);});
  const cur=battle.current,elapsed=cur?(now-cur.time)*(battle.speed||1):9999,phase=p41EventPhase(now);
  if(cur&&phase!=='none'){
   const actor=cur.attacker,from=actor?coords(actor):null;
@@ -13017,6 +13030,244 @@ document.addEventListener('click',ev=>{
  if(t.dataset.p3Preset)p3AssignPreset(t.dataset.p3Preset);
  else if(t.dataset.p3Upgrade)p3Upgrade(t.dataset.p3Upgrade);
 });
+// === CL-P0 audit foundation + CL-P1/P2 playable vertical slice ===
+// Original mechanics; evidence classes and compatibility audit live in docs/CLTQ_REFERENCE_MATRIX.md.
+const CLTQ_NODES=[
+ {id:'capital',name:'Tân Thành',type:'Thành chủ',icon:'🏯',x:11,y:50,level:0,guard:'Quân tuần thành',yield:{silver:0,grain:0,iron:0},roads:['outpost','farm']},
+ {id:'outpost',name:'Trại Dã Ngoại',type:'Tiểu trại',icon:'🛖',x:27,y:28,level:1,guard:'Đội tuần vệ',yield:{silver:120,grain:180,iron:35},roads:['river','mine']},
+ {id:'farm',name:'Linh Điền',type:'Đất canh tác',icon:'🌾',x:29,y:72,level:1,guard:'Nông trại bị chiếm',yield:{silver:55,grain:390,iron:15},roads:['river','village']},
+ {id:'river',name:'Bến Thanh Hà',type:'Bến vượt',icon:'🌊',x:46,y:50,level:2,guard:'Thủy trại trưởng',yield:{silver:140,grain:230,iron:45},roads:['mine','village','pass','fort']},
+ {id:'mine',name:'Thiết Khoáng',type:'Mỏ sắt',icon:'⛏️',x:48,y:18,level:2,guard:'Đội mỏ tư binh',yield:{silver:70,grain:100,iron:240},roads:['pass','city']},
+ {id:'village',name:'Thôn Bạch Mã',type:'Thôn trấn',icon:'🏘️',x:49,y:83,level:2,guard:'Tướng Trấn Dã',yield:{silver:190,grain:250,iron:55},roads:['fort','capital2']},
+ {id:'pass',name:'Hổ Lao Quan',type:'Sơn ải',icon:'⛰️',x:65,y:35,level:3,guard:'Hổ Tướng Giữ Ải',yield:{silver:210,grain:180,iron:125},roads:['fort','city']},
+ {id:'fort',name:'Cổ Thành',type:'Quân thành',icon:'🧱',x:68,y:64,level:3,guard:'Đô Úy Trấn Thành',yield:{silver:230,grain:240,iron:140},roads:['capital2']},
+ {id:'city',name:'Phủ Tế Bắc',type:'Đô ấp',icon:'🏙️',x:83,y:21,level:4,guard:'Chủ Tướng Bắc Phủ',yield:{silver:360,grain:310,iron:190},roads:['capital2']},
+ {id:'capital2',name:'Lạc Thành',type:'Đại thành',icon:'🏰',x:87,y:81,level:5,guard:'Chủ Soái Lạc Thành',yield:{silver:510,grain:450,iron:280},roads:[]}
+];
+function cltqLegacyCommanders(g){return [...new Set((g?.slots||[]).filter(id=>id&&g?.hero?.[id]).concat(g?.roster||[]))].slice(0,5);}
+function cltqDefaultState(g){const ids=cltqLegacyCommanders(g);return {schema:1,commanders:Array.from({length:5},(_,i)=>ids[i]||null),selectedArmy:ids.slice(),owners:{capital:'player'},garrisons:{},wounded:{},killed:{},fieldProgress:0,receipts:[],captureReceipts:[],harvested:{},marches:[],seq:1,selectedNode:'outpost',activeMarchId:null,lastTroopReceipt:[]};}
+function cltqHydrateState(){
+ const g=game,defaults=cltqDefaultState(g),s=g.cltq&&typeof g.cltq==='object'?g.cltq:defaults,valid=new Set(g.roster.filter(id=>g.hero[id]));
+ const prior=Array.isArray(s.commanders)?s.commanders:defaults.commanders;
+ s.schema=1;s.commanders=Array.from({length:5},(_,i)=>{const id=prior[i];return valid.has(id)&&!prior.slice(0,i).includes(id)?id:null;});
+ if(!s.commanders.some(Boolean))s.commanders=defaults.commanders;
+ s.owners=s.owners&&typeof s.owners==='object'?s.owners:{};if(!s.owners.capital)s.owners.capital='player';
+ s.garrisons=s.garrisons&&typeof s.garrisons==='object'?s.garrisons:{};for(const id of Object.keys(s.garrisons))s.garrisons[id]=[...new Set((Array.isArray(s.garrisons[id])?s.garrisons[id]:[]).filter(x=>valid.has(x)))];
+ const garrisoned=new Set(Object.values(s.garrisons).flat());
+ s.selectedArmy=[...new Set((Array.isArray(s.selectedArmy)?s.selectedArmy:defaults.selectedArmy).filter(id=>s.commanders.includes(id)&&!garrisoned.has(id)))];if(!s.selectedArmy.length)s.selectedArmy=s.commanders.filter(id=>id&&!garrisoned.has(id)).slice(0,5);
+ s.wounded=s.wounded&&typeof s.wounded==='object'?s.wounded:{};s.killed=s.killed&&typeof s.killed==='object'?s.killed:{};
+ for(const id of valid){s.wounded[id]=Math.max(0,Math.floor(+s.wounded[id]||0));s.killed[id]=Math.max(0,Math.floor(+s.killed[id]||0));}
+ s.receipts=Array.isArray(s.receipts)?s.receipts.slice(0,100):[];s.captureReceipts=Array.isArray(s.captureReceipts)?s.captureReceipts:[];s.harvested=s.harvested&&typeof s.harvested==='object'?s.harvested:{};
+ s.marches=Array.isArray(s.marches)?s.marches.slice(-12):[];for(const m of s.marches)if(m.status==='engaged')m.status='arrived';
+ s.fieldProgress=Math.max(0,Math.min(3,Math.floor(+s.fieldProgress||0)));s.seq=Math.max(1,Math.floor(+s.seq||1));if(!CLTQ_NODES.some(n=>n.id===s.selectedNode))s.selectedNode='outpost';s.activeMarchId=null;
+ g.cltq=s;g.version=4;save();
+}
+const cltqBaseHydrate=hydrateExtension;hydrateExtension=function(){cltqBaseHydrate();cltqHydrateState();};
+const cltqBaseFresh=fresh;fresh=function(){const g=cltqBaseFresh();g.version=4;g.cltq=cltqDefaultState(g);return g;};
+cltqHydrateState();
+function cltqIsGarrisoned(id){return Object.values(game.cltq.garrisons).some(ids=>ids.includes(id));}
+function cltqSetCommander(slot,id){
+ slot=Number(slot);if(slot<0||slot>4)return;if(id&&!game.roster.includes(id))return;
+ if(id&&game.cltq.commanders.some((v,i)=>i!==slot&&v===id))return toast('Mỗi tướng chỉ giữ một vị trí chỉ huy.');
+ if(id&&cltqIsGarrisoned(id))return toast('Hãy thu hồi tướng khỏi đồn trước.');
+ const old=game.cltq.commanders[slot];game.cltq.commanders[slot]=id||null;
+ if(old)game.cltq.selectedArmy=game.cltq.selectedArmy.filter(x=>x!==old);
+ if(id&&!game.cltq.selectedArmy.includes(id))game.cltq.selectedArmy.push(id);
+ save();render();
+}
+function cltqSelectedArmy(){return game.cltq.selectedArmy.filter(id=>game.cltq.commanders.includes(id)&&!cltqIsGarrisoned(id)&&game.hero[id]?.troops>=30).slice(0,5);}
+function cltqToggleArmy(id){
+ if(!game.cltq.commanders.includes(id)||cltqIsGarrisoned(id)||game.hero[id]?.troops<30)return;
+ if(game.cltq.selectedArmy.includes(id))game.cltq.selectedArmy=game.cltq.selectedArmy.filter(x=>x!==id);
+ else if(game.cltq.selectedArmy.length<5)game.cltq.selectedArmy.push(id);
+ save();render();
+}
+function cltqNode(id){return CLTQ_NODES.find(n=>n.id===id);}
+function cltqOwner(id){return game.cltq.owners[id]==='player'?'player':'npc';}
+function cltqPathTo(target){
+ if(!cltqNode(target)||cltqOwner(target)==='player')return null;
+ const queue=CLTQ_NODES.filter(n=>cltqOwner(n.id)==='player').map(n=>[n.id]),seen=new Set(queue.map(x=>x[0]));
+ while(queue.length){const path=queue.shift(),node=cltqNode(path[path.length-1]);for(const next of node.roads){if(next===target)return [...path,next];if(cltqOwner(next)==='player'&&!seen.has(next)){seen.add(next);queue.push([...path,next]);}}}
+ return null;
+}
+function cltqPathDistance(path){let sum=0;for(let i=1;i<path.length;i++){const a=cltqNode(path[i-1]),b=cltqNode(path[i]);sum+=Math.hypot(a.x-b.x,a.y-b.y)*15;}return Math.round(sum);}
+function cltqActiveMarch(){return game.cltq.marches.find(m=>m.id===game.cltq.activeMarchId)||game.cltq.marches.find(m=>['marching','paused','arrived','engaged'].includes(m.status))||null;}
+function cltqSetNode(id){if(!cltqNode(id))return;game.cltq.selectedNode=id;save();render();}
+function cltqCommanderPanel(){
+ let slots='';
+ game.cltq.commanders.forEach((id,i)=>{let opts='<option value="">— Trống —</option>';
+  game.roster.forEach(h=>{opts+='<option value="'+h+'" '+(h===id?'selected':'')+'>'+esc(HEROES[h].name)+' · '+fmt(game.hero[h]?.troops||0)+'</option>';});
+  slots+='<label class="cl-commander-slot"><b>Vị trí '+(i+1)+'</b><span class="tiny">'+(id?fmt(game.hero[id]?.troops||0)+' quân':'')+'</span><select data-cl-commander="'+i+'" '+(id&&cltqIsGarrisoned(id)?'disabled':'')+'>'+opts+'</select></label>';
+ });
+ return '<div class="panel mini-box cl-map-panel"><h3>🛡 Năm vị trí chỉ huy</h3><p class="tiny">Đội hình CL dùng tối đa 5 tướng; đội hình 3×3 và 24 preset cũ vẫn được lưu riêng.</p><div class="cl-commander-slots">'+slots+'</div><div class="tiny">Chiến lực theo quân số sống sót. Dùng Tửu Quán để chiêu mộ tướng bổ sung.</div></div>';
+}
+function cltqRenderWorld(){
+ const selected=cltqNode(game.cltq.selectedNode)||cltqNode('outpost'),army=cltqSelectedArmy(),active=cltqActiveMarch(),path=selected&&cltqPathTo(selected.id),dist=path?cltqPathDistance(path):0,eta=path?8+Math.ceil(dist/36):0,cost=path?50+Math.ceil(dist*2.2):0;
+ const edgeSet=new Set(),edges=[];
+ CLTQ_NODES.forEach(n=>n.roads.forEach(id=>{const key=[n.id,id].sort().join(':');if(!edgeSet.has(key)){edgeSet.add(key);edges.push([n,cltqNode(id)]);}}));
+ const roadSvg=edges.map(e=>'<path class="cl-road" d="M'+(e[0].x*10)+','+(e[0].y*5)+' L'+(e[1].x*10)+','+(e[1].y*5)+'"/>').join('');
+ const routeSvg=path?'<path class="cl-route" d="'+path.map((id,i)=>{const n=cltqNode(id);return (i?'L':'M')+(n.x*10)+','+(n.y*5);}).join(' ')+'"/>':'';
+ const nodes=CLTQ_NODES.map(n=>{const own=cltqOwner(n.id)==='player',sel=selected?.id===n.id;return '<button class="cl-node '+(own?'owned ':'')+(sel?'selected':'')+'" style="left:'+n.x+'%;top:'+n.y+'%" data-cl-node="'+n.id+'" aria-label="'+esc(n.name)+', '+(own?'đã sở hữu':'NPC')+'"><span class="cl-node-icon">'+n.icon+'</span><strong>'+esc(n.name)+'</strong><small>'+(own?'Quân ta':'NPC · Cấp '+n.level)+'</small></button>';}).join('');
+ let token='';
+ if(active&&['marching','paused'].includes(active.status)){const from=cltqNode(active.from),to=cltqNode(active.to),duration=Math.max(1,(active.arrivesAt||0)-(active.startedAt||0)),elapsed=active.status==='paused'?duration-(active.remaining||0):Date.now()-active.startedAt,p=Math.max(0,Math.min(1,elapsed/duration));if(from&&to)token='<span class="cl-march-token" style="left:'+(from.x+(to.x-from.x)*p)+'%;top:'+(from.y+(to.y-from.y)*p)+'%" title="Quân đang hành quân">⚔️</span>';}
+ const commanderBtns=game.cltq.commanders.filter(Boolean).map(id=>{const unavailable=cltqIsGarrisoned(id)||game.hero[id]?.troops<30,chosen=army.includes(id);return '<button class="cl-army-toggle '+(chosen?'selected':'')+'" data-cl-army="'+id+'" '+(unavailable?'disabled':'')+'><span>'+(chosen?'☑':'☐')+' '+HEROES[id].icon+' '+esc(HEROES[id].name)+'</span><span>'+fmt(game.hero[id].troops)+' quân</span></button>';}).join('')||'<div class="tiny">Chưa có tướng: hãy chiêu mộ ở Tửu Quán.</div>';
+ const own=selected&&cltqOwner(selected.id)==='player',guard=selected&&selected.id!=='capital'?selected.guard:'Thành trì khởi điểm';
+ let action='';
+ if(own){
+  const gs=game.cltq.garrisons[selected.id]||[],harvested=!!game.cltq.harvested[selected.id];
+  action='<div class="cl-map-actions"><button class="gold-button" data-cl-harvest="'+selected.id+'" '+(harvested?'disabled':'')+'>'+(harvested?'Đã thu hoạch':'Thu hoạch lần này')+'</button><button class="dark-button" data-cl-garrison="'+selected.id+'" '+(!army.length||active?'disabled':'')+'>Đồn '+army.length+' tướng</button>'+(gs.length?'<button class="dark-button" data-cl-ungarrison="'+selected.id+'">Thu hồi '+gs.length+' tướng</button>':'')+'<button class="red-button" data-cl-defend="'+selected.id+'" '+(!gs.length||active?'disabled':'')+'>Diễn tập phòng thủ</button></div><p class="tiny">Đồn trú: '+(gs.length?gs.map(id=>esc(HEROES[id].name)).join(' · '):'chưa có')+'</p>';
+ }else if(active&&active.to===selected.id){
+  const seconds=Math.max(0,Math.ceil((active.arrivesAt-Date.now())/1000));
+  action=active.status==='arrived'?'<div class="cl-map-status">Đội quân đã đến. NPC phòng thủ đang chờ giao chiến.</div><div class="cl-map-actions"><button class="gold-button" data-cl-attack="'+selected.id+'">⚔️ Tấn công '+esc(selected.name)+'</button><button class="dark-button" data-cl-retreat="1">Rút quân</button></div>':active.status==='engaged'?'<div class="cl-map-status">Giao chiến đang diễn ra.</div>':'<div class="cl-map-status">'+(active.status==='paused'?'Đã tạm dừng · còn '+Math.ceil((active.remaining||0)/1000)+' giây':'Đang hành quân · <b id="cltq-eta">'+seconds+' giây</b>')+'<br>Đường đi: '+active.path.map(id=>esc(cltqNode(id).name)).join(' → ')+'</div><div class="cl-map-actions"><button class="dark-button" data-cl-pause="1">'+(active.status==='paused'?'Tiếp tục hành quân':'Tạm dừng')+'</button><button class="dark-button" data-cl-retreat="1">Rút quân</button></div>';
+ }else if(active)action='<div class="cl-map-status">Một đạo quân đang '+(active.status==='marching'?'hành quân':'tác chiến')+' tới '+esc(cltqNode(active.to)?.name||'mục tiêu khác')+'.</div>';
+ else if(path&&army.length)action='<div class="cl-map-status"><b>Đường hợp lệ</b>: '+path.map(id=>esc(cltqNode(id).name)).join(' → ')+'<br>Thời gian '+eta+' giây · Lương hành quân '+cost+'</div><button class="gold-button" data-cl-march="'+selected.id+'">🚩 Ra lệnh hành quân</button>';
+ else action='<div class="cl-map-status">'+(path?'Chọn ít nhất một tướng có từ 30 quân.':'Chưa nối đường từ thành thuộc quyền; hãy chiếm một nút tiếp giáp trước.')+'</div>';
+ const stage=game.cltq.fieldProgress+1;
+ let field='<div class="panel cl-field-panel"><h3>⚔️ Tập trận đội quân</h3><p class="tiny">Ba giao tranh tiến dần tới chủ tướng; có thể thử sức mạnh vượt cấp và chịu tổn thất. Kết quả và thương vong lưu trong chiến báo.</p><div class="quick-actions"><button class="gold-button" data-cl-field="normal" '+(stage>3||active?'disabled':'')+'>'+(stage>=3?'Đấu chủ tướng':'Giao tranh '+stage+'/3')+'</button><button class="red-button" data-cl-field="hard" '+(active?'disabled':'')+'>Thử thách vượt cấp</button></div><div class="tiny" style="margin-top:8px">Đã thắng '+game.cltq.fieldProgress+'/3 · Đội địch cấp theo thử thách.</div></div>';
+ let detail='<div class="panel cl-map-panel"><h3>🚩 Chọn đạo quân</h3><p class="tiny">Chọn tối đa 5 tướng chưa đồn trú. Quân số giảm trong trận làm giảm sát thương; quân chết, bị thương và rút lui được lưu riêng.</p><div class="cl-army-list">'+commanderBtns+'</div><div class="divider"></div><h3>📍 '+esc(selected.name)+'</h3><div class="tiny">'+esc(selected.type)+' · '+(own?'Đã thuộc quyền':'NPC')+' · Cấp '+selected.level+'</div><p class="tiny">Tướng giữ cứ điểm: '+esc(guard)+'</p><div class="line"><span>Sản lượng dự trữ</span><b class="cost">'+earnedText(selected.yield)+'</b></div><div class="cl-node-detail">'+action+'</div><div class="small-data" style="grid-template-columns:repeat(3,1fr)"><div class="box"><b>'+game.cltq.commanders.filter(Boolean).length+'/5</b><span>Vị trí tướng</span></div><div class="box"><b>'+Object.values(game.cltq.wounded).reduce((a,b)=>a+b,0)+'</b><span>Quân bị thương</span></div><div class="box"><b>'+Object.values(game.cltq.killed).reduce((a,b)=>a+b,0)+'</b><span>Quân tử trận</span></div></div><p class="tiny" style="margin-top:10px">Giao tranh NPC offline. Chưa có PvP thật.</p></div>';
+ return head('Chọn quân · điều quân · công thành','Bản Đồ Cương Vực · Chiến dịch CL','Chọn đội hình năm tướng, kiểm tra đường đi, phí lương và thời gian trước khi phát lệnh.','<span class="pill">'+CLTQ_NODES.filter(n=>cltqOwner(n.id)==='player').length+'/10 cứ điểm · '+army.length+'/5 tướng sẵn sàng</span>')+
+ '<div class="cl-map-grid"><div><div class="cl-map"><svg viewBox="0 0 1000 500" preserveAspectRatio="none" aria-label="Bản đồ cương vực">'+roadSvg+routeSvg+'</svg>'+nodes+token+'</div><div class="cl-map-legend"><span>🟢 Đất thuộc quyền</span><span>⚫ Quân NPC</span><span>✨ Tuyến hành quân dự kiến</span><span>⚔️ Đạo quân đang di chuyển</span></div>'+cltqCommanderPanel()+field+'</div><div>'+detail+'</div></div>';
+}
+const cltqLegacyWorld=renderWorld;
+renderWorld=function(){return cltqRenderWorld()+'<details class="cl-old-patrol"><summary>Tuần tra tài nguyên vùng cũ</summary>'+cltqLegacyWorld()+'</details>';};
+const cltqLegacySidebar=renderSidebar;
+renderSidebar=function(){cltqLegacySidebar();const side=$('sidebar'),world=side.querySelector('.nav[data-tab="world"]');if(world){world.innerHTML='<span class="ico">🗺️</span>Bản Đồ';world.classList.toggle('active',tab==='world');}};
+const cltqLegacyFormation=renderFormation;
+renderFormation=function(){return cltqLegacyFormation()+cltqCommanderPanel();};
+const cltqLegacyBarracks=renderBarracks;
+renderBarracks=function(){return cltqLegacyBarracks()+cltqRecoveryPanel();};
+const cltqLegacyRecruit=recruit;
+recruit=function(){const old=new Set(game.roster);cltqLegacyRecruit();const id=game.roster.find(x=>!old.has(x));if(id&&game.cltq){const slot=game.cltq.commanders.findIndex(x=>!x);if(slot>=0){game.cltq.commanders[slot]=id;if(!game.cltq.selectedArmy.includes(id))game.cltq.selectedArmy.push(id);save();render();}}};
+const cltqLegacyNation=changeNation;
+changeNation=function(id){cltqLegacyNation(id);if(game.cltq&&game.cleared.length===0){game.cltq.commanders=cltqLegacyCommanders(game).concat(Array(5).fill(null)).slice(0,5);game.cltq.selectedArmy=game.cltq.commanders.filter(Boolean);save();render();}};
+const cltqLegacyTick=tick;
+tick=function(){cltqLegacyTick();cltqTick();};
+const cltqLegacyStore=p2StoreReport;
+p2StoreReport=function(rewards,loot){cltqLegacyStore(rewards,loot);if(battle?.report)battle.report.cltqTroopReceipt=battle.cltqTroopReceipt||[];};
+const cltqLegacyUnit=p2Unit;
+p2Unit=function(id,team,slot,stage){const u=cltqLegacyUnit(id,team,slot,stage),n=team==='p'?(game.hero[id]?.troops||0):Math.max(90,230+stage*25);u.initialTroops=n;u.troops=n;u.squadLossRate=.42;return u;};
+function clSyncBattleTroops(u){if(!u||!Number.isFinite(u.initialTroops)||u.initialTroops<=0)return;const lost=Math.min(u.initialTroops,Math.round(u.initialTroops*Math.min(.42,Math.max(0,1-u.hp/u.maxHp)*.42)));u.troops=Math.max(0,u.initialTroops-lost);u.wounded=Math.round(lost*.72);u.killed=lost-u.wounded;}
+const cltqLegacyHit=p2Hit;
+p2Hit=function(a,t,kind,mult=1,opts={}){const ratio=a?.initialTroops>0?Math.max(0,Math.min(1,a.troops/a.initialTroops)):1;const hit=cltqLegacyHit(a,t,kind,mult*(.28+.72*ratio),opts);clSyncBattleTroops(t);return hit;};
+const cltqLegacyBuff=p2BuffRound;
+p2BuffRound=function(){const hits=cltqLegacyBuff();if(battle)for(const u of [...battle.p,...battle.e])clSyncBattleTroops(u);return hits;};
+function clSoldierFormation(u){
+ const count=Math.max(3,Math.min(5,Math.ceil((u?.troops||0)/70)));
+ const layouts={1:[[0,0,1,1]],2:[[-14,4,.67,.82],[14,4,.67,.82]],3:[[-20,7,.60,.71],[22,8,.60,.68],[0,0,1,1]],4:[[-27,11,.53,.78],[27,11,.53,.78],[-12,3,.72,.96],[13,3,.72,.96]],5:[[-32,12,.48,.72],[32,12,.48,.72],[-20,3,.58,.85],[20,3,.58,.85],[0,0,.82,1]]};
+ return layouts[count];
+}
+function clSquadLunge(u,now){const cur=battle?.current;if(!cur||cur.attacker!==u)return 0;const h=(cur.hits||[]).find(x=>!x.heal&&x.target);if(!h)return 0;const from=coords(u),to=coords(h.target),p=Math.max(0,Math.min(1,(now-cur.time)/460));return Math.sin(Math.PI*p)*Math.min(38,Math.abs(to.x-from.x)*.16);}
+function clDrawSquadCount(ctx,u){const c=coords(u),label=fmt(Math.max(0,u.troops||0))+' quân';ctx.save();ctx.font='bold 10px sans-serif';ctx.textAlign='center';ctx.lineWidth=3;ctx.strokeStyle='#07120f';ctx.strokeText(label,c.x,c.y+75);ctx.fillStyle=u.team==='p'?'#d5e5b4':'#f0c2a2';ctx.fillText(label,c.x,c.y+75);ctx.restore();}
+function clCommitTroopLosses(){
+ if(!battle||!game.cltq)return [];const id=battle.clId||battle.report?.id;
+ if(id&&game.cltq.receipts.some(r=>r.id===id))return battle.cltqTroopReceipt||[];
+ const rows=[];for(const u of battle.p||[]){const d=game.hero[u.id];if(!d)continue;const initial=Math.max(0,Math.floor(u.initialTroops??d.troops)),remaining=Math.max(0,Math.min(initial,Math.floor(u.troops??d.troops))),lost=Math.max(0,initial-remaining),wounded=Math.min(lost,Math.round(lost*.72)),killed=lost-wounded;d.troops=remaining;game.cltq.wounded[u.id]=(game.cltq.wounded[u.id]||0)+wounded;game.cltq.killed[u.id]=(game.cltq.killed[u.id]||0)+killed;rows.push({id:u.id,name:u.name,initial,remaining,lost,wounded,killed,retreated:u.hp<=0});}
+ battle.cltqTroopReceipt=rows;game.cltq.lastTroopReceipt=rows;game.cltq.receipts.unshift({id,mode:battle.mode,kind:battle.cltq?.kind||battle.mode,won:!!battle.won,at:Date.now()});game.cltq.receipts=game.cltq.receipts.slice(0,100);return rows;
+}
+const cltqLegacyFinish=finishBattle;
+finishBattle=function(){if(!battle||battle.finished||battle.replay)return;if(battle.mode==='cltq')return cltqFinishBattle();cltqLegacyFinish();const rows=clCommitTroopLosses();if(battle?.report){battle.report.cltqTroopReceipt=rows;save();}};
+function cltqRecoveryPanel(){
+ const injured=game.roster.map(id=>({id,n:game.cltq.wounded[id]||0})).filter(x=>x.n>0);
+ return '<div class="panel mini-box cl-recovery"><h3>🩹 Quân bị thương · phục hồi</h3><p class="tiny">Quân bị thương được giữ trong save; trả lương và sắt để hồi phục tối đa 100 quân mỗi lần. Tử trận không thể hồi sinh.</p>'+
+ (injured.length?injured.map(({id,n})=>{const room=Math.max(0,heroCap(id)-game.hero[id].troops),amount=Math.min(100,n,room),cost={grain:Math.ceil(amount*1.7),iron:Math.ceil(amount*.45)};return '<div class="line"><span>'+HEROES[id].icon+' '+esc(HEROES[id].name)+' · '+fmt(n)+' thương binh</span><span><small class="cost">🌾 '+cost.grain+' · ⛓️ '+cost.iron+'</small> <button class="dark-button" data-cl-recover="'+id+'" '+(amount<=0?'disabled':'')+'>Hồi '+amount+'</button></span></div>';}).join(''):'<div class="tiny">Không có thương binh đang chờ.</div>')+'</div>';
+}
+function cltqRecover(id){
+ const d=game.hero[id],w=game.cltq.wounded[id]||0;if(!d||!w)return;const amount=Math.min(100,w,Math.max(0,heroCap(id)-d.troops));if(!amount)return toast('Quân tướng đã đầy hoặc hết thương binh.');
+ const cost={grain:Math.ceil(amount*1.7),iron:Math.ceil(amount*.45)};if(!payment(cost))return toast('Thiếu lương hoặc sắt để hồi quân.');
+ d.troops+=amount;game.cltq.wounded[id]-=amount;log('Hồi phục '+amount+' quân bị thương cho '+HEROES[id].name+'.');save();render();
+}
+function cltqStartMarch(targetId){
+ const node=cltqNode(targetId),path=cltqPathTo(targetId),army=cltqSelectedArmy();
+ if(!node||cltqOwner(targetId)==='player')return toast('Chọn cứ điểm NPC.');if(cltqActiveMarch())return toast('Đang có một đạo quân hành quân hoặc giao chiến.');
+ if(!army.length)return toast('Chọn ít nhất một tướng còn 30 quân.');if(!path)return toast('Không có tuyến đường qua đất đang kiểm soát.');
+ const dist=cltqPathDistance(path),grain=50+Math.ceil(dist*2.2),seconds=8+Math.ceil(dist/36);if(game.grain<grain)return toast('Cần '+grain+' lương để hành quân.');
+ game.grain-=grain;const now=Date.now(),march={id:'m'+game.cltq.seq++,from:path[0],to:targetId,path,army:[...army],status:'marching',grain,startedAt:now,arrivesAt:now+seconds*1000,seconds};
+ game.cltq.marches.push(march);game.cltq.marches=game.cltq.marches.slice(-12);game.cltq.activeMarchId=march.id;game.cltq.selectedNode=targetId;log('Ra lệnh '+army.length+' tướng hành quân tới '+node.name+', phí '+grain+' lương.');save();render();
+}
+function cltqTick(){
+ if(!game?.cltq)return;const m=cltqActiveMarch();if(!m||m.status!=='marching')return;
+ const left=Math.max(0,Math.ceil((m.arrivesAt-Date.now())/1000)),eta=$('cltq-eta');if(eta)eta.textContent=left+' giây';
+ if(left===0){m.status='arrived';save();if(tab==='world')render();}
+}
+function cltqPauseMarch(){const m=cltqActiveMarch();if(!m||!['marching','paused'].includes(m.status))return;if(m.status==='marching'){m.remaining=Math.max(0,m.arrivesAt-Date.now());m.status='paused';}else{m.startedAt=Date.now();m.arrivesAt=m.startedAt+Math.max(0,m.remaining||0);m.remaining=0;m.status='marching';}save();render();}
+function cltqRetreat(){const m=cltqActiveMarch();if(!m||!['marching','paused','arrived'].includes(m.status))return;m.status='retreated';m.remaining=0;game.cltq.activeMarchId=null;log('Đạo quân rút khỏi tuyến '+(cltqNode(m.to)?.name||'hành quân')+'.');save();render();}
+function cltqGarrison(id){
+ if(cltqOwner(id)!=='player')return toast('Chỉ có thể đồn quân ở đất thuộc quyền.');if(cltqActiveMarch())return toast('Đang có một đạo quân trên đường.');
+ const army=cltqSelectedArmy();if(!army.length)return toast('Chọn tướng cần đồn trú.');
+ game.cltq.garrisons[id]=[...new Set([...(game.cltq.garrisons[id]||[]),...army])];game.cltq.selectedArmy=game.cltq.selectedArmy.filter(x=>!army.includes(x));log('Đồn '+army.length+' tướng tại '+cltqNode(id).name+'.');save();render();
+}
+function cltqUngarrison(id){const ids=game.cltq.garrisons[id]||[];game.cltq.garrisons[id]=[];for(const h of ids)if(game.cltq.commanders.includes(h)&&!game.cltq.selectedArmy.includes(h))game.cltq.selectedArmy.push(h);save();render();}
+function cltqHarvest(id){
+ const n=cltqNode(id);if(!n||cltqOwner(id)!=='player')return toast('Chưa kiểm soát cứ điểm.');if(game.cltq.harvested[id])return toast('Sản lượng lần đầu đã thu hoạch.');
+ game.cltq.harvested[id]=true;for(const [k,v] of Object.entries(n.yield))credit(k,v);log('Thu hoạch '+n.name+': '+earnedText(n.yield)+'.');save();toast('Thu hoạch: '+earnedText(n.yield));render();
+}
+function cltqDefense(nodeId){const g=game.cltq.garrisons[nodeId]||[];if(!g.length)return toast('Chưa có tướng đồn trú.');return cltqStartBattle('defend',nodeId,{ids:g});}
+function cltqStartBattle(kind,targetId=null,options={}){
+ if(battle)return;if(kind==='field'&&cltqActiveMarch())return toast('Không thể tập trận khi quân đang hành quân.');
+ const node=targetId?cltqNode(targetId):null,march=kind==='siege'?cltqActiveMarch():null;
+ if(kind==='siege'&&(!node||!march||march.status!=='arrived'||march.to!==targetId))return toast('Đạo quân chưa tới mục tiêu.');
+ if(kind==='siege'&&cltqOwner(targetId)==='player')return toast('Cứ điểm đã thuộc quyền.');if(kind==='defend'&&cltqOwner(targetId)!=='player')return toast('Cứ điểm không còn thuộc quyền.');
+ const ids=kind==='defend'?(options.ids||game.cltq.garrisons[targetId]||[]):kind==='siege'?(march.army||[]):cltqSelectedArmy();
+ const commanders=[...new Set(ids)].filter(id=>(game.cltq.commanders.includes(id)&&!cltqIsGarrisoned(id)||kind==='defend'&&(options.ids||[]).includes(id))&&game.hero[id]?.troops>=30).slice(0,5);if(!commanders.length)return toast('Đội quân cần tướng có tối thiểu 30 quân.');
+ const fieldStage=kind==='field'?(options.hard?Math.max(2,game.cltq.fieldProgress+2):game.cltq.fieldProgress+1):node?.level||1;
+ if(kind==='field'&&!options.hard&&fieldStage>3)return toast('Đã vượt hết ba trận tập quân.');const cost=kind==='field'?100+fieldStage*25:0;if(game.grain<cost)return toast('Cần '+cost+' lương để giao chiến.');game.grain-=cost;
+ if(march){march.status='engaged';game.cltq.activeMarchId=march.id;}battleLastTab='world';
+ const slots=[1,3,4,5,7],boss=kind==='field'?fieldStage>=3:!!node?.boss||node?.level>=5,title=kind==='field'?(options.hard?'Thử thách vượt cấp':boss?'Chủ Tướng Khăn Vàng':'Tập trận Cương Vực '+fieldStage):kind==='defend'?'Phòng thủ '+node.name:'Công thành '+node.name;
+ const clId='cl-'+game.cltq.seq++;
+ battle={stage:fieldStage,mode:'cltq',clId,cltq:{kind,targetId,marchId:march?.id||null,title,boss,hard:!!options.hard},seed:p2Seed(fieldStage,'campaign'),p:[],e:[],round:0,turns:0,order:null,orderIndex:0,speed:1,finished:false,won:false,replay:false,log:'Tướng chỉ huy dẫn quân tiến trận.',fx:[],events:[],cost,next:Date.now()+650,current:null,autoSkills:true,skillQueue:[]};
+ battle.p=commanders.map((id,i)=>p2Unit(id,'p',slots[i],fieldStage));
+ const count=kind==='field'?(boss?5:Math.min(5,3+Math.floor((fieldStage-1)/2))):kind==='defend'?Math.max(3,Math.min(5,node.level+2)):Math.min(5,3+Math.floor((node.level-1)/2));
+ const enemySlots=slots.slice(0,count),factor=options.hard?3.25:kind==='field'?.78+fieldStage*.06:kind==='defend'?.74+node.level*.10:.72+node.level*.13;
+ battle.e=enemySlots.map((slot,i)=>p2Unit('e','e',i===count-1?4:i,fieldStage)).map((u,i)=>{
+  u.slot=enemySlots[i];if((boss||options.hard)&&i===count-1)u.name=options.hard?'Cuồng Binh Vượt Cấp':kind==='field'?'Đại Tướng Khăn Vàng':node.guard;else if(node&&kind!=='field')u.name=['Tiền Quân','Hổ Vệ','Phó Tướng','Quân Sư'][i%4];
+  u.hp=u.maxHp=Math.round(u.hp*factor*(boss&&i===count-1?1.25:1));u.atk=Math.round(u.atk*factor*(options.hard?1.25:1));u.catk=Math.round(u.catk*factor*(options.hard?1.25:1));u.matk=Math.round(u.matk*factor*(options.hard?1.25:1));u.def=Math.round(u.def*factor);u.tdef=Math.round(u.tdef*factor);u.mdef=Math.round(u.mdef*factor);return u;
+ });
+ battle.opening=p2Snapshot();save();renderBattleShell();p2ScheduleAnimation();
+}
+function cltqFinishBattle(){
+ if(!battle||battle.finished||battle.replay)return;const liveP=p2CountAlive('p').reduce((s,u)=>s+u.hp,0),liveE=p2CountAlive('e').reduce((s,u)=>s+u.hp,0);
+ battle.finished=true;battle.won=liveP>0&&(liveE===0||liveP>liveE);const cl=battle.cltq,node=cl.targetId?cltqNode(cl.targetId):null;clCommitTroopLosses();let rewards={},loot=null;
+ if(battle.won){
+  if(cl.kind==='field'){if(!cl.hard){game.cltq.fieldProgress=Math.max(game.cltq.fieldProgress,Math.min(3,battle.stage));rewards={silver:600+battle.stage*180,grain:250+battle.stage*80,iron:75+battle.stage*35};countTask('battle');for(const u of battle.p)addExp(u.id,45+battle.stage*10);}log('Thắng '+cl.title+'; quân số và thương binh đã quyết toán.');}
+  else if(cl.kind==='siege'){const first=!game.cltq.captureReceipts.includes(node.id);game.cltq.owners[node.id]='player';game.cltq.garrisons[node.id]=game.cltq.garrisons[node.id]||[];if(first){game.cltq.captureReceipts.push(node.id);rewards={silver:Math.round(node.yield.silver*.35),grain:Math.round(node.yield.grain*.35),iron:Math.round(node.yield.iron*.35)};countTask('battle');for(const u of battle.p)addExp(u.id,60+node.level*12);}const m=game.cltq.marches.find(x=>x.id===cl.marchId);if(m)m.status='captured';game.cltq.activeMarchId=null;log('Chiếm được '+node.name+'. Thành chủ và phần thưởng đã lưu.');}
+  else if(cl.kind==='defend')log('Giữ vững '+node.name+' trước đợt tập kích NPC.');
+  for(const [k,v] of Object.entries(rewards))credit(k,v);
+ }else{
+  if(cl.kind==='siege'){const m=game.cltq.marches.find(x=>x.id===cl.marchId);if(m)m.status='repelled';game.cltq.activeMarchId=null;}
+  if(cl.kind==='defend'){game.cltq.owners[node.id]='npc';game.cltq.garrisons[node.id]=[];log(node.name+' thất thủ trước quân NPC; đội đồn trú rút lui.');}else log('Thất bại tại '+cl.title+'; thương vong đã lưu.');
+ }
+ p2StoreReport(rewards,loot);if(battle.report){battle.report.cltqOutcome={kind:cl.kind,targetId:cl.targetId,won:battle.won,title:cl.title,receiptId:battle.clId};battle.report.cltqTroopReceipt=battle.cltqTroopReceipt||[];}
+ const rows=battle.cltqTroopReceipt||[],lost=rows.reduce((s,r)=>s+r.lost,0),wounded=rows.reduce((s,r)=>s+r.wounded,0),killed=rows.reduce((s,r)=>s+r.killed,0),retreated=rows.filter(r=>r.retreated).length;
+ $('battle-result').innerHTML='<div class="battle-result"><div class="result-box"><div class="'+(battle.won?'win':'lose')+'">'+(battle.won?'CHIẾN THẮNG':'THẤT BẠI')+'</div><p>'+(battle.won?'Quân ta thắng tại '+esc(cl.title)+'.':'Quân ta thất bại tại '+esc(cl.title)+'.')+' · '+battle.turns+' hành động</p>'+
+ (cl.kind==='siege'?'<p>'+(battle.won?'Đã đổi chủ thành '+esc(node.name)+'.':'NPC vẫn giữ '+esc(node.name)+'.')+'</p>':'')+
+ (battle.won?'<div class="reward" style="justify-content:center"><span>'+earnedText(rewards)+'</span></div>':'<div class="tiny">Không nhận thưởng khi thất bại. Hồi quân, đổi đội hình rồi thử lại.</div>')+
+ '<p class="tiny">Mất '+fmt(lost)+' quân · '+fmt(wounded)+' bị thương · '+fmt(killed)+' tử trận · '+retreated+' tướng rút lui.</p><div class="quick-actions" style="justify-content:center;margin-top:14px"><button class="gold-button" data-end-battle="1">Trở về bản đồ</button><button class="dark-button" data-replay-last="1">▶ Xem replay</button><button class="dark-button" data-end-battle="formation">Bày lại trận</button></div></div></div>';
+ save();
+}
+const cltqLegacyBattleShell=renderBattleShell;
+renderBattleShell=function(){
+ cltqLegacyBattleShell();if(battle?.mode!=='cltq')return;
+ const title=$('battle-mount').querySelector('.battle-head h2'),tools=$('battle-mount').querySelector('.battle-tools'),sub=$('battle-mount').querySelector('.battle-head small');
+ if(title)title.innerHTML='⚔ '+esc(battle.cltq.title)+' <span class="pill">5 TƯỚNG · QUÂN THỰC CHIẾN</span>';
+ if(sub)sub.textContent='Lính đánh và chịu sát thương theo quân số; sĩ khí 100 có thể tự dùng kỹ năng hoặc phát lệnh thủ công.';
+ if(tools)tools.insertAdjacentHTML('beforeend','<span class="cl-battle-tools"><button class="dark-button" data-cl-auto="1">'+(battle.autoSkills?'Auto kỹ năng: BẬT':'Auto kỹ năng: TẮT')+'</button>'+battle.p.map(u=>'<button class="dark-button" data-cl-skill="'+u.id+'" title="Yêu cầu kỹ năng khi đủ 100 sĩ khí">Kỹ năng · '+esc(u.name)+'</button>').join('')+'</span>');
+};
+function cltqQueueSkill(id){if(!battle||battle.mode!=='cltq')return;if(battle.autoSkills)return toast('Tắt Auto kỹ năng để tự phát lệnh.');const u=battle.p.find(x=>x.id===id);if(!u||u.hp<=0)return toast('Tướng này đã rút khỏi trận.');if(u.morale<100)return toast(u.name+' cần đủ 100 sĩ khí.');battle.skillQueue=battle.skillQueue||[];if(!battle.skillQueue.includes(id))battle.skillQueue.push(id);toast('Đã phát lệnh kỹ năng cho '+u.name+'.');}
+function cltqClick(ev){
+ const t=ev.target.closest('[data-cl-node],[data-cl-army],[data-cl-march],[data-cl-attack],[data-cl-retreat],[data-cl-pause],[data-cl-garrison],[data-cl-ungarrison],[data-cl-harvest],[data-cl-defend],[data-cl-field],[data-cl-auto],[data-cl-skill],[data-cl-recover]');
+ if(!t||t.disabled)return;
+ if(t.dataset.clNode)cltqSetNode(t.dataset.clNode);else if(t.dataset.clArmy)cltqToggleArmy(t.dataset.clArmy);else if(t.dataset.clMarch)cltqStartMarch(t.dataset.clMarch);else if(t.dataset.clPause)cltqPauseMarch();
+ else if(t.dataset.clAttack)cltqStartBattle('siege',t.dataset.clAttack);else if(t.dataset.clRetreat)cltqRetreat();else if(t.dataset.clGarrison)cltqGarrison(t.dataset.clGarrison);
+ else if(t.dataset.clUngarrison)cltqUngarrison(t.dataset.clUngarrison);else if(t.dataset.clHarvest)cltqHarvest(t.dataset.clHarvest);else if(t.dataset.clDefend)cltqDefense(t.dataset.clDefend);
+ else if(t.dataset.clField)cltqStartBattle('field',null,{hard:t.dataset.clField==='hard'});
+ else if(t.dataset.clAuto&&battle?.mode==='cltq'){battle.autoSkills=!battle.autoSkills;renderBattleShell();}
+ else if(t.dataset.clSkill)cltqQueueSkill(t.dataset.clSkill);else if(t.dataset.clRecover)cltqRecover(t.dataset.clRecover);
+}
+document.addEventListener('click',cltqClick);
+document.addEventListener('change',ev=>{if(ev.target.matches('[data-cl-commander]'))cltqSetCommander(ev.target.dataset.clCommander,ev.target.value);});
+if(window.__P2_ENABLE_QA__){window.__CLTQ_QA__={nodes:()=>CLTQ_NODES.map(x=>({...x})),getState:()=>structuredClone(game.cltq),debugState:()=>game.cltq,getBattle:()=>battle?structuredClone({...battle,current:null,fx:[],order:null}):null,soldierCount:u=>clSoldierFormation(u).length,renderMap:cltqRenderWorld,startMarch:cltqStartMarch,render:()=>render(),tickMarch:cltqTick,advanceMarch(){const m=cltqActiveMarch();if(!m)return false;m.arrivesAt=Date.now()-1;cltqTick();return m.status;},path:cltqPathTo,commit:clCommitTroopLosses,setGame:g=>{game=g;hydrateExtension();render();}};}
+
+
 if(window.__P2_ENABLE_QA__){window.__P41_QA__={image:P41_IMAGE,manifest:P41_ANIM,index:p41FrameIndex,drawFrame:p41DrawFrame,visual:p41VisualState,phase:p41EventPhase,drawScene,
   setVisualElapsed(ms){if(!battle?.current)throw Error('No actual combat event');battle.current.time=performance.now()-ms;drawScene(performance.now());},
   currentEvent(){return battle?.current?{actor:battle.current.attacker?.name,mode:battle.current.mode,skill:battle.current.skill,hits:battle.current.hits.map(h=>({target:h.target?.name,number:h.number}))}:null;}};}

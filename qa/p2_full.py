@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 import json, traceback, sys, hashlib
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'qa'
-HTML=(ROOT/'index.html').read_text()
+HTML=(ROOT/'index.html').read_text(encoding='utf-8')
 STUB='''<script>
 window.__P2_ENABLE_QA__=true;
 const __data={};window.__P2_TEST_DATA__=__data;
@@ -23,8 +23,8 @@ def run():
   check('boots on Chromium without JS error', len(errors)==0 and page.locator('[data-tab="formation"]').count()==1)
   check('P2 diagnostics enabled',page.evaluate("typeof window.__P2_QA__ === 'object'"))
   state=page.evaluate('window.__P2_QA__.getGame()')
-  check('P2 migration has schema v3',state['version']==3 and 'troopModes' in state and 'battleReports' in state)
-  check('all 24 generals have individual skills',page.evaluate("Object.keys(window.__P2_QA__.getGame().hero).length>=3") and len(__import__('re').findall(r'^ \w+:{pattern:',(ROOT/'index.html').read_text().split('const P2_SKILLS = {')[1].split('const P2_ENEMY_SKILLS')[0],__import__('re').M))==24)
+  check('P2 migration has schema v4',state['version']==4 and 'troopModes' in state and 'battleReports' in state and 'cltq' in state)
+  check('all 24 generals have individual skills',page.evaluate("Object.keys(window.__P2_QA__.getGame().hero).length>=3") and len(__import__('re').findall(r'^ \w+:{pattern:',(ROOT/'index.html').read_text(encoding='utf-8').split('const P2_SKILLS = {')[1].split('const P2_ENEMY_SKILLS')[0],__import__('re').M))==24)
   page.locator('[data-tab="formation"]').click()
   check('drum troop controls rendered',page.locator('[data-troop-mode="liu:drum"]').count()==1)
   page.locator('[data-troop-mode="liu:drum"]').click()
@@ -81,7 +81,7 @@ def run():
   html_old=HTML.replace('const __data={};','const __data='+json.dumps({'muu_dinh_tam_quoc_v1':json.dumps(v2,ensure_ascii=False)},ensure_ascii=False)+';')
   page.close();page=browser.new_page(viewport={'width':1440,'height':900});page.on('pageerror',lambda e:errors.append(str(e)));page.set_content(html_old,wait_until='domcontentloaded')
   legacy=page.evaluate('window.__P2_QA__.getGame()')
-  check('V0.2 save migrates without loss of progress',legacy['version']==3 and isinstance(legacy['battleReports'],list) and 'troopModes' in legacy and legacy['silver']==v2['silver'])
+  check('V0.2 save migrates without loss of progress',legacy['version']==4 and isinstance(legacy['battleReports'],list) and 'troopModes' in legacy and 'cltq' in legacy and legacy['silver']==v2['silver'])
   print('CHROMIUM ERRORS',errors)
   check('no Chromium JS exceptions', len(errors)==0)
   page.screenshot(path=str(OUT/'p2-city.png'),full_page=True)

@@ -5,6 +5,16 @@
 - First new implementation milestones: **CL-P0/CL-P1** (original soldiers fighting alongside 5 generals) then **CL-P2** (real march/capture territory).
 - Current owner acceptance for new CL gameplay: **PENDING**; retain exact-SHA CI and device/visual gates.
 
+## CL-P0/P1/P2 playable implementation checkpoint — 2026-11-16
+
+- Base read from `main-ngoalong`: `39111d435f0aa6d059240dc36a81fc9be9d46225`. Exact implementation commit SHA is captured by the next GitHub Actions run and its evidence artifact.
+- Added the CL compatibility/gap audit, schema-v4 `cltq` save namespace, five independent commander slots, troop-count-linked unit visuals/damage, battle receipts and recovery, a 10-node map, route/food/ETA preview, march, NPC siege/capture, one-time yield, garrison and defense loop.
+- Retained the canonical offline `index.html`, legacy save key, v1/v2/v3 migration, original 3×3 slots, combat/replay/reward pipeline, and existing P4/P4.1 art. No changes to Hero, merge or force-push.
+- Local Chromium: smoke 7/7; P2 full 31/31; P2 advanced 12/12; P3 74/74; P3 balance contract PASS; P4 source 4/4 + visual 14/14; P4.1 animation 18/18; CL P1/P2 43/43. P4.1 atlas reproducibly rebuilds byte-identically with CI-pinned Pillow 12.3.0.
+- CL P1/P2 output includes desktop 1280×720 and mobile 390×844 screenshots, an exact `index.html` SHA-256, and a real-browser gameplay WebM that shows an actual hit event. Physical-device and owner acceptance remain separate gates.
+- V0 syntax and `git diff --check`: PASS. V1 focused/legacy regressions: PASS for the listed suites; P4.1 MP4 encoder step is left to Ubuntu Actions. V2 desktop/mobile CL interaction, pause/reload/retreat, siege failure/retry and save: 43/43 PASS. V3 exact-SHA Actions and playable artifact: PENDING push. V4 physical browser devices and V5 owner visual review: PENDING.
+- Remaining phase work: P2 interruption/time-skew/failure retry edge cases; P3 territory production/upkeep and long economy loop; P4 roster/deep campaign balance; P5 original isometric/directional art and art review; P6 optional diplomacy/season/siege/endgame. See `CLTQ_GAP_AUDIT.md`.
+
 ---
 
 # Mưu Định Tam Quốc — checkpoint P3 ngày 16/11/2026

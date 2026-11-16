@@ -1,4 +1,4 @@
-name: NgoaLong P4.1 complete QA
+name: Muu Dinh Tam Quoc · CLTQ full regression and release
 
 on:
   push:
@@ -29,6 +29,8 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: P2 smoke Chromium
         run: python qa/smoke.py
+      - name: CL-P1/P2 real battle and campaign loop
+        run: python qa/cl_p1_p2.py
       - name: P2 full 31 tests
         run: python qa/p2_full.py
       - name: P2 advanced 12 tests
@@ -65,10 +67,11 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ngoalong-p41-qa-evidence
+          name: muu-dinh-tam-quoc-cl-qa-evidence
           path: |
             qa/*.json
             qa/*.png
+            qa/*.webm
             qa/p41-*.mp4
             qa/p41-288-frames-source.zip
             assets/p41/troops_manifest.json
@@ -80,7 +83,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: ngoalong-p41-playable
+          name: muu-dinh-tam-quoc-cl-p1-p2-playable
           path: |
             index.html
             qa/commit-sha.txt

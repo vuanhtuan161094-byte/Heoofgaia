@@ -3,7 +3,7 @@ from playwright.sync_api import sync_playwright
 import json,sys,traceback
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'qa'
-HTML=((ROOT/'index.html').read_text())
+HTML=((ROOT/'index.html').read_text(encoding='utf-8'))
 STUB='''<script>window.__P2_ENABLE_QA__=true;const __data={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>__data[k]??null,setItem:(k,v)=>__data[k]=String(v),removeItem:k=>delete __data[k]}});</script>'''
 HTML=HTML.replace('<script>',STUB+'<script>',1)
 checks=[]
