@@ -4,9 +4,9 @@ Game chiến thuật Tam Quốc độc lập, lấy **Chiến Loạn Tam Quốc 
 
 ## Bản chơi mới nhất
 
-CL-P0 đến CL-P5 đã phát hành. Bản chơi công khai mới nhất là CL-P5 SHA `54c1b8591de76ac83f38ee0330f7343e4f4917cc`, vượt toàn bộ GitHub Actions exact-SHA run [43926009183](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43926009183), xuất bản artifact `muu-dinh-tam-quoc-cl-p5-playable` và `muu-dinh-tam-quoc-cl-qa-evidence`. Mở trang run để tải HTML offline. Bản P4 vẫn có tại workflow [43923305781](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43923305781); các bản P3 và P1/P2 ở [43915734348](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43915734348) và [43909024419](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43909024419).
+CL-P6 là bản chơi mới nhất, mã nguồn game ở SHA `71cf5a6ae35a35f0e470e2f160c2b409557c1224`, vượt toàn bộ GitHub Actions exact-SHA run [43934332430](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43934332430). Run xuất bản artifact `muu-dinh-tam-quoc-cl-p6-playable` và `muu-dinh-tam-quoc-cl-qa-evidence`; mở trang run để tải HTML offline. CL-P5 trước đó có tại [43926009183](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43926009183), P4 tại [43923305781](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43923305781), P3 và P1/P2 tại [43915734348](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43915734348) và [43909024419](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43909024419).
 
-CL-P6 đã được triển khai trong `index.html`: ngoại giao NPC, bốn mùa/thời tiết tác động hành quân, đạo quân cánh đánh độc lập, máy công thành, kỳ quan Cửu Đỉnh và chiến dịch PvE tăng tầng. Local Chromium hiện đạt 30/30, gồm cả chiến thắng và thất bại có lưu tiến độ. Exact-SHA Actions và artifact P6 đang chờ phát hành; tải P5 để chơi trong lúc workflow P6 chưa xác nhận. P4 bổ sung 49 tướng, 30 chân dung lịch sử minh họa riêng, bảy liên minh, hiệp lực phe, năm chương/15 ải và trận boss 5v5. Sweep 360 trận cho thấy hai ải đầu đạt 100%, boss cuối 25% theo bốn hồ sơ đội quân.
+CL-P6 trong `index.html` có ngoại giao NPC, bốn mùa/thời tiết tác động hành quân, đạo quân cánh đánh độc lập, máy công thành, kỳ quan Cửu Đỉnh và chiến dịch PvE tăng tầng. Chromium đạt 30/30; workflow exact-SHA P6 và artifact chơi được đã thành công. P4 bổ sung 49 tướng, 30 chân dung lịch sử minh họa riêng, bảy liên minh, hiệp lực phe, năm chương/15 ải và trận boss 5v5. Sweep 360 trận cho thấy hai ải đầu đạt 100%, boss cuối 25% theo bốn hồ sơ đội quân.
 
 ## Gameplay đã phát hành
 
@@ -20,7 +20,7 @@ CL-P6 đã được triển khai trong `index.html`: ngoại giao NPC, bốn mù
 
 ## Bắt đầu
 
-Trên GitHub vào workflow run **SUCCESS** của `main-ngoalong`, tải artifact playable tương ứng với mốc cần chơi, giải nén và mở `index.html` bằng Chrome hoặc Edge. Artifact P5 hiện là bản công khai mới nhất; P6 sẽ thay thế sau khi toàn bộ exact-SHA Actions đạt.
+Trên GitHub vào workflow run **SUCCESS** của `main-ngoalong`, tải artifact playable tương ứng với mốc cần chơi, giải nén và mở `index.html` bằng Chrome hoặc Edge. Artifact P6 hiện là bản chơi mới nhất.
 
 ## Kiểm chứng và tài liệu
 

@@ -2,20 +2,20 @@
 - Owner withdrew Ngọa Long-first feature plan and selected **Chiến Loạn Tam Quốc (2025)** as gameplay reference. Keep game brand **Mưu Định Tam Quốc** as an original implementation; original screenshots/assets cannot be copied.
 - Product requirements and acceptance are in [CHIEN_LOAN_MASTER_SPEC.md](CHIEN_LOAN_MASTER_SPEC.md) and [CLTQ_REFERENCE_MATRIX.md](CLTQ_REFERENCE_MATRIX.md). Agent Codex authorization remains scoped to `main-ngoalong`; Hero isolation unchanged.
 - Older P2/P3/P4.1 results below are **legacy-system baselines**. CL gates are separately recorded in this current section and the CL reference matrix.
-- CL-P0–P5 are implemented and released. CL-P6 is implemented locally and its full exact-commit-SHA Actions run is pending.
+- CL-P0–P6 are implemented and released. CL-P6 exact-source-SHA GitHub Actions passed and produced the playable/evidence artifacts.
 - Current owner acceptance for new CL gameplay: **PENDING**; retain exact-SHA CI and device/visual gates.
 
-## CL-P5 release and CL-P6 local candidate — 2026-11-17
+## CL-P6 release — 2026-11-17
 
-- Current remote release: CL-P5 commit `54c1b8591de76ac83f38ee0330f7343e4f4917cc` passed full GitHub Actions exact-SHA run [43926009183](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43926009183); published `muu-dinh-tam-quoc-cl-p5-playable` and `muu-dinh-tam-quoc-cl-qa-evidence`. CL-P4 and older P0–P3 releases remain in Actions history.
+- Current remote game-code release: CL-P6 commit `71cf5a6ae35a35f0e470e2f160c2b409557c1224` passed full GitHub Actions exact-SHA run [43934332430](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43934332430); published `muu-dinh-tam-quoc-cl-p6-playable` and `muu-dinh-tam-quoc-cl-qa-evidence`. CL-P5 at `54c1b8591de76ac83f38ee0330f7343e4f4917cc` and prior milestones remain in Actions history.
 - CL-P6 working tree adds deterministic NPC diplomacy, season/weather movement and battle modifiers, an independent second army, siege engines, Lạc Thành's Cửu Đỉnh and a persistent repeatable PvE tier ladder. Enemy scaling caps at +180%; a paid once-per-battle super command is recorded as a battle event and replay snapshot.
-- Focused local evidence: `python qa/cl_p6.py` **30/30** in Chromium at 1280×720 and 390×844, including simultaneous marches, actual second-army siege, one-time capture/casualty receipts, paid wonder construction, PvE victory/reward and loss/tier persistence, skill cost/effect/replay state, and reload. `python work/check_inline_syntax.py` and `python qa/smoke.py` **7/7** pass. Exact-SHA full regression and playable P6 artifact are pending.
+- Focused local evidence: `python qa/cl_p6.py` **30/30** in Chromium at 1280×720 and 390×844, including simultaneous marches, actual second-army siege, one-time capture/casualty receipts, paid wonder construction, PvE victory/reward and loss/tier persistence, skill cost/effect/replay state, and reload. `python work/check_inline_syntax.py` and `python qa/smoke.py` **7/7** pass. Full exact-SHA Actions passed; its workflow also passed legacy CL regressions, asset rebuild, sprite animation checks, and real Chromium video capture.
 - The Save key and schema v5 are preserved; P6 persists under `cltq.p6` and loads existing v1–v5 saves with defaults. Reference rules and balance values are documented as simulated offline systems in `P6_SYSTEMS_DESIGN.md`.
-- Remaining gates: exact-SHA GitHub Actions, physical Windows/Android play, owner's visual and balance acceptance, complete CL-specific walk/hurt/death clips, new licensed audio, and video generation. Existing P4.1 Chromium-rendered video is not a replacement for those gaps.
+- Remaining gates: physical Windows/Android play, owner's visual and balance acceptance, complete CL-specific walk/hurt/death clips, new licensed audio, and video generation. Existing P4.1 Chromium-rendered video is not a replacement for those gaps.
 
 ## CL-P6 exact-SHA result
 
-- Commit SHA, Actions run, and playable artifact will be entered here only after the push is verified against the branch head and the complete workflow returns **SUCCESS**.
+- Verified branch game-code SHA: `71cf5a6ae35a35f0e470e2f160c2b409557c1224`; complete workflow [43934332430](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43934332430) returned **SUCCESS** on that exact SHA. Playable artifact: `muu-dinh-tam-quoc-cl-p6-playable`; evidence artifact: `muu-dinh-tam-quoc-cl-qa-evidence`.
 
 ## CL-P3 release / pre-P4-CI snapshot — 2026-11-17
 
