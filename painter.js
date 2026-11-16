@@ -1175,6 +1175,11 @@ function hg79EnemyVisualId(u){
  return pool[hash%pool.length];
 }
 function battleUnitArt(c,x,y,enemy,visual,k,u){
+ // HG93: 20 unique city units inherit the genuine authored tier-10 atlas
+ // until dedicated, owner-approved artwork is produced (no placeholder rigs).
+ const special=/^(human|elf|orc|undead)_(saint|divine)_[1-5]$/.exec(String(u.unitId||''));
+ if(special){const sourceId=special[1]+'_10';
+  if(troopAtlasDefinition(sourceId))return animatedTroopAtlas(c,x,y,enemy,visual,k,sourceId,u.name);}
  if(troopAtlasDefinition(u.unitId,u.name))return animatedTroopAtlas(c,x,y,enemy,visual,k,u.unitId,u.name);
  const model=hg79EnemyVisualId(u);
  // Human Archer uses the independent HG14.3 six-action master, not HG33 rows.
