@@ -1193,8 +1193,8 @@ test('HG10 migrates legacy v07 saves without duplicating city stock',()=>{
  const loaded=E.parseSave(JSON.stringify(old));assert.equal(loaded.version,7);assert.equal(loaded.cities.length,1);assert.equal(loaded.activeCityId,'main');assert.equal(loaded.res.gold,1234);assert.equal(loaded.cities[0].local.res.gold,1234);assert(E.strictSave(loaded));
 });
 
-test('HG10 world grid preserves the historical 100x100 coordinate space and all ten visitable locations',()=>{
- assert.equal(E.WIDTH,100);assert.equal(E.HEIGHT,100);assert.equal(E.WORLD_BUILDINGS.length,10);
+test('HG93 world expands to 200x200 while preserving the historical 100x100 coordinates and ten visitable locations',()=>{
+ assert.equal(E.WIDTH,200);assert.equal(E.HEIGHT,200);assert.equal(E.TILES.length,40000);assert.equal(E.WORLD_BUILDINGS.length,10);
  for(const b of E.WORLD_BUILDINGS){const key=`${b.x},${b.y}`;assert.equal(E.getTile(key).kind,'visit',key);assert(E.pathfind('3,4',key),`no path to ${key}`)}
  assert.equal(E.WORLD_BUILDING_BY_KEY.get('94,1').name,'Tháp Phòng thủ');assert.equal(E.WORLD_BUILDING_BY_KEY.get('11,89').effect,'random-resource');
 });
