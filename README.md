@@ -1,4 +1,4 @@
-# Mưu Định Tam Quốc — V0.5 P4
+# Mưu Định Tam Quốc — V0.6 P4.1
 
 **Một game HTML chiến thuật Tam Quốc độc lập**, lấy cảm hứng từ Ngọa Long cổ điển. Đây không phải mã nguồn chính thức của VNG. Mọi hệ số AI, quân cấp, đội hình, thiệt hại là SIMULATED.
 
@@ -18,6 +18,14 @@
 - Cân bằng kiểm toán **360 trận deterministic** (3 nhóm lực lượng × 5 mốc ải × 24 mẫu), làm mượt độ khó ở ải 13–20; ghi đầy đủ bằng chứng.
 - Giữ P2: 24 kỹ năng riêng, sĩ khí, tướng trống, replay snapshot, ba tuyến sát thương và quyết toán một lần.
 
+## P4.1: Animation sprite-first và VFX theo chiến báo
+- **288 frame PNG**: 4 quân (Bộ/Kỵ/Cung/Mưu) × 4 hướng (Front/Right/Back/Left) × 3 hành động (Idle/Attack/Hit) × 6 frame, atlas `assets/p41/troops_p41.webp` và manifest `assets/p41/troops_manifest.json`.
+- Frame được **tổng hợp bằng xử lý ảnh 2D từ các pose gốc P4**, có vẽ các nét hiệu ứng mới ở từng khung, không rig; chưa phải animation vẽ tay độc lập hay mỹ thuật được chủ game duyệt.
+- Hiệu ứng chiến đấu theo event thật: charge → release → contact → fade, chỉ đọc chiến báo; replay không nhân đôi thưởng hay ảnh hưởng Save.
+- Mã tái tạo: `tools/build_p41_atlas.py`; QA: `qa/p41_animation.py` (18 kiểm tra), `qa/p41_video.py` (52 khung Chromium 1280×720 → MP4 12 fps, lấy mẫu đồng hồ hình ảnh).
+- GitHub Actions xuất PNG frame archive, video Chromium và một HTML offline đã kiểm thử ở artifact `ngoalong-p41-playable`. Chi tiết `docs/P41_ANIMATION_VFX.md`; còn PENDING owner art approval/thiết bị thật.
+- **Không Codex, không rig, không thay gameplay/Save/P3 balance, không sửa nhánh Hero.**
+
 ## P4: mỹ thuật gốc tích hợp thực tế
 - Background thành trì mới từ artwork AI nguyên bản; **7 nút công trình** hiện diện và thao tác thật.
 - Chân dung 8 danh tướng Tam Quốc đã dùng sprite atlas gốc, tướng khác giữ icon mặc định để không nhận là hoàn tất 24/24.
@@ -29,11 +37,11 @@
 ## Kiểm thử trực tiếp tại máy phát triển
 
 - P2 full **31/31**, P2 advanced **12/12**, P3 **74/74** và P3 balance **360/360 scenario executions**; báo cáo này là kết quả chạy local trước commit.
-- GitHub CI chỉ được coi là PASS sau khi workflow `NgoaLong P4 complete QA` hoàn thành trên **exact SHA mới nhất**.
+- GitHub CI chỉ được coi là PASS sau khi workflow `NgoaLong P4.1 complete QA` hoàn thành trên **exact SHA mới nhất**.
 - CI: `python qa/smoke.py`, `python qa/p2_full.py`, `python qa/p2_advanced.py`, `python qa/p3.py`, `python qa/p3_balance.py`, `python qa/p4_assets.py`, `python qa/p4_art.py`.
 - Screenshots Chromium 1280×720 và mobile 390px xuất qua Actions artifacts; chưa chứng nhận Windows/Android thiết bị thật.
 
-**Bản chơi đã kiểm thử:** vào GitHub Actions trên nhánh `main-ngoalong`, chọn run **SUCCESS** mới nhất, tải artifact `ngoalong-p4-playable` (chứa `index.html` + SHA). Không dùng artifact từ run FAIL/PENDING.
+**Bản chơi đã kiểm thử:** vào GitHub Actions trên nhánh `main-ngoalong`, chọn run **SUCCESS** mới nhất, tải artifact `ngoalong-p41-playable` (chứa `index.html` + SHA). Không dùng artifact từ run FAIL/PENDING.
 
 ## Tài liệu
 

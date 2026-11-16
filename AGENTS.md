@@ -20,3 +20,9 @@
 4. **Chỉ khẳng định các gate có bằng chứng**, không đánh đồng GitHub PASS với Windows/Android thật.
 5. Không merge, force-push hoặc reset lịch sử của Hero. Mọi update branch dùng expected SHA.
 6. Cuối báo cáo: DONE / TESTED / PENDING, exact SHA + Actions link + 2–3 lựa chọn tiếp theo.
+
+## P4.1 sprite production / visual-only (16/11/2026)
+- Chỉ ảnh 2D frame-by-frame; tuyệt đối không rig/xương. Từng frame xuất từ 2 pose gốc bằng 2D compositing được ghi rõ. Không tự nhận là hoàn toàn vẽ tay.
+- Event clock/view chỉ đọc từ combat event. Charge/release/contact/fade không tự tạo lượt đánh, target, hit, phần thưởng. Replay immutable.
+- Single-file offline `index.html`; atlas + generator + manifest là nguồn tái tạo, generated 288 PNG được CI đính kèm artifact.
+- Gate bắt buộc: P2/P3/P4 regression + P41 18 checks + video Chromium native 1280×720/12fps + exact SHA. Art approval không thay bằng CI.

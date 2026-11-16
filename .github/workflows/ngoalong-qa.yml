@@ -1,4 +1,4 @@
-name: NgoaLong P4 complete QA
+name: NgoaLong P4.1 complete QA
 
 on:
   push:
@@ -25,7 +25,7 @@ jobs:
       - name: Browser QA dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install playwright==1.58.0
+          python -m pip install playwright==1.58.0 pillow==12.3.0
           python -m playwright install --with-deps chromium
       - name: P2 smoke Chromium
         run: python qa/smoke.py
@@ -41,14 +41,33 @@ jobs:
         run: python qa/p4_assets.py
       - name: P4 original asset visual QA 14 tests
         run: python qa/p4_art.py
+      - name: P4.1 reproduce 288 frames and exact atlas bytes
+        run: |
+          cp assets/p41/troops_p41.webp /tmp/ngoalong-p41-source.webp
+          python tools/build_p41_atlas.py
+          cmp /tmp/ngoalong-p41-source.webp assets/p41/troops_p41.webp
+          python -c "import json,pathlib;d=json.loads(pathlib.Path('assets/p41/troops_manifest.json').read_text());assert d['frameCount']==288"
+      - name: P4.1 Chromium animation and event QA 18 checks
+        run: python qa/p41_animation.py
+      - name: P4.1 generate actual Chromium render video
+        run: |
+          command -v ffmpeg
+          python qa/p41_video.py
+      - name: P4.1 package 288 real PNG frames
+        run: |
+          cd assets/p41
+          zip -q -r ../../qa/p41-288-frames-source.zip frames
       - name: Upload exact SHA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ngoalong-p4-qa-evidence
+          name: ngoalong-p41-qa-evidence
           path: |
             qa/*.json
             qa/*.png
+            qa/p41-*.mp4
+            qa/p41-288-frames-source.zip
+            assets/p41/troops_manifest.json
             qa/commit-sha.txt
             qa/index-sha256.txt
           if-no-files-found: warn
@@ -57,7 +76,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: ngoalong-p4-playable
+          name: ngoalong-p41-playable
           path: |
             index.html
             qa/commit-sha.txt

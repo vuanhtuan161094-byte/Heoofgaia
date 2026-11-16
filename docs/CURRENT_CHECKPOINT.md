@@ -25,3 +25,11 @@ NEXT: GitHub Actions exact-SHA → review artifact screenshot & report → P4 đ
 - CI chạy `qa/p4_assets.py` để so sánh bốn SHA256. Mỗi lần thay artwork cần tái nhúng HTML và cập nhật asset file; không thay một phía.
 - Những PNG master ImageGen đầy đủ nằm trong P4 backup ZIP, chưa nằm trên GitHub; không nhận là đã có lịch sử gốc trong repo.
 - CI exact SHA cho commit này: PENDING đến khi Actions hoàn tất.
+
+## P4.1 sprite animation / VFX production — 16/11/2026
+- P4 base Git SHA `769cbf9e088f8e5d861253bc8e66abce5c1eae86`, target commit P4.1 theo HEAD mới của `main-ngoalong`.
+- 288 exported sprite PNG frames, 4 unit classes × 4 direction × 3 actions × 6 frames, packed 800×5184 WebP. Generator deterministic `tools/build_p41_atlas.py`; source atlas SHA256 `ac77ab05bf120d253b8812dca0821b52d8b427d6a1d5b363519c55eb99f8b79f`.
+- P4.1 HTML canonical retains P2/P3 mechanics and Save v3. Source is original project AI-generated pose master plus authored 2D compositing; not rig/independently hand-drawn.
+- Local CHECKED: 18/18 P4.1, 7/7 smoke, 31/31 P2 full, 12/12 P2 advanced, 74/74 P3, 14/14 P4, 4/4 P4 asset, 360 P3 balance scenario executions.
+- Local Chromium video: `qa/p41-combat-1280x720.mp4`, 52 actual rendered viewport frames at 12fps; visual time deliberately sampled from four real combat events (including a skill), not a full-speed live FPS recording.
+- GitHub exact-SHA: CHECK action `NgoaLong P4.1 complete QA` on final commit, don't accept previous SHA; playable artifact only if full PASS. Owner visual + physical Windows/Android still PENDING.
