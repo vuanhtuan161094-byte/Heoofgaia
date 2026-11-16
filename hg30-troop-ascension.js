@@ -135,7 +135,7 @@ function convert(s,id,batches=1){
  return {...receipt,toName:r.toName};
 }
 function battleAct(s,action,options){
- const q=ensure(s),b=s.battle?{kind:s.battle.kind,target:s.battle.target}:null;
+ const q=ensure(s),b=s.battle?{kind:s.battle.kind,target:s.battle.target,hg94Action:s.battle.hg94Action}:null;
  const out=old.battleAct(s,action,options);
  if(!b||out?.type!=='win')return out;
  if(b.kind==='tower'){
@@ -145,7 +145,7 @@ function battleAct(s,action,options){
   const n=s.hg18.victories;
   if(n>q.worldSeen){
    q.worldSeen=n;
-   if(b.kind==='npc'){q.npcWins++;if((E.getTile(b.target)?.eliteTier||0)>=11)q.bossWins++;}
+   if(b.kind==='npc'&&!b.hg94Action){q.npcWins++;if((E.getTile(b.target)?.eliteTier||0)>=11)q.bossWins++;}
   }
  }
  return out;
