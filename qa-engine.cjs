@@ -1139,10 +1139,10 @@ test('HG93 world preserves 60 legacy castles and adds exactly 20 special castle 
  assert.deepEqual(['3,4','9,10','16,5','23,8','5,13','12,12'].map(key=>E.getTile(key).kind),Array(6).fill('castle'));
  assert.equal(E.NPC_CAMPS_2009.length,128);assert.equal(E.TREASURE_CAMPS_2009.length,76);
  for(const tile of modelled)assert(E.pathfind('3,4',tile.key), 'Generated castle unreachable: '+tile.key);
- const s=state();assert.equal(Object.keys(s.aiCities).length,36);assert(E.strictSave(s));
+ const s=state();assert.equal(Object.keys(s.aiCities).length,56);assert(E.strictSave(s));
  const legacy=E.clone(s);delete legacy.aiCities;
  const upgraded=E.parseSave(JSON.stringify(legacy));
- assert.equal(Object.keys(upgraded.aiCities).length,36);assert(E.strictSave(upgraded));
+ assert.equal(Object.keys(upgraded.aiCities).length,56);assert(E.strictSave(upgraded));
 });
 test('HG10 AI city economy grows garrisons from funded resources and survives offline reload',()=>{
  const s=state();s.speed=1;const key=Object.keys(s.aiCities)[0],before=E.clone(s.aiCities[key]);
