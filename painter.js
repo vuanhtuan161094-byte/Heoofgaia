@@ -194,6 +194,11 @@ function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=
   c.fillStyle=t.worldTier==='divine'?'#bb79ff':t.worldTier==='saint'?'#fff2ad':t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):ai?'#e37a63':'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
   const dot=t.source==='MODELED_HG92_FARM'?1.5:2.8;
   c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(dot,tw*.72),Math.max(dot,th*.72))}
+ // Territories are sparse Save v07 claims, not additional physical POIs.
+ for(const claim of s.hg94?.claims||[]){const t=E.TILES[claim[0]];
+  if(!t)continue;c.fillStyle='#a2db9a';
+  c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(.8,tw*.65),Math.max(.8,th*.65));
+ }
  if(selected){const t=E.getTile(selected);if(t){c.strokeStyle='#fff';c.lineWidth=2;c.strokeRect(m.x+pad+t.x*tw-1,m.y+pad+t.y*th-1,tw+2,th+2)}}
  const view=mapProjection(canvas);const vw=canvas.width/view.scale,vh=canvas.height/view.scale;
  c.strokeStyle='#f6dfb7';c.lineWidth=1.2;c.strokeRect(m.x+pad+clamp(M.centerX-vw/2,0,E.WIDTH)*tw,m.y+pad+clamp(M.centerY-vh/2,0,E.HEIGHT)*th,Math.min(vw,E.WIDTH)*tw,Math.min(vh,E.HEIGHT)*th);
@@ -300,6 +305,17 @@ function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
  // original road network leads from the capital to landmark targets
  c.save();c.strokeStyle='#aa926372';c.lineWidth=q*.13;c.lineCap='round';c.lineJoin='round';c.beginPath();[[3.5,4.5],[5.4,4.7],[7.6,4.4],[10.4,5.7],[14.3,7.1],[17.8,7.5],[20.1,8.6],[23.8,11]].forEach(([x,y],i)=>i?c.lineTo(x*q,y*q):c.moveTo(x*q,y*q));c.stroke();c.restore();
  hg79WorldGrid(c,E,q,ox,oy,w,h,'lines',selected);
+ // Captured wilderness gets a quiet territorial marker, not fake structures.
+ for(const t of visibleTiles)if(t.kind==='empty'&&s.hg94?.claims?.length&&E.hg94IsClaimed?.(s,t.key)){
+  c.fillStyle='#b9d88b28';c.fillRect(t.x*q+q*.05,t.y*q+q*.05,q*.90,q*.90);
+  c.strokeStyle='#9dcb88a0';c.lineWidth=Math.max(1,q*.022);
+  c.strokeRect(t.x*q+q*.10,t.y*q+q*.10,q*.80,q*.80);
+ }
+ const territorySelected=E.getTile(selected);
+ if(territorySelected?.kind==='empty'){
+  c.save();c.strokeStyle=territorySelected.terrain==='water'?'#8cd2e8':'#f9e6ad';
+  c.lineWidth=Math.max(2,q*.063);c.strokeRect(territorySelected.x*q+q*.045,territorySelected.y*q+q*.045,q*.91,q*.91);c.restore();
+ }
  const creatureAtlas=typeof document!=='undefined'?document.getElementById('hg28-world-creatures'):null;
  for(const t of visibleTiles){if(t.kind==='empty')continue;const x=(t.x+.5)*q,y=(t.y+.54)*q;if(!inside(x+ox,y+oy))continue;
   // NPCs remain visible after victory, because they are repeatable hunts.
@@ -381,7 +397,9 @@ function mapHit(canvas,x,y,E){
   const px=wx-(t.x+.5),py=wy-(t.y+.42),d=px*px+py*py;
   if(d<.69*.69&&d<best){nearest=t;best=d}
  }
- return nearest;
+ // HG94: a bare square is still selectable terrain. An occupied site's
+ // artwork retains hit priority; rivers can be inspected but not conquered.
+ return nearest||E.getTile(tx+','+ty)||null;
 }
 function panMap(dx,dy,width=100,height=100){M.centerX=clamp(M.centerX-dx,0,width-1);M.centerY=clamp(M.centerY-dy,0,height-1)}
 function zoomMap(v){M.zoom=clamp(M.zoom*v,.65,2.05)}
