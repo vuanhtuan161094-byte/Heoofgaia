@@ -1,4 +1,7 @@
-# NGỌA LONG — DEDICATED CODEX AGENT / MASTER DELIVERY CONTRACT
+# NGỌA LONG — DEDICATED CODEX AGENT / HISTORICAL CONTRACT (product roadmap superseded)
+
+> **PRODUCT PIVOT 2026-11-16 — READ FIRST:** Owner changed their mind. **CHIẾN LOẠN TAM QUỐC (2025)** is now the primary gameplay reference, NOT Ngọa Long. The executable, phase ordering, game-loop and acceptance direction in [CHIEN_LOAN_MASTER_SPEC.md](CHIEN_LOAN_MASTER_SPEC.md) OVERRIDE conflicting provisions below. Retain all restrictions on Hero isolation, no merge, no rig, no proprietary copying, offline index.html, source provenance, migration and exact-SHA REV gates. The repository branch remains `main-ngoalong` solely as a historical identifier. Current agent can still be called `NgoaLong-Codex` internally but should not make Ngọa Long its gameplay target. Full game has NOT been implemented by this change.
+
 **Owner authorization:** 2026-11-16 — Codex may execute the complete Ngọa Long project only. This authorization supersedes the earlier "no Codex" instruction **only on this project's branch**.
 **Repo:** `vuanhtuan161094-byte/Heoofgaia` · **isolated game branch:** `main-ngoalong` · **baseline verified before intake:** `8f8e9c705375d6307ca30771b953db1a5409c699`.
 **Agent identity:** `NgoaLong-Codex`. This is a *project-scoped agent instruction*, not a claim that a remote Codex runtime has started.
