@@ -11,7 +11,7 @@ let passed=0;
 function check(name,fn){try{const out=fn()||{};passed++;console.log('HG80 PASS',name,JSON.stringify(out))}catch(e){process.exitCode=1;console.error('HG80 FAIL',name,e.stack||String(e))}}
 check('Visible-world culling keeps exact y-major tile IDs and no 10k sweep per pan',()=>{
  const total=E.TILES.length;
- assert.equal(total,10000);
+ assert.equal(total,40000);
  const views=[
   {w:1280,h:600,q:62.4,cx:9.5,cy:7.4},
   {w:640,h:272,q:62.4,cx:9.5,cy:7.4},
@@ -38,10 +38,10 @@ check('MiniMap terrain raster is created once per size, but not shared across di
   return {width:0,height:0,getContext(){return {set fillStyle(_) {},fillRect(){fills++}}}};
  }};
  const a=P.hg80MiniTerrain(E,180,120),b=P.hg80MiniTerrain(E,180,120);
- assert.equal(a,b);assert.equal(creations,1);assert.equal(fills,10000);
+ assert.equal(a,b);assert.equal(creations,1);assert.equal(fills,40000);
  const c=P.hg80MiniTerrain(E,140,88);
- assert.notEqual(a,c);assert.equal(creations,2);assert.equal(fills,20000);
- return {firstDraws:10000,cacheHits:1,renderTilesOnSubsequentMapPan:0,cacheVariants:2};
+ assert.notEqual(a,c);assert.equal(creations,2);assert.equal(fills,80000);
+ return {firstDraws:40000,cacheHits:1,renderTilesOnSubsequentMapPan:0,cacheVariants:2};
 });
 check('Real world monster semantics are drawn with different source archetypes',()=>{
  const cases=[
@@ -58,7 +58,7 @@ check('Real world monster semantics are drawn with different source archetypes',
 check('Combat and map logic untouched, proper Save v07 serial roundtrip',()=>{
  const s=E.make('human',1_000_000);
  assert.equal(s.version,7);assert(E.strictSave(s));
- assert.equal(E.WIDTH,100);assert.equal(E.HEIGHT,100);
+ assert.equal(E.WIDTH,200);assert.equal(E.HEIGHT,200);
  assert.equal(E.BATTLE_GRID.cols,12);assert.equal(E.BATTLE_GRID.rows,9);
  const unit=Object.values(ctx.HOG_CATALOG.units).flat().find(u=>u.id==='human_10');
  assert(unit&&E.unitTacticalMovement(unit)>=2);
