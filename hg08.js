@@ -242,7 +242,7 @@ function heroTowerExperienceBonus(s){
 const NPC_BATTLE_XP=Object.freeze({4:1000,5:4000,6:9000,7:18000,8:30000});
 function battleExperienceReward(battle){
  const star=Number.isSafeInteger(battle?.level)&&battle.level>0?battle.level:1;
- const sourced=battle?.kind==='npc'&&Object.prototype.hasOwnProperty.call(NPC_BATTLE_XP,star);
+ const sourced=battle?.kind==='npc'&&!battle.hg94Action&&Object.prototype.hasOwnProperty.call(NPC_BATTLE_XP,star);
  return {star,baseXp:sourced?NPC_BATTLE_XP[star]:30*star,source:sourced?'SRC45':'SIM'};
 }
 function grantHeroExperience(s,heroId,amount,reason='gameplay'){
