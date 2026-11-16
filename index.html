@@ -12467,7 +12467,7 @@ function hydrateExtension(){const defaults=extDefaults();for(const [k,v] of Obje
 function resetDaily(){if(game.activity.day!==dayId()){game.activity={day:dayId(),counts:{},claimed:[],patrols:{},arenaTries:5,towerTries:3};log('Ngày mới: đặt lại nhiệm vụ, lôi đài và lượt tháp.');save();}}
 function credit(kind,amount){game[kind]=(game[kind]||0)+amount;}
 function payment(cost){for(const [k,v] of Object.entries(cost))if((game[k]||0)<v)return false;for(const [k,v] of Object.entries(cost))game[k]-=v;return true;}
-function earnedText(r){return Object.entries(r).map(([k,v])=>({silver:'🪙',grain:'🌾',iron:'⛓️',prestige:'🏅',gems:'💠'}[k]||k)+' '+fmt(v)).join(' · ');}
+function earnedText(r){return Object.entries(r).map(([k,v])=>({silver:'🪙',grain:'🌾',wood:'🌲',iron:'⛓️',prestige:'🏅',gems:'💠'}[k]||k)+' '+fmt(v)).join(' · ');}
 function countTask(key,n=1){resetDaily();game.activity.counts[key]=(game.activity.counts[key]||0)+n;}
 function shopCost(base){const eq=EQUIPMENT[base];return eq.rarity==='Truyền kỳ'?{silver:21000,iron:3800,prestige:550}:eq.rarity==='Hiếm'?{silver:4300,iron:980}:{silver:900,iron:160};}
 function newItem(base){const i={uid:game.itemSeq++,base,lv:1};game.items.push(i);return i;}
@@ -12495,7 +12495,7 @@ function renderNation(){const n=NATIONS[game.nation];return head('Tam phân thi�
 function changeNation(id){if(!NATIONS[id]||game.nationLocked||game.cleared.length||id===game.nation)return;const previous=NATIONS[game.nation].starters;for(const h of previous){if(!game.roster.includes(h))continue;game.roster=game.roster.filter(x=>x!==h);delete game.hero[h];delete game.gear[h];}game.roster=[...new Set([...NATIONS[id].starters,...game.roster])];for(const h of NATIONS[id].starters)game.hero[h]||={level:1,xp:0,troops:320};game.slots=[null,NATIONS[id].starters[1],null,null,NATIONS[id].starters[2],null,null,NATIONS[id].starters[0],null];game.nation=id;game.nationLocked=true;gearHero=game.roster[0];log(`Tuyên thệ quốc gia ${NATIONS[id].name}.`);save();toast('Đã chọn phe '+NATIONS[id].name);render();}
 
 function fresh(){return {version:3,silver:14000,grain:6500,iron:3200,prestige:0,gems:140,reserve:600,buildings:{palace:1,farm:1,market:1,mine:1,barracks:1,academy:1,tavern:1},roster:['liu','guan','zhang'],hero:{liu:{level:1,xp:0,troops:300},guan:{level:1,xp:0,troops:320},zhang:{level:1,xp:0,troops:320}},slots:[null,'guan',null,null,'zhang',null,null,'liu',null],formation:'spear',cleared:[],lastTick:Date.now(),logs:[{time:Date.now(),msg:'Thiên hạ loạn lạc. Ngươi lên ngôi chủ thành và chiêu mộ ba anh hùng đầu tiên.'}],freeRecruit:true,...extDefaults()};}
-function load(){try{const v=JSON.parse(localStorage.getItem(STORAGE));if(v&&(v.version===1||v.version===2||v.version===3||v.version===4)&&v.buildings&&v.hero&&Array.isArray(v.slots)&&Array.isArray(v.roster)&&v.slots.length===9)return v;}catch(e){}return fresh();}
+function load(){try{const v=JSON.parse(localStorage.getItem(STORAGE));if(v&&(v.version===1||v.version===2||v.version===3||v.version===4||v.version===5)&&v.buildings&&v.hero&&Array.isArray(v.slots)&&Array.isArray(v.roster)&&v.slots.length===9)return v;}catch(e){}return fresh();}
 let battleAnimationActive=false;function p2ScheduleAnimation(){if(battleAnimationActive)return;battleAnimationActive=true;requestAnimationFrame(drawBattle);}
 let battleLastTab='campaign';let game=load(),tab='city',selectedHero=null,selectedStage=Math.min(STAGES.length,game.cleared.length+1),battle=null,toastTimer=null;hydrateExtension();
 function save(){try{localStorage.setItem(STORAGE,JSON.stringify(game));return true;}catch(e){return false;}}
@@ -12539,7 +12539,7 @@ function focusBuilding(id){if(id==='barracks'){tab='barracks';render();return;}i
 function addExp(id,amount){const d=game.hero[id];if(!d)return;d.xp+=amount;while(d.xp>=d.level*90&&d.level<40){d.xp-=d.level*90;d.level++;}}
 function exportSave(){save();let blob=new Blob([JSON.stringify(game,null,2)],{type:'application/json'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='muu-dinh-tam-quoc-save.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),3000);}
 function resetSave(){if(!confirm('Xóa toàn bộ tiến độ và chơi lại từ đầu?'))return;game=fresh();selectedStage=1;selectedHero=null;gearHero=null;tab='city';save();render();toast('Đã khởi tạo chiến dịch mới.');}
-function importSave(file){const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(![1,2,3,4].includes(d.version)||!d.buildings||!d.hero||!Array.isArray(d.slots)||d.slots.length!==9||!Array.isArray(d.roster))throw Error('Không đúng phiên bản save');game=d;hydrateExtension();game.lastTick=Date.now();selectedStage=Math.min(STAGES.length,game.cleared.length+1);tab='city';save();render();toast('Đã phục hồi bản lưu!');}catch(e){toast('Không thể nhập bản lưu: '+e.message);}};reader.readAsText(file);}
+function importSave(file){const reader=new FileReader();reader.onload=()=>{try{const d=JSON.parse(reader.result);if(![1,2,3,4,5].includes(d.version)||!d.buildings||!d.hero||!Array.isArray(d.slots)||d.slots.length!==9||!Array.isArray(d.roster))throw Error('Không đúng phiên bản save');game=d;hydrateExtension();game.lastTick=Date.now();if(game.cltq?.economy)game.cltq.economy.lastAt=game.lastTick;selectedStage=Math.min(STAGES.length,game.cleared.length+1);tab='city';save();render();toast('Đã phục hồi bản lưu!');}catch(e){toast('Không thể nhập bản lưu: '+e.message);}};reader.readAsText(file);}
 // === Turn-based combat resolution with animated canvas feedback ===
 // P2 combat engine — independently modeled; no original VNG source or assets.
 const P2_SKILLS = {
@@ -13033,16 +13033,16 @@ document.addEventListener('click',ev=>{
 // === CL-P0 audit foundation + CL-P1/P2 playable vertical slice ===
 // Original mechanics; evidence classes and compatibility audit live in docs/CLTQ_REFERENCE_MATRIX.md.
 const CLTQ_NODES=[
- {id:'capital',name:'Tân Thành',type:'Thành chủ',icon:'🏯',x:11,y:50,level:0,guard:'Quân tuần thành',yield:{silver:0,grain:0,iron:0},roads:['outpost','farm']},
- {id:'outpost',name:'Trại Dã Ngoại',type:'Tiểu trại',icon:'🛖',x:27,y:28,level:1,guard:'Đội tuần vệ',yield:{silver:120,grain:180,iron:35},roads:['river','mine']},
- {id:'farm',name:'Linh Điền',type:'Đất canh tác',icon:'🌾',x:29,y:72,level:1,guard:'Nông trại bị chiếm',yield:{silver:55,grain:390,iron:15},roads:['river','village']},
- {id:'river',name:'Bến Thanh Hà',type:'Bến vượt',icon:'🌊',x:46,y:50,level:2,guard:'Thủy trại trưởng',yield:{silver:140,grain:230,iron:45},roads:['mine','village','pass','fort']},
- {id:'mine',name:'Thiết Khoáng',type:'Mỏ sắt',icon:'⛏️',x:48,y:18,level:2,guard:'Đội mỏ tư binh',yield:{silver:70,grain:100,iron:240},roads:['pass','city']},
- {id:'village',name:'Thôn Bạch Mã',type:'Thôn trấn',icon:'🏘️',x:49,y:83,level:2,guard:'Tướng Trấn Dã',yield:{silver:190,grain:250,iron:55},roads:['fort','capital2']},
- {id:'pass',name:'Hổ Lao Quan',type:'Sơn ải',icon:'⛰️',x:65,y:35,level:3,guard:'Hổ Tướng Giữ Ải',yield:{silver:210,grain:180,iron:125},roads:['fort','city']},
- {id:'fort',name:'Cổ Thành',type:'Quân thành',icon:'🧱',x:68,y:64,level:3,guard:'Đô Úy Trấn Thành',yield:{silver:230,grain:240,iron:140},roads:['capital2']},
- {id:'city',name:'Phủ Tế Bắc',type:'Đô ấp',icon:'🏙️',x:83,y:21,level:4,guard:'Chủ Tướng Bắc Phủ',yield:{silver:360,grain:310,iron:190},roads:['capital2']},
- {id:'capital2',name:'Lạc Thành',type:'Đại thành',icon:'🏰',x:87,y:81,level:5,guard:'Chủ Soái Lạc Thành',yield:{silver:510,grain:450,iron:280},roads:[]}
+ {id:'capital',name:'Tân Thành',type:'Thành chủ',icon:'🏯',x:11,y:50,level:0,guard:'Quân tuần thành',yield:{silver:0,grain:0,wood:0,iron:0},roads:['outpost','farm']},
+ {id:'outpost',name:'Trại Dã Ngoại',type:'Tiểu trại',icon:'🛖',x:27,y:28,level:1,guard:'Đội tuần vệ',yield:{silver:120,grain:180,wood:60,iron:35},roads:['river','mine']},
+ {id:'farm',name:'Linh Điền',type:'Đất canh tác',icon:'🌾',x:29,y:72,level:1,guard:'Nông trại bị chiếm',yield:{silver:55,grain:390,wood:10,iron:15},roads:['river','village']},
+ {id:'river',name:'Bến Thanh Hà',type:'Bến vượt',icon:'🌊',x:46,y:50,level:2,guard:'Thủy trại trưởng',yield:{silver:140,grain:230,wood:45,iron:45},roads:['mine','village','pass','fort']},
+ {id:'mine',name:'Thiết Khoáng',type:'Mỏ sắt',icon:'⛏️',x:48,y:18,level:2,guard:'Đội mỏ tư binh',yield:{silver:70,grain:100,wood:20,iron:240},roads:['pass','city']},
+ {id:'village',name:'Thôn Bạch Mã',type:'Thôn trấn',icon:'🏘️',x:49,y:83,level:2,guard:'Tướng Trấn Dã',yield:{silver:190,grain:250,wood:75,iron:55},roads:['fort','capital2']},
+ {id:'pass',name:'Hổ Lao Quan',type:'Sơn ải',icon:'⛰️',x:65,y:35,level:3,guard:'Hổ Tướng Giữ Ải',yield:{silver:210,grain:180,wood:30,iron:125},roads:['fort','city']},
+ {id:'fort',name:'Cổ Thành',type:'Quân thành',icon:'🧱',x:68,y:64,level:3,guard:'Đô Úy Trấn Thành',yield:{silver:230,grain:240,wood:45,iron:140},roads:['capital2']},
+ {id:'city',name:'Phủ Tế Bắc',type:'Đô ấp',icon:'🏙️',x:83,y:21,level:4,guard:'Chủ Tướng Bắc Phủ',yield:{silver:360,grain:310,wood:90,iron:190},roads:['capital2']},
+ {id:'capital2',name:'Lạc Thành',type:'Đại thành',icon:'🏰',x:87,y:81,level:5,guard:'Chủ Soái Lạc Thành',yield:{silver:510,grain:450,wood:110,iron:280},roads:[]}
 ];
 function cltqLegacyCommanders(g){return [...new Set((g?.slots||[]).filter(id=>id&&g?.hero?.[id]).concat(g?.roster||[]))].slice(0,5);}
 function cltqDefaultState(g){const ids=cltqLegacyCommanders(g);return {schema:1,commanders:Array.from({length:5},(_,i)=>ids[i]||null),selectedArmy:ids.slice(),owners:{capital:'player'},garrisons:{},wounded:{},killed:{},fieldProgress:0,receipts:[],captureReceipts:[],harvested:{},marches:[],seq:1,selectedNode:'outpost',activeMarchId:null,lastTroopReceipt:[]};}
@@ -13229,7 +13229,7 @@ function cltqFinishBattle(){
  battle.finished=true;battle.won=liveP>0&&(liveE===0||liveP>liveE);const cl=battle.cltq,node=cl.targetId?cltqNode(cl.targetId):null;clCommitTroopLosses();let rewards={},loot=null;
  if(battle.won){
   if(cl.kind==='field'){if(!cl.hard){game.cltq.fieldProgress=Math.max(game.cltq.fieldProgress,Math.min(3,battle.stage));rewards={silver:600+battle.stage*180,grain:250+battle.stage*80,iron:75+battle.stage*35};countTask('battle');for(const u of battle.p)addExp(u.id,45+battle.stage*10);}log('Thắng '+cl.title+'; quân số và thương binh đã quyết toán.');}
-  else if(cl.kind==='siege'){const first=!game.cltq.captureReceipts.includes(node.id);game.cltq.owners[node.id]='player';game.cltq.garrisons[node.id]=game.cltq.garrisons[node.id]||[];if(first){game.cltq.captureReceipts.push(node.id);rewards={silver:Math.round(node.yield.silver*.35),grain:Math.round(node.yield.grain*.35),iron:Math.round(node.yield.iron*.35)};countTask('battle');for(const u of battle.p)addExp(u.id,60+node.level*12);}const m=game.cltq.marches.find(x=>x.id===cl.marchId);if(m)m.status='captured';game.cltq.activeMarchId=null;log('Chiếm được '+node.name+'. Thành chủ và phần thưởng đã lưu.');}
+  else if(cl.kind==='siege'){const first=!game.cltq.captureReceipts.includes(node.id);game.cltq.owners[node.id]='player';game.cltq.garrisons[node.id]=game.cltq.garrisons[node.id]||[];if(first){game.cltq.captureReceipts.push(node.id);rewards={silver:Math.round(node.yield.silver*.35),grain:Math.round(node.yield.grain*.35),wood:Math.round(node.yield.wood*.35),iron:Math.round(node.yield.iron*.35)};countTask('battle');for(const u of battle.p)addExp(u.id,60+node.level*12);}const m=game.cltq.marches.find(x=>x.id===cl.marchId);if(m)m.status='captured';game.cltq.activeMarchId=null;log('Chiếm được '+node.name+'. Thành chủ và phần thưởng đã lưu.');}
   else if(cl.kind==='defend')log('Giữ vững '+node.name+' trước đợt tập kích NPC.');
   for(const [k,v] of Object.entries(rewards))credit(k,v);
  }else{
@@ -13266,6 +13266,72 @@ function cltqClick(ev){
 document.addEventListener('click',cltqClick);
 document.addEventListener('change',ev=>{if(ev.target.matches('[data-cl-commander]'))cltqSetCommander(ev.target.dataset.clCommander,ev.target.value);});
 if(window.__P2_ENABLE_QA__){window.__CLTQ_QA__={nodes:()=>CLTQ_NODES.map(x=>({...x})),getState:()=>structuredClone(game.cltq),debugState:()=>game.cltq,getBattle:()=>battle?structuredClone({...battle,current:null,fx:[],order:null}):null,soldierCount:u=>clSoldierFormation(u).length,renderMap:cltqRenderWorld,startMarch:cltqStartMarch,render:()=>render(),tickMarch:cltqTick,advanceMarch(){const m=cltqActiveMarch();if(!m)return false;m.arrivesAt=Date.now()-1;cltqTick();return m.status;},path:cltqPathTo,commit:clCommitTroopLosses,setGame:g=>{game=g;hydrateExtension();render();}};}
+
+// === CL-P3 city and territory economy ===
+// Original simulated rules, saved in the canonical game record with exactly-once time cursors.
+BUILDINGS.walls={name:'Thành Lũy',icon:'🧱',desc:'Gia cố đồn trú; tăng sinh lực và phòng thủ khi bảo vệ lãnh địa.',base:900,iron:160};
+BUILDINGS.lumberyard={name:'Xưởng Lâm Mộc',icon:'🌲',desc:'Khai thác gỗ định kỳ để xây công trình và chế tác trang bị.',base:700,iron:80};
+earnedText=function(r){return Object.entries(r).map(([k,v])=>({silver:'🪙',grain:'🌾',wood:'🌲',iron:'⛓️',prestige:'🏅',gems:'💠'}[k]||k)+' '+fmt(v)).join(' · ');};
+const cltqP3BaseBuildingCost=buildingCost;buildingCost=function(id){const cost=cltqP3BaseBuildingCost(id);if(id==='lumberyard')cost.wood=Math.round(120*Math.pow(1.65,game.buildings.lumberyard-1));return cost;};
+const cltqP3BaseBuildingPanel=buildingPanel;buildingPanel=function(id){const cost=buildingCost(id),html=cltqP3BaseBuildingPanel(id);return html.replace(/<span class="cost">.*?<\/span>/,`<span class="cost">${earnedText(cost)}</span>`);};
+renderResources=function(){$('resources').innerHTML=[['🪙','Đồng',game.silver],['🌾','Lương',game.grain],['🌲','Gỗ',game.wood],['⛓','Sắt',game.iron],['🏅','Uy danh',game.prestige],['💠','Ngọc',game.gems]].map(v=>`<div class="res"><span>${v[0]} ${v[1]}</span><b>${fmt(v[2])}</b></div>`).join('');};
+const CLTQ_P3_INTERVAL=10000,CLTQ_P3_MAX_OFFLINE=14400000;
+function cltqP3DefaultEconomy(){return {schema:1,lastAt:Number.isFinite(+game.lastTick)?+game.lastTick:Date.now(),productionRemainder:{silver:0,grain:0,wood:0,iron:0},upkeepRemainder:0,supply:100,shortageTicks:0,seq:1,receipts:[],totals:{silver:0,grain:0,wood:0,iron:0,upkeep:0,shortage:0}};}
+function cltqP3HydrateState(){
+ if(!game.buildings||typeof game.buildings!=='object')game.buildings={};
+ for(const [id,value] of Object.entries({palace:1,farm:1,market:1,mine:1,barracks:1,academy:1,tavern:1,walls:1,lumberyard:1}))game.buildings[id]=Math.max(1,Math.min(12,Math.floor(Number.isFinite(+game.buildings[id])?+game.buildings[id]:value)));
+ game.wood=Math.max(0,Math.floor(Number.isFinite(+game.wood)?+game.wood:1000));
+ if(!game.cltq||typeof game.cltq!=='object')game.cltq=cltqDefaultState(game);
+ const prior=game.cltq.economy&&typeof game.cltq.economy==='object'?game.cltq.economy:cltqP3DefaultEconomy(),base=cltqP3DefaultEconomy();
+ prior.schema=1;prior.lastAt=Number.isFinite(+prior.lastAt)?Math.max(0,+prior.lastAt):base.lastAt;
+ prior.productionRemainder=prior.productionRemainder&&typeof prior.productionRemainder==='object'?prior.productionRemainder:base.productionRemainder;
+ for(const k of ['silver','grain','wood','iron'])prior.productionRemainder[k]=Math.max(0,Math.min(.999999,+prior.productionRemainder[k]||0));
+ prior.upkeepRemainder=Math.max(0,Math.min(.999999,+prior.upkeepRemainder||0));prior.supply=Math.max(25,Math.min(100,+prior.supply||100));
+ prior.shortageTicks=Math.max(0,Math.floor(+prior.shortageTicks||0));prior.seq=Math.max(1,Math.floor(+prior.seq||1));prior.receipts=Array.isArray(prior.receipts)?prior.receipts.slice(-100):[];
+ prior.totals=prior.totals&&typeof prior.totals==='object'?prior.totals:base.totals;for(const k of ['silver','grain','wood','iron','upkeep','shortage'])prior.totals[k]=Math.max(0,Math.floor(+prior.totals[k]||0));
+ game.cltq.economy=prior;game.version=5;
+}
+const cltqP3BaseHydrate=hydrateExtension;hydrateExtension=function(){cltqP3BaseHydrate();cltqP3HydrateState();save();};
+const cltqP3BaseFresh=fresh;fresh=function(){const g=cltqP3BaseFresh();g.version=5;g.wood=1000;g.buildings.walls=1;g.buildings.lumberyard=1;return g;};
+cltqP3HydrateState();save();
+function cltqP3ConnectedNodes(){
+ const seen=new Set(['capital']),queue=['capital'];
+ while(queue.length){const n=cltqNode(queue.shift());for(const id of n?.roads||[])if(!seen.has(id)&&cltqOwner(id)==='player'){seen.add(id);queue.push(id);}}
+ return CLTQ_NODES.filter(n=>n.id!=='capital'&&seen.has(n.id)&&cltqOwner(n.id)==='player');
+}
+function cltqP3ProductionRates(nodes=cltqP3ConnectedNodes()){
+ const out={silver:0,grain:0,wood:5+(Number(game.buildings.lumberyard)||1)*7,iron:0};for(const n of nodes)for(const k of Object.keys(out))out[k]+=(Number(n.yield?.[k])||0)/60;return out;
+}
+function cltqP3GarrisonTroops(){
+ const ids=[...new Set(Object.values(game.cltq.garrisons||{}).flat())];return ids.reduce((sum,id)=>sum+(Number(game.hero[id]?.troops)||0),0);
+}
+function cltqP3FortifyUnit(u){const fort=Math.min(.25,(Number(game.buildings.walls)||1)*.05)*(game.cltq.economy.supply/100);u.maxHp=Math.round(u.maxHp*(1+fort));u.hp=Math.round(u.hp*(1+fort));for(const k of ['def','tdef','mdef'])u[k]=Math.round(u[k]*(1+fort));return u;}
+function cltqP3ProcessEconomy(now=Date.now()){
+ const eco=game?.cltq?.economy;if(!eco)return null;const safeNow=Number.isFinite(+now)?+now:Date.now(),raw=Math.max(0,safeNow-(+eco.lastAt||safeNow));
+ const ticks=Math.floor(Math.min(CLTQ_P3_MAX_OFFLINE,raw)/CLTQ_P3_INTERVAL);if(ticks<=0)return null;
+ const nodes=cltqP3ConnectedNodes(),rates=cltqP3ProductionRates(nodes),produced={silver:0,grain:0,wood:0,iron:0};
+ for(const k of Object.keys(produced)){const total=(+eco.productionRemainder[k]||0)+rates[k]*ticks;produced[k]=Math.floor(total+1e-8);eco.productionRemainder[k]=Math.max(0,total-produced[k]);game[k]=Math.max(0,Number(game[k])||0)+produced[k];eco.totals[k]+=produced[k];}
+ const troopCount=cltqP3GarrisonTroops(),upkeepTotal=(+eco.upkeepRemainder||0)+(troopCount/500)*ticks,upkeep=Math.floor(upkeepTotal+1e-8);eco.upkeepRemainder=Math.max(0,upkeepTotal-upkeep);
+ const paid=Math.min(Math.max(0,Math.floor(Number(game.grain)||0)),upkeep);game.grain-=paid;const shortage=upkeep-paid;eco.totals.upkeep+=paid;eco.totals.shortage+=shortage;
+ if(shortage){eco.shortageTicks+=ticks;eco.supply=Math.max(25,eco.supply-Math.min(25,Math.max(1,Math.ceil(shortage/10))));}else{eco.shortageTicks=Math.max(0,eco.shortageTicks-ticks);eco.supply=Math.min(100,eco.supply+ticks*.25);}
+ const overflow=raw>CLTQ_P3_MAX_OFFLINE;eco.lastAt=overflow?safeNow:(+eco.lastAt||safeNow)+ticks*CLTQ_P3_INTERVAL;
+ const receipt={id:'economy-'+eco.seq++,from:eco.lastAt-ticks*CLTQ_P3_INTERVAL,to:eco.lastAt,ticks,nodes:nodes.map(n=>n.id),garrisonTroops:troopCount,produced,upkeep,paid,shortage,supply:Math.round(eco.supply*100)/100};
+ eco.receipts.unshift(receipt);eco.receipts=eco.receipts.slice(0,100);save();if(['city','world','barracks'].includes(tab)){render();}else renderResources();return receipt;
+}
+function cltqP3BuildingMarkup(id,x,y){const b=BUILDINGS[id];return `<button class="building" style="left:${x}%;top:${y}%" data-focus-building="${id}"><span class="roof"></span><span class="symbol">${b.icon}</span><b>${b.name}</b><small>Cấp ${game.buildings[id]}</small></button>`;}
+function cltqP3SummaryPanel(){
+ const nodes=cltqP3ConnectedNodes(),rates=cltqP3ProductionRates(nodes),troops=cltqP3GarrisonTroops(),upkeep=troops/500;
+ return `<div class="panel mini-box cl-p3-economy" style="margin-top:16px"><h3>🏘 Kinh tế lãnh địa · CL-P3</h3><p class="tiny">${nodes.length} tỉnh nối đường về Tân Thành đang sản xuất liên tục. Sản lượng cập nhật mỗi 10 giây; hành quân, nâng cấp và duy trì quân dùng tài nguyên thật.</p><div class="small-data" style="grid-template-columns:repeat(auto-fit,minmax(130px,1fr))"><div class="box"><b>🪙 +${rates.silver.toFixed(2)}</b><span>Bạc / 10 giây</span></div><div class="box"><b>🌾 +${rates.grain.toFixed(2)}</b><span>Lương / 10 giây · −${upkeep.toFixed(2)} bảo trì</span></div><div class="box"><b>🌲 +${rates.wood.toFixed(2)}</b><span>Gỗ / 10 giây</span></div><div class="box"><b>⛓ +${rates.iron.toFixed(2)}</b><span>Sắt / 10 giây</span></div><div class="box"><b>${Math.round(game.cltq.economy.supply)}%</b><span>Tiếp tế đồn trú</span></div></div><div class="divider"></div><div class="tiny">Nguồn: ${nodes.length?nodes.map(n=>esc(n.name)).join(' · '):'chưa có tỉnh nối đường'} · Lũy kế ${fmt(game.cltq.economy.totals.silver)} bạc / ${fmt(game.cltq.economy.totals.grain)} lương / ${fmt(game.cltq.economy.totals.wood)} gỗ / ${fmt(game.cltq.economy.totals.iron)} sắt. Giao dịch gần nhất: ${esc(game.cltq.economy.receipts[0]?.id||'chưa phát sinh')}.</div></div>`;
+}
+const cltqP3BaseRenderCity=renderCity;renderCity=function(){
+ let html=cltqP3BaseRenderCity();html=html.replace('<div class="city-caption">',cltqP3BuildingMarkup('walls',65,76)+cltqP3BuildingMarkup('lumberyard',53,43)+'<div class="city-caption">');return html+cltqP3SummaryPanel();
+};
+const cltqP3BaseRenderWorld=renderWorld;renderWorld=function(){return cltqP3BaseRenderWorld()+cltqP3SummaryPanel();};
+const cltqP3BaseUnit=p2Unit;p2Unit=function(id,team,slot,stage){const u=cltqP3BaseUnit(id,team,slot,stage);if(team==='p'&&battle?.mode==='cltq'&&battle.cltq?.kind==='defend'){u.hp=u.maxHp;cltqP3FortifyUnit(u);}return u;};
+function cltqP3DefenseUnit(id){const previous=battle;battle={mode:'cltq',cltq:{kind:'defend'}};try{return p2Unit(id,'p',0,1);}finally{battle=previous;}}
+const cltqP3BaseTick=tick;tick=function(){const now=Date.now(),elapsed=now-(Number(game.lastTick)||now);if(elapsed>CLTQ_P3_MAX_OFFLINE)game.lastTick=now-CLTQ_P3_MAX_OFFLINE;cltqP3BaseTick();};
+const cltqP3BaseClTick=cltqTick;cltqTick=function(){cltqP3ProcessEconomy(Date.now());cltqP3BaseClTick();};
+if(window.__P2_ENABLE_QA__){window.__CLTQ_P3_QA__={buildingCount:()=>Object.keys(BUILDINGS).length,connected:cltqP3ConnectedNodes,rates:cltqP3ProductionRates,garrisonTroops:cltqP3GarrisonTroops,process:cltqP3ProcessEconomy,fortify:cltqP3FortifyUnit,defenseUnit:cltqP3DefenseUnit,summary:cltqP3SummaryPanel};}
 
 
 if(window.__P2_ENABLE_QA__){window.__P41_QA__={image:P41_IMAGE,manifest:P41_ANIM,index:p41FrameIndex,drawFrame:p41DrawFrame,visual:p41VisualState,phase:p41EventPhase,drawScene,

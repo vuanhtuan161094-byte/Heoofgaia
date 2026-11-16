@@ -16,7 +16,7 @@ check('all directions and actions',all(len(DATA['units'][u][d][a])==6 for u in D
 check('all source frame PNGs exist',len(list((ROOT/'assets/p41/frames').glob('*.png')))==288)
 check('all frames are distinct across each action',all(len({hashlib.sha256((ROOT/'assets/p41/frames'/f'{u}_{d}_{a}_{i:02d}.png').read_bytes()).digest() for i in range(6)})>=4 for u in DATA['units'] for d in ('front','right','back','left') for a in ('idle','attack','hit')))
 check('embedded atlas identical to source',hashlib.sha256(base64.b64decode(''.join(json.loads('['+HTML.split('const P41_SPRITE_URI=[')[1].split('].join')[0].strip().rstrip(',')+']')).split(',',1)[1])).hexdigest()==DATA['atlasSha256'])
-check('schema v4 migration and save key still present',"muu_dinh_tam_quoc_v1" in HTML and 'g.version=4;' in HTML)
+check('schema v5 migration and save key still present',"muu_dinh_tam_quoc_v1" in HTML and 'game.version=5;' in HTML)
 with sync_playwright() as p:
     browser=p.chromium.launch(headless=True,executable_path=os.environ.get('CHROMIUM_BIN') or None,args=['--no-sandbox'])
     page=browser.new_page(viewport={'width':1280,'height':720},device_scale_factor=1)

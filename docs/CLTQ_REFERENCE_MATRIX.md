@@ -34,7 +34,10 @@ Goal: Build an original game with the high-level experience requested by owner. 
 | 10 connected map nodes, route/ETA/food, march, NPC siege and capture | Owner-desired interaction + SIMULATED rules | `qa/cl_p1_p2.py`: inaccessible route, cost, arrival, capture and save reload | V2 Chromium |
 | Harvest, garrison, defense, recovery | SIMULATED | `qa/cl_p1_p2.py`: first harvest only; five commanders garrison, defend and return | V2 Chromium |
 | CL-P2 pause/resume, retreat/retry, siege defeat/retry, duplicate order, backward clock skew | SIMULATED | `qa/cl_p1_p2.py`: covered in interactive Chromium route flow | V2 Chromium |
-| Deterministic repeat from imported v1/v2/v3 save fixtures | UNKNOWN/not covered yet | Legacy schema migration is tested; CL campaign repeat from each legacy fixture remains open | PENDING |
+| Nine functional city categories, including wall defense and lumber production | SIMULATED; original project-owned city art | `qa/cl_p3_economy.py`: nine clickable upgrades, wall defense stats, three-resource lumberyard cost | V2 Chromium |
+| Connected province taxes, wood and garrison grain upkeep | SIMULATED | `qa/cl_p3_economy.py`: all four resources, 30 simulated minutes, shortage/recovery, duplicate/time-skew/offline cap, import cursor reset and receipt ledger | V2 Chromium |
+| v1–v4 save migration to schema v5 | SIMULATED compatibility contract | `qa/cl_p3_economy.py`: each legacy schema retains progress; file reload keeps economy and building state | V2 Chromium |
+| Deterministic full campaign repeat from each legacy save fixture | UNKNOWN/not covered yet | Migration is tested; replaying the complete CL campaign from every legacy fixture remains open | PENDING |
 | Public server, player-vs-player and owner visual acceptance | UNKNOWN/not in this offline build | No online implementation or physical-device/owner review | PENDING |
 
-The P0/P1/P2 browser gate reports its exact check list in `qa/CL_P1_P2.json`; Actions must rerun on the published commit SHA before the playable artifact is considered released.
+The P1/P2 exact-SHA Actions run passed at `934775fc020f48d2a84894ce921f50a945d8e9de` and published `muu-dinh-tam-quoc-cl-p1-p2-playable`. P3's local browser result is maintained in `qa/CL_P3_ECONOMY.json`; P3 exact-SHA Actions and its new playable artifact are pending.

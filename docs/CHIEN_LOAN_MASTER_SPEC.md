@@ -30,7 +30,7 @@ Record findings + retrieved date, actual link, image rights, mechanic category a
 ## 3. ENGINE AND SAVE TRANSITION
 - Keep repo `vuanhtuan161094-byte/Heoofgaia`, branch `main-ngoalong`; no changes to Hero or default branch; no merge.
 - Canonical playable file `index.html` remains. Internal source code may be refactored into traceable modules if a reproducible build outputs the same offline single HTML and QA validates it; do not create competing release HTML files.
-- Preserve existing Save key `muu_dinh_tam_quoc_v1`, v1/v2/v3 migration, p3TroopTier/p3PresetId and all player-owned assets. For any v4+ schema, include deterministic reversible-through-export migration and corruption recovery; no save-reset shortcut.
+- Preserve existing Save key `muu_dinh_tam_quoc_v1`, v1–v4 migration, p3TroopTier/p3PresetId and all player-owned assets. Schema v5 adds the CL economy without resetting data; future schemas need deterministic migration and export-based recovery.
 - Existing 3×3 formation/24 presets are legacy compatibility: retain stored 3×3 state and deterministic conversion to new 5-hero formation. Do not silently delete the feature; provide optional old tactical mode only if not confusing or expensive.
 - Unit detachments have authoritative IDs and commands (idle/marching/engaged/retreating/recovering/garrisoned). Only one event/reward authority; replay/screen/VFX NEVER mutate rewards or troop counts.
 - Offline clock: clamp deltas, deterministic progress for saved march/production, no replay farming by changing time, idempotent transactions.

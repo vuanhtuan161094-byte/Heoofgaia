@@ -17,7 +17,7 @@ with sync_playwright() as p:
  page.wait_for_function('window.__P4_QA__ && Object.values(window.__P4_QA__.images).every(i=>i.complete && i.naturalWidth>0)')
  check('P4 image loader + artwork',page.evaluate('Object.values(window.__P4_QA__.images).length === 2'))
  check('city image embedded offline',page.evaluate('getComputedStyle(document.querySelector(".city-visual")).backgroundImage.includes("data:image/webp;base64")'))
- check('all 7 existing building hotspots remain',page.locator('[data-focus-building]').count()==7)
+ check('all 9 functional building hotspots render',page.locator('[data-focus-building]').count()==9)
  page.screenshot(path=str(ROOT/'qa/p4-city.png'),full_page=True)
  page.locator('[data-focus-building="palace"]').first.click()
  check('building hotspot remains interactive',page.locator('body').inner_text().find('Phủ Thành Chủ')>=0)

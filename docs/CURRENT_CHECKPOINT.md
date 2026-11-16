@@ -1,19 +1,19 @@
 # CURRENT PRODUCT DIRECTION OVERRIDE — 16/11/2026
 - Owner withdrew Ngọa Long-first feature plan and selected **Chiến Loạn Tam Quốc (2025)** as gameplay reference. Keep game brand **Mưu Định Tam Quốc** as an original implementation; original screenshots/assets cannot be copied.
 - Product requirements and acceptance are in [CHIEN_LOAN_MASTER_SPEC.md](CHIEN_LOAN_MASTER_SPEC.md) and [CLTQ_REFERENCE_MATRIX.md](CLTQ_REFERENCE_MATRIX.md). Agent Codex authorization remains scoped to `main-ngoalong`; Hero isolation unchanged.
-- This file's P2/P3/P4.1 results below are **historical verified baselines only**. They are not evidence that the new 5v5 soldier battle, world marching, city capture, or expanded game is implemented.
-- First new implementation milestones: **CL-P0/CL-P1** (original soldiers fighting alongside 5 generals) then **CL-P2** (real march/capture territory).
+- Older P2/P3/P4.1 results below are **legacy-system baselines**. CL gates are separately recorded in this current section and the CL reference matrix.
+- CL-P0–P2 are implemented and released. CL-P3 is implemented locally and awaits its own commit-SHA Actions run.
 - Current owner acceptance for new CL gameplay: **PENDING**; retain exact-SHA CI and device/visual gates.
 
-## CL-P0/P1/P2 playable implementation checkpoint — 2026-11-16
+## CL-P0/P1/P2 release and CL-P3 implementation checkpoint — 2026-11-16
 
-- Base read from `main-ngoalong`: `39111d435f0aa6d059240dc36a81fc9be9d46225`. Exact implementation commit SHA is captured by the next GitHub Actions run and its evidence artifact.
-- Added the CL compatibility/gap audit, schema-v4 `cltq` save namespace, five independent commander slots, troop-count-linked unit visuals/damage, battle receipts and recovery, a 10-node map, route/food/ETA preview, march, NPC siege/capture, one-time yield, garrison and defense loop.
-- Retained the canonical offline `index.html`, legacy save key, v1/v2/v3 migration, original 3×3 slots, combat/replay/reward pipeline, and existing P4/P4.1 art. No changes to Hero, merge or force-push.
-- Local Chromium: smoke 7/7; P2 full 31/31; P2 advanced 12/12; P3 74/74; P3 balance contract PASS; P4 source 4/4 + visual 14/14; P4.1 animation 18/18; CL P1/P2 43/43. P4.1 atlas reproducibly rebuilds byte-identically with CI-pinned Pillow 12.3.0.
-- CL P1/P2 output includes desktop 1280×720 and mobile 390×844 screenshots, an exact `index.html` SHA-256, and a real-browser gameplay WebM that shows an actual hit event. Physical-device and owner acceptance remain separate gates.
-- V0 syntax and `git diff --check`: PASS. V1 focused/legacy regressions: PASS for the listed suites; P4.1 MP4 encoder step is left to Ubuntu Actions. V2 desktop/mobile CL interaction, pause/reload/retreat, siege failure/retry and save: 43/43 PASS. V3 exact-SHA Actions and playable artifact: PENDING push. V4 physical browser devices and V5 owner visual review: PENDING.
-- Remaining phase work: P2 interruption/time-skew/failure retry edge cases; P3 territory production/upkeep and long economy loop; P4 roster/deep campaign balance; P5 original isometric/directional art and art review; P6 optional diplomacy/season/siege/endgame. See `CLTQ_GAP_AUDIT.md`.
+- Base read from `main-ngoalong`: `39111d435f0aa6d059240dc36a81fc9be9d46225`. P1/P2 release SHA `934775fc020f48d2a84894ce921f50a945d8e9de` passed exact-SHA Actions run 43909024419; the P3 commit and run will be recorded after release.
+- P1/P2 source commit: `934775fc020f48d2a84894ce921f50a945d8e9de`; exact-SHA Actions run [43909024419](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43909024419) **SUCCESS**; playable artifact `muu-dinh-tam-quoc-cl-p1-p2-playable` and CI evidence were published.
+- P1/P2 provides five independent commanders, troop-count-linked battle units/damage, casualty and recovery receipts, the 10-node map, route/ETA/food, marching, NPC siege, capture, harvest-once, garrison, defense, pause/reload/retreat/retry.
+- Local CL-P3 adds schema v5 migration, nine city upgrades, lumberyard/wood, connected province production, garrison grain upkeep, supply shortage/recovery, wall defense, offline cap and economy receipts. It preserves the canonical offline `index.html`, old save key, legacy 3×3 formation, combat/replay pipeline and original art. No changes to Hero, merge or force-push.
+- P3 local Chromium: `qa/cl_p3_economy.py` 31/31; P1/P2 43/43; P2 31/31 + 12/12; legacy P3 74/74 + balance; P4 source 4/4 + visual 14/14; P4.1 animation 18/18; smoke 7/7. Exact-SHA P3 Actions and playable artifact remain pending.
+- The 30-minute economy QA advances 30 one-minute transactions by test clock; it does not replace a real human 30–45-minute play session. Mobile Chromium was tested at 390×844; physical Windows/Android review and owner visual acceptance remain pending.
+- Remaining roadmap: CL-P4 character roster and chapter balance; CL-P5 new isometric/directional art, performance/device QA and art approval; CL-P6 diplomacy, seasons/weather, siege machines, multiple armies and PvE endgame. No server PvP is claimed. See `CLTQ_GAP_AUDIT.md`.
 
 ---
 
