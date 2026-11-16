@@ -37,6 +37,8 @@ jobs:
         run: python qa/p3.py
       - name: P3 deterministic balance 360 scenarios
         run: python qa/p3_balance.py
+      - name: P4 exact embedded art source 4 tests
+        run: python qa/p4_assets.py
       - name: P4 original asset visual QA 14 tests
         run: python qa/p4_art.py
       - name: Upload exact SHA evidence

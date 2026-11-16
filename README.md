@@ -23,14 +23,14 @@
 - Chân dung 8 danh tướng Tam Quốc đã dùng sprite atlas gốc, tướng khác giữ icon mặc định để không nhận là hoàn tất 24/24.
 - Sprite binh chủng Bộ/Kỵ/Cung/Mưu sĩ 4 góc nhìn × Idle/Attack; kết hợp trên canvas battle thật, phía người chơi và NPC.
 - VFX aura/chiến pháp từ sheet gốc được nạp ở trạng thái chiến pháp/trống; chỉ biểu diễn theo event chiến đấu thực, không sửa sát thương, morale hay Save.
-- **TẤT CẢ asset ảnh đã nén thành WebP và base64 nội bộ index.html** (chơi offline với duy nhất một tệp); ảnh PNG master và thông số provenance được lưu trong gói nguồn P4 riêng; các ảnh gốc chưa được commit riêng lên repo.
+- **TẤT CẢ asset ảnh đã nén thành WebP và base64 nội bộ index.html** (chơi offline với duy nhất một tệp); ảnh PNG master và thông số provenance được lưu trong gói nguồn P4 riêng; 4 WebP pack được commit ở `assets/p4/` và kiểm tra đối chiếu exact-SHA. Ảnh PNG gốc chưa được commit riêng lên repo.
 - P4 Chromium visual gate **14/14 local PASS**, ảnh city/heroes/formation/battle/skill/mobile 1280×720 & 390 px; chất lượng animation/VFX chuyên nghiệp vẫn cần duyệt chủ dự án.
 
 ## Kiểm thử trực tiếp tại máy phát triển
 
 - P2 full **31/31**, P2 advanced **12/12**, P3 **74/74** và P3 balance **360/360 scenario executions**; báo cáo này là kết quả chạy local trước commit.
 - GitHub CI chỉ được coi là PASS sau khi workflow `NgoaLong P4 complete QA` hoàn thành trên **exact SHA mới nhất**.
-- CI: `python qa/smoke.py`, `python qa/p2_full.py`, `python qa/p2_advanced.py`, `python qa/p3.py`, `python qa/p3_balance.py`.
+- CI: `python qa/smoke.py`, `python qa/p2_full.py`, `python qa/p2_advanced.py`, `python qa/p3.py`, `python qa/p3_balance.py`, `python qa/p4_assets.py`, `python qa/p4_art.py`.
 - Screenshots Chromium 1280×720 và mobile 390px xuất qua Actions artifacts; chưa chứng nhận Windows/Android thiết bị thật.
 
 **Bản chơi đã kiểm thử:** vào GitHub Actions trên nhánh `main-ngoalong`, chọn run **SUCCESS** mới nhất, tải artifact `ngoalong-p4-playable` (chứa `index.html` + SHA). Không dùng artifact từ run FAIL/PENDING.

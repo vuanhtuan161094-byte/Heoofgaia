@@ -19,3 +19,9 @@ NEXT: GitHub Actions exact-SHA → review artifact screenshot & report → P4 đ
 - CI exact-SHA: PENDING trước khi GitHub Actions trở lại thành công trên commit P4. Tải playable ONLY khi run SUCCESS.
 - Known quality debt: portrait sheet mới có 8/24 hero, sprite Idle/Attack chỉ là trạng thái tĩnh được nội suy chứ không phải hoàn chỉnh full frame-by-frame animation; VFX sheet còn bleed vùng ảnh, chưa đẹp như game gốc. Owner visual PENDING; thiết bị thật PENDING.
 - P4 QA screenshots là Chromium runtime thật; không phải mockup của image generator.
+
+## P4 embedded-asset exact-source gate
+- Từng WebP derivative của City / 8 Portraits / 4 Troops / Skill VFX được commit tại `assets/p4/` và dùng cùng binary trong HTML offline.
+- CI chạy `qa/p4_assets.py` để so sánh bốn SHA256. Mỗi lần thay artwork cần tái nhúng HTML và cập nhật asset file; không thay một phía.
+- Những PNG master ImageGen đầy đủ nằm trong P4 backup ZIP, chưa nằm trên GitHub; không nhận là đã có lịch sử gốc trong repo.
+- CI exact SHA cho commit này: PENDING đến khi Actions hoàn tất.
