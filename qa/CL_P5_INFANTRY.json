@@ -1,0 +1,231 @@
+{
+  "milestone": "CL-P5",
+  "assetId": "cl-p5-infantry-scout-v1",
+  "sourceHtmlSha256": "858a87e2d265a79cb6b558d046dd18c79f05880e827afad69ca079ac036f8af9",
+  "atlasSha256": "7e9c793e18f11b3f8ab52a47831b1aaf0db3981bb0e0f65b41ea239d0e799da1",
+  "checksPassed": 48,
+  "checksTotal": 48,
+  "checks": [
+    {
+      "name": "manifest registers 80 original frames",
+      "pass": true
+    },
+    {
+      "name": "atlas dimensions match 20 directional action rows",
+      "pass": true
+    },
+    {
+      "name": "atlas is lossless WebP from manifest",
+      "pass": true
+    },
+    {
+      "name": "atlas has all 80 visible packed frames",
+      "pass": true
+    },
+    {
+      "name": "idle sheet is true-alpha 4x4 with four distinct frames per view",
+      "pass": true
+    },
+    {
+      "name": "idle source SHA matches manifest",
+      "pass": true
+    },
+    {
+      "name": "walk sheet is true-alpha 4x4 with four distinct frames per view",
+      "pass": true
+    },
+    {
+      "name": "walk source SHA matches manifest",
+      "pass": true
+    },
+    {
+      "name": "attack sheet is true-alpha 4x4 with four distinct frames per view",
+      "pass": true
+    },
+    {
+      "name": "attack source SHA matches manifest",
+      "pass": true
+    },
+    {
+      "name": "hurt sheet is true-alpha 4x4 with four distinct frames per view",
+      "pass": true
+    },
+    {
+      "name": "hurt source SHA matches manifest",
+      "pass": true
+    },
+    {
+      "name": "death sheet is true-alpha 4x4 with four distinct frames per view",
+      "pass": true
+    },
+    {
+      "name": "death source SHA matches manifest",
+      "pass": true
+    },
+    {
+      "name": "rejected source retained with its reason: attack-4x4-sheet-before-v2.png",
+      "pass": true
+    },
+    {
+      "name": "rejected source retained with its reason: attack-4x4-sheet-cleanup-rejected.png",
+      "pass": true
+    },
+    {
+      "name": "rejected source retained with its reason: hurt-4x4-sheet-source-rejected.png",
+      "pass": true
+    },
+    {
+      "name": "packed idle/front retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed idle/right retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed idle/back retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed idle/left retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed walk/front retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed walk/right retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed walk/back retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed walk/left retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed attack/front retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed attack/right retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed attack/back retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed attack/left retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed hurt/front retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed hurt/right retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed hurt/back retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed hurt/left retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed death/front retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed death/right retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed death/back retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "packed death/left retains four separate poses",
+      "pass": true
+    },
+    {
+      "name": "canonical game embeds the P5 atlas",
+      "pass": true
+    },
+    {
+      "name": "embedded WebP bytes equal the source atlas",
+      "pass": true
+    },
+    {
+      "name": "new sprite atlas decodes offline in Chromium",
+      "pass": true
+    },
+    {
+      "name": "all 80 action and direction coordinates resolve",
+      "pass": true
+    },
+    {
+      "name": "live renderer maps all five P5 actions across four directions",
+      "pass": true
+    },
+    {
+      "name": "non-infantry sprites still use the preserved P4.1 atlas",
+      "pass": true
+    },
+    {
+      "name": "actual battle supplies an attacker and recorded hit targets",
+      "pass": true
+    },
+    {
+      "name": "real battle event selects attack and hit animation states",
+      "pass": true
+    },
+    {
+      "name": "real damage event triggers the four-frame infantry death clip",
+      "pass": true
+    },
+    {
+      "name": "battle canvas remains inside mobile Chromium viewport",
+      "pass": true
+    },
+    {
+      "name": "no Chromium JavaScript exceptions",
+      "pass": true
+    }
+  ],
+  "actualBattleEvent": {
+    "actor": "Quan Vũ",
+    "mode": "normal",
+    "skill": null,
+    "hits": [
+      {
+        "target": "Tiền Quân",
+        "number": "-105"
+      }
+    ]
+  },
+  "liveBattleStates": {
+    "attack": "attack",
+    "hit": "hit",
+    "hasInfantry": true
+  },
+  "deathClip": {
+    "hp": 0,
+    "action": "death",
+    "first": 0,
+    "last": 3
+  },
+  "browserErrors": [],
+  "visualEvidence": [
+    "qa/cl-p5-infantry-browser-matrix.png",
+    "qa/cl-p5-infantry-battle.png",
+    "qa/cl-p5-infantry-death.png",
+    "qa/cl-p5-infantry-death-mobile.png"
+  ]
+}

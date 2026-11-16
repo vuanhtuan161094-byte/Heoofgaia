@@ -11,7 +11,15 @@
 - CL-P6 working tree adds deterministic NPC diplomacy, season/weather movement and battle modifiers, an independent second army, siege engines, Lạc Thành's Cửu Đỉnh and a persistent repeatable PvE tier ladder. Enemy scaling caps at +180%; a paid once-per-battle super command is recorded as a battle event and replay snapshot.
 - Focused local evidence: `python qa/cl_p6.py` **30/30** in Chromium at 1280×720 and 390×844, including simultaneous marches, actual second-army siege, one-time capture/casualty receipts, paid wonder construction, PvE victory/reward and loss/tier persistence, skill cost/effect/replay state, and reload. `python work/check_inline_syntax.py` and `python qa/smoke.py` **7/7** pass. Full exact-SHA Actions passed; its workflow also passed legacy CL regressions, asset rebuild, sprite animation checks, and real Chromium video capture.
 - The Save key and schema v5 are preserved; P6 persists under `cltq.p6` and loads existing v1–v5 saves with defaults. Reference rules and balance values are documented as simulated offline systems in `P6_SYSTEMS_DESIGN.md`.
-- Remaining gates: physical Windows/Android play, owner's visual and balance acceptance, complete CL-specific walk/hurt/death clips, new licensed audio, and video generation. Existing P4.1 Chromium-rendered video is not a replacement for those gaps.
+- Remaining gates: physical Windows/Android play, owner's visual and balance acceptance, action clips for the remaining troop classes, wiring the new infantry walk loop to live map marches, new licensed audio, and video generation. Existing P4.1 Chromium-rendered video is not a replacement for those gaps.
+
+## CL-P5 original infantry animation slice — 2026-11-17
+
+- The original `cl-p5-infantry-scout-v1` has a transparent master and five directional 4×4 action sheets: idle, walk, attack, hurt and death. The reproducible lossless atlas contains 80 frames at 100×144 and is embedded offline in `index.html`; the exact source sheets, prompt log, contact sheet and manifest are retained under `assets/p5/cl-p5-infantry-scout-v1/`.
+- Live battle now draws infantry idle, attack, hurt and death frames from the CL-P5 atlas. Actual attack/hit events drive attack and flinch; a damage event that reduces an infantry unit to 0 HP starts the fall clip. Other troop classes continue to use the byte-preserved P4.1 atlas. Walk frames are packed and tested but the world-map march token still uses its existing marker.
+- Local gates: atlas rebuild and byte comparison; `python qa/cl_p5_infantry.py` **48/48** in Chromium at 1280×720 and 390×844; `python work/check_inline_syntax.py` PASS. Browser screenshots include the live battle and fallen infantry. This is a one-unit visual slice, not full P5 acceptance.
+- The new source SHA and exact-SHA Actions result are pending until the animation slice is committed and pushed; no release artifact is claimed for this change before the exact-SHA run passes.
+- Remaining P5 gates: all other troop-class action clips, live march walk animation, skill/city/hero prop art, owner visual review, physical Windows/Android play and performance, licensed new audio, and video generation.
 
 ## CL-P6 exact-SHA result
 

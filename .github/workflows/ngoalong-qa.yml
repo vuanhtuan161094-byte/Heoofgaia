@@ -45,6 +45,14 @@ jobs:
           python qa/p5_assets.py
       - name: CL-P5 desktop and mobile territory visual QA
         run: python qa/cl_p5_visual.py
+      - name: CL-P5 original infantry atlas rebuild and Chromium action gate
+        run: |
+          cp assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-atlas.webp /tmp/cl-p5-infantry-scout-atlas.webp
+          python tools/build_p5_infantry_scout.py --embed
+          cmp /tmp/cl-p5-infantry-scout-atlas.webp assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-atlas.webp
+          python qa/cl_p5_infantry.py
+          python tools/build_p5_infantry_scout.py --embed --asset-qc-pass
+          cmp /tmp/cl-p5-infantry-scout-atlas.webp assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-atlas.webp
       - name: CL-P6 diplomacy, weather, concurrent armies, siege and endgame
         run: python qa/cl_p6.py
       - name: P2 full 31 tests
@@ -92,6 +100,8 @@ jobs:
             qa/p41-288-frames-source.zip
             assets/p41/troops_manifest.json
             assets/p5/cl-p5-region-map-manifest.json
+            assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-atlas.webp
+            assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-manifest.json
             qa/commit-sha.txt
             qa/index-sha256.txt
           if-no-files-found: warn
