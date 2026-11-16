@@ -73,7 +73,7 @@ test('Six visual hero identities and existing rarity tiers share the same portra
 test('World model, original 12x9 tactical hex, and Save v07 remain canonical',()=>{
  const s=E.make('human',1000000);
  assert.equal(s.version,7);assert(E.valid(s));
- assert.equal(E.WIDTH,100);assert.equal(E.HEIGHT,100);
+ assert.equal(E.WIDTH,200);assert.equal(E.HEIGHT,200);assert.equal(E.TILES.length,40000);
  assert.equal(E.BATTLE_GRID.cols,12);assert.equal(E.BATTLE_GRID.rows,9);
  assert.equal(E.battleHex.neighbors(3,4).length,6);
  return {save:s.version,world:E.WIDTH+'x'+E.HEIGHT,battle:'12x9 odd-r'};
