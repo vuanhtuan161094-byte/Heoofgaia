@@ -270,19 +270,19 @@ function tick(s,...args){
  return result;
 }
 function battleAct(s,action,opts){
- sync(s);const battle=s.battle?{target:s.battle.target,kind:s.battle.kind,level:s.battle.level}:null;
+ sync(s);const battle=s.battle?{target:s.battle.target,kind:s.battle.kind,level:s.battle.level,hg94Action:s.battle.hg94Action}:null;
  const result=raw.battleAct(s,action,opts);
  if(!battle||result?.type!=='win')return result;
  const tile=E.getTile(battle.target);
  if(battle.kind==='mine')track(s,'mineWins',1);
- if(battle.kind==='npc'){
+ if(battle.kind==='npc'&&!battle.hg94Action){
   track(s,'npcWins',1);
   if((tile?.eliteTier||0)>=11)track(s,'eliteWins',1);
  }
  if(battle.kind==='treasure'&&battle.level>=9)track(s,'eliteWins',1);
  s.hg18.victories++;
  const high=(tile?.eliteTier||0)>=11||battle.kind==='treasure'&&battle.level>=9;
- const eligible=high||(battle.kind==='npc'&&battle.level>=4);
+ const eligible=!battle.hg94Action&&(high||(battle.kind==='npc'&&battle.level>=4));
  if(eligible){
   // A fixed hash keyed by victory ordinal/coordinate prevents rerolling by
   // reloading before a drop. High-tier bosses guarantee one shard.
