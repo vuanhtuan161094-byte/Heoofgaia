@@ -145,7 +145,7 @@ function selectHero(s,id){assert(s.heroes.some(h=>h.id===id),'Không có tướn
 // The December 2009 Chinese guide prints world targets on a 0–99 coordinate
 // grid. Terrain remains original procedural artwork; only listed landmark
 // coordinates are evidence-backed. Other content is retained for save safety.
-const WIDTH=100, HEIGHT=100;
+const WIDTH=200, HEIGHT=200; // HG93: four 100x100 realms, stable legacy coordinates.
 const WORLD_BUILDINGS=Object.freeze([
  {id:'windmill',x:11,y:89,kind:'windmill',name:'Cối xay gió',fame:0,effect:'random-resource',source:'SRC43'},
  {id:'watermill-1',x:93,y:67,kind:'watermill',name:'Cối xay nước',fame:0,effect:'gold-2000',source:'SRC43'},
@@ -257,6 +257,29 @@ function mapTiles(){
   t.kind='npc';t.level=star;t.value=name;t.source='MODELED_HG18_BOSS';t.eliteTier=star===9?11:12;t.terrain='plain';eliteCount++;
  }
  if(eliteCount!==4)throw Error('Missing HG18 bosses');
+ // HG93: 16 Saint and four Divine conquerable endgame cities, four races.
+ // All original historical POIs and old-world AI settlements are preserved.
+ const realmDefs=[
+  ['human','saint','Thánh Thành Thiên Vệ',72,14],['human','saint','Thánh Thành Quang Minh',86,34],['human','saint','Thánh Thành Hoàng Kim',66,74],['human','saint','Thánh Thành Thiên Phạt',88,84],['human','divine','Thần Đô Vĩnh Hằng',91,94],
+  ['elf','saint','Thánh Thành Nguyệt Quang',125,18],['elf','saint','Thánh Thành Sinh Mệnh',160,34],['elf','saint','Thánh Thành Ngân Lâm',131,72],['elf','saint','Thánh Thành Tinh Vũ',180,72],['elf','divine','Thần Điện Tinh Giới',180,91],
+  ['orc','saint','Thánh Thành Cuồng Phong',18,126],['orc','saint','Thánh Thành Huyết Chiến',66,126],['orc','saint','Thánh Thành Chiến Hồn',30,174],['orc','saint','Thánh Thành Man Hoang',85,173],['orc','divine','Thần Bảo Viễn Cổ',80,189],
+  ['undead','saint','Thánh Thành U Minh',123,128],['undead','saint','Thánh Thành Bất Tử',171,123],['undead','saint','Thánh Thành Hắc Nguyệt',148,168],['undead','saint','Thánh Thành Vong Linh',190,166],['undead','divine','Thần Vực Tử Linh',183,190]
+ ];
+ const raceOrdinal={human:0,elf:0,orc:0,undead:0};
+ for(const [race,worldTier,name,wantX,wantY] of realmDefs){
+  const realmX=wantX>=100,realmY=wantY>=100;
+  const occupied=tiles.filter(c=>c.kind==='castle');
+  const options=tiles.filter(t=>t.kind==='empty'&&t.terrain!=='water'&&t.terrain!=='bridge'&&
+   (t.x>=100)===realmX&&(t.y>=100)===realmY&&
+   Math.abs(t.x-wantX)+Math.abs(t.y-wantY)<=14&&
+   !occupied.some(c=>Math.abs(c.x-t.x)+Math.abs(c.y-t.y)<4))
+   .sort((a,b)=>(Math.abs(a.x-wantX)+Math.abs(a.y-wantY))-(Math.abs(b.x-wantX)+Math.abs(b.y-wantY))||a.y-b.y||a.x-b.x);
+  const t=options[0];if(!t)throw Error('HG93 special city placement unavailable: '+name);
+  const ordinal=++raceOrdinal[race];
+  t.kind='castle';t.race=race;t.value=name;t.level=worldTier==='divine'?5:4;
+  t.worldTier=worldTier;t.guardCS=worldTier==='divine'?5:3;t.worldTroopId=race+'_'+worldTier+'_'+ordinal;
+  t.aiOwner=true;t.terrain='plain';t.source='MODELED_HG93_REALM';
+ }
  // HG92: deterministic playable sites on otherwise empty terrain. Preserve
  // original city, Boss, sourced NPC/treasure and world-building coordinates.
  // Combat and resource rewards reuse the existing march/battle/mine authority.
@@ -431,7 +454,15 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
    spd:e.spd,pool:c*e.hp,x:10,y:2+i*3};
  });
  for(const e of enemies){e.pool=Math.max(1,Math.ceil(e.pool*remainingRatio));e.count=Math.ceil(e.pool/e.hp)}
- const battle={target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(isTreasure?{treasureCamp:{...camp}}:{}),
+ // HG93: elite siege formations use a real power boost in combat.
+ if(tile.kind==='castle'&&tile.worldTier){
+  const factor=tile.worldTier==='divine'?5:3;
+  for(const enemy of enemies){
+   enemy.name=(factor===5?'Thần ':'Thánh ')+enemy.name;
+   enemy.hp*=factor;enemy.atk*=factor;enemy.def*=factor;enemy.pool=enemy.hp*enemy.count;
+  }
+ }
+ const battle={target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(tile.worldTier?{hg93WorldTier:tile.worldTier,hg93GuardianCS:tile.guardCS}:{}),...(isTreasure?{treasureCamp:{...camp}}:{}),
    turn:1,order:'attack',orders:{},focused:null,selected:allies[0]?.id||null,autoUntil:Date.now()+10_000,allies,enemies,
    woundedByUnit:{},history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
  return root.HOG_ENGINE?.hg40PrepareBattle?.(s,battle)||battle;
@@ -806,5 +837,4 @@ function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.s
 const API={TACTICAL_RANGE,unitTacticalRange,unitTacticalMovement,V,SAVE_KEY,PREV_SAVE_KEY,C,HG39_CONFIG,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMoveSteps,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
-
 
