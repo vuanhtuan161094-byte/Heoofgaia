@@ -186,7 +186,7 @@ function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=
   if(terrain)c.drawImage(terrain,m.x+pad,m.y+pad);
  for(const t of E.TILES){if(t.kind==='empty')continue;
   const owned=hg80CityAt(s,t.key),ai=E.aiCityAt?.(s,t.key);
-  c.fillStyle=t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):ai?'#e37a63':'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
+  c.fillStyle=t.worldTier==='divine'?'#bb79ff':t.worldTier==='saint'?'#fff2ad':t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):ai?'#e37a63':'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
   const dot=t.source==='MODELED_HG92_FARM'?1.5:2.8;
   c.fillRect(m.x+pad+(t.x+.2)*tw,m.y+pad+(t.y+.2)*th,Math.max(dot,tw*.72),Math.max(dot,th*.72))}
  if(selected){const t=E.getTile(selected);if(t){c.strokeStyle='#fff';c.lineWidth=2;c.strokeRect(m.x+pad+t.x*tw-1,m.y+pad+t.y*th-1,tw+2,th+2)}}
@@ -301,9 +301,12 @@ function hg79WorldGrid(c,E,q,ox,oy,w,h,phase,selected){
   let done=s.mines.some(m=>m.key===t.key)||(t.kind==='treasure'?s.treasureCleared?.includes(t.key):t.kind!=='npc'&&s.cleared.includes(t.key));
   if(t.kind==='castle'){
    const owned=hg80CityAt(s,t.key),ai=E.aiCityAt?.(s,t.key);
+   if(t.worldTier){c.save();c.shadowBlur=q*.42;c.shadowColor=t.worldTier==='divine'?'#b777ff':'#f9de8c';
+    c.fillStyle=t.worldTier==='divine'?'#6b42a04a':'#edca6d3d';
+    c.beginPath();c.ellipse(x,y,q*.54,q*.31,0,0,TAU);c.fill();c.restore();}
    const race=owned?.race||t.race||s.race||'human';
    if(!drawMapLandmark(c,'castle-'+race,x,y,q,1.28))castle(c,x,y,q/110,race,owned?.local.buildings.hall||ai?.level||1);
-   if(ai){circle(c,x,y-q*.31,q*.11,'#9f3630');text(c,'AI',x,y-q*.27,Math.max(9,q*.20),'#fff0dc')}
+   if(ai){circle(c,x,y-q*.31,q*.11,t.worldTier==='divine'?'#8c46ba':t.worldTier==='saint'?'#ae8a36':'#9f3630');text(c,t.worldTier==='divine'?'THẦN':t.worldTier==='saint'?'THÁNH':'AI',x,y-q*.27,Math.max(8,q*(t.worldTier?.14:.20)),'#fff0dc')}
   }
   if(t.kind==='mine'){
    const mineSprite={gold:'mine-gold',ore:'mine-ore',crystal:'mine-crystal',sulfur:'mine-sulfur'}[t.value];
