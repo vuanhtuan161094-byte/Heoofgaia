@@ -1,5 +1,5 @@
 """HG80 real file:// browser: culling/performance, square province lines,
-4 encounter archetypes, 100x100 world Save v07; Windows/Android emulated."""
+4 encounter archetypes, HG94 200x200 world Save v07; Windows/Android emulated."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json,hashlib,atexit,sys
@@ -56,7 +56,7 @@ with sync_playwright() as pw:
           const farmHit=P.mapHit(canvas,canvas.width/2,canvas.height/2,E);
           const empty=E.TILES.find(t=>t.kind==='empty'&&t.x>1&&t.y>1&&t.x<98&&t.y<98&&
            Array.from({length:9},(_,i)=>E.getTile((t.x+i%3-1)+','+(t.y+Math.floor(i/3)-1))).every(v=>v?.kind==='empty'));
-          if(!empty)throw Error('HG92 requires some scenic terrain without interactive POIs');
+          if(!empty)throw Error('HG94 requires some bare land with no decorative landmark');
           world.centerX=empty.x+.5;world.centerY=empty.y+.5;
           const sceneryHit=P.mapHit(canvas,canvas.width/2,canvas.height/2,E);
           Object.assign(world,cameraBefore);
@@ -68,17 +68,17 @@ with sync_playwright() as pw:
            cached:mini===miniAgain,saved:gameplaySaved,changedKeys:changed,
            changedValues:Object.fromEntries(changed.slice(0,3).map(k=>[k,{
              old:JSON.stringify(oldState[k])?.slice(0,160),current:JSON.stringify(newState[k])?.slice(0,160)
-           }])),farmHit:farmHit?.key||null,sceneryHit:sceneryHit?.key||null,
+           }])),farmHit:farmHit?.key||null,sceneryHit:sceneryHit?.key||null,emptyKey:empty.key,
            view:{width:canvas.width,height:canvas.height},
            ms12:Math.round(elapsed),frameMs:times.map(x=>Math.round(x*10)/10),
            monsterTypes:['Wolves','Bandits','Azrael','Wyverns'].map(value=>P.encounterKind({value,level:3,eliteTier:value==='Azrael'?11:0}))};
         }""")
-        check(label+' visible-only terrain painting instead of 10000-cell world sweep',
+        check(label+' visible-only terrain painting instead of 40000-cell world sweep',
               0<data['visible']<data['total']/5,data)
         check(label+' minimap reused immutable terrain raster and never changed Save v07',
               data['cached'] and data['saved'] and data['valid'] and data['save']==7,data)
-        check(label+' four distinct world monster silhouettes, farm hit and nonclickable scenery',
-              len(set(data['monsterTypes']))==4 and data['farmHit']=='4,3' and data['sceneryHit'] is None,
+        check(label+' four distinct world monster silhouettes plus HG94 clickable bare land',
+              len(set(data['monsterTypes']))==4 and data['farmHit']=='4,3' and data['sceneryHit']==data['emptyKey'],
               {'monsterTypes':data['monsterTypes'],'farmHit':data['farmHit'],'sceneryHit':data['sceneryHit']})
         check(label+' 12 continuous pans render without fatal synchronous jank',
               max(data['frameMs'])<1000,{'frameMs':data['frameMs'],'ms12':data['ms12']})
