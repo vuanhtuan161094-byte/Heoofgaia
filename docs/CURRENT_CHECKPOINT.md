@@ -1,3 +1,12 @@
+# CURRENT PRODUCT DIRECTION OVERRIDE — 16/11/2026
+- Owner withdrew Ngọa Long-first feature plan and selected **Chiến Loạn Tam Quốc (2025)** as gameplay reference. Keep game brand **Mưu Định Tam Quốc** as an original implementation; original screenshots/assets cannot be copied.
+- Product requirements and acceptance are in [CHIEN_LOAN_MASTER_SPEC.md](CHIEN_LOAN_MASTER_SPEC.md) and [CLTQ_REFERENCE_MATRIX.md](CLTQ_REFERENCE_MATRIX.md). Agent Codex authorization remains scoped to `main-ngoalong`; Hero isolation unchanged.
+- This file's P2/P3/P4.1 results below are **historical verified baselines only**. They are not evidence that the new 5v5 soldier battle, world marching, city capture, or expanded game is implemented.
+- First new implementation milestones: **CL-P0/CL-P1** (original soldiers fighting alongside 5 generals) then **CL-P2** (real march/capture territory).
+- Current owner acceptance for new CL gameplay: **PENDING**; retain exact-SHA CI and device/visual gates.
+
+---
+
 # Mưu Định Tam Quốc — checkpoint P3 ngày 16/11/2026
 
 - GitHub: `vuanhtuan161094-byte/Heoofgaia`, nhánh canonical **main-ngoalong**, game `index.html` V0.4 P3.
