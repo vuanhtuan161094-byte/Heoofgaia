@@ -49,6 +49,10 @@ jobs:
           python -c "import json,pathlib;d=json.loads(pathlib.Path('assets/p41/troops_manifest.json').read_text());assert d['frameCount']==288"
       - name: P4.1 Chromium animation and event QA 18 checks
         run: python qa/p41_animation.py
+      - name: P4.1 install FFmpeg video encoder
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y ffmpeg
       - name: P4.1 generate actual Chromium render video
         run: |
           command -v ffmpeg
