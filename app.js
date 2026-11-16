@@ -2418,7 +2418,8 @@ $('app').addEventListener('click',evt=>{const target=evt.target.closest('[data-a
   if(!Number.isInteger(zone)||zone<0||zone>3)throw Error('Vùng thế giới không hợp lệ');
   const center=[[50,50],[150,50],[50,150],[150,150]][zone];
   Object.assign(P.mapCamera(),{centerX:center[0],centerY:center[1],zoom:.85});
-  selected=null;selectedTargetKind=null;tab='map';return;}
+  const lead=E.hg93Realms?.find(t=>(t.x>=100?1:0)+(t.y>=100?2:0)===zone);
+  selected=lead?.key||E.activeCity(state).key;selectedTargetKind=null;tab='map';return;}
  if(action==='hg93-recruit'){const out=E.hg93Recruit(state,target.dataset.key,Number(target.dataset.amount)||1);
   toast('Đã tuyển '+out.count+' '+out.name+' tại '+out.cityName+'.');return;}
  if(action==='hg92-filter'){hg92FarmFilter=['all','combat','resource'].includes(target.dataset.kind)?target.dataset.kind:'all';return}
