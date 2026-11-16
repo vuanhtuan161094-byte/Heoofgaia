@@ -4,7 +4,8 @@
 - Đây là NHÁNH game Ngọa Long riêng trong repo `Heoofgaia`: **main-ngoalong**. Nhánh Hero `feature/hog1-research-to-playable-20261102` độc lập, tuyệt đối không sửa hoặc merge. Không thay default branch.
 - Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. P3 QA và docs là bằng chứng, không phải game khác.
 - Trước sửa đọc chính xác HEAD SHA từ GitHub, `AGENTS.md`, `docs/REV_PROTOCOL.md`, `docs/CURRENT_CHECKPOINT.md` và code liên quan.
-- Người dùng yêu cầu ChatGPT tự làm, KHÔNG dùng Codex.
+- **Ủy quyền mới ngày 16/11/2026:** Chủ dự án cho phép **Codex chuyên trách Ngọa Long** triển khai toàn bộ phần việc được duyệt trong **riêng** nhánh `main-ngoalong`. Lệnh `KHÔNG dùng Codex` cũ chỉ hết hiệu lực đối với dự án Ngọa Long này, không mở rộng sang Hero, Tông Môn Bá Đạo hoặc CMP.
+- **Project agent authority:** Đọc và tuân thủ `docs/NGOALONG_CODEX_AGENT.md` trước khi lập kế hoạch, sửa code hay giao việc. Không tự động merge hoặc tự nhận hoàn thành khi chưa có bằng chứng.
 
 ## Gameplay data/authority
 - Combat duy nhất quyết toán tiền, EXP, quân chết, phần thưởng tại kết thúc trận; replay đọc bản ghi, không tạo đợt chi trả thứ hai.
