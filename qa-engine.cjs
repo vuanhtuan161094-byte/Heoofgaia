@@ -1130,9 +1130,9 @@ test('HG10 six cities retain isolated five-resource economy, training, construct
  const reloaded=E.parseSave(E.serializeSave(loaded));assert(E.strictSave(reloaded));
  assert.equal(reloaded.cities.length,6);
 });
-test('HG10 world expands to 60 castle targets without replacing sourced locations',()=>{
+test('HG93 world preserves 60 legacy castles and adds exactly 20 special castle targets',()=>{
  const castles=E.TILES.filter(t=>t.kind==='castle'),modelled=castles.filter(t=>t.source==='MODELED_OFFLINE_CITY');
- assert.equal(castles.length,60);assert.equal(modelled.length,54);
+ assert.equal(castles.length,80);assert.equal(castles.filter(t=>t.worldTier).length,20);assert.equal(modelled.length,54);
  assert.equal(modelled.filter(t=>t.aiOwner).length,36);
  assert(modelled.some(t=>t.aiOwner&&t.level===1),'At least one introductory AI siege target');
  assert.equal(modelled.filter(t=>!t.aiOwner).length,18);
