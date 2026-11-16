@@ -1,0 +1,55 @@
+"""P4 official visual QA: real original embedded artwork rendered by Chromium, without altered combat outcome."""
+from pathlib import Path
+from playwright.sync_api import sync_playwright
+import json, os, sys
+ROOT=Path(__file__).resolve().parents[1]
+html=(ROOT/'index.html').read_text('utf-8')
+stub='''<script>window.__P2_ENABLE_QA__=true;const __p4store={};Object.defineProperty(window,"localStorage",{configurable:true,value:{getItem:k=>__p4store[k]??null,setItem:(k,v)=>__p4store[k]=String(v),removeItem:k=>delete __p4store[k]}});window.__p4DrawImageCount=0;const ___oldDraw=CanvasRenderingContext2D.prototype.drawImage;CanvasRenderingContext2D.prototype.drawImage=function(...args){window.__p4DrawImageCount++;return ___oldDraw.apply(this,args)};</script>'''
+checks=[]
+def check(name, condition):
+    checks.append({'name':name,'pass':bool(condition)})
+    print(('PASS' if condition else 'FAIL')+' '+name)
+with sync_playwright() as p:
+ b=p.chromium.launch(headless=True,executable_path=os.environ.get('CHROMIUM_BIN') or None,args=['--no-sandbox'])
+ page=b.new_page(viewport={'width':1280,'height':720})
+ errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
+ page.set_content(html.replace('<script>',stub+'<script>',1),wait_until='domcontentloaded')
+ page.wait_for_function('window.__P4_QA__ && Object.values(window.__P4_QA__.images).every(i=>i.complete && i.naturalWidth>0)')
+ check('P4 image loader + artwork',page.evaluate('Object.values(window.__P4_QA__.images).length === 2'))
+ check('city image embedded offline',page.evaluate('getComputedStyle(document.querySelector(".city-visual")).backgroundImage.includes("data:image/webp;base64")'))
+ check('all 7 existing building hotspots remain',page.locator('[data-focus-building]').count()==7)
+ page.screenshot(path=str(ROOT/'qa/p4-city.png'),full_page=True)
+ page.locator('[data-focus-building="palace"]').first.click()
+ check('building hotspot remains interactive',page.locator('body').inner_text().find('Phủ Thành Chủ')>=0)
+ page.locator('[data-tab="heroes"]').first.click()
+ check('portrait mapping covers 8 characters',page.evaluate('Object.keys(window.__P4_QA__.portraitMap).length===8'))
+ check('starter illustrated portraits render',page.locator('[data-p4-hero]').count()>=3)
+ check('portrait sprites use offline artwork',page.evaluate('getComputedStyle(document.querySelector(".p4-face")).backgroundImage.includes("data:image/webp;base64")'))
+ page.screenshot(path=str(ROOT/'qa/p4-heroes.png'),full_page=True)
+ page.locator('[data-tab="formation"]').first.click()
+ check('formation remains interactive',page.locator('[data-slot]').count()==9)
+ page.screenshot(path=str(ROOT/'qa/p4-formation.png'),full_page=True)
+ page.evaluate("window.__P2_QA__.beginBattle(1,'campaign')")
+ page.wait_for_timeout(350)
+ check('combat sprite atlas painted on canvas',page.evaluate('window.__p4DrawImageCount>0'))
+ page.screenshot(path=str(ROOT/'qa/p4-battle.png'))
+ page.evaluate("window.__P2_QA__.getBattle().p.forEach(u=>u.morale=120)")
+ page.evaluate('window.__P2_QA__.stepBattle()')
+ page.wait_for_timeout(100)
+ page.screenshot(path=str(ROOT/'qa/p4-skill.png'))
+ check('combat event still generated',page.evaluate('window.__P2_QA__.getBattle().events.length>0'))
+ page.evaluate('window.__P2_QA__.skipBattle()')
+ check('battle report still saved',page.evaluate('window.__P2_QA__.getGame().battleReports.length>0'))
+ check('no Chromium JS errors desktop',not errors)
+ mobile=b.new_page(viewport={'width':390,'height':844},device_scale_factor=1)
+ mobile_errors=[];mobile.on('pageerror',lambda e:mobile_errors.append(str(e)))
+ mobile.set_content(html.replace('<script>',stub+'<script>',1),wait_until='domcontentloaded')
+ mobile.wait_for_function('window.__P4_QA__ && Object.values(window.__P4_QA__.images).every(i=>i.complete && i.naturalWidth>0)')
+ check('mobile responsive width',mobile.evaluate('document.documentElement.scrollWidth<=innerWidth+1'))
+ mobile.screenshot(path=str(ROOT/'qa/p4-mobile.png'),full_page=True)
+ check('no Chromium JS errors mobile',not mobile_errors)
+ b.close()
+report={'total':len(checks),'passed':sum(x['pass'] for x in checks),'checks':checks,'desktop_errors':errors,'mobile_errors':mobile_errors}
+(ROOT/'qa/p4-art-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),'utf8')
+print('TOTAL',report['passed'],'/',report['total'])
+sys.exit(0 if report['passed']==report['total'] else 1)

@@ -1,4 +1,4 @@
-name: NgoaLong P3 complete QA
+name: NgoaLong P4 complete QA
 
 on:
   push:
@@ -37,11 +37,13 @@ jobs:
         run: python qa/p3.py
       - name: P3 deterministic balance 360 scenarios
         run: python qa/p3_balance.py
+      - name: P4 original asset visual QA 14 tests
+        run: python qa/p4_art.py
       - name: Upload exact SHA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ngoalong-p3-qa-evidence
+          name: ngoalong-p4-qa-evidence
           path: |
             qa/*.json
             qa/*.png
@@ -53,7 +55,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: ngoalong-p3-playable
+          name: ngoalong-p4-playable
           path: |
             index.html
             qa/commit-sha.txt
