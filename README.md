@@ -1,42 +1,32 @@
-# Anh Hùng Thời Loạn — Hẻoofgaia
+# Mưu Định Tam Quốc — Ngoạ Long-inspired strategy game
 
-> **CHỈ MỘT BẢN GAME ĐANG PHÁT TRIỂN.** Xem [checkpoint hợp nhất hiện tại](docs/PROJECT_SINGLE_SOURCE_OF_TRUTH.md) để biết gameplay HG26.1 + mỹ thuật HG22.1, nhánh canonical, Save v07 và CI thật. Những ghi chú HG07–HG13 trong các tài liệu cũ là lịch sử, không phải một game khác. Chỉ tải HTML từ run GitHub Actions **SUCCESS** mới nhất.
+Đây là mã nguồn game chiến thuật Tam Quốc độc lập, lấy cảm hứng từ cách chơi Ngọa Long. Không phải game gốc của VNG; không tái sử dụng source, logo, server hoặc tài sản độc quyền.
 
-Standalone reconstruction project for Heroes of Gaia / Castle of Heroes / 英雄之城 (circa 2009–2010). The playable Vietnamese title is **Anh Hùng Thời Loạn**; Hẻoofgaia remains the project/repository name. This is an independent offline prototype, not the original game and not yet a complete or 1:1 reconstruction.
+## Một nhánh chính riêng trong repo Hero
 
-## Play
+- Repo lưu trữ: vuanhtuan161094-byte/Heoofgaia
+- Nhánh chính của game này: **main-ngoalong**
+- Bản chơi chính thức duy nhất trên nhánh: **index.html** (V0.3 P2)
+- KHÔNG merge main-ngoalong vào nhánh Heroes of Gaia; KHÔNG đổi default branch Hero hoặc sửa Save Hero.
+- Nhánh Hero đang làm việc: feature/hog1-research-to-playable-20261102 (độc lập).
 
-Open `Play-Heoofgaia-HG11.html` in Chrome or Edge. The file embeds all four faction city scenes and runs without network access. The city art uses a polished modern fantasy illustration style while preserving Heroes of Gaia faction architecture and hillside-city landmarks; it is original recreated artwork, not extracted Heroes of Gaia art. Building selection, upgrade queues and save actions are handled by the game code.
+## Chơi
 
-## Verify
+Mở index.html bằng Chrome / Edge; có thể sử dụng static web server nếu chính sách trình duyệt chặn file://. Thực hiện Xuất dữ liệu JSON để sao lưu trước khi đổi trình duyệt hoặc nâng cấp. Game dùng localStorage key **muu_dinh_tam_quoc_v1**, schema 3; không đụng save Hero.
 
-```powershell
-node qa-engine.cjs
-.venv\Scripts\python.exe build_offline.py
-.venv\Scripts\python.exe qa-browser.py
-.venv\Scripts\python.exe qa-file-browser.py
-python qa-hg11-chrome-cli.py
-```
+## P2 thực hiện
 
-`qa-browser.py` uses Playwright and installed Chrome/Edge. It writes actual runtime captures under `docs/evidence/hg08/`; its in-page test profile is a storage shim. `qa-file-browser.py` opens the offline HTML with `file://` and verifies save persistence after a separate browser process restart. Neither test proves physical mobile storage or the original server behavior.
+24 chiến pháp riêng, 3×3 trận hình, kỹ năng sĩ khí, Cổ Hiệu Quân (tướng trống), khắc chế binh chủng, 3 loại công/phòng, status, combat replay theo snapshot và phần thưởng exactly-once. Giữ lại hệ thống thành, ải, tháp, trang bị, khoa kỹ từ V0.2.
 
-## Project records
+## Kiểm thử
 
-- `docs/CODEX_MASTER_EXECUTION_PLAN_20261102.md` — development contract.
-- `docs/ROADMAP-MASTER.md` — HG-08 through HG-13 sequence.
-- `docs/research/RESEARCH-HEROES-OF-GAIA-2009.md` — historical evidence dossier.
-- `docs/research/HG08-EVIDENCE-REGISTER.md` — dated source and confidence register.
-- `docs/research/HG08-TROOP-UNLOCK-MATRIX.md` — per-unit prerequisite evidence and current implementation status.
-- `docs/ASSET-PROVENANCE.md` — asset rights register policy.
-- `docs/CURRENT_HG_CHECKPOINT.md` — exact working state and next task.
+- Chạy QA cục bộ đã thực hiện ngày 16/11/2026: P2 31/31 và advanced 12/12 PASS trong Chromium/Playwright với localStorage shim.
+- Bổ sung GitHub Actions riêng của nhánh main-ngoalong: chạy smoke Playwright và xuất screenshot 1280×720 trên từng push; phải kiểm tra kết quả tại SHA hiện hành trước khi đánh dấu CI PASS.
+- Lệnh cục bộ: pip install playwright; python -m playwright install chromium; python qa/smoke.py.
+- Chưa nghiệm thu Android/iOS thật, offline file:// trên máy người dùng, cân bằng dài hạn.
 
-The primary reference is Heroes of Gaia only. Unverified mechanics remain marked as simulated or missing. HG02–HG07 save data is migrated to the v07 key `heoofgaia_hg_only_v07`; migration preserves hero level/EXP and does not grant retroactive attribute points. HG-10 provides Fame-gated secondary-race castles with separate per-city stores and queues. HG-11 adds four original generated city scenes and per-faction building hotspots. Capture-city starting inventory/AP, troop sprite fidelity, building animation and original-client parity remain unresolved; see `docs/CURRENT_HG_CHECKPOINT.md`.
+Hồ sơ xem ở AGENTS.md, docs/REV_PROTOCOL.md, docs/CURRENT_CHECKPOINT.md và docs/P2_HANDOFF.md.
 
+## Hướng phát triển
 
-## Current research and acceptance
-
-- docs/research/HOG1_SOURCE_AUDIT.md records the original client/server/asset leads; no HOG1 source file is recovered.
-- docs/qa/HG08_HG13_ACCEPTANCE.md records stage status and acceptance evidence.
-- docs/research/HG08-EVIDENCE-REGISTER.md records dated sources and confidence.
-- The current map economy uses the documented Chinese-guide Fame mine cap and per-mine yields; regional parity and mine spell multipliers remain unverified.
-- Current screenshots show the prototype UI, not a side-by-side match to the original. Fandom survey coverage is partial, not all 608 pages.
+P3: test ma trận binh chủng và AI mục tiêu; tách dữ liệu chiến pháp; balance nhiều đội hình. P4: đồ họa sprite/FX gốc với asset provenance và Chromium visual review. P5: nội dung chiến dịch, save migration và phát hành kiểm thử. Mọi dữ liệu thiếu từ game tham chiếu phải ghi rõ SIMULATED, không nhận là thông số gốc.
