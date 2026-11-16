@@ -28,7 +28,7 @@ const TEMPLATE=(race,info)=>Object.freeze({id:race+'_tower_sovereign',race,tier:
 C.rewardUnits=Object.freeze(Object.fromEntries(Object.entries(C.rewardUnits).map(([race,rows])=>
  [race,Object.freeze([...rows,TEMPLATE(race,SPECIALS[race])])])));
 // Unique capturable city at an existing modeled world position.
-const PRIVATE_CASTLE=E.TILES.filter(t=>t.kind==='castle'&&t.aiOwner)
+const PRIVATE_CASTLE=E.TILES.filter(t=>t.kind==='castle'&&t.aiOwner&&t.source==='MODELED_OFFLINE_CITY')
  .sort((a,b)=>(b.x+b.y)-(a.x+a.y)||b.x-a.x)[0];
 if(!PRIVATE_CASTLE)throw Error('No private collectible castle');
 PRIVATE_CASTLE.value='Thành Huyền Tích';
