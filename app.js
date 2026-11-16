@@ -1088,7 +1088,7 @@ function hg28ArmyUnitThumb(unit,size){
   const src=document.getElementById('hg28-battle-human-spear-militia')?.src||'';
   if(src.startsWith('data:image/webp;base64,'))return `<img class="hog-unit-thumb hg28-spear-militia-thumb" data-hg28-unit-image="human_1" src="${src}" width="${size}" height="${size}" alt="${esc(unit.name)}">`;
  }
- return A?.unitHTML(unit.id,size)||(unit.tier>=9?'🐉':unit.type==='Ranged'?'🏹':'⚔️');
+ return A?.unitHTML(unit.visualSourceId||unit.id,size)||(unit.tier>=9?'🐉':unit.type==='Ranged'?'🏹':'⚔️');
 }
 
 function hg35RecruitQuote(unit,qty){
