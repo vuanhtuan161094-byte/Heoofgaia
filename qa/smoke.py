@@ -1,4 +1,4 @@
-"""P2 actual Chromium browser smoke. Includes no mocked combat outcomes."""
+"""Muu Dinh Tam Quoc P2 minimal real-browser gate for CI."""
 from pathlib import Path
 from playwright.sync_api import sync_playwright
 import json, sys, os

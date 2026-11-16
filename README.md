@@ -1,32 +1,38 @@
-# Mưu Định Tam Quốc — Ngoạ Long-inspired strategy game
+# Mưu Định Tam Quốc — V0.4 P3
 
-Đây là mã nguồn game chiến thuật Tam Quốc độc lập, lấy cảm hứng từ cách chơi Ngọa Long. Không phải game gốc của VNG; không tái sử dụng source, logo, server hoặc tài sản độc quyền.
+**Một game HTML chiến thuật Tam Quốc độc lập**, lấy cảm hứng từ Ngọa Long cổ điển. Đây không phải mã nguồn chính thức của VNG. Mọi hệ số AI, quân cấp, đội hình, thiệt hại là SIMULATED.
 
-## Một nhánh chính riêng trong repo Hero
+## Repository và bản chơi duy nhất
 
-- Repo lưu trữ: vuanhtuan161094-byte/Heoofgaia
-- Nhánh chính của game này: **main-ngoalong**
-- Bản chơi chính thức duy nhất trên nhánh: **index.html** (V0.3 P2)
-- KHÔNG merge main-ngoalong vào nhánh Heroes of Gaia; KHÔNG đổi default branch Hero hoặc sửa Save Hero.
-- Nhánh Hero đang làm việc: feature/hog1-research-to-playable-20261102 (độc lập).
+- Repo: `vuanhtuan161094-byte/Heoofgaia`; **nhánh chính riêng** `main-ngoalong`.
+- **Chỉ dùng `index.html`** trên `main-ngoalong` làm game Ngọa Long. Không tạo HTML phát hành song song.
+- Nhánh game Hero: `feature/hog1-research-to-playable-20261102`; không sửa, merge hay thay default branch.
+- Chơi trên Chrome/Edge offline bằng `index.html`. Lưu localStorage riêng `muu_dinh_tam_quoc_v1`, `version=3`; nên xuất JSON trước khi nâng cấp. Không sử dụng Save v07 Hero.
 
-## Chơi
+## P3: các chức năng thực tế
 
-Mở index.html bằng Chrome / Edge; có thể sử dụng static web server nếu chính sách trình duyệt chặn file://. Thực hiện Xuất dữ liệu JSON để sao lưu trước khi đổi trình duyệt hoặc nâng cấp. Game dùng localStorage key **muu_dinh_tam_quoc_v1**, schema 3; không đụng save Hero.
+- AI chọn mục tiêu ưu tiên tuyến trước, khắc chế binh chủng, tình trạng máu, vị trí theo làn và vai trò nguy hiểm. 4 phong cách ưu tiên, có khác biệt giữa phe địch và đội hình người chơi.
+- Binh chủng nâng cấp từng tướng **bốn cấp**; nâng tại Doanh Trại bằng bạc/lương/sắt thật; không tự tăng quân số.
+- Khắc chế Bộ > Kỵ > Cung > Bộ; Mưu gây áp lực lên Bộ; tướng trống, hỗ trợ có vai trò chiến thuật riêng.
+- **24 mẫu chiến thuật** = 6 trận pháp × 4 phương án bố trí 3×3. Chọn mẫu là sắp quân thực và cập nhật chiến pháp/AI; chỉ dùng tướng đã sở hữu.
+- Cân bằng kiểm toán **360 trận deterministic** (3 nhóm lực lượng × 5 mốc ải × 24 mẫu), làm mượt độ khó ở ải 13–20; ghi đầy đủ bằng chứng.
+- Giữ P2: 24 kỹ năng riêng, sĩ khí, tướng trống, replay snapshot, ba tuyến sát thương và quyết toán một lần.
 
-## P2 thực hiện
+## Kiểm thử trực tiếp tại máy phát triển
 
-24 chiến pháp riêng, 3×3 trận hình, kỹ năng sĩ khí, Cổ Hiệu Quân (tướng trống), khắc chế binh chủng, 3 loại công/phòng, status, combat replay theo snapshot và phần thưởng exactly-once. Giữ lại hệ thống thành, ải, tháp, trang bị, khoa kỹ từ V0.2.
+- P2 full **31/31**, P2 advanced **12/12**, P3 **74/74** và P3 balance **360/360 scenario executions**; báo cáo này là kết quả chạy local trước commit.
+- GitHub CI chỉ được coi là PASS sau khi workflow `NgoaLong P3 complete QA` hoàn thành trên **exact SHA mới nhất**.
+- CI: `python qa/smoke.py`, `python qa/p2_full.py`, `python qa/p2_advanced.py`, `python qa/p3.py`, `python qa/p3_balance.py`.
+- Screenshots Chromium 1280×720 và mobile 390px xuất qua Actions artifacts; chưa chứng nhận Windows/Android thiết bị thật.
 
-## Kiểm thử
+## Tài liệu
 
-- Chạy QA cục bộ đã thực hiện ngày 16/11/2026: P2 31/31 và advanced 12/12 PASS trong Chromium/Playwright với localStorage shim.
-- Bổ sung GitHub Actions riêng của nhánh main-ngoalong: chạy smoke Playwright và xuất screenshot 1280×720 trên từng push; phải kiểm tra kết quả tại SHA hiện hành trước khi đánh dấu CI PASS.
-- Lệnh cục bộ: pip install playwright; python -m playwright install chromium; python qa/smoke.py.
-- Chưa nghiệm thu Android/iOS thật, offline file:// trên máy người dùng, cân bằng dài hạn.
+- `AGENTS.md` — quy tắc làm việc với nhánh Ngọa Long.
+- `docs/REV_PROTOCOL.md` — pipeline Research → Engineering → Verification.
+- `docs/P3_DESIGN.md` — công thức và hành vi AI/cấp quân/đội hình.
+- `docs/P3_BALANCE.md` — mẫu cân bằng, kết quả và giới hạn.
+- `docs/CURRENT_CHECKPOINT.md` — trạng thái và SHA.
 
-Hồ sơ xem ở AGENTS.md, docs/REV_PROTOCOL.md, docs/CURRENT_CHECKPOINT.md và docs/P2_HANDOFF.md.
+## Tiếp theo
 
-## Hướng phát triển
-
-P3: test ma trận binh chủng và AI mục tiêu; tách dữ liệu chiến pháp; balance nhiều đội hình. P4: đồ họa sprite/FX gốc với asset provenance và Chromium visual review. P5: nội dung chiến dịch, save migration và phát hành kiểm thử. Mọi dữ liệu thiếu từ game tham chiếu phải ghi rõ SIMULATED, không nhận là thông số gốc.
+P4: artwork gốc, FX/sprite-first cho quân, thành, combat; P5: chiến dịch/tướng/quân mở rộng; hardening save, thử nghiệm trên thiết bị thật. Không sử dụng Codex trừ khi người dùng đổi chỉ đạo.

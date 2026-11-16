@@ -1,4 +1,4 @@
-name: NgoaLong P2 browser QA
+name: NgoaLong P3 complete QA
 
 on:
   push:
@@ -11,30 +11,40 @@ permissions:
 jobs:
   game:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: Source proof
+      - name: Exact SHA and source identity
         run: |
-          sha256sum index.html
+          git rev-parse HEAD | tee qa/commit-sha.txt
+          sha256sum index.html | tee qa/index-sha256.txt
           test -s index.html
-          git rev-parse HEAD
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Install browser QA
+      - name: Browser QA dependencies
         run: |
           python -m pip install --upgrade pip
           python -m pip install playwright==1.58.0
           python -m playwright install --with-deps chromium
-      - name: Browser smoke actual game
+      - name: P2 smoke Chromium
         run: python qa/smoke.py
-      - name: Evidence artifacts
+      - name: P2 full 31 tests
+        run: python qa/p2_full.py
+      - name: P2 advanced 12 tests
+        run: python qa/p2_advanced.py
+      - name: P3 tactical 74 tests
+        run: python qa/p3.py
+      - name: P3 deterministic balance 360 scenarios
+        run: python qa/p3_balance.py
+      - name: Upload exact SHA evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ngoalong-p2-browser-evidence
+          name: ngoalong-p3-qa-evidence
           path: |
-            qa/smoke-result.json
-            qa/smoke-1280x720.png
+            qa/*.json
+            qa/*.png
+            qa/commit-sha.txt
+            qa/index-sha256.txt
           if-no-files-found: warn

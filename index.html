@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mưu Định Tam Quốc — V0.3 P2 Chiến Trận</title>
+<title>Mưu Định Tam Quốc — V0.4 P3 Chiến Thuật</title>
 <style>
 :root{--bg:#0b1519;--base:#111f24;--panel:#14282b;--panel2:#193033;--gold:#dfb776;--gold2:#f4deaa;--line:#456053;--cream:#f5e7c9;--muted:#a1b4ab;--green:#9dc99c;--red:#da7b66;--blue:#80b9cb;--shadow:#050b0d}
 *{box-sizing:border-box}html,body{padding:0;margin:0;height:100%;font-family:'Be Vietnam Pro',system-ui,Segoe UI,sans-serif;color:var(--cream);background:var(--bg)}button{font:inherit;cursor:pointer}button:disabled{opacity:.36;cursor:not-allowed}#app{min-height:100vh;background:radial-gradient(circle at 82% 0,rgba(105,120,75,.12),transparent 32%),linear-gradient(125deg,#0b171a,#132225 60%,#0a1418)}
@@ -229,7 +229,7 @@ function changeTroopMode(id,mode){
  log(`${HEROES[id].name} chuyển sang ${mode==='drum'?'Cổ Hiệu Quân':HEROES[id].role}.`);save();render();
 }
 function assignSlot(index){let current=game.slots[index];if(selectedHero){if(current===selectedHero){game.slots[index]=null;selectedHero=null;}else if(!game.slots.includes(selectedHero)&&game.slots.filter(Boolean).length>=5&&!current)return toast('Trận hình chỉ hỗ trợ tối đa năm vị trí.');else{game.slots=game.slots.map(v=>v===selectedHero?null:v);game.slots[index]=selectedHero;selectedHero=null;}}else if(current){game.slots[index]=null;}else return toast('Hãy chọn võ tướng ở danh sách bên phải.');save();render();}
-function renderCampaign(){const next=game.cleared.length+1;const stage=STAGES[selectedStage-1];return head('Thiên hạ phân tranh','Chinh Phạt · Bản Đồ','Vượt từng cửa ải, thu thập chiến lợi phẩm và mở rộng uy danh.',`<span class="pill">Đã vượt ${game.cleared.length}/${STAGES.length} ải</span>`)+`<div class="grid-2"><div class="campaign-scene"><svg viewBox="0 0 900 400" preserveAspectRatio="none"><path d="M0,340 Q180,200 275,300 T530,190 T900,75" fill="none" stroke="#d6c98d" stroke-width="14" stroke-dasharray="25 15"/><path d="M0 150 C200 30 270 260 480 65 S780 220 900 50" fill="none" stroke="#7f9c7b" stroke-width="46" opacity=".25"/></svg><div class="stage-grid">${STAGES.map((s,i)=>{const n=i+1,locked=n>next,done=game.cleared.includes(n);return `<button class="stage ${locked?'locked':''} ${done?'done':''} ${selectedStage===n?'chosen':''}" data-stage="${n}" ${locked?'disabled':''}><span class="stage-icon">${locked?'🔒':done?'🏯':n%3===0?'⚔️':'🏯'}</span><strong>${s[0]}</strong><small>${done?'Đã chiến thắng':locked?'Chưa mở':'Ải '+n}</small></button>`;}).join('')}</div></div><div class="panel chapter-panel"><div class="section-label">Ải ${selectedStage} · ${selectedStage<=game.cleared.length?'Đã chiếm lĩnh':'Tiến công'}</div><h2>${stage[0]}</h2><p class="muted" style="font-size:12px;line-height:1.9">${stage[2]}<br>Thủ lĩnh địch: <b style="color:#e7cb97">${stage[1]}</b></p><div class="divider"></div><div class="tiny">Chiến lợi phẩm cơ bản</div><div class="reward" style="margin:10px 0 20px"><span>🪙 ${fmt(stage[3])} đồng</span><span>🌾 ${fmt(stage[4])} lương</span><span>🏅 ${fmt(stage[5])} uy danh</span></div><div class="line"><span>Đội ra trận</span><b>${game.slots.filter(Boolean).length} / 5 võ tướng</b></div><div class="line"><span>Tiêu hao khai chiến</span><b class="cost">🌾 ${100+selectedStage*25} lương</b></div><div class="line"><span>Độ khó</span><b class="cost">${'★'.repeat(Math.min(5,1+Math.floor(selectedStage/3)))}</b></div><button class="gold-button" data-battle="${selectedStage}" style="margin-top:20px;width:100%" ${selectedStage>next?'disabled':''}>⚔️ Xuất chiến</button><p class="tiny" style="margin-top:13px;line-height:1.8">Lõi P2: Bộ thắng Kỵ · Kỵ thắng Cung · Cung thắng Bộ; cột 3 là tuyến trước; cung ưu tiên hàng sau. Sĩ khí 100 kích hoạt chiến pháp riêng. Trống tăng sĩ khí, bỏ sát thương. Có lưu replay từng lượt.</p></div></div>`;}
+function renderCampaign(){const next=game.cleared.length+1;const stage=STAGES[selectedStage-1];return head('Thiên hạ phân tranh','Chinh Phạt · Bản Đồ','Vượt từng cửa ải, thu thập chiến lợi phẩm và mở rộng uy danh.',`<span class="pill">Đã vượt ${game.cleared.length}/${STAGES.length} ải</span>`)+`<div class="grid-2"><div class="campaign-scene"><svg viewBox="0 0 900 400" preserveAspectRatio="none"><path d="M0,340 Q180,200 275,300 T530,190 T900,75" fill="none" stroke="#d6c98d" stroke-width="14" stroke-dasharray="25 15"/><path d="M0 150 C200 30 270 260 480 65 S780 220 900 50" fill="none" stroke="#7f9c7b" stroke-width="46" opacity=".25"/></svg><div class="stage-grid">${STAGES.map((s,i)=>{const n=i+1,locked=n>next,done=game.cleared.includes(n);return `<button class="stage ${locked?'locked':''} ${done?'done':''} ${selectedStage===n?'chosen':''}" data-stage="${n}" ${locked?'disabled':''}><span class="stage-icon">${locked?'🔒':done?'🏯':n%3===0?'⚔️':'🏯'}</span><strong>${s[0]}</strong><small>${done?'Đã chiến thắng':locked?'Chưa mở':'Ải '+n}</small></button>`;}).join('')}</div></div><div class="panel chapter-panel"><div class="section-label">Ải ${selectedStage} · ${selectedStage<=game.cleared.length?'Đã chiếm lĩnh':'Tiến công'}</div><h2>${stage[0]}</h2><p class="muted" style="font-size:12px;line-height:1.9">${stage[2]}<br>Thủ lĩnh địch: <b style="color:#e7cb97">${stage[1]}</b></p><div class="divider"></div><div class="tiny">Chiến lợi phẩm cơ bản</div><div class="reward" style="margin:10px 0 20px"><span>🪙 ${fmt(stage[3])} đồng</span><span>🌾 ${fmt(stage[4])} lương</span><span>🏅 ${fmt(stage[5])} uy danh</span></div><div class="line"><span>Đội ra trận</span><b>${game.slots.filter(Boolean).length} / 5 võ tướng</b></div><div class="line"><span>Tiêu hao khai chiến</span><b class="cost">🌾 ${100+selectedStage*25} lương</b></div><div class="line"><span>Độ khó</span><b class="cost">${'★'.repeat(Math.min(5,1+Math.floor(selectedStage/3)))}</b></div><button class="gold-button" data-battle="${selectedStage}" style="margin-top:20px;width:100%" ${selectedStage>next?'disabled':''}>⚔️ Xuất chiến</button><p class="tiny" style="margin-top:13px;line-height:1.8">Lõi P3: Bộ thắng Kỵ · Kỵ thắng Cung · Cung thắng Bộ; cột 3 là tuyến trước; cung ưu tiên hàng sau. Sĩ khí 100 kích hoạt chiến pháp riêng. Trống tăng sĩ khí, bỏ sát thương. Có lưu replay từng lượt.</p></div></div>`;}
 function renderBarracks(){let max=500+game.buildings.barracks*400+game.technology.recruit*50;return head('Binh tinh lương túc','Doanh Trại · Quân Nhu','Tuyển quân, duy trì dự trữ và tăng cường lực lượng trước khi xuất chiến.',`<span class="pill">Quân dự bị ${fmt(game.reserve)}</span>`)+`<div class="small-data"><div class="box"><b>${fmt(game.reserve)}</b><span>Quân dự bị</span></div><div class="box"><b>${fmt(game.roster.reduce((s,id)=>s+game.hero[id].troops,0))}</b><span>Quân tại võ tướng</span></div><div class="box"><b>${fmt(max)}</b><span>Giới hạn kho quân</span></div><div class="box"><b>${game.buildings.barracks}</b><span>Cấp Doanh Trại</span></div></div><div class="grid-2" style="margin-top:18px"><div class="panel mini-box"><h3>🏹 Tuyển Binh</h3><p class="muted" style="font-size:12px;line-height:1.9">Chiêu tập 300 binh sĩ bổ sung quân dự bị. Cấp quân cho võ tướng tại mục Võ Tướng.</p><div class="line"><span>Chi phí mỗi lần</span><span class="cost">🪙 600 · 🌾 450</span></div><button class="gold-button" data-enlist="1" style="margin-top:14px">Tuyển 300 quân</button></div>${buildingPanel('barracks')}</div><div class="panel mini-box" style="margin-top:18px"><h3>Quân số các tướng</h3>${game.roster.map(id=>`<div class="line"><span>${HEROES[id].icon} ${HEROES[id].name}</span><span>${fmt(game.hero[id].troops)} / ${fmt(heroCap(id))} <button class="dark-button" style="margin-left:10px" data-garrison="${id}">+ Cấp quân</button></span></div>`).join('')}</div>`;}
 function enlist(){const max=500+game.buildings.barracks*400+game.technology.recruit*50,amount=Math.min(300,max-game.reserve);if(amount<=0)return toast('Kho quân đã đạt giới hạn.');if(!payment({silver:600,grain:450}))return toast('Không đủ 600 đồng và 450 lương.');game.reserve+=amount;countTask('enlist');log(`Chiêu mộ ${amount} quân dự bị.`);save();toast(`Tuyển thành công ${amount} quân!`);render();}
 function renderJournal(){return head('Sử ký công thành','Nhật Ký · Chiến Báo','Ghi nhận tiến trình xây thành, chiêu tướng và giao tranh.',`<button class="dark-button" data-export="1">📥 Xuất save</button>`)+`<div class="grid-2"><div class="panel mini-box"><h3>Biên niên chiến dịch</h3><div class="log-list">${game.logs.map(l=>`<div class="log-item"><time>${new Date(l.time).toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'})}</time>${esc(l.msg)}</div>`).join('')}</div></div><div class="panel mini-box"><h3>⚙️ Dữ liệu trò chơi</h3><p class="muted" style="font-size:12px;line-height:1.9">Tiến độ được lưu tự động vào trình duyệt trên thiết bị đang chơi. Có thể xuất tệp JSON để sao lưu và nhập lại bằng nút bên dưới.</p><button class="dark-button" data-export="1">Xuất dữ liệu</button><label class="dark-button" style="display:inline-block;margin:9px 0;cursor:pointer">Nhập dữ liệu<input type="file" id="import-save" accept=".json" style="display:none"></label><div class="divider"></div><button class="red-button" data-reset="1">Chơi lại từ đầu</button><p class="tiny">Lưu ý: chơi lại sẽ xóa tiến độ hiện tại trên thiết bị.</p></div></div>`;}
@@ -536,6 +536,123 @@ document.addEventListener('click',ev=>{
 document.addEventListener('input',ev=>{if(ev.target.id==='replay-slider'&&battle?.replay){battle.playing=false;p2LoadReplayFrame(+ev.target.value);}});
 document.addEventListener('change',ev=>{if(ev.target.id==='gear-hero'){gearHero=ev.target.value;render();}});
 document.addEventListener('change',ev=>{if(ev.target.id==='import-save'&&ev.target.files?.[0])importSave(ev.target.files[0]);});$('save').addEventListener('click',()=>toast(save()?'Đã lưu tiến độ trên thiết bị.':'Trình duyệt không cho phép lưu cục bộ. Hãy dùng Xuất save.'));
+// P3 — deterministic tactical AI, troop tiers and 24 actionable formation presets.
+// All coefficients are independently SIMULATED; no proprietary combat formulas.
+const P3_VARIANTS=[
+ {key:'van',name:'Tiên Phong',style:'pressure',slots:[2,5,8,4,7],desc:'Ba mũi tiền quân; ưu tiên sát thương tuyến trước.'},
+ {key:'dieu',name:'Điều Quân',style:'counter',slots:[2,5,1,4,7],desc:'Tập trung giữa sân; ưu tiên khắc chế binh chủng.'},
+ {key:'thu',name:'Thủ Hậu',style:'protect',slots:[2,5,0,3,6],desc:'Hai tuyến chắn, hậu quân bảo toàn trị liệu.'},
+ {key:'kich',name:'Kỳ Kích',style:'finish',slots:[2,5,8,1,4],desc:'Dồn mũi tiến công, ưu tiên mục tiêu thấp máu.'}
+];
+const P3_PRESETS=Object.entries(FORMATIONS).flatMap(([formation,data])=>P3_VARIANTS.map(v=>({id:formation+'-'+v.key,formation,title:data.name+' · '+v.name,slots:[...v.slots],style:v.style,desc:v.desc})));
+const P3_TIER_NAMES=['','Tân Binh','Tinh Binh','Thiết Quân','Ngự Lâm'];
+function p3Hydrate(){
+ if(!game.p3TroopTier||typeof game.p3TroopTier!=='object'||Array.isArray(game.p3TroopTier))game.p3TroopTier={};
+ for(const [id,lv] of Object.entries(game.p3TroopTier)){
+  if(!game.hero[id]||!Number.isInteger(lv)||lv<1||lv>4)delete game.p3TroopTier[id];
+ }
+ if(!P3_PRESETS.some(p=>p.id===game.p3PresetId))game.p3PresetId='spear-van';
+}
+const p3OldHydrate=hydrateExtension;
+hydrateExtension=function(){p3OldHydrate();p3Hydrate();save();};
+const p3OldFresh=fresh;
+fresh=function(){const g=p3OldFresh();g.p3TroopTier={};g.p3PresetId='spear-van';return g;};
+p3Hydrate();save();
+function p3Tier(id){return game.p3TroopTier[id]||1;}
+function p3UpgradeCost(next){return {silver:440*next*next,grain:210*next*next,iron:170*next*next};}
+function p3Upgrade(id){
+ const unit=game.hero[id],tier=p3Tier(id),next=tier+1;
+ if(battle||!unit||!game.roster.includes(id)||tier>=4)return false;
+ if(game.buildings.barracks<next)return toast('Nâng Doanh Trại tới cấp '+next+' để mở binh chủng.'),false;
+ if(!payment(p3UpgradeCost(next)))return toast('Thiếu tài nguyên để luyện quân.'),false;
+ game.p3TroopTier[id]=next;
+ log('Luyện '+HEROES[id].name+' lên '+P3_TIER_NAMES[next]+'.');
+ save();render();toast(HEROES[id].name+' → '+P3_TIER_NAMES[next]);return true;
+}
+const p3OriginalUnit=p2Unit;
+p2Unit=function(id,team,slot,stage){
+ const u=p3OriginalUnit(id,team,slot,stage);
+ const tier=team==='p'?p3Tier(id):Math.min(4,1+Math.floor((Math.max(1,stage)-1)/8));
+ const factor=1+(tier-1)*(team==='p'?.115:.075),guard=1+(tier-1)*(team==='p'?.09:.055);
+ u.tier=tier;
+ for(const key of ['atk','catk','matk'])u[key]=Math.max(1,Math.round(u[key]*factor));
+ for(const key of ['def','tdef','mdef'])u[key]=Math.max(1,Math.round(u[key]*guard));
+ u.hp=Math.round(u.hp*(1+(tier-1)*.075));u.maxHp=u.hp;
+ // P3 mid-campaign difficulty smoothing, derived from 24x3 deterministic profile runs.
+ if(team==='e'&&stage>=13&&stage<=20){
+  for(const key of ['atk','catk','matk','def','tdef','mdef'])u[key]=Math.max(1,Math.round(u[key]*.9));
+  u.hp=u.maxHp=Math.max(1,Math.round(u.hp*.9));
+ }
+ return u;
+};
+// Extended counter is a transparent, capped 3-class cycle plus strategist pressure.
+P2_COUNTERS.strategist='infantry';
+function p3CounterFactor(a,b){
+ if(P2_COUNTERS[a]===b)return 1.22;
+ if(P2_COUNTERS[b]===a)return .82;
+ return 1;
+}
+const p3OriginalTarget=p2Target;
+p2Target=function(attacker,mode='front'){
+ if(!battle||!attacker)return p3OriginalTarget(attacker,mode);
+ const opponents=p2CountAlive(attacker.team==='p'?'e':'p');
+ if(!opponents.length)return null;
+ const bypass=mode==='back'||attacker.troop==='archer';
+ const foremost=Math.max(...opponents.map(u=>u.slot%3));
+ const rearmost=Math.min(...opponents.map(u=>u.slot%3));
+ const eligible=bypass?opponents.filter(u=>u.slot%3===rearmost):opponents.filter(u=>u.slot%3===foremost);
+ const preset=P3_PRESETS.find(p=>p.id===game.p3PresetId)||P3_PRESETS[0];
+ const style=attacker.team==='p'?preset.style:['pressure','counter','finish','protect'][battle.stage%4];
+ const row=Math.floor(attacker.slot/3);
+ if(mode==='back')return [...eligible].sort((a,b)=>Math.abs(Math.floor(a.slot/3)-row)-Math.abs(Math.floor(b.slot/3)-row)||a.slot-b.slot)[0];
+ function score(t){
+  const hpRatio=t.maxHp>0?t.hp/t.maxHp:1;
+  const counter=p3CounterFactor(attacker.troop,t.troop);
+  const role=(t.troop==='drum'?14:t.troop==='support'?12:t.troop==='strategist'?7:0);
+  const lane=Math.abs(Math.floor(t.slot/3)-row);
+  let result=role*.45+(1-hpRatio)*20+((counter-1)*34)-lane*2;
+  if(style==='finish')result+=(1-hpRatio)*32;
+  if(style==='counter')result+=(counter-1)*78;
+  if(style==='pressure')result+=(t.maxHp<500?4:0)+(t.troop==='archer'?4:0);
+  if(style==='protect')result+=(t.troop==='drum'||t.troop==='support'?9:0);
+  if(bypass){result+=(2-t.slot%3)*4+(t.troop==='drum'?8:0);}
+  return result;
+ }
+ return [...eligible].sort((a,b)=>score(b)-score(a)||a.slot-b.slot)[0];
+};
+function p3AssignPreset(id){
+ if(battle)return false;
+ const p=P3_PRESETS.find(x=>x.id===id);if(!p)return false;
+ // Reorder only owned heroes; do not create units, soldiers, equipment or resources.
+ const selected=[...new Set([...game.slots.filter(Boolean),...game.roster])]
+  .filter(h=>game.roster.includes(h)&&game.hero[h]&&HEROES[h]&&game.hero[h].troops>=30).slice(0,5);
+ if(!selected.length)return toast('Cần ít nhất một tướng có 30 quân.'),false;
+ function priority(id){const kind=game.troopModes[id]==='drum'?'drum':HEROES[id].type;return ({infantry:6,cavalry:5,archer:3,strategist:2,support:1,drum:0})[kind]??2;}
+ selected.sort((a,b)=>priority(b)-priority(a)||game.roster.indexOf(a)-game.roster.indexOf(b));
+ const slots=[...p.slots].sort((a,b)=>b%3-a%3||a-b);
+ const updated=Array(9).fill(null);
+ selected.forEach((hero,i)=>{updated[slots[i]]=hero;});
+ game.slots=updated;game.formation=p.formation;game.p3PresetId=id;selectedHero=null;
+ log('Bố trí '+p.title+' với '+selected.length+' tướng.');save();render();return true;
+}
+const p3OldFormation=renderFormation;
+renderFormation=function(){
+ const current=P3_PRESETS.find(p=>p.id===game.p3PresetId);
+ return p3OldFormation()+`<div class="panel mini-box" style="margin-top:18px"><h3>♟️ P3 · 24 đội hình chiến thuật thực</h3><p class="tiny">6 trận pháp × 4 phương án bố trí. Áp dụng sẽ xếp lại tối đa 5 tướng đã sở hữu, đổi trận pháp và quy tắc chọn mục tiêu AI. Không tạo quân miễn phí.</p><div class="grid-3">${P3_PRESETS.map(p=>`<button class="dark-button" data-p3-preset="${p.id}" style="text-align:left;${p.id===game.p3PresetId?'border-color:#f3d186;background:#514632':''}"><b>${p.title}</b><div class="tiny">${p.desc}</div></button>`).join('')}</div><p class="tiny" style="margin-top:10px">Đang dùng: ${current?.title||'Tiên Phong'} · Bộ &gt; Kỵ &gt; Cung &gt; Bộ; Mưu sĩ ép Bộ. P3 tự động chọn mục tiêu theo đe dọa, khắc chế, máu và vị trí.</p></div>`;
+};
+const p3OldBarracks=renderBarracks;
+renderBarracks=function(){
+ return p3OldBarracks()+`<div class="panel mini-box" style="margin-top:18px"><h3>⚔️ P3 · Luyện cấp binh chủng</h3><p class="tiny">Tân Binh → Tinh Binh → Thiết Quân → Ngự Lâm. Mỗi lần tăng công, phòng, HP theo cấp của từng võ tướng. Trả bạc/lương/sắt thật; không tăng số lính. Muốn lên cấp N phải có Doanh Trại cấp N.</p>${game.roster.map(id=>{const lv=p3Tier(id),next=lv+1,need=p3UpgradeCost(next),locked=game.buildings.barracks<next;return `<div class="line"><span>${HEROES[id].icon} ${HEROES[id].name} <b>· ${P3_TIER_NAMES[lv]} ${lv}/4</b></span><span>${lv>=4?'Tối đa':`<small class="cost">${earnedText(need)}</small> <button class="dark-button" data-p3-upgrade="${id}" ${locked?'disabled':''}>${locked?'Cần trại '+next:'Luyện quân'}</button>`}</span></div>`;}).join('')}</div>`;
+};
+const p3OldStoreReport=p2StoreReport;
+p2StoreReport=function(rewards,loot){p3OldStoreReport(rewards,loot);if(battle?.report)battle.report.p3PresetId=game.p3PresetId;};
+document.addEventListener('click',ev=>{
+ const t=ev.target.closest('[data-p3-preset],[data-p3-upgrade]');if(!t||t.disabled)return;
+ if(t.dataset.p3Preset)p3AssignPreset(t.dataset.p3Preset);
+ else if(t.dataset.p3Upgrade)p3Upgrade(t.dataset.p3Upgrade);
+});
+if(window.__P2_ENABLE_QA__){window.__P3_QA__={presets:P3_PRESETS.map(x=>({...x})),tier:p3Tier,upgrade:p3Upgrade,cost:p3UpgradeCost,assign:p3AssignPreset,target:p2Target,unit:p2Unit,counter:p3CounterFactor,hydrate:p3Hydrate};}
+
 if(window.__P2_ENABLE_QA__){window.__P2_QA__={getGame:()=>structuredClone(game),getBattle:()=>battle?structuredClone({...battle,current:null,fx:[],order:null}):null,
  beginBattle,stepBattle,skipBattle,makeUnit,p2Hit,p2Target,p2OpenReplay,p2LoadReplayFrame,finishBattle,closeBattle,debugBattle:()=>battle,
  useTroop:changeTroopMode,setGame:(g)=>{game=g;hydrateExtension();render();},render,selectTab:(t)=>{tab=t;render();}};}
