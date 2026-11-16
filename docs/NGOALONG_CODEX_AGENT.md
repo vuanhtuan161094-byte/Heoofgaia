@@ -20,6 +20,23 @@ Distinguish **Ngọa Long VNG classic** from **Tân Ngọa Long** and other game
 - Official introductory general training (video): https://www.youtube.com/watch?v=nKxo-WE_g90 .
 For every researched mechanic create and maintain `docs/NL_REFERENCE_MATRIX.md`: source URL, accessed date, game version, OBSERVED/DERIVED/SIMULATED/UNKNOWN, proposed ORIGINAL implementation, acceptance test and IP risk. The published descriptions do *not* establish precise combat formulas; all new numbers must be marked SIMULATED and playtested. Do not blindly import the original game's 13 formations/12 slots if it would break our current 3×3 tactical system.
 
+## 2A. Secondary reference explicitly identified by the owner — Loạn Tam Quốc (2018)
+The owner identified the **2018 Vietnamese webgame Loạn Tam Quốc** as the game they remembered, **not** Loạn Thế Tam Quốc or Chiến Loạn Tam Quốc. Treat this as a second gameplay inspiration alongside classic Ngọa Long, not as permission to clone.
+
+Evidence available for research (recheck original publication date and source before using):
+- Thanh Niên, 10 November 2018: https://thanhnien.vn/webgame-chien-thuat-loan-tam-quoc-sap-ra-mat-tai-viet-nam-1851143706.htm — city and country construction, military formations, player-controlled soldiers.
+- Gameplay review: https://kenhgamevn.com/game-online/trai-nghiem-webgame-loan-tam-quoc-game-chien-thuat-the-tuong-co-ban-hinh-anh-kha-on-voi-nen-game-web/ — a general represents a visible troop unit; individual soldiers participate in combat with visible health; capture nearby strongholds.
+- Gameplay review: https://2game.vn/choi-thu-webgame-loan-tam-quoc-game-slg-dau-tu-chin-chu-ve-ki-nang-va-hieu-ung-cua-cac-tuong-linh-post202806.html — advancing across map territories; generals cast combat skills.
+- Owner-recalled interaction: selecting a commanded army and clicking a target city orders travel/attack. Label this **USER-RECOLLECTION** until independently verified, and implement as an original intuitive control without pretending a verified exact clone.
+
+**Required original hybrid design:**
+1. Retain Ngọa Long-inspired 3×3 formation, tactical roles, morale, progression, 24 presets and P2/P3 deterministic systems.
+2. Add **general + visible associated troop detachment** model: a general commands an actual contingent of sprites; troop numbers affect battle, soldiers can attack, be wounded, die or retreat, and there is consistent outcome reconciliation. No decorative copy/pasted troops standing inert. Use LOD/instancing where feasible and performance limits on mobile.
+3. On map, select owned commander/army, click valid reachable city/fort/farm/mine target, preview travel time/resource cost, commit march, visibly route/arrive, auto-start or manually confirm attack, fight genuine garrison, capture and persist ownership. Permit reinforce, garrison, defend, retreat, and supply/recovery in subsequent slices. Every step must have authoritative state and test evidence.
+4. Battles should show moving soldiers, hit/contact VFX on moving units, tactical positioning, action feedback and damage; resolve exactly once via existing combat receipts. Keep simulated combat separate from view and avoid rewarding replay.
+5. Phase integration: P5 = prototype actual commander+troop battle and one conquerable node using existing systems; P6 = scalable world march and full city conquest, pathfinding, multi-army logistics; P7–P9 = deeper army roles/art/animations/performance. Preserve same single HTML and Save migration.
+6. Record both references independently under `docs/NL_REFERENCE_MATRIX.md`. Never copy Loạn Tam Quốc sprites/UI/graphics/code/sounds/screenshots. All artwork must be original or licensed with provenance.
+
 ## 3. Product identity and golden gameplay loop
 Game title stays **Mưu Định Tam Quốc** (Ngọa Long-inspired; NOT VNG official).
 Golden loop: **thành trì → sản xuất/thu hoạch → nâng cấp & khoa kỹ → chiêu mộ/luyện quân → chọn tướng, trang bị, trận hình → chiến đấu thật → thưởng một lần → hồi quân → phó bản/chiếm đất → trở về thành và lưu**.
