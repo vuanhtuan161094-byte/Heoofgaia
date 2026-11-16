@@ -1,6 +1,10 @@
-# Mưu Định Tam Quốc — V0.6 P4.1
+# Mưu Định Tam Quốc — Chiến Loạn-style SLG (development pivot)
 
-**Một game HTML chiến thuật Tam Quốc độc lập**, lấy cảm hứng từ Ngọa Long cổ điển. Đây không phải mã nguồn chính thức của VNG. Mọi hệ số AI, quân cấp, đội hình, thiệt hại là SIMULATED.
+> **Hướng phát triển cập nhật ngày 16/11/2026:** Game lấy **Chiến Loạn Tam Quốc (2025)** làm tham khảo gameplay chính: mỗi tướng điều khiển đội lính chiến đấu thật, bản đồ điều quân, công thành/chiếm cứ điểm, xây thành, nuôi quân và phát triển lãnh địa. Ngọa Long chỉ còn là tham khảo lịch sử. Đây là dự án nguyên bản, không liên quan chính thức CMN Online. **Mục tiêu mới CHƯA hoàn thành**; V0.6 P4.1 hiện hữu chỉ là baseline kỹ thuật. Kế hoạch thực thi: [docs/CHIEN_LOAN_MASTER_SPEC.md](docs/CHIEN_LOAN_MASTER_SPEC.md) và [Issue #4](https://github.com/vuanhtuan161094-byte/Heoofgaia/issues/4). Nhánh `main-ngoalong` chỉ giữ tên lịch sử, không được merge sang Hero.
+
+## Baseline hiện có — lưu để tránh mất thành quả
+
+**Phiên bản cũ:** Một game HTML chiến thuật Tam Quốc độc lập, từng lấy cảm hứng Ngọa Long cổ điển. Đây không phải mã nguồn chính thức của VNG hoặc CMN Online. Mọi hệ số AI, quân cấp, đội hình, thiệt hại là SIMULATED.
 
 ## Repository và bản chơi duy nhất
 
@@ -53,4 +57,4 @@
 
 ## Tiếp theo
 
-P4.1: review animation/atlas nhiều frame, VFX impact/contact, tối ưu mô phỏng nhiều quân; P5: chiến dịch/tướng/quân mở rộng; hardening save, thử nghiệm trên thiết bị thật. Không sử dụng Codex trừ khi người dùng đổi chỉ đạo.
+**ĐÃ ĐỔI CHỈ ĐẠO:** Chuyên trách Codex được phép triển khai riêng trên nhánh `main-ngoalong`. Ưu tiên **CL-P0 audit → CL-P1 tướng+quân đánh thật → CL-P2 hành quân/công thành/chiếm đất**, rồi city economy, campaign và art. Xem [master spec](docs/CHIEN_LOAN_MASTER_SPEC.md). Không sửa Hero/merge.
