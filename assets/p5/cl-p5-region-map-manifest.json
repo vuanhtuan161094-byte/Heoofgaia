@@ -1,0 +1,40 @@
+{
+  "milestone": "CL-P5",
+  "assetId": "cl-p5-region-map",
+  "status": "RECREATED",
+  "sourceType": "ChatGPT built-in image generation; original scenic background, not extracted from reference game",
+  "promptVersion": "p5-region-map-v1",
+  "prompt": "Create a polished original background painting for an offline Three Kingdoms-inspired strategy game called Mưu Định Tam Quốc. Landscape 3:2 composition, richly detailed but calm painterly 2.5D/isometric regional map at dawn: layered jade green mountains around a broad river valley, forests, pale stone ridges, rice terraces, faint existing mountain passes only as natural geography, distant hazy peaks, warm parchment-gold light and deep teal shadows. Top-down oblique view, designed to sit behind independently interactive HTML map markers and route overlays: keep the center and lower-middle landscape relatively low-contrast and uncluttered so labels can be read. Show geography only as a scenic painted region, not a functional game map. Absolutely no text, calligraphy, symbols, flags, borders, route lines, paths, dotted lines, buildings, settlement icons, people, soldiers, UI, frame, logos or watermarks. Preserve clean realistic landscape silhouettes without tiny focal clutter. Original image, not resembling any specific existing game's map or screenshot.",
+  "providerCost": "unknown",
+  "createdAt": "2026-11-17",
+  "image_created": true,
+  "file_exported": true,
+  "asset_qc_pass": true,
+  "integrated_in_game": true,
+  "source": {
+    "path": "cl-p5-region-map-source.png",
+    "sha256": "f591e7b0c269f30079aa1d629a1d30e73f3f30b273ccc6697261e1a482eacbdc",
+    "bytes": 2744603,
+    "dimensions": [
+      1536,
+      1024
+    ]
+  },
+  "packed": {
+    "path": "cl-p5-region-map.webp",
+    "sha256": "84e366e644078bc53f7b2def7ed4f8ec3035f0a5197728d5dbbfca713ebe7fc5",
+    "bytes": 286152,
+    "dimensions": [
+      1536,
+      1024
+    ],
+    "format": "WebP"
+  },
+  "conversion": {
+    "format": "WebP",
+    "quality": 86,
+    "method": 6,
+    "pillow": "11.3.0"
+  },
+  "composition": "Single painted scenic background, no game labels/nodes/routes/UI; controls and territory state remain separate DOM/SVG elements"
+}

@@ -2,10 +2,10 @@
 - Owner withdrew Ngọa Long-first feature plan and selected **Chiến Loạn Tam Quốc (2025)** as gameplay reference. Keep game brand **Mưu Định Tam Quốc** as an original implementation; original screenshots/assets cannot be copied.
 - Product requirements and acceptance are in [CHIEN_LOAN_MASTER_SPEC.md](CHIEN_LOAN_MASTER_SPEC.md) and [CLTQ_REFERENCE_MATRIX.md](CLTQ_REFERENCE_MATRIX.md). Agent Codex authorization remains scoped to `main-ngoalong`; Hero isolation unchanged.
 - Older P2/P3/P4.1 results below are **legacy-system baselines**. CL gates are separately recorded in this current section and the CL reference matrix.
-- CL-P0–P3 are implemented and released. CL-P4 is implemented locally and awaits its own exact-commit-SHA Actions run.
+- CL-P0–P4 are implemented and released. CL-P5 visuals are integrated locally and await their own exact-commit-SHA Actions run.
 - Current owner acceptance for new CL gameplay: **PENDING**; retain exact-SHA CI and device/visual gates.
 
-## CL-P3 exact-SHA release and CL-P4 local candidate — 2026-11-17
+## CL-P3 release / pre-P4-CI snapshot — 2026-11-17
 
 - Latest remote P3 SHA: `7a43cc650d77bbceef800994e6491d5694f2a8ec`. GitHub Actions run [43915734348](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43915734348) completed **SUCCESS** on that exact SHA. Published artifact: `muu-dinh-tam-quoc-cl-p3-playable`; Actions evidence artifact: `muu-dinh-tam-quoc-cl-qa-evidence`.
 - CL-P4 local code adds 25 recruitable generals to the existing 24 (49 total), seven alignments, 25 individual tactical skills, actual +6% faction synergy at three same-faction commanders, 5v5 named NPC squads, five chapters/15 encounters, terrain labels, sequential unlocks, first-clear rewards and loss/retry handling. Enemy scaling is measured across 360 seeded actual-engine battles; beginner/mid/veteran profiles have non-increasing win bands and the final stage has a 25% aggregate win rate.
@@ -14,15 +14,23 @@
 - P4 Chromium screenshots: `qa/cl-p4-roster-desktop.png`, `qa/cl-p4-campaign-desktop.png`, `qa/cl-p4-battle-desktop.png`, `qa/cl-p4-boss-battle.png`, `qa/cl-p4-campaign-mobile-390x844.png`.
 - Exact SHA for P4 will be entered after its commit and reported only after that exact-SHA workflow succeeds. Physical Windows/Android, owner balance review, and owner visual approval remain pending.
 
+## CL-P4 exact-SHA release and CL-P5 local visual slice — 2026-11-17
+
+- CL-P4 commit `243a0d382957abc04bfc5d0a82616824143e9137` passed the full exact-SHA GitHub Actions run [43923305781](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43923305781). It published `muu-dinh-tam-quoc-cl-p4-playable` and `muu-dinh-tam-quoc-cl-qa-evidence`. All 23 CL-P4 Chromium checks, 360 seeded campaign battles, legacy P2/P3 gates, art checks and P4.1 video/animation checks passed.
+- CL-P5 adds an original generated 1536×1024 region painting as a single scenic background. Its 2.74 MB RGB PNG is preserved; the 286,152-byte WebP is embedded offline and registered in `assets/p5/cl-p5-region-map-manifest.json`. The 10 province controls, 18 roads, click selection and paid route preview remain live over the image.
+- Local CL-P5 results: source/packed/embedded-byte gate **4/4**; actual Chromium visual and click checks **9/9**, desktop 1280×720 and mobile 390×844, no JS exceptions. Screenshots: `qa/cl-p5-map-desktop.png`, `qa/cl-p5-map-mobile-390x844.png`.
+- Local image inspection: RGB, 1536×1024, no alpha; packed WebP 286,152 bytes. Browser payload remains under 350 KB. The scene is not a layered map. No video-generation route is available; existing sprite-first P4.1 frames and real Chromium video capture remain the evidence. Full CL-specific walk/hurt/death frame sets and new licensed audio are not complete.
+- CL-P5 exact-SHA Actions and playable artifact remain pending. Physical Windows/Android review and owner visual approval remain pending.
+
 ## CL-P0/P1/P2 release and CL-P3 implementation checkpoint — 2026-11-16
 
-- Base read from `main-ngoalong`: `39111d435f0aa6d059240dc36a81fc9be9d46225`. P1/P2 release SHA `934775fc020f48d2a84894ce921f50a945d8e9de` passed exact-SHA Actions run 43909024419; the P3 commit and run will be recorded after release.
+- Base read from `main-ngoalong`: `39111d435f0aa6d059240dc36a81fc9be9d46225`. P1/P2 release SHA `934775fc020f48d2a84894ce921f50a945d8e9de` passed exact-SHA Actions run 43909024419; the later P3 release SHA/run are recorded in the section above.
 - P1/P2 source commit: `934775fc020f48d2a84894ce921f50a945d8e9de`; exact-SHA Actions run [43909024419](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43909024419) **SUCCESS**; playable artifact `muu-dinh-tam-quoc-cl-p1-p2-playable` and CI evidence were published.
 - P1/P2 provides five independent commanders, troop-count-linked battle units/damage, casualty and recovery receipts, the 10-node map, route/ETA/food, marching, NPC siege, capture, harvest-once, garrison, defense, pause/reload/retreat/retry.
 - Local CL-P3 adds schema v5 migration, nine city upgrades, lumberyard/wood, connected province production, garrison grain upkeep, supply shortage/recovery, wall defense, offline cap and economy receipts. It preserves the canonical offline `index.html`, old save key, legacy 3×3 formation, combat/replay pipeline and original art. No changes to Hero, merge or force-push.
-- P3 local Chromium: `qa/cl_p3_economy.py` 31/31; P1/P2 43/43; P2 31/31 + 12/12; legacy P3 74/74 + balance; P4 source 4/4 + visual 14/14; P4.1 animation 18/18; smoke 7/7. Exact-SHA P3 Actions and playable artifact remain pending.
+- P3 local Chromium at that checkpoint: `qa/cl_p3_economy.py` 31/31; P1/P2 43/43; P2 31/31 + 12/12; legacy P3 74/74 + balance; P4 source 4/4 + visual 14/14; P4.1 animation 18/18; smoke 7/7. Exact-SHA P3 Actions and playable artifact passed later at SHA `7a43cc650d77bbceef800994e6491d5694f2a8ec`, run 43915734348.
 - The 30-minute economy QA advances 30 one-minute transactions by test clock; it does not replace a real human 30–45-minute play session. Mobile Chromium was tested at 390×844; physical Windows/Android review and owner visual acceptance remain pending.
-- Remaining roadmap: CL-P4 character roster and chapter balance; CL-P5 new isometric/directional art, performance/device QA and art approval; CL-P6 diplomacy, seasons/weather, siege machines, multiple armies and PvE endgame. No server PvP is claimed. See `CLTQ_GAP_AUDIT.md`.
+- Remaining roadmap as of that historical checkpoint: CL-P4 character roster and chapter balance; CL-P5 visuals/device QA; CL-P6 diplomacy, seasons/weather, siege machines, multiple armies and PvE endgame. No server PvP is claimed. See the current checkpoint and `CLTQ_GAP_AUDIT.md` for updated status.
 
 ---
 
@@ -36,7 +44,7 @@
 - Windows/Android vật lý, file:// thực tế và owner mỹ thuật: **PENDING**. Chưa đưa game thành online multiplayer.
 - QA phải xác nhận game Hero HEAD không đổi và nhánh Ngọa Long không chứa code Hero cũ.
 
-NEXT: GitHub Actions exact-SHA → review artifact screenshot & report → P4 đồ họa hoặc P3.1 UI combat/AI optimization.
+NEXT at that historical checkpoint: GitHub Actions exact-SHA and review; the current work has since released CL-P4 and started the P5 visuals slice.
 
 ## P4 artwork integration — 16/11/2026
 - Baseline P3 HEAD: `54a05e7ad2c700241fbc751e74cc19e53a9014ab`; branch: main-ngoalong; Hero branch tuyệt đối không ghi.

@@ -1,0 +1,10 @@
+# CL-P5 asset contract
+
+Status: map image created with the built-in ChatGPT image-generation tool, exported and integrated. It is marked `RECREATED`; provider cost was not returned. No reference product screenshot or sprite is a source. Exact prompt and source/packed hashes are in `assets/p5/cl-p5-region-map-manifest.json`.
+
+| Asset ID | Role and canvas | Design contract | Export and integration |
+|---|---|---|---|
+| `cl-p5-region-map` | Full-scene offline strategy-region background, landscape 3:2 source, displayed under the existing scalable interactive map | Original Three Kingdoms-era inspired mountain-and-river territory, soft illustrated 2.5D/isometric perspective, readable dark teal/green and parchment-gold palette; no text, logos, route lines, nodes, icons, UI, or battle units because those remain independently interactive DOM/SVG elements | Preserve generated source PNG, optimize WebP, embed in `index.html`, responsive `cover`/`contain` check at 1280×720 and 390 px; record provider, prompt, source/export dimensions and hashes |
+| `cl-p5-battle-soldiers` | Existing project-owned troop atlas and P4.1 animation pipeline | Retain existing troop identities, per-unit combat events and sprite-first frame animation; no rig or changes to combat authority | Keep frame coordinates/pivots and exact-byte atlas QA; browser video is recorded from a real Chromium battle. No video generation route is available, so do not claim AI-generated character motion |
+
+The map is intentionally a **single painted scene**, not a layered/isometric game level. Its nodes, routes, ownership, marching and click targets stay as independent game state. City props are not claimed to be independently animated sprites. The current manifest records `image_created`, `file_exported`, `asset_qc_pass`, and `integrated_in_game`; the local source-to-HTML gate is 4/4 and Chromium desktop/mobile is 9/9. Exact-SHA Actions, full P5 animation clips, licensed audio, physical-device performance and owner visual acceptance remain separate gates.

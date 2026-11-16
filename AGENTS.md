@@ -2,7 +2,7 @@
 
 ## Quyền sở hữu và cô lập
 - Đây là nhánh **Mưu Định Tam Quốc**, chiến thuật SLG lấy cảm hứng chính từ **Chiến Loạn Tam Quốc (2025)**. Tên nhánh lịch sử **main-ngoalong** được giữ để bảo toàn Git và Save, không có nghĩa giữ Ngọa Long làm bản mẫu chính. Nhánh Hero `feature/hog1-research-to-playable-20261102` độc lập, tuyệt đối không sửa hoặc merge. Không thay default branch.
-- Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. CL-P1–P4 QA và docs là bằng chứng, không phải game khác.
+- Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. CL-P1–P5 QA và docs là bằng chứng, không phải game khác.
 - Trước sửa đọc chính xác HEAD SHA từ GitHub, `AGENTS.md`, `docs/REV_PROTOCOL.md`, `docs/CURRENT_CHECKPOINT.md` và code liên quan.
 - **Ủy quyền mới ngày 16/11/2026:** Chủ dự án cho phép **Codex chuyên trách duy nhất game Mưu Định Tam Quốc** trên `main-ngoalong`; ưu tiên mới là gameplay **Chiến Loạn Tam Quốc**. Không mở rộng quyền sang Hero, Tông Môn Bá Đạo hoặc CMP.
 - **MASTER SPEC PIVOT (ưu tiên cao nhất về product):** đọc `docs/CHIEN_LOAN_MASTER_SPEC.md` trước mọi thiết kế hoặc triển khai. `docs/NGOALONG_CODEX_AGENT.md` giữ phần bảo mật/cô lập/QA và chỉ áp dụng roadmap khi không xung đột master spec. Không tự động merge hoặc tự nhận hoàn thành khi chưa có bằng chứng.
@@ -17,7 +17,7 @@
 ## REV và release gates
 1. R: nguồn và phân loại VERIFIED/DERIVED/SIMULATED/UNKNOWN; quyết định thiết kế.
 2. E: one vertical slice và một state owner; test failure, snapshot, migration, idempotence.
-3. V0: syntax; V1: legacy smoke/P2 31+12/P3 74+360 balance/P4/P4.1 plus CL-P1/P2/P3/P4 focused QA; V2: actual Chromium desktop 1280×720/mobile 390, file-save reload and screenshots/video; V3: GitHub Actions same SHA; V4: người dùng chơi máy thật; V5: duyệt mỹ thuật của owner.
+3. V0: syntax; V1: legacy smoke/P2 31+12/P3 74+360 balance/P4/P4.1 plus CL-P1/P2/P3/P4/P5 focused QA; V2: actual Chromium desktop 1280×720/mobile 390, file-save reload and screenshots/video; V3: GitHub Actions same SHA; V4: người dùng chơi máy thật; V5: duyệt mỹ thuật của owner.
 4. **Chỉ khẳng định các gate có bằng chứng**, không đánh đồng GitHub PASS với Windows/Android thật.
 5. Không merge, force-push hoặc reset lịch sử của Hero. Mọi update branch dùng expected SHA.
 6. Cuối báo cáo: DONE / TESTED / PENDING, exact SHA + Actions link + 2–3 lựa chọn tiếp theo.
@@ -27,3 +27,8 @@
 - Event clock/view chỉ đọc từ combat event. Charge/release/contact/fade không tự tạo lượt đánh, target, hit, phần thưởng. Replay immutable.
 - Single-file offline `index.html`; atlas + generator + manifest là nguồn tái tạo, generated 288 PNG được CI đính kèm artifact.
 - Gate bắt buộc: P2/P3/P4 regression + P41 18 checks + video Chromium native 1280×720/12fps + exact SHA. Art approval không thay bằng CI.
+
+## CL-P5 regional visual slice
+- Preserve source PNG, WebP derivative, prompt and SHA manifest under `assets/p5/`; verify exact bytes after deterministic rebuild.
+- The scenic map is a single background, not a layered level; nodes/roads remain independent, live game controls. Generated image status is `RECREATED`; generation cost is unknown.
+- Do not claim the full P5 animation/audio/device/owner gate from map-art QA. The current environment has no AI video-generation route; Chromium video evidence is real browser capture.

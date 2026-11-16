@@ -37,6 +37,14 @@ jobs:
         run: python qa/cl_p4.py
       - name: CL-P4 deterministic balance sweep across 360 campaign battles
         run: python qa/cl_p4_balance.py
+      - name: CL-P5 regenerate scenic map and verify source-to-HTML bytes
+        run: |
+          cp assets/p5/cl-p5-region-map.webp /tmp/cl-p5-region-map.webp
+          python tools/build_cl_p5_map.py
+          cmp /tmp/cl-p5-region-map.webp assets/p5/cl-p5-region-map.webp
+          python qa/p5_assets.py
+      - name: CL-P5 desktop and mobile territory visual QA
+        run: python qa/cl_p5_visual.py
       - name: P2 full 31 tests
         run: python qa/p2_full.py
       - name: P2 advanced 12 tests
@@ -45,7 +53,7 @@ jobs:
         run: python qa/p3.py
       - name: P3 deterministic balance 360 scenarios
         run: python qa/p3_balance.py
-      - name: P4 exact embedded art source 4 tests
+      - name: P4 original assets and CL-P4 roster exact-source gate
         run: python qa/p4_assets.py
       - name: P4 original asset visual QA 14 tests
         run: python qa/p4_art.py
@@ -81,6 +89,7 @@ jobs:
             qa/p41-*.mp4
             qa/p41-288-frames-source.zip
             assets/p41/troops_manifest.json
+            assets/p5/cl-p5-region-map-manifest.json
             qa/commit-sha.txt
             qa/index-sha256.txt
           if-no-files-found: warn
@@ -89,7 +98,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-p4-playable
+          name: muu-dinh-tam-quoc-cl-p5-playable
           path: |
             index.html
             qa/commit-sha.txt
