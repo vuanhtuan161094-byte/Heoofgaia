@@ -45,6 +45,8 @@ jobs:
           python qa/p5_assets.py
       - name: CL-P5 desktop and mobile territory visual QA
         run: python qa/cl_p5_visual.py
+      - name: CL-P6 diplomacy, weather, concurrent armies, siege and endgame
+        run: python qa/cl_p6.py
       - name: P2 full 31 tests
         run: python qa/p2_full.py
       - name: P2 advanced 12 tests
@@ -98,7 +100,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-p5-playable
+          name: muu-dinh-tam-quoc-cl-p6-playable
           path: |
             index.html
             qa/commit-sha.txt

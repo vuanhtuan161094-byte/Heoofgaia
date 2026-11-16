@@ -2,7 +2,7 @@
 
 ## Quyền sở hữu và cô lập
 - Đây là nhánh **Mưu Định Tam Quốc**, chiến thuật SLG lấy cảm hứng chính từ **Chiến Loạn Tam Quốc (2025)**. Tên nhánh lịch sử **main-ngoalong** được giữ để bảo toàn Git và Save, không có nghĩa giữ Ngọa Long làm bản mẫu chính. Nhánh Hero `feature/hog1-research-to-playable-20261102` độc lập, tuyệt đối không sửa hoặc merge. Không thay default branch.
-- Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. CL-P1–P5 QA và docs là bằng chứng, không phải game khác.
+- Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. CL-P1–P6 QA và docs là bằng chứng, không phải game khác.
 - Trước sửa đọc chính xác HEAD SHA từ GitHub, `AGENTS.md`, `docs/REV_PROTOCOL.md`, `docs/CURRENT_CHECKPOINT.md` và code liên quan.
 - **Ủy quyền mới ngày 16/11/2026:** Chủ dự án cho phép **Codex chuyên trách duy nhất game Mưu Định Tam Quốc** trên `main-ngoalong`; ưu tiên mới là gameplay **Chiến Loạn Tam Quốc**. Không mở rộng quyền sang Hero, Tông Môn Bá Đạo hoặc CMP.
 - **MASTER SPEC PIVOT (ưu tiên cao nhất về product):** đọc `docs/CHIEN_LOAN_MASTER_SPEC.md` trước mọi thiết kế hoặc triển khai. `docs/NGOALONG_CODEX_AGENT.md` giữ phần bảo mật/cô lập/QA và chỉ áp dụng roadmap khi không xung đột master spec. Không tự động merge hoặc tự nhận hoàn thành khi chưa có bằng chứng.
@@ -17,7 +17,7 @@
 ## REV và release gates
 1. R: nguồn và phân loại VERIFIED/DERIVED/SIMULATED/UNKNOWN; quyết định thiết kế.
 2. E: one vertical slice và một state owner; test failure, snapshot, migration, idempotence.
-3. V0: syntax; V1: legacy smoke/P2 31+12/P3 74+360 balance/P4/P4.1 plus CL-P1/P2/P3/P4/P5 focused QA; V2: actual Chromium desktop 1280×720/mobile 390, file-save reload and screenshots/video; V3: GitHub Actions same SHA; V4: người dùng chơi máy thật; V5: duyệt mỹ thuật của owner.
+3. V0: syntax; V1: legacy smoke/P2 31+12/P3 74+360 balance/P4/P4.1 plus CL-P1/P2/P3/P4/P5/P6 focused QA; V2: actual Chromium desktop 1280×720/mobile 390, file-save reload and screenshots/video; V3: GitHub Actions same SHA; V4: người dùng chơi máy thật; V5: duyệt mỹ thuật của owner.
 4. **Chỉ khẳng định các gate có bằng chứng**, không đánh đồng GitHub PASS với Windows/Android thật.
 5. Không merge, force-push hoặc reset lịch sử của Hero. Mọi update branch dùng expected SHA.
 6. Cuối báo cáo: DONE / TESTED / PENDING, exact SHA + Actions link + 2–3 lựa chọn tiếp theo.
@@ -32,3 +32,10 @@
 - Preserve source PNG, WebP derivative, prompt and SHA manifest under `assets/p5/`; verify exact bytes after deterministic rebuild.
 - The scenic map is a single background, not a layered level; nodes/roads remain independent, live game controls. Generated image status is `RECREATED`; generation cost is unknown.
 - Do not claim the full P5 animation/audio/device/owner gate from map-art QA. The current environment has no AI video-generation route; Chromium video evidence is real browser capture.
+
+## CL-P6 offline grand strategy
+- Persist additions under `game.cltq.p6` in Save schema v5: faction relations/pacts, deterministic season/weather turn, independent second army/marches, siege-engine stock, Cửu Đỉnh wonder and repeatable PvE endgame tier. Do not increment schema or alter the save key for additive P6 state.
+- NPC diplomacy, economy multipliers, weather costs, combat modifiers, siege, wonder progression and endgame awards are original **SIMULATED** rules. Four NPC faction tags on the existing ten nodes are not real players or server factions.
+- Second army has five exclusive commander slots and its own route/location; battle still uses the shared CL combat and receipt authority. Consume one siege engine at settlement and never settle troop/reward receipts twice.
+- Cửu Đỉnh unlocks after capturing Lạc Thành. Endgame PvE retains its tier on loss and advances/rewards once on victory. Thiên Hạ Hiệu Lệnh is a paid once-per-battle buff recorded as an immutable combat event/replay frame.
+- `qa/cl_p6.py` is the focused Chromium gate for diplomacy, climate, both concurrent armies, siege, wonder, persistent PvE, replay event, save reload and 390px layout. Keep it in exact-SHA Actions beside every prior regression and publish only after the full workflow passes.

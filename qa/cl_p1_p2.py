@@ -135,7 +135,7 @@ def main():
         page.locator('[data-cl-node="capital2"]').click()
         check("unconnected target has no march order", page.locator("[data-cl-march]").count() == 0)
         page.locator('[data-cl-node="outpost"]').click()
-        check("adjacent target previews a valid route and real cost", page.locator("[data-cl-march='outpost']").count() == 1 and "Lương hành quân" in page.locator(".cl-map-status").inner_text())
+        check("adjacent target previews a valid route and real cost", page.locator("[data-cl-march='outpost']").count() == 1 and "Lương hành quân" in page.locator(".cl-map-panel .cl-map-status").inner_text())
         grain_before = page.evaluate("window.__P2_QA__.getGame().grain")
         page.locator('[data-cl-march="outpost"]').click()
         grain_after = page.evaluate("window.__P2_QA__.getGame().grain")

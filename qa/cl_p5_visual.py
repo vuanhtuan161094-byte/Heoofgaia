@@ -48,7 +48,7 @@ def main() -> None:
         check("ten live selectable territory nodes and route lines remain over the painting", nodes == 10 and roads >= 10, {"nodes": nodes, "roadSegments": roads})
         desktop.locator('[data-cl-node="outpost"]').click()
         route = desktop.locator('[data-cl-march="outpost"]')
-        route_present = route.count() == 1 and "Lương hành quân" in desktop.locator(".cl-map-status").inner_text()
+        route_present = route.count() == 1 and "Lương hành quân" in desktop.locator(".cl-map-panel .cl-map-status").inner_text()
         selected = desktop.locator('[data-cl-node="outpost"].selected').count() == 1
         check("actual map click still selects a node and previews its paid route", route_present and selected)
         hit_target = desktop.evaluate("""() => {const e=document.querySelector('[data-cl-node="outpost"]'),r=e.getBoundingClientRect(),hit=document.elementFromPoint(r.x+r.width/2,r.y+r.height/2);return !!hit?.closest('[data-cl-node="outpost"]')}""")
