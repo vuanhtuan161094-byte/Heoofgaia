@@ -180,11 +180,16 @@ function miniBounds(canvas){
  // Reading a city for the MAP must never call E.cityForKey, because that
 // canonical API runs ensure10() and rewrites active-city save mirrors.
 function hg80CityAt(s,key){return s?.cities?.find(city=>city.key===key)||null}
+// HG93: cache ~1600 POIs so pan/zoom does not traverse 40000 squares each frame.
+const HG93_POI_CACHE=new WeakMap();
+function hg93MinimapPOIs(E){let items=HG93_POI_CACHE.get(E.TILES);
+ if(!items){items=E.TILES.filter(t=>t.kind!=='empty');HG93_POI_CACHE.set(E.TILES,items)}
+ return items;}
 function drawMiniMap(c,canvas,E,s,selected){const m=miniBounds(canvas),pad=9,tw=(m.w-2*pad)/E.WIDTH,th=(m.h-2*pad)/E.HEIGHT;
   rounded(c,m.x-2,m.y-23,m.w+4,m.h+25,7,'#12272cdb','#c5a66c');text(c,m.w<120?'BẢN ĐỒ':'BẢN ĐỒ THU NHỎ',m.x+6,m.y-7,Math.max(8,13*m.w/203),'#e7c78e','left');
   const terrain=hg80MiniTerrain(E,m.w-2*pad,m.h-2*pad);
   if(terrain)c.drawImage(terrain,m.x+pad,m.y+pad);
- for(const t of E.TILES){if(t.kind==='empty')continue;
+ for(const t of hg93MinimapPOIs(E)){
   const owned=hg80CityAt(s,t.key),ai=E.aiCityAt?.(s,t.key);
   c.fillStyle=t.worldTier==='divine'?'#bb79ff':t.worldTier==='saint'?'#fff2ad':t.kind==='castle'?(owned?(owned.main?'#ffe7ad':'#81d39a'):ai?'#e37a63':'#eee0b0'):t.kind==='mine'?'#f2cf55':t.kind==='visit'?'#75d5c5':'#e99987';
   const dot=t.source==='MODELED_HG92_FARM'?1.5:2.8;
