@@ -70,7 +70,7 @@ function preview(kind,target='',floor=1,level=null){
 function prepare(s,b){
  const result=old.prepare(s,b);
  // Never alter old mid-battle Saves. This hook is reached only at battle creation.
- if(!result||result.hg409EnemyCommander)return result;
+ if(!result||result.hg409EnemyCommander||result.hg94Action)return result; // HG94 modeled terrain is not an elite NPC/Boss encounter
  const floor=result.hg21Tower?.floor||1;
  const p=preview(result.kind,result.target,floor,result.level);
  if(!p)return result;
