@@ -15,9 +15,11 @@ const CITY_LIMITS=Object.freeze([[0,1],[5800,2],[80000,3],[300000,4],[700000,5],
  // are modeled gameplay entities, not historical castle-coordinate evidence.
  const AI_PRODUCTION=Object.freeze({gold:160,wood:12,ore:12,sulfur:6,crystal:6});
  function makeAICity(tile){
-  const level=tile.level||1,unitId=tile.race+'_1';
+  const level=tile.level||1,unitId=tile.race+'_1',elite=!!tile.worldTier;
+  const guard=tile.worldTier==='divine'?700:400;
+  const garrison=elite?{[tile.race+'_10']:guard,[tile.race+'_9']:guard,[tile.race+'_8']:guard}:{[unitId]:10+5*level};
   return {key:tile.key,race:tile.race,level,treasury:{gold:3000+level*500,wood:450,ore:450,sulfur:180,crystal:180},
-   garrison:{[unitId]:10+5*level},hourProgress:0,hours:0};
+   garrison,hourProgress:0,hours:0,...(elite?{worldTier:tile.worldTier,guardianCS:tile.guardCS}:{})};
  }
  function aiCityAt(s,key){return s?.aiCities?.[key]||null}
  function advanceAICities(s,elapsedGame){
@@ -25,6 +27,7 @@ const CITY_LIMITS=Object.freeze([[0,1],[5800,2],[80000,3],[300000,4],[700000,5],
   for(const ai of Object.values(s.aiCities||{})){
    // During a live siege the saved defender formation is authoritative.
    if(s.battle?.kind==='castle'&&s.battle.target===ai.key)continue;
+   if(ai.worldTier)continue; // HG93: do not replace endgame armies with ordinary T1 units.
    const total=ai.hourProgress+elapsedGame,hours=Math.floor(total/3600);
    ai.hourProgress=Math.max(0,total-hours*3600);
    const limit=20000+ai.level*5000;
@@ -122,6 +125,10 @@ function ensure(s){
  // castles, so loaded player conquests are never re-created as enemies.
  if(s.aiCities===undefined)s.aiCities=Object.fromEntries(E.TILES.filter(t=>t.kind==='castle'&&t.aiOwner&&!s.cities.some(c=>c.key===t.key)).map(t=>[t.key,makeAICity(t)]));
  if(!s.aiCities||typeof s.aiCities!=='object'||Array.isArray(s.aiCities))throw Error('Save AI thành trì không hợp lệ.');
+ // Migration for previous v07 saves: create only new HG93 AI castles; never
+ // reset old enemy casualties, existing AI treasuries or player-owned cities.
+ for(const tile of E.TILES)if(tile.worldTier&&tile.aiOwner&&!s.aiCities[tile.key]&&
+   !s.cities.some(c=>c.key===tile.key))s.aiCities[tile.key]=makeAICity(tile);
  if(typeof s.activeCityId!=='string')throw Error('Save HG-10 thiếu thành đang mở.');
  const rootCity=s.cities.find(c=>c.id===s.activeCityId);
  if(!rootCity||!rootCity.local||typeof rootCity.local!=='object')throw Error('Save HG-10 tham chiếu thành không tồn tại.');
