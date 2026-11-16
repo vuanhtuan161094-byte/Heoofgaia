@@ -10,6 +10,8 @@ on:
       - style-hg57.css
       - qa-hg28-art-chrome.py
       - qa-hg80-map.cjs
+      - qa-hg93-world.cjs
+      - hg93-world-realms.js
       - qa-hg80-world-chrome.py
       - qa-hg79-polish-chrome.py
       - qa-hg405-desktop-phone-chrome.py
@@ -36,6 +38,7 @@ jobs:
           node --check app.js
           node --check qa-hg80-map.cjs
           node qa-hg80-map.cjs
+          node qa-hg93-world.cjs
           node qa-hg79-polish.cjs
           node qa-engine.cjs
           node qa-hg75-tactics.cjs
