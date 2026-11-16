@@ -83,7 +83,7 @@ check('HG92 deterministic farm sites preserve all sourced locations and Save v07
  return {farmTiles:farms.length,npc:farms.filter(t=>t.kind==='npc').length,
  mine:farms.filter(t=>t.kind==='mine').length,saveVersion:s.version};
 });
-check('HG92 pointer targets working POIs, never noninteractive ground',()=>{
+check('HG94 pointer selects POIs plus passable terrain for conquest without inventing buildings',()=>{
  const canvas={width:1176,height:620,getBoundingClientRect:()=>({width:1176,height:620})};
  const camera=P.mapCamera(),before={...camera};
  try{
@@ -94,7 +94,7 @@ check('HG92 pointer targets working POIs, never noninteractive ground',()=>{
    Array.from({length:9},(_,i)=>E.getTile((t.x+i%3-1)+','+(t.y+Math.floor(i/3)-1))).every(n=>n?.kind==='empty'));
   assert(empty,'no empty background exists for test');
   camera.centerX=empty.x+.5;camera.centerY=empty.y+.5;
-  assert.equal(P.mapHit(canvas,588,310,E),null,'scenery should not pretend to be a destination');
+  assert.equal(P.mapHit(canvas,588,310,E)?.key,empty.key,'empty terrain must be selected as a real HG94 conquest target');
   return {farm:farm.key,scenery:empty.key};
  }finally{Object.assign(camera,before)}
 });
