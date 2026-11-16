@@ -109,6 +109,17 @@ function rate(s){let out={...BASE_HOURLY};
  // Captured-mine output follows the dated Chinese guide SRC39. Per-level scaling is not documented.
  const mineHourly={gold:200,wood:40,ore:40,sulfur:20,crystal:20};
  for(const m of s.mines){if((m.cityId||'main')===(s.activeCityId||'main')&&out[m.res]!==undefined)out[m.res]+=mineHourly[m.res]}
+ // HG94: sparse terrain claims belong to their conquering city; only matching
+ // city production is credited. No direct treasury grants or duplicated mines.
+ if(Array.isArray(s.hg94?.claims)){
+  const [cx,cy]=String(s.activeCastleKey||'3,4').split(',').map(Number),homeIndex=cy*200+cx;
+  for(const entry of s.hg94.claims){if(entry[1]!==homeIndex)continue;
+   const terrain=TILES[entry[0]]?.terrain;
+   if(terrain==='forest')out.wood+=2;
+   else if(terrain==='hill')out.ore+=2;
+   else if(terrain==='plain'||terrain==='road')out.gold+=3;
+  }
+ }
  // Hero INT increases only the basic Town Hall gold. Fandom's 2/3 percent per point is
  // community-reported and differs from an early Wikidot approximation; provisional.
  const castellan=s.heroes.find(h=>h.id===s.castellan);
@@ -405,7 +416,12 @@ function marchDuration(heroSpeed,path,armyFactor=1){
 function startMarch(s,key,targetKind){
  assert(!s.march&&!s.battle,'Tướng đang bận');
  const t=getTile(key),camp=TREASURE_BY_KEY.get(key),isTreasure=targetKind==='treasure'||(!targetKind&&t?.kind==='treasure');
- assert(t&&(isTreasure?!!camp:['mine','npc','castle'].includes(t.kind)),'Chọn mỏ, quái, kho báu hoặc thành trung lập');
+ const isLand=targetKind==='territory'||targetKind==='territory-farm',
+  claimed=root.HOG_ENGINE?.hg94IsClaimed?.(s,key)||false;
+ assert(t&&(isLand?t.kind==='empty'&&t.terrain!=='water':isTreasure?!!camp:['mine','npc','castle'].includes(t.kind)),
+  'Chọn ô đất có thể đi tới, mỏ, quái, kho báu hoặc thành');
+ if(isLand)assert(targetKind==='territory-farm'?claimed:!claimed,
+  targetKind==='territory-farm'?'Chưa chiếm ô đất này':'Ô đất đã thuộc lãnh thổ');
  assert(isTreasure?!s.treasureCleared?.includes(key):t.kind==='npc'||!s.cleared.includes(key),'Mục tiêu đã hoàn thành');
  assert(t.kind==='npc'||!s.cleared.includes(key)||isTreasure,'Mục tiêu đã hoàn thành');
  assert(s.formation?.length?s.formation.some(g=>g.count>0):Object.values(s.army).some(n=>n>0),'Không có quân được phân bổ');
@@ -413,15 +429,19 @@ function startMarch(s,key,targetKind){
  const homeKey=s.activeCastleKey||'3,4';const path=pathfind(homeKey,key);assert(path&&path.length>1,'Không tìm thấy đường đi bộ qua địa hình');
  const apCost=!isTreasure&&t.kind==='mine'?6:8;assert(s.ap>=apCost,'Thiếu AP');s.ap-=apCost;
  const seconds=marchDuration(hero.spd,path,armyMarchFactor(s));
- s.march={target:key,...(isTreasure?{targetKind:'treasure'}:{}),fromKey:homeKey,remaining:seconds,total:seconds,heroId:hero.id,path};
+ s.march={target:key,...(isTreasure?{targetKind:'treasure'}:isLand?{targetKind}:{}),fromKey:homeKey,remaining:seconds,total:seconds,heroId:hero.id,path};
  note(s,`${hero.name} dẫn quân đi ${path.length-1} ô tới (${t.x},${t.y}), -${apCost} AP.`);
 }
 function activeArmy(s){return arrUnits(s).filter(u=>s.army[u.id]>0)}
 function makeBattle(s,target,remainingRatio=1,targetKind){
- const rawTile=getTile(target),camp=TREASURE_BY_KEY.get(target),isTreasure=targetKind==='treasure'||(!targetKind&&rawTile?.kind==='treasure');
+ const rawTile=getTile(target),camp=TREASURE_BY_KEY.get(target),isTreasure=targetKind==='treasure'||(!targetKind&&rawTile?.kind==='treasure'),
+ isLand=targetKind==='territory'||targetKind==='territory-farm';
  assert(!isTreasure||!!camp,'Không có trại kho báu tại tọa độ này');
- assert(!!rawTile&&(rawTile.kind!=='empty'||isTreasure),'Mục tiêu trận chiến không hợp lệ');
- const tile=isTreasure?{...rawTile,kind:'treasure',value:`Kho báu cấp ${camp.level}`,level:camp.level,treasureCamp:camp}:rawTile;
+ assert(!!rawTile&&(rawTile.kind!=='empty'||isTreasure||isLand),'Mục tiêu trận chiến không hợp lệ');
+ if(isLand)assert(rawTile.kind==='empty'&&rawTile.terrain!=='water','Địa hình không thể công chiếm');
+ const tile=isTreasure?{...rawTile,kind:'treasure',value:`Kho báu cấp ${camp.level}`,level:camp.level,treasureCamp:camp}:
+   isLand?{...rawTile,kind:'npc',value:`Vùng hoang dã (${rawTile.x},${rawTile.y})`,
+    level:Math.min(8,1+Math.floor((rawTile.x+rawTile.y)/38))}:rawTile;
  const aiCity=tile.kind==='castle'?root.HOG_ENGINE?.aiCityAt?.(s,target):null;
  const lv=aiCity?.level||tile.level||1;
  const fieldArmy=s.expedition?.army||s.army,fieldFormation=s.expedition?.formation||s.formation;
@@ -462,7 +482,7 @@ function makeBattle(s,target,remainingRatio=1,targetKind){
    enemy.hp*=factor;enemy.atk*=factor;enemy.def*=factor;enemy.pool=enemy.hp*enemy.count;
   }
  }
- const battle={target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(tile.worldTier?{hg93WorldTier:tile.worldTier,hg93GuardianCS:tile.guardCS}:{}),...(isTreasure?{treasureCamp:{...camp}}:{}),
+ const battle={target,name:tile.kind==='mine'?`${C.resource[tile.value].label} mine`:tile.value,kind:tile.kind,level:lv,...(isLand?{hg94Action:targetKind}:{}),...(tile.worldTier?{hg93WorldTier:tile.worldTier,hg93GuardianCS:tile.guardCS}:{}),...(isTreasure?{treasureCamp:{...camp}}:{}),
    turn:1,order:'attack',orders:{},focused:null,selected:allies[0]?.id||null,autoUntil:Date.now()+10_000,allies,enemies,
    woundedByUnit:{},history:['Tướng triển khai quân đội. Đội hình và AI hiện là bản thử nghiệm.']};
  return root.HOG_ENGINE?.hg40PrepareBattle?.(s,battle)||battle;
@@ -822,6 +842,8 @@ function battleAct(s,action,options){
   if(b.hg21Tower){s.battle=null;s.battleAuto=false;return {type:'win',dealt,lost,order:acted.slice()};}
   const tile=getTile(b.target),hero=s.heroes.find(h=>h.id===s.activeHero);
   if(b.kind==='treasure'){if(!Array.isArray(s.treasureCleared))s.treasureCleared=[];if(!s.treasureCleared.includes(tile.key))s.treasureCleared.push(tile.key);add(s,{gold:75*b.level,wood:8*b.level,ore:8*b.level,sulfur:5*b.level,crystal:5*b.level});note(s,`Đánh thắng kho báu cấp ${b.level}; đã dọn vị trí. Phần quà tài nguyên phụ là mô hình.`)}
+  else if(b.hg94Action){const amount={gold:80*b.level,wood:10*b.level,ore:10*b.level,sulfur:2*b.level,crystal:2*b.level};
+   add(s,amount);note(s,`Thắng trận tại ô đất ${b.target}. ${b.hg94Action==='territory'?'Đang ghi nhận quyền chiếm đất.':'Đã hoàn thành lượt săn quái trên lãnh thổ.'}`);}
   else if(tile.kind==='mine'){s.mines.push({key:tile.key,res:tile.value,level:tile.level,cityId:s.activeCityId||'main'});note(s,`Chiếm mỏ ${C.resource[tile.value].label} ★${tile.level}.`)}
   else if(tile.kind==='castle'){s.cleared.push(tile.key);note(s,`Đánh chiếm thành trung lập ${tile.value||tile.key}.`)}
   else{add(s,{gold:75*tile.level,wood:8*tile.level,ore:8*tile.level,sulfur:5*tile.level,crystal:5*tile.level});if(!s.cleared.includes(tile.key))s.cleared.push(tile.key);note(s,`Đánh bại ${tile.value}. Trại NPC vẫn có thể săn lại, mỗi lượt hành quân tiêu tốn AP.`)}
@@ -837,4 +859,3 @@ function setSpeed(s,v){assert(v===1||v===60,'Chế độ không hợp lệ');s.s
 const API={TACTICAL_RANGE,unitTacticalRange,unitTacticalMovement,V,SAVE_KEY,PREV_SAVE_KEY,C,HG39_CONFIG,MAX_OFFLINE_WALL_SECONDS,BATTLE_GRID,battleHex,gameElapsedSeconds,make,valid,clone,upgradeSaveV02,fmt,rate,limits,cap,canAfford,spend,add,buildCost,upgrade,recruitCost,recruit,spellCost,learn,hire,appoint,selectHero,getUnit,arrUnits,TILES,WIDTH,HEIGHT,WORLD_BUILDINGS,NPC_STAR_GUIDE,NPC_CAMPS_2009,TREASURE_GEAR_GUIDE,TREASURE_CAMPS_2009,getTreasureCamp:key=>TREASURE_BY_KEY.get(key)||null,getTile,pathfind,pathTravelCost,terrainStepCost,WORLD_TERRAIN_COST,armyMarchFactor,setFormation,heroSpeedAdjustment,marchSpeedFactor,marchDuration,startMarch,activeArmy,tick,armyPower,makeBattle,battleSelect,battleTargetsInRange,battleMoveSteps,battleMovePreview,battlePath,battleAct,heal,setSpeed,note,buildOrder,battleActCore:battleAct};
 root.HOG_ENGINE=API;if(typeof module==='object'&&module.exports)module.exports=API;
 })(typeof globalThis!=='undefined'?globalThis:this);
-
