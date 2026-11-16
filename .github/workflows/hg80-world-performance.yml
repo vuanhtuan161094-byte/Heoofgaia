@@ -14,6 +14,12 @@ on:
       - hg93-world-realms.js
       - hg94-territory.js
       - qa-hg94-territory.cjs
+      - hg08.js
+      - hg18.js
+      - hg30-troop-ascension.js
+      - hg409-enemy-commanders.js
+      - hg47-ten-slot.js
+      - build_offline.py
       - qa-hg80-world-chrome.py
       - qa-hg79-polish-chrome.py
       - qa-hg405-desktop-phone-chrome.py
