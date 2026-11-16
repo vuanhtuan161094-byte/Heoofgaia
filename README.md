@@ -25,6 +25,8 @@
 - CI: `python qa/smoke.py`, `python qa/p2_full.py`, `python qa/p2_advanced.py`, `python qa/p3.py`, `python qa/p3_balance.py`.
 - Screenshots Chromium 1280×720 và mobile 390px xuất qua Actions artifacts; chưa chứng nhận Windows/Android thiết bị thật.
 
+**Bản chơi đã kiểm thử:** vào GitHub Actions trên nhánh `main-ngoalong`, chọn run **SUCCESS** mới nhất, tải artifact `ngoalong-p3-playable` (chứa `index.html` + SHA). Không dùng artifact từ run FAIL/PENDING.
+
 ## Tài liệu
 
 - `AGENTS.md` — quy tắc làm việc với nhánh Ngọa Long.

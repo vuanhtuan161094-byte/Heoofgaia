@@ -48,3 +48,14 @@ jobs:
             qa/commit-sha.txt
             qa/index-sha256.txt
           if-no-files-found: warn
+
+      - name: Publish single playable HTML after full PASS
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ngoalong-p3-playable
+          path: |
+            index.html
+            qa/commit-sha.txt
+            qa/index-sha256.txt
+          if-no-files-found: error
