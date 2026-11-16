@@ -14,6 +14,7 @@ const CITY_LIMITS=Object.freeze([[0,1],[5800,2],[80000,3],[300000,4],[700000,5],
  // Bounded deterministic OFFLINE enemy settlement simulation; these towns
  // are modeled gameplay entities, not historical castle-coordinate evidence.
  const AI_PRODUCTION=Object.freeze({gold:160,wood:12,ore:12,sulfur:6,crystal:6});
+ const HG93_REALM_CASTLES=E.TILES.filter(t=>t.worldTier&&t.aiOwner);
  function makeAICity(tile){
   const level=tile.level||1,unitId=tile.race+'_1',elite=!!tile.worldTier;
   const guard=tile.worldTier==='divine'?700:400;
@@ -127,7 +128,7 @@ function ensure(s){
  if(!s.aiCities||typeof s.aiCities!=='object'||Array.isArray(s.aiCities))throw Error('Save AI thành trì không hợp lệ.');
  // Migration for previous v07 saves: create only new HG93 AI castles; never
  // reset old enemy casualties, existing AI treasuries or player-owned cities.
- for(const tile of E.TILES)if(tile.worldTier&&tile.aiOwner&&!s.aiCities[tile.key]&&
+ for(const tile of HG93_REALM_CASTLES)if(!s.aiCities[tile.key]&&
    !s.cities.some(c=>c.key===tile.key))s.aiCities[tile.key]=makeAICity(tile);
  if(typeof s.activeCityId!=='string')throw Error('Save HG-10 thiếu thành đang mở.');
  const rootCity=s.cities.find(c=>c.id===s.activeCityId);
