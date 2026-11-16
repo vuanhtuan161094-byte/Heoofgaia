@@ -5,7 +5,7 @@
 (function(root){'use strict';
 const E=root.HOG_ENGINE;if(!E?.hg20TowerClimb)throw Error('HG20 world bosses need private core');
 const NAMES=['Vực Thẳm Quỷ Hoàng','Thời Không Tà Thần'];
-const bosses=[],candidates=E.TILES.filter(t=>t.kind==='empty'&&t.terrain!=='water'&&t.x+t.y>135)
+const bosses=[],candidates=E.TILES.filter(t=>t.kind==='empty'&&t.terrain!=='water'&&t.x<100&&t.y<100&&t.x+t.y>135)
  .sort((a,b)=>b.x+b.y-a.x-a.y||b.x-a.x);
 for(const tile of candidates){
  if(bosses.length===NAMES.length)break;
