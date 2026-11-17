@@ -20,8 +20,87 @@ const NLR03_STAGE_CONTENT=NL_GAME_DATA.campaign.encounters.filter(item=>item.sta
 });
 STAGES.push(...NLR03_STAGE_CONTENT);
 
+// Existing owner-authored content and IDs are kept; only the catalog authority
+// moves to the validated JSON pack. Wiki slot taxonomy remains a separate source.
+for(const id of Object.keys(EQUIPMENT))delete EQUIPMENT[id];
+for(const record of NL_GAME_DATA.equipment.projectItems){
+ EQUIPMENT[record.id]={name:record.name,icon:record.icon,slot:record.slot,rarity:record.rarity,...record.stats,cost:{...record.cost},provenance:record.provenance};
+}
+for(const id of Object.keys(TECHNOLOGY))delete TECHNOLOGY[id];
+for(const record of NL_GAME_DATA.research.catalog){
+ TECHNOLOGY[record.id]={name:record.name,icon:record.icon,desc:record.description,max:record.maxLevel,effects:record.effects,provenance:record.provenance};
+ if(!Number.isFinite(game.technology?.[record.id]))game.technology[record.id]=0;
+}
+const NLR03_ITEM_BY_ID=Object.fromEntries(NL_GAME_DATA.equipment.projectItems.map(item=>[item.id,item]));
+const NLR03_RESEARCH=NL_GAME_DATA.research;
+const NLR03_REINFORCEMENT=NL_GAME_DATA.equipment.progression.reinforcement;
+function nlTechValue(target){
+ let value=0;
+ for(const [id,technology] of Object.entries(TECHNOLOGY)){
+  const level=Math.max(0,Number(game.technology?.[id])||0);
+  for(const effect of technology.effects||[])if(effect.target===target)value+=level*effect.valuePerLevel;
+ }
+ return value;
+}
+function nlr03TechCost(id){
+ const level=Math.max(0,Math.floor(Number(game.technology?.[id])||0)),next=level+1;
+ const formulas=NLR03_RESEARCH.progression.cost,result={};
+ for(const [resource,formula] of Object.entries(formulas)){
+  result[resource]=resource==='prestige'&&formula.freeFirstLevel&&next===1?0:Math.round(formula.base*Math.pow(next,formula.nextLevelExponent));
+ }
+ return result;
+}
+shopCost=function(id){const item=NLR03_ITEM_BY_ID[id];return item?{...item.cost}:{};};
+equipmentStats=function(id){
+ const result={atk:0,def:0,int:0,hp:0,tdef:0,mdef:0,weaponAtk:0,horseAtk:0},step=NLR03_REINFORCEMENT.statBonusPerLevel;
+ for(const uid of Object.values(game.gear[id]||{})){
+  const instance=game.items.find(item=>item.uid===uid),base=instance&&EQUIPMENT[instance.base];if(!base)continue;
+  const factor=1+(Math.max(1,Number(instance.lv)||1)-1)*step;
+  for(const key of ['atk','def','int','hp','tdef','mdef'])result[key]+=Math.round((base[key]||0)*factor);
+  if(base.slot==='weapon')result.weaponAtk+=Math.round((base.atk||0)*factor);
+  if(base.slot==='horse')result.horseAtk+=Math.round((base.atk||0)*factor);
+ }
+ return result;
+};
+techCost=nlr03TechCost;
+research=function(id){
+ const technology=TECHNOLOGY[id];if(!technology)return;
+ const level=game.technology[id],next=level+1,gate=NLR03_RESEARCH.progression.academyLevelsPerTechLevel;
+ if(level>=technology.max)return toast('Đã đạt cấp tối đa.');
+ if(game.buildings.academy<Math.ceil(next/gate))return toast('Cần nâng Quân Sư Phủ để nghiên cứu tiếp.');
+ const cost=nlr03TechCost(id);if(!payment(cost))return toast('Thiếu bạc, sắt hoặc uy danh.');
+ game.technology[id]=next;game.techSpent+=cost.prestige||0;countTask('research');
+ log(`Nghiên cứu ${technology.name} cấp ${next}.`);save();toast('Hoàn tất khoa kỹ: '+technology.name);render();
+};
+reinforce=function(uid){
+ const item=game.items.find(entry=>entry.uid===uid),rule=NLR03_REINFORCEMENT,costRule=rule.cost;if(!item)return;
+ if(item.lv>=rule.maxLevel)return toast(`Trang bị đã tối đa +${rule.maxLevel}.`);
+ const cost={silver:Math.round(costRule.silverBase*Math.pow(item.lv,costRule.silverLevelExponent)),iron:Math.round(costRule.ironBase*Math.pow(item.lv,costRule.ironLevelExponent))};
+ if(!payment(cost))return toast('Không đủ bạc hoặc sắt để cường hóa.');
+ item.lv++;log(`Cường hóa ${EQUIPMENT[item.base].name} lên +${item.lv}.`);save();toast('Cường hóa thành công +'+item.lv);render();
+};
+renderTechnology=function(){
+ const gate=NLR03_RESEARCH.progression.academyLevelsPerTechLevel;
+ const cards=Object.entries(TECHNOLOGY).map(([id,technology])=>{
+  const level=game.technology[id]||0,next=level+1,cost=nlr03TechCost(id),max=level>=technology.max,locked=game.buildings.academy<Math.ceil(next/gate);
+  return `<div class="panel feature-card" data-research-card="${id}"><div class="feature-title"><span class="feature-icon">${technology.icon}</span><div><h3>${esc(technology.name)}</h3><div class="tiny">Cấp ${level}/${technology.max}</div></div></div><p>${esc(technology.desc)}</p><div class="progress"><div style="width:${Math.min(100,level/technology.max*100)}%"></div></div><div class="feature-footer"><span class="cost">${earnedText(cost)}</span><button class="gold-button" data-research="${id}" ${max||locked?'disabled':''}>${max?'Tối đa':locked?'Cần học viện':'Nghiên cứu'}</button></div></div>`;
+ }).join('');
+ return head('Binh pháp kỳ mưu','Quân Sư Phủ · Khoa Kỹ','Nghiên cứu đọc từ catalog dự án; mọi hệ số là SIMULATED.',`<span class="pill">Học viện cấp ${game.buildings.academy}</span>`)+`<div class="panel mini-box" style="margin-bottom:16px"><h3>📚 Nghiên cứu chiến lược</h3><div class="tiny">Mức tối đa, chi phí, điều kiện mở và hiệu ứng được điều khiển bởi data pack. Cấp Quân Sư Phủ giới hạn nghiên cứu.</div></div><div class="feature-grid">${cards}</div>`;
+};
+train=function(id){
+ const data=NL_GAME_DATA.heroes.training,hero=game.hero[id];if(!hero)return;
+ if(game.silver<data.silverCost)return toast(`Không đủ ${fmt(data.silverCost)} bạc.`);
+ if(hero.level>=data.maxLevel)return toast('Tướng đạt cấp tối đa.');
+ game.silver-=data.silverCost;hero.xp+=data.baseXp+game.buildings.academy*data.academyXpPerLevel;let gained=0;
+ while(hero.xp>=hero.level*data.xpRequiredPerHeroLevel&&hero.level<data.maxLevel){hero.xp-=hero.level*data.xpRequiredPerHeroLevel;hero.level++;gained++;}
+ countTask('train');log(`Huấn luyện ${HEROES[id].name}${gained?` lên cấp ${hero.level}`:''}.`);save();
+ toast(gained?`${HEROES[id].name} đã lên cấp ${hero.level}!`:'Đã tăng kinh nghiệm võ tướng.');render();
+};
+
 function nlr03Hydrate(){
  if(!game.nlr03||typeof game.nlr03!=='object'||Array.isArray(game.nlr03))game.nlr03={schema:1,evolutions:{}};
+ if(!game.technology||typeof game.technology!=='object'||Array.isArray(game.technology))game.technology={};
+ for(const id of Object.keys(TECHNOLOGY))if(!Number.isFinite(game.technology[id]))game.technology[id]=0;
  const prior=game.nlr03.evolutions&&typeof game.nlr03.evolutions==='object'&&!Array.isArray(game.nlr03.evolutions)?game.nlr03.evolutions:{};
  const evolutions={};
  for(const [hero,id] of Object.entries(prior)){
@@ -159,5 +238,5 @@ document.head.appendChild(nlr03Style);
 
 if(window.__P2_QA__){window.__P2_QA__.beginBattle=beginBattle;window.__P2_QA__.makeUnit=makeUnit;window.__P2_QA__.p2Hit=p2Hit;window.__P2_QA__.p2Target=p2Target;}
 if(window.__P3_QA__){window.__P3_QA__.unit=p2Unit;window.__P3_QA__.target=p2Target;}
-if(window.__P2_ENABLE_QA__)window.__NL_R03_QA__={stages:NLR03_STAGE_CONTENT.map((stage,index)=>({number:25+index,name:stage[0]})),branches:NLR03_BRANCHES,branchFor:nlr03BranchFor,branchOptions:nlr03BranchOptions,evolve:nlr03Evolve,unit:p2Unit,skill:p2Skill,target:p2Target,getEncounter:()=>battle?.r03Encounter||null};
+if(window.__P2_ENABLE_QA__)window.__NL_R03_QA__={stages:NLR03_STAGE_CONTENT.map((stage,index)=>({number:25+index,name:stage[0]})),branches:NLR03_BRANCHES,branchFor:nlr03BranchFor,branchOptions:nlr03BranchOptions,evolve:nlr03Evolve,unit:p2Unit,skill:p2Skill,target:p2Target,getEncounter:()=>battle?.r03Encounter||null,catalog:{equipment:NL_GAME_DATA.equipment.projectItems,research:NLR03_RESEARCH.catalog,training:NL_GAME_DATA.heroes.training},equipmentStats,shopCost,techCost,techValue:nlTechValue,research,reinforce,train,tick,renderBarracks};
 // === end NL-R03 ===

@@ -317,6 +317,28 @@ def prepare_combat_data_bindings(source: str) -> str:
         source = replace_once_or_same(source, old, new, label)
     return source
 
+def prepare_progression_bindings(source: str) -> str:
+    """Bind legacy UI/combat formulas to the validated research effect catalog."""
+    replacements = [
+        ("1+game.technology.commerce*.08", "1+nlTechValue('silverProductionMultiplierBonus')", 2, "silver production effect"),
+        ("1+game.technology.harvest*.08", "1+nlTechValue('grainProductionMultiplierBonus')", 2, "grain production effect"),
+        ("game.technology.recruit*50", "nlTechValue('reserveCapacityFlat')", 2, "reserve capacity effect"),
+        ("(1+t.command*.05)", "(1+nlTechValue('hpMultiplierBonus'))", 1, "hero HP research effect"),
+        ("(1+t.arms*.04)", "(1+nlTechValue('atkMultiplierBonus'))", 2, "physical/strategy attack research effect"),
+        ("(1+t.strategy*.05)", "(1+nlTechValue('matkMultiplierBonus'))", 1, "magic attack research effect"),
+        ("(1+t.armor*.04)", "(1+nlTechValue('defMultiplierBonus'))", 3, "defense research effect"),
+        ("40+t.morale*6", "40+nlTechValue('startingMoraleFlat')", 1, "starting morale research effect"),
+    ]
+    for old, new, expected, label in replacements:
+        count = source.count(old)
+        if count == expected:
+            source = source.replace(old, new)
+        elif count == 0 and source.count(new) == expected:
+            continue
+        else:
+            raise ValueError(f"Cannot uniquely prepare {label}: old={count} expected={expected} new={source.count(new)}")
+    return source
+
 def replace_marked_block(source: str, start: str, end: str, replacement: str, what: str) -> str:
     if source.count(start) != 1 or source.count(end) != 1:
         raise ValueError(f"Cannot uniquely replace generated {what} block")
@@ -330,6 +352,7 @@ def build(source: str) -> str:
     pack = runtime_pack(load_pack(ROOT))
     data_json = json.dumps(pack, ensure_ascii=False, separators=(",", ":"))
     source = prepare_combat_data_bindings(source)
+    source = prepare_progression_bindings(source)
     portal = PORTAL.replace("__NL_DATA_PACK__", data_json)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"

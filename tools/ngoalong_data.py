@@ -238,10 +238,60 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
             _require(isinstance(puzzle.get("seed"), int) and puzzle.get("losingPreset") in preset_ids and puzzle.get("winningPreset") in preset_ids and puzzle["losingPreset"] != puzzle["winningPreset"], f"{path} has invalid same-seed formation puzzle expectations")
     _require(encounter_stages == set(range(1, len(encounters) + 1)), "campaign stages must be contiguous and sequential")
 
-    _provenance(pack.get("equipment", {}).get("provenance"), source_ids, "equipment")
-    for index, slot in enumerate(pack.get("equipment", {}).get("wikiSlots", [])):
+    equipment = pack.get("equipment", {})
+    _provenance(equipment.get("provenance"), source_ids, "equipment")
+    wiki_slots = equipment.get("wikiSlots", [])
+    wiki_slot_ids = {slot.get("id") for slot in wiki_slots if isinstance(slot, dict)}
+    _require(len(wiki_slot_ids) == len(wiki_slots) and wiki_slot_ids, "equipment Wiki slot IDs must be unique")
+    for index, slot in enumerate(wiki_slots):
         _provenance(slot.get("provenance"), source_ids, f"equipment.wikiSlots[{index}]")
-    _provenance(pack.get("research", {}).get("provenance"), source_ids, "research")
+    slot_aliases = equipment.get("legacySlotAliases", {})
+    _require(all(target in wiki_slot_ids for target in slot_aliases.values()), "equipment legacy slot alias targets an unknown Wiki slot")
+    project_items = equipment.get("projectItems", [])
+    item_ids = {item.get("id") for item in project_items if isinstance(item, dict)}
+    _require(len(item_ids) == len(project_items) and item_ids, "equipment project item IDs must be unique and non-empty")
+    for index, item in enumerate(project_items):
+        path = f"equipment.projectItems[{index}]"
+        _provenance(item.get("provenance"), source_ids, path)
+        _require(item.get("slot") in wiki_slot_ids or item.get("slot") in slot_aliases, f"{path} references an unknown or unmapped slot")
+        _require(item.get("rarity") in {"Thường", "Hiếm", "Truyền kỳ"}, f"{path} has an unsupported project rarity")
+        stats = item.get("stats", {})
+        _require(set(stats) == {"atk", "def", "int", "hp", "tdef", "mdef"} and all(isinstance(value, (int, float)) and value >= 0 for value in stats.values()), f"{path} has invalid project stats")
+        cost = item.get("cost", {})
+        _require(set(cost) == {"silver", "iron", "prestige"} and all(isinstance(value, int) and value >= 0 for value in cost.values()), f"{path} has invalid purchase cost")
+        _require(all(item.get("fieldProvenance", {}).get(field) == "SIMULATED" for field in ("name", "icon", "slot", "rarity", "stats", "cost")), f"{path} must label project-authored fields SIMULATED")
+    equipment_progression = equipment.get("progression", {})
+    _provenance(equipment_progression.get("provenance"), source_ids, "equipment.progression")
+    reinforcement = equipment_progression.get("reinforcement", {})
+    _provenance(reinforcement.get("provenance"), source_ids, "equipment.progression.reinforcement")
+    _require(isinstance(reinforcement.get("maxLevel"), int) and reinforcement["maxLevel"] >= 1, "equipment reinforcement maxLevel must be positive")
+    _require(isinstance(reinforcement.get("statBonusPerLevel"), (int, float)) and reinforcement["statBonusPerLevel"] >= 0, "equipment reinforcement bonus is invalid")
+    reinforcement_cost = reinforcement.get("cost", {})
+    _require(all(isinstance(reinforcement_cost.get(key), (int, float)) and reinforcement_cost[key] >= 0 for key in ("silverBase", "silverLevelExponent", "ironBase", "ironLevelExponent")), "equipment reinforcement cost formula is invalid")
+
+    research = pack.get("research", {})
+    _provenance(research.get("provenance"), source_ids, "research")
+    system_ids = research.get("systemIds", [])
+    catalog = research.get("catalog", [])
+    catalog_ids = {tech.get("id") for tech in catalog if isinstance(tech, dict)}
+    _require(len(system_ids) == len(set(system_ids)) and len(catalog_ids) == len(catalog) and catalog_ids == set(system_ids), "research catalog must preserve every unique legacy Save ID exactly once")
+    supported_effects = {"atkMultiplierBonus", "catkMultiplierBonus", "defMultiplierBonus", "matkMultiplierBonus", "hpMultiplierBonus", "grainProductionMultiplierBonus", "silverProductionMultiplierBonus", "startingMoraleFlat", "reserveCapacityFlat"}
+    for index, tech in enumerate(catalog):
+        path = f"research.catalog[{index}]"
+        _provenance(tech.get("provenance"), source_ids, path)
+        _require(isinstance(tech.get("maxLevel"), int) and tech["maxLevel"] > 0, f"{path} maxLevel must be positive")
+        _require(tech.get("effects"), f"{path} needs at least one data-defined gameplay effect")
+        for effect in tech["effects"]:
+            _require(effect.get("target") in supported_effects and isinstance(effect.get("valuePerLevel"), (int, float)), f"{path} has an unsupported research effect")
+    research_progression = research.get("progression", {})
+    _provenance(research_progression.get("provenance"), source_ids, "research.progression")
+    _require(isinstance(research_progression.get("academyLevelsPerTechLevel"), int) and research_progression["academyLevelsPerTechLevel"] > 0, "research academy gate is invalid")
+    for resource, formula in research_progression.get("cost", {}).items():
+        _require(resource in {"silver", "iron", "prestige"} and all(isinstance(formula.get(key), (int, float)) and formula[key] >= 0 for key in ("base", "nextLevelExponent")), f"research cost formula for {resource} is invalid")
+
+    training = heroes.get("training", {})
+    _provenance(training.get("provenance"), source_ids, "heroes.training")
+    _require(all(isinstance(training.get(key), int) and training[key] > 0 for key in ("silverCost", "baseXp", "academyXpPerLevel", "maxLevel", "xpRequiredPerHeroLevel")), "hero training progression config is incomplete")
     _provenance(pack.get("compatibility", {}).get("provenance"), source_ids, "compatibility")
     _require(pack.get("compatibility", {}).get("saveSchema") == 5, "the Save schema must remain v5")
     return pack
