@@ -226,11 +226,16 @@ def main():
           const rect = selector => { const node=document.querySelector(selector); if(!node)return null; const r=node.getBoundingClientRect(); return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}; };
           const head=rect('.battle-head'), title=rect('.battle-head>div:first-child'), tools=rect('.battle-tools'), canvas=rect('#battle-canvas'), roster=rect('#battle-mobile-roster'), log=rect('#combat-log');
           const intersects=(a,b)=>!!a&&!!b&&a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
-          return {viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,head,title,tools,canvas,roster,log,
+          const rosterUnit=document.querySelector('.mobile-roster-unit'),rosterMeta=document.querySelector('.mobile-roster-meta'),rosterHeading=document.querySelector('.mobile-roster-side h3');
+          const fontSize=node=>node?parseFloat(getComputedStyle(node).fontSize):0;
+          return {viewport:innerWidth,viewportHeight:innerHeight,scrollWidth:document.documentElement.scrollWidth,head,title,tools,canvas,roster,log,
             toolsOverlapTitle:intersects(title,tools),rosterVisible:!!roster&&roster.height>0,rosterUnits:document.querySelectorAll('.mobile-roster-unit').length,
-            boundsFit:[head,tools,canvas,roster,log].every(r=>r&&r.left>=-1&&r.right<=innerWidth+1)};
+            fontSizes:{unit:fontSize(rosterUnit),meta:fontSize(rosterMeta),heading:fontSize(rosterHeading),log:fontSize(document.querySelector('#combat-log'))},
+            boundsFit:[head,tools,canvas,roster,log].every(r=>r&&r.left>=-1&&r.right<=innerWidth+1&&r.top>=-1&&r.bottom<=innerHeight+1),
+            canvasHeight:canvas?.height||0};
         }""")
-        check("390px real battle exposes readable live unit HP/morale while controls, canvas and log fit", mobile_metrics["scrollWidth"] <= mobile_metrics["viewport"] + 1 and mobile_metrics["boundsFit"] and not mobile_metrics["toolsOverlapTitle"] and mobile_metrics["rosterVisible"] and mobile_metrics["rosterUnits"] >= 6 and mobile.locator("#battle-canvas").count() == 1 and mobile.locator("#combat-log").count() == 1)
+        check("390px battle roster uses readable type sizes without shrinking the 3x3 canvas", mobile_metrics["fontSizes"]["heading"] >= 11 and mobile_metrics["fontSizes"]["unit"] >= 10.5 and mobile_metrics["fontSizes"]["meta"] >= 9 and mobile_metrics["fontSizes"]["log"] >= 11 and mobile_metrics["canvasHeight"] >= 140)
+        check("390px real battle exposes all live unit HP/morale within viewport without overlap", mobile_metrics["scrollWidth"] <= mobile_metrics["viewport"] + 1 and mobile_metrics["boundsFit"] and not mobile_metrics["toolsOverlapTitle"] and mobile_metrics["rosterVisible"] and mobile_metrics["rosterUnits"] >= 6 and mobile.locator("#battle-canvas").count() == 1 and mobile.locator("#combat-log").count() == 1)
         mobile.close()
         check("Chromium recorded no JavaScript exceptions", not errors)
         browser.close()
