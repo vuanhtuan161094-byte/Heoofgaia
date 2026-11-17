@@ -1,5 +1,15 @@
 # Ngọa Long Alpha release log
 
+## NL-P1 Wiki troop-group coverage audit — 2026-11-18
+
+- **Code SHA:** `c802872a55e8450b9a071d593b8961d20fe3e951` on `codex/nl-wiki-01-r02-20261117`.
+- **DONE:** The live official Binh Chủng page was rechecked and its eight visible group filters / 73 displayed entries are now explicit in the validated data pack. The Alpha retains the five scoped core groups; Thuyền Nhỏ/Vừa/Lớn are recorded VERIFIED but explicitly out of Alpha scope. This avoids treating the Wiki page's 73 visible entries or home-page count 372 as a playable catalog.
+- **Code:** `troops.wikiGroupAudit` stores source, date, displayed count, labels and Alpha scope; `tools/ngoalong_data.py` rejects missing/duplicate groups, source-label drift and promotion of out-of-scope groups. `index.html` was rebuilt from the JSON pack. No combat coefficients, individual unit profiles, Save fields or Hero data changed.
+- **TESTED locally:** validator passes; data/provenance Chromium-independent gate **30/30** (including two negative cases); R02 Chromium **27/27**; R03 **35/35**; progression **24/24**; all three builders pass `--check`.
+- **Exact-SHA Actions:** [run 44177787989](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44177787989) **SUCCESS** on this SHA. The full workflow passed R02/R03/R04, 30/60-minute simulated onboarding, CL/P2/P3/P4.1 regressions, browser capture and artifact publishing.
+- **Artifacts:** playable offline Alpha [14372056083](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44177787989/artifacts/14372056083), digest `sha256:56afadaf85059e0c807578c740c08d0ca56dd23f2fc1c5f210d02ea5fed3bf93`; QA/screenshots/video [14372640229](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44177787989/artifacts/14372640229), digest `sha256:1617ab1cb2098460df7a77219295071d4b01d30e4bc2115c0b19b7b5519e4ffb`.
+- **PENDING:** complete Wiki item-by-item coverage and classic/Mobile parity remain unknown/partial. Human Alpha play, physical Windows/Android and owner gameplay/art acceptance are not certified. Per V2, broad P5 art/content remains gated on Alpha review.
+
 ## NL-R04 two-pose scout callout pilot — 2026-11-18
 
 - **Code SHA:** `6bd0a98f750248dd9ceb3b284f882febd037dfef` on `codex/nl-wiki-01-r02-20261117`.
