@@ -142,6 +142,19 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
     hero_schema = heroes.get("schema", {})
     _require({"id", "category", "level", "stats", "skillIds", "fieldProvenance"}.issubset(hero_schema), "heroes schema is incomplete")
     _require(all(hero_schema["fieldProvenance"].get(field) == "UNKNOWN" for field in ("level", "stats", "skillIds")), "unimported hero fields must remain explicitly UNKNOWN")
+    project_roster = heroes.get("projectRoster", [])
+    _require(isinstance(project_roster, list), "heroes.projectRoster must be an array")
+    runtime_hero_ids: set[str] = set()
+    for index, hero in enumerate(project_roster):
+        path = f"heroes.projectRoster[{index}]"
+        _require(isinstance(hero.get("id"), str) and hero["id"] not in runtime_hero_ids, f"{path} has duplicate/invalid ID")
+        runtime_hero_ids.add(hero["id"])
+        _require(hero.get("type") in {"infantry", "cavalry", "archer", "strategist", "support"}, f"{path} has invalid combat type")
+        _require(all(isinstance(hero.get(field), str) and hero[field] for field in ("name", "role", "rarity", "icon", "skill", "skillDesc")), f"{path} has incomplete runtime text fields")
+        _require(all(isinstance(hero.get(field), int) and 0 <= hero[field] <= 100 for field in ("lead", "atk", "def", "int", "agi")), f"{path} has invalid simulated stats")
+        _provenance(hero.get("provenance"), source_ids, path)
+        _require(hero["provenance"].get("classification") == "SIMULATED", f"{path} must remain project-authored SIMULATED data")
+        _require(set(hero.get("fieldProvenance", {})) == set(hero) - {"provenance", "fieldProvenance"} and all(value == "SIMULATED" for value in hero["fieldProvenance"].values()), f"{path} needs per-field SIMULATED provenance")
     hero_ids: set[str] = set()
     for index, hero in enumerate(heroes["profiles"]):
         _require(isinstance(hero.get("id"), str) and hero["id"] not in hero_ids, f"heroes.profiles[{index}] has duplicate/invalid ID")

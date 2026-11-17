@@ -33,6 +33,8 @@ def run() -> int:
     check("pack is versioned and explicitly separates current Mobile Wiki from classic parity", pack["schemaVersion"] == 1 and pack["gameVersionScope"] == {"target": "Mưu Định Tam Quốc standalone alpha", "classicWebgameParity": "UNKNOWN", "currentWikiIsMobile": True})
     check("all unknown troop stats remain null and generic categories have provenance", all(t["stats"] and all(value is None for value in t["stats"].values()) and t["provenance"].get("classification") in {"VERIFIED", "SIMULATED"} for t in pack["troops"]["profiles"]))
     check("hero schema is ready while unimported hero fields stay explicitly UNKNOWN", not pack["heroes"]["profiles"] and pack["heroes"]["catalogueCoverage"] == "NOT_IMPORTED_IN_ALPHA" and all(pack["heroes"]["schema"]["fieldProvenance"][field] == "UNKNOWN" for field in ("level", "stats", "skillIds")))
+    roster = pack["heroes"]["projectRoster"]
+    check("existing runtime hero roster is data-driven with simulated per-field provenance, separate from Wiki profiles", len(roster) == 14 and not pack["heroes"]["profiles"] and all(hero["provenance"]["classification"] == "SIMULATED" and all(value == "SIMULATED" for value in hero["fieldProvenance"].values()) for hero in roster))
     formations = pack["formations"]
     check("six data-driven formation families and four plans preserve all 24 Save IDs", len(formations["families"]) == 6 and len(formations["plans"]) == 4 and len({f["id"]+"-"+p["key"] for f in formations["families"] for p in formations["plans"]}) == 24 and all(len(p["slots"]) == 5 and len(set(p["slots"])) == 5 for p in formations["plans"]))
     check("current Wiki counter direction is data-backed while both project multipliers are explicit", len(pack["troops"]["counterCycle"]) == 3 and all(e["multiplier"] == 1.22 and e["disadvantageMultiplier"] == 0.82 and e["provenance"]["appliedFormula"] == "SIMULATED project multiplier" for e in pack["troops"]["counterCycle"]))
@@ -64,6 +66,9 @@ def run() -> int:
     invalid_hero_schema = copy.deepcopy(pack)
     invalid_hero_schema["heroes"]["schema"].pop("stats")
     check("validator rejects incomplete future hero catalog schemas", rejected(invalid_hero_schema))
+    invalid_roster = copy.deepcopy(pack)
+    invalid_roster["heroes"]["projectRoster"][0]["fieldProvenance"]["atk"] = "VERIFIED"
+    check("validator rejects unsupported hero stats provenance", rejected(invalid_roster))
 
     failed = [name for name, passed in checks if not passed]
     report = {
