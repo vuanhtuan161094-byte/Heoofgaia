@@ -224,6 +224,37 @@ def run():
         check("ambush encounter AI really targets the exposed rear unit", target == "prear")
         page.evaluate("window.__P2_QA__.closeBattle('city')")
 
+        # Four late encounters now have frozen, same-seed formation choice
+        # fixtures. Only the saved 3x3 preset changes between each A/B pair.
+        formation_choices = page.evaluate("""() => {
+          const q=window.__P2_QA__,presets=window.__P3_QA__.presets,base=q.getGame(),stages=[25,26,27,28],rows=[];
+          base.roster=['guan','zhang','liu','sun','zhou'];
+          for(const id of base.roster)base.hero[id]={...(base.hero[id]||{}),level:32,xp:0,troops:900};
+          base.slots=['guan','zhang','liu','sun','zhou',null,null,null,null];
+          base.troopModes={};
+          base.silver=100000;base.grain=100000;base.iron=100000;
+          base.p3TroopTier=Object.fromEntries(base.roster.map(id=>[id,4]));
+          base.nlr03={schema:1,evolutions:{guan:'raider',zhang:'spearwall',liu:'rally',sun:'volley',zhou:'disrupt'}};
+          base.battleReports=[];
+          for(const stage of stages){
+            const encounter=q.data.campaign.encounters.find(item=>item.stage===stage),expectation=encounter.qaExpectations.sameSeedFormationChoice,ab=[];
+            for(const presetId of [expectation.lowerLossPreset,expectation.higherLossPreset]){
+              q.closeBattle('city');const fixture=structuredClone(base);fixture.cleared=Array.from({length:stage-1},(_,index)=>index+1);q.setGame(fixture);
+              window.__P3_QA__.assign(presetId);q.beginBattle(stage,'campaign');const battle=q.debugBattle();
+              if(!battle){ab.push({preset:presetId,won:false,casualties:null});continue;}
+              battle.seed=expectation.seed;q.skipBattle();const report=q.getGame().battleReports.at(-1);
+              ab.push({preset:presetId,won:report?.won||false,casualties:(report?.troopLosses||[]).reduce((sum,row)=>sum+row.casualties,0)});
+            }
+            rows.push({stage,expectation,ab});
+          }
+          q.closeBattle('city');return rows;
+        }""")
+        for choice in formation_choices:
+            low, high = choice["ab"]
+            expected = choice["expectation"]
+            check(f"stage {choice['stage']} same-seed formation A/B clears both setups and lowers troop casualties", low["preset"] == expected["lowerLossPreset"] and high["preset"] == expected["higherLossPreset"] and low["won"] and high["won"] and high["casualties"] - low["casualties"] >= expected["minimumCasualtyGap"])
+            print(f"FORMATION A/B stage {choice['stage']}: {low['preset']} loss={low['casualties']} vs {high['preset']} loss={high['casualties']} seed={expected['seed']}", flush=True)
+
         mobile = open_page(browser, 390, 844, stored=serialized)
         mobile.locator('[data-tab="barracks"]').click()
         check("mobile evolution panel keeps all five class choices available", mobile.locator('[data-r03-select]').count() == 5 and mobile.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"))

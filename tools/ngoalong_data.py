@@ -282,6 +282,12 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
             _provenance(puzzle.get("provenance"), source_ids, f"{path}.qaExpectations.sameSeedFormationPuzzle")
             preset_ids = {family_id + "-" + plan_id for family_id in family_ids for plan_id in plan_ids}
             _require(isinstance(puzzle.get("seed"), int) and puzzle.get("losingPreset") in preset_ids and puzzle.get("winningPreset") in preset_ids and puzzle["losingPreset"] != puzzle["winningPreset"], f"{path} has invalid same-seed formation puzzle expectations")
+        formation_choice = encounter.get("qaExpectations", {}).get("sameSeedFormationChoice")
+        if formation_choice:
+            _provenance(formation_choice.get("provenance"), source_ids, f"{path}.qaExpectations.sameSeedFormationChoice")
+            preset_ids = {family_id + "-" + plan_id for family_id in family_ids for plan_id in plan_ids}
+            _require(isinstance(formation_choice.get("seed"), int) and formation_choice.get("lowerLossPreset") in preset_ids and formation_choice.get("higherLossPreset") in preset_ids and formation_choice["lowerLossPreset"] != formation_choice["higherLossPreset"], f"{path} has invalid same-seed formation choice expectations")
+            _require(isinstance(formation_choice.get("minimumCasualtyGap"), int) and formation_choice["minimumCasualtyGap"] > 0, f"{path} has invalid minimum formation casualty gap")
     _require(encounter_stages == set(range(1, len(encounters) + 1)), "campaign stages must be contiguous and sequential")
 
     equipment = pack.get("equipment", {})

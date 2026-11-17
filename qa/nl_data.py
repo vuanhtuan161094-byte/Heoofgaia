@@ -55,6 +55,9 @@ def run() -> int:
     broken_recommendation = copy.deepcopy(pack)
     broken_recommendation["campaign"]["encounters"][4]["recommendedPreparation"]["recommendedPreset"] = "nonexistent-preset"
     check("validator rejects a dangling recommended formation preset", rejected(broken_recommendation))
+    broken_choice = copy.deepcopy(pack)
+    broken_choice["campaign"]["encounters"][24]["qaExpectations"]["sameSeedFormationChoice"]["lowerLossPreset"] = "nonexistent-preset"
+    check("validator rejects a dangling same-seed formation choice preset", rejected(broken_choice))
     bad_slot = copy.deepcopy(pack)
     bad_slot["campaign"]["npcs"][0]["units"][1]["formationSlot"] = bad_slot["campaign"]["npcs"][0]["units"][0]["formationSlot"]
     check("validator rejects duplicate 3x3 positions", rejected(bad_slot))
