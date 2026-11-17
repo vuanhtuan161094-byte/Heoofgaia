@@ -17,7 +17,7 @@ MARKER = "NL-REBUILD-01"
 OLD_TITLE = "<title>Mưu Định Tam Quốc — V0.6 P4.1 Mỹ Thuật</title>"
 NEW_TITLE = "<title>Mưu Định Tam Quốc — Chiến thuật trận hình</title>"
 OLD_NAV = "const NAV=[['city','🏯','Thành Trì'],['heroes','⚔️','Võ Tướng'],['formation','🛡️','Bày Trận'],['campaign','🗺️','Chinh Phạt'],['barracks','🏹','Doanh Trại'],['journal','📜','Nhật Ký']];"
-NEW_NAV = "const NAV=[['city','🏯','Quân Cơ Phủ'],['formation','🛡️','Trận Hình 3×3'],['campaign','⚔️','Phó Bản'],['heroes','👑','Võ Tướng'],['barracks','🏹','Luyện Binh'],['journal','📜','Chiến Báo']];"
+NEW_NAV = "const NAV=[['city','🏯','Thành Trì'],['formation','🛡️','Bày Trận'],['campaign','🗺️','Chinh Phạt'],['heroes','⚔️','Võ Tướng'],['barracks','🏹','Doanh Trại'],['journal','📜','Nhật Ký']];"
 BOOT = "setInterval(tick,1000);setInterval(save,15000);window.addEventListener('beforeunload',save);tick();render();"
 
 CSS = """
