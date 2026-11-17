@@ -669,6 +669,164 @@
         }
       }
     },
+    "heroById": {
+    "liu": {
+        "pattern": "heal",
+        "kind": "magic",
+        "mult": 1.65,
+        "healCount": 2,
+        "bonusMorale": 12,
+        "tag": "Nhân Đức",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "guan": {
+        "pattern": "single",
+        "kind": "tactic",
+        "mult": 2.25,
+        "pierce": 0.3,
+        "tag": "Thanh Long Trảm",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "zhang": {
+        "pattern": "row",
+        "kind": "physical",
+        "mult": 1.44,
+        "apply": "break",
+        "tag": "Hổ Khiếu",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "zhao": {
+        "pattern": "double",
+        "kind": "tactic",
+        "mult": 1.23,
+        "tag": "Long Đảm",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "zhuge": {
+        "pattern": "all",
+        "kind": "magic",
+        "mult": 1.0,
+        "apply": "daze",
+        "applyChance": 0.23,
+        "tag": "Bát Trận Đồ",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "huang": {
+        "pattern": "back",
+        "kind": "physical",
+        "mult": 2.05,
+        "pierce": 0.46,
+        "crit": 0.28,
+        "tag": "Bách Bộ Xuyên Dương",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "ma": {
+        "pattern": "column",
+        "kind": "tactic",
+        "mult": 1.55,
+        "tag": "Thiết Kỵ",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "sun": {
+        "pattern": "double",
+        "kind": "physical",
+        "mult": 1.34,
+        "tag": "Liên Châu Tiễn",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "cao": {
+        "pattern": "all",
+        "kind": "magic",
+        "mult": 0.85,
+        "bonusMorale": 24,
+        "tag": "Hiệu Lệnh Thiên Hạ",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "sunquan": {
+        "pattern": "heal",
+        "kind": "magic",
+        "mult": 1.3,
+        "healCount": 2,
+        "applyAlly": "guard",
+        "tag": "Giang Đông Chi Viện",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "zhou": {
+        "pattern": "row",
+        "kind": "magic",
+        "mult": 1.67,
+        "apply": "burn",
+        "tag": "Hỏa Thiêu Xích Bích",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "lu": {
+        "pattern": "single",
+        "kind": "tactic",
+        "mult": 2.42,
+        "crit": 0.22,
+        "tag": "Vô Song",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "dian": {
+        "pattern": "single",
+        "kind": "physical",
+        "mult": 1.56,
+        "applyAlly": "guard",
+        "tag": "Thiết Vệ",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    },
+    "xun": {
+        "pattern": "heal",
+        "kind": "magic",
+        "mult": 1.8,
+        "healCount": 2,
+        "applyAlly": "guard",
+        "tag": "Vương Tá",
+        "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+        }
+    }
+},
     "overrides": {
       "campaign-sima-seal": {
         "pattern": "all",
