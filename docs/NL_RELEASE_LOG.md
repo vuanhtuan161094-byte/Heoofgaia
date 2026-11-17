@@ -1,5 +1,15 @@
 # Ngọa Long Alpha release log
 
+## NL-R02 desktop and mobile live battle roster — 2026-11-18
+
+- **Code SHA:** `47a1b674a1eef6a41a234c2a19c4e35fa988aaf6` on `codex/nl-wiki-01-r02-20261117`.
+- **DONE:** Added a readable 3-column team roster beside the 3×3 canvas on desktop and a compact live roster on mobile. Each unit shows its name, formation slot, troop type/count, HP and morale. NL battlefield sprites remain unobstructed; legacy Chiến Loạn continues to use its canvas name/count presentation and hides the Ngọa Long roster.
+- **TESTED locally:** NL-R02 Chromium **30/30**; CL/P2 regression Chromium **44/44**; inline syntax and all three reproducible builders pass `--check`; `git diff --check` passes. Screenshot evidence: `qa/nl-r02-desktop-battle.png`, `qa/nl-r02-mobile-battle.png`.
+- **Exact-SHA Actions:** [run 44198801820](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44198801820) **SUCCESS** on this SHA. All workflow gates passed, including NL R02/R03/R04, 30/60-minute accelerated progression, CL-P1–P6, P2/P3/P4.1 Chromium and balance checks, exact-source asset checks, real render video and publication.
+- **Playable artifact:** [14380763120](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44198801820/artifacts/14380763120), digest `sha256:81ee765d8ac3a7a30baaa2d1a4c5ca0cedd31da23c90a61eeda073407eaa05e4`.
+- **QA/evidence artifact:** [14380408706](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44198801820/artifacts/14380408706), digest `sha256:f1ad2453cb0281704791aece4cb85970ec12a79f17104c92ace6f4a353a472fd`.
+- **PENDING:** Physical Windows/Android review, owner visual acceptance, human play and Wiki catalogue completeness remain uncertified. No Save schema or Hero code changed. `main-ngoalong` remains unchanged; the change is on the existing open draft PR #6 and was not merged.
+
 ## NL-R02 390px battle roster readability — 2026-11-18
 
 - **Code SHA:** `6b1ea3115a8582ad783a747804b8a3730a605d8d` on `codex/nl-wiki-01-r02-20261117`.
