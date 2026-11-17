@@ -7,6 +7,11 @@
 - **Ủy quyền mới ngày 16/11/2026:** Chủ dự án cho phép **Codex chuyên trách duy nhất game Mưu Định Tam Quốc** trên `main-ngoalong`; ưu tiên mới là gameplay **Chiến Loạn Tam Quốc**. Không mở rộng quyền sang Hero, Tông Môn Bá Đạo hoặc CMP.
 - **MASTER SPEC PIVOT (ưu tiên cao nhất về product):** đọc `docs/CHIEN_LOAN_MASTER_SPEC.md` trước mọi thiết kế hoặc triển khai. `docs/NGOALONG_CODEX_AGENT.md` giữ phần bảo mật/cô lập/QA và chỉ áp dụng roadmap khi không xung đột master spec. Không tự động merge hoặc tự nhận hoàn thành khi chưa có bằng chứng.
 
+## Chủ định mỹ thuật — 17/11/2026
+- **CHỈ ĐẠO MỚI CỦA OWNER:** đồ họa game phải chuyển sang phong cách **tranh vẽ tay 2D**. Đọc và tuân thủ `docs/ART_DIRECTION_HANDPAINTED_2D_V1.md` trước khi tạo, sửa hoặc tích hợp asset.
+- Ưu tiên bản thử nhỏ có hình ảnh thực sự tích hợp game (bản đồ, thành trì, tướng, quân và chiến trường), không tiếp tục mặc định phong cách sprite cũ/pixel, hình học thô hoặc dựng giả 3D. Tranh vẽ tay nhiều màu / nét cọ rõ, phù hợp Tam Quốc. Tông cụ thể cần duyệt bằng mẫu.
+- Giữ sprite-first frame-by-frame, **không rig**, đúng alpha/pivot và cho xem Chromium desktop/mobile thực tế. Mỗi hình chỉ chuyển sang diện sản xuất hàng loạt sau khi owner duyệt mỹ thuật; không tự nhận PASS nhờ CI.
+
 ## Gameplay data/authority
 - Combat duy nhất quyết toán tiền, EXP, quân chết, phần thưởng tại kết thúc trận; replay đọc bản ghi, không tạo đợt chi trả thứ hai.
 - Save key `muu_dinh_tam_quoc_v1`, schema v5; nâng cấp quân lưu trong `p3TroopTier`, preset trong `p3PresetId`, chiến dịch CL-P1–P4 trong `cltq` (kinh tế ở `cltq.economy`, chiến dịch ở `cltq.p4`). Giữ migration v1–v4→v5 và JSON import/export, không sửa Save Hero v07.
