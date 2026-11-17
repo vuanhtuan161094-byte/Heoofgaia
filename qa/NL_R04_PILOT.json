@@ -1,0 +1,65 @@
+{
+  "milestone": "NL-R04-STATIC-VISUAL-PILOT",
+  "checks": [
+    {
+      "name": "scout registered master is 512x640 RGBA with transparent padding",
+      "pass": true
+    },
+    {
+      "name": "scout embedded browser payload matches the registered source PNG",
+      "pass": true
+    },
+    {
+      "name": "tactician registered master is 512x640 RGBA with transparent padding",
+      "pass": true
+    },
+    {
+      "name": "tactician embedded browser payload matches the registered source PNG",
+      "pass": true
+    },
+    {
+      "name": "manifest identifies the asset as recreated original art and static-only",
+      "pass": true
+    },
+    {
+      "name": "real stage-25 battle callout renders its exact scout portrait",
+      "pass": true
+    },
+    {
+      "name": "embedded scout browser payload is byte-identical to its registered PNG",
+      "pass": true
+    },
+    {
+      "name": "desktop portrait respects 56x70 display target",
+      "pass": true
+    },
+    {
+      "name": "Save v5 and campaign state remain unchanged by portrait rendering",
+      "pass": true
+    },
+    {
+      "name": "real stage-26 battle callout swaps to the tactician portrait",
+      "pass": true
+    },
+    {
+      "name": "embedded tactician browser payload is byte-identical to its registered PNG",
+      "pass": true
+    },
+    {
+      "name": "pilot portraits are presentation-only and do not mutate battle power or unit roster",
+      "pass": true
+    },
+    {
+      "name": "390px Chromium renders the full-alpha portrait and callout without horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "R04 desktop/mobile scenes report no JavaScript exceptions",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "total": 14,
+  "passed": 14,
+  "failed": []
+}

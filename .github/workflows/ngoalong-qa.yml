@@ -14,13 +14,15 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: Validate Wiki provenance data and compile canonical R02/R03 Alpha HTML
+      - name: Validate Wiki provenance data and compile canonical R02/R03/R04 Alpha HTML
         run: |
           python tools/validate_ngoalong_data.py
           python tools/build_ngoa_long_mode.py
           python tools/build_ngoa_long_r03.py
+          python tools/build_ngoa_long_r04.py
           python tools/build_ngoa_long_mode.py --check
           python tools/build_ngoa_long_r03.py --check
+          python tools/build_ngoa_long_r04.py --check
       - name: Exact SHA and source identity
         run: |
           git rev-parse HEAD | tee qa/commit-sha.txt
@@ -46,6 +48,8 @@ jobs:
         run: python qa/nl_r03.py
       - name: NL-R03 hero training, equipment and research progression gate
         run: python qa/nl_progression.py
+      - name: NL-R04 original static art pilot Chromium desktop/mobile gate
+        run: python qa/nl_r04_pilot.py
       - name: NL 30-minute simulated onboarding, affordability and loss recovery gate
         run: python qa/nl_onboarding_30min.py
       - name: CL-P1/P2 real battle and campaign loop
@@ -127,6 +131,10 @@ jobs:
             qa/p41-*.mp4
             qa/p41-288-frames-source.zip
             assets/p41/troops_manifest.json
+            assets/r04/*raw-master.png
+            assets/r04/*master.png
+            assets/r04/*.json
+            assets/r04/*.md
             assets/p5/cl-p5-region-map-manifest.json
             assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-atlas.webp
             assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-manifest.json
