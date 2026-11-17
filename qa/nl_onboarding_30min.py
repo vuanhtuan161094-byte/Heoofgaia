@@ -182,7 +182,7 @@ def run() -> int:
             page.locator('.nav[data-tab="campaign"]').click()
             if page.locator('[data-stage="5"]').count() and not page.locator('[data-stage="5"]').is_disabled():
                 page.locator('[data-stage="5"]').click()
-            recommendation_visible = page.locator('[data-nl-preparation="5"]').count() == 1 and "cấp trung bình khoảng 12" in page.locator('[data-nl-preparation="5"]').inner_text()
+            recommendation_visible = page.locator('[data-nl-preparation="5"]').count() == 1 and "cấp trung bình khoảng 12" in page.locator('[data-nl-preparation="5"]').inner_text() and page.locator('[data-nl-recommended-preset="spear-van"]').count() == 1 and "Tiên Phong" in page.locator('[data-nl-recommended-preset="spear-van"]').inner_text()
             check(f"{profile}: stage 5 shows its simulated preparation hint in the live campaign UI", recommendation_visible)
             page.screenshot(path=str(ROOT / "qa" / f"nl-onboarding-{profile}.png"))
             context.close()

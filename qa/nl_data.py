@@ -52,6 +52,9 @@ def run() -> int:
     broken_ref = copy.deepcopy(pack)
     broken_ref["campaign"]["npcs"][0]["units"][0]["troopId"] = "missing-troop"
     check("validator rejects NPCs with dangling troop references", rejected(broken_ref))
+    broken_recommendation = copy.deepcopy(pack)
+    broken_recommendation["campaign"]["encounters"][4]["recommendedPreparation"]["recommendedPreset"] = "nonexistent-preset"
+    check("validator rejects a dangling recommended formation preset", rejected(broken_recommendation))
     bad_slot = copy.deepcopy(pack)
     bad_slot["campaign"]["npcs"][0]["units"][1]["formationSlot"] = bad_slot["campaign"]["npcs"][0]["units"][0]["formationSlot"]
     check("validator rejects duplicate 3x3 positions", rejected(bad_slot))

@@ -151,7 +151,7 @@ def main():
 
         # Verify the authored fifth-map A/B at one exact NPC tuning and seed.
         puzzle = page.evaluate(f"""() => {{
-          const q=window.__P2_QA__,presets=window.__P3_QA__.presets,base=q.getGame(),out=[],expected=q.data.campaign.encounters.find(item=>item.stage===5).qaExpectations.sameSeedFormationPuzzle;
+          const q=window.__P2_QA__,presets=window.__P3_QA__.presets,base=q.getGame(),out=[],encounter=q.data.campaign.encounters.find(item=>item.stage===5),expected=encounter.qaExpectations.sameSeedFormationPuzzle,recommendation=encounter.recommendedPreparation;
           base.roster=['guan','zhang','liu','zhuge','huang'];
           for(const id of base.roster)base.hero[id]=base.hero[id]||{{level:12,xp:0,troops:650}};
           for(const id of base.roster){{base.hero[id].level=12;base.hero[id].xp=0;base.hero[id].troops=650;}}
@@ -161,10 +161,11 @@ def main():
             const battle=q.debugBattle();battle.seed=expected.seed;q.skipBattle();const report=q.getGame().battleReports[0];out.push({{id:preset.id,won:battle.won,rounds:battle.round,settlement:!battle.won?{{troopLosses:report?.troopLosses||null,rewards:report?.rewards||null}}:null}});
           }}
           const wins=out.filter(row=>row.won),losses=out.filter(row=>!row.won);
-          q.closeBattle('city');return {{rows:out,loss:losses[0]?.id||null,win:wins[0]?.id||null,lossSettlement:losses[0]?.settlement||null,expected}};
+          q.closeBattle('city');return {{rows:out,loss:losses[0]?.id||null,win:wins[0]?.id||null,lossSettlement:losses[0]?.settlement||null,expected,recommendation}};
         }}""")
         check("same-seed fifth-map formation A/B has a real losing setup and a winning setup at equal hero power", bool(puzzle["loss"] and puzzle["win"]))
         check("stage-5 data fixture reproduces its recorded same-seed loss/win pair", puzzle["loss"] == puzzle["expected"]["losingPreset"] and puzzle["win"] == puzzle["expected"]["winningPreset"])
+        check("stage-5 preparation recommendation names the same-seed winning preset and verified five-general level target", puzzle["recommendation"].get("recommendedPreset") == puzzle["win"] == puzzle["expected"]["winningPreset"] and puzzle["recommendation"]["minimumGenerals"] == 5 and puzzle["recommendation"]["averageHeroLevel"] == 12)
         loss_rows = puzzle["lossSettlement"]["troopLosses"] if puzzle["lossSettlement"] else []
         check("loss settlement records exact per-general troop casualties without granting rewards", len(loss_rows) == 5 and all(row["initial"] == 650 and row["casualties"] == row["initial"] - row["remaining"] and row["casualties"] > 0 for row in loss_rows) and puzzle["lossSettlement"]["rewards"] == {})
         print(f"PUZZLE A/B: loss={puzzle['loss']} win={puzzle['win']} seed={puzzle['expected']['seed']}", flush=True)

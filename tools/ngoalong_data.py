@@ -268,6 +268,9 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
             _provenance(recommendation.get("provenance"), source_ids, f"{path}.recommendedPreparation")
             _require(1 <= recommendation.get("minimumGenerals", 0) <= 5, f"{path} has invalid recommended general count")
             _require(1 <= recommendation.get("averageHeroLevel", 0) <= 40, f"{path} has invalid recommended average hero level")
+            recommended_preset = recommendation.get("recommendedPreset")
+            if recommended_preset is not None:
+                _require(recommended_preset in {family_id + "-" + plan_id for family_id in family_ids for plan_id in plan_ids}, f"{path} recommends an unknown formation preset")
         for mechanic in encounter.get("mechanics", []):
             _require(mechanic.get("type") in MECHANIC_TYPES, f"{path} uses unsupported mechanic {mechanic.get('type')!r}")
             if mechanic.get("statusId"):

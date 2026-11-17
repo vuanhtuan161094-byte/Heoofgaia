@@ -133,10 +133,11 @@ renderCampaign=function(){
   let html=nlPrepRenderCampaign();
   const recommendation=NL_GAME_DATA.campaign.encounters.find(item=>item.stage===selectedStage)?.recommendedPreparation;
   if(!recommendation)return html;
+  const recommendedPreset=NL_GAME_DATA.formations.presets?.find(item=>item.id===recommendation.recommendedPreset)||(()=>{const [familyId,planKey]=String(recommendation.recommendedPreset||'').split('-');const family=NL_GAME_DATA.formations.families.find(item=>item.id===familyId),plan=NL_GAME_DATA.formations.plans.find(item=>item.key===planKey);return family&&plan?{id:recommendation.recommendedPreset,title:`${family.name} · ${plan.name}`} : null;})();
   const deployed=game.slots.filter(id=>id&&game.hero[id]?.troops>=30);
   const averageLevel=deployed.length?Math.round(deployed.reduce((sum,id)=>sum+(game.hero[id]?.level||1),0)/deployed.length):0;
   const below=deployed.length<recommendation.minimumGenerals||averageLevel<recommendation.averageHeroLevel;
-  const hint=`<div class="panel mini-box" data-nl-preparation="${selectedStage}" role="note"><h3>🧭 Chuẩn bị trước cửa ải</h3><p class="tiny">Mốc thử nghiệm của Alpha: ${recommendation.minimumGenerals} tướng, cấp trung bình khoảng ${recommendation.averageHeroLevel}. Đây là gợi ý mô phỏng của dự án, không phải yêu cầu bắt buộc.</p><div class="line"><span>Đội hiện tại</span><b>${deployed.length}/5 tướng · cấp trung bình ${averageLevel}</b></div>${below?'<p class="tiny" style="color:#f0c97d">Cân nhắc chiêu mộ hoặc huấn luyện thêm trước khi thử cửa ải này.</p>':'<p class="tiny">Đội đã đạt mốc chuẩn bị thử nghiệm.</p>'}</div>`;
+  const hint=`<div class="panel mini-box" data-nl-preparation="${selectedStage}" role="note"><h3>🧭 Chuẩn bị trước cửa ải</h3><p class="tiny">Mốc thử nghiệm của Alpha: ${recommendation.minimumGenerals} tướng, cấp trung bình khoảng ${recommendation.averageHeroLevel}. Đây là gợi ý mô phỏng của dự án, không phải yêu cầu bắt buộc.</p>${recommendedPreset?`<p class="tiny" data-nl-recommended-preset="${recommendedPreset.id}">Đội hình gợi ý đã kiểm chứng: <b>${recommendedPreset.title}</b>.</p>`:''}<div class="line"><span>Đội hiện tại</span><b>${deployed.length}/5 tướng · cấp trung bình ${averageLevel}</b></div>${below?'<p class="tiny" style="color:#f0c97d">Cân nhắc chiêu mộ hoặc huấn luyện thêm trước khi thử cửa ải này.</p>':'<p class="tiny">Đội đã đạt mốc chuẩn bị thử nghiệm.</p>'}</div>`;
   return html.replace('<button class="gold-button" data-battle=',hint+'<button class="gold-button" data-battle=');
 };
 const nlBaseUnit=p2Unit;
