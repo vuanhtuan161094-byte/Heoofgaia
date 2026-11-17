@@ -10,11 +10,13 @@ Owner đã hủy ưu tiên Chiến Loạn-only và hybrid vào ngày 17/11/2026.
 
 ## Chạy game
 
-Artifact chơi được chỉ được xuất sau khi workflow full regression PASS trên đúng SHA. R02 đang được phát triển; artifact R02 chưa được phát hành. Bản baseline còn tải được ở [Actions run 44001013453](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44001013453) là CL-P6 trước khi owner đổi hướng, không đại diện gameplay hiện tại. Sau khi R02 exact-SHA PASS, workflow sẽ xuất artifact `muu-dinh-tam-quoc-nl-r02-playable`. Bản trong nhánh dev có thể cần build trước:
+R02 exact-SHA đã qua full regression ở SHA `01fe993084e4feda690b87d33863da1fe0995844`, Actions [44011034634](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44011034634); artifact `muu-dinh-tam-quoc-nl-r02-playable` có thể tải từ run. R03 đã có code và local Chromium 31/31; nhánh Bộ/Kỵ/Thương/Cung/Quan Văn, support, bốn encounter mới và stage 25 win đều chạy. Actions exact-SHA cùng artifact R03 đang chờ commit kế tiếp. Bản baseline [Actions run 44001013453](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44001013453) là CL-P6 trước khi owner đổi hướng, không đại diện gameplay hiện tại. Bản trong nhánh dev cần build trước:
 
 ```powershell
 python tools/build_ngoa_long_mode.py
+python tools/build_ngoa_long_r03.py
 python tools/build_ngoa_long_mode.py --check
+python tools/build_ngoa_long_r03.py --check
 ```
 
 Chỉ có một HTML phát hành. Save dùng localStorage key `muu_dinh_tam_quoc_v1`, schema v5, và hỗ trợ migration v1–v4.
@@ -23,6 +25,7 @@ Chỉ có một HTML phát hành. Save dùng localStorage key `muu_dinh_tam_quoc
 
 - `qa/ngoa_long_mode.py` — Quân Cơ Phủ/điều hướng desktop-mobile.
 - `qa/nl_r02.py` — hành trình chiến thuật và negative cases R02.
+- `qa/nl_r03.py` — tiến hóa binh chủng, tác dụng combat, save và bốn ải cơ chế riêng.
 - `qa/p2_full.py`, `qa/p2_advanced.py`, `qa/p3.py`, `qa/p3_balance.py` — chiến đấu, replay, preset, khắc chế và balance legacy.
 - `.github/workflows/ngoalong-qa.yml` — hồi quy cùng exact-SHA artifact.
 

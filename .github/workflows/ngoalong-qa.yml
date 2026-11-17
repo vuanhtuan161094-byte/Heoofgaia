@@ -1,4 +1,4 @@
-name: Muu Dinh Tam Quoc · Ngọa Long R02 gameplay and release
+name: Muu Dinh Tam Quoc · Ngọa Long R03 content and release
 
 on:
   push:
@@ -14,10 +14,12 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: NL-REBUILD-01 compile canonical Ngọa Long-first HTML
+      - name: Compile canonical Ngọa Long HTML and R03 patch
         run: |
           python tools/build_ngoa_long_mode.py
+          python tools/build_ngoa_long_r03.py
           python tools/build_ngoa_long_mode.py --check
+          python tools/build_ngoa_long_r03.py --check
       - name: Exact SHA and source identity
         run: |
           git rev-parse HEAD | tee qa/commit-sha.txt
@@ -37,6 +39,8 @@ jobs:
         run: python qa/ngoa_long_mode.py
       - name: NL-R02 tactical gameplay, settlement, migration and replay
         run: python qa/nl_r02.py
+      - name: NL-R03 troop lineages and tactical encounter content
+        run: python qa/nl_r03.py
       - name: CL-P1/P2 real battle and campaign loop
         run: python qa/cl_p1_p2.py
       - name: CL-P3 territory economy and 30-minute strategy loop
@@ -127,7 +131,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-nl-r02-playable
+          name: muu-dinh-tam-quoc-nl-r03-playable
           path: |
             index.html
             qa/commit-sha.txt
