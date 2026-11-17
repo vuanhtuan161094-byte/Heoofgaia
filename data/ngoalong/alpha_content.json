@@ -75,16 +75,21 @@
       "sourceId": "wiki-mobile-troops",
       "checkedAt": "2026-11-18",
       "displayedEntryCount": 73,
-      "classification": "VERIFIED",
+      "fieldProvenance": {
+        "sourceId": "VERIFIED",
+        "checkedAt": "VERIFIED",
+        "displayedEntryCount": "VERIFIED",
+        "note": "DERIVED"
+      },
       "groups": [
-        {"id": "infantry", "label": "Bộ Binh", "alphaInScope": true},
-        {"id": "spear", "label": "Thương Binh", "alphaInScope": true},
-        {"id": "cavalry", "label": "Kỵ Binh", "alphaInScope": true},
-        {"id": "archer", "label": "Cung Binh", "alphaInScope": true},
-        {"id": "strategist", "label": "Quan Văn", "alphaInScope": true},
-        {"id": "ship-small", "label": "Thuyền Nhỏ", "alphaInScope": false},
-        {"id": "ship-medium", "label": "Thuyền Vừa", "alphaInScope": false},
-        {"id": "ship-large", "label": "Thuyền Lớn", "alphaInScope": false}
+        {"id": "infantry", "label": "Bộ Binh", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "spear", "label": "Thương Binh", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "cavalry", "label": "Kỵ Binh", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "archer", "label": "Cung Binh", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "strategist", "label": "Quan Văn", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "ship-small", "label": "Thuyền Nhỏ", "alphaInScope": false, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "ship-medium", "label": "Thuyền Vừa", "alphaInScope": false, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "ship-large", "label": "Thuyền Lớn", "alphaInScope": false, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}}
       ],
       "note": "The page-level count is not a claim that all visible filter categories or entries are playable in this Alpha."
     },

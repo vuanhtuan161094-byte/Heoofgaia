@@ -78,12 +78,15 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
     troop_ids = {item.get("id") for item in troop_profiles if isinstance(item, dict)}
     _require(troop_ids and len(troop_ids) == len(troop_profiles), "troop profile IDs must be unique")
     group_audit = troops.get("wikiGroupAudit", {})
-    _require(group_audit.get("sourceId") in source_ids and group_audit.get("classification") == "VERIFIED", "troops.wikiGroupAudit needs a verified source")
+    _require(group_audit.get("sourceId") in source_ids, "troops.wikiGroupAudit needs a registered source")
     _require(group_audit.get("checkedAt") and isinstance(group_audit.get("displayedEntryCount"), int) and group_audit["displayedEntryCount"] > 0, "troops.wikiGroupAudit needs a dated page count")
+    audit_field_provenance = group_audit.get("fieldProvenance", {})
+    _require(audit_field_provenance == {"sourceId": "VERIFIED", "checkedAt": "VERIFIED", "displayedEntryCount": "VERIFIED", "note": "DERIVED"}, "troops.wikiGroupAudit fields need explicit per-field provenance")
     audited_groups = group_audit.get("groups", [])
     group_ids = {group.get("id") for group in audited_groups if isinstance(group, dict)}
     _require(len(group_ids) == len(audited_groups) and len(group_ids) == 8, "troops.wikiGroupAudit must preserve the eight visible Wiki group filters")
     _require(all(isinstance(group.get("label"), str) and group["label"] and isinstance(group.get("alphaInScope"), bool) for group in audited_groups), "troops.wikiGroupAudit groups need a label and explicit Alpha scope")
+    _require(all(group.get("fieldProvenance") == {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"} for group in audited_groups), "troops.wikiGroupAudit group fields need source-vs-project provenance")
     audited_alpha_groups = {group["id"] for group in audited_groups if group["alphaInScope"]}
     _require(audited_alpha_groups == {"infantry", "spear", "cavalry", "archer", "strategist"}, "Alpha troop scope differs from the five researched core groups")
     profiles_by_id = {item["id"]: item for item in troop_profiles}

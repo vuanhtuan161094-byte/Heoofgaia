@@ -51,8 +51,8 @@ Mỗi bản ghi nguồn có `sourceId`, URL, ngày/version và scope. Mỗi reco
 ## Wiki troop-scope audit follow-up — 2026-11-18
 
 - Rechecked the live official Binh Chủng page. It displays 73 listed entries and eight group filters: Bộ Binh, Thương Binh, Kỵ Binh, Cung Binh, Quan Văn, Thuyền Nhỏ, Thuyền Vừa and Thuyền Lớn. This does not reconcile the Wiki home page's 372 Binh Chủng count; the total remains UNKNOWN for import purposes.
-- `troops.wikiGroupAudit` records the observed page count/filter labels with `VERIFIED` source provenance and an explicit Alpha scope flag. The current Alpha keeps five core groups; ship groups remain out of scope. This is source-coverage metadata, not imported troop content.
-- `tools/ngoalong_data.py` rejects duplicate or missing group records, profile/source-label mismatches, and out-of-scope groups being promoted into the Alpha catalog. Chromium/game behavior and Save schema are unaffected by this audit metadata.
+- `troops.wikiGroupAudit` records the observed page count/filter labels with per-field provenance: labels/count `VERIFIED`, normalized IDs `DERIVED`, and Alpha inclusion `SIMULATED` project scope. The current Alpha keeps five core groups; ship groups remain out of scope. This is source-coverage metadata, not imported troop content.
+- `tools/ngoalong_data.py` rejects duplicate or missing group records, profile/source-label mismatches, provenance misclassification, and out-of-scope groups being promoted into the Alpha catalog. Chromium/game behavior and Save schema are unaffected by this audit metadata.
 - Sampled page entries demonstrate ranged/line targeting among some Cung units and higher strategy attack / weaker defense on the Quan Văn group label. These examples are not generalized into class-wide combat rules; entry-level review remains PARTIAL.
 
 ## P2 status lifecycle extension (2026-11-17)
