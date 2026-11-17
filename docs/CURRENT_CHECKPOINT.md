@@ -1,3 +1,12 @@
+# CURRENT OWNER DIRECTION — 17/11/2026: NGỌA LONG FIRST
+- **Latest owner decision overrides all CL/hybrid language below:** make an original game inspired primarily by **Ngọa Long**, focused on 3×3/5-hero formation, 24 presets, morale, skill tactics, troop progression, city growth and stage-based turn battles. Source of truth: `docs/NGOA_LONG_REBUILD_SPEC_V1.md`.
+- The previous CL-P6 release is historical technical baseline, not the target gameplay. Safe baseline Git SHA `172c0ef2192cf5aee8a0054337b1af9f5684f533`, Actions `43999433891` SUCCESS.
+- **NL-REBUILD-01:** source `tools/build_ngoa_long_mode.py` assembles the **Quân Cơ Phủ** dashboard into the *single canonical* offline `index.html` as a deterministic GitHub Actions build step, before Chromium regression and artifact publication. Focused QA `qa/ngoa_long_mode.py` tests the 3×3 display, actual navigation/battle and 1280/390 viewports.
+- A successful source-file commit does **not** mean completed Ngọa Long remake. Need exact-SHA CI SUCCESS on newest build, manual owner gameplay/art approval, physical-device validation and further NL-R02..R05.
+- Save schema v5 and existing CL content remain intact during transition; no Hero operations/merge/force push.
+
+---
+
 # CURRENT PRODUCT DIRECTION OVERRIDE — 17/11/2026
 - Owner withdrew Ngọa Long-first feature plan and selected **Chiến Loạn Tam Quốc (2025)** as gameplay reference. Keep game brand **Mưu Định Tam Quốc** as an original implementation; original screenshots/assets cannot be copied.
 - Product requirements and acceptance are in [CHIEN_LOAN_MASTER_SPEC.md](CHIEN_LOAN_MASTER_SPEC.md) and [CLTQ_REFERENCE_MATRIX.md](CLTQ_REFERENCE_MATRIX.md). Agent Codex authorization remains scoped to `main-ngoalong`; Hero isolation unchanged.
