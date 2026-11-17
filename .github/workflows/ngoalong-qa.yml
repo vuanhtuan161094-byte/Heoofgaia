@@ -52,6 +52,8 @@ jobs:
         run: python qa/nl_r04_pilot.py
       - name: NL 30-minute simulated onboarding, affordability and loss recovery gate
         run: python qa/nl_onboarding_30min.py
+      - name: NL 60-minute continuous first-ten-stage campaign progression gate
+        run: python qa/nl_onboarding_30min.py --minutes 60
       - name: CL-P1/P2 real battle and campaign loop
         run: python qa/cl_p1_p2.py
       - name: CL-P3 territory economy and 30-minute strategy loop

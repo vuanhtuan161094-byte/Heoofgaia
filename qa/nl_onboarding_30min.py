@@ -1,4 +1,4 @@
-"""Deterministic 30-minute simulated onboarding through real NL economy and combat APIs.
+"""Deterministic campaign onboarding through real NL economy and combat APIs.
 
 This is an accelerated browser simulation, not a human play session. It deliberately
 uses the saved game's real resource ticks, troop assignment, battle, and settlement.
@@ -7,6 +7,7 @@ from __future__ import annotations
 
 import json
 import sys
+import argparse
 from pathlib import Path
 
 from playwright.sync_api import sync_playwright
@@ -29,7 +30,7 @@ def check(name: str, condition: object) -> None:
     print(("PASS " if passed else "FAIL ") + name, flush=True)
 
 
-def run() -> int:
+def run(duration_minutes: int = 30) -> int:
     if hasattr(sys.stdout, "reconfigure"):
         sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     summaries: dict[str, dict[str, object]] = {}
@@ -61,6 +62,8 @@ def run() -> int:
             recruited_fifth = False
             training_actions = 0
             stage5_balance_sweep: list[dict[str, object]] = []
+            stage9_balance_sweep: list[dict[str, object]] = []
+            stage10_balance_sweep: list[dict[str, object]] = []
             history: list[dict[str, object]] = []
 
             def advance_five_minutes() -> None:
@@ -90,7 +93,7 @@ def run() -> int:
                 return available >= 360 and len([h for h in heroes if page.evaluate("id=>window.__P2_QA__.getGame().hero[id].troops", h) >= 30]) >= 3
 
             receipts_valid = True
-            for _ in range(6):
+            for _ in range(duration_minutes // 5):
                 advance_five_minutes()
                 g = page.evaluate("window.__P2_QA__.getGame()")
                 stage = len(g["cleared"]) + 1
@@ -107,6 +110,30 @@ def run() -> int:
                 if g["formation"] != formation:
                     page.evaluate("f=>{let g=window.__P2_QA__.getGame();g.formation=f;window.__P2_QA__.setGame(g)}", formation)
                 deterministic_seed = (seed_base + stage * 1009 + minutes * 7919) & 0xFFFFFFFF
+                if stage == 9 and not stage9_balance_sweep:
+                    trial_base = page.evaluate("window.__P2_QA__.getGame()")
+                    for candidate_power in (0.7, 0.8, 0.9, 1.0):
+                        page.evaluate("({state,power})=>{window.__P2_QA__.setGame(state);window.__P2_QA__.setEncounterPower(9,power)}", {"state": trial_base, "power": candidate_power})
+                        page.evaluate("s=>window.__P2_QA__.beginBattle(s,'campaign')", stage)
+                        page.evaluate("seed=>{window.__P2_QA__.debugBattle().seed=seed}", deterministic_seed)
+                        page.evaluate("window.__P2_QA__.skipBattle()")
+                        trial_game = page.evaluate("window.__P2_QA__.getGame()")
+                        trial_report = trial_game["battleReports"][0]
+                        stage9_balance_sweep.append({"power": candidate_power, "seed": deterministic_seed, "won": trial_report["won"], "totalTroopLosses": sum(row["casualties"] for row in trial_report.get("troopLosses", []))})
+                        page.evaluate("window.__P2_QA__.closeBattle('city')")
+                    page.evaluate("({state})=>{window.__P2_QA__.setEncounterPower(9,0.9);window.__P2_QA__.setGame(state)}", {"state": trial_base})
+                if stage == 10 and not stage10_balance_sweep:
+                    trial_base = page.evaluate("window.__P2_QA__.getGame()")
+                    for candidate_power in (0.5, 0.6, 0.7, 0.8, 0.9, 1.0):
+                        page.evaluate("({state,power})=>{window.__P2_QA__.setGame(state);window.__P2_QA__.setEncounterPower(10,power)}", {"state": trial_base, "power": candidate_power})
+                        page.evaluate("s=>window.__P2_QA__.beginBattle(s,'campaign')", stage)
+                        page.evaluate("seed=>{window.__P2_QA__.debugBattle().seed=seed}", deterministic_seed)
+                        page.evaluate("window.__P2_QA__.skipBattle()")
+                        trial_game = page.evaluate("window.__P2_QA__.getGame()")
+                        trial_report = trial_game["battleReports"][0]
+                        stage10_balance_sweep.append({"power": candidate_power, "seed": deterministic_seed, "won": trial_report["won"], "totalTroopLosses": sum(row["casualties"] for row in trial_report.get("troopLosses", []))})
+                        page.evaluate("window.__P2_QA__.closeBattle('city')")
+                    page.evaluate("({state})=>{window.__P2_QA__.setEncounterPower(10,0.8);window.__P2_QA__.setGame(state)}", {"state": trial_base})
                 if stage == 5 and minutes == 30 and recruited_fifth:
                     # Probe actual engine difficulty from one identical Save/roster/troop state.
                     # Restore the snapshot between candidates so only encounter power changes.
@@ -184,15 +211,23 @@ def run() -> int:
                 "troopsByHero": {hero: final["hero"][hero]["troops"] for hero in heroes},
                 "levelsByHero": {hero: final["hero"][hero]["level"] for hero in heroes},
                 "stage5BalanceSweep": stage5_balance_sweep,
+                "stage9BalanceSweep": stage9_balance_sweep,
+                "stage10BalanceSweep": stage10_balance_sweep,
                 "reportsValid": all_reports_valid,
                 "history": history,
             }
-            check(f"{profile}: 30 accelerated game-minutes use real production and persist v5 state", minutes == 30 and final["version"] == 5)
+            check(f"{profile}: {duration_minutes} accelerated game-minutes use real production and persist v5 state", minutes == duration_minutes and final["version"] == 5)
             check(f"{profile}: player can progress and recover after losses without a softlock", wins > 0 and len(unlocked) > 0 and blocked_actions <= 2)
+            if duration_minutes >= 60:
+                check(f"{profile}: continuous campaign run clears the first ten stages", set(range(1, 11)).issubset(unlocked))
             stage5_attempts = [row for row in history if row.get("stage") == 5 and row.get("event") in ("win", "loss")]
             check(f"{profile}: adapts from the stage-5 morale-lock loss to a spear-van clear after recruiting and training", len(stage5_attempts) == 2 and stage5_attempts[0]["event"] == "loss" and stage5_attempts[1]["event"] == "win" and 5 in unlocked and stage5_balance_sweep and all(row["seed"] == stage5_balance_sweep[0]["seed"] for row in stage5_balance_sweep))
             by_power = {float(row["power"]): row for row in stage5_balance_sweep}
             check(f"{profile}: same-seed Stage 5 sweep confirms 1.15 playable and 1.3/1.9 remain challenge settings", by_power.get(1.15, {}).get("won") is True and by_power.get(1.3, {}).get("won") is False and by_power.get(1.9, {}).get("won") is False)
+            if duration_minutes >= 60:
+                stage9_by_power = {float(row["power"]): row for row in stage9_balance_sweep}
+                stage10_by_power = {float(row["power"]): row for row in stage10_balance_sweep}
+                check(f"{profile}: same-state campaign sweeps validate stage 9 power 0.9 and stage 10 power 0.8 as clear thresholds", stage9_by_power.get(0.9, {}).get("won") is True and stage9_by_power.get(1.0, {}).get("won") is False and stage10_by_power.get(0.8, {}).get("won") is True and stage10_by_power.get(0.9, {}).get("won") is False)
             reported_battles = sum(row["event"] in ("win", "loss") for row in history)
             check(f"{profile}: every simulated battle has valid deterministic settlement receipts", all_reports_valid and wins + losses == reported_battles)
             check(f"{profile}: no resource underflow or negative troop counts", min(final["silver"], final["grain"], final["iron"], final["reserve"], *(final["hero"][hero]["troops"] for hero in heroes)) >= 0)
@@ -210,16 +245,18 @@ def run() -> int:
             apply_recommendation.click()
             applied_game = page.evaluate("window.__P2_QA__.getGame()")
             check(f"{profile}: campaign preparation action applies the verified spear-van preset through the real UI", applied_game["p3PresetId"] == "spear-van" and page.locator('[data-nl-apply-recommended="spear-van"]').is_disabled())
-            page.screenshot(path=str(ROOT / "qa" / f"nl-onboarding-{profile}.png"))
+            page.screenshot(path=str(ROOT / "qa" / f"nl-onboarding-{duration_minutes}-{profile}.png"))
             context.close()
         browser.close()
 
     check("Chromium produced no page exceptions", not page_errors)
-    report = {"milestone": "NL-GAP-12-ONBOARDING-30MIN-SIMULATED", "method": "accelerated deterministic Chromium simulation; not a human session", "profiles": summaries, "total": len(checks), "passed": sum(bool(row["pass"]) for row in checks), "failed": [row["name"] for row in checks if not row["pass"]], "pageErrors": page_errors, "checks": checks}
-    (ROOT / "qa" / "NL_ONBOARDING_30MIN.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
+    report = {"milestone": f"NL-ONBOARDING-{duration_minutes}MIN-SIMULATED", "method": "accelerated deterministic Chromium simulation; not a human session", "profiles": summaries, "total": len(checks), "passed": sum(bool(row["pass"]) for row in checks), "failed": [row["name"] for row in checks if not row["pass"]], "pageErrors": page_errors, "checks": checks}
+    (ROOT / "qa" / f"NL_ONBOARDING_{duration_minutes}MIN.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({"total": report["total"], "passed": report["passed"], "failed": report["failed"]}, ensure_ascii=False))
     return 0 if report["passed"] == report["total"] else 1
 
 
 if __name__ == "__main__":
-    sys.exit(run())
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--minutes", type=int, choices=(30, 60), default=30)
+    sys.exit(run(parser.parse_args().minutes))

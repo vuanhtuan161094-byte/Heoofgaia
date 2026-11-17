@@ -68,6 +68,12 @@ Mỗi bản ghi nguồn có `sourceId`, URL, ngày/version và scope. Mỗi reco
 - Current local candidate: all three profiles recruit/deploy the free fourth general and clear stages 1–4 (4W/2L each). At minute 25 they lose to Stage 5 (`enemyPower: 1.9`), recruit a fifth general and train through actual controls, then lose again at minute 30. Resources stay nonnegative, reports valid, retries remain available, and Save v5 reload passes. See `qa/NL_ONBOARDING_30MIN.json` and Chromium screenshots.
 - The live campaign displays a non-blocking **SIMULATED** recommendation of five generals and average level about 12; it does not change boss strength. This is an accelerated deterministic browser simulation, **not** a human 30-minute session. Stage 5 balance, physical-device review, owner acceptance, and exact-SHA Actions/artifacts for the current candidate remain pending. Outcomes are project balance evidence, not Wiki values.
 
+## NL-R02 first-ten campaign progression follow-up — 2026-11-18
+
+- A deterministic 60-minute Chromium campaign found a reproducible progression wall: all three profiles won stages 1–8, then lost three times at stage 9 with 900+ troops and positive resources. Same-state/same-seed encounter sweeps showed all three profiles win stage 9 at enemy power 0.9 and lose at 1.0; stage 10 wins at 0.8 and loses at 0.9/1.0. These encounter multipliers are **SIMULATED project balance**, not Wiki facts.
+- Alpha data now sets stages 9 and 10 to 0.9 and 0.8 respectively. The 60-minute browser gate records both sweeps, runs real economy/recruitment/training/battle/settlement, requires all first ten stages clear on three profiles, checks receipts/resources and reloads Save v5. Local result: **37/37 PASS**, no browser exceptions. Report: `qa/NL_ONBOARDING_60MIN.json`; screenshots: `qa/nl-onboarding-60-steady.png`, `qa/nl-onboarding-60-defensive.png`, `qa/nl-onboarding-60-fast.png`.
+- The result is deterministic accelerated simulation, not a human 60-minute session. Exact-SHA Actions/artifacts for this follow-up, human onboarding, owner balance approval and physical Windows/Android QA remain pending until the candidate is pushed and reviewed.
+
 ## Nguồn đã mở (2026-11-17)
 
 - [Wiki home](https://ngoalong.vnggames.com/ngoa-long-wiki) — labels itself Ngọa Long Mobile; homepage lists its catalog sections and counts.
