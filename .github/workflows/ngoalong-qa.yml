@@ -1,8 +1,8 @@
-name: Muu Dinh Tam Quoc · Ngọa Long-focused full regression and release
+name: Muu Dinh Tam Quoc · Ngọa Long R02 gameplay and release
 
 on:
   push:
-    branches: [main-ngoalong]
+    branches: [main-ngoalong, 'codex/**']
   workflow_dispatch:
 
 permissions:
@@ -33,8 +33,10 @@ jobs:
           python -m playwright install --with-deps chromium
       - name: P2 smoke Chromium
         run: python qa/smoke.py
-      - name: Ngọa Long 3x3 command center desktop/mobile browser gate
+      - name: Ngọa Long command center core navigation desktop/mobile
         run: python qa/ngoa_long_mode.py
+      - name: NL-R02 tactical gameplay, settlement, migration and replay
+        run: python qa/nl_r02.py
       - name: CL-P1/P2 real battle and campaign loop
         run: python qa/cl_p1_p2.py
       - name: CL-P3 territory economy and 30-minute strategy loop
@@ -106,7 +108,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-qa-evidence
+          name: muu-dinh-tam-quoc-nl-qa-evidence
           path: |
             qa/*.json
             qa/*.png
@@ -125,7 +127,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-p6-playable
+          name: muu-dinh-tam-quoc-nl-r02-playable
           path: |
             index.html
             qa/commit-sha.txt

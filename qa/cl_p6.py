@@ -150,6 +150,9 @@ def main() -> None:
         page.locator('[data-p6-endgame="1"]').click()
         endgame = page.evaluate("window.__P2_QA__.getBattle()")
         check("endgame opens a persistent PvE tier in the real CL battle engine", endgame["cltq"]["kind"] == "p6_endgame" and endgame["cltq"]["endgameTier"] == 1 and len(endgame["p"]) >= 3 and len(endgame["e"]) >= 3 and "Chinh Phạt Vô Tận" in page.locator(".battle-head h2").inner_text())
+        # Pause automatic actions while measuring the one-command event and cost.
+        # This keeps machine load from racing a scheduled turn into the assertion.
+        page.evaluate("window.__P2_QA__.debugBattle().next=Date.now()+120000")
         super_before = page.evaluate("window.__P2_QA__.getGame()")
         player_atk = page.evaluate("window.__P2_QA__.debugBattle().p[0].atk")
         event_count = len(endgame["events"])
