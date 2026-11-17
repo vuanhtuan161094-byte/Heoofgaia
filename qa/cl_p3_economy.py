@@ -19,7 +19,10 @@ def check(name, condition):
 
 def economy_fixture(page, owned, garrisons, grain=10000, minutes=10):
     state = page.evaluate("window.__P2_QA__.getGame()")
-    now = page.evaluate("Date.now()")
+    # Keep the synthetic transaction cursor ahead of the live 10-second timer.
+    # Otherwise a real timer tick can advance the ledger after this timestamp
+    # is captured, making process(now) appear to be a duplicate call.
+    now = page.evaluate("Date.now()+60000")
     state["lastTick"] = now + 86400000
     state["silver"], state["grain"], state["wood"], state["iron"] = 0, grain, 0, 0
     state["cltq"]["owners"] = {"capital": "player", **{n: "player" for n in owned}}
