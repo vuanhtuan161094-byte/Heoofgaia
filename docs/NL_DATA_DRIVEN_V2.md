@@ -16,10 +16,10 @@ Mỗi bản ghi nguồn có `sourceId`, URL, ngày/version và scope. Mỗi reco
 | --- | --- | --- |
 | P0 — khắc phục CI, chốt R02, giữ R03 | **DONE / TESTED** trên baseline `ee2db9cf1dd0d46579b7f8f1684d8b5d43762621`; exact Actions [44045933570](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44045933570) succeeded, gồm P4.1 frame/atlas/Chromium/video và artifacts. | PR R03 #5 và NL-R02 #6 vẫn riêng; không merge PR. CL/P4.1 gates giữ làm regression. |
 | P1 — schema, provenance, validator | **DONE / TESTED** trên exact SHA; data validator **18/18**. | 7 troop profiles; 11 nhánh evolution; 5 status; 6 formation families × 4 plans; 28 maps/NPCs/stages; 140 unit records; equipment slots và legacy technology IDs. Save v5 được kiểm tra. |
-| P1.1 — chuyển hệ tiến triển dự án hiện có sang catalog dữ liệu | **CODED / LOCAL TESTED; exact-SHA Actions PENDING.** | 19 project items, 8 research records, quy tắc cường hóa và huấn luyện tướng đọc từ JSON; giữ nguyên IDs và cân bằng đã có. Tất cả gắn `SIMULATED`, không phải catalogue Wiki. |
+| P1.1 — chuyển hệ tiến triển dự án hiện có sang catalog dữ liệu | **DONE / TESTED** trên exact SHA `e3b48743408927ee2f9f14d4f00899d1ee91c2db`; Actions [44054103331](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44054103331) succeeded. | 19 project items, 8 research records, quy tắc cường hóa và huấn luyện tướng đọc từ JSON; giữ nguyên IDs và cân bằng đã có. Chromium 21/21. Tất cả gắn `SIMULATED`, không phải catalogue Wiki. |
 | P2 — migrate troops/evolution/status | **DONE / TESTED** trên exact SHA; Chromium NL-R02 **23/23**, R03 **31/31**, NL-R01 **18/18**. | Counter relation, modifiers, campaign templates, skill overrides, common status multipliers, duration, burn/daze and six-by-four formation catalog read from the pack. A/B equal power stage 5, seed `8675309`: `shield-van` thua, `spear-van` thắng. |
 | P3 — 10–20 map/NPC có cấu trúc | **DONE / TESTED** trên exact SHA. | 28 stage records; 20 đầu có 5 unit mỗi NPC, slot 3×3 và liên kết troop/skill/status; field không rõ nguồn để null. Validator kiểm tra ID/slot/unlock/reward/skill/status/NPC/troop refs. |
-| P4 — tích hợp và phát hành Alpha HTML | **DONE / TESTED** trên baseline `ee2db9cf1dd0d46579b7f8f1684d8b5d43762621`; full workflow [44045933570](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44045933570) succeeded and uploaded HTML/evidence. | Playable artifact `muu-dinh-tam-quoc-ngoa-long-alpha-playable` ID `14311327667`, digest `sha256:69978fb26a037413da5fff987e3078fd1fd5ea9457dccb6839bef231b4d7f2a9`. Evidence artifact ID `14310614720`, digest `sha256:251f0794dd0dc36dc61b823e9471a63f7ee8871222649f875d80afbb4ed56e3c`. Save key `muu_dinh_tam_quoc_v1`, schema v5/migration/receipt/replay and CL state remain. Owner/device acceptance is not certified. |
+| P4 — tích hợp và phát hành Alpha HTML | **DONE / TESTED** trên exact SHA `e3b48743408927ee2f9f14d4f00899d1ee91c2db`; full workflow [44054103331](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44054103331) succeeded. | Playable artifact ID `14315576035`, digest `sha256:92a4358882b7242f7ce7283553a0cd7a39099272ef19a9020c5eb5e0d828d404`; evidence/video artifact ID `14314608743`, digest `sha256:bfc6f2a4dc74ec6e40b433fd661a12df2a5a8c7087a426c34a0247c52cf782fb`. Save key `muu_dinh_tam_quoc_v1`, schema v5/migration/receipt/replay and CL state remain. Owner/device acceptance is not certified. |
 | P5 — mỹ thuật/mở rộng | **PENDING theo gate.** Chưa mở production art mới. | Chỉ bắt đầu sau khi Alpha đạt các gate code/QA và người dùng có thể kiểm tra build. |
 
 ## Ranh giới dữ liệu đã chuyển và còn lại
@@ -38,10 +38,10 @@ Mỗi bản ghi nguồn có `sourceId`, URL, ngày/version và scope. Mỗi reco
 
 - Data gate: validator schema/provenance/reference graph; 18/18 Chromium-independent data assertions.
 - Browser: `qa/ngoa_long_mode.py` 18/18, `qa/nl_r02.py` 23/23, `qa/nl_r03.py` 31/31, `qa/cl_p6.py` 30/30 locally on generated HTML; existing P2/P3/CL/P4.1 regression steps stay enabled in Actions.
-- Progression slice: `qa/nl_progression.py` 21/21 locally, covering research effects on combat and economy, equipment buy/equip/reinforce, hero training, reload and Save v5 preservation; exact-SHA Actions remains pending for this slice.
+- Progression slice: `qa/nl_progression.py` 21/21 locally and in exact-SHA Actions [44054103331](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44054103331), covering research effects on combat/economy, equipment buy/equip/reinforce, hero training, reload and Save v5 preservation.
 - Reproducible build: `tools/build_ngoa_long_mode.py`, then `tools/build_ngoa_long_r03.py`; both `--check` gates passed after build. One offline HTML output.
 - Save contract: key/schema v5 unchanged; migration v1–v4, receipts and immutable replay remain covered by browser tests.
-- Baseline release artifact is published from exact SHA `ee2db9cf1dd0d46579b7f8f1684d8b5d43762621`; the current progression slice is not yet released. Human Windows/Android play and owner gameplay/art approval remain separate gates.
+- Playable artifact is published from exact SHA `e3b48743408927ee2f9f14d4f00899d1ee91c2db`; Human Windows/Android play and owner gameplay/art approval remain separate gates.
 
 ## Nguồn đã mở (2026-11-17)
 
@@ -54,4 +54,4 @@ Mỗi bản ghi nguồn có `sourceId`, URL, ngày/version và scope. Mỗi reco
 - [Trang Bị](https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi) and [Vật Phẩm](https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham) — generic categories/coverage only.
 - Khoa Kỹ and Dinh Phủ coverage is recorded as PARTIAL in the matrix; some advanced topics are NOT_READ. No count is treated as a content requirement.
 
-**Current handoff:** P0–P4 baseline is implemented, Chromium-tested and published from the exact SHA above. The new project-catalog progression slice has 21/21 local Chromium checks and awaits exact-SHA Actions. P5, full Wiki coverage, hero roster import, classic parity, human device play, and owner acceptance are pending.
+**Current handoff:** P0–P4 and the project-catalog progression slice are implemented, Chromium-tested and published from the exact SHA above. P5, full Wiki coverage, hero roster import, classic parity, human device play, and owner acceptance are pending.
