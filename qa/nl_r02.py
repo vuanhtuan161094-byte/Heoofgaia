@@ -219,11 +219,23 @@ def main():
         mobile.evaluate(f"{qa}.selectTab('city')")
         mobile.screenshot(path=str(ROOT / "qa" / "nl-r02-mobile-hub.png"), full_page=False)
         check("390px hub displays without horizontal overflow", mobile.evaluate("document.documentElement.scrollWidth <= innerWidth + 1") and mobile.locator('[data-nl-command] .nl-slot').count() == 9)
+        mobile.evaluate(f"{qa}.beginBattle(1,'campaign')")
+        mobile.wait_for_timeout(180)
+        mobile.screenshot(path=str(ROOT / "qa" / "nl-r02-mobile-battle.png"), full_page=False)
+        mobile_metrics = mobile.evaluate("""() => {
+          const rect = selector => { const node=document.querySelector(selector); if(!node)return null; const r=node.getBoundingClientRect(); return {left:r.left,right:r.right,top:r.top,bottom:r.bottom,width:r.width,height:r.height}; };
+          const head=rect('.battle-head'), title=rect('.battle-head>div:first-child'), tools=rect('.battle-tools'), canvas=rect('#battle-canvas'), roster=rect('#battle-mobile-roster'), log=rect('#combat-log');
+          const intersects=(a,b)=>!!a&&!!b&&a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+          return {viewport:innerWidth,scrollWidth:document.documentElement.scrollWidth,head,title,tools,canvas,roster,log,
+            toolsOverlapTitle:intersects(title,tools),rosterVisible:!!roster&&roster.height>0,rosterUnits:document.querySelectorAll('.mobile-roster-unit').length,
+            boundsFit:[head,tools,canvas,roster,log].every(r=>r&&r.left>=-1&&r.right<=innerWidth+1)};
+        }""")
+        check("390px real battle exposes readable live unit HP/morale while controls, canvas and log fit", mobile_metrics["scrollWidth"] <= mobile_metrics["viewport"] + 1 and mobile_metrics["boundsFit"] and not mobile_metrics["toolsOverlapTitle"] and mobile_metrics["rosterVisible"] and mobile_metrics["rosterUnits"] >= 6 and mobile.locator("#battle-canvas").count() == 1 and mobile.locator("#combat-log").count() == 1)
         mobile.close()
         check("Chromium recorded no JavaScript exceptions", not errors)
         browser.close()
 
-    report = {"milestone": "NL-R02", "total": len(checks), "passed": sum(item["pass"] for item in checks), "failed": [item["name"] for item in checks if not item["pass"]], "pageErrors": errors, "checks": checks, "counterAB": counter_rows, "drumAB": drum_results, "formationPuzzle": puzzle}
+    report = {"milestone": "NL-R02", "total": len(checks), "passed": sum(item["pass"] for item in checks), "failed": [item["name"] for item in checks if not item["pass"]], "pageErrors": errors, "checks": checks, "counterAB": counter_rows, "drumAB": drum_results, "formationPuzzle": puzzle, "mobileBattleLayout": mobile_metrics}
     (ROOT / "qa" / "NL_R02.json").write_text(json.dumps(report, ensure_ascii=False, indent=2), encoding="utf-8")
     print(json.dumps({"total": report["total"], "passed": report["passed"], "failed": report["failed"]}, ensure_ascii=False), flush=True)
     return 0 if report["passed"] == report["total"] else 1
