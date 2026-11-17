@@ -3,7 +3,7 @@
 Tên gọi REV trong dự án này là QUY TRÌNH REVIEW ĐƯỢC GHI NHẬN; hiện không có một plugin skill riêng tên REV trong danh mục được kết nối. Quy trình kế thừa evidence ladder và project direction đã áp dụng với game Tông Môn Bá Đạo, chỉnh cho HTML/Chromium.
 
 ## R — Research & requirements
-1. Dùng Chiến Loạn Tam Quốc (CMN Online, 2025) làm tham chiếu gameplay chính theo master spec; Ngọa Long chỉ còn là ảnh hưởng lịch sử khi phù hợp. Lưu URL + bản/niên đại + phân loại chứng cứ.
+1. **Quyết định mới 17/11/2026:** dùng **Ngọa Long** làm tham chiếu gameplay chính theo `docs/NGOA_LONG_REBUILD_SPEC_V1.md`; Chiến Loạn/hybrid là lịch sử. Lưu URL + bản/niên đại + VERIFIED/DERIVED/SIMULATED/UNKNOWN, không sao chép tài sản gốc.
 2. Gắn OBSERVED / DERIVED / SIMULATED / UNKNOWN cho từng luật; không tự khẳng định chi tiết thiếu chứng cứ.
 3. Chốt gameplay contract theo input → authoritative state → combat/event → receipt → save → UI; giữ hệ thống riêng biệt khỏi Hero.
 
