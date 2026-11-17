@@ -6,6 +6,9 @@ Owner explicitly withdrew the prior plan to make Ngọa Long the main reference 
 
 **Request interpretation:** reproduce the desired *functional genre experience* very closely, including world-map, troops, city, battle, conquest and progression; DO NOT duplicate proprietary game code, extracted assets, exact interface art/layout, distinctive text/sound, trademarked branding or pretend to be official. Legally original, separately maintainable implementation. Do not claim an officially confirmed sequel relation between 2018 and 2025 games without evidence.
 
+## ART DIRECTION OVERRIDE — 17 NOVEMBER 2026
+Owner requested a switch to **original hand-painted 2D illustration** across world map, city, general portraits, squads, battlefield and VFX. Mandatory source-of-truth: `docs/ART_DIRECTION_HANDPAINTED_2D_V1.md`. No inherited pixel/chibi/flat CSS geometry as default. The preferred pilot is full-color brush-and-ink semi-realistic painterly 2D; the exact variation needs owner approval from actual game screenshots. **Do not claim art migrated until new originals are integrated and tested.** Existing mechanics and Save remain unchanged.
+
 ## 1. EVIDENCE — PRIMARY REFERENCE
 - Official launch date 20 Aug 2025, 7 faction categories, 5v5 heroes, infantry/cavalry/archer, city development, gathering and commerce, national war: https://chienloantamquoc.vn/tin-tuc/chinh-thuc-ra-mat-ngay-20-08-2025 (OBSERVED product announcement).
 - Official newcomer tutorial: recruit → balance tank, damage, support → stage boss/manual or auto skill → territory buildings, upgrade generals/gear → guild/city war: https://chienloantamquoc.vn/tin-tuc/huong-dan-tan-thu-chien-loan-tam-quoc (OBSERVED documented mechanics).
