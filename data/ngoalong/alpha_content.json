@@ -16,9 +16,9 @@
     {
       "id": "wiki-mobile-troops",
       "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
-      "version": "Ngọa Long Mobile VNGGames Wiki; accessed 2026-11-17",
+      "version": "Ngọa Long Mobile VNGGames Wiki; accessed 2026-11-18",
       "classification": "VERIFIED",
-      "scope": "Generic troop group labels, three-way infantry/spear/cavalry relation, and existence of tiered evolution only; no item profiles, exact formulas, or assets imported."
+      "scope": "Current page displays eight troop filters (five core arms plus three ship sizes) and 73 listed entries; Alpha covers only the five core arms. Three-way infantry/spear/cavalry relation and tiered evolution are public observations. No individual troop records, exact formulas, or assets imported."
     },
     {
       "id": "wiki-mobile-dungeons",
@@ -71,6 +71,23 @@
     }
   ],
   "troops": {
+    "wikiGroupAudit": {
+      "sourceId": "wiki-mobile-troops",
+      "checkedAt": "2026-11-18",
+      "displayedEntryCount": 73,
+      "classification": "VERIFIED",
+      "groups": [
+        {"id": "infantry", "label": "Bộ Binh", "alphaInScope": true},
+        {"id": "spear", "label": "Thương Binh", "alphaInScope": true},
+        {"id": "cavalry", "label": "Kỵ Binh", "alphaInScope": true},
+        {"id": "archer", "label": "Cung Binh", "alphaInScope": true},
+        {"id": "strategist", "label": "Quan Văn", "alphaInScope": true},
+        {"id": "ship-small", "label": "Thuyền Nhỏ", "alphaInScope": false},
+        {"id": "ship-medium", "label": "Thuyền Vừa", "alphaInScope": false},
+        {"id": "ship-large", "label": "Thuyền Lớn", "alphaInScope": false}
+      ],
+      "note": "The page-level count is not a claim that all visible filter categories or entries are playable in this Alpha."
+    },
     "profiles": [
       {
         "id": "infantry",

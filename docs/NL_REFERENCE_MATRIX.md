@@ -1,6 +1,6 @@
 # NL-WIKI-01 — Ngọa Long reference and fidelity matrix
 
-**Research date:** 2026-11-17
+**Research date:** 2026-11-18 (continued review)
 **Repository baseline:** vuanhtuan161094-byte/Heoofgaia, main-ngoalong@05cb413b08e917e1aa4026fb54a5ff621373153e.
 **Product contract:** docs/NGOA_LONG_REBUILD_SPEC_V1.md; current owner instructions: GitHub Issue #4.
 **Research status:** **PARTIAL, core mechanics reviewed; Wiki not read exhaustively.** This matrix records what was opened, what remains unread, and which claims apply to which version.
@@ -17,11 +17,11 @@
 
 ## Wiki coverage ledger
 
-The home page currently advertises 364 Võ Tướng, 372 Binh Chủng, 320 Hiệu Ứng, 674 Vật Phẩm, 392 Trang Bị, and 249 Phó Bản. Those totals describe the current Wiki catalogue only. The opened Phó Bản page reports 219 maps / 65 Thành Chính milestones, and the opened Binh Chủng page reports 73 entries in its displayed list. The catalogue totals therefore remain **UNKNOWN / internally inconsistent for counting purposes**; no product data is inferred from those totals.
+The home page currently advertises 364 Võ Tướng, 372 Binh Chủng, 320 Hiệu Ứng, 674 Vật Phẩm, 392 Trang Bị, and 249 Phó Bản. The current Binh Chủng page separately displays 73 entries and eight filters: Bộ, Thương, Kỵ, Cung, Quan Văn, Thuyền Nhỏ, Thuyền Vừa, and Thuyền Lớn. The opened Phó Bản page reports 219 maps / 65 Thành Chính milestones. The catalogue totals remain **UNKNOWN / internally inconsistent for counting purposes**; the Alpha imports no count as playable content.
 
 | Required group | Coverage | Opened source and verified scope | Not established / next research |
 | --- | --- | --- | --- |
-| Binh Chủng: Bộ, Thương, Kỵ, Cung, Quan Văn and evolution/counters | **PARTIAL** | [Current official Binh Chủng page](https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung): five named classes, tiered entries, examples of class matchups and specialized unit effects. The Wiki states Bộ counters Thương, Thương counters Kỵ, Kỵ counters Bộ. | Not all entries, class-specific skills, later tiers, or the 372-vs-73 count discrepancy were audited. |
+| Binh Chủng: Bộ, Thương, Kỵ, Cung, Quan Văn and related groups | **PARTIAL** | [Current official Binh Chủng page](https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung), rechecked 2026-11-18: eight group filters and 73 displayed entries. Explicitly states Bộ > Thương > Kỵ > Bộ. Visible Cung examples include back-row targeting and line attacks; Quan Văn is described as high strategy attack with weak defense. Data pack records all eight labels, but Alpha includes only the five core arms. | Entry-level effects, full evolution tree, ship combat and the 372-home-count vs 73 displayed-entry discrepancy are not resolved. Sampled Cung/Quan Văn descriptions do not define universal class rules. |
 | Võ Tướng | **PARTIAL** | [Current official Võ Tướng index](https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong): 364 catalogue count and faction/rarity grouping. | Individual skill descriptions, progression and historical-vs-mobile roster mapping were not reviewed one by one. |
 | Hiệu Ứng | **PARTIAL** | [Current official Hiệu Ứng index](https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung): current page advertises 320 entries and four groups; visible samples explicitly include stackable effects and effects marked unremovable, as well as morale suppression. These are capability examples only. | Full stack rules, cleanse/immunity interactions, duration, ordering and cross-effect behavior remain unread. Project supports generic stacks; current burn cap and per-stack tick are SIMULATED and are not imported Wiki values. |
 | Sĩ khí / chiến pháp | **PARTIAL** | Current Binh Chủng and Hiệu Ứng examples; [official classic Quan Vũ guide (26/07/2012)](https://ngoalong.zing.vn/tin-tuc/huong-dan/ho-tuong-quan-vu-moc-them-canh-sau-giac-ngo.html) describes a skill lowering target morale and raising counterattack; [classic formation report (02/08/2012)](https://gamelandvn.com/tim-hieu-ngu-dai-tran-phap-trong-ngoa-long-2/) describes a drum-heavy opening and its survivability trade-off. | No source proves the same thresholds, values, or skill timing across classic 2012 and current Mobile. Exact project values stay SIMULATED. |
@@ -37,12 +37,12 @@ The home page currently advertises 364 Võ Tướng, 372 Binh Chủng, 320 Hiệ
 
 ## Source register
 
-All Wiki pages below were accessed on **2026-11-17**; the official pages are live/current, not archived classic-client captures.
+Wiki page snapshots listed below were first accessed on **2026-11-17**; the Binh Chủng page was rechecked on **2026-11-18**. Official pages are live/current, not archived classic-client captures.
 
 | ID | Source | Version/context | Claims used |
 | --- | --- | --- | --- |
 | NL-W01 | [Official Wiki home](https://ngoalong.vnggames.com/ngoa-long-wiki) | VNG-WIKI-CURRENT; labels the product Ngọa Long Wiki and Ngọa Long VNG; current catalogue counts. | Version identification and coverage counts only. |
-| NL-W02 | [Binh Chủng](https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung) | VNG-WIKI-CURRENT; current unit catalogue. | Five class labels, tier structure, explicit Bộ–Thương–Kỵ counter descriptions, examples of morale/status and unit specialties. |
+| NL-W02 | [Binh Chủng](https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung) | VNG-WIKI-CURRENT; rechecked 2026-11-18. | Eight visible group filters / 73 displayed entries; five core arm labels, three ship-size labels, Bộ–Thương–Kỵ counters, and sampled ranged/strategy attack specialties. Samples are not generalized into class-wide rules. |
 | NL-W03 | [Hiệu Ứng](https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung) | VNG-WIKI-CURRENT; accessed 2026-11-17; current status catalogue. | Four broad categories and visible examples of stackable, unremovable and morale-suppression capabilities. No status text or formula is imported; project parameters stay SIMULATED. |
 | NL-W04 | [An Trận](https://ngoalong.vnggames.com/ngoa-long-wiki/an-tran) | VNG-WIKI-CURRENT; army seals and linked formations. | Formation-linked seal examples; not project formation-count evidence. |
 | NL-W05 | [Phó Bản](https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban) and [representative NPC detail](https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=95&map=2&side=vn) | VNG-WIKI-CURRENT. | Ordered maps/NPCs, formations, troop links, battle rules, drops and reports. |

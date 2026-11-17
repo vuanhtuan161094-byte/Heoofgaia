@@ -77,6 +77,18 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
     troop_profiles = troops.get("profiles", [])
     troop_ids = {item.get("id") for item in troop_profiles if isinstance(item, dict)}
     _require(troop_ids and len(troop_ids) == len(troop_profiles), "troop profile IDs must be unique")
+    group_audit = troops.get("wikiGroupAudit", {})
+    _require(group_audit.get("sourceId") in source_ids and group_audit.get("classification") == "VERIFIED", "troops.wikiGroupAudit needs a verified source")
+    _require(group_audit.get("checkedAt") and isinstance(group_audit.get("displayedEntryCount"), int) and group_audit["displayedEntryCount"] > 0, "troops.wikiGroupAudit needs a dated page count")
+    audited_groups = group_audit.get("groups", [])
+    group_ids = {group.get("id") for group in audited_groups if isinstance(group, dict)}
+    _require(len(group_ids) == len(audited_groups) and len(group_ids) == 8, "troops.wikiGroupAudit must preserve the eight visible Wiki group filters")
+    _require(all(isinstance(group.get("label"), str) and group["label"] and isinstance(group.get("alphaInScope"), bool) for group in audited_groups), "troops.wikiGroupAudit groups need a label and explicit Alpha scope")
+    audited_alpha_groups = {group["id"] for group in audited_groups if group["alphaInScope"]}
+    _require(audited_alpha_groups == {"infantry", "spear", "cavalry", "archer", "strategist"}, "Alpha troop scope differs from the five researched core groups")
+    profiles_by_id = {item["id"]: item for item in troop_profiles}
+    _require(all(group_id in profiles_by_id and profiles_by_id[group_id].get("wikiGroup") == next(group["label"] for group in audited_groups if group["id"] == group_id) for group_id in audited_alpha_groups), "Alpha troop profiles do not match audited Wiki group labels")
+    _require(not (group_ids - audited_alpha_groups) & troop_ids, "out-of-scope Wiki groups must not enter the Alpha troop catalog")
     for index, troop in enumerate(troop_profiles):
         path = f"troops.profiles[{index}]"
         _provenance(troop.get("provenance"), source_ids, path)

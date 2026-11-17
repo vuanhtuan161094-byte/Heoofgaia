@@ -48,6 +48,13 @@ Mỗi bản ghi nguồn có `sourceId`, URL, ngày/version và scope. Mỗi reco
 - Save contract: key/schema v5 unchanged; migration v1–v4, receipts and immutable replay remain covered by browser tests.
 - Latest playable artifact is published from exact SHA `4e1f0d2b224d9f7771c34eb74b0a6cf3719832c4`; see P2 artifact evidence above. Human Windows/Android play and owner gameplay/art approval remain separate gates.
 
+## Wiki troop-scope audit follow-up — 2026-11-18
+
+- Rechecked the live official Binh Chủng page. It displays 73 listed entries and eight group filters: Bộ Binh, Thương Binh, Kỵ Binh, Cung Binh, Quan Văn, Thuyền Nhỏ, Thuyền Vừa and Thuyền Lớn. This does not reconcile the Wiki home page's 372 Binh Chủng count; the total remains UNKNOWN for import purposes.
+- `troops.wikiGroupAudit` records the observed page count/filter labels with `VERIFIED` source provenance and an explicit Alpha scope flag. The current Alpha keeps five core groups; ship groups remain out of scope. This is source-coverage metadata, not imported troop content.
+- `tools/ngoalong_data.py` rejects duplicate or missing group records, profile/source-label mismatches, and out-of-scope groups being promoted into the Alpha catalog. Chromium/game behavior and Save schema are unaffected by this audit metadata.
+- Sampled page entries demonstrate ranged/line targeting among some Cung units and higher strategy attack / weaker defense on the Quan Văn group label. These examples are not generalized into class-wide combat rules; entry-level review remains PARTIAL.
+
 ## P2 status lifecycle extension (2026-11-17)
 
 - Runtime status lifecycle is now driven by `statusEffects.effects`: `stackingPolicy`, `expirePhase`, `removeAfterOwnAction`, `skipActionChance`, damage/defense/morale factors, and optional `roundEndDamageFraction`. Validation rejects unknown or contradictory lifecycle metadata. All new values and existing formulas remain `SIMULATED`; they describe this project's combat engine, not claimed Mobile or classic rules.

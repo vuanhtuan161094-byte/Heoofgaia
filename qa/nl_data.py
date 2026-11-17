@@ -32,6 +32,14 @@ def run() -> int:
     pack = load_pack(ROOT)
     check("pack is versioned and explicitly separates current Mobile Wiki from classic parity", pack["schemaVersion"] == 1 and pack["gameVersionScope"] == {"target": "Mưu Định Tam Quốc standalone alpha", "classicWebgameParity": "UNKNOWN", "currentWikiIsMobile": True})
     check("all unknown troop stats remain null and generic categories have provenance", all(t["stats"] and all(value is None for value in t["stats"].values()) and t["provenance"].get("classification") in {"VERIFIED", "SIMULATED"} for t in pack["troops"]["profiles"]))
+    wiki_groups = pack["troops"]["wikiGroupAudit"]
+    check("current Wiki troop audit records all eight filters and keeps three ship groups outside the five-group Alpha", wiki_groups["displayedEntryCount"] == 73 and {group["id"] for group in wiki_groups["groups"] if group["alphaInScope"]} == {"infantry", "spear", "cavalry", "archer", "strategist"} and {group["id"] for group in wiki_groups["groups"] if not group["alphaInScope"]} == {"ship-small", "ship-medium", "ship-large"})
+    out_of_scope_troop = copy.deepcopy(pack)
+    next(group for group in out_of_scope_troop["troops"]["wikiGroupAudit"]["groups"] if group["id"] == "ship-small")["alphaInScope"] = True
+    check("validator rejects an out-of-scope ship category promoted into the five-group Alpha", rejected(out_of_scope_troop))
+    mismatched_wiki_label = copy.deepcopy(pack)
+    mismatched_wiki_label["troops"]["profiles"][0]["wikiGroup"] = "Thương Binh"
+    check("validator rejects a playable troop label that disagrees with the source-group audit", rejected(mismatched_wiki_label))
     check("hero schema is ready while unimported hero fields stay explicitly UNKNOWN", not pack["heroes"]["profiles"] and pack["heroes"]["catalogueCoverage"] == "NOT_IMPORTED_IN_ALPHA" and all(pack["heroes"]["schema"]["fieldProvenance"][field] == "UNKNOWN" for field in ("level", "stats", "skillIds")))
     roster = pack["heroes"]["projectRoster"]
     check("existing runtime hero roster is data-driven with simulated per-field provenance, separate from Wiki profiles", len(roster) == 14 and not pack["heroes"]["profiles"] and all(hero["provenance"]["classification"] == "SIMULATED" and all(value == "SIMULATED" for value in hero["fieldProvenance"].values()) for hero in roster))
