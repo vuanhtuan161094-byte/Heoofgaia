@@ -1,5 +1,15 @@
 # Ngọa Long Alpha release log
 
+## NL-P1.1 field-level Wiki provenance audit — 2026-11-18
+
+- **Code SHA:** `2e7f0cbd3a7cfe3929dd3e589ad6a210da02b7ec` on `codex/nl-wiki-01-r02-20261117`.
+- **DONE:** refined the eight-filter / 73-entry Binh Chủng audit so each field carries the right authority: visible group labels/count are `VERIFIED`, normalized IDs are `DERIVED`, and inclusion in this game's five-group Alpha is `SIMULATED`. The three ship groups remain explicitly outside Alpha scope. This does not treat the Wiki's homepage count as a playable roster.
+- **Code:** `tools/ngoalong_data.py` rejects provenance classification drift as well as missing/duplicate/out-of-scope group records; canonical `index.html` was rebuilt from `data/ngoalong/alpha_content.json`. No combat coefficient, Save field, or Hero data changed.
+- **TESTED locally:** data/provenance **31/31**; NL-R01 smoke **18/18**; R02 Chromium **27/27**; R03 Chromium **35/35**; progression **24/24**; all source builders pass `--check`. Latest desktop/mobile battle and R03 screenshots are in `qa/nl-r02-desktop-battle.png`, `qa/nl-r02-mobile-battle.png`, and `qa/nl-r03-stage25.png`.
+- **Exact-SHA Actions:** [run 44182990968](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44182990968) **SUCCESS** on this SHA. The full workflow passed R02, R03, R04 pilot, 30/60-minute simulated progression, legacy CL/P2/P3/P4/P4.1 gates, video capture and artifact publication.
+- **Artifacts:** playable offline Alpha [14373553841](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44182990968/artifacts/14373553841), digest `sha256:73433400ea9691d3acadebbe1fe0e3c6acd5014d0c2f66c4a27413ea1284c084`; QA/screenshots/video [14374755855](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44182990968/artifacts/14374755855), digest `sha256:5379f355b41514edfcfdccf9f19cb17cdadc6834637bc39218391698e34abd13`.
+- **PENDING:** Wiki coverage is still PARTIAL and Mobile/classic parity UNKNOWN. Human Alpha play, physical-device QA and owner gameplay/art acceptance are not certified. V2 keeps broad content/art expansion behind Alpha review.
+
 ## NL-P1 Wiki troop-group coverage audit — 2026-11-18
 
 - **Code SHA:** `c802872a55e8450b9a071d593b8961d20fe3e951` on `codex/nl-wiki-01-r02-20261117`.
