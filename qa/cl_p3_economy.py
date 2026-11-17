@@ -19,10 +19,7 @@ def check(name, condition):
 
 def economy_fixture(page, owned, garrisons, grain=10000, minutes=10):
     state = page.evaluate("window.__P2_QA__.getGame()")
-    # Keep the synthetic transaction cursor ahead of the live 10-second timer.
-    # Otherwise a real timer tick can advance the ledger after this timestamp
-    # is captured, making process(now) appear to be a duplicate call.
-    now = page.evaluate("Date.now()+60000")
+    now = page.evaluate("Date.now()")
     state["lastTick"] = now + 86400000
     state["silver"], state["grain"], state["wood"], state["iron"] = 0, grain, 0, 0
     state["cltq"]["owners"] = {"capital": "player", **{n: "player" for n in owned}}
@@ -54,7 +51,7 @@ def main():
         browser = p.chromium.launch(headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"])
         context = browser.new_context(viewport={"width": 1280, "height": 720})
         page = context.new_page()
-        page.add_init_script("window.__P2_ENABLE_QA__=true;")
+        page.add_init_script("window.__P2_ENABLE_QA__=true;const __clP3Interval=window.setInterval.bind(window);window.setInterval=(fn,delay,...args)=>delay===1000?0:__clP3Interval(fn,delay,...args);")
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto(HTML_PATH.as_uri(), wait_until="domcontentloaded", timeout=30000)
         page.wait_for_timeout(250)
