@@ -103,7 +103,7 @@ p2Skill=function(unit){
 };
 const nlBaseMorale=p2Morale;
 p2Morale=function(unit,delta){
-  if(delta>0&&unit&&p2Has(unit,'morale-seal')&&NL_GAME_DATA.statusEffects.effects['morale-seal'].moraleGainMultiplier===0)return unit.morale||0;
+  if(delta>0&&unit){const factor=p2StatusFactor(unit,'moraleGainMultiplier');if(factor===0)return unit.morale||0;delta*=factor;}
   return nlBaseMorale(unit,delta);
 };
 const nlBaseHit=p2Hit;
@@ -217,7 +217,7 @@ document.addEventListener('click',event=>{
   if(switching)game.troopModes[id]='spear';else delete game.troopModes[id];
   save();render();
 });
-if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign(window.__P2_QA__,{p2Hit,p2Target,perform:p2Perform,morale:p2Morale,status:p2Status,encounters:NL_R02_ENCOUNTERS.map(item=>({...item,troops:[...item.troops]})),counters:{...NL_R02_COUNTERS},moraleSealSkill:nlSimaSkill.apply,data:structuredClone(NL_GAME_DATA)});
+if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign(window.__P2_QA__,{p2Hit,p2Target,perform:p2Perform,morale:p2Morale,status:p2Status,statusFactor:p2StatusFactor,roundEnd:p2BuffRound,registerStatusSpec:(id,spec)=>{NL_GAME_DATA.statusEffects.effects[id]=spec;},encounters:NL_R02_ENCOUNTERS.map(item=>({...item,troops:[...item.troops]})),counters:{...NL_R02_COUNTERS},moraleSealSkill:nlSimaSkill.apply,data:structuredClone(NL_GAME_DATA)});
 if(window.__P2_ENABLE_QA__&&window.__P3_QA__)Object.assign(window.__P3_QA__,{target:p2Target,counter:p3CounterFactor,unit:p2Unit});
 // === end NL-REBUILD-01 ===
 """
@@ -287,11 +287,6 @@ def prepare_combat_data_bindings(source: str) -> str:
             "campaign NPC formation slots",
         ),
         (
-            "const attackerPower=a[property]*(p2Has(a,'daze')?.75:1),defenderPower=t[guard]*(p2Has(t,'break')?.69:1)*(p2Has(t,'guard')?1.28:1);",
-            "const attackerPower=a[property]*(p2Has(a,'daze')?NL_GAME_DATA.statusEffects.effects.daze.outgoingDamageMultiplier:1),defenderPower=t[guard]*(p2Has(t,'break')?NL_GAME_DATA.statusEffects.effects.break.incomingDefenseMultiplier:1)*(p2Has(t,'guard')?NL_GAME_DATA.statusEffects.effects.guard.incomingDefenseMultiplier:1);",
-            "common combat status multipliers",
-        ),
-        (
             "if(P2_COUNTERS[a.troop]===t.troop)advantage=1.22;",
             "if(P2_COUNTERS[a.troop]===t.troop)advantage=battle?.mode==='cltq'?1.22:(NL_GAME_DATA.troops.counterCycle.find(edge=>edge.attacker===a.troop&&edge.defender===t.troop)?.multiplier||1);",
             "counter advantage multiplier",
@@ -300,16 +295,6 @@ def prepare_combat_data_bindings(source: str) -> str:
             "if(P2_COUNTERS[t.troop]===a.troop)advantage=.82;",
             "if(P2_COUNTERS[t.troop]===a.troop)advantage=battle?.mode==='cltq'?.82:(NL_GAME_DATA.troops.counterCycle.find(edge=>edge.attacker===t.troop&&edge.defender===a.troop)?.disadvantageMultiplier||1);",
             "counter disadvantage multiplier",
-        ),
-        (
-            "Math.round(u.maxHp*.045)",
-            "Math.round(u.maxHp*NL_GAME_DATA.statusEffects.effects.burn.maxHpDamagePerRound)",
-            "burn tick ratio",
-        ),
-        (
-            "stunned=dazed&&p2Random()<.35",
-            "stunned=dazed&&p2Random()<NL_GAME_DATA.statusEffects.effects.daze.skipActionChance",
-            "daze action-loss chance",
         ),
         (
             "descriptor.apply==='daze'?1:2",

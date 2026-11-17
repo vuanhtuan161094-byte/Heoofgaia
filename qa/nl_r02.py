@@ -132,6 +132,20 @@ def main():
         check("Tư Mã Ý's real strategy applies morale seal and the seal blocks gains but permits drains", seal["skill"] == "Quỷ Mưu" and seal["sealSkill"] == "morale-seal" and seal["hasSeal"] and seal["afterGain"] == seal["before"] and seal["afterDrain"] == seal["before"] - 15)
         check("combat event records deterministic AI target scores and visible explanation", isinstance(seal["decision"], dict) and seal["decision"]["target"] and "AI:" in seal["description"] and len(seal["decision"]["candidates"]) >= 1)
 
+        # Synthetic, project-owned status proves the shared engine can apply a new effect from data alone.
+        status_probe = page.evaluate(f"""() => {{
+          const q=window.__P2_QA__;q.closeBattle('city');q.setGame(q.getGame());q.beginBattle(1,'campaign');
+          const b=q.debugBattle(),unit=b.p[0],source=b.e[0],spec={{duration:3,stackingPolicy:'refresh-longer',expirePhase:'round-end',removeAfterOwnAction:false,incomingDefenseMultiplier:.5,moraleGainMultiplier:.4,roundEndDamageFraction:.1}};
+          q.registerStatusSpec('qa-vulnerability',spec);unit.effects=[];unit.hp=unit.maxHp;unit.morale=20;
+          q.status(unit,'qa-vulnerability',1);q.status(unit,'qa-vulnerability',3);const refreshed=unit.effects[0].turns;
+          b.seed=8123;const affected=q.p2Hit(source,unit,'physical').amount;unit.effects=[];b.seed=8123;const baseline=q.p2Hit(source,unit,'physical').amount;
+          q.status(unit,'qa-vulnerability',3);unit.morale=20;const moraleBefore=unit.morale,moraleFactor=q.statusFactor(unit,'moraleGainMultiplier');q.morale(unit,25);const morale=unit.morale,hp=unit.hp;q.roundEnd();const tick=hp-unit.hp,remaining=unit.effects[0]?.turns||0;
+          const control={{duration:1,stackingPolicy:'refresh-longer',expirePhase:'owner-action',removeAfterOwnAction:true,skipActionChance:1}};
+          q.registerStatusSpec('qa-control',control);const actor=b.p[0];actor.effects=[];q.status(actor,'qa-control',1);q.perform(actor);
+          return {{refreshed,affected,baseline,moraleBefore,morale,moraleFactor,tick,expectedTick:Math.max(8,Math.round(unit.maxHp*.1)),remaining,controlMode:b.events.at(-1).mode,controlRemoved:!actor.effects.some(e=>e.kind==='qa-control')}};
+        }}""")
+        check("new status definitions drive stacking, damage, morale, round ticks and owner-action control generically", status_probe["refreshed"] == 3 and status_probe["affected"] > status_probe["baseline"] and status_probe["moraleFactor"] == .4 and status_probe["morale"] == 30 and status_probe["tick"] == status_probe["expectedTick"] and status_probe["remaining"] == 2 and status_probe["controlMode"] == "stunned" and status_probe["controlRemoved"])
+
         # Verify the authored fifth-map A/B at one exact NPC tuning and seed.
         puzzle = page.evaluate(f"""() => {{
           const q=window.__P2_QA__,presets=window.__P3_QA__.presets,base=q.getGame(),out=[],expected=q.data.campaign.encounters.find(item=>item.stage===5).qaExpectations.sameSeedFormationPuzzle;

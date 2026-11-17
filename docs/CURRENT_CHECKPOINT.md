@@ -104,3 +104,8 @@ NEXT at that historical checkpoint: GitHub Actions exact-SHA and review; the cur
 - Local CHECKED: 18/18 P4.1, 7/7 smoke, 31/31 P2 full, 12/12 P2 advanced, 74/74 P3, 14/14 P4, 4/4 P4 asset, 360 P3 balance scenario executions.
 - Local Chromium video: `qa/p41-combat-1280x720.mp4`, 52 actual rendered viewport frames at 12fps; visual time deliberately sampled from four real combat events (including a skill), not a full-speed live FPS recording.
 - GitHub exact-SHA: CHECK action `NgoaLong P4.1 complete QA` on final commit, don't accept previous SHA; playable artifact only if full PASS. Owner visual + physical Windows/Android still PENDING.
+# Current checkpoint — NL-R02 data-driven status runtime (2026-11-17)
+
+- Working branch: `codex/nl-wiki-01-r02-20261117`; implementation changes are local and not yet published. No merge/force push; Hero untouched; Save key/schema v5 preserved.
+- Status lifecycle now resolves from the validated JSON catalog. Local gates: data 24/24, NL-R02 Chromium 24/24, NL-R03 31/31, progression 24/24, CL-P4 23/23; build/check passed. Exact-SHA GitHub Actions and its playable/evidence artifacts remain pending for the release SHA.
+- Remaining: complete exact-SHA workflow/artifact publication, update this checkpoint with run/artifact IDs and digest, continue Wiki coverage (still partial), owner/physical-device review, and gated P5/R04.

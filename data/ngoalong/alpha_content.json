@@ -847,7 +847,7 @@
       "sourceId": "project-alpha"
     }
   },
-  "statusEffects": {
+  "statusEffects":   {
     "effects": {
       "break": {
         "duration": 2,
@@ -858,8 +858,14 @@
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
-          "incomingDefenseMultiplier": "SIMULATED"
-        }
+          "incomingDefenseMultiplier": "SIMULATED",
+          "stackingPolicy": "SIMULATED",
+          "expirePhase": "SIMULATED",
+          "removeAfterOwnAction": "SIMULATED"
+        },
+        "stackingPolicy": "refresh-longer",
+        "expirePhase": "round-end",
+        "removeAfterOwnAction": false
       },
       "guard": {
         "duration": 2,
@@ -870,8 +876,14 @@
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
-          "incomingDefenseMultiplier": "SIMULATED"
-        }
+          "incomingDefenseMultiplier": "SIMULATED",
+          "stackingPolicy": "SIMULATED",
+          "expirePhase": "SIMULATED",
+          "removeAfterOwnAction": "SIMULATED"
+        },
+        "stackingPolicy": "refresh-longer",
+        "expirePhase": "round-end",
+        "removeAfterOwnAction": false
       },
       "daze": {
         "duration": 1,
@@ -884,20 +896,32 @@
         "fieldProvenance": {
           "duration": "SIMULATED",
           "outgoingDamageMultiplier": "SIMULATED",
-          "skipActionChance": "SIMULATED"
-        }
+          "skipActionChance": "SIMULATED",
+          "stackingPolicy": "SIMULATED",
+          "expirePhase": "SIMULATED",
+          "removeAfterOwnAction": "SIMULATED"
+        },
+        "stackingPolicy": "refresh-longer",
+        "expirePhase": "owner-action",
+        "removeAfterOwnAction": true
       },
       "burn": {
         "duration": 2,
-        "maxHpDamagePerRound": 0.045,
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
-          "maxHpDamagePerRound": "SIMULATED"
-        }
+          "stackingPolicy": "SIMULATED",
+          "expirePhase": "SIMULATED",
+          "roundEndDamageFraction": "SIMULATED",
+          "removeAfterOwnAction": "SIMULATED"
+        },
+        "stackingPolicy": "refresh-longer",
+        "expirePhase": "round-end",
+        "roundEndDamageFraction": 0.045,
+        "removeAfterOwnAction": false
       },
       "morale-seal": {
         "duration": 2,
@@ -908,8 +932,14 @@
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
-          "moraleGainMultiplier": "SIMULATED"
-        }
+          "moraleGainMultiplier": "SIMULATED",
+          "stackingPolicy": "SIMULATED",
+          "expirePhase": "SIMULATED",
+          "removeAfterOwnAction": "SIMULATED"
+        },
+        "stackingPolicy": "refresh-longer",
+        "expirePhase": "round-end",
+        "removeAfterOwnAction": false
       }
     },
     "provenance": {

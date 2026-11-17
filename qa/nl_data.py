@@ -44,6 +44,7 @@ def run() -> int:
     check("first 20 Alpha stages contain structured 3x3 NPC unit records", all(len(pack["campaign"]["npcs"][i]["units"]) == 5 and all(isinstance(u["formationSlot"], int) and u["heroId"] is None and u["stats"] is None and u["soldiers"] is None for u in pack["campaign"]["npcs"][i]["units"]) for i in range(20)))
     check("all Alpha map unlocks, NPC references and settlement reward records are sequential", len(pack["campaign"]["maps"]) >= 20 and all(e["stage"] == i + 1 and e["rewards"] for i, e in enumerate(pack["campaign"]["encounters"])))
     check("status catalog contains the existing common combat effects", {"break", "guard", "daze", "burn", "morale-seal"}.issubset(pack["statusEffects"]["effects"]))
+    check("all status timing, stacking and tick policies are catalog-driven and simulated", all(effect["stackingPolicy"] == "refresh-longer" and effect["expirePhase"] in {"round-end", "owner-action"} and all(effect["fieldProvenance"][key] == "SIMULATED" for key in ("stackingPolicy", "expirePhase", "removeAfterOwnAction")) for effect in pack["statusEffects"]["effects"].values()) and pack["statusEffects"]["effects"]["burn"]["roundEndDamageFraction"] == .045)
     check("seven Wiki slots stay separate from original project equipment and research catalogs", len(pack["equipment"]["wikiSlots"]) == 7 and len(pack["equipment"]["projectItems"]) == 19 and len(pack["research"]["systemIds"]) == len(pack["research"]["catalog"]) == 8 and all(item["provenance"]["classification"] == "SIMULATED" for item in pack["equipment"]["projectItems"] + pack["research"]["catalog"]))
     check("Save v5 and legacy CL compatibility are explicit", pack["compatibility"]["saveSchema"] == 5 and pack["compatibility"]["cltq"] == "left in existing runtime")
 
@@ -74,6 +75,9 @@ def run() -> int:
     missing_hero_skill = copy.deepcopy(pack)
     missing_hero_skill["skills"]["heroById"].pop(roster[0]["id"])
     check("validator rejects a missing per-hero combat skill descriptor", rejected(missing_hero_skill))
+    invalid_status_policy = copy.deepcopy(pack)
+    invalid_status_policy["statusEffects"]["effects"]["burn"]["stackingPolicy"] = "invented-stack"
+    check("validator rejects unknown status lifecycle policies", rejected(invalid_status_policy))
 
     failed = [name for name, passed in checks if not passed]
     report = {

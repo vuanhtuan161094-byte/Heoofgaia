@@ -123,6 +123,11 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
         _provenance(effect.get("provenance"), source_ids, f"statusEffects.effects.{effect_id}")
         field_provenance = effect.get("fieldProvenance", {})
         _require(all(field_provenance.get(key) in CLASSIFICATIONS for key in effect if key not in {"provenance", "fieldProvenance"}), f"status effect {effect_id!r} has an unclassified field")
+        _require(effect.get("stackingPolicy") in {"refresh-longer", "replace-duration"}, f"status effect {effect_id!r} has unsupported stackingPolicy")
+        _require(effect.get("expirePhase") in {"round-end", "owner-action"} and isinstance(effect.get("removeAfterOwnAction"), bool), f"status effect {effect_id!r} has invalid lifecycle metadata")
+        _require(effect["removeAfterOwnAction"] == (effect["expirePhase"] == "owner-action"), f"status effect {effect_id!r} lifecycle flags conflict")
+        if "roundEndDamageFraction" in effect:
+            _require(effect["expirePhase"] == "round-end" and isinstance(effect["roundEndDamageFraction"], (int, float)) and effect["roundEndDamageFraction"] > 0, f"status effect {effect_id!r} has invalid round-end damage")
 
     skills = pack.get("skills", {})
     _provenance(skills.get("provenance"), source_ids, "skills")
