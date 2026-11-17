@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Mưu Định Tam Quốc — V0.6 P4.1 Mỹ Thuật</title>
+<title>Mưu Định Tam Quốc — Chiến thuật trận hình</title>
 <style>
 :root{--bg:#0b1519;--base:#111f24;--panel:#14282b;--panel2:#193033;--gold:#dfb776;--gold2:#f4deaa;--line:#456053;--cream:#f5e7c9;--muted:#a1b4ab;--green:#9dc99c;--red:#da7b66;--blue:#80b9cb;--shadow:#050b0d}
 *{box-sizing:border-box}html,body{padding:0;margin:0;height:100%;font-family:'Be Vietnam Pro',system-ui,Segoe UI,sans-serif;color:var(--cream);background:var(--bg)}button{font:inherit;cursor:pointer}button:disabled{opacity:.36;cursor:not-allowed}#app{min-height:100vh;background:radial-gradient(circle at 82% 0,rgba(105,120,75,.12),transparent 32%),linear-gradient(125deg,#0b171a,#132225 60%,#0a1418)}
@@ -65,11 +65,31 @@
 .cl-field-panel{margin-top:15px;padding:14px}.cl-field-panel .quick-actions button{font-size:11px}.cl-old-patrol{margin-top:18px}.cl-old-patrol summary{cursor:pointer;color:#dfc48b;padding:10px}.cl-old-patrol[open]{padding:5px 12px 12px;background:#11221f;border:1px solid #425d50;border-radius:8px}.cl-recovery{margin-top:17px}.cl-recovery button{font-size:10px;padding:7px 10px}.cl-battle-tools{display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end}.cl-battle-tools button{font-size:10px;padding:7px 9px}
 @media(max-width:950px){.cl-map-grid{grid-template-columns:1fr}.cl-map{min-height:445px}}@media(max-width:560px){.cl-map{min-height:365px}.cl-node{width:73px;min-height:47px;padding:4px}.cl-node .cl-node-icon{font-size:16px}.cl-node strong{font-size:8px}.cl-node small{font-size:7px}.cl-map-panel{padding:11px}.cl-commander-slots{grid-template-columns:1fr 1fr}.cl-field-panel{padding:10px}}
 
+
+/* NL-REBUILD-01 — Ngọa Long-first command hub */
+.nl-command{overflow:hidden;border:1px solid #b59762;border-radius:14px;background:linear-gradient(125deg,#1c2929,#152027 55%,#2b2720);box-shadow:0 12px 35px #05090b78;margin-bottom:18px;padding:20px;color:#f5e7ca}
+.nl-command .nl-kicker{font-size:10px;letter-spacing:2.4px;color:#e2bc7e;font-weight:700}
+.nl-command h2{font:700 clamp(20px,2.3vw,30px) Georgia,"Times New Roman",serif;color:#f4deaa;margin:7px 0 9px}
+.nl-command p{font-size:12px;line-height:1.75;color:#cad1c6;max-width:850px;margin:0 0 12px}
+.nl-command .nl-content{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(270px,.95fr);gap:17px;align-items:stretch}
+.nl-command .nl-actions{display:flex;gap:9px;flex-wrap:wrap;margin:14px 0}.nl-command .nl-actions button{font-size:12px;padding:10px 13px;border-radius:6px}
+.nl-command .nl-facts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+.nl-command .nl-fact{padding:11px 8px;background:#101c21b8;border:1px solid #60736b88;border-radius:7px;text-align:center}
+.nl-command .nl-fact b{display:block;font-size:19px;color:#f2d192}.nl-command .nl-fact small{display:block;margin-top:3px;font-size:10px;color:#c3c9bd}
+.nl-command .nl-panel{padding:13px;border-radius:9px;border:1px solid #60736b;background:#101b20ab}.nl-command .nl-panel h3{margin:0 0 11px;font-size:14px;color:#f0d8a9}
+.nl-command .nl-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:repeat(3,minmax(49px,auto));gap:5px}
+.nl-command .nl-slot{border:1px solid #5d6d62;min-height:47px;border-radius:5px;background:#1a2d2c;display:grid;place-items:center;text-align:center;padding:4px;line-height:1.25}
+.nl-command .nl-slot.occupied{border-color:#c69c5f;background:linear-gradient(150deg,#443c2b,#283536)}
+.nl-command .nl-slot b{font-size:11px;color:#f7e1b8}.nl-command .nl-slot small{font-size:9px;color:#9caaa3}
+.nl-command .nl-slot.empty{opacity:.48}.nl-command .nl-lines{font-size:11px;color:#cad3c6;line-height:1.65;margin-top:10px}
+.nl-command .nl-footnote{font-size:10px;color:#a6b5aa;margin-top:8px;line-height:1.5}
+@media(max-width:850px){.nl-command .nl-content{grid-template-columns:1fr}.nl-command{padding:15px}}
+@media(max-width:420px){.nl-command .nl-facts{gap:5px}.nl-command .nl-fact b{font-size:16px}.nl-command .nl-actions button{flex:1 1 43%}}
 </style>
 </head>
 <body>
 <div id="app">
-  <header class="topbar"><div class="logo"><div class="emblem">謀</div><div><strong>MƯU ĐỊNH TAM QUỐC</strong><small>KIẾN THÀNH · DỤNG BINH · ĐỊNH THIÊN HẠ</small></div></div><div class="resources" id="resources"></div><button id="save" class="save-btn" title="Lưu tiến độ vào máy">⛁ Lưu game</button></header>
+  <header class="topbar"><div class="logo"><div class="emblem">謀</div><div><strong>MƯU ĐỊNH TAM QUỐC</strong><small>BÀY TRẬN · SĨ KHÍ · ĐỊNH THIÊN HẠ</small></div></div><div class="resources" id="resources"></div><button id="save" class="save-btn" title="Lưu tiến độ vào máy">⛁ Lưu game</button></header>
   <div class="shell"><aside class="sidebar" id="sidebar"></aside><main class="main"><div id="view"></div><div class="footer-credit">Mưu Định Tam Quốc V0.6 P4.1 · Game chiến thuật Tam Quốc mô phỏng độc lập · Chơi offline · Tự động lưu</div></main></div>
 </div>
 <div id="battle-mount"></div><div id="toast-mount"></div>
@@ -35537,7 +35557,7 @@ const STAGES=[
  ['Xích Bích Đại Chiến','Tào Tháo','Định đoạt trận chiến trên Trường Giang.',4500,1750,800]
 ];
 const FORMATIONS={spear:{name:'Phong Thỉ Trận',desc:'Tiến công mạnh, giảm phòng thủ.',atk:.18,def:-.07,int:0,crit:.02},shield:{name:'Phương Viên Trận',desc:'Phòng thủ kiên cố, tấn công chậm.',atk:-.06,def:.22,int:0,crit:0},arc:{name:'Hạc Dực Trận',desc:'Gia tăng mưu công và chí mạng.',atk:0,def:0,int:.16,crit:.08},fish:{name:'Ngư Lân Trận',desc:'Công thủ cân bằng, hiệu quả binh pháp.',atk:.08,def:.09,int:0,crit:.02},goose:{name:'Nhạn Hành Trận',desc:'Tăng công mạnh cùng chí mạng, giảm thủ.',atk:.12,def:-.09,int:.06,crit:.08},turtle:{name:'Huyền Vũ Trận',desc:'Bảo vệ quân sĩ trước sát thương cao.',atk:-.1,def:.29,int:.05,crit:0}};
-const NAV=[['city','🏯','Thành Trì'],['heroes','⚔️','Võ Tướng'],['formation','🛡️','Bày Trận'],['campaign','🗺️','Chinh Phạt'],['barracks','🏹','Doanh Trại'],['journal','📜','Nhật Ký']];
+const NAV=[['city','🏯','Thành Trì'],['formation','🛡️','Bày Trận'],['campaign','🗺️','Chinh Phạt'],['heroes','⚔️','Võ Tướng'],['barracks','🏹','Doanh Trại'],['journal','📜','Nhật Ký']];
 // === Expansion P1 (original simulation layered over the V0.1 offline prototype) ===
 const NATIONS={thuc:{name:'Thục',glyph:'蜀',capital:'Thành Đô',color:'#8abd8f',starters:['liu','guan','zhang']},nguy:{name:'Ngụy',glyph:'魏',capital:'Hứa Đô',color:'#94afce',starters:['cao','dian','xun']},ngo:{name:'Ngô',glyph:'吳',capital:'Kiến Nghiệp',color:'#d6a071',starters:['sunquan','zhou','sun']}};
 const TECHNOLOGY={arms:{name:'Quân Khí',icon:'⚔️',desc:'Tăng 4% Vật Công và Chiến Công mỗi cấp.',max:10},armor:{name:'Giáp Trụ',icon:'🛡️',desc:'Tăng 4% phòng thủ toàn quân mỗi cấp.',max:10},strategy:{name:'Mưu Lược',icon:'📜',desc:'Tăng 5% Mưu Công mỗi cấp.',max:10},command:{name:'Chỉ Huy',icon:'🏳️',desc:'Tăng 5% HP, dẫn binh mỗi cấp.',max:10},harvest:{name:'Nông Vụ',icon:'🌾',desc:'Tăng 8% sản lượng lương mỗi cấp.',max:10},commerce:{name:'Thương Đạo',icon:'🪙',desc:'Tăng 8% sản lượng bạc mỗi cấp.',max:10},morale:{name:'Quân Tâm',icon:'🔥',desc:'Tăng 6 sĩ khí đầu trận mỗi cấp.',max:10},recruit:{name:'Binh Chế',icon:'🏹',desc:'Tăng 50 sức chứa dự bị mỗi cấp.',max:10}};
@@ -36716,6 +36736,26 @@ const clP6VisualStyle=document.createElement('style');clP6VisualStyle.textConten
 document.head.appendChild(clP6VisualStyle);
 const clP6BaseTick=tick;tick=function(){clP6BaseTick();clP6Tick();};
 if(window.__P2_ENABLE_QA__){window.__CLTQ_P6_QA__={factions:CL_P6_FACTIONS,climate:clP6Climate,marchTerms:clP6MarchTerms,path:clP6PathFrom,wingArmy:clP6WingArmy,activeMarch:()=>structuredClone(clP6ActiveMarch()),getState:()=>structuredClone(game.cltq.p6),setState:s=>{game.cltq.p6={...structuredClone(game.cltq.p6),...structuredClone(s)};clP6HydrateState();save();render();},envoy:clP6Envoy,signPact:clP6SignPact,breakPact:clP6BreakPact,tradeBonus:clP6TradeBonus,buildSiege:clP6BuildSiege,buildWonder:clP6BuildWonder,startEndgame:clP6StartEndgame,useSuperSkill:clP6UseSuperSkill,startWingMarch:clP6StartWingMarch,advanceWing(){const m=clP6ActiveMarch();if(!m)return false;m.arrivesAt=Date.now()-1;clP6Tick();return m.status;},startWingBattle:id=>cltqStartBattle('p6_siege',id),tick:clP6Tick};}
+
+// === NL-REBUILD-01: first-class 3x3 strategy dashboard ===
+function nlRebuildHub(){
+  const current=Math.min(STAGES.length,game.cleared.length+1);
+  const stage=STAGES[current-1],deployed=game.slots.filter(id=>id&&game.hero[id]?.troops>=30);
+  const preset=typeof P3_PRESETS!=='undefined'?P3_PRESETS.find(p=>p.id===game.p3PresetId):null;
+  const formation=FORMATIONS[game.formation];
+  const slots=game.slots.map((id,i)=>`<div class="nl-slot ${id?'occupied':'empty'}" aria-label="Ô trận ${i+1}: ${id?(HEROES[id]?.name||id):'trống'}">${id?`<b>${esc(HEROES[id]?.name||id)}</b><small>${esc(HEROES[id]?.role||'Võ tướng')}</small>`:'<small>Ô trống</small>'}</div>`).join('');
+  return `<section class="nl-command" data-nl-command="1"><div class="nl-kicker">TRUNG QUÂN · QUYẾT SÁCH</div><h2>Quân Cơ Phủ — Bày trận định thiên hạ</h2><p>Mưu Định Tam Quốc là game chiến thuật nguyên bản: sắp tối đa năm tướng đã chiêu mộ vào chín ô trận, phối hợp binh chủng, tích sĩ khí và chọn thời điểm thi triển chiến pháp. Phó bản tiếp theo mở bằng kết quả thắng trận thật.</p><div class="nl-content"><div><div class="nl-facts"><div class="nl-fact"><b>${deployed.length}/5</b><small>Tướng đủ quân xuất trận</small></div><div class="nl-fact"><b>${game.cleared.length}/${STAGES.length}</b><small>Ải hoàn thành</small></div><div class="nl-fact"><b>${esc(formation.name)}</b><small>Thế trận hiện tại</small></div></div><div class="nl-actions"><button class="gold-button" data-nl-route="formation">🛡️ Bày trận 3×3</button><button class="dark-button" data-nl-route="heroes">👑 Võ tướng</button><button class="dark-button" data-nl-route="barracks">🏹 Doanh Trại</button><button class="dark-button" data-nl-route="equipment">🗡️ Trang Bị</button><button class="dark-button" data-nl-route="tech">📜 Khoa kỹ</button><button class="dark-button" data-nl-route="campaign">🗺️ Phó bản</button></div><div class="nl-panel"><h3>⚔️ Phó bản tiếp theo — ${esc(stage[0])}</h3><p>Địch tướng: ${esc(stage[1])} · Ải ${current} · Chiến phí: ${fmt(100+current*25)} lương.</p><button class="gold-button" data-battle="${current}" ${deployed.length===0?'disabled':''}>Xuất chiến · Sĩ khí & Chiến pháp</button><div class="nl-footnote">Trận hình, chiến đấu và kết quả dùng combat authority hiện có; replay chỉ đọc bản ghi.</div></div></div><div class="nl-panel"><h3>🛡️ Trận đồ 3×3 · Tuyến trước ở bên phải</h3><div class="nl-grid">${slots}</div><div class="nl-lines"><b>Chiến thuật:</b> ${esc(preset?.title||formation.name)}<br><b>Sĩ khí:</b> Đòn thường tích lũy; đủ ngưỡng sẽ kích hoạt chiến pháp.<br><b>Khắc chế:</b> Bộ → Kỵ → Cung → Bộ.</div><div class="nl-footnote">Chạm “Bày trận 3×3” để đổi tướng, trận pháp và 24 phương án chiến thuật.</div></div></div></section>`;
+}
+const nlPreviousCityRenderer=renderCity;
+renderCity=function(){return nlRebuildHub()+nlPreviousCityRenderer();};
+document.addEventListener('click',ev=>{
+  const action=ev.target.closest('[data-nl-route]');
+  if(!action||action.disabled)return;
+  tab=action.dataset.nlRoute;
+  render();
+});
+// === end NL-REBUILD-01 ===
+
 setInterval(tick,1000);setInterval(save,15000);window.addEventListener('beforeunload',save);tick();render();
 })();
 </script>

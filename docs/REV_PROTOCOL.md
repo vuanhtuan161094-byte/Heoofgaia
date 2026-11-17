@@ -1,26 +1,29 @@
-# REV — Research, Engineering, Verification / quy trình review game
+# REV — Research, Engineering, Verification
 
-Tên gọi REV trong dự án này là QUY TRÌNH REVIEW ĐƯỢC GHI NHẬN; hiện không có một plugin skill riêng tên REV trong danh mục được kết nối. Quy trình kế thừa evidence ladder và project direction đã áp dụng với game Tông Môn Bá Đạo, chỉnh cho HTML/Chromium.
+REV is this repository's recorded review process for the offline HTML game. Apply it to the current owner direction in [`NGOA_LONG_REBUILD_SPEC_V1.md`](NGOA_LONG_REBUILD_SPEC_V1.md); do not use historical CL-P0–P6 or hybrid phase language as active requirements.
 
-## R — Research & requirements
-1. **Quyết định mới 17/11/2026:** dùng **Ngọa Long** làm tham chiếu gameplay chính theo `docs/NGOA_LONG_REBUILD_SPEC_V1.md`; Chiến Loạn/hybrid là lịch sử. Lưu URL + bản/niên đại + VERIFIED/DERIVED/SIMULATED/UNKNOWN, không sao chép tài sản gốc.
-2. Gắn OBSERVED / DERIVED / SIMULATED / UNKNOWN cho từng luật; không tự khẳng định chi tiết thiếu chứng cứ.
-3. Chốt gameplay contract theo input → authoritative state → combat/event → receipt → save → UI; giữ hệ thống riêng biệt khỏi Hero.
+## R — Research and requirements
+
+1. Fetch and record latest `main-ngoalong` HEAD before changing code. Read `AGENTS.md`, this document, `CURRENT_CHECKPOINT.md`, the master spec, relevant design/source/test, and GitHub Issue #4.
+2. Research official Ngọa Long references through `NL_REFERENCE_MATRIX.md`. Mark facts VERIFIED, adaptations DERIVED, project-owned numbers SIMULATED, and unsupported details UNKNOWN. Do not copy protected source, UI, art, audio, text passages or formulas.
+3. Define input → authoritative state → combat event → receipt → save → UI. Keep Hero and unrelated repositories isolated.
 
 ## E — Engineering
-4. Đọc HEAD và AGENTS.md; sửa theo vertical slice nhỏ, không phát tán bản HTML rời rạc.
-5. Một canonical index.html; giữ bản đã được nhận vào Git với commit SHA thay vì ZIP phiên bản song song.
-6. Giữ đội hình 3×3, sĩ khí, chiến pháp, 24 preset, khắc chế và 3 damage lanes; bổ sung đội chỉ huy 5 tướng, quân sống/chết/bị thương và bản đồ CL bằng state riêng, có deterministic QA.
-7. Không cấp EXP/tài nguyên lần nữa khi replay; bảo toàn Save key, giữ migration v1–v4 lên schema v5 và JSON import/export. CL-P4 bổ sung trạng thái chương/ải và sổ thông quan một lần ở `cltq.p4`.
 
-## V — Verification
-8. Gate V0 syntax/static; V1 unit/focused; V2 Chromium render/interaction/replay/save; V3 CI exact SHA; V4 QA máy thật; V5 duyệt mỹ thuật của owner.
-9. Bất kỳ gate nào chưa có bằng chứng phải ghi PENDING hoặc BLOCKED, không giả PASS.
-10. QA screenshot phải từ runtime thực, có khung hình và SHA. Save test bằng shim khác nghiệm thu file:// thực tế.
-11. Báo cáo cuối mỗi phiên: WHAT CHANGED → TEST RESULTS → FAIL/KNOWN RISKS → SHA/LINK → 2–3 OPTIONS.
+4. Work in a small playable vertical slice and preserve existing behavior/data. Keep one offline distributable `index.html`; `tools/build_ngoa_long_mode.py` must reproduce its R01 dashboard without changing gameplay state.
+5. Preserve localStorage key `muu_dinh_tam_quoc_v1`, schema v5 and v1–v4 migrations, JSON import/export, campaign progress, P2 event journal/replay, `p3PresetId`, `p3TroopTier`, assets/provenance, and CL legacy save data. New state must hydrate safely without destroying old fields.
+6. Settlement has one authority: validate battle id/state, settle cost and outcomes once, persist a receipt/report, then render. Replay only reads immutable snapshots. No reward/cost duplication on fast click, reload, loss, or replay.
+7. Keep each active phase separate and gated: R02 gameplay → R03 content/progression → R04 art/release. Never skip a failed or untested gate to start a later one.
 
-## Trạng thái tác vụ
-BACKLOG → DESIGN → CODE READY → TESTED → INTEGRATED → PLAYTEST → OWNER ACCEPTED. Nếu có lỗi: BLOCKED. Không coi CODE READY là DONE.
+## V — Verification gates
 
-## Quy định về branch
-main-ngoalong là main *logic* của game mới, nhưng nằm trong cùng repository Heoofgaia. Tạo một cây file riêng trên branch này; KHÔNG mở PR merge từ main-ngoalong sang nhánh Hero, vì đó là hai game khác nhau.
+8. **V0** syntax/static and reproducible build; **V1** focused mechanics/failure tests; **V2** real Chromium interaction at desktop 1280×720 and mobile 390×844, including save reload, animation evidence and replay; **V3** full GitHub Actions PASS on the exact commit SHA and playable artifact; **V4** physical Windows/Android play; **V5** owner visual/art acceptance. V4/V5 require human evidence and cannot be inferred from CI.
+9. Run existing P2/P3/P4/P4.1 and relevant CL compatibility regressions. Do not delete, skip, weaken or rewrite unrelated coverage merely to green the pipeline.
+10. Screenshots/video must come from the running game and identify the source SHA; no mockups or reconstructed results. File-save testing in an isolated Playwright shim must be labeled as such, separate from a real `file://` device check.
+11. Only claim gates with captured evidence. Use PENDING when no test or human review has happened; use BLOCKED only for a known blocker.
+
+## Branch and delivery rules
+
+- The protected destination is `main-ngoalong`. A task branch, when required by the environment, must derive from its fetched HEAD; an optional PR targets only `main-ngoalong` and is never self-merged.
+- Never modify Hero/default branch, reset, force-push, or delete player data/assets. Publish a playable artifact only when the full exact-SHA workflow is successful.
+- Every milestone report includes WHAT CHANGED, TEST RESULTS, PENDING/BLOCKED items, exact SHA/Actions URL, runtime evidence, known risks, and next steps.

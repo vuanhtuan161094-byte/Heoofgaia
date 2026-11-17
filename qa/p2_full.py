@@ -1,6 +1,6 @@
 from pathlib import Path
 from playwright.sync_api import sync_playwright
-import json, traceback, sys, hashlib
+import json, traceback, sys, hashlib, time
 ROOT=Path(__file__).resolve().parents[1]
 OUT=ROOT/'qa'
 HTML=(ROOT/'index.html').read_text(encoding='utf-8')
@@ -77,7 +77,7 @@ def run():
   check('stored report remains replayable after reload',page.evaluate('window.__P2_QA__.getBattle().replay'))
   page.locator('[data-end-battle]').click()
   # v2 save migrations, strip p2 and downgrade
-  v2=json.loads(persisted);v2['version']=2;v2.pop('troopModes',None);v2.pop('battleReports',None)
+  v2=json.loads(persisted);v2['version']=2;v2['lastTick']=int(time.time()*1000);v2.pop('troopModes',None);v2.pop('battleReports',None)
   html_old=HTML.replace('const __data={};','const __data='+json.dumps({'muu_dinh_tam_quoc_v1':json.dumps(v2,ensure_ascii=False)},ensure_ascii=False)+';')
   page.close();page=browser.new_page(viewport={'width':1440,'height':900});page.on('pageerror',lambda e:errors.append(str(e)));page.set_content(html_old,wait_until='domcontentloaded')
   legacy=page.evaluate('window.__P2_QA__.getGame()')

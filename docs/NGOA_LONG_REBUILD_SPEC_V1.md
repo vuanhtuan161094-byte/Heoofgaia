@@ -22,7 +22,7 @@ Ghi rõ **VERIFIED** (nội dung mô tả nguồn chính thức), **DERIVED** (c
 
 ## 3. Quyết định tái sử dụng (không phá dữ liệu)
 - Giữ **cùng repo** `vuanhtuan161094-byte/Heoofgaia`, nhánh lịch sử `main-ngoalong` và duy nhất một `index.html` phát hành. **Không merge sang Hero**, không reset/force-push.
-- Baseline có thể phục hồi: SHA `172c0ef2192cf5aee8a0054337b1af9f5684f533`, GitHub Actions PASS `43999433891`. CL-P1–P6 có trong lịch sử Git, nhưng không còn là nội dung game chính.
+- HEAD đã xác minh khi tiếp nhận quyết định này: `66fb0fcfdde782dd803db4e6dd6a3ecee198d388`; workflow exact-SHA [44001013453](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44001013453) PASS. Commit CL-P6/H0 cũ `172c0ef2192cf5aee8a0054337b1af9f5684f533` và CL-P1–P6 chỉ còn là lịch sử/compatibility; không phải gameplay mục tiêu.
 - Bảo toàn `muu_dinh_tam_quoc_v1`, save schema v5 và migration v1–v4, các nguồn nhà cửa/tướng/kho, IDs `p3PresetId`, `p3TroopTier`, receipt và replay, dữ liệu CL đã tồn tại; **đừng xóa save tự động**.
 - Luồng hành quân/công thành CL-P6 có thể tồn tại như **ngoại truyện/legacy tùy chọn** trong ngắn hạn, nhưng không được dùng để đánh dấu mục tiêu Ngọa Long hoàn thành. Chỉ gỡ khi có migration/test/owner review.
 - Mỹ thuật trước đó đã thử: **2D tranh vẽ tay Dark Fantasy Sharp-Eyed Chibi**, mắt sáng năng lượng, không rig, animation frame-by-frame. Giữ style này cho bản remake trừ khi owner ra lệnh mới; poster concept không tính là sprite tích hợp.
@@ -48,6 +48,6 @@ Ghi rõ **VERIFIED** (nội dung mô tả nguồn chính thức), **DERIVED** (c
 - P2 31+12, P3 74/360, P4/4.1, CL còn lại chạy regression hoặc phải chứng minh migration tương đương; exact SHA CI có artifact playable. **Không dùng CI PASS để tự nhận owner art/physical PASS**.
 
 ## 5. Dedicated Codex instructions
-Codex chỉ được làm trên `main-ngoalong`; đọc HEAD, `AGENTS.md`, REV, tài liệu này và checkpoint trước sửa. Làm mã chạy được, không chỉ tài liệu. Không sửa Hero/Tông Môn/CMP, không branch/merge không cần thiết. Mỗi giao hàng ghi DONE/TESTED/PENDING/BLOCKED + exact SHA + CI + 2–3 lựa chọn tiếp.
+Đích tích hợp là `main-ngoalong`. Nếu môi trường yêu cầu task branch, chỉ tạo từ HEAD đã fetch của `main-ngoalong`; PR chỉ trỏ về `main-ngoalong`, không tự merge. Trước khi sửa, đọc HEAD, `AGENTS.md`, REV, tài liệu này, checkpoint và mã liên quan. Làm gameplay chạy được, không chỉ tài liệu. Không sửa Hero/Tông Môn/CMP, không merge/reset/force-push. Mỗi giao hàng ghi DONE/TESTED/PENDING/BLOCKED + exact SHA + CI + bằng chứng.
 
-**Status ngày lập:** Nền CL-P6 + P3 đã có. Ngọa Long-first **mới tái ưu tiên và mở R01**; R02–R04 chưa được nghiệm thu.
+**Trạng thái khi mở V1:** R01 Quân Cơ Phủ có build/Chromium gate; R02–R04 chưa được nghiệm thu. R01 baseline workflow 44001013453 PASS trên SHA `66fb0fcfdde782dd803db4e6dd6a3ecee198d388`; kết quả này không nghiệm thu code R02 được thêm sau đó.

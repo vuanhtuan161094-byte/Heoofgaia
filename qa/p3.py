@@ -16,6 +16,9 @@ def main():
   browser=p.chromium.launch(headless=True,executable_path=('/usr/bin/chromium' if Path('/usr/bin/chromium').exists() else None),args=['--no-sandbox','--disable-dev-shm-usage'])
   page=browser.new_page(viewport={'width':1280,'height':720});errors=[];page.on('pageerror',lambda e:errors.append(str(e)))
   page.set_content(HTML,wait_until='domcontentloaded');page.wait_for_timeout(300)
+  # Keep the real-time economy from crossing a 10-second production tick while
+  # this deterministic combat suite runs; it does not participate in P3 tests.
+  page.evaluate("""()=>{const g=__P2_QA__.getGame();g.lastTick=Date.now()+86400000;__P2_QA__.setGame(g)}""")
   check('P3 QA runtime available',page.evaluate('typeof window.__P3_QA__ === "object"'))
   presets=page.evaluate('window.__P3_QA__.presets')
   check('24 distinct named tactical presets',len(presets)==24 and len({x['id'] for x in presets})==24)

@@ -1,4 +1,6 @@
 # CHIẾN LOẠN TAM QUỐC — nguồn tham khảo cơ chế (2026-11-16)
+
+> **HISTORICAL / SUPERSEDED — 2026-11-17:** Owner selected Ngọa Long classic as the primary gameplay reference. This matrix records an earlier CL-only direction and its evidence; it is not an active requirement or roadmap. Current reference matrix: [`NL_REFERENCE_MATRIX.md`](NL_REFERENCE_MATRIX.md).
 Goal: Build an original game with the high-level experience requested by owner. Sources are **research references**, not licensed game assets or permission to extract material.
 
 | Topic | Evidence | Reference | Design and test |
