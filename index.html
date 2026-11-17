@@ -35926,7 +35926,7 @@ function beginBattle(stage,mode='campaign'){
 function p2StoreReport(rewards,loot){
  const report={id:'r'+Date.now().toString(36)+'_'+battle.seed.toString(36),created:Date.now(),stage:battle.stage,mode:battle.mode,
   won:battle.won,formation:game.formation,seed: battle.seed,cost:battle.cost,rewards,loot:loot?loot.base:null,
-  opening:battle.opening,events:battle.events,final:p2Snapshot(),turns:battle.turns,rounds:battle.round};
+  troopLosses:battle.mode==='cltq'?null:structuredClone(battle.troopLosses||[]),opening:battle.opening,events:battle.events,final:p2Snapshot(),turns:battle.turns,rounds:battle.round};
  game.battleReports.unshift(report);game.battleReports=game.battleReports.slice(0,5);battle.report=report;
 }
 function finishBattle(){
@@ -35934,9 +35934,10 @@ function finishBattle(){
  const aliveP=p2CountAlive('p').reduce((s,u)=>s+u.hp,0),aliveE=p2CountAlive('e').reduce((s,u)=>s+u.hp,0);
  battle.finished=true;battle.won=aliveP>0&&(aliveE===0||aliveP>aliveE);
  const stage=battle.stage,entry=STAGES[Math.min(STAGES.length-1,Math.max(0,stage-1))],mode=battle.mode;let rewards={},loot=null;
+ battle.troopLosses=[];
  for(const u of battle.p){const d=game.hero[u.id];if(!d)continue;
-  const casualties=Math.round((1-u.hp/u.maxHp)*Math.min(140,d.troops*.34)+9);
-  d.troops=Math.max(0,d.troops-casualties);addExp(u.id,battle.won?95+stage*12:25);
+  const initial=Math.max(0,Math.floor(d.troops)),casualties=Math.min(initial,Math.round((1-u.hp/u.maxHp)*Math.min(140,initial*.34)+9)),remaining=initial-casualties;
+  d.troops=remaining;battle.troopLosses.push({id:u.id,name:u.name,initial,casualties,remaining,provenance:'SIMULATED'});addExp(u.id,battle.won?95+stage*12:25);
  }
  if(battle.won){countTask('battle');if(mode==='campaign'){
   const first=!game.cleared.includes(stage);rewards={silver:entry[3],grain:entry[4],iron:Math.round(stage*24+35),prestige:first?entry[5]:Math.round(entry[5]*.25)};
@@ -36349,7 +36350,7 @@ function clCommitTroopLosses(){
  battle.cltqTroopReceipt=rows;game.cltq.lastTroopReceipt=rows;game.cltq.receipts.unshift({id,mode:battle.mode,kind:battle.cltq?.kind||battle.mode,won:!!battle.won,at:Date.now()});game.cltq.receipts=game.cltq.receipts.slice(0,100);return rows;
 }
 const cltqLegacyFinish=finishBattle;
-finishBattle=function(){if(!battle||battle.finished||battle.replay)return;if(battle.mode==='cltq')return cltqFinishBattle();cltqLegacyFinish();const rows=clCommitTroopLosses();if(battle?.report){battle.report.cltqTroopReceipt=rows;save();}};
+finishBattle=function(){if(!battle||battle.finished||battle.replay)return;if(battle.mode==='cltq')return cltqFinishBattle();return cltqLegacyFinish();};
 function cltqRecoveryPanel(){
  const injured=game.roster.map(id=>({id,n:game.cltq.wounded[id]||0})).filter(x=>x.n>0);
  return '<div class="panel mini-box cl-recovery"><h3>🩹 Quân bị thương · phục hồi</h3><p class="tiny">Quân bị thương được giữ trong save; trả lương và sắt để hồi phục tối đa 100 quân mỗi lần. Tử trận không thể hồi sinh.</p>'+

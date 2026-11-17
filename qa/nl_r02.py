@@ -155,13 +155,15 @@ def main():
           base.slots=['guan','zhang','liu','zhuge','huang',null,null,null,null];base.cleared=[1,2,3,4];
           for(const preset of presets){{
             q.closeBattle('city');q.setGame(structuredClone(base));window.__P3_QA__.assign(preset.id);q.beginBattle(5,'campaign');
-            const battle=q.debugBattle();battle.seed=expected.seed;q.skipBattle();out.push({{id:preset.id,won:battle.won,rounds:battle.round}});
+            const battle=q.debugBattle();battle.seed=expected.seed;q.skipBattle();const report=q.getGame().battleReports[0];out.push({{id:preset.id,won:battle.won,rounds:battle.round,settlement:!battle.won?{{troopLosses:report?.troopLosses||null,rewards:report?.rewards||null}}:null}});
           }}
           const wins=out.filter(row=>row.won),losses=out.filter(row=>!row.won);
-          q.closeBattle('city');return {{rows:out,loss:losses[0]?.id||null,win:wins[0]?.id||null,expected}};
+          q.closeBattle('city');return {{rows:out,loss:losses[0]?.id||null,win:wins[0]?.id||null,lossSettlement:losses[0]?.settlement||null,expected}};
         }}""")
         check("same-seed fifth-map formation A/B has a real losing setup and a winning setup at equal hero power", bool(puzzle["loss"] and puzzle["win"]))
         check("stage-5 data fixture reproduces its recorded same-seed loss/win pair", puzzle["loss"] == puzzle["expected"]["losingPreset"] and puzzle["win"] == puzzle["expected"]["winningPreset"])
+        loss_rows = puzzle["lossSettlement"]["troopLosses"] if puzzle["lossSettlement"] else []
+        check("loss settlement records exact per-general troop casualties without granting rewards", len(loss_rows) == 5 and all(row["initial"] == 650 and row["casualties"] == row["initial"] - row["remaining"] and row["casualties"] > 0 for row in loss_rows) and puzzle["lossSettlement"]["rewards"] == {})
         print(f"PUZZLE A/B: loss={puzzle['loss']} win={puzzle['win']} seed={puzzle['expected']['seed']}", flush=True)
 
         # One settlement, immutable replay, and v1-v4 save migration.
@@ -170,11 +172,13 @@ def main():
           for(const id of g.roster)g.hero[id]=g.hero[id]||{{level:40,xp:0,troops:1200}};
           for(const id of g.roster){{g.hero[id].level=40;g.hero[id].xp=0;g.hero[id].troops=1200;}}
           g.slots=['guan','zhang','liu','zhuge','huang',null,null,null,null];g.cleared=[];q.closeBattle('city');q.setGame(g);q.beginBattle(1,'campaign');
-          const b=q.debugBattle();b.seed=20261117;q.skipBattle();const first=q.getGame(),silver=first.silver,grain=first.grain,reports=first.battleReports.length;
+          const beforeTroops=Object.fromEntries(g.roster.map(id=>[id,g.hero[id].troops])),beforeClReceipts=(g.cltq?.receipts||[]).length;
+          const b=q.debugBattle();b.seed=20261117;q.skipBattle();const first=q.getGame(),report=first.battleReports[0],silver=first.silver,grain=first.grain,reports=first.battleReports.length,rows=report.troopLosses||[];
+          const casualtyMatches=rows.length===5&&rows.every(row=>row.initial===beforeTroops[row.id]&&row.remaining===first.hero[row.id].troops&&row.casualties===row.initial-row.remaining&&row.provenance==='SIMULATED');
           q.finishBattle();const second=q.getGame();q.p2OpenReplay(second.battleReports[0]);q.p2LoadReplayFrame(second.battleReports[0].events.length);const replay=q.getGame();
-          return {{won:first.battleReports[0].won,clear:first.cleared.includes(1),once:second.battleReports.length===reports&&second.silver===silver&&second.grain===grain,replayReadOnly:replay.silver===silver&&replay.grain===grain&&replay.battleReports.length===reports,key:localStorage.getItem('{SAVE_KEY}')!==null,version:replay.version}};
+          return {{won:report.won,clear:first.cleared.includes(1),casualtyMatches,clReceiptsUnchanged:(first.cltq?.receipts||[]).length===beforeClReceipts,once:second.battleReports.length===reports&&second.silver===silver&&second.grain===grain&&rows.every(row=>second.hero[row.id].troops===row.remaining),replayReadOnly:replay.silver===silver&&replay.grain===grain&&replay.battleReports.length===reports,key:localStorage.getItem('{SAVE_KEY}')!==null,version:replay.version}};
         }}""")
-        check("real campaign result unlocks once, repeat settlement is blocked, replay does not pay again", settle["won"] and settle["clear"] and settle["once"] and settle["replayReadOnly"])
+        check("real campaign settlement records exact troop losses, unlocks once, and replay cannot pay twice", settle["won"] and settle["clear"] and settle["casualtyMatches"] and settle["clReceiptsUnchanged"] and settle["once"] and settle["replayReadOnly"])
         check("existing save key and schema v5 remain active", settle["key"] and settle["version"] == 5)
 
         for version in (1, 2, 3, 4):
