@@ -140,11 +140,14 @@ def main():
           q.status(unit,'qa-vulnerability',1);q.status(unit,'qa-vulnerability',3);const refreshed=unit.effects[0].turns;
           b.seed=8123;const affected=q.p2Hit(source,unit,'physical').amount;unit.effects=[];b.seed=8123;const baseline=q.p2Hit(source,unit,'physical').amount;
           q.status(unit,'qa-vulnerability',3);unit.morale=20;const moraleBefore=unit.morale,moraleFactor=q.statusFactor(unit,'moraleGainMultiplier');q.morale(unit,25);const morale=unit.morale,hp=unit.hp;q.roundEnd();const tick=hp-unit.hp,remaining=unit.effects[0]?.turns||0;
+          unit.hp=unit.maxHp;unit.effects=[];const stackedSpec={{duration:2,stackingPolicy:'add-stack',stackLimit:3,expirePhase:'round-end',removeAfterOwnAction:false,roundEndDamageFraction:.02,stackModifiers:{{roundEndDamageFraction:.01}}}};
+          q.registerStatusSpec('qa-stack',stackedSpec);for(let i=0;i<5;i++)q.status(unit,'qa-stack',2);const stackCount=unit.effects[0].stacks,stackHp=unit.hp;q.roundEnd();const stackTick=stackHp-unit.hp,stackExpected=Math.max(8,Math.round(unit.maxHp*.04));
+          b.mode='cltq';const clHp=unit.hp;q.roundEnd();const cltqStackTick=clHp-unit.hp;b.mode='campaign';
           const control={{duration:1,stackingPolicy:'refresh-longer',expirePhase:'owner-action',removeAfterOwnAction:true,skipActionChance:1}};
           q.registerStatusSpec('qa-control',control);const actor=b.p[0];actor.effects=[];q.status(actor,'qa-control',1);q.perform(actor);
-          return {{refreshed,affected,baseline,moraleBefore,morale,moraleFactor,tick,expectedTick:Math.max(8,Math.round(unit.maxHp*.1)),remaining,controlMode:b.events.at(-1).mode,controlRemoved:!actor.effects.some(e=>e.kind==='qa-control')}};
+          return {{refreshed,affected,baseline,moraleBefore,morale,moraleFactor,tick,expectedTick:Math.max(8,Math.round(unit.maxHp*.1)),remaining,stackCount,stackTick,stackExpected,cltqStackTick,cltqBaseTick:Math.max(8,Math.round(unit.maxHp*.02)),controlMode:b.events.at(-1).mode,controlRemoved:!actor.effects.some(e=>e.kind==='qa-control')}};
         }}""")
-        check("new status definitions drive stacking, damage, morale, round ticks and owner-action control generically", status_probe["refreshed"] == 3 and status_probe["affected"] > status_probe["baseline"] and status_probe["moraleFactor"] == .4 and status_probe["morale"] == 30 and status_probe["tick"] == status_probe["expectedTick"] and status_probe["remaining"] == 2 and status_probe["controlMode"] == "stunned" and status_probe["controlRemoved"])
+        check("new status definitions drive refresh/stack caps and per-stack damage while CL ignores stack modifiers", status_probe["refreshed"] == 3 and status_probe["affected"] > status_probe["baseline"] and status_probe["moraleFactor"] == .4 and status_probe["morale"] == 30 and status_probe["tick"] == status_probe["expectedTick"] and status_probe["remaining"] == 2 and status_probe["stackCount"] == 3 and status_probe["stackTick"] == status_probe["stackExpected"] and status_probe["cltqStackTick"] == status_probe["cltqBaseTick"] and status_probe["controlMode"] == "stunned" and status_probe["controlRemoved"])
 
         # Verify the authored fifth-map A/B at one exact NPC tuning and seed.
         puzzle = page.evaluate(f"""() => {{

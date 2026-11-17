@@ -916,9 +916,15 @@
           "stackingPolicy": "SIMULATED",
           "expirePhase": "SIMULATED",
           "roundEndDamageFraction": "SIMULATED",
-          "removeAfterOwnAction": "SIMULATED"
+          "removeAfterOwnAction": "SIMULATED",
+          "stackLimit": "SIMULATED",
+          "stackModifiers": "SIMULATED"
         },
-        "stackingPolicy": "refresh-longer",
+        "stackLimit": 3,
+        "stackModifiers": {
+          "roundEndDamageFraction": 0.005
+        },
+        "stackingPolicy": "add-stack",
         "expirePhase": "round-end",
         "roundEndDamageFraction": 0.045,
         "removeAfterOwnAction": false

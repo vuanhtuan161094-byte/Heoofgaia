@@ -123,7 +123,14 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
         _provenance(effect.get("provenance"), source_ids, f"statusEffects.effects.{effect_id}")
         field_provenance = effect.get("fieldProvenance", {})
         _require(all(field_provenance.get(key) in CLASSIFICATIONS for key in effect if key not in {"provenance", "fieldProvenance"}), f"status effect {effect_id!r} has an unclassified field")
-        _require(effect.get("stackingPolicy") in {"refresh-longer", "replace-duration"}, f"status effect {effect_id!r} has unsupported stackingPolicy")
+        _require(effect.get("stackingPolicy") in {"refresh-longer", "replace-duration", "add-stack"}, f"status effect {effect_id!r} has unsupported stackingPolicy")
+        if effect["stackingPolicy"] == "add-stack":
+            _require(isinstance(effect.get("stackLimit"), int) and 1 < effect["stackLimit"] <= 99, f"status effect {effect_id!r} needs a bounded stackLimit")
+            stack_modifiers = effect.get("stackModifiers", {})
+            allowed_stack_fields = {"outgoingDamageMultiplier", "incomingDefenseMultiplier", "moraleGainMultiplier", "skipActionChance", "roundEndDamageFraction"}
+            _require(isinstance(stack_modifiers, dict) and set(stack_modifiers).issubset(allowed_stack_fields) and all(field in effect and isinstance(value, (int, float)) and not isinstance(value, bool) for field, value in stack_modifiers.items()), f"status effect {effect_id!r} has invalid stackModifiers")
+        else:
+            _require("stackLimit" not in effect and "stackModifiers" not in effect, f"status effect {effect_id!r} has stack metadata without add-stack policy")
         _require(effect.get("expirePhase") in {"round-end", "owner-action"} and isinstance(effect.get("removeAfterOwnAction"), bool), f"status effect {effect_id!r} has invalid lifecycle metadata")
         _require(effect["removeAfterOwnAction"] == (effect["expirePhase"] == "owner-action"), f"status effect {effect_id!r} lifecycle flags conflict")
         if "roundEndDamageFraction" in effect:
