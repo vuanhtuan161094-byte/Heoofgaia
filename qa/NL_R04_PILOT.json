@@ -1,5 +1,5 @@
 {
-  "milestone": "NL-R04-STATIC-VISUAL-PILOT",
+  "milestone": "NL-R04-TWO-POSE-SCOUT-DIRECTIONAL-PILOT",
   "checks": [
     {
       "name": "scout registered master is 512x640 RGBA with transparent padding",
@@ -18,7 +18,19 @@
       "pass": true
     },
     {
-      "name": "manifest identifies the asset as recreated original art and static-only",
+      "name": "scout attack-contact key pose is a registered 768x640 RGBA sprite with master-aligned foot pivot",
+      "pass": true
+    },
+    {
+      "name": "attack key pose raw and registered hashes match the provenance manifest",
+      "pass": true
+    },
+    {
+      "name": "attack-contact pose browser payload is byte-identical to its registered PNG",
+      "pass": true
+    },
+    {
+      "name": "manifest records a limited two-pose scout pilot and pinned registration provenance",
       "pass": true
     },
     {
@@ -38,6 +50,14 @@
       "pass": true
     },
     {
+      "name": "real stage-25 enemy infantry physical action switches the callout to the contact pose",
+      "pass": true
+    },
+    {
+      "name": "contact pose returns to the idle master after its actual event window",
+      "pass": true
+    },
+    {
       "name": "real stage-26 battle callout swaps to the tactician portrait",
       "pass": true
     },
@@ -54,12 +74,16 @@
       "pass": true
     },
     {
+      "name": "390px real combat event displays the attack-contact sprite within the viewport",
+      "pass": true
+    },
+    {
       "name": "R04 desktop/mobile scenes report no JavaScript exceptions",
       "pass": true
     }
   ],
   "errors": [],
-  "total": 14,
-  "passed": 14,
+  "total": 20,
+  "passed": 20,
   "failed": []
 }

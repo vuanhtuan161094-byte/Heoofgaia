@@ -14,6 +14,12 @@ Prompt: “Preserve the exact same original female tactician identity, face, hai
 
 Route: image edit from an earlier generated identity master; no third-party source.
 
+## Scout attack contact pose (`scout-attack-contact`)
+
+Prompt: “Create one original game-ready 2D action sprite keyframe using the attached fictional character as the exact identity reference. Preserve his identity and materials: young adult male border scout, tousled charcoal hair, pale silver-jade eyes, asymmetrical charcoal lamellar armor with muted jade cloth accents, short mantle, simple generic short spear. Full body, same 3.2-head chibi proportions and painterly dark-fantasy rendering. This is the ATTACK_CONTACT keyframe: feet planted in a clear forward lunge facing right, torso rotated toward the target, both hands gripping the spear, spear thrust horizontally toward the right with the tip inside canvas; focused expression. Show one character only. Keep head, spear tip, boots, mantle, and all silhouette parts completely inside the image with generous transparent padding; align the bottom-center foot pivot and character height to the supplied master. Isolated on genuinely transparent background, no shadow, no ground, no glow, no VFX, no text, no UI, no frame, no extra weapon, no historical insignia. Keep design details consistent with the reference; do not invent armor pieces.”
+
+Route: OpenAI image_gen edit using the project-owned scout raw master as the identity reference; this is one generated key pose, not video-derived animation. Raw output is retained; `tools/register_nl_r04_attack.py` deterministically trims transparent bounds, scales into the registered 768×640 RGBA canvas and preserves the bottom-center anchor. Status: **RECREATED**. The pose is used only for the 390px/desktop stage-25 callout when a real enemy infantry physical action occurs. This does not complete directional or frame-by-frame animation coverage.
+
 ## Limits
 
 The image-generation tool produces still images. No video-to-sprite route or user-supplied action footage is available in this environment. The pilot therefore contains static portrait masters only; it does not claim Idle/Walk/Attack/Hit/Fall frames or four-direction animation, and no synthetic pose set was fabricated.

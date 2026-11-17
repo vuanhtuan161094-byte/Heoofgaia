@@ -48,8 +48,15 @@ jobs:
         run: python qa/nl_r03.py
       - name: NL-R03 hero training, equipment and research progression gate
         run: python qa/nl_progression.py
-      - name: NL-R04 original static art pilot Chromium desktop/mobile gate
-        run: python qa/nl_r04_pilot.py
+      - name: NL-R04 reproduce event-gated scout pose and run Chromium art gate
+        run: |
+          python -m pip install --disable-pip-version-check pillow==11.3.0
+          python -c "from PIL import __version__; assert __version__ == '11.3.0'"
+          python tools/register_nl_r04_attack.py
+          python tools/build_ngoa_long_r04.py --check
+          python qa/nl_r04_pilot.py
+          python -m pip install --disable-pip-version-check pillow==12.3.0
+          python -c "from PIL import __version__; assert __version__ == '12.3.0'"
       - name: NL 30-minute simulated onboarding, affordability and loss recovery gate
         run: python qa/nl_onboarding_30min.py
       - name: NL 60-minute continuous first-ten-stage campaign progression gate

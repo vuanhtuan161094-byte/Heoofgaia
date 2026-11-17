@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
-"""R04 static portrait pilot browser QA at desktop and mobile viewports."""
+"""R04 two-pose scout visual pilot QA at desktop and mobile viewports."""
 from __future__ import annotations
 import base64
+import hashlib
 import json
 import sys
 from pathlib import Path
@@ -35,7 +36,17 @@ def main():
             check(f"{cid} registered master is 512x640 RGBA with transparent padding",im.mode=="RGBA" and im.size==(512,640) and alpha.getbbox() is not None and alpha.getbbox()[0]>=28 and alpha.getbbox()[1]>=34 and alpha.getbbox()[2]<=484 and alpha.getbbox()[3]<=606)
         expected="data:image/png;base64,"+base64.b64encode(path.read_bytes()).decode("ascii")
         check(f"{cid} embedded browser payload matches the registered source PNG",f'{cid}:"{expected}"' in HTML)
-    check("manifest identifies the asset as recreated original art and static-only",manifest["status"]=="RECREATED" and manifest["animationStatus"]=="STATIC_MASTER_ONLY" and len(records)==2)
+    poses={item["id"]:item for item in manifest.get("poseFrames",[])}
+    pose=poses.get("scout-attack-contact")
+    if pose:
+        pose_path=ROOT/"assets/r04"/pose["registeredMaster"]
+        raw_path=ROOT/"assets/r04"/pose["rawMaster"]
+        with Image.open(pose_path) as im:
+            check("scout attack-contact key pose is a registered 768x640 RGBA sprite with master-aligned foot pivot",im.mode=="RGBA" and im.size==(768,640) and im.getchannel("A").getbbox()==tuple(pose["registeredAlphaBounds"]) and abs(im.getchannel("A").getbbox()[3]-records["scout"]["registeredAlphaBounds"][3])<=1)
+        check("attack key pose raw and registered hashes match the provenance manifest",hashlib.sha256(raw_path.read_bytes()).hexdigest()==pose["rawSha256"] and hashlib.sha256(pose_path.read_bytes()).hexdigest()==pose["registeredSha256"])
+        expected_pose="data:image/png;base64,"+base64.b64encode(pose_path.read_bytes()).decode("ascii")
+        check("attack-contact pose browser payload is byte-identical to its registered PNG",f'scoutAttack:"{expected_pose}"' in HTML)
+    check("manifest records a limited two-pose scout pilot and pinned registration provenance",manifest["status"]=="RECREATED" and manifest["animationStatus"]=="TWO_POSE_SCOUT_DIRECTIONAL_PILOT" and len(records)==2 and set(poses)=={"scout-attack-contact"} and pose.get("registrationPillow")=="11.3.0")
     with sync_playwright() as p:
         browser=p.chromium.launch(headless=True,args=["--no-sandbox","--disable-dev-shm-usage"])
         page=open_page(browser,1280,720)
@@ -50,6 +61,13 @@ def main():
         check("desktop portrait respects 56x70 display target",box is not None and abs(box["width"]-56)<1 and abs(box["height"]-70)<1)
         check("Save v5 and campaign state remain unchanged by portrait rendering",page.evaluate("__P2_QA__.getGame().version===5&&__P2_QA__.getGame().cleared.length===24"))
         page.screenshot(path=str(ROOT/"qa/nl-r04-pilot-desktop.png"),full_page=False)
+        page.evaluate("""()=>{const q=window.__P2_QA__;let i=0;for(;i<80;i++){if(q.debugBattle()?.finished||document.querySelector('.nlr03-encounter [data-r04-pilot-art="scout"]')?.dataset.pose==='attack-contact')break;q.stepBattle()}return i}""")
+        active_pose=page.locator('.nlr03-encounter [data-r04-pilot-art="scout"]')
+        pose_event=page.evaluate("window.__NL_R04_QA__.lastEvent")
+        check("real stage-25 enemy infantry physical action switches the callout to the contact pose",active_pose.get_attribute("data-pose")=="attack-contact" and active_pose.get_attribute("src")==page.evaluate("window.__NL_R04_QA__.art.scoutAttack") and pose_event=={"team":"e","kind":"physical","troop":"infantry","stage":25} and active_pose.evaluate("e=>e.complete&&e.naturalWidth===768&&e.naturalHeight===640"))
+        page.screenshot(path=str(ROOT/"qa/nl-r04-pilot-attack-contact-desktop.png"),full_page=False)
+        page.wait_for_timeout(350)
+        check("contact pose returns to the idle master after its actual event window",active_pose.get_attribute("data-pose")=="idle" and active_pose.get_attribute("src")==page.evaluate("window.__NL_R04_QA__.art.scout"))
         page.evaluate("""()=>{const g=__P2_QA__.getGame();g.cleared=Array.from({length:25},(_,i)=>i+1);__P2_QA__.setGame(g);__P2_QA__.beginBattle(26,'campaign')}""")
         tactician=page.locator('.nlr03-encounter [data-r04-pilot-art="tactician"]')
         check("real stage-26 battle callout swaps to the tactician portrait",tactician.count()==1 and tactician.get_attribute("src")==page.evaluate("window.__NL_R04_QA__.art.tactician") and tactician.evaluate("e=>e.complete&&e.naturalWidth===512&&e.naturalHeight===640"))
@@ -60,10 +78,13 @@ def main():
         mobile=open_page(browser,390,844); stage25_fixture(mobile); mobile.locator('.nav[data-tab="campaign"]').click(); mobile.locator('[data-stage="25"]').click(); mobile.locator('[data-battle="25"]').click()
         mportrait=mobile.locator('.nlr03-encounter [data-r04-pilot-art="scout"]')
         check("390px Chromium renders the full-alpha portrait and callout without horizontal overflow",mportrait.count()==1 and mportrait.evaluate("e=>e.complete&&e.naturalWidth===512&&e.naturalHeight===640") and mobile.evaluate("document.documentElement.scrollWidth<=innerWidth"))
+        mobile.evaluate("""()=>{const q=window.__P2_QA__;let i=0;for(;i<80;i++){if(q.debugBattle()?.finished||document.querySelector('.nlr03-encounter [data-r04-pilot-art="scout"]')?.dataset.pose==='attack-contact')break;q.stepBattle()}return i}""")
+        check("390px real combat event displays the attack-contact sprite within the viewport",mportrait.get_attribute("data-pose")=="attack-contact" and mportrait.get_attribute("src")==mobile.evaluate("window.__NL_R04_QA__.art.scoutAttack") and mobile.evaluate("document.documentElement.scrollWidth<=innerWidth"))
+        mobile.screenshot(path=str(ROOT/"qa/nl-r04-pilot-attack-contact-mobile-390.png"),full_page=False)
         mobile.screenshot(path=str(ROOT/"qa/nl-r04-pilot-mobile-390.png"),full_page=False)
         check("R04 desktop/mobile scenes report no JavaScript exceptions",not errors)
         browser.close()
-    result={"milestone":"NL-R04-STATIC-VISUAL-PILOT","checks":checks,"errors":errors,"total":len(checks),"passed":sum(1 for c in checks if c["pass"]),"failed":[c["name"] for c in checks if not c["pass"]]}
+    result={"milestone":"NL-R04-TWO-POSE-SCOUT-DIRECTIONAL-PILOT","checks":checks,"errors":errors,"total":len(checks),"passed":sum(1 for c in checks if c["pass"]),"failed":[c["name"] for c in checks if not c["pass"]]}
     (ROOT/"qa/NL_R04_PILOT.json").write_text(json.dumps(result,ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
     print(json.dumps({k:result[k] for k in ("total","passed","failed")},ensure_ascii=False))
     return 0 if result["passed"]==result["total"] else 1

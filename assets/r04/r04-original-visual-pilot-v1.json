@@ -1,5 +1,5 @@
 {
-  "assetPack": "r04-original-visual-pilot-v1",
+  "assetPack": "r04-original-visual-pilot-v2-action-pose",
   "status": "RECREATED",
   "route": "OpenAI image_gen original character generation/editing; no external game assets used",
   "classification": "SIMULATED project art, not an official Ngọa Long asset",
@@ -12,7 +12,7 @@
     "width": 56,
     "height": 70
   },
-  "animationStatus": "STATIC_MASTER_ONLY",
+  "animationStatus": "TWO_POSE_SCOUT_DIRECTIONAL_PILOT",
   "characters": [
     {
       "id": "scout",
@@ -87,6 +87,29 @@
         "x": 0.5,
         "y": 1.0
       }
+    }
+  ],
+  "poseFrames": [
+    {
+      "id": "scout-attack-contact",
+      "characterId": "scout",
+      "state": "ATTACK_CONTACT",
+      "direction": "front-three-quarter-right",
+      "trigger": "real enemy infantry physical action during campaign stage 25",
+      "rawMaster": "r04-original-bulwark-scout-attack-contact-v1-raw.png",
+      "rawSha256": "bee93389ad975f0ea7dbe60c4e2de40650b1b9f96d54cb38149407144b993443",
+      "registeredMaster": "r04-original-bulwark-scout-attack-contact-v1.png",
+      "registeredSha256": "f345daa48ee9427efce86da129ce18050b6ad6bd9c6906d690196d7e33ffb27c",
+      "promptRef": "generation_prompts.md#scout-attack-contact",
+      "sourceDimensions": [1402, 1122],
+      "sourceAlphaBounds": [0, 21, 1372, 1105],
+      "canvas": [768, 640],
+      "registeredAlphaBounds": [77, 100, 718, 595],
+      "canvasFormat": "RGBA PNG",
+      "pivot": {"x": 0.5, "y": 1.0},
+      "registrationTool": "tools/register_nl_r04_attack.py",
+      "registrationPillow": "11.3.0",
+      "route": "OpenAI image_gen edit of project-owned scout identity master; generated single pose, not video-derived"
     }
   ]
 }
