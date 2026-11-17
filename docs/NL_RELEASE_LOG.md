@@ -1,5 +1,14 @@
 # Ngọa Long Alpha release log
 
+## NL-R02 390px battle roster readability — 2026-11-18
+
+- **Code SHA:** `6b1ea3115a8582ad783a747804b8a3730a605d8d` on `codex/nl-wiki-01-r02-20261117`.
+- **DONE:** Increased the mobile live-roster text and contrast while preserving the battlefield canvas: unit names/details render at 11px, HP/morale metadata at 9px, headings at 11px and HP bars at 4px. The roster remains sourced from the live battle state.
+- **QA:** `qa/nl_r02.py` now asserts computed font sizes, six visible live units, no title/control overlap, full overlay bounds inside 390×844, no horizontal document overflow, and a canvas height of at least 140px. R02 Chromium **28/28**; NL data **31/31**; hub **18/18**; R03 **35/35**; progression **24/24**; R04 pilot **20/20**; inline syntax and reproducible build checks pass. The desktop capture remains 1280×720.
+- **Exact-SHA Actions:** [run 44189850411](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44189850411) **SUCCESS** on this SHA; all 40 workflow steps passed, including the 30/60-minute simulations and legacy CL/P2/P3/P4.1 regression/video gates.
+- **Artifacts:** playable Alpha [14376293579](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44189850411/artifacts/14376293579), digest `sha256:f10b52c67963897a9d3672ec6df37c514371148f9068bf5e5ad82c0c0b3a582b`; Chromium QA/screenshots/video [14376218968](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44189850411/artifacts/14376218968), digest `sha256:44a99de03d2e21f60e517ccc17b81336af87848c3658ccd48f2be2c98f1f82ac`. Local mobile capture: `qa/nl-r02-mobile-battle.png`.
+- **PENDING:** physical Android/Windows layout, owner visual acceptance, Wiki catalogue completeness and Mobile/classic parity are not certified. This UI readability fix does not open the V2 gate for broad R04 art/content.
+
 ## NL-P1.1 field-level Wiki provenance audit — 2026-11-18
 
 - **Code SHA:** `2e7f0cbd3a7cfe3929dd3e589ad6a210da02b7ec` on `codex/nl-wiki-01-r02-20261117`.
