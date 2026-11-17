@@ -1,0 +1,12 @@
+# Ngọa Long Alpha release log
+
+## NL-R04 two-pose scout callout pilot — 2026-11-18
+
+- **Code SHA:** `6bd0a98f750248dd9ceb3b284f882febd037dfef` on `codex/nl-wiki-01-r02-20261117`.
+- **DONE:** Added one original scout ATTACK_CONTACT pose, generated from the project's existing scout identity master. The canonical offline HTML displays it only when an actual stage-25 enemy infantry physical action occurs; it returns to idle after 320 ms. It is callout art, not a replacement battlefield unit sprite.
+- **Files:** `assets/r04/r04-original-bulwark-scout-attack-contact-v1-raw.png`, registered PNG and manifest; `tools/register_nl_r04_attack.py`; `tools/ngoa_long_r04.js`; deterministic embed/build logic; `.github/workflows/ngoalong-qa.yml`; `qa/nl_r04_pilot.py`; exact-source desktop/mobile captures.
+- **Provenance:** original generated fictional character pose edited from project-owned scout art; prompt and route in `assets/r04/generation_prompts.md`. PNG manifest records hashes, dimensions, alpha bounds, pivot and registration tool. Cross-runner CI compares regenerated RGBA pixels against the canonical registered image, while the HTML build verifies exact bytes.
+- **TESTED:** build checks pass; Chromium R04 **20/20** at 1280×720 and 390×844; R02 **27/27**; data **27/27**; R03 **35/35**; progression **24/24**; hub smoke **18/18**. Full exact-SHA Actions [44169520893](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44169520893) **SUCCESS**, including 30/60-minute simulations and legacy P2/P3/CL/P4.1 gates.
+- **Artifacts:** playable HTML [14368417443](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44169520893/artifacts/14368417443), digest `sha256:2776cbb7f7fb68d575785ae4634d29587d9b80bd9683a4821d00acc15f02a681`; QA/video evidence [14367199517](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44169520893/artifacts/14367199517), digest `sha256:ed96008cb44334806e62192be1ee574b727a069180382473756b9ab0c6e5d582`.
+- **PENDING:** full animation states/directions for both characters, troop identity sprites and independent alpha VFX; owner art acceptance and physical Windows/Android review. This two-pose callout pilot makes no frame-by-frame battlefield animation claim.
+- **Next:** expand the sprite set only with provenance and identity-consistent source poses; extend the asset/runtime test to each newly added event state; request owner review of the current playable artifact before broad art production.
