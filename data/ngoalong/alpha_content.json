@@ -5154,10 +5154,10 @@
           7
         ],
         "tactic": "Trống Khóa Quân Tâm: Tư Mã Ý rút sĩ khí; Điều Quân + Thương ưu tiên Kỵ, còn trống giữ nhịp quân tâm.",
-        "enemyPower": 1.9,
+        "enemyPower": 1.15,
       "recommendedPreparation": {
         "minimumGenerals": 5,
-        "averageHeroLevel": 12,
+        "averageHeroLevel": 5,
         "recommendedPreset": "spear-van",
           "provenance": {
             "classification": "SIMULATED",
@@ -5186,6 +5186,9 @@
         "qaExpectations": {
           "sameSeedFormationPuzzle": {
             "seed": 8675309,
+            "enemyPower": 1.15,
+            "heroLevel": 5,
+            "soldiersPerHero": 220,
             "losingPreset": "shield-van",
             "winningPreset": "spear-van",
             "provenance": {
