@@ -56,6 +56,8 @@ PORTAL = r"""
 const NL_GAME_DATA = __NL_DATA_PACK__;
 // Keep the complete original project roster in the validated data pack; this is not a Wiki hero import.
 NL_GAME_DATA.heroes.projectRoster.forEach(hero=>{const {id,provenance,fieldProvenance,...profile}=hero;HEROES[id]={...HEROES[id],...profile};});
+// Bind the original project's generic combat descriptors from JSON; separate expansion skills remain intact.
+for(const [id,skill] of Object.entries(NL_GAME_DATA.skills.heroById)){const {provenance,...descriptor}=skill;P2_SKILLS[id]=descriptor;}
 // Existing project IDs stay compatible, while their editable tactical catalog now lives in JSON.
 Object.keys(FORMATIONS).forEach(id=>delete FORMATIONS[id]);
 NL_GAME_DATA.formations.families.forEach(family=>{FORMATIONS[family.id]={name:family.name,desc:family.description,...family.combatModifiers};});

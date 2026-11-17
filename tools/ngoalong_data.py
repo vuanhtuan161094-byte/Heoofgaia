@@ -133,6 +133,19 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
     for skill_id, skill in skills.get("overrides", {}).items():
         _validate_skill(skill, statuses, f"skills.overrides.{skill_id}")
         _provenance(skill.get("provenance"), source_ids, f"skills.overrides.{skill_id}")
+    hero_ids_for_skills = {hero.get("id") for hero in pack.get("heroes", {}).get("projectRoster", [])}
+    hero_skills = skills.get("heroById", {})
+    _require(isinstance(hero_skills, dict) and set(hero_skills) == hero_ids_for_skills, "hero combat skill catalog must bind every project roster hero exactly once")
+    for hero_id, skill in hero_skills.items():
+        path = f"skills.heroById.{hero_id}"
+        _validate_skill(skill, statuses, path)
+        _provenance(skill.get("provenance"), source_ids, path)
+        _require(skill["provenance"].get("classification") == "SIMULATED", f"{path} must remain an original simulated project descriptor")
+        if "healCount" in skill:
+            _require(isinstance(skill["healCount"], int) and skill["healCount"] > 0, f"{path}.healCount must be positive")
+        for field in ("pierce", "crit", "bonusMorale", "drainMorale", "applyChance"):
+            if field in skill:
+                _require(isinstance(skill[field], (int, float)), f"{path}.{field} must be numeric")
 
     heroes = pack.get("heroes", {})
     _provenance(heroes.get("provenance"), source_ids, "heroes")
