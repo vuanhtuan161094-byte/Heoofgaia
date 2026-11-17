@@ -1,6 +1,13 @@
 # AGENTS.md — Mưu Định Tam Quốc / Chiến Loạn-style SLG
 
-## QUYẾT ĐỊNH CUỐI 17/11/2026 — GAME HYBRID (QUYỀN ƯU TIÊN CAO NHẤT)
+## QUYẾT ĐỊNH MỚI NHẤT — 17/11/2026: NGỌA LONG FIRST (BẮT BUỘC)
+- Owner yêu cầu làm lại game theo **Ngọa Long**, hủy các chỉ đạo Chiến Loạn/hybrid trước đó. **`docs/NGOA_LONG_REBUILD_SPEC_V1.md` có quyền ưu tiên cao nhất về gameplay**; tất cả mô tả Chiến Loạn/hybrid bên dưới là lịch sử.
+- Trọng tâm: **thành trì, võ tướng, 3×3/5 tướng, 24 trận hình, sĩ khí, chiến pháp, 3 loại sát thương, khắc chế, binh chủng tiến hóa, trang bị, khoa kỹ, phó bản**. CL-P6 hành quân chiếm thành chỉ là tùy chọn lịch sử, không phải lõi.
+- Sử dụng lại mã P2/P3/CL hợp lệ và save schema v5, không xóa tiến độ. Đầu ra **một** index.html offline được build tái lập bằng `tools/build_ngoa_long_mode.py` trong CI; `qa/ngoa_long_mode.py` là cổng tương tác thật.
+- Giữ mỹ thuật 2D chibi hắc ám mắt phát sáng đã chọn, nhưng không sao chép VNG, **không rig**, visual QA và owner approval tách biệt.
+- Cấm merge/force-push/reset Hero và thay default branch; Codex chỉ được thực thi trên main-ngoalong. Chỉ khẳng định DONE khi có bằng chứng CI exact-SHA và nghiệm thu liên quan.
+
+## QUYẾT ĐỊNH CŨ (ĐÃ BỊ THAY THẾ) — GAME HYBRID (QUYỀN ƯU TIÊN CAO NHẤT)
 - **Một game duy nhất:** Mưu Định Tam Quốc = Chiến Loạn (điều quân/chiếm thành/lính đánh thật) + Ngọa Long (3×3/24 bố trận/sĩ khí/khắc chế/chiến pháp). **Bắt buộc đọc `docs/GAME_DESIGN_BIBLE_HYBRID_V1.md` trước thực hiện**.
 - **Mỹ thuật đã chốt:** `docs/ART_DIRECTION_DARK_CHIBI_V1.md` = Dark Fantasy Sharp-Eyed Chibi, 2D tranh vẽ tay, tướng 3–3,5 đầu, mắt sắc sáng năng lượng. Không pixel, không rig, animation frame-by-frame. Dự án không còn theo hướng semi-realistic thử trước.
 - Tài liệu Ngọa Long-first, Chiến Loạn-only và hand-painted bán hiện thực vẫn là **lịch sử** và không được ghi đè art/gameplay hybrid mới; quy định isolation/save/REV từ chúng vẫn tiếp tục áp dụng.
