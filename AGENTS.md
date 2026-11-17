@@ -1,5 +1,11 @@
 # AGENTS.md — Mưu Định Tam Quốc / Chiến Loạn-style SLG
 
+## QUYẾT ĐỊNH CUỐI 17/11/2026 — GAME HYBRID (QUYỀN ƯU TIÊN CAO NHẤT)
+- **Một game duy nhất:** Mưu Định Tam Quốc = Chiến Loạn (điều quân/chiếm thành/lính đánh thật) + Ngọa Long (3×3/24 bố trận/sĩ khí/khắc chế/chiến pháp). **Bắt buộc đọc `docs/GAME_DESIGN_BIBLE_HYBRID_V1.md` trước thực hiện**.
+- **Mỹ thuật đã chốt:** `docs/ART_DIRECTION_DARK_CHIBI_V1.md` = Dark Fantasy Sharp-Eyed Chibi, 2D tranh vẽ tay, tướng 3–3,5 đầu, mắt sắc sáng năng lượng. Không pixel, không rig, animation frame-by-frame. Dự án không còn theo hướng semi-realistic thử trước.
+- Tài liệu Ngọa Long-first, Chiến Loạn-only và hand-painted bán hiện thực vẫn là **lịch sử** và không được ghi đè art/gameplay hybrid mới; quy định isolation/save/REV từ chúng vẫn tiếp tục áp dụng.
+- Thứ tự H0 khắc phục lỗi CL-P5 atlas exact-byte CI trước → H1 hợp nhất chiến đấu 5 tướng + 3×3 → H2 map capture loop → H3 art pilot → H4 nội dung/balance → H5 release. Không báo DONE khi mới có doc.
+
 ## Quyền sở hữu và cô lập
 - Đây là nhánh **Mưu Định Tam Quốc**, chiến thuật SLG lấy cảm hứng chính từ **Chiến Loạn Tam Quốc (2025)**. Tên nhánh lịch sử **main-ngoalong** được giữ để bảo toàn Git và Save, không có nghĩa giữ Ngọa Long làm bản mẫu chính. Nhánh Hero `feature/hog1-research-to-playable-20261102` độc lập, tuyệt đối không sửa hoặc merge. Không thay default branch.
 - Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. CL-P1–P6 QA và docs là bằng chứng, không phải game khác.

@@ -1,6 +1,8 @@
 # Mưu Định Tam Quốc
 
-Game chiến thuật Tam Quốc độc lập, lấy **Chiến Loạn Tam Quốc (CMN Online, 2025)** làm tham chiếu gameplay chính. Ngọa Long chỉ còn là ảnh hưởng lịch sử trong một số hệ thống cũ. Mã nguồn, mỹ thuật và cách trình bày của dự án vẫn nguyên bản; không có liên kết chính thức với CMN Online, VNG hay sản phẩm được tham chiếu.
+**QUYẾT ĐỊNH CHÍNH THỨC 17/11/2026:** Game nguyên bản **lai Chiến Loạn (điều quân, chiếm thành, binh lính đánh thật) × Ngọa Long (trận hình 3×3, 24 presets, sĩ khí, chiến pháp)**; đồ họa **Dark Fantasy Sharp-Eyed Chibi 2D hand-painted, mắt sáng năng lượng, không rig**. Xem [Game Design Bible](docs/GAME_DESIGN_BIBLE_HYBRID_V1.md) và [Art Bible](docs/ART_DIRECTION_DARK_CHIBI_V1.md). Trạng thái game hiện tại là CL-P6 baseline, hybrid/art mới chỉ chốt thiết kế, chưa xác nhận code hoàn tất. Không liên quan chính thức CMN/VNG.
+
+> **LATEST HEAD CI BLOCKED:** bản sprite Bộ binh CL-P5 hiện bị lỗi atlas byte reproducibility; chỉ dùng [bản CL-P6 CI PASS trước đó](https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/43936181038) để chơi thử tới khi sửa. Không xem tài liệu chốt thiết kế là game đã hoàn thành.
 
 ## Bản chơi mới nhất
 

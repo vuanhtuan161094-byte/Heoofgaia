@@ -1,4 +1,6 @@
-# ART DIRECTION V1 — HAND-PAINTED 2D / MƯU ĐỊNH TAM QUỐC
+# ART DIRECTION V1 — HAND-PAINTED 2D / MƯU ĐỊNH TAM QUỐC (HISTORICAL)
+
+> **FINAL DARK CHIBI OVERRIDE, 17/11/2026:** Owner approved **hand-painted 2D Dark Fantasy Sharp-Eyed Chibi with glowing energy eyes**. See `docs/ART_DIRECTION_DARK_CHIBI_V1.md`. Earlier ink-wash/semi-realistic options below are obsolete. Keep only common provenance/no-rig/QA requirements.
 **Owner directive:** 17 Nov 2026. Replace the previous mixed old-style/pixel-like battlefield look with an independently illustrated, coherent **tranh vẽ tay 2D** art direction. This is an art-direction rule and production backlog, NOT a claim that the game graphics are already replaced.
 
 ## 1. North star (mandatory) / Style identity

@@ -1,4 +1,6 @@
-# MƯU ĐỊNH TAM QUỐC — CHIẾN LOẠN GAMEPLAY MASTER SPEC V1
+# MƯU ĐỊNH TAM QUỐC — CHIẾN LOẠN GAMEPLAY MASTER SPEC V1 (HISTORICAL)
+
+> **HYBRID FINAL DIRECTION, 17/11/2026:** owner selected one Chiến Loạn × Ngọa Long original hybrid game. The authoritative product design is `docs/GAME_DESIGN_BIBLE_HYBRID_V1.md`; art authority `docs/ART_DIRECTION_DARK_CHIBI_V1.md`. Conflicting single-reference roadmap and semi-realistic ideas below are superseded, but safety, save, branch isolation and QA still apply.
 Date: 2026-11-16 · Owner-directed product pivot · dedicated Codex game agent.
 
 ## 0. OVERRIDING PRODUCT DIRECTION
