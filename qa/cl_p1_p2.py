@@ -77,6 +77,7 @@ def main():
         page.locator('[data-cl-field="normal"]').click()
         battle = page.evaluate("window.__CLTQ_QA__.getBattle()")
         check("first CL battle instantiates five generals with living detachments", battle["mode"] == "cltq" and len(battle["p"]) == 5 and all(u["initialTroops"] >= 30 for u in battle["p"]))
+        check("legacy CL combat keeps its canvas roster presentation without the Ngọa Long side roster", page.locator("#battle-mobile-roster").evaluate("node=>getComputedStyle(node).display==='none'&&node.childElementCount===0"))
         check("each living squad keeps at least three visible soldiers and scales formation", page.evaluate("[30,140,350].map(t=>window.__CLTQ_QA__.soldierCount({troops:t}))") == [3, 3, 5])
         damage = page.evaluate("""id=>{
           const qa=window.__P2_QA__,b=qa.debugBattle(),full=qa.makeUnit(id,'p',0,1),half=structuredClone(full);

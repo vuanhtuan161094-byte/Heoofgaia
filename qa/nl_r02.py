@@ -214,6 +214,12 @@ def main():
         page.evaluate(f"""() => {{const q=window.__P2_QA__,b=q.debugBattle(),s=b.e.find(u=>u.skillKey==='nl-sima');b.seed=81173;s.morale=100;q.perform(s);}}""")
         page.screenshot(path=str(ROOT / "qa" / "nl-r02-desktop-battle.png"), full_page=False)
         check("desktop Chromium screenshot captures the real battle and AI combat log", page.locator("#battle-canvas").count() == 1 and "AI:" in page.locator("#combat-log").inner_text())
+        desktop_roster = page.evaluate("""() => {
+          const root=document.querySelector('#battle-mobile-roster'),windowBox=document.querySelector('.battle-window').getBoundingClientRect(),cards=[...root.querySelectorAll('.mobile-roster-unit')];
+          return {visible:getComputedStyle(root).display!=='none'&&root.getBoundingClientRect().height>0,cards:cards.map(card=>({slot:card.dataset.rosterSlot,text:card.innerText,box:(()=>{const r=card.getBoundingClientRect();return {left:r.left,right:r.right,width:r.width,height:r.height};})(),nameSize:parseFloat(getComputedStyle(card.querySelector('.mobile-roster-name')).fontSize),metaSize:parseFloat(getComputedStyle(card.querySelector('.mobile-roster-meta')).fontSize)})),window:{bottom:windowBox.bottom}};
+        }""")
+        check("desktop live roster lists each unit name, 3x3 slot, troop count, HP and morale outside the canvas", desktop_roster["visible"] and len(desktop_roster["cards"]) >= 6 and all(card["slot"] is not None and "Ô " in card["text"] and " quân" in card["text"] and " HP · " in card["text"] and card["nameSize"] >= 10 and card["metaSize"] >= 9 and card["box"]["width"] >= 100 for card in desktop_roster["cards"]))
+        check("desktop roster battle window remains inside 720px Chromium viewport", desktop_roster["window"]["bottom"] <= 720)
 
         mobile = open_page(browser, 390, 844)
         mobile.evaluate(f"{qa}.selectTab('city')")
@@ -228,14 +234,16 @@ def main():
           const intersects=(a,b)=>!!a&&!!b&&a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
           const rosterUnit=document.querySelector('.mobile-roster-unit'),rosterMeta=document.querySelector('.mobile-roster-meta'),rosterHeading=document.querySelector('.mobile-roster-side h3');
           const fontSize=node=>node?parseFloat(getComputedStyle(node).fontSize):0;
+          const rosterCards=[...document.querySelectorAll('.mobile-roster-unit')];
           return {viewport:innerWidth,viewportHeight:innerHeight,scrollWidth:document.documentElement.scrollWidth,head,title,tools,canvas,roster,log,
             toolsOverlapTitle:intersects(title,tools),rosterVisible:!!roster&&roster.height>0,rosterUnits:document.querySelectorAll('.mobile-roster-unit').length,
             fontSizes:{unit:fontSize(rosterUnit),meta:fontSize(rosterMeta),heading:fontSize(rosterHeading),log:fontSize(document.querySelector('#combat-log'))},
+            eachRosterCardHasLiveTroopCount:rosterCards.every(card=>card.innerText.includes(' quân')&&card.innerText.includes(' HP · ')&&card.dataset.rosterSlot!==undefined),
             boundsFit:[head,tools,canvas,roster,log].every(r=>r&&r.left>=-1&&r.right<=innerWidth+1&&r.top>=-1&&r.bottom<=innerHeight+1),
             canvasHeight:canvas?.height||0};
         }""")
         check("390px battle roster uses readable type sizes without shrinking the 3x3 canvas", mobile_metrics["fontSizes"]["heading"] >= 11 and mobile_metrics["fontSizes"]["unit"] >= 10.5 and mobile_metrics["fontSizes"]["meta"] >= 9 and mobile_metrics["fontSizes"]["log"] >= 11 and mobile_metrics["canvasHeight"] >= 140)
-        check("390px real battle exposes all live unit HP/morale within viewport without overlap", mobile_metrics["scrollWidth"] <= mobile_metrics["viewport"] + 1 and mobile_metrics["boundsFit"] and not mobile_metrics["toolsOverlapTitle"] and mobile_metrics["rosterVisible"] and mobile_metrics["rosterUnits"] >= 6 and mobile.locator("#battle-canvas").count() == 1 and mobile.locator("#combat-log").count() == 1)
+        check("390px real battle exposes all live troop counts, HP and morale within viewport without overlap", mobile_metrics["scrollWidth"] <= mobile_metrics["viewport"] + 1 and mobile_metrics["boundsFit"] and mobile_metrics["eachRosterCardHasLiveTroopCount"] and not mobile_metrics["toolsOverlapTitle"] and mobile_metrics["rosterVisible"] and mobile_metrics["rosterUnits"] >= 6 and mobile.locator("#battle-canvas").count() == 1 and mobile.locator("#combat-log").count() == 1)
         mobile.close()
         check("Chromium recorded no JavaScript exceptions", not errors)
         browser.close()
