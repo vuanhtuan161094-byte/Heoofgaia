@@ -36605,7 +36605,7 @@ if(window.__P2_ENABLE_QA__){window.__P3_QA__={presets:P3_PRESETS.map(x=>({...x})
 
 if(window.__P2_ENABLE_QA__){window.__P2_QA__={getGame:()=>structuredClone(game),getBattle:()=>battle?structuredClone({...battle,current:null,fx:[],order:null}):null,
  beginBattle,stepBattle,skipBattle,makeUnit,p2Hit,p2Target,p2OpenReplay,p2LoadReplayFrame,finishBattle,closeBattle,debugBattle:()=>battle,
- useTroop:changeTroopMode,setGame:(g)=>{game=g;hydrateExtension();render();},render,selectTab:(t)=>{tab=t;render();}};}
+ useTroop:changeTroopMode,enlist,giveTroops,setGame:(g)=>{game=g;hydrateExtension();render();},render,selectTab:(t)=>{tab=t;render();}};}
 
 // === CL-P6 optional NPC grand-strategy systems ===
 const clP6BaseHydrate=hydrateExtension;
