@@ -1,36 +1,25 @@
-# AGENTS.md — Mưu Định Tam Quốc / Chiến Loạn-style SLG
+# AGENTS.md — Mưu Định Tam Quốc / Wiki-driven Ngọa Long
 
-## QUYẾT ĐỊNH MỚI NHẤT — 17/11/2026: NGỌA LONG FIRST (BẮT BUỘC)
-- Owner yêu cầu làm lại game theo **Ngọa Long**, hủy các chỉ đạo Chiến Loạn/hybrid trước đó. **`docs/NGOA_LONG_REBUILD_SPEC_V1.md` có quyền ưu tiên cao nhất về gameplay**; tất cả mô tả Chiến Loạn/hybrid bên dưới là lịch sử.
-- Trọng tâm: **thành trì, võ tướng, 3×3/5 tướng, 24 trận hình, sĩ khí, chiến pháp, 3 loại sát thương, khắc chế, binh chủng tiến hóa, trang bị, khoa kỹ, phó bản**. CL-P6 hành quân chiếm thành chỉ là tùy chọn lịch sử, không phải lõi.
-- Sử dụng lại mã P2/P3/CL hợp lệ và save schema v5, không xóa tiến độ. Đầu ra **một** index.html offline được build tái lập bằng `tools/build_ngoa_long_mode.py` trong CI; `qa/ngoa_long_mode.py` là cổng tương tác thật.
-- Giữ mỹ thuật 2D chibi hắc ám mắt phát sáng đã chọn, nhưng không sao chép VNG, **không rig**, visual QA và owner approval tách biệt.
-- Cấm merge/force-push/reset Hero và thay default branch; Codex chỉ được thực thi trên main-ngoalong. Chỉ khẳng định DONE khi có bằng chứng CI exact-SHA và nghiệm thu liên quan.
+## Thẩm quyền hiện hành — Issue #4 và Wiki-driven V2, 17/11/2026
+- GitHub Issue #4 mới nhất và chỉ thị V2 của owner cùng chọn gameplay Ngọa Long làm định hướng, dùng Wiki VNG chính thức làm nguồn tham khảo ưu tiên. `docs/NGOA_LONG_REBUILD_SPEC_V1.md` giữ hợp đồng gameplay; `docs/NL_DATA_DRIVEN_V2.md` bổ sung schema, provenance và lộ trình kỹ thuật hiện hành.
+- Nghiên cứu Wiki Mobile hiện hành và Ngọa Long web cổ điển phải tách riêng; không tuyên bố parity khi chưa có bằng chứng. Dùng `VERIFIED / DERIVED / SIMULATED / UNKNOWN`; giá trị chưa có nguồn phải để null hoặc ghi là mô phỏng của dự án.
+- Ưu tiên P0–P4: sửa/kiểm tra CI, schema+validator, chuyển binh chủng/tiến hóa/trạng thái sang dữ liệu, cấu hình 10–20 phó bản đầu, tích hợp R02/R03 và phát hành HTML Alpha. P5 mỹ thuật chỉ mở sau khi Alpha chơi được được nghiệm thu.
+- Các chỉ thị Chiến Loạn/hybrid trong lịch sử chỉ còn là regression hoặc dữ liệu tương thích; không dùng làm hướng gameplay chính. Không xóa CL state hay regression gate.
+- Giữ mã và mỹ thuật nguyên bản; không sao chép code, hình, âm thanh, UI đặc thù, lời mô tả sáng tạo hoặc công thức nội bộ của VNG. Không sửa Hero/Tông Môn/CMP, không đổi default branch, không merge hoặc force-push.
 
-## QUYẾT ĐỊNH CŨ (ĐÃ BỊ THAY THẾ) — GAME HYBRID (QUYỀN ƯU TIÊN CAO NHẤT)
-- **Một game duy nhất:** Mưu Định Tam Quốc = Chiến Loạn (điều quân/chiếm thành/lính đánh thật) + Ngọa Long (3×3/24 bố trận/sĩ khí/khắc chế/chiến pháp). **Bắt buộc đọc `docs/GAME_DESIGN_BIBLE_HYBRID_V1.md` trước thực hiện**.
-- **Mỹ thuật đã chốt:** `docs/ART_DIRECTION_DARK_CHIBI_V1.md` = Dark Fantasy Sharp-Eyed Chibi, 2D tranh vẽ tay, tướng 3–3,5 đầu, mắt sắc sáng năng lượng. Không pixel, không rig, animation frame-by-frame. Dự án không còn theo hướng semi-realistic thử trước.
-- Tài liệu Ngọa Long-first, Chiến Loạn-only và hand-painted bán hiện thực vẫn là **lịch sử** và không được ghi đè art/gameplay hybrid mới; quy định isolation/save/REV từ chúng vẫn tiếp tục áp dụng.
-- Thứ tự H0 khắc phục lỗi CL-P5 atlas exact-byte CI trước → H1 hợp nhất chiến đấu 5 tướng + 3×3 → H2 map capture loop → H3 art pilot → H4 nội dung/balance → H5 release. Không báo DONE khi mới có doc.
-
-## Quyền sở hữu và cô lập
-- Đây là nhánh **Mưu Định Tam Quốc**, chiến thuật SLG lấy cảm hứng chính từ **Chiến Loạn Tam Quốc (2025)**. Tên nhánh lịch sử **main-ngoalong** được giữ để bảo toàn Git và Save, không có nghĩa giữ Ngọa Long làm bản mẫu chính. Nhánh Hero `feature/hog1-research-to-playable-20261102` độc lập, tuyệt đối không sửa hoặc merge. Không thay default branch.
-- Canonical source/release: **index.html**; không sinh bản HTML thứ hai để giao phát hành. CL-P1–P6 QA và docs là bằng chứng, không phải game khác.
-- Trước sửa đọc chính xác HEAD SHA từ GitHub, `AGENTS.md`, `docs/REV_PROTOCOL.md`, `docs/CURRENT_CHECKPOINT.md` và code liên quan.
-- **Ủy quyền mới ngày 16/11/2026:** Chủ dự án cho phép **Codex chuyên trách duy nhất game Mưu Định Tam Quốc** trên `main-ngoalong`; ưu tiên mới là gameplay **Chiến Loạn Tam Quốc**. Không mở rộng quyền sang Hero, Tông Môn Bá Đạo hoặc CMP.
-- **MASTER SPEC PIVOT (ưu tiên cao nhất về product):** đọc `docs/CHIEN_LOAN_MASTER_SPEC.md` trước mọi thiết kế hoặc triển khai. `docs/NGOALONG_CODEX_AGENT.md` giữ phần bảo mật/cô lập/QA và chỉ áp dụng roadmap khi không xung đột master spec. Không tự động merge hoặc tự nhận hoàn thành khi chưa có bằng chứng.
-
-## Chủ định mỹ thuật — 17/11/2026
-- **CHỈ ĐẠO MỚI CỦA OWNER:** đồ họa game phải chuyển sang phong cách **tranh vẽ tay 2D**. Đọc và tuân thủ `docs/ART_DIRECTION_HANDPAINTED_2D_V1.md` trước khi tạo, sửa hoặc tích hợp asset.
-- Ưu tiên bản thử nhỏ có hình ảnh thực sự tích hợp game (bản đồ, thành trì, tướng, quân và chiến trường), không tiếp tục mặc định phong cách sprite cũ/pixel, hình học thô hoặc dựng giả 3D. Tranh vẽ tay nhiều màu / nét cọ rõ, phù hợp Tam Quốc. Tông cụ thể cần duyệt bằng mẫu.
-- Giữ sprite-first frame-by-frame, **không rig**, đúng alpha/pivot và cho xem Chromium desktop/mobile thực tế. Mỗi hình chỉ chuyển sang diện sản xuất hàng loạt sau khi owner duyệt mỹ thuật; không tự nhận PASS nhờ CI.
+## Repo, branch, build và quyền truy cập
+- Repo duy nhất: `vuanhtuan161094-byte/Heoofgaia`; làm trên task branch do owner chỉ định từ `main-ngoalong`. Không tự chuyển sang Hero hoặc mở rộng sang repo khác.
+- Trước khi sửa, xác nhận exact HEAD từ GitHub và đọc `AGENTS.md`, `docs/REV_PROTOCOL.md`, `docs/CURRENT_CHECKPOINT.md`, spec hiện hành, Issue #4 và code liên quan.
+- Một bản phát hành offline `index.html`; generator và dữ liệu có cấu trúc phải build lặp lại trong `.github/workflows/ngoalong-qa.yml`. Không giao một HTML thay thế ngoài luồng build.
+- Chỉ ghi DONE/TESTED khi có test, screenshot/video đúng build và GitHub Actions trên exact SHA. V4 máy thật và V5 owner approval luôn tách khỏi CI.
+- Chỉ thị cũ có thể còn bên dưới để giữ regression. Nếu mâu thuẫn về hướng gameplay hoặc thứ tự milestone, áp dụng Issue #4 mới nhất và V2 của owner.
 
 ## Gameplay data/authority
-- Combat duy nhất quyết toán tiền, EXP, quân chết, phần thưởng tại kết thúc trận; replay đọc bản ghi, không tạo đợt chi trả thứ hai.
-- Save key `muu_dinh_tam_quoc_v1`, schema v5; nâng cấp quân lưu trong `p3TroopTier`, preset trong `p3PresetId`, chiến dịch CL-P1–P4 trong `cltq` (kinh tế ở `cltq.economy`, chiến dịch ở `cltq.p4`). Giữ migration v1–v4→v5 và JSON import/export, không sửa Save Hero v07.
-- Giá luyện binh = bạc/lương/sắt thật, có gate cấp Doanh Trại; tier 1–4, không tự tăng số quân. Không tự phát tài nguyên.
-- Combat AI, 24 trận hình cũ, tier và cân bằng là SIMULATED. Thay mục tiêu gameplay bằng đội tướng 5v5 có quân lính thật, bản đồ điều quân/chiếm thành, giữ tính tương thích Save cũ và giải quyết thưởng một lần.
-- Không đưa artwork, mã nguồn, UI sao chép, âm thanh proprietary của **CMN Online / Chiến Loạn Tam Quốc**, **VNG / Ngọa Long** hoặc bên thứ ba vào repo khi không có quyền sử dụng.
+- Dữ liệu JSON đã kiểm chứng qua schema/validator là nguồn runtime cho troop taxonomy, project counter coefficients, status, evolution, formation plans và các NPC/map Alpha được chuyển đổi. NPC không có nguồn phải giữ level/soldiers/stats null với provenance UNKNOWN.
+- Trận chính tối đa 5 tướng trên 3×3; trận thắng mới quyết toán tiền/EXP/tổn thất/phần thưởng. Replay immutable và không cấp thưởng lần hai.
+- Giữ Save key `muu_dinh_tam_quoc_v1`, schema v5, migration v1–v4, receipts, replay, `p3TroopTier`, `p3PresetId`, và toàn bộ `cltq` legacy state. Không sửa Save Hero v07.
+- Giá, hệ số combat, tiến hóa, nhánh kỹ năng và phần thưởng do dự án tự chọn phải gắn SIMULATED; không tự bơm tài nguyên hoặc xóa dữ liệu cũ.
+- CL-P1–P6 và P4.1 còn là regression gates/dữ liệu lịch sử; giữ chúng chạy trong Actions và phân biệt rõ với nội dung game Ngọa Long hiện hành.
 
 ## REV và release gates
 1. R: nguồn và phân loại VERIFIED/DERIVED/SIMULATED/UNKNOWN; quyết định thiết kế.

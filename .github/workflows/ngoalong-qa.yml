@@ -14,10 +14,13 @@ jobs:
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: NL-REBUILD-01 compile canonical Ngọa Long-first HTML
+      - name: Validate Wiki provenance data and compile canonical R02/R03 Alpha HTML
         run: |
+          python tools/validate_ngoalong_data.py
           python tools/build_ngoa_long_mode.py
+          python tools/build_ngoa_long_r03.py
           python tools/build_ngoa_long_mode.py --check
+          python tools/build_ngoa_long_r03.py --check
       - name: Exact SHA and source identity
         run: |
           git rev-parse HEAD | tee qa/commit-sha.txt
@@ -31,12 +34,16 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install playwright==1.58.0 pillow==12.3.0
           python -m playwright install --with-deps chromium
+      - name: NL-P1 schema, provenance, references and progression validator gate
+        run: python qa/nl_data.py
       - name: P2 smoke Chromium
         run: python qa/smoke.py
       - name: Ngọa Long 3x3 command center desktop/mobile browser gate
         run: python qa/ngoa_long_mode.py
       - name: NL-R02 same-seed combat, morale, AI and save migration Chromium gate
         run: python qa/nl_r02.py
+      - name: NL-R03 data-driven evolutions and tactical encounters Chromium gate
+        run: python qa/nl_r03.py
       - name: CL-P1/P2 real battle and campaign loop
         run: python qa/cl_p1_p2.py
       - name: CL-P3 territory economy and 30-minute strategy loop
@@ -108,7 +115,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-qa-evidence
+          name: muu-dinh-tam-quoc-ngoa-long-alpha-evidence
           path: |
             qa/*.json
             qa/*.png
@@ -121,13 +128,14 @@ jobs:
             assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-manifest.json
             qa/commit-sha.txt
             qa/index-sha256.txt
+            data/ngoalong/alpha_content.json
           if-no-files-found: warn
 
       - name: Publish single playable HTML after full PASS
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-ngoa-long-playable
+          name: muu-dinh-tam-quoc-ngoa-long-alpha-playable
           path: |
             index.html
             qa/commit-sha.txt

@@ -3,14 +3,14 @@
 Tên gọi REV trong dự án này là QUY TRÌNH REVIEW ĐƯỢC GHI NHẬN; hiện không có một plugin skill riêng tên REV trong danh mục được kết nối. Quy trình kế thừa evidence ladder và project direction đã áp dụng với game Tông Môn Bá Đạo, chỉnh cho HTML/Chromium.
 
 ## R — Research & requirements
-1. **Quyết định mới 17/11/2026:** dùng **Ngọa Long** làm tham chiếu gameplay chính theo `docs/NGOA_LONG_REBUILD_SPEC_V1.md`; Chiến Loạn/hybrid là lịch sử. Lưu URL + bản/niên đại + VERIFIED/DERIVED/SIMULATED/UNKNOWN, không sao chép tài sản gốc.
+1. **Chỉ thị hiện hành 17/11/2026:** Issue #4 và Wiki-driven V2 dùng gameplay Ngọa Long làm định hướng; Wiki VNG Mobile là nguồn nghiên cứu ưu tiên. `docs/NGOA_LONG_REBUILD_SPEC_V1.md` là gameplay contract, `docs/NL_DATA_DRIVEN_V2.md` là lộ trình/schema bổ sung. Chiến Loạn/hybrid là regression và lịch sử, không phải gameplay chính. Ghi URL + phiên bản/ngày + VERIFIED/DERIVED/SIMULATED/UNKNOWN.
 2. Gắn OBSERVED / DERIVED / SIMULATED / UNKNOWN cho từng luật; không tự khẳng định chi tiết thiếu chứng cứ.
 3. Chốt gameplay contract theo input → authoritative state → combat/event → receipt → save → UI; giữ hệ thống riêng biệt khỏi Hero.
 
 ## E — Engineering
 4. Đọc HEAD và AGENTS.md; sửa theo vertical slice nhỏ, không phát tán bản HTML rời rạc.
 5. Một canonical index.html; giữ bản đã được nhận vào Git với commit SHA thay vì ZIP phiên bản song song.
-6. Giữ đội hình 3×3, sĩ khí, chiến pháp, 24 preset, khắc chế và 3 damage lanes; bổ sung đội chỉ huy 5 tướng, quân sống/chết/bị thương và bản đồ CL bằng state riêng, có deterministic QA.
+6. Giữ đội hình 3×3/tối đa 5 tướng, sĩ khí, chiến pháp, 24 preset (6 trận pháp × 4 phương án), khắc chế và 3 damage lanes. Chuyển troop/evolution/status/map/NPC Alpha sang catalog dữ liệu có kiểm tra tham chiếu; không bẻ Save cũ.
 7. Không cấp EXP/tài nguyên lần nữa khi replay; bảo toàn Save key, giữ migration v1–v4 lên schema v5 và JSON import/export. CL-P4 bổ sung trạng thái chương/ải và sổ thông quan một lần ở `cltq.p4`.
 
 ## V — Verification

@@ -40,6 +40,12 @@ def main():
         page.locator('[data-nl-route="formation"]').click()
         presets = page.evaluate("window.__P3_QA__.presets")
         check("preset catalog preserves all 24 IDs across six formations and four variants", len(presets) == 24 and len({p["id"] for p in presets}) == 24 and len({p["formation"] for p in presets}) == 6 and len({p["style"] for p in presets}) == 4 and "6 trận pháp / 24 phương án" in page.locator("#view").inner_text())
+        catalog_binding = page.evaluate("""() => {
+          const data=window.__P2_QA__.data.formations,actual=window.__P3_QA__.presets.map(p=>p.id).sort();
+          const expected=data.families.flatMap(f=>data.plans.map(p=>`${f.id}-${p.key}`)).sort();
+          return {actual,expected,match:JSON.stringify(actual)===JSON.stringify(expected)};
+        }""")
+        check("live formation families and plans are instantiated from the validated JSON catalog", catalog_binding["match"] and len(catalog_binding["actual"]) == 24)
         check("Thương selector is available for owned infantry generals", page.locator('[data-nl-spear="zhang"]').count() == 1 and "Bộ → Thương → Kỵ → Bộ" in page.locator("#view").inner_text())
 
         before = page.evaluate(f"{qa}.getGame()")
@@ -128,20 +134,21 @@ def main():
 
         # Verify the authored fifth-map A/B at one exact NPC tuning and seed.
         puzzle = page.evaluate(f"""() => {{
-          const q=window.__P2_QA__,presets=window.__P3_QA__.presets,base=q.getGame(),out=[];
+          const q=window.__P2_QA__,presets=window.__P3_QA__.presets,base=q.getGame(),out=[],expected=q.data.campaign.encounters.find(item=>item.stage===5).qaExpectations.sameSeedFormationPuzzle;
           base.roster=['guan','zhang','liu','zhuge','huang'];
           for(const id of base.roster)base.hero[id]=base.hero[id]||{{level:12,xp:0,troops:650}};
           for(const id of base.roster){{base.hero[id].level=12;base.hero[id].xp=0;base.hero[id].troops=650;}}
           base.slots=['guan','zhang','liu','zhuge','huang',null,null,null,null];base.cleared=[1,2,3,4];
           for(const preset of presets){{
             q.closeBattle('city');q.setGame(structuredClone(base));window.__P3_QA__.assign(preset.id);q.beginBattle(5,'campaign');
-            const battle=q.debugBattle();battle.seed=8675309;q.skipBattle();out.push({{id:preset.id,won:battle.won,rounds:battle.round}});
+            const battle=q.debugBattle();battle.seed=expected.seed;q.skipBattle();out.push({{id:preset.id,won:battle.won,rounds:battle.round}});
           }}
           const wins=out.filter(row=>row.won),losses=out.filter(row=>!row.won);
-          q.closeBattle('city');return {{rows:out,loss:losses[0]?.id||null,win:wins[0]?.id||null}};
+          q.closeBattle('city');return {{rows:out,loss:losses[0]?.id||null,win:wins[0]?.id||null,expected}};
         }}""")
         check("same-seed fifth-map formation A/B has a real losing setup and a winning setup at equal hero power", bool(puzzle["loss"] and puzzle["win"]))
-        print(f"PUZZLE A/B: loss={puzzle['loss']} win={puzzle['win']} seed=8675309", flush=True)
+        check("stage-5 data fixture reproduces its recorded same-seed loss/win pair", puzzle["loss"] == puzzle["expected"]["losingPreset"] and puzzle["win"] == puzzle["expected"]["winningPreset"])
+        print(f"PUZZLE A/B: loss={puzzle['loss']} win={puzzle['win']} seed={puzzle['expected']['seed']}", flush=True)
 
         # One settlement, immutable replay, and v1-v4 save migration.
         settle = page.evaluate(f"""() => {{

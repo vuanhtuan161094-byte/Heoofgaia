@@ -64,3 +64,12 @@
 - V5: owner art/fidelity approval vẫn PENDING.
 
 **Kết luận giới hạn phạm vi:** *NL-WIKI-01 core research and NL-R02 implementation passed exact-SHA Actions; the playable HTML and QA evidence are published as run artifacts.* Wiki coverage remains partial; classic-to-Mobile parity, human long-run balance, physical-device play and owner art/gameplay approval are not certified. No merge or CL data removal is authorized.
+
+## Wiki-driven V2 implementation addendum — 2026-11-17
+
+The table above is the original 14-gap audit. Current data/runtime changes and their exact source classifications are overlaid in [NL_REFERENCE_MATRIX.md](NL_REFERENCE_MATRIX.md) and [NL_DATA_DRIVEN_V2.md](NL_DATA_DRIVEN_V2.md).
+
+- P1/P2/P3 now have a versioned JSON pack and validator, with combat troop/evolution/status/formation configuration plus 28 structured encounter records. No Wiki NPC catalogue or VNG formulas/assets/text were imported.
+- Local Chromium currently passes NL-R01 18/18, NL-R02 23/23, NL-R03 31/31 and CL-P6 legacy regression 30/30. Save schema/key v5 and prior R03 mechanics are preserved.
+- The fifth-map fixture is now expressed in data at seed `8675309`; the exact equal-power result is `shield-van` loss and `spear-van` win. These are project-authored SIMULATED outcomes, not a VNG gameplay claim.
+- The new integrated source has **not yet passed exact-SHA Actions**. The previous exact-SHA run on `8880d952...` passed its then-current P4.1 gate and is not evidence for this data pack. Human/owner acceptance, full Wiki reading, hero/item/research migration and classic/Mobile parity remain PENDING.

@@ -9,7 +9,10 @@ from __future__ import annotations
 
 import argparse
 import hashlib
+import json
 from pathlib import Path
+
+from ngoalong_data import load_pack, runtime_pack
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
@@ -50,6 +53,13 @@ CSS = """
 # upgrades/overrides and immediately before the existing final render().
 PORTAL = r"""
 // === NL-REBUILD-01: first-class 3x3 strategy dashboard ===
+const NL_GAME_DATA = __NL_DATA_PACK__;
+// Existing project IDs stay compatible, while their editable tactical catalog now lives in JSON.
+Object.keys(FORMATIONS).forEach(id=>delete FORMATIONS[id]);
+NL_GAME_DATA.formations.families.forEach(family=>{FORMATIONS[family.id]={name:family.name,desc:family.description,...family.combatModifiers};});
+P3_VARIANTS.splice(0,P3_VARIANTS.length,...NL_GAME_DATA.formations.plans.map(plan=>({key:plan.key,name:plan.name,style:plan.style,slots:[...plan.slots],desc:plan.description})));
+P3_PRESETS.splice(0,P3_PRESETS.length,...NL_GAME_DATA.formations.families.flatMap(family=>NL_GAME_DATA.formations.plans.map(plan=>({id:`${family.id}-${plan.key}`,formation:family.id,title:`${family.name} · ${plan.name}`,slots:[...plan.slots],style:plan.style,desc:plan.description}))));
+if(window.__P3_QA__)window.__P3_QA__.presets=P3_PRESETS.map(item=>({...item,slots:[...item.slots]}));
 function nlRebuildHub(){
   const current=Math.min(STAGES.length,game.cleared.length+1);
   const stage=STAGES[current-1],deployed=game.slots.filter(Boolean);
@@ -68,25 +78,28 @@ document.addEventListener('click',ev=>{
 });
 
 // === NL-R02: source-backed taxonomy + original deterministic combat policy ===
-const NL_R02_COUNTERS={infantry:'spear',spear:'cavalry',cavalry:'infantry'};
+const NL_R02_COUNTERS=Object.fromEntries(NL_GAME_DATA.troops.counterCycle.map(edge=>[edge.attacker,edge.defender]));
 const NL_R02_LEGACY_COUNTERS={...P2_COUNTERS};
-P2_TROOPS.spear='Thương binh';
+P2_TROOPS.spear=NL_GAME_DATA.troops.profiles.find(item=>item.id==='spear')?.wikiGroup||'Thương binh';
 const nlLegacyCounterFactor=p3CounterFactor;
 p3CounterFactor=function(attacker,defender){
   if(battle?.mode==='cltq')return nlLegacyCounterFactor(attacker,defender);
-  if(NL_R02_COUNTERS[attacker]===defender)return 1.22;
-  if(NL_R02_COUNTERS[defender]===attacker)return .82;
+  const edge=NL_GAME_DATA.troops.counterCycle.find(item=>item.attacker===attacker&&item.defender===defender);
+  if(edge)return edge.multiplier;
+  const reverse=NL_GAME_DATA.troops.counterCycle.find(item=>item.attacker===defender&&item.defender===attacker);
+  if(reverse)return reverse.disadvantageMultiplier;
   return 1;
 };
-const nlSimaSkill={...P2_SKILLS.sima,apply:'morale-seal',applyChance:1};
+const nlSimaSkill=NL_GAME_DATA.skills.overrides['campaign-sima-seal'];
 const nlBaseSkill=p2Skill;
 p2Skill=function(unit){
-  if(battle?.mode==='campaign'&&(unit?.id==='sima'||unit?.skillKey==='nl-sima'))return nlSimaSkill;
+  if(battle?.mode==='campaign'&&unit?.skillId&&NL_GAME_DATA.skills.overrides[unit.skillId])return NL_GAME_DATA.skills.overrides[unit.skillId];
+  if(battle?.mode!=='cltq'&&unit?.team==='e')return NL_GAME_DATA.skills.enemyByCombatType[unit.type]||nlBaseSkill(unit);
   return nlBaseSkill(unit);
 };
 const nlBaseMorale=p2Morale;
 p2Morale=function(unit,delta){
-  if(delta>0&&unit&&p2Has(unit,'morale-seal'))return unit.morale||0;
+  if(delta>0&&unit&&p2Has(unit,'morale-seal')&&NL_GAME_DATA.statusEffects.effects['morale-seal'].moraleGainMultiplier===0)return unit.morale||0;
   return nlBaseMorale(unit,delta);
 };
 const nlBaseHit=p2Hit;
@@ -98,39 +111,46 @@ p2Hit=function(attacker,target,kind,mult=1,opts={}){
   finally{for(const key of Object.keys(P2_COUNTERS))delete P2_COUNTERS[key];Object.assign(P2_COUNTERS,NL_R02_LEGACY_COUNTERS);}
 };
 
-const NL_R02_ENCOUNTERS=[
-  {tactic:'Hổ Lao Tiền Mâu: Bộ binh khắc chế Thương; bảo vệ tuyến trước.',troops:['spear','spear','infantry','archer','support']},
-  {tactic:'Kỵ Đội Xung Phong: Thương binh khắc chế Kỵ; giữ giáo ở tuyến trước.',troops:['cavalry','cavalry','archer','strategist','support']},
-  {tactic:'Thiết Thuẫn Trường Môn: Kỵ binh khắc chế Bộ; chọn mục tiêu để phá hàng chắn.',troops:['infantry','infantry','cavalry','archer','support']},
-  {tactic:'Hậu Doanh Liên Nỏ: cung thủ bắn qua tuyến; dùng chiến pháp hàng sau hoặc khóa cung.',troops:['infantry','archer','archer','strategist','support']},
-  {tactic:'Trống Khóa Quân Tâm: Tư Mã Ý rút sĩ khí; Điều Quân + Thương ưu tiên Kỵ, còn trống giữ nhịp quân tâm.',troops:['cavalry','spear','strategist','support','drum'],enemyPower:1.7}
-];
-NL_R02_ENCOUNTERS.forEach((encounter,index)=>{if(STAGES[index]){STAGES[index].nlTactic=encounter.tactic;STAGES[index][2]=encounter.tactic;}});
+const NL_R02_ENCOUNTERS=NL_GAME_DATA.campaign.encounters.filter(item=>item.stage<=5).map(encounter=>({
+  tactic:encounter.tactic,
+  troops:NL_GAME_DATA.campaign.npcs.find(npc=>npc.id===encounter.npcId).units.map(unit=>unit.troopId),
+  enemyPower:encounter.enemyPower
+}));
+NL_GAME_DATA.campaign.encounters.forEach(encounter=>{
+  const map=NL_GAME_DATA.campaign.maps.find(item=>item.id===encounter.mapId);
+  const npc=NL_GAME_DATA.campaign.npcs.find(item=>item.id===encounter.npcId);
+  const stageData=STAGES[encounter.stage-1];if(!stageData||!map||!npc)return;
+  stageData[0]=map.name;stageData[1]=npc.name;stageData[2]=encounter.tactic||map.synopsis||stageData[2];
+  stageData[3]=encounter.rewards.silver;stageData[4]=encounter.rewards.grain;stageData[5]=encounter.rewards.prestige;
+  stageData.nlTactic=encounter.tactic||map.synopsis||'';
+});
 const nlBaseUnit=p2Unit;
 p2Unit=function(id,team,slot,stage){
   const unit=nlBaseUnit(id,team,slot,stage);
   if(!unit)return unit;
-  // Re-tune the legacy mid-campaign band after replacing its troop-counter table.
-  // The 6% compensation is a project simulation, not a sourced Ngọa Long formula.
-  if(team==='e'&&battle?.mode==='campaign'&&stage>=13&&stage<=20){for(const key of ['atk','catk','matk','def','tdef','mdef'])unit[key]=Math.max(1,Math.round(unit[key]*1.06));unit.hp=unit.maxHp=Math.max(1,Math.round(unit.hp*1.06));}
+  const encounter=team==='e'&&battle?.mode==='campaign'?NL_GAME_DATA.campaign.encounters.find(item=>item.stage===stage):null;
+  const npc=encounter?NL_GAME_DATA.campaign.npcs.find(item=>item.id===encounter.npcId):null;
+  const npcUnit=npc?.units.find(item=>item.deploymentIndex===slot);
+  if(npcUnit){
+    unit.troop=npcUnit.troopId;unit.npcUnitId=npcUnit.id;unit.npcProfileId=npcUnit.profileId;
+    if(npcUnit.skillId){unit.skillId=npcUnit.skillId;if(npcUnit.skillKey)unit.skillKey=npcUnit.skillKey;}
+    if(npcUnit.skillId&&NL_GAME_DATA.skills.overrides[npcUnit.skillId]?.tag)unit.skill=NL_GAME_DATA.skills.overrides[npcUnit.skillId].tag;
+    if(npcUnit.nameOverride)unit.name=npcUnit.nameOverride;
+    if(unit.troop==='drum')unit.skill='Cổ Vũ';
+  }
   if(team==='p'&&game.troopModes[id]==='spear'&&HEROES[id]?.type==='infantry')unit.troop='spear';
-  if(team==='e'&&battle?.mode==='campaign'){
-    const encounter=NL_R02_ENCOUNTERS[stage-1];
-    if(encounter){
-      unit.troop=encounter.troops[slot]||unit.troop;
-      if(unit.troop==='drum')unit.skill='Cổ Vũ';
-      if(encounter.enemyPower){for(const key of ['atk','catk','matk','def','tdef','mdef'])unit[key]=Math.round(unit[key]*encounter.enemyPower);unit.hp=unit.maxHp=Math.round(unit.maxHp*encounter.enemyPower);}
-      if(stage===5&&slot===2){unit.name='Tư Mã Ý';unit.skill='Quỷ Mưu';unit.skillKey='nl-sima';}
-    }
+  if(encounter&&encounter.enemyPower!==1){
+    for(const key of ['atk','catk','matk','def','tdef','mdef'])unit[key]=Math.max(1,Math.round(unit[key]*encounter.enemyPower));
+    unit.hp=unit.maxHp=Math.max(1,Math.round(unit.maxHp*encounter.enemyPower));
   }
   return unit;
 };
 const nlBaseBeginBattle=beginBattle;
 beginBattle=function(stage,mode='campaign'){
   const previous=battle;nlBaseBeginBattle(stage,mode);
-  if(!previous&&battle?.mode==='campaign'&&stage===5){
-    const puzzleSlots=[2,5,8,3];
-    battle.e.forEach((unit,index)=>unit.slot=puzzleSlots[index]??unit.slot);
+  if(!previous&&battle?.mode==='campaign'){
+    const config=NL_GAME_DATA.campaign.encounters.find(item=>item.stage===stage);
+    if(config?.deploymentSlots)battle.e.forEach((unit,index)=>unit.slot=config.deploymentSlots[index]??unit.slot);
     if(battle.opening)battle.opening.e=structuredClone(battle.e);
   }
 };
@@ -193,7 +213,7 @@ document.addEventListener('click',event=>{
   if(switching)game.troopModes[id]='spear';else delete game.troopModes[id];
   save();render();
 });
-if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign(window.__P2_QA__,{p2Hit,p2Target,perform:p2Perform,morale:p2Morale,status:p2Status,encounters:NL_R02_ENCOUNTERS.map(item=>({...item,troops:[...item.troops]})),counters:{...NL_R02_COUNTERS},moraleSealSkill:nlSimaSkill.apply});
+if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign(window.__P2_QA__,{p2Hit,p2Target,perform:p2Perform,morale:p2Morale,status:p2Status,encounters:NL_R02_ENCOUNTERS.map(item=>({...item,troops:[...item.troops]})),counters:{...NL_R02_COUNTERS},moraleSealSkill:nlSimaSkill.apply,data:structuredClone(NL_GAME_DATA)});
 if(window.__P2_ENABLE_QA__&&window.__P3_QA__)Object.assign(window.__P3_QA__,{target:p2Target,counter:p3CounterFactor,unit:p2Unit});
 // === end NL-REBUILD-01 ===
 """
@@ -202,6 +222,100 @@ def replace_once(source: str, old: str, new: str, what: str) -> str:
     if source.count(old) != 1:
         raise ValueError(f"Cannot uniquely replace {what}: matches={source.count(old)}")
     return source.replace(old, new, 1)
+
+def replace_once_or_same(source: str, old: str, new: str, what: str) -> str:
+    if source.count(old) == 1:
+        return source.replace(old, new, 1)
+    if source.count(old) == 0 and source.count(new) == 1:
+        return source
+    raise ValueError(f"Cannot uniquely prepare {what}: old={source.count(old)} new={source.count(new)}")
+
+def prepare_combat_data_bindings(source: str) -> str:
+    replacements = [
+        (
+            "const types=['infantry','archer','cavalry','strategist','support'],type=types[(slot+stage)%5],boss=slot===4;",
+            "const types=NL_GAME_DATA.troops.combatTypeOrder,type=types[(slot+stage)%5],boss=slot===4;",
+            "NPC combat type order",
+        ),
+        (
+            "const scale=stage+(battle?.mode==='tower'?Math.floor(stage*.24):battle?.mode==='arena'?Math.floor(stage*.4):0);",
+            "const profile=NL_GAME_DATA.campaign.statProfiles['campaign-npc-scaling-v1'],scale=stage+(battle?.mode==='tower'?Math.floor(stage*profile.modeScale.tower):battle?.mode==='arena'?Math.floor(stage*profile.modeScale.arena):0);",
+            "NPC stat scaling profile",
+        ),
+        (
+            "const hp=210+scale*74+(boss?70:slot*12),atk=42+scale*8+(boss?12:slot%3*4),def=18+scale*4+(boss?7:0);",
+            "const hp=profile.base.hp+scale*profile.growth.hp+(boss?profile.bossBonus.hp:slot%3*profile.deploymentBonus.hp),atk=profile.base.atk+scale*profile.growth.atk+(boss?profile.bossBonus.atk:slot%3*profile.deploymentBonus.atk),def=profile.base.def+scale*profile.growth.def+(boss?profile.bossBonus.def:0);",
+            "NPC base, growth and boss stats",
+        ),
+        (
+            "name:boss?STAGES[Math.min(STAGES.length-1,Math.max(0,stage-1))][1]:['Tiền Quân','Hổ Vệ','Phó Tướng','Quân Sư','Hậu Quân'][slot],",
+            "name:boss?STAGES[Math.min(STAGES.length-1,Math.max(0,stage-1))][1]:(NL_GAME_DATA.campaign.npcUnitTemplates[slot]?.displayName||['Tiền Quân','Hổ Vệ','Phó Tướng','Quân Sư','Hậu Quân'][slot]),",
+            "NPC unit display-name template",
+        ),
+        (
+            "icon:['🛡️','🏹','🐎','🪶','⚔️'][slot],type,troop,skill:",
+            "icon:NL_GAME_DATA.campaign.npcUnitTemplates[slot]?.icon||['🛡️','🏹','🐎','🪶','⚔️'][slot],type,troop,skill:",
+            "NPC unit icon template",
+        ),
+        (
+            "skill:troop==='drum'?'Cổ Vũ':P2_ENEMY_SKILLS[type].tag,",
+            "skill:troop==='drum'?'Cổ Vũ':(NL_GAME_DATA.skills.enemyByCombatType[type]?.tag||P2_ENEMY_SKILLS[type].tag),",
+            "NPC data-driven skill tag",
+        ),
+        (
+            "catk:Math.round(atk*1.07),matk:29+scale*7,def,tdef:Math.round(def*.95),mdef:Math.round(def*.85),",
+            "catk:Math.round(atk*profile.derived.catkFromAtk),matk:profile.base.matk+scale*profile.growth.matk,def,tdef:Math.round(def*profile.derived.tdefFromDef),mdef:Math.round(def*profile.derived.mdefFromDef),",
+            "NPC derived attack/defense lanes",
+        ),
+        (
+            "speed:36+slot*8+scale*2,crit:.035,morale:boss?62:38,",
+            "speed:profile.base.speed+slot*profile.deploymentBonus.speed+scale*profile.growth.speed,crit:profile.crit,morale:boss?profile.morale.boss:profile.morale.normal,",
+            "NPC speed, critical chance and starting morale",
+        ),
+        (
+            "const count=Math.min(5,mode==='arena'?5:3+Math.floor((stage-1)/3));",
+            "const encounterConfig=mode==='campaign'?NL_GAME_DATA.campaign.encounters.find(item=>item.stage===stage):null,count=mode==='arena'?5:(encounterConfig?.activeCount||Math.min(5,3+Math.floor((stage-1)/3)));",
+            "campaign NPC active unit count",
+        ),
+        (
+            "const slots=[1,3,4,5,7].slice(0,count);",
+            "const slots=(encounterConfig?.deploymentSlots||NL_GAME_DATA.campaign.defaultEnemyFormationSlots).slice(0,count);",
+            "campaign NPC formation slots",
+        ),
+        (
+            "const attackerPower=a[property]*(p2Has(a,'daze')?.75:1),defenderPower=t[guard]*(p2Has(t,'break')?.69:1)*(p2Has(t,'guard')?1.28:1);",
+            "const attackerPower=a[property]*(p2Has(a,'daze')?NL_GAME_DATA.statusEffects.effects.daze.outgoingDamageMultiplier:1),defenderPower=t[guard]*(p2Has(t,'break')?NL_GAME_DATA.statusEffects.effects.break.incomingDefenseMultiplier:1)*(p2Has(t,'guard')?NL_GAME_DATA.statusEffects.effects.guard.incomingDefenseMultiplier:1);",
+            "common combat status multipliers",
+        ),
+        (
+            "if(P2_COUNTERS[a.troop]===t.troop)advantage=1.22;",
+            "if(P2_COUNTERS[a.troop]===t.troop)advantage=battle?.mode==='cltq'?1.22:(NL_GAME_DATA.troops.counterCycle.find(edge=>edge.attacker===a.troop&&edge.defender===t.troop)?.multiplier||1);",
+            "counter advantage multiplier",
+        ),
+        (
+            "if(P2_COUNTERS[t.troop]===a.troop)advantage=.82;",
+            "if(P2_COUNTERS[t.troop]===a.troop)advantage=battle?.mode==='cltq'?.82:(NL_GAME_DATA.troops.counterCycle.find(edge=>edge.attacker===t.troop&&edge.defender===a.troop)?.disadvantageMultiplier||1);",
+            "counter disadvantage multiplier",
+        ),
+        (
+            "Math.round(u.maxHp*.045)",
+            "Math.round(u.maxHp*NL_GAME_DATA.statusEffects.effects.burn.maxHpDamagePerRound)",
+            "burn tick ratio",
+        ),
+        (
+            "stunned=dazed&&p2Random()<.35",
+            "stunned=dazed&&p2Random()<NL_GAME_DATA.statusEffects.effects.daze.skipActionChance",
+            "daze action-loss chance",
+        ),
+        (
+            "descriptor.apply==='daze'?1:2",
+            "(NL_GAME_DATA.statusEffects.effects[descriptor.apply]?.duration||2)",
+            "applied status duration",
+        ),
+    ]
+    for old, new, label in replacements:
+        source = replace_once_or_same(source, old, new, label)
+    return source
 
 def replace_marked_block(source: str, start: str, end: str, replacement: str, what: str) -> str:
     if source.count(start) != 1 or source.count(end) != 1:
@@ -213,13 +327,17 @@ def replace_marked_block(source: str, start: str, end: str, replacement: str, wh
     return source[:start_at] + replacement.strip("\n") + source[end_at:]
 
 def build(source: str) -> str:
+    pack = runtime_pack(load_pack(ROOT))
+    data_json = json.dumps(pack, ensure_ascii=False, separators=(",", ":"))
+    source = prepare_combat_data_bindings(source)
+    portal = PORTAL.replace("__NL_DATA_PACK__", data_json)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
     js_start = "// === NL-REBUILD-01: first-class 3x3 strategy dashboard ==="
     js_end = "// === end NL-REBUILD-01 ==="
     if any(marker in source for marker in (css_start, css_end, js_start, js_end)):
         source = replace_marked_block(source, css_start, css_end, CSS, "CSS")
-        source = replace_marked_block(source, js_start, js_end, PORTAL, "runtime")
+        source = replace_marked_block(source, js_start, js_end, portal, "runtime")
         if source.count("function nlRebuildHub(){") != 1 or source.count("NL-R02: source-backed taxonomy") != 1:
             raise ValueError("Ngọa Long build verification failed")
         return source
@@ -227,7 +345,7 @@ def build(source: str) -> str:
     source = replace_once(source, "KIẾN THÀNH · DỤNG BINH · ĐỊNH THIÊN HẠ", "BÀY TRẬN · SĨ KHÍ · ĐỊNH THIÊN HẠ", "tagline")
     source = replace_once(source, "</style>", CSS + "</style>", "stylesheet")
     source = replace_once(source, OLD_NAV, NEW_NAV, "NAV")
-    source = replace_once(source, BOOT, PORTAL + "\n" + BOOT, "runtime bootstrap")
+    source = replace_once(source, BOOT, portal + "\n" + BOOT, "runtime bootstrap")
     if source.count("function nlRebuildHub(){") != 1:
         raise ValueError("Hub build verification failed")
     return source

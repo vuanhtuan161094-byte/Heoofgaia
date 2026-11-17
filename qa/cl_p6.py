@@ -156,7 +156,17 @@ def main() -> None:
         page.locator('[data-p6-super="1"]').click()
         super_after = page.evaluate("window.__P2_QA__.getGame()")
         super_battle = page.evaluate("window.__P2_QA__.getBattle()")
-        check("Thiên Hạ Hiệu Lệnh spends resources, buffs living troops and records replay state", super_before["grain"]-super_after["grain"] == 600 and super_before["iron"]-super_after["iron"] == 220 and page.evaluate("window.__P2_QA__.debugBattle().p[0].atk") > player_atk and len(super_battle["events"]) == event_count + 1 and "Thiên Hạ Hiệu Lệnh" in super_battle["events"][-1]["skill"])
+        super_atk = page.evaluate("window.__P2_QA__.debugBattle().p[0].atk")
+        super_evidence = {
+            "grainSpent": super_before["grain"]-super_after["grain"],
+            "ironSpent": super_before["iron"]-super_after["iron"],
+            "atkBefore": player_atk,
+            "atkAfter": super_atk,
+            "eventsBefore": event_count,
+            "eventsAfter": len(super_battle["events"]),
+            "lastSkill": super_battle["events"][-1].get("skill") if super_battle["events"] else None,
+        }
+        check("Thiên Hạ Hiệu Lệnh spends resources, buffs living troops and records replay state", super_evidence["grainSpent"] == 600 and super_evidence["ironSpent"] == 220 and super_atk > player_atk and super_evidence["eventsAfter"] == event_count + 1 and "Thiên Hạ Hiệu Lệnh" in (super_evidence["lastSkill"] or ""), super_evidence)
         skill_grain = super_after["grain"]
         page.locator('[data-p6-super="1"]').click(force=True)
         check("one-time battle super-skill cannot be charged twice", page.evaluate("window.__P2_QA__.getGame().grain") == skill_grain)
