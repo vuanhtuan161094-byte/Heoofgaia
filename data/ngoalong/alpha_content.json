@@ -5155,6 +5155,14 @@
         ],
         "tactic": "Trống Khóa Quân Tâm: Tư Mã Ý rút sĩ khí; Điều Quân + Thương ưu tiên Kỵ, còn trống giữ nhịp quân tâm.",
         "enemyPower": 1.9,
+        "recommendedPreparation": {
+          "minimumGenerals": 5,
+          "averageHeroLevel": 12,
+          "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
+          }
+        },
         "rewards": {
           "silver": 1050,
           "grain": 450,

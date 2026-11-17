@@ -263,6 +263,11 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
         rewards = encounter.get("rewards", {})
         _require(rewards and all(isinstance(v, int) and v >= 0 for v in rewards.values()), f"{path} has invalid rewards")
         _require(isinstance(encounter.get("enemyPower"), (int, float)) and encounter["enemyPower"] > 0, f"{path} has invalid project power")
+        recommendation = encounter.get("recommendedPreparation")
+        if recommendation:
+            _provenance(recommendation.get("provenance"), source_ids, f"{path}.recommendedPreparation")
+            _require(1 <= recommendation.get("minimumGenerals", 0) <= 5, f"{path} has invalid recommended general count")
+            _require(1 <= recommendation.get("averageHeroLevel", 0) <= 40, f"{path} has invalid recommended average hero level")
         for mechanic in encounter.get("mechanics", []):
             _require(mechanic.get("type") in MECHANIC_TYPES, f"{path} uses unsupported mechanic {mechanic.get('type')!r}")
             if mechanic.get("statusId"):

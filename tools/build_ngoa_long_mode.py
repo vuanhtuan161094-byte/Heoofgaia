@@ -128,6 +128,17 @@ NL_GAME_DATA.campaign.encounters.forEach(encounter=>{
   stageData[3]=encounter.rewards.silver;stageData[4]=encounter.rewards.grain;stageData[5]=encounter.rewards.prestige;
   stageData.nlTactic=encounter.tactic||map.synopsis||'';
 });
+const nlPrepRenderCampaign=renderCampaign;
+renderCampaign=function(){
+  let html=nlPrepRenderCampaign();
+  const recommendation=NL_GAME_DATA.campaign.encounters.find(item=>item.stage===selectedStage)?.recommendedPreparation;
+  if(!recommendation)return html;
+  const deployed=game.slots.filter(id=>id&&game.hero[id]?.troops>=30);
+  const averageLevel=deployed.length?Math.round(deployed.reduce((sum,id)=>sum+(game.hero[id]?.level||1),0)/deployed.length):0;
+  const below=deployed.length<recommendation.minimumGenerals||averageLevel<recommendation.averageHeroLevel;
+  const hint=`<div class="panel mini-box" data-nl-preparation="${selectedStage}" role="note"><h3>🧭 Chuẩn bị trước cửa ải</h3><p class="tiny">Mốc thử nghiệm của Alpha: ${recommendation.minimumGenerals} tướng, cấp trung bình khoảng ${recommendation.averageHeroLevel}. Đây là gợi ý mô phỏng của dự án, không phải yêu cầu bắt buộc.</p><div class="line"><span>Đội hiện tại</span><b>${deployed.length}/5 tướng · cấp trung bình ${averageLevel}</b></div>${below?'<p class="tiny" style="color:#f0c97d">Cân nhắc chiêu mộ hoặc huấn luyện thêm trước khi thử cửa ải này.</p>':'<p class="tiny">Đội đã đạt mốc chuẩn bị thử nghiệm.</p>'}</div>`;
+  return html.replace('<button class="gold-button" data-battle=',hint+'<button class="gold-button" data-battle=');
+};
 const nlBaseUnit=p2Unit;
 p2Unit=function(id,team,slot,stage){
   const unit=nlBaseUnit(id,team,slot,stage);
@@ -217,7 +228,7 @@ document.addEventListener('click',event=>{
   if(switching)game.troopModes[id]='spear';else delete game.troopModes[id];
   save();render();
 });
-if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign(window.__P2_QA__,{p2Hit,p2Target,perform:p2Perform,morale:p2Morale,status:p2Status,statusFactor:p2StatusFactor,roundEnd:p2BuffRound,registerStatusSpec:(id,spec)=>{NL_GAME_DATA.statusEffects.effects[id]=spec;},encounters:NL_R02_ENCOUNTERS.map(item=>({...item,troops:[...item.troops]})),counters:{...NL_R02_COUNTERS},moraleSealSkill:nlSimaSkill.apply,data:structuredClone(NL_GAME_DATA)});
+if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign(window.__P2_QA__,{p2Hit,p2Target,perform:p2Perform,morale:p2Morale,status:p2Status,statusFactor:p2StatusFactor,roundEnd:p2BuffRound,registerStatusSpec:(id,spec)=>{NL_GAME_DATA.statusEffects.effects[id]=spec;},setEncounterPower:(stage,value)=>{const encounter=NL_GAME_DATA.campaign.encounters.find(row=>row.stage===stage);if(encounter)encounter.enemyPower=value;},encounters:NL_R02_ENCOUNTERS.map(item=>({...item,troops:[...item.troops]})),counters:{...NL_R02_COUNTERS},moraleSealSkill:nlSimaSkill.apply,data:structuredClone(NL_GAME_DATA)});
 if(window.__P2_ENABLE_QA__&&window.__P3_QA__)Object.assign(window.__P3_QA__,{target:p2Target,counter:p3CounterFactor,unit:p2Unit});
 // === end NL-REBUILD-01 ===
 """

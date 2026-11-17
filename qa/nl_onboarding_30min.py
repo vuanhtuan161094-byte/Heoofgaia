@@ -37,17 +37,29 @@ def run() -> int:
         browser = playwright.chromium.launch(headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"])
         for profile, (formation, seed_base) in PROFILES.items():
             context = browser.new_context(viewport={"width": 1280, "height": 720})
-            context.add_init_script("window.__P2_ENABLE_QA__=true")
+            context.add_init_script("window.__P2_ENABLE_QA__=true;let __nlRandom=8675309;Math.random=()=>{__nlRandom=(Math.imul(__nlRandom,1664525)+1013904223)>>>0;return __nlRandom/4294967296}")
             page = context.new_page()
             page.on("pageerror", lambda error: page_errors.append(str(error)))
             page.goto(HTML.as_uri(), wait_until="domcontentloaded")
             page.wait_for_timeout(50)
             state = page.evaluate("window.__P2_QA__.getGame()")
+            page.locator('.nav[data-tab="heroes"]').click()
+            page.locator('[data-recruit]').click()
+            recruited_state = page.evaluate("window.__P2_QA__.getGame()")
+            recruited = next(hero for hero in recruited_state["roster"] if hero not in state["roster"])
+            page.locator('.nav[data-tab="formation"]').click()
+            page.locator(f'[data-choose-hero="{recruited}"]').click()
+            empty_slot = next(index for index, hero in enumerate(recruited_state["slots"]) if hero is None)
+            page.locator(f'[data-slot="{empty_slot}"]').click()
+            state = page.evaluate("window.__P2_QA__.getGame()")
+            check(f"{profile}: free tavern recruit is placed into a real empty formation slot", len(state["roster"]) == 4 and not state["freeRecruit"] and state["slots"][empty_slot] == recruited and state["silver"] == 14000)
             heroes = state["roster"]
             page.evaluate("({formation})=>{const q=window.__P2_QA__;let g=q.getGame();g.formation=formation;g.lastTick=Date.now();q.setGame(g)}", {"formation": formation})
             minutes = 0
             wins = losses = retries = recoveries = blocked_actions = 0
             unlocked: set[int] = set()
+            recruited_fifth = False
+            training_actions = 0
             history: list[dict[str, object]] = []
 
             def advance_five_minutes() -> None:
@@ -115,11 +127,38 @@ def run() -> int:
                     losses += 1
                     retries += 1
                 page.evaluate("window.__P2_QA__.closeBattle('city')")
+                if not report["won"] and stage == 5 and minutes < 30 and len(heroes) < 5 and settled["silver"] >= 1800:
+                    before_silver = settled["silver"]
+                    page.locator('.nav[data-tab="heroes"]').click()
+                    page.locator('[data-recruit]').click()
+                    recruited_state = page.evaluate("window.__P2_QA__.getGame()")
+                    fifth = next((hero for hero in recruited_state["roster"] if hero not in heroes), None)
+                    if fifth:
+                        page.locator('.nav[data-tab="formation"]').click()
+                        page.locator(f'[data-choose-hero="{fifth}"]').click()
+                        open_slot = next(index for index, hero in enumerate(recruited_state["slots"]) if hero is None)
+                        page.locator(f'[data-slot="{open_slot}"]').click()
+                        page.locator('[data-p3-preset="spear-van"]').click()
+                        recruited_fifth = True
+                        heroes = recruited_state["roster"]
+                        formation = "spear"
+                        page.locator('.nav[data-tab="heroes"]').click()
+                        before_training_silver = page.evaluate("window.__P2_QA__.getGame().silver")
+                        for hero in heroes:
+                            for _ in range(4):
+                                if page.evaluate("window.__P2_QA__.getGame().silver") >= 700:
+                                    page.locator(f'[data-train="{hero}"]').click()
+                                    training_actions += 1
+                        after_training = page.evaluate("window.__P2_QA__.getGame()")
+                        history.append({"minute": minutes, "stage": stage, "event": "paid-recruit-train-and-spear-van", "hero": fifth, "silverSpentRecruit": before_silver - recruited_state["silver"], "silverSpentTraining": before_training_silver - after_training["silver"], "trainingActions": training_actions})
 
             final = page.evaluate("window.__P2_QA__.getGame()")
             all_reports_valid = receipts_valid
             summaries[profile] = {
                 "minutesSimulated": minutes,
+                "freeRecruit": recruited,
+                "paidFifthRecruit": recruited_fifth,
+                "trainingActions": training_actions,
                 "wins": wins,
                 "losses": losses,
                 "retries": retries,
@@ -133,12 +172,18 @@ def run() -> int:
             }
             check(f"{profile}: 30 accelerated game-minutes use real production and persist v5 state", minutes == 30 and final["version"] == 5)
             check(f"{profile}: player can progress and recover after losses without a softlock", wins > 0 and len(unlocked) > 0 and blocked_actions <= 2)
-            check(f"{profile}: every simulated battle has valid deterministic settlement receipts", all_reports_valid and wins + losses == len(history) - sum(row["event"] == "wait-grain" or row["event"] == "wait-recruit" or row["event"] == "battle-start-blocked" for row in history))
+            reported_battles = sum(row["event"] in ("win", "loss") for row in history)
+            check(f"{profile}: every simulated battle has valid deterministic settlement receipts", all_reports_valid and wins + losses == reported_battles)
             check(f"{profile}: no resource underflow or negative troop counts", min(final["silver"], final["grain"], final["iron"], final["reserve"], *(final["hero"][hero]["troops"] for hero in heroes)) >= 0)
             serialized = page.evaluate(f"localStorage.getItem('{SAVE_KEY}')")
             page.reload(wait_until="domcontentloaded")
             restored = page.evaluate("window.__P2_QA__.getGame()")
             check(f"{profile}: reload preserves unlocks, troop casualties, reports and v5 Save", restored["version"] == 5 and restored["cleared"] == final["cleared"] and restored["battleReports"] == final["battleReports"] and restored["hero"] == final["hero"] and serialized is not None)
+            page.locator('.nav[data-tab="campaign"]').click()
+            if page.locator('[data-stage="5"]').count() and not page.locator('[data-stage="5"]').is_disabled():
+                page.locator('[data-stage="5"]').click()
+            recommendation_visible = page.locator('[data-nl-preparation="5"]').count() == 1 and "cấp trung bình khoảng 12" in page.locator('[data-nl-preparation="5"]').inner_text()
+            check(f"{profile}: stage 5 shows its simulated preparation hint in the live campaign UI", recommendation_visible)
             page.screenshot(path=str(ROOT / "qa" / f"nl-onboarding-{profile}.png"))
             context.close()
         browser.close()
