@@ -1,66 +1,84 @@
-# NL-REF-01 — Nguồn tham chiếu và mức độ khảo sát Ngọa Long
+# NL-WIKI-01 — Ngọa Long reference and fidelity matrix
 
-Ngày khảo sát: 17/11/2026. Repo: vuanhtuan161094-byte/Heoofgaia, branch main-ngoalong. Baseline kiểm toán: 66fb0fcfdde782dd803db4e6dd6a3ecee198d388.
+**Research date:** 2026-11-17
+**Repository baseline:** vuanhtuan161094-byte/Heoofgaia, main-ngoalong@05cb413b08e917e1aa4026fb54a5ff621373153e.
+**Product contract:** docs/NGOA_LONG_REBUILD_SPEC_V1.md; current owner instructions: GitHub Issue #4.
+**Research status:** **PARTIAL, core mechanics reviewed; Wiki not read exhaustively.** This matrix records what was opened, what remains unread, and which claims apply to which version.
 
-**Trạng thái: PARTIAL RESEARCH / NOT FULL WIKI READ.** Đây là ma trận phiên đầu, không phải tuyên bố đã đọc tất cả mục hoặc xác thực toàn bộ cơ chế Ngọa Long. Không sử dụng trực tiếp hình ảnh, code, âm thanh, tên thương hiệu nhận diện game chính thức làm asset Mưu Định Tam Quốc.
+## Version and evidence rules
 
-## A. Phân biệt phiên bản
+- **CLASSIC-WEBGAME / CLASSIC-2012:** contemporaneous VNG/Ngọa Long webgame guides published in 2012 and historical gameplay reporting. These are evidence for the described build/date or a reported player solution only. They do not establish every later patch or closed engine formula.
+- **VNG-WIKI-CURRENT / 2026:** the official VNGGames Wiki identifies itself as **Ngọa Long Mobile**. Its current unit list, effects, NPCs, items, and systems must not be silently projected onto the 2012 webgame.
+- **VERIFIED:** the cited page explicitly states or displays the claim. It does not authenticate hidden server behavior.
+- **DERIVED:** an original design interpretation motivated by the source or owner contract.
+- **SIMULATED:** project-authored number, probability, resource price, AI weight, or outcome.
+- **UNKNOWN:** the available source does not identify the rule, the exact client/build, or a contradictory catalogue count.
+- A claim can be VERIFIED for one named source version and UNKNOWN for another. No proprietary art, code, UI, audio, copied prose, or undisclosed formulas are used.
 
-- CLASSIC-2012: bài viết/cẩm nang cùng thời webgame Ngọa Long, phản ánh cách chơi thực tế được tác giả ghi nhận. Không suy ra công thức engine đóng.
-- VNG-WIKI-2026: dữ liệu có trên Ngọa Long Mobile Wiki hiện hành, không mặc nhiên là cơ chế webgame 2012.
-- VERIFIED: mệnh đề có mô tả nguồn công khai cụ thể; DERIVED: thiết kế nội suy; SIMULATED: hệ số, lựa chọn độc lập của dự án; UNKNOWN: chưa đủ chứng cứ.
-- CODE-CONFIRMED: đã thấy trực tiếp code qua diff/QA hoặc source được GitHub trả về. QA-GATED: đã có test, nhưng không chứng minh cảm giác chơi hoặc tính trung thành với game tham chiếu.
-- USER-SCREENSHOT: quan sát hai ảnh UI ngày 17/11/2026; chưa liên kết với source SHA đang được QA.
+## Wiki coverage ledger
 
-## B. Danh mục Wiki chính thức
+The home page currently advertises 364 Võ Tướng, 372 Binh Chủng, 320 Hiệu Ứng, 674 Vật Phẩm, 392 Trang Bị, and 249 Phó Bản. Those totals describe the current Wiki catalogue only. The opened Phó Bản page reports 219 maps / 65 Thành Chính milestones, and the opened Binh Chủng page reports 73 entries in its displayed list. The catalogue totals therefore remain **UNKNOWN / internally inconsistent for counting purposes**; no product data is inferred from those totals.
 
-Nguồn danh mục: https://ngoalong.vnggames.com/ngoa-long-wiki (truy cập 17/11/2026).
-
-| Nhóm Wiki | Quy mô được trang chủ công bố | Tình trạng kiểm tra 17/11 | Hành động còn thiếu |
-| --- | ---: | --- | --- |
-| Võ Tướng | 364 | Mở trang danh sách, chưa kiểm từng tướng | Đối chiếu tập lõi theo phe/vai trò/kỹ năng và bổ sung provenance |
-| Binh Chủng | 372 | Kiểm trang danh sách và ví dụ khắc chế/tiến hóa | Ma trận toàn bộ nhánh binh chủng cấp thấp ưu tiên trước |
-| Hiệu Ứng | 320 | Kiểm trang danh sách và một số mô tả sĩ khí | Lập taxonomy buff/debuff, cộng dồn, thời gian và khống chế |
-| Vật Phẩm | 674 | Kiểm trang danh sách | Phân loại vật liệu/tài nguyên cần cho tiến triển |
-| Trang Bị | 392 | Đã mở, chưa đọc toàn danh sách | Ghép slot / loại sát thương / nâng cấp |
-| Phó Bản | 249 | Mở danh sách và quan sát cấp/NPC/thưởng | Chọn 5–10 mẫu gameplay/map tiêu biểu |
-| Binh Thư | 11 | Đã mở, chưa phân tích toàn bộ | Kiểm tra đòn bẩy cân bằng |
-| Tri Kỷ | 17 | Chưa khảo sát | Chưa ưu tiên cho core |
-| Võ Khôi Tháp | 4 trụ / 26 độ khó | Đã mở, chưa phân tích | Xây khung thử thách có cấp độ |
-| Chiến Kỳ | 186 | Đã mở | Lùi sau core |
-| Tướng Khí | 90 | Đã mở | Lùi sau core |
-| Ấn Kế Thừa | 66 | Chưa khảo sát | Lùi sau core |
-| Ấn Thành Tựu | 4 | Đã mở | Lùi sau core |
-| Thống Soái | Không công bố số tại index | Đã mở | Lùi sau core |
-| Ấn Trận / Mã Trường / Khắc Văn / Cao Cấp | Các trang riêng | Đã mở trang danh mục | Kiểm liên kết đến trận pháp/tiến triển |
-| Triệu Hồi, Dinh Phủ, Khoa Kỹ | Menu/phân hệ | Chưa có bảng đầy đủ | Cần nghiên cứu theo mechanic trước khi mở rộng |
-
-**Cảnh báo số lượng:** số liệu trang chủ phản ánh trạng thái Wiki hiện hành; trang lọc Binh Chủng có thể hiển thị một tập con, không xem bộ lọc mặc định là số tổng.
-
-## C. Nguồn bằng chứng có thể trích dẫn
-
-| ID | Link | Phiên bản / mức sử dụng | Mệnh đề được nguồn hỗ trợ |
+| Required group | Coverage | Opened source and verified scope | Not established / next research |
 | --- | --- | --- | --- |
-| NL-01 | https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung | VNG-WIKI-2026 / VERIFIED | Bộ khắc Thương, Thương khắc Kỵ, Kỵ khắc Bộ; các nhánh binh có kỹ năng/hành vi đặc thù, ví dụ phản kích, xuyên tuyến, hút/tước sĩ khí |
-| NL-02 | https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung | VNG-WIKI-2026 / VERIFIED | Nhiều nhóm hiệu ứng lợi/hại/khống chế; có trường hợp không thể tăng sĩ khí hoặc bị giảm sĩ khí mỗi lượt |
-| NL-03 | https://ngoalong.vnggames.com/ngoa-long-wiki/an-tran | VNG-WIKI-2026 / VERIFIED | Ấn liên kết trận Ngư Lân / Phong Thỉ / Hạc Dực; tác dụng lên nhóm chỉ số khác nhau; không chứng nhận 24 preset của dự án |
-| NL-04 | https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban | VNG-WIKI-2026 / VERIFIED | Các phó bản có tên, phe/nhóm NPC, cấp yêu cầu, thành tựu, phần thưởng/đồ rơi |
-| NL-05 | https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong | VNG-WIKI-2026 / VERIFIED | Danh sách 364 tướng theo nhóm phe và phẩm, chưa chứng thực toàn bộ kỹ năng |
-| NL-06 | https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi | VNG-WIKI-2026 / PARTIAL | Danh mục 392 trang bị; cần rà soát công năng/slot |
-| NL-07 | https://ngoalong.zing.vn/tin-tuc/huong-dan/thu-thach-thuc-vuot-tu-ma-y-chung-ho-co-muu.html | CLASSIC-2012 / VERIFIED-PLAYER-GUIDE | Người chơi đổi đội hình, ấn, sĩ khí hỗ trợ và vị trí tướng để giải từng phó bản, không chỉ tăng sức mạnh |
-| NL-08 | https://gamelandvn.com/tim-hieu-ngu-dai-tran-phap-trong-ngoa-long-2/ | CLASSIC-2012 / HISTORICAL EDITORIAL | Kết hợp trống tăng sĩ khí để chủ lực kích kỹ năng sớm, đổi lại khả năng chống chịu và bố cục; ví dụ điển hình về trade-off |
-| NL-CODE-01 | https://github.com/vuanhtuan161094-byte/Heoofgaia/commit/3db3976b91de9863491528dc571206c4cdd0d9b4 | Dự án / CODE-CONFIRMED | P3 có P2_COUNTERS, p3CounterFactor, 24 presets = 6 formation x 4 variants, AI scoring và buff tier |
-| NL-QA-01 | https://github.com/vuanhtuan161094-byte/Heoofgaia/blob/main-ngoalong/qa/p3.py | Dự án / QA-GATED | 24 preset được áp dụng, test chi phí và battle trong fixture, nhưng không có đối chiếu chiến thuật từng mẫu với Wiki gốc |
-| NL-QA-02 | https://github.com/vuanhtuan161094-byte/Heoofgaia/blob/main-ngoalong/qa/p3_balance.py | Dự án / QA-GATED | 360 mô phỏng có seed cố định: 3 profile x 5 ải x 24 preset; không phải playtest người hoặc bằng chứng 24 mẫu có chiến thuật duy nhất |
+| Binh Chủng: Bộ, Thương, Kỵ, Cung, Quan Văn and evolution/counters | **PARTIAL** | [Current official Binh Chủng page](https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung): five named classes, tiered entries, examples of class matchups and specialized unit effects. The Wiki states Bộ counters Thương, Thương counters Kỵ, Kỵ counters Bộ. | Not all entries, class-specific skills, later tiers, or the 372-vs-73 count discrepancy were audited. |
+| Võ Tướng | **PARTIAL** | [Current official Võ Tướng index](https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong): 364 catalogue count and faction/rarity grouping. | Individual skill descriptions, progression and historical-vs-mobile roster mapping were not reviewed one by one. |
+| Hiệu Ứng | **PARTIAL** | [Current official Hiệu Ứng index](https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung): 320 catalogue count, helpful/harmful/control/neutral grouping, examples that block or reduce morale gain. | Full stack, cleanse, immunity, duration, ordering and interaction rules remain unread. |
+| Sĩ khí / chiến pháp | **PARTIAL** | Current Binh Chủng and Hiệu Ứng examples; [official classic Quan Vũ guide (26/07/2012)](https://ngoalong.zing.vn/tin-tuc/huong-dan/ho-tuong-quan-vu-moc-them-canh-sau-giac-ngo.html) describes a skill lowering target morale and raising counterattack; [classic formation report (02/08/2012)](https://gamelandvn.com/tim-hieu-ngu-dai-tran-phap-trong-ngoa-long-2/) describes a drum-heavy opening and its survivability trade-off. | No source proves the same thresholds, values, or skill timing across classic 2012 and current Mobile. Exact project values stay SIMULATED. |
+| Ấn Trận / trận hình | **PARTIAL** | [Current official An Trận page](https://ngoalong.vnggames.com/ngoa-long-wiki/an-tran) explains army seals and links several seals to named formations; [classic official dungeon guide (27/11/2012)](https://ngoalong.zing.vn/tin-tuc/huong-dan/thu-thach-thuc-vuot-tu-ma-y-chung-ho-co-muu.html) shows changing formation, position, seals and support to solve NPC fights. | The An Trận page is primarily about seals; it does not validate this project’s 24 loadouts as 24 canonical formations. Full formation tables were not read. |
+| Phó Bản | **PARTIAL** | [Current official Phó Bản index](https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban) describes maps as ordered NPC encounters with formations, troop links, rules, drops and battle reports; its opened content reports 219 maps / 65 city levels. | The home page says 249. Only representative pages were opened; the full map/NPC catalogue and classic encounter scripts were not audited. |
+| Trang Bị | **PARTIAL** | [Current official Trang Bị page](https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi) lists slots: weapon, armor, mount, manual, cape, shield and treasure, with 392 catalogue count. | Individual stats, upgrade odds, prices, set effects and classic-client correspondence are not established. |
+| Vật Phẩm | **PARTIAL** | [Current official Vật Phẩm index](https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham); home page advertises 674 items. | No complete item-by-item inventory or acquisition/economy audit. |
+| Khoa Kỹ | **PARTIAL** | The current Wiki exposes [Cao Cấp](https://ngoalong.vnggames.com/ngoa-long-wiki/cao-cap); the opened page explicitly scopes its advanced tree to the China server and describes 14 high-level technologies. A current official player guide mentions early Khoa Kỹ priorities. | A complete general Khoa Kỹ tree for the classic webgame or VN Mobile was not available in the pages opened; China-only rules are not assumed to apply. |
+| Dinh Phủ | **PARTIAL** | Current official [Quý Tử](https://ngoalong.vnggames.com/ngoa-long-wiki/quy-tu) and [Tri Kỷ](https://ngoalong.vnggames.com/ngoa-long-wiki/tri-ky) pages cover linked sub-systems; current official guidance also discusses the residence. | No single complete Dinh Phủ system page or classic-version mapping was found. |
+| Other high-level Wiki systems | **NOT_READ** | Home-page links/counts were noted only. | Binh Thư, Tri Kỷ in full, Võ Khôi Tháp, Chiến Kỳ, Tướng Khí, Ấn Kế Thừa, Ấn Thành Tựu, Mã Trường, Khắc Văn, Thống Soái, and remaining Cao Cấp topics are outside this core pass. |
 
-## D. Những nguyên tắc thiết kế rút ra, KHÔNG sao chép công thức
+**Coverage statement:** this is a traceable, prioritized review of core combat/progression groups, not a full Wiki read or fidelity certification.
 
-1. Khắc chế nền phải lựa chọn nhất quán giữa cơ chế Ngọa Long cổ điển, Wiki hiện hành và luật riêng của game; mọi khác biệt phải công khai SIMULATED. Với hướng Ngọa Long-first, cần thêm lớp Thương trước khi tự nhận tương đương.
-2. Sĩ khí có vai trò về thứ tự ra đòn, lịch kích kỹ năng và tương tác hỗ trợ-phản hỗ trợ; các tổ hợp có trade-off sống còn thay vì một hệ số DPS.
-3. Nhánh binh không chỉ tăng attack/defense/HP theo level mà thay đổi chức năng combat, điều kiện chọn mục tiêu, khả năng gây trạng thái.
-4. Trận pháp là vị trí + buff/debuff + ưu tiên hành động; cần chứng minh bằng cặp battle cùng seed.
-5. Tiến triển phải gồm phó bản có đặc điểm NPC/giới hạn, phần thưởng rõ và giải pháp thay đổi build hợp lý.
+## Source register
 
-## E. Trạng thái tài liệu
+All Wiki pages below were accessed on **2026-11-17**; the official pages are live/current, not archived classic-client captures.
 
-Đây là tài liệu nghiên cứu **chưa exhaustive**; không dùng làm giấy chứng nhận Fidelity PASS. Tiếp theo: nghiên cứu sâu các nhánh Bộ/Thương/Kỵ/Cung/Quan Văn, sĩ khí và status, trận hình, 5–10 encounter classic; sau đó ghi rõ item-level links, version, và test thiết kế độc lập. KHÔNG scrape và chép nguyên hàng ngàn mục để nhập thẳng vào game.
+| ID | Source | Version/context | Claims used |
+| --- | --- | --- | --- |
+| NL-W01 | [Official Wiki home](https://ngoalong.vnggames.com/ngoa-long-wiki) | VNG-WIKI-CURRENT; labels the product Ngọa Long Wiki and Ngọa Long VNG; current catalogue counts. | Version identification and coverage counts only. |
+| NL-W02 | [Binh Chủng](https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung) | VNG-WIKI-CURRENT; current unit catalogue. | Five class labels, tier structure, explicit Bộ–Thương–Kỵ counter descriptions, examples of morale/status and unit specialties. |
+| NL-W03 | [Hiệu Ứng](https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung) | VNG-WIKI-CURRENT; current status catalogue. | Status taxonomy and examples of morale suppression. |
+| NL-W04 | [An Trận](https://ngoalong.vnggames.com/ngoa-long-wiki/an-tran) | VNG-WIKI-CURRENT; army seals and linked formations. | Formation-linked seal examples; not project formation-count evidence. |
+| NL-W05 | [Phó Bản](https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban) and [representative NPC detail](https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=95&map=2&side=vn) | VNG-WIKI-CURRENT. | Ordered maps/NPCs, formations, troop links, battle rules, drops and reports. |
+| NL-W06 | [Võ Tướng](https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong) | VNG-WIKI-CURRENT. | Catalogue/faction structure only. |
+| NL-W07 | [Trang Bị](https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi) and [Vật Phẩm](https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham) | VNG-WIKI-CURRENT. | Item slots and catalogue scope only. |
+| NL-W08 | [Cao Cấp](https://ngoalong.vnggames.com/ngoa-long-wiki/cao-cap), [Quý Tử](https://ngoalong.vnggames.com/ngoa-long-wiki/quy-tu), [Tri Kỷ](https://ngoalong.vnggames.com/ngoa-long-wiki/tri-ky) | VNG-WIKI-CURRENT; some page content explicitly China-server-only. | High-level system existence/scope; not imported as game rules. |
+| NL-C01 | [Official classic dungeon challenge guide, 27/11/2012](https://ngoalong.zing.vn/tin-tuc/huong-dan/thu-thach-thuc-vuot-tu-ma-y-chung-ho-co-muu.html) | CLASSIC-WEBGAME / dated 2012 publisher guide. | An example solution changes formation, seals, positions, supporting generals and equipment in response to NPC composition. |
+| NL-C02 | [Official classic Quan Vũ guide, 26/07/2012](https://ngoalong.zing.vn/tin-tuc/huong-dan/ho-tuong-quan-vu-moc-them-canh-sau-giac-ngo.html) | CLASSIC-WEBGAME / dated 2012 publisher article; includes a named update/awakened skill. | Example of morale reduction, line targeting and counterattack effects; not a universal class rule. |
+| NL-C03 | [Historical formation analysis, 02/08/2012](https://gamelandvn.com/tim-hieu-ngu-dai-tran-phap-trong-ngoa-long-2/) | CLASSIC-WEBGAME / secondary editorial, not an official rules specification. | Reported drum/morale tempo and formation trade-offs; use as historical context, not formula authority. |
+| NL-C04 | [Current-site player guide “Trải Nghiệm Ngọa Long”](https://ngoalong.vnggames.com/tin-tuc-2022/tinh-nang/trai-nghiem-ngoa-long-890.html) | Player guide hosted on current VNG site; exact client/build is not stated. | Examples of early progression, troop/support roles, morale and tech advice. Treat the build mapping as UNKNOWN. |
+| NL-CODE-01 | [Latest main-ngoalong commit](https://github.com/vuanhtuan161094-byte/Heoofgaia/commit/05cb413b08e917e1aa4026fb54a5ff621373153e) | Project code/docs baseline, 2026-11-17. | The two commits after 66fb0fc are research docs only; active gameplay code remains the same for this audit. |
+
+## Code-to-source fidelity matrix (baseline 05cb413)
+
+| Wiki / historical mechanic | Source evidence | Current code state at baseline | Gap | Proposed original Mưu Định Tam Quốc rule | QA assertion / evidence |
+| --- | --- | --- | --- | --- | --- |
+| Bộ–Thương–Kỵ counter core | NL-W02 explicitly states Bộ beats Thương, Thương beats Kỵ, Kỵ beats Bộ. | P2_COUNTERS in index.html:35734 is Kỵ→Cung→Bộ→Kỵ; P3 also assigns strategist→infantry at index.html:36121-36126. | Spear is absent from the core and the scholar is treated as a hard counter. | Add Thương as a real playable class in R02; use the three-way relation. Exact damage factors are project-owned **SIMULATED**. Archer remains a range/targeting specialty; Quan Văn remains a skill/support archetype rather than a universal counter. | Same-seed counter matrix with only troop class changed; assert all three edges, neutral Archer/Quan Văn matchup, same resource/save state. qa/nl_r02.py counter block + combat log. |
+| Troop branch has function, not only level stats | NL-W02 lists tiered units with different target patterns, morale, status and defense behaviors. | p3Upgrade and p2Unit at index.html:36095-36119 raise tier and multiply attack/defense/HP. | No functional branch/evolution on the baseline branch; R03 feature remains a later gated slice. | R02 establishes class authority and combat events. R03 can add original evolution choices with trade-offs; do not import named units/formula values from Wiki. | R02 proves class affects actual damage/targeting; R03 later proves paid branch choices alter a real battle, migration and replay. |
+| Morale and war tactics | NL-W03 current statuses include blocking/reducing morale gain. NL-C01/C02 provide dated classic examples. | p2Morale clamps 0–130; skills fire at 100; normal attacks/being hit and drum events add morale; project effects and values live in index.html:35779-35851. | Exact values are simulated; current QA does not compare 1/2/3 drums at equal seed, expose skill readiness/reason, or test a morale-suppression counterloop end-to-end. | Keep explicit project thresholds and costs tagged **SIMULATED**. Drums build tempo but use formation slots and have low survivability; attacks, skills and suppression are distinct event types. | Same-seed 1/2/3-drum A/B: first skill turn, morale ledger, incoming damage and decision log; assert no skill/reward double application. |
+| Five generals on 3×3; named 24 presets | Owner spec requires up to 5 generals on 3×3. NL-C01 demonstrates changing formations; NL-W04 describes formation-linked seals. | P3_PRESETS is built from six formation IDs × four variants at index.html:36080; all 24 IDs persist in p3PresetId. UI calls them “24 đội hình chiến thuật thực” at index.html:36173. | “24 formations” implies 24 independent canonical formations; present QA validates IDs/deployments, not unique strategic outcomes. | Label truthfully **6 trận pháp / 24 phương án**; preserve every ID and make slots/style materially change combat. Exact 3×3/5-general structure is **DERIVED** from the owner contract, not claimed as a Wiki fact. | Assert all 24 saved IDs survive migration, 3×3 has 9 cells and ≤5 distinct owned generals; candidate pair changes only preset and yields different event/target/round trace. |
+| Deterministic AI and readable reason | NL-C01 shows NPC-specific counters and the need to change placement; NL-W05 exposes NPC formations/rules in current Wiki. | p2Target at index.html:35768-35778 chooses front/back; P3 scoring at index.html:36129-36155 weights role, HP, counter, lane and style with slot tie-break. | Selection is seed-stable but the candidate scores/reason are not inspectable in combat evidence; original tests do not verify a counter-target explanation. | Keep a deterministic, project-owned scoring policy; record selected target, candidate scores, front/back eligibility, skill readiness and preset style in a read-only combat decision entry. | Same snapshot/seed returns byte-equal decision records; changing one class/preset changes only explained score components and selected target. |
+| Dungeon requires adapting formation | NL-W05 lists ordered NPC maps and explicit battle rules; NL-C01 describes changing formation, support and equipment between fights. | Baseline NL-R01 has a tactical entry route, but no verified Ngọa Long campaign loop. Legacy CL campaign exists and is not acceptance evidence for Ngọa Long. | No same-seed puzzle demonstrates a losing setup and a winning setup with equal power; winning settlement/unlock remains unverified at this baseline. | Add original NPC puzzles with distinct formation/skill constraints. A battle clear opens only the next encounter; first-clear reward settles once; loss preserves progress without victory reward. | Same heroes/stats/equipment/seed: preset A loses, preset B wins; compare event log; assert unlock/reward once after reload/replay and no reward on loss. |
+| Hero, equipment, technology, city and progression | NL-W01/NL-W06/NL-W07/NL-W08 catalogue these systems. NL-C04 is a guide, not a definitive versioned spec. | R01 exposes the hub. Existing game has hero/equipment/city/tech state and P2/P3 state; this matrix does not certify all economy links. | Current Wiki pages do not establish classic formulas, prices, drop odds or full current-page mechanics. | Preserve existing Save/schema v5 and wire only reversible, resource-backed, original actions. All costs/rewards and coefficients **SIMULATED** unless a public source explicitly verifies the feature exists. | Save round-trip, insufficient-resource negative, first-clear receipt idempotence, replay read-only and migration v1–v5 regression. |
+
+## Version-sensitive findings and design decisions
+
+1. **The main troop triangle is source-backed only for VNG-WIKI-CURRENT:** Bộ > Thương > Kỵ > Bộ. The exact project multiplier and every classic-webgame interaction are **UNKNOWN/SIMULATED**. R02 may adapt the relation but must state the adaptation.
+2. Current Wiki troop entries show many specialties (e.g., line/back attacks, morale gain/drain, counterattack, burn, support and defense). These are per-entry examples, not universal rules for all five class labels.
+3. **Archer and Quan Văn are not inserted into the three-class triangle.** R02 uses original ranged targeting and tactical/support skill roles; their exact bonuses are **SIMULATED**.
+4. The 24 existing IDs mean **6 formations × 4 tactical variants**, not 24 source-verified canonical formations. Correct the displayed label while preserving IDs.
+5. Classic guides support a strategic principle: changing position/formation/support in response to an NPC can matter as much as adding power. They do not prove an exact hidden AI or damage formula.
+6. Home-page counts and subpage counts conflict; catalogue size is not a design requirement.
+
+## Remaining research and acceptance boundary
+
+- Wiki coverage stays **PARTIAL** until the explicit NOT_READ groups are reviewed. Do not describe this pass as “đã đọc hết Wiki”.
+- Classic webgame and Mobile build equivalence is **UNKNOWN**. No current Wiki-specific late-game content is imported as classic behavior.
+- Existing P2/P3 counts (31 + 12 + 74 + 360) are regression evidence, not same-seed A/B evidence for these gaps.
+- R02 engineering, Chromium runtime evidence, exact-SHA Actions, physical-device play and owner acceptance are separate gates. This matrix completes the research/design input only.

@@ -2,7 +2,7 @@ name: Muu Dinh Tam Quoc · Ngọa Long-focused full regression and release
 
 on:
   push:
-    branches: [main-ngoalong]
+    branches: [main-ngoalong, 'codex/**']
   workflow_dispatch:
 
 permissions:
@@ -106,7 +106,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-qa-evidence
+          name: muu-dinh-tam-quoc-qa-evidence
           path: |
             qa/*.json
             qa/*.png
@@ -125,7 +125,7 @@ jobs:
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-p6-playable
+          name: muu-dinh-tam-quoc-ngoa-long-playable
           path: |
             index.html
             qa/commit-sha.txt

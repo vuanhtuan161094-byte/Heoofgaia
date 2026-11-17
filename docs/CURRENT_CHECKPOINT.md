@@ -1,13 +1,13 @@
-# CURRENT OWNER DIRECTION — 17/11/2026: NGỌA LONG FIRST
-- **Latest owner decision overrides all CL/hybrid language below:** make an original game inspired primarily by **Ngọa Long**, focused on 3×3/5-hero formation, 24 presets, morale, skill tactics, troop progression, city growth and stage-based turn battles. Source of truth: `docs/NGOA_LONG_REBUILD_SPEC_V1.md`.
-- The previous CL-P6 release is historical technical baseline, not the target gameplay. Safe baseline Git SHA `172c0ef2192cf5aee8a0054337b1af9f5684f533`, Actions `43999433891` SUCCESS.
-- **NL-REBUILD-01:** source `tools/build_ngoa_long_mode.py` assembles the **Quân Cơ Phủ** dashboard into the *single canonical* offline `index.html` as a deterministic GitHub Actions build step, before Chromium regression and artifact publication. Focused QA `qa/ngoa_long_mode.py` tests the 3×3 display, actual navigation/battle and 1280/390 viewports.
-- A successful source-file commit does **not** mean completed Ngọa Long remake. Need exact-SHA CI SUCCESS on newest build, manual owner gameplay/art approval, physical-device validation and further NL-R02..R05.
-- Save schema v5 and existing CL content remain intact during transition; no Hero operations/merge/force push.
+# CURRENT OWNER DIRECTION — 17/11/2026: NGỌA LONG WIKI + NL-R02
+- **Issue #4 latest directive** makes the official VNG Ngọa Long Wiki the required gameplay research reference; `docs/NGOA_LONG_REBUILD_SPEC_V1.md` remains the product contract. Chiến Loạn/hybrid and CL-P0–P6 instructions below are archival history, not current gameplay direction.
+- Research baseline: `main-ngoalong@05cb413b08e917e1aa4026fb54a5ff621373153e`. The current Wiki and classic 2012 webgame evidence are separated in `docs/NL_REFERENCE_MATRIX.md`; coverage is **PARTIAL**, and no claim is made that the whole Wiki was read. `docs/NL_FIDELITY_GAP_AUDIT_V1.md` tracks the 14 identified gaps.
+- **NL-WIKI-01:** core mechanics and version boundaries documented; local reproducible build/syntax checks passed and `qa/ngoa_long_mode.py` passed 18/18 in Chromium at 1280×720 and 390×844. Exact-SHA Actions for the research commit remain pending until pushed.
+- **Next: NL-R02** combat vertical slice: Bộ/Thương/Kỵ counters, 3×3/24 preset semantics, morale/drum/war tactics, inspectable deterministic AI, and formation-sensitive campaign encounters with same-seed evidence. Preserve Save schema v5, existing CL data, receipts/replay and the single offline `index.html`; do not modify Hero, merge, or force-push.
+- Human Windows/Android play, owner gameplay/balance approval and owner visual approval remain **PENDING**. Do not treat GitHub CI as those gates.
 
 ---
 
-# CURRENT PRODUCT DIRECTION OVERRIDE — 17/11/2026
+# ARCHIVAL — REVOKED CL PRODUCT DIRECTION — 17/11/2026
 - Owner withdrew Ngọa Long-first feature plan and selected **Chiến Loạn Tam Quốc (2025)** as gameplay reference. Keep game brand **Mưu Định Tam Quốc** as an original implementation; original screenshots/assets cannot be copied.
 - Product requirements and acceptance are in [CHIEN_LOAN_MASTER_SPEC.md](CHIEN_LOAN_MASTER_SPEC.md) and [CLTQ_REFERENCE_MATRIX.md](CLTQ_REFERENCE_MATRIX.md). Agent Codex authorization remains scoped to `main-ngoalong`; Hero isolation unchanged.
 - Older P2/P3/P4.1 results below are **legacy-system baselines**. CL gates are separately recorded in this current section and the CL reference matrix.

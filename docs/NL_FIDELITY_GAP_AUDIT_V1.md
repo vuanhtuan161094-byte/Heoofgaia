@@ -1,17 +1,18 @@
 # NL-REF-REV-A — Kiểm toán sai lệch Ngọa Long / Mưu Định Tam Quốc
 
-**17/11/2026 — REPORT PHASE A / RESEARCH PARTIAL**. Repository vuanhtuan161094-byte/Heoofgaia, branch main-ngoalong. Mã gameplay kiểm toán ở baseline 66fb0fcfdde782dd803db4e6dd6a3ecee198d388. Đối chiếu nguồn tại docs/NL_REFERENCE_MATRIX.md. Lần kiểm toán này **không sửa gameplay, save, atlas, test hay Hero**.
+**17/11/2026 — NL-WIKI-01 CORE RESEARCH COMPLETE, COVERAGE PARTIAL**. Repository vuanhtuan161094-byte/Heoofgaia, task branch `codex/nl-wiki-01-r02-20261117`, based on latest `main-ngoalong` SHA 05cb413b08e917e1aa4026fb54a5ff621373153e. Hai commit sau baseline cũ 66fb0fc chỉ cập nhật tài liệu; code combat được kiểm toán không đổi. Đối chiếu nguồn tại docs/NL_REFERENCE_MATRIX.md. NL-WIKI-01 chỉ sửa tài liệu nghiên cứu/checkpoint; không sửa gameplay, save, atlas hay Hero.
 
 ## Evidence và giới hạn
 
-- Đã xác nhận workflow 44001013453 (baseline 66fb0fcf) SUCCESS, gồm build portal Ngọa Long, Chromium NL-R01 3x3/route/battle và regression P2/P3/CL; video và artifact hiện vẫn có tên CL. Không có bằng chứng R02/R03 đã được owner nghiệm thu.
-- Đã xem source qua diff commit 3db3976b (P3) và các test qa/ngoa_long_mode.py, qa/p2_full.py, qa/p2_advanced.py, qa/p3.py, qa/p3_balance.py, qa/cl_p4.py cùng build generator. File index.html 5.5 MB **không được GitHub connector trả toàn bộ trong lần kiểm toán**, do vậy các kết luận về engine hiện tại chỉ dựa trên phần diff+test có thể kiểm chứng.
-- Hai screenshot người dùng cung cấp cho thấy màn P03 Ngã Rẽ Binh Chủng và màn chiến Thiết Môn Quan; ảnh chưa có SHA liên kết, không thể xác nhận đó là artifact HEAD mới nhất.
-- Trang Wiki chính thức có hàng nghìn entry, chưa đọc toàn bộ. Kết luận phía dưới là danh sách sai lệch đã tìm ra, **không phải audit đầy đủ mọi tướng/kỹ năng/map**.
+- Đã fetch exact latest branch HEAD 05cb413b08e917e1aa4026fb54a5ff621373153e; đọc AGENTS.md, REV, product spec, checkpoint, Issue #4, NL_REFERENCE_MATRIX.md và tài liệu audit.
+- Đã inspect trực tiếp code ở index.html tại P2_COUNTERS, p2Hit, p2Morale, p2Target, P3_PRESETS, p3Upgrade và p3CounterFactor; code counter/tier/save IDs được đối chiếu với source, không chỉ suy từ screenshot.
+- Đã mở Wiki chính thức cho Binh Chủng, Võ Tướng, Hiệu Ứng, Ấn Trận, Phó Bản, Trang Bị, Vật Phẩm, Cao Cấp, Quý Tử và Tri Kỷ; đã đọc các guide webgame 2012 có ngày xuất bản. Mức đọc theo từng nhóm là READ/PARTIAL/NOT_READ trong NL_REFERENCE_MATRIX.md. **Không đọc hết hàng nghìn mục.**
+- Reproducible NL-R01 build check and inline syntax passed locally; the built canonical HTML passed `qa/ngoa_long_mode.py` 18/18 in Chromium at 1280×720 and 390×844. Screenshots: `qa/nl-rebuild-desktop.png` and `qa/nl-rebuild-mobile.png`. Exact-SHA Actions for this research commit remain pending.
+- GitHub latest code HEAD contains NL-R01; prior task-branch code is not evidence for current HEAD. Full exact-SHA validation remains required after the research and NL-R02 commits land.
 
 ## Tóm tắt đánh giá
 
-**PHASE A: RESEARCH DOCUMENTED / TECHNICAL FIDELITY NOT ACCEPTED.** Hệ thống có chiến đấu theo lượt, sĩ khí, replay, 3x3 và 24 preset; tuy nhiên số lượng preset không phản ánh 24 bản sắc trận pháp, vòng khắc chế hiện tại thiếu Thương so với VNG Wiki, biến thể binh chủng chưa được kiểm chứng trên main-ngoalong và test chưa chứng minh game buộc người chơi điều chỉnh chiến thuật theo phó bản.
+**NL-WIKI-01: RESEARCH DOCUMENTED / CORE COVERAGE PARTIAL / TECHNICAL FIDELITY NOT ACCEPTED.** Hệ thống có chiến đấu theo lượt, sĩ khí, replay, 3x3 và 24 preset; tuy nhiên số lượng preset không phản ánh 24 bản sắc trận pháp, vòng khắc chế hiện tại dùng Bộ/Kỵ/Cung cộng thêm Mưu sĩ→Bộ và thiếu Thương, biến thể binh chủng trên latest main vẫn chủ yếu cộng chỉ số, và test chưa chứng minh game buộc người chơi điều chỉnh chiến thuật theo phó bản.
 
 | ID | Ưu tiên | Sai lệch / thiếu bằng chứng | Bằng chứng và tác động | Hành động cụ thể + cổng nghiệm thu |
 | --- | --- | --- | --- | --- |
@@ -24,11 +25,18 @@
 | NL-GAP-07 | P1 | NL-R01 có hub Ngọa Long nhưng chưa thay toàn vòng CL bằng vòng chiến thuật | Generator nối nlRebuildHub() vào renderCity; các CL-P1..P6 vẫn giữ ở workflow và xuất artifact tên CL-P6; điều này đúng bảo tồn dữ liệu nhưng không phải chứng cứ R02 | Điều hướng Game Home -> Bày Trận -> Phó Bản -> chiến đấu -> kết toán -> luyện -> save/reload, không qua CL map. Test ngã rẽ không mở CL màn chính |
 | NL-GAP-08 | P1 | Giao diện chiến đấu còn khó đọc | Screenshot từ người dùng: tướng, cờ, tên tướng, thanh HP và số quân xếp chồng ở khoảng 1280x720; UI P03 dropdown cắt mô tả dài | Có fixture 5v5 ảnh desktop và 390px; visual QA bounding boxes không overlap text/HUD, số lính rõ, hit effects đúng đơn vị; owner visual PENDING |
 | NL-GAP-09 | P1 | Khác biệt địch/ải/boss theo cơ chế chưa được chứng minh đủ | qa/cl_p4.py có stage 15, boss, thưởng chỉ một lần; đó là hệ CL. Wiki phó bản có NPC/level/rewards và bài 2012 thay build theo trận | 5 map Ngọa Long-first (ít nhất 3 bài toán chiến thuật khác nhau) có enemy formation/skill khác, kết quả thắng mở đúng ải và tính thưởng đúng một lần |
-| NL-GAP-10 | P1 | Chưa có source matrix theo phiên bản tại thời điểm R01 | docs/NGOA_LONG_REBUILD_SPEC_V1.md có 3 link, chưa đủ traceability. Wiki hiện hành không mặc nhiên là bản classic | Tạo docs/NL_REFERENCE_MATRIX.md và maintenance gate. Giữ lớp CLASSIC-2012 / VNG-WIKI-2026, ghi VERIFIED/DERIVED/SIMULATED/UNKNOWN |
-| NL-GAP-11 | P2 | Tài liệu Codex cũ còn chỉ thị game Chiến Loạn ưu tiên | docs/NGOALONG_CODEX_AGENT.md mở đầu bằng lời đổi sang Chiến Loạn; AGENTS.md/CURRENT_CHECKPOINT.md có đoạn lịch sử tự gọi high priority | Chuẩn hóa effective instructions, đổi đoạn lịch sử thành heading archival, chỉ dẫn đọc ưu tiên đơn nhất. Không mất ràng buộc save/IP/REV |
+| NL-GAP-10 | P1 | Source traceability vừa được hoàn thiện cho nhóm core, nhưng chưa exhaustive | `docs/NL_REFERENCE_MATRIX.md` now records URLs, access date, version scope, READ/PARTIAL/NOT_READ, current code state and QA assertions. Wiki coverage remains partial. | **NL-WIKI-01 core slice DONE locally**; keep unresolved categories marked PARTIAL/NOT_READ and extend the matrix when R02/R03 add systems. Full Wiki reading is not claimed. |
+| NL-GAP-11 | P2 | Tài liệu Codex cũ từng ưu tiên Chiến Loạn/hybrid | `docs/NGOALONG_CODEX_AGENT.md` now opens with Issue #4 and marks prior roadmap/game-loop material archival; `docs/CURRENT_CHECKPOINT.md` now marks CL direction archival. `AGENTS.md` contains conflicting historical sections, resolved by the more recent owner Issue #4 precedence. | **Effective task docs normalized in NL-WIKI-01.** Keep `AGENTS.md` intact as repository policy/history; apply the latest Issue #4 for the active product direction. Retain compatible save/IP/REV constraints. |
 | NL-GAP-12 | P2 | 'Balance 360' chưa tương đương độ khó người chơi và tránh deadlock kinh tế | qa/p3_balance.py set fixture quân/cấp/tiền cao không đo thời gian kiếm tài nguyên; chính docs/P3_BALANCE.md cảnh báo | Test onboarding 30 phút thực, 3 profiles with cost-bound inventory, tình huống thua hồi quân/mua binh, 0 softlock |
 | NL-GAP-13 | P2 | Fidelity visual so với Ngọa Long và direction art mới chưa được duyệt | Art Bible đã chốt chibi hắc ám mắt sáng, nhưng user battle screenshot cho thấy sprite giống nhau và khó đọc | Pilot 2 tướng / 2 loại lính, 4 hướng, Idle/Walk/Attack/Hit/Fall, VFX alpha thật, ảnh/video Chromium source-identical; owner phê duyệt sau pilot |
-| NL-GAP-14 | P2 | Tên artifact/clips/CI còn CL-P6 dù sản phẩm đã đổi | .github/workflows/ngoalong-qa.yml xuất muu-dinh-tam-quoc-cl-p6-playable, video P4.1 cũ | Khi gameplay đã chuyển, đổi tên artifact/ngôn ngữ release mà vẫn giữ CL test tương thích; báo đúng SHA, không đánh tráo chứng cứ |
+| NL-GAP-14 | P2 | CI artifact từng mang tên CL-P6 dù sản phẩm đã đổi | `.github/workflows/ngoalong-qa.yml` now scopes push validation to `main-ngoalong` and `codex/**`, and publishes `muu-dinh-tam-quoc-ngoa-long-playable` plus `muu-dinh-tam-quoc-qa-evidence`. Historical CL tests/video remain labeled as legacy test steps. | **Naming/branch trigger corrected in NL-WIKI-01.** Verify successful artifact publication in Actions on this exact commit; keep legacy test labels truthful. |
+
+## NL-WIKI-01 result
+
+- **DONE (core scope):** current official Wiki research was opened for troop types, heroes, effects, formations/seals, dungeons, gear/items, advanced technology, and linked residence systems; dated classic guides were used only as historical evidence. Per-group coverage is in `docs/NL_REFERENCE_MATRIX.md`. The stale Codex direction and checkpoint headers now defer to Issue #4 while preserving compatible safeguards.
+- **RESEARCH LIMIT:** individual hero/troop/effect/map entries and several late systems remain PARTIAL/NOT_READ. Wiki totals conflict across the home and subpages. Current Mobile rules are not asserted as classic webgame rules.
+- **LOCAL TESTED:** reproducible NL-R01 build check, inline syntax, and actual Chromium hub/navigation/battle entry at desktop/mobile passed. Generated screenshots are from the current source after the documented build step.
+- **PENDING:** exact-SHA Actions for the research commit; no gameplay fidelity acceptance is claimed before NL-R02 same-seed tests.
 
 ## Ba kiểm thử đối chứng mới đề xuất
 
@@ -38,7 +46,7 @@
 
 ## Lộ trình xử lý sau kiểm toán
 
-- **Gate N0:** đọc/tóm tắt có phiên bản và traceability nguồn (ma trận đang PARTIAL; chưa full Wiki).
+- **Gate N0 / NL-WIKI-01:** core source/version traceability completed, Wiki coverage remains PARTIAL; exact-SHA Actions pending.
 - **Gate N1:** sửa/định chuẩn khắc chế 5 lớp, sĩ khí, 5v5 trận pháp và 3 test A/B; giữ migration v1-v5, receipts, replay.
 - **Gate N2:** kiểm tra gameplay R03 branch evolution và skill riêng; đối chiếu mỗi lựa chọn thực sự khác lối chơi.
 - **Gate N3:** kiểm thử Ngọa Long full loop, cân bằng/kinh tế và Chromium visual; owner QA PENDING.
@@ -53,4 +61,4 @@
 - V4: chơi Windows/Android vật lý vẫn PENDING.
 - V5: owner art/fidelity approval vẫn PENDING.
 
-**Kết luận hạn chế phạm vi:** Tình trạng được kiểm chứng hiện tại là *NL-R01 technically integrated; R02/R03 fidelity review pending*. Ngọa Long Wiki quá lớn để đọc hết tại thời điểm kiểm toán đầu tiên. Không dùng tài liệu này để tuyên bố đã hoàn thiện Ngọa Long, không merge hoặc xóa CL data.
+**Kết luận hạn chế phạm vi:** *NL-WIKI-01 core research is documented and locally tested; exact-SHA Actions are pending. NL-R02 has not yet been implemented on this task branch; gameplay fidelity remains unaccepted.* Ngọa Long Wiki chưa được đọc toàn bộ. Không dùng tài liệu này để tuyên bố đã hoàn thiện Ngọa Long, không merge hoặc xóa CL data.
