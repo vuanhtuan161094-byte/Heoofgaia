@@ -1,4 +1,11 @@
-# Mưu Định Tam Quốc
+# Mưu Định Tam Quốc — Ngọa Long-first
+
+> **Quyết định mới nhất 17/11/2026:** Chủ dự án yêu cầu **làm lại theo gameplay Ngọa Long**, hủy mục tiêu Chiến Loạn/hybrid. Source of truth: [NGOA_LONG_REBUILD_SPEC_V1.md](docs/NGOA_LONG_REBUILD_SPEC_V1.md). Core: bố trận 3×3/5 tướng, sĩ khí, chiến pháp, binh chủng, trang bị, thành trì và phó bản. Sản phẩm độc lập, không thuộc VNG; không sử dụng tài sản độc quyền của game tham chiếu. Phần CL-P6 cũ được giữ để tương thích Save, **không còn là gameplay ưu tiên**.
+
+> **NL-REBUILD-01:** GitHub Actions chạy `tools/build_ngoa_long_mode.py` để lắp ghép một `index.html` offline chơi được từ nguồn gốc + dashboard Quân Cơ Phủ. Nút chức năng đi vào combat/trận hình/phó bản thật. Muốn chơi phiên bản mới phải tải artifact **từ workflow SUCCESS trên đúng SHA**, không mở trực tiếp `index.html` nguồn cũ khi chưa build. Thiết kế mới chưa phải remake hoàn chỉnh.
+
+## Thông tin phiên bản cũ (lịch sử)
+
 
 **QUYẾT ĐỊNH CHÍNH THỨC 17/11/2026:** Game nguyên bản **lai Chiến Loạn (điều quân, chiếm thành, binh lính đánh thật) × Ngọa Long (trận hình 3×3, 24 presets, sĩ khí, chiến pháp)**; đồ họa **Dark Fantasy Sharp-Eyed Chibi 2D hand-painted, mắt sáng năng lượng, không rig**. Xem [Game Design Bible](docs/GAME_DESIGN_BIBLE_HYBRID_V1.md) và [Art Bible](docs/ART_DIRECTION_DARK_CHIBI_V1.md). Trạng thái game hiện tại là CL-P6 baseline, hybrid/art mới chỉ chốt thiết kế, chưa xác nhận code hoàn tất. Không liên quan chính thức CMN/VNG.
 
