@@ -72,6 +72,11 @@ def get_npc_links(page,info):
     if not loaded:
         warnings.append("NPC_LIST_NOT_RENDERED_AFTER_3_ATTEMPTS")
         return [],warnings
+    intro=page.locator("body").inner_text()
+    advertised=search(intro,r"\n(\d+)\s*NPC\s*\nDANH SÁCH NPC")
+    if advertised is not None:info["detailDeclaredNpcCount"]=int(advertised)
+    if info.get("advertisedNpcCount") is not None and info.get("detailDeclaredNpcCount") is not None and info["advertisedNpcCount"]!=info["detailDeclaredNpcCount"]:
+        info["npcCountIndexVsDetailMismatch"]=True
     for _ in range(80):
         page.wait_for_timeout(180)
         current=[]
@@ -82,7 +87,7 @@ def get_npc_links(page,info):
                 found[item["aiId"]]=item
         expected=info.get("detailDeclaredNpcCount") or info.get("advertisedNpcCount")
         if expected is not None and len(found)>=expected:break
-        controls=page.get_by_role("button",name=re.compile(r"(?i)(Sau|Tiếp|Next)\s*[›→]?$"))
+        controls=page.locator('button[data-nlw-camp-trang="1"]')
         if not controls.count() or not controls.last.is_enabled():break
         before=tuple(x["aiId"] for x in current)
         try:
@@ -109,61 +114,85 @@ def get_npc_links(page,info):
     return items,warnings
 
 def get_unit(page):
-    t=page.locator("body").inner_text().split("Đơn vị\n",1)[-1].split("Chiến Báo Gợi Ý",1)[0]
-    return {"slot":number(search(t,r"Vị trí\s*(\d+)")),
-      "level":number(search(t,r"Vị trí\s*\d+\s*[·•]\s*Cấp\s*(\d+)")),
-      "soldiers":number(search(t,r"Vị trí[^\n]*?(\d[\d,]*)\s*quân")),
-      "skillName":search(t,r"Kỹ năng chủ động\s*\([^)]+\)\s*\n\s*([^\n]+)")}
+    t=page.locator("body").inner_text()
+    section=t.split("\nĐƠN VỊ\n",1)[-1].split("\nCHIẾN BÁO GỢI Ý",1)[0]
+    slot=number(search(section,r"Vị trí\s*(\d+)"))
+    name=search(section,r"^\s*([^\n]+)\s*\n\s*Vị trí\s*\d+")
+    troop=page.evaluate("""() => {
+        const b=document.querySelector('button[data-nlw-unit]');
+        if(!b)return null;
+        const pic=b.querySelector('img[alt]');
+        return {wikiTroopId:b.getAttribute('data-nlw-unit'),
+                imageAlt:pic?.getAttribute('alt')||null,
+                label:(b.innerText||'').replace(/Xem chi tiết Binh Chủng.*/s,'').trim()};
+    }""")
+    skill_name=search(section,r"KỸ NĂNG CHỦ ĐỘNG\s*\([^)]+\)\s*\n\s*([^\n]+)")
+    skill_info=search(section,r"KỸ NĂNG CHỦ ĐỘNG\s*\([^)]+\)\s*\n[^\n]*\n\s*([^\n]+)")
+    return {"slot":slot,"name":name,
+      "level":number(search(section,r"Vị trí\s*\d+\s*[·•]\s*Cấp\s*(\d+)")),
+      "soldiers":number(search(section,r"Vị trí[^\n]*?([\d,.]+)\s*quân")),
+      "troopWikiId":number(troop.get("wikiTroopId")) if troop else None,
+      "troopName":troop.get("imageAlt") if troop else None,
+      "troopLabel":troop.get("label") if troop else None,
+      "skillName":skill_name,
+      "skillDescriptionDigestOnly":None,
+      "criticalPercent":number(search(section,r"Bạo kích\s*([\d,.]+)%")),
+      "counterattackPercent":number(search(section,r"Phản kích\s*([\d,.]+)%"))}
+
 def get_npc(page,link):
     page.goto(link["url"],wait_until="domcontentloaded",timeout=60000)
-    page.wait_for_timeout(900)
-    t=page.locator("body").inner_text()
-    u=get_unit(page)
-    observed={u["slot"]:u} if u["slot"] is not None else {}
-    try:
-        a=page.get_by_text("Đội hình",exact=True).first.bounding_box(timeout=1800)
-        b=page.get_by_text("Bấm vào một đơn vị",exact=False).first.bounding_box(timeout=1800)
-        if a and b:
-            imgs=page.locator("img[alt]")
-            for i in range(min(35,imgs.count())):
-                el=imgs.nth(i)
-                rect=el.bounding_box(timeout=900)
-                if rect and a["y"]<rect["y"]<b["y"]:
-                    try:
-                        el.click(timeout=1000)
-                        page.wait_for_timeout(130)
-                        x=get_unit(page)
-                        if x["slot"] is not None:observed[x["slot"]]=x
-                    except Exception:pass
-    except Exception:pass
+    page.locator('button[data-nlw-camp-o^="npc:"]').first.wait_for(state="attached",timeout=15000)
+    page.wait_for_timeout(280)
+    text=page.locator("body").inner_text()
+    named_slots=page.locator('button[data-nlw-camp-o^="npc:"]').evaluate_all(
+      "els => els.map(e=>({slot:Number(e.getAttribute('data-nlw-camp-o').split(':')[1]),name:(e.innerText||'').trim()}))")
+    expected_slots=[x["slot"] for x in named_slots]
+    if any(not isinstance(slot,int) or slot<1 or slot>9 for slot in expected_slots):
+        raise RuntimeError("Wiki NPC formation slot out of 1..9")
+    if len(expected_slots)!=len(set(expected_slots)):
+        raise RuntimeError("Wiki NPC formation has duplicated occupied slots")
+    observed={};errors=[]
+    for record in named_slots:
+        slot=record["slot"]
+        try:
+            page.locator('button[data-nlw-camp-o="npc:'+str(slot)+'"]').click(timeout=5000)
+            page.wait_for_timeout(110)
+            unit=get_unit(page)
+            if unit.get("slot")!=slot:
+                errors.append("SELECTED_SLOT_DID_NOT_CHANGE:"+str(slot))
+                continue
+            if unit.get("name") is None:
+                unit["name"]=record["name"] or None
+            observed[slot]=unit
+        except Exception as e:
+            errors.append("SLOT_READ_FAILED:"+str(slot)+":"+str(e)[:100])
     units=[observed[k] for k in sorted(observed)]
-    total=number(search(t,r"Tổng quân\s*([\d,.]+)"))
+    total=number(search(text,r"Tổng quân\s*([\d,.]+)"))
     if total is None:total=link.get("totalSoldiers")
-    detail_name=search(t,r"\n([^\n]+)\n(?:BOSS|TINH NHUỆ|Thường|Quân đoàn)\n")
-    detail_kind=search(t,r"\n(BOSS|TINH NHUỆ|Thường|Quân đoàn)\n")
-    total_known=bool(units) and all(x.get("soldiers") is not None for x in units)
-    visible_total=sum(x["soldiers"] for x in units if x.get("soldiers") is not None)
-    formation_count=None
+    full_team=len(observed)==len(expected_slots) and bool(expected_slots) and not errors
+    known_soldiers=full_team and all(x.get("soldiers") is not None for x in units)
+    sum_valid=(sum(x["soldiers"] for x in units)==total) if known_soldiers and total is not None else None
     return {"aiId":link["aiId"],"listOrder":link.get("listOrder"),
-      "name":link.get("name") or detail_name,"kind":link.get("kind") or detail_kind,
-      "level":link.get("level") or number(search(t,r"\nCấp\s*(\d+)")),
+      "name":link.get("name") or search(text,r"\n([^\n]+)\n(?:BOSS|TINH NHUỆ|THƯỜNG|QUÂN ĐOÀN)\n"),
+      "kind":link.get("kind"),"level":link.get("level") or number(search(text,r"\nCấp\s*(\d+)")),
       "totalSoldiers":total,"merit":link.get("merit"),
-      "attackCoefficientShown":number(search(t,r"Hệ số công\s*\??\s*([\d,.]+)")),
-      "unitsObserved":units,"formationDeclaredUnitCount":formation_count,
-      "selectedUnitCount":len(units),
-      "unitSoldierSumValid":(visible_total==total) if total_known and total is not None else None,
-      "fullTeamVerified":False,"fullTeamStatus":"UNKNOWN",
-      "url":link["url"],"npcListSourceUrl":link["summarySourceUrl"],
+      "attackCoefficientShown":number(search(text,r"Hệ số công\s*\??\s*([\d,.]+)")),
+      "formationDeclaredUnitCount":len(expected_slots),"formationOccupiedSlots":sorted(expected_slots),
+      "selectedUnitCount":len(units),"unitsObserved":units,
+      "unitSoldierSumValid":sum_valid,"fullTeamVerified":full_team,
+      "fullTeamStatus":"VERIFIED" if full_team else "UNKNOWN",
+      "unitErrors":errors,"url":link["url"],"npcListSourceUrl":link["summarySourceUrl"],
       "edition":"CURRENT_VNG_MOBILE","detailReadStatus":"READ","version":"VNG_MOBILE"}
 
 
 def npc_stub(link,error):
     return {"aiId":link["aiId"],"listOrder":link.get("listOrder"),
-      "name":link.get("name"),"kind":link.get("kind"),
-      "level":link.get("level"),"totalSoldiers":link.get("totalSoldiers"),
-      "merit":link.get("merit"),"attackCoefficientShown":None,
-      "unitsObserved":[],"formationDeclaredUnitCount":None,"selectedUnitCount":0,
-      "unitSoldierSumValid":None,"fullTeamVerified":False,"fullTeamStatus":"UNKNOWN",
+      "name":link.get("name"),"kind":link.get("kind"),"level":link.get("level"),
+      "totalSoldiers":link.get("totalSoldiers"),"merit":link.get("merit"),
+      "attackCoefficientShown":None,"unitsObserved":[],
+      "formationDeclaredUnitCount":None,"formationOccupiedSlots":None,
+      "selectedUnitCount":0,"unitSoldierSumValid":None,
+      "fullTeamVerified":False,"fullTeamStatus":"UNKNOWN",
       "url":link["url"],"npcListSourceUrl":link["summarySourceUrl"],
       "detailReadStatus":"FAILED","error":error[:180],"edition":"CURRENT_VNG_MOBILE"}
 
@@ -187,6 +216,7 @@ def main(opts):
                     time.sleep(max(.5,opts.delay))
                 row["npcListComplete"]=len(row["npcs"])==m.get("detailDeclaredNpcCount",m["advertisedNpcCount"]) and not notes
                 row["npcDetailReadCount"]=sum(x.get("detailReadStatus")=="READ" for x in row["npcs"])
+                row["npcFormationsFullyEnumeratedCount"]=sum(x.get("fullTeamVerified") is True for x in row["npcs"])
                 row["npcDetailComplete"]=row["npcListComplete"] and row["npcDetailReadCount"]==len(row["npcs"]) and all(x.get("fullTeamVerified") for x in row["npcs"])
             except Exception as ex:failures.append({"mapId":m["mapId"],"error":str(ex)[:200]})
             records.append(row)
