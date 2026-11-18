@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 1,
+  "sourceId": "VNG_NEWS_20240903_ORANGE_BALANCE",
+  "publicationDate": "2024-09-03",
+  "checkedAt": "2026-11-19",
+  "edition": "VNG_WIKI_MOBILE_PATCH_HISTORY",
+  "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+  "disclaimer": "Historical balance correction from 2024, NOT proof it remains current in Nov 2026. No auto-equipping, no scope outside hero data. Direct overlays apply only to exact known skill ID, preserving earlier source version.",
+  "directSkillOverlays": [
+    {
+      "heroName": "Quan Vũ",
+      "skillId": "wiki-orange-05-20240102",
+      "fieldPath": [
+        "events",
+        0,
+        "coefficientPct"
+      ],
+      "previous": 500,
+      "next": 300,
+      "unit": "PERCENT"
+    },
+    {
+      "heroName": "Quan Vũ",
+      "skillId": "wiki-orange-05-20240102",
+      "fieldPath": [
+        "events",
+        2,
+        "physicalAttackBonusPct"
+      ],
+      "previous": 14500,
+      "next": 29000,
+      "unit": "PERCENT"
+    },
+    {
+      "heroName": "Quan Vũ",
+      "skillId": "wiki-orange-05-20240102",
+      "fieldPath": [
+        "events",
+        2,
+        "physicalAttackBonusPctPerCounter"
+      ],
+      "previous": 400,
+      "next": 1000,
+      "unit": "PERCENT"
+    }
+  ],
+  "versionedUnboundFacts": [
+    {
+      "name": "Mã Vân Lộc",
+      "subject": "Loan Hồi Phượng Vũ",
+      "field": "damageSequencePct",
+      "from": [
+        10000,
+        13000
+      ],
+      "to": [
+        11000,
+        14500
+      ]
+    },
+    {
+      "name": "Chu Thái",
+      "subject": "Chiến Thần Bất Khuất",
+      "field": "damagePct",
+      "from": 16000,
+      "to": 18000
+    },
+    {
+      "name": "Chu Thái",
+      "subject": "Thương Tích",
+      "field": "effectPct",
+      "from": 10,
+      "to": 12
+    },
+    {
+      "name": "Bàng Đức",
+      "subject": "Lung Hoàn Táng Địch",
+      "field": "damageSequencePct",
+      "from": [
+        6800,
+        6800,
+        8800
+      ],
+      "to": [
+        7800,
+        7800,
+        10200
+      ]
+    },
+    {
+      "name": "Thái Sử Từ",
+      "subject": "Lung Hoàn Táng Địch",
+      "field": "damageSequencePct",
+      "from": [
+        6800,
+        6800,
+        8800
+      ],
+      "to": [
+        7800,
+        7800,
+        10200
+      ]
+    },
+    {
+      "name": "Điển Vi",
+      "subject": "Ác Quỷ Triền Thân",
+      "field": "damageSequencePct",
+      "from": [
+        8000,
+        16000
+      ],
+      "to": [
+        9000,
+        18000
+      ]
+    },
+    {
+      "name": "Tôn Thượng Hương",
+      "subject": "Cân Quốc",
+      "field": "weaponAttackBonusLvl1Lvl2Pct",
+      "from": [
+        30,
+        60
+      ],
+      "to": [
+        40,
+        80
+      ]
+    },
+    {
+      "name": "Tôn Thượng Hương",
+      "subject": "Cân Quốc",
+      "field": "healingHitsLvl1Lvl2",
+      "from": [
+        1,
+        2
+      ],
+      "to": [
+        2,
+        3
+      ]
+    },
+    {
+      "name": "Hạ Hầu Đôn",
+      "subject": "Hào Tình",
+      "field": "startingMoraleLvl1Lvl2",
+      "from": [
+        25,
+        40
+      ],
+      "to": [
+        35,
+        70
+      ]
+    },
+    {
+      "name": "Hạ Hầu Đôn",
+      "subject": "Kinh Cúc",
+      "field": "effectPct",
+      "from": 30,
+      "to": 40
+    },
+    {
+      "name": "Hạ Hầu Đôn",
+      "subject": "Trung Dũng",
+      "field": "defenseBonusLvl1Lvl2Pct",
+      "from": [
+        15,
+        30
+      ],
+      "to": [
+        20,
+        40
+      ]
+    },
+    {
+      "name": "Hạ Hầu Đôn",
+      "subject": "Trung Dũng",
+      "field": "healHitsLvl1Lvl2",
+      "from": [
+        1,
+        1
+      ],
+      "to": [
+        1,
+        2
+      ]
+    },
+    {
+      "name": "Hạ Hầu Uyên",
+      "subject": "Bôn Tập",
+      "field": "defenseReductionLvl1Lvl2Pct",
+      "from": [
+        20,
+        40
+      ],
+      "to": [
+        10,
+        20
+      ]
+    },
+    {
+      "name": "Hạ Hầu Uyên",
+      "subject": "Bôn Tập",
+      "field": "damagePctLvl1Lvl2",
+      "from": [
+        3000,
+        6000
+      ],
+      "to": [
+        1000,
+        1500
+      ]
+    },
+    {
+      "name": "Hạ Hầu Đôn",
+      "subject": "Đầu Sóng Ngọn Gió",
+      "field": "damagePct",
+      "from": 15000,
+      "to": 10500
+    },
+    {
+      "name": "Công Tôn Tu",
+      "subject": "Thập Phương Diệt",
+      "field": "damagePct",
+      "from": 500,
+      "to": 800
+    },
+    {
+      "name": "Công Tôn Tu",
+      "subject": "Nghịch Chiến",
+      "field": "dispelCountLvl1Lvl2",
+      "from": [
+        1,
+        2
+      ],
+      "to": [
+        2,
+        4
+      ]
+    },
+    {
+      "name": "Triệu Vân",
+      "subject": "Ngân Long Thất Thiểm",
+      "field": "statusName",
+      "from": "Anh Dũng",
+      "to": "Võ Dũng 2"
+    },
+    {
+      "name": "Đại Kiều",
+      "subject": "Chức",
+      "field": "roleName",
+      "from": "Trí Tướng",
+      "to": "Quân sư"
+    }
+  ],
+  "runtimeEligible": false
+}
