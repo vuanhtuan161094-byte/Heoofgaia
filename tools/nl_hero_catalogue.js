@@ -109,10 +109,11 @@ function validateProfiles(profiles) {
 /** Chat 05 skill handoff: one unresolved descriptor bundle per general, not a second engine. */
 function buildSkillDescriptors(profiles) {
   return profiles.map(p=>({
-    heroId:p.id,edition:p.edition,sourceId:p.source.id,
-    skillSlots:{normal:null,active:null,passive:[]},
-    contract:{trigger:null,target:null,operation:null,probability:null,duration:null,moraleDelta:null,stacking:null,dispel:null,immunity:null},
-    fieldProvenance:"UNKNOWN",status:"REFERENCE_ONLY",consumer:"CHAT_05",runtimeImport:false
+    heroId:p.id,name:p.name,faction:p.faction,edition:p.edition,
+    sourceId:p.source.id,sourceUrl:p.source.url,
+    normal:null,active:null,passive:[],
+    descriptors:{trigger:null,target:null,operation:null,probability:null,duration:null,moraleDelta:null,stacking:null,dispel:null,immunity:null},
+    factStatus:"UNKNOWN",readiness:"REFERENCE_ONLY",consumer:"CHAT_05",runtimeImport:false
   }));
 }
 /**
@@ -156,7 +157,11 @@ function main(argv=process.argv.slice(2)) {
   const result=loadCatalogue();
   if(argv.includes("--export-skills")){
     const filename=path.join(HERO_DIR,"skills_handoff_v1.json");
-    fs.writeFileSync(filename,JSON.stringify({schemaVersion:1,edition:result.index.edition,sourceId:SOURCE,skills:result.skillDescriptors},null,2)+"\n");
+    fs.writeFileSync(filename,JSON.stringify({
+      schemaVersion:1,edition:result.index.edition,checkedAt:result.index.snapshotDate,source:result.index.source,
+      disclaimer:"Skill semantics are not present in the verified index snapshot; null is intentional. Chat 05 must verify individual hero's skill versions before creating combat resolver. No auto-import.",
+      count:result.skillDescriptors.length,heroes:result.skillDescriptors
+    },null,2)+"\n");
   }
   console.log(JSON.stringify({inventory:result.inventory,project:result.project,readiness:result.readiness,skillBundles:result.skillDescriptors.length},null,2));
 }
