@@ -61,3 +61,8 @@ Dữ liệu kỹ năng có cấu trúc thực, nhưng chưa phải một trận 
 
 ## Next action
 Đối chiếu thêm các trang chi tiết Wiki thực tế và bản vá mới, chia batch lớn theo phe/đẳng cấp; thu thập chỉ số, quân, passive, acquisition; hợp nhất conflict theo version có chứng cứ. Chỉ khi đạt readiness mới chuyển Chat 05/08. Không yêu cầu mỹ thuật.
+
+## Lưu ý đồng bộ điều phối mới (19/11/2026)
+- Sau khi nhánh Chat 01 được tạo tại SHA nguồn `a88b8449714ad48531f7c9e7e081ccac43edee92`, nhánh nguồn `feature/nl-codex-cloud-v1-finish` đã tiến lên `e33e36255d62ea51af7f48386b8d3c56c6448369` với duy nhất thay đổi `docs/operations/NL_MULTI_CHAT_V2.md`, không sửa dữ liệu tướng.
+- Bảng điều phối mới phân bổ `tools/nl_*` và `qa/nl_*` cho Chat 08, còn yêu cầu trực tiếp mở Chat 01 ban đầu cho phép `tools/nl_hero_*.js` và `qa/nl_hero_*`. Tác vụ này đã làm theo phạm vi được user chỉ định trong chat và không đụng runtime/CI/Save.
+- **Chat 00/08 phải hòa giải thay đổi phân quyền đường dẫn/nhánh trước khi tích hợp**, chuyển những helper/test cần thiết sang owner path mới bằng commit của nhóm tích hợp nếu cần. Không cherry-pick mù quáng hoặc tự merge nhánh chuyên môn này.
