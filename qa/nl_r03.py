@@ -105,7 +105,7 @@ def run():
         page.locator('[data-r03-select="zhang"]').select_option("spearwall")
         page.locator('[data-r03-evolve="zhang"]').click()
         spear = page.evaluate("window.__NL_R03_QA__.unit('zhang','p',1,1)")
-        check("Thương Phá Kỵ changes the deployed unit class and counter advantage against cavalry", spear["troop"] == "spear" and spear["type"] == "cavalry" and page.evaluate("window.__P3_QA__.counter('spear','cavalry') > 1"))
+        check("Thương Phá Kỵ keeps its infantry combat archetype, switches to spear troop and counters cavalry", spear["troop"] == "spear" and spear["type"] == "infantry" and page.evaluate("window.__P3_QA__.counter('spear','cavalry') > 1"))
         page.locator('[data-r03-select="liu"]').select_option("rally")
         page.locator('[data-r03-evolve="liu"]').click()
         page.evaluate("window.__P2_QA__.useTroop('liu','drum')")
