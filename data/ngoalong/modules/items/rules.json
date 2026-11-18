@@ -52,5 +52,34 @@
     "conflictingReceipt": "ERROR",
     "grantFromAuthorizedSourceOnly": true,
     "autoGrantOnReplay": false
+  },
+  "setBonuses": {
+    "mdt-cung-ky": {
+      "provenance": "SIMULATED",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "def": 8,
+            "hp": 70
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "atk": 22,
+            "int": 14
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "atk": 50,
+            "def": 30,
+            "hp": 250
+          }
+        }
+      ]
+    }
   }
 }
