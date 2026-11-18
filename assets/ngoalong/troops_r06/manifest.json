@@ -226,5 +226,12 @@
       "contact",
       "fade"
     ]
-  }
+  },
+  "qualityGate": "REJECTED",
+  "artDirectionStatus": "REJECTED_OWNER_FEEDBACK",
+  "productionUseAllowed": false,
+  "integrationAllowed": false,
+  "rejectionReason": "The user rejected the R06 code-drawn vector output as inadequate character/troop art. It lacks convincing hand-painted chibi identity and production-grade distinct action poses. Do not use as runtime game sprite.",
+  "replacementRequired": "Independently illustrated transparent-background original troop masters and battle pose frames, art-checked at game scale. Do not treat presentation boards or mockups as sprites.",
+  "legacyForTraceabilityOnly": true
 }
