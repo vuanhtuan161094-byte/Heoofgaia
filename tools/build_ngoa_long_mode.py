@@ -171,7 +171,8 @@ function nlChapterRoute(stage){
   const steps=chapter.encounterIds.map(id=>{
     const encounter=all.find(e=>e.id===id),npc=NL_GAME_DATA.campaign.npcs.find(n=>n.id===encounter.npcId);
     const done=game.cleared.includes(encounter.stage),current=encounter.stage===stage,locked=!done&&encounter.stage>game.cleared.length+1;
-    return `<div class="nl-chapter-step ${current?'current':''} ${locked?'locked':''}" data-nl-chapter-step="${encounter.stage}"><b>${done?'✓ ':''}Cửa ${encounter.stage}: ${esc(npc.name)}</b><small>${done?'Đã thắng':locked?'Chưa mở':current?'Đang chọn':'Có thể đánh'}</small></div>`;
+    const boss=encounter.boss===true;
+    return `<div class="nl-chapter-step ${current?'current':''} ${locked?'locked':''}" data-nl-chapter-step="${encounter.stage}" ${boss?'data-nl-boss="1"':''}><b>${done?'✓ ':''}Cửa ${encounter.stage}: ${esc(npc.name)}${boss?' · 👑 BOSS':''}</b><small>${boss?esc(encounter.bossRule):done?'Đã thắng':locked?'Chưa mở':current?'Đang chọn':'Có thể đánh'}</small></div>`;
   }).join('');
   const count=chapter.encounterIds.filter(id=>game.cleared.includes(all.find(e=>e.id===id).stage)).length;
   return `<section class="nl-chapter-route" data-nl-chapter="${chapter.id}" aria-label="Lộ trình chương chiến dịch"><h3>🗺️ ${esc(chapter.name)} · ${count}/${chapter.encounterIds.length} trận</h3><div class="nl-chapter-steps">${steps}</div></section>`;

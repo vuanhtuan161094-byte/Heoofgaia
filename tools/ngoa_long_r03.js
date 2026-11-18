@@ -104,8 +104,8 @@ function nlr03Hydrate(){
  const prior=game.nlr03.evolutions&&typeof game.nlr03.evolutions==='object'&&!Array.isArray(game.nlr03.evolutions)?game.nlr03.evolutions:{};
  const evolutions={};
  for(const [hero,id] of Object.entries(prior)){
-  const branch=NLR03_BRANCH_BY_ID[id];
-  if(game.roster.includes(hero)&&game.hero[hero]&&branch&&branch.type===HEROES[hero]?.type)evolutions[hero]=id;
+  const branch=NLR03_BRANCH_BY_ID[id],heroType=HEROES[hero]?.type;
+  if(game.roster.includes(hero)&&game.hero[hero]&&branch&&(branch.type===heroType||(branch.type==='spear'&&heroType==='infantry')))evolutions[hero]=id;
  }
  game.nlr03={schema:1,evolutions};
 }
@@ -116,10 +116,10 @@ hydrateExtension=function(){nlr03PriorHydrate();nlr03Hydrate();save();};
 nlr03Hydrate();
 
 function nlr03BranchFor(id){return NLR03_BRANCH_BY_ID[game.nlr03?.evolutions?.[id]]||null;}
-function nlr03BranchOptions(id){return NLR03_BRANCHES[HEROES[id]?.type]||[];}
+function nlr03BranchOptions(id){const type=HEROES[id]?.type;return [...(NLR03_BRANCHES[type]||[]),...(type==='infantry'?(NLR03_BRANCHES.spear||[]):[])];}
 function nlr03Evolve(id,branchId){
  const hero=HEROES[id],owned=game.roster.includes(id)&&!!game.hero[id],branch=NLR03_BRANCH_BY_ID[branchId];
- if(battle||!owned||!branch||branch.type!==hero?.type)return false;
+ if(battle||!owned||!branch||!(branch.type===hero?.type||(branch.type==='spear'&&hero?.type==='infantry')))return false;
  if(game.buildings.barracks<2)return toast('Nâng Doanh Trại lên cấp 2 để mở nhánh tiến hóa.'),false;
  if(game.nlr03.evolutions[id]===branchId)return toast('Tướng này đang dùng nhánh đó.'),false;
  if(!payment(NLR03_EVOLUTION_COST))return toast('Thiếu tài nguyên để tiến hóa binh chủng.'),false;
@@ -132,7 +132,7 @@ function nlr03LineagePanel(){
   if(!branches.length)return '';
   return `<div class="nlr03-row" data-r03-row="${id}"><div><b>${hero.icon} ${esc(hero.name)} · ${esc(hero.role)}</b><small>${current?`Đang dùng: ${esc(current.name)}`:'Chưa chọn nhánh'} · ${P3_TIER_NAMES[p3Tier(id)]}</small></div><select data-r03-select="${id}" aria-label="Nhánh tiến hóa ${esc(hero.name)}"><option value="">Chọn nhánh</option>${branches.map(branch=>`<option value="${branch.id}" ${current?.id===branch.id?'selected':''}>${esc(branch.name)} — ${esc(branch.desc)}</option>`).join('')}</select><button class="dark-button" data-r03-evolve="${id}" ${locked?'disabled':''}>${locked?'Cần trại cấp 2':current?'Đổi nhánh':'Tiến hóa'}</button></div>`;
  }).join('');
- return `<section class="panel mini-box nlr03-panel" data-r03-lineage="1"><h3>🌿 R03 · Ngả Rẽ Binh Chủng</h3><p class="tiny">Chọn nhánh Bộ, Kỵ, Thương, Cung, Quan Văn hoặc Hỗ trợ. Lựa chọn làm đổi chỉ số, chiến pháp hoặc binh chủng trong trận; chuyển nhánh tốn ${fmt(NLR03_EVOLUTION_COST.silver)} bạc, ${fmt(NLR03_EVOLUTION_COST.grain)} lương và ${fmt(NLR03_EVOLUTION_COST.iron)} sắt. Cần Doanh Trại cấp 2.</p>${rows}<div class="nlr03-foot">Các nhánh và hệ số là thiết kế mô phỏng của Mưu Định Tam Quốc; Thương binh khắc chế Kỵ binh. Không sao chép công thức độc quyền.</div></section>`;
+ return `<section class="panel mini-box nlr03-panel" data-r03-lineage="1"><h3>🌿 R03 · Ngả Rẽ Binh Chủng</h3><p class="tiny">Chọn nhánh Bộ, Thương, Kỵ, Cung, Quan Văn hoặc Hỗ trợ. Lựa chọn làm đổi chỉ số, chiến pháp hoặc binh chủng trong trận; chuyển nhánh tốn ${fmt(NLR03_EVOLUTION_COST.silver)} bạc, ${fmt(NLR03_EVOLUTION_COST.grain)} lương và ${fmt(NLR03_EVOLUTION_COST.iron)} sắt. Cần Doanh Trại cấp 2.</p>${rows}<div class="nlr03-foot">Các nhánh và hệ số là thiết kế mô phỏng của Mưu Định Tam Quốc; Thương binh khắc chế Kỵ binh. Không sao chép công thức độc quyền.</div></section>`;
 }
 const nlr03PriorBarracks=renderBarracks;
 renderBarracks=function(){return nlr03PriorBarracks()+nlr03LineagePanel();};
@@ -141,6 +141,22 @@ document.addEventListener('click',ev=>{
  const row=button.closest('[data-r03-row]'),select=row?.querySelector('[data-r03-select]');
  if(select)nlr03Evolve(button.dataset.r03Evolve,select.value);
 });
+
+const nlr03PriorCampaignRender=renderCampaign;
+renderCampaign=function(){
+ const html=nlr03PriorCampaignRender();
+ if(game.cleared.length<STAGES.length)return html;
+ return html+`<section class="panel mini-box" data-nl-campaign-ending="1" role="status"><h2>🏆 Chiến dịch Ngọa Long hoàn tất</h2><p>Thành chủ đã vượt đủ 28 cửa ải thuộc 8 chương. Chiến báo cuối và các phần thưởng vẫn nằm trong sổ thông quan; xem lại replay không quyết toán lại.</p><p class="tiny">Kết thúc V1.0 · dữ liệu cân bằng và phần chưa có nguồn được đánh dấu SIMULATED.</p></section>`;
+};
+const nlr03PriorFinishBattle=finishBattle;
+finishBattle=function(){
+ nlr03PriorFinishBattle();
+ if(battle?.mode==='campaign'&&battle.won&&game.cleared.length>=STAGES.length&&!battle.replay){
+  const box=document.querySelector('#battle-result .result-box');
+  if(box&&!box.querySelector('[data-nl-campaign-ending]'))box.insertAdjacentHTML('afterbegin','<section class="nl-campaign-ending" data-nl-campaign-ending="1"><h2>🏆 Hoàn tất chiến dịch Ngọa Long</h2><p>28/28 cửa ải · 8/8 chương</p></section>');
+ }
+};
+if(window.__P2_ENABLE_QA__&&window.__P2_QA__)window.__P2_QA__.finishBattle=finishBattle;
 
 const nlr03PriorUnit=p2Unit;
 p2Unit=function(id,team,slot,stage){

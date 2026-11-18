@@ -628,6 +628,151 @@
           "support"
         ],
         "outputTroopId": "support"
+      },
+      {
+        "id": "shieldbreaker",
+        "category": "infantry",
+        "name": "Phá Thuẫn",
+        "description": "Bộ binh công phá, xuyên một phần phòng ngự vật lý.",
+        "statMultipliers": {
+          "atk": 1.06,
+          "catk": 1.05
+        },
+        "pierce": 0.1,
+        "tier": 1,
+        "evolvesFrom": [
+          "infantry"
+        ],
+        "outputTroopId": "infantry",
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "swift-wing",
+        "category": "cavalry",
+        "name": "Phi Kỵ",
+        "description": "Kỵ binh cơ động, ưu tiên áp sát mục tiêu hàng sau.",
+        "statMultipliers": {
+          "atk": 1.04,
+          "catk": 1.05
+        },
+        "speed": 10,
+        "targetBack": true,
+        "tier": 1,
+        "evolvesFrom": [
+          "cavalry"
+        ],
+        "outputTroopId": "cavalry",
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "rain-volley",
+        "category": "archer",
+        "name": "Vũ Tiễn",
+        "description": "Cung binh bắn loạt, kỹ năng đơn mục tiêu chuyển thành hai nhịp.",
+        "statMultipliers": {
+          "atk": 1.03
+        },
+        "skillPattern": "double",
+        "doublePatternMultiplier": 1.05,
+        "tier": 1,
+        "evolvesFrom": [
+          "archer"
+        ],
+        "outputTroopId": "archer",
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "seal-master",
+        "category": "strategist",
+        "name": "Phong Mưu",
+        "description": "Quan văn áp chế sĩ khí địch sau khi dùng chiến pháp.",
+        "statMultipliers": {
+          "matk": 1.05
+        },
+        "drainMorale": 10,
+        "skillMultiplier": 1.04,
+        "tier": 1,
+        "evolvesFrom": [
+          "strategist"
+        ],
+        "outputTroopId": "strategist",
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "ward-bearer",
+        "category": "support",
+        "name": "Hộ Quân",
+        "description": "Hỗ trợ bền bỉ, tăng hiệu quả hồi phục và phòng thủ.",
+        "statMultipliers": {
+          "def": 1.05,
+          "mdef": 1.05
+        },
+        "healMultiplier": 1.1,
+        "tier": 1,
+        "evolvesFrom": [
+          "support"
+        ],
+        "outputTroopId": "support",
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "phalanx",
+        "category": "spear",
+        "name": "Trường Mâu",
+        "description": "Thương binh giữ tuyến, tăng phòng thủ chiến pháp và sinh lực.",
+        "statMultipliers": {
+          "def": 1.08,
+          "tdef": 1.12,
+          "hp": 1.05
+        },
+        "tier": 1,
+        "evolvesFrom": [
+          "spear"
+        ],
+        "outputTroopId": "spear",
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        },
+        "troop": "spear",
+        "combatType": "infantry"
+      },
+      {
+        "id": "impaler",
+        "category": "spear",
+        "name": "Xuyên Giáp",
+        "description": "Thương binh dồn lực xuyên thủng giáp kỵ.",
+        "statMultipliers": {
+          "atk": 1.05,
+          "catk": 1.08
+        },
+        "pierce": 0.12,
+        "tier": 1,
+        "evolvesFrom": [
+          "spear"
+        ],
+        "outputTroopId": "spear",
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        },
+        "troop": "spear",
+        "combatType": "infantry"
       }
     ],
     "provenance": {
@@ -5237,7 +5382,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-02",
         "stage": 2,
@@ -5263,7 +5410,11 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": true,
+      "bossRule": "首领守阵：护卫携守势，须先破除前排减伤。",
+      "bossProvenance": {"classification": "SIMULATED", "sourceId": "project-alpha"}
+    },
       {
         "id": "nl-campaign-03",
         "stage": 3,
@@ -5289,7 +5440,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-04",
         "stage": 4,
@@ -5315,7 +5468,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-05",
         "stage": 5,
@@ -5373,7 +5528,11 @@
             }
           }
         }
-      },
+      ,
+      "boss": true,
+      "bossRule": "关底精锐：对前排施加持续压制，奖励随章节成长。",
+      "bossProvenance": {"classification": "SIMULATED", "sourceId": "project-alpha"}
+    },
       {
         "id": "nl-campaign-06",
         "stage": 6,
@@ -5399,7 +5558,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-07",
         "stage": 7,
@@ -5425,7 +5586,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-08",
         "stage": 8,
@@ -5451,7 +5614,11 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": true,
+      "bossRule": "关底首领：重装前锋护卫后排谋士。",
+      "bossProvenance": {"classification": "SIMULATED", "sourceId": "project-alpha"}
+    },
       {
         "id": "nl-campaign-09",
         "stage": 9,
@@ -5477,7 +5644,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-10",
         "stage": 10,
@@ -5503,7 +5672,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-11",
         "stage": 11,
@@ -5529,7 +5700,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-12",
         "stage": 12,
@@ -5555,7 +5728,11 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": true,
+      "bossRule": "关底首领：战法士气随队伍血线触发。",
+      "bossProvenance": {"classification": "SIMULATED", "sourceId": "project-alpha"}
+    },
       {
         "id": "nl-campaign-13",
         "stage": 13,
@@ -5581,7 +5758,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-14",
         "stage": 14,
@@ -5607,7 +5786,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-15",
         "stage": 15,
@@ -5633,7 +5814,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-16",
         "stage": 16,
@@ -5659,7 +5842,11 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": true,
+      "bossRule": "关底首领：双路协同攻击前后排。",
+      "bossProvenance": {"classification": "SIMULATED", "sourceId": "project-alpha"}
+    },
       {
         "id": "nl-campaign-17",
         "stage": 17,
@@ -5685,7 +5872,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-18",
         "stage": 18,
@@ -5711,7 +5900,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-19",
         "stage": 19,
@@ -5737,7 +5928,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-20",
         "stage": 20,
@@ -5763,7 +5956,11 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": true,
+      "bossRule": "关底首领：高防核心配合高机动副将。",
+      "bossProvenance": {"classification": "SIMULATED", "sourceId": "project-alpha"}
+    },
       {
         "id": "nl-campaign-21",
         "stage": 21,
@@ -5789,7 +5986,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-22",
         "stage": 22,
@@ -5815,7 +6014,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-23",
         "stage": 23,
@@ -5841,7 +6042,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "nl-campaign-24",
         "stage": 24,
@@ -5867,7 +6070,11 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": true,
+      "bossRule": "关底首领：精锐五将阵，结算后进入终章试炼。",
+      "bossProvenance": {"classification": "SIMULATED", "sourceId": "project-alpha"}
+    },
       {
         "id": "r03-bulwark",
         "stage": 25,
@@ -5916,7 +6123,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "r03-ember",
         "stage": 26,
@@ -5961,7 +6170,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "r03-flank",
         "stage": 27,
@@ -6012,7 +6223,9 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      },
+      ,
+      "boss": false
+    },
       {
         "id": "r03-drum",
         "stage": 28,
@@ -6057,7 +6270,11 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         }
-      }
+      ,
+      "boss": true,
+      "bossRule": "最终首领：大号令开局，击败后完成八章战役。",
+      "bossProvenance": {"classification": "SIMULATED", "sourceId": "project-alpha"}
+    }
     ],
     "statProfiles": {
       "campaign-npc-scaling-v1": {

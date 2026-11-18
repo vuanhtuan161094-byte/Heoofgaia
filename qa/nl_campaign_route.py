@@ -15,6 +15,8 @@ const first = route.derive(pack, [], 1);
 assert.equal(first.totalStages, pack.campaign.encounters.length);
 assert.equal(first.chapters.length, pack.campaign.chapters.length);
 assert.equal(first.chapters.flatMap(c => c.nodes).length, first.totalStages);
+assert.equal(pack.campaign.chapters.filter(ch => pack.campaign.encounters.find(e => e.id === ch.encounterIds.at(-1))?.boss === true).length, 8);
+assert.ok(pack.campaign.encounters.at(-1).boss && pack.campaign.encounters.at(-1).bossProvenance.classification === 'SIMULATED');
 assert.equal(first.selected.stage, 1);
 assert.equal(first.selected.accessible, true);
 assert.equal(first.chapters.flatMap(c => c.nodes).filter(n => n.accessible).length, 1);
