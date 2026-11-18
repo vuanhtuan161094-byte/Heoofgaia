@@ -145,7 +145,7 @@
       return execute(state, 'BUY_EQUIPMENT', receiptId, id, (next, m) => {
         const row = available(id, 'equipment');
         const acquisition = row.acquisitionRule;
-        assert(acquisition && acquisition.kind === 'SHOP' &&
+        assert(acquisition && ['SHOP','SHOP_OR_AUTHORIZED_REWARD'].includes(acquisition.kind) &&
           acquisition.shopCost, 'EQUIPMENT_NOT_FOR_SALE');
         assert(next.items.length < limits.equipmentInstances, 'EQUIPMENT_CAPACITY');
         pay(next, acquisition.shopCost);
