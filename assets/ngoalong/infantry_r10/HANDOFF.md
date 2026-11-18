@@ -1,3 +1,5 @@
+> **STATUS CORRECTION (18/11/2026) — R10 IS NOT A PRODUCTION-READY 8/8 PACK.** Prior statements that all eight tier-3 units were ready for game use are withdrawn. Two (`giap_bo`, `hoang_bo`) have serious cropping/scale defects; three (`loi_kiem_si`, `phan_quan`, `van_khuc`) relied on poster-cropped single sources with faked/composited motion. They are **QUARANTINED**. Only `ban_ho_ve`, `ho_luc_si`, `lang_tu_si` remain source candidates; none has owner visual approval or runtime integration. Replacement R11 idle-first art: `assets/ngoalong/infantry_r11/HANDOFF.md`. Do not consume the old R10 160-frame claim as genuine independent animation or approved sprites.
+
 # ART R10 — Bộ Binh cấp 3 (18/11/2026)
 
 **Source branch:** `codex/nl-wiki-01-r02-20261117`; original handoff inspection HEAD `36e6a91dc3f9f812671c1b1bfbf810e2a6f84565`. No gameplay, Save, Hero, combat formula, generator or release workflow modified; do not merge.
