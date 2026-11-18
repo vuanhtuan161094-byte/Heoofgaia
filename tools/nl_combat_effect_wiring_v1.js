@@ -6,9 +6,15 @@ const NL_EFFECT_BRIDGE_V1=window.NLCombatEffectBridgeV1.create(
   NL_EFFECT_V1_CATALOG,NL_GAME_DATA.statusEffects
 );
 const NL_EXTRA_EFFECTS_V1=new Set(NL_EFFECT_BRIDGE_V1.additionalIds);
-// Original, explicitly authored trial: Cao Cao's already-existing strategic
-// skill grants focus to allies; no new turns, awards or Wiki formula.
-if(P2_SKILLS.cao)P2_SKILLS.cao={...P2_SKILLS.cao,applyAlly:"focus"};
+// Original, explicitly authored trial: Cao Cao's existing strategic
+// skill grants focus, but the JSON-derived skill catalog remains untouched.
+const nlG07LegacySkill=p2Skill;
+p2Skill=function(actor){
+  const descriptor=nlG07LegacySkill(actor);
+  if(battle?.mode==="campaign"&&actor?.id==="cao"&&actor.team==="p")
+    return {...descriptor,applyAlly:"focus"};
+  return descriptor;
+};
 const nlG07LegacyStatus=p2Status;
 p2Status=function(unit,kind,turns,...rest){
   if(!unit||!battle||battle.mode==='cltq')
