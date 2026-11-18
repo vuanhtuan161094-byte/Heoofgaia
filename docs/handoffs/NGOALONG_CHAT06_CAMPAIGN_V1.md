@@ -4,7 +4,7 @@
 
 **Completed in this commit:** A fail-closed converter for the existing 249-map/4,903-NPC blueprint, original-source 3×3 slot preservation, Boss/order/unlock classification, separate HERO_ACTIVE / TROOP_ACTIVE / NPC_STAGE_ADDITION / MAP_WIDE authority, hard block on source army-count contradictions, explicit binding/approval contract, immutable pure multi-NPC PvE progression with stable once-only reward receipts, and one deterministic Node QA suite. Never reconstructs unpublished combat formulas.
 
-**Source report checked (Group02):** 249 maps, 4,903 NPC rows; 170 roster-complete/79 incomplete, 97 formations not exhaustively verified, 344 rows flagged by the source builder as nonmatching (its logic may count unknown sums; numeric contradictions must be counted separately). \`fullyGameplayReadyMaps=0\`. The committed coverage index reflects this report, not an independently regenerated full catalogue. A ~100MB canonical blueprint requires running the existing local checkout importer to generate \`catalogue_generated_v1.json\`; this session did not run that giant source conversion.
+**Source report checked (Group02):** 249 maps, 4,903 NPC rows; 170 roster-complete/79 incomplete, 97 formations not exhaustively verified, 344 verified numeric soldier-sum mismatches after recalculating from the 16 MB extracted source. \`fullyGameplayReadyMaps=0\`. The committed coverage index reflects this report, not an independently regenerated full catalogue. A ~100MB canonical blueprint requires running the existing local checkout importer to generate \`catalogue_generated_v1.json\`; this session did not run that giant source conversion.
 
 **Required integration sequence:** 
 1. Re-run \`node --max-old-space-size=3072 tools/nl_campaign_import_v1.js\` against checked-out Group02 sources, record emitted coverage and review every block reason. Do not conflate reference rows with 249 playable maps.
@@ -27,3 +27,14 @@ New files:
 CHAT08 integration must combine modules in one browser-visible build, supply reviewed hero/troop/skill/effect IDs and an authoritative combat-result verifier + atomic Save v5 receipt application. Source Wiki links refer to current Mobile, **not** confirmed classic parity. Gate results cannot be promoted to CI/owner acceptance without evidence.
 
 Early catalogue deterministic rebuild: `tools/nl_campaign_starter_import_v1.js --check`; QA V2 now includes direct equality with the two original Group02 JSON sources.
+
+
+## CHAT06 V3 — source catalogue and bindings delivered
+
+**New committed source artifacts**: \`data/ngoalong/modules/campaign/source_shards/\`: \`manifest.json\`, \`coverage.json\`, and 21 separate \`shard-001.json\` … \`shard-021.json\`. Verified 249 map rows, 4,903 NPCs, 23,914 unit positions, 170 exact roster-complete maps, 4,806 exhaustive NPC formations, 344 numeric army mismatches and 17,850 units with no sourced soldier count. The first map's 5 NPCs (Bùi Nguyên Thiệu, Cao Thăng, Trương Yên, Ba Tài, Trương Bảo) retain original battle order and 3×3 positions.
+
+**Binding backlog**: \`wiki_binding_backlog_v1.json\` is a working crosswalk of 346 numeric troop IDs and 1,972 distinct skill-label pairs. The 302 one-name candidate matches are **not** proof of matching runtime troop IDs. The 196 \`NPC_EXCLUSIVE_LABEL\` skill names must be reviewed separately from hero skills or map-wide effects. Do not auto-promote candidate bindings or assume all 249 maps are playable.
+
+**CHAT08 action now**: consume shards through \`nl_campaign_shards_v1.js\`, retain version/slot/provenance; collaborate with CHAT01/02/05 to approve exact troop and skill IDs and original project mechanics, then create a small verified contiguous playable route. Wire \`nl_campaign_battle_adapter_v1.js\` to shared combat/Save v5 using atomic receipts and authoritative battle results; full browser/CI on exact integration SHA afterward. Old instructions above to regenerate the 100 MB blueprint are historical; use the 16 MB extracted importer for reproducibility.
+
+**Current gate**: source materialization and isolated tests; NOT canonical game integration, NOT physical device or owner acceptance; no merge performed.

@@ -94,8 +94,8 @@ function make(source, referenceUnits=[]){
      uniqueSkillNamespaceLabels:skillRows.length,
      npcExclusiveSkillOccurrences:npcExclusiveOccurrences,
      npcExclusiveSkillLabels:skillRows.filter(x=>x.namespace==='NPC_EXCLUSIVE_LABEL').length,
-     tropeIdsWithOneNameCandidate:troopRows.filter(x=>x.candidateMatchStatus==='UNVERIFIED_NAME_MATCH').length,
-     tropeIdsWithAmbiguousNameCandidates:troopRows.filter(x=>x.candidateMatchStatus==='AMBIGUOUS_NAME_MATCH').length,
+     troopIdsWithOneNameCandidate:troopRows.filter(x=>x.candidateMatchStatus==='UNVERIFIED_NAME_MATCH').length,
+     troopIdsWithAmbiguousNameCandidates:troopRows.filter(x=>x.candidateMatchStatus==='AMBIGUOUS_NAME_MATCH').length,
      troopsApproved:0,skillsApproved:0
    },
    troopCrosswalk:troopRows,

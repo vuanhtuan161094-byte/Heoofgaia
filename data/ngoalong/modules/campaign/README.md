@@ -31,7 +31,7 @@ The progression adapter is pure: it never edits the current Save v5, resources, 
 
 ## Source limitations
 
-Source builder report: 249 maps, 4,903 NPC details, 170 roster-complete maps, 79 incomplete, 97 unverified formations, 344 rows flagged as nonmatching by Group02's builder (may include sums not verifiable numerically), and **0 fully gameplay-ready maps** at the source review stage. The lower-level unit data does not supply validated runtime hero/troop/skill bindings. Historical patches and mobile/classic differences are not silently merged. No Chromium is required per map; the separate integration chat must run consolidated Chromium/Save/CI QA.
+Source builder report: 249 maps, 4,903 NPC details, 170 roster-complete maps, 79 incomplete, 97 unverified formations, 344 confirmed numeric source soldier-sum mismatches in the current 16 MB extraction, and **0 fully gameplay-ready maps** at the source review stage. The lower-level unit data does not supply validated runtime hero/troop/skill bindings. Historical patches and mobile/classic differences are not silently merged. No Chromium is required per map; the separate integration chat must run consolidated Chromium/Save/CI QA.
 
 ## Implementation V2 (source-backed)
 
@@ -46,7 +46,26 @@ Source builder report: 249 maps, 4,903 NPC details, 170 roster-complete maps, 79
 
   `loadShard` loads one reference map group, `assembleShards` validates and joins all shards. **Do not bypass unverified maps/NPCs**.
 - `nl_campaign_battle_adapter_v1.js`: `inspect` returns a real NPC roster and 3×3 grid for game UI, `prepare` produces a battle request from reviewed IDs and a **real** combat registry resolver. `settle` only accepts a trusted combat report, and requires a single atomic Save+receipt callback from CHAT08. No fake battle resolution or direct reward grants.
-- Current source builder: 249 map rows, 4,903 NPC rows; 170 complete NPC rosters / 79 incomplete; 97 NPC formation gaps; 344 reported nonmatches (some sums unknown). **0 maps have approved combat bindings currently**. All 249 are importable research records; none is automatically enabled.
+- Current source builder: 249 map rows, 4,903 NPC rows; 170 complete NPC rosters / 79 incomplete; 97 NPC formation gaps; 344 confirmed numeric soldier mismatches. **0 maps have approved combat bindings currently**. All 249 are importable research records; none is automatically enabled.
 - **Verification:** 6 new source-backed deterministic QA cases pass in JS isolation; 6 earlier core QA cases also passed. Full source conversion, canonical HTML integration, Chromium and exact-SHA CI not yet executed on the task branch.
 
 Verify deterministic real early-map import: `node tools/nl_campaign_starter_import_v1.js --check`. Rebuild only from immutable Group02 sources: `node tools/nl_campaign_starter_import_v1.js`.
+
+
+## V3 CURRENT — full catalogue now materialized (2026-11-19)
+
+**This V3 section supersedes earlier statements about not having imported the complete source.** Instead of fetching the 100 MB expanded blueprint, the existing Group02 \`wiki_dungeons_extracted.json\` (16 MB, pinned Git blob \`7318568320612ccd4c3c31bd762010609347c893\`) was read, validated against the Group02 builder report and converted using \`tools/nl_campaign_extract_import_v1.js\` into **21 committed JSON shards** in \`data/ngoalong/modules/campaign/source_shards/\` plus \`manifest.json\` and \`coverage.json\`. The import includes **249 real map records, 4,903 named NPC rows and 23,914 observed unit slots**. It never creates missing NPCs, soldier counts, skills or exclusive formulas.
+
+Source reconciled: 170/249 exact roster-complete maps, 4,806/4,903 exhaustively enumerated NPC formations, **344 numerically confirmed source soldier mismatches**, and 17,850 units with unknown soldiers. All are source research, **0 gameplay-ready** until bindings and authoritative combat/Save approval.
+
+\`tools/nl_campaign_binding_backlog_v1.js\` generates \`wiki_binding_backlog_v1.json\`: 346 distinct Wiki troop numeric IDs, 1,972 distinct skill namespace/label pairs, 196 NPC-exclusive skill labels. 302 troop IDs have one **unverified name match** to Group01 troop references; 9 have ambiguous matches. These are **not** approved combat mappings. Skill labels, unit battle positions, NPC-specific actions, map-wide effects and Mobile/classic editions remain separately typed.
+
+Commands from a full local repository checkout:
+
+\`\`\`sh
+node --max-old-space-size=3072 tools/nl_campaign_extract_import_v1.js --check
+node tools/nl_campaign_binding_backlog_v1.js --check
+node --max-old-space-size=3072 --test qa/nl_campaign_module.test.cjs qa/nl_campaign_full_v2.test.cjs qa/nl_campaign_source_v3.test.cjs
+\`\`\`
+
+Current QA is isolated JavaScript/source consistency; shared runtime \`index.html\`, Save v5 and real combat are still owned by CHAT08. Do not claim Chromium, CI exact-SHA or a playable 249-map campaign before integration.

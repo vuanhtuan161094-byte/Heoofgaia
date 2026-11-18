@@ -19,8 +19,8 @@
     "uniqueSkillNamespaceLabels": 1972,
     "npcExclusiveSkillOccurrences": 3595,
     "npcExclusiveSkillLabels": 196,
-    "tropeIdsWithOneNameCandidate": 302,
-    "tropeIdsWithAmbiguousNameCandidates": 9,
+    "troopIdsWithOneNameCandidate": 302,
+    "troopIdsWithAmbiguousNameCandidates": 9,
     "troopsApproved": 0,
     "skillsApproved": 0
   },

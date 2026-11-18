@@ -184,6 +184,9 @@ function audit(out, report) {
 function main(args) {
  const read=p=>JSON.parse(fs.readFileSync(path.join(ROOT,p),'utf8'));
  const sourceRaw=fs.readFileSync(path.join(ROOT,SOURCE));
+ const gitBlobSha=crypto.createHash('sha1').update('blob '+sourceRaw.length+'\0')
+   .update(sourceRaw).digest('hex');
+ guard(gitBlobSha===SOURCE_GIT_SHA,'source Git blob changed; re-review source before import');
  const source=JSON.parse(sourceRaw.toString('utf8'));
  const approved=read(APPROVALS), report=read(REPORT);
  const out=build(source,approved);
