@@ -54,6 +54,19 @@ def main():
         unit = page.evaluate(f"{qa}.makeUnit('zhang','p',2,1)")
         check("switching an infantry general to spear spends real silver/grain and changes battle unit", after["troopModes"].get("zhang") == "spear" and before["silver"] - after["silver"] == 120 and before["grain"] - after["grain"] == 60 and unit["troop"] == "spear")
 
+        # Visible pre-battle dossier is driven by the same selected NPC slots as runtime.
+        page.locator('.nav[data-tab="campaign"]').click()
+        intel = page.locator('[data-nl-enemy-intel="1"]')
+        check("campaign reconnaissance shows the live stage-one enemy 3x3 deployment",
+              intel.count() == 1
+              and intel.locator('[data-nl-intel-slot]').count() == 9
+              and "Trương Bảo" in intel.inner_text()
+              and "3 đơn vị tham chiến" in intel.inner_text()
+              and intel.locator('[data-nl-intel-slot="1"]').get_attribute("aria-label") == "Ô địch 2: Thương binh"
+              and intel.locator('[data-nl-intel-slot="3"]').get_attribute("aria-label") == "Ô địch 4: Thương binh"
+              and intel.locator('[data-nl-intel-slot="4"]').get_attribute("aria-label") == "Ô địch 5: Hỗ trợ"
+              and "Wiki chưa xác nhận" in intel.inner_text())
+
         page.evaluate(f"{qa}.beginBattle(1,'campaign')")
         counter_rows = page.evaluate(f"""() => {{
           const q=window.__P2_QA__,b=q.debugBattle();
