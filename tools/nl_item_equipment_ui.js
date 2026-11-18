@@ -54,7 +54,7 @@
         '<button data-nli-action="reinforce" data-uid="'+escape(uid)+'">Cường hóa</button>'+
         '<button data-nli-action="refine" data-uid="'+escape(uid)+'">Tinh luyện</button></div></article>';
     }).join('');
-    const shopCards=model.filter(row=>row.acquisitionRule?.kind==='SHOP')
+    const shopCards=model.filter(row=>['SHOP','SHOP_OR_AUTHORIZED_REWARD'].includes(row.acquisitionRule?.kind))
       .filter(row=>(tab==='all'||tab===row.slot)&&
         (!search||row.name.toLocaleLowerCase('vi-VN').includes(search.toLocaleLowerCase('vi-VN'))))
       .map(row=>{
