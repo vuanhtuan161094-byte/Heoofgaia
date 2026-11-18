@@ -1020,6 +1020,116 @@
     }
   },
   "campaign": {
+    "chapters": [
+      {
+        "id": "nl-chapter-01",
+        "name": "Dẹp loạn Khăn Vàng",
+        "encounterIds": [
+          "nl-campaign-01",
+          "nl-campaign-02"
+        ],
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "nl-chapter-02",
+        "name": "Hổ Lao - Lạc Dương",
+        "encounterIds": [
+          "nl-campaign-03",
+          "nl-campaign-04",
+          "nl-campaign-05"
+        ],
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "nl-chapter-03",
+        "name": "Bắc Địa - Quan Độ",
+        "encounterIds": [
+          "nl-campaign-06",
+          "nl-campaign-07",
+          "nl-campaign-08"
+        ],
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "nl-chapter-04",
+        "name": "Tân Dã - Xích Bích",
+        "encounterIds": [
+          "nl-campaign-09",
+          "nl-campaign-10",
+          "nl-campaign-11",
+          "nl-campaign-12"
+        ],
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "nl-chapter-05",
+        "name": "Giang Lăng - Hán Trung",
+        "encounterIds": [
+          "nl-campaign-13",
+          "nl-campaign-14",
+          "nl-campaign-15",
+          "nl-campaign-16"
+        ],
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "nl-chapter-06",
+        "name": "Kinh Châu - Kỳ Sơn",
+        "encounterIds": [
+          "nl-campaign-17",
+          "nl-campaign-18",
+          "nl-campaign-19",
+          "nl-campaign-20"
+        ],
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "nl-chapter-07",
+        "name": "Ngũ Trượng - Quy Nhất",
+        "encounterIds": [
+          "nl-campaign-21",
+          "nl-campaign-22",
+          "nl-campaign-23",
+          "nl-campaign-24"
+        ],
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      {
+        "id": "nl-chapter-08",
+        "name": "Thử luyện Quân Cơ",
+        "encounterIds": [
+          "r03-bulwark",
+          "r03-ember",
+          "r03-flank",
+          "r03-drum"
+        ],
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      }
+    ],
     "npcUnitTemplates": [
       {
         "id": "npc-slot-1",

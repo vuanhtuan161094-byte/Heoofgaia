@@ -308,6 +308,24 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
             _require(isinstance(formation_choice.get("seed"), int) and formation_choice.get("lowerLossPreset") in preset_ids and formation_choice.get("higherLossPreset") in preset_ids and formation_choice["lowerLossPreset"] != formation_choice["higherLossPreset"], f"{path} has invalid same-seed formation choice expectations")
             _require(isinstance(formation_choice.get("minimumCasualtyGap"), int) and formation_choice["minimumCasualtyGap"] > 0, f"{path} has invalid minimum formation casualty gap")
     _require(encounter_stages == set(range(1, len(encounters) + 1)), "campaign stages must be contiguous and sequential")
+    chapters = campaign.get("chapters", [])
+    _require(len(chapters) >= 2, "campaign needs multiple multi-NPC chapters")
+    chapter_ids: set[str] = set()
+    valid_encounter_ids = {entry["id"] for entry in encounters}
+    route: list[str] = []
+    for chapter_index, chapter in enumerate(chapters):
+        path = f"campaign.chapters[{chapter_index}]"
+        _provenance(chapter.get("provenance"), source_ids, path)
+        chapter_id = chapter.get("id")
+        _require(isinstance(chapter_id, str) and chapter_id and chapter_id not in chapter_ids, f"{path} has a missing/duplicate ID")
+        chapter_ids.add(chapter_id)
+        _require(isinstance(chapter.get("name"), str) and chapter["name"], f"{path} needs a name")
+        ids = chapter.get("encounterIds")
+        _require(isinstance(ids, list) and len(ids) >= 2, f"{path} must group at least two NPC battles")
+        _require(all(isinstance(key, str) and key in valid_encounter_ids for key in ids), f"{path} references an unknown encounter")
+        route.extend(ids)
+    _require(route == [entry["id"] for entry in encounters],
+             "chapter NPC route must cover every existing encounter once and in the original Save order")
 
     equipment = pack.get("equipment", {})
     _provenance(equipment.get("provenance"), source_ids, "equipment")

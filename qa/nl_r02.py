@@ -57,6 +57,11 @@ def main():
         # Visible pre-battle dossier is driven by the same selected NPC slots as runtime.
         page.locator('.nav[data-tab="campaign"]').click()
         intel = page.locator('[data-nl-enemy-intel="1"]')
+        chapter = page.locator('[data-nl-chapter="nl-chapter-01"]')
+        check("selected campaign chapter shows both NPC fights from validated data",
+              chapter.count() == 1 and chapter.locator('[data-nl-chapter-step]').count() == 2
+              and "Trương Bảo" in chapter.inner_text() and "Ba Tài" in chapter.inner_text()
+              and "0/2 trận" in chapter.inner_text())
         check("campaign reconnaissance shows the live stage-one enemy 3x3 deployment",
               intel.count() == 1
               and intel.locator('[data-nl-intel-slot]').count() == 9

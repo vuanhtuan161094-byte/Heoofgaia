@@ -54,6 +54,14 @@ def run() -> int:
     check("evolution branches resolve to catalog troop categories and have unique IDs", len({b["id"] for b in pack["evolution"]["branches"]}) == len(pack["evolution"]["branches"]) and all(b["outputTroopId"] in {t["id"] for t in pack["troops"]["profiles"]} for b in pack["evolution"]["branches"]))
     check("first 20 Alpha stages contain structured 3x3 NPC unit records", all(len(pack["campaign"]["npcs"][i]["units"]) == 5 and all(isinstance(u["formationSlot"], int) and u["heroId"] is None and u["stats"] is None and u["soldiers"] is None for u in pack["campaign"]["npcs"][i]["units"]) for i in range(20)))
     check("all Alpha map unlocks, NPC references and settlement reward records are sequential", len(pack["campaign"]["maps"]) >= 20 and all(e["stage"] == i + 1 and e["rewards"] for i, e in enumerate(pack["campaign"]["encounters"])))
+    chapters = pack["campaign"]["chapters"]
+    check("multi-NPC chapters partition all campaign encounters without changing stage IDs",
+          len(chapters) == 8 and all(len(chapter["encounterIds"]) >= 2 for chapter in chapters)
+          and [id for chapter in chapters for id in chapter["encounterIds"]]
+          == [encounter["id"] for encounter in pack["campaign"]["encounters"]])
+    bad_chapter = copy.deepcopy(pack)
+    bad_chapter["campaign"]["chapters"][0]["encounterIds"][1] = bad_chapter["campaign"]["chapters"][0]["encounterIds"][0]
+    check("validator rejects duplicate chapter NPC encounter", rejected(bad_chapter))
     check("status catalog contains the existing common combat effects", {"break", "guard", "daze", "burn", "morale-seal"}.issubset(pack["statusEffects"]["effects"]))
     burn = pack["statusEffects"]["effects"]["burn"]
     check("status timing and stack layers are catalog-driven with simulated provenance", all(effect["stackingPolicy"] in {"refresh-longer", "add-stack"} and effect["expirePhase"] in {"round-end", "owner-action"} and all(effect["fieldProvenance"][key] == "SIMULATED" for key in ("stackingPolicy", "expirePhase", "removeAfterOwnAction")) for effect in pack["statusEffects"]["effects"].values()) and burn["roundEndDamageFraction"] == .045 and burn["stackLimit"] == 3 and burn["stackModifiers"] == {"roundEndDamageFraction": .005} and all(burn["fieldProvenance"][key] == "SIMULATED" for key in ("stackLimit", "stackModifiers")))

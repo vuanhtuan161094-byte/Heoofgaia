@@ -45,6 +45,14 @@ CSS = """
 .nl-command .nl-class-toggle{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-top:1px solid #42564e;font-size:11px}
 .nl-ai-reason{color:#e5ca91;font-size:10px;margin-top:4px}
 /* Encounter reconnaissance: renders the actual selected NPC formation from the validated pack. */
+.nl-chapter-route{border:1px solid #6b785e;border-radius:9px;background:#172821;color:#e7e7d6;padding:12px;margin:12px 0}
+.nl-chapter-route h3{font-size:14px;margin:0 0 7px;color:#eed5a4}
+.nl-chapter-steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(132px,1fr));gap:6px}
+.nl-chapter-step{border:1px solid #485a4d;border-radius:5px;background:#1b3028;padding:8px;min-width:0}
+.nl-chapter-step b{display:block;font-size:11px;color:#f5dfb3}
+.nl-chapter-step small{font-size:10px;color:#b9c8b9}
+.nl-chapter-step.current{border-color:#e1be7b}
+.nl-chapter-step.locked{opacity:.7}
 .nl-enemy-intel{display:grid;grid-template-columns:minmax(0,1fr) minmax(185px,.8fr);gap:12px;border:1px solid #6e6050;border-radius:9px;background:#151e23;color:#e5e4d5;padding:12px;margin:12px 0}
 .nl-enemy-intel h3{margin:0 0 7px;font-size:15px;color:#f4d6a0}
 .nl-enemy-intel p{margin:6px 0;font-size:12px;line-height:1.5;color:#cad1c9}
@@ -155,10 +163,23 @@ function nlEnemyIntel(stage){
   }).join('');
   return `<section class="nl-enemy-intel" data-nl-enemy-intel="${stage}" aria-label="Trinh sát đội hình địch"><div><h3>🔎 Trinh sát quân địch</h3><p><b>${esc(npc.name)}</b> · ${deployed.length} đơn vị tham chiến</p><p>${esc(encounter.tactic||'Quan sát khắc chế và vị trí hàng trước, hàng sau.')}</p><p><small>Đội hình và loại quân do dự án mô phỏng; cấp, quân số, chỉ số Wiki chưa xác nhận sẽ không được tự điền.</small></p></div><div class="nl-intel-grid" data-nl-intel-grid="1">${grid}</div></section>`;
 }
+// Authored multi-NPC chapters preserve existing combat, rewards, stage IDs and Save.
+function nlChapterRoute(stage){
+  const all=NL_GAME_DATA.campaign.encounters;
+  const chapter=NL_GAME_DATA.campaign.chapters.find(group=>group.encounterIds.some(id=>all.find(e=>e.id===id)?.stage===stage));
+  if(!chapter)return '';
+  const steps=chapter.encounterIds.map(id=>{
+    const encounter=all.find(e=>e.id===id),npc=NL_GAME_DATA.campaign.npcs.find(n=>n.id===encounter.npcId);
+    const done=game.cleared.includes(encounter.stage),current=encounter.stage===stage,locked=!done&&encounter.stage>game.cleared.length+1;
+    return `<div class="nl-chapter-step ${current?'current':''} ${locked?'locked':''}" data-nl-chapter-step="${encounter.stage}"><b>${done?'✓ ':''}Cửa ${encounter.stage}: ${esc(npc.name)}</b><small>${done?'Đã thắng':locked?'Chưa mở':current?'Đang chọn':'Có thể đánh'}</small></div>`;
+  }).join('');
+  const count=chapter.encounterIds.filter(id=>game.cleared.includes(all.find(e=>e.id===id).stage)).length;
+  return `<section class="nl-chapter-route" data-nl-chapter="${chapter.id}" aria-label="Lộ trình chương chiến dịch"><h3>🗺️ ${esc(chapter.name)} · ${count}/${chapter.encounterIds.length} trận</h3><div class="nl-chapter-steps">${steps}</div></section>`;
+}
 const nlPrepRenderCampaign=renderCampaign;
 renderCampaign=function(){
   let html=nlPrepRenderCampaign();
-  const dossier=nlEnemyIntel(selectedStage);
+  const dossier=nlChapterRoute(selectedStage)+nlEnemyIntel(selectedStage);
   const recommendation=NL_GAME_DATA.campaign.encounters.find(item=>item.stage===selectedStage)?.recommendedPreparation;
   if(!recommendation)return html.replace('<button class="gold-button" data-battle=',dossier+'<button class="gold-button" data-battle=');
   const recommendedPreset=NL_GAME_DATA.formations.presets?.find(item=>item.id===recommendation.recommendedPreset)||(()=>{const [familyId,planKey]=String(recommendation.recommendedPreset||'').split('-');const family=NL_GAME_DATA.formations.families.find(item=>item.id===familyId),plan=NL_GAME_DATA.formations.plans.find(item=>item.key===planKey);return family&&plan?{id:recommendation.recommendedPreset,title:`${family.name} · ${plan.name}`} : null;})();
