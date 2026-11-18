@@ -48,11 +48,11 @@ Dữ liệu kỹ năng có cấu trúc thực, nhưng chưa phải một trận 
 - Những thông báo theo thời gian chưa đủ khẳng định đã thu thập toàn bộ bản vá mới nhất; cần đối chiếu trước khi Chat 08 áp vào bản phát hành.
 
 ## Kiểm thử tập trung
-- `qa/nl_hero_catalogue.test.cjs`: **26/26 PASS**.
+- `qa/nl_hero_catalogue.test.cjs`: **27/27 PASS**.
 - `qa/nl_hero_development.test.cjs`: **12/12 PASS**.
-- Kết quả đến từ việc thực thi JS source code đã commit bằng V8 isolate với môi trường file đọc từ GitHub, không phải Node host hoặc GitHub Actions, và không phải Chromium/Save/replay/full CI. **38/38 focused V8 PASS**.
+- Kết quả đến từ việc thực thi JS source code đã commit bằng V8 isolate với môi trường file đọc từ GitHub, không phải Node host hoặc GitHub Actions, và không phải Chromium/Save/replay/full CI. **39/39 focused V8 PASS**.
 - Chạy native Node cho nhóm 08: `node qa/nl_hero_catalogue.test.cjs` và `node qa/nl_hero_development.test.cjs`.
-- Để tái sinh skill handoff: `node tools/nl_hero_catalogue.js --export-skills`. Dữ liệu nguồn không bị mutate ngoài phạm vi Chat 01.
+- Để tái sinh skill handoff: `node tools/nl_hero_catalogue.js --export-skills`. Kiểm thử tái tạo snapshot skill handoff đúng từng byte (LF) PASS. Dữ liệu nguồn không bị mutate ngoài phạm vi Chat 01.
 
 ## Handoff cụ thể
 - **Chat 05:** đọc `skills_handoff_v1.json` và các pack bậc Cam/Vàng; dùng `stageSkills[].events` để thiết kế combat event mapping, kiểm tra 6 trạng thái legacy và status của Chat 05, chống giả công thức `N/X`, thời lượng/stack/dispels/PvP, kiểm thử replay/determinism. Không tự nhận `executable:false` là skill chạy được.
