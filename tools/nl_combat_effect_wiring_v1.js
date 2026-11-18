@@ -11,8 +11,15 @@ const NL_EXTRA_EFFECTS_V1=new Set(NL_EFFECT_BRIDGE_V1.additionalIds);
 if(P2_SKILLS.cao)P2_SKILLS.cao={...P2_SKILLS.cao,applyAlly:"focus"};
 const nlG07LegacyStatus=p2Status;
 p2Status=function(unit,kind,turns,...rest){
-  if(!unit||!battle||battle.mode==='cltq'||!NL_EXTRA_EFFECTS_V1.has(kind))
+  if(!unit||!battle||battle.mode==='cltq')
     return nlG07LegacyStatus(unit,kind,turns,...rest);
+  if(!NL_EXTRA_EFFECTS_V1.has(kind)){
+    const legacy=NL_GAME_DATA.statusEffects.effects[kind];
+    if(legacy?.polarity==="beneficial"&&Array.isArray(unit.effects)&&
+       unit.effects.some(effect=>effect.kind==="repel-blessing"&&effect.nlEffectV1===true))
+      return false;
+    return nlG07LegacyStatus(unit,kind,turns,...rest);
+  }
   return NL_EFFECT_BRIDGE_V1.apply(unit,kind).accepted;
 };
 const nlG07LegacyCleanse=p2Cleanse;
