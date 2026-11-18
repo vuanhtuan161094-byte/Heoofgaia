@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Read public NPC roster in the source's own order, each visible unit and traceable facts; no runtime import."""
 import argparse,json,re,time
+from decimal import Decimal,InvalidOperation
 from pathlib import Path
 from datetime import datetime,timezone
 from urllib.parse import parse_qs,urlsplit
@@ -33,9 +34,9 @@ def army_count(raw):
             figures=figures.replace(",","") if figures.rfind(".")>figures.rfind(",") else figures.replace(".","").replace(",",".")
         elif "," in figures:
             figures=figures.replace(",",".")
-        try:quantity=float(figures)*factor
-        except ValueError:return None
-        return int(round(quantity)) if quantity.is_integer() else None
+        try:quantity=Decimal(figures)*factor
+        except InvalidOperation:return None
+        return int(quantity) if quantity==quantity.to_integral_value() else None
     if not re.fullmatch(r"\d+(?:[.,]\d{3})*",figures):
         return None
     return int(re.sub(r"[.,]","",figures))
