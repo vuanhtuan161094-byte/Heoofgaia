@@ -58,7 +58,7 @@
     function checkOwned(state) {
       const uids = new Set();
       for (const instance of state.items) {
-        assert(instance && saneId(String(instance.uid)) && !uids.has(String(instance.uid)), 'DUPLICATE_INSTANCE_UID');
+        assert(instance && instance.uid != null && saneId(String(instance.uid)) && !uids.has(String(instance.uid)), 'DUPLICATE_INSTANCE_UID');
         uids.add(String(instance.uid));
       }
       const allocated = new Set();
@@ -140,7 +140,7 @@
       });
     }
     function equipmentInstance(state, uid) {
-      assert(saneId(String(uid)), 'BAD_UID');
+      assert(uid != null && saneId(String(uid)), 'BAD_UID');
       const instance = state.items.find(x => String(x.uid) === String(uid));
       assert(instance, 'EQUIPMENT_NOT_OWNED');
       available(instance.base, 'equipment');
