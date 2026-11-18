@@ -47,3 +47,8 @@ No merge. No Codex Cloud.
 
 ## Multi-Chat V2 owned-file port — 2026-11-19
 New branch: `feature/nl-mcv2-02-troops` based exactly on integrator SHA `e33e36255d62ea51af7f48386b8d3c56c6448369` with only team02-owned modules and test files. Copied the original executable sandbox to `data/ngoalong/modules/troops/troop_combat_v2.js`. Chat 08 exclusively owns `tools/nl_*`, source pack, generator, Save, live combat and index.html. This port does **not** integrate the troop module into actual campaign. 372 Wiki appearances remain reference-only; 25 project-original combat identities remain executable only in their standalone simulator. No merge.
+
+## Live integration contract V2 · 19/11/2026
+Canonical source HEAD `b4430e560d5b9c6d19be604930b9a54c63076dbc`; module branch `feature/nl-mcv2-02-troops`.
+**25/25 project-original identities** have executable standalone combat; **18/18 existing R03 branches** cross-referenced against original `alpha_content.json` and `tools/ngoa_long_r03.js`. Do not confuse existing property handling with exact ability equivalence. `live_integration_contract_v2.json` records the current hooks and **12 pending additive proposals**. `troop_live_bridge_v2.js` is a read-only live loader/intent planner, guards Wiki IDs, ignores CL and never writes damage, morale, reward, Save or replay. All additive intents are disabled until Chat08 review and single-authority wiring.
+No edits to `tools/`, `index.html`, `alpha_content.json`, effect engine, Save or CI on this branch. Chat08 owns all integration. QA: `node qa/modules/troops/nl_troop_live_bridge_v2.test.cjs` plus two existing troop V2 tests. V8 bridge smoke exercised; exact Node/Chromium/CI not yet claimed.

@@ -106,6 +106,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-infantry",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -195,6 +202,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-spear",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -284,6 +298,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-cavalry",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -369,6 +390,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-archer",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -454,6 +482,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-strategist",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -539,6 +574,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-support",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -624,6 +666,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-drum",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -713,6 +762,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-bulwark",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -802,6 +858,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-crusher",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -891,6 +954,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-spearwall",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -980,6 +1050,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-shock",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1069,6 +1146,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-raider",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1154,6 +1238,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-marksman",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1239,6 +1330,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-volley",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1324,6 +1422,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-ember",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1409,6 +1514,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-disrupt",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1494,6 +1606,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-medic",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1579,6 +1698,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-rally",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1668,6 +1794,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-shieldbreaker",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1757,6 +1890,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-swift-wing",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1842,6 +1982,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-rain-volley",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -1927,6 +2074,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-seal-master",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -2012,6 +2166,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-ward-bearer",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -2101,6 +2262,13 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-phalanx",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     },
     {
@@ -2190,11 +2358,20 @@
         "campaignWired": false,
         "status": "READY_FOR_CHAT05",
         "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-impaler",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
       }
     }
   ],
   "executableCombatModule": "tools/nl_troop_combat_v1.js",
   "executableCombatStatus": "STANDALONE_EXECUTABLE_NOT_LIVE",
   "simulatedCombatAbilityCount": 25,
-  "integrationRequiredFrom": "CHAT05"
+  "integrationRequiredFrom": "CHAT05",
+  "integrationAuthority": "CHAT08",
+  "integrationStatus": "CODED_STANDALONE_NOT_CANONICAL"
 }

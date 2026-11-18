@@ -1,0 +1,1012 @@
+{
+  "schemaVersion": 2,
+  "id": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+  "sourceHead": "e33e36255d62ea51af7f48386b8d3c56c6448369",
+  "sourceVersion": "NGOA_LONG_PROJECT_SIMULATED",
+  "status": "HANDOFF_NOT_RUNTIME_WIRED",
+  "owner": {
+    "module": "CHAT02",
+    "runtimeIntegration": "CHAT08",
+    "liveSource": [
+      "data/ngoalong/alpha_content.json",
+      "tools/build_ngoa_long_mode.py",
+      "tools/ngoa_long_r03.js",
+      "tools/nl_combat_effect_wiring_v1.js"
+    ]
+  },
+  "risk": "R03 already applies a subset of traits. Never run a separate stepBattle within authoritative p2Perform or call both damage calculators for one hit.",
+  "livePaths": {
+    "mode": "campaign",
+    "actorTeams": [
+      "p",
+      "e"
+    ],
+    "slots": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8
+    ],
+    "unitCap": 5,
+    "hp": "p2Hit",
+    "skills": "p2Skill",
+    "turns": "p2Perform",
+    "targets": "p2Target",
+    "status": "p2Status + NL_EFFECT_BRIDGE_V1",
+    "save": "v5 receipts and replay unchanged"
+  },
+  "projectIdentityCount": 25,
+  "existingR03Branches": 18,
+  "importedWikiPlayable": 0,
+  "records": [
+    {
+      "projectId": "nlp-infantry",
+      "legacyId": "infantry",
+      "family": "infantry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R02_LEGACY_BASE",
+        "r03BranchId": null,
+        "fieldsRead": [],
+        "hookSites": [],
+        "runtimeSite": "tools/build_ngoa_long_mode.py",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "front_guard_counter",
+        "trigger": "on_receiving_physical_hit",
+        "target": "frontline_self",
+        "lane": "physical",
+        "effectIntent": "guard_and_counter",
+        "value": 0.15
+      },
+      "proposedAddon": {
+        "phase": "BEFORE_INCOMING_HIT",
+        "effectIntent": "guard_and_counter",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-spear",
+      "legacyId": "spear",
+      "family": "spear",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R02_LEGACY_BASE",
+        "r03BranchId": null,
+        "fieldsRead": [],
+        "hookSites": [],
+        "runtimeSite": "tools/build_ngoa_long_mode.py",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "anti_cavalry_brace",
+        "trigger": "on_cavalry_charge",
+        "target": "frontline_enemy",
+        "lane": "physical",
+        "effectIntent": "brace_return_damage",
+        "value": 0.19
+      },
+      "proposedAddon": {
+        "phase": "AFTER_INCOMING_HIT",
+        "effectIntent": "brace_return_damage",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-cavalry",
+      "legacyId": "cavalry",
+      "family": "cavalry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R02_LEGACY_BASE",
+        "r03BranchId": null,
+        "fieldsRead": [],
+        "hookSites": [],
+        "runtimeSite": "tools/build_ngoa_long_mode.py",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "charge_opening",
+        "trigger": "first_attack",
+        "target": "front_enemy",
+        "lane": "physical",
+        "effectIntent": "charge_bonus",
+        "value": 0.16
+      },
+      "proposedAddon": {
+        "phase": "BEFORE_FIRST_BASIC_ATTACK",
+        "effectIntent": "charge_bonus",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-archer",
+      "legacyId": "archer",
+      "family": "archer",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R02_LEGACY_BASE",
+        "r03BranchId": null,
+        "fieldsRead": [],
+        "hookSites": [],
+        "runtimeSite": "tools/build_ngoa_long_mode.py",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "aim_backline",
+        "trigger": "on_basic_attack",
+        "target": "rear_enemy",
+        "lane": "physical",
+        "effectIntent": "ranged_priority",
+        "value": 0.12
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-strategist",
+      "legacyId": "strategist",
+      "family": "strategist",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R02_LEGACY_BASE",
+        "r03BranchId": null,
+        "fieldsRead": [],
+        "hookSites": [],
+        "runtimeSite": "tools/build_ngoa_long_mode.py",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "mystic_focus",
+        "trigger": "on_skill_cast",
+        "target": "enemy_weak_magic_defense",
+        "lane": "magic",
+        "effectIntent": "spell_pressure",
+        "value": 0.12
+      },
+      "proposedAddon": {
+        "phase": "BEFORE_SKILL_DAMAGE",
+        "effectIntent": "spell_pressure",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-support",
+      "legacyId": "support",
+      "family": "support",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R02_LEGACY_BASE",
+        "r03BranchId": null,
+        "fieldsRead": [],
+        "hookSites": [],
+        "runtimeSite": "tools/build_ngoa_long_mode.py",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "emergency_triage",
+        "trigger": "on_own_turn",
+        "target": "lowest_hp_ally",
+        "lane": "healing",
+        "effectIntent": "heal_fraction",
+        "value": 0.13
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-drum",
+      "legacyId": "drum",
+      "family": "drum",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R02_LEGACY_BASE",
+        "r03BranchId": null,
+        "fieldsRead": [],
+        "hookSites": [],
+        "runtimeSite": "tools/build_ngoa_long_mode.py",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "tempo_pulse",
+        "trigger": "on_own_turn",
+        "target": "all_allies",
+        "lane": "morale",
+        "effectIntent": "morale_add",
+        "value": 8
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-bulwark",
+      "legacyId": "bulwark",
+      "family": "infantry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "bulwark",
+        "fieldsRead": [
+          "statMultipliers"
+        ],
+        "hookSites": [
+          "p2Unit"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "intercept_damage",
+        "trigger": "on_adjacent_ally_targeted",
+        "target": "front_ally",
+        "lane": "physical",
+        "effectIntent": "damage_redirect_fraction",
+        "value": 0.22
+      },
+      "proposedAddon": {
+        "phase": "BEFORE_INCOMING_HIT",
+        "effectIntent": "damage_redirect_fraction",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-crusher",
+      "legacyId": "crusher",
+      "family": "infantry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "crusher",
+        "fieldsRead": [
+          "statMultipliers",
+          "pierce"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Hit"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "breaker_impact",
+        "trigger": "on_physical_hit",
+        "target": "high_armor_enemy",
+        "lane": "physical",
+        "effectIntent": "ignore_defense_fraction",
+        "value": 0.08
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-spearwall",
+      "legacyId": "spearwall",
+      "family": "infantry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "spearwall",
+        "fieldsRead": [
+          "statMultipliers",
+          "troop",
+          "combatType"
+        ],
+        "hookSites": [
+          "p2Unit"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "spear_switch_guard",
+        "trigger": "on_cavalry_attacks_ally",
+        "target": "cavalry_enemy",
+        "lane": "physical",
+        "effectIntent": "countercharge_guard",
+        "value": 0.18
+      },
+      "proposedAddon": {
+        "phase": "BEFORE_INCOMING_CAVALRY_HIT",
+        "effectIntent": "countercharge_guard",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-shock",
+      "legacyId": "shock",
+      "family": "cavalry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "shock",
+        "fieldsRead": [
+          "statMultipliers",
+          "speed",
+          "skillMultiplier"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "first_charge_stagger",
+        "trigger": "first_attacker_turn",
+        "target": "first_enemy",
+        "lane": "tactic",
+        "effectIntent": "morale_damage",
+        "value": 10
+      },
+      "proposedAddon": {
+        "phase": "AFTER_FIRST_ATTACK",
+        "effectIntent": "morale_damage",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-raider",
+      "legacyId": "raider",
+      "family": "cavalry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "raider",
+        "fieldsRead": [
+          "statMultipliers",
+          "speed",
+          "targetBack"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Target"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "rear_flank_raid",
+        "trigger": "on_basic_attack",
+        "target": "enemy_back_row",
+        "lane": "physical",
+        "effectIntent": "rear_damage_bonus",
+        "value": 0.12
+      },
+      "proposedAddon": {
+        "phase": "BEFORE_BACK_ROW_ATTACK",
+        "effectIntent": "rear_damage_bonus",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-marksman",
+      "legacyId": "marksman",
+      "family": "archer",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "marksman",
+        "fieldsRead": [
+          "statMultipliers",
+          "crit",
+          "skillMultiplier"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Hit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "precision_weakpoint",
+        "trigger": "on_basic_attack",
+        "target": "lowest_hp_enemy",
+        "lane": "physical",
+        "effectIntent": "critical_chance_bonus",
+        "value": 0.1
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-volley",
+      "legacyId": "volley",
+      "family": "archer",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "volley",
+        "fieldsRead": [
+          "statMultipliers",
+          "skillPattern",
+          "doublePatternMultiplier"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "rapid_double_bolt",
+        "trigger": "on_basic_attack",
+        "target": "single_enemy",
+        "lane": "physical",
+        "effectIntent": "second_bolt_damage_fraction",
+        "value": 0.52
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-ember",
+      "legacyId": "ember",
+      "family": "strategist",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "ember",
+        "fieldsRead": [
+          "statMultipliers",
+          "burnChance"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "ignite_spell",
+        "trigger": "on_skill_hit",
+        "target": "enemy_hit",
+        "lane": "magic",
+        "effectIntent": "burn_apply_chance",
+        "value": 0.58
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-disrupt",
+      "legacyId": "disrupt",
+      "family": "strategist",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "disrupt",
+        "fieldsRead": [
+          "statMultipliers",
+          "drainMorale"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "morale_suppression",
+        "trigger": "on_skill_hit",
+        "target": "highest_morale_enemy",
+        "lane": "morale",
+        "effectIntent": "morale_reduce",
+        "value": 18
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-medic",
+      "legacyId": "medic",
+      "family": "support",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "medic",
+        "fieldsRead": [
+          "statMultipliers",
+          "healMultiplier"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "field_mending",
+        "trigger": "on_own_turn",
+        "target": "lowest_hp_ally",
+        "lane": "healing",
+        "effectIntent": "heal_fraction",
+        "value": 0.28
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-rally",
+      "legacyId": "rally",
+      "family": "support",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "rally",
+        "fieldsRead": [
+          "statMultipliers",
+          "drumBonus"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Perform"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "battle_command",
+        "trigger": "on_own_turn",
+        "target": "all_allies",
+        "lane": "morale",
+        "effectIntent": "morale_add",
+        "value": 12
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-shieldbreaker",
+      "legacyId": "shieldbreaker",
+      "family": "infantry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "shieldbreaker",
+        "fieldsRead": [
+          "statMultipliers",
+          "pierce"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Hit"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "shield_sunder",
+        "trigger": "on_basic_hit",
+        "target": "shielded_enemy",
+        "lane": "physical",
+        "effectIntent": "barrier_bypass_fraction",
+        "value": 0.1
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-swift-wing",
+      "legacyId": "swift-wing",
+      "family": "cavalry",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "swift-wing",
+        "fieldsRead": [
+          "statMultipliers",
+          "speed",
+          "targetBack"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Target"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "swift_backline_pressure",
+        "trigger": "battle_opening",
+        "target": "enemy_back_row",
+        "lane": "tactic",
+        "effectIntent": "opening_damage_bonus",
+        "value": 0.12
+      },
+      "proposedAddon": {
+        "phase": "BEFORE_FIRST_BASIC_ATTACK",
+        "effectIntent": "opening_damage_bonus",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-rain-volley",
+      "legacyId": "rain-volley",
+      "family": "archer",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "rain-volley",
+        "fieldsRead": [
+          "statMultipliers",
+          "skillPattern",
+          "doublePatternMultiplier"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "area_arrow_rain",
+        "trigger": "on_basic_attack",
+        "target": "enemy_row",
+        "lane": "physical",
+        "effectIntent": "row_splash_fraction",
+        "value": 0.35
+      },
+      "proposedAddon": {
+        "phase": "AFTER_BASIC_HIT",
+        "effectIntent": "row_splash_fraction",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-seal-master",
+      "legacyId": "seal-master",
+      "family": "strategist",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "seal-master",
+        "fieldsRead": [
+          "statMultipliers",
+          "skillMultiplier",
+          "drainMorale"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "suppress_enemy_caster",
+        "trigger": "on_skill_hit",
+        "target": "enemy_highest_magic",
+        "lane": "morale",
+        "effectIntent": "morale_reduce",
+        "value": 10
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-ward-bearer",
+      "legacyId": "ward-bearer",
+      "family": "support",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "ward-bearer",
+        "fieldsRead": [
+          "statMultipliers",
+          "healMultiplier"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Skill"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "aegis_healing_guard",
+        "trigger": "on_low_hp_ally_damaged",
+        "target": "lowest_hp_ally",
+        "lane": "healing",
+        "effectIntent": "guard_heal_fraction",
+        "value": 0.1
+      },
+      "proposedAddon": {
+        "phase": "AFTER_ALLY_DAMAGED",
+        "effectIntent": "guard_heal_fraction",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-phalanx",
+      "legacyId": "phalanx",
+      "family": "spear",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "phalanx",
+        "fieldsRead": [
+          "statMultipliers",
+          "troop",
+          "combatType"
+        ],
+        "hookSites": [
+          "p2Unit"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "formation_brace",
+        "trigger": "on_cavalry_charge_incoming",
+        "target": "front_allies",
+        "lane": "physical",
+        "effectIntent": "anti_charge_damage_reduction",
+        "value": 0.2
+      },
+      "proposedAddon": {
+        "phase": "BEFORE_INCOMING_CAVALRY_HIT",
+        "effectIntent": "anti_charge_damage_reduction",
+        "status": "REVIEW_BEFORE_CHAT08_ACTIVATION"
+      },
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    },
+    {
+      "projectId": "nlp-impaler",
+      "legacyId": "impaler",
+      "family": "spear",
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": "SIMULATED",
+      "currentRuntime": {
+        "scope": "R03_EXISTING_BRANCH",
+        "r03BranchId": "impaler",
+        "fieldsRead": [
+          "statMultipliers",
+          "troop",
+          "combatType",
+          "pierce"
+        ],
+        "hookSites": [
+          "p2Unit",
+          "p2Hit"
+        ],
+        "runtimeSite": "tools/ngoa_long_r03.js",
+        "semanticParity": "NOT_PROVEN"
+      },
+      "behavior": {
+        "mechanic": "cavalry_skewer",
+        "trigger": "on_hit_cavalry",
+        "target": "cavalry_enemy",
+        "lane": "physical",
+        "effectIntent": "anti_cavalry_pierce",
+        "value": 0.12
+      },
+      "proposedAddon": null,
+      "safety": {
+        "wikiImport": false,
+        "standaloneStepBattleInCampaign": false,
+        "mainHitIsAuthoritative": true,
+        "mainStatusIsAuthoritative": true,
+        "rewardsOwnedByMain": true,
+        "saveOwnedByMain": true
+      }
+    }
+  ]
+}
