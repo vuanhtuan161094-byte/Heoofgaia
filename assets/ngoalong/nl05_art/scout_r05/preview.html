@@ -1,0 +1,27 @@
+<!doctype html><html lang="vi"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>R05 Scout · Frame-by-frame</title><style>
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#283740,#111722 70%);color:#e4ebed;font:14px/1.55 system-ui,Segoe UI,sans-serif}
+main{max-width:950px;margin:auto;padding:25px 16px}h1{color:#eed2a2;font-size:25px;margin:0}h2{color:#e8cfa2;font-size:17px}p{color:#b7c5cf}.grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+section{padding:14px;border:1px solid #485769;background:#1a2532;border-radius:13px}
+button,select{background:#304154;color:#f4f4ef;border:1px solid #62738b;border-radius:9px;padding:9px 12px;font:inherit;cursor:pointer}
+button:focus,select:focus{outline:2px solid #d4bd8b}.actions{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+canvas{display:block;max-width:100%;margin:auto;image-rendering:auto}
+.scene{background:linear-gradient(#253847,#141a23);border:1px solid #526073;border-radius:10px;padding:14px;display:grid;place-items:center;min-height:390px}
+.stage{position:relative}#closeup{width:320px;height:336px;max-width:100%}.floor{width:250px;height:6px;background:#4e6561a1;border-radius:50%;margin:-21px auto 10px}
+#small{width:80px;height:84px;min-width:80px}.tiny{min-height:145px;display:flex;align-items:center;gap:12px;justify-content:center}.muted{color:#aebcc8;font-size:12px}
+@media(max-width:730px){.grid{grid-template-columns:1fr}.scene{min-height:330px}#closeup{width:270px;height:284px}}
+</style></head><body><main><h1>Trinh sát R04 — Sprite R05</h1><p>20 frame raster 2D từ 2 pose gốc; 5 trạng thái cố định, 4 frame/trạng thái. Không rig, không Walk/Run. Đây là studio xem asset, không phải gameplay.</p>
+<div class="grid"><section><h2>Preview lớn</h2><div class="scene"><div class="stage"><canvas id="closeup" width="320" height="336"></canvas><div class="floor"></div></div></div><div class="actions"><select id="action"><option value="idle">Idle / Đứng</option><option value="attack">Attack / Đâm thương</option><option value="hit">Hit / Trúng đòn</option><option value="skill">Skill / Thương sáng</option><option value="disappear">Disappear / Rút khỏi trận</option></select><button id="pause">Dừng</button><button id="step">Từng frame</button></div><p id="status">Đang tải PNG…</p></section>
+<section><h2>Kích thước trong game</h2><div class="scene tiny"><canvas id="small" width="80" height="84"></canvas><span class="muted">Render 50% kích thước frame gốc.<br>Nhìn rõ mặt, giáp, vũ khí và tín hiệu đánh.</span></div><h2>Ràng buộc</h2><p class="muted">Ảnh R04 gốc: mặt trẻ, tóc ngắn tung, giáp than, khăn xanh ngọc, thương ngắn. Các frame là compositing raster từ <strong>2 pose gốc</strong>, không phải 20 dáng vẽ mới. Hiệu ứng thương tách một atlas PNG alpha.</p><p class="muted">Các animation có thể dùng để thử trong giao diện chiến đấu sau khi chat Integration gắn event thật. Hiện không thay đổi Save, HP, lượt hay reward.</p><p class="muted">Chưa có nghiệm thu mỹ thuật owner hoặc test máy thật.</p></section></div></main>
+<script>
+const c=document.getElementById('closeup'),s=document.getElementById('small'),cc=c.getContext('2d'),sc=s.getContext('2d'),a=document.getElementById('action'),st=document.getElementById('status');
+const sprite=new Image(),fx=new Image();sprite.src='scout-r05-stationary-atlas.png';fx.src='scout-r05-spear-fx.png';
+const actions=['idle','attack','hit','skill','disappear'],fps={idle:4,attack:8,hit:7,skill:8,disappear:5};let frame=0,playing=true,timer=null,ready=0;
+function draw(){if(ready!==2)return;let row=actions.indexOf(a.value);cc.clearRect(0,0,320,336);sc.clearRect(0,0,80,84);
+ for(const [ctx,sz] of [[cc,320],[sc,80]]){ctx.imageSmoothingEnabled=true;ctx.drawImage(sprite,frame*160,row*168,160,168,0,0,sz,sz*168/160);if(a.value==='skill')ctx.drawImage(fx,frame*160,0,160,168,0,0,sz,sz*168/160)}
+ st.textContent=a.value+' · frame '+(frame+1)+'/4 · '+fps[a.value]+' fps · alpha PNG; SIMULATED art preview'}
+function restart(){clearInterval(timer);if(playing)timer=setInterval(()=>{frame=(frame+1)%4;draw()},1000/fps[a.value]);document.getElementById('pause').textContent=playing?'Dừng':'Phát'}
+for(const im of [sprite,fx])im.onload=()=>{ready++;draw()};
+a.onchange=()=>{frame=0;draw();restart()};
+document.getElementById('pause').onclick=()=>{playing=!playing;restart()};
+document.getElementById('step').onclick=()=>{playing=false;frame=(frame+1)%4;draw();restart()};restart();
+</script></body></html>
