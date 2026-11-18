@@ -40,7 +40,7 @@ check("all 50 earlier source profiles match by name/faction/grade",()=>{
 });
 check("364 explicit UNKNOWN mechanics and no unreviewed playable promotion",()=>{
   assert.equal(result.readiness.REFERENCE_ONLY,364);
-  assert(validateProfiles(result.profiles));
+  assert(validateProfiles(materializeProfiles(index,refs)));
   for(const h of result.profiles){
     assert.equal(h.role,null);assert.equal(h.stats,null);assert.equal(h.skills.active,null);
     assert.equal(h.training,null);assert.equal(h.awakening,null);assert.equal(h.evolution,null);
@@ -61,8 +61,9 @@ check("four runtime names not in current Wiki index require manual reconciliatio
 });
 check("364 Chat 05 descriptor bundles, zero invented combat mechanics",()=>{
   assert.equal(handoff.count,364);
-  assert.deepEqual(buildSkillDescriptors(result.profiles),handoff.heroes);
+  assert.deepEqual(buildSkillDescriptors(result.profiles,result.wikiStageSkills),handoff.heroes);
   assert(handoff.heroes.every(x=>x.runtimeImport===false && x.active===null && x.factStatus==="UNKNOWN"));
+  assert.equal(result.stageFactsCoverage.sourceVerifiedAbilities,42);
 });
 check("progression formula remains Wiki UNKNOWN, existing project SIMULATED",()=>{
   assert.equal(contract.progression.wikiMobile.evidence,"UNKNOWN");
@@ -101,5 +102,39 @@ check("verified role plus skill reaches DESIGN_READY but never PLAYABLE",()=>{
   assert.equal(h.readiness,"DESIGN_READY");
   assert.equal(h.fieldProvenance.skills,"VERIFIED");
   assert.equal(buildSkillDescriptors(p).find(x=>x.heroId===h.id).runtimeImport,false);
+});
+check("42 dated Orange/Gold abilities from 3 official release documents",()=>{
+  assert.equal(result.wikiStageSkills.length,42);
+  assert.equal(result.stageFactsCoverage.indexedHeroSkillVariants,38);
+  assert.equal(result.stageFactsCoverage.indexedHeroProfilesWithAnyStageSkill,35);
+  assert.equal(new Set(result.wikiStageSkills.map(x=>x.skillId)).size,42);
+});
+check("Trương Liêu Gold has two 29500% tactical strikes and 145 morale",()=>{
+  const p=result.wikiStageSkills.find(x=>x.name==="Trương Liêu"&&x.stage==="GOLD");
+  assert(p && p.events.some(x=>x.op==="DAMAGE"&&x.coefficientPct===29500&&x.hits===2));
+  assert(p.events.some(x=>x.op==="MORALE"&&x.base===145));
+});
+check("Quan Vũ has distinct Orange and Gold sourced stage skills, never auto-equipped",()=>{
+  const h=handoff.heroes.find(x=>x.name==="Quan Vũ");
+  assert.deepEqual(h.stageSkills.map(s=>s.stage),["ORANGE","GOLD"]);
+  assert.equal(h.currentStage,null);assert.equal(h.runtimeImport,false);
+});
+check("two sourced recruitment conditions and source-free stat growth stays unknown",()=>{
+  const a=result.profiles.find(x=>x.name==="Trương Trọng Cảnh");
+  const b=result.profiles.find(x=>x.name==="Tư Mã Viêm");
+  assert.equal(a.acquisition.type,"TAVERN_AFTER_DEFEATING_BOSS");
+  assert.equal(b.acquisition.arenaPoints,200000);
+  assert.equal(a.stats,null);assert.equal(b.experience,null);
+});
+check("unindexed ruler and Gongsun nickname cannot be silently mapped",()=>{
+  assert.deepEqual(result.stageFactsCoverage.unindexedOfficialHeroes,["Lưu Bị","Tào Tháo","Tôn Quyền","Công Tôn Toản"]);
+  const h=result.wikiStageSkills.find(x=>x.name==="Công Tôn Toản");
+  assert.equal(h.heroId,null);
+  assert.equal(h.candidateIndexAlias,"Công Tôn Toán");
+});
+check("stage pack integrity rejects unsupported effect operator",()=>{
+  const list=result.wikiStageSkills;
+  assert(list.every(s=>s.events.every(e=>e.target && e.op)));
+  assert(handoff.heroes.every(h=>h.stageSkills.every(s=>s.provenance==="VERIFIED" && s.executable===false)));
 });
 console.log("NL_HERO focused QA: "+checks+"/"+checks+" PASS (not a runtime/release gate)");
