@@ -34,7 +34,8 @@ jobs:
               with urllib.request.urlopen(req,timeout=30) as res:
                 raw=res.read(20000000)
                 data=json.loads(raw)
-              result.append({'map':mid,'bytes':len(raw),'shape':typ(data)})
+              details={key:typ(data.get(key),0) for key in ('vn','cn','strategies','hard','side')}
+              result.append({'map':mid,'bytes':len(raw),'shape':typ(data),'detailFields':details})
             except Exception as ex:
               result.append({'map':mid,'error':repr(ex)[:260]})
           Path('campaign-schema-inspection.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
