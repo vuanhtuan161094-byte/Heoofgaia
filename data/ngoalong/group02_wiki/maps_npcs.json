@@ -8,11 +8,11 @@
   "maps": [
     {
       "mapQueryId": 31,
-      "name": null,
-      "cityLevelUnlock": null,
-      "totalNpcs": null,
+      "name": "Xích Bích",
+      "cityLevelUnlock": 110,
+      "totalNpcs": 27,
       "sourceId": "W31",
-      "evidenceAccess": "INDEXED_EXCERPT_ONLY",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
       "needsLiveBrowserConfirmation": true,
       "npcs": [
         {
@@ -278,18 +278,57 @@
       ],
       "fieldStatus": {
         "mapQueryId": "VERIFIED",
-        "name": "UNKNOWN",
-        "cityLevelUnlock": "UNKNOWN",
-        "totalNpcs": "UNKNOWN"
-      }
+        "name": "VERIFIED",
+        "cityLevelUnlock": "VERIFIED",
+        "totalNpcs": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "faction": "VERIFIED",
+        "clearReward": "VERIFIED",
+        "drops": "VERIFIED"
+      },
+      "mapLevel": 120,
+      "faction": "Tôn Lưu",
+      "clearReward": {
+        "silver": 500
+      },
+      "drops": [
+        {
+          "displayedItem": "Ứng Long Châu",
+          "ratePercent": 30,
+          "sourceNpc": "Gia Các Lượng",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Chiến Đồ Đao",
+          "ratePercent": 3,
+          "sourceNpc": "Lưu Bị",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Dương Khải",
+          "ratePercent": 3,
+          "sourceNpc": "Tôn Quyền",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Chiến Công",
+          "ratePercent": 100,
+          "sourceNpc": "Liên Quân Tôn Lưu",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        }
+      ]
     },
     {
       "mapQueryId": 34,
-      "name": null,
-      "cityLevelUnlock": null,
-      "totalNpcs": null,
+      "name": "Phàn Thành Chiến",
+      "cityLevelUnlock": 120,
+      "totalNpcs": 23,
       "sourceId": "W34",
-      "evidenceAccess": "INDEXED_EXCERPT_ONLY",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
       "needsLiveBrowserConfirmation": true,
       "npcs": [
         {
@@ -555,18 +594,57 @@
       ],
       "fieldStatus": {
         "mapQueryId": "VERIFIED",
-        "name": "UNKNOWN",
-        "cityLevelUnlock": "UNKNOWN",
-        "totalNpcs": "UNKNOWN"
-      }
+        "name": "VERIFIED",
+        "cityLevelUnlock": "VERIFIED",
+        "totalNpcs": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "faction": "VERIFIED",
+        "clearReward": "VERIFIED",
+        "drops": "VERIFIED"
+      },
+      "mapLevel": 120,
+      "faction": "Ngụy",
+      "clearReward": {
+        "silver": 400
+      },
+      "drops": [
+        {
+          "displayedItem": "Chiến Đồ Đao",
+          "ratePercent": 3,
+          "sourceNpc": "Hạ Hầu Đôn",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Dương Khải",
+          "ratePercent": 3,
+          "sourceNpc": "Tư Mã Ý",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Ứng Long Châu",
+          "ratePercent": 30,
+          "sourceNpc": "Tào Nhân",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Tranh ngọc",
+          "ratePercent": 100,
+          "sourceNpc": "Quân Tào Nhân",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        }
+      ]
     },
     {
       "mapQueryId": 63,
-      "name": null,
-      "cityLevelUnlock": null,
-      "totalNpcs": null,
+      "name": "Động Cây Đa",
+      "cityLevelUnlock": 165,
+      "totalNpcs": 5,
       "sourceId": "W63",
-      "evidenceAccess": "INDEXED_EXCERPT_ONLY",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
       "needsLiveBrowserConfirmation": true,
       "npcs": [
         {
@@ -702,18 +780,34 @@
       ],
       "fieldStatus": {
         "mapQueryId": "VERIFIED",
-        "name": "UNKNOWN",
-        "cityLevelUnlock": "UNKNOWN",
-        "totalNpcs": "UNKNOWN"
-      }
+        "name": "VERIFIED",
+        "cityLevelUnlock": "VERIFIED",
+        "totalNpcs": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "faction": "UNKNOWN",
+        "clearReward": "UNKNOWN",
+        "drops": "VERIFIED"
+      },
+      "mapLevel": 160,
+      "faction": null,
+      "clearReward": null,
+      "drops": [
+        {
+          "displayedItem": "Diêu Quang Thạch",
+          "ratePercent": 4,
+          "sourceNpc": "Quản Kha",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        }
+      ]
     },
     {
       "mapQueryId": 269,
-      "name": null,
-      "cityLevelUnlock": null,
-      "totalNpcs": null,
+      "name": "Vương Bình Hàng Thục",
+      "cityLevelUnlock": 380,
+      "totalNpcs": 21,
       "sourceId": "W269",
-      "evidenceAccess": "INDEXED_EXCERPT_ONLY",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
       "needsLiveBrowserConfirmation": true,
       "npcs": [
         {
@@ -979,10 +1073,50 @@
       ],
       "fieldStatus": {
         "mapQueryId": "VERIFIED",
-        "name": "UNKNOWN",
-        "cityLevelUnlock": "UNKNOWN",
-        "totalNpcs": "UNKNOWN"
-      }
+        "name": "VERIFIED",
+        "cityLevelUnlock": "VERIFIED",
+        "totalNpcs": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "faction": "VERIFIED",
+        "clearReward": "VERIFIED",
+        "drops": "VERIFIED"
+      },
+      "mapLevel": 390,
+      "faction": "Ngụy",
+      "clearReward": {
+        "silver": 2160000,
+        "orangeDragonJade": 10100
+      },
+      "drops": [
+        {
+          "displayedItem": "Diệt Thế Kiếm",
+          "ratePercent": 8,
+          "sourceNpc": "Từ Hoảng",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Diệt Thế Giáp",
+          "ratePercent": 8,
+          "sourceNpc": "Vương Bình",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Âm Dương Phù",
+          "ratePercent": 8,
+          "sourceNpc": "Quân Vương Bình",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Đá Tôi Luyện",
+          "ratePercent": 10,
+          "sourceNpc": "Quân Vương Bình",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        }
+      ]
     }
   ]
 }

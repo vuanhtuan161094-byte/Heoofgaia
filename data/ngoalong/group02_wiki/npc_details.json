@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "group": "02_WIKI_SYSTEMS",
+  "edition": "MOBILE_WIKI_REFERENCE_ONLY",
+  "classicParity": "UNKNOWN",
+  "checkedAt": "2026-11-18",
+  "runtimeAuthority": false,
+  "scope": "TWO_NPC_DETAIL_EXCERPTS_NOT_COMPLETE_MAP_1",
+  "npcDetails": [
+    {
+      "id": "map1-ai77",
+      "mapQueryId": 1,
+      "aiQueryId": 77,
+      "npcName": "Cao Thăng",
+      "kind": "BOSS",
+      "level": 1,
+      "totalSoldiers": 200,
+      "firstMover": "PLAYER",
+      "battleAttackFactor": 1,
+      "unitCount": 1,
+      "units": [
+        {
+          "name": "Cao Thăng",
+          "slot": 5,
+          "level": 1,
+          "soldiers": 200,
+          "troopCategory": "Bộ Binh",
+          "activeSkillName": "Thiết Bích",
+          "physicalAttack": null,
+          "strategicAttack": null
+        }
+      ],
+      "observedDrop": {
+        "itemName": "Thiết Kiếm",
+        "category": "Vũ Khí",
+        "ratePercent": 100
+      },
+      "sourceId": "W1-77",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "kind": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "VERIFIED",
+        "firstMover": "VERIFIED",
+        "battleAttackFactor": "VERIFIED",
+        "unitCount": "DERIVED",
+        "units": "VERIFIED",
+        "observedDrop": "VERIFIED"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "map1-ai82",
+      "mapQueryId": 1,
+      "aiQueryId": 82,
+      "npcName": "Ba Tài",
+      "kind": "BOSS",
+      "level": 6,
+      "totalSoldiers": 420,
+      "firstMover": "PLAYER",
+      "battleAttackFactor": 15,
+      "unitCount": null,
+      "units": [
+        {
+          "name": "Hoành Tảo Doanh",
+          "slot": 3,
+          "level": 1,
+          "soldiers": 220,
+          "troopCategory": "Thương Binh",
+          "activeSkillName": "Hoành Tảo",
+          "physicalAttack": null,
+          "strategicAttack": null
+        },
+        {
+          "name": "Ba Tài",
+          "slot": null,
+          "level": null,
+          "soldiers": null,
+          "troopCategory": null,
+          "activeSkillName": null,
+          "physicalAttack": null,
+          "strategicAttack": null
+        }
+      ],
+      "observedDrop": null,
+      "sourceId": "W1-82",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "kind": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "VERIFIED",
+        "firstMover": "VERIFIED",
+        "battleAttackFactor": "VERIFIED",
+        "unitCount": "UNKNOWN",
+        "units": "PARTIAL",
+        "observedDrop": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    }
+  ]
+}

@@ -13,7 +13,9 @@
     "npcs": 35,
     "cnTech": 14,
     "cityFeatures": 6,
-    "items": 4
+    "items": 4,
+    "mapDropRecords": 13,
+    "detailedNpcSnapshots": 2
   },
   "sourceRegistry": [
     {
@@ -105,6 +107,20 @@
       "url": "https://ngoalong.vnggames.com/tin-tuc-2022/huong-dan/chi-tiet-ve-trang-bi-ngoa-long.html",
       "edition": "PUBLISHER_GUIDE_VERSION_UNCERTAIN",
       "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W1-77",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=77&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "indexed_excerpt",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W1-82",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=82&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "indexed_excerpt",
       "checkedAt": "2026-11-18"
     }
   ],
