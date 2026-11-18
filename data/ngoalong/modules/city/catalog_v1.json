@@ -360,7 +360,22 @@
           "consumer": "city gate"
         }
       ],
-      "actions": [],
+      "actions": [
+        {
+          "id": "edict",
+          "label": "Ban chiếu chỉ",
+          "cost": {
+            "silver": 240,
+            "grain": 100
+          },
+          "reward": {
+            "prestige": 16
+          },
+          "durationSeconds": 120,
+          "cooldownSeconds": 600,
+          "provenance": "SIMULATED"
+        }
+      ],
       "provenance": {
         "classification": "SIMULATED",
         "sourceId": "PROJECT_CITY_FULL",
