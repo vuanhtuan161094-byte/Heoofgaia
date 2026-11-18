@@ -76,6 +76,15 @@
       sync(unit,r.state);
       return true;
     }
+    function onDamage(unit,amount){
+      if(!unit||!Array.isArray(unit.effects)||!Number.isFinite(amount)||amount<=0||
+         !unit.effects.some(x=>isExtra(x)&&(x.kind==="sleep"||x.kind==="fear")))return [];
+      // The historical p2Hit already settled HP. The V1 engine owns only
+      // wake-up semantics; sync() deliberately never writes HP back.
+      const r=E.damage(current(unit),catalog,{targetId:"live",amount:Math.max(1,Math.floor(amount))});
+      sync(unit,r.state);
+      return r.events.filter(x=>x.type==="status-broken-by-damage");
+    }
     function endRound(unit){
       if(!unit||!Array.isArray(unit.effects)||!unit.effects.some(isExtra))return [];
       const r=E.endRound(current(unit),catalog);sync(unit,r.state);return r.events;
@@ -88,7 +97,7 @@
     return Object.freeze({
       legacyIds:LEGACY,additionalIds:Object.freeze([...extra]),
       legacyDifferences:Object.freeze(discrepancies),
-      apply,dispel,modifiers,consumeShield,endRound,startAction
+      apply,dispel,modifiers,consumeShield,onDamage,endRound,startAction
     });
   }
   return Object.freeze({create});
