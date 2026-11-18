@@ -1,0 +1,68 @@
+<!doctype html><html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Mưu Định Tam Quốc — Art inspection NL05</title>
+<style>
+*{box-sizing:border-box}body{background:radial-gradient(ellipse at top,#2c3c48,#111724 62%);color:#e4e6e9;font:15px/1.5 system-ui,Segoe UI,sans-serif;margin:0}
+header,main,footer{max-width:1080px;margin:auto;padding:16px}header{padding-top:22px}h1{color:#f0d5a1;margin:0;font-size:26px}h2{font-size:17px;color:#dfc28d;margin:0 0 12px}
+p{margin:8px 0}small{color:#bdc8d6}main{display:grid;grid-template-columns:1.1fr 1fr;gap:16px}
+.panel{padding:16px;border:1px solid #46536a;border-radius:14px;background:#192334}
+.artstage{height:355px;border:1px solid #42506a;border-radius:10px;position:relative;display:grid;place-items:center;overflow:hidden;background:repeating-conic-gradient(#a7adad1a 0 25%,#253343 0 50%) 50%/28px 28px}
+.artstage img{position:absolute;max-width:95%;height:92%;object-fit:contain;object-position:center bottom;filter:drop-shadow(0 9px 16px #0009)}
+[hidden]{display:none!important}.pivot{position:absolute;bottom:8px;left:50%;transform:translateX(-50%);width:13px;height:13px;border:1px solid #f2dfae;border-radius:50%}
+button,select{border:1px solid #50617b;background:#2b3b54;color:#eff3f6;border-radius:9px;padding:9px 11px;font:inherit;cursor:pointer}
+button:hover,button:focus-visible,select:focus-visible{outline:2px solid #d7b98c}.buttons{display:flex;gap:8px;flex-wrap:wrap;margin:12px 0}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}.controls select{width:100%}
+.spritewindow{height:302px;display:grid;place-items:center;overflow:hidden;background:repeating-conic-gradient(#c6ccd020 0 25%,#253445 0 50%) 50%/28px 28px;border:1px solid #47566c;border-radius:10px;margin-top:10px}
+#legacySprite{width:100px;height:144px;background-image:url('../../p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-atlas.webp');background-repeat:no-repeat;transform:scale(1.85)}
+.event{padding:10px;background:#101827;border:1px solid #3e5068;border-radius:8px;font:12px/1.5 ui-monospace,Consolas,monospace;white-space:pre-wrap;overflow-wrap:anywhere}
+.phases{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.phase{padding:8px 2px;border:1px dashed #657187;border-radius:8px;text-align:center;font-size:12px;color:#b5c4d6}.phase.active{background:#384151;border-style:solid;color:#ffe1aa}
+.status{font-weight:600;color:#edcfa5}.muted{color:#b3bfd1;font-size:13px}a{color:#bad2dc}
+@media(max-width:760px){main{grid-template-columns:1fr}.artstage{height:295px}.spritewindow{height:250px}}
+</style></head><body>
+<header><h1>NL05 · Studio kiểm kê Art & VFX</h1><p>Viewer QA <b>chỉ đọc</b> asset hiện có. Không phải game, không Save, không can thiệp chiến đấu.</p><small>Nhân vật NL-R04: 2 pose trinh sát + 1 pose quân sư · Legacy CL-P5: 80 frame · VFX mới: chưa có</small></header>
+<main>
+<section class="panel"><h2>1. Nhân vật mới · NL-R04 chưa duyệt</h2>
+<div class="artstage" id="characterStage">
+<img id="scoutIdle" src="../../r04/r04-original-bulwark-scout-v1-master.png" alt="Original scout idle">
+<img id="scoutContact" src="../../r04/r04-original-bulwark-scout-attack-contact-v1.png" alt="Original scout distinct contact pose" hidden>
+<img id="tacticianIdle" src="../../r04/r04-original-field-tactician-v1-master.png" alt="Original female tactician idle" hidden><span class="pivot" title="Reference anchor only"></span></div>
+<div class="buttons"><button id="idle">Scout · Idle</button><button id="contact">Thử event vật công</button><button id="tactician">Nữ quân sư</button></div>
+<p class="status" id="poseStatus">Trinh sát · Idle, chỉ 1 hướng</p><p class="muted">Nút event là <b>SIMULATED PREVIEW</b>. Trong game, stage 25 đã có liên kết thực với `p2ApplyFrame(ev)`, nhưng viewer này không tự phát sinh hit hay sửa damage.</p>
+<div class="event" id="eventLog">Không có event thử nghiệm.</div></section>
+<section class="panel"><h2>2. Quân Bộ · CL-P5 legacy</h2>
+<div class="controls"><div><label for="action">Action</label><select id="action"><option>idle</option><option>walk</option><option>attack</option><option>hurt</option><option>death</option></select></div><div><label for="direction">Direction</label><select id="direction"><option>front</option><option>right</option><option>back</option><option>left</option></select></div></div>
+<div class="spritewindow"><div id="legacySprite" role="img" aria-label="Legacy CL frame inspector"></div></div>
+<div class="buttons"><button id="play">Dừng</button><button id="step">1 frame</button></div>
+<p class="status" id="frameStatus"></p><p class="muted">80 ô là các frame nguồn riêng trong atlas, không có skeletal rig. Đây là asset CL-P5, <b>chưa được duyệt làm nhân vật Ngọa Long</b>.</p></section>
+<section class="panel"><h2>3. Pipeline VFX theo event (mới: PENDING)</h2><p class="muted">Cổng dữ liệu sau này: real battle event → animation state + target anchor → VFX alpha tách biệt. Các ô dưới đây là nhãn kịch bản, <b>không phải VFX đã sản xuất</b>.</p>
+<div class="phases"><div class="phase" id="p0">Charge</div><div class="phase" id="p1">Release</div><div class="phase" id="p2">Contact</div><div class="phase" id="p3">Fade</div></div>
+<p class="muted">Không phát sinh turn, HP, sĩ khí hoặc phần thưởng. Hiệu ứng thiếu frame/anchor → bỏ hiển thị; không đoán dữ liệu chiến đấu.</p></section>
+<section class="panel"><h2>4. Tiêu chí mở rộng</h2><p>Chỉ sản xuất hàng loạt sau khi duyệt <b>1 nhân vật gốc hoàn chỉnh</b> với Front/Right/Back/Left và Idle/Walk/Attack/Hit/Fall, ít nhất một VFX alpha có hình tượng rõ, cùng Chromium 1280×720 và 390px.</p>
+<p class="muted">Hướng mỹ thuật: 2D chibi hắc ám vẽ tay, mắt sắc phát sáng năng lượng, tương phản vũ khí–giáp, pivot chân cố định; không rig, không lật gương giả hướng.</p></section></main>
+<footer>Tham khảo taxonomy Wiki Mobile, không lấy ảnh/code/icon VNG. <a href="https://ngoalong.vnggames.com/ngoa-long-wiki">Wiki chính thức</a>. Kiểm tra có provenance tại <code>inventory.json</code>.</footer>
+<script>
+(()=>{'use strict';const el=id=>document.getElementById(id);
+const charIds=['scoutIdle','scoutContact','tacticianIdle'];let resetTimer=0,phaseTimers=[];
+function clear(){clearTimeout(resetTimer);phaseTimers.forEach(clearTimeout);phaseTimers=[];for(let i=0;i<4;i++)el('p'+i).classList.remove('active')}
+function show(id,txt){clear();charIds.forEach(k=>el(k).hidden=k!==id);el('poseStatus').textContent=txt}
+el('idle').onclick=()=>show('scoutIdle','Trinh sát · Idle gốc');
+el('tactician').onclick=()=>show('tacticianIdle','Nữ quân sư · Idle gốc');
+el('contact').onclick=()=>{
+ const ev={actorTeam:'e',kind:'physical',troop:'infantry',stage:25};
+ show('scoutContact','Trinh sát · Contact pose gốc, reset sau 320ms');
+ el('eventLog').textContent='SIMULATED PREVIEW: '+JSON.stringify(ev)+'\nKhông phải event từ trận đấu thật.';
+ for(let i=0;i<4;i++)phaseTimers.push(setTimeout(()=>el('p'+i).classList.add('active'),i*70));
+ resetTimer=setTimeout(()=>show('scoutIdle','Trinh sát · Idle sau event thử'),320);
+};
+const actions=['idle','walk','attack','hurt','death'],directions=['front','right','back','left'],fps=[4,8,10,8,6];
+let frame=0,playing=true,timer=null;
+function draw(){const a=actions.indexOf(el('action').value),d=directions.indexOf(el('direction').value);
+ const row=a*4+d;el('legacySprite').style.backgroundPosition=(-frame*100)+'px '+(-row*144)+'px';
+ el('frameStatus').textContent='CL-P5: '+actions[a]+'/'+directions[d]+' · frame '+(frame+1)+'/4 · '+fps[a]+' fps';
+}
+function restart(){clearInterval(timer);if(playing)timer=setInterval(()=>{frame=(frame+1)%4;draw()},1000/fps[actions.indexOf(el('action').value)]);el('play').textContent=playing?'Dừng':'Phát'}
+el('action').onchange=el('direction').onchange=()=>{frame=0;draw();restart()};
+el('play').onclick=()=>{playing=!playing;restart()};
+el('step').onclick=()=>{playing=false;frame=(frame+1)%4;draw();restart()};
+draw();restart();
+})();
+</script></body></html>
