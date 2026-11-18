@@ -1,0 +1,350 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/mdtq/combat/skill_v2.schema.json",
+  "title": "Muu Dinh Tam Quoc original, deterministic combat skill V2",
+  "description": "For Chat 01/02/06 modules. Wiki rules are reference-only. All executable values are SIMULATED.",
+  "type": "object",
+  "required": [
+    "id",
+    "role",
+    "moraleCost",
+    "target",
+    "operations",
+    "provenance"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z0-9]+(?:-[a-z0-9]+)*$",
+      "minLength": 2
+    },
+    "role": {
+      "enum": [
+        "attacker",
+        "defender",
+        "support",
+        "strategist",
+        "healer",
+        "morale-breaker",
+        "controller"
+      ]
+    },
+    "moraleCost": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 100
+    },
+    "target": {
+      "type": "object",
+      "required": [
+        "team",
+        "pattern"
+      ],
+      "properties": {
+        "team": {
+          "enum": [
+            "enemy",
+            "ally",
+            "self"
+          ]
+        },
+        "pattern": {
+          "enum": [
+            "single",
+            "double",
+            "back",
+            "lowest-hp",
+            "highest-morale",
+            "row",
+            "column",
+            "all"
+          ]
+        },
+        "priority": {
+          "enum": [
+            "front",
+            "back",
+            "weakest",
+            "highest-morale",
+            "counter"
+          ]
+        },
+        "ignoreFront": {
+          "type": "boolean"
+        },
+        "maxTargets": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 5
+        }
+      },
+      "additionalProperties": false
+    },
+    "operations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/$defs/operation"
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": [
+        "classification",
+        "sourceId"
+      ],
+      "properties": {
+        "classification": {
+          "const": "SIMULATED"
+        },
+        "sourceId": {
+          "type": "string",
+          "minLength": 1
+        },
+        "reason": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "originalTag": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "descriptorSource": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "adaptation": {
+      "type": "string"
+    },
+    "notes": {
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "scopes": {
+      "enum": [
+        "selected",
+        "self",
+        "all-allies",
+        "all-enemies",
+        "ally-lowest-hp"
+      ]
+    },
+    "operation": {
+      "type": "object",
+      "required": [
+        "op"
+      ],
+      "properties": {
+        "op": {
+          "enum": [
+            "damage",
+            "heal",
+            "morale",
+            "status",
+            "dispel"
+          ]
+        },
+        "scope": {
+          "$ref": "#/$defs/scopes"
+        },
+        "lane": {
+          "enum": [
+            "physical",
+            "tactic",
+            "magic"
+          ]
+        },
+        "coefficient": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 20
+        },
+        "pierce": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "criticalChance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "criticalMultiplier": {
+          "type": "number",
+          "exclusiveMinimum": 0,
+          "maximum": 5
+        },
+        "repeat": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4
+        },
+        "delta": {
+          "type": "integer",
+          "minimum": -100,
+          "maximum": 100
+        },
+        "effectId": {
+          "enum": [
+            "break",
+            "guard",
+            "daze",
+            "burn",
+            "morale-seal",
+            "ward",
+            "sleep",
+            "fear",
+            "anchored",
+            "ironwall",
+            "focus",
+            "repel-blessing",
+            "surge"
+          ]
+        },
+        "legacyAdapter": {
+          "type": "boolean"
+        },
+        "chance": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "polarity": {
+          "enum": [
+            "all",
+            "harmful",
+            "beneficial"
+          ]
+        },
+        "maxRemove": {
+          "type": "integer",
+          "minimum": 0
+        }
+      },
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "damage"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "lane",
+              "coefficient"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "heal"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "coefficient"
+            ],
+            "not": {
+              "required": [
+                "repeat"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "morale"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "delta"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "dispel"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "polarity",
+              "maxRemove"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "status"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "effectId"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "op": {
+                "const": "status"
+              },
+              "effectId": {
+                "enum": [
+                  "break",
+                  "guard",
+                  "daze",
+                  "burn",
+                  "morale-seal",
+                  "ward"
+                ]
+              }
+            },
+            "required": [
+              "op",
+              "effectId"
+            ]
+          },
+          "then": {
+            "required": [
+              "legacyAdapter"
+            ],
+            "properties": {
+              "legacyAdapter": {
+                "const": true
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}
