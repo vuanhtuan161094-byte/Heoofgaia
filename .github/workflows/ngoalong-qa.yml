@@ -2,7 +2,7 @@ name: Muu Dinh Tam Quoc · Ngọa Long-focused full regression and release
 
 on:
   push:
-    branches: [main-ngoalong, 'codex/**']
+    branches: [main-ngoalong, 'codex/**', 'feature/nl-codex-cloud-v1-finish']
   workflow_dispatch:
 
 permissions:
