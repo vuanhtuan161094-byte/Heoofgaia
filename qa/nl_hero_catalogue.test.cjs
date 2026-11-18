@@ -5,7 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const {
   loadCatalogue,validateIndex,materializeProfiles,validateProfiles,
-  applyDetailPatches,buildSkillDescriptors,keyOfName
+  applyDetailPatches,buildSkillDescriptors,makeSkillHandoff,keyOfName
 } = require("../tools/nl_hero_catalogue.js");
 const root = path.resolve(__dirname, "..");
 const read = p=>JSON.parse(fs.readFileSync(path.join(root,p),"utf8"));
@@ -148,5 +148,9 @@ check("unquantified 2025 Gold ruler healing is preserved as UNKNOWN",()=>{
   assert(h);
   assert(h.events.some(e=>e.op==="HEAL_UNQUANTIFIED"&&e.coefficientPct===null));
   assert(h.events.some(e=>e.op==="STAT_BONUS_UNQUANTIFIED"&&e.points===null));
+});
+check("Chat 05 source-skill handoff reproduces byte-for-byte",()=>{
+  const actual=fs.readFileSync(path.join(root,"data/ngoalong/modules/heroes/skills_handoff_v1.json"),"utf8");
+  assert.equal(actual,JSON.stringify(makeSkillHandoff(result),null,2)+"\\n");
 });
 console.log("NL_HERO focused QA: "+checks+"/"+checks+" PASS (not a runtime/release gate)");
