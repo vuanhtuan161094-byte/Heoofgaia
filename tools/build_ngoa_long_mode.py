@@ -419,7 +419,7 @@ def build(source: str) -> str:
     qa_marker = "if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign("
     if portal.count(qa_marker) != 1:
         raise ValueError("Cannot uniquely inject V1 effects before QA exports")
-    portal = portal.replace(qa_marker, "\\n".join(parts) + "\\n" + qa_marker, 1)
+    portal = portal.replace(qa_marker, "\n".join(parts) + "\n" + qa_marker, 1)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
     js_start = "// === NL-REBUILD-01: first-class 3x3 strategy dashboard ==="
