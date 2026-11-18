@@ -94,10 +94,11 @@
         "firstMover": "VERIFIED",
         "battleAttackFactor": "VERIFIED",
         "unitCount": "UNKNOWN",
-        "units": "PARTIAL",
+        "units": "VERIFIED",
         "observedDrop": "UNKNOWN"
       },
-      "integration": "REFERENCE_ONLY"
+      "integration": "REFERENCE_ONLY",
+      "unitsCoverage": "PARTIAL_SEARCH_EXCERPT"
     }
   ]
 }
