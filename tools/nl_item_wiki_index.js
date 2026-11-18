@@ -65,6 +65,75 @@ function parseIndex(bodyText, domain) {
     classicParity:'UNKNOWN', runtimeAuthority:false, integration:'REFERENCE_ONLY',
     rows };
 }
+// Category controls on the public index provide actual slot identity.
+// Never infer every 7th item from appearance or name; fail closed on mismatches.
+const SLOT_FILTERS = [
+  ['weapon','Vũ Khí'],['armor','Giáp'],['horse','Ngựa'],
+  ['book','Binh Thư'],['cloak','Áo Choàng'],
+  ['shield','Thuẫn'],['artifact','Bảo Vật']
+];
+function filteredPairs(text) {
+  if (typeof text !== 'string') throw new Error('BAD_FILTER_TEXT');
+  const begin = text.search(/Tổng\s+\d+\s+trang bị/i);
+  if (begin < 0) throw new Error('FILTER_TOTAL_MISSING');
+  const content = text.slice(begin).split(/CÔNG TY CỔ PHẦN TẬP ĐOÀN VNG/i)[0];
+  const pairs=[];
+  for (const line of content.split(/\r?\n/)) {
+    const match=/^\s*(.*?)\s+Cấp\s+(\d+)\s*$/.exec(line);
+    if (match) pairs.push([match[1].trim().normalize('NFC'), Number(match[2])]);
+  }
+  return pairs;
+}
+function assignFilteredSlots(index, views) {
+  if (!index || !Array.isArray(index.rows) || index.rows.length !== TARGET.equipment)
+    throw new Error('INDEX_NOT_COMPLETE');
+  const signature=x=>x[0].normalize('NFC')+'|'+x[1];
+  const available=new Set(index.rows.map(row=>signature([row.name,row.displayedLevel])));
+  const assigned=new Map();
+  for (const [slot] of SLOT_FILTERS) {
+    const rows=filteredPairs(views[slot]);
+    if (!rows.length || rows.length >= TARGET.equipment)
+      throw new Error('FILTER_DID_NOT_APPLY_'+slot);
+    for(const item of rows) {
+      const sig=signature(item);
+      if (!available.has(sig))throw new Error('FILTER_UNKNOWN_RECORD_'+slot);
+      if (assigned.has(sig) && assigned.get(sig)!==slot)
+        throw new Error('FILTER_AMBIGUOUS_RECORD_'+sig);
+      assigned.set(sig,slot);
+    }
+  }
+  for(const row of index.rows) {
+    const slot=assigned.get(signature([row.name,row.displayedLevel]));
+    if(!slot)throw new Error('UNMATCHED_EQUIPMENT_FILTER_'+row.name);
+    row.slot=slot;
+    row.fieldProvenance.slot='VERIFIED';
+  }
+  index.slotAudit={method:'PUBLIC_WIKI_FILTERED_BUTTONS',verifiedRows:index.rows.length,
+    slotCounts:Object.fromEntries(SLOT_FILTERS.map(([key])=>[key,index.rows.filter(x=>x.slot===key).length]))};
+  return index;
+}
+async function collectSlotViews(page) {
+  const views={};
+  for(const [slot,label] of SLOT_FILTERS) {
+    let clicked=false;
+    for(const frame of page.frames()){
+      const control=frame.getByRole('button',{name:label,exact:true});
+      if (await control.count()) {
+        await control.first().click({timeout:12000});
+        clicked=true;
+        break;
+      }
+    }
+    if(!clicked)throw new Error('FILTER_BUTTON_MISSING_'+label);
+    await page.waitForTimeout(450);
+    const texts=await Promise.all(page.frames().map(async frame=>{
+      try{return await frame.locator('body').innerText({timeout:8000})}catch{return ''}
+    }));
+    views[slot]=texts.filter(t=>/Tổng\s+\d+\s+trang bị/i.test(t))
+      .sort((a,b)=>b.length-a.length)[0]||'';
+  }
+  return views;
+}
 async function liveText(page, domain) {
   await page.goto(PAGES[domain], { waitUntil: 'domcontentloaded', timeout: 45000 });
   await page.waitForTimeout(2500);
@@ -88,8 +157,11 @@ async function main(argv) {
       caveat:'Index fields only; all records REFERENCE_ONLY; no Wiki stats or game formulas inferred',domains:{}};
     const domains = isFixture ? [argv.includes('--items')?'items':'equipment'] : ['equipment','items'];
     for (const domain of domains) {
-      const text=isFixture?source:await liveText(await browser.newPage(),domain);
+      const page=isFixture?null:await browser.newPage();
+      const text=isFixture?source:await liveText(page,domain);
       snapshot.domains[domain]=parseIndex(text,domain);
+      if(domain==='equipment'&&!isFixture)
+        assignFilteredSlots(snapshot.domains[domain],await collectSlotViews(page));
     }
     const serialized=JSON.stringify(snapshot,null,2)+'\n';
     if (argv.includes('--write')) {
@@ -102,4 +174,4 @@ async function main(argv) {
   } finally { if (browser) await browser.close(); }
 }
 if (require.main === module) main(process.argv.slice(2)).catch(e=>{console.error(e);process.exitCode=1});
-module.exports={parseIndex,PAGES,TARGET};
+module.exports={parseIndex,filteredPairs,assignFilteredSlots,SLOT_FILTERS,PAGES,TARGET};
