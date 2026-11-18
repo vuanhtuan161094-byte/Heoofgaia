@@ -1,0 +1,72 @@
+{
+  "schema": "NL-ART-R12/V1",
+  "status": "VISUAL_CANDIDATE",
+  "source": "Generated original illustration, resized via Pillow without crop-derived motion, original 1254x1254 file retained in ZIP",
+  "provenance": "ORIGINAL_GENERATED_PROJECT_ART",
+  "copyright": "No VNG pixels imported",
+  "wiki": {
+    "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+    "edition": "Mobile",
+    "verified": "Giáp Bộ, level 3; strong normal/tactic offense, weak vs strategy magic",
+    "visualInterpretation": "DERIVED_ORIGINAL"
+  },
+  "unit": {
+    "id": "giap_bo",
+    "displayName": "Giáp Bộ",
+    "pose": "IDLE",
+    "weapon": "đại đao",
+    "armor": "giáp phiến đồng-vàng, áo chàm",
+    "nativeSize": [
+      128,
+      128
+    ],
+    "footPivot": [
+      64,
+      121
+    ],
+    "animation": false,
+    "attack": "NOT_PRODUCED"
+  },
+  "files": [
+    {
+      "path": "sprites/idle/giap_bo.png",
+      "bytes": 17759,
+      "sha256": "cf82fa996771248e0ee39f1b5dd23667ecb983dab83e3ebf2e01899ef575c2cb",
+      "gitBlobSha": "950892fc2d8cd61cf30aed9ea4ead5370a9f137a",
+      "dimensions": [
+        128,
+        128
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "path": "sources/giap_bo_idle_512.png",
+      "bytes": 207085,
+      "sha256": "d5a8e1a104141ccd066cbb363a7a86465eff45159f536c4c2e30ad074b933bcd",
+      "gitBlobSha": "c30b7603d5b5eb261e5416b420881f55344e04d8",
+      "dimensions": [
+        512,
+        512
+      ],
+      "mode": "RGBA"
+    },
+    {
+      "path": "preview/compare_80px.png",
+      "bytes": 131802,
+      "sha256": "029ed9241ed17d2d0b67543a83d49fe319c4f47ab2f3fa9280e1dc64e3a47a82",
+      "gitBlobSha": "e4c677a20cb99d9053ab2e23f14340b9851ad47f",
+      "dimensions": [
+        640,
+        358
+      ],
+      "mode": "RGB"
+    }
+  ],
+  "integration": "NOT_IN_GAME",
+  "ownerApproval": "PENDING",
+  "qa": {
+    "alpha": true,
+    "bboxClipping": false,
+    "groupReview": "PENDING_OWNER"
+  }
+}
