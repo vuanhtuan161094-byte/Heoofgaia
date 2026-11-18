@@ -117,7 +117,7 @@
       });
       return Object.freeze({
         mode: 'PROJECT_SIMULATED_COMBAT',
-        active: true,
+        active: Boolean(troop && skill),
         troop: troop ? Object.freeze({
           id: troop.id,
           name: troop.wikiGroup || null,
