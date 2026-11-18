@@ -1,0 +1,334 @@
+{
+  "schemaVersion": 1,
+  "id": "MDT-TROOP-WIKI-CATALOGUE-V1",
+  "asOf": "2026-11-18",
+  "sourceHead": "a88b8449714ad48531f7c9e7e081ccac43edee92",
+  "edition": "VNG_WIKI_MOBILE_CURRENT",
+  "status": "REFERENCE_ONLY",
+  "sourceFiles": [
+    "data/ngoalong/references/combat_troops_mobile_v1.json",
+    "data/ngoalong/references/combat_troops_wiki_supplement_v1.json",
+    "data/ngoalong/references/troop_mechanics_wiki_v1.json",
+    "data/ngoalong/references/troop_effect_bridge_wiki_v1.json"
+  ],
+  "sourceCounts": {
+    "wikiAppearanceCount": 372,
+    "coreReferenceRows": 213,
+    "supplementReferenceRows": 159,
+    "structuredOperations": 501
+  },
+  "sourceNamedEvolutionEdges": [],
+  "tierAdjacency": [
+    {
+      "family": "infantry",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    }
+  ],
+  "recordShards": [
+    "data/ngoalong/modules/troops/wiki_infantry_v1.json",
+    "data/ngoalong/modules/troops/wiki_spear_v1.json",
+    "data/ngoalong/modules/troops/wiki_cavalry_v1.json",
+    "data/ngoalong/modules/troops/wiki_archer_v1.json",
+    "data/ngoalong/modules/troops/wiki_strategist_v1.json",
+    "data/ngoalong/modules/troops/wiki_ship-small_v1.json",
+    "data/ngoalong/modules/troops/wiki_ship-medium_v1.json",
+    "data/ngoalong/modules/troops/wiki_ship-large_v1.json"
+  ],
+  "records": []
+}
