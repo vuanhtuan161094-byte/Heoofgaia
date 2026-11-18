@@ -4,7 +4,6 @@ import argparse,json,re,time
 from pathlib import Path
 from datetime import datetime,timezone
 from urllib.parse import parse_qs,urlsplit
-from playwright.sync_api import sync_playwright
 BASE="https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban"
 def number(v):
     return int(re.sub(r"\D","",str(v))) if v is not None and re.search(r"\d",str(v)) else None
@@ -249,6 +248,7 @@ def npc_stub(link,error):
       "detailReadStatus":"FAILED","error":error[:180],"edition":"CURRENT_VNG_MOBILE"}
 
 def main(opts):
+    from playwright.sync_api import sync_playwright
     with sync_playwright() as p:
         browser=p.chromium.launch(headless=True,args=["--no-sandbox"])
         page=browser.new_page(viewport={"width":1280,"height":720})
