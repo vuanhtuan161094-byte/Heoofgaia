@@ -278,13 +278,36 @@ def main(opts):
               ensure_ascii=False,indent=2)+"\n",encoding="utf-8")
             if i%5==0:print("shard",opts.shard,i+1,"of",len(selected),flush=True)
         browser.close()
+def self_test():
+    assert army_count("263.1 triệu") == 263100000
+    assert army_count("263,1 triệu") == 263100000
+    assert army_count("1,300") == 1300
+    assert army_count("500,000") == 500000
+    assert army_count("1.5 tỷ") == 1500000000
+    assert army_count("—") is None
+    source={"url":"https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=3&ai=108&side=vn",
+      "text":"1\nĐột Kích 1\nTHƯỜNG\nCấp 20 · Chiến công 100\n›"}
+    item=npc_index_entry(source,3)
+    assert item["listOrder"]==1 and item["name"]=="Đột Kích 1" and item["aiId"]==108
+    rich={"url":"https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=269&ai=7731&side=vn",
+      "text":"1\nƯng Nhãn Thần Xạ 1\nTHƯỜNG\nCấp 371 · 263.1 triệu quân · Chiến công 1,665\n›"}
+    x=npc_index_entry(rich,269)
+    assert x["totalSoldiers"]==263100000 and x["merit"]==1665
+    print("PASS: locale army quantities, paginated NPC summary links and historical-scale soldiers")
+
+
 if __name__=="__main__":
     ap=argparse.ArgumentParser()
+    ap.add_argument("--self-test",action="store_true")
     ap.add_argument("--shard",type=int,default=0)
     ap.add_argument("--shards",type=int,default=8)
     ap.add_argument("--delay",type=float,default=.8)
-    ap.add_argument("--output",type=Path,required=True)
+    ap.add_argument("--output",type=Path)
     args=ap.parse_args()
+    if args.self_test:
+        self_test()
+        raise SystemExit(0)
     if not 0<=args.shard<args.shards:ap.error("invalid shard")
+    if args.output is None:ap.error("--output required unless --self-test")
     args.output.parent.mkdir(parents=True,exist_ok=True)
     main(args)
