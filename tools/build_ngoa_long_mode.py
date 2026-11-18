@@ -44,6 +44,16 @@ CSS = """
 .nl-command .nl-research-rule{padding:9px 10px;border-left:3px solid #d1a968;background:#111d20;color:#d4d5c8;font-size:11px;line-height:1.55;margin:9px 0}
 .nl-command .nl-class-toggle{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:8px 0;border-top:1px solid #42564e;font-size:11px}
 .nl-ai-reason{color:#e5ca91;font-size:10px;margin-top:4px}
+/* Encounter reconnaissance: renders the actual selected NPC formation from the validated pack. */
+.nl-enemy-intel{display:grid;grid-template-columns:minmax(0,1fr) minmax(185px,.8fr);gap:12px;border:1px solid #6e6050;border-radius:9px;background:#151e23;color:#e5e4d5;padding:12px;margin:12px 0}
+.nl-enemy-intel h3{margin:0 0 7px;font-size:15px;color:#f4d6a0}
+.nl-enemy-intel p{margin:6px 0;font-size:12px;line-height:1.5;color:#cad1c9}
+.nl-intel-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px}
+.nl-intel-slot{min-width:0;min-height:43px;border:1px solid #374b49;border-radius:5px;background:#15292b;padding:4px;display:flex;flex-direction:column;justify-content:center;text-align:center}
+.nl-intel-slot b{font-size:11px;color:#fae0aa;overflow-wrap:anywhere}
+.nl-intel-slot small{font-size:10px;color:#b9cfc3}
+.nl-intel-slot.empty{opacity:.35}
+@media(max-width:620px){.nl-enemy-intel{grid-template-columns:1fr}}
 @media(max-width:850px){.nl-command .nl-content{grid-template-columns:1fr}.nl-command{padding:15px}}
 @media(max-width:420px){.nl-command .nl-facts{gap:5px}.nl-command .nl-fact b{font-size:16px}.nl-command .nl-actions button{flex:1 1 43%}}
 /* end NL-REBUILD-01 CSS */
@@ -128,18 +138,36 @@ NL_GAME_DATA.campaign.encounters.forEach(encounter=>{
   stageData[3]=encounter.rewards.silver;stageData[4]=encounter.rewards.grain;stageData[5]=encounter.rewards.prestige;
   stageData.nlTactic=encounter.tactic||map.synopsis||'';
 });
+// Scouting uses the same NPC/unit selection and deployment order as campaign beginBattle.
+// The preview is project-authored encounter data, not a copy of the Mobile Wiki roster.
+function nlEnemyIntel(stage){
+  const encounter=NL_GAME_DATA.campaign.encounters.find(item=>item.stage===stage);
+  const npc=NL_GAME_DATA.campaign.npcs.find(item=>item.id===encounter?.npcId);
+  if(!npc||!encounter)return '';
+  const number=Math.min(5,3+Math.floor((stage-1)/3));
+  const deployed=Array.from({length:number},(_,i)=>npc.units[i===number-1?4:i]).filter(Boolean);
+  const positions=encounter.deploymentSlots||[];
+  const slots=new Map(deployed.map((unit,i)=>[positions[i]??unit.formationSlot,unit]));
+  const troopName={infantry:'Bộ binh',spear:'Thương binh',cavalry:'Kỵ binh',archer:'Cung binh',strategist:'Quan Văn',support:'Hỗ trợ',drum:'Trống trận'};
+  const grid=Array.from({length:9},(_,slot)=>{
+    const unit=slots.get(slot),label=unit?troopName[unit.troopId]||unit.troopId:'Trống';
+    return `<div class="nl-intel-slot ${unit?'':'empty'}" data-nl-intel-slot="${slot}" aria-label="Ô địch ${slot+1}: ${esc(label)}">${unit?`<b>${esc(label)}</b><small>Ô ${slot+1}</small>`:'<small>—</small>'}</div>`;
+  }).join('');
+  return `<section class="nl-enemy-intel" data-nl-enemy-intel="${stage}" aria-label="Trinh sát đội hình địch"><div><h3>🔎 Trinh sát quân địch</h3><p><b>${esc(npc.name)}</b> · ${deployed.length} đơn vị tham chiến</p><p>${esc(encounter.tactic||'Quan sát khắc chế và vị trí hàng trước, hàng sau.')}</p><p><small>Đội hình và loại quân do dự án mô phỏng; cấp, quân số, chỉ số Wiki chưa xác nhận sẽ không được tự điền.</small></p></div><div class="nl-intel-grid" data-nl-intel-grid="1">${grid}</div></section>`;
+}
 const nlPrepRenderCampaign=renderCampaign;
 renderCampaign=function(){
   let html=nlPrepRenderCampaign();
+  const dossier=nlEnemyIntel(selectedStage);
   const recommendation=NL_GAME_DATA.campaign.encounters.find(item=>item.stage===selectedStage)?.recommendedPreparation;
-  if(!recommendation)return html;
+  if(!recommendation)return html.replace('<button class="gold-button" data-battle=',dossier+'<button class="gold-button" data-battle=');
   const recommendedPreset=NL_GAME_DATA.formations.presets?.find(item=>item.id===recommendation.recommendedPreset)||(()=>{const [familyId,planKey]=String(recommendation.recommendedPreset||'').split('-');const family=NL_GAME_DATA.formations.families.find(item=>item.id===familyId),plan=NL_GAME_DATA.formations.plans.find(item=>item.key===planKey);return family&&plan?{id:recommendation.recommendedPreset,title:`${family.name} · ${plan.name}`} : null;})();
   const presetApplied=recommendedPreset&&game.p3PresetId===recommendedPreset.id;
   const deployed=game.slots.filter(id=>id&&game.hero[id]?.troops>=30);
   const averageLevel=deployed.length?Math.round(deployed.reduce((sum,id)=>sum+(game.hero[id]?.level||1),0)/deployed.length):0;
   const below=deployed.length<recommendation.minimumGenerals||averageLevel<recommendation.averageHeroLevel;
   const hint=`<div class="panel mini-box" data-nl-preparation="${selectedStage}" role="note"><h3>🧭 Chuẩn bị trước cửa ải</h3><p class="tiny">Mốc thử nghiệm của Alpha: ${recommendation.minimumGenerals} tướng, cấp trung bình khoảng ${recommendation.averageHeroLevel}. Đây là gợi ý mô phỏng của dự án, không phải yêu cầu bắt buộc.</p>${recommendedPreset?`<p class="tiny" data-nl-recommended-preset="${recommendedPreset.id}">Đội hình gợi ý đã kiểm chứng: <b>${recommendedPreset.title}</b>.</p><button class="dark-button" data-p3-preset="${recommendedPreset.id}" data-nl-apply-recommended="${recommendedPreset.id}" ${presetApplied?'disabled':''}>${presetApplied?'✓ Đang dùng đội hình gợi ý':'Áp dụng đội hình gợi ý'}</button>`:''}<div class="line"><span>Đội hiện tại</span><b>${deployed.length}/5 tướng · cấp trung bình ${averageLevel}</b></div>${below?'<p class="tiny" style="color:#f0c97d">Cân nhắc chiêu mộ hoặc huấn luyện thêm trước khi thử cửa ải này.</p>':'<p class="tiny">Đội đã đạt mốc chuẩn bị thử nghiệm.</p>'}</div>`;
-  return html.replace('<button class="gold-button" data-battle=',hint+'<button class="gold-button" data-battle=');
+  return html.replace('<button class="gold-button" data-battle=',dossier+hint+'<button class="gold-button" data-battle=');
 };
 const nlBaseUnit=p2Unit;
 p2Unit=function(id,team,slot,stage){
