@@ -27,5 +27,23 @@
   "projectNamedEdgesSimulated": 18,
   "classicParity": "UNKNOWN",
   "wikiReferenceRowsPromotedToPlayable": 0,
-  "releaseState": "REFERENCE_AND_DESIGN_ONLY"
+  "releaseState": "REFERENCE_AND_DESIGN_ONLY",
+  "tacticalRoleOccurrences": {
+    "counter": 23,
+    "guardian": 58,
+    "direct_damage": 53,
+    "status_controller": 107,
+    "caster": 62,
+    "morale_operator": 87,
+    "line_attacker": 30,
+    "full_field_attacker": 37,
+    "sustain": 4,
+    "resistance_specialist": 9,
+    "row_attacker": 12,
+    "back_row_hunter": 7,
+    "healer": 1
+  },
+  "counterCycleClassification": "VERIFIED_FAMILY_RELATIONS_DERIVED_UNIT_INHERITANCE",
+  "wikiNamedUnlockPrices": "UNKNOWN",
+  "mechanicUnknownCount": 137
 }

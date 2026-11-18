@@ -79,7 +79,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "front_guard_counter"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "frontline_self",
+        "attackPattern": "on_receiving_physical_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-spear",
@@ -141,7 +160,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "anti_cavalry_brace"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "frontline_enemy",
+        "attackPattern": "on_cavalry_charge",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "cavalry",
+          "threatenedBy": "infantry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-cavalry",
@@ -203,7 +241,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "charge_opening"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "front_enemy",
+        "attackPattern": "first_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "infantry",
+          "threatenedBy": "spear",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-archer",
@@ -265,7 +322,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "aim_backline"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "rear_enemy",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-strategist",
@@ -327,7 +399,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "mystic_focus"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "magic"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_weak_magic_defense",
+        "attackPattern": "on_skill_cast",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-support",
@@ -389,7 +476,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "emergency_triage"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "healing"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "lowest_hp_ally",
+        "attackPattern": "on_own_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-drum",
@@ -451,7 +553,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "tempo_pulse"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "morale"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "all_allies",
+        "attackPattern": "on_own_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-bulwark",
@@ -513,7 +630,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "intercept_damage"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "front_ally",
+        "attackPattern": "on_adjacent_ally_targeted",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-crusher",
@@ -575,7 +711,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "breaker_impact"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "high_armor_enemy",
+        "attackPattern": "on_physical_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-spearwall",
@@ -637,7 +792,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "spear_switch_guard"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "cavalry_enemy",
+        "attackPattern": "on_cavalry_attacks_ally",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-shock",
@@ -699,7 +873,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "first_charge_stagger"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "tactic"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "first_enemy",
+        "attackPattern": "first_attacker_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "infantry",
+          "threatenedBy": "spear",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-raider",
@@ -761,7 +954,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "rear_flank_raid"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_back_row",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "infantry",
+          "threatenedBy": "spear",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-marksman",
@@ -823,7 +1035,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "precision_weakpoint"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "lowest_hp_enemy",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-volley",
@@ -885,7 +1112,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "rapid_double_bolt"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "single_enemy",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-ember",
@@ -947,7 +1189,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "ignite_spell"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "magic"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_hit",
+        "attackPattern": "on_skill_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-disrupt",
@@ -1009,7 +1266,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "morale_suppression"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "morale"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "highest_morale_enemy",
+        "attackPattern": "on_skill_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-medic",
@@ -1071,7 +1343,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "field_mending"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "healing"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "lowest_hp_ally",
+        "attackPattern": "on_own_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-rally",
@@ -1133,7 +1420,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "battle_command"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "morale"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "all_allies",
+        "attackPattern": "on_own_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-shieldbreaker",
@@ -1195,7 +1497,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "shield_sunder"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "shielded_enemy",
+        "attackPattern": "on_basic_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-swift-wing",
@@ -1257,7 +1578,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "swift_backline_pressure"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "tactic"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_back_row",
+        "attackPattern": "battle_opening",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "infantry",
+          "threatenedBy": "spear",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-rain-volley",
@@ -1319,7 +1659,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "area_arrow_rain"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_row",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-seal-master",
@@ -1381,7 +1736,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "suppress_enemy_caster"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "morale"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_highest_magic",
+        "attackPattern": "on_skill_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-ward-bearer",
@@ -1443,7 +1813,22 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "aegis_healing_guard"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "healing"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "lowest_hp_ally",
+        "attackPattern": "on_low_hp_ally_damaged",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      }
     },
     {
       "id": "nlp-phalanx",
@@ -1505,7 +1890,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "formation_brace"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "front_allies",
+        "attackPattern": "on_cavalry_charge_incoming",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "cavalry",
+          "threatenedBy": "infantry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     },
     {
       "id": "nlp-impaler",
@@ -1567,7 +1971,26 @@
         },
         "classification": "SIMULATED"
       },
-      "runtimeState": "DESIGN_READY_NOT_INTEGRATED"
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "cavalry_skewer"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "cavalry_enemy",
+        "attackPattern": "on_hit_cavalry",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "cavalry",
+          "threatenedBy": "infantry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      }
     }
   ]
 }

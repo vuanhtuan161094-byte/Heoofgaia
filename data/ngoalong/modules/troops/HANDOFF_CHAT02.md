@@ -29,3 +29,10 @@ Project cost baseline: silver 1100 / grain 520 / iron 280, barracks >=2. Design 
 DONE: source reuse and catalogue design; source classification; project specialization graph; target-pattern/effect descriptors; art briefs; focused QA source added.
 PENDING: exact Node CI/test execution on runnable checkout; per-Wiki-unit recruitability; named Wiki evolution edges; 137 mechanic profiles lacking verified structure; chat 05 combat engine integration; chat 07 sprite production; full campaign regression/owner visual signoff.
 No merge. No Codex Cloud. 
+
+## Technical coverage and handoff verification
+- Family-level counters are exposed as `tacticalTaxonomy.counterFamily` (DERIVED from the Wiki family relation). **No hidden per-unit counter coefficient** is claimed; the multiplier remains null/UNKNOWN.
+- Source-derived multiple `tacticalTaxonomy.roleTags`, known damage lanes, targeting shapes, immunity intents and unresolved source status tags remain separate from project `SIMULATED` combat behaviors. Rows without source mechanics keep role/attack lane UNKNOWN.
+- Counts: 372 verified **appearance IDs**, 235 structured-source mechanism profiles, 137 qualitative or unstructured profiles still requiring detailed evidence; 25 project design identities, **zero newly runtime-wired by this chat**. Existing 25 legacy runtime troop identities belong to the base game, not to an imported 372-unit Wiki roster.
+- Source page live rechecked 2026-11-18: https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung ; headers show only tier-level progression, no individually proven named parent/child edges.
+- One-pass GitHub data inspection: **22/22 static assertions PASS** on prior exact committed data at `be40fe77ce075cec2896f6ff29fb9993d5f79313`. New taxonomy fields require a follow-up consistency inspection. **Node test and Actions full CI not executed**: workflow push filters exclude this task branch; do not label those gates PASS.
