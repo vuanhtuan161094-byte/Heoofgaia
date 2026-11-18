@@ -405,6 +405,21 @@ def build(source: str) -> str:
     source = prepare_combat_data_bindings(source)
     source = prepare_progression_bindings(source)
     portal = PORTAL.replace("__NL_DATA_PACK__", data_json)
+    effect_catalog = json.loads((ROOT / "data/ngoalong/modules/combat/effects_v1.json").read_text(encoding="utf-8"))
+    effect_json = json.dumps(effect_catalog, ensure_ascii=False, separators=(",", ":"))
+    parts = [
+        (ROOT / "tools/nl_combat_effects_v1.js").read_text(encoding="utf-8"),
+        (ROOT / "tools/nl_combat_effect_bridge_v1.js").read_text(encoding="utf-8"),
+        (ROOT / "tools/nl_combat_effect_wiring_v1.js").read_text(encoding="utf-8").replace(
+            "__NL_EFFECT_V1_CATALOG__", effect_json
+        ),
+    ]
+    if any("</script>" in part.lower() for part in parts):
+        raise ValueError("Effect integration contains an unsafe script terminator")
+    qa_marker = "if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign("
+    if portal.count(qa_marker) != 1:
+        raise ValueError("Cannot uniquely inject V1 effects before QA exports")
+    portal = portal.replace(qa_marker, "\n".join(parts) + "\n" + qa_marker, 1)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
     js_start = "// === NL-REBUILD-01: first-class 3x3 strategy dashboard ==="
