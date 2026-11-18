@@ -149,12 +149,14 @@ function applyDetailPatches(baseProfiles, patchSet) {
  */
 const STAGE_FILES = Object.freeze([
   ["wiki_orange_skills_2024_v1.json","ORANGE",24,"2024-01-02"],
+  ["wiki_gold_skills_2025_dec_v1.json","GOLD",13,"2025-12-12"],
   ["wiki_gold_skills_2026_v1.json","GOLD",8,"2026-06-07"],
   ["wiki_gold_skills_2026_aug_v1.json","GOLD",10,"2026-08-17"]
 ]);
 const ALLOWED_SKILL_OPS = new Set([
   "DAMAGE","STATUS","MORALE","HEAL","MORALE_COST",
-  "ATTACK_REDUCTION","DISPEL","DAMAGE_TO_HEAL","HEAL_RECEIVED_REDUCTION","DEFENSE_REDUCTION"
+  "ATTACK_REDUCTION","DISPEL","DAMAGE_TO_HEAL","HEAL_RECEIVED_REDUCTION","DEFENSE_REDUCTION",
+  "ATTACK_CHANGE","HEAL_UNQUANTIFIED","STAT_BONUS_UNQUANTIFIED"
 ]);
 function loadWikiStageSkills(root, index) {
   const known=new Map(index.heroes.map(h=>[h.id,h]));
@@ -164,7 +166,7 @@ function loadWikiStageSkills(root, index) {
     assert(pack.schemaVersion===1 && pack.stage===stage && pack.count===total && pack.skills?.length===total, "stage pack invalid: "+file);
     assert(pack.edition===index.edition && typeof pack.sourceUrl==="string" && pack.sourceUrl.startsWith("https://ngoalong.vnggames.com/"), "stage source mismatch: "+file);
     for (const item of pack.skills) {
-      const key=item.name+"/"+stage;
+      const key=item.name+"/"+stage+"/"+sourceDate;
       assert(!unique.has(key),"same hero + stage repeated: "+key);
       unique.add(key);
       assert(item.sourceDate===sourceDate && item.sourceUrl===pack.sourceUrl && item.edition===pack.edition && item.provenance==="VERIFIED", "stage fact source invalid: "+key);
@@ -193,7 +195,7 @@ function loadWikiStageSkills(root, index) {
       rows.push(item);
     }
   }
-  assert(rows.length===42 && rows.filter(x=>x.heroId!==null).length===38, "unexpected stage-ability totals");
+  assert(rows.length===55 && rows.filter(x=>x.heroId!==null).length===51, "unexpected stage-ability totals");
   return rows;
 }
 
