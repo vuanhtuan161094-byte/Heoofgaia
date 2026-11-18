@@ -5,6 +5,8 @@ on:
     paths:
       - 'data/ngoalong/group02_wiki/crawl_dungeons.py'
       - 'data/ngoalong/group02_wiki/build_dungeons.py'
+      - 'data/ngoalong/group02_wiki/reconcile_dungeon_versions.py'
+      - 'data/ngoalong/group02_wiki/dungeon_patch_history.json'
       - '.github/workflows/ngoalong-group02-crawl.yml'
   workflow_dispatch:
 permissions:
@@ -25,7 +27,9 @@ jobs:
         run: |
           python -m py_compile data/ngoalong/group02_wiki/build_dungeons.py
           python -m py_compile data/ngoalong/group02_wiki/crawl_dungeons.py
+          python -m py_compile data/ngoalong/group02_wiki/reconcile_dungeon_versions.py
           python data/ngoalong/group02_wiki/build_dungeons.py --self-test
+          python data/ngoalong/group02_wiki/reconcile_dungeon_versions.py --self-test
   extract:
     runs-on: ubuntu-24.04
     timeout-minutes: 100
@@ -104,6 +108,7 @@ jobs:
           python -m py_compile data/ngoalong/group02_wiki/build_dungeons.py
           python data/ngoalong/group02_wiki/build_dungeons.py --self-test
           python data/ngoalong/group02_wiki/build_dungeons.py --source wiki-extract.json --minimum-maps 200 --output wiki-blueprints.json --report dungeon-builder-report.json --handoff integration-handoff.json
+          python data/ngoalong/group02_wiki/reconcile_dungeon_versions.py --blueprints wiki-blueprints.json --history data/ngoalong/group02_wiki/dungeon_patch_history.json --output wiki-version-audit.json
       - name: Upload combined Wiki JSON evidence
         if: always()
         uses: actions/upload-artifact@v4
@@ -114,6 +119,7 @@ jobs:
             wiki-blueprints.json
             dungeon-builder-report.json
             integration-handoff.json
+            wiki-version-audit.json
           if-no-files-found: warn
       - name: Commit exclusively group02 JSON without merging or force-pushing
         if: success()
@@ -129,7 +135,8 @@ jobs:
           cp wiki-extract.json data/ngoalong/group02_wiki/wiki_dungeons_extracted.json
           cp wiki-blueprints.json data/ngoalong/group02_wiki/wiki_dungeon_blueprints.json
           cp dungeon-builder-report.json data/ngoalong/group02_wiki/wiki_dungeon_builder_report.json
-          cp integration-handoff.json data/ngoalong/group02_wiki/wiki_dungeon_integration_handoff.json
+          cp integration-handoff.json data/ngoalong/group02_wiki/wiki_dungeon_integration_handoff.json data/ngoalong/group02_wiki/wiki_dungeon_version_audit.json
+          cp wiki-version-audit.json data/ngoalong/group02_wiki/wiki_dungeon_version_audit.json
           git add data/ngoalong/group02_wiki/wiki_dungeons_extracted.json data/ngoalong/group02_wiki/wiki_dungeon_blueprints.json data/ngoalong/group02_wiki/wiki_dungeon_builder_report.json data/ngoalong/group02_wiki/wiki_dungeon_integration_handoff.json
           if ! git diff --cached --quiet; then
             git commit -m 'data(group02): store sourced Wiki dungeon extraction'
