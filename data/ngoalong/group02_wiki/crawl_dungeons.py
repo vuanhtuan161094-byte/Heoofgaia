@@ -185,6 +185,8 @@ def get_unit(page):
       "troopLabel":troop.get("label") if troop else None,
       "skillName":skill_name,
       "skillSourceType":"NPC_UNIT_ACTIVE" if skill_name else None,
+      "skillNamespace":"NPC_EXCLUSIVE_LABEL" if skill_name and re.search(r"\[\s*NPC\s*\]",skill_name,re.I) else ("WIKI_HERO_ACTIVE" if skill_name else None),
+      "skillLevelShown":number(search(skill_name,r"Cấp\s*(\d+)")) if skill_name else None,
       "skillVersion":"CURRENT_WIKI_UNDATED",
       "skillHistoricalOrigin":"UNKNOWN",
       "passiveSkillNames":None,
@@ -226,7 +228,10 @@ def get_npc(page,link):
     if total is None:total=link.get("totalSoldiers")
     full_team=len(observed)==len(expected_slots) and bool(expected_slots) and not errors
     known_soldiers=full_team and all(x.get("soldiers") is not None for x in units)
-    sum_valid=(sum(x["soldiers"] for x in units)==total) if known_soldiers and total is not None else None
+    unit_sum=sum(x["soldiers"] for x in units) if known_soldiers else None
+    discrepancy=(total-unit_sum) if total is not None and unit_sum is not None else None
+    sum_valid=(discrepancy==0) if discrepancy is not None else None
+    soldier_consistency=("MATCH" if discrepancy==0 else "SOURCE_MISMATCH") if discrepancy is not None else "UNKNOWN"
     return {"aiId":link["aiId"],"listOrder":link.get("listOrder"),
       "name":link.get("name") or search(text,r"\n([^\n]+)\n(?:BOSS|TINH NHUỆ|THƯỜNG|QUÂN ĐOÀN)\n"),
       "kind":link.get("kind"),"level":link.get("level") or number(search(text,r"\nCấp\s*(\d+)")),
@@ -237,7 +242,9 @@ def get_npc(page,link):
       "npcStageSkills":None,"npcSoulBeastEffects":None,
       "formationDeclaredUnitCount":len(expected_slots),"formationOccupiedSlots":sorted(expected_slots),
       "selectedUnitCount":len(units),"unitsObserved":units,
-      "unitSoldierSumValid":sum_valid,"fullTeamVerified":full_team,
+      "unitSoldierSumValid":sum_valid,"unitSoldierDiscrepancy":discrepancy,
+      "unitSoldierConsistencyStatus":soldier_consistency,
+      "fullTeamVerified":full_team,
       "fullTeamStatus":"VERIFIED" if full_team else "UNKNOWN",
       "unitErrors":errors,"url":link["url"],"npcListSourceUrl":link["summarySourceUrl"],
       "edition":"CURRENT_VNG_MOBILE","detailReadStatus":"READ","version":"VNG_MOBILE"}
@@ -250,6 +257,7 @@ def npc_stub(link,error):
       "attackCoefficientShown":None,"unitsObserved":[],
       "formationDeclaredUnitCount":None,"formationOccupiedSlots":None,
       "selectedUnitCount":0,"unitSoldierSumValid":None,
+      "unitSoldierDiscrepancy":None,"unitSoldierConsistencyStatus":"UNKNOWN",
       "fullTeamVerified":False,"fullTeamStatus":"UNKNOWN",
       "url":link["url"],"npcListSourceUrl":link["summarySourceUrl"],
       "detailReadStatus":"FAILED","error":error[:180],"edition":"CURRENT_VNG_MOBILE"}

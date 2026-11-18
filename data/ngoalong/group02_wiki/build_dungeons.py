@@ -48,6 +48,8 @@ def normalize_unit(raw, npc_url):
     character_name = nonempty(raw.get("name"))
     skill_type = nonempty(raw.get("skillSourceType"))
     skill_version = nonempty(raw.get("skillVersion"))
+    skill_namespace = nonempty(raw.get("skillNamespace"))
+    skill_level = nonempty(raw.get("skillLevelShown"))
     if skill_name is not None and skill_type != "NPC_UNIT_ACTIVE":
         raise DungeonBuildError("Wiki hero-active skill cannot be silently typed as troop/lord/passive skill")
     troop_wiki_id = nonempty(raw.get("troopWikiId"))
@@ -66,6 +68,8 @@ def normalize_unit(raw, npc_url):
         "counterattackPercent": counter_pct,
         "skillName": skill_name,
         "skillSourceType": skill_type,
+        "skillNamespace": skill_namespace,
+        "skillLevelShown": skill_level,
         "skillVersion": skill_version,
         "skillHistoricalOrigin": None,
         "passiveSkillNames": None,
@@ -88,6 +92,8 @@ def normalize_unit(raw, npc_url):
             "counterattackPercent": proven(counter_pct, npc_url),
             "skillName": proven(skill_name, npc_url),
             "skillSourceType": proven(skill_type, npc_url),
+            "skillNamespace": proven(skill_namespace, npc_url),
+            "skillLevelShown": proven(skill_level, npc_url),
             "skillVersion": proven(skill_version, npc_url),
             "skillHistoricalOrigin": proven(None, None),
             "passiveSkillNames": proven(None, None),
@@ -117,7 +123,8 @@ def normalize_npc(raw, map_id):
         raise DungeonBuildError("Invalid NPC total soldier count")
     observed = sum(x["soldiers"] for x in units if x["soldiers"] is not None)
     complete_sum = bool(units) and all(x["soldiers"] is not None for x in units)
-    matches = bool(complete_sum and total is not None and observed == total)
+    discrepancy=total-observed if complete_sum and total is not None else None
+    matches = discrepancy == 0 if discrepancy is not None else False
     source_full_team = raw.get("fullTeamVerified") is True
     source_slots = raw.get("formationOccupiedSlots")
     source_count = nonempty(raw.get("formationDeclaredUnitCount"))
@@ -146,8 +153,10 @@ def normalize_npc(raw, map_id):
         missing.append("unitTroopNames")
     if any(x["skillName"] is None for x in units):
         missing.append("unitSkillNames")
-    if not matches:
+    if discrepancy is None:
         missing.append("unitSoldierSumNotVerified")
+    elif discrepancy != 0:
+        missing.append("WIKI_SOURCE_SOLDIER_SUM_DISAGREEMENT")
     return {
         "id": f"wiki-m{map_id}-ai{ai_id}",
         "wikiAiId": ai_id,
@@ -169,7 +178,9 @@ def normalize_npc(raw, map_id):
         "formationDeclaredUnitCount": source_count,
         "formationOccupiedSlots": source_slots,
         "observedUnitSoldierSum": observed if complete_sum else None,
-        "soldierSumMatchesVisibleUnits": matches if complete_sum and total is not None else None,
+        "soldierSumMatchesVisibleUnits": matches if discrepancy is not None else None,
+        "unitSoldierDiscrepancy": discrepancy,
+        "unitSoldierConsistencyStatus": "MATCH" if discrepancy==0 else ("SOURCE_MISMATCH" if discrepancy is not None else "UNKNOWN"),
         "formationComplete": formation_complete,
         "integrationStatus": "REFERENCE_ONLY",
         "missing": sorted(set(missing)),
@@ -190,6 +201,8 @@ def normalize_npc(raw, map_id):
             "npcSkillVersion": proven("CURRENT_WIKI_WITH_UNRESOLVED_HISTORICAL_PATCHES", url, derived=True),
             "formationUnits": proven(units if units else None, url),
             "observedUnitSoldierSum": proven(observed if complete_sum else None, url, derived=True),
+            "unitSoldierDiscrepancy": proven(discrepancy, url, derived=True),
+            "unitSoldierConsistencyStatus": proven("MATCH" if discrepancy==0 else ("SOURCE_MISMATCH" if discrepancy is not None else None), url, derived=True),
             "formationDeclaredUnitCount": proven(source_count, url),
             "formationOccupiedSlots": proven(source_slots, url),
             "formationComplete": proven(formation_complete, url, derived=True),
@@ -413,6 +426,7 @@ def self_test():
     assert [u["formationSlot"] for u in t["formationUnits"]] == [2, 4]
     assert t["order"] is None and t["formationComplete"] is False
     assert all(x["heroId"] is None and x["skillId"] is None for x in t["formationUnits"])
+    assert t["unitSoldierDiscrepancy"] == 0
     try:
         build([m, m])
     except DungeonBuildError:
@@ -433,7 +447,12 @@ def self_test():
         pass
     else:
         raise AssertionError("Unsupported full-team claim was accepted")
-    print("PASS: Dungeon Builder provenance, verified nine-slot coverage, soldier totals and duplicate protection")
+    conflict=json.loads(json.dumps(verified))
+    conflict["npcs"][0]["totalSoldiers"]=421
+    conflicted,_=build([conflict])
+    n=conflicted["maps"][0]["npcs"][0]
+    assert n["unitSoldierDiscrepancy"]==1 and "WIKI_SOURCE_SOLDIER_SUM_DISAGREEMENT" in n["missing"]
+    print("PASS: Dungeon Builder provenance, nine-slot coverage, source mismatch preservation and duplicate protection")
 
 
 def main():

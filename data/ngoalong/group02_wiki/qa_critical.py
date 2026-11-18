@@ -45,9 +45,13 @@ with sync_playwright() as p:
                 check("High-level NPC full occupied 3x3 formation read",
                     high["fullTeamVerified"] is True and high["selectedUnitCount"]==high["formationDeclaredUnitCount"],
                     {"name":high["name"],"slots":high["formationOccupiedSlots"],"units":high["selectedUnitCount"]})
-                check("High-level total 263.1 million matched against units",
-                    high["totalSoldiers"]==263_100_000 and high["unitSoldierSumValid"] is True,
-                    {"total":high["totalSoldiers"],"units":high["unitsObserved"]})
+                unit_sum=sum(x["soldiers"] for x in high["unitsObserved"])
+                check("High-level Wiki source displays 100000 soldier discrepancy, preserved without rewriting",
+                    high["totalSoldiers"]==263_100_000 and unit_sum==263_000_000
+                    and high["unitSoldierSumValid"] is False and high["unitSoldierDiscrepancy"]==100_000
+                    and high["unitSoldierConsistencyStatus"]=="SOURCE_MISMATCH",
+                    {"headlineSoldiers":high["totalSoldiers"],"unitSum":unit_sum,
+                     "difference":high["unitSoldierDiscrepancy"],"units":high["unitsObserved"]})
         except Exception as exc:
             errors.append({"mapId":mid,"error":str(exc)[:300]})
             check(f"map {mid} navigation",False,str(exc)[:240])
