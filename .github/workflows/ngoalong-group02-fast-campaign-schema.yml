@@ -43,8 +43,13 @@ jobs:
                 'activeSkillShape':typ(u.get('activeSkill'),0),
                 'effectsShape':typ(u.get('effects'),0)}
                 for u in first.get('formation',[])[:3]]
+              values={'npcRawTroops':first.get('troops'),
+                'summedRawUnitHP':sum(x.get('hp',0) for x in first.get('formation',[]) if isinstance(x.get('hp'),(int,float))),
+                'unitCount':len(first.get('formation',[])),
+                'activeSkills':[{'name':v.get('activeSkill',{}).get('name'),'level':v.get('activeSkill',{}).get('level')}
+                  for v in first.get('formation',[])[:5]]}
               result.append({'map':mid,'bytes':len(raw),'shape':typ(data),'detailFields':details,
-                'npcDetailShapes':detailNpc,'sampleUnitFacts':sampleUnits})
+                'npcDetailShapes':detailNpc,'sampleUnitFacts':sampleUnits,'exactTotalsAndSkills':values})
             except Exception as ex:
               result.append({'map':mid,'error':repr(ex)[:260]})
           Path('campaign-schema-inspection.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
