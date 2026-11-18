@@ -2,7 +2,43 @@
   "schemaVersion": 1,
   "edition": "VNG_WIKI_MOBILE_CURRENT",
   "checkedAt": "2026-11-18",
-  "patches": [],
+  "patches": [
+    {
+      "heroId": "wiki-mobile-hero-151",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "fields": {
+        "acquisition": {
+          "value": {
+            "type": "TAVERN_AFTER_DEFEATING_BOSS",
+            "bossName": "Trương Trọng Cảnh",
+            "sourceScenario": "Ngọa Long Thần Toán - Chọc Giận Chu Du",
+            "probability": null
+          },
+          "classification": "VERIFIED",
+          "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+          "checkedAt": "2026-11-19",
+          "edition": "VNG_WIKI_MOBILE_CURRENT"
+        }
+      }
+    },
+    {
+      "heroId": "wiki-mobile-hero-156",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "fields": {
+        "acquisition": {
+          "value": {
+            "type": "ARENA_EXCHANGE",
+            "requiredPlayerLevel": 240,
+            "arenaPoints": 200000
+          },
+          "classification": "VERIFIED",
+          "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+          "checkedAt": "2026-11-19",
+          "edition": "VNG_WIKI_MOBILE_CURRENT"
+        }
+      }
+    }
+  ],
   "instructions": {
     "key": "heroId",
     "source": "Individual official Wiki/dated patch page; do not infer from index grade",
