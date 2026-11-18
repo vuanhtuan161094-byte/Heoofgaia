@@ -139,6 +139,23 @@
         return { created, quantities: Object.fromEntries(grouped) };
       });
     }
+    // Buying is distinct from receiving a victory reward: no item is created
+    // without charging its declared project-shop cost in the same transaction.
+    function buy(state, id, receiptId) {
+      return execute(state, 'BUY_EQUIPMENT', receiptId, id, (next, m) => {
+        const row = available(id, 'equipment');
+        const acquisition = row.acquisitionRule;
+        assert(acquisition && acquisition.kind === 'SHOP' &&
+          acquisition.shopCost, 'EQUIPMENT_NOT_FOR_SALE');
+        assert(next.items.length < limits.equipmentInstances, 'EQUIPMENT_CAPACITY');
+        pay(next, acquisition.shopCost);
+        const uids = new Set(next.items.map(x => String(x.uid)));
+        let uid;
+        do { m.serial++; uid = 'nli-' + m.serial; } while (uids.has(uid));
+        next.items.push({ uid, base: id, lv: 1 });
+        return { purchased: id, uid, cost: { ...acquisition.shopCost } };
+      });
+    }
     function equipmentInstance(state, uid) {
       assert(uid != null && saneId(String(uid)), 'BAD_UID');
       const instance = state.items.find(x => String(x.uid) === String(uid));
@@ -230,6 +247,37 @@
         return { consumed: id, resource: effect.resource, added: effect.amount };
       });
     }
+    function collectSets(state, heroId) {
+      const counts = new Map();
+      for (const uid of Object.values(state.gear?.[heroId] || {})) {
+        if (uid == null) continue;
+        const instance = equipmentInstance(state, uid);
+        const setId = catalog[instance.base].effectRule?.setId;
+        if (setId) counts.set(setId, (counts.get(setId) || 0) + 1);
+      }
+      const activated = [], totals = Object.fromEntries(STATS.map(k => [k,0]));
+      for (const [setId, pieces] of counts) {
+        const rule = rules.setBonuses?.[setId];
+        if (!rule) continue;
+        for (const threshold of rule.thresholds || []) {
+          if (pieces < threshold.pieces) continue;
+          assert(integer(threshold.pieces, 1) && STATS.every(k =>
+            !Object.prototype.hasOwnProperty.call(threshold.stats,k) ||
+            integer(threshold.stats[k])), 'BAD_SET_BONUS');
+          for (const [key, amount] of Object.entries(threshold.stats)) {
+            assert(STATS.includes(key) && integer(amount), 'BAD_SET_BONUS');
+            totals[key] += amount;
+          }
+          activated.push({ setId, pieces, activatedAt: threshold.pieces,
+            stats: { ...threshold.stats } });
+        }
+      }
+      return { bonuses: totals, activated };
+    }
+    function sets(state, heroId) {
+      checkOwned(state);
+      return collectSets(state, heroId).activated;
+    }
     function bonuses(state, heroId) {
       checkOwned(state);
       const result = Object.fromEntries([...STATS, ...LANES].map(k => [k, 0]));
@@ -244,9 +292,11 @@
         if (row.slot === 'weapon') result.weaponAtk += Math.round(row.stats.atk * factor);
         if (row.slot === 'horse') result.horseAtk += Math.round(row.stats.atk * factor);
       }
+      const setStats = collectSets(state, heroId).bonuses;
+      for (const key of STATS) result[key] += setStats[key];
       return result;
     }
-    return { grant, equip, unequip, reinforce, refine, use, bonuses, validateState: checkOwned };
+    return { grant, buy, equip, unequip, reinforce, refine, use, bonuses, sets, validateState: checkOwned };
   }
   return { createModule, validateCatalogue };
 });
