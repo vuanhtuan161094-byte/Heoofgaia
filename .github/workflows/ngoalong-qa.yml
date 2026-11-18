@@ -2,7 +2,7 @@ name: Muu Dinh Tam Quoc · Ngọa Long-focused full regression and release
 
 on:
   push:
-    branches: [main-ngoalong, 'codex/**']
+    branches: [main-ngoalong, 'codex/**', 'feature/nl-group07-effects-v1-20261118']
   workflow_dispatch:
 
 permissions:
@@ -72,6 +72,9 @@ jobs:
         run: |
           python qa/nl_data.py
           python qa/nl_wiki_troop_facts.py
+          python qa/nl_combat_effects_v1.py
+          node qa/nl_combat_effect_bridge_v1.test.cjs
+          python qa/nl_group07_effects_v1.py
           python qa/ngoa_long_mode.py
           python qa/nl_r02.py
           python qa/nl_r03.py
@@ -87,6 +90,7 @@ jobs:
           name: muu-dinh-tam-quoc-focused-evidence
           path: |
             qa/*.json
+            qa/nl-group07-effects-desktop.png
             qa/commit-sha.txt
             qa/index-sha256.txt
           if-no-files-found: warn
@@ -126,6 +130,11 @@ jobs:
         run: |
           python qa/nl_data.py
           python qa/nl_wiki_troop_facts.py
+      - name: Group07 original-effects engine, legacy bridge and live Chromium integration
+        run: |
+          python qa/nl_combat_effects_v1.py
+          node qa/nl_combat_effect_bridge_v1.test.cjs
+          python qa/nl_group07_effects_v1.py
       - name: P2 smoke Chromium
         run: python qa/smoke.py
       - name: Ngọa Long 3x3 command center desktop/mobile browser gate
