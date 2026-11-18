@@ -16,7 +16,7 @@
   const OPS=["damage","heal","morale","status","dispel"];
   const LEGACY=["break","guard","daze","burn","morale-seal","ward"];
   const EXTRA=["sleep","fear","anchored","ironwall","focus","repel-blessing","surge"];
-  const PATTERNS=["single","back","lowest-hp","highest-morale","row","column","all"];
+  const PATTERNS=["single","back","lowest-hp","highest-morale","row","column","all","double"];
   const SCOPES=["selected","self","all-allies","all-enemies","ally-lowest-hp"];
   const copy=x=>JSON.parse(JSON.stringify(x));
   const fail=s=>{throw new Error("NL_COMBAT_V2: "+s);};
@@ -44,6 +44,8 @@
       if(typeof s.role!=="string"||!s.role)fail("skill role");
       if(!s.target||!["enemy","ally","self"].includes(s.target.team)||
          !PATTERNS.includes(s.target.pattern))fail("skill target");
+      if(s.target.maxTargets!==undefined&&(!integer(s.target.maxTargets)||
+         s.target.maxTargets<1||s.target.maxTargets>5))fail("target maxTargets 1..5");
       if(!integer(s.moraleCost)||s.moraleCost<0||s.moraleCost>cat.effects.moraleCap)fail("morale cost");
       if(!Array.isArray(s.operations)||!s.operations.length)fail("skill operations");
       for(const op of s.operations){
@@ -51,6 +53,8 @@
         if(["damage","heal"].includes(op.op)&&(!num(op.coefficient)||op.coefficient<=0||op.coefficient>20))
           fail("damage/heal coefficient");
         if(op.op==="damage"&&(!LANES.includes(op.lane)||op.pierce!==undefined&&(!num(op.pierce)||op.pierce<0||op.pierce>1)))fail("damage lane/pierce");
+        if(op.repeat!==undefined&&
+           (op.op!=="damage"||!integer(op.repeat)||op.repeat<1||op.repeat>4))fail("repeat supports 1..4 damage only");
         if(op.op==="morale"&&(!integer(op.delta)||Math.abs(op.delta)>cat.effects.moraleCap))fail("morale delta");
         if(op.op==="status"&&(!ids.has(op.effectId)||LEGACY.includes(op.effectId)&&op.legacyAdapter!==true))fail("status needs valid id/legacyAdapter");
         if(op.op==="dispel"&&(!["beneficial","harmful","all"].includes(op.polarity)||
@@ -127,7 +131,7 @@
     const priority=target.priority|| (target.pattern==="back"?"back":"front");
     candidates.sort((a,b)=>targetScore(actor,a,priority,cat)-targetScore(actor,b,priority,cat)||
       a.slot-b.slot||a.id.localeCompare(b.id));
-    if(target.pattern==="all")return candidates;
+    if(target.pattern==="all")return candidates.slice(0,target.maxTargets||candidates.length);
     let anchor=candidates[0];
     if(chosen!==undefined){
       const selected=candidates.find(x=>x.id===chosen);
@@ -141,9 +145,11 @@
     } else if(target.pattern==="highest-morale"){
       anchor=candidates.slice().sort((a,b)=>b.morale-a.morale||a.slot-b.slot)[0];
     }
+    if(target.pattern==="double")return candidates.slice(0,target.maxTargets||2);
     if(target.pattern==="row"||target.pattern==="column"){
       const axis=target.pattern;
-      return candidates.filter(x=>pos(x.slot)[axis]===pos(anchor.slot)[axis]);
+      return candidates.filter(x=>pos(x.slot)[axis]===pos(anchor.slot)[axis])
+        .slice(0,target.maxTargets||candidates.length);
     }
     return [anchor];
   }
@@ -202,6 +208,9 @@
           continue;
         }
         if(op.op==="damage"){
+          const repeat=op.repeat||1;
+          for(let strike=0;strike<repeat;strike++){
+          const strikeKey=repeat===1?key:key+":"+strike;
           const baseAttack=a.attack[op.lane]*
             (1+(op.lane==="magic"?next.formation[a.side].magic:next.formation[a.side].attack));
           const baseDef=target.defense[op.lane]*(1+next.formation[target.side].defense)*(1-(op.pierce||0));
@@ -209,14 +218,17 @@
           let raw=Math.max(1,Math.floor(baseAttack*op.coefficient*advantage/(1+baseDef/100)));
           const critChance=op.criticalChance===undefined?undefined:
             clamp(op.criticalChance+next.formation[a.side].crit,0,1);
-          if(critChance!==undefined&&proc(cmd,critChance,"crit:"+key)){
+          if(critChance!==undefined&&proc(cmd,critChance,"crit:"+strikeKey)){
             raw=Math.floor(raw*(op.criticalMultiplier||1.5));
             events.push({type:"critical",actorId:a.id,targetId:target.id,index:i});
           }
           const hit=E.damage(next,cat.effects,{sourceId:a.id,targetId:target.id,amount:raw});
           next=hit.state;
           events.push({type:"lane-hit",actorId:a.id,targetId:target.id,lane:op.lane,
-            amount:hit.damage,counter:advantage,raw,formula:"SIMULATED",index:i},...hit.events);
+            amount:hit.damage,counter:advantage,raw,formula:"SIMULATED",index:i,
+            strike:repeat>1?strike+1:undefined},...hit.events);
+          }
+
         }else if(op.op==="heal"){
           const t=unit(next,target.id),amount=Math.max(1,Math.floor(a.attack.magic*op.coefficient));
           const healed=Math.min(t.maxHp-t.hp,amount);t.hp+=healed;
