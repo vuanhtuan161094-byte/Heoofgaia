@@ -3,7 +3,9 @@ const test=require('node:test'), assert=require('node:assert/strict');
 const pack=require('../data/ngoalong/modules/items/catalogue.json');
 const {validateCatalogue}=require('../tools/nl_item_inventory.js');
 const {buildFullCatalogue}=require('../tools/nl_item_full_equipment.js');
-const known=pack.equipment.filter(x=>x.integration==='REFERENCE_ONLY');
+// Exercise strict seven-filter importer against the original 29-row baseline.
+const baseline={...pack,equipment:pack.equipment.filter(x=>!x.id.startsWith('wiki-index-eq-') && !x.id.startsWith('mdt-wiki-index-eq-'))};
+const known=baseline.equipment.filter(x=>x.integration==='REFERENCE_ONLY');
 function makeSnapshot(){
   const rows=known.map((ref,i)=>({
     id:'wiki-index-eq-existing-'+i,name:ref.name,
@@ -29,7 +31,7 @@ function makeSnapshot(){
     rows}}};
 }
 test('full builder safely converts 392 verified source records into 392 distinct playable PROJECT models',()=>{
-  const result=buildFullCatalogue(pack,makeSnapshot());
+  const result=buildFullCatalogue(baseline,makeSnapshot());
   assert.equal(result.equipment.filter(x=>x.integration==='REFERENCE_ONLY').length,392);
   assert.equal(result.equipment.filter(x=>x.integration==='PLAYABLE').length,411);
   assert.equal(result.projectGearExpansion.additions,363);
@@ -41,13 +43,13 @@ test('full builder safely converts 392 verified source records into 392 distinct
 test('full builder fails closed without seven-filter verification or missing slots',()=>{
   const bad=makeSnapshot();
   delete bad.domains.equipment.slotAudit;
-  assert.throws(()=>buildFullCatalogue(pack,bad),/WIKI_392_VERIFIED_FILTER_SNAPSHOT_REQUIRED/);
+  assert.throws(()=>buildFullCatalogue(baseline,bad),/WIKI_392_VERIFIED_FILTER_SNAPSHOT_REQUIRED/);
   const missing=makeSnapshot();
   missing.domains.equipment.rows[100].slot=null;
-  assert.throws(()=>buildFullCatalogue(pack,missing),/UNVERIFIED_INDEX_ROW/);
+  assert.throws(()=>buildFullCatalogue(baseline,missing),/UNVERIFIED_INDEX_ROW/);
 });
 test('full builder rejects incomplete source instead of claiming all equipment playable',()=>{
   const short=makeSnapshot();
   short.domains.equipment.rows.pop();
-  assert.throws(()=>buildFullCatalogue(pack,short),/WIKI_392_VERIFIED_FILTER_SNAPSHOT_REQUIRED/);
+  assert.throws(()=>buildFullCatalogue(baseline,short),/WIKI_392_VERIFIED_FILTER_SNAPSHOT_REQUIRED/);
 });
