@@ -183,8 +183,11 @@ function compileWikiDungeons(source, approvals = {}) {
       byId.get(approvedOrders.get(m.order)).blockers.push('DUPLICATE_APPROVED_MAP_ORDER');
     } else approvedOrders.set(m.order, m.id);
     if (m.order === 1 && m.previousMapId != null) m.blockers.push('FIRST_MAP_HAS_PREDECESSOR');
-    if (m.order > 1 && (!m.previousMapId || !byId.has(m.previousMapId))) {
-      m.blockers.push('MAP_PREDECESSOR_NOT_RESOLVED');
+    if (m.order > 1) {
+      const previous = byId.get(m.previousMapId);
+      if (!previous || previous.order !== m.order - 1) {
+        m.blockers.push('MAP_PREDECESSOR_NOT_RESOLVED_OR_OUT_OF_ORDER');
+      }
     }
   }
   for (const m of mapped) {
@@ -289,6 +292,7 @@ function settleEncounter(catalogue, priorState, outcome) {
   const npc = map.npcs.find(n => n.id === state.pending.npcId);
   ensure(npc && npc.readyForIntegration, 'NPC disappeared from approved catalogue');
   const instructions = [];
+  const mapWasCleared = isMapCleared(map, state);
   if (outcome.result === 'WIN') {
     const npcFirst = !state.clearedNpcIds.includes(npc.id);
     if (npcFirst) {
@@ -299,7 +303,7 @@ function settleEncounter(catalogue, priorState, outcome) {
         instructions.push({receiptKey, target: 'NPC_FIRST_CLEAR', rewards: copy(npc.reward)});
       }
     }
-    if (isMapCleared(map, state)) {
+    if (!mapWasCleared && isMapCleared(map, state)) {
       const receiptKey = 'nl:campaign:map:' + map.id + ':first-clear';
       if (map.rewards != null && !state.grantedFirstClearKeys.includes(receiptKey)) {
         state.grantedFirstClearKeys.push(receiptKey);

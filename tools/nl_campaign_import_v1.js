@@ -37,7 +37,8 @@ function main(argv) {
     npcRows: pack.counts.npcRows, mapsReadyForIntegration: pack.counts.mapsReadyForIntegration,
     mapsBlocked: pack.counts.mapsBlocked,
     npcsReadyForIntegration: pack.counts.npcsReadyForIntegration,
-    soldierContradictions: pack.counts.sourceSoldierContradictions,
+    numericallyConfirmedSoldierContradictions: pack.counts.sourceSoldierContradictions,
+    builderFlaggedSoldierNonmatches: upstream.soldierTotalContradictions,
     status: pack.counts.mapsReadyForIntegration ? 'REVIEW_REQUIRED' : 'REFERENCE_ONLY'};
   const expectedOut = JSON.stringify(pack);
   const expectedReport = JSON.stringify(summary, null, 2) + '\n';

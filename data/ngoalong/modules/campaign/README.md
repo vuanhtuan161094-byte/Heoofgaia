@@ -31,4 +31,4 @@ The progression adapter is pure: it never edits the current Save v5, resources, 
 
 ## Source limitations
 
-Source builder report: 249 maps, 4,903 NPC details, 170 roster-complete maps, 79 incomplete, 97 unverified formations, 344 source soldier-count contradictions, and **0 fully gameplay-ready maps** at the source review stage. The lower-level unit data does not supply validated runtime hero/troop/skill bindings. Historical patches and mobile/classic differences are not silently merged. No Chromium is required per map; the separate integration chat must run consolidated Chromium/Save/CI QA.
+Source builder report: 249 maps, 4,903 NPC details, 170 roster-complete maps, 79 incomplete, 97 unverified formations, 344 rows flagged as nonmatching by Group02's builder (may include sums not verifiable numerically), and **0 fully gameplay-ready maps** at the source review stage. The lower-level unit data does not supply validated runtime hero/troop/skill bindings. Historical patches and mobile/classic differences are not silently merged. No Chromium is required per map; the separate integration chat must run consolidated Chromium/Save/CI QA.

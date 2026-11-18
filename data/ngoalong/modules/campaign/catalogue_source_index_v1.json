@@ -12,7 +12,7 @@
   "rosterComplete": 170,
   "rosterIncomplete": 79,
   "unverifiedNpcFormations": 97,
-  "sourceSoldierContradictions": 344,
   "fullyGameplayReadyMaps": 0,
-  "caveat": "Coverage index only; execute tools/nl_campaign_import_v1.js against existing Group02 blueprint for real per-map catalogue. Source conflicts never repaired automatically."
+  "caveat": "Coverage index only; execute tools/nl_campaign_import_v1.js against existing Group02 blueprint for real per-map catalogue. Source conflicts never repaired automatically. The builder counts some UNKNOWN sums as nonmatches; 344 is not an audited number of numerically confirmed contradictions.",
+  "builderFlaggedSoldierNonmatches": 344
 }
