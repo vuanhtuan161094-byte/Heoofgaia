@@ -46,6 +46,10 @@ def normalize_unit(raw, npc_url):
     skill_name = nonempty(raw.get("skillName"))
     troop_name = nonempty(raw.get("troopName"))
     character_name = nonempty(raw.get("name"))
+    skill_type = nonempty(raw.get("skillSourceType"))
+    skill_version = nonempty(raw.get("skillVersion"))
+    if skill_name is not None and skill_type != "NPC_UNIT_ACTIVE":
+        raise DungeonBuildError("Wiki hero-active skill cannot be silently typed as troop/lord/passive skill")
     troop_wiki_id = nonempty(raw.get("troopWikiId"))
     crit_pct = nonempty(raw.get("criticalPercent"))
     counter_pct = nonempty(raw.get("counterattackPercent"))
@@ -61,6 +65,12 @@ def normalize_unit(raw, npc_url):
         "criticalPercent": crit_pct,
         "counterattackPercent": counter_pct,
         "skillName": skill_name,
+        "skillSourceType": skill_type,
+        "skillVersion": skill_version,
+        "skillHistoricalOrigin": "UNKNOWN",
+        "passiveSkillNames": None,
+        "lordSkillNames": None,
+        "troopSkillNames": None,
         "heroId": None,
         "troopId": None,
         "skillId": None,
@@ -77,6 +87,12 @@ def normalize_unit(raw, npc_url):
             "criticalPercent": proven(crit_pct, npc_url),
             "counterattackPercent": proven(counter_pct, npc_url),
             "skillName": proven(skill_name, npc_url),
+            "skillSourceType": proven(skill_type, npc_url),
+            "skillVersion": proven(skill_version, npc_url),
+            "skillHistoricalOrigin": proven(None, None),
+            "passiveSkillNames": proven(None, None),
+            "lordSkillNames": proven(None, None),
+            "troopSkillNames": proven(None, None),
             "heroId": proven(None, None),
             "troopId": proven(None, None),
             "skillId": proven(None, None),
@@ -116,6 +132,7 @@ def normalize_npc(raw, map_id):
     kind = nonempty(raw.get("kind"))
     lvl = nonempty(raw.get("level"))
     listed_order = nonempty(raw.get("listOrder"))
+    first_mover = nonempty(raw.get("firstMoverObserved"))
     missing = []
     for key, value in (("name", wiki_name), ("kind", kind), ("level", lvl),
                        ("soldiers", total), ("listOrder", listed_order)):
@@ -142,6 +159,12 @@ def normalize_npc(raw, map_id):
         "totalSoldiers": total,
         "combatCoefficientShown": nonempty(raw.get("attackCoefficientShown")),
         "combatCoefficientFormula": None,
+        "firstMoverObserved": first_mover,
+        "npcLordSkills": None,
+        "npcPassiveSkills": None,
+        "npcStageSkills": None,
+        "npcSoulBeastEffects": None,
+        "npcSkillVersion": "CURRENT_WIKI_WITH_UNRESOLVED_HISTORICAL_PATCHES",
         "formationUnits": units,
         "formationDeclaredUnitCount": source_count,
         "formationOccupiedSlots": source_slots,
@@ -159,6 +182,12 @@ def normalize_npc(raw, map_id):
             "totalSoldiers": proven(total, url),
             "combatCoefficientShown": proven(nonempty(raw.get("attackCoefficientShown")), url),
             "combatCoefficientFormula": proven(None, None),
+            "firstMoverObserved": proven(first_mover, url),
+            "npcLordSkills": proven(None, None),
+            "npcPassiveSkills": proven(None, None),
+            "npcStageSkills": proven(None, None),
+            "npcSoulBeastEffects": proven(None, None),
+            "npcSkillVersion": proven(None, None),
             "formationUnits": proven(units if units else None, url),
             "observedUnitSoldierSum": proven(observed if complete_sum else None, url, derived=True),
             "formationDeclaredUnitCount": proven(source_count, url),
@@ -190,6 +219,11 @@ def normalize_map(raw):
     if len(known_order) == len(npcs):
         npcs.sort(key=lambda r: r["order"])
     name = nonempty(raw.get("name"))
+    stage_rules = raw.get("mapWideRulesObserved") or []
+    if not isinstance(stage_rules,list):
+        raise DungeonBuildError("Map-wide battle rules must be a separate list")
+    if any(not isinstance(v,dict) or v.get("skillSourceType") != "DUNGEON_WIDE_RULE" for v in stage_rules):
+        raise DungeonBuildError("Map-wide rule must have its own provenance and type")
     city = nonempty(raw.get("cityLevel"))
     map_level = nonempty(raw.get("level"))
     announced = nonempty(raw.get("advertisedNpcCount"))
@@ -212,6 +246,8 @@ def normalize_map(raw):
         "dungeonType": None,
         "victoryReward": None,
         "combatRules": None,
+        "mapWideBattleRulesObserved": stage_rules,
+        "historicalVersionStatus": "CURRENT_WIKI_SNAPSHOT_PATCH_LEDGER_SEPARATE",
         "integrationStatus": "REFERENCE_ONLY",
         "npcs": npcs,
         "sourceUrl": map_url,
@@ -226,6 +262,8 @@ def normalize_map(raw):
             "dungeonType": proven(None, None),
             "victoryReward": proven(None, None),
             "combatRules": proven(None, None),
+            "mapWideBattleRulesObserved": proven(stage_rules if stage_rules else None,map_url),
+            "historicalVersionStatus": proven(None,None),
         },
     }
 
@@ -358,8 +396,8 @@ def self_test():
         "aiId": 82, "name": "Ba Tài", "kind": "BOSS",
         "level": 6, "totalSoldiers": 420,
         "url": WIKI + "-chi-tiet?map=1&ai=82",
-        "unitsObserved": [{"slot": 3, "soldiers": 220, "skillName": "Hoành Tảo"},
-                          {"slot": 5, "soldiers": 200, "skillName": "Bộc Viêm"}],
+        "unitsObserved": [{"slot": 3, "soldiers": 220, "skillName": "Hoành Tảo", "skillSourceType":"NPC_UNIT_ACTIVE"},
+                          {"slot": 5, "soldiers": 200, "skillName": "Bộc Viêm", "skillSourceType":"NPC_UNIT_ACTIVE"}],
     }
     m = {"mapId": 1, "name": "Khúc Dương", "level": 10, "cityLevel": 20,
          "advertisedNpcCount": 1, "npcListComplete": True,
