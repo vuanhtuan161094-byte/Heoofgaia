@@ -128,6 +128,12 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
         for parent in branch.get("evolvesFrom", [branch["category"]]):
             edges.append((parent, branch["id"]))
     _assert_acyclic(nodes, edges, "evolution graph")
+    _require(len(troop_profiles) + len(branches) == 25,
+             "Ngọa Long V1 needs exactly 25 playable base/evolved troop definitions")
+    branch_categories = {category: [branch for branch in branches if branch.get("category") == category]
+                         for category in ("infantry", "spear", "cavalry", "archer", "strategist", "support")}
+    _require(all(len(branch_categories[key]) >= 2 for key in ("infantry", "spear", "cavalry", "archer", "strategist")),
+             "each core troop class needs multiple actual evolution branches")
     _provenance(evolution.get("cost", {}).get("provenance"), source_ids, "evolution.cost")
 
     statuses = pack.get("statusEffects", {}).get("effects", {})
@@ -324,6 +330,13 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
         _require(isinstance(ids, list) and len(ids) >= 2, f"{path} must group at least two NPC battles")
         _require(all(isinstance(key, str) and key in valid_encounter_ids for key in ids), f"{path} references an unknown encounter")
         route.extend(ids)
+        chapter_encounters = [entry for entry in encounters if entry["id"] in set(ids)]
+        _require(all(isinstance(entry.get("boss"), bool) for entry in chapter_encounters),
+                 f"{path} must label its boss encounter")
+        _require([entry["id"] for entry in chapter_encounters if entry["boss"]] == [ids[-1]],
+                 f"{path} needs exactly one final boss at the end of its route")
+        _require(bool(chapter_encounters[-1].get("bossRule")) and chapter_encounters[-1].get("bossProvenance", {}).get("classification") == "SIMULATED",
+                 f"{path} final boss needs a simulated combat rule")
     _require(route == [entry["id"] for entry in encounters],
              "chapter NPC route must cover every existing encounter once and in the original Save order")
 

@@ -168,6 +168,7 @@ def compile_content(packs: dict) -> dict:
         "sourceFiles": FILES,
         "runtimeIds": {
             "troops": sorted(project_troops),
+            "playableTroops": sorted(set(project_troops) | set(unique(runtime["evolution"]["branches"], "runtime troop evolutions"))),
             "heroes": sorted(project_heroes),
             "skills": sorted(project_skill),
             "effects": sorted(project_effect),
@@ -184,6 +185,7 @@ def compile_content(packs: dict) -> dict:
             "equipment": reference_rows(equipment),
         },
         "coverage": {
+            "runtimePlayableTroops": len(project_troops) + len(unique(runtime["evolution"]["branches"], "runtime troop evolutions")),
             "troops": len(troops),
             "troopMechanicProfiles": len(mechanics_by_id),
             "troopEffectEvents": len(linked),

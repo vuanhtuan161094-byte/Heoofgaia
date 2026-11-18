@@ -52,6 +52,7 @@ def run() -> int:
     check("six data-driven formation families and four plans preserve all 24 Save IDs", len(formations["families"]) == 6 and len(formations["plans"]) == 4 and len({f["id"]+"-"+p["key"] for f in formations["families"] for p in formations["plans"]}) == 24 and all(len(p["slots"]) == 5 and len(set(p["slots"])) == 5 for p in formations["plans"]))
     check("current Wiki counter direction is data-backed while both project multipliers are explicit", len(pack["troops"]["counterCycle"]) == 3 and all(e["multiplier"] == 1.22 and e["disadvantageMultiplier"] == 0.82 and e["provenance"]["appliedFormula"] == "SIMULATED project multiplier" for e in pack["troops"]["counterCycle"]))
     check("evolution branches resolve to catalog troop categories and have unique IDs", len({b["id"] for b in pack["evolution"]["branches"]}) == len(pack["evolution"]["branches"]) and all(b["outputTroopId"] in {t["id"] for t in pack["troops"]["profiles"]} for b in pack["evolution"]["branches"]))
+    check("V1 playable troop catalog closes at 25 base/evolved definitions with branch choices across five core classes", len(pack["troops"]["profiles"]) + len(pack["evolution"]["branches"]) == 25 and all(sum(branch["category"] == kind for branch in pack["evolution"]["branches"]) >= 2 for kind in ("infantry", "spear", "cavalry", "archer", "strategist")))
     check("first 20 Alpha stages contain structured 3x3 NPC unit records", all(len(pack["campaign"]["npcs"][i]["units"]) == 5 and all(isinstance(u["formationSlot"], int) and u["heroId"] is None and u["stats"] is None and u["soldiers"] is None for u in pack["campaign"]["npcs"][i]["units"]) for i in range(20)))
     check("all Alpha map unlocks, NPC references and settlement reward records are sequential", len(pack["campaign"]["maps"]) >= 20 and all(e["stage"] == i + 1 and e["rewards"] for i, e in enumerate(pack["campaign"]["encounters"])))
     chapters = pack["campaign"]["chapters"]
@@ -59,6 +60,8 @@ def run() -> int:
           len(chapters) == 8 and all(len(chapter["encounterIds"]) >= 2 for chapter in chapters)
           and [id for chapter in chapters for id in chapter["encounterIds"]]
           == [encounter["id"] for encounter in pack["campaign"]["encounters"]])
+    chapter_bosses = [next(encounter for encounter in pack["campaign"]["encounters"] if encounter["id"] == chapter["encounterIds"][-1]) for chapter in chapters]
+    check("each of eight chapter finales is a distinct simulated boss encounter and stage 28 ends the campaign", len(chapter_bosses) == 8 and all(encounter["boss"] and encounter["bossProvenance"]["classification"] == "SIMULATED" for encounter in chapter_bosses) and pack["campaign"]["encounters"][-1] == chapter_bosses[-1])
     bad_chapter = copy.deepcopy(pack)
     bad_chapter["campaign"]["chapters"][0]["encounterIds"][1] = bad_chapter["campaign"]["chapters"][0]["encounterIds"][0]
     check("validator rejects duplicate chapter NPC encounter", rejected(bad_chapter))

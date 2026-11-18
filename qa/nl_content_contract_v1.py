@@ -46,7 +46,9 @@ def main() -> int:
           all(not row["runtimeEnabled"] for entries in catalogue["references"].values() for row in entries)
           and catalogue["gates"]["bulkWikiActivationAllowed"] is False)
     check("all runtime gameplay categories share a stable ID index",
-          all(catalogue["runtimeIds"][key] for key in ("troops", "heroes", "skills", "effects", "equipment", "research", "maps", "npcs", "encounters")))
+          all(catalogue["runtimeIds"][key] for key in ("troops", "playableTroops", "heroes", "skills", "effects", "equipment", "research", "maps", "npcs", "encounters")))
+    check("compiled playable troop catalogue resolves all 25 base and evolved gameplay identities",
+          coverage.get("runtimePlayableTroops") == 25 and len(catalogue["runtimeIds"]["playableTroops"]) == 25)
     check("project content and references remain separate",
           set(catalogue["runtimeIds"]["troops"]).isdisjoint(
               row["id"] for row in catalogue["references"]["troops"]))

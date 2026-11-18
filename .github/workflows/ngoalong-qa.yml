@@ -2,7 +2,7 @@ name: Muu Dinh Tam Quoc · Ngọa Long-focused full regression and release
 
 on:
   push:
-    branches: [main-ngoalong, 'codex/**']
+    branches: [main-ngoalong, 'codex/**', 'feature/nl-codex-cloud-v1-finish']
   workflow_dispatch:
 
 permissions:
@@ -101,7 +101,7 @@ jobs:
     # Docs-only or focused feature commits must not republish a fake release.
     if: github.ref == 'refs/heads/main-ngoalong' || contains(github.event.head_commit.message, '[full-ci]') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
-    timeout-minutes: 25
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v4
       - name: Validate Wiki provenance data and compile canonical R02/R03/R04 Alpha HTML

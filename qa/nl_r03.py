@@ -54,7 +54,7 @@ def run():
         fixture["silver"], fixture["grain"], fixture["iron"] = 60000, 30000, 18000
         page.evaluate("g=>window.__P2_QA__.setGame(g)", fixture)
         page.locator('[data-tab="barracks"]').click()
-        check("barracks exposes troop lineages for all five classes plus the spear evolution", all(page.locator(f'[data-r03-select="{hero}"] option').count() == (4 if hero == "zhang" else 3) for hero in ("liu", "guan", "zhang", "sun", "zhou")))
+        check("barracks exposes the 25-unit playable roster as five classes, tier training and branch choices", all(page.locator(f'[data-r03-select="{hero}"] option').count() == (7 if hero == "zhang" else 4) for hero in ("liu", "guan", "zhang", "sun", "zhou")))
         check("lineage choices are gated by a real level-2 barracks", page.locator('[data-r03-evolve="guan"]').is_disabled())
         old_building = state(page)["buildings"]["barracks"]
         page.locator('[data-upgrade="barracks"]').click()
@@ -106,6 +106,14 @@ def run():
         page.locator('[data-r03-evolve="zhang"]').click()
         spear = page.evaluate("window.__NL_R03_QA__.unit('zhang','p',1,1)")
         check("Thương Phá Kỵ keeps its infantry combat archetype, switches to spear troop and counters cavalry", spear["troop"] == "spear" and spear["type"] == "infantry" and page.evaluate("window.__P3_QA__.counter('spear','cavalry') > 1"))
+        page.locator('[data-r03-select="zhang"]').select_option("phalanx")
+        page.locator('[data-r03-evolve="zhang"]').click()
+        phalanx = page.evaluate("window.__NL_R03_QA__.unit('zhang','p',1,1)")
+        check("spear specialization is selectable on an infantry commander and changes real unit class and defense", phalanx["troop"] == "spear" and phalanx["r03Branch"] == "phalanx" and phalanx["tdef"] >= spear["tdef"])
+        page.locator('[data-r03-select="zhang"]').select_option("impaler")
+        page.locator('[data-r03-evolve="zhang"]').click()
+        impaler = page.evaluate("window.__NL_R03_QA__.unit('zhang','p',1,1)")
+        check("alternate spear branch is a distinct live combat build", impaler["troop"] == "spear" and impaler["r03Branch"] == "impaler" and impaler["atk"] > phalanx["atk"])
         page.locator('[data-r03-select="liu"]').select_option("rally")
         page.locator('[data-r03-evolve="liu"]').click()
         page.evaluate("window.__P2_QA__.useTroop('liu','drum')")
@@ -161,7 +169,7 @@ def run():
         page.close()
         page = open_page(browser, stored=serialized)
         loaded = state(page)
-        check("save reload preserves each selected lineage and other v5 state", loaded["nlr03"]["evolutions"] == {"liu": "rally", "guan": "raider", "zhang": "spearwall", "sun": "volley", "zhou": "disrupt"} and loaded["version"] == 5 and "cltq" in loaded and len(loaded["slots"]) == 9)
+        check("save reload preserves each selected lineage and other v5 state", loaded["nlr03"]["evolutions"] == {"liu": "rally", "guan": "raider", "zhang": "impaler", "sun": "volley", "zhou": "disrupt"} and loaded["version"] == 5 and "cltq" in loaded and len(loaded["slots"]) == 9)
         old_v5 = json.loads(serialized)
         old_v5.pop("nlr03", None)
         legacy_page = open_page(browser, stored=json.dumps(old_v5, ensure_ascii=False))
@@ -271,6 +279,30 @@ def run():
             expected = choice["expectation"]
             check(f"stage {choice['stage']} same-seed formation A/B clears both setups and lowers troop casualties", low["preset"] == expected["lowerLossPreset"] and high["preset"] == expected["higherLossPreset"] and low["won"] and high["won"] and high["casualties"] - low["casualties"] >= expected["minimumCasualtyGap"])
             print(f"FORMATION A/B stage {choice['stage']}: {low['preset']} loss={low['casualties']} vs {high['preset']} loss={high['casualties']} seed={expected['seed']}", flush=True)
+
+        completed = state(page)
+        for hero in ("guan", "zhang", "liu", "sun", "zhou"):
+            if hero not in completed["roster"]: completed["roster"].append(hero)
+            completed["hero"][hero] = {"level": 40, "xp": 0, "troops": 900}
+        completed["slots"] = ["guan", "zhang", "liu", "sun", "zhou", None, None, None, None]
+        completed["cleared"] = list(range(1, 28))
+        completed["silver"], completed["grain"], completed["iron"] = 50000, 30000, 18000
+        page.evaluate("g=>window.__P2_QA__.setGame(g)", completed)
+        page.evaluate("window.__P2_QA__.beginBattle(28,'campaign')")
+        page.evaluate("""() => {
+          const b=window.__P2_QA__.debugBattle();
+          for(const unit of b.p){unit.hp=unit.maxHp;unit.troops=900;}
+          b.e=[];b.finished=false;b.replay=false;
+          window.__P2_QA__.finishBattle();
+        }""")
+        end_report = page.evaluate("window.__P2_QA__.getGame().battleReports.at(-1)")
+        ending_result = page.locator('[data-nl-campaign-ending="1"]')
+        first_silver = state(page)["silver"]
+        page.evaluate("window.__P2_QA__.finishBattle()")
+        check("final boss victory settles encounter 28 once and renders the end-of-campaign result", ending_result.count() == 1 and end_report["won"] and end_report["stage"] == 28 and 28 in state(page)["cleared"] and state(page)["silver"] == first_silver)
+        page.locator('[data-end-battle="1"]').click()
+        page.locator('[data-tab="campaign"]').click()
+        check("clearing encounter 28 of chapter 8 renders the ending and the final boss badge", page.locator('[data-nl-campaign-ending="1"]').count() == 1 and "28 cửa ải" in page.locator('[data-nl-campaign-ending="1"]').inner_text() and page.locator('[data-nl-boss="1"]').count() == 1)
 
         mobile = open_page(browser, 390, 844, stored=serialized)
         mobile.locator('[data-tab="barracks"]').click()
