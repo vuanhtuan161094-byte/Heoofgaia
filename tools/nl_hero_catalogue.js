@@ -149,7 +149,8 @@ function applyDetailPatches(baseProfiles, patchSet) {
  */
 const STAGE_FILES = Object.freeze([
   ["wiki_orange_skills_2024_v1.json","ORANGE",24,"2024-01-02"],
-  ["wiki_gold_skills_2026_v1.json","GOLD",8,"2026-06-07"]
+  ["wiki_gold_skills_2026_v1.json","GOLD",8,"2026-06-07"],
+  ["wiki_gold_skills_2026_aug_v1.json","GOLD",10,"2026-08-17"]
 ]);
 const ALLOWED_SKILL_OPS = new Set([
   "DAMAGE","STATUS","MORALE","HEAL","MORALE_COST",
@@ -184,12 +185,15 @@ function loadWikiStageSkills(root, index) {
         assert(hero && hero.name===item.name, "stage-to-index hero identity mismatch: "+key);
         assert(item.sourceListStatus==="IN_WIKI_364_INDEX" || stage==="GOLD", "indexed skill has invalid scope");
       } else {
-        assert(stage==="ORANGE" && item.sourceListStatus==="IN_OFFICIAL_UPDATE_ONLY" && ["Lưu Bị","Tào Tháo","Tôn Quyền"].includes(item.name), "external index exceptions not verified");
+        assert(item.sourceListStatus==="IN_OFFICIAL_UPDATE_ONLY" && (
+          (stage==="ORANGE" && ["Lưu Bị","Tào Tháo","Tôn Quyền"].includes(item.name)) ||
+          (stage==="GOLD" && sourceDate==="2026-08-17" && item.name==="Công Tôn Toản" && item.candidateIndexAlias==="Công Tôn Toán" && item.identityLink==="SOURCE_NAME_ONLY_NO_AUTO_MAPPING")
+        ), "unindexed official hero requires explicit source/alias review");
       }
       rows.push(item);
     }
   }
-  assert(rows.length===32 && rows.filter(x=>x.heroId!==null).length===29, "unexpected stage-ability totals");
+  assert(rows.length===42 && rows.filter(x=>x.heroId!==null).length===38, "unexpected stage-ability totals");
   return rows;
 }
 
