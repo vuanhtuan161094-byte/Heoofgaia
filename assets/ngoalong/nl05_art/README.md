@@ -1,5 +1,12 @@
 # ART 05 — Ngọa Long / visual pilot handoff (18/11/2026)
 
+## Scope correction — classic Ngọa Long stationary battle (2026-11-18)
+
+Owner confirmed the game should remain **simple and recognisable**. Unlike map-marching tactical games, the classic battle representation is fixed formations of troop stacks executing actions in place. **Walk/Run, map movement and four-direction locomotion are not acceptance requirements for Ngọa Long combat art.** The CL-P5 walk atlas remains a preserved regression/legacy asset, not a new NL production target.
+
+For the single R04 scout pilot, prioritise **Idle → Attack/Thrust → Hit → Skill/FX → Fall/Disappear**, with left/right facing only where battlefield orientation needs it. Reuse the existing original R04 identity and spear; do not change silhouette or armor to create a fake new character. One clear contact pose and one clear skill effect at actual game scale are more valuable than dozens of synthetic frames. An animation may use a few discrete cel images (no bones, no rig); do not claim a flip, CSS motion, or cross-fade creates independently authored artwork. Perform only lightweight asset checks (identity, clipping/alpha, weapon integrity, event read-only), then seek owner visual review. The older four-direction turnaround plan below is retained as history, **superseded for initial delivery by this scoped acceptance rule**.
+
+
 **Function:** Art & VFX. User prompt calls this group 05; the newer Chat 00 master calls the same function **06 ART** and reserves `assets/ngoalong/`, `qa/nl_art_*.py`. This work follows the functional **ART** ownership and does not edit the Progression group's files. Chat 00 should reconcile the group numbering.
 
 **Starting exact HEAD:** `ef7c5957adc1e22f51c2f4535d6eff66c9274a25`. Source tree `d8a5ed205431928c3abd16cc36e319038679ee29`. Machine-readable file-by-file Git object inventory: [inventory.json](inventory.json). The classifications below are VERIFIED for repository existence and derived from source manifests; they do not mean owner-approved visuals.
