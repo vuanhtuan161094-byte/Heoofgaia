@@ -91,11 +91,14 @@
     const bonuses={};
     for(const side of ["p","e"]){
       const f=formation[side]||{};
-      for(const key of ["attack","defense"]){
+      for(const key of ["attack","defense","magic","crit"]){
         const v=f[key]===undefined?0:f[key];
         if(!num(v)||v<-.5||v>1)fail("formation "+side+" "+key);
       }
-      bonuses[side]={attack:f.attack||0,defense:f.defense||0};
+      bonuses[side]={attack:f.attack||0,defense:f.defense||0,
+        magic:f.magic||0,crit:f.crit||0,
+        presetId:typeof f.presetId==="string"?f.presetId:null,
+        planStyle:["pressure","counter","protect","finish"].includes(f.planStyle)?f.planStyle:null};
     }
     return {schemaVersion:2,round:1,turn:0,sequence:0,formation:bonuses,
       units:copy(units).map(u=>({...u,statuses:[],legacyEffects:u.legacyEffects||[],skillIds:u.skillIds||[] }))};
@@ -150,7 +153,8 @@
     if(scope==="self")return [actor];
     if(scope==="all-allies")return state.units.filter(u=>u.side===actor.side&&alive(u));
     if(scope==="all-enemies")return state.units.filter(u=>u.side!==actor.side&&alive(u));
-    return select(state,cat,actor,{team:"ally",pattern:"lowest-hp"},chosen);
+    // Never reuse a selected enemy ID as the anchor for an ally-only scope.
+    return select(state,cat,actor,{team:"ally",pattern:"lowest-hp"});
   }
   function rollOf(cmd,key){
     const value=cmd.rolls?.[key];
@@ -198,11 +202,14 @@
           continue;
         }
         if(op.op==="damage"){
-          const baseAttack=a.attack[op.lane]*(1+next.formation[a.side].attack);
+          const baseAttack=a.attack[op.lane]*
+            (1+(op.lane==="magic"?next.formation[a.side].magic:next.formation[a.side].attack));
           const baseDef=target.defense[op.lane]*(1+next.formation[target.side].defense)*(1-(op.pierce||0));
           const advantage=counter(cat,a.troopType,target.troopType);
           let raw=Math.max(1,Math.floor(baseAttack*op.coefficient*advantage/(1+baseDef/100)));
-          if(op.criticalChance!==undefined&&proc(cmd,op.criticalChance,"crit:"+key)){
+          const critChance=op.criticalChance===undefined?undefined:
+            clamp(op.criticalChance+next.formation[a.side].crit,0,1);
+          if(critChance!==undefined&&proc(cmd,critChance,"crit:"+key)){
             raw=Math.floor(raw*(op.criticalMultiplier||1.5));
             events.push({type:"critical",actorId:a.id,targetId:target.id,index:i});
           }
