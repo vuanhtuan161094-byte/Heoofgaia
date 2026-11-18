@@ -1,0 +1,104 @@
+{
+  "schema": "NL_ART_R13_V1",
+  "date": "2026-11-19",
+  "artGroup": "07",
+  "sourceBranch": "feature/nl-v2-art",
+  "sourceWiki": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+  "wikiEdition": "Mobile",
+  "wikiFact": {
+    "id": "hoang_bo",
+    "name": "Hoàng Bộ",
+    "level": 3,
+    "role": "Năng lực tổng hợp mạnh, bạo kích và phản kích xuất sắc.",
+    "status": "VERIFIED"
+  },
+  "originality": "AI_GENERATED_ORIGINAL; no VNG pixels/assets",
+  "artSource": "IMAGE_GENERATION",
+  "artState": "VISUAL_CANDIDATE",
+  "unit": {
+    "id": "hoang_bo",
+    "label": "Hoàng Bộ",
+    "pose": "IDLE",
+    "footPivot": [
+      64,
+      121
+    ],
+    "canvas": [
+      128,
+      128
+    ],
+    "masterCanvas": [
+      512,
+      512
+    ],
+    "displayPx": 80,
+    "equipment": {
+      "armor": "golden lamellar with beast pauldrons",
+      "mainHand": "war axe",
+      "offHand": "round buckler"
+    },
+    "distinctionFromR11": "gold-and-red heavy armor, lion buckler and broad axe, independent silhouette; owner approval pending",
+    "alphaThreshold": 8,
+    "alphaBBox": [
+      21,
+      9,
+      106,
+      121
+    ],
+    "borderClipped": false,
+    "attack": "NOT_PRODUCED",
+    "animation": "NONE"
+  },
+  "files": [
+    {
+      "path": "sprites/idle/hoang_bo.png",
+      "bytes": 21995,
+      "sha256": "4da4ed5349465a60318c31e1547a1698b8b323f9542a822e39edc17f764533f7",
+      "gitBlobSha": "a812a077e7b6a749bca0bd7eff84a05144225428",
+      "format": "PNG",
+      "mode": "RGBA",
+      "dimensions": [
+        128,
+        128
+      ]
+    },
+    {
+      "path": "sources/hoang_bo_idle_512.png",
+      "bytes": 254845,
+      "sha256": "b713c0c6ac25f95e71b8c50158a95b6070c69d70664c80635ef1e8b788c20067",
+      "gitBlobSha": "cddb190a89757442f2db84172c329fee1146d223",
+      "format": "PNG",
+      "mode": "RGBA",
+      "dimensions": [
+        512,
+        512
+      ]
+    },
+    {
+      "path": "preview/compare_80px_dark_light.png",
+      "bytes": 124043,
+      "sha256": "cf8f27f4921004f0446361865e1be0512e0b62a9427ef7c442962ee02f9cd501",
+      "gitBlobSha": "2c34eacef25ae488f32d858f548c01e656376957",
+      "format": "PNG",
+      "mode": "RGB",
+      "dimensions": [
+        960,
+        272
+      ]
+    }
+  ],
+  "excludedResults": [
+    "poster/multi-identity generation rejected: not a usable sprite",
+    "R10 poster crops quarantined and not reused"
+  ],
+  "integration": "NOT_IN_GAME",
+  "approval": "PENDING_OWNER",
+  "qa": {
+    "localAlphaAndCanvas": "PASS",
+    "clipping": "PASS",
+    "footPivot": "PASS",
+    "realSizeComparison": "PREVIEWED_80PX",
+    "playtest": "PENDING_CHAT08",
+    "fullCI": "NOT_RUN_ART_ONLY"
+  }
+}
