@@ -17,7 +17,8 @@
     "baseRecords": 213,
     "newRecords": 159,
     "combinedVisibleRecords": 372,
-    "totalCountMeaning": "All category+section entry occurrences, including repeat names, boss/NPC/test and special groups; NOT 372 unique playable units"
+    "totalCountMeaning": "All category+section entry occurrences, including repeat names, boss/NPC/test and special groups; NOT 372 unique playable units",
+    "duplicateIdentityHandling": "Retain separate occurrence IDs even for repeated labels (e.g. Lữ Bố); source page exposes same label more than once."
   },
   "coverage": {
     "new": {
@@ -38,7 +39,9 @@
     "currentMobileNamedEvolutionEdgesVerified": 0,
     "sourceTier0ToTier1VerifiableLandFamilyGroups": 5,
     "allIndividualEvolutionEdges": "UNKNOWN",
-    "allRuntimeFlags": "REFERENCE_ONLY"
+    "allRuntimeFlags": "REFERENCE_ONLY",
+    "sourceBadgeAudit": "Verified NPC label marker for 54 tier5/6 supplements; tier0 not individually badge-audited",
+    "exactWikiIndexNotAssumed": true
   },
   "seaCounterCycle": [
     {
@@ -80,7 +83,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 1,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -93,15 +95,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Bất Diệt Vương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -116,7 +121,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 1,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-02-bat-diet-vuong",
@@ -124,7 +131,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 2,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -137,15 +143,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Bất Diệt Vương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -160,7 +169,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 2,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-03-be-ngan",
@@ -168,7 +179,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 3,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -181,15 +191,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Bệ Ngạn",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -204,7 +217,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 3,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-04-bo",
@@ -212,7 +227,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 4,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -225,15 +239,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Bộ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -248,7 +265,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 4,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-05-co-cu",
@@ -256,7 +275,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 5,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -269,15 +287,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Cổ Cự",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -292,7 +313,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 5,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-06-cung-ky",
@@ -300,7 +323,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 6,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -313,15 +335,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Cùng Kỳ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -336,7 +361,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 6,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-07-dinh-thien-giap",
@@ -344,7 +371,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 7,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -357,15 +383,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Định Thiên Giáp",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -380,7 +409,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 7,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-08-hon-don",
@@ -388,7 +419,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 8,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -401,15 +431,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Hỗn Độn",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -424,7 +457,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 8,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-09-lu-bo",
@@ -432,7 +467,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -445,15 +479,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Lữ Bố",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -468,7 +505,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-10-nguyet-hon-tuong",
@@ -476,7 +515,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -489,15 +527,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Nguyệt Hồn Tướng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -512,7 +553,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-11-nguoi-go-chiu-don",
@@ -520,7 +563,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -533,15 +575,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Người Gỗ Chịu Đòn",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -556,7 +601,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-12-nguoi-go-hoi-khi",
@@ -564,7 +611,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 12,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -577,15 +623,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Người Gỗ Hồi Khí",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -600,7 +649,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 12,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-13-nguoi-go-thuong",
@@ -608,7 +659,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 13,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -621,15 +671,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Người Gỗ Thường",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -644,7 +697,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 13,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-14-si-binh-thap-thi-luyen",
@@ -652,7 +707,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 14,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -665,15 +719,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Sĩ binh Tháp thí luyện",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -688,7 +745,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 14,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-15-son-tac",
@@ -696,7 +755,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 15,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -709,15 +767,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Sơn tặc",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -732,7 +793,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 15,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-16-test-bi-dong",
@@ -740,7 +803,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 16,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -753,15 +815,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Test Bị Động",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -776,7 +841,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 16,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-17-thao-thiet",
@@ -784,7 +851,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 17,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -797,15 +863,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Thao Thiết",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -820,7 +889,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 17,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-18-thi-luyen-chi-luc",
@@ -828,7 +899,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 18,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -841,15 +911,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Thí Luyện Chi Lực",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -864,7 +937,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 18,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-19-tuong-thanh-quoc-chien",
@@ -872,7 +947,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 19,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -885,15 +959,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Tường Thành Quốc Chiến",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -908,7 +985,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 19,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t0-20-yeu-nhan-thu",
@@ -916,7 +995,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 0,
-      "orderInTierSource": 20,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -929,15 +1007,18 @@
         "sourceSnapshotLineBlock": [
           35,
           131
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 0 > Yêu Nhẫn Thủ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -952,7 +1033,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 20,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-01-dinh-thien-vuong",
@@ -960,7 +1043,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 1,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -973,15 +1055,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Định Thiên Vương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -996,7 +1081,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 1,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-02-hai-tac",
@@ -1004,7 +1091,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 2,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1017,15 +1103,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Hải tặc",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1040,7 +1129,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 2,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-03-hoang-can-han-tuong",
@@ -1048,7 +1139,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 3,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1061,15 +1151,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Hoàng Cân Hãn Tướng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1084,7 +1177,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 3,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-04-lu-bo",
@@ -1092,7 +1187,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 4,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1105,15 +1199,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Lữ Bố",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1128,7 +1225,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 4,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-05-lu-bo",
@@ -1136,7 +1235,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 5,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1149,15 +1247,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Lữ Bố",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1172,7 +1273,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 5,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-06-lu-bo",
@@ -1180,7 +1283,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 6,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1193,15 +1295,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Lữ Bố",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1216,7 +1321,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 6,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-07-man-hoang-than",
@@ -1224,7 +1331,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 7,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1237,15 +1343,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Man Hoang Thần",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1260,7 +1369,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 7,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-08-than-vo-kich",
@@ -1268,7 +1379,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 8,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1281,15 +1391,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Thần Võ Kích",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1304,7 +1417,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 8,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-09-thi-luyen-vuong",
@@ -1312,7 +1427,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1325,15 +1439,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Thí Luyện Vương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1348,7 +1465,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-10-thuong",
@@ -1356,7 +1475,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1369,15 +1487,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Thương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1392,7 +1513,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-spear-t0-11-tuong-si-thap-thi-luyen",
@@ -1400,7 +1523,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 0,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1413,15 +1535,18 @@
         "sourceSnapshotLineBlock": [
           447,
           507
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 0 > Tướng sĩ Tháp thí luyện",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1436,7 +1561,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-01-dinh-thien-ky",
@@ -1444,7 +1571,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 1,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1457,15 +1583,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Định Thiên Kỵ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1480,7 +1609,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 1,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-02-hoang-can-chien-xa",
@@ -1488,7 +1619,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 2,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1501,15 +1631,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Hoàng Cân Chiến Xa",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1524,7 +1657,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 2,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-03-ky",
@@ -1532,7 +1667,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 3,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1545,15 +1679,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Kỵ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1568,7 +1705,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 3,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-04-lu-bo",
@@ -1576,7 +1715,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 4,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1589,15 +1727,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Lữ Bố",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1612,7 +1753,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 4,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-05-luu-ly-lang-ky",
@@ -1620,7 +1763,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 5,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1633,15 +1775,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Lưu Ly Lang Kỵ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1656,7 +1801,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 5,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-06-ma-vuong-lu-bo",
@@ -1664,7 +1811,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 6,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1677,15 +1823,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Ma Vương Lữ Bố",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1700,7 +1849,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 6,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-07-manh-chien",
@@ -1708,7 +1859,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 7,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1721,15 +1871,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Mãnh Chiến",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1744,7 +1897,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 7,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-08-manh-ma-cu-tuong",
@@ -1752,7 +1907,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 8,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1765,15 +1919,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Mãnh Mã Cự Tượng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1788,7 +1945,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 8,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-09-manh-tuong",
@@ -1796,7 +1955,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1809,15 +1967,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Mãnh Tượng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1832,7 +1993,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-10-quan-vu",
@@ -1840,7 +2003,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1853,15 +2015,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Quan Vũ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1876,7 +2041,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-cavalry-t0-11-trung-binh",
@@ -1884,7 +2051,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 0,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1897,15 +2063,18 @@
         "sourceSnapshotLineBlock": [
           823,
           884
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 0 > Trùng Binh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1920,7 +2089,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-archer-t0-01-bach-ho",
@@ -1928,7 +2099,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 0,
-      "orderInTierSource": 1,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1941,15 +2111,18 @@
         "sourceSnapshotLineBlock": [
           1190,
           1229
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 0 > Bạch Hổ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -1964,7 +2137,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 1,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-archer-t0-02-chu-tuoc",
@@ -1972,7 +2147,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 0,
-      "orderInTierSource": 2,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -1985,15 +2159,18 @@
         "sourceSnapshotLineBlock": [
           1190,
           1229
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 0 > Chu Tước",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2008,7 +2185,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 2,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-archer-t0-03-cung",
@@ -2016,7 +2195,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 0,
-      "orderInTierSource": 3,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2029,15 +2207,18 @@
         "sourceSnapshotLineBlock": [
           1190,
           1229
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 0 > Cung",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2052,7 +2233,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 3,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-archer-t0-04-cu-thu",
@@ -2060,7 +2243,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 0,
-      "orderInTierSource": 4,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2073,15 +2255,18 @@
         "sourceSnapshotLineBlock": [
           1190,
           1229
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 0 > Cự Thú",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2096,7 +2281,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 4,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-archer-t0-05-diet-than-phao",
@@ -2104,7 +2291,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 0,
-      "orderInTierSource": 5,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2117,15 +2303,18 @@
         "sourceSnapshotLineBlock": [
           1190,
           1229
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 0 > Diệt Thần Pháo",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2140,7 +2329,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 5,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-archer-t0-06-huyen-vu",
@@ -2148,7 +2339,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 0,
-      "orderInTierSource": 6,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2161,15 +2351,18 @@
         "sourceSnapshotLineBlock": [
           1190,
           1229
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 0 > Huyền Vũ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2184,7 +2377,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 6,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-archer-t0-07-nguyet-hon-anh",
@@ -2192,7 +2387,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 0,
-      "orderInTierSource": 7,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2205,15 +2399,18 @@
         "sourceSnapshotLineBlock": [
           1190,
           1229
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 0 > Nguyệt Hồn Ảnh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2228,7 +2425,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 7,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-archer-t0-08-thanh-long",
@@ -2236,7 +2435,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 0,
-      "orderInTierSource": 8,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2249,15 +2447,18 @@
         "sourceSnapshotLineBlock": [
           1190,
           1229
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 0 > Thanh Long",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2272,7 +2473,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 8,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-01-ap-du",
@@ -2280,7 +2483,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 1,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2293,15 +2495,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Áp Dữ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2316,7 +2521,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 1,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-02-ba-xa",
@@ -2324,7 +2531,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 2,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2337,15 +2543,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Ba Xà",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2360,7 +2569,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 2,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-03-bat-tran-co-tuong",
@@ -2368,7 +2579,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 3,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2381,15 +2591,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Bát Trận Cổ Tướng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2404,7 +2617,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 3,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-04-bat-tran-thach-binh",
@@ -2412,7 +2627,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 4,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2425,15 +2639,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Bát Trận Thạch Binh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2448,7 +2665,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 4,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-05-bat-tran-thach-co",
@@ -2456,7 +2675,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 5,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2469,15 +2687,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Bát Trận Thạch Cổ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2492,7 +2713,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 5,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-06-bat-tran-thach-tuong",
@@ -2500,7 +2723,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 6,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2513,15 +2735,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Bát Trận Thạch Tướng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2536,7 +2761,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 6,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-07-bat-tran-thach-vuong",
@@ -2544,7 +2771,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 7,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2557,15 +2783,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Bát Trận Thạch Vương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2580,7 +2809,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 7,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-08-bacdau",
@@ -2588,7 +2819,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 8,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2601,15 +2831,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > BắcĐẩu",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2624,7 +2857,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 8,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-09-boss-truong-giac",
@@ -2632,7 +2867,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2645,15 +2879,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > BOSS Trương Giác",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2668,7 +2905,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-10-chu-yem",
@@ -2676,7 +2915,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2689,15 +2927,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Chu Yêm",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2712,7 +2953,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-11-coquan-thu",
@@ -2720,7 +2963,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2733,15 +2975,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > CơQuan Thú",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2756,7 +3001,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-12-coquan-thu-nhue",
@@ -2764,7 +3011,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 12,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2777,15 +3023,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > CơQuan Thú Nhuệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2800,7 +3049,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 12,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-13-coquan-thu-tuong",
@@ -2808,7 +3059,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 13,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2821,15 +3071,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > CơQuan Thú Tướng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2844,7 +3097,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 13,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-14-cung-ky",
@@ -2852,7 +3107,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 14,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2865,15 +3119,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Cùng Kỳ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2888,7 +3145,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 14,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-15-cu-thach-vuong",
@@ -2896,7 +3155,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 15,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2909,15 +3167,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Cự Thạch Vương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2932,7 +3193,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 15,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-16-dao-ngot",
@@ -2940,7 +3203,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 16,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2953,15 +3215,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Đào Ngột",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -2976,7 +3241,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 16,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-17-dinh-thien-su",
@@ -2984,7 +3251,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 17,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -2997,15 +3263,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Định Thiên Sứ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3020,7 +3289,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 17,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-18-hai-tac-quan",
@@ -3028,7 +3299,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 18,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3041,15 +3311,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Hải Tặc Quan",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3064,7 +3337,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 18,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-19-lac-thien-quan",
@@ -3072,7 +3347,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 19,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3085,15 +3359,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Lạc Thiên Quan",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3108,7 +3385,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 19,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-20-ma-vuong-dong-trac",
@@ -3116,7 +3395,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 20,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3129,15 +3407,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Ma Vương Đổng Trác",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3152,7 +3433,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 20,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-21-man-hong-nguu",
@@ -3160,7 +3443,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 21,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3173,15 +3455,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Man Hống Ngưu",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3196,7 +3481,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 21,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-22-man-thach-binh",
@@ -3204,7 +3491,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 22,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3217,15 +3503,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Man Thạch Binh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3240,7 +3529,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 22,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-23-moc-nguu-cu-thu",
@@ -3248,7 +3539,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 23,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3261,15 +3551,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Mộc Ngưu Cự Thú",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3284,7 +3577,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 23,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-24-moc-nguu-thu-vuong",
@@ -3292,7 +3587,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 24,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3305,15 +3599,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Mộc Ngưu Thú vương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3328,7 +3625,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 24,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-25-nam-hoa-tien-su",
@@ -3336,7 +3635,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 25,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3349,15 +3647,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Nam Hoa Tiên Sứ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3372,7 +3673,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 25,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-26-namdau",
@@ -3380,7 +3683,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 26,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3393,15 +3695,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > NamĐẩu",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3416,7 +3721,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 26,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-27-nguyet-hon-quan",
@@ -3424,7 +3731,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 27,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3437,15 +3743,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Nguyệt Hồn Quan",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3460,7 +3769,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 27,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-28-nguyet-hon-su",
@@ -3468,7 +3779,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 28,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3481,15 +3791,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Nguyệt Hồn Sư",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3504,7 +3817,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 28,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-29-nguyet-thien-am",
@@ -3512,7 +3827,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 29,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3525,15 +3839,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Nguyệt Thiên Âm",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3548,7 +3865,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 29,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-30-phi-liem",
@@ -3556,7 +3875,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 30,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3569,15 +3887,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Phi Liêm",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3592,7 +3913,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 30,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-31-quan-van",
@@ -3600,7 +3923,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 31,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3613,15 +3935,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Quan văn",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3636,7 +3961,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 31,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-32-quy-muu-si",
@@ -3644,7 +3971,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 32,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3657,15 +3983,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Quỷ Mưu Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3680,7 +4009,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 32,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-33-son-tac-quan",
@@ -3688,7 +4019,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 33,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3701,15 +4031,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Sơn Tặc Quan",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3724,7 +4057,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 33,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-34-tao-thao",
@@ -3732,7 +4067,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 34,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3745,15 +4079,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Tào Tháo",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3768,7 +4105,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 34,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-35-thach-binh",
@@ -3776,7 +4115,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 35,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3789,15 +4127,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thạch Binh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3812,7 +4153,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 35,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-36-thach-binh-nhue",
@@ -3820,7 +4163,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 36,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3833,15 +4175,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thạch Binh Nhuệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3856,7 +4201,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 36,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-37-thach-tuong",
@@ -3864,7 +4211,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 37,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3877,15 +4223,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thạch Tướng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3900,7 +4249,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 37,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-38-thach-tuong-nhue",
@@ -3908,7 +4259,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 38,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3921,15 +4271,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thạch Tướng Nhuệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3944,7 +4297,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 38,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-39-thai-binh-hien-si",
@@ -3952,7 +4307,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 39,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -3965,15 +4319,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thái Bình Hiền Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -3988,7 +4345,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 39,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-40-thao-thiet",
@@ -3996,7 +4355,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 40,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -4009,15 +4367,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thao Thiết",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -4032,7 +4393,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 40,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-41-thien-cong-hien-gia",
@@ -4040,7 +4403,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 41,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -4053,15 +4415,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thiên Công Hiền Giả",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -4076,7 +4441,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 41,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-42-thien-lang",
@@ -4084,7 +4451,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 42,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -4097,15 +4463,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thiên Lang",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -4120,7 +4489,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 42,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-43-thien-vu-huyen-am",
@@ -4128,7 +4499,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 43,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -4141,15 +4511,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Thiên Vũ Huyền Âm",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -4164,7 +4537,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 43,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-44-trung-quan",
@@ -4172,7 +4547,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 44,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -4185,15 +4559,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Trùng Quan",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -4208,7 +4585,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 44,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-45-trung-vuong",
@@ -4216,7 +4595,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 45,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -4229,15 +4607,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > Trùng Vương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -4252,7 +4633,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 45,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-strategist-t0-46-vudoc-si",
@@ -4260,7 +4643,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 0,
-      "orderInTierSource": 46,
       "sourceVisibleCategory": "TIER0_MIXED",
       "facts": [],
       "source": {
@@ -4273,15 +4655,18 @@
         "sourceSnapshotLineBlock": [
           1534,
           1777
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 0 > VuĐộc Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -4296,7 +4681,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 46,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-infantry-t6-05-cong-kien-binh",
@@ -4304,7 +4691,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 5,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4317,15 +4703,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Công Kiên Binh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4340,7 +4729,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 5,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-06-cuc-han-bang-giap",
@@ -4348,7 +4739,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 6,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4361,15 +4751,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Cực Hàn Băng Giáp",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4384,7 +4777,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 6,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-07-hoang-can-giap-si",
@@ -4392,7 +4787,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 7,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -4417,15 +4811,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Hoàng Cân Giáp Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4440,7 +4837,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 7,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-08-hoang-can-luc-si",
@@ -4448,7 +4847,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 8,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4461,15 +4859,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Hoàng Cân Lực Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4484,7 +4885,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 8,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-09-hoang-can-tuong",
@@ -4492,7 +4895,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4505,15 +4907,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Hoàng Cân Tướng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4528,7 +4933,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-10-huyet-anh-khoat-dao",
@@ -4536,7 +4943,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4549,15 +4955,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Huyết Ảnh Khoát Đao",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4572,7 +4981,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-11-luu-ly-kiem-ve",
@@ -4580,7 +4991,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -4627,15 +5037,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Lưu Ly Kiếm Vệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4650,7 +5063,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-12-luu-ly-thuan-binh",
@@ -4658,7 +5073,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 12,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -4683,15 +5097,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Lưu Ly Thuẫn Binh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4706,7 +5123,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 12,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-13-minh-gioi-luc-si",
@@ -4714,7 +5133,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 13,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4727,15 +5145,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Minh Giới Lực Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4750,7 +5171,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 13,
+      "wikiNpcBadgeVisible": false
     },
     {
       "id": "nlwm-extra-infantry-t6-14-tram-phong-ve-si",
@@ -4758,7 +5181,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 14,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4771,15 +5193,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Trảm Phong Vệ Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4794,7 +5219,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 14,
+      "wikiNpcBadgeVisible": false
     },
     {
       "id": "nlwm-extra-infantry-t6-15-tran-nguc-giap",
@@ -4802,7 +5229,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 15,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4815,15 +5241,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Trấn Ngục Giáp",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4838,7 +5267,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 15,
+      "wikiNpcBadgeVisible": false
     },
     {
       "id": "nlwm-extra-infantry-t6-16-u-linh-giam-quan",
@@ -4846,7 +5277,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 16,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4859,15 +5289,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > U Linh Giám Quân",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4882,7 +5315,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 16,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-infantry-t6-17-vu-hoa-niet-ban-ve",
@@ -4890,7 +5325,6 @@
       "family": "infantry",
       "wikiGroup": "Bộ Binh",
       "tier": 6,
-      "orderInTierSource": 17,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -4903,15 +5337,18 @@
         "sourceSnapshotLineBlock": [
           337,
           433
-        ]
+        ],
+        "listingLocator": "Bộ Binh > Cấp 6 > Vũ Hóa Niết Bàn Vệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4926,7 +5363,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 17,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t5-09-thuy-hang-binh",
@@ -4934,7 +5373,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 5,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -4959,15 +5397,18 @@
         "sourceSnapshotLineBlock": [
           665,
           723
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 5 > Thủy Hàng Binh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -4982,7 +5423,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t5-10-thuy-tinh-binh",
@@ -4990,7 +5433,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 5,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -5015,15 +5457,18 @@
         "sourceSnapshotLineBlock": [
           665,
           723
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 5 > Thủy Tinh Binh",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5038,7 +5483,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t6-06-huyet-anh-dao-phu",
@@ -5046,7 +5493,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 6,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -5071,15 +5517,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Huyết Ảnh Đao Phủ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5094,7 +5543,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 6,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t6-07-huyet-anh-kich-ve",
@@ -5102,7 +5553,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 7,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5115,15 +5565,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Huyết Ảnh Kích Vệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5138,7 +5591,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 7,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t6-08-luu-li-phu-ve",
@@ -5146,7 +5601,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 8,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5159,15 +5613,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Lưu Li Phủ Vệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5182,7 +5639,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 8,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t6-09-luu-ly-thuong-ve",
@@ -5190,7 +5649,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5203,15 +5661,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Lưu Ly Thương Vệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5226,7 +5687,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t6-10-than-vo-tuong",
@@ -5234,7 +5697,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5247,15 +5709,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Thần Võ Tướng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5270,7 +5735,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t6-11-tran-nguc-thuong",
@@ -5278,7 +5745,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5291,15 +5757,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Trấn Ngục Thương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5314,7 +5783,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": false
     },
     {
       "id": "nlwm-extra-spear-t6-12-tu-la-chuy",
@@ -5322,7 +5793,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 12,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5335,15 +5805,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Tu La Chùy",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5358,7 +5831,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 12,
+      "wikiNpcBadgeVisible": false
     },
     {
       "id": "nlwm-extra-spear-t6-13-tu-hon-trao",
@@ -5366,7 +5841,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 13,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5379,15 +5853,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Tử Hồn Trảo",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5402,7 +5879,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 13,
+      "wikiNpcBadgeVisible": false
     },
     {
       "id": "nlwm-extra-spear-t6-14-vu-hoa-ky-lan-thuong",
@@ -5410,7 +5889,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 14,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5423,15 +5901,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Vũ Hóa Kỳ Lân Thương",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5446,7 +5927,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 14,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-spear-t6-15-xung-tran-si",
@@ -5454,7 +5937,6 @@
       "family": "spear",
       "wikiGroup": "Thương Binh",
       "tier": 6,
-      "orderInTierSource": 15,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5467,15 +5949,18 @@
         "sourceSnapshotLineBlock": [
           724,
           809
-        ]
+        ],
+        "listingLocator": "Thương Binh > Cấp 6 > Xung Trận Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5490,7 +5975,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 15,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-cavalry-t6-09-boss-so-2",
@@ -5498,7 +5985,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 6,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -5523,15 +6009,18 @@
         "sourceSnapshotLineBlock": [
           1091,
           1176
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 6 > BOSS Số 2",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5546,7 +6035,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-cavalry-t6-10-huyet-anh-di-quy",
@@ -5554,7 +6045,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 6,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -5579,15 +6069,18 @@
         "sourceSnapshotLineBlock": [
           1091,
           1176
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 6 > Huyết Ảnh Dị Quỷ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5602,7 +6095,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-cavalry-t6-11-manh-doc-di-quy",
@@ -5610,7 +6105,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 6,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5623,15 +6117,18 @@
         "sourceSnapshotLineBlock": [
           1091,
           1176
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 6 > Mãnh Độc Dị Quỷ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5646,7 +6143,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-cavalry-t6-12-phe-cot-quy",
@@ -5654,7 +6153,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 6,
-      "orderInTierSource": 12,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5667,15 +6165,18 @@
         "sourceSnapshotLineBlock": [
           1091,
           1176
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 6 > Phệ Cốt Quỷ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5690,7 +6191,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 12,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-cavalry-t6-13-phe-hon-di-quy",
@@ -5698,7 +6201,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 6,
-      "orderInTierSource": 13,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5711,15 +6213,18 @@
         "sourceSnapshotLineBlock": [
           1091,
           1176
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 6 > Phệ Hồn Dị Quỷ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5734,7 +6239,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 13,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-cavalry-t6-14-than-vu-ky",
@@ -5742,7 +6249,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 6,
-      "orderInTierSource": 14,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5755,15 +6261,18 @@
         "sourceSnapshotLineBlock": [
           1091,
           1176
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 6 > Thần Vũ Kỵ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5778,7 +6287,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 14,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-cavalry-t6-15-thien-than-tuong",
@@ -5786,7 +6297,6 @@
       "family": "cavalry",
       "wikiGroup": "Kỵ Binh",
       "tier": 6,
-      "orderInTierSource": 15,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5799,15 +6309,18 @@
         "sourceSnapshotLineBlock": [
           1091,
           1176
-        ]
+        ],
+        "listingLocator": "Kỵ Binh > Cấp 6 > Thiên Thần Tượng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5822,7 +6335,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 15,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-archer-t6-09-huyet-anh-nhan-ve",
@@ -5830,7 +6345,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 6,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -5866,15 +6380,18 @@
         "sourceSnapshotLineBlock": [
           1435,
           1520
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 6 > Huyết Ảnh Nhẫn Vệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5889,7 +6406,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-archer-t6-10-huyet-anh-no-ve",
@@ -5897,7 +6416,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 6,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5910,15 +6428,18 @@
         "sourceSnapshotLineBlock": [
           1435,
           1520
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 6 > Huyết Ảnh Nỏ Vệ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5933,7 +6454,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-archer-t6-11-luu-ly-am-thich",
@@ -5941,7 +6464,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 6,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -5954,15 +6476,18 @@
         "sourceSnapshotLineBlock": [
           1435,
           1520
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 6 > Lưu Ly Ám Thích",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -5977,7 +6502,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-archer-t6-12-luu-ly-than-xa",
@@ -5985,7 +6512,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 6,
-      "orderInTierSource": 12,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -6010,15 +6536,18 @@
         "sourceSnapshotLineBlock": [
           1435,
           1520
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 6 > Lưu Ly Thần Xạ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6033,7 +6562,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 12,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-archer-t6-13-thi-huyet-di-quy",
@@ -6041,7 +6572,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 6,
-      "orderInTierSource": 13,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6054,15 +6584,18 @@
         "sourceSnapshotLineBlock": [
           1435,
           1520
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 6 > Thị Huyết Dị Quỷ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6077,7 +6610,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 13,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-archer-t6-14-vu-hoa-thien-than-cung",
@@ -6085,7 +6620,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 6,
-      "orderInTierSource": 14,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6098,15 +6632,18 @@
         "sourceSnapshotLineBlock": [
           1435,
           1520
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 6 > Vũ Hóa Thiên Thần Cung",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6121,7 +6658,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 14,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-archer-t6-15-xe-nem-da",
@@ -6129,7 +6668,6 @@
       "family": "archer",
       "wikiGroup": "Cung Binh",
       "tier": 6,
-      "orderInTierSource": 15,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6142,15 +6680,18 @@
         "sourceSnapshotLineBlock": [
           1435,
           1520
-        ]
+        ],
+        "listingLocator": "Cung Binh > Cấp 6 > Xe Ném Đá",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6165,7 +6706,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 15,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-09-cuc-han-ma-cam",
@@ -6173,7 +6716,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 9,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -6198,15 +6740,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Cực Hàn Ma Cầm",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6221,7 +6766,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 9,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-10-huyet-anh-co-thu",
@@ -6229,7 +6776,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 10,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -6254,15 +6800,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Huyết Ảnh Cổ Thủ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6277,7 +6826,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 10,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-11-huyet-anh-mi-yeu",
@@ -6285,7 +6836,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 11,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6298,15 +6848,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Huyết Ảnh Mị Yêu",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6321,7 +6874,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 11,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-12-huyet-anh-nguy-thuat-su",
@@ -6329,7 +6884,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 12,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -6365,15 +6919,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Huyết Ảnh Ngụy Thuật Sư",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6388,7 +6945,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 12,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-13-huyet-anh-vu-co",
@@ -6396,7 +6955,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 13,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6409,15 +6967,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Huyết Ảnh Vũ Cơ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6432,7 +6993,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 13,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-14-huyet-anh-yeu-co",
@@ -6440,7 +7003,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 14,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6453,15 +7015,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Huyết Ảnh Yêu Cơ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6476,7 +7041,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 14,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-15-luu-ly-co-thu",
@@ -6484,7 +7051,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 15,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6497,15 +7063,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Lưu Ly Cổ Thủ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6520,7 +7089,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 15,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-16-luu-ly-di-thu",
@@ -6528,7 +7099,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 16,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6541,15 +7111,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Lưu Ly Dị Thú",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6564,7 +7137,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 16,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-17-luu-ly-thuat-si",
@@ -6572,7 +7147,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 17,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6585,15 +7159,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Lưu Ly Thuật Sĩ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6608,7 +7185,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 17,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-18-luu-ly-yeu-co",
@@ -6616,7 +7195,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 18,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6629,15 +7207,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Lưu Ly Yêu Cơ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6652,7 +7233,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 18,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-19-nguyet-ho",
@@ -6660,7 +7243,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 19,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6673,15 +7255,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Nguyệt Hồ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6696,7 +7281,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 19,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-20-nguyet-hon-yeu-ho",
@@ -6704,7 +7291,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 20,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6717,15 +7303,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Nguyệt Hồn Yêu Hồ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6740,7 +7329,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 20,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-21-than-vo-am",
@@ -6748,7 +7339,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 21,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6761,15 +7351,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Thần Võ Âm",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6784,7 +7377,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 21,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-22-than-vo-quan",
@@ -6792,7 +7387,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 22,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [],
       "source": {
@@ -6805,15 +7399,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Thần Võ Quan",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6828,7 +7425,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 22,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-strategist-t6-23-vu-hoa-chan-than-co",
@@ -6836,7 +7435,6 @@
       "family": "strategist",
       "wikiGroup": "Quan Văn",
       "tier": 6,
-      "orderInTierSource": 23,
       "sourceVisibleCategory": "SPECIAL_OR_NPC",
       "facts": [
         {
@@ -6872,15 +7470,18 @@
         "sourceSnapshotLineBlock": [
           1983,
           2112
-        ]
+        ],
+        "listingLocator": "Quan Văn > Cấp 6 > Vũ Hóa Chấn Thần Cổ",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "VERIFIED"
       },
       "evolution": {
         "namedParentId": null,
@@ -6895,7 +7496,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 23,
+      "wikiNpcBadgeVisible": true
     },
     {
       "id": "nlwm-extra-ship-small-t0-01-kieu-hang",
@@ -6903,7 +7506,6 @@
       "family": "ship-small",
       "wikiGroup": "Thuyền Nhỏ",
       "tier": 0,
-      "orderInTierSource": 1,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -6916,15 +7518,18 @@
         "sourceSnapshotLineBlock": [
           2126,
           2144
-        ]
+        ],
+        "listingLocator": "Thuyền Nhỏ > Cấp 0 > Kiều Hang",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -6939,7 +7544,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 1,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-ship-small-t0-02-moc-phiet",
@@ -6947,7 +7554,6 @@
       "family": "ship-small",
       "wikiGroup": "Thuyền Nhỏ",
       "tier": 0,
-      "orderInTierSource": 2,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -6960,15 +7566,18 @@
         "sourceSnapshotLineBlock": [
           2126,
           2144
-        ]
+        ],
+        "listingLocator": "Thuyền Nhỏ > Cấp 0 > Mộc Phiệt",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -6983,7 +7592,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 2,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-ship-small-t0-03-tau-kha",
@@ -6991,7 +7602,6 @@
       "family": "ship-small",
       "wikiGroup": "Thuyền Nhỏ",
       "tier": 0,
-      "orderInTierSource": 3,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -7004,15 +7614,18 @@
         "sourceSnapshotLineBlock": [
           2126,
           2144
-        ]
+        ],
+        "listingLocator": "Thuyền Nhỏ > Cấp 0 > Tẩu Kha",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -7027,7 +7640,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 3,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-ship-medium-t0-01-dot-mao",
@@ -7035,7 +7650,6 @@
       "family": "ship-medium",
       "wikiGroup": "Thuyền Vừa",
       "tier": 0,
-      "orderInTierSource": 1,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -7048,15 +7662,18 @@
         "sourceSnapshotLineBlock": [
           2145,
           2164
-        ]
+        ],
+        "listingLocator": "Thuyền Vừa > Cấp 0 > Đột Mạo",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -7071,7 +7688,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 1,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-ship-medium-t0-02-mon-ham",
@@ -7079,7 +7698,6 @@
       "family": "ship-medium",
       "wikiGroup": "Thuyền Vừa",
       "tier": 0,
-      "orderInTierSource": 2,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -7092,15 +7710,18 @@
         "sourceSnapshotLineBlock": [
           2145,
           2164
-        ]
+        ],
+        "listingLocator": "Thuyền Vừa > Cấp 0 > Môn Hạm",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -7115,7 +7736,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 2,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-ship-medium-t0-03-mongdong",
@@ -7123,7 +7746,6 @@
       "family": "ship-medium",
       "wikiGroup": "Thuyền Vừa",
       "tier": 0,
-      "orderInTierSource": 3,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -7136,15 +7758,18 @@
         "sourceSnapshotLineBlock": [
           2145,
           2164
-        ]
+        ],
+        "listingLocator": "Thuyền Vừa > Cấp 0 > MôngĐồng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -7159,7 +7784,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 3,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-ship-large-t0-01-duhoang",
@@ -7167,7 +7794,6 @@
       "family": "ship-large",
       "wikiGroup": "Thuyền Lớn",
       "tier": 0,
-      "orderInTierSource": 1,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -7180,15 +7806,18 @@
         "sourceSnapshotLineBlock": [
           2165,
           2183
-        ]
+        ],
+        "listingLocator": "Thuyền Lớn > Cấp 0 > DưHoàng",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -7203,7 +7832,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 1,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-ship-large-t0-02-lau-thuyen",
@@ -7211,7 +7842,6 @@
       "family": "ship-large",
       "wikiGroup": "Thuyền Lớn",
       "tier": 0,
-      "orderInTierSource": 2,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -7224,15 +7854,18 @@
         "sourceSnapshotLineBlock": [
           2165,
           2183
-        ]
+        ],
+        "listingLocator": "Thuyền Lớn > Cấp 0 > Lâu Thuyền",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -7247,7 +7880,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 2,
+      "wikiNpcBadgeVisible": null
     },
     {
       "id": "nlwm-extra-ship-large-t0-03-tam-duc",
@@ -7255,7 +7890,6 @@
       "family": "ship-large",
       "wikiGroup": "Thuyền Lớn",
       "tier": 0,
-      "orderInTierSource": 3,
       "sourceVisibleCategory": "SHIP",
       "facts": [],
       "source": {
@@ -7268,15 +7902,18 @@
         "sourceSnapshotLineBlock": [
           2165,
           2183
-        ]
+        ],
+        "listingLocator": "Thuyền Lớn > Cấp 0 > Tam Dực",
+        "locatorScope": "family,tier,name; supplementOrdinal does not claim exact rendered Wiki order"
       },
       "fieldProvenance": {
         "name": "VERIFIED",
         "family": "VERIFIED",
         "tier": "VERIFIED",
-        "orderInTierSource": "DERIVED",
         "sourceVisibleCategory": "DERIVED",
-        "facts": "PARTIAL"
+        "facts": "PARTIAL",
+        "supplementOrdinal": "DERIVED",
+        "wikiNpcBadgeVisible": "UNKNOWN"
       },
       "evolution": {
         "namedParentId": null,
@@ -7291,7 +7928,9 @@
         "stats": null,
         "formula": null,
         "classicParity": "UNKNOWN"
-      }
+      },
+      "supplementOrdinal": 3,
+      "wikiNpcBadgeVisible": null
     }
   ]
 }
