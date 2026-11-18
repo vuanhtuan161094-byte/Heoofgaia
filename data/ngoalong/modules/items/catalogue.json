@@ -2074,6 +2074,1551 @@
         "sourceId": "W03",
         "checkedAt": "2026-11-18"
       }
+    },
+    {
+      "id": "mdt-equip02-1",
+      "name": "Thiết Kiếm",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-1",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 1,
+      "requiredLevel": 1,
+      "slot": "weapon",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 8,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 920,
+          "iron": 154,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-1"
+      }
+    },
+    {
+      "id": "mdt-equip02-2",
+      "name": "Ngân Kiếm",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-2",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 3,
+      "requiredLevel": 1,
+      "slot": "weapon",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 9,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1160,
+          "iron": 182,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-2"
+      }
+    },
+    {
+      "id": "mdt-equip02-3",
+      "name": "Tinh Đao",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-3",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 5,
+      "requiredLevel": 1,
+      "slot": "weapon",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 10,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1400,
+          "iron": 210,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-3"
+      }
+    },
+    {
+      "id": "mdt-equip02-4",
+      "name": "Nhật Cung",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-4",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 7,
+      "requiredLevel": 1,
+      "slot": "weapon",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 12,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1640,
+          "iron": 238,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-4"
+      }
+    },
+    {
+      "id": "mdt-equip02-5",
+      "name": "Thủy Kiếm",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-5",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 10,
+      "requiredLevel": 1,
+      "slot": "weapon",
+      "rarity": "Hiếm",
+      "stats": {
+        "atk": 14,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 2000,
+          "iron": 280,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-5"
+      }
+    },
+    {
+      "id": "mdt-equip02-6",
+      "name": "Bố Giáp",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-6",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 1,
+      "requiredLevel": 1,
+      "slot": "armor",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 7,
+        "int": 0,
+        "hp": 24,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 920,
+          "iron": 154,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-6"
+      }
+    },
+    {
+      "id": "mdt-equip02-7",
+      "name": "Bách Thú Y",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-7",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 3,
+      "requiredLevel": 1,
+      "slot": "armor",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 8,
+        "int": 0,
+        "hp": 27,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1160,
+          "iron": 182,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-7"
+      }
+    },
+    {
+      "id": "mdt-equip02-8",
+      "name": "Đồng Giáp",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-8",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 5,
+      "requiredLevel": 1,
+      "slot": "armor",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 9,
+        "int": 0,
+        "hp": 30,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1400,
+          "iron": 210,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-8"
+      }
+    },
+    {
+      "id": "mdt-equip02-9",
+      "name": "Xích Giáp",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-9",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 7,
+      "requiredLevel": 1,
+      "slot": "armor",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 10,
+        "int": 0,
+        "hp": 36,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1640,
+          "iron": 238,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-9"
+      }
+    },
+    {
+      "id": "mdt-equip02-10",
+      "name": "Tố Ngân Khải",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-10",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 10,
+      "requiredLevel": 1,
+      "slot": "armor",
+      "rarity": "Hiếm",
+      "stats": {
+        "atk": 0,
+        "def": 12,
+        "int": 0,
+        "hp": 42,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 2000,
+          "iron": 280,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-10"
+      }
+    },
+    {
+      "id": "mdt-equip02-11",
+      "name": "Hoàng Phiêu",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-11",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 1,
+      "requiredLevel": 1,
+      "slot": "horse",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 4,
+        "def": 0,
+        "int": 0,
+        "hp": 8,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 920,
+          "iron": 154,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-11"
+      }
+    },
+    {
+      "id": "mdt-equip02-12",
+      "name": "Ô Truy",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-12",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 7,
+      "requiredLevel": 1,
+      "slot": "horse",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 7,
+        "def": 0,
+        "int": 0,
+        "hp": 12,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1640,
+          "iron": 238,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-12"
+      }
+    },
+    {
+      "id": "mdt-equip02-13",
+      "name": "Đại Uyển",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-13",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 12,
+      "requiredLevel": 2,
+      "slot": "horse",
+      "rarity": "Hiếm",
+      "stats": {
+        "atk": 8,
+        "def": 0,
+        "int": 0,
+        "hp": 15,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 2240,
+          "iron": 308,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-13"
+      }
+    },
+    {
+      "id": "mdt-equip02-14",
+      "name": "Kinh Thi",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-14",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 1,
+      "requiredLevel": 1,
+      "slot": "book",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 9,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 920,
+          "iron": 154,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-14"
+      }
+    },
+    {
+      "id": "mdt-equip02-15",
+      "name": "Tư Mã Pháp",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-15",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 7,
+      "requiredLevel": 1,
+      "slot": "book",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 13,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1640,
+          "iron": 238,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-15"
+      }
+    },
+    {
+      "id": "mdt-equip02-16",
+      "name": "Điển Luận",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-16",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 12,
+      "requiredLevel": 2,
+      "slot": "book",
+      "rarity": "Hiếm",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 17,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 2240,
+          "iron": 308,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-16"
+      }
+    },
+    {
+      "id": "mdt-equip02-17",
+      "name": "Choàng Gấm",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-17",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 1,
+      "requiredLevel": 1,
+      "slot": "cloak",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 7,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 920,
+          "iron": 154,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-17"
+      }
+    },
+    {
+      "id": "mdt-equip02-18",
+      "name": "Choàng Lụa",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-18",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 7,
+      "requiredLevel": 1,
+      "slot": "cloak",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 11,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1640,
+          "iron": 238,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-18"
+      }
+    },
+    {
+      "id": "mdt-equip02-19",
+      "name": "Giảo Thố",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-19",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 12,
+      "requiredLevel": 2,
+      "slot": "cloak",
+      "rarity": "Hiếm",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 14,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 2240,
+          "iron": 308,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-19"
+      }
+    },
+    {
+      "id": "mdt-equip02-20",
+      "name": "Mộc Thuẫn",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-20",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 1,
+      "requiredLevel": 1,
+      "slot": "shield",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 7
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 920,
+          "iron": 154,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-20"
+      }
+    },
+    {
+      "id": "mdt-equip02-21",
+      "name": "Đồng Thuẫn",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-21",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 7,
+      "requiredLevel": 1,
+      "slot": "shield",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 11
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 1640,
+          "iron": 238,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-21"
+      }
+    },
+    {
+      "id": "mdt-equip02-22",
+      "name": "Hương Nang",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Thường",
+      "sourceId": "wiki-mobile-equip02-22",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 1,
+      "requiredLevel": 1,
+      "slot": "artifact",
+      "rarity": "Thường",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 48,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": null
+      },
+      "acquisitionRule": {
+        "kind": "SHOP",
+        "shopCost": {
+          "silver": 920,
+          "iron": 154,
+          "prestige": 0
+        }
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-22"
+      }
+    },
+    {
+      "id": "mdt-equip02-23",
+      "name": "Cùng Kỳ Trảm Khung Thương",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Cùng Kỳ",
+      "sourceId": "wiki-mobile-equip02-23",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 350,
+      "requiredLevel": 35,
+      "slot": "weapon",
+      "rarity": "Thần thoại",
+      "stats": {
+        "atk": 275,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": "mdt-cung-ky"
+      },
+      "acquisitionRule": {
+        "kind": "AUTHORIZED_REWARD_ONLY",
+        "shopCost": null,
+        "dropRate": null
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-23"
+      }
+    },
+    {
+      "id": "mdt-equip02-24",
+      "name": "Cùng Kỳ Trấn Ngục Giáp",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Cùng Kỳ",
+      "sourceId": "wiki-mobile-equip02-24",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 350,
+      "requiredLevel": 35,
+      "slot": "armor",
+      "rarity": "Thần thoại",
+      "stats": {
+        "atk": 0,
+        "def": 234,
+        "int": 0,
+        "hp": 825,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": "mdt-cung-ky"
+      },
+      "acquisitionRule": {
+        "kind": "AUTHORIZED_REWARD_ONLY",
+        "shopCost": null,
+        "dropRate": null
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-24"
+      }
+    },
+    {
+      "id": "mdt-equip02-25",
+      "name": "Cùng Kỳ Đạp Uyên Thú",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Cùng Kỳ",
+      "sourceId": "wiki-mobile-equip02-25",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 350,
+      "requiredLevel": 35,
+      "slot": "horse",
+      "rarity": "Thần thoại",
+      "stats": {
+        "atk": 151,
+        "def": 0,
+        "int": 0,
+        "hp": 275,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": "mdt-cung-ky"
+      },
+      "acquisitionRule": {
+        "kind": "AUTHORIZED_REWARD_ONLY",
+        "shopCost": null,
+        "dropRate": null
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-25"
+      }
+    },
+    {
+      "id": "mdt-equip02-26",
+      "name": "Cùng Kỳ Phệ Tà Giản",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Cùng Kỳ",
+      "sourceId": "wiki-mobile-equip02-26",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 350,
+      "requiredLevel": 35,
+      "slot": "book",
+      "rarity": "Thần thoại",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 303,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": "mdt-cung-ky"
+      },
+      "acquisitionRule": {
+        "kind": "AUTHORIZED_REWARD_ONLY",
+        "shopCost": null,
+        "dropRate": null
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-26"
+      }
+    },
+    {
+      "id": "mdt-equip02-27",
+      "name": "Cùng Kỳ Phần Thiên Bào",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Cùng Kỳ",
+      "sourceId": "wiki-mobile-equip02-27",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 350,
+      "requiredLevel": 35,
+      "slot": "cloak",
+      "rarity": "Thần thoại",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 248,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": "mdt-cung-ky"
+      },
+      "acquisitionRule": {
+        "kind": "AUTHORIZED_REWARD_ONLY",
+        "shopCost": null,
+        "dropRate": null
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-27"
+      }
+    },
+    {
+      "id": "mdt-equip02-28",
+      "name": "Cùng Kỳ Băng Sơn Thuẫn",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Cùng Kỳ",
+      "sourceId": "wiki-mobile-equip02-28",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 350,
+      "requiredLevel": 35,
+      "slot": "shield",
+      "rarity": "Thần thoại",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 0,
+        "tdef": 0,
+        "mdef": 248
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": "mdt-cung-ky"
+      },
+      "acquisitionRule": {
+        "kind": "AUTHORIZED_REWARD_ONLY",
+        "shopCost": null,
+        "dropRate": null
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-28"
+      }
+    },
+    {
+      "id": "mdt-equip02-29",
+      "name": "Cùng Kỳ Thôn Thiên Ấn",
+      "category": "equipment",
+      "integration": "PLAYABLE",
+      "sourceEdition": "PROJECT_ORIGINAL_FROM_MOBILE_INDEX",
+      "sourceGroup": "Cùng Kỳ",
+      "sourceId": "wiki-mobile-equip02-29",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "displayedLevel": 350,
+      "requiredLevel": 35,
+      "slot": "artifact",
+      "rarity": "Thần thoại",
+      "stats": {
+        "atk": 0,
+        "def": 0,
+        "int": 0,
+        "hp": 1650,
+        "tdef": 0,
+        "mdef": 0
+      },
+      "effectRule": {
+        "kind": "EQUIPMENT_STATS",
+        "setId": "mdt-cung-ky"
+      },
+      "acquisitionRule": {
+        "kind": "AUTHORIZED_REWARD_ONLY",
+        "shopCost": null,
+        "dropRate": null
+      },
+      "enhancementRule": {
+        "kind": "REINFORCEMENT",
+        "ruleId": "project-r03-v1"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "slot": "DERIVED",
+        "requiredLevel": "SIMULATED",
+        "rarity": "SIMULATED",
+        "stats": "SIMULATED",
+        "effectRule": "SIMULATED",
+        "acquisitionRule": "SIMULATED",
+        "enhancementRule": "SIMULATED"
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-items-v2",
+        "inspiredBy": "wiki-mobile-equip02-29"
+      }
     }
   ],
   "items": [
@@ -2290,5 +3835,14 @@
         "checkedAt": "2026-11-18"
       }
     }
-  ]
+  ],
+  "projectGearExpansion": {
+    "status": "PLAYABLE_MODULE_ONLY",
+    "sourceRecords": 29,
+    "projectModels": 29,
+    "projectFormula": "SIMULATED",
+    "wikiStatsCopied": false,
+    "wikiIndexFullyImported": false,
+    "noRuntimeIntegrationClaim": true
+  }
 }
