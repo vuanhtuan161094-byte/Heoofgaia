@@ -27,6 +27,7 @@ jobs:
         run: |
           python -m py_compile data/ngoalong/group02_wiki/build_dungeons.py
           python -m py_compile data/ngoalong/group02_wiki/crawl_dungeons.py
+          python data/ngoalong/group02_wiki/crawl_dungeons.py --self-test
           python -m py_compile data/ngoalong/group02_wiki/reconcile_dungeon_versions.py
           python data/ngoalong/group02_wiki/build_dungeons.py --self-test
           python data/ngoalong/group02_wiki/reconcile_dungeon_versions.py --self-test
@@ -61,8 +62,8 @@ jobs:
 
   aggregate:
     name: Consolidate source-only group02 Wiki data
-    needs: extract
-    if: always()
+    needs: [parser_test, extract]
+    if: always() && needs.parser_test.result == 'success' && needs.extract.result == 'success'
     runs-on: ubuntu-24.04
     timeout-minutes: 12
     permissions:
@@ -80,6 +81,7 @@ jobs:
           import json,glob
           from pathlib import Path
           files=sorted(glob.glob('gathered/*.json'))
+          if len(files)!=8:raise RuntimeError('Need eight evidence shards, found '+str(len(files)))
           maps={};issues=[];shards=[]
           for path in files:
             j=json.loads(Path(path).read_text(encoding='utf-8'))
@@ -89,6 +91,10 @@ jobs:
               mid=r['mapId']
               if mid in maps:raise RuntimeError('duplicate mapId '+str(mid))
               maps[mid]=r
+          if sorted(x['shard'] for x in shards)!=list(range(8)):
+            raise RuntimeError('Missing or duplicate shard indexes')
+          if len({x['indexCount'] for x in shards})!=1:
+            raise RuntimeError('Wiki index changed while crawling; snapshots not mutually consistent')
           if len(maps)<200:raise RuntimeError('index incomplete: '+str(len(maps)))
           rows=[maps[k] for k in sorted(maps)]
           complete=sum(bool(r.get('npcListComplete')) for r in rows)
