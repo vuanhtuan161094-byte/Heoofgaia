@@ -4,7 +4,7 @@ const invariant=(ok,message)=>{if(!ok)throw new Error(message);};
 const path=require("node:path");
 function getDesignData(root=path.resolve(__dirname,"..")){
   return {
-    wiki:require(path.join(root,"data/ngoalong/modules/troops/catalogue_wiki_v1.json")),
+    wiki:(()=>{const i=require(path.join(root,"data/ngoalong/modules/troops/catalogue_wiki_v1.json"));return {...i,records:i.recordShards.flatMap(p=>require(path.join(root,p)).records)};})(),
     project:require(path.join(root,"data/ngoalong/modules/troops/project_playable_v1.json")),
     evolution:require(path.join(root,"data/ngoalong/modules/troops/evolution_contract_v1.json"))
   };

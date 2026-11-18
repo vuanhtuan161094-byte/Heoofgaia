@@ -9,7 +9,7 @@ Date: 2026-11-18. Task branch: `feature/nl-v2-troops`. Source HEAD: `a88b8449714
 - **25 project-origin design combat identities**, separate from source: 7 base types + 18 existing project specialization IDs from alpha_content.json, with distinct trigger/target/effectIntent signatures and SIMULATED 1–7 design stats. 18 project-origin specialization edges are NOT Wiki-verified evolution.
 
 ## Files
-- `catalogue_wiki_v1.json`: all Wiki appearance identities, provenance, mechanic operations, effect bridge event IDs, art metadata and missing-source gates.
+- `catalogue_wiki_v1.json`: eight-family shard index (372 appearances). `wiki_*_v1.json` stores all appearance identities and provenance, mechanic operations, effect bridge event IDs, art metadata and missing-source gates. `getDesignData` resolves all eight shards into `wiki.records`.
 - `project_playable_v1.json`: 25 project-origin behavior designs; **DESIGN_READY_NOT_INTEGRATED**, no new gameplay claimed.
 - `evolution_contract_v1.json`: source tier-only adjacency / unverified named edges and separate project design edges.
 - `source_audit_v1.json`: source coverage, counts and explicit unknowns.
