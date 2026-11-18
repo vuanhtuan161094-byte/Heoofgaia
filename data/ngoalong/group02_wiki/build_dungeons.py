@@ -46,6 +46,9 @@ def normalize_unit(raw, npc_url):
     skill_name = nonempty(raw.get("skillName"))
     troop_name = nonempty(raw.get("troopName"))
     character_name = nonempty(raw.get("name"))
+    troop_wiki_id = nonempty(raw.get("troopWikiId"))
+    crit_pct = nonempty(raw.get("criticalPercent"))
+    counter_pct = nonempty(raw.get("counterattackPercent"))
     return {
         "wikiSlot": wiki_slot,
         "formationSlot": wiki_slot - 1 if wiki_slot is not None else None,
@@ -53,6 +56,10 @@ def normalize_unit(raw, npc_url):
         "level": level,
         "soldiers": soldiers,
         "troopName": troop_name,
+        "troopWikiId": troop_wiki_id,
+        "troopLabel": nonempty(raw.get("troopLabel")),
+        "criticalPercent": crit_pct,
+        "counterattackPercent": counter_pct,
         "skillName": skill_name,
         "heroId": None,
         "troopId": None,
@@ -65,6 +72,10 @@ def normalize_unit(raw, npc_url):
             "level": proven(level, npc_url),
             "soldiers": proven(soldiers, npc_url),
             "troopName": proven(troop_name, npc_url),
+            "troopWikiId": proven(troop_wiki_id, npc_url),
+            "troopLabel": proven(nonempty(raw.get("troopLabel")), npc_url),
+            "criticalPercent": proven(crit_pct, npc_url),
+            "counterattackPercent": proven(counter_pct, npc_url),
             "skillName": proven(skill_name, npc_url),
             "heroId": proven(None, None),
             "troopId": proven(None, None),
@@ -91,6 +102,16 @@ def normalize_npc(raw, map_id):
     observed = sum(x["soldiers"] for x in units if x["soldiers"] is not None)
     complete_sum = bool(units) and all(x["soldiers"] is not None for x in units)
     matches = bool(complete_sum and total is not None and observed == total)
+    source_full_team = raw.get("fullTeamVerified") is True
+    source_slots = raw.get("formationOccupiedSlots")
+    source_count = nonempty(raw.get("formationDeclaredUnitCount"))
+    if source_full_team:
+        if (not isinstance(source_slots, list) or source_count is None
+                or source_count != len(units)
+                or sorted(source_slots) != sorted(slots)
+                or len(slots) != len(units)):
+            raise DungeonBuildError(f"NPC {ai_id}: full-team flag is unsupported by selected slots")
+    formation_complete = source_full_team and source_count == len(units)
     wiki_name = nonempty(raw.get("name"))
     kind = nonempty(raw.get("kind"))
     lvl = nonempty(raw.get("level"))
@@ -102,6 +123,8 @@ def normalize_npc(raw, map_id):
             missing.append(key)
     if not units:
         missing.append("formationUnits")
+    if not formation_complete:
+        missing.append("formationNotExhaustivelyObserved")
     if any(x["troopName"] is None for x in units):
         missing.append("unitTroopNames")
     if any(x["skillName"] is None for x in units):
@@ -120,9 +143,11 @@ def normalize_npc(raw, map_id):
         "combatCoefficientShown": nonempty(raw.get("attackCoefficientShown")),
         "combatCoefficientFormula": None,
         "formationUnits": units,
+        "formationDeclaredUnitCount": source_count,
+        "formationOccupiedSlots": source_slots,
         "observedUnitSoldierSum": observed if complete_sum else None,
         "soldierSumMatchesVisibleUnits": matches if complete_sum and total is not None else None,
-        "formationComplete": False,
+        "formationComplete": formation_complete,
         "integrationStatus": "REFERENCE_ONLY",
         "missing": sorted(set(missing)),
         "sourceUrl": url,
@@ -136,7 +161,9 @@ def normalize_npc(raw, map_id):
             "combatCoefficientFormula": proven(None, None),
             "formationUnits": proven(units if units else None, url),
             "observedUnitSoldierSum": proven(observed if complete_sum else None, url, derived=True),
-            "formationComplete": proven(None, None),
+            "formationDeclaredUnitCount": proven(source_count, url),
+            "formationOccupiedSlots": proven(source_slots, url),
+            "formationComplete": proven(formation_complete if source_full_team else None, url, derived=True),
         },
     }
 
@@ -178,6 +205,9 @@ def normalize_map(raw):
         "advertisedNpcCount": announced,
         "observedNpcCount": len(npcs),
         "npcListComplete": actually_complete,
+        "detailDeclaredNpcCount": nonempty(raw.get("detailDeclaredNpcCount")),
+        "npcCountIndexVsDetailMismatch": bool(raw.get("npcCountIndexVsDetailMismatch", False)),
+        "npcFullyEnumeratedFormationCount": sum(n["formationComplete"] for n in npcs),
         "mapOrder": None,
         "dungeonType": None,
         "victoryReward": None,
@@ -216,6 +246,8 @@ def build(records, *, source_label="GitHub Action Wiki extraction"):
     unknown_names = sum(n["name"] is None for n in npcs)
     missing_units = sum(not n["formationUnits"] for n in npcs)
     soldier_mismatch = sum(n["soldierSumMatchesVisibleUnits"] is False for n in npcs)
+    full_formations = sum(n["formationComplete"] for n in npcs)
+    detail_count_conflicts = sum(m["npcCountIndexVsDetailMismatch"] for m in maps)
     report = {
         "sourceLabel": source_label,
         "sourceWiki": WIKI,
@@ -229,8 +261,11 @@ def build(records, *, source_label="GitHub Action Wiki extraction"):
         "npcNamesMissing": unknown_names,
         "npcFormationsMissing": missing_units,
         "soldierTotalContradictions": soldier_mismatch,
+        "fullNpcFormationCount": full_formations,
+        "unverifiedNpcFormationCount": len(npcs)-full_formations,
+        "detailVsIndexNpcCountConflicts": detail_count_conflicts,
         "fullyGameplayReadyMaps": 0,
-        "status": "PARTIAL" if complete_maps != len(maps) or unknown_names or missing_units else "SOURCE_REVIEW_REQUIRED",
+        "status": "PARTIAL" if complete_maps != len(maps) or unknown_names or missing_units or full_formations != len(npcs) else "SOURCE_REVIEW_REQUIRED",
         "warning": "Indexed NPC rows are not gameplay-ready until skills, troop refs, all 3x3 units, version and mechanics are reviewed.",
     }
     out = {
@@ -244,6 +279,57 @@ def build(records, *, source_label="GitHub Action Wiki extraction"):
         "maps": maps,
     }
     return out, report
+
+
+def make_integration_handoff(out, report):
+    """A read-only contract for group00/integration; never modifies runtime."""
+    maps = out["maps"]
+    return {
+        "schemaVersion": 1,
+        "group": "02_WIKI_SYSTEMS",
+        "target": "NGOALONG_GAMEPLAY_INTEGRATION",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "classicParity": "UNKNOWN",
+        "releaseStatus": "REFERENCE_ONLY_NOT_GAMEPLAY_READY",
+        "canonicalBlueprintFile": "data/ngoalong/group02_wiki/wiki_dungeon_blueprints.json",
+        "coverage": {
+            "mapsIndexed": len(maps),
+            "npcDetailRows": report["npcDetailCount"],
+            "npcFormationExhaustiveRows": report["fullNpcFormationCount"],
+            "npcFormationMissingRows": report["unverifiedNpcFormationCount"],
+            "mapRosterIncomplete": report["mapNpcRosterIncompleteCount"],
+            "soldierTotalContradictions": report["soldierTotalContradictions"],
+        },
+        "mapHandoffs": [
+            {
+                "wikiMapId": m["wikiMapId"],
+                "name": m["name"],
+                "npcRosterComplete": m["npcListComplete"],
+                "npcCount": len(m["npcs"]),
+                "formationCompleteNpcCount": m["npcFullyEnumeratedFormationCount"],
+                "blockingIssues": sorted(set(
+                    (["NPC_ROSTER_INCOMPLETE"] if not m["npcListComplete"] else [])
+                    + (["NPC_FORMATIONS_INCOMPLETE"] if m["npcFullyEnumeratedFormationCount"] != len(m["npcs"]) else [])
+                    + (["SKILL_TROOP_RUNTIME_BINDINGS_NOT_VERIFIED"])
+                    + (["CLASSIC_PARITY_UNKNOWN"])
+                )),
+            } for m in maps
+        ],
+        "integrationContract": {
+            "requiredBeforeGameplay": [
+                "resolve every Wiki troop and skill ID to original project mechanics without claiming Wiki formula parity",
+                "confirm 1-based Wiki slot orientation against runtime 0-based 3x3 coordinates",
+                "validate entire NPC roster order and reward/settlement authority",
+                "reuse canonical Save v5 and replay receipt gates; no double settlement",
+                "pass all gameplay quick/full exact-SHA gates before moving integrationStatus to TESTED",
+            ],
+            "forbidden": [
+                "no direct runtime import from partial Wiki snapshots",
+                "no invented missing NPC values, troop stats, skill probabilities or equipment",
+                "no protected art, code or player battle reports",
+            ],
+        },
+    }
 
 
 def read_map_sources(paths):
@@ -291,7 +377,21 @@ def self_test():
         pass
     else:
         raise AssertionError("Duplicate map not rejected")
-    print("PASS: Dungeon Builder provenance, formation, totals and duplicate protection")
+    verified = json.loads(json.dumps(m))
+    verified["npcs"][0]["fullTeamVerified"] = True
+    verified["npcs"][0]["formationOccupiedSlots"] = [3,5]
+    verified["npcs"][0]["formationDeclaredUnitCount"] = 2
+    a,_ = build([verified])
+    assert a["maps"][0]["npcs"][0]["formationComplete"] is True
+    broken = json.loads(json.dumps(verified))
+    broken["npcs"][0]["formationOccupiedSlots"] = [3,5,7]
+    try:
+        build([broken])
+    except DungeonBuildError:
+        pass
+    else:
+        raise AssertionError("Unsupported full-team claim was accepted")
+    print("PASS: Dungeon Builder provenance, verified nine-slot coverage, soldier totals and duplicate protection")
 
 
 def main():
@@ -299,6 +399,7 @@ def main():
     p.add_argument("--source", action="append", default=[])
     p.add_argument("--output", type=Path)
     p.add_argument("--report", type=Path)
+    p.add_argument("--handoff", type=Path)
     p.add_argument("--minimum-maps", type=int, default=1)
     p.add_argument("--self-test", action="store_true")
     args = p.parse_args()
@@ -310,7 +411,10 @@ def main():
     out, report = build(read_map_sources(args.source), source_label="; ".join(args.source))
     if report["mapCount"] < args.minimum_maps:
         raise DungeonBuildError(f"Only {report['mapCount']} maps; need {args.minimum_maps}")
-    for path, data in ((args.output, out), (args.report, report)):
+    output_files = [(args.output, out), (args.report, report)]
+    if args.handoff:
+        output_files.append((args.handoff, make_integration_handoff(out, report)))
+    for path, data in output_files:
         path.parent.mkdir(parents=True, exist_ok=True)
         path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, ensure_ascii=False, indent=2))
