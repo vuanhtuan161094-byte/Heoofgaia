@@ -27,7 +27,34 @@
     "coverage": "213_CORE_TIER_PROFILES_OF_267_TIER_1_TO_7_ENTRIES_IN_FIVE_FAMILY_SECTIONS; EXCLUDES_UNMAPPED_NPC_SPECIAL_AND_OTHER_FILTERS",
     "wikiFormulaAccess": "UNKNOWN",
     "artAndAudioImported": false,
-    "currentWikiBinhChungPageReportsClarification": "73 refers to displayed initial Bộ Binh group/filter, not full total; homepage advertises 372 across broader catalogue."
+    "currentWikiBinhChungPageReportsClarification": "73 is Bộ Binh filter subtotal; all eight group totals (73+64+62+59+105+3+3+3) reconcile to 372 homepage entries; count includes NPC, test, base and repeated labels.",
+    "allCategoriesReconciled": true,
+    "reconciliation": {
+      "sourceId": "NL-W02",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "status": "VERIFIED_PAGE_COUNTS",
+      "catalogPieces": [
+        {
+          "path": "data/ngoalong/references/combat_troops_mobile_v1.json",
+          "records": 213,
+          "scope": "Five land families, tier 1 to tier 7, basic/core records"
+        },
+        {
+          "path": "data/ngoalong/references/combat_troops_wiki_supplement_v1.json",
+          "records": 159,
+          "scope": "Five land families tier 0 (96), 54 NPC/special tier 5–6, three ship groups tier 0 (9)"
+        }
+      ],
+      "totals": {
+        "base": 213,
+        "tier0Land": 96,
+        "npcSpecialLand": 54,
+        "ships": 9,
+        "allPageEntries": 372
+      },
+      "caveat": "372 means visible Wiki entries across 8 filters including duplicates and NPC; not 372 unique recruitable units or verified troop-specific evolution edges.",
+      "runtimePlayableImports": 0
+    }
   },
   "sourceRegistry": [
     {
@@ -19681,7 +19708,12 @@
       "Hero"
     ],
     "evolutionEvidence": "evolutionResearch.classicSource.explicitNamedEdges",
-    "evolutionUsePolicy": "Classic named edges are source-VERIFIED for classic only; Mobile bridge is DERIVED and mobile edges remain UNKNOWN; group02 owns original simulated playable graph."
+    "evolutionUsePolicy": "Classic named edges are source-VERIFIED for classic only; Mobile bridge is DERIVED and mobile edges remain UNKNOWN; group02 owns original simulated playable graph.",
+    "referenceSupplement": "data/ngoalong/references/combat_troops_wiki_supplement_v1.json",
+    "referenceCombinedCount": 372,
+    "referenceCombinedMeaning": "Wiki listing occurrences, NOT 372 eligible player troops",
+    "shipGroupCounterSource": "supplement.seaCounterCycle",
+    "doNotPromoteSupplementTier0ToPlayable": true
   },
   "qaStatic": {
     "knownPreviousUnits": 9,
@@ -19705,7 +19737,11 @@
     "officialWikiVerifiedTierTransitions": 30,
     "officialWikiNamedTroopTransitions": 0,
     "officialFiveFamilyTierSections": 35,
-    "fiveFamilyTierEntriesIncludingNpc": 267
+    "fiveFamilyTierEntriesIncludingNpc": 267,
+    "wikiLandTier0Extra": 96,
+    "wikiLandNpcSpecialExtra": 54,
+    "wikiShipsExtra": 9,
+    "wikiTotalEntryOccurrencesAcrossReferences": 372
   },
   "evolutionResearch": {
     "reviewDate": "2026-11-18",
@@ -20490,7 +20526,11 @@
       "coreTierSectionsNotCoveredByCurrent213": 54,
       "countExclusionCaveat": "267 counts all entries displayed in five families across tiers 1-7, including NPC/special records; 213 is core catalogue subset, not equivalent to the Wiki's homepage 372 total. Some names repeat or special records need separate identifiers.",
       "catalogCorrection": "Tier to next-tier movement is directly written in official Wiki headings; item-to-item transitions remain unverified in CURRENT_MOBILE edition.",
-      "verificationMethod": "Official Wiki Binh Chủng page by group and tier heading; source displays unit name and text but not an explicit named parent-child link in the accessible rendered page."
+      "verificationMethod": "Official Wiki Binh Chủng page by group and tier heading; source displays unit name and text but not an explicit named parent-child link in the accessible rendered page.",
+      "levelZeroRecordsSource": "data/ngoalong/references/combat_troops_wiki_supplement_v1.json",
+      "levelZeroToLevelOneTierHeadingsVerified": 5,
+      "shipTierZeroGroupsPresent": 3,
+      "namedParentChildEdgesStillUnknown": true
     },
     "classicSource": {
       "sourceId": "NL-C-2012-TROOP-TREE",
