@@ -1,5 +1,13 @@
 # AGENTS.md — Mưu Định Tam Quốc / Wiki-driven Ngọa Long
 
+## Chủ đích phát triển và CI tối ưu — quyết định Owner 18/11/2026
+- **Đích phát hành là game V1.0 hoàn chỉnh, không phải thêm các bản Alpha/Demo để chủ dự án chơi thử.** Milestone nhỏ vẫn được làm và QA nội bộ nhưng không coi đó là nghiệm thu sản phẩm; chỉ gửi bản final khi vòng chiến dịch/tiến hóa/nội dung/mỹ thuật/Save đủ tiêu chí đã thống nhất.
+- **Ưu tiên nội dung thật:** Wiki hiện hành là tư liệu nghiên cứu; phải phân biệt Mobile/classic, ghi nguồn từng dữ kiện, kiểm chứng quyền sử dụng, không sao chép hình/công thức/biểu đạt độc quyền. Phải biến catalog thành gameplay hoạt động (cấp quân, binh chủng riêng, NPC nhiều trận trong bản đồ, boss) chứ không chỉ thêm source registry hoặc danh sách đếm.
+- **QA 2 luồng nhưng bảo toàn tất cả test:** Workflow `.github/workflows/ngoalong-qa.yml` chạy job `quick` trên commit thay code/data/asset/QA, gồm validator, R02/R03, progression, Save và legacy-safety liên quan. Docs-only chỉ cần job `changed_sources`, không dựng video/atlas. Job `game` đầy đủ (toàn bộ legacy CL/P4.1, video, 30/60-minute simulation và artifact phát hành) chỉ chạy khi push `main-ngoalong`, dispatch hoặc commit task branch có chính xác nhãn `[full-ci]` trong subject/message.
+- Vì default branch của repo hiện là nhánh Hero, **để bảo đảm full CI chạy trên task branch Ngọa Long, dùng nhãn commit `[full-ci]` và đối chiếu run exact SHA** thay vì giả định workflow_dispatch trên default branch hoạt động trên nhánh này.
+- Ghi DONE/TESTED chỉ theo từng gate có kết quả; `quick` PASS không phải full release PASS, càng không phải nghiệm thu người dùng. Không dùng một seed / fixture mô phỏng duy nhất để khẳng định gameplay cân bằng hoặc V1.0 hoàn chỉnh.
+- Giữ Save v5/key, replay, kinh tế idempotent và toàn bộ test lịch sử trong job full; **không được gỡ test chỉ vì muốn workflow xanh hoặc nhanh**. Không sửa Hero, không tự merge/force push; chủ dự án chỉ định tiếp tục ở PR #6.
+
 ## Thẩm quyền hiện hành — Issue #4 và Wiki-driven V2, 17/11/2026
 - GitHub Issue #4 mới nhất và chỉ thị V2 của owner cùng chọn gameplay Ngọa Long làm định hướng, dùng Wiki VNG chính thức làm nguồn tham khảo ưu tiên. `docs/NGOA_LONG_REBUILD_SPEC_V1.md` giữ hợp đồng gameplay; `docs/NL_DATA_DRIVEN_V2.md` bổ sung schema, provenance và lộ trình kỹ thuật hiện hành.
 - Nghiên cứu Wiki Mobile hiện hành và Ngọa Long web cổ điển phải tách riêng; không tuyên bố parity khi chưa có bằng chứng. Dùng `VERIFIED / DERIVED / SIMULATED / UNKNOWN`; giá trị chưa có nguồn phải để null hoặc ghi là mô phỏng của dự án.
