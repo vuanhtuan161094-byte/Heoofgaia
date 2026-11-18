@@ -33,7 +33,7 @@ test('full builder safely converts 392 verified source records into 392 distinct
   assert.equal(result.equipment.filter(x=>x.integration==='REFERENCE_ONLY').length,392);
   assert.equal(result.equipment.filter(x=>x.integration==='PLAYABLE').length,411);
   assert.equal(result.projectGearExpansion.additions,363);
-  assert.equal(Object.keys(validateCatalogue(result)).length,803);
+  assert.equal(Object.keys(validateCatalogue(result)).length,809); // 803 equipment + 6 items
   assert.equal(result.equipment.find(x=>x.id==='mdt-wiki-index-eq-new-391').provenance.classification,'SIMULATED');
   assert.equal(result.equipment.find(x=>x.id==='mdt-wiki-index-eq-new-391').fieldProvenance.stats,'SIMULATED');
 });
