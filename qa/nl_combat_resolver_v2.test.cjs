@@ -89,7 +89,7 @@ check("morale-break reduces enemy morale",()=>{
   assert.equal(r.state.units[1].morale,55);
 });
 check("rally raises allied morale within cap",()=>{
-  let s=make({p:{morale:40}});
+  let s=make({p:{morale:60}});
   s=action(s,"p1","mdtq-warlord-rally").state;
   assert.ok(s.units[0].morale<=100&&s.units[0].morale>=0);
 });
