@@ -151,6 +151,6 @@ check("unquantified 2025 Gold ruler healing is preserved as UNKNOWN",()=>{
 });
 check("Chat 05 source-skill handoff reproduces byte-for-byte",()=>{
   const actual=fs.readFileSync(path.join(root,"data/ngoalong/modules/heroes/skills_handoff_v1.json"),"utf8");
-  assert.equal(actual,JSON.stringify(makeSkillHandoff(result),null,2)+"\\n");
+  assert.equal(actual,JSON.stringify(makeSkillHandoff(result),null,2)+String.fromCharCode(10));
 });
 console.log("NL_HERO focused QA: "+checks+"/"+checks+" PASS (not a runtime/release gate)");
