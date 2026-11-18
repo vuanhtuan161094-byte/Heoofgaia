@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "edition": "VNG_WIKI_MOBILE_CURRENT",
+  "sourceFacts": [
+    {
+      "feature": "ORANGE_AWAKENING",
+      "unlockMainCityLevel": 300,
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "classification": "VERIFIED"
+    },
+    {
+      "feature": "GOLD_AWAKENING",
+      "unlockMainCityLevel": 380,
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "classification": "VERIFIED"
+    },
+    {
+      "feature": "DESTINY_SYSTEM",
+      "unlockMainCityLevel": 400,
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "classification": "VERIFIED"
+    }
+  ],
+  "awakeningMaterials": {
+    "GOLD": [
+      "Quỳnh Tương",
+      "Xích Quả",
+      "Hoàng Trung Lý"
+    ],
+    "ORANGE": null
+  },
+  "destiny": {
+    "stage": "GOLD",
+    "choicesPublishedPerHero": 2,
+    "optionsMaxPerHero": 3,
+    "equippedCount": 1,
+    "allDestinyChoicesKnown": false,
+    "ingredients": [
+      "Đá Tôi Luyện",
+      "Mệnh Hồn Luyện Ngọc",
+      "Phôi"
+    ],
+    "actualCosts": null
+  },
+  "unknowns": [
+    "baseHeroLevelCap",
+    "experienceCurve",
+    "statGrowth",
+    "trainingXp",
+    "awakeningSpecificCosts",
+    "awakeningSpecificPrerequisites",
+    "specificRecruitmentChances"
+  ],
+  "ruleAuthority": "SOURCE_VERIFIED_UNLOCK_NOT_AUTOMATIC_HERO_AWAKENING",
+  "enabledInGame": false
+}
