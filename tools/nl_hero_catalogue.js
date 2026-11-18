@@ -106,14 +106,50 @@ function validateProfiles(profiles) {
   return true;
 }
 
+/**
+ * Overlay evidence-backed detail batches without altering historical index rows.
+ * All patch fields are source-backed and edition-scoped. Wiki PLAYABLE is never automatic.
+ */
+function applyDetailPatches(baseProfiles, patchSet) {
+  assert(patchSet?.schemaVersion===1 && patchSet.edition==="VNG_WIKI_MOBILE_CURRENT", "detail patch version mismatch");
+  assert(Array.isArray(patchSet.patches), "detail patches must be an array");
+  const allowed=new Set([...NULL_FIELDS,"skills"]);
+  const byId=new Map(baseProfiles.map(p=>[p.id,p]));
+  const patchIds=new Set();
+  for(const patch of patchSet.patches) {
+    assert(byId.has(patch.heroId), "patch refers to unknown hero "+patch.heroId);
+    assert(!patchIds.has(patch.heroId), "multiple batches conflict for "+patch.heroId);
+    patchIds.add(patch.heroId);
+    assert(patch.edition===patchSet.edition, "hero patch must specify exact edition");
+    assert(patch.fields && Object.keys(patch.fields).length>0, "hero patch is empty");
+    const profile={...byId.get(patch.heroId),fieldProvenance:{...byId.get(patch.heroId).fieldProvenance}};
+    for(const [field, fact] of Object.entries(patch.fields)){
+      assert(allowed.has(field), "unsupported hero fact "+field);
+      assert(fact && fact.classification==="VERIFIED" && fact.value!==null && fact.value!==undefined, "hero fact must be VERIFIED with nonnull value: "+field);
+      assert(typeof fact.sourceUrl==="string" && /^https:\/\//.test(fact.sourceUrl) && fact.sourceUrl!=="https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong", "hero detail requires a source more specific than the index: "+field);
+      assert(/^\d{4}-\d{2}-\d{2}$/.test(fact.checkedAt||""), "hero fact missing checkedAt: "+field);
+      assert(fact.edition===patchSet.edition, "cross-edition hero fact blocked: "+field);
+      if(field==="heroKind") assert(["BASE","VARIANT","SPECIAL"].includes(fact.value), "heroKind requires explicit classification");
+      if(field==="variantOf") assert(typeof fact.value==="string" && fact.value!==profile.id && byId.has(fact.value), "variantOf target not in catalogue");
+      if(field==="skills") assert(fact.value && typeof fact.value==="object" && ("normal" in fact.value) && ("active" in fact.value) && Array.isArray(fact.value.passives), "skills must specify normal, active, passives");
+      profile[field]=fact.value;
+      profile.fieldProvenance[field]="VERIFIED";
+    }
+    profile.kind=profile.heroKind || "UNRESOLVED";
+    if(profile.role!==null && profile.skills && (profile.skills.active!==null || profile.skills.normal!==null) && profile.fieldProvenance.skills==="VERIFIED") profile.readiness="DESIGN_READY";
+    byId.set(profile.id,profile);
+  }
+  return baseProfiles.map(p=>byId.get(p.id));
+}
+
 /** Chat 05 skill handoff: one unresolved descriptor bundle per general, not a second engine. */
 function buildSkillDescriptors(profiles) {
   return profiles.map(p=>({
     heroId:p.id,name:p.name,faction:p.faction,edition:p.edition,
     sourceId:p.source.id,sourceUrl:p.source.url,
-    normal:null,active:null,passive:[],
+    normal:p.skills.normal,active:p.skills.active,passive:p.skills.passives,
     descriptors:{trigger:null,target:null,operation:null,probability:null,duration:null,moraleDelta:null,stacking:null,dispel:null,immunity:null},
-    factStatus:"UNKNOWN",readiness:"REFERENCE_ONLY",consumer:"CHAT_05",runtimeImport:false
+    factStatus:p.fieldProvenance.skills,readiness:p.readiness,consumer:"CHAT_05",runtimeImport:false
   }));
 }
 /**
@@ -146,8 +182,10 @@ function loadCatalogue(root=ROOT) {
   const r=path.join(root,"data","ngoalong","alpha_content.json");
   const index=readJSON(h), refs=readJSON(l).heroes, alpha=readJSON(r);
   const inventory=validateIndex(index,refs);
-  const profiles=materializeProfiles(index,refs);
-  validateProfiles(profiles);
+  const baseProfiles=materializeProfiles(index,refs);
+  validateProfiles(baseProfiles);
+  const patches=readJSON(path.join(root,"data","ngoalong","modules","heroes","detail_patches_v1.json"));
+  const profiles=applyDetailPatches(baseProfiles,patches);
   const project=projectRosterAudit(alpha,profiles);
   return {index,profiles,inventory,project,readiness:readinessAudit(profiles),skillDescriptors:buildSkillDescriptors(profiles)};
 }
@@ -166,4 +204,4 @@ function main(argv=process.argv.slice(2)) {
   console.log(JSON.stringify({inventory:result.inventory,project:result.project,readiness:result.readiness,skillBundles:result.skillDescriptors.length},null,2));
 }
 if(require.main===module){try{main();}catch(err){console.error(err.stack||String(err));process.exitCode=1;}}
-module.exports={loadCatalogue,validateIndex,materializeProfiles,validateProfiles,projectRosterAudit,buildSkillDescriptors,readinessAudit,keyOfName,main};
+module.exports={loadCatalogue,validateIndex,materializeProfiles,validateProfiles,applyDetailPatches,projectRosterAudit,buildSkillDescriptors,readinessAudit,keyOfName,main};
