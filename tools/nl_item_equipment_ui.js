@@ -13,6 +13,36 @@
     ['horse','Ngựa'],['book','Binh thư'],['cloak','Áo choàng'],
     ['shield','Thuẫn'],['artifact','Bảo vật']
   ];
+  const STYLES=`
+.nli-panel{color:#e9dfc9;background:linear-gradient(155deg,#202f38,#111f29 80%);border:1px solid #957d4d;border-radius:12px;padding:16px;font:14px/1.5 system-ui,sans-serif;box-shadow:0 14px 40px #0005}
+.nli-panel *{box-sizing:border-box}
+.nli-panel .nli-heading{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:8px;border-bottom:1px solid #91785170;padding-bottom:10px}
+.nli-panel h2{color:#f3d28c;font-size:21px;margin:0}
+.nli-panel h3{color:#efc77a;font-size:15px;margin:14px 0 8px}
+.nli-panel .nli-balance{font-variant-numeric:tabular-nums;color:#d8ccae}
+.nli-panel .nli-tabs,.nli-panel .nli-switch,.nli-panel .nli-buttons{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin:10px 0}
+.nli-panel .nli-tabs{overflow-x:auto;flex-wrap:nowrap;padding-bottom:5px}
+.nli-panel button{cursor:pointer;border:1px solid #ad8a54;background:#344550;color:#f3e6c9;padding:7px 10px;border-radius:7px;font-size:12px;white-space:nowrap}
+.nli-panel button[aria-pressed=true],.nli-panel button:hover{background:#80612f;color:#fff6df}
+.nli-panel button:disabled{opacity:.45;cursor:not-allowed}
+.nli-panel label{display:block;color:#d5c4a1;margin:10px 0}
+.nli-panel input{display:block;width:100%;max-width:410px;background:#101b25;border:1px solid #87754f;border-radius:7px;color:#f1e7ce;padding:9px;margin-top:5px;font-size:14px}
+.nli-panel .nli-slots{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}
+.nli-panel .nli-slot{min-height:94px;padding:8px;background:#2c3c44;border:1px solid #8e7347;border-radius:8px;display:flex;flex-direction:column;justify-content:center;gap:4px}
+.nli-panel .nli-slot span{font-size:11px;color:#b8c6c8}
+.nli-panel .nli-slot strong{font-size:12px;color:#f4d291;line-height:1.3;overflow-wrap:anywhere}
+.nli-panel .nli-slot small{font-size:11px;color:#d5d4c9}
+.nli-panel .nli-total,.nli-panel .nli-sets{padding:10px;margin:9px 0;background:#283a44;border-left:3px solid #b79552;border-radius:4px}
+.nli-panel .nli-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:10px;margin-top:12px}
+.nli-panel .nli-gear{background:#293a43;border:1px solid #796740;border-radius:9px;padding:11px;min-height:150px}
+.nli-panel .nli-gear header{display:flex;align-items:center;justify-content:space-between;gap:8px}
+.nli-panel .nli-gear header strong{font-size:14px;color:#f0d08c}
+.nli-panel .nli-gear header span{font-size:11px;color:#ccc2ae}
+.nli-panel .nli-gear small{color:#aebebf}
+.nli-panel .nli-gear p{color:#e6d8b6}
+.nli-panel .nli-gear .nli-buttons{margin-bottom:0}
+@media(max-width:770px){.nli-panel{padding:11px}.nli-panel .nli-slots{grid-template-columns:repeat(3,minmax(0,1fr))}.nli-panel .nli-list{grid-template-columns:1fr}.nli-panel h2{font-size:19px}}
+`;
   const statNames={atk:'Vật công',def:'Vật phòng',int:'Mưu công',
     hp:'Dẫn binh',tdef:'Chiến phòng',mdef:'Mưu phòng',
     weaponAtk:'Vũ khí',horseAtk:'Ngựa'};
@@ -65,7 +95,8 @@
           '<div class="nli-buttons"><span>'+money(cost.silver)+' bạc · '+money(cost.iron)+' sắt</span>'+
           '<button data-nli-action="buy" data-item="'+escape(row.id)+'">Mua</button></div></article>';
       }).join('');
-    return '<section class="nli-panel" data-nli-root="1" aria-label="Trang bị">'+
+    return '<style data-nli-style="1">'+STYLES+'</style>'+
+      '<section class="nli-panel" data-nli-root="1" aria-label="Trang bị">'+
       '<header class="nli-heading"><h2>Trang bị · Kho chiến cụ</h2>'+
       '<div class="nli-balance">Bạc: '+money(state.silver)+' · Sắt: '+money(state.iron)+
       ' · Trang bị: '+owned.length+'</div></header>'+
@@ -78,7 +109,7 @@
       '<div class="nli-slots">'+slotCards+'</div>'+
       '<p class="nli-total"><strong>Chỉ số trang bị:</strong> '+byStat(bonuses)+'</p>'+
       (setActivations.length?'<p class="nli-sets">Bộ kích hoạt: '+
-        setActivations.map(x=>escape(x.setId)+' ('+x.activatedAt+' món)').join(' · ')+'</p>':'')+
+        setActivations.map(x=>escape(pack.equipment.find(row=>row.effectRule?.setId===x.setId)?.sourceGroup||x.setId)+' ('+x.activatedAt+' món)').join(' · ')+'</p>':'')+
       '<div class="nli-list">'+((shop?shopCards:bagCards)||'<p>Không có trang bị phù hợp.</p>')+'</div></section>';
   }
   function mount(host,options){
@@ -128,5 +159,5 @@
     return {render,dispose(){host.removeEventListener('click',handle);
       host.removeEventListener('input',search)}};
   }
-  return {SLOTS,makeView,mount};
+  return {SLOTS,STYLES,makeView,mount};
 });
