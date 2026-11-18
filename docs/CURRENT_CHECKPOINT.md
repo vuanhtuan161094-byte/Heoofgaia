@@ -4,7 +4,7 @@
 - Added seven original playable evolution identities to the existing troop/evolution runtime. Together with seven base types and 11 existing evolutions, the validated catalogue resolves 25 combat identities. Added two spear specializations usable by infantry heroes. Four P3 troop levels remain individually trainable; Save key/schema v5 unchanged.
 - Marked one simulated boss encounter at each of eight chapter finales and added boss mechanics text to the route. Winning stage 28 records its existing idempotent reward, presents the campaign-completion result, and exposes the 28/28 · 8/8 ending in campaign UI.
 - Canonical offline `index.html` was regenerated through the three repository builders. Function slice checks: NL-R03 Chromium 41/41; troop/source validator 38/38; campaign route and content contract 16/16; all three builder `--check` gates pass. Earlier unaffected gates on the same branch: Effects 19/19 Node + 16/16 Chromium; progression 24/24; R02 32/32.
-- Full exact-SHA GitHub Actions run is pending on the pushed release candidate. Wiki-derived Mobile data remains reference-only and classic parity UNKNOWN. Source-art approval and physical Windows/Android play remain owner/device gates; no completion claim should exceed Actions evidence.
+- The first full exact-SHA Actions run on `39936545e71ca1425d62e889c3b815505bfb362c` had `quick` PASS but was cancelled at 25m20s by the `game` job 25-minute timeout, shorter than its 60-minute campaign simulation. The current task raises only that job timeout to 90 minutes and reruns once. Wiki-derived Mobile data remains reference-only and classic parity UNKNOWN. Source-art approval and physical Windows/Android play remain owner/device gates; no completion claim should exceed Actions evidence.
 
 ---
 
