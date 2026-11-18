@@ -16,14 +16,14 @@ const rejected = (result, code, old) => {
   assert.deepEqual(result.state, old, 'failed command must not mutate input');
 };
 
-test('01 catalogue: project 19 + Wiki-inspired 29 playable + Wiki 29 reference; items 2 original + 4 reference', () => {
-  assert.equal(pack.equipment.filter(x => x.integration === 'PLAYABLE').length, 48);
-  assert.equal(pack.equipment.filter(x => x.integration === 'REFERENCE_ONLY').length, 29);
+test('01 catalogue: project 19 + Wiki-inspired 392 playable + Wiki 392 reference; items 2 original + 4 reference', () => {
+  assert.equal(pack.equipment.filter(x => x.integration === 'PLAYABLE').length, 411);
+  assert.equal(pack.equipment.filter(x => x.integration === 'REFERENCE_ONLY').length, 392);
   assert.equal(pack.items.filter(x => x.integration === 'PLAYABLE').length, 2);
   assert.equal(pack.items.filter(x => x.integration === 'REFERENCE_ONLY').length, 4);
   assert.equal(pack.wikiIndexCounts.equipmentIndex, 392);
   assert.equal(pack.wikiIndexCounts.itemIndex, 674);
-  assert.equal(Object.keys(validateCatalogue(pack)).length, 83);
+  assert.equal(Object.keys(validateCatalogue(pack)).length, 809);
   assert.equal(pack.equipment.find(x => x.id === 'b_sword').stats.atk, 11);
   assert.equal(pack.equipment.find(x => x.id === 'wiki-mobile-equip02-1').stats, null);
 });
