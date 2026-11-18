@@ -4,6 +4,7 @@ on:
     branches: ['codex/nl-wiki-01-r02-20261117']
     paths:
       - 'data/ngoalong/group02_wiki/crawl_dungeons.py'
+      - 'data/ngoalong/group02_wiki/build_dungeons.py'
       - '.github/workflows/ngoalong-group02-crawl.yml'
   workflow_dispatch:
 permissions:
@@ -82,12 +83,20 @@ jobs:
           Path('wiki-extract.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
           print('maps',len(rows),'NPCs',npc_count,'complete-map-links',complete,'errors',len(issues))
           PY
+      - name: Verify compiler and produce original dungeon blueprints
+        run: |
+          python -m py_compile data/ngoalong/group02_wiki/build_dungeons.py
+          python data/ngoalong/group02_wiki/build_dungeons.py --self-test
+          python data/ngoalong/group02_wiki/build_dungeons.py --source wiki-extract.json --minimum-maps 200 --output wiki-blueprints.json --report dungeon-builder-report.json
       - name: Upload combined Wiki JSON evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: group02-wiki-combined-evidence
-          path: wiki-extract.json
+          path: |
+            wiki-extract.json
+            wiki-blueprints.json
+            dungeon-builder-report.json
           if-no-files-found: warn
       - name: Commit exclusively group02 JSON without merging or force-pushing
         if: success()
@@ -101,7 +110,9 @@ jobs:
           git checkout -B group02-delivery "origin/$BRANCH"
           mkdir -p data/ngoalong/group02_wiki
           cp wiki-extract.json data/ngoalong/group02_wiki/wiki_dungeons_extracted.json
-          git add data/ngoalong/group02_wiki/wiki_dungeons_extracted.json
+          cp wiki-blueprints.json data/ngoalong/group02_wiki/wiki_dungeon_blueprints.json
+          cp dungeon-builder-report.json data/ngoalong/group02_wiki/wiki_dungeon_builder_report.json
+          git add data/ngoalong/group02_wiki/wiki_dungeons_extracted.json data/ngoalong/group02_wiki/wiki_dungeon_blueprints.json data/ngoalong/group02_wiki/wiki_dungeon_builder_report.json
           if ! git diff --cached --quiet; then
             git commit -m 'data(group02): store sourced Wiki dungeon extraction'
             git push origin "HEAD:$BRANCH"
