@@ -1,0 +1,31 @@
+{
+  "schemaVersion": 1,
+  "sourceHead": "a88b8449714ad48531f7c9e7e081ccac43edee92",
+  "sourcePaths": [
+    "data/ngoalong/references/combat_troops_mobile_v1.json",
+    "data/ngoalong/references/combat_troops_wiki_supplement_v1.json",
+    "data/ngoalong/references/troop_mechanics_wiki_v1.json",
+    "data/ngoalong/references/troop_effect_bridge_wiki_v1.json"
+  ],
+  "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+  "wikiAppearanceCount": 372,
+  "coreReferenceRows": 213,
+  "supplementReferenceRows": 159,
+  "landTier0": 96,
+  "specialOrNpc": 54,
+  "naval": 9,
+  "verifiedNpcBadges": 48,
+  "verifiedNonNpcBadges": 6,
+  "unknownNpcBadges": 105,
+  "structuredMechanicRows": 235,
+  "qualitativeOnlyRows": 78,
+  "noStructuredMechanicRows": 59,
+  "structuredOperations": 501,
+  "effectBridgeEvents": 501,
+  "namedMobileEdgesVerified": 0,
+  "projectPlayableDesignIdentities": 25,
+  "projectNamedEdgesSimulated": 18,
+  "classicParity": "UNKNOWN",
+  "wikiReferenceRowsPromotedToPlayable": 0,
+  "releaseState": "REFERENCE_AND_DESIGN_ONLY"
+}

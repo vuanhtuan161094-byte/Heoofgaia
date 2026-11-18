@@ -1,0 +1,499 @@
+{
+  "schemaVersion": 1,
+  "id": "MDT-TROOP-EVOLUTION-CONTRACT-V1",
+  "asOf": "2026-11-18",
+  "wikiEdition": "VNG_WIKI_MOBILE_CURRENT",
+  "sourceNamedEdges": [],
+  "wikiTierOnlyAdjacency": [
+    {
+      "family": "infantry",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "infantry",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "spear",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "cavalry",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "archer",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 1,
+      "toTier": 2,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 2,
+      "toTier": 3,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 3,
+      "toTier": 4,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 4,
+      "toTier": 5,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 5,
+      "toTier": 6,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    },
+    {
+      "family": "strategist",
+      "fromTier": 6,
+      "toTier": 7,
+      "sourceId": "NL-W02",
+      "evidenceScope": "WIKI_SECTION_TIER_TO_NEXT_TIER_ONLY",
+      "namedParent": null,
+      "namedChild": null,
+      "classification": "VERIFIED_TIER_ONLY"
+    }
+  ],
+  "sourceNamedEdgeProofRequired": [
+    "explicit_source_unit",
+    "explicit_target_unit",
+    "individual_source_url",
+    "edition",
+    "source_context"
+  ],
+  "projectEdges": [
+    {
+      "id": "nlp-edge-bulwark",
+      "from": "nlp-infantry",
+      "to": "nlp-bulwark",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-crusher",
+      "from": "nlp-infantry",
+      "to": "nlp-crusher",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-spearwall",
+      "from": "nlp-infantry",
+      "to": "nlp-spearwall",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-shock",
+      "from": "nlp-cavalry",
+      "to": "nlp-shock",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-raider",
+      "from": "nlp-cavalry",
+      "to": "nlp-raider",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-marksman",
+      "from": "nlp-archer",
+      "to": "nlp-marksman",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-volley",
+      "from": "nlp-archer",
+      "to": "nlp-volley",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-ember",
+      "from": "nlp-strategist",
+      "to": "nlp-ember",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-disrupt",
+      "from": "nlp-strategist",
+      "to": "nlp-disrupt",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-medic",
+      "from": "nlp-support",
+      "to": "nlp-medic",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-rally",
+      "from": "nlp-support",
+      "to": "nlp-rally",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-shieldbreaker",
+      "from": "nlp-infantry",
+      "to": "nlp-shieldbreaker",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-swift-wing",
+      "from": "nlp-cavalry",
+      "to": "nlp-swift-wing",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-rain-volley",
+      "from": "nlp-archer",
+      "to": "nlp-rain-volley",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-seal-master",
+      "from": "nlp-strategist",
+      "to": "nlp-seal-master",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-ward-bearer",
+      "from": "nlp-support",
+      "to": "nlp-ward-bearer",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-phalanx",
+      "from": "nlp-spear",
+      "to": "nlp-phalanx",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    },
+    {
+      "id": "nlp-edge-impaler",
+      "from": "nlp-spear",
+      "to": "nlp-impaler",
+      "classification": "SIMULATED",
+      "wikiSupport": "NONE",
+      "kind": "PROJECT_SPECIALIZATION",
+      "source": "data/ngoalong/alpha_content.json"
+    }
+  ],
+  "provenance": {
+    "wikiTierOnlyAdjacency": "VERIFIED",
+    "wikiNamedEdges": "UNKNOWN",
+    "projectEdges": "SIMULATED",
+    "projectCosts": "SIMULATED"
+  },
+  "projectTierPolicy": {
+    "maxPlannedTier": 7,
+    "existingRuntimeCap": 4,
+    "tier5To7": "DESIGN_ONLY",
+    "costGrowthFactor": 1.3,
+    "costPerUpgradeBase": {
+      "silver": 1100,
+      "grain": 520,
+      "iron": 280
+    },
+    "unlockBarracksLevel": 2,
+    "saveMutation": "FORBIDDEN_IN_THIS_MODULE"
+  }
+}
