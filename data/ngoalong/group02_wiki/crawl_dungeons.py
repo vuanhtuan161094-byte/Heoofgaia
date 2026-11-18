@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Public VNG Mobile Wiki dungeon facts only: no artwork, reports or copied descriptions."""
+"""Read public NPC roster in the source's own order, each visible unit and traceable facts; no runtime import."""
 import argparse,json,re,time
 from pathlib import Path
 from datetime import datetime,timezone
@@ -41,26 +41,73 @@ def get_index(page):
           "advertisedNpcCount":count,"url":url,
           "provenance":"VERIFIED_INDEX","version":"VNG_MOBILE"}
     return [out[k] for k in sorted(out)]
+def npc_index_entry(link, mapid):
+    q=parse_qs(urlsplit(link["url"]).query)
+    ai=number(q.get("ai",[None])[0])
+    if ai is None or number(q.get("map",[None])[0])!=mapid:
+        return None
+    parts=[x.strip() for x in link.get("text","").splitlines() if x.strip()]
+    order=int(parts[0]) if parts and parts[0].isdigit() else None
+    name=parts[1] if len(parts)>1 else None
+    kind=parts[2] if len(parts)>2 else None
+    level=number(search(link.get("text",""),r"Cấp\s*(\d+)"))
+    army=number(search(link.get("text",""),r"Cấp\s*\d+\s*[·•]\s*([\d,.]+)\s*quân"))
+    merit=number(search(link.get("text",""),r"Chiến công\s*([\d,.]+)"))
+    return dict(aiId=ai,listOrder=order,name=name,kind=kind,level=level,
+      totalSoldiers=army,merit=merit,url=link["url"],
+      summarySourceUrl="https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map="+str(mapid))
+
+
 def get_npc_links(page,info):
     page.goto(info["url"],wait_until="domcontentloaded",timeout=60000)
-    page.wait_for_timeout(800);found={};warnings=[]
-    t=page.locator("body").inner_text()
-    detail_count=search(t,r"Thành Chính\s*\d+\s+(\d+)\s*NPC")
-    if detail_count:info["detailDeclaredNpcCount"]=number(detail_count)
-    for _ in range(60):
-        page.wait_for_timeout(300)
-        for ref in anchors(page,True):
-            q=parse_qs(urlsplit(ref["url"]).query)
-            if number(q.get("map",[None])[0])==info["mapId"]:
-                found[number(q.get("ai",[None])[0])]=ref
-        if info["advertisedNpcCount"] is not None and len(found)>=info.get("detailDeclaredNpcCount",info["advertisedNpcCount"]):break
-        controls=page.get_by_role("button",name=re.compile(r"^Sau\s*›?$"))
+    found={};warnings=[];loaded=False
+    for attempt in range(3):
+        try:
+            page.locator("a[data-nlw-camp-ai]").first.wait_for(timeout=5500,state="attached")
+            loaded=True;break
+        except Exception:
+            if attempt<2:
+                page.reload(wait_until="domcontentloaded",timeout=60000)
+                page.wait_for_timeout(900)
+    if not loaded:
+        warnings.append("NPC_LIST_NOT_RENDERED_AFTER_3_ATTEMPTS")
+        return [],warnings
+    for _ in range(80):
+        page.wait_for_timeout(180)
+        current=[]
+        for link in anchors(page,True):
+            item=npc_index_entry(link,info["mapId"])
+            if item:
+                current.append(item)
+                found[item["aiId"]]=item
+        expected=info.get("detailDeclaredNpcCount") or info.get("advertisedNpcCount")
+        if expected is not None and len(found)>=expected:break
+        controls=page.get_by_role("button",name=re.compile(r"(?i)(Sau|Tiếp|Next)\s*[›→]?$"))
         if not controls.count() or not controls.last.is_enabled():break
-        before=page.locator("body").inner_text()[-600:]
-        try:controls.last.click(timeout=7500);page.wait_for_timeout(400)
-        except Exception as ex:warnings.append(str(ex)[:140]);break
-        if before==page.locator("body").inner_text()[-600:]:break
-    return [v for k,v in sorted(found.items()) if k is not None],warnings
+        before=tuple(x["aiId"] for x in current)
+        try:
+            controls.last.click(timeout=7000)
+            page.wait_for_timeout(380)
+        except Exception as ex:
+            warnings.append("PAGINATION_CLICK_FAILED:"+str(ex)[:140]);break
+        next_page=[]
+        for link in anchors(page,True):
+            item=npc_index_entry(link,info["mapId"])
+            if item:next_page.append(item["aiId"])
+        if before==tuple(next_page):
+            warnings.append("PAGINATION_DID_NOT_ADVANCE");break
+    items=list(found.values())
+    if all(isinstance(x.get("listOrder"),int) for x in items):
+        items.sort(key=lambda x:x["listOrder"])
+    else:
+        warnings.append("LIST_ORDER_PARTIAL")
+    if not items:
+        warnings.append("NO_NPC_INDEX_ROWS")
+    expected=info.get("detailDeclaredNpcCount") or info.get("advertisedNpcCount")
+    if expected is not None and len(items)!=expected:
+        warnings.append("NPC_COUNT_MISMATCH:"+str(len(items))+"/"+str(expected))
+    return items,warnings
+
 def get_unit(page):
     t=page.locator("body").inner_text().split("Đơn vị\n",1)[-1].split("Chiến Báo Gợi Ý",1)[0]
     return {"slot":number(search(t,r"Vị trí\s*(\d+)")),
@@ -69,31 +116,57 @@ def get_unit(page):
       "skillName":search(t,r"Kỹ năng chủ động\s*\([^)]+\)\s*\n\s*([^\n]+)")}
 def get_npc(page,link):
     page.goto(link["url"],wait_until="domcontentloaded",timeout=60000)
-    page.wait_for_timeout(850)
-    t=page.locator("body").inner_text();u=get_unit(page)
+    page.wait_for_timeout(900)
+    t=page.locator("body").inner_text()
+    u=get_unit(page)
     observed={u["slot"]:u} if u["slot"] is not None else {}
     try:
-        a=page.get_by_text("Đội hình",exact=True).first.bounding_box(timeout=1500)
-        b=page.get_by_text("Bấm vào một đơn vị",exact=False).first.bounding_box(timeout=1500)
+        a=page.get_by_text("Đội hình",exact=True).first.bounding_box(timeout=1800)
+        b=page.get_by_text("Bấm vào một đơn vị",exact=False).first.bounding_box(timeout=1800)
         if a and b:
             imgs=page.locator("img[alt]")
-            for i in range(min(25,imgs.count())):
-                el=imgs.nth(i);rect=el.bounding_box(timeout=1200)
+            for i in range(min(35,imgs.count())):
+                el=imgs.nth(i)
+                rect=el.bounding_box(timeout=900)
                 if rect and a["y"]<rect["y"]<b["y"]:
                     try:
-                        el.click(timeout=1300);page.wait_for_timeout(80);x=get_unit(page)
+                        el.click(timeout=1000)
+                        page.wait_for_timeout(130)
+                        x=get_unit(page)
                         if x["slot"] is not None:observed[x["slot"]]=x
                     except Exception:pass
     except Exception:pass
-    return {"aiId":number(parse_qs(urlsplit(link["url"]).query).get("ai",[None])[0]),
-      "name":search(t,r"\n([^\n]+)\n(?:BOSS|Thường|Quân đoàn)\n"),
-      "kind":search(t,r"\n(BOSS|Thường|Quân đoàn)\n"),
-      "level":number(search(t,r"\nCấp\s*(\d+)")),
-      "totalSoldiers":number(search(t,r"Tổng quân\s*([\d,.]+)")),
+    units=[observed[k] for k in sorted(observed)]
+    total=number(search(t,r"Tổng quân\s*([\d,.]+)"))
+    if total is None:total=link.get("totalSoldiers")
+    detail_name=search(t,r"\n([^\n]+)\n(?:BOSS|TINH NHUỆ|Thường|Quân đoàn)\n")
+    detail_kind=search(t,r"\n(BOSS|TINH NHUỆ|Thường|Quân đoàn)\n")
+    total_known=bool(units) and all(x.get("soldiers") is not None for x in units)
+    visible_total=sum(x["soldiers"] for x in units if x.get("soldiers") is not None)
+    formation_count=None
+    return {"aiId":link["aiId"],"listOrder":link.get("listOrder"),
+      "name":link.get("name") or detail_name,"kind":link.get("kind") or detail_kind,
+      "level":link.get("level") or number(search(t,r"\nCấp\s*(\d+)")),
+      "totalSoldiers":total,"merit":link.get("merit"),
       "attackCoefficientShown":number(search(t,r"Hệ số công\s*\??\s*([\d,.]+)")),
-      "unitsObserved":[observed[k] for k in sorted(observed)],
+      "unitsObserved":units,"formationDeclaredUnitCount":formation_count,
+      "selectedUnitCount":len(units),
+      "unitSoldierSumValid":(visible_total==total) if total_known and total is not None else None,
       "fullTeamVerified":False,"fullTeamStatus":"UNKNOWN",
-      "url":link["url"],"version":"VNG_MOBILE"}
+      "url":link["url"],"npcListSourceUrl":link["summarySourceUrl"],
+      "edition":"CURRENT_VNG_MOBILE","detailReadStatus":"READ","version":"VNG_MOBILE"}
+
+
+def npc_stub(link,error):
+    return {"aiId":link["aiId"],"listOrder":link.get("listOrder"),
+      "name":link.get("name"),"kind":link.get("kind"),
+      "level":link.get("level"),"totalSoldiers":link.get("totalSoldiers"),
+      "merit":link.get("merit"),"attackCoefficientShown":None,
+      "unitsObserved":[],"formationDeclaredUnitCount":None,"selectedUnitCount":0,
+      "unitSoldierSumValid":None,"fullTeamVerified":False,"fullTeamStatus":"UNKNOWN",
+      "url":link["url"],"npcListSourceUrl":link["summarySourceUrl"],
+      "detailReadStatus":"FAILED","error":error[:180],"edition":"CURRENT_VNG_MOBILE"}
+
 def main(opts):
     with sync_playwright() as p:
         browser=p.chromium.launch(headless=True,args=["--no-sandbox"])
@@ -108,9 +181,13 @@ def main(opts):
                 urls,notes=get_npc_links(page,m);row["paginationNotes"]=notes
                 for item in urls:
                     try:row["npcs"].append(get_npc(page,item))
-                    except Exception as ex:row.setdefault("npcErrors",[]).append({"url":item["url"],"error":str(ex)[:200]})
+                    except Exception as ex:
+                        row.setdefault("npcErrors",[]).append({"url":item["url"],"error":str(ex)[:200]})
+                        row["npcs"].append(npc_stub(item,str(ex)))
                     time.sleep(max(.5,opts.delay))
-                row["npcListComplete"]=len(row["npcs"])==m.get("detailDeclaredNpcCount",m["advertisedNpcCount"]) and not notes and not row.get("npcErrors")
+                row["npcListComplete"]=len(row["npcs"])==m.get("detailDeclaredNpcCount",m["advertisedNpcCount"]) and not notes
+                row["npcDetailReadCount"]=sum(x.get("detailReadStatus")=="READ" for x in row["npcs"])
+                row["npcDetailComplete"]=row["npcListComplete"] and row["npcDetailReadCount"]==len(row["npcs"]) and all(x.get("fullTeamVerified") for x in row["npcs"])
             except Exception as ex:failures.append({"mapId":m["mapId"],"error":str(ex)[:200]})
             records.append(row)
             opts.output.write_text(json.dumps({"indexCount":len(allmaps),"sourceUrl":BASE,"scope":"CURRENT_VNG_MOBILE",
