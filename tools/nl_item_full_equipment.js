@@ -62,7 +62,7 @@ function buildFullCatalogue(original,snapshot){
     projectModels:EXPECTED,projectFormula:'SIMULATED',
     wikiStatsCopied:false,noRuntimeIntegrationClaim:true,
     sourceEvidence:'PUBLIC_WIKI_FILTERED_BUTTONS',
-    additions,existingProjectOriginals:19,sourceEdition:'VNG_WIKI_MOBILE_CURRENT',
+    additions:EXPECTED-29,existingProjectOriginals:19,sourceEdition:'VNG_WIKI_MOBILE_CURRENT',
     classicParity:'UNKNOWN'
   };
   return pack;
