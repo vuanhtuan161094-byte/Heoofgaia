@@ -39,6 +39,7 @@ No Wiki name/level automatically becomes runtime usable. An index displayedLevel
 
 ## QA and pending
 - qa/nl_item_inventory.test.cjs: 8 focused batches for source isolation, grant idempotency, equipment ownership/stat lanes, strengthen/refine costs, item use, capacity, corrupt saves and legacy keys.
-- EXECUTED: GitHub-fetched exact code/data/test in isolated JavaScript V8, 8/8 PASS.
+- qa/nl_item_wiki_index.test.cjs: 2 focused offline count/parser gates (392 equipment, 674 items; reject incomplete or changed indexes).
+- EXECUTED: GitHub-fetched exact code/data/tests in isolated JavaScript V8, 10/10 PASS (8 inventory + 2 index parser); Node runtime and live-browser crawler are NOT validated.
 - NOT EXECUTED / PENDING: Node CLI test, complete online Wiki index extraction, Playwright/Chromium UI, full game runtime, Save persistence & migration, Actions same SHA, physical QA, owner approval.
 - No auto-created icons or fake Wiki gameplay values. Never call REFERENCE_ONLY playable.
