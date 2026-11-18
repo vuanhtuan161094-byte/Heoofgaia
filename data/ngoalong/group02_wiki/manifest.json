@@ -15,7 +15,7 @@
     "cityFeatures": 6,
     "items": 4,
     "mapDropRecords": 13,
-    "detailedNpcSnapshots": 2,
+    "detailedNpcSnapshots": 7,
     "earlyMaps": 10,
     "earlyIndexNpcTotal": 207,
     "earlyNpcDetailSamples": 7,
@@ -209,7 +209,16 @@
     "allNpcSkillCatalog": "UNKNOWN",
     "summaryCountsOnlyNotEquivalentToNpcRecords": true,
     "edition": "CURRENT_MOBILE_NOT_2012_CLASSIC",
-    "note": "Direct 5..10 wiki query ID mapping is not asserted until independently checked; index shows city bands and each map's public metadata."
+    "note": "Direct 5..10 wiki query ID mapping is not asserted until independently checked; index shows city bands and each map's public metadata.",
+    "completion": {
+      "mapIndexRowsVerified": 10,
+      "npcCountClaimedOnIndex": 207,
+      "individualNpcSamplePagesReviewed": 7,
+      "npcFullRosterCoverage": "UNKNOWN_INCOMPLETE",
+      "npcOrderForSamplePages": "UNKNOWN",
+      "runtimeIngestion": "BLOCKED_UNTIL_EVIDENCE_AND_DESIGN_REVIEW",
+      "relatedStoredHigherLevelMapNpcRows": 35
+    }
   },
   "knownSourceLimitations": [
     "Current wiki index has 10 early maps totaling 207 claimed NPCs, but direct NPC detail has only 7 selected sample records for four maps, not 207 NPC names.",
