@@ -1,0 +1,281 @@
+{
+  "schemaVersion": 1,
+  "module": "ngoalong-city",
+  "classification": "PROJECT_ORIGINAL",
+  "sources": [
+    {
+      "id": "WIKI-QT",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/quy-tu/ren-luyen",
+      "edition": "VNG_MOBILE_CURRENT",
+      "fact": "Quý Tử has 26 seasonal architectural effects, separate from core city economy",
+      "runtime": "REFERENCE_ONLY"
+    },
+    {
+      "id": "WIKI-CN",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/cao-cap",
+      "edition": "CN_SERVER_ONLY",
+      "fact": "14 advanced technologies unlock at City Hall 280–400",
+      "runtime": "BLOCKED_VERSION_MISMATCH"
+    },
+    {
+      "id": "VNG-GUIDE",
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-nguy-quoc-toi-uu-hoa-giai-doan-truoc-lv300.html",
+      "edition": "MOBILE_2026_GUIDE",
+      "fact": "Names Nhà chính, Phủ sách lược, Cửa hiệu, Tài vụ, Dân cư, Xưởng and Tiền trang; lacks complete per-level costs/times",
+      "runtime": "REFERENCE_ONLY"
+    }
+  ],
+  "resources": [
+    {
+      "id": "silver",
+      "label": "Bạc",
+      "field": "game.silver"
+    },
+    {
+      "id": "grain",
+      "label": "Lương",
+      "field": "game.grain"
+    },
+    {
+      "id": "iron",
+      "label": "Sắt",
+      "field": "game.iron"
+    },
+    {
+      "id": "prestige",
+      "label": "Uy danh",
+      "field": "game.prestige"
+    }
+  ],
+  "legacy": [
+    {
+      "id": "market",
+      "label": "Chợ",
+      "owner": "LEGACY_AUTO_TICK",
+      "function": "Bạc",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING"
+    },
+    {
+      "id": "farm",
+      "label": "Nông Trại",
+      "owner": "LEGACY_AUTO_TICK",
+      "function": "Lương",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING"
+    },
+    {
+      "id": "mine",
+      "label": "Mỏ",
+      "owner": "LEGACY_ONLY",
+      "function": "Sắt (nếu runtime hỗ trợ)",
+      "levelCap": null,
+      "sourceStatus": "UNKNOWN"
+    },
+    {
+      "id": "academy",
+      "label": "Quân Sư Phủ",
+      "owner": "LEGACY_ONLY",
+      "function": "Khoa kỹ và huấn luyện",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING"
+    },
+    {
+      "id": "barracks",
+      "label": "Doanh Trại",
+      "owner": "LEGACY_ONLY",
+      "function": "Tiến hóa và quân dự bị",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING"
+    },
+    {
+      "id": "walls",
+      "label": "Tường Thành",
+      "owner": "LEGACY_ONLY",
+      "function": "Phòng thủ",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING"
+    },
+    {
+      "id": "lumberyard",
+      "label": "Lâm Trại",
+      "owner": "CL_LEGACY_ONLY",
+      "function": "Gỗ (không phải tài nguyên NL chính)",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING"
+    }
+  ],
+  "policy": {
+    "schemaVersion": 1,
+    "saveKey": "muu_dinh_tam_quoc_v1",
+    "saveVersion": 5,
+    "stateField": "nlCity",
+    "maxOfflineMs": 21600000,
+    "jobSlots": 1,
+    "resourceMode": "CAPPED_ESCROW_MANUAL_HARVEST",
+    "economicFormulas": "SIMULATED"
+  },
+  "buildings": [
+    {
+      "id": "nl_city_ironworks",
+      "name": "Lò Luyện Thiết",
+      "category": "production",
+      "grid": {
+        "x": 0,
+        "y": 0
+      },
+      "levelCap": 5,
+      "unlock": null,
+      "baseCost": {
+        "silver": 420,
+        "grain": 130,
+        "iron": 35
+      },
+      "buildSeconds": [
+        null,
+        30,
+        60,
+        100,
+        150,
+        210
+      ],
+      "production": {
+        "resource": "iron",
+        "perMinutePerLevel": 3,
+        "capacityPerLevel": 45
+      },
+      "effects": [],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_V1"
+      }
+    },
+    {
+      "id": "nl_city_mill",
+      "name": "Cối Xay Lương",
+      "category": "production",
+      "grid": {
+        "x": 1,
+        "y": 0
+      },
+      "levelCap": 5,
+      "unlock": null,
+      "baseCost": {
+        "silver": 360,
+        "grain": 80,
+        "iron": 30
+      },
+      "buildSeconds": [
+        null,
+        25,
+        55,
+        95,
+        140,
+        190
+      ],
+      "production": {
+        "resource": "grain",
+        "perMinutePerLevel": 15,
+        "capacityPerLevel": 240
+      },
+      "effects": [],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_V1"
+      }
+    },
+    {
+      "id": "nl_city_depot",
+      "name": "Quân Nhu Doanh",
+      "category": "support",
+      "grid": {
+        "x": 0,
+        "y": 1
+      },
+      "levelCap": 5,
+      "unlock": {
+        "legacyBuilding": "barracks",
+        "minLevel": 1
+      },
+      "baseCost": {
+        "silver": 500,
+        "grain": 250,
+        "iron": 80
+      },
+      "buildSeconds": [
+        null,
+        40,
+        80,
+        130,
+        190,
+        260
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "reserveCapacityFlat",
+          "perLevel": 60,
+          "consumer": "chat-05 / barracks"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_V1"
+      }
+    },
+    {
+      "id": "nl_city_workshop",
+      "name": "Công Tượng Phường",
+      "category": "support",
+      "grid": {
+        "x": 1,
+        "y": 1
+      },
+      "levelCap": 5,
+      "unlock": {
+        "legacyBuilding": "academy",
+        "minLevel": 1
+      },
+      "baseCost": {
+        "silver": 520,
+        "grain": 110,
+        "iron": 90
+      },
+      "buildSeconds": [
+        null,
+        45,
+        90,
+        135,
+        195,
+        270
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "equipmentUpgradeDiscount",
+          "perLevel": 0.02,
+          "cap": 0.1,
+          "consumer": "chat-04 / equipment"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_V1"
+      }
+    }
+  ],
+  "research": {
+    "authority": "data/ngoalong/alpha_content.json#research",
+    "ids": [
+      "arms",
+      "armor",
+      "strategy",
+      "command",
+      "harvest",
+      "commerce",
+      "morale",
+      "recruit"
+    ],
+    "neverImportCnAdvanced": true
+  }
+}
