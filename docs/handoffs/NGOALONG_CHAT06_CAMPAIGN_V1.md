@@ -38,3 +38,20 @@ Early catalogue deterministic rebuild: `tools/nl_campaign_starter_import_v1.js -
 **CHAT08 action now**: consume shards through \`nl_campaign_shards_v1.js\`, retain version/slot/provenance; collaborate with CHAT01/02/05 to approve exact troop and skill IDs and original project mechanics, then create a small verified contiguous playable route. Wire \`nl_campaign_battle_adapter_v1.js\` to shared combat/Save v5 using atomic receipts and authoritative battle results; full browser/CI on exact integration SHA afterward. Old instructions above to regenerate the 100 MB blueprint are historical; use the 16 MB extracted importer for reproducibility.
 
 **Current gate**: source materialization and isolated tests; NOT canonical game integration, NOT physical device or owner acceptance; no merge performed.
+
+
+## CHAT06 V3 — next integration priorities (source completeness, NOT gameplay approval)
+
+A consolidated check against the pinned 16 MB GitHub source and actual committed shards passed **13/13 JS consistency checks**: 249 maps, 4,903 NPC identities, 170 source-roster-complete maps, 344 exact numeric troop discrepancies, 21 shards, manifest/coverage, first and last shard reproduction, crosswalk reproduction, no auto-enabled runtime IDs, and 23,914 unit slots / 17,850 soldier values UNKNOWN. The Node regression suite \`qa/nl_campaign_source_v3.test.cjs\` is committed but has not been executed under GitHub Actions exact-SHA.
+
+**Eight maps are SOURCE-STRUCTURALLY COMPLETE** (NPC roster count matches the Wiki index; all NPCs have enumerated formations; all per-unit soldiers are known and sum to NPC totals). This is *not* equivalent to verified playable mechanics: no hero/troop/skill/Save/combat bindings have been approved.
+
+- Wiki IDs 21–25: Giang Đình Trụ, Dịch Kinh Lâu, Dã Tùng Lâm, Kho Thành Đô, Thiên Thủy Đạo (each 5 NPCs / 25 unit slots; city level 110)
+- Wiki IDs 27–28: Bạch Lâu Mật Thất and Hang Dị Nhân (each 5 NPCs / 25 slots; city level 110)
+- Wiki ID 80: Hắc Diệu Thâm Uyên (10 NPCs / 50 slots; city level 185)
+
+These are candidate **data-driven side content** only. No story-link chronology, side/hard/main classification or unlock dependency has been approved from their numeric IDs. Do not mark them available before reviewed skills and real combat bindings.
+
+**Early main route blockers (as extracted):** Khúc Dương (map 1, 5/5 NPC, one unit soldier count UNKNOWN); Quảng Tông (map 2, 7/7 NPC, three units with UNKNOWN soldier counts). Repair these using confirmed source rather than guessing. Map 3 Hổ Lao has 22/22 index rows but 73 unknown unit soldier counts and 1 incomplete NPC formation.
+
+Do not merge, change the generator, \`alpha_content.json\`, Save or shared runtime from CHAT06. Integration is owned by CHAT08. Crosswalk name matches remain candidate-only.
