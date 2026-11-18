@@ -36,3 +36,73 @@ jobs:
           path: out/*.json
           retention-days: 30
           if-no-files-found: warn
+
+
+  aggregate:
+    name: Consolidate source-only group02 Wiki data
+    needs: extract
+    if: always()
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: group02-wiki-part-*
+          path: gathered
+          merge-multiple: true
+      - name: Validate, consolidate and flag incomplete NPC records
+        run: |
+          python - <<'PY'
+          import json,glob
+          from pathlib import Path
+          files=sorted(glob.glob('gathered/*.json'))
+          maps={};issues=[];shards=[]
+          for path in files:
+            j=json.loads(Path(path).read_text(encoding='utf-8'))
+            shards.append(dict(shard=j.get('shard'),indexCount=j.get('indexCount'),mapCount=len(j.get('maps',[]))))
+            issues+=j.get('errors',[])
+            for r in j.get('maps',[]):
+              mid=r['mapId']
+              if mid in maps:raise RuntimeError('duplicate mapId '+str(mid))
+              maps[mid]=r
+          if len(maps)<200:raise RuntimeError('index incomplete: '+str(len(maps)))
+          rows=[maps[k] for k in sorted(maps)]
+          complete=sum(bool(r.get('npcListComplete')) for r in rows)
+          npc_count=sum(len(r.get('npcs',[])) for r in rows)
+          result={'schemaVersion':1,'edition':'CURRENT_VNG_MOBILE','classicParity':'UNKNOWN',
+            'runtimeAuthority':False,'source':'https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban',
+            'indexClaim':219,'collectedMapLinkCount':len(rows),'countDiscrepancy':len(rows)!=219,
+            'npcDetailsCollected':npc_count,'mapsWithCompleteNpcLinks':complete,
+            'mapsWithIncompleteNpcLinks':len(rows)-complete,
+            'coverage':'COMPLETE_NPC_LINKS_ONLY' if complete==len(rows) and not issues else 'PARTIAL',
+            'errors':issues,'shards':shards,'maps':rows}
+          Path('wiki-extract.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('maps',len(rows),'NPCs',npc_count,'complete-map-links',complete,'errors',len(issues))
+          PY
+      - name: Upload combined Wiki JSON evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: group02-wiki-combined-evidence
+          path: wiki-extract.json
+          if-no-files-found: warn
+      - name: Commit exclusively group02 JSON without merging or force-pushing
+        if: success()
+        env:
+          BRANCH: codex/nl-wiki-01-r02-20261117
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin "$BRANCH"
+          git checkout -B group02-delivery "origin/$BRANCH"
+          mkdir -p data/ngoalong/group02_wiki
+          cp wiki-extract.json data/ngoalong/group02_wiki/wiki_dungeons_extracted.json
+          git add data/ngoalong/group02_wiki/wiki_dungeons_extracted.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'data(group02): store sourced Wiki dungeon extraction'
+            git push origin "HEAD:$BRANCH"
+          fi

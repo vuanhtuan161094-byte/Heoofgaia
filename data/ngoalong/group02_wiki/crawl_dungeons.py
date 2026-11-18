@@ -12,7 +12,7 @@ def search(s,pattern):
     m=re.search(pattern,s,re.I|re.S)
     return m.group(1).strip() if m else None
 def anchors(page,individual=False):
-    return page.evaluate("""kind => [...document.querySelectorAll('a[href*="pho-ban-chi-tiet"]')].map(a=>({url:a.href,text:(a.innerText||'').trim()})).filter(x=>{let p=new URL(x.url).searchParams;return p.has('map')&&p.has('ai')===kind})""",individual)
+    return page.evaluate("""kind => [...document.querySelectorAll('a[href*="map="]')].map(a=>({url:a.href,text:(a.innerText||'').trim()})).filter(x=>{let u=new URL(x.url),p=u.searchParams;return u.pathname.endsWith('/pho-ban-chi-tiet')&&p.has('map')&&p.has('ai')===kind})""",individual)
 def get_index(page):
     page.goto(BASE,wait_until="domcontentloaded",timeout=60000)
     for _ in range(8):
@@ -27,22 +27,33 @@ def get_index(page):
         before=s.split("Cấp",1)[0]
         name=before.split("Thế lực",1)[0]
         for w in ("VN","CN","Mới","Có CB"):name=name.replace(w,"")
+        city=int(m[2]) if m else None
+        count=int(m[3]) if m else None
+        if m and (city>425 or count==0):
+            digits=m[2]+m[3]
+            valid=set([20,40,60,80,100,110,120,130,140,150,155,160,165,170,175,180,185,190,195,200,205,210,215,220,225,230,235,240,245,250,255,260,265,270,275,280,285,290,295,300,305,310,315,320,325,330,335,340,345,350,355,360,365,370,375,380,385,390,395,400,405,410,415,420,425])
+            options=[(v,int(digits[len(str(v)):])) for v in valid if digits.startswith(str(v)) and digits[len(str(v)):] and 1<=int(digits[len(str(v)):])<=80]
+            if options:city,count=max(options,key=lambda item:len(str(item[0])))
+            else:city,count=None,None
         out[mapid]={"mapId":mapid,"name":name.strip(" ·\n▾") or None,
           "faction":search(before,r"Thế lực\s*([^·\n]+?)(?:Có CB|\s*$)"),
-          "level":int(m[1]) if m else None,"cityLevel":int(m[2]) if m else None,
-          "advertisedNpcCount":int(m[3]) if m else None,"url":url,
+          "level":int(m[1]) if m else None,"cityLevel":city,
+          "advertisedNpcCount":count,"url":url,
           "provenance":"VERIFIED_INDEX","version":"VNG_MOBILE"}
     return [out[k] for k in sorted(out)]
 def get_npc_links(page,info):
     page.goto(info["url"],wait_until="domcontentloaded",timeout=60000)
     page.wait_for_timeout(800);found={};warnings=[]
+    t=page.locator("body").inner_text()
+    detail_count=search(t,r"Thành Chính\s*\d+\s+(\d+)\s*NPC")
+    if detail_count:info["detailDeclaredNpcCount"]=number(detail_count)
     for _ in range(60):
         page.wait_for_timeout(300)
         for ref in anchors(page,True):
             q=parse_qs(urlsplit(ref["url"]).query)
             if number(q.get("map",[None])[0])==info["mapId"]:
                 found[number(q.get("ai",[None])[0])]=ref
-        if info["advertisedNpcCount"] is not None and len(found)>=info["advertisedNpcCount"]:break
+        if info["advertisedNpcCount"] is not None and len(found)>=info.get("detailDeclaredNpcCount",info["advertisedNpcCount"]):break
         controls=page.get_by_role("button",name=re.compile(r"^Sau\s*›?$"))
         if not controls.count() or not controls.last.is_enabled():break
         before=page.locator("body").inner_text()[-600:]
@@ -99,7 +110,7 @@ def main(opts):
                     try:row["npcs"].append(get_npc(page,item))
                     except Exception as ex:row.setdefault("npcErrors",[]).append({"url":item["url"],"error":str(ex)[:200]})
                     time.sleep(max(.5,opts.delay))
-                row["npcListComplete"]=len(row["npcs"])==m["advertisedNpcCount"] and not notes and not row.get("npcErrors")
+                row["npcListComplete"]=len(row["npcs"])==m.get("detailDeclaredNpcCount",m["advertisedNpcCount"]) and not notes and not row.get("npcErrors")
             except Exception as ex:failures.append({"mapId":m["mapId"],"error":str(ex)[:200]})
             records.append(row)
             opts.output.write_text(json.dumps({"indexCount":len(allmaps),"sourceUrl":BASE,"scope":"CURRENT_VNG_MOBILE",
