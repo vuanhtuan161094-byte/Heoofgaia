@@ -82,86 +82,14 @@
         "note": "DERIVED"
       },
       "groups": [
-        {
-          "id": "infantry",
-          "label": "Bộ Binh",
-          "alphaInScope": true,
-          "fieldProvenance": {
-            "id": "DERIVED",
-            "label": "VERIFIED",
-            "alphaInScope": "SIMULATED"
-          }
-        },
-        {
-          "id": "spear",
-          "label": "Thương Binh",
-          "alphaInScope": true,
-          "fieldProvenance": {
-            "id": "DERIVED",
-            "label": "VERIFIED",
-            "alphaInScope": "SIMULATED"
-          }
-        },
-        {
-          "id": "cavalry",
-          "label": "Kỵ Binh",
-          "alphaInScope": true,
-          "fieldProvenance": {
-            "id": "DERIVED",
-            "label": "VERIFIED",
-            "alphaInScope": "SIMULATED"
-          }
-        },
-        {
-          "id": "archer",
-          "label": "Cung Binh",
-          "alphaInScope": true,
-          "fieldProvenance": {
-            "id": "DERIVED",
-            "label": "VERIFIED",
-            "alphaInScope": "SIMULATED"
-          }
-        },
-        {
-          "id": "strategist",
-          "label": "Quan Văn",
-          "alphaInScope": true,
-          "fieldProvenance": {
-            "id": "DERIVED",
-            "label": "VERIFIED",
-            "alphaInScope": "SIMULATED"
-          }
-        },
-        {
-          "id": "ship-small",
-          "label": "Thuyền Nhỏ",
-          "alphaInScope": false,
-          "fieldProvenance": {
-            "id": "DERIVED",
-            "label": "VERIFIED",
-            "alphaInScope": "SIMULATED"
-          }
-        },
-        {
-          "id": "ship-medium",
-          "label": "Thuyền Vừa",
-          "alphaInScope": false,
-          "fieldProvenance": {
-            "id": "DERIVED",
-            "label": "VERIFIED",
-            "alphaInScope": "SIMULATED"
-          }
-        },
-        {
-          "id": "ship-large",
-          "label": "Thuyền Lớn",
-          "alphaInScope": false,
-          "fieldProvenance": {
-            "id": "DERIVED",
-            "label": "VERIFIED",
-            "alphaInScope": "SIMULATED"
-          }
-        }
+        {"id": "infantry", "label": "Bộ Binh", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "spear", "label": "Thương Binh", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "cavalry", "label": "Kỵ Binh", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "archer", "label": "Cung Binh", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "strategist", "label": "Quan Văn", "alphaInScope": true, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "ship-small", "label": "Thuyền Nhỏ", "alphaInScope": false, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "ship-medium", "label": "Thuyền Vừa", "alphaInScope": false, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}},
+        {"id": "ship-large", "label": "Thuyền Lớn", "alphaInScope": false, "fieldProvenance": {"id": "DERIVED", "label": "VERIFIED", "alphaInScope": "SIMULATED"}}
       ],
       "note": "The page-level count is not a claim that all visible filter categories or entries are playable in this Alpha."
     },
@@ -764,7 +692,7 @@
       }
     },
     "heroById": {
-      "liu": {
+    "liu": {
         "pattern": "heal",
         "kind": "magic",
         "mult": 1.65,
@@ -774,55 +702,55 @@
         "applyAlly": "ward",
         "tag": "Nhân Đức",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "guan": {
+    },
+    "guan": {
         "pattern": "single",
         "kind": "tactic",
         "mult": 2.25,
         "pierce": 0.3,
         "tag": "Thanh Long Trảm",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "zhang": {
+    },
+    "zhang": {
         "pattern": "row",
         "kind": "physical",
         "mult": 1.44,
         "apply": "break",
         "tag": "Hổ Khiếu",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "zhao": {
+    },
+    "zhao": {
         "pattern": "double",
         "kind": "tactic",
         "mult": 1.23,
         "tag": "Long Đảm",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "zhuge": {
+    },
+    "zhuge": {
         "pattern": "all",
         "kind": "magic",
-        "mult": 1,
+        "mult": 1.0,
         "apply": "daze",
         "applyChance": 0.23,
         "tag": "Bát Trận Đồ",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "huang": {
+    },
+    "huang": {
         "pattern": "back",
         "kind": "physical",
         "mult": 2.05,
@@ -830,42 +758,42 @@
         "crit": 0.28,
         "tag": "Bách Bộ Xuyên Dương",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "ma": {
+    },
+    "ma": {
         "pattern": "column",
         "kind": "tactic",
         "mult": 1.55,
         "tag": "Thiết Kỵ",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "sun": {
+    },
+    "sun": {
         "pattern": "double",
         "kind": "physical",
         "mult": 1.34,
         "tag": "Liên Châu Tiễn",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "cao": {
+    },
+    "cao": {
         "pattern": "all",
         "kind": "magic",
         "mult": 0.85,
         "bonusMorale": 24,
         "tag": "Hiệu Lệnh Thiên Hạ",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "sunquan": {
+    },
+    "sunquan": {
         "pattern": "heal",
         "kind": "magic",
         "mult": 1.3,
@@ -873,44 +801,44 @@
         "applyAlly": "guard",
         "tag": "Giang Đông Chi Viện",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "zhou": {
+    },
+    "zhou": {
         "pattern": "row",
         "kind": "magic",
         "mult": 1.67,
         "apply": "burn",
         "tag": "Hỏa Thiêu Xích Bích",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "lu": {
+    },
+    "lu": {
         "pattern": "single",
         "kind": "tactic",
         "mult": 2.42,
         "crit": 0.22,
         "tag": "Vô Song",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "dian": {
+    },
+    "dian": {
         "pattern": "single",
         "kind": "physical",
         "mult": 1.56,
         "applyAlly": "guard",
         "tag": "Thiết Vệ",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      },
-      "xun": {
+    },
+    "xun": {
         "pattern": "heal",
         "kind": "magic",
         "mult": 1.8,
@@ -918,11 +846,11 @@
         "applyAlly": "guard",
         "tag": "Vương Tá",
         "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
         }
-      }
-    },
+    }
+},
     "overrides": {
       "campaign-sima-seal": {
         "pattern": "all",
@@ -943,7 +871,7 @@
       "sourceId": "project-alpha"
     }
   },
-  "statusEffects": {
+  "statusEffects":   {
     "effects": {
       "break": {
         "duration": 2,
@@ -5188,7 +5116,7 @@
           7
         ],
         "tactic": "Hổ Lao Tiền Mâu: Bộ binh khắc chế Thương; bảo vệ tuyến trước.",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 350,
           "grain": 140,
@@ -5214,7 +5142,7 @@
           7
         ],
         "tactic": "Kỵ Đội Xung Phong: Thương binh khắc chế Kỵ; giữ giáo ở tuyến trước.",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 450,
           "grain": 175,
@@ -5240,7 +5168,7 @@
           7
         ],
         "tactic": "Thiết Thuẫn Trường Môn: Kỵ binh khắc chế Bộ; chọn mục tiêu để phá hàng chắn.",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 620,
           "grain": 245,
@@ -5266,7 +5194,7 @@
           7
         ],
         "tactic": "Hậu Doanh Liên Nỏ: cung thủ bắn qua tuyến; dùng chiến pháp hàng sau hoặc khóa cung.",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 820,
           "grain": 320,
@@ -5293,10 +5221,10 @@
         ],
         "tactic": "Trống Khóa Quân Tâm: Tư Mã Ý rút sĩ khí; Điều Quân + Thương ưu tiên Kỵ, còn trống giữ nhịp quân tâm.",
         "enemyPower": 1.15,
-        "recommendedPreparation": {
-          "minimumGenerals": 5,
-          "averageHeroLevel": 5,
-          "recommendedPreset": "spear-van",
+      "recommendedPreparation": {
+        "minimumGenerals": 5,
+        "averageHeroLevel": 5,
+        "recommendedPreset": "spear-van",
           "provenance": {
             "classification": "SIMULATED",
             "sourceId": "project-alpha"
@@ -5350,7 +5278,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 1300,
           "grain": 540,
@@ -5376,7 +5304,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 1600,
           "grain": 650,
@@ -5402,7 +5330,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 2000,
           "grain": 820,
@@ -5480,7 +5408,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 3400,
           "grain": 1350,
@@ -5506,7 +5434,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 4500,
           "grain": 1750,
@@ -5740,7 +5668,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 10500,
           "grain": 3600,
@@ -5766,7 +5694,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 11500,
           "grain": 3900,
@@ -5792,7 +5720,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 12500,
           "grain": 4200,
@@ -5818,7 +5746,7 @@
           7
         ],
         "tactic": "",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 15000,
           "grain": 4700,
@@ -5844,7 +5772,7 @@
           7
         ],
         "tactic": "Hộ vệ địch bắt đầu trong thế thủ; cung thủ hoặc chiến pháp đánh hàng sau sẽ mở thế trận.",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 16200,
           "grain": 4900,
@@ -5862,18 +5790,18 @@
             "duration": 3
           }
         ],
-        "qaExpectations": {
-          "sameSeedFormationChoice": {
-            "seed": 11175384,
-            "lowerLossPreset": "arc-van",
-            "higherLossPreset": "shield-thu",
-            "minimumCasualtyGap": 100,
-            "provenance": {
-              "classification": "SIMULATED",
-              "sourceId": "project-alpha"
-            }
+      "qaExpectations": {
+        "sameSeedFormationChoice": {
+          "seed": 11175384,
+          "lowerLossPreset": "arc-van",
+          "higherLossPreset": "shield-thu",
+          "minimumCasualtyGap": 100,
+          "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
           }
-        },
+        }
+      },
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
@@ -5893,7 +5821,7 @@
           7
         ],
         "tactic": "Mưu sĩ địch bắt đầu đủ sĩ khí và có thể tung Hỏa Kế ngay lượt đầu.",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 17000,
           "grain": 5200,
@@ -5907,18 +5835,18 @@
             "value": 100
           }
         ],
-        "qaExpectations": {
-          "sameSeedFormationChoice": {
-            "seed": 11275387,
-            "lowerLossPreset": "spear-kich",
-            "higherLossPreset": "fish-van",
-            "minimumCasualtyGap": 100,
-            "provenance": {
-              "classification": "SIMULATED",
-              "sourceId": "project-alpha"
-            }
+      "qaExpectations": {
+        "sameSeedFormationChoice": {
+          "seed": 11275387,
+          "lowerLossPreset": "spear-kich",
+          "higherLossPreset": "fish-van",
+          "minimumCasualtyGap": 100,
+          "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
           }
-        },
+        }
+      },
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
@@ -5938,7 +5866,7 @@
           7
         ],
         "tactic": "Kỵ đội cơ động tăng tốc và chủ động tập hậu tuyến sau.",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 18000,
           "grain": 5500,
@@ -5958,18 +5886,18 @@
             "troopId": "cavalry"
           }
         ],
-        "qaExpectations": {
-          "sameSeedFormationChoice": {
-            "seed": 11375390,
-            "lowerLossPreset": "fish-van",
-            "higherLossPreset": "shield-thu",
-            "minimumCasualtyGap": 125,
-            "provenance": {
-              "classification": "SIMULATED",
-              "sourceId": "project-alpha"
-            }
+      "qaExpectations": {
+        "sameSeedFormationChoice": {
+          "seed": 11375390,
+          "lowerLossPreset": "fish-van",
+          "higherLossPreset": "shield-thu",
+          "minimumCasualtyGap": 125,
+          "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
           }
-        },
+        }
+      },
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
@@ -5989,7 +5917,7 @@
           7
         ],
         "tactic": "Đại Hiệu Úy mở trận bằng Cổ Hiệu, bơm sĩ khí cho toàn đội.",
-        "enemyPower": 1,
+        "enemyPower": 1.0,
         "rewards": {
           "silver": 19000,
           "grain": 5800,
@@ -6003,18 +5931,18 @@
             "value": 100
           }
         ],
-        "qaExpectations": {
-          "sameSeedFormationChoice": {
-            "seed": 11475393,
-            "lowerLossPreset": "arc-thu",
-            "higherLossPreset": "shield-van",
-            "minimumCasualtyGap": 140,
-            "provenance": {
-              "classification": "SIMULATED",
-              "sourceId": "project-alpha"
-            }
+      "qaExpectations": {
+        "sameSeedFormationChoice": {
+          "seed": 11475393,
+          "lowerLossPreset": "arc-thu",
+          "higherLossPreset": "shield-van",
+          "minimumCasualtyGap": 140,
+          "provenance": {
+            "classification": "SIMULATED",
+            "sourceId": "project-alpha"
           }
-        },
+        }
+      },
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
@@ -6142,653 +6070,29 @@
       "banner": "artifact"
     },
     "projectItems": [
-      {
-        "id": "b_sword",
-        "name": "Thiết Kiếm",
-        "icon": "🗡️",
-        "slot": "weapon",
-        "rarity": "Thường",
-        "stats": {
-          "atk": 11,
-          "def": 0,
-          "int": 0,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 900,
-          "iron": 160,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "b_spear",
-        "name": "Trường Thương",
-        "icon": "⚔️",
-        "slot": "weapon",
-        "rarity": "Thường",
-        "stats": {
-          "atk": 15,
-          "def": 0,
-          "int": 0,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 900,
-          "iron": 160,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "g_sword",
-        "name": "Thanh Cương Kiếm",
-        "icon": "⚔️",
-        "slot": "weapon",
-        "rarity": "Hiếm",
-        "stats": {
-          "atk": 29,
-          "def": 0,
-          "int": 0,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 4300,
-          "iron": 980,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "g_halberd",
-        "name": "Phương Thiên Họa Kích",
-        "icon": "🔱",
-        "slot": "weapon",
-        "rarity": "Truyền kỳ",
-        "stats": {
-          "atk": 52,
-          "def": 2,
-          "int": 0,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 21000,
-          "iron": 3800,
-          "prestige": 550
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "b_armor",
-        "name": "Giáp Da",
-        "icon": "🦺",
-        "slot": "armor",
-        "rarity": "Thường",
-        "stats": {
-          "atk": 0,
-          "def": 13,
-          "int": 0,
-          "hp": 40,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 900,
-          "iron": 160,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "g_armor",
-        "name": "Huyền Thiết Giáp",
-        "icon": "🛡️",
-        "slot": "armor",
-        "rarity": "Hiếm",
-        "stats": {
-          "atk": 0,
-          "def": 29,
-          "int": 0,
-          "hp": 85,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 4300,
-          "iron": 980,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "r_armor",
-        "name": "Long Lân Giáp",
-        "icon": "🐲",
-        "slot": "armor",
-        "rarity": "Truyền kỳ",
-        "stats": {
-          "atk": 0,
-          "def": 52,
-          "int": 0,
-          "hp": 140,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 21000,
-          "iron": 3800,
-          "prestige": 550
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "b_book",
-        "name": "Binh Thư",
-        "icon": "📗",
-        "slot": "book",
-        "rarity": "Thường",
-        "stats": {
-          "atk": 0,
-          "def": 0,
-          "int": 17,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 900,
-          "iron": 160,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "g_book",
-        "name": "Thái Bình Yếu Thuật",
-        "icon": "📖",
-        "slot": "book",
-        "rarity": "Hiếm",
-        "stats": {
-          "atk": 0,
-          "def": 1,
-          "int": 34,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 4300,
-          "iron": 980,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "r_book",
-        "name": "Thất Tinh Kỳ Thư",
-        "icon": "🌟",
-        "slot": "book",
-        "rarity": "Truyền kỳ",
-        "stats": {
-          "atk": 0,
-          "def": 0,
-          "int": 58,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 21000,
-          "iron": 3800,
-          "prestige": 550
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "b_horse",
-        "name": "Chiến Mã",
-        "icon": "🐎",
-        "slot": "horse",
-        "rarity": "Thường",
-        "stats": {
-          "atk": 7,
-          "def": 2,
-          "int": 0,
-          "hp": 20,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 900,
-          "iron": 160,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "g_horse",
-        "name": "Ô Vân Đạp Tuyết",
-        "icon": "🏇",
-        "slot": "horse",
-        "rarity": "Hiếm",
-        "stats": {
-          "atk": 18,
-          "def": 7,
-          "int": 0,
-          "hp": 55,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 4300,
-          "iron": 980,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "r_horse",
-        "name": "Xích Thố",
-        "icon": "🔥",
-        "slot": "horse",
-        "rarity": "Truyền kỳ",
-        "stats": {
-          "atk": 38,
-          "def": 11,
-          "int": 0,
-          "hp": 85,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 21000,
-          "iron": 3800,
-          "prestige": 550
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "b_cloak",
-        "name": "Phi Phong",
-        "icon": "🧥",
-        "slot": "cloak",
-        "rarity": "Thường",
-        "stats": {
-          "atk": 0,
-          "def": 0,
-          "int": 0,
-          "hp": 0,
-          "tdef": 12,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 900,
-          "iron": 160,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "g_cloak",
-        "name": "Hỏa Vân Phi Phong",
-        "icon": "🪭",
-        "slot": "cloak",
-        "rarity": "Hiếm",
-        "stats": {
-          "atk": 0,
-          "def": 2,
-          "int": 0,
-          "hp": 0,
-          "tdef": 31,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 4300,
-          "iron": 980,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "b_shield",
-        "name": "Hộ Tâm Thuẫn",
-        "icon": "🔰",
-        "slot": "shield",
-        "rarity": "Thường",
-        "stats": {
-          "atk": 0,
-          "def": 0,
-          "int": 0,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 13
-        },
-        "cost": {
-          "silver": 900,
-          "iron": 160,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "g_shield",
-        "name": "Thiên Cơ Thuẫn",
-        "icon": "🪬",
-        "slot": "shield",
-        "rarity": "Hiếm",
-        "stats": {
-          "atk": 0,
-          "def": 0,
-          "int": 4,
-          "hp": 0,
-          "tdef": 0,
-          "mdef": 34
-        },
-        "cost": {
-          "silver": 4300,
-          "iron": 980,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "b_banner",
-        "name": "Hổ Phù",
-        "icon": "🎖️",
-        "slot": "banner",
-        "rarity": "Thường",
-        "stats": {
-          "atk": 0,
-          "def": 0,
-          "int": 0,
-          "hp": 115,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 900,
-          "iron": 160,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "g_banner",
-        "name": "Thiên Binh Ấn",
-        "icon": "📿",
-        "slot": "banner",
-        "rarity": "Hiếm",
-        "stats": {
-          "atk": 0,
-          "def": 6,
-          "int": 0,
-          "hp": 270,
-          "tdef": 0,
-          "mdef": 0
-        },
-        "cost": {
-          "silver": 4300,
-          "iron": 980,
-          "prestige": 0
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "icon": "SIMULATED",
-          "slot": "SIMULATED",
-          "rarity": "SIMULATED",
-          "stats": "SIMULATED",
-          "cost": "SIMULATED"
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      }
+      {"id":"b_sword","name":"Thiết Kiếm","icon":"🗡️","slot":"weapon","rarity":"Thường","stats":{"atk":11,"def":0,"int":0,"hp":0,"tdef":0,"mdef":0},"cost":{"silver":900,"iron":160,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"b_spear","name":"Trường Thương","icon":"⚔️","slot":"weapon","rarity":"Thường","stats":{"atk":15,"def":0,"int":0,"hp":0,"tdef":0,"mdef":0},"cost":{"silver":900,"iron":160,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"g_sword","name":"Thanh Cương Kiếm","icon":"⚔️","slot":"weapon","rarity":"Hiếm","stats":{"atk":29,"def":0,"int":0,"hp":0,"tdef":0,"mdef":0},"cost":{"silver":4300,"iron":980,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"g_halberd","name":"Phương Thiên Họa Kích","icon":"🔱","slot":"weapon","rarity":"Truyền kỳ","stats":{"atk":52,"def":2,"int":0,"hp":0,"tdef":0,"mdef":0},"cost":{"silver":21000,"iron":3800,"prestige":550},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"b_armor","name":"Giáp Da","icon":"🦺","slot":"armor","rarity":"Thường","stats":{"atk":0,"def":13,"int":0,"hp":40,"tdef":0,"mdef":0},"cost":{"silver":900,"iron":160,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"g_armor","name":"Huyền Thiết Giáp","icon":"🛡️","slot":"armor","rarity":"Hiếm","stats":{"atk":0,"def":29,"int":0,"hp":85,"tdef":0,"mdef":0},"cost":{"silver":4300,"iron":980,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"r_armor","name":"Long Lân Giáp","icon":"🐲","slot":"armor","rarity":"Truyền kỳ","stats":{"atk":0,"def":52,"int":0,"hp":140,"tdef":0,"mdef":0},"cost":{"silver":21000,"iron":3800,"prestige":550},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"b_book","name":"Binh Thư","icon":"📗","slot":"book","rarity":"Thường","stats":{"atk":0,"def":0,"int":17,"hp":0,"tdef":0,"mdef":0},"cost":{"silver":900,"iron":160,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"g_book","name":"Thái Bình Yếu Thuật","icon":"📖","slot":"book","rarity":"Hiếm","stats":{"atk":0,"def":1,"int":34,"hp":0,"tdef":0,"mdef":0},"cost":{"silver":4300,"iron":980,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"r_book","name":"Thất Tinh Kỳ Thư","icon":"🌟","slot":"book","rarity":"Truyền kỳ","stats":{"atk":0,"def":0,"int":58,"hp":0,"tdef":0,"mdef":0},"cost":{"silver":21000,"iron":3800,"prestige":550},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"b_horse","name":"Chiến Mã","icon":"🐎","slot":"horse","rarity":"Thường","stats":{"atk":7,"def":2,"int":0,"hp":20,"tdef":0,"mdef":0},"cost":{"silver":900,"iron":160,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"g_horse","name":"Ô Vân Đạp Tuyết","icon":"🏇","slot":"horse","rarity":"Hiếm","stats":{"atk":18,"def":7,"int":0,"hp":55,"tdef":0,"mdef":0},"cost":{"silver":4300,"iron":980,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"r_horse","name":"Xích Thố","icon":"🔥","slot":"horse","rarity":"Truyền kỳ","stats":{"atk":38,"def":11,"int":0,"hp":85,"tdef":0,"mdef":0},"cost":{"silver":21000,"iron":3800,"prestige":550},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"b_cloak","name":"Phi Phong","icon":"🧥","slot":"cloak","rarity":"Thường","stats":{"atk":0,"def":0,"int":0,"hp":0,"tdef":12,"mdef":0},"cost":{"silver":900,"iron":160,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"g_cloak","name":"Hỏa Vân Phi Phong","icon":"🪭","slot":"cloak","rarity":"Hiếm","stats":{"atk":0,"def":2,"int":0,"hp":0,"tdef":31,"mdef":0},"cost":{"silver":4300,"iron":980,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"b_shield","name":"Hộ Tâm Thuẫn","icon":"🔰","slot":"shield","rarity":"Thường","stats":{"atk":0,"def":0,"int":0,"hp":0,"tdef":0,"mdef":13},"cost":{"silver":900,"iron":160,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"g_shield","name":"Thiên Cơ Thuẫn","icon":"🪬","slot":"shield","rarity":"Hiếm","stats":{"atk":0,"def":0,"int":4,"hp":0,"tdef":0,"mdef":34},"cost":{"silver":4300,"iron":980,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"b_banner","name":"Hổ Phù","icon":"🎖️","slot":"banner","rarity":"Thường","stats":{"atk":0,"def":0,"int":0,"hp":115,"tdef":0,"mdef":0},"cost":{"silver":900,"iron":160,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"g_banner","name":"Thiên Binh Ấn","icon":"📿","slot":"banner","rarity":"Hiếm","stats":{"atk":0,"def":6,"int":0,"hp":270,"tdef":0,"mdef":0},"cost":{"silver":4300,"iron":980,"prestige":0},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","icon":"SIMULATED","slot":"SIMULATED","rarity":"SIMULATED","stats":"SIMULATED","cost":"SIMULATED"},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}}
     ],
     "progression": {
-      "reinforcement": {
-        "maxLevel": 12,
-        "statBonusPerLevel": 0.22,
-        "cost": {
-          "silverBase": 350,
-          "silverLevelExponent": 2,
-          "ironBase": 105,
-          "ironLevelExponent": 1
-        },
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      "provenance": {
-        "classification": "SIMULATED",
-        "sourceId": "project-alpha"
-      }
+      "reinforcement": {"maxLevel":12,"statBonusPerLevel":0.22,"cost":{"silverBase":350,"silverLevelExponent":2,"ironBase":105,"ironLevelExponent":1},"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      "provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}
     },
     "provenance": {
       "classification": "SIMULATED",
@@ -6807,169 +6111,16 @@
       "recruit"
     ],
     "catalog": [
-      {
-        "id": "arms",
-        "name": "Quân Khí",
-        "icon": "⚔️",
-        "description": "Tăng 4% Vật Công và Chiến Công mỗi cấp.",
-        "maxLevel": 10,
-        "effects": [
-          {
-            "target": "atkMultiplierBonus",
-            "valuePerLevel": 0.04
-          },
-          {
-            "target": "catkMultiplierBonus",
-            "valuePerLevel": 0.04
-          }
-        ],
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "armor",
-        "name": "Giáp Trụ",
-        "icon": "🛡️",
-        "description": "Tăng 4% phòng thủ toàn quân mỗi cấp.",
-        "maxLevel": 10,
-        "effects": [
-          {
-            "target": "defMultiplierBonus",
-            "valuePerLevel": 0.04
-          }
-        ],
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "strategy",
-        "name": "Mưu Lược",
-        "icon": "📜",
-        "description": "Tăng 5% Mưu Công mỗi cấp.",
-        "maxLevel": 10,
-        "effects": [
-          {
-            "target": "matkMultiplierBonus",
-            "valuePerLevel": 0.05
-          }
-        ],
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "command",
-        "name": "Chỉ Huy",
-        "icon": "🏳️",
-        "description": "Tăng 5% HP, dẫn binh mỗi cấp.",
-        "maxLevel": 10,
-        "effects": [
-          {
-            "target": "hpMultiplierBonus",
-            "valuePerLevel": 0.05
-          }
-        ],
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "harvest",
-        "name": "Nông Vụ",
-        "icon": "🌾",
-        "description": "Tăng 8% sản lượng lương mỗi cấp.",
-        "maxLevel": 10,
-        "effects": [
-          {
-            "target": "grainProductionMultiplierBonus",
-            "valuePerLevel": 0.08
-          }
-        ],
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "commerce",
-        "name": "Thương Đạo",
-        "icon": "🪙",
-        "description": "Tăng 8% sản lượng bạc mỗi cấp.",
-        "maxLevel": 10,
-        "effects": [
-          {
-            "target": "silverProductionMultiplierBonus",
-            "valuePerLevel": 0.08
-          }
-        ],
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "morale",
-        "name": "Quân Tâm",
-        "icon": "🔥",
-        "description": "Tăng 6 sĩ khí đầu trận mỗi cấp.",
-        "maxLevel": 10,
-        "effects": [
-          {
-            "target": "startingMoraleFlat",
-            "valuePerLevel": 6
-          }
-        ],
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      },
-      {
-        "id": "recruit",
-        "name": "Binh Chế",
-        "icon": "🏹",
-        "description": "Tăng 50 sức chứa dự bị mỗi cấp.",
-        "maxLevel": 10,
-        "effects": [
-          {
-            "target": "reserveCapacityFlat",
-            "valuePerLevel": 50
-          }
-        ],
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        }
-      }
+      {"id":"arms","name":"Quân Khí","icon":"⚔️","description":"Tăng 4% Vật Công và Chiến Công mỗi cấp.","maxLevel":10,"effects":[{"target":"atkMultiplierBonus","valuePerLevel":0.04},{"target":"catkMultiplierBonus","valuePerLevel":0.04}],"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"armor","name":"Giáp Trụ","icon":"🛡️","description":"Tăng 4% phòng thủ toàn quân mỗi cấp.","maxLevel":10,"effects":[{"target":"defMultiplierBonus","valuePerLevel":0.04}],"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"strategy","name":"Mưu Lược","icon":"📜","description":"Tăng 5% Mưu Công mỗi cấp.","maxLevel":10,"effects":[{"target":"matkMultiplierBonus","valuePerLevel":0.05}],"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"command","name":"Chỉ Huy","icon":"🏳️","description":"Tăng 5% HP, dẫn binh mỗi cấp.","maxLevel":10,"effects":[{"target":"hpMultiplierBonus","valuePerLevel":0.05}],"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"harvest","name":"Nông Vụ","icon":"🌾","description":"Tăng 8% sản lượng lương mỗi cấp.","maxLevel":10,"effects":[{"target":"grainProductionMultiplierBonus","valuePerLevel":0.08}],"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"commerce","name":"Thương Đạo","icon":"🪙","description":"Tăng 8% sản lượng bạc mỗi cấp.","maxLevel":10,"effects":[{"target":"silverProductionMultiplierBonus","valuePerLevel":0.08}],"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"morale","name":"Quân Tâm","icon":"🔥","description":"Tăng 6 sĩ khí đầu trận mỗi cấp.","maxLevel":10,"effects":[{"target":"startingMoraleFlat","valuePerLevel":6}],"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
+      {"id":"recruit","name":"Binh Chế","icon":"🏹","description":"Tăng 50 sức chứa dự bị mỗi cấp.","maxLevel":10,"effects":[{"target":"reserveCapacityFlat","valuePerLevel":50}],"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}}
     ],
-    "progression": {
-      "cost": {
-        "silver": {
-          "base": 550,
-          "nextLevelExponent": 2
-        },
-        "iron": {
-          "base": 130,
-          "nextLevelExponent": 1
-        },
-        "prestige": {
-          "base": 30,
-          "nextLevelExponent": 1,
-          "freeFirstLevel": true
-        }
-      },
-      "academyLevelsPerTechLevel": 2,
-      "provenance": {
-        "classification": "SIMULATED",
-        "sourceId": "project-alpha"
-      }
-    },
+    "progression": {"cost":{"silver":{"base":550,"nextLevelExponent":2},"iron":{"base":130,"nextLevelExponent":1},"prestige":{"base":30,"nextLevelExponent":1,"freeFirstLevel":true}},"academyLevelsPerTechLevel":2,"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
     "provenance": {
       "classification": "SIMULATED",
       "sourceId": "project-alpha"
@@ -6990,482 +6141,20 @@
   "heroes": {
     "profiles": [],
     "projectRoster": [
-      {
-        "id": "liu",
-        "name": "Lưu Bị",
-        "role": "Hỗ trợ",
-        "rarity": "Lương",
-        "type": "support",
-        "icon": "👑",
-        "lead": 78,
-        "atk": 46,
-        "def": 57,
-        "int": 73,
-        "agi": 56,
-        "skill": "Nhân Đức",
-        "skillDesc": "Chữa trị đồng minh mất nhiều sinh lực nhất.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "guan",
-        "name": "Quan Vũ",
-        "role": "Kỵ binh",
-        "rarity": "Danh tướng",
-        "type": "cavalry",
-        "icon": "🐉",
-        "lead": 94,
-        "atk": 91,
-        "def": 73,
-        "int": 56,
-        "agi": 70,
-        "skill": "Thanh Long Trảm",
-        "skillDesc": "Tấn công chiến pháp gây sát thương lớn.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "zhang",
-        "name": "Trương Phi",
-        "role": "Bộ binh",
-        "rarity": "Danh tướng",
-        "type": "infantry",
-        "icon": "🐯",
-        "lead": 86,
-        "atk": 89,
-        "def": 82,
-        "int": 38,
-        "agi": 50,
-        "skill": "Hổ Khiếu",
-        "skillDesc": "Đòn uy lực và giảm phòng ngự địch.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "zhao",
-        "name": "Triệu Vân",
-        "role": "Kỵ binh",
-        "rarity": "Danh tướng",
-        "type": "cavalry",
-        "icon": "⚔️",
-        "lead": 90,
-        "atk": 88,
-        "def": 75,
-        "int": 65,
-        "agi": 91,
-        "skill": "Long Đảm",
-        "skillDesc": "Liên kích hai lần vào mục tiêu.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "zhuge",
-        "name": "Gia Cát Lượng",
-        "role": "Mưu sĩ",
-        "rarity": "Truyền kỳ",
-        "type": "strategist",
-        "icon": "🪶",
-        "lead": 90,
-        "atk": 42,
-        "def": 55,
-        "int": 99,
-        "agi": 63,
-        "skill": "Bát Trận Đồ",
-        "skillDesc": "Mưu thuật gây sát thương lên ba đơn vị.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "huang",
-        "name": "Hoàng Trung",
-        "role": "Cung binh",
-        "rarity": "Danh tướng",
-        "type": "archer",
-        "icon": "🏹",
-        "lead": 81,
-        "atk": 88,
-        "def": 57,
-        "int": 62,
-        "agi": 64,
-        "skill": "Bách Bộ Xuyên Dương",
-        "skillDesc": "Đòn xuyên giáp có tỉ lệ chí mạng cao.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "ma",
-        "name": "Mã Siêu",
-        "role": "Kỵ binh",
-        "rarity": "Danh tướng",
-        "type": "cavalry",
-        "icon": "🐎",
-        "lead": 89,
-        "atk": 90,
-        "def": 70,
-        "int": 44,
-        "agi": 88,
-        "skill": "Thiết Kỵ",
-        "skillDesc": "Xung phong công kích tuyến trước.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "sun",
-        "name": "Tôn Thượng Hương",
-        "role": "Cung binh",
-        "rarity": "Lương",
-        "type": "archer",
-        "icon": "🏹",
-        "lead": 76,
-        "atk": 75,
-        "def": 51,
-        "int": 63,
-        "agi": 77,
-        "skill": "Liên Châu Tiễn",
-        "skillDesc": "Bắn hai mũi tên liên tiếp.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "cao",
-        "name": "Tào Tháo",
-        "role": "Mưu sĩ",
-        "rarity": "Truyền kỳ",
-        "type": "strategist",
-        "icon": "🦅",
-        "lead": 95,
-        "atk": 69,
-        "def": 77,
-        "int": 95,
-        "agi": 72,
-        "skill": "Hiệu Lệnh Thiên Hạ",
-        "skillDesc": "Mưu công diện rộng và tăng sĩ khí.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "sunquan",
-        "name": "Tôn Quyền",
-        "role": "Hỗ trợ",
-        "rarity": "Lương",
-        "type": "support",
-        "icon": "🌊",
-        "lead": 87,
-        "atk": 64,
-        "def": 69,
-        "int": 79,
-        "agi": 61,
-        "skill": "Giang Đông Chi Viện",
-        "skillDesc": "Hồi phục cho đồng đội.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "zhou",
-        "name": "Chu Du",
-        "role": "Mưu sĩ",
-        "rarity": "Truyền kỳ",
-        "type": "strategist",
-        "icon": "🔥",
-        "lead": 87,
-        "atk": 50,
-        "def": 58,
-        "int": 96,
-        "agi": 77,
-        "skill": "Hỏa Thiêu Xích Bích",
-        "skillDesc": "Hỏa công ảnh hưởng nhiều quân địch.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "lu",
-        "name": "Lữ Bố",
-        "role": "Kỵ binh",
-        "rarity": "Truyền kỳ",
-        "type": "cavalry",
-        "icon": "🔱",
-        "lead": 95,
-        "atk": 99,
-        "def": 67,
-        "int": 28,
-        "agi": 94,
-        "skill": "Vô Song",
-        "skillDesc": "Đột kích cực mạnh, tỉ lệ chí mạng cao.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "dian",
-        "name": "Điển Vi",
-        "role": "Bộ binh",
-        "rarity": "Danh tướng",
-        "type": "infantry",
-        "icon": "🛡️",
-        "lead": 83,
-        "atk": 89,
-        "def": 94,
-        "int": 31,
-        "agi": 44,
-        "skill": "Thiết Vệ",
-        "skillDesc": "Phản kích và gây sát thương mạnh.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      },
-      {
-        "id": "xun",
-        "name": "Tuân Úc",
-        "role": "Hỗ trợ",
-        "rarity": "Danh tướng",
-        "type": "support",
-        "icon": "📜",
-        "lead": 78,
-        "atk": 35,
-        "def": 54,
-        "int": 95,
-        "agi": 65,
-        "skill": "Vương Tá",
-        "skillDesc": "Hồi phục quân đội bằng mưu thuật.",
-        "provenance": {
-          "classification": "SIMULATED",
-          "sourceId": "project-alpha"
-        },
-        "fieldProvenance": {
-          "id": "SIMULATED",
-          "name": "SIMULATED",
-          "role": "SIMULATED",
-          "rarity": "SIMULATED",
-          "type": "SIMULATED",
-          "icon": "SIMULATED",
-          "lead": "SIMULATED",
-          "atk": "SIMULATED",
-          "def": "SIMULATED",
-          "int": "SIMULATED",
-          "agi": "SIMULATED",
-          "skill": "SIMULATED",
-          "skillDesc": "SIMULATED"
-        }
-      }
+      {"id":"liu","name":"Lưu Bị","role":"Hỗ trợ","rarity":"Lương","type":"support","icon":"👑","lead":78,"atk":46,"def":57,"int":73,"agi":56,"skill":"Nhân Đức","skillDesc":"Chữa trị đồng minh mất nhiều sinh lực nhất.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"guan","name":"Quan Vũ","role":"Kỵ binh","rarity":"Danh tướng","type":"cavalry","icon":"🐉","lead":94,"atk":91,"def":73,"int":56,"agi":70,"skill":"Thanh Long Trảm","skillDesc":"Tấn công chiến pháp gây sát thương lớn.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"zhang","name":"Trương Phi","role":"Bộ binh","rarity":"Danh tướng","type":"infantry","icon":"🐯","lead":86,"atk":89,"def":82,"int":38,"agi":50,"skill":"Hổ Khiếu","skillDesc":"Đòn uy lực và giảm phòng ngự địch.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"zhao","name":"Triệu Vân","role":"Kỵ binh","rarity":"Danh tướng","type":"cavalry","icon":"⚔️","lead":90,"atk":88,"def":75,"int":65,"agi":91,"skill":"Long Đảm","skillDesc":"Liên kích hai lần vào mục tiêu.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"zhuge","name":"Gia Cát Lượng","role":"Mưu sĩ","rarity":"Truyền kỳ","type":"strategist","icon":"🪶","lead":90,"atk":42,"def":55,"int":99,"agi":63,"skill":"Bát Trận Đồ","skillDesc":"Mưu thuật gây sát thương lên ba đơn vị.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"huang","name":"Hoàng Trung","role":"Cung binh","rarity":"Danh tướng","type":"archer","icon":"🏹","lead":81,"atk":88,"def":57,"int":62,"agi":64,"skill":"Bách Bộ Xuyên Dương","skillDesc":"Đòn xuyên giáp có tỉ lệ chí mạng cao.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"ma","name":"Mã Siêu","role":"Kỵ binh","rarity":"Danh tướng","type":"cavalry","icon":"🐎","lead":89,"atk":90,"def":70,"int":44,"agi":88,"skill":"Thiết Kỵ","skillDesc":"Xung phong công kích tuyến trước.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"sun","name":"Tôn Thượng Hương","role":"Cung binh","rarity":"Lương","type":"archer","icon":"🏹","lead":76,"atk":75,"def":51,"int":63,"agi":77,"skill":"Liên Châu Tiễn","skillDesc":"Bắn hai mũi tên liên tiếp.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"cao","name":"Tào Tháo","role":"Mưu sĩ","rarity":"Truyền kỳ","type":"strategist","icon":"🦅","lead":95,"atk":69,"def":77,"int":95,"agi":72,"skill":"Hiệu Lệnh Thiên Hạ","skillDesc":"Mưu công diện rộng và tăng sĩ khí.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"sunquan","name":"Tôn Quyền","role":"Hỗ trợ","rarity":"Lương","type":"support","icon":"🌊","lead":87,"atk":64,"def":69,"int":79,"agi":61,"skill":"Giang Đông Chi Viện","skillDesc":"Hồi phục cho đồng đội.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"zhou","name":"Chu Du","role":"Mưu sĩ","rarity":"Truyền kỳ","type":"strategist","icon":"🔥","lead":87,"atk":50,"def":58,"int":96,"agi":77,"skill":"Hỏa Thiêu Xích Bích","skillDesc":"Hỏa công ảnh hưởng nhiều quân địch.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"lu","name":"Lữ Bố","role":"Kỵ binh","rarity":"Truyền kỳ","type":"cavalry","icon":"🔱","lead":95,"atk":99,"def":67,"int":28,"agi":94,"skill":"Vô Song","skillDesc":"Đột kích cực mạnh, tỉ lệ chí mạng cao.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"dian","name":"Điển Vi","role":"Bộ binh","rarity":"Danh tướng","type":"infantry","icon":"🛡️","lead":83,"atk":89,"def":94,"int":31,"agi":44,"skill":"Thiết Vệ","skillDesc":"Phản kích và gây sát thương mạnh.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}},
+      {"id":"xun","name":"Tuân Úc","role":"Hỗ trợ","rarity":"Danh tướng","type":"support","icon":"📜","lead":78,"atk":35,"def":54,"int":95,"agi":65,"skill":"Vương Tá","skillDesc":"Hồi phục quân đội bằng mưu thuật.","provenance":{"classification":"SIMULATED","sourceId":"project-alpha"},"fieldProvenance":{"id":"SIMULATED","name":"SIMULATED","role":"SIMULATED","rarity":"SIMULATED","type":"SIMULATED","icon":"SIMULATED","lead":"SIMULATED","atk":"SIMULATED","def":"SIMULATED","int":"SIMULATED","agi":"SIMULATED","skill":"SIMULATED","skillDesc":"SIMULATED"}}
     ],
     "schema": {
       "id": "string",
@@ -7479,17 +6168,7 @@
         "skillIds": "UNKNOWN"
       }
     },
-    "training": {
-      "silverCost": 700,
-      "baseXp": 95,
-      "academyXpPerLevel": 12,
-      "maxLevel": 40,
-      "xpRequiredPerHeroLevel": 90,
-      "provenance": {
-        "classification": "SIMULATED",
-        "sourceId": "project-alpha"
-      }
-    },
+    "training": {"silverCost":700,"baseXp":95,"academyXpPerLevel":12,"maxLevel":40,"xpRequiredPerHeroLevel":90,"provenance":{"classification":"SIMULATED","sourceId":"project-alpha"}},
     "catalogueCoverage": "NOT_IMPORTED_IN_ALPHA",
     "runtimeBinding": "existing project HEROES registry",
     "provenance": {
