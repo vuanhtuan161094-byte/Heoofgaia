@@ -6,8 +6,8 @@
   "checkedAt": "2026-11-18",
   "runtimeAuthority": false,
   "counts": {
-    "heroes": 22,
-    "guideHeroSnapshots": 8,
+    "heroes": 50,
+    "guideHeroSnapshots": 16,
     "equipment": 29,
     "maps": 4,
     "npcs": 35,
@@ -15,7 +15,11 @@
     "cityFeatures": 6,
     "items": 4,
     "mapDropRecords": 13,
-    "detailedNpcSnapshots": 2
+    "detailedNpcSnapshots": 2,
+    "earlyMaps": 10,
+    "earlyIndexNpcTotal": 207,
+    "earlyNpcDetailSamples": 7,
+    "earlyIndexDropEntries": 31
   },
   "sourceRegistry": [
     {
@@ -122,6 +126,55 @@
       "edition": "CURRENT_MOBILE",
       "access": "indexed_excerpt",
       "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-1-77",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=77&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-1-81",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=81&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-1-82",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=82&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-2-95",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=95&map=2&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-3-108",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=108&map=3&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-3-114",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=114&map=3&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-4-135",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=135&map=4&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
     }
   ],
   "claimsNotImported": {
@@ -133,5 +186,34 @@
   },
   "coverage": "SELECTED_RECORDS_NOT_COMPLETE",
   "dataStatus": "REFERENCE_ONLY",
-  "integrationRule": "Require individual provenance, rights review and version-specific mechanic before live conversion"
+  "integrationRule": "Require individual provenance, rights review and version-specific mechanic before live conversion",
+  "earlyCampaignStatus": {
+    "scope": "TEN_EARLIEST_MAINLINE_DUNGEONS_IN_PUBLISHER_INDEX_ORDER",
+    "wikiIndexSource": "W05",
+    "knownDirectDetailMapIds": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "unverifiedDetailMapIds": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "allNpcNames": "UNKNOWN",
+    "allNpcFormationSlots": "UNKNOWN",
+    "allNpcSkillCatalog": "UNKNOWN",
+    "summaryCountsOnlyNotEquivalentToNpcRecords": true,
+    "edition": "CURRENT_MOBILE_NOT_2012_CLASSIC",
+    "note": "Direct 5..10 wiki query ID mapping is not asserted until independently checked; index shows city bands and each map's public metadata."
+  },
+  "knownSourceLimitations": [
+    "Current wiki index has 10 early maps totaling 207 claimed NPCs, but direct NPC detail has only 7 selected sample records for four maps, not 207 NPC names.",
+    "Recruitment guide values are build-specific standalone snapshots and must never be joined as current high-tier hero grade combat stats.",
+    "Some current Wiki dungeon-index totals disagree with detail page totals. Keep source-specific values rather than overwriting."
+  ]
 }

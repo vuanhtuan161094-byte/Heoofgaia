@@ -1,0 +1,601 @@
+{
+  "schemaVersion": 1,
+  "group": "02_WIKI_SYSTEMS",
+  "edition": "CURRENT_MOBILE",
+  "checkedAt": "2026-11-18",
+  "classicParity": "UNKNOWN",
+  "runtimeAuthority": false,
+  "selectionRule": "First 10 main campaign maps by ascending city unlock and on-page order",
+  "sources": [
+    "W05"
+  ],
+  "maps": [
+    {
+      "id": "early-map-01",
+      "campaignOrder": 1,
+      "name": "Khúc Dương",
+      "faction": "Hoàng Cân",
+      "mapLevel": 10,
+      "cityLevelRequired": 20,
+      "npcCountAdvertised": 5,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 140,
+        "gold": 10
+      },
+      "displayedDrops": [
+        {
+          "name": "Bố Giáp",
+          "percent": 100,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Thiết Kiếm",
+          "percent": 100,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": 1,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "VERIFIED"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-02",
+      "campaignOrder": 2,
+      "name": "Quảng Tông",
+      "faction": "Hoàng Cân",
+      "mapLevel": 20,
+      "cityLevelRequired": 40,
+      "npcCountAdvertised": 7,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 250,
+        "gold": 30
+      },
+      "displayedDrops": [
+        {
+          "name": "Hoàng Phiêu",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Kinh Thi",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Thiết Kiếm",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Choàng Gấm",
+          "percent": 30,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": 2,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "VERIFIED"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-03",
+      "campaignOrder": 3,
+      "name": "Hổ Lao",
+      "faction": "Đổng Trác",
+      "mapLevel": 30,
+      "cityLevelRequired": 60,
+      "npcCountAdvertised": 22,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 330,
+        "gold": 30
+      },
+      "displayedDrops": [
+        {
+          "name": "Bố Giáp",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Choàng Gấm",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Mộc Thuẫn",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Thiết Kiếm",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": 3,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "VERIFIED"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-04",
+      "campaignOrder": 4,
+      "name": "Trường An",
+      "faction": "Đổng Trác",
+      "mapLevel": 40,
+      "cityLevelRequired": 60,
+      "npcCountAdvertised": 23,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 300,
+        "gold": 46
+      },
+      "displayedDrops": [
+        {
+          "name": "Diệp Đao",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Choàng Gấm",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Kinh Thi",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Mộc Thuẫn",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": 4,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "VERIFIED"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-05",
+      "campaignOrder": 5,
+      "name": "Ngô Quận",
+      "faction": "Giang Đông",
+      "mapLevel": 50,
+      "cityLevelRequired": 80,
+      "npcCountAdvertised": 26,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 350,
+        "gold": 54
+      },
+      "displayedDrops": [
+        {
+          "name": "Nộ Yến Khải",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Diệp Đao",
+          "percent": 20,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": null,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "UNKNOWN"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-06",
+      "campaignOrder": 6,
+      "name": "Hoài Nam",
+      "faction": "Viên Thuật",
+      "mapLevel": 55,
+      "cityLevelRequired": 80,
+      "npcCountAdvertised": 25,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 524,
+        "gold": 80
+      },
+      "displayedDrops": [
+        {
+          "name": "Bão Nguyệt",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Diệp Đao",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Nộ Yến Khải",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": null,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "UNKNOWN"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-07",
+      "campaignOrder": 7,
+      "name": "Giới Kiều",
+      "faction": "Công Tôn Toán",
+      "mapLevel": 60,
+      "cityLevelRequired": 80,
+      "npcCountAdvertised": 27,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 970,
+        "gold": 154
+      },
+      "displayedDrops": [
+        {
+          "name": "Tứ Dân Lệnh",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Bão Nguyệt",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Diệp Đao",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": null,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "UNKNOWN"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-08",
+      "campaignOrder": 8,
+      "name": "Hán Trung",
+      "faction": "Trương Lỗ",
+      "mapLevel": 65,
+      "cityLevelRequired": 100,
+      "npcCountAdvertised": 19,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 580,
+        "gold": 80
+      },
+      "displayedDrops": [
+        {
+          "name": "Kim Tước",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Bão Nguyệt",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Tứ Dân Lệnh",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": null,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "UNKNOWN"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-09",
+      "campaignOrder": 9,
+      "name": "Kinh Châu",
+      "faction": "Lưu Biểu",
+      "mapLevel": 70,
+      "cityLevelRequired": 100,
+      "npcCountAdvertised": 31,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 980,
+        "gold": 140
+      },
+      "displayedDrops": [
+        {
+          "name": "Thánh Thuẫn",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Kim Tước",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Nộ Yến Khải",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": null,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "UNKNOWN"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "early-map-10",
+      "campaignOrder": 10,
+      "name": "Thành Đô",
+      "faction": "Lưu Chương",
+      "mapLevel": 80,
+      "cityLevelRequired": 100,
+      "npcCountAdvertised": 22,
+      "npcList": [],
+      "npcListStatus": "UNKNOWN",
+      "verifiedNpcsInThisFile": 0,
+      "achievementRewards": {
+        "silver": 1420,
+        "gold": 150
+      },
+      "displayedDrops": [
+        {
+          "name": "Bách Lý",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Kim Tước",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Thánh Thuẫn",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "wikiMapQueryId": null,
+      "sourceIds": [
+        "W05"
+      ],
+      "fieldStatus": {
+        "id": "DERIVED",
+        "campaignOrder": "DERIVED",
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "mapLevel": "VERIFIED",
+        "cityLevelRequired": "VERIFIED",
+        "npcCountAdvertised": "VERIFIED",
+        "npcList": "UNKNOWN",
+        "achievementRewards": "VERIFIED",
+        "displayedDrops": "VERIFIED",
+        "wikiMapQueryId": "UNKNOWN"
+      },
+      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
+      "integration": "REFERENCE_ONLY"
+    }
+  ]
+}
