@@ -47,23 +47,40 @@ with sync_playwright() as pw:
       const stacks=a.effects.find(x=>x.kind==='focus')?.stacks;
       const before=structuredClone(a.effects);
       q.p2Status(t,'ironwall',2);
+      const hpBeforeShield=t.hp;
       b.seed=181118;const blocked=q.p2Hit(a,t,'physical');
+      const hpAfterShield=t.hp;
       b.seed=181118;const next=q.p2Hit(a,t,'physical');
       q.p2Status(t,'sleep',1);
       const sleepAfter=q.nlEffectBridge.startAction(t);
+      const actor=b.p.find(u=>u.hp>0);
+      q.p2Status(actor,'sleep',1);
+      const eventsBeforeSkip=b.events.length,actionsBefore=actor.actions;
+      q.perform(actor);
+      const skip=b.events.at(-1);
+      const skipResult={mode:skip?.mode,eventsBeforeSkip,eventsAfterSkip:b.events.length,
+        turnsAfter:b.turns,actionsBefore,actionsAfter:actor.actions,
+        savedStateHasControl:skip?.state?.p?.some(u=>u.id===actor.id&&u.effects.some(e=>e.kind==='sleep')),
+        nlEffects:skip?.nlEffects};
       q.p2Status(t,'anchored',2);
       const anchored=q.p2Cleanse(t,'all',8);
       const anchoredLeft=t.effects.some(x=>x.kind==='anchored');
       const all=q.nlEffectBridge.additionalIds;
       return {baseline,focused,focus,initialFocus,stacks,before,
-        blocked,next,sleepAfter,anchored,anchoredLeft,all,liveTurn:b.round,
+        blocked,next,hpBeforeShield,hpAfterShield,skipResult,
+        sleepAfter,anchored,anchoredLeft,all,liveTurn:b.round,
         gameVersion:q.getGame().version};
     }""")
     check("focus applied to a real live campaign unit",data["focus"] and data["initialFocus"]["nlEffectV1"] and data["initialFocus"]["turns"]==2)
     check("same-seed live hit grows under focus",data["focused"]>data["baseline"]>0)
     check("focus caps at three stacks",data["stacks"]==3)
-    check("ironwall blocks first real P2 hit, not the next",data["blocked"]["amount"]==0 and data["blocked"].get("nlEffectBlock")=="ironwall" and data["next"]["amount"]>0)
+    check("ironwall blocks first real P2 hit, not the next",data["blocked"]["amount"]==0 and data["blocked"].get("nlEffectBlock")=="ironwall" and data["next"]["amount"]>0 and data["hpBeforeShield"]==data["hpAfterShield"])
     check("sleep control is deterministic in original engine",not data["sleepAfter"]["canAct"])
+    check("sleep skip advances a real turn and records an immutable replay event",
+          data["skipResult"]["mode"]=="stunned" and
+          data["skipResult"]["eventsAfterSkip"]==data["skipResult"]["eventsBeforeSkip"]+1 and
+          data["skipResult"]["actionsAfter"]==data["skipResult"]["actionsBefore"]+1 and
+          isinstance(data["skipResult"]["nlEffects"],list))
     check("unremovable anchored survives live cleansing",data["anchoredLeft"])
     check("Save schema remains v5",data["gameVersion"]==5)
     parity=page.evaluate("""() => {
