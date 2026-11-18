@@ -27,7 +27,7 @@
   }
   function playableFromWiki(reference){
     if(!reference || reference.integration!=='REFERENCE_ONLY' ||
-      !String(reference.id||'').startsWith('wiki-mobile-equip02-') ||
+      !(['wiki-mobile-equip02-','wiki-index-eq-'].some(prefix=>String(reference.id||'').startsWith(prefix))) ||
       !SLOTS.includes(reference.slot) || !valid(reference.displayedLevel) ||
       !reference.name || reference.stats!==null) throw new Error('REFERENCE_NOT_APPROVED_FOR_PROJECT_MODEL');
     const level=reference.displayedLevel;
@@ -36,7 +36,7 @@
     const cost=level<=12?{silver:800+level*120,iron:140+level*14,prestige:0}:null;
     const setId=reference.sourceGroup==='Cùng Kỳ'?'mdt-cung-ky':null;
     return {
-      id:'mdt-'+reference.sourceRecordId,
+      id:'mdt-'+(reference.sourceRecordId||reference.id),
       name:reference.name,category:'equipment',integration:'PLAYABLE',
       sourceEdition:'PROJECT_ORIGINAL_FROM_MOBILE_INDEX',
       sourceGroup:reference.sourceGroup,sourceId:reference.id,
