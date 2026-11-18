@@ -95,14 +95,30 @@ with sync_playwright() as pw:
       const pre=q.getGame(),logBefore=b.events.length;
       q.perform(b.p.find(x=>x.hp>0));
       const logAfter=b.events.length,entry=b.events.at(-1);
-      const save=q.getGame();
+      const save=q.getGame(),recorded=structuredClone({stage:b.stage,mode:b.mode,
+        opening:b.opening,events:b.events});
+      const exactFrame=recorded.events.at(-1)?.state;
+      q.closeBattle('city');
+      const beforeReplay=q.getGame();
+      q.p2OpenReplay(recorded);
+      q.p2LoadReplayFrame(recorded.events.length);
+      const replay=q.debugBattle();
+      const replayMatch=replay?.replay===true &&
+        replay.replayIndex===recorded.events.length &&
+        JSON.stringify({p:replay.p,e:replay.e})===JSON.stringify(exactFrame);
+      const afterReplay=q.getGame();
+      const noRepay=['silver','grain','iron','prestige','gems'].every(key=>
+        beforeReplay[key]===afterReplay[key]);
       q.closeBattle('city');
       return {unchanged:before===after,oldStatus,logBefore,logAfter,
         event:entry&&{mode:entry.mode,actorTeam:entry.actorTeam},
-        savedGame:save,pre,afterClose:q.getGame(),diffs:v1};
+        savedGame:save,pre,afterClose:q.getGame(),diffs:v1,
+        replayMatch,noRepay};
     }""")
     check("legacy burn coefficients and state were not rewritten",parity["unchanged"])
     check("battle produces an actual replay event",parity["logAfter"]>parity["logBefore"] and parity["event"] is not None)
+    check("immutable replay restores exact final combat snapshot",parity["replayMatch"])
+    check("replay does not settle resources or issue a second payment",parity["noRepay"])
     check("turn activity does not invent Save receipts or overwrite campaign data",
           parity["pre"]["version"]==parity["afterClose"]["version"]==5 and
           parity["pre"]["cleared"]==parity["afterClose"]["cleared"])
