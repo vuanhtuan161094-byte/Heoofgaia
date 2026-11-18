@@ -1302,9 +1302,18 @@
           "value": null,
           "chance": 0.05,
           "durationTurns": 1,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "VERIFIED",
+            "durationTurns": "VERIFIED"
+          }
         }
       ],
       "evolution": {
@@ -1447,9 +1456,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -1858,9 +1876,18 @@
           "value": null,
           "chance": 0.05,
           "durationTurns": 1,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "VERIFIED",
+            "durationTurns": "VERIFIED"
+          }
         }
       ],
       "evolution": {
@@ -2003,9 +2030,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -2478,9 +2514,18 @@
           "value": null,
           "chance": 0.15,
           "durationTurns": 1,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "VERIFIED",
+            "durationTurns": "VERIFIED"
+          }
         }
       ],
       "evolution": {
@@ -2963,9 +3008,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -3109,13 +3163,23 @@
         {
           "kind": "ally_morale_gain",
           "trigger": "attack",
-          "target": "all_allies",
+          "target": "ally_unspecified",
           "value": 15,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "UNKNOWN",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          },
+          "targetHint": "all_allies"
         }
       ],
       "evolution": {
@@ -3199,9 +3263,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         },
         {
           "kind": "freeze",
@@ -3210,9 +3283,18 @@
           "value": null,
           "chance": 0.15,
           "durationTurns": 1,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "VERIFIED",
+            "durationTurns": "VERIFIED"
+          }
         }
       ],
       "evolution": {
@@ -4182,14 +4264,24 @@
       "observedParameters": [
         {
           "kind": "confusion",
-          "trigger": "attack",
+          "trigger": null,
           "target": "enemy",
           "value": null,
           "chance": 0.1,
           "durationTurns": 1,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "UNKNOWN",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "VERIFIED",
+            "durationTurns": "VERIFIED"
+          },
+          "triggerHint": "attack"
         }
       ],
       "evolution": {
@@ -6908,9 +7000,18 @@
           "value": null,
           "chance": 0.1,
           "durationTurns": 1,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "VERIFIED",
+            "durationTurns": "VERIFIED"
+          }
         }
       ],
       "evolution": {
@@ -7501,9 +7602,18 @@
           "value": 5,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -8020,9 +8130,18 @@
           "value": 10,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -9760,14 +9879,24 @@
       "observedParameters": [
         {
           "kind": "dazzle",
-          "trigger": "attack",
+          "trigger": null,
           "target": "enemy",
           "value": null,
           "chance": 0.15,
           "durationTurns": 1,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "UNKNOWN",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "VERIFIED",
+            "durationTurns": "VERIFIED"
+          },
+          "triggerHint": "attack"
         }
       ],
       "evolution": {
@@ -9964,9 +10093,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -10547,9 +10685,18 @@
           "value": 25,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -11298,9 +11445,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -11448,9 +11604,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -11662,9 +11827,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -12346,7 +12520,26 @@
         "runtimeCombatFamily": "strategist",
         "legacyRuntimeTroopClass": "strategist",
         "enableWhenConfirmed": false
-      }
+      },
+      "qualitativeRules": [
+        {
+          "kind": "team_morale_gain",
+          "trigger": "round",
+          "target": "all_allies",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "sourceId": "NL-W02",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "VERIFIED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
+        }
+      ]
     },
     {
       "id": "nlwm-strategist-t2-phong-hanh",
@@ -12887,7 +13080,26 @@
         "runtimeCombatFamily": "strategist",
         "legacyRuntimeTroopClass": "strategist",
         "enableWhenConfirmed": false
-      }
+      },
+      "qualitativeRules": [
+        {
+          "kind": "team_morale_gain",
+          "trigger": "round",
+          "target": "all_allies",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "sourceId": "NL-W02",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "VERIFIED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
+        }
+      ]
     },
     {
       "id": "nlwm-strategist-t3-loi-thuat",
@@ -13106,9 +13318,18 @@
           "value": null,
           "chance": 0.15,
           "durationTurns": 1,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "VERIFIED",
+            "durationTurns": "VERIFIED"
+          }
         }
       ],
       "evolution": {
@@ -13283,7 +13504,26 @@
         "runtimeCombatFamily": "strategist",
         "legacyRuntimeTroopClass": "strategist",
         "enableWhenConfirmed": false
-      }
+      },
+      "qualitativeRules": [
+        {
+          "kind": "team_morale_gain",
+          "trigger": "attack_wave",
+          "target": "all_allies",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "sourceId": "NL-W02",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "VERIFIED",
+            "target": "DERIVED",
+            "value": "UNKNOWN",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
+        }
+      ]
     },
     {
       "id": "nlwm-strategist-t4-dia-su",
@@ -13832,9 +14072,18 @@
           "value": 30,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -13977,9 +14226,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -14255,9 +14513,18 @@
           "value": 30,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         },
         {
           "kind": "self_morale_gain",
@@ -14266,9 +14533,18 @@
           "value": 35,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -14347,9 +14623,18 @@
           "value": 50,
           "chance": null,
           "durationTurns": null,
-          "provenance": "VERIFIED",
+          "provenance": "DERIVED",
           "sourceId": "NL-W02",
-          "runtimeInterpretation": "PENDING_GROUP02_03"
+          "runtimeInterpretation": "PENDING_GROUP02_03",
+          "sourceFactProvenance": "VERIFIED",
+          "fieldProvenance": {
+            "kind": "DERIVED",
+            "trigger": "DERIVED",
+            "target": "DERIVED",
+            "value": "VERIFIED",
+            "chance": "UNKNOWN",
+            "durationTurns": "UNKNOWN"
+          }
         }
       ],
       "evolution": {
@@ -15175,13 +15460,14 @@
         "runtimeStatusId": null,
         "requiredMappingByGroup03": true,
         "autoApply": false
-      }
+      },
+      "sourceIndexName": "Hỗn loạn"
     },
     {
       "id": "nlwm-effect-hoa-mat",
       "sourceName": "Hoa Mắt",
-      "sourceId": "NL-W03",
-      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung",
+      "sourceId": "NL-W02",
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
       "edition": "VNG_WIKI_MOBILE_CURRENT",
       "accessedAt": "2026-11-18",
       "taxonomy": {
@@ -15199,7 +15485,9 @@
         "runtimeStatusId": null,
         "requiredMappingByGroup03": true,
         "autoApply": false
-      }
+      },
+      "effectIndexListing": "NOT_LOCATED_ON_HIEU_UNG_INDEX",
+      "sourceStatus": "DESCRIBED_IN_TROOP_ABILITY"
     },
     {
       "id": "nlwm-effect-ho-thuan",
@@ -15244,7 +15532,8 @@
       "all_allies",
       "enemy",
       "enemy_line",
-      "all_enemies"
+      "all_enemies",
+      "ally_unspecified"
     ],
     "signedDeltaAllowed": true,
     "unreportedDeltaValue": null,
@@ -15253,7 +15542,9 @@
     "eventResolutionOrder": null,
     "stackOrder": null,
     "classicParity": "UNKNOWN",
-    "originalGameBalancePolicy": "SIMULATED_ONLY_AFTER_EXPLICIT_DESIGN"
+    "originalGameBalancePolicy": "SIMULATED_ONLY_AFTER_EXPLICIT_DESIGN",
+    "uncertainTriggerPolicy": "NULL_IS_NOT_EXECUTABLE",
+    "uncertainTargetPolicy": "ALLY_UNSPECIFIED_REQUIRES_DESIGN_REVIEW"
   },
   "skillSemantics": {
     "sourceIds": [
@@ -15271,7 +15562,8 @@
     "targetSource": "units[].observedParameters[].target",
     "runtimeSkillId": null,
     "effectRuntimeMapping": null,
-    "sourceFormula": null
+    "sourceFormula": null,
+    "qualitativeRulesSource": "units[].qualitativeRules (when present)"
   },
   "previousNineAudit": {
     "sourceFile": "data/ngoalong/wiki_troop_facts_v1.json",
@@ -15387,6 +15679,7 @@
       "evolution",
       "fieldProvenance"
     ],
-    "refOnly": true
+    "refOnly": true,
+    "fieldProvenanceStrictness": "PER_FACT_NUMBER_CONFIRMED_BUT_NORMALIZED_EVENT_AND_TARGET_DERIVED_OR_UNKNOWN"
   }
 }
