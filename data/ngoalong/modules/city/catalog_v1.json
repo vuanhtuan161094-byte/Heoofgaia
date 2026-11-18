@@ -55,9 +55,37 @@
       "function": "Bạc",
       "levelCap": null,
       "sourceStatus": "PROJECT_EXISTING",
-      "adapter": "EXISTING_RUNTIME_OWNER",
+      "adapter": "EXISTING_RUNTIME_LEVEL_WITH_ADDITIVE_REAL_TRADE",
       "sourceId": "MOBILE-2017-ARCH",
-      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION"
+      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION",
+      "actions": [
+        {
+          "id": "buy_grain",
+          "label": "Mua lương ở Chợ",
+          "cost": {
+            "silver": 330
+          },
+          "reward": {
+            "grain": 250
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 30,
+          "provenance": "SIMULATED"
+        },
+        {
+          "id": "sell_grain",
+          "label": "Bán lương ở Chợ",
+          "cost": {
+            "grain": 250
+          },
+          "reward": {
+            "silver": 230
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 30,
+          "provenance": "SIMULATED"
+        }
+      ]
     },
     {
       "id": "farm",
@@ -274,7 +302,7 @@
     },
     {
       "id": "nl_city_workshop",
-      "name": "Công Tượng Phường",
+      "name": "Xưởng — Công Tượng Phường",
       "category": "support",
       "grid": {
         "x": 1,
@@ -311,14 +339,45 @@
         "classification": "SIMULATED",
         "sourceId": "PROJECT_CITY_V1",
         "fieldStatus": {
-          "name": "PROJECT_EXISTING",
+          "name": "REFERENCE",
           "unlock": "SIMULATED",
           "cost": "SIMULATED",
           "time": "SIMULATED",
           "effect": "SIMULATED"
-        }
+        },
+        "sourceNameRef": "VNG-2026-CITY"
       },
-      "actions": []
+      "actions": [
+        {
+          "id": "forge_goods",
+          "label": "Rèn sản phẩm",
+          "cost": {
+            "iron": 100,
+            "grain": 90
+          },
+          "reward": {
+            "goods": 2,
+            "parts": 1
+          },
+          "durationSeconds": 150,
+          "cooldownSeconds": 120,
+          "provenance": "SIMULATED"
+        },
+        {
+          "id": "repair_tools",
+          "label": "Gia công dụng cụ",
+          "cost": {
+            "parts": 2,
+            "silver": 160
+          },
+          "reward": {
+            "engravingStones": 1
+          },
+          "durationSeconds": 120,
+          "cooldownSeconds": 180,
+          "provenance": "SIMULATED"
+        }
+      ]
     },
     {
       "id": "nl_city_hall",

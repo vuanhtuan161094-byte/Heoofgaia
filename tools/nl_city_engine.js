@@ -182,14 +182,15 @@
       return {...reward,silver:Math.round(reward.silver*(1+rate))};
     }
     function operate(game,s,input) {
-      const b=refs.get(input.id);
-      if(!b||!s.levels[input.id])return error('BUILDING_NOT_CONSTRUCTED');
+      const b=refs.get(input.id)||catalog.legacy.find(x=>x.id===input.id&&Array.isArray(x.actions));
+      const level=b?(refs.has(input.id)?s.levels[input.id]:(game.buildings&&game.buildings[input.id])):0;
+      if(!b||!level)return error('BUILDING_NOT_CONSTRUCTED');
       const a=(b.actions||[]).find(x=>x.id===input.operationId);
       if(!a)return error('UNKNOWN_OPERATION');
       if(s.operations[input.id])return error('OPERATION_PENDING',{operation:clone(s.operations[input.id])});
       const key=b.id+'|'+a.id;
       if((s.cooldowns[key]||0)>input.now)return error('OPERATION_COOLDOWN',{availableAt:s.cooldowns[key]});
-      const lv=s.levels[input.id],cost=scaledAmounts(a.cost,lv);
+      const lv=level,cost=scaledAmounts(a.cost,lv);
       const reward=revenueBonus(game,s,b,a,scaledAmounts(a.reward,lv));
       // For delayed settlement, reward is reserved but not credited until explicit claim.
       const instant=a.durationSeconds===0;
@@ -255,7 +256,13 @@
             pendingOperation:s.operations[b.id]&&clone(s.operations[b.id]),
             provenance:b.provenance.classification};
         }),legacy:catalog.legacy.map(b=>({id:b.id,name:b.label,policy:b.owner,
-          level:(game.buildings&&game.buildings[b.id])||0})),bonuses:bonuses(game,now)};
+          level:(game.buildings&&game.buildings[b.id])||0,
+          operations:(b.actions||[]).map(a=>({id:a.id,label:a.label,
+            cost:scaledAmounts(a.cost,Math.max(1,(game.buildings&&game.buildings[b.id])||0)),
+            reward:scaledAmounts(a.reward,Math.max(1,(game.buildings&&game.buildings[b.id])||0)),
+            availableAt:s.cooldowns[b.id+'|'+a.id]||0})),
+          pendingOperation:s.operations[b.id]&&clone(s.operations[b.id])})),
+        bonuses:bonuses(game,now)};
     }
     return {ensure,advance,act,view,bonuses,nextCost};
   }

@@ -109,4 +109,32 @@ check('Save v5 roundtrip preserves operation timing, receipts and unchanged lega
  assert.equal(JSON.stringify(saved),snapshot);
  assert.equal(saved.version,5);assert.equal(saved.buildings.market,5);
 });
+check('legacy Chợ buys grain by real silver debit without replacing its existing building',()=>{
+ const g=game(),now=1000000;engine.ensure(g,now);
+ const oldMarket=g.buildings.market,silver=g.silver,grain=g.grain;
+ const buy=engine.act(g,{kind:'operate',id:'market',operationId:'buy_grain',actionId:'market-buy-1',now});
+ assert.equal(buy.ok,true);
+ assert.equal(g.silver,silver-buy.debit.silver);
+ assert.equal(g.grain,grain+buy.credit.grain);
+ assert.equal(g.buildings.market,oldMarket);
+ assert.equal(engine.act(g,{kind:'operate',id:'market',operationId:'buy_grain',actionId:'market-buy-1',now}).duplicate,true);
+ assert.equal(engine.act(g,{kind:'operate',id:'market',operationId:'buy_grain',actionId:'market-buy-2',now}).code,'OPERATION_COOLDOWN');
+});
+check('workshop has real timed goods output and save-safe collection',()=>{
+ const g=game(),now=1000000;engine.ensure(g,now);g.nlCity.levels.nl_city_workshop=1;
+ const before=g.iron,r=engine.act(g,{kind:'operate',id:'nl_city_workshop',operationId:'forge_goods',actionId:'forge-1',now});
+ assert.equal(r.ok,true);assert.equal(g.iron,before-r.debit.iron);
+ engine.advance(g,r.job.finishAt);
+ const loaded=JSON.parse(JSON.stringify(g));
+ const got=engine.act(loaded,{kind:'collect',id:'nl_city_workshop',operationId:'forge_goods',actionId:'forge-claim-1',now:r.job.finishAt});
+ assert.equal(got.ok,true);assert.equal(loaded.nlCity.warehouse.goods,2);
+ assert.equal(loaded.nlCity.warehouse.parts,1);
+ assert.equal(engine.act(loaded,{kind:'collect',id:'nl_city_workshop',actionId:'forge-claim-1',now:r.job.finishAt}).duplicate,true);
+});
+check('all legacy IDs remain single owner and provide a working path or direct gameplay gate',()=>{
+ assert.equal(c.legacy.length,7);
+ assert.ok(c.legacy.every(x=>x.owner&&x.id));
+ assert.ok(c.legacy.find(x=>x.id==='market').actions.length===2);
+ assert.ok(c.buildings.find(x=>x.id==='nl_city_workshop').actions.length===2);
+});
 console.log('NL CITY FULL '+passes+'/'+passes+' PASS');

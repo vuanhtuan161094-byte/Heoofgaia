@@ -34,3 +34,8 @@
 
 ## QA
 Run \`node qa/nl_city_cycle.test.cjs\` (legacy core 10 checks) and \`node qa/nl_city_full.test.cjs\` (all facilities, operations, queue, credits, cooldown, save and anti-dup). All integration/browser/Actions gates remain pending until chat 08 rewires canonical source.
+
+## V2.1 native Chợ + Xưởng completion
+- The pre-existing `game.buildings.market` is NOT duplicated: two additive buy/sell grain actions debit and credit the real `game.silver` and `game.grain` using its native level, unique intent receipts and cooldown.
+- The original `nl_city_workshop` is now labelled **Xưởng — Công Tượng Phường** and includes a timed `forge_goods` action creating actual warehouse goods and parts after a paid iron/grain operation. Chat 04 may later consume those via its real item APIs.
+- These actions share the same city receipt ledger as all 31 buildings; integration must not double-trigger the old market UI event.
