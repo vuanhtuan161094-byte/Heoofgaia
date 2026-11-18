@@ -1,0 +1,422 @@
+{
+  "schemaVersion": 1,
+  "edition": "CURRENT_MOBILE_NOT_CLASSIC",
+  "classicParity": "UNKNOWN",
+  "scope": "SELECTED_FACTS_NOT_COMPLETE_CATALOG",
+  "checkedAt": "2026-11-18",
+  "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+  "units": [
+    {
+      "id": "wiki-mobile-thuan-binh",
+      "name": "Thuẫn Binh",
+      "family": "infantry",
+      "tier": 1,
+      "facts": [
+        {
+          "kind": "defense_specialty",
+          "event": "passive",
+          "target": "self",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        },
+        {
+          "kind": "counterattack_low",
+          "event": "passive",
+          "target": "self",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-trung-bo",
+      "name": "Trùng Bộ",
+      "family": "infantry",
+      "tier": 1,
+      "facts": [
+        {
+          "kind": "attack_specialty",
+          "event": "passive",
+          "target": "self",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        },
+        {
+          "kind": "counter_spear",
+          "event": "passive",
+          "target": "enemy_spear",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-ban-ho-ve",
+      "name": "Bàn Hộ Vệ",
+      "family": "infantry",
+      "tier": 4,
+      "facts": [
+        {
+          "kind": "defense_specialty",
+          "event": "passive",
+          "target": "self",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        },
+        {
+          "kind": "morale_gain",
+          "event": "attack",
+          "target": "self",
+          "value": 50,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-cang-chuy",
+      "name": "Cang Chùy",
+      "family": "spear",
+      "tier": 4,
+      "facts": [
+        {
+          "kind": "offense_defense_specialty",
+          "event": "passive",
+          "target": "self",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        },
+        {
+          "kind": "status_chance",
+          "event": "attack",
+          "target": "enemy",
+          "value": null,
+          "chance": 0.1,
+          "durationTurns": 1,
+          "statusId": "confusion",
+          "interpretation": "DERIVED_TRIGGER"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-bach-ky",
+      "name": "Bạch Kỵ",
+      "family": "cavalry",
+      "tier": 4,
+      "facts": [
+        {
+          "kind": "defense_specialty",
+          "event": "passive",
+          "target": "self",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        },
+        {
+          "kind": "status_chance",
+          "event": "basic_attack",
+          "target": "enemy",
+          "value": null,
+          "chance": 0.1,
+          "durationTurns": 1,
+          "statusId": "confusion",
+          "interpretation": "VERIFIED"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-anh-ve",
+      "name": "Ảnh Vệ",
+      "family": "archer",
+      "tier": 4,
+      "facts": [
+        {
+          "kind": "target_rear",
+          "event": "attack",
+          "target": "enemy_back_row",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        },
+        {
+          "kind": "status_chance",
+          "event": "attack",
+          "target": "enemy",
+          "value": null,
+          "chance": 0.15,
+          "durationTurns": 1,
+          "statusId": "dazzle",
+          "interpretation": "DERIVED_TRIGGER"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hoang-no",
+      "name": "Hoàng Nỏ",
+      "family": "archer",
+      "tier": 4,
+      "facts": [
+        {
+          "kind": "combat_specialty",
+          "event": "passive",
+          "target": "self",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        },
+        {
+          "kind": "morale_gain",
+          "event": "attack",
+          "target": "self",
+          "value": 50,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-loi-co",
+      "name": "Lôi Cổ",
+      "family": "strategist",
+      "tier": 4,
+      "facts": [
+        {
+          "kind": "team_morale_gain",
+          "event": "round",
+          "target": "all_allies",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-co-hieu-quan",
+      "name": "Cổ Hiệu Quân",
+      "family": "strategist",
+      "tier": 5,
+      "facts": [
+        {
+          "kind": "team_morale_gain",
+          "event": "attack_wave",
+          "target": "all_allies",
+          "value": null,
+          "chance": null,
+          "durationTurns": null,
+          "statusId": null,
+          "interpretation": "VERIFIED"
+        }
+      ],
+      "unknown": {
+        "baseStats": null,
+        "evolutionParent": null,
+        "unlockCondition": null
+      },
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "edition": "current-mobile",
+        "checkedAt": "2026-11-18"
+      },
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "family": "VERIFIED",
+        "tier": "VERIFIED",
+        "facts": "MIXED_FACT_AND_INTERPRETATION",
+        "baseStats": "UNKNOWN",
+        "evolutionParent": "UNKNOWN",
+        "unlockCondition": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    }
+  ]
+}

@@ -71,6 +71,7 @@ jobs:
       - name: Data, tactical combat, progression and Save/legacy safety gates
         run: |
           python qa/nl_data.py
+          python qa/nl_wiki_troop_facts.py
           python qa/ngoa_long_mode.py
           python qa/nl_r02.py
           python qa/nl_r03.py
@@ -122,7 +123,9 @@ jobs:
           python -m pip install playwright==1.58.0 pillow==12.3.0
           python -m playwright install --with-deps chromium
       - name: NL-P1 schema, provenance, references and progression validator gate
-        run: python qa/nl_data.py
+        run: |
+          python qa/nl_data.py
+          python qa/nl_wiki_troop_facts.py
       - name: P2 smoke Chromium
         run: python qa/smoke.py
       - name: Ngọa Long 3x3 command center desktop/mobile browser gate
