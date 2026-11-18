@@ -230,7 +230,7 @@ document.addEventListener('click',event=>{
   if(switching)game.troopModes[id]='spear';else delete game.troopModes[id];
   save();render();
 });
-if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign(window.__P2_QA__,{p2Hit,p2Target,perform:p2Perform,morale:p2Morale,status:p2Status,statusFactor:p2StatusFactor,roundEnd:p2BuffRound,registerStatusSpec:(id,spec)=>{NL_GAME_DATA.statusEffects.effects[id]=spec;},setEncounterPower:(stage,value)=>{const encounter=NL_GAME_DATA.campaign.encounters.find(row=>row.stage===stage);if(encounter)encounter.enemyPower=value;},encounters:NL_R02_ENCOUNTERS.map(item=>({...item,troops:[...item.troops]})),counters:{...NL_R02_COUNTERS},moraleSealSkill:nlSimaSkill.apply,data:structuredClone(NL_GAME_DATA)});
+if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign(window.__P2_QA__,{p2Hit,p2Target,perform:p2Perform,morale:p2Morale,status:p2Status,cleanse:p2Cleanse,statusFactor:p2StatusFactor,roundEnd:p2BuffRound,registerStatusSpec:(id,spec)=>{NL_GAME_DATA.statusEffects.effects[id]=spec;},setEncounterPower:(stage,value)=>{const encounter=NL_GAME_DATA.campaign.encounters.find(row=>row.stage===stage);if(encounter)encounter.enemyPower=value;},encounters:NL_R02_ENCOUNTERS.map(item=>({...item,troops:[...item.troops]})),counters:{...NL_R02_COUNTERS},moraleSealSkill:nlSimaSkill.apply,data:structuredClone(NL_GAME_DATA)});
 if(window.__P2_ENABLE_QA__&&window.__P3_QA__)Object.assign(window.__P3_QA__,{target:p2Target,counter:p3CounterFactor,unit:p2Unit});
 // === end NL-REBUILD-01 ===
 """

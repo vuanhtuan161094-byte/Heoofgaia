@@ -135,6 +135,10 @@ def validate_pack(pack: dict[str, Any]) -> dict[str, Any]:
     _provenance(pack["statusEffects"].get("provenance"), source_ids, "statusEffects")
     for effect_id, effect in statuses.items():
         _require(isinstance(effect.get("duration"), int) and effect["duration"] > 0, f"status effect {effect_id!r} needs a positive duration")
+        _require(effect.get("polarity") in {"beneficial", "harmful", "neutral"}, f"status effect {effect_id!r} needs an explicit polarity")
+        _require(effect.get("dispelPolicy") in {"removable", "unremovable"}, f"status effect {effect_id!r} needs an explicit dispelPolicy")
+        if "immunityPolarity" in effect:
+            _require(effect["immunityPolarity"] in {"beneficial", "harmful", "neutral"}, f"status effect {effect_id!r} has invalid immunity polarity")
         _provenance(effect.get("provenance"), source_ids, f"statusEffects.effects.{effect_id}")
         field_provenance = effect.get("fieldProvenance", {})
         _require(all(field_provenance.get(key) in CLASSIFICATIONS for key in effect if key not in {"provenance", "fieldProvenance"}), f"status effect {effect_id!r} has an unclassified field")
@@ -371,6 +375,8 @@ def _validate_skill(skill: dict[str, Any], statuses: dict[str, Any], path: str) 
     for field in ("apply", "applyAlly"):
         if skill.get(field):
             _require(skill[field] in statuses, f"{path}.{field} references an unknown status")
+    if "cleanseNegative" in skill:
+        _require(skill.get("pattern") == "heal" and isinstance(skill["cleanseNegative"], int) and skill["cleanseNegative"] > 0, f"{path}.cleanseNegative must be a positive count on a healing skill")
 
 
 def load_pack(root: Path | str) -> dict[str, Any]:

@@ -51,9 +51,9 @@
     {
       "id": "wiki-mobile-effects",
       "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung",
-      "version": "Ngọa Long Mobile VNGGames Wiki; accessed 2026-11-17",
+      "version": "Ngọa Long Mobile VNGGames Wiki; accessed 2026-11-18",
       "classification": "VERIFIED",
-      "scope": "Public status/effect index reviewed for coverage only; no proprietary text, formula, or effect catalogue copied."
+      "scope": "Current page advertises 320 effects and shows examples of stackable/unremovable effects and morale-gain suppression/reduction. Capability taxonomy only; no proprietary status names, text, formulas, or catalogue copied."
     },
     {
       "id": "wiki-mobile-formations",
@@ -698,6 +698,8 @@
         "mult": 1.65,
         "healCount": 2,
         "bonusMorale": 12,
+        "cleanseNegative": 1,
+        "applyAlly": "ward",
         "tag": "Nhân Đức",
         "provenance": {
             "classification": "SIMULATED",
@@ -873,6 +875,8 @@
     "effects": {
       "break": {
         "duration": 2,
+        "polarity": "harmful",
+        "dispelPolicy": "removable",
         "incomingDefenseMultiplier": 0.69,
         "provenance": {
           "classification": "SIMULATED",
@@ -880,6 +884,8 @@
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
+          "polarity": "SIMULATED",
+          "dispelPolicy": "SIMULATED",
           "incomingDefenseMultiplier": "SIMULATED",
           "stackingPolicy": "SIMULATED",
           "expirePhase": "SIMULATED",
@@ -891,6 +897,8 @@
       },
       "guard": {
         "duration": 2,
+        "polarity": "beneficial",
+        "dispelPolicy": "removable",
         "incomingDefenseMultiplier": 1.28,
         "provenance": {
           "classification": "SIMULATED",
@@ -898,6 +906,8 @@
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
+          "polarity": "SIMULATED",
+          "dispelPolicy": "SIMULATED",
           "incomingDefenseMultiplier": "SIMULATED",
           "stackingPolicy": "SIMULATED",
           "expirePhase": "SIMULATED",
@@ -909,6 +919,8 @@
       },
       "daze": {
         "duration": 1,
+        "polarity": "harmful",
+        "dispelPolicy": "removable",
         "outgoingDamageMultiplier": 0.75,
         "skipActionChance": 0.35,
         "provenance": {
@@ -917,6 +929,8 @@
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
+          "polarity": "SIMULATED",
+          "dispelPolicy": "SIMULATED",
           "outgoingDamageMultiplier": "SIMULATED",
           "skipActionChance": "SIMULATED",
           "stackingPolicy": "SIMULATED",
@@ -929,12 +943,16 @@
       },
       "burn": {
         "duration": 2,
+        "polarity": "harmful",
+        "dispelPolicy": "removable",
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
+          "polarity": "SIMULATED",
+          "dispelPolicy": "SIMULATED",
           "stackingPolicy": "SIMULATED",
           "expirePhase": "SIMULATED",
           "roundEndDamageFraction": "SIMULATED",
@@ -953,6 +971,8 @@
       },
       "morale-seal": {
         "duration": 2,
+        "polarity": "harmful",
+        "dispelPolicy": "removable",
         "moraleGainMultiplier": 0,
         "provenance": {
           "classification": "SIMULATED",
@@ -960,7 +980,31 @@
         },
         "fieldProvenance": {
           "duration": "SIMULATED",
+          "polarity": "SIMULATED",
+          "dispelPolicy": "SIMULATED",
           "moraleGainMultiplier": "SIMULATED",
+          "stackingPolicy": "SIMULATED",
+          "expirePhase": "SIMULATED",
+          "removeAfterOwnAction": "SIMULATED"
+        },
+        "stackingPolicy": "refresh-longer",
+        "expirePhase": "round-end",
+        "removeAfterOwnAction": false
+      },
+      "ward": {
+        "duration": 1,
+        "polarity": "beneficial",
+        "dispelPolicy": "unremovable",
+        "immunityPolarity": "harmful",
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        },
+        "fieldProvenance": {
+          "duration": "SIMULATED",
+          "polarity": "SIMULATED",
+          "dispelPolicy": "SIMULATED",
+          "immunityPolarity": "SIMULATED",
           "stackingPolicy": "SIMULATED",
           "expirePhase": "SIMULATED",
           "removeAfterOwnAction": "SIMULATED"
@@ -5892,7 +5936,7 @@
           "seed": 11475393,
           "lowerLossPreset": "arc-thu",
           "higherLossPreset": "shield-van",
-          "minimumCasualtyGap": 150,
+          "minimumCasualtyGap": 140,
           "provenance": {
             "classification": "SIMULATED",
             "sourceId": "project-alpha"

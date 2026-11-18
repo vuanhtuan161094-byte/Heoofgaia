@@ -139,6 +139,23 @@ def run():
         check("Kỵ Tập Hậu changes the real AI target and combat event to the back row", action["actor"] == "Quan Vũ" and action["hits"][0]["slot"] == 0 and action["mode"] == "normal")
         page.evaluate("window.__P2_QA__.closeBattle('city')")
 
+        # The active Wiki documents stackable/unremovable effects and effects
+        # that suppress morale gain. Project rules remain SIMULATED; verify the
+        # real healing skill has a deterministic cleanse/immunity counterplay.
+        page.evaluate("window.__P2_QA__.beginBattle(1,'campaign')")
+        status_action = page.evaluate("""() => {
+          const q=window.__P2_QA__,b=q.debugBattle(),actor=b.p.find(unit=>unit.id==='liu'),target=b.p.find(unit=>unit.id!=='liu');
+          for(const unit of b.p){unit.hp=unit.maxHp;unit.morale=0;}
+          actor.troop='support';actor.morale=100;target.hp=Math.round(target.maxHp*.4);target.effects=[{kind:'daze',turns:1},{kind:'burn',turns:2}];
+          q.perform(actor);
+          const event=b.events.at(-1),afterHeal=b.p.find(unit=>unit.id===target.id),blocked=q.status(afterHeal,'break',2),remaining=q.cleanse(afterHeal,'harmful',4);
+          return {event,remainingEffects:afterHeal.effects.map(effect=>effect.kind),blocked,remaining,description:event.description};
+        }""")
+        page.screenshot(path=str(ROOT / "qa" / "nl-r03-cleanse-counterplay.png"), full_page=False)
+        check("Lưu Bị's real healing skill cleanses one harmful effect and grants its catalogued ward", status_action["event"]["skill"] == "Nhân Đức" and status_action["event"]["cleansed"] and status_action["event"]["cleansed"][0]["effects"] == ["daze"] and "giải hiệu ứng bất lợi" in status_action["description"] and "ward" in status_action["remainingEffects"])
+        check("ward prevents harmful application and remains unremovable while later cleanse removes burn", not status_action["blocked"] and status_action["remaining"] == ["burn"] and status_action["remainingEffects"] == ["ward"])
+        page.evaluate("window.__P2_QA__.closeBattle('city')")
+
         # Persist the new optional state, then load a pre-R03 v5 save safely.
         serialized = page.evaluate("localStorage.getItem('muu_dinh_tam_quoc_v1')")
         page.close()
