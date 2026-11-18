@@ -40,6 +40,10 @@ jobs:
 
   quick:
     name: Focused gameplay, Save and data regression
+    # Drop obsolete quick runs when newer code lands; never cancel full release.
+    concurrency:
+      group: ngoalong-focused-${{ github.ref }}
+      cancel-in-progress: true
     needs: changed_sources
     if: needs.changed_sources.outputs.core == 'true'
     runs-on: ubuntu-24.04
