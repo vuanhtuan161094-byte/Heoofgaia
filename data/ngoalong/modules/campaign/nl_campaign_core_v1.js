@@ -322,7 +322,10 @@ function settleEncounter(catalogue, priorState, outcome) {
   return {state, rewardInstructions: instructions, mapCleared: isMapCleared(map, state),
     nextNpcId: map.npcs.find(n => !state.clearedNpcIds.includes(n.id))?.id ?? null};
 }
-module.exports = Object.freeze({
+const NL_CAMPAIGN_CORE_V1 = Object.freeze({
   compileWikiDungeons, validateCatalogue, makeState, canEnterMap,
   beginEncounter, settleEncounter
 });
+
+if (typeof module !== 'undefined' && module.exports) module.exports = NL_CAMPAIGN_CORE_V1;
+if (typeof globalThis !== 'undefined') globalThis.NL_CAMPAIGN_CORE_V1 = NL_CAMPAIGN_CORE_V1;

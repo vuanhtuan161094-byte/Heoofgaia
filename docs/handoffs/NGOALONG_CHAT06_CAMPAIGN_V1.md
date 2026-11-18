@@ -15,3 +15,13 @@
 6. One consolidated QA for NPC order, slots, binding graph, Boss, unlocks and receipts, then Chromium + Save/replay + legacy regressions + exact-SHA CI on the integration branch. Owner/mobile/classic parity remain separate gates.
 
 **No claim:** The 249 source maps or 4,903 NPCs are currently playable; this source is VNG Mobile and cannot be assumed identical to classic Ngọa Long. Module code is not yet connected to canonical HTML.
+
+## Implementation V2 — actual data + combat bridge
+
+New files:
+- `data/ngoalong/modules/campaign/starter_wiki_reference_v1.json` — 10 sourced early maps, 5 ordered Khúc Dương NPCs and 7 **partial** selected-unit detail snapshots (not full teams).
+- `data/ngoalong/modules/campaign/nl_campaign_shards_v1.js`, `tools/nl_campaign_shard_import_v1.js` — 249-map batch loader with a compact manifest/shards and Group02 count guard; needs execution against the ~100 MB source at integration/build time.
+- `data/ngoalong/modules/campaign/nl_campaign_battle_adapter_v1.js` — actual 3×3/skill source to combat registry bridge, progression inspect and trusted battle-settlement/atomic receipt API.
+- `qa/nl_campaign_full_v2.test.cjs` — 6 isolated runtime-independent tests, passing. No Chromium per individual phó bản.
+
+CHAT08 integration must combine modules in one browser-visible build, supply reviewed hero/troop/skill/effect IDs and an authoritative combat-result verifier + atomic Save v5 receipt application. Source Wiki links refer to current Mobile, **not** confirmed classic parity. Gate results cannot be promoted to CI/owner acceptance without evidence.

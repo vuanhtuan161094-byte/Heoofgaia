@@ -13,6 +13,7 @@ function mapRow(m){return {
  id:m.id,wikiMapId:m.wikiMapId,name:m.name,mapLevel:m.mapLevel,
  faction:m.faction,dungeonType:m.dungeonType,cityLevelRequired:m.cityLevelRequired,
  sourceEdition:m.sourceEdition,sourceUrl:m.sourceUrl,
+ fieldProvenance:copy(m.fieldProvenance),
  order:m.order,previousMapId:m.previousMapId,wikiVersion:m.wikiVersion,
  advertisedNpcCount:m.advertisedNpcCount,npcListComplete:m.npcListComplete,
  bossIds:copy(m.bossIds),rewards:copy(m.rewards),mapRules:copy(m.mapRules),
@@ -30,6 +31,7 @@ function mapRow(m){return {
    wikiNpcPassiveSkills:copy(n.wikiNpcPassiveSkills),
    wikiNpcStageSkills:copy(n.wikiNpcStageSkills),
    reward:copy(n.reward),sourceVersion:n.sourceVersion,
+   fieldProvenance:copy(n.fieldProvenance),
    sourceUrl:n.sourceUrl,formation:n.formation.map(unit),
    readyForIntegration:n.readyForIntegration,blockers:copy(n.blockers)
  }))
@@ -81,4 +83,23 @@ function loadShard(manifest,shard){
    maps:copy(shard.maps)
  });
 }
-module.exports=Object.freeze({build,loadShard,mapRow});
+function assembleShards(manifest, documents, allowPartial=false){
+ if(!Array.isArray(documents)||!documents.length)throw Error('no campaign shards');
+ const seen=new Set(),maps=[];
+ for(const shard of documents){
+   const subset=loadShard(manifest,shard);
+   for(const map of subset.maps){
+     if(seen.has(map.id))throw Error('duplicate map loaded');
+     seen.add(map.id);
+     maps.push(map);
+   }
+ }
+ if(!allowPartial&&seen.size!==Object.keys(manifest.mapLocator).length)
+   throw Error('missing map shards for full campaign');
+ return C.validateCatalogue({
+   kind:'NGOALONG_CAMPAIGN_CATALOGUE',
+   sourceEdition:manifest.sourceEdition,
+   classicWebgameParity:'UNKNOWN',runtimeEnabled:false,maps
+ });
+}
+module.exports=Object.freeze({build,loadShard,assembleShards,mapRow});
