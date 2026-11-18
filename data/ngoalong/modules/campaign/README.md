@@ -48,3 +48,5 @@ Source builder report: 249 maps, 4,903 NPC details, 170 roster-complete maps, 79
 - `nl_campaign_battle_adapter_v1.js`: `inspect` returns a real NPC roster and 3×3 grid for game UI, `prepare` produces a battle request from reviewed IDs and a **real** combat registry resolver. `settle` only accepts a trusted combat report, and requires a single atomic Save+receipt callback from CHAT08. No fake battle resolution or direct reward grants.
 - Current source builder: 249 map rows, 4,903 NPC rows; 170 complete NPC rosters / 79 incomplete; 97 NPC formation gaps; 344 reported nonmatches (some sums unknown). **0 maps have approved combat bindings currently**. All 249 are importable research records; none is automatically enabled.
 - **Verification:** 6 new source-backed deterministic QA cases pass in JS isolation; 6 earlier core QA cases also passed. Full source conversion, canonical HTML integration, Chromium and exact-SHA CI not yet executed on the task branch.
+
+Verify deterministic real early-map import: `node tools/nl_campaign_starter_import_v1.js --check`. Rebuild only from immutable Group02 sources: `node tools/nl_campaign_starter_import_v1.js`.

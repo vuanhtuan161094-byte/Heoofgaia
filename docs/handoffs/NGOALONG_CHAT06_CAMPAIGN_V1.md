@@ -25,3 +25,5 @@ New files:
 - `qa/nl_campaign_full_v2.test.cjs` — 6 isolated runtime-independent tests, passing. No Chromium per individual phó bản.
 
 CHAT08 integration must combine modules in one browser-visible build, supply reviewed hero/troop/skill/effect IDs and an authoritative combat-result verifier + atomic Save v5 receipt application. Source Wiki links refer to current Mobile, **not** confirmed classic parity. Gate results cannot be promoted to CI/owner acceptance without evidence.
+
+Early catalogue deterministic rebuild: `tools/nl_campaign_starter_import_v1.js --check`; QA V2 now includes direct equality with the two original Group02 JSON sources.

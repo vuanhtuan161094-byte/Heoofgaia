@@ -124,3 +124,10 @@ test('invalid source scope and source soldier discrepancy do not become playable
  assert.equal(result.shards[0].body.maps[0].npcs[0].totalSoldiersRaw,200);
  assert.equal(result.shards[0].body.maps[0].npcs[0].unitSoldierDiscrepancy,40);
 });
+
+test('early maps and selected NPC snapshots reproduce exactly from immutable Wiki sources',()=>{
+ const earlySource=require('../data/ngoalong/group02_wiki/early_campaign_10.json');
+ const npcSource=require('../data/ngoalong/group02_wiki/npc_details.json');
+ const rebuilder=require('../tools/nl_campaign_starter_import_v1.js');
+ assert.deepEqual(rebuilder.build(earlySource,npcSource),early);
+});
