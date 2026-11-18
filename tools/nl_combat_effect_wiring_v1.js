@@ -58,14 +58,45 @@ p2Hit=function(attacker,target,kind,mult=1,opts={}){
     NL_EFFECT_BRIDGE_V1.modifiers(attacker).outgoingDamageMultiplier:1;
   const incoming=Array.isArray(target.effects)?
     NL_EFFECT_BRIDGE_V1.modifiers(target).incomingDamageMultiplier:1;
-  const hit=nlG07LegacyHit(attacker,target,kind,mult*outgoing*incoming,opts);
-  if(hit?.amount>0&&Array.isArray(target.effects)&&NL_EFFECT_BRIDGE_V1.consumeShield(target))
-    return {...hit,amount:0,nlEffectBlock:"ironwall"};
+  const adjusted=mult*outgoing*incoming;
+  if(Array.isArray(target.effects)&&target.effects.some(e=>e.kind==="ironwall"&&e.nlEffectV1===true)){
+    // Native p2Hit mutates HP before returning. Use a proxy to consume the
+    // same RNG and compute the hit without touching authoritative target HP.
+    const proxy={...target,effects:structuredClone(target.effects)};
+    const probe=nlG07LegacyHit(attacker,proxy,kind,adjusted,opts);
+    if(probe.amount>0&&NL_EFFECT_BRIDGE_V1.consumeShield(target))
+      return {...probe,amount:0,number:"-0",nlEffectBlock:"ironwall"};
+    return probe;
+  }
+  const hit=nlG07LegacyHit(attacker,target,kind,adjusted,opts);
+  if(hit?.amount>0&&Array.isArray(target.effects)){
+    const wakeups=NL_EFFECT_BRIDGE_V1.onDamage(target,hit.amount);
+    if(wakeups.length)hit.nlWakeups=wakeups;
+  }
   return hit;
+};
+// Implement actual V1 control on the original authoritative turn/event path.
+const nlG07LegacyPerform=p2Perform;
+p2Perform=function(actor){
+  if(!battle||battle.mode==="cltq"||!actor||actor.hp<=0)
+    return nlG07LegacyPerform(actor);
+  const gate=NL_EFFECT_BRIDGE_V1.startAction(actor);
+  if(gate.canAct)return nlG07LegacyPerform(actor);
+  actor.actions++;battle.turns++;
+  actor.effects=actor.effects.filter(e=>!p2StatusSpec(e.kind)?.removeAfterOwnAction);
+  const event={
+    round:battle.round,actorTeam:actor.team,actorSlot:actor.slot,actor:actor.name,
+    mode:"stunned",kind:"physical",skill:null,
+    description:actor.name+" bị khống chế, bỏ qua một lượt hành động.",
+    hits:[],cleansed:[],nlEffects:gate.events,state:p2Snapshot()
+  };
+  battle.events.push(event);battle.log=event.description;
+  p2ApplyFrame(event);
+  return event;
 };
 if(window.__P2_ENABLE_QA__&&window.__P2_QA__){
   Object.assign(window.__P2_QA__,{
-    p2Hit,p2Status,p2Cleanse,roundEnd:p2BuffRound,
+    p2Hit,p2Status,p2Cleanse,roundEnd:p2BuffRound,perform:p2Perform,
     nlEffectBridge:NL_EFFECT_BRIDGE_V1,
     nlEffectCatalog:NL_EFFECT_V1_CATALOG
   });
