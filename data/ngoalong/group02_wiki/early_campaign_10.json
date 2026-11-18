@@ -18,9 +18,157 @@
       "mapLevel": 10,
       "cityLevelRequired": 20,
       "npcCountAdvertised": 5,
-      "npcList": [],
-      "npcListStatus": "UNKNOWN",
-      "verifiedNpcsInThisFile": 0,
+      "npcList": [
+        {
+          "order": 1,
+          "aiId": 75,
+          "name": "Bùi Nguyên Thiệu",
+          "kind": "TINH NHUỆ",
+          "level": 3,
+          "soldiers": 200,
+          "merit": 32,
+          "displayedDrop": {
+            "name": "Bố Giáp",
+            "percent": 100
+          },
+          "sourceId": "W-MAP1-INDEX-20261118",
+          "detailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=75&side=vn",
+          "fullFormation": null,
+          "fullSkills": null,
+          "fieldStatus": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "VERIFIED",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          },
+          "integration": "REFERENCE_ONLY"
+        },
+        {
+          "order": 2,
+          "aiId": 77,
+          "name": "Cao Thăng",
+          "kind": "BOSS",
+          "level": 1,
+          "soldiers": 200,
+          "merit": 40,
+          "displayedDrop": {
+            "name": "Thiết Kiếm",
+            "percent": 100
+          },
+          "sourceId": "W-MAP1-INDEX-20261118",
+          "detailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=77&side=vn",
+          "fullFormation": null,
+          "fullSkills": null,
+          "fieldStatus": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "VERIFIED",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          },
+          "integration": "REFERENCE_ONLY"
+        },
+        {
+          "order": 3,
+          "aiId": 81,
+          "name": "Trương Yên",
+          "kind": "BOSS",
+          "level": 5,
+          "soldiers": 200,
+          "merit": 52,
+          "displayedDrop": {
+            "name": "Thiết Kiếm",
+            "percent": 100
+          },
+          "sourceId": "W-MAP1-INDEX-20261118",
+          "detailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=81&side=vn",
+          "fullFormation": null,
+          "fullSkills": null,
+          "fieldStatus": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "VERIFIED",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          },
+          "integration": "REFERENCE_ONLY"
+        },
+        {
+          "order": 4,
+          "aiId": 82,
+          "name": "Ba Tài",
+          "kind": "BOSS",
+          "level": 6,
+          "soldiers": 420,
+          "merit": 58,
+          "displayedDrop": null,
+          "sourceId": "W-MAP1-INDEX-20261118",
+          "detailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=82&side=vn",
+          "fullFormation": null,
+          "fullSkills": null,
+          "fieldStatus": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "UNKNOWN",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          },
+          "integration": "REFERENCE_ONLY"
+        },
+        {
+          "order": 5,
+          "aiId": 83,
+          "name": "Trương Bảo",
+          "kind": "TINH NHUỆ",
+          "level": 8,
+          "soldiers": 100,
+          "merit": 65,
+          "displayedDrop": {
+            "name": "Bố Giáp",
+            "percent": 35
+          },
+          "sourceId": "W-MAP1-INDEX-20261118",
+          "detailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=83&side=vn",
+          "fullFormation": null,
+          "fullSkills": null,
+          "fieldStatus": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "VERIFIED",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          },
+          "integration": "REFERENCE_ONLY"
+        }
+      ],
+      "npcListStatus": "VERIFIED",
+      "verifiedNpcsInThisFile": 5,
       "achievementRewards": {
         "silver": 140,
         "gold": 10
@@ -53,15 +201,16 @@
         "mapLevel": "VERIFIED",
         "cityLevelRequired": "VERIFIED",
         "npcCountAdvertised": "VERIFIED",
-        "npcList": "UNKNOWN",
+        "npcList": "VERIFIED",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
         "wikiMapQueryId": "VERIFIED",
         "wikiEntryPage": "VERIFIED",
         "wikiDetailUrl": "VERIFIED",
-        "wikiNpcDetailsAvailableInSite": "VERIFIED"
+        "wikiNpcDetailsAvailableInSite": "VERIFIED",
+        "verifiedNpcsInThisFile": "DERIVED"
       },
-      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "caveats": "Khúc Dương has all five NPC summary entries verified in live Chromium. Detailed full 3x3 formations and all unit skills remain to be extracted; do not promote them to VERIFIED.",
       "integration": "REFERENCE_ONLY",
       "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
       "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1",

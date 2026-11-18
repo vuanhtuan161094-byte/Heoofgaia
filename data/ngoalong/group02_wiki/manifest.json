@@ -19,7 +19,9 @@
     "earlyMaps": 10,
     "earlyIndexNpcTotal": 207,
     "earlyNpcDetailSamples": 7,
-    "earlyIndexDropEntries": 31
+    "earlyIndexDropEntries": 31,
+    "earlyFullyIndexedMaps": 1,
+    "earlyIndexedNpcRows": 5
   },
   "sourceRegistry": [
     {
@@ -175,6 +177,14 @@
       "edition": "CURRENT_MOBILE",
       "access": "WEB_INDEXED_DETAIL_TEXT",
       "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W-MAP1-INDEX-20261118",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1",
+      "edition": "CURRENT_MOBILE",
+      "access": "LIVE_CHROMIUM_DOM_AFTER_CLIENT_RENDER",
+      "checkedAt": "2026-11-18",
+      "evidence": "https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44254258302"
     }
   ],
   "claimsNotImported": {
@@ -218,7 +228,9 @@
       "npcOrderForSamplePages": "UNKNOWN",
       "runtimeIngestion": "BLOCKED_UNTIL_EVIDENCE_AND_DESIGN_REVIEW",
       "relatedStoredHigherLevelMapNpcRows": 35,
-      "npcSourceCatalogueAvailability": "WIKI_HAS_DETAIL_PAGES; EXTRACTION_INCOMPLETE"
+      "npcSourceCatalogueAvailability": "WIKI_HAS_DETAIL_PAGES; EXTRACTION_INCOMPLETE",
+      "map1NpcSummary": "VERIFIED_5_OF_5",
+      "all10NpcSummary": "PARTIAL"
     }
   },
   "knownSourceLimitations": [
