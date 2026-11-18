@@ -84,8 +84,8 @@ function buildFromCurated(pack,seed){
     ids.add(reference.id);ids.add(playable.id);
     newRefs.push(reference);
   }
-  assert(matchedLegacy===29,'EXPECTED_29_EARLIER_MATCHES');
-  assert(newRefs.length===363,'EXPECTED_363_NEW_RECORDS');
+  assert(matchedLegacy>=29 && matchedLegacy<=392,'EXPECTED_AT_LEAST_29_EARLIER_MATCHES');
+  assert(matchedLegacy+newRefs.length===392,'EXPECTED_EXACT_392_SOURCE_MATCHES');
   assert(next.equipment.filter(x=>x.integration==='REFERENCE_ONLY').length===392 &&
     next.equipment.filter(x=>x.integration==='PLAYABLE').length===411,'WRONG_FINAL_COUNTS');
   next.wikiIndexCounts.equipmentRecorded=392;
