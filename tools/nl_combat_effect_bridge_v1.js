@@ -52,6 +52,9 @@
     }
     function apply(unit,id,options={}){
       requireValid(extra.has(id),"six legacy/unknown statuses must NOT be replaced: "+id);
+      const policy=byId.get(id);
+      if(policy.polarity==="harmful"&&unit.effects.some(x=>x.kind==="ward"&&x.nlEffectV1!==true))
+        return {state:current(unit),accepted:false,events:[{type:"status-blocked",targetId:"live",statusId:id,reason:"legacy-ward"}]};
       const r=E.applyStatus(current(unit),catalog,{
         targetId:"live",statusId:id,
         ...(options.chance===undefined?{}:{chance:options.chance,roll:options.roll})
