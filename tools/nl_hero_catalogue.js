@@ -142,14 +142,72 @@ function applyDetailPatches(baseProfiles, patchSet) {
   return baseProfiles.map(p=>byId.get(p.id));
 }
 
-/** Chat 05 skill handoff: one unresolved descriptor bundle per general, not a second engine. */
-function buildSkillDescriptors(profiles) {
+/**
+ * Verifiable per-stage skill data is distinct from current equipped abilities:
+ * 2024 Orange and 2026 Gold announcement mechanics are versioned facts.
+ * No stage is assumed unlocked/equipped by the currently saved player.
+ */
+const STAGE_FILES = Object.freeze([
+  ["wiki_orange_skills_2024_v1.json","ORANGE",24,"2024-01-02"],
+  ["wiki_gold_skills_2026_v1.json","GOLD",8,"2026-06-07"]
+]);
+const ALLOWED_SKILL_OPS = new Set([
+  "DAMAGE","STATUS","MORALE","HEAL","MORALE_COST",
+  "ATTACK_REDUCTION","DISPEL","DAMAGE_TO_HEAL","HEAL_RECEIVED_REDUCTION","DEFENSE_REDUCTION"
+]);
+function loadWikiStageSkills(root, index) {
+  const known=new Map(index.heroes.map(h=>[h.id,h]));
+  const rows=[], unique=new Set();
+  for (const [file,stage,total,sourceDate] of STAGE_FILES) {
+    const pack=readJSON(path.join(root,"data","ngoalong","modules","heroes",file));
+    assert(pack.schemaVersion===1 && pack.stage===stage && pack.count===total && pack.skills?.length===total, "stage pack invalid: "+file);
+    assert(pack.edition===index.edition && typeof pack.sourceUrl==="string" && pack.sourceUrl.startsWith("https://ngoalong.vnggames.com/"), "stage source mismatch: "+file);
+    for (const item of pack.skills) {
+      const key=item.name+"/"+stage;
+      assert(!unique.has(key),"same hero + stage repeated: "+key);
+      unique.add(key);
+      assert(item.sourceDate===sourceDate && item.sourceUrl===pack.sourceUrl && item.edition===pack.edition && item.provenance==="VERIFIED", "stage fact source invalid: "+key);
+      assert(item.skillId && typeof item.skillName==="string" && item.skillName.length>0, "stage identity missing: "+key);
+      assert(item.engineOwner==="CHAT_05" && item.executable===false, "stage fact cannot be made executable by catalogue: "+key);
+      assert(Array.isArray(item.events) && item.events.length>0, "stage events missing: "+key);
+      for(const [ei,event] of item.events.entries()){
+        assert(ALLOWED_SKILL_OPS.has(event.op), "unrecognized operation "+key+":"+ei);
+        assert(typeof event.target==="string" && event.target.length>0, "missing operation target: "+key+":"+ei);
+        if(event.op==="DAMAGE" || event.op==="HEAL") {
+          assert(typeof event.coefficientPct==="number" && event.coefficientPct>=0, "damage/heal coefficient invalid: "+key+":"+ei);
+          assert(Number.isInteger(event.hits) && event.hits>0, "hit count invalid: "+key+":"+ei);
+        }
+        if(event.op==="STATUS") assert(typeof event.effect==="string" && event.effect.length>0 && (event.durationTurns===null || Number.isInteger(event.durationTurns)), "status undefined: "+key+":"+ei);
+      }
+      if(item.heroId!==null) {
+        const hero=known.get(item.heroId);
+        assert(hero && hero.name===item.name, "stage-to-index hero identity mismatch: "+key);
+        assert(item.sourceListStatus==="IN_WIKI_364_INDEX" || stage==="GOLD", "indexed skill has invalid scope");
+      } else {
+        assert(stage==="ORANGE" && item.sourceListStatus==="IN_OFFICIAL_UPDATE_ONLY" && ["Lưu Bị","Tào Tháo","Tôn Quyền"].includes(item.name), "external index exceptions not verified");
+      }
+      rows.push(item);
+    }
+  }
+  assert(rows.length===32 && rows.filter(x=>x.heroId!==null).length===29, "unexpected stage-ability totals");
+  return rows;
+}
+
+/** Add versioned skill data for Chat 05 without promoting any roster entry into runtime. */
+function buildSkillDescriptors(profiles, wikiStageSkills=[]) {
+  const byHeroId=new Map();
+  for(const row of wikiStageSkills) if(row.heroId){
+    if(!byHeroId.has(row.heroId))byHeroId.set(row.heroId,[]);
+    byHeroId.get(row.heroId).push(row);
+  }
   return profiles.map(p=>({
     heroId:p.id,name:p.name,faction:p.faction,edition:p.edition,
     sourceId:p.source.id,sourceUrl:p.source.url,
     normal:p.skills.normal,active:p.skills.active,passive:p.skills.passives,
+    stageSkills:byHeroId.get(p.id)||[],currentStage:null,
     descriptors:{trigger:null,target:null,operation:null,probability:null,duration:null,moraleDelta:null,stacking:null,dispel:null,immunity:null},
-    factStatus:p.fieldProvenance.skills,readiness:p.readiness,consumer:"CHAT_05",runtimeImport:false
+    factStatus:p.fieldProvenance.skills,stageFactStatus:byHeroId.has(p.id)?"VERIFIED":"UNKNOWN",
+    readiness:p.readiness,consumer:"CHAT_05",runtimeImport:false
   }));
 }
 /**
@@ -186,8 +244,22 @@ function loadCatalogue(root=ROOT) {
   validateProfiles(baseProfiles);
   const patches=readJSON(path.join(root,"data","ngoalong","modules","heroes","detail_patches_v1.json"));
   const profiles=applyDetailPatches(baseProfiles,patches);
+  const wikiStageSkills=loadWikiStageSkills(root,index);
+  const skillDescriptors=buildSkillDescriptors(profiles,wikiStageSkills);
   const project=projectRosterAudit(alpha,profiles);
-  return {index,profiles,inventory,project,readiness:readinessAudit(profiles),skillDescriptors:buildSkillDescriptors(profiles)};
+  const detailedHeroIds=new Set(wikiStageSkills.map(x=>x.heroId).filter(Boolean));
+  return {
+    index,profiles,inventory,project,readiness:readinessAudit(profiles),
+    wikiStageSkills,skillDescriptors,
+    stageFactsCoverage:{
+      sourceVerifiedAbilities:wikiStageSkills.length,
+      indexedHeroSkillVariants:wikiStageSkills.filter(x=>x.heroId!==null).length,
+      indexedHeroProfilesWithAnyStageSkill:detailedHeroIds.size,
+      unindexedOfficialHeroes:[...new Set(wikiStageSkills.filter(x=>x.heroId===null).map(x=>x.name))],
+      actualEquippedAbilitiesVerified:0,
+      runtimeEligibleFromThisModule:0
+    }
+  };
 }
 function main(argv=process.argv.slice(2)) {
   const allowed=new Set(["--check","--export-skills"]);
@@ -197,11 +269,11 @@ function main(argv=process.argv.slice(2)) {
     const filename=path.join(HERO_DIR,"skills_handoff_v1.json");
     fs.writeFileSync(filename,JSON.stringify({
       schemaVersion:1,edition:result.index.edition,checkedAt:result.index.snapshotDate,source:result.index.source,
-      disclaimer:"Skill semantics are not present in the verified index snapshot; null is intentional. Chat 05 must verify individual hero's skill versions before creating combat resolver. No auto-import.",
-      count:result.skillDescriptors.length,heroes:result.skillDescriptors
+      disclaimer:"2024 Orange and 2026 Gold abilities are source-verified stage records, not currently equipped runtime abilities. Unverified base skills remain null; no combat resolution, balancing or auto-import is authorized.",
+      count:result.skillDescriptors.length,stageFactsCoverage:result.stageFactsCoverage,heroes:result.skillDescriptors
     },null,2)+"\n");
   }
-  console.log(JSON.stringify({inventory:result.inventory,project:result.project,readiness:result.readiness,skillBundles:result.skillDescriptors.length},null,2));
+  console.log(JSON.stringify({inventory:result.inventory,project:result.project,readiness:result.readiness,skillBundles:result.skillDescriptors.length,stageFactsCoverage:result.stageFactsCoverage},null,2));
 }
 if(require.main===module){try{main();}catch(err){console.error(err.stack||String(err));process.exitCode=1;}}
-module.exports={loadCatalogue,validateIndex,materializeProfiles,validateProfiles,applyDetailPatches,projectRosterAudit,buildSkillDescriptors,readinessAudit,keyOfName,main};
+module.exports={loadCatalogue,validateIndex,materializeProfiles,validateProfiles,applyDetailPatches,loadWikiStageSkills,projectRosterAudit,buildSkillDescriptors,readinessAudit,keyOfName,main};
