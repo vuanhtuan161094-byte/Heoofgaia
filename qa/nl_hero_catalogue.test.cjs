@@ -5,7 +5,7 @@ const fs = require("node:fs");
 const path = require("node:path");
 const {
   loadCatalogue,validateIndex,materializeProfiles,validateProfiles,
-  buildSkillDescriptors,keyOfName
+  applyDetailPatches,buildSkillDescriptors,keyOfName
 } = require("../tools/nl_hero_catalogue.js");
 const root = path.resolve(__dirname, "..");
 const read = p=>JSON.parse(fs.readFileSync(path.join(root,p),"utf8"));
@@ -75,4 +75,31 @@ check("negative: faction total shift blocked",()=>invalid(x=>{x.heroes[0].factio
 check("negative: unverified source URL blocked",()=>invalid(x=>{x.heroes[0].sourceUrl="https://example.invalid"}));
 check("negative: invented runtime upgrade blocked",()=>invalid(x=>{x.heroes[0].runtimeStatus="PLAYABLE"}));
 check("negative: changed listed grade breaks 50 known references",()=>invalid(x=>{x.heroes[0].indexGrade="Thường"}));
+function patch(field,value,opts={}){
+  return {schemaVersion:1,edition:index.edition,patches:[{
+    heroId:"wiki-mobile-hero-048",edition:index.edition,
+    fields:{[field]:{value,classification:"VERIFIED",sourceUrl:"https://fixture.example.test/details/quan-vu",checkedAt:"2026-11-18",edition:index.edition,...opts}}
+  }]};
+}
+check("negative: evidence detail cannot override index-only facts",()=>{
+  assert.throws(()=>applyDetailPatches(result.profiles,patch("indexGrade","Thường")),/NL_HERO_CONTRACT/);
+});
+check("negative: a generic index page cannot prove a hero skill",()=>{
+  assert.throws(()=>applyDetailPatches(result.profiles,patch("role","Tiên phong",{sourceUrl:index.source.url})),/NL_HERO_CONTRACT/);
+});
+check("negative: unsupported evolution parent ID rejected",()=>{
+  assert.throws(()=>applyDetailPatches(result.profiles,patch("variantOf","missing-parent-id")),/NL_HERO_CONTRACT/);
+});
+check("verified role only stays reference-only until sourced skill evidence",()=>{
+  const p=applyDetailPatches(result.profiles,patch("role","Tiên phong"));
+  assert.equal(p.find(x=>x.id==="wiki-mobile-hero-048").readiness,"REFERENCE_ONLY");
+});
+check("verified role plus skill reaches DESIGN_READY but never PLAYABLE",()=>{
+  const d=patch("role","Tiên phong");
+  d.patches[0].fields.skills={value:{normal:null,active:{name:"Test fixture",kind:"ACTIVE"},passives:[]},classification:"VERIFIED",sourceUrl:"https://fixture.example.test/details/quan-vu",checkedAt:"2026-11-18",edition:index.edition};
+  const p=applyDetailPatches(result.profiles,d), h=p.find(x=>x.id==="wiki-mobile-hero-048");
+  assert.equal(h.readiness,"DESIGN_READY");
+  assert.equal(h.fieldProvenance.skills,"VERIFIED");
+  assert.equal(buildSkillDescriptors(p).find(x=>x.heroId===h.id).runtimeImport,false);
+});
 console.log("NL_HERO focused QA: "+checks+"/"+checks+" PASS (not a runtime/release gate)");
