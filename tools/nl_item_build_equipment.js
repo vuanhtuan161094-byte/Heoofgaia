@@ -11,6 +11,14 @@
   'use strict';
   const SLOTS=['weapon','armor','horse','book','cloak','shield','artifact'];
   const SOURCE='https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi';
+  const SET_IDS = Object.freeze({
+    'Cùng Kỳ':'mdt-cung-ky','Thao Thiết':'mdt-thao-thiet',
+    'Xi Vưu':'mdt-xi-vuu','Hình Thiên':'mdt-hinh-thien',
+    'Viêm Đế':'mdt-viem-de','Nữ Oa':'mdt-nu-oa','Phục Hi':'mdt-phuc-hi',
+    'Hiên Viên':'mdt-hien-vien','Hỗn Độn':'mdt-hon-don',
+    'Bàn Cổ':'mdt-ban-co','Diệt Thế':'mdt-diet-the',
+    'Thần Hoàng':'mdt-than-hoang'
+  });
   function valid(n){return Number.isSafeInteger(n) && n>=1 && n<=9999}
   function statsFor(slot,displayedLevel){
     if(!SLOTS.includes(slot)||!valid(displayedLevel)) throw new Error('INVALID_EQUIPMENT_SLOT_OR_LEVEL');
@@ -33,8 +41,15 @@
     const level=reference.displayedLevel;
     const upper=level>=190;
     const rarity=upper?'Thần thoại':level>=70?'Truyền kỳ':level>=30?'Sử thi':level>=10?'Hiếm':'Thường';
-    const cost=level<=12?{silver:800+level*120,iron:140+level*14,prestige:0}:null;
-    const setId=reference.sourceGroup==='Cùng Kỳ'?'mdt-cung-ky':null;
+    // The original project gives common/war gear a purchase path; rare Wiki
+    // names at even level 1 remain reward-only, not suspiciously cheap shop gear.
+    const buyable = ['Thường','Chiến'].includes(reference.sourceGroup);
+    const cost = buyable?{
+      silver: Math.round((800+level*120) * (reference.sourceGroup==='Chiến'?2:1)),
+      iron: Math.round((140+level*14) * (reference.sourceGroup==='Chiến'?2:1)),
+      prestige:0
+    }:null;
+    const setId=SET_IDS[reference.sourceGroup]||null;
     return {
       id:'mdt-'+(reference.sourceRecordId||reference.id),
       name:reference.name,category:'equipment',integration:'PLAYABLE',
@@ -71,7 +86,7 @@
     };
     return base;
   }
-  return {SLOTS,statsFor,playableFromWiki,augment};
+  return {SLOTS,SET_IDS,statsFor,playableFromWiki,augment};
 });
 if(typeof require==='function' && require.main===module){
  const fs=require('node:fs'),path=require('node:path');
