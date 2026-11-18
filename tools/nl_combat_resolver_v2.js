@@ -223,7 +223,12 @@
             next=r.state;events.push(...r.events);
           }
         }else if(op.op==="status"){
-          if(LEGACY.includes(op.effectId)){
+          const definition=effectDefinition(cat,op.effectId);
+          if(definition.polarity==="harmful"&&target.legacyEffects.some(x=>x.kind==="ward")){
+            events.push({type:"status-blocked",targetId:target.id,statusId:op.effectId,reason:"legacy-ward",index:i});
+          }else if(definition.polarity==="beneficial"&&target.statuses.some(x=>x.id==="repel-blessing")){
+            events.push({type:"status-blocked",targetId:target.id,statusId:op.effectId,reason:"repel-blessing",index:i});
+          }else if(LEGACY.includes(op.effectId)){
             events.push({type:"legacy-status-command",targetId:target.id,effectId:op.effectId,
               adapterRequired:true,index:i});
           }else{
@@ -233,8 +238,9 @@
         }else if(op.op==="dispel"){
           const r=E.dispel(next,cat.effects,{targetId:target.id,scope:op.polarity,maxRemove:op.maxRemove});
           next=r.state;events.push(...r.events.map(e=>({...e,index:i})));
-          if(target.legacyEffects.length)events.push({type:"legacy-dispel-command",targetId:target.id,
-            polarity:op.polarity,remaining:Math.max(0,op.maxRemove-r.removed.length),adapterRequired:true,index:i});
+          const remaining=Math.max(0,op.maxRemove-r.removed.length);
+          if(target.legacyEffects.length&&remaining>0)events.push({type:"legacy-dispel-command",targetId:target.id,
+            polarity:op.polarity,remaining,adapterRequired:true,index:i});
         }
       }
     }
@@ -252,6 +258,7 @@
   function replay(initial,cat,frames){
     let current=copy(initial);
     for(const f of frames){
+      if(!f||!["round-end","action"].includes(f.kind))fail("invalid replay frame");
       const r=f.kind==="round-end"?advanceRound(current,cat):resolveAction(current,cat,f.command);
       if(JSON.stringify(r.events)!==JSON.stringify(f.events)||
          JSON.stringify(r.state)!==JSON.stringify(f.snapshot))fail("replay divergence");
@@ -266,6 +273,7 @@
     const available=cat.skills.filter(s=>a.skillIds.includes(s.id)&&s.moraleCost<=a.morale);
     if(!available.length)return null;
     const opponents=state.units.filter(u=>u.side!==a.side&&alive(u));
+    if(!opponents.length)return null;
     const allies=state.units.filter(u=>u.side===a.side&&alive(u));
     const urgency=allies.reduce((s,u)=>s+(1-u.hp/u.maxHp),0);
     const pick=available.map(s=>{
