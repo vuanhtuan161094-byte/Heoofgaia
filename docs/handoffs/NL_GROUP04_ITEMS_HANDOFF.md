@@ -1,3 +1,19 @@
+# CẬP NHẬT ƯU TIÊN — TRANG BỊ CÓ CHỨC NĂNG (19/11/2026)
+
+Tình trạng mới nhất thay thế bảng kiểm kê/code-ready cũ bên dưới:
+
+- **48 bản ghi trang bị PLAYABLE trong module**: 19 trang bị gốc giữ nguyên + **29 mô hình mới** chuyển từ 29 trang bị Wiki đã có chứng cứ thành game gear riêng, với ID `mdt-equip02-*`. Vẫn giữ 29 bản ghi Wiki gốc **REFERENCE_ONLY** riêng và không tự nhận sao chép chỉ số Wiki.
+- 29 gear mới có đủ `requiredLevel` (thiết kế gốc, quy đổi dải cấp tướng 1–40), `slot`, `stats` 6 trường, `rarity`, `effectRule`, và `acquisitionRule`. Mỗi slot tác động đến đúng tuyến chỉ số: Vũ khí (atk/weaponAtk), Giáp (def+hp), Ngựa (atk+hp/horseAtk), Binh thư (int), Áo choàng (tdef), Thuẫn (mdef), Bảo vật (hp).
+- `tools/nl_item_build_equipment.js` đồng bộ 29 item gốc dự án từ các bản ghi đã duyệt; chạy `node tools/nl_item_build_equipment.js --check` để phát hiện catalogue stale; `--write` để dựng lại. Không bịa thêm 363 tên chưa kiểm chứng.
+- `tools/nl_item_inventory.js` bổ sung giao dịch `buy(state, id, receiptId)` có thanh toán **nguyên tử**, tương thích cả 19 mẫu shop cũ; `sets(state,heroId)` và cộng bộ Cùng Kỳ 2/4/7 theo `rules.setBonuses`. Công thức + chỉ số bộ là **SIMULATED / PROJECT_ORIGINAL**.
+- `tools/nl_item_equipment_ui.js` cung cấp `makeView(...)` và `mount(host,options)` cho tab trang bị 7 ô, lọc, kho, tiệm, chỉ số, set, nút mua/mặc/tháo/cường hóa/tinh luyện. Hợp đồng `mount` bắt buộc host phát `receiptId` **bền vững**, `getState`, `setState` trước khi phát giao dịch. Chat 08 phải nối host này vào index.html qua **generator chính** và Save v5; bản này **chưa gắn vào runtime game**.
+- Pipeline **392 món**: `tools/nl_item_wiki_index.js --write` dùng Playwright đi qua bảy nút lọc slot Wiki (fail-closed nếu không xác nhận đủ 392); sau đó `node tools/nl_item_full_equipment.js --write` mới mở rộng thành 392 bản ghi tham chiếu + 392 mô hình riêng dự án (ngoài 19 cũ). Bộ nhập đủ **chưa chạy** vì chưa có snapshot hoàn chỉnh; chỉ có kiểm thử tổng hợp với 392 fixture nhân tạo, **không được tính là 392 trang bị đã nhập**.
+- QA mục tiêu `node --test qa/nl_item_*.test.cjs` gồm **21 ca kiểm thử độc lập** (12 inventory, 3 UI, 3 Wiki index, 3 full-builder). Chúng đã chạy trên exact source lấy từ GitHub bằng môi trường V8 mô phỏng phần Node: **21/21 PASS** sau khi sửa kỳ vọng bộ đếm; **chưa chạy Node CLI thật, Chromium hay CI exact SHA**.
+- Số liệu nguồn/phiên bản: `https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi` (bản Mobile hiện hành); hướng dẫn chức năng: `https://ngoalong.vnggames.com/tin-tuc-2022/huong-dan/chi-tiet-ve-trang-bi-ngoa-long.html`. Số 392 là **số hàng chỉ mục**, không phải toàn bộ công thức VNG có thể xác minh.
+- Liên lạc nhóm 01/03/05/06/08 như giao diện bên dưới. **Không merge, không sửa runtime chung, không xóa các trạng thái Save lịch sử.**
+
+---
+
 # Nhóm 04 — Vật phẩm & Trang bị — Handoff 18/11/2026
 
 ## Baseline / scope
