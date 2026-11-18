@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "module": "nl-items-v1",
+  "provenance": {
+    "classification": "SIMULATED",
+    "sourceId": "project-items-v1"
+  },
+  "limits": {
+    "equipmentInstances": 200,
+    "stackKinds": 100,
+    "stackQuantity": 999,
+    "receipts": 10000
+  },
+  "reinforcement": {
+    "maxLevel": 12,
+    "statBonusPerLevel": 0.22,
+    "silverBase": 350,
+    "silverExponent": 2,
+    "ironBase": 105,
+    "ironExponent": 1,
+    "from": "PROJECT_ALPHA_R03"
+  },
+  "refinement": {
+    "maxLevel": 3,
+    "statBonusPerLevel": 0.08,
+    "silverBase": 600,
+    "materialId": "mdt-tinh-khoang",
+    "materialPerLevel": 2,
+    "from": "PROJECT_ORIGINAL_SIMULATED"
+  },
+  "resources": [
+    "silver",
+    "iron",
+    "prestige"
+  ],
+  "gearSlots": [
+    "weapon",
+    "armor",
+    "horse",
+    "book",
+    "cloak",
+    "shield",
+    "artifact"
+  ],
+  "legacyAliases": {
+    "banner": "artifact"
+  },
+  "transactionRule": {
+    "requiresUniqueReceipt": true,
+    "allOrNothing": true,
+    "duplicateReceipt": "NO_OP",
+    "conflictingReceipt": "ERROR",
+    "grantFromAuthorizedSourceOnly": true,
+    "autoGrantOnReplay": false
+  }
+}
