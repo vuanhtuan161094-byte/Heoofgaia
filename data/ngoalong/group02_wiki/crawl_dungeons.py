@@ -11,6 +11,48 @@ def number(v):
 def search(s,pattern):
     m=re.search(pattern,s,re.I|re.S)
     return m.group(1).strip() if m else None
+def army_count(raw):
+    """Read 263.1 triệu as 263100000, never the misleading 2631."""
+    if raw is None:
+        return None
+    value=str(raw).strip().lower().replace("\u00a0"," ")
+    m=re.search(r"(\d[\d.,\s]*)\s*(tỷ|tỉ|triệu|nghìn|ngàn|vạn)?",value)
+    if not m:
+        return None
+    figures=m.group(1).replace(" ","")
+    scale=m.group(2)
+    if scale:
+        factor={"tỷ":1000000000,"tỉ":1000000000,"triệu":1000000,
+                "nghìn":1000,"ngàn":1000,"vạn":10000}[scale]
+        if "," in figures and "." in figures:
+            figures=figures.replace(",","") if figures.rfind(".")>figures.rfind(",") else figures.replace(".","").replace(",",".")
+        elif "," in figures:
+            figures=figures.replace(",",".")
+        try:quantity=float(figures)*factor
+        except ValueError:return None
+        return int(round(quantity)) if quantity.is_integer() else None
+    if not re.fullmatch(r"\d+(?:[.,]\d{3})*",figures):
+        return None
+    return int(re.sub(r"[.,]","",figures))
+
+
+def short_map_rules(page_text,map_url):
+    """Only compact facts about explicit map-wide effects; never borrow unit skill text."""
+    match=re.search(r"(?:LUẬT CHIẾN ĐẤU|QUY TẮC CHIẾN ĐẤU|HIỆU ỨNG PHÓ BẢN)\s*(.*?)(?=DANH SÁCH NPC)",page_text,re.I|re.S)
+    if not match:
+        return []
+    result=[]
+    for line in match.group(1).splitlines():
+        line=line.strip()
+        if len(line)>100 or not line:
+            continue
+        match_effect=re.search(r"(?:(Phe (?:ta|địch))\s*)?([-+]\s*\d+(?:[.,]\d+)?\s*%)?\s*(trúng\s*)?(Đóng Băng|Mê Hoặc|Tan Vỡ|Hư Nhược|sát thương|phòng thủ|sĩ khí)",line,re.I)
+        if match_effect:
+            result.append({"affectedTeam":match_effect.group(1),"modifier":match_effect.group(2).replace(" ","") if match_effect.group(2) else None,
+                "effectType":match_effect.group(4),"skillSourceType":"DUNGEON_WIDE_RULE","sourceUrl":map_url,"classification":"VERIFIED"})
+    return result
+
+
 def anchors(page,individual=False):
     return page.evaluate("""kind => [...document.querySelectorAll('a[href*="map="]')].map(a=>({url:a.href,text:(a.innerText||'').trim()})).filter(x=>{let u=new URL(x.url),p=u.searchParams;return u.pathname.endsWith('/pho-ban-chi-tiet')&&p.has('map')&&p.has('ai')===kind})""",individual)
 def get_index(page):
@@ -51,7 +93,7 @@ def npc_index_entry(link, mapid):
     name=parts[1] if len(parts)>1 else None
     kind=parts[2] if len(parts)>2 else None
     level=number(search(link.get("text",""),r"Cấp\s*(\d+)"))
-    army=number(search(link.get("text",""),r"Cấp\s*\d+\s*[·•]\s*([\d,.]+)\s*quân"))
+    army=army_count(search(link.get("text",""),r"Cấp\s*\d+\s*[·•]\s*([\d,.]+\s*(?:tỷ|tỉ|triệu|nghìn|ngàn|vạn)?)\s*quân"))
     merit=number(search(link.get("text",""),r"Chiến công\s*([\d,.]+)"))
     return dict(aiId=ai,listOrder=order,name=name,kind=kind,level=level,
       totalSoldiers=army,merit=merit,url=link["url"],
@@ -73,6 +115,7 @@ def get_npc_links(page,info):
         warnings.append("NPC_LIST_NOT_RENDERED_AFTER_3_ATTEMPTS")
         return [],warnings
     intro=page.locator("body").inner_text()
+    info["mapWideRulesObserved"]=short_map_rules(intro,info["url"])
     advertised=search(intro,r"\n(\d+)\s*NPC\s*\nDANH SÁCH NPC")
     if advertised is not None:info["detailDeclaredNpcCount"]=int(advertised)
     if info.get("advertisedNpcCount") is not None and info.get("detailDeclaredNpcCount") is not None and info["advertisedNpcCount"]!=info["detailDeclaredNpcCount"]:
@@ -130,11 +173,17 @@ def get_unit(page):
     skill_info=search(section,r"KỸ NĂNG CHỦ ĐỘNG\s*\([^)]+\)\s*\n[^\n]*\n\s*([^\n]+)")
     return {"slot":slot,"name":name,
       "level":number(search(section,r"Vị trí\s*\d+\s*[·•]\s*Cấp\s*(\d+)")),
-      "soldiers":number(search(section,r"Vị trí[^\n]*?([\d,.]+)\s*quân")),
+      "soldiers":army_count(search(section,r"Vị trí[^\n]*?([\d,.]+\s*(?:tỷ|tỉ|triệu|nghìn|ngàn|vạn)?)\s*quân")),
       "troopWikiId":number(troop.get("wikiTroopId")) if troop else None,
       "troopName":troop.get("imageAlt") if troop else None,
       "troopLabel":troop.get("label") if troop else None,
       "skillName":skill_name,
+      "skillSourceType":"NPC_UNIT_ACTIVE" if skill_name else None,
+      "skillVersion":"CURRENT_WIKI_UNDATED",
+      "skillHistoricalOrigin":"UNKNOWN",
+      "passiveSkillNames":None,
+      "lordSkillNames":None,
+      "troopSkillNames":None,
       "skillDescriptionDigestOnly":None,
       "criticalPercent":number(search(section,r"Bạo kích\s*([\d,.]+)%")),
       "counterattackPercent":number(search(section,r"Phản kích\s*([\d,.]+)%"))}
@@ -167,7 +216,7 @@ def get_npc(page,link):
         except Exception as e:
             errors.append("SLOT_READ_FAILED:"+str(slot)+":"+str(e)[:100])
     units=[observed[k] for k in sorted(observed)]
-    total=number(search(text,r"Tổng quân\s*([\d,.]+)"))
+    total=army_count(search(text,r"Tổng quân\s*([\d,.]+\s*(?:tỷ|tỉ|triệu|nghìn|ngàn|vạn)?)"))
     if total is None:total=link.get("totalSoldiers")
     full_team=len(observed)==len(expected_slots) and bool(expected_slots) and not errors
     known_soldiers=full_team and all(x.get("soldiers") is not None for x in units)
@@ -177,6 +226,9 @@ def get_npc(page,link):
       "kind":link.get("kind"),"level":link.get("level") or number(search(text,r"\nCấp\s*(\d+)")),
       "totalSoldiers":total,"merit":link.get("merit"),
       "attackCoefficientShown":number(search(text,r"Hệ số công\s*\??\s*([\d,.]+)")),
+      "firstMoverObserved":search(text,r"Ra tay trước\s*\??\s*(Đội bạn|NPC|Địch)"),
+      "npcLordSkills":None,"npcPassiveSkills":None,
+      "npcStageSkills":None,"npcSoulBeastEffects":None,
       "formationDeclaredUnitCount":len(expected_slots),"formationOccupiedSlots":sorted(expected_slots),
       "selectedUnitCount":len(units),"unitsObserved":units,
       "unitSoldierSumValid":sum_valid,"fullTeamVerified":full_team,
@@ -217,6 +269,7 @@ def main(opts):
                 row["npcListComplete"]=len(row["npcs"])==m.get("detailDeclaredNpcCount",m["advertisedNpcCount"]) and not notes
                 row["npcDetailReadCount"]=sum(x.get("detailReadStatus")=="READ" for x in row["npcs"])
                 row["npcFormationsFullyEnumeratedCount"]=sum(x.get("fullTeamVerified") is True for x in row["npcs"])
+                row["npcFullSoldierSummationCount"]=sum(x.get("unitSoldierSumValid") is True for x in row["npcs"])
                 row["npcDetailComplete"]=row["npcListComplete"] and row["npcDetailReadCount"]==len(row["npcs"]) and all(x.get("fullTeamVerified") for x in row["npcs"])
             except Exception as ex:failures.append({"mapId":m["mapId"],"error":str(ex)[:200]})
             records.append(row)
