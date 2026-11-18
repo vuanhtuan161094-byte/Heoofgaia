@@ -3,6 +3,7 @@ const assert=require("node:assert/strict");
 const fs=require("node:fs");
 const Engine=require("../../../tools/nl_combat_effects_v1.js");
 const R=require("../../../data/ngoalong/modules/combat/resolver_v2.js");
+const F=require("../../../data/ngoalong/modules/combat/formation_adapter_v2.js");
 const alpha=JSON.parse(fs.readFileSync("data/ngoalong/alpha_content.json","utf8"));
 const original=JSON.parse(fs.readFileSync("data/ngoalong/modules/combat/effects_v1.json","utf8"));
 const skillData=JSON.parse(fs.readFileSync("data/ngoalong/modules/combat/skill_schema_v2.json","utf8"));
@@ -168,4 +169,72 @@ check("backline explicitly selectable by back-target skill",()=>{
   const r=action(s,"p1","mdtq-sleep-hex",{rolls:{"0:e2":.1}});
   assert.equal(has(r.state,"e2","sleep"),true);
 });
+
+check("compile exact 6x4 historical formation catalog",()=>{
+  const presets=F.compile(alpha.formations);
+  assert.equal(presets.length,24);
+  assert.equal(new Set(presets.map(x=>x.presetId)).size,24);
+  assert.deepEqual(presets.map(p=>p.presetId).sort(),
+    alpha.formations.families.flatMap(f=>alpha.formations.plans.map(p=>f.id+"-"+p.key)).sort());
+});
+check("formation deployment converts native 0-based to V2 1-based slots",()=>{
+  const preset=F.compile(alpha.formations).find(x=>x.presetId==="shield-thu");
+  assert.deepEqual(preset.nativeSlots,[2,5,0,3,6]);
+  assert.deepEqual(preset.resolverSlots,[3,6,1,4,7]);
+  const deployed=F.deploy([unit("p1","p",3,"infantry")],F.compile(alpha.formations),"shield-thu","p");
+  assert.equal(deployed[0].slot,3);
+});
+check("24 presets can instantiate battles without invalid slots",()=>{
+  const catalog=F.compile(alpha.formations);
+  for(const p of catalog){
+    const us=F.deploy([unit("p1","p",1,"infantry")],catalog,p.presetId,"p")
+      .concat(F.deploy([unit("e1","e",1,"spear")],catalog,"shield-thu","e"));
+    const battle=R.createBattle(cat,us,F.formPair(catalog,p.presetId,"shield-thu"));
+    assert.equal(battle.formation.p.presetId,p.presetId);
+  }
+});
+check("magic formation bonus actually increases magic lane damage",()=>{
+  const presets=F.compile(alpha.formations);
+  const p=F.formPair(presets,"arc-van","fish-van");
+  const boosted=action(make({formation:p}),"p1","mdtq-arcane-blast").events.find(x=>x.type==="lane-hit").amount;
+  const neutral=action(make(),"p1","mdtq-arcane-blast").events.find(x=>x.type==="lane-hit").amount;
+  assert.ok(boosted>neutral);
+});
+check("shield formation increases defense against physical lane",()=>{
+  const presets=F.compile(alpha.formations);
+  const p=F.formPair(presets,"fish-van","shield-thu");
+  const protectedHit=action(make({formation:p}),"p1","mdtq-basic-strike").events.find(x=>x.type==="lane-hit").amount;
+  const neutralHit=action(make(),"p1","mdtq-basic-strike").events.find(x=>x.type==="lane-hit").amount;
+  assert.ok(protectedHit<neutralHit);
+});
+check("formation critical modifier requires external deterministic roll",()=>{
+  const skill={id:"qa-crit",role:"attacker",moraleCost:0,target:{team:"enemy",pattern:"single"},
+    operations:[{op:"damage",lane:"physical",coefficient:1,criticalChance:.1,criticalMultiplier:1.5}],
+    provenance:{classification:"SIMULATED",sourceId:"qa-only"}};
+  const catalog={...cat,skills:[...cat.skills,skill]};
+  const presets=F.compile(alpha.formations);
+  const units=[unit("p1","p",3,"infantry",{skillIds:["qa-crit"]}),unit("e1","e",1,"spear")];
+  const formation=F.formPair(presets,"arc-van","fish-van");
+  const state=R.createBattle(catalog,units,formation);
+  assert.throws(()=>R.resolveAction(state,catalog,{actorId:"p1",skillId:"qa-crit"}),/recorded roll/);
+  const high=R.resolveAction(state,catalog,{actorId:"p1",skillId:"qa-crit",rolls:{"crit:0:e1":.7}});
+  const low=R.resolveAction(state,catalog,{actorId:"p1",skillId:"qa-crit",rolls:{"crit:0:e1":.05}});
+  assert.ok(low.state.units[1].hp<high.state.units[1].hp);
+});
+check("mixed enemy attack and ally-lowest-hp heal never targets enemy by mistake",()=>{
+  const hybrid={id:"qa-hybrid",role:"healer",moraleCost:0,
+    target:{team:"enemy",pattern:"single"},
+    operations:[{op:"damage",lane:"magic",coefficient:.2,scope:"selected"},
+      {op:"heal",coefficient:1,scope:"ally-lowest-hp"}],
+    provenance:{classification:"SIMULATED",sourceId:"qa-only"}};
+  const catalog={...cat,skills:[...cat.skills,hybrid]};
+  const units=[unit("p1","p",3,"strategist",{skillIds:["qa-hybrid"]}),
+    unit("p2","p",1,"infantry",{hp:100}),unit("e1","e",1,"spear")];
+  const state=R.createBattle(catalog,units);
+  const r=R.resolveAction(state,catalog,{actorId:"p1",skillId:"qa-hybrid",selectedTargetId:"e1"});
+  assert.ok(r.state.units.find(x=>x.id==="p2").hp>100);
+  assert.ok(r.state.units.find(x=>x.id==="e1").hp<500);
+  assert.ok(r.events.some(x=>x.type==="heal"&&x.targetId==="p2"));
+});
+
 console.log("RESULT "+passed+"/"+passed+" PASS");
