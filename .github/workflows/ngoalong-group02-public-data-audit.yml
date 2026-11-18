@@ -56,6 +56,25 @@ jobs:
             print(json.dumps(out,ensure_ascii=False,indent=2))
             browser.close()
           PY
+      - name: Inspect official public per-map JSON schema without importing content
+        run: |
+          python - <<'PY'
+          import json,urllib.request
+          base='https://cdn-mainsite-aka.vnggames.com/products/mwly/landing/2026-ngoa-long-wiki-clone/data/campaign/'
+          def typ(v):
+            if isinstance(v,dict):return {"type":"dict","keys":list(v)[:45],"len":len(v),"samples":{k:typ(x) for k,x in list(v.items())[:6]}}
+            if isinstance(v,list):return {"type":"list","len":len(v),"sample":typ(v[0]) if v else None}
+            return type(v).__name__
+          for mid in (1,3,269):
+            u=base+str(mid)+'.json'
+            try:
+              req=urllib.request.Request(u,headers={'User-Agent':'Mozilla/5.0 (research source audit)'})
+              with urllib.request.urlopen(req,timeout=30) as r:
+                b=r.read(12000000)
+                data=json.loads(b)
+              print("MAP_SCHEMA",mid,json.dumps({"sizeBytes":len(b),"schema":typ(data)},ensure_ascii=False))
+            except Exception as e:print("MAP_ERROR",mid,type(e).__name__,str(e)[:250])
+          PY
       - name: Upload metadata audit evidence
         if: always()
         uses: actions/upload-artifact@v4
