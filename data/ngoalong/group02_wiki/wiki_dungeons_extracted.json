@@ -114796,94 +114796,21 @@
           "name": "Bùi Tú",
           "kind": "BOSS",
           "level": 199,
-          "totalSoldiers": 21,
+          "totalSoldiers": null,
           "merit": 1290,
-          "attackCoefficientShown": 531850,
-          "formationDeclaredUnitCount": 5,
-          "formationOccupiedSlots": [
-            2,
-            4,
-            5,
-            6,
-            8
-          ],
-          "selectedUnitCount": 5,
-          "unitsObserved": [
-            {
-              "slot": 2,
-              "name": "Kiêu Hùng Cấm Vệ",
-              "level": 199,
-              "soldiers": 428450,
-              "troopWikiId": 138,
-              "troopName": "Bàn Cổ Vệ",
-              "troopLabel": "Bàn Cổ VệBộ Binh",
-              "skillName": "Kiêu Hùng",
-              "skillDescriptionDigestOnly": null,
-              "criticalPercent": 1,
-              "counterattackPercent": 5
-            },
-            {
-              "slot": 4,
-              "name": "Thiên Mệnh Cấm Vệ",
-              "level": 199,
-              "soldiers": 428450,
-              "troopWikiId": 171,
-              "troopName": "Cổ Hiệu Quân",
-              "troopLabel": "Cổ Hiệu QuânQuan Văn",
-              "skillName": "Thiên Mệnh",
-              "skillDescriptionDigestOnly": null,
-              "criticalPercent": 1,
-              "counterattackPercent": 1
-            },
-            {
-              "slot": 5,
-              "name": "Bùi Tú",
-              "level": 199,
-              "soldiers": 428450,
-              "troopWikiId": 171,
-              "troopName": "Cổ Hiệu Quân",
-              "troopLabel": "Cổ Hiệu QuânQuan Văn",
-              "skillName": "Thiên Mệnh",
-              "skillDescriptionDigestOnly": null,
-              "criticalPercent": 1,
-              "counterattackPercent": 1
-            },
-            {
-              "slot": 6,
-              "name": "Cam Vũ Cấm Vệ",
-              "level": 199,
-              "soldiers": 428450,
-              "troopWikiId": 160,
-              "troopName": "Linh Nỏ",
-              "troopLabel": "Linh NỏCung Binh",
-              "skillName": "Cam Vũ",
-              "skillDescriptionDigestOnly": null,
-              "criticalPercent": 15,
-              "counterattackPercent": 5
-            },
-            {
-              "slot": 8,
-              "name": "Tiễn Đạp Cấm Vệ",
-              "level": 199,
-              "soldiers": 428450,
-              "troopWikiId": 189,
-              "troopName": "Tu La Cung",
-              "troopLabel": "Tu La CungCung Binh",
-              "skillName": "Tiễn Đạp",
-              "skillDescriptionDigestOnly": null,
-              "criticalPercent": 10,
-              "counterattackPercent": 1
-            }
-          ],
-          "unitSoldierSumValid": false,
-          "fullTeamVerified": true,
-          "fullTeamStatus": "VERIFIED",
-          "unitErrors": [],
+          "attackCoefficientShown": null,
+          "unitsObserved": [],
+          "formationDeclaredUnitCount": null,
+          "formationOccupiedSlots": null,
+          "selectedUnitCount": 0,
+          "unitSoldierSumValid": null,
+          "fullTeamVerified": false,
+          "fullTeamStatus": "UNKNOWN",
           "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=85&ai=1803&side=vn",
           "npcListSourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=85",
-          "edition": "CURRENT_VNG_MOBILE",
-          "detailReadStatus": "READ",
-          "version": "VNG_MOBILE"
+          "detailReadStatus": "FAILED",
+          "error": "Page.goto: Timeout 60000ms exceeded.\nCall log:\n  - navigating to \"https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=85&ai=1803&side=vn\", waiting until \"domcontentlo",
+          "edition": "CURRENT_VNG_MOBILE"
         },
         {
           "aiId": 1804,
@@ -115482,12 +115409,16 @@
       "paginationNotes": [],
       "npcErrors": [
         {
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=85&ai=1803&side=vn",
+          "error": "Page.goto: Timeout 60000ms exceeded.\nCall log:\n  - navigating to \"https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=85&ai=1803&side=vn\", waiting until \"domcontentloaded\"\n"
+        },
+        {
           "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=85&ai=1810&side=vn",
           "error": "Locator.wait_for: Timeout 15000ms exceeded.\nCall log:\n  - waiting for locator(\"button[data-nlw-camp-o^=\\\"npc:\\\"]\").first\n"
         }
       ],
-      "npcDetailReadCount": 20,
-      "npcFormationsFullyEnumeratedCount": 20,
+      "npcDetailReadCount": 19,
+      "npcFormationsFullyEnumeratedCount": 19,
       "npcDetailComplete": false
     },
     {

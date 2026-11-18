@@ -9,8 +9,11 @@
   "mapNpcRosterCompleteCount": 170,
   "mapNpcRosterIncompleteCount": 79,
   "npcNamesMissing": 0,
-  "npcFormationsMissing": 96,
-  "soldierTotalContradictions": 345,
+  "npcFormationsMissing": 97,
+  "soldierTotalContradictions": 344,
+  "fullNpcFormationCount": 4806,
+  "unverifiedNpcFormationCount": 97,
+  "detailVsIndexNpcCountConflicts": 0,
   "fullyGameplayReadyMaps": 0,
   "status": "PARTIAL",
   "warning": "Indexed NPC rows are not gameplay-ready until skills, troop refs, all 3x3 units, version and mechanics are reviewed."
