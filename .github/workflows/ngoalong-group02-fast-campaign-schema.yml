@@ -35,7 +35,9 @@ jobs:
                 raw=res.read(20000000)
                 data=json.loads(raw)
               details={key:typ(data.get(key),0) for key in ('vn','cn','strategies','hard','side')}
-              result.append({'map':mid,'bytes':len(raw),'shape':typ(data),'detailFields':details})
+              first=(data.get('vn',{}).get('npcs') or [{}])[0]
+              detailNpc={k:typ(first.get(k),0) for k in ('ident','name','type','troops','merit','power','fastAttack','effects','formation','souls','drops')}
+              result.append({'map':mid,'bytes':len(raw),'shape':typ(data),'detailFields':details,'npcDetailShapes':detailNpc})
             except Exception as ex:
               result.append({'map':mid,'error':repr(ex)[:260]})
           Path('campaign-schema-inspection.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
