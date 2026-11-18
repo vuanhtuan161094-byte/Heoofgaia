@@ -1,0 +1,132 @@
+{
+  "schemaVersion": 1,
+  "module": "NL_HERO_01",
+  "sourceEdition": {
+    "canonical": "VNG_WIKI_MOBILE_CURRENT",
+    "indexSnapshot": "2026-11-18",
+    "classicParity": "UNKNOWN",
+    "verifyPerVersion": true
+  },
+  "identity": {
+    "entryIdPattern": "wiki-mobile-hero-NNN",
+    "identityKey": "edition + wikiOrdinal",
+    "sameNameNotEquivalent": true,
+    "duplicateAudit": "UNRESOLVED_SAME_NAME",
+    "variantDefinition": "Only explicit source-supported variantOf edges; grade is not an evolution link",
+    "heroKindValues": [
+      "BASE",
+      "VARIANT",
+      "SPECIAL",
+      "UNKNOWN"
+    ]
+  },
+  "canonicalProfile": {
+    "requiredVerifiedFields": [
+      "id",
+      "name",
+      "faction",
+      "indexGrade",
+      "sourceId"
+    ],
+    "factFields": {
+      "heroKind": null,
+      "variantOf": null,
+      "role": null,
+      "troopIds": null,
+      "stats": null,
+      "skills": {
+        "normal": null,
+        "active": null,
+        "passives": []
+      },
+      "acquisition": null,
+      "level": null,
+      "experience": null,
+      "training": null,
+      "awakening": null,
+      "evolution": null
+    },
+    "provenanceRule": "Each null = UNKNOWN. Any filled mechanics field requires field-level provenance + exact source URL + edition + checkedAt. DERIVED never means source-confirmed. SIMULATED is project-only and cannot overwrite Wiki source fields.",
+    "readinessPolicy": {
+      "REFERENCE_ONLY": "name/faction/indexGrade (index evidence only)",
+      "DESIGN_READY": "verified faction + role + exact skill definition and source record",
+      "PLAYABLE": "DESIGN_READY + original project stat formulas + unique skill IDs + battle engine mapping + focused QA proof"
+    },
+    "skillDescriptorPolicy": {
+      "consumer": "CHAT_05",
+      "normal": {
+        "trigger": null,
+        "target": null,
+        "effect": null
+      },
+      "active": {
+        "trigger": null,
+        "target": null,
+        "effect": null
+      },
+      "passives": [],
+      "engineOwnership": "CHAT_05",
+      "unknownsBlockedFromCombat": true
+    }
+  },
+  "progression": {
+    "wikiMobile": {
+      "statAxes": null,
+      "levelCap": null,
+      "expCurve": null,
+      "trainingCost": null,
+      "trainingGain": null,
+      "awakeningCost": null,
+      "awakeningPrerequisites": null,
+      "evolutionEdges": null,
+      "evidence": "UNKNOWN",
+      "enabledForRuntime": false,
+      "important": "Do not reuse project training curve as Wiki rule; Quý Tử training is a separate mechanic and not default progression of historical generals."
+    },
+    "existingProjectSimulation": {
+      "source": "data/ngoalong/alpha_content.json#heroes.training",
+      "policy": "SIMULATED",
+      "runtimeOwner": "alpha_content.json — read only",
+      "training": {
+        "silverCost": 700,
+        "baseXp": 95,
+        "academyXpPerLevel": 12,
+        "maxLevel": 40,
+        "xpRequiredPerHeroLevel": 90,
+        "provenance": {
+          "classification": "SIMULATED",
+          "sourceId": "project-alpha"
+        }
+      },
+      "enabledForExisting14Only": true,
+      "autoApplyToWikiRoster": false
+    }
+  },
+  "patchContract": {
+    "path": "data/ngoalong/modules/heroes/detail_patches_v1.json",
+    "mergeKey": "heroId",
+    "mergePolicy": "explicit version + source checked + reject conflicts + never infer variant or source formula",
+    "possibleUpdates": [
+      "role",
+      "troopIds",
+      "stats",
+      "skills",
+      "acquisition",
+      "level",
+      "experience",
+      "training",
+      "awakening",
+      "evolution",
+      "heroKind",
+      "variantOf"
+    ]
+  },
+  "importBoundary": {
+    "runtimeAutoImport": false,
+    "saveMigration": false,
+    "indexHtmlEdited": false,
+    "alphaContentEdited": false,
+    "engineTouched": false,
+    "releaseDecisionOwner": "CHAT_08"
+  }
+}
