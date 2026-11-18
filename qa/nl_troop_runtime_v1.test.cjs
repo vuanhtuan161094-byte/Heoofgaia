@@ -41,4 +41,30 @@ test("complete simulated battle, no settlement/Save edits",()=>{
  const b=combat.createBattle({A:[{id:"a",troopId:"rain-volley",slot:0}],B:[{id:"b",troopId:"infantry",slot:0}]},7);
  const end=combat.runBattle(b);assert.equal(end.finished,true);assert.equal(end.settlement,null);assert.equal(b.finished,false);
 });
+
+test("rear targeting, row splash and two-hit damage execution",()=>{
+ const a=combat.createBattle({A:[{id:"hero",troopId:"archer",slot:0}],B:[{id:"front",troopId:"infantry",slot:0},{id:"rear",troopId:"infantry",slot:8}]},1);
+ assert.equal(combat.chooseTarget(a,a.units[0]).id,"rear");
+ const row=combat.createBattle({A:[{id:"hero",troopId:"rain-volley",slot:0}],B:[{id:"front",troopId:"infantry",slot:0},{id:"next",troopId:"infantry",slot:1}]},1);
+ assert.ok(combat.stepBattle(row).events.filter(x=>x.type==="damage").length>=2);
+ const double=combat.createBattle({A:[{id:"hero",troopId:"volley",slot:0}],B:[{id:"foe",troopId:"infantry",slot:0}]},1);
+ assert.equal(combat.stepBattle(double).events.filter(x=>x.type==="damage"&&x.actorId==="hero").length,2);
+});
+test("morale, healing, burn and guard produce actual state changes",()=>{
+ const m=combat.createBattle({A:[{id:"hero",troopId:"rally",slot:0},{id:"ally",troopId:"infantry",slot:1}],B:[{id:"foe",troopId:"infantry",slot:0}]},1);
+ assert.equal(combat.stepBattle(m).state.units.find(x=>x.id==="ally").morale,62);
+ const h=combat.createBattle({A:[{id:"hero",troopId:"medic",slot:0},{id:"ally",troopId:"infantry",slot:1,hp:200}],B:[{id:"foe",troopId:"infantry",slot:0}]},1);
+ assert.ok(combat.stepBattle(h).state.units.find(x=>x.id==="ally").hp>200);
+ const w=combat.createBattle({A:[{id:"hero",troopId:"ward-bearer",slot:0}],B:[{id:"foe",troopId:"infantry",slot:0}]},1);
+ assert.ok(combat.stepBattle(w).state.units.find(x=>x.id==="hero").guard>0);
+ const burn=combat.createBattle({A:[{id:"hero",troopId:"ember",slot:0}],B:[{id:"foe",troopId:"infantry",slot:0}]},1);
+ assert.ok(combat.stepBattle(burn).events.some(x=>x.statusId==="troop-original-burn"));
+});
+test("receipt ID reuse for a different operation is rejected",()=>{
+ const s=combat.createRosterState({barracksLevel:2,resources:{silver:5000,grain:5000,iron:5000},units:[{id:"h",troopId:"infantry",tier:1}]});
+ const after=combat.evolveRoster(s,"x1","h","bulwark").state;
+ assert.throws(()=>combat.evolveRoster(after,"x1","h","crusher"));
+ assert.throws(()=>combat.trainTier(after,"x1","h"));
+});
+
 console.log("NL TROOP EXECUTABLE "+n+"/"+n+" PASS");

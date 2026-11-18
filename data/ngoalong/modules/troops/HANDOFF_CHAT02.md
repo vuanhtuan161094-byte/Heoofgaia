@@ -36,3 +36,11 @@ No merge. No Codex Cloud.
 - Counts: 372 verified **appearance IDs**, 235 structured-source mechanism profiles, 137 qualitative or unstructured profiles still requiring detailed evidence; 25 project design identities, **zero newly runtime-wired by this chat**. Existing 25 legacy runtime troop identities belong to the base game, not to an imported 372-unit Wiki roster.
 - Source page live rechecked 2026-11-18: https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung ; headers show only tier-level progression, no individually proven named parent/child edges.
 - One-pass GitHub data inspection: **22/22 static assertions PASS** on prior exact committed data at `be40fe77ce075cec2896f6ff29fb9993d5f79313`. New taxonomy fields require a follow-up consistency inspection. **Node test and Actions full CI not executed**: workflow push filters exclude this task branch; do not label those gates PASS.
+
+## Executable Group 02 code — 2026-11-19
+- Added `tools/nl_troop_combat_v1.js`, a UMD/CommonJS original deterministic combat sandbox consuming `project_playable_v1.json` and `evolution_contract_v1.json`. 25/25 project combat behaviors have executable effects, including guard, cavalry counter, multi-hit, area damage, morale, healing, burn, targeting and reactive defenses.
+- `createBattle({A,B},seed)`, `stepBattle(battle)`, `runBattle(battle)`: 3×3 slots 0–8, 1–5 units/side, emitted replayable events; never writes legacy Save or settles rewards. Test with `node qa/nl_troop_runtime_v1.test.cjs`.
+- `createRosterState`, `evolveRoster`, `trainTier`: standalone immutable roster and resource transactions, checked costs, idempotent receipts and collision rejection. Project tiers 5–7 remain design-only; existing runtime cap 4 enforced.
+- `project_playable_v1.json` records `implementation.standaloneExecutable=true` and `campaignWired=false` for all 25.
+- Group 05 MUST wire this as the **single authoritative** damage/action resolver via the canonical generator. Never call the existing live damage function and `stepBattle` for the same attack, to avoid double HP/replay/settlement. Group 02 has NOT modified the live combat engine, `index.html`, `alpha_content.json` or Save.
+- Static runtime V8 execution/QA is distinct from Node CI and live Chromium; no claim of live game integration before Chat 05 does it.

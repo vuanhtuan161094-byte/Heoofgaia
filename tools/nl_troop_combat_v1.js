@@ -139,7 +139,10 @@
       if(k==="marksman"){const crit=roll(s,0.1);p(crit?1.5:1);hit(s,ev,from,to,{multiplier:crit?1.5:1});return;}
       if(k==="volley"){p();hit(s,ev,from,to);if(alive(to))hit(s,ev,from,to,{multiplier:0.52});return;}
       if(k==="ember"){p();hit(s,ev,from,to,{lane:"magic"});if(alive(to)&&roll(s,0.58)){
-        to.statuses.push({id:"troop-original-burn",remaining:2});log(ev,"status",{actorId:from.id,targetId:to.id,statusId:"troop-original-burn"});}return;}
+        const old=to.statuses.find(x=>x.id==="troop-original-burn");
+        if(old){old.stacks=Math.min(3,(old.stacks||1)+1);old.remaining=2;}
+        else to.statuses.push({id:"troop-original-burn",remaining:2,stacks:1});
+        log(ev,"status",{actorId:from.id,targetId:to.id,statusId:"troop-original-burn",stacks:old?old.stacks:1});}return;}
       if(k==="disrupt"){p();morale(ev,from,to,-18);hit(s,ev,from,to,{lane:"magic"});return;}
       if(k==="shieldbreaker"){p();hit(s,ev,from,to);return;}
       if(k==="swift-wing"){if(from.turns===0){p();hit(s,ev,from,to,{multiplier:1.12});}else hit(s,ev,from,to);return;}
@@ -154,7 +157,7 @@
     function roundEnd(s,ev){
       for(const x of s.units){if(!alive(x))continue;
         for(const status of x.statuses){
-          if(status.id==="troop-original-burn"){const amount=Math.min(x.hp,Math.max(1,Math.round(x.maxHp*0.04)));
+          if(status.id==="troop-original-burn"){const amount=Math.min(x.hp,Math.max(1,Math.round(x.maxHp*0.04*(status.stacks||1))));
             x.hp-=amount;log(ev,"burn-tick",{targetId:x.id,amount,remainingHp:x.hp});}
           status.remaining--;
         }
@@ -196,7 +199,10 @@
     function transaction(input,receiptId,rosterUnitId,op,to){
       check(input&&Array.isArray(input.receipts)&&typeof receiptId==="string"&&receiptId.length>0,"invalid transaction id");
       const duplicate=input.receipts.find(x=>x.id===receiptId);
-      if(duplicate)return {state:clone(input),applied:false,idempotent:true,receipt:clone(duplicate)};
+      if(duplicate){
+        check(duplicate.operation===op&&duplicate.unitId===rosterUnitId&&(op!=="evolve"||duplicate.toTroopId===model(to).id),"receipt ID used for a different request");
+        return {state:clone(input),applied:false,idempotent:true,receipt:clone(duplicate)};
+      }
       const state=clone(input),u=state.units.find(x=>x.id===rosterUnitId);
       check(u,"unknown roster unit");
       let nextId=model(u.troopId).id,nextTier=u.tier,cost;

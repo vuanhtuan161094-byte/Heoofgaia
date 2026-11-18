@@ -98,6 +98,14 @@
           "threatenedBy": "cavalry",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "front_guard_counter",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -179,6 +187,14 @@
           "threatenedBy": "infantry",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "anti_cavalry_brace",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -260,6 +276,14 @@
           "threatenedBy": "spear",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "charge_opening",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -337,6 +361,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "aim_backline",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -414,6 +446,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "mystic_focus",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -491,6 +531,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "emergency_triage",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -568,6 +616,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "tempo_pulse",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -649,6 +705,14 @@
           "threatenedBy": "cavalry",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "intercept_damage",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -730,6 +794,14 @@
           "threatenedBy": "cavalry",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "breaker_impact",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -811,6 +883,14 @@
           "threatenedBy": "cavalry",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "spear_switch_guard",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -892,6 +972,14 @@
           "threatenedBy": "spear",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "first_charge_stagger",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -973,6 +1061,14 @@
           "threatenedBy": "spear",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "rear_flank_raid",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1050,6 +1146,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "precision_weakpoint",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1127,6 +1231,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "rapid_double_bolt",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1204,6 +1316,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "ignite_spell",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1281,6 +1401,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "morale_suppression",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1358,6 +1486,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "field_mending",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1435,6 +1571,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "battle_command",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1516,6 +1660,14 @@
           "threatenedBy": "cavalry",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "shield_sunder",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1597,6 +1749,14 @@
           "threatenedBy": "spear",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "swift_backline_pressure",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1674,6 +1834,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "area_arrow_rain",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1751,6 +1919,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "suppress_enemy_caster",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1828,6 +2004,14 @@
         "classification": "PROJECT_ORIGINAL_SIMULATED",
         "wikiIdentityClaim": false,
         "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "aegis_healing_guard",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1909,6 +2093,14 @@
           "threatenedBy": "infantry",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "formation_brace",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     },
     {
@@ -1990,7 +2182,19 @@
           "threatenedBy": "infantry",
           "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
         }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "cavalry_skewer",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
       }
     }
-  ]
+  ],
+  "executableCombatModule": "tools/nl_troop_combat_v1.js",
+  "executableCombatStatus": "STANDALONE_EXECUTABLE_NOT_LIVE",
+  "simulatedCombatAbilityCount": 25,
+  "integrationRequiredFrom": "CHAT05"
 }
