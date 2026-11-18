@@ -267,19 +267,26 @@ function loadCatalogue(root=ROOT) {
     }
   };
 }
+/** Stable on-disk descriptor contract for Chat 05 and Chat 08 (no runtime mutation). */
+function makeSkillHandoff(result) {
+  return {
+    schemaVersion:1,edition:result.index.edition,
+    checkedAt:result.wikiStageSkills[0]?.checkedAt||result.index.snapshotDate,
+    source:result.index.source,
+    disclaimer:"Four official announcement batches (2024–2026) contain dated skill versions, not the hero's currently equipped stage. Older and newer versions are retained separately. Do not resolve conflicts without explicit version selection; unresolved base skills remain UNKNOWN and no combat engine is executed.",
+    count:result.skillDescriptors.length,stageFactsCoverage:result.stageFactsCoverage,
+    heroes:result.skillDescriptors
+  };
+}
 function main(argv=process.argv.slice(2)) {
   const allowed=new Set(["--check","--export-skills"]);
   assert(argv.every(a=>allowed.has(a)), "usage: node tools/nl_hero_catalogue.js [--check] [--export-skills]");
   const result=loadCatalogue();
   if(argv.includes("--export-skills")){
     const filename=path.join(HERO_DIR,"skills_handoff_v1.json");
-    fs.writeFileSync(filename,JSON.stringify({
-      schemaVersion:1,edition:result.index.edition,checkedAt:result.index.snapshotDate,source:result.index.source,
-      disclaimer:"2024 Orange and 2026 Gold abilities are source-verified stage records, not currently equipped runtime abilities. Unverified base skills remain null; no combat resolution, balancing or auto-import is authorized.",
-      count:result.skillDescriptors.length,stageFactsCoverage:result.stageFactsCoverage,heroes:result.skillDescriptors
-    },null,2)+"\n");
+    fs.writeFileSync(filename,JSON.stringify(makeSkillHandoff(result),null,2)+"\n");
   }
   console.log(JSON.stringify({inventory:result.inventory,project:result.project,readiness:result.readiness,skillBundles:result.skillDescriptors.length,stageFactsCoverage:result.stageFactsCoverage},null,2));
 }
 if(require.main===module){try{main();}catch(err){console.error(err.stack||String(err));process.exitCode=1;}}
-module.exports={loadCatalogue,validateIndex,materializeProfiles,validateProfiles,applyDetailPatches,loadWikiStageSkills,projectRosterAudit,buildSkillDescriptors,readinessAudit,keyOfName,main};
+module.exports={loadCatalogue,validateIndex,materializeProfiles,validateProfiles,applyDetailPatches,loadWikiStageSkills,projectRosterAudit,buildSkillDescriptors,makeSkillHandoff,readinessAudit,keyOfName,main};
