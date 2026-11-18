@@ -1,0 +1,669 @@
+{
+  "schema": "ngoalong.art.r11.github-source.v1",
+  "created": "2026-11-19",
+  "artVersion": "R11 original candidate art preserved without changed pixels",
+  "sourceBranch": "feature/nl-codex-cloud-v1-finish",
+  "sourceHead": "e33e36255d62ea51af7f48386b8d3c56c6448369",
+  "targetBranch": "feature/nl-v2-art",
+  "baseSource": "Library /MuuDinhTamQuoc/Art/Infantry/NL_IDLE_ART_R11_CORRECTED.zip",
+  "baseArchiveSha256": "477f6ff48a6a3a846076d4b1d750b8f121f772f8cf34b3862bf560a1bf9a000a",
+  "licenses": "Original project-generated visual sources per R11 handoff. Wiki for taxonomy only; no VNG pixels.",
+  "runtimeIntegration": "NOT_IN_GAME",
+  "rendering": {
+    "frame": [
+      128,
+      128
+    ],
+    "pivot": [
+      64,
+      121
+    ],
+    "viewWidthPx": 80,
+    "recommendedStates": [
+      "IDLE",
+      "CONTACT (single second pose only, triggered by combat event)"
+    ],
+    "rig": false,
+    "walkRun": false,
+    "statusList": [
+      "REFERENCE_ONLY",
+      "QUARANTINED",
+      "VISUAL_CANDIDATE",
+      "APPROVED_ART",
+      "IN_GAME"
+    ]
+  },
+  "counts": {
+    "candidateIds": 14,
+    "png": 28,
+    "quarantinedIds": 5
+  },
+  "quarantined": [
+    {
+      "id": "giap_bo",
+      "reason": "cramped source/framing",
+      "state": "QUARANTINED"
+    },
+    {
+      "id": "hoang_bo",
+      "reason": "cramped source/framing",
+      "state": "QUARANTINED"
+    },
+    {
+      "id": "loi_kiem_si",
+      "reason": "poster-derived source",
+      "state": "QUARANTINED"
+    },
+    {
+      "id": "phan_quan",
+      "reason": "poster-derived source",
+      "state": "QUARANTINED"
+    },
+    {
+      "id": "van_khuc",
+      "reason": "poster-derived source",
+      "state": "QUARANTINED"
+    }
+  ],
+  "units": [
+    {
+      "id": "bo",
+      "name": "Bộ",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/bo.png",
+        "sha256": "1fee9afb18770da7e4cf1ffab9d2516b1e43411e011346b4bd701967fd3d0085",
+        "gitBlobSha": "13c72413f213426439872fc35fbf8d0a09d7a3a8",
+        "bytes": 19744,
+        "alphaBounds": [
+          25,
+          7,
+          102,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/bo.png",
+        "sha256": "35d2af7f8212c1913d7d8002908edab148ca0f740e6ef5ab821ce11c8e7600a8",
+        "gitBlobSha": "a1dd17b1f0368372ff5436ae09e1c5f691e4d1c4",
+        "bytes": 20274,
+        "alphaBounds": [
+          7,
+          21,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.4702
+    },
+    {
+      "id": "thuan_binh",
+      "name": "Thuẫn Binh",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/thuan_binh.png",
+        "sha256": "de981ea7fdd99c799298885e39df0d0b21b2491bb09bb3cf3ac14ce703cac443",
+        "gitBlobSha": "e1fc14857c772b7491331ecd5f5a3ccd046297b6",
+        "bytes": 22725,
+        "alphaBounds": [
+          22,
+          7,
+          106,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/thuan_binh.png",
+        "sha256": "fdddf7cab58b8c387d385d6f65dd607059d86846dde487b50b2829d8fedc4ab0",
+        "gitBlobSha": "aa26f6e25016cd63df40202400ade5bcdbd7a8c5",
+        "bytes": 24019,
+        "alphaBounds": [
+          7,
+          21,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5239
+    },
+    {
+      "id": "trung_bo",
+      "name": "Trùng Bộ",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/trung_bo.png",
+        "sha256": "8348530d9bf8f4dbbf4f4555cfecace946a422f2b97df84b3f5c61a224d7979b",
+        "gitBlobSha": "09a572f2288878e5f327954b9011c902a30951cf",
+        "bytes": 21996,
+        "alphaBounds": [
+          7,
+          7,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/trung_bo.png",
+        "sha256": "b933720bd4de5d11f6aefad013eac2445e36c4ac91a502099f01cada05280aa9",
+        "gitBlobSha": "9d947e82f3094b48a42e832ad4982f9933c9527f",
+        "bytes": 22434,
+        "alphaBounds": [
+          7,
+          23,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5192
+    },
+    {
+      "id": "dao_binh",
+      "name": "Đao Binh",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/dao_binh.png",
+        "sha256": "eb1ce9fddab678511bdc4a648a28612eee49679422d1d255b47fc35120f822aa",
+        "gitBlobSha": "38480ef9a7539ea35c2983b2eb64708bc2849c3c",
+        "bytes": 21791,
+        "alphaBounds": [
+          15,
+          7,
+          113,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/dao_binh.png",
+        "sha256": "6381d14b48812d622ad8689a85dfbb3beda34a5a95a6c0b141ddee857d3c2903",
+        "gitBlobSha": "f8b800073c6c18830367f1595a1e2d7bbb1bd4ed",
+        "bytes": 22167,
+        "alphaBounds": [
+          7,
+          19,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5089
+    },
+    {
+      "id": "dang_giap",
+      "name": "Đằng Giáp",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/dang_giap.png",
+        "sha256": "1b8143425f9d137e68fd58996f7a98610247311abe1da4a6618367768c6259be",
+        "gitBlobSha": "3b9fcd697650c331e087858667980f8e008faf52",
+        "bytes": 25771,
+        "alphaBounds": [
+          16,
+          7,
+          111,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/dang_giap.png",
+        "sha256": "f40660843f34fa48c1757f5f5a462504e73acbb4d67daf16fd203954212af7fa",
+        "gitBlobSha": "c7fcfe2677d428c275ea9e6dbdb319fb8874852f",
+        "bytes": 24484,
+        "alphaBounds": [
+          7,
+          17,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5368
+    },
+    {
+      "id": "ho_viet_trao",
+      "name": "Hổ Việt Trảo",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/ho_viet_trao.png",
+        "sha256": "aedfe8b763ce5afc3fd88ed72a910f9aafee8eb94a67dbfdc9eecbdd4b236117",
+        "gitBlobSha": "3f9d27bf1d5b3607fdb03808b07f2d8ba58f37a6",
+        "bytes": 25591,
+        "alphaBounds": [
+          18,
+          7,
+          109,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/ho_viet_trao.png",
+        "sha256": "b09e47855b994466415f6700e777835a01e250b59497095aa329b1200c7c7ce2",
+        "gitBlobSha": "32deea5ebcdf2c0dfecb07e785cb60337ba6a33e",
+        "bytes": 26623,
+        "alphaBounds": [
+          7,
+          17,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5599
+    },
+    {
+      "id": "kim_bo",
+      "name": "Kim Bộ",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/kim_bo.png",
+        "sha256": "dba00e3be4b653597cddf4310b547e26da7982184b7e3d0ee4df64c9fdc6f781",
+        "gitBlobSha": "a48872e57d1f83ef094c04cddd7d246c2874ecab",
+        "bytes": 25183,
+        "alphaBounds": [
+          7,
+          15,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/kim_bo.png",
+        "sha256": "05dafe15937cd8eb04f3136c3d5f7ae905897410252dcdd28802608fa10e28b8",
+        "gitBlobSha": "19cfabed5e024bbbd35b2b0fbc12e64e9ea40d39",
+        "bytes": 26250,
+        "alphaBounds": [
+          7,
+          25,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5796
+    },
+    {
+      "id": "thach_giap",
+      "name": "Thạch Giáp",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/thach_giap.png",
+        "sha256": "2b420b0453193120209a4572bc01c226e15476a2c5cfe6786ba0320ba67bf8a9",
+        "gitBlobSha": "5e597707320752a1f053e2b9d2c0216e416d496d",
+        "bytes": 27825,
+        "alphaBounds": [
+          7,
+          14,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/thach_giap.png",
+        "sha256": "a13a7aacd0649492267be53b2555b987828eef24901941853ef84b6701484ff6",
+        "gitBlobSha": "f9f92001e40ad79e404aaec343b9cc7da63d6fe0",
+        "bytes": 26547,
+        "alphaBounds": [
+          7,
+          20,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5814
+    },
+    {
+      "id": "thuy_bo",
+      "name": "Thủy Bộ",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/thuy_bo.png",
+        "sha256": "c712c2baee2b045051d81d9c8e0703bdbded7adca5352bc6338bc5768b01f68b",
+        "gitBlobSha": "c438678973a353a88ba72e1b8394093ecc4a99c8",
+        "bytes": 25294,
+        "alphaBounds": [
+          16,
+          7,
+          111,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/thuy_bo.png",
+        "sha256": "a7f24f0c34d5470a1be934dacb400f2227afdc8327280b7877e710897d436aab",
+        "gitBlobSha": "5107e63f537aef9d25076d06d39aafa45fea67ee",
+        "bytes": 23875,
+        "alphaBounds": [
+          7,
+          21,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.537
+    },
+    {
+      "id": "tu_than_bo",
+      "name": "Tử Thần Bộ",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/tu_than_bo.png",
+        "sha256": "1faf830474d6028c6681ae2fbfe18bdf3aa224360f5bec5408d73dae5d6070c8",
+        "gitBlobSha": "f04398026459f3c0b5df597c930f6c74ad9f9c15",
+        "bytes": 26271,
+        "alphaBounds": [
+          16,
+          7,
+          112,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/tu_than_bo.png",
+        "sha256": "d1ada2c872a90a4684de9e98507d548f18aeb74243322889256623a0ce034b8f",
+        "gitBlobSha": "25b1ced1ba446575fb9494bb4ba2226dac49de2f",
+        "bytes": 23731,
+        "alphaBounds": [
+          7,
+          25,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5597
+    },
+    {
+      "id": "ung_kiem",
+      "name": "Ưng Kiếm",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/ung_kiem.png",
+        "sha256": "e6c6916050d7291e88567bda70444ebd0c5c73f261deb690473e598562e5e55b",
+        "gitBlobSha": "93d26f70382460dad37efaf498c58902fcca9294",
+        "bytes": 25438,
+        "alphaBounds": [
+          20,
+          7,
+          108,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/ung_kiem.png",
+        "sha256": "7b10c31a67730fdcaa2783cf02bde14dcb8a191f5f4fed7e4bbf1640c17bc617",
+        "gitBlobSha": "84eea07a8774dd842683a0b6c5b996ba60522410",
+        "bytes": 24276,
+        "alphaBounds": [
+          7,
+          18,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.5632
+    },
+    {
+      "id": "ban_ho_ve",
+      "name": "Bàn Hộ Vệ",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/ban_ho_ve.png",
+        "sha256": "82a5ee0befbf5abc7a12a0b1116ea2edb18e2afdcc9584815cdd9136244006fc",
+        "gitBlobSha": "0d369809d408b9f930b4786011edaa245c68e65c",
+        "bytes": 23537,
+        "alphaBounds": [
+          7,
+          26,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/ban_ho_ve.png",
+        "sha256": "10c2cf89a5b19a77591f009508b4c27507e08764cf6a7e57fbf51e2a07a4db4a",
+        "gitBlobSha": "da75075d4239ced0a478669e74f257850c39046a",
+        "bytes": 23599,
+        "alphaBounds": [
+          7,
+          27,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.4974
+    },
+    {
+      "id": "ho_luc_si",
+      "name": "Hổ Lực Sĩ",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/ho_luc_si.png",
+        "sha256": "297e1a2a7ce190d9dd86429a5b46d598e5f943e315fc2e91a32af93f527abfe6",
+        "gitBlobSha": "a083e589c3a2159833e940585da0e9f798fc6545",
+        "bytes": 29471,
+        "alphaBounds": [
+          8,
+          7,
+          120,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/ho_luc_si.png",
+        "sha256": "3be8e9aa8c01b9319452b12a9d6facca9b8e64a98f9d0a5ce238ec0c7a64122f",
+        "gitBlobSha": "3f449495e9f3d53082edf863ec184e72dc12b4d5",
+        "bytes": 27098,
+        "alphaBounds": [
+          7,
+          24,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.6533
+    },
+    {
+      "id": "lang_tu_si",
+      "name": "Lang Tử Sĩ",
+      "state": "VISUAL_CANDIDATE",
+      "wikiRoleStatus": "VERIFIED_NAME_ONLY",
+      "artProvenance": "DERIVED_PROJECT_ORIGINAL_R11",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "path": "sprites/idle/lang_tu_si.png",
+        "sha256": "85ca862e178e8f8126edf1e3770fdbf9505730f74a2e66904dc91b636a8e1671",
+        "gitBlobSha": "b6f055aae4bb003c0c92025ee6110012b715d342",
+        "bytes": 21994,
+        "alphaBounds": [
+          7,
+          30,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attack": {
+        "path": "sprites/attack/lang_tu_si.png",
+        "sha256": "b59a1391a0efc768de890326d13fcb453288ab547a43ba4ab93a98c85c8816de",
+        "gitBlobSha": "e71c2fe133af3919a0b71114e957a2d182fe9c99",
+        "bytes": 14771,
+        "alphaBounds": [
+          7,
+          41,
+          121,
+          121
+        ],
+        "borderClipped": false
+      },
+      "attackDistinctPixelRatio": 0.4532
+    }
+  ],
+  "QA": {
+    "alphaEdgeClipping": "PASS_28/28",
+    "formatRGBA128": "PASS_28/28",
+    "pivotContract": "PASS_COMMON_64_121",
+    "distinctIdleContact": "PASS_14/14",
+    "humanVisualAt80px": "REVIEWED_CANDIDATE_NOT_OWNER_APPROVED",
+    "chromium": "NOT_RUN_ART_ONLY",
+    "ownerApproval": "PENDING",
+    "inGame": "NO"
+  },
+  "branchBaseSha": "e33e36255d62ea51af7f48386b8d3c56c6448369"
+}
