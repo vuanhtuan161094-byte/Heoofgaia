@@ -15,11 +15,17 @@ def army_count(raw):
     if raw is None:
         return None
     value=str(raw).strip().lower().replace("\u00a0"," ")
-    m=re.search(r"(\d[\d.,\s]*)\s*(tỷ|tỉ|triệu|nghìn|ngàn|vạn)?",value)
-    if not m:
-        return None
-    figures=m.group(1).replace(" ","")
-    scale=m.group(2)
+    # Optional suffix after a greedy digit class can silently match nothing.
+    # Prefer a mandatory known unit before falling back to grouped integers.
+    m=re.match(r"(\d[\d.,\s]*?)\s*(tỷ|tỉ|triệu|nghìn|ngàn|vạn)\b",value)
+    if m:
+        figures=m.group(1).replace(" ","")
+        scale=m.group(2)
+    else:
+        m=re.match(r"(\d[\d.,\s]*)",value)
+        if not m:return None
+        figures=m.group(1).replace(" ","")
+        scale=None
     if scale:
         factor={"tỷ":1000000000,"tỉ":1000000000,"triệu":1000000,
                 "nghìn":1000,"ngàn":1000,"vạn":10000}[scale]
