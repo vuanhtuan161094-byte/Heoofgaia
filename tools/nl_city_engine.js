@@ -20,8 +20,14 @@
     function ensure(game,now) {
       if(!game||typeof game!=='object'||!finiteInt(now)) throw Error('INVALID_GAME_OR_CLOCK');
       if(!game.nlCity) game.nlCity={schemaVersion:1,lastAt:now,levels:{},stock:{},
-        remainder:{},construction:null,receipts:[],receiptIndex:{},seq:0};
+        remainder:{},construction:null,receipts:[],receiptIndex:{},seq:0,
+        warehouse:{},operations:{},cooldowns:{}};
       const s=game.nlCity;
+      if(!s.warehouse)s.warehouse={};
+      if(!s.operations)s.operations={};
+      if(!s.cooldowns)s.cooldowns={};
+      if(!Object.prototype.hasOwnProperty.call(s.levels,'nl_city_hall') && refs.has('nl_city_hall'))
+        s.levels.nl_city_hall=1; // existing players begin with an ordinary level-1 city; no resource grant
       if(s.schemaVersion!==1||!finiteInt(s.lastAt)||!s.levels||!s.stock||!s.remainder||!s.receipts||!s.receiptIndex) throw Error('INVALID_CITY_SAVE');
       for(const b of catalog.buildings) {
         for(const key of ['levels','stock','remainder']) if(s[key][b.id]===undefined) s[key][b.id]=0;
@@ -56,6 +62,9 @@
         s.construction=null;
         accrue(s,split,now);
       }else accrue(s,start,now);
+      for(const operation of Object.values(s.operations)) {
+        if(operation && operation.finishAt<=now)operation.ready=true;
+      }
       s.lastAt=now;
       return {ok:true,advanced:true};
     }
@@ -83,6 +92,9 @@
     }
     function unlocked(game,b) {
       if(!b.unlock)return true;
+      if(b.unlock.hallLevel!==undefined && (!game.nlCity||game.nlCity.levels.nl_city_hall < b.unlock.hallLevel))
+        return false;
+      if(!b.unlock.legacyBuilding)return true;
       const lv=game.buildings&&game.buildings[b.unlock.legacyBuilding];
       return finiteInt(lv)&&lv>=b.unlock.minLevel;
     }
@@ -126,6 +138,83 @@
       game.technology[input.id]=next;game.techSpent=(finiteInt(game.techSpent)?game.techSpent:0)+(cost.prestige||0);
       return record(s,input,'research',{targetLevel:next,debit:cost});
     }
+
+    // Operation keys are local to city, so existing silver/grain/iron/prestige remain authoritative.
+    function quantity(game,s,key) {
+      const value=RESOURCE_KEYS.includes(key)?game[key]:(s.warehouse[key]||0);
+      if(!finiteInt(value))throw Error('INVALID_CITY_RESOURCE_'+key);
+      return value;
+    }
+    function assignQuantity(game,s,key,value) {
+      if(!finiteInt(value))throw Error('CITY_RESOURCE_OUT_OF_RANGE');
+      if(RESOURCE_KEYS.includes(key))game[key]=value;
+      else s.warehouse[key]=value;
+    }
+    function scaledAmounts(config,level) {
+      const amounts={};
+      for(const [k,amount] of Object.entries(config||{})) {
+        const value=Math.round(amount*(1+0.15*(level-1)));
+        if(!finiteInt(value)||value===0)throw Error('INVALID_OPERATION_QUANTITY');
+        amounts[k]=value;
+      }
+      return amounts;
+    }
+    function canTransfer(game,s,cost,reward) {
+      return Object.keys({...cost,...reward}).every(key=>{
+        if(!RESOURCE_KEYS.includes(key)&&!catalog.localResources.includes(key))return false;
+        const current=quantity(game,s,key),taken=cost[key]||0,added=reward[key]||0;
+        return current>=taken && Number.isSafeInteger(current-taken+added) &&
+          current-taken+added>=0;
+      });
+    }
+    function transfer(game,s,cost,reward) {
+      if(!canTransfer(game,s,cost,reward))return false;
+      for(const k of Object.keys({...cost,...reward}))
+        assignQuantity(game,s,k,quantity(game,s,k)-(cost[k]||0)+(reward[k]||0));
+      return true;
+    }
+    function revenueBonus(game,s,spec,action,reward) {
+      // A named building bonus must have a real authoritative effect, not only a cosmetic tooltip.
+      if(!['tax','sell_goods','sea_trade'].includes(action.id))return reward;
+      const b=bonuses(game,s.lastAt);
+      const rate=action.id==='tax'?(b.taxCollectionBonus||0):(b.tradeRevenueMultiplierBonus||0);
+      if(!rate||!reward.silver)return reward;
+      return {...reward,silver:Math.round(reward.silver*(1+rate))};
+    }
+    function operate(game,s,input) {
+      const b=refs.get(input.id);
+      if(!b||!s.levels[input.id])return error('BUILDING_NOT_CONSTRUCTED');
+      const a=(b.actions||[]).find(x=>x.id===input.operationId);
+      if(!a)return error('UNKNOWN_OPERATION');
+      if(s.operations[input.id])return error('OPERATION_PENDING',{operation:clone(s.operations[input.id])});
+      const key=b.id+'|'+a.id;
+      if((s.cooldowns[key]||0)>input.now)return error('OPERATION_COOLDOWN',{availableAt:s.cooldowns[key]});
+      const lv=s.levels[input.id],cost=scaledAmounts(a.cost,lv);
+      const reward=revenueBonus(game,s,b,a,scaledAmounts(a.reward,lv));
+      // For delayed settlement, reward is reserved but not credited until explicit claim.
+      const instant=a.durationSeconds===0;
+      if(!canTransfer(game,s,cost,instant?reward:{}))return error('INSUFFICIENT_RESOURCES_OR_OVERFLOW',{cost});
+      if(!instant)for(const [k,n] of Object.entries(reward))
+        if(quantity(game,s,k)>Number.MAX_SAFE_INTEGER-n)return error('RESOURCE_OVERFLOW');
+      if(!transfer(game,s,cost,instant?reward:{}))return error('TRANSFER_FAILED');
+      s.cooldowns[key]=input.now+a.cooldownSeconds*1000;
+      if(!instant)s.operations[input.id]={
+        operationId:a.id,startedAt:input.now,finishAt:input.now+a.durationSeconds*1000,
+        reward,ready:false
+      };
+      return record(s,input,'operate',{operationId:a.id,debit:cost,
+        ...(instant?{credit:reward}:{job:clone(s.operations[input.id])})});
+    }
+    function collect(game,s,input) {
+      const op=s.operations[input.id];
+      if(!op)return error('NO_OPERATION_TO_COLLECT');
+      if(input.operationId && input.operationId!==op.operationId)return error('OPERATION_MISMATCH');
+      if(!op.ready)return error('OPERATION_NOT_READY',{finishAt:op.finishAt});
+      if(!canTransfer(game,s,{},op.reward))return error('RESOURCE_OVERFLOW');
+      if(!transfer(game,s,{},op.reward))return error('TRANSFER_FAILED');
+      delete s.operations[input.id];
+      return record(s,input,'collect',{operationId:op.operationId,credit:op.reward});
+    }
     function act(game,input) {
       if(!input||typeof input.actionId!=='string'||!/^[\w.:-]{1,128}$/.test(input.actionId)||!finiteInt(input.now))
         return error('INVALID_INTENT');
@@ -135,6 +224,8 @@
       if(input.kind==='build')return build(game,s,input);
       if(input.kind==='harvest')return harvest(game,s,input);
       if(input.kind==='research')return research(game,s,input);
+      if(input.kind==='operate')return operate(game,s,input);
+      if(input.kind==='collect')return collect(game,s,input);
       return error('UNKNOWN_ACTION');
     }
     function bonuses(game,now) {
@@ -148,7 +239,7 @@
     function view(game,now) {
       advance(game,now);const s=ensure(game,now);
       return {schemaVersion:1,resources:Object.fromEntries(RESOURCE_KEYS.map(k=>[k,game[k]])),
-        clock:s.lastAt,construction:s.construction&&clone(s.construction),
+        warehouse:clone(s.warehouse),clock:s.lastAt,construction:s.construction&&clone(s.construction),
         buildings:catalog.buildings.map(b=>{
           const level=s.levels[b.id],p=b.production;
           return {id:b.id,name:b.name,category:b.category,grid:b.grid,level,
@@ -157,6 +248,11 @@
             stock:p?s.stock[b.id]:null,capacity:p?level*p.capacityPerLevel:null,
             productionPerMinute:p?level*p.perMinutePerLevel:null,
             productionResource:p?p.resource:null,effects:b.effects,
+            operations:(b.actions||[]).map(a=>({id:a.id,label:a.label,
+              cost:scaledAmounts(a.cost,Math.max(1,level)),reward:scaledAmounts(a.reward,Math.max(1,level)),
+              durationSeconds:a.durationSeconds,
+              availableAt:s.cooldowns[b.id+'|'+a.id]||0})),
+            pendingOperation:s.operations[b.id]&&clone(s.operations[b.id]),
             provenance:b.provenance.classification};
         }),legacy:catalog.legacy.map(b=>({id:b.id,name:b.label,policy:b.owner,
           level:(game.buildings&&game.buildings[b.id])||0})),bonuses:bonuses(game,now)};

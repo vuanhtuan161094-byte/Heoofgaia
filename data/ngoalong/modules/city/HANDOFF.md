@@ -1,35 +1,36 @@
-# CHAT 03 — CITY / ECONOMY V1: INTEGRATION CONTRACT
+# CHAT 03 — COMPLETE CITY + NAVAL FACILITY CATALOG V2
 
-## Source / scope
-- Source base \`feature/nl-codex-cloud-v1-finish@e33e36255d62ea51af7f48386b8d3c56c6448369\`; task branch \`feature/nl-v2-city\`.
-- New files under \`data/ngoalong/modules/city/\`, \`tools/nl_city_*\`, \`qa/nl_city_*\` only.
-- No modification to generator, \`index.html\`, \`alpha_content.json\`, workflow, Save or Hero. No Cloud Codex.
-- \`data/ngoalong/modules/city/catalog_v1.json\` identifies all project-owned and read-only legacy buildings, sources, map positions, costs, timer, production and effects.
-- Existing core runtime already has market/farm production, eight data-driven research IDs, battle receipts, item costs and Save v5. Never duplicate its auto-tick or reinterpret legacy building prices.
+**Base:** \`feature/nl-v2-city@ffece5f96df3322ecdd442f3c4a743d11905bc57\`  
+**Scope:** solely \`data/ngoalong/modules/city/\`, \`tools/nl_city_*\` and \`qa/nl_city_*\`. No generator/index/alpha_content/Save/workflow modifications, no merge, no Codex Cloud.
 
-## Research and version separation
-The source Wiki is **VNG Mobile current**, not proof of classic webgame parity. Quý Tử's **26 seasonal buildings** and CN-only **14 high technologies at City Hall 280–400** are different subsystems, **REFERENCE_ONLY / BLOCKED**. The VNG guide names Nhà Chính, Phủ Sách Lược, Cửa Hiệu, Tài Vụ, Dân Cư, Xưởng and Tiền Trang but does not verify detailed formulas. New four project buildings, cost curves, timers, output and effects here are **SIMULATED**; never claim exact VNG mechanics.
+## Inventory / provenance
+- **31 new, interactive project-owned facilities**: original four retained and 27 added. Twelve thousand? No: this count is exact, not an estimate.
+- **7 existing legacy building links** retain authoritative \`game.buildings\` and current UI/tick; no parallel market/farm/barracks or academy production.
+- Named facilities derive from VNG 2026 guide, 2017 Mobile architecture and naval article, and historical community Wiki. Individual name/source mapping in \`catalog_v1.json#buildings[].provenance\`. Cost, cap, timer, yield, gameplay effect, unlock and trade volume are **SIMULATED**, not copied from VNG.
+- City-core and naval buildings are tagged individually. Naval building names are **reference only for gameplay** until chat 02/06 supply marine troop/expedition integration.
+- Explicit exclusions: the 26 seasonal buildings of the **Quý Tử mini-game** and the 14 **CN-only advanced technologies** are not the main city buildings. Do not blend them into this economic state.
+- World map, phó bản and country-view icons are activities/areas, not duplicate upgradeable city buildings.
 
-## Runtime interface to chat 08
-\`tools/nl_city_engine.js\` is a pure UMD/CommonJS runtime. For browser: load engine source from the **existing canonical generator**, inject catalog via generator, then:
+## Functional economy loop
+- \`tools/nl_city_engine.js\` is a pure JavaScript CommonJS/UMD engine.
+- \`NLCityEngine.createEngine(catalog,alphaContent.research)\` uses exactly the current eight research IDs and expenses, preserving \`game.technology\` and \`techSpent\`.
+- \`ensure(game,now)\` creates additive \`game.nlCity\` state and seeds \`nl_city_hall\` level 1 as an existing basic city, without minting currency. Other facilities begin level 0; their levels, build job, escrow, warehouses, finished operations, cooldowns, and intent receipt index persist across Save v5 roundtrip.
+- \`act(game,{kind:'build',id,actionId,now})\`: pay once, one active construction job, next level at \`finishAt\`, capped level and hall gates. No timers created internally.
+- \`act(game,{kind:'harvest',id,actionId,now})\`: transfer bounded passive production escrow once. Legacy silver/grain tick is not modified.
+- \`act(game,{kind:'operate',id,operationId,actionId,now})\`: pay inputs (actual silver/grain/iron/prestige or city warehouse goods), enforce cooldown and one pending job per building, with immediate or timed credits. Timed operations **must** be followed by \`act(kind:'collect')\` after ready, and cannot yield resources on repeated tick.
+- \`act(game,{kind:'collect',id,operationId,actionId,now})\`: settle one complete operation once. Costs and output based on level; refunds/notes/goods/ships local to \`game.nlCity.warehouse\` until another domain explicitly consumes them. No free unlimited currencies or negative balances.
+- \`act(game,{kind:'research',id,actionId,now})\`: delegate to the same canonical 8 tech IDs and project cost catalog. **Do not also invoke legacy R03 handler for the same click.**
+- \`view(game,now)\`: full 6-column grid mapping, level, lock, costs, time, stock, action options, active operations, warehouse and stats. \`bonuses(game,now)\`: live bonus catalogue; tax/trade effects are used **inside this engine** already; others await owner module integration.
+- The only valid account currencies remain \`silver\`, \`grain\`, \`iron\`, \`prestige\`. Local tokens \`goods\`, \`parts\`, \`rations\`, \`orders\`, \`ships\`, etc. are stored in \`game.nlCity.warehouse\`, not invented top-level resources.
 
-\`\`\`js
-const city = NLCityEngine.createEngine(cityCatalog, alphaContent.research);
-city.advance(game, Date.now()); // must also occur on load/reload
-const dto = city.view(game, Date.now());
-const r = city.act(game, {
-  kind: 'build', id: 'nl_city_ironworks',
-  actionId: stableUniqueIntentId, now: Date.now()
-});
-if (r.ok && !r.duplicate) { save(); render(); }
-\`\`\`
+## Contracts
+- Chat **08**: wire engine/catalog into canonical generator and the existing game state, create persistent unique \`actionId\` per click; call \`advance\` on load/tick and show actual 31 tiles with clickable build/harvest/operate/collect panels; preserve all legacy controls.
+- Chat **04**: consume equipment offer tiers, engraving stones, inventory-cap and discounts exactly once through the real item handler. Do not create item drops directly in the city module.
+- Chat **05/02**: consume reserve cap, troop-tier access, training and naval modifiers once in canonical calculations; don't apply a bonus twice. Naval combat remains pending until ship mechanics exist.
+- Chat **01**: consume hero training XP, inheritance, skill, horse bonuses or hero-scroll items through a receipt-safe hero progression handler.
+- Chat **06**: trial tower tokens merely unlock a separate encounter; NO fabricated battle rewards or unlocked floors without a verified battle receipt.
+- City Hall gate is a **project progression curve**, not a VNG stage/level equivalence. Rarity, premium currency and multiplayer trade are intentionally not invented.
+- Do not expose \`game.nlCity\` as a new Save key. Do not rewrite existing market, farm, barracks or academy logic.
 
-- Action kinds \`build\`, \`harvest\`, \`research\`; all require a stable string \`actionId\` unique per user action. Retry must reuse the **same** ID.
-- \`game.nlCity\` is an additive optional Save v5 object: \`levels\`, \`stock\`, \`remainder\`, \`construction\`, \`receiptIndex\`, \`receipts\`, \`lastAt\`. Never change Save key \`muu_dinh_tam_quoc_v1\` or create separate storage.
-- \`view().buildings\` contains \`grid\`, \`level\`, \`nextCost\`, \`nextSeconds\`, \`productionPerMinute\`, \`stock\`, \`capacity\` and effects for clickable map tiles. \`view().legacy\` must use **existing** upgrade buttons; don't bypass old economy authority.
-- Build costs debit at start, takes real elapsed clock seconds, one construction job, increments level only after due; production credited to **capped escrow** after completion, player-initiated \`harvest\` alone transfers escrow once into real game resources. Offline production is capped at 6 hours; repeated time or backdated call cannot re-credit.
-- Research IDs, costs, level gate and effects are read from **existing** \`alpha_content.json#research\` and written to \`game.technology\`/\`techSpent\`. **A UI click must use either this research action or the old native R03 research handler, NEVER both.** This engine does not modify existing \`lastTick\` or the legacy auto-production.
-- Gameplay hooks: \`city.bonuses(game,now)\` -> \`reserveCapacityFlat\` (chat 05, add to one canonical reserve cap), \`equipmentUpgradeDiscount\` (chat 04, agree on rounding and real debit). No effect claim until those consumers are integrated.
-
-## Acceptance / gaps
-Focused Node gate: \`node qa/nl_city_cycle.test.cjs\` tests paid construction, timer, escrow, harvest, duplicate receipt, upgrade, native research costs, v5 roundtrip, capped offline interval and shortage. CI exact-SHA, Chromium UI actions, 04/05 bonuses, in-game Save/reload and balance remain **PENDING**; no full CI or preview video was requested. Client-side offline clock is not anti-cheat against intentional clock manipulation. This is CODE READY for chat 08, **not yet INTEGRATED**. Keep Draft/unmerged.
+## QA
+Run \`node qa/nl_city_cycle.test.cjs\` (legacy core 10 checks) and \`node qa/nl_city_full.test.cjs\` (all facilities, operations, queue, credits, cooldown, save and anti-dup). All integration/browser/Actions gates remain pending until chat 08 rewires canonical source.
