@@ -1,0 +1,608 @@
+{
+  "schemaVersion": 1,
+  "group": "02_WIKI_SYSTEMS",
+  "edition": "MOBILE_WIKI_REFERENCE_ONLY",
+  "classicParity": "UNKNOWN",
+  "checkedAt": "2026-11-18",
+  "runtimeAuthority": false,
+  "heroes": [
+    {
+      "id": "hero02-1",
+      "name": "Bàng Đức",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-2",
+      "name": "Chân Cơ",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-3",
+      "name": "Điển Vi",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-4",
+      "name": "Trương Liêu",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-5",
+      "name": "Quách Gia",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-6",
+      "name": "Tào Phi",
+      "faction": "Ngụy",
+      "indexGrade": "Thượng Cổ",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-7",
+      "name": "Triệu Vân",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": {
+        "command": 88,
+        "martial": 96,
+        "intelligence": 78,
+        "growth": {
+          "command": 2.3,
+          "martial": 2.6,
+          "intelligence": 1.8
+        },
+        "acquisition": {
+          "towerFloor": 68,
+          "souls": 60000
+        },
+        "skillName": "Đan Kỵ",
+        "role": "Tiên phong",
+        "edition": "GUIDE_VARIANT_UNMATCHED_TO_WIKI_GRADE"
+      },
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02",
+        "G01"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "VERIFIED",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-8",
+      "name": "Quan Vũ",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": {
+        "command": 93,
+        "martial": 97,
+        "intelligence": 77,
+        "growth": {
+          "command": 2.2,
+          "martial": 2.7,
+          "intelligence": 2.1
+        },
+        "acquisition": {
+          "towerFloor": 78,
+          "souls": 100000
+        },
+        "skillName": "Yến Nguyệt",
+        "role": "Hùng sư",
+        "edition": "GUIDE_VARIANT_UNMATCHED_TO_WIKI_GRADE"
+      },
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02",
+        "G01"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "VERIFIED",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-9",
+      "name": "Trương Phi",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": {
+        "command": 83,
+        "martial": 98,
+        "intelligence": 45,
+        "growth": {
+          "command": 2.3,
+          "martial": 3,
+          "intelligence": 1.6
+        },
+        "acquisition": {
+          "towerFloor": 58,
+          "souls": 28000
+        },
+        "skillName": "Nộ Sát",
+        "role": "Tiên phong",
+        "edition": "GUIDE_VARIANT_UNMATCHED_TO_WIKI_GRADE"
+      },
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02",
+        "G01"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "VERIFIED",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-10",
+      "name": "Hoàng Trung",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": {
+        "command": 84,
+        "martial": 93,
+        "intelligence": 61,
+        "growth": {
+          "command": 2.8,
+          "martial": 2.1,
+          "intelligence": 1.8
+        },
+        "acquisition": {
+          "prestige": 700000,
+          "recruitSilver": 10000
+        },
+        "skillName": "Lôi tiễn",
+        "role": "Thống lĩnh",
+        "edition": "GUIDE_VARIANT_UNMATCHED_TO_WIKI_GRADE"
+      },
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02",
+        "G01"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "VERIFIED",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-11",
+      "name": "Gia Cát Lượng",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "currentGradeStats": null,
+      "guideSnapshot": {
+        "command": 92,
+        "martial": 53,
+        "intelligence": 100,
+        "growth": {
+          "command": 2.9,
+          "martial": 2,
+          "intelligence": 3
+        },
+        "acquisition": {
+          "towerFloor": 83,
+          "souls": 120000
+        },
+        "skillName": "Đông Phong",
+        "role": "Quân sư",
+        "edition": "GUIDE_VARIANT_UNMATCHED_TO_WIKI_GRADE"
+      },
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02",
+        "G01"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "VERIFIED",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-12",
+      "name": "Bàng Thống",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": {
+        "command": 80,
+        "martial": 45,
+        "intelligence": 98,
+        "growth": {
+          "command": 2.1,
+          "martial": 1.9,
+          "intelligence": 2.9
+        },
+        "acquisition": {
+          "towerFloor": 63,
+          "souls": 48000
+        },
+        "skillName": "Tử Điện",
+        "role": "Quân sư",
+        "edition": "GUIDE_VARIANT_UNMATCHED_TO_WIKI_GRADE"
+      },
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02",
+        "G01"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "VERIFIED",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-13",
+      "name": "Mã Siêu",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "currentGradeStats": null,
+      "guideSnapshot": {
+        "command": 91,
+        "martial": 97,
+        "intelligence": 56,
+        "growth": {
+          "command": 2.4,
+          "martial": 2.6,
+          "intelligence": 1.8
+        },
+        "acquisition": {
+          "towerFloor": 73,
+          "souls": 80000
+        },
+        "skillName": "Phá Quân",
+        "role": "Hùng sư",
+        "edition": "GUIDE_VARIANT_UNMATCHED_TO_WIKI_GRADE"
+      },
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02",
+        "G01"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "VERIFIED",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-14",
+      "name": "Mã Lương",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "currentGradeStats": null,
+      "guideSnapshot": {
+        "command": 75,
+        "martial": 66,
+        "intelligence": 88,
+        "growth": {
+          "command": 1.7,
+          "martial": 1.8,
+          "intelligence": 3
+        },
+        "acquisition": {
+          "prestige": 330000,
+          "recruitSilver": 10000
+        },
+        "skillName": "Địa liệt",
+        "role": "Mưu thần",
+        "edition": "GUIDE_VARIANT_UNMATCHED_TO_WIKI_GRADE"
+      },
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02",
+        "G01"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "VERIFIED",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-15",
+      "name": "Chu Du",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-16",
+      "name": "Tôn Sách",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-17",
+      "name": "Cam Ninh",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-18",
+      "name": "Lữ Bố",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-19",
+      "name": "Điêu Thuyền",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-20",
+      "name": "Hoa Đà",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-21",
+      "name": "Tư Mã Ý",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "hero02-22",
+      "name": "Tả Từ",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "currentGradeStats": null,
+      "guideSnapshot": null,
+      "skillFormulas": null,
+      "sourceIds": [
+        "W02"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "currentGradeStats": "UNKNOWN",
+        "guideSnapshot": "UNKNOWN",
+        "skillFormulas": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    }
+  ]
+}
