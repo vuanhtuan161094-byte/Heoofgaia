@@ -1,50 +1,63 @@
-# Mưu Định Tam Quốc — Chat 01 / Heroes V2 handoff (2026-11-18)
+# CHAT 01 — Võ Tướng Wiki V2 | Handoff cập nhật 19/11/2026
 
-## Authority, boundary, source
-- Repo: `vuanhtuan161094-byte/Heoofgaia`
-- Source branch: `feature/nl-codex-cloud-v1-finish`; verified fork point `a88b8449714ad48531f7c9e7e081ccac43edee92`.
-- Specialist branch: `feature/nl-v2-heroes` (not merged).
-- Official source for this batch: https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong, checked 2026-11-18. **Mobile current edition**, **classic parity UNKNOWN**.
-- User authority: no Codex Cloud. No edits to index.html, alpha_content.json, generator, Save, .github CI, or other specialist modules. No art production.
-- AGENTS.md / REV_PROTOCOL.md / NL_DATA_DRIVEN_V2.md / current content contract read before changing data.
+## Nhánh / quyền hạn
+- Repository: `vuanhtuan161094-byte/Heoofgaia`.
+- Nhánh nguồn `feature/nl-codex-cloud-v1-finish`, SHA nguồn đã xác minh `a88b8449714ad48531f7c9e7e081ccac43edee92`.
+- Nhánh chuyên trách: `feature/nl-v2-heroes`, giữ độc lập, chưa merge.
+- Không Codex Cloud. Không sửa `index.html`, `alpha_content.json`, generator, Save, CI, hay module nhóm khác.
+- Chỉ sử dụng dữ liệu công khai được kiểm chứng, phân biệt Ngọa Long Mobile và web cổ điển (classic parity `UNKNOWN`).
+- Đọc AGENTS, REV, `NL_DATA_DRIVEN_V2.md` và content contract trước khi sửa.
 
-## Delivered
-1. `data/ngoalong/modules/heroes/wiki_catalogue_v1.json` — 364 index records with stable Wiki-list ordinal IDs, exact name, faction, listed grade, source URL, field provenance, REFERENCE_ONLY status, and unresolved-name audit. Counts: Ngụy 40, Thục 38, Ngô 39, Quần 174, Trung lập 73. Distinct normalized names 363; the exact-name collision is **Trương Hoành** (Ngô `wiki-mobile-hero-104`; Trung lập `wiki-mobile-hero-351`). Keep both; do not auto-deduplicate.
-2. `data/ngoalong/modules/heroes/hero_development_contract_v1.json` — model for identity/variants, stats/level/EXP/training/awakening/evolution, source rules, readiness, and legacy authority.
-3. `data/ngoalong/modules/heroes/detail_patches_v1.json` — empty, edition- and field-version-gated detail input for large future batches. No fabricated details.
-4. `data/ngoalong/modules/heroes/skills_handoff_v1.json` — 364 Chat 05 skill bundles; source-backed identity, but **skill mechanics remain UNKNOWN**, null descriptors. No runtime import.
-5. `tools/nl_hero_catalogue.js` — CommonJS bulk loader, source/duplicate validation, materialization of UNKNOWN fields, evidence-only patch overlay, project-roster cross-check and skill-descriptor export. Pure data-only: it never creates a second battle engine.
-6. `qa/nl_hero_catalogue.test.cjs` — 18 focused tests including five negative/patch checks.
+## Đã code theo nguồn VNG
+1. **Danh mục:** `wiki_catalogue_v1.json` chứa 364 ID và 364 tên/phe/phẩm hiển thị; 363 tên độc lập sau chuẩn hóa, 1 cặp trùng tên Trương Hoành (Ngô/Trung lập) vẫn chưa hợp nhất. 50 hồ sơ nghiên cứu cũ đều khớp. 14 tướng dự án vẫn tồn tại độc lập, SIMULATED, không sửa.
+2. **Kỹ năng chi tiết có phiên bản:** Tổng **55 descriptor** chứa 51 bản kỹ năng liên quan 44 tướng từ danh mục 364, cùng 4 bản riêng cho tên có trong công bố chính thức nhưng chưa map an toàn sang Wiki index (`Lưu Bị`, `Tào Tháo`, `Tôn Quyền`, `Công Tôn Toản`). Những trường đã có căn cứ: damage coefficient, lane/target, hits, morale, status, duration, probability, PvE/PvP differences và bonus theo trạng thái. Giá trị không có công thức vẫn null/UNKNOWN.
+3. **Bốn đợt công bố nguồn:**
+   - 02/01/2024 — tướng Cam: 24 khả năng (21 thuộc 364).
+     https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html
+   - 12/12/2025 — tướng Vàng: 13 khả năng.
+     https://ngoalong.vnggames.com/su-kien-2022/pbm-thien-uy-than-hoang/he-thong-tuong-vang-15067.html
+   - 07/06/2026 — tướng Vàng: 8 khả năng.
+     https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html
+   - 17/08/2026 — tướng Vàng: 10 khả năng (9 thuộc 364, 1 tên khác).
+     https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html
+4. **Phát triển tướng:** `wiki_progression_rules_v1.json` và `tools/nl_hero_progression.js` thực thi điều kiện mở **hệ thống** giác ngộ Cam ở thành chính 300, Vàng ở 380, Mệnh Cách ở 400. Hệ thống đã mở ≠ từng tướng đã giác ngộ. Chi phí và EXP/huấn luyện chưa xác minh để UNKNOWN; tuyệt đối không sao chép curve SIMULATED của 14 tướng vào Wiki.
+5. **Điều kiện chiêu mộ:** `detail_patches_v1.json` lưu chứng cứ riêng cho Trương Trọng Cảnh (đánh Boss → tửu quán, tỉ lệ UNKNOWN) và Tư Mã Viêm (đổi 200.000 điểm Đấu Trường ở cấp 240).
+6. **Module:** `tools/nl_hero_catalogue.js` nạp + thẩm định toàn bộ tập tin, kết hợp theo `heroId` và stage, giữ nguồn từng skill; `--export-skills` cập nhật snapshot `skills_handoff_v1.json` cho Chat 05/08. Không viết combat engine thứ hai; `executable:false` trên mọi skill Wiki hiện tại.
 
-## Coverage and release decisions
-| Domain | Verified index data | Missing |
-| --- | --- | --- |
-| Index identities | 364/364 | Detailed hero-page identity IDs, special variant links |
-| Name, faction, listed grade | 364/364 | Current post-upgrade grade per character |
-| Existing 50 reference profiles | 50/50 matched by name/faction/grade | 50 missing source combat details |
-| Role, troops, stats, acquisition | 0/364 complete | Per-hero versioned details |
-| Normal/active/passive skills | 0/364 complete | Skill definitions, levels, targets, duration, probability, exact edition |
-| Training/EXP/awaken/evolution | UNKNOWN for Wiki roster | Source-supported progression formula and edges |
-| DESIGN_READY — new Wiki roster | **0/364** | Role + exact source-backed skill facts |
-| PLAYABLE — new Wiki roster | **0/364** | Original project stats/formulas, runtime mapping, focused battle QA |
-| Existing project roster | **14/14** unchanged, SIMULATED | Not eligible to claim Wiki parity |
+## Phân biệt tình trạng
+| Nội dung | Kết quả |
+| --- | --- |
+| Wiki index entries | **364/364** |
+| Verified stage-ability records | **55** |
+| Indexed generals with at least one detailed stage ability | **44/364** |
+| Sourced acquisition rules | **2** |
+| New DESIGN_READY | **0/364** (chưa đủ role + canonical equipped skill + complete version evidence) |
+| New PLAYABLE in runtime | **0/364** (Chat 05/08 chưa tích hợp engine/Save) |
+| Existing runtime generals | **14**, project-original SIMULATED, giữ nguyên |
+| Unresolved current primary stats / EXP / tier cost | **UNKNOWN** |
 
-**Important:** 364 is the number of list entries (and our independently numbered records), **not** proof of 364 distinct historical individuals, complete hero skill sheets, or 364 playable characters. One exact-name collision is confirmed. `Thái Văn Cơ` / `Thái Diễm` and `Tuân Úc` / `Tuân Vực` are *possible* naming aliases only; no automatic link authorized.
+**Không được báo 55 kỹ năng là 55 tướng playable, cũng không được báo cả 364 đã hoàn tất code chiến đấu.**
+Dữ liệu kỹ năng có cấu trúc thực, nhưng chưa phải một trận chiến hoạt động.
 
-Project runtime has 14 independent SIMULATED heroes; 10 names overlap the Mobile Wiki index. The remaining four runtime names are Lưu Bị, Tào Tháo, Tôn Quyền, Tuân Úc. Do not transplant project stats/skills to Wiki hero IDs merely because names match, nor silently replace `Tuân Úc` with `Tuân Vực`.
+## Vấn đề nhận diện / version
+- `Trương Hoành` có 2 ID danh mục, cần kiểm chứng cùng nhân vật hay khác biến thể.
+- Bản cập nhật 17/08/2026 gọi `Công Tôn Toản`, danh mục ghi `Công Tôn Toán`: không tự hợp nhất. Record nguồn tạm chưa gán `heroId`.
+- `Lưu Bị`, `Tào Tháo`, `Tôn Quyền` xuất hiện trong thông báo kỹ năng 2024 nhưng không nằm trong danh mục 364; giữ riêng, không tự map.
+- `Viên Thiệu` có kỹ năng Vàng ở thông báo 12/12/2025 và 07/06/2026: giữ cả hai theo phiên bản, `abilityForStage` từ chối tự chọn khi chưa chỉ định phiên bản.
+- Các tướng sưu tầm hoặc tướng Cam có tiền tố danh hiệu phải được kiểm tra identity riêng, không dùng tên trùng làm bằng chứng.
+- Những thông báo theo thời gian chưa đủ khẳng định đã thu thập toàn bộ bản vá mới nhất; cần đối chiếu trước khi Chat 08 áp vào bản phát hành.
 
-## QA evidence
-- **18/18 focused JS checks PASS**, evaluating the committed module and committed QA source in a V8 isolate with a read-only filesystem shim containing fetched exact GitHub file contents. This verifies logic and schema but **is not a local Node runtime, Chromium, GitHub Actions, Save/replay, or release claim**.
-- Reproduction from repo with Node: `node qa/nl_hero_catalogue.test.cjs`; summary: `node tools/nl_hero_catalogue.js --check`; skill snapshot regeneration: `node tools/nl_hero_catalogue.js --export-skills`. These are suggestions for Chat 08, not claims that native Node runs were performed.
-- New Wiki roster intentionally remains REFERENCE_ONLY; Save key/schema and index.html untouched.
+## Kiểm thử tập trung
+- `qa/nl_hero_catalogue.test.cjs`: **26/26 PASS**.
+- `qa/nl_hero_development.test.cjs`: **12/12 PASS**.
+- Kết quả đến từ việc thực thi JS source code đã commit bằng V8 isolate với môi trường file đọc từ GitHub, không phải Node host hoặc GitHub Actions, và không phải Chromium/Save/replay/full CI. **38/38 focused V8 PASS**.
+- Chạy native Node cho nhóm 08: `node qa/nl_hero_catalogue.test.cjs` và `node qa/nl_hero_development.test.cjs`.
+- Để tái sinh skill handoff: `node tools/nl_hero_catalogue.js --export-skills`. Dữ liệu nguồn không bị mutate ngoài phạm vi Chat 01.
 
-## Interface for other chats
-- Chat 05: read `skills_handoff_v1.json`; fill distinct NORMAL/ACTIVE/PASSIVE descriptors only after verifying **hero + version + skill type + targets/effects** from dated source pages. Own combat events/resolvers and compatibility with existing statuses; do not patch this chat's engine scope.
-- Chat 02: resolve `troopIds` by explicit cross-references only; do not infer troop types from general history or grade.
-- Chat 08: load `tools/nl_hero_catalogue.js` export `loadCatalogue()`; consult `profiles`, `readiness`, `skillDescriptors`. Integrate only source-confirmed DESIGN_READY records with your own project rules and approved combat/save mappings. No auto-integration; test/approval remain Chat 08 authority.
-- Chat 00: treat INDEX_COMPLETE and MODULE_CODE_READY as completed work in this branch, **not** full HERO_WIKI_DETAIL_COMPLETE or 364 PLAYABLE.
+## Handoff cụ thể
+- **Chat 05:** đọc `skills_handoff_v1.json` và các pack bậc Cam/Vàng; dùng `stageSkills[].events` để thiết kế combat event mapping, kiểm tra 6 trạng thái legacy và status của Chat 05, chống giả công thức `N/X`, thời lượng/stack/dispels/PvP, kiểm thử replay/determinism. Không tự nhận `executable:false` là skill chạy được.
+- **Chat 08:** dùng `loadCatalogue()`, `abilityForStage()`, `mainCityUnlocks()`; kiểm tra current version / skill equipped / awakening permissions rồi tự tích hợp vào runtime, Save, UI và QA sau khi được giao quyền. No auto-promotion from name or source stage.
+- **Chat 00:** ghi `INDEX_COMPLETE`, `WIKI_STAGE_SKILL_PARTIAL`, `MODULE_CODE_READY`; **không** ghi `HERO_ALL_PLAYABLE`.
 
-## Next large-batch ingestion
-1. For each detailed hero record source, append to `detail_patches_v1.json` keyed by `heroId`, every fact separately `{value, classification:"VERIFIED", sourceUrl, checkedAt, edition:"VNG_WIKI_MOBILE_CURRENT"}`. A generic index page is insufficient evidence for role/skill/stats.
-2. Validate conflicts, genuine base/variant relationships, source-edition changes, and proper duplicate-name handling. Preserve UNKNOWN, do not infer formulas or apply Quý Tử mechanics to generals.
-3. Only mark DESIGN_READY when both role and source-backed skill facts are present. PLAYABLE requires Chat 05/08 runtime bindings and focused evidence (including Save/replay); owner approval remains separate.
+## Next action
+Đối chiếu thêm các trang chi tiết Wiki thực tế và bản vá mới, chia batch lớn theo phe/đẳng cấp; thu thập chỉ số, quân, passive, acquisition; hợp nhất conflict theo version có chứng cứ. Chỉ khi đạt readiness mới chuyển Chat 05/08. Không yêu cầu mỹ thuật.
