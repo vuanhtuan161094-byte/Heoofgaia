@@ -4,6 +4,7 @@ const fs=require("node:fs");
 const Engine=require("../../../tools/nl_combat_effects_v1.js");
 const R=require("../../../data/ngoalong/modules/combat/resolver_v2.js");
 const F=require("../../../data/ngoalong/modules/combat/formation_adapter_v2.js");
+const Project=require("../../../data/ngoalong/modules/combat/project_skill_adapter_v2.js");
 const alpha=JSON.parse(fs.readFileSync("data/ngoalong/alpha_content.json","utf8"));
 const original=JSON.parse(fs.readFileSync("data/ngoalong/modules/combat/effects_v1.json","utf8"));
 const skillData=JSON.parse(fs.readFileSync("data/ngoalong/modules/combat/skill_schema_v2.json","utf8"));
@@ -235,6 +236,66 @@ check("mixed enemy attack and ally-lowest-hp heal never targets enemy by mistake
   assert.ok(r.state.units.find(x=>x.id==="p2").hp>100);
   assert.ok(r.state.units.find(x=>x.id==="e1").hp<500);
   assert.ok(r.events.some(x=>x.type==="heal"&&x.targetId==="p2"));
+});
+
+
+check("all 14 playable project heroes have source skill descriptors",()=>{
+  const converted=Project.compile(alpha);
+  assert.equal(Object.keys(converted.heroSkillIds).length,14);
+  assert.deepEqual(Object.keys(converted.heroSkillIds).sort(),
+    alpha.heroes.projectRoster.map(h=>h.id).sort());
+});
+check("project enemy and override adapters cover 5+1 descriptors",()=>{
+  const c=Project.compile(alpha);
+  assert.equal(Object.keys(c.enemySkillIds).length,5);
+  assert.equal(Object.keys(c.overrideSkillIds).length,1);
+  assert.equal(c.skills.length,20);
+});
+check("all 20 project descriptors validate against original Effects V1",()=>{
+  const adapted=Project.compile(alpha);
+  assert.equal(R.checkCatalog({...cat,skills:[...cat.skills,...adapted.skills]}),true);
+});
+check("Liu Bei heals two injured allies and retains legacy ward adapter",()=>{
+  const adapted=Project.compile(alpha),merged={...cat,skills:[...cat.skills,...adapted.skills]};
+  const us=[unit("liu","p",3,"support",{hp:420,skillIds:[adapted.heroSkillIds.liu]}),
+    unit("ally","p",1,"infantry",{hp:50}),unit("e1","e",1,"spear")];
+  const s=R.createBattle(merged,us);
+  const r=R.resolveAction(s,merged,{actorId:"liu",skillId:adapted.heroSkillIds.liu});
+  assert.ok(r.state.units.find(u=>u.id==="ally").hp>50);
+  assert.ok(r.events.some(x=>x.type==="legacy-status-command"&&x.effectId==="ward"));
+});
+check("Zhao Yun original descriptor generates two separate tactic strikes",()=>{
+  const adapted=Project.compile(alpha),merged={...cat,skills:[...cat.skills,...adapted.skills]};
+  const s=R.createBattle(merged,[unit("zhao","p",3,"cavalry",{skillIds:[adapted.heroSkillIds.zhao]}),
+    unit("e1","e",1,"infantry")]);
+  const r=R.resolveAction(s,merged,{actorId:"zhao",skillId:adapted.heroSkillIds.zhao});
+  assert.equal(r.events.filter(x=>x.type==="lane-hit").length,2);
+  assert.deepEqual(r.events.filter(x=>x.type==="lane-hit").map(x=>x.strike),[1,2]);
+  assert.deepEqual(R.replay(s,merged,[r.frame]),r.state);
+});
+check("Zhuge Liang daze chance requires recorded external roll",()=>{
+  const adapted=Project.compile(alpha),merged={...cat,skills:[...cat.skills,...adapted.skills]};
+  const s=R.createBattle(merged,[unit("zhuge","p",3,"strategist",{skillIds:[adapted.heroSkillIds.zhuge]}),
+    unit("e1","e",1,"infantry")]);
+  assert.throws(()=>R.resolveAction(s,merged,{actorId:"zhuge",skillId:adapted.heroSkillIds.zhuge}),/recorded roll/);
+  const r=R.resolveAction(s,merged,{actorId:"zhuge",skillId:adapted.heroSkillIds.zhuge,
+    rolls:{"1:e1":.12}});
+  assert.ok(r.events.some(x=>x.type==="legacy-status-command"&&x.effectId==="daze"));
+  assert.equal(r.state.units[1].legacyEffects.length,0);
+});
+check("project Sima morale-seal override emits legacy command and drain",()=>{
+  const adapted=Project.compile(alpha),merged={...cat,skills:[...cat.skills,...adapted.skills]};
+  const skill=adapted.overrideSkillIds["campaign-sima-seal"];
+  const s=R.createBattle(merged,[unit("sima","p",3,"strategist",{skillIds:[skill]}),
+    unit("e1","e",1,"infantry")]);
+  const r=R.resolveAction(s,merged,{actorId:"sima",skillId:skill});
+  assert.ok(r.events.some(x=>x.type==="legacy-status-command"&&x.effectId==="morale-seal"));
+  assert.equal(r.state.units[1].morale,65);
+});
+check("project hero coefficients and tags remain SIMULATED",()=>{
+  const adapted=Project.compile(alpha);
+  assert.ok(adapted.skills.every(s=>s.provenance.classification==="SIMULATED"&&
+    s.adaptation==="SIMULATED_NOT_LEGACY_PARITY"&&s.descriptorSource));
 });
 
 console.log("RESULT "+passed+"/"+passed+" PASS");
