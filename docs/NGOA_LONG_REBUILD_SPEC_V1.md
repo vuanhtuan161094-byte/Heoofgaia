@@ -1,5 +1,6 @@
 # MƯU ĐỊNH TAM QUỐC — NGỌA LONG FIRST / REBUILD V1
 **Chỉ đạo chủ dự án ngày 17/11/2026: “Làm lại game đi. Tôi muốn game Ngọa Long cơ.”**
+> **Implementation addendum (17/11/2026):** Owner's Wiki-driven V2 adds the data/provenance pipeline and P0–P5 delivery order without changing the independent Ngọa Long gameplay contract below. See [NL_DATA_DRIVEN_V2.md](NL_DATA_DRIVEN_V2.md) for the active schema, migration status, and evidence gates. Wiki coverage stays partial; Mobile-to-classic parity stays UNKNOWN.
 Đây là **quyết định gameplay mới nhất**, thay thế mọi định hướng trước đó lấy Chiến Loạn hoặc hybrid làm trọng tâm. Không tự làm hai game. Tên sản phẩm gốc độc lập vẫn là **Mưu Định Tam Quốc**, không mạo danh game chính thức của VNG.
 
 ## 1. Sản phẩm và vòng chơi chủ đạo

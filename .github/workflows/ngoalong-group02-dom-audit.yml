@@ -1,0 +1,41 @@
+name: Group02 targeted NPC DOM and pagination audit
+on:
+  push:
+    branches: ['codex/nl-wiki-01-r02-20261117']
+    paths: ['.github/workflows/ngoalong-group02-dom-audit.yml']
+permissions: {contents: read}
+jobs:
+  inspect:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          python -m pip install playwright==1.58.0
+          python -m playwright install --with-deps chromium
+      - name: Inspect non-proprietary page and unit selectors
+        run: |
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          import json
+          with sync_playwright() as p:
+            b=p.chromium.launch(headless=True,args=['--no-sandbox'])
+            q=b.new_page(viewport={'width':1280,'height':720})
+            for u in ('?map=1&ai=82&side=vn','?map=2','?map=3','?map=11'):
+              q.goto('https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet'+u,wait_until='domcontentloaded',timeout=60000)
+              q.wait_for_timeout(1700)
+              d=q.evaluate("""() => ({
+                url:location.href,
+                h:[...document.querySelectorAll('h1,h2,h3')].map(x=>x.innerText.slice(0,80)),
+                a:[...document.querySelectorAll('a[data-nlw-camp-ai]')].slice(0,4).map(x=>({text:x.innerText.slice(0,120),html:x.outerHTML.slice(0,280)})),
+                n:document.querySelectorAll('a[data-nlw-camp-ai]').length,
+                buttons:[...document.querySelectorAll('button,[role="button"]')].slice(0,30).map(x=>({text:x.innerText.slice(0,55),title:x.title,aria:x.getAttribute('aria-label'),html:x.outerHTML.slice(0,360)})),
+                main:document.body.innerText.slice(0,900),
+                interactive:[...document.querySelectorAll('[class*="cursor-pointer"],[data-nlw]')].slice(0,25).map(x=>({tag:x.tagName,class:String(x.className).slice(0,120),html:x.outerHTML.slice(0,330)}))
+              })""")
+              print('INSPECT',u,json.dumps(d,ensure_ascii=False))
+            b.close()
+          PY

@@ -1,0 +1,281 @@
+{
+  "assetId": "nl-r05-border-scout-stationary",
+  "date": "2026-11-18",
+  "status": "DERIVED",
+  "visualApproval": "PENDING",
+  "sourceEdition": "original project R04",
+  "provenance": "Frame-by-frame *raster compositing* of two existing original project PNGs. No new hand-drawn character poses, no rig, no mirror-based directions. Separate procedural original spear light FX.",
+  "sourceFiles": [
+    {
+      "path": "assets/r04/r04-original-bulwark-scout-v1-master.png",
+      "gitBlobSha": "a815da1459683027d0075dc0913819ae2dbcc594",
+      "width": 512,
+      "height": 640
+    },
+    {
+      "path": "assets/r04/r04-original-bulwark-scout-attack-contact-v1.png",
+      "gitBlobSha": "3a8149d01254ce7679aa45993c98ba23baa86385",
+      "width": 768,
+      "height": 640
+    }
+  ],
+  "frame": {
+    "width": 160,
+    "height": 168,
+    "columns": 4,
+    "rows": 5,
+    "groundPivot": [
+      80,
+      158
+    ],
+    "sourceFootY": 595,
+    "sourceScale": 0.2
+  },
+  "actions": [
+    "idle",
+    "attack",
+    "hit",
+    "skill",
+    "disappear"
+  ],
+  "framesPerAction": 4,
+  "totalFrames": 20,
+  "atlas": "scout-r05-stationary-atlas.png",
+  "fxAtlas": "scout-r05-spear-fx.png",
+  "vfxTiming": [
+    "charge",
+    "release",
+    "contact",
+    "fade"
+  ],
+  "usage": "independent art preview only, not integrated into combat or Save",
+  "noWalkRun": true,
+  "noRig": true,
+  "animationMethod": "2D compositing using translated unchanged project-owned registered masters; Attack uses registered true contact pose",
+  "frameBounds": [
+    {
+      "action": "idle",
+      "frame": 0,
+      "bounds": [
+        56,
+        53,
+        107,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "idle",
+      "frame": 1,
+      "bounds": [
+        56,
+        52,
+        107,
+        157
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "idle",
+      "frame": 2,
+      "bounds": [
+        56,
+        53,
+        107,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "idle",
+      "frame": 3,
+      "bounds": [
+        56,
+        54,
+        107,
+        159
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "attack",
+      "frame": 0,
+      "bounds": [
+        53,
+        53,
+        104,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "attack",
+      "frame": 1,
+      "bounds": [
+        23,
+        66,
+        145,
+        157
+      ],
+      "pixels": 3759
+    },
+    {
+      "action": "attack",
+      "frame": 2,
+      "bounds": [
+        25,
+        66,
+        147,
+        157
+      ],
+      "pixels": 3759
+    },
+    {
+      "action": "attack",
+      "frame": 3,
+      "bounds": [
+        58,
+        53,
+        109,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "hit",
+      "frame": 0,
+      "bounds": [
+        56,
+        53,
+        107,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "hit",
+      "frame": 1,
+      "bounds": [
+        51,
+        53,
+        102,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "hit",
+      "frame": 2,
+      "bounds": [
+        54,
+        53,
+        105,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "hit",
+      "frame": 3,
+      "bounds": [
+        56,
+        53,
+        107,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "skill",
+      "frame": 0,
+      "bounds": [
+        56,
+        52,
+        107,
+        157
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "skill",
+      "frame": 1,
+      "bounds": [
+        24,
+        66,
+        146,
+        157
+      ],
+      "pixels": 3759
+    },
+    {
+      "action": "skill",
+      "frame": 2,
+      "bounds": [
+        26,
+        66,
+        148,
+        157
+      ],
+      "pixels": 3759
+    },
+    {
+      "action": "skill",
+      "frame": 3,
+      "bounds": [
+        56,
+        53,
+        107,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "disappear",
+      "frame": 0,
+      "bounds": [
+        56,
+        53,
+        107,
+        158
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "disappear",
+      "frame": 1,
+      "bounds": [
+        56,
+        57,
+        107,
+        162
+      ],
+      "pixels": 3208
+    },
+    {
+      "action": "disappear",
+      "frame": 2,
+      "bounds": [
+        56,
+        62,
+        107,
+        167
+      ],
+      "pixels": 3158
+    },
+    {
+      "action": "disappear",
+      "frame": 3,
+      "bounds": [
+        56,
+        69,
+        107,
+        168
+      ],
+      "pixels": 2979
+    }
+  ],
+  "sourceHead": "3971707df998ef5135c61ae94cb7d7070db67645",
+  "assetPixels": 66085,
+  "atlasBytes": 2151468,
+  "fxBytes": 430346
+}

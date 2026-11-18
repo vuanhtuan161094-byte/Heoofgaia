@@ -1,0 +1,372 @@
+{
+  "schemaVersion": 2,
+  "group": "02_WIKI_SYSTEMS",
+  "edition": "CURRENT_MOBILE",
+  "checkedAt": "2026-11-18",
+  "classicParity": "UNKNOWN",
+  "runtimeAuthority": false,
+  "npcDetails": [
+    {
+      "id": "m1-ai77",
+      "mapQueryId": 1,
+      "aiQueryId": 77,
+      "npcName": "Cao Thăng",
+      "encounterType": "BOSS",
+      "level": 1,
+      "totalSoldiers": 200,
+      "attackCoefficientDisplay": 1,
+      "attackCoefficientMeaning": null,
+      "battleOrder": null,
+      "firstMover": "PLAYER",
+      "selectedUnit": {
+        "name": "Cao Thăng",
+        "slot": 5,
+        "level": 1,
+        "soldiers": 200,
+        "troopGroup": "Bộ Binh",
+        "troopName": "Bộ",
+        "skillName": "Thiết Bích"
+      },
+      "selectedDrop": {
+        "name": "Thiết Kiếm",
+        "percent": 100
+      },
+      "fullEnemyTeam": null,
+      "provenanceSourceId": "EA-1-77",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "encounterType": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "VERIFIED",
+        "attackCoefficientDisplay": "VERIFIED",
+        "attackCoefficientMeaning": "UNKNOWN",
+        "battleOrder": "UNKNOWN",
+        "firstMover": "VERIFIED",
+        "selectedUnit": "VERIFIED",
+        "selectedDrop": "VERIFIED",
+        "fullEnemyTeam": "UNKNOWN",
+        "formationUnitNamesVisible": "VERIFIED",
+        "selectedUnitCombatFact": "VERIFIED"
+      },
+      "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
+      "integration": "REFERENCE_ONLY",
+      "formationUnitNamesVisible": [
+        "Cao Thăng"
+      ],
+      "selectedUnitCombatFact": {
+        "skillName": "Thiết Bích",
+        "attackType": "tactic",
+        "targetScope": "one_enemy",
+        "skillAttackPercent": 35,
+        "appliedEffects": [
+          {
+            "name": "Thiết bích",
+            "target": "self",
+            "durationTurns": 1
+          }
+        ],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION"
+    },
+    {
+      "id": "m1-ai81",
+      "mapQueryId": 1,
+      "aiQueryId": 81,
+      "npcName": "Trương Yên",
+      "encounterType": "BOSS",
+      "level": 5,
+      "totalSoldiers": 200,
+      "attackCoefficientDisplay": 12,
+      "attackCoefficientMeaning": null,
+      "battleOrder": null,
+      "firstMover": "PLAYER",
+      "selectedUnit": {
+        "name": "Trương Yên",
+        "slot": 6,
+        "level": 1,
+        "soldiers": 200,
+        "troopGroup": "Kỵ Binh",
+        "troopName": "Kỵ",
+        "skillName": "Đạp Phá"
+      },
+      "selectedDrop": {
+        "name": "Thiết Kiếm",
+        "percent": 100
+      },
+      "fullEnemyTeam": null,
+      "provenanceSourceId": "EA-1-81",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "encounterType": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "VERIFIED",
+        "attackCoefficientDisplay": "VERIFIED",
+        "attackCoefficientMeaning": "UNKNOWN",
+        "battleOrder": "UNKNOWN",
+        "firstMover": "VERIFIED",
+        "selectedUnit": "VERIFIED",
+        "selectedDrop": "VERIFIED",
+        "fullEnemyTeam": "UNKNOWN",
+        "formationUnitNamesVisible": "VERIFIED",
+        "selectedUnitCombatFact": "VERIFIED"
+      },
+      "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
+      "integration": "REFERENCE_ONLY",
+      "formationUnitNamesVisible": [
+        "Trương Yên"
+      ],
+      "selectedUnitCombatFact": {
+        "skillName": "Đạp Phá",
+        "attackType": "tactic",
+        "targetScope": "enemy_column",
+        "skillAttackPercent": 132,
+        "appliedEffects": [],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION"
+    },
+    {
+      "id": "m1-ai82",
+      "mapQueryId": 1,
+      "aiQueryId": 82,
+      "npcName": "Ba Tài",
+      "encounterType": "BOSS",
+      "level": 6,
+      "totalSoldiers": 420,
+      "attackCoefficientDisplay": 15,
+      "attackCoefficientMeaning": null,
+      "battleOrder": null,
+      "firstMover": "PLAYER",
+      "selectedUnit": {
+        "name": "Hoành Tảo Doanh",
+        "slot": 3,
+        "level": 1,
+        "soldiers": 220,
+        "troopGroup": "Thương Binh",
+        "troopName": "Thương",
+        "skillName": "Hoành Tảo"
+      },
+      "selectedDrop": null,
+      "fullEnemyTeam": null,
+      "provenanceSourceId": "EA-1-82",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "encounterType": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "VERIFIED",
+        "attackCoefficientDisplay": "VERIFIED",
+        "attackCoefficientMeaning": "UNKNOWN",
+        "battleOrder": "UNKNOWN",
+        "firstMover": "VERIFIED",
+        "selectedUnit": "VERIFIED",
+        "selectedDrop": "UNKNOWN",
+        "fullEnemyTeam": "UNKNOWN",
+        "formationUnitNamesVisible": "VERIFIED",
+        "selectedUnitCombatFact": "VERIFIED"
+      },
+      "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
+      "integration": "REFERENCE_ONLY",
+      "formationUnitNamesVisible": [
+        "Hoành Tảo Doanh",
+        "Ba Tài"
+      ],
+      "selectedUnitCombatFact": {
+        "skillName": "Hoành Tảo",
+        "attackType": "tactic",
+        "targetScope": "enemy_row",
+        "skillAttackPercent": 141,
+        "appliedEffects": [],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION"
+    },
+    {
+      "id": "m2-ai95",
+      "mapQueryId": 2,
+      "aiQueryId": 95,
+      "npcName": "Quản Hợi",
+      "encounterType": "BOSS",
+      "level": 6,
+      "totalSoldiers": 580,
+      "attackCoefficientDisplay": 18,
+      "attackCoefficientMeaning": null,
+      "battleOrder": null,
+      "firstMover": "PLAYER",
+      "selectedUnit": {
+        "name": "ThưKích Doanh",
+        "slot": 3,
+        "level": 2,
+        "soldiers": 200,
+        "troopGroup": "Cung Binh",
+        "troopName": "Cung",
+        "skillName": "Thư Kích"
+      },
+      "selectedDrop": null,
+      "fullEnemyTeam": null,
+      "provenanceSourceId": "EA-2-95",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "encounterType": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "VERIFIED",
+        "attackCoefficientDisplay": "VERIFIED",
+        "attackCoefficientMeaning": "UNKNOWN",
+        "battleOrder": "UNKNOWN",
+        "firstMover": "VERIFIED",
+        "selectedUnit": "VERIFIED",
+        "selectedDrop": "UNKNOWN",
+        "fullEnemyTeam": "UNKNOWN",
+        "formationUnitNamesVisible": "VERIFIED",
+        "selectedUnitCombatFact": "VERIFIED"
+      },
+      "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
+      "integration": "REFERENCE_ONLY",
+      "formationUnitNamesVisible": [
+        "ThưKích Doanh",
+        "Quản Hợi",
+        "Đột Tiến Doanh"
+      ],
+      "selectedUnitCombatFact": {
+        "skillName": "Thư Kích",
+        "attackType": "tactic",
+        "targetScope": "one_enemy",
+        "skillAttackPercent": 185,
+        "appliedEffects": [
+          {
+            "name": "Hội Tâm",
+            "target": "self",
+            "displayedPercent": 60,
+            "durationTurns": 2
+          }
+        ],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION"
+    },
+    {
+      "id": "m3-ai108",
+      "mapQueryId": 3,
+      "aiQueryId": 108,
+      "npcName": "Đột Kích 1",
+      "encounterType": "Thường",
+      "level": 20,
+      "totalSoldiers": null,
+      "attackCoefficientDisplay": 180,
+      "attackCoefficientMeaning": null,
+      "battleOrder": null,
+      "firstMover": "PLAYER",
+      "selectedUnit": {
+        "name": "Hoành Tảo Doanh",
+        "slot": 2,
+        "level": 20,
+        "soldiers": null,
+        "troopGroup": "Thương Binh",
+        "troopName": "Trùng Thương",
+        "skillName": "Hoành Tảo"
+      },
+      "selectedDrop": null,
+      "fullEnemyTeam": null,
+      "provenanceSourceId": "EA-3-108",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "encounterType": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "UNKNOWN",
+        "attackCoefficientDisplay": "VERIFIED",
+        "attackCoefficientMeaning": "UNKNOWN",
+        "battleOrder": "UNKNOWN",
+        "firstMover": "VERIFIED",
+        "selectedUnit": "VERIFIED",
+        "selectedDrop": "UNKNOWN",
+        "fullEnemyTeam": "UNKNOWN"
+      },
+      "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "m3-ai114",
+      "mapQueryId": 3,
+      "aiQueryId": 114,
+      "npcName": "Nhuệ Trung Quân 2",
+      "encounterType": "Thường",
+      "level": 22,
+      "totalSoldiers": null,
+      "attackCoefficientDisplay": 204,
+      "attackCoefficientMeaning": null,
+      "battleOrder": null,
+      "firstMover": "PLAYER",
+      "selectedUnit": {
+        "name": "Đột Kích Doanh",
+        "slot": 3,
+        "level": 22,
+        "soldiers": null,
+        "troopGroup": "Thương Binh",
+        "troopName": "Trùng Kích",
+        "skillName": "Đột Kích"
+      },
+      "selectedDrop": null,
+      "fullEnemyTeam": null,
+      "provenanceSourceId": "EA-3-114",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "encounterType": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "UNKNOWN",
+        "attackCoefficientDisplay": "VERIFIED",
+        "attackCoefficientMeaning": "UNKNOWN",
+        "battleOrder": "UNKNOWN",
+        "firstMover": "VERIFIED",
+        "selectedUnit": "VERIFIED",
+        "selectedDrop": "UNKNOWN",
+        "fullEnemyTeam": "UNKNOWN"
+      },
+      "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "id": "m4-ai135",
+      "mapQueryId": 4,
+      "aiQueryId": 135,
+      "npcName": "Tuần Tra Cấm Vệ 3",
+      "encounterType": "Thường",
+      "level": 31,
+      "totalSoldiers": null,
+      "attackCoefficientDisplay": 336,
+      "attackCoefficientMeaning": null,
+      "battleOrder": null,
+      "firstMover": "PLAYER",
+      "selectedUnit": {
+        "name": "Liên Kích Doanh",
+        "slot": 2,
+        "level": 31,
+        "soldiers": null,
+        "troopGroup": "Cung Binh",
+        "troopName": "Nỏ Binh",
+        "skillName": "Liên Kích"
+      },
+      "selectedDrop": null,
+      "fullEnemyTeam": null,
+      "provenanceSourceId": "EA-4-135",
+      "fieldStatus": {
+        "npcName": "VERIFIED",
+        "encounterType": "VERIFIED",
+        "level": "VERIFIED",
+        "totalSoldiers": "UNKNOWN",
+        "attackCoefficientDisplay": "VERIFIED",
+        "attackCoefficientMeaning": "UNKNOWN",
+        "battleOrder": "UNKNOWN",
+        "firstMover": "VERIFIED",
+        "selectedUnit": "VERIFIED",
+        "selectedDrop": "UNKNOWN",
+        "fullEnemyTeam": "UNKNOWN"
+      },
+      "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
+      "integration": "REFERENCE_ONLY"
+    }
+  ]
+}

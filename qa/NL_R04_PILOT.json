@@ -1,0 +1,89 @@
+{
+  "milestone": "NL-R04-TWO-POSE-SCOUT-DIRECTIONAL-PILOT",
+  "checks": [
+    {
+      "name": "scout registered master is 512x640 RGBA with transparent padding",
+      "pass": true
+    },
+    {
+      "name": "scout embedded browser payload matches the registered source PNG",
+      "pass": true
+    },
+    {
+      "name": "tactician registered master is 512x640 RGBA with transparent padding",
+      "pass": true
+    },
+    {
+      "name": "tactician embedded browser payload matches the registered source PNG",
+      "pass": true
+    },
+    {
+      "name": "scout attack-contact key pose is a registered 768x640 RGBA sprite with master-aligned foot pivot",
+      "pass": true
+    },
+    {
+      "name": "attack key pose raw and registered hashes match the provenance manifest",
+      "pass": true
+    },
+    {
+      "name": "attack-contact pose browser payload is byte-identical to its registered PNG",
+      "pass": true
+    },
+    {
+      "name": "manifest records a limited two-pose scout pilot and pinned registration provenance",
+      "pass": true
+    },
+    {
+      "name": "real stage-25 battle callout renders its exact scout portrait",
+      "pass": true
+    },
+    {
+      "name": "embedded scout browser payload is byte-identical to its registered PNG",
+      "pass": true
+    },
+    {
+      "name": "desktop portrait respects 56x70 display target",
+      "pass": true
+    },
+    {
+      "name": "Save v5 and campaign state remain unchanged by portrait rendering",
+      "pass": true
+    },
+    {
+      "name": "real stage-25 enemy infantry physical action switches the callout to the contact pose",
+      "pass": true
+    },
+    {
+      "name": "contact pose returns to the idle master after its actual event window",
+      "pass": true
+    },
+    {
+      "name": "real stage-26 battle callout swaps to the tactician portrait",
+      "pass": true
+    },
+    {
+      "name": "embedded tactician browser payload is byte-identical to its registered PNG",
+      "pass": true
+    },
+    {
+      "name": "pilot portraits are presentation-only and do not mutate battle power or unit roster",
+      "pass": true
+    },
+    {
+      "name": "390px Chromium renders the full-alpha portrait and callout without horizontal overflow",
+      "pass": true
+    },
+    {
+      "name": "390px real combat event displays the attack-contact sprite within the viewport",
+      "pass": true
+    },
+    {
+      "name": "R04 desktop/mobile scenes report no JavaScript exceptions",
+      "pass": true
+    }
+  ],
+  "errors": [],
+  "total": 20,
+  "passed": 20,
+  "failed": []
+}

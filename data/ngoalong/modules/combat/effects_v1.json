@@ -1,0 +1,251 @@
+{
+  "schemaVersion": 1,
+  "id": "mdtq-combat-effects-original-v1",
+  "model": "PURE_DETERMINISTIC_NO_HIDDEN_RNG",
+  "moraleCap": 100,
+  "sourcePolicy": {
+    "wikiEffectsFile": "data/ngoalong/references/effects_wiki_mobile_v1.json",
+    "wikiTroopBridgeFile": "data/ngoalong/references/troop_effect_bridge_wiki_v1.json",
+    "wikiStatus": "REFERENCE_ONLY_NEVER_ENABLE_AS_RUNTIME",
+    "classicParity": "UNKNOWN",
+    "wikiIdsNotUsedAsGameplayStatusIds": true,
+    "projectRulesClassification": "SIMULATED",
+    "invariant": "Do not overwrite runtime six preexisting statuses; group07 must explicitly review any mapping"
+  },
+  "sourceRegistry": [
+    {
+      "id": "project-original-gameplay-simulated",
+      "classification": "SIMULATED",
+      "url": null
+    }
+  ],
+  "engine": "tools/nl_combat_effects_v1.js",
+  "dataOnly": true,
+  "autoImport": false,
+  "effects": [
+    {
+      "id": "break",
+      "polarity": "harmful",
+      "dispelPolicy": "removable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "modifiers": {
+        "incomingDamageMultiplier": 1.22
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Physical vulnerability coefficient is original"
+      }
+    },
+    {
+      "id": "guard",
+      "polarity": "beneficial",
+      "dispelPolicy": "removable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "modifiers": {
+        "incomingDamageMultiplier": 0.85
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Defense multiplier is original"
+      }
+    },
+    {
+      "id": "daze",
+      "polarity": "harmful",
+      "dispelPolicy": "removable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 1,
+      "expirePhase": "owner-action",
+      "control": "skip-action",
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Deterministic skip if landed; chance must come from caller"
+      }
+    },
+    {
+      "id": "burn",
+      "polarity": "harmful",
+      "dispelPolicy": "removable",
+      "stacking": "add-stack",
+      "stackLimit": 3,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "burnFraction": 0.035,
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Original periodic damage 3.5% of max HP per stack per round"
+      }
+    },
+    {
+      "id": "morale-seal",
+      "polarity": "harmful",
+      "dispelPolicy": "removable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Morale gain suppression is original"
+      }
+    },
+    {
+      "id": "ward",
+      "polarity": "beneficial",
+      "dispelPolicy": "unremovable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 1,
+      "expirePhase": "round-end",
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Blocks harmful status application while active; original scope"
+      }
+    },
+    {
+      "id": "sleep",
+      "polarity": "harmful",
+      "dispelPolicy": "removable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 1,
+      "expirePhase": "owner-action",
+      "control": "skip-action",
+      "breakOnDamage": true,
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Wakes on a positive hit unless anchored; original V1 contract"
+      }
+    },
+    {
+      "id": "fear",
+      "polarity": "harmful",
+      "dispelPolicy": "removable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 1,
+      "expirePhase": "owner-action",
+      "control": "skip-action",
+      "breakOnDamage": true,
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Break-on-hit project interaction"
+      }
+    },
+    {
+      "id": "anchored",
+      "polarity": "neutral",
+      "dispelPolicy": "unremovable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Prevents damage-triggered wakeup for sleep and fear; original project ID"
+      }
+    },
+    {
+      "id": "ironwall",
+      "polarity": "beneficial",
+      "dispelPolicy": "removable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "shieldCharges": 1,
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Blocks one entire incoming damage event, then consumed"
+      }
+    },
+    {
+      "id": "focus",
+      "polarity": "beneficial",
+      "dispelPolicy": "removable",
+      "stacking": "add-stack",
+      "stackLimit": 3,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "modifiers": {
+        "outgoingDamageMultiplier": 1.08
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Each stack independently multiplies outgoing damage by 1.08; cap 3"
+      }
+    },
+    {
+      "id": "repel-blessing",
+      "polarity": "harmful",
+      "dispelPolicy": "removable",
+      "stacking": "refresh-longer",
+      "stackLimit": 1,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "While present blocks new beneficial effects, not those already present"
+      }
+    },
+    {
+      "id": "surge",
+      "polarity": "beneficial",
+      "dispelPolicy": "removable",
+      "stacking": "replace",
+      "stackLimit": 1,
+      "duration": 2,
+      "expirePhase": "round-end",
+      "modifiers": {
+        "outgoingDamageMultiplier": 1.2
+      },
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "project-original-gameplay-simulated",
+        "reason": "Replace, do not stack: original 20% outgoing modifier"
+      }
+    }
+  ],
+  "integrationContract": {
+    "functions": [
+      "validateCatalog",
+      "newBattle",
+      "applyStatus",
+      "dispel",
+      "damage",
+      "morale",
+      "startAction",
+      "endRound",
+      "modifiers",
+      "auditWikiSources"
+    ],
+    "authoritativeState": "Caller must own immutable battle state; no Save writes",
+    "eventClock": "Phase owner-action/round-end is caller-controlled; no synthetic extra turns",
+    "moralePolicy": "Clamp [0,100] project value, NOT a Wiki threshold",
+    "rngPolicy": "Status proc requires caller-provided chance and roll, no Math.random",
+    "dispelPolicy": "Only effect.dispelPolicy == removable can be removed by generic dispel",
+    "noRuntimeUntilGroup07": true,
+    "preExistingRuntimeStatusCompatibility": "IDs overlap for design; semantics differ; no unconditional substitution",
+    "ownerReview": "PENDING",
+    "humanPlaytest": "PENDING"
+  }
+}

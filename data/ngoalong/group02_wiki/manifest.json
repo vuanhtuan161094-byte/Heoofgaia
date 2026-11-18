@@ -1,0 +1,266 @@
+{
+  "schemaVersion": 1,
+  "group": "02_WIKI_SYSTEMS",
+  "edition": "MOBILE_WIKI_REFERENCE_ONLY",
+  "classicParity": "UNKNOWN",
+  "checkedAt": "2026-11-18",
+  "runtimeAuthority": false,
+  "counts": {
+    "heroes": 50,
+    "guideHeroSnapshots": 16,
+    "equipment": 29,
+    "maps": 4,
+    "npcs": 35,
+    "cnTech": 14,
+    "cityFeatures": 6,
+    "items": 4,
+    "mapDropRecords": 13,
+    "detailedNpcSnapshots": 7,
+    "earlyMaps": 10,
+    "earlyIndexNpcTotal": 207,
+    "earlyNpcDetailSamples": 7,
+    "earlyIndexDropEntries": 31,
+    "earlyFullyIndexedMaps": 1,
+    "earlyIndexedNpcRows": 5
+  },
+  "sourceRegistry": [
+    {
+      "id": "W01",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki",
+      "edition": "CURRENT_MOBILE",
+      "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W02",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "edition": "CURRENT_MOBILE",
+      "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W03",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham/trang-bi",
+      "edition": "CURRENT_MOBILE",
+      "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W04",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham",
+      "edition": "CURRENT_MOBILE",
+      "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W05",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "edition": "CURRENT_MOBILE",
+      "access": "PAGE_WITH_INTERACTIVE_NPC_LINKS_AND_PAGINATED_DETAIL_PAGES",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W31",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=31",
+      "edition": "CURRENT_MOBILE",
+      "access": "indexed_excerpt",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W34",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=34",
+      "edition": "CURRENT_MOBILE",
+      "access": "indexed_excerpt",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W63",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=63",
+      "edition": "CURRENT_MOBILE",
+      "access": "indexed_excerpt",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W269",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=269",
+      "edition": "CURRENT_MOBILE",
+      "access": "indexed_excerpt",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W06",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/cao-cap",
+      "edition": "CN_MOBILE_ONLY",
+      "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "G01",
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "edition": "PUBLISHER_GUIDE_SEP_2026",
+      "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "G02",
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/thang-cap-mo-he.html",
+      "edition": "PUBLISHER_GUIDE_APR_2026",
+      "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "G03",
+      "url": "https://ngoalong.vnggames.com/tin-tuc-2022/huong-dan/chi-tiet-ve-trang-bi-ngoa-long.html",
+      "edition": "PUBLISHER_GUIDE_VERSION_UNCERTAIN",
+      "access": "page",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W1-77",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=77&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "indexed_excerpt",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W1-82",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=82&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "indexed_excerpt",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-1-77",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=77&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-1-81",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=81&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-1-82",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=82&map=1&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-2-95",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=95&map=2&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-3-108",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=108&map=3&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-3-114",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=114&map=3&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "EA-4-135",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?ai=135&map=4&side=vn",
+      "edition": "CURRENT_MOBILE",
+      "access": "WEB_INDEXED_DETAIL_TEXT",
+      "checkedAt": "2026-11-18"
+    },
+    {
+      "id": "W-MAP1-INDEX-20261118",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1",
+      "edition": "CURRENT_MOBILE",
+      "access": "LIVE_CHROMIUM_DOM_AFTER_CLIENT_RENDER",
+      "checkedAt": "2026-11-18",
+      "evidence": "https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44254258302"
+    }
+  ],
+  "claimsNotImported": {
+    "heroIndexCount": 364,
+    "equipmentIndexCount": 392,
+    "itemIndexCount": 674,
+    "dungeonHomeCount": 249,
+    "dungeonIndexCount": 219
+  },
+  "coverage": "SELECTED_RECORDS_NOT_COMPLETE",
+  "dataStatus": "REFERENCE_ONLY",
+  "integrationRule": "Require individual provenance, rights review and version-specific mechanic before live conversion",
+  "earlyCampaignStatus": {
+    "scope": "TEN_EARLIEST_MAINLINE_DUNGEONS_IN_PUBLISHER_INDEX_ORDER",
+    "wikiIndexSource": "W05",
+    "knownDirectDetailMapIds": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "unverifiedDetailMapIds": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "allNpcNames": "UNKNOWN",
+    "allNpcFormationSlots": "UNKNOWN",
+    "allNpcSkillCatalog": "UNKNOWN",
+    "summaryCountsOnlyNotEquivalentToNpcRecords": true,
+    "edition": "CURRENT_MOBILE_NOT_2012_CLASSIC",
+    "note": "Wiki has detail pages for NPC and paginated rosters. Group02 currently has only 7 selected NPC detail samples from 4 early maps, due to incomplete retrieval; do NOT present missing import as missing source data.",
+    "completion": {
+      "mapIndexRowsVerified": 10,
+      "npcCountClaimedOnIndex": 207,
+      "individualNpcSamplePagesReviewed": 7,
+      "npcFullRosterCoverage": "UNKNOWN_INCOMPLETE",
+      "npcOrderForSamplePages": "UNKNOWN",
+      "runtimeIngestion": "BLOCKED_UNTIL_EVIDENCE_AND_DESIGN_REVIEW",
+      "relatedStoredHigherLevelMapNpcRows": 35,
+      "npcSourceCatalogueAvailability": "WIKI_HAS_DETAIL_PAGES; EXTRACTION_INCOMPLETE",
+      "map1NpcSummary": "VERIFIED_5_OF_5",
+      "all10NpcSummary": "PARTIAL"
+    }
+  },
+  "knownSourceLimitations": [
+    "Current wiki index has 10 early maps totaling 207 claimed NPCs, but direct NPC detail has only 7 selected sample records for four maps, not 207 NPC names.",
+    "Recruitment guide values are build-specific standalone snapshots and must never be joined as current high-tier hero grade combat stats.",
+    "Some current Wiki dungeon-index totals disagree with detail page totals. Keep source-specific values rather than overwriting."
+  ],
+  "wikiNavigation": {
+    "sourceId": "W05",
+    "page": "/ngoa-long-wiki/pho-ban",
+    "advertisedMaps": 219,
+    "cityLevelMilestones": 65,
+    "mapDetail": "/ngoa-long-wiki/pho-ban-chi-tiet?map=<wikiMapId>",
+    "npcDetail": "/ngoa-long-wiki/pho-ban-chi-tiet?ai=<wikiNpcId>&map=<wikiMapId>&side=vn",
+    "npcPagination": "NPC 1-10 / total and next/previous controls on multi-page maps",
+    "npcDataFields": [
+      "npc_order",
+      "npc_kind",
+      "npc_level",
+      "army_soldiers",
+      "merit",
+      "formation_3x3",
+      "troop_type",
+      "battle_skill",
+      "status_effects",
+      "loot",
+      "recommendations",
+      "battle_reports"
+    ],
+    "scope": "CURRENT_MOBILE",
+    "status": "VERIFIED"
+  }
+}

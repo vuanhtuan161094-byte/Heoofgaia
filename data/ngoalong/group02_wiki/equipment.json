@@ -1,0 +1,735 @@
+{
+  "schemaVersion": 1,
+  "group": "02_WIKI_SYSTEMS",
+  "edition": "MOBILE_WIKI_REFERENCE_ONLY",
+  "classicParity": "UNKNOWN",
+  "checkedAt": "2026-11-18",
+  "runtimeAuthority": false,
+  "equipment": [
+    {
+      "name": "Thiết Kiếm",
+      "displayedLevel": 1,
+      "slotCandidate": "Vũ Khí",
+      "group": "Thường",
+      "id": "equip02-1",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Ngân Kiếm",
+      "displayedLevel": 3,
+      "slotCandidate": "Vũ Khí",
+      "group": "Thường",
+      "id": "equip02-2",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Tinh Đao",
+      "displayedLevel": 5,
+      "slotCandidate": "Vũ Khí",
+      "group": "Thường",
+      "id": "equip02-3",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Nhật Cung",
+      "displayedLevel": 7,
+      "slotCandidate": "Vũ Khí",
+      "group": "Thường",
+      "id": "equip02-4",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Thủy Kiếm",
+      "displayedLevel": 10,
+      "slotCandidate": "Vũ Khí",
+      "group": "Thường",
+      "id": "equip02-5",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Bố Giáp",
+      "displayedLevel": 1,
+      "slotCandidate": "Giáp",
+      "group": "Thường",
+      "id": "equip02-6",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Bách Thú Y",
+      "displayedLevel": 3,
+      "slotCandidate": "Giáp",
+      "group": "Thường",
+      "id": "equip02-7",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Đồng Giáp",
+      "displayedLevel": 5,
+      "slotCandidate": "Giáp",
+      "group": "Thường",
+      "id": "equip02-8",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Xích Giáp",
+      "displayedLevel": 7,
+      "slotCandidate": "Giáp",
+      "group": "Thường",
+      "id": "equip02-9",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Tố Ngân Khải",
+      "displayedLevel": 10,
+      "slotCandidate": "Giáp",
+      "group": "Thường",
+      "id": "equip02-10",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Hoàng Phiêu",
+      "displayedLevel": 1,
+      "slotCandidate": "Ngựa",
+      "group": "Thường",
+      "id": "equip02-11",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Ô Truy",
+      "displayedLevel": 7,
+      "slotCandidate": "Ngựa",
+      "group": "Thường",
+      "id": "equip02-12",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Đại Uyển",
+      "displayedLevel": 12,
+      "slotCandidate": "Ngựa",
+      "group": "Thường",
+      "id": "equip02-13",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Kinh Thi",
+      "displayedLevel": 1,
+      "slotCandidate": "Binh Thư",
+      "group": "Thường",
+      "id": "equip02-14",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Tư Mã Pháp",
+      "displayedLevel": 7,
+      "slotCandidate": "Binh Thư",
+      "group": "Thường",
+      "id": "equip02-15",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Điển Luận",
+      "displayedLevel": 12,
+      "slotCandidate": "Binh Thư",
+      "group": "Thường",
+      "id": "equip02-16",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Choàng Gấm",
+      "displayedLevel": 1,
+      "slotCandidate": "Áo Choàng",
+      "group": "Thường",
+      "id": "equip02-17",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Choàng Lụa",
+      "displayedLevel": 7,
+      "slotCandidate": "Áo Choàng",
+      "group": "Thường",
+      "id": "equip02-18",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Giảo Thố",
+      "displayedLevel": 12,
+      "slotCandidate": "Áo Choàng",
+      "group": "Thường",
+      "id": "equip02-19",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Mộc Thuẫn",
+      "displayedLevel": 1,
+      "slotCandidate": "Thuẫn",
+      "group": "Thường",
+      "id": "equip02-20",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Đồng Thuẫn",
+      "displayedLevel": 7,
+      "slotCandidate": "Thuẫn",
+      "group": "Thường",
+      "id": "equip02-21",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Hương Nang",
+      "displayedLevel": 1,
+      "slotCandidate": "Bảo Vật",
+      "group": "Thường",
+      "id": "equip02-22",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Cùng Kỳ Trảm Khung Thương",
+      "displayedLevel": 350,
+      "slotCandidate": "Vũ Khí",
+      "group": "Cùng Kỳ",
+      "id": "equip02-23",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Cùng Kỳ Trấn Ngục Giáp",
+      "displayedLevel": 350,
+      "slotCandidate": "Giáp",
+      "group": "Cùng Kỳ",
+      "id": "equip02-24",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Cùng Kỳ Đạp Uyên Thú",
+      "displayedLevel": 350,
+      "slotCandidate": "Ngựa",
+      "group": "Cùng Kỳ",
+      "id": "equip02-25",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Cùng Kỳ Phệ Tà Giản",
+      "displayedLevel": 350,
+      "slotCandidate": "Binh Thư",
+      "group": "Cùng Kỳ",
+      "id": "equip02-26",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Cùng Kỳ Phần Thiên Bào",
+      "displayedLevel": 350,
+      "slotCandidate": "Áo Choàng",
+      "group": "Cùng Kỳ",
+      "id": "equip02-27",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Cùng Kỳ Băng Sơn Thuẫn",
+      "displayedLevel": 350,
+      "slotCandidate": "Thuẫn",
+      "group": "Cùng Kỳ",
+      "id": "equip02-28",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    },
+    {
+      "name": "Cùng Kỳ Thôn Thiên Ấn",
+      "displayedLevel": 350,
+      "slotCandidate": "Bảo Vật",
+      "group": "Cùng Kỳ",
+      "id": "equip02-29",
+      "wikiAttack": null,
+      "wikiDefense": null,
+      "upgradeRate": null,
+      "upgradeCost": null,
+      "sourceIds": [
+        "W03"
+      ],
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "group": "VERIFIED",
+        "slotCandidate": "DERIVED",
+        "wikiAttack": "UNKNOWN",
+        "wikiDefense": "UNKNOWN",
+        "upgradeRate": "UNKNOWN",
+        "upgradeCost": "UNKNOWN"
+      },
+      "integration": "REFERENCE_ONLY"
+    }
+  ]
+}

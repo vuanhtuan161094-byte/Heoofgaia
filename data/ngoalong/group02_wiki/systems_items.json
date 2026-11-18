@@ -1,0 +1,460 @@
+{
+  "schemaVersion": 1,
+  "group": "02_WIKI_SYSTEMS",
+  "edition": "MOBILE_WIKI_REFERENCE_ONLY",
+  "classicParity": "UNKNOWN",
+  "checkedAt": "2026-11-18",
+  "runtimeAuthority": false,
+  "advancedTech": [
+    {
+      "id": "cntech02-1",
+      "name": "Kinh Tương Phạt Thục",
+      "unlockLevel": 280,
+      "effectSemantic": "damageVsShu",
+      "maxBonus": 15,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-2",
+      "name": "Quan Độ Thôn Ngụy",
+      "unlockLevel": 280,
+      "effectSemantic": "damageVsWei",
+      "maxBonus": 15,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-3",
+      "name": "Giang Đông Phúc Ngô",
+      "unlockLevel": 280,
+      "effectSemantic": "damageVsWu",
+      "maxBonus": 15,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-4",
+      "name": "Thục Phong Nan Phạm",
+      "unlockLevel": 320,
+      "effectSemantic": "resistShu",
+      "maxBonus": 15,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-5",
+      "name": "Ngụy Nhuệ Bất Xâm",
+      "unlockLevel": 320,
+      "effectSemantic": "resistWei",
+      "maxBonus": 15,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-6",
+      "name": "Ngô Diệm Nan Nhiên",
+      "unlockLevel": 320,
+      "effectSemantic": "resistWu",
+      "maxBonus": 15,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-7",
+      "name": "Thiên Hựu Hùng Sư",
+      "unlockLevel": 360,
+      "effectSemantic": "protection",
+      "maxBonus": 9,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-8",
+      "name": "Hùng Binh Bách Vạn",
+      "unlockLevel": 360,
+      "effectSemantic": "troopLimit",
+      "maxBonus": 60000,
+      "bonusUnit": "troops",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-9",
+      "name": "Quần Hùng Tảo Diệt",
+      "unlockLevel": 380,
+      "effectSemantic": "damageVsNeutral",
+      "maxBonus": 9,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-10",
+      "name": "Phá Lỗ Vô Song",
+      "unlockLevel": 380,
+      "effectSemantic": "allAttack",
+      "maxBonus": 15,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-11",
+      "name": "Kim Thang Cố Lũy",
+      "unlockLevel": 380,
+      "effectSemantic": "allDefense",
+      "maxBonus": 15,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-12",
+      "name": "Quần Hùng Mạc Phạm",
+      "unlockLevel": 400,
+      "effectSemantic": "resistNeutral",
+      "maxBonus": 9,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-13",
+      "name": "Phá Quân Tồi Phong",
+      "unlockLevel": 400,
+      "effectSemantic": "finalDamage",
+      "maxBonus": 6,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    },
+    {
+      "id": "cntech02-14",
+      "name": "Kiên Bích Ngự Phong",
+      "unlockLevel": 400,
+      "effectSemantic": "finalDodge",
+      "maxBonus": 6,
+      "bonusUnit": "%",
+      "maxResearchLevel": 20,
+      "sourceId": "W06",
+      "edition": "CN_SERVER_ONLY",
+      "integration": "BLOCKED_PENDING_VERSION_PARITY",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "unlockLevel": "VERIFIED",
+        "effectSemantic": "DERIVED",
+        "maxBonus": "VERIFIED",
+        "bonusUnit": "VERIFIED",
+        "maxResearchLevel": "VERIFIED"
+      }
+    }
+  ],
+  "buildings": [
+    {
+      "id": "feature02-1",
+      "name": "Xưởng",
+      "playerLevelUnlock": 100,
+      "buildingUpgradeLevel": null,
+      "upgradeCost": null,
+      "production": null,
+      "sourceId": "G02",
+      "versionWarning": "Other publisher guides contain different unlock tables",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "playerLevelUnlock": "VERIFIED",
+        "buildingUpgradeLevel": "UNKNOWN",
+        "upgradeCost": "UNKNOWN",
+        "production": "UNKNOWN"
+      }
+    },
+    {
+      "id": "feature02-2",
+      "name": "Tiền Trang",
+      "playerLevelUnlock": 100,
+      "buildingUpgradeLevel": null,
+      "upgradeCost": null,
+      "production": null,
+      "sourceId": "G02",
+      "versionWarning": "Other publisher guides contain different unlock tables",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "playerLevelUnlock": "VERIFIED",
+        "buildingUpgradeLevel": "UNKNOWN",
+        "upgradeCost": "UNKNOWN",
+        "production": "UNKNOWN"
+      }
+    },
+    {
+      "id": "feature02-3",
+      "name": "Tháp Thí Luyện",
+      "playerLevelUnlock": 110,
+      "buildingUpgradeLevel": null,
+      "upgradeCost": null,
+      "production": null,
+      "sourceId": "G02",
+      "versionWarning": "Other publisher guides contain different unlock tables",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "playerLevelUnlock": "VERIFIED",
+        "buildingUpgradeLevel": "UNKNOWN",
+        "upgradeCost": "UNKNOWN",
+        "production": "UNKNOWN"
+      }
+    },
+    {
+      "id": "feature02-4",
+      "name": "Khắc Văn",
+      "playerLevelUnlock": 120,
+      "buildingUpgradeLevel": null,
+      "upgradeCost": null,
+      "production": null,
+      "sourceId": "G02",
+      "versionWarning": "Other publisher guides contain different unlock tables",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "playerLevelUnlock": "VERIFIED",
+        "buildingUpgradeLevel": "UNKNOWN",
+        "upgradeCost": "UNKNOWN",
+        "production": "UNKNOWN"
+      }
+    },
+    {
+      "id": "feature02-5",
+      "name": "Mã Trường",
+      "playerLevelUnlock": 130,
+      "buildingUpgradeLevel": null,
+      "upgradeCost": null,
+      "production": null,
+      "sourceId": "G02",
+      "versionWarning": "Other publisher guides contain different unlock tables",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "playerLevelUnlock": "VERIFIED",
+        "buildingUpgradeLevel": "UNKNOWN",
+        "upgradeCost": "UNKNOWN",
+        "production": "UNKNOWN"
+      }
+    },
+    {
+      "id": "feature02-6",
+      "name": "Võ Hồn",
+      "playerLevelUnlock": 210,
+      "buildingUpgradeLevel": null,
+      "upgradeCost": null,
+      "production": null,
+      "sourceId": "G02",
+      "versionWarning": "Other publisher guides contain different unlock tables",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "playerLevelUnlock": "VERIFIED",
+        "buildingUpgradeLevel": "UNKNOWN",
+        "upgradeCost": "UNKNOWN",
+        "production": "UNKNOWN"
+      }
+    }
+  ],
+  "items": [
+    {
+      "id": "item02-1",
+      "name": "Quà Cấp 1",
+      "displayedLevel": 10,
+      "indexGroup": "Quà Cấp",
+      "effect": null,
+      "dropSource": null,
+      "sourceId": "W04",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "indexGroup": "VERIFIED",
+        "effect": "UNKNOWN",
+        "dropSource": "UNKNOWN"
+      }
+    },
+    {
+      "id": "item02-2",
+      "name": "Quà Cấp 2",
+      "displayedLevel": 20,
+      "indexGroup": "Quà Cấp",
+      "effect": null,
+      "dropSource": null,
+      "sourceId": "W04",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "indexGroup": "VERIFIED",
+        "effect": "UNKNOWN",
+        "dropSource": "UNKNOWN"
+      }
+    },
+    {
+      "id": "item02-3",
+      "name": "Quà Cấp 3",
+      "displayedLevel": 40,
+      "indexGroup": "Quà Cấp",
+      "effect": null,
+      "dropSource": null,
+      "sourceId": "W04",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "indexGroup": "VERIFIED",
+        "effect": "UNKNOWN",
+        "dropSource": "UNKNOWN"
+      }
+    },
+    {
+      "id": "item02-4",
+      "name": "Quà Cấp 10",
+      "displayedLevel": 140,
+      "indexGroup": "Quà Cấp",
+      "effect": null,
+      "dropSource": null,
+      "sourceId": "W04",
+      "fieldStatus": {
+        "name": "VERIFIED",
+        "displayedLevel": "VERIFIED",
+        "indexGroup": "VERIFIED",
+        "effect": "UNKNOWN",
+        "dropSource": "UNKNOWN"
+      }
+    }
+  ]
+}

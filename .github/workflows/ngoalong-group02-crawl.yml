@@ -1,0 +1,154 @@
+name: Group02 factual dungeon research from VNG Wiki
+on:
+  push:
+    branches: ['codex/nl-wiki-01-r02-20261117']
+    paths:
+      - 'data/ngoalong/group02_wiki/crawl_dungeons.py'
+      - 'data/ngoalong/group02_wiki/build_dungeons.py'
+      - 'data/ngoalong/group02_wiki/reconcile_dungeon_versions.py'
+      - 'data/ngoalong/group02_wiki/dungeon_patch_history.json'
+      - '.github/workflows/ngoalong-group02-crawl.yml'
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: group02-public-wiki-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  parser_test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Compile and test Dungeon Builder nine-slot parsing and provenance
+        run: |
+          python -m py_compile data/ngoalong/group02_wiki/build_dungeons.py
+          python -m py_compile data/ngoalong/group02_wiki/crawl_dungeons.py
+          python data/ngoalong/group02_wiki/crawl_dungeons.py --self-test
+          python -m py_compile data/ngoalong/group02_wiki/reconcile_dungeon_versions.py
+          python data/ngoalong/group02_wiki/build_dungeons.py --self-test
+          python data/ngoalong/group02_wiki/reconcile_dungeon_versions.py --self-test
+  extract:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 100
+    strategy:
+      fail-fast: false
+      max-parallel: 2
+      matrix:
+        shard: [0,1,2,3,4,5,6,7]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: python -m py_compile data/ngoalong/group02_wiki/crawl_dungeons.py
+      - run: |
+          python -m pip install playwright==1.58.0
+          python -m playwright install --with-deps chromium
+      - name: Read public Wiki map and NPC pages
+        run: python data/ngoalong/group02_wiki/crawl_dungeons.py --shard ${{ matrix.shard }} --shards 8 --delay .8 --output out/part-${{ matrix.shard }}.json
+      - name: Store structured evidence for each shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: group02-wiki-part-${{ matrix.shard }}
+          path: out/*.json
+          retention-days: 30
+          if-no-files-found: warn
+
+
+  aggregate:
+    name: Consolidate source-only group02 Wiki data
+    needs: [parser_test, extract]
+    if: always() && needs.parser_test.result == 'success' && needs.extract.result == 'success'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 12
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: group02-wiki-part-*
+          path: gathered
+          merge-multiple: true
+      - name: Validate, consolidate and flag incomplete NPC records
+        run: |
+          python - <<'PY'
+          import json,glob
+          from pathlib import Path
+          files=sorted(glob.glob('gathered/*.json'))
+          if len(files)!=8:raise RuntimeError('Need eight evidence shards, found '+str(len(files)))
+          maps={};issues=[];shards=[]
+          for path in files:
+            j=json.loads(Path(path).read_text(encoding='utf-8'))
+            shards.append(dict(shard=j.get('shard'),indexCount=j.get('indexCount'),mapCount=len(j.get('maps',[]))))
+            issues+=j.get('errors',[])
+            for r in j.get('maps',[]):
+              mid=r['mapId']
+              if mid in maps:raise RuntimeError('duplicate mapId '+str(mid))
+              maps[mid]=r
+          if sorted(x['shard'] for x in shards)!=list(range(8)):
+            raise RuntimeError('Missing or duplicate shard indexes')
+          if len({x['indexCount'] for x in shards})!=1:
+            raise RuntimeError('Wiki index changed while crawling; snapshots not mutually consistent')
+          if len(maps)<200:raise RuntimeError('index incomplete: '+str(len(maps)))
+          rows=[maps[k] for k in sorted(maps)]
+          complete=sum(bool(r.get('npcListComplete')) for r in rows)
+          npc_count=sum(len(r.get('npcs',[])) for r in rows)
+          result={'schemaVersion':1,'edition':'CURRENT_VNG_MOBILE','classicParity':'UNKNOWN',
+            'runtimeAuthority':False,'source':'https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban',
+            'indexClaim':219,'collectedMapLinkCount':len(rows),'countDiscrepancy':len(rows)!=219,
+            'npcDetailsCollected':npc_count,'mapsWithCompleteNpcLinks':complete,
+            'mapsWithIncompleteNpcLinks':len(rows)-complete,
+            'coverage':'COMPLETE_NPC_LINKS_ONLY' if complete==len(rows) and not issues else 'PARTIAL',
+            'errors':issues,'shards':shards,'maps':rows}
+          Path('wiki-extract.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
+          print('maps',len(rows),'NPCs',npc_count,'complete-map-links',complete,'errors',len(issues))
+          PY
+      - name: Verify compiler and produce original dungeon blueprints
+        run: |
+          python -m py_compile data/ngoalong/group02_wiki/build_dungeons.py
+          python data/ngoalong/group02_wiki/build_dungeons.py --self-test
+          python data/ngoalong/group02_wiki/build_dungeons.py --source wiki-extract.json --minimum-maps 200 --output wiki-blueprints.json --report dungeon-builder-report.json --handoff integration-handoff.json
+          python data/ngoalong/group02_wiki/reconcile_dungeon_versions.py --blueprints wiki-blueprints.json --history data/ngoalong/group02_wiki/dungeon_patch_history.json --output wiki-version-audit.json
+      - name: Upload combined Wiki JSON evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: group02-wiki-combined-evidence
+          path: |
+            wiki-extract.json
+            wiki-blueprints.json
+            dungeon-builder-report.json
+            integration-handoff.json
+            wiki-version-audit.json
+          if-no-files-found: warn
+      - name: Commit exclusively group02 JSON without merging or force-pushing
+        if: success()
+        env:
+          BRANCH: codex/nl-wiki-01-r02-20261117
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin "$BRANCH"
+          git checkout -B group02-delivery "origin/$BRANCH"
+          mkdir -p data/ngoalong/group02_wiki
+          cp wiki-extract.json data/ngoalong/group02_wiki/wiki_dungeons_extracted.json
+          cp wiki-blueprints.json data/ngoalong/group02_wiki/wiki_dungeon_blueprints.json
+          cp dungeon-builder-report.json data/ngoalong/group02_wiki/wiki_dungeon_builder_report.json
+          cp integration-handoff.json data/ngoalong/group02_wiki/wiki_dungeon_integration_handoff.json data/ngoalong/group02_wiki/wiki_dungeon_version_audit.json
+          cp wiki-version-audit.json data/ngoalong/group02_wiki/wiki_dungeon_version_audit.json
+          git add data/ngoalong/group02_wiki/wiki_dungeons_extracted.json data/ngoalong/group02_wiki/wiki_dungeon_blueprints.json data/ngoalong/group02_wiki/wiki_dungeon_builder_report.json data/ngoalong/group02_wiki/wiki_dungeon_integration_handoff.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'data(group02): store sourced Wiki dungeon extraction'
+            if ! git push origin "HEAD:$BRANCH"; then
+              git fetch origin "$BRANCH"
+              git rebase "origin/$BRANCH"
+              git push origin "HEAD:$BRANCH"
+            fi
+          fi

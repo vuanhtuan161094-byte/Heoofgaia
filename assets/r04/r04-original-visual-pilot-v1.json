@@ -1,0 +1,115 @@
+{
+  "assetPack": "r04-original-visual-pilot-v2-action-pose",
+  "status": "RECREATED",
+  "route": "OpenAI image_gen original character generation/editing; no external game assets used",
+  "classification": "SIMULATED project art, not an official Ngọa Long asset",
+  "canvas": {
+    "width": 512,
+    "height": 640,
+    "format": "RGBA PNG"
+  },
+  "displayTargetCssPixels": {
+    "width": 56,
+    "height": 70
+  },
+  "animationStatus": "TWO_POSE_SCOUT_DIRECTIONAL_PILOT",
+  "characters": [
+    {
+      "id": "scout",
+      "label": "Trinh sát biên cảnh",
+      "encounterId": "r03-bulwark",
+      "promptRef": "generation_prompts.md#scout",
+      "identity": "Original fictional character; not a historical or VNG character",
+      "rawMaster": "r04-original-bulwark-scout-v1-raw-master.png",
+      "rawSha256": "085a47ff4494b2cafe89d2fb4902ef4a61da1c2ce6fd3525b7ac7864d9b4078a",
+      "registeredMaster": "r04-original-bulwark-scout-v1-master.png",
+      "registeredSha256": "f84c936eed7da9f03daac3b114c84eaa146df213021e77aa7b7e1806e04d0f5b",
+      "sourceDimensions": [
+        1122,
+        1402
+      ],
+      "sourceAlphaBounds": [
+        27,
+        53,
+        1034,
+        1313
+      ],
+      "canvas": [
+        512,
+        640
+      ],
+      "registeredAlphaBounds": [
+        132,
+        66,
+        418,
+        595
+      ],
+      "registeredOpaquePixelCount": 80859,
+      "transparentPixelCount": 246821,
+      "pivot": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    },
+    {
+      "id": "tactician",
+      "label": "Nữ quân sư tiền tuyến",
+      "encounterId": "r03-ember",
+      "promptRef": "generation_prompts.md#tactician",
+      "identity": "Original fictional character; not a historical or VNG character",
+      "rawMaster": "r04-original-field-tactician-v1-raw-master.png",
+      "rawSha256": "5aeb0923387369448c25f6b02edae6af19e696b1d9a4aad12fd5a680aa2642e0",
+      "registeredMaster": "r04-original-field-tactician-v1-master.png",
+      "registeredSha256": "e18ec45597f5d364d97703b3efb1c8e576f5395a90b17d9aefbc1254b871ff39",
+      "sourceDimensions": [
+        1199,
+        1312
+      ],
+      "sourceAlphaBounds": [
+        33,
+        45,
+        1185,
+        1312
+      ],
+      "canvas": [
+        512,
+        640
+      ],
+      "registeredAlphaBounds": [
+        28,
+        106,
+        456,
+        598
+      ],
+      "registeredOpaquePixelCount": 52907,
+      "transparentPixelCount": 274773,
+      "pivot": {
+        "x": 0.5,
+        "y": 1.0
+      }
+    }
+  ],
+  "poseFrames": [
+    {
+      "id": "scout-attack-contact",
+      "characterId": "scout",
+      "state": "ATTACK_CONTACT",
+      "direction": "front-three-quarter-right",
+      "trigger": "real enemy infantry physical action during campaign stage 25",
+      "rawMaster": "r04-original-bulwark-scout-attack-contact-v1-raw.png",
+      "rawSha256": "bee93389ad975f0ea7dbe60c4e2de40650b1b9f96d54cb38149407144b993443",
+      "registeredMaster": "r04-original-bulwark-scout-attack-contact-v1.png",
+      "registeredSha256": "f345daa48ee9427efce86da129ce18050b6ad6bd9c6906d690196d7e33ffb27c",
+      "promptRef": "generation_prompts.md#scout-attack-contact",
+      "sourceDimensions": [1402, 1122],
+      "sourceAlphaBounds": [0, 21, 1372, 1105],
+      "canvas": [768, 640],
+      "registeredAlphaBounds": [77, 100, 718, 595],
+      "canvasFormat": "RGBA PNG",
+      "pivot": {"x": 0.5, "y": 1.0},
+      "registrationTool": "tools/register_nl_r04_attack.py",
+      "registrationPillow": "11.3.0",
+      "route": "OpenAI image_gen edit of project-owned scout identity master; generated single pose, not video-derived"
+    }
+  ]
+}

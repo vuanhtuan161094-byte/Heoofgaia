@@ -51,7 +51,7 @@ def main():
         browser = p.chromium.launch(headless=True, args=["--no-sandbox", "--disable-dev-shm-usage"])
         context = browser.new_context(viewport={"width": 1280, "height": 720})
         page = context.new_page()
-        page.add_init_script("window.__P2_ENABLE_QA__=true;")
+        page.add_init_script("window.__P2_ENABLE_QA__=true;const __clP3Interval=window.setInterval.bind(window);window.setInterval=(fn,delay,...args)=>delay===1000?0:__clP3Interval(fn,delay,...args);")
         page.on("pageerror", lambda error: errors.append(str(error)))
         page.goto(HTML_PATH.as_uri(), wait_until="domcontentloaded", timeout=30000)
         page.wait_for_timeout(250)

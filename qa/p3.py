@@ -49,7 +49,7 @@ def main():
   check('one unit upgrade leaves other heroes unchanged',page.evaluate("window.__P3_QA__.tier('liu')===1 && window.__P3_QA__.tier('zhang')===1"))
   check('tier 4 strictly stronger and not excessive',page.evaluate("(()=>{const v=window.__P3_QA__.unit('guan','p',2,1);return v.atk>0&&v.atk<300&&v.hp>0&&v.hp<2500})()"))
   check('enemy tiers scale across four campaign intervals',page.evaluate("[1,9,17,25].every((s,i)=>window.__P3_QA__.unit('e0','e',1,s).tier===i+1)"))
-  check('counter factor has advantage, neutral and disadvantage',page.evaluate("(()=>{let q=window.__P3_QA__;return q.counter('infantry','cavalry')>1&&q.counter('archer','cavalry')<1&&q.counter('support','cavalry')===1})()"))
+  check('current cavalry triangle: beats infantry, neutral archer/support, loses to spear',page.evaluate("(()=>{let q=window.__P3_QA__;return q.counter('cavalry','infantry')>1&&q.counter('cavalry','archer')===1&&q.counter('cavalry','support')===1&&q.counter('cavalry','spear')<1})()"))
   page.locator('[data-tab="barracks"]').first.click()
   check('training controls rendered in real barracks',page.locator('[data-p3-upgrade]').count()>=2)
   # Real combat for all tactical presets across progression. Normalize before each to avoid attrition bias.

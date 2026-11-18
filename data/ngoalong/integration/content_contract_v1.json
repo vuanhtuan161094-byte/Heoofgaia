@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "product": "MuuDinhTamQuoc",
+  "runtimeSaveSchema": 5,
+  "runtimeSource": "data/ngoalong/alpha_content.json",
+  "referenceStatuses": [
+    "REFERENCE_ONLY",
+    "DESIGN_READY",
+    "PLAYABLE"
+  ],
+  "sourceEditionPolicy": {
+    "versionedSources": [
+      "VNG_WIKI_MOBILE_CURRENT",
+      "CLASSIC_WEBGAME_EVIDENCE",
+      "PROJECT_ORIGINAL"
+    ],
+    "classicMobileParity": "UNKNOWN",
+    "noProprietaryCodeOrArt": true
+  },
+  "domains": {
+    "troops": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "family",
+        "tier",
+        "source",
+        "traits",
+        "originalCombatPolicy"
+      ],
+      "requiredForPlayable": [
+        "projectStats",
+        "projectAbilities",
+        "projectCost",
+        "engineMapping",
+        "qaProof"
+      ],
+      "sourceEdgesRequireIndividualURL": true
+    },
+    "heroes": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "faction",
+        "role",
+        "source",
+        "skillDefinition"
+      ],
+      "requiredForPlayable": [
+        "projectStats",
+        "originalSkillFormula",
+        "engineMapping",
+        "qaProof"
+      ]
+    },
+    "skills": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "trigger",
+        "target",
+        "operation",
+        "source",
+        "originalGameFormula"
+      ],
+      "requiredForPlayable": [
+        "eventResolver",
+        "replayContract",
+        "qaProof"
+      ]
+    },
+    "effects": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "operation",
+        "target",
+        "duration",
+        "stacking",
+        "dispel",
+        "source",
+        "originalGameFormula"
+      ],
+      "requiredForPlayable": [
+        "eventResolver",
+        "legacyCompatibility",
+        "qaProof"
+      ]
+    },
+    "equipment": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "slot",
+        "source",
+        "effectRule",
+        "originalEnhancementRules"
+      ],
+      "requiredForPlayable": [
+        "projectStats",
+        "inventoryIntegration",
+        "economyReceiptQA"
+      ]
+    },
+    "items": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "category",
+        "source",
+        "effectRule",
+        "acquisitionRule"
+      ],
+      "requiredForPlayable": [
+        "inventoryIntegration",
+        "rewardReceiptQA"
+      ]
+    },
+    "buildings": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "levelCap",
+        "unlock",
+        "projectCost",
+        "productionRule"
+      ],
+      "requiredForPlayable": [
+        "economyIntegration",
+        "saveMigrationQA"
+      ]
+    },
+    "research": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "levelCap",
+        "originalEffects",
+        "projectCost"
+      ],
+      "requiredForPlayable": [
+        "combatOrEconomyIntegration",
+        "saveMigrationQA"
+      ]
+    },
+    "campaign": {
+      "sourceIdField": "id",
+      "requiredForDesignReady": [
+        "orderedNpcIds",
+        "formationSlots",
+        "troopRefs",
+        "skillRefs",
+        "source",
+        "rewardPolicy"
+      ],
+      "requiredForPlayable": [
+        "runtimeStageBinding",
+        "bossRules",
+        "receiptQA",
+        "replayQA"
+      ]
+    }
+  },
+  "rules": {
+    "referenceOnlyAlwaysDisabled": true,
+    "noAutomaticPromotions": true,
+    "noImplicitMobileClassicParity": true,
+    "noUnverifiedNamedEvolutionEdges": true,
+    "noMissingSourceStatsFilled": true,
+    "noUnknownWikiNpcStatsInvented": true,
+    "projectOriginalBalancingAllowedWithSimulatedProvenance": true,
+    "saveKey": "muu_dinh_tam_quoc_v1",
+    "releaseRequires": "independent runtime + Chromium + Save/replay tests at exact SHA"
+  }
+}

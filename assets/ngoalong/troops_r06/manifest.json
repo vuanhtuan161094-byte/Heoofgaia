@@ -1,0 +1,237 @@
+{
+  "version": "NL-R06-ALL-RUNTIME-TROOPS",
+  "provenance": "SIMULATED original code-drawn vector sprite art; not extracted from Wiki",
+  "date": "2026-11-18",
+  "runtimeProfiles": 7,
+  "projectEvolutionVariants": 11,
+  "totalTroopIdentities": 18,
+  "wikiShipClassesExcluded": 3,
+  "actions": [
+    "idle",
+    "attack",
+    "hit",
+    "skill",
+    "disappear"
+  ],
+  "framesPerAction": 4,
+  "frameSize": [
+    160,
+    168
+  ],
+  "sheetSize": [
+    640,
+    840
+  ],
+  "celCount": 360,
+  "animation": "discrete SVG cels, procedural coordinate variation, no skeletal rig",
+  "notIndependentlyHandPainted": true,
+  "gameIntegration": "PENDING Chat 07, current gameplay unaffected",
+  "sourceTree": "data/ngoalong/alpha_content.json",
+  "units": [
+    {
+      "id": "infantry",
+      "label": "Bộ binh",
+      "type": "infantry",
+      "weapon": "sword",
+      "color": "#a94743",
+      "glow": "#f5c77c",
+      "branchFrom": null,
+      "file": "units/infantry.svg"
+    },
+    {
+      "id": "spear",
+      "label": "Thương binh",
+      "type": "spear",
+      "weapon": "spear",
+      "color": "#336a62",
+      "glow": "#8debd3",
+      "branchFrom": null,
+      "file": "units/spear.svg"
+    },
+    {
+      "id": "cavalry",
+      "label": "Kỵ binh",
+      "type": "cavalry",
+      "weapon": "lance",
+      "color": "#b34d36",
+      "glow": "#ffbf68",
+      "branchFrom": null,
+      "file": "units/cavalry.svg"
+    },
+    {
+      "id": "archer",
+      "label": "Cung binh",
+      "type": "archer",
+      "weapon": "bow",
+      "color": "#285e98",
+      "glow": "#a1d8fb",
+      "branchFrom": null,
+      "file": "units/archer.svg"
+    },
+    {
+      "id": "strategist",
+      "label": "Quan văn / Mưu sĩ",
+      "type": "strategist",
+      "weapon": "fan",
+      "color": "#4a518f",
+      "glow": "#b8b8ff",
+      "branchFrom": null,
+      "file": "units/strategist.svg"
+    },
+    {
+      "id": "support",
+      "label": "Hỗ trợ",
+      "type": "support",
+      "weapon": "staff",
+      "color": "#397d66",
+      "glow": "#baf0c0",
+      "branchFrom": null,
+      "file": "units/support.svg"
+    },
+    {
+      "id": "drum",
+      "label": "Trống trận",
+      "type": "drum",
+      "weapon": "drum",
+      "color": "#94673b",
+      "glow": "#ffda86",
+      "branchFrom": null,
+      "file": "units/drum.svg"
+    },
+    {
+      "id": "bulwark",
+      "label": "Thiết Thành",
+      "type": "infantry",
+      "weapon": "shield",
+      "color": "#5b7488",
+      "glow": "#cee9f1",
+      "branchFrom": "infantry",
+      "file": "units/bulwark.svg"
+    },
+    {
+      "id": "crusher",
+      "label": "Phá Trận",
+      "type": "infantry",
+      "weapon": "mace",
+      "color": "#7d403e",
+      "glow": "#f4ad78",
+      "branchFrom": "infantry",
+      "file": "units/crusher.svg"
+    },
+    {
+      "id": "spearwall",
+      "label": "Thương Phá Kỵ",
+      "type": "spear",
+      "weapon": "spear",
+      "color": "#337d86",
+      "glow": "#7cdeed",
+      "branchFrom": "infantry",
+      "file": "units/spearwall.svg"
+    },
+    {
+      "id": "shock",
+      "label": "Xung Kích",
+      "type": "cavalry",
+      "weapon": "lance",
+      "color": "#a13a38",
+      "glow": "#ffe088",
+      "branchFrom": "cavalry",
+      "file": "units/shock.svg"
+    },
+    {
+      "id": "raider",
+      "label": "Kỵ Tập Hậu",
+      "type": "cavalry",
+      "weapon": "sabre",
+      "color": "#394650",
+      "glow": "#9ed1dd",
+      "branchFrom": "cavalry",
+      "file": "units/raider.svg"
+    },
+    {
+      "id": "marksman",
+      "label": "Thần Xạ",
+      "type": "archer",
+      "weapon": "bow",
+      "color": "#315a75",
+      "glow": "#e0e890",
+      "branchFrom": "archer",
+      "file": "units/marksman.svg"
+    },
+    {
+      "id": "volley",
+      "label": "Liên Nỗ",
+      "type": "archer",
+      "weapon": "crossbow",
+      "color": "#5d4e81",
+      "glow": "#c9b2f3",
+      "branchFrom": "archer",
+      "file": "units/volley.svg"
+    },
+    {
+      "id": "ember",
+      "label": "Hỏa Cơ",
+      "type": "strategist",
+      "weapon": "fan",
+      "color": "#9e4744",
+      "glow": "#ffb16c",
+      "branchFrom": "strategist",
+      "file": "units/ember.svg"
+    },
+    {
+      "id": "disrupt",
+      "label": "Nhiễu Tâm",
+      "type": "strategist",
+      "weapon": "fan",
+      "color": "#543674",
+      "glow": "#d7a0ff",
+      "branchFrom": "strategist",
+      "file": "units/disrupt.svg"
+    },
+    {
+      "id": "medic",
+      "label": "Dưỡng Quân",
+      "type": "support",
+      "weapon": "staff",
+      "color": "#3c7969",
+      "glow": "#b6f3ca",
+      "branchFrom": "support",
+      "file": "units/medic.svg"
+    },
+    {
+      "id": "rally",
+      "label": "Hiệu Lệnh",
+      "type": "drum",
+      "weapon": "drum",
+      "color": "#843f39",
+      "glow": "#ffe08e",
+      "branchFrom": "support",
+      "file": "units/rally.svg"
+    }
+  ],
+  "fx": {
+    "file": "vfx_troops.svg",
+    "families": [
+      "infantry",
+      "spear",
+      "cavalry",
+      "archer",
+      "strategist",
+      "support",
+      "drum"
+    ],
+    "phases": [
+      "charge",
+      "release",
+      "contact",
+      "fade"
+    ]
+  },
+  "qualityGate": "REJECTED",
+  "artDirectionStatus": "REJECTED_OWNER_FEEDBACK",
+  "productionUseAllowed": false,
+  "integrationAllowed": false,
+  "rejectionReason": "The user rejected the R06 code-drawn vector output as inadequate character/troop art. It lacks convincing hand-painted chibi identity and production-grade distinct action poses. Do not use as runtime game sprite.",
+  "replacementRequired": "Independently illustrated transparent-background original troop masters and battle pose frames, art-checked at game scale. Do not treat presentation boards or mockups as sprites.",
+  "legacyForTraceabilityOnly": true
+}

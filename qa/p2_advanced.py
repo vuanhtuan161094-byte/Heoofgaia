@@ -20,9 +20,9 @@ def main():
     const qa=__P2_QA__,b=qa.debugBattle();
     const a={...b.p[0],atk:160,catk:160,matk:160,crit:0,troop:'cavalry'};
     function score(type){b.seed=555;const t={...b.e[0],def:26,tdef:26,mdef:26,hp:10000,maxHp:10000,troop:type,crit:0};return qa.p2Hit(a,t,'tactic',1).amount}
-    return {vsArcher:score('archer'),vsInfantry:score('infantry'),vsCavalry:score('cavalry')};
+    return {vsInfantry:score('infantry'),vsArcher:score('archer'),vsSpear:score('spear')};
   }''')
-  check('counter advantage > neutral > disadvantage',values['vsArcher']>values['vsCavalry']>values['vsInfantry'])
+  check('current cavalry > infantry, neutral archer, < spear',values['vsInfantry']>values['vsArcher']>values['vsSpear'])
   route=page.evaluate('''() => {
    const qa=__P2_QA__,b=qa.debugBattle(),a={...b.p[0],atk:150,catk:150,matk:150,crit:0,troop:'strategist'};
    function score(kind){b.seed=788;const t={...b.e[0],def:20,tdef:85,mdef:160,hp:10000,maxHp:10000,troop:'support'};return qa.p2Hit(a,t,kind,1).amount}

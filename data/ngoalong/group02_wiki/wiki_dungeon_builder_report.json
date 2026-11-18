@@ -1,0 +1,20 @@
+{
+  "sourceLabel": "wiki-extract.json",
+  "sourceWiki": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+  "sourceVersion": "CURRENT_VNG_MOBILE",
+  "classicWebgameParity": "UNKNOWN",
+  "mapCount": 249,
+  "npcDetailCount": 4903,
+  "advertisedNpcTotalAcrossMaps": 4802,
+  "mapNpcRosterCompleteCount": 170,
+  "mapNpcRosterIncompleteCount": 79,
+  "npcNamesMissing": 0,
+  "npcFormationsMissing": 97,
+  "soldierTotalContradictions": 344,
+  "fullNpcFormationCount": 4806,
+  "unverifiedNpcFormationCount": 97,
+  "detailVsIndexNpcCountConflicts": 0,
+  "fullyGameplayReadyMaps": 0,
+  "status": "PARTIAL",
+  "warning": "Indexed NPC rows are not gameplay-ready until skills, troop refs, all 3x3 units, version and mechanics are reviewed."
+}

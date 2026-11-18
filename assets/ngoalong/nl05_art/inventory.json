@@ -1,0 +1,284 @@
+{
+  "formatVersion": "2026-11-18/NL-ART-05/V1",
+  "repo": "vuanhtuan161094-byte/Heoofgaia",
+  "sourceBranch": "codex/nl-wiki-01-r02-20261117",
+  "sourceHead": "ef7c5957adc1e22f51c2f4535d6eff66c9274a25",
+  "sourceTree": "d8a5ed205431928c3abd16cc36e319038679ee29",
+  "date": "2026-11-18",
+  "statement": "This is an inventory of GitHub-tracked graphics, not owner visual approval. Git blob SHA-1 is not SHA-256.",
+  "counts": {
+    "totalTrackedGraphics": 29,
+    "groups": {
+      "CL_P4_LEGACY": 10,
+      "CL_P41_COMPOSITED": 1,
+      "CL_P5_LEGACY": 12,
+      "NL_R04_ORIGINAL_PILOT": 6
+    }
+  },
+  "assetFiles": [
+    {
+      "path": "assets/p4/city.webp",
+      "bytes": 200338,
+      "gitBlobSha": "cd28e70e1406d9552f7bb161865ccb2c4848b46f",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/cl-p4-commander-22-source.png",
+      "bytes": 2885502,
+      "gitBlobSha": "94030148152770d9b6036cae3a58cb8b50c6b53f",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/cl-p4-commander-22.webp",
+      "bytes": 244178,
+      "gitBlobSha": "b005c636605b06a3cbe711cb5d9c07162dc3aff4",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/cl-p4-commander-23-source.png",
+      "bytes": 2748270,
+      "gitBlobSha": "e18e2167243e8e53b5b372301a0a7ba2e89e3357",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/cl-p4-commander-23.webp",
+      "bytes": 222508,
+      "gitBlobSha": "10adf3e9c22c48241368482e587c26a6ab1261e3",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/cl-p4-roster-atlas-source.png",
+      "bytes": 3296185,
+      "gitBlobSha": "e19088f282e9888023ef8133a2a3c4359ae4fe9f",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/cl-p4-roster-atlas.webp",
+      "bytes": 384082,
+      "gitBlobSha": "91c894f99b04f03924c77bac28e0f9fae778d733",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/portrait_atlas.webp",
+      "bytes": 57870,
+      "gitBlobSha": "6b1fd44434303004a857a4e2608ad0f1fcf43264",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/troops.webp",
+      "bytes": 340856,
+      "gitBlobSha": "fb23f5a3132f26ef4491f66a2ca7e8454fd52c0d",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p4/vfx.webp",
+      "bytes": 326540,
+      "gitBlobSha": "bed76a5b5789f82a7a4154ef5984500ef15e3046",
+      "category": "CL_P4_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p41/troops_p41.webp",
+      "bytes": 1168742,
+      "gitBlobSha": "7fdd8812ed9babba7198f9d44acc0538c9917be2",
+      "category": "CL_P41_COMPOSITED",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/attack-4x4-sheet-before-v2.png",
+      "bytes": 1854102,
+      "gitBlobSha": "47fb3ae672fa2c8ba27085f591b67bcd094e3d5b",
+      "category": "CL_P5_LEGACY",
+      "rejected": true
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/attack-4x4-sheet-cleanup-rejected.png",
+      "bytes": 1614881,
+      "gitBlobSha": "308903d4e1512ddf61b159787c34b6014416a6e3",
+      "category": "CL_P5_LEGACY",
+      "rejected": true
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/attack-4x4-sheet.png",
+      "bytes": 1376132,
+      "gitBlobSha": "32657dc00b83d43c2fa9830ce2e1b198ba1501b6",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-atlas.webp",
+      "bytes": 596134,
+      "gitBlobSha": "7050af555a21c71a64070f804ca91997fa0c5e16",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-master.png",
+      "bytes": 1128520,
+      "gitBlobSha": "421825f1341c436b5e9fcdd84df3c6d5832ca581",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/death-4x4-sheet.png",
+      "bytes": 1740514,
+      "gitBlobSha": "768981e9dc2f519664d69fa0ad43e9bf64a7196f",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/hurt-4x4-sheet-source-rejected.png",
+      "bytes": 3224144,
+      "gitBlobSha": "c7b85e4eb93412d6104ae9832eb32f6699fc1943",
+      "category": "CL_P5_LEGACY",
+      "rejected": true
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/hurt-4x4-sheet.png",
+      "bytes": 1831333,
+      "gitBlobSha": "e913f5b82b7d8f9219aa13950dc88f4e3b110350",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/idle-4x4-sheet.png",
+      "bytes": 1526292,
+      "gitBlobSha": "1ff98ff4f1c2d719498a05aff56dff3f46325dd2",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-infantry-scout-v1/walk-4x4-sheet.png",
+      "bytes": 1567529,
+      "gitBlobSha": "55bca40c5e7a1a57f697867c43a418fce166531f",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-region-map-source.png",
+      "bytes": 2744603,
+      "gitBlobSha": "c63add3bf18b0cb5a8fd6af1e9b6be1f277f524e",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/p5/cl-p5-region-map.webp",
+      "bytes": 286152,
+      "gitBlobSha": "bd9b9ffbb669737b771708a5560263036b10bc8b",
+      "category": "CL_P5_LEGACY",
+      "rejected": false
+    },
+    {
+      "path": "assets/r04/r04-original-bulwark-scout-attack-contact-v1-raw.png",
+      "bytes": 932860,
+      "gitBlobSha": "9d949ab5369f431273c2072e43a543ef968e40b0",
+      "category": "NL_R04_ORIGINAL_PILOT",
+      "rejected": false
+    },
+    {
+      "path": "assets/r04/r04-original-bulwark-scout-attack-contact-v1.png",
+      "bytes": 254310,
+      "gitBlobSha": "3a8149d01254ce7679aa45993c98ba23baa86385",
+      "category": "NL_R04_ORIGINAL_PILOT",
+      "rejected": false
+    },
+    {
+      "path": "assets/r04/r04-original-bulwark-scout-v1-master.png",
+      "bytes": 221515,
+      "gitBlobSha": "a815da1459683027d0075dc0913819ae2dbcc594",
+      "category": "NL_R04_ORIGINAL_PILOT",
+      "rejected": false
+    },
+    {
+      "path": "assets/r04/r04-original-bulwark-scout-v1-raw-master.png",
+      "bytes": 1005150,
+      "gitBlobSha": "b7655e14dc3da12da3119e6051d601fe8909e7c7",
+      "category": "NL_R04_ORIGINAL_PILOT",
+      "rejected": false
+    },
+    {
+      "path": "assets/r04/r04-original-field-tactician-v1-master.png",
+      "bytes": 156013,
+      "gitBlobSha": "fa39b48945ca1fdda04393807f1406e770aaa3d1",
+      "category": "NL_R04_ORIGINAL_PILOT",
+      "rejected": false
+    },
+    {
+      "path": "assets/r04/r04-original-field-tactician-v1-raw-master.png",
+      "bytes": 894662,
+      "gitBlobSha": "9d5ec3275576aa4d32c039d676fdab977d3e446b",
+      "category": "NL_R04_ORIGINAL_PILOT",
+      "rejected": false
+    }
+  ],
+  "coverage": [
+    {
+      "group": "CL-P4",
+      "status": "VERIFIED",
+      "role": "Legacy CL city, roster portraits, troop stills, effect atlas. Historical use only; do not auto-rebrand to NL."
+    },
+    {
+      "group": "CL-P4.1",
+      "status": "VERIFIED",
+      "role": "288 packed composited frames = 4 troop classes x 4 directions x 3 actions x 6 frames; NOT 288 independent hand-painted poses"
+    },
+    {
+      "group": "CL-P5",
+      "status": "VERIFIED",
+      "role": "80 packed CL infantry frames = 5 actions x 4 directions x 4; idle/attack/hurt/death in live CL battle, walk addressable only"
+    },
+    {
+      "group": "NL-R04",
+      "status": "VERIFIED",
+      "role": "2 original fictional portraits (scout and tactician), 1 distinct scout contact pose: 6 files (3 raw + 3 registered). Callout only, not battlefield unit replacement."
+    },
+    {
+      "group": "NL-new-VFX",
+      "status": "UNKNOWN",
+      "role": "No independently approved new Ngọa Long alpha skill VFX found. Legacy P4 sheet != production VFX set"
+    }
+  ],
+  "releaseGates": {
+    "originalFullFourDirectionNlHero": "PENDING",
+    "fullIndependentNlFrameAnimation": "PENDING",
+    "separateAlphaSkillVfx": "PENDING",
+    "ownerVisualApproval": "PENDING",
+    "physicalDeviceQA": "PENDING"
+  },
+  "wikiArtResearch": [
+    {
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki",
+      "edition": "Current Mobile",
+      "fact": "Wiki product identity only",
+      "status": "VERIFIED"
+    },
+    {
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+      "edition": "Current Mobile",
+      "fact": "Troop taxonomy for visual differentiability, not copying assets",
+      "status": "VERIFIED"
+    },
+    {
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung",
+      "edition": "Current Mobile",
+      "fact": "Status polarity groups as VFX readability context; do not replicate proprietary effects",
+      "status": "VERIFIED"
+    },
+    {
+      "url": null,
+      "edition": "Classic webgame",
+      "fact": "Version-specific art/effects parity not established",
+      "status": "UNKNOWN"
+    }
+  ],
+  "namingNote": "User calls this chat group 05 Art; Chat 00 master at cbd98c labels this functional team 06 ART. Functional file ownership follows Chat 00: assets/ngoalong and qa/nl_art_*; do not edit group 05 PROGRESSION files."
+}

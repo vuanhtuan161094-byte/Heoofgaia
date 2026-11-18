@@ -11,7 +11,7 @@ OUTPUT=ROOT/'qa/p41-combat-1280x720.mp4'
 FRAMES=ROOT/'qa/p41_video_frames'
 FRAMES.mkdir(parents=True,exist_ok=True)
 SHIM="""<script>window.__P2_ENABLE_QA__=true;const __store={};Object.defineProperty(window,'localStorage',{configurable:true,value:{getItem:k=>__store[k]??null,setItem:(k,v)=>__store[k]=String(v),removeItem:k=>delete __store[k]}});</script>"""
-segments=[0,1,3,5] # last segment is a real P2 battle skill, not a synthetic VFX event.
+segments=[0,1,3,5] # step 0 is a real engine skill from a skill-ready test fixture.
 receipts=[];index=0
 with sync_playwright() as p:
     browser=p.chromium.launch(headless=True,executable_path=os.environ.get('CHROMIUM_BIN') or None,args=['--no-sandbox'])
@@ -20,6 +20,9 @@ with sync_playwright() as p:
     page.set_content(HTML.replace('<script>',SHIM+'<script>',1),wait_until='domcontentloaded')
     page.wait_for_function('window.__P41_QA__?.image?.complete && __P41_QA__.image.naturalWidth===800',timeout=30000)
     page.evaluate("__P2_QA__.beginBattle(1,'campaign')")
+    # Guarantee a real skill event in the visual sample despite counter/timing balance changes.
+    # The setup only makes Quan Vũ skill-ready; targeting, damage and event are still engine-authored.
+    page.evaluate("__P2_QA__.debugBattle().p.find(unit=>unit.id==='guan').morale=100")
     page.evaluate('__P2_QA__.debugBattle().next=Date.now()+999999')
     for step in range(max(segments)+1):
         page.evaluate('__P2_QA__.stepBattle()')
@@ -33,6 +36,7 @@ with sync_playwright() as p:
             page.screenshot(path=str(FRAMES/f'frame_{index:04d}.png'),animations='disabled')
             index+=1
     assert any(e['mode']=='skill' for e in receipts),receipts
+    print('P4.1 real engine event receipts:',json.dumps(receipts,ensure_ascii=False),flush=True)
     assert not errors,errors
     browser.close()
 cmd=['ffmpeg','-hide_banner','-loglevel','error','-y','-framerate','12','-i',str(FRAMES/'frame_%04d.png'),'-vf','format=yuv420p','-c:v','libx264','-preset','veryfast','-crf','25','-movflags','+faststart',str(OUTPUT)]

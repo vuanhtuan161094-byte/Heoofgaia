@@ -2,22 +2,117 @@ name: Muu Dinh Tam Quoc · Ngọa Long-focused full regression and release
 
 on:
   push:
-    branches: [main-ngoalong]
+    branches: [main-ngoalong, 'codex/**']
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
+  changed_sources:
+    name: Identify affected sources (no browser dependencies)
+    runs-on: ubuntu-24.04
+    outputs:
+      core: ${{ steps.paths.outputs.core }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      - id: paths
+        name: Detect code, data, QA and asset changes
+        shell: bash
+        env:
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ] || ! git cat-file -e "${BEFORE}^{commit}" 2>/dev/null; then
+            echo "core=true" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          changed="$(git diff --name-only "$BEFORE" "$AFTER")"
+          echo "$changed"
+          if echo "$changed" | grep -Eq '^(index\.html$|data/|tools/|qa/|assets/|\.github/workflows/)'; then
+            echo "core=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "core=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  quick:
+    name: Focused gameplay, Save and data regression
+    # Drop obsolete quick runs when newer code lands; never cancel full release.
+    concurrency:
+      group: ngoalong-focused-${{ github.ref }}
+      cancel-in-progress: true
+    needs: changed_sources
+    if: needs.changed_sources.outputs.core == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Build canonical single-file game and validate source pack
+        run: |
+          python tools/validate_ngoalong_data.py
+          python tools/build_ngoa_long_mode.py
+          python tools/build_ngoa_long_r03.py
+          python tools/build_ngoa_long_r04.py
+          python tools/build_ngoa_long_mode.py --check
+          python tools/build_ngoa_long_r03.py --check
+          python tools/build_ngoa_long_r04.py --check
+          git rev-parse HEAD | tee qa/commit-sha.txt
+          sha256sum index.html | tee qa/index-sha256.txt
+      - name: Install minimal browser QA dependencies
+        run: |
+          python -m pip install playwright==1.58.0
+          python -m playwright install --with-deps chromium
+      - name: Data, tactical combat, progression and Save/legacy safety gates
+        run: |
+          python qa/nl_data.py
+          python qa/nl_wiki_troop_facts.py
+          python qa/nl_content_contract_v1.py
+          python tools/nl_content_contract_v1.py --out qa/nl_content_index_v1.json
+          python qa/nl_content_contract_v1.py
+          python tools/nl_content_contract_v1.py --out qa/nl_content_index_v1.json
+          python qa/ngoa_long_mode.py
+          python qa/nl_r02.py
+          python qa/nl_r03.py
+          python qa/nl_progression.py
+          python qa/cl_p1_p2.py
+          python qa/cl_p6.py
+          python qa/p2_full.py
+          python qa/p2_advanced.py
+      - name: Upload focused exact-SHA QA evidence (not a release)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: muu-dinh-tam-quoc-focused-evidence
+          path: |
+            qa/*.json
+            qa/commit-sha.txt
+            qa/index-sha256.txt
+          if-no-files-found: warn
+
   game:
+    # Full historical CL/asset/video regression remains available on every
+    # main-ngoalong push and on explicit task-branch commits tagged [full-ci].
+    # Docs-only or focused feature commits must not republish a fake release.
+    if: github.ref == 'refs/heads/main-ngoalong' || contains(github.event.head_commit.message, '[full-ci]') || github.event_name == 'workflow_dispatch'
     runs-on: ubuntu-24.04
     timeout-minutes: 25
     steps:
       - uses: actions/checkout@v4
-      - name: NL-REBUILD-01 compile canonical Ngọa Long-first HTML
+      - name: Validate Wiki provenance data and compile canonical R02/R03/R04 Alpha HTML
         run: |
+          python tools/validate_ngoalong_data.py
           python tools/build_ngoa_long_mode.py
+          python tools/build_ngoa_long_r03.py
+          python tools/build_ngoa_long_r04.py
           python tools/build_ngoa_long_mode.py --check
+          python tools/build_ngoa_long_r03.py --check
+          python tools/build_ngoa_long_r04.py --check
       - name: Exact SHA and source identity
         run: |
           git rev-parse HEAD | tee qa/commit-sha.txt
@@ -31,10 +126,33 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install playwright==1.58.0 pillow==12.3.0
           python -m playwright install --with-deps chromium
+      - name: NL-P1 schema, provenance, references and progression validator gate
+        run: |
+          python qa/nl_data.py
+          python qa/nl_wiki_troop_facts.py
       - name: P2 smoke Chromium
         run: python qa/smoke.py
       - name: Ngọa Long 3x3 command center desktop/mobile browser gate
         run: python qa/ngoa_long_mode.py
+      - name: NL-R02 same-seed combat, morale, AI and save migration Chromium gate
+        run: python qa/nl_r02.py
+      - name: NL-R03 data-driven evolutions and tactical encounters Chromium gate
+        run: python qa/nl_r03.py
+      - name: NL-R03 hero training, equipment and research progression gate
+        run: python qa/nl_progression.py
+      - name: NL-R04 reproduce event-gated scout pose and run Chromium art gate
+        run: |
+          python -m pip install --disable-pip-version-check pillow==11.3.0
+          python -c "from PIL import __version__; assert __version__ == '11.3.0'"
+          python tools/register_nl_r04_attack.py --check
+          python tools/build_ngoa_long_r04.py --check
+          python qa/nl_r04_pilot.py
+          python -m pip install --disable-pip-version-check pillow==12.3.0
+          python -c "from PIL import __version__; assert __version__ == '12.3.0'"
+      - name: NL 30-minute simulated onboarding, affordability and loss recovery gate
+        run: python qa/nl_onboarding_30min.py
+      - name: NL 60-minute continuous first-ten-stage campaign progression gate
+        run: python qa/nl_onboarding_30min.py --minutes 60
       - name: CL-P1/P2 real battle and campaign loop
         run: python qa/cl_p1_p2.py
       - name: CL-P3 territory economy and 30-minute strategy loop
@@ -106,7 +224,7 @@ jobs:
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-qa-evidence
+          name: muu-dinh-tam-quoc-ngoa-long-alpha-evidence
           path: |
             qa/*.json
             qa/*.png
@@ -114,18 +232,23 @@ jobs:
             qa/p41-*.mp4
             qa/p41-288-frames-source.zip
             assets/p41/troops_manifest.json
+            assets/r04/*raw-master.png
+            assets/r04/*master.png
+            assets/r04/*.json
+            assets/r04/*.md
             assets/p5/cl-p5-region-map-manifest.json
             assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-atlas.webp
             assets/p5/cl-p5-infantry-scout-v1/cl-p5-infantry-scout-manifest.json
             qa/commit-sha.txt
             qa/index-sha256.txt
+            data/ngoalong/alpha_content.json
           if-no-files-found: warn
 
       - name: Publish single playable HTML after full PASS
         if: success()
         uses: actions/upload-artifact@v4
         with:
-          name: muu-dinh-tam-quoc-cl-p6-playable
+          name: muu-dinh-tam-quoc-ngoa-long-alpha-playable
           path: |
             index.html
             qa/commit-sha.txt
