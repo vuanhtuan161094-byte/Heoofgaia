@@ -68,6 +68,9 @@
   }
   function augment(pack){
     const base=JSON.parse(JSON.stringify(pack));
+    // The complete 392-model catalogue is governed by nl_item_import_curated.js.
+    // Avoid moving or deleting its 363 additional stable definitions.
+    if (base.projectGearExpansion?.sourceRecords === 392) return base;
     const samples=base.equipment.filter(x=>x.integration==='REFERENCE_ONLY' &&
       String(x.id).startsWith('wiki-mobile-equip02-'));
     if(samples.length!==29)throw new Error('EXPECTED_29_REVIEWED_EQUIPMENT');
