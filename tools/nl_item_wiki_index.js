@@ -51,7 +51,7 @@ function parseIndex(bodyText, domain) {
         requiredLevel:'UNKNOWN',slot:'UNKNOWN',rarity:'UNKNOWN',
         stats:'UNKNOWN',effectRule:'UNKNOWN',acquisitionRule:'UNKNOWN' },
       provenance: { classification:'VERIFIED',sourceId:'VNG_WIKI_MOBILE_INDEX',
-        checkedAt:'2026-11-18' }
+        checkedAt:new Date().toISOString().slice(0,10) }
     });
   }
   if (declaredTotal !== TARGET[domain]) {
