@@ -44,10 +44,31 @@
         "firstMover": "VERIFIED",
         "selectedUnit": "VERIFIED",
         "selectedDrop": "VERIFIED",
-        "fullEnemyTeam": "UNKNOWN"
+        "fullEnemyTeam": "UNKNOWN",
+        "formationUnitNamesVisible": "VERIFIED",
+        "selectedUnitCombatFact": "VERIFIED"
       },
       "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
-      "integration": "REFERENCE_ONLY"
+      "integration": "REFERENCE_ONLY",
+      "formationUnitNamesVisible": [
+        "Cao Thăng"
+      ],
+      "selectedUnitCombatFact": {
+        "skillName": "Thiết Bích",
+        "attackType": "tactic",
+        "targetScope": "one_enemy",
+        "skillAttackPercent": 35,
+        "appliedEffects": [
+          {
+            "name": "Thiết bích",
+            "target": "self",
+            "durationTurns": 1
+          }
+        ],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION"
     },
     {
       "id": "m1-ai81",
@@ -87,10 +108,25 @@
         "firstMover": "VERIFIED",
         "selectedUnit": "VERIFIED",
         "selectedDrop": "VERIFIED",
-        "fullEnemyTeam": "UNKNOWN"
+        "fullEnemyTeam": "UNKNOWN",
+        "formationUnitNamesVisible": "VERIFIED",
+        "selectedUnitCombatFact": "VERIFIED"
       },
       "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
-      "integration": "REFERENCE_ONLY"
+      "integration": "REFERENCE_ONLY",
+      "formationUnitNamesVisible": [
+        "Trương Yên"
+      ],
+      "selectedUnitCombatFact": {
+        "skillName": "Đạp Phá",
+        "attackType": "tactic",
+        "targetScope": "enemy_column",
+        "skillAttackPercent": 132,
+        "appliedEffects": [],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION"
     },
     {
       "id": "m1-ai82",
@@ -127,10 +163,26 @@
         "firstMover": "VERIFIED",
         "selectedUnit": "VERIFIED",
         "selectedDrop": "UNKNOWN",
-        "fullEnemyTeam": "UNKNOWN"
+        "fullEnemyTeam": "UNKNOWN",
+        "formationUnitNamesVisible": "VERIFIED",
+        "selectedUnitCombatFact": "VERIFIED"
       },
       "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
-      "integration": "REFERENCE_ONLY"
+      "integration": "REFERENCE_ONLY",
+      "formationUnitNamesVisible": [
+        "Hoành Tảo Doanh",
+        "Ba Tài"
+      ],
+      "selectedUnitCombatFact": {
+        "skillName": "Hoành Tảo",
+        "attackType": "tactic",
+        "targetScope": "enemy_row",
+        "skillAttackPercent": 141,
+        "appliedEffects": [],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION"
     },
     {
       "id": "m2-ai95",
@@ -167,10 +219,34 @@
         "firstMover": "VERIFIED",
         "selectedUnit": "VERIFIED",
         "selectedDrop": "UNKNOWN",
-        "fullEnemyTeam": "UNKNOWN"
+        "fullEnemyTeam": "UNKNOWN",
+        "formationUnitNamesVisible": "VERIFIED",
+        "selectedUnitCombatFact": "VERIFIED"
       },
       "scope": "ONE_VISIBLE_SELECTED_UNIT_NOT_FULL_TEAM",
-      "integration": "REFERENCE_ONLY"
+      "integration": "REFERENCE_ONLY",
+      "formationUnitNamesVisible": [
+        "ThưKích Doanh",
+        "Quản Hợi",
+        "Đột Tiến Doanh"
+      ],
+      "selectedUnitCombatFact": {
+        "skillName": "Thư Kích",
+        "attackType": "tactic",
+        "targetScope": "one_enemy",
+        "skillAttackPercent": 185,
+        "appliedEffects": [
+          {
+            "name": "Hội Tâm",
+            "target": "self",
+            "displayedPercent": 60,
+            "durationTurns": 2
+          }
+        ],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION"
     },
     {
       "id": "m3-ai108",

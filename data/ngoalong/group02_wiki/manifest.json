@@ -54,7 +54,7 @@
       "id": "W05",
       "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
       "edition": "CURRENT_MOBILE",
-      "access": "page",
+      "access": "PAGE_WITH_INTERACTIVE_NPC_LINKS_AND_PAGINATED_DETAIL_PAGES",
       "checkedAt": "2026-11-18"
     },
     {
@@ -209,7 +209,7 @@
     "allNpcSkillCatalog": "UNKNOWN",
     "summaryCountsOnlyNotEquivalentToNpcRecords": true,
     "edition": "CURRENT_MOBILE_NOT_2012_CLASSIC",
-    "note": "Direct 5..10 wiki query ID mapping is not asserted until independently checked; index shows city bands and each map's public metadata.",
+    "note": "Wiki has detail pages for NPC and paginated rosters. Group02 currently has only 7 selected NPC detail samples from 4 early maps, due to incomplete retrieval; do NOT present missing import as missing source data.",
     "completion": {
       "mapIndexRowsVerified": 10,
       "npcCountClaimedOnIndex": 207,
@@ -217,12 +217,38 @@
       "npcFullRosterCoverage": "UNKNOWN_INCOMPLETE",
       "npcOrderForSamplePages": "UNKNOWN",
       "runtimeIngestion": "BLOCKED_UNTIL_EVIDENCE_AND_DESIGN_REVIEW",
-      "relatedStoredHigherLevelMapNpcRows": 35
+      "relatedStoredHigherLevelMapNpcRows": 35,
+      "npcSourceCatalogueAvailability": "WIKI_HAS_DETAIL_PAGES; EXTRACTION_INCOMPLETE"
     }
   },
   "knownSourceLimitations": [
     "Current wiki index has 10 early maps totaling 207 claimed NPCs, but direct NPC detail has only 7 selected sample records for four maps, not 207 NPC names.",
     "Recruitment guide values are build-specific standalone snapshots and must never be joined as current high-tier hero grade combat stats.",
     "Some current Wiki dungeon-index totals disagree with detail page totals. Keep source-specific values rather than overwriting."
-  ]
+  ],
+  "wikiNavigation": {
+    "sourceId": "W05",
+    "page": "/ngoa-long-wiki/pho-ban",
+    "advertisedMaps": 219,
+    "cityLevelMilestones": 65,
+    "mapDetail": "/ngoa-long-wiki/pho-ban-chi-tiet?map=<wikiMapId>",
+    "npcDetail": "/ngoa-long-wiki/pho-ban-chi-tiet?ai=<wikiNpcId>&map=<wikiMapId>&side=vn",
+    "npcPagination": "NPC 1-10 / total and next/previous controls on multi-page maps",
+    "npcDataFields": [
+      "npc_order",
+      "npc_kind",
+      "npc_level",
+      "army_soldiers",
+      "merit",
+      "formation_3x3",
+      "troop_type",
+      "battle_skill",
+      "status_effects",
+      "loot",
+      "recommendations",
+      "battle_reports"
+    ],
+    "scope": "CURRENT_MOBILE",
+    "status": "VERIFIED"
+  }
 }

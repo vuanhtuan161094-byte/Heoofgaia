@@ -56,10 +56,23 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "VERIFIED"
+        "wikiMapQueryId": "VERIFIED",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "VERIFIED",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1",
+      "detailUrlStatus": "VERIFIED",
+      "sampleNpcDetailRefs": [
+        "m1-ai77",
+        "m1-ai81",
+        "m1-ai82"
+      ],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-02",
@@ -121,10 +134,21 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "VERIFIED"
+        "wikiMapQueryId": "VERIFIED",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "VERIFIED",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=2",
+      "detailUrlStatus": "VERIFIED",
+      "sampleNpcDetailRefs": [
+        "m2-ai95"
+      ],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-03",
@@ -186,10 +210,22 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "VERIFIED"
+        "wikiMapQueryId": "VERIFIED",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "VERIFIED",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=3",
+      "detailUrlStatus": "VERIFIED",
+      "sampleNpcDetailRefs": [
+        "m3-ai108",
+        "m3-ai114"
+      ],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-04",
@@ -251,10 +287,21 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "VERIFIED"
+        "wikiMapQueryId": "VERIFIED",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "VERIFIED",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=4",
+      "detailUrlStatus": "VERIFIED",
+      "sampleNpcDetailRefs": [
+        "m4-ai135"
+      ],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-05",
@@ -302,10 +349,19 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "UNKNOWN"
+        "wikiMapQueryId": "UNKNOWN",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "UNKNOWN",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": null,
+      "detailUrlStatus": "UNKNOWN",
+      "sampleNpcDetailRefs": [],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-06",
@@ -360,10 +416,19 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "UNKNOWN"
+        "wikiMapQueryId": "UNKNOWN",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "UNKNOWN",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": null,
+      "detailUrlStatus": "UNKNOWN",
+      "sampleNpcDetailRefs": [],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-07",
@@ -418,10 +483,19 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "UNKNOWN"
+        "wikiMapQueryId": "UNKNOWN",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "UNKNOWN",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": null,
+      "detailUrlStatus": "UNKNOWN",
+      "sampleNpcDetailRefs": [],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-08",
@@ -476,10 +550,19 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "UNKNOWN"
+        "wikiMapQueryId": "UNKNOWN",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "UNKNOWN",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": null,
+      "detailUrlStatus": "UNKNOWN",
+      "sampleNpcDetailRefs": [],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-09",
@@ -534,10 +617,19 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "UNKNOWN"
+        "wikiMapQueryId": "UNKNOWN",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "UNKNOWN",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": null,
+      "detailUrlStatus": "UNKNOWN",
+      "sampleNpcDetailRefs": [],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     },
     {
       "id": "early-map-10",
@@ -592,10 +684,19 @@
         "npcList": "UNKNOWN",
         "achievementRewards": "VERIFIED",
         "displayedDrops": "VERIFIED",
-        "wikiMapQueryId": "UNKNOWN"
+        "wikiMapQueryId": "UNKNOWN",
+        "wikiEntryPage": "VERIFIED",
+        "wikiDetailUrl": "UNKNOWN",
+        "wikiNpcDetailsAvailableInSite": "VERIFIED"
       },
-      "caveats": "Wiki index presents NPC count, not their complete identities or formation slots. Do not treat an empty NPC list as zero encounters.",
-      "integration": "REFERENCE_ONLY"
+      "caveats": "Wiki has NPC index and per-NPC detail pages; records in this JSON are only page-index facts. Full NPC list has NOT yet been ingested from dynamic/paginated detail views.",
+      "integration": "REFERENCE_ONLY",
+      "wikiEntryPage": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "wikiDetailUrl": null,
+      "detailUrlStatus": "UNKNOWN",
+      "sampleNpcDetailRefs": [],
+      "sampleRefsStatus": "DERIVED",
+      "wikiNpcDetailsAvailableInSite": true
     }
   ]
 }
