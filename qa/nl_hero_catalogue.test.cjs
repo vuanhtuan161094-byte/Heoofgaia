@@ -63,7 +63,7 @@ check("364 Chat 05 descriptor bundles, zero invented combat mechanics",()=>{
   assert.equal(handoff.count,364);
   assert.deepEqual(buildSkillDescriptors(result.profiles,result.wikiStageSkills),handoff.heroes);
   assert(handoff.heroes.every(x=>x.runtimeImport===false && x.active===null && x.factStatus==="UNKNOWN"));
-  assert.equal(result.stageFactsCoverage.sourceVerifiedAbilities,42);
+  assert.equal(result.stageFactsCoverage.sourceVerifiedAbilities,55);
 });
 check("progression formula remains Wiki UNKNOWN, existing project SIMULATED",()=>{
   assert.equal(contract.progression.wikiMobile.evidence,"UNKNOWN");
@@ -103,11 +103,11 @@ check("verified role plus skill reaches DESIGN_READY but never PLAYABLE",()=>{
   assert.equal(h.fieldProvenance.skills,"VERIFIED");
   assert.equal(buildSkillDescriptors(p).find(x=>x.heroId===h.id).runtimeImport,false);
 });
-check("42 dated Orange/Gold abilities from 3 official release documents",()=>{
-  assert.equal(result.wikiStageSkills.length,42);
-  assert.equal(result.stageFactsCoverage.indexedHeroSkillVariants,38);
-  assert.equal(result.stageFactsCoverage.indexedHeroProfilesWithAnyStageSkill,35);
-  assert.equal(new Set(result.wikiStageSkills.map(x=>x.skillId)).size,42);
+check("55 dated Orange/Gold abilities from four official release documents",()=>{
+  assert.equal(result.wikiStageSkills.length,55);
+  assert.equal(result.stageFactsCoverage.indexedHeroSkillVariants,51);
+  assert.equal(result.stageFactsCoverage.indexedHeroProfilesWithAnyStageSkill,44);
+  assert.equal(new Set(result.wikiStageSkills.map(x=>x.skillId)).size,55);
 });
 check("Trương Liêu Gold has two 29500% tactical strikes and 145 morale",()=>{
   const p=result.wikiStageSkills.find(x=>x.name==="Trương Liêu"&&x.stage==="GOLD");
@@ -136,5 +136,17 @@ check("stage pack integrity rejects unsupported effect operator",()=>{
   const list=result.wikiStageSkills;
   assert(list.every(s=>s.events.every(e=>e.target && e.op)));
   assert(handoff.heroes.every(h=>h.stageSkills.every(s=>s.provenance==="VERIFIED" && s.executable===false)));
+});
+check("version conflict for Viên Thiệu is visible; no implied selection",()=>{
+  const h=handoff.heroes.find(x=>x.name==="Viên Thiệu");
+  assert.equal(h.stageSkills.filter(x=>x.stage==="GOLD").length,2);
+  assert.deepEqual(h.stageSkills.filter(x=>x.stage==="GOLD").map(x=>x.sourceDate),["2025-12-12","2026-06-07"]);
+  assert.equal(h.currentStage,null);
+});
+check("unquantified 2025 Gold ruler healing is preserved as UNKNOWN",()=>{
+  const h=result.wikiStageSkills.find(x=>x.name==="Tào Duệ"&&x.stage==="GOLD");
+  assert(h);
+  assert(h.events.some(e=>e.op==="HEAL_UNQUANTIFIED"&&e.coefficientPct===null));
+  assert(h.events.some(e=>e.op==="STAT_BONUS_UNQUANTIFIED"&&e.points===null));
 });
 console.log("NL_HERO focused QA: "+checks+"/"+checks+" PASS (not a runtime/release gate)");
