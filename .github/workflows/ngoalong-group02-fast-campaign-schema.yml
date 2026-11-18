@@ -37,7 +37,14 @@ jobs:
               details={key:typ(data.get(key),0) for key in ('vn','cn','strategies','hard','side')}
               first=(data.get('vn',{}).get('npcs') or [{}])[0]
               detailNpc={k:typ(first.get(k),0) for k in ('ident','name','type','troops','merit','power','fastAttack','effects','formation','souls','drops')}
-              result.append({'map':mid,'bytes':len(raw),'shape':typ(data),'detailFields':details,'npcDetailShapes':detailNpc})
+              sampleUnits=[{'pos':u.get('pos'),'general':u.get('general'),'soldierId':u.get('soldierId'),
+                'hp':u.get('hp'),'level':u.get('level'),
+                'activeSkillType':type(u.get('activeSkill')).__name__,
+                'activeSkillShape':typ(u.get('activeSkill'),0),
+                'effectsShape':typ(u.get('effects'),0)}
+                for u in first.get('formation',[])[:3]]
+              result.append({'map':mid,'bytes':len(raw),'shape':typ(data),'detailFields':details,
+                'npcDetailShapes':detailNpc,'sampleUnitFacts':sampleUnits})
             except Exception as ex:
               result.append({'map':mid,'error':repr(ex)[:260]})
           Path('campaign-schema-inspection.json').write_text(json.dumps(result,ensure_ascii=False,indent=2)+'\n')
