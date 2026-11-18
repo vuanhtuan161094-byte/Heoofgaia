@@ -85,6 +85,42 @@
         960,
         272
       ]
+    },
+    {
+      "path": "sprites/idle/phan_quan.png",
+      "bytes": 25317,
+      "sha256": "81aa5ed5a48e70efdf93d634750b26a04cdc4525406f58f69c5cd5beb5dee155",
+      "gitBlobSha": "a5c7cf09c87e5f627d480100479a7908aad43177",
+      "format": "PNG",
+      "mode": "RGBA",
+      "dimensions": [
+        128,
+        128
+      ]
+    },
+    {
+      "path": "sources/phan_quan_source_512.png",
+      "bytes": 285042,
+      "sha256": "82e2492c09be68aec8d407a2aeb9117f22c0a038a29d066d4cc38caa180969c9",
+      "gitBlobSha": "a543ded0899ccb9681416519d82762e455df7da5",
+      "format": "PNG",
+      "mode": "RGBA",
+      "dimensions": [
+        512,
+        512
+      ]
+    },
+    {
+      "path": "preview/phan_quan_vs_r11_at_80px.png",
+      "bytes": 135764,
+      "sha256": "43fa481e46e3b0ce0cfa71d635bc8cc45902374b4dae0a0ca3f29ed953a22c6c",
+      "gitBlobSha": "4ab690405bb2d27848e4c354fc6f823aaff123af",
+      "format": "PNG",
+      "mode": "RGB",
+      "dimensions": [
+        798,
+        425
+      ]
     }
   ],
   "excludedResults": [
@@ -94,11 +130,97 @@
   "integration": "NOT_IN_GAME",
   "approval": "PENDING_OWNER",
   "qa": {
-    "localAlphaAndCanvas": "PASS",
+    "localAlphaAndCanvas": "PASS_BOTH",
     "clipping": "PASS",
-    "footPivot": "PASS",
+    "footPivot": "PASS_BOTH",
     "realSizeComparison": "PREVIEWED_80PX",
     "playtest": "PENDING_CHAT08",
-    "fullCI": "NOT_RUN_ART_ONLY"
-  }
+    "fullCI": "NOT_RUN_ART_ONLY",
+    "perSpriteFullChromium": "NOT_RUN_ART_ONLY"
+  },
+  "units": [
+    {
+      "id": "hoang_bo",
+      "label": "Hoàng Bộ",
+      "pose": "IDLE",
+      "footPivot": [
+        64,
+        121
+      ],
+      "canvas": [
+        128,
+        128
+      ],
+      "masterCanvas": [
+        512,
+        512
+      ],
+      "displayPx": 80,
+      "equipment": {
+        "armor": "golden lamellar with beast pauldrons",
+        "mainHand": "war axe",
+        "offHand": "round buckler"
+      },
+      "distinctionFromR11": "gold-and-red heavy armor, lion buckler and broad axe, independent silhouette; owner approval pending",
+      "alphaThreshold": 8,
+      "alphaBBox": [
+        21,
+        9,
+        106,
+        121
+      ],
+      "borderClipped": false,
+      "attack": "NOT_PRODUCED",
+      "animation": "NONE"
+    },
+    {
+      "id": "phan_quan",
+      "label": "Phán Quan",
+      "tier": 3,
+      "pose": "IDLE",
+      "footPivot": [
+        64,
+        121
+      ],
+      "canvas": [
+        128,
+        128
+      ],
+      "masterCanvas": [
+        512,
+        512
+      ],
+      "displayPx": 80,
+      "equipment": {
+        "mainHand": "gem-inlaid magistrate staff",
+        "offHand": "sealed decree"
+      },
+      "role": "Kế Sách mạnh, khi tấn công có 5% khiến đối phương Mất Sĩ Khí 1 lượt",
+      "provenance": "ORIGINAL_IMAGE_GENERATION",
+      "state": "VISUAL_CANDIDATE",
+      "integration": "NOT_IN_GAME",
+      "attack": "NOT_PRODUCED"
+    }
+  ],
+  "wikiFacts": [
+    {
+      "id": "hoang_bo",
+      "name": "Hoàng Bộ",
+      "level": 3,
+      "role": "Năng lực tổng hợp mạnh, bạo kích và phản kích xuất sắc.",
+      "status": "VERIFIED"
+    },
+    {
+      "id": "phan_quan",
+      "name": "Phán Quan",
+      "level": 3,
+      "role": "Kế Sách mạnh, khi tấn công có 5% khiến đối phương Mất Sĩ Khí 1 lượt",
+      "status": "VERIFIED"
+    }
+  ],
+  "artNotes": "R13 contains 2 independent isolated character IDLE candidates. Hoàng Bộ added earlier in parallel; Phán Quan original transparent image appended without altering it. Remaining Lôi Kiếm Sĩ, Văn Khúc quarantined. No poster crops; no rig; no attack/animation.",
+  "rejectedStill": [
+    "loi_kiem_si",
+    "van_khuc"
+  ]
 }
