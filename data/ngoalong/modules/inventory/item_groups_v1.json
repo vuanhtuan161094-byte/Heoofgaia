@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 1,
+  "edition": "VNG_WIKI_MOBILE_CURRENT",
+  "projectRuleVersion": "mdt-inventory-consumables-v2",
+  "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham",
+  "declaredTotal": 674,
+  "sourceCounts": {
+    "Rương": 323,
+    "Vật Liệu": 145,
+    "Tài Nguyên": 82,
+    "Túi Phúc": 64,
+    "Ấn Thạch": 27,
+    "Danh Phẩm": 17,
+    "Bí Tịch": 9,
+    "Truyền Thừa Lệnh": 1,
+    "Lệnh": 1,
+    "Chìa Khóa": 1,
+    "Khác": 4
+  },
+  "sourceTreatment": "A Wiki name/group is a REFERENCE_ONLY record; project gameplay model is distinct, SIMULATED and does not claim Wiki odds or contents.",
+  "modelRules": {
+    "Rương": {
+      "category": "consumable",
+      "effectKind": "OPEN_BUNDLE",
+      "baseSilver": 120,
+      "baseIron": 25,
+      "baseMaterial": 1
+    },
+    "Vật Liệu": {
+      "category": "material",
+      "effectKind": "CRAFT_REAGENT",
+      "needPieces": 3,
+      "silverCost": 150,
+      "output": "mdt-tinh-khoang",
+      "outputQuantity": 1
+    },
+    "Tài Nguyên": {
+      "category": "consumable",
+      "effectKind": "GRANT_RESOURCE",
+      "defaultResource": "silver",
+      "baseAmount": 170
+    },
+    "Túi Phúc": {
+      "category": "consumable",
+      "effectKind": "OPEN_BUNDLE",
+      "baseSilver": 90,
+      "baseIron": 15,
+      "baseMaterial": 1
+    },
+    "Ấn Thạch": {
+      "category": "material",
+      "effectKind": "CRAFT_REAGENT",
+      "needPieces": 2,
+      "silverCost": 200,
+      "output": "mdt-tinh-khoang",
+      "outputQuantity": 1
+    },
+    "Danh Phẩm": {
+      "category": "consumable",
+      "effectKind": "GRANT_RESOURCE",
+      "defaultResource": "prestige",
+      "baseAmount": 5
+    },
+    "Bí Tịch": {
+      "category": "consumable",
+      "effectKind": "TRAIN_HERO_XP",
+      "baseAmount": 120
+    },
+    "Truyền Thừa Lệnh": {
+      "category": "reference",
+      "effectKind": null,
+      "reason": "UNKNOWN_SOURCE_EFFECT"
+    },
+    "Lệnh": {
+      "category": "reference",
+      "effectKind": null,
+      "reason": "UNKNOWN_SOURCE_EFFECT"
+    },
+    "Chìa Khóa": {
+      "category": "reference",
+      "effectKind": null,
+      "reason": "UNKNOWN_SOURCE_EFFECT"
+    },
+    "Khác": {
+      "category": "reference",
+      "effectKind": null,
+      "reason": "UNKNOWN_SOURCE_EFFECT"
+    }
+  },
+  "limits": {
+    "stacksKinds": 800,
+    "quantityEach": 999,
+    "receipts": 10000
+  },
+  "projectProvenance": {
+    "classification": "SIMULATED",
+    "sourceId": "mdt-items-674-v2",
+    "sourceMode": "PROJECT_ORIGINAL",
+    "wikiDropRatesCopied": false,
+    "actualWikiContentsUnknown": true
+  },
+  "unknownItemsNeverAutoGranted": true
+}
