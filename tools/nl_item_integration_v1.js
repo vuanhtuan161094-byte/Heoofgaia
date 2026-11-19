@@ -6,6 +6,8 @@ const NL_ITEM_CATALOGUE = window.NLItemBalanceV1.apply(__NL_ITEMS_CATALOGUE__);
 // Balance B2 changes only 667 project-origin item rules, not Wiki reference rows.
 window.NLItemBalanceV1.economicAudit(NL_ITEM_CATALOGUE);
 const NL_ITEM_RULES = __NL_ITEMS_RULES__;
+// UI-only access to upgrade costs; authoritative mechanics remain in engine.js.
+NL_ITEM_CATALOGUE.rules=NL_ITEM_RULES;
 const NL_ITEM_GROUP_RULES = __NL_ITEM_GROUP_RULES__;
 const nlItemConsumableApi=window.NLItemConsumables.createModule(NL_ITEM_CATALOGUE,NL_ITEM_GROUP_RULES);
 const nlItemWarehouseView={mode:'bag',category:'all',search:'',page:0};
@@ -70,7 +72,7 @@ equipmentStats=function(heroId){
 };
 if(window.__NL_R03_QA__) window.__NL_R03_QA__.equipmentStats=equipmentStats;
 
-const nlItemSelected={heroId:null,tab:'all',search:'',shop:false};
+const nlItemSelected={heroId:null,tab:'all',search:'',shop:false,page:0};
 function nlItemHeroId(){
   const roster=(game.roster||[]).filter(id=>game.hero?.[id]);
   if (!roster.includes(nlItemSelected.heroId)) nlItemSelected.heroId=roster[0]||null;
@@ -190,17 +192,21 @@ function nlItemRefreshEquipmentPanel(){
   if(updated)current.replaceWith(updated);
 }
 document.addEventListener('click',function(ev){
-  const control=ev.target.closest?.('[data-nli-action],[data-nli-tab],[data-nli-shop],[data-nli-pending]');
+  const control=ev.target.closest?.('[data-nli-action],[data-nli-tab],[data-nli-shop],[data-nli-page],[data-nli-pending]');
   if(!control || !control.closest('.nli-panel'))return;
   ev.preventDefault();ev.stopPropagation();
   if(control.hasAttribute('data-nli-pending')) {
     nlItemClaimPending(control.getAttribute('data-nli-pending'));return;
   }
   if(control.hasAttribute('data-nli-tab')){
-    nlItemSelected.tab=control.getAttribute('data-nli-tab');nlItemRefreshEquipmentPanel();return;
+    nlItemSelected.tab=control.getAttribute('data-nli-tab');nlItemSelected.page=0;nlItemRefreshEquipmentPanel();return;
   }
   if(control.hasAttribute('data-nli-shop')){
-    nlItemSelected.shop=control.getAttribute('data-nli-shop')==='1';nlItemRefreshEquipmentPanel();return;
+    nlItemSelected.shop=control.getAttribute('data-nli-shop')==='1';nlItemSelected.page=0;nlItemRefreshEquipmentPanel();return;
+  }
+  if(control.hasAttribute('data-nli-page')){
+    nlItemSelected.page=Math.max(0,Number(control.getAttribute('data-nli-page'))||0);
+    nlItemRefreshEquipmentPanel();return;
   }
   const action=control.getAttribute('data-nli-action');
   nlItemAction(action,{
@@ -217,6 +223,7 @@ document.addEventListener('input',function(ev){
   if(!ev.target.matches?.('[data-nli-search]') ||
     !ev.target.closest('[data-nl-item-bridge]'))return;
   nlItemSelected.search=ev.target.value;
+  nlItemSelected.page=0;
   // Avoid loss of caret while filtering.
   const position=ev.target.selectionStart;
   render();
