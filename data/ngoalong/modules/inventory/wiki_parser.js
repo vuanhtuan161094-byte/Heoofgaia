@@ -21,7 +21,9 @@
   if(Number(marker[1])!==674)throw new Error('WIKI_ITEM_TOTAL_CHANGED');
   const portion=text.slice(marker.index+marker[0].length)
     .split(/CÔNG TY CỔ PHẦN TẬP ĐOÀN VNG/i)[0];
-  const lines=portion.split(/\r?\n/).map(s=>s.replace(/\s+/g,' ').trim())
+  const normalized=portion.replace(/^\+[ \t]*\r?\n[ \t]*([^\r\n]+)[ \t]*\r?\n[ \t]*(\d+)[ \t]*$/gm,
+    (_,label,num)=>'+'+label.trim()+' '+num);
+  const lines=normalized.split(/\r?\n/).map(s=>s.replace(/\s+/g,' ').trim())
     .filter(s=>s&&!/^Image:?\s*$/i.test(s));
   const rows=[],groupCounts={},keys=new Set();
   let group=null,subGroup=null;
@@ -62,7 +64,8 @@
     if(onlyLevel){
       if(rows.length&&rows[rows.length-1].sourceCategory===group &&
         rows[rows.length-1].displayedLevel==null)
-        rows[rows.length-1].displayedLevel=Number(onlyLevel[1]);
+        {rows[rows.length-1].displayedLevel=Number(onlyLevel[1]);
+         rows[rows.length-1].fieldProvenance.displayedLevel='VERIFIED';}
       continue;
     }
     const match=/^(.*?)\s+Cấp\s+(\d+)$/.exec(line);
@@ -85,5 +88,36 @@
     rows
   };
  }
- return {parse,COUNTS,URL};
+ function parseSnapshots(payload){
+   const snapshots=payload?.categorySnapshots;
+   if(!snapshots||typeof snapshots!=='object')throw Error('NO_CATEGORY_SNAPSHOTS');
+   const rows=[],extractedCounts={},rawHashes={};
+   for(const [category,declared] of Object.entries(COUNTS)){
+     const source=snapshots[category]?.body;
+     if(typeof source!=='string')continue;
+     const parsed=parse(source,payload.checkedAt?.slice(0,10)||'2026-11-19');
+     const candidate=parsed.rows.filter(x=>x.sourceCategory===category);
+     if(candidate.length>declared)throw Error('CATEGORY_EXCESS_'+category);
+     for(const row of candidate){
+       const finalRow={...row,id:'wiki-item-index-'+String(rows.length+1).padStart(4,'0')};
+       rows.push(finalRow);
+     }
+     extractedCounts[category]=candidate.length;
+   }
+   if(rows.length>674)throw Error('SNAPSHOTS_TOO_LARGE');
+   return {
+    schemaVersion:1,sourceUrl:URL,sourceEdition:'VNG_WIKI_MOBILE_CURRENT',
+    declaredCount:674,extractedCount:rows.length,
+    checkedAt:payload.checkedAt?.slice(0,10)||'2026-11-19',
+    categoryCounts:COUNTS,
+    extractedCounts:Object.fromEntries(Object.keys(COUNTS).map(k=>[k,extractedCounts[k]||0])),
+    missingCounts:Object.fromEntries(Object.entries(COUNTS).map(([k,n])=>[k,n-(extractedCounts[k]||0)])),
+    isIndexComplete:rows.length===674,
+    sourceRules:{sourceEffectAuthority:false,statsFromWiki:false,
+      noHiddenRecordsInvented:true,classicParity:'UNKNOWN'},
+    origin:'LIVE_PLAYWRIGHT_EXPANDED_CATEGORY_SNAPSHOTS',
+    rows
+   };
+ }
+ return {parse,parseSnapshots,COUNTS,URL};
 });
