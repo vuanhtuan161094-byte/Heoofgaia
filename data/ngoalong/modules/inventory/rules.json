@@ -26,7 +26,34 @@
     "silverBase": 600,
     "materialId": "mdt-tinh-khoang",
     "materialPerLevel": 2,
-    "from": "PROJECT_ORIGINAL_SIMULATED"
+    "from": "PROJECT_ORIGINAL_SIMULATED",
+    "highTierPricing": {
+      "provenance": "SIMULATED",
+      "onlyForProjectEquipmentPrefix": "mdt-equip02-",
+      "groups": {
+        "Hiên Viên": {
+          "silverMultiplier": 1.5,
+          "materialExtra": 1
+        },
+        "Hỗn Độn": {
+          "silverMultiplier": 1.5,
+          "materialExtra": 1
+        },
+        "Bàn Cổ": {
+          "silverMultiplier": 1.5,
+          "materialExtra": 1
+        },
+        "Diệt Thế": {
+          "silverMultiplier": 2,
+          "materialExtra": 2
+        },
+        "Thần Hoàng": {
+          "silverMultiplier": 2,
+          "materialExtra": 2
+        }
+      },
+      "legacyCostUnchanged": true
+    }
   },
   "resources": [
     "silver",
