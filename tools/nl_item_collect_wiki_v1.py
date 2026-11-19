@@ -58,8 +58,8 @@ def main():
                 if not control.count():
                     failures.append("MISSING_CATEGORY_" + cat)
                     continue
-                control.last.click(timeout=7500)
-                page.wait_for_timeout(300)
+                control.last.click(timeout=2500)
+                page.wait_for_timeout(150)
                 overview = page.locator("body").inner_text(timeout=10000)
                 # The public accordion renders '+\\nlabel\\ncount' headings.
                 subgroups = re.findall(
@@ -74,8 +74,8 @@ def main():
                     try:
                         part = page.get_by_text(name, exact=True)
                         if part.count():
-                            part.last.click(timeout=5000)
-                            page.wait_for_timeout(70)
+                            part.last.click(timeout=900)
+                            page.wait_for_timeout(40)
                             expanded.append(name)
                     except Exception as exc:
                         failures.append("SUBGROUP_" + cat + ":" + name +
