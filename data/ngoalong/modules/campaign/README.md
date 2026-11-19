@@ -69,3 +69,30 @@ node --max-old-space-size=3072 --test qa/nl_campaign_module.test.cjs qa/nl_campa
 \`\`\`
 
 Current QA is isolated JavaScript/source consistency; shared runtime \`index.html\`, Save v5 and real combat are still owned by CHAT08. Do not claim Chromium, CI exact-SHA or a playable 249-map campaign before integration.
+
+## CHAT06 V5 — Source reconciliation for all 249 dungeons
+
+Full source audit is committed, but no Wiki dungeon is automatically playable:
+- 249 maps, 4,903 NPCs, 23,914 observed 3×3 unit slots, 170 roster-complete maps.
+- 17,850 missing unit soldier amounts; 344 numeric soldier sum conflicts; 97 NPC formations incomplete.
+- 3 zero-remainder ambiguities blocked; 0 auto-filled fields, 0 gameplay-approved maps.
+- 59 historically referenced map-title matches and 11 patch events without a unique match; historical rules never overwrite the current snapshot.
+- 7 selected NPC-unit snapshots corroborated (32 field agreements); 4 detailed selected-unit skill facts; none is a complete team or approved combat formula.
+
+New code and source outputs:
+- data/ngoalong/modules/campaign/nl_campaign_evidence_v5.js
+- data/ngoalong/modules/campaign/evidence_batches/batch-001.json to batch-003.json (all 249 maps and 4,903 NPC rows)
+- data/ngoalong/modules/campaign/source_reconciliation_index_v5.json
+- data/ngoalong/modules/campaign/verified_secondary_wiki_facts_v5.json
+- data/ngoalong/modules/campaign/source_repair_queue_v5.json
+- tools/nl_campaign_evidence_v5.js, tools/nl_campaign_verified_facts_v5.js, tools/nl_campaign_repair_queue_v5.js
+- qa/nl_campaign_evidence_v5.test.cjs
+
+Deterministic full-checkout commands:
+    node --max-old-space-size=2048 tools/nl_campaign_evidence_v5.js --check
+    node tools/nl_campaign_verified_facts_v5.js --check
+    node tools/nl_campaign_repair_queue_v5.js --check
+    node --test qa/nl_campaign_evidence_v5.test.cjs
+
+10/10 isolated JS checks passed on the committed source/index. Native Node, shared browser battle, Save/replay and exact-SHA Actions have not been confirmed.
+See docs/handoffs/NGOALONG_CHAT06_CAMPAIGN_V5.md for priority groups, limitations and CHAT08 handoff.
