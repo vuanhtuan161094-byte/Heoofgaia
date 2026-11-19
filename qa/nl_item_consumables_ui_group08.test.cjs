@@ -36,6 +36,22 @@ test('01 inventory provides a mobile-friendly owned-items UI with separated Wiki
  assert.match(source,/Quà Cấp 1/);
  assert.equal(source.includes('data-nli-item-action="use"'),false);
 });
+test('C mobile crafting shows exact input, silver cost and disabled state',()=>{
+  const row=pack.items.find(x=>x.id==='mdt-tinh-khoang');
+  assert.ok(row);
+  const s=state();
+  const material=pack.items.find(x=>x.integration==='PLAYABLE'&&x.effectRule?.kind==='CRAFT_REAGENT');
+  if(material){
+    s.nlItemsV1.stacks[material.id]=material.effectRule.needPieces;
+    s.silver=0;
+    const html=ui.view(pack,engine,s);
+    assert.match(html,/data-nli-craft-status="insufficient"/);
+    assert.match(html,/Chưa đủ điều kiện/);
+    assert.match(html,/data-nli-item-action="process"[^>]*disabled/);
+  }
+  const filtered=ui.view(pack,engine,s,{mode:'wiki',search:'unfindable-item-name'});
+  assert.match(filtered,/0 mục phù hợp/);
+});
 test('02 use click mints unique receipt, charges exactly one, Save retains v5 shape',()=>{
  let s=state(),updates=0,nonce=0;
  const h=host(),ctl=ui.mount(h,{pack,engine,getState:()=>s,setState:next=>{s=next;updates++},
