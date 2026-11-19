@@ -1,0 +1,249 @@
+{
+  "schemaVersion": 1,
+  "sourceUrl": "https://ngoalong.zing.vn/su-kien/phien-ban-moi-bach-khi-hoang-to-chi-tu/truyen-thuyet-tuong-tim.html",
+  "sourceDate": "2019-10-09",
+  "edition": "VNG_OFFICIAL_ARCHIVE_PURPLE_2019",
+  "count": 4,
+  "records": [
+    {
+      "name": "Tào Phi",
+      "skillName": "Uy Áp",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE_UNQUANTIFIED",
+          "target": "ALL_ENEMIES",
+          "lane": "STRATEGY",
+          "coefficientPct": null,
+          "conditionalModifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "target": "ALL_ENEMIES",
+          "effect": "Đào Binh",
+          "durationTurns": 2
+        },
+        {
+          "op": "HEAL_UNQUANTIFIED",
+          "target": "SELF",
+          "coefficientPct": null
+        }
+      ],
+      "specialWeapon": [
+        {
+          "name": "Ly Thương 1",
+          "level": 1,
+          "condition": "SELF_HAS_HOAT_LUC",
+          "damageReceivedModifierPct": -20,
+          "elseDamageDealtBonusPct": 20
+        },
+        {
+          "name": "Hồn Đế 1",
+          "unlock": "RANK4_LEVEL5",
+          "allWeiAttackDefenseBonusPct": 10
+        }
+      ],
+      "heroId": "wiki-mobile-hero-023",
+      "skillId": "wiki-purple-20191009-01",
+      "stage": "PURPLE",
+      "sourceDate": "2019-10-09",
+      "sourceUrl": "https://ngoalong.zing.vn/su-kien/phien-ban-moi-bach-khi-hoang-to-chi-tu/truyen-thuyet-tuong-tim.html",
+      "classification": "VERIFIED",
+      "sourceScope": "VNG_OFFICIAL_HISTORIC_PURPLE_2019",
+      "checkedAt": "2026-11-19",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "sourceLimited": true,
+      "additionalStatGrowth": null,
+      "awakeningMaterialCosts": null
+    },
+    {
+      "name": "Trương Ninh",
+      "skillName": "Quỷ Cốc Di Kế",
+      "lane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE_UNQUANTIFIED",
+          "target": "ALL_ENEMIES",
+          "lane": "PHYSICAL",
+          "coefficientPct": null
+        },
+        {
+          "op": "STATUS",
+          "target": "SELF",
+          "effect": "Hội Tâm",
+          "durationTurns": 4
+        },
+        {
+          "op": "STATUS",
+          "target": "SELF",
+          "effect": "Tử Chiến",
+          "durationTurns": 4
+        },
+        {
+          "op": "STATUS",
+          "target": "SELF",
+          "effect": "Liên Chiến",
+          "durationTurns": 4
+        },
+        {
+          "op": "STATUS",
+          "target": "SELF",
+          "effect": "IMMUNE_DAMAGE",
+          "durationTurns": 1
+        },
+        {
+          "op": "DISPEL",
+          "target": "SELF",
+          "effect": "DEBUFF",
+          "count": "ALL",
+          "durationTurns": 1
+        }
+      ],
+      "specialWeapon": [
+        {
+          "name": "Thấu Suốt 1",
+          "level": 1,
+          "status": "Thấu Suốt",
+          "bonusDamageAgainstBountyMultiplier": 1.5,
+          "dispel": false
+        },
+        {
+          "name": "Điệp Nhẫn 1",
+          "unlock": "RANK4_LEVEL5",
+          "armorIgnoreIncreasePerHit": 1200,
+          "maxTotal": 80000,
+          "dispel": false
+        }
+      ],
+      "heroId": "wiki-mobile-hero-150",
+      "skillId": "wiki-purple-20191009-02",
+      "stage": "PURPLE",
+      "sourceDate": "2019-10-09",
+      "sourceUrl": "https://ngoalong.zing.vn/su-kien/phien-ban-moi-bach-khi-hoang-to-chi-tu/truyen-thuyet-tuong-tim.html",
+      "classification": "VERIFIED",
+      "sourceScope": "VNG_OFFICIAL_HISTORIC_PURPLE_2019",
+      "checkedAt": "2026-11-19",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "sourceLimited": true,
+      "additionalStatGrowth": null,
+      "awakeningMaterialCosts": null
+    },
+    {
+      "name": "Vương Doãn",
+      "skillName": "Uy Áp",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE_UNQUANTIFIED",
+          "target": "ALL_ENEMIES",
+          "lane": "STRATEGY",
+          "coefficientPct": null,
+          "conditionalModifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "target": "ALL_ENEMIES",
+          "effect": "Đào Binh",
+          "durationTurns": 2
+        },
+        {
+          "op": "HEAL_UNQUANTIFIED",
+          "target": "SELF",
+          "coefficientPct": null
+        }
+      ],
+      "specialWeapon": [
+        {
+          "name": "Ly Gián 1",
+          "level": 1,
+          "allEnemyStrategyDefenseDownPct": 10,
+          "durationTurns": 10,
+          "dispel": false
+        },
+        {
+          "name": "Bình Công 1",
+          "unlock": "RANK4_LEVEL5",
+          "selfShieldHits": 2,
+          "durationTurns": 2
+        }
+      ],
+      "heroId": "wiki-mobile-hero-161",
+      "skillId": "wiki-purple-20191009-03",
+      "stage": "PURPLE",
+      "sourceDate": "2019-10-09",
+      "sourceUrl": "https://ngoalong.zing.vn/su-kien/phien-ban-moi-bach-khi-hoang-to-chi-tu/truyen-thuyet-tuong-tim.html",
+      "classification": "VERIFIED",
+      "sourceScope": "VNG_OFFICIAL_HISTORIC_PURPLE_2019",
+      "checkedAt": "2026-11-19",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "sourceLimited": true,
+      "additionalStatGrowth": null,
+      "awakeningMaterialCosts": null
+    },
+    {
+      "name": "Tuân Vực",
+      "skillName": "Diệt Thế Thiên Lôi",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE_UNQUANTIFIED",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "lane": "STRATEGY",
+          "hits": 5,
+          "coefficientPct": null,
+          "conditionalModifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 500,
+          "onNoKill": 100
+        },
+        {
+          "op": "STATUS",
+          "target": "LAST_ENEMY_KILLED",
+          "effect": "Âm Hồn",
+          "durationTurns": null
+        }
+      ],
+      "specialWeapon": [
+        {
+          "name": "Viễn Mưu 1",
+          "level": 1,
+          "trigger": "BATTLE_START",
+          "status": "Viễn Mưu",
+          "fromTurn": 5,
+          "dispel": false
+        },
+        {
+          "name": "Kinh Hồn 1",
+          "unlock": "RANK4_LEVEL5",
+          "onEachDamageSkill": "INCREMENT_AM_HON_STACK"
+        }
+      ],
+      "heroId": "wiki-mobile-hero-011",
+      "skillId": "wiki-purple-20191009-04",
+      "stage": "PURPLE",
+      "sourceDate": "2019-10-09",
+      "sourceUrl": "https://ngoalong.zing.vn/su-kien/phien-ban-moi-bach-khi-hoang-to-chi-tu/truyen-thuyet-tuong-tim.html",
+      "classification": "VERIFIED",
+      "sourceScope": "VNG_OFFICIAL_HISTORIC_PURPLE_2019",
+      "checkedAt": "2026-11-19",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "sourceLimited": true,
+      "additionalStatGrowth": null,
+      "awakeningMaterialCosts": null
+    }
+  ],
+  "disclaimer": "2019 classic Ngọa Long purple-stage announcement is historic: stage mechanics reported in archived site, not current Mobile server equivalence or current equipped skill.",
+  "currentMobileParity": "UNKNOWN",
+  "runtimeEligible": false
+}
