@@ -1,0 +1,2377 @@
+{
+  "schemaVersion": 1,
+  "id": "MDT-PROJECT-TROOP-DESIGN-V1",
+  "asOf": "2026-11-18",
+  "provenance": "SIMULATED",
+  "runtimeWired": false,
+  "sourceLegacyAlpha": "data/ngoalong/alpha_content.json",
+  "legacyAlphaSourceSha": "204510a9877bed5dca98b171a6e81fcec1e43823",
+  "note": "25 design identities are the existing 7 project bases + 18 project specialization branches; not 25 Wiki verified units. The legacy game may already simulate many of these, but this module has no runtime hookup.",
+  "combatFormula": {
+    "perTierMultiplier": "1 + 0.12 * (tier - 1)",
+    "tierRange": [
+      1,
+      7
+    ],
+    "version": "SIMULATED_DESIGN_NOT_ENGINE",
+    "tier1To4CompatibleConceptOnly": true,
+    "tier5To7RuntimeEnabled": false,
+    "keepExistingSave": true
+  },
+  "units": [
+    {
+      "id": "nlp-infantry",
+      "legacyId": "infantry",
+      "name": "Bộ Binh",
+      "family": "infantry",
+      "category": "infantry",
+      "parentId": null,
+      "projectTier": 1,
+      "branchType": "PROJECT_BASE",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 94,
+        "defense": 126,
+        "tactic": 76,
+        "magic": 54,
+        "morale": 100,
+        "hp": 132
+      },
+      "combatBehavior": {
+        "mechanic": "front_guard_counter",
+        "trigger": "on_receiving_physical_hit",
+        "target": "frontline_self",
+        "lane": "physical",
+        "effectIntent": "guard_and_counter",
+        "value": 0.15,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "infantry",
+        "legacyEvolutionId": null,
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/infantry",
+        "familySilhouette": "wide_shield",
+        "mainWeapon": "shield_sword",
+        "uniqueMotif": "front_guard_counter",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "front_guard_counter"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "frontline_self",
+        "attackPattern": "on_receiving_physical_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "front_guard_counter",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-infantry",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-spear",
+      "legacyId": "spear",
+      "name": "Thương Binh",
+      "family": "spear",
+      "category": "spear",
+      "parentId": null,
+      "projectTier": 1,
+      "branchType": "PROJECT_BASE",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 108,
+        "defense": 100,
+        "tactic": 94,
+        "magic": 48,
+        "morale": 100,
+        "hp": 112
+      },
+      "combatBehavior": {
+        "mechanic": "anti_cavalry_brace",
+        "trigger": "on_cavalry_charge",
+        "target": "frontline_enemy",
+        "lane": "physical",
+        "effectIntent": "brace_return_damage",
+        "value": 0.19,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "spear",
+        "legacyEvolutionId": null,
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/spear",
+        "familySilhouette": "long_vertical_weapon",
+        "mainWeapon": "long_spear",
+        "uniqueMotif": "anti_cavalry_brace",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "anti_cavalry_brace"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "frontline_enemy",
+        "attackPattern": "on_cavalry_charge",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "cavalry",
+          "threatenedBy": "infantry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "anti_cavalry_brace",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-spear",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-cavalry",
+      "legacyId": "cavalry",
+      "name": "Kỵ Binh",
+      "family": "cavalry",
+      "category": "cavalry",
+      "parentId": null,
+      "projectTier": 1,
+      "branchType": "PROJECT_BASE",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 125,
+        "defense": 89,
+        "tactic": 116,
+        "magic": 40,
+        "morale": 100,
+        "hp": 106
+      },
+      "combatBehavior": {
+        "mechanic": "charge_opening",
+        "trigger": "first_attack",
+        "target": "front_enemy",
+        "lane": "physical",
+        "effectIntent": "charge_bonus",
+        "value": 0.16,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "cavalry",
+        "legacyEvolutionId": null,
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/cavalry",
+        "familySilhouette": "horse_and_rider",
+        "mainWeapon": "cavalry_lance",
+        "uniqueMotif": "charge_opening",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "charge_opening"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "front_enemy",
+        "attackPattern": "first_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "infantry",
+          "threatenedBy": "spear",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "charge_opening",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-cavalry",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-archer",
+      "legacyId": "archer",
+      "name": "Cung Binh",
+      "family": "archer",
+      "category": "archer",
+      "parentId": null,
+      "projectTier": 1,
+      "branchType": "PROJECT_BASE",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 117,
+        "defense": 76,
+        "tactic": 98,
+        "magic": 58,
+        "morale": 100,
+        "hp": 94
+      },
+      "combatBehavior": {
+        "mechanic": "aim_backline",
+        "trigger": "on_basic_attack",
+        "target": "rear_enemy",
+        "lane": "physical",
+        "effectIntent": "ranged_priority",
+        "value": 0.12,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "archer",
+        "legacyEvolutionId": null,
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/archer",
+        "familySilhouette": "bow_arc",
+        "mainWeapon": "bow_or_crossbow",
+        "uniqueMotif": "aim_backline",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "aim_backline"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "rear_enemy",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "aim_backline",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-archer",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-strategist",
+      "legacyId": "strategist",
+      "name": "Quan Văn",
+      "family": "strategist",
+      "category": "strategist",
+      "parentId": null,
+      "projectTier": 1,
+      "branchType": "PROJECT_BASE",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 61,
+        "defense": 68,
+        "tactic": 81,
+        "magic": 141,
+        "morale": 100,
+        "hp": 89
+      },
+      "combatBehavior": {
+        "mechanic": "mystic_focus",
+        "trigger": "on_skill_cast",
+        "target": "enemy_weak_magic_defense",
+        "lane": "magic",
+        "effectIntent": "spell_pressure",
+        "value": 0.12,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "strategist",
+        "legacyEvolutionId": null,
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/strategist",
+        "familySilhouette": "robe_and_focus",
+        "mainWeapon": "staff_fan_or_scroll",
+        "uniqueMotif": "mystic_focus",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "mystic_focus"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "magic"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_weak_magic_defense",
+        "attackPattern": "on_skill_cast",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "mystic_focus",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-strategist",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-support",
+      "legacyId": "support",
+      "name": "Quân Y",
+      "family": "support",
+      "category": "support",
+      "parentId": null,
+      "projectTier": 1,
+      "branchType": "PROJECT_BASE",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 53,
+        "defense": 101,
+        "tactic": 66,
+        "magic": 112,
+        "morale": 100,
+        "hp": 109
+      },
+      "combatBehavior": {
+        "mechanic": "emergency_triage",
+        "trigger": "on_own_turn",
+        "target": "lowest_hp_ally",
+        "lane": "healing",
+        "effectIntent": "heal_fraction",
+        "value": 0.13,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "support",
+        "legacyEvolutionId": null,
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/support",
+        "familySilhouette": "support_gear",
+        "mainWeapon": "medical_staff",
+        "uniqueMotif": "emergency_triage",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "emergency_triage"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "healing"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "lowest_hp_ally",
+        "attackPattern": "on_own_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "emergency_triage",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-support",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-drum",
+      "legacyId": "drum",
+      "name": "Trống Trận",
+      "family": "drum",
+      "category": "drum",
+      "parentId": null,
+      "projectTier": 1,
+      "branchType": "PROJECT_BASE",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 39,
+        "defense": 89,
+        "tactic": 62,
+        "magic": 98,
+        "morale": 100,
+        "hp": 116
+      },
+      "combatBehavior": {
+        "mechanic": "tempo_pulse",
+        "trigger": "on_own_turn",
+        "target": "all_allies",
+        "lane": "morale",
+        "effectIntent": "morale_add",
+        "value": 8,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "drum",
+        "legacyEvolutionId": null,
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/drum",
+        "familySilhouette": "support_gear",
+        "mainWeapon": "war_drum",
+        "uniqueMotif": "tempo_pulse",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "tempo_pulse"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "morale"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "all_allies",
+        "attackPattern": "on_own_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "tempo_pulse",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-drum",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-bulwark",
+      "legacyId": "bulwark",
+      "name": "Thiết Thành",
+      "family": "infantry",
+      "category": "infantry",
+      "parentId": "nlp-infantry",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 94,
+        "defense": 201,
+        "tactic": 76,
+        "magic": 54,
+        "morale": 100,
+        "hp": 132
+      },
+      "combatBehavior": {
+        "mechanic": "intercept_damage",
+        "trigger": "on_adjacent_ally_targeted",
+        "target": "front_ally",
+        "lane": "physical",
+        "effectIntent": "damage_redirect_fraction",
+        "value": 0.22,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "infantry",
+        "legacyEvolutionId": "bulwark",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/bulwark",
+        "familySilhouette": "wide_shield",
+        "mainWeapon": "shield_sword",
+        "uniqueMotif": "intercept_damage",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "intercept_damage"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "front_ally",
+        "attackPattern": "on_adjacent_ally_targeted",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "intercept_damage",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-bulwark",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-crusher",
+      "legacyId": "crusher",
+      "name": "Phá Trận",
+      "family": "infantry",
+      "category": "infantry",
+      "parentId": "nlp-infantry",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 105,
+        "defense": 126,
+        "tactic": 85,
+        "magic": 54,
+        "morale": 100,
+        "hp": 132
+      },
+      "combatBehavior": {
+        "mechanic": "breaker_impact",
+        "trigger": "on_physical_hit",
+        "target": "high_armor_enemy",
+        "lane": "physical",
+        "effectIntent": "ignore_defense_fraction",
+        "value": 0.08,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "infantry",
+        "legacyEvolutionId": "crusher",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/crusher",
+        "familySilhouette": "wide_shield",
+        "mainWeapon": "shield_sword",
+        "uniqueMotif": "breaker_impact",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "breaker_impact"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "high_armor_enemy",
+        "attackPattern": "on_physical_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "breaker_impact",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-crusher",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-spearwall",
+      "legacyId": "spearwall",
+      "name": "Thương Phá Kỵ",
+      "family": "infantry",
+      "category": "infantry",
+      "parentId": "nlp-infantry",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 94,
+        "defense": 139,
+        "tactic": 84,
+        "magic": 54,
+        "morale": 100,
+        "hp": 132
+      },
+      "combatBehavior": {
+        "mechanic": "spear_switch_guard",
+        "trigger": "on_cavalry_attacks_ally",
+        "target": "cavalry_enemy",
+        "lane": "physical",
+        "effectIntent": "countercharge_guard",
+        "value": 0.18,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "spear",
+        "legacyEvolutionId": "spearwall",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/spearwall",
+        "familySilhouette": "wide_shield",
+        "mainWeapon": "shield_sword",
+        "uniqueMotif": "spear_switch_guard",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "spear_switch_guard"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "cavalry_enemy",
+        "attackPattern": "on_cavalry_attacks_ally",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "spear_switch_guard",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-spearwall",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-shock",
+      "legacyId": "shock",
+      "name": "Xung Kích",
+      "family": "cavalry",
+      "category": "cavalry",
+      "parentId": "nlp-cavalry",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 125,
+        "defense": 89,
+        "tactic": 135,
+        "magic": 40,
+        "morale": 100,
+        "hp": 106
+      },
+      "combatBehavior": {
+        "mechanic": "first_charge_stagger",
+        "trigger": "first_attacker_turn",
+        "target": "first_enemy",
+        "lane": "tactic",
+        "effectIntent": "morale_damage",
+        "value": 10,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "cavalry",
+        "legacyEvolutionId": "shock",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/shock",
+        "familySilhouette": "horse_and_rider",
+        "mainWeapon": "cavalry_lance",
+        "uniqueMotif": "first_charge_stagger",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "first_charge_stagger"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "tactic"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "first_enemy",
+        "attackPattern": "first_attacker_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "infantry",
+          "threatenedBy": "spear",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "first_charge_stagger",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-shock",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-raider",
+      "legacyId": "raider",
+      "name": "Kỵ Tập Hậu",
+      "family": "cavalry",
+      "category": "cavalry",
+      "parentId": "nlp-cavalry",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 133,
+        "defense": 89,
+        "tactic": 123,
+        "magic": 40,
+        "morale": 100,
+        "hp": 106
+      },
+      "combatBehavior": {
+        "mechanic": "rear_flank_raid",
+        "trigger": "on_basic_attack",
+        "target": "enemy_back_row",
+        "lane": "physical",
+        "effectIntent": "rear_damage_bonus",
+        "value": 0.12,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "cavalry",
+        "legacyEvolutionId": "raider",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/raider",
+        "familySilhouette": "horse_and_rider",
+        "mainWeapon": "cavalry_lance",
+        "uniqueMotif": "rear_flank_raid",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "rear_flank_raid"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_back_row",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "infantry",
+          "threatenedBy": "spear",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "rear_flank_raid",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-raider",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-marksman",
+      "legacyId": "marksman",
+      "name": "Thần Xạ",
+      "family": "archer",
+      "category": "archer",
+      "parentId": "nlp-archer",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 128,
+        "defense": 76,
+        "tactic": 98,
+        "magic": 58,
+        "morale": 100,
+        "hp": 94
+      },
+      "combatBehavior": {
+        "mechanic": "precision_weakpoint",
+        "trigger": "on_basic_attack",
+        "target": "lowest_hp_enemy",
+        "lane": "physical",
+        "effectIntent": "critical_chance_bonus",
+        "value": 0.1,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "archer",
+        "legacyEvolutionId": "marksman",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/marksman",
+        "familySilhouette": "bow_arc",
+        "mainWeapon": "bow_or_crossbow",
+        "uniqueMotif": "precision_weakpoint",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "precision_weakpoint"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "lowest_hp_enemy",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "precision_weakpoint",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-marksman",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-volley",
+      "legacyId": "volley",
+      "name": "Liên Nỗ",
+      "family": "archer",
+      "category": "archer",
+      "parentId": "nlp-archer",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 122,
+        "defense": 76,
+        "tactic": 98,
+        "magic": 58,
+        "morale": 100,
+        "hp": 94
+      },
+      "combatBehavior": {
+        "mechanic": "rapid_double_bolt",
+        "trigger": "on_basic_attack",
+        "target": "single_enemy",
+        "lane": "physical",
+        "effectIntent": "second_bolt_damage_fraction",
+        "value": 0.52,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "archer",
+        "legacyEvolutionId": "volley",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/volley",
+        "familySilhouette": "bow_arc",
+        "mainWeapon": "bow_or_crossbow",
+        "uniqueMotif": "rapid_double_bolt",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "rapid_double_bolt"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "single_enemy",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "rapid_double_bolt",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-volley",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-ember",
+      "legacyId": "ember",
+      "name": "Hỏa Cơ",
+      "family": "strategist",
+      "category": "strategist",
+      "parentId": "nlp-strategist",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 61,
+        "defense": 68,
+        "tactic": 81,
+        "magic": 158,
+        "morale": 100,
+        "hp": 89
+      },
+      "combatBehavior": {
+        "mechanic": "ignite_spell",
+        "trigger": "on_skill_hit",
+        "target": "enemy_hit",
+        "lane": "magic",
+        "effectIntent": "burn_apply_chance",
+        "value": 0.58,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "strategist",
+        "legacyEvolutionId": "ember",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/ember",
+        "familySilhouette": "robe_and_focus",
+        "mainWeapon": "staff_fan_or_scroll",
+        "uniqueMotif": "ignite_spell",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "ignite_spell"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "magic"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_hit",
+        "attackPattern": "on_skill_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "ignite_spell",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-ember",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-disrupt",
+      "legacyId": "disrupt",
+      "name": "Nhiễu Tâm",
+      "family": "strategist",
+      "category": "strategist",
+      "parentId": "nlp-strategist",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 61,
+        "defense": 68,
+        "tactic": 81,
+        "magic": 149,
+        "morale": 100,
+        "hp": 89
+      },
+      "combatBehavior": {
+        "mechanic": "morale_suppression",
+        "trigger": "on_skill_hit",
+        "target": "highest_morale_enemy",
+        "lane": "morale",
+        "effectIntent": "morale_reduce",
+        "value": 18,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "strategist",
+        "legacyEvolutionId": "disrupt",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/disrupt",
+        "familySilhouette": "robe_and_focus",
+        "mainWeapon": "staff_fan_or_scroll",
+        "uniqueMotif": "morale_suppression",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "morale_suppression"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "morale"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "highest_morale_enemy",
+        "attackPattern": "on_skill_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "morale_suppression",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-disrupt",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-medic",
+      "legacyId": "medic",
+      "name": "Dưỡng Quân",
+      "family": "support",
+      "category": "support",
+      "parentId": "nlp-support",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 53,
+        "defense": 101,
+        "tactic": 66,
+        "magic": 118,
+        "morale": 100,
+        "hp": 109
+      },
+      "combatBehavior": {
+        "mechanic": "field_mending",
+        "trigger": "on_own_turn",
+        "target": "lowest_hp_ally",
+        "lane": "healing",
+        "effectIntent": "heal_fraction",
+        "value": 0.28,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "support",
+        "legacyEvolutionId": "medic",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/medic",
+        "familySilhouette": "support_gear",
+        "mainWeapon": "medical_staff",
+        "uniqueMotif": "field_mending",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "field_mending"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "healing"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "lowest_hp_ally",
+        "attackPattern": "on_own_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "field_mending",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-medic",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-rally",
+      "legacyId": "rally",
+      "name": "Hiệu Lệnh",
+      "family": "support",
+      "category": "support",
+      "parentId": "nlp-support",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 53,
+        "defense": 101,
+        "tactic": 66,
+        "magic": 116,
+        "morale": 100,
+        "hp": 109
+      },
+      "combatBehavior": {
+        "mechanic": "battle_command",
+        "trigger": "on_own_turn",
+        "target": "all_allies",
+        "lane": "morale",
+        "effectIntent": "morale_add",
+        "value": 12,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "support",
+        "legacyEvolutionId": "rally",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/rally",
+        "familySilhouette": "support_gear",
+        "mainWeapon": "medical_staff",
+        "uniqueMotif": "battle_command",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "battle_command"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "morale"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "all_allies",
+        "attackPattern": "on_own_turn",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "battle_command",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-rally",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-shieldbreaker",
+      "legacyId": "shieldbreaker",
+      "name": "Phá Thuẫn",
+      "family": "infantry",
+      "category": "infantry",
+      "parentId": "nlp-infantry",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 100,
+        "defense": 126,
+        "tactic": 80,
+        "magic": 54,
+        "morale": 100,
+        "hp": 132
+      },
+      "combatBehavior": {
+        "mechanic": "shield_sunder",
+        "trigger": "on_basic_hit",
+        "target": "shielded_enemy",
+        "lane": "physical",
+        "effectIntent": "barrier_bypass_fraction",
+        "value": 0.1,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "infantry",
+        "legacyEvolutionId": "shieldbreaker",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/shieldbreaker",
+        "familySilhouette": "wide_shield",
+        "mainWeapon": "shield_sword",
+        "uniqueMotif": "shield_sunder",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "shield_sunder"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "shielded_enemy",
+        "attackPattern": "on_basic_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "spear",
+          "threatenedBy": "cavalry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "shield_sunder",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-shieldbreaker",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-swift-wing",
+      "legacyId": "swift-wing",
+      "name": "Phi Kỵ",
+      "family": "cavalry",
+      "category": "cavalry",
+      "parentId": "nlp-cavalry",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 130,
+        "defense": 89,
+        "tactic": 122,
+        "magic": 40,
+        "morale": 100,
+        "hp": 106
+      },
+      "combatBehavior": {
+        "mechanic": "swift_backline_pressure",
+        "trigger": "battle_opening",
+        "target": "enemy_back_row",
+        "lane": "tactic",
+        "effectIntent": "opening_damage_bonus",
+        "value": 0.12,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "cavalry",
+        "legacyEvolutionId": "swift-wing",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/swift-wing",
+        "familySilhouette": "horse_and_rider",
+        "mainWeapon": "cavalry_lance",
+        "uniqueMotif": "swift_backline_pressure",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "swift_backline_pressure"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "tactic"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_back_row",
+        "attackPattern": "battle_opening",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "infantry",
+          "threatenedBy": "spear",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "swift_backline_pressure",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-swift-wing",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-rain-volley",
+      "legacyId": "rain-volley",
+      "name": "Vũ Tiễn",
+      "family": "archer",
+      "category": "archer",
+      "parentId": "nlp-archer",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 121,
+        "defense": 76,
+        "tactic": 98,
+        "magic": 58,
+        "morale": 100,
+        "hp": 94
+      },
+      "combatBehavior": {
+        "mechanic": "area_arrow_rain",
+        "trigger": "on_basic_attack",
+        "target": "enemy_row",
+        "lane": "physical",
+        "effectIntent": "row_splash_fraction",
+        "value": 0.35,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "archer",
+        "legacyEvolutionId": "rain-volley",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/rain-volley",
+        "familySilhouette": "bow_arc",
+        "mainWeapon": "bow_or_crossbow",
+        "uniqueMotif": "area_arrow_rain",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "area_arrow_rain"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_row",
+        "attackPattern": "on_basic_attack",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "area_arrow_rain",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-rain-volley",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-seal-master",
+      "legacyId": "seal-master",
+      "name": "Phong Mưu",
+      "family": "strategist",
+      "category": "strategist",
+      "parentId": "nlp-strategist",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 61,
+        "defense": 68,
+        "tactic": 81,
+        "magic": 148,
+        "morale": 100,
+        "hp": 89
+      },
+      "combatBehavior": {
+        "mechanic": "suppress_enemy_caster",
+        "trigger": "on_skill_hit",
+        "target": "enemy_highest_magic",
+        "lane": "morale",
+        "effectIntent": "morale_reduce",
+        "value": 10,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "strategist",
+        "legacyEvolutionId": "seal-master",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/seal-master",
+        "familySilhouette": "robe_and_focus",
+        "mainWeapon": "staff_fan_or_scroll",
+        "uniqueMotif": "suppress_enemy_caster",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "suppress_enemy_caster"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "morale"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "enemy_highest_magic",
+        "attackPattern": "on_skill_hit",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "suppress_enemy_caster",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-seal-master",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-ward-bearer",
+      "legacyId": "ward-bearer",
+      "name": "Hộ Quân",
+      "family": "support",
+      "category": "support",
+      "parentId": "nlp-support",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 53,
+        "defense": 111,
+        "tactic": 66,
+        "magic": 112,
+        "morale": 100,
+        "hp": 109
+      },
+      "combatBehavior": {
+        "mechanic": "aegis_healing_guard",
+        "trigger": "on_low_hp_ally_damaged",
+        "target": "lowest_hp_ally",
+        "lane": "healing",
+        "effectIntent": "guard_heal_fraction",
+        "value": 0.1,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "support",
+        "legacyEvolutionId": "ward-bearer",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/ward-bearer",
+        "familySilhouette": "support_gear",
+        "mainWeapon": "medical_staff",
+        "uniqueMotif": "aegis_healing_guard",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "aegis_healing_guard"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "healing"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "lowest_hp_ally",
+        "attackPattern": "on_low_hp_ally_damaged",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": null
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "aegis_healing_guard",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-ward-bearer",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-phalanx",
+      "legacyId": "phalanx",
+      "name": "Trường Mâu",
+      "family": "spear",
+      "category": "spear",
+      "parentId": "nlp-spear",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 108,
+        "defense": 121,
+        "tactic": 94,
+        "magic": 48,
+        "morale": 100,
+        "hp": 118
+      },
+      "combatBehavior": {
+        "mechanic": "formation_brace",
+        "trigger": "on_cavalry_charge_incoming",
+        "target": "front_allies",
+        "lane": "physical",
+        "effectIntent": "anti_charge_damage_reduction",
+        "value": 0.2,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "spear",
+        "legacyEvolutionId": "phalanx",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/phalanx",
+        "familySilhouette": "long_vertical_weapon",
+        "mainWeapon": "long_spear",
+        "uniqueMotif": "formation_brace",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "formation_brace"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "front_allies",
+        "attackPattern": "on_cavalry_charge_incoming",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "cavalry",
+          "threatenedBy": "infantry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "formation_brace",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-phalanx",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    },
+    {
+      "id": "nlp-impaler",
+      "legacyId": "impaler",
+      "name": "Xuyên Giáp",
+      "family": "spear",
+      "category": "spear",
+      "parentId": "nlp-spear",
+      "projectTier": 1,
+      "branchType": "PROJECT_SPECIALIZATION",
+      "wikiIdentityId": null,
+      "sourceEdition": "PROJECT_ORIGINAL",
+      "provenance": {
+        "identity": "SIMULATED",
+        "stats": "SIMULATED",
+        "behavior": "SIMULATED",
+        "upgradeCosts": "SIMULATED",
+        "wikiNamedEvolution": "UNKNOWN"
+      },
+      "stats": {
+        "attack": 113,
+        "defense": 100,
+        "tactic": 102,
+        "magic": 48,
+        "morale": 100,
+        "hp": 112
+      },
+      "combatBehavior": {
+        "mechanic": "cavalry_skewer",
+        "trigger": "on_hit_cavalry",
+        "target": "cavalry_enemy",
+        "lane": "physical",
+        "effectIntent": "anti_cavalry_pierce",
+        "value": 0.12,
+        "classification": "SIMULATED",
+        "runtimeMapping": "PENDING_CHAT05",
+        "effectResolverId": null
+      },
+      "legacyEngineMapping": {
+        "troopId": "spear",
+        "legacyEvolutionId": "impaler",
+        "liveEngineWired": false
+      },
+      "art": {
+        "designKey": "troop-project/impaler",
+        "familySilhouette": "long_vertical_weapon",
+        "mainWeapon": "long_spear",
+        "uniqueMotif": "cavalry_skewer",
+        "style": "2D_ORIGINAL_FRAME_BY_FRAME_NO_RIG",
+        "assetCompleted": false
+      },
+      "unlock": {
+        "barracksLevel": 2,
+        "requiredProjectTier": 1,
+        "resourceCost": {
+          "silver": 1100,
+          "grain": 520,
+          "iron": 280
+        },
+        "classification": "SIMULATED"
+      },
+      "runtimeState": "DESIGN_READY_NOT_INTEGRATED",
+      "tacticalTaxonomy": {
+        "roleTags": [
+          "cavalry_skewer"
+        ],
+        "roleStatus": "SIMULATED",
+        "damageLanes": [
+          "physical"
+        ],
+        "damageLaneStatus": "SIMULATED",
+        "primaryTarget": "cavalry_enemy",
+        "attackPattern": "on_hit_cavalry",
+        "classification": "PROJECT_ORIGINAL_SIMULATED",
+        "wikiIdentityClaim": false,
+        "counterFamily": {
+          "advantageOver": "cavalry",
+          "threatenedBy": "infantry",
+          "sourceScope": "FAMILY_ONLY_NOT_NAMED_UNIT"
+        }
+      },
+      "implementation": {
+        "module": "NL_TROOP_SIM_V1",
+        "ability": "cavalry_skewer",
+        "standaloneExecutable": true,
+        "campaignWired": false,
+        "status": "READY_FOR_CHAT05",
+        "provenance": "SIMULATED"
+      },
+      "integrationV2": {
+        "projectIdentity": "nlp-impaler",
+        "from": "NL_MULTI_CHAT_V2",
+        "handoff": "NL-CHAT02-TROOP-LIVE-BRIDGE-V2",
+        "status": "CODED_NOT_INTEGRATED",
+        "runtimeAuthority": "CHAT08"
+      }
+    }
+  ],
+  "executableCombatModule": "tools/nl_troop_combat_v1.js",
+  "executableCombatStatus": "STANDALONE_EXECUTABLE_NOT_LIVE",
+  "simulatedCombatAbilityCount": 25,
+  "integrationRequiredFrom": "CHAT05",
+  "integrationAuthority": "CHAT08",
+  "integrationStatus": "CODED_STANDALONE_NOT_CANONICAL"
+}

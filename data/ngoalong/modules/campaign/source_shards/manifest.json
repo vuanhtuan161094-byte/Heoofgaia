@@ -1,0 +1,4089 @@
+{
+  "schemaVersion": 1,
+  "kind": "NGOALONG_CAMPAIGN_SHARD_INDEX",
+  "sourceEdition": "CURRENT_VNG_MOBILE",
+  "classicWebgameParity": "UNKNOWN",
+  "runtimeEnabled": false,
+  "source": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+  "counts": {
+    "maps": 249,
+    "npcRows": 4903,
+    "exhaustiveNpcFormations": 4806,
+    "sourceSoldierContradictions": 344,
+    "mapsReadyForIntegration": 0,
+    "mapsBlocked": 249,
+    "npcsReadyForIntegration": 0
+  },
+  "shardSize": 12,
+  "shardCount": 21,
+  "mapLocator": {
+    "wiki-map-1": {
+      "shard": "shard-001.json",
+      "name": "Khúc Dương",
+      "wikiMapId": 1,
+      "cityLevelRequired": 20,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1"
+    },
+    "wiki-map-2": {
+      "shard": "shard-001.json",
+      "name": "Quảng Tông",
+      "wikiMapId": 2,
+      "cityLevelRequired": 40,
+      "npcCount": 7,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=2"
+    },
+    "wiki-map-3": {
+      "shard": "shard-001.json",
+      "name": "Hổ Lao",
+      "wikiMapId": 3,
+      "cityLevelRequired": 60,
+      "npcCount": 22,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=3"
+    },
+    "wiki-map-4": {
+      "shard": "shard-001.json",
+      "name": "Trường An",
+      "wikiMapId": 4,
+      "cityLevelRequired": 60,
+      "npcCount": 24,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=4"
+    },
+    "wiki-map-5": {
+      "shard": "shard-001.json",
+      "name": "Ngô Quận",
+      "wikiMapId": 5,
+      "cityLevelRequired": 80,
+      "npcCount": 27,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=5"
+    },
+    "wiki-map-8": {
+      "shard": "shard-001.json",
+      "name": "Hoài Nam",
+      "wikiMapId": 8,
+      "cityLevelRequired": 80,
+      "npcCount": 26,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=8"
+    },
+    "wiki-map-9": {
+      "shard": "shard-001.json",
+      "name": "Giới Kiều",
+      "wikiMapId": 9,
+      "cityLevelRequired": 80,
+      "npcCount": 28,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=9"
+    },
+    "wiki-map-10": {
+      "shard": "shard-001.json",
+      "name": "Hán Trung",
+      "wikiMapId": 10,
+      "cityLevelRequired": 100,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=10"
+    },
+    "wiki-map-11": {
+      "shard": "shard-001.json",
+      "name": "Kinh Châu",
+      "wikiMapId": 11,
+      "cityLevelRequired": 100,
+      "npcCount": 32,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=11"
+    },
+    "wiki-map-13": {
+      "shard": "shard-001.json",
+      "name": "Thành Đô",
+      "wikiMapId": 13,
+      "cityLevelRequired": 100,
+      "npcCount": 23,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=13"
+    },
+    "wiki-map-15": {
+      "shard": "shard-001.json",
+      "name": "Thiên Thủy",
+      "wikiMapId": 15,
+      "cityLevelRequired": 110,
+      "npcCount": 22,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=15"
+    },
+    "wiki-map-17": {
+      "shard": "shard-001.json",
+      "name": "Quan Độ",
+      "wikiMapId": 17,
+      "cityLevelRequired": 110,
+      "npcCount": 30,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=17"
+    },
+    "wiki-map-18": {
+      "shard": "shard-002.json",
+      "name": "Từ Châu",
+      "wikiMapId": 18,
+      "cityLevelRequired": 110,
+      "npcCount": 27,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=18"
+    },
+    "wiki-map-19": {
+      "shard": "shard-002.json",
+      "name": "Dị Nhân",
+      "wikiMapId": 19,
+      "cityLevelRequired": 110,
+      "npcCount": 29,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=19"
+    },
+    "wiki-map-20": {
+      "shard": "shard-002.json",
+      "name": "Kho quân bị",
+      "wikiMapId": 20,
+      "cityLevelRequired": 110,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=20"
+    },
+    "wiki-map-21": {
+      "shard": "shard-002.json",
+      "name": "Giang Đình Trụ",
+      "wikiMapId": 21,
+      "cityLevelRequired": 110,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=21"
+    },
+    "wiki-map-22": {
+      "shard": "shard-002.json",
+      "name": "Dịch Kinh Lâu",
+      "wikiMapId": 22,
+      "cityLevelRequired": 110,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=22"
+    },
+    "wiki-map-23": {
+      "shard": "shard-002.json",
+      "name": "Dã Tùng Lâm",
+      "wikiMapId": 23,
+      "cityLevelRequired": 110,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=23"
+    },
+    "wiki-map-24": {
+      "shard": "shard-002.json",
+      "name": "Kho Thành Đô",
+      "wikiMapId": 24,
+      "cityLevelRequired": 110,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=24"
+    },
+    "wiki-map-25": {
+      "shard": "shard-002.json",
+      "name": "Thiên Thủy Đạo",
+      "wikiMapId": 25,
+      "cityLevelRequired": 110,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=25"
+    },
+    "wiki-map-27": {
+      "shard": "shard-002.json",
+      "name": "Bạch Lâu Mật Thất",
+      "wikiMapId": 27,
+      "cityLevelRequired": 110,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=27"
+    },
+    "wiki-map-28": {
+      "shard": "shard-002.json",
+      "name": "Hang Dị Nhân",
+      "wikiMapId": 28,
+      "cityLevelRequired": 110,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=28"
+    },
+    "wiki-map-29": {
+      "shard": "shard-002.json",
+      "name": "Xích Bích",
+      "wikiMapId": 29,
+      "cityLevelRequired": 110,
+      "npcCount": 27,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=29"
+    },
+    "wiki-map-30": {
+      "shard": "shard-002.json",
+      "name": "Xích Bích",
+      "wikiMapId": 30,
+      "cityLevelRequired": 110,
+      "npcCount": 27,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=30"
+    },
+    "wiki-map-31": {
+      "shard": "shard-003.json",
+      "name": "Xích Bích",
+      "wikiMapId": 31,
+      "cityLevelRequired": 110,
+      "npcCount": 27,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=31"
+    },
+    "wiki-map-32": {
+      "shard": "shard-003.json",
+      "name": "Kinh Nam",
+      "wikiMapId": 32,
+      "cityLevelRequired": 110,
+      "npcCount": 26,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=32"
+    },
+    "wiki-map-33": {
+      "shard": "shard-003.json",
+      "name": "Di Lăng",
+      "wikiMapId": 33,
+      "cityLevelRequired": 120,
+      "npcCount": 23,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=33"
+    },
+    "wiki-map-34": {
+      "shard": "shard-003.json",
+      "name": "Phàn Thành Chiến",
+      "wikiMapId": 34,
+      "cityLevelRequired": 120,
+      "npcCount": 23,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=34"
+    },
+    "wiki-map-35": {
+      "shard": "shard-003.json",
+      "name": "Định Quân Sơn",
+      "wikiMapId": 35,
+      "cityLevelRequired": 120,
+      "npcCount": 23,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=35"
+    },
+    "wiki-map-36": {
+      "shard": "shard-003.json",
+      "name": "Hứa Xương",
+      "wikiMapId": 36,
+      "cityLevelRequired": 120,
+      "npcCount": 26,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=36"
+    },
+    "wiki-map-37": {
+      "shard": "shard-003.json",
+      "name": "Tây Khương",
+      "wikiMapId": 37,
+      "cityLevelRequired": 120,
+      "npcCount": 25,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=37"
+    },
+    "wiki-map-38": {
+      "shard": "shard-003.json",
+      "name": "Tứ Di",
+      "wikiMapId": 38,
+      "cityLevelRequired": 130,
+      "npcCount": 30,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=38"
+    },
+    "wiki-map-39": {
+      "shard": "shard-003.json",
+      "name": "Thiên Trụ Biến",
+      "wikiMapId": 39,
+      "cityLevelRequired": 130,
+      "npcCount": 14,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=39"
+    },
+    "wiki-map-40": {
+      "shard": "shard-003.json",
+      "name": "Địa Công Trùng Sinh",
+      "wikiMapId": 40,
+      "cityLevelRequired": 130,
+      "npcCount": 19,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=40"
+    },
+    "wiki-map-41": {
+      "shard": "shard-003.json",
+      "name": "Thiên Công Tái Kiến",
+      "wikiMapId": 41,
+      "cityLevelRequired": null,
+      "npcCount": 22,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "UNVERIFIED_CITY_LEVEL_UNLOCK",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=41"
+    },
+    "wiki-map-42": {
+      "shard": "shard-003.json",
+      "name": "Thái Sư Loạn Thế",
+      "wikiMapId": 42,
+      "cityLevelRequired": 140,
+      "npcCount": 25,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=42"
+    },
+    "wiki-map-43": {
+      "shard": "shard-004.json",
+      "name": "Hang Thiên Trụ",
+      "wikiMapId": 43,
+      "cityLevelRequired": 140,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=43"
+    },
+    "wiki-map-44": {
+      "shard": "shard-004.json",
+      "name": "Tứ Di Doanh",
+      "wikiMapId": 44,
+      "cityLevelRequired": 140,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=44"
+    },
+    "wiki-map-45": {
+      "shard": "shard-004.json",
+      "name": "Thái Sư Đường",
+      "wikiMapId": 45,
+      "cityLevelRequired": 140,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=45"
+    },
+    "wiki-map-46": {
+      "shard": "shard-004.json",
+      "name": "Tinh Đẩu Càn Khôn",
+      "wikiMapId": 46,
+      "cityLevelRequired": 140,
+      "npcCount": 27,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=46"
+    },
+    "wiki-map-47": {
+      "shard": "shard-004.json",
+      "name": "Chủng Hổ Cơ Mưu",
+      "wikiMapId": 47,
+      "cityLevelRequired": 150,
+      "npcCount": 26,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=47"
+    },
+    "wiki-map-48": {
+      "shard": "shard-004.json",
+      "name": "Tế Thiên Đài",
+      "wikiMapId": 48,
+      "cityLevelRequired": 150,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=48"
+    },
+    "wiki-map-49": {
+      "shard": "shard-004.json",
+      "name": "Hang Địa Công",
+      "wikiMapId": 49,
+      "cityLevelRequired": 150,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=49"
+    },
+    "wiki-map-50": {
+      "shard": "shard-004.json",
+      "name": "Ấm Độ Thương",
+      "wikiMapId": 50,
+      "cityLevelRequired": 150,
+      "npcCount": 25,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=50"
+    },
+    "wiki-map-51": {
+      "shard": "shard-004.json",
+      "name": "Hán Mạt Quần Hùng",
+      "wikiMapId": 51,
+      "cityLevelRequired": 150,
+      "npcCount": 24,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=51"
+    },
+    "wiki-map-52": {
+      "shard": "shard-004.json",
+      "name": "Hán Mạt Quần Hùng",
+      "wikiMapId": 52,
+      "cityLevelRequired": 150,
+      "npcCount": 24,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=52"
+    },
+    "wiki-map-57": {
+      "shard": "shard-004.json",
+      "name": "Càn Khôn Thạch Trận",
+      "wikiMapId": 57,
+      "cityLevelRequired": 155,
+      "npcCount": 18,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=57"
+    },
+    "wiki-map-58": {
+      "shard": "shard-004.json",
+      "name": "Mộc Thú Trận",
+      "wikiMapId": 58,
+      "cityLevelRequired": 155,
+      "npcCount": 23,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=58"
+    },
+    "wiki-map-60": {
+      "shard": "shard-005.json",
+      "name": "Bạch Môn Phi Tướng",
+      "wikiMapId": 60,
+      "cityLevelRequired": 155,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=60"
+    },
+    "wiki-map-61": {
+      "shard": "shard-005.json",
+      "name": "Mãnh Tướng Vô Song",
+      "wikiMapId": 61,
+      "cityLevelRequired": 160,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=61"
+    },
+    "wiki-map-62": {
+      "shard": "shard-005.json",
+      "name": "Thành Vương Bại Khấu",
+      "wikiMapId": 62,
+      "cityLevelRequired": 160,
+      "npcCount": 22,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=62"
+    },
+    "wiki-map-63": {
+      "shard": "shard-005.json",
+      "name": "Động Cây Đa",
+      "wikiMapId": 63,
+      "cityLevelRequired": 165,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=63"
+    },
+    "wiki-map-64": {
+      "shard": "shard-005.json",
+      "name": "Nhai Đình Chiến",
+      "wikiMapId": 64,
+      "cityLevelRequired": 165,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=64"
+    },
+    "wiki-map-66": {
+      "shard": "shard-005.json",
+      "name": "Kiếm Các Chiến",
+      "wikiMapId": 66,
+      "cityLevelRequired": 165,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=66"
+    },
+    "wiki-map-68": {
+      "shard": "shard-005.json",
+      "name": "Liêu Đông Chiến",
+      "wikiMapId": 68,
+      "cityLevelRequired": 170,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=68"
+    },
+    "wiki-map-70": {
+      "shard": "shard-005.json",
+      "name": "Tương Bình Chiến",
+      "wikiMapId": 70,
+      "cityLevelRequired": 170,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=70"
+    },
+    "wiki-map-72": {
+      "shard": "shard-005.json",
+      "name": "Địch Đạo Chiến",
+      "wikiMapId": 72,
+      "cityLevelRequired": 175,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=72"
+    },
+    "wiki-map-74": {
+      "shard": "shard-005.json",
+      "name": "Đông Hưng Chiến",
+      "wikiMapId": 74,
+      "cityLevelRequired": 175,
+      "npcCount": 22,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=74"
+    },
+    "wiki-map-76": {
+      "shard": "shard-005.json",
+      "name": "Đan Dương Chiến",
+      "wikiMapId": 76,
+      "cityLevelRequired": 180,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=76"
+    },
+    "wiki-map-77": {
+      "shard": "shard-005.json",
+      "name": "Hắc Sơn Mật Thất",
+      "wikiMapId": 77,
+      "cityLevelRequired": 180,
+      "npcCount": 5,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=77"
+    },
+    "wiki-map-78": {
+      "shard": "shard-006.json",
+      "name": "Sưởng Thành Chiến",
+      "wikiMapId": 78,
+      "cityLevelRequired": 180,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=78"
+    },
+    "wiki-map-79": {
+      "shard": "shard-006.json",
+      "name": "Thọ Xuân Chiến",
+      "wikiMapId": 79,
+      "cityLevelRequired": 180,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=79"
+    },
+    "wiki-map-80": {
+      "shard": "shard-006.json",
+      "name": "Hắc Diệu Thâm Uyên",
+      "wikiMapId": 80,
+      "cityLevelRequired": 185,
+      "npcCount": 10,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=80"
+    },
+    "wiki-map-81": {
+      "shard": "shard-006.json",
+      "name": "Ngưu Đầu Sơn",
+      "wikiMapId": 81,
+      "cityLevelRequired": 185,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=81"
+    },
+    "wiki-map-82": {
+      "shard": "shard-006.json",
+      "name": "Trận Lạc An",
+      "wikiMapId": 82,
+      "cityLevelRequired": 185,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=82"
+    },
+    "wiki-map-83": {
+      "shard": "shard-006.json",
+      "name": "Thành Dương Chiến",
+      "wikiMapId": 83,
+      "cityLevelRequired": 185,
+      "npcCount": 22,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=83"
+    },
+    "wiki-map-84": {
+      "shard": "shard-006.json",
+      "name": "Thượng Đang",
+      "wikiMapId": 84,
+      "cityLevelRequired": 190,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=84"
+    },
+    "wiki-map-85": {
+      "shard": "shard-006.json",
+      "name": "Vũ Uy Chiến",
+      "wikiMapId": 85,
+      "cityLevelRequired": 190,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=85"
+    },
+    "wiki-map-86": {
+      "shard": "shard-006.json",
+      "name": "Thiên Phạt Trận",
+      "wikiMapId": 86,
+      "cityLevelRequired": 190,
+      "npcCount": 23,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=86"
+    },
+    "wiki-map-87": {
+      "shard": "shard-006.json",
+      "name": "Ẩn Sĩ Tái Xuất",
+      "wikiMapId": 87,
+      "cityLevelRequired": 195,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=87"
+    },
+    "wiki-map-89": {
+      "shard": "shard-006.json",
+      "name": "Dương Bình Quan",
+      "wikiMapId": 89,
+      "cityLevelRequired": 195,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=89"
+    },
+    "wiki-map-90": {
+      "shard": "shard-006.json",
+      "name": "Khương Tộc Xâm Lược",
+      "wikiMapId": 90,
+      "cityLevelRequired": 195,
+      "npcCount": 22,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=90"
+    },
+    "wiki-map-91": {
+      "shard": "shard-007.json",
+      "name": "Thiên Thủy Loạn",
+      "wikiMapId": 91,
+      "cityLevelRequired": 200,
+      "npcCount": 22,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=91"
+    },
+    "wiki-map-92": {
+      "shard": "shard-007.json",
+      "name": "Nhai Đình Thất Thủ",
+      "wikiMapId": 92,
+      "cityLevelRequired": 200,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=92"
+    },
+    "wiki-map-93": {
+      "shard": "shard-007.json",
+      "name": "Hán Trung Quân Diễn",
+      "wikiMapId": 93,
+      "cityLevelRequired": 200,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=93"
+    },
+    "wiki-map-94": {
+      "shard": "shard-007.json",
+      "name": "Hạ Khẩu",
+      "wikiMapId": 94,
+      "cityLevelRequired": 205,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=94"
+    },
+    "wiki-map-95": {
+      "shard": "shard-007.json",
+      "name": "Hạ Khẩu Chiến",
+      "wikiMapId": 95,
+      "cityLevelRequired": 205,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=95"
+    },
+    "wiki-map-96": {
+      "shard": "shard-007.json",
+      "name": "Ngưu Chử Chiến",
+      "wikiMapId": 96,
+      "cityLevelRequired": 210,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=96"
+    },
+    "wiki-map-97": {
+      "shard": "shard-007.json",
+      "name": "Tư Mã Viêm Chiến",
+      "wikiMapId": 97,
+      "cityLevelRequired": 210,
+      "npcCount": 17,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=97"
+    },
+    "wiki-map-98": {
+      "shard": "shard-007.json",
+      "name": "Tư Mã Tuấn",
+      "wikiMapId": 98,
+      "cityLevelRequired": 215,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=98"
+    },
+    "wiki-map-99": {
+      "shard": "shard-007.json",
+      "name": "Tư Mã Lượng",
+      "wikiMapId": 99,
+      "cityLevelRequired": 215,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=99"
+    },
+    "wiki-map-100": {
+      "shard": "shard-007.json",
+      "name": "Tư Mã Nghệ",
+      "wikiMapId": 100,
+      "cityLevelRequired": 220,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=100"
+    },
+    "wiki-map-101": {
+      "shard": "shard-007.json",
+      "name": "Tư Mã Vĩ",
+      "wikiMapId": 101,
+      "cityLevelRequired": 220,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=101"
+    },
+    "wiki-map-102": {
+      "shard": "shard-007.json",
+      "name": "Quan Vũ",
+      "wikiMapId": 102,
+      "cityLevelRequired": 220,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=102"
+    },
+    "wiki-map-103": {
+      "shard": "shard-008.json",
+      "name": "Mạch Thành Chiến",
+      "wikiMapId": 103,
+      "cityLevelRequired": 225,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=103"
+    },
+    "wiki-map-148": {
+      "shard": "shard-008.json",
+      "name": "Sa Ma Kha",
+      "wikiMapId": 148,
+      "cityLevelRequired": 225,
+      "npcCount": 21,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=148"
+    },
+    "wiki-map-149": {
+      "shard": "shard-008.json",
+      "name": "Chiến Trường Hào Đình",
+      "wikiMapId": 149,
+      "cityLevelRequired": 230,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=149"
+    },
+    "wiki-map-150": {
+      "shard": "shard-008.json",
+      "name": "Hỏa Thiêu Liên Doanh",
+      "wikiMapId": 150,
+      "cityLevelRequired": 230,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=150"
+    },
+    "wiki-map-151": {
+      "shard": "shard-008.json",
+      "name": "Bát Trận Đồ",
+      "wikiMapId": 151,
+      "cityLevelRequired": 235,
+      "npcCount": 19,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=151"
+    },
+    "wiki-map-152": {
+      "shard": "shard-008.json",
+      "name": "Quảng Lăng Chiến",
+      "wikiMapId": 152,
+      "cityLevelRequired": 235,
+      "npcCount": 19,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=152"
+    },
+    "wiki-map-153": {
+      "shard": "shard-008.json",
+      "name": "Hoàng Cân Tái Khởi",
+      "wikiMapId": 153,
+      "cityLevelRequired": 235,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=153"
+    },
+    "wiki-map-154": {
+      "shard": "shard-008.json",
+      "name": "Dối Trời",
+      "wikiMapId": 154,
+      "cityLevelRequired": 240,
+      "npcCount": 19,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=154"
+    },
+    "wiki-map-155": {
+      "shard": "shard-008.json",
+      "name": "Hoa Hùng Quân Đoàn",
+      "wikiMapId": 155,
+      "cityLevelRequired": 240,
+      "npcCount": 19,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=155"
+    },
+    "wiki-map-156": {
+      "shard": "shard-008.json",
+      "name": "Ma Vương Giáng Lâm",
+      "wikiMapId": 156,
+      "cityLevelRequired": 240,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=156"
+    },
+    "wiki-map-157": {
+      "shard": "shard-008.json",
+      "name": "Tôn Kiên thiệt mạng",
+      "wikiMapId": 157,
+      "cityLevelRequired": 245,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=157"
+    },
+    "wiki-map-158": {
+      "shard": "shard-008.json",
+      "name": "Liên Hoàn Kế",
+      "wikiMapId": 158,
+      "cityLevelRequired": 245,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=158"
+    },
+    "wiki-map-159": {
+      "shard": "shard-009.json",
+      "name": "Khởi Đầu Loạn Thế",
+      "wikiMapId": 159,
+      "cityLevelRequired": 245,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=159"
+    },
+    "wiki-map-160": {
+      "shard": "shard-009.json",
+      "name": "Từ Châu Chiến",
+      "wikiMapId": 160,
+      "cityLevelRequired": 250,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=160"
+    },
+    "wiki-map-161": {
+      "shard": "shard-009.json",
+      "name": "Lữ Bố Tấn Công",
+      "wikiMapId": 161,
+      "cityLevelRequired": 250,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=161"
+    },
+    "wiki-map-162": {
+      "shard": "shard-009.json",
+      "name": "Mi Ổ Hỗn Chiến",
+      "wikiMapId": 162,
+      "cityLevelRequired": 255,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=162"
+    },
+    "wiki-map-163": {
+      "shard": "shard-009.json",
+      "name": "Khúc A Chiến",
+      "wikiMapId": 163,
+      "cityLevelRequired": 255,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=163"
+    },
+    "wiki-map-164": {
+      "shard": "shard-009.json",
+      "name": "Tiểu Phái Loạn Đấu",
+      "wikiMapId": 164,
+      "cityLevelRequired": 255,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=164"
+    },
+    "wiki-map-165": {
+      "shard": "shard-009.json",
+      "name": "Quần Hùng Khởi",
+      "wikiMapId": 165,
+      "cityLevelRequired": 260,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=165"
+    },
+    "wiki-map-166": {
+      "shard": "shard-009.json",
+      "name": "Nhương Thành Chiến",
+      "wikiMapId": 166,
+      "cityLevelRequired": 260,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=166"
+    },
+    "wiki-map-167": {
+      "shard": "shard-009.json",
+      "name": "Phụng Tiên Quy Thiên",
+      "wikiMapId": 167,
+      "cityLevelRequired": 260,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=167"
+    },
+    "wiki-map-168": {
+      "shard": "shard-009.json",
+      "name": "Hứa Đô Chiến",
+      "wikiMapId": 168,
+      "cityLevelRequired": 265,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=168"
+    },
+    "wiki-map-169": {
+      "shard": "shard-009.json",
+      "name": "Huyết Trảm Xa Trụ",
+      "wikiMapId": 169,
+      "cityLevelRequired": 265,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=169"
+    },
+    "wiki-map-170": {
+      "shard": "shard-009.json",
+      "name": "Lê Dương Chiến",
+      "wikiMapId": 170,
+      "cityLevelRequired": 265,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=170"
+    },
+    "wiki-map-171": {
+      "shard": "shard-010.json",
+      "name": "Tào Quân Phá Lưu",
+      "wikiMapId": 171,
+      "cityLevelRequired": 265,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=171"
+    },
+    "wiki-map-172": {
+      "shard": "shard-010.json",
+      "name": "Giải Vây Bạch Mã",
+      "wikiMapId": 172,
+      "cityLevelRequired": 270,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=172"
+    },
+    "wiki-map-173": {
+      "shard": "shard-010.json",
+      "name": "Mở Màn Quan Độ",
+      "wikiMapId": 173,
+      "cityLevelRequired": 270,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=173"
+    },
+    "wiki-map-174": {
+      "shard": "shard-010.json",
+      "name": "Qua Ải Trảm Tướng",
+      "wikiMapId": 174,
+      "cityLevelRequired": 270,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=174"
+    },
+    "wiki-map-175": {
+      "shard": "shard-010.json",
+      "name": "Tôi Chúa Đoàn Viên",
+      "wikiMapId": 175,
+      "cityLevelRequired": 270,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175"
+    },
+    "wiki-map-176": {
+      "shard": "shard-010.json",
+      "name": "Tự Tìm Diệt Vong",
+      "wikiMapId": 176,
+      "cityLevelRequired": 275,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=176"
+    },
+    "wiki-map-177": {
+      "shard": "shard-010.json",
+      "name": "Quan Độ Chiến",
+      "wikiMapId": 177,
+      "cityLevelRequired": 275,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=177"
+    },
+    "wiki-map-178": {
+      "shard": "shard-010.json",
+      "name": "Nương Nhờ Lưu Biểu",
+      "wikiMapId": 178,
+      "cityLevelRequired": 275,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178"
+    },
+    "wiki-map-179": {
+      "shard": "shard-010.json",
+      "name": "Ký Châu Chiến",
+      "wikiMapId": 179,
+      "cityLevelRequired": 275,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=179"
+    },
+    "wiki-map-180": {
+      "shard": "shard-010.json",
+      "name": "Kế Sách Liêu Đông",
+      "wikiMapId": 180,
+      "cityLevelRequired": 275,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=180"
+    },
+    "wiki-map-181": {
+      "shard": "shard-010.json",
+      "name": "Ngựa Nhảy Qua Suối",
+      "wikiMapId": 181,
+      "cityLevelRequired": 280,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181"
+    },
+    "wiki-map-182": {
+      "shard": "shard-010.json",
+      "name": "Thiện Phúc Cứu Chủ",
+      "wikiMapId": 182,
+      "cityLevelRequired": 280,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=182"
+    },
+    "wiki-map-183": {
+      "shard": "shard-011.json",
+      "name": "Tập Kích Phàn Thành",
+      "wikiMapId": 183,
+      "cityLevelRequired": 280,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=183"
+    },
+    "wiki-map-184": {
+      "shard": "shard-011.json",
+      "name": "Ngọa Long Xuất Sơn",
+      "wikiMapId": 184,
+      "cityLevelRequired": 280,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=184"
+    },
+    "wiki-map-185": {
+      "shard": "shard-011.json",
+      "name": "Hoàng Tổ Tử Trận",
+      "wikiMapId": 185,
+      "cityLevelRequired": 285,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185"
+    },
+    "wiki-map-186": {
+      "shard": "shard-011.json",
+      "name": "Lưu Kỳ Xin Chiến",
+      "wikiMapId": 186,
+      "cityLevelRequired": 285,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=186"
+    },
+    "wiki-map-187": {
+      "shard": "shard-011.json",
+      "name": "Hỏa Thiêu Bác Vọng",
+      "wikiMapId": 187,
+      "cityLevelRequired": 285,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=187"
+    },
+    "wiki-map-188": {
+      "shard": "shard-011.json",
+      "name": "Khổng Dung Tử Nạn",
+      "wikiMapId": 188,
+      "cityLevelRequired": 285,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=188"
+    },
+    "wiki-map-190": {
+      "shard": "shard-011.json",
+      "name": "Hỏa Thiêu Tân Dã",
+      "wikiMapId": 190,
+      "cityLevelRequired": 290,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=190"
+    },
+    "wiki-map-191": {
+      "shard": "shard-011.json",
+      "name": "Lưu Tông Hàng Tào",
+      "wikiMapId": 191,
+      "cityLevelRequired": 290,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=191"
+    },
+    "wiki-map-192": {
+      "shard": "shard-011.json",
+      "name": "Dẫn Người Vượt Sông",
+      "wikiMapId": 192,
+      "cityLevelRequired": 290,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=192"
+    },
+    "wiki-map-193": {
+      "shard": "shard-011.json",
+      "name": "Một Mình Cứu Chủ",
+      "wikiMapId": 193,
+      "cityLevelRequired": 290,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=193"
+    },
+    "wiki-map-194": {
+      "shard": "shard-011.json",
+      "name": "Uy Chấn Đương Dương",
+      "wikiMapId": 194,
+      "cityLevelRequired": 295,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=194"
+    },
+    "wiki-map-195": {
+      "shard": "shard-011.json",
+      "name": "Đóng Quân Giang Hạ",
+      "wikiMapId": 195,
+      "cityLevelRequired": 295,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=195"
+    },
+    "wiki-map-196": {
+      "shard": "shard-012.json",
+      "name": "Do Thám Tình Hình",
+      "wikiMapId": 196,
+      "cityLevelRequired": 295,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=196"
+    },
+    "wiki-map-197": {
+      "shard": "shard-012.json",
+      "name": "Chọc Giận Chu Du",
+      "wikiMapId": 197,
+      "cityLevelRequired": 295,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=197"
+    },
+    "wiki-map-198": {
+      "shard": "shard-012.json",
+      "name": "Chu Du Bày Kế",
+      "wikiMapId": 198,
+      "cityLevelRequired": 300,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=198"
+    },
+    "wiki-map-199": {
+      "shard": "shard-012.json",
+      "name": "Tào Tháo Đại Bại",
+      "wikiMapId": 199,
+      "cityLevelRequired": 300,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=199"
+    },
+    "wiki-map-200": {
+      "shard": "shard-012.json",
+      "name": "Tưởng Can Trúng Kế",
+      "wikiMapId": 200,
+      "cityLevelRequired": 300,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=200"
+    },
+    "wiki-map-201": {
+      "shard": "shard-012.json",
+      "name": "Thuyền Cỏ Mượn Tên",
+      "wikiMapId": 201,
+      "cityLevelRequired": 300,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=201"
+    },
+    "wiki-map-202": {
+      "shard": "shard-012.json",
+      "name": "Hoàng Cái Chịu Phạt",
+      "wikiMapId": 202,
+      "cityLevelRequired": 305,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=202"
+    },
+    "wiki-map-203": {
+      "shard": "shard-012.json",
+      "name": "Dâng Thư Giả Hàng",
+      "wikiMapId": 203,
+      "cityLevelRequired": 305,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=203"
+    },
+    "wiki-map-204": {
+      "shard": "shard-012.json",
+      "name": "Bày Liên Hoàn Kế",
+      "wikiMapId": 204,
+      "cityLevelRequired": 305,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=204"
+    },
+    "wiki-map-205": {
+      "shard": "shard-012.json",
+      "name": "Tào Tháo Làm Thơ",
+      "wikiMapId": 205,
+      "cityLevelRequired": 305,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=205"
+    },
+    "wiki-map-206": {
+      "shard": "shard-012.json",
+      "name": "Xích Sắt Buộc Thuyền",
+      "wikiMapId": 206,
+      "cityLevelRequired": 310,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=206"
+    },
+    "wiki-map-207": {
+      "shard": "shard-012.json",
+      "name": "Gia Cát Mượn Gió",
+      "wikiMapId": 207,
+      "cityLevelRequired": 310,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=207"
+    },
+    "wiki-map-208": {
+      "shard": "shard-013.json",
+      "name": "Chu Du Phóng Hỏa",
+      "wikiMapId": 208,
+      "cityLevelRequired": 310,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=208"
+    },
+    "wiki-map-209": {
+      "shard": "shard-013.json",
+      "name": "Tào Tháo Thảm Bại",
+      "wikiMapId": 209,
+      "cityLevelRequired": 310,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=209"
+    },
+    "wiki-map-210": {
+      "shard": "shard-013.json",
+      "name": "Tiên Đoán Hoa Dung",
+      "wikiMapId": 210,
+      "cityLevelRequired": 315,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=210"
+    },
+    "wiki-map-211": {
+      "shard": "shard-013.json",
+      "name": "Đại Bại Quân Ngô",
+      "wikiMapId": 211,
+      "cityLevelRequired": 315,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=211"
+    },
+    "wiki-map-212": {
+      "shard": "shard-013.json",
+      "name": "Chu Du Giả Chết",
+      "wikiMapId": 212,
+      "cityLevelRequired": 315,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=212"
+    },
+    "wiki-map-213": {
+      "shard": "shard-013.json",
+      "name": "Chọc Giận Chu Du",
+      "wikiMapId": 213,
+      "cityLevelRequired": 315,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=213"
+    },
+    "wiki-map-214": {
+      "shard": "shard-013.json",
+      "name": "Linh Lăng Chiến",
+      "wikiMapId": 214,
+      "cityLevelRequired": 320,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=214"
+    },
+    "wiki-map-215": {
+      "shard": "shard-013.json",
+      "name": "Quế Dương Chiến",
+      "wikiMapId": 215,
+      "cityLevelRequired": 320,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=215"
+    },
+    "wiki-map-216": {
+      "shard": "shard-013.json",
+      "name": "Phượng Tường Chiến",
+      "wikiMapId": 216,
+      "cityLevelRequired": 320,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=216"
+    },
+    "wiki-map-217": {
+      "shard": "shard-013.json",
+      "name": "Đại Bại Tôn Quyền",
+      "wikiMapId": 217,
+      "cityLevelRequired": 320,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=217"
+    },
+    "wiki-map-218": {
+      "shard": "shard-013.json",
+      "name": "Huyền Đức Ở Rể",
+      "wikiMapId": 218,
+      "cityLevelRequired": 325,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=218"
+    },
+    "wiki-map-224": {
+      "shard": "shard-013.json",
+      "name": "Lưu Bị Kết Thân",
+      "wikiMapId": 224,
+      "cityLevelRequired": 325,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=224"
+    },
+    "wiki-map-225": {
+      "shard": "shard-014.json",
+      "name": "Lưu Bị Bỏ Trốn",
+      "wikiMapId": 225,
+      "cityLevelRequired": 325,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=225"
+    },
+    "wiki-map-226": {
+      "shard": "shard-014.json",
+      "name": "Chọc Giận Chu Du 2",
+      "wikiMapId": 226,
+      "cityLevelRequired": 325,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=226"
+    },
+    "wiki-map-227": {
+      "shard": "shard-014.json",
+      "name": "Tào Tháo Bày Tiệc",
+      "wikiMapId": 227,
+      "cityLevelRequired": 330,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=227"
+    },
+    "wiki-map-228": {
+      "shard": "shard-014.json",
+      "name": "Chọc Giận Chu Du 3",
+      "wikiMapId": 228,
+      "cityLevelRequired": 330,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=228"
+    },
+    "wiki-map-229": {
+      "shard": "shard-014.json",
+      "name": "Ngọa Long Phúng Viếng",
+      "wikiMapId": 229,
+      "cityLevelRequired": 330,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=229"
+    },
+    "wiki-map-230": {
+      "shard": "shard-014.json",
+      "name": "Phượng Sồ Trị Sự",
+      "wikiMapId": 230,
+      "cityLevelRequired": 330,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=230"
+    },
+    "wiki-map-231": {
+      "shard": "shard-014.json",
+      "name": "Mã Đằng Tiến Kinh",
+      "wikiMapId": 231,
+      "cityLevelRequired": 335,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=231"
+    },
+    "wiki-map-232": {
+      "shard": "shard-014.json",
+      "name": "Chiếm Trường An",
+      "wikiMapId": 232,
+      "cityLevelRequired": 335,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=232"
+    },
+    "wiki-map-233": {
+      "shard": "shard-014.json",
+      "name": "Công Chiếm Đồng Quan",
+      "wikiMapId": 233,
+      "cityLevelRequired": 335,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=233"
+    },
+    "wiki-map-234": {
+      "shard": "shard-014.json",
+      "name": "Cạo Râu Bỏ Áo",
+      "wikiMapId": 234,
+      "cityLevelRequired": 335,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=234"
+    },
+    "wiki-map-235": {
+      "shard": "shard-014.json",
+      "name": "Đoạt Thuyền Tránh Tên",
+      "wikiMapId": 235,
+      "cityLevelRequired": 340,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=235"
+    },
+    "wiki-map-236": {
+      "shard": "shard-014.json",
+      "name": "Đông Thổ Thế Thành",
+      "wikiMapId": 236,
+      "cityLevelRequired": 340,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=236"
+    },
+    "wiki-map-237": {
+      "shard": "shard-015.json",
+      "name": "Lõa Y Đấu Mã Siêu",
+      "wikiMapId": 237,
+      "cityLevelRequired": 340,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=237"
+    },
+    "wiki-map-238": {
+      "shard": "shard-015.json",
+      "name": "Tào Tháo Ôn Chuyện",
+      "wikiMapId": 238,
+      "cityLevelRequired": 340,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=238"
+    },
+    "wiki-map-239": {
+      "shard": "shard-015.json",
+      "name": "Mạt Thư Gián Hàn Toại",
+      "wikiMapId": 239,
+      "cityLevelRequired": 345,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=239"
+    },
+    "wiki-map-240": {
+      "shard": "shard-015.json",
+      "name": "Đánh Bại Mã Siêu",
+      "wikiMapId": 240,
+      "cityLevelRequired": 345,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=240"
+    },
+    "wiki-map-241": {
+      "shard": "shard-015.json",
+      "name": "Trương Tùng Gặp Tào",
+      "wikiMapId": 241,
+      "cityLevelRequired": 345,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=241"
+    },
+    "wiki-map-242": {
+      "shard": "shard-015.json",
+      "name": "Phản Nạn Dương Tu",
+      "wikiMapId": 242,
+      "cityLevelRequired": 345,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=242"
+    },
+    "wiki-map-243": {
+      "shard": "shard-015.json",
+      "name": "Giáo Trường Điểm Binh",
+      "wikiMapId": 243,
+      "cityLevelRequired": 350,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243"
+    },
+    "wiki-map-244": {
+      "shard": "shard-015.json",
+      "name": "Bản Đồ Tây Xuyên",
+      "wikiMapId": 244,
+      "cityLevelRequired": 350,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=244"
+    },
+    "wiki-map-245": {
+      "shard": "shard-015.json",
+      "name": "Lưu Chương Yến Tiệc",
+      "wikiMapId": 245,
+      "cityLevelRequired": 350,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=245"
+    },
+    "wiki-map-246": {
+      "shard": "shard-015.json",
+      "name": "Ngăn Sông Đoạt A Đẩu",
+      "wikiMapId": 246,
+      "cityLevelRequired": 350,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=246"
+    },
+    "wiki-map-247": {
+      "shard": "shard-015.json",
+      "name": "Đoạt Bồi Quan",
+      "wikiMapId": 247,
+      "cityLevelRequired": 355,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=247"
+    },
+    "wiki-map-248": {
+      "shard": "shard-015.json",
+      "name": "Hoàng Ngụy Tranh Công",
+      "wikiMapId": 248,
+      "cityLevelRequired": 355,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=248"
+    },
+    "wiki-map-249": {
+      "shard": "shard-016.json",
+      "name": "Phượng Sồ Sụp Đổ",
+      "wikiMapId": 249,
+      "cityLevelRequired": 355,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=249"
+    },
+    "wiki-map-250": {
+      "shard": "shard-016.json",
+      "name": "Nghĩa Xá Nghiêm Nhan",
+      "wikiMapId": 250,
+      "cityLevelRequired": 355,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=250"
+    },
+    "wiki-map-251": {
+      "shard": "shard-016.json",
+      "name": "Truy Bắt Trương Nhiệm",
+      "wikiMapId": 251,
+      "cityLevelRequired": 360,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=251"
+    },
+    "wiki-map-252": {
+      "shard": "shard-016.json",
+      "name": "Binh Bại Dực Thành",
+      "wikiMapId": 252,
+      "cityLevelRequired": 360,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=252"
+    },
+    "wiki-map-253": {
+      "shard": "shard-016.json",
+      "name": "Đại Chiến Mã Siêu",
+      "wikiMapId": 253,
+      "cityLevelRequired": 360,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=253"
+    },
+    "wiki-map-254": {
+      "shard": "shard-016.json",
+      "name": "Đoạt Miên Trúc",
+      "wikiMapId": 254,
+      "cityLevelRequired": 360,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=254"
+    },
+    "wiki-map-255": {
+      "shard": "shard-016.json",
+      "name": "Bị Dẫn Ích Châu Mục",
+      "wikiMapId": 255,
+      "cityLevelRequired": 365,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=255"
+    },
+    "wiki-map-256": {
+      "shard": "shard-016.json",
+      "name": "Khao Thưởng Toàn Quân",
+      "wikiMapId": 256,
+      "cityLevelRequired": 365,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=256"
+    },
+    "wiki-map-257": {
+      "shard": "shard-016.json",
+      "name": "Đòi Lại Kinh Châu",
+      "wikiMapId": 257,
+      "cityLevelRequired": 365,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=257"
+    },
+    "wiki-map-258": {
+      "shard": "shard-016.json",
+      "name": "Cầm Đao Đến Hẹn",
+      "wikiMapId": 258,
+      "cityLevelRequired": 365,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=258"
+    },
+    "wiki-map-259": {
+      "shard": "shard-016.json",
+      "name": "Lộng Quyền Truy Nã",
+      "wikiMapId": 259,
+      "cityLevelRequired": 370,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=259"
+    },
+    "wiki-map-260": {
+      "shard": "shard-016.json",
+      "name": "Dẹp Yên Hán Trung",
+      "wikiMapId": 260,
+      "cityLevelRequired": 370,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=260"
+    },
+    "wiki-map-261": {
+      "shard": "shard-017.json",
+      "name": "Uy Chấn Tiêu Dao Tân",
+      "wikiMapId": 261,
+      "cityLevelRequired": 370,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=261"
+    },
+    "wiki-map-262": {
+      "shard": "shard-017.json",
+      "name": "Bách Kỵ Cướp Doanh",
+      "wikiMapId": 262,
+      "cityLevelRequired": 370,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=262"
+    },
+    "wiki-map-263": {
+      "shard": "shard-017.json",
+      "name": "Châm Chọc Tào Tháo",
+      "wikiMapId": 263,
+      "cityLevelRequired": 375,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=263"
+    },
+    "wiki-map-264": {
+      "shard": "shard-017.json",
+      "name": "Hỏa Thiêu Hứa Đô",
+      "wikiMapId": 264,
+      "cityLevelRequired": 375,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=264"
+    },
+    "wiki-map-265": {
+      "shard": "shard-017.json",
+      "name": "Trí Đoạt Ngõa Khẩu",
+      "wikiMapId": 265,
+      "cityLevelRequired": 375,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=265"
+    },
+    "wiki-map-266": {
+      "shard": "shard-017.json",
+      "name": "Chiếm Thiên Đãng Sơn",
+      "wikiMapId": 266,
+      "cityLevelRequired": 375,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=266"
+    },
+    "wiki-map-267": {
+      "shard": "shard-017.json",
+      "name": "Ta Nhàn Địch Mỏi",
+      "wikiMapId": 267,
+      "cityLevelRequired": 380,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=267"
+    },
+    "wiki-map-268": {
+      "shard": "shard-017.json",
+      "name": "Thần Dũng Vô Song",
+      "wikiMapId": 268,
+      "cityLevelRequired": 380,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=268"
+    },
+    "wiki-map-269": {
+      "shard": "shard-017.json",
+      "name": "Vương Bình Hàng Thục",
+      "wikiMapId": 269,
+      "cityLevelRequired": 380,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=269"
+    },
+    "wiki-map-270": {
+      "shard": "shard-017.json",
+      "name": "Lui Binh Tà Cốc",
+      "wikiMapId": 270,
+      "cityLevelRequired": 380,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=270"
+    },
+    "wiki-map-271": {
+      "shard": "shard-017.json",
+      "name": "Lưu Bị Xưng Vương",
+      "wikiMapId": 271,
+      "cityLevelRequired": 385,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=271"
+    },
+    "wiki-map-272": {
+      "shard": "shard-017.json",
+      "name": "Mãn Sủng Thăm Ngô",
+      "wikiMapId": 272,
+      "cityLevelRequired": 385,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=272"
+    },
+    "wiki-map-273": {
+      "shard": "shard-018.json",
+      "name": "Tương Dương Chiến",
+      "wikiMapId": 273,
+      "cityLevelRequired": 385,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=273"
+    },
+    "wiki-map-274": {
+      "shard": "shard-018.json",
+      "name": "Phàn Thành Chiến",
+      "wikiMapId": 274,
+      "cityLevelRequired": 385,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=274"
+    },
+    "wiki-map-275": {
+      "shard": "shard-018.json",
+      "name": "Nước Ngập Đại Quân",
+      "wikiMapId": 275,
+      "cityLevelRequired": 390,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=275"
+    },
+    "wiki-map-276": {
+      "shard": "shard-018.json",
+      "name": "Cạo Xương Trị Độc",
+      "wikiMapId": 276,
+      "cityLevelRequired": 390,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=276"
+    },
+    "wiki-map-277": {
+      "shard": "shard-018.json",
+      "name": "Bạch Y Độ Giang",
+      "wikiMapId": 277,
+      "cityLevelRequired": 390,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=277"
+    },
+    "wiki-map-278": {
+      "shard": "shard-018.json",
+      "name": "Đại Chiến Miện Thủy",
+      "wikiMapId": 278,
+      "cityLevelRequired": 390,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=278"
+    },
+    "wiki-map-279": {
+      "shard": "shard-018.json",
+      "name": "Bại Tẩu Mạch Thành",
+      "wikiMapId": 279,
+      "cityLevelRequired": 395,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=279"
+    },
+    "wiki-map-280": {
+      "shard": "shard-018.json",
+      "name": "Quan Công Hiển Thánh",
+      "wikiMapId": 280,
+      "cityLevelRequired": 395,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=280"
+    },
+    "wiki-map-281": {
+      "shard": "shard-018.json",
+      "name": "Tào Tháo Cảm Thần",
+      "wikiMapId": 281,
+      "cityLevelRequired": 395,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=281"
+    },
+    "wiki-map-282": {
+      "shard": "shard-018.json",
+      "name": "Thần Y Tử Nạn",
+      "wikiMapId": 282,
+      "cityLevelRequired": 395,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=282"
+    },
+    "wiki-map-283": {
+      "shard": "shard-018.json",
+      "name": "Biểu Phong Tôn Quyền",
+      "wikiMapId": 283,
+      "cityLevelRequired": 400,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=283"
+    },
+    "wiki-map-284": {
+      "shard": "shard-018.json",
+      "name": "Tam Mã Đồng Tào",
+      "wikiMapId": 284,
+      "cityLevelRequired": 400,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=284"
+    },
+    "wiki-map-285": {
+      "shard": "shard-019.json",
+      "name": "Tào Phi Xưng Vương",
+      "wikiMapId": 285,
+      "cityLevelRequired": 400,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=285"
+    },
+    "wiki-map-286": {
+      "shard": "shard-019.json",
+      "name": "Bảy Bước Thành Thơ",
+      "wikiMapId": 286,
+      "cityLevelRequired": 400,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=286"
+    },
+    "wiki-map-287": {
+      "shard": "shard-019.json",
+      "name": "Lôi Công Giáng Thế",
+      "wikiMapId": 287,
+      "cityLevelRequired": 405,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=287"
+    },
+    "wiki-map-288": {
+      "shard": "shard-019.json",
+      "name": "Mạnh Đạt Phản Bội",
+      "wikiMapId": 288,
+      "cityLevelRequired": 405,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=288"
+    },
+    "wiki-map-289": {
+      "shard": "shard-019.json",
+      "name": "Tào Phi Phế Đế",
+      "wikiMapId": 289,
+      "cityLevelRequired": 405,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=289"
+    },
+    "wiki-map-290": {
+      "shard": "shard-019.json",
+      "name": "Lưu Bị Xưng Đế",
+      "wikiMapId": 290,
+      "cityLevelRequired": 405,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "NPC_ROSTER_INCOMPLETE",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=290"
+    },
+    "wiki-map-291": {
+      "shard": "shard-019.json",
+      "name": "Trương Phi Bị Hại",
+      "wikiMapId": 291,
+      "cityLevelRequired": 405,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=291"
+    },
+    "wiki-map-292": {
+      "shard": "shard-019.json",
+      "name": "Lưu Bị Khởi Binh",
+      "wikiMapId": 292,
+      "cityLevelRequired": 410,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=292"
+    },
+    "wiki-map-293": {
+      "shard": "shard-019.json",
+      "name": "Tôn Quyền Hàng Ngụy",
+      "wikiMapId": 293,
+      "cityLevelRequired": 410,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=293"
+    },
+    "wiki-map-294": {
+      "shard": "shard-019.json",
+      "name": "Lưu Bị Phạt Ngô",
+      "wikiMapId": 294,
+      "cityLevelRequired": 410,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=294"
+    },
+    "wiki-map-295": {
+      "shard": "shard-019.json",
+      "name": "Chiến Hào Đình",
+      "wikiMapId": 295,
+      "cityLevelRequired": 410,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=295"
+    },
+    "wiki-map-296": {
+      "shard": "shard-019.json",
+      "name": "Thư Sinh Làm Tướng",
+      "wikiMapId": 296,
+      "cityLevelRequired": 415,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=296"
+    },
+    "wiki-map-297": {
+      "shard": "shard-020.json",
+      "name": "Đại Doanh Trăm Dặm",
+      "wikiMapId": 297,
+      "cityLevelRequired": 415,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=297"
+    },
+    "wiki-map-298": {
+      "shard": "shard-020.json",
+      "name": "Thái Sử Từ Qua Đời",
+      "wikiMapId": 298,
+      "cityLevelRequired": 415,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=298"
+    },
+    "wiki-map-299": {
+      "shard": "shard-020.json",
+      "name": "Vào Bát Trận Đồ",
+      "wikiMapId": 299,
+      "cityLevelRequired": 415,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=299"
+    },
+    "wiki-map-300": {
+      "shard": "shard-020.json",
+      "name": "Tử Kính Du Thuyết",
+      "wikiMapId": 300,
+      "cityLevelRequired": 415,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=300"
+    },
+    "wiki-map-301": {
+      "shard": "shard-020.json",
+      "name": "Lưu Bị Phó Thác",
+      "wikiMapId": 301,
+      "cityLevelRequired": 415,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=301"
+    },
+    "wiki-map-302": {
+      "shard": "shard-020.json",
+      "name": "Mã Siêu Mộng Hổ",
+      "wikiMapId": 302,
+      "cityLevelRequired": 420,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=302"
+    },
+    "wiki-map-303": {
+      "shard": "shard-020.json",
+      "name": "Thái Sư Bạo Loạn",
+      "wikiMapId": 303,
+      "cityLevelRequired": 420,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=303"
+    },
+    "wiki-map-304": {
+      "shard": "shard-020.json",
+      "name": "Ngũ Đấu Mễ Giáo",
+      "wikiMapId": 304,
+      "cityLevelRequired": 420,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=304"
+    },
+    "wiki-map-305": {
+      "shard": "shard-020.json",
+      "name": "Nho Tu Chiến",
+      "wikiMapId": 305,
+      "cityLevelRequired": 420,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=305"
+    },
+    "wiki-map-306": {
+      "shard": "shard-020.json",
+      "name": "Kế Phá Ngũ Quân",
+      "wikiMapId": 306,
+      "cityLevelRequired": 420,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=306"
+    },
+    "wiki-map-307": {
+      "shard": "shard-020.json",
+      "name": "Tấn Phong Cửu Tích",
+      "wikiMapId": 307,
+      "cityLevelRequired": 420,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=307"
+    },
+    "wiki-map-308": {
+      "shard": "shard-020.json",
+      "name": "Trương Tần Thiên Biện",
+      "wikiMapId": 308,
+      "cityLevelRequired": 420,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=308"
+    },
+    "wiki-map-309": {
+      "shard": "shard-021.json",
+      "name": "Lấy Ít Địch Nhiều",
+      "wikiMapId": 309,
+      "cityLevelRequired": 420,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=309"
+    },
+    "wiki-map-310": {
+      "shard": "shard-021.json",
+      "name": "Thừa Tướng Xuất Chinh",
+      "wikiMapId": 310,
+      "cityLevelRequired": 425,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=310"
+    },
+    "wiki-map-311": {
+      "shard": "shard-021.json",
+      "name": "Môi Hở Răng Lạnh",
+      "wikiMapId": 311,
+      "cityLevelRequired": 425,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=311"
+    },
+    "wiki-map-312": {
+      "shard": "shard-021.json",
+      "name": "Mã Siêu Quy Phục Thục",
+      "wikiMapId": 312,
+      "cityLevelRequired": 425,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=312"
+    },
+    "wiki-map-313": {
+      "shard": "shard-021.json",
+      "name": "Thủ Lĩnh Bị Bắt",
+      "wikiMapId": 313,
+      "cityLevelRequired": 425,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=313"
+    },
+    "wiki-map-314": {
+      "shard": "shard-021.json",
+      "name": "Lạc Dương bị thiêu rụi",
+      "wikiMapId": 314,
+      "cityLevelRequired": 425,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=314"
+    },
+    "wiki-map-315": {
+      "shard": "shard-021.json",
+      "name": "Tam Quận Đổi Chủ",
+      "wikiMapId": 315,
+      "cityLevelRequired": 425,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=315"
+    },
+    "wiki-map-316": {
+      "shard": "shard-021.json",
+      "name": "Độ Lô Cầm Vương",
+      "wikiMapId": 316,
+      "cityLevelRequired": 425,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=316"
+    },
+    "wiki-map-317": {
+      "shard": "shard-021.json",
+      "name": "Tam Cầm Trá Hàng",
+      "wikiMapId": 317,
+      "cityLevelRequired": 425,
+      "npcCount": 20,
+      "readyForIntegration": false,
+      "blockers": [
+        "MAP_RULES_NOT_REVIEWED_OR_BOUND",
+        "MAP_PROGRESSION_NOT_APPROVED",
+        "MOBILE_VERSION_NOT_REVIEWED",
+        "MAP_FIRST_CLEAR_REWARD_NOT_REVIEWED",
+        "NPC_CONTENT_NOT_READY"
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=317"
+    }
+  },
+  "inputFile": "data/ngoalong/group02_wiki/wiki_dungeons_extracted.json",
+  "sourceGitBlobSha": "7318568320612ccd4c3c31bd762010609347c893",
+  "mapWideRuleSourceCoverage": "UNKNOWN_UNTIL_REVIEW",
+  "soldierDiscrepanciesAreRawNumeric": true
+}

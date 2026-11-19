@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "sourceGitBlobSha": "7318568320612ccd4c3c31bd762010609347c893",
+  "sourceEdition": "CURRENT_VNG_MOBILE",
+  "classicParity": "UNKNOWN",
+  "maps": 249,
+  "npcs": 4903,
+  "sourceRosterComplete": 170,
+  "sourceRosterIncomplete": 79,
+  "fullyEnumeratedFormations": 4806,
+  "numericSoldierContradictions": 344,
+  "playableMaps": 0,
+  "playableNpcs": 0,
+  "status": "REFERENCE_ONLY",
+  "note": "Actual 249-map/4903-NPC source materialized. Gameplay disabled until reviewed identity/skills/rewards, Save and combat approvals."
+}

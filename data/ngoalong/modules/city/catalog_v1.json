@@ -1,0 +1,2369 @@
+{
+  "schemaVersion": 1,
+  "module": "ngoalong-city",
+  "classification": "PROJECT_ORIGINAL",
+  "sources": [
+    {
+      "id": "WIKI-QT",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/quy-tu/ren-luyen",
+      "edition": "VNG_MOBILE_CURRENT",
+      "fact": "Quý Tử has 26 seasonal architectural effects, separate from core city economy",
+      "runtime": "REFERENCE_ONLY"
+    },
+    {
+      "id": "WIKI-CN",
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/cao-cap",
+      "edition": "CN_SERVER_ONLY",
+      "fact": "14 advanced technologies unlock at City Hall 280–400",
+      "runtime": "BLOCKED_VERSION_MISMATCH"
+    },
+    {
+      "id": "VNG-GUIDE",
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-nguy-quoc-toi-uu-hoa-giai-doan-truoc-lv300.html",
+      "edition": "MOBILE_2026_GUIDE",
+      "fact": "Names Nhà chính, Phủ sách lược, Cửa hiệu, Tài vụ, Dân cư, Xưởng and Tiền trang; lacks complete per-level costs/times",
+      "runtime": "REFERENCE_ONLY"
+    }
+  ],
+  "resources": [
+    {
+      "id": "silver",
+      "label": "Bạc",
+      "field": "game.silver"
+    },
+    {
+      "id": "grain",
+      "label": "Lương",
+      "field": "game.grain"
+    },
+    {
+      "id": "iron",
+      "label": "Sắt",
+      "field": "game.iron"
+    },
+    {
+      "id": "prestige",
+      "label": "Uy danh",
+      "field": "game.prestige"
+    }
+  ],
+  "legacy": [
+    {
+      "id": "market",
+      "label": "Chợ",
+      "owner": "LEGACY_AUTO_TICK",
+      "function": "Bạc",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING",
+      "adapter": "EXISTING_RUNTIME_LEVEL_WITH_ADDITIVE_REAL_TRADE",
+      "sourceId": "MOBILE-2017-ARCH",
+      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION",
+      "actions": [
+        {
+          "id": "buy_grain",
+          "label": "Mua lương ở Chợ",
+          "cost": {
+            "silver": 330
+          },
+          "reward": {
+            "grain": 250
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 30,
+          "provenance": "SIMULATED"
+        },
+        {
+          "id": "sell_grain",
+          "label": "Bán lương ở Chợ",
+          "cost": {
+            "grain": 250
+          },
+          "reward": {
+            "silver": 230
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 30,
+          "provenance": "SIMULATED"
+        }
+      ]
+    },
+    {
+      "id": "farm",
+      "label": "Nông Trại",
+      "owner": "LEGACY_AUTO_TICK",
+      "function": "Lương",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING",
+      "adapter": "EXISTING_RUNTIME_OWNER",
+      "sourceId": "MOBILE-2017-ARCH",
+      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION"
+    },
+    {
+      "id": "mine",
+      "label": "Mỏ",
+      "owner": "LEGACY_ONLY",
+      "function": "Sắt (nếu runtime hỗ trợ)",
+      "levelCap": null,
+      "sourceStatus": "UNKNOWN",
+      "adapter": "EXISTING_RUNTIME_OWNER",
+      "sourceId": "PROJECT_EXISTING",
+      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION"
+    },
+    {
+      "id": "academy",
+      "label": "Quân Sư Phủ",
+      "owner": "LEGACY_ONLY",
+      "function": "Khoa kỹ và huấn luyện",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING",
+      "adapter": "EXISTING_RUNTIME_OWNER",
+      "sourceId": "MOBILE-2017-ARCH",
+      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION"
+    },
+    {
+      "id": "barracks",
+      "label": "Doanh Trại",
+      "owner": "LEGACY_ONLY",
+      "function": "Tiến hóa và quân dự bị",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING",
+      "adapter": "EXISTING_RUNTIME_OWNER",
+      "sourceId": "MOBILE-2017-ARCH",
+      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION"
+    },
+    {
+      "id": "walls",
+      "label": "Tường Thành",
+      "owner": "LEGACY_ONLY",
+      "function": "Phòng thủ",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING",
+      "adapter": "EXISTING_RUNTIME_OWNER",
+      "sourceId": "PROJECT_EXISTING",
+      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION"
+    },
+    {
+      "id": "lumberyard",
+      "label": "Lâm Trại",
+      "owner": "CL_LEGACY_ONLY",
+      "function": "Gỗ (không phải tài nguyên NL chính)",
+      "levelCap": null,
+      "sourceStatus": "PROJECT_EXISTING",
+      "adapter": "EXISTING_RUNTIME_OWNER",
+      "sourceId": "PROJECT_EXISTING",
+      "integrationStatus": "ALREADY_IN_GAME_NO_DUPLICATION"
+    }
+  ],
+  "policy": {
+    "schemaVersion": 1,
+    "saveKey": "muu_dinh_tam_quoc_v1",
+    "saveVersion": 5,
+    "stateField": "nlCity",
+    "maxOfflineMs": 21600000,
+    "jobSlots": 1,
+    "resourceMode": "CAPPED_ESCROW_MANUAL_HARVEST",
+    "economicFormulas": "SIMULATED",
+    "buildingScope": "ALL_NAMED_FACILITIES_FROM_REVIEWED_CITY_AND_NAVAL_SOURCES_PLUS_PREEXISTING_PROJECT_BUILDINGS",
+    "legacyEconomy": "UNCHANGED",
+    "unlockAndCostStatus": "SIMULATED",
+    "researchStatus": "LEGACY_REUSED",
+    "balance": {
+      "version": 2,
+      "provenance": "SIMULATED",
+      "objective": "IDLE_2_HOUR_BASE_STOCK_WITH_TIERED_STORAGE_AND_DAILY_SINKS",
+      "baseStockMinutes": 120,
+      "offlineCapHours": 6,
+      "buildCostExponent": 1.3,
+      "buildTime": {
+        "higherLevelExtraPerLevel": 0.35,
+        "startExtraAtLevel": 3,
+        "midTierFactor": 1.15,
+        "lateTierFactor": 1.4,
+        "midGate": 3,
+        "lateGate": 6
+      },
+      "stockBonusPerLevel": {
+        "nl_city_residence": {
+          "building": "nl_city_treasury",
+          "amount": 2500
+        },
+        "nl_city_mill": {
+          "building": "nl_city_granary",
+          "amount": 1800
+        },
+        "nl_city_ironworks": {
+          "building": "nl_city_depot",
+          "amount": 180
+        }
+      },
+      "globalBonusCaps": {
+        "taxCollectionBonus": 0.25,
+        "tradeRevenueMultiplierBonus": 0.25
+      },
+      "defaultDailyLimit": 12,
+      "dailyLimits": {
+        "tax": 4,
+        "patrol": 6,
+        "audit_vault": 4,
+        "edict": 3,
+        "mint_coin": 6,
+        "hunt": 4,
+        "buy_grain": 24,
+        "sell_grain": 24,
+        "buy_parts": 12,
+        "sell_parts": 12,
+        "issue_notes": 12,
+        "redeem_notes": 12,
+        "produce_goods": 12,
+        "sell_goods": 12,
+        "sea_trade": 2,
+        "port_license": 4,
+        "reception": 3,
+        "trial_training": 3,
+        "soul_refine": 4,
+        "signal": 6,
+        "naval_provisions": 8
+      },
+      "dailyLimitExtras": {
+        "tax": "cityTaxCapacityFlat",
+        "sea_trade": "navalTradeCapacityFlat"
+      },
+      "localWarehouseSoftCeiling": 10000000
+    }
+  },
+  "buildings": [
+    {
+      "id": "nl_city_ironworks",
+      "name": "Lò Luyện Thiết",
+      "category": "production",
+      "grid": {
+        "x": 0,
+        "y": 0
+      },
+      "levelCap": 5,
+      "unlock": null,
+      "baseCost": {
+        "silver": 420,
+        "grain": 130,
+        "iron": 35
+      },
+      "buildSeconds": [
+        null,
+        30,
+        60,
+        100,
+        150,
+        210
+      ],
+      "production": {
+        "resource": "iron",
+        "perMinutePerLevel": 3,
+        "capacityPerLevel": 360
+      },
+      "effects": [],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_V1",
+        "fieldStatus": {
+          "name": "PROJECT_EXISTING",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "time": "SIMULATED",
+          "effect": "SIMULATED",
+          "productionCapacity": "SIMULATED"
+        }
+      },
+      "actions": []
+    },
+    {
+      "id": "nl_city_mill",
+      "name": "Cối Xay Lương",
+      "category": "production",
+      "grid": {
+        "x": 1,
+        "y": 0
+      },
+      "levelCap": 5,
+      "unlock": null,
+      "baseCost": {
+        "silver": 360,
+        "grain": 80,
+        "iron": 30
+      },
+      "buildSeconds": [
+        null,
+        25,
+        55,
+        95,
+        140,
+        190
+      ],
+      "production": {
+        "resource": "grain",
+        "perMinutePerLevel": 15,
+        "capacityPerLevel": 1800
+      },
+      "effects": [],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_V1",
+        "fieldStatus": {
+          "name": "PROJECT_EXISTING",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "time": "SIMULATED",
+          "effect": "SIMULATED",
+          "productionCapacity": "SIMULATED"
+        }
+      },
+      "actions": []
+    },
+    {
+      "id": "nl_city_depot",
+      "name": "Quân Nhu Doanh",
+      "category": "support",
+      "grid": {
+        "x": 0,
+        "y": 1
+      },
+      "levelCap": 5,
+      "unlock": {
+        "legacyBuilding": "barracks",
+        "minLevel": 1
+      },
+      "baseCost": {
+        "silver": 500,
+        "grain": 250,
+        "iron": 80
+      },
+      "buildSeconds": [
+        null,
+        40,
+        80,
+        130,
+        190,
+        260
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "reserveCapacityFlat",
+          "perLevel": 60,
+          "consumer": "chat-05 / barracks"
+        },
+        {
+          "target": "ironEscrowFlat",
+          "perLevel": 180,
+          "consumer": "city engine ironworks storage"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_V1",
+        "fieldStatus": {
+          "name": "PROJECT_EXISTING",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "time": "SIMULATED",
+          "effect": "SIMULATED"
+        }
+      },
+      "actions": []
+    },
+    {
+      "id": "nl_city_workshop",
+      "name": "Xưởng — Công Tượng Phường",
+      "category": "support",
+      "grid": {
+        "x": 1,
+        "y": 1
+      },
+      "levelCap": 5,
+      "unlock": {
+        "legacyBuilding": "academy",
+        "minLevel": 1
+      },
+      "baseCost": {
+        "silver": 520,
+        "grain": 110,
+        "iron": 90
+      },
+      "buildSeconds": [
+        null,
+        45,
+        90,
+        135,
+        195,
+        270
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "equipmentUpgradeDiscount",
+          "perLevel": 0.02,
+          "cap": 0.1,
+          "consumer": "chat-04 / equipment"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_V1",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "time": "SIMULATED",
+          "effect": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        },
+        "sourceNameRef": "VNG-2026-CITY"
+      },
+      "actions": [
+        {
+          "id": "forge_goods",
+          "label": "Rèn sản phẩm",
+          "cost": {
+            "iron": 100,
+            "grain": 90
+          },
+          "reward": {
+            "goods": 2,
+            "parts": 1
+          },
+          "durationSeconds": 150,
+          "cooldownSeconds": 120,
+          "provenance": "SIMULATED"
+        },
+        {
+          "id": "repair_tools",
+          "label": "Gia công dụng cụ",
+          "cost": {
+            "parts": 2,
+            "silver": 160
+          },
+          "reward": {
+            "engravingStones": 1
+          },
+          "durationSeconds": 120,
+          "cooldownSeconds": 180,
+          "provenance": "SIMULATED"
+        }
+      ]
+    },
+    {
+      "id": "nl_city_hall",
+      "name": "Thành Chính",
+      "category": "government",
+      "grid": {
+        "x": 0,
+        "y": 1
+      },
+      "levelCap": 12,
+      "unlock": {
+        "hallLevel": 1
+      },
+      "baseCost": {
+        "silver": 550,
+        "grain": 150,
+        "iron": 80
+      },
+      "buildSeconds": [
+        null,
+        30,
+        45,
+        75,
+        100,
+        130,
+        160,
+        190,
+        240,
+        300,
+        360,
+        420,
+        480
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "cityTier",
+          "perLevel": 1,
+          "consumer": "city gate"
+        }
+      ],
+      "actions": [
+        {
+          "id": "edict",
+          "label": "Ban chiếu chỉ",
+          "cost": {
+            "silver": 240,
+            "grain": 100
+          },
+          "reward": {
+            "prestige": 16
+          },
+          "durationSeconds": 120,
+          "cooldownSeconds": 600,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-ARCH",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_residence",
+      "name": "Dân Cư",
+      "category": "economy",
+      "grid": {
+        "x": 1,
+        "y": 1
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 1
+      },
+      "baseCost": {
+        "silver": 300,
+        "grain": 70,
+        "iron": 30
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": {
+        "resource": "silver",
+        "perMinutePerLevel": 5,
+        "capacityPerLevel": 600
+      },
+      "effects": [
+        {
+          "target": "taxCollectionBonus",
+          "perLevel": 0.05,
+          "consumer": "city engine tax",
+          "cap": 0.3
+        }
+      ],
+      "actions": [
+        {
+          "id": "patrol",
+          "label": "Tuần tra dân cư",
+          "cost": {
+            "grain": 45
+          },
+          "reward": {
+            "prestige": 7
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 300,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "VNG-2026-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "productionCapacity": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_treasury",
+      "name": "Ngân Khố",
+      "category": "economy",
+      "grid": {
+        "x": 2,
+        "y": 1
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 1
+      },
+      "baseCost": {
+        "silver": 300,
+        "grain": 40,
+        "iron": 50
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "silverStorageFlat",
+          "perLevel": 2500,
+          "consumer": "chat-08 storage"
+        }
+      ],
+      "actions": [
+        {
+          "id": "audit_vault",
+          "label": "Kiểm kê ngân khố",
+          "cost": {
+            "silver": 160,
+            "grain": 30
+          },
+          "reward": {
+            "prestige": 9
+          },
+          "durationSeconds": 30,
+          "cooldownSeconds": 300,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "FANDOM-LEGACY-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_tax_office",
+      "name": "Tài Vụ",
+      "category": "economy",
+      "grid": {
+        "x": 3,
+        "y": 1
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 1
+      },
+      "baseCost": {
+        "silver": 450,
+        "grain": 90,
+        "iron": 60
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "taxCollectionBonus",
+          "perLevel": 0.06,
+          "consumer": "city engine tax",
+          "cap": 0.4
+        }
+      ],
+      "actions": [
+        {
+          "id": "tax",
+          "label": "Thu thuế theo kỳ",
+          "cost": {
+            "grain": 70
+          },
+          "reward": {
+            "silver": 380
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 600,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "VNG-2026-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_granary",
+      "name": "Kho Lương",
+      "category": "economy",
+      "grid": {
+        "x": 4,
+        "y": 1
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 2
+      },
+      "baseCost": {
+        "silver": 350,
+        "grain": 70,
+        "iron": 65
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "grainStorageFlat",
+          "perLevel": 1800,
+          "consumer": "chat-08 storage"
+        }
+      ],
+      "actions": [
+        {
+          "id": "preserve_grain",
+          "label": "Chuyển lương thành quân nhu",
+          "cost": {
+            "grain": 180
+          },
+          "reward": {
+            "rations": 2
+          },
+          "durationSeconds": 35,
+          "cooldownSeconds": 120,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "FANDOM-LEGACY-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_shop",
+      "name": "Cửa Hiệu",
+      "category": "commerce",
+      "grid": {
+        "x": 5,
+        "y": 1
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 2
+      },
+      "baseCost": {
+        "silver": 420,
+        "grain": 70,
+        "iron": 70
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "equipmentOfferTier",
+          "perLevel": 1,
+          "consumer": "chat-04 equipment"
+        }
+      ],
+      "actions": [
+        {
+          "id": "buy_parts",
+          "label": "Mua linh kiện",
+          "cost": {
+            "silver": 300
+          },
+          "reward": {
+            "parts": 2
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 45,
+          "provenance": "SIMULATED"
+        },
+        {
+          "id": "sell_parts",
+          "label": "Bán linh kiện",
+          "cost": {
+            "parts": 2
+          },
+          "reward": {
+            "silver": 220
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 45,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-ARCH",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_drillground",
+      "name": "Thao Trường",
+      "category": "military",
+      "grid": {
+        "x": 0,
+        "y": 2
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 2
+      },
+      "baseCost": {
+        "silver": 500,
+        "grain": 170,
+        "iron": 100
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "heroTrainingXpMultiplierBonus",
+          "perLevel": 0.03,
+          "consumer": "chat-01 hero",
+          "cap": 0.18
+        }
+      ],
+      "actions": [
+        {
+          "id": "drill",
+          "label": "Luyện binh chuyên sâu",
+          "cost": {
+            "silver": 180,
+            "grain": 130
+          },
+          "reward": {
+            "drillManuals": 1,
+            "prestige": 6
+          },
+          "durationSeconds": 65,
+          "cooldownSeconds": 180,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-ARCH",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_bank",
+      "name": "Tiền Trang",
+      "category": "commerce",
+      "grid": {
+        "x": 1,
+        "y": 2
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 2
+      },
+      "baseCost": {
+        "silver": 700,
+        "grain": 80,
+        "iron": 90
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "tradeRevenueMultiplierBonus",
+          "perLevel": 0.04,
+          "consumer": "city trade operations",
+          "cap": 0.24
+        }
+      ],
+      "actions": [
+        {
+          "id": "issue_notes",
+          "label": "Đổi bạc thành tín phiếu",
+          "cost": {
+            "silver": 350
+          },
+          "reward": {
+            "tradeNotes": 1
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 30,
+          "provenance": "SIMULATED"
+        },
+        {
+          "id": "redeem_notes",
+          "label": "Tất toán tín phiếu",
+          "cost": {
+            "tradeNotes": 1
+          },
+          "reward": {
+            "silver": 300
+          },
+          "durationSeconds": 0,
+          "cooldownSeconds": 30,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "VNG-2026-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_trade_society",
+      "name": "Thương Xã",
+      "category": "commerce",
+      "grid": {
+        "x": 2,
+        "y": 2
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 3
+      },
+      "baseCost": {
+        "silver": 600,
+        "grain": 130,
+        "iron": 120
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "tradeRevenueMultiplierBonus",
+          "perLevel": 0.02,
+          "consumer": "city trade operations",
+          "cap": 0.12
+        }
+      ],
+      "actions": [
+        {
+          "id": "produce_goods",
+          "label": "Nhận đơn sản xuất",
+          "cost": {
+            "silver": 180,
+            "grain": 100,
+            "iron": 45
+          },
+          "reward": {
+            "goods": 2
+          },
+          "durationSeconds": 120,
+          "cooldownSeconds": 90,
+          "provenance": "SIMULATED"
+        },
+        {
+          "id": "sell_goods",
+          "label": "Giao hàng thương hội",
+          "cost": {
+            "goods": 2
+          },
+          "reward": {
+            "silver": 520
+          },
+          "durationSeconds": 180,
+          "cooldownSeconds": 120,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-ARCH",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_hunting",
+      "name": "Rừng Săn Bắn",
+      "category": "quest",
+      "grid": {
+        "x": 3,
+        "y": 2
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 3
+      },
+      "baseCost": {
+        "silver": 400,
+        "grain": 110,
+        "iron": 90
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "huntRewardBonus",
+          "perLevel": 0.02,
+          "consumer": "city engine hunting rewards",
+          "cap": 0.12
+        }
+      ],
+      "actions": [
+        {
+          "id": "hunt",
+          "label": "Đi săn có hậu cần",
+          "cost": {
+            "grain": 95,
+            "iron": 20
+          },
+          "reward": {
+            "silver": 220,
+            "prestige": 18
+          },
+          "durationSeconds": 120,
+          "cooldownSeconds": 600,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-ARCH",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_mint",
+      "name": "Xưởng Đúc Tiền",
+      "category": "economy",
+      "grid": {
+        "x": 4,
+        "y": 2
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 3
+      },
+      "baseCost": {
+        "silver": 630,
+        "grain": 90,
+        "iron": 150
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "silverProductionMultiplierBonus",
+          "perLevel": 0.01,
+          "consumer": "city engine residence passive yield",
+          "cap": 0.06
+        }
+      ],
+      "actions": [
+        {
+          "id": "mint_coin",
+          "label": "Đúc tiền bằng quặng",
+          "cost": {
+            "iron": 110,
+            "grain": 40
+          },
+          "reward": {
+            "silver": 480
+          },
+          "durationSeconds": 170,
+          "cooldownSeconds": 240,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "FANDOM-LEGACY-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_military_office",
+      "name": "Quân Sự Phủ",
+      "category": "military",
+      "grid": {
+        "x": 5,
+        "y": 2
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 3
+      },
+      "baseCost": {
+        "silver": 640,
+        "grain": 180,
+        "iron": 140
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "troopTierAccessFlat",
+          "perLevel": 1,
+          "consumer": "chat-02 troops"
+        }
+      ],
+      "actions": [
+        {
+          "id": "commission",
+          "label": "Ban quân lệnh",
+          "cost": {
+            "silver": 280,
+            "prestige": 15
+          },
+          "reward": {
+            "orders": 1
+          },
+          "durationSeconds": 100,
+          "cooldownSeconds": 180,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "FANDOM-LEGACY-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_general_altar",
+      "name": "Tướng Đài",
+      "category": "hero",
+      "grid": {
+        "x": 0,
+        "y": 3
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 3
+      },
+      "baseCost": {
+        "silver": 550,
+        "grain": 180,
+        "iron": 130
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "heroInheritanceFlat",
+          "perLevel": 1,
+          "consumer": "chat-01 heroes"
+        }
+      ],
+      "actions": [
+        {
+          "id": "honor",
+          "label": "Đặt lễ sắc phong",
+          "cost": {
+            "silver": 200,
+            "grain": 90
+          },
+          "reward": {
+            "prestige": 15
+          },
+          "durationSeconds": 90,
+          "cooldownSeconds": 360,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "FANDOM-LEGACY-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_state_office",
+      "name": "Quốc Chính",
+      "category": "government",
+      "grid": {
+        "x": 1,
+        "y": 3
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 4
+      },
+      "baseCost": {
+        "silver": 710,
+        "grain": 130,
+        "iron": 160
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "cityTaxCapacityFlat",
+          "perLevel": 1,
+          "consumer": "city engine tax daily quota"
+        }
+      ],
+      "actions": [
+        {
+          "id": "state_aid",
+          "label": "Cấp phát cứu tế",
+          "cost": {
+            "silver": 250,
+            "grain": 180
+          },
+          "reward": {
+            "prestige": 28
+          },
+          "durationSeconds": 180,
+          "cooldownSeconds": 900,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "FANDOM-LEGACY-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_manor",
+      "name": "Dinh Phủ",
+      "category": "hero",
+      "grid": {
+        "x": 2,
+        "y": 3
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 4
+      },
+      "baseCost": {
+        "silver": 650,
+        "grain": 160,
+        "iron": 150
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "heroTrainingXpMultiplierBonus",
+          "perLevel": 0.02,
+          "consumer": "chat-01 heroes",
+          "cap": 0.12
+        }
+      ],
+      "actions": [
+        {
+          "id": "reception",
+          "label": "Thiết yến hiền sĩ",
+          "cost": {
+            "silver": 320,
+            "grain": 180
+          },
+          "reward": {
+            "heroScrolls": 1,
+            "prestige": 11
+          },
+          "durationSeconds": 240,
+          "cooldownSeconds": 900,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "FANDOM-LEGACY-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_trial_tower",
+      "name": "Tháp Thí Luyện",
+      "category": "military",
+      "grid": {
+        "x": 3,
+        "y": 3
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 4
+      },
+      "baseCost": {
+        "silver": 750,
+        "grain": 270,
+        "iron": 180
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "trialTowerAccessFlat",
+          "perLevel": 1,
+          "consumer": "chat-06 tower encounter"
+        }
+      ],
+      "actions": [
+        {
+          "id": "trial_training",
+          "label": "Luyện quân trước khi vượt tháp",
+          "cost": {
+            "silver": 300,
+            "grain": 170
+          },
+          "reward": {
+            "trialTokens": 1
+          },
+          "durationSeconds": 240,
+          "cooldownSeconds": 900,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-ARCH",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_engraving",
+      "name": "Khắc Văn",
+      "category": "equipment",
+      "grid": {
+        "x": 4,
+        "y": 3
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 4
+      },
+      "baseCost": {
+        "silver": 760,
+        "grain": 100,
+        "iron": 170
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "equipmentUpgradeDiscount",
+          "perLevel": 0.01,
+          "consumer": "chat-04 equipment",
+          "cap": 0.06
+        }
+      ],
+      "actions": [
+        {
+          "id": "carve",
+          "label": "Khắc văn dự trữ",
+          "cost": {
+            "silver": 240,
+            "iron": 85
+          },
+          "reward": {
+            "engravingStones": 1
+          },
+          "durationSeconds": 150,
+          "cooldownSeconds": 240,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-ARCH",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_stable",
+      "name": "Mã Trường",
+      "category": "hero",
+      "grid": {
+        "x": 5,
+        "y": 3
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 4
+      },
+      "baseCost": {
+        "silver": 580,
+        "grain": 230,
+        "iron": 130
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "cavalryHpMultiplierBonus",
+          "perLevel": 0.025,
+          "consumer": "chat-02 cavalry",
+          "cap": 0.15
+        }
+      ],
+      "actions": [
+        {
+          "id": "horse_training",
+          "label": "Luyện chiến mã",
+          "cost": {
+            "grain": 240,
+            "silver": 220
+          },
+          "reward": {
+            "horseGear": 1
+          },
+          "durationSeconds": 220,
+          "cooldownSeconds": 300,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "VNG-2026-CITY",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_soul_hall",
+      "name": "Võ Hồn",
+      "category": "hero",
+      "grid": {
+        "x": 0,
+        "y": 4
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 5
+      },
+      "baseCost": {
+        "silver": 940,
+        "grain": 210,
+        "iron": 210
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "heroSkillPowerMultiplierBonus",
+          "perLevel": 0.02,
+          "consumer": "chat-01 and chat-05",
+          "cap": 0.12
+        }
+      ],
+      "actions": [
+        {
+          "id": "soul_refine",
+          "label": "Bồi dưỡng võ hồn",
+          "cost": {
+            "prestige": 45,
+            "iron": 70
+          },
+          "reward": {
+            "soulShards": 1
+          },
+          "durationSeconds": 180,
+          "cooldownSeconds": 480,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "GROUP02-WIKI",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_warehouse",
+      "name": "Kho",
+      "category": "equipment",
+      "grid": {
+        "x": 1,
+        "y": 4
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 2
+      },
+      "baseCost": {
+        "silver": 400,
+        "grain": 60,
+        "iron": 80
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "inventorySlotFlat",
+          "perLevel": 5,
+          "consumer": "chat-04 inventory"
+        }
+      ],
+      "actions": [
+        {
+          "id": "sort_goods",
+          "label": "Sắp xếp vật tư",
+          "cost": {
+            "silver": 140,
+            "grain": 90
+          },
+          "reward": {
+            "parts": 1
+          },
+          "durationSeconds": 90,
+          "cooldownSeconds": 120,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-ARCH",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_naval_port",
+      "name": "Hải Cảng",
+      "category": "naval",
+      "grid": {
+        "x": 2,
+        "y": 4
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 6
+      },
+      "baseCost": {
+        "silver": 1150,
+        "grain": 500,
+        "iron": 410
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "navalTradeCapacityFlat",
+          "perLevel": 1,
+          "consumer": "city engine sea trade daily quota"
+        }
+      ],
+      "actions": [
+        {
+          "id": "port_license",
+          "label": "Cấp phép xuất hải",
+          "cost": {
+            "silver": 350,
+            "grain": 220
+          },
+          "reward": {
+            "permits": 1
+          },
+          "durationSeconds": 120,
+          "cooldownSeconds": 360,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-NAVAL",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_naval_drill",
+      "name": "Thao Trường Thủy Quân",
+      "category": "naval",
+      "grid": {
+        "x": 3,
+        "y": 4
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 6
+      },
+      "baseCost": {
+        "silver": 980,
+        "grain": 290,
+        "iron": 310
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "navalTrainingXpMultiplierBonus",
+          "perLevel": 0.035,
+          "consumer": "chat-02 sea troops",
+          "cap": 0.21
+        }
+      ],
+      "actions": [
+        {
+          "id": "train_marine",
+          "label": "Huấn luyện thủy binh",
+          "cost": {
+            "silver": 250,
+            "grain": 210
+          },
+          "reward": {
+            "drillManuals": 2
+          },
+          "durationSeconds": 170,
+          "cooldownSeconds": 260,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-NAVAL",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_cargo_port",
+      "name": "Cảng Hàng Hóa",
+      "category": "naval",
+      "grid": {
+        "x": 4,
+        "y": 4
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 6
+      },
+      "baseCost": {
+        "silver": 990,
+        "grain": 350,
+        "iron": 320
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "tradeRevenueMultiplierBonus",
+          "perLevel": 0.03,
+          "consumer": "city naval trading",
+          "cap": 0.18
+        }
+      ],
+      "actions": [
+        {
+          "id": "sea_trade",
+          "label": "Mậu dịch đường biển",
+          "cost": {
+            "goods": 2,
+            "grain": 180,
+            "permits": 1
+          },
+          "reward": {
+            "silver": 950,
+            "prestige": 25
+          },
+          "durationSeconds": 1800,
+          "cooldownSeconds": 1800,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-NAVAL",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_dock",
+      "name": "Bến Thuyền",
+      "category": "naval",
+      "grid": {
+        "x": 5,
+        "y": 4
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 6
+      },
+      "baseCost": {
+        "silver": 1050,
+        "grain": 300,
+        "iron": 390
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "navalShipCapacityFlat",
+          "perLevel": 1,
+          "consumer": "chat-02 sea troops"
+        }
+      ],
+      "actions": [
+        {
+          "id": "outfit_ship",
+          "label": "Đóng tàu hậu cần",
+          "cost": {
+            "iron": 250,
+            "grain": 280
+          },
+          "reward": {
+            "ships": 1
+          },
+          "durationSeconds": 360,
+          "cooldownSeconds": 420,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-NAVAL",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_navy_hall",
+      "name": "Thủy Sư Đường",
+      "category": "naval",
+      "grid": {
+        "x": 0,
+        "y": 5
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 7
+      },
+      "baseCost": {
+        "silver": 1350,
+        "grain": 420,
+        "iron": 480
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "navalDurabilityMultiplierBonus",
+          "perLevel": 0.05,
+          "consumer": "chat-02 sea troop maintenance",
+          "cap": 0.3
+        }
+      ],
+      "actions": [
+        {
+          "id": "navy_supply",
+          "label": "Bảo dưỡng chiến thuyền",
+          "cost": {
+            "iron": 85,
+            "silver": 220
+          },
+          "reward": {
+            "navalSupplies": 1
+          },
+          "durationSeconds": 180,
+          "cooldownSeconds": 420,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-NAVAL",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_navy_warehouse",
+      "name": "Kho Hải Quân",
+      "category": "naval",
+      "grid": {
+        "x": 1,
+        "y": 5
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 7
+      },
+      "baseCost": {
+        "silver": 980,
+        "grain": 260,
+        "iron": 350
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "navalStorageFlat",
+          "perLevel": 200,
+          "consumer": "chat-08 city inventory"
+        }
+      ],
+      "actions": [
+        {
+          "id": "naval_provisions",
+          "label": "Đóng gói quân nhu biển",
+          "cost": {
+            "grain": 220,
+            "iron": 40
+          },
+          "reward": {
+            "navalSupplies": 2
+          },
+          "durationSeconds": 120,
+          "cooldownSeconds": 240,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-NAVAL",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    },
+    {
+      "id": "nl_city_lighthouse",
+      "name": "Hải Đăng",
+      "category": "naval",
+      "grid": {
+        "x": 2,
+        "y": 5
+      },
+      "levelCap": 6,
+      "unlock": {
+        "hallLevel": 7
+      },
+      "baseCost": {
+        "silver": 1100,
+        "grain": 290,
+        "iron": 370
+      },
+      "buildSeconds": [
+        null,
+        30,
+        75,
+        150,
+        240,
+        330,
+        450
+      ],
+      "production": null,
+      "effects": [
+        {
+          "target": "navalTradeTimeReduction",
+          "perLevel": 0.02,
+          "consumer": "city engine sea trade completion time",
+          "cap": 0.12
+        }
+      ],
+      "actions": [
+        {
+          "id": "signal",
+          "label": "Phát tín hiệu hải đăng",
+          "cost": {
+            "navalSupplies": 1,
+            "grain": 80
+          },
+          "reward": {
+            "prestige": 22
+          },
+          "durationSeconds": 180,
+          "cooldownSeconds": 600,
+          "provenance": "SIMULATED"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "PROJECT_CITY_FULL",
+        "sourceNameRef": "MOBILE-2017-NAVAL",
+        "fieldStatus": {
+          "name": "REFERENCE",
+          "unlock": "SIMULATED",
+          "cost": "SIMULATED",
+          "buildSeconds": "SIMULATED",
+          "production": "SIMULATED",
+          "effects": "SIMULATED",
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
+        }
+      }
+    }
+  ],
+  "research": {
+    "authority": "data/ngoalong/alpha_content.json#research",
+    "ids": [
+      "arms",
+      "armor",
+      "strategy",
+      "command",
+      "harvest",
+      "commerce",
+      "morale",
+      "recruit"
+    ],
+    "neverImportCnAdvanced": true
+  },
+  "sourceRegistry": [
+    {
+      "id": "VNG-2026-CITY",
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-nguy-quoc-toi-uu-hoa-giai-doan-truoc-lv300.html",
+      "edition": "VNG_MOBILE_2026",
+      "status": "VERIFIED_FOR_NAMED_FACILITIES_ONLY",
+      "note": "City, strategy office, shop, finance, residences, workshop, bank named; no full numeric curves"
+    },
+    {
+      "id": "MOBILE-2017-ARCH",
+      "url": "https://2game.vn/ngoa-long-mobile-kien-truc-post129919.html",
+      "edition": "MOBILE_2017",
+      "status": "REFERENCE_SECONDARY",
+      "note": "City, shop, drill, barracks, academy, market, workshop, trade society, hunting and related functions"
+    },
+    {
+      "id": "MOBILE-2017-NAVAL",
+      "url": "https://2game.vn/ngoa-long-mobile-dai-hai-chien-post129924.html",
+      "edition": "MOBILE_2017",
+      "status": "REFERENCE_SECONDARY",
+      "note": "Naval drill, cargo port, dock, navy hall, warehouse, lighthouse; version scope may differ"
+    },
+    {
+      "id": "FANDOM-LEGACY-CITY",
+      "url": "https://ngoalong-vng.fandom.com/wiki/Th%C3%A0nh_Ch%C3%ADnh",
+      "edition": "LEGACY_COMMUNITY_WIKI",
+      "status": "REFERENCE_SECONDARY",
+      "note": "Building unlock/name listing; contradictory tower thresholds; unlock levels simulated here"
+    },
+    {
+      "id": "GROUP02-WIKI",
+      "url": "https://github.com/vuanhtuan161094-byte/Heoofgaia/blob/feature/nl-codex-cloud-v1-finish/data/ngoalong/group02_wiki/systems_items.json",
+      "edition": "PROJECT_REFERENCE",
+      "status": "REFERENCE_ONLY",
+      "note": "Separate advanced/mobile facilities have partial unknown mechanics; do not auto import"
+    }
+  ],
+  "localResources": [
+    "goods",
+    "parts",
+    "rations",
+    "tradeNotes",
+    "orders",
+    "engravingStones",
+    "horseGear",
+    "soulShards",
+    "ships",
+    "navalSupplies",
+    "drillManuals",
+    "permits",
+    "heroScrolls",
+    "trialTokens"
+  ]
+}
