@@ -83,6 +83,7 @@
          if(keys.has(key))throw Error('DUPLICATE_WIKI_ITEM_ROW_'+last.name);
          keys.add(key);
          last.displayedLevel=level;
+         last.id=stableId(last.sourceCategory,last.sourceGroup,last.name,level);
          last.fieldProvenance.displayedLevel='VERIFIED';
       }
       continue;
