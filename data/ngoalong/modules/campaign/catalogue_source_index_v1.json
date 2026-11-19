@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "kind": "NGOALONG_CAMPAIGN_SOURCE_COVERAGE_INDEX",
+  "source": "data/ngoalong/group02_wiki/wiki_dungeon_builder_report.json",
+  "blueprint": "data/ngoalong/group02_wiki/wiki_dungeon_blueprints.json",
+  "sourceEdition": "CURRENT_VNG_MOBILE",
+  "classicWebgameParity": "UNKNOWN",
+  "runtimeEnabled": false,
+  "fullCatalogueMaterialized": false,
+  "mapCount": 249,
+  "npcDetailCount": 4903,
+  "rosterComplete": 170,
+  "rosterIncomplete": 79,
+  "unverifiedNpcFormations": 97,
+  "fullyGameplayReadyMaps": 0,
+  "caveat": "Coverage index only; execute tools/nl_campaign_import_v1.js against existing Group02 blueprint for real per-map catalogue. Source conflicts never repaired automatically. The builder counts some UNKNOWN sums as nonmatches; 344 is not an audited number of numerically confirmed contradictions.",
+  "builderFlaggedSoldierNonmatches": 344
+}

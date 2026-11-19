@@ -1,0 +1,446 @@
+{
+  "schemaVersion": 1,
+  "kind": "NGOALONG_CAMPAIGN_SINGLE_UNIT_WIKI_FACTS_V5",
+  "edition": "CURRENT_VNG_MOBILE",
+  "classicParity": "UNKNOWN",
+  "runtimeAuthority": false,
+  "sourceFile": "data/ngoalong/group02_wiki/npc_details.json",
+  "sourceScope": "SEVEN_EXAMPLES_NOT_FULL_NPC_SKILLS",
+  "counts": {
+    "npcSnapshots": 7,
+    "skillFacts": 4,
+    "verifiedFieldComparisons": 32,
+    "gameplaySkillBindings": 0
+  },
+  "facts": [
+    {
+      "npcId": "wiki-m1-ai77",
+      "wikiMapId": 1,
+      "wikiAiId": 77,
+      "npcName": "Cao Thăng",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=77&side=vn",
+      "scope": "ONE_SELECTED_UNIT_ONLY",
+      "firstMoverObserved": "PLAYER",
+      "attackCoefficientDisplay": 1,
+      "attackCoefficientMeaning": "UNKNOWN",
+      "selectedUnit": {
+        "name": "Cao Thăng",
+        "slot": 5,
+        "level": 1,
+        "soldiers": 200,
+        "troopGroup": "Bộ Binh",
+        "troopName": "Bộ",
+        "skillName": "Thiết Bích"
+      },
+      "selectedUnitCombatFact": {
+        "skillName": "Thiết Bích",
+        "attackType": "tactic",
+        "targetScope": "one_enemy",
+        "skillAttackPercent": 35,
+        "appliedEffects": [
+          {
+            "name": "Thiết bích",
+            "target": "self",
+            "durationTurns": 1
+          }
+        ],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "displayedSelectedDrop": {
+        "name": "Thiết Kiếm",
+        "percent": 100
+      },
+      "verifiedComparisons": 5,
+      "pendingComparisons": 0,
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION",
+      "status": "CORROBORATED_SOURCE_REFERENCE_NOT_GAMEPLAY_RULE",
+      "approvedCombatSkillId": null,
+      "approvedCombatEffectId": null,
+      "fullNpcFormationVerified": false,
+      "autoAppliedToGame": false
+    },
+    {
+      "npcId": "wiki-m1-ai81",
+      "wikiMapId": 1,
+      "wikiAiId": 81,
+      "npcName": "Trương Yên",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=81&side=vn",
+      "scope": "ONE_SELECTED_UNIT_ONLY",
+      "firstMoverObserved": "PLAYER",
+      "attackCoefficientDisplay": 12,
+      "attackCoefficientMeaning": "UNKNOWN",
+      "selectedUnit": {
+        "name": "Trương Yên",
+        "slot": 6,
+        "level": 1,
+        "soldiers": 200,
+        "troopGroup": "Kỵ Binh",
+        "troopName": "Kỵ",
+        "skillName": "Đạp Phá"
+      },
+      "selectedUnitCombatFact": {
+        "skillName": "Đạp Phá",
+        "attackType": "tactic",
+        "targetScope": "enemy_column",
+        "skillAttackPercent": 132,
+        "appliedEffects": [],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "displayedSelectedDrop": {
+        "name": "Thiết Kiếm",
+        "percent": 100
+      },
+      "verifiedComparisons": 5,
+      "pendingComparisons": 0,
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION",
+      "status": "CORROBORATED_SOURCE_REFERENCE_NOT_GAMEPLAY_RULE",
+      "approvedCombatSkillId": null,
+      "approvedCombatEffectId": null,
+      "fullNpcFormationVerified": false,
+      "autoAppliedToGame": false
+    },
+    {
+      "npcId": "wiki-m1-ai82",
+      "wikiMapId": 1,
+      "wikiAiId": 82,
+      "npcName": "Ba Tài",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=82&side=vn",
+      "scope": "ONE_SELECTED_UNIT_ONLY",
+      "firstMoverObserved": "PLAYER",
+      "attackCoefficientDisplay": 15,
+      "attackCoefficientMeaning": "UNKNOWN",
+      "selectedUnit": {
+        "name": "Hoành Tảo Doanh",
+        "slot": 3,
+        "level": 1,
+        "soldiers": 220,
+        "troopGroup": "Thương Binh",
+        "troopName": "Thương",
+        "skillName": "Hoành Tảo"
+      },
+      "selectedUnitCombatFact": {
+        "skillName": "Hoành Tảo",
+        "attackType": "tactic",
+        "targetScope": "enemy_row",
+        "skillAttackPercent": 141,
+        "appliedEffects": [],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "displayedSelectedDrop": null,
+      "verifiedComparisons": 5,
+      "pendingComparisons": 0,
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION",
+      "status": "CORROBORATED_SOURCE_REFERENCE_NOT_GAMEPLAY_RULE",
+      "approvedCombatSkillId": null,
+      "approvedCombatEffectId": null,
+      "fullNpcFormationVerified": false,
+      "autoAppliedToGame": false
+    },
+    {
+      "npcId": "wiki-m2-ai95",
+      "wikiMapId": 2,
+      "wikiAiId": 95,
+      "npcName": "Quản Hợi",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=2&ai=95&side=vn",
+      "scope": "ONE_SELECTED_UNIT_ONLY",
+      "firstMoverObserved": "PLAYER",
+      "attackCoefficientDisplay": 18,
+      "attackCoefficientMeaning": "UNKNOWN",
+      "selectedUnit": {
+        "name": "ThưKích Doanh",
+        "slot": 3,
+        "level": 2,
+        "soldiers": 200,
+        "troopGroup": "Cung Binh",
+        "troopName": "Cung",
+        "skillName": "Thư Kích"
+      },
+      "selectedUnitCombatFact": {
+        "skillName": "Thư Kích",
+        "attackType": "tactic",
+        "targetScope": "one_enemy",
+        "skillAttackPercent": 185,
+        "appliedEffects": [
+          {
+            "name": "Hội Tâm",
+            "target": "self",
+            "displayedPercent": 60,
+            "durationTurns": 2
+          }
+        ],
+        "displayedCritPercent": 1,
+        "displayedCounterattackPercent": 1
+      },
+      "displayedSelectedDrop": null,
+      "verifiedComparisons": 5,
+      "pendingComparisons": 0,
+      "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION",
+      "status": "CORROBORATED_SOURCE_REFERENCE_NOT_GAMEPLAY_RULE",
+      "approvedCombatSkillId": null,
+      "approvedCombatEffectId": null,
+      "fullNpcFormationVerified": false,
+      "autoAppliedToGame": false
+    },
+    {
+      "npcId": "wiki-m3-ai108",
+      "wikiMapId": 3,
+      "wikiAiId": 108,
+      "npcName": "Đột Kích 1",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=3&ai=108&side=vn",
+      "scope": "ONE_SELECTED_UNIT_ONLY",
+      "firstMoverObserved": "PLAYER",
+      "attackCoefficientDisplay": 180,
+      "attackCoefficientMeaning": "UNKNOWN",
+      "selectedUnit": {
+        "name": "Hoành Tảo Doanh",
+        "slot": 2,
+        "level": 20,
+        "soldiers": null,
+        "troopGroup": "Thương Binh",
+        "troopName": "Trùng Thương",
+        "skillName": "Hoành Tảo"
+      },
+      "selectedUnitCombatFact": null,
+      "displayedSelectedDrop": null,
+      "verifiedComparisons": 4,
+      "pendingComparisons": 0,
+      "sourceDepth": null,
+      "status": "CORROBORATED_SOURCE_REFERENCE_NOT_GAMEPLAY_RULE",
+      "approvedCombatSkillId": null,
+      "approvedCombatEffectId": null,
+      "fullNpcFormationVerified": false,
+      "autoAppliedToGame": false
+    },
+    {
+      "npcId": "wiki-m3-ai114",
+      "wikiMapId": 3,
+      "wikiAiId": 114,
+      "npcName": "Nhuệ Trung Quân 2",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=3&ai=114&side=vn",
+      "scope": "ONE_SELECTED_UNIT_ONLY",
+      "firstMoverObserved": "PLAYER",
+      "attackCoefficientDisplay": 204,
+      "attackCoefficientMeaning": "UNKNOWN",
+      "selectedUnit": {
+        "name": "Đột Kích Doanh",
+        "slot": 3,
+        "level": 22,
+        "soldiers": null,
+        "troopGroup": "Thương Binh",
+        "troopName": "Trùng Kích",
+        "skillName": "Đột Kích"
+      },
+      "selectedUnitCombatFact": null,
+      "displayedSelectedDrop": null,
+      "verifiedComparisons": 4,
+      "pendingComparisons": 0,
+      "sourceDepth": null,
+      "status": "CORROBORATED_SOURCE_REFERENCE_NOT_GAMEPLAY_RULE",
+      "approvedCombatSkillId": null,
+      "approvedCombatEffectId": null,
+      "fullNpcFormationVerified": false,
+      "autoAppliedToGame": false
+    },
+    {
+      "npcId": "wiki-m4-ai135",
+      "wikiMapId": 4,
+      "wikiAiId": 135,
+      "npcName": "Tuần Tra Cấm Vệ 3",
+      "wikiDetailUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=4&ai=135&side=vn",
+      "scope": "ONE_SELECTED_UNIT_ONLY",
+      "firstMoverObserved": "PLAYER",
+      "attackCoefficientDisplay": 336,
+      "attackCoefficientMeaning": "UNKNOWN",
+      "selectedUnit": {
+        "name": "Liên Kích Doanh",
+        "slot": 2,
+        "level": 31,
+        "soldiers": null,
+        "troopGroup": "Cung Binh",
+        "troopName": "Nỏ Binh",
+        "skillName": "Liên Kích"
+      },
+      "selectedUnitCombatFact": null,
+      "displayedSelectedDrop": null,
+      "verifiedComparisons": 4,
+      "pendingComparisons": 0,
+      "sourceDepth": null,
+      "status": "CORROBORATED_SOURCE_REFERENCE_NOT_GAMEPLAY_RULE",
+      "approvedCombatSkillId": null,
+      "approvedCombatEffectId": null,
+      "fullNpcFormationVerified": false,
+      "autoAppliedToGame": false
+    }
+  ],
+  "indexedMapSourceFacts": [
+    {
+      "mapId": "wiki-map-31",
+      "wikiMapId": 31,
+      "name": "Xích Bích",
+      "sourceId": "W31",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
+      "needsLiveBrowserConfirmation": true,
+      "mapLevel": 120,
+      "cityLevel": 110,
+      "observedClearReward": {
+        "silver": 500
+      },
+      "observedDrops": [
+        {
+          "displayedItem": "Ứng Long Châu",
+          "ratePercent": 30,
+          "sourceNpc": "Gia Các Lượng",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Chiến Đồ Đao",
+          "ratePercent": 3,
+          "sourceNpc": "Lưu Bị",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Dương Khải",
+          "ratePercent": 3,
+          "sourceNpc": "Tôn Quyền",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Chiến Công",
+          "ratePercent": 100,
+          "sourceNpc": "Liên Quân Tôn Lưu",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        }
+      ],
+      "revenueOrRewardRuntimeApproved": false,
+      "observedNpcRows": 10,
+      "sourceNotes": "SEARCH_INDEXED_REFERENCE_ONLY_UNVERIFIED_RUNTIME",
+      "autoAppliedToGame": false
+    },
+    {
+      "mapId": "wiki-map-34",
+      "wikiMapId": 34,
+      "name": "Phàn Thành Chiến",
+      "sourceId": "W34",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
+      "needsLiveBrowserConfirmation": true,
+      "mapLevel": 120,
+      "cityLevel": 120,
+      "observedClearReward": {
+        "silver": 400
+      },
+      "observedDrops": [
+        {
+          "displayedItem": "Chiến Đồ Đao",
+          "ratePercent": 3,
+          "sourceNpc": "Hạ Hầu Đôn",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Dương Khải",
+          "ratePercent": 3,
+          "sourceNpc": "Tư Mã Ý",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Ứng Long Châu",
+          "ratePercent": 30,
+          "sourceNpc": "Tào Nhân",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Tranh ngọc",
+          "ratePercent": 100,
+          "sourceNpc": "Quân Tào Nhân",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        }
+      ],
+      "revenueOrRewardRuntimeApproved": false,
+      "observedNpcRows": 10,
+      "sourceNotes": "SEARCH_INDEXED_REFERENCE_ONLY_UNVERIFIED_RUNTIME",
+      "autoAppliedToGame": false
+    },
+    {
+      "mapId": "wiki-map-63",
+      "wikiMapId": 63,
+      "name": "Động Cây Đa",
+      "sourceId": "W63",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
+      "needsLiveBrowserConfirmation": true,
+      "mapLevel": 160,
+      "cityLevel": 165,
+      "observedClearReward": null,
+      "observedDrops": [
+        {
+          "displayedItem": "Diêu Quang Thạch",
+          "ratePercent": 4,
+          "sourceNpc": "Quản Kha",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        }
+      ],
+      "revenueOrRewardRuntimeApproved": false,
+      "observedNpcRows": 5,
+      "sourceNotes": "SEARCH_INDEXED_REFERENCE_ONLY_UNVERIFIED_RUNTIME",
+      "autoAppliedToGame": false
+    },
+    {
+      "mapId": "wiki-map-269",
+      "wikiMapId": 269,
+      "name": "Vương Bình Hàng Thục",
+      "sourceId": "W269",
+      "evidenceAccess": "SEARCH_INDEXED_TEXT",
+      "needsLiveBrowserConfirmation": true,
+      "mapLevel": 390,
+      "cityLevel": 380,
+      "observedClearReward": {
+        "silver": 2160000,
+        "orangeDragonJade": 10100
+      },
+      "observedDrops": [
+        {
+          "displayedItem": "Diệt Thế Kiếm",
+          "ratePercent": 8,
+          "sourceNpc": "Từ Hoảng",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Diệt Thế Giáp",
+          "ratePercent": 8,
+          "sourceNpc": "Vương Bình",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Âm Dương Phù",
+          "ratePercent": 8,
+          "sourceNpc": "Quân Vương Bình",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        },
+        {
+          "displayedItem": "Đá Tôi Luyện",
+          "ratePercent": 10,
+          "sourceNpc": "Quân Vương Bình",
+          "sourceStatus": "VERIFIED_IN_SEARCH_INDEX",
+          "itemId": null
+        }
+      ],
+      "revenueOrRewardRuntimeApproved": false,
+      "observedNpcRows": 10,
+      "sourceNotes": "SEARCH_INDEXED_REFERENCE_ONLY_UNVERIFIED_RUNTIME",
+      "autoAppliedToGame": false
+    }
+  ]
+}

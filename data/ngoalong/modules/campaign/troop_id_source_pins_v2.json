@@ -1,0 +1,103 @@
+{
+  "schemaVersion": 2,
+  "kind": "NL06_CAMPAIGN_TROOP_ID_SOURCE_PINS_V2",
+  "campaignHead": "828106bc1b63c341e19dde7e6cfa4db3346ecdac",
+  "troopsHead": "6f3b01464437e3e78a4548e5bf677692105d43ba",
+  "manifestBlobSha": "80bc86c6383997d4d7addaf43599ecd8dc40cbf9",
+  "sourceShards": [
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-001.json",
+      "sha": "6f9ca285a786ae5fdcbc7f65b831ddaff68c3f6a"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-002.json",
+      "sha": "06e9bdc95b2804a0d821395a94f96e5b01f394b3"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-003.json",
+      "sha": "78ffad4190f23e5dff2c02b58f346d6daceb9eec"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-004.json",
+      "sha": "21f7325362e0419d177539db873c4d8da25e7055"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-005.json",
+      "sha": "0a2f3ea5b9fc73eb2e30c64db08854d909415407"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-006.json",
+      "sha": "931196dc09b53d524ba44a40c46210e95349a5b4"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-007.json",
+      "sha": "307207bc5c695488052487896e362d6ed14cf11f"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-008.json",
+      "sha": "b13f6a5a810fefa35f407e9a7252d082f77b8303"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-009.json",
+      "sha": "f7d1406cbb894f67b98499f60a7319a9c3f1f533"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-010.json",
+      "sha": "28e8d6027dd470b33563734c5b5ca07d45d89d0d"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-011.json",
+      "sha": "519ac002415c697cea30dfdcb006d797a8168c8c"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-012.json",
+      "sha": "c28ea310426dee99fca28ee0289bcb4df6662195"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-013.json",
+      "sha": "82c7faeff8d114e74d3fd2bef3ffed77e88199e9"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-014.json",
+      "sha": "f40975d9c1313a6f32cdfefa6006e71e9898fa63"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-015.json",
+      "sha": "438af80020b62261a6752b1777ff73720e07d69e"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-016.json",
+      "sha": "b68ccfc526d2e59acbd598e0d6e0b79c58da91c0"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-017.json",
+      "sha": "42effc62eb1efa8dbfd348db2ce08de06ddbc1f6"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-018.json",
+      "sha": "3b6e984371e07309c166608b2a63a067bfaa7981"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-019.json",
+      "sha": "2bfa8933f8f899d6c85b75141e3ae2adfc78909a"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-020.json",
+      "sha": "8b0a07e31b2b70d40e8a24d72f39598ecbf86849"
+    },
+    {
+      "path": "data/ngoalong/modules/campaign/source_shards/shard-021.json",
+      "sha": "baafa1e0293abee66ddc8230a2f7aa051a12d76d"
+    }
+  ],
+  "sourceGroupedAuditBlobs": [
+    "cadc9f982b68f231bdcdf0248ae597ab9a86b83e",
+    "903340d892558502f644da447ebcd5ea8fd8ed88",
+    "0c5f3270f2f8cb04d6c6f0a8452c5c8252754259",
+    "10cc9491bdfdfaf03878dc9920a211ac9652da23",
+    "79f126eb0a57e10b0cc7c8538d8bee542d18dba7"
+  ],
+  "snapshotBlobSha": "32cca44a7efc55320ace9f98f597917eeaeb4765",
+  "checkedAt": "2026-11-19",
+  "authority": "REFERENCE_ONLY"
+}

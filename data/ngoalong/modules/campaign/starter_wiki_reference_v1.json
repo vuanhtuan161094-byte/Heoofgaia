@@ -1,0 +1,834 @@
+{
+  "schemaVersion": 1,
+  "kind": "NGOALONG_CAMPAIGN_VERIFIED_EARLY_REFERENCE",
+  "sourceEdition": "CURRENT_VNG_MOBILE",
+  "classicWebgameParity": "UNKNOWN",
+  "runtimeAuthority": false,
+  "runtimeEnabled": false,
+  "sourceInputs": [
+    "data/ngoalong/group02_wiki/early_campaign_10.json",
+    "data/ngoalong/group02_wiki/npc_details.json"
+  ],
+  "generatedFrom": "Existing Group02 Wiki reference, no invented NPC units",
+  "maps": [
+    {
+      "id": "wiki-map-1",
+      "mapWikiId": 1,
+      "campaignOrder": 1,
+      "name": "Khúc Dương",
+      "faction": "Hoàng Cân",
+      "mapLevel": 10,
+      "cityLevelRequired": 20,
+      "advertisedNpcCount": 5,
+      "rosterSourceVerified": true,
+      "reward": {
+        "silver": 140,
+        "gold": 10
+      },
+      "displayedDrops": [
+        {
+          "name": "Bố Giáp",
+          "percent": 100,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Thiết Kiếm",
+          "percent": 100,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1",
+      "npcs": [
+        {
+          "id": "wiki-m1-ai75",
+          "wikiAiId": 75,
+          "order": 1,
+          "name": "Bùi Nguyên Thiệu",
+          "kind": "TINH NHUỆ",
+          "boss": false,
+          "level": 3,
+          "totalSoldiers": 200,
+          "merit": 32,
+          "displayedDrop": {
+            "name": "Bố Giáp",
+            "percent": 100
+          },
+          "detailedFormationStatus": "UNKNOWN",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=75&side=vn",
+          "provenance": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "VERIFIED",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          }
+        },
+        {
+          "id": "wiki-m1-ai77",
+          "wikiAiId": 77,
+          "order": 2,
+          "name": "Cao Thăng",
+          "kind": "BOSS",
+          "boss": true,
+          "level": 1,
+          "totalSoldiers": 200,
+          "merit": 40,
+          "displayedDrop": {
+            "name": "Thiết Kiếm",
+            "percent": 100
+          },
+          "detailedFormationStatus": "UNKNOWN",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=77&side=vn",
+          "provenance": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "VERIFIED",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          }
+        },
+        {
+          "id": "wiki-m1-ai81",
+          "wikiAiId": 81,
+          "order": 3,
+          "name": "Trương Yên",
+          "kind": "BOSS",
+          "boss": true,
+          "level": 5,
+          "totalSoldiers": 200,
+          "merit": 52,
+          "displayedDrop": {
+            "name": "Thiết Kiếm",
+            "percent": 100
+          },
+          "detailedFormationStatus": "UNKNOWN",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=81&side=vn",
+          "provenance": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "VERIFIED",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          }
+        },
+        {
+          "id": "wiki-m1-ai82",
+          "wikiAiId": 82,
+          "order": 4,
+          "name": "Ba Tài",
+          "kind": "BOSS",
+          "boss": true,
+          "level": 6,
+          "totalSoldiers": 420,
+          "merit": 58,
+          "displayedDrop": null,
+          "detailedFormationStatus": "UNKNOWN",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=82&side=vn",
+          "provenance": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "UNKNOWN",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          }
+        },
+        {
+          "id": "wiki-m1-ai83",
+          "wikiAiId": 83,
+          "order": 5,
+          "name": "Trương Bảo",
+          "kind": "TINH NHUỆ",
+          "boss": false,
+          "level": 8,
+          "totalSoldiers": 100,
+          "merit": 65,
+          "displayedDrop": {
+            "name": "Bố Giáp",
+            "percent": 35
+          },
+          "detailedFormationStatus": "UNKNOWN",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=83&side=vn",
+          "provenance": {
+            "order": "VERIFIED",
+            "aiId": "VERIFIED",
+            "name": "VERIFIED",
+            "kind": "VERIFIED",
+            "level": "VERIFIED",
+            "soldiers": "VERIFIED",
+            "merit": "VERIFIED",
+            "displayedDrop": "VERIFIED",
+            "fullFormation": "UNKNOWN",
+            "fullSkills": "UNKNOWN"
+          }
+        }
+      ],
+      "partialDetailSnapshots": [
+        {
+          "wikiAiId": 77,
+          "npcName": "Cao Thăng",
+          "kind": "BOSS",
+          "level": 1,
+          "firstMover": "PLAYER",
+          "selectedUnit": {
+            "name": "Cao Thăng",
+            "slot": 5,
+            "level": 1,
+            "soldiers": 200,
+            "troopGroup": "Bộ Binh",
+            "troopName": "Bộ",
+            "skillName": "Thiết Bích"
+          },
+          "selectedUnitCombatFact": {
+            "skillName": "Thiết Bích",
+            "attackType": "tactic",
+            "targetScope": "one_enemy",
+            "skillAttackPercent": 35,
+            "appliedEffects": [
+              {
+                "name": "Thiết bích",
+                "target": "self",
+                "durationTurns": 1
+              }
+            ],
+            "displayedCritPercent": 1,
+            "displayedCounterattackPercent": 1
+          },
+          "selectedDrop": {
+            "name": "Thiết Kiếm",
+            "percent": 100
+          },
+          "fullEnemyTeamVerified": false,
+          "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=77&side=vn"
+        },
+        {
+          "wikiAiId": 81,
+          "npcName": "Trương Yên",
+          "kind": "BOSS",
+          "level": 5,
+          "firstMover": "PLAYER",
+          "selectedUnit": {
+            "name": "Trương Yên",
+            "slot": 6,
+            "level": 1,
+            "soldiers": 200,
+            "troopGroup": "Kỵ Binh",
+            "troopName": "Kỵ",
+            "skillName": "Đạp Phá"
+          },
+          "selectedUnitCombatFact": {
+            "skillName": "Đạp Phá",
+            "attackType": "tactic",
+            "targetScope": "enemy_column",
+            "skillAttackPercent": 132,
+            "appliedEffects": [],
+            "displayedCritPercent": 1,
+            "displayedCounterattackPercent": 1
+          },
+          "selectedDrop": {
+            "name": "Thiết Kiếm",
+            "percent": 100
+          },
+          "fullEnemyTeamVerified": false,
+          "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=81&side=vn"
+        },
+        {
+          "wikiAiId": 82,
+          "npcName": "Ba Tài",
+          "kind": "BOSS",
+          "level": 6,
+          "firstMover": "PLAYER",
+          "selectedUnit": {
+            "name": "Hoành Tảo Doanh",
+            "slot": 3,
+            "level": 1,
+            "soldiers": 220,
+            "troopGroup": "Thương Binh",
+            "troopName": "Thương",
+            "skillName": "Hoành Tảo"
+          },
+          "selectedUnitCombatFact": {
+            "skillName": "Hoành Tảo",
+            "attackType": "tactic",
+            "targetScope": "enemy_row",
+            "skillAttackPercent": 141,
+            "appliedEffects": [],
+            "displayedCritPercent": 1,
+            "displayedCounterattackPercent": 1
+          },
+          "selectedDrop": null,
+          "fullEnemyTeamVerified": false,
+          "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=1&ai=82&side=vn"
+        }
+      ],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "wiki-map-2",
+      "mapWikiId": 2,
+      "campaignOrder": 2,
+      "name": "Quảng Tông",
+      "faction": "Hoàng Cân",
+      "mapLevel": 20,
+      "cityLevelRequired": 40,
+      "advertisedNpcCount": 7,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 250,
+        "gold": 30
+      },
+      "displayedDrops": [
+        {
+          "name": "Hoàng Phiêu",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Kinh Thi",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Thiết Kiếm",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Choàng Gấm",
+          "percent": 30,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=2",
+      "npcs": [],
+      "partialDetailSnapshots": [
+        {
+          "wikiAiId": 95,
+          "npcName": "Quản Hợi",
+          "kind": "BOSS",
+          "level": 6,
+          "firstMover": "PLAYER",
+          "selectedUnit": {
+            "name": "ThưKích Doanh",
+            "slot": 3,
+            "level": 2,
+            "soldiers": 200,
+            "troopGroup": "Cung Binh",
+            "troopName": "Cung",
+            "skillName": "Thư Kích"
+          },
+          "selectedUnitCombatFact": {
+            "skillName": "Thư Kích",
+            "attackType": "tactic",
+            "targetScope": "one_enemy",
+            "skillAttackPercent": 185,
+            "appliedEffects": [
+              {
+                "name": "Hội Tâm",
+                "target": "self",
+                "displayedPercent": 60,
+                "durationTurns": 2
+              }
+            ],
+            "displayedCritPercent": 1,
+            "displayedCounterattackPercent": 1
+          },
+          "selectedDrop": null,
+          "fullEnemyTeamVerified": false,
+          "sourceDepth": "SEARCH_INDEXED_NPC_DETAIL_NOT_COMPLETE_INTERACTIVE_EXTRACTION",
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=2&ai=95&side=vn"
+        }
+      ],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "wiki-map-3",
+      "mapWikiId": 3,
+      "campaignOrder": 3,
+      "name": "Hổ Lao",
+      "faction": "Đổng Trác",
+      "mapLevel": 30,
+      "cityLevelRequired": 60,
+      "advertisedNpcCount": 22,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 330,
+        "gold": 30
+      },
+      "displayedDrops": [
+        {
+          "name": "Bố Giáp",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Choàng Gấm",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Mộc Thuẫn",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Thiết Kiếm",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=3",
+      "npcs": [],
+      "partialDetailSnapshots": [
+        {
+          "wikiAiId": 108,
+          "npcName": "Đột Kích 1",
+          "kind": "Thường",
+          "level": 20,
+          "firstMover": "PLAYER",
+          "selectedUnit": {
+            "name": "Hoành Tảo Doanh",
+            "slot": 2,
+            "level": 20,
+            "soldiers": null,
+            "troopGroup": "Thương Binh",
+            "troopName": "Trùng Thương",
+            "skillName": "Hoành Tảo"
+          },
+          "selectedUnitCombatFact": null,
+          "selectedDrop": null,
+          "fullEnemyTeamVerified": false,
+          "sourceDepth": null,
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=3&ai=108&side=vn"
+        },
+        {
+          "wikiAiId": 114,
+          "npcName": "Nhuệ Trung Quân 2",
+          "kind": "Thường",
+          "level": 22,
+          "firstMover": "PLAYER",
+          "selectedUnit": {
+            "name": "Đột Kích Doanh",
+            "slot": 3,
+            "level": 22,
+            "soldiers": null,
+            "troopGroup": "Thương Binh",
+            "troopName": "Trùng Kích",
+            "skillName": "Đột Kích"
+          },
+          "selectedUnitCombatFact": null,
+          "selectedDrop": null,
+          "fullEnemyTeamVerified": false,
+          "sourceDepth": null,
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=3&ai=114&side=vn"
+        }
+      ],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "wiki-map-4",
+      "mapWikiId": 4,
+      "campaignOrder": 4,
+      "name": "Trường An",
+      "faction": "Đổng Trác",
+      "mapLevel": 40,
+      "cityLevelRequired": 60,
+      "advertisedNpcCount": 23,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 300,
+        "gold": 46
+      },
+      "displayedDrops": [
+        {
+          "name": "Diệp Đao",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Choàng Gấm",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Kinh Thi",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Mộc Thuẫn",
+          "percent": 35,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=4",
+      "npcs": [],
+      "partialDetailSnapshots": [
+        {
+          "wikiAiId": 135,
+          "npcName": "Tuần Tra Cấm Vệ 3",
+          "kind": "Thường",
+          "level": 31,
+          "firstMover": "PLAYER",
+          "selectedUnit": {
+            "name": "Liên Kích Doanh",
+            "slot": 2,
+            "level": 31,
+            "soldiers": null,
+            "troopGroup": "Cung Binh",
+            "troopName": "Nỏ Binh",
+            "skillName": "Liên Kích"
+          },
+          "selectedUnitCombatFact": null,
+          "selectedDrop": null,
+          "fullEnemyTeamVerified": false,
+          "sourceDepth": null,
+          "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=4&ai=135&side=vn"
+        }
+      ],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "early-map-05",
+      "mapWikiId": null,
+      "campaignOrder": 5,
+      "name": "Ngô Quận",
+      "faction": "Giang Đông",
+      "mapLevel": 50,
+      "cityLevelRequired": 80,
+      "advertisedNpcCount": 26,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 350,
+        "gold": 54
+      },
+      "displayedDrops": [
+        {
+          "name": "Nộ Yến Khải",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Diệp Đao",
+          "percent": 20,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "npcs": [],
+      "partialDetailSnapshots": [],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "early-map-06",
+      "mapWikiId": null,
+      "campaignOrder": 6,
+      "name": "Hoài Nam",
+      "faction": "Viên Thuật",
+      "mapLevel": 55,
+      "cityLevelRequired": 80,
+      "advertisedNpcCount": 25,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 524,
+        "gold": 80
+      },
+      "displayedDrops": [
+        {
+          "name": "Bão Nguyệt",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Diệp Đao",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Nộ Yến Khải",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "npcs": [],
+      "partialDetailSnapshots": [],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "early-map-07",
+      "mapWikiId": null,
+      "campaignOrder": 7,
+      "name": "Giới Kiều",
+      "faction": "Công Tôn Toán",
+      "mapLevel": 60,
+      "cityLevelRequired": 80,
+      "advertisedNpcCount": 27,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 970,
+        "gold": 154
+      },
+      "displayedDrops": [
+        {
+          "name": "Tứ Dân Lệnh",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Bão Nguyệt",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Diệp Đao",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "npcs": [],
+      "partialDetailSnapshots": [],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "early-map-08",
+      "mapWikiId": null,
+      "campaignOrder": 8,
+      "name": "Hán Trung",
+      "faction": "Trương Lỗ",
+      "mapLevel": 65,
+      "cityLevelRequired": 100,
+      "advertisedNpcCount": 19,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 580,
+        "gold": 80
+      },
+      "displayedDrops": [
+        {
+          "name": "Kim Tước",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Bão Nguyệt",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Tứ Dân Lệnh",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "npcs": [],
+      "partialDetailSnapshots": [],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "early-map-09",
+      "mapWikiId": null,
+      "campaignOrder": 9,
+      "name": "Kinh Châu",
+      "faction": "Lưu Biểu",
+      "mapLevel": 70,
+      "cityLevelRequired": 100,
+      "advertisedNpcCount": 31,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 980,
+        "gold": 140
+      },
+      "displayedDrops": [
+        {
+          "name": "Thánh Thuẫn",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Kim Tước",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Nộ Yến Khải",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "npcs": [],
+      "partialDetailSnapshots": [],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    },
+    {
+      "id": "early-map-10",
+      "mapWikiId": null,
+      "campaignOrder": 10,
+      "name": "Thành Đô",
+      "faction": "Lưu Chương",
+      "mapLevel": 80,
+      "cityLevelRequired": 100,
+      "advertisedNpcCount": 22,
+      "rosterSourceVerified": false,
+      "reward": {
+        "silver": 1420,
+        "gold": 150
+      },
+      "displayedDrops": [
+        {
+          "name": "Bách Lý",
+          "percent": 50,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Kim Tước",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        },
+        {
+          "name": "Thánh Thuẫn",
+          "percent": 25,
+          "dropNpc": null,
+          "dropNpcStatus": "UNKNOWN",
+          "sourceId": "W05"
+        }
+      ],
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban",
+      "npcs": [],
+      "partialDetailSnapshots": [],
+      "playable": false,
+      "blockers": [
+        "NPC_FORMATIONS_AND_SKILLS_NOT_FULLY_VERIFIED",
+        "RUNTIME_HERO_TROOP_SKILL_BINDINGS_NOT_APPROVED"
+      ]
+    }
+  ],
+  "coverage": {
+    "mapCount": 10,
+    "mapsWithVerifiedCompleteRoster": 1,
+    "indexedNpcRows": 5,
+    "detailedSingleUnitSnapshots": 7,
+    "playableMapCount": 0
+  }
+}

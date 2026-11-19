@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "edition": "CURRENT_VNG_MOBILE",
+  "classicParity": "UNKNOWN",
+  "registries": {
+    "heroes": [],
+    "troops": [],
+    "skills": [],
+    "effects": []
+  },
+  "maps": {},
+  "npcs": {},
+  "units": {},
+  "runtimeAuthority": false,
+  "note": "Empty until CHAT 01/02/05 provide source-reviewed crosswalks and CHAT 08 accepts integration."
+}

@@ -1,0 +1,1770 @@
+{
+  "schemaVersion": 1,
+  "kind": "NL_CHAT02_MISSING_35_NPC_TROOP_SIMULATION_DESIGN_V1",
+  "asOf": "2026-11-19",
+  "authority": "DESIGN_ONLY",
+  "sourceEdition": "CURRENT_VNG_MOBILE",
+  "classicParity": "UNKNOWN",
+  "sourceTriage": "data/ngoalong/modules/troops/npc_numeric_exception_triage_v1.json",
+  "peerBuilderModule": "data/ngoalong/modules/campaign/nl_campaign_peer_fallback_v1.js",
+  "peerBuilderBranch": "feature/nl-v2-campaign",
+  "caveat": "The 35 missing Wiki troop numeric IDs are NOT official gameplay identities. This is an optional same-dungeon peer-based fallback prototype, not an ID mapping.",
+  "totals": {
+    "designRecords": 35,
+    "chestLabeled": 11,
+    "observedPositions": 667,
+    "runtimeEnabled": 0
+  },
+  "records": [
+    {
+      "designId": "sim-chat02-npc-troop-324",
+      "wikiTroopIdForSourceReferenceOnly": 324,
+      "sourceName": "Hồng Liên Phán Quan",
+      "sourceOccurrences": 6,
+      "sourceNpcExample": {
+        "mapId": 175,
+        "npcId": "wiki-m175-ai2897",
+        "wikiSlot": 3,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2897&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-325",
+      "wikiTroopIdForSourceReferenceOnly": 325,
+      "sourceName": "Thiên Ngoại Linh Hồ",
+      "sourceOccurrences": 44,
+      "sourceNpcExample": {
+        "mapId": 175,
+        "npcId": "wiki-m175-ai2890",
+        "wikiSlot": 5,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2890&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-326",
+      "wikiTroopIdForSourceReferenceOnly": 326,
+      "sourceName": "Xích Giáp Cuồng Nỏ",
+      "sourceOccurrences": 61,
+      "sourceNpcExample": {
+        "mapId": 178,
+        "npcId": "wiki-m178-ai2971",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2971&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "RANGED",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-327",
+      "wikiTroopIdForSourceReferenceOnly": 327,
+      "sourceName": "Tuyết Vực Cung",
+      "sourceOccurrences": 3,
+      "sourceNpcExample": {
+        "mapId": 178,
+        "npcId": "wiki-m178-ai2955",
+        "wikiSlot": 7,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2955&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "RANGED",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-328",
+      "wikiTroopIdForSourceReferenceOnly": 328,
+      "sourceName": "Cửu U Băng Giáp",
+      "sourceOccurrences": 6,
+      "sourceNpcExample": {
+        "mapId": 179,
+        "npcId": "wiki-m179-ai2991",
+        "wikiSlot": 3,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=179&ai=2991&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "DEFENDER",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-329",
+      "wikiTroopIdForSourceReferenceOnly": 329,
+      "sourceName": "Huyền Băng Chùy",
+      "sourceOccurrences": 112,
+      "sourceNpcExample": {
+        "mapId": 175,
+        "npcId": "wiki-m175-ai2890",
+        "wikiSlot": 3,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2890&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "MELEE",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-330",
+      "wikiTroopIdForSourceReferenceOnly": 330,
+      "sourceName": "Viêm Long Điện",
+      "sourceOccurrences": 4,
+      "sourceNpcExample": {
+        "mapId": 184,
+        "npcId": "wiki-m184-ai3088",
+        "wikiSlot": 4,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=184&ai=3088&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "GENERAL",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-331",
+      "wikiTroopIdForSourceReferenceOnly": 331,
+      "sourceName": "Ác Hỏa Tướng",
+      "sourceOccurrences": 8,
+      "sourceNpcExample": {
+        "mapId": 175,
+        "npcId": "wiki-m175-ai2901",
+        "wikiSlot": 4,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2901&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "GENERAL",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-332",
+      "wikiTroopIdForSourceReferenceOnly": 332,
+      "sourceName": "Bạch Kim Thánh Kỵ",
+      "sourceOccurrences": 14,
+      "sourceNpcExample": {
+        "mapId": 175,
+        "npcId": "wiki-m175-ai2903",
+        "wikiSlot": 4,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2903&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "CAVALRY",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-333",
+      "wikiTroopIdForSourceReferenceOnly": 333,
+      "sourceName": "Huyết Dực Vệ Kỵ",
+      "sourceOccurrences": 11,
+      "sourceNpcExample": {
+        "mapId": 178,
+        "npcId": "wiki-m178-ai2968",
+        "wikiSlot": 9,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2968&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "CAVALRY",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-339",
+      "wikiTroopIdForSourceReferenceOnly": 339,
+      "sourceName": "Liệt Cốt Man Vương",
+      "sourceOccurrences": 8,
+      "sourceNpcExample": {
+        "mapId": 181,
+        "npcId": "wiki-m181-ai3026",
+        "wikiSlot": 5,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3026&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-340",
+      "wikiTroopIdForSourceReferenceOnly": 340,
+      "sourceName": "Đoạt Hồn Ảnh Ma",
+      "sourceOccurrences": 5,
+      "sourceNpcExample": {
+        "mapId": 183,
+        "npcId": "wiki-m183-ai3071",
+        "wikiSlot": 7,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=183&ai=3071&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-341",
+      "wikiTroopIdForSourceReferenceOnly": 341,
+      "sourceName": "Băng Phách Ngự Thương",
+      "sourceOccurrences": 13,
+      "sourceNpcExample": {
+        "mapId": 183,
+        "npcId": "wiki-m183-ai3075",
+        "wikiSlot": 2,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=183&ai=3075&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "MELEE",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-342",
+      "wikiTroopIdForSourceReferenceOnly": 342,
+      "sourceName": "Bôn Lôi Trọng Kỵ",
+      "sourceOccurrences": 14,
+      "sourceNpcExample": {
+        "mapId": 181,
+        "npcId": "wiki-m181-ai3028",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3028&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "CAVALRY",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-343",
+      "wikiTroopIdForSourceReferenceOnly": 343,
+      "sourceName": "Tích Lịch Ma Sư",
+      "sourceOccurrences": 11,
+      "sourceNpcExample": {
+        "mapId": 181,
+        "npcId": "wiki-m181-ai3033",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3033&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-349",
+      "wikiTroopIdForSourceReferenceOnly": 349,
+      "sourceName": "Nguyệt Thần Liêm",
+      "sourceOccurrences": 15,
+      "sourceNpcExample": {
+        "mapId": 185,
+        "npcId": "wiki-m185-ai3124",
+        "wikiSlot": 7,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3124&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "MELEE",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-350",
+      "wikiTroopIdForSourceReferenceOnly": 350,
+      "sourceName": "Viêm Chùy Kỵ",
+      "sourceOccurrences": 73,
+      "sourceNpcExample": {
+        "mapId": 186,
+        "npcId": "wiki-m186-ai3140",
+        "wikiSlot": 3,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=186&ai=3140&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "CAVALRY",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-351",
+      "wikiTroopIdForSourceReferenceOnly": 351,
+      "sourceName": "Long Khiếu Pháo",
+      "sourceOccurrences": 39,
+      "sourceNpcExample": {
+        "mapId": 185,
+        "npcId": "wiki-m185-ai3113",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3113&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "RANGED",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-352",
+      "wikiTroopIdForSourceReferenceOnly": 352,
+      "sourceName": "Cực Tinh Mê Cầm",
+      "sourceOccurrences": 51,
+      "sourceNpcExample": {
+        "mapId": 185,
+        "npcId": "wiki-m185-ai3112",
+        "wikiSlot": 8,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3112&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-353",
+      "wikiTroopIdForSourceReferenceOnly": 353,
+      "sourceName": "Huyễn Tinh Vương",
+      "sourceOccurrences": 29,
+      "sourceNpcExample": {
+        "mapId": 185,
+        "npcId": "wiki-m185-ai3122",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3122&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-354",
+      "wikiTroopIdForSourceReferenceOnly": 354,
+      "sourceName": "Dung Ma Thương",
+      "sourceOccurrences": 14,
+      "sourceNpcExample": {
+        "mapId": 193,
+        "npcId": "wiki-m193-ai3279",
+        "wikiSlot": 2,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=193&ai=3279&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-355",
+      "wikiTroopIdForSourceReferenceOnly": 355,
+      "sourceName": "Tử Kim Long Kỵ",
+      "sourceOccurrences": 13,
+      "sourceNpcExample": {
+        "mapId": 191,
+        "npcId": "wiki-m191-ai3237",
+        "wikiSlot": 2,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=191&ai=3237&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "CAVALRY",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-360",
+      "wikiTroopIdForSourceReferenceOnly": 360,
+      "sourceName": "Rương Xích Dực Cung",
+      "sourceOccurrences": 5,
+      "sourceNpcExample": {
+        "mapId": 197,
+        "npcId": "wiki-m197-ai3399",
+        "wikiSlot": 3,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=197&ai=3399&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "RANGED",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-361",
+      "wikiTroopIdForSourceReferenceOnly": 361,
+      "sourceName": "Rương Ảo Tâm Mị Hồ",
+      "sourceOccurrences": 24,
+      "sourceNpcExample": {
+        "mapId": 195,
+        "npcId": "wiki-m195-ai3341",
+        "wikiSlot": 6,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=195&ai=3341&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-362",
+      "wikiTroopIdForSourceReferenceOnly": 362,
+      "sourceName": "Rương Hao Vũ Kiếm Thánh",
+      "sourceOccurrences": 23,
+      "sourceNpcExample": {
+        "mapId": 197,
+        "npcId": "wiki-m197-ai3386",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=197&ai=3386&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "MELEE",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-366",
+      "wikiTroopIdForSourceReferenceOnly": 366,
+      "sourceName": "Rương Lôi Đình Chùy",
+      "sourceOccurrences": 7,
+      "sourceNpcExample": {
+        "mapId": 243,
+        "npcId": "wiki-m243-ai4327",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4327&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "MELEE",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-367",
+      "wikiTroopIdForSourceReferenceOnly": 367,
+      "sourceName": "Rương Bá Cự Khải",
+      "sourceOccurrences": 2,
+      "sourceNpcExample": {
+        "mapId": 243,
+        "npcId": "wiki-m243-ai4338",
+        "wikiSlot": 4,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4338&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "DEFENDER",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-368",
+      "wikiTroopIdForSourceReferenceOnly": 368,
+      "sourceName": "Rương Thiên Âm Cầm",
+      "sourceOccurrences": 8,
+      "sourceNpcExample": {
+        "mapId": 243,
+        "npcId": "wiki-m243-ai4326",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4326&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-369",
+      "wikiTroopIdForSourceReferenceOnly": 369,
+      "sourceName": "Rương Tử Mạch Cung",
+      "sourceOccurrences": 6,
+      "sourceNpcExample": {
+        "mapId": 243,
+        "npcId": "wiki-m243-ai4332",
+        "wikiSlot": 8,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4332&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "RANGED",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-370",
+      "wikiTroopIdForSourceReferenceOnly": 370,
+      "sourceName": "Rương Hư Không Kích",
+      "sourceOccurrences": 5,
+      "sourceNpcExample": {
+        "mapId": 243,
+        "npcId": "wiki-m243-ai4324",
+        "wikiSlot": 1,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4324&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "MELEE",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-401",
+      "wikiTroopIdForSourceReferenceOnly": 401,
+      "sourceName": "Xích Diệm Ngưu Ma (Rương)",
+      "sourceOccurrences": 10,
+      "sourceNpcExample": {
+        "mapId": 242,
+        "npcId": "wiki-m242-ai4300",
+        "wikiSlot": 7,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=242&ai=4300&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "TACTIC",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-402",
+      "wikiTroopIdForSourceReferenceOnly": 402,
+      "sourceName": "Pháo Xung Ngưu Đẩu (Rương)",
+      "sourceOccurrences": 8,
+      "sourceNpcExample": {
+        "mapId": 243,
+        "npcId": "wiki-m243-ai4324",
+        "wikiSlot": 5,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4324&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "RANGED",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-403",
+      "wikiTroopIdForSourceReferenceOnly": 403,
+      "sourceName": "Hỏa Giáp Huyền Ngưu (Rương)",
+      "sourceOccurrences": 9,
+      "sourceNpcExample": {
+        "mapId": 242,
+        "npcId": "wiki-m242-ai4317",
+        "wikiSlot": 5,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=242&ai=4317&side=vn"
+      },
+      "chestLabeled": true,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "DEFENDER",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-407",
+      "wikiTroopIdForSourceReferenceOnly": 407,
+      "sourceName": "Địa Phủ Phán Quan",
+      "sourceOccurrences": 4,
+      "sourceNpcExample": {
+        "mapId": 264,
+        "npcId": "wiki-m264-ai4803",
+        "wikiSlot": 5,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=264&ai=4803&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "GENERAL",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    },
+    {
+      "designId": "sim-chat02-npc-troop-419",
+      "wikiTroopIdForSourceReferenceOnly": 419,
+      "sourceName": "Thợ Săn Siêu Đẳng",
+      "sourceOccurrences": 2,
+      "sourceNpcExample": {
+        "mapId": 276,
+        "npcId": "wiki-m276-ai5050",
+        "wikiSlot": 2,
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=276&ai=5050&side=vn"
+      },
+      "chestLabeled": false,
+      "recruitable": "UNKNOWN",
+      "npcOnly": "UNKNOWN",
+      "tier": null,
+      "familyVerified": null,
+      "projectPrototype": {
+        "provenance": "SIMULATED",
+        "roleHint": "GENERAL",
+        "roleHintProvenance": "DESIGN_NAME_HEURISTIC_NOT_SOURCE_FACT",
+        "mechanism": "COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON",
+        "peerMustBeAnotherNpc": true,
+        "peerWikiMapIdMustMatch": true,
+        "priority": "SAME_BOSS_CLASS_THEN_NEAREST_LEVEL_AND_ORDER",
+        "scaling": {
+          "attackFactorRange": [
+            0.8,
+            1.2
+          ],
+          "defenseFactorRange": [
+            0.8,
+            1.2
+          ],
+          "moraleGainOnAttack": 20
+        },
+        "appliesToSourceFormationOnly": false,
+        "cloneLoot": false,
+        "mirrorSourceSkillId": false
+      },
+      "missingEvidence": [
+        "OFFICIAL_NUMERIC_ID_TO_CATALOGUE_ID",
+        "WIKI_TIER_AND_RECRUITABILITY",
+        "ORIGINAL_COMBAT_STAT_AND_SKILL"
+      ],
+      "approvedChat02Id": null,
+      "approvedRuntimeTroopId": null,
+      "automaticBinding": false,
+      "runtimeEnabled": false,
+      "requiresChat06PeerEvidence": true
+    }
+  ]
+}
