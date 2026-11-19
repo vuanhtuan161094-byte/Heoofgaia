@@ -57,5 +57,26 @@
     "actualRuntimeWikiPlayableAdded": 0,
     "currentSourceStructuredOperations": 501,
     "explanation": "78 line anchors from live Wiki page linked to prior DERIVED trait tags; the 235 previously structured source rows and 501 operations remain unchanged; all 137 still have unknown exact formulas/timing/probabilities; simulated trial profiles live only in separate module."
+  },
+  "missing59ReviewV3": {
+    "asOf": "2026-11-19",
+    "reviewSource": "data/ngoalong/modules/troops/missing_59_source_review_v3.json",
+    "originalMissing59": 59,
+    "sourceStructuredNewlyRecovered": 1,
+    "sourceQualitativeNewlyRecovered": 1,
+    "sourceFamilyOnly": 1,
+    "remainingMissingUnitSpecific": 57,
+    "unusablePlainOrLoreOnly": 56,
+    "sourceMechanicOpsNewInV3": 2,
+    "sourceQualitativeFactsNewInV3": 2,
+    "legacyStructuredRowsUnchanged": 235,
+    "legacy501OperationsUnchanged": 501,
+    "originalTrialProfiles": 78,
+    "newlyEligibleTrialProfiles": 2,
+    "totalTrialProfilesAfterOverlay": 80,
+    "wikiUnitsMadePlayable": 0,
+    "unknownFieldsKept": true,
+    "classicMobileParity": "UNKNOWN",
+    "sourceNote": "No code or reference source rewrites. New evidence in separate v3 overlay; 2011/2024 classic CN sources not used as Mobile troop identity/formula proof."
   }
 }

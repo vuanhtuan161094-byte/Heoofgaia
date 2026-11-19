@@ -1,0 +1,2247 @@
+{
+  "schemaVersion": 3,
+  "id": "NL-CHAT02-MISSING59-SOURCE-REVIEW-V3",
+  "asOf": "2026-11-19",
+  "sourceVersion": "VNG_WIKI_MOBILE_CURRENT",
+  "historicalGapSnapshot": 59,
+  "dataPolicy": "EXACT_SOURCED_FACTS_ARE_SEPARATE_FROM_DERIVED_MAPPING_AND_PROJECT_PROTOTYPES",
+  "sourcePage": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+  "secondarySources": [
+    {
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "scope": "Kiên Thủ (153) distinct from Kiên Thủ 2 (154)",
+      "claim": "All defense improvement can accumulate; exact multiplier not reported.",
+      "status": "VERIFIED_EFFECT_NAME_AND_RULE"
+    },
+    {
+      "url": "https://ngoalong.vnggames.com/tin-tuc/tin-tuc/hieu-ung-chien-dau.html",
+      "edition": "VNG_NEWS",
+      "scope": "Kiên Thủ all-defense stacking corroboration",
+      "status": "SECONDARY_CORROBORATION"
+    },
+    {
+      "url": "https://www.lequ.com/wly/201109/17213.html",
+      "edition": "CLASSIC_WEBGAME_CN_2011",
+      "scope": "Historical class information, no identity-safe exact 59 profile join",
+      "status": "CONTEXT_ONLY_NOT_PROMOTED"
+    },
+    {
+      "url": "https://www.lequ.com/wly/202406/142697.html",
+      "edition": "CLASSIC_CN_2024",
+      "scope": "Different-version skill rules",
+      "status": "REJECTED_AS_MOBILE_PARITY_PROOF"
+    }
+  ],
+  "review": {
+    "total": 59,
+    "specificStructuredRecovered": 1,
+    "qualitativeRecovered": 1,
+    "familyOnlyRelation": 1,
+    "remainingWithoutUnitSpecificMechanic": 57,
+    "stillWithoutAnyUsableQualitativeOrSpecific": 56,
+    "projectPrototypeOnly": 2,
+    "liveImported": 0,
+    "namedEdgesVerified": 0,
+    "groupCounts": {
+      "infantry": 13,
+      "spear": 9,
+      "cavalry": 4,
+      "archer": 5,
+      "strategist": 27,
+      "ship-medium": 1
+    },
+    "evidenceClassCounts": {
+      "FAMILY_RELATION_ONLY": 1,
+      "LORE_OR_EXCLUSIVITY_ONLY": 10,
+      "NAME_ONLY_NO_MECHANIC": 36,
+      "QUALITATIVE_PROFILE_RECOVERED": 1,
+      "TROOP_SPECIFIC_MECHANIC_RECOVERED": 1,
+      "VISUAL_DESCRIPTION_ONLY": 10
+    }
+  },
+  "important": "57 records still lack unit-specific combat mechanics, including one with family-only spear counter relation. 2 profiles gain sourced description: one NPC-labeled with two explicit duration-2 effects and one NAVAL qualitative. Neither is recruitable or game integrated.",
+  "records": [
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-03-be-ngan",
+      "name": "Bệ Ngạn",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Bệ Ngạn (position 3)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-05-co-cu",
+      "name": "Cổ Cự",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Cổ Cự (position 5)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-06-cung-ky",
+      "name": "Cùng Kỳ",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Cùng Kỳ (position 6)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-08-hon-don",
+      "name": "Hỗn Độn",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Hỗn Độn (position 8)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-09-lu-bo",
+      "name": "Lữ Bố",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Lữ Bố (position 9)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-11-nguoi-go-chiu-don",
+      "name": "Người Gỗ Chịu Đòn",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Người Gỗ Chịu Đòn (position 11)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-12-nguoi-go-hoi-khi",
+      "name": "Người Gỗ Hồi Khí",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Người Gỗ Hồi Khí (position 12)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-13-nguoi-go-thuong",
+      "name": "Người Gỗ Thường",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Người Gỗ Thường (position 13)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-14-si-binh-thap-thi-luyen",
+      "name": "Sĩ binh Tháp thí luyện",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Sĩ binh Tháp thí luyện (position 14)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-15-son-tac",
+      "name": "Sơn tặc",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Sơn tặc (position 15)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-17-thao-thiet",
+      "name": "Thao Thiết",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Thao Thiết (position 17)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-18-thi-luyen-chi-luc",
+      "name": "Thí Luyện Chi Lực",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Thí Luyện Chi Lực (position 18)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-infantry-t0-19-tuong-thanh-quoc-chien",
+      "name": "Tường Thành Quốc Chiến",
+      "family": "infantry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          35,
+          131
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Bộ Binh > Cấp 0 > Tường Thành Quốc Chiến (position 19)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-02-hai-tac",
+      "name": "Hải tặc",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Hải tặc (position 2)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-03-hoang-can-han-tuong",
+      "name": "Hoàng Cân Hãn Tướng",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Hoàng Cân Hãn Tướng (position 3)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-04-lu-bo",
+      "name": "Lữ Bố",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Lữ Bố (position 4)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-05-lu-bo",
+      "name": "Lữ Bố",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Lữ Bố (position 5)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-06-lu-bo",
+      "name": "Lữ Bố",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Lữ Bố (position 6)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-08-than-vo-kich",
+      "name": "Thần Võ Kích",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": 490,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Thần Võ Kích (position 8)"
+      },
+      "evidenceStatus": "TROOP_SPECIFIC_MECHANIC_RECOVERED",
+      "applicability": "NPC_SOURCE_ONLY",
+      "note": "The source labels this occurrence NPC. Qualitative magic offense; self morale-gain protection and Kiên Thủ last 2 turns, but no trigger/probability/strength given.",
+      "sourcedMechanics": [
+        {
+          "operation": "qualitative_magic_offense",
+          "kind": "trait",
+          "sourceValue": null,
+          "sourceDuration": null,
+          "trigger": null,
+          "provenance": "VERIFIED_QUALITATIVE"
+        },
+        {
+          "operation": "self_morale_gain_unaffected",
+          "kind": "status",
+          "sourceValue": null,
+          "sourceDuration": 2,
+          "activationHint": "next_turn",
+          "activationProvenance": "DERIVED_FROM_WORDING",
+          "trigger": null,
+          "target": "self",
+          "provenance": "VERIFIED_DURATION_AND_TARGET"
+        },
+        {
+          "operation": "apply_kien_thu",
+          "kind": "status",
+          "target": "self",
+          "sourceDuration": 2,
+          "sourceValue": null,
+          "trigger": null,
+          "effectIndexLink": {
+            "sourceId": "NL-W03",
+            "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/hieu-ung",
+            "sourceLine": 1071,
+            "effectWikiId": "nlwe-153-kien-thu",
+            "linkProvenance": "DERIVED_EXACT_LABEL_JOIN",
+            "effectRule": "STACKABLE_ALL_DEFENSE_BONUS",
+            "distinguishFrom": "nlwe-154-kien-thu-2"
+          },
+          "provenance": "VERIFIED_NAME_DURATION_DERIVED_CROSSWALK"
+        }
+      ],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": true,
+      "projectPrototypeId": "nlp-review-extra-spear-t0-08-than-vo-kich",
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-09-thi-luyen-vuong",
+      "name": "Thí Luyện Vương",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Thí Luyện Vương (position 9)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-10-thuong",
+      "name": "Thương",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": 500,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Thương (position 10)"
+      },
+      "evidenceStatus": "FAMILY_RELATION_ONLY",
+      "applicability": "FAMILY_ONLY_NOT_UNIT_SPECIFIC",
+      "note": "The page says spear troops counter cavalry and are threatened by infantry; not evidence of a unique active skill for the generic Spear entry.",
+      "sourcedMechanics": [
+        {
+          "operation": "family_counter_cycle",
+          "scope": "spear_family",
+          "target": "cavalry",
+          "threatenedBy": "infantry",
+          "sourceValue": null,
+          "sourceDuration": null,
+          "provenance": "VERIFIED_FAMILY_ONLY"
+        }
+      ],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-spear-t0-11-tuong-si-thap-thi-luyen",
+      "name": "Tướng sĩ Tháp thí luyện",
+      "family": "spear",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          447,
+          507
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Thương Binh > Cấp 0 > Tướng sĩ Tháp thí luyện (position 11)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-cavalry-t0-02-hoang-can-chien-xa",
+      "name": "Hoàng Cân Chiến Xa",
+      "family": "cavalry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          823,
+          884
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Kỵ Binh > Cấp 0 > Hoàng Cân Chiến Xa (position 2)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-cavalry-t0-04-lu-bo",
+      "name": "Lữ Bố",
+      "family": "cavalry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          823,
+          884
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Kỵ Binh > Cấp 0 > Lữ Bố (position 4)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-cavalry-t0-07-manh-chien",
+      "name": "Mãnh Chiến",
+      "family": "cavalry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          823,
+          884
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Kỵ Binh > Cấp 0 > Mãnh Chiến (position 7)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-cavalry-t0-11-trung-binh",
+      "name": "Trùng Binh",
+      "family": "cavalry",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          823,
+          884
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Kỵ Binh > Cấp 0 > Trùng Binh (position 11)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-archer-t0-01-bach-ho",
+      "name": "Bạch Hổ",
+      "family": "archer",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1190,
+          1229
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Cung Binh > Cấp 0 > Bạch Hổ (position 1)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-archer-t0-02-chu-tuoc",
+      "name": "Chu Tước",
+      "family": "archer",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1190,
+          1229
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Cung Binh > Cấp 0 > Chu Tước (position 2)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-archer-t0-04-cu-thu",
+      "name": "Cự Thú",
+      "family": "archer",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1190,
+          1229
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Cung Binh > Cấp 0 > Cự Thú (position 4)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-archer-t0-06-huyen-vu",
+      "name": "Huyền Vũ",
+      "family": "archer",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1190,
+          1229
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Cung Binh > Cấp 0 > Huyền Vũ (position 6)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-archer-t0-08-thanh-long",
+      "name": "Thanh Long",
+      "family": "archer",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1190,
+          1229
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Cung Binh > Cấp 0 > Thanh Long (position 8)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-01-ap-du",
+      "name": "Áp Dữ",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Áp Dữ (position 1)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-02-ba-xa",
+      "name": "Ba Xà",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Ba Xà (position 2)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-08-bacdau",
+      "name": "BắcĐẩu",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > BắcĐẩu (position 8)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-10-chu-yem",
+      "name": "Chu Yêm",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Chu Yêm (position 10)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-11-coquan-thu",
+      "name": "CơQuan Thú",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > CơQuan Thú (position 11)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-12-coquan-thu-nhue",
+      "name": "CơQuan Thú Nhuệ",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > CơQuan Thú Nhuệ (position 12)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-13-coquan-thu-tuong",
+      "name": "CơQuan Thú Tướng",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > CơQuan Thú Tướng (position 13)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-14-cung-ky",
+      "name": "Cùng Kỳ",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Cùng Kỳ (position 14)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-15-cu-thach-vuong",
+      "name": "Cự Thạch Vương",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Cự Thạch Vương (position 15)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-16-dao-ngot",
+      "name": "Đào Ngột",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Đào Ngột (position 16)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-18-hai-tac-quan",
+      "name": "Hải Tặc Quan",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Hải Tặc Quan (position 18)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-23-moc-nguu-cu-thu",
+      "name": "Mộc Ngưu Cự Thú",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Mộc Ngưu Cự Thú (position 23)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-24-moc-nguu-thu-vuong",
+      "name": "Mộc Ngưu Thú vương",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Mộc Ngưu Thú vương (position 24)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-25-nam-hoa-tien-su",
+      "name": "Nam Hoa Tiên Sứ",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Nam Hoa Tiên Sứ (position 25)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-26-namdau",
+      "name": "NamĐẩu",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > NamĐẩu (position 26)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-30-phi-liem",
+      "name": "Phi Liêm",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Phi Liêm (position 30)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-33-son-tac-quan",
+      "name": "Sơn Tặc Quan",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Sơn Tặc Quan (position 33)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-35-thach-binh",
+      "name": "Thạch Binh",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Thạch Binh (position 35)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-36-thach-binh-nhue",
+      "name": "Thạch Binh Nhuệ",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Thạch Binh Nhuệ (position 36)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-37-thach-tuong",
+      "name": "Thạch Tướng",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Thạch Tướng (position 37)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-38-thach-tuong-nhue",
+      "name": "Thạch Tướng Nhuệ",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Thạch Tướng Nhuệ (position 38)"
+      },
+      "evidenceStatus": "VISUAL_DESCRIPTION_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Description concerns appearance or object construction; it is art direction, not combat behavior.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-39-thai-binh-hien-si",
+      "name": "Thái Bình Hiền Sĩ",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Thái Bình Hiền Sĩ (position 39)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-41-thien-cong-hien-gia",
+      "name": "Thiên Công Hiền Giả",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Thiên Công Hiền Giả (position 41)"
+      },
+      "evidenceStatus": "LORE_OR_EXCLUSIVITY_ONLY",
+      "applicability": "UNKNOWN",
+      "note": "Visible content is narrative, title or character-exclusive troop attribution; no independent attack/effect mechanics stated.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-42-thien-lang",
+      "name": "Thiên Lang",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Thiên Lang (position 42)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-44-trung-quan",
+      "name": "Trùng Quan",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Trùng Quan (position 44)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-45-trung-vuong",
+      "name": "Trùng Vương",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > Trùng Vương (position 45)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-strategist-t0-46-vudoc-si",
+      "name": "VuĐộc Sĩ",
+      "family": "strategist",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          1534,
+          1777
+        ],
+        "exactFactLine": null,
+        "sourceIdentityLocator": "Quan Văn > Cấp 0 > VuĐộc Sĩ (position 46)"
+      },
+      "evidenceStatus": "NAME_ONLY_NO_MECHANIC",
+      "applicability": "UNKNOWN",
+      "note": "Official visible troop listing has no combat rule for this exact occurrence; do not infer mechanics from name or nearby entries.",
+      "sourcedMechanics": [],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": false,
+      "projectPrototypeId": null,
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    },
+    {
+      "wikiAppearanceId": "nlwm-extra-ship-medium-t0-01-dot-mao",
+      "name": "Đột Mạo",
+      "family": "ship-medium",
+      "tier": 0,
+      "originalCoverage": "NOT_YET_FIELD_EXTRACTED",
+      "source": {
+        "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceId": "NL-W02",
+        "sourceEdition": "VNG_WIKI_MOBILE_CURRENT",
+        "checkedOn": "2026-11-19",
+        "sectionLineRange": [
+          2145,
+          2164
+        ],
+        "exactFactLine": 2151,
+        "sourceIdentityLocator": "Thuyền Vừa > Cấp 0 > Đột Mạo (position 1)"
+      },
+      "evidenceStatus": "QUALITATIVE_PROFILE_RECOVERED",
+      "applicability": "NAVAL_REFERENCE_ONLY",
+      "note": "Source confirms only strong overall capability; no numeric stats or specific attack pattern. Naval scope cannot be auto-mapped to 3x3 land combat.",
+      "sourcedMechanics": [
+        {
+          "operation": "balanced_capability",
+          "kind": "qualitative_trait",
+          "sourceValue": null,
+          "sourceDuration": null,
+          "trigger": null,
+          "provenance": "VERIFIED_QUALITATIVE"
+        }
+      ],
+      "constraints": {
+        "triggerUnknown": true,
+        "probabilityUnknown": true,
+        "damageFormulaUnknown": true,
+        "sourceNamedEvolutionUnknown": true,
+        "recruitableUnknown": true,
+        "statusTypeVariantNotAssumed": true,
+        "otherEditionParityUnknown": true
+      },
+      "independentCombatProfileReady": true,
+      "projectPrototypeId": "nlp-review-extra-ship-medium-t0-01-dot-mao",
+      "livePlayable": false,
+      "sourceEditionOnly": true
+    }
+  ]
+}
