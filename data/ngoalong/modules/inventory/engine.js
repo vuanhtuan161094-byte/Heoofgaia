@@ -227,7 +227,7 @@
         const row = catalog[instance.base];
         // R03 and early gear remain price-stable; premium applies only to
         // high-tier, project-authored equipment.
-        const premium = row.id.startsWith(r.highTierPricing?.onlyForProjectEquipmentPrefix || '__none__')
+        const premium = row.sourceId && row.integration==='PLAYABLE' && r.highTierPricing?.groups
           ? r.highTierPricing.groups[row.sourceGroup] : null;
         const materialCount = r.materialPerLevel + (premium?.materialExtra || 0);
         assert(integer(m.stacks[material.id] || 0) && m.stacks[material.id] >= materialCount, 'INSUFFICIENT_MATERIAL');
