@@ -76,7 +76,16 @@ function createV5({
  guard(a1.length===18&&a2.length===125,"A1/A2 expected backlog counts");
  let npc=Array.isArray(npcDetails)?npcDetails:null;
  let mapList=Array.isArray(maps)?maps:null;
- if(npc===null)npc=[];if(mapList===null)mapList=[];
+ if(npc===null){
+  const details=JSON.parse(fs.readFileSync(path.join(dirname,"../../group02_wiki/npc_details.json"),"utf8"));
+  guard(Array.isArray(details.npcDetails),"missing source NPC details");
+  npc=details.npcDetails;
+ }
+ if(mapList===null){
+  const sourceMaps=JSON.parse(fs.readFileSync(path.join(dirname,"../../group02_wiki/maps_npcs.json"),"utf8"));
+  guard(Array.isArray(sourceMaps.maps),"missing source NPC maps");
+  mapList=sourceMaps.maps.flatMap(m=>m.npcs.map(n=>({name:n.name,mapId:m.mapQueryId,mapName:m.name,kind:n.kind})));
+ }
  const npcByName=groupBy(npc,d=>d.npcName),mapByName=groupBy(mapList,n=>n.name);
  const neutral=base.entries.filter(x=>x.faction==="Trung lập");
  const a3=neutral.map(h=>{
