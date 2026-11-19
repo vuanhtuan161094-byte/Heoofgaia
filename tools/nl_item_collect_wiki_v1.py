@@ -94,7 +94,13 @@ def main():
                 expanded = []
                 for name, declared in subgroups:
                     name = name.strip()
-                    if name in ROOT_CATEGORIES:
+                    # 'Khác' is also a real nested subgroup of 51 materials
+                    # and 47 resources. Only skip a root by its declared COUNT.
+                    ROOT_COUNTS = {"Rương": 323, "Vật Liệu": 145,
+                        "Tài Nguyên": 82, "Túi Phúc": 64, "Ấn Thạch": 27,
+                        "Danh Phẩm": 17, "Bí Tịch": 9, "Truyền Thừa Lệnh": 1,
+                        "Lệnh": 1, "Chìa Khóa": 1, "Khác": 4}
+                    if ROOT_COUNTS.get(name) == int(declared):
                         continue
                     try:
                         part = page.get_by_text(name, exact=True)
