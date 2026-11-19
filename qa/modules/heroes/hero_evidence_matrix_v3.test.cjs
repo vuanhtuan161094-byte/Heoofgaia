@@ -1,0 +1,17 @@
+"use strict";
+const a=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path");
+const mod=require("../../../data/ngoalong/modules/heroes/hero_evidence_matrix_builder_v1.js");
+const root=path.resolve(__dirname,"../../../data/ngoalong/modules/heroes");
+const m=mod.createMatrix();
+let n=0;const t=(name,fn)=>{fn();n++;console.log("PASS HERO_MATRIX "+name)};
+t("364 exact Wiki hero IDs",()=>{a.equal(m.entries.length,364);a.equal(new Set(m.entries.map(x=>x.heroId)).size,364)});
+t("source status partitions 364",()=>{a.deepEqual(m.groupCount,{HISTORICAL_SKILLS_ONLY:62,INDEX_ONLY:235,GUIDE_AND_STAGE_SKILLS:38,GUIDE_ONLY:29})});
+t("Nguy 19 and Quan 135 missing detailed source profiles",()=>{a.equal(m.byFaction["Ngụy"].missingDetails,19);a.equal(m.byFaction["Quần"].missingDetails,135)});
+t("73 neutral heroes remain completely unknown outside index",()=>{a.equal(m.byFaction["Trung lập"].missingDetails,73)});
+t("every current attribute, skill and stage cost remains unverified",()=>{a(m.entries.every(x=>x.fieldStatus.currentAttributes==="UNKNOWN"&&x.fieldStatus.currentEquippedSkill==="UNKNOWN"&&x.fieldStatus.individualAwakeningMaterialsAndCosts==="UNKNOWN"))});
+t("no hidden runtime permissions in any profile",()=>{a(m.entries.every(x=>x.currentRuntimeStatus==="REFERENCE_ONLY"&&x.playable===false&&x.individualAwakeningEligible===null))});
+t("Nguy research queue first, Quan next",()=>{const queue=mod.getPriorityBacklog(m);a.equal(queue.length,235);a(queue.slice(0,19).every(x=>x.faction==="Ngụy"));a(queue.slice(19,154).every(x=>x.faction==="Quần"))});
+t("unresearched entries have actionable source tasks",()=>{a(m.entries.filter(x=>x.researchState==="INDEX_ONLY").every(x=>x.researchNext.includes("VERIFY_BASE_STATS")&&x.sourceReferences.datedSkills.length===0))});
+t("sourced stage versions retain URL and exact skill ID",()=>{a(m.entries.some(x=>x.sourceReferences.datedSkills.some(y=>y.sourceUrl.startsWith("https://ngoalong.vnggames.com/")&&y.skillId)))});
+t("saved matrix snapshot exactly regenerates with LF",()=>{const stored=fs.readFileSync(path.join(root,"hero_evidence_matrix_v3.json"),"utf8");a.equal(stored,JSON.stringify(m,null,2)+"\n")});
+console.log("HERO_MATRIX "+n+"/"+n+" PASS");
