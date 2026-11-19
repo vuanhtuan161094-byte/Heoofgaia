@@ -63,7 +63,7 @@ def main():
                 overview = page.locator("body").inner_text(timeout=10000)
                 # The public accordion renders '+\\nlabel\\ncount' headings.
                 subgroups = re.findall(
-                    r"(?m)^\\+\\s*\\n\\s*([^\\n]+?)\\s*\\n\\s*(\\d+)\\s*$",
+                    r"(?m)^\+\s*\n\s*([^\n]+?)\s*\n\s*(\d+)\s*$",
                     overview
                 )
                 expanded = []
