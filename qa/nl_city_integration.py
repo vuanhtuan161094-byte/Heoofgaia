@@ -48,6 +48,19 @@ def main():
               ready["loaded"] and ready["saveVersion"] == 5 and ready["city"])
         check("CHAT03 catalog exposes 31 city + 7 legacy + 8 research",
               ready["coverage"] == {"cityBuildings":31,"legacyBuildings":7,"techs":8})
+        tactics = page.evaluate("window.__NL_TACTICS_QA__?.summary() || null")
+        check("CHAT02/05 registers 25 troop contracts, 28 PvE plans and 8 Boss plans",
+              tactics is not None and tactics.get("projectTroops") == 25 and
+              tactics.get("stagePlans") == 28 and tactics.get("bossPlans") == 8)
+        check("Wiki IDs remain unverified and native P2 keeps rewards",
+              tactics is not None and tactics.get("officialWikiTroopBindings") == 0 and
+              tactics.get("liveV2CombatEnabled") is False and
+              tactics.get("rewardAuthority") == "native-p2")
+        page.locator('.nav[data-tab="campaign"]').click()
+        check("stage-one V2 tactical data appears inside the real campaign UI",
+              page.locator('[data-nl-v2-intel="1"]').count() == 1)
+        check("Boss 28 authored tactical dossier comes from the same source pack",
+              "final-war-drum" in page.evaluate("window.__NL_TACTICS_QA__.renderStage(28)"))
         page.locator('.nav[data-tab="city"]').click()
         check("native city and new live building panel coexist",
               page.locator('[data-nl-command]').count() == 1 and
