@@ -151,6 +151,20 @@ def main() -> None:
 
         mobile = open_page(browser, saved, width=390)
         mobile.locator('.nav[data-tab="equipment"]').click()
+        overflow = mobile.evaluate("""() => ({
+            viewport: innerWidth,
+            document: document.documentElement.scrollWidth,
+            body: document.body.scrollWidth,
+            culprits: [...document.querySelectorAll('body *')].map(e => ({
+                tag: e.tagName, className: typeof e.className==='string'?e.className:'',
+                scrollWidth:e.scrollWidth, clientWidth:e.clientWidth,
+                right:Math.round(e.getBoundingClientRect().right),
+                left:Math.round(e.getBoundingClientRect().left)
+            })).filter(e => e.right > innerWidth + 1 || e.left < -1)
+               .sort((a,b)=>b.right-a.right).slice(0,15)
+        })""")
+        print("NL_ITEM_MOBILE_OVERFLOW " + json.dumps(overflow,ensure_ascii=False),flush=True)
+        print("NL_ITEM_PAGE_ERRORS " + json.dumps(errors,ensure_ascii=False),flush=True)
         check("mobile 390px seven-slot panel has no sideways document overflow",
               mobile.locator('.nli-slot').count() == 7 and
               mobile.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"))
