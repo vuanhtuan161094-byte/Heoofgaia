@@ -65,3 +65,38 @@ Additional files:
 7. Run focused tests, browser at 1280×720 and 390, save/reload and exact SHA CI only after integrator finishes wiring. Check 38/38 selection, 31/31 build, 34/34 operation paths, one-time receipts and legacy parity.
 
 **Status:** Chat 03 delivers working code + focused non-browser tests; the only missing point for buttons to work in canonical game is **Chat 08 runtime ownership**. The old source claim "full 38 integrated" is not valid until the integration QA passes.
+
+## V4 — Runnable native-render lifecycle bridge (CHAT 08 integration-ready)
+
+Source: \`data/ngoalong/modules/city/city_runtime_hook_v1.js\`; test \`qa/modules/city/city_runtime_hook_v1.test.cjs\`. Pure UMD/CommonJS. It does not mutate canonical source or create a competing HTML file.
+
+Within **CHAT 08-owned generator's existing game closure**, inject the engine+panel+hook JS and catalog once, after \`NL_GAME_DATA\`, R03 and all renderer overrides have been prepared, *before* final \`BOOT\` call. Then bind:
+
+\`\`\`js
+const cityHook=NLCityRuntimeHook.createIntegration({
+  catalog: NL_CITY_CATALOG,
+  research:NL_GAME_DATA.research,
+  engineApi:NLCityEngine,
+  panelApi:NLCityPanel,
+  getGame:()=>game, save:()=>save(),
+  now:()=>Date.now(),
+  findRoot:id=>document.getElementById(id),
+  openLegacy:id=>{
+    // MUST implement legacy display focus via original [data-focus-building].
+    // Keep original building handler, never create a duplicate upgrades handler.
+    const nativeBtn=document.querySelector('[data-focus-building="'+id+'"]');
+    if(!nativeBtn)throw Error('NATIVE_CITY_BUILDING_NOT_FOUND:'+id);
+    nativeBtn.click();
+  }
+});
+renderCity=cityHook.wrapRenderCity(renderCity);
+render=cityHook.wrapRender(render);
+tick=cityHook.wrapTick(tick);
+\`\`\`
+
+Include \`NLCityPanel.stylesheet\` in the existing canonical CSS. The bridge appends a **single** \`#nl-city-panel-root\` after the existing native city markup and rebinds on every replaced \`#view\`. It wraps existing \`tick\` (no second interval) so the city clock is advanced through the real native game loop. Saving/replay are still owned by the original game: after city action it invokes the supplied \`save()\`, preserving Save v5.
+
+**Important QA / integration blockers:** The native city may expose only 9 focusable original building tiles, while this source keeps 7 legacy aliases; the integrator must map them correctly, or explicitly mark navigation unavailable (not invent a control). Full browser/P2 QA and real Save migration still belong to 08 and are not asserted by this handoff. Wrap render only **once**; installing twice would duplicate the panel. Review tree after other chat commits before cherry-pick/port. 08 must add real item/troop/hero bonus consumers independently.
+
+Run checks: \`node qa/nl_city_cycle.test.cjs\`, \`node qa/nl_city_full.test.cjs\`, \`node qa/nl_city_operations.test.cjs\`, \`node --test qa/modules/city/city_panel_v1.test.cjs qa/modules/city/city_runtime_hook_v1.test.cjs\`.
+

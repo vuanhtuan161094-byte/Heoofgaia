@@ -217,10 +217,12 @@
       return record(s,input,'collect',{operationId:op.operationId,credit:op.reward});
     }
     function act(game,input) {
-      if(!input||typeof input.actionId!=='string'||!/^[\w.:-]{1,128}$/.test(input.actionId)||!finiteInt(input.now))
+      if(!input||typeof input.actionId!=='string'||!/^[\w.:-]{1,128}$/.test(input.actionId)||
+        ['__proto__','prototype','constructor'].includes(input.actionId)||!finiteInt(input.now))
         return error('INVALID_INTENT');
       const s=ensure(game,input.now);
-      if(s.receiptIndex[input.actionId])return Object.assign({duplicate:true},clone(s.receiptIndex[input.actionId]));
+      if(Object.prototype.hasOwnProperty.call(s.receiptIndex,input.actionId))
+        return Object.assign({duplicate:true},clone(s.receiptIndex[input.actionId]));
       advance(game,input.now);
       if(input.kind==='build')return build(game,s,input);
       if(input.kind==='harvest')return harvest(game,s,input);
