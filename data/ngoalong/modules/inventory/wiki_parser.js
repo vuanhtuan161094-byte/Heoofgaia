@@ -63,9 +63,16 @@
     const onlyLevel=/^Cấp\s+(\d+)$/.exec(line);
     if(onlyLevel){
       if(rows.length&&rows[rows.length-1].sourceCategory===group &&
-        rows[rows.length-1].displayedLevel==null)
-        {rows[rows.length-1].displayedLevel=Number(onlyLevel[1]);
-         rows[rows.length-1].fieldProvenance.displayedLevel='VERIFIED';}
+        rows[rows.length-1].displayedLevel==null){
+         const last=rows[rows.length-1];
+         keys.delete([last.sourceCategory,last.sourceGroup,last.name,''].join('\u001f'));
+         const level=Number(onlyLevel[1]);
+         const key=[last.sourceCategory,last.sourceGroup,last.name,level].join('\u001f');
+         if(keys.has(key))throw Error('DUPLICATE_WIKI_ITEM_ROW_'+last.name);
+         keys.add(key);
+         last.displayedLevel=level;
+         last.fieldProvenance.displayedLevel='VERIFIED';
+      }
       continue;
     }
     // "Quà Cấp 1" is the item NAME; "Quà Cấp 1 Cấp 10" carries an actual displayed level.
