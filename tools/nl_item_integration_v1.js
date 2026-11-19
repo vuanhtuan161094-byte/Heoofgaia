@@ -182,6 +182,20 @@ p2StoreReport=function(rewards,loot){
       battle.replay || !battle.report) return;
   nlItemGiveCampaignReward(Number(battle.stage));
 };
+// The canonical render() may skip the already-open equipment panel.
+ // Refresh only its owned DOM after item-local navigation; do not rely on
+ // unrelated game-wide rendering to repaint this fragment.
+function nlItemRefreshEquipmentPanel(){
+  const bridge=document.querySelector('[data-nl-item-bridge]');
+  const current=bridge?.querySelector('.nli-panel');
+  const heroId=nlItemHeroId();
+  if(!current||!heroId)return;
+  const template=document.createElement('template');
+  template.innerHTML=window.NLItemEquipmentUI.makeView(
+    NL_ITEM_CATALOGUE,nlItemApi,game,heroId,nlItemSelected);
+  const updated=template.content.querySelector('.nli-panel');
+  if(updated)current.replaceWith(updated);
+}
 document.addEventListener('click',function(ev){
   const control=ev.target.closest?.('[data-nli-action],[data-nli-tab],[data-nli-shop],[data-nli-pending]');
   if(!control || !control.closest('.nli-panel'))return;
@@ -190,10 +204,10 @@ document.addEventListener('click',function(ev){
     nlItemClaimPending(control.getAttribute('data-nli-pending'));return;
   }
   if(control.hasAttribute('data-nli-tab')){
-    nlItemSelected.tab=control.getAttribute('data-nli-tab');render();return;
+    nlItemSelected.tab=control.getAttribute('data-nli-tab');nlItemRefreshEquipmentPanel();return;
   }
   if(control.hasAttribute('data-nli-shop')){
-    nlItemSelected.shop=control.getAttribute('data-nli-shop')==='1';render();return;
+    nlItemSelected.shop=control.getAttribute('data-nli-shop')==='1';nlItemRefreshEquipmentPanel();return;
   }
   const action=control.getAttribute('data-nli-action');
   nlItemAction(action,{
