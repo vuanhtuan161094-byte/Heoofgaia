@@ -166,7 +166,70 @@
     "buildingScope": "ALL_NAMED_FACILITIES_FROM_REVIEWED_CITY_AND_NAVAL_SOURCES_PLUS_PREEXISTING_PROJECT_BUILDINGS",
     "legacyEconomy": "UNCHANGED",
     "unlockAndCostStatus": "SIMULATED",
-    "researchStatus": "LEGACY_REUSED"
+    "researchStatus": "LEGACY_REUSED",
+    "balance": {
+      "version": 2,
+      "provenance": "SIMULATED",
+      "objective": "IDLE_2_HOUR_BASE_STOCK_WITH_TIERED_STORAGE_AND_DAILY_SINKS",
+      "baseStockMinutes": 120,
+      "offlineCapHours": 6,
+      "buildCostExponent": 1.3,
+      "buildTime": {
+        "higherLevelExtraPerLevel": 0.35,
+        "startExtraAtLevel": 3,
+        "midTierFactor": 1.15,
+        "lateTierFactor": 1.4,
+        "midGate": 3,
+        "lateGate": 6
+      },
+      "stockBonusPerLevel": {
+        "nl_city_residence": {
+          "building": "nl_city_treasury",
+          "amount": 2500
+        },
+        "nl_city_mill": {
+          "building": "nl_city_granary",
+          "amount": 1800
+        },
+        "nl_city_ironworks": {
+          "building": "nl_city_depot",
+          "amount": 180
+        }
+      },
+      "globalBonusCaps": {
+        "taxCollectionBonus": 0.25,
+        "tradeRevenueMultiplierBonus": 0.25
+      },
+      "defaultDailyLimit": 12,
+      "dailyLimits": {
+        "tax": 4,
+        "patrol": 6,
+        "audit_vault": 4,
+        "edict": 3,
+        "mint_coin": 6,
+        "hunt": 4,
+        "buy_grain": 24,
+        "sell_grain": 24,
+        "buy_parts": 12,
+        "sell_parts": 12,
+        "issue_notes": 12,
+        "redeem_notes": 12,
+        "produce_goods": 12,
+        "sell_goods": 12,
+        "sea_trade": 2,
+        "port_license": 4,
+        "reception": 3,
+        "trial_training": 3,
+        "soul_refine": 4,
+        "navy_provisions": 8,
+        "signal": 6
+      },
+      "dailyLimitExtras": {
+        "tax": "cityTaxCapacityFlat",
+        "sea_trade": "navalTradeCapacityFlat"
+      },
+      "localWarehouseSoftCeiling": 10000000
+    }
   },
   "buildings": [
     {
@@ -195,7 +258,7 @@
       "production": {
         "resource": "iron",
         "perMinutePerLevel": 3,
-        "capacityPerLevel": 45
+        "capacityPerLevel": 360
       },
       "effects": [],
       "provenance": {
@@ -206,7 +269,8 @@
           "unlock": "SIMULATED",
           "cost": "SIMULATED",
           "time": "SIMULATED",
-          "effect": "SIMULATED"
+          "effect": "SIMULATED",
+          "productionCapacity": "SIMULATED"
         }
       },
       "actions": []
@@ -237,7 +301,7 @@
       "production": {
         "resource": "grain",
         "perMinutePerLevel": 15,
-        "capacityPerLevel": 240
+        "capacityPerLevel": 1800
       },
       "effects": [],
       "provenance": {
@@ -248,7 +312,8 @@
           "unlock": "SIMULATED",
           "cost": "SIMULATED",
           "time": "SIMULATED",
-          "effect": "SIMULATED"
+          "effect": "SIMULATED",
+          "productionCapacity": "SIMULATED"
         }
       },
       "actions": []
@@ -285,6 +350,11 @@
           "target": "reserveCapacityFlat",
           "perLevel": 60,
           "consumer": "chat-05 / barracks"
+        },
+        {
+          "target": "ironEscrowFlat",
+          "perLevel": 180,
+          "consumer": "city engine ironworks storage"
         }
       ],
       "provenance": {
@@ -343,7 +413,8 @@
           "unlock": "SIMULATED",
           "cost": "SIMULATED",
           "time": "SIMULATED",
-          "effect": "SIMULATED"
+          "effect": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         },
         "sourceNameRef": "VNG-2026-CITY"
       },
@@ -446,7 +517,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -479,7 +551,7 @@
       "production": {
         "resource": "silver",
         "perMinutePerLevel": 5,
-        "capacityPerLevel": 110
+        "capacityPerLevel": 600
       },
       "effects": [
         {
@@ -515,7 +587,9 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "productionCapacity": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -580,7 +654,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -645,7 +720,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -709,7 +785,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -786,7 +863,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -853,7 +931,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -931,7 +1010,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1011,7 +1091,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1046,7 +1127,7 @@
         {
           "target": "huntRewardBonus",
           "perLevel": 0.02,
-          "consumer": "city hunting",
+          "consumer": "city engine hunting rewards",
           "cap": 0.12
         }
       ],
@@ -1078,7 +1159,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1113,7 +1195,7 @@
         {
           "target": "silverProductionMultiplierBonus",
           "perLevel": 0.01,
-          "consumer": "chat-08 legacy economy",
+          "consumer": "city engine residence passive yield",
           "cap": 0.06
         }
       ],
@@ -1144,7 +1226,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1209,7 +1292,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1274,7 +1358,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1309,7 +1394,7 @@
         {
           "target": "cityTaxCapacityFlat",
           "perLevel": 1,
-          "consumer": "city tax"
+          "consumer": "city engine tax daily quota"
         }
       ],
       "actions": [
@@ -1339,7 +1424,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1406,7 +1492,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1471,7 +1558,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1537,7 +1625,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1603,7 +1692,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1669,7 +1759,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1734,7 +1825,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1769,7 +1861,7 @@
         {
           "target": "navalTradeCapacityFlat",
           "perLevel": 1,
-          "consumer": "city naval trading"
+          "consumer": "city engine sea trade daily quota"
         }
       ],
       "actions": [
@@ -1799,7 +1891,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1865,7 +1958,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1933,7 +2027,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -1998,7 +2093,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -2064,7 +2160,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -2129,7 +2226,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     },
@@ -2164,7 +2262,7 @@
         {
           "target": "navalTradeTimeReduction",
           "perLevel": 0.02,
-          "consumer": "city naval trading",
+          "consumer": "city engine sea trade completion time",
           "cap": 0.12
         }
       ],
@@ -2195,7 +2293,8 @@
           "buildSeconds": "SIMULATED",
           "production": "SIMULATED",
           "effects": "SIMULATED",
-          "actions": "SIMULATED"
+          "actions": "SIMULATED",
+          "dailyLimit": "SIMULATED"
         }
       }
     }

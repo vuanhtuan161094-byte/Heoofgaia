@@ -86,7 +86,7 @@ check('passive production remains capped escrow and never duplicates real credit
  const silver=g.silver;
  e.advance(g,1000000+2*86400000);
  assert.equal(g.silver,silver);
- assert.ok(g.nlCity.stock.nl_city_residence<=110);
+ assert.ok(g.nlCity.stock.nl_city_residence<=c.buildings.find(x=>x.id==='nl_city_residence').production.capacityPerLevel);
  const stock=g.nlCity.stock.nl_city_residence;
  assert.ok(stock>0);
  const out=e.act(g,{kind:'harvest',id:'nl_city_residence',actionId:'home-harvest',now:g.nlCity.lastAt});

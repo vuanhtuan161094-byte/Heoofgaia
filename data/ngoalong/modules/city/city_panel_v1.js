@@ -107,8 +107,10 @@
         html+='<h4 class="nlcity-section">Thao tác thực tế</h4><div class="nlcity-operations">';
         for(const a of b.operations){
           html+=button('operate',b.id,a.id,escape(a.label)+' · Phí '+amount(a.cost)+
-            ' · Nhận '+amount(a.reward)+(a.durationSeconds?' · '+num(a.durationSeconds)+'s':''),
-            !b.level||Boolean(b.pendingOperation)||clock()<a.availableAt);
+            ' · Nhận '+amount(a.reward)+(a.durationSeconds?' · '+num(a.durationSeconds)+'s':'')+
+            (Number.isFinite(a.dailyLimit)?' · '+num(a.dailyUsed)+'/'+num(a.dailyLimit)+' lượt/ngày':''),
+            !b.level||Boolean(b.pendingOperation)||clock()<a.availableAt||
+            (Number.isFinite(a.dailyLimit)&&a.dailyUsed>=a.dailyLimit));
         }
         html+='</div>';
       }
