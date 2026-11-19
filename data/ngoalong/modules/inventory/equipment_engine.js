@@ -227,7 +227,7 @@
         // Only late-game project equipment gets the B2 premium. Pre-existing
         // R03 and early/mid-game items keep their original exact prices.
         const row = catalog[instance.base];
-        const premium = row.id.startsWith(r.highTierPricing?.onlyForProjectEquipmentPrefix || '\\0')
+        const premium = row.sourceId && row.integration==='PLAYABLE' && r.highTierPricing?.groups
           ? r.highTierPricing.groups[row.sourceGroup] : null;
         const materialCount = r.materialPerLevel + (premium?.materialExtra || 0);
         assert(integer(m.stacks[material.id] || 0) && m.stacks[material.id] >= materialCount, 'INSUFFICIENT_MATERIAL');
