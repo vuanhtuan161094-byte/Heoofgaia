@@ -165,6 +165,12 @@ def main() -> None:
         })""")
         print("NL_ITEM_MOBILE_OVERFLOW " + json.dumps(overflow,ensure_ascii=False),flush=True)
         print("NL_ITEM_PAGE_ERRORS " + json.dumps(errors,ensure_ascii=False),flush=True)
+        print("NL_ITEM_MOBILE_PANEL " + json.dumps({
+            "slots": mobile.locator(".nli-slot").count(),
+            "bridge": mobile.locator("[data-nl-item-bridge]").count(),
+            "documentWidth": overflow["document"],
+            "viewport": overflow["viewport"]
+        }),flush=True)
         check("mobile 390px seven-slot panel has no sideways document overflow",
               mobile.locator('.nli-slot').count() == 7 and
               mobile.evaluate("document.documentElement.scrollWidth <= innerWidth + 1"))
