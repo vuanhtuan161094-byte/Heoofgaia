@@ -74,7 +74,14 @@ function nlItemHeroId(){
 const nlItemPriorRenderEquipment=renderEquipment;
 renderEquipment=function(){
   // Legacy pane stays present (19 existing IDs, QA/data-buy selectors intact).
-  const previous=nlItemPriorRenderEquipment();
+  // The legacy renderer is the 19-item shop; 392 new gear are exposed by the
+  // paginated Group04 panel, not duplicated in the old mobile grid.
+  const originalIds=new Set(NL_GAME_DATA.equipment.projectItems.map(x=>x.id));
+  const hidden=Object.entries(EQUIPMENT).filter(([id])=>!originalIds.has(id));
+  for(const [id] of hidden)delete EQUIPMENT[id];
+  let previous;
+  try{previous=nlItemPriorRenderEquipment();}
+  finally{for(const [id,row] of hidden)EQUIPMENT[id]=row;}
   const heroId=nlItemHeroId();
   if(!heroId) return previous;
   const selector='<label class="nli-owner-switch">Chọn võ tướng <select data-nli-hero>'+
