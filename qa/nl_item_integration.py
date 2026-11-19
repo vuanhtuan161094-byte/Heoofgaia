@@ -151,6 +151,25 @@ def main() -> None:
 
         mobile = open_page(browser, saved, width=390)
         mobile.locator('.nav[data-tab="equipment"]').click()
+        mobile.locator('[data-nli-shop="1"]').click()
+        check("mobile shop paginates 411 gear without rendering a huge list",
+              mobile.locator('[data-nli-action="buy"]').count() == 30 and
+              mobile.locator('[data-nli-page="1"]').count() == 1)
+        mobile.locator('[data-nli-page="1"]').click()
+        check("mobile equipment next page navigates within current panel",
+              'Trang 2/' in mobile.locator('.nli-pages').inner_text())
+        mobile.locator('[data-nli-search]').fill('Thanh Cương Kiếm')
+        check("mobile equipment search filters the current shop",
+              mobile.locator('.nli-gear').count() >= 1 and
+              all('Thanh Cương Kiếm' in text for text in
+                  mobile.locator('.nli-gear header strong').all_inner_texts()))
+        mobile.locator('[data-nli-shop="0"]').click()
+        mobile.locator('[data-nli-search]').fill('')
+        mobile.locator('[data-nli-item-mode="wiki"]').click()
+        mobile.locator('[data-nli-item-search]').fill('khong-co-san-pham-nay')
+        check("mobile warehouse Wiki browser search remains read-only",
+              mobile.locator('[data-nli-items-results="0"]').count() == 1 and
+              mobile.locator('[data-nli-item-action]').count() == 0)
         overflow = mobile.evaluate("""() => ({
             viewport: innerWidth,
             document: document.documentElement.scrollWidth,
