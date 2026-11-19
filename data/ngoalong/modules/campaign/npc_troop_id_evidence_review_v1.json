@@ -1,0 +1,1741 @@
+{
+  "schemaVersion": 1,
+  "kind": "NL_CHAT06_INDEPENDENT_TROOP_NUMERIC_EVIDENCE_REVIEW_V1",
+  "asOf": "2026-11-19",
+  "sourceEdition": "CURRENT_VNG_MOBILE",
+  "classicParity": "UNKNOWN",
+  "authority": "RESEARCH_ONLY",
+  "runtimeEnabled": false,
+  "sourceCrosswalk": "data/ngoalong/modules/campaign/npc_numeric_troop_crosswalk_v2.json",
+  "chat06BaselineHead": "c2199d12f4fe1ced99cc452602345762112b1372",
+  "chat02Triage": "data/ngoalong/modules/troops/npc_numeric_exception_triage_v1.json",
+  "chat02TriageBranch": "feature/nl-mcv2-02-troops",
+  "method": {
+    "wikiCatalogue": "Independently opened current VNG troop catalogue and checked repeated entries for five duplicate names",
+    "npcPages": "Numeric ID-to-variant evidence from independently fetched NPC pages was not obtained",
+    "chineseComparativeOnly": "Older Chinese sites document troop families but not VNG Mobile IDs; prohibit cross-edition numeric joins",
+    "missingRecords": "Compared against existing 372-appearance CHAT02 catalogue; 35 remain without name-match in snapshot, not proven absent from all game editions"
+  },
+  "sourcePages": [
+    {
+      "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+      "edition": "CURRENT_VNG_MOBILE",
+      "evidenceFor": "Duplicate labels and distinct tier/family contexts only"
+    },
+    {
+      "url": "https://www.lequ.com/wly/201104/14053.html",
+      "edition": "CN_CLASSIC_HISTORICAL",
+      "evidenceFor": "Comparative troop tiers/families only; IDs NOT verified"
+    },
+    {
+      "url": "https://game.zixia.com/game-wly/news108995",
+      "edition": "CN_CLASSIC_HISTORICAL",
+      "evidenceFor": "Comparative variant naming only; IDs NOT verified"
+    }
+  ],
+  "totals": {
+    "numericExceptions": 44,
+    "ambiguous": 9,
+    "missingCatalogue": 35,
+    "chestLabeled": 11,
+    "unitOccurrences": 851,
+    "newIndependentlyVerifiedNumericJoins": 0,
+    "approvedForChat08": 0
+  },
+  "rows": [
+    {
+      "wikiTroopId": 29,
+      "wikiName": "Ngân Thương",
+      "observedInNpcFormations": 41,
+      "sourceNpcExamples": [
+        {
+          "mapId": 5,
+          "npcId": "wiki-m5-ai161",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=5&ai=161&side=vn"
+        },
+        {
+          "mapId": 5,
+          "npcId": "wiki-m5-ai171",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=5&ai=171&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-spear-t2-ngan-thuong",
+        "nlwm-spear-t4-ngan-thuong"
+      ],
+      "duplicateNumericIdsForName": [
+        142
+      ],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "SAME_FAMILY_DIFFERENT_TIER",
+        "vngWikiSection": "Thương Binh",
+        "tierCandidates": [
+          2,
+          4
+        ],
+        "distinctProfiles": "Tier 2: pháp công/pháp phòng; tier 4: phòng thủ và tự bảo vệ",
+        "variantSeparableByWiki": true,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 31,
+      "wikiName": "Huyền Vũ",
+      "observedInNpcFormations": 65,
+      "sourceNpcExamples": [
+        {
+          "mapId": 5,
+          "npcId": "wiki-m5-ai172",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=5&ai=172&side=vn"
+        },
+        {
+          "mapId": 5,
+          "npcId": "wiki-m5-ai179",
+          "wikiSlot": 6,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=5&ai=179&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-spear-t2-huyen-vu",
+        "nlwm-extra-archer-t0-06-huyen-vu"
+      ],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "DIFFERENT_FAMILY",
+        "vngWikiSection": "Thương Binh; Cung Binh",
+        "tierCandidates": [
+          2,
+          0
+        ],
+        "distinctProfiles": "Spear tier 2 high defense/counter; Archer tier 0 distinct listing with same label",
+        "variantSeparableByWiki": true,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 89,
+      "wikiName": "Diệm Cung",
+      "observedInNpcFormations": 16,
+      "sourceNpcExamples": [
+        {
+          "mapId": 40,
+          "npcId": "wiki-m40-ai873",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=40&ai=873&side=vn"
+        },
+        {
+          "mapId": 41,
+          "npcId": "wiki-m41-ai891",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=41&ai=891&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-archer-t3-diem-cung",
+        "nlwm-archer-t5-diem-cung"
+      ],
+      "duplicateNumericIdsForName": [
+        206
+      ],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "SAME_FAMILY_DIFFERENT_TIER",
+        "vngWikiSection": "Cung Binh",
+        "tierCandidates": [
+          3,
+          5
+        ],
+        "distinctProfiles": "Tier 3: kế sách; tier 5: burn and mưu phòng reduction",
+        "variantSeparableByWiki": true,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 99,
+      "wikiName": "VuĐộc Sĩ",
+      "observedInNpcFormations": 18,
+      "sourceNpcExamples": [
+        {
+          "mapId": 37,
+          "npcId": "wiki-m37-ai837",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=37&ai=837&side=vn"
+        },
+        {
+          "mapId": 38,
+          "npcId": "wiki-m38-ai810",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=38&ai=810&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-strategist-t3-vudoc-si",
+        "nlwm-extra-strategist-t0-46-vudoc-si"
+      ],
+      "duplicateNumericIdsForName": [
+        103
+      ],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "SAME_FAMILY_DIFFERENT_TIER",
+        "vngWikiSection": "Quan Văn",
+        "tierCandidates": [
+          0,
+          3
+        ],
+        "distinctProfiles": "Tier 0 NPC-labelled entry; tier 3 defensive entry with confusion probability",
+        "variantSeparableByWiki": true,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 103,
+      "wikiName": "VuĐộc Sĩ",
+      "observedInNpcFormations": 1,
+      "sourceNpcExamples": [
+        {
+          "mapId": 45,
+          "npcId": "wiki-m45-ai942",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=45&ai=942&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-strategist-t3-vudoc-si",
+        "nlwm-extra-strategist-t0-46-vudoc-si"
+      ],
+      "duplicateNumericIdsForName": [
+        99
+      ],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "SAME_FAMILY_DIFFERENT_TIER",
+        "vngWikiSection": "Quan Văn",
+        "tierCandidates": [
+          0,
+          3
+        ],
+        "distinctProfiles": "Tier 0 NPC-labelled entry; tier 3 defensive entry with confusion probability",
+        "variantSeparableByWiki": true,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 142,
+      "wikiName": "Ngân Thương",
+      "observedInNpcFormations": 8,
+      "sourceNpcExamples": [
+        {
+          "mapId": 64,
+          "npcId": "wiki-m64-ai1378",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=64&ai=1378&side=vn"
+        },
+        {
+          "mapId": 68,
+          "npcId": "wiki-m68-ai1455",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=68&ai=1455&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-spear-t2-ngan-thuong",
+        "nlwm-spear-t4-ngan-thuong"
+      ],
+      "duplicateNumericIdsForName": [
+        29
+      ],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "SAME_FAMILY_DIFFERENT_TIER",
+        "vngWikiSection": "Thương Binh",
+        "tierCandidates": [
+          2,
+          4
+        ],
+        "distinctProfiles": "Tier 2: pháp công/pháp phòng; tier 4: phòng thủ và tự bảo vệ",
+        "variantSeparableByWiki": true,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 206,
+      "wikiName": "Diệm Cung",
+      "observedInNpcFormations": 22,
+      "sourceNpcExamples": [
+        {
+          "mapId": 89,
+          "npcId": "wiki-m89-ai1864",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=89&ai=1864&side=vn"
+        },
+        {
+          "mapId": 90,
+          "npcId": "wiki-m90-ai1878",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=90&ai=1878&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-archer-t3-diem-cung",
+        "nlwm-archer-t5-diem-cung"
+      ],
+      "duplicateNumericIdsForName": [
+        89
+      ],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "SAME_FAMILY_DIFFERENT_TIER",
+        "vngWikiSection": "Cung Binh",
+        "tierCandidates": [
+          3,
+          5
+        ],
+        "distinctProfiles": "Tier 3: kế sách; tier 5: burn and mưu phòng reduction",
+        "variantSeparableByWiki": true,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 232,
+      "wikiName": "Bất Diệt Vương",
+      "observedInNpcFormations": 11,
+      "sourceNpcExamples": [
+        {
+          "mapId": 98,
+          "npcId": "wiki-m98-ai2061",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=98&ai=2061&side=vn"
+        },
+        {
+          "mapId": 102,
+          "npcId": "wiki-m102-ai2144",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=102&ai=2144&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-extra-infantry-t0-01-bat-diet-vuong",
+        "nlwm-extra-infantry-t0-02-bat-diet-vuong"
+      ],
+      "duplicateNumericIdsForName": [
+        270
+      ],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "SAME_TIER_DUPLICATED_SOURCE_DESCRIPTION",
+        "vngWikiSection": "Bộ Binh",
+        "tierCandidates": [
+          0,
+          0
+        ],
+        "distinctProfiles": "Two NPC-labelled tier 0 appearances carry identical description; cannot distinguish by name or description",
+        "variantSeparableByWiki": false,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 270,
+      "wikiName": "Bất Diệt Vương",
+      "observedInNpcFormations": 2,
+      "sourceNpcExamples": [
+        {
+          "mapId": 153,
+          "npcId": "wiki-m153-ai2346",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=153&ai=2346&side=vn"
+        },
+        {
+          "mapId": 191,
+          "npcId": "wiki-m191-ai3242",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=191&ai=3242&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [
+        "nlwm-extra-infantry-t0-01-bat-diet-vuong",
+        "nlwm-extra-infantry-t0-02-bat-diet-vuong"
+      ],
+      "duplicateNumericIdsForName": [
+        232
+      ],
+      "triageClass": "AMBIGUOUS_VARIANT",
+      "independentCatalogueEvidence": {
+        "collision": "SAME_TIER_DUPLICATED_SOURCE_DESCRIPTION",
+        "vngWikiSection": "Bộ Binh",
+        "tierCandidates": [
+          0,
+          0
+        ],
+        "distinctProfiles": "Two NPC-labelled tier 0 appearances carry identical description; cannot distinguish by name or description",
+        "variantSeparableByWiki": false,
+        "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+        "sourceEdition": "CURRENT_VNG_MOBILE",
+        "independentlyVerifiedField": "DUPLICATED_NAME_AND_VARIANT_CONTEXT_ONLY"
+      },
+      "alternateEditionEvidence": {
+        "sourceUrl": "https://www.lequ.com/wly/201104/14053.html",
+        "basis": "CHINESE_CLASSIC_TROOP_OVERVIEW_ONLY",
+        "numericIdCorrespondence": "NOT_PROVEN",
+        "editionsEquivalent": false
+      },
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain direct numeric ID-to-family/tier/variant evidence; do not choose by name or map level"
+    },
+    {
+      "wikiTroopId": 324,
+      "wikiName": "Hồng Liên Phán Quan",
+      "observedInNpcFormations": 6,
+      "sourceNpcExamples": [
+        {
+          "mapId": 175,
+          "npcId": "wiki-m175-ai2897",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2897&side=vn"
+        },
+        {
+          "mapId": 177,
+          "npcId": "wiki-m177-ai2972",
+          "wikiSlot": 6,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=177&ai=2972&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 325,
+      "wikiName": "Thiên Ngoại Linh Hồ",
+      "observedInNpcFormations": 44,
+      "sourceNpcExamples": [
+        {
+          "mapId": 175,
+          "npcId": "wiki-m175-ai2890",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2890&side=vn"
+        },
+        {
+          "mapId": 175,
+          "npcId": "wiki-m175-ai2899",
+          "wikiSlot": 7,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2899&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 326,
+      "wikiName": "Xích Giáp Cuồng Nỏ",
+      "observedInNpcFormations": 61,
+      "sourceNpcExamples": [
+        {
+          "mapId": 178,
+          "npcId": "wiki-m178-ai2971",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2971&side=vn"
+        },
+        {
+          "mapId": 178,
+          "npcId": "wiki-m178-ai2971",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2971&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 327,
+      "wikiName": "Tuyết Vực Cung",
+      "observedInNpcFormations": 3,
+      "sourceNpcExamples": [
+        {
+          "mapId": 178,
+          "npcId": "wiki-m178-ai2955",
+          "wikiSlot": 7,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2955&side=vn"
+        },
+        {
+          "mapId": 182,
+          "npcId": "wiki-m182-ai3054",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=182&ai=3054&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 328,
+      "wikiName": "Cửu U Băng Giáp",
+      "observedInNpcFormations": 6,
+      "sourceNpcExamples": [
+        {
+          "mapId": 179,
+          "npcId": "wiki-m179-ai2991",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=179&ai=2991&side=vn"
+        },
+        {
+          "mapId": 181,
+          "npcId": "wiki-m181-ai3020",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3020&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 329,
+      "wikiName": "Huyền Băng Chùy",
+      "observedInNpcFormations": 112,
+      "sourceNpcExamples": [
+        {
+          "mapId": 175,
+          "npcId": "wiki-m175-ai2890",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2890&side=vn"
+        },
+        {
+          "mapId": 175,
+          "npcId": "wiki-m175-ai2892",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2892&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 330,
+      "wikiName": "Viêm Long Điện",
+      "observedInNpcFormations": 4,
+      "sourceNpcExamples": [
+        {
+          "mapId": 184,
+          "npcId": "wiki-m184-ai3088",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=184&ai=3088&side=vn"
+        },
+        {
+          "mapId": 257,
+          "npcId": "wiki-m257-ai4640",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=257&ai=4640&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 331,
+      "wikiName": "Ác Hỏa Tướng",
+      "observedInNpcFormations": 8,
+      "sourceNpcExamples": [
+        {
+          "mapId": 175,
+          "npcId": "wiki-m175-ai2901",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2901&side=vn"
+        },
+        {
+          "mapId": 178,
+          "npcId": "wiki-m178-ai2969",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2969&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 332,
+      "wikiName": "Bạch Kim Thánh Kỵ",
+      "observedInNpcFormations": 14,
+      "sourceNpcExamples": [
+        {
+          "mapId": 175,
+          "npcId": "wiki-m175-ai2903",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=175&ai=2903&side=vn"
+        },
+        {
+          "mapId": 178,
+          "npcId": "wiki-m178-ai2954",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2954&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 333,
+      "wikiName": "Huyết Dực Vệ Kỵ",
+      "observedInNpcFormations": 11,
+      "sourceNpcExamples": [
+        {
+          "mapId": 178,
+          "npcId": "wiki-m178-ai2968",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=178&ai=2968&side=vn"
+        },
+        {
+          "mapId": 179,
+          "npcId": "wiki-m179-ai2974",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=179&ai=2974&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 339,
+      "wikiName": "Liệt Cốt Man Vương",
+      "observedInNpcFormations": 8,
+      "sourceNpcExamples": [
+        {
+          "mapId": 181,
+          "npcId": "wiki-m181-ai3026",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3026&side=vn"
+        },
+        {
+          "mapId": 181,
+          "npcId": "wiki-m181-ai3030",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3030&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 340,
+      "wikiName": "Đoạt Hồn Ảnh Ma",
+      "observedInNpcFormations": 5,
+      "sourceNpcExamples": [
+        {
+          "mapId": 183,
+          "npcId": "wiki-m183-ai3071",
+          "wikiSlot": 7,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=183&ai=3071&side=vn"
+        },
+        {
+          "mapId": 184,
+          "npcId": "wiki-m184-ai3087",
+          "wikiSlot": 6,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=184&ai=3087&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 341,
+      "wikiName": "Băng Phách Ngự Thương",
+      "observedInNpcFormations": 13,
+      "sourceNpcExamples": [
+        {
+          "mapId": 183,
+          "npcId": "wiki-m183-ai3075",
+          "wikiSlot": 2,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=183&ai=3075&side=vn"
+        },
+        {
+          "mapId": 183,
+          "npcId": "wiki-m183-ai3075",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=183&ai=3075&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 342,
+      "wikiName": "Bôn Lôi Trọng Kỵ",
+      "observedInNpcFormations": 14,
+      "sourceNpcExamples": [
+        {
+          "mapId": 181,
+          "npcId": "wiki-m181-ai3028",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3028&side=vn"
+        },
+        {
+          "mapId": 181,
+          "npcId": "wiki-m181-ai3028",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3028&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 343,
+      "wikiName": "Tích Lịch Ma Sư",
+      "observedInNpcFormations": 11,
+      "sourceNpcExamples": [
+        {
+          "mapId": 181,
+          "npcId": "wiki-m181-ai3033",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3033&side=vn"
+        },
+        {
+          "mapId": 181,
+          "npcId": "wiki-m181-ai3034",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=181&ai=3034&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 349,
+      "wikiName": "Nguyệt Thần Liêm",
+      "observedInNpcFormations": 15,
+      "sourceNpcExamples": [
+        {
+          "mapId": 185,
+          "npcId": "wiki-m185-ai3124",
+          "wikiSlot": 7,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3124&side=vn"
+        },
+        {
+          "mapId": 186,
+          "npcId": "wiki-m186-ai3144",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=186&ai=3144&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 350,
+      "wikiName": "Viêm Chùy Kỵ",
+      "observedInNpcFormations": 73,
+      "sourceNpcExamples": [
+        {
+          "mapId": 186,
+          "npcId": "wiki-m186-ai3140",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=186&ai=3140&side=vn"
+        },
+        {
+          "mapId": 186,
+          "npcId": "wiki-m186-ai3143",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=186&ai=3143&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 351,
+      "wikiName": "Long Khiếu Pháo",
+      "observedInNpcFormations": 39,
+      "sourceNpcExamples": [
+        {
+          "mapId": 185,
+          "npcId": "wiki-m185-ai3113",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3113&side=vn"
+        },
+        {
+          "mapId": 185,
+          "npcId": "wiki-m185-ai3118",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3118&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 352,
+      "wikiName": "Cực Tinh Mê Cầm",
+      "observedInNpcFormations": 51,
+      "sourceNpcExamples": [
+        {
+          "mapId": 185,
+          "npcId": "wiki-m185-ai3112",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3112&side=vn"
+        },
+        {
+          "mapId": 185,
+          "npcId": "wiki-m185-ai3122",
+          "wikiSlot": 2,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3122&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 353,
+      "wikiName": "Huyễn Tinh Vương",
+      "observedInNpcFormations": 29,
+      "sourceNpcExamples": [
+        {
+          "mapId": 185,
+          "npcId": "wiki-m185-ai3122",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3122&side=vn"
+        },
+        {
+          "mapId": 185,
+          "npcId": "wiki-m185-ai3122",
+          "wikiSlot": 7,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=185&ai=3122&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 354,
+      "wikiName": "Dung Ma Thương",
+      "observedInNpcFormations": 14,
+      "sourceNpcExamples": [
+        {
+          "mapId": 193,
+          "npcId": "wiki-m193-ai3279",
+          "wikiSlot": 2,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=193&ai=3279&side=vn"
+        },
+        {
+          "mapId": 193,
+          "npcId": "wiki-m193-ai3290",
+          "wikiSlot": 7,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=193&ai=3290&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 355,
+      "wikiName": "Tử Kim Long Kỵ",
+      "observedInNpcFormations": 13,
+      "sourceNpcExamples": [
+        {
+          "mapId": 191,
+          "npcId": "wiki-m191-ai3237",
+          "wikiSlot": 2,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=191&ai=3237&side=vn"
+        },
+        {
+          "mapId": 192,
+          "npcId": "wiki-m192-ai3258",
+          "wikiSlot": 2,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=192&ai=3258&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 360,
+      "wikiName": "Rương Xích Dực Cung",
+      "observedInNpcFormations": 5,
+      "sourceNpcExamples": [
+        {
+          "mapId": 197,
+          "npcId": "wiki-m197-ai3399",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=197&ai=3399&side=vn"
+        },
+        {
+          "mapId": 249,
+          "npcId": "wiki-m249-ai4457",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=249&ai=4457&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 361,
+      "wikiName": "Rương Ảo Tâm Mị Hồ",
+      "observedInNpcFormations": 24,
+      "sourceNpcExamples": [
+        {
+          "mapId": 195,
+          "npcId": "wiki-m195-ai3341",
+          "wikiSlot": 6,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=195&ai=3341&side=vn"
+        },
+        {
+          "mapId": 197,
+          "npcId": "wiki-m197-ai3384",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=197&ai=3384&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 362,
+      "wikiName": "Rương Hao Vũ Kiếm Thánh",
+      "observedInNpcFormations": 23,
+      "sourceNpcExamples": [
+        {
+          "mapId": 197,
+          "npcId": "wiki-m197-ai3386",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=197&ai=3386&side=vn"
+        },
+        {
+          "mapId": 197,
+          "npcId": "wiki-m197-ai3386",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=197&ai=3386&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 366,
+      "wikiName": "Rương Lôi Đình Chùy",
+      "observedInNpcFormations": 7,
+      "sourceNpcExamples": [
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4327",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4327&side=vn"
+        },
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4332",
+          "wikiSlot": 2,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4332&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 367,
+      "wikiName": "Rương Bá Cự Khải",
+      "observedInNpcFormations": 2,
+      "sourceNpcExamples": [
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4338",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4338&side=vn"
+        },
+        {
+          "mapId": 265,
+          "npcId": "wiki-m265-ai4825",
+          "wikiSlot": 4,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=265&ai=4825&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 368,
+      "wikiName": "Rương Thiên Âm Cầm",
+      "observedInNpcFormations": 8,
+      "sourceNpcExamples": [
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4326",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4326&side=vn"
+        },
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4332",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4332&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 369,
+      "wikiName": "Rương Tử Mạch Cung",
+      "observedInNpcFormations": 6,
+      "sourceNpcExamples": [
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4332",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4332&side=vn"
+        },
+        {
+          "mapId": 263,
+          "npcId": "wiki-m263-ai4776",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=263&ai=4776&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 370,
+      "wikiName": "Rương Hư Không Kích",
+      "observedInNpcFormations": 5,
+      "sourceNpcExamples": [
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4324",
+          "wikiSlot": 1,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4324&side=vn"
+        },
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4334",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4334&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 401,
+      "wikiName": "Xích Diệm Ngưu Ma (Rương)",
+      "observedInNpcFormations": 10,
+      "sourceNpcExamples": [
+        {
+          "mapId": 242,
+          "npcId": "wiki-m242-ai4300",
+          "wikiSlot": 7,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=242&ai=4300&side=vn"
+        },
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4321",
+          "wikiSlot": 7,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4321&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 402,
+      "wikiName": "Pháo Xung Ngưu Đẩu (Rương)",
+      "observedInNpcFormations": 8,
+      "sourceNpcExamples": [
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4324",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4324&side=vn"
+        },
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4331",
+          "wikiSlot": 9,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4331&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 403,
+      "wikiName": "Hỏa Giáp Huyền Ngưu (Rương)",
+      "observedInNpcFormations": 9,
+      "sourceNpcExamples": [
+        {
+          "mapId": 242,
+          "npcId": "wiki-m242-ai4317",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=242&ai=4317&side=vn"
+        },
+        {
+          "mapId": 243,
+          "npcId": "wiki-m243-ai4328",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=243&ai=4328&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "CHEST_LABELED_NPC_FORMATION",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Determine whether labelled Rương object is a battle unit, chest actor, or version-specific NPC; fetch authoritative numeric mapping"
+    },
+    {
+      "wikiTroopId": 407,
+      "wikiName": "Địa Phủ Phán Quan",
+      "observedInNpcFormations": 4,
+      "sourceNpcExamples": [
+        {
+          "mapId": 264,
+          "npcId": "wiki-m264-ai4803",
+          "wikiSlot": 5,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=264&ai=4803&side=vn"
+        },
+        {
+          "mapId": 265,
+          "npcId": "wiki-m265-ai4816",
+          "wikiSlot": 3,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=265&ai=4816&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    },
+    {
+      "wikiTroopId": 419,
+      "wikiName": "Thợ Săn Siêu Đẳng",
+      "observedInNpcFormations": 2,
+      "sourceNpcExamples": [
+        {
+          "mapId": 276,
+          "npcId": "wiki-m276-ai5050",
+          "wikiSlot": 2,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=276&ai=5050&side=vn"
+        },
+        {
+          "mapId": 276,
+          "npcId": "wiki-m276-ai5050",
+          "wikiSlot": 8,
+          "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/pho-ban-chi-tiet?map=276&ai=5050&side=vn"
+        }
+      ],
+      "sourceIdNameConsistency": "CONSISTENT",
+      "chat02CandidateIds": [],
+      "duplicateNumericIdsForName": [],
+      "triageClass": "ABSENT_FROM_CHAT02_CATALOGUE",
+      "independentCatalogueEvidence": null,
+      "alternateEditionEvidence": null,
+      "independentNpcNumericIdentityEvidence": "NOT_OBTAINED",
+      "numericToChat02CandidateConfirmed": false,
+      "npcOnlyConfirmed": false,
+      "recruitableConfirmed": false,
+      "approvedChat02TroopId": null,
+      "approvedRuntimeTroopId": null,
+      "promotedForChat08": false,
+      "requiredResearch": "Obtain authoritative numeric registry and classify NPC-only vs recruitable; then source skills and tier"
+    }
+  ],
+  "gate": {
+    "recheckBeforeMerge": true,
+    "chat08AllowedMappings": [],
+    "blockedNumericIds": [
+      29,
+      31,
+      89,
+      99,
+      103,
+      142,
+      206,
+      232,
+      270,
+      324,
+      325,
+      326,
+      327,
+      328,
+      329,
+      330,
+      331,
+      332,
+      333,
+      339,
+      340,
+      341,
+      342,
+      343,
+      349,
+      350,
+      351,
+      352,
+      353,
+      354,
+      355,
+      360,
+      361,
+      362,
+      366,
+      367,
+      368,
+      369,
+      370,
+      401,
+      402,
+      403,
+      407,
+      419
+    ],
+    "saveV5Unchanged": true,
+    "runtimeChangesAllowed": false
+  }
+}
