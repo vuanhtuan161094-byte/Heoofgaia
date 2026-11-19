@@ -112,9 +112,9 @@ test('B2 no resource duplication by failed chest use or receipt collision',()=>{
 
 test('B2 late-game refine has a material and silver premium; early-game price stays legacy',()=>{
   const high=adjusted.equipment.find(x=>x.integration==='PLAYABLE'&&
-    x.id.startsWith('mdt-equip02-')&&['Diệt Thế','Thần Hoàng'].includes(x.sourceGroup));
+    x.sourceId&&['Diệt Thế','Thần Hoàng'].includes(x.sourceGroup));
   const early=adjusted.equipment.find(x=>x.integration==='PLAYABLE'&&
-    x.id.startsWith('mdt-equip02-')&&['Thường','Chiến'].includes(x.sourceGroup));
+    x.sourceId&&['Thường','Chiến'].includes(x.sourceGroup));
   assert.ok(high,'late-game item missing');
   assert.ok(early,'early-game item missing');
   function priced(row){
