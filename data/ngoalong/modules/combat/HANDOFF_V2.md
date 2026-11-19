@@ -6,7 +6,7 @@
 - Owned files under current Chat 00 Multi-Chat V2: `data/ngoalong/modules/combat/**`, `qa/modules/combat/**`; only Chat 08 edits `tools/nl_*`, canonical generators and runtime.
 - No Codex Cloud. No merge. No generator, alpha pack, Save, `index.html`, Hero or group edits.
 - Source authority: `AGENTS.md`, `docs/REV_PROTOCOL.md`, `docs/NL_DATA_DRIVEN_V2.md` and the official VNG **Mobile** Wiki. Classic parity **UNKNOWN**.
-- **Status:** CODE READY / focused JS in-isolate tests 67/67; real Chromium, Node on CI, full regression, exact-SHA workflow and owner acceptance **PENDING**.
+- **Status:** B+C MODULE CODED / 115/115 focused JS in-isolate tests across 3 suites; **NOT YET INTEGRATED**. Real Chromium, Node on checkout/CI, live Save/replay, full regression, exact-SHA workflow and owner acceptance **PENDING**.
 
 ## Files and role
 
@@ -17,6 +17,11 @@
 | `data/ngoalong/modules/combat/skill_contract_v2.schema.json` | Machine-readable JSON Schema Draft 2020-12 used by Chat 01/02/06 | **DESIGN READY** |
 | `data/ngoalong/modules/combat/formation_adapter_v2.js` | Retains all 24 `p3PresetId = family-plan`, converts native zero-based slots to resolver one-based slots, carries ATK/DEF/INT/CRIT modifiers | **Standalone** |
 | `data/ngoalong/modules/combat/project_skill_adapter_v2.js` | Converts 14 project hero + 5 enemy + 1 override descriptors into compatible V2 skills, labeled SIMULATED and nonparity | **Standalone** |
+| `data/ngoalong/modules/combat/tactical_ai_v2.js` | Profile-weighted target/skill selection with counter, morale denial, rear guard, healer, defense, focus-target and seeded deterministic proc rolls | **Standalone, called by PvE director** |
+| `data/ngoalong/modules/combat/pve_director_v2.js` | Source-aware 28-stage NPC/8-Boss tactic compiler; phase-reactive combat AI, source-project stat projection and deterministic multi-round PvE simulation | **Standalone simulation, NOT LIVE** |
+| `data/ngoalong/modules/combat/PVE_BEHAVIOR_V2.md` | Boss behavior matrix, AI contract, source mechanics and explicit Chat 08 native integration gates | **Handoff** |
+| `qa/modules/combat/tactical_ai_v2.test.cjs` | 18 deterministic AI assertions | **18/18 isolated QA PASS** |
+| `qa/modules/combat/pve_director_v2.test.cjs` | 30 tactical PvE assertions including 28-stage source roster and 8-Boss multi-round simulation | **30/30 isolated QA PASS** |
 | `data/ngoalong/modules/combat/effect_rule_index_v2.json` | 320 Wiki reference records with source line, derived op/tags and known-field provenance, explicitly disabled | **REFERENCE ONLY / NOT LIVE** |
 | `qa/modules/combat/resolver_v2.test.cjs` | 67 deterministic focused assertions (Node built-ins); run `node qa/modules/combat/resolver_v2.test.cjs` | 67/67 executed in JS isolate with GitHub-fetched source and Node-compatible dependency shims; actual Node/CI run pending |
 
@@ -66,6 +71,18 @@
 - **Focused evaluation:** `qa/modules/combat/resolver_v2.test.cjs` **67/67 PASS** in a JavaScript isolate with GitHub-fetched source and Node-compatible shims. Includes deterministic 5v5 / 40 action / 4 round-end scenario with final event+state replay equality and zero reward/settlement events. No 360-battle balance sweep.
 - **Node executable limitation:** container runtime has Node.js 22 but GitHub network resolution is blocked; the checkout cannot be cloned into that runtime. Therefore **native Node execution of the exact GitHub files remains PENDING**. Chat 08 must run `node qa/modules/combat/resolver_v2.test.cjs` on an available checkout/CI runner and attach exact-SHA logs.
 - **Ownership:** Only `data/ngoalong/modules/combat/**` and `qa/modules/combat/**` have been modified here. Generator, Save v5, alpha content and integration branch remain unchanged. No action is assumed for Chat 08 until integration evidence exists.
+
+## CHAT 05 B+C implementation — 2026-11-19
+
+**Scope B (tactical intelligence):** `NLTacticalAIV2.choose/prepare` scores actual legal 3×3 targets by offense/defense lane, project counter-cycle, enemy skill-morale breakpoints, healer/control threats, frontline protection, wounded allies, harmful status removal, ally focus target and boss phase. `prepare` obtains proc/crit rolls ONLY from the caller's seeded RNG; all decisions and rolls can be replayed.
+
+**Scope C (PvE tactical director):** `NLPvETacticsV2.compile` loads exactly 28 encounters from `alpha_content.json` preserving existing NPC IDs, troop types and native slots. Eight boss-specific project strategies at **2/5/8/12/16/20/24/28**; opening/pressure/desperate state transitions, guarding/backline/morale suppression, healing, multi-general focus, and stage 25–28 source mechanic handling. The module has **7 SIMULATED PvE skills**, including `mdtq-pve-basic-charge` (+25 self morale after regular hit), for repeated skill cycles; Chat 08 MUST NOT stack the simulated basic-action morale gain with native P2. Existing source Wiki Mobile page describes +25 per attack in one overview but no runtime parity claim is made; label remains SIMULATED.
+
+**Important:** Stage 5 morale-seal override and stage 25 native guard clocks are pending owner-side legacy application; simulator will flag unsupported mechanics and native commands and always sets `authoritative:false`, `rewardSettlement:false`. Source owner Chat 06 retains campaign data, and Chat 08 alone owns canonical generator/Save/UI. **No game integration has been performed here.**
+
+**QA:** `67/67` Resolver + `18/18` Tactical AI + `30/30` PvE Director = **115/115 PASS** in isolated JavaScript evaluation of exact GitHub-fetched source with Node-compatible shims. Includes source-identity checks on 28/28 stages, 8/8 Boss multi-round simulations, deterministic event/replay, normal-attack charge loop and no reward settlement. Actual native Node on repository checkout, Chromium, exact-SHA CI and owner testing PENDING.
+
+**Detailed B+C handoff:** [PVE_BEHAVIOR_V2.md](PVE_BEHAVIOR_V2.md).
 
 ## Next integration recommendation
 1. Chat 00 / 07 reviews this module, especially six-status native gates, deterministic action ownership, and future registration route for hero/troop/NPC schema.
