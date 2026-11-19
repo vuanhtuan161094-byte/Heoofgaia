@@ -6,7 +6,8 @@ function getDesignData(root=path.resolve(__dirname,"../../../..")){
   return {
     wiki:(()=>{const i=require(path.join(root,"data/ngoalong/modules/troops/catalogue_wiki_v1.json"));return {...i,records:i.recordShards.flatMap(p=>require(path.join(root,p)).records)};})(),
     project:require(path.join(root,"data/ngoalong/modules/troops/project_playable_v1.json")),
-    evolution:require(path.join(root,"data/ngoalong/modules/troops/evolution_contract_v1.json"))
+    evolution:require(path.join(root,"data/ngoalong/modules/troops/evolution_contract_v1.json")),
+    refinement:require(path.join(root,"data/ngoalong/modules/troops/mechanic_refinement_v2.json"))
   };
 }
 function findProjectUnit(data,id){
@@ -15,7 +16,9 @@ function findProjectUnit(data,id){
 }
 function describeTroop(data,id){
   const source=data.wiki.records.find(u=>u.id===id);
-  if(source)return {kind:"WIKI_REFERENCE",id:source.id,combat:source.combat,art:source.art,provenance:source.provenance,active:false};
+  if(source){const hint=data.refinement?.records.find(x=>x.id===source.id)||null;
+    return {kind:"WIKI_REFERENCE",id:source.id,combat:source.combat,art:source.art,provenance:source.provenance,refinement:hint,active:false,liveImportAllowed:false};
+  }
   const u=findProjectUnit(data,id);
   if(!u)return null;
   return {kind:"PROJECT_DESIGN",id:u.id,combat:u.combatBehavior,art:u.art,provenance:u.provenance,active:false};
@@ -54,7 +57,21 @@ function resolveWikiStatusTags(data,id){
   if(!unit)return [];
   return unit.combat.requiredStatusTags.map(tag=>({tag,runtimeEffectId:null,autoImport:false,sourceStatusUnresolved:true}));
 }
-module.exports={getDesignData,findProjectUnit,describeTroop,tierStatProfile,evolutionOptions,nextTierDesignQuote,resolveWikiStatusTags};
+function wikiGapStatus(data,id){
+  const source=data.wiki.records.find(x=>x.id===id);
+  if(!source)return null;
+  const gap=data.refinement?.records.find(x=>x.id===id)||null;
+  return {sourceId:id,originalCoverage:source.combat.coverage,sourceLine:gap?.source.descriptionLine||null,
+    refinementStatus:gap?.evidenceStatus||"PREVIOUSLY_STRUCTURED_SOURCE",
+    prototypeId:gap?.projectOriginalSandbox?.id||null,autoImport:false,livePlayable:false};
+}
+function wikiGapAudit(data){
+ const rows=data.refinement?.records||[];
+ return {totalSourceAppearances:data.wiki.records.length,previousStructured:data.wiki.records.filter(x=>x.combat.coverage==="STRUCTURED_FROM_VISIBLE_WIKI").length,
+ sourceAnchoredQualitative:rows.filter(x=>x.projectOriginalSandbox).length,missingUsableMechanic:rows.filter(x=>!x.projectOriginalSandbox).length,
+ newlyLiveImported:0};
+}
+module.exports={getDesignData,findProjectUnit,describeTroop,tierStatProfile,evolutionOptions,nextTierDesignQuote,resolveWikiStatusTags,wikiGapStatus,wikiGapAudit};
 if(require.main===module){
   const d=getDesignData();
   process.stdout.write(JSON.stringify({wikiRows:d.wiki.records.length,projectUnits:d.project.units.length,wikiNamedEdges:d.evolution.sourceNamedEdges.length,designOnly:true})+"\n");

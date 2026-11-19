@@ -45,5 +45,17 @@
   },
   "counterCycleClassification": "VERIFIED_FAMILY_RELATIONS_DERIVED_UNIT_INHERITANCE",
   "wikiNamedUnlockPrices": "UNKNOWN",
-  "mechanicUnknownCount": 137
+  "mechanicUnknownCount": 137,
+  "refinementV2": {
+    "updatedAt": "2026-11-19",
+    "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+    "coveredGapIDs": 137,
+    "descriptionAnchoredQualitative": 78,
+    "stillWithoutUsableMechanic": 59,
+    "projectOriginalTrialProfiles": 78,
+    "actualWikiFormulasNewlyVerified": 0,
+    "actualRuntimeWikiPlayableAdded": 0,
+    "currentSourceStructuredOperations": 501,
+    "explanation": "78 line anchors from live Wiki page linked to prior DERIVED trait tags; the 235 previously structured source rows and 501 operations remain unchanged; all 137 still have unknown exact formulas/timing/probabilities; simulated trial profiles live only in separate module."
+  }
 }
