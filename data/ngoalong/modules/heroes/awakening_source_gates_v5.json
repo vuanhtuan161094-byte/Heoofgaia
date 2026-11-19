@@ -1,0 +1,110 @@
+{
+  "schemaVersion": 5,
+  "edition": "VNG_MOBILE_HISTORICAL_RELEASE_GATES",
+  "checkedAt": "2026-11-19",
+  "sources": [
+    {
+      "id": "VNG_COMMUNITY_GUIDE_20260930_WEI",
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-nguy-quoc-toi-uu-hoa-giai-doan-truoc-lv300.html",
+      "date": "2026-09-30",
+      "type": "VNG_HOSTED_COMMUNITY_GUIDE"
+    },
+    {
+      "id": "VNG_GOLD_20251212",
+      "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-thien-uy-than-hoang/he-thong-tuong-vang-15067.html",
+      "date": "2025-12-12",
+      "type": "VNG_RELEASE_BULLETIN"
+    },
+    {
+      "id": "VNG_ORANGE_20250106",
+      "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-mon-bat-tran/he-thong-tuong-cam-14285.html",
+      "date": "2025-01-06",
+      "type": "VNG_RELEASE_BULLETIN"
+    }
+  ],
+  "stages": [
+    {
+      "rank": "GREEN",
+      "systemOpenMainCityLevel": 130,
+      "sourceId": "VNG_COMMUNITY_GUIDE_20260930_WEI",
+      "assertion": "SYSTEM_FEATURE_UNLOCK_NOT_HERO_ELIGIBILITY"
+    },
+    {
+      "rank": "RED",
+      "systemOpenMainCityLevel": 190,
+      "sourceId": "VNG_COMMUNITY_GUIDE_20260930_WEI",
+      "assertion": "SYSTEM_FEATURE_UNLOCK_NOT_HERO_ELIGIBILITY"
+    },
+    {
+      "rank": "PURPLE",
+      "systemOpenMainCityLevel": 230,
+      "sourceId": "VNG_COMMUNITY_GUIDE_20260930_WEI",
+      "assertion": "SYSTEM_FEATURE_UNLOCK_NOT_HERO_ELIGIBILITY"
+    },
+    {
+      "rank": "ORANGE",
+      "systemOpenMainCityLevel": 300,
+      "sourceId": "VNG_ORANGE_20250106",
+      "assertion": "SYSTEM_FEATURE_UNLOCK_NOT_HERO_ELIGIBILITY"
+    },
+    {
+      "rank": "GOLD",
+      "systemOpenMainCityLevel": 380,
+      "sourceId": "VNG_GOLD_20251212",
+      "assertion": "SYSTEM_FEATURE_UNLOCK_NOT_HERO_ELIGIBILITY"
+    },
+    {
+      "rank": "DESTINY",
+      "systemOpenMainCityLevel": 400,
+      "sourceId": "VNG_GOLD_20251212",
+      "assertion": "SYSTEM_MENH_CACH_UNLOCK_NOT_HERO_STAGE"
+    }
+  ],
+  "programGates": [
+    {
+      "program": "HERO_PLATFORM",
+      "level": 180,
+      "sourceId": "VNG_COMMUNITY_GUIDE_20260930_WEI"
+    },
+    {
+      "program": "SPECIAL_TAVERN",
+      "level": 245,
+      "sourceId": "VNG_COMMUNITY_GUIDE_20260930_WEI"
+    },
+    {
+      "program": "ORANGE_STAGE_SKILL_SPECIAL_WEAPON",
+      "level": 300,
+      "sourceId": "VNG_ORANGE_20250106"
+    },
+    {
+      "program": "MENH_CACH",
+      "level": 400,
+      "sourceId": "VNG_GOLD_20251212"
+    }
+  ],
+  "stageLineagePolicy": {
+    "stagesDescribeSystemUnlocks": true,
+    "assumeAll364MayEvolve": false,
+    "perHeroTransitionGraph": null,
+    "exactStageNameFromCurrentIndex": null,
+    "perHeroPrerequisite": null,
+    "perHeroAwakeningCost": null,
+    "perHeroSkillsByLatestServer": null,
+    "familyBranchAliasMatching": "UNKNOWN"
+  },
+  "goldAwakeningMaterials": {
+    "names": [
+      "Quỳnh Tương",
+      "Xích Quả",
+      "Hoàng Trung Lý"
+    ],
+    "sourceId": "VNG_GOLD_20251212",
+    "amountsPerHero": null,
+    "consumptionFormula": null
+  },
+  "trustedStatsFormulas": null,
+  "heroCollectionReference": "data/ngoalong/modules/heroes/a123_hero_research_audit_v5.json",
+  "caution": "Do not interpret DESTINY as a color grade; it is the Mệnh Cách system. Do not automatically grant stages at city-level gates.",
+  "runtimeReady": false,
+  "gameplayImport": false
+}
