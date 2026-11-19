@@ -1,0 +1,1511 @@
+{
+  "schemaVersion": 1,
+  "packId": "NL_HERO_GOLD_HISTORICAL_SUPPLEMENT_20261119",
+  "edition": "VNG_WIKI_MOBILE_DATED_RELEASES",
+  "sources": {
+    "MAY25": {
+      "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "date": "2025-05-05"
+    },
+    "SEP25": {
+      "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-muu-thien-ha/he-thong-tuong-vang-14768.html",
+      "date": "2025-09-07"
+    },
+    "MAR26": {
+      "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html",
+      "date": "2026-03-17"
+    }
+  },
+  "count": 23,
+  "byGroup": {
+    "MAY25": 9,
+    "SEP25": 7,
+    "MAR26": 7
+  },
+  "unresolvedAliases": [
+    {
+      "sourceName": "Văn Sinh",
+      "possibleIndexName": "Văn Sính",
+      "decision": "NO_AUTO_LINK"
+    }
+  ],
+  "disclaimer": "Dated announcement facts are NOT proof of current combat formulas/hero stage. N/X remain symbolic, missing details stay UNKNOWN, no runtime import.",
+  "records": [
+    {
+      "name": "Hạ Hầu Đôn",
+      "group": "MAY25",
+      "skillName": "Mãnh Hổ Liệt Sơn",
+      "damageLane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 32500,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "MORALE_REDUCED_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_COLUMN",
+          "base": -150,
+          "variable": "N"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 41000,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỗn Loạn",
+          "target": "ENEMY_COLUMN",
+          "turns": 1,
+          "condition": "TARGET_HAS_NGUYET_HON_OR_NGUYET_HUY"
+        },
+        {
+          "op": "STATUS",
+          "name": "Khiêu Khích",
+          "target": "ENEMY_COLUMN",
+          "turns": 2,
+          "otherDamageReductionPct": 35
+        }
+      ],
+      "destinyChoices": [
+        "Kim Qua Thiết Mã",
+        "Nghiêm Chỉnh",
+        "Kiên Cường Dũng Mãnh"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-005",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-01",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Trương Phi",
+      "group": "MAY25",
+      "skillName": "Mãnh Hổ Liệt Sơn",
+      "damageLane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 32500,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "MORALE_REDUCED_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_COLUMN",
+          "base": -150,
+          "variable": "N"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 41000,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỗn Loạn",
+          "target": "ENEMY_COLUMN",
+          "turns": 1,
+          "condition": "TARGET_HAS_NGUYET_HON_OR_NGUYET_HUY"
+        },
+        {
+          "op": "STATUS",
+          "name": "Khiêu Khích",
+          "target": "ENEMY_COLUMN",
+          "turns": 2,
+          "otherDamageReductionPct": 35
+        }
+      ],
+      "destinyChoices": [
+        "Bài Sơn Đảo Hải",
+        "Lũy Cao Hào Sâu",
+        "Đương Dương Nộ Hống"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-050",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-02",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Cam Ninh",
+      "group": "MAY25",
+      "skillName": "Mãnh Hổ Liệt Sơn",
+      "damageLane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 32500,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "MORALE_REDUCED_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_COLUMN",
+          "base": -150,
+          "variable": "N"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 41000,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỗn Loạn",
+          "target": "ENEMY_COLUMN",
+          "turns": 1,
+          "condition": "TARGET_HAS_NGUYET_HON_OR_NGUYET_HUY"
+        },
+        {
+          "op": "STATUS",
+          "name": "Khiêu Khích",
+          "target": "ENEMY_COLUMN",
+          "turns": 2,
+          "otherDamageReductionPct": 35
+        }
+      ],
+      "destinyChoices": [
+        "Xung Kích Thẳng Tiến",
+        "Khô Mộc Phùng Xuân",
+        "Du Hiệp Ngang Tàng"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-079",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Tào Thực",
+      "group": "MAY25",
+      "skillName": "Ca Tụng Công Đức",
+      "damageLane": "SUPPORT",
+      "events": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 60,
+          "variable": "N"
+        },
+        {
+          "op": "STATUS",
+          "name": "Nguyệt Hồn",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "DISPEL",
+          "target": "ALL_ALLIES",
+          "kind": "DEBUFF",
+          "probabilityPct": 25,
+          "pvpMaxPerTarget": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Phấn Chấn",
+          "target": "OTHER_ALLIES",
+          "turns": 2,
+          "moralePerTurn": 25
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [
+        "Không Sơ Hở",
+        "Trám Hở Bổ Khuyết",
+        "Bảy Bước Thành Thơ"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-008",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-04",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Giản Ung",
+      "group": "MAY25",
+      "skillName": "Ca Tụng Công Đức",
+      "damageLane": "SUPPORT",
+      "events": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 60,
+          "variable": "N"
+        },
+        {
+          "op": "STATUS",
+          "name": "Nguyệt Hồn",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "DISPEL",
+          "target": "ALL_ALLIES",
+          "kind": "DEBUFF",
+          "probabilityPct": 25,
+          "pvpMaxPerTarget": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Phấn Chấn",
+          "target": "OTHER_ALLIES",
+          "turns": 2,
+          "moralePerTurn": 25
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [
+        "Bố Cục Liên Hoàn",
+        "Khô Mộc Phùng Xuân",
+        "An Nhiên Tự Đắc"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-042",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Tiểu Kiều",
+      "group": "MAY25",
+      "skillName": "Ca Tụng Công Đức",
+      "damageLane": "SUPPORT",
+      "events": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 60,
+          "variable": "N"
+        },
+        {
+          "op": "STATUS",
+          "name": "Nguyệt Hồn",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "DISPEL",
+          "target": "ALL_ALLIES",
+          "kind": "DEBUFF",
+          "probabilityPct": 25,
+          "pvpMaxPerTarget": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Phấn Chấn",
+          "target": "OTHER_ALLIES",
+          "turns": 2,
+          "moralePerTurn": 25
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [
+        "Lũy Cao Hào Sâu",
+        "Né Tránh Linh Hoạt",
+        "Quốc Sắc Thiên Hương"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-085",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-06",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Tả Từ",
+      "group": "MAY25",
+      "skillName": "Càn Khôn Tá Pháp",
+      "damageLane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 16000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_BACK_ROW",
+          "hits": 2,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_BACK_ROW",
+          "base": -25,
+          "variable": null,
+          "perHit": true
+        },
+        {
+          "op": "STATUS",
+          "name": "Huyết Cúc",
+          "target": "ENEMY_BACK_ROW",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Xung Kích Thẳng Tiến",
+        "Bố Cục Liên Hoàn",
+        "Hung Tàng Lục Giáp"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-130",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-07",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Mạnh Hoạch",
+      "group": "MAY25",
+      "skillName": "Đại Vương Thân Chinh",
+      "damageLane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 18500,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Treo Thưởng",
+          "target": "ENEMY_COLUMN",
+          "turns": 2,
+          "dispel": false
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 14500,
+          "lane": "PHYSICAL",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DEFENSE_CHANGE",
+          "target": "ALL_ENEMIES",
+          "lane": "PHYSICAL",
+          "base": -20,
+          "variable": "X",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Thấu Suốt",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Tuốt Gươm Giương Nỏ",
+        "Tường Đồng Thiết Bích",
+        "Hùng Binh Tái Khởi"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-129",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-08",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Chúc Dung",
+      "group": "MAY25",
+      "skillName": "Thần Hỏa Hiện Thế",
+      "damageLane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 21000,
+          "lane": "PHYSICAL",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 21000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_MOST_SOLDIERS",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 21000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Thấu Suốt",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Anh Dũng",
+          "target": "ALL_ALLIES",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Tinh Chuẩn Xạ Kích",
+        "Né Tránh Linh Hoạt",
+        "Liệt Hỏa Phi Đao"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-120",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-may25-09",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html",
+      "sourceDate": "2025-05-05",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Chân Cơ",
+      "group": "SEP25",
+      "skillName": "Vũ Điệu Lạc Thần",
+      "damageLane": "SUPPORT",
+      "events": [
+        {
+          "op": "STATUS",
+          "name": "Hoạt Lực",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 2
+        },
+        {
+          "op": "HEAL",
+          "target": "RANDOM_ALLY",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": null,
+          "minHits": 1,
+          "maxHits": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 80,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Lũy Cao Hào Sâu",
+        "Trám Hở Bổ Khuyết",
+        "Kinh Hồng Chiếu Ảnh"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-002",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-sep25-10",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-muu-thien-ha/he-thong-tuong-vang-14768.html",
+      "sourceDate": "2025-09-07",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Hoàng Nguyệt Anh",
+      "group": "SEP25",
+      "skillName": "Vũ Điệu Lạc Thần",
+      "damageLane": "SUPPORT",
+      "events": [
+        {
+          "op": "STATUS",
+          "name": "Hoạt Lực",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 2
+        },
+        {
+          "op": "HEAL",
+          "target": "RANDOM_ALLY",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": null,
+          "minHits": 1,
+          "maxHits": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 80,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Bố Cục Liên Hoàn",
+        "Khô Mộc Phùng Xuân",
+        "Xảo Tư Thiên Công"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-043",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-sep25-11",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-muu-thien-ha/he-thong-tuong-vang-14768.html",
+      "sourceDate": "2025-09-07",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Đại Kiều",
+      "group": "SEP25",
+      "skillName": "Vũ Điệu Lạc Thần",
+      "damageLane": "SUPPORT",
+      "events": [
+        {
+          "op": "STATUS",
+          "name": "Hoạt Lực",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 2
+        },
+        {
+          "op": "HEAL",
+          "target": "RANDOM_ALLY",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": null,
+          "minHits": 1,
+          "maxHits": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 80,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Tường Đồng Vách Sắt",
+        "Không Sơ Hở",
+        "Tuyệt Đại Giai Nhân"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-081",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-sep25-12",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-muu-thien-ha/he-thong-tuong-vang-14768.html",
+      "sourceDate": "2025-09-07",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Đổng Trác",
+      "group": "SEP25",
+      "skillName": "Thiên Uy Bạo Ngược",
+      "damageLane": "TACTIC",
+      "events": [
+        {
+          "op": "STATUS",
+          "name": "Bạo Nộ",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 21000,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2,
+          "modifier": "LOW_SELF_SOLDIER_RATIO_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Tử Thủ 2",
+          "target": "SELF",
+          "turns": 2,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [
+        "Thương Xuất Như Long",
+        "Xung Kích Thẳng Tiến",
+        "Hạ Thành Phá Ấp"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-125",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-sep25-13",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-muu-thien-ha/he-thong-tuong-vang-14768.html",
+      "sourceDate": "2025-09-07",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Tuân Vực",
+      "group": "SEP25",
+      "skillName": "Cửu Tiêu Thần Lôi",
+      "damageLane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 12500,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 5,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Âm Hồn",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": null,
+          "until": "BATTLE_END"
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 500,
+          "onNoKill": 100
+        }
+      ],
+      "destinyChoices": [
+        "Thập Diện Mai Phục",
+        "Phong Hạc",
+        "Tài Năng Vương Tá"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-011",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-sep25-14",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-muu-thien-ha/he-thong-tuong-vang-14768.html",
+      "sourceDate": "2025-09-07",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Bàng Thống",
+      "group": "SEP25",
+      "skillName": "Cửu Tiêu Thần Lôi",
+      "damageLane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 12500,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 5,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Âm Hồn",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": null,
+          "until": "BATTLE_END"
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 500,
+          "onNoKill": 100
+        }
+      ],
+      "destinyChoices": [
+        "Lôi Đình Nhất Kích",
+        "Vô Khổng Bất Nhập",
+        "Niết Bàn Trùng Sinh"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-041",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-sep25-15",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-muu-thien-ha/he-thong-tuong-vang-14768.html",
+      "sourceDate": "2025-09-07",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Lục Tốn",
+      "group": "SEP25",
+      "skillName": "Xích Lửa Trí Tuệ",
+      "damageLane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 14500,
+          "lane": "STRATEGY",
+          "target": "ONE_ENEMY",
+          "hits": 2,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Thiên Hỏa",
+          "target": "ONE_ENEMY",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Liên Tục",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Thần Binh",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỗn Loạn",
+          "target": "ONE_ENEMY",
+          "turns": 1,
+          "condition": "HIT_TARGET_HAS_THIEN_HOA"
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [
+        "Phong Hạc",
+        "Bố Cục Liên Hoàn",
+        "Hỏa Thiêu Liên Doanh"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-083",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-sep25-16",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-muu-thien-ha/he-thong-tuong-vang-14768.html",
+      "sourceDate": "2025-09-07",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Hoàng Trung",
+      "group": "MAR26",
+      "skillName": "Xích Vũ Quán Hồng",
+      "damageLane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 30800,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hội Tâm",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Anh Dũng",
+          "target": "SELF",
+          "turns": 3,
+          "allAttackBonusPct": 20,
+          "stacking": true
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 700,
+          "onNoKill": 145
+        },
+        {
+          "op": "STATUS",
+          "name": "Hư Nhược",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": 5,
+          "condition": "TARGET_SURVIVES",
+          "dispel": false
+        }
+      ],
+      "destinyChoices": [
+        "Lôi Đình Nhất Kích",
+        "Tường Đồng Vách Sắt"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-044",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-mar26-17",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html",
+      "sourceDate": "2026-03-17",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Tôn Thượng Hương",
+      "group": "MAR26",
+      "skillName": "Xích Vũ Quán Hồng",
+      "damageLane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 30800,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hội Tâm",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Anh Dũng",
+          "target": "SELF",
+          "turns": 3,
+          "allAttackBonusPct": 20,
+          "stacking": true
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 700,
+          "onNoKill": 145
+        },
+        {
+          "op": "STATUS",
+          "name": "Hư Nhược",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": 5,
+          "condition": "TARGET_SURVIVES",
+          "dispel": false
+        }
+      ],
+      "destinyChoices": [
+        "Tinh Chuẩn Xạ Kích",
+        "Trì Thương Hạo Lập"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-089",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-mar26-18",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html",
+      "sourceDate": "2026-03-17",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Điển Vi",
+      "group": "MAR26",
+      "skillName": "Ác Lai Liệt Phách",
+      "damageLane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 18000,
+          "lane": "PHYSICAL",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 22000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Thị Huyết",
+          "target": "SELF",
+          "turns": 3,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "name": "Hấp Huyết",
+          "target": "SELF",
+          "turns": 3,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Tuốt Gươm Giương Nỏ",
+        "Tường Đồng Vách Sắt"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-003",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-mar26-19",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html",
+      "sourceDate": "2026-03-17",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Đặng Ngải",
+      "group": "MAR26",
+      "skillName": "Kỳ Binh Phá Thục",
+      "damageLane": "MIXED",
+      "events": [
+        {
+          "op": "STATUS",
+          "name": "Tịnh Hóa",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Độ Hiểm",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Loại Bỏ",
+          "target": "SELF",
+          "turns": 3,
+          "dispel": false
+        },
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 700
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 12000,
+          "lane": "TACTIC",
+          "target": "ENEMY_ROW",
+          "hits": 1
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 12000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LINE",
+          "hits": 1
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 7300,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Đồn Điền",
+          "target": "RANDOM_ALLY",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 100,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [
+        "Tinh Chuẩn Xạ Kích",
+        "Không Sơ Hở"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-123",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-mar26-20",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html",
+      "sourceDate": "2026-03-17",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Chung Hội",
+      "group": "MAR26",
+      "skillName": "Giả Chiếu Khởi Binh",
+      "damageLane": "STRATEGY",
+      "events": [
+        {
+          "op": "DEFENSE_CHANGE",
+          "target": "ALL_ENEMIES",
+          "lane": "STRATEGY",
+          "base": -30,
+          "turns": 2
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 10000,
+          "lane": "STRATEGY",
+          "target": "TARGET_UNSPECIFIED",
+          "hits": 4,
+          "targetScopeKnown": false
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "X"
+        }
+      ],
+      "destinyChoices": [
+        "Thanh Long Gia Hộ",
+        "Thâm Nhập"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-121",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-mar26-21",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html",
+      "sourceDate": "2026-03-17",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Cao Lãm",
+      "group": "MAR26",
+      "skillName": "Liệt Trận Như Sơn",
+      "damageLane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 36000,
+          "lane": "PHYSICAL",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "PHYSICAL",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Tăng Vật Công",
+          "target": "ALL_ALLIES",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Thống Quân",
+          "target": "ALL_ALLIES",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 25,
+          "variable": null
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "X"
+        }
+      ],
+      "destinyChoices": [
+        "Tinh Chuẩn Xạ Kích",
+        "Huyền Vũ Phù Hộ"
+      ],
+      "stage": "GOLD",
+      "heroId": "wiki-mobile-hero-118",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "skillId": "wiki-gold-supp-mar26-22",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html",
+      "sourceDate": "2026-03-17",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    },
+    {
+      "name": "Văn Sinh",
+      "group": "MAR26",
+      "skillName": "Trấn Thủ Hán Thủy",
+      "damageLane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 32000,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "TACTIC",
+          "hits": 3
+        },
+        {
+          "op": "DEFENSE_CHANGE",
+          "target": "OTHER_ALLIES",
+          "lane": "TACTIC",
+          "base": 40,
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Nguyệt Hồn",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 25,
+          "variable": "X"
+        }
+      ],
+      "destinyChoices": [
+        "Bài Sơn Đảo Hải",
+        "Nghiêm Chỉnh"
+      ],
+      "stage": "GOLD",
+      "heroId": null,
+      "identityStatus": "UNRESOLVED_SOURCE_NAME",
+      "skillId": "wiki-gold-supp-mar26-23",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html",
+      "sourceDate": "2026-03-17",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "sourceScope": "OFFICIAL_DATED_STAGE_ANNOUNCEMENT",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "runtimeEligible": false,
+      "missingCurrentMechanics": [
+        "currentStage",
+        "currentStats",
+        "skillActivationConditions",
+        "damageFormulaScaling"
+      ]
+    }
+  ]
+}

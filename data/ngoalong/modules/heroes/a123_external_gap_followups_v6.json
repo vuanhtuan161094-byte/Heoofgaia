@@ -1,0 +1,317 @@
+{
+  "schemaVersion": 6,
+  "basedOn": "a123_external_lequ_crosscheck_v6.json",
+  "date": "2026-11-19",
+  "dataAuthority": "SECONDARY_HISTORIC_RESEARCH_OVERLAY",
+  "crossEditionParity": "UNKNOWN",
+  "noAutoImport": true,
+  "summary": {
+    "gapTotal": 21,
+    "excerptsOrFull": 9,
+    "fullPage": 8,
+    "snippetOnly": 1,
+    "remainingNoAdditionalSource": 12
+  },
+  "rows": [
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-173",
+      "name": "Tỏa Nô",
+      "addition": {
+        "chineseNameInSource": "瑣奴",
+        "sourceUrl": "https://forum.gamer.com.tw/C.php?bsn=20848&snA=15579",
+        "sourceDate": null,
+        "verificationTier": "SEARCH_SNIPPET_ONLY_FULL_PAGE_403",
+        "classicSkillTitle": "火弩",
+        "historicMechanic": "Green awakening figure is shown in indexed community excerpt; not independently full-page verified",
+        "historicRecruitmentEvidence": null,
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-176",
+      "name": "Dương Cổ",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-178",
+      "name": "Kha Ngô",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-183",
+      "name": "Thái Diễm",
+      "addition": {
+        "chineseNameInSource": "蔡琰",
+        "sourceUrl": "https://www.lequ.com/wly/201305/53748.html",
+        "sourceDate": "2013-05-16",
+        "verificationTier": "FULL_ARTICLE_USER_GUIDE",
+        "classicSkillTitle": "銅牆",
+        "historicMechanic": "The 2013 user guide explicitly lists 銅牆 for 蔡琰, but only describes use as drum support, not a verified 2026 Mobile skill",
+        "historicRecruitmentEvidence": null,
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-189",
+      "name": "Chu Chỉ",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-193",
+      "name": "Dương Nghi",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-204",
+      "name": "Lý Nghiêm",
+      "addition": {
+        "chineseNameInSource": "李严",
+        "sourceUrl": "https://www.lequ.com/wly/202106/136798.html",
+        "sourceDate": "2021-06-03",
+        "verificationTier": "FULL_ARTICLE_PUBLISHER_CHANGELOG",
+        "classicSkillTitle": null,
+        "historicMechanic": null,
+        "historicRecruitmentEvidence": "In Lequ classic 2021-06-04 changelog, moved from tavern-recruitable to not recruitable within 刘璋-成都 rework",
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-209",
+      "name": "Ngưu Kim",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-212",
+      "name": "Tân Tì",
+      "addition": {
+        "chineseNameInSource": "辛毗",
+        "sourceUrl": "https://games.sina.com.cn/w/n/2013-01-11/1551683375.shtml",
+        "sourceDate": "2013-01-11",
+        "verificationTier": "FULL_ARTICLE_PUBLISHER_NEWS_REPOST",
+        "classicSkillTitle": "浪涛 -> 玄冰",
+        "historicMechanic": "Classic blue awakening: single-target strategy damage increases as own troops decrease; exact coefficient not stated",
+        "historicRecruitmentEvidence": "Defeat 辛毗 at 公孙渊势力-襄平之战, then tavern recruitment in historical Taiwanese classic edition",
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-227",
+      "name": "Vu Độc",
+      "addition": {
+        "chineseNameInSource": "于毒",
+        "sourceUrl": "https://www.lequ.com/wly/201109/17720.html",
+        "sourceDate": "2014-09-20",
+        "verificationTier": "FULL_ARTICLE_PUBLISHER_TABLE",
+        "classicSkillTitle": "连城 -> 毁坏",
+        "historicMechanic": "Classic white/blue skill name stages, no numeric effects",
+        "historicRecruitmentEvidence": "Included in classic tavern general table",
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-228",
+      "name": "Vương Cơ",
+      "addition": {
+        "chineseNameInSource": "王基",
+        "sourceUrl": "https://www.lequ.com/wly/201305/54621.html",
+        "sourceDate": "2012-05-31",
+        "verificationTier": "FULL_ARTICLE_PUBLISHER_INFORMATION",
+        "classicSkillTitle": "缴械 -> 践踏",
+        "historicMechanic": "Classic 2014 source stage names only, not a current Mobile skill formula",
+        "historicRecruitmentEvidence": "王基势力-昶城之战: tavern recruitment listed in 2013 publisher source",
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-240",
+      "name": "Đinh Nguyên",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-243",
+      "name": "Hà Tiến",
+      "addition": {
+        "chineseNameInSource": "何进",
+        "sourceUrl": "https://www.lequ.com/wly/201109/17720.html",
+        "sourceDate": "2014-09-20",
+        "verificationTier": "FULL_ARTICLE_PUBLISHER_TABLE",
+        "classicSkillTitle": "拒马",
+        "historicMechanic": "Classic skill name only",
+        "historicRecruitmentEvidence": "Included in classic tavern general table; per-server eligibility unverified",
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-253",
+      "name": "Lâu Ban",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-270",
+      "name": "Quản Lộ",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-276",
+      "name": "Trần Đam",
+      "addition": {
+        "chineseNameInSource": "陈耽",
+        "sourceUrl": "https://www.lequ.com/wly/201109/17720.html",
+        "sourceDate": "2014-09-20",
+        "verificationTier": "FULL_ARTICLE_PUBLISHER_TABLE",
+        "classicSkillTitle": "专注",
+        "historicMechanic": "Classic skill name only",
+        "historicRecruitmentEvidence": "Included in classic tavern general table; per-server eligibility unverified",
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-282",
+      "name": "Triệu Phạm",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-283",
+      "name": "Trịnh Thái",
+      "addition": {
+        "chineseNameInSource": "郑泰",
+        "sourceUrl": "https://www.lequ.com/wly/201109/17720.html",
+        "sourceDate": "2014-09-20",
+        "verificationTier": "FULL_ARTICLE_PUBLISHER_TABLE",
+        "classicSkillTitle": "利刃",
+        "historicMechanic": "Another 2013 Lequ user guide describes allied normal attack buff lasting 2 turns in classic edition",
+        "historicRecruitmentEvidence": "Included in classic tavern general table",
+        "sourceScope": "HISTORIC_CLASSIC_EXCEPT_SNIPPET",
+        "originalCurrentMobileStats": null,
+        "currentMobileSkillFormula": null,
+        "currentMobileRecruitment": null,
+        "mobileIdentityConfirmed": false,
+        "gameplayImport": false
+      },
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-286",
+      "name": "Văn Khâm",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A2",
+      "heroId": "wiki-mobile-hero-288",
+      "name": "Vô Khâu Kiệm",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    },
+    {
+      "group": "A3",
+      "heroId": "wiki-mobile-hero-334",
+      "name": "Nghiêm Dư",
+      "addition": null,
+      "mobile2026Role": "UNKNOWN",
+      "runtimeEligible": false
+    }
+  ],
+  "verificationWarnings": [
+    "2011-2021 Chinese web classic and Taiwan edition cannot establish VNG Mobile 2026 eligibility",
+    "Full publisher site may host user-contributed guides; source tier must be retained",
+    "Tỏa Nô community page 403, only indexed excerpt verified; do not use gameplay statistics",
+    "No generated recruitment chance, blue/green stage resource cost or Mobile 2026 formula"
+  ]
+}

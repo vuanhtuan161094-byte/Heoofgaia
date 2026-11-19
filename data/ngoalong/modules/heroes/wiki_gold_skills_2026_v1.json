@@ -1,0 +1,477 @@
+{
+  "schemaVersion": 1,
+  "sourceBatch": "VNG_OFFICIAL_2026_GOLD",
+  "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+  "edition": "VNG_WIKI_MOBILE_CURRENT",
+  "awakeningUnlockMainCityLevel": 380,
+  "destinyUnlockMainCityLevel": 400,
+  "stage": "GOLD",
+  "count": 8,
+  "skills": [
+    {
+      "heroId": "wiki-mobile-hero-010",
+      "name": "Trương Liêu",
+      "stage": "GOLD",
+      "skillId": "wiki-wiki-mobile-hero-010-gold-20260607",
+      "skillName": "Triệu Hổ Phá Trận",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 29500,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2,
+          "hitModifiers": [
+            "HIGH_TARGET_MORALE_MORE_DAMAGE",
+            "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+          ]
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tỏa Binh",
+          "target": "ENEMY_COLUMN",
+          "durationTurns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Huyết Cúc",
+          "target": "ENEMY_COLUMN",
+          "durationTurns": 2,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "E Sợ 2",
+          "target": "ENEMY_COLUMN",
+          "durationTurns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Võ Dũng 2",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [
+        "Xung Kích Thẳng Tiến",
+        "Kim Qua Thiết Mã"
+      ],
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X/scaling unresolved: never assign default"
+    },
+    {
+      "heroId": "wiki-mobile-hero-048",
+      "name": "Quan Vũ",
+      "stage": "GOLD",
+      "skillId": "wiki-wiki-mobile-hero-048-gold-20260607",
+      "skillName": "Uy Chấn Muôn Phương",
+      "lane": "NORMAL",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "STATUS",
+          "effect": "Nghĩa Tuyệt",
+          "target": "SELF",
+          "durationTurns": null,
+          "until": "BATTLE_END",
+          "dispel": false
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 300,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Ám Tế",
+          "target": "ENEMY_COLUMN",
+          "durationTurns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hấp Huyết",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kiên Thủ",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false
+        }
+      ],
+      "destinyChoices": [
+        "Tuốt Gươm Giương Nỏ",
+        "Kim Qua Thiết Mã"
+      ],
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X/scaling unresolved: never assign default"
+    },
+    {
+      "heroId": "wiki-mobile-hero-088",
+      "name": "Tôn Sách",
+      "stage": "GOLD",
+      "skillId": "wiki-wiki-mobile-hero-088-gold-20260607",
+      "skillName": "Bá Vương Liệt Phách",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 15500,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tịnh Hóa",
+          "target": "ALL_ALLIES",
+          "durationTurns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tòng Long 2",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3,
+          "bonusDamagePctPerBuff": 14,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "Võ Dũng",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ALLIES",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Nhất Kỵ Đương Thiên",
+        "Tường Đồng Vách Sắt"
+      ],
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X/scaling unresolved: never assign default"
+    },
+    {
+      "heroId": "wiki-mobile-hero-137",
+      "name": "Vu Cát",
+      "stage": "GOLD",
+      "skillId": "wiki-wiki-mobile-hero-137-gold-20260607",
+      "skillName": "Đạo Thuật Huyền Thông",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 11000,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE",
+          "modifierFormula": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Ma Ám",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 3,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "Phá Thánh",
+          "target": "SELF",
+          "durationTurns": 3,
+          "damagePctAgainstImmunityOrRemoval": 150
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Phong Hạc",
+        "Tường Đồng Vách Sắt"
+      ],
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X/scaling unresolved: never assign default"
+    },
+    {
+      "heroId": "wiki-mobile-hero-134",
+      "name": "Văn Phượng Khanh",
+      "stage": "GOLD",
+      "skillId": "wiki-wiki-mobile-hero-134-gold-20260607",
+      "skillName": "Bỉ Ngạn Tinh Kiều",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 2000,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "ATTACK_REDUCTION",
+          "target": "ONE_ENEMY",
+          "coefficientPct": 200,
+          "durationTurns": 1,
+          "interpretation": "AS_PUBLISHED_UNRESOLVED"
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "coefficientPct": 20,
+          "lane": "STRATEGY",
+          "hits": 2
+        },
+        {
+          "op": "HEAL",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "coefficientPct": 20,
+          "lane": "STRATEGY",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thủ Hộ",
+          "target": "ALL_ALLIES",
+          "durationTurns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Bố Cục Liên Hoàn",
+        "Không Sơ Hở"
+      ],
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X/scaling unresolved: never assign default"
+    },
+    {
+      "heroId": "wiki-mobile-hero-126",
+      "name": "Hoa Đà",
+      "stage": "GOLD",
+      "skillId": "wiki-wiki-mobile-hero-126-gold-20260607",
+      "skillName": "Huyền Hồ Tế Chúng",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "HEAL",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "coefficientPct": 20,
+          "lane": "STRATEGY",
+          "hits": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "base": 20,
+          "variable": "X"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tử Thủ",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "durationTurns": 3
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "coefficientPct": 20,
+          "lane": "STRATEGY",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hồi Xuân",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3,
+          "stacks": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [
+        "Né Tránh Linh Hoạt",
+        "Khô Mộc Phùng Xuân"
+      ],
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X/scaling unresolved: never assign default"
+    },
+    {
+      "heroId": "wiki-mobile-hero-127",
+      "name": "Hoa Hùng",
+      "stage": "GOLD",
+      "skillId": "wiki-wiki-mobile-hero-127-gold-20260607",
+      "skillName": "Tiên phong Hùng Hổ",
+      "lane": "NORMAL",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 500
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 10800,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE",
+          "modifierFormula": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Dũng Tuyệt",
+          "target": "SELF",
+          "durationTurns": null,
+          "until": "BATTLE_END",
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "Áp Chế 2",
+          "target": "SELF",
+          "durationTurns": null,
+          "until": "BATTLE_END",
+          "dispel": false,
+          "conditionalBonusDamagePct": 100,
+          "when": "TARGET_SOLDIERS_LT_SELF"
+        }
+      ],
+      "destinyChoices": [
+        "Xông Pha Trận Địa",
+        "Xung Kích Thẳng Tiến"
+      ],
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X/scaling unresolved: never assign default"
+    },
+    {
+      "heroId": "wiki-mobile-hero-136",
+      "name": "Viên Thiệu",
+      "stage": "GOLD",
+      "skillId": "wiki-wiki-mobile-hero-136-gold-20260607",
+      "skillName": "Thanh Chấn Hà Sóc",
+      "lane": "SUPPORT",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+      "sourceDate": "2026-06-07",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "STATUS",
+          "effect": "Tỏa Binh 2",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 25,
+          "variable": "N"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kiên Thủ",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3,
+          "allDefensePctPerStack": 6,
+          "stacking": true
+        },
+        {
+          "op": "STATUS",
+          "effect": "Đề Kháng",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3,
+          "shieldPctOfMaxSoldiersPerStack": 9,
+          "maxShieldPctOfMaxSoldiers": 70,
+          "stacking": true
+        },
+        {
+          "op": "STATUS",
+          "effect": "Đồn Điền",
+          "target": "RANDOM_ALLY",
+          "durationTurns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [],
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X/scaling unresolved: never assign default"
+    }
+  ]
+}

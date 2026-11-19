@@ -1,0 +1,63 @@
+{
+  "schemaVersion": 1,
+  "edition": "VNG_WIKI_MOBILE_CURRENT",
+  "checkedAt": "2026-11-18",
+  "patches": [
+    {
+      "heroId": "wiki-mobile-hero-151",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "fields": {
+        "acquisition": {
+          "value": {
+            "type": "TAVERN_AFTER_DEFEATING_BOSS",
+            "bossName": "Trương Trọng Cảnh",
+            "sourceScenario": "Ngọa Long Thần Toán - Chọc Giận Chu Du",
+            "probability": null
+          },
+          "classification": "VERIFIED",
+          "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+          "checkedAt": "2026-11-19",
+          "edition": "VNG_WIKI_MOBILE_CURRENT"
+        }
+      }
+    },
+    {
+      "heroId": "wiki-mobile-hero-156",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "fields": {
+        "acquisition": {
+          "value": {
+            "type": "ARENA_EXCHANGE",
+            "requiredPlayerLevel": 240,
+            "arenaPoints": 200000
+          },
+          "classification": "VERIFIED",
+          "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+          "checkedAt": "2026-11-19",
+          "edition": "VNG_WIKI_MOBILE_CURRENT"
+        }
+      }
+    }
+  ],
+  "instructions": {
+    "key": "heroId",
+    "source": "Individual official Wiki/dated patch page; do not infer from index grade",
+    "fields": {
+      "role": "Verified hero battle role (not guessed from historical biography)",
+      "troopIds": "Explicit troop links (must exist in troop content when integrated)",
+      "stats": "Versioned official attribute snapshot",
+      "skills": "Normal/active/passive description and effect descriptors with precise evidence",
+      "acquisition": "Source-supported recruitment condition",
+      "heroKind": "BASE / VARIANT / SPECIAL only after evidence",
+      "variantOf": "Explicit source link to existing wiki-mobile-hero-NNN",
+      "level": "Source-defined progression level fields",
+      "experience": "Source-defined experience fields",
+      "training": "Source-defined training rules",
+      "awakening": "Source-defined awakening rules",
+      "evolution": "Source-defined evolution transitions"
+    },
+    "evidenceContract": "Every field patch is {value, classification:'VERIFIED', sourceUrl, checkedAt, edition}. Unknown stays null; SIMULATED project rules are stored separately and never under this Wiki fact patch-set.",
+    "readiness": "DESIGN_READY only after role + source-backed skill definition; PLAYABLE remains integration-owned by Chat 08 and Chat 05",
+    "noRuntimeMutation": true
+  }
+}

@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 8,
+  "checkedAt": "2026-11-19",
+  "scope": "FOREIGN_RESEARCH_UPDATE_NOV19",
+  "editionCaveat": "Chinese web 2011-2014 and Taiwanese archive do not establish VNG Mobile 2026 parity",
+  "runtimeImport": false,
+  "records": [
+    {
+      "heroId": "wiki-mobile-hero-178",
+      "name": "Kha Ngô",
+      "chineseName": "柯吾",
+      "sourceDate": "2011-08-05",
+      "sourceUrl": "https://www.lequ.com/wly/201108/16514.html",
+      "evidence": "CHINESE_WEB_PUBLISHER_2011",
+      "sourceFacts": {
+        "availableAfter": "西羌征伐战",
+        "recruitmentClassic": "RECRUITABLE",
+        "stats": [
+          75,
+          62,
+          86
+        ],
+        "growth": [
+          1.7,
+          1.5,
+          2.6
+        ],
+        "troopFamilies": [
+          "infantry",
+          "civil"
+        ],
+        "stageSkill": "海啸",
+        "stageSkillType": "strategy",
+        "skillMechanism": "high-damage water-type attack targeting all enemies"
+      },
+      "aliasConfidence": "PROBABLE_NAME_MATCH_KHA_NGO_TO_KE_WU",
+      "stats2026": null,
+      "currentRecruitability": null
+    },
+    {
+      "heroId": "wiki-mobile-hero-253",
+      "name": "Lâu Ban",
+      "chineseName": "楼班",
+      "sourceDate": "2011-08-05",
+      "sourceUrl": "https://www.lequ.com/wly/201108/16514.html",
+      "evidence": "CHINESE_WEB_PUBLISHER_2011",
+      "sourceFacts": {
+        "availableAfter": "四夷征伐战",
+        "recruitmentClassic": "RECRUITABLE",
+        "stats": [
+          87,
+          81,
+          60
+        ],
+        "growth": [
+          2.3,
+          2.8,
+          1.6
+        ],
+        "troopFamilies": [
+          "infantry",
+          "spear"
+        ],
+        "stageSkill": "横祸",
+        "skillMechanism": "horizontal row hit, chance of confusion"
+      },
+      "aliasConfidence": "HIGH_NAME_MATCH",
+      "stats2026": null,
+      "currentRecruitability": null
+    },
+    {
+      "heroId": "wiki-mobile-hero-193",
+      "name": "Dương Nghi",
+      "chineseName": "杨仪",
+      "sourceDate": "2014-06-24",
+      "sourceUrl": "https://wly.lequ.com/version/201406/5124.html",
+      "evidence": "OFFICIAL_CHINESE_MOBILE_TEST_VERSION_1_4_3_0_AND_CLASSIC_CHANGELOG",
+      "sourceFacts": {
+        "map": "杨仪势力-隐者复出",
+        "recruitmentClassic": "DEFEAT_NAMED_HERO_THEN_TAVERN",
+        "baseStats": null,
+        "activeSkill": null
+      },
+      "aliasConfidence": "HIGH_NAME_MATCH",
+      "stats2026": null,
+      "currentRecruitability": null
+    },
+    {
+      "heroId": "wiki-mobile-hero-240",
+      "name": "Đinh Nguyên",
+      "chineseName": "丁原",
+      "sourceDate": "2012-09-21",
+      "sourceUrl": "https://www.lequ.com/wly/201209/36867.html",
+      "evidence": "PUBLISHED_PLAYER_GUIDE_HOSTED_ON_LEQU",
+      "sourceFacts": {
+        "map": "丁原势力",
+        "encounterSkillExamples": [
+          "盾击",
+          "撼地"
+        ],
+        "warning": "These are skills of specific NPC subunits in a Ding Yuan map, NOT proof they are Ding Yuan's own skills",
+        "npcRole": "NAMED_CAMPAIGN_FACTION"
+      },
+      "aliasConfidence": "HIGH_NAME_MATCH",
+      "stats2026": null,
+      "currentRecruitability": null
+    },
+    {
+      "heroId": "wiki-mobile-hero-168",
+      "name": "Mê Đương",
+      "chineseName": "迷当",
+      "sourceDate": "2014-03-01",
+      "sourceUrl": "https://forum.gamer.com.tw/C.php?bsn=20848&snA=15579",
+      "evidence": "TAIWAN_FORUM_SNIPPET_ONLY_HTTP403",
+      "sourceFacts": {
+        "greenAwakenedStats": [
+          84,
+          87,
+          72
+        ],
+        "greenAwakenedGrowth": [
+          2.4,
+          2.3,
+          2.7
+        ],
+        "greenSkill": "号召"
+      },
+      "aliasConfidence": "REQUIRES_TEXT_REVIEW",
+      "stats2026": null,
+      "currentRecruitability": null
+    },
+    {
+      "heroId": "wiki-mobile-hero-173",
+      "name": "Tỏa Nô",
+      "chineseName": "锁奴",
+      "sourceDate": "2011-08-05",
+      "sourceUrl": "https://www.lequ.com/wly/201108/16514.html",
+      "evidence": "CHINESE_WEB_PUBLISHER_2011",
+      "sourceFacts": {
+        "availableAfter": "四夷征伐战",
+        "recruitmentClassic": "RECRUITABLE",
+        "stats": [
+          78,
+          82,
+          80
+        ],
+        "growth": [
+          2.2,
+          2.1,
+          1.8
+        ],
+        "troopFamilies": [
+          "cavalry",
+          "archer"
+        ],
+        "originalSkill": "飞射"
+      },
+      "aliasConfidence": "HIGH_NAME_MATCH_WITH_TRADITIONAL_CHINESE_VARIANT",
+      "stats2026": null,
+      "currentRecruitability": null
+    },
+    {
+      "heroId": "wiki-mobile-hero-288",
+      "name": "Vô Khâu Kiệm",
+      "chineseName": "毌丘俭",
+      "sourceDate": "2012-05-31",
+      "sourceUrl": "https://www.lequ.com/wly/201305/54621.html",
+      "evidence": "HISTORIC_STORY_MENTION_ONLY_NOT_ROSTER",
+      "sourceFacts": {
+        "historicalMentionInStory": true,
+        "playerHeroOrNpcRoleVerified": false
+      },
+      "aliasConfidence": "REQUIRES_NAME_REVIEW_VARIANT_毋丘俭_毌丘俭",
+      "stats2026": null,
+      "currentRecruitability": null
+    }
+  ],
+  "metadata": {
+    "newGameSpecificSourcesForPreviouslyUnsourced": 4,
+    "storyContextOnly": 1,
+    "earlierSnippetNowPublisherFull": 1,
+    "remainingNoNamedGameSource": [
+      "Dương Cổ",
+      "Vô Khâu Kiệm",
+      "Nghiêm Dư"
+    ],
+    "full2026MobileSkillsFound": 0
+  }
+}

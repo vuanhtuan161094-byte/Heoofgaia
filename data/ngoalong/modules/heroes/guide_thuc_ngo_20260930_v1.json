@@ -1,0 +1,3447 @@
+{
+  "schemaVersion": 1,
+  "packId": "NL_HERO_GUIDE_20260930_2REALMS",
+  "edition": "VNG_MOBILE_GUIDE_20260930",
+  "checkedAt": "2026-11-19",
+  "sources": {
+    "THUC": {
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "publisher": "VNGGames / community-contributed guide",
+      "evidenceTier": "SECONDARY_OFFICIAL_HOST"
+    },
+    "NGO": {
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "publisher": "VNGGames / guide",
+      "evidenceTier": "SECONDARY_OFFICIAL_HOST"
+    }
+  },
+  "warning": "These are historical/guide table facts only; Wiki index has later evolutionary grades, NOT interchangeable with this base snapshot. Guide itself is not a complete current hero detail source. Not a gameplay stat formula; no auto-matching aliases.",
+  "count": 82,
+  "bySection": {
+    "thucPrestige": 20,
+    "thucTower": 21,
+    "ngoTower": 21,
+    "ngoPrestige": 20
+  },
+  "unresolvedNameCases": [
+    {
+      "name": "Tôn Can",
+      "rowId": "guide-20260930-010",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    },
+    {
+      "name": "Lưu Bị",
+      "rowId": "guide-20260930-017",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    },
+    {
+      "name": "Trương Nghị",
+      "rowId": "guide-20260930-022",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    },
+    {
+      "name": "Tưởng Uyễn",
+      "rowId": "guide-20260930-029",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    },
+    {
+      "name": "Mã Văn Lộc",
+      "rowId": "guide-20260930-034",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    },
+    {
+      "name": "Cổ Ung",
+      "rowId": "guide-20260930-050",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    },
+    {
+      "name": "Tô Mậu",
+      "rowId": "guide-20260930-064",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    },
+    {
+      "name": "Tiểu Kiểu",
+      "rowId": "guide-20260930-066",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    },
+    {
+      "name": "Trương Hoành",
+      "rowId": "guide-20260930-068",
+      "reason": "AMBIGUOUS_SAME_NAME",
+      "candidateWikiIds": [
+        "wiki-mobile-hero-104",
+        "wiki-mobile-hero-351"
+      ]
+    },
+    {
+      "name": "Tôn Quyền",
+      "rowId": "guide-20260930-080",
+      "reason": "MISSING_IN_INDEX",
+      "candidateWikiIds": []
+    }
+  ],
+  "sourceFields": [
+    "attributes",
+    "rebirthGrowth",
+    "listedRole",
+    "listedBaseSkillName",
+    "acquisition"
+  ],
+  "records": [
+    {
+      "guideRecordId": "guide-20260930-001",
+      "sourceName": "Lưu Thiện",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-1",
+      "attributes": {
+        "leadership": 48,
+        "martial": 40,
+        "intelligence": 52
+      },
+      "rebirthGrowth": {
+        "leadership": 0.5,
+        "martial": 0.5,
+        "intelligence": 2.8
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Tử sanh",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 500,
+        "recruitFeeSilver": 2000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-045"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-002",
+      "sourceName": "Lưu Phong",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-2",
+      "attributes": {
+        "leadership": 80,
+        "martial": 78,
+        "intelligence": 55
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 2.3,
+        "intelligence": 2
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Thư Kích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 2000,
+        "recruitFeeSilver": 3000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-070"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-003",
+      "sourceName": "Liêu Hóa",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-3",
+      "attributes": {
+        "leadership": 80,
+        "martial": 82,
+        "intelligence": 77
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.6,
+        "intelligence": 2.4
+      },
+      "listedRole": "Tiên phong",
+      "listedBaseSkillName": "Đạp phá",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 5000,
+        "recruitFeeSilver": 3000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-067"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-004",
+      "sourceName": "Giản Ung",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-4",
+      "attributes": {
+        "leadership": 43,
+        "martial": 50,
+        "intelligence": 68
+      },
+      "rebirthGrowth": {
+        "leadership": 1.2,
+        "martial": 2.1,
+        "intelligence": 1.8
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Phấn chấn",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 10000,
+        "recruitFeeSilver": 5000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-042"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-005",
+      "sourceName": "Triệu Thống",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-5",
+      "attributes": {
+        "leadership": 72,
+        "martial": 78,
+        "intelligence": 66
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.4,
+        "intelligence": 2.1
+      },
+      "listedRole": "Chiến tướng",
+      "listedBaseSkillName": "Liên thành",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 15000,
+        "recruitFeeSilver": 5000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-078"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-006",
+      "sourceName": "Chu Thương",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-6",
+      "attributes": {
+        "leadership": 66,
+        "martial": 83,
+        "intelligence": 56
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.6,
+        "intelligence": 1.6
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Thiết bích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 23000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-063"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-007",
+      "sourceName": "Quan Sách",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-7",
+      "attributes": {
+        "leadership": 71,
+        "martial": 84,
+        "intelligence": 57
+      },
+      "rebirthGrowth": {
+        "leadership": 2.8,
+        "martial": 2.3,
+        "intelligence": 2.4
+      },
+      "listedRole": "Tiên phong",
+      "listedBaseSkillName": "Huyết lộ",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 32000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-075"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-008",
+      "sourceName": "Phí Huy",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-8",
+      "attributes": {
+        "leadership": 74,
+        "martial": 43,
+        "intelligence": 82
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 1.2,
+        "intelligence": 2.9
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Kịch độc",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 42000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-073"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-009",
+      "sourceName": "Quan Bình",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-9",
+      "attributes": {
+        "leadership": 89,
+        "martial": 82,
+        "intelligence": 69
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.3,
+        "intelligence": 2.1
+      },
+      "listedRole": "Hùng sư",
+      "listedBaseSkillName": "Phản kích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 58000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-058"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-010",
+      "sourceName": "Tôn Can",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-10",
+      "attributes": {
+        "leadership": 67,
+        "martial": 58,
+        "intelligence": 78
+      },
+      "rebirthGrowth": {
+        "leadership": 1.2,
+        "martial": 1.6,
+        "intelligence": 1.8
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Trị liệu",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 78000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-011",
+      "sourceName": "Lý Khôi",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-11",
+      "attributes": {
+        "leadership": 77,
+        "martial": 78,
+        "intelligence": 76
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.1,
+        "intelligence": 1.7
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Liên kích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 100000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-071"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-012",
+      "sourceName": "Mạnh Đạt",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-12",
+      "attributes": {
+        "leadership": 81,
+        "martial": 78,
+        "intelligence": 77
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.3,
+        "intelligence": 2
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Thủ hộ",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 150000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-072"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-013",
+      "sourceName": "Mã Đại",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-13",
+      "attributes": {
+        "leadership": 76,
+        "martial": 84,
+        "intelligence": 56
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.6,
+        "intelligence": 2.1
+      },
+      "listedRole": "Hùng sư",
+      "listedBaseSkillName": "Uy phong",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 210000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-064"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-014",
+      "sourceName": "Trương Bao",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-14",
+      "attributes": {
+        "leadership": 76,
+        "martial": 87,
+        "intelligence": 46
+      },
+      "rebirthGrowth": {
+        "leadership": 2.7,
+        "martial": 2.8,
+        "intelligence": 1.8
+      },
+      "listedRole": "Tiên phong",
+      "listedBaseSkillName": "Hổ khiếu",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 270000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-060"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-015",
+      "sourceName": "Mã Lương",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-15",
+      "attributes": {
+        "leadership": 75,
+        "martial": 66,
+        "intelligence": 88
+      },
+      "rebirthGrowth": {
+        "leadership": 1.7,
+        "martial": 1.8,
+        "intelligence": 3
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Địa liệt",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 330000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-054"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-016",
+      "sourceName": "Ngụy Diên",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-16",
+      "attributes": {
+        "leadership": 83,
+        "martial": 92,
+        "intelligence": 66
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 2.6,
+        "intelligence": 1.7
+      },
+      "listedRole": "Hùng sư",
+      "listedBaseSkillName": "Hoạch họa",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 390000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-047"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-017",
+      "sourceName": "Lưu Bị",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-17",
+      "attributes": {
+        "leadership": 75,
+        "martial": 74,
+        "intelligence": 73
+      },
+      "rebirthGrowth": {
+        "leadership": 2.7,
+        "martial": 2.2,
+        "intelligence": 2.3
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Hiệu lệnh",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 450000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-018",
+      "sourceName": "Pháp Chính",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-18",
+      "attributes": {
+        "leadership": 81,
+        "martial": 48,
+        "intelligence": 95
+      },
+      "rebirthGrowth": {
+        "leadership": 1.7,
+        "martial": 2.2,
+        "intelligence": 2.9
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Sơn băng",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 500000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-057"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-019",
+      "sourceName": "Từ Thứ",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-19",
+      "attributes": {
+        "leadership": 88,
+        "martial": 65,
+        "intelligence": 96
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 1.5,
+        "intelligence": 2.7
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Hư vô",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 580000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-051"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-020",
+      "sourceName": "Hoàng Trung",
+      "guideRealm": "THUC",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-20",
+      "attributes": {
+        "leadership": 84,
+        "martial": 93,
+        "intelligence": 61
+      },
+      "rebirthGrowth": {
+        "leadership": 2.8,
+        "martial": 2.1,
+        "intelligence": 1.8
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Lôi tiễn",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 700000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-044"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-021",
+      "sourceName": "Trần Đăng",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-1",
+      "attributes": {
+        "leadership": 79,
+        "martial": 65,
+        "intelligence": 80
+      },
+      "rebirthGrowth": {
+        "leadership": 1.8,
+        "martial": 2,
+        "intelligence": 2.5
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Nhục Mạ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 5,
+        "soulCost": 100
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-076"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-022",
+      "sourceName": "Trương Nghị",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-2",
+      "attributes": {
+        "leadership": 76,
+        "martial": 73,
+        "intelligence": 75
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.8,
+        "intelligence": 1.8
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Ám Sát",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 10,
+        "soulCost": 400
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-023",
+      "sourceName": "Vương Doãn",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-3",
+      "attributes": {
+        "leadership": 64,
+        "martial": 57,
+        "intelligence": 89
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 1.8,
+        "intelligence": 2.5
+      },
+      "listedRole": "Kỵ binh",
+      "listedBaseSkillName": "Li Gián",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 10,
+        "soulCost": 1000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-161"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-024",
+      "sourceName": "Y Tịch",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-4",
+      "attributes": {
+        "leadership": 56,
+        "martial": 44,
+        "intelligence": 73
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 1.9,
+        "intelligence": 1.8
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Khích Lệ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 15,
+        "soulCost": 1500
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-062"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-025",
+      "sourceName": "Vương Dị",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-5",
+      "attributes": {
+        "leadership": 56,
+        "martial": 54,
+        "intelligence": 82
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 1.9,
+        "intelligence": 2.3
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Trị Liệu",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 15,
+        "soulCost": 2000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-160"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-026",
+      "sourceName": "Triệu Quảng",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-6",
+      "attributes": {
+        "leadership": 78,
+        "martial": 81,
+        "intelligence": 53
+      },
+      "rebirthGrowth": {
+        "leadership": 2.8,
+        "martial": 2.2,
+        "intelligence": 1.8
+      },
+      "listedRole": "Hùng sư",
+      "listedBaseSkillName": "Tật Xung",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 20,
+        "soulCost": 3000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-077"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-027",
+      "sourceName": "Phan Phượng",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-7",
+      "attributes": {
+        "leadership": 69,
+        "martial": 82,
+        "intelligence": 50
+      },
+      "rebirthGrowth": {
+        "leadership": 1.7,
+        "martial": 2.2,
+        "intelligence": 1.8
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Tự Hủy",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 20,
+        "soulCost": 5000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-162"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-028",
+      "sourceName": "Trương Tú",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-8",
+      "attributes": {
+        "leadership": 82,
+        "martial": 72,
+        "intelligence": 62
+      },
+      "rebirthGrowth": {
+        "leadership": 2.8,
+        "martial": 2.3,
+        "intelligence": 2
+      },
+      "listedRole": "Chiến tướng",
+      "listedBaseSkillName": "Thư Kích",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 25,
+        "soulCost": 7500
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-152"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-029",
+      "sourceName": "Tưởng Uyễn",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-9",
+      "attributes": {
+        "leadership": 83,
+        "martial": 68,
+        "intelligence": 90
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.2,
+        "intelligence": 3
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Cổn Thạch",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 30,
+        "soulCost": 9000
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-030",
+      "sourceName": "Hoàng Nguyệt Anh",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-10",
+      "attributes": {
+        "leadership": 60,
+        "martial": 41,
+        "intelligence": 94
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 2,
+        "intelligence": 2.5
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Ám Tế",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 33,
+        "soulCost": 11500
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-043"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-031",
+      "sourceName": "Khương Duy",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-11",
+      "attributes": {
+        "leadership": 85,
+        "martial": 89,
+        "intelligence": 92
+      },
+      "rebirthGrowth": {
+        "leadership": 2.8,
+        "martial": 1.9,
+        "intelligence": 2.6
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Ngự Giáp",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 38,
+        "soulCost": 13000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-053"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-032",
+      "sourceName": "Mã Tốc",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-12",
+      "attributes": {
+        "leadership": 64,
+        "martial": 65,
+        "intelligence": 89
+      },
+      "rebirthGrowth": {
+        "leadership": 1.5,
+        "martial": 1.7,
+        "intelligence": 3
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Hống Viêm",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 43,
+        "soulCost": 15000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-046"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-033",
+      "sourceName": "Sa Ma Kha",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-13",
+      "attributes": {
+        "leadership": 80,
+        "martial": 89,
+        "intelligence": 55
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 2.6,
+        "intelligence": 1.8
+      },
+      "listedRole": "Hùng sư",
+      "listedBaseSkillName": "Cuồng Bạo",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 48,
+        "soulCost": 18000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-069"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-034",
+      "sourceName": "Mã Văn Lộc",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-14",
+      "attributes": {
+        "leadership": 80,
+        "martial": 91,
+        "intelligence": 59
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.2,
+        "intelligence": 2.3
+      },
+      "listedRole": "Chiến tướng",
+      "listedBaseSkillName": "Phi Xạ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 53,
+        "soulCost": 22000
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-035",
+      "sourceName": "Trương Phi",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-15",
+      "attributes": {
+        "leadership": 83,
+        "martial": 98,
+        "intelligence": 45
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 3,
+        "intelligence": 1.6
+      },
+      "listedRole": "Tiên phong",
+      "listedBaseSkillName": "Nộ Sát",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 58,
+        "soulCost": 28000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-050"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-036",
+      "sourceName": "Hoa Đà",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-16",
+      "attributes": {
+        "leadership": 65,
+        "martial": 55,
+        "intelligence": 75
+      },
+      "rebirthGrowth": {
+        "leadership": 1.5,
+        "martial": 1.8,
+        "intelligence": 2
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Cam Vũ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 58,
+        "soulCost": 35000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-126"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-037",
+      "sourceName": "Bàng Thống",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-17",
+      "attributes": {
+        "leadership": 80,
+        "martial": 45,
+        "intelligence": 98
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 1.9,
+        "intelligence": 2.9
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Tử Điện",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 63,
+        "soulCost": 48000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-041"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-038",
+      "sourceName": "Triệu Vân",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-18",
+      "attributes": {
+        "leadership": 88,
+        "martial": 96,
+        "intelligence": 78
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 2.6,
+        "intelligence": 1.8
+      },
+      "listedRole": "Tiên phong",
+      "listedBaseSkillName": "Đan Kỵ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 68,
+        "soulCost": 60000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-049"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-039",
+      "sourceName": "Mã Siêu",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-19",
+      "attributes": {
+        "leadership": 91,
+        "martial": 97,
+        "intelligence": 56
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.6,
+        "intelligence": 1.8
+      },
+      "listedRole": "Hùng sư",
+      "listedBaseSkillName": "Phá Quân",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 73,
+        "soulCost": 80000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-055"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-040",
+      "sourceName": "Quan Vũ",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-20",
+      "attributes": {
+        "leadership": 93,
+        "martial": 97,
+        "intelligence": 77
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.7,
+        "intelligence": 2.1
+      },
+      "listedRole": "Hùng sư",
+      "listedBaseSkillName": "Yến Nguyệt",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 78,
+        "soulCost": 100000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-048"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-041",
+      "sourceName": "Gia Cát Lượng",
+      "guideRealm": "THUC",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_THUC_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-thuc-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-21",
+      "attributes": {
+        "leadership": 92,
+        "martial": 53,
+        "intelligence": 100
+      },
+      "rebirthGrowth": {
+        "leadership": 2.9,
+        "martial": 2,
+        "intelligence": 3
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Đông Phong",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 83,
+        "soulCost": 120000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-052"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-042",
+      "sourceName": "Tôn Thiều",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-1",
+      "attributes": {
+        "leadership": 80,
+        "martial": 78,
+        "intelligence": 76
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 2.3,
+        "intelligence": 2.4
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Thuần Kích",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 5,
+        "soulCost": 100
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-106"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-043",
+      "sourceName": "Lữ Đại",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-2",
+      "attributes": {
+        "leadership": 78,
+        "martial": 77,
+        "intelligence": 68
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.4,
+        "intelligence": 2
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Uy Phong",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 10,
+        "soulCost": 400
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-103"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-044",
+      "sourceName": "Vương Doãn",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-3",
+      "attributes": {
+        "leadership": 64,
+        "martial": 57,
+        "intelligence": 89
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 1.8,
+        "intelligence": 2.5
+      },
+      "listedRole": "Kỵ binh",
+      "listedBaseSkillName": "Li Gián",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 10,
+        "soulCost": 1000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-161"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-045",
+      "sourceName": "Đổng Tập",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-4",
+      "attributes": {
+        "leadership": 74,
+        "martial": 81,
+        "intelligence": 47
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 2.6,
+        "intelligence": 1.7
+      },
+      "listedRole": "Nguyên soái",
+      "listedBaseSkillName": "Tật Xung",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 15,
+        "soulCost": 1500
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-110"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-046",
+      "sourceName": "Vương Dị",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-5",
+      "attributes": {
+        "leadership": 56,
+        "martial": 54,
+        "intelligence": 82
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 1.9,
+        "intelligence": 2.3
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Trị Liệu",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 15,
+        "soulCost": 2000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-160"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-047",
+      "sourceName": "Chu Trị",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-6",
+      "attributes": {
+        "leadership": 70,
+        "martial": 58,
+        "intelligence": 72
+      },
+      "rebirthGrowth": {
+        "leadership": 1.8,
+        "martial": 1.6,
+        "intelligence": 1.7
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Khích Lệ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 20,
+        "soulCost": 3000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-092"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-048",
+      "sourceName": "Phan Phượng",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-7",
+      "attributes": {
+        "leadership": 69,
+        "martial": 82,
+        "intelligence": 50
+      },
+      "rebirthGrowth": {
+        "leadership": 1.7,
+        "martial": 2.2,
+        "intelligence": 1.8
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Tự Hủy",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 20,
+        "soulCost": 5000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-162"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-049",
+      "sourceName": "Trương Tú",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-8",
+      "attributes": {
+        "leadership": 82,
+        "martial": 72,
+        "intelligence": 62
+      },
+      "rebirthGrowth": {
+        "leadership": 2.8,
+        "martial": 2.3,
+        "intelligence": 2
+      },
+      "listedRole": "Chiến tướng",
+      "listedBaseSkillName": "Thư Kích",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 25,
+        "soulCost": 7500
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-152"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-050",
+      "sourceName": "Cổ Ung",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-9",
+      "attributes": {
+        "leadership": 62,
+        "martial": 62,
+        "intelligence": 87
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 2.1,
+        "intelligence": 2.8
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Địa Liệp",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 30,
+        "soulCost": 9000
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-051",
+      "sourceName": "Gia Cát Khác",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-10",
+      "attributes": {
+        "leadership": 70,
+        "martial": 58,
+        "intelligence": 90
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 2.1,
+        "intelligence": 2.9
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Sơn Băng",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 33,
+        "soulCost": 11500
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-095"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-052",
+      "sourceName": "Tôn Kiên",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-11",
+      "attributes": {
+        "leadership": 96,
+        "martial": 91,
+        "intelligence": 77
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.6,
+        "intelligence": 2
+      },
+      "listedRole": "Nguyên soái",
+      "listedBaseSkillName": "Hám Địa",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 38,
+        "soulCost": 13000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-086"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-053",
+      "sourceName": "Hoàng Cái",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-12",
+      "attributes": {
+        "leadership": 79,
+        "martial": 83,
+        "intelligence": 69
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 2.8,
+        "intelligence": 2
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Khổ Kế",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 43,
+        "soulCost": 15000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-097"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-054",
+      "sourceName": "Tôn Hoàn",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-13",
+      "attributes": {
+        "leadership": 85,
+        "martial": 87,
+        "intelligence": 78
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 2.5,
+        "intelligence": 2.2
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Phi Xạ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 48,
+        "soulCost": 18000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-105"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-055",
+      "sourceName": "Lỗ Túc",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-14",
+      "attributes": {
+        "leadership": 90,
+        "martial": 57,
+        "intelligence": 94
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 1.9,
+        "intelligence": 3
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Hư Vô",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 53,
+        "soulCost": 22000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-082"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-056",
+      "sourceName": "Cam Ninh",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-15",
+      "attributes": {
+        "leadership": 88,
+        "martial": 94,
+        "intelligence": 78
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 2.8,
+        "intelligence": 1.3
+      },
+      "listedRole": "Hùng sư",
+      "listedBaseSkillName": "Nộ Sát",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 58,
+        "soulCost": 28000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-079"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-057",
+      "sourceName": "Hoa Đà",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-16",
+      "attributes": {
+        "leadership": 65,
+        "martial": 55,
+        "intelligence": 75
+      },
+      "rebirthGrowth": {
+        "leadership": 1.5,
+        "martial": 1.8,
+        "intelligence": 2
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Cam Vũ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 58,
+        "soulCost": 35000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-126"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-058",
+      "sourceName": "Chu Thái",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-17",
+      "attributes": {
+        "leadership": 81,
+        "martial": 93,
+        "intelligence": 48
+      },
+      "rebirthGrowth": {
+        "leadership": 2.8,
+        "martial": 2.6,
+        "intelligence": 1.6
+      },
+      "listedRole": "Nguyên soái",
+      "listedBaseSkillName": "Đan Kỵ",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 63,
+        "soulCost": 48000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-080"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-059",
+      "sourceName": "Chu Hoàn",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-18",
+      "attributes": {
+        "leadership": 89,
+        "martial": 84,
+        "intelligence": 81
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.5,
+        "intelligence": 2.2
+      },
+      "listedRole": "Tiên phong",
+      "listedBaseSkillName": "Phá Quân",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 68,
+        "soulCost": 60000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-091"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-060",
+      "sourceName": "Lục Tốn",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-19",
+      "attributes": {
+        "leadership": 98,
+        "martial": 66,
+        "intelligence": 96
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.2,
+        "intelligence": 2.8
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Hồng Viêm",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 73,
+        "soulCost": 80000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-083"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-061",
+      "sourceName": "Chu Du",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-20",
+      "attributes": {
+        "leadership": 98,
+        "martial": 72,
+        "intelligence": 97
+      },
+      "rebirthGrowth": {
+        "leadership": 2.6,
+        "martial": 1.8,
+        "intelligence": 3
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Binh Tiễn",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 78,
+        "soulCost": 100000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-090"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-062",
+      "sourceName": "Tôn Sách",
+      "guideRealm": "NGO",
+      "guideSection": "TRIAL_TOWER",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "TRIAL_TOWER-21",
+      "attributes": {
+        "leadership": 95,
+        "martial": 92,
+        "intelligence": 75
+      },
+      "rebirthGrowth": {
+        "leadership": 2.7,
+        "martial": 2.5,
+        "intelligence": 1.5
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Chế Bá",
+      "acquisition": {
+        "kind": "TRIAL_TOWER",
+        "minFloor": 83,
+        "soulCost": 120000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-088"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-063",
+      "sourceName": "Tôn Hưu",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-1",
+      "attributes": {
+        "leadership": 64,
+        "martial": 40,
+        "intelligence": 79
+      },
+      "rebirthGrowth": {
+        "leadership": 1.3,
+        "martial": 1,
+        "intelligence": 2
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Trị liệu",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 500,
+        "recruitFeeSilver": 2000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-114"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-064",
+      "sourceName": "Tô Mậu",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-2",
+      "attributes": {
+        "leadership": 72,
+        "martial": 70,
+        "intelligence": 64
+      },
+      "rebirthGrowth": {
+        "leadership": 1.8,
+        "martial": 1.8,
+        "intelligence": 1.7
+      },
+      "listedRole": "Chiến tướng",
+      "listedBaseSkillName": "Đột kích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 2000,
+        "recruitFeeSilver": 3000
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-065",
+      "sourceName": "Chu Nhiên",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-3",
+      "attributes": {
+        "leadership": 82,
+        "martial": 70,
+        "intelligence": 65
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.4,
+        "intelligence": 2
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Thư kích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 5000,
+        "recruitFeeSilver": 3000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-101"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-066",
+      "sourceName": "Tiểu Kiểu",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-4",
+      "attributes": {
+        "leadership": 44,
+        "martial": 42,
+        "intelligence": 72
+      },
+      "rebirthGrowth": {
+        "leadership": 1,
+        "martial": 1,
+        "intelligence": 2.7
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Phấn chấn",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 10000,
+        "recruitFeeSilver": 5000
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-067",
+      "sourceName": "Tưởng Khâm",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-5",
+      "attributes": {
+        "leadership": 79,
+        "martial": 85,
+        "intelligence": 56
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.6,
+        "intelligence": 2
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Hoành tảo",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 15000,
+        "recruitFeeSilver": 5000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-117"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-068",
+      "sourceName": "Trương Hoành",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-6",
+      "attributes": {
+        "leadership": 41,
+        "martial": 41,
+        "intelligence": 88
+      },
+      "rebirthGrowth": {
+        "leadership": 1.7,
+        "martial": 1.7,
+        "intelligence": 2.8
+      },
+      "listedRole": "Mưu thần",
+      "listedBaseSkillName": "Hải tiếu",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 23000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "AMBIGUOUS_SAME_NAME",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-104",
+          "wiki-mobile-hero-351"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-069",
+      "sourceName": "Lăng Tháo",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-7",
+      "attributes": {
+        "leadership": 87,
+        "martial": 81,
+        "intelligence": 54
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.3,
+        "intelligence": 2
+      },
+      "listedRole": "Thống lĩnh",
+      "listedBaseSkillName": "Giao chiến",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 32000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-111"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-070",
+      "sourceName": "Trần Võ",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-8",
+      "attributes": {
+        "leadership": 75,
+        "martial": 82,
+        "intelligence": 45
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 2.4,
+        "intelligence": 1.7
+      },
+      "listedRole": "Cấm quân",
+      "listedBaseSkillName": "Thiết bích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 42000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-115"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-071",
+      "sourceName": "Hàn Đương",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-9",
+      "attributes": {
+        "leadership": 81,
+        "martial": 86,
+        "intelligence": 54
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 2.8,
+        "intelligence": 2
+      },
+      "listedRole": "Nguyên soái",
+      "listedBaseSkillName": "Ám sát",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 58000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-096"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-072",
+      "sourceName": "Đinh Phụng",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-10",
+      "attributes": {
+        "leadership": 80,
+        "martial": 83,
+        "intelligence": 75
+      },
+      "rebirthGrowth": {
+        "leadership": 1.8,
+        "martial": 2.3,
+        "intelligence": 2
+      },
+      "listedRole": "Hùng binh",
+      "listedBaseSkillName": "Liên kích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 78000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-109"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-073",
+      "sourceName": "Trương Chiêu",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-11",
+      "attributes": {
+        "leadership": 41,
+        "martial": 42,
+        "intelligence": 85
+      },
+      "rebirthGrowth": {
+        "leadership": 1.7,
+        "martial": 1.7,
+        "intelligence": 2.7
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Nhục mạ",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 100000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-116"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-074",
+      "sourceName": "Gia Cát Cẩn",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-12",
+      "attributes": {
+        "leadership": 84,
+        "martial": 63,
+        "intelligence": 83
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 1.9,
+        "intelligence": 2.2
+      },
+      "listedRole": "Trí tướng",
+      "listedBaseSkillName": "Thủ hộ",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 150000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-094"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-075",
+      "sourceName": "Lăng Thống",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-13",
+      "attributes": {
+        "leadership": 78,
+        "martial": 87,
+        "intelligence": 52
+      },
+      "rebirthGrowth": {
+        "leadership": 2.7,
+        "martial": 2.1,
+        "intelligence": 1.9
+      },
+      "listedRole": "Hùng binh",
+      "listedBaseSkillName": "Độc tiêu",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 210000,
+        "recruitFeeSilver": 8000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-112"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-076",
+      "sourceName": "Trình Phổ",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-14",
+      "attributes": {
+        "leadership": 83,
+        "martial": 84,
+        "intelligence": 78
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.2,
+        "intelligence": 2.2
+      },
+      "listedRole": "Cấm binh",
+      "listedBaseSkillName": "Kỵ kích",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 270000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-107"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-077",
+      "sourceName": "Phan Chương",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-15",
+      "attributes": {
+        "leadership": 78,
+        "martial": 85,
+        "intelligence": 66
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.5,
+        "intelligence": 2.2
+      },
+      "listedRole": "Hùng binh",
+      "listedBaseSkillName": "Hổ khiếu",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 330000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-099"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-078",
+      "sourceName": "Từ Thịnh",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-16",
+      "attributes": {
+        "leadership": 88,
+        "martial": 89,
+        "intelligence": 84
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2,
+        "intelligence": 2.1
+      },
+      "listedRole": "Cấm binh",
+      "listedBaseSkillName": "Liên hoàn",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 390000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-100"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-079",
+      "sourceName": "Lục Kháng",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-17",
+      "attributes": {
+        "leadership": 90,
+        "martial": 64,
+        "intelligence": 92
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.2,
+        "intelligence": 2.6
+      },
+      "listedRole": "Quân sư",
+      "listedBaseSkillName": "Lãng đào",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 450000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-102"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-080",
+      "sourceName": "Tôn Quyền",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-18",
+      "attributes": {
+        "leadership": 73,
+        "martial": 67,
+        "intelligence": 83
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 1.9,
+        "intelligence": 2.8
+      },
+      "listedRole": "Kỳ binh",
+      "listedBaseSkillName": "Hiệu lệnh",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 500000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "MISSING_IN_INDEX",
+        "candidateWikiIds": [],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-081",
+      "sourceName": "Lữ Mông",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-19",
+      "attributes": {
+        "leadership": 90,
+        "martial": 85,
+        "intelligence": 74
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.6,
+        "intelligence": 2.8
+      },
+      "listedRole": "Hùng binh",
+      "listedBaseSkillName": "Ngự giáp",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 580000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-098"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    },
+    {
+      "guideRecordId": "guide-20260930-082",
+      "sourceName": "Thái Sử Từ",
+      "guideRealm": "NGO",
+      "guideSection": "RENOWN",
+      "sourceId": "GUIDE_NGO_20260930",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "publicationDate": "2026-09-30",
+      "sourceTableRow": "RENOWN-20",
+      "attributes": {
+        "leadership": 79,
+        "martial": 92,
+        "intelligence": 62
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 3,
+        "intelligence": 1.9
+      },
+      "listedRole": "Tiên Phong",
+      "listedBaseSkillName": "Nghịch tập",
+      "acquisition": {
+        "kind": "RENOWN",
+        "requiredRenown": 700000,
+        "recruitFeeSilver": 10000
+      },
+      "identityLink": {
+        "status": "NAME_MATCH_SINGLE",
+        "candidateWikiIds": [
+          "wiki-mobile-hero-084"
+        ],
+        "canonicalWikiHeroId": null
+      },
+      "evidence": {
+        "classification": "VERIFIED",
+        "scope": "PUBLISHED_GUIDE_TABLE_20260930",
+        "evidenceTier": "SECONDARY_OFFICIAL_HOST",
+        "notWikiIndexCurrentStage": true
+      },
+      "runtimeEligible": false
+    }
+  ]
+}

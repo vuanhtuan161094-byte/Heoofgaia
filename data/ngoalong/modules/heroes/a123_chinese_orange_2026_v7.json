@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 7,
+  "checkedAt": "2026-11-19",
+  "scope": "CHINESE_2024_INHERITANCE_SKILL_AND_2026_ORANGE_UPDATE",
+  "doNotImportIntoVngMobile": true,
+  "doNotOverwriteSimulatedDesign": true,
+  "records": [
+    {
+      "heroId": "wiki-mobile-hero-172",
+      "name": "Tiên Vu Phụ",
+      "cn": "鲜于辅",
+      "edition": "CHINESE_MOBILE_STOREFRONT_6_1_0_8",
+      "sourceUrl": "https://www.taptap.cn/app/45385/all-info",
+      "sourceDate": "2026-09-30",
+      "evidenceFacet": "ORANGE_HERO_UPDATE_LISTED",
+      "stage": "ORANGE",
+      "verifiedStageSkillFormula": null,
+      "gameplayImport": false
+    },
+    {
+      "heroId": "wiki-mobile-hero-177",
+      "name": "Hoàng Loạn",
+      "cn": "黄乱",
+      "edition": "CHINESE_MOBILE_STOREFRONT_6_1_0_8",
+      "sourceUrl": "https://www.taptap.cn/app/45385/all-info",
+      "sourceDate": "2026-09-30",
+      "evidenceFacet": "ORANGE_HERO_UPDATE_LISTED",
+      "stage": "ORANGE",
+      "verifiedStageSkillFormula": null,
+      "gameplayImport": false
+    },
+    {
+      "heroIds": [
+        "wiki-mobile-hero-172",
+        "wiki-mobile-hero-177"
+      ],
+      "names": [
+        "Tiên Vu Phụ",
+        "Hoàng Loạn"
+      ],
+      "edition": "CHINESE_WEB_2024_SKILL_INHERITANCE_NOT_SAME_AS_EQUIPPED_SKILL",
+      "sourceUrl": "https://www.lequ.com/wly/202406/142697.html",
+      "sourceDate": "2024-06-20",
+      "evidenceFacet": "INHERITANCE_SOURCE_GENERAL_IDS",
+      "inheritanceSkillChinese": "陷阵摧坚",
+      "inheritanceDamageCoefficientTiersPct": [
+        28000,
+        35000,
+        42000,
+        49000,
+        56000
+      ],
+      "inheritanceEffect": "Each of first 10 turns attacks lowest HP enemy and boosts command attributes for 2 turns",
+      "compatibleTroops": [
+        "INFANTRY",
+        "ARCHER"
+      ],
+      "mustNotInfer2026OrangeSkill": true,
+      "gameplayImport": false
+    }
+  ],
+  "summary": {
+    "new2026OrangeMentions": 2,
+    "datedInheritanceSkillDescriptor": 1,
+    "verified2026OrangeEquippedSkills": 0
+  }
+}

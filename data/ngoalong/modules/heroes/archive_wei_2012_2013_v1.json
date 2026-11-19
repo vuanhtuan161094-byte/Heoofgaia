@@ -1,0 +1,1643 @@
+{
+  "schemaVersion": 1,
+  "packId": "CLASSIC_WEI_ARCHIVE_2012_2013",
+  "checkedAt": "2026-11-19",
+  "sources": {
+    "tower": {
+      "url": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "date": "2012-07-10",
+      "publisher": "VNG archived official Ngọa Long",
+      "classification": "VERIFIED_ARCHIVED_SOURCE",
+      "scope": "HISTORIC_WEB_TOWER"
+    },
+    "renown": {
+      "url": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "date": "2013-08-14",
+      "publisher": "Ngoạ Long FC fan archive",
+      "classification": "SECONDARY_ARCHIVAL",
+      "corroboration": "https://ngoalongcc.blogspot.com/2012/04/tuong-uy-danh-nuoc-nguy.html",
+      "scope": "HISTORIC_WEB_RENOWN"
+    }
+  },
+  "records": [
+    {
+      "id": "classic-wei-tower-01",
+      "sourceName": "Tào Hưu",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 1,
+      "baseAttributes": {
+        "leadership": 79,
+        "martial": 81,
+        "intelligence": 43
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 2.3,
+        "intelligence": 1.2
+      },
+      "role": "Nguyên soái",
+      "baseSkillName": "Liên Kích",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 5,
+        "soulCost": 100
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-027"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-02",
+      "sourceName": "Xa Trụ",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 2,
+      "baseAttributes": {
+        "leadership": 81,
+        "martial": 71,
+        "intelligence": 43
+      },
+      "rebirthGrowth": {
+        "leadership": 2.6,
+        "martial": 2.7,
+        "intelligence": 1.6
+      },
+      "role": "Chiến tướng",
+      "baseSkillName": "Uy Phong",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 10,
+        "soulCost": 400
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-024"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-03",
+      "sourceName": "Vương Doãn",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 3,
+      "baseAttributes": {
+        "leadership": 64,
+        "martial": 57,
+        "intelligence": 89
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 1.8,
+        "intelligence": 2.5
+      },
+      "role": "Kỵ binh",
+      "baseSkillName": "Li Gián",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 10,
+        "soulCost": 1000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-161"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-04",
+      "sourceName": "Hí Chỉ Tài",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 4,
+      "baseAttributes": {
+        "leadership": 65,
+        "martial": 57,
+        "intelligence": 88
+      },
+      "rebirthGrowth": {
+        "leadership": 1.8,
+        "martial": 1.8,
+        "intelligence": 3
+      },
+      "role": "Trí tướng",
+      "baseSkillName": "Hải Tiếu",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 15,
+        "soulCost": 1500
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-05",
+      "sourceName": "Vương Dị",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 5,
+      "baseAttributes": {
+        "leadership": 56,
+        "martial": 54,
+        "intelligence": 82
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 1.9,
+        "intelligence": 2.3
+      },
+      "role": "Mưu thần",
+      "baseSkillName": "Trị Liệu",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 15,
+        "soulCost": 2000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-160"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-06",
+      "sourceName": "Hạ Hầu Bá",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 6,
+      "baseAttributes": {
+        "leadership": 79,
+        "martial": 85,
+        "intelligence": 77
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 2.1,
+        "intelligence": 1.9
+      },
+      "role": "Cấm quân",
+      "baseSkillName": "Tật Xung",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 20,
+        "soulCost": 3000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-032"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-07",
+      "sourceName": "Phan Phụng",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 7,
+      "baseAttributes": {
+        "leadership": 69,
+        "martial": 82,
+        "intelligence": 50
+      },
+      "rebirthGrowth": {
+        "leadership": 1.7,
+        "martial": 2.2,
+        "intelligence": 1.8
+      },
+      "role": "Cấm quân",
+      "baseSkillName": "Tự Hủy",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 20,
+        "soulCost": 5000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-08",
+      "sourceName": "Trương Tú",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 8,
+      "baseAttributes": {
+        "leadership": 82,
+        "martial": 72,
+        "intelligence": 62
+      },
+      "rebirthGrowth": {
+        "leadership": 2.8,
+        "martial": 2.3,
+        "intelligence": 2
+      },
+      "role": "Chiến tướng",
+      "baseSkillName": "Thư Kích",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 25,
+        "soulCost": 7500
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-152"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-09",
+      "sourceName": "Mao Giới",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 9,
+      "baseAttributes": {
+        "leadership": 68,
+        "martial": 47,
+        "intelligence": 72
+      },
+      "rebirthGrowth": {
+        "leadership": 2,
+        "martial": 1.8,
+        "intelligence": 2.3
+      },
+      "role": "Quân sư",
+      "baseSkillName": "Khích Lệ",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 30,
+        "soulCost": 9000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-015"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-10",
+      "sourceName": "Tuân Du",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 10,
+      "baseAttributes": {
+        "leadership": 70,
+        "martial": 54,
+        "intelligence": 94
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2,
+        "intelligence": 2.8
+      },
+      "role": "Trí tướng",
+      "baseSkillName": "Địa Liệt",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 33,
+        "soulCost": 11500
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-021"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-11",
+      "sourceName": "Hắc Chiêu",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 11,
+      "baseAttributes": {
+        "leadership": 85,
+        "martial": 84,
+        "intelligence": 84
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.4,
+        "intelligence": 2
+      },
+      "role": "Thống lĩnh",
+      "baseSkillName": "Lôi Tiễn",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 38,
+        "soulCost": 13000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-12",
+      "sourceName": "Bàng Đức",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 12,
+      "baseAttributes": {
+        "leadership": 78,
+        "martial": 94,
+        "intelligence": 72
+      },
+      "rebirthGrowth": {
+        "leadership": 2.7,
+        "martial": 2.5,
+        "intelligence": 2
+      },
+      "role": "Tiên phong",
+      "baseSkillName": "Nghịch Tập",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 43,
+        "soulCost": 15000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-001"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-13",
+      "sourceName": "Hứa Chữ",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 13,
+      "baseAttributes": {
+        "leadership": 76,
+        "martial": 96,
+        "intelligence": 40
+      },
+      "rebirthGrowth": {
+        "leadership": 2.6,
+        "martial": 3,
+        "intelligence": 1.8
+      },
+      "role": "Cấm quân",
+      "baseSkillName": "Cuồng Bạo",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 48,
+        "soulCost": 18000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-14",
+      "sourceName": "Cồ Hủ",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 14,
+      "baseAttributes": {
+        "leadership": 81,
+        "martial": 53,
+        "intelligence": 97
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.1,
+        "intelligence": 2.8
+      },
+      "role": "Quân sư",
+      "baseSkillName": "Hư Vô",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 53,
+        "soulCost": 22000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-15",
+      "sourceName": "Từ Hoảng",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 15,
+      "baseAttributes": {
+        "leadership": 84,
+        "martial": 91,
+        "intelligence": 71
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 2.8,
+        "intelligence": 1.9
+      },
+      "role": "Tiên phong",
+      "baseSkillName": "Man Ngưu",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 58,
+        "soulCost": 28000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-022"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-16",
+      "sourceName": "Hoa Đà",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 16,
+      "baseAttributes": {
+        "leadership": 65,
+        "martial": 55,
+        "intelligence": 75
+      },
+      "rebirthGrowth": {
+        "leadership": 1.5,
+        "martial": 1.8,
+        "intelligence": 2
+      },
+      "role": "Trí tướng",
+      "baseSkillName": "Cam Vũ",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 58,
+        "soulCost": 35000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-126"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-17",
+      "sourceName": "Trương Cáp",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 17,
+      "baseAttributes": {
+        "leadership": 89,
+        "martial": 90,
+        "intelligence": 74
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.6,
+        "intelligence": 2
+      },
+      "role": "Hùng sư",
+      "baseSkillName": "Đan Kỵ",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 63,
+        "soulCost": 48000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-18",
+      "sourceName": "Tuân Úc",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 18,
+      "baseAttributes": {
+        "leadership": 78,
+        "martial": 58,
+        "intelligence": 96
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.1,
+        "intelligence": 3
+      },
+      "role": "Quân sư",
+      "baseSkillName": "Tử Điên",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 68,
+        "soulCost": 60000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-19",
+      "sourceName": "Hạ Hầu Uyên",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 19,
+      "baseAttributes": {
+        "leadership": 91,
+        "martial": 92,
+        "intelligence": 55
+      },
+      "rebirthGrowth": {
+        "leadership": 2.66,
+        "martial": 2.4,
+        "intelligence": 2.1
+      },
+      "role": "Chiến tướng",
+      "baseSkillName": "Phá Quân",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 73,
+        "soulCost": 80000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-012"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-20",
+      "sourceName": "Trương Liêu",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 20,
+      "baseAttributes": {
+        "leadership": 94,
+        "martial": 90,
+        "intelligence": 83
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.7,
+        "intelligence": 2.1
+      },
+      "role": "Tiên phong",
+      "baseSkillName": "Hổ Xung",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 78,
+        "soulCost": 100000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-010"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-tower-21",
+      "sourceName": "Quách Gia",
+      "method": "TRIAL_TOWER",
+      "sourceDate": "2012-07-10",
+      "sourceUrl": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "sourceRow": 21,
+      "baseAttributes": {
+        "leadership": 88,
+        "martial": 58,
+        "intelligence": 98
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.1,
+        "intelligence": 3.7
+      },
+      "role": "Quân sư",
+      "baseSkillName": "Viêm Lôi",
+      "acquisition": {
+        "type": "TRIAL_TOWER",
+        "minFloor": 83,
+        "soulCost": 120000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-016"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "VERIFIED_ARCHIVED_SOURCE",
+      "sourceEdition": "HISTORIC_WEB_2012",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-01",
+      "sourceName": "Chung Dao",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 1,
+      "baseAttributes": {
+        "leadership": 60,
+        "martial": 45,
+        "intelligence": 77
+      },
+      "rebirthGrowth": {
+        "leadership": 1.3,
+        "martial": 2,
+        "intelligence": 2
+      },
+      "role": "Trí tướng",
+      "baseSkillName": "Gió lốc",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 500,
+        "recruitFeeSilver": 2000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-029"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-02",
+      "sourceName": "Lưu Diệp",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 2,
+      "baseAttributes": {
+        "leadership": 46,
+        "martial": 68,
+        "intelligence": 88
+      },
+      "rebirthGrowth": {
+        "leadership": 1.8,
+        "martial": 2.2,
+        "intelligence": 2.4
+      },
+      "role": "Mưu thần",
+      "baseSkillName": "Kịch độc",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 2000,
+        "recruitFeeSilver": 3000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-036"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-03",
+      "sourceName": "Tào Phi",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 3,
+      "baseAttributes": {
+        "leadership": 78,
+        "martial": 75,
+        "intelligence": 86
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.5,
+        "intelligence": 2.6
+      },
+      "role": "Kỳ Binh",
+      "baseSkillName": "Công tâm",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 5000,
+        "recruitFeeSilver": 3000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-023"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-04",
+      "sourceName": "Tào Thực",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 4,
+      "baseAttributes": {
+        "leadership": 45,
+        "martial": 56,
+        "intelligence": 84
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.5,
+        "intelligence": 2.8
+      },
+      "role": "Mưu thần",
+      "baseSkillName": "Phấn Chấn",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 10000,
+        "recruitFeeSilver": 5000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-008"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-05",
+      "sourceName": "Lý Thông",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 5,
+      "baseAttributes": {
+        "leadership": 71,
+        "martial": 81,
+        "intelligence": 48
+      },
+      "rebirthGrowth": {
+        "leadership": 1.8,
+        "martial": 2,
+        "intelligence": 2.3
+      },
+      "role": "Chiến tướng",
+      "baseSkillName": "Thư Kích",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 15000,
+        "recruitFeeSilver": 5000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-037"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-06",
+      "sourceName": "Đặng Trung",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 6,
+      "baseAttributes": {
+        "leadership": 74,
+        "martial": 86,
+        "intelligence": 68
+      },
+      "rebirthGrowth": {
+        "leadership": 2.2,
+        "martial": 2.6,
+        "intelligence": 2.1
+      },
+      "role": "Tiên phong",
+      "baseSkillName": "Đạp phá",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 23000,
+        "recruitFeeSilver": 8000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-031"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-07",
+      "sourceName": "Mãn Sùng",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 7,
+      "baseAttributes": {
+        "leadership": 79,
+        "martial": 54,
+        "intelligence": 80
+      },
+      "rebirthGrowth": {
+        "leadership": 2.6,
+        "martial": 2.2,
+        "intelligence": 2.5
+      },
+      "role": "Kỳ Binh",
+      "baseSkillName": "Thủ hộ",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 32000,
+        "recruitFeeSilver": 8000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-08",
+      "sourceName": "Trần Quần",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 8,
+      "baseAttributes": {
+        "leadership": 56,
+        "martial": 55,
+        "intelligence": 87
+      },
+      "rebirthGrowth": {
+        "leadership": 1.5,
+        "martial": 1.6,
+        "intelligence": 2.7
+      },
+      "role": "Mưu thần",
+      "baseSkillName": "Hỏa Long",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 42000,
+        "recruitFeeSilver": 8000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-038"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-09",
+      "sourceName": "Vu Cấm",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 9,
+      "baseAttributes": {
+        "leadership": 82,
+        "martial": 76,
+        "intelligence": 72
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.1,
+        "intelligence": 1.9
+      },
+      "role": "Cấm quân",
+      "baseSkillName": "Thiết bích",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 58000,
+        "recruitFeeSilver": 8000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-039"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-10",
+      "sourceName": "Nhạc Tiến",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 10,
+      "baseAttributes": {
+        "leadership": 88,
+        "martial": 83,
+        "intelligence": 65
+      },
+      "rebirthGrowth": {
+        "leadership": 2.7,
+        "martial": 2.3,
+        "intelligence": 2.4
+      },
+      "role": "Thống lĩnh",
+      "baseSkillName": "Phản kích",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 78000,
+        "recruitFeeSilver": 8000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-11",
+      "sourceName": "Dương Tu",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 11,
+      "baseAttributes": {
+        "leadership": 44,
+        "martial": 47,
+        "intelligence": 81
+      },
+      "rebirthGrowth": {
+        "leadership": 1.5,
+        "martial": 1.5,
+        "intelligence": 2.2
+      },
+      "role": "Mưu thần",
+      "baseSkillName": "Trị liệu",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 100000,
+        "recruitFeeSilver": 8000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-030"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-12",
+      "sourceName": "Trần Thái",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 12,
+      "baseAttributes": {
+        "leadership": 78,
+        "martial": 87,
+        "intelligence": 87
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.4,
+        "intelligence": 2
+      },
+      "role": "Chiến tướng",
+      "baseSkillName": "Ám sát",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 150000,
+        "recruitFeeSilver": 8000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-019"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-13",
+      "sourceName": "Hoa Hâm",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 13,
+      "baseAttributes": {
+        "leadership": 75,
+        "martial": 66,
+        "intelligence": 90
+      },
+      "rebirthGrowth": {
+        "leadership": 2.1,
+        "martial": 1.8,
+        "intelligence": 2.3
+      },
+      "role": "Trí tướng",
+      "baseSkillName": "Nhục mạ",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 210000,
+        "recruitFeeSilver": 8000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-034"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-14",
+      "sourceName": "Tào Hồng",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 14,
+      "baseAttributes": {
+        "leadership": 80,
+        "martial": 81,
+        "intelligence": 40
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 2.6,
+        "intelligence": 2.5
+      },
+      "role": "Hùng Sư",
+      "baseSkillName": "Hoành họa",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 270000,
+        "recruitFeeSilver": 10000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-017"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-15",
+      "sourceName": "Chân Cơ",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 15,
+      "baseAttributes": {
+        "leadership": 84,
+        "martial": 72,
+        "intelligence": 89
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 1.9,
+        "intelligence": 2.7
+      },
+      "role": "Quân Sư",
+      "baseSkillName": "Ám tế",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 330000,
+        "recruitFeeSilver": 10000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-002"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-16",
+      "sourceName": "Tào Nhân",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 16,
+      "baseAttributes": {
+        "leadership": 86,
+        "martial": 88,
+        "intelligence": 63
+      },
+      "rebirthGrowth": {
+        "leadership": 2.3,
+        "martial": 2.3,
+        "intelligence": 2.3
+      },
+      "role": "Thống lĩnh",
+      "baseSkillName": "Hổ khiếu",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 390000,
+        "recruitFeeSilver": 10000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-018"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-17",
+      "sourceName": "Điển Vi",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 17,
+      "baseAttributes": {
+        "leadership": 68,
+        "martial": 93,
+        "intelligence": 45
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 3,
+        "intelligence": 2
+      },
+      "role": "Cấm quân",
+      "baseSkillName": "Ngự giáp",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 450000,
+        "recruitFeeSilver": 10000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-003"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-18",
+      "sourceName": "Trình Dục",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 18,
+      "baseAttributes": {
+        "leadership": 70,
+        "martial": 55,
+        "intelligence": 92
+      },
+      "rebirthGrowth": {
+        "leadership": 2.5,
+        "martial": 1.9,
+        "intelligence": 2.8
+      },
+      "role": "Mưu thần",
+      "baseSkillName": "Sơn băng",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 500000,
+        "recruitFeeSilver": 10000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-020"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-19",
+      "sourceName": "Tào Tháo",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 19,
+      "baseAttributes": {
+        "leadership": 99,
+        "martial": 72,
+        "intelligence": 94
+      },
+      "rebirthGrowth": {
+        "leadership": 2.6,
+        "martial": 2,
+        "intelligence": 2.8
+      },
+      "role": "Thống lĩnh",
+      "baseSkillName": "Hiệu lệnh",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 580000,
+        "recruitFeeSilver": 10000
+      },
+      "wikiCandidates": [],
+      "identityStatus": "UNMATCHED_NAME",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    },
+    {
+      "id": "classic-wei-renown-20",
+      "sourceName": "Hạ Hầu Đôn",
+      "method": "RENOWN",
+      "sourceDate": "2013-08-14",
+      "sourceUrl": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "sourceRow": 20,
+      "baseAttributes": {
+        "leadership": 90,
+        "martial": 92,
+        "intelligence": 64
+      },
+      "rebirthGrowth": {
+        "leadership": 2.4,
+        "martial": 2.7,
+        "intelligence": 1.8
+      },
+      "role": "Hùng Sư",
+      "baseSkillName": "Nộ sát",
+      "acquisition": {
+        "type": "RENOWN",
+        "requiredRenown": 700000,
+        "recruitFeeSilver": 10000
+      },
+      "wikiCandidates": [
+        "wiki-mobile-hero-005"
+      ],
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "evidenceClass": "SECONDARY_ARCHIVAL",
+      "sourceEdition": "HISTORIC_WEB_2013",
+      "stage": "BASE_HISTORICAL",
+      "currentMobileBinding": false,
+      "combatExecutable": false
+    }
+  ],
+  "recordCount": 41,
+  "byMethod": {
+    "TRIAL_TOWER": 21,
+    "RENOWN": 20
+  },
+  "targetWeiBacklog": [
+    {
+      "wikiName": "Tào Phi",
+      "wikiHeroId": "wiki-mobile-hero-023",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-03"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Xa Trụ",
+      "wikiHeroId": "wiki-mobile-hero-024",
+      "classicSourceRecordIds": [
+        "classic-wei-tower-02"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Hách Chiêu",
+      "wikiHeroId": "wiki-mobile-hero-025",
+      "classicSourceRecordIds": [],
+      "aliasCandidateRecordId": "classic-wei-tower-11",
+      "status": "ALIAS_REVIEW",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Lý Điển",
+      "wikiHeroId": "wiki-mobile-hero-026",
+      "classicSourceRecordIds": [],
+      "aliasCandidateRecordId": null,
+      "status": "NOT_FOUND",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": "No reliable detailed historical facts found in these two archived tables"
+    },
+    {
+      "wikiName": "Tào Hưu",
+      "wikiHeroId": "wiki-mobile-hero-027",
+      "classicSourceRecordIds": [
+        "classic-wei-tower-01"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Vương Song",
+      "wikiHeroId": "wiki-mobile-hero-028",
+      "classicSourceRecordIds": [],
+      "aliasCandidateRecordId": null,
+      "status": "NOT_FOUND",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": "No reliable detailed historical facts found in these two archived tables"
+    },
+    {
+      "wikiName": "Chung Dao",
+      "wikiHeroId": "wiki-mobile-hero-029",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-01"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Dương Tu",
+      "wikiHeroId": "wiki-mobile-hero-030",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-11"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Đặng Trung",
+      "wikiHeroId": "wiki-mobile-hero-031",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-06"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Hạ Hầu Bá",
+      "wikiHeroId": "wiki-mobile-hero-032",
+      "classicSourceRecordIds": [
+        "classic-wei-tower-06"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Hí Chí Tài",
+      "wikiHeroId": "wiki-mobile-hero-033",
+      "classicSourceRecordIds": [],
+      "aliasCandidateRecordId": "classic-wei-tower-04",
+      "status": "ALIAS_REVIEW",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Hoa Hâm",
+      "wikiHeroId": "wiki-mobile-hero-034",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-13"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Lạc Tiến",
+      "wikiHeroId": "wiki-mobile-hero-035",
+      "classicSourceRecordIds": [],
+      "aliasCandidateRecordId": "classic-wei-renown-10",
+      "status": "ALIAS_REVIEW",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Lưu Diệp",
+      "wikiHeroId": "wiki-mobile-hero-036",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-02"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Lý Thông",
+      "wikiHeroId": "wiki-mobile-hero-037",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-05"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Trần Quần",
+      "wikiHeroId": "wiki-mobile-hero-038",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-08"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Vu Cấm",
+      "wikiHeroId": "wiki-mobile-hero-039",
+      "classicSourceRecordIds": [
+        "classic-wei-renown-09"
+      ],
+      "aliasCandidateRecordId": null,
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": null
+    },
+    {
+      "wikiName": "Nghiêm Chính",
+      "wikiHeroId": "wiki-mobile-hero-040",
+      "classicSourceRecordIds": [],
+      "aliasCandidateRecordId": null,
+      "status": "NOT_FOUND",
+      "upgradeToCurrentMobileStatus": "BLOCKED_PARITY_NOT_VERIFIED",
+      "notes": "No reliable detailed historical facts found in these two archived tables"
+    }
+  ],
+  "aliases": [
+    {
+      "wikiName": "Hách Chiêu",
+      "sourceName": "Hắc Chiêu",
+      "source": "https://licadho.org/cach-choi-nguy-ngoa-long-binh-chung-tuong-thich-voi-cac-tuong-nuoc-nguy/",
+      "evidence": "THIRD_PARTY_EXPLICIT_SAME_STATS",
+      "approved": false
+    },
+    {
+      "wikiName": "Hí Chí Tài",
+      "sourceName": "Hí Chỉ Tài",
+      "source": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+      "evidence": "ORTHOGRAPHIC_VARIANT_UNCONFIRMED",
+      "approved": false
+    },
+    {
+      "wikiName": "Lạc Tiến",
+      "sourceName": "Nhạc Tiến",
+      "source": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "evidence": "ORTHOGRAPHIC_VARIANT_UNCONFIRMED",
+      "approved": false
+    }
+  ],
+  "evidencePolicy": "VNG archived tower 2012 and fan archive renown 2013, not current mobile stats; names exact match does not establish game version parity.",
+  "historicalStatsVerifiedAsSourceSnapshot": true,
+  "currentMobileHeroStatsVerified": false,
+  "currentSkillFormulasVerified": false,
+  "automaticRosterImport": false,
+  "playableFromArchive": 0,
+  "secondarySourceConflicts": [
+    {
+      "heroName": "Tào Phi",
+      "field": "acquisition.requiredRenown",
+      "primaryValue": 5000,
+      "primarySource": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "conflictingObservedValue": 2000,
+      "otherSource": "https://ngoalong-vng.fandom.com/wiki/Ngu%E1%BB%B5",
+      "otherEvidenceType": "SEARCH_INDEX_SNIPPET_ONLY",
+      "decision": "UNRESOLVED_HISTORICAL_CONFLICT_DO_NOT_COPY_TO_MOBILE"
+    },
+    {
+      "heroName": "Lý Thông",
+      "field": "baseAttributes.leadership",
+      "primaryValue": 71,
+      "primarySource": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "conflictingObservedValue": 72,
+      "otherSource": "https://ngoalong-vng.fandom.com/wiki/Ngu%E1%BB%B5",
+      "otherEvidenceType": "SEARCH_INDEX_SNIPPET_ONLY",
+      "decision": "UNRESOLVED_HISTORICAL_CONFLICT_DO_NOT_COPY_TO_MOBILE"
+    }
+  ],
+  "conflictRule": "Keep transcribed primary rows and record cross-source discrepancies; a search-index snippet is not sufficient to replace the published row."
+}

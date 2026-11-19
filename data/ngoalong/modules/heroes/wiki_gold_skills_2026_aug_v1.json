@@ -1,0 +1,589 @@
+{
+  "schemaVersion": 1,
+  "stage": "GOLD",
+  "sourceBatch": "VNG_OFFICIAL_2026_AUG_GOLD",
+  "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+  "edition": "VNG_WIKI_MOBILE_CURRENT",
+  "awakeningUnlockMainCityLevel": 380,
+  "destinyUnlockMainCityLevel": 400,
+  "count": 10,
+  "skills": [
+    {
+      "name": "Giả Hử",
+      "skillName": "Mưu Đoạn Càn Khôn",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 16500,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 2,
+          "hitModifiers": [
+            "LOW_TARGET_MORALE_MORE_DAMAGE",
+            "HIGH_TARGET_MORALE_MORE_DAMAGE"
+          ]
+        },
+        {
+          "op": "STATUS",
+          "effect": "Ám Tế",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 1,
+          "probabilityPct": 24
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 20000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LOWEST_MORALE",
+          "hits": 1,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_LOWEST_MORALE",
+          "base": -100,
+          "variable": null
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 75,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Phong Hạc",
+        "Bố Cục Liên Hoàn"
+      ],
+      "heroId": "wiki-mobile-hero-004",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-01",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Từ Thứ",
+      "skillName": "Mưu Đoạn Càn Khôn",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 16500,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 2,
+          "hitModifiers": [
+            "LOW_TARGET_MORALE_MORE_DAMAGE",
+            "HIGH_TARGET_MORALE_MORE_DAMAGE"
+          ]
+        },
+        {
+          "op": "STATUS",
+          "effect": "Ám Tế",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 1,
+          "probabilityPct": 24
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 20000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LOWEST_MORALE",
+          "hits": 1,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_LOWEST_MORALE",
+          "base": -100,
+          "variable": null
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 75,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Thập Diện Mai Phục",
+        "Thanh Long Gia Hộ"
+      ],
+      "heroId": "wiki-mobile-hero-051",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-02",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Lỗ Túc",
+      "skillName": "Mưu Đoạn Càn Khôn",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 16500,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 2,
+          "hitModifiers": [
+            "LOW_TARGET_MORALE_MORE_DAMAGE",
+            "HIGH_TARGET_MORALE_MORE_DAMAGE"
+          ]
+        },
+        {
+          "op": "STATUS",
+          "effect": "Ám Tế",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 1,
+          "probabilityPct": 24
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 20000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LOWEST_MORALE",
+          "hits": 1,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_LOWEST_MORALE",
+          "base": -100,
+          "variable": null
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 75,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [
+        "Tường Đồng Vách Sắt",
+        "Thanh Long Gia Hộ"
+      ],
+      "heroId": "wiki-mobile-hero-082",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Công Tôn Toản",
+      "skillName": "Bạch Kỵ Dương Tinh",
+      "lane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 19000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thần Binh",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kiêu Binh",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 75,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [],
+      "heroId": null,
+      "sourceListStatus": "IN_OFFICIAL_UPDATE_ONLY",
+      "candidateIndexAlias": "Công Tôn Toán",
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-04",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Cao Thuận",
+      "skillName": "Tiên Đăng Tử Sĩ",
+      "lane": "PHYSICAL",
+      "events": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 700
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 25000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "LOW_SELF_SOLDIER_RATIO_MORE_DAMAGE",
+          "modifierFormula": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Lực Đoạn",
+          "target": "SELF",
+          "durationTurns": 5,
+          "moraleRecoveryBlocked": true,
+          "tickDamageTarget": "ALL_ENEMIES",
+          "tickDamageHits": 2,
+          "tickDamageCoefficientPct": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Huyết Nhẫn 2",
+          "target": "SELF",
+          "durationTurns": 5,
+          "healOnNormalAttackPctMissingSoldiers": 20,
+          "healMaxSoldiers": 200000
+        },
+        {
+          "op": "STATUS",
+          "effect": "Bền Bỉ",
+          "target": "SELF",
+          "durationTurns": 5,
+          "criticalReceivedChanceDownPct": 40
+        }
+      ],
+      "destinyChoices": [],
+      "heroId": "wiki-mobile-hero-119",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Tào Chương",
+      "skillName": "Tinh Vẫn Địa Liệp",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 20500,
+          "lane": "TACTIC",
+          "target": "ENEMY_ROW",
+          "hits": 1
+        },
+        {
+          "op": "DEFENSE_REDUCTION",
+          "target": "ENEMY_ROW",
+          "lane": "TACTIC",
+          "coefficientPct": 40,
+          "durationTurns": 2
+        },
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 700
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 9400,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 75,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [],
+      "heroId": "wiki-mobile-hero-006",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-06",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Ngụy Diên",
+      "skillName": "Tinh Vẫn Địa Liệp",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 20500,
+          "lane": "TACTIC",
+          "target": "ENEMY_ROW",
+          "hits": 1
+        },
+        {
+          "op": "DEFENSE_REDUCTION",
+          "target": "ENEMY_ROW",
+          "lane": "TACTIC",
+          "coefficientPct": 40,
+          "durationTurns": 2
+        },
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 700
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 9400,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 75,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [],
+      "heroId": "wiki-mobile-hero-047",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-07",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Tôn Kiên",
+      "skillName": "Tinh Vẫn Địa Liệp",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 20500,
+          "lane": "TACTIC",
+          "target": "ENEMY_ROW",
+          "hits": 1
+        },
+        {
+          "op": "DEFENSE_REDUCTION",
+          "target": "ENEMY_ROW",
+          "lane": "TACTIC",
+          "coefficientPct": 40,
+          "durationTurns": 2
+        },
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 700
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 9400,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 75,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [],
+      "heroId": "wiki-mobile-hero-086",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-08",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Trần Cung",
+      "skillName": "Phong Hạc",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 29500,
+          "lane": "STRATEGY",
+          "target": "ENEMY_ROW",
+          "hits": 2,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Mây Đen",
+          "target": "ENEMY_ROW",
+          "durationTurns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Áp Ức",
+          "target": "ENEMY_ROW",
+          "durationTurns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hủ Thực",
+          "target": "ENEMY_ROW",
+          "durationTurns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 75,
+          "variable": "N"
+        }
+      ],
+      "destinyChoices": [],
+      "heroId": "wiki-mobile-hero-131",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-09",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    },
+    {
+      "name": "Tư Mã Huy",
+      "skillName": "Kính Diễn Luân Hồi",
+      "lane": "SUPPORT",
+      "events": [
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "coefficientPct": 20,
+          "lane": "STRATEGY",
+          "hits": 1
+        },
+        {
+          "op": "HEAL",
+          "target": "ALLIED_FRONT_ROW",
+          "coefficientPct": 20,
+          "lane": "STRATEGY",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tăng Tấn Công",
+          "target": "ALLY_MOST_SOLDIERS",
+          "durationTurns": 3,
+          "allAttackPct": 80,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "Bát Quái",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "durationTurns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "destinyChoices": [],
+      "heroId": "wiki-mobile-hero-133",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "candidateIndexAlias": null,
+      "identityLink": "SOURCE_NAME_ONLY_NO_AUTO_MAPPING",
+      "stage": "GOLD",
+      "skillId": "wiki-gold-aug26-10",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html",
+      "sourceDate": "2026-08-17",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X, scaling and unlock prerequisites stay UNKNOWN"
+    }
+  ],
+  "aliasReview": [
+    {
+      "sourceName": "Công Tôn Toản",
+      "indexCandidate": "Công Tôn Toán",
+      "status": "UNRESOLVED_NOT_AUTO_LINKED"
+    }
+  ]
+}

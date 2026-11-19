@@ -1,0 +1,383 @@
+{
+  "schemaVersion": 1,
+  "scope": "VNG_MOBILE_DATED_FACTS_AND_GUIDE",
+  "checkedAt": "2026-11-19",
+  "sources": {
+    "JAN25": {
+      "date": "2025-01-06",
+      "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-mon-bat-tran/he-thong-tuong-cam-14285.html"
+    },
+    "SEP23": {
+      "date": "2023-09-05",
+      "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html"
+    },
+    "WEI26": {
+      "date": "2026-09-30",
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-nguy-quoc-toi-uu-hoa-giai-doan-truoc-lv300.html"
+    },
+    "NGO26": {
+      "date": "2026-09-30",
+      "url": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html"
+    },
+    "GUIDE22": {
+      "date": "2022-06-21",
+      "url": "https://ngoalong.vnggames.com/tin-tuc-2022/tinh-nang/trai-nghiem-ngoa-long-890.html"
+    },
+    "NPC24": {
+      "date": "2024-01-02",
+      "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/pho-ban-moi-13423.html"
+    }
+  },
+  "count": 12,
+  "records": [
+    {
+      "factId": "NL_A123_20261119_001",
+      "heroId": "wiki-mobile-hero-159",
+      "name": "Văn Ương",
+      "faction": "Quần",
+      "group": "JAN25",
+      "sourceDate": "2025-01-06",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-mon-bat-tran/he-thong-tuong-cam-14285.html",
+      "facet": "DATED_STAGE_SKILL_BALANCE",
+      "evidence": "OFFICIAL_VNG_20250106_CHANGELOG",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "stage": "RED",
+        "skillName": "Viêm Long Phá Trận",
+        "damageCoefficientPct": {
+          "prior": 2000,
+          "revised": 2600
+        },
+        "selfHealHits": {
+          "prior": 1,
+          "revised": 2
+        },
+        "skillTarget": null,
+        "otherEffects": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_002",
+      "heroId": "wiki-mobile-hero-159",
+      "name": "Văn Ương",
+      "faction": "Quần",
+      "group": "JAN25",
+      "sourceDate": "2025-01-06",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-mon-bat-tran/he-thong-tuong-cam-14285.html",
+      "facet": "DATED_STAGE_SKILL_BALANCE",
+      "evidence": "OFFICIAL_VNG_20250106_CHANGELOG",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "stage": "PURPLE",
+        "skillName": "Long Sát Chiến",
+        "damageCoefficientPct": {
+          "priorVariantA": 3800,
+          "priorVariantB": 4800,
+          "revised": 5500
+        },
+        "selfHealHits": {
+          "prior": 1,
+          "revised": 2
+        },
+        "skillTarget": null,
+        "otherEffects": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_003",
+      "heroId": "wiki-mobile-hero-150",
+      "name": "Trương Ninh",
+      "faction": "Quần",
+      "group": "SEP23",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "facet": "DATED_STAGE_SKILL_BALANCE",
+      "evidence": "OFFICIAL_VNG_20230905_CHANGELOG",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "stage": "ORANGE",
+        "skillName": "Ngũ Hành Phá Trận",
+        "damageCoefficientPct": {
+          "prior": 16000,
+          "revised": 19000
+        },
+        "statusDamageCoefficientPct": {
+          "name": "Tử Chiến",
+          "prior": 10200,
+          "revised": 10800
+        },
+        "skillTarget": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_004",
+      "heroId": "wiki-mobile-hero-023",
+      "name": "Tào Phi",
+      "faction": "Ngụy",
+      "group": "SEP23",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "facet": "PURPLE_SPECIAL_WEAPON_BALANCE",
+      "evidence": "OFFICIAL_VNG_20230905_CHANGELOG",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "stage": "PURPLE",
+        "specialWeaponName": "Vua Ngụy",
+        "tiers": [
+          {
+            "level": 1,
+            "alliedWeiAttackPct": 15,
+            "alliedWeiDefensePct": 15
+          },
+          {
+            "level": 2,
+            "alliedWeiAttackPct": 30,
+            "alliedWeiDefensePct": 30
+          }
+        ],
+        "durationTurns": null,
+        "dispel": false,
+        "attributeStats": null,
+        "individualAcquisitionCost": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_005",
+      "heroId": "wiki-mobile-hero-132",
+      "name": "Trương Giác",
+      "faction": "Quần",
+      "group": "SEP23",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "facet": "PURPLE_SPECIAL_WEAPON_BALANCE",
+      "evidence": "OFFICIAL_VNG_20230905_CHANGELOG",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "stage": "PURPLE",
+        "specialWeaponName": "Hoàng Thiên",
+        "tiers": [
+          {
+            "level": 1,
+            "alliedNeutralAttackPct": 15,
+            "alliedNeutralDefensePct": 15
+          },
+          {
+            "level": 2,
+            "alliedNeutralAttackPct": 30,
+            "alliedNeutralDefensePct": 30
+          }
+        ],
+        "durationTurns": null,
+        "dispel": false,
+        "playerTeamUseObserved": true,
+        "individualAcquisitionCost": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_006",
+      "heroId": "wiki-mobile-hero-131",
+      "name": "Trần Cung",
+      "faction": "Quần",
+      "group": "JAN25",
+      "sourceDate": "2025-01-06",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-mon-bat-tran/he-thong-tuong-cam-14285.html",
+      "facet": "DATED_STAGE_SKILL_BALANCE",
+      "evidence": "OFFICIAL_VNG_20250106_CHANGELOG",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "stage": "PURPLE",
+        "skillName": "Nhiễu Loạn Quân Địch",
+        "damageCoefficientPct": {
+          "prior": 12500,
+          "revised": 16500
+        },
+        "skillTarget": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_007",
+      "heroId": "wiki-mobile-hero-130",
+      "name": "Tả Từ",
+      "faction": "Quần",
+      "group": "JAN25",
+      "sourceDate": "2025-01-06",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-ky-mon-bat-tran/he-thong-tuong-cam-14285.html",
+      "facet": "DATED_STAGE_SKILL_BALANCE",
+      "evidence": "OFFICIAL_VNG_20250106_CHANGELOG",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "stage": "PURPLE",
+        "skillName": "Đạo Pháp Thiên Địa",
+        "damageCoefficientPct": {
+          "priorVariantA": 6400,
+          "priorVariantB": 5800,
+          "revised": 7000
+        },
+        "enemyMoraleReduction": {
+          "prior": 25,
+          "revised": 30
+        },
+        "skillTarget": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_008",
+      "heroId": "wiki-mobile-hero-023",
+      "name": "Tào Phi",
+      "faction": "Ngụy",
+      "group": "WEI26",
+      "sourceDate": "2026-09-30",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-nguy-quoc-toi-uu-hoa-giai-doan-truoc-lv300.html",
+      "facet": "GUIDE_COMBAT_ROLE_AND_PROGRESSION",
+      "evidence": "VNG_HOSTED_COMMUNITY_GUIDE_20260930",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "combatDamageFamily": "STRATEGY",
+        "heroPurpose": "PRIMARY_EARLY_GAME_DAMAGE",
+        "recommendation": "PRIORITIZE_REBIRTH_AND_STRATEGY_DAMAGE_GEAR",
+        "guideChapter": "Dinh_hinh_giai_doan_1_190",
+        "baseAttributes": null,
+        "acquisitionPrice": null,
+        "awakeningMaterials": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_009",
+      "heroId": "wiki-mobile-hero-142",
+      "name": "Gia Cát Đản",
+      "faction": "Quần",
+      "group": "NGO26",
+      "sourceDate": "2026-09-30",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-ngo-quoc.html",
+      "facet": "GUIDE_PROGRESSION_RECOMMENDATION",
+      "evidence": "VNG_HOSTED_COMMUNITY_GUIDE_20260930",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "recommendedAtLevelRanges": [
+          {
+            "from": 180,
+            "to": 230
+          },
+          {
+            "from": 231,
+            "to": 250
+          },
+          {
+            "from": 251,
+            "to": 270
+          },
+          {
+            "from": 271,
+            "to": 285
+          }
+        ],
+        "stageColumnNotConsistentAcrossRows": true,
+        "exactAcquisitionMethod": null,
+        "baseAttributes": null,
+        "exactSkillName": null,
+        "awakeningCost": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_010",
+      "heroId": "wiki-mobile-hero-219",
+      "name": "Trương Bảo",
+      "faction": "Quần",
+      "group": "GUIDE22",
+      "sourceDate": "2022-06-21",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc-2022/tinh-nang/trai-nghiem-ngoa-long-890.html",
+      "facet": "GUIDE_SKILL_MORALE",
+      "evidence": "OFFICIAL_VNG_HOSTED_STARTER_GUIDE_20220621",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "skillName": "Huyễn Thuật",
+        "enemyMoraleDelta": -10,
+        "stage": null,
+        "target": "UNKNOWN",
+        "activationCost": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_011",
+      "heroId": "wiki-mobile-hero-265",
+      "name": "Phàn Thị",
+      "faction": "Quần",
+      "group": "GUIDE22",
+      "sourceDate": "2022-06-21",
+      "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc-2022/tinh-nang/trai-nghiem-ngoa-long-890.html",
+      "facet": "GUIDE_SKILL_MORALE",
+      "evidence": "OFFICIAL_VNG_HOSTED_STARTER_GUIDE_20220621",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "skillName": "Cổ Vũ",
+        "alliedMoraleDelta": 45,
+        "stage": null,
+        "target": "UNKNOWN",
+        "activationCost": null
+      }
+    },
+    {
+      "factId": "NL_A123_20261119_012",
+      "heroId": "wiki-mobile-hero-166",
+      "name": "Mã Đằng",
+      "faction": "Quần",
+      "group": "NPC24",
+      "sourceDate": "2024-01-02",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/pho-ban-moi-13423.html",
+      "facet": "NPC_CAMPAIGN_APPEARANCE",
+      "evidence": "OFFICIAL_VNG_PATCH_2024_NPC_POSITION",
+      "scope": "PUBLISHED_HISTORICAL_MOBILE_FACT",
+      "currentRuntimeApplicable": null,
+      "gameplayImport": false,
+      "sourceTextCopied": false,
+      "data": {
+        "scenario": "Thiên Thủy",
+        "change": "NPC_POSITION_ADJUSTED",
+        "npcSourceContext": "Mã Đằng-Thiên Thủy",
+        "npcLocationCoordinates": null,
+        "enemySkill": null,
+        "recruitableStatus": null
+      }
+    }
+  ],
+  "sourceLimitations": [
+    "Published balance patch describes changes at a historical date, not the currently equipped or newest hero stage",
+    "Community guide recommendations do not prove base attributes, exact awakening cost or latest gameplay eligibility",
+    "NPC campaign appearance is not proof that the same roster entry is NPC-only or un-recruitable",
+    "All new records are research-only; no runtime or Save writes"
+  ],
+  "runtimeImport": false
+}

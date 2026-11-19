@@ -1,0 +1,235 @@
+{
+  "schemaVersion": 7,
+  "snapshotDate": "2026-11-19",
+  "factsAuthority": "EXTERNAL_DATE_SCOPED_HISTORICAL_OR_CHINESE_EVENT",
+  "matchScope": "RESEARCH_ONLY",
+  "criticalPolicy": {
+    "notVngMobile2026Stats": true,
+    "notExecutable": true,
+    "doNotOverwriteCurrentMobileFacts": true,
+    "doNotInferRecruitmentFromTavernEvent": true,
+    "allUnspecifiedSkillCoefficients": null
+  },
+  "summary": {
+    "records": 8,
+    "newAdditionalCasesFromPriorTwelve": 5,
+    "otherCrossChecks": 3,
+    "stillWithoutExternalNamedSource": 7
+  },
+  "records": [
+    {
+      "heroId": "wiki-mobile-hero-286",
+      "name": "Văn Khâm",
+      "cn": "文钦",
+      "sourceDate": "2012-07-01",
+      "sourceUrl": "https://www.lequ.com/wly/201207/32916.html",
+      "edition": "CHINESE_CLASSIC_WEB",
+      "facts": {
+        "baseStatsCommandMightIntellect": [
+          76,
+          82,
+          56
+        ],
+        "afterTenTurns": [
+          88,
+          106,
+          79
+        ],
+        "skillChinese": "盾击",
+        "skillMechanic": "Single-target normal attack plus self-defense increase, restores morale in classic skill overview"
+      },
+      "confidence": "FULL_ARTICLE_CLASSIC",
+      "factId": "NL_FOREIGN_V7_01",
+      "provenance": "VERIFIED_HISTORICAL_WEB",
+      "vngMobileVersionParity": "UNKNOWN",
+      "gameplayImport": false
+    },
+    {
+      "heroId": "wiki-mobile-hero-209",
+      "name": "Ngưu Kim",
+      "cn": "牛金",
+      "sourceDate": "2012-11-23",
+      "sourceUrl": "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html",
+      "edition": "CHINESE_CLASSIC_WEB",
+      "facts": {
+        "baseStatsCommandMightIntellect": [
+          73,
+          80,
+          44
+        ],
+        "historicalGrowth": [
+          2.4,
+          2.5,
+          1.6
+        ],
+        "skillChinese": "连环",
+        "skillMechanic": "All-enemy attack with confusion chance in the old campaign roster",
+        "soldierGrowth": 64
+      },
+      "confidence": "FULL_PUBLISHER_TABLE",
+      "factId": "NL_FOREIGN_V7_02",
+      "provenance": "VERIFIED_HISTORICAL_WEB",
+      "vngMobileVersionParity": "UNKNOWN",
+      "gameplayImport": false
+    },
+    {
+      "heroId": "wiki-mobile-hero-282",
+      "name": "Triệu Phạm",
+      "cn": "赵范",
+      "sourceDate": "2012-11-23",
+      "sourceUrl": "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html",
+      "edition": "CHINESE_CLASSIC_WEB",
+      "facts": {
+        "baseStatsCommandMightIntellect": [
+          48,
+          50,
+          61
+        ],
+        "historicalGrowth": [
+          1.5,
+          1.7,
+          1.6
+        ],
+        "skillChinese": "自毁",
+        "skillMechanic": "Sacrificial attack, very high single-target damage with self-cost",
+        "soldierGrowth": 60
+      },
+      "confidence": "FULL_PUBLISHER_TABLE",
+      "factId": "NL_FOREIGN_V7_03",
+      "provenance": "VERIFIED_HISTORICAL_WEB",
+      "vngMobileVersionParity": "UNKNOWN",
+      "gameplayImport": false
+    },
+    {
+      "heroId": "wiki-mobile-hero-189",
+      "name": "Chu Chỉ",
+      "cn": "周旨",
+      "sourceDate": "2012-11-23",
+      "sourceUrl": "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html",
+      "edition": "CHINESE_CLASSIC_WEB",
+      "facts": {
+        "baseStatsCommandMightIntellect": [
+          74,
+          84,
+          42
+        ],
+        "historicalGrowth": [
+          2.3,
+          2.5,
+          2
+        ],
+        "skillChinese": "骑踏",
+        "skillMechanic": "Line attack with possible confusion in the older campaign table",
+        "soldierGrowth": 64
+      },
+      "confidence": "FULL_PUBLISHER_TABLE",
+      "factId": "NL_FOREIGN_V7_04",
+      "provenance": "VERIFIED_HISTORICAL_WEB",
+      "vngMobileVersionParity": "UNKNOWN",
+      "gameplayImport": false
+    },
+    {
+      "heroId": "wiki-mobile-hero-270",
+      "name": "Quản Lộ",
+      "cn": "管辂",
+      "sourceDate": "2026-09-18",
+      "sourceUrl": "https://h5.lequ.com/wly/202609/145641.html",
+      "edition": "CHINESE_WEB_LIVE_EVENT_2026",
+      "facts": {
+        "npcInteraction": "Tavern dialogue event rewards 3800 troop power units in event scope",
+        "recruitmentEligibility": null,
+        "baseStatsCommandMightIntellect": null,
+        "skillChinese": null
+      },
+      "confidence": "OFFICIAL_DATED_EVENT_NO_HERO_RECRUITMENT_PROOF",
+      "factId": "NL_FOREIGN_V7_05",
+      "provenance": "VERIFIED_HISTORICAL_WEB",
+      "vngMobileVersionParity": "UNKNOWN",
+      "gameplayImport": false
+    },
+    {
+      "heroId": "wiki-mobile-hero-026",
+      "name": "Lý Điển",
+      "cn": "李典",
+      "sourceDate": "2012-11-23",
+      "sourceUrl": "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html",
+      "edition": "CHINESE_CLASSIC_WEB",
+      "facts": {
+        "baseStatsCommandMightIntellect": [
+          77,
+          78,
+          78
+        ],
+        "historicalGrowth": [
+          2.2,
+          2.3,
+          2.3
+        ],
+        "skillChinese": "刺击",
+        "skillMechanic": "One-target reinforced normal attack in classic campaign",
+        "soldierGrowth": 60
+      },
+      "confidence": "FULL_PUBLISHER_TABLE",
+      "factId": "NL_FOREIGN_V7_06",
+      "provenance": "VERIFIED_HISTORICAL_WEB",
+      "vngMobileVersionParity": "UNKNOWN",
+      "gameplayImport": false
+    },
+    {
+      "heroId": "wiki-mobile-hero-028",
+      "name": "Vương Song",
+      "cn": "王双",
+      "sourceDate": "2012-11-23",
+      "sourceUrl": "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html",
+      "edition": "CHINESE_CLASSIC_WEB",
+      "facts": {
+        "baseStatsCommandMightIntellect": [
+          76,
+          89,
+          48
+        ],
+        "historicalGrowth": [
+          2.2,
+          2.1,
+          2
+        ],
+        "skillChinese": "盾击",
+        "skillMechanic": "Continuous single-target normal attack and self-defense increase",
+        "soldierGrowth": 72
+      },
+      "confidence": "FULL_PUBLISHER_TABLE",
+      "factId": "NL_FOREIGN_V7_07",
+      "provenance": "VERIFIED_HISTORICAL_WEB",
+      "vngMobileVersionParity": "UNKNOWN",
+      "gameplayImport": false
+    },
+    {
+      "heroId": "wiki-mobile-hero-364",
+      "name": "Vương Uy",
+      "cn": "王威",
+      "sourceDate": "2012-11-23",
+      "sourceUrl": "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html",
+      "edition": "CHINESE_CLASSIC_WEB",
+      "facts": {
+        "baseStatsCommandMightIntellect": [
+          65,
+          70,
+          55
+        ],
+        "historicalGrowth": [
+          1.7,
+          1.7,
+          1.8
+        ],
+        "skillChinese": "铁壁",
+        "skillMechanic": "Temporary immunity to damage, one turn in old campaign table",
+        "soldierGrowth": 72
+      },
+      "confidence": "FULL_PUBLISHER_TABLE",
+      "factId": "NL_FOREIGN_V7_08",
+      "provenance": "VERIFIED_HISTORICAL_WEB",
+      "vngMobileVersionParity": "UNKNOWN",
+      "gameplayImport": false
+    }
+  ]
+}

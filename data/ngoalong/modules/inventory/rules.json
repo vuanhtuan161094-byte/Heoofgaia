@@ -1,0 +1,427 @@
+{
+  "schemaVersion": 1,
+  "module": "nl-items-v1",
+  "provenance": {
+    "classification": "SIMULATED",
+    "sourceId": "project-items-v1"
+  },
+  "limits": {
+    "equipmentInstances": 200,
+    "stackKinds": 800,
+    "stackQuantity": 999,
+    "receipts": 10000
+  },
+  "reinforcement": {
+    "maxLevel": 12,
+    "statBonusPerLevel": 0.22,
+    "silverBase": 350,
+    "silverExponent": 2,
+    "ironBase": 105,
+    "ironExponent": 1,
+    "from": "PROJECT_ALPHA_R03"
+  },
+  "refinement": {
+    "maxLevel": 3,
+    "statBonusPerLevel": 0.08,
+    "silverBase": 600,
+    "materialId": "mdt-tinh-khoang",
+    "materialPerLevel": 2,
+    "from": "PROJECT_ORIGINAL_SIMULATED",
+    "highTierPricing": {
+      "provenance": "SIMULATED",
+      "onlyForProjectEquipmentPrefix": "mdt-equip02-",
+      "groups": {
+        "Hiên Viên": {
+          "silverMultiplier": 1.5,
+          "materialExtra": 1
+        },
+        "Hỗn Độn": {
+          "silverMultiplier": 1.5,
+          "materialExtra": 1
+        },
+        "Bàn Cổ": {
+          "silverMultiplier": 1.5,
+          "materialExtra": 1
+        },
+        "Diệt Thế": {
+          "silverMultiplier": 2,
+          "materialExtra": 2
+        },
+        "Thần Hoàng": {
+          "silverMultiplier": 2,
+          "materialExtra": 2
+        }
+      },
+      "legacyCostUnchanged": true
+    }
+  },
+  "resources": [
+    "silver",
+    "iron",
+    "prestige"
+  ],
+  "gearSlots": [
+    "weapon",
+    "armor",
+    "horse",
+    "book",
+    "cloak",
+    "shield",
+    "artifact"
+  ],
+  "legacyAliases": {
+    "banner": "artifact"
+  },
+  "transactionRule": {
+    "requiresUniqueReceipt": true,
+    "allOrNothing": true,
+    "duplicateReceipt": "NO_OP",
+    "conflictingReceipt": "ERROR",
+    "grantFromAuthorizedSourceOnly": true,
+    "autoGrantOnReplay": false
+  },
+  "setBonuses": {
+    "mdt-cung-ky": {
+      "provenance": "SIMULATED",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "def": 8,
+            "hp": 70
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "atk": 22,
+            "int": 14
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "atk": 50,
+            "def": 30,
+            "hp": 250
+          }
+        }
+      ]
+    },
+    "mdt-thao-thiet": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "hp": 45,
+            "def": 7
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "hp": 120,
+            "mdef": 13
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "hp": 240,
+            "def": 32,
+            "tdef": 18
+          }
+        }
+      ]
+    },
+    "mdt-xi-vuu": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "atk": 7,
+            "hp": 30
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "atk": 17,
+            "def": 12
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "atk": 37,
+            "int": 14,
+            "def": 19
+          }
+        }
+      ]
+    },
+    "mdt-hinh-thien": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "def": 10,
+            "hp": 35
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "def": 20,
+            "tdef": 12
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "def": 42,
+            "hp": 160,
+            "mdef": 14
+          }
+        }
+      ]
+    },
+    "mdt-viem-de": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "int": 9,
+            "hp": 28
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "int": 22,
+            "tdef": 12
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "int": 43,
+            "tdef": 27,
+            "hp": 110
+          }
+        }
+      ]
+    },
+    "mdt-nu-oa": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "hp": 54,
+            "mdef": 8
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "hp": 105,
+            "tdef": 16
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "hp": 230,
+            "def": 20,
+            "mdef": 32
+          }
+        }
+      ]
+    },
+    "mdt-phuc-hi": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "int": 9,
+            "mdef": 7
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "int": 19,
+            "tdef": 11
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "int": 41,
+            "def": 17,
+            "mdef": 27
+          }
+        }
+      ]
+    },
+    "mdt-hien-vien": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "atk": 7,
+            "int": 5
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "def": 14,
+            "hp": 70
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "atk": 30,
+            "int": 22,
+            "hp": 105
+          }
+        }
+      ]
+    },
+    "mdt-hon-don": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "atk": 8,
+            "hp": 26
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "int": 18,
+            "mdef": 10
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "atk": 30,
+            "int": 26,
+            "tdef": 20
+          }
+        }
+      ]
+    },
+    "mdt-ban-co": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "def": 8,
+            "hp": 28
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "def": 17,
+            "hp": 55
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "def": 35,
+            "hp": 148,
+            "tdef": 15
+          }
+        }
+      ]
+    },
+    "mdt-diet-the": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "atk": 8,
+            "int": 4
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "atk": 17,
+            "def": 8
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "atk": 32,
+            "int": 19,
+            "hp": 95
+          }
+        }
+      ]
+    },
+    "mdt-than-hoang": {
+      "provenance": "SIMULATED",
+      "sourceId": "project-items-v2",
+      "thresholds": [
+        {
+          "pieces": 2,
+          "stats": {
+            "int": 7,
+            "hp": 24
+          }
+        },
+        {
+          "pieces": 4,
+          "stats": {
+            "int": 15,
+            "mdef": 8
+          }
+        },
+        {
+          "pieces": 7,
+          "stats": {
+            "int": 28,
+            "tdef": 20,
+            "hp": 100
+          }
+        }
+      ]
+    }
+  },
+  "itemEconomy": {
+    "projectRuleVersion": "mdt-inventory-consumables-v2",
+    "sourceEffects": "UNKNOWN",
+    "safeMaterialRecipe": true,
+    "receiptLedger": "nlItemsV1.receipts",
+    "provenance": "SIMULATED"
+  }
+}

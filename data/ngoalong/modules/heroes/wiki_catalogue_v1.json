@@ -1,0 +1,6241 @@
+{
+  "schemaVersion": 1,
+  "edition": "VNG_WIKI_MOBILE_CURRENT",
+  "snapshotDate": "2026-11-18",
+  "source": {
+    "url": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+    "id": "WIKI_HERO_INDEX_20261118",
+    "scope": "public index listing only",
+    "classification": "VERIFIED",
+    "classicParity": "UNKNOWN"
+  },
+  "counts": {
+    "wikiDeclared": 364,
+    "extracted": 364,
+    "byFaction": {
+      "Ngụy": 40,
+      "Thục": 38,
+      "Ngô": 39,
+      "Quần": 174,
+      "Trung lập": 73
+    },
+    "importedReferenceProfilesMatched": 50,
+    "uniqueNormalizedNames": 363,
+    "duplicateNameKeys": 1
+  },
+  "duplicateNameReview": [
+    {
+      "name": "trương hoành",
+      "ids": [
+        "wiki-mobile-hero-104",
+        "wiki-mobile-hero-351"
+      ],
+      "review": "UNRESOLVED_SAME_NAME"
+    }
+  ],
+  "unknownFieldPolicy": {
+    "heroKind": "UNKNOWN",
+    "variantOf": "UNKNOWN",
+    "role": "UNKNOWN",
+    "troopIds": "UNKNOWN",
+    "stats": "UNKNOWN",
+    "skills": "UNKNOWN",
+    "acquisition": "UNKNOWN",
+    "level": "UNKNOWN",
+    "experience": "UNKNOWN",
+    "training": "UNKNOWN",
+    "awakening": "UNKNOWN",
+    "evolution": "UNKNOWN"
+  },
+  "note": "Names, faction and listed grade are transcribed factual index metadata, not game mechanics. The listed grade is not evidence of a character evolution chain. All records remain REFERENCE_ONLY. No Mobile-to-classic parity claim.",
+  "heroes": [
+    {
+      "id": "wiki-mobile-hero-001",
+      "wikiOrdinal": 1,
+      "name": "Bàng Đức",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-002",
+      "wikiOrdinal": 2,
+      "name": "Chân Cơ",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-003",
+      "wikiOrdinal": 3,
+      "name": "Điển Vi",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-004",
+      "wikiOrdinal": 4,
+      "name": "Giả Hử",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-005",
+      "wikiOrdinal": 5,
+      "name": "Hạ Hầu Đôn",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-006",
+      "wikiOrdinal": 6,
+      "name": "Tào Chương",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-007",
+      "wikiOrdinal": 7,
+      "name": "Tào Duệ",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-008",
+      "wikiOrdinal": 8,
+      "name": "Tào Thực",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-009",
+      "wikiOrdinal": 9,
+      "name": "Trương Hợp",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-010",
+      "wikiOrdinal": 10,
+      "name": "Trương Liêu",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-011",
+      "wikiOrdinal": 11,
+      "name": "Tuân Vực",
+      "faction": "Ngụy",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-012",
+      "wikiOrdinal": 12,
+      "name": "Hạ Hầu Uyên",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-013",
+      "wikiOrdinal": 13,
+      "name": "Hứa Chử",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-014",
+      "wikiOrdinal": 14,
+      "name": "Mãn Sủng",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-015",
+      "wikiOrdinal": 15,
+      "name": "Mao Giới",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-016",
+      "wikiOrdinal": 16,
+      "name": "Quách Gia",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-017",
+      "wikiOrdinal": 17,
+      "name": "Tào Hồng",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-018",
+      "wikiOrdinal": 18,
+      "name": "Tào Nhân",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-019",
+      "wikiOrdinal": 19,
+      "name": "Trần Thái",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-020",
+      "wikiOrdinal": 20,
+      "name": "Trình Dục",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-021",
+      "wikiOrdinal": 21,
+      "name": "Tuân Du",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-022",
+      "wikiOrdinal": 22,
+      "name": "Từ Hoảng",
+      "faction": "Ngụy",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-023",
+      "wikiOrdinal": 23,
+      "name": "Tào Phi",
+      "faction": "Ngụy",
+      "indexGrade": "Thượng Cổ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-024",
+      "wikiOrdinal": 24,
+      "name": "Xa Trụ",
+      "faction": "Ngụy",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-025",
+      "wikiOrdinal": 25,
+      "name": "Hách Chiêu",
+      "faction": "Ngụy",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-026",
+      "wikiOrdinal": 26,
+      "name": "Lý Điển",
+      "faction": "Ngụy",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-027",
+      "wikiOrdinal": 27,
+      "name": "Tào Hưu",
+      "faction": "Ngụy",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-028",
+      "wikiOrdinal": 28,
+      "name": "Vương Song",
+      "faction": "Ngụy",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-029",
+      "wikiOrdinal": 29,
+      "name": "Chung Dao",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-030",
+      "wikiOrdinal": 30,
+      "name": "Dương Tu",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-031",
+      "wikiOrdinal": 31,
+      "name": "Đặng Trung",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-032",
+      "wikiOrdinal": 32,
+      "name": "Hạ Hầu Bá",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-033",
+      "wikiOrdinal": 33,
+      "name": "Hí Chí Tài",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-034",
+      "wikiOrdinal": 34,
+      "name": "Hoa Hâm",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-035",
+      "wikiOrdinal": 35,
+      "name": "Lạc Tiến",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-036",
+      "wikiOrdinal": 36,
+      "name": "Lưu Diệp",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-037",
+      "wikiOrdinal": 37,
+      "name": "Lý Thông",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-038",
+      "wikiOrdinal": 38,
+      "name": "Trần Quần",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-039",
+      "wikiOrdinal": 39,
+      "name": "Vu Cấm",
+      "faction": "Ngụy",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-040",
+      "wikiOrdinal": 40,
+      "name": "Nghiêm Chính",
+      "faction": "Ngụy",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-041",
+      "wikiOrdinal": 41,
+      "name": "Bàng Thống",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-042",
+      "wikiOrdinal": 42,
+      "name": "Giản Ung",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-043",
+      "wikiOrdinal": 43,
+      "name": "Hoàng Nguyệt Anh",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-044",
+      "wikiOrdinal": 44,
+      "name": "Hoàng Trung",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-045",
+      "wikiOrdinal": 45,
+      "name": "Lưu Thiện",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-046",
+      "wikiOrdinal": 46,
+      "name": "Mã Tốc",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-047",
+      "wikiOrdinal": 47,
+      "name": "Ngụy Diên",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-048",
+      "wikiOrdinal": 48,
+      "name": "Quan Vũ",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-049",
+      "wikiOrdinal": 49,
+      "name": "Triệu Vân",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-050",
+      "wikiOrdinal": 50,
+      "name": "Trương Phi",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-051",
+      "wikiOrdinal": 51,
+      "name": "Từ Thứ",
+      "faction": "Thục",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-052",
+      "wikiOrdinal": 52,
+      "name": "Gia Cát Lượng",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-053",
+      "wikiOrdinal": 53,
+      "name": "Khương Duy",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-054",
+      "wikiOrdinal": 54,
+      "name": "Mã Lương",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-055",
+      "wikiOrdinal": 55,
+      "name": "Mã Siêu",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-056",
+      "wikiOrdinal": 56,
+      "name": "Mã Vân Lộc",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-057",
+      "wikiOrdinal": 57,
+      "name": "Pháp Chính",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-058",
+      "wikiOrdinal": 58,
+      "name": "Quan Bình",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-059",
+      "wikiOrdinal": 59,
+      "name": "Tôn Càn",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-060",
+      "wikiOrdinal": 60,
+      "name": "Trương Bao",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-061",
+      "wikiOrdinal": 61,
+      "name": "Trương Nghi",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-062",
+      "wikiOrdinal": 62,
+      "name": "Y Tịch",
+      "faction": "Thục",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-063",
+      "wikiOrdinal": 63,
+      "name": "Chu Thương",
+      "faction": "Thục",
+      "indexGrade": "Thượng Cổ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-064",
+      "wikiOrdinal": 64,
+      "name": "Mã Đại",
+      "faction": "Thục",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-065",
+      "wikiOrdinal": 65,
+      "name": "Tưởng Uyển",
+      "faction": "Thục",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-066",
+      "wikiOrdinal": 66,
+      "name": "Bào Tam Nương",
+      "faction": "Thục",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-067",
+      "wikiOrdinal": 67,
+      "name": "Liêu Hóa",
+      "faction": "Thục",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-068",
+      "wikiOrdinal": 68,
+      "name": "Quan Hưng",
+      "faction": "Thục",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-069",
+      "wikiOrdinal": 69,
+      "name": "Sa Ma Kha",
+      "faction": "Thục",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-070",
+      "wikiOrdinal": 70,
+      "name": "Lưu Phong",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-071",
+      "wikiOrdinal": 71,
+      "name": "Lý Khôi",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-072",
+      "wikiOrdinal": 72,
+      "name": "Mạnh Đạt",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-073",
+      "wikiOrdinal": 73,
+      "name": "Phí Huy",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-074",
+      "wikiOrdinal": 74,
+      "name": "Phó Thiêm",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-075",
+      "wikiOrdinal": 75,
+      "name": "Quan Sách",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-076",
+      "wikiOrdinal": 76,
+      "name": "Trần Đăng",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-077",
+      "wikiOrdinal": 77,
+      "name": "Triệu Quảng",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-078",
+      "wikiOrdinal": 78,
+      "name": "Triệu Thống",
+      "faction": "Thục",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-079",
+      "wikiOrdinal": 79,
+      "name": "Cam Ninh",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-080",
+      "wikiOrdinal": 80,
+      "name": "Chu Thái",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-081",
+      "wikiOrdinal": 81,
+      "name": "Đại Kiều",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-082",
+      "wikiOrdinal": 82,
+      "name": "Lỗ Túc",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-083",
+      "wikiOrdinal": 83,
+      "name": "Lục Tốn",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-084",
+      "wikiOrdinal": 84,
+      "name": "Thái Sử Từ",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-085",
+      "wikiOrdinal": 85,
+      "name": "Tiểu Kiều",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-086",
+      "wikiOrdinal": 86,
+      "name": "Tôn Kiên",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-087",
+      "wikiOrdinal": 87,
+      "name": "Tôn Lượng",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-088",
+      "wikiOrdinal": 88,
+      "name": "Tôn Sách",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-089",
+      "wikiOrdinal": 89,
+      "name": "Tôn Thượng Hương",
+      "faction": "Ngô",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-090",
+      "wikiOrdinal": 90,
+      "name": "Chu Du",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-091",
+      "wikiOrdinal": 91,
+      "name": "Chu Hoàn",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-092",
+      "wikiOrdinal": 92,
+      "name": "Chu Trị",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-093",
+      "wikiOrdinal": 93,
+      "name": "Cố Ung",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-094",
+      "wikiOrdinal": 94,
+      "name": "Gia Cát Cẩn",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-095",
+      "wikiOrdinal": 95,
+      "name": "Gia Cát Khác",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-096",
+      "wikiOrdinal": 96,
+      "name": "Hàn Đương",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-097",
+      "wikiOrdinal": 97,
+      "name": "Hoàng Cái",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-098",
+      "wikiOrdinal": 98,
+      "name": "Lữ Mông",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-099",
+      "wikiOrdinal": 99,
+      "name": "Phan Chương",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-100",
+      "wikiOrdinal": 100,
+      "name": "Từ Thịnh",
+      "faction": "Ngô",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-101",
+      "wikiOrdinal": 101,
+      "name": "Chu Nhiên",
+      "faction": "Ngô",
+      "indexGrade": "Thượng Cổ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-102",
+      "wikiOrdinal": 102,
+      "name": "Lục Kháng",
+      "faction": "Ngô",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-103",
+      "wikiOrdinal": 103,
+      "name": "Lữ Đại",
+      "faction": "Ngô",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-104",
+      "wikiOrdinal": 104,
+      "name": "Trương Hoành",
+      "faction": "Ngô",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-105",
+      "wikiOrdinal": 105,
+      "name": "Tôn Hoàn",
+      "faction": "Ngô",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-106",
+      "wikiOrdinal": 106,
+      "name": "Tôn Thiều",
+      "faction": "Ngô",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-107",
+      "wikiOrdinal": 107,
+      "name": "Trình Phổ",
+      "faction": "Ngô",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-108",
+      "wikiOrdinal": 108,
+      "name": "Trương Thừa",
+      "faction": "Ngô",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-109",
+      "wikiOrdinal": 109,
+      "name": "Đinh Phụng",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-110",
+      "wikiOrdinal": 110,
+      "name": "Đổng Tập",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-111",
+      "wikiOrdinal": 111,
+      "name": "Lăng Tháo",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-112",
+      "wikiOrdinal": 112,
+      "name": "Lăng Thống",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-113",
+      "wikiOrdinal": 113,
+      "name": "Tổ Mậu",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-114",
+      "wikiOrdinal": 114,
+      "name": "Tôn Hưu",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-115",
+      "wikiOrdinal": 115,
+      "name": "Trần Võ",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-116",
+      "wikiOrdinal": 116,
+      "name": "Trương Chiêu",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-117",
+      "wikiOrdinal": 117,
+      "name": "Tưởng Khâm",
+      "faction": "Ngô",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-118",
+      "wikiOrdinal": 118,
+      "name": "Cao Lãm",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-119",
+      "wikiOrdinal": 119,
+      "name": "Cao Thuận",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-120",
+      "wikiOrdinal": 120,
+      "name": "Chúc Dung",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-121",
+      "wikiOrdinal": 121,
+      "name": "Chung Hội",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-122",
+      "wikiOrdinal": 122,
+      "name": "Công Tôn Toán",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-123",
+      "wikiOrdinal": 123,
+      "name": "Đặng Ngải",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-124",
+      "wikiOrdinal": 124,
+      "name": "Điêu Thuyền",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-125",
+      "wikiOrdinal": 125,
+      "name": "Đổng Trác",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-126",
+      "wikiOrdinal": 126,
+      "name": "Hoa Đà",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-127",
+      "wikiOrdinal": 127,
+      "name": "Hoa Hùng",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-128",
+      "wikiOrdinal": 128,
+      "name": "Lữ Bố",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-129",
+      "wikiOrdinal": 129,
+      "name": "Mạnh Hoạch",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-130",
+      "wikiOrdinal": 130,
+      "name": "Tả Từ",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-131",
+      "wikiOrdinal": 131,
+      "name": "Trần Cung",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-132",
+      "wikiOrdinal": 132,
+      "name": "Trương Giác",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-133",
+      "wikiOrdinal": 133,
+      "name": "Tư Mã Huy",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-134",
+      "wikiOrdinal": 134,
+      "name": "Văn Phượng Khanh",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-135",
+      "wikiOrdinal": 135,
+      "name": "Văn Sính",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-136",
+      "wikiOrdinal": 136,
+      "name": "Viên Thiệu",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-137",
+      "wikiOrdinal": 137,
+      "name": "Vu Cát",
+      "faction": "Quần",
+      "indexGrade": "Thần Hoàng",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-138",
+      "wikiOrdinal": 138,
+      "name": "Công Tôn Tu",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-139",
+      "wikiOrdinal": 139,
+      "name": "Củng Chí",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-140",
+      "wikiOrdinal": 140,
+      "name": "Điền Phong",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-141",
+      "wikiOrdinal": 141,
+      "name": "Đồng Uyên",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-142",
+      "wikiOrdinal": 142,
+      "name": "Gia Cát Đản",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-143",
+      "wikiOrdinal": 143,
+      "name": "Lữ Linh Khởi",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-144",
+      "wikiOrdinal": 144,
+      "name": "Lư Thực",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-145",
+      "wikiOrdinal": 145,
+      "name": "Lưu Biểu",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-146",
+      "wikiOrdinal": 146,
+      "name": "Lý Nho",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-147",
+      "wikiOrdinal": 147,
+      "name": "Nhan Lương",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-148",
+      "wikiOrdinal": 148,
+      "name": "Thái Văn Cơ",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-149",
+      "wikiOrdinal": 149,
+      "name": "Trương Nhiệm",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-150",
+      "wikiOrdinal": 150,
+      "name": "Trương Ninh",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-151",
+      "wikiOrdinal": 151,
+      "name": "Trương Trọng Cảnh",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-152",
+      "wikiOrdinal": 152,
+      "name": "Trương Tú",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-153",
+      "wikiOrdinal": 153,
+      "name": "Trương Xuân Hoa",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-154",
+      "wikiOrdinal": 154,
+      "name": "Tư Mã Chiêu",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-155",
+      "wikiOrdinal": 155,
+      "name": "Tư Mã Du",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-156",
+      "wikiOrdinal": 156,
+      "name": "Tư Mã Viêm",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-157",
+      "wikiOrdinal": 157,
+      "name": "Tư Mã Ý",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-158",
+      "wikiOrdinal": 158,
+      "name": "Văn Sửu",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-159",
+      "wikiOrdinal": 159,
+      "name": "Văn Ương",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-160",
+      "wikiOrdinal": 160,
+      "name": "Vương Dị",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-161",
+      "wikiOrdinal": 161,
+      "name": "Vương Doãn",
+      "faction": "Quần",
+      "indexGrade": "Thái Sơ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-162",
+      "wikiOrdinal": 162,
+      "name": "Phan Phượng",
+      "faction": "Quần",
+      "indexGrade": "Thượng Cổ",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-163",
+      "wikiOrdinal": 163,
+      "name": "Bùi Nguyên Thiệu",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-164",
+      "wikiOrdinal": 164,
+      "name": "Hàn Toại",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-165",
+      "wikiOrdinal": 165,
+      "name": "Khoái Lương",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-166",
+      "wikiOrdinal": 166,
+      "name": "Mã Đằng",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-167",
+      "wikiOrdinal": 167,
+      "name": "Mã Thiết",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-168",
+      "wikiOrdinal": 168,
+      "name": "Mê Đương",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-169",
+      "wikiOrdinal": 169,
+      "name": "Nha Đan",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-170",
+      "wikiOrdinal": 170,
+      "name": "Phí Sạn",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-171",
+      "wikiOrdinal": 171,
+      "name": "Thẩm Phối",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-172",
+      "wikiOrdinal": 172,
+      "name": "Tiên Vu Phụ",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-173",
+      "wikiOrdinal": 173,
+      "name": "Tỏa Nô",
+      "faction": "Quần",
+      "indexGrade": "Truyền thuyết",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-174",
+      "wikiOrdinal": 174,
+      "name": "Công Tôn Phạm",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-175",
+      "wikiOrdinal": 175,
+      "name": "Dương Bách",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-176",
+      "wikiOrdinal": 176,
+      "name": "Dương Cổ",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-177",
+      "wikiOrdinal": 177,
+      "name": "Hoàng Loạn",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-178",
+      "wikiOrdinal": 178,
+      "name": "Kha Ngô",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-179",
+      "wikiOrdinal": 179,
+      "name": "Lãnh Bao",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-180",
+      "wikiOrdinal": 180,
+      "name": "Ngạc Hoán",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-181",
+      "wikiOrdinal": 181,
+      "name": "Ngô Ý",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-182",
+      "wikiOrdinal": 182,
+      "name": "Ô Diên",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-183",
+      "wikiOrdinal": 183,
+      "name": "Thái Diễm",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-184",
+      "wikiOrdinal": 184,
+      "name": "Tữ Thụ",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-185",
+      "wikiOrdinal": 185,
+      "name": "Việt Cát",
+      "faction": "Quần",
+      "indexGrade": "Thần",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-186",
+      "wikiOrdinal": 186,
+      "name": "Ba Tài",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-187",
+      "wikiOrdinal": 187,
+      "name": "Bào Long",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-188",
+      "wikiOrdinal": 188,
+      "name": "Cao Bái",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-189",
+      "wikiOrdinal": 189,
+      "name": "Chu Chỉ",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-190",
+      "wikiOrdinal": 190,
+      "name": "Cốt Tiến",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-191",
+      "wikiOrdinal": 191,
+      "name": "Diêm Phố",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-192",
+      "wikiOrdinal": 192,
+      "name": "Diêm Tượng",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-193",
+      "wikiOrdinal": 193,
+      "name": "Dương Nghi",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-194",
+      "wikiOrdinal": 194,
+      "name": "Điền Dự",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-195",
+      "wikiOrdinal": 195,
+      "name": "Đóa Tư Vương",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-196",
+      "wikiOrdinal": 196,
+      "name": "Đổng Thừa",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-197",
+      "wikiOrdinal": 197,
+      "name": "Kỷ Linh",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-198",
+      "wikiOrdinal": 198,
+      "name": "Lạc Tựu",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-199",
+      "wikiOrdinal": 199,
+      "name": "Lôi Bạc",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-200",
+      "wikiOrdinal": 200,
+      "name": "Lôi Đồng",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-201",
+      "wikiOrdinal": 201,
+      "name": "Lưu Chương",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-202",
+      "wikiOrdinal": 202,
+      "name": "Lưu Hiền",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-203",
+      "wikiOrdinal": 203,
+      "name": "Lưu Tông",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-204",
+      "wikiOrdinal": 204,
+      "name": "Lý Nghiêm",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-205",
+      "wikiOrdinal": 205,
+      "name": "Mộc Lộc Vương",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-206",
+      "wikiOrdinal": 206,
+      "name": "Nghiêm Nhan",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-207",
+      "wikiOrdinal": 207,
+      "name": "Ngô Ban",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-208",
+      "wikiOrdinal": 208,
+      "name": "Ngu Phiên",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-209",
+      "wikiOrdinal": 209,
+      "name": "Ngưu Kim",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-210",
+      "wikiOrdinal": 210,
+      "name": "Tang Bá",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-211",
+      "wikiOrdinal": 211,
+      "name": "Tào Tính",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-212",
+      "wikiOrdinal": 212,
+      "name": "Tân Tì",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-213",
+      "wikiOrdinal": 213,
+      "name": "Thái Mạo",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-214",
+      "wikiOrdinal": 214,
+      "name": "Thạp Đốn",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-215",
+      "wikiOrdinal": 215,
+      "name": "Thuần Vu Quỳnh",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-216",
+      "wikiOrdinal": 216,
+      "name": "Tống Hiến",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-217",
+      "wikiOrdinal": 217,
+      "name": "Trình Viễn Chí",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-218",
+      "wikiOrdinal": 218,
+      "name": "Trương Anh",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-219",
+      "wikiOrdinal": 219,
+      "name": "Trương Bảo",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-220",
+      "wikiOrdinal": 220,
+      "name": "Trương Doãn",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-221",
+      "wikiOrdinal": 221,
+      "name": "Trương Hổ",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-222",
+      "wikiOrdinal": 222,
+      "name": "Trương Lương",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-223",
+      "wikiOrdinal": 223,
+      "name": "Trương Tùng",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-224",
+      "wikiOrdinal": 224,
+      "name": "Trương Vệ",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-225",
+      "wikiOrdinal": 225,
+      "name": "Trương Yên",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-226",
+      "wikiOrdinal": 226,
+      "name": "Từ Vinh",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-227",
+      "wikiOrdinal": 227,
+      "name": "Vu Độc",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-228",
+      "wikiOrdinal": 228,
+      "name": "Vương Cơ",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-229",
+      "wikiOrdinal": 229,
+      "name": "Vương Lãng",
+      "faction": "Quần",
+      "indexGrade": "Chiến",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-230",
+      "wikiOrdinal": 230,
+      "name": "A Hội Nam",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-231",
+      "wikiOrdinal": 231,
+      "name": "A Quý",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-232",
+      "wikiOrdinal": 232,
+      "name": "Bộ Độ Căn",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-233",
+      "wikiOrdinal": 233,
+      "name": "Công Tôn Độ",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-234",
+      "wikiOrdinal": 234,
+      "name": "Công Tôn Uyên",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-235",
+      "wikiOrdinal": 235,
+      "name": "Cung Đô",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-236",
+      "wikiOrdinal": 236,
+      "name": "Dương Ngang",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-237",
+      "wikiOrdinal": 237,
+      "name": "Dương Nhiệm",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-238",
+      "wikiOrdinal": 238,
+      "name": "Dương Tùng",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-239",
+      "wikiOrdinal": 239,
+      "name": "Điền Khải",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-240",
+      "wikiOrdinal": 240,
+      "name": "Đinh Nguyên",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-241",
+      "wikiOrdinal": 241,
+      "name": "Đơn Kinh",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-242",
+      "wikiOrdinal": 242,
+      "name": "Giả Phạm",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-243",
+      "wikiOrdinal": 243,
+      "name": "Hà Tiến",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-244",
+      "wikiOrdinal": 244,
+      "name": "Hàn Hạo",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-245",
+      "wikiOrdinal": 245,
+      "name": "Hàn Huyền",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-246",
+      "wikiOrdinal": 246,
+      "name": "Hàn Tung",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-247",
+      "wikiOrdinal": 247,
+      "name": "Hình Đạo Vinh",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-248",
+      "wikiOrdinal": 248,
+      "name": "Hoàng Tổ",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-249",
+      "wikiOrdinal": 249,
+      "name": "Kha Tỉ Năng",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-250",
+      "wikiOrdinal": 250,
+      "name": "Khoái Việt",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-251",
+      "wikiOrdinal": 251,
+      "name": "Khứ Ti",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-252",
+      "wikiOrdinal": 252,
+      "name": "Kim Hoàn",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-253",
+      "wikiOrdinal": 253,
+      "name": "Lâu Ban",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-254",
+      "wikiOrdinal": 254,
+      "name": "Lưu Độ",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-255",
+      "wikiOrdinal": 255,
+      "name": "Lưu Kỳ",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-256",
+      "wikiOrdinal": 256,
+      "name": "Lý Giác",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-257",
+      "wikiOrdinal": 257,
+      "name": "Mang Trung",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-258",
+      "wikiOrdinal": 258,
+      "name": "Nga Hà Thiêu",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-259",
+      "wikiOrdinal": 259,
+      "name": "Nghị Già Tắc",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-260",
+      "wikiOrdinal": 260,
+      "name": "Nghiêm Bạch Hổ",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-261",
+      "wikiOrdinal": 261,
+      "name": "Nghiêm Cương",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-262",
+      "wikiOrdinal": 262,
+      "name": "Ngột Đột Cốt",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-263",
+      "wikiOrdinal": 263,
+      "name": "Ngụy Tục",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-264",
+      "wikiOrdinal": 264,
+      "name": "Phan Lâm",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-265",
+      "wikiOrdinal": 265,
+      "name": "Phàn Thị",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-266",
+      "wikiOrdinal": 266,
+      "name": "Phạt Đồng",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-267",
+      "wikiOrdinal": 267,
+      "name": "Phù Kiện",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-268",
+      "wikiOrdinal": 268,
+      "name": "Quách Đồ",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-269",
+      "wikiOrdinal": 269,
+      "name": "Quách Tị",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-270",
+      "wikiOrdinal": 270,
+      "name": "Quản Lộ",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-271",
+      "wikiOrdinal": 271,
+      "name": "Quan Tịnh",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-272",
+      "wikiOrdinal": 272,
+      "name": "Thái Hòa",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-273",
+      "wikiOrdinal": 273,
+      "name": "Thái Trung",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-274",
+      "wikiOrdinal": 274,
+      "name": "Thành Luật Quy",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-275",
+      "wikiOrdinal": 275,
+      "name": "Tố Lợi",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-276",
+      "wikiOrdinal": 276,
+      "name": "Trần Đam",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-277",
+      "wikiOrdinal": 277,
+      "name": "Trần Lâm",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-278",
+      "wikiOrdinal": 278,
+      "name": "Trần Ưng",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-279",
+      "wikiOrdinal": 279,
+      "name": "Trâu Đan",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-280",
+      "wikiOrdinal": 280,
+      "name": "Triệt Lý Cát",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-281",
+      "wikiOrdinal": 281,
+      "name": "Triệu Hoằng",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-282",
+      "wikiOrdinal": 282,
+      "name": "Triệu Phạm",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-283",
+      "wikiOrdinal": 283,
+      "name": "Trịnh Thái",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-284",
+      "wikiOrdinal": 284,
+      "name": "Trương Khải",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-285",
+      "wikiOrdinal": 285,
+      "name": "Trương Lỗ",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-286",
+      "wikiOrdinal": 286,
+      "name": "Văn Khâm",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-287",
+      "wikiOrdinal": 287,
+      "name": "Viên Thuật",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-288",
+      "wikiOrdinal": 288,
+      "name": "Vô Khâu Kiệm",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-289",
+      "wikiOrdinal": 289,
+      "name": "Vu Phù La",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-290",
+      "wikiOrdinal": 290,
+      "name": "Vương Lũy",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-291",
+      "wikiOrdinal": 291,
+      "name": "Vương Môn",
+      "faction": "Quần",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-292",
+      "wikiOrdinal": 292,
+      "name": "Bàng Nghĩa",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-293",
+      "wikiOrdinal": 293,
+      "name": "Cao Can",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-294",
+      "wikiOrdinal": 294,
+      "name": "Cao Định",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-295",
+      "wikiOrdinal": 295,
+      "name": "Cao Nhu",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-296",
+      "wikiOrdinal": 296,
+      "name": "Cao Thăng",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-297",
+      "wikiOrdinal": 297,
+      "name": "Chu Bao",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-298",
+      "wikiOrdinal": 298,
+      "name": "Chu Hân",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-299",
+      "wikiOrdinal": 299,
+      "name": "Cúc Nghĩa",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-300",
+      "wikiOrdinal": 300,
+      "name": "Du Thiệp",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-301",
+      "wikiOrdinal": 301,
+      "name": "Dương Hoài",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-302",
+      "wikiOrdinal": 302,
+      "name": "Dương Hoằng",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-303",
+      "wikiOrdinal": 303,
+      "name": "Dương Sửu",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-304",
+      "wikiOrdinal": 304,
+      "name": "Dương Thu",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-305",
+      "wikiOrdinal": 305,
+      "name": "Đặng Mậu",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-306",
+      "wikiOrdinal": 306,
+      "name": "Đổng Hòa",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-307",
+      "wikiOrdinal": 307,
+      "name": "Đổng Mân",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-308",
+      "wikiOrdinal": 308,
+      "name": "Đổng Trà Na",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-309",
+      "wikiOrdinal": 309,
+      "name": "Hà Nghi",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-310",
+      "wikiOrdinal": 310,
+      "name": "Hàn Dận",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-311",
+      "wikiOrdinal": 311,
+      "name": "Hàn Trung",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-312",
+      "wikiOrdinal": 312,
+      "name": "Hầu Thành",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-313",
+      "wikiOrdinal": 313,
+      "name": "Hậu Tuyển",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-314",
+      "wikiOrdinal": 314,
+      "name": "Hoàng Quyền",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-315",
+      "wikiOrdinal": 315,
+      "name": "Hoàng Sùng",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-316",
+      "wikiOrdinal": 316,
+      "name": "Hồ Chẩn",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-317",
+      "wikiOrdinal": 317,
+      "name": "Hứa Cống",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-318",
+      "wikiOrdinal": 318,
+      "name": "Hứa Du",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-319",
+      "wikiOrdinal": 319,
+      "name": "Kiều Nhuy",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-320",
+      "wikiOrdinal": 320,
+      "name": "Lữ Khoáng",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-321",
+      "wikiOrdinal": 321,
+      "name": "Lữ Tường",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-322",
+      "wikiOrdinal": 322,
+      "name": "Lữ Uy Hoàng",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-323",
+      "wikiOrdinal": 323,
+      "name": "Lương Hưng",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-324",
+      "wikiOrdinal": 324,
+      "name": "Lưu Dao",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-325",
+      "wikiOrdinal": 325,
+      "name": "Lưu Huân",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-326",
+      "wikiOrdinal": 326,
+      "name": "Lưu Nhàn",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-327",
+      "wikiOrdinal": 327,
+      "name": "Lưu Tích",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-328",
+      "wikiOrdinal": 328,
+      "name": "Lưu Tuân",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-329",
+      "wikiOrdinal": 329,
+      "name": "Lý Kham",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-330",
+      "wikiOrdinal": 330,
+      "name": "Lý Túc",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-331",
+      "wikiOrdinal": 331,
+      "name": "Mã Ngoạn",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-332",
+      "wikiOrdinal": 332,
+      "name": "Mang Nha Trường",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-333",
+      "wikiOrdinal": 333,
+      "name": "Mạnh Ưu",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-334",
+      "wikiOrdinal": 334,
+      "name": "Nghiêm Dư",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-335",
+      "wikiOrdinal": 335,
+      "name": "Ngô Lan",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-336",
+      "wikiOrdinal": 336,
+      "name": "Ngu Tị",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-337",
+      "wikiOrdinal": 337,
+      "name": "Ngưu Phụ",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-338",
+      "wikiOrdinal": 338,
+      "name": "Phàn Trù",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-339",
+      "wikiOrdinal": 339,
+      "name": "Phùng Kỷ",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-340",
+      "wikiOrdinal": 340,
+      "name": "Quản Hợi",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-341",
+      "wikiOrdinal": 341,
+      "name": "Thành Nghi",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-342",
+      "wikiOrdinal": 342,
+      "name": "Thôi Diễm",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-343",
+      "wikiOrdinal": 343,
+      "name": "Tô Do",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-344",
+      "wikiOrdinal": 344,
+      "name": "Trách Dung",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-345",
+      "wikiOrdinal": 345,
+      "name": "Trần Chấn",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-346",
+      "wikiOrdinal": 346,
+      "name": "Trần Hoành",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-347",
+      "wikiOrdinal": 347,
+      "name": "Trần Kỷ",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-348",
+      "wikiOrdinal": 348,
+      "name": "Trần Lan",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-349",
+      "wikiOrdinal": 349,
+      "name": "Trình Ngân",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-350",
+      "wikiOrdinal": 350,
+      "name": "Trương Dương",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-351",
+      "wikiOrdinal": 351,
+      "name": "Trương Hoành",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-352",
+      "wikiOrdinal": 352,
+      "name": "Trương Huân",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-353",
+      "wikiOrdinal": 353,
+      "name": "Trương Mạc",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-354",
+      "wikiOrdinal": 354,
+      "name": "Trương Man Thành",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-355",
+      "wikiOrdinal": 355,
+      "name": "Trương Tế",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-356",
+      "wikiOrdinal": 356,
+      "name": "Tưởng Nghĩa Cừ",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-357",
+      "wikiOrdinal": 357,
+      "name": "Ung Khải",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-358",
+      "wikiOrdinal": 358,
+      "name": "Viên Dận",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-359",
+      "wikiOrdinal": 359,
+      "name": "Viên Diệu",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-360",
+      "wikiOrdinal": 360,
+      "name": "Viên Đàm",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-361",
+      "wikiOrdinal": 361,
+      "name": "Viên Hi",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-362",
+      "wikiOrdinal": 362,
+      "name": "Viên Thượng",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-363",
+      "wikiOrdinal": 363,
+      "name": "Vương Túc",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    },
+    {
+      "id": "wiki-mobile-hero-364",
+      "wikiOrdinal": 364,
+      "name": "Vương Uy",
+      "faction": "Trung lập",
+      "indexGrade": "Thường",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "sourceId": "WIKI_HERO_INDEX_20261118",
+      "fieldProvenance": {
+        "name": "VERIFIED",
+        "faction": "VERIFIED",
+        "indexGrade": "VERIFIED",
+        "edition": "DERIVED"
+      },
+      "sourceUrl": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "runtimeStatus": "REFERENCE_ONLY"
+    }
+  ]
+}

@@ -1,0 +1,1070 @@
+{
+  "schemaVersion": 1,
+  "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+  "sourceDate": "2023-04-08",
+  "edition": "VNG_MOBILE_DATED_2023_APR_ORANGE",
+  "count": 19,
+  "records": [
+    {
+      "name": "Bàng Đức",
+      "stage": "ORANGE",
+      "skillName": "Lung Hoàn Táng Địch",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 6800,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 8800,
+          "lane": "TACTIC",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Thiết Bích",
+          "target": "SELF",
+          "turns": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-001",
+      "skillId": "wiki-orange-apr23-01",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Thái Sử Từ",
+      "stage": "ORANGE",
+      "skillName": "Lung Hoàn Táng Địch",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 6800,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 8800,
+          "lane": "TACTIC",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Thiết Bích",
+          "target": "SELF",
+          "turns": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-084",
+      "skillId": "wiki-orange-apr23-02",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Hoa Hùng",
+      "stage": "ORANGE",
+      "skillName": "Càn Quét Bạo Lực",
+      "lane": "PHYSICAL",
+      "events": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 500
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 5800,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Dũng Tuyệt",
+          "target": "SELF",
+          "turns": null,
+          "until": "BATTLE_END"
+        }
+      ],
+      "extra": {
+        "weaponLevels": [
+          {
+            "level": 1,
+            "startMorale": 10,
+            "enemyFrontPhysicalDefenseDownPct": 15,
+            "durationTurns": 3
+          },
+          {
+            "level": 2,
+            "startMorale": 25,
+            "enemyFrontPhysicalDefenseDownPct": 30,
+            "durationTurns": 6
+          }
+        ]
+      },
+      "heroId": "wiki-mobile-hero-127",
+      "skillId": "wiki-orange-apr23-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Mã Tốc",
+      "stage": "ORANGE",
+      "skillName": "Hỏa Thế Ngút Trời",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 8800,
+          "lane": "STRATEGY",
+          "target": "ONE_ENEMY",
+          "hits": 2,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Thiên Hỏa",
+          "target": "ONE_ENEMY",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Liên Tục",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỏa Thần",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-046",
+      "skillId": "wiki-orange-apr23-04",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Nhan Lương",
+      "stage": "ORANGE",
+      "skillName": "Quỷ Tướng Phá Thánh",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 6000,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "HIGH_TOTAL_ENEMY_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hộ Thuẫn",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Treo Thưởng",
+          "target": "TWO_RANDOM_ENEMIES",
+          "turns": 2,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "name": "Thấu Suốt",
+          "target": "SELF",
+          "turns": 3,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "name": "Phá Thánh",
+          "target": "SELF",
+          "turns": 3,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {
+        "weaponLevels": [
+          {
+            "level": 1,
+            "condition": "ALLY_VAN_SU_LAM_STAGE_BLUE_OR_HIGHER",
+            "perTurnDamagePctMin": 10000,
+            "perTurnDamagePctMax": 20000
+          },
+          {
+            "level": 2,
+            "condition": "ALLY_VAN_SU_LAM_STAGE_BLUE_OR_HIGHER",
+            "perTurnDamagePct": 20000,
+            "criticalDamageBonusPct": 20,
+            "durationTurns": 2
+          }
+        ]
+      },
+      "heroId": "wiki-mobile-hero-147",
+      "skillId": "wiki-orange-apr23-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Văn Sửu",
+      "stage": "ORANGE",
+      "skillName": "Quỷ Tướng Tru Thần",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 500
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 9000,
+          "lane": "TACTIC",
+          "target": "FIVE_RANDOM_ENEMY_HITS",
+          "hits": 5
+        },
+        {
+          "op": "STATUS",
+          "name": "Thấu Suốt",
+          "target": "SELF",
+          "turns": 1,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "name": "Tru Thần",
+          "target": "SELF",
+          "turns": 1,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {
+        "weaponLevels": [
+          {
+            "level": 1,
+            "condition": "ALLY_NHAN_LUONG_STAGE_BLUE_OR_HIGHER",
+            "perTurnAllEnemyDamagePctMin": 3000,
+            "perTurnAllEnemyDamagePctMax": 14000
+          },
+          {
+            "level": 2,
+            "condition": "ALLY_NHAN_LUONG_STAGE_BLUE_OR_HIGHER",
+            "perTurnAllEnemyDamagePct": 14000,
+            "criticalDamageBonusPct": 20,
+            "durationTurns": 2
+          }
+        ]
+      },
+      "heroId": "wiki-mobile-hero-158",
+      "skillId": "wiki-orange-apr23-06",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Cao Lãm",
+      "stage": "ORANGE",
+      "skillName": "Thống Quân Phá Địch",
+      "lane": "PHYSICAL",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 18000,
+          "lane": "PHYSICAL",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "PHYSICAL",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Tăng Vật Công",
+          "target": "ALL_ALLIES",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Thống Quân",
+          "target": "ALL_ALLIES",
+          "turns": 2,
+          "physicalAttackBonusPctPerStack": 10
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 25,
+          "variable": null
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {
+        "weaponLevels": [
+          {
+            "level": 1,
+            "selfPhysicalDefenseBonusPct": 40,
+            "otherAlliesPhysicalDefenseBonusPct": 20,
+            "durationTurns": 5,
+            "dispel": false
+          },
+          {
+            "level": 2,
+            "selfPhysicalDefenseBonusPct": 80,
+            "otherAlliesPhysicalDefenseBonusPct": 40,
+            "durationTurns": 5,
+            "dispel": false
+          }
+        ]
+      },
+      "heroId": "wiki-mobile-hero-118",
+      "skillId": "wiki-orange-apr23-07",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Văn Sính",
+      "stage": "ORANGE",
+      "skillName": "Chế Ngự Quân Địch",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 15000,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "TACTIC",
+          "hits": 2
+        },
+        {
+          "op": "DEFENSE_CHANGE",
+          "target": "OTHER_ALLIES",
+          "lane": "TACTIC",
+          "base": 40,
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Nguyệt Hồn",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 25,
+          "variable": "N"
+        }
+      ],
+      "extra": {
+        "weaponLevels": [
+          {
+            "level": 1,
+            "alliesTacticAttackBonusPctRange": [
+              30,
+              50
+            ],
+            "durationTurnsRange": [
+              10,
+              5
+            ],
+            "dispel": false
+          },
+          {
+            "level": 2,
+            "alliesTacticAttackBonusPctRange": [
+              50,
+              100
+            ],
+            "durationTurnsRange": [
+              10,
+              5
+            ],
+            "dispel": false
+          }
+        ]
+      },
+      "heroId": "wiki-mobile-hero-135",
+      "skillId": "wiki-orange-apr23-08",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Lữ Bố",
+      "stage": "ORANGE",
+      "skillName": "Ma Thần Nộ Hỏa",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 10000,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Sợ Hãi",
+          "target": "ALL_ENEMIES",
+          "turns": 2,
+          "probabilityPctPve": 18,
+          "probabilityPctPvp": 4.5
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 13000,
+          "lane": "TACTIC",
+          "target": "RANDOM_ENEMIES",
+          "hits": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Điên Cuồng",
+          "target": "SELF",
+          "turns": 3,
+          "effectPct": 25
+        },
+        {
+          "op": "STATUS",
+          "name": "Phá Thánh",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {
+        "weaponLevels": [
+          {
+            "level": 1,
+            "startMorale": 25,
+            "tacticAttackBonusPct": 25,
+            "dispel": false
+          },
+          {
+            "level": 2,
+            "startMorale": 50,
+            "tacticAttackBonusPct": 250,
+            "dispel": false
+          }
+        ]
+      },
+      "heroId": "wiki-mobile-hero-128",
+      "skillId": "wiki-orange-apr23-09",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Điêu Thuyền",
+      "stage": "ORANGE",
+      "skillName": "Thiên Vũ Khuynh Thành",
+      "lane": "SUPPORT",
+      "events": [
+        {
+          "op": "ATTACK_CHANGE",
+          "target": "ALL_ALLIES",
+          "base": 75,
+          "variable": "X",
+          "turns": 2
+        },
+        {
+          "op": "ATTACK_CHANGE",
+          "target": "ALL_ENEMIES",
+          "base": -24,
+          "variable": "Y",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Mê Hoặc",
+          "target": "ALL_ENEMIES",
+          "turns": 2,
+          "probabilityPctPve": 25,
+          "probabilityPctPvp": 7.5
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-124",
+      "skillId": "wiki-orange-apr23-10",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Vương Doãn",
+      "stage": "ORANGE",
+      "skillName": "Cư Ngạo Uy Áp",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 15000,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Đào Binh",
+          "target": "ALL_ENEMIES",
+          "turns": 2
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 30,
+          "lane": "STRATEGY",
+          "hits": 1
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-161",
+      "skillId": "wiki-orange-apr23-11",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Viên Thiệu",
+      "stage": "ORANGE",
+      "skillName": "Vang Danh Thiên Hạ",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ALLIES",
+          "base": 25,
+          "variable": "N"
+        },
+        {
+          "op": "STATUS",
+          "name": "Kiên Thủ",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Đề Kháng",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Đồn Điền",
+          "target": "RANDOM_ALLY",
+          "turns": 2
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-136",
+      "skillId": "wiki-orange-apr23-12",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Trần Cung",
+      "stage": "RED",
+      "skillName": "Bỏng Lạnh",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 2500,
+          "lane": "STRATEGY",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Áp Ức",
+          "target": "ENEMY_ROW",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-131",
+      "skillId": "wiki-orange-apr23-13",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Trần Cung",
+      "stage": "PURPLE",
+      "skillName": "Nhiễu Loạn Quân Địch",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 10000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Áp Ức",
+          "target": "ENEMY_ROW",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Hủ Thực",
+          "target": "ENEMY_ROW",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-131",
+      "skillId": "wiki-orange-apr23-14",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Trần Cung",
+      "stage": "ORANGE",
+      "skillName": "Bốn Bề Bủa Vây",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 15000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_ROW",
+          "hits": 2,
+          "modifier": "LOW_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Áp Ức",
+          "target": "ENEMY_ROW",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Hủ Thực",
+          "target": "ENEMY_ROW",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {
+        "weaponLevels": [
+          {
+            "level": 1,
+            "battleStartStatus": [
+              "Nguyệt Hồn"
+            ],
+            "durationTurns": 5
+          },
+          {
+            "level": 2,
+            "battleStartStatus": [
+              "Nguyệt Hồn",
+              "Tỏ Chí"
+            ],
+            "durationTurns": 10
+          }
+        ]
+      },
+      "heroId": "wiki-mobile-hero-131",
+      "skillId": "wiki-orange-apr23-15",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Mã Vân Lộc",
+      "stage": "ORANGE",
+      "skillName": "Loan Hồi Phượng Vũ",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 10000,
+          "lane": "TACTIC",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 13000,
+          "lane": "TACTIC",
+          "target": "ENEMY_ROW",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_ROW",
+          "base": -15,
+          "variable": "X",
+          "perHit": true
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-056",
+      "skillId": "wiki-orange-apr23-16",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Tào Hồng",
+      "stage": "ORANGE",
+      "skillName": "Mục Huyết Hộ Chủ",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 14000,
+          "lane": "TACTIC",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Đào Binh",
+          "target": "ALL_ENEMIES",
+          "turns": 2
+        },
+        {
+          "op": "HEAL",
+          "target": "SELF",
+          "pct": 20,
+          "lane": "TACTIC",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Tử Thủ",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-017",
+      "skillId": "wiki-orange-apr23-17",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Từ Thịnh",
+      "stage": "ORANGE",
+      "skillName": "Thất Tinh Tiễn Trận",
+      "lane": "TACTIC",
+      "events": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 500
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 6800,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "name": "Độ Hiểm",
+          "target": "SELF",
+          "turns": 3,
+          "attackBonusPct": 100
+        },
+        {
+          "op": "STATUS",
+          "name": "Đề Kháng",
+          "target": "SELF",
+          "turns": 3,
+          "shieldPercentOfMaxSoldiers": 15,
+          "maxShieldPct": 50
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-100",
+      "skillId": "wiki-orange-apr23-18",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    },
+    {
+      "name": "Tả Từ",
+      "stage": "ORANGE",
+      "skillName": "Thiên Địa Vô Cực",
+      "lane": "STRATEGY",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 9000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_BACK_ROW",
+          "hits": 2,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_BACK_ROW",
+          "base": -25,
+          "variable": null,
+          "perHit": true
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-130",
+      "skillId": "wiki-orange-apr23-19",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html",
+      "sourceDate": "2023-04-08",
+      "checkedAt": "2026-11-19",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false,
+      "awakeningCost": null
+    }
+  ],
+  "disclaimer": "Historical 2023 Orange stage bulletins, superseded in some 2024/26 versions. Not an assertion of server current skill, no runtime import."
+}

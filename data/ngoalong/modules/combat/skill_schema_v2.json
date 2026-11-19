@@ -1,0 +1,319 @@
+{
+  "schemaVersion": 2,
+  "id": "mdtq-original-combat-skills-v2",
+  "status": "DESIGN_READY_NOT_LIVE",
+  "classicParity": "UNKNOWN",
+  "source": "PROJECT_ORIGINAL",
+  "provenance": {
+    "classification": "SIMULATED",
+    "sourceId": "mdtq-combat-original-v2"
+  },
+  "skillSchema": {
+    "id": "unique kebab-case string",
+    "role": [
+      "attacker",
+      "defender",
+      "support",
+      "strategist",
+      "healer",
+      "morale-breaker",
+      "controller"
+    ],
+    "moraleCost": "integer 0..effects.moraleCap",
+    "target": {
+      "team": [
+        "enemy",
+        "ally",
+        "self"
+      ],
+      "pattern": [
+        "single",
+        "back",
+        "lowest-hp",
+        "highest-morale",
+        "row",
+        "column",
+        "all"
+      ],
+      "priority": [
+        "front",
+        "back",
+        "weakest",
+        "highest-morale",
+        "counter"
+      ],
+      "ignoreFront": "optional boolean"
+    },
+    "operations": [
+      {
+        "op": "damage",
+        "lane": "physical|tactic|magic",
+        "coefficient": "SIMULATED positive number",
+        "pierce": "0..1 optional",
+        "criticalChance": "optional chance, requires replay roll"
+      },
+      {
+        "op": "heal",
+        "coefficient": "positive number on magic attack"
+      },
+      {
+        "op": "morale",
+        "delta": "signed integer"
+      },
+      {
+        "op": "status",
+        "effectId": "one of the original 13, legacyAdapter:true required for old six",
+        "chance": "0..1 external roll"
+      },
+      {
+        "op": "dispel",
+        "polarity": "harmful|beneficial|all",
+        "maxRemove": "nonnegative integer"
+      }
+    ],
+    "operationScope": [
+      "selected",
+      "self",
+      "all-allies",
+      "all-enemies",
+      "ally-lowest-hp"
+    ],
+    "eventContract": "resolveAction returns immutable frame command/events/snapshot; replay validates exact equality",
+    "rollout": "REFERENCE_ONLY until Chat 07 wires generator and verifies Save/replay/Chromium",
+    "rng": "No Math.random; caller must supply command.rolls[operationIndex:targetId] for 0<chance<1"
+  },
+  "examplesOnly": true,
+  "skills": [
+    {
+      "id": "mdtq-basic-strike",
+      "role": "attacker",
+      "moraleCost": 0,
+      "target": {
+        "team": "enemy",
+        "pattern": "single",
+        "priority": "front"
+      },
+      "operations": [
+        {
+          "op": "damage",
+          "lane": "physical",
+          "coefficient": 1,
+          "scope": "selected"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-spear-assault",
+      "role": "attacker",
+      "moraleCost": 60,
+      "target": {
+        "team": "enemy",
+        "pattern": "column",
+        "priority": "counter"
+      },
+      "operations": [
+        {
+          "op": "damage",
+          "lane": "tactic",
+          "coefficient": 1.15,
+          "pierce": 0.2,
+          "scope": "selected"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-arcane-blast",
+      "role": "strategist",
+      "moraleCost": 65,
+      "target": {
+        "team": "enemy",
+        "pattern": "row",
+        "priority": "front"
+      },
+      "operations": [
+        {
+          "op": "damage",
+          "lane": "magic",
+          "coefficient": 1.2,
+          "scope": "selected"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-ironwall-order",
+      "role": "defender",
+      "moraleCost": 40,
+      "target": {
+        "team": "self",
+        "pattern": "single"
+      },
+      "operations": [
+        {
+          "op": "status",
+          "effectId": "ironwall",
+          "scope": "self"
+        },
+        {
+          "op": "morale",
+          "delta": 10,
+          "scope": "all-allies"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-warlord-rally",
+      "role": "support",
+      "moraleCost": 45,
+      "target": {
+        "team": "self",
+        "pattern": "single"
+      },
+      "operations": [
+        {
+          "op": "morale",
+          "delta": 25,
+          "scope": "all-allies"
+        },
+        {
+          "op": "status",
+          "effectId": "focus",
+          "scope": "all-allies"
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-morale-break",
+      "role": "morale-breaker",
+      "moraleCost": 55,
+      "target": {
+        "team": "enemy",
+        "pattern": "highest-morale"
+      },
+      "operations": [
+        {
+          "op": "damage",
+          "lane": "tactic",
+          "coefficient": 0.8
+        },
+        {
+          "op": "morale",
+          "delta": -45
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-herbal-rescue",
+      "role": "healer",
+      "moraleCost": 40,
+      "target": {
+        "team": "ally",
+        "pattern": "lowest-hp"
+      },
+      "operations": [
+        {
+          "op": "heal",
+          "coefficient": 0.95
+        },
+        {
+          "op": "dispel",
+          "polarity": "harmful",
+          "maxRemove": 1
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-sleep-hex",
+      "role": "controller",
+      "moraleCost": 55,
+      "target": {
+        "team": "enemy",
+        "pattern": "back"
+      },
+      "operations": [
+        {
+          "op": "status",
+          "effectId": "sleep",
+          "chance": 0.35
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-dispel-ward",
+      "role": "support",
+      "moraleCost": 35,
+      "target": {
+        "team": "enemy",
+        "pattern": "single",
+        "priority": "front"
+      },
+      "operations": [
+        {
+          "op": "dispel",
+          "polarity": "beneficial",
+          "maxRemove": 2
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    },
+    {
+      "id": "mdtq-legacy-break-adapter",
+      "role": "strategist",
+      "moraleCost": 50,
+      "target": {
+        "team": "enemy",
+        "pattern": "single"
+      },
+      "operations": [
+        {
+          "op": "damage",
+          "lane": "magic",
+          "coefficient": 0.7
+        },
+        {
+          "op": "status",
+          "effectId": "break",
+          "legacyAdapter": true
+        }
+      ],
+      "provenance": {
+        "classification": "SIMULATED",
+        "sourceId": "mdtq-combat-original-v2"
+      }
+    }
+  ]
+}

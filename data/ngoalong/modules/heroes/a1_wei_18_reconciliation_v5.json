@@ -1,0 +1,592 @@
+{
+  "schemaVersion": 5,
+  "batch": "A1_WEI_18",
+  "date": "2026-11-19",
+  "sourceEdition": "MOBILE_PLUS_HISTORIC_WEB_SEPARATE",
+  "indexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+  "sourceReferences": [
+    "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+    "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+    "https://thethao.sggp.org.vn/webgame-ngoa-long-post387668.html",
+    "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+    "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-nguy-quoc-toi-uu-hoa-giai-doan-truoc-lv300.html"
+  ],
+  "statusTotals": {
+    "classicNameExact": 12,
+    "unresolvedSpellingVariants": 3,
+    "noDetailedFactInReviewedClassicTables": 3
+  },
+  "aliasSpecificNotes": [
+    {
+      "wikiName": "Hí Chí Tài",
+      "oldSourceName": "Hí Chỉ Tài",
+      "corroboration": "2014 Sài Gòn Giải Phóng Ngọa Long article names Hí Chí Tài in Trial Tower examples",
+      "sourceUrl": "https://thethao.sggp.org.vn/webgame-ngoa-long-post387668.html",
+      "confidence": "LIKELY_HISTORIC_NAME_VARIANT",
+      "proofOfCurrentMobileAttributes": false,
+      "autoLinked": false
+    },
+    {
+      "wikiName": "Hách Chiêu",
+      "oldSourceName": "Hắc Chiêu",
+      "corroboration": null,
+      "confidence": "UNRESOLVED_ORTHOGRAPHY",
+      "proofOfCurrentMobileAttributes": false,
+      "autoLinked": false
+    },
+    {
+      "wikiName": "Lạc Tiến",
+      "oldSourceName": "Nhạc Tiến",
+      "corroboration": null,
+      "confidence": "UNRESOLVED_VARIANT_TRANSLITERATION",
+      "proofOfCurrentMobileAttributes": false,
+      "autoLinked": false
+    }
+  ],
+  "specificallyUnresolvedInReviewedSources": [
+    "Lý Điển",
+    "Vương Song",
+    "Nghiêm Chính"
+  ],
+  "rows": [
+    {
+      "heroId": "wiki-mobile-hero-023",
+      "wikiName": "Tào Phi",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-03"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [
+          "NL_A123_20261119_004",
+          "NL_A123_20261119_008"
+        ],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "PARTIAL_DATED_MOBILE_EVIDENCE"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "PARTIAL_GUIDE_ONLY",
+        "skillParameters": "PARTIAL_PURPLE_WEAPON",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-024",
+      "wikiName": "Xa Trụ",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-tower-02"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-025",
+      "wikiName": "Hách Chiêu",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "ALIAS_REVIEW",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [],
+        "reviewAlias": {
+          "wikiSpelling": "Hách Chiêu",
+          "archiveSpelling": "Hắc Chiêu",
+          "archiveRecordId": "classic-wei-tower-11",
+          "externalSource": "https://licadho.org/cach-choi-nguy-ngoa-long-binh-chung-tuong-thich-voi-cac-tuong-nuoc-nguy/",
+          "assessment": "POSSIBLE_HISTORICAL_NAME_VARIANT",
+          "resolvedForRuntime": false,
+          "confirmedMobileId": false
+        },
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "PENDING",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-026",
+      "wikiName": "Lý Điển",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "NOT_FOUND",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-027",
+      "wikiName": "Tào Hưu",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-tower-01"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-028",
+      "wikiName": "Vương Song",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "NOT_FOUND",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-029",
+      "wikiName": "Chung Dao",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-01"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-030",
+      "wikiName": "Dương Tu",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-11"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-031",
+      "wikiName": "Đặng Trung",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-06"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-032",
+      "wikiName": "Hạ Hầu Bá",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-tower-06"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-033",
+      "wikiName": "Hí Chí Tài",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "ALIAS_REVIEW",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [],
+        "reviewAlias": {
+          "wikiSpelling": "Hí Chí Tài",
+          "archiveSpelling": "Hí Chỉ Tài",
+          "archiveRecordId": "classic-wei-tower-04",
+          "externalSource": "https://ngoalong.zing.vn/tin-tuc/huong-dan/vo-tuong-tu-thap-thi-luyen-nuoc-nguy.html",
+          "assessment": "POSSIBLE_HISTORICAL_NAME_VARIANT",
+          "resolvedForRuntime": false,
+          "confirmedMobileId": false
+        },
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "PENDING",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-034",
+      "wikiName": "Hoa Hâm",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-13"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-035",
+      "wikiName": "Lạc Tiến",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "ALIAS_REVIEW",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [],
+        "reviewAlias": {
+          "wikiSpelling": "Lạc Tiến",
+          "archiveSpelling": "Nhạc Tiến",
+          "archiveRecordId": "classic-wei-renown-10",
+          "externalSource": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+          "assessment": "POSSIBLE_HISTORICAL_NAME_VARIANT",
+          "resolvedForRuntime": false,
+          "confirmedMobileId": false
+        },
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "PENDING",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-036",
+      "wikiName": "Lưu Diệp",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-02"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-037",
+      "wikiName": "Lý Thông",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-05"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-038",
+      "wikiName": "Trần Quần",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-08"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-039",
+      "wikiName": "Vu Cấm",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "EXACT_NAME_ARCHIVAL_FACTS",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [
+          "classic-wei-renown-09"
+        ],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    },
+    {
+      "heroId": "wiki-mobile-hero-040",
+      "wikiName": "Nghiêm Chính",
+      "wikiFaction": "Ngụy",
+      "currentIndexSource": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
+      "status": "NOT_FOUND",
+      "sourceValidation": {
+        "classicNameMatchedRecordIds": [],
+        "reviewAlias": null,
+        "newMobileSourceFactIds": [],
+        "nativeMobileBaseAttributes": null,
+        "nativeMobileAwakeningCosts": null,
+        "nativeMobileRecruitmentOdds": null,
+        "currentSkillFullyResolved": false,
+        "currentSourceConfidence": "NO_INDIVIDUAL_MOBILE_GAMEPLAY_FACT"
+      },
+      "isOneOf18": true,
+      "researchTasks": {
+        "exactBaseStats": "UNKNOWN",
+        "awakeningIndividualCost": "UNKNOWN",
+        "recruitmentSource": "UNKNOWN",
+        "skillParameters": "UNKNOWN",
+        "aliasClearance": "NOT_NEEDED",
+        "integration": "BLOCKED_CHAT08"
+      },
+      "noAutoPromote": true
+    }
+  ],
+  "playablePromotions": 0,
+  "takeaway": "18 examined individually; missing current Mobile stats, activation and cost cannot be filled from 2012 classic web tables; no all-complete claim."
+}

@@ -1,0 +1,1320 @@
+{
+  "schemaVersion": 1,
+  "sourceBatch": "VNG_OFFICIAL_2024_ORANGE",
+  "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+  "edition": "VNG_WIKI_MOBILE_CURRENT",
+  "awakeningUnlockMainCityLevel": 300,
+  "stage": "ORANGE",
+  "count": 24,
+  "skills": [
+    {
+      "heroId": "wiki-mobile-hero-013",
+      "name": "Hứa Chử",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-01-20240102",
+      "skillName": "Lõa Y Nộ Tập",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DISPEL",
+          "target": "ONE_ENEMY",
+          "effect": "BENEFICIAL",
+          "count": 2,
+          "beforeDamage": true
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 13000,
+          "lane": "TACTIC",
+          "target": "ONE_ENEMY",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE",
+          "additionalDamageEachHitPctSelfCurrentSoldiers": 5,
+          "additionalDamageDefenseIgnore": true
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tỏ Chí",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "Cô Độc",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {
+        "weaponPassive": {
+          "name": "Vô Tình",
+          "extraDamagePctOfOwnCurrentSoldiers": 5,
+          "ignoresDefense": true
+        }
+      },
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-097",
+      "name": "Hoàng Cái",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-02-20240102",
+      "skillName": "Càng Già Càng Cay",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 5500,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Âm Hồn",
+          "target": "ENEMY_COLUMN",
+          "durationTurns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Bất Khuất",
+          "target": "SELF",
+          "durationTurns": 4,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {
+        "weaponPassiveLevels": [
+          {
+            "level": 1,
+            "trigger": "TURN_START",
+            "selfCurrentSoldiersDamagePct": 10,
+            "attackBonusPct": 15
+          },
+          {
+            "level": 2,
+            "trigger": "TURN_START",
+            "selfCurrentSoldiersDamagePct": 10,
+            "attackBonusPct": 30
+          }
+        ],
+        "weaponPassiveEffects": [
+          "Tỏa Binh 2",
+          "Bạo Nộ",
+          "Anh Dũng 2"
+        ],
+        "weaponPassiveDurationTurns": 2,
+        "weaponPassiveAttackBonusStacking": true
+      },
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-058",
+      "name": "Quan Bình",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-03-20240102",
+      "skillName": "Thanh Long Khiếu Nguyệt",
+      "lane": "NORMAL",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 550,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Nghĩa Tuyệt",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false,
+          "physicalAttackBonusPct": 14000,
+          "physicalAttackBonusPctPerCounter": 420
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thanh Long 2",
+          "target": "SELF",
+          "durationTurns": 3,
+          "attackDefensePctPerStack": 5,
+          "maxStacks": 7
+        },
+        {
+          "op": "STATUS",
+          "effect": "Bạch Nhẫn",
+          "target": "ALL_ALLIES",
+          "durationTurns": 31
+        }
+      ],
+      "extra": {
+        "weaponPassiveLevels": [
+          {
+            "level": 1,
+            "trigger": "NORMAL_ATTACK_OR_COUNTER",
+            "otherAlliesMorale": 10
+          },
+          {
+            "level": 2,
+            "trigger": "NORMAL_ATTACK_OR_COUNTER",
+            "otherAlliesMorale": 15
+          }
+        ]
+      },
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-160",
+      "name": "Vương Dị",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-04-20240102",
+      "skillName": "Mưa Hạn",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 200
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "coefficientPct": 25,
+          "lane": "STRATEGY",
+          "hits": 4
+        },
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "coefficientPct": 25,
+          "lane": "STRATEGY",
+          "hits": 1,
+          "probabilityPct": 50
+        },
+        {
+          "op": "STATUS",
+          "effect": "Loại Bỏ",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "Phấn Chấn",
+          "target": "OTHER_ALLIES",
+          "durationTurns": 3,
+          "moraleOnTrigger": 10
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-048",
+      "name": "Quan Vũ",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-05-20240102",
+      "skillName": "Thiên Lý Đơn Kỵ",
+      "lane": "NORMAL",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 500,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Ám Tế",
+          "target": "ONE_ENEMY",
+          "durationTurns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Nghĩa Tuyệt",
+          "target": "SELF",
+          "durationTurns": null,
+          "until": "BATTLE_END",
+          "pvpDurationTurns": 3,
+          "physicalAttackBonusPct": 14500,
+          "physicalAttackBonusPctPerCounter": 400,
+          "counterOnAnyDamage": true
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hấp Huyết",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kiên Thủ",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false,
+          "pvpEnabled": false,
+          "allDefensePctPerStack": 12
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-022",
+      "name": "Từ Hoảng",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-06-20240102",
+      "skillName": "Trời Long Đất Lở",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 18000,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Giẫm Đạp",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 2,
+          "dispel": false,
+          "stacksToConfusePve": 3,
+          "stacksToConfusePvp": 4,
+          "confuseDurationTurns": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-088",
+      "name": "Tôn Sách",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-07-20240102",
+      "skillName": "Thần Uy Phá Trận",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 9500,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tịnh Hóa",
+          "target": "ALL_ALLIES",
+          "durationTurns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tòng Long",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Võ Lực",
+          "target": "ALL_ALLIES",
+          "durationTurns": 3,
+          "tacticDamageBonusPctPerStack": 13,
+          "stacking": true
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ALLIES",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-137",
+      "name": "Vu Cát",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-08-20240102",
+      "skillName": "Bùa Phép Trấn Tà",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 6600,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Ma Ám",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 3,
+          "dispel": false,
+          "maxSoldiersReductionPctPerStack": 5,
+          "stacking": true
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-021",
+      "name": "Tuân Du",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-09-20240102",
+      "skillName": "Thiên Lý Băng Phong",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 4000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_ROW",
+          "base": -25,
+          "variable": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Đóng Băng",
+          "target": "ENEMY_ROW",
+          "durationTurns": 1,
+          "probabilityPctPve": 65,
+          "probabilityPctPvp": 39,
+          "onDamageMoraleDelta": -10,
+          "maxOnDamageTriggers": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "X"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-054",
+      "name": "Mã Lương",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-10-20240102",
+      "skillName": "Thiên Lý Băng Phong",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 4000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_ROW",
+          "base": -25,
+          "variable": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Đóng Băng",
+          "target": "ENEMY_ROW",
+          "durationTurns": 1,
+          "probabilityPctPve": 65,
+          "probabilityPctPvp": 39,
+          "onDamageMoraleDelta": -10,
+          "maxOnDamageTriggers": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "X"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-093",
+      "name": "Cố Ung",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-11-20240102",
+      "skillName": "Thiên Lý Băng Phong",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 4000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_MORALE_MORE_DAMAGE"
+        },
+        {
+          "op": "MORALE",
+          "target": "ENEMY_ROW",
+          "base": -25,
+          "variable": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Đóng Băng",
+          "target": "ENEMY_ROW",
+          "durationTurns": 1,
+          "probabilityPctPve": 65,
+          "probabilityPctPvp": 39,
+          "onDamageMoraleDelta": -10,
+          "maxOnDamageTriggers": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "X"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-151",
+      "name": "Trương Trọng Cảnh",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-12-20240102",
+      "skillName": "Kim Quý Yếu Lược",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 12000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LINE",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DAMAGE_TO_HEAL",
+          "target": "ALL_ALLIES",
+          "convertedDamagePct": 100,
+          "maxHealPctMaxSoldiers": 10
+        },
+        {
+          "op": "STATUS",
+          "effect": "Áp Chế",
+          "target": "SELF",
+          "durationTurns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {
+        "recruitment": {
+          "method": "TAVERN_POST_BOSS",
+          "requiredBoss": "Trương Trọng Cảnh",
+          "scenario": "Ngọa Long Thần Toán - Chọc Giận Chu Du",
+          "probability": null
+        },
+        "stageSkillFacts": [
+          {
+            "stage": "WHITE",
+            "skill": "Ly Gián",
+            "damagePct": 92,
+            "healSelfPct": 50
+          },
+          {
+            "stage": "BLUE",
+            "skill": "Phiến Động",
+            "damagePct": 193,
+            "healSelfPct": 20
+          },
+          {
+            "stage": "GREEN",
+            "skill": "Mưu Thủ",
+            "damagePct": 270,
+            "healAllPct": 20,
+            "morale": {
+              "base": 50,
+              "variable": "X"
+            }
+          },
+          {
+            "stage": "RED",
+            "skill": "Loạn Thế Phổ Độ",
+            "damagePercents": [
+              920,
+              100,
+              100
+            ],
+            "healAllPct": 20,
+            "enemyStrategyDefenseDownPct": 25,
+            "durationTurns": 2,
+            "morale": {
+              "base": 50,
+              "variable": "X"
+            }
+          },
+          {
+            "stage": "PURPLE",
+            "skill": "Tế Thế Chỉ Qua",
+            "damagePct": 5200,
+            "hits": 2,
+            "damageToHealPct": 100,
+            "maxHealPctMaxSoldiers": 10,
+            "morale": 145
+          }
+        ]
+      },
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": null,
+      "name": "Lưu Bị",
+      "sourceListStatus": "IN_OFFICIAL_UPDATE_ONLY",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-13-20240102",
+      "skillName": "Thiên Hạ Chia Ba",
+      "lane": "SUPPORT",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 85,
+          "variable": "N"
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ENEMIES",
+          "base": -20,
+          "variable": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tòng Long",
+          "target": "ALL_ALLIES",
+          "durationTurns": 2,
+          "pvpDamageIncreasePct": 15
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": null,
+      "name": "Tào Tháo",
+      "sourceListStatus": "IN_OFFICIAL_UPDATE_ONLY",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-14-20240102",
+      "skillName": "Thiên Hạ Chia Ba",
+      "lane": "SUPPORT",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 85,
+          "variable": "N"
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ENEMIES",
+          "base": -20,
+          "variable": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tòng Long",
+          "target": "ALL_ALLIES",
+          "durationTurns": 2,
+          "pvpDamageIncreasePct": 15
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": null,
+      "name": "Tôn Quyền",
+      "sourceListStatus": "IN_OFFICIAL_UPDATE_ONLY",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-15-20240102",
+      "skillName": "Thiên Hạ Chia Ba",
+      "lane": "SUPPORT",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 85,
+          "variable": "N"
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ENEMIES",
+          "base": -20,
+          "variable": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tòng Long",
+          "target": "ALL_ALLIES",
+          "durationTurns": 2,
+          "pvpDamageIncreasePct": 15
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-154",
+      "name": "Tư Mã Chiêu",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-16-20240102",
+      "skillName": "Vương Triều Tan Rã",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 4500,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ENEMIES",
+          "base": -20,
+          "variable": null
+        },
+        {
+          "op": "HEAL_RECEIVED_REDUCTION",
+          "target": "ALL_ENEMIES",
+          "pctPve": 100,
+          "pctPvp": 60,
+          "durationTurns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Âm Hồn",
+          "target": "ALL_ENEMIES",
+          "durationTurns": null,
+          "until": "BATTLE_END"
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-156",
+      "name": "Tư Mã Viêm",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-17-20240102",
+      "skillName": "Thâu Tóm Thiên Hạ",
+      "lane": "SUPPORT",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 60,
+          "variable": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Điên Cuồng",
+          "target": "OTHER_ALLIES",
+          "durationTurns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Vô Lực",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 2,
+          "probabilityPct": 50,
+          "independentRoll": true
+        },
+        {
+          "op": "STATUS",
+          "effect": "Do Dự",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 2,
+          "probabilityPct": 50,
+          "independentRoll": true,
+          "pvpReplacement": "Tê Liệt"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Gièm Pha",
+          "target": "ALL_ENEMIES",
+          "durationTurns": 2,
+          "probabilityPct": 50,
+          "independentRoll": true
+        }
+      ],
+      "extra": {
+        "recruitment": {
+          "method": "ARENA_EXCHANGE",
+          "requiredPlayerLevel": 240,
+          "arenaPoints": 200000
+        },
+        "stageSkillFacts": [
+          {
+            "stage": "GREEN",
+            "skill": "Tỏa Hồn",
+            "damagePct": 268,
+            "enemyMoraleDelta": -10,
+            "healingDownPctPve": 75,
+            "healingDownPctPvp": 25
+          },
+          {
+            "stage": "RED",
+            "skill": "Ám Vân",
+            "damagePct": 800,
+            "enemyMoraleDelta": -10,
+            "healingDownPctPve": 85,
+            "healingDownPctPvp": 35
+          },
+          {
+            "stage": "PURPLE",
+            "skill": "Định Kế Nhất Thống",
+            "moraleOthers": 40,
+            "debuffProbabilityPct": 50
+          }
+        ]
+      },
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-020",
+      "name": "Trình Dục",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-18-20240102",
+      "skillName": "Trời Tru Đất Diệt",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 7000,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tan Vỡ",
+          "target": "ALL_ENEMIES",
+          "durationTurns": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "E Sợ",
+          "target": "ALL_ENEMIES",
+          "durationTurns": null,
+          "attackReductionPctCap": 40
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 0,
+          "variable": "X"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-057",
+      "name": "Pháp Chính",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-19-20240102",
+      "skillName": "Trời Tru Đất Diệt",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 7000,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tan Vỡ",
+          "target": "ALL_ENEMIES",
+          "durationTurns": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "E Sợ",
+          "target": "ALL_ENEMIES",
+          "durationTurns": null,
+          "attackReductionPctCap": 40
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 0,
+          "variable": "X"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-095",
+      "name": "Gia Cát Khác",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-20-20240102",
+      "skillName": "Trời Tru Đất Diệt",
+      "lane": "STRATEGY",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 7000,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tan Vỡ",
+          "target": "ALL_ENEMIES",
+          "durationTurns": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "E Sợ",
+          "target": "ALL_ENEMIES",
+          "durationTurns": null,
+          "attackReductionPctCap": 40
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 0,
+          "variable": "X"
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-155",
+      "name": "Tư Mã Du",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-21-20240102",
+      "skillName": "Thanh Nhã Cần Chính",
+      "lane": "SUPPORT",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DISPEL",
+          "target": "ALL_ENEMIES",
+          "effect": "BENEFICIAL",
+          "count": "ALL",
+          "pvpMaxPerEnemy": 4
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 50,
+          "variable": "X"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Bền Bỉ",
+          "target": "ALL_ALLIES",
+          "durationTurns": 2,
+          "criticalReceivedChanceDownPct": 40
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 100,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-049",
+      "name": "Triệu Vân",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-22-20240102",
+      "skillName": "Thất Tiến Thất Xuất",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DEFENSE_REDUCTION",
+          "target": "ENEMY_COLUMN",
+          "lane": "TACTIC",
+          "coefficientPct": 40,
+          "durationTurns": 2
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 9800,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hộ Thuẫn",
+          "target": "SELF",
+          "durationTurns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {
+        "collectibleTitle": "Long Đảm"
+      },
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-009",
+      "name": "Trương Hợp",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-23-20240102",
+      "skillName": "Binh Pháp Ngụy Đạo",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "STATUS",
+          "effect": "Đóng Đô",
+          "target": "SELF",
+          "durationTurns": 3
+        },
+        {
+          "op": "DISPEL",
+          "target": "ENEMY_COLUMN",
+          "effect": "BENEFICIAL",
+          "count": "ALL",
+          "pvpMaxPerEnemy": 2
+        },
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 25440,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kỳ Trận",
+          "target": "SELF",
+          "durationTurns": 3,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {
+        "collectibleTitle": "Dũng Tướng"
+      },
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    },
+    {
+      "heroId": "wiki-mobile-hero-080",
+      "name": "Chu Thái",
+      "sourceListStatus": "IN_WIKI_364_INDEX",
+      "stage": "ORANGE",
+      "skillId": "wiki-orange-24-20240102",
+      "skillName": "Anh Dũng Bất Khuất",
+      "lane": "TACTIC",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/he-thong-tuong-cam-13424.html",
+      "sourceDate": "2024-01-02",
+      "checkedAt": "2026-11-19",
+      "edition": "VNG_WIKI_MOBILE_CURRENT",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "coefficientPct": 20800,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "LOW_SELF_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Áp Ức",
+          "target": "ENEMY_COLUMN",
+          "durationTurns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Dũng Tuyệt",
+          "target": "SELF",
+          "durationTurns": 31,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {
+        "collectibleTitle": "Hùng Hổ"
+      },
+      "provenance": "VERIFIED",
+      "executable": false,
+      "engineOwner": "CHAT_05",
+      "parameterPolicy": "N/X and undocumented damage modifiers remain UNKNOWN"
+    }
+  ],
+  "unindexedHeroes": [
+    "Lưu Bị",
+    "Tào Tháo",
+    "Tôn Quyền"
+  ]
+}

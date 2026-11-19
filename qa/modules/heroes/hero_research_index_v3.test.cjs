@@ -1,0 +1,28 @@
+"use strict";
+const a=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path");
+const mod=require("../../../data/ngoalong/modules/heroes/hero_research_index_v3.js");
+const root=path.resolve(__dirname,"../../../data/ngoalong/modules/heroes");
+const file=n=>JSON.parse(fs.readFileSync(path.join(root,n),"utf8"));
+const d=mod.editionHandoff(),idx=file("wiki_catalogue_v1.json");
+const stage=file("wiki_gold_supplement_2025_2026_v1.json");
+let done=0;function check(n,f){f();done++;console.log("PASS HERO_RESEARCH_V3 "+n)}
+check("364 identities remain reference-only",()=>{a.equal(d.heroes.length,364);a(d.heroes.every(x=>!x.runtimeEnabled&&x.currentActiveStage===null))});
+check("151 versioned source skill snapshots",()=>{a.equal(d.sourceRows.length,151);a.equal(d.counts.supplementarySkillVersions,96)});
+check("134 heroes detailed and 230 still unknown",()=>{a.equal(d.counts.detailedHeroCandidates,134);a.equal(d.missingIds.length,230)});
+check("Wei and Quan coverage exactly audited",()=>{a.equal(d.missingByFaction["Ngụy"].withDetails,22);a.equal(d.missingByFaction["Quần"].withDetails,42);a.equal(d.missingByFaction["Trung lập"].missingDetails,73)});
+check("Guide stats are not active runtime stats",()=>{const q=d.heroes.find(x=>x.name==="Quan Vũ");a.equal(q.guideSource.baseAttributes.martial,97);a.equal(q.sourceEvidence.activeHeroStats,false)});
+check("Chân Cơ Gold supports healing",()=>{const x=d.heroes.find(x=>x.name==="Chân Cơ").sourcedSkillVersions;const g=x.find(z=>z.stage==="GOLD");a.equal(g.skillName,"Vũ Điệu Lạc Thần");a(g.operations.some(z=>z.op==="HEAL"&&z.pct===20))});
+check("Điển Vi historic Orange and Gold both retained",()=>{const x=d.heroes.find(x=>x.name==="Điển Vi").sourcedSkillVersions; a(x.some(z=>z.stage==="ORANGE")&&x.some(z=>z.stage==="GOLD"))});
+check("Lý Nho three tier abilities",()=>{const x=d.heroes.find(x=>x.name==="Lý Nho").sourcedSkillVersions;a.deepEqual(x.map(z=>z.stage),["GREEN","RED","PURPLE"])});
+check("Lưu Biểu has five staged skills",()=>{const x=d.heroes.find(x=>x.name==="Lưu Biểu").sourcedSkillVersions;a.deepEqual(x.map(z=>z.stage),["BLUE","GREEN","RED","PURPLE","ORANGE"])});
+check("11 official sourced names not auto matched",()=>{a.equal(d.unlinkedSourceSkills.length,11);a(d.unlinkedSourceSkills.some(x=>x.name==="Văn Sinh"))});
+check("Viên Thiệu conflicting Gold versions visible",()=>{const x=d.heroes.find(x=>x.name==="Viên Thiệu");a.deepEqual(x.ambiguousStages,["GOLD"])});
+check("Quan Vũ dated Sep24 patch retains old 500 and revised 300",()=>{a.equal(d.historicalQuanVuBalance.original[0].events[0].coefficientPct,500);a.equal(d.historicalQuanVuBalance.revised[0].events[0].coefficientPct,300)});
+check("reject negative invented skill coefficients",()=>{const f=structuredClone(stage);f.records.find(x=>x.events.some(e=>e.op==="DAMAGE")).events.find(e=>e.op==="DAMAGE").pct=-7;a.throws(()=>mod.verifyExtraPack(mod.PACKS[1],f,idx),/damage coefficient/)});
+check("reject fake heroId aliases",()=>{const f=structuredClone(stage);f.records[0].heroId="fake-hero";a.throws(()=>mod.verifyExtraPack(mod.PACKS[1],f,idx),/alias promoted/)});
+check("reject executable activation",()=>{const f=structuredClone(stage);f.records[0].runtimeEligible=true;a.throws(()=>mod.verifyExtraPack(mod.PACKS[1],f,idx),/source-only status broken/)});
+check("Wei tier milestones are guide-only",()=>{const x=file("wei_awakening_tavern_guide_v1.json");a.deepEqual(x.stageSystemAvailability.map(z=>z.level),[130,190,230,300]);a.equal(x.specialTavernAtLevel245.probability,null)});
+check("new Apr2023 Tào Hồng TACTIC source no fabricated stage",()=>{const x=d.heroes.find(z=>z.name==="Tào Hồng");const v=x.sourcedSkillVersions.find(z=>z.skillName==="Mục Huyết Hộ Chủ");a(v);a(v.operations.some(o=>o.op==="DAMAGE"&&o.pct===14000));a.equal(x.currentActiveStage,null)});
+check("new Quần 2023 profiles include Nhan Lương Văn Sửu Văn Sính",()=>{for(const name of ["Nhan Lương","Văn Sửu","Văn Sính"]){const x=d.heroes.find(z=>z.name===name);a(x.sourcedSkillVersions.some(z=>z.sourceDate==="2023-04-08"))}});
+check("five newly sourced heroes are not playable",()=>{for(const name of ["Tào Hồng","Nhan Lương","Văn Sửu","Văn Sính","Mã Vân Lộc"]){const x=d.heroes.find(z=>z.name===name);a.equal(x.runtimeEnabled,false);a.equal(x.readiness,"REFERENCE_ONLY")}});
+console.log("HERO_RESEARCH_V3 "+done+"/"+done+" PASS");

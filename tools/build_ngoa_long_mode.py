@@ -64,6 +64,7 @@ CSS = """
 @media(max-width:620px){.nl-enemy-intel{grid-template-columns:1fr}}
 @media(max-width:850px){.nl-command .nl-content{grid-template-columns:1fr}.nl-command{padding:15px}}
 @media(max-width:420px){.nl-command .nl-facts{gap:5px}.nl-command .nl-fact b{font-size:16px}.nl-command .nl-actions button{flex:1 1 43%}}
+.nl207-recruit{display:flex;gap:8px;align-items:stretch;max-width:100%}.nl207-recruit select{flex:1 1 auto;min-width:0;max-width:100%;padding:8px;font-size:12px}.nl207-recruit button{flex:0 0 auto}.nl-hero207-cta{font-size:11px;color:#dcc59b;margin-top:8px}@media(max-width:480px){.nl207-recruit{flex-direction:column}.nl207-recruit button{width:100%}}
 /* end NL-REBUILD-01 CSS */
 """
 
@@ -415,11 +416,15 @@ def build(source: str) -> str:
             "__NL_EFFECT_V1_CATALOG__", effect_json
         ),
     ]
-    if any("</script>" in part.lower() for part in parts):
+    hero207_module = (ROOT / "tools/nl_heroes207_runtime_v1.js").read_text(encoding="utf-8")
+    if "// === NL-HERO207-V1:" not in hero207_module or "// === end NL-HERO207-V1 ===" not in hero207_module:
+        raise ValueError("Missing Hero207 runtime module boundary markers")
+    if any("</script>" in part.lower() for part in parts + [hero207_module]):
         raise ValueError("Effect integration contains an unsafe script terminator")
     qa_marker = "if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign("
     if portal.count(qa_marker) != 1:
         raise ValueError("Cannot uniquely inject V1 effects before QA exports")
+    portal = portal.replace(qa_marker, hero207_module + "\n" + qa_marker, 1)
     portal = portal.replace(qa_marker, "\n".join(parts) + "\n" + qa_marker, 1)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
