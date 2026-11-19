@@ -141,7 +141,7 @@ function createV5({
    noAutomaticAliasMerging:true,
    noCrossEditionStatImport:true,
    noNpcEncounterEqualsUnrecruitableAssumption:true,
-   noAutomaticNewHeroRuntime:false
+   noAutomaticNewHeroRuntime:true
   }
  };
  guard(outputs.counts.newMobileMechanicsOnly===3,"new mobile mechanics expected 3 heroes");
