@@ -20,8 +20,8 @@ test("current canonical source covers 28 actual project stages and eight authore
 test("unverified Wiki numeric identities do not become playable troops",()=>{
   const s=view.summary();
   assert.equal(s.officialWikiTroopBindings,0);
-  assert.equal(s.liveV2CombatEnabled,false);
-  assert.equal(s.liveV2TroopAddons,false);
+  assert.equal(s.liveV2CombatEnabled,true);
+  assert.equal(s.liveV2TroopAddons,"CHARGE_ONLY");
   assert.equal(s.rewardAuthority,"native-p2");
 });
 test("all 28 tactical dossiers render without adding new gameplay rewards",()=>{
@@ -34,11 +34,11 @@ test("all 28 tactical dossiers render without adding new gameplay rewards",()=>{
   }
   assert.equal(JSON.stringify(pack),snapshot);
 });
-test("the eight Boss identities and final-war-drum design are disclosed as preview only",()=>{
+test("all eight Boss tactics preserve native P2 HP, morale and reward authority",()=>{
   const bosses=[2,5,8,12,16,20,24,28];
   for(const id of bosses){
     assert.match(view.renderStage(id),/data-nl-v2-boss="1"/);
-    assert.match(view.renderStage(id),/chưa thay đổi AI\/damage\/reward/);
+    assert.match(view.renderStage(id),/HP, sĩ khí, replay và phần thưởng chỉ do lõi P2/);
   }
   assert.match(view.renderStage(28),/final-war-drum/);
   assert.match(view.renderStage(1),/data-nl-v2-boss="0"/);
