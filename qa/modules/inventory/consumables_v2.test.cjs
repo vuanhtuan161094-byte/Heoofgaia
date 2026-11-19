@@ -1,7 +1,10 @@
 'use strict';
 const test=require('node:test'), assert=require('node:assert/strict');
 const rules=require('../../../data/ngoalong/modules/inventory/item_groups_v1.json');
-const pack=require('../../../data/ngoalong/modules/inventory/catalogue.json');
+const fullPack=require('../../../data/ngoalong/modules/inventory/catalogue.json');
+const pack={...fullPack,items:fullPack.items.filter(x=>
+  x.id==='mdt-tem-tiep-te'||x.id==='mdt-tinh-khoang'||/^wiki-mobile-item02-[1-4]$/.test(x.id))};
+// Synthetic QA uses the original 2+4 baseline; live-index cases are tested separately.
 const {build}=require('../../../data/ngoalong/modules/inventory/index_builder.js');
 const {createModule,validatePack}=require('../../../data/ngoalong/modules/inventory/consumables_engine.js');
 const categories=rules.sourceCounts;
