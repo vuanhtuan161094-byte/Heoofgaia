@@ -2,7 +2,7 @@ name: Muu Dinh Tam Quoc · Ngọa Long-focused full regression and release
 
 on:
   push:
-    branches: [main-ngoalong, 'codex/**', 'feature/nl-codex-cloud-v1-finish']
+    branches: [main-ngoalong, 'codex/**', 'feature/nl-codex-cloud-v1-finish', 'feature/nl-mcv2-08-heroes207-a-20261119']
   workflow_dispatch:
 
 permissions:
@@ -64,6 +64,8 @@ jobs:
           python tools/build_ngoa_long_r04.py --check
           git rev-parse HEAD | tee qa/commit-sha.txt
           sha256sum index.html | tee qa/index-sha256.txt
+      - name: Hero207 recruitment and Save-v5 deterministic focused gate
+        run: node qa/nl_heroes207_runtime_v1.test.cjs
       - name: Install minimal browser QA dependencies
         run: |
           python -m pip install playwright==1.58.0
