@@ -20,6 +20,10 @@
   '.nli-items-list{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:9px;margin:12px 0}',
   '.nli-items-card{background:#263941;border:1px solid #6e6b58;border-radius:9px;padding:11px;min-width:0}',
   '.nli-items-card b{color:#f4dca7}.nli-items-card small{display:block;color:#a7babd}',
+  '.nli-items-card{overflow-wrap:anywhere}.nli-items-meta{overflow-wrap:anywhere}',
+  '.nli-items-summary{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;padding:7px 0}',
+  '.nli-items-card .nli-items-cost{padding:7px 8px;background:#1c3039;border-radius:5px;color:#e8d5a8}',
+  '.nli-items-panel button:focus-visible,.nli-items-panel input:focus-visible{outline:2px solid #ffe0a1;outline-offset:2px}',
   '.nli-items-actions{margin-top:8px;display:flex;justify-content:space-between;gap:6px;flex-wrap:wrap}',
   '@media(max-width:500px){.nli-items-panel{padding:9px}.nli-items-list{grid-template-columns:1fr}}'
  ].join('');
@@ -36,20 +40,28 @@
    const pages=Math.max(1,Math.ceil(filtered.length/perPage)),current=Math.min(page,pages-1);
    const cards=filtered.slice(current*perPage,(current+1)*perPage).map(row=>{
      const owned=stacks[row.id]||0,rule=row.effectRule||{},needs=rule.needPieces||1;
+     const silverCost=rule.silverCost||0;
+     const canProcess=owned>=needs&&(state.silver||0)>=silverCost;
      const action=mode==='wiki'||row.integration!=='PLAYABLE'?'':rule.kind==='CRAFT_REAGENT'?
-       '<button data-nli-item-action="process" data-nli-item-id="'+esc(row.id)+'" '+(owned<needs?'disabled':'')+'>Gia công ×'+needs+'</button>':
+       '<button data-nli-item-action="process" data-nli-item-id="'+esc(row.id)+'" '+(!canProcess?'disabled':'')+'>Gia công ×'+needs+'</button>':
        rule.kind==='REFINEMENT_REAGENT'?'':'<button data-nli-item-action="use" data-nli-item-id="'+esc(row.id)+'">'+
        (rule.kind==='OPEN_BUNDLE'?'Mở rương':'Sử dụng')+'</button>';
      const effect=mode==='wiki'?'Chưa xác minh tác dụng Wiki':
-       rule.kind==='OPEN_BUNDLE'?'Quà nguyên liệu/tài nguyên của dự án':
+       rule.kind==='OPEN_BUNDLE'?'Mở nhận '+Object.entries(rule.resources||{}).map(([key,value])=>
+         esc(key)+' ×'+esc(value)).join(' · ')+(Object.keys(rule.stacks||{}).length?
+         ' · '+Object.entries(rule.stacks).map(([key,value])=>esc(key)+' ×'+esc(value)).join(' · '):'') :
        rule.kind==='GRANT_RESOURCE'?'Nhận '+esc(rule.resource)+' ×'+esc(rule.amount):
        rule.kind==='TRAIN_HERO_XP'?'EXP tướng +'+esc(rule.amount):
-       rule.kind==='CRAFT_REAGENT'?'Đổi tinh khoáng · bạc '+esc(rule.silverCost):
+       rule.kind==='CRAFT_REAGENT'?'Cần '+needs+' nguyên liệu và '+esc(silverCost)+' bạc → '+esc(rule.outputQuantity||1)+' tinh khoáng':
        'Nguyên liệu rèn luyện';
      return '<article class="nli-items-card"><b>'+esc(row.name)+'</b><small>'+
        esc(row.sourceCategory||row.sourceGroup||'Vật phẩm')+' · '+
        (mode==='wiki'?'Wiki (chỉ đọc)':'Sở hữu: '+owned)+'</small><p>'+effect+
-       '</p><div class="nli-items-actions"><small>'+
+       '</p>'+(rule.kind==='CRAFT_REAGENT'&&mode!=='wiki'?
+       '<div class="nli-items-cost" data-nli-craft-status="'+(canProcess?'ready':'insufficient')+'">'+
+       'Có '+owned+'/'+needs+' · Bạc '+esc(state.silver||0)+'/'+esc(silverCost)+
+       (canProcess?' · Đủ điều kiện':' · Chưa đủ điều kiện')+'</div>':'')+
+       '<div class="nli-items-actions"><small>'+
        (row.displayedLevel==null?'Không ghi cấp':'Cấp hiển thị: '+esc(row.displayedLevel))+
        '</small>'+action+'</div></article>';
    }).join('');
@@ -59,6 +71,9 @@
      '<button data-nli-item-mode="wiki" '+(mode==='wiki'?'aria-pressed="true"':'')+'>Danh mục Wiki (chỉ đọc)</button></div>'+
      '<div class="nli-items-cats">'+CATEGORIES.map(c=>'<button data-nli-item-category="'+esc(c)+'" '+(c===category?'aria-pressed="true"':'')+'>'+esc(c==='all'?'Tất cả':c)+'</button>').join('')+'</div>'+
      '<input data-nli-item-search type="search" aria-label="Tìm vật phẩm" value="'+esc(options.search||'')+'" placeholder="Tìm vật phẩm..."/>'+
+     '<div class="nli-items-summary"><span data-nli-items-results="'+filtered.length+'">'+
+       filtered.length+' mục phù hợp</span><span>Bạc: '+esc(state.silver||0)+
+       ' · Tinh khoáng: '+esc(stacks['mdt-tinh-khoang']||0)+'</span></div>'+
      '<div class="nli-items-list">'+(cards||'<p>Không có vật phẩm phù hợp.</p>')+'</div>'+
      '<div class="nli-items-pagination"><button data-nli-item-page="'+(current-1)+'" '+(current===0?'disabled':'')+'>Trang trước</button><span>Trang '+(current+1)+'/'+pages+' · '+filtered.length+' mục</span><button data-nli-item-page="'+(current+1)+'" '+(current===pages-1?'disabled':'')+'>Trang tiếp</button></div></section>';
  }
