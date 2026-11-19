@@ -7,7 +7,7 @@
   },
   "limits": {
     "equipmentInstances": 200,
-    "stackKinds": 100,
+    "stackKinds": 800,
     "stackQuantity": 999,
     "receipts": 10000
   },
@@ -389,5 +389,12 @@
         }
       ]
     }
+  },
+  "itemEconomy": {
+    "projectRuleVersion": "mdt-inventory-consumables-v2",
+    "sourceEffects": "UNKNOWN",
+    "safeMaterialRecipe": true,
+    "receiptLedger": "nlItemsV1.receipts",
+    "provenance": "SIMULATED"
   }
 }
