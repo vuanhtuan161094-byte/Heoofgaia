@@ -71,6 +71,11 @@ jobs:
           node qa/nl_heroes207_runtime_v1.test.cjs
           node --test qa/modules/combat/*.test.cjs
           node --test qa/modules/heroes/*.test.cjs qa/nl_hero_catalogue.test.cjs qa/nl_hero_development.test.cjs
+      - name: Chat02 Troops, Chat03 City and Chat06 Campaign source contract QA
+        run: |
+          node --test qa/modules/troops/*.test.cjs
+          node --test qa/modules/city/*.test.cjs qa/nl_city_*.test.cjs
+          node --test qa/modules/campaign/*.test.cjs qa/nl_campaign_*.test.cjs
       - name: Install minimal browser QA dependencies
         run: |
           python -m pip install playwright==1.58.0
@@ -159,6 +164,11 @@ jobs:
           node qa/nl_heroes207_runtime_v1.test.cjs
           node --test qa/modules/combat/*.test.cjs
           node --test qa/modules/heroes/*.test.cjs qa/nl_hero_catalogue.test.cjs qa/nl_hero_development.test.cjs
+      - name: Chat02 Troops, Chat03 City and Chat06 Campaign source contract QA
+        run: |
+          node --test qa/modules/troops/*.test.cjs
+          node --test qa/modules/city/*.test.cjs qa/nl_city_*.test.cjs
+          node --test qa/modules/campaign/*.test.cjs qa/nl_campaign_*.test.cjs
       - name: Hero207 real-browser recruiting and Save-v5 QA
         run: python qa/nl_heroes207_browser.py
       - name: Combined Hero207 + Items browser/save/replay gate
