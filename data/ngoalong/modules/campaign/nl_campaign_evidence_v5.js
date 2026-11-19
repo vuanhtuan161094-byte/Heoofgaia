@@ -77,8 +77,11 @@ function npcAudit(n,context={}){
    n.formation.length>0&&n.formation.length<=5;
  const consistentKnown=unknown.length===0 && valid(n.totalSoldiersRaw) &&
    sumKnown===n.totalSoldiersRaw;
+ const residual=valid(n.totalSoldiersRaw)?n.totalSoldiersRaw-sumKnown:null;
+ const zeroRemainderAmbiguous=unknown.length===1&&exhaustive&&
+   residual===0&&n.soldierConsistency!=='SOURCE_MISMATCH';
  const arithmeticCandidate=unknown.length===1&&exhaustive&&
-   valid(n.totalSoldiersRaw)&&n.totalSoldiersRaw>=sumKnown&&
+   valid(n.totalSoldiersRaw)&&residual>0&&
    n.soldierConsistency!=='SOURCE_MISMATCH'
    ? {
      wikiSlot:unknown[0],
@@ -120,6 +123,7 @@ function npcAudit(n,context={}){
  const reasons=[];
  if(!exhaustive)reasons.push('FORMATION_NOT_EXHAUSTIVE');
  if(unknown.length)reasons.push('UNIT_SOLDIERS_UNKNOWN');
+ if(zeroRemainderAmbiguous)reasons.push('ZERO_REMAINDER_WITH_MISSING_UNIT_SOLDIERS');
  if(troopUnknown.length)reasons.push('WIKI_TROOP_IDS_UNKNOWN');
  if(skillUnknown.length)reasons.push('SKILL_LABELS_UNKNOWN');
  if(missingIdentity.length)reasons.push('UNIT_NAMES_UNKNOWN');
@@ -140,7 +144,7 @@ function npcAudit(n,context={}){
   rawTotalSoldiers:n.totalSoldiersRaw,knownUnitSum:sumKnown,
   sourceSoldierConsistency:n.soldierConsistency,
   sourceFormationExhaustive:exhaustive,
-  arithmeticCandidate,snapshot,blockers:reasons,
+  arithmeticCandidate,zeroRemainderAmbiguous,snapshot,blockers:reasons,
   runtimeApproved:false
  };
 }
@@ -213,6 +217,7 @@ function auditMap(map,ctx){
   soldierDiscrepancies:sum(npcRows,n=>n.sourceSoldierConsistency==='SOURCE_MISMATCH'),
   nonExhaustiveFormations:sum(npcRows,n=>!n.sourceFormationExhaustive),
   arithmeticCandidates:sum(npcRows,n=>n.arithmeticCandidate!==null),
+  zeroRemainderAmbiguities:sum(npcRows,n=>n.zeroRemainderAmbiguous===true),
   corroboratedSnapshotFacts:npcRows.reduce((s,n)=>s+(n.snapshot?.agreementCount||0),0),
   conflictingSnapshotFacts:npcRows.reduce((s,n)=>s+(n.snapshot?.conflictCount||0),0)
  };
@@ -272,6 +277,7 @@ function mergeBatches(manifest,batches,extra={}){
   sourceSoldierDiscrepancies:maps.reduce((a,m)=>a+m.stats.soldierDiscrepancies,0),
   nonExhaustiveFormations:maps.reduce((a,m)=>a+m.stats.nonExhaustiveFormations,0),
   arithmeticReviewCandidates:maps.reduce((a,m)=>a+m.stats.arithmeticCandidates,0),
+  zeroRemainderAmbiguities:maps.reduce((a,m)=>a+m.stats.zeroRemainderAmbiguities,0),
   historicalMapMatches:maps.reduce((a,m)=>a+m.sourceHistoricalEvents.length,0),
   corroboratedSelectedUnitFacts:maps.reduce((a,m)=>a+m.stats.corroboratedSnapshotFacts,0),
   conflictingSelectedUnitFacts:maps.reduce((a,m)=>a+m.stats.conflictingSnapshotFacts,0),
@@ -291,4 +297,48 @@ function mergeBatches(manifest,batches,extra={}){
   counts,unmatchedHistoricalEvents:unmatched,
   maps};
 }
-module.exports=Object.freeze({norm,sources,npcAudit,auditMap,compileBatch,mergeBatches});
+function makeIndex(report) {
+ if(report?.kind!=='NGOALONG_CAMPAIGN_EVIDENCE_AUDIT_V5'||
+    report.counts?.actualBackfills!==0||report.gameplayEnabled!==false)
+   throw Error('NL06 V5: unsafe report for reference index');
+ return {
+  schemaVersion:1,kind:report.kind,scope:report.scope,
+  classicParity:report.classicParity,gameplayEnabled:false,runtimeAuthority:false,
+  sourceAuditBatches:[1,2,3].map(i=>
+    'data/ngoalong/modules/campaign/evidence_batches/batch-'+
+     String(i).padStart(3,'0')+'.json'),
+  reportPolicy:report.reportPolicy,counts:report.counts,
+  unmatchedHistoricalEvents:report.unmatchedHistoricalEvents,
+  maps:report.maps.map(m=>({
+   id:m.id,wikiMapId:m.wikiMapId,name:m.name,
+   sourceUrl:m.sourceUrl,cityLevelRequired:m.cityLevelRequired,
+   npcCount:m.stats.npcRows,rosterComplete:m.npcRosterComplete,
+   missingUnitSoldiers:m.stats.missingUnitSoldiers,
+   missingTroopIds:m.stats.missingTroopIds,
+   missingSkillLabels:m.stats.missingSkillLabels,
+   soldierDiscrepancies:m.stats.soldierDiscrepancies,
+   nonExhaustiveFormations:m.stats.nonExhaustiveFormations,
+   arithmeticReviewCandidates:m.stats.arithmeticCandidates,
+   zeroRemainderAmbiguities:m.stats.zeroRemainderAmbiguities,
+   corroboratedSelectedUnitFacts:m.stats.corroboratedSnapshotFacts,
+   conflictingSelectedUnitFacts:m.stats.conflictingSnapshotFacts,
+   historicalEvents:m.sourceHistoricalEvents.map(e=>({
+    eventId:e.id,releaseId:e.releaseId,mapStatus:e.identityStatus,
+    npcAiId:e.wikiAiId??null,sourceUrl:e.sourceUrl,
+    operation:e.operation,publishedDate:e.publishedDate
+   })),
+   independentEvidence:m.independentEvidence.map(e=>({
+    source:e.source,mapNameAgrees:e.mapNameAgrees??null,
+    cityLevelAgrees:e.cityLevelAgrees??null,sourceId:e.sourceId??null,
+    autoBackfilled:false
+   })),
+   gameplayReady:false,
+   nextStep:m.stats.missingUnitSoldiers||m.stats.nonExhaustiveFormations||
+     m.stats.soldierDiscrepancies?
+    'VERIFY_MISSING_OR_CONTRADICTORY_SOURCE':
+    'BIND_APPROVED_COMBAT_IDS_AND_MECHANICS'
+  }))
+ };
+}
+
+module.exports=Object.freeze({norm,sources,npcAudit,auditMap,compileBatch,mergeBatches,makeIndex});
