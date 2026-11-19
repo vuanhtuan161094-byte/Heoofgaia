@@ -109,3 +109,13 @@ Run checks: \`node qa/nl_city_cycle.test.cjs\`, \`node qa/nl_city_full.test.cjs\
 - No new top-level resources, no direct modification of legacy farm/market generation; 8 legacy research formulas stay unchanged.
 - Review deterministic standalone figures in [BALANCE_REPORT_V2.md](BALANCE_REPORT_V2.md); [tools/nl_city_balance_sim.js](../../../../tools/nl_city_balance_sim.js) is gross passive-only and assumes buildings already owned. Do not substitute its 30-day figures for real game outcome.
 - CHAT 08 must copy revised catalog/engine/panel/hook together and verify actual Save, Chromium, exact-SHA CI only after canonical generator integration. Do not merge.
+
+## CHAT 03 — PHẠM VI KHÓA / CLOSED FOR SPECIALIST CODING (19/11/2026)
+
+**Quyết định của Owner:** Chốt phạm vi code và cân bằng kinh tế V2 tại thời điểm này; sẽ tổng hợp danh mục công trình Ngọa Long / khác biệt phiên bản trong đợt sau. Không mở rộng thêm Wiki hay hệ Quý Tử lúc đóng phạm vi.
+
+- **Mức hoàn thành:** 31 công trình module nguyên bản có cơ chế nâng/cost/sản xuất/hành động; 7 công trình legacy tham chiếu/giữ nguyên, tổng **38 mục của dự án**, không phải danh mục đủ mọi công trình Ngọa Long Wiki.
+- **Hệ kinh tế:** cost curve, giới hạn sản xuất và offline, kho, thuế, trade, daily cap và receipt chống trùng có kiểm thử tập trung **54/54 PASS trong JS harness**; **KHÔNG** có bằng chứng Chromium, direct Node hay CI exact SHA trên HEAD chuyên môn.
+- **Chưa hoàn thành sản phẩm cuối:** Chat 08 chưa tích hợp panel/city engine vào canonical `index.html` và Save thật; hiệu ứng liên thông tướng/quân/trang bị/thủy chiến phụ thuộc nhóm khác. Không được ghi "INTEGRATED", "OWNER_ACCEPTED" hoặc "đã đủ toàn bộ công trình Ngọa Long".
+- **Handoff:** tổng điều phối 00 và integrator 08 sử dụng bản này để hợp nhất sau; đối chiếu dữ liệu VNG mobile/Ngọa Long web cổ điển theo edition trước khi lập danh mục mở rộng. Giữ PR #10 Draft, **không merge**, không dùng Codex Cloud.
+- **Trạng thái chính thức CHAT 03:** `DOMAIN_CODE_COMPLETE / FOCUSED_QA_PASS / INTEGRATION_PENDING / WIKI_COVERAGE_PENDING / OWNER_GAME_ACCEPTANCE_PENDING`.
