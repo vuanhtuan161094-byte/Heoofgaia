@@ -82,7 +82,7 @@ jobs:
           python qa/nl_r02.py
           python qa/nl_r03.py
           python qa/nl_progression.py
-          node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs qa/nl_item_balance_v3.test.cjs
+          node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs qa/nl_item_balance_v3.test.cjs qa/nl_item_economy_b2.test.cjs
           python qa/nl_item_integration.py
           python qa/cl_p1_p2.py
           python qa/cl_p6.py
@@ -148,7 +148,7 @@ jobs:
         run: python qa/nl_progression.py
       - name: NL-V2 Item inventory, seven slots, Save v5, real battle bonus and unique rewards
         run: |
-          node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs qa/nl_item_balance_v3.test.cjs
+          node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs qa/nl_item_balance_v3.test.cjs qa/nl_item_economy_b2.test.cjs
           python qa/nl_item_integration.py
       - name: NL-R04 reproduce event-gated scout pose and run Chromium art gate
         run: |
