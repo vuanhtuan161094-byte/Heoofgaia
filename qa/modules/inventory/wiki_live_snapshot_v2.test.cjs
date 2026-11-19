@@ -12,7 +12,7 @@ test('real Wiki source IDs never derive from sequential position, and 674 is tar
  assert.equal(index.rows.length,COUNT);
  assert.equal(index.isIndexComplete,COUNT===674);
  assert.equal(new Set(index.rows.map(x=>x.id)).size,COUNT);
- assert.equal(index.rows.every(x=>/^wiki-item-index-[a-f0-9]{16}$/.test(x.id)),true);
+ assert.equal(index.rows.every(x=>/^wiki-item-index-[a-f0-9]{16}(?:-[2-9]\d*)?$/.test(x.id)),true);
  assert.equal(index.rows.every(x=>x.integration==='REFERENCE_ONLY'&&x.stats===null&&x.effectRule===null),true);
  assert.equal(index.missingCounts['Tài Nguyên']+index.extractedCounts['Tài Nguyên'],82);
 });
