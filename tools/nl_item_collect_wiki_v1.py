@@ -58,8 +58,33 @@ def main():
                 if not control.count():
                     failures.append("MISSING_CATEGORY_" + cat)
                     continue
-                control.last.click(timeout=2500)
-                page.wait_for_timeout(150)
+                before = page.locator("body").inner_text(timeout=10000)
+                # Click only if source text shows this group COLLAPSED; otherwise
+                # touching the tab/header again would close already loaded rows.
+                collapsed = re.search(
+                    r"(?m)^\+\s*\n\s*" + re.escape(cat) +
+                    r"\s*\n\s*\d+\s*$", before
+                )
+                if collapsed:
+                    opened = False
+                    for pos in range(control.count()):
+                        choice = control.nth(pos)
+                        if choice.is_visible():
+                            try:
+                                choice.click(timeout=1200)
+                                page.wait_for_timeout(80)
+                                after = page.locator("body").inner_text(timeout=10000)
+                                if not re.search(
+                                    r"(?m)^\+\s*\n\s*" + re.escape(cat) +
+                                    r"\s*\n\s*\d+\s*$", after
+                                ):
+                                    opened = True
+                                    break
+                            except Exception:
+                                continue
+                    if not opened:
+                        failures.append("ROOT_NOT_EXPANDED_" + cat)
+                page.wait_for_timeout(80)
                 overview = page.locator("body").inner_text(timeout=10000)
                 # The public accordion renders '+\\nlabel\\ncount' headings.
                 subgroups = re.findall(
@@ -73,10 +98,26 @@ def main():
                         continue
                     try:
                         part = page.get_by_text(name, exact=True)
-                        if part.count():
-                            part.last.click(timeout=900)
-                            page.wait_for_timeout(40)
-                            expanded.append(name)
+                        succeeded = False
+                        for pos in range(part.count()):
+                            candidate = part.nth(pos)
+                            if not candidate.is_visible():
+                                continue
+                            try:
+                                candidate.click(timeout=800)
+                                page.wait_for_timeout(35)
+                                if not re.search(
+                                    r"(?m)^\+\s*\n\s*" + re.escape(name) +
+                                    r"\s*\n\s*" + declared + r"\s*$",
+                                    page.locator("body").inner_text(timeout=6000)
+                                ):
+                                    succeeded = True
+                                    expanded.append(name)
+                                    break
+                            except Exception:
+                                continue
+                        if not succeeded:
+                            failures.append("SUBGROUP_UNEXPANDED_" + cat + ":" + name)
                     except Exception as exc:
                         failures.append("SUBGROUP_" + cat + ":" + name +
                                         ":" + type(exc).__name__)
