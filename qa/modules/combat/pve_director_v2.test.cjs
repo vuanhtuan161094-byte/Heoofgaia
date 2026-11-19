@@ -146,7 +146,8 @@ check("boss becomes desperate at 35 percent party health",()=>{
   const s=setup(24),state=s.state;
   for(const unit of state.units)if(unit.side==="e")unit.hp=Math.floor(unit.maxHp*.3);
   assert.equal(D.phase(state,s.generated.plan),"desperate");
-  const choice=D.profileFor(state,s.generated.plan,state.units.find(u=>u.side==="e"));
+  const choice=D.profileFor(state,s.generated.plan,state.units.find(u=>u.side==="e"&&
+    !["support","drum"].includes(u.troopType)));
   assert.equal(choice.profile,"boss-desperate");
 });
 check("wounded support switches to emergency medical AI phase",()=>{
