@@ -224,9 +224,9 @@ document.addEventListener('input',function(ev){
     !ev.target.closest('[data-nl-item-bridge]'))return;
   nlItemSelected.search=ev.target.value;
   nlItemSelected.page=0;
-  // Avoid loss of caret while filtering.
+  // Search updates only the equipment panel, avoiding loss of game scene state.
   const position=ev.target.selectionStart;
-  render();
+  nlItemRefreshEquipmentPanel();
   const el=document.querySelector('[data-nl-item-bridge] [data-nli-search]');
   if(el){el.focus();el.setSelectionRange(position,position);}
 },true);
