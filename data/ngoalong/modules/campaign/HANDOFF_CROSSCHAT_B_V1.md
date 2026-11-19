@@ -33,3 +33,10 @@ Command 2 writes data/ngoalong/modules/campaign/crosschat_reconciliation_v1.json
 A. CHAT01/02/05 verify numeric troop ID crosswalk and NPC-exclusive effect contracts, then CHAT06 records explicit approvals.
 B. Execute the full 21-shard report and QA, prioritize structurally complete maps and repair source conflicts with evidence.
 C. CHAT08 wires only approved NPC maps to combat + Save v5 with Chromium, replay and exact-SHA CI, without merging.
+
+## Source-data execution update (supersedes the full-shard PENDING note above)
+
+- **PASS:** 21/21 committed shard blobs, partitioned into 5 disjoint groups, executed using the new cross-chat audit function in an isolated JavaScript runner. Exact source tree and input SHA are recorded in crosschat_audit_verified_shards_v1.json.
+- Aggregated evidence: **249 maps / 4,903 NPCs / 23,914 unit slots / 1,787 Boss NPC occurrences**; **3,595 NPC-exclusive skill slot occurrences**; **23,914/23,914 numeric troop ID bindings remain unverified**; 23,063 unit occurrences have a unique troop *name candidate*, 184 occurrences have ambiguous troop names. Candidate is not approval.
+- Only **7 selected-unit NPC facts** exist; **2 effect labels** have a Wiki effect name candidate. There are **0 approved combat bindings**, **0 verified equipped hero skills**, **0 promoted playable Wiki maps**.
+- **Still PENDING:** execution of the standalone Node test suite on a full checkout (including its eighth full-source case), official GitHub Actions on exact SHA, Chromium, Save/replay/receipt settlement and owner approval.
