@@ -41,6 +41,15 @@
 .nli-panel .nli-gear small{color:#aebebf}
 .nli-panel .nli-gear p{color:#e6d8b6}
 .nli-panel .nli-gear .nli-buttons{margin-bottom:0}
+.nli-panel .nli-gear{min-width:0;overflow-wrap:anywhere}
+.nli-panel .nli-gear header{flex-wrap:wrap}
+.nli-panel .nli-tools{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:7px}
+.nli-panel .nli-pages{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:12px}
+.nli-panel .nli-price{color:#d8bf8c;font-size:12px;margin:7px 0}
+.nli-panel .nli-meta{font-size:12px;color:#aebebf;margin:6px 0}
+.nli-panel .nli-empty{padding:14px;background:#293a43;border-radius:8px}
+.nli-panel .nli-list,.nli-panel .nli-slots{min-width:0}
+.nli-panel button:focus-visible,.nli-panel input:focus-visible{outline:2px solid #ffe0a1;outline-offset:2px}
 @media(max-width:770px){.nli-panel{padding:11px}.nli-panel .nli-slots{grid-template-columns:repeat(3,minmax(0,1fr))}.nli-panel .nli-list{grid-template-columns:1fr}.nli-panel h2{font-size:19px}}
 `;
   const statNames={atk:'Vật công',def:'Vật phòng',int:'Mưu công',
@@ -49,7 +58,7 @@
   const escape=s=>String(s??'').replace(/[&<>"']/g,
     x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
   const money=(n)=>Number.isFinite(n)?Math.round(n).toLocaleString('vi-VN'):'0';
-  function makeView(pack,api,state,heroId,{tab='all',search='',shop=false}={}){
+  function makeView(pack,api,state,heroId,{tab='all',search='',shop=false,page=0}={}){
     if(!state||!state.hero||!state.hero[heroId])throw new Error('HERO_NOT_FOUND');
     const model=pack.equipment.filter(x=>x.integration==='PLAYABLE');
     const map=Object.fromEntries(model.map(x=>[x.id,x]));
@@ -69,9 +78,30 @@
         '<strong>'+escape(item?.definition.name||'Chưa trang bị')+'</strong>'+
         (item?'<small>+'+(item.lv-1)+' · '+escape(item.definition.rarity)+'</small>':'')+'</div>';
     }).join('');
-    const bagCards=owned.filter(filter).map(item=>{
+    const reinforcement=pack.rules?.reinforcement||null;
+    const costRules=pack.rules?.refinement||null;
+    const ownedFiltered=owned.filter(filter);
+    const candidates=shop?model.filter(row=>['SHOP','SHOP_OR_AUTHORIZED_REWARD'].includes(row.acquisitionRule?.kind))
+      .filter(row=>(tab==='all'||tab===row.slot)&&
+        (!search||row.name.toLocaleLowerCase('vi-VN').includes(search.toLocaleLowerCase('vi-VN')))):ownedFiltered;
+    const perPage=30,pages=Math.max(1,Math.ceil(candidates.length/perPage));
+    const currentPage=Math.min(Math.max(0,Math.floor(Number(page)||0)),pages-1);
+    const visible=candidates.slice(currentPage*perPage,(currentPage+1)*perPage);
+    const bagCards=(shop?[]:visible).map(item=>{
       const row=item.definition,uid=String(item.uid),isWorn=Object.prototype.hasOwnProperty.call(worn,uid);
       const need=row.requiredLevel||1,allowed=state.hero[heroId].level>=need;
+      const r=pack.rules?.reinforcement;
+      const f=pack.rules?.refinement;
+      const level=item.lv||1,rank=item.refineLv||0;
+      const rc=r&&level<r.maxLevel?{silver:Math.round(r.silverBase*Math.pow(level,r.silverExponent)),
+        iron:Math.round(r.ironBase*Math.pow(level,r.ironExponent))}:null;
+      const premium=f?.highTierPricing?.groups?.[row.sourceGroup]&&row.sourceId?
+        f.highTierPricing.groups[row.sourceGroup]:null;
+      const needMat=(f?.materialPerLevel||0)+(premium?.materialExtra||0);
+      const fc=f&&rank<f.maxLevel?Math.round(f.silverBase*(rank+1)*(premium?.silverMultiplier||1)):null;
+      const haveMat=state.nlItemsV1?.stacks?.[f?.materialId]||0;
+      const canReinforce=rc&&state.silver>=rc.silver&&state.iron>=rc.iron;
+      const canRefine=fc!=null&&state.silver>=fc&&haveMat>=needMat;
       return '<article class="nli-gear" data-uid="'+escape(uid)+'">'+
         '<header><strong>'+escape(row.name)+'</strong><span>'+escape(row.rarity)+'</span></header>'+
         '<small>'+escape(SLOTS.find(s=>s[0]===row.slot)?.[1]||row.slot)+
@@ -81,19 +111,20 @@
         '<div class="nli-buttons">'+
         (isWorn?'<button data-nli-action="unequip" data-uid="'+escape(uid)+'" data-slot="'+escape(worn[uid])+'">Tháo</button>':
           '<button data-nli-action="equip" data-uid="'+escape(uid)+'" '+(!allowed?'disabled':'')+'>Trang bị</button>')+
-        '<button data-nli-action="reinforce" data-uid="'+escape(uid)+'">Cường hóa</button>'+
-        '<button data-nli-action="refine" data-uid="'+escape(uid)+'">Tinh luyện</button></div></article>';
+        '<button data-nli-action="reinforce" data-uid="'+escape(uid)+'" '+(!canReinforce?'disabled':'')+'>'+
+        (rc?'Cường hóa · '+money(rc.silver)+' bạc / '+money(rc.iron)+' sắt':'Cường hóa tối đa')+'</button>'+
+        '<button data-nli-action="refine" data-uid="'+escape(uid)+'" '+(!canRefine?'disabled':'')+'>'+
+        (fc!=null?'Tinh luyện · '+money(fc)+' bạc / '+needMat+' tinh khoáng':'Tinh luyện tối đa')+'</button></div>'+
+        '<div class="nli-meta">Tinh khoáng: '+haveMat+' · '+(canRefine?'Đủ nguyên liệu':'Chưa đủ điều kiện tinh luyện')+'</div></article>';
     }).join('');
-    const shopCards=model.filter(row=>['SHOP','SHOP_OR_AUTHORIZED_REWARD'].includes(row.acquisitionRule?.kind))
-      .filter(row=>(tab==='all'||tab===row.slot)&&
-        (!search||row.name.toLocaleLowerCase('vi-VN').includes(search.toLocaleLowerCase('vi-VN'))))
-      .map(row=>{
+    const shopCards=(shop?visible:[]).map(row=>{
         const cost=row.acquisitionRule.shopCost;
         return '<article class="nli-gear"><header><strong>'+escape(row.name)+'</strong><span>'+
           escape(row.rarity)+'</span></header><small>'+escape(SLOTS.find(s=>s[0]===row.slot)?.[1]||row.slot)+
           ' · Cấp '+row.requiredLevel+'</small><p>'+byStat(row.stats)+'</p>'+
           '<div class="nli-buttons"><span>'+money(cost.silver)+' bạc · '+money(cost.iron)+' sắt</span>'+
-          '<button data-nli-action="buy" data-item="'+escape(row.id)+'">Mua</button></div></article>';
+          '<button data-nli-action="buy" data-item="'+escape(row.id)+'" '+
+          (state.silver<cost.silver||state.iron<cost.iron?'disabled':'')+'>Mua</button></div></article>';
       }).join('');
     return '<style data-nli-style="1">'+STYLES+'</style>'+
       '<section class="nli-panel" data-nli-root="1" aria-label="Trang bị">'+
@@ -110,7 +141,13 @@
       '<p class="nli-total"><strong>Chỉ số trang bị:</strong> '+byStat(bonuses)+'</p>'+
       (setActivations.length?'<p class="nli-sets">Bộ kích hoạt: '+
         setActivations.map(x=>escape(pack.equipment.find(row=>row.effectRule?.setId===x.setId)?.sourceGroup||x.setId)+' ('+x.activatedAt+' món)').join(' · ')+'</p>':'')+
-      '<div class="nli-list">'+((shop?shopCards:bagCards)||'<p>Không có trang bị phù hợp.</p>')+'</div></section>';
+      '<div class="nli-tools"><span class="nli-meta" data-nli-result-count="'+candidates.length+'">'+
+      (shop?'Tiệm trang bị: ':'Đang sở hữu: ')+candidates.length+' mục</span>'+
+      '<span class="nli-meta">Trang '+(currentPage+1)+'/'+pages+'</span></div>'+
+      '<div class="nli-list">'+((shop?shopCards:bagCards)||'<p class="nli-empty">Không có trang bị phù hợp.</p>')+'</div>'+
+      '<div class="nli-pages"><button data-nli-page="'+(currentPage-1)+'" '+(!currentPage?'disabled':'')+'>Trước</button>'+
+      '<span>Trang '+(currentPage+1)+'/'+pages+'</span>'+
+      '<button data-nli-page="'+(currentPage+1)+'" '+(currentPage===pages-1?'disabled':'')+'>Sau</button></div></section>';
   }
   function mount(host,options){
     if(!host||typeof host.addEventListener!=='function')throw new Error('INVALID_HOST');
@@ -118,13 +155,14 @@
       typeof options.setState!=='function'||
       typeof options.receiptId!=='function')throw new Error('RECEIPT_STATE_HOST_REQUIRED');
     const {pack,inventory,heroId,getState,setState,receiptId}=options;
-    const ui={tab:'all',search:'',shop:false};
+    const ui={tab:'all',search:'',shop:false,page:0};
     function render(){host.innerHTML=makeView(pack,inventory,getState(),heroId,ui)}
     function handle(e){
-      const t=e.target.closest('[data-nli-action], [data-nli-tab], [data-nli-shop]');
+      const t=e.target.closest('[data-nli-action], [data-nli-tab], [data-nli-shop], [data-nli-page]');
       if(!t||!host.contains(t))return;
-      if(t.hasAttribute('data-nli-tab')){ui.tab=t.getAttribute('data-nli-tab');render();return}
-      if(t.hasAttribute('data-nli-shop')){ui.shop=t.getAttribute('data-nli-shop')==='1';render();return}
+      if(t.hasAttribute('data-nli-tab')){ui.tab=t.getAttribute('data-nli-tab');ui.page=0;render();return}
+      if(t.hasAttribute('data-nli-shop')){ui.shop=t.getAttribute('data-nli-shop')==='1';ui.page=0;render();return}
+      if(t.hasAttribute('data-nli-page')){ui.page=Math.max(0,Number(t.getAttribute('data-nli-page'))||0);render();return}
       const action=t.getAttribute('data-nli-action');
       const uid=t.getAttribute('data-uid'),id=t.getAttribute('data-item');
       const slot=t.getAttribute('data-slot');
@@ -148,7 +186,7 @@
     function search(e){
       if(!e.target.matches('[data-nli-search]'))return;
       const next=e.target.value;
-      ui.search=next;
+      ui.search=next;ui.page=0;
       render();
       const field=host.querySelector('[data-nli-search]');
       if(field){field.focus();field.setSelectionRange(next.length,next.length)}
