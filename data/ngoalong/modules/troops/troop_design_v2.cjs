@@ -8,7 +8,8 @@ function getDesignData(root=path.resolve(__dirname,"../../../..")){
     project:require(path.join(root,"data/ngoalong/modules/troops/project_playable_v1.json")),
     evolution:require(path.join(root,"data/ngoalong/modules/troops/evolution_contract_v1.json")),
     refinement:require(path.join(root,"data/ngoalong/modules/troops/mechanic_refinement_v2.json")),
-    sourceReview59:require(path.join(root,"data/ngoalong/modules/troops/missing_59_source_review_v3.json"))
+    sourceReview59:require(path.join(root,"data/ngoalong/modules/troops/missing_59_source_review_v3.json")),
+    balanceV4:require(path.join(root,"data/ngoalong/modules/troops/troop_balance_candidates_v4.json"))
   };
 }
 function findProjectUnit(data,id){
@@ -19,7 +20,10 @@ function describeTroop(data,id){
   const source=data.wiki.records.find(u=>u.id===id);
   if(source){const hint=data.refinement?.records.find(x=>x.id===source.id)||null;
     const sourceReview59=data.sourceReview59?.records.find(x=>x.wikiAppearanceId===source.id)||null;
-    return {kind:"WIKI_REFERENCE",id:source.id,combat:source.combat,art:source.art,provenance:source.provenance,refinement:hint,sourceReview59,active:false,liveImportAllowed:false};
+    const originalCandidate=data.balanceV4?.candidates.find(x=>x.sourceWikiAppearanceId===source.id)||null;
+    return {kind:"WIKI_REFERENCE",id:source.id,combat:source.combat,art:source.art,provenance:source.provenance,refinement:hint,sourceReview59,
+      originalCandidate:originalCandidate?{projectId:originalCandidate.projectId,scope:originalCandidate.projectScope,projectAbilities:originalCandidate.projectAbilities,provenance:"SIMULATED"}:null,
+      active:false,liveImportAllowed:false};
   }
   const u=findProjectUnit(data,id);
   if(!u)return null;
@@ -80,7 +84,22 @@ function wikiGapAudit(data){
  stillUnresolvedSpecific:data.sourceReview59?.review.remainingWithoutUnitSpecificMechanic??null,
  newlyLiveImported:0};
 }
-module.exports={getDesignData,findProjectUnit,describeTroop,tierStatProfile,evolutionOptions,nextTierDesignQuote,resolveWikiStatusTags,wikiGapStatus,wikiGapAudit};
+function originalBalanceStatus(data,id){
+ const x=data.balanceV4?.candidates.find(x=>x.projectId===id||x.sourceWikiAppearanceId===id);
+ if(!x)return null;
+ return {projectId:x.projectId,sourceWikiAppearanceId:x.sourceWikiAppearanceId,name:x.name,
+  projectScope:x.projectScope,sourceSkillFormulaStatus:x.sourceSkillFormulaStatus,
+  projectAbilities:x.projectAbilities,projectStats:x.projectStats,provenance:"SIMULATED",
+  liveIntegrated:false,autoImportWiki:false};
+}
+function originalBalanceAudit(data){
+ const rows=data.balanceV4?.candidates||[];
+ return {candidates:rows.length,withNumericProbabilities:rows.filter(x=>x.projectAbilities.every(a=>a.procChance>=0&&a.procChance<=1)).length,
+  normalLandCandidates:rows.filter(x=>x.projectScope==="LAND_CANDIDATE").length,
+  restrictedCandidates:rows.filter(x=>x.projectScope!=="LAND_CANDIDATE").length,
+  wikiSourceRecordsPromoted:0,runtimeIntegrated:false};
+}
+module.exports={getDesignData,findProjectUnit,describeTroop,tierStatProfile,evolutionOptions,nextTierDesignQuote,resolveWikiStatusTags,wikiGapStatus,wikiGapAudit,originalBalanceStatus,originalBalanceAudit};
 if(require.main===module){
   const d=getDesignData();
   process.stdout.write(JSON.stringify({wikiRows:d.wiki.records.length,projectUnits:d.project.units.length,wikiNamedEdges:d.evolution.sourceNamedEdges.length,designOnly:true})+"\n");

@@ -29,10 +29,13 @@ function create(pack){
     if(!(maxHp>0&&hp>0&&hp<=maxHp))fail("invalid HP");
     return {id:x.id,team,slot:x.slot,troopId:p.projectId,family:p.family,
      hp,maxHp,attack:x.attack??s.attack,defense:x.defense??s.defense,
+     speed:Math.round((x.speed??s.speed)*(p.projectAbilities.some(a=>a.tag==="speed")?1.12:1)),
      morale:x.morale??s.initialMorale,actions:0,buffs:[]};
    });
   }
-  return {version:4,seed,mode,A:sideRows(A,"A"),B:sideRows(B,"B"),
+  const a=sideRows(A,"A"),b=sideRows(B,"B");
+  const initiativeOrder=a.concat(b).sort((x,y)=>y.speed-x.speed||x.team.localeCompare(y.team)||x.slot-y.slot).map(x=>x.id);
+  return {version:4,seed,mode,A:a,B:b,initiativeOrder,
    actionIds:[],events:[],winner:null,rewards:null,saveTouched:false,source:"SIMULATED"};
  }
  function step(state,{actorId,targetId,actionId,lane="physical"}={}){
@@ -57,6 +60,7 @@ function create(pack){
    else u.buffs.push({key,remaining:duration,stacks:1,...other});
    evt.push({type:"buff",unitId:u.id,key,stacks:active(u,key).stacks,durationTurns:duration});
   }
+  const stunnedAtTurnStart=Boolean(active(actor,"stun"));
   const tick=[];
   for(const b of actor.buffs){
    if(b.key==="burn"){
@@ -67,7 +71,7 @@ function create(pack){
    if(b.remaining>0)tick.push(b);else evt.push({type:"buff_expired",unitId:actor.id,key:b.key});
   }
   actor.buffs=tick;
-  if(actor.hp<=0||active(actor,"stun")){
+  if(actor.hp<=0||stunnedAtTurnStart){
    evt.push({type:"skip",unitId:actor.id,reason:actor.hp<=0?"burn":"stun"});
   }else{
    let boost=1;

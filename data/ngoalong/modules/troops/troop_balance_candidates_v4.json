@@ -5575,6 +5575,18 @@
           "valueClassification": "SIMULATED",
           "wikiNumber": null,
           "sourceDurationTurns": null
+        },
+        {
+          "tag": "speed",
+          "op": "speed",
+          "procChance": 1,
+          "durationTurns": 0,
+          "params": {
+            "speedBonusPct": 12
+          },
+          "valueClassification": "SIMULATED",
+          "wikiNumber": null,
+          "sourceDurationTurns": null
         }
       ],
       "projectAbilityOrigin": "PROJECT_ORIGINAL",

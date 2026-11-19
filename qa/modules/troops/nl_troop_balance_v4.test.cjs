@@ -52,4 +52,32 @@ test("Wiki IDs, slot collision, 6-unit teams, naval-land mixing rejected",()=>{
  assert.throws(()=>e.createBattle({A:[{id:"a",troopId:p.projectId,slot:0}],B:[{id:"b",troopId:n.projectId,slot:1}]}));
  assert.throws(()=>e.createBattle({A:Array.from({length:6},(_,i)=>({id:"a"+i,troopId:p.projectId,slot:i})),B:[{id:"b",troopId:p.projectId,slot:1}]}));
 });
+
+test("stun skips the next enemy action and then expires",()=>{
+ const attacker=unit("nlwm-extra-infantry-t0-08-hon-don"),defender=unit("nlwm-infantry-t3-giap-bo");
+ const clone=JSON.parse(JSON.stringify(content));
+ clone.candidates.find(x=>x.projectId===attacker.projectId).projectAbilities.find(x=>x.tag==="stun").procChance=1;
+ const game=require("../../../data/ngoalong/modules/troops/troop_balance_v4.cjs").create(clone);
+ let state=game.createBattle({A:[{id:"a",troopId:attacker.projectId,slot:0}],B:[{id:"b",troopId:defender.projectId,slot:1}]});
+ state=game.step(state,{actorId:"a",targetId:"b",actionId:"stun"}).state;
+ assert.ok(state.B[0].buffs.some(x=>x.key==="stun"));
+ const r=game.step(state,{actorId:"b",targetId:"a",actionId:"next"});
+ assert.ok(r.events.some(x=>x.type==="skip"&&x.reason==="stun"));
+ assert.ok(!r.events.some(x=>x.type==="damage"));
+ assert.ok(!r.state.B[0].buffs.some(x=>x.key==="stun"));
+});
+test("Mãnh Chiến original speed skill increases initiative by 12%",()=>{
+ const swift=unit("nlwm-extra-cavalry-t0-07-manh-chien");
+ const other=content.candidates.find(x=>x.family==="cavalry"&&x.projectId!==swift.projectId);
+ const state=e.createBattle({A:[{id:"fast",troopId:swift.projectId,slot:0,speed:100}],B:[{id:"slow",troopId:other.projectId,slot:0,speed:104}]});
+ assert.equal(state.A[0].speed,112);
+ assert.equal(state.initiativeOrder[0],"fast");
+});
+test("Kiên Thủ 8% chosen as simulated, critical and counter percentages explicit",()=>{
+ assert.equal(content.templates.kien_thu.defenseBonusPct,8);
+ assert.equal(content.templates.critical.chance,.18);
+ assert.equal(content.templates.counterattack.chance,.28);
+ assert.equal(content.templates.physical_defense_down.reductionPct,12);
+});
+
 console.log("NL BALANCE V4 "+n+"/"+n+" PASS");
