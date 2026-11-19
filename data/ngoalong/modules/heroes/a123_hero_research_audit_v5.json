@@ -8,12 +8,14 @@
     "indexedHeroes": 364,
     "priorMobileDetails": 142,
     "newMobileMechanicsOnly": 3,
-    "currentMobileMechanicOrRecruitEvidence": 145,
     "guideRecommendationsWithoutMechanics": 1,
     "neutralNpcBossNameMatches": 2,
     "totalWithAnySourceLane": 160,
     "totalIndexOnlyAcrossSourceLanes": 204,
-    "playableNewHeroes": 0
+    "playableNewHeroes": 0,
+    "publishedMobileSourceProfiles": 145,
+    "heroOrGuideSourceProfiles": 157,
+    "npcContextOnlyNameMatches": 3
   },
   "a1": {
     "total": 18,
