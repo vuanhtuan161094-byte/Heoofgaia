@@ -231,13 +231,23 @@ document.addEventListener('input',function(ev){
   if(el){el.focus();el.setSelectionRange(position,position);}
 },true);
 // Group04 consumable UI uses the SAME Save v5 receipt ledger as equipment.
+function nlItemRefreshWarehousePanel(){
+  const bridge=document.querySelector('[data-nl-consumables-bridge]');
+  const current=bridge?.querySelector('.nli-items-panel');
+  if(!current)return;
+  const template=document.createElement('template');
+  template.innerHTML=window.NLItemConsumablesUI.view(
+    NL_ITEM_CATALOGUE,nlItemConsumableApi,game,nlItemWarehouseView);
+  const updated=template.content.querySelector('.nli-items-panel');
+  if(updated)current.replaceWith(updated);
+}
 document.addEventListener('click',function(ev){
   const control=ev.target.closest?.('[data-nli-item-action],[data-nli-item-mode],[data-nli-item-category],[data-nli-item-page]');
   if(!control||!control.closest('[data-nl-consumables-bridge]'))return;
   ev.preventDefault();ev.stopPropagation();
   if(control.hasAttribute('data-nli-item-mode')){
     nlItemWarehouseView.mode=control.getAttribute('data-nli-item-mode');
-    nlItemWarehouseView.page=0;render();return;
+    nlItemWarehouseView.page=0;nlItemRefreshWarehousePanel();return;
   }
   if(control.hasAttribute('data-nli-item-category')){
     nlItemWarehouseView.category=control.getAttribute('data-nli-item-category');
@@ -245,7 +255,7 @@ document.addEventListener('click',function(ev){
   }
   if(control.hasAttribute('data-nli-item-page')){
     nlItemWarehouseView.page=Math.max(0,Number(control.getAttribute('data-nli-item-page'))||0);
-    render();return;
+    nlItemRefreshWarehousePanel();return;
   }
   const action=control.getAttribute('data-nli-item-action');
   const id=control.getAttribute('data-nli-item-id');
@@ -261,7 +271,7 @@ document.addEventListener('input',function(ev){
   nlItemWarehouseView.search=ev.target.value;
   nlItemWarehouseView.page=0;
   const cursor=ev.target.selectionStart;
-  render();
+  nlItemRefreshWarehousePanel();
   const field=document.querySelector('[data-nl-consumables-bridge] [data-nli-item-search]');
   if(field){field.focus();field.setSelectionRange(cursor,cursor)}
 },true);
