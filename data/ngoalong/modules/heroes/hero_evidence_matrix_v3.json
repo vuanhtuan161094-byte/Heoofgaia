@@ -1781,16 +1781,16 @@
         "guideRecordIds": [],
         "datedSkills": [
           {
-            "skillId": "wiki-gold-supp-mar26-22",
-            "stage": "GOLD",
-            "sourceDate": "2026-03-17",
-            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html"
-          },
-          {
             "skillId": "wiki-orange-apr23-07",
             "stage": "ORANGE",
             "sourceDate": "2023-04-08",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          },
+          {
+            "skillId": "wiki-gold-supp-mar26-22",
+            "stage": "GOLD",
+            "sourceDate": "2026-03-17",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html"
           }
         ]
       },
@@ -2354,16 +2354,16 @@
         "guideRecordIds": [],
         "datedSkills": [
           {
-            "skillId": "wiki-gold-supp-may25-07",
-            "stage": "GOLD",
-            "sourceDate": "2025-05-05",
-            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html"
-          },
-          {
             "skillId": "wiki-orange-apr23-19",
             "stage": "ORANGE",
             "sourceDate": "2023-04-08",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          },
+          {
+            "skillId": "wiki-gold-supp-may25-07",
+            "stage": "GOLD",
+            "sourceDate": "2025-05-05",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html"
           }
         ]
       },
