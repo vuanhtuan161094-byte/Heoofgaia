@@ -51,7 +51,7 @@
     "noHiddenRecordsInvented": true,
     "classicParity": "UNKNOWN"
   },
-  "origin": "LIVE_PLAYWRIGHT_ACCORDION_PLUS_PUBLIC_HTML_INDEX_TEXT",
+  "origin": "LIVE_PLAYWRIGHT_ALL_11_CATEGORY_ACCORDIONS",
   "rows": [
     {
       "id": "wiki-item-index-9ef481d7bbc68de3",
@@ -18253,10 +18253,14 @@
     }
   ],
   "sourceCaptureEvidence": {
-    "playwrightNamedRows": 576,
-    "publicIndexedHtmlRows": 98,
-    "manualSourceCheckFile": "data/ngoalong/modules/inventory/wiki_items_extra_98_public_index_20261119.json",
-    "officialSourceCount": 674,
-    "estimatedSourceEffectsCopied": false
+    "playwrightNamedRows": 674,
+    "githubActionsRunId": 44443144316,
+    "githubActionsJobId": 135288704103,
+    "githubActionsRunUrl": "https://github.com/vuanhtuan161094-byte/Heoofgaia/actions/runs/44443144316",
+    "evidenceName": "NL_WIKI_ITEMS_674_GZIP_B64",
+    "independentPublicIndexCrossCheck": "data/ngoalong/modules/inventory/wiki_items_extra_98_public_index_20261119.json",
+    "exactRecordIdentityMatch": 674,
+    "sourceEffectRulesVerified": false,
+    "sourceNamesAndGroupsOnly": true
   }
 }
