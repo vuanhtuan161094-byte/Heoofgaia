@@ -1,0 +1,87 @@
+#!/usr/bin/env python3
+"""Deterministic Group08 equipment integration into canonical offline HTML.
+
+Consumes Group04 catalogue, rules, pure engine and UI. Does not copy source
+pixels, VNG formulas or network resources. In-place build after R02/R03/R04.
+"""
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[1]
+INDEX = ROOT / "index.html"
+DATA = ROOT / "data/ngoalong/modules/inventory"
+TOOLS = ROOT / "tools"
+BEGIN = "// === NL-ITEMS-INJECTED-BY-BUILDER ==="
+END = "// === END-NL-ITEMS-INJECTED-BY-BUILDER ==="
+BOOT = "setInterval(tick,1000);setInterval(save,15000);window.addEventListener('beforeunload',save);tick();render();"
+
+
+def payload() -> str:
+    catalogue = json.loads((DATA / "catalogue.json").read_text(encoding="utf-8"))
+    rules = json.loads((DATA / "rules.json").read_text(encoding="utf-8"))
+    playable = [e for e in catalogue["equipment"] if e["integration"] == "PLAYABLE"]
+    reference = [e for e in catalogue["equipment"] if e["integration"] == "REFERENCE_ONLY"]
+    if len(playable) != 411 or len(reference) != 392 or len(catalogue["items"]) != 6:
+        raise ValueError("Group04 inventory content count drift")
+    source_ids = {x["id"] for x in reference}
+    if len(source_ids) != 392:
+        raise ValueError("Group04 source IDs not unique")
+    if len({x["id"] for x in playable}) != 411:
+        raise ValueError("Group04 gameplay IDs not unique")
+    for model in playable:
+        if model["provenance"]["classification"] != "SIMULATED":
+            raise ValueError(f"Non-original active model: {model['id']}")
+        if model.get("sourceId") and model["sourceId"] not in source_ids:
+            raise ValueError(f"Unresolved reference: {model['id']}")
+
+    def js_json(value: object) -> str:
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":")).replace("<", "\\u003c")
+
+    engine = (DATA / "engine.js").read_text(encoding="utf-8")
+    ui = (DATA / "ui.js").read_text(encoding="utf-8")
+    bridge = (TOOLS / "nl_item_integration_v1.js").read_text(encoding="utf-8")
+    if bridge.count("__NL_ITEMS_CATALOGUE__") != 1 or bridge.count("__NL_ITEMS_RULES__") != 1:
+        raise ValueError("Bridge JSON placeholders out of sync")
+    bridge = bridge.replace("__NL_ITEMS_CATALOGUE__", js_json(catalogue)).replace(
+        "__NL_ITEMS_RULES__", js_json(rules))
+    if "</script" in (engine + ui + bridge).lower():
+        raise ValueError("Unexpected script terminator in injected inline source")
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), bridge.rstrip(), END])
+
+
+def render(html: str, insertion: str) -> str:
+    if html.count(BOOT) != 1:
+        raise ValueError(f"Canonical bootstrap marker mismatch: {html.count(BOOT)}")
+    if html.count(BEGIN) != html.count(END) or html.count(BEGIN) > 1:
+        raise ValueError("Unbalanced item block")
+    if BEGIN not in html:
+        return html.replace(BOOT, insertion + "\n" + BOOT, 1)
+    start = html.index(BEGIN)
+    stop = html.index(END, start) + len(END)
+    return html[:start] + insertion + html[stop:]
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--check", action="store_true")
+    args = parser.parse_args()
+    before = INDEX.read_text(encoding="utf-8")
+    after = render(before, payload())
+    changed = before != after
+    if changed and args.check:
+        raise SystemExit("NL Items canonical HTML is missing or differs from source")
+    if changed:
+        INDEX.write_text(after, encoding="utf-8", newline="")
+    print(
+        "NL_ITEMS: source gear 392, playable gear 411, "
+        f"sha256={hashlib.sha256(after.encode('utf-8')).hexdigest()} "
+        f"changed={changed} check={args.check}"
+    )
+
+
+if __name__ == "__main__":
+    main()
