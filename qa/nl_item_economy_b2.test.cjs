@@ -2,7 +2,7 @@
 const test=require('node:test'),assert=require('node:assert/strict');
 const pack=require('../data/ngoalong/modules/inventory/catalogue.json');
 const balance=require('../data/ngoalong/modules/inventory/balance_v1.js');
-const {createModule:inventory}=require('../data/ngoalong/modules/inventory/equipment_engine.js');
+const {createModule:inventory}=require('../data/ngoalong/modules/inventory/engine.js');
 const {createModule:consumables}=require('../data/ngoalong/modules/inventory/consumables_engine.js');
 const gearRules=require('../data/ngoalong/modules/inventory/rules.json');
 const itemRules=require('../data/ngoalong/modules/inventory/item_groups_v1.json');
