@@ -93,6 +93,31 @@ test('stale or malformed actions cannot trigger new transactions after render',(
  assert.equal(f.panel.handle({...stale,actionId:'city-ui:0:research:arms:'}).code,'STALE_UI_ACTION_ID');
  assert.equal(f.panel.handle({kind:'research',id:'arbitrary',actionId:'city-ui:2:research:arbitrary:'}).code,'UNKNOWN_RESEARCH');
 });
+test('event delegation calls engine once for a double-clicked rendered button',()=>{
+ const f=fixture();
+ let listener=null,removed=false;
+ const root={
+   innerHTML:'',
+   addEventListener(type,fn){assert.equal(type,'click');listener=fn;},
+   removeEventListener(type,fn){removed=listener===fn;},
+   contains(node){return node.owner===this;}
+ };
+ const unbind=f.panel.bind(root);
+ assert.ok(listener);assert.ok(root.innerHTML.includes('data-nl-city-panel="1"'));
+ const button={
+   owner:root,disabled:false,
+   getAttribute(k){return {
+     'data-nl-city-kind':'research','data-nl-city-id':'arms',
+     'data-nl-city-operation':'','data-nl-city-action-id':'city-ui:1:research:arms:'
+   }[k]||'';}
+ };
+ const target={closest(){return button;}};
+ listener({target});
+ assert.equal(f.game.technology.arms,1);assert.equal(f.saved,1);
+ listener({target}); // the removed, stale HTML button has the exact same intent ID
+ assert.equal(f.game.technology.arms,1);assert.equal(f.saved,1);
+ unbind();assert.equal(removed,true);
+});
 test('missing legacy callback must reject native navigation rather than fake a control',()=>{
  const engine=createEngine(catalog,alpha.research),g=makeGame();
  const p=createPanel({catalog,research:alpha.research,engine,getGame:()=>g,save:()=>{},now:()=>1000000});

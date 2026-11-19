@@ -39,3 +39,29 @@ Run \`node qa/nl_city_cycle.test.cjs\` (legacy core 10 checks) and \`node qa/nl_
 - The pre-existing `game.buildings.market` is NOT duplicated: two additive buy/sell grain actions debit and credit the real `game.silver` and `game.grain` using its native level, unique intent receipts and cooldown.
 - The original `nl_city_workshop` is now labelled **Xưởng — Công Tượng Phường** and includes a timed `forge_goods` action creating actual warehouse goods and parts after a paid iron/grain operation. Chat 04 may later consume those via its real item APIs.
 - These actions share the same city receipt ledger as all 31 buildings; integration must not double-trigger the old market UI event.
+
+
+## V3 — Chat 08 exact implementation handoff (no source authority transfer)
+**Source commit:** 5b5b4bfcadfb47c6643aa0680224c434c3c049f8 (panel V1; read the new HEAD for subsequent QA revisions).
+
+Additional files:
+- \`data/ngoalong/modules/city/city_panel_v1.js\`: UMD/CommonJS UI component with \`createPanel({engine,catalog,research,getGame,save,now,openLegacy,onResult})\`.
+- \`qa/modules/city/city_panel_v1.test.cjs\`: 38 building identifiers, 8 research IDs, selection, real build/harvest, market, workshop, research, duplicate-click receipt, legacy navigation, responsive CSS.
+- Exports \`NLCityPanel.stylesheet\`; \`panel.render()\` returns accessible HTML, \`panel.bind(element)\` attaches one delegated click handler and returns an unbind function.
+- \`panel.handle(intent)\` is available for integration testing but should not be reimplemented by chat 08. The panel uses a deterministic **same-render** \`city-ui:seq+1:kind:id:op\` actionId; only a successful transaction increments the engine receipt seq. A double-click on the same rendered button repeats the same receipt ID and is ignored. A genuinely new click after repaint receives a new ID.
+- \`panel.coverage\` requires exactly **31 project facilities + 7 legacy**; fails closed if IDs are duplicated or catalog coverage is incomplete.
+- Legacy \`openLegacy(id)\` **must route to the existing actual game control**, not to a fake upgrade button; the panel only adds Chợ purchase/sale actions to legacy state.
+- \`NLCityPanel.stylesheet\` is responsive for mobile <=760px, no poster assets or HTML file variants.
+
+### Chat 08 implementation sequence
+1. Check latest PR #10 HEAD and \`docs/operations/NL_MULTI_CHAT_V2.md\`; keep it Draft. Review this source commit independently.
+2. Add \`catalog_v1.json\`, \`tools/nl_city_engine.js\`, and \`city_panel_v1.js\` through the **existing canonical** \`tools/build_ngoa_long_mode.py\` or another owned canonical build step (not a competing HTML). Preserve the existing build patch markers and BOOT constant.
+3. Instantiate **inside the existing game closure**, after \`NL_GAME_DATA\` and \`game\` exist:
+   \`const cityEngine=NLCityEngine.createEngine(NL_CITY_CATALOG, NL_GAME_DATA.research);\`
+   \`const cityPanel=NLCityPanel.createPanel({engine:cityEngine,catalog:NL_CITY_CATALOG,research:NL_GAME_DATA.research,getGame:()=>game,save:()=>save(),now:()=>Date.now(),openLegacy:id=>{/* route to original city panel */}});\`
+4. Append a unique container to \`renderCity\` while preserving its **existing** market/farm/barracks/academy/walls controls. Each native \`render()\` call may replace DOM, therefore unbind the old city root before binding the **new** \`#nl-city-panel-root\` element; otherwise buttons appear inert after changing tab. Do not bind twice, do not create an extra timer.
+5. Call \`cityEngine.advance(game,Date.now())\` on load and from the existing runtime tick. Preserve \`game.nlCity\` as additive nested state of the one Save v5 object; validate that native \`save()\`, reload, import/export, old v1-v4 migration and replay retain its receipts. Account for panel \`render()\` running \`advance\` via \`engine.view()\`.
+6. Bring all *in-scope* effects to their canonical consumers (Chat 01/02/04/05/06). Do not claim reserve, hero, equipment or naval bonuses live merely because they are displayed in city UI. \`research\` must be handled **either** by the native R03 handler or city action per click, never both.
+7. Run focused tests, browser at 1280×720 and 390, save/reload and exact SHA CI only after integrator finishes wiring. Check 38/38 selection, 31/31 build, 34/34 operation paths, one-time receipts and legacy parity.
+
+**Status:** Chat 03 delivers working code + focused non-browser tests; the only missing point for buttons to work in canonical game is **Chat 08 runtime ownership**. The old source claim "full 38 integrated" is not valid until the integration QA passes.
