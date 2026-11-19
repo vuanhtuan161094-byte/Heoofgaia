@@ -61,12 +61,18 @@ function createV5({
          facets.includes("NPC_CAMPAIGN_APPEARANCE")?"NPC_APPEARANCE_CONTEXT_ONLY":"STILL_MOBILE_UNKNOWN",
    sourceFactIds:ff.map(x=>x.factId),
    sourcedStageNames:skillFacts.map(x=>x.data.stage).filter(Boolean),
-   roleVerified:skillFacts.length>0&&skillFacts.every(x=>x.data.skillName),
+   skillNamesVerified:skillFacts.length>0&&skillFacts.every(x=>typeof x.data.skillName==='string'),
+   combatRoleVerified:false,
    currentFullSkillMechanics:false,
    baseAttributes:null,rebirthFormula:null,individualAwakeningMaterials:null,
    recruitmentMethod:null,playable:false,needsResearch:true
   };
  });
+ for(const x of wei.rows){
+  guard(x.noAutoPromote===true,"Wei alias/source promotion forbidden");
+  guard(x.sourceValidation?.nativeMobileBaseAttributes===null&&x.sourceValidation?.nativeMobileAwakeningCosts===null,"unproven Wei current fields");
+  if(x.sourceValidation.reviewAlias)guard(x.sourceValidation.reviewAlias.confirmedMobileId===false&&x.sourceValidation.reviewAlias.resolvedForRuntime===false,"alias falsely resolved");
+ }
  guard(a1.length===18&&a2.length===125,"A1/A2 expected backlog counts");
  let npc=Array.isArray(npcDetails)?npcDetails:null;
  let mapList=Array.isArray(maps)?maps:null;
