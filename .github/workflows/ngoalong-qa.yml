@@ -85,6 +85,7 @@ jobs:
           python tools/nl_content_contract_v1.py --out qa/nl_content_index_v1.json
           python qa/ngoa_long_mode.py
           python qa/nl_heroes207_browser.py
+          python qa/nl_premerge_hero207_items.py
           python qa/nl_r02.py
           python qa/nl_r03.py
           python qa/nl_progression.py
@@ -160,6 +161,8 @@ jobs:
           node --test qa/modules/heroes/*.test.cjs qa/nl_hero_catalogue.test.cjs qa/nl_hero_development.test.cjs
       - name: Hero207 real-browser recruiting and Save-v5 QA
         run: python qa/nl_heroes207_browser.py
+      - name: Combined Hero207 + Items browser/save/replay gate
+        run: python qa/nl_premerge_hero207_items.py
       - name: P2 smoke Chromium
         run: python qa/smoke.py
       - name: Ngọa Long 3x3 command center desktop/mobile browser gate
