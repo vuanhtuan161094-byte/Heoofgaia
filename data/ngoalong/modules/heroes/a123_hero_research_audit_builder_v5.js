@@ -127,10 +127,16 @@ function createV5({
   counts:{
    indexedHeroes:364,priorMobileDetails:142,
    newMobileMechanicsOnly:newMobileMechanics.length,
-   currentMobileMechanicOrRecruitEvidence:142+newMobileMechanics.length,
+   publishedMobileSourceProfiles:142+newMobileMechanics.length,
    guideRecommendationsWithoutMechanics:mobileGuideOnly,
    neutralNpcBossNameMatches:newNeutralNpcNameMatch,
    totalWithAnySourceLane:union.size,
+   heroOrGuideSourceProfiles:base.audit.withAnyDatedHistoricalSource+new Set(
+    facts.filter(f=>f.facet!=="NPC_CAMPAIGN_APPEARANCE"&&!V4SourceCovered.has(f.heroId)).map(x=>x.heroId)
+   ).size,
+   npcContextOnlyNameMatches:union.size-(
+    base.audit.withAnyDatedHistoricalSource+new Set(facts.filter(f=>f.facet!=="NPC_CAMPAIGN_APPEARANCE"&&!V4SourceCovered.has(f.heroId)).map(x=>x.heroId)).size
+   ),
    totalIndexOnlyAcrossSourceLanes:364-union.size,
    playableNewHeroes:0
   },
@@ -146,6 +152,7 @@ function createV5({
  };
  guard(outputs.counts.newMobileMechanicsOnly===3,"new mobile mechanics expected 3 heroes");
  guard(union.size===160,"deduped cross-source fact union expected 160");
+ guard(outputs.counts.heroOrGuideSourceProfiles===157&&outputs.counts.npcContextOnlyNameMatches===3,"edition source distinction lost");
  guard(a3Status.RECRUITMENT_PUBLISHED===1&&a3Status.BOSS_ENCOUNTER_NAME_MATCH_ONLY===2
    &&a3Status.BOSS_NAME_AMBIGUOUS_MULTIPLE_ROSTER_ENTRIES===1
    &&a3Status.UNKNOWN_ROLE===69,"neutral role triage changed "+JSON.stringify(a3Status));
