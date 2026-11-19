@@ -1,0 +1,1083 @@
+{
+  "schemaVersion": 1,
+  "edition": "VNG_MOBILE_DATED_20240903",
+  "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+  "sourceDate": "2024-09-03",
+  "checkedAt": "2026-11-19",
+  "count": 23,
+  "unresolvedSourceNames": [
+    "Tào Tiết",
+    "Trương Tinh Thái",
+    "Bộ Luyện Sư",
+    "Phục Thọ",
+    "Long Kỵ Phi Tướng Lữ Bố",
+    "Tuyệt Thế Vũ Cơ Điêu Thuyền"
+  ],
+  "records": [
+    {
+      "name": "Quách Gia",
+      "stage": "ORANGE",
+      "skillName": "Biển Sao Lấp Lánh",
+      "lane": "STRATEGY",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 8500,
+          "lane": "STRATEGY",
+          "target": "ENEMY_ROW",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 12800,
+          "lane": "STRATEGY",
+          "target": "ONE_ENEMY",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hỗn Loạn",
+          "target": "ONE_ENEMY",
+          "turns": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Âm Hồn",
+          "target": "ONE_ENEMY",
+          "turns": null,
+          "intelligencePenalty": 12,
+          "until": "BATTLE_END"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Di Kế",
+          "target": "SELF",
+          "turns": null,
+          "until": "BATTLE_END",
+          "dispel": false,
+          "stacking": true
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-016",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-01",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Gia Cát Lượng",
+      "stage": "ORANGE",
+      "skillName": "Kỳ Môn Bát Trận Đồ",
+      "lane": "STRATEGY",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 10800,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ENEMIES",
+          "base": -30,
+          "variable": null
+        },
+        {
+          "op": "STATUS",
+          "effect": "Nguyệt Hồn",
+          "target": "SELF_AND_ALLY_MOST_SOLDIERS",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thiên Tượng",
+          "target": "OTHER_ALLIES",
+          "turns": 2,
+          "pvpEffectReduced": true
+        },
+        {
+          "op": "STATUS",
+          "effect": "Bát Quái",
+          "target": "SELF_AND_ALLY_LOWEST_SOLDIERS",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ALLIES",
+          "base": 35,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-052",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-02",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Chu Du",
+      "stage": "ORANGE",
+      "skillName": "Luyện Ngục Hỏa Hải",
+      "lane": "STRATEGY",
+      "operations": [
+        {
+          "op": "STATUS",
+          "effect": "Hỏa Thần",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 4100,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "HIGH_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 7200,
+          "lane": "STRATEGY",
+          "target": "ALL_ENEMIES",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thiêu Đốt",
+          "target": "ALL_ENEMIES",
+          "turns": null,
+          "probabilityPct": 35,
+          "durationUnknown": true
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thiên Hỏa",
+          "target": "ALL_ENEMIES",
+          "turns": null,
+          "probabilityPct": 35,
+          "durationUnknown": true
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-090",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-03",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Tào Tiết",
+      "stage": "ORANGE",
+      "skillName": "Lạc Nhật Thần Tiễn",
+      "lane": "PHYSICAL",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 17000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hội Tâm",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Anh Dũng",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 500,
+          "onNoKill": 145
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hư Nhược",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": 5,
+          "when": "TARGET_SURVIVES",
+          "dispel": false
+        }
+      ],
+      "notes": {},
+      "heroId": null,
+      "identityStatus": "UNRESOLVED_NAME_OR_VARIANT",
+      "id": "wiki-stage-sep24-04",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Trương Tinh Thái",
+      "stage": "ORANGE",
+      "skillName": "Lung Hoàn Táng Địch",
+      "lane": "TACTIC",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 7800,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 10200,
+          "lane": "TACTIC",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thiết Bích",
+          "target": "SELF",
+          "turns": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": null,
+      "identityStatus": "UNRESOLVED_NAME_OR_VARIANT",
+      "id": "wiki-stage-sep24-05",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Bộ Luyện Sư",
+      "stage": "ORANGE",
+      "skillName": "Diệt Thế Thiên Lôi",
+      "lane": "STRATEGY",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 6500,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 5,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Âm Hồn",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": null,
+          "until": "BATTLE_END"
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 500,
+          "onNoKill": 100
+        }
+      ],
+      "notes": {},
+      "heroId": null,
+      "identityStatus": "UNRESOLVED_NAME_OR_VARIANT",
+      "id": "wiki-stage-sep24-06",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Phục Thọ",
+      "stage": "ORANGE",
+      "skillName": "Hiền Thục Lưu Phương",
+      "lane": "SUPPORT",
+      "operations": [
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 1
+        },
+        {
+          "op": "DISPEL",
+          "target": "ALL_ENEMIES",
+          "effectKind": "BUFF",
+          "count": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Nguyệt Hồn",
+          "target": "SELF",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": null,
+      "identityStatus": "UNRESOLVED_NAME_OR_VARIANT",
+      "id": "wiki-stage-sep24-07",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Trương Xuân Hoa",
+      "stage": "ORANGE",
+      "skillName": "Tuyệt Tình Vô Hối",
+      "lane": "STRATEGY",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 18000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Treo Thưởng",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": null,
+          "until": "BATTLE_END",
+          "dispel": false,
+          "teamMoraleOnDeath": 100
+        },
+        {
+          "op": "STATUS",
+          "effect": "Vô Ngôn",
+          "target": "ENEMY_HIGHEST_MORALE",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-153",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-08",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Long Kỵ Phi Tướng Lữ Bố",
+      "stage": "ORANGE",
+      "skillName": "Ma Thần Giáng Thế",
+      "lane": "TACTIC",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 24000,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 2400,
+          "lane": "TACTIC",
+          "target": "ENEMY_GROUP",
+          "hits": 1,
+          "pvpPct": 12000
+        },
+        {
+          "op": "STATUS",
+          "effect": "Mây Đen",
+          "target": "ENEMY_GROUP",
+          "turns": 2,
+          "moralePerTurn": -10
+        },
+        {
+          "op": "STATUS",
+          "effect": "Điên Cuồng",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tru Thần",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "notes": {
+        "namedCollectionVariant": true
+      },
+      "heroId": null,
+      "identityStatus": "UNRESOLVED_NAME_OR_VARIANT",
+      "id": "wiki-stage-sep24-09",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Tuyệt Thế Vũ Cơ Điêu Thuyền",
+      "stage": "ORANGE",
+      "skillName": "Bế Nguyệt Phong Hoa",
+      "lane": "SUPPORT",
+      "operations": [
+        {
+          "op": "ATTACK_CHANGE",
+          "target": "ALL_ALLIES",
+          "base": 75,
+          "variable": "X",
+          "turns": 2
+        },
+        {
+          "op": "ATTACK_CHANGE",
+          "target": "ALL_ENEMIES",
+          "base": -24,
+          "variable": "Y",
+          "turns": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Đào Binh",
+          "target": "ALL_ENEMIES",
+          "turns": 2,
+          "currentSoldiersLostPerTurnPct": 8
+        }
+      ],
+      "notes": {
+        "namedCollectionVariant": true
+      },
+      "heroId": null,
+      "identityStatus": "UNRESOLVED_NAME_OR_VARIANT",
+      "id": "wiki-stage-sep24-10",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Mã Siêu",
+      "stage": "ORANGE",
+      "skillName": "Tế Nhật Thiên Kỵ",
+      "lane": "TACTIC",
+      "operations": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 500
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 7700,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tê Liệt",
+          "target": "ENEMY_COLUMN",
+          "turns": 3,
+          "probabilityPct": 40
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thần Tốc",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thủ Hộ",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "HEAL",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "pct": 20,
+          "lane": "TACTIC",
+          "hits": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-055",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-11",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Hạ Hầu Uyên",
+      "stage": "ORANGE",
+      "skillName": "Tế Nhật Thiên Kỵ",
+      "lane": "TACTIC",
+      "operations": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 500
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 7700,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tê Liệt",
+          "target": "ENEMY_COLUMN",
+          "turns": 3,
+          "probabilityPct": 40
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thần Tốc",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thủ Hộ",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "HEAL",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "pct": 20,
+          "lane": "TACTIC",
+          "hits": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-012",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-12",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Chu Hoàn",
+      "stage": "ORANGE",
+      "skillName": "Tế Nhật Thiên Kỵ",
+      "lane": "TACTIC",
+      "operations": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 500
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 7700,
+          "lane": "TACTIC",
+          "target": "ENEMY_COLUMN",
+          "hits": 2
+        },
+        {
+          "op": "STATUS",
+          "effect": "Tê Liệt",
+          "target": "ENEMY_COLUMN",
+          "turns": 3,
+          "probabilityPct": 40
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thần Tốc",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thủ Hộ",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "HEAL",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "pct": 20,
+          "lane": "TACTIC",
+          "hits": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-091",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-13",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Trương Tú",
+      "stage": "ORANGE",
+      "skillName": "Huyết Ách Sư",
+      "lane": "PHYSICAL",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 18000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Chuyển đổi",
+          "target": "ALL_ALLIES",
+          "turns": 2,
+          "damageToHealPct": 50,
+          "maxHealPctMaxSoldiers": 10
+        },
+        {
+          "op": "MORALE_REGEN_CHANGE",
+          "target": "ALL_ENEMIES",
+          "pct": -40,
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-152",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-14",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Công Tôn Toán",
+      "stage": "PURPLE",
+      "skillName": "Rừng Giáo Tua Tủa",
+      "lane": "PHYSICAL",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 6400,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thần Binh",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kiêu Binh",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-122",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-15",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Công Tôn Toán",
+      "stage": "ORANGE",
+      "skillName": "Bạch Mã Tướng Quân",
+      "lane": "PHYSICAL",
+      "operations": [
+        {
+          "op": "DAMAGE",
+          "pct": 8400,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_COLUMN",
+          "hits": 2,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thần Binh",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kiêu Binh",
+          "target": "ALL_ALLIES",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-122",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-16",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Lưu Biểu",
+      "stage": "BLUE",
+      "skillName": "Lôi Cổ",
+      "lane": "SUPPORT",
+      "operations": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 75,
+          "variable": null
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-145",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-17",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Lưu Biểu",
+      "stage": "GREEN",
+      "skillName": "Hiệu Triệu",
+      "lane": "SUPPORT",
+      "operations": [
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 85,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-145",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-18",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Lưu Biểu",
+      "stage": "RED",
+      "skillName": "Định Quân Cổ",
+      "lane": "SUPPORT",
+      "operations": [
+        {
+          "op": "STATUS",
+          "effect": "Thủ Hộ",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 85,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-145",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-19",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Lưu Biểu",
+      "stage": "PURPLE",
+      "skillName": "Tự Thủ Giữ Mình",
+      "lane": "SUPPORT",
+      "operations": [
+        {
+          "op": "MORALE",
+          "target": "ALL_ALLIES",
+          "base": 85,
+          "variable": "N"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kiên Thủ",
+          "target": "ALL_ALLIES",
+          "turns": 3,
+          "defensePctPerStack": 8,
+          "stacking": true
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-145",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-20",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Lưu Biểu",
+      "stage": "ORANGE",
+      "skillName": "Bảo Vệ Kinh Giang",
+      "lane": "SUPPORT",
+      "operations": [
+        {
+          "op": "MORALE",
+          "target": "ALL_ALLIES",
+          "base": 85,
+          "variable": "N"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Anh Dũng",
+          "target": "ALL_ALLIES",
+          "turns": 3,
+          "attackPctPerStack": 20,
+          "stacking": true
+        },
+        {
+          "op": "STATUS",
+          "effect": "Kiên Thủ",
+          "target": "ALL_ALLIES",
+          "turns": 3,
+          "defensePctPerStack": 8,
+          "stacking": true
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-145",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-21",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Công Tôn Tu",
+      "stage": "ORANGE",
+      "skillName": "Nghịch Chuyển Sinh Tử",
+      "lane": "PHYSICAL",
+      "operations": [
+        {
+          "op": "MORALE_COST",
+          "target": "SELF",
+          "amount": 500
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 1800,
+          "lane": "PHYSICAL",
+          "target": "ALL_ENEMIES",
+          "hits": 1,
+          "modifier": "LOW_SELF_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "effect": "Hội Tâm",
+          "target": "SELF",
+          "turns": 2,
+          "criticalChanceBonusPct": 60
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thiên Vận",
+          "target": "SELF",
+          "turns": 2,
+          "randomDamageMultiplierRange": [
+            1,
+            5
+          ]
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-138",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-22",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Thái Văn Cơ",
+      "stage": "ORANGE",
+      "skillName": "Bài Ca Biên Ải",
+      "lane": "SUPPORT",
+      "operations": [
+        {
+          "op": "HEAL",
+          "target": "SELF",
+          "pct": null,
+          "lane": "SOLDIERS",
+          "hits": 1,
+          "unquantified": true
+        },
+        {
+          "op": "HEAL",
+          "target": "RANDOM_ALLY",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "effect": "Thiết Bích",
+          "target": "OTHER_ALLIES",
+          "turns": 2,
+          "probabilityPct": 20
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "notes": {},
+      "heroId": "wiki-mobile-hero-148",
+      "identityStatus": "EXACT_UNIQUE_NAME_CANDIDATE",
+      "id": "wiki-stage-sep24-23",
+      "sourceDate": "2024-09-03",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-dinh-tam-quoc/he-thong-tuong-cam-13958.html",
+      "classification": "VERIFIED",
+      "status": "SOURCE_FACT_ONLY",
+      "currentStageVerified": false,
+      "runtimeEligible": false
+    }
+  ],
+  "sourceNote": "Exact stage snapshots from the September 2024 VNG bulletin; named/titled characters remain unlinked unless Wiki identity exact; no current engine activation."
+}
