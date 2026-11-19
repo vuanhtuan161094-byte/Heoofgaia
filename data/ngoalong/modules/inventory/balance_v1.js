@@ -9,7 +9,7 @@
 })(typeof globalThis==='object'?globalThis:this,function(){
   'use strict';
   const VERSION='mdt-item-economy-v3';
-  const CHAPTERS=7, STAGES_PER_CHAPTER=4;
+  const STAGES_PER_CHAPTER=4;
   const CONFIG=Object.freeze({
     version:VERSION,provenance:'SIMULATED',maxStage:28,
     rarityByChapter:[
