@@ -1,0 +1,898 @@
+{
+  "schema": "ngoalong.art.r16.1",
+  "date": "2026-11-19",
+  "repo": "vuanhtuan161094-byte/Heoofgaia",
+  "branch": "feature/nl-v2-art",
+  "status": "VISUAL_CANDIDATE",
+  "approvedArt": false,
+  "inGame": false,
+  "alpha": "RGBA 8-bit transparent",
+  "frameSize": [
+    128,
+    128
+  ],
+  "footPivot": [
+    64,
+    121
+  ],
+  "previewWidthPx": 80,
+  "readiness": "eight distinct key poses per troop, NOT smooth animation or runtime",
+  "artSource": "IMAGE_GENERATION_8_POSE_SHEET",
+  "notRigged": true,
+  "wikiReference": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+  "wikiUse": "category and role only, no Wiki artwork pixels",
+  "units": [
+    {
+      "id": "ky_binh",
+      "name": "Kỵ Binh",
+      "role": "cavalry / charge",
+      "weapon": "spear with chestnut horse",
+      "colors": [
+        "blue-gold",
+        "brown"
+      ],
+      "sourceInputOriginalPNG": "chibi_cavalry_warrior_sprite_atlas.png",
+      "sourceInputSHA256": "5add68dd021691c8e7f7d64f92283e10948b577b22109db63883cfa233218f93",
+      "sourceInputSize": [
+        1774,
+        887
+      ],
+      "frames": [
+        {
+          "action": "idle_00",
+          "file": "frames/ky_binh/idle_00.png",
+          "sourceCell": {
+            "col": 0,
+            "row": 0,
+            "bbox": [
+              86,
+              14,
+              371,
+              403
+            ]
+          },
+          "registeredBbox": [
+            24,
+            10,
+            105,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.28535
+        },
+        {
+          "action": "idle_01",
+          "file": "frames/ky_binh/idle_01.png",
+          "sourceCell": {
+            "col": 1,
+            "row": 0,
+            "bbox": [
+              81,
+              19,
+              369,
+              403
+            ]
+          },
+          "registeredBbox": [
+            23,
+            10,
+            106,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.28906
+        },
+        {
+          "action": "attack_anticipation",
+          "file": "frames/ky_binh/attack_anticipation.png",
+          "sourceCell": {
+            "col": 2,
+            "row": 0,
+            "bbox": [
+              37,
+              32,
+              374,
+              400
+            ]
+          },
+          "registeredBbox": [
+            13,
+            10,
+            115,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.30163
+        },
+        {
+          "action": "attack_contact",
+          "file": "frames/ky_binh/attack_contact.png",
+          "sourceCell": {
+            "col": 3,
+            "row": 0,
+            "bbox": [
+              31,
+              38,
+              430,
+              396
+            ]
+          },
+          "registeredBbox": [
+            6,
+            17,
+            122,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.29073
+        },
+        {
+          "action": "attack_recovery",
+          "file": "frames/ky_binh/attack_recovery.png",
+          "sourceCell": {
+            "col": 0,
+            "row": 1,
+            "bbox": [
+              50,
+              26,
+              378,
+              402
+            ]
+          },
+          "registeredBbox": [
+            16,
+            10,
+            113,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.29521
+        },
+        {
+          "action": "hit",
+          "file": "frames/ky_binh/hit.png",
+          "sourceCell": {
+            "col": 1,
+            "row": 1,
+            "bbox": [
+              44,
+              34,
+              385,
+              409
+            ]
+          },
+          "registeredBbox": [
+            14,
+            10,
+            115,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.296
+        },
+        {
+          "action": "skill",
+          "file": "frames/ky_binh/skill.png",
+          "sourceCell": {
+            "col": 2,
+            "row": 1,
+            "bbox": [
+              17,
+              5,
+              399,
+              410
+            ]
+          },
+          "registeredBbox": [
+            12,
+            10,
+            117,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.27407
+        },
+        {
+          "action": "death",
+          "file": "frames/ky_binh/death.png",
+          "sourceCell": {
+            "col": 3,
+            "row": 1,
+            "bbox": [
+              28,
+              101,
+              401,
+              409
+            ]
+          },
+          "registeredBbox": [
+            6,
+            25,
+            122,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.31099
+        }
+      ]
+    },
+    {
+      "id": "cung_binh",
+      "name": "Cung Binh",
+      "role": "ranged physical",
+      "weapon": "bow and quiver",
+      "colors": [
+        "navy-gold",
+        "red"
+      ],
+      "sourceInputOriginalPNG": "chibi_archer_eight_frame_sprite_atlas.png",
+      "sourceInputSHA256": "94a351be228cde421bcfa2a84cb44ce54a3a38b02f99ec75bf51aea5b00e92ee",
+      "sourceInputSize": [
+        1774,
+        887
+      ],
+      "frames": [
+        {
+          "action": "idle_00",
+          "file": "frames/cung_binh/idle_00.png",
+          "sourceCell": {
+            "col": 0,
+            "row": 0,
+            "bbox": [
+              81,
+              34,
+              369,
+              411
+            ]
+          },
+          "registeredBbox": [
+            22,
+            10,
+            107,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.29443
+        },
+        {
+          "action": "idle_01",
+          "file": "frames/cung_binh/idle_01.png",
+          "sourceCell": {
+            "col": 1,
+            "row": 0,
+            "bbox": [
+              69,
+              33,
+              356,
+              411
+            ]
+          },
+          "registeredBbox": [
+            22,
+            10,
+            106,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.29365
+        },
+        {
+          "action": "attack_anticipation",
+          "file": "frames/cung_binh/attack_anticipation.png",
+          "sourceCell": {
+            "col": 2,
+            "row": 0,
+            "bbox": [
+              23,
+              29,
+              389,
+              411
+            ]
+          },
+          "registeredBbox": [
+            11,
+            10,
+            117,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.29058
+        },
+        {
+          "action": "attack_contact",
+          "file": "frames/cung_binh/attack_contact.png",
+          "sourceCell": {
+            "col": 3,
+            "row": 0,
+            "bbox": [
+              7,
+              34,
+              434,
+              412
+            ]
+          },
+          "registeredBbox": [
+            6,
+            18,
+            122,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.27166
+        },
+        {
+          "action": "attack_recovery",
+          "file": "frames/cung_binh/attack_recovery.png",
+          "sourceCell": {
+            "col": 0,
+            "row": 1,
+            "bbox": [
+              27,
+              27,
+              349,
+              405
+            ]
+          },
+          "registeredBbox": [
+            17,
+            10,
+            112,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.29365
+        },
+        {
+          "action": "hit",
+          "file": "frames/cung_binh/hit.png",
+          "sourceCell": {
+            "col": 1,
+            "row": 1,
+            "bbox": [
+              8,
+              36,
+              368,
+              404
+            ]
+          },
+          "registeredBbox": [
+            10,
+            10,
+            119,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.30163
+        },
+        {
+          "action": "skill",
+          "file": "frames/cung_binh/skill.png",
+          "sourceCell": {
+            "col": 2,
+            "row": 1,
+            "bbox": [
+              4,
+              33,
+              418,
+              405
+            ]
+          },
+          "registeredBbox": [
+            6,
+            17,
+            122,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.28019
+        },
+        {
+          "action": "death",
+          "file": "frames/cung_binh/death.png",
+          "sourceCell": {
+            "col": 3,
+            "row": 1,
+            "bbox": [
+              27,
+              147,
+              418,
+              402
+            ]
+          },
+          "registeredBbox": [
+            6,
+            45,
+            122,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.29668
+        }
+      ]
+    },
+    {
+      "id": "quan_van",
+      "name": "Quan Văn",
+      "role": "strategy/support",
+      "weapon": "fan and scroll",
+      "colors": [
+        "blue-white",
+        "gold"
+      ],
+      "sourceInputOriginalPNG": "quan_văn_strategist_sprite_atlas.png",
+      "sourceInputSHA256": "7f0c1c48a281807929ffb28e3080789b6a2a415651658e9718d99f5141ff18b1",
+      "sourceInputSize": [
+        1774,
+        887
+      ],
+      "frames": [
+        {
+          "action": "idle_00",
+          "file": "frames/quan_van/idle_00.png",
+          "sourceCell": {
+            "col": 0,
+            "row": 0,
+            "bbox": [
+              92,
+              27,
+              336,
+              381
+            ]
+          },
+          "registeredBbox": [
+            26,
+            10,
+            103,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.31356
+        },
+        {
+          "action": "idle_01",
+          "file": "frames/quan_van/idle_01.png",
+          "sourceCell": {
+            "col": 1,
+            "row": 0,
+            "bbox": [
+              92,
+              27,
+              368,
+              381
+            ]
+          },
+          "registeredBbox": [
+            21,
+            10,
+            108,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.31356
+        },
+        {
+          "action": "attack_anticipation",
+          "file": "frames/quan_van/attack_anticipation.png",
+          "sourceCell": {
+            "col": 2,
+            "row": 0,
+            "bbox": [
+              63,
+              25,
+              364,
+              381
+            ]
+          },
+          "registeredBbox": [
+            17,
+            10,
+            111,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.3118
+        },
+        {
+          "action": "attack_contact",
+          "file": "frames/quan_van/attack_contact.png",
+          "sourceCell": {
+            "col": 3,
+            "row": 0,
+            "bbox": [
+              51,
+              27,
+              442,
+              380
+            ]
+          },
+          "registeredBbox": [
+            6,
+            16,
+            122,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.29668
+        },
+        {
+          "action": "attack_recovery",
+          "file": "frames/quan_van/attack_recovery.png",
+          "sourceCell": {
+            "col": 0,
+            "row": 1,
+            "bbox": [
+              86,
+              30,
+              365,
+              381
+            ]
+          },
+          "registeredBbox": [
+            20,
+            10,
+            108,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.31624
+        },
+        {
+          "action": "hit",
+          "file": "frames/quan_van/hit.png",
+          "sourceCell": {
+            "col": 1,
+            "row": 1,
+            "bbox": [
+              56,
+              30,
+              355,
+              377
+            ]
+          },
+          "registeredBbox": [
+            16,
+            10,
+            112,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.31988
+        },
+        {
+          "action": "skill",
+          "file": "frames/quan_van/skill.png",
+          "sourceCell": {
+            "col": 2,
+            "row": 1,
+            "bbox": [
+              15,
+              28,
+              433,
+              401
+            ]
+          },
+          "registeredBbox": [
+            6,
+            17,
+            122,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.27751
+        },
+        {
+          "action": "death",
+          "file": "frames/quan_van/death.png",
+          "sourceCell": {
+            "col": 3,
+            "row": 1,
+            "bbox": [
+              44,
+              137,
+              413,
+              384
+            ]
+          },
+          "registeredBbox": [
+            6,
+            43,
+            122,
+            121
+          ],
+          "registeredFootPivot": [
+            64,
+            121
+          ],
+          "scale": 0.31436
+        }
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "source/ky_binh_original_lossless.webp",
+      "bytes": 1257438,
+      "sha256": "c1e0f4bd6ee7173d7f55ddaaa65deac324cd379736bca1aac4e3b6a03a4d9e46",
+      "gitBlobSha": "7c8e7f07e30e4fde2794ab994af668357634c7af"
+    },
+    {
+      "path": "frames/ky_binh/idle_00.png",
+      "bytes": 20727,
+      "sha256": "7de9b3701d93a33f350b245dd035e78a819f420e5f05262c3166845e45a6152f",
+      "gitBlobSha": "ccf3d02a5419c99311d32e5a42ff07d9c2c24de2"
+    },
+    {
+      "path": "frames/ky_binh/idle_01.png",
+      "bytes": 21180,
+      "sha256": "2123eec032581e8440be9c89405f4d4d9e36e00ff6244fa4dc48fa832acb8f94",
+      "gitBlobSha": "4d72f20a79fd7f002b9df8e294edaf7b4e55c468"
+    },
+    {
+      "path": "frames/ky_binh/attack_anticipation.png",
+      "bytes": 22878,
+      "sha256": "e9823f06f384dd077093b3810fbd0cf2367153b28b329ae85cd778a0d98fa932",
+      "gitBlobSha": "91cb2ded8e1111354890693d898679a06d4301b7"
+    },
+    {
+      "path": "frames/ky_binh/attack_contact.png",
+      "bytes": 22175,
+      "sha256": "c6c5254bee44e291dcc687cddfd75f332fae6d1a9983bbdf269613a8d06127d4",
+      "gitBlobSha": "3d034586f42ae4e83e4cde6b05c17300e9cc978c"
+    },
+    {
+      "path": "frames/ky_binh/attack_recovery.png",
+      "bytes": 22836,
+      "sha256": "02125021cbbdefd673c85a875cc012642ec9964f641e475dc487887ef60a0002",
+      "gitBlobSha": "fc5ecb511c8015c9db8a0713cd025488a9cf2f80"
+    },
+    {
+      "path": "frames/ky_binh/hit.png",
+      "bytes": 24510,
+      "sha256": "3d482e02e21e79cb4445cddbe9b8a91a0d7d263f620979d1db371be99f2a502f",
+      "gitBlobSha": "8695920545c624e6808fd9f63bf6b5a90480ab0a"
+    },
+    {
+      "path": "frames/ky_binh/skill.png",
+      "bytes": 29775,
+      "sha256": "d0eaedfb0f5ff0e2b365ff57a233da83c779e22060d822f7d34b05700f4c51c1",
+      "gitBlobSha": "b4d5558786daa39786e399a907613c511de86571"
+    },
+    {
+      "path": "frames/ky_binh/death.png",
+      "bytes": 21846,
+      "sha256": "a3b137d884c11c7ed7becb377281ac548ecb4a226615ec1dfaf06faf68b62e07",
+      "gitBlobSha": "79b9beddb38daa5dc4867fba387e6af6c616be13"
+    },
+    {
+      "path": "atlases/ky_binh_4x2_128.png",
+      "bytes": 185812,
+      "sha256": "9ee7bfdb2d5aa597b373756ab7bb30cca5521c1f306e87512af9a0755769feea",
+      "gitBlobSha": "d0e77f1a9e99aba88ae97b7e900942b739fdc478"
+    },
+    {
+      "path": "source/cung_binh_original_lossless.webp",
+      "bytes": 1172436,
+      "sha256": "c6b5997322d583f375b6d28cd63cc3bef2b986d7652c7d46683c3c1407ecd61e",
+      "gitBlobSha": "79abf3b6222d20826b7bbadd7995b049c1dbad95"
+    },
+    {
+      "path": "frames/cung_binh/idle_00.png",
+      "bytes": 19348,
+      "sha256": "5888b2e6986ef60f4d36d258c8c5df254587ed441b949cd42d48c63fdf764050",
+      "gitBlobSha": "4ca631cc7a7818d294bf1b07b93013ab793b3bce"
+    },
+    {
+      "path": "frames/cung_binh/idle_01.png",
+      "bytes": 19305,
+      "sha256": "4284553a153dbeb549b4a4f001c17e6c666ab9fe70108c9a9893046e9174f6e6",
+      "gitBlobSha": "9d758c4be3a41a92d2f4452db1477e57e03537d7"
+    },
+    {
+      "path": "frames/cung_binh/attack_anticipation.png",
+      "bytes": 22874,
+      "sha256": "9acffc726ef157132f739bb314252d0d4e5e87cd8d9a423396a201c846328928",
+      "gitBlobSha": "f3e583f2fad6b26017004544f0089d7efeb71376"
+    },
+    {
+      "path": "frames/cung_binh/attack_contact.png",
+      "bytes": 20749,
+      "sha256": "9211bf97e1354b24d30bdd7f6c99e238eba9b8d8a51fa3061472a595cfd4d47c",
+      "gitBlobSha": "eee4325f218ab9efb83227dcd544c5afdb4ec30f"
+    },
+    {
+      "path": "frames/cung_binh/attack_recovery.png",
+      "bytes": 21921,
+      "sha256": "192c00ef09bef9f37b26ce9141f17179317d660ebff5a13de5693f1bd94d3fe9",
+      "gitBlobSha": "9e6dc27bf2b3d48d52acb3619d0c2076f3ac3618"
+    },
+    {
+      "path": "frames/cung_binh/hit.png",
+      "bytes": 24598,
+      "sha256": "77f6538f9e7abcbf3e57c2ef842e163c3908e1a712f5c4e8b8b7541d941d0e27",
+      "gitBlobSha": "f6948317f4409b6bede3fa4152011e8147858adb"
+    },
+    {
+      "path": "frames/cung_binh/skill.png",
+      "bytes": 31502,
+      "sha256": "37cfca3b88a8a74a225777f18ab06de7d8ebdd681bba6dea00ce131d380ef7e2",
+      "gitBlobSha": "ae75d65550348c9a29c3d5143b6ec421e3a41d09"
+    },
+    {
+      "path": "frames/cung_binh/death.png",
+      "bytes": 16921,
+      "sha256": "0070ee8ce65a0bf9b6fcf3b614cd18403db6c4c553ee59c5f9938ec3adf6ee20",
+      "gitBlobSha": "53493b09b526a1b22ca2b030678278254006a2d9"
+    },
+    {
+      "path": "atlases/cung_binh_4x2_128.png",
+      "bytes": 177018,
+      "sha256": "2156665165181493f0381814a8e185af91b6fde16afe1ea93d19ca8db7deed6b",
+      "gitBlobSha": "de3ab95622867b721ecc8d58e5198af69e6ceb9f"
+    },
+    {
+      "path": "source/quan_van_original_lossless.webp",
+      "bytes": 1206564,
+      "sha256": "bcef25bf3191b640464059272a21c1f8416ae3db36e10841c6c6fd3a7fca32ee",
+      "gitBlobSha": "341e9ed2be1ff311a60380c2c0c37d8e7c7e4b14"
+    },
+    {
+      "path": "frames/quan_van/idle_00.png",
+      "bytes": 21324,
+      "sha256": "5476d363e5246b4907503d42e54a2bc2c722abeab74702d43356e4603b9a9598",
+      "gitBlobSha": "135b2e79dd574d83917733b5e22e833649acc9d2"
+    },
+    {
+      "path": "frames/quan_van/idle_01.png",
+      "bytes": 22107,
+      "sha256": "bdeb8f38ce60bbd769380262fb73039aa358d08d4ffc2f0b2271f6112e87620f",
+      "gitBlobSha": "c53986242ec5b4de900d5659ff3f2e19732f225f"
+    },
+    {
+      "path": "frames/quan_van/attack_anticipation.png",
+      "bytes": 23897,
+      "sha256": "880e71814d957b9b5db8f67c0c0d2afda6e310a36a8c63cab7fb7affbb36fee5",
+      "gitBlobSha": "b334b8173bdd1b2387a84c6aec2a13f117c4a313"
+    },
+    {
+      "path": "frames/quan_van/attack_contact.png",
+      "bytes": 26382,
+      "sha256": "199619555a5dda187b9080f2b99cf4cee04fd2f1cf012783b8ca596000662e20",
+      "gitBlobSha": "1f65e290bf9bc608a0f48fb0f94bdf05060e3a19"
+    },
+    {
+      "path": "frames/quan_van/attack_recovery.png",
+      "bytes": 22125,
+      "sha256": "02455df0a100fd045677cae4b6d9f257c2dcdfd9f221a8b2e69fbb43418afa4f",
+      "gitBlobSha": "e56ed65b4ec3e891dcb9b3a5de0b6bfcf4779aaf"
+    },
+    {
+      "path": "frames/quan_van/hit.png",
+      "bytes": 25074,
+      "sha256": "b7d76d78d9d978869a042800a9453beeee88164119f62a4e6e32fe0a5068eab9",
+      "gitBlobSha": "ee606eaf6a4ae36c2512c355d7497903775f52de"
+    },
+    {
+      "path": "frames/quan_van/skill.png",
+      "bytes": 32495,
+      "sha256": "3cfe2927f745ca97b470ead4f0a0bced4c3c9e0380fe055b0e8ceb2c67040990",
+      "gitBlobSha": "f0e0ab76188f98417317625498ef1d3011c8a90c"
+    },
+    {
+      "path": "frames/quan_van/death.png",
+      "bytes": 19400,
+      "sha256": "4ef6d30ed5a5065201372fef0ed8e2d5e361127bb2c1290d0c43615933de1dd9",
+      "gitBlobSha": "49baadb934f27d667b35916f5dbf4bcfd1a2bcba"
+    },
+    {
+      "path": "atlases/quan_van_4x2_128.png",
+      "bytes": 192571,
+      "sha256": "ed505cdfd887002c77d0a6df8d09a4be8d8d85a2e6ccd629fa538ebf0b53be8d",
+      "gitBlobSha": "c3be8a21744cf847e45a0496289b1e9171d4665a"
+    },
+    {
+      "path": "preview/batch_24_frames_80px.png",
+      "bytes": 201644,
+      "sha256": "c66da70354c3c4a63f10d41f24133ff70e3429065a600aff35f9b25d6530866e",
+      "gitBlobSha": "d02a8ec9b714f7cf73cd14bf50e1cbbc4ec10481"
+    },
+    {
+      "path": "preview/ky_binh_8_keypose.gif",
+      "bytes": 51824,
+      "sha256": "e7f1c4c0dacacec66cd6d6ac81382e760bb45d876199bc54f760bb95d822e298",
+      "gitBlobSha": "12da94719acdd63c2301a670d0847d2f14c844b2"
+    },
+    {
+      "path": "preview/cung_binh_8_keypose.gif",
+      "bytes": 50153,
+      "sha256": "65c480db147bcf66b80cf746dd124f0ca52f1e87ee1fdedb3212dd9cfa60c9f7",
+      "gitBlobSha": "ec92f98e3d04e3b682a3f709bc486bf87e0d4e17"
+    },
+    {
+      "path": "preview/quan_van_8_keypose.gif",
+      "bytes": 54622,
+      "sha256": "81082a2e612403feabe49c80233290332ccbeb54f935d23db66fe2efb83ccea4",
+      "gitBlobSha": "52112fa1e8e9423d08296cab8d1f77be6e10c48d"
+    }
+  ],
+  "qa": {
+    "files": 34,
+    "registeredFrames": 24,
+    "footPivot": "PASS_INVARIANT",
+    "alpha": "PASS",
+    "edgeClipping": "PASS",
+    "frameCount": "PASS 3x8",
+    "realScale": "80px batch preview",
+    "sourceProvenance": "FULL_LOSSLESS_SHEETS_IN_GITHUB",
+    "visualApproval": "PENDING_OWNER",
+    "gameRuntime": "NOT_IN_GAME"
+  }
+}
