@@ -83,6 +83,10 @@
         const missing=target.maxHp-target.hp;
         if(op.op==="damage"&&!relation){
           const hit=estimateDamage(state,cat,actor,target,op);
+          if(hit.expected<=0){
+            add("damage",-9*config.damage); // one-charge ironwall consumes a single strike
+            continue;
+          }
           const fraction=Math.min(target.hp,hit.expected)/target.maxHp;
           let value=100*fraction*config.damage*threat(target,cat);
           if(hit.counter>1.01)value+=11*(hit.counter-1)*config.counter*10;
