@@ -28,12 +28,17 @@ def main():
             try:
                 body = frame.locator("body").inner_text(timeout=10000)
                 candidates.append(body)
+                # textContent includes hidden/collapsed accordion item labels.
+                raw = frame.locator('body').text_content(timeout=10000)
+                if raw:
+                    candidates.append(raw)
             except Exception:
                 pass
         valid = sorted(
             (x for x in candidates if MARKER in x),
             key=len, reverse=True
         )
+        print('NL_WIKI_ITEMS_674_FRAME_LENGTHS=' + repr([len(x) for x in candidates]), flush=True)
         if not valid:
             raise RuntimeError(
                 "WIKI_674_MARKER_NOT_VISIBLE; frame lengths=" +
