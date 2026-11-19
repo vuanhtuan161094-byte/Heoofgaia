@@ -1,6 +1,6 @@
 "use strict";
 const assert=require("node:assert/strict");
-const combat=require("../../../../../data/ngoalong/modules/troops/troop_combat_v2.js").create(
+const combat=require("../../../data/ngoalong/modules/troops/troop_combat_v2.js").create(
  require("../../../data/ngoalong/modules/troops/project_playable_v1.json"),
  require("../../../data/ngoalong/modules/troops/evolution_contract_v1.json"));
 const units=require("../../../data/ngoalong/modules/troops/project_playable_v1.json").units;
