@@ -1,0 +1,40 @@
+'use strict';
+const test = require('node:test');
+const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
+const base = path.join(__dirname,'../../../data/ngoalong/modules/troops');
+const read = name => JSON.parse(fs.readFileSync(path.join(base, name),'utf8'));
+const design = read('npc_35_simulated_peer_design_v1.json');
+const triage = read('npc_numeric_exception_triage_v1.json');
+test('all 35 missing CHAT02 NPC source identities have a source-safe simulated prototype', () => {
+  assert.equal(design.authority,'DESIGN_ONLY');
+  assert.equal(design.records.length,35);
+  const expected=triage.records.filter(x=>x.classification!=='DUPLICATE_CATALOGUE_NAME');
+  assert.equal(expected.length,35);
+  const ids=new Set();
+  for(const r of design.records){
+    const src=expected.find(x=>x.wikiTroopId===r.wikiTroopIdForSourceReferenceOnly);
+    assert.ok(src);
+    assert.equal(r.sourceName,src.wikiName);
+    assert.equal(r.sourceOccurrences,src.observedInNpcFormation);
+    assert.equal(ids.has(r.wikiTroopIdForSourceReferenceOnly),false);
+    ids.add(r.wikiTroopIdForSourceReferenceOnly);
+    assert.equal(r.projectPrototype.provenance,'SIMULATED');
+    assert.equal(r.projectPrototype.mechanism,'COPY_AND_ADAPT_PEER_IN_SAME_DUNGEON');
+    assert.equal(r.projectPrototype.peerMustBeAnotherNpc,true);
+    assert.equal(r.projectPrototype.peerWikiMapIdMustMatch,true);
+    assert.equal(r.projectPrototype.cloneLoot,false);
+    assert.equal(r.projectPrototype.mirrorSourceSkillId,false);
+    assert.deepEqual(r.projectPrototype.scaling.attackFactorRange,[0.8,1.2]);
+    assert.deepEqual(r.projectPrototype.scaling.defenseFactorRange,[0.8,1.2]);
+    assert.equal(r.approvedChat02Id,null);
+    assert.equal(r.approvedRuntimeTroopId,null);
+    assert.equal(r.automaticBinding,false);
+    assert.equal(r.runtimeEnabled,false);
+  }
+  assert.equal(design.totals.designRecords,35);
+  assert.equal(design.totals.chestLabeled,11);
+  assert.equal(design.totals.observedPositions,667);
+  assert.equal(design.totals.runtimeEnabled,0);
+});
