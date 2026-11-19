@@ -9,6 +9,7 @@ from __future__ import annotations
 import base64
 import gzip
 import json
+import re
 from datetime import datetime, timezone
 from playwright.sync_api import sync_playwright
 
@@ -44,11 +45,56 @@ def main():
                 "WIKI_674_MARKER_NOT_VISIBLE; frame lengths=" +
                 repr([len(x) for x in candidates])
             )
+        ROOT_CATEGORIES = [
+            "Rương", "Vật Liệu", "Tài Nguyên", "Túi Phúc",
+            "Ấn Thạch", "Danh Phẩm", "Bí Tịch", "Truyền Thừa Lệnh",
+            "Lệnh", "Chìa Khóa", "Khác"
+        ]
+        snapshots = {}
+        failures = []
+        for cat in ROOT_CATEGORIES:
+            try:
+                control = page.get_by_text(cat, exact=True)
+                if not control.count():
+                    failures.append("MISSING_CATEGORY_" + cat)
+                    continue
+                control.last.click(timeout=7500)
+                page.wait_for_timeout(300)
+                overview = page.locator("body").inner_text(timeout=10000)
+                # The public accordion renders '+\\nlabel\\ncount' headings.
+                subgroups = re.findall(
+                    r"(?m)^\\+\\s*\\n\\s*([^\\n]+?)\\s*\\n\\s*(\\d+)\\s*$",
+                    overview
+                )
+                expanded = []
+                for name, declared in subgroups:
+                    name = name.strip()
+                    if name in ROOT_CATEGORIES:
+                        continue
+                    try:
+                        part = page.get_by_text(name, exact=True)
+                        if part.count():
+                            part.last.click(timeout=5000)
+                            page.wait_for_timeout(70)
+                            expanded.append(name)
+                    except Exception as exc:
+                        failures.append("SUBGROUP_" + cat + ":" + name +
+                                        ":" + type(exc).__name__)
+                body = page.locator("body").inner_text(timeout=10000)
+                snapshots[cat] = {"body": body, "expandedSubgroups": expanded,
+                    "headingsFound": subgroups}
+                print("NL_WIKI_EXPAND " + cat + " len=" + str(len(body)) +
+                      " subgroups=" + str(len(expanded)), flush=True)
+            except Exception as exc:
+                failures.append(cat + ":" + repr(exc)[:140])
+        print("NL_WIKI_EXPAND_ERRORS=" + str(len(failures)), flush=True)
         payload = {
             "url": URL,
             "checkedAt": datetime.now(timezone.utc).isoformat(),
             "edition": "VNG_WIKI_MOBILE_CURRENT",
             "rawBodyText": valid[0],
+            "categorySnapshots": snapshots,
+            "expandFailures": failures,
             "bodyLength": len(valid[0]),
         }
         print("NL_WIKI_ITEMS_674_LENGTH=" + str(len(valid[0])), flush=True)
