@@ -188,8 +188,10 @@
       return Object.keys({...cost,...reward}).every(key=>{
         if(!RESOURCE_KEYS.includes(key)&&!catalog.localResources.includes(key))return false;
         const current=quantity(game,s,key),taken=cost[key]||0,added=reward[key]||0;
-        return current>=taken && Number.isSafeInteger(current-taken+added) &&
-          current-taken+added>=0;
+        const next=current-taken+added;
+        const localCap=balance.localWarehouseSoftCeiling||Number.MAX_SAFE_INTEGER;
+        return current>=taken && Number.isSafeInteger(next) && next>=0 &&
+          (RESOURCE_KEYS.includes(key)||next<=localCap||next<=current);
       });
     }
     function transfer(game,s,cost,reward) {
@@ -243,8 +245,12 @@
       // For delayed settlement, reward is reserved but not credited until explicit claim.
       const instant=a.durationSeconds===0;
       if(!canTransfer(game,s,cost,instant?reward:{}))return error('INSUFFICIENT_RESOURCES_OR_OVERFLOW',{cost});
-      if(!instant)for(const [k,n] of Object.entries(reward))
-        if(quantity(game,s,k)>Number.MAX_SAFE_INTEGER-n)return error('RESOURCE_OVERFLOW');
+      if(!instant)for(const [k,n] of Object.entries(reward)) {
+        const current=quantity(game,s,k);
+        const limit=RESOURCE_KEYS.includes(k)?Number.MAX_SAFE_INTEGER:
+          (balance.localWarehouseSoftCeiling||Number.MAX_SAFE_INTEGER);
+        if(current>limit-n)return error('RESOURCE_OVERFLOW');
+      }
       if(!transfer(game,s,cost,instant?reward:{}))return error('TRANSFER_FAILED');
       s.cooldowns[key]=input.now+a.cooldownSeconds*1000;
       s.dailyUsage[key]={day:used.day,used:used.used+1};
@@ -274,6 +280,7 @@
       const s=ensure(game,input.now);
       if(Object.prototype.hasOwnProperty.call(s.receiptIndex,input.actionId))
         return Object.assign({duplicate:true},clone(s.receiptIndex[input.actionId]));
+      if(input.now<s.lastAt)return error('CLOCK_ROLLBACK',{lastAt:s.lastAt});
       advance(game,input.now);
       if(input.kind==='build')return build(game,s,input);
       if(input.kind==='harvest')return harvest(game,s,input);

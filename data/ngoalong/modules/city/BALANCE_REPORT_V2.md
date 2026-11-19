@@ -35,3 +35,5 @@ Dòng tiền đã bị chặn bằng giới hạn kho/cap ngày, nhưng người
 - **PENDING Chat 08:** nối vào generator và game thật, xem màn hình 1280×720/390, Save reload/import/migration v1–v4, sức chứa hiển thị đúng, CI exact SHA.
 - **PENDING các chat 01/02/04/05/06:** hiệu ứng ngoài kinh tế lên quân/tướng/trang bị/chiến dịch, không báo INTEGRATED khi mới có descriptor.
 - Không merge PR #10; không dùng Codex Cloud.
+
+**Bảo vệ bổ sung:** thao tác mới bị từ chối nếu đồng hồ thiết bị lùi trước `nlCity.lastAt` (`CLOCK_ROLLBACK`); receipt cũ vẫn trả lại không trừ thêm. Kho token city giới hạn mềm 10.000.000 đơn vị/mỗi loại, không giới hạn bạc/lương/sắt/uy danh theo trần này. Save cũ được bổ sung trường trạng thái còn thiếu khi đọc.

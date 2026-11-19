@@ -100,3 +100,12 @@ Include \`NLCityPanel.stylesheet\` in the existing canonical CSS. The bridge app
 
 Run checks: \`node qa/nl_city_cycle.test.cjs\`, \`node qa/nl_city_full.test.cjs\`, \`node qa/nl_city_operations.test.cjs\`, \`node --test qa/modules/city/city_panel_v1.test.cjs qa/modules/city/city_runtime_hook_v1.test.cjs\`.
 
+
+## V5 balance contract (2026-11-19)
+- **Source:** \`data/ngoalong/modules/city/catalog_v1.json#policy.balance\` and \`tools/nl_city_engine.js\`. Version \`2\` is a tuning **configuration version**, not a change to the existing \`nlCity.schemaVersion=1\` or Save v5.
+- Starter escrow holds two hours of resources, with six-hour **offline time cap**; treasury, granary and depot improve local stock thresholds. Tax and trade revenue bonus caps +25%; mint buffs residence silver; hunting buffs paid quest; lighthouse discounts sea-trade duration. **All economics SIMULATED**.
+- Every completed \`operate\` must respect \`dailyUsage\` UTC-day quota + cooldown; only successful actions increment the count. Native UI should display \`dailyUsed/dailyLimit\`. Quotas reset at 00:00 UTC, independent of browser locale. On local clock rollback the engine refuses **new** actions (\`CLOCK_ROLLBACK\`) but historical receipt retries remain idempotent.
+- Local item store uses a 10,000,000/unit soft ceiling: old over-ceiling saves can reduce existing stock, new token creation is blocked until there is room. Currency caps remain Number.MAX_SAFE_INTEGER, not the new city token ceiling.
+- No new top-level resources, no direct modification of legacy farm/market generation; 8 legacy research formulas stay unchanged.
+- Review deterministic standalone figures in [BALANCE_REPORT_V2.md](BALANCE_REPORT_V2.md); [tools/nl_city_balance_sim.js](../../../../tools/nl_city_balance_sim.js) is gross passive-only and assumes buildings already owned. Do not substitute its 30-day figures for real game outcome.
+- CHAT 08 must copy revised catalog/engine/panel/hook together and verify actual Save, Chromium, exact-SHA CI only after canonical generator integration. Do not merge.

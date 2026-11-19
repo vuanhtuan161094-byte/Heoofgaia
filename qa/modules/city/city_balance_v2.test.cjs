@@ -120,3 +120,40 @@ test('30-day passive-only snapshots prove stock investment matters but city alon
  assert.ok(developed.gross.iron<paid.iron);
  assert.ok(developed.gross.silver<paid.silver);
 });
+
+test('rollback clock cannot refill yesterday quota; existing receipt remains retry-safe',()=>{
+ const g=fresh();engine.ensure(g,1000000);g.nlCity.levels.nl_city_tax_office=1;
+ const first=engine.act(g,{kind:'operate',id:'nl_city_tax_office',operationId:'tax',
+  actionId:'tax-clock',now:1000000});
+ assert.equal(first.ok,true);
+ const ahead=86400000+1000000;engine.advance(g,ahead);
+ const silver=g.silver;
+ const back=engine.act(g,{kind:'operate',id:'nl_city_tax_office',operationId:'tax',
+  actionId:'tax-rollback',now:1000000});
+ assert.equal(back.code,'CLOCK_ROLLBACK');assert.equal(g.silver,silver);
+ const retried=engine.act(g,{kind:'operate',id:'nl_city_tax_office',operationId:'tax',
+  actionId:'tax-clock',now:1000000});
+ assert.equal(retried.duplicate,true);
+});
+test('warehouse soft cap denies new tokens without debiting inputs; old v1 city saves hydrate',()=>{
+ const g=fresh();engine.ensure(g,1000000);
+ g.nlCity.levels.nl_city_shop=1;g.nlCity.levels.nl_city_workshop=1;
+ delete g.nlCity.dailyUsage;delete g.nlCity.productionBonusRemainder;
+ const migrated=JSON.parse(JSON.stringify(g));engine.ensure(migrated,1000000);
+ assert.deepEqual(migrated.nlCity.dailyUsage,{});
+ assert.deepEqual(migrated.nlCity.productionBonusRemainder,{});
+ const limit=cat.policy.balance.localWarehouseSoftCeiling;
+ migrated.nlCity.warehouse.parts=limit;
+ const oldSilver=migrated.silver;
+ const rejected=engine.act(migrated,{kind:'operate',id:'nl_city_shop',
+  operationId:'buy_parts',actionId:'warehouse-full',now:1000000});
+ assert.equal(rejected.code,'INSUFFICIENT_RESOURCES_OR_OVERFLOW');
+ assert.equal(migrated.silver,oldSilver);
+ migrated.nlCity.warehouse.parts=0;
+ migrated.nlCity.warehouse.goods=limit;
+ const oldIron=migrated.iron;
+ const forging=engine.act(migrated,{kind:'operate',id:'nl_city_workshop',
+  operationId:'forge_goods',actionId:'forge-full',now:1000000});
+ assert.equal(forging.code,'RESOURCE_OVERFLOW');
+ assert.equal(migrated.iron,oldIron);
+});
