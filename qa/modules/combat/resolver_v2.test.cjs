@@ -393,4 +393,23 @@ check("5v5 forty-action seed run replays exact event and HP state",()=>{
   assert.ok(frames.some(x=>x.events.some(e=>e.type==="lane-hit")));
   assert.ok(frames.every(x=>!x.events.some(e=>e.type==="reward"||e.type==="settlement")));
 });
+
+check("legacy six-status operation blocks authoritative V2 commit",()=>{
+  const r=action(make(),"p1","mdtq-legacy-break-adapter");
+  assert.equal(r.readyToCommit,false);
+  assert.equal(r.frame.readyToCommit,false);
+  assert.ok(r.pendingLegacyCommands.some(x=>x.type==="legacy-status-command"&&x.effectId==="break"));
+  assert.deepEqual(r.pendingLegacyCommands,r.frame.pendingLegacyCommands);
+});
+check("nonlegacy V2 action is ready for direct event consumption",()=>{
+  const r=action(make(),"p1","mdtq-basic-strike");
+  assert.equal(r.readyToCommit,true);
+  assert.deepEqual(r.pendingLegacyCommands,[]);
+  assert.deepEqual(R.replay(make(),cat,[r.frame]),r.state);
+});
+check("tampered native-status command tracking fails replay",()=>{
+  const start=make(),r=action(start,"p1","mdtq-legacy-break-adapter");
+  r.frame.pendingLegacyCommands.splice(0);
+  assert.throws(()=>R.replay(start,cat,[r.frame]),/replay divergence/);
+});
 console.log("RESULT "+passed+"/"+passed+" PASS");
