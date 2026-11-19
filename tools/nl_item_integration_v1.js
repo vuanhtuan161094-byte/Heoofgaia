@@ -125,33 +125,19 @@ function nlItemAction(action,arg){
   return nlItemApply(result,{actionNonce:nonce});
 }
 function nlItemLootForStage(stage){
-  // Publisher Wiki provides no per-stage drop probability. Original project award:
-  // chapter-end encounters use high-tier, other stages use common/war progression.
-  const boss=stage%4===0;
-  const list=nlItemModels.filter(x=>x.sourceId&&
-    (boss ? x.sourceGroup==='Thần Hoàng'||x.sourceGroup==='Diệt Thế'
-          :x.sourceGroup==='Thường'||x.sourceGroup==='Chiến'));
-  if(!list.length) return null;
-  return list[(stage*17+3)%list.length].id;
+  return window.NLItemBalanceV1.select(NL_ITEM_CATALOGUE,stage).entries[0]?.id||null;
 }
 function nlItemGiveCampaignReward(stage){
   const m=nlItemHydrate();
   if(!Number.isSafeInteger(stage)||stage<1||stage>STAGES.length ||
      m.rewardBaseline.includes(stage)||m.receipts['nli:stage:'+stage])return false;
-  const itemId=nlItemLootForStage(stage);
-  if(!itemId)return false;
+  const award=window.NLItemBalanceV1.select(NL_ITEM_CATALOGUE,stage);
   const receipt='nli:stage:'+stage;
-  // Project-original item loot: stages 4/8/... grant one chest, other
-  // stages grant two materials. One authoritative victory receipt covers all.
-  const pool=NL_ITEM_CATALOGUE.items.filter(x=>x.integration==='PLAYABLE' &&
-    x.sourceCategory===(stage%4===0?'Rương':'Vật Liệu'));
-  const rewardItem=pool.length?pool[(stage*23+5)%pool.length]:null;
-  const entries=[{id:itemId,quantity:1}];
-  if(rewardItem)entries.push({id:rewardItem.id,quantity:stage%4===0?1:2});
+  const entries=award.entries;
   const result=nlItemApi.grant(game,entries,receipt);
   if(!result.ok){
-    if(['EQUIPMENT_CAPACITY','STACK_CAPACITY','STACK_KIND_CAPACITY'].includes(result.code)) {
-      m.pendingAwards[stage]={id:itemId,entries,receipt};
+    if(['EQUIPMENT_CAPACITY','STACK_CAPACITY','STACK_KIND_CAPACITY'].includes(result.code)){
+      m.pendingAwards[stage]={id:entries[0].id,entries,receipt};
       if(typeof save==='function')save();
     }
     return false;
