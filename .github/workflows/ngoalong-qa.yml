@@ -2,7 +2,7 @@ name: Muu Dinh Tam Quoc · Ngọa Long-focused full regression and release
 
 on:
   push:
-    branches: [main-ngoalong, 'codex/**', 'feature/nl-codex-cloud-v1-finish']
+    branches: [main-ngoalong, 'codex/**', 'feature/nl-codex-cloud-v1-finish', 'feature/nl-mcv2-08-items-integration']
   workflow_dispatch:
 
 permissions:
@@ -59,6 +59,8 @@ jobs:
           python tools/build_ngoa_long_mode.py
           python tools/build_ngoa_long_r03.py
           python tools/build_ngoa_long_r04.py
+          python tools/build_ngoa_long_items_v1.py
+          python tools/build_ngoa_long_items_v1.py --check
           python tools/build_ngoa_long_mode.py --check
           python tools/build_ngoa_long_r03.py --check
           python tools/build_ngoa_long_r04.py --check
@@ -80,6 +82,8 @@ jobs:
           python qa/nl_r02.py
           python qa/nl_r03.py
           python qa/nl_progression.py
+          node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs
+          python qa/nl_item_integration.py
           python qa/cl_p1_p2.py
           python qa/cl_p6.py
           python qa/p2_full.py
@@ -110,6 +114,8 @@ jobs:
           python tools/build_ngoa_long_mode.py
           python tools/build_ngoa_long_r03.py
           python tools/build_ngoa_long_r04.py
+          python tools/build_ngoa_long_items_v1.py
+          python tools/build_ngoa_long_items_v1.py --check
           python tools/build_ngoa_long_mode.py --check
           python tools/build_ngoa_long_r03.py --check
           python tools/build_ngoa_long_r04.py --check
@@ -140,6 +146,10 @@ jobs:
         run: python qa/nl_r03.py
       - name: NL-R03 hero training, equipment and research progression gate
         run: python qa/nl_progression.py
+      - name: NL-V2 Item inventory, seven slots, Save v5, real battle bonus and unique rewards
+        run: |
+          node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs
+          python qa/nl_item_integration.py
       - name: NL-R04 reproduce event-gated scout pose and run Chromium art gate
         run: |
           python -m pip install --disable-pip-version-check pillow==11.3.0
