@@ -109,3 +109,24 @@ test('B2 no resource duplication by failed chest use or receipt collision',()=>{
   assert.equal(conflict.code,'RECEIPT_CONFLICT');
   assert.deepEqual(conflict.state,done.state);
 });
+
+test('B2 late-game refine has a material and silver premium; early-game price stays legacy',()=>{
+  const high=adjusted.equipment.find(x=>x.integration==='PLAYABLE'&&
+    x.id.startsWith('mdt-equip02-')&&['Diệt Thế','Thần Hoàng'].includes(x.sourceGroup));
+  const early=adjusted.equipment.find(x=>x.integration==='PLAYABLE'&&
+    x.id.startsWith('mdt-equip02-')&&['Thường','Chiến'].includes(x.sourceGroup));
+  assert.ok(high,'late-game item missing');
+  assert.ok(early,'early-game item missing');
+  function priced(row){
+    let s=state();
+    s.nlItemsV1.stacks['mdt-tinh-khoang']=12;
+    s=gear.grant(s,[{id:row.id,quantity:1}],'award:'+row.id).state;
+    const uid=s.items[0].uid;
+    const result=gear.refine(s,uid,'refine:'+row.id);
+    assert.equal(result.ok,true,result.code);
+    return {silver:s.silver-result.state.silver,
+      material:s.nlItemsV1.stacks['mdt-tinh-khoang']-result.state.nlItemsV1.stacks['mdt-tinh-khoang']};
+  }
+  assert.deepEqual(priced(early),{silver:600,material:2});
+  assert.deepEqual(priced(high),{silver:1200,material:4});
+});
