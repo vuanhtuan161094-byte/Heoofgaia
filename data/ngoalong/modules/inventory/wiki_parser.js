@@ -21,7 +21,7 @@
   if(Number(marker[1])!==674)throw new Error('WIKI_ITEM_TOTAL_CHANGED');
   const portion=text.slice(marker.index+marker[0].length)
     .split(/CÔNG TY CỔ PHẦN TẬP ĐOÀN VNG/i)[0];
-  const normalized=portion.replace(/^\+[ \t]*\r?\n[ \t]*([^\r\n]+)[ \t]*\r?\n[ \t]*(\d+)[ \t]*$/gm,
+  const normalized=portion.replace(/^[+−-][ \t]*\r?\n[ \t]*([^\r\n]+)[ \t]*\r?\n[ \t]*(\d+)[ \t]*$/gm,
     (_,label,num)=>'+'+label.trim()+' '+num);
   const lines=normalized.split(/\r?\n/).map(s=>s.replace(/\s+/g,' ').trim())
     .filter(s=>s&&!/^Image:?\s*$/i.test(s));
