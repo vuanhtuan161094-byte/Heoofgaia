@@ -46,7 +46,7 @@ test("all eight Boss tactics preserve native P2 HP, morale and reward authority"
 test("25 original project units are disclosed without Wiki auto-import",()=>{
   const html=view.renderTroops();
   assert.match(html,/data-nl-v2-troops="25"/);
-  assert.match(html,/SIMULATED/);
+  assert.match(html,/25 hồ sơ dự án/);
   assert.match(html,/25 mẫu quân/);
   assert.equal((html.match(/<li>/g)||[]).length,25);
 });
