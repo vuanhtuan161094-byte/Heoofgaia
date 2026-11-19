@@ -523,6 +523,116 @@ if(window.__P2_ENABLE_QA__)window.__NL_TACTICS_QA__=Object.freeze({
 """
     composed_css = composed_css.replace("/* end NL-REBUILD-01 CSS */",
                                         tactical_css + "\n/* end NL-REBUILD-01 CSS */", 1)
+
+    native_a1 = (ROOT / "data/ngoalong/integration/native_pve_adapter_v2.js").read_text(encoding="utf-8")
+    native_a1_boot = r"""
+// === NL-NATIVE-A1: one authoritative P2 battle with V2 policy ===
+const nlNativeA1=NLNativePvEAdapterV2.create({
+  pack:NL_GAME_DATA,director:NLPvETacticsV2,troopBridge:nlTroopContractV2
+});
+// Only the real native P2 target function can execute attacks: policy chooses
+// within native P3/R03 legal depth and never calls resolver_v2.resolveAction.
+const nlA1LegacyTarget=p2Target;
+p2Target=function(actor,mode='front'){
+  const original=nlA1LegacyTarget(actor,mode);
+  if(!battle||battle.mode!=='campaign'||!actor||!original||actor.team!=='e')return original;
+  const choice=nlNativeA1.pickTarget({
+    battle,attacker:actor,mode,baseline:original,opponents:p2CountAlive('p')});
+  const target=choice.target||original;
+  const decision=battle.pendingAIDecision;
+  if(decision&&decision.actorTeam===actor.team&&decision.actorSlot===actor.slot){
+    decision.nativeV2={source:choice.source||'legacy',profile:choice.profile,
+      phase:choice.phase,boss:choice.boss,legalDepth:original.slot%3,
+      candidates:choice.candidates};
+    decision.target=target.id;decision.targetSlot=target.slot;
+    decision.reason+='; A1 '+(choice.profile||'balanced')+' / '+(choice.phase||'opening')+
+      ' · hợp lệ cột '+(target.slot%3+1);
+  }
+  return target;
+};
+const nlA1LegacySkill=p2Skill;
+p2Skill=function(actor){
+  const original=nlA1LegacySkill(actor);
+  const choice=nlNativeA1.bossSkill(battle,actor,original);
+  if(!choice)return original;
+  if(actor.morale>=100)actor.skill=choice.descriptor.tag;
+  actor.nlA1BossSkill={id:choice.id,phase:choice.phase,stage:choice.stage};
+  return choice.descriptor; // Native p2Perform applies ONCE via original p2Hit/status.
+};
+const nlA1LegacyPerform=p2Perform;
+p2Perform=function(actor){
+  if(!battle||battle.mode!=='campaign'||!actor)return nlA1LegacyPerform(actor);
+  const previous=battle.nlA1Action||null;
+  battle.nlA1Action={actorId:actor.id,team:actor.team,normal:actor.morale<100,
+    hitCount:0,applied:null};
+  try{return nlA1LegacyPerform(actor);}
+  finally{battle.nlA1Action=previous;}
+};
+const nlA1LegacyHit=p2Hit;
+p2Hit=function(attacker,target,kind,mult=1,opts={}){
+  const active=battle?.nlA1Action||null;
+  const trait=nlNativeA1.bonusForBasicHit({
+    battle,actor:attacker,game,action:active,hitIndex:active?.hitCount||0});
+  if(active&&active.actorId===attacker?.id&&active.team===attacker?.team)
+    active.hitCount++;
+  if(trait&&active){active.applied=trait;mult*=trait.multiplier;}
+  return nlA1LegacyHit(attacker,target,kind,mult,opts);
+};
+const nlA1LegacyApplyFrame=p2ApplyFrame;
+p2ApplyFrame=function(event){
+  if(battle?.mode==='campaign'&&!battle.replay&&event?.actorTeam){
+    const actor=battle[event.actorTeam]?.find(u=>u.slot===event.actorSlot);
+    if(actor&&event.actorTeam==='e'){
+      const info=nlNativeA1.profile(battle,actor);
+      event.nativeV2={stage:battle.stage,phase:info.phase,profile:info.profile,
+        boss:info.boss,skillId:actor.nlA1BossSkill?.id||null,authority:'NATIVE_P2'};
+      const hit=(event.hits||[]).find(h=>h.team==='p'&&h.amount>0);
+      if(hit){
+        const target=battle.p.find(u=>u.slot===hit.slot);
+        if(target)battle.nlA1Focus=target.id;
+      }
+    }
+    if(battle.nlA1Action?.applied)
+      event.troopV2Passive=structuredClone(battle.nlA1Action.applied);
+  }
+  return nlA1LegacyApplyFrame(event);
+};
+const nlA1LegacyBeginBattle=beginBattle;
+beginBattle=function(stage,mode='campaign'){
+  const prior=battle;
+  const result=nlA1LegacyBeginBattle(stage,mode);
+  if(prior||!battle||battle.mode!=='campaign'||battle.stage!==stage)return result;
+  const p=nlNativeA1.plan(stage);
+  if(!p)return result;
+  battle.nlA1={version:2,stage,boss:p.boss,identity:p.bossIdentity,
+    p2Authority:true,secondResolver:false};
+  for(const actor of [...battle.p,...battle.e]){
+    const troop=nlNativeA1.troopOf(actor,battle,game);
+    if(troop)actor.nlTroopV2={projectId:troop.projectId,provenance:'SIMULATED'};
+  }
+  battle.opening=p2Snapshot(); // Native R03 deployments are already finalized.
+  const header=document.querySelector('.battle-head');
+  if(header&&!document.querySelector('[data-nl-a1-live]')){
+    header.insertAdjacentHTML('afterend',
+      '<div class="nl-a1-live" data-nl-a1-live="'+stage+'">⚔ A1 · '+(p.boss?'BOSS '+esc(p.bossName||''):'Đội hình quân địch')+
+      ' · AI V2 trên trận thật · HP/sĩ khí/thưởng do lõi P2 quản lý</div>');
+  }
+  return result;
+};
+if(window.__P2_ENABLE_QA__)window.__NL_NATIVE_A1_QA__=Object.freeze({
+  coverage:()=>nlNativeA1.coverage(),
+  phase:()=>nlNativeA1.phase(battle),
+  stage:()=>battle?.nlA1||null,
+  bossSkill:unit=>nlNativeA1.bossSkill(battle,unit,p2Skill(unit)),
+  troop:unit=>nlNativeA1.troopOf(unit,battle,game),
+  choose:(unit,mode='front')=>p2Target(unit,mode)?.id||null
+});
+// === end NL-NATIVE-A1 ===
+"""
+    if "</script>" in native_a1.lower() or "</script>" in native_a1_boot.lower():
+        raise ValueError("Unsafe native A1 script terminator")
+    composed_css = composed_css.replace("/* end NL-REBUILD-01 CSS */",
+        ".nl-a1-live{padding:7px 12px;background:#29382d;color:#e4d9bc;font-size:11px;border-bottom:1px solid #7b7a57}\\n/* end NL-REBUILD-01 CSS */", 1)
     hero207_module = (ROOT / "tools/nl_heroes207_runtime_v1.js").read_text(encoding="utf-8")
     if "// === NL-HERO207-V1:" not in hero207_module or "// === end NL-HERO207-V1 ===" not in hero207_module:
         raise ValueError("Missing Hero207 runtime module boundary markers")
@@ -537,6 +647,7 @@ if(window.__P2_ENABLE_QA__)window.__NL_TACTICS_QA__=Object.freeze({
     # second HTML file or a parallel tick/save timer.
     portal = portal.replace(qa_marker, "\n".join(city_parts) + "\n" + city_boot + "\n" + qa_marker, 1)
     portal = portal.replace(qa_marker, "\n".join(tactical_parts) + "\n" + tactical_boot + "\n" + qa_marker, 1)
+    portal = portal.replace(qa_marker, native_a1 + "\n" + native_a1_boot + "\n" + qa_marker, 1)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
     js_start = "// === NL-REBUILD-01: first-class 3x3 strategy dashboard ==="
