@@ -184,7 +184,7 @@ p2StoreReport=function(rewards,loot){
 };
 document.addEventListener('click',function(ev){
   const control=ev.target.closest?.('[data-nli-action],[data-nli-tab],[data-nli-shop],[data-nli-pending]');
-  if(!control || !control.closest('[data-nl-item-bridge]'))return;
+  if(!control || !control.closest('.nli-panel'))return;
   ev.preventDefault();ev.stopPropagation();
   if(control.hasAttribute('data-nli-pending')) {
     nlItemClaimPending(control.getAttribute('data-nli-pending'));return;
