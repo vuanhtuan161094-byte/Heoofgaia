@@ -1,0 +1,605 @@
+{
+  "schemaVersion": 1,
+  "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+  "sourceDate": "2023-09-05",
+  "edition": "VNG_WIKI_MOBILE_HISTORIC_ORANGE",
+  "count": 12,
+  "records": [
+    {
+      "name": "Điển Vi",
+      "skillName": "Ác Quỷ Triền Thân",
+      "lane": "PHYSICAL",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 8000,
+          "lane": "PHYSICAL",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 16000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hấp Huyết",
+          "target": "SELF",
+          "turns": 3,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "name": "Thị Huyết",
+          "target": "SELF",
+          "turns": 3,
+          "dispel": false
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 50,
+          "variable": "N"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-003",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-01",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Hoàng Trung",
+      "skillName": "Lạc Nhật Thần Tiễn",
+      "lane": "PHYSICAL",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 17000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hội Tâm",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Anh Dũng",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 500,
+          "onNoKill": 145
+        },
+        {
+          "op": "STATUS",
+          "name": "Hư Nhược",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": 5,
+          "condition": "SURVIVES",
+          "dispel": false
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-044",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-02",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Tôn Thượng Hương",
+      "skillName": "Lạc Nhật Thần Tiễn",
+      "lane": "PHYSICAL",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 17000,
+          "lane": "PHYSICAL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Hội Tâm",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Anh Dũng",
+          "target": "SELF",
+          "turns": 3
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 500,
+          "onNoKill": 145
+        },
+        {
+          "op": "STATUS",
+          "name": "Hư Nhược",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": 5,
+          "condition": "SURVIVES",
+          "dispel": false
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-089",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-03",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Tư Mã Ý",
+      "skillName": "Thu Hồn Đoạt Phách",
+      "lane": "STRATEGY",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "DISPEL",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "kind": "BUFF",
+          "count": "ALL"
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 26000,
+          "lane": "STRATEGY",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "hits": 1,
+          "modifier": "LOW_TARGET_SOLDIERS_MORE_DAMAGE"
+        },
+        {
+          "op": "STATUS",
+          "name": "Thấu Suốt",
+          "target": "SELF",
+          "turns": 3,
+          "dispel": false
+        },
+        {
+          "op": "BRANCH_MORALE",
+          "target": "SELF",
+          "onKill": 500,
+          "onNoKill": 100
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỗn Loạn",
+          "target": "ENEMY_LOWEST_SOLDIERS",
+          "turns": 1,
+          "condition": "TARGET_SURVIVES"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-157",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-04",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Tư Mã Huy",
+      "skillName": "Kính Ánh Sơn Hà",
+      "lane": "SUPPORT",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "HEAL",
+          "target": "ALL_ALLIES",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 1
+        },
+        {
+          "op": "HEAL",
+          "target": "ALLIED_FRONT_ROW",
+          "pct": 20,
+          "lane": "STRATEGY",
+          "hits": 1
+        },
+        {
+          "op": "ATTACK_CHANGE",
+          "target": "ALLY_MOST_SOLDIERS",
+          "base": 40,
+          "turns": 2,
+          "dispel": false
+        },
+        {
+          "op": "STATUS",
+          "name": "Hộ Thuẫn",
+          "target": "ALLY_LOWEST_SOLDIERS",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-133",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-05",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Trương Nghi",
+      "skillName": "Ám Dạ Thích Sát",
+      "lane": "TACTIC",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 12000,
+          "lane": "TACTIC",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỗn Loạn",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Đào Binh",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": 3,
+          "soldierAttritionPct": 17.5
+        },
+        {
+          "op": "STATUS",
+          "name": "Âm Hồn",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": null,
+          "until": "BATTLE_END"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-061",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-06",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Trần Thái",
+      "skillName": "Ám Dạ Thích Sát",
+      "lane": "TACTIC",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 12000,
+          "lane": "TACTIC",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỗn Loạn",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Đào Binh",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": 3,
+          "soldierAttritionPct": 17.5
+        },
+        {
+          "op": "STATUS",
+          "name": "Âm Hồn",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": null,
+          "until": "BATTLE_END"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-019",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-07",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Hàn Đương",
+      "skillName": "Ám Dạ Thích Sát",
+      "lane": "TACTIC",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "DAMAGE",
+          "pct": 12000,
+          "lane": "TACTIC",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "hits": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Hỗn Loạn",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": 1
+        },
+        {
+          "op": "STATUS",
+          "name": "Đào Binh",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": 3,
+          "soldierAttritionPct": 17.5
+        },
+        {
+          "op": "STATUS",
+          "name": "Âm Hồn",
+          "target": "ONE_ENEMY_BACK_ROW",
+          "turns": null,
+          "until": "BATTLE_END"
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-096",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-08",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Trương Bao",
+      "skillName": "Phá Đảm Nộ Hống",
+      "lane": "TACTIC",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "STATUS",
+          "name": "Trảm Tiên",
+          "target": "SELF",
+          "turns": null,
+          "probabilityPct": 50
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 6800,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ENEMIES",
+          "base": -40,
+          "variable": "N"
+        },
+        {
+          "op": "DISPEL",
+          "target": "ALL_ENEMIES",
+          "kind": "BUFF",
+          "count": 1,
+          "probabilityPct": 80,
+          "pvpEnabled": false
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-060",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-09",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Tào Nhân",
+      "skillName": "Phá Đảm Nộ Hống",
+      "lane": "TACTIC",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "STATUS",
+          "name": "Trảm Tiên",
+          "target": "SELF",
+          "turns": null,
+          "probabilityPct": 50
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 6800,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ENEMIES",
+          "base": -40,
+          "variable": "N"
+        },
+        {
+          "op": "DISPEL",
+          "target": "ALL_ENEMIES",
+          "kind": "BUFF",
+          "count": 1,
+          "probabilityPct": 80,
+          "pvpEnabled": false
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-018",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-10",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Phan Chương",
+      "skillName": "Phá Đảm Nộ Hống",
+      "lane": "TACTIC",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "STATUS",
+          "name": "Trảm Tiên",
+          "target": "SELF",
+          "turns": null,
+          "probabilityPct": 50
+        },
+        {
+          "op": "DAMAGE",
+          "pct": 6800,
+          "lane": "TACTIC",
+          "target": "ALL_ENEMIES",
+          "hits": 1
+        },
+        {
+          "op": "MORALE",
+          "target": "ALL_ENEMIES",
+          "base": -40,
+          "variable": "N"
+        },
+        {
+          "op": "DISPEL",
+          "target": "ALL_ENEMIES",
+          "kind": "BUFF",
+          "count": 1,
+          "probabilityPct": 80,
+          "pvpEnabled": false
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-099",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-11",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    },
+    {
+      "name": "Lư Thực",
+      "skillName": "Nho Thánh Hộ Thể",
+      "lane": "SUPPORT",
+      "stage": "ORANGE",
+      "events": [
+        {
+          "op": "DISPEL",
+          "target": "ALL_ALLIES",
+          "kind": "DEBUFF",
+          "count": "ALL",
+          "pvpMaxPerTarget": 3
+        },
+        {
+          "op": "STATUS",
+          "name": "Minh Triết",
+          "target": "ALL_ALLIES",
+          "turns": 2
+        },
+        {
+          "op": "MORALE",
+          "target": "OTHER_ALLIES",
+          "base": 50,
+          "variable": "N"
+        },
+        {
+          "op": "ON_DISPEL_MORALE",
+          "target": "ALL_ALLIES",
+          "perDebuffRemoved": 15
+        },
+        {
+          "op": "MORALE",
+          "target": "SELF",
+          "base": 145,
+          "variable": null
+        }
+      ],
+      "extra": {},
+      "heroId": "wiki-mobile-hero-144",
+      "identityStatus": "EXACT_NAME_CANDIDATE",
+      "sourceDate": "2023-09-05",
+      "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-cuu-le-vuong-gia/he-thong-tuong-cam-13159.html",
+      "checkedAt": "2026-11-19",
+      "skillId": "wiki-20230905-orange-12",
+      "evidence": "VERIFIED_2023_BULLETIN",
+      "currentVersionVerified": false,
+      "executable": false,
+      "runtimeEligible": false
+    }
+  ],
+  "unknownCurrentStats": true,
+  "note": "Earliest published Orange stage. Some values were superseded in 2024 and 2026. Preserve snapshots; not current-stage-ready.",
+  "unindexed": []
+}
