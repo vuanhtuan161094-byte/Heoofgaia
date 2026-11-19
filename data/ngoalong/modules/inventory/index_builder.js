@@ -112,7 +112,7 @@
      records:refs,playableProjectModels:playableByIndex,
      unsupportedReferenceOnly:unsupported,
      sourceEffectAuthority:false,projectEffects:'SIMULATED',
-     existingReferenceMatched:linkedOld,
+     existingReferenceMatched:next.items.filter(x=>x.integration==='REFERENCE_ONLY' && /^wiki-mobile-item02-/.test(x.id)).length,
      runtimeIntegration:false
    };
    return next;
