@@ -359,4 +359,38 @@ check("AI rejects invalid external seed roll, without changing state",()=>{
   assert.throws(()=>R.choosePreparedAction(state,cat,"p1",()=>1.5),/invalid external AI roll/);
   assert.equal(JSON.stringify(state),before);
 });
+
+check("5v5 forty-action seed run replays exact event and HP state",()=>{
+  const project=Project.compile(alpha),catalog={...cat,skills:[...cat.skills,...project.skills]},
+    forms=F.compile(alpha.formations),first=F.preset(forms,"spear-van"),second=F.preset(forms,"shield-dieu");
+  const hero=["liu","guan","zhuge","cao","zhao"];
+  const troop=["infantry","spear","cavalry","archer","strategist"];
+  const u=(id,side,slot,kind,skill)=>({
+    id,side,slot,troopType:kind,
+    attack:{physical:120,tactic:145,magic:165},
+    defense:{physical:90,tactic:90,magic:90},
+    hp:900,maxHp:900,morale:100,skillIds:["mdtq-basic-strike",skill]
+  });
+  const units=[
+    ...hero.map((id,i)=>u(id,"p",first.resolverSlots[i],troop[i],project.heroSkillIds[id])),
+    ...troop.map((id,i)=>u("npc-"+id,"e",second.resolverSlots[i],id,
+      project.enemySkillIds[id==="spear"?"infantry":id==="archer"?"archer":id==="cavalry"?"cavalry":id==="strategist"?"strategist":"support"]))
+  ];
+  let state=R.createBattle(catalog,units,F.formPair(forms,"spear-van","shield-dieu")),
+      initial=JSON.parse(JSON.stringify(state)),frames=[],seed=12938182;
+  const roll=()=>{seed=(Math.imul(seed,1664525)+1013904223)>>>0;return seed/4294967296;};
+  for(let step=0;step<40;step++){
+    const side=step%2?"e":"p",alive=state.units.filter(x=>x.side===side&&x.hp>0);
+    if(!alive.length||!state.units.some(x=>x.side!==side&&x.hp>0))break;
+    const cmd=R.choosePreparedAction(state,catalog,alive[step%alive.length].id,roll);
+    assert.ok(cmd&&cmd.actorId);
+    const result=R.resolveAction(state,catalog,cmd);
+    frames.push(result.frame);state=result.state;
+    if(step%10===9){const round=R.advanceRound(state,catalog);frames.push(round.frame);state=round.state;}
+  }
+  assert.ok(frames.length>=20);
+  assert.deepEqual(R.replay(initial,catalog,frames),state);
+  assert.ok(frames.some(x=>x.events.some(e=>e.type==="lane-hit")));
+  assert.ok(frames.every(x=>!x.events.some(e=>e.type==="reward"||e.type==="settlement")));
+});
 console.log("RESULT "+passed+"/"+passed+" PASS");
