@@ -79,6 +79,7 @@ jobs:
           python qa/nl_content_contract_v1.py
           python tools/nl_content_contract_v1.py --out qa/nl_content_index_v1.json
           python qa/ngoa_long_mode.py
+          python qa/nl_heroes207_browser.py
           python qa/nl_r02.py
           python qa/nl_r03.py
           python qa/nl_progression.py
@@ -96,6 +97,17 @@ jobs:
             qa/commit-sha.txt
             qa/index-sha256.txt
           if-no-files-found: warn
+
+      - name: Upload playable Hero207 candidate after focused QA PASS
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: muu-dinh-tam-quoc-hero207-playable-candidate
+          path: |
+            index.html
+            qa/commit-sha.txt
+            qa/index-sha256.txt
+          if-no-files-found: error
 
   game:
     # Full historical CL/asset/video regression remains available on every
