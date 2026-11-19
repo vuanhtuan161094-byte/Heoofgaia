@@ -4,6 +4,9 @@
 // Do not mark release READY until Chromium/save/replay/exact-SHA gates pass.
 const NL_ITEM_CATALOGUE = __NL_ITEMS_CATALOGUE__;
 const NL_ITEM_RULES = __NL_ITEMS_RULES__;
+const NL_ITEM_GROUP_RULES = __NL_ITEM_GROUP_RULES__;
+const nlItemConsumableApi=window.NLItemConsumables.createModule(NL_ITEM_CATALOGUE,NL_ITEM_GROUP_RULES);
+const nlItemWarehouseView={mode:'bag',category:'all',search:'',page:0};
 const nlItemApi = window.NLItemInventory.createModule(NL_ITEM_CATALOGUE, NL_ITEM_RULES);
 const nlItemModels = NL_ITEM_CATALOGUE.equipment.filter(x => x.integration === 'PLAYABLE');
 if (nlItemModels.length !== 411 ||
@@ -93,6 +96,8 @@ renderEquipment=function(){
     ' <button data-nli-pending="'+esc(stage)+'">Nhận thưởng</button></div>').join('');
   return previous+'<div data-nl-item-bridge="1">'+selector+pending+
     window.NLItemEquipmentUI.makeView(NL_ITEM_CATALOGUE,nlItemApi,game,heroId,nlItemSelected)+
+    '</div><div data-nl-consumables-bridge="1">'+
+    window.NLItemConsumablesUI.view(NL_ITEM_CATALOGUE,nlItemConsumableApi,game,nlItemWarehouseView)+
     '</div>';
 };
 function nlItemApply(result,meta){
@@ -136,10 +141,17 @@ function nlItemGiveCampaignReward(stage){
   const itemId=nlItemLootForStage(stage);
   if(!itemId)return false;
   const receipt='nli:stage:'+stage;
-  const result=nlItemApi.grant(game,[{id:itemId,quantity:1}],receipt);
+  // Project-original item loot: stages 4/8/... grant one chest, other
+  // stages grant two materials. One authoritative victory receipt covers all.
+  const pool=NL_ITEM_CATALOGUE.items.filter(x=>x.integration==='PLAYABLE' &&
+    x.sourceCategory===(stage%4===0?'Rương':'Vật Liệu'));
+  const rewardItem=pool.length?pool[(stage*23+5)%pool.length]:null;
+  const entries=[{id:itemId,quantity:1}];
+  if(rewardItem)entries.push({id:rewardItem.id,quantity:stage%4===0?1:2});
+  const result=nlItemApi.grant(game,entries,receipt);
   if(!result.ok){
-    if(result.code==='EQUIPMENT_CAPACITY') {
-      m.pendingAwards[stage]={id:itemId,receipt};
+    if(['EQUIPMENT_CAPACITY','STACK_CAPACITY','STACK_KIND_CAPACITY'].includes(result.code)) {
+      m.pendingAwards[stage]={id:itemId,entries,receipt};
       if(typeof save==='function')save();
     }
     return false;
@@ -153,7 +165,7 @@ function nlItemClaimPending(stage){
   const m=nlItemHydrate();
   const record=m.pendingAwards[stage];
   if(!record)return false;
-  const result=nlItemApi.grant(game,[{id:record.id,quantity:1}],record.receipt);
+  const result=nlItemApi.grant(game,record.entries||[{id:record.id,quantity:1}],record.receipt);
   if(!result.ok)return false;
   Object.assign(game,result.state);
   delete game.nlItemsV1.pendingAwards[stage];
@@ -204,10 +216,55 @@ document.addEventListener('input',function(ev){
   const el=document.querySelector('[data-nl-item-bridge] [data-nli-search]');
   if(el){el.focus();el.setSelectionRange(position,position);}
 },true);
+// Group04 consumable UI uses the SAME Save v5 receipt ledger as equipment.
+document.addEventListener('click',function(ev){
+  const control=ev.target.closest?.('[data-nli-item-action],[data-nli-item-mode],[data-nli-item-category],[data-nli-item-page]');
+  if(!control||!control.closest('[data-nl-consumables-bridge]'))return;
+  ev.preventDefault();ev.stopPropagation();
+  if(control.hasAttribute('data-nli-item-mode')){
+    nlItemWarehouseView.mode=control.getAttribute('data-nli-item-mode');
+    nlItemWarehouseView.page=0;render();return;
+  }
+  if(control.hasAttribute('data-nli-item-category')){
+    nlItemWarehouseView.category=control.getAttribute('data-nli-item-category');
+    nlItemWarehouseView.page=0;render();return;
+  }
+  if(control.hasAttribute('data-nli-item-page')){
+    nlItemWarehouseView.page=Math.max(0,Number(control.getAttribute('data-nli-item-page'))||0);
+    render();return;
+  }
+  const action=control.getAttribute('data-nli-item-action');
+  const id=control.getAttribute('data-nli-item-id');
+  const nonce=nlItemHydrate().actionNonce+1,receipt='nli:ui:'+nonce;
+  const result=action==='use'?nlItemConsumableApi.use(game,id,receipt,nlItemHeroId()):
+    action==='process'?nlItemConsumableApi.process(game,id,receipt):
+    {ok:false,code:'UNKNOWN_ITEM_ACTION'};
+  nlItemApply(result,{actionNonce:nonce});
+},true);
+document.addEventListener('input',function(ev){
+  if(!ev.target.matches?.('[data-nli-item-search]')||
+     !ev.target.closest('[data-nl-consumables-bridge]'))return;
+  nlItemWarehouseView.search=ev.target.value;
+  nlItemWarehouseView.page=0;
+  const cursor=ev.target.selectionStart;
+  render();
+  const field=document.querySelector('[data-nl-consumables-bridge] [data-nli-item-search]');
+  if(field){field.focus();field.setSelectionRange(cursor,cursor)}
+},true);
 if(window.__P2_ENABLE_QA__){
   window.__NL_ITEM_QA__={
     getCounts:()=>({playable:nlItemModels.length,
       references:NL_ITEM_CATALOGUE.equipment.filter(x=>x.integration==='REFERENCE_ONLY').length}),
+    getItemCounts:()=>({
+      playable:NL_ITEM_CATALOGUE.items.filter(x=>x.integration==='PLAYABLE').length,
+      references:NL_ITEM_CATALOGUE.items.filter(x=>x.integration==='REFERENCE_ONLY').length
+    }),
+    useItem:(id,heroId)=>{
+      const nonce=nlItemHydrate().actionNonce+1;
+      const result=nlItemConsumableApi.use(game,id,'nli:ui:'+nonce,heroId||nlItemHeroId());
+      nlItemApply(result,{actionNonce:nonce,noRender:true});
+      return result;
+    },
     bonus:heroId=>nlItemApi.bonuses(game,heroId),
     sets:heroId=>nlItemApi.sets(game,heroId),
     selectLoot:nlItemLootForStage,
