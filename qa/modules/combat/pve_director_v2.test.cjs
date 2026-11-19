@@ -172,9 +172,28 @@ check("bad campaign stage is refused",()=>{
   assert.throws(()=>D.createEnemies(pack,compiled,999),/unknown campaign stage/);
 });
 check("project boss catalog includes only simulated approved skills",()=>{
-  assert.equal(D.PvESkills.length,6);
+  assert.equal(D.PvESkills.length,7);
   assert.ok(D.PvESkills.every(s=>s.provenance.classification==="SIMULATED"));
   assert.equal(R.checkCatalog(cat),true);
+});
+
+check("PvE basic attack recharges simulated morale and does not mint rewards",()=>{
+  const s=setup(2),npc=s.generated.units[0],state=s.state;
+  const before=state.units.find(u=>u.id===npc.id).morale;
+  const skill="mdtq-pve-basic-charge";
+  assert.ok(npc.skillIds.includes(skill));
+  const hit=R.resolveAction(state,cat,{actorId:npc.id,skillId:skill});
+  assert.equal(hit.state.units.find(u=>u.id===npc.id).morale,Math.min(100,before+25));
+  assert.equal(hit.readyToCommit,true);
+  assert.ok(!hit.events.some(e=>e.type==="reward"||e.type==="receipt"));
+});
+check("boss tactics recharge for later skill uses rather than one-time casting only",()=>{
+  const result=D.simulate(pack,compiled,24,players,cat,{maxRounds:8,seed:882331});
+  const npc=result.decisions.filter(d=>d.side==="e");
+  assert.ok(npc.length>12);
+  assert.ok(npc.some(d=>d.skillId==="mdtq-pve-basic-charge"));
+  assert.ok(npc.some(d=>d.skillId!=="mdtq-pve-basic-charge"));
+  assert.equal(result.replayParity,true);
 });
 check("all 28 stage module simulations replay parity in one round",()=>{
   for(let stage=1;stage<=28;stage++){
