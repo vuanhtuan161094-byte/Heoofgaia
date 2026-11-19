@@ -43,6 +43,10 @@ test('03 all 11 categories in snapshots are deduplicated by source category and 
 });
 test('04 failed source total and malformed duplicated rows fail closed',()=>{
  assert.throws(()=>parse('Tổng 673 vật phẩm\n+x 1'),/WIKI_ITEM_TOTAL_CHANGED/);
- assert.throws(()=>parse(text(block('Rương',323,'Quà Cấp',39,
-  ['Quà Cấp 1','Cấp 10','Quà Cấp 1 Cấp 10']))),/DUPLICATE_WIKI_ITEM_ROW/);
+ const repeated=parse(text(block('Rương',323,'Quà Cấp',39,
+  ['Quà Cấp 1','Cấp 10','Quà Cấp 1 Cấp 10'])));
+ assert.equal(repeated.rows.length,2);
+ assert.equal(repeated.rows[0].name,repeated.rows[1].name);
+ assert.equal(new Set(repeated.rows.map(x=>x.id)).size,2);
+ assert.match(repeated.rows[1].id,/-2$/);
 });
