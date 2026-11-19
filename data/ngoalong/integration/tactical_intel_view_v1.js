@@ -36,7 +36,7 @@
         '<p>Đội hình: '+plan.activeCount+' đơn vị · '+html(plan.presetId)+
         ' · '+html(plan.bossIdentity||"normal")+'</p>'+phase+
         '<details><summary>Vị trí 3×3 nguồn dự án</summary><ul>'+units+'</ul></details>'+
-        '<small>Thông tin chiến thuật V2 là mô phỏng để đối chiếu; chưa thay đổi AI/damage/reward của trận đang chạy.</small></section>';
+        '<small>Thông tin chiến thuật V2 là mô phỏng để đối chiếu; AI/Boss A1 chạy qua lõi P2; HP, sĩ khí, replay và phần thưởng chỉ do lõi P2 xử lý.</small></section>';
     }
     function renderTroops(){
       const rows=projectTroops.units.map(x=>
@@ -44,11 +44,11 @@
         ' · bậc '+html(x.projectTier)+' · '+html(x.combatBehavior?.mechanic)+'</li>').join('');
       return '<details class="nl-v2-intel" data-nl-v2-troops="25"><summary>'+
         'Danh mục 25 mẫu quân nguyên bản (CHAT02)</summary><ul>'+rows+
-        '</ul><small>Đây là hồ sơ thiết kế SIMULATED; không tự mở khóa 372 quân tham chiếu Wiki hoặc thay resolver live.</small></details>';
+        '</ul><small>Bản A1 dùng 25 hồ sơ dự án để gắn ID vào trận và chỉ bật phụ trợ xung kích cơ bản; 372 bản ghi Wiki không tự trở thành quân playable.</small></details>';
     }
     function summary(){return Object.freeze({
       stagePlans:28,bossPlans:8,projectTroops:25,
-      officialWikiTroopBindings:0,liveV2CombatEnabled:false,liveV2TroopAddons:false,
+      officialWikiTroopBindings:0,liveV2CombatEnabled:true,liveV2TroopAddons:"CHARGE_ONLY",
       saveAuthority:"native-v5",rewardAuthority:"native-p2",source:"SIMULATED"
     });}
     return Object.freeze({renderStage,renderTroops,summary});
