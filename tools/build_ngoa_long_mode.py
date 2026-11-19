@@ -64,6 +64,7 @@ CSS = """
 @media(max-width:620px){.nl-enemy-intel{grid-template-columns:1fr}}
 @media(max-width:850px){.nl-command .nl-content{grid-template-columns:1fr}.nl-command{padding:15px}}
 @media(max-width:420px){.nl-command .nl-facts{gap:5px}.nl-command .nl-fact b{font-size:16px}.nl-command .nl-actions button{flex:1 1 43%}}
+.nl207-recruit{display:flex;gap:8px;align-items:stretch;max-width:100%}.nl207-recruit select{flex:1 1 auto;min-width:0;max-width:100%;padding:8px;font-size:12px}.nl207-recruit button{flex:0 0 auto}.nl-hero207-cta{font-size:11px;color:#dcc59b;margin-top:8px}@media(max-width:480px){.nl207-recruit{flex-direction:column}.nl207-recruit button{width:100%}}
 /* end NL-REBUILD-01 CSS */
 """
 
