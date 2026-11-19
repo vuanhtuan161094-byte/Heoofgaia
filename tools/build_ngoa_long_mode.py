@@ -416,29 +416,80 @@ def build(source: str) -> str:
             "__NL_EFFECT_V1_CATALOG__", effect_json
         ),
     ]
+
+    # CHAT 03: the authoritative city engine and UI are embedded into the
+    # existing offline HTML, inside the native game closure before BOOT.
+    city_panel_source = (ROOT / "data/ngoalong/modules/city/city_panel_v1.js").read_text(encoding="utf-8")
+    city_style_marker = "const stylesheet=String.raw`"
+    if city_panel_source.count(city_style_marker) != 1:
+        raise ValueError("Missing unique CHAT03 city stylesheet")
+    city_css = city_panel_source.split(city_style_marker, 1)[1].split("`;", 1)[0]
+    if not city_css or "</style>" in city_css.lower():
+        raise ValueError("Invalid CHAT03 stylesheet")
+    composed_css = CSS.replace("/* end NL-REBUILD-01 CSS */",
+                               city_css + "\n/* end NL-REBUILD-01 CSS */", 1)
+    city_catalog = json.loads((ROOT / "data/ngoalong/modules/city/catalog_v1.json").read_text(encoding="utf-8"))
+    if len(city_catalog.get("buildings", [])) != 31 or len(city_catalog.get("legacy", [])) != 7:
+        raise ValueError("CHAT03 building coverage changed; review required")
+    city_parts = [
+        (ROOT / "tools/nl_city_engine.js").read_text(encoding="utf-8"),
+        city_panel_source,
+        (ROOT / "data/ngoalong/modules/city/city_runtime_hook_v1.js").read_text(encoding="utf-8"),
+    ]
+    city_boot = r"""
+// === NL-CITY-CHAT03: canonical 31 project + 7 legacy city integration ===
+const NL_CITY_CATALOG=__NL_CITY_CATALOG__;
+const nlCityHook=NLCityRuntimeHook.createIntegration({
+  catalog:NL_CITY_CATALOG,research:NL_GAME_DATA.research,
+  engineApi:NLCityEngine,panelApi:NLCityPanel,
+  getGame:()=>game,save:()=>save(),now:()=>Date.now(),
+  findRoot:id=>document.getElementById(id),
+  openLegacy:id=>{
+    if(id==='academy'){tab='tech';render();return;}
+    if(id==='barracks'){tab='barracks';render();return;}
+    const nativeBtn=document.querySelector('[data-focus-building="'+id+'"]');
+    if(nativeBtn){nativeBtn.click();return;}
+    if(typeof toast==='function')toast('Công trình cũ này chưa có nút điều hướng riêng.');
+  },
+  onResult:result=>{if(!result.ok&&typeof toast==='function')toast('Thao tác công trình chưa thành công: '+result.code);}
+});
+renderCity=nlCityHook.wrapRenderCity(renderCity);
+render=nlCityHook.wrapRender(render);
+tick=nlCityHook.wrapTick(tick);
+nlCityHook.advance();
+if(window.__P2_ENABLE_QA__)window.__NL_CITY_QA__=Object.freeze({
+  coverage:nlCityHook.coverage,
+  snapshot:()=>structuredClone(game.nlCity),
+  view:()=>nlCityHook.engine.view(game,Date.now())
+});
+// === end NL-CITY-CHAT03 ===
+""".replace("__NL_CITY_CATALOG__", json.dumps(city_catalog, ensure_ascii=False, separators=(",", ":")))
     hero207_module = (ROOT / "tools/nl_heroes207_runtime_v1.js").read_text(encoding="utf-8")
     if "// === NL-HERO207-V1:" not in hero207_module or "// === end NL-HERO207-V1 ===" not in hero207_module:
         raise ValueError("Missing Hero207 runtime module boundary markers")
-    if any("</script>" in part.lower() for part in parts + [hero207_module]):
+    if any("</script>" in part.lower() for part in parts + [hero207_module] + city_parts + [city_boot]):
         raise ValueError("Effect integration contains an unsafe script terminator")
     qa_marker = "if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign("
     if portal.count(qa_marker) != 1:
         raise ValueError("Cannot uniquely inject V1 effects before QA exports")
     portal = portal.replace(qa_marker, hero207_module + "\n" + qa_marker, 1)
     portal = portal.replace(qa_marker, "\n".join(parts) + "\n" + qa_marker, 1)
+    # Integrate after existing effect and Hero207 wiring, never through a
+    # second HTML file or a parallel tick/save timer.
+    portal = portal.replace(qa_marker, "\n".join(city_parts) + "\n" + city_boot + "\n" + qa_marker, 1)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
     js_start = "// === NL-REBUILD-01: first-class 3x3 strategy dashboard ==="
     js_end = "// === end NL-REBUILD-01 ==="
     if any(marker in source for marker in (css_start, css_end, js_start, js_end)):
-        source = replace_marked_block(source, css_start, css_end, CSS, "CSS")
+        source = replace_marked_block(source, css_start, css_end, composed_css, "CSS")
         source = replace_marked_block(source, js_start, js_end, portal, "runtime")
         if source.count("function nlRebuildHub(){") != 1 or source.count("NL-R02: source-backed taxonomy") != 1:
             raise ValueError("Ngọa Long build verification failed")
         return source
     source = replace_once(source, OLD_TITLE, NEW_TITLE, "HTML title")
     source = replace_once(source, "KIẾN THÀNH · DỤNG BINH · ĐỊNH THIÊN HẠ", "BÀY TRẬN · SĨ KHÍ · ĐỊNH THIÊN HẠ", "tagline")
-    source = replace_once(source, "</style>", CSS + "</style>", "stylesheet")
+    source = replace_once(source, "</style>", composed_css + "</style>", "stylesheet")
     source = replace_once(source, OLD_NAV, NEW_NAV, "NAV")
     source = replace_once(source, BOOT, portal + "\n" + BOOT, "runtime bootstrap")
     if source.count("function nlRebuildHub(){") != 1:
