@@ -217,7 +217,8 @@
     const hpRatio=actor.hp/actor.maxHp;
     let profile=stagePhase==="opening"?plan.opening:
       stagePhase==="desperate"?plan.desperate:plan.pressure;
-    if(actor.troopType==="support"||actor.troopType==="drum")
+    if(plan.stage===27&&actor.troopType==="cavalry")profile="rear-hunter";
+    else if(actor.troopType==="support"||actor.troopType==="drum")
       profile=stagePhase==="desperate"?"medic":"boss-support";
     else if(actor.troopType==="strategist"&&stagePhase!=="desperate")
       profile=plan.bossIdentity==="morale-lock"?"morale-siege":"rear-hunter";
