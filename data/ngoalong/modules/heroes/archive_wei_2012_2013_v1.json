@@ -1616,5 +1616,28 @@
   "currentMobileHeroStatsVerified": false,
   "currentSkillFormulasVerified": false,
   "automaticRosterImport": false,
-  "playableFromArchive": 0
+  "playableFromArchive": 0,
+  "secondarySourceConflicts": [
+    {
+      "heroName": "Tào Phi",
+      "field": "acquisition.requiredRenown",
+      "primaryValue": 5000,
+      "primarySource": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "conflictingObservedValue": 2000,
+      "otherSource": "https://ngoalong-vng.fandom.com/wiki/Ngu%E1%BB%B5",
+      "otherEvidenceType": "SEARCH_INDEX_SNIPPET_ONLY",
+      "decision": "UNRESOLVED_HISTORICAL_CONFLICT_DO_NOT_COPY_TO_MOBILE"
+    },
+    {
+      "heroName": "Lý Thông",
+      "field": "baseAttributes.leadership",
+      "primaryValue": 71,
+      "primarySource": "https://ngoalongfc.wordpress.com/category/tao-nguy/",
+      "conflictingObservedValue": 72,
+      "otherSource": "https://ngoalong-vng.fandom.com/wiki/Ngu%E1%BB%B5",
+      "otherEvidenceType": "SEARCH_INDEX_SNIPPET_ONLY",
+      "decision": "UNRESOLVED_HISTORICAL_CONFLICT_DO_NOT_COPY_TO_MOBILE"
+    }
+  ],
+  "conflictRule": "Keep transcribed primary rows and record cross-source discrepancies; a search-index snippet is not sufficient to replace the published row."
 }
