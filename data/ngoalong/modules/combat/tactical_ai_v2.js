@@ -124,7 +124,11 @@
           if(["sleep","fear","daze"].includes(op.effectId)&&!relation){
             if(isControlled(target)||(target.legacyEffects||[]).some(s=>s.kind==="ward")||
                (target.statuses||[]).some(s=>s.id==="anchored"&&op.effectId==="fear"))continue;
-            add("control",31*config.control*threat(target,cat)*(op.chance===undefined?1:op.chance));
+            let control=31*config.control*threat(target,cat)*
+              (op.chance===undefined?1:op.chance);
+            if(depth(target)>=2)control+=8*config.rear; // protect own rear by disabling rear threats
+            if(target.id===policy.focusTargetId)control+=6*config.control;
+            add("control",control);
           }else if(["ironwall","guard","ward","repel-blessing","anchored"].includes(op.effectId)&&relation){
             const already=(target.statuses||[]).some(s=>s.id===op.effectId)||
               (target.legacyEffects||[]).some(s=>s.kind===op.effectId);
