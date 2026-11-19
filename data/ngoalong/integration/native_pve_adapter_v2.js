@@ -55,7 +55,8 @@
     }
     function bossSkill(battle,actor,existing){
       if(!battle||battle.mode!=="campaign"||!actor||actor.team!=="e"||
-        actor.hp<=0||actor.troop==="drum"||actor.skillId||actor.skillKey)return null;
+        actor.hp<=0||actor.troop==="drum"||actor.skillId||actor.skillKey||
+        (battle.stage>=25&&battle.r03Encounter))return null;
       const b=director.BOSS_BOOK[battle.stage];
       if(!b)return null;
       const index=battle.e.indexOf(actor);
@@ -75,6 +76,11 @@
         attacker.team!=="e"||!baseline||!opponents?.length)
         return {target:baseline,profile:"legacy",phase:"inactive",candidates:[]};
       const policy=profile(battle,attacker);
+      // 25-28 have frozen R03 mechanics, target legality and same-seed
+      // A/B formation fixtures. Never rebalance their live hit path here.
+      if(battle.stage>=25&&battle.r03Encounter)
+        return {target:baseline,...policy,candidates:[],
+          source:"NATIVE_R03_LATE_CAMPAIGN_PRESERVED"};
       // Native P3/R03 may rewrite mode to back. Restrict all candidates to
       // the exact target depth returned by that authoritative legality pass.
       const legal=opponents.filter(u=>u.hp>0&&u.slot%3===baseline.slot%3);
@@ -107,7 +113,8 @@
     // One narrow additive passive through native p2Hit (no extra hit,
     // no damage helper, no second morale gain): first BASIC hit only.
     function bonusForBasicHit({battle,actor,game,action,hitIndex=0}={}){
-      if(!battle||battle.mode!=="campaign"||!actor||!action||
+      if(!battle||battle.mode!=="campaign"||
+         (battle.stage>=25&&battle.r03Encounter)||!actor||!action||
          action.actorId!==actor.id||action.team!==actor.team||
          !action.normal||actor.actions!==0||hitIndex!==0)return null;
       const u=troopOf(actor,battle,game),p=u?.proposedAddon;
