@@ -68,6 +68,8 @@
          rows[rows.length-1].fieldProvenance.displayedLevel='VERIFIED';}
       continue;
     }
+    // "Quà Cấp 1" is the item NAME; "Quà Cấp 1 Cấp 10" carries an actual displayed level.
+    if(/^Quà Cấp \d+$/.test(line)){add(line,null);continue}
     const match=/^(.*?)\s+Cấp\s+(\d+)$/.exec(line);
     if(match)add(match[1],Number(match[2]));
     else if(!/^(\[Button:|\[Input:|Tất cả$|Vật Phẩm$|WIKI$|Chơi Ngay$|Tải APK$)/.test(line))
