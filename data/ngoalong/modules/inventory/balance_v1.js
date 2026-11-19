@@ -49,7 +49,7 @@
     const items=sourceRows(pack);
     function choose(category,salt){
       const scoped=items.filter(x=>x.sourceCategory===category);
-      const band=scoped.filter(x=>x.balanceTier>=Math.max(1,chapter)&&x.balanceTier<=chapter+1);
+      const band=scoped.filter(x=>x.balanceTier===chapter+1);
       const choices=band.length?band:scoped;
       if(!choices.length)throw Error('EMPTY_CATEGORY_'+category);
       return choices[hash(stage+seed,salt)%choices.length];
