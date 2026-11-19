@@ -728,14 +728,15 @@
           "NL_A123_20261119_009"
         ],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-150",
@@ -749,14 +750,15 @@
         "sourcedStageNames": [
           "ORANGE"
         ],
-        "roleVerified": true,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": true,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-159",
@@ -772,14 +774,15 @@
           "RED",
           "PURPLE"
         ],
-        "roleVerified": true,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": true,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-164",
@@ -789,14 +792,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-165",
@@ -806,14 +810,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-166",
@@ -825,14 +830,15 @@
           "NL_A123_20261119_012"
         ],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-167",
@@ -842,14 +848,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-168",
@@ -859,14 +866,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-169",
@@ -876,14 +884,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-170",
@@ -893,14 +902,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-172",
@@ -910,14 +920,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-173",
@@ -927,14 +938,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-174",
@@ -944,14 +956,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-175",
@@ -961,14 +974,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-176",
@@ -978,14 +992,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-177",
@@ -995,14 +1010,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-178",
@@ -1012,14 +1028,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-179",
@@ -1029,14 +1046,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-180",
@@ -1046,14 +1064,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-181",
@@ -1063,14 +1082,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-182",
@@ -1080,14 +1100,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-183",
@@ -1097,14 +1118,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-184",
@@ -1114,14 +1136,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-187",
@@ -1131,14 +1154,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-188",
@@ -1148,14 +1172,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-189",
@@ -1165,14 +1190,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-190",
@@ -1182,14 +1208,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-191",
@@ -1199,14 +1226,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-192",
@@ -1216,14 +1244,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-193",
@@ -1233,14 +1262,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-194",
@@ -1250,14 +1280,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-195",
@@ -1267,14 +1298,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-196",
@@ -1284,14 +1316,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-198",
@@ -1301,14 +1334,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-199",
@@ -1318,14 +1352,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-200",
@@ -1335,14 +1370,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-201",
@@ -1352,14 +1388,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-202",
@@ -1369,14 +1406,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-203",
@@ -1386,14 +1424,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-204",
@@ -1403,14 +1442,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-205",
@@ -1420,14 +1460,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-206",
@@ -1437,14 +1478,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-207",
@@ -1454,14 +1496,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-208",
@@ -1471,14 +1514,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-209",
@@ -1488,14 +1532,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-210",
@@ -1505,14 +1550,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-211",
@@ -1522,14 +1568,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-212",
@@ -1539,14 +1586,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-213",
@@ -1556,14 +1604,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-214",
@@ -1573,14 +1622,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-215",
@@ -1590,14 +1640,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-216",
@@ -1607,14 +1658,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-217",
@@ -1624,14 +1676,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-218",
@@ -1641,14 +1694,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-220",
@@ -1658,14 +1712,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-221",
@@ -1675,14 +1730,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-222",
@@ -1692,14 +1748,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-223",
@@ -1709,14 +1766,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-224",
@@ -1726,14 +1784,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-225",
@@ -1743,14 +1802,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-226",
@@ -1760,14 +1820,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-227",
@@ -1777,14 +1838,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-228",
@@ -1794,14 +1856,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-229",
@@ -1811,14 +1874,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-230",
@@ -1828,14 +1892,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-231",
@@ -1845,14 +1910,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-232",
@@ -1862,14 +1928,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-233",
@@ -1879,14 +1946,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-234",
@@ -1896,14 +1964,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-235",
@@ -1913,14 +1982,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-236",
@@ -1930,14 +2000,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-237",
@@ -1947,14 +2018,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-238",
@@ -1964,14 +2036,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-239",
@@ -1981,14 +2054,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-240",
@@ -1998,14 +2072,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-241",
@@ -2015,14 +2090,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-242",
@@ -2032,14 +2108,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-243",
@@ -2049,14 +2126,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-244",
@@ -2066,14 +2144,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-245",
@@ -2083,14 +2162,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-246",
@@ -2100,14 +2180,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-247",
@@ -2117,14 +2198,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-248",
@@ -2134,14 +2216,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-249",
@@ -2151,14 +2234,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-250",
@@ -2168,14 +2252,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-251",
@@ -2185,14 +2270,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-252",
@@ -2202,14 +2288,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-253",
@@ -2219,14 +2306,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-254",
@@ -2236,14 +2324,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-255",
@@ -2253,14 +2342,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-256",
@@ -2270,14 +2360,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-257",
@@ -2287,14 +2378,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-258",
@@ -2304,14 +2396,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-259",
@@ -2321,14 +2414,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-260",
@@ -2338,14 +2432,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-261",
@@ -2355,14 +2450,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-262",
@@ -2372,14 +2468,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-263",
@@ -2389,14 +2486,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-264",
@@ -2406,14 +2504,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-266",
@@ -2423,14 +2522,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-267",
@@ -2440,14 +2540,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-268",
@@ -2457,14 +2558,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-269",
@@ -2474,14 +2576,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-270",
@@ -2491,14 +2594,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-271",
@@ -2508,14 +2612,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-272",
@@ -2525,14 +2630,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-273",
@@ -2542,14 +2648,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-274",
@@ -2559,14 +2666,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-275",
@@ -2576,14 +2684,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-276",
@@ -2593,14 +2702,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-277",
@@ -2610,14 +2720,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-278",
@@ -2627,14 +2738,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-279",
@@ -2644,14 +2756,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-280",
@@ -2661,14 +2774,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-281",
@@ -2678,14 +2792,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-282",
@@ -2695,14 +2810,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-283",
@@ -2712,14 +2828,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-284",
@@ -2729,14 +2846,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-285",
@@ -2746,14 +2864,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-286",
@@ -2763,14 +2882,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-287",
@@ -2780,14 +2900,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-288",
@@ -2797,14 +2918,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-289",
@@ -2814,14 +2936,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-290",
@@ -2831,14 +2954,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       },
       {
         "heroId": "wiki-mobile-hero-291",
@@ -2848,14 +2972,15 @@
         "after": "STILL_MOBILE_UNKNOWN",
         "sourceFactIds": [],
         "sourcedStageNames": [],
-        "roleVerified": false,
         "currentFullSkillMechanics": false,
         "baseAttributes": null,
         "rebirthFormula": null,
         "individualAwakeningMaterials": null,
         "recruitmentMethod": null,
         "playable": false,
-        "needsResearch": true
+        "needsResearch": true,
+        "skillNamesVerified": false,
+        "combatRoleVerified": false
       }
     ],
     "byStatus": {
