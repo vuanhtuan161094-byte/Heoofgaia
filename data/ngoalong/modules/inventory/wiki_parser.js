@@ -37,17 +37,19 @@
     (_,label,num)=>'+'+label.trim()+' '+num);
   const lines=normalized.split(/\r?\n/).map(s=>s.replace(/\s+/g,' ').trim())
     .filter(s=>s&&!/^Image:?\s*$/i.test(s));
-  const rows=[],groupCounts={},keys=new Set();
+  const rows=[],groupCounts={},occurrences=new Map();
   let group=null,subGroup=null;
   function add(name,level){
     if(!group)return;
     const clean=name.normalize('NFC').trim();
     if(!clean || clean.length>160||/^[\[\](){},]+$/.test(clean))return;
     const key=[group,subGroup,clean,level??''].join('\u001f');
-    if(keys.has(key))throw new Error('DUPLICATE_WIKI_ITEM_ROW_'+clean);
-    keys.add(key);
+    // The public index sometimes lists two identical labels in the same group.
+    // Preserve BOTH evidenced rows without inventing a different name or effect.
+    const ordinal=(occurrences.get(key)||0)+1;
+    occurrences.set(key,ordinal);
     rows.push({
-      id:stableId(group,subGroup||group,clean,level),
+      id:stableId(group,subGroup||group,clean,level)+(ordinal>1?'-'+ordinal:''),
       name:clean,sourceCategory:group,sourceGroup:subGroup||group,
       displayedLevel:level,sourceUrl:URL,sourceEdition:'VNG_WIKI_MOBILE_CURRENT',
       sourceKind:'public-index',integration:'REFERENCE_ONLY',
@@ -77,13 +79,16 @@
       if(rows.length&&rows[rows.length-1].sourceCategory===group &&
         rows[rows.length-1].displayedLevel==null){
          const last=rows[rows.length-1];
-         keys.delete([last.sourceCategory,last.sourceGroup,last.name,''].join('\u001f'));
+         const oldKey=[last.sourceCategory,last.sourceGroup,last.name,''].join('\u001f');
+         const oldN=occurrences.get(oldKey)||0;
+         if(oldN>0)occurrences.set(oldKey,oldN-1);
          const level=Number(onlyLevel[1]);
          const key=[last.sourceCategory,last.sourceGroup,last.name,level].join('\u001f');
-         if(keys.has(key))throw Error('DUPLICATE_WIKI_ITEM_ROW_'+last.name);
-         keys.add(key);
+         const ordinal=(occurrences.get(key)||0)+1;
+         occurrences.set(key,ordinal);
          last.displayedLevel=level;
-         last.id=stableId(last.sourceCategory,last.sourceGroup,last.name,level);
+         last.id=stableId(last.sourceCategory,last.sourceGroup,last.name,level)+
+           (ordinal>1?'-'+ordinal:'');
          last.fieldProvenance.displayedLevel='VERIFIED';
       }
       continue;
