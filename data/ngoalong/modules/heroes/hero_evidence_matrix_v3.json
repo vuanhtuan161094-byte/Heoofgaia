@@ -4,39 +4,39 @@
   "sourceEdition": "VNG_WIKI_MOBILE_RESEARCH",
   "indexCount": 364,
   "groupCount": {
-    "HISTORICAL_SKILLS_ONLY": 62,
-    "INDEX_ONLY": 235,
-    "GUIDE_AND_STAGE_SKILLS": 38,
-    "GUIDE_ONLY": 29
+    "HISTORICAL_SKILLS_ONLY": 67,
+    "INDEX_ONLY": 230,
+    "GUIDE_AND_STAGE_SKILLS": 40,
+    "GUIDE_ONLY": 27
   },
   "byFaction": {
     "Ngụy": {
       "total": 40,
-      "withDetails": 21,
+      "withDetails": 22,
       "withGuide": 0,
-      "withSkill": 21,
-      "missingDetails": 19
+      "withSkill": 22,
+      "missingDetails": 18
     },
     "Thục": {
       "total": 38,
-      "withDetails": 33,
+      "withDetails": 34,
       "withGuide": 31,
-      "withSkill": 21,
-      "missingDetails": 5
+      "withSkill": 22,
+      "missingDetails": 4
     },
     "Ngô": {
       "total": 39,
       "withDetails": 36,
       "withGuide": 31,
-      "withSkill": 21,
+      "withSkill": 22,
       "missingDetails": 3
     },
     "Quần": {
       "total": 174,
-      "withDetails": 39,
+      "withDetails": 42,
       "withGuide": 5,
-      "withSkill": 37,
-      "missingDetails": 135
+      "withSkill": 41,
+      "missingDetails": 132
     },
     "Trung lập": {
       "total": 73,
@@ -87,6 +87,12 @@
             "stage": "GOLD",
             "sourceDate": "2025-12-12",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-thien-uy-than-hoang/he-thong-tuong-vang-15067.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-01",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -812,21 +818,28 @@
       "faction": "Ngụy",
       "wikiListedGrade": "Thái Sơ",
       "sourceScope": "VNG_WIKI_MOBILE",
-      "researchState": "INDEX_ONLY",
+      "researchState": "HISTORICAL_SKILLS_ONLY",
       "currentRuntimeStatus": "REFERENCE_ONLY",
       "playable": false,
       "individualAwakeningEligible": null,
       "sourceReferences": {
         "index": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
         "guideRecordIds": [],
-        "datedSkills": []
+        "datedSkills": [
+          {
+            "skillId": "wiki-orange-apr23-17",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          }
+        ]
       },
       "fieldStatus": {
         "historicalBaseAttributes": "UNKNOWN",
         "historicalRebirthGrowth": "UNKNOWN",
         "historicalListedRole": "UNKNOWN",
         "historicalRecruitmentTerms": "UNKNOWN",
-        "historicalStageSkill": "UNKNOWN",
+        "historicalStageSkill": "VERIFIED_DATED_ABILITY",
         "currentAttributes": "UNKNOWN",
         "currentEquippedSkill": "UNKNOWN",
         "currentRecruitmentRules": "UNKNOWN",
@@ -835,11 +848,11 @@
       },
       "versionConflicts": [],
       "researchNext": [
-        "FIND_DETAIL_SOURCE",
-        "VERIFY_BASE_STATS",
-        "VERIFY_SKILL_ROLE",
-        "VERIFY_RECRUITMENT",
-        "VERIFY_AWAKENING"
+        "VERIFY_CURRENT_STAGE",
+        "VERIFY_CURRENT_STATS",
+        "VERIFY_SKILL_VERSION",
+        "VERIFY_STAGE_COST",
+        "CHAT05_COMBAT_BINDING"
       ],
       "researchPriority": 1,
       "authoritativeCurrentSkillsConfirmed": 0
@@ -1772,6 +1785,12 @@
             "stage": "GOLD",
             "sourceDate": "2026-03-17",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hoa-thieu-lac-duong/he-thong-tuong-vang-15340.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-07",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -2048,6 +2067,12 @@
             "stage": "GOLD",
             "sourceDate": "2025-12-12",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-thien-uy-than-hoang/he-thong-tuong-vang-15067.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-10",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -2186,6 +2211,12 @@
             "stage": "GOLD",
             "sourceDate": "2026-06-07",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-03",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -2231,6 +2262,12 @@
             "stage": "GOLD",
             "sourceDate": "2025-12-12",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-thien-uy-than-hoang/he-thong-tuong-vang-15067.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-09",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -2321,6 +2358,12 @@
             "stage": "GOLD",
             "sourceDate": "2025-05-05",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-kieu-hung/he-thong-tuong-vang.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-19",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -2366,6 +2409,24 @@
             "stage": "GOLD",
             "sourceDate": "2026-08-17",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-muu-ba-tam-quoc/he-thong-tuong-vang-15668.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-13",
+            "stage": "RED",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-14",
+            "stage": "PURPLE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-15",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -2539,21 +2600,28 @@
       "faction": "Quần",
       "wikiListedGrade": "Thần Hoàng",
       "sourceScope": "VNG_WIKI_MOBILE",
-      "researchState": "INDEX_ONLY",
+      "researchState": "HISTORICAL_SKILLS_ONLY",
       "currentRuntimeStatus": "REFERENCE_ONLY",
       "playable": false,
       "individualAwakeningEligible": null,
       "sourceReferences": {
         "index": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
         "guideRecordIds": [],
-        "datedSkills": []
+        "datedSkills": [
+          {
+            "skillId": "wiki-orange-apr23-08",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          }
+        ]
       },
       "fieldStatus": {
         "historicalBaseAttributes": "UNKNOWN",
         "historicalRebirthGrowth": "UNKNOWN",
         "historicalListedRole": "UNKNOWN",
         "historicalRecruitmentTerms": "UNKNOWN",
-        "historicalStageSkill": "UNKNOWN",
+        "historicalStageSkill": "VERIFIED_DATED_ABILITY",
         "currentAttributes": "UNKNOWN",
         "currentEquippedSkill": "UNKNOWN",
         "currentRecruitmentRules": "UNKNOWN",
@@ -2562,11 +2630,11 @@
       },
       "versionConflicts": [],
       "researchNext": [
-        "FIND_DETAIL_SOURCE",
-        "VERIFY_BASE_STATS",
-        "VERIFY_SKILL_ROLE",
-        "VERIFY_RECRUITMENT",
-        "VERIFY_AWAKENING"
+        "VERIFY_CURRENT_STAGE",
+        "VERIFY_CURRENT_STATS",
+        "VERIFY_SKILL_VERSION",
+        "VERIFY_STAGE_COST",
+        "CHAT05_COMBAT_BINDING"
       ],
       "researchPriority": 2,
       "authoritativeCurrentSkillsConfirmed": 0
@@ -2596,6 +2664,12 @@
             "stage": "GOLD",
             "sourceDate": "2026-06-07",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-12",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -3127,21 +3201,28 @@
       "faction": "Quần",
       "wikiListedGrade": "Thái Sơ",
       "sourceScope": "VNG_WIKI_MOBILE",
-      "researchState": "INDEX_ONLY",
+      "researchState": "HISTORICAL_SKILLS_ONLY",
       "currentRuntimeStatus": "REFERENCE_ONLY",
       "playable": false,
       "individualAwakeningEligible": null,
       "sourceReferences": {
         "index": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
         "guideRecordIds": [],
-        "datedSkills": []
+        "datedSkills": [
+          {
+            "skillId": "wiki-orange-apr23-05",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          }
+        ]
       },
       "fieldStatus": {
         "historicalBaseAttributes": "UNKNOWN",
         "historicalRebirthGrowth": "UNKNOWN",
         "historicalListedRole": "UNKNOWN",
         "historicalRecruitmentTerms": "UNKNOWN",
-        "historicalStageSkill": "UNKNOWN",
+        "historicalStageSkill": "VERIFIED_DATED_ABILITY",
         "currentAttributes": "UNKNOWN",
         "currentEquippedSkill": "UNKNOWN",
         "currentRecruitmentRules": "UNKNOWN",
@@ -3150,11 +3231,11 @@
       },
       "versionConflicts": [],
       "researchNext": [
-        "FIND_DETAIL_SOURCE",
-        "VERIFY_BASE_STATS",
-        "VERIFY_SKILL_ROLE",
-        "VERIFY_RECRUITMENT",
-        "VERIFY_AWAKENING"
+        "VERIFY_CURRENT_STAGE",
+        "VERIFY_CURRENT_STATS",
+        "VERIFY_SKILL_VERSION",
+        "VERIFY_STAGE_COST",
+        "CHAT05_COMBAT_BINDING"
       ],
       "researchPriority": 2,
       "authoritativeCurrentSkillsConfirmed": 0
@@ -3611,21 +3692,28 @@
       "faction": "Quần",
       "wikiListedGrade": "Thái Sơ",
       "sourceScope": "VNG_WIKI_MOBILE",
-      "researchState": "INDEX_ONLY",
+      "researchState": "HISTORICAL_SKILLS_ONLY",
       "currentRuntimeStatus": "REFERENCE_ONLY",
       "playable": false,
       "individualAwakeningEligible": null,
       "sourceReferences": {
         "index": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
         "guideRecordIds": [],
-        "datedSkills": []
+        "datedSkills": [
+          {
+            "skillId": "wiki-orange-apr23-06",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          }
+        ]
       },
       "fieldStatus": {
         "historicalBaseAttributes": "UNKNOWN",
         "historicalRebirthGrowth": "UNKNOWN",
         "historicalListedRole": "UNKNOWN",
         "historicalRecruitmentTerms": "UNKNOWN",
-        "historicalStageSkill": "UNKNOWN",
+        "historicalStageSkill": "VERIFIED_DATED_ABILITY",
         "currentAttributes": "UNKNOWN",
         "currentEquippedSkill": "UNKNOWN",
         "currentRecruitmentRules": "UNKNOWN",
@@ -3634,11 +3722,11 @@
       },
       "versionConflicts": [],
       "researchNext": [
-        "FIND_DETAIL_SOURCE",
-        "VERIFY_BASE_STATS",
-        "VERIFY_SKILL_ROLE",
-        "VERIFY_RECRUITMENT",
-        "VERIFY_AWAKENING"
+        "VERIFY_CURRENT_STAGE",
+        "VERIFY_CURRENT_STATS",
+        "VERIFY_SKILL_VERSION",
+        "VERIFY_STAGE_COST",
+        "CHAT05_COMBAT_BINDING"
       ],
       "researchPriority": 2,
       "authoritativeCurrentSkillsConfirmed": 0
@@ -3735,7 +3823,7 @@
       "faction": "Quần",
       "wikiListedGrade": "Thái Sơ",
       "sourceScope": "VNG_WIKI_MOBILE",
-      "researchState": "GUIDE_ONLY",
+      "researchState": "GUIDE_AND_STAGE_SKILLS",
       "currentRuntimeStatus": "REFERENCE_ONLY",
       "playable": false,
       "individualAwakeningEligible": null,
@@ -3745,14 +3833,21 @@
           "guide-20260930-023",
           "guide-20260930-044"
         ],
-        "datedSkills": []
+        "datedSkills": [
+          {
+            "skillId": "wiki-orange-apr23-11",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          }
+        ]
       },
       "fieldStatus": {
         "historicalBaseAttributes": "VERIFIED_GUIDE_BASELINE",
         "historicalRebirthGrowth": "VERIFIED_GUIDE_BASELINE",
         "historicalListedRole": "VERIFIED_GUIDE_BASELINE",
         "historicalRecruitmentTerms": "VERIFIED_GUIDE_BASELINE",
-        "historicalStageSkill": "UNKNOWN",
+        "historicalStageSkill": "VERIFIED_DATED_ABILITY",
         "currentAttributes": "UNKNOWN",
         "currentEquippedSkill": "UNKNOWN",
         "currentRecruitmentRules": "UNKNOWN",
@@ -11749,6 +11844,12 @@
             "stage": "GOLD",
             "sourceDate": "2025-12-12",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-thien-uy-than-hoang/he-thong-tuong-vang-15067.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-04",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -12216,21 +12317,28 @@
       "faction": "Thục",
       "wikiListedGrade": "Thái Sơ",
       "sourceScope": "VNG_WIKI_MOBILE",
-      "researchState": "INDEX_ONLY",
+      "researchState": "HISTORICAL_SKILLS_ONLY",
       "currentRuntimeStatus": "REFERENCE_ONLY",
       "playable": false,
       "individualAwakeningEligible": null,
       "sourceReferences": {
         "index": "https://ngoalong.vnggames.com/ngoa-long-wiki/vo-tuong",
         "guideRecordIds": [],
-        "datedSkills": []
+        "datedSkills": [
+          {
+            "skillId": "wiki-orange-apr23-16",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          }
+        ]
       },
       "fieldStatus": {
         "historicalBaseAttributes": "UNKNOWN",
         "historicalRebirthGrowth": "UNKNOWN",
         "historicalListedRole": "UNKNOWN",
         "historicalRecruitmentTerms": "UNKNOWN",
-        "historicalStageSkill": "UNKNOWN",
+        "historicalStageSkill": "VERIFIED_DATED_ABILITY",
         "currentAttributes": "UNKNOWN",
         "currentEquippedSkill": "UNKNOWN",
         "currentRecruitmentRules": "UNKNOWN",
@@ -12239,11 +12347,11 @@
       },
       "versionConflicts": [],
       "researchNext": [
-        "FIND_DETAIL_SOURCE",
-        "VERIFY_BASE_STATS",
-        "VERIFY_SKILL_ROLE",
-        "VERIFY_RECRUITMENT",
-        "VERIFY_AWAKENING"
+        "VERIFY_CURRENT_STAGE",
+        "VERIFY_CURRENT_STATS",
+        "VERIFY_SKILL_VERSION",
+        "VERIFY_STAGE_COST",
+        "CHAT05_COMBAT_BINDING"
       ],
       "researchPriority": 4,
       "authoritativeCurrentSkillsConfirmed": 0
@@ -13418,6 +13526,12 @@
             "stage": "GOLD",
             "sourceDate": "2025-12-12",
             "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-thien-uy-than-hoang/he-thong-tuong-vang-15067.html"
+          },
+          {
+            "skillId": "wiki-orange-apr23-02",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
           }
         ]
       },
@@ -14159,7 +14273,7 @@
       "faction": "Ngô",
       "wikiListedGrade": "Thái Sơ",
       "sourceScope": "VNG_WIKI_MOBILE",
-      "researchState": "GUIDE_ONLY",
+      "researchState": "GUIDE_AND_STAGE_SKILLS",
       "currentRuntimeStatus": "REFERENCE_ONLY",
       "playable": false,
       "individualAwakeningEligible": null,
@@ -14168,14 +14282,21 @@
         "guideRecordIds": [
           "guide-20260930-078"
         ],
-        "datedSkills": []
+        "datedSkills": [
+          {
+            "skillId": "wiki-orange-apr23-18",
+            "stage": "ORANGE",
+            "sourceDate": "2023-04-08",
+            "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-loan-the-ky-muu/he-thong-tuong-cam-12903.html"
+          }
+        ]
       },
       "fieldStatus": {
         "historicalBaseAttributes": "VERIFIED_GUIDE_BASELINE",
         "historicalRebirthGrowth": "VERIFIED_GUIDE_BASELINE",
         "historicalListedRole": "VERIFIED_GUIDE_BASELINE",
         "historicalRecruitmentTerms": "VERIFIED_GUIDE_BASELINE",
-        "historicalStageSkill": "UNKNOWN",
+        "historicalStageSkill": "VERIFIED_DATED_ABILITY",
         "currentAttributes": "UNKNOWN",
         "currentEquippedSkill": "UNKNOWN",
         "currentRecruitmentRules": "UNKNOWN",
