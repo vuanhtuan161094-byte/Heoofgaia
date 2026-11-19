@@ -11,6 +11,7 @@ const {loadGuide}=require("./guide_stats_adapter_v1.js");
 const {getSnapshotForReview}=require("./balance_release_overlay_v1.js");
 
 const PACKS=Object.freeze([
+ {file:"wiki_orange_skills_2023_apr_v1.json",count:19,section:"ORANGE_2023_APR",field:"events"},
  {file:"wiki_gold_supplement_2025_2026_v1.json",count:23,section:"GOLD_SUPPLEMENT",field:"events"},
  {file:"wiki_orange_skills_2023_sep_v1.json",count:12,section:"ORANGE_2023",field:"events"},
  {file:"wiki_orange_stage_supplement_2024_2025_v1.json",count:19,section:"ORANGE_2024_2025",field:"events"},
@@ -82,7 +83,7 @@ function verifyExtraPack(p,pack,index){
 function readExtraStageSkills(root=MODULE_DIR,index){
  const rows=[];
  for(const p of PACKS)rows.push(...verifyExtraPack(p,readFile(p.file,root),index));
- check(rows.length===77,"expected 77 additional sourced versions");
+ check(rows.length===96,"expected 96 additional sourced versions");
  check(rows.filter(r=>r.heroId===null).length===7,"source names not in Wiki changed");
  return rows;
 }
@@ -108,7 +109,7 @@ function editionHandoff(){
    if(!row.heroId)continue;
    const arr=byHeroId.get(row.heroId)||[];arr.push(row);byHeroId.set(row.heroId,arr);
  }
- check(sourceRows.length===132,"stage source rows should be 132");
+ check(sourceRows.length===151,"stage source rows should be 151");
  const rows=original.profiles.map(hero=>{
    const datedSkills=byHeroId.get(hero.id)||[],guideCandidate=guideById.get(hero.id)||null;
    const stages={};
