@@ -62,7 +62,7 @@ pass('Save v5 roundtrip keeps persistent intent ledger',()=>{
 });
 pass('offline cap and no repeat time mint',()=>{
   const iron=g.iron;e.advance(g,now+10*86400000);
-  assert.equal(g.iron,iron);assert.ok(g.nlCity.stock.nl_city_ironworks<=90);
+  assert.equal(g.iron,iron);assert.ok(g.nlCity.stock.nl_city_ironworks<=e.view(g,g.nlCity.lastAt).buildings.find(b=>b.id==='nl_city_ironworks').capacity);
 });
 pass('depot bonus is exposed without changing game.buildings',()=>{
   const at=g.nlCity.lastAt,legacy=JSON.stringify(g.buildings);

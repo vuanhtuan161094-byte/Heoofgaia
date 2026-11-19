@@ -221,8 +221,8 @@
         "reception": 3,
         "trial_training": 3,
         "soul_refine": 4,
-        "navy_provisions": 8,
-        "signal": 6
+        "signal": 6,
+        "naval_provisions": 8
       },
       "dailyLimitExtras": {
         "tax": "cityTaxCapacityFlat",
