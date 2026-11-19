@@ -313,8 +313,14 @@
     return finish(next,cmd,events);
   }
   function finish(state,command,events){
-    const frame={kind:"action",command:copy(command),events:copy(events),snapshot:copy(state)};
-    return {state,events,frame};
+    // A V2 frame is not authoritative while any native-six operation is pending.
+    // Chat 08 must commit these commands in the existing P2 action/receipt path,
+    // then record the final authoritative snapshot. Never silently fake success.
+    const pendingLegacyCommands=events.filter(x=>x.adapterRequired===true).map(copy);
+    const readyToCommit=pendingLegacyCommands.length===0;
+    const frame={kind:"action",command:copy(command),events:copy(events),
+      snapshot:copy(state),pendingLegacyCommands:copy(pendingLegacyCommands),readyToCommit};
+    return {state,events,frame,pendingLegacyCommands,readyToCommit};
   }
   function advanceRound(original,cat){
     checkCatalog(cat);
@@ -327,7 +333,10 @@
       if(!f||!["round-end","action"].includes(f.kind))fail("invalid replay frame");
       const r=f.kind==="round-end"?advanceRound(current,cat):resolveAction(current,cat,f.command);
       if(JSON.stringify(r.events)!==JSON.stringify(f.events)||
-         JSON.stringify(r.state)!==JSON.stringify(f.snapshot))fail("replay divergence");
+         JSON.stringify(r.state)!==JSON.stringify(f.snapshot)||
+         (f.kind==="action"&&(
+           JSON.stringify(r.pendingLegacyCommands)!==JSON.stringify(f.pendingLegacyCommands)||
+           r.readyToCommit!==f.readyToCommit)))fail("replay divergence");
       current=r.state;
     }
     return current;
