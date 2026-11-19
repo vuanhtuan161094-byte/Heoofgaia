@@ -136,7 +136,8 @@
     if(chosen!==undefined){
       const selected=candidates.find(x=>x.id===chosen);
       if(!selected)fail("selected target not in eligible team");
-      if(target.pattern==="single"&&!target.ignoreFront&&priority==="front"&&depth(selected)>depth(anchor))
+      if(target.team==="enemy"&&target.pattern==="single"&&!target.ignoreFront&&
+         priority==="front"&&depth(selected)>depth(anchor))
         fail("protected backline: use ignoreFront/target back");
       anchor=selected;
     }
@@ -145,7 +146,10 @@
     } else if(target.pattern==="highest-morale"){
       anchor=candidates.slice().sort((a,b)=>b.morale-a.morale||a.slot-b.slot)[0];
     }
-    if(target.pattern==="double")return candidates.slice(0,target.maxTargets||2);
+    if(target.pattern==="double"){
+      const other=candidates.filter(x=>x.id!==anchor.id);
+      return [anchor,...other].slice(0,target.maxTargets||2);
+    }
     if(target.pattern==="row"||target.pattern==="column"){
       const axis=target.pattern;
       return candidates.filter(x=>pos(x.slot)[axis]===pos(anchor.slot)[axis])
@@ -163,7 +167,7 @@
     return select(state,cat,actor,{team:"ally",pattern:"lowest-hp"});
   }
   function rollOf(cmd,key){
-    const value=cmd.rolls?.[key];
+    const value=Object.prototype.hasOwnProperty.call(cmd.rolls||{},key)?cmd.rolls[key]:undefined;
     if(!num(value)||value<0||value>=1)fail("external recorded roll required: "+key);
     return value;
   }
@@ -171,6 +175,49 @@
     if(chance===undefined||chance===1)return true;
     if(chance===0)return false;
     return rollOf(cmd,key)<chance;
+  }
+  // Seeded RNG belongs to the authoritative battle caller. AI only requests
+  // roll keys and records explicit values in its command; never Math.random.
+  function potentialRollKeys(state,cat,command){
+    checkCatalog(cat);
+    const actor=unit(state,command.actorId),skill=cat.skills.find(x=>x.id===command.skillId);
+    if(!skill||!actor.skillIds.includes(skill.id))fail("AI skill not equipped");
+    const selected=select(state,cat,actor,skill.target,command.selectedTargetId);
+    const keys=[];
+    for(let i=0;i<skill.operations.length;i++){
+      const op=skill.operations[i],scope=op.scope||"selected";
+      const possible=scope==="ally-lowest-hp"?
+        state.units.filter(u=>u.side===actor.side&&alive(u)):
+        destinations(state,cat,actor,skill,op,selected,command.selectedTargetId);
+      for(const t of possible){
+        const k=i+":"+t.id;
+        if(op.chance>0&&op.chance<1)keys.push(k);
+        if(op.op==="damage"&&op.criticalChance!==undefined){
+          const chance=clamp(op.criticalChance+state.formation[actor.side].crit,0,1);
+          if(chance>0&&chance<1)
+            for(let strike=0;strike<(op.repeat||1);strike++)
+              keys.push("crit:"+(op.repeat>1?k+":"+strike:k));
+        }
+      }
+    }
+    return [...new Set(keys)];
+  }
+  function choosePreparedAction(state,cat,actorId,rollProvider){
+    const command=chooseAction(state,cat,actorId);
+    if(!command)return null;
+    const required=potentialRollKeys(state,cat,command);
+    if(required.length&&typeof rollProvider!=="function")
+      fail("AI requires authoritative seeded rollProvider");
+    if(required.length){
+      const rolls=Object.create(null);
+      for(const key of required){
+        const roll=rollProvider(key);
+        if(!num(roll)||roll<0||roll>=1)fail("invalid external AI roll "+key);
+        rolls[key]=roll;
+      }
+      command.rolls=rolls;
+    }
+    return command;
   }
   function resolveAction(original,cat,cmd){
     checkCatalog(cat);
@@ -311,5 +358,5 @@
     return {actorId,skillId:pick.skill.id,selectedTargetId:targets[0]?.id};
   }
   return Object.freeze({LANES,LEGACY,EXTRA,checkCatalog,createBattle,selectTargets:select,
-    resolveAction,advanceRound,replay,chooseAction,counter});
+    resolveAction,advanceRound,replay,chooseAction,choosePreparedAction,potentialRollKeys,counter});
 });
