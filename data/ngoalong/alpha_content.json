@@ -1437,13 +1437,12 @@
         }
       },
       "wiki-mobile-hero-178": {
-        "pattern": "column",
-        "kind": "physical",
-        "mult": 0.99,
-        "tag": "Bách Bộ Xuyên Tâm · Kha Ngô",
+        "pattern": "all",
+        "kind": "magic",
+        "mult": 1.05,
         "apply": "break",
-        "applyChance": 0.7,
-        "pierce": 0.12,
+        "applyChance": 0.55,
+        "tag": "Thủy Trận Vây Công · Kha Ngô",
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
@@ -2302,12 +2301,12 @@
         }
       },
       "wiki-mobile-hero-253": {
-        "pattern": "single",
-        "kind": "tactic",
-        "mult": 1.24,
-        "tag": "Phong Kỵ Đột Tập · Lâu Ban",
-        "apply": "break",
-        "applyChance": 0.7,
+        "pattern": "row",
+        "kind": "physical",
+        "mult": 1.18,
+        "apply": "daze",
+        "applyChance": 0.18,
+        "tag": "Trấn Hàng Bắc Cương · Lâu Ban",
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
@@ -11313,17 +11312,17 @@
       {
         "id": "wiki-mobile-hero-178",
         "name": "Kha Ngô",
-        "role": "Cung tướng",
+        "role": "Mưu sĩ",
         "rarity": "Thần",
-        "type": "archer",
-        "icon": "🏹",
-        "lead": 78,
-        "atk": 87,
-        "def": 83,
-        "int": 60,
-        "agi": 84,
-        "skill": "Bách Bộ Xuyên Tâm · Kha Ngô",
-        "skillDesc": "Chiến pháp mô phỏng: ARCHER · ENEMY_COLUMN · phí 100 sĩ khí. Không phải công thức VNG.",
+        "type": "strategist",
+        "icon": "📜",
+        "lead": 75,
+        "atk": 64,
+        "def": 70,
+        "int": 86,
+        "agi": 66,
+        "skill": "Thủy Trận Vây Công · Kha Ngô",
+        "skillDesc": "Mưu công diện rộng do dự án thiết kế, có thể phá phòng thủ.",
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
@@ -13727,17 +13726,17 @@
       {
         "id": "wiki-mobile-hero-253",
         "name": "Lâu Ban",
-        "role": "Kỵ tướng",
+        "role": "Thủ vệ",
         "rarity": "Thường",
-        "type": "cavalry",
-        "icon": "🐎",
-        "lead": 77,
-        "atk": 86,
-        "def": 82,
-        "int": 51,
-        "agi": 83,
-        "skill": "Phong Kỵ Đột Tập · Lâu Ban",
-        "skillDesc": "Chiến pháp mô phỏng: CAVALRY · SINGLE_ENEMY · phí 100 sĩ khí. Không phải công thức VNG.",
+        "type": "infantry",
+        "icon": "🛡️",
+        "lead": 86,
+        "atk": 80,
+        "def": 84,
+        "int": 62,
+        "agi": 75,
+        "skill": "Trấn Hàng Bắc Cương · Lâu Ban",
+        "skillDesc": "Đánh tuyến ngang do dự án thiết kế, có thể gây rối loạn.",
         "provenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
@@ -19863,7 +19862,17 @@
       "sourceScope": "SIMULATED_PROJECT_ADAPTER_NOT_VERIFIED_MOBILE",
       "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
       "integrationStatus": "RECRUITABLE_WITH_STAGE_GATE_IF_RUNTIME_ADAPTER_PRESENT",
-      "noReplayAwards": true
+      "noReplayAwards": true,
+      "manualBalanceAdjustments": {
+        "classification": "SIMULATED",
+        "sourceScope": "CHINESE_WEB_HISTORIC_2011_ROLE_INSPIRATION",
+        "sourceFile": "data/ngoalong/modules/heroes/a123_foreign_2011_2026_new_v8.json",
+        "ids": [
+          "wiki-mobile-hero-178",
+          "wiki-mobile-hero-253"
+        ],
+        "currentMobileVerified": false
+      }
     }
   },
   "formations": {
