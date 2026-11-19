@@ -71,6 +71,7 @@ jobs:
           node qa/nl_heroes207_runtime_v1.test.cjs
           node --test qa/modules/combat/*.test.cjs
           node --test qa/nl_tactical_intel_view.test.cjs
+          node --test qa/nl_native_pve_a1.test.cjs
           node --test qa/modules/heroes/*.test.cjs qa/nl_hero_catalogue.test.cjs qa/nl_hero_development.test.cjs
       - name: Chat02 Troops, Chat03 City and Chat06 Campaign source contract QA
         run: |
@@ -166,6 +167,7 @@ jobs:
           node qa/nl_heroes207_runtime_v1.test.cjs
           node --test qa/modules/combat/*.test.cjs
           node --test qa/nl_tactical_intel_view.test.cjs
+          node --test qa/nl_native_pve_a1.test.cjs
           node --test qa/modules/heroes/*.test.cjs qa/nl_hero_catalogue.test.cjs qa/nl_hero_development.test.cjs
       - name: Chat02 Troops, Chat03 City and Chat06 Campaign source contract QA
         run: |
