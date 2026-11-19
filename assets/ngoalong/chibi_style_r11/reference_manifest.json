@@ -1,0 +1,538 @@
+{
+  "schema": "NL-R11-CHIBI-STYLE-LOCK/V1",
+  "recordedDate": "2026-11-19",
+  "authority": "Owner confirmed the 14 R11 character visual style for future troop art; this does not confer APPROVED_ART or IN_GAME.",
+  "reference": "assets/ngoalong/infantry_r11/manifest.json",
+  "referenceCount": 14,
+  "canvas": [
+    128,
+    128
+  ],
+  "pivot": [
+    64,
+    121
+  ],
+  "previewWidth": 80,
+  "referenceVisualRules": {
+    "silhouette": "compact three-quarters chibi; large expressive head; short legs; equipment visibly distinct",
+    "line": "dark clean outline with painterly textured cel shading; not flat SVG, not realistic adult anatomy",
+    "equipment": "separate silhouette, armor shape and weapon per role, readable at 80px",
+    "ground": "transparent RGBA, foot registration matching R11 bottom baseline",
+    "poses": "IDLE first; independent CONTACT only after idle is accepted; no rig/false animation",
+    "prohibited": "poster crops, multi-class sheets as sprites, fake transparent backgrounds, tint-only identities, VNG assets"
+  },
+  "units": [
+    {
+      "id": "bo",
+      "label": "Bộ",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "1fee9afb18770da7e4cf1ffab9d2516b1e43411e011346b4bd701967fd3d0085",
+        "bounds": [
+          25,
+          7,
+          102,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/bo.png"
+      },
+      "attack": {
+        "sha256": "35d2af7f8212c1913d7d8002908edab148ca0f740e6ef5ab821ce11c8e7600a8",
+        "bounds": [
+          7,
+          21,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/bo.png"
+      }
+    },
+    {
+      "id": "thuan_binh",
+      "label": "Thuẫn Binh",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "de981ea7fdd99c799298885e39df0d0b21b2491bb09bb3cf3ac14ce703cac443",
+        "bounds": [
+          22,
+          7,
+          106,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/thuan_binh.png"
+      },
+      "attack": {
+        "sha256": "fdddf7cab58b8c387d385d6f65dd607059d86846dde487b50b2829d8fedc4ab0",
+        "bounds": [
+          7,
+          21,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/thuan_binh.png"
+      }
+    },
+    {
+      "id": "trung_bo",
+      "label": "Trùng Bộ",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "8348530d9bf8f4dbbf4f4555cfecace946a422f2b97df84b3f5c61a224d7979b",
+        "bounds": [
+          7,
+          7,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/trung_bo.png"
+      },
+      "attack": {
+        "sha256": "b933720bd4de5d11f6aefad013eac2445e36c4ac91a502099f01cada05280aa9",
+        "bounds": [
+          7,
+          23,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/trung_bo.png"
+      }
+    },
+    {
+      "id": "dao_binh",
+      "label": "Đao Binh",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "eb1ce9fddab678511bdc4a648a28612eee49679422d1d255b47fc35120f822aa",
+        "bounds": [
+          15,
+          7,
+          113,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/dao_binh.png"
+      },
+      "attack": {
+        "sha256": "6381d14b48812d622ad8689a85dfbb3beda34a5a95a6c0b141ddee857d3c2903",
+        "bounds": [
+          7,
+          19,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/dao_binh.png"
+      }
+    },
+    {
+      "id": "dang_giap",
+      "label": "Đằng Giáp",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "1b8143425f9d137e68fd58996f7a98610247311abe1da4a6618367768c6259be",
+        "bounds": [
+          16,
+          7,
+          111,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/dang_giap.png"
+      },
+      "attack": {
+        "sha256": "f40660843f34fa48c1757f5f5a462504e73acbb4d67daf16fd203954212af7fa",
+        "bounds": [
+          7,
+          17,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/dang_giap.png"
+      }
+    },
+    {
+      "id": "ho_viet_trao",
+      "label": "Hổ Việt Trảo",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "aedfe8b763ce5afc3fd88ed72a910f9aafee8eb94a67dbfdc9eecbdd4b236117",
+        "bounds": [
+          18,
+          7,
+          109,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/ho_viet_trao.png"
+      },
+      "attack": {
+        "sha256": "b09e47855b994466415f6700e777835a01e250b59497095aa329b1200c7c7ce2",
+        "bounds": [
+          7,
+          17,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/ho_viet_trao.png"
+      }
+    },
+    {
+      "id": "kim_bo",
+      "label": "Kim Bộ",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "dba00e3be4b653597cddf4310b547e26da7982184b7e3d0ee4df64c9fdc6f781",
+        "bounds": [
+          7,
+          15,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/kim_bo.png"
+      },
+      "attack": {
+        "sha256": "05dafe15937cd8eb04f3136c3d5f7ae905897410252dcdd28802608fa10e28b8",
+        "bounds": [
+          7,
+          25,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/kim_bo.png"
+      }
+    },
+    {
+      "id": "thach_giap",
+      "label": "Thạch Giáp",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "2b420b0453193120209a4572bc01c226e15476a2c5cfe6786ba0320ba67bf8a9",
+        "bounds": [
+          7,
+          14,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/thach_giap.png"
+      },
+      "attack": {
+        "sha256": "a13a7aacd0649492267be53b2555b987828eef24901941853ef84b6701484ff6",
+        "bounds": [
+          7,
+          20,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/thach_giap.png"
+      }
+    },
+    {
+      "id": "thuy_bo",
+      "label": "Thủy Bộ",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "c712c2baee2b045051d81d9c8e0703bdbded7adca5352bc6338bc5768b01f68b",
+        "bounds": [
+          16,
+          7,
+          111,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/thuy_bo.png"
+      },
+      "attack": {
+        "sha256": "a7f24f0c34d5470a1be934dacb400f2227afdc8327280b7877e710897d436aab",
+        "bounds": [
+          7,
+          21,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/thuy_bo.png"
+      }
+    },
+    {
+      "id": "tu_than_bo",
+      "label": "Tử Thần Bộ",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "1faf830474d6028c6681ae2fbfe18bdf3aa224360f5bec5408d73dae5d6070c8",
+        "bounds": [
+          16,
+          7,
+          112,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/tu_than_bo.png"
+      },
+      "attack": {
+        "sha256": "d1ada2c872a90a4684de9e98507d548f18aeb74243322889256623a0ce034b8f",
+        "bounds": [
+          7,
+          25,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/tu_than_bo.png"
+      }
+    },
+    {
+      "id": "ung_kiem",
+      "label": "Ứng Kiếm",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "e6c6916050d7291e88567bda70444ebd0c5c73f261deb690473e598562e5e55b",
+        "bounds": [
+          20,
+          7,
+          108,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/ung_kiem.png"
+      },
+      "attack": {
+        "sha256": "7b10c31a67730fdcaa2783cf02bde14dcb8a191f5f4fed7e4bbf1640c17bc617",
+        "bounds": [
+          7,
+          18,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/ung_kiem.png"
+      }
+    },
+    {
+      "id": "ban_ho_ve",
+      "label": "Bàn Hộ Vệ",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "82a5ee0befbf5abc7a12a0b1116ea2edb18e2afdcc9584815cdd9136244006fc",
+        "bounds": [
+          7,
+          26,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/ban_ho_ve.png"
+      },
+      "attack": {
+        "sha256": "10c2cf89a5b19a77591f009508b4c27507e08764cf6a7e57fbf51e2a07a4db4a",
+        "bounds": [
+          7,
+          27,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/ban_ho_ve.png"
+      }
+    },
+    {
+      "id": "ho_luc_si",
+      "label": "Hổ Lực Sĩ",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "297e1a2a7ce190d9dd86429a5b46d598e5f943e315fc2e91a32af93f527abfe6",
+        "bounds": [
+          8,
+          7,
+          120,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/ho_luc_si.png"
+      },
+      "attack": {
+        "sha256": "3be8e9aa8c01b9319452b12a9d6facca9b8e64a98f9d0a5ce238ec0c7a64122f",
+        "bounds": [
+          7,
+          24,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/ho_luc_si.png"
+      }
+    },
+    {
+      "id": "lang_tu_si",
+      "label": "Lang Tử Sĩ",
+      "style": "USER_CONFIRMED_R11_REFERENCE",
+      "artState": "VISUAL_CANDIDATE",
+      "pivot": [
+        64,
+        121
+      ],
+      "size": [
+        128,
+        128
+      ],
+      "idle": {
+        "sha256": "85ca862e178e8f8126edf1e3770fdbf9505730f74a2e66904dc91b636a8e1671",
+        "bounds": [
+          7,
+          30,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/idle/lang_tu_si.png"
+      },
+      "attack": {
+        "sha256": "b59a1391a0efc768de890326d13fcb453288ab547a43ba4ab93a98c85c8816de",
+        "bounds": [
+          7,
+          41,
+          121,
+          121
+        ],
+        "file": "assets/ngoalong/infantry_r11/sprites/attack/lang_tu_si.png"
+      }
+    }
+  ],
+  "reviewCorrections": [
+    {
+      "id": "giap_bo",
+      "source": "assets/ngoalong/infantry_r12/sprites/idle/giap_bo.png",
+      "state": "QUARANTINED",
+      "reason": "adult-body silhouette; head/body mismatch versus user-confirmed R11 at 80px; prior technical QA does not imply art suitability"
+    },
+    {
+      "id": "hoang_bo",
+      "source": "assets/ngoalong/infantry_r13/sprites/idle/hoang_bo.png",
+      "state": "VISUAL_CANDIDATE",
+      "visualReview": "PENDING_DIRECT_R11_COMPARISON",
+      "reason": "independent asset exists but requires explicit same-size match review before art approval"
+    },
+    {
+      "id": "phan_quan",
+      "source": "assets/ngoalong/infantry_r13/sprites/idle/phan_quan.png",
+      "state": "QUARANTINED",
+      "reason": "adult-body silhouette; head/body mismatch versus confirmed R11 style at 80px"
+    },
+    {
+      "id": "loi_kiem_si",
+      "source": null,
+      "state": "QUARANTINED",
+      "reason": "new attempts returned presentation sheets or images rejected by owner; no isolated matching R11 sprite accepted"
+    },
+    {
+      "id": "van_khuc",
+      "source": null,
+      "state": "QUARANTINED",
+      "reason": "new attempts returned presentation sheets or images rejected by owner; no isolated matching R11 sprite accepted"
+    }
+  ],
+  "sourceApproval": "STYLE_CONFIRMED_NOT_INDIVIDUAL_ART",
+  "runtimeIntegration": "NOT_IN_GAME",
+  "integrationAllowedForNoncompliantArt": false
+}
