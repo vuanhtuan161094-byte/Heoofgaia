@@ -1,0 +1,259 @@
+{
+  "schema": "nl_art_spear_r15.v1",
+  "ownerSelectedStyle": "R11 chibi",
+  "assetId": "thuong",
+  "wikiLabel": "Thương",
+  "source": "https://ngoalong.vnggames.com/ngoa-long-wiki/binh-chung",
+  "provenance": "IMAGE_GENERATED_ORIGINAL; source not from VNG; image-guided chibi style derived from R11 project original",
+  "artStatus": "VISUAL_CANDIDATE",
+  "gameIntegration": "NOT_IN_GAME",
+  "ownerApproval": "PENDING",
+  "description": "Stationary 3x3 turn-based auto-battle: distinct chibi spear troop animation keyframes, not walk/run or rig.",
+  "canvas": [
+    128,
+    128
+  ],
+  "pivot": [
+    64,
+    121
+  ],
+  "atlas": {
+    "path": "atlas_4x2_128.png",
+    "columns": 4,
+    "rows": 2,
+    "frameWidth": 128,
+    "frameHeight": 128,
+    "sha256": "bb29398fc835deb333aa21d498c823acda8b53b16dc33a63aa63145076052e3e"
+  },
+  "sourceMaster": {
+    "path": "source/generated_spear_4x2_lossless.webp",
+    "format": "WEBP lossless",
+    "width": 1774,
+    "height": 887,
+    "sha256": "741d2f0ee8373241ab52d421ab8775119c36320baf46094d22121b17adc3e6f6"
+  },
+  "frames": [
+    {
+      "id": "idle_00",
+      "action": "idle",
+      "path": "frames/idle_00.png",
+      "sha256": "21175eb57af017814cff0ea8b2daa84f815836808097d41f0aaca0bfbd4b4102",
+      "bytes": 18058,
+      "alpha_bbox": [
+        26,
+        7,
+        103,
+        121
+      ],
+      "cell": [
+        0,
+        0
+      ],
+      "pivot": [
+        64,
+        121
+      ],
+      "preview_size": 80
+    },
+    {
+      "id": "idle_01",
+      "action": "idle",
+      "path": "frames/idle_01.png",
+      "sha256": "a5b456633e66dd25a19d640753ab017f7674bd02b2f887fa99bc5dbeea587150",
+      "bytes": 17607,
+      "alpha_bbox": [
+        28,
+        7,
+        100,
+        121
+      ],
+      "cell": [
+        1,
+        0
+      ],
+      "pivot": [
+        64,
+        121
+      ],
+      "preview_size": 80
+    },
+    {
+      "id": "attack_anticipation",
+      "action": "attack",
+      "path": "frames/attack_anticipation.png",
+      "sha256": "365a165184bcccb9187d4963578af74220d36b9ab73f9e42d3e16b19a1b0465c",
+      "bytes": 22663,
+      "alpha_bbox": [
+        6,
+        8,
+        122,
+        120
+      ],
+      "cell": [
+        2,
+        0
+      ],
+      "pivot": [
+        64,
+        121
+      ],
+      "preview_size": 80
+    },
+    {
+      "id": "attack_contact",
+      "action": "attack",
+      "path": "frames/attack_contact.png",
+      "sha256": "74621c887ea05b69c2f9f97ba7a4305eee621e1ac77b54563dd8f831663c9367",
+      "bytes": 19881,
+      "alpha_bbox": [
+        6,
+        24,
+        122,
+        121
+      ],
+      "cell": [
+        3,
+        0
+      ],
+      "pivot": [
+        64,
+        121
+      ],
+      "preview_size": 80
+    },
+    {
+      "id": "attack_recovery",
+      "action": "attack",
+      "path": "frames/attack_recovery.png",
+      "sha256": "8d3b36d288fbcc8ddf443ae608330fa69a64d09e3a2839fc7b97d9ccfbc4337d",
+      "bytes": 21844,
+      "alpha_bbox": [
+        6,
+        9,
+        121,
+        121
+      ],
+      "cell": [
+        0,
+        1
+      ],
+      "pivot": [
+        64,
+        121
+      ],
+      "preview_size": 80
+    },
+    {
+      "id": "hit",
+      "action": "hit",
+      "path": "frames/hit.png",
+      "sha256": "f237c810e9cdc51ef339dbba30cfa05217d17875e1a061c81df68a032ff109ad",
+      "bytes": 22751,
+      "alpha_bbox": [
+        13,
+        7,
+        117,
+        120
+      ],
+      "cell": [
+        1,
+        1
+      ],
+      "pivot": [
+        64,
+        121
+      ],
+      "preview_size": 80
+    },
+    {
+      "id": "skill",
+      "action": "skill",
+      "path": "frames/skill.png",
+      "sha256": "b968617160783e189a02a55b3e2707ea8fa13a3453c6d9e48cc8dc4bf33d0737",
+      "bytes": 28528,
+      "alpha_bbox": [
+        13,
+        8,
+        116,
+        121
+      ],
+      "cell": [
+        2,
+        1
+      ],
+      "pivot": [
+        64,
+        121
+      ],
+      "preview_size": 80
+    },
+    {
+      "id": "death",
+      "action": "death",
+      "path": "frames/death.png",
+      "sha256": "bc884474dd2d92840522161b8b4c9b8463082681ccfefe63270c913f64350daa",
+      "bytes": 16202,
+      "alpha_bbox": [
+        7,
+        40,
+        122,
+        121
+      ],
+      "cell": [
+        3,
+        1
+      ],
+      "pivot": [
+        64,
+        121
+      ],
+      "preview_size": 80
+    }
+  ],
+  "actionMapping": {
+    "IDLE": [
+      "idle_00",
+      "idle_01"
+    ],
+    "ATTACK": [
+      "attack_anticipation",
+      "attack_contact",
+      "attack_recovery"
+    ],
+    "HIT": [
+      "hit"
+    ],
+    "SKILL": [
+      "skill"
+    ],
+    "DEATH": [
+      "death"
+    ]
+  },
+  "preview": "preview/frames_80px.png",
+  "gif": "preview/action_evidence.gif",
+  "metrics": {
+    "frameDistinctChangeRatios": [
+      0.205,
+      0.443,
+      0.426,
+      0.452,
+      0.46,
+      0.599,
+      0.555
+    ],
+    "minDistinctRatio": 0.205
+  },
+  "notes": [
+    "Eight independently illustrated poses extracted from one original 4x2 generated sheet; no procedural duplicated pose counts.",
+    "Only two idle cel drawings, three attack key poses, and single hit/skill/death cel. Motion is discrete, not smooth 4-frame-per-state production.",
+    "Model-generated spear effect touches the original source cell boundary; localized alpha-edge fade on contact visual only.",
+    "NOT IN_GAME; Chat 08 must wire authoritative events.",
+    "Rejected cavalry and archer generation results were posters and are not shipped."
+  ],
+  "sourceOriginalPNG": {
+    "path": "source/generated_spear_4x2_original.png",
+    "availability": "included in downloadable ZIP; not required by importer",
+    "sha256": "e1fb1c02c7776dbcc0d6336d79d7f491cecb0b2892d6ea0f1e6cb8338dd019b9"
+  }
+}
