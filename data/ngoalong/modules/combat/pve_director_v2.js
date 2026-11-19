@@ -158,10 +158,15 @@
     const converted=Projects.compile(pack),book=BOSS_BOOK[stage]||null;
     const units=sourceNpc.units.slice(0,e.activeCount).map((source,i)=>{
       const troop=source.troopId,stats=statProjection(scaling,stage,i,plan.boss);
-      const enemySkill=converted.enemySkillIds[troop==="drum"?"support":troop]||
-        converted.enemySkillIds.support;
+      // Project's source registry has five enemy archetypes, not a spear or
+      // drum archetype. The following mapping is original SIMULATED policy:
+      // spear -> infantry assault, drum -> support. Unknown troops fail closed.
+      const roleMap={spear:"infantry",drum:"support"};
+      const enemySkill=converted.enemySkillIds[roleMap[troop]||troop];
       if(!enemySkill)fail("unmapped NPC troop "+troop);
-      const extras=book?.special[i]||[];
+      const extras=[...(book?.special[i]||[])];
+      if(stage===27&&troop==="cavalry")
+        extras.push("mdtq-pve-rear-ambush"); // stage-27 source marks rear-row targeting
       return {
         id:source.id,side:"e",slot:plan.resolverSlots[i],troopType:troop,
         attack:stats.attack,defense:stats.defense,
@@ -179,6 +184,12 @@
       if(mechanic.type==="start-morale"&&mechanic.target==="enemy"){
         for(const u of units)if(u.troopType===mechanic.troopId)
           u.morale=Math.max(0,Math.min(100,mechanic.value));
+      }else if(mechanic.type==="stat-adjustment"&&mechanic.target==="enemy"&&
+        mechanic.stat==="speed"&&good(mechanic.add)){
+        for(const u of units)if(u.troopType===mechanic.troopId)u.speed+=mechanic.add;
+      }else if(mechanic.type==="target-back-row"&&mechanic.target==="enemy"&&
+        mechanic.troopId==="cavalry"&&stage===27){
+        // The backline skill is added above to cavalry units. No hidden RNG.
       }else if(mechanic.type==="initial-status"&&mechanic.target==="enemy"){
         if(R.LEGACY.includes(mechanic.statusId)){
           for(const i of mechanic.unitIndices||[]){
@@ -246,7 +257,8 @@
     const preset=F.compile(pack.formations),formation=F.formPair(preset,
       opts.playerPresetId||"fish-dieu",plan.presetId);
     const initial=R.createBattle(cat,players.concat(generated.units),formation);
-    let state=initial,frames=[],decisions=[],pending=[],lastPlayerTarget=null;
+    let state=initial,frames=[],decisions=[],pending=[],
+      lastPlayerTarget=null,lastNpcTarget=null;
     const rng=makeSeededRoll(opts.seed??(100000+stage));
     const rounds=Math.max(1,Math.min(30,opts.maxRounds||12));
     for(let roundIndex=0;roundIndex<rounds;roundIndex++){
@@ -267,16 +279,17 @@
           {profile:actor.troopType==="support"||actor.troopType==="drum"?"medic":
             actor.troopType==="cavalry"?"counter-offense":"balanced"};
         const picked=enemyTurn?
-          chooseNpc(state,cat,plan,id,rng.roll,{focusTargetId:lastPlayerTarget}):
-          AI.prepare(state,cat,id,policy,rng.roll);
+          chooseNpc(state,cat,plan,id,rng.roll,{focusTargetId:lastNpcTarget}):
+          AI.prepare(state,cat,id,{...policy,focusTargetId:lastPlayerTarget},rng.roll);
         if(!picked)continue;
         const resolved=R.resolveAction(state,cat,picked.command);
         state=resolved.state;frames.push(resolved.frame);
         if(resolved.pendingLegacyCommands?.length)
           pending.push(...resolved.pendingLegacyCommands.map(c=>({turn:state.turn,...copy(c)})));
-        if(!enemyTurn){
-          const lastDamage=resolved.events.filter(ev=>ev.type==="lane-hit"&&ev.amount>0).at(-1);
-          if(lastDamage)lastPlayerTarget=lastDamage.targetId;
+        const lastDamage=resolved.events.filter(ev=>ev.type==="lane-hit"&&ev.amount>0).at(-1);
+        if(lastDamage){
+          if(enemyTurn)lastNpcTarget=lastDamage.targetId;
+          else lastPlayerTarget=lastDamage.targetId;
         }
         decisions.push({turn:state.turn,actorId:id,side:actor.side,
           skillId:picked.command.skillId,targetId:picked.command.selectedTargetId||null,
