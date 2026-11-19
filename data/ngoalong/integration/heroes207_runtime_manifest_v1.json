@@ -1,0 +1,2574 @@
+{
+  "schemaVersion": 1,
+  "kind": "HERO207_RUNTIME_ADAPTER_MANIFEST",
+  "checkedAt": "2026-11-19",
+  "sourceBranch": "feature/nl-v2-heroes",
+  "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+  "sourceFile": "data/ngoalong/modules/heroes/a123_simulated_207_design_v7.json",
+  "sourceCounts": {
+    "heros": 207,
+    "legacy": 14,
+    "stageCount": 28,
+    "roles": {
+      "DISRUPTOR": 23,
+      "ARCHER": 22,
+      "STRIKER": 59,
+      "DEFENDER": 26,
+      "CAVALRY": 29,
+      "SUPPORT": 6,
+      "STRATEGIST": 42
+    }
+  },
+  "policy": {
+    "original14Untouched": true,
+    "doNotAutoRecruit": true,
+    "ownedOnlyRegisteredInLiveHEROES": true,
+    "customStageGatedRecruitOnly": true,
+    "unknownMobileFieldsUnchanged": true,
+    "allGameplayStatsSimulated": true,
+    "saveSchemaRemains5": true
+  },
+  "heroes": [
+    {
+      "heroId": "wiki-mobile-hero-024",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Xa Trụ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201110/18089.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-025",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hách Chiêu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201110/18089.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-026",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lý Điển",
+      "sourceLinks": [
+        "https://games.sina.com.cn/w/n/2011-09-05/1049528013.shtml",
+        "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-027",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tào Hưu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201110/18089.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-028",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vương Song",
+      "sourceLinks": [
+        "https://wly.lequ.com/activity/201606/11506.html",
+        "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-029",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Chung Dao",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-030",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Tu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-031",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đặng Trung",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-032",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hạ Hầu Bá",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201110/18089.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-033",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hí Chí Tài",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201110/18089.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-034",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hoa Hâm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-035",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lạc Tiến",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-036",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Diệp",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-037",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lý Thông",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-038",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trần Quần",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-039",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vu Cấm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14364.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-040",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Nghiêm Chính",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-164",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hàn Toại",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-165",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Khoái Lương",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-167",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Mã Thiết",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-168",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Mê Đương",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-169",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Nha Đan",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-170",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Phí Sạn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-172",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tiên Vu Phụ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-173",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tỏa Nô",
+      "sourceLinks": [
+        "https://forum.gamer.com.tw/C.php?bsn=20848&snA=15579"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-174",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Công Tôn Phạm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-175",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Bách",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-176",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Cổ",
+      "sourceLinks": [],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-177",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hoàng Loạn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-178",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Kha Ngô",
+      "sourceLinks": [],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-179",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lãnh Bao",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-180",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngạc Hoán",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-181",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngô Ý",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-182",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ô Diên",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-183",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thái Diễm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201305/53748.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-184",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tữ Thụ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-187",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Bào Long",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-188",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Cao Bái",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-189",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Chu Chỉ",
+      "sourceLinks": [
+        "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-190",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Cốt Tiến",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-191",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Diêm Phố",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-192",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Diêm Tượng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-193",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Nghi",
+      "sourceLinks": [],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-194",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Điền Dự",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-195",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đóa Tư Vương",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-196",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đổng Thừa",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-198",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lạc Tựu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-199",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lôi Bạc",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-200",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lôi Đồng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-201",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Chương",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-202",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Hiền",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-203",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Tông",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-204",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lý Nghiêm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-205",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Mộc Lộc Vương",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-206",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Nghiêm Nhan",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-207",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngô Ban",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-208",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngu Phiên",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-209",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngưu Kim",
+      "sourceLinks": [
+        "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-210",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tang Bá",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-211",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tào Tính",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-212",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tân Tì",
+      "sourceLinks": [
+        "https://games.sina.com.cn/w/n/2013-01-11/1551683375.shtml"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-213",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thái Mạo",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-214",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thạp Đốn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-215",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thuần Vu Quỳnh",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-216",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tống Hiến",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-217",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trình Viễn Chí",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-218",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Anh",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-220",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Doãn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-221",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Hổ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-222",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Lương",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-223",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Tùng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-224",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Vệ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-225",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Yên",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-226",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Từ Vinh",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-227",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vu Độc",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17720.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-228",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vương Cơ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201305/54621.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-229",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vương Lãng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-230",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "A Hội Nam",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-231",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "A Quý",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-232",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Bộ Độ Căn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-233",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Công Tôn Độ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-234",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Công Tôn Uyên",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-235",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Cung Đô",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-236",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Ngang",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-237",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Nhiệm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-238",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Tùng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-239",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Điền Khải",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-240",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đinh Nguyên",
+      "sourceLinks": [],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-241",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đơn Kinh",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-242",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Giả Phạm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-243",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hà Tiến",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17720.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-244",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hàn Hạo",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-245",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hàn Huyền",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-246",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hàn Tung",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-247",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hình Đạo Vinh",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-248",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hoàng Tổ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-249",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Kha Tỉ Năng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-250",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Khoái Việt",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-251",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Khứ Ti",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-252",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Kim Hoàn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-253",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lâu Ban",
+      "sourceLinks": [],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-254",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Độ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-255",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Kỳ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-256",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lý Giác",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-257",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Mang Trung",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-258",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Nga Hà Thiêu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-259",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Nghị Già Tắc",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-260",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Nghiêm Bạch Hổ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-261",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Nghiêm Cương",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-262",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngột Đột Cốt",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-263",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngụy Tục",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-264",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Phan Lâm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-266",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Phạt Đồng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-267",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Phù Kiện",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-268",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Quách Đồ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-269",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Quách Tị",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-270",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Quản Lộ",
+      "sourceLinks": [
+        "https://h5.lequ.com/wly/202609/145641.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-271",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Quan Tịnh",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-272",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thái Hòa",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-273",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thái Trung",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-274",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thành Luật Quy",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-275",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tố Lợi",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-276",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trần Đam",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17720.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-277",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trần Lâm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-278",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trần Ưng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-279",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trâu Đan",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-280",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Triệt Lý Cát",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-281",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Triệu Hoằng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-282",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Triệu Phạm",
+      "sourceLinks": [
+        "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-283",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trịnh Thái",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17720.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-284",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Khải",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-285",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Lỗ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-286",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Văn Khâm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201207/32916.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-287",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Viên Thuật",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-288",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vô Khâu Kiệm",
+      "sourceLinks": [],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-289",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vu Phù La",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-290",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vương Lũy",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-291",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vương Môn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-292",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Bàng Nghĩa",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-293",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Cao Can",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-294",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Cao Định",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-295",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Cao Nhu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-297",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Chu Bao",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-298",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Chu Hân",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-299",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Cúc Nghĩa",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-300",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Du Thiệp",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-301",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Hoài",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-302",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Hoằng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-303",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Sửu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-304",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Dương Thu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-305",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đặng Mậu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-306",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đổng Hòa",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-307",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đổng Mân",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-308",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Đổng Trà Na",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-309",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hà Nghi",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-310",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hàn Dận",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-311",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hàn Trung",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-312",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hầu Thành",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-313",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hậu Tuyển",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-314",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hoàng Quyền",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-315",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hoàng Sùng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-316",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hồ Chẩn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-318",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Hứa Du",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-319",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Kiều Nhuy",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-320",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lữ Khoáng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-321",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lữ Tường",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-322",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lữ Uy Hoàng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-323",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lương Hưng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-324",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Dao",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-325",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Huân",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-326",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Nhàn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-327",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Tích",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-328",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lưu Tuân",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-329",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lý Kham",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-330",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Lý Túc",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-331",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Mã Ngoạn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-332",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Mang Nha Trường",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-333",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Mạnh Ưu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-334",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Nghiêm Dư",
+      "sourceLinks": [],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-335",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngô Lan",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-336",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngu Tị",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-337",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ngưu Phụ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-338",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Phàn Trù",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-339",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Phùng Kỷ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-341",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thành Nghi",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-342",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Thôi Diễm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-343",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tô Do",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-344",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trách Dung",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-345",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trần Chấn",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-346",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trần Hoành",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-347",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trần Kỷ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-348",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trần Lan",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-349",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trình Ngân",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-350",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Dương",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-352",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Huân",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-353",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Mạc",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-354",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Man Thành",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-355",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Trương Tế",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-356",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Tưởng Nghĩa Cừ",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-357",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Ung Khải",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-358",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Viên Dận",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-359",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Viên Diệu",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-360",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Viên Đàm",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-361",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Viên Hi",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-362",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Viên Thượng",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-363",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vương Túc",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201109/17734.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    },
+    {
+      "heroId": "wiki-mobile-hero-364",
+      "sourceBranch": "feature/nl-v2-heroes",
+      "sourceDesignSha": "a60de51aed162cd2c3cda4e5785f37c225f2add9",
+      "sourceName": "Vương Uy",
+      "sourceLinks": [
+        "https://www.lequ.com/wly/201105/14503.html",
+        "https://www.snsfun.com/wly/m/ziliao/20121123/41617.html",
+        "https://www.lequ.com/wly/202106/136798.html"
+      ],
+      "statsAndSkill": "SIMULATED",
+      "version": "MODEL_V7",
+      "status": "ADAPTED_EXPLICIT_SUBSET"
+    }
+  ]
+}
