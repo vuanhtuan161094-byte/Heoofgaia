@@ -464,6 +464,65 @@ if(window.__P2_ENABLE_QA__)window.__NL_CITY_QA__=Object.freeze({
 });
 // === end NL-CITY-CHAT03 ===
 """.replace("__NL_CITY_CATALOG__", json.dumps(city_catalog, ensure_ascii=False, separators=(",", ":")))
+
+    # CHAT02 + CHAT05: register tested tactical domain source contracts without
+    # transferring authoritative HP/morale/Save/reward ownership out of native P2.
+    tactical_parts = [
+        (ROOT / "data/ngoalong/modules/combat/resolver_v2.js").read_text(encoding="utf-8"),
+        (ROOT / "data/ngoalong/modules/combat/formation_adapter_v2.js").read_text(encoding="utf-8"),
+        (ROOT / "data/ngoalong/modules/combat/project_skill_adapter_v2.js").read_text(encoding="utf-8"),
+        (ROOT / "data/ngoalong/modules/combat/tactical_ai_v2.js").read_text(encoding="utf-8"),
+        (ROOT / "data/ngoalong/modules/combat/pve_director_v2.js").read_text(encoding="utf-8"),
+        (ROOT / "data/ngoalong/modules/troops/troop_live_bridge_v2.js").read_text(encoding="utf-8"),
+        (ROOT / "data/ngoalong/integration/tactical_intel_view_v1.js").read_text(encoding="utf-8"),
+    ]
+    def nl_json(path):
+        return json.dumps(json.loads((ROOT / path).read_text(encoding="utf-8")),
+                          ensure_ascii=False, separators=(",", ":"))
+    tactical_boot = r"""
+// === NL-TAC-V2: staged source + tactical reconnaissance, native battle unchanged ===
+const NL_PROJECT_TROOPS_V2=__NL_PROJECT_TROOPS__;
+const NL_TROOP_EVOLUTIONS_V2=__NL_TROOP_EVOLUTIONS__;
+const NL_TROOP_LIVE_CONTRACT_V2=__NL_TROOP_LIVE_CONTRACT__;
+const nlTroopContractV2=NLTroopLiveContractV2.create(
+  NL_TROOP_LIVE_CONTRACT_V2,NL_PROJECT_TROOPS_V2,NL_TROOP_EVOLUTIONS_V2);
+const nlTacticalIntelV2=NLTacticalIntelViewV1.create({
+  pack:NL_GAME_DATA,director:NLPvETacticsV2,
+  troopBridge:nlTroopContractV2,projectTroops:NL_PROJECT_TROOPS_V2});
+const nlBaseEnemyIntelV2=nlEnemyIntel;
+nlEnemyIntel=function(stage){
+  return nlBaseEnemyIntelV2(stage)+nlTacticalIntelV2.renderStage(stage);
+};
+if(typeof renderBarracks==='function'){
+  const nlBaseBarracksV2=renderBarracks;
+  renderBarracks=function(){
+    return nlBaseBarracksV2()+nlTacticalIntelV2.renderTroops();
+  };
+}
+if(window.__P2_ENABLE_QA__)window.__NL_TACTICS_QA__=Object.freeze({
+  summary:()=>nlTacticalIntelV2.summary(),
+  renderStage:stage=>nlTacticalIntelV2.renderStage(stage),
+  troopAudit:()=>nlTroopContractV2.audit()
+});
+// === end NL-TAC-V2 ===
+"""
+    for key, path in (
+        ("__NL_PROJECT_TROOPS__", "data/ngoalong/modules/troops/project_playable_v1.json"),
+        ("__NL_TROOP_EVOLUTIONS__", "data/ngoalong/modules/troops/evolution_contract_v1.json"),
+        ("__NL_TROOP_LIVE_CONTRACT__", "data/ngoalong/modules/troops/live_integration_contract_v2.json"),
+    ):
+        tactical_boot = tactical_boot.replace(key, nl_json(path))
+    if any("</script>" in part.lower() for part in tactical_parts + [tactical_boot]):
+        raise ValueError("Unsafe tactical script terminator")
+    tactical_css = """
+.nl-v2-intel{border:1px solid #716341;border-radius:8px;padding:11px;margin:12px 0;background:#20282a;color:#e8ddc5}
+.nl-v2-intel h3{font-size:14px;color:#eacb8d;margin:0 0 7px}
+.nl-v2-intel p,.nl-v2-intel small{font-size:11px;line-height:1.55}
+.nl-v2-intel details{margin:8px 0}.nl-v2-intel summary{cursor:pointer}
+.nl-v2-intel ul{margin:8px 0;padding-left:22px;font-size:11px}
+"""
+    composed_css = composed_css.replace("/* end NL-REBUILD-01 CSS */",
+                                        tactical_css + "\n/* end NL-REBUILD-01 CSS */", 1)
     hero207_module = (ROOT / "tools/nl_heroes207_runtime_v1.js").read_text(encoding="utf-8")
     if "// === NL-HERO207-V1:" not in hero207_module or "// === end NL-HERO207-V1 ===" not in hero207_module:
         raise ValueError("Missing Hero207 runtime module boundary markers")
@@ -477,6 +536,7 @@ if(window.__P2_ENABLE_QA__)window.__NL_CITY_QA__=Object.freeze({
     # Integrate after existing effect and Hero207 wiring, never through a
     # second HTML file or a parallel tick/save timer.
     portal = portal.replace(qa_marker, "\n".join(city_parts) + "\n" + city_boot + "\n" + qa_marker, 1)
+    portal = portal.replace(qa_marker, "\n".join(tactical_parts) + "\n" + tactical_boot + "\n" + qa_marker, 1)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
     js_start = "// === NL-REBUILD-01: first-class 3x3 strategy dashboard ==="
