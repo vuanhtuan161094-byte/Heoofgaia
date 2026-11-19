@@ -11,3 +11,8 @@ VNG Mobile Wiki (nguồn chính): https://ngoalong.vnggames.com/ngoa-long-wiki/b
 Nguồn ngoại phiên bản (Lèqu CN classic 2011 và bản kỹ năng mới 2024) được ghi nhận để truy nguồn nhưng **không chứng minh** tương đương game VNG Mobile. Tất cả bản ghi giữ `UNKNOWN` với chỉ số/công thức/tiến hóa cá thể/tuyển dụng. Không sao chép asset/code proprietary, không sửa Wiki source snapshots.
 
 Bước cho CHAT08: không tự động nhập NPC Thần Võ Kích hoặc thủy binh Đột Mạo vào trận 3×3. Bất kỳ bản playable nào về sau phải được author riêng bằng `PROJECT_ORIGINAL / SIMULATED` và có quy tắc replay/status tương thích Save v5, engine p2Hit và hiệu ứng 6+7.
+
+## Executable read-only preview (2026-11-19)
+- `missing_59_rules_v3.cjs` consumes 59-row audit and exposes `plan(id)`, `eligible(id)`, `audit()`. 2 **non-activating** intent profiles: NPC Thần Võ Kích (2 sourced-duration status proposals, no numeric multiplier) and naval Đột Mạo (qualitative balanced profile, no numbers). Generic Thương only holds a family counter and is blocked as a unique active skill. No battle/Save/reward mutation, no live import.
+- `troop_design_v2.cjs` exposes `getDesignData().sourceReview59`, `describeTroop(id).sourceReview59`, `wikiGapStatus(id).sourceReview59` and `wikiGapAudit().stillUnresolvedSpecific`.
+- QA: `node qa/modules/troops/nl_troop_missing59_v3.test.cjs`, plus historical 137-gap and 25-troop tests. Source V3 is additive; historical 59 gap snapshot has NOT been rewritten.
