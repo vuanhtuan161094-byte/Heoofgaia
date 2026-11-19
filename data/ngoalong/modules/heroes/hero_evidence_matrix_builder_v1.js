@@ -46,7 +46,7 @@ function createMatrix(source=editionHandoff()){
  },{});
  const byFaction={};
  for(const [key,value]of Object.entries(source.missingByFaction))byFaction[key]={...value};
- if(count.INDEX_ONLY!==231)fail("unknown backlog count changed");
+ if(count.INDEX_ONLY!==230)fail("unknown backlog count changed");
  if(count.GUIDE_AND_STAGE_SKILLS+count.GUIDE_ONLY+count.HISTORICAL_SKILLS_ONLY+count.INDEX_ONLY!==364)fail("matrix coverage invalid");
  if(entries.some(r=>r.playable||r.currentRuntimeStatus!=="REFERENCE_ONLY"))fail("illegal runtime promotion");
  return {
