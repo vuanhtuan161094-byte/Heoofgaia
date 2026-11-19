@@ -2,7 +2,9 @@
 // This source is injected into the game's existing closure before BOOT.
 // Sources: Group04 inventory engine/UI + catalogue/rules; project formulas SIMULATED.
 // Do not mark release READY until Chromium/save/replay/exact-SHA gates pass.
-const NL_ITEM_CATALOGUE = __NL_ITEMS_CATALOGUE__;
+const NL_ITEM_CATALOGUE = window.NLItemBalanceV1.apply(__NL_ITEMS_CATALOGUE__);
+// Balance B2 changes only 667 project-origin item rules, not Wiki reference rows.
+window.NLItemBalanceV1.economicAudit(NL_ITEM_CATALOGUE);
 const NL_ITEM_RULES = __NL_ITEMS_RULES__;
 const NL_ITEM_GROUP_RULES = __NL_ITEM_GROUP_RULES__;
 const nlItemConsumableApi=window.NLItemConsumables.createModule(NL_ITEM_CATALOGUE,NL_ITEM_GROUP_RULES);
