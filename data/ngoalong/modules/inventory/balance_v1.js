@@ -53,7 +53,13 @@
       return choices[hash(stage+seed,salt)%choices.length];
     }
     const material=choose('Vật Liệu',17);
-    const entries=[{id:gear.id,quantity:1},{id:material.id,quantity:CONFIG.materialsPerStage}];
+    const categories=Object.keys(CONFIG.categoryWeights);
+    // Rotate seven categories across 28 first-clear stages; all categories
+    // have a non-zero, deterministic campaign acquisition route.
+    const rotatingCategory=categories[(stage-1)%categories.length];
+    const extra=choose(rotatingCategory,37);
+    const entries=[{id:gear.id,quantity:1},{id:material.id,quantity:CONFIG.materialsPerStage},
+      {id:extra.id,quantity:1}];
     if(boss)entries.push({id:choose('Rương',29).id,quantity:CONFIG.bossChestQuantity});
     return {stage,chapter:chapter+1,boss,entries,provenance:'SIMULATED',version:VERSION};
   }
