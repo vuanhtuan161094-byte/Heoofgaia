@@ -298,4 +298,65 @@ check("project hero coefficients and tags remain SIMULATED",()=>{
     s.adaptation==="SIMULATED_NOT_LEGACY_PARITY"&&s.descriptorSource));
 });
 
+
+check("explicit double-heal selection keeps requested ally first",()=>{
+  const state=R.createBattle(cat,[
+    unit("p1","p",3,"support",{hp:120}),unit("p2","p",1,"infantry",{hp:250}),
+    unit("p3","p",4,"infantry",{hp:450}),unit("e1","e",1,"spear")]);
+  const targets=R.selectTargets(state,cat,state.units[0],
+    {team:"ally",pattern:"double",priority:"weakest",maxTargets:2},"p3");
+  assert.equal(targets.length,2);
+  assert.equal(targets[0].id,"p3");
+});
+check("friendly rear unit can be selected explicitly for a single heal",()=>{
+  const state=R.createBattle(cat,[
+    unit("p1","p",3,"support"),unit("p2","p",1,"infantry",{hp:75}),
+    unit("e1","e",1,"spear")]);
+  const targets=R.selectTargets(state,cat,state.units[0],
+    {team:"ally",pattern:"single",priority:"front"},"p2");
+  assert.equal(targets[0].id,"p2");
+});
+check("protected enemy backline still rejects ordinary single targeting",()=>{
+  const state=R.createBattle(cat,[
+    unit("p1","p",3,"support"),unit("e1","e",1,"infantry"),
+    unit("e2","e",3,"strategist")]);
+  assert.throws(()=>R.selectTargets(state,cat,state.units[0],
+    {team:"enemy",pattern:"single",priority:"front"},"e2"),/protected backline/);
+});
+check("AI makes recorded proc-roll command from external seeded provider",()=>{
+  const state=R.createBattle(cat,[
+    unit("p1","p",3,"strategist",{skillIds:["mdtq-sleep-hex"]}),
+    unit("e1","e",1,"infantry")]);
+  const command=R.choosePreparedAction(state,cat,"p1",()=>0.11);
+  assert.equal(command.rolls["0:e1"],.11);
+  const result=R.resolveAction(state,cat,command);
+  assert.ok(result.state.units[1].statuses.some(x=>x.id==="sleep"));
+  assert.deepEqual(R.replay(state,cat,[result.frame]),result.state);
+});
+check("AI refuses hidden RNG for proc-based skills",()=>{
+  const state=R.createBattle(cat,[
+    unit("p1","p",3,"strategist",{skillIds:["mdtq-sleep-hex"]}),
+    unit("e1","e",1,"infantry")]);
+  assert.throws(()=>R.choosePreparedAction(state,cat,"p1"),/seeded rollProvider/);
+});
+check("AI precomputes per-strike critical roll keys",()=>{
+  const skill={id:"qa-double-crit",role:"attacker",moraleCost:0,
+    target:{team:"enemy",pattern:"single",priority:"front"},
+    operations:[{op:"damage",lane:"physical",coefficient:.8,repeat:2,criticalChance:.25}],
+    provenance:{classification:"SIMULATED",sourceId:"qa-only"}};
+  const catalog={...cat,skills:[skill]};
+  const state=R.createBattle(catalog,[
+    unit("p1","p",3,"infantry",{skillIds:[skill.id]}),
+    unit("e1","e",1,"spear")]);
+  const cmd=R.choosePreparedAction(state,catalog,"p1",()=>.5);
+  assert.deepEqual(Object.keys(cmd.rolls),["crit:0:e1:0","crit:0:e1:1"]);
+  assert.equal(R.resolveAction(state,catalog,cmd).events.filter(e=>e.type==="lane-hit").length,2);
+});
+check("AI rejects invalid external seed roll, without changing state",()=>{
+  const state=R.createBattle(cat,[
+    unit("p1","p",3,"strategist",{skillIds:["mdtq-sleep-hex"]}),
+    unit("e1","e",1,"infantry")]),before=JSON.stringify(state);
+  assert.throws(()=>R.choosePreparedAction(state,cat,"p1",()=>1.5),/invalid external AI roll/);
+  assert.equal(JSON.stringify(state),before);
+});
 console.log("RESULT "+passed+"/"+passed+" PASS");
