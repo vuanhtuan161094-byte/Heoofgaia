@@ -139,3 +139,19 @@ test('seven selected Wiki skill facts are exact, non-playable, and reproducible'
    x.approvedCombatSkillId===null&&x.fullNpcFormationVerified===false));
  assert.equal(generated.facts[0].selectedUnitCombatFact.skillAttackPercent,35);
 });
+
+test('repair queue for every 249-map Wiki record is reproducible and never grants gameplay',()=>{
+ const base='data/ngoalong/modules/campaign/';
+ const get=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
+ const index=get(base+'source_reconciliation_index_v5.json');
+ const queue=get(base+'source_repair_queue_v5.json');
+ const make=require('../tools/nl_campaign_repair_queue_v5.js').make;
+ assert.deepEqual(make(index),queue);
+ assert.equal(queue.maps.length,249);
+ assert.equal(queue.counts.P0,8);
+ assert.equal(queue.counts.P1,2);
+ assert.equal(queue.maps.every(m=>m.sourceDataApprovedForCombat===false),true);
+ assert.equal(queue.maps.find(m=>m.wikiMapId===1).missingUnitSoldiers,1);
+ assert.equal(queue.maps.find(m=>m.wikiMapId===2).missingUnitSoldiers,3);
+ assert.equal(queue.gameplayEnabled,false);
+});
