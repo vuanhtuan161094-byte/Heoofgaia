@@ -55,6 +55,7 @@ def payload() -> str:
 
     engine = (DATA / "engine.js").read_text(encoding="utf-8")
     ui = (DATA / "ui.js").read_text(encoding="utf-8")
+    balance_engine = (DATA / "balance_v1.js").read_text(encoding="utf-8")
     item_engine = (DATA / "consumables_engine.js").read_text(encoding="utf-8")
     item_ui = (DATA / "consumables_ui.js").read_text(encoding="utf-8")
     item_group_rules = json.loads((DATA / "item_groups_v1.json").read_text(encoding="utf-8"))
@@ -66,9 +67,9 @@ def payload() -> str:
     bridge = bridge.replace("__NL_ITEMS_CATALOGUE__", js_json(catalogue)).replace(
         "__NL_ITEMS_RULES__", js_json(rules)).replace(
         "__NL_ITEM_GROUP_RULES__", js_json(item_group_rules))
-    if "</script" in (engine + ui + item_engine + item_ui + bridge).lower():
+    if "</script" in (engine + ui + balance_engine + item_engine + item_ui + bridge).lower():
         raise ValueError("Unexpected script terminator in injected inline source")
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), END])
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:
