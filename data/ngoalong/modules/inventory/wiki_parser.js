@@ -14,6 +14,18 @@
   'Truyền Thừa Lệnh':1,'Lệnh':1,'Chìa Khóa':1,'Khác':4
  });
  const URL='https://ngoalong.vnggames.com/ngoa-long-wiki/vat-pham';
+ // Stable across partial/full rescans: no sequence-number IDs that rekey Save.
+ function stableId(category,group,name,level){
+   const sig=[category,group,name,level??''].join('|').normalize('NFC');
+   let a=2166136261,b=5381;
+   for(let i=0;i<sig.length;i++){
+     const c=sig.charCodeAt(i);
+     a=Math.imul(a^c,16777619)>>>0;
+     b=(Math.imul(b,33)^c)>>>0;
+   }
+   return 'wiki-item-index-'+a.toString(16).padStart(8,'0')+
+      b.toString(16).padStart(8,'0');
+ }
  function parse(text,checkedAt='2026-11-19'){
   if(typeof text!=='string')throw new Error('INVALID_WIKI_TEXT');
   const marker=/Tổng\s+(\d+)\s+vật phẩm/i.exec(text);
@@ -35,7 +47,7 @@
     if(keys.has(key))throw new Error('DUPLICATE_WIKI_ITEM_ROW_'+clean);
     keys.add(key);
     rows.push({
-      id:'wiki-item-index-'+String(rows.length+1).padStart(4,'0'),
+      id:stableId(group,subGroup||group,clean,level),
       name:clean,sourceCategory:group,sourceGroup:subGroup||group,
       displayedLevel:level,sourceUrl:URL,sourceEdition:'VNG_WIKI_MOBILE_CURRENT',
       sourceKind:'public-index',integration:'REFERENCE_ONLY',
@@ -108,7 +120,7 @@
      const candidate=parsed.rows.filter(x=>x.sourceCategory===category);
      if(candidate.length>declared)throw Error('CATEGORY_EXCESS_'+category);
      for(const row of candidate){
-       const finalRow={...row,id:'wiki-item-index-'+String(rows.length+1).padStart(4,'0')};
+       const finalRow={...row};
        rows.push(finalRow);
      }
      extractedCounts[category]=candidate.length;
@@ -128,5 +140,5 @@
     rows
    };
  }
- return {parse,parseSnapshots,COUNTS,URL};
+ return {parse,parseSnapshots,stableId,COUNTS,URL};
 });
