@@ -77,7 +77,24 @@ def main() -> None:
               original["iron"] - bought["iron"] == 154)
         page.locator('[data-nli-shop="0"]').click()
         if selected:
-            page.locator('[data-nli-action="equip"][data-uid="' + selected["uid"] + '"]').click()
+            # Fail fast with a state/UI snapshot rather than waiting 30 seconds
+            # for a locator that is absent after rerender.
+            snap = page.evaluate("""uid=>({
+                hero:window.__P2_QA__.getGame().roster[0],
+                items:window.__P2_QA__.getGame().items.filter(x=>x.uid===uid),
+                equipButtons:[...document.querySelectorAll('[data-nli-action="equip"]')]
+                  .map(x=>({uid:x.getAttribute('data-uid'),disabled:x.disabled})),
+                bridgeCount:document.querySelectorAll('[data-nl-item-bridge]').length,
+                shopButton0:document.querySelector('[data-nli-shop="0"]')?.outerHTML,
+                itemCards:[...document.querySelectorAll('.nli-gear')].slice(0,5)
+                  .map(x=>x.outerHTML.slice(0,500))
+              })""", selected["uid"])
+            print("NL_ITEM_UI_AFTER_SHOP_SWITCH " + json.dumps(snap,ensure_ascii=False), flush=True)
+            target = page.locator('[data-nli-action="equip"][data-uid="' + selected["uid"] + '"]')
+            check("newly bought item visible in real bag UI after shop switch",
+                  target.count() == 1)
+            if target.count() == 1:
+                target.click(timeout=1500)
         equipped = state(page)
         hero = equipped["roster"][0]
         actual_bonus = page.evaluate("h=>window.__NL_ITEM_QA__.bonus(h)", hero)
