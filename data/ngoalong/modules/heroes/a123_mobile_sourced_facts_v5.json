@@ -24,7 +24,7 @@
       "url": "https://ngoalong.vnggames.com/tin-tuc-2022/tinh-nang/trai-nghiem-ngoa-long-890.html"
     },
     "NPC24": {
-      "date": "2024-02-05",
+      "date": "2024-01-02",
       "url": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/pho-ban-moi-13423.html"
     }
   },
@@ -355,7 +355,7 @@
       "name": "Mã Đằng",
       "faction": "Quần",
       "group": "NPC24",
-      "sourceDate": "2024-02-05",
+      "sourceDate": "2024-01-02",
       "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-hung-ba-thien-ha/pho-ban-moi-13423.html",
       "facet": "NPC_CAMPAIGN_APPEARANCE",
       "evidence": "OFFICIAL_VNG_PATCH_2024_NPC_POSITION",
