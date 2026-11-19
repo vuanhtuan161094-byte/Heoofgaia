@@ -1,0 +1,107 @@
+{
+  "schemaVersion": 1,
+  "documentId": "NL_WEI_GUIDE_UNLOCKS_20260930",
+  "sourceUrl": "https://ngoalong.vnggames.com/tin-tuc/huong-dan/cam-nang-nguy-quoc-toi-uu-hoa-giai-doan-truoc-lv300.html",
+  "publishedOn": "2026-09-30",
+  "checkedAt": "2026-11-19",
+  "evidenceClass": "VNG_HOSTED_COMMUNITY_GUIDE_FACTS",
+  "stageSystemAvailability": [
+    {
+      "stage": "GREEN",
+      "level": 130,
+      "levelContext": "GUIDE_LEVEL",
+      "feature": "Giác ngộ Xanh Lá"
+    },
+    {
+      "stage": "RED",
+      "level": 190,
+      "levelContext": "GUIDE_LEVEL",
+      "feature": "Giác ngộ Đỏ"
+    },
+    {
+      "stage": "PURPLE",
+      "level": 230,
+      "levelContext": "GUIDE_LEVEL",
+      "feature": "Giác ngộ Tím"
+    },
+    {
+      "stage": "ORANGE",
+      "level": 300,
+      "levelContext": "GUIDE_LEVEL",
+      "feature": "Giác ngộ Cam"
+    }
+  ],
+  "goldMainCityLevel": {
+    "level": 380,
+    "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+    "sourceKind": "OFFICIAL_EVENT_ANNOUNCEMENT"
+  },
+  "destinyMainCityLevel": {
+    "level": 400,
+    "sourceUrl": "https://ngoalong.vnggames.com/su-kien-2022/pbm-than-binh-pha-tran/he-thong-tuong-vang-15536.html",
+    "sourceKind": "OFFICIAL_EVENT_ANNOUNCEMENT"
+  },
+  "heroPlatform": {
+    "unlockLevel": 180,
+    "linkedGeneralSamples": 5,
+    "minimumSourceRule": "INHERITED_LOWEST_SAMPLE_QUALITY_REBIRTH_AND_ATTRIBUTES",
+    "attributeFormula": "UNKNOWN",
+    "currentRankLogic": "UNKNOWN",
+    "gameplayPermission": false
+  },
+  "specialTavernAtLevel245": {
+    "unlockLevel": 245,
+    "recruitmentMethod": "SPECIAL_TAVERN_WINE_RANDOM",
+    "heroes": [
+      {
+        "heroId": "wiki-mobile-hero-137",
+        "name": "Vu Cát"
+      },
+      {
+        "heroId": "wiki-mobile-hero-133",
+        "name": "Tư Mã Huy"
+      },
+      {
+        "heroId": "wiki-mobile-hero-141",
+        "name": "Đồng Uyên"
+      }
+    ],
+    "probability": null,
+    "invitationCap": null,
+    "goldCost": null,
+    "attribution": "COMMUNITY_GUIDE_WITNESS_NOT_SERVER_CONTRACT"
+  },
+  "identityWarnings": [
+    {
+      "guideName": "Tuân Úc",
+      "wikiName": "Tuân Vực",
+      "status": "UNRESOLVED_DO_NOT_AUTO_MAP"
+    },
+    {
+      "guideName": "Tôn Can",
+      "wikiName": "Tôn Càn",
+      "status": "UNRESOLVED_DO_NOT_AUTO_MAP"
+    },
+    {
+      "guideName": "Văn Sinh",
+      "wikiName": "Văn Sính",
+      "status": "UNRESOLVED_DO_NOT_AUTO_MAP"
+    },
+    {
+      "guideName": "Cổ Ung",
+      "wikiName": "Cố Ung",
+      "status": "UNRESOLVED_DO_NOT_AUTO_MAP"
+    },
+    {
+      "guideName": "Trương Hoành",
+      "wikiName": "Trương Hoành",
+      "status": "DUPLICATE_WIKI_ID_NO_AUTO_MAP"
+    }
+  ],
+  "caveats": [
+    "Guide level is not necessarily identical to per-general eligibility",
+    "Feature unlocking is not an automatic hero-stage change",
+    "Guide statements may not match latest server patch",
+    "No simulation of lottery probability or currency cost"
+  ]
+}
