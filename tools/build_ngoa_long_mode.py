@@ -415,11 +415,15 @@ def build(source: str) -> str:
             "__NL_EFFECT_V1_CATALOG__", effect_json
         ),
     ]
-    if any("</script>" in part.lower() for part in parts):
+    hero207_module = (ROOT / "tools/nl_heroes207_runtime_v1.js").read_text(encoding="utf-8")
+    if "// === NL-HERO207-V1:" not in hero207_module or "// === end NL-HERO207-V1 ===" not in hero207_module:
+        raise ValueError("Missing Hero207 runtime module boundary markers")
+    if any("</script>" in part.lower() for part in parts + [hero207_module]):
         raise ValueError("Effect integration contains an unsafe script terminator")
     qa_marker = "if(window.__P2_ENABLE_QA__&&window.__P2_QA__)Object.assign("
     if portal.count(qa_marker) != 1:
         raise ValueError("Cannot uniquely inject V1 effects before QA exports")
+    portal = portal.replace(qa_marker, hero207_module + "\n" + qa_marker, 1)
     portal = portal.replace(qa_marker, "\n".join(parts) + "\n" + qa_marker, 1)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
