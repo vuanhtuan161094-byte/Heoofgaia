@@ -25,13 +25,25 @@ def payload() -> str:
     rules = json.loads((DATA / "rules.json").read_text(encoding="utf-8"))
     playable = [e for e in catalogue["equipment"] if e["integration"] == "PLAYABLE"]
     reference = [e for e in catalogue["equipment"] if e["integration"] == "REFERENCE_ONLY"]
-    if len(playable) != 411 or len(reference) != 392 or len(catalogue["items"]) != 6:
+    if len(playable) != 411 or len(reference) != 392 or len(catalogue["items"]) != 1343:
         raise ValueError("Group04 inventory content count drift")
     source_ids = {x["id"] for x in reference}
     if len(source_ids) != 392:
         raise ValueError("Group04 source IDs not unique")
     if len({x["id"] for x in playable}) != 411:
         raise ValueError("Group04 gameplay IDs not unique")
+    item_playables = [x for x in catalogue["items"] if x["integration"] == "PLAYABLE"]
+    item_refs = [x for x in catalogue["items"] if x["integration"] == "REFERENCE_ONLY"]
+    if len(item_playables) != 669 or len(item_refs) != 674:
+        raise ValueError("Item model 669/674 coverage mismatch")
+    refids = {x["id"] for x in item_refs}
+    if len(refids) != 674:
+        raise ValueError("Duplicate source item IDs")
+    for x in item_playables:
+        if x["provenance"]["classification"] != "SIMULATED":
+            raise ValueError("Non-project active item effect")
+        if x.get("sourceId") and x["sourceId"] not in refids:
+            raise ValueError("Unresolved item sourceId: " + x["id"])
     for model in playable:
         if model["provenance"]["classification"] != "SIMULATED":
             raise ValueError(f"Non-original active model: {model['id']}")
@@ -43,14 +55,20 @@ def payload() -> str:
 
     engine = (DATA / "engine.js").read_text(encoding="utf-8")
     ui = (DATA / "ui.js").read_text(encoding="utf-8")
+    item_engine = (DATA / "consumables_engine.js").read_text(encoding="utf-8")
+    item_ui = (DATA / "consumables_ui.js").read_text(encoding="utf-8")
+    item_group_rules = json.loads((DATA / "item_groups_v1.json").read_text(encoding="utf-8"))
+    if item_group_rules.get("declaredTotal") != 674:
+        raise ValueError("Source item group coverage mismatch")
     bridge = (TOOLS / "nl_item_integration_v1.js").read_text(encoding="utf-8")
-    if bridge.count("__NL_ITEMS_CATALOGUE__") != 1 or bridge.count("__NL_ITEMS_RULES__") != 1:
+    if bridge.count("__NL_ITEMS_CATALOGUE__") != 1 or bridge.count("__NL_ITEMS_RULES__") != 1 or bridge.count("__NL_ITEM_GROUP_RULES__") != 1:
         raise ValueError("Bridge JSON placeholders out of sync")
     bridge = bridge.replace("__NL_ITEMS_CATALOGUE__", js_json(catalogue)).replace(
-        "__NL_ITEMS_RULES__", js_json(rules))
-    if "</script" in (engine + ui + bridge).lower():
+        "__NL_ITEMS_RULES__", js_json(rules)).replace(
+        "__NL_ITEM_GROUP_RULES__", js_json(item_group_rules))
+    if "</script" in (engine + ui + item_engine + item_ui + bridge).lower():
         raise ValueError("Unexpected script terminator in injected inline source")
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), bridge.rstrip(), END])
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:
@@ -77,7 +95,7 @@ def main() -> None:
     if changed:
         INDEX.write_text(after, encoding="utf-8", newline="")
     print(
-        "NL_ITEMS: source gear 392, playable gear 411, "
+        "NL_ITEMS: source gear 392, playable gear 411; source items 674, playable items 669, "
         f"sha256={hashlib.sha256(after.encode('utf-8')).hexdigest()} "
         f"changed={changed} check={args.check}"
     )
