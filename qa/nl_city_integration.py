@@ -54,7 +54,7 @@ def main():
               tactics.get("stagePlans") == 28 and tactics.get("bossPlans") == 8)
         check("Wiki IDs remain unverified and native P2 keeps rewards",
               tactics is not None and tactics.get("officialWikiTroopBindings") == 0 and
-              tactics.get("liveV2CombatEnabled") is False and
+              tactics.get("liveV2CombatEnabled") is True and
               tactics.get("rewardAuthority") == "native-p2")
         page.locator('.nav[data-tab="campaign"]').click()
         check("stage-one V2 tactical data appears inside the real campaign UI",
