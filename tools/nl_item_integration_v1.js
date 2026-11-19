@@ -82,7 +82,12 @@ renderEquipment=function(){
   // The legacy renderer is the 19-item shop; 392 new gear are exposed by the
   // paginated Group04 panel, not duplicated in the old mobile grid.
   const originalIds=new Set(NL_GAME_DATA.equipment.projectItems.map(x=>x.id));
-  const hidden=Object.entries(EQUIPMENT).filter(([id])=>!originalIds.has(id));
+  // The legacy renderer also resolves every owned gear instance to its
+  // EQUIPMENT definition (including .icon). Never hide an owned new-model
+  // definition while it renders, or Save/reload/mobile will throw.
+  const ownedIds=new Set((game.items||[]).map(item=>item.base));
+  const hidden=Object.entries(EQUIPMENT).filter(([id])=>
+    !originalIds.has(id) && !ownedIds.has(id));
   for(const [id] of hidden)delete EQUIPMENT[id];
   let previous;
   try{previous=nlItemPriorRenderEquipment();}
