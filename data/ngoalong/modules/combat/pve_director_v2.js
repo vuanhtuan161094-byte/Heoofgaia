@@ -49,6 +49,13 @@
         3:["mdtq-pve-line-break"],4:["mdtq-pve-first-aid"]}}
   });
   const PvESkills=Object.freeze([
+    // PvE-only original basic action. The Mobile Wiki describes morale gain
+    // on normal attacks, but the +25 value here is a SIMULATED standalone rule;
+    // Chat 08 must compare P2 native morale before enabling to avoid double gain.
+    {id:"mdtq-pve-basic-charge",role:"attacker",moraleCost:0,
+      target:{team:"enemy",pattern:"single",priority:"front"},
+      operations:[{op:"damage",lane:"physical",coefficient:1},
+        {op:"morale",delta:25,scope:"self"}]},
     {id:"mdtq-pve-wall",role:"defender",moraleCost:40,target:{team:"self",pattern:"single"},
       operations:[{op:"status",effectId:"ironwall",scope:"self"},
         {op:"morale",delta:8,scope:"all-allies"}]},
@@ -173,7 +180,7 @@
         hp:stats.hp,maxHp:stats.hp,
         morale:plan.boss?scaling.morale.boss:scaling.morale.normal,
         speed:stats.speed,
-        skillIds:["mdtq-basic-strike",enemySkill,...extras],
+        skillIds:["mdtq-pve-basic-charge",enemySkill,...extras],
         legacyEffects:[],
         provenance:{classification:"SIMULATED",sourceId:"project-alpha",
           formula:"mdtq-pve-v2-project-stat-projection"}
