@@ -224,10 +224,16 @@
         const rank = instance.refineLv || 0;
         assert(integer(rank) && rank < r.maxLevel, 'REFINE_MAX');
         const material = available(r.materialId, 'material');
-        assert(integer(m.stacks[material.id] || 0) && m.stacks[material.id] >= r.materialPerLevel, 'INSUFFICIENT_MATERIAL');
-        const cost = { silver: r.silverBase * (rank + 1) };
+        const row = catalog[instance.base];
+        // R03 and early gear remain price-stable; premium applies only to
+        // high-tier, project-authored equipment.
+        const premium = row.id.startsWith(r.highTierPricing?.onlyForProjectEquipmentPrefix || '__none__')
+          ? r.highTierPricing.groups[row.sourceGroup] : null;
+        const materialCount = r.materialPerLevel + (premium?.materialExtra || 0);
+        assert(integer(m.stacks[material.id] || 0) && m.stacks[material.id] >= materialCount, 'INSUFFICIENT_MATERIAL');
+        const cost = { silver: Math.round(r.silverBase * (rank + 1) * (premium?.silverMultiplier || 1)) };
         pay(next, cost);
-        m.stacks[material.id] -= r.materialPerLevel;
+        m.stacks[material.id] -= materialCount;
         if (m.stacks[material.id] === 0) delete m.stacks[material.id];
         instance.refineLv = rank + 1;
         return { uid: instance.uid, refineLv: instance.refineLv, cost, material: material.id };
