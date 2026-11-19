@@ -5,7 +5,7 @@
   "matchScope": "RESEARCH_ONLY",
   "criticalPolicy": {
     "notVngMobile2026Stats": true,
-    "notExecutable": false,
+    "notExecutable": true,
     "doNotOverwriteCurrentMobileFacts": true,
     "doNotInferRecruitmentFromTavernEvent": true,
     "allUnspecifiedSkillCoefficients": null
