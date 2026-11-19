@@ -121,3 +121,21 @@ test('committed 249-map evidence batches and index agree exactly',()=>{
  assert.equal(JSON.stringify(index,null,2)+'\n',
   fs.readFileSync(path.join(root,prefix+'source_reconciliation_index_v5.json'),'utf8'));
 });
+
+test('seven selected Wiki skill facts are exact, non-playable, and reproducible',()=>{
+ const src='data/ngoalong/group02_wiki/';
+ const modulePath='data/ngoalong/modules/campaign/';
+ const get=p=>JSON.parse(fs.readFileSync(path.join(root,p),'utf8'));
+ const build=require('../tools/nl_campaign_verified_facts_v5.js').build;
+ const original=get(modulePath+'verified_secondary_wiki_facts_v5.json');
+ const generated=build(get(src+'npc_details.json'),get(src+'maps_npcs.json'),
+   get(modulePath+'evidence_batches/batch-001.json'));
+ assert.deepEqual(generated,original);
+ assert.equal(generated.counts.npcSnapshots,7);
+ assert.equal(generated.counts.skillFacts,4);
+ assert.equal(generated.counts.verifiedFieldComparisons,32);
+ assert.equal(generated.counts.gameplaySkillBindings,0);
+ assert.ok(generated.facts.every(x=>x.autoAppliedToGame===false&&
+   x.approvedCombatSkillId===null&&x.fullNpcFormationVerified===false));
+ assert.equal(generated.facts[0].selectedUnitCombatFact.skillAttackPercent,35);
+});
