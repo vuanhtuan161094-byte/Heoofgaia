@@ -632,7 +632,7 @@ if(window.__P2_ENABLE_QA__)window.__NL_NATIVE_A1_QA__=Object.freeze({
     if "</script>" in native_a1.lower() or "</script>" in native_a1_boot.lower():
         raise ValueError("Unsafe native A1 script terminator")
     composed_css = composed_css.replace("/* end NL-REBUILD-01 CSS */",
-        ".nl-a1-live{padding:7px 12px;background:#29382d;color:#e4d9bc;font-size:11px;border-bottom:1px solid #7b7a57}\\n/* end NL-REBUILD-01 CSS */", 1)
+        ".nl-a1-live{padding:7px 12px;background:#29382d;color:#e4d9bc;font-size:11px;border-bottom:1px solid #7b7a57}\n/* end NL-REBUILD-01 CSS */", 1)
     hero207_module = (ROOT / "tools/nl_heroes207_runtime_v1.js").read_text(encoding="utf-8")
     if "// === NL-HERO207-V1:" not in hero207_module or "// === end NL-HERO207-V1 ===" not in hero207_module:
         raise ValueError("Missing Hero207 runtime module boundary markers")
