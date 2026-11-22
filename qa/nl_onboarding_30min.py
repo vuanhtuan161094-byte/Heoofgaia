@@ -173,9 +173,10 @@ def run(duration_minutes: int = 30) -> int:
                     before_silver = settled["silver"]
                     page.locator('.nav[data-tab="heroes"]').click()
                     # The classic recruit system has no random 1800-Bạc draw.
-                    # Stage-4 Mã Siêu is an explicit named recruit with a known
-                    # simulated fee; never bypass the story prerequisite.
-                    candidate = "ma" if 4 in settled["cleared"] else "huang"
+                    # Hoàng Trung unlocks from stage 2, so the Stage-5
+                    # recovery route is a reproducible, named WEB recruit
+                    # rather than the old RNG gacha or late-stage Mã Siêu.
+                    candidate = "huang"
                     page.locator(f'[data-nla-recruit="{candidate}"]').click()
                     recruited_state = page.evaluate("window.__P2_QA__.getGame()")
                     fifth = next((hero for hero in recruited_state["roster"] if hero not in heroes), None)
@@ -226,9 +227,14 @@ def run(duration_minutes: int = 30) -> int:
                 check(f"{profile}: continuous campaign run clears the first ten stages", set(range(1, 11)).issubset(unlocked))
             stage5_attempts = [row for row in history if row.get("stage") == 5 and row.get("event") in ("win", "loss")]
             check(f"{profile}: adapts from the stage-5 morale-lock loss to a spear-van clear after recruiting and training", len(stage5_attempts) == 2 and stage5_attempts[0]["event"] == "loss" and stage5_attempts[1]["event"] == "win" and 5 in unlocked and stage5_balance_sweep and all(row["seed"] == stage5_balance_sweep[0]["seed"] for row in stage5_balance_sweep))
+            print("NL_STAGE5_SWEEP " + json.dumps({"profile":profile,"minutes":duration_minutes,
+                  "recruit":history[-1]["hero"] if history and history[-1].get("hero") else "named",
+                  "rows":stage5_balance_sweep},ensure_ascii=False),flush=True)
             by_power = {float(row["power"]): row for row in stage5_balance_sweep}
             check(f"{profile}: same-seed Stage 5 sweep confirms 1.15 playable and 1.3/1.9 remain challenge settings", by_power.get(1.15, {}).get("won") is True and by_power.get(1.3, {}).get("won") is False and by_power.get(1.9, {}).get("won") is False)
             if duration_minutes >= 60:
+                print("NL_STAGE9_10_SWEEPS "+json.dumps({"profile":profile,"rows9":stage9_balance_sweep,
+                      "rows10":stage10_balance_sweep},ensure_ascii=False),flush=True)
                 stage9_by_power = {float(row["power"]): row for row in stage9_balance_sweep}
                 stage10_by_power = {float(row["power"]): row for row in stage10_balance_sweep}
                 check(f"{profile}: same-state campaign sweeps validate stage 9 power 0.9 and stage 10 power 0.8 as clear thresholds", stage9_by_power.get(0.9, {}).get("won") is True and stage9_by_power.get(1.0, {}).get("won") is False and stage10_by_power.get(0.8, {}).get("won") is True and stage10_by_power.get(0.9, {}).get("won") is False)
