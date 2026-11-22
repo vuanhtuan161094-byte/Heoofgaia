@@ -1,0 +1,32 @@
+/* === NL-CLASSIC-A2-CSS === */
+.nl-a2-recruits{max-width:100%;min-width:0}
+.nl-a2-tabs{display:flex;flex-wrap:wrap;gap:6px;margin:9px 0}
+.nl-a2-tabs .picked{outline:1px solid #d8b46a;color:#fff3d1}
+.nl-a2-search{display:flex;align-items:center;gap:8px;margin:8px 0;flex-wrap:wrap}
+.nl-a2-search input{background:#171d20;border:1px solid #84714d;border-radius:5px;padding:9px;color:#f6e7c9;flex:1;min-width:130px;max-width:100%}
+.nl-a2-search span{font-size:11px;color:#d7c59e}
+.nl-a2-hero-row{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:7px 3px;border-bottom:1px solid #4d4437;font-size:12px}
+.nl-a2-hero-row span{flex:1;min-width:85px}
+.nl-a2-hero-row small{flex:2;color:#c8b59a;white-space:normal}
+.nl-a2-hero-row b{font-weight:500;color:#dbc58a;font-size:10px;text-align:right}
+.nl-a2-footer{display:flex;align-items:center;gap:12px;justify-content:flex-end;margin:9px 0;color:#dcc18a;font-size:11px}
+.nl-a2-city-switch{display:flex;align-items:center;justify-content:space-between;gap:9px;flex-wrap:wrap;padding:8px 10px;border:1px solid #7e6a47;background:#302e25;margin-bottom:8px}
+.nl-a2-city-switch strong{font-size:12px;color:#f0d59f}
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_ironworks"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_depot"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_bank"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_trade_society"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_hunting"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_mint"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_state_office"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_engraving"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_soul_hall"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id^="nl_city_naval"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_cargo_port"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_dock"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_navy_hall"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_navy_warehouse"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="nl_city_lighthouse"],
+.nlcity[data-nla2-advanced="0"] .nlcity-tile[data-nl-city-id="lumberyard"] {display:none!important}
+@media(max-width:650px){.nl-a2-hero-row{flex-wrap:wrap}.nl-a2-hero-row span{flex-basis:100%}.nl-a2-recruits .nl207-recruit{display:flex;flex-direction:column}.nl-a2-recruits .nl207-recruit select{max-width:100%;width:100%}}
+/* === end NL-CLASSIC-A2-CSS === */

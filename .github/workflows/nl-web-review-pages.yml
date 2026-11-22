@@ -55,6 +55,8 @@ jobs:
           node --check tools/nl_review_window_v2.js
           node --check tools/nl_classic_phase_a.js
           node --check tools/nl_classic_phase_a_research_late.js
+          node --check tools/nl_classic_phase_a2.js
+          python -m py_compile qa/nl_classic_phase_a2_browser.py
       - name: Install approved browser QA dependencies
         run: |
           python -m pip install playwright==1.58.0
@@ -77,6 +79,8 @@ jobs:
           python qa/nl_review_screenshots.py --html index.html --out qa/ui-v2-screenshots
       - name: Phase A classic WEB resources, tax and named-recruitment browser QA
         run: python qa/nl_classic_phase_a_browser.py --html index.html
+      - name: Phase A2 31/7 city costs, silver mine and 207 named hero routes
+        run: python qa/nl_classic_phase_a2_browser.py --html index.html
       - name: Upload review evidence (including failures)
         if: always()
         uses: actions/upload-artifact@v4

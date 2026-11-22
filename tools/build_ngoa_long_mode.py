@@ -420,6 +420,16 @@ def build(source: str) -> str:
     # CHAT 03: the authoritative city engine and UI are embedded into the
     # existing offline HTML, inside the native game closure before BOOT.
     city_panel_source = (ROOT / "data/ngoalong/modules/city/city_panel_v1.js").read_text(encoding="utf-8")
+    # Never show duplicate city research using legacy Sắt/Prestige payments;
+    # Quân Sư Phủ (R03 + A1 late patch) is the only visible research owner.
+    if city_panel_source.count("detail(dto)+researchPanel(dto)") != 1:
+        raise ValueError("Cannot hide duplicate city research panel")
+    city_panel_source = city_panel_source.replace("detail(dto)+researchPanel(dto)", "detail(dto)", 1)
+    city_panel_source = city_panel_source.replace(
+        "const finance=Object.entries(dto.resources).map",
+        "const finance=Object.entries(dto.resources).filter(([id])=>id!=='iron').map",
+        1
+    )
     city_style_marker = "const stylesheet=String.raw`"
     if city_panel_source.count(city_style_marker) != 1:
         raise ValueError("Missing unique CHAT03 city stylesheet")
@@ -431,6 +441,42 @@ def build(source: str) -> str:
     city_catalog = json.loads((ROOT / "data/ngoalong/modules/city/catalog_v1.json").read_text(encoding="utf-8"))
     if len(city_catalog.get("buildings", [])) != 31 or len(city_catalog.get("legacy", [])) != 7:
         raise ValueError("CHAT03 building coverage changed; review required")
+    # Phase A2 WEB: projection at build time, never modify the source Wiki/project
+    # catalog or legacy Save-v5 balances. No iron/wood cost is required by 31
+    # project buildings or their operations. Price conversion is SIMULATED.
+    classic_priority = [
+        "nl_city_hall", "nl_city_residence", "nl_city_tax_office",
+        "nl_city_granary", "nl_city_shop", "nl_city_warehouse",
+        "nl_city_treasury", "nl_city_mill", "nl_city_drillground",
+        "nl_city_general_altar", "nl_city_workshop",
+        "nl_city_military_office", "nl_city_stable", "nl_city_trial_tower"
+    ]
+    def classic_a2_cost(amounts):
+        result=dict(amounts or {})
+        iron=result.pop("iron", 0)
+        wood=result.pop("wood", 0)
+        if iron or wood:
+            result["silver"]=result.get("silver", 0)+iron*4+wood*2
+            result["grain"]=result.get("grain", 0)+(iron+1)//2+(wood+1)//2
+        return result
+    for facility in city_catalog["buildings"]:
+        facility["baseCost"]=classic_a2_cost(facility["baseCost"])
+        for action in facility.get("actions", []):
+            action["cost"]=classic_a2_cost(action.get("cost", {}))
+        facility["provenance"]["classicA2Cost"]="PROJECT_SIMULATED_CONVERSION"
+    city_catalog["buildings"].sort(
+        key=lambda building: (classic_priority.index(building["id"])
+                              if building["id"] in classic_priority
+                              else len(classic_priority), building["id"]))
+    for legacy in city_catalog["legacy"]:
+        if legacy["id"]=="mine":
+            legacy["label"]="Mỏ Bạc"
+            legacy["function"]="Bạc (Sắt di sản được giữ nguyên trong Save v5)"
+    city_catalog["policy"]["classicA2"]={
+        "source":"PROJECT_SIMULATED_A2", "silverPerHistoricIron":4,
+        "legacyBalancesRetained":True, "researchOwner":"NL-R03",
+        "classicPriorityIds":classic_priority
+    }
     city_parts = [
         (ROOT / "tools/nl_city_engine.js").read_text(encoding="utf-8"),
         city_panel_source,
@@ -464,6 +510,13 @@ if(window.__P2_ENABLE_QA__)window.__NL_CITY_QA__=Object.freeze({
 });
 // === end NL-CITY-CHAT03 ===
 """.replace("__NL_CITY_CATALOG__", json.dumps(city_catalog, ensure_ascii=False, separators=(",", ":")))
+
+    # Original CSS for Phase A2 UI is applied to the canonical single-file build.
+    classic_a2_css = (ROOT / "tools/nl_classic_phase_a2.css").read_text(encoding="utf-8")
+    if classic_a2_css.count("/* === NL-CLASSIC-A2-CSS === */") != 1:
+        raise ValueError("A2 CSS contract drift")
+    composed_css = composed_css.replace("/* end NL-REBUILD-01 CSS */",
+        classic_a2_css + "\n/* end NL-REBUILD-01 CSS */", 1)
 
     # CHAT02 + CHAT05: register tested tactical domain source contracts without
     # transferring authoritative HP/morale/Save/reward ownership out of native P2.
