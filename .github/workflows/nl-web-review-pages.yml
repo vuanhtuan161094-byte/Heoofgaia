@@ -114,6 +114,8 @@ jobs:
             site/index.html
             site/review-status.json
           if-no-files-found: error
+      - name: Configure Pages deployment for the review site
+        uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
           path: site
@@ -127,8 +129,11 @@ jobs:
       pages: write
       id-token: write
       contents: read
+    # Isolate preview publishing from the default GitHub Pages branch protection.
+    # The push trigger and job-level ref condition both restrict deployment to
+    # feature/nl-web-review-20261122; never deploy on a pull request.
     environment:
-      name: github-pages
+      name: nl-web-review
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - name: Deploy game
