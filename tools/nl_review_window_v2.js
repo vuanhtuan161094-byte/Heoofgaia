@@ -30,7 +30,7 @@
  }
  function addPageForRoot(root,tab){
    const narrow=viewportNarrow();
-   if(root.classList.contains('grid-2')&&children(root).length>=2){
+   if((root.classList.contains('grid-2')||root.classList.contains('formation-wrap'))&&children(root).length>=2){
      const sides=children(root);
      const scene=tab==='campaign'?root.querySelector('.stage-grid'):null;
      const cards=scene&&children(scene);
@@ -81,6 +81,7 @@
      restore();
      const tab=currentTab();activeTab=tab;document.getElementById('app')?.setAttribute('data-nl-screen',tab);
      title.textContent=(nav()?.getAttribute('title')||nav()?.textContent||'Thành Trì').replace(/\s+/g,' ').trim();
+     bar.querySelector('#nl-screen-caption').textContent=tab==='formation'&&viewportNarrow()?'Trang chọn tướng → chọn võ tướng → quay về trận đồ để đặt ô':'Một màn hình · một cửa sổ · bấm để chuyển mục';
      let roots=children(view);const head=roots.find(el=>el.classList.contains('head'));
      // Make the city scene the actual first screen, not an isolated text fragment.
      if(tab==='city'){
@@ -159,6 +160,7 @@
    const tabButton=ev.target.closest?.('.nav[data-tab]');
    if(tabButton&&tabButton.dataset.tab!==activeTab)pageIndex[tabButton.dataset.tab]=0;
    if(ev.target.closest?.('[data-focus-building]'))requestedCityDetail=true;
+   if(viewportNarrow()&&ev.target.closest?.('[data-choose-hero]'))pageIndex.formation=0;
    if(!ev.target.closest?.('#nl-screen-toolbar'))schedule();
  },true);
  document.addEventListener('change',ev=>{if(!ev.target.closest?.('#nl-screen-toolbar'))schedule()},true);
