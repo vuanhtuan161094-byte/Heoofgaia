@@ -29,6 +29,7 @@ jobs:
       - name: Validate source and build one canonical HTML
         run: |
           set -euo pipefail
+          python qa/nl_wiki_runtime_gap.py --out qa/wiki-runtime-gap.json
           python tools/validate_ngoalong_data.py
           python tools/build_ngoa_long_mode.py
           python tools/build_ngoa_long_r03.py
@@ -79,6 +80,7 @@ jobs:
           name: nl-ui-v2-28-screens-and-qa
           path: |
             qa/ui-v2-screenshots/**
+            qa/wiki-runtime-gap.json
             qa/web-review-sha.txt
             qa/web-review-html-sha256.txt
           if-no-files-found: warn
