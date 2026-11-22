@@ -1,0 +1,108 @@
+#!/usr/bin/env python3
+"""Capture 14 Muu Dinh Tam Quoc UI V2 views in an authorized Playwright Chromium.
+
+Does not modify the HTML, game state, credentials, or browser policies.
+Run where local URLs are permitted (for example, a standard GitHub Actions runner).
+"""
+from __future__ import annotations
+import argparse
+import json
+import threading
+from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
+from pathlib import Path
+
+from playwright.sync_api import sync_playwright
+
+
+def main() -> int:
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--html", type=Path, default=Path(__file__).with_name("Muu_Dinh_Tam_Quoc_NgoaLong_UI_V2.html"))
+    ap.add_argument("--out", type=Path, default=Path(__file__).with_name("QA_UI_V2_Screenshots"))
+    ap.add_argument("--executable", default=None, help="Optional approved Chromium executable")
+    args = ap.parse_args()
+    path = args.html.resolve()
+    if not path.is_file():
+        raise SystemExit(f"HTML not found: {path}")
+    args.out.mkdir(parents=True, exist_ok=True)
+
+    class Handler(SimpleHTTPRequestHandler):
+        def __init__(self, *params, **kwargs):
+            super().__init__(*params, directory=str(path.parent), **kwargs)
+        def log_message(self, fmt, *params):
+            pass
+
+    server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+    t = threading.Thread(target=server.serve_forever, daemon=True)
+    t.start()
+    url = f"http://127.0.0.1:{server.server_port}/{path.name}"
+    results = {"html": path.name, "screens": [], "errors": [], "status": "PENDING"}
+    try:
+        with sync_playwright() as pw:
+            opts = {"headless": True, "args": ["--no-sandbox", "--disable-dev-shm-usage"]}
+            if args.executable:
+                opts["executable_path"] = args.executable
+            browser = pw.chromium.launch(**opts)
+            try:
+                for width, height in [(1280, 720), (390, 844)]:
+                    page = browser.new_page(viewport={"width": width, "height": height}, device_scale_factor=1)
+                    page_errors = []
+                    page.on("pageerror", lambda err: page_errors.append(str(err)))
+                    try:
+                        page.goto(url, wait_until="domcontentloaded", timeout=20000)
+                        page.wait_for_timeout(500)
+                        tabs = page.locator('.nav[data-tab]').evaluate_all(
+                            '(els) => els.map(x=>({id:x.dataset.tab,label:(x.textContent||"").trim()}))'
+                        )
+                        if not tabs:
+                            results["errors"].append(f"{width}x{height}: no tabs found")
+                        for tab in tabs:
+                            button = page.locator(f'.nav[data-tab="{tab["id"]}"]')
+                            button.click(timeout=5000)
+                            page.wait_for_timeout(200)
+                            metrics = page.evaluate("""() => ({
+                                bodyScroll: document.body.scrollHeight,
+                                innerH: window.innerHeight,
+                                docW: document.documentElement.scrollWidth,
+                                innerW: window.innerWidth,
+                                navCount: document.querySelectorAll('.nav[data-tab]').length,
+                                pageCounter: document.querySelector('#nl-screen-count')?.textContent || '',
+                                contentLen: (document.querySelector('#view')?.innerText || '').length,
+                                active: document.querySelector('.nav.active[data-tab]')?.dataset.tab || '',
+                                windowTitle: (document.querySelector('#nl-screen-title')?.textContent || '').trim(),
+                                screenControl: Boolean(document.querySelector('#nl-screen-select')),
+                                bodyOverflow: getComputedStyle(document.body).overflow,
+                            })""")
+                            name = f"{width}x{height}_{tab['id']}.png"
+                            page.screenshot(path=str(args.out / name), full_page=False)
+                            results["screens"].append({"viewport": f"{width}x{height}", "screen": tab["id"],
+                                                       "label": tab["label"], "image": name, **metrics})
+                            # QA must detect a blank screen and accidental document scroll, not only no JS exceptions.
+                            if metrics["docW"] > width + 2 or metrics["bodyScroll"] > height + 2:
+                                results["errors"].append(f"{width}x{height}/{tab['id']}: document overflow: {metrics}")
+                            if metrics["active"] != tab["id"] or not metrics["screenControl"]:
+                                results["errors"].append(f"{width}x{height}/{tab['id']}: window navigation inactive: {metrics}")
+                            if metrics["contentLen"] < 24:
+                                results["errors"].append(f"{width}x{height}/{tab['id']}: screen appears blank: {metrics}")
+                        results["errors"].extend([f"{width}x{height}: {e}" for e in page_errors])
+                    except Exception as exc:
+                        results["errors"].append(f"{width}x{height}: {type(exc).__name__}: {exc}")
+                    finally:
+                        page.close()
+            finally:
+                browser.close()
+    except Exception as exc:
+        results["errors"].append(f"Browser launch: {type(exc).__name__}: {exc}")
+    finally:
+        server.shutdown()
+        server.server_close()
+
+    results["status"] = "PASS" if len(results["screens"]) >= 28 and not results["errors"] else "BLOCKED_OR_FAIL"
+    (args.out / "results.json").write_text(json.dumps(results, indent=2, ensure_ascii=False), encoding="utf-8")
+    print("status:", results["status"], "screenshots:", len(results["screens"]))
+    for e in results["errors"]:
+        print("ERROR:", e[:350])
+    return 0 if results["status"] == "PASS" else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

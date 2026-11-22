@@ -1,0 +1,132 @@
+/* NL FIXED WINDOW V2 — clear screen-level pages instead of atomizing DOM children. */
+:root{--nl-gold:#d6ad68;--nl-rim:#71583a;--nl-dark:#0c191c}
+html,body{width:100%!important;height:100%!important;overflow:hidden!important;overscroll-behavior:none!important}
+body{background:#0a1417!important}
+#app{width:100%!important;height:100dvh!important;min-height:0!important;max-height:100dvh!important;display:flex!important;flex-direction:column!important;overflow:hidden!important}
+#app>.topbar{position:relative!important;top:auto!important;flex:0 0 70px!important;min-height:70px!important;height:70px!important;max-height:70px!important;padding:5px 13px!important;gap:8px!important;flex-wrap:nowrap!important;z-index:35;border-bottom:2px solid #6c5438}
+#app>.topbar .logo{min-width:215px;gap:8px}
+#app>.topbar .emblem{width:41px;height:41px;font-size:24px}
+#app>.topbar .logo strong{font-size:18px}
+#app>.topbar .logo small{font-size:8px;letter-spacing:1.8px}
+#app>.topbar .resources{gap:5px;flex-wrap:nowrap!important;min-width:0;flex:1;justify-content:flex-end}
+#app>.topbar .res{min-width:0!important;flex:1 1 85px;max-width:135px;padding:5px 7px}
+#app>.topbar .res span{font-size:9px;margin-bottom:1px}
+#app>.topbar .res b{font-size:12px}
+#app>.topbar .save-btn{padding:7px 9px;flex:0 0 auto}
+#app>.shell{flex:1 1 auto!important;display:grid!important;grid-template-columns:184px minmax(0,1fr)!important;width:100%!important;max-width:1600px!important;height:auto!important;min-height:0!important;margin:auto!important;overflow:hidden!important}
+#app>.shell>.sidebar{min-width:0!important;min-height:0!important;height:100%!important;padding:7px 6px!important;overflow:hidden!important;border-right:1px solid #685436}
+#app>.shell>.sidebar .nav{min-height:34px!important;padding:7px 8px!important;margin:2px 0!important;font-size:11px!important;gap:8px!important}
+#app>.shell>.sidebar .nav .ico{font-size:17px!important}
+#app>.shell>.sidebar .brand{margin:0 0 6px!important}
+#app>.shell>.main{display:flex!important;flex-direction:column!important;min-width:0!important;min-height:0!important;overflow:hidden!important;max-width:none!important;padding:7px 9px 5px!important;gap:5px}
+#app>.shell>.main>.footer-credit{display:none!important}
+.nl-screen-toolbar{display:flex;align-items:center;gap:9px;flex:0 0 40px;min-width:0;height:40px;border:1px solid #a58456;border-radius:7px;background:linear-gradient(95deg,#202f2c,#141d20);padding:3px 7px;color:#f3deae}
+.nl-screen-title{white-space:nowrap;max-width:27%;overflow:hidden;text-overflow:ellipsis;font:bold 15px Georgia,serif}
+.nl-screen-caption{min-width:0;flex:1;color:#bac4b7;font-size:10px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.nl-screen-ctrl{display:flex;align-items:center;gap:4px;flex:0 0 auto}
+.nl-screen-ctrl button,.nl-screen-ctrl select{border:1px solid #80643c;background:#27302d;color:#f5deac;border-radius:5px;padding:5px 7px;min-height:30px;cursor:pointer}
+.nl-screen-ctrl button:disabled{cursor:default;opacity:.3}
+.nl-screen-ctrl select{max-width:165px;font-size:10px}
+.nl-screen-count{font:600 11px system-ui,sans-serif;min-width:45px;text-align:center;color:#ffe5aa}
+#view{flex:1 1 auto!important;height:0!important;min-height:0!important;max-height:none!important;overflow:hidden!important;position:relative!important;padding:2px 4px!important;margin:0!important}
+#view .nl-pane-hidden{display:none!important}
+#view>.head{margin:2px 0 8px!important;padding:0!important;max-height:80px;flex:0 0 auto}
+#view>.head h1{font-size:23px!important;margin:0 0 3px!important}
+#view>.head p{font-size:11px!important;margin:0!important}
+#view>.head .pill{padding:5px 8px!important}
+#view .nl-pane-scaling{transform-origin:top left!important}
+#view .panel{border-color:#726547}
+#view .grid-2{gap:10px;min-width:0}
+#view .grid-3{gap:8px}
+#view .section-break{margin:9px 0 5px!important}
+#view .nl-command{padding:13px!important;margin:2px 0!important;min-width:0}
+#view .nl-command .nl-content{gap:10px}
+#view .nl-command .nl-facts{gap:6px}
+#view .nl-command .nl-panel{padding:8px}
+#view .nl-command .nl-grid{gap:4px}
+#view .nl-command .nl-slot{padding:4px 2px}
+#view .city-visual{min-height:0!important;height:355px!important}
+#view .building{padding:8px 6px!important;min-width:91px!important}
+#view .building.palace{min-width:130px!important}
+#view .building .symbol{font-size:25px!important}
+#view .building b{font-size:11px!important}
+#view .building small{font-size:9px!important}
+#view .city-caption{font-size:9px}
+#view .hero-grid,#view .feature-grid,#view .shop-grid{gap:9px!important}
+#view .hero-card{min-width:0}
+#view .nlcity-grid{gap:5px}
+#view .nlcity-tile{min-height:64px;padding:6px}
+#view .stage-grid{gap:6px}
+#view .stage{min-width:0}
+#view .roster-list,#view .log-list{max-height:none!important;overflow:visible!important}
+/* Screen identity: role-specific window styling, original assets and game handlers untouched. */
+#app[data-nl-screen="city"] #view .city-visual{box-shadow:inset 0 0 0 2px #d3b47855,0 8px 19px #020b0980;background-position:center;background-size:cover}
+#app[data-nl-screen="city"] #view .building{border-color:#c6a36b!important;box-shadow:0 5px 0 #0d1b16ba,0 10px 18px #0308079e}
+#app[data-nl-screen="city"] #view .building:hover,#app[data-nl-screen="city"] #view .building:focus-visible{outline:2px solid #f8dc8c;outline-offset:2px}
+#app[data-nl-screen="formation"] #view .formation-board,#app[data-nl-screen="formation"] #view .nl-command .nl-panel{border:2px solid #96774d;border-radius:7px;background:linear-gradient(155deg,#1d302f,#121f24)}
+#app[data-nl-screen="formation"] #view .slot.occupied,#app[data-nl-screen="formation"] #view .nl-slot.occupied{border-color:#d9ac62;background:linear-gradient(165deg,#584326,#263933)}
+#app[data-nl-screen="campaign"] #view .campaign-scene{background-color:#21382f;border:2px solid #847349;min-height:355px}
+#app[data-nl-screen="campaign"] #view .stage.chosen{box-shadow:inset 0 0 0 2px #f7d38a,0 3px 10px #080c08aa}
+#app[data-nl-screen="campaign"] #view .chapter-panel{border:2px solid #9c7a4a;background:#162824}
+#app[data-nl-screen="heroes"] #view .hero-card{border:1px solid #a18a5d;background:linear-gradient(165deg,#1d302c,#182627);box-shadow:0 6px 13px #08120f}
+#app[data-nl-screen="heroes"] #view .hero-name{font-size:15px;color:#f1d69c}
+#app[data-nl-screen="heroes"] #view .portrait{border-color:#caa76e}
+#app[data-nl-screen="barracks"] #view .panel,#app[data-nl-screen="tech"] #view .panel{background:linear-gradient(150deg,#1c2f2c,#142322)}
+#app[data-nl-screen="equipment"] #view .slot-item{border-color:#997649;background:#1b2d2b}
+#app[data-nl-screen="equipment"] #view .feature-card{border-color:#786344}
+#app[data-nl-screen="tower"] #view .tower-art,#app[data-nl-screen="arena"] #view .arena-emblem{border-color:#977448;background-color:#1e302a}
+#app[data-nl-screen="world"] #view .world-scene{border:2px solid #94724b}
+#app[data-nl-screen="quests"] #view .quest,#app[data-nl-screen="nation"] #view .panel{border-color:#6e6245}
+#app[data-nl-screen="replays"] #view .panel,#app[data-nl-screen="journal"] #view .panel{border-color:#7d6d4a}
+/* Browser scrollbars never replace deliberate page/subscreen navigation. */
+#app *{scrollbar-width:none!important}
+#app *::-webkit-scrollbar{display:none!important}
+@media(max-width:1050px) and (min-width:651px){
+ #app>.topbar .logo{min-width:165px}
+ #app>.topbar .logo strong{font-size:14px}
+ #app>.shell{grid-template-columns:145px minmax(0,1fr)!important}
+ #view>.head h1{font-size:20px!important}
+}
+@media(max-width:650px){
+ #app>.topbar{height:100px!important;min-height:100px!important;max-height:100px!important;flex:0 0 100px!important;display:grid!important;grid-template-columns:minmax(0,1fr) 70px!important;grid-template-rows:38px 48px!important;padding:4px 7px!important;gap:3px!important}
+ #app>.topbar .logo{grid-area:1/1/2/2;min-width:0;overflow:hidden}
+ #app>.topbar .logo strong{font-size:13px;white-space:nowrap}
+ #app>.topbar .logo small{font-size:7px;letter-spacing:.6px}
+ #app>.topbar .logo .emblem{height:31px;width:31px;font-size:19px}
+ #app>.topbar .resources{grid-area:2/1/3/3;display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:3px!important;justify-content:stretch!important}
+ #app>.topbar .res{padding:2px 5px;max-width:none!important}
+ #app>.topbar .res span{font-size:8px!important}
+ #app>.topbar .res b{font-size:10px!important}
+ #app>.topbar .save-btn{grid-area:1/2/2/3;padding:6px 2px!important;font-size:9px!important}
+ #app>.shell{display:flex!important;flex-direction:column!important}
+ #app>.shell>.sidebar{height:104px!important;min-height:104px!important;flex:0 0 104px!important;width:100%!important;border-right:0!important;border-bottom:1px solid #786340!important;display:grid!important;grid-template-rows:repeat(2,49px)!important;padding:2px 3px!important}
+ #app>.shell>.sidebar .brand{display:none!important}
+ #app>.shell>.sidebar{display:grid!important;grid-template-columns:repeat(7,minmax(0,1fr))!important;grid-template-rows:repeat(2,49px)!important;gap:2px!important;overflow:hidden!important;align-content:start!important}
+ #app>.shell>.sidebar>.ruler,#app>.shell>.sidebar>.side-foot{display:none!important}
+ #app>.shell>.sidebar .nav{min-height:43px!important;padding:3px 1px!important;display:flex!important;flex-direction:column!important;justify-content:center;align-items:center!important;gap:0!important;font-size:8px!important;line-height:1.1!important;white-space:normal!important;text-align:center!important;margin:0!important}
+ #app>.shell>.sidebar .nav .ico{font-size:16px!important;margin:0!important}
+ #app>.shell>.main{width:100%!important;flex:1 1 auto!important;padding:4px 5px!important;gap:3px}
+ .nl-screen-toolbar{height:38px;flex:0 0 38px;padding:3px 5px;gap:4px}
+ .nl-screen-title{font-size:12px;max-width:27%}
+ .nl-screen-caption{display:none}
+ .nl-screen-ctrl{margin-left:auto}
+ .nl-screen-ctrl select{max-width:115px;font-size:9px;padding:5px 3px}
+ .nl-screen-ctrl button{padding:5px 7px}
+ #view>.head{max-height:86px;margin:0 0 7px!important}
+ #view>.head h1{font-size:18px!important}
+ #view>.head p{font-size:10px!important;line-height:1.4!important}
+ #view .grid-2{grid-template-columns:1fr!important;gap:5px!important}
+ #view .city-visual{height:330px!important}
+ #view .building{min-width:73px!important;padding:6px 3px!important}
+ #view .building.palace{min-width:100px!important}
+ #view .building b{font-size:9px!important}
+ #view .building small{font-size:8px!important}
+ #view .building .symbol{font-size:19px!important}
+ #view .hero-grid,#view .feature-grid,#view .shop-grid{grid-template-columns:minmax(0,1fr)!important}
+ #view .nl-command .nl-content{grid-template-columns:1fr!important}
+ #view .nlcity-layout{grid-template-columns:1fr!important}
+ #view .nlcity-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ #view .nl-enemy-intel{grid-template-columns:1fr!important}
+ #view .stage-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:375px){#app>.shell>.sidebar .nav{font-size:7px!important}.nl-screen-title{display:none}#view>.head h1{font-size:16px!important}}
