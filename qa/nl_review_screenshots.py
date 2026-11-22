@@ -75,6 +75,8 @@ def main() -> int:
                                     const map=document.querySelector('#view .city-visual');
                                     return Boolean(map && map.getClientRects().length && map.getBoundingClientRect().width > 100);
                                 })(),
+                                formationBoardVisible: Boolean(document.querySelector('#view .formation-board')?.getClientRects().length),
+                                formationRosterVisible: Boolean(document.querySelector('#view .roster-list')?.getClientRects().length),
                                 visiblePaneCount: Array.from(document.querySelector('#view')?.children || []).filter(
                                     node => !node.classList.contains('head')
                                         && getComputedStyle(node).display !== 'none'
@@ -94,6 +96,16 @@ def main() -> int:
                                 results["errors"].append(f"{width}x{height}/{tab['id']}: screen appears blank: {metrics}")
                             if tab["id"] == "city" and not metrics["cityMapVisible"]:
                                 results["errors"].append(f"{width}x{height}/city: city map is not the initial visible window")
+                            if tab["id"] == "formation" and width <= 650:
+                                if not metrics["formationBoardVisible"] or metrics["formationRosterVisible"]:
+                                    results["errors"].append(f"{width}x{height}/formation: board/picker not separated on first window")
+                                else:
+                                    page.locator("#nl-screen-select").select_option("1")
+                                    picker_visible = page.locator("#view .roster-list").is_visible()
+                                    board_hidden = not page.locator("#view .formation-board").is_visible()
+                                    if not picker_visible or not board_hidden:
+                                        results["errors"].append(f"{width}x{height}/formation: picker subwindow not accessible")
+                                    page.locator("#nl-screen-select").select_option("0")
                             # Check that page selectors actually reveal content; previous QA only
                             # checked first page and missed hidden controls in later windows.
                             if tab["id"] in {"city", "heroes", "campaign", "equipment", "formation"}:
