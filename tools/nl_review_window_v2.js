@@ -101,6 +101,12 @@
        if(pendingLabel){for(let k=before;k<pages.length;k++)pages[k].preLabel=pendingLabel;pendingLabel=null;}
      }
      if(pendingLabel)pushPage(pendingLabel,semanticLabel(pendingLabel,'Mục'));
+     // City should open on its playable map, not the legacy command-center preface.
+     // Reorder only review pages; never modify canonical game markup or Save v5.
+     if(tab==='city'){
+       const mapPage=pages.findIndex(p=>p.root?.querySelector?.('.city-visual'));
+       if(mapPage>0)pages.unshift(...pages.splice(mapPage,1));
+     }
      if(pages.length===0)pages=[{root:null,label:'Tổng quan',choices:[]}];
      chooser.replaceChildren(...pages.map((p,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=`${i+1} · ${p.label.slice(0,29)}`;return opt}));
      let idx=Math.min(Math.max(0,pageIndex[tab]||0),pages.length-1);
