@@ -91,6 +91,11 @@
      if(tab==='heroes'){
        const heroRoot=view.querySelector('[data-nla-recruit-panel]')||view.querySelector('.hero-grid');
        if(heroRoot&&heroRoot.parentElement===view&&head&&head.nextElementSibling!==heroRoot)view.insertBefore(heroRoot,head.nextElementSibling);
+       // Classic A2 Hero207 recruitment belongs immediately after the
+       // main three-route recruit panel, ahead of the long owned-hero grid.
+       const secondRecruit=view.querySelector('[data-nl-hero207]');
+       if(secondRecruit&&heroRoot&&secondRecruit.parentElement===view&&heroRoot.nextElementSibling!==secondRecruit)
+         view.insertBefore(secondRecruit,heroRoot.nextElementSibling);
      }
      roots=children(view);pages=[];
      let pendingLabel=null;

@@ -82,6 +82,15 @@ def main() -> int:
         check(page.locator('[data-nl-hero207]').count()==1 and page.locator('[data-nl207-select]').count()==1,
               'all 207 use one unified Heroes panel with existing equipment bridge selectors')
         check(page.locator('[data-nla2-route]').count()==4, 'search/filter routes are visible in Heroes UI')
+        # Hero207 is a semantic secondary window in the fixed-window shell.
+        # Switch to the actual visible window before selecting an option.
+        found=False
+        for index in range(page.locator('#nl-screen-select option').count()):
+            page.locator('#nl-screen-select').select_option(str(index))
+            if page.locator('[data-nl207-select]').is_visible():
+                found=True
+                break
+        check(found,'207 recruitment selector is reachable through visible window controls')
         page.locator('[data-nl207-select]').select_option(story['id'])
         old=page.evaluate('window.__P2_QA__.getGame()')
         price=page.evaluate('(id)=>window.__NL_HERO207_QA__.getUnlock(id).silverCost',story['id'])
