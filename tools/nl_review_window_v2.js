@@ -89,7 +89,7 @@
        if(cityRoot&&cityRoot.parentElement===view&&head&&head.nextElementSibling!==cityRoot)view.insertBefore(cityRoot,head.nextElementSibling);
      }
      if(tab==='heroes'){
-       const heroRoot=view.querySelector('.hero-grid');
+       const heroRoot=view.querySelector('[data-nla-recruit-panel]')||view.querySelector('.hero-grid');
        if(heroRoot&&heroRoot.parentElement===view&&head&&head.nextElementSibling!==heroRoot)view.insertBefore(heroRoot,head.nextElementSibling);
      }
      roots=children(view);pages=[];
@@ -107,6 +107,9 @@
      if(tab==='city'){
        const mapPage=pages.findIndex(p=>p.root?.querySelector?.('.city-visual'));
        if(mapPage>0)pages.unshift(...pages.splice(mapPage,1));
+       // The first economic action should be available immediately after the map.
+       const taxPage=pages.findIndex(p=>p.root?.matches?.('[data-nla-tax-panel]'));
+       if(taxPage>1)pages.splice(1,0,...pages.splice(taxPage,1));
      }
      if(pages.length===0)pages=[{root:null,label:'Tổng quan',choices:[]}];
      chooser.replaceChildren(...pages.map((p,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=`${i+1} · ${p.label.slice(0,29)}`;return opt}));

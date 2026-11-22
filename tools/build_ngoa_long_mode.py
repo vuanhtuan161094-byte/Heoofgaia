@@ -648,6 +648,17 @@ if(window.__P2_ENABLE_QA__)window.__NL_NATIVE_A1_QA__=Object.freeze({
     portal = portal.replace(qa_marker, "\n".join(city_parts) + "\n" + city_boot + "\n" + qa_marker, 1)
     portal = portal.replace(qa_marker, "\n".join(tactical_parts) + "\n" + tactical_boot + "\n" + qa_marker, 1)
     portal = portal.replace(qa_marker, native_a1 + "\n" + native_a1_boot + "\n" + qa_marker, 1)
+    # WEB classic Phase A: real resources, three named recruitment paths and town taxes.
+    # This executes AFTER Hero207/City/NativeA1, and BEFORE the final game BOOT.
+    classic_a_js = (ROOT / "tools/nl_classic_phase_a.js").read_text(encoding="utf-8")
+    classic_a_css = (ROOT / "tools/nl_classic_phase_a.css").read_text(encoding="utf-8")
+    if "</script>" in classic_a_js.lower() or "</style>" in classic_a_css.lower():
+        raise ValueError("Unsafe classic Phase A script/style terminator")
+    if classic_a_js.count("// === NL-CLASSIC-A-V1:") != 1:
+        raise ValueError("Missing classic Phase A module contract")
+    portal = portal.replace(qa_marker, classic_a_js + "\n" + qa_marker, 1)
+    composed_css = composed_css.replace("/* end NL-REBUILD-01 CSS */",
+        classic_a_css + "\n/* end NL-REBUILD-01 CSS */", 1)
     css_start = "/* NL-REBUILD-01 — Ngọa Long-first command hub */"
     css_end = "/* end NL-REBUILD-01 CSS */"
     js_start = "// === NL-REBUILD-01: first-class 3x3 strategy dashboard ==="

@@ -53,6 +53,7 @@ jobs:
           git rev-parse HEAD | tee qa/web-review-sha.txt
           sha256sum index.html | tee qa/web-review-html-sha256.txt
           node --check tools/nl_review_window_v2.js
+          node --check tools/nl_classic_phase_a.js
       - name: Install approved browser QA dependencies
         run: |
           python -m pip install playwright==1.58.0
@@ -73,6 +74,8 @@ jobs:
           assert 'muu_dinh_tam_quoc_v1' in html
           PY
           python qa/nl_review_screenshots.py --html index.html --out qa/ui-v2-screenshots
+      - name: Phase A classic WEB resources, tax and named-recruitment browser QA
+        run: python qa/nl_classic_phase_a_browser.py --html index.html
       - name: Upload review evidence (including failures)
         if: always()
         uses: actions/upload-artifact@v4
