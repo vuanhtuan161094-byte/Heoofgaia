@@ -15,7 +15,9 @@ def classic_fee(old: dict) -> dict:
         result["grain"]=result.get("grain",0)+(historical_iron+1)//2
     if any(not isinstance(v,int) or isinstance(v,bool) or v<0 for v in result.values()):
         raise ValueError("A3_INVALID_CORE_PRICE")
-    return result
+    # Omit zero-fee source keys (e.g. 'prestige': 0). They are not a
+    # payment requirement and should not appear as 0 Uy danh in the shop.
+    return {key:value for key,value in result.items() if value > 0}
 
 def project_a3(catalogue:dict,rules:dict)->tuple[dict,dict]:
     pack,model=deepcopy(catalogue),deepcopy(rules)
