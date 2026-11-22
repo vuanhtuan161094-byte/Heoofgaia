@@ -97,6 +97,14 @@ def main():
                 page.evaluate("data=>localStorage.setItem('muu_dinh_tam_quoc_v1',JSON.stringify(data))", seeded)
                 page.reload(wait_until="domcontentloaded")
                 page.wait_for_timeout(200)
+                probe = page.evaluate("""() => {
+                    const q=window.__NL_CLASSIC_A_QA__,g=window.__P2_QA__.getGame();
+                    return {cleared:g.cleared,roster:g.roster,prestige:g.prestige,
+                        silver:g.silver,heroDefined:!!g.hero,huangDefined:typeof window.__NL_CLASSIC_A_QA__ !== 'undefined',
+                        canHuang:q.canRecruit('huang'),canZhuge:q.canRecruit('zhuge'),
+                        canSun:q.canRecruit('sun'),receipt:q.snapshot().recruitReceipts};
+                }""")
+                print("NL_CLASSIC_A_SEEDED_PROBE", json.dumps(probe,ensure_ascii=False), flush=True)
                 check(page.evaluate("window.__NL_CLASSIC_A_QA__.recruit('huang')"),
                       "stage-gated hero claim works on authoritative roster")
                 check(page.evaluate("window.__NL_CLASSIC_A_QA__.recruit('zhuge')"),
