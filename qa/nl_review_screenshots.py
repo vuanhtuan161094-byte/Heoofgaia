@@ -125,6 +125,39 @@ def main() -> int:
                                         if not visible:
                                             results["errors"].append(f"{width}x{height}/{tab['id']}: blank subwindow {index + 1}/{pane_count}")
                                     page.locator("#nl-screen-select").select_option("0")
+                        if width <= 650:
+                            # Real end-to-end UI interaction, not a screenshot-only assertion:
+                            # choose an existing hero on subwindow 2, return to the board,
+                            # assign to an empty slot, and verify Save v5 persists reload.
+                            page.locator('.nav[data-tab="formation"]').click()
+                            page.locator("#nl-screen-select").select_option("1")
+                            hero_btn = page.locator(".roster-list [data-choose-hero]").first
+                            hero_id = hero_btn.get_attribute("data-choose-hero")
+                            if not hero_id or not hero_btn.is_visible():
+                                results["errors"].append("Mobile formation: cannot choose a visible hero")
+                            else:
+                                hero_btn.click()
+                                page.wait_for_timeout(150)
+                                if not page.locator("#view .formation-board").is_visible():
+                                    results["errors"].append("Mobile formation: hero selection did not return to board")
+                                else:
+                                    page.locator('#view [data-slot="0"]').click()
+                                    saved = page.evaluate("localStorage.getItem('muu_dinh_tam_quoc_v1')")
+                                    game = json.loads(saved) if saved else {}
+                                    if game.get("version") != 5 or game.get("slots", [None])[0] != hero_id:
+                                        results["errors"].append("Mobile formation: hero slot was not saved under v5")
+                                    else:
+                                        page.reload(wait_until="domcontentloaded")
+                                        page.locator('.nav[data-tab="formation"]').click()
+                                        page.wait_for_timeout(150)
+                                        if hero_id not in page.locator('#view [data-slot="0"]').inner_text():
+                                            results["errors"].append("Mobile formation: Save v5 slot did not survive reload")
+                                        else:
+                                            results.setdefault("interactions", []).append({
+                                                "viewport": f"{width}x{height}",
+                                                "flow": "hero-pick -> formation-slot -> Save v5 -> reload",
+                                                "result": "PASS",
+                                            })
                         results["errors"].extend([f"{width}x{height}: {e}" for e in page_errors])
                     except Exception as exc:
                         results["errors"].append(f"{width}x{height}: {type(exc).__name__}: {exc}")
