@@ -130,11 +130,18 @@ def main() -> int:
                             # choose an existing hero on subwindow 2, return to the board,
                             # assign to an empty slot, and verify Save v5 persists reload.
                             page.locator('.nav[data-tab="formation"]').click()
-                            page.locator("#nl-screen-select").select_option("1")
                             hero_btn = page.locator(".roster-list [data-choose-hero]").first
-                            hero_id = hero_btn.get_attribute("data-choose-hero")
-                            if not hero_id or not hero_btn.is_visible():
-                                results["errors"].append("Mobile formation: cannot choose a visible hero")
+                            picker_found = False
+                            for picker_page in range(page.locator("#nl-screen-select option").count()):
+                                page.locator("#nl-screen-select").select_option(str(picker_page))
+                                page.wait_for_timeout(60)
+                                if hero_btn.count() and hero_btn.is_visible():
+                                    picker_found = True
+                                    break
+                            hero_id = hero_btn.get_attribute("data-choose-hero") if picker_found else None
+                            if not picker_found or not hero_id:
+                                page_labels = page.locator("#nl-screen-select option").all_text_contents()
+                                results["errors"].append(f"Mobile formation: hero chooser not accessible in any subwindow: {page_labels}")
                             else:
                                 hero_btn.click()
                                 page.wait_for_timeout(150)
