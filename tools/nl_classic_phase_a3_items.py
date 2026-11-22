@@ -24,8 +24,12 @@ def project_a3(catalogue:dict,rules:dict)->tuple[dict,dict]:
         raise ValueError("A3_GEAR_COUNT_DRIFT")
     for row in active:
         acquisition=row.get("acquisitionRule") or {}
-        if "shopCost" in acquisition:
+        # Some PLAYABLE gear is reward-only: shopCost=None means it is
+        # never purchased, so preserve that source contract unchanged.
+        if isinstance(acquisition.get("shopCost"),dict):
             acquisition["shopCost"]=classic_fee(acquisition["shopCost"])
+        elif acquisition.get("shopCost") is not None:
+            raise ValueError("A3_INVALID_SHOP_COST_"+row["id"])
         if "iron" in (acquisition.get("shopCost") or {}):
             raise ValueError("A3_IRON_COST_"+row["id"])
     r=model["reinforcement"]
