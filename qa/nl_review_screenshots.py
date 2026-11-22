@@ -130,6 +130,11 @@ def main() -> int:
                             # choose an existing hero on subwindow 2, return to the board,
                             # assign to an empty slot, and verify Save v5 persists reload.
                             page.locator('.nav[data-tab="formation"]').click()
+                            page.wait_for_function("""() =>
+                                document.querySelector('.nav.active[data-tab="formation"]')
+                                && (document.querySelector('#nl-screen-title')?.textContent || '').includes('Bày Trận')
+                            """, timeout=3000)
+                            page.wait_for_timeout(80)
                             hero_btn = page.locator(".roster-list [data-choose-hero]").first
                             picker_found = False
                             for picker_page in range(page.locator("#nl-screen-select option").count()):
