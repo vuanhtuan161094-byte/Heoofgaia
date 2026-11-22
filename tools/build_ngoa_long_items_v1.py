@@ -23,6 +23,8 @@ BOOT = "setInterval(tick,1000);setInterval(save,15000);window.addEventListener('
 def payload() -> str:
     catalogue = json.loads((DATA / "catalogue.json").read_text(encoding="utf-8"))
     rules = json.loads((DATA / "rules.json").read_text(encoding="utf-8"))
+    from nl_classic_phase_a3_items import project_a3
+    catalogue, rules = project_a3(catalogue, rules)
     playable = [e for e in catalogue["equipment"] if e["integration"] == "PLAYABLE"]
     reference = [e for e in catalogue["equipment"] if e["integration"] == "REFERENCE_ONLY"]
     if len(playable) != 411 or len(reference) != 392 or len(catalogue["items"]) != 1343:
@@ -64,6 +66,9 @@ def payload() -> str:
     bridge = (TOOLS / "nl_item_integration_v1.js").read_text(encoding="utf-8")
     # Install A2 after all inventory, Hero207, R03, city and research owners.
     classic_a2 = (TOOLS / "nl_classic_phase_a2.js").read_text(encoding="utf-8")
+    classic_a3 = (TOOLS / "nl_classic_phase_a3.js").read_text(encoding="utf-8")
+    if classic_a3.count("// === NL-CLASSIC-A3-V1:") != 1 or "</script" in classic_a3.lower():
+        raise ValueError("Invalid Phase A3 module")
     if classic_a2.count("// === NL-CLASSIC-A2-V1:") != 1 or "</script" in classic_a2.lower():
         raise ValueError("Invalid A2 module")
     if bridge.count("__NL_ITEMS_CATALOGUE__") != 1 or bridge.count("__NL_ITEMS_RULES__") != 1 or bridge.count("__NL_ITEM_GROUP_RULES__") != 1:
@@ -73,7 +78,7 @@ def payload() -> str:
         "__NL_ITEM_GROUP_RULES__", js_json(item_group_rules))
     if "</script" in (engine + ui + balance_engine + item_engine + item_ui + bridge).lower():
         raise ValueError("Unexpected script terminator in injected inline source")
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), END])
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:

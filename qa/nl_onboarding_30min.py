@@ -45,7 +45,7 @@ def run(duration_minutes: int = 30) -> int:
             page.wait_for_timeout(50)
             state = page.evaluate("window.__P2_QA__.getGame()")
             page.locator('.nav[data-tab="heroes"]').click()
-            page.locator('[data-recruit]').click()
+            page.locator('[data-nla-recruit="zhao"]').click()
             recruited_state = page.evaluate("window.__P2_QA__.getGame()")
             recruited = next(hero for hero in recruited_state["roster"] if hero not in state["roster"])
             page.locator('.nav[data-tab="formation"]').click()
@@ -53,7 +53,7 @@ def run(duration_minutes: int = 30) -> int:
             empty_slot = next(index for index, hero in enumerate(recruited_state["slots"]) if hero is None)
             page.locator(f'[data-slot="{empty_slot}"]').click()
             state = page.evaluate("window.__P2_QA__.getGame()")
-            check(f"{profile}: free tavern recruit is placed into a real empty formation slot", len(state["roster"]) == 4 and not state["freeRecruit"] and state["slots"][empty_slot] == recruited and state["silver"] == 14000)
+            check(f"{profile}: named free Triệu Vân recruit is placed into a real empty formation slot", len(state["roster"]) == 4 and not state["freeRecruit"] and state["slots"][empty_slot] == recruited and state["silver"] == 14000)
             heroes = state["roster"]
             page.evaluate("({formation})=>{const q=window.__P2_QA__;let g=q.getGame();g.formation=formation;g.lastTick=Date.now();q.setGame(g)}", {"formation": formation})
             minutes = 0
@@ -169,10 +169,14 @@ def run(duration_minutes: int = 30) -> int:
                     losses += 1
                     retries += 1
                 page.evaluate("window.__P2_QA__.closeBattle('city')")
-                if not report["won"] and stage == 5 and minutes < 30 and len(heroes) < 5 and settled["silver"] >= 1800:
+                if not report["won"] and stage == 5 and minutes < 30 and len(heroes) < 5 and settled["silver"] >= 1000:
                     before_silver = settled["silver"]
                     page.locator('.nav[data-tab="heroes"]').click()
-                    page.locator('[data-recruit]').click()
+                    # The classic recruit system has no random 1800-Bạc draw.
+                    # Stage-4 Mã Siêu is an explicit named recruit with a known
+                    # simulated fee; never bypass the story prerequisite.
+                    candidate = "ma" if 4 in settled["cleared"] else "huang"
+                    page.locator(f'[data-nla-recruit="{candidate}"]').click()
                     recruited_state = page.evaluate("window.__P2_QA__.getGame()")
                     fifth = next((hero for hero in recruited_state["roster"] if hero not in heroes), None)
                     if fifth:
@@ -192,7 +196,7 @@ def run(duration_minutes: int = 30) -> int:
                                     page.locator(f'[data-train="{hero}"]').click()
                                     training_actions += 1
                         after_training = page.evaluate("window.__P2_QA__.getGame()")
-                        history.append({"minute": minutes, "stage": stage, "event": "paid-recruit-train-and-spear-van", "hero": fifth, "silverSpentRecruit": before_silver - recruited_state["silver"], "silverSpentTraining": before_training_silver - after_training["silver"], "trainingActions": training_actions, "averageHeroLevel": sum(after_training["hero"][hero]["level"] for hero in heroes) / len(heroes), "levelsByHero": {hero: after_training["hero"][hero]["level"] for hero in heroes}})
+                        history.append({"minute": minutes, "stage": stage, "event": "named-recruit-train-and-spear-van", "hero": fifth, "silverSpentRecruit": before_silver - recruited_state["silver"], "silverSpentTraining": before_training_silver - after_training["silver"], "trainingActions": training_actions, "averageHeroLevel": sum(after_training["hero"][hero]["level"] for hero in heroes) / len(heroes), "levelsByHero": {hero: after_training["hero"][hero]["level"] for hero in heroes}})
 
             final = page.evaluate("window.__P2_QA__.getGame()")
             all_reports_valid = receipts_valid

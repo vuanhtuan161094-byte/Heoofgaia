@@ -58,6 +58,11 @@
   const escape=s=>String(s??'').replace(/[&<>"']/g,
     x=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[x]));
   const money=(n)=>Number.isFinite(n)?Math.round(n).toLocaleString('vi-VN'):'0';
+  const priceNames={silver:'bạc',grain:'lương',iron:'sắt',prestige:'uy danh'};
+  const priceText=(cost,separator=' / ')=>Object.entries(cost||{}).map(([k,n])=>
+    money(n)+' '+(priceNames[k]||k)).join(separator);
+  const affordable=(state,cost)=>Boolean(cost)&&Object.entries(cost).every(([k,n])=>
+    Number.isSafeInteger(n)&&n>=0&&Number.isSafeInteger(state[k])&&state[k]>=n);
   function makeView(pack,api,state,heroId,{tab='all',search='',shop=false,page=0}={}){
     if(!state||!state.hero||!state.hero[heroId])throw new Error('HERO_NOT_FOUND');
     const model=pack.equipment.filter(x=>x.integration==='PLAYABLE');
@@ -93,14 +98,13 @@
       const r=pack.rules?.reinforcement;
       const f=pack.rules?.refinement;
       const level=item.lv||1,rank=item.refineLv||0;
-      const rc=r&&level<r.maxLevel?{silver:Math.round(r.silverBase*Math.pow(level,r.silverExponent)),
-        iron:Math.round(r.ironBase*Math.pow(level,r.ironExponent))}:null;
+      const rc=r&&level<r.maxLevel?api.reinforcementCost(level):null;
       const premium=f?.highTierPricing?.groups?.[row.sourceGroup]&&row.sourceId?
         f.highTierPricing.groups[row.sourceGroup]:null;
       const needMat=(f?.materialPerLevel||0)+(premium?.materialExtra||0);
       const fc=f&&rank<f.maxLevel?Math.round(f.silverBase*(rank+1)*(premium?.silverMultiplier||1)):null;
       const haveMat=state.nlItemsV1?.stacks?.[f?.materialId]||0;
-      const canReinforce=rc&&state.silver>=rc.silver&&state.iron>=rc.iron;
+      const canReinforce=affordable(state,rc);
       const canRefine=fc!=null&&state.silver>=fc&&haveMat>=needMat;
       return '<article class="nli-gear" data-uid="'+escape(uid)+'">'+
         '<header><strong>'+escape(row.name)+'</strong><span>'+escape(row.rarity)+'</span></header>'+
@@ -112,7 +116,7 @@
         (isWorn?'<button data-nli-action="unequip" data-uid="'+escape(uid)+'" data-slot="'+escape(worn[uid])+'">Tháo</button>':
           '<button data-nli-action="equip" data-uid="'+escape(uid)+'" '+(!allowed?'disabled':'')+'>Trang bị</button>')+
         '<button data-nli-action="reinforce" data-uid="'+escape(uid)+'" '+(!canReinforce?'disabled':'')+'>'+
-        (rc?'Cường hóa · '+money(rc.silver)+' bạc / '+money(rc.iron)+' sắt':'Cường hóa tối đa')+'</button>'+
+        (rc?'Cường hóa · '+priceText(rc):'Cường hóa tối đa')+'</button>'+
         '<button data-nli-action="refine" data-uid="'+escape(uid)+'" '+(!canRefine?'disabled':'')+'>'+
         (fc!=null?'Tinh luyện · '+money(fc)+' bạc / '+needMat+' tinh khoáng':'Tinh luyện tối đa')+'</button></div>'+
         '<div class="nli-meta">Tinh khoáng: '+haveMat+' · '+(canRefine?'Đủ nguyên liệu':'Chưa đủ điều kiện tinh luyện')+'</div></article>';
@@ -122,14 +126,15 @@
         return '<article class="nli-gear"><header><strong>'+escape(row.name)+'</strong><span>'+
           escape(row.rarity)+'</span></header><small>'+escape(SLOTS.find(s=>s[0]===row.slot)?.[1]||row.slot)+
           ' · Cấp '+row.requiredLevel+'</small><p>'+byStat(row.stats)+'</p>'+
-          '<div class="nli-buttons"><span>'+money(cost.silver)+' bạc · '+money(cost.iron)+' sắt</span>'+
+          '<div class="nli-buttons"><span>'+priceText(cost,' · ')+'</span>'+
           '<button data-nli-action="buy" data-item="'+escape(row.id)+'" '+
-          (state.silver<cost.silver||state.iron<cost.iron?'disabled':'')+'>Mua</button></div></article>';
+          (!affordable(state,cost)?'disabled':'')+'>Mua</button></div></article>';
       }).join('');
     return '<style data-nli-style="1">'+STYLES+'</style>'+
       '<section class="nli-panel" data-nli-root="1" aria-label="Trang bị">'+
       '<header class="nli-heading"><h2>Trang bị · Kho chiến cụ</h2>'+
-      '<div class="nli-balance">Bạc: '+money(state.silver)+' · Sắt: '+money(state.iron)+
+      '<div class="nli-balance">Bạc: '+money(state.silver)+
+      (pack.rules?.classicA3?' · Lương: '+money(state.grain):' · Sắt: '+money(state.iron))+
       ' · Trang bị: '+owned.length+'</div></header>'+
       '<div class="nli-tabs" role="group" aria-label="Loại trang bị">'+
       SLOTS.map(([key,label])=>'<button data-nli-tab="'+key+'" '+(tab===key?'aria-pressed="true"':'')+'>'+escape(label)+'</button>').join('')+'</div>'+

@@ -10,7 +10,7 @@
   'use strict';
   const STATS = ['atk', 'def', 'int', 'hp', 'tdef', 'mdef'];
   const LANES = ['weaponAtk', 'horseAtk'];
-  const RESOURCES = new Set(['silver', 'iron', 'prestige']);
+  const RESOURCES = new Set(['silver', 'iron', 'grain', 'prestige']);
   const SLOT_ALIASES = { banner: 'artifact' };
   const owned = (o, k) => Object.prototype.hasOwnProperty.call(o, k);
   function problem(code) { const e = new Error(code); e.code = code; throw e; }
@@ -204,15 +204,22 @@
       }
       for (const [resource, amount] of Object.entries(costs)) state[resource] = (state[resource] || 0) - amount;
     }
+    // One price source for UI, combat state and all receipt transactions.
+    function reinforcementCost(level) {
+      assert(integer(level, 1) && level < rules.reinforcement.maxLevel, 'BAD_REINFORCE_LEVEL');
+      const r=rules.reinforcement;
+      const silver=Math.round(r.silverBase*Math.pow(level,r.silverExponent));
+      return r.classicA3Pricing===true
+        ? {silver:silver+Math.round(r.silverSupplementBase*Math.pow(level,r.silverSupplementExponent)),
+           grain:Math.round(r.grainBase*Math.pow(level,r.grainExponent))}
+        : {silver,iron:Math.round(r.ironBase*Math.pow(level,r.ironExponent))};
+    }
     function reinforce(state, uid, receiptId) {
       return execute(state, 'REINFORCE', receiptId, uid, next => {
         const instance = equipmentInstance(next, uid);
         const r = rules.reinforcement;
         assert(instance.lv < r.maxLevel, 'REINFORCEMENT_MAX');
-        const cost = {
-          silver: Math.round(r.silverBase * Math.pow(instance.lv, r.silverExponent)),
-          iron: Math.round(r.ironBase * Math.pow(instance.lv, r.ironExponent))
-        };
+        const cost = reinforcementCost(instance.lv);
         pay(next, cost);
         instance.lv++;
         return { uid: instance.uid, level: instance.lv, cost };
@@ -302,7 +309,7 @@
       for (const key of STATS) result[key] += setStats[key];
       return result;
     }
-    return { grant, buy, equip, unequip, reinforce, refine, use, bonuses, sets, validateState: checkOwned };
+    return { grant, buy, equip, unequip, reinforce, reinforcementCost, refine, use, bonuses, sets, validateState: checkOwned };
   }
   return { createModule, validateCatalogue };
 });

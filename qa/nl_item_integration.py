@@ -72,9 +72,10 @@ def main() -> None:
         purchase.click()
         bought = state(page)
         selected = next((x for x in bought["items"] if x["base"] == "mdt-equip02-1"), None)
-        check("equipment purchase debits silver/iron exactly once",
-              selected is not None and original["silver"] - bought["silver"] == 920 and
-              original["iron"] - bought["iron"] == 154)
+        check("purchase debits Bạc/Lương exactly once and retains historical Sắt",
+              selected is not None and original["silver"] - bought["silver"] == 920+154*4 and
+              original["grain"] - bought["grain"] == (154+1)//2 and
+              original["iron"] == bought["iron"])
         page.locator('[data-nli-shop="0"]').click()
         if selected:
             # Fail fast with a state/UI snapshot rather than waiting 30 seconds
@@ -111,7 +112,9 @@ def main() -> None:
               selected is not None and
               next(x for x in enhanced["items"] if x["uid"] == selected["uid"])["lv"] == 2
               and bonus_after["weaponAtk"] > actual_bonus["weaponAtk"]
-              and enhanced["silver"] == equipped["silver"] - 350)
+              and enhanced["silver"] == equipped["silver"] - 770
+              and enhanced["grain"] == equipped["grain"] - 53
+              and enhanced["iron"] == equipped["iron"])
 
         # QA-only semantic test: run the same settlement adapter twice, then reload
         # without granting extra items. This is NOT evidence of full 28-stage combat QA.
