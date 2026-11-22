@@ -94,6 +94,10 @@ def main():
                 seeded = json.loads(page.evaluate("localStorage.getItem('muu_dinh_tam_quoc_v1')"))
                 seeded["cleared"] = [1, 2, 3, 4, 5]
                 seeded["prestige"] = 350
+                # The game auto-saves its in-memory state on beforeunload.
+                # Update the authoritative state before page.reload(), otherwise
+                # beforeunload overwrites a localStorage-only fixture with old data.
+                page.evaluate("data=>window.__P2_QA__.setGame(data)", seeded)
                 page.evaluate("data=>localStorage.setItem('muu_dinh_tam_quoc_v1',JSON.stringify(data))", seeded)
                 page.reload(wait_until="domcontentloaded")
                 page.wait_for_timeout(200)
