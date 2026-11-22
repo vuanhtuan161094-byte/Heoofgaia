@@ -71,6 +71,15 @@ def main() -> int:
                                 windowTitle: (document.querySelector('#nl-screen-title')?.textContent || '').trim(),
                                 screenControl: Boolean(document.querySelector('#nl-screen-select')),
                                 bodyOverflow: getComputedStyle(document.body).overflow,
+                                cityMapVisible: (() => {
+                                    const map=document.querySelector('#view .city-visual');
+                                    return Boolean(map && map.getClientRects().length && map.getBoundingClientRect().width > 100);
+                                })(),
+                                visiblePaneCount: Array.from(document.querySelector('#view')?.children || []).filter(
+                                    node => !node.classList.contains('head')
+                                        && getComputedStyle(node).display !== 'none'
+                                        && node.getClientRects().length > 0
+                                ).length,
                             })""")
                             name = f"{width}x{height}_{tab['id']}.png"
                             page.screenshot(path=str(args.out / name), full_page=False)
@@ -81,8 +90,29 @@ def main() -> int:
                                 results["errors"].append(f"{width}x{height}/{tab['id']}: document overflow: {metrics}")
                             if metrics["active"] != tab["id"] or not metrics["screenControl"]:
                                 results["errors"].append(f"{width}x{height}/{tab['id']}: window navigation inactive: {metrics}")
-                            if metrics["contentLen"] < 24:
+                            if metrics["contentLen"] < 24 or metrics["visiblePaneCount"] < 1:
                                 results["errors"].append(f"{width}x{height}/{tab['id']}: screen appears blank: {metrics}")
+                            if tab["id"] == "city" and not metrics["cityMapVisible"]:
+                                results["errors"].append(f"{width}x{height}/city: city map is not the initial visible window")
+                            # Check that page selectors actually reveal content; previous QA only
+                            # checked first page and missed hidden controls in later windows.
+                            if tab["id"] in {"city", "heroes", "campaign", "equipment", "formation"}:
+                                pane_count = page.locator("#nl-screen-select option").count()
+                                if pane_count < 1 or pane_count > 80:
+                                    results["errors"].append(f"{width}x{height}/{tab['id']}: invalid pane count {pane_count}")
+                                else:
+                                    for index in range(pane_count):
+                                        page.locator("#nl-screen-select").select_option(str(index))
+                                        visible = page.evaluate("""() => {
+                                            const v=document.querySelector('#view');
+                                            return Array.from(v?.children || []).some(el =>
+                                                !el.classList.contains('head')
+                                                && getComputedStyle(el).display !== 'none'
+                                                && el.getBoundingClientRect().height > 8);
+                                        }""")
+                                        if not visible:
+                                            results["errors"].append(f"{width}x{height}/{tab['id']}: blank subwindow {index + 1}/{pane_count}")
+                                    page.locator("#nl-screen-select").select_option("0")
                         results["errors"].extend([f"{width}x{height}: {e}" for e in page_errors])
                     except Exception as exc:
                         results["errors"].append(f"{width}x{height}: {type(exc).__name__}: {exc}")
