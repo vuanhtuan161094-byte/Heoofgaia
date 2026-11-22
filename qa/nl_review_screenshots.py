@@ -162,8 +162,24 @@ def main() -> int:
                                         page.reload(wait_until="domcontentloaded")
                                         page.locator('.nav[data-tab="formation"]').click()
                                         page.wait_for_timeout(150)
-                                        if hero_id not in page.locator('#view [data-slot="0"]').inner_text():
-                                            results["errors"].append("Mobile formation: Save v5 slot did not survive reload")
+                                        # Visible game cards show a localized hero NAME, not the internal
+                                        # hero ID. Verify both the persisted Save v5 state and the
+                                        # actual runtime state instead of searching the rendered label.
+                                        restored = page.evaluate("""() => {
+                                            const raw=localStorage.getItem('muu_dinh_tam_quoc_v1');
+                                            const saved=raw?JSON.parse(raw):null;
+                                            const live=window.__P2_QA__?.getGame?.() ?? null;
+                                            return {saveVersion:saved?.version,saveHero:saved?.slots?.[0],
+                                                    liveHero:live?.slots?.[0]};
+                                        }""")
+                                        slot_display = page.locator('#view [data-slot="0"]').inner_text()
+                                        if (restored["saveVersion"] != 5
+                                                or restored["saveHero"] != hero_id
+                                                or restored["liveHero"] != hero_id
+                                                or not slot_display.strip()):
+                                            results["errors"].append(
+                                                f"Mobile formation: Save v5 slot did not survive reload: {restored}; display={slot_display[:80]}"
+                                            )
                                         else:
                                             results.setdefault("interactions", []).append({
                                                 "viewport": f"{width}x{height}",
