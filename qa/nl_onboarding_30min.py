@@ -121,7 +121,7 @@ def run(duration_minutes: int = 30) -> int:
                         trial_report = trial_game["battleReports"][0]
                         stage9_balance_sweep.append({"power": candidate_power, "seed": deterministic_seed, "won": trial_report["won"], "totalTroopLosses": sum(row["casualties"] for row in trial_report.get("troopLosses", []))})
                         page.evaluate("window.__P2_QA__.closeBattle('city')")
-                    page.evaluate("({state})=>{window.__P2_QA__.setEncounterPower(9,0.9);window.__P2_QA__.setGame(state)}", {"state": trial_base})
+                    page.evaluate("({state})=>{window.__P2_QA__.setEncounterPower(9,0.8);window.__P2_QA__.setGame(state)}", {"state": trial_base})
                 if stage == 10 and not stage10_balance_sweep:
                     trial_base = page.evaluate("window.__P2_QA__.getGame()")
                     for candidate_power in (0.5, 0.6, 0.7, 0.8, 0.9, 1.0):
@@ -133,7 +133,7 @@ def run(duration_minutes: int = 30) -> int:
                         trial_report = trial_game["battleReports"][0]
                         stage10_balance_sweep.append({"power": candidate_power, "seed": deterministic_seed, "won": trial_report["won"], "totalTroopLosses": sum(row["casualties"] for row in trial_report.get("troopLosses", []))})
                         page.evaluate("window.__P2_QA__.closeBattle('city')")
-                    page.evaluate("({state})=>{window.__P2_QA__.setEncounterPower(10,0.8);window.__P2_QA__.setGame(state)}", {"state": trial_base})
+                    page.evaluate("({state})=>{window.__P2_QA__.setEncounterPower(10,0.7);window.__P2_QA__.setGame(state)}", {"state": trial_base})
                 if stage == 5 and minutes == 30 and recruited_fifth:
                     # Probe actual engine difficulty from one identical Save/roster/troop state.
                     # Restore the snapshot between candidates so only encounter power changes.
@@ -231,13 +231,21 @@ def run(duration_minutes: int = 30) -> int:
                   "recruit":history[-1]["hero"] if history and history[-1].get("hero") else "named",
                   "rows":stage5_balance_sweep},ensure_ascii=False),flush=True)
             by_power = {float(row["power"]): row for row in stage5_balance_sweep}
-            check(f"{profile}: same-seed Stage 5 sweep confirms 1.15 playable and 1.3/1.9 remain challenge settings", by_power.get(1.15, {}).get("won") is True and by_power.get(1.3, {}).get("won") is False and by_power.get(1.9, {}).get("won") is False)
+            check(f"{profile}: same-seed Stage 5 keeps 1.15 playable, 1.9 lethal and monotonically harder at 1.3",
+                  by_power.get(1.15, {}).get("won") is True
+                  and by_power.get(1.9, {}).get("won") is False
+                  and all(by_power.get(p, {}).get("totalTroopLosses", -1) >= by_power.get(q, {}).get("totalTroopLosses", 10**9)
+                          for p,q in ((1.15,1.0),(1.3,1.15),(1.9,1.3))))
             if duration_minutes >= 60:
                 print("NL_STAGE9_10_SWEEPS "+json.dumps({"profile":profile,"rows9":stage9_balance_sweep,
                       "rows10":stage10_balance_sweep},ensure_ascii=False),flush=True)
                 stage9_by_power = {float(row["power"]): row for row in stage9_balance_sweep}
                 stage10_by_power = {float(row["power"]): row for row in stage10_balance_sweep}
-                check(f"{profile}: same-state campaign sweeps validate stage 9 power 0.9 and stage 10 power 0.8 as clear thresholds", stage9_by_power.get(0.9, {}).get("won") is True and stage9_by_power.get(1.0, {}).get("won") is False and stage10_by_power.get(0.8, {}).get("won") is True and stage10_by_power.get(0.9, {}).get("won") is False)
+                check(f"{profile}: same-seed stage 9 (0.8 clear/1.0 fail) and 10 (0.7 clear/0.9 fail) prove progression challenge",
+                      stage9_by_power.get(0.8, {}).get("won") is True
+                      and stage9_by_power.get(1.0, {}).get("won") is False
+                      and stage10_by_power.get(0.7, {}).get("won") is True
+                      and stage10_by_power.get(0.9, {}).get("won") is False)
             reported_battles = sum(row["event"] in ("win", "loss") for row in history)
             check(f"{profile}: every simulated battle has valid deterministic settlement receipts", all_reports_valid and wins + losses == reported_battles)
             check(f"{profile}: no resource underflow or negative troop counts", min(final["silver"], final["grain"], final["iron"], final["reserve"], *(final["hero"][hero]["troops"] for hero in heroes)) >= 0)

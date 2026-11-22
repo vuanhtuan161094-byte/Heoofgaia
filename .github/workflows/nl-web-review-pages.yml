@@ -70,12 +70,13 @@ jobs:
           python qa/nl_item_integration.py
           node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs
           python qa/nl_classic_phase_a3_browser.py
-          set +e
-          python qa/nl_onboarding_30min.py --minutes 30
-          s30=$?
-          python qa/nl_onboarding_30min.py --minutes 60
-          s60=$?
-          if [ "$s30" -ne 0 ] || [ "$s60" -ne 0 ]; then exit 1; fi
+
+      - name: Accelerated onboarding 30-minute battle and Save regression
+        id: onboarding30
+        run: python qa/nl_onboarding_30min.py --minutes 30
+      - name: Accelerated onboarding 60-minute battle and Save regression
+        if: ${{ success() || steps.onboarding30.outcome == 'failure' }}
+        run: python qa/nl_onboarding_30min.py --minutes 60
       - name: Apply fixed-window UI V2 and capture 14 desktop + 14 mobile screens
         run: |
           python tools/build_nl_web_review.py --html index.html
