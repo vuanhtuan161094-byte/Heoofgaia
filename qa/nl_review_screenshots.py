@@ -45,6 +45,9 @@ def main() -> int:
             try:
                 for width, height in [(1280, 720), (390, 844)]:
                     page = browser.new_page(viewport={"width": width, "height": height}, device_scale_factor=1)
+                    # Enable the game's own read-only QA state bridge, as used by
+                    # canonical premerge tests; it survives a page.reload().
+                    page.add_init_script("window.__P2_ENABLE_QA__=true;")
                     page_errors = []
                     page.on("pageerror", lambda err: page_errors.append(str(err)))
                     try:
@@ -172,13 +175,18 @@ def main() -> int:
                                             return {saveVersion:saved?.version,saveHero:saved?.slots?.[0],
                                                     liveHero:live?.slots?.[0]};
                                         }""")
-                                        slot_display = page.locator('#view [data-slot="0"]').inner_text()
+                                        slot_node = page.locator('#view [data-slot="0"]')
+                                        slot_display = slot_node.inner_text()
+                                        slot_markup = slot_node.evaluate("(e)=>e.outerHTML.slice(0,650)")
+                                        slot_occupied = "occupied" in (slot_node.get_attribute("class") or "").split()
                                         if (restored["saveVersion"] != 5
                                                 or restored["saveHero"] != hero_id
                                                 or restored["liveHero"] != hero_id
-                                                or not slot_display.strip()):
+                                                or not slot_occupied):
                                             results["errors"].append(
-                                                f"Mobile formation: Save v5 slot did not survive reload: {restored}; display={slot_display[:80]}"
+                                                f"Mobile formation: persisted and visible board disagree: "
+                                                f"{restored}; occupied={slot_occupied}; display={slot_display[:80]}; "
+                                                f"markup={slot_markup}"
                                             )
                                         else:
                                             results.setdefault("interactions", []).append({
