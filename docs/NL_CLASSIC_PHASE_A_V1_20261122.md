@@ -11,7 +11,7 @@
 | Recruit (14 originals) | Weighted random 1,800 silver button | Explicit 3 channels: unlocked campaign, renown thresholds, tavern talks; deterministic named targets, no random draw | Channel concepts VERIFIED in historical web + Mobile sources; exact gates and prices SIMULATED |
 | Recruit (207 supplementals) | Separate live stage-gated adapter | Existing 207 adapter left unmodified (separate 28-stage/Save v5 ownership) | SIMULATED project hero data |
 | Taxes | No direct classic town hall tax ledger | 12 daily grants, silver+renown, exact tax receipt, no duplicate ID | Historic web 2012 12 free tax actions reported; gains SIMULATED |
-| Research | Old silver/iron/prestige cost | Silver + simulated merit; existing combat bonus consumer preserved | SIMULATED costs and modifiers |
+| Research | Old silver/iron/prestige cost | Silver + simulated merit, rebound after R03 catalog; existing combat bonus consumer preserved | SIMULATED costs and modifiers |
 | Quân lệnh | Not represented as classic currency | Additive 60-cap order pool, 1 per campaign/tower/arena launch, +1 each 30 minutes; NO order on invalid launch/replay | SIMULATED cap/regeneration (not official) |
 | Campaign | Native P2 reward/replay owner | Native first-clear result gives separate once-only project merit receipt; no new damage engine and no extra loot | SIMULATED project balancing |
 

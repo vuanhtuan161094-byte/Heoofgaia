@@ -65,7 +65,7 @@ def main():
                 check(base["version"] == 5 and "iron" in base, "Save v5 retains legacy iron without deletion")
                 check(len(base["roster"]) == 3 and base["nlClassicA"]["merit"] == 180,
                       "three starting heroes, initial SIMULATED strategy merit")
-                check(len(page.locator("[data-nla-tax]")) == 1, "single Thành Chính tax control")
+                check(page.locator("[data-nla-tax]").count() == 1, "single Thành Chính tax control")
                 page.locator('.nav[data-tab="heroes"]').click()
                 button = select_visible_pane(page, '[data-nla-recruit="zhao"]')
                 check(button.is_enabled(), "explicit starter recruitment available")

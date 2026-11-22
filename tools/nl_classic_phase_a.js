@@ -64,8 +64,7 @@ earnedText=function(r){return Object.entries(r).map(([k,v])=>{
     wood:'🌲 Gỗ (tương thích cũ)',gems:'💠 Ngọc',merit:'⚔️ Chiến công',orders:'📜 Quân lệnh'};
   return (names[k]||k)+' '+fmt(v);
 }).join(' · ');};
-// Research is now financed by classic-style Chiến công. Existing levels,
-// battle bonuses and the Save-v5 technology IDs are not migrated or reset.
+// Generic atomic payment bridge for classic Chiến công (nested in Save v5).
 const nlAPriorPayment=payment;
 payment=function(cost){
   if(!cost || !Object.prototype.hasOwnProperty.call(cost,'merit'))return nlAPriorPayment(cost);
@@ -75,23 +74,8 @@ payment=function(cost){
   if(!nlAPriorPayment(other))return false;
   a.merit-=merit;return true;
 };
-const nlAPriorTechCost=techCost;
-techCost=function(id){
-  const old=nlAPriorTechCost(id),level=game.technology[id]||0;
-  return {silver:old.silver,merit:(level+1)*35,prestige:0};
-};
-const nlAPriorResearch=research;
-research=function(id){
-  if(!TECHNOLOGY[id])return;
-  const level=game.technology[id]||0,merit=(level+1)*35;
-  const out=nlAPriorResearch(id);
-  if(game.technology[id]>level){nlAState().meritSpent+=merit;save();}
-  return out;
-};
-const nlAPriorTechnology=renderTechnology;
-renderTechnology=function(){return nlAPriorTechnology().replace(
-  'Dùng bạc, sắt và uy danh thực tế trong game.',
-  'Dùng Bạc và Chiến công để nghiên cứu. Mức phí là thiết kế SIMULATED; chỉ số trận đánh vẫn dùng lõi game đang có.');};
+// R03 owns research. The late-binding module in R03 replaces its research
+// functions after all R03 definitions; never run two research resolvers.
 function nlATax(){
   if(battle)return false;
   const a=nlAState();

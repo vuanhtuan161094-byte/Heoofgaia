@@ -36,6 +36,14 @@ def main() -> None:
     args = parser.parse_args()
     original = INDEX.read_text(encoding="utf-8")
     patch = SOURCE.read_text(encoding="utf-8")
+    # The WEB Phase A research adapter must run AFTER the final R03 research
+    # definitions, otherwise R03's late patch silently restores silver/iron.
+    classic_late = (ROOT / "tools/nl_classic_phase_a_research_late.js").read_text(encoding="utf-8")
+    if classic_late.count("// === NL-CLASSIC-A-RESEARCH-LATE:") != 1 or "</script>" in classic_late.lower():
+        raise ValueError("Invalid late classic research adapter")
+    if patch.count(END) != 1:
+        raise ValueError("Cannot place research adapter within R03 marker")
+    patch = patch.replace(END, classic_late.rstrip() + "\n" + END, 1)
     assembled = build(original, patch)
     if args.check and assembled == original:
         print("NL-R03 patch ready")

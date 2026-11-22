@@ -54,6 +54,7 @@ jobs:
           sha256sum index.html | tee qa/web-review-html-sha256.txt
           node --check tools/nl_review_window_v2.js
           node --check tools/nl_classic_phase_a.js
+          node --check tools/nl_classic_phase_a_research_late.js
       - name: Install approved browser QA dependencies
         run: |
           python -m pip install playwright==1.58.0
