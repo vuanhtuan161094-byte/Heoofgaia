@@ -35,7 +35,7 @@ test("B1: reversed infantry-versus-cavalry counter reports disadvantage, not 1.0
   mode:'front',baseline:b.p[0],opponents:b.p});
  const byId=Object.fromEntries(choice.candidates.map(c=>[c.id,c]));
  assert.equal(byId.horse.advantage,.82);
- assert.equal(byId.spear.advantage,1);
+ assert.equal(byId.spear.advantage,1.22);
  assert.equal(choice.target.id,'spear');
 });
 test("B1: Stage25-28 frozen late R03 never receive a new target path",()=>{
