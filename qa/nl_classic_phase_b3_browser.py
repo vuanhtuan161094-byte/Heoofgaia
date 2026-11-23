@@ -28,6 +28,10 @@ def main():
   check("24 compatible formations and 221 source skills preserve Save-v5",
         data["formations"]==24 and data["skills"]==221 and data["save"]==5)
   page.locator('.nav[data-tab="barracks"]').click()
+  # Screen pagination is scheduled on requestAnimationFrame after the original
+  # game render. Never iterate the previous tab's page options before rebuild.
+  page.wait_for_function("""() => document.querySelector('#app')?.dataset.nlScreen==='barracks' &&
+    document.querySelector('#nl-screen-select')?.options.length>0""")
   check("Barracks exposes 25 choices as a compact single-window select",
         page.locator('[data-nlb3-troops]').count()==1 and
         page.locator('[data-nlb3-select] option').count()==25)
@@ -36,6 +40,18 @@ def main():
   for i in range(page.locator('#nl-screen-select option').count()):
    page.locator('#nl-screen-select').select_option(str(i))
    if page.locator('[data-nlb3-select]').is_visible():ok=True;break
+  if not ok:
+   print("B3_UI_DEBUG",page.evaluate("""() => {
+      const sel=document.querySelector('[data-nlb3-select]');
+      const hidden=sel?.closest('.nl-pane-hidden');
+      return {tab:document.querySelector('#app')?.dataset.nlScreen,
+        pageCount:document.querySelector('#nl-screen-select')?.options.length,
+        panelParent:sel?.parentElement?.parentElement?.tagName,
+        hiddenClass:hidden?.className,hiddenTag:hidden?.tagName,
+        visibleRect:sel?.getBoundingClientRect()?.toJSON?.(),
+        pages:[...document.querySelectorAll('#nl-screen-select option')].map(x=>x.textContent)
+      };
+    }"""),flush=True)
   check("25 troop roster is reachable through fixed-window UI",ok)
   if ok:
    page.locator('[data-nlb3-select]').select_option('nlp-phalanx')
