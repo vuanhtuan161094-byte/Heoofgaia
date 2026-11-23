@@ -61,6 +61,8 @@ jobs:
           node --test qa/nl_classic_phase_b1.test.cjs
           python -m py_compile tools/nl_classic_phase_b2_native.py qa/nl_classic_phase_b2_browser.py
           python qa/nl_classic_phase_b2_native_test.py
+          node --check tools/nl_classic_phase_b3.js
+          node --test qa/nl_classic_phase_b3.test.cjs
           python -m py_compile tools/nl_classic_phase_a3_items.py qa/nl_onboarding_30min.py
           python -m py_compile qa/nl_classic_phase_a2_browser.py
       - name: Install approved browser QA dependencies
@@ -77,6 +79,8 @@ jobs:
 
       - name: B2 real P2 drum-dancer morale, Save v5 browser QA
         run: python qa/nl_classic_phase_b2_browser.py
+      - name: Phase B3 25 troops, 24 formations, 221 hero skills on native P2 Chromium
+        run: python qa/nl_classic_phase_b3_browser.py
       - name: Accelerated onboarding 30-minute battle and Save regression
         id: onboarding30
         run: python qa/nl_onboarding_30min.py --minutes 30
