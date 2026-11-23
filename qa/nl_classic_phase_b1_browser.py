@@ -35,7 +35,17 @@ def main():
         check("campaign has an actionable live matchup advisor",
               page.locator('[data-nlb1-advisor]').count()==1 and
               "100 sĩ khí" in page.locator('[data-nlb1-advisor]').inner_text())
-        page.locator('[data-nlb1-formation]').click()
+        # UI V2 makes every feature a semantic window. Locate the window
+        # containing the advisor and navigate there as the real user would.
+        found=False
+        for n in range(page.locator('#nl-screen-select option').count()):
+            page.locator('#nl-screen-select').select_option(str(n))
+            if page.locator('[data-nlb1-formation]').is_visible():
+                found=True
+                break
+        check("B1 tactical advisor button is reachable through the window selector",found)
+        if found:
+            page.locator('[data-nlb1-formation]').click()
         check("tactical button navigates to real Formation view",
               page.locator('.nav.active[data-tab="formation"]').count()==1)
         battle=page.evaluate("""() => {
