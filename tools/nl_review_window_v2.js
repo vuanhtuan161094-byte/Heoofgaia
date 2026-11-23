@@ -88,6 +88,13 @@
        const cityRoot=view.querySelector('.city-visual')?.closest('.grid-2');
        if(cityRoot&&cityRoot.parentElement===view&&head&&head.nextElementSibling!==cityRoot)view.insertBefore(cityRoot,head.nextElementSibling);
      }
+     // B3 troop catalogue must be a real standalone semantic Barracks window,
+     // not a descendant stranded inside an older hidden inventory/page root.
+     if(tab==='barracks'){
+       const troopCatalog=view.querySelector('[data-nlb3-troops]');
+       if(troopCatalog&&head&&(troopCatalog.parentElement!==view||head.nextElementSibling!==troopCatalog))
+         view.insertBefore(troopCatalog,head.nextElementSibling);
+     }
      if(tab==='heroes'){
        const heroRoot=view.querySelector('[data-nla-recruit-panel]')||view.querySelector('.hero-grid');
        if(heroRoot&&heroRoot.parentElement===view&&head&&head.nextElementSibling!==heroRoot)view.insertBefore(heroRoot,head.nextElementSibling);
