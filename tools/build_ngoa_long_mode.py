@@ -13,6 +13,7 @@ import json
 from pathlib import Path
 
 from ngoalong_data import load_pack, runtime_pack
+from nl_classic_phase_b2_native import apply_b2_native
 
 ROOT = Path(__file__).resolve().parents[1]
 INDEX = ROOT / "index.html"
@@ -406,6 +407,8 @@ def build(source: str) -> str:
     data_json = json.dumps(pack, ensure_ascii=False, separators=(",", ":"))
     source = prepare_combat_data_bindings(source)
     source = prepare_progression_bindings(source)
+    # B2 modifies ONLY the original P2 implementation before extension adapters.
+    source = apply_b2_native(source)
     portal = PORTAL.replace("__NL_DATA_PACK__", data_json)
     effect_catalog = json.loads((ROOT / "data/ngoalong/modules/combat/effects_v1.json").read_text(encoding="utf-8"))
     effect_json = json.dumps(effect_catalog, ensure_ascii=False, separators=(",", ":"))

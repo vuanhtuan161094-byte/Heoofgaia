@@ -207,7 +207,7 @@ p2Perform=function(actor){
  const branch=actor?.team==='p'&&battle?.mode!=='cltq'?nlr03BranchFor(actor.id):null;
  if(!branch?.drumBonus||actor.troop!=='drum')return nlr03PriorPerform(actor);
  const prior=p2Morale;
- p2Morale=function(unit,delta){return prior(unit,delta===34||delta===55?delta+branch.drumBonus:delta);};
+ p2Morale=function(unit,delta){return prior(unit,[25,34,45,55].includes(delta)?delta+branch.drumBonus:delta);};
  try{return nlr03PriorPerform(actor);}finally{p2Morale=prior;}
 };
 
