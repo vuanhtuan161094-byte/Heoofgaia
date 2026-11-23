@@ -79,8 +79,6 @@ jobs:
 
       - name: B2 real P2 drum-dancer morale, Save v5 browser QA
         run: python qa/nl_classic_phase_b2_browser.py
-      - name: Phase B3 25 troops, 24 formations, 221 hero skills on native P2 Chromium
-        run: python qa/nl_classic_phase_b3_browser.py
       - name: Accelerated onboarding 30-minute battle and Save regression
         id: onboarding30
         run: python qa/nl_onboarding_30min.py --minutes 30
@@ -102,6 +100,8 @@ jobs:
         run: python qa/nl_classic_phase_a_browser.py --html index.html
       - name: Phase B1 native Boss AI, 100-morale advisor and formation Chromium QA
         run: python qa/nl_classic_phase_b1_browser.py
+      - name: Phase B3 25 troops, 24 formations, 221 hero skills on native P2 Chromium
+        run: python qa/nl_classic_phase_b3_browser.py
       - name: Phase A2 31/7 city costs, silver mine and 207 named hero routes
         run: python qa/nl_classic_phase_a2_browser.py --html index.html
       - name: Upload review evidence (including failures)

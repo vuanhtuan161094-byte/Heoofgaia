@@ -30,8 +30,10 @@ def main():
   page.locator('.nav[data-tab="barracks"]').click()
   # Screen pagination is scheduled on requestAnimationFrame after the original
   # game render. Never iterate the previous tab's page options before rebuild.
-  page.wait_for_function("""() => document.querySelector('.nav.active[data-tab="barracks"]')!==null &&
-    document.querySelector('#nl-screen-select')?.options.length>0""")
+  # B3 runs only AFTER review-window installation. This wait is now
+  # meaningful and avoids selecting stale pages from the preceding tab.
+  page.wait_for_function("""() => document.querySelector('#nl-screen-select')!==null &&
+     document.querySelector('.nav.active[data-tab="barracks"]')!==null""")
   page.wait_for_timeout(80)
   print("B3_UI_TAB",page.evaluate("""() => ({
       active:document.querySelector('.nav.active')?.dataset.tab,
