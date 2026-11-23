@@ -30,8 +30,16 @@ def main():
   page.locator('.nav[data-tab="barracks"]').click()
   # Screen pagination is scheduled on requestAnimationFrame after the original
   # game render. Never iterate the previous tab's page options before rebuild.
-  page.wait_for_function("""() => document.querySelector('#app')?.dataset.nlScreen==='barracks' &&
+  page.wait_for_function("""() => document.querySelector('.nav.active[data-tab="barracks"]')!==null &&
     document.querySelector('#nl-screen-select')?.options.length>0""")
+  page.wait_for_timeout(80)
+  print("B3_UI_TAB",page.evaluate("""() => ({
+      active:document.querySelector('.nav.active')?.dataset.tab,
+      appExists:!!document.querySelector('#app'),
+      pageLabels:[...document.querySelectorAll('#nl-screen-select option')].map(x=>x.textContent),
+      troopParent:document.querySelector('[data-nlb3-troops]')?.parentElement?.id||'none',
+      hiddenAncestor:document.querySelector('[data-nlb3-select]')?.closest('.nl-pane-hidden')?.className||'none'
+    })"""),flush=True)
   check("Barracks exposes 25 choices as a compact single-window select",
         page.locator('[data-nlb3-troops]').count()==1 and
         page.locator('[data-nlb3-select] option').count()==25)
