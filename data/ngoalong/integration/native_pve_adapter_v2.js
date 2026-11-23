@@ -89,12 +89,20 @@
       const scored=legal.map(u=>{
         const ratio=clamp(u.hp/Math.max(1,u.maxHp),0,1);
         const adv=counter.get(attacker.troop+"|"+u.troop)?.multiplier||1;
-        const disadv=counter.get(u.troop+"|"+attacker.troop)?.multiplier||1;
-        const advantage=adv>1?adv:disadv<1?disadv:1;
+        // A reversed counter edge is a disadvantage, not a neutral matchup.
+        // The multiplier itself is PROJECT_SIMULATED; only the troop-cycle
+        // ordering is grounded in classic 2011 sources.
+        const reverse=counter.get(u.troop+"|"+attacker.troop);
+        const disadvantage=reverse?(reverse.disadvantageMultiplier||.82):1;
+        const advantage=adv>1?adv:disadvantage;
         const caster=u.type==="strategist"||u.troop==="drum"||u.type==="support";
         const rowDistance=Math.abs(Math.floor(u.slot/3)-Math.floor(attacker.slot/3));
         let score=-rowDistance*2+(1-ratio)*9+(caster?4:0);
         if(focus===u.id)score+=11;
+        // At 100 morale a cast is imminent (classic 2011 evidence). A Boss
+        // makes this existing legal target more urgent; no new morale mutation.
+        if(policy.boss&&u.morale>=100)score+=caster?30:12;
+        if(policy.boss&&u.morale>=75&&u.morale<100&&caster)score+=9;
         if(policy.profile==="morale-siege")score+=(u.morale>=100?45:u.morale>=70?18:0)+(caster?9:0);
         if(policy.profile==="counter-offense")score+=(advantage-1)*95;
         if(policy.profile==="rear-hunter")score+=(caster?18:0)+(1-ratio)*12;
@@ -127,6 +135,9 @@
     }
     function coverage(){return Object.freeze({stages:plans.size,bosses:compiled.bossStages.slice(),
       projectTroops:troopBridge.audit().project,
+      classicB1:{moraleSkillThreshold:100,reverseCounterFixed:true,
+        bossCastThreatTargeting:true,legalDepthPreserved:true,
+        noAdditionalMoraleOrHit:true,source:"CLASSIC_WEB_2011_AND_PROJECT_SIMULATED"},
       nativeSingleAuthority:true,dualResolver:false,
       bossSkillCandidates:Object.keys(SKILLS).length,
       activeTroopPassives:["charge_bonus","opening_damage_bonus"],

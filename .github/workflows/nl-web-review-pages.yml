@@ -57,6 +57,8 @@ jobs:
           node --check tools/nl_classic_phase_a_research_late.js
           node --check tools/nl_classic_phase_a2.js
           node --check tools/nl_classic_phase_a3.js
+          node --check tools/nl_classic_phase_b1.js
+          node --test qa/nl_classic_phase_b1.test.cjs
           python -m py_compile tools/nl_classic_phase_a3_items.py qa/nl_onboarding_30min.py
           python -m py_compile qa/nl_classic_phase_a2_browser.py
       - name: Install approved browser QA dependencies
@@ -90,6 +92,8 @@ jobs:
           python qa/nl_review_screenshots.py --html index.html --out qa/ui-v2-screenshots
       - name: Phase A classic WEB resources, tax and named-recruitment browser QA
         run: python qa/nl_classic_phase_a_browser.py --html index.html
+      - name: Phase B1 native Boss AI, 100-morale advisor and formation Chromium QA
+        run: python qa/nl_classic_phase_b1_browser.py
       - name: Phase A2 31/7 city costs, silver mine and 207 named hero routes
         run: python qa/nl_classic_phase_a2_browser.py --html index.html
       - name: Upload review evidence (including failures)

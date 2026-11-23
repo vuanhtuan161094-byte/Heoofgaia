@@ -67,6 +67,9 @@ def payload() -> str:
     # Install A2 after all inventory, Hero207, R03, city and research owners.
     classic_a2 = (TOOLS / "nl_classic_phase_a2.js").read_text(encoding="utf-8")
     classic_a3 = (TOOLS / "nl_classic_phase_a3.js").read_text(encoding="utf-8")
+    classic_b1 = (TOOLS / "nl_classic_phase_b1.js").read_text(encoding="utf-8")
+    if classic_b1.count("// === NL-CLASSIC-B1-V1:") != 1 or "</script" in classic_b1.lower():
+        raise ValueError("Invalid Phase B1 tactical advisor module")
     if classic_a3.count("// === NL-CLASSIC-A3-V1:") != 1 or "</script" in classic_a3.lower():
         raise ValueError("Invalid Phase A3 module")
     if classic_a2.count("// === NL-CLASSIC-A2-V1:") != 1 or "</script" in classic_a2.lower():
@@ -78,7 +81,7 @@ def payload() -> str:
         "__NL_ITEM_GROUP_RULES__", js_json(item_group_rules))
     if "</script" in (engine + ui + balance_engine + item_engine + item_ui + bridge).lower():
         raise ValueError("Unexpected script terminator in injected inline source")
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), END])
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:
