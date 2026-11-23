@@ -59,6 +59,8 @@ jobs:
           node --check tools/nl_classic_phase_a3.js
           node --check tools/nl_classic_phase_b1.js
           node --test qa/nl_classic_phase_b1.test.cjs
+          python -m py_compile tools/nl_classic_phase_b2_native.py qa/nl_classic_phase_b2_browser.py
+          python qa/nl_classic_phase_b2_native_test.py
           python -m py_compile tools/nl_classic_phase_a3_items.py qa/nl_onboarding_30min.py
           python -m py_compile qa/nl_classic_phase_a2_browser.py
       - name: Install approved browser QA dependencies
@@ -73,6 +75,8 @@ jobs:
           node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs
           python qa/nl_classic_phase_a3_browser.py
 
+      - name: B2 real P2 drum-dancer morale, Save v5 browser QA
+        run: python qa/nl_classic_phase_b2_browser.py
       - name: Accelerated onboarding 30-minute battle and Save regression
         id: onboarding30
         run: python qa/nl_onboarding_30min.py --minutes 30
