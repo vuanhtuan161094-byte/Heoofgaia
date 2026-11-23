@@ -95,6 +95,22 @@ def main():
         check("Vũ Nữ native action does not apply a hit, but gains 34 own morale",
               dance["hits"]==0 and dance["own"]==44 and
               all(x["hpKept"] for x in dance["targets"]))
+        elite=page.evaluate("""() => {
+          const q=window.__P2_QA__;q.closeBattle('city');
+          const g=q.getGame();g.cleared=Array.from({length:8},(_,i)=>i+1);
+          q.setGame(g);q.beginBattle(9,'campaign');
+          const b=q.debugBattle(),actor=b.e.find(x=>x.troop==='drum');
+          if(!actor)throw Error('Stage9 veteran drummer missing');
+          for(const u of [...b.p,...b.e])u.morale=10;
+          b.order=[['e',actor.slot]];b.orderIndex=0;
+          q.stepBattle();const ev=b.events.at(-1);
+          return {trait:!!window.__P2_QA__.data.campaign.encounters.find(x=>x.stage===9).nlB2EliteMorale,
+            event:ev.mode,allies:b.e.map(x=>x.morale),opponents:b.p.map(x=>x.morale)};
+        }""")
+        check("Stage9 author-tagged veteran drummer keeps elite +34 while basic drum stays +25",
+              elite["trait"] and elite["event"]=="drum" and
+              all(x>=44 for x in elite["allies"]) and
+              all(x==5 for x in elite["opponents"]))
         check("no browser page exceptions",not errors)
         browser.close()
     print(f"NL_CLASSIC_B2 {sum(v for _,v in checks)}/{len(checks)}",flush=True)

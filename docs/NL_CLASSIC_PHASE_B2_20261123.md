@@ -9,7 +9,7 @@ Classic WEB sources:
 
 Native single-authority implementation:
 - Canonical generator transforms original `p2Perform`, `p2Unit`, `renderFormation`, `changeTroopMode`, and `p2ApplyFrame` through `tools/nl_classic_phase_b2_native.py`. No shadow battle solver, timer, damage or rewards.
-- Stage 1–24 campaign drummer: ordinary +25 morale to allies, no enemy drain or actor bonus +7. At 100 morale native skill +45 to allies and -100 to drummer. Optional R03 branch bonus remains applied once.
+- Stage 1–24 campaign drummer: ordinary +25 morale to allies, no enemy drain or actor bonus +7. At 100 morale native skill +45 to allies and -100 to drummer. Optional R03 branch bonus remains applied once. Explicit PROJECT_SIMULATED exception: veteran NPC drummer on exactly six author-tagged stage encounters (5–10) retains an additional +9 ordinary aura and enemy disruption from the project's earlier approved balancing; this keeps the fixed 30/60-minute progression gates without altering the generic Kỳ Cổ Thủ rule.
 - A support/strategist can choose Vũ Nữ as a role via existing Save v5 `troopModes`: its ordinary action targets one legal enemy, drains 45 morale and gives +34 to actor, without damage or defender morale; native skill at 100 uses existing hero descriptor.
 - 25 project troop identities are unchanged. Original R03 stage 25–28 drum interactions and CLTQ/arena/tower remain unchanged.
 - The source-backed part is the distinction of troop roles, 25 ordinary drum, 100 morale threshold; 45 special drum, 45 dancer and 34 dancer self are cross-edition/project calibrations and are `SIMULATED` for this 2011 WEB recreation.

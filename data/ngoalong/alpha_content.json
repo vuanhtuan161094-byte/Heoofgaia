@@ -8107,6 +8107,16 @@
         "bossProvenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
+        },
+        "nlB2EliteMorale": {
+          "troop": "drum",
+          "normalBonus": 9,
+          "normalEnemySuppression": 5,
+          "skillBonus": 10,
+          "skillEnemySuppression": 15,
+          "classification": "SIMULATED",
+          "sourceId": "project-b2-veteran-drum-balance",
+          "note": "Phấn Chấn tinh nhuệ NPC; giữ cân bằng Stage5-10 qua 30/60m, không phải quy tắc Kỳ Cổ Thủ cơ bản."
         }
       },
       {
@@ -8134,7 +8144,17 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         },
-        "boss": false
+        "boss": false,
+        "nlB2EliteMorale": {
+          "troop": "drum",
+          "normalBonus": 9,
+          "normalEnemySuppression": 5,
+          "skillBonus": 10,
+          "skillEnemySuppression": 15,
+          "classification": "SIMULATED",
+          "sourceId": "project-b2-veteran-drum-balance",
+          "note": "Phấn Chấn tinh nhuệ NPC; giữ cân bằng Stage5-10 qua 30/60m, không phải quy tắc Kỳ Cổ Thủ cơ bản."
+        }
       },
       {
         "id": "nl-campaign-07",
@@ -8161,7 +8181,17 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         },
-        "boss": false
+        "boss": false,
+        "nlB2EliteMorale": {
+          "troop": "drum",
+          "normalBonus": 9,
+          "normalEnemySuppression": 5,
+          "skillBonus": 10,
+          "skillEnemySuppression": 15,
+          "classification": "SIMULATED",
+          "sourceId": "project-b2-veteran-drum-balance",
+          "note": "Phấn Chấn tinh nhuệ NPC; giữ cân bằng Stage5-10 qua 30/60m, không phải quy tắc Kỳ Cổ Thủ cơ bản."
+        }
       },
       {
         "id": "nl-campaign-08",
@@ -8193,6 +8223,16 @@
         "bossProvenance": {
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
+        },
+        "nlB2EliteMorale": {
+          "troop": "drum",
+          "normalBonus": 9,
+          "normalEnemySuppression": 5,
+          "skillBonus": 10,
+          "skillEnemySuppression": 15,
+          "classification": "SIMULATED",
+          "sourceId": "project-b2-veteran-drum-balance",
+          "note": "Phấn Chấn tinh nhuệ NPC; giữ cân bằng Stage5-10 qua 30/60m, không phải quy tắc Kỳ Cổ Thủ cơ bản."
         }
       },
       {
@@ -8220,7 +8260,17 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         },
-        "boss": false
+        "boss": false,
+        "nlB2EliteMorale": {
+          "troop": "drum",
+          "normalBonus": 9,
+          "normalEnemySuppression": 5,
+          "skillBonus": 10,
+          "skillEnemySuppression": 15,
+          "classification": "SIMULATED",
+          "sourceId": "project-b2-veteran-drum-balance",
+          "note": "Phấn Chấn tinh nhuệ NPC; giữ cân bằng Stage5-10 qua 30/60m, không phải quy tắc Kỳ Cổ Thủ cơ bản."
+        }
       },
       {
         "id": "nl-campaign-10",
@@ -8247,7 +8297,17 @@
           "classification": "SIMULATED",
           "sourceId": "project-alpha"
         },
-        "boss": false
+        "boss": false,
+        "nlB2EliteMorale": {
+          "troop": "drum",
+          "normalBonus": 9,
+          "normalEnemySuppression": 5,
+          "skillBonus": 10,
+          "skillEnemySuppression": 15,
+          "classification": "SIMULATED",
+          "sourceId": "project-b2-veteran-drum-balance",
+          "note": "Phấn Chấn tinh nhuệ NPC; giữ cân bằng Stage5-10 qua 30/60m, không phải quy tắc Kỳ Cổ Thủ cơ bản."
+        }
       },
       {
         "id": "nl-campaign-11",
