@@ -9,10 +9,12 @@ from __future__ import annotations
 
 def replace_compat(source: str, old: str, new: str, label: str) -> str:
     n_old, n_new = source.count(old), source.count(new)
+    # Some new snippets intentionally contain the old substring, e.g.
+    # "if(classicB2)for(...)". Check complete patched marker first.
+    if n_new == 1:
+        return source
     if n_old == 1 and n_new == 0:
         return source.replace(old, new, 1)
-    if n_old == 0 and n_new == 1:
-        return source
     raise ValueError(
         f"NL_B2_SOURCE_DRIFT {label}: old={n_old} new={n_new}"
     )
