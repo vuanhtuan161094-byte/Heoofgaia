@@ -97,7 +97,9 @@
         const advantage=adv>1?adv:disadvantage;
         const caster=u.type==="strategist"||u.troop==="drum"||u.type==="support";
         const rowDistance=Math.abs(Math.floor(u.slot/3)-Math.floor(attacker.slot/3));
-        let score=-rowDistance*2+(1-ratio)*9+(caster?4:0);
+        // Small bounded matchup preference on every native Boss target decision.
+        // 1.22/0.82 are project coefficients, not claimed official formulas.
+        let score=-rowDistance*2+(1-ratio)*9+(caster?4:0)+(advantage-1)*18;
         if(focus===u.id)score+=11;
         // At 100 morale a cast is imminent (classic 2011 evidence). A Boss
         // makes this existing legal target more urgent; no new morale mutation.
