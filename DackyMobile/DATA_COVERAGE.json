@@ -135,6 +135,12 @@
       "levels": 570,
       "runtimeEffects": ["Resource production", "Population", "Construction speed", "Training speed", "Army attack and defense", "Cavalry and archer specialization", "Healing cost", "Formation", "March speed", "Hero power", "Scout cost", "Trade fee and diplomacy"],
       "status": "SIMULATED"
+    },
+    "newPlayerTutorial": {
+      "records": 7,
+      "milestones": ["Construction", "Research", "Altar construction", "Immortal recruitment", "Equipment", "Training", "First campaign victory"],
+      "completion": "Derived from saved gameplay state; unlocks sequentially",
+      "status": "SIMULATED"
     }
   },
   "notImported": [

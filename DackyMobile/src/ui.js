@@ -1,5 +1,5 @@
 import { BUILDINGS, CONTENT_EVIDENCE, HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, BUZHOU_FLOORS, TOWER_FLOORS } from './catalog.js';
-import { activeQuest, armyCount, armyPower, formatDuration, formatNumber, heroPower, productionPerHour, questProgress, quoteBuilding, quoteItemPurchase, quoteResearch, quoteTraining, storageCapacity, TAX_POLICIES } from './engine.js';
+import { activeQuest, armyCount, armyPower, formatDuration, formatNumber, heroPower, productionPerHour, questProgress, quoteBuilding, quoteItemPurchase, quoteResearch, quoteTraining, storageCapacity, TAX_POLICIES, TUTORIAL_STEPS } from './engine.js';
 
 export const NAV = [
   ['city','城','Thành trì','Nội thành, kinh tế và hàng đợi'],
@@ -63,6 +63,31 @@ function queuePanel(state, now) {
   return `<section class="panel">${subheading('Mệnh lệnh trong thành','Thời gian mô phỏng cục bộ')}<div class="panel-body">${c}${t}${r}${m}</div></section>`;
 }
 
+function tutorialPanel(state) {
+  const step=TUTORIAL_STEPS[state.tutorialStep];
+  if(!step)return `<section class="panel tutorial-panel">${subheading('Chỉ dẫn nhập môn','Đã hoàn tất')}<div class="panel-body"><p>Thành trì, khoa kỹ, thần tiên, quân đội và trận chiến đầu tiên đã liên kết. Tiếp tục chính tuyến hoặc rèn luyện trước khi tới Triều Ca.</p><div class="field-row">${button('view-world','Mở bản đồ',false,'button small')}${button('view-pve','Thử thách endgame',false,'button ghost small')}</div></div></section>`;
+  let action='';
+  if(step.action==='upgrade'){
+    const q=quoteBuilding(state,step.data.buildingId);
+    action=button('upgrade','Nâng công trình',!!state.queues.construction||q.maxed||q.locked||!isAffordable(state,q.cost),'button small',`data-building="${step.data.buildingId}"`);
+  }else if(step.action==='research'){
+    const q=quoteResearch(state,step.data.techId);
+    action=button('research','Nghiên cứu Nông Chính',!!state.queues.research||q.maxed||!isAffordable(state,q.cost),'button small',`data-tech="${step.data.techId}"`);
+  }else if(step.action==='recruit'){
+    const hero=HEROES.find(row=>row.id===step.data.heroId);
+    action=button('recruit',`Mời ${hero?.name||'thần tiên'}`,!hero||(state.levels.altar||0)<1||(state.levels.manor||0)<1||state.heroes.length>=Math.min(60,3+(state.levels.manor||0)*2)||state.resources.gold<220+(hero?.wisdom||0)*2||state.resources.jade<(hero?.quality==='Thiên'?2:1),'button small',`data-hero="${step.data.heroId}"`);
+  }else if(step.action==='equip'){
+    action=button('equip','Trang bị Bạch Ngọc Kiếm',!state.heroes.some(h=>h.id===step.data.heroId)||!state.items.includes(step.data.itemId),'button small',`data-item="${step.data.itemId}" data-hero="${step.data.heroId}"`);
+  }else if(step.action==='train'){
+    const quote=quoteTraining(state,step.data.troopId,step.data.count);
+    action=button('train','Huấn luyện 1 Dân binh',!!state.queues.training||quote.locked||!isAffordable(state,quote.cost),'button small',`data-troop="${step.data.troopId}" data-count="${step.data.count}"`);
+  }else if(step.action==='march'){
+    const count=state.army[step.data.troopId]||0;
+    action=button('march','Hành quân tới Thanh Khâu Quan',!count||!!state.queues.march,'button small',`data-node="${step.data.nodeId}" data-troop="${step.data.troopId}" data-count="${count}"`);
+  }
+  return `<section class="panel tutorial-panel">${subheading(`Chỉ dẫn nhập môn · ${state.tutorialStep+1}/${TUTORIAL_STEPS.length}`,step.title)}<div class="panel-body"><p>${esc(step.description)}</p>${action}<small class="tiny muted" style="margin-left:9px">Hoàn thành tác vụ để mở bước kế tiếp.</small></div></section>`;
+}
+
 function cityScreen(state, now) {
   const active = activeQuest(state);
   const prod = productionPerHour(state);
@@ -101,7 +126,7 @@ function cityScreen(state, now) {
   const production = Object.entries(RESOURCE_INFO).map(([key,r]) => `<div class="production-line"><span class="resource-glyph">${r.glyph}</span><span>${r.name}</span><b>+${fmt(prod[key])}/giờ</b></div>`).join('');
   const questBody = active ? `<div class="eyebrow">HỒI ${active.chapter} · NHIỆM VỤ MỞ ĐẦU</div><p class="quest-title">${active.title}</p><p class="tiny muted">${fmt(questProgress(state,active))} / ${fmt(active.goal)} · Thưởng ${costText(active.reward)}</p>${button('view-quests','Mở sổ nhiệm vụ',false,'button small')}` : '<div class="empty-state"><strong>Chính tuyến đã khép lại</strong>Mở rộng các thử thách PvE để tiếp tục.</div>';
   const chronicle = state.notifications.slice(0,5).map(text => `<div class="chronicle-entry"><i></i><span>${esc(text)}</span></div>`).join('') || '<span class="muted tiny">Chưa có biến động.</span>';
-  return `${cityHero}${cityOverview}<div class="city-sections"><div><section class="panel">${subheading('Thành nội và ngoại thành','21 công trình · tối đa 30 cấp')}<div class="panel-body"><div class="building-grid">${buildingCards}</div></div></section></div><aside class="city-side">${queuePanel(state,now)}<section class="panel">${subheading('Lưu chuyển tài nguyên')}<div class="panel-body"><div class="production-list">${production}</div></div></section><section class="panel">${subheading('Tin trong thành')}<div class="panel-body"><div class="chronicle">${chronicle}</div></div></section><section class="panel">${subheading('Chính tuyến')}<div class="panel-body">${questBody}</div></section></aside></div>`;
+  return `${cityHero}${tutorialPanel(state)}${cityOverview}<div class="city-sections"><div><section class="panel">${subheading('Thành nội và ngoại thành','21 công trình · tối đa 30 cấp')}<div class="panel-body"><div class="building-grid">${buildingCards}</div></div></section></div><aside class="city-side">${queuePanel(state,now)}<section class="panel">${subheading('Lưu chuyển tài nguyên')}<div class="panel-body"><div class="production-list">${production}</div></div></section><section class="panel">${subheading('Tin trong thành')}<div class="panel-body"><div class="chronicle">${chronicle}</div></div></section><section class="panel">${subheading('Chính tuyến')}<div class="panel-body">${questBody}</div></section></aside></div>`;
 }
 
 function heroScreen(state, _now, uiState={}) {

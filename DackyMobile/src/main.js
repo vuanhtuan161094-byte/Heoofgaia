@@ -139,20 +139,20 @@ document.body.addEventListener('click', async event => {
       return;
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
-    case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value,count:document.querySelector('#train-count')?.value});
+    case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value||button.dataset.troop,count:document.querySelector('#train-count')?.value||button.dataset.count});
     case 'trainHero': return perform('trainHero',{heroId:button.dataset.hero});
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
-    case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value});
+    case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value||button.dataset.hero});
     case 'useItem': return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index)});
     case 'buyItem': return perform('buyItem',{itemId:button.dataset.item});
     case 'forge': return perform('forge',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
     case 'scout': return perform('scout',{nodeId:button.dataset.node||uiState.nodeId});
     case 'march': {
-      const troopId=document.querySelector('#march-unit')?.value;
+      const troopId=document.querySelector('#march-unit')?.value||button.dataset.troop;
       const troops={};
-      const count=Number(document.querySelector('#march-count')?.value)||0;
+      const count=Number(document.querySelector('#march-count')?.value||button.dataset.count)||0;
       if(troopId&&count>0)troops[troopId]=count;
       document.querySelectorAll('[data-march-support]').forEach(input=>{
         const amount=Math.max(0,Number(input.value)||0);

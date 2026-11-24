@@ -4,6 +4,8 @@
 
 ## Thành trì
 
+Chỉ dẫn nhập môn lần lượt mở xây Phong Mộc Trường, nghiên cứu Nông Chính, dựng Phong Thần Đàn, chiêu mộ thần tiên, trang bị, huấn luyện và trận thắng đầu tiên. Các nút dùng hành động runtime; chỉ dẫn lưu theo save và nhận biết khi queue/trận hoàn tất.
+
 Tử Vi Thành quản lý cấp thành, dân số và mở khóa. Hai mươi công trình khác được chia thành nội thành, kinh tế, quân sự, nghiên cứu, thần tiên và ngoại thành. Bấm Xây dựng/Nâng để trừ chi phí ngay; cấp mới chỉ có hiệu lực khi bộ đếm hoàn tất. Mỗi công trình có giới hạn cấp 30, một hàng đợi chung.
 
 | Công trình | Tác dụng runtime |

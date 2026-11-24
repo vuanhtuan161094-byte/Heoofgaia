@@ -9,6 +9,15 @@ export const TAX_POLICIES=Object.freeze({
   balanced:Object.freeze({label:'Trung dung',income:1,moralePerHour:0}),
   heavy:Object.freeze({label:'Thuế nặng',income:1.3,moralePerHour:-0.24})
 });
+export const TUTORIAL_STEPS=Object.freeze([
+  Object.freeze({title:'Mở rộng sản xuất',description:'Xây Phong Mộc Trường để tạo thêm gỗ mỗi giờ.',action:'upgrade',data:{buildingId:'lumber'},complete:s=>(s.levels.lumber||0)>0}),
+  Object.freeze({title:'Khai mở khoa kỹ',description:'Nghiên cứu Nông Chính tại Thái Học Viện.',action:'research',data:{techId:'tech-01'},complete:s=>(s.technologies['tech-01']||0)>0}),
+  Object.freeze({title:'Dựng Phong Thần Đàn',description:'Mở nơi chiêu mộ thần tiên trong cơ đồ.',action:'upgrade',data:{buildingId:'altar'},complete:s=>(s.levels.altar||0)>0}),
+  Object.freeze({title:'Chiêu mộ đồng hành',description:'Mời một thần tiên nhập phủ.',action:'recruit',data:{heroId:'hero-02'},complete:s=>s.stats.heroesRecruited>0}),
+  Object.freeze({title:'Trang bị thần tiên',description:'Trang bị Bạch Ngọc Kiếm cho đội hình.',action:'equip',data:{itemId:'item-01',heroId:'hero-01'},complete:s=>s.stats.itemsEquipped>0}),
+  Object.freeze({title:'Bổ sung quân đội',description:'Huấn luyện thêm một Dân binh.',action:'train',data:{troopId:'troop-01',count:1},complete:s=>s.stats.troopsTrained>0}),
+  Object.freeze({title:'Mở đường chiến dịch',description:'Hành quân tới Thanh Khâu Quan và thắng trận đầu.',action:'march',data:{nodeId:'node-001',troopId:'troop-01'},complete:s=>s.stats.victories>0})
+]);
 const clone = value => structuredClone(value);
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
@@ -140,7 +149,7 @@ export function migrateSave(input, now = Date.now()) {
   s.notifications = Array.isArray(s.notifications) ? s.notifications.filter(x=>typeof x==='string').slice(0,12) : [];
   s.settings = { ...DEFAULT_SETTINGS, ...(s.settings || {}) };
   for(const key of Object.keys(DEFAULT_SETTINGS))if(typeof s.settings[key]!=='boolean')s.settings[key]=DEFAULT_SETTINGS[key];
-  s.tutorialStep=clamp(Number(s.tutorialStep)||0,0,5);
+  s.tutorialStep=clamp(Number(s.tutorialStep)||0,0,TUTORIAL_STEPS.length);
   s.nextReportId=Math.max(Number(s.nextReportId)||1,...s.reports.map(r=>(Number(r.id)||0)+1));
   s.lastTickAt = Math.min(Number(s.lastTickAt) || now, now);
   s.version = SAVE_VERSION;
@@ -292,6 +301,16 @@ function note(state, message) {
   state.notifications = state.notifications.slice(0, 12);
 }
 
+function updateTutorial(state) {
+  let step=0;
+  while(step<TUTORIAL_STEPS.length&&TUTORIAL_STEPS[step].complete(state))step++;
+  if(step>state.tutorialStep){
+    const message=step===TUTORIAL_STEPS.length?'Tân chủ đã hoàn tất chỉ dẫn nhập môn; hãy tiếp tục chính tuyến và chinh phục thiên hạ.':`Chỉ dẫn nhập môn hoàn thành. ${TUTORIAL_STEPS[step].title} là bước tiếp theo.`;
+    note(state,message);
+  }
+  state.tutorialStep=step;
+}
+
 function report(state, entry) {
   const id = state.nextReportId++;
   state.reports.unshift({ id, at: Date.now(), ...entry });
@@ -436,6 +455,7 @@ export function advance(state, now = Date.now()) {
   completeQueue(next, 'training', now);
   completeQueue(next, 'research', now);
   completeQueue(next, 'march', now);
+  updateTutorial(next);
   return { state: next, elapsedSeconds: elapsed, offlineCapped: rawElapsed > OFFLINE_CAP_SECONDS };
 }
 
@@ -713,7 +733,6 @@ export function doAction(state, action, now = Date.now()) {
       s.claims.push(q.id);
       credit(s, q.reward);
       s.fame += 4 + q.chapter;
-      if (s.tutorialStep < 5) s.tutorialStep++;
       note(s, `Đã nhận thưởng nhiệm vụ: ${q.title}.`);
       break;
     }
@@ -726,13 +745,13 @@ export function doAction(state, action, now = Date.now()) {
       note(s, `${HEROES.find(x => x.id === h.id)?.name} ${h.assigned ? 'đã vào đội hình' : 'đã nghỉ tại Tiên Gia Phủ'}.`);
       break;
     }
-    case 'tutorial': s.tutorialStep = Math.max(s.tutorialStep, Number(action.step) || 0); break;
     case 'setting':
       if (!(action.key in s.settings)) throw new Error('Tùy chỉnh không hợp lệ.');
       s.settings[action.key] = Boolean(action.value);
       break;
     default: throw new Error('Thao tác không được hỗ trợ.');
   }
+  updateTutorial(s);
   return migrateSave(s, now);
 }
 

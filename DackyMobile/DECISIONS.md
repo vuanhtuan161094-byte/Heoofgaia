@@ -24,3 +24,4 @@
 - Bốn pháp môn đội hình áp dụng hệ số SIMULATED cụ thể vào combat quân đội và thử thách thần tiên; chiến báo ghi lại pháp môn đã tham chiến.
 - Thuế khoan giảm / trung dung / nặng thay đổi thu đồng, độ trôi dân tâm và tốc độ dân số; save cũ được migration về trung dung.
 - Cả 19 nhánh khoa kỹ có hiệu ứng runtime: bốn tài nguyên, tăng dân số, xây/nghiên cứu/huấn luyện, tấn công/phòng thủ và chuyên môn kỵ/xạ, hồi thương, tương khắc, hành quân, lực chiến thần tiên, phí trinh sát và giao thương/ngoại giao. Các hệ số hiển thị đúng theo nhánh và đều SIMULATED.
+- Chỉ dẫn tân thủ có bảy mốc dựa trên trạng thái gameplay đã lưu. Các hành động đề xuất gọi cùng action runtime và bước kế tiếp chỉ mở sau khi queue/trận thật hoàn tất; save cũ tự xác định lại bước từ thành tựu, không thể nhấn để bỏ qua.

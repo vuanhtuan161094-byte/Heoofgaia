@@ -51,6 +51,34 @@ test('completed academy research changes the linked economy', () => {
   }
 });
 
+test('new-player tutorial unlocks only after its seven gameplay milestones', () => {
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  assert.equal(state.tutorialStep,0);
+  state=doAction(state,{type:'upgrade',buildingId:'lumber'},now+1);
+  assert.equal(state.tutorialStep,0);
+  state=advance(state,state.queues.construction.finishAt+1).state;
+  assert.equal(state.tutorialStep,1);
+  state=doAction(state,{type:'research',techId:'tech-01'},state.lastTickAt+1);
+  state=advance(state,state.queues.research.finishAt+1).state;
+  assert.equal(state.tutorialStep,2);
+  state=doAction(state,{type:'upgrade',buildingId:'altar'},state.lastTickAt+1);
+  state=advance(state,state.queues.construction.finishAt+1).state;
+  assert.equal(state.tutorialStep,3);
+  state=doAction(state,{type:'recruit',heroId:'hero-02'},state.lastTickAt+1);
+  assert.equal(state.tutorialStep,4);
+  state=doAction(state,{type:'equip',heroId:'hero-01',itemId:'item-01'},state.lastTickAt+1);
+  assert.equal(state.tutorialStep,5);
+  state=doAction(state,{type:'train',troopId:'troop-01',count:1},state.lastTickAt+1);
+  state=advance(state,state.queues.training.finishAt+1).state;
+  assert.equal(state.tutorialStep,6);
+  const count=state.army['troop-01'];
+  state=doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-01',count},state.lastTickAt+1);
+  state=advance(state,state.queues.march.finishAt+1).state;
+  assert.equal(state.stats.victories,1);
+  assert.equal(state.tutorialStep,7);
+});
+
 test('specialized research improves troops, heroes, healing, scouting and combat', () => {
   const now=1_800_000_000_000;
   const base=createNewGame('Triều Ca',now);

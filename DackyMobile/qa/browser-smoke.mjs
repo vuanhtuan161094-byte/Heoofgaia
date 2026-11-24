@@ -109,6 +109,8 @@ try {
   await waitFor('document.querySelector("#page-heading h1")?.innerText==="Thành trì"');
   await waitFor('document.querySelectorAll(".building-card").length===21');
   await waitFor('document.querySelector(".resource-pill")!==null');
+  check((await evaluate('document.querySelector(".tutorial-panel")?.innerText')).includes('Mở rộng sản xuất'));
+  check(await evaluate('!!document.querySelector(".tutorial-panel [data-action=upgrade][data-building=lumber]")'));
   console.log('PASS new save and 21 live city buildings.');
 
   const screens=['city','heroes','inventory','army','world','pve','tech','quests','market','reports','settings'];
