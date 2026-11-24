@@ -99,6 +99,10 @@
       if (category) assert(row.category === category, 'WRONG_ITEM_CATEGORY');
       return row;
     }
+    function equipmentCapacity(state) {
+      const level=state?.nlCity?.levels?.nl_city_warehouse;
+      return limits.equipmentInstances+5*(Number.isSafeInteger(level)?Math.max(0,Math.min(20,level)):0);
+    }
     function grant(state, entries, receiptId) {
       return execute(state, 'GRANT', receiptId, entries, (next, m) => {
         assert(Array.isArray(entries) && entries.length > 0 && entries.length <= 100, 'BAD_GRANT');
@@ -118,7 +122,7 @@
             assert((m.stacks[id] || 0) + qty <= limits.stackQuantity, 'STACK_CAPACITY');
           }
         }
-        assert(next.items.length + equipmentCount <= limits.equipmentInstances, 'EQUIPMENT_CAPACITY');
+        assert(next.items.length + equipmentCount <= equipmentCapacity(next), 'EQUIPMENT_CAPACITY');
         const kinds = new Set(Object.keys(m.stacks).filter(id => m.stacks[id] > 0));
         for (const [id] of grouped) if (catalog[id].category !== 'equipment') kinds.add(id);
         assert(kinds.size <= limits.stackKinds, 'STACK_KIND_CAPACITY');
@@ -147,7 +151,7 @@
         const acquisition = row.acquisitionRule;
         assert(acquisition && ['SHOP','SHOP_OR_AUTHORIZED_REWARD'].includes(acquisition.kind) &&
           acquisition.shopCost, 'EQUIPMENT_NOT_FOR_SALE');
-        assert(next.items.length < limits.equipmentInstances, 'EQUIPMENT_CAPACITY');
+        assert(next.items.length < equipmentCapacity(next), 'EQUIPMENT_CAPACITY');
         pay(next, acquisition.shopCost);
         const uids = new Set(next.items.map(x => String(x.uid)));
         let uid;
@@ -205,21 +209,26 @@
       for (const [resource, amount] of Object.entries(costs)) state[resource] = (state[resource] || 0) - amount;
     }
     // One price source for UI, combat state and all receipt transactions.
-    function reinforcementCost(level) {
+    function reinforcementCost(level, state) {
       assert(integer(level, 1) && level < rules.reinforcement.maxLevel, 'BAD_REINFORCE_LEVEL');
       const r=rules.reinforcement;
       const silver=Math.round(r.silverBase*Math.pow(level,r.silverExponent));
-      return r.classicA3Pricing===true
+      const cost = r.classicA3Pricing===true
         ? {silver:silver+Math.round(r.silverSupplementBase*Math.pow(level,r.silverSupplementExponent)),
            grain:Math.round(r.grainBase*Math.pow(level,r.grainExponent))}
         : {silver,iron:Math.round(r.ironBase*Math.pow(level,r.ironExponent))};
+      const levels=state?.nlCity?.levels||{};
+      const safeLevel=id=>Number.isSafeInteger(levels[id])?Math.max(0,Math.min(20,levels[id])):0;
+      const discount=Math.min(.16,Math.min(.10,safeLevel('nl_city_workshop')*.02)+Math.min(.06,safeLevel('nl_city_engraving')*.01));
+      if(discount)cost.silver=Math.ceil(cost.silver*(1-discount));
+      return cost;
     }
     function reinforce(state, uid, receiptId) {
       return execute(state, 'REINFORCE', receiptId, uid, next => {
         const instance = equipmentInstance(next, uid);
         const r = rules.reinforcement;
         assert(instance.lv < r.maxLevel, 'REINFORCEMENT_MAX');
-        const cost = reinforcementCost(instance.lv);
+        const cost = reinforcementCost(instance.lv,next);
         pay(next, cost);
         instance.lv++;
         return { uid: instance.uid, level: instance.lv, cost };
