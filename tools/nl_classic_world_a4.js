@@ -2,6 +2,7 @@
 // Historical inspiration: Lequ 2011/09/17537, 07073 491232, SNSFun 20121123/41601.
 // All city gates, costs, rewards, market rates, rebirth balance and peaceful resource leases
 // are PROJECT_SIMULATED, not original VNG mechanics. One Save v5, no additional timer/solver.
+let nlClassicA4Rebirth;
 (()=>{
 'use strict';
 const CITY=[
@@ -99,10 +100,11 @@ function meritTrain(id){
 function rebirth(id){
  const s=state(),h=owned(id)?game.hero[id]:null,n=nat(s.rebirth[id]);
  if(battle||!h||h.level<rebirthGate(id)||n>=rebirthLimit()||!payment({merit:500,silver:2000}))return false;
- // Project cap 40, not historical WEB 60+5. Keep identity, gear, troop and slot.
+ // A7 supplies WEB-inspired level gate; standalone A4 retains its old test contract.
  h.level=1;h.xp=0;s.rebirth[id]=n+1;
  return done(s,'rebirth:'+id+':'+(n+1),{merit:-500,silver:-2000});
 }
+nlClassicA4Rebirth=rebirth;
 function claim(id){
  const s=state(),q=DAILY.find(x=>x[0]===id);
  if(battle||!q||s.claimed.includes(id)||s.progress[id]<q[2])return false;
