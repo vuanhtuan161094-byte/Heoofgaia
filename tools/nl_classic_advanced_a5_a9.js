@@ -43,7 +43,7 @@ function record(s,id,delta={}){
 }
 function done(s,id,delta={}){record(s,id,delta);renderResources();render();return true;}
 function canGain(delta){
- return Object.entries(delta).every(([k,v])=>Number.isSafeInteger(v)&&v>=0&&Number.isSafeInteger((k==='merit'?nlAState():game)[k]+v));
+ return obj(delta)&&Object.entries(delta).every(([k,v])=>['silver','grain','prestige','merit'].includes(k)&&Number.isSafeInteger(v)&&v>=0&&Number.isSafeInteger((k==='merit'?nlAState():game)[k]+v));
 }
 function gain(delta){for(const [k,v] of Object.entries(delta))(k==='merit'?nlAState():game)[k]+=v;}
 function pay(cost){return !battle&&payment(cost);}
@@ -218,7 +218,7 @@ function panel(){
   b=row('Đóng tàu hậu cần','Tàu '+s.naval.ships+'/'+Math.min(10,lv('nl_city_dock'))+' · cần Hải Cảng, Bến Thuyền',btn('ship','','Đóng tàu',locked||lv('nl_city_naval_port')<1||s.naval.ships>=Math.min(10,lv('nl_city_dock'))))+
   (s.naval.job?row('Vận tải biển',countdown(s.naval.job),btn('sea-collect','','Nhận',locked||Date.now()<s.naval.job.until)):row('Vận tải biển','600 Bạc + 400 Lương · cần Cảng Hàng Hóa',btn('sea','','Xuất hải',locked||!s.naval.ships||lv('nl_city_cargo_port')<1||s.daily.ship>=2)));
  }else{
-  b=pages([['nl_city_drillground','Thao Trường','XP huấn luyện'],['nl_city_manor','Dinh Phủ','XP huấn luyện'],['nl_city_state_office','Quốc Chính','Uy danh khi đầu tư'],['nl_city_bank','Tiền Trang','Lợi nhuận ủy phái'],['nl_city_trade_society','Thương Xã','Lợi nhuận ủy phái'],['nl_city_dock','Bến Thuyền','Số tàu vận tải'],['nl_city_cargo_port','Cảng Hàng Hóa','Thu nhập hải vận'],['nl_city_naval_drill','Thao Trường Thủy Quân','Chiến công hải vận'],['nl_city_navy_warehouse','Kho Hải Quân','Sức chứa hải vận'],['nl_city_lighthouse','Hải Đăng','Thời gian vận tải']],x=>row(x[1],'Cấp '+lv(x[0])+' · '+x[2]));
+  b=pages([['nl_city_drillground','Thao Trường','XP huấn luyện'],['nl_city_manor','Dinh Phủ','XP huấn luyện'],['nl_city_state_office','Quốc Chính','Uy danh khi đầu tư'],['nl_city_bank','Tiền Trang','Lợi nhuận ủy phái'],['nl_city_trade_society','Thương Xã','Lợi nhuận ủy phái'],['nl_city_dock','Bến Thuyền','Số tàu vận tải'],['nl_city_cargo_port','Cảng Hàng Hóa','Thu nhập hải vận'],['nl_city_naval_drill','Thao Trường Thủy Quân','Chiến công hải vận'],['nl_city_navy_warehouse','Kho Hải Quân','Sức chứa hải vận'],['nl_city_lighthouse','Hải Đăng','Thời gian vận tải'],['nl_city_workshop','Công Tượng Phường','Giảm Bạc khi cường hóa'],['nl_city_engraving','Khắc Văn','Giảm Bạc khi cường hóa'],['nl_city_warehouse','Kho','+5 ô trang bị mỗi cấp']],x=>row(x[1],'Cấp '+lv(x[0])+' · '+x[2]));
  }
  return '<section class="panel mini-box nla59" data-nla59-panel><h3>Triều Chính · Quân Đoàn · Thiên Hạ</h3><div class="nla59-tabs">'+tabs.map(t=>'<button class="dark-button '+(tabA===t[0]?'picked':'')+'" data-nla59-tab="'+t[0]+'">'+t[1]+'</button>').join('')+'</div>'+b+'<p class="tiny">Mô phỏng WEB cổ điển · offline · Save v5.</p></section>';
 }
