@@ -130,6 +130,18 @@
        const taxPage=pages.findIndex(p=>p.root?.matches?.('[data-nla-tax-panel]'));
        if(taxPage>1)pages.splice(1,0,...pages.splice(taxPage,1));
      }
+     // On mobile the native board and hero picker are the first two windows.
+     // B4 presets and C seals remain selectable, but must not displace slot editing.
+     if(tab==='formation'&&viewportNarrow()){
+       const includesVisible=(p,selector)=>{
+         const target=p.root?.matches?.(selector)?p.root:p.root?.querySelector?.(selector);
+         return !!target&&!(p.choices||[]).some(pick=>pick.items.some(item=>
+           !pick.allowed.includes(item)&&(item===target||item.contains(target))));
+       };
+       const board=pages.find(p=>includesVisible(p,'.formation-board')&&!includesVisible(p,'.roster-list'));
+       const picker=pages.find(p=>includesVisible(p,'.roster-list')&&!includesVisible(p,'.formation-board'));
+       if(board&&picker){pages=[board,picker,...pages.filter(p=>p!==board&&p!==picker)];}
+     }
      if(pages.length===0)pages=[{root:null,label:'Tổng quan',choices:[]}];
      chooser.replaceChildren(...pages.map((p,i)=>{const opt=document.createElement('option');opt.value=String(i);opt.textContent=`${i+1} · ${p.label.slice(0,29)}`;return opt}));
      let idx=Math.min(Math.max(0,pageIndex[tab]||0),pages.length-1);
