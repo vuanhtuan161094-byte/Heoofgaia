@@ -111,7 +111,7 @@ jobs:
           assert 'muu_dinh_tam_quoc_v1' in html
           PY
           python qa/nl_review_screenshots.py --html index.html --out qa/ui-v2-screenshots
-      - name: D visual asset coverage and offline mobile smoke
+      - name: D and D3 visual asset coverage and offline mobile smoke
         run: python qa/nl_art_d_browser.py
       - name: Phase A classic WEB resources, tax and named-recruitment browser QA
         run: python qa/nl_classic_phase_a_browser.py --html index.html

@@ -54,7 +54,7 @@
        rule.kind==='TRAIN_HERO_XP'?'EXP tướng +'+esc(rule.amount):
        rule.kind==='CRAFT_REAGENT'?'Cần '+needs+' nguyên liệu và '+esc(silverCost)+' bạc → '+esc(rule.outputQuantity||1)+' tinh khoáng':
        'Nguyên liệu rèn luyện';
-     return '<article class="nli-items-card"><b>'+esc(row.name)+'</b><small>'+
+     return '<article class="nli-items-card" data-nl-art-item="'+esc(row.id)+'" data-nl-art-kind="'+esc(row.sourceCategory||row.sourceGroup||rule.kind||'token')+'" data-nl-art-rarity="'+esc(row.rarity||'')+'"><b>'+esc(row.name)+'</b><small>'+
        esc(row.sourceCategory||row.sourceGroup||'Vật phẩm')+' · '+
        (mode==='wiki'?'Wiki (chỉ đọc)':'Sở hữu: '+owned)+'</small><p>'+effect+
        '</p>'+(rule.kind==='CRAFT_REAGENT'&&mode!=='wiki'?

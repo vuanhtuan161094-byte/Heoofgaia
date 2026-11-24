@@ -43,10 +43,64 @@
  const soldier=(x,y,k)=>'<g transform="translate('+x+' '+y+') scale('+k+')"><ellipse cx="22" cy="58" rx="20" ry="6" fill="#0b1418" opacity=".8"/>'+(f==='cavalry'?'<path d="M3 39Q17 28 37 39L47 25 53 28 51 44 43 49 39 61H34V49H15L10 61H5Z" fill="#76503c" stroke="#c4a270"/>':'')+'<path d="M11 29L22 24 33 29 37 49 27 52 22 45 17 52 7 49Z" fill="'+p[0]+'" stroke="#b9a16b"/><circle cx="22" cy="19" r="8" fill="url(#skin)"/><path d="M12 19Q12 7 22 6Q32 7 32 19L22 15Z" fill="url(#metal)" stroke="#352c20"/><path d="M12 33h20M14 40h16" stroke="'+p[1]+'" stroke-width="2"/><path d="M15 51l-2 7M29 51l2 7" stroke="#302a25" stroke-width="4"/></g>';
  return svg(defs+frame+'<path d="M10 75L48 48 86 75 48 88Z" fill="'+p[0]+'" opacity=".4"/>'+soldier(10,27,.78)+soldier(40,27,.78)+soldier(23,39,.9)+weapon+'<path d="M12 12h26v12H12Z" fill="'+p[0]+'" stroke="'+p[1]+'"/>'+Array.from({length:1+n%4},(_,i)=>'<circle cx="'+(16+i*5)+'" cy="18" r="1.6" fill="#e4ca83"/>').join(''));
  }
+
+ // D3: original miniature architecture, campaign terrain and inventory illustrations.
+ function architecture(id,label){
+   const n=hash(id),s=norm(id+' '+label);
+   const p=['#456b72','#70584b','#476551','#694d42'][n%4],tile=['#879fa2','#be9c67','#8ba17f','#bf7d5a'][n%4];
+   const base='<path d="M5 69L48 48 91 70 49 91Z" fill="#887956" stroke="#d8bd80"/><path d="M5 69v7l44 18v-3L91 77v-7L49 91Z" fill="#493f31"/>';
+   function house(x,y,w,h,roof=p){
+      return '<g transform="translate('+x+' '+y+')"><path d="M0 '+h+'l'+w/2+' '+w*.24+' '+w/2+' -'+w*.24+'V0L0 0Z" fill="#b89b6c" stroke="#493a2b"/><path d="M'+w/2+' '+h+'v'+w*.24+'L'+w+' '+h+'V0L'+w/2+' '+w*.24+'Z" fill="#7b5b3d"/><path d="M-5 1L'+w/2+' -'+w*.39+' '+(w+5)+' 1 '+w/2+' '+w*.29+'Z" fill="'+roof+'" stroke="#cfbb85" stroke-width="1.4"/><path d="M-1 1L'+w/2+' -'+w*.31+' '+(w+1)+' 1M'+w*.18+' 5L'+w/2+' -'+w*.23+' '+w*.82+' 5" fill="none" stroke="'+tile+'" opacity=".8"/><path d="M'+w*.22+' '+h+'V'+h*.55+'h'+w*.13+'V'+(h+w*.06)+'Z" fill="#332c27"/><path d="M'+w*.72+' '+h*.7+'v-'+h*.3+'" stroke="#d7b47a" stroke-width="3"/></g>';
+   }
+   let body='';
+   if(/farm|field|mill|ruong|dien|nong|grain/.test(s)){
+     body='<path d="M9 63L43 45 75 61 43 79Z" fill="#8c9255" stroke="#c8ba71"/>'+Array.from({length:6},(_,i)=>'<path d="M'+(13+i*5)+' '+(62-i*2.6)+'l32 16" stroke="#d3b965" stroke-width="2"/>').join('')+house(54,38,27,17);
+   }else if(/mine|silver|mo bac/.test(s)){
+     body='<path d="M15 69L26 34 41 40 58 22 82 68 49 85Z" fill="#64716a" stroke="#a7a68a"/><path d="M41 68v-14q8-14 18 0v19l-10 5Z" fill="#222b2c" stroke="#ba9e69" stroke-width="3"/><path d="M22 72l13-5 12 6-13 7Z" fill="#c5c9ba"/>'+house(60,49,24,15);
+   }else if(/tower|thap/.test(s)){
+     body=house(29,51,38,17)+house(32,39,32,16)+house(36,26,24,14)+house(40,15,16,12);
+   }else if(/barrack|drill|military|stable|binh|quan|train/.test(s)){
+     body=house(9,46,32,20)+house(52,42,34,20)+'<path d="M42 70V26M42 28h22l-7 8 7 8H42" fill="#9a493e" stroke="#e4bf7b"/><path d="M29 77l17-8 17 8-17 8Z" fill="#bb9f70"/>';
+   }else if(/palace|hall|thanh chinh|residence/.test(s)){
+     body=house(10,47,27,18)+house(58,43,27,18)+house(24,38,48,30)+house(32,21,32,18,'#9a5845');
+   }else if(/warehouse|granary|kho|treasury/.test(s)){
+     body=house(15,43,38,25)+house(51,50,30,17)+'<path d="M39 74l10-6 12 7-11 7Z M55 80l8-5 8 4-9 6Z" fill="#d4a36c" stroke="#755331"/>';
+   }else if(/shop|market|merchant|cho|workshop|forge/.test(s)){
+     body=house(25,37,46,29)+'<path d="M9 60l20-13 17 8-20 13Z" fill="#ad674e" stroke="#e0bc81"/><path d="M13 60v15M42 56v16" stroke="#bd9a68" stroke-width="2"/><path d="M59 78l14-7 8 4-14 7Z" fill="#caa16f"/>';
+   }else{
+     body=house(19,39,51,27)+house(29,24,31,16)+ '<path d="M11 80l8-7 8 4-8 7Z" fill="'+tile+'"/>';
+   }
+   return svg(defs+frame+base+body);
+ }
+ function landscape(id){
+   const n=hash(id),p=[['#577868','#b6b886','#667f9a'],['#77764e','#c0ad74','#627b79'],['#65747b','#aeb5b4','#586b83'],['#8e7757','#d3b580','#668a86']][n%4];
+   let b='<rect x="4" y="4" width="152" height="88" rx="4" fill="'+p[0]+'"/><path d="M4 36Q35 10 60 33T116 22L156 41V4H4Z" fill="'+p[1]+'" opacity=".48"/>';
+   for(let i=0;i<7;i++){let x=9+(n+i*41)%139,y=18+(n>>>i)%27;b+='<path d="M'+(x-15)+' '+(y+18)+'l15 -25 18 25Z" fill="#334f49" stroke="'+p[1]+'" stroke-width=".8"/><path d="M'+x+' '+(y-7)+'l-6 10 8-4 6 6Z" fill="'+p[1]+'"/>';}
+   const river='M-5 '+(57+n%15)+'Q38 40 76 67T165 41';
+   b+='<path d="'+river+'" fill="none" stroke="#b4b39a" stroke-width="13"/><path d="'+river+'" fill="none" stroke="'+p[2]+'" stroke-width="9"/><path d="M15 83Q53 69 77 45T139 17" fill="none" stroke="#d0b481" stroke-width="2.8" stroke-dasharray="4 3"/>';
+   for(let i=0;i<4;i++){const x=19+(n+i*29)%123,y=51+(n>>>i)%27;b+='<g transform="translate('+x+' '+y+')"><path d="M-7 0h14v9H-7Z" fill="#c4ad82" stroke="#514939"/><path d="M-11 0L0-8 11 0Z" fill="#813f35" stroke="#d7be80"/><path d="M-2 9V4h4v5" fill="#392e27"/></g>'}
+   return svg(b+'<rect x="2" y="2" width="156" height="92" rx="5" fill="none" stroke="#d4b477" stroke-width="3"/>',160,96);
+ }
+ function itemKind(v){const s=norm(v);return /weapon|vu khi|kiem|dao|thuong|cung/.test(s)?'blade':/armor|armour|giap|ao|helmet|mu/.test(s)?'armour':/horse|mount|ngua|ma phu/.test(s)?'horse':/book|sach|binh phap|scroll|bi kip/.test(s)?'book':/cloak|mantle|choang/.test(s)?'cloak':/artifact|banner|co|bao vat|quan an/.test(s)?'banner':/chest|bundle|ruong|tui|hop|goi/.test(s)?'chest':/gem|stone|ore|khoang|da|ngoc|reagent|tinh/.test(s)?'gem':/food|grain|luong|thuc/.test(s)?'grain':/silver|bac|coin|tien/.test(s)?'silver':/gold|vang/.test(s)?'gold':/potion|dan|thuoc|ruou/.test(s)?'potion':'token'}
+ const loot={
+ blade:'<path d="M23 76L65 20 80 12 75 29 34 84Z" fill="url(#metal)" stroke="#f7e4b3" stroke-width="1.5"/><path d="M30 72l41-50" stroke="#fff5d2" stroke-width="2"/><path d="M15 63l29 23" stroke="#b67d47" stroke-width="7"/><path d="M25 77l-12 12" stroke="#705245" stroke-width="8"/>',
+ armour:'<path d="M13 30L30 15 48 25 66 15 83 30 71 50 61 44V83H35V44L25 50Z" fill="url(#metal)" stroke="#d7c089"/><path d="M48 29v52M35 45h26M35 55h26M35 65h26M16 31l16-8M80 31l-16-8" stroke="#544b3d" stroke-width="2.8"/><path d="M38 40l10 7 10-7" stroke="#fbdf98" fill="none"/>',
+ horse:'<path d="M18 78Q24 49 35 42L28 26 48 12 62 25 76 36 80 47 67 54 52 48 45 76Z" fill="#a87952" stroke="#e4c18e" stroke-width="2"/><path d="M31 24L23 47 19 76 39 80 43 61 38 42Z" fill="#463931"/><path d="M47 23l10 8M64 37l4 2" stroke="#302820" stroke-width="3"/><path d="M37 45l21 6 8-12" fill="none" stroke="#d6b66f" stroke-width="3"/>',
+ book:'<path d="M17 18h53l9 8v57H26l-9-7Z" fill="#7c503b" stroke="#d4b171"/><path d="M26 23h44v53H26Z" fill="#d2bd8d"/><path d="M30 32h33M30 42h33M30 52h27M30 62h33" stroke="#76583d" stroke-width="2"/><path d="M22 22v54" stroke="#c2a16c" stroke-width="3"/>',
+ cloak:'<path d="M35 17L48 25 61 17 80 76Q48 92 16 76Z" fill="#8c4744" stroke="#d3b578" stroke-width="2"/><path d="M38 25L28 76M58 25l10 51M48 29v54" stroke="#d4a76d" fill="none"/><path d="M35 17h26l-13 15Z" fill="url(#metal)"/>',
+ banner:'<path d="M25 13v73M25 19h53L64 35l14 18H25Z" fill="#974b41" stroke="#e2c58b" stroke-width="3"/><circle cx="48" cy="35" r="9" fill="url(#metal)"/><path d="M48 29v12M42 35h12" stroke="#7b4833" stroke-width="2"/>',
+ chest:'<path d="M15 42Q15 24 31 22H65Q81 24 81 42V76H15Z" fill="#81563a" stroke="#d6b478" stroke-width="2"/><path d="M15 45h66M27 26v50M69 26v50" stroke="#c6a05e" stroke-width="5"/><rect x="42" y="41" width="12" height="19" rx="2" fill="url(#metal)" stroke="#e1c58c"/><path d="M48 46v8" stroke="#62452f" stroke-width="2"/>',
+ gem:'<path d="M26 25L48 13 70 25 80 47 48 83 16 47Z" fill="#5b9c91" stroke="#d5ede0" stroke-width="2"/><path d="M26 25L48 45 70 25M16 47l32-2 32 2M48 13v32L48 83" fill="none" stroke="#b6d7cc" stroke-width="2"/><path d="M25 47l23 36-9-37Z" fill="#2b5d62"/>',
+ potion:'<path d="M39 17h18v20Q77 49 72 69Q48 90 24 69Q19 49 39 37Z" fill="#608d82" stroke="#e0d6ad" stroke-width="2"/><path d="M27 58Q48 68 69 58L66 70Q48 80 30 70Z" fill="#a9cc87"/><path d="M36 16h24v13H36Z" fill="#b0824e" stroke="#e2bb82"/>',
+ token:'<circle cx="48" cy="48" r="31" fill="url(#metal)" stroke="#e9cd8f" stroke-width="2"/><circle cx="48" cy="48" r="24" fill="#655640" stroke="#c8a46b"/><path d="M48 27l6 15 16 6-16 6-6 15-6-15-16-6 16-6Z" fill="#e2c17d"/>'
+ };
+ function lootArt(id,h){const k=itemKind(h?.kind||''),rar=norm(h?.rarity),n=hash(id),p=/legend|than|cam|orange/.test(rar)?'#dcaa57':/epic|tim|purple/.test(rar)?'#b49acc':/rare|lam|blue/.test(rar)?'#80b4d5':['#b5bbad','#8bbb9b','#c6ab74'][n%3];
+   return svg(defs+frame+'<rect x="6" y="6" width="84" height="84" rx="4" fill="none" stroke="'+p+'" stroke-width="3"/><circle cx="48" cy="48" r="37" fill="'+p+'" opacity=".15"/>'+(loot[k]||shapes[k]||loot.token)+'<path d="M8 86h80" stroke="'+p+'" stroke-width="2"/>');
+ }
  function icon(kind,id=''){return svg(defs+frame+(shapes[kind]||shapes.quests));}
  const heroMap=()=>window.__NL_ART_CATALOG__||{};
  function heroForName(name){const n=norm(name).trim();return Object.entries(heroMap()).find(([id,h])=>norm(h.name).trim()===n);}
- function art(kind,id,h){const key=kind+':'+id;if(!cache.has(key))cache.set(key,uri(kind==='hero'?portrait(id,h):families.includes(kind)?troop(kind,id):icon(kind,id)));return cache.get(key)}
+ function art(kind,id,h){const key=kind+':'+id;if(!cache.has(key))cache.set(key,uri(kind==='hero'?portrait(id,h):kind==='architecture'?architecture(id,h?.name):kind==='landscape'?landscape(id):kind==='loot'?lootArt(id,h):families.includes(kind)?troop(kind,id):icon(kind,id)));return cache.get(key)}
  function decorate(el,kind,id,h,replace=false){
    if(!el||el.dataset.nlArtD===kind+':'+id)return;
    el.dataset.nlArtD=kind+':'+id;
@@ -60,8 +114,17 @@
  function apply(){
    document.documentElement.dataset.nlArtD='v1';
    document.querySelectorAll('.nav[data-tab] .ico').forEach(el=>{let k=el.closest('[data-tab]').dataset.tab;decorate(el,k,k,null,true)});
-   document.querySelectorAll('#view .building .symbol').forEach(el=>{let b=el.closest('.building'),k=buildingKind(b.dataset.focusBuilding||b.textContent);decorate(el,k,k,null,true)});
-   document.querySelectorAll('#view .nlcity-tile').forEach(el=>{let k=buildingKind(el.textContent);decorate(el,k,k)});
+   document.querySelectorAll('#view .building .symbol').forEach(el=>{const b=el.closest('.building'),id=b.dataset.focusBuilding||b.dataset.building||b.querySelector('b')?.textContent||b.textContent;decorate(el,'architecture',id,{name:b.querySelector('b')?.textContent||id},true)});
+   document.querySelectorAll('#view .nlcity-tile').forEach(el=>{const id=el.dataset.nlCityId||el.textContent;decorate(el,'architecture',id,{name:el.querySelector('b')?.textContent||id})});
+   document.querySelectorAll('#view [data-nl-city-detail] h3').forEach(el=>{const id=el.closest('[data-nl-city-detail]').dataset.nlCityDetail;decorate(el,'architecture',id,{name:el.textContent})});
+   document.querySelectorAll('#view .stage[data-stage]').forEach(el=>decorate(el,'landscape','stage-'+el.dataset.stage));
+   const map=document.querySelector('#view [data-nlc-map]');if(map){
+     const heading=map.closest('[data-nlc-panel]')?.querySelector('h3');
+     decorate(heading,'landscape',map.value);
+   }
+   document.querySelectorAll('#view .nla4-line').forEach(el=>{const b=el.querySelector('[data-nla4-action="move"]');if(b)decorate(el,'landscape',b.dataset.nla4Id)});
+   document.querySelectorAll('#view [data-nl-art-item]').forEach(el=>decorate(el,'loot',el.dataset.nlArtItem,{kind:el.dataset.nlArtKind,rarity:el.dataset.nlArtRarity}));
+   document.querySelectorAll('#view .nli-slot[data-slot]').forEach(el=>decorate(el,'loot','slot-'+el.dataset.slot,{kind:el.dataset.slot}));
    document.querySelectorAll('#view [data-nla-hero]').forEach(el=>heroRow(el,el.dataset.nlaHero));
    document.querySelectorAll('#view .nlc-row').forEach(el=>{const b=el.querySelector('[data-nlc-action]');if(!b)return;const a=b.dataset.nlcAction,id=b.dataset.nlcId;
      if(a==='recruit')heroRow(el,id);
@@ -86,6 +149,6 @@
  // Observe native render boundaries, not subtree edits made by this presentation layer.
  for(const el of [document.getElementById('view'),document.getElementById('resources')])if(el)new MutationObserver(schedule).observe(el,{childList:true});
  document.addEventListener('change',schedule,true);document.addEventListener('click',schedule,true);
- if(window.__P2_ENABLE_QA__)window.__NL_ART_D_QA__={count:()=>Object.keys(heroMap()).length,portrait:id=>art('hero',id,heroMap()[id]),troop:(f,id)=>art(f,id),icons:Object.keys(shapes),apply};
+ if(window.__P2_ENABLE_QA__)window.__NL_ART_D_QA__={count:()=>Object.keys(heroMap()).length,portrait:id=>art('hero',id,heroMap()[id]),troop:(f,id)=>art(f,id),icons:Object.keys(shapes),apply,architecture:(id,name)=>art('architecture',id,{name}),landscape:id=>art('landscape',id),loot:(id,kind,rarity)=>art('loot',id,{kind,rarity}),mapCount:()=>Object.keys(window.__NL_ART_MAP_CATALOG__||{}).length};
  apply();
 })();

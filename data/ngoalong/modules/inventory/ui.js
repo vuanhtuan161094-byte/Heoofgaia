@@ -106,7 +106,7 @@
       const haveMat=state.nlItemsV1?.stacks?.[f?.materialId]||0;
       const canReinforce=affordable(state,rc);
       const canRefine=fc!=null&&state.silver>=fc&&haveMat>=needMat;
-      return '<article class="nli-gear" data-uid="'+escape(uid)+'">'+
+      return '<article class="nli-gear" data-uid="'+escape(uid)+'" data-nl-art-item="'+escape(row.id)+'" data-nl-art-kind="'+escape(row.slot)+'" data-nl-art-rarity="'+escape(row.rarity)+'">'+
         '<header><strong>'+escape(row.name)+'</strong><span>'+escape(row.rarity)+'</span></header>'+
         '<small>'+escape(SLOTS.find(s=>s[0]===row.slot)?.[1]||row.slot)+
         ' · Cấp yêu cầu '+need+' · Cường hóa +'+(item.lv-1)+
@@ -123,7 +123,7 @@
     }).join('');
     const shopCards=(shop?visible:[]).map(row=>{
         const cost=row.acquisitionRule.shopCost;
-        return '<article class="nli-gear"><header><strong>'+escape(row.name)+'</strong><span>'+
+        return '<article class="nli-gear" data-nl-art-item="'+escape(row.id)+'" data-nl-art-kind="'+escape(row.slot)+'" data-nl-art-rarity="'+escape(row.rarity)+'"><header><strong>'+escape(row.name)+'</strong><span>'+
           escape(row.rarity)+'</span></header><small>'+escape(SLOTS.find(s=>s[0]===row.slot)?.[1]||row.slot)+
           ' · Cấp '+row.requiredLevel+'</small><p>'+byStat(row.stats)+'</p>'+
           '<div class="nli-buttons"><span>'+priceText(cost,' · ')+'</span>'+

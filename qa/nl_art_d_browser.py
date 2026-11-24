@@ -23,10 +23,21 @@ with sync_playwright() as p:
         assert result["nav"]>=14 and result["city"]>0 and result["save"]==5,result
         page.locator('.nav[data-tab="heroes"]').click()
         page.wait_for_function("document.querySelectorAll('[data-nla-hero] .nl-art-d-img').length>0")
+        result3=page.evaluate("""() => {
+          const q=window.__NL_ART_D_QA__;
+          return {maps:q.mapCount(),architecture:q.architecture('hall','Thành Chính')!==q.architecture('tower','Tháp'),
+            terrain:q.landscape('wiki-map-1')!==q.landscape('wiki-map-2'),
+            equipment:q.loot('a','weapon','rare')!==q.loot('b','armor','rare')};
+        }""")
+        assert result3["maps"]==249 and all(result3.values()),result3
+        page.locator('.nav[data-tab="campaign"]').click()
+        page.wait_for_function("document.querySelectorAll('[data-nlc-panel=campaign] h3 .nl-art-d-img').length>0")
+        page.locator('.nav[data-tab="equipment"]').click()
+        page.wait_for_function("document.querySelectorAll('.nli-slot .nl-art-d-img').length>0")
         page.locator('.nav[data-tab="barracks"]').click()
         page.wait_for_function("document.querySelectorAll('.nlw-unit .nl-art-d-img').length>0")
         assert page.evaluate("document.documentElement.scrollWidth<=innerWidth+2")
         assert not errors,errors
-        print("NL_ART_D PASS",width,result)
+        print("NL_ART_D/D3 PASS",width,result,result3)
         page.close()
     browser.close()

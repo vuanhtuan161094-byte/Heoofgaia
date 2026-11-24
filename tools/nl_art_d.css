@@ -41,3 +41,22 @@ html[data-nl-art-d] body{background:radial-gradient(ellipse at 50% 15%,#33473d,#
  #view .nlcity-tile>.nl-art-d-img{width:22px;height:22px}
  #view .nl-art-d-preview{width:28px;height:28px}
 }
+
+/* D3: compact original architecture and loot cards; preserve fixed-window geometry. */
+#view .building .symbol .nl-art-d-img{width:39px;height:29px;filter:drop-shadow(0 2px 2px #0a1718aa)}
+#view .nlcity-tile>.nl-art-d-img{width:35px;height:35px;filter:drop-shadow(0 2px 2px #071416)}
+#view [data-nl-city-detail] h3>.nl-art-d-img,#view [data-nlc-panel="campaign"] h3>.nl-art-d-img{display:inline-block;vertical-align:middle;width:52px;height:32px;margin-right:7px}
+#view .stage>.nl-art-d-img{float:right;width:40px;height:24px;margin:0 0 2px 4px;opacity:.9}
+#view .nla4-line>.nl-art-d-img{float:left;width:44px;height:29px;margin-right:5px}
+#view .nli-gear>.nl-art-d-img,#view .nli-items-card>.nl-art-d-img{float:left;width:40px;height:40px;margin:0 7px 2px 0}
+#view .nli-slot>.nl-art-d-img{float:left;width:25px;height:25px;margin-right:4px}
+#view .nli-gear,#view .nli-items-card,#view .nli-slot{background:linear-gradient(150deg,#33443d,#1b2b2c);border-color:#897650}
+#view .nli-gear header strong,#view .nli-items-card>b{color:#eed6a4}
+#view .nli-gear:after,#view .nli-items-card:after,#view .nli-slot:after{content:"";display:block;clear:both}
+@media(max-width:650px){
+ #view .building .symbol .nl-art-d-img{width:30px;height:21px}
+ #view .nlcity-tile>.nl-art-d-img{width:25px;height:25px}
+ #view .stage>.nl-art-d-img{width:30px;height:18px}
+ #view .nli-gear>.nl-art-d-img,#view .nli-items-card>.nl-art-d-img{width:31px;height:31px;margin-right:4px}
+ #view .nli-slot>.nl-art-d-img{width:18px;height:18px}
+}
