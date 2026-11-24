@@ -28,9 +28,11 @@ function state(){
  return s;
 }
 const floor=()=>Math.max(0,Math.min(20,nat(game.towerFloor)))+state().extraFloor;
+function heroReady(h){return h.towerGate?floor()>=h.towerGate&&state().soul>=h.soulCost:game.cleared.includes(h.gate);}
 function recruit(id){
  const h=HERO.get(id),s=state();
- if(battle||!h||owned(id)||!game.cleared.includes(h.gate)||!payment({silver:h.silver}))return false;
+ if(battle||!h||owned(id)||!heroReady(h)||!payment({silver:h.silver}))return false;
+ if(h.towerGate)s.soul-=h.soulCost;
  game.roster.push(id);game.hero[id]={level:1,xp:0,troops:160};game.troopModes[id]=h.type;
  s.recruits[id]=true;countTask('recruit');save();render();return true;
 }
@@ -107,7 +109,11 @@ nlContentCSettle=function(o){
  return {};
 };
 const oldSkill=p2Skill;
-p2Skill=function(actor){return actor?.team==='e'&&battle?.nlContentC&&actor.nlCDescriptor?actor.nlCDescriptor:oldSkill(actor);};
+p2Skill=function(actor){
+ if(actor?.team==='e'&&battle?.nlContentC&&actor.nlCDescriptor)return actor.nlCDescriptor;
+ const awake=actor?.team==='p'&&battle?.mode!=='cltq'&&game.nlClassicAdvanced?.growth?.[actor.id]?.awakened&&NL_CONTENT_C.awakeningSkills?.[actor.id];
+ return awake?{...awake.descriptor}:oldSkill(actor);
+};
 const oldReport=p2StoreReport;
 p2StoreReport=function(rewards,loot){oldReport(rewards,loot);if(battle?.nlContentC&&battle.report)battle.report.nlContentC=structuredClone(battle.nlContentC);};
 const oldShell=renderBattleShell;
@@ -158,7 +164,7 @@ function campaignPanel(){const s=state(),m=MAP.get(mapId)||MAPS[0],list=MAPS.fil
  const options=list.slice(mapPage*20,mapPage*20+20).map(x=>'<option value="'+esc(x.id)+'" '+(x.id===m.id?'selected':'')+'>'+esc(x.name)+' · '+x.npcs.length+' NPC · ải '+x.gate+'</option>').join('');
  return pane('campaign','Thiên Hạ Wiki · 249 phó bản / 4.903 NPC','<p>Đã vượt '+Object.keys(s.cleared).length+' NPC · '+Object.keys(s.mapsCleared).length+' bản đồ · '+s.soul+' Tướng Hồn</p><input data-nlc-search placeholder="Tìm phó bản" value="'+esc(search)+'"><select data-nlc-map>'+options+'</select><div class="nlc-nav">'+btn('map-page','prev','Bản đồ trước',mapPage===0)+btn('map-page','next','Bản đồ sau',mapPage>=Math.ceil(list.length/20)-1)+'</div><b>'+esc(m.name)+'</b>'+pages(m.npcs,npcPage,n=>row(n.name,(n.boss?'Boss · ':'')+n.units.length+' đội · '+(n.sourceFormationIncomplete?'ngoại suy đội hình':'ô đội hình nguồn'),btn('npc',n.id,s.cleared[n.id]?'Đã thắng':'Xuất chiến',!readyNpc(n.id)||!!battle)),'npc-page'));
 }
-function heroPanel(){const s=state(),rows=[...HERO.values()];return pane('heroes','Danh tướng Wiki bổ sung · '+HERO.size,'<p>364 hồ sơ Wiki được ánh xạ · '+NL_CONTENT_C.counts.runtimeHeroes+' danh tính runtime, gồm tướng cũ.</p>'+pages(rows,heroPage,h=>row(h.name,(h.faction||'')+' · '+h.skill+' · ải '+h.gate+' · '+h.silver+' Bạc',btn('recruit',h.id,owned(h.id)?'Đã có':'Chiêu mộ',owned(h.id)||!!battle||!game.cleared.includes(h.gate)||game.silver<h.silver)),'hero-page'));}
+function heroPanel(){const s=state(),rows=[...HERO.values()];return pane('heroes','Danh tướng Wiki bổ sung · '+HERO.size,'<p>364 hồ sơ Wiki được ánh xạ · '+NL_CONTENT_C.counts.runtimeHeroes+' danh tính runtime, gồm tướng cũ.</p>'+pages(rows,heroPage,h=>row(h.name,(h.faction||'')+' · '+h.skill+' · '+(h.towerGate?'Tháp '+h.towerGate+' · '+h.soulCost+' Tướng Hồn':'ải '+h.gate)+' · '+h.silver+' Bạc',btn('recruit',h.id,owned(h.id)?'Đã có':'Chiêu mộ',owned(h.id)||!!battle||!heroReady(h)||game.silver<h.silver)),'hero-page'));}
 function troopPanel(){if(!owned(heroId))heroId=game.roster[0]||'';return pane('troops','Quân cấp 4 · '+tier4.size,'<p>40 quân WEB 2011 · mở sau 10 chuyển sinh, Tháp 40, Doanh Trại 4 · 300 Tướng Hồn + 5.000 Bạc.</p><select data-nlc-hero>'+game.roster.map(id=>'<option value="'+esc(id)+'" '+(id===heroId?'selected':'')+'>'+esc(HEROES[id]?.name||id)+'</option>').join('')+'</select>'+pages(NL_C_TIER4,unitPage,t=>row(t.name,t.sourceName+' · '+t.familyName,btn('tier4',t.id,nlwB4Active(heroId)?.id===t.id?'Đang dùng':'Chuyển quân',!!battle||!owned(heroId)||floor()<40||nat(game.nlClassicWorldA4?.rebirth?.[heroId])<10||game.buildings.barracks<4||state().soul<300||game.silver<5000)),'unit-page'));}
 function towerPanel(){return pane('tower','Tháp mở rộng · 100 tầng','<p>Đã vượt '+floor()+'/100 · lượt '+(game.activity?.towerTries||0)+'/3 · Tướng Hồn '+state().soul+'</p>'+row('Tầng '+Math.min(100,floor()+1),floor()<20?'Hoàn thành 20 tầng gốc trước.':'Đối thủ tăng dần · thưởng Bạc/Lương/Uy danh/Tướng Hồn',btn('tower','','Khiêu chiến',!!battle||floor()<20||floor()>=100||!game.activity?.towerTries)));}
 function sealPanel(){const s=state();return pane('seals','Quân ấn · '+SEALS.length+' mẫu','<p>Đã mở '+Object.keys(s.seals).length+' · trang bị '+s.equippedSeals.length+'/3 · chỉ số cộng cho đội.</p>'+pages(SEALS,sealPage,r=>row(r[1],r[2]+' +'+r[3]+' · '+({stage:'Ải',npc:'NPC Wiki',tower:'Tầng',prestige:'Uy danh',heroes:'Võ tướng',territory:'Lãnh địa',seals:'Quân ấn'})[r[4]]+' '+r[5],s.seals[r[0]]?btn('equip-seal',r[0],s.equippedSeals.includes(r[0])?'Tháo':'Trang bị',!!battle||(!s.equippedSeals.includes(r[0])&&s.equippedSeals.length>=3)):btn('unlock-seal',r[0],'Nhận',!!battle||!sealReady(r))),'seal-page'));}
