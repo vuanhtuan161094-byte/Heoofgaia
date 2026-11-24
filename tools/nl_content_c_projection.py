@@ -71,7 +71,23 @@ def build(root):
     alpha=read(root/"data/ngoalong/alpha_content.json")
     old=alpha["heroes"]["projectRoster"]; existing={h["id"] for h in alpha["heroes"]["hero207Roster"]}
     norm=lambda x:x.strip().casefold()
-    aliases={}; additions=[]
+    aliases={}; additions=[]; awakenings={}
+    handoff={x["heroId"]:x for x in read(base/"heroes/skills_handoff_v1.json")["heroes"]}
+    evidence={x["heroId"]:x for x in read(base/"heroes/hero_source_evidence_matrix_v4.json")["entries"]}
+    def authored_skill(label,lane,target):
+        lane=(lane or "").upper()
+        kind="magic" if lane in ("STRATEGY","MAGIC") else "tactic" if lane=="TACTIC" else "physical"
+        pattern={"ENEMY_COLUMN":"column","ENEMY_ROW":"row","ONE_ENEMY_BACK_ROW":"back","ALL_ENEMIES":"row"}.get(target,"single")
+        return {"tag":label,"pattern":pattern,"kind":kind,"mult":1.4 if pattern=="single" else 1.05}
+    for h in wiki:
+        facts=handoff.get(h["id"],{}).get("stageSkills") or []
+        dated=sorted([f for f in facts if f.get("skillName")],key=lambda f:str(f.get("sourceDate") or ""),reverse=True)
+        if dated:
+            f=dated[0]; operations=f.get("events") or f.get("operations") or []
+            damage=next((e for e in operations if e.get("op")=="DAMAGE"),{})
+            awakenings[h["id"]]={"descriptor":authored_skill(f["skillName"],f.get("lane"),damage.get("target")),
+                                  "sourceDate":f.get("sourceDate"),"sourceUrl":f.get("sourceUrl"),"status":"DATED_MOBILE_LABEL_PROJECT_EFFECT"}
+
     if len(wiki)!=364 or len(existing)!=207: raise ValueError("C hero source drift")
     for index,h in enumerate(wiki):
         hid=h["id"]
@@ -87,12 +103,22 @@ def build(root):
         desc={"pattern":pattern,"kind":damage,"mult":1.45+(digest%20)/100,"tag":label}
         if pattern=="heal": desc.update(healCount=2,bonusMorale=8)
         if kind=="strategist": desc.update(drainMorale=18)
+        historic=(evidence.get(hid,{}).get("evidenceLanes",{}).get("classicBase2012_2013") or [])
+        record=historic[0] if len(historic)==1 else {}
+        attrs=record.get("attributes") or {}
+        source_skill=record.get("baseSkillName")
+        acquisition=record.get("acquisition") or {}
+        if source_skill:
+            label=source_skill
+            desc["tag"]=label
+        tower_gate=acquisition.get("minFloor") if acquisition.get("type")=="TRIAL_TOWER" else None
+        if not isinstance(tower_gate,int) or not 1<=tower_gate<=100: tower_gate=None
         additions.append({"id":hid,"name":h["name"],"faction":h.get("faction"),"sourceGrade":h.get("indexGrade"),
                           "type":kind,"role":role,"rarity":"Danh tướng","icon":["🛡️","🐎","🏹","🪶","📜"][digest%5],
-                          "lead":65+digest%25,"atk":48+digest%40,"def":45+(digest>>4)%40,"int":48+(digest>>8)%40,"agi":45+(digest>>12)%35,
+                          "lead":round(positive(attrs.get("leadership"),65+digest%25)),"atk":round(positive(attrs.get("martial"),48+digest%40)),"def":45+(digest>>4)%40,"int":round(positive(attrs.get("intelligence"),48+(digest>>8)%40)),"agi":45+(digest>>12)%35,
                           "skill":label,"skillDesc":"Chiến pháp thiết kế mô phỏng: "+pattern,"descriptor":desc,
-                          "gate":1+index%28,"silver":650+50*(index%28),"provenance":"PROJECT_SIMULATED"})
+                          "gate":1+index%28,"silver":650+50*(index%28),"towerGate":tower_gate,"soulCost":max(100,round(positive(acquisition.get("soulCost"),1000)/10)) if tower_gate else 0,"classicReference":record.get("sourceUrl"),"provenance":"PROJECT_SIMULATED"})
         aliases[hid]=hid
     if len(aliases)!=364 or len(set(aliases.values()))!=364: raise ValueError("C hero alias collision")
-    return {"source":"MOBILE_INDEX_PROJECT_SIMULATED","maps":projected,"heroes":additions,"heroAliases":aliases,
-            "counts":{"maps":249,"npcs":4903,"wikiHeroes":364,"newHeroes":len(additions),"runtimeHeroes":14+207+len(additions)}}
+    return {"source":"MOBILE_INDEX_PROJECT_SIMULATED","maps":projected,"heroes":additions,"heroAliases":aliases,"awakeningSkills":{aliases[k]:v for k,v in awakenings.items()},
+            "counts":{"maps":249,"npcs":4903,"wikiHeroes":364,"newHeroes":len(additions),"datedAwakenings":len(awakenings),"runtimeHeroes":14+207+len(additions)}}
