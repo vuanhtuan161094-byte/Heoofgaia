@@ -21,7 +21,7 @@
     "buzhouFixedNpcs": 90
   },
   "tableStats": {
-    "totalRecords": 4676,
+    "totalRecords": 4680,
     "tables": {
       "buildings": {
         "recordCount": 21,
@@ -37,6 +37,10 @@
       },
       "heroes": {
         "recordCount": 540,
+        "evidence": "SIMULATED"
+      },
+      "heroSkills": {
+        "recordCount": 4,
         "evidence": "SIMULATED"
       },
       "items": {
@@ -912,6 +916,52 @@
       {"id":"hero-538","name":"Tần Tử Ngọ","role":"trị liệu","element":"metal","signature":"Phục Ma","quality":"Nhân","attack":33,"defense":19,"wisdom":25,"skill":"Huyền Thủy Hộ Thể","skillText":"giảm thương cho quân ta","evidence":"SIMULATED"},
       {"id":"hero-539","name":"Tần Chiêu Minh","role":"hỗ trợ","element":"wood","signature":"Lôi Vân","quality":"Thiên","attack":24,"defense":24,"wisdom":36,"skill":"Phong Lôi Kích","skillText":"đánh nhanh tuyến trước","evidence":"SIMULATED"},
       {"id":"hero-540","name":"Tần Thừa Ân","role":"đạo sĩ","element":"wind","signature":"Cửu Cung","quality":"Nhân","attack":31,"defense":29,"wisdom":27,"skill":"Thất Tinh Trợ Chiến","skillText":"tăng sĩ khí đội hình","evidence":"SIMULATED"}
+    ],
+    "heroSkills": [
+      {
+        "id": "skill-fire",
+        "name": "Hỏa Phù Liệt Trận",
+        "passive": "Tăng sát thương đội hình",
+        "activeName": "Liệt Hỏa Thiên Hàng",
+        "active": "damage",
+        "triggerRound": 2,
+        "baseCoefficient": 0.04,
+        "perMastery": 0.012,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "skill-water",
+        "name": "Huyền Thủy Hộ Thể",
+        "passive": "Giảm sát thương nhận vào",
+        "activeName": "Huyền Thủy Kết Giới",
+        "active": "shield",
+        "triggerRound": 1,
+        "baseCoefficient": 0.05,
+        "perMastery": 0.012,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "skill-wind",
+        "name": "Phong Lôi Kích",
+        "passive": "Tăng sức mạnh đòn mở đầu",
+        "activeName": "Phong Lôi Tiên Kích",
+        "active": "damage",
+        "triggerRound": 1,
+        "baseCoefficient": 0.04,
+        "perMastery": 0.014,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "skill-formation",
+        "name": "Thất Tinh Trợ Chiến",
+        "passive": "Tăng sức bền đội hình",
+        "activeName": "Thất Tinh Hồi Khí",
+        "active": "heal",
+        "triggerRound": 3,
+        "baseCoefficient": 0.03,
+        "perMastery": 0.012,
+        "evidence": "SIMULATED"
+      }
     ],
     "items": [
       {"id":"item-01","name":"Bạch Ngọc Kiếm","type":"vũ khí","glyph":"玉劍","tier":1,"bonus":3,"effect":"+3 công kích","useEffect":null,"evidence":"SIMULATED"},
@@ -5026,6 +5076,13 @@
         "skill-mastery",
         "same-element-resonance"
       ]
+    },
+    "heroSkills": {
+      "evidence": "SIMULATED",
+      "runtime": "src/engine.js + src/ui.js",
+      "count": 4,
+      "activeCast": "Automatic trigger by battle round",
+      "unlock": "Skill mastery scales with hero level and affinity"
     }
   },
   "unavailableSourceTables": [

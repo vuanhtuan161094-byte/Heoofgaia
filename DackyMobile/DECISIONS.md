@@ -21,7 +21,7 @@
 
 - Thương nhân NPC bán 540 vật phẩm tiêu hao có sẵn trong catalog. Giá SIMULATED tăng theo bậc; vật phẩm bậc 8 trở lên cần thêm linh ngọc; túi giới hạn 500 món. Dữ liệu mua, sử dụng và số lần mua lưu cùng game.
 - XP từ tu luyện, vật phẩm và PvE dùng chung ngưỡng lên cấp, có thể tăng nhiều cấp trong một lần; kỹ năng tăng mỗi khi thần tiên đạt mốc cấp chia hết cho bốn.
-- Bốn pháp môn đội hình áp dụng hệ số SIMULATED cụ thể vào combat quân đội và thử thách thần tiên; chiến báo ghi lại pháp môn đã tham chiến.
+- Bốn pháp môn có nội tại SIMULATED trong combat/PvE. Trận quân đội tự kích hoạt Huyền Thủy + Phong Lôi ở hiệp 1, Hỏa Phù ở hiệp 2, Thất Tinh ở hiệp 3; hệ số sát thương, giảm thương và hồi phục scale theo kỹ năng/linh căn. Chiến báo giữ từng lượng sát thương, sát thương chặn, hồi phục và tên pháp môn đã thi triển. Đấu pháp thử thách dùng độ tinh thông để điều chỉnh lực chiến, không giả lập từng hiệp.
 - Thuế khoan giảm / trung dung / nặng thay đổi thu đồng, độ trôi dân tâm và tốc độ dân số; save cũ được migration về trung dung.
 - Cả 19 nhánh khoa kỹ có hiệu ứng runtime: bốn tài nguyên, tăng dân số, xây/nghiên cứu/huấn luyện, tấn công/phòng thủ và chuyên môn kỵ/xạ, hồi thương, tương khắc, hành quân, lực chiến thần tiên, phí trinh sát và giao thương/ngoại giao. Các hệ số hiển thị đúng theo nhánh và đều SIMULATED.
 - Chỉ dẫn tân thủ có bảy mốc dựa trên trạng thái gameplay đã lưu. Các hành động đề xuất gọi cùng action runtime và bước kế tiếp chỉ mở sau khi queue/trận thật hoàn tất; save cũ tự xác định lại bước từ thành tựu, không thể nhấn để bỏ qua.

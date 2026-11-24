@@ -5,7 +5,7 @@
   "evidenceStatus": {
     "verifiedMobileRecords": 0,
     "verifiedLegacyRecordsImported": 0,
-    "simulatedRuntimeRecords": 4676,
+    "simulatedRuntimeRecords": 4680,
     "sourceAccess": "BLOCKED_HTTP_PROXY_403",
     "note": "Counts below describe runtime-generated content, not exports or parity claims for Mobile/legacy."
   },
@@ -53,6 +53,18 @@
       "status": "SIMULATED",
       "legacyReferenceCount": 540,
       "runtime": "src/catalog.js + src/engine.js"
+    },
+    {
+      "domain": "heroSkills",
+      "records": 4,
+      "status": "SIMULATED",
+      "runtime": "src/catalog.js + src/engine.js + src/ui.js",
+      "activeTriggers": {
+        "Hỏa Phù Liệt Trận": "Round 2 damage",
+        "Huyền Thủy Hộ Thể": "Round 1 shield",
+        "Phong Lôi Kích": "Round 1 opening damage",
+        "Thất Tinh Trợ Chiến": "Round 3 healing"
+      }
     },
     {
       "domain": "items",
@@ -121,7 +133,11 @@
     },
     "combatSkills": {
       "skills": ["Hỏa Phù Liệt Trận", "Huyền Thủy Hộ Thể", "Phong Lôi Kích", "Thất Tinh Trợ Chiến"],
-      "effects": ["Damage", "Damage reduction", "Opening strike", "Formation health"],
+      "passiveEffects": ["Attack bonus", "Defense bonus", "Opening bonus", "Formation durability"],
+      "activeTriggers": {"Hỏa Phù Liệt Trận": "Round 2", "Huyền Thủy Hộ Thể": "Round 1", "Phong Lôi Kích": "Round 1", "Thất Tinh Trợ Chiến": "Round 3"},
+      "activeEffects": ["Damage", "Damage reduction", "Opening strike", "Healing"],
+      "battleReport": ["Per-round damage", "Shielded damage", "Applied healing", "Cast name"],
+      "mastery": "Skill level and affinity scale coefficients and challenge power",
       "status": "SIMULATED"
     },
     "taxPolicies": {

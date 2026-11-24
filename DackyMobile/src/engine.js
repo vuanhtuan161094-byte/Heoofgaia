@@ -1,4 +1,4 @@
-import { BUILDINGS, HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
+import { BUILDINGS, HEROES, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
 export const SAVE_VERSION = 1;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
@@ -227,8 +227,16 @@ function heroCombatProfile(heroList,state) {
   const sameElementPairs=elementCounts.reduce((n,count)=>n+count*(count-1)/2,0);
   const elementResonance=Math.min(0.15,sameElementPairs*averageAffinity/100*0.05*(1+(state?.technologies?.['tech-17']||0)*0.003));
   const affinityBonus=averageAffinity*0.0015;
-  return { names:rows.map(row=>row.data.skill), bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance},
-    powerMultiplier:1+(attack+defense+opening+formation)*0.35+elementResonance };
+  const skills=rows.map(row=>{
+    const definition=HERO_SKILLS.find(skill=>skill.name===row.data.skill);
+    if(!definition)return null;
+    const mastery=Math.max(1,row.save.skillLevel||1)*(1+clamp(Number(row.save.affinity)||0,0,100)*0.002);
+    return {id:definition.id,name:definition.name,activeName:definition.activeName,active:definition.active,triggerRound:definition.triggerRound,
+      coefficient:definition.baseCoefficient+definition.perMastery*mastery,mastery};
+  }).filter(Boolean);
+  const activePowerBonus=skills.reduce((n,skill)=>n+skill.mastery*0.002,0);
+  return { names:rows.map(row=>row.data.skill),skills,bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance,activePowerBonus},
+    powerMultiplier:1+(attack+defense+opening+formation)*0.35+elementResonance+activePowerBonus };
 }
 
 export function armyPower(state, counts = state.army) {
@@ -416,7 +424,8 @@ function resolveArmyCombat(state, node, troops, seed) {
   const tactic=tactics[node.enemy?.tactic?.id]||{};
   const enemyHealthBase=enemyPower*(tactic.health||1)*(enemyBalanced?1.04:1);
   const rounds = [];
-  let ownHealth = ownPower * (1 + state.morale / 500 + heroProfile.bonuses.formation);
+  const ownHealthBase=ownPower * (1 + state.morale / 500 + heroProfile.bonuses.formation);
+  let ownHealth = ownHealthBase;
   let enemyHealth = enemyHealthBase;
   let round = 0;
   while (ownHealth > 0 && enemyHealth > 0 && round < 6) {
@@ -426,9 +435,22 @@ function resolveArmyCombat(state, node, troops, seed) {
     const researchDefense=Math.min(0.12,(state.technologies['tech-11']||0)*0.004);
     const npcOpening=round===1&&enemyInitiative>initiative?(tactic.opening||0.1):0;
     const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+enemyCounterRatio*0.2+enemySynergyRatio*0.04+(tactic.attack||0)+npcOpening) * (enemyBalanced?1.04:1) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * (round === 1 && initiative < 6 ? 1.12 : 1));
-    enemyHealth -= ownDamage;
-    ownHealth -= enemyDamage;
-    rounds.push({ round, ownDamage: Math.round(ownDamage), enemyDamage: Math.round(enemyDamage), ownMorale: Math.max(0, Math.round(ownHealth / ownPower * 100)), enemyMorale:Math.max(0,Math.round(enemyHealth/enemyHealthBase*100)) });
+    const activeSkills=heroProfile.skills.filter(skill=>skill.triggerRound===round);
+    let skillDamage=0,shieldRatio=0,healing=0;
+    for(const skill of activeSkills){
+      if(skill.active==='damage')skillDamage+=ownPower*skill.coefficient;
+      else if(skill.active==='shield')shieldRatio+=skill.coefficient;
+      else if(skill.active==='heal')healing+=ownHealthBase*skill.coefficient;
+    }
+    const actualEnemyDamage=Math.max(1,enemyDamage*(1-Math.min(0.45,shieldRatio)));
+    const shieldedDamage=Math.max(0,enemyDamage-actualEnemyDamage);
+    enemyHealth -= ownDamage+skillDamage;
+    const damagedOwnHealth=clamp(ownHealth-actualEnemyDamage,0,ownHealthBase);
+    const skillHealing=Math.min(ownHealthBase*0.35,healing,ownHealthBase-damagedOwnHealth);
+    ownHealth=damagedOwnHealth+skillHealing;
+    rounds.push({ round, ownDamage: Math.round(ownDamage),skillDamage:Math.round(skillDamage), enemyDamage: Math.round(actualEnemyDamage),
+      ownMorale: Math.max(0, Math.round(ownHealth / ownPower * 100)), enemyMorale:Math.max(0,Math.round(enemyHealth/enemyHealthBase*100)),
+      shieldedDamage:Math.round(shieldedDamage),skillHealing:Math.round(skillHealing),activeSkills:activeSkills.map(skill=>skill.activeName) });
   }
   const victory = enemyHealth <= 0 || (ownHealth > enemyHealth * 0.72 && ownHealth > 0);
   const casualtyRatio = clamp((victory ? 0.035 + (enemyPower / ownPower) * 0.07 : 0.24 + rng() * 0.2) - Math.min(0.04,(state.levels.wall||0)*0.001), 0.025, 0.62);

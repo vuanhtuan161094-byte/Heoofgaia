@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { activeQuest, advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
-import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, TECHNOLOGIES, TROOPS, WORLD_NODES } from '../src/catalog.js';
+import { HEROES, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, TECHNOLOGIES, TROOPS, WORLD_NODES } from '../src/catalog.js';
 
 test('new save has a bounded, offline-first settlement', () => {
   const now = 1_800_000_000_000;
@@ -214,6 +214,33 @@ test('immortal affinity advances through training and PvE and elemental bonds re
   assert.equal(maxed.heroes[0].level,60);
   assert.equal(maxed.heroes[0].affinity,100);
   assert.throws(()=>doAction(maxed,{type:'trainHero',heroId:'hero-01'},now+4),/linh căn tối đa/);
+});
+
+test('active immortal skills cast by round and apply damage, protection and healing', () => {
+  const now=1_800_000_000_000;
+  const createHero=id=>({id,level:1,xp:0,assigned:true,equipment:{weapon:null,armor:null,artifact:null},skillLevel:1,affinity:0});
+  const battle=heroIds=>{
+    let state=createNewGame('Triều Ca',now);
+    state.heroes=[...heroIds.map(createHero)];
+    state.army={'troop-01':1};
+    state=doAction(state,{type:'march',nodeId:'node-011',troopId:'troop-01',count:1},now+1);
+    return advance(state,state.queues.march.finishAt+1).state.reports[0];
+  };
+  assert.equal(HERO_SKILLS.length,4);
+  assert.equal(new Set(HERO_SKILLS.map(skill=>skill.id)).size,4);
+  const windFormation=battle(['hero-01','hero-02','hero-03']);
+  assert.ok(windFormation.rounds[0].activeSkills.includes('Huyền Thủy Kết Giới'));
+  assert.ok(windFormation.rounds[0].activeSkills.includes('Phong Lôi Tiên Kích'));
+  assert.ok(windFormation.rounds[0].shieldedDamage>0);
+  assert.ok(windFormation.rounds[0].skillDamage>0);
+  assert.ok(windFormation.rounds.some(round=>round.activeSkills.includes('Liệt Hỏa Thiên Hàng')&&round.skillDamage>0));
+  assert.ok(windFormation.skillBonuses.attack>0&&windFormation.skillBonuses.defense>0&&windFormation.skillBonuses.opening>0);
+  assert.ok(windFormation.skillBonuses.activePowerBonus>0);
+  const healingFormation=battle(['hero-01','hero-02','hero-04']);
+  const healingRound=healingFormation.rounds.find(round=>round.activeSkills.includes('Thất Tinh Hồi Khí'));
+  assert.ok(healingRound,'formation healing should cast on round three');
+  assert.ok(healingRound.skillHealing>0);
+  assert.ok(healingFormation.skillBonuses.formation>0);
 });
 
 test('construction and training are queued and settle once', () => {

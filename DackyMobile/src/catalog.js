@@ -109,6 +109,13 @@ export const HEROES = Object.freeze(heroRows.map(([name,role,element,signature],
   };
 }));
 
+export const HERO_SKILLS=Object.freeze([
+  {id:'skill-fire',name:'Hỏa Phù Liệt Trận',passive:'Tăng sát thương đội hình',activeName:'Liệt Hỏa Thiên Hàng',active:'damage',triggerRound:2,baseCoefficient:0.04,perMastery:0.012,evidence:'SIMULATED'},
+  {id:'skill-water',name:'Huyền Thủy Hộ Thể',passive:'Giảm sát thương nhận vào',activeName:'Huyền Thủy Kết Giới',active:'shield',triggerRound:1,baseCoefficient:0.05,perMastery:0.012,evidence:'SIMULATED'},
+  {id:'skill-wind',name:'Phong Lôi Kích',passive:'Tăng sức mạnh đòn mở đầu',activeName:'Phong Lôi Tiên Kích',active:'damage',triggerRound:1,baseCoefficient:0.04,perMastery:0.014,evidence:'SIMULATED'},
+  {id:'skill-formation',name:'Thất Tinh Trợ Chiến',passive:'Tăng sức bền đội hình',activeName:'Thất Tinh Hồi Khí',active:'heal',triggerRound:3,baseCoefficient:0.03,perMastery:0.012,evidence:'SIMULATED'}
+]);
+
 const gearNames = [
   ['Bạch Ngọc Kiếm','vũ khí','玉劍'], ['Trấn Sơn Đao','vũ khí','鎮刀'], ['Phục Ma Cung','vũ khí','伏弓'],
   ['Huyền Thiết Giáp','giáp','玄甲'], ['Lưu Vân Bào','giáp','雲袍'], ['Bách Thú Khôi','giáp','獸盔'],
