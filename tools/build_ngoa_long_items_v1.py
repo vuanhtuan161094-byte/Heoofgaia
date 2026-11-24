@@ -106,7 +106,10 @@ def payload() -> str:
         "__NL_ITEM_GROUP_RULES__", js_json(item_group_rules))
     if "</script" in (engine + ui + balance_engine + item_engine + item_ui + bridge).lower():
         raise ValueError("Unexpected script terminator in injected inline source")
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), END])
+    world_a4 = (TOOLS / "nl_classic_world_a4.js").read_text(encoding="utf-8")
+    if world_a4.count("// === NL-CLASSIC-WORLD-A4-V1:") != 1 or "</script" in world_a4.lower():
+        raise ValueError("Invalid A4 world module")
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), world_a4.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:
