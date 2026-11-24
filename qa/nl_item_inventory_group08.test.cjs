@@ -180,3 +180,21 @@ test('12 new equipment reinforcement and reload retain UID, level, stats and no 
   assert.equal(saved.items[0].lv,2);
   assert.equal(saved.version,5);
 });
+
+test('A9 workshop + engraving discount uses the same quote and debit',()=>{
+  let s=done(inventory.grant(fresh(),[{id:'b_sword',quantity:1}],'a9:grant'));
+  s.nlCity={levels:{nl_city_workshop:3,nl_city_engraving:2}};
+  const quote=inventory.reinforcementCost(1,s);
+  assert.equal(quote.silver,322);
+  const result=inventory.reinforce(s,s.items[0].uid,'a9:reinforce');
+  assert.equal(result.ok,true,result.code);
+  assert.equal(result.state.silver,s.silver-quote.silver);
+  assert.equal(result.state.iron,s.iron-quote.iron);
+});
+test('A9 warehouse adds five actual equipment slots per level',()=>{
+  let s=fresh();s.nlCity={levels:{nl_city_warehouse:1}};
+  s.items=Array.from({length:200},(_,i)=>({uid:'a9-'+i,base:'b_sword',lv:1}));
+  s=done(inventory.grant(s,[{id:'b_sword',quantity:5}],'a9:expand'));
+  assert.equal(s.items.length,205);
+  rejected(inventory.grant(s,[{id:'b_sword',quantity:1}],'a9:full'),'EQUIPMENT_CAPACITY',s);
+});
