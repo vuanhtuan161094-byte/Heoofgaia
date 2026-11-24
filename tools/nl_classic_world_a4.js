@@ -114,7 +114,7 @@ p2Unit=function(id,team,slot,stage){
  if(n)for(const k of ['atk','def','catk','tdef','matk','mdef'])if(Number.isFinite(u[k]))u[k]=Math.round(u[k]*(1+n*.03));
  return u;
 };
-let section='world',heroId='';
+let section='world',heroId='',worldPage=0;
 const button=(action,id,label,disabled=false)=>'<button class="gold-button" data-nla4-action="'+action+'" data-nla4-id="'+esc(id)+'" '+(disabled?'disabled':'')+'>'+esc(label)+'</button>';
 const line=(title,desc,controls)=>'<div class="nla4-line"><div><b>'+esc(title)+'</b><small>'+esc(desc)+'</small></div><div>'+controls+'</div></div>';
 function panel(){
@@ -122,11 +122,11 @@ function panel(){
  const disabled=Boolean(battle);let body='';
  if(section==='world'){
   body='<p>Quốc gia: '+esc(NATIONS[s.nation])+' · Thành: '+esc(city()[1])+' · Phí dời thành '+fmt(fee())+' Bạc</p>'+
-  CITY.map(c=>line(c[1],c[4]+' · '+(c[2]?'Qua ải '+c[2]:'Khởi đầu'),button('move',c[0],c[0]===s.city?'Đang ở':'Dời thành',disabled||c[0]===s.city||!completed(c[2])||(c[3]!=='neutral'&&s.nation!=='neutral'&&s.nation!==c[3])))).join('');
+  CITY.slice(worldPage*4,worldPage*4+4).map(c=>line(c[1],c[4]+' · '+(c[2]?'Qua ải '+c[2]:'Khởi đầu'),button('move',c[0],c[0]===s.city?'Đang ở':'Dời thành',disabled||c[0]===s.city||!completed(c[2])||(c[3]!=='neutral'&&s.nation!=='neutral'&&s.nation!==c[3])))).join('')+ '<div class="nla4-tabs">'+button('city-page','0','Trang 1',worldPage===0)+button('city-page','1','Trang 2',worldPage===1)+'</div>';
  }else if(section==='plots'){
   body=['silver','grain'].map(k=>{
    const p=s.plots[k],ready=p&&Date.now()>=p.until;
-   return line(k==='silver'?'Mỏ Bạc ngoại thành':'Ruộng ngoại thành',p?(ready?'Đã đến kỳ thu hoạch':'Còn '+Math.ceil((p.until-Date.now())/60000)+' phút')+' · '+fmt(p.amount):'Thuê điểm tài nguyên 3 giờ · 1 Quân lệnh',p?button('harvest',k,'Thu hoạch',disabled||!ready):button('lease',k,'Chiếm điểm',disabled||!completed(2)||nlAState().orders<1));
+   return line(k==='silver'?'Mỏ Bạc ngoại thành':'Ruộng ngoại thành',p?(ready?'Đã đến kỳ thu hoạch':'Còn '+Math.ceil((p.until-Date.now())/60000)+' phút')+' · '+fmt(p.amount):'Thuê điểm tài nguyên 3 giờ · 1 Quân lệnh',p?button('harvest',k,'Thu hoạch',disabled||!ready):button('lease',k,'Khai thác',disabled||!completed(2)||nlAState().orders<1));
   }).join('')+'<p class="tiny">Điểm tài nguyên ngoại thành là mô phỏng PvE hòa bình, không phải tranh chấp nhiều người chơi.</p>';
  }else if(section==='trade'){
   body=line('Tuần tra','Đã dùng '+s.progress.patrol+'/'+LIMIT+' lượt hôm nay',button('patrol','','Tuần tra',disabled||!completed(2)||s.progress.patrol>=LIMIT))+
@@ -147,6 +147,8 @@ renderCity=function(){return cityBefore()+panel();};
 document.addEventListener('click',e=>{
  const t=e.target.closest?.('[data-nla4-tab]');if(t){section=t.dataset.nla4Tab;render();return;}
  const b=e.target.closest?.('[data-nla4-action]');if(!b||b.disabled)return;
+ if(b.dataset.nla4Action==='city-page'){worldPage=b.dataset.nla4Id==='1'?1:0;render();return;}
+ if(b.dataset.nla4Action==='rebirth'&&!window.confirm('Chuyển sinh sẽ đưa tướng về cấp 1, tốn 2.000 Bạc và 500 Chiến công. Xác nhận?'))return;
  const actions={move,lease,harvest,patrol,trade,train:meritTrain,rebirth,claim};
  const fn=actions[b.dataset.nla4Action];if(typeof fn==='function'&&!fn(b.dataset.nla4Id))toast('Chưa đủ điều kiện hoặc tài nguyên.');
 });
