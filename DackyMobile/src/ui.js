@@ -1,5 +1,5 @@
 import { BUILDINGS, CONTENT_EVIDENCE, HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, BUZHOU_FLOORS, TOWER_FLOORS } from './catalog.js';
-import { activeQuest, armyCount, armyPower, formatDuration, formatNumber, heroPower, productionPerHour, questProgress, quoteBuilding, quoteItemPurchase, quoteResearch, quoteTraining, storageCapacity, TAX_POLICIES, TUTORIAL_STEPS } from './engine.js';
+import { activeQuest, armyCount, armyPower, formatDuration, formatNumber, heroPower, productionPerHour, questProgress, quoteBuilding, quoteCityUpgrade, quoteItemPurchase, quoteResearch, quoteTraining, storageCapacity, TAX_POLICIES, TUTORIAL_STEPS } from './engine.js';
 
 export const NAV = [
   ['city','城','Thành trì','Nội thành, kinh tế và hàng đợi'],
@@ -56,7 +56,7 @@ function queueCard(label, q, now, lookupName, glyph) {
 }
 
 function queuePanel(state, now) {
-  const c = queueCard('Xây dựng', state.queues.construction, now, q => `${BUILDINGS.find(b => b.id === q.buildingId)?.name || ''} · cấp ${q.level}`, '營');
+  const c = queueCard('Xây dựng', state.queues.construction, now, q => q.cityId?`${state.cities.find(city=>city.id===q.cityId)?.name||'Thành phụ'} · cấp ${q.level}`:`${BUILDINGS.find(b => b.id === q.buildingId)?.name || ''} · cấp ${q.level}`, '營');
   const t = queueCard('Huấn luyện', state.queues.training, now, q => TROOPS.find(x => x.id === q.troopId)?.name || 'Đạo quân', '兵');
   const r = queueCard('Nghiên cứu', state.queues.research, now, q => `${TECHNOLOGIES.find(x => x.id === q.techId)?.name || ''} · cấp ${q.level}`, '學');
   const m = queueCard('Hành quân', state.queues.march, now, q => WORLD_NODES.find(x => x.id === q.nodeId)?.name || 'Ngoại vực', '騎');
@@ -86,6 +86,17 @@ function tutorialPanel(state) {
     action=button('march','Hành quân tới Thanh Khâu Quan',!count||!!state.queues.march,'button small',`data-node="${step.data.nodeId}" data-troop="${step.data.troopId}" data-count="${count}"`);
   }
   return `<section class="panel tutorial-panel">${subheading(`Chỉ dẫn nhập môn · ${state.tutorialStep+1}/${TUTORIAL_STEPS.length}`,step.title)}<div class="panel-body"><p>${esc(step.description)}</p>${action}<small class="tiny muted" style="margin-left:9px">Hoàn thành tác vụ để mở bước kế tiếp.</small></div></section>`;
+}
+
+function satelliteManagementPanel(state) {
+  const satellites=(state.cities||[]).filter(city=>!city.isCapital);
+  const rows=satellites.map(city=>{
+    const quote=quoteCityUpgrade(state,city.id);
+    const lockedLabel=quote.locked?`Cần Tử Vi Thành cấp ${Math.max(2,Math.ceil(quote.level/2)+1)}`:quote.maxed?'Đạt cấp tối đa':`${costText(quote.cost)} · ${formatDuration(quote.seconds*1000)}`;
+    const contribution=`+${fmt(city.level*25)} lương · ${fmt(city.level*18)} gỗ · ${fmt(city.level*14)} đá · ${fmt(city.level*12)} sắt · ${fmt(city.level*8)} đồng/giờ`;
+    return `<article class="inventory-item"><b>${esc(city.name)} · thành phụ cấp ${city.level}/10</b><small>${contribution}</small><small>Nâng tiếp: ${lockedLabel}</small>${button('upgradeCity','Nâng thành phụ',!!state.queues.construction||quote.maxed||quote.locked||!isAffordable(state,quote.cost),'button small',`data-city="${city.id}"`)}</article>`;
+  }).join('');
+  return `<section class="panel">${subheading('Quản lý thành phụ',`${satellites.length} / ${WORLD_NODES.filter(node=>node.kind==='Danh thành').length} danh thành NPC`)}<div class="panel-body"><div class="hint" style="margin-bottom:10px">Mỗi cấp thành phụ tăng sản lượng ngũ cốc, gỗ, đá, sắt và đồng. Nâng cấp dùng chung hàng xây dựng và mở khóa theo cấp Tử Vi Thành.</div><div class="inventory-grid">${rows||'<div class="empty-state"><strong>Chưa có thành phụ</strong>Chiếm danh thành NPC trên bản đồ để mở nguồn lực này.</div>'}</div></div></section>`;
 }
 
 function cityScreen(state, now) {
@@ -126,7 +137,7 @@ function cityScreen(state, now) {
   const production = Object.entries(RESOURCE_INFO).map(([key,r]) => `<div class="production-line"><span class="resource-glyph">${r.glyph}</span><span>${r.name}</span><b>+${fmt(prod[key])}/giờ</b></div>`).join('');
   const questBody = active ? `<div class="eyebrow">HỒI ${active.chapter} · NHIỆM VỤ MỞ ĐẦU</div><p class="quest-title">${active.title}</p><p class="tiny muted">${fmt(questProgress(state,active))} / ${fmt(active.goal)} · Thưởng ${costText(active.reward)}</p>${button('view-quests','Mở sổ nhiệm vụ',false,'button small')}` : '<div class="empty-state"><strong>Chính tuyến đã khép lại</strong>Mở rộng các thử thách PvE để tiếp tục.</div>';
   const chronicle = state.notifications.slice(0,5).map(text => `<div class="chronicle-entry"><i></i><span>${esc(text)}</span></div>`).join('') || '<span class="muted tiny">Chưa có biến động.</span>';
-  return `${cityHero}${tutorialPanel(state)}${cityOverview}<div class="city-sections"><div><section class="panel">${subheading('Thành nội và ngoại thành','21 công trình · tối đa 30 cấp')}<div class="panel-body"><div class="building-grid">${buildingCards}</div></div></section></div><aside class="city-side">${queuePanel(state,now)}<section class="panel">${subheading('Lưu chuyển tài nguyên')}<div class="panel-body"><div class="production-list">${production}</div></div></section><section class="panel">${subheading('Tin trong thành')}<div class="panel-body"><div class="chronicle">${chronicle}</div></div></section><section class="panel">${subheading('Chính tuyến')}<div class="panel-body">${questBody}</div></section></aside></div>`;
+  return `${cityHero}${tutorialPanel(state)}${cityOverview}${satelliteManagementPanel(state)}<div class="city-sections"><div><section class="panel">${subheading('Thành nội và ngoại thành','21 công trình · tối đa 30 cấp')}<div class="panel-body"><div class="building-grid">${buildingCards}</div></div></section></div><aside class="city-side">${queuePanel(state,now)}<section class="panel">${subheading('Lưu chuyển tài nguyên')}<div class="panel-body"><div class="production-list">${production}</div></div></section><section class="panel">${subheading('Tin trong thành')}<div class="panel-body"><div class="chronicle">${chronicle}</div></div></section><section class="panel">${subheading('Chính tuyến')}<div class="panel-body">${questBody}</div></section></aside></div>`;
 }
 
 function heroScreen(state, _now, uiState={}) {

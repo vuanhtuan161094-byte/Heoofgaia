@@ -191,6 +191,11 @@ try {
   await waitFor('document.querySelector(".report-card")!==null');
   check((await evaluate('document.querySelector(".report-card").innerText')).includes('Chiến lợi phẩm'));
   console.log('PASS troop training, march settlement, loot and battle report.');
+  await click('#primary-nav [data-view="city"]');
+  await waitFor('Array.from(document.querySelectorAll(".panel-title")).some(x=>x.innerText.includes("Quản lý thành phụ"))');
+  check(await evaluate('!!document.querySelector("[data-action=upgradeCity][data-city=node-001]")'));
+  check(await evaluate('Array.from(document.querySelectorAll(".panel-title")).some(x=>x.innerText.includes("Quản lý thành phụ"))'));
+  console.log('PASS captured satellite city appears in the city manager with its upgrade action.');
 
   await click('#primary-nav [data-view="settings"]');
   await click('[data-action="export"]');

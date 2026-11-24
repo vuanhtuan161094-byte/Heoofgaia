@@ -141,6 +141,12 @@
       "milestones": ["Construction", "Research", "Altar construction", "Immortal recruitment", "Equipment", "Training", "First campaign victory"],
       "completion": "Derived from saved gameplay state; unlocks sequentially",
       "status": "SIMULATED"
+    },
+    "satelliteCityManagement": {
+      "citySlots": 75,
+      "maxLevelPerCapturedCity": 10,
+      "runtimeEffects": ["Construction queue", "Citadel level gates", "Food, timber, stone, iron and gold production"],
+      "status": "SIMULATED"
     }
   },
   "notImported": [

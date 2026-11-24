@@ -21,7 +21,7 @@ Tử Vi Thành quản lý cấp thành, dân số và mở khóa. Hai mươi cô
 | Huyền Vũ Thành, Thiên Lý Đài | Phòng thủ và tốc độ hành quân (mô phỏng) |
 | Bát Phương Quán, Vạn Lý Trạm | Ngoại giao NPC và giao thương offline |
 
-Chính sách thuế có ba mức mô phỏng: khoan giảm tạo 75% đồng cơ sở và phục hồi 0,12 dân tâm/giờ; trung dung là mức chuẩn; thuế nặng tạo 130% đồng nhưng giảm 0,24 dân tâm/giờ. Dân tâm và cấp Tử Vi Thành cùng điều chỉnh tốc độ tăng dân số. Chính sách được lưu và vẫn áp dụng trong tiến trình offline.
+Chính sách thuế có ba mức mô phỏng: khoan giảm tạo 75% đồng cơ sở và phục hồi 0,12 dân tâm/giờ; trung dung là mức chuẩn; thuế nặng tạo 130% đồng nhưng giảm 0,24 dân tâm/giờ. Dân tâm và cấp Tử Vi Thành cùng điều chỉnh tốc độ tăng dân số. Chính sách được lưu và vẫn áp dụng trong tiến trình offline. Mỗi danh thành chiếm được trở thành thành phụ; có thể nâng đến cấp 10 qua hàng xây dựng để tăng sản lượng cả năm tài nguyên, với cấp Tử Vi Thành mở khóa từng mốc.
 
 Thái Học Viện có 19 nhánh, mỗi nhánh 30 cấp. Nông/Lâm/Khai Sơn/Luyện Kim và Trị Thủy tăng sản xuất; Thị Thương tăng thu đồng; Quản Dân tăng dân số; Kiến Trúc, Cơ Quan và Binh Pháp rút ngắn thời gian xây, huấn luyện và tăng lực quân. Thủ Thành, Kỵ Thuật, Cung Nỏ, Y Đạo, Trận Đồ, Dịch Trạm, Luyện Khí, Tinh Tượng và Ngoại Giao lần lượt thay đổi phòng thủ, nhóm quân, hồi phục, tương khắc, hành quân, thần tiên, do thám và phí/tỷ lệ giao thương với NPC. Mọi hệ số là SIMULATED.
 

@@ -138,6 +138,7 @@ document.body.addEventListener('click', async event => {
       renderCurrent();
       return;
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
+    case 'upgradeCity': return perform('upgradeCity',{cityId:button.dataset.city});
     case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
     case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value||button.dataset.troop,count:document.querySelector('#train-count')?.value||button.dataset.count});
     case 'trainHero': return perform('trainHero',{heroId:button.dataset.hero});

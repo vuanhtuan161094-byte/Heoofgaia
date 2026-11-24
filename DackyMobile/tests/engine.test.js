@@ -230,6 +230,25 @@ test('captured NPC cities become productive offline settlements', () => {
   assert.ok(productionPerHour(state).food>=before+25);
 });
 
+test('satellite cities upgrade through the construction queue and add production per level', () => {
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  state.cities.push({id:'node-001',nodeId:'node-001',name:'Thanh Khâu Quan',level:1,population:80,isCapital:false});
+  const before=productionPerHour(state);
+  state=doAction(state,{type:'upgradeCity',cityId:'node-001'},now+1);
+  assert.equal(state.queues.construction.cityId,'node-001');
+  assert.equal(state.queues.construction.level,2);
+  assert.equal(migrateSave(state,now+2).queues.construction.cityId,'node-001');
+  state=advance(state,state.queues.construction.finishAt+1).state;
+  assert.equal(state.cities.find(city=>city.id==='node-001').level,2);
+  assert.equal(state.stats.upgrades,1);
+  assert.ok(productionPerHour(state).food>=before.food+25);
+  assert.ok(productionPerHour(state).timber>=before.timber+18);
+  assert.throws(()=>doAction(state,{type:'upgradeCity',cityId:'capital'},state.lastTickAt+1),/Không tìm thấy thành phụ/);
+  const locked=structuredClone(state);locked.levels.citadel=1;
+  assert.throws(()=>doAction(locked,{type:'upgradeCity',cityId:'node-001'},state.lastTickAt+1),/Cần Tử Vi Thành cấp 3/);
+});
+
 test('save import normalizes malformed inventory and retains named cities', () => {
   const imported=migrateSave({
     version:1,profile:{name:'  Tây Kỳ  '},resources:{food:-100,unknown:999},levels:{citadel:500},

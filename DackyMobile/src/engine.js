@@ -110,7 +110,7 @@ export function migrateSave(input, now = Date.now()) {
   const research = safeQueue(rawQueues.research);
   const march = safeQueue(rawQueues.march);
   s.queues = {
-    construction: construction&&BUILDINGS.some(b=>b.id===construction.buildingId)?{...construction,level:clamp(Number(construction.level)||1,1,30)}:null,
+    construction: construction&&(BUILDINGS.some(b=>b.id===construction.buildingId)||WORLD_NODES.some(n=>n.id===construction.cityId))?{...construction,level:clamp(Number(construction.level)||1,1,construction.cityId?10:30)}:null,
     training: training&&TROOPS.some(t=>t.id===training.troopId)?{...training,count:clamp(Number(training.count)||1,1,500)}:null,
     research: research&&TECHNOLOGIES.some(t=>t.id===research.techId)?{...research,level:clamp(Number(research.level)||1,1,30)}:null,
     march: march&&WORLD_NODES.some(n=>n.id===march.nodeId)&&march.troops&&typeof march.troops==='object'?{
@@ -141,6 +141,7 @@ export function migrateSave(input, now = Date.now()) {
     population:clamp(Number(city.population)||80,1,50_000),isCapital:city.id==='capital'
   }));
   if(!s.cities.some(city=>city.isCapital))s.cities.unshift({id:'capital',nodeId:null,name:s.profile.name,level:s.levels.citadel||1,population:s.population,isCapital:true});
+  if(s.queues.construction?.cityId&&!s.cities.some(city=>city.id===s.queues.construction.cityId&&!city.isCapital))s.queues.construction=null;
   const statDefaults={upgrades:0,troopsTrained:0,heroesRecruited:0,itemsEquipped:0,itemPurchases:0,battles:0,victories:0,citiesCaptured:0,bossesDefeated:0,duels:0,tradeCount:0};
   s.stats = s.stats && typeof s.stats === 'object' ? s.stats : {};
   for(const key of Object.keys(statDefaults))s.stats[key]=clamp(Number(s.stats[key])||0,0,99_999_999);
@@ -159,14 +160,14 @@ export function migrateSave(input, now = Date.now()) {
 export function productionPerHour(state) {
   const lv = state.levels;
   const tech = state.technologies;
-  const satelliteCount=Math.max(0,(state.cities?.length||1)-1);
+  const satelliteLevels=(state.cities||[]).filter(city=>!city.isCapital).reduce((sum,city)=>sum+city.level,0);
   const bonus = effect => 1 + (TECHNOLOGIES.filter(t => t.effect === effect).reduce((n, t) => n + (tech[t.id] || 0), 0) * 0.012);
   return {
-    food: (18 + lv.farm * 52 + lv.granary * 7 + satelliteCount*25) * bonus('food'),
-    timber: (10 + lv.grove * 38 + lv.lumber * 12 + satelliteCount*18) * bonus('timber'),
-    stone: (8 + lv.mine * 34 + lv.quarry * 10 + satelliteCount*14) * bonus('stone'),
-    iron: (5 + lv.foundryfield * 28 + lv.foundry * 9 + satelliteCount*12) * bonus('iron'),
-    gold: (10 + lv.market * 25 + satelliteCount*8 + Math.floor(state.population * (0.035 + lv.citadel * 0.002))) * bonus('gold') * TAX_POLICIES[state.taxPolicy||'balanced'].income,
+    food: (18 + lv.farm * 52 + lv.granary * 7 + satelliteLevels*25) * bonus('food'),
+    timber: (10 + lv.grove * 38 + lv.lumber * 12 + satelliteLevels*18) * bonus('timber'),
+    stone: (8 + lv.mine * 34 + lv.quarry * 10 + satelliteLevels*14) * bonus('stone'),
+    iron: (5 + lv.foundryfield * 28 + lv.foundry * 9 + satelliteLevels*12) * bonus('iron'),
+    gold: (10 + lv.market * 25 + satelliteLevels*8 + Math.floor(state.population * (0.035 + lv.citadel * 0.002))) * bonus('gold') * TAX_POLICIES[state.taxPolicy||'balanced'].income,
     jade: 0.12 + lv.altar * 0.12 + lv.manor * 0.025
   };
 }
@@ -259,6 +260,15 @@ export function quoteBuilding(state, buildingId) {
     locked: b.id !== 'citadel' && (state.levels.citadel || 0) < Math.max(1, Math.ceil(level / 2)) };
 }
 
+export function quoteCityUpgrade(state, cityId) {
+  const city=(state.cities||[]).find(row=>row.id===cityId&&!row.isCapital);
+  if(!city)return null;
+  const level=city.level+1;
+  const cost=costFor({food:280,timber:210,stone:150,gold:180},level);
+  return {level,cost,seconds:20*Math.pow(level,1.2),maxed:level>10,
+    locked:(state.levels.citadel||0)<Math.max(2,Math.ceil(level/2)+1)};
+}
+
 export function quoteTraining(state, troopId, count = 1) {
   const t = TROOPS.find(x => x.id === troopId);
   if (!t) return null;
@@ -323,9 +333,14 @@ function completeQueue(state, key, now) {
   if (!q || q.finishAt > now) return;
   state.queues[key] = null;
   if (key === 'construction') {
-    state.levels[q.buildingId] = Math.min(30, (state.levels[q.buildingId] || 0) + 1);
-    state.stats.upgrades++;
-    note(state, `${BUILDINGS.find(b => b.id === q.buildingId)?.name || 'Công trình'} đã hoàn thành cấp ${state.levels[q.buildingId]}.`);
+    if(q.cityId){
+      const city=state.cities.find(row=>row.id===q.cityId&&!row.isCapital);
+      if(city){city.level=Math.min(10,q.level);state.stats.upgrades++;note(state,`${city.name} đã hoàn thành nâng cấp thành phụ cấp ${city.level}.`);}
+    }else{
+      state.levels[q.buildingId] = Math.min(30, (state.levels[q.buildingId] || 0) + 1);
+      state.stats.upgrades++;
+      note(state, `${BUILDINGS.find(b => b.id === q.buildingId)?.name || 'Công trình'} đã hoàn thành cấp ${state.levels[q.buildingId]}.`);
+    }
   } else if (key === 'training') {
     state.army[q.troopId] = (state.army[q.troopId] || 0) + q.count;
     state.stats.troopsTrained += q.count;
@@ -486,6 +501,19 @@ export function doAction(state, action, now = Date.now()) {
       const techSpeed = 1 + (s.technologies['tech-08'] || 0) * 0.025;
       s.queues.construction = { buildingId: b.id, level: nextLevel, cost, startAt: now, finishAt: now + b.seconds * Math.pow(nextLevel, 1.2) * 1000 / techSpeed };
       note(s, `Thợ xây bắt đầu nâng ${b.name} lên cấp ${nextLevel}.`);
+      break;
+    }
+    case 'upgradeCity': {
+      if(s.queues.construction)throw new Error('Hàng đợi xây dựng đang bận.');
+      const city=(s.cities||[]).find(row=>row.id===action.cityId&&!row.isCapital);
+      if(!city)throw new Error('Không tìm thấy thành phụ đã chiếm đóng.');
+      const quote=quoteCityUpgrade(s,city.id);
+      if(quote.maxed)throw new Error('Thành phụ đã đạt cấp tối đa.');
+      if(quote.locked)throw new Error(`Cần Tử Vi Thành cấp ${Math.max(2,Math.ceil(quote.level/2)+1)} để nâng thành phụ.`);
+      debit(s,quote.cost);
+      const speed=1+(s.technologies['tech-08']||0)*0.025;
+      s.queues.construction={cityId:city.id,level:quote.level,cost:quote.cost,startAt:now,finishAt:now+quote.seconds*1000/speed};
+      note(s,`Bắt đầu nâng ${city.name} lên thành phụ cấp ${quote.level}.`);
       break;
     }
     case 'train': {
