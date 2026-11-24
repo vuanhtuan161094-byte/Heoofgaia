@@ -8,7 +8,7 @@ Game chiến thuật 2D chơi đơn, offline-first, tiếng Việt; dùng bối 
 
 1. Thu tài nguyên theo giờ và quản lý giới hạn kho.
 2. Xây/nâng công trình; công trình kinh tế tăng sản xuất, học viện mở nghiên cứu, doanh trại mở huấn luyện, phủ/đàn mở chiêu mộ, lò luyện mở chế tạo.
-3. Tuyển thần tiên theo phẩm chất, tăng cấp, tu luyện linh căn, phân công tối đa ba vị trí và trang bị vũ khí/giáp/pháp bảo. Nhân/Địa/Thiên nhân lực chiến cơ bản ×1/×1,12/×1,28 (SIMULATED).
+3. Tuyển thần tiên theo phẩm chất, tăng cấp, tu luyện linh căn, phân công tối đa ba vị trí và trang bị vũ khí/giáp/pháp bảo; vũ khí tăng sát thương, giáp giảm thương và pháp bảo khuếch đại kỹ năng. Nhân/Địa/Thiên nhân lực chiến cơ bản ×1/×1,12/×1,28 (SIMULATED).
 4. Huấn luyện quân, trinh sát một tọa độ, chọn đơn vị và số lượng, hành quân đánh NPC.
 5. Combat tính tuyến trước/tuyến sau/công thành, tầm đánh và chủ động, tương khắc theo vai trò địch, đội hình hỗ trợ, sĩ khí và kỹ năng thần tiên. Bốn pháp môn có nội tại theo đội hình và lượt thi triển chủ động: hộ thể/đánh mở đầu hiệp 1, hỏa công hiệp 2, hồi phục hiệp 3; báo cáo phân biệt sát thương thường, sát thương kỹ năng, lượng chặn và hồi phục. Đối thủ NPC có 3–5 stack, một ngũ hành cùng đấu pháp theo địa hình. Vòng SIMULATED Hỏa khắc Kim, Kim khắc Mộc, Mộc khắc Thổ, Thổ khắc Thủy, Thủy khắc Hỏa tạo ±2,5% sát thương và ±1,5% sát thương nhận mỗi thần tiên thuận/nghịch hệ; Phong trung tính. Kết quả seeded ghi thương vong hai bên, loot và chiến báo đúng một lần.
 6. Dùng phần thưởng mở cấp thành, công nghệ, địa điểm và tầng PvE cao hơn; claim nhiệm vụ chính tuyến.

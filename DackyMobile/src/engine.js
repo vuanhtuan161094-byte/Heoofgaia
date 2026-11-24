@@ -218,9 +218,13 @@ function awardHeroAffinity(hero, amount) {
 
 function heroCombatProfile(heroList,state,enemyElement) {
   const rows=heroList.map(save=>({save,data:HEROES.find(def=>def.id===save.id)})).filter(row=>row.data);
+  const equippedBonus=(row,slot)=>ITEMS.find(item=>item.id===row.save.equipment?.[slot])?.bonus||0;
+  const equipmentAttack=rows.reduce((sum,row)=>sum+equippedBonus(row,'weapon')*0.001,0);
+  const equipmentDefense=rows.reduce((sum,row)=>sum+equippedBonus(row,'armor')*0.001,0);
+  const artifactSkillBonus=rows.reduce((sum,row)=>sum+equippedBonus(row,'artifact')*0.001,0);
   const has=skill=>rows.filter(row=>row.data.skill===skill).reduce((n,row)=>n+Math.max(1,row.save.skillLevel||1)*(1+clamp(Number(row.save.affinity)||0,0,100)*0.002),0);
-  const attack=has('Hỏa Phù Liệt Trận')*0.012;
-  const defense=has('Huyền Thủy Hộ Thể')*0.012;
+  const attack=has('Hỏa Phù Liệt Trận')*0.012+equipmentAttack;
+  const defense=has('Huyền Thủy Hộ Thể')*0.012+equipmentDefense;
   const opening=has('Phong Lôi Kích')*0.03;
   const formation=has('Thất Tinh Trợ Chiến')*0.01;
   const averageAffinity=rows.reduce((n,row)=>n+clamp(Number(row.save.affinity)||0,0,100),0)/Math.max(1,rows.length);
@@ -234,11 +238,12 @@ function heroCombatProfile(heroList,state,enemyElement) {
     const definition=HERO_SKILLS.find(skill=>skill.name===row.data.skill);
     if(!definition)return null;
     const mastery=Math.max(1,row.save.skillLevel||1)*(1+clamp(Number(row.save.affinity)||0,0,100)*0.002);
+    const artifactBonus=equippedBonus(row,'artifact');
     return {id:definition.id,name:definition.name,activeName:definition.activeName,active:definition.active,triggerRound:definition.triggerRound,
-      coefficient:definition.baseCoefficient+definition.perMastery*mastery,mastery};
+      coefficient:definition.baseCoefficient+definition.perMastery*mastery+artifactBonus*0.001,mastery,artifactBonus};
   }).filter(Boolean);
-  const activePowerBonus=skills.reduce((n,skill)=>n+skill.mastery*0.002,0);
-  return { names:rows.map(row=>row.data.skill),skills,bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance,elementMatchup,activePowerBonus},
+  const activePowerBonus=skills.reduce((n,skill)=>n+skill.mastery*0.002+skill.artifactBonus*0.001,0);
+  return { names:rows.map(row=>row.data.skill),skills,bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance,elementMatchup,equipmentAttack,equipmentDefense,artifactSkillBonus,activePowerBonus},
     powerMultiplier:1+(attack+defense+opening+formation)*0.35+elementResonance+activePowerBonus };
 }
 

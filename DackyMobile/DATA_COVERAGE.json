@@ -136,6 +136,11 @@
       "effect": "Multiplies base hero combat power",
       "status": "SIMULATED"
     },
+    "equipmentCombat": {
+      "slots": {"weapon": "Outgoing damage", "armor": "Incoming damage reduction", "artifact": "Active skill coefficient"},
+      "effects": "Each equipped item also adds its catalog bonus to hero power",
+      "status": "SIMULATED"
+    },
     "fiveElementCounters": {
       "npcProfiles": 120,
       "cycle": {"Hỏa": "Khắc Kim", "Kim": "Khắc Mộc", "Mộc": "Khắc Thổ", "Thổ": "Khắc Thủy", "Thủy": "Khắc Hỏa"},

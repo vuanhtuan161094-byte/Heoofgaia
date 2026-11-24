@@ -5086,6 +5086,15 @@
         "Thiên": 1.28
       }
     },
+    "equipmentCombat": {
+      "evidence": "SIMULATED",
+      "runtime": "src/engine.js + src/ui.js",
+      "slots": {
+        "weapon": "Outgoing damage",
+        "armor": "Incoming damage reduction",
+        "artifact": "Active skill coefficient"
+      }
+    },
     "fiveElementCounters": {
       "evidence": "SIMULATED",
       "runtime": "src/catalog.js + src/engine.js + src/ui.js",

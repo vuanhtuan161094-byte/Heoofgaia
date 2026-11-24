@@ -271,6 +271,31 @@ test('hero quality and five-element counters affect power and campaign damage', 
   assert.ok(countered.rounds[0].elementDamage<0);
 });
 
+test('weapon, armor and artifact bonuses change their matching combat effects', () => {
+  const now=1_800_000_000_000;
+  const battle=withGear=>{
+    let state=createNewGame('Triều Ca',now);
+    if(withGear){
+      state.items=['item-01','item-04','item-07'];
+      for(const [index,itemId] of state.items.entries())state=doAction(state,{type:'equip',heroId:'hero-01',itemId},now+index+1);
+    }
+    state.army={'troop-01':1};
+    state=doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-01',count:1},now+5);
+    return advance(state,state.queues.march.finishAt+1).state.reports[0];
+  };
+  const unarmed=battle(false),equipped=battle(true);
+  assert.equal(unarmed.skillBonuses.equipmentAttack,0);
+  assert.equal(unarmed.skillBonuses.equipmentDefense,0);
+  assert.equal(unarmed.skillBonuses.artifactSkillBonus,0);
+  assert.ok(equipped.skillBonuses.equipmentAttack>0);
+  assert.ok(equipped.skillBonuses.equipmentDefense>0);
+  assert.ok(equipped.skillBonuses.artifactSkillBonus>0);
+  assert.ok(equipped.skillBonuses.activePowerBonus>unarmed.skillBonuses.activePowerBonus);
+  const unarmedFire=unarmed.rounds.find(round=>round.activeSkills.includes('Liệt Hỏa Thiên Hàng'));
+  const equippedFire=equipped.rounds.find(round=>round.activeSkills.includes('Liệt Hỏa Thiên Hàng'));
+  assert.ok(equippedFire.skillDamage>unarmedFire.skillDamage);
+});
+
 test('construction and training are queued and settle once', () => {
   const base=1_800_000_000_000;
   let state=createNewGame('Triều Ca',base);

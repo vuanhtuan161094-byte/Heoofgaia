@@ -38,3 +38,9 @@
 - Phẩm chất Nhân/Địa/Thiên nhân hệ số lực chiến cơ bản 1,00/1,12/1,28; hệ số và tên bậc đều SIMULATED, chiêu mộ Thiên phẩm tiếp tục tốn nhiều linh ngọc hơn. UI công khai hệ số căn cơ trước khi chiêu mộ.
 - Mỗi đội NPC có Hỏa/Thủy/Mộc/Kim/Thổ. Vòng khắc chế được mô phỏng theo Hỏa khắc Kim, Kim khắc Mộc, Mộc khắc Thổ, Thổ khắc Thủy, Thủy khắc Hỏa; Phong trung tính do chưa có nguồn xác minh. Mỗi thần tiên thuận/nghịch hệ làm đổi ±2,5% sát thương gây ra, đồng thời giảm/tăng 1,5% sát thương nhận vào.
 - Ngũ hành NPC chỉ hiện sau trinh sát và được ghi vào chiến báo; hiệu ứng chỉ áp dụng trận chiến dịch, còn cộng hưởng đồng nguyên tố theo đội hình vẫn riêng biệt.
+
+
+## 2026-11-24 · Nối từng loại trang bị vào combat
+
+- Vũ khí trong ba vị trí đội hình cộng hệ số sát thương theo `ITEMS.bonus`; giáp cộng giảm sát thương nhận; pháp bảo cộng trực tiếp vào hệ số kỹ năng chủ động và độ tinh thông PvE. Cả ba loại vẫn cộng lực chiến nền như trước.
+- Thông số phần trăm được chiến báo tổng hợp theo đội hình; công thức và mức cộng đều SIMULATED. Rèn/trang bị vẫn dùng inventory và slot hiện có, không tạo nhánh nâng cấp vật phẩm riêng ở lô này.
