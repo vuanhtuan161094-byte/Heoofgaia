@@ -108,6 +108,29 @@
       "legacyReferenceCount": 624
     }
   ],
+  "runtimeMechanics": {
+    "consumableMerchant": {
+      "records": 540,
+      "status": "SIMULATED",
+      "pricing": "Gold and food scale by tier; tier 8+ also costs jade; bag limit 500"
+    },
+    "heroProgression": {
+      "levels": 60,
+      "xpItemsAndTraining": "Automatic multi-level settlement; skill level increases at each level divisible by 4",
+      "status": "SIMULATED"
+    },
+    "combatSkills": {
+      "skills": ["Hỏa Phù Liệt Trận", "Huyền Thủy Hộ Thể", "Phong Lôi Kích", "Thất Tinh Trợ Chiến"],
+      "effects": ["Damage", "Damage reduction", "Opening strike", "Formation health"],
+      "status": "SIMULATED"
+    },
+    "taxPolicies": {
+      "records": 3,
+      "values": ["Khoan giảm", "Trung dung", "Thuế nặng"],
+      "effects": ["Gold production", "Morale drift", "Population growth"],
+      "status": "SIMULATED"
+    }
+  },
   "notImported": [
     {
       "domain": "heroSourceRoster",

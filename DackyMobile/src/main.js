@@ -130,7 +130,7 @@ document.body.addEventListener('click', async event => {
   switch(action) {
     case 'catalogPage': {
       const key=button.dataset.pageKey;
-      if(['heroPage','forgePage','questPage','mountainPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
+      if(['heroPage','forgePage','consumablePage','questPage','mountainPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
       return;
     }
     case 'selectNode':
@@ -138,12 +138,14 @@ document.body.addEventListener('click', async event => {
       renderCurrent();
       return;
     case 'upgrade': return perform('upgrade',{buildingId:button.dataset.building});
+    case 'setTaxPolicy': return perform('setTaxPolicy',{policy:button.dataset.policy});
     case 'train': return perform('train',{troopId:document.querySelector('#train-unit')?.value,count:document.querySelector('#train-count')?.value});
     case 'trainHero': return perform('trainHero',{heroId:button.dataset.hero});
     case 'recruit': return perform('recruit',{heroId:button.dataset.hero});
     case 'assignHero': return perform('assignHero',{heroId:button.dataset.hero});
     case 'equip': return perform('equip',{itemId:button.dataset.item,heroId:document.querySelector(`[data-equip-select="${button.dataset.item}"]`)?.value});
     case 'useItem': return perform('useItem',{itemId:button.dataset.item,index:Number(button.dataset.index)});
+    case 'buyItem': return perform('buyItem',{itemId:button.dataset.item});
     case 'forge': return perform('forge',{itemId:button.dataset.item});
     case 'research': return perform('research',{techId:button.dataset.tech});
     case 'scout': return perform('scout',{nodeId:button.dataset.node||uiState.nodeId});

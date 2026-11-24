@@ -19,9 +19,13 @@ Tử Vi Thành quản lý cấp thành, dân số và mở khóa. Hai mươi cô
 | Huyền Vũ Thành, Thiên Lý Đài | Phòng thủ và tốc độ hành quân (mô phỏng) |
 | Bát Phương Quán, Vạn Lý Trạm | Ngoại giao NPC và giao thương offline |
 
+Chính sách thuế có ba mức mô phỏng: khoan giảm tạo 75% đồng cơ sở và phục hồi 0,12 dân tâm/giờ; trung dung là mức chuẩn; thuế nặng tạo 130% đồng nhưng giảm 0,24 dân tâm/giờ. Dân tâm và cấp Tử Vi Thành cùng điều chỉnh tốc độ tăng dân số. Chính sách được lưu và vẫn áp dụng trong tiến trình offline.
+
+Thương nhân vật phẩm bán 540 món tiêu hao mô phỏng theo 23 trang. Túi chứa tối đa 500 món; món bậc 8 trở lên cần thêm linh ngọc. Bốn pháp môn đội hình lần lượt tăng sát thương, giảm sát thương nhận vào, tăng đòn mở đầu và sức bền; XP từ tu luyện, tiêu hao hoặc PvE tự tính cấp mới và mốc kỹ năng.
+
 ## Thần tiên và túi đồ
 
-Roster có 540 hồ sơ thần tiên mô phỏng, hiển thị theo trang; Tiên Gia Phủ mở tối đa 60 chỗ theo cấp. Chiêu mộ dùng đồng + linh ngọc; tu luyện dùng lương thực + đồng; đội hình cho tối đa ba vị trí theo cấp thành. Vũ khí, giáp, pháp bảo cộng chỉ số trong tính lực chiến. Đồ tiêu hao dùng trực tiếp. Huyền Thiết Lò rèn món theo bậc; chiến thắng có tỷ lệ rơi trang bị.
+Roster có 540 hồ sơ thần tiên mô phỏng, hiển thị theo trang; Tiên Gia Phủ mở tối đa 60 chỗ theo cấp. Chiêu mộ dùng đồng + linh ngọc; tu luyện và đan XP cộng kinh nghiệm, tự tăng cấp khi đủ ngưỡng; mỗi mốc cấp 4 tăng một cấp kỹ năng. Đội hình cho tối đa ba vị trí theo cấp thành. Vũ khí, giáp, pháp bảo cộng chỉ số trong tính lực chiến. Bốn pháp môn (Hỏa Phù, Huyền Thủy, Phong Lôi, Thất Tinh) có tác dụng riêng với sát thương, giảm thương, đòn mở đầu và sức bền đội hình ở cả combat quân đội lẫn thử thách thần tiên; hệ số đều SIMULATED. Thương nhân NPC bán toàn bộ vật phẩm tiêu hao theo trang; giá dùng đồng + lương thực, vật phẩm bậc cao cần thêm linh ngọc, sức chứa tối đa 500 món. Mua xong dùng vật phẩm để áp dụng hiệu ứng runtime. Huyền Thiết Lò rèn món theo bậc; chiến thắng có tỷ lệ rơi trang bị.
 
 ## Quân đội và combat
 

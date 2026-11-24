@@ -121,6 +121,14 @@ try {
   }
   console.log('PASS all 11 primary menu screens render with content.');
 
+  await click('#primary-nav [data-view="market"]');
+  await click('[data-action="setTaxPolicy"][data-policy="heavy"]');
+  await waitFor('document.querySelector("[data-action=setTaxPolicy][data-policy=heavy]")?.disabled===true');
+  await delay(200);
+  await click('[data-action="setTaxPolicy"][data-policy="balanced"]');
+  await waitFor('document.querySelector("[data-action=setTaxPolicy][data-policy=balanced]")?.disabled===true');
+  console.log('PASS tax policy changes are saved into the economy state.');
+
   await click('#primary-nav [data-view="heroes"]');
   await waitFor('document.querySelectorAll("[data-page-key=heroPage]").length===2');
   await click('[data-page-key="heroPage"][data-page="1"]');
@@ -129,8 +137,15 @@ try {
   await click('[data-page-key="heroPage"][data-page="0"]');
 
   await click('#primary-nav [data-view="inventory"]');
+  await waitFor('document.querySelectorAll("[data-page-key=consumablePage]").length===2');
+  await click('[data-page-key="consumablePage"][data-page="1"]');
+  await waitFor('Array.from(document.querySelectorAll(".catalog-pages span")).some(x=>x.innerText.includes("Trang 2")&&x.innerText.includes("vật phẩm tiêu hao"))');
+  check(await evaluate('Array.from(document.querySelectorAll(".panel")).find(x=>x.querySelector(".panel-title")?.innerText.includes("Thương nhân vật phẩm"))?.querySelectorAll(".inventory-item").length')===24);
+  await click('[data-page-key="consumablePage"][data-page="0"]');
+  await click('[data-action="buyItem"][data-item="item-0022"]');
+  await waitFor('Array.from(document.querySelectorAll(".panel")).find(x=>x.querySelector(".panel-title")?.innerText.includes("Thương nhân vật phẩm"))?.innerText.includes("Trong túi: 1")');
   await click('[data-page-key="forgePage"][data-page="1"]');
-  await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
+  await waitFor('Array.from(document.querySelectorAll(".panel")).find(x=>x.querySelector(".panel-title")?.innerText.includes("Lò luyện pháp bảo"))?.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
   await click('[data-page-key="forgePage"][data-page="0"]');
 
   await click('#primary-nav [data-view="quests"]');
@@ -143,7 +158,7 @@ try {
   await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
   check((await evaluate('document.querySelectorAll("[data-mode=mountain]").length'))===24);
   await click('[data-page-key="mountainPage"][data-page="0"]');
-  console.log('PASS paginated hero, item, quest and Tiên Sơn catalogs.');
+  console.log('PASS paginated hero, consumable shop, forge, quest and Tiên Sơn catalogs; NPC purchase settles.');
 
   await click('#primary-nav [data-view="city"]');
   await click('[data-action="upgrade"][data-building="altar"]');

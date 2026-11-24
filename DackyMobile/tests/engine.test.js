@@ -12,6 +12,23 @@ test('new save has a bounded, offline-first settlement', () => {
   assert.ok(result.state.resources.food>=0);
   assert.ok(result.state.resources.food<=storageCapacity(result.state));
   assert.ok(productionPerHour(result.state).food>0);
+  assert.equal(state.taxPolicy,'balanced');
+});
+
+test('tax policy balances gold income, morale and population growth', () => {
+  const now=1_800_000_000_000;
+  const state=createNewGame('Triều Ca',now);
+  const balancedGold=productionPerHour(state).gold;
+  const heavy=doAction(state,{type:'setTaxPolicy',policy:'heavy'},now+1);
+  assert.ok(productionPerHour(heavy).gold>balancedGold);
+  const heavyRest=advance(heavy,now+8*60*60*1000).state;
+  assert.ok(heavyRest.morale<state.morale);
+  const relief=doAction(state,{type:'setTaxPolicy',policy:'relief'},now+1);
+  assert.ok(productionPerHour(relief).gold<balancedGold);
+  const reliefRest=advance(relief,now+8*60*60*1000).state;
+  assert.ok(reliefRest.morale>state.morale);
+  assert.ok(reliefRest.population>state.population);
+  assert.throws(()=>doAction(state,{type:'setTaxPolicy',policy:'free-money'},now+1),/chính sách thuế/);
 });
 
 test('construction and training are queued and settle once', () => {
@@ -44,6 +61,9 @@ test('recruitment, gear, campaign battle and save migration stay connected', () 
   state=advance(state,arrival+1).state;
   assert.equal(state.stats.battles,1);
   assert.equal(state.reports.length,1);
+  assert.ok(state.reports[0].heroSkills.includes('Hỏa Phù Liệt Trận'));
+  assert.ok(state.reports[0].skillBonuses.attack>0);
+  assert.ok(state.reports[0].rounds[0].ownDamage>0);
   const totalReturned=Object.values(state.army).reduce((n,x)=>n+x,0)+Object.values(state.wounded).reduce((n,x)=>n+x,0);
   assert.ok(totalReturned<=18);
   state=advance(state,arrival+5_000).state;
@@ -154,13 +174,40 @@ test('full simulated catalogs expose the requested runtime coverage', () => {
 test('generated consumables apply their recorded effect and Tiên Sơn challenges settle', () => {
   const now=1_800_000_000_000;
   let state=createNewGame('Triều Ca',now);
-  state.items.push('item-0022');
-  const foodBefore=state.resources.food;
-  state=doAction(state,{type:'useItem',itemId:'item-0022'},now+1);
-  assert.ok(Math.abs(state.resources.food-(foodBefore+223))<0.01);
+  const goldBefore=state.resources.gold,foodBefore=state.resources.food;
+  state=doAction(state,{type:'buyItem',itemId:'item-0022'},now+1);
+  assert.equal(state.items.filter(id=>id==='item-0022').length,1);
+  assert.equal(state.stats.itemPurchases,1);
+  assert.ok(Math.abs(state.resources.gold-(goldBefore-360))<0.01);
+  assert.ok(Math.abs(state.resources.food-(foodBefore-180))<0.01);
+  const foodAfterPurchase=state.resources.food;
+  state=doAction(state,{type:'useItem',itemId:'item-0022'},now+2);
+  assert.ok(Math.abs(state.resources.food-(foodAfterPurchase+223))<0.01);
   state.heroes[0].level=60;
   state=doAction(state,{type:'duel',mode:'mountain',mountainId:'mountain-001'},now+2);
   assert.equal(state.stats.duels,1);
   assert.equal(state.world.mountainWins.includes('mountain-001'),true);
   assert.match(state.reports[0].target,/Tiên Sơn 1/);
+  assert.deepEqual(state.reports[0].heroSkills,['Hỏa Phù Liệt Trận']);
+});
+
+test('hero experience items trigger level and skill advancement', () => {
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  state.heroes[0].xp=300;
+  state=doAction(state,{type:'useItem',itemId:'item-14'},now+1);
+  assert.equal(state.heroes[0].level,4);
+  assert.equal(state.heroes[0].skillLevel,2);
+  assert.equal(state.heroes[0].xp,14);
+});
+
+test('NPC consumable merchant enforces inventory and affordability limits', () => {
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  state.resources.gold=0;
+  assert.throws(()=>doAction(state,{type:'buyItem',itemId:'item-0022'},now+1),/Tài nguyên chưa đủ/);
+  state=createNewGame('Triều Ca',now);
+  state.items=Array(500).fill('item-13');
+  assert.throws(()=>doAction(state,{type:'buyItem',itemId:'item-0022'},now+1),/Túi đồ đã đầy/);
+  assert.throws(()=>doAction(createNewGame('Triều Ca',now),{type:'buyItem',itemId:'item-01'},now+1),/không bán vật phẩm/);
 });

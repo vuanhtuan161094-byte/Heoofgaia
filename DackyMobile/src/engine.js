@@ -4,6 +4,11 @@ export const SAVE_VERSION = 1;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
 const RESOURCE_KEYS = Object.keys(RESOURCE_INFO);
 const DEFAULT_SETTINGS = Object.freeze({ sound: false, effects: true, reducedMotion: false, autosave: true });
+export const TAX_POLICIES=Object.freeze({
+  relief:Object.freeze({label:'Khoan giảm',income:0.75,moralePerHour:0.12}),
+  balanced:Object.freeze({label:'Trung dung',income:1,moralePerHour:0}),
+  heavy:Object.freeze({label:'Thuế nặng',income:1.3,moralePerHour:-0.24})
+});
 const clone = value => structuredClone(value);
 const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 
@@ -19,6 +24,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     resources: { food: 1600, timber: 1300, stone: 1150, iron: 700, gold: 950, jade: 6 },
     population: 180,
     morale: 82,
+    taxPolicy: 'balanced',
     fame: 0,
     levels,
     technologies: Object.fromEntries(TECHNOLOGIES.map(t => [t.id, 0])),
@@ -29,7 +35,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     wounded: {},
     queues: { construction: null, training: null, research: null, march: null },
     world: { storyStage: 0, towerFloor: 0, buzhouFloor: 0, captures: [], scouted: [], treaties: [], guildLevel: 0, marketDay: 1, campaignComplete: false, mountainWins: [] },
-    stats: { upgrades: 0, troopsTrained: 0, heroesRecruited: 0, itemsEquipped: 0, battles: 0, victories: 0, citiesCaptured: 0, bossesDefeated: 0, duels: 0, tradeCount: 0 },
+    stats: { upgrades: 0, troopsTrained: 0, heroesRecruited: 0, itemsEquipped: 0, itemPurchases: 0, battles: 0, victories: 0, citiesCaptured: 0, bossesDefeated: 0, duels: 0, tradeCount: 0 },
     claims: [],
     reports: [],
     notifications: ['西岐烽火已起。先稳固城防，广积粮草，再择贤者同行。'],
@@ -56,6 +62,7 @@ export function migrateSave(input, now = Date.now()) {
   for (const t of TECHNOLOGIES) s.technologies[t.id] = clamp(Number(s.technologies?.[t.id]) || 0, 0, t.maxLevel);
   s.population = clamp(Number(s.population) || 0, 0, 250_000);
   s.morale = clamp(Number(s.morale) || 0, 0, 100);
+  s.taxPolicy=Object.hasOwn(TAX_POLICIES,s.taxPolicy)?s.taxPolicy:'balanced';
   s.fame = clamp(Number(s.fame) || 0, 0, 99_999_999);
   const knownHeroes = new Set();
   s.heroes = (Array.isArray(s.heroes) ? s.heroes : []).filter(h => {
@@ -125,7 +132,7 @@ export function migrateSave(input, now = Date.now()) {
     population:clamp(Number(city.population)||80,1,50_000),isCapital:city.id==='capital'
   }));
   if(!s.cities.some(city=>city.isCapital))s.cities.unshift({id:'capital',nodeId:null,name:s.profile.name,level:s.levels.citadel||1,population:s.population,isCapital:true});
-  const statDefaults={upgrades:0,troopsTrained:0,heroesRecruited:0,itemsEquipped:0,battles:0,victories:0,citiesCaptured:0,bossesDefeated:0,duels:0,tradeCount:0};
+  const statDefaults={upgrades:0,troopsTrained:0,heroesRecruited:0,itemsEquipped:0,itemPurchases:0,battles:0,victories:0,citiesCaptured:0,bossesDefeated:0,duels:0,tradeCount:0};
   s.stats = s.stats && typeof s.stats === 'object' ? s.stats : {};
   for(const key of Object.keys(statDefaults))s.stats[key]=clamp(Number(s.stats[key])||0,0,99_999_999);
   s.claims = Array.isArray(s.claims) ? s.claims.filter(id=>QUESTS.some(q=>q.id===id)) : [];
@@ -150,7 +157,7 @@ export function productionPerHour(state) {
     timber: (10 + lv.grove * 38 + lv.lumber * 12 + satelliteCount*18) * bonus('timber'),
     stone: (8 + lv.mine * 34 + lv.quarry * 10 + satelliteCount*14) * bonus('stone'),
     iron: (5 + lv.foundryfield * 28 + lv.foundry * 9 + satelliteCount*12) * bonus('iron'),
-    gold: 10 + lv.market * 25 + satelliteCount*8 + Math.floor(state.population * (0.035 + lv.citadel * 0.002)) + (tech['tech-05'] || 0) * 2,
+    gold: (10 + lv.market * 25 + satelliteCount*8 + Math.floor(state.population * (0.035 + lv.citadel * 0.002)) + (tech['tech-05'] || 0) * 2) * TAX_POLICIES[state.taxPolicy||'balanced'].income,
     jade: 0.12 + lv.altar * 0.12 + lv.manor * 0.025
   };
 }
@@ -166,6 +173,33 @@ export function heroPower(hero, state) {
   if (!def) return 0;
   const gear = Object.values(hero.equipment || {}).filter(Boolean).reduce((sum, id) => sum + (ITEMS.find(item => item.id === id)?.bonus || 0), 0);
   return Math.round((def.attack + def.defense + def.wisdom * 0.72 + gear) * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035));
+}
+
+function awardHeroXp(hero, amount) {
+  if(hero.level>=60)return 0;
+  hero.xp=Math.max(0,Number(hero.xp)||0)+Math.max(0,Number(amount)||0);
+  let levels=0;
+  while(hero.level<60){
+    const need=100+hero.level*hero.level*34;
+    if(hero.xp<need)break;
+    hero.xp-=need;
+    hero.level++;
+    levels++;
+    if(hero.level%4===0)hero.skillLevel=Math.min(10,hero.skillLevel+1);
+  }
+  if(hero.level>=60)hero.xp=0;
+  return levels;
+}
+
+function heroCombatProfile(heroList) {
+  const rows=heroList.map(save=>({save,data:HEROES.find(def=>def.id===save.id)})).filter(row=>row.data);
+  const has=skill=>rows.filter(row=>row.data.skill===skill).reduce((n,row)=>n+Math.max(1,row.save.skillLevel||1),0);
+  const attack=has('Hỏa Phù Liệt Trận')*0.012;
+  const defense=has('Huyền Thủy Hộ Thể')*0.012;
+  const opening=has('Phong Lôi Kích')*0.03;
+  const formation=has('Thất Tinh Trợ Chiến')*0.01;
+  return { names:rows.map(row=>row.data.skill), bonuses:{attack,defense,opening,formation},
+    powerMultiplier:1+(attack+defense+opening+formation)*0.35 };
 }
 
 export function armyPower(state, counts = state.army) {
@@ -229,6 +263,14 @@ export function quoteResearch(state, techId) {
 
 function canAfford(state, cost) { return Object.entries(cost).every(([key, amount]) => (state.resources[key] || 0) >= amount); }
 
+export function quoteItemPurchase(state, itemId) {
+  const item=ITEMS.find(row=>row.id===itemId&&row.type==='vật phẩm');
+  if(!item)return null;
+  const cost={gold:90*item.tier,food:45*item.tier};
+  if(item.tier>=8)cost.jade=1;
+  return {cost,available:state.items.length<500&&canAfford(state,cost)};
+}
+
 function debit(state, cost) {
   if (!canAfford(state, cost)) throw new Error('Tài nguyên chưa đủ. Hãy chờ sản xuất hoặc đổi hàng ở Triều Ca Thị.');
   for (const [key, amount] of Object.entries(cost)) state.resources[key] -= amount;
@@ -281,6 +323,7 @@ function seededRandom(seed) {
 function resolveArmyCombat(state, node, troops, seed) {
   const rng = seededRandom(seed);
   const heroList = state.heroes.filter(h => h.assigned).slice(0, 3);
+  const heroProfile=heroCombatProfile(heroList);
   const troopRows = Object.entries(troops).map(([id, count]) => ({ unit: TROOPS.find(t => t.id === id), count })).filter(x => x.unit && x.count > 0);
   const total = troopRows.reduce((n, row) => n + row.count, 0);
   const roles = troopRows.map(row => row.unit.role);
@@ -292,13 +335,13 @@ function resolveArmyCombat(state, node, troops, seed) {
   const enemyPower = Math.max(80, node.power * (1 + Math.max(0, node.chapter - 1) * 0.035) * treatyBonus);
   const initiative = troopRows.reduce((n, row) => n + row.unit.speed * row.count, 0) / Math.max(1, total);
   const rounds = [];
-  let ownHealth = ownPower * (1 + state.morale / 500);
+  let ownHealth = ownPower * (1 + state.morale / 500 + heroProfile.bonuses.formation);
   let enemyHealth = enemyPower;
   let round = 0;
   while (ownHealth > 0 && enemyHealth > 0 && round < 6) {
     round++;
-    const ownDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (round === 1 && initiative > 10 ? 1.13 : 1));
-    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (round === 1 && initiative < 6 ? 1.12 : 1));
+    const ownDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (round === 1 && initiative > 10 ? 1.13 : 1));
+    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1-heroProfile.bonuses.defense) * (round === 1 && initiative < 6 ? 1.12 : 1));
     enemyHealth -= ownDamage;
     ownHealth -= enemyDamage;
     rounds.push({ round, ownDamage: Math.round(ownDamage), enemyDamage: Math.round(enemyDamage), ownMorale: Math.max(0, Math.round(ownHealth / ownPower * 100)) });
@@ -312,7 +355,7 @@ function resolveArmyCombat(state, node, troops, seed) {
     if (lost) dead[row.unit.id] = lost - injured;
     if (injured) wounded[row.unit.id] = injured;
   }
-  return { victory, ownPower: Math.round(ownPower), enemyPower: Math.round(enemyPower), rounds, dead, wounded, total, heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id) };
+  return { victory, ownPower: Math.round(ownPower), enemyPower: Math.round(enemyPower), rounds, dead, wounded, total, heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id), heroSkills:heroProfile.names, skillBonuses:heroProfile.bonuses };
 }
 
 function settleMarch(state, q, now) {
@@ -376,7 +419,9 @@ export function advance(state, now = Date.now()) {
       const upkeepPerHour = key === 'food' ? armyCount(next) * 0.35 : 0;
       next.resources[key] = clamp(next.resources[key] + (perHour[key] - upkeepPerHour) * elapsed / 3600, 0, key === 'jade' ? 99_999 : cap);
     }
-    next.population = Math.min(250_000, next.population + elapsed / 3600 * (0.25 + next.levels.citadel * 0.12));
+    const hours=elapsed/3600;
+    next.population = Math.min(250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11));
+    next.morale=clamp(next.morale+hours*TAX_POLICIES[next.taxPolicy].moralePerHour,0,100);
     next.world.marketDay += elapsed / 86_400;
   }
   next.lastTickAt = now;
@@ -395,6 +440,12 @@ export function doAction(state, action, now = Date.now()) {
       if(s.cities[0]?.isCapital)s.cities[0].name=s.profile.name;
       note(s, `Thành trì đổi tên thành ${s.profile.name}.`);
       break;
+    case 'setTaxPolicy': {
+      if(!Object.hasOwn(TAX_POLICIES,action.policy))throw new Error('Không nhận diện được chính sách thuế.');
+      s.taxPolicy=action.policy;
+      note(s,`Chính sách thuế đổi sang ${TAX_POLICIES[s.taxPolicy].label}.`);
+      break;
+    }
     case 'upgrade': {
       if (s.queues.construction) throw new Error('Hàng đợi xây dựng đang bận.');
       const b = BUILDINGS.find(x => x.id === action.buildingId);
@@ -457,10 +508,8 @@ export function doAction(state, action, now = Date.now()) {
       if (hero.level >= 60) throw new Error('Thần tiên đã đạt cấp tối đa mô phỏng.');
       const cost = { food: 65 * hero.level, gold: 85 * hero.level };
       debit(s, cost);
-      hero.xp += 80 + hero.level * 16;
-      const need = 100 + hero.level * hero.level * 34;
-      if (hero.xp >= need) { hero.xp -= need; hero.level++; hero.skillLevel = Math.min(10, hero.skillLevel + (hero.level % 4 === 0 ? 1 : 0)); }
-      note(s, `${HEROES.find(def => def.id === hero.id)?.name} đã tu luyện đến cấp ${hero.level}.`);
+      const levels=awardHeroXp(hero,80+hero.level*16);
+      note(s, `${HEROES.find(def => def.id === hero.id)?.name} đã tu luyện${levels?` và tăng ${levels} cấp`:''} · cấp ${hero.level}${levels&&hero.level%4===0?` · kỹ năng ${hero.skillLevel}`:''}.`);
       break;
     }
     case 'forge': {
@@ -475,13 +524,28 @@ export function doAction(state, action, now = Date.now()) {
       note(s, `Rèn thành công ${item.name} tại Huyền Thiết Lò.`);
       break;
     }
+    case 'buyItem': {
+      const item=ITEMS.find(i=>i.id===action.itemId&&i.type==='vật phẩm');
+      if(!item)throw new Error('Thương nhân không bán vật phẩm này.');
+      if(s.items.length>=500)throw new Error('Túi đồ đã đầy. Hãy sử dụng hoặc sắp xếp vật phẩm trước.');
+      const cost={gold:90*item.tier,food:45*item.tier};
+      if(item.tier>=8)cost.jade=1;
+      debit(s,cost);
+      s.items.push(item.id);
+      s.stats.itemPurchases++;
+      note(s,`Đã mua ${item.name} từ thương nhân NPC.`);
+      break;
+    }
     case 'useItem': {
       const itemIndex = s.items.indexOf(action.itemId);
       const item = ITEMS.find(i => i.id === action.itemId);
       if (itemIndex < 0 || !item || item.type !== 'vật phẩm') throw new Error('Không thể sử dụng vật phẩm này.');
       const effect=item.useEffect;
       if(effect?.kind==='resource')credit(s,{[effect.resource]:effect.amount});
-      else if(effect?.kind==='heroXp')s.heroes.forEach(h=>{h.xp+=effect.amount;});
+      else if(effect?.kind==='heroXp'){
+        const gained=s.heroes.reduce((n,h)=>n+awardHeroXp(h,effect.amount),0);
+        if(gained)note(s,`Linh dược giúp thần tiên tăng ${gained} cấp.`);
+      }
       else if(effect?.kind==='morale')s.morale=clamp(s.morale+effect.amount,0,100);
       else if(item.id==='item-13')credit(s,{food:420});
       else if(item.id==='item-14')s.heroes.forEach(h=>{h.xp+=120;});
@@ -539,7 +603,9 @@ export function doAction(state, action, now = Date.now()) {
       const cap=mode==='tower'?TOWER_FLOORS:BUZHOU_FLOORS;
       if(mode!=='mountain'&&floor>cap)throw new Error('Đã chinh phục toàn bộ thử thách hiện được mô phỏng.');
       if(!s.heroes.some(h=>h.assigned))throw new Error('Cần ít nhất một thần tiên được phân công.');
-      const power=s.heroes.filter(h=>h.assigned).slice(0,3).reduce((n,h)=>n+heroPower(h,s),0)+(mode==='tower'?0:armyPower(s)*0.08);
+      const assignedHeroes=s.heroes.filter(h=>h.assigned).slice(0,3);
+      const heroProfile=heroCombatProfile(assignedHeroes);
+      const power=(assignedHeroes.reduce((n,h)=>n+heroPower(h,s),0)+(mode==='tower'?0:armyPower(s)*0.08))*heroProfile.powerMultiplier;
       const difficulty=mode==='mountain'?mountain.power:42+floor*(mode==='tower'?6.3:21);
       const victory=power*(0.84+((now>>>4)%31)/100)>=difficulty;
       s.stats.duels++;
@@ -551,17 +617,17 @@ export function doAction(state, action, now = Date.now()) {
         else if(!s.world.mountainWins.includes(mountain.id))s.world.mountainWins.push(mountain.id);
         const reward=mode==='mountain'?mountain.loot:{gold:65+floor*9,jade:floor%3===0?1:0,food:40+floor*4};
         credit(s,reward);
-        s.heroes.forEach(h=>{if(h.assigned)h.xp+=45+floor*8;});
+        s.heroes.forEach(h=>{if(h.assigned)awardHeroXp(h,45+floor*8);});
         if((mode==='tower'&&floor%3===0)||(mode==='buzhou'&&floor===BUZHOU_FLOORS)||(mode==='mountain'&&floor%7===0)){
           const artifacts=ITEMS.filter(item=>item.type==='pháp bảo'&&item.tier<=10);
           const artifact=artifacts[(floor+now)%artifacts.length];
           if(artifact&&!s.items.includes(artifact.id))s.items.push(artifact.id);
         }
         s.fame+=5+floor;
-        report(s,{type:'duel',target,victory,ownPower:power,enemyPower:difficulty,rounds:[],dead:{},wounded:{},loot:reward,evidence:'SIMULATED'});
+        report(s,{type:'duel',target,victory,ownPower:power,enemyPower:difficulty,rounds:[],dead:{},wounded:{},loot:reward,heroSkills:heroProfile.names,skillBonuses:heroProfile.bonuses,evidence:'SIMULATED'});
         note(s,`Thắng thử thách ${target}.`);
       }else{
-        report(s,{type:'duel',target,victory,ownPower:power,enemyPower:difficulty,rounds:[],dead:{},wounded:{},loot:{},evidence:'SIMULATED'});
+        report(s,{type:'duel',target,victory,ownPower:power,enemyPower:difficulty,rounds:[],dead:{},wounded:{},loot:{},heroSkills:heroProfile.names,skillBonuses:heroProfile.bonuses,evidence:'SIMULATED'});
         note(s,'Đối thủ quá mạnh; hãy tu luyện, nâng khoa kỹ hoặc trang bị pháp bảo rồi thử lại.');
       }
       break;

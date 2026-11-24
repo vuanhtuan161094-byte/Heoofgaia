@@ -16,3 +16,10 @@
 - Hành quân lưu detach theo từng stack binh chủng; vai trò phối hợp dùng để tính tương khắc và hoàn trả thương vong riêng từng stack.
 - Dữ liệu runtime/save dùng version 1. IndexedDB là kho chính, localStorage là dự phòng; import được parse/version-check và migration trước khi ghi.
 - Art thành, huy hiệu và chân dung là SVG gốc trong assets/; không sao chép sprite, logo hoặc database nguồn.
+
+## 2026-11-24 · Nối kinh tế, vật phẩm và pháp môn vào runtime
+
+- Thương nhân NPC bán 540 vật phẩm tiêu hao có sẵn trong catalog. Giá SIMULATED tăng theo bậc; vật phẩm bậc 8 trở lên cần thêm linh ngọc; túi giới hạn 500 món. Dữ liệu mua, sử dụng và số lần mua lưu cùng game.
+- XP từ tu luyện, vật phẩm và PvE dùng chung ngưỡng lên cấp, có thể tăng nhiều cấp trong một lần; kỹ năng tăng mỗi khi thần tiên đạt mốc cấp chia hết cho bốn.
+- Bốn pháp môn đội hình áp dụng hệ số SIMULATED cụ thể vào combat quân đội và thử thách thần tiên; chiến báo ghi lại pháp môn đã tham chiến.
+- Thuế khoan giảm / trung dung / nặng thay đổi thu đồng, độ trôi dân tâm và tốc độ dân số; save cũ được migration về trung dung.
