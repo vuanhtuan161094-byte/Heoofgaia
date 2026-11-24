@@ -119,7 +119,17 @@ def payload() -> str:
     if len(tier4)!=40 or len({t["id"] for t in tier4})!=40 or c_runtime.count("__NL_CONTENT_C_DATA__")!=1 or c_runtime.count("__NL_CONTENT_C_TIER4__")!=1 or "</script" in c_runtime.lower():
         raise ValueError("Invalid Content C bundle")
     c_runtime = c_runtime.replace("__NL_CONTENT_C_DATA__",js_json(content_c)).replace("__NL_CONTENT_C_TIER4__",js_json(tier4))
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), world_a4.rstrip(), advanced.rstrip(), c_runtime.rstrip(), END])
+    # D2: original R06 frame sheets, embedded in the existing native renderer.
+    art_dir = ROOT / "assets/ngoalong/troops_r06"
+    art_manifest = json.loads((art_dir / "manifest.json").read_text(encoding="utf-8"))
+    assert len(art_manifest["units"]) == 18 and art_manifest["celCount"] == 360
+    art_sheets = {u["id"]: b64encode((art_dir / u["file"]).read_bytes()).decode("ascii") for u in art_manifest["units"]}
+    assert len(art_sheets) == 18
+    art_fx = b64encode((art_dir / "vfx_troops.svg").read_bytes()).decode("ascii")
+    art_d2 = (TOOLS / "nl_art_d2.js").read_text(encoding="utf-8")
+    assert art_d2.count("__NL_D2_SHEETS__") == 1 and art_d2.count("__NL_D2_FX__") == 1 and "</script" not in art_d2.lower()
+    art_d2 = art_d2.replace("__NL_D2_SHEETS__", js_json(art_sheets)).replace("__NL_D2_FX__", js_json(art_fx))
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), world_a4.rstrip(), advanced.rstrip(), c_runtime.rstrip(), art_d2.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:

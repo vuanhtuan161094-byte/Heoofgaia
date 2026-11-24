@@ -44,7 +44,7 @@
  return svg(defs+frame+'<path d="M10 75L48 48 86 75 48 88Z" fill="'+p[0]+'" opacity=".4"/>'+soldier(10,27,.78)+soldier(40,27,.78)+soldier(23,39,.9)+weapon+'<path d="M12 12h26v12H12Z" fill="'+p[0]+'" stroke="'+p[1]+'"/>'+Array.from({length:1+n%4},(_,i)=>'<circle cx="'+(16+i*5)+'" cy="18" r="1.6" fill="#e4ca83"/>').join(''));
  }
  function icon(kind,id=''){return svg(defs+frame+(shapes[kind]||shapes.quests));}
- const heroMap=()=>typeof HEROES!=='undefined'?HEROES:{};
+ const heroMap=()=>window.__NL_ART_CATALOG__||{};
  function heroForName(name){const n=norm(name).trim();return Object.entries(heroMap()).find(([id,h])=>norm(h.name).trim()===n);}
  function art(kind,id,h){const key=kind+':'+id;if(!cache.has(key))cache.set(key,uri(kind==='hero'?portrait(id,h):families.includes(kind)?troop(kind,id):icon(kind,id)));return cache.get(key)}
  function decorate(el,kind,id,h,replace=false){
