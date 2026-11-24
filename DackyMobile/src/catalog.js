@@ -191,10 +191,14 @@ export const QUESTS = Object.freeze([...campaignQuests,...longTailQuests,campaig
 const regionPrefixes = ['Thanh Khâu','Vân Mộng','Cửu Lê','Lạc Thủy','Bắc Minh','Tây Kỳ','Phong Lăng','Quy Khư','Hoàng Hà','Thái Hư','Tử Tiêu','Huyền Cơ','Bạch Lộc','Thương Sơn','Côn Ngô'];
 const regionSuffixes = ['Quan','Trấn','Đài','Cốc','Sơn','Bến','Lĩnh','Thành'];
 export const WORLD_NODES = Object.freeze(Array.from({ length: 120 }, (_, i) => {
-  const isCity = i < 75;
-  const isField = i >= 75 && i < 105;
+  const chapterIndex=Math.floor(i/15);
+  const localIndex=i%15;
+  const citiesInChapter=chapterIndex<3?10:9;
+  const fieldsInChapter=chapterIndex<3?3:chapterIndex===7?5:4;
+  const isCity=localIndex<citiesInChapter;
+  const isField=localIndex>=citiesInChapter&&localIndex<citiesInChapter+fieldsInChapter;
   const isBoss = i === 119;
-  const chapter = Math.floor(i / 15) + 1;
+  const chapter = chapterIndex + 1;
   const generatedName = `${regionPrefixes[Math.floor(i / regionSuffixes.length) % regionPrefixes.length]} ${regionSuffixes[i % regionSuffixes.length]}`;
   const name = isBoss ? 'Triều Ca · Trụ Vương' : generatedName;
   return { id: `node-${String(i + 1).padStart(3,'0')}`, name, kind: isBoss ? 'Boss chiến dịch' : isCity ? 'Danh thành' : isField ? 'Dã địa' : 'Tiên sơn', isBoss, chapter,

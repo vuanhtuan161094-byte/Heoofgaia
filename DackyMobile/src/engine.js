@@ -247,6 +247,10 @@ export function activeQuest(state) {
   return QUESTS.find(q => !state.claims.includes(q.id)) || null;
 }
 
+export function unlockedChapter(state) {
+  return clamp(1+Math.floor((Number(state?.world?.storyStage)||0)/3),1,8);
+}
+
 function costFor(baseCost, nextLevel) {
   return Object.fromEntries(Object.entries(baseCost).map(([key, value]) => [key, Math.max(0, Math.ceil(value * Math.pow(nextLevel, 1.35) * 0.42))]));
 }
@@ -628,6 +632,7 @@ export function doAction(state, action, now = Date.now()) {
       const node = WORLD_NODES.find(n => n.id === action.nodeId);
       if (!node) throw new Error('Không tìm thấy mục tiêu trên bản đồ.');
       if (node.isBoss && !s.world.campaignComplete && (s.stats.victories < 20 || s.stats.citiesCaptured < 7)) throw new Error('Cần ít nhất 20 trận thắng và 7 danh thành để mở chiến dịch cuối tại Triều Ca.');
+      if(node.chapter>unlockedChapter(s))throw new Error(`Cần chiến thắng tại dã địa hoặc Tiên Sơn ở chương ${unlockedChapter(s)} để mở chương ${node.chapter}.`);
       const troops = {};
       if(action.troops&&typeof action.troops==='object'){
         for(const [id,amount] of Object.entries(action.troops)){
@@ -734,6 +739,7 @@ export function doAction(state, action, now = Date.now()) {
     case 'diplomacy': {
       const node=WORLD_NODES.find(n=>n.id===action.nodeId);
       if(!node||node.kind!=='Danh thành')throw new Error('Chỉ có thể đề nghị minh ước với danh thành NPC.');
+      if(node.chapter>unlockedChapter(s))throw new Error(`Chưa mở chương ${node.chapter} để ngoại giao.`);
       if((s.levels.embassy||0)<1)throw new Error('Cần Bát Phương Quán cấp 1 để ngoại giao.');
       if(s.world.captures.includes(node.id))throw new Error('Danh thành này đã thuộc quyền quản lý của bạn.');
       if(s.world.treaties.includes(node.id))throw new Error('Đã ký minh ước với thành này.');
@@ -749,6 +755,7 @@ export function doAction(state, action, now = Date.now()) {
     case 'scout': {
       const node = WORLD_NODES.find(n => n.id === action.nodeId);
       if (!node) throw new Error('Không tìm thấy địa điểm.');
+      if(node.chapter>unlockedChapter(s))throw new Error(`Chưa mở chương ${node.chapter} để trinh sát.`);
       const scoutBaseCost=Math.max(4,12+node.chapter*3-(s.levels.watch||0));
       debit(s,{gold:Math.max(2,Math.ceil(scoutBaseCost*(1-Math.min(0.36,(s.technologies['tech-18']||0)*0.012))))});
       if (!s.world.scouted.includes(node.id)) s.world.scouted.push(node.id);

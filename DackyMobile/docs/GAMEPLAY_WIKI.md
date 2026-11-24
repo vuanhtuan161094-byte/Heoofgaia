@@ -35,6 +35,10 @@ Roster có 540 hồ sơ thần tiên mô phỏng, hiển thị theo trang; Tiên
 
 Runtime có 39 loại binh chủng theo vai trò bộ binh, xạ thủ, kỵ binh, công thành, trinh sát và đạo binh. Quân huấn luyện vào kho thành sau khi queue kết thúc. Một lệnh hành quân có thể kết hợp nhiều loại quân; chọn số lượng chính và mở phần hỗ trợ để tận dụng tương khắc vai trò. Tốc độ, đội hình và sĩ khí điều chỉnh sức mạnh. Combat seeded tối đa sáu hiệp; chiến thắng ghi danh vọng/loot, quân chết mất, quân bị thương đi vào Hồi Xuân Đường.
 
+## Bản đồ và chiến dịch
+
+120 NPC được chia thành tám chương, mỗi chương 15 địa điểm gồm danh thành, dã địa và Tiên Sơn. Chương đầu mở sẵn; thắng ở dã địa hoặc Tiên Sơn trong chương đang mở mới tiến sang chương kế tiếp. Mục tiêu chương chưa mở không nhận trinh sát, hành quân hoặc ngoại giao. Trụ Vương cần mở tới chương tám, đạt 20 trận thắng và chiếm bảy danh thành; đây là điều kiện thiết kế SIMULATED.
+
 ## Thử thách
 
 - Phong Thần Tháp: leo tối đa 8992 tầng procedural, độ khó tăng theo tầng; thắng thưởng tài nguyên, kinh nghiệm và một số pháp bảo theo mốc.

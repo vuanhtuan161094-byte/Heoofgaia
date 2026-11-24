@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity } from '../src/engine.js';
+import { advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, TECHNOLOGIES, TROOPS, WORLD_NODES } from '../src/catalog.js';
 
 test('new save has a bounded, offline-first settlement', () => {
@@ -292,6 +292,26 @@ test('combined army orders accept multiple troop roles and settle each stack', (
   assert.ok(total<=58);
 });
 
+test('eight-chapter world catalog is balanced and chapters unlock through field victories', () => {
+  const chapters=Array.from({length:8},(_,i)=>WORLD_NODES.filter(node=>node.chapter===i+1));
+  assert.ok(chapters.every(rows=>rows.length===15));
+  assert.equal(WORLD_NODES.filter(node=>node.kind==='Danh thành').length,75);
+  assert.equal(WORLD_NODES.filter(node=>node.kind==='Dã địa').length,30);
+  assert.equal(WORLD_NODES.filter(node=>node.kind==='Tiên sơn').length,14);
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  state.army['troop-01']=5000;
+  assert.equal(unlockedChapter(state),1);
+  assert.throws(()=>doAction(state,{type:'march',nodeId:'node-016',troopId:'troop-01',count:100},now+1),/chương 1 để mở chương 2/);
+  state=doAction(state,{type:'march',nodeId:'node-011',troopId:'troop-01',count:3000},now+2);
+  state=advance(state,state.queues.march.finishAt+1).state;
+  assert.equal(state.world.storyStage,3);
+  assert.equal(unlockedChapter(state),2);
+  state.army['troop-01']=5000;
+  state=doAction(state,{type:'march',nodeId:'node-016',troopId:'troop-01',count:3000},state.lastTickAt+1);
+  assert.equal(state.queues.march.nodeId,'node-016');
+});
+
 
 test('final boss is gated and a first victory records the campaign ending', () => {
   const now=1_800_000_000_000;
@@ -299,6 +319,7 @@ test('final boss is gated and a first victory records the campaign ending', () =
   assert.throws(()=>doAction(state,{type:'march',nodeId:'node-120',troopId:'troop-01',count:1},now+1),/20 trận thắng và 7 danh thành/);
   state.stats.victories=20;
   state.stats.citiesCaptured=7;
+  state.world.storyStage=21;
   state.world.captures=WORLD_NODES.filter(n=>n.kind==='Danh thành').slice(0,7).map(n=>n.id);
   state.army['troop-01']=6000;
   state=doAction(state,{type:'march',nodeId:'node-120',troopId:'troop-01',count:5000},now+2);

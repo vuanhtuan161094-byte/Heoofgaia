@@ -147,6 +147,12 @@
       "maxLevelPerCapturedCity": 10,
       "runtimeEffects": ["Construction queue", "Citadel level gates", "Food, timber, stone, iron and gold production"],
       "status": "SIMULATED"
+    },
+    "campaignProgression": {
+      "chapters": 8,
+      "worldNodesPerChapter": 15,
+      "unlockCondition": "Win at a field or immortal-mountain node in the current chapter",
+      "status": "SIMULATED"
     }
   },
   "notImported": [

@@ -119,6 +119,7 @@ try {
     await click('#primary-nav [data-view='+JSON.stringify(view)+']');
     await waitFor('location.hash==="#'+view+'"');
     await waitFor('document.querySelector("#scene").innerText.length>40');
+    if(view==='world')check(await evaluate('Array.from(document.querySelectorAll("#world-chapter option")).find(x=>x.value==="2")?.disabled===true'));
     await shot(String(index++).padStart(2,'0')+'-'+view+'-desktop');
   }
   console.log('PASS all 11 primary menu screens render with content.');
