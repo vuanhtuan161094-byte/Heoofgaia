@@ -112,10 +112,19 @@ def payload() -> str:
     advanced = (TOOLS / "nl_classic_advanced_a5_a9.js").read_text(encoding="utf-8")
     if advanced.count("// === NL-CLASSIC-A5-A9-V1:") != 1 or "</script" in advanced.lower():
         raise ValueError("Invalid A5–A9 module")
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), world_a4.rstrip(), advanced.rstrip(), END])
+    from nl_content_c_projection import build as build_c
+    content_c = build_c(ROOT)
+    tier4 = json.loads((ROOT / "data/ngoalong/modules/troops/classic_web_tier4_v1.json").read_text(encoding="utf-8"))["troops"]
+    c_runtime = (TOOLS / "nl_content_c_runtime.js").read_text(encoding="utf-8")
+    if len(tier4)!=40 or len({t["id"] for t in tier4})!=40 or c_runtime.count("__NL_CONTENT_C_DATA__")!=1 or c_runtime.count("__NL_CONTENT_C_TIER4__")!=1 or "</script" in c_runtime.lower():
+        raise ValueError("Invalid Content C bundle")
+    c_runtime = c_runtime.replace("__NL_CONTENT_C_DATA__",js_json(content_c)).replace("__NL_CONTENT_C_TIER4__",js_json(tier4))
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), world_a4.rstrip(), advanced.rstrip(), c_runtime.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:
+    from nl_content_c_native import apply_c_native
+    html = apply_c_native(html)
     if html.count(BOOT) != 1:
         raise ValueError(f"Canonical bootstrap marker mismatch: {html.count(BOOT)}")
     if html.count(BEGIN) != html.count(END) or html.count(BEGIN) > 1:
