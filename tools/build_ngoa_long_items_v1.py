@@ -69,6 +69,24 @@ def payload() -> str:
     classic_a3 = (TOOLS / "nl_classic_phase_a3.js").read_text(encoding="utf-8")
     classic_b1 = (TOOLS / "nl_classic_phase_b1.js").read_text(encoding="utf-8")
     classic_b3 = (TOOLS / "nl_classic_phase_b3.js").read_text(encoding="utf-8")
+    # Classic B4 source-authored 55/10 WEB content and ORIGINAL generated backdrop.
+    # All new effects are bounded modifications of the native P2 authoritative action.
+    from base64 import b64encode
+    web_b4 = json.loads((ROOT / "data/ngoalong/modules/troops/classic_web55_v1.json").read_text(encoding="utf-8"))
+    b4 = (TOOLS / "nl_classic_web_b4.js").read_text(encoding="utf-8")
+    b4_css = (TOOLS / "nl_classic_web_b4.css").read_text(encoding="utf-8")
+    b4_art = (ROOT / "assets/ngoalong/original/battle_courtyard_b4.webp").read_bytes()
+    if len(web_b4["troops"])!=55 or len(web_b4["formations"])!=10:
+        raise ValueError("B4 historic content drift")
+    if b4.count("// === NL-CLASSIC-WEB-B4-V1:")!=1 or b4.count("__NL_B4_DATA__")!=1 or b4.count("__NL_B4_IMAGE_BASE64__")!=1 or b4.count("__NL_B4_CSS__")!=1:
+        raise ValueError("B4 source markers drift")
+    if not b4_art.startswith(b"RIFF") or b"WEBP" not in b4_art[:16] or len(b4_art)>160000:
+        raise ValueError("B4 original artwork missing or oversized")
+    if "</script" in (b4+b4_css).lower() or "</style" in b4_css.lower():
+        raise ValueError("Unsafe B4 embedded source")
+    b4 = b4.replace("__NL_B4_DATA__", js_json(web_b4)).replace(
+         "__NL_B4_IMAGE_BASE64__", b64encode(b4_art).decode("ascii")).replace(
+         "__NL_B4_CSS__", js_json(b4_css))
     if classic_b3.count("// === NL-CLASSIC-B3-V1:") != 1 or "</script" in classic_b3.lower():
         raise ValueError("Invalid B3 gameplay integration")
     project_troops = json.loads((ROOT / "data/ngoalong/modules/troops/project_playable_v1.json").read_text(encoding="utf-8"))
@@ -88,7 +106,7 @@ def payload() -> str:
         "__NL_ITEM_GROUP_RULES__", js_json(item_group_rules))
     if "</script" in (engine + ui + balance_engine + item_engine + item_ui + bridge).lower():
         raise ValueError("Unexpected script terminator in injected inline source")
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), END])
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:

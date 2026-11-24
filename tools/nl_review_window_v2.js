@@ -95,6 +95,13 @@
        if(troopCatalog&&head&&(troopCatalog.parentElement!==view||head.nextElementSibling!==troopCatalog))
          view.insertBefore(troopCatalog,head.nextElementSibling);
      }
+     // Classic WEB 55 troops/ten formations open as the FIRST proper semantic
+     // screens while keeping all older project panels available afterward.
+     if(tab==='barracks'||tab==='formation'){
+       const newPanel=view.querySelector('[data-nlw-b4-panel="'+(tab==='barracks'?'troops':'formations')+'"]');
+       if(newPanel&&head&&(newPanel.parentElement!==view||head.nextElementSibling!==newPanel))
+         view.insertBefore(newPanel,head.nextElementSibling);
+     }
      if(tab==='heroes'){
        const heroRoot=view.querySelector('[data-nla-recruit-panel]')||view.querySelector('.hero-grid');
        if(heroRoot&&heroRoot.parentElement===view&&head&&head.nextElementSibling!==heroRoot)view.insertBefore(heroRoot,head.nextElementSibling);

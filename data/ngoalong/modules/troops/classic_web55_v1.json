@@ -1,0 +1,1669 @@
+{
+  "schemaVersion": 1,
+  "edition": "CLASSIC_WEB_2011_STRUCTURE_REFERENCED__2018_DETAIL_TABLE",
+  "sources": [
+    "https://www.lequ.com/wly/201104/14053.html",
+    "https://www.lequ.com/wly/201103/12766.html"
+  ],
+  "sourceWarning": "The detailed Lequ table is dated 2018, not proof all 55 individual coefficients were unchanged in 2011.",
+  "contract": {
+    "first": 5,
+    "second": 10,
+    "third": 40,
+    "families": 5,
+    "formations": 10,
+    "nativeBattleResolver": "P2_ONLY",
+    "balanceCoefficients": "PROJECT_SIMULATED",
+    "preservePrior25": true,
+    "saveVersion": 5
+  },
+  "troops": [
+    {
+      "id": "nlw-001",
+      "name": "Bộ Binh",
+      "sourceName": "步兵",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 1,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.25,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.25,
+        "magicAttack": 1.0,
+        "magicDefense": 0.2
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-002",
+      "name": "Thương Binh",
+      "sourceName": "枪兵",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 1,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.25,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.0,
+        "magicDefense": 0.2
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-003",
+      "name": "Kỵ Binh",
+      "sourceName": "骑兵",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 1,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.2,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.2,
+        "magicAttack": 1.0,
+        "magicDefense": 0.2
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-004",
+      "name": "Cung Binh",
+      "sourceName": "弓兵",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 1,
+      "sourceCoefficients": {
+        "physicalAttack": 1.25,
+        "physicalDefense": 0.1,
+        "tacticAttack": 0.85,
+        "tacticDefense": 0.15,
+        "magicAttack": 0.85,
+        "magicDefense": 0.2
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-005",
+      "name": "Văn Quan",
+      "sourceName": "文官",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 1,
+      "sourceCoefficients": {
+        "physicalAttack": 0.7,
+        "physicalDefense": 0.08,
+        "tacticAttack": 0.85,
+        "tacticDefense": 0.1,
+        "magicAttack": 1.25,
+        "magicDefense": 0.35
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-006",
+      "name": "Trọng Bộ Binh",
+      "sourceName": "重步兵",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.3,
+        "physicalDefense": 0.35,
+        "tacticAttack": 1.1,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-007",
+      "name": "Thuẫn Binh",
+      "sourceName": "盾兵",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.2,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.35,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "guard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-008",
+      "name": "Trọng Thương Binh",
+      "sourceName": "重枪兵",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.3,
+        "physicalDefense": 0.35,
+        "tacticAttack": 1.1,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-009",
+      "name": "Trọng Kích Binh",
+      "sourceName": "重戟兵",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.2,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.35,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-010",
+      "name": "Đột Kích Kỵ",
+      "sourceName": "突击骑",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.4,
+        "physicalDefense": 0.3,
+        "tacticAttack": 1.1,
+        "tacticDefense": 0.2,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-011",
+      "name": "Trọng Kỵ Binh",
+      "sourceName": "重骑兵",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.3,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-012",
+      "name": "Nỏ Binh",
+      "sourceName": "弩兵",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.5,
+        "physicalDefense": 0.2,
+        "tacticAttack": 0.9,
+        "tacticDefense": 0.2,
+        "magicAttack": 0.9,
+        "magicDefense": 0.3
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-013",
+      "name": "Trường Cung Thủ",
+      "sourceName": "长弓手",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.45,
+        "physicalDefense": 0.2,
+        "tacticAttack": 0.9,
+        "tacticDefense": 0.25,
+        "magicAttack": 0.9,
+        "magicDefense": 0.3
+      },
+      "ability": "crit",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-014",
+      "name": "Mưu Sĩ",
+      "sourceName": "谋士",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.1,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.15,
+        "magicAttack": 1.4,
+        "magicDefense": 0.5
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-015",
+      "name": "Sách Sĩ",
+      "sourceName": "策士",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 2,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.1,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.15,
+        "magicAttack": 1.25,
+        "magicDefense": 0.5
+      },
+      "ability": "control",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-016",
+      "name": "Hổ Bôn Đao Binh",
+      "sourceName": "虎贲刀兵",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.75,
+        "physicalDefense": 0.55,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.0,
+        "magicDefense": 0.4
+      },
+      "ability": "counter",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-017",
+      "name": "Tử Thần Trọng Bộ",
+      "sourceName": "死神重步",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.4,
+        "physicalDefense": 0.45,
+        "tacticAttack": 1.45,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.45,
+        "magicDefense": 0.6
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-018",
+      "name": "Thiết Ưng Kiếm Sĩ",
+      "sourceName": "铁鹰剑士",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.45,
+        "physicalDefense": 0.45,
+        "tacticAttack": 1.4,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.1,
+        "magicDefense": 0.4
+      },
+      "ability": "crit",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-019",
+      "name": "Hoàng Kim Trọng Bộ",
+      "sourceName": "黄金重步",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.45,
+        "physicalDefense": 0.55,
+        "tacticAttack": 1.35,
+        "tacticDefense": 0.55,
+        "magicAttack": 1.2,
+        "magicDefense": 0.5
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-020",
+      "name": "Đằng Giáp Binh",
+      "sourceName": "藤甲兵",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.65,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.65,
+        "magicAttack": 1.0,
+        "magicDefense": 0.2
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-021",
+      "name": "Bàn Thạch Trọng Giáp",
+      "sourceName": "磐石重甲",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.67,
+        "tacticAttack": 0.8,
+        "tacticDefense": 0.2,
+        "magicAttack": 0.65,
+        "magicDefense": 0.1
+      },
+      "ability": "guard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-022",
+      "name": "Chỉ Thủy Trọng Bộ",
+      "sourceName": "止水重步",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.45,
+        "physicalDefense": 0.5,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.36,
+        "magicDefense": 0.7
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-023",
+      "name": "Hổ Việt Trảo",
+      "sourceName": "虎钺爪",
+      "family": "infantry",
+      "familyName": "Bộ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 0.95,
+        "physicalDefense": 0.2,
+        "tacticAttack": 1.5,
+        "tacticDefense": 0.15,
+        "magicAttack": 1.0,
+        "magicDefense": 0.1
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-024",
+      "name": "Hoàng Kim Thương Binh",
+      "sourceName": "黄金枪兵",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.45,
+        "physicalDefense": 0.55,
+        "tacticAttack": 1.35,
+        "tacticDefense": 0.55,
+        "magicAttack": 1.2,
+        "magicDefense": 0.5
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-025",
+      "name": "Ngân Nguyệt Thương Binh",
+      "sourceName": "银月枪兵",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.4,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.6,
+        "tacticDefense": 0.6,
+        "magicAttack": 1.0,
+        "magicDefense": 0.45
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-026",
+      "name": "Liệt Hỏa Phương Trận",
+      "sourceName": "烈火方阵",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.45,
+        "physicalDefense": 0.45,
+        "tacticAttack": 1.4,
+        "tacticDefense": 0.4,
+        "magicAttack": 1.6,
+        "magicDefense": 0.7
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-027",
+      "name": "Huyền Vũ Phương Trận",
+      "sourceName": "玄武方阵",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.6,
+        "tacticAttack": 0.9,
+        "tacticDefense": 0.5,
+        "magicAttack": 0.72,
+        "magicDefense": 0.3
+      },
+      "ability": "guard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-028",
+      "name": "Kỳ Tập Trường Mâu",
+      "sourceName": "奇袭长矛兵",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.5,
+        "physicalDefense": 0.45,
+        "tacticAttack": 1.55,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.0,
+        "magicDefense": 0.4
+      },
+      "ability": "crit",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-029",
+      "name": "Đại Kích Sĩ",
+      "sourceName": "大戟士",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.75,
+        "physicalDefense": 0.5,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.0,
+        "magicDefense": 0.4
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-030",
+      "name": "Cự Chùy Cương Giáp",
+      "sourceName": "巨锤钢甲",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.6,
+        "physicalDefense": 0.56,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.0,
+        "magicDefense": 0.1
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-031",
+      "name": "Đoản Kích Thích Khách",
+      "sourceName": "短戟刺客",
+      "family": "spear",
+      "familyName": "Thương Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.3,
+        "physicalDefense": 0.5,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.0,
+        "magicDefense": 0.2
+      },
+      "ability": "counter",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-032",
+      "name": "Vân Long Kỵ",
+      "sourceName": "云龙骑兵",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.5,
+        "physicalDefense": 0.3,
+        "tacticAttack": 1.85,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-033",
+      "name": "Bạch Mã Nghĩa Tòng",
+      "sourceName": "白马义从",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.5,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.65,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.45,
+        "magicDefense": 0.4
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-034",
+      "name": "Hổ Báo Kỵ",
+      "sourceName": "虎豹骑",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.85,
+        "physicalDefense": 0.55,
+        "tacticAttack": 1.4,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.0,
+        "magicDefense": 0.4
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-035",
+      "name": "Bạch Ngân Khinh Kỵ",
+      "sourceName": "白银轻骑",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.5,
+        "physicalDefense": 0.3,
+        "tacticAttack": 1.3,
+        "tacticDefense": 0.7,
+        "magicAttack": 1.0,
+        "magicDefense": 0.7
+      },
+      "ability": "control",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-036",
+      "name": "Độn Giáp Cuồng Ngưu",
+      "sourceName": "遁甲狂牛",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 0.75,
+        "physicalDefense": 0.3,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.35,
+        "magicAttack": 1.0,
+        "magicDefense": 0.35
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-037",
+      "name": "Chiến Tượng",
+      "sourceName": "战象",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.6,
+        "physicalDefense": 0.65,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.55,
+        "magicAttack": 1.0,
+        "magicDefense": 0.1
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-038",
+      "name": "Hãm Trận Phiêu Kỵ",
+      "sourceName": "陷阵彪骑",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.7,
+        "physicalDefense": 0.35,
+        "tacticAttack": 1.65,
+        "tacticDefense": 0.5,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-039",
+      "name": "Hoàng Kim Trọng Kỵ",
+      "sourceName": "黄金重骑",
+      "family": "cavalry",
+      "familyName": "Kỵ Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.55,
+        "physicalDefense": 0.5,
+        "tacticAttack": 1.45,
+        "tacticDefense": 0.5,
+        "magicAttack": 1.3,
+        "magicDefense": 0.45
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-040",
+      "name": "Tật Phong Tiêu Thủ",
+      "sourceName": "疾风镖手",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.9,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.55,
+        "tacticDefense": 0.55,
+        "magicAttack": 1.0,
+        "magicDefense": 0.25
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-041",
+      "name": "Trọng Nỏ Pháo Xa",
+      "sourceName": "重弩炮车",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.4,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.25,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "line",
+      "skillPattern": "column",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-042",
+      "name": "Thích Khách",
+      "sourceName": "刺客",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.58,
+        "physicalDefense": 0.3,
+        "tacticAttack": 1.1,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.0,
+        "magicDefense": 0.75
+      },
+      "ability": "back",
+      "skillPattern": "back",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-043",
+      "name": "Hoàng Kim Liên Nỏ",
+      "sourceName": "黄金连弩",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 2.0,
+        "physicalDefense": 0.45,
+        "tacticAttack": 1.4,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.2,
+        "magicDefense": 0.4
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-044",
+      "name": "Liệt Hỏa Trường Cung",
+      "sourceName": "烈火长弓",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.7,
+        "physicalDefense": 0.3,
+        "tacticAttack": 1.2,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.7,
+        "magicDefense": 0.55
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-045",
+      "name": "Ưng Nhãn",
+      "sourceName": "鹰眼",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 2.1,
+        "physicalDefense": 0.3,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.3,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "crit",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-046",
+      "name": "Xung Xa",
+      "sourceName": "冲车",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.7,
+        "physicalDefense": 0.65,
+        "tacticAttack": 0.75,
+        "tacticDefense": 0.55,
+        "magicAttack": 0.75,
+        "magicDefense": 0.35
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-047",
+      "name": "Thiên Lôi Oanh",
+      "sourceName": "天雷轰",
+      "family": "archer",
+      "familyName": "Cung Binh",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.65,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.25,
+        "magicAttack": 1.0,
+        "magicDefense": 0.3
+      },
+      "ability": "line",
+      "skillPattern": "row",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-048",
+      "name": "Viêm Hỏa Sách Sĩ",
+      "sourceName": "炎火策士",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.3,
+        "physicalDefense": 0.25,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.25,
+        "magicAttack": 1.75,
+        "magicDefense": 0.65
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-049",
+      "name": "Ngự Phong Hành Giả",
+      "sourceName": "驭风行者",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.2,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.15,
+        "magicAttack": 1.5,
+        "magicDefense": 0.7
+      },
+      "ability": "line",
+      "skillPattern": "column",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-050",
+      "name": "Khống Thổ Thuật Sĩ",
+      "sourceName": "控土术士",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 0.8,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.35,
+        "magicAttack": 1.35,
+        "magicDefense": 0.5
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-051",
+      "name": "Tử Điện Sứ",
+      "sourceName": "紫电使",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.2,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.15,
+        "magicAttack": 1.85,
+        "magicDefense": 0.5
+      },
+      "ability": "standard",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-052",
+      "name": "Hồng Thủy Sách Sĩ",
+      "sourceName": "洪水策士",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.2,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.15,
+        "magicAttack": 1.5,
+        "magicDefense": 0.7
+      },
+      "ability": "line",
+      "skillPattern": "row",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-053",
+      "name": "Vũ Cơ",
+      "sourceName": "舞姬",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.2,
+        "physicalDefense": 0.4,
+        "tacticAttack": 0.65,
+        "tacticDefense": 0.25,
+        "magicAttack": 1.0,
+        "magicDefense": 0.4
+      },
+      "ability": "dancer",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-054",
+      "name": "Kỳ Cổ Thủ",
+      "sourceName": "旗鼓手",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 0.75,
+        "physicalDefense": 0.1,
+        "tacticAttack": 0.55,
+        "tacticDefense": 0.1,
+        "magicAttack": 0.55,
+        "magicDefense": 0.1
+      },
+      "ability": "drum",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    },
+    {
+      "id": "nlw-055",
+      "name": "Vu Thuật Sĩ",
+      "sourceName": "巫术师",
+      "family": "strategist",
+      "familyName": "Văn Quan",
+      "tier": 3,
+      "sourceCoefficients": {
+        "physicalAttack": 1.0,
+        "physicalDefense": 0.4,
+        "tacticAttack": 1.0,
+        "tacticDefense": 0.45,
+        "magicAttack": 1.5,
+        "magicDefense": 0.6
+      },
+      "ability": "control",
+      "skillPattern": "single",
+      "sourceEdition": "LEQU_2018_CLASSIC_LINEAGE",
+      "provenance": {
+        "name": "VERIFIED_2018_SOURCE",
+        "sourceCoefficients": "VERIFIED_2018_SOURCE",
+        "translation": "PROJECT_DERIVED",
+        "gameEffect": "PROJECT_SIMULATED",
+        "image": "PROJECT_ORIGINAL"
+      }
+    }
+  ],
+  "formations": [
+    {
+      "id": "fish",
+      "name": "Ngư Lân Trận",
+      "role": "Tăng vật công",
+      "lane": "physical",
+      "slots": [
+        2,
+        5,
+        1,
+        4,
+        7
+      ],
+      "modifiers": null,
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "spear",
+      "name": "Phong Thỉ Trận",
+      "role": "Tăng chiến pháp công",
+      "lane": "tactic",
+      "slots": [
+        2,
+        5,
+        8,
+        4,
+        7
+      ],
+      "modifiers": null,
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "luanjian",
+      "name": "Loạn Kiếm Trận",
+      "role": "Tăng chiến pháp thủ",
+      "lane": "tacticDefense",
+      "slots": [
+        2,
+        5,
+        1,
+        4,
+        7
+      ],
+      "modifiers": {
+        "atk": 0.02,
+        "def": 0.13,
+        "int": 0.02,
+        "crit": 0
+      },
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "arc",
+      "name": "Hạc Dực Trận",
+      "role": "Tăng mưu công",
+      "lane": "magic",
+      "slots": [
+        2,
+        5,
+        1,
+        3,
+        6
+      ],
+      "modifiers": null,
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "shield",
+      "name": "Phương Viên Trận",
+      "role": "Tăng vật thủ",
+      "lane": "physicalDefense",
+      "slots": [
+        2,
+        5,
+        0,
+        3,
+        6
+      ],
+      "modifiers": null,
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "goose",
+      "name": "Nhạn Hành Trận",
+      "role": "Tăng mưu thủ",
+      "lane": "magicDefense",
+      "slots": [
+        2,
+        5,
+        8,
+        1,
+        4
+      ],
+      "modifiers": null,
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "changshe",
+      "name": "Trường Xà Trận",
+      "role": "Tăng vật công",
+      "lane": "physical",
+      "slots": [
+        2,
+        5,
+        8,
+        1,
+        4
+      ],
+      "modifiers": {
+        "atk": 0.17,
+        "def": -0.07,
+        "int": 0,
+        "crit": 0
+      },
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "jihang",
+      "name": "Cơ Hành Trận",
+      "role": "Tăng mưu công",
+      "lane": "magic",
+      "slots": [
+        0,
+        3,
+        6,
+        4,
+        7
+      ],
+      "modifiers": {
+        "atk": -0.04,
+        "def": -0.02,
+        "int": 0.2,
+        "crit": 0
+      },
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "zhuixing",
+      "name": "Chùy Hình Trận",
+      "role": "Tăng vật thủ / cân bằng tuyến",
+      "lane": "physicalDefense",
+      "slots": [
+        2,
+        5,
+        8,
+        0,
+        4
+      ],
+      "modifiers": {
+        "atk": 0.04,
+        "def": 0.16,
+        "int": 0,
+        "crit": 0.03
+      },
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    },
+    {
+      "id": "hutao",
+      "name": "Hổ Thao Trận",
+      "role": "Tăng chiến pháp thủ",
+      "lane": "tacticDefense",
+      "slots": [
+        2,
+        5,
+        8,
+        3,
+        6
+      ],
+      "modifiers": {
+        "atk": 0.08,
+        "def": 0.1,
+        "int": 0.02,
+        "crit": 0
+      },
+      "provenance": {
+        "name": "VERIFIED_CLASSIC_WEB_2011",
+        "shape": "PROJECT_SIMULATED",
+        "bonuses": "PROJECT_SIMULATED"
+      }
+    }
+  ]
+}
