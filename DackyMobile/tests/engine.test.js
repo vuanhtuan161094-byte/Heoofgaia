@@ -185,6 +185,37 @@ test('troop lanes and matchup counters change the army battle profile', () => {
   assert.ok(siege.enemyCounterAdvantage>0);
 });
 
+test('immortal affinity advances through training and PvE and elemental bonds reinforce combat', () => {
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  const hero=state.heroes[0],baseline=heroPower(hero,state);
+  state=doAction(state,{type:'trainHero',heroId:hero.id},now+1);
+  assert.equal(state.heroes[0].affinity,3);
+  state.heroes[0].affinity=100;
+  assert.ok(heroPower(state.heroes[0],state)>baseline);
+  state.heroes[0].affinity=98;
+  state.heroes.push({id:'hero-07',level:3,xp:0,assigned:true,equipment:{weapon:null,armor:null,artifact:null},skillLevel:1,affinity:100});
+  state.army={'troop-10':100_000};
+  state=doAction(state,{type:'march',nodeId:'node-011',troopId:'troop-10',count:50_000},now+2);
+  state=advance(state,state.queues.march.finishAt+1).state;
+  assert.equal(state.heroes[0].affinity,100);
+  const sameElement=state.reports[0].skillBonuses.elementResonance;
+  const mixed=createNewGame('Triều Ca',now);
+  mixed.heroes[0].affinity=100;
+  mixed.heroes.push({id:'hero-02',level:3,xp:0,assigned:true,equipment:{weapon:null,armor:null,artifact:null},skillLevel:1,affinity:100});
+  mixed.army={'troop-10':100_000};
+  const order=doAction(mixed,{type:'march',nodeId:'node-011',troopId:'troop-10',count:50_000},now+2);
+  const mixedResult=advance(order,order.queues.march.finishAt+1).state.reports[0];
+  assert.ok(sameElement>0.049);
+  assert.equal(mixedResult.skillBonuses.elementResonance,0);
+  let maxed=createNewGame('Triều Ca',now);
+  maxed.heroes[0].level=60;maxed.heroes[0].affinity=97;maxed.levels.storehouse=4;maxed.resources.food=10_000;maxed.resources.gold=10_000;
+  maxed=doAction(maxed,{type:'trainHero',heroId:'hero-01'},now+3);
+  assert.equal(maxed.heroes[0].level,60);
+  assert.equal(maxed.heroes[0].affinity,100);
+  assert.throws(()=>doAction(maxed,{type:'trainHero',heroId:'hero-01'},now+4),/linh căn tối đa/);
+});
+
 test('construction and training are queued and settle once', () => {
   const base=1_800_000_000_000;
   let state=createNewGame('Triều Ca',base);

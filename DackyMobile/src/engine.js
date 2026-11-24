@@ -189,7 +189,8 @@ export function heroPower(hero, state) {
   if (!def) return 0;
   const gear = Object.values(hero.equipment || {}).filter(Boolean).reduce((sum, id) => sum + (ITEMS.find(item => item.id === id)?.bonus || 0), 0);
   const research=1+(state.technologies?.['tech-17']||0)*0.012;
-  return Math.round((def.attack + def.defense + def.wisdom * 0.72 + gear) * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * research);
+  const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
+  return Math.round((def.attack + def.defense + def.wisdom * 0.72 + gear) * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * research * affinity);
 }
 
 function awardHeroXp(hero, amount) {
@@ -208,15 +209,26 @@ function awardHeroXp(hero, amount) {
   return levels;
 }
 
-function heroCombatProfile(heroList) {
+function awardHeroAffinity(hero, amount) {
+  const before=clamp(Number(hero.affinity)||0,0,100);
+  hero.affinity=clamp(before+Math.max(0,Number(amount)||0),0,100);
+  return hero.affinity-before;
+}
+
+function heroCombatProfile(heroList,state) {
   const rows=heroList.map(save=>({save,data:HEROES.find(def=>def.id===save.id)})).filter(row=>row.data);
-  const has=skill=>rows.filter(row=>row.data.skill===skill).reduce((n,row)=>n+Math.max(1,row.save.skillLevel||1),0);
+  const has=skill=>rows.filter(row=>row.data.skill===skill).reduce((n,row)=>n+Math.max(1,row.save.skillLevel||1)*(1+clamp(Number(row.save.affinity)||0,0,100)*0.002),0);
   const attack=has('Hỏa Phù Liệt Trận')*0.012;
   const defense=has('Huyền Thủy Hộ Thể')*0.012;
   const opening=has('Phong Lôi Kích')*0.03;
   const formation=has('Thất Tinh Trợ Chiến')*0.01;
-  return { names:rows.map(row=>row.data.skill), bonuses:{attack,defense,opening,formation},
-    powerMultiplier:1+(attack+defense+opening+formation)*0.35 };
+  const averageAffinity=rows.reduce((n,row)=>n+clamp(Number(row.save.affinity)||0,0,100),0)/Math.max(1,rows.length);
+  const elementCounts=Object.values(rows.reduce((counts,row)=>{counts[row.data.element]=(counts[row.data.element]||0)+1;return counts;},{}));
+  const sameElementPairs=elementCounts.reduce((n,count)=>n+count*(count-1)/2,0);
+  const elementResonance=Math.min(0.15,sameElementPairs*averageAffinity/100*0.05*(1+(state?.technologies?.['tech-17']||0)*0.003));
+  const affinityBonus=averageAffinity*0.0015;
+  return { names:rows.map(row=>row.data.skill), bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance},
+    powerMultiplier:1+(attack+defense+opening+formation)*0.35+elementResonance };
 }
 
 export function armyPower(state, counts = state.army) {
@@ -374,7 +386,7 @@ function seededRandom(seed) {
 function resolveArmyCombat(state, node, troops, seed) {
   const rng = seededRandom(seed);
   const heroList = state.heroes.filter(h => h.assigned).slice(0, 3);
-  const heroProfile=heroCombatProfile(heroList);
+  const heroProfile=heroCombatProfile(heroList,state);
   const troopRows = Object.entries(troops).map(([id, count]) => ({ unit: TROOPS.find(t => t.id === id), count })).filter(x => x.unit && x.count > 0);
   const enemyRows=(node.enemy?.formation||[]).map(row=>({unit:TROOPS.find(t=>t.id===row.unitId),count:row.count})).filter(row=>row.unit&&row.count>0);
   const total = troopRows.reduce((n, row) => n + row.count, 0);
@@ -447,6 +459,7 @@ function settleMarch(state, q, now) {
     state.wounded[id] = (state.wounded[id] || 0) + (battle.wounded[id] || 0);
   }
   state.stats.battles++;
+  state.heroes.filter(hero=>hero.assigned).forEach(hero=>awardHeroAffinity(hero,battle.victory?Math.min(4,2+Math.floor(node.chapter/3)):1));
   if (battle.victory) {
     state.stats.victories++;
     const chapterProgress=state.world.chapterProgress[String(node.chapter)]||(state.world.chapterProgress[String(node.chapter)]={wins:0,fieldWins:0,citiesCaptured:0});
@@ -604,11 +617,12 @@ export function doAction(state, action, now = Date.now()) {
       const hero = s.heroes.find(h => h.id === action.heroId);
       if (!hero) throw new Error('Không tìm thấy thần tiên.');
       if ((s.levels.manor || 0) < 1) throw new Error('Cần Tiên Gia Phủ cấp 1.');
-      if (hero.level >= 60) throw new Error('Thần tiên đã đạt cấp tối đa mô phỏng.');
+      if (hero.level >= 60&&hero.affinity>=100) throw new Error('Thần tiên đã đạt cấp và linh căn tối đa mô phỏng.');
       const cost = { food: 65 * hero.level, gold: 85 * hero.level };
       debit(s, cost);
-      const levels=awardHeroXp(hero,80+hero.level*16);
-      note(s, `${HEROES.find(def => def.id === hero.id)?.name} đã tu luyện${levels?` và tăng ${levels} cấp`:''} · cấp ${hero.level}${levels&&hero.level%4===0?` · kỹ năng ${hero.skillLevel}`:''}.`);
+      const levels=hero.level<60?awardHeroXp(hero,80+hero.level*16):0;
+      awardHeroAffinity(hero,3);
+      note(s, `${HEROES.find(def => def.id === hero.id)?.name} đã tu luyện${levels?` và tăng ${levels} cấp`:''} · cấp ${hero.level} · linh căn ${hero.affinity}/100${levels&&hero.level%4===0?` · kỹ năng ${hero.skillLevel}`:''}.`);
       break;
     }
     case 'forge': {
@@ -704,11 +718,12 @@ export function doAction(state, action, now = Date.now()) {
       if(mode!=='mountain'&&floor>cap)throw new Error('Đã chinh phục toàn bộ thử thách hiện được mô phỏng.');
       if(!s.heroes.some(h=>h.assigned))throw new Error('Cần ít nhất một thần tiên được phân công.');
       const assignedHeroes=s.heroes.filter(h=>h.assigned).slice(0,3);
-      const heroProfile=heroCombatProfile(assignedHeroes);
+      const heroProfile=heroCombatProfile(assignedHeroes,s);
       const power=(assignedHeroes.reduce((n,h)=>n+heroPower(h,s),0)+(mode==='tower'?0:armyPower(s)*0.08))*heroProfile.powerMultiplier;
       const difficulty=mode==='mountain'?mountain.power:42+floor*(mode==='tower'?6.3:21);
       const victory=power*(0.84+((now>>>4)%31)/100)>=difficulty;
       s.stats.duels++;
+      assignedHeroes.forEach(hero=>awardHeroAffinity(hero,victory?2:1));
       const mountainLabel=mountain?`${mountain.name} · Tiên Sơn ${mountain.rank}`:null;
       const target=mode==='tower'?`Phong Thần Tháp · tầng ${floor}`:mode==='buzhou'?`Bất Chu Sơn · tầng ${floor}`:mountainLabel;
       if(victory){

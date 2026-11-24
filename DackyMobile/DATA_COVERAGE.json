@@ -176,6 +176,13 @@
       "combatTags": ["role counter", "range and initiative", "front/rear balance", "formation research"],
       "battleReport": "Own and NPC matchup advantage percentages",
       "status": "SIMULATED"
+    },
+    "immortalAffinity": {
+      "range": "0-100",
+      "gains": ["Training", "Campaign combat", "Immortal duels"],
+      "effects": ["Hero power", "Skill mastery", "Same-element squad resonance"],
+      "saveMigration": "Clamped into current save schema",
+      "status": "SIMULATED"
     }
   },
   "notImported": [

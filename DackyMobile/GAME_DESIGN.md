@@ -8,7 +8,7 @@ Game chiến thuật 2D chơi đơn, offline-first, tiếng Việt; dùng bối 
 
 1. Thu tài nguyên theo giờ và quản lý giới hạn kho.
 2. Xây/nâng công trình; công trình kinh tế tăng sản xuất, học viện mở nghiên cứu, doanh trại mở huấn luyện, phủ/đàn mở chiêu mộ, lò luyện mở chế tạo.
-3. Tuyển thần tiên, tăng cấp, phân công tối đa ba vị trí và trang bị vũ khí/giáp/pháp bảo.
+3. Tuyển thần tiên, tăng cấp, tu luyện linh căn, phân công tối đa ba vị trí và trang bị vũ khí/giáp/pháp bảo.
 4. Huấn luyện quân, trinh sát một tọa độ, chọn đơn vị và số lượng, hành quân đánh NPC.
 5. Combat tính tuyến trước/tuyến sau/công thành, tầm đánh và chủ động, tương khắc theo vai trò địch, đội hình hỗ trợ, sĩ khí và kỹ năng thần tiên; đối thủ NPC có 3–5 stack cùng đấu pháp theo địa hình. Kết quả seeded ghi thương vong hai bên, loot và chiến báo đúng một lần.
 6. Dùng phần thưởng mở cấp thành, công nghệ, địa điểm và tầng PvE cao hơn; claim nhiệm vụ chính tuyến.
@@ -26,7 +26,7 @@ Game chiến thuật 2D chơi đơn, offline-first, tiếng Việt; dùng bối 
 
 - Thế giới local có danh thành kiểu NPC, dã địa, tiên sơn, Phong Thần Tháp và Bất Chu Sơn. Tám chương có cửa ải chính tuyến riêng; thắng dã địa/Tiên Sơn mới mở vùng tiếp theo, nhiệm vụ chưa mở không nhận thưởng.
 - Mỗi điểm thế giới có chỉ huy, đội hình/tuyến quân và chiến thuật; trinh sát mở thông tin trước khi hành quân. Các tọa độ, đội quân và công thức hiện mô phỏng.
-- Hành quân sử dụng số quân thật trong save; combat có nhiều hiệp, tỷ lệ thương vong, thương binh và loot.
+- Hành quân sử dụng số quân thật trong save; combat có nhiều hiệp, tỷ lệ thương vong, thương binh và loot. Thần tiên tăng linh căn khi tu luyện/đấu trận; chỉ số này cùng cộng hưởng nguyên tố đội hình gia tăng lực chiến và pháp môn.
 - Chiến dịch có 8 chương, 1.158 mục tiêu và Boss Trụ Vương tại Triều Ca; yêu cầu 20 trận thắng và chiếm 7 danh thành. Lần thắng đầu ghi kết cục Phong Thần và thưởng một lần.
 - Sau kết cục vẫn có thể tái chiến NPC và tiếp tục endgame: Tháp procedural tới 8992 tầng, Bất Chu năm cửa, kinh tế thành phụ và nâng cấp thành trì.
 - Không có PvP trực tuyến, bang hội người thật hoặc kết nối game gốc trong bản này. Hoạt động liên quan người chơi khác được mô hình hóa như NPC và phải tiếp tục được hoàn thiện.

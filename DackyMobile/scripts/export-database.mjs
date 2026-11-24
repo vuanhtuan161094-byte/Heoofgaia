@@ -36,7 +36,8 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
       buzhouMountain: { evidence: 'SIMULATED', challengeCount: BUZHOU_FLOORS, generatedAtRuntime: true, runtime: 'src/engine.js', legacyReferenceNpcCount: LEGACY_REFERENCE_COUNTS.buzhouFixedNpcs },
       immortalMountainChallenges: { evidence: 'SIMULATED', challengeCount: IMMORTAL_MOUNTAINS.length, repeatable: true, runtime: 'src/engine.js + src/ui.js' },
       economy: { evidence: 'SIMULATED', runtime: 'src/engine.js', note: 'Sản xuất theo giờ, thuế/dân cư, kho, hàng đợi và giới hạn tiến trình offline.' },
-      combat: { evidence: 'SIMULATED', runtime: 'src/engine.js', note: 'Tuyến trước/sau/công thành, tầm và chủ động khai chiến, tương khắc theo đội địch, đội hình hỗ trợ, lực chiến, thương vong, hồi phục và chiến lợi phẩm.' }
+      combat: { evidence: 'SIMULATED', runtime: 'src/engine.js', note: 'Tuyến trước/sau/công thành, tầm và chủ động khai chiến, tương khắc theo đội địch, đội hình hỗ trợ, linh căn thần tiên, lực chiến, thương vong, hồi phục và chiến lợi phẩm.' },
+      heroAffinity: { evidence: 'SIMULATED', runtime: 'src/engine.js + src/ui.js', range: [0,100], gainSources: ['training','campaign-combat','immortal-duel'], effects: ['hero-power','skill-mastery','same-element-resonance'] }
     },
     unavailableSourceTables: [
       { name: 'mobileVersionDelta', reason: 'Client và snapshot Mobile chưa truy cập được.' },
