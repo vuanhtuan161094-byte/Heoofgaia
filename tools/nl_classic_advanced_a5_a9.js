@@ -4,7 +4,7 @@
 // (morale/levy, appointment, dispatch, city siege), Lequ 2011-09-17 (trial, seals,
 // fourth-tier after rebirth). No multiplayer server, no second combat or save owner.
 const nlClassicGrowthPolicy=(()=>{
- const n=id=>Math.min(10,Math.max(0,Number(game.nlClassicWorldA4?.rebirth?.[id])||0));
+ const n=id=>Math.min(10,Math.max(0,Math.floor(Number(game.nlClassicWorldA4?.rebirth?.[id])||0)));
  const advanced=id=>Boolean(game.nlClassicAdvanced?.growth?.[id]?.advanced);
  return {cap:id=>advanced(id)?Math.min(110,60+5*n(id)):40,rebirthGate:id=>advanced(id)?60+5*n(id):Infinity,limit:10,
   bonus:id=>Math.min(10,n(id))*.03,trainingBonus:()=>Math.min(.18,Math.max(0,(game.nlCity?.levels?.nl_city_drillground||0)*.03+(game.nlCity?.levels?.nl_city_manor||0)*.02))};
@@ -95,7 +95,7 @@ function donate(){
 }
 function challenge(kind,id){
  const s=state(),t=TARGETS.find(x=>x[0]===id);
- if(battle||!t||!completed(t[2])||!game.slots.some(Boolean)||nlAState().orders<1)return false;
+ if(battle||!t||!completed(t[2])||!Array.isArray(game.slots)||!game.slots.some(Boolean)||nlAState().orders<1)return false;
  if(kind==='war'&&(!s.guild.level||nation()==='neutral'||s.territories[id]||t[3]===nation()||s.daily.war>=3))return false;
  if(kind==='trial'&&(s.daily.trial>=3||!completed(4)))return false;
  if(!['war','trial'].includes(kind))return false;
@@ -208,7 +208,7 @@ function panel(){
   b='<label>Võ tướng <select data-nla59-hero>'+game.roster.filter(owned).map(id=>'<option value="'+esc(id)+'" '+(id===hero?'selected':'')+'>'+esc(HEROES[id]?.name||id)+'</option>').join('')+'</select></label>';
   if(h)b+=row('Đột phá','Cấp '+h.level+' · mở trần '+(g.advanced?nlClassicGrowthPolicy.cap(hero):60)+' · qua ải 12',btn('breakthrough',hero,'Đột phá',locked||g.advanced||h.level<40||!completed(12)))+
   row('Huấn luyện cao cấp','900 Bạc + 60 Chiến công · XP chịu ảnh hưởng Thao Trường/Dinh Phủ',btn('train',hero,'Luyện',locked||!g.advanced||h.level>=nlClassicGrowthPolicy.cap(hero)))+
-  row('Chuyển sinh','Lần '+n+'/10 · yêu cầu cấp '+(g.advanced?nlClassicGrowthPolicy.rebirthGate(hero):'60 sau đột phá')+' · thao tác ở Thiên Hạ A4',btn('goto-a4','','Mở A4'))+
+  row('Chuyển sinh','Lần '+n+'/10 · yêu cầu cấp '+(g.advanced?nlClassicGrowthPolicy.rebirthGate(hero):'60 sau đột phá')+' · về cấp 1 · 2.000 Bạc + 500 Chiến công',btn('rebirth',hero,'Chuyển sinh',locked||!g.advanced||n>=10||h.level<nlClassicGrowthPolicy.rebirthGate(hero)))+
   row('Giác ngộ',g.awakened?'Đã giác ngộ':'Cấp 50, chuyển sinh ≥1 · +5% công',btn('awaken',hero,'Giác ngộ',locked||!g.advanced||g.awakened||h.level<50||n<1));
  }else if(tabA==='events'){
   b=EVENTS.map(e=>row(e[0]==='relief'?'Cứu tế':e[0]==='supply'?'Tiếp tế':'Thương mại',e[2]+' Bạc + '+e[3]+' Lương → '+e[4]+' Chiến công',btn('event',e[0],'Thực hiện',locked||s.daily.event>=3||!completed(2)))).join('')+'<p>Hoạt động '+s.daily.event+'/3 hôm nay.</p>';
@@ -228,7 +228,7 @@ document.addEventListener('click',e=>{
  const b=e.target.closest?.('[data-nla59-action]');if(!b||b.disabled)return;
  const k=b.dataset.nla59Action,id=b.dataset.nla59Id;
  if(k==='page'){page=Math.max(0,page+(id==='next'?1:-1));render();return;}
- if(k==='goto-a4'){const t=document.querySelector('[data-nla4-tab="train"]');if(t)t.click();return;}
+ if(k==='rebirth'){if(window.confirm('Chuyển sinh đưa tướng về cấp 1, tốn 2.000 Bạc và 500 Chiến công. Xác nhận?')&&!nlClassicA4Rebirth(id))toast('Chưa đủ điều kiện.');return;}
  const actions={rank:rankUp,salary,relief,invest,dispatch,'dispatch-collect':collectDispatch,join:joinGuild,donate,territory:territoryIncome,war:id=>challenge('war',id),trial:id=>challenge('trial',id),breakthrough,train:advancedTrain,awaken,event,achievement,ship:buildShip,sea:seaTrade,'sea-collect':collectSea};
  if(typeof actions[k]==='function'&&!actions[k](id))toast('Chưa đủ điều kiện hoặc tài nguyên.');
 });
