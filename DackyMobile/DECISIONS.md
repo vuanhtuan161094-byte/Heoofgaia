@@ -8,7 +8,8 @@
 
 ## Gameplay và dữ liệu
 
-- Tất cả danh mục được tạo độc lập trong src/catalog.js; record gameplay mang nhãn SIMULATED. Số lượng legacy trong master prompt chỉ là reference count, không được coi là data đã export hoặc tương đương Mobile.
+- Tất cả danh mục được tạo độc lập trong src/catalog.js; record gameplay mang nhãn SIMULATED. Catalog có 540 thần tiên, 2.155 vật phẩm, 1.158 nhiệm vụ và 624 Tiên Sơn; `scripts/export-database.mjs` xuất JSON từ cùng nguồn, không chép database legacy. Reference count không có nghĩa dữ liệu tương đương Mobile.
+- Chiến dịch có tám chương và Boss Trụ Vương tại Triều Ca; mở sau 20 trận thắng/7 danh thành, kết cục/thưởng một lần, còn cho phép endgame. Điều kiện này là thiết kế mô phỏng.
 - Kinh tế theo giờ, cap kho và offline 8h; hàng đợi lưu thời điểm hoàn thành UTC epoch ms, settlement chỉ diễn ra một lần khi đọc save/advance.
 - Khi tắt autosave, game giữ thay đổi trong bộ nhớ tới khi người chơi bấm Lưu ngay; trước khi rời trang không ghi ngầm.
 - Combat NPC chạy local, deterministic theo seed, tách quân chết và bị thương, ghi chiến lợi phẩm vào báo cáo. Đây không phải multiplayer hay xác nhận công thức game gốc.

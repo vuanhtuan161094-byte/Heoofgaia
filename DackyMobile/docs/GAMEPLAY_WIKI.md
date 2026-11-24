@@ -21,7 +21,7 @@ Tử Vi Thành quản lý cấp thành, dân số và mở khóa. Hai mươi cô
 
 ## Thần tiên và túi đồ
 
-Roster hiện có 18 hồ sơ mô phỏng. Chiêu mộ dùng đồng + linh ngọc; tu luyện dùng lương thực + đồng; đội hình cho tối đa ba vị trí theo cấp thành. Vũ khí, giáp, pháp bảo cộng chỉ số trong tính lực chiến. Đồ tiêu hao dùng trực tiếp. Huyền Thiết Lò rèn món theo bậc; chiến thắng có tỷ lệ rơi trang bị.
+Roster có 540 hồ sơ thần tiên mô phỏng, hiển thị theo trang; Tiên Gia Phủ mở tối đa 60 chỗ theo cấp. Chiêu mộ dùng đồng + linh ngọc; tu luyện dùng lương thực + đồng; đội hình cho tối đa ba vị trí theo cấp thành. Vũ khí, giáp, pháp bảo cộng chỉ số trong tính lực chiến. Đồ tiêu hao dùng trực tiếp. Huyền Thiết Lò rèn món theo bậc; chiến thắng có tỷ lệ rơi trang bị.
 
 ## Quân đội và combat
 
@@ -30,9 +30,9 @@ Runtime có 39 loại binh chủng theo vai trò bộ binh, xạ thủ, kỵ bin
 ## Thử thách
 
 - Phong Thần Tháp: leo tối đa 8992 tầng procedural, độ khó tăng theo tầng; thắng thưởng tài nguyên, kinh nghiệm và một số pháp bảo theo mốc.
-- Bất Chu Sơn: năm cửa NPC, tăng mạnh độ khó; phần thưởng cuối có pháp bảo.
-- Thị trường: đổi sáu loại tài nguyên với phí NPC, không phải multiplayer.
-- Nhiệm vụ: 48 mục tiêu theo 8 chương cùng nhiệm vụ cuối đánh bại Trụ Vương; tất cả liên kết với xây, quân, thần tiên, combat và PvE.
+- Bất Chu Sơn: năm cửa NPC, tăng mạnh độ khó; phần thưởng cuối có pháp bảo. Tiên Sơn: 624 thử thách đấu pháp có thể tái đấu, thưởng tài nguyên và pháp bảo theo mốc.
+- Vật phẩm: 2.155 hồ sơ mô phỏng gồm trang bị và vật phẩm tiêu hao; hiệu ứng tiêu hao nối vào runtime. Thị trường đổi sáu loại tài nguyên với phí NPC, không phải multiplayer.
+- Nhiệm vụ: 1.158 mục tiêu mô phỏng qua tám chương, có nhiệm vụ cuối đánh bại Trụ Vương. Tất cả liên kết với xây, quân, thần tiên, combat và PvE.
 
 ## Save/offline
 

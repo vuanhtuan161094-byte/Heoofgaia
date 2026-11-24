@@ -9,5 +9,6 @@
 | P6 | Công cụ Vite/PixiJS/Capacitor/TypeScript không có trong cache | `tsc`/`vite` không có trong PATH, npm cache trống | Dùng ES modules/DOM/CSS/SVG thuần và Node build script; lý do nằm trong `DECISIONS.md` |
 | P7 | Chromium không mở được bản một file qua `file://` tại môi trường này | `offline-smoke.mjs`: `chrome-error://chromewebdata/`; bundle inline qua syntax check | Bản PWA chạy qua HTTP và được mở lại khi network bị disable |
 | P7 | Chưa có APK/AAB QA | Chưa thể build APK/AAB do blocker Android SDK/Gradle | Không báo Android PASS trước khi cài/chạy trên thiết bị |
+| P7 | Không truy vấn được trạng thái run GitHub Actions từ môi trường | gh run list tới api.github.com trả HTTP 403; commit push thành công và trigger workflow theo nhánh | Mở link Actions ở repository để xem kết quả; local build/tests đã chạy |
 
 Không sử dụng token, dữ liệu người chơi, endpoint riêng, binary legacy hoặc máy chủ legacy.

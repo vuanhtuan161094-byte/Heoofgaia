@@ -1,4 +1,5 @@
-import { advance, createNewGame, doAction } from './engine.js';
+import { activeQuest, advance, createNewGame, doAction } from './engine.js';
+import { QUESTS } from './catalog.js';
 import { exportSave, importSaveFile, loadGame, saveGame } from './store.js';
 import { NAV, renderScreen, renderShell, renderStartup, showDialog, showToast, updateClock } from './ui.js';
 
@@ -127,6 +128,11 @@ document.body.addEventListener('click', async event => {
   const action = button.dataset.action;
   if (action.startsWith('view-')) { setView(action.slice(5)); return; }
   switch(action) {
+    case 'catalogPage': {
+      const key=button.dataset.pageKey;
+      if(['heroPage','forgePage','questPage','mountainPage'].includes(key)){uiState[key]=Math.max(0,Number(button.dataset.page)||0);renderCurrent();}
+      return;
+    }
     case 'selectNode':
       uiState.nodeId = button.dataset.node;
       renderCurrent();
@@ -154,8 +160,14 @@ document.body.addEventListener('click', async event => {
     }
     case 'guild': return perform('guild',{});
     case 'diplomacy': return perform('diplomacy',{nodeId:button.dataset.node||uiState.nodeId});
-    case 'duel': return perform('duel',{mode:button.dataset.mode});
-    case 'claimQuest': return perform('claimQuest',{questId:button.dataset.quest});
+    case 'duel': return perform('duel',{mode:button.dataset.mode,mountainId:button.dataset.mountain});
+    case 'claimQuest': {
+      await perform('claimQuest',{questId:button.dataset.quest});
+      const current=activeQuest(game);
+      const index=QUESTS.findIndex(q=>q.id===current?.id);
+      if(index>=0){uiState.questPage=Math.floor(index/24);renderCurrent();}
+      return;
+    }
     case 'heal': return perform('heal',{});
     case 'export': {
       const blob=exportSave(game), url=URL.createObjectURL(blob), anchor=document.createElement('a');

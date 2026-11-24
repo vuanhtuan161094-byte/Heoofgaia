@@ -2,12 +2,12 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import {
-  BUZHOU_FLOORS, BUILDINGS, CONTENT_EVIDENCE, HEROES, ITEMS, LEGACY_REFERENCE_COUNTS,
+  BUZHOU_FLOORS, BUILDINGS, CONTENT_EVIDENCE, HEROES, IMMORTAL_MOUNTAINS, ITEMS, LEGACY_REFERENCE_COUNTS,
   QUESTS, TECHNOLOGIES, TROOPS, TOWER_FLOORS, WORLD_NODES
 } from '../src/catalog.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const tables = { buildings: BUILDINGS, technologies: TECHNOLOGIES, troops: TROOPS, heroes: HEROES, items: ITEMS, quests: QUESTS, worldNodes: WORLD_NODES };
+const tables = { buildings: BUILDINGS, technologies: TECHNOLOGIES, troops: TROOPS, heroes: HEROES, items: ITEMS, quests: QUESTS, worldNodes: WORLD_NODES, immortalMountains: IMMORTAL_MOUNTAINS };
 
 export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky-game-data.simulated.v1.json')) {
   const tableStats = {};
@@ -34,6 +34,7 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
     proceduralSystems: {
       fengshenTower: { evidence: 'SIMULATED', floorCount: TOWER_FLOORS, generatedAtRuntime: true, runtime: 'src/engine.js' },
       buzhouMountain: { evidence: 'SIMULATED', challengeCount: BUZHOU_FLOORS, generatedAtRuntime: true, runtime: 'src/engine.js', legacyReferenceNpcCount: LEGACY_REFERENCE_COUNTS.buzhouFixedNpcs },
+      immortalMountainChallenges: { evidence: 'SIMULATED', challengeCount: IMMORTAL_MOUNTAINS.length, repeatable: true, runtime: 'src/engine.js + src/ui.js' },
       economy: { evidence: 'SIMULATED', runtime: 'src/engine.js', note: 'Sản xuất theo giờ, thuế/dân cư, kho, hàng đợi và giới hạn tiến trình offline.' },
       combat: { evidence: 'SIMULATED', runtime: 'src/engine.js', note: 'Tương khắc vai trò, đội hình nhiều binh chủng, lực chiến, thương vong, hồi phục và chiến lợi phẩm.' }
     },
@@ -45,9 +46,25 @@ export async function exportDatabase(outputPath = path.join(root, 'data', 'dacky
       { name: 'immortalMountains', targetRecords: LEGACY_REFERENCE_COUNTS.elflands, reason: 'Bảng nguồn chưa truy cập được; bản đồ runtime là mô phỏng độc lập.' }
     ]
   };
+  const formatJson=(value,depth=0)=>{
+    const indent='  '.repeat(depth);
+    if(Array.isArray(value)){
+      if(!value.length)return '[]';
+      if(value.length>20&&value.every(row=>row&&typeof row==='object'&&!Array.isArray(row))){
+        return '[\n'+value.map(row=>indent+'  '+JSON.stringify(row)).join(',\n')+'\n'+indent+']';
+      }
+      return '[\n'+value.map(row=>indent+'  '+formatJson(row,depth+1)).join(',\n')+'\n'+indent+']';
+    }
+    if(value&&typeof value==='object'){
+      const entries=Object.entries(value);
+      if(!entries.length)return '{}';
+      return '{\n'+entries.map(([key,item])=>indent+'  '+JSON.stringify(key)+': '+formatJson(item,depth+1)).join(',\n')+'\n'+indent+'}';
+    }
+    return JSON.stringify(value);
+  };
   await mkdir(path.dirname(outputPath), { recursive: true });
-  await writeFile(outputPath, JSON.stringify(database, null, 2) + '\n');
-  console.log(`JSON database exported: ${outputPath} (${totalRecords} simulated records).`);
+  await writeFile(outputPath, formatJson(database) + '\n');
+  console.log('JSON database exported: '+outputPath+' ('+totalRecords+' simulated records).');
   return database;
 }
 

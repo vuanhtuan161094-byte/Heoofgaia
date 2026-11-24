@@ -1,4 +1,4 @@
-import { BUILDINGS, HEROES, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
+import { BUILDINGS, HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
 export const SAVE_VERSION = 1;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
@@ -28,7 +28,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     army: { [troop.id]: 18 },
     wounded: {},
     queues: { construction: null, training: null, research: null, march: null },
-    world: { storyStage: 0, towerFloor: 0, buzhouFloor: 0, captures: [], scouted: [], treaties: [], guildLevel: 0, marketDay: 1, campaignComplete: false },
+    world: { storyStage: 0, towerFloor: 0, buzhouFloor: 0, captures: [], scouted: [], treaties: [], guildLevel: 0, marketDay: 1, campaignComplete: false, mountainWins: [] },
     stats: { upgrades: 0, troopsTrained: 0, heroesRecruited: 0, itemsEquipped: 0, battles: 0, victories: 0, citiesCaptured: 0, bossesDefeated: 0, duels: 0, tradeCount: 0 },
     claims: [],
     reports: [],
@@ -61,7 +61,7 @@ export function migrateSave(input, now = Date.now()) {
   s.heroes = (Array.isArray(s.heroes) ? s.heroes : []).filter(h => {
     if (!h || typeof h !== 'object' || !HEROES.some(def => def.id === h.id) || knownHeroes.has(h.id)) return false;
     knownHeroes.add(h.id); return true;
-  }).slice(0,18).map(h => {
+  }).slice(0,60).map(h => {
     h.level = clamp(Number(h.level) || 1,1,60);
     h.xp = clamp(Number(h.xp) || 0,0,10_000_000);
     h.skillLevel = clamp(Number(h.skillLevel) || 1,1,10);
@@ -111,6 +111,8 @@ export function migrateSave(input, now = Date.now()) {
   s.world.towerFloor=clamp(Number(s.world.towerFloor)||0,0,TOWER_FLOORS);
   s.world.buzhouFloor=clamp(Number(s.world.buzhouFloor)||0,0,BUZHOU_FLOORS);
   s.world.campaignComplete=Boolean(s.world.campaignComplete);
+  const mountainIds=new Set(IMMORTAL_MOUNTAINS.map(x=>x.id));
+  s.world.mountainWins=Array.isArray(s.world.mountainWins)?[...new Set(s.world.mountainWins.filter(id=>mountainIds.has(id)))]:[];
   const validNodeIds=new Set(WORLD_NODES.map(n=>n.id));
   for(const key of ['captures','scouted','treaties'])s.world[key]=Array.isArray(s.world[key])?s.world[key].filter(id=>validNodeIds.has(id)): [];
   s.world.marketDay=Math.max(1,Number(s.world.marketDay)||1);
@@ -188,6 +190,7 @@ export function questProgress(state, quest) {
     case 'guild': return state.world.guildLevel;
     case 'power': return armyPower(state);
     case 'boss': return state.stats.bossesDefeated;
+    case 'mountain': return state.world.mountainWins.length;
     default: return 0;
   }
 }
@@ -424,7 +427,7 @@ export function doAction(state, action, now = Date.now()) {
     }
     case 'recruit': {
       if ((s.levels.altar || 0) < 1 || (s.levels.manor || 0) < 1) throw new Error('Cần Phong Thần Đàn và Tiên Gia Phủ cấp 1.');
-      if (s.heroes.length >= Math.min(18, 3 + s.levels.manor * 2)) throw new Error('Tiên Gia Phủ chưa đủ chỗ an trí thêm thần tiên.');
+      if (s.heroes.length >= Math.min(60, 3 + s.levels.manor * 2)) throw new Error('Tiên Gia Phủ chưa đủ chỗ an trí thêm thần tiên.');
       const def = HEROES.find(h => h.id === action.heroId);
       if (!def || s.heroes.some(h => h.id === def.id)) throw new Error('Thần tiên này đã có trong danh sách hoặc không khả dụng.');
       debit(s, { gold: 220 + def.wisdom * 2, jade: def.quality === 'Thiên' ? 2 : 1 });
@@ -476,10 +479,14 @@ export function doAction(state, action, now = Date.now()) {
       const itemIndex = s.items.indexOf(action.itemId);
       const item = ITEMS.find(i => i.id === action.itemId);
       if (itemIndex < 0 || !item || item.type !== 'vật phẩm') throw new Error('Không thể sử dụng vật phẩm này.');
-      if (item.id === 'item-13') credit(s, { food: 420 });
-      else if (item.id === 'item-14') s.heroes.forEach(h => { h.xp += 120; });
-      else if (item.id === 'item-15') credit(s, { gold: 140 });
-      else credit(s, { jade: 1 });
+      const effect=item.useEffect;
+      if(effect?.kind==='resource')credit(s,{[effect.resource]:effect.amount});
+      else if(effect?.kind==='heroXp')s.heroes.forEach(h=>{h.xp+=effect.amount;});
+      else if(effect?.kind==='morale')s.morale=clamp(s.morale+effect.amount,0,100);
+      else if(item.id==='item-13')credit(s,{food:420});
+      else if(item.id==='item-14')s.heroes.forEach(h=>{h.xp+=120;});
+      else if(item.id==='item-15')credit(s,{gold:140});
+      else credit(s,{jade:1});
       s.items.splice(itemIndex, 1);
       note(s, `Đã sử dụng ${item.name}.`);
       break;
@@ -525,30 +532,37 @@ export function doAction(state, action, now = Date.now()) {
       break;
     }
     case 'duel': {
-      const mode = action.mode === 'buzhou' ? 'buzhou' : 'tower';
-      const floor = mode === 'tower' ? s.world.towerFloor + 1 : s.world.buzhouFloor + 1;
-      const cap = mode === 'tower' ? TOWER_FLOORS : BUZHOU_FLOORS;
-      if (floor > cap) throw new Error('Đã chinh phục toàn bộ thử thách hiện được mô phỏng.');
-      if (!s.heroes.some(h => h.assigned)) throw new Error('Cần ít nhất một thần tiên được phân công.');
-      const power = s.heroes.filter(h => h.assigned).slice(0, 3).reduce((n, h) => n + heroPower(h, s), 0) + (mode === 'tower' ? 0 : armyPower(s) * 0.08);
-      const difficulty = 42 + floor * (mode === 'tower' ? 6.3 : 21);
-      const victory = power * (0.84 + ((now >>> 4) % 31) / 100) >= difficulty;
+      const mode=action.mode==='buzhou'?'buzhou':action.mode==='mountain'?'mountain':'tower';
+      const mountain=mode==='mountain'?IMMORTAL_MOUNTAINS.find(x=>x.id===action.mountainId):null;
+      if(mode==='mountain'&&!mountain)throw new Error('Không tìm thấy Tiên Sơn này.');
+      const floor=mode==='tower'?s.world.towerFloor+1:mode==='buzhou'?s.world.buzhouFloor+1:mountain.rank;
+      const cap=mode==='tower'?TOWER_FLOORS:BUZHOU_FLOORS;
+      if(mode!=='mountain'&&floor>cap)throw new Error('Đã chinh phục toàn bộ thử thách hiện được mô phỏng.');
+      if(!s.heroes.some(h=>h.assigned))throw new Error('Cần ít nhất một thần tiên được phân công.');
+      const power=s.heroes.filter(h=>h.assigned).slice(0,3).reduce((n,h)=>n+heroPower(h,s),0)+(mode==='tower'?0:armyPower(s)*0.08);
+      const difficulty=mode==='mountain'?mountain.power:42+floor*(mode==='tower'?6.3:21);
+      const victory=power*(0.84+((now>>>4)%31)/100)>=difficulty;
       s.stats.duels++;
-      if (victory) {
-        if (mode === 'tower') s.world.towerFloor = floor; else s.world.buzhouFloor = floor;
-        const reward = { gold: 65 + floor * 9, jade: floor % 3 === 0 ? 1 : 0, food: 40 + floor * 4 };
-        credit(s, reward);
-        s.heroes.forEach(h => { if (h.assigned) h.xp += 45 + floor * 8; });
-        if ((mode === 'tower' && floor % 3 === 0) || (mode === 'buzhou' && floor === BUZHOU_FLOORS)) {
-          const artifact = ITEMS.find(item => item.id === `item-${String(7 + floor % 6).padStart(2,'0')}`);
-          if (artifact) s.items.push(artifact.id);
+      const mountainLabel=mountain?`${mountain.name} · Tiên Sơn ${mountain.rank}`:null;
+      const target=mode==='tower'?`Phong Thần Tháp · tầng ${floor}`:mode==='buzhou'?`Bất Chu Sơn · tầng ${floor}`:mountainLabel;
+      if(victory){
+        if(mode==='tower')s.world.towerFloor=floor;
+        else if(mode==='buzhou')s.world.buzhouFloor=floor;
+        else if(!s.world.mountainWins.includes(mountain.id))s.world.mountainWins.push(mountain.id);
+        const reward=mode==='mountain'?mountain.loot:{gold:65+floor*9,jade:floor%3===0?1:0,food:40+floor*4};
+        credit(s,reward);
+        s.heroes.forEach(h=>{if(h.assigned)h.xp+=45+floor*8;});
+        if((mode==='tower'&&floor%3===0)||(mode==='buzhou'&&floor===BUZHOU_FLOORS)||(mode==='mountain'&&floor%7===0)){
+          const artifacts=ITEMS.filter(item=>item.type==='pháp bảo'&&item.tier<=10);
+          const artifact=artifacts[(floor+now)%artifacts.length];
+          if(artifact&&!s.items.includes(artifact.id))s.items.push(artifact.id);
         }
-        s.fame += 5 + floor;
-        report(s, { type: 'duel', target: mode === 'tower' ? `Phong Thần Tháp · tầng ${floor}` : `Bất Chu Sơn · tầng ${floor}`, victory, ownPower: power, enemyPower: difficulty, rounds: [], dead: {}, wounded: {}, loot: reward, evidence: 'SIMULATED' });
-        note(s, `Thắng thử thách ${mode === 'tower' ? `tầng ${floor}` : `Bất Chu Sơn tầng ${floor}`}.`);
-      } else {
-        report(s, { type: 'duel', target: mode === 'tower' ? `Phong Thần Tháp · tầng ${floor}` : `Bất Chu Sơn · tầng ${floor}`, victory, ownPower: power, enemyPower: difficulty, rounds: [], dead: {}, wounded: {}, loot: {}, evidence: 'SIMULATED' });
-        note(s, 'Đối thủ quá mạnh; hãy tu luyện, nâng khoa kỹ hoặc trang bị pháp bảo rồi thử lại.');
+        s.fame+=5+floor;
+        report(s,{type:'duel',target,victory,ownPower:power,enemyPower:difficulty,rounds:[],dead:{},wounded:{},loot:reward,evidence:'SIMULATED'});
+        note(s,`Thắng thử thách ${target}.`);
+      }else{
+        report(s,{type:'duel',target,victory,ownPower:power,enemyPower:difficulty,rounds:[],dead:{},wounded:{},loot:{},evidence:'SIMULATED'});
+        note(s,'Đối thủ quá mạnh; hãy tu luyện, nâng khoa kỹ hoặc trang bị pháp bảo rồi thử lại.');
       }
       break;
     }

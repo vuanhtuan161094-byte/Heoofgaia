@@ -26,7 +26,7 @@ Game chiến thuật 2D chơi đơn, offline-first, tiếng Việt; dùng bối 
 
 - Thế giới local có danh thành kiểu NPC, dã địa, tiên sơn, Phong Thần Tháp và Bất Chu Sơn. Các tọa độ/công thức hiện mô phỏng.
 - Hành quân sử dụng số quân thật trong save; combat có nhiều hiệp, tỷ lệ thương vong, thương binh và loot.
-- Chiến dịch có 8 chương, 49 mục tiêu và Boss Trụ Vương tại Triều Ca; yêu cầu 20 trận thắng và chiếm 7 danh thành. Lần thắng đầu ghi kết cục Phong Thần và thưởng một lần.
+- Chiến dịch có 8 chương, 1.158 mục tiêu và Boss Trụ Vương tại Triều Ca; yêu cầu 20 trận thắng và chiếm 7 danh thành. Lần thắng đầu ghi kết cục Phong Thần và thưởng một lần.
 - Sau kết cục vẫn có thể tái chiến NPC và tiếp tục endgame: Tháp procedural tới 8992 tầng, Bất Chu năm cửa, kinh tế thành phụ và nâng cấp thành trì.
 - Không có PvP trực tuyến, bang hội người thật hoặc kết nối game gốc trong bản này. Hoạt động liên quan người chơi khác được mô hình hóa như NPC và phải tiếp tục được hoàn thiện.
 
@@ -38,4 +38,4 @@ Game chiến thuật 2D chơi đơn, offline-first, tiếng Việt; dùng bối 
 
 ## Phần chưa khóa bằng dữ liệu
 
-Roster hero 540, 2155 item legacy, 1158 quest, cấu hình combat Mobile và các bảng lớn Tiên Sơn/Bất Chu chưa được nạp hoặc xác minh. Chúng không được thay thế bằng tuyên bố tương đương; coverage liệt kê riêng runtime mô phỏng và count tham chiếu.
+Các số lượng runtime mô phỏng bao gồm 540 thần tiên, 2.155 vật phẩm, 1.158 nhiệm vụ và 624 Tiên Sơn. Nội dung gốc, delta Mobile, roster, công thức combat và dữ liệu NPC vẫn chưa được tải hoặc xác minh; DATA_COVERAGE.json phân biệt rõ SIMULATED với nguồn chưa nhập.

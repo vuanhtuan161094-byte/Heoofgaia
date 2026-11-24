@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { advance, createNewGame, doAction, migrateSave, productionPerHour, questProgress, storageCapacity } from '../src/engine.js';
-import { QUESTS, WORLD_NODES } from '../src/catalog.js';
+import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, WORLD_NODES } from '../src/catalog.js';
 
 test('new save has a bounded, offline-first settlement', () => {
   const now = 1_800_000_000_000;
@@ -139,4 +139,28 @@ test('final boss is gated and a first victory records the campaign ending', () =
   state=advance(state,state.queues.march.finishAt+1).state;
   assert.equal(state.stats.bossesDefeated,1);
   assert.equal(state.reports[0].campaignEnding,false);
+});
+
+
+
+test('full simulated catalogs expose the requested runtime coverage', () => {
+  for(const [rows,count] of [[HEROES,540],[ITEMS,2155],[QUESTS,1158],[IMMORTAL_MOUNTAINS,624]]){
+    assert.equal(rows.length,count);
+    assert.equal(new Set(rows.map(row=>row.id)).size,count);
+    assert.ok(rows.every(row=>row.evidence==='SIMULATED'));
+  }
+});
+
+test('generated consumables apply their recorded effect and Tiên Sơn challenges settle', () => {
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  state.items.push('item-0022');
+  const foodBefore=state.resources.food;
+  state=doAction(state,{type:'useItem',itemId:'item-0022'},now+1);
+  assert.ok(Math.abs(state.resources.food-(foodBefore+223))<0.01);
+  state.heroes[0].level=60;
+  state=doAction(state,{type:'duel',mode:'mountain',mountainId:'mountain-001'},now+2);
+  assert.equal(state.stats.duels,1);
+  assert.equal(state.world.mountainWins.includes('mountain-001'),true);
+  assert.match(state.reports[0].target,/Tiên Sơn 1/);
 });

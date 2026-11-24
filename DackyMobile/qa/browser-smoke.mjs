@@ -121,6 +121,30 @@ try {
   }
   console.log('PASS all 11 primary menu screens render with content.');
 
+  await click('#primary-nav [data-view="heroes"]');
+  await waitFor('document.querySelectorAll("[data-page-key=heroPage]").length===2');
+  await click('[data-page-key="heroPage"][data-page="1"]');
+  await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
+  check((await evaluate('Array.from(document.querySelectorAll(".panel")).find(x=>x.querySelector(".panel-title")?.innerText.includes("Lời mời nhập phủ"))?.querySelectorAll(".inventory-item").length'))===24);
+  await click('[data-page-key="heroPage"][data-page="0"]');
+
+  await click('#primary-nav [data-view="inventory"]');
+  await click('[data-page-key="forgePage"][data-page="1"]');
+  await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
+  await click('[data-page-key="forgePage"][data-page="0"]');
+
+  await click('#primary-nav [data-view="quests"]');
+  await click('[data-page-key="questPage"][data-page="1"]');
+  await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
+  await click('[data-page-key="questPage"][data-page="0"]');
+
+  await click('#primary-nav [data-view="pve"]');
+  await click('[data-page-key="mountainPage"][data-page="1"]');
+  await waitFor('document.querySelector(".catalog-pages span")?.innerText.includes("Trang 2")');
+  check((await evaluate('document.querySelectorAll("[data-mode=mountain]").length'))===24);
+  await click('[data-page-key="mountainPage"][data-page="0"]');
+  console.log('PASS paginated hero, item, quest and Tiên Sơn catalogs.');
+
   await click('#primary-nav [data-view="city"]');
   await click('[data-action="upgrade"][data-building="altar"]');
   await waitFor('Array.from(document.querySelectorAll(".queue-card")).some(x=>x.innerText.includes("Phong Thần Đàn"))',5000);

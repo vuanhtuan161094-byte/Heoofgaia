@@ -5,7 +5,7 @@
   "evidenceStatus": {
     "verifiedMobileRecords": 0,
     "verifiedLegacyRecordsImported": 0,
-    "simulatedRuntimeRecords": 284,
+    "simulatedRuntimeRecords": 4676,
     "sourceAccess": "BLOCKED_HTTP_PROXY_403",
     "note": "Counts below describe runtime-generated content, not exports or parity claims for Mobile/legacy."
   },
@@ -49,20 +49,20 @@
     },
     {
       "domain": "heroes",
-      "records": 18,
+      "records": 540,
       "status": "SIMULATED",
       "legacyReferenceCount": 540,
       "runtime": "src/catalog.js + src/engine.js"
     },
     {
       "domain": "items",
-      "records": 18,
+      "records": 2155,
       "status": "SIMULATED",
       "runtime": "src/catalog.js + src/engine.js"
     },
     {
       "domain": "quests",
-      "records": 49,
+      "records": 1158,
       "status": "SIMULATED",
       "legacyReferenceCount": 1158,
       "runtime": "src/catalog.js + src/engine.js"
@@ -79,6 +79,7 @@
       "status": "SIMULATED",
       "runtime": "src/catalog.js + src/engine.js",
       "campaignBoss": {
+        "nodeId": "node-120",
         "name": "Triều Ca · Trụ Vương",
         "unlock": "20 trận thắng và 7 danh thành",
         "ending": "Cờ kết cục và thưởng một lần, endgame tiếp tục",
@@ -97,36 +98,36 @@
       "records": 5,
       "status": "SIMULATED",
       "legacyReferenceFixedNpcCount": 90,
-      "runtime": "src/engine.js",
-      "campaignBoss": {
-        "nodeId": "node-120",
-        "name": "Triều Ca · Trụ Vương",
-        "unlock": "20 trận thắng và 7 danh thành",
-        "ending": "Cờ kết cục và thưởng một lần, endgame tiếp tục",
-        "status": "SIMULATED"
-      }
+      "runtime": "src/engine.js"
+    },
+    {
+      "domain": "immortalMountainChallenges",
+      "records": 624,
+      "status": "SIMULATED",
+      "runtime": "src/catalog.js + src/engine.js + src/ui.js",
+      "legacyReferenceCount": 624
     }
   ],
   "notImported": [
     {
       "domain": "heroSourceRoster",
       "targetCount": 540,
-      "reason": "No source records or licensed normalized snapshot available; 18 independent simulations only."
+      "reason": "Nguồn gốc chưa truy cập được; runtime có đầy đủ số lượng hồ sơ độc lập SIMULATED, không tuyên bố parity với nguồn."
     },
     {
       "domain": "legacyItems147",
       "targetCount": 2155,
-      "reason": "Static database not downloaded or parsed."
+      "reason": "Nguồn gốc chưa truy cập được; runtime có đầy đủ số lượng hồ sơ độc lập SIMULATED, không tuyên bố parity với nguồn."
     },
     {
       "domain": "quests147",
       "targetCount": 1158,
-      "reason": "Static database not downloaded or parsed."
+      "reason": "Nguồn gốc chưa truy cập được; runtime có đầy đủ số lượng hồ sơ độc lập SIMULATED, không tuyên bố parity với nguồn."
     },
     {
       "domain": "elflands",
       "targetCount": 624,
-      "reason": "Large table unavailable; runtime nodes are independent simulations."
+      "reason": "Nguồn gốc chưa truy cập được; runtime có đầy đủ số lượng hồ sơ độc lập SIMULATED, không tuyên bố parity với nguồn."
     },
     {
       "domain": "mobileVersionDelta",
