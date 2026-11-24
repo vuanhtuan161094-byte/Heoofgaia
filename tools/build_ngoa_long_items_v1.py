@@ -109,7 +109,10 @@ def payload() -> str:
     world_a4 = (TOOLS / "nl_classic_world_a4.js").read_text(encoding="utf-8")
     if world_a4.count("// === NL-CLASSIC-WORLD-A4-V1:") != 1 or "</script" in world_a4.lower():
         raise ValueError("Invalid A4 world module")
-    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), world_a4.rstrip(), END])
+    advanced = (TOOLS / "nl_classic_advanced_a5_a9.js").read_text(encoding="utf-8")
+    if advanced.count("// === NL-CLASSIC-A5-A9-V1:") != 1 or "</script" in advanced.lower():
+        raise ValueError("Invalid A5–A9 module")
+    return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), world_a4.rstrip(), advanced.rstrip(), END])
 
 
 def render(html: str, insertion: str) -> str:
