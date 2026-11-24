@@ -1,0 +1,5065 @@
+{
+  "schemaVersion": 1,
+  "dataVersion": "dacky-mobile-sim-v1",
+  "updated": "2026-11-24",
+  "evidenceStatus": "SIMULATED",
+  "evidenceNote": "Toàn bộ giá trị trong gói này do dự án tự thiết kế; không phải bản trích xuất hoặc xác nhận tương đồng từ client Mobile/legacy.",
+  "sourceAccess": "BLOCKED_HTTP_PROXY_403",
+  "referenceCounts": {
+    "legacy147Soldiers": 39,
+    "legacy147Items": 2155,
+    "alternateItems": 2157,
+    "unprefixedItems": 2157,
+    "famousGenerals": 540,
+    "buildings": 21,
+    "technologyLevels": 570,
+    "trainingRequirements": 126,
+    "quests": 1158,
+    "famousCities": 75,
+    "elflands": 624,
+    "elflandFloors": 8992,
+    "buzhouFixedNpcs": 90
+  },
+  "tableStats": {
+    "totalRecords": 284,
+    "tables": {
+      "buildings": {
+        "recordCount": 21,
+        "evidence": "SIMULATED"
+      },
+      "technologies": {
+        "recordCount": 19,
+        "evidence": "SIMULATED"
+      },
+      "troops": {
+        "recordCount": 39,
+        "evidence": "SIMULATED"
+      },
+      "heroes": {
+        "recordCount": 18,
+        "evidence": "SIMULATED"
+      },
+      "items": {
+        "recordCount": 18,
+        "evidence": "SIMULATED"
+      },
+      "quests": {
+        "recordCount": 49,
+        "evidence": "SIMULATED"
+      },
+      "worldNodes": {
+        "recordCount": 120,
+        "evidence": "SIMULATED"
+      }
+    }
+  },
+  "tables": {
+    "buildings": [
+      {
+        "id": "citadel",
+        "name": "Tử Vi Thành",
+        "zone": "nội thành",
+        "glyph": "城",
+        "effect": "gold",
+        "index": 0,
+        "baseCost": {
+          "food": 24,
+          "timber": 240,
+          "stone": 120,
+          "iron": 50,
+          "gold": 40
+        },
+        "seconds": 12,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "barracks",
+        "name": "Thần Binh Doanh",
+        "zone": "quân sự",
+        "glyph": "兵",
+        "effect": "troops",
+        "index": 1,
+        "baseCost": {
+          "food": 0,
+          "timber": 270,
+          "stone": 110,
+          "iron": 60,
+          "gold": 47
+        },
+        "seconds": 15,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "granary",
+        "name": "Linh Thương",
+        "zone": "kinh tế",
+        "glyph": "倉",
+        "effect": "food",
+        "index": 2,
+        "baseCost": {
+          "food": 0,
+          "timber": 165,
+          "stone": 30,
+          "iron": 30,
+          "gold": 54
+        },
+        "seconds": 18,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "lumber",
+        "name": "Phong Mộc Trường",
+        "zone": "kinh tế",
+        "glyph": "林",
+        "effect": "timber",
+        "index": 3,
+        "baseCost": {
+          "food": 0,
+          "timber": 195,
+          "stone": 20,
+          "iron": 30,
+          "gold": 61
+        },
+        "seconds": 21,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quarry",
+        "name": "Thạch Tủy Phường",
+        "zone": "kinh tế",
+        "glyph": "山",
+        "effect": "stone",
+        "index": 4,
+        "baseCost": {
+          "food": 0,
+          "timber": 225,
+          "stone": 50,
+          "iron": 30,
+          "gold": 68
+        },
+        "seconds": 12,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "foundry",
+        "name": "Huyền Thiết Lò",
+        "zone": "kinh tế",
+        "glyph": "爐",
+        "effect": "iron",
+        "index": 5,
+        "baseCost": {
+          "food": 0,
+          "timber": 270,
+          "stone": 70,
+          "iron": 40,
+          "gold": 75
+        },
+        "seconds": 15,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "market",
+        "name": "Triều Ca Thị",
+        "zone": "kinh tế",
+        "glyph": "市",
+        "effect": "gold",
+        "index": 6,
+        "baseCost": {
+          "food": 0,
+          "timber": 210,
+          "stone": 50,
+          "iron": 50,
+          "gold": 82
+        },
+        "seconds": 18,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "academy",
+        "name": "Thái Học Viện",
+        "zone": "nghiên cứu",
+        "glyph": "學",
+        "effect": "research",
+        "index": 7,
+        "baseCost": {
+          "food": 0,
+          "timber": 300,
+          "stone": 160,
+          "iron": 70,
+          "gold": 89
+        },
+        "seconds": 21,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "altar",
+        "name": "Phong Thần Đàn",
+        "zone": "thần tiên",
+        "glyph": "壇",
+        "effect": "jade",
+        "index": 8,
+        "baseCost": {
+          "food": 0,
+          "timber": 240,
+          "stone": 160,
+          "iron": 90,
+          "gold": 96
+        },
+        "seconds": 12,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "manor",
+        "name": "Tiên Gia Phủ",
+        "zone": "thần tiên",
+        "glyph": "府",
+        "effect": "heroes",
+        "index": 9,
+        "baseCost": {
+          "food": 0,
+          "timber": 285,
+          "stone": 170,
+          "iron": 80,
+          "gold": 103
+        },
+        "seconds": 15,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "training",
+        "name": "Bách Chiến Đài",
+        "zone": "quân sự",
+        "glyph": "戰",
+        "effect": "training",
+        "index": 10,
+        "baseCost": {
+          "food": 0,
+          "timber": 210,
+          "stone": 130,
+          "iron": 40,
+          "gold": 110
+        },
+        "seconds": 18,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "clinic",
+        "name": "Hồi Xuân Đường",
+        "zone": "quân sự",
+        "glyph": "醫",
+        "effect": "healing",
+        "index": 11,
+        "baseCost": {
+          "food": 0,
+          "timber": 165,
+          "stone": 110,
+          "iron": 40,
+          "gold": 117
+        },
+        "seconds": 21,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "wall",
+        "name": "Huyền Vũ Thành",
+        "zone": "phòng thủ",
+        "glyph": "垣",
+        "effect": "defense",
+        "index": 12,
+        "baseCost": {
+          "food": 0,
+          "timber": 360,
+          "stone": 200,
+          "iron": 110,
+          "gold": 124
+        },
+        "seconds": 12,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "watch",
+        "name": "Thiên Lý Đài",
+        "zone": "phòng thủ",
+        "glyph": "望",
+        "effect": "scout",
+        "index": 13,
+        "baseCost": {
+          "food": 0,
+          "timber": 255,
+          "stone": 110,
+          "iron": 80,
+          "gold": 131
+        },
+        "seconds": 15,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "storehouse",
+        "name": "Càn Khôn Khố",
+        "zone": "nội thành",
+        "glyph": "庫",
+        "effect": "storage",
+        "index": 14,
+        "baseCost": {
+          "food": 0,
+          "timber": 240,
+          "stone": 90,
+          "iron": 50,
+          "gold": 138
+        },
+        "seconds": 18,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "farm",
+        "name": "Ngũ Cốc Viên",
+        "zone": "ngoại thành",
+        "glyph": "田",
+        "effect": "food",
+        "index": 15,
+        "baseCost": {
+          "food": 0,
+          "timber": 150,
+          "stone": 40,
+          "iron": 20,
+          "gold": 145
+        },
+        "seconds": 21,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "grove",
+        "name": "Thanh Long Lâm",
+        "zone": "ngoại thành",
+        "glyph": "林",
+        "effect": "timber",
+        "index": 16,
+        "baseCost": {
+          "food": 0,
+          "timber": 165,
+          "stone": 40,
+          "iron": 20,
+          "gold": 152
+        },
+        "seconds": 12,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "mine",
+        "name": "Địa Mạch Khoáng",
+        "zone": "ngoại thành",
+        "glyph": "礦",
+        "effect": "stone",
+        "index": 17,
+        "baseCost": {
+          "food": 0,
+          "timber": 225,
+          "stone": 70,
+          "iron": 30,
+          "gold": 159
+        },
+        "seconds": 15,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "foundryfield",
+        "name": "Xích Kim Quặng",
+        "zone": "ngoại thành",
+        "glyph": "金",
+        "effect": "iron",
+        "index": 18,
+        "baseCost": {
+          "food": 0,
+          "timber": 240,
+          "stone": 80,
+          "iron": 30,
+          "gold": 166
+        },
+        "seconds": 18,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "embassy",
+        "name": "Bát Phương Quán",
+        "zone": "ngoại thành",
+        "glyph": "盟",
+        "effect": "diplomacy",
+        "index": 19,
+        "baseCost": {
+          "food": 0,
+          "timber": 225,
+          "stone": 130,
+          "iron": 60,
+          "gold": 173
+        },
+        "seconds": 21,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "caravan",
+        "name": "Vạn Lý Trạm",
+        "zone": "ngoại thành",
+        "glyph": "驛",
+        "effect": "trade",
+        "index": 20,
+        "baseCost": {
+          "food": 0,
+          "timber": 195,
+          "stone": 100,
+          "iron": 40,
+          "gold": 180
+        },
+        "seconds": 12,
+        "maxLevel": 30,
+        "evidence": "SIMULATED"
+      }
+    ],
+    "technologies": [
+      {
+        "id": "tech-01",
+        "name": "Nông Chính",
+        "effect": "food",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 45,
+          "gold": 35,
+          "jade": 0
+        },
+        "seconds": 18,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-02",
+        "name": "Lâm Nghiệp",
+        "effect": "timber",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 51,
+          "gold": 40,
+          "jade": 0
+        },
+        "seconds": 22,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-03",
+        "name": "Khai Sơn",
+        "effect": "stone",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 57,
+          "gold": 45,
+          "jade": 0
+        },
+        "seconds": 26,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-04",
+        "name": "Luyện Kim",
+        "effect": "iron",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 63,
+          "gold": 50,
+          "jade": 0
+        },
+        "seconds": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-05",
+        "name": "Thị Thương",
+        "effect": "gold",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 69,
+          "gold": 55,
+          "jade": 0
+        },
+        "seconds": 18,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-06",
+        "name": "Quản Dân",
+        "effect": "population",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 75,
+          "gold": 60,
+          "jade": 0
+        },
+        "seconds": 22,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-07",
+        "name": "Trị Thủy",
+        "effect": "food",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 81,
+          "gold": 65,
+          "jade": 0
+        },
+        "seconds": 26,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-08",
+        "name": "Kiến Trúc",
+        "effect": "build",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 87,
+          "gold": 70,
+          "jade": 0
+        },
+        "seconds": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-09",
+        "name": "Cơ Quan",
+        "effect": "training",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 93,
+          "gold": 75,
+          "jade": 0
+        },
+        "seconds": 18,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-10",
+        "name": "Binh Pháp",
+        "effect": "attack",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 99,
+          "gold": 80,
+          "jade": 0
+        },
+        "seconds": 22,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-11",
+        "name": "Thủ Thành",
+        "effect": "defense",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 105,
+          "gold": 85,
+          "jade": 0
+        },
+        "seconds": 26,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-12",
+        "name": "Kỵ Thuật",
+        "effect": "cavalry",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 111,
+          "gold": 90,
+          "jade": 0
+        },
+        "seconds": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-13",
+        "name": "Cung Nỏ",
+        "effect": "archer",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 117,
+          "gold": 95,
+          "jade": 0
+        },
+        "seconds": 18,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-14",
+        "name": "Y Đạo",
+        "effect": "healing",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 123,
+          "gold": 100,
+          "jade": 0
+        },
+        "seconds": 22,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-15",
+        "name": "Trận Đồ",
+        "effect": "formation",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 129,
+          "gold": 105,
+          "jade": 0
+        },
+        "seconds": 26,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-16",
+        "name": "Dịch Trạm",
+        "effect": "march",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 135,
+          "gold": 110,
+          "jade": 0
+        },
+        "seconds": 30,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-17",
+        "name": "Luyện Khí",
+        "effect": "hero",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 141,
+          "gold": 115,
+          "jade": 1
+        },
+        "seconds": 18,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-18",
+        "name": "Tinh Tượng",
+        "effect": "scout",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 147,
+          "gold": 120,
+          "jade": 0
+        },
+        "seconds": 22,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "tech-19",
+        "name": "Ngoại Giao",
+        "effect": "diplomacy",
+        "maxLevel": 30,
+        "baseCost": {
+          "food": 153,
+          "gold": 125,
+          "jade": 0
+        },
+        "seconds": 26,
+        "evidence": "SIMULATED"
+      }
+    ],
+    "troops": [
+      {
+        "id": "troop-01",
+        "name": "Dân binh",
+        "role": "bộ binh",
+        "glyph": "平",
+        "tier": 1,
+        "attack": 10,
+        "defense": 14,
+        "speed": 7,
+        "morale": 70,
+        "counter": "kỵ binh",
+        "cost": {
+          "food": 18,
+          "timber": 4,
+          "iron": 9,
+          "gold": 8
+        },
+        "trainSeconds": 7,
+        "unlockCity": 2,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-02",
+        "name": "Đao thuẫn thủ",
+        "role": "bộ binh",
+        "glyph": "盾",
+        "tier": 1,
+        "attack": 13,
+        "defense": 17,
+        "speed": 11,
+        "morale": 75,
+        "counter": "kỵ binh",
+        "cost": {
+          "food": 18,
+          "timber": 4,
+          "iron": 9,
+          "gold": 8
+        },
+        "trainSeconds": 7,
+        "unlockCity": 2,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-03",
+        "name": "Trường thương quân",
+        "role": "bộ binh",
+        "glyph": "槍",
+        "tier": 1,
+        "attack": 16,
+        "defense": 20,
+        "speed": 16,
+        "morale": 80,
+        "counter": "kỵ binh",
+        "cost": {
+          "food": 18,
+          "timber": 4,
+          "iron": 9,
+          "gold": 8
+        },
+        "trainSeconds": 7,
+        "unlockCity": 2,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-04",
+        "name": "Thiết giáp vệ",
+        "role": "bộ binh",
+        "glyph": "鎧",
+        "tier": 1,
+        "attack": 18,
+        "defense": 9,
+        "speed": 10,
+        "morale": 85,
+        "counter": "kỵ binh",
+        "cost": {
+          "food": 18,
+          "timber": 4,
+          "iron": 9,
+          "gold": 8
+        },
+        "trainSeconds": 7,
+        "unlockCity": 2,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-05",
+        "name": "Huyền giáp quân",
+        "role": "bộ binh",
+        "glyph": "玄",
+        "tier": 1,
+        "attack": 21,
+        "defense": 11,
+        "speed": 14,
+        "morale": 70,
+        "counter": "kỵ binh",
+        "cost": {
+          "food": 18,
+          "timber": 4,
+          "iron": 9,
+          "gold": 8
+        },
+        "trainSeconds": 7,
+        "unlockCity": 2,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-06",
+        "name": "Thần Cơ nỏ thủ",
+        "role": "xạ thủ",
+        "glyph": "弩",
+        "tier": 1,
+        "attack": 10,
+        "defense": 14,
+        "speed": 9,
+        "morale": 75,
+        "counter": "bộ binh",
+        "cost": {
+          "food": 18,
+          "timber": 4,
+          "iron": 9,
+          "gold": 8
+        },
+        "trainSeconds": 7,
+        "unlockCity": 2,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-07",
+        "name": "Liên nỗ binh",
+        "role": "xạ thủ",
+        "glyph": "連",
+        "tier": 2,
+        "attack": 17,
+        "defense": 22,
+        "speed": 17,
+        "morale": 80,
+        "counter": "bộ binh",
+        "cost": {
+          "food": 36,
+          "timber": 8,
+          "iron": 18,
+          "gold": 16
+        },
+        "trainSeconds": 9,
+        "unlockCity": 4,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-08",
+        "name": "Thanh Vũ cung thủ",
+        "role": "xạ thủ",
+        "glyph": "羽",
+        "tier": 2,
+        "attack": 20,
+        "defense": 26,
+        "speed": 9,
+        "morale": 85,
+        "counter": "bộ binh",
+        "cost": {
+          "food": 36,
+          "timber": 8,
+          "iron": 18,
+          "gold": 16
+        },
+        "trainSeconds": 9,
+        "unlockCity": 4,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-09",
+        "name": "Hỏa tiễn thủ",
+        "role": "xạ thủ",
+        "glyph": "火",
+        "tier": 2,
+        "attack": 24,
+        "defense": 11,
+        "speed": 15,
+        "morale": 70,
+        "counter": "bộ binh",
+        "cost": {
+          "food": 36,
+          "timber": 8,
+          "iron": 18,
+          "gold": 16
+        },
+        "trainSeconds": 9,
+        "unlockCity": 4,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-10",
+        "name": "Du kỵ binh",
+        "role": "kỵ binh",
+        "glyph": "騎",
+        "tier": 2,
+        "attack": 28,
+        "defense": 15,
+        "speed": 20,
+        "morale": 75,
+        "counter": "xạ thủ",
+        "cost": {
+          "food": 36,
+          "timber": 8,
+          "iron": 18,
+          "gold": 16
+        },
+        "trainSeconds": 9,
+        "unlockCity": 4,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-11",
+        "name": "Thiết kỵ doanh",
+        "role": "kỵ binh",
+        "glyph": "鐵",
+        "tier": 2,
+        "attack": 13,
+        "defense": 18,
+        "speed": 13,
+        "morale": 80,
+        "counter": "xạ thủ",
+        "cost": {
+          "food": 36,
+          "timber": 8,
+          "iron": 18,
+          "gold": 16
+        },
+        "trainSeconds": 9,
+        "unlockCity": 4,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-12",
+        "name": "Phi Vân kỵ",
+        "role": "kỵ binh",
+        "glyph": "雲",
+        "tier": 2,
+        "attack": 17,
+        "defense": 22,
+        "speed": 18,
+        "morale": 85,
+        "counter": "xạ thủ",
+        "cost": {
+          "food": 36,
+          "timber": 8,
+          "iron": 18,
+          "gold": 16
+        },
+        "trainSeconds": 9,
+        "unlockCity": 4,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-13",
+        "name": "Hổ Báo kỵ",
+        "role": "kỵ binh",
+        "glyph": "虎",
+        "tier": 3,
+        "attack": 25,
+        "defense": 32,
+        "speed": 14,
+        "morale": 70,
+        "counter": "xạ thủ",
+        "cost": {
+          "food": 54,
+          "timber": 12,
+          "iron": 27,
+          "gold": 24
+        },
+        "trainSeconds": 11,
+        "unlockCity": 6,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-14",
+        "name": "Trọng kỵ Thiên Sách",
+        "role": "kỵ binh",
+        "glyph": "策",
+        "tier": 3,
+        "attack": 29,
+        "defense": 14,
+        "speed": 20,
+        "morale": 75,
+        "counter": "xạ thủ",
+        "cost": {
+          "food": 54,
+          "timber": 12,
+          "iron": 27,
+          "gold": 24
+        },
+        "trainSeconds": 11,
+        "unlockCity": 6,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-15",
+        "name": "Công thành xa",
+        "role": "công thành",
+        "glyph": "車",
+        "tier": 3,
+        "attack": 34,
+        "defense": 18,
+        "speed": 11,
+        "morale": 80,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 54,
+          "timber": 60,
+          "iron": 27,
+          "gold": 24
+        },
+        "trainSeconds": 11,
+        "unlockCity": 6,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-16",
+        "name": "Phá thành chùy",
+        "role": "công thành",
+        "glyph": "破",
+        "tier": 3,
+        "attack": 16,
+        "defense": 23,
+        "speed": 18,
+        "morale": 85,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 54,
+          "timber": 60,
+          "iron": 27,
+          "gold": 24
+        },
+        "trainSeconds": 11,
+        "unlockCity": 6,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-17",
+        "name": "Liệt Hỏa nỏ xa",
+        "role": "công thành",
+        "glyph": "弩",
+        "tier": 3,
+        "attack": 20,
+        "defense": 27,
+        "speed": 25,
+        "morale": 70,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 54,
+          "timber": 60,
+          "iron": 27,
+          "gold": 24
+        },
+        "trainSeconds": 11,
+        "unlockCity": 6,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-18",
+        "name": "Vân Thê quân",
+        "role": "công thành",
+        "glyph": "梯",
+        "tier": 3,
+        "attack": 25,
+        "defense": 32,
+        "speed": 16,
+        "morale": 75,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 54,
+          "timber": 60,
+          "iron": 27,
+          "gold": 24
+        },
+        "trainSeconds": 11,
+        "unlockCity": 6,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-19",
+        "name": "Thần Hỏa pháo",
+        "role": "công thành",
+        "glyph": "炮",
+        "tier": 4,
+        "attack": 35,
+        "defense": 16,
+        "speed": 27,
+        "morale": 80,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 72,
+          "timber": 80,
+          "iron": 36,
+          "gold": 32
+        },
+        "trainSeconds": 13,
+        "unlockCity": 8,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-20",
+        "name": "Trinh sát ưng vệ",
+        "role": "trinh sát",
+        "glyph": "鷹",
+        "tier": 4,
+        "attack": 40,
+        "defense": 21,
+        "speed": 16,
+        "morale": 85,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 72,
+          "timber": 16,
+          "iron": 36,
+          "gold": 32
+        },
+        "trainSeconds": 13,
+        "unlockCity": 8,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-21",
+        "name": "Dạ hành thám kỵ",
+        "role": "trinh sát",
+        "glyph": "夜",
+        "tier": 4,
+        "attack": 19,
+        "defense": 27,
+        "speed": 24,
+        "morale": 70,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 72,
+          "timber": 16,
+          "iron": 36,
+          "gold": 32
+        },
+        "trainSeconds": 13,
+        "unlockCity": 8,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-22",
+        "name": "Bạch Hạc đạo binh",
+        "role": "đạo binh",
+        "glyph": "鶴",
+        "tier": 4,
+        "attack": 24,
+        "defense": 32,
+        "speed": 13,
+        "morale": 75,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 72,
+          "timber": 16,
+          "iron": 36,
+          "gold": 32
+        },
+        "trainSeconds": 13,
+        "unlockCity": 8,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-23",
+        "name": "Lôi Phù tiên binh",
+        "role": "đạo binh",
+        "glyph": "雷",
+        "tier": 4,
+        "attack": 29,
+        "defense": 38,
+        "speed": 21,
+        "morale": 80,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 72,
+          "timber": 16,
+          "iron": 36,
+          "gold": 32
+        },
+        "trainSeconds": 13,
+        "unlockCity": 8,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-24",
+        "name": "Huyền Thủy vệ",
+        "role": "đạo binh",
+        "glyph": "水",
+        "tier": 4,
+        "attack": 35,
+        "defense": 16,
+        "speed": 29,
+        "morale": 85,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 72,
+          "timber": 16,
+          "iron": 36,
+          "gold": 32
+        },
+        "trainSeconds": 13,
+        "unlockCity": 8,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-25",
+        "name": "Xích Diệm chiến sĩ",
+        "role": "đạo binh",
+        "glyph": "焰",
+        "tier": 5,
+        "attack": 47,
+        "defense": 25,
+        "speed": 22,
+        "morale": 70,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 90,
+          "timber": 20,
+          "iron": 45,
+          "gold": 40
+        },
+        "trainSeconds": 15,
+        "unlockCity": 10,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-26",
+        "name": "Thanh Mộc linh quân",
+        "role": "đạo binh",
+        "glyph": "木",
+        "tier": 5,
+        "attack": 22,
+        "defense": 31,
+        "speed": 31,
+        "morale": 75,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 90,
+          "timber": 20,
+          "iron": 45,
+          "gold": 40
+        },
+        "trainSeconds": 15,
+        "unlockCity": 10,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-27",
+        "name": "Thạch Tượng vệ",
+        "role": "đạo binh",
+        "glyph": "石",
+        "tier": 5,
+        "attack": 28,
+        "defense": 37,
+        "speed": 19,
+        "morale": 80,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 90,
+          "timber": 20,
+          "iron": 45,
+          "gold": 40
+        },
+        "trainSeconds": 15,
+        "unlockCity": 10,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-28",
+        "name": "Kim Giáp lực sĩ",
+        "role": "đạo binh",
+        "glyph": "金",
+        "tier": 5,
+        "attack": 34,
+        "defense": 43,
+        "speed": 28,
+        "morale": 85,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 90,
+          "timber": 20,
+          "iron": 45,
+          "gold": 40
+        },
+        "trainSeconds": 15,
+        "unlockCity": 10,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-29",
+        "name": "Phi Thiên vệ",
+        "role": "đạo binh",
+        "glyph": "天",
+        "tier": 5,
+        "attack": 40,
+        "defense": 19,
+        "speed": 16,
+        "morale": 70,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 90,
+          "timber": 20,
+          "iron": 45,
+          "gold": 40
+        },
+        "trainSeconds": 15,
+        "unlockCity": 10,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-30",
+        "name": "Trấn Sơn thần tốt",
+        "role": "đạo binh",
+        "glyph": "山",
+        "tier": 5,
+        "attack": 47,
+        "defense": 25,
+        "speed": 25,
+        "morale": 75,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 90,
+          "timber": 20,
+          "iron": 45,
+          "gold": 40
+        },
+        "trainSeconds": 15,
+        "unlockCity": 10,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-31",
+        "name": "Long Kỵ vệ",
+        "role": "kỵ binh",
+        "glyph": "龍",
+        "tier": 6,
+        "attack": 25,
+        "defense": 35,
+        "speed": 39,
+        "morale": 80,
+        "counter": "xạ thủ",
+        "cost": {
+          "food": 108,
+          "timber": 24,
+          "iron": 54,
+          "gold": 48
+        },
+        "trainSeconds": 17,
+        "unlockCity": 12,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-32",
+        "name": "Phượng Vũ cung cơ",
+        "role": "xạ thủ",
+        "glyph": "鳳",
+        "tier": 6,
+        "attack": 32,
+        "defense": 42,
+        "speed": 25,
+        "morale": 85,
+        "counter": "bộ binh",
+        "cost": {
+          "food": 108,
+          "timber": 24,
+          "iron": 54,
+          "gold": 48
+        },
+        "trainSeconds": 17,
+        "unlockCity": 12,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-33",
+        "name": "Côn Ngô đao sĩ",
+        "role": "bộ binh",
+        "glyph": "吳",
+        "tier": 6,
+        "attack": 39,
+        "defense": 49,
+        "speed": 35,
+        "morale": 70,
+        "counter": "kỵ binh",
+        "cost": {
+          "food": 108,
+          "timber": 24,
+          "iron": 54,
+          "gold": 48
+        },
+        "trainSeconds": 17,
+        "unlockCity": 12,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-34",
+        "name": "Bắc Đẩu trận binh",
+        "role": "đạo binh",
+        "glyph": "斗",
+        "tier": 6,
+        "attack": 46,
+        "defense": 21,
+        "speed": 21,
+        "morale": 75,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 108,
+          "timber": 24,
+          "iron": 54,
+          "gold": 48
+        },
+        "trainSeconds": 17,
+        "unlockCity": 12,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-35",
+        "name": "Thất Tinh kiếm vệ",
+        "role": "đạo binh",
+        "glyph": "星",
+        "tier": 6,
+        "attack": 53,
+        "defense": 28,
+        "speed": 32,
+        "morale": 80,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 108,
+          "timber": 24,
+          "iron": 54,
+          "gold": 48
+        },
+        "trainSeconds": 17,
+        "unlockCity": 12,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-36",
+        "name": "Cửu U âm tốt",
+        "role": "đạo binh",
+        "glyph": "幽",
+        "tier": 6,
+        "attack": 25,
+        "defense": 35,
+        "speed": 18,
+        "morale": 85,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 108,
+          "timber": 24,
+          "iron": 54,
+          "gold": 48
+        },
+        "trainSeconds": 17,
+        "unlockCity": 12,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-37",
+        "name": "Thiên Cương hộ quân",
+        "role": "đạo binh",
+        "glyph": "剛",
+        "tier": 7,
+        "attack": 35,
+        "defense": 47,
+        "speed": 32,
+        "morale": 70,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 126,
+          "timber": 28,
+          "iron": 63,
+          "gold": 56
+        },
+        "trainSeconds": 19,
+        "unlockCity": 14,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-38",
+        "name": "Địa Sát phục binh",
+        "role": "trinh sát",
+        "glyph": "伏",
+        "tier": 7,
+        "attack": 43,
+        "defense": 55,
+        "speed": 43,
+        "morale": 75,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 126,
+          "timber": 28,
+          "iron": 63,
+          "gold": 56
+        },
+        "trainSeconds": 19,
+        "unlockCity": 14,
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "troop-39",
+        "name": "Phong Thần cấm vệ",
+        "role": "đạo binh",
+        "glyph": "神",
+        "tier": 7,
+        "attack": 51,
+        "defense": 24,
+        "speed": 28,
+        "morale": 80,
+        "counter": "trinh sát",
+        "cost": {
+          "food": 126,
+          "timber": 28,
+          "iron": 63,
+          "gold": 56
+        },
+        "trainSeconds": 19,
+        "unlockCity": 14,
+        "evidence": "SIMULATED"
+      }
+    ],
+    "heroes": [
+      {
+        "id": "hero-01",
+        "name": "Khương Tử Nha",
+        "role": "quân sư",
+        "element": "water",
+        "signature": "太師",
+        "quality": "Thiên",
+        "attack": 18,
+        "defense": 16,
+        "wisdom": 18,
+        "skill": "Hỏa Phù Liệt Trận",
+        "skillText": "gây sát thương diện rộng",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-02",
+        "name": "Na Tra",
+        "role": "tiên phong",
+        "element": "fire",
+        "signature": "乾坤",
+        "quality": "Thiên",
+        "attack": 25,
+        "defense": 21,
+        "wisdom": 29,
+        "skill": "Huyền Thủy Hộ Thể",
+        "skillText": "giảm thương cho quân ta",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-03",
+        "name": "Dương Tiễn",
+        "role": "hộ vệ",
+        "element": "metal",
+        "signature": "天眼",
+        "quality": "Thiên",
+        "attack": 32,
+        "defense": 26,
+        "wisdom": 20,
+        "skill": "Phong Lôi Kích",
+        "skillText": "đánh nhanh tuyến trước",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-04",
+        "name": "Hoàng Phi Hổ",
+        "role": "thống soái",
+        "element": "earth",
+        "signature": "鎮國",
+        "quality": "Thiên",
+        "attack": 23,
+        "defense": 31,
+        "wisdom": 31,
+        "skill": "Thất Tinh Trợ Chiến",
+        "skillText": "tăng sĩ khí đội hình",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-05",
+        "name": "Lôi Chấn Tử",
+        "role": "đột kích",
+        "element": "wind",
+        "signature": "雷翼",
+        "quality": "Địa",
+        "attack": 30,
+        "defense": 18,
+        "wisdom": 22,
+        "skill": "Hỏa Phù Liệt Trận",
+        "skillText": "gây sát thương diện rộng",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-06",
+        "name": "Đặng Thiền Ngọc",
+        "role": "xạ thủ",
+        "element": "earth",
+        "signature": "五光",
+        "quality": "Địa",
+        "attack": 21,
+        "defense": 23,
+        "wisdom": 33,
+        "skill": "Huyền Thủy Hộ Thể",
+        "skillText": "giảm thương cho quân ta",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-07",
+        "name": "Long Cát Công Chúa",
+        "role": "trị liệu",
+        "element": "water",
+        "signature": "甘露",
+        "quality": "Địa",
+        "attack": 28,
+        "defense": 28,
+        "wisdom": 24,
+        "skill": "Phong Lôi Kích",
+        "skillText": "đánh nhanh tuyến trước",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-08",
+        "name": "Vi Na",
+        "role": "quân sư",
+        "element": "wood",
+        "signature": "靈符",
+        "quality": "Địa",
+        "attack": 19,
+        "defense": 33,
+        "wisdom": 35,
+        "skill": "Thất Tinh Trợ Chiến",
+        "skillText": "tăng sĩ khí đội hình",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-09",
+        "name": "Hàn Độc Long",
+        "role": "phòng thủ",
+        "element": "water",
+        "signature": "玄甲",
+        "quality": "Địa",
+        "attack": 26,
+        "defense": 20,
+        "wisdom": 26,
+        "skill": "Hỏa Phù Liệt Trận",
+        "skillText": "gây sát thương diện rộng",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-10",
+        "name": "Tô Hộ",
+        "role": "thống soái",
+        "element": "fire",
+        "signature": "忠烈",
+        "quality": "Địa",
+        "attack": 33,
+        "defense": 25,
+        "wisdom": 37,
+        "skill": "Huyền Thủy Hộ Thể",
+        "skillText": "giảm thương cho quân ta",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-11",
+        "name": "Bạch Hạc Đồng Tử",
+        "role": "hỗ trợ",
+        "element": "wind",
+        "signature": "仙鶴",
+        "quality": "Địa",
+        "attack": 24,
+        "defense": 30,
+        "wisdom": 28,
+        "skill": "Phong Lôi Kích",
+        "skillText": "đánh nhanh tuyến trước",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-12",
+        "name": "Ân Giao",
+        "role": "đột kích",
+        "element": "metal",
+        "signature": "番天",
+        "quality": "Nhân",
+        "attack": 31,
+        "defense": 17,
+        "wisdom": 19,
+        "skill": "Thất Tinh Trợ Chiến",
+        "skillText": "tăng sĩ khí đội hình",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-13",
+        "name": "Tân Hoàn",
+        "role": "xạ thủ",
+        "element": "fire",
+        "signature": "火羽",
+        "quality": "Nhân",
+        "attack": 22,
+        "defense": 22,
+        "wisdom": 30,
+        "skill": "Hỏa Phù Liệt Trận",
+        "skillText": "gây sát thương diện rộng",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-14",
+        "name": "Triệu Công Minh",
+        "role": "thống soái",
+        "element": "metal",
+        "signature": "定海",
+        "quality": "Nhân",
+        "attack": 29,
+        "defense": 27,
+        "wisdom": 21,
+        "skill": "Huyền Thủy Hộ Thể",
+        "skillText": "giảm thương cho quân ta",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-15",
+        "name": "Văn Trọng",
+        "role": "quân sư",
+        "element": "thống soái",
+        "signature": "聞仲",
+        "quality": "Nhân",
+        "attack": 20,
+        "defense": 32,
+        "wisdom": 32,
+        "skill": "Phong Lôi Kích",
+        "skillText": "đánh nhanh tuyến trước",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-16",
+        "name": "Thân Công Báo",
+        "role": "quân sư",
+        "element": "water",
+        "signature": "黑虎",
+        "quality": "Nhân",
+        "attack": 27,
+        "defense": 19,
+        "wisdom": 23,
+        "skill": "Thất Tinh Trợ Chiến",
+        "skillText": "tăng sĩ khí đội hình",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-17",
+        "name": "Cơ Phát",
+        "role": "thống soái",
+        "element": "wood",
+        "signature": "天命",
+        "quality": "Nhân",
+        "attack": 18,
+        "defense": 24,
+        "wisdom": 34,
+        "skill": "Hỏa Phù Liệt Trận",
+        "skillText": "gây sát thương diện rộng",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "hero-18",
+        "name": "Thạch Cơ",
+        "role": "phòng thủ",
+        "element": "earth",
+        "signature": "白骨",
+        "quality": "Nhân",
+        "attack": 25,
+        "defense": 29,
+        "wisdom": 25,
+        "skill": "Huyền Thủy Hộ Thể",
+        "skillText": "giảm thương cho quân ta",
+        "evidence": "SIMULATED"
+      }
+    ],
+    "items": [
+      {
+        "id": "item-01",
+        "name": "Bạch Ngọc Kiếm",
+        "type": "vũ khí",
+        "glyph": "玉劍",
+        "tier": 1,
+        "bonus": 3,
+        "effect": "+3 công kích",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-02",
+        "name": "Trấn Sơn Đao",
+        "type": "vũ khí",
+        "glyph": "鎮刀",
+        "tier": 2,
+        "bonus": 10,
+        "effect": "+10 phòng thủ",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-03",
+        "name": "Phục Ma Cung",
+        "type": "vũ khí",
+        "glyph": "伏弓",
+        "tier": 3,
+        "bonus": 17,
+        "effect": "+17 công kích",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-04",
+        "name": "Huyền Thiết Giáp",
+        "type": "giáp",
+        "glyph": "玄甲",
+        "tier": 4,
+        "bonus": 9,
+        "effect": "+9 phòng thủ",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-05",
+        "name": "Lưu Vân Bào",
+        "type": "giáp",
+        "glyph": "雲袍",
+        "tier": 5,
+        "bonus": 16,
+        "effect": "+16 công kích",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-06",
+        "name": "Bách Thú Khôi",
+        "type": "giáp",
+        "glyph": "獸盔",
+        "tier": 1,
+        "bonus": 8,
+        "effect": "+8 phòng thủ",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-07",
+        "name": "Thất Tinh Bội",
+        "type": "pháp bảo",
+        "glyph": "七星",
+        "tier": 2,
+        "bonus": 15,
+        "effect": "+15 công kích",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-08",
+        "name": "Càn Khôn Xích",
+        "type": "pháp bảo",
+        "glyph": "乾坤",
+        "tier": 3,
+        "bonus": 7,
+        "effect": "+7 phòng thủ",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-09",
+        "name": "Hỏa Tiêm Thương",
+        "type": "pháp bảo",
+        "glyph": "火尖",
+        "tier": 4,
+        "bonus": 14,
+        "effect": "+14 công kích",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-10",
+        "name": "Tụ Tiên Kỳ",
+        "type": "pháp bảo",
+        "glyph": "聚仙",
+        "tier": 5,
+        "bonus": 6,
+        "effect": "+6 phòng thủ",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-11",
+        "name": "Bình Ngọc Tịnh",
+        "type": "pháp bảo",
+        "glyph": "玉淨",
+        "tier": 1,
+        "bonus": 13,
+        "effect": "+13 công kích",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-12",
+        "name": "Định Hải Châu",
+        "type": "pháp bảo",
+        "glyph": "定海",
+        "tier": 2,
+        "bonus": 5,
+        "effect": "+5 phòng thủ",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-13",
+        "name": "Linh Chi Ngàn Năm",
+        "type": "vật phẩm",
+        "glyph": "靈芝",
+        "tier": 3,
+        "bonus": 0,
+        "effect": "Hồi 120 lương thực",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-14",
+        "name": "Tụ Khí Đan",
+        "type": "vật phẩm",
+        "glyph": "丹",
+        "tier": 4,
+        "bonus": 0,
+        "effect": "Tăng 10% kinh nghiệm",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-15",
+        "name": "Quân Lệnh Phù",
+        "type": "vật phẩm",
+        "glyph": "令",
+        "tier": 5,
+        "bonus": 0,
+        "effect": "Mở rương chiến lợi phẩm",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-16",
+        "name": "Bản Đồ Cổ",
+        "type": "vật phẩm",
+        "glyph": "圖",
+        "tier": 1,
+        "bonus": 0,
+        "effect": "Hồi 120 lương thực",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-17",
+        "name": "Lệnh Bài Triều Ca",
+        "type": "vật phẩm",
+        "glyph": "令牌",
+        "tier": 2,
+        "bonus": 0,
+        "effect": "Tăng 10% kinh nghiệm",
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "item-18",
+        "name": "Hồn Ngọc",
+        "type": "vật phẩm",
+        "glyph": "魂",
+        "tier": 3,
+        "bonus": 0,
+        "effect": "Mở rương chiến lợi phẩm",
+        "evidence": "SIMULATED"
+      }
+    ],
+    "quests": [
+      {
+        "id": "quest-001",
+        "chapter": 1,
+        "title": "Nâng Tử Vi Thành",
+        "type": "upgrade",
+        "target": "citadel",
+        "goal": 3,
+        "reward": {
+          "food": 130,
+          "timber": 100,
+          "gold": 90,
+          "jade": 1,
+          "xp": 80
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-002",
+        "chapter": 1,
+        "title": "Tích lương luyện binh",
+        "type": "train",
+        "target": "troop",
+        "goal": 8,
+        "reward": {
+          "food": 160,
+          "timber": 122,
+          "gold": 108,
+          "jade": 0,
+          "xp": 105
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-003",
+        "chapter": 1,
+        "title": "Tìm hiền sĩ trợ trận",
+        "type": "recruit",
+        "target": "hero",
+        "goal": 1,
+        "reward": {
+          "food": 190,
+          "timber": 144,
+          "gold": 126,
+          "jade": 0,
+          "xp": 130
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-004",
+        "chapter": 1,
+        "title": "Rèn binh khí đầu tiên",
+        "type": "equip",
+        "target": "item",
+        "goal": 1,
+        "reward": {
+          "food": 220,
+          "timber": 166,
+          "gold": 144,
+          "jade": 0,
+          "xp": 155
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-005",
+        "chapter": 1,
+        "title": "Mở đường qua dã địa",
+        "type": "win",
+        "target": "field",
+        "goal": 1,
+        "reward": {
+          "food": 250,
+          "timber": 188,
+          "gold": 162,
+          "jade": 1,
+          "xp": 180
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-006",
+        "chapter": 1,
+        "title": "Kết minh cùng NPC",
+        "type": "guild",
+        "target": "guild",
+        "goal": 1,
+        "reward": {
+          "food": 280,
+          "timber": 210,
+          "gold": 180,
+          "jade": 0,
+          "xp": 205
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-007",
+        "chapter": 2,
+        "title": "Phong Thần khởi sự",
+        "type": "tower",
+        "target": "tower",
+        "goal": 3,
+        "reward": {
+          "food": 310,
+          "timber": 232,
+          "gold": 198,
+          "jade": 0,
+          "xp": 230
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-008",
+        "chapter": 2,
+        "title": "Thu phục danh thành",
+        "type": "capture",
+        "target": "city",
+        "goal": 1,
+        "reward": {
+          "food": 340,
+          "timber": 254,
+          "gold": 216,
+          "jade": 0,
+          "xp": 255
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-009",
+        "chapter": 2,
+        "title": "Khảo nghiệm Bất Chu",
+        "type": "buzhou",
+        "target": "floor",
+        "goal": 1,
+        "reward": {
+          "food": 370,
+          "timber": 276,
+          "gold": 234,
+          "jade": 1,
+          "xp": 280
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-010",
+        "chapter": 2,
+        "title": "Nâng cao quốc lực",
+        "type": "power",
+        "target": "power",
+        "goal": 501,
+        "reward": {
+          "food": 400,
+          "timber": 298,
+          "gold": 252,
+          "jade": 0,
+          "xp": 305
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-011",
+        "chapter": 2,
+        "title": "Nâng Tử Vi Thành · hồi 2",
+        "type": "upgrade",
+        "target": "citadel",
+        "goal": 4,
+        "reward": {
+          "food": 430,
+          "timber": 320,
+          "gold": 270,
+          "jade": 0,
+          "xp": 330
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-012",
+        "chapter": 2,
+        "title": "Tích lương luyện binh · hồi 2",
+        "type": "train",
+        "target": "troop",
+        "goal": 9,
+        "reward": {
+          "food": 460,
+          "timber": 342,
+          "gold": 288,
+          "jade": 0,
+          "xp": 355
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-013",
+        "chapter": 3,
+        "title": "Tìm hiền sĩ trợ trận · hồi 3",
+        "type": "recruit",
+        "target": "hero",
+        "goal": 2,
+        "reward": {
+          "food": 490,
+          "timber": 364,
+          "gold": 306,
+          "jade": 1,
+          "xp": 380
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-014",
+        "chapter": 3,
+        "title": "Rèn binh khí đầu tiên · hồi 3",
+        "type": "equip",
+        "target": "item",
+        "goal": 2,
+        "reward": {
+          "food": 520,
+          "timber": 386,
+          "gold": 324,
+          "jade": 0,
+          "xp": 405
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-015",
+        "chapter": 3,
+        "title": "Mở đường qua dã địa · hồi 3",
+        "type": "win",
+        "target": "field",
+        "goal": 2,
+        "reward": {
+          "food": 550,
+          "timber": 408,
+          "gold": 342,
+          "jade": 0,
+          "xp": 430
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-016",
+        "chapter": 3,
+        "title": "Kết minh cùng NPC · hồi 3",
+        "type": "guild",
+        "target": "guild",
+        "goal": 2,
+        "reward": {
+          "food": 580,
+          "timber": 430,
+          "gold": 360,
+          "jade": 0,
+          "xp": 455
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-017",
+        "chapter": 3,
+        "title": "Phong Thần khởi sự · hồi 3",
+        "type": "tower",
+        "target": "tower",
+        "goal": 4,
+        "reward": {
+          "food": 610,
+          "timber": 452,
+          "gold": 378,
+          "jade": 1,
+          "xp": 480
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-018",
+        "chapter": 3,
+        "title": "Thu phục danh thành · hồi 3",
+        "type": "capture",
+        "target": "city",
+        "goal": 2,
+        "reward": {
+          "food": 640,
+          "timber": 474,
+          "gold": 396,
+          "jade": 0,
+          "xp": 505
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-019",
+        "chapter": 4,
+        "title": "Khảo nghiệm Bất Chu · hồi 4",
+        "type": "buzhou",
+        "target": "floor",
+        "goal": 3,
+        "reward": {
+          "food": 670,
+          "timber": 496,
+          "gold": 414,
+          "jade": 0,
+          "xp": 530
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-020",
+        "chapter": 4,
+        "title": "Nâng cao quốc lực · hồi 4",
+        "type": "power",
+        "target": "power",
+        "goal": 502,
+        "reward": {
+          "food": 700,
+          "timber": 518,
+          "gold": 432,
+          "jade": 0,
+          "xp": 555
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-021",
+        "chapter": 4,
+        "title": "Nâng Tử Vi Thành · hồi 4",
+        "type": "upgrade",
+        "target": "citadel",
+        "goal": 5,
+        "reward": {
+          "food": 730,
+          "timber": 540,
+          "gold": 450,
+          "jade": 1,
+          "xp": 580
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-022",
+        "chapter": 4,
+        "title": "Tích lương luyện binh · hồi 4",
+        "type": "train",
+        "target": "troop",
+        "goal": 10,
+        "reward": {
+          "food": 760,
+          "timber": 562,
+          "gold": 468,
+          "jade": 0,
+          "xp": 605
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-023",
+        "chapter": 4,
+        "title": "Tìm hiền sĩ trợ trận · hồi 4",
+        "type": "recruit",
+        "target": "hero",
+        "goal": 3,
+        "reward": {
+          "food": 790,
+          "timber": 584,
+          "gold": 486,
+          "jade": 0,
+          "xp": 630
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-024",
+        "chapter": 4,
+        "title": "Rèn binh khí đầu tiên · hồi 4",
+        "type": "equip",
+        "target": "item",
+        "goal": 3,
+        "reward": {
+          "food": 820,
+          "timber": 606,
+          "gold": 504,
+          "jade": 0,
+          "xp": 655
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-025",
+        "chapter": 5,
+        "title": "Mở đường qua dã địa · hồi 5",
+        "type": "win",
+        "target": "field",
+        "goal": 3,
+        "reward": {
+          "food": 850,
+          "timber": 628,
+          "gold": 522,
+          "jade": 1,
+          "xp": 680
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-026",
+        "chapter": 5,
+        "title": "Kết minh cùng NPC · hồi 5",
+        "type": "guild",
+        "target": "guild",
+        "goal": 3,
+        "reward": {
+          "food": 880,
+          "timber": 650,
+          "gold": 540,
+          "jade": 0,
+          "xp": 705
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-027",
+        "chapter": 5,
+        "title": "Phong Thần khởi sự · hồi 5",
+        "type": "tower",
+        "target": "tower",
+        "goal": 5,
+        "reward": {
+          "food": 910,
+          "timber": 672,
+          "gold": 558,
+          "jade": 0,
+          "xp": 730
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-028",
+        "chapter": 5,
+        "title": "Thu phục danh thành · hồi 5",
+        "type": "capture",
+        "target": "city",
+        "goal": 4,
+        "reward": {
+          "food": 940,
+          "timber": 694,
+          "gold": 576,
+          "jade": 0,
+          "xp": 755
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-029",
+        "chapter": 5,
+        "title": "Khảo nghiệm Bất Chu · hồi 5",
+        "type": "buzhou",
+        "target": "floor",
+        "goal": 4,
+        "reward": {
+          "food": 970,
+          "timber": 716,
+          "gold": 594,
+          "jade": 1,
+          "xp": 780
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-030",
+        "chapter": 5,
+        "title": "Nâng cao quốc lực · hồi 5",
+        "type": "power",
+        "target": "power",
+        "goal": 503,
+        "reward": {
+          "food": 1000,
+          "timber": 738,
+          "gold": 612,
+          "jade": 0,
+          "xp": 805
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-031",
+        "chapter": 6,
+        "title": "Nâng Tử Vi Thành · hồi 6",
+        "type": "upgrade",
+        "target": "citadel",
+        "goal": 6,
+        "reward": {
+          "food": 1030,
+          "timber": 760,
+          "gold": 630,
+          "jade": 0,
+          "xp": 830
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-032",
+        "chapter": 6,
+        "title": "Tích lương luyện binh · hồi 6",
+        "type": "train",
+        "target": "troop",
+        "goal": 11,
+        "reward": {
+          "food": 1060,
+          "timber": 782,
+          "gold": 648,
+          "jade": 0,
+          "xp": 855
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-033",
+        "chapter": 6,
+        "title": "Tìm hiền sĩ trợ trận · hồi 6",
+        "type": "recruit",
+        "target": "hero",
+        "goal": 4,
+        "reward": {
+          "food": 1090,
+          "timber": 804,
+          "gold": 666,
+          "jade": 1,
+          "xp": 880
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-034",
+        "chapter": 6,
+        "title": "Rèn binh khí đầu tiên · hồi 6",
+        "type": "equip",
+        "target": "item",
+        "goal": 4,
+        "reward": {
+          "food": 1120,
+          "timber": 826,
+          "gold": 684,
+          "jade": 0,
+          "xp": 905
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-035",
+        "chapter": 6,
+        "title": "Mở đường qua dã địa · hồi 6",
+        "type": "win",
+        "target": "field",
+        "goal": 4,
+        "reward": {
+          "food": 1150,
+          "timber": 848,
+          "gold": 702,
+          "jade": 0,
+          "xp": 930
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-036",
+        "chapter": 6,
+        "title": "Kết minh cùng NPC · hồi 6",
+        "type": "guild",
+        "target": "guild",
+        "goal": 4,
+        "reward": {
+          "food": 1180,
+          "timber": 870,
+          "gold": 720,
+          "jade": 0,
+          "xp": 955
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-037",
+        "chapter": 7,
+        "title": "Phong Thần khởi sự · hồi 7",
+        "type": "tower",
+        "target": "tower",
+        "goal": 7,
+        "reward": {
+          "food": 1210,
+          "timber": 892,
+          "gold": 738,
+          "jade": 1,
+          "xp": 980
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-038",
+        "chapter": 7,
+        "title": "Thu phục danh thành · hồi 7",
+        "type": "capture",
+        "target": "city",
+        "goal": 5,
+        "reward": {
+          "food": 1240,
+          "timber": 914,
+          "gold": 756,
+          "jade": 0,
+          "xp": 1005
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-039",
+        "chapter": 7,
+        "title": "Khảo nghiệm Bất Chu · hồi 7",
+        "type": "buzhou",
+        "target": "floor",
+        "goal": 5,
+        "reward": {
+          "food": 1270,
+          "timber": 936,
+          "gold": 774,
+          "jade": 0,
+          "xp": 1030
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-040",
+        "chapter": 7,
+        "title": "Nâng cao quốc lực · hồi 7",
+        "type": "power",
+        "target": "power",
+        "goal": 504,
+        "reward": {
+          "food": 1300,
+          "timber": 958,
+          "gold": 792,
+          "jade": 0,
+          "xp": 1055
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-041",
+        "chapter": 7,
+        "title": "Nâng Tử Vi Thành · hồi 7",
+        "type": "upgrade",
+        "target": "citadel",
+        "goal": 7,
+        "reward": {
+          "food": 1330,
+          "timber": 980,
+          "gold": 810,
+          "jade": 1,
+          "xp": 1080
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-042",
+        "chapter": 7,
+        "title": "Tích lương luyện binh · hồi 7",
+        "type": "train",
+        "target": "troop",
+        "goal": 12,
+        "reward": {
+          "food": 1360,
+          "timber": 1002,
+          "gold": 828,
+          "jade": 0,
+          "xp": 1105
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-043",
+        "chapter": 8,
+        "title": "Tìm hiền sĩ trợ trận · hồi 8",
+        "type": "recruit",
+        "target": "hero",
+        "goal": 5,
+        "reward": {
+          "food": 1390,
+          "timber": 1024,
+          "gold": 846,
+          "jade": 0,
+          "xp": 1130
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-044",
+        "chapter": 8,
+        "title": "Rèn binh khí đầu tiên · hồi 8",
+        "type": "equip",
+        "target": "item",
+        "goal": 5,
+        "reward": {
+          "food": 1420,
+          "timber": 1046,
+          "gold": 864,
+          "jade": 0,
+          "xp": 1155
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-045",
+        "chapter": 8,
+        "title": "Mở đường qua dã địa · hồi 8",
+        "type": "win",
+        "target": "field",
+        "goal": 5,
+        "reward": {
+          "food": 1450,
+          "timber": 1068,
+          "gold": 882,
+          "jade": 1,
+          "xp": 1180
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-046",
+        "chapter": 8,
+        "title": "Kết minh cùng NPC · hồi 8",
+        "type": "guild",
+        "target": "guild",
+        "goal": 6,
+        "reward": {
+          "food": 1480,
+          "timber": 1090,
+          "gold": 900,
+          "jade": 0,
+          "xp": 1205
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-047",
+        "chapter": 8,
+        "title": "Phong Thần khởi sự · hồi 8",
+        "type": "tower",
+        "target": "tower",
+        "goal": 8,
+        "reward": {
+          "food": 1510,
+          "timber": 1112,
+          "gold": 918,
+          "jade": 0,
+          "xp": 1230
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-048",
+        "chapter": 8,
+        "title": "Thu phục danh thành · hồi 8",
+        "type": "capture",
+        "target": "city",
+        "goal": 6,
+        "reward": {
+          "food": 1540,
+          "timber": 1134,
+          "gold": 936,
+          "jade": 0,
+          "xp": 1255
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "quest-049",
+        "chapter": 8,
+        "title": "Phong Thần định cục",
+        "type": "boss",
+        "target": "node-120",
+        "goal": 1,
+        "reward": {
+          "food": 12000,
+          "timber": 10000,
+          "stone": 8000,
+          "iron": 6000,
+          "gold": 12000,
+          "jade": 24,
+          "xp": 10000
+        },
+        "evidence": "SIMULATED"
+      }
+    ],
+    "worldNodes": [
+      {
+        "id": "node-001",
+        "name": "Thanh Khâu Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 1,
+        "x": 9,
+        "y": 11,
+        "power": 80,
+        "loot": {
+          "food": 80,
+          "timber": 65,
+          "stone": 50,
+          "gold": 45,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-002",
+        "name": "Thanh Khâu Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 1,
+        "x": 46,
+        "y": 64,
+        "power": 114,
+        "loot": {
+          "food": 92,
+          "timber": 74,
+          "stone": 58,
+          "gold": 53,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-003",
+        "name": "Thanh Khâu Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 1,
+        "x": 83,
+        "y": 41,
+        "power": 148,
+        "loot": {
+          "food": 104,
+          "timber": 83,
+          "stone": 66,
+          "gold": 61,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-004",
+        "name": "Thanh Khâu Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 1,
+        "x": 38,
+        "y": 18,
+        "power": 182,
+        "loot": {
+          "food": 116,
+          "timber": 92,
+          "stone": 74,
+          "gold": 69,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-005",
+        "name": "Thanh Khâu Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 2,
+        "x": 75,
+        "y": 71,
+        "power": 216,
+        "loot": {
+          "food": 128,
+          "timber": 101,
+          "stone": 82,
+          "gold": 77,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-006",
+        "name": "Thanh Khâu Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 2,
+        "x": 30,
+        "y": 48,
+        "power": 250,
+        "loot": {
+          "food": 140,
+          "timber": 110,
+          "stone": 90,
+          "gold": 85,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-007",
+        "name": "Thanh Khâu Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 2,
+        "x": 67,
+        "y": 25,
+        "power": 284,
+        "loot": {
+          "food": 152,
+          "timber": 119,
+          "stone": 98,
+          "gold": 93,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-008",
+        "name": "Thanh Khâu Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 2,
+        "x": 22,
+        "y": 78,
+        "power": 318,
+        "loot": {
+          "food": 164,
+          "timber": 128,
+          "stone": 106,
+          "gold": 101,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-009",
+        "name": "Vân Mộng Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 3,
+        "x": 59,
+        "y": 55,
+        "power": 352,
+        "loot": {
+          "food": 176,
+          "timber": 137,
+          "stone": 114,
+          "gold": 109,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-010",
+        "name": "Vân Mộng Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 3,
+        "x": 14,
+        "y": 32,
+        "power": 386,
+        "loot": {
+          "food": 188,
+          "timber": 146,
+          "stone": 122,
+          "gold": 117,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-011",
+        "name": "Vân Mộng Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 3,
+        "x": 51,
+        "y": 85,
+        "power": 420,
+        "loot": {
+          "food": 200,
+          "timber": 155,
+          "stone": 130,
+          "gold": 125,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-012",
+        "name": "Vân Mộng Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 3,
+        "x": 88,
+        "y": 62,
+        "power": 454,
+        "loot": {
+          "food": 212,
+          "timber": 164,
+          "stone": 138,
+          "gold": 133,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-013",
+        "name": "Vân Mộng Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 4,
+        "x": 43,
+        "y": 39,
+        "power": 488,
+        "loot": {
+          "food": 224,
+          "timber": 173,
+          "stone": 146,
+          "gold": 141,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-014",
+        "name": "Vân Mộng Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 4,
+        "x": 80,
+        "y": 16,
+        "power": 522,
+        "loot": {
+          "food": 236,
+          "timber": 182,
+          "stone": 154,
+          "gold": 149,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-015",
+        "name": "Vân Mộng Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 1,
+        "level": 4,
+        "x": 35,
+        "y": 69,
+        "power": 556,
+        "loot": {
+          "food": 248,
+          "timber": 191,
+          "stone": 162,
+          "gold": 157,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-016",
+        "name": "Vân Mộng Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 4,
+        "x": 72,
+        "y": 46,
+        "power": 590,
+        "loot": {
+          "food": 260,
+          "timber": 200,
+          "stone": 170,
+          "gold": 165,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-017",
+        "name": "Cửu Lê Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 5,
+        "x": 27,
+        "y": 23,
+        "power": 624,
+        "loot": {
+          "food": 272,
+          "timber": 209,
+          "stone": 178,
+          "gold": 173,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-018",
+        "name": "Cửu Lê Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 5,
+        "x": 64,
+        "y": 76,
+        "power": 658,
+        "loot": {
+          "food": 284,
+          "timber": 218,
+          "stone": 186,
+          "gold": 181,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-019",
+        "name": "Cửu Lê Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 5,
+        "x": 19,
+        "y": 53,
+        "power": 692,
+        "loot": {
+          "food": 296,
+          "timber": 227,
+          "stone": 194,
+          "gold": 189,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-020",
+        "name": "Cửu Lê Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 5,
+        "x": 56,
+        "y": 30,
+        "power": 726,
+        "loot": {
+          "food": 308,
+          "timber": 236,
+          "stone": 202,
+          "gold": 197,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-021",
+        "name": "Cửu Lê Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 6,
+        "x": 11,
+        "y": 83,
+        "power": 760,
+        "loot": {
+          "food": 320,
+          "timber": 245,
+          "stone": 210,
+          "gold": 205,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-022",
+        "name": "Cửu Lê Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 6,
+        "x": 48,
+        "y": 60,
+        "power": 794,
+        "loot": {
+          "food": 332,
+          "timber": 254,
+          "stone": 218,
+          "gold": 213,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-023",
+        "name": "Cửu Lê Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 6,
+        "x": 85,
+        "y": 37,
+        "power": 828,
+        "loot": {
+          "food": 344,
+          "timber": 263,
+          "stone": 226,
+          "gold": 221,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-024",
+        "name": "Cửu Lê Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 6,
+        "x": 40,
+        "y": 14,
+        "power": 862,
+        "loot": {
+          "food": 356,
+          "timber": 272,
+          "stone": 234,
+          "gold": 229,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-025",
+        "name": "Lạc Thủy Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 7,
+        "x": 77,
+        "y": 67,
+        "power": 896,
+        "loot": {
+          "food": 368,
+          "timber": 281,
+          "stone": 242,
+          "gold": 237,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-026",
+        "name": "Lạc Thủy Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 7,
+        "x": 32,
+        "y": 44,
+        "power": 930,
+        "loot": {
+          "food": 380,
+          "timber": 290,
+          "stone": 250,
+          "gold": 245,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-027",
+        "name": "Lạc Thủy Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 7,
+        "x": 69,
+        "y": 21,
+        "power": 964,
+        "loot": {
+          "food": 392,
+          "timber": 299,
+          "stone": 258,
+          "gold": 253,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-028",
+        "name": "Lạc Thủy Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 7,
+        "x": 24,
+        "y": 74,
+        "power": 998,
+        "loot": {
+          "food": 404,
+          "timber": 308,
+          "stone": 266,
+          "gold": 261,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-029",
+        "name": "Lạc Thủy Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 8,
+        "x": 61,
+        "y": 51,
+        "power": 1032,
+        "loot": {
+          "food": 416,
+          "timber": 317,
+          "stone": 274,
+          "gold": 269,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-030",
+        "name": "Lạc Thủy Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 2,
+        "level": 8,
+        "x": 16,
+        "y": 28,
+        "power": 1066,
+        "loot": {
+          "food": 428,
+          "timber": 326,
+          "stone": 282,
+          "gold": 277,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-031",
+        "name": "Lạc Thủy Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 8,
+        "x": 53,
+        "y": 81,
+        "power": 1100,
+        "loot": {
+          "food": 440,
+          "timber": 335,
+          "stone": 290,
+          "gold": 285,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-032",
+        "name": "Lạc Thủy Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 8,
+        "x": 90,
+        "y": 58,
+        "power": 1134,
+        "loot": {
+          "food": 452,
+          "timber": 344,
+          "stone": 298,
+          "gold": 293,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-033",
+        "name": "Bắc Minh Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 9,
+        "x": 45,
+        "y": 35,
+        "power": 1168,
+        "loot": {
+          "food": 464,
+          "timber": 353,
+          "stone": 306,
+          "gold": 301,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-034",
+        "name": "Bắc Minh Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 9,
+        "x": 82,
+        "y": 12,
+        "power": 1202,
+        "loot": {
+          "food": 476,
+          "timber": 362,
+          "stone": 314,
+          "gold": 309,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-035",
+        "name": "Bắc Minh Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 9,
+        "x": 37,
+        "y": 65,
+        "power": 1236,
+        "loot": {
+          "food": 488,
+          "timber": 371,
+          "stone": 322,
+          "gold": 317,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-036",
+        "name": "Bắc Minh Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 9,
+        "x": 74,
+        "y": 42,
+        "power": 1270,
+        "loot": {
+          "food": 500,
+          "timber": 380,
+          "stone": 330,
+          "gold": 325,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-037",
+        "name": "Bắc Minh Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 10,
+        "x": 29,
+        "y": 19,
+        "power": 1304,
+        "loot": {
+          "food": 512,
+          "timber": 389,
+          "stone": 338,
+          "gold": 333,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-038",
+        "name": "Bắc Minh Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 10,
+        "x": 66,
+        "y": 72,
+        "power": 1338,
+        "loot": {
+          "food": 524,
+          "timber": 398,
+          "stone": 346,
+          "gold": 341,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-039",
+        "name": "Bắc Minh Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 10,
+        "x": 21,
+        "y": 49,
+        "power": 1372,
+        "loot": {
+          "food": 536,
+          "timber": 407,
+          "stone": 354,
+          "gold": 349,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-040",
+        "name": "Bắc Minh Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 10,
+        "x": 58,
+        "y": 26,
+        "power": 1406,
+        "loot": {
+          "food": 548,
+          "timber": 416,
+          "stone": 362,
+          "gold": 357,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-041",
+        "name": "Tây Kỳ Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 11,
+        "x": 13,
+        "y": 79,
+        "power": 1440,
+        "loot": {
+          "food": 560,
+          "timber": 425,
+          "stone": 370,
+          "gold": 365,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-042",
+        "name": "Tây Kỳ Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 11,
+        "x": 50,
+        "y": 56,
+        "power": 1474,
+        "loot": {
+          "food": 572,
+          "timber": 434,
+          "stone": 378,
+          "gold": 373,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-043",
+        "name": "Tây Kỳ Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 11,
+        "x": 87,
+        "y": 33,
+        "power": 1508,
+        "loot": {
+          "food": 584,
+          "timber": 443,
+          "stone": 386,
+          "gold": 381,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-044",
+        "name": "Tây Kỳ Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 11,
+        "x": 42,
+        "y": 86,
+        "power": 1542,
+        "loot": {
+          "food": 596,
+          "timber": 452,
+          "stone": 394,
+          "gold": 389,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-045",
+        "name": "Tây Kỳ Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 3,
+        "level": 12,
+        "x": 79,
+        "y": 63,
+        "power": 1576,
+        "loot": {
+          "food": 608,
+          "timber": 461,
+          "stone": 402,
+          "gold": 397,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-046",
+        "name": "Tây Kỳ Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 12,
+        "x": 34,
+        "y": 40,
+        "power": 1610,
+        "loot": {
+          "food": 620,
+          "timber": 470,
+          "stone": 410,
+          "gold": 405,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-047",
+        "name": "Tây Kỳ Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 12,
+        "x": 71,
+        "y": 17,
+        "power": 1644,
+        "loot": {
+          "food": 632,
+          "timber": 479,
+          "stone": 418,
+          "gold": 413,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-048",
+        "name": "Tây Kỳ Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 12,
+        "x": 26,
+        "y": 70,
+        "power": 1678,
+        "loot": {
+          "food": 644,
+          "timber": 488,
+          "stone": 426,
+          "gold": 421,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-049",
+        "name": "Phong Lăng Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 13,
+        "x": 63,
+        "y": 47,
+        "power": 1712,
+        "loot": {
+          "food": 656,
+          "timber": 497,
+          "stone": 434,
+          "gold": 429,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-050",
+        "name": "Phong Lăng Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 13,
+        "x": 18,
+        "y": 24,
+        "power": 1746,
+        "loot": {
+          "food": 668,
+          "timber": 506,
+          "stone": 442,
+          "gold": 437,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-051",
+        "name": "Phong Lăng Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 13,
+        "x": 55,
+        "y": 77,
+        "power": 1780,
+        "loot": {
+          "food": 680,
+          "timber": 515,
+          "stone": 450,
+          "gold": 445,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-052",
+        "name": "Phong Lăng Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 13,
+        "x": 10,
+        "y": 54,
+        "power": 1814,
+        "loot": {
+          "food": 692,
+          "timber": 524,
+          "stone": 458,
+          "gold": 453,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-053",
+        "name": "Phong Lăng Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 14,
+        "x": 47,
+        "y": 31,
+        "power": 1848,
+        "loot": {
+          "food": 704,
+          "timber": 533,
+          "stone": 466,
+          "gold": 461,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-054",
+        "name": "Phong Lăng Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 14,
+        "x": 84,
+        "y": 84,
+        "power": 1882,
+        "loot": {
+          "food": 716,
+          "timber": 542,
+          "stone": 474,
+          "gold": 469,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-055",
+        "name": "Phong Lăng Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 14,
+        "x": 39,
+        "y": 61,
+        "power": 1916,
+        "loot": {
+          "food": 728,
+          "timber": 551,
+          "stone": 482,
+          "gold": 477,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-056",
+        "name": "Phong Lăng Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 14,
+        "x": 76,
+        "y": 38,
+        "power": 1950,
+        "loot": {
+          "food": 740,
+          "timber": 560,
+          "stone": 490,
+          "gold": 485,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-057",
+        "name": "Quy Khư Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 15,
+        "x": 31,
+        "y": 15,
+        "power": 1984,
+        "loot": {
+          "food": 752,
+          "timber": 569,
+          "stone": 498,
+          "gold": 493,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-058",
+        "name": "Quy Khư Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 15,
+        "x": 68,
+        "y": 68,
+        "power": 2018,
+        "loot": {
+          "food": 764,
+          "timber": 578,
+          "stone": 506,
+          "gold": 501,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-059",
+        "name": "Quy Khư Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 15,
+        "x": 23,
+        "y": 45,
+        "power": 2052,
+        "loot": {
+          "food": 776,
+          "timber": 587,
+          "stone": 514,
+          "gold": 509,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-060",
+        "name": "Quy Khư Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 4,
+        "level": 15,
+        "x": 60,
+        "y": 22,
+        "power": 2086,
+        "loot": {
+          "food": 788,
+          "timber": 596,
+          "stone": 522,
+          "gold": 517,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-061",
+        "name": "Quy Khư Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 16,
+        "x": 15,
+        "y": 75,
+        "power": 2120,
+        "loot": {
+          "food": 800,
+          "timber": 605,
+          "stone": 530,
+          "gold": 525,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-062",
+        "name": "Quy Khư Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 16,
+        "x": 52,
+        "y": 52,
+        "power": 2154,
+        "loot": {
+          "food": 812,
+          "timber": 614,
+          "stone": 538,
+          "gold": 533,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-063",
+        "name": "Quy Khư Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 16,
+        "x": 89,
+        "y": 29,
+        "power": 2188,
+        "loot": {
+          "food": 824,
+          "timber": 623,
+          "stone": 546,
+          "gold": 541,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-064",
+        "name": "Quy Khư Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 16,
+        "x": 44,
+        "y": 82,
+        "power": 2222,
+        "loot": {
+          "food": 836,
+          "timber": 632,
+          "stone": 554,
+          "gold": 549,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-065",
+        "name": "Hoàng Hà Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 17,
+        "x": 81,
+        "y": 59,
+        "power": 2256,
+        "loot": {
+          "food": 848,
+          "timber": 641,
+          "stone": 562,
+          "gold": 557,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-066",
+        "name": "Hoàng Hà Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 17,
+        "x": 36,
+        "y": 36,
+        "power": 2290,
+        "loot": {
+          "food": 860,
+          "timber": 650,
+          "stone": 570,
+          "gold": 565,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-067",
+        "name": "Hoàng Hà Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 17,
+        "x": 73,
+        "y": 13,
+        "power": 2324,
+        "loot": {
+          "food": 872,
+          "timber": 659,
+          "stone": 578,
+          "gold": 573,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-068",
+        "name": "Hoàng Hà Cốc",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 17,
+        "x": 28,
+        "y": 66,
+        "power": 2358,
+        "loot": {
+          "food": 884,
+          "timber": 668,
+          "stone": 586,
+          "gold": 581,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-069",
+        "name": "Hoàng Hà Sơn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 18,
+        "x": 65,
+        "y": 43,
+        "power": 2392,
+        "loot": {
+          "food": 896,
+          "timber": 677,
+          "stone": 594,
+          "gold": 589,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-070",
+        "name": "Hoàng Hà Bến",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 18,
+        "x": 20,
+        "y": 20,
+        "power": 2426,
+        "loot": {
+          "food": 908,
+          "timber": 686,
+          "stone": 602,
+          "gold": 597,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-071",
+        "name": "Hoàng Hà Lĩnh",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 18,
+        "x": 57,
+        "y": 73,
+        "power": 2460,
+        "loot": {
+          "food": 920,
+          "timber": 695,
+          "stone": 610,
+          "gold": 605,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-072",
+        "name": "Hoàng Hà Thành",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 18,
+        "x": 12,
+        "y": 50,
+        "power": 2494,
+        "loot": {
+          "food": 932,
+          "timber": 704,
+          "stone": 618,
+          "gold": 613,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-073",
+        "name": "Thái Hư Quan",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 19,
+        "x": 49,
+        "y": 27,
+        "power": 2528,
+        "loot": {
+          "food": 944,
+          "timber": 713,
+          "stone": 626,
+          "gold": 621,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-074",
+        "name": "Thái Hư Trấn",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 19,
+        "x": 86,
+        "y": 80,
+        "power": 2562,
+        "loot": {
+          "food": 956,
+          "timber": 722,
+          "stone": 634,
+          "gold": 629,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-075",
+        "name": "Thái Hư Đài",
+        "kind": "Danh thành",
+        "isBoss": false,
+        "chapter": 5,
+        "level": 19,
+        "x": 41,
+        "y": 57,
+        "power": 2596,
+        "loot": {
+          "food": 968,
+          "timber": 731,
+          "stone": 642,
+          "gold": 637,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-076",
+        "name": "Thái Hư Cốc",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 19,
+        "x": 78,
+        "y": 34,
+        "power": 2630,
+        "loot": {
+          "food": 980,
+          "timber": 740,
+          "stone": 650,
+          "gold": 645,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-077",
+        "name": "Thái Hư Sơn",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 20,
+        "x": 33,
+        "y": 11,
+        "power": 2664,
+        "loot": {
+          "food": 992,
+          "timber": 749,
+          "stone": 658,
+          "gold": 653,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-078",
+        "name": "Thái Hư Bến",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 20,
+        "x": 70,
+        "y": 64,
+        "power": 2698,
+        "loot": {
+          "food": 1004,
+          "timber": 758,
+          "stone": 666,
+          "gold": 661,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-079",
+        "name": "Thái Hư Lĩnh",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 20,
+        "x": 25,
+        "y": 41,
+        "power": 2732,
+        "loot": {
+          "food": 1016,
+          "timber": 767,
+          "stone": 674,
+          "gold": 669,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-080",
+        "name": "Thái Hư Thành",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 20,
+        "x": 62,
+        "y": 18,
+        "power": 2766,
+        "loot": {
+          "food": 1028,
+          "timber": 776,
+          "stone": 682,
+          "gold": 677,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-081",
+        "name": "Tử Tiêu Quan",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 21,
+        "x": 17,
+        "y": 71,
+        "power": 2800,
+        "loot": {
+          "food": 1040,
+          "timber": 785,
+          "stone": 690,
+          "gold": 685,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-082",
+        "name": "Tử Tiêu Trấn",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 21,
+        "x": 54,
+        "y": 48,
+        "power": 2834,
+        "loot": {
+          "food": 1052,
+          "timber": 794,
+          "stone": 698,
+          "gold": 693,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-083",
+        "name": "Tử Tiêu Đài",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 21,
+        "x": 9,
+        "y": 25,
+        "power": 2868,
+        "loot": {
+          "food": 1064,
+          "timber": 803,
+          "stone": 706,
+          "gold": 701,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-084",
+        "name": "Tử Tiêu Cốc",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 21,
+        "x": 46,
+        "y": 78,
+        "power": 2902,
+        "loot": {
+          "food": 1076,
+          "timber": 812,
+          "stone": 714,
+          "gold": 709,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-085",
+        "name": "Tử Tiêu Sơn",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 22,
+        "x": 83,
+        "y": 55,
+        "power": 2936,
+        "loot": {
+          "food": 1088,
+          "timber": 821,
+          "stone": 722,
+          "gold": 717,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-086",
+        "name": "Tử Tiêu Bến",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 22,
+        "x": 38,
+        "y": 32,
+        "power": 2970,
+        "loot": {
+          "food": 1100,
+          "timber": 830,
+          "stone": 730,
+          "gold": 725,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-087",
+        "name": "Tử Tiêu Lĩnh",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 22,
+        "x": 75,
+        "y": 85,
+        "power": 3004,
+        "loot": {
+          "food": 1112,
+          "timber": 839,
+          "stone": 738,
+          "gold": 733,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-088",
+        "name": "Tử Tiêu Thành",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 22,
+        "x": 30,
+        "y": 62,
+        "power": 3038,
+        "loot": {
+          "food": 1124,
+          "timber": 848,
+          "stone": 746,
+          "gold": 741,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-089",
+        "name": "Huyền Cơ Quan",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 23,
+        "x": 67,
+        "y": 39,
+        "power": 3072,
+        "loot": {
+          "food": 1136,
+          "timber": 857,
+          "stone": 754,
+          "gold": 749,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-090",
+        "name": "Huyền Cơ Trấn",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 6,
+        "level": 23,
+        "x": 22,
+        "y": 16,
+        "power": 3106,
+        "loot": {
+          "food": 1148,
+          "timber": 866,
+          "stone": 762,
+          "gold": 757,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-091",
+        "name": "Huyền Cơ Đài",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 23,
+        "x": 59,
+        "y": 69,
+        "power": 3140,
+        "loot": {
+          "food": 1160,
+          "timber": 875,
+          "stone": 770,
+          "gold": 765,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-092",
+        "name": "Huyền Cơ Cốc",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 23,
+        "x": 14,
+        "y": 46,
+        "power": 3174,
+        "loot": {
+          "food": 1172,
+          "timber": 884,
+          "stone": 778,
+          "gold": 773,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-093",
+        "name": "Huyền Cơ Sơn",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 24,
+        "x": 51,
+        "y": 23,
+        "power": 3208,
+        "loot": {
+          "food": 1184,
+          "timber": 893,
+          "stone": 786,
+          "gold": 781,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-094",
+        "name": "Huyền Cơ Bến",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 24,
+        "x": 88,
+        "y": 76,
+        "power": 3242,
+        "loot": {
+          "food": 1196,
+          "timber": 902,
+          "stone": 794,
+          "gold": 789,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-095",
+        "name": "Huyền Cơ Lĩnh",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 24,
+        "x": 43,
+        "y": 53,
+        "power": 3276,
+        "loot": {
+          "food": 1208,
+          "timber": 911,
+          "stone": 802,
+          "gold": 797,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-096",
+        "name": "Huyền Cơ Thành",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 24,
+        "x": 80,
+        "y": 30,
+        "power": 3310,
+        "loot": {
+          "food": 1220,
+          "timber": 920,
+          "stone": 810,
+          "gold": 805,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-097",
+        "name": "Bạch Lộc Quan",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 25,
+        "x": 35,
+        "y": 83,
+        "power": 3344,
+        "loot": {
+          "food": 1232,
+          "timber": 929,
+          "stone": 818,
+          "gold": 813,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-098",
+        "name": "Bạch Lộc Trấn",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 25,
+        "x": 72,
+        "y": 60,
+        "power": 3378,
+        "loot": {
+          "food": 1244,
+          "timber": 938,
+          "stone": 826,
+          "gold": 821,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-099",
+        "name": "Bạch Lộc Đài",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 25,
+        "x": 27,
+        "y": 37,
+        "power": 3412,
+        "loot": {
+          "food": 1256,
+          "timber": 947,
+          "stone": 834,
+          "gold": 829,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-100",
+        "name": "Bạch Lộc Cốc",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 25,
+        "x": 64,
+        "y": 14,
+        "power": 3446,
+        "loot": {
+          "food": 1268,
+          "timber": 956,
+          "stone": 842,
+          "gold": 837,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-101",
+        "name": "Bạch Lộc Sơn",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 26,
+        "x": 19,
+        "y": 67,
+        "power": 3480,
+        "loot": {
+          "food": 1280,
+          "timber": 965,
+          "stone": 850,
+          "gold": 845,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-102",
+        "name": "Bạch Lộc Bến",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 26,
+        "x": 56,
+        "y": 44,
+        "power": 3514,
+        "loot": {
+          "food": 1292,
+          "timber": 974,
+          "stone": 858,
+          "gold": 853,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-103",
+        "name": "Bạch Lộc Lĩnh",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 26,
+        "x": 11,
+        "y": 21,
+        "power": 3548,
+        "loot": {
+          "food": 1304,
+          "timber": 983,
+          "stone": 866,
+          "gold": 861,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-104",
+        "name": "Bạch Lộc Thành",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 26,
+        "x": 48,
+        "y": 74,
+        "power": 3582,
+        "loot": {
+          "food": 1316,
+          "timber": 992,
+          "stone": 874,
+          "gold": 869,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-105",
+        "name": "Thương Sơn Quan",
+        "kind": "Dã địa",
+        "isBoss": false,
+        "chapter": 7,
+        "level": 27,
+        "x": 85,
+        "y": 51,
+        "power": 3616,
+        "loot": {
+          "food": 1328,
+          "timber": 1001,
+          "stone": 882,
+          "gold": 877,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-106",
+        "name": "Thương Sơn Trấn",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 27,
+        "x": 40,
+        "y": 28,
+        "power": 3650,
+        "loot": {
+          "food": 1340,
+          "timber": 1010,
+          "stone": 890,
+          "gold": 885,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-107",
+        "name": "Thương Sơn Đài",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 27,
+        "x": 77,
+        "y": 81,
+        "power": 3684,
+        "loot": {
+          "food": 1352,
+          "timber": 1019,
+          "stone": 898,
+          "gold": 893,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-108",
+        "name": "Thương Sơn Cốc",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 27,
+        "x": 32,
+        "y": 58,
+        "power": 3718,
+        "loot": {
+          "food": 1364,
+          "timber": 1028,
+          "stone": 906,
+          "gold": 901,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-109",
+        "name": "Thương Sơn Sơn",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 28,
+        "x": 69,
+        "y": 35,
+        "power": 3752,
+        "loot": {
+          "food": 1376,
+          "timber": 1037,
+          "stone": 914,
+          "gold": 909,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-110",
+        "name": "Thương Sơn Bến",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 28,
+        "x": 24,
+        "y": 12,
+        "power": 3786,
+        "loot": {
+          "food": 1388,
+          "timber": 1046,
+          "stone": 922,
+          "gold": 917,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-111",
+        "name": "Thương Sơn Lĩnh",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 28,
+        "x": 61,
+        "y": 65,
+        "power": 3820,
+        "loot": {
+          "food": 1400,
+          "timber": 1055,
+          "stone": 930,
+          "gold": 925,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-112",
+        "name": "Thương Sơn Thành",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 28,
+        "x": 16,
+        "y": 42,
+        "power": 3854,
+        "loot": {
+          "food": 1412,
+          "timber": 1064,
+          "stone": 938,
+          "gold": 933,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-113",
+        "name": "Côn Ngô Quan",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 29,
+        "x": 53,
+        "y": 19,
+        "power": 3888,
+        "loot": {
+          "food": 1424,
+          "timber": 1073,
+          "stone": 946,
+          "gold": 941,
+          "jade": 1
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-114",
+        "name": "Côn Ngô Trấn",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 29,
+        "x": 90,
+        "y": 72,
+        "power": 3922,
+        "loot": {
+          "food": 1436,
+          "timber": 1082,
+          "stone": 954,
+          "gold": 949,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-115",
+        "name": "Côn Ngô Đài",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 29,
+        "x": 45,
+        "y": 49,
+        "power": 3956,
+        "loot": {
+          "food": 1448,
+          "timber": 1091,
+          "stone": 962,
+          "gold": 957,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-116",
+        "name": "Côn Ngô Cốc",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 29,
+        "x": 82,
+        "y": 26,
+        "power": 3990,
+        "loot": {
+          "food": 1460,
+          "timber": 1100,
+          "stone": 970,
+          "gold": 965,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-117",
+        "name": "Côn Ngô Sơn",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 30,
+        "x": 37,
+        "y": 79,
+        "power": 4024,
+        "loot": {
+          "food": 1472,
+          "timber": 1109,
+          "stone": 978,
+          "gold": 973,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-118",
+        "name": "Côn Ngô Bến",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 30,
+        "x": 74,
+        "y": 56,
+        "power": 4058,
+        "loot": {
+          "food": 1484,
+          "timber": 1118,
+          "stone": 986,
+          "gold": 981,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-119",
+        "name": "Côn Ngô Lĩnh",
+        "kind": "Tiên sơn",
+        "isBoss": false,
+        "chapter": 8,
+        "level": 30,
+        "x": 29,
+        "y": 33,
+        "power": 4092,
+        "loot": {
+          "food": 1496,
+          "timber": 1127,
+          "stone": 994,
+          "gold": 989,
+          "jade": 0
+        },
+        "evidence": "SIMULATED"
+      },
+      {
+        "id": "node-120",
+        "name": "Triều Ca · Trụ Vương",
+        "kind": "Boss chiến dịch",
+        "isBoss": true,
+        "chapter": 8,
+        "level": 30,
+        "x": 66,
+        "y": 86,
+        "power": 8400,
+        "loot": {
+          "food": 3200,
+          "timber": 2400,
+          "stone": 2000,
+          "gold": 3600,
+          "jade": 8
+        },
+        "evidence": "SIMULATED"
+      }
+    ]
+  },
+  "proceduralSystems": {
+    "fengshenTower": {
+      "evidence": "SIMULATED",
+      "floorCount": 8992,
+      "generatedAtRuntime": true,
+      "runtime": "src/engine.js"
+    },
+    "buzhouMountain": {
+      "evidence": "SIMULATED",
+      "challengeCount": 5,
+      "generatedAtRuntime": true,
+      "runtime": "src/engine.js",
+      "legacyReferenceNpcCount": 90
+    },
+    "economy": {
+      "evidence": "SIMULATED",
+      "runtime": "src/engine.js",
+      "note": "Sản xuất theo giờ, thuế/dân cư, kho, hàng đợi và giới hạn tiến trình offline."
+    },
+    "combat": {
+      "evidence": "SIMULATED",
+      "runtime": "src/engine.js",
+      "note": "Tương khắc vai trò, đội hình nhiều binh chủng, lực chiến, thương vong, hồi phục và chiến lợi phẩm."
+    }
+  },
+  "unavailableSourceTables": [
+    {
+      "name": "mobileVersionDelta",
+      "reason": "Client và snapshot Mobile chưa truy cập được."
+    },
+    {
+      "name": "legacyHeroes",
+      "targetRecords": 540,
+      "reason": "Không có snapshot được phép sử dụng; chỉ catalog mô phỏng hiện có được xuất."
+    },
+    {
+      "name": "legacyItems",
+      "targetRecords": 2155,
+      "reason": "Database legacy chưa tải hoặc giải mã."
+    },
+    {
+      "name": "legacyQuests",
+      "targetRecords": 1158,
+      "reason": "Database legacy chưa tải hoặc giải mã."
+    },
+    {
+      "name": "immortalMountains",
+      "targetRecords": 624,
+      "reason": "Bảng nguồn chưa truy cập được; bản đồ runtime là mô phỏng độc lập."
+    }
+  ]
+}

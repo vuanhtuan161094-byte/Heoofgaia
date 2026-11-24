@@ -1,0 +1,17 @@
+{
+  "id": "./",
+  "name": "Đắc Kỷ · Mưu Định Phong Thần",
+  "short_name": "Đắc Kỷ",
+  "description": "Game chiến thuật thần thoại offline-first: xây thành, tu tiên và chinh phục thiên hạ.",
+  "lang": "vi",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "landscape",
+  "background_color": "#191c29",
+  "theme_color": "#24283a",
+  "categories": ["games", "strategy"],
+  "icons": [
+    { "src": "./assets/crest.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}

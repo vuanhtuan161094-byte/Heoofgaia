@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#24283a">
+  <meta name="description" content="Game chiến thuật thần thoại 2D offline-first, xây thành, luyện binh, tu tiên và chinh phục Phong Thần Tháp.">
+  <link rel="icon" href="./assets/crest.svg" type="image/svg+xml">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Đắc Kỷ · Mưu Định Phong Thần</title>
+</head>
+<body>
+  <div class="app-frame">
+    <header class="topbar">
+      <a class="brand" href="#city" aria-label="Về thành trì">
+        <img src="./assets/crest.svg" alt="" class="brand-mark">
+        <span class="brand-copy"><strong>ĐẮC KỶ</strong><small>MƯU ĐỊNH PHONG THẦN</small></span>
+      </a>
+      <div class="realm-name"><span class="realm-seal">周</span><span><b id="realm-title">Triều Ca</b><small>Thiên hạ · Mùa 1</small></span></div>
+      <div class="resource-strip" id="resource-strip" aria-live="polite"></div>
+      <button class="icon-button settings-shortcut" data-view="settings" aria-label="Cài đặt" title="Cài đặt">設</button>
+    </header>
+    <div class="status-row">
+      <span class="status-indicator"><i></i><span id="save-status">Đang lưu cục bộ</span></span>
+      <span id="offline-status">Chế độ offline · thế giới đơn</span>
+      <span class="fame-status">Danh vọng <b id="fame-value">0</b></span>
+    </div>
+    <div class="game-layout">
+      <aside class="side-rail" aria-label="Điều hướng chính">
+        <div class="rail-label">THIÊN HẠ</div>
+        <nav id="primary-nav"></nav>
+        <div class="rail-footer"><span class="evidence-dot"></span> Nội dung mô phỏng offline</div>
+      </aside>
+      <main class="main-stage">
+        <div class="page-heading" id="page-heading"></div>
+        <section id="scene" class="scene" aria-live="polite"></section>
+      </main>
+    </div>
+    <nav class="mobile-nav" id="mobile-nav" aria-label="Điều hướng màn hình"></nav>
+    <div class="toast-stack" id="toast-stack" aria-live="assertive"></div>
+    <div class="modal-root" id="modal-root"></div>
+    <footer class="app-footer"><span>Đắc Kỷ · Mưu Định Phong Thần</span><span>V1.0 · Offline · Dữ liệu mô phỏng minh bạch</span></footer>
+  </div>
+  <script type="module" src="./src/main.js"></script>
+</body>
+</html>

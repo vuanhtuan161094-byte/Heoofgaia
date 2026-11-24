@@ -1,0 +1,138 @@
+{
+  "schemaVersion": 1,
+  "updated": "2026-11-24",
+  "gameplayVersion": "dacky-mobile-sim-v1",
+  "evidenceStatus": {
+    "verifiedMobileRecords": 0,
+    "verifiedLegacyRecordsImported": 0,
+    "simulatedRuntimeRecords": 284,
+    "sourceAccess": "BLOCKED_HTTP_PROXY_403",
+    "note": "Counts below describe runtime-generated content, not exports or parity claims for Mobile/legacy."
+  },
+  "references": {
+    "publicMobile": [
+      {
+        "url": "https://dackytruvuong.com/",
+        "attempt": "2026-11-24",
+        "result": "HTTP proxy tunnel 403; no page content obtained"
+      },
+      {
+        "url": "https://dackytruvuong.com/phong-than-cac/",
+        "attempt": "2026-11-24",
+        "result": "HTTP proxy tunnel 403; no page content obtained"
+      }
+    ],
+    "legacySourcePin": "13d969fc88c141553535c70943aaa98cf9f86616",
+    "legacySourceDownloaded": false,
+    "privateA1SnapshotPresent": false
+  },
+  "runtimeCatalogs": [
+    {
+      "domain": "buildings",
+      "records": 21,
+      "levelsGenerated": 30,
+      "status": "SIMULATED",
+      "runtime": "src/catalog.js + src/engine.js"
+    },
+    {
+      "domain": "technologies",
+      "records": 19,
+      "levelsGenerated": 570,
+      "status": "SIMULATED",
+      "runtime": "src/catalog.js + src/engine.js"
+    },
+    {
+      "domain": "troops",
+      "records": 39,
+      "status": "SIMULATED",
+      "runtime": "src/catalog.js + src/engine.js"
+    },
+    {
+      "domain": "heroes",
+      "records": 18,
+      "status": "SIMULATED",
+      "legacyReferenceCount": 540,
+      "runtime": "src/catalog.js + src/engine.js"
+    },
+    {
+      "domain": "items",
+      "records": 18,
+      "status": "SIMULATED",
+      "runtime": "src/catalog.js + src/engine.js"
+    },
+    {
+      "domain": "quests",
+      "records": 49,
+      "status": "SIMULATED",
+      "legacyReferenceCount": 1158,
+      "runtime": "src/catalog.js + src/engine.js"
+    },
+    {
+      "domain": "worldNodes",
+      "records": 120,
+      "breakdown": {
+        "famousCityLike": 75,
+        "fieldLike": 30,
+        "immortalMountainLike": 14,
+        "campaignBoss": 1
+      },
+      "status": "SIMULATED",
+      "runtime": "src/catalog.js + src/engine.js",
+      "campaignBoss": {
+        "name": "Triều Ca · Trụ Vương",
+        "unlock": "20 trận thắng và 7 danh thành",
+        "ending": "Cờ kết cục và thưởng một lần, endgame tiếp tục",
+        "status": "SIMULATED"
+      }
+    },
+    {
+      "domain": "fengshenTower",
+      "records": "procedural floors 1-8992",
+      "status": "SIMULATED",
+      "legacyReferenceFloorCount": 8992,
+      "runtime": "src/engine.js"
+    },
+    {
+      "domain": "buzhouMountain",
+      "records": 5,
+      "status": "SIMULATED",
+      "legacyReferenceFixedNpcCount": 90,
+      "runtime": "src/engine.js",
+      "campaignBoss": {
+        "nodeId": "node-120",
+        "name": "Triều Ca · Trụ Vương",
+        "unlock": "20 trận thắng và 7 danh thành",
+        "ending": "Cờ kết cục và thưởng một lần, endgame tiếp tục",
+        "status": "SIMULATED"
+      }
+    }
+  ],
+  "notImported": [
+    {
+      "domain": "heroSourceRoster",
+      "targetCount": 540,
+      "reason": "No source records or licensed normalized snapshot available; 18 independent simulations only."
+    },
+    {
+      "domain": "legacyItems147",
+      "targetCount": 2155,
+      "reason": "Static database not downloaded or parsed."
+    },
+    {
+      "domain": "quests147",
+      "targetCount": 1158,
+      "reason": "Static database not downloaded or parsed."
+    },
+    {
+      "domain": "elflands",
+      "targetCount": 624,
+      "reason": "Large table unavailable; runtime nodes are independent simulations."
+    },
+    {
+      "domain": "mobileVersionDelta",
+      "reason": "Mobile data access blocked; no unsupported parity assumptions made."
+    }
+  ],
+  "normalizedJsonExport": "data/dacky-game-data.simulated.v1.json",
+  "normalizationStatus": "SIMULATED_RUNTIME_CATALOGS_EXPORTED; source parity unverified"
+}

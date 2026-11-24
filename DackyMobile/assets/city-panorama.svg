@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 520" role="img" aria-label="Toàn cảnh thành Triều Ca trong ánh bình minh">
+ <defs>
+  <linearGradient id="sky" x2="0" y2="1"><stop stop-color="#292c4a"/><stop offset=".43" stop-color="#87645b"/><stop offset=".78" stop-color="#d89b64"/><stop offset="1" stop-color="#e3ba78"/></linearGradient>
+  <linearGradient id="wall" x2="0" y2="1"><stop stop-color="#b16f47"/><stop offset=".4" stop-color="#704534"/><stop offset="1" stop-color="#382c32"/></linearGradient>
+  <linearGradient id="roof" x2="0" y2="1"><stop stop-color="#dfb35f"/><stop offset=".45" stop-color="#8c4330"/><stop offset="1" stop-color="#4e2c30"/></linearGradient>
+  <linearGradient id="glow" x2="0" y2="1"><stop stop-color="#ffe8a5"/><stop offset="1" stop-color="#d98549"/></linearGradient>
+  <pattern id="brick" width="48" height="22" patternUnits="userSpaceOnUse"><path d="M0 1h48M0 21h48M24 1v10M0 11v10M48 11v10" fill="none" stroke="#e1a36a" stroke-opacity=".23" stroke-width="2"/></pattern>
+  <pattern id="tile" width="22" height="16" patternUnits="userSpaceOnUse"><path d="M0 16 11 2l11 14M11 2v14" fill="none" stroke="#f0c77b" stroke-opacity=".3" stroke-width="1.4"/></pattern>
+  <filter id="blur"><feGaussianBlur stdDeviation="14"/></filter>
+ </defs>
+ <path fill="url(#sky)" d="M0 0h1440v520H0z"/>
+ <circle cx="1110" cy="137" r="59" fill="#f7d893" opacity=".55" filter="url(#blur)"/><circle cx="1110" cy="137" r="33" fill="#f6cc82" opacity=".82"/>
+ <path d="m0 317 114-119 87 83 116-143 149 184 129-131 111 99 139-171 114 150 116-104 128 92 119-108 117 120v151H0z" fill="#383b4d" opacity=".76"/>
+ <path d="m0 354 124-89 112 72 116-129 112 130 128-79 120 87 111-102 108 94 142-121 128 123 139-83v161H0z" fill="#4a4149" opacity=".8"/>
+ <path d="M0 354q150-40 282 3t287 0 289 7 292-6 290 4v158H0z" fill="#302d37"/>
+ <!-- palace roofs in the distance -->
+ <g opacity=".92" stroke="#dfb96c" stroke-width="3">
+  <path d="M194 350h190v80H194z" fill="#8a563d"/><path d="m176 351 29-33 23 20 29-41 36 37 32-38 31 40 27 15z" fill="url(#roof)"/><path d="m206 339 52 1 38-40 43 40 32-1" fill="none"/>
+  <path d="M1054 329h213v105h-213z" fill="#8b533b"/><path d="m1031 331 33-41 26 25 29-47 35 44 29-34 32 43 35-31 42 41z" fill="url(#roof)"/><path d="m1067 315 51-1 42-44 48 45 51-8" fill="none"/>
+ </g>
+ <!-- outer wall -->
+ <path d="M0 388q167-31 304-3l171-22q176-21 339 8l169-31q219-18 457 25v155H0z" fill="url(#wall)" stroke="#d3a166" stroke-width="5"/>
+ <path d="M0 388q167-31 304-3l171-22q176-21 339 8l169-31q219-18 457 25v155H0z" fill="url(#brick)"/>
+ <path d="M0 388q167-31 304-3l171-22q176-21 339 8l169-31q219-18 457 25" fill="none" stroke="#f0c27b" stroke-opacity=".65" stroke-width="8"/>
+ <!-- central gatehouse -->
+ <g stroke="#efc679" stroke-width="4">
+  <path d="M591 363h257v157H591z" fill="#493638"/><path d="M624 351h190v170H624z" fill="url(#wall)"/>
+  <path d="M607 352 624 326l19 15 24-34 29 29 27-50 34 48 24-23 24 30 26-29 27 42z" fill="url(#roof)"/>
+  <path d="M625 351h190v15H625z" fill="url(#tile)" stroke="none"/><path d="M648 521v-83q0-55 70-55t70 55v83" fill="#211f2b"/>
+  <path d="M666 420v101M770 420v101" stroke="#c58a4e" stroke-width="5"/>
+  <path d="M702 386v-25h34v25" fill="#e3bb72"/><path d="M709 377h20" stroke="#684331"/>
+ </g>
+ <path d="M0 448h550M887 449h553" stroke="#efc27b" stroke-width="5" opacity=".7"/>
+ <!-- banners -->
+ <g stroke="#ddb76a" stroke-width="4">
+  <path d="M544 354v113"/><path d="M538 360h-55l5 67 24 18 24-18z" fill="#6e302d"/><path d="m489 366 43 2" stroke="#e6c476"/>
+  <path d="M899 348v115"/><path d="M904 352h58l-5 69-24 18-24-18z" fill="#285457"/><path d="m909 362 43-1" stroke="#e6c476"/>
+ </g>
+ <!-- foreground pines -->
+ <g fill="#202f35" stroke="#a1784d" stroke-width="4"><path d="m79 453 56-111 55 111h-37l27 48H89l27-48z"/><path d="m1266 450 44-104 47 104h-31l22 50h-75l22-50z"/><path d="m430 468 30-68 34 68h-20l16 34h-55l16-34z"/></g>
+ <path d="M0 502q205-20 422 0t431-3 587 4v17H0z" fill="#1f252c" opacity=".78"/>
+ <g fill="#f3ca83" opacity=".55"><circle cx="247" cy="399" r="3"/><circle cx="279" cy="410" r="2"/><circle cx="1014" cy="393" r="3"/><circle cx="1184" cy="412" r="2"/><circle cx="546" cy="427" r="3"/><circle cx="904" cy="421" r="2"/></g>
+</svg>

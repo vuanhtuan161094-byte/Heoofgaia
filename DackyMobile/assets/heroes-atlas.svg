@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 768 640" role="img" aria-label="Sáu chân dung thần tiên vẽ theo phong cách thủy mặc">
+ <defs>
+  <linearGradient id="frame" x2="0" y2="1"><stop stop-color="#f0d294"/><stop offset=".5" stop-color="#81513a"/><stop offset="1" stop-color="#d1a25d"/></linearGradient>
+  <linearGradient id="skin" x2=".2" y2="1"><stop stop-color="#f0d1a3"/><stop offset="1" stop-color="#bc805c"/></linearGradient>
+  <linearGradient id="robe1" x2="0" y2="1"><stop stop-color="#304c65"/><stop offset="1" stop-color="#172b3c"/></linearGradient>
+  <linearGradient id="robe2" x2="0" y2="1"><stop stop-color="#a54232"/><stop offset="1" stop-color="#512834"/></linearGradient>
+  <linearGradient id="robe3" x2="0" y2="1"><stop stop-color="#657a58"/><stop offset="1" stop-color="#293d39"/></linearGradient>
+  <linearGradient id="robe4" x2="0" y2="1"><stop stop-color="#8d7147"/><stop offset="1" stop-color="#4d3b32"/></linearGradient>
+  <linearGradient id="robe5" x2="0" y2="1"><stop stop-color="#65527d"/><stop offset="1" stop-color="#302b46"/></linearGradient>
+  <linearGradient id="robe6" x2="0" y2="1"><stop stop-color="#4c7682"/><stop offset="1" stop-color="#253c4a"/></linearGradient>
+  <filter id="shade"><feGaussianBlur stdDeviation="8"/></filter>
+  <g id="portrait">
+   <path d="M10 301q20-55 57-76l13-40q-23-31-17-79 6-71 62-77 61-7 76 58 13 57-19 103l16 40q52 25 66 71v19H10z" fill="url(#robe1)" stroke="#e0bd79" stroke-width="5"/>
+   <path d="M102 224q28 26 55 0l11 43-38 48-41-46z" fill="#ead3a5" stroke="#b88b5b" stroke-width="3"/>
+   <path d="M91 123q10-35 46-35 40 0 47 39l-8 48q-11 39-40 42-31-3-43-40z" fill="url(#skin)" stroke="#4b3334" stroke-width="5"/>
+   <path d="M88 137q-26-75 35-95 52-18 76 34l-7 49-24-40q-36 22-80 17z" fill="#232432" stroke="#d6ad61" stroke-width="5"/>
+   <path d="M101 154q15-9 27 0m24 0q13-9 24 0" fill="none" stroke="#382a31" stroke-width="5" stroke-linecap="round"/>
+   <path d="M119 181q16 12 31 0" fill="none" stroke="#8a413a" stroke-width="4" stroke-linecap="round"/>
+   <path d="M104 146v8m49-8v8" stroke="#d8b677" stroke-width="3"/>
+   <path d="M70 267q64 19 127 0M77 282q59 16 112 0" fill="none" stroke="#e1c580" stroke-opacity=".72" stroke-width="3"/>
+   <path d="M125 269 144 292l17-23" fill="none" stroke="#edd292" stroke-width="4"/>
+   <circle cx="142" cy="226" r="8" fill="#e2bc70" stroke="#704531" stroke-width="3"/>
+  </g>
+ </defs>
+ <g transform="translate(0 0)"><rect x="8" y="8" width="240" height="304" rx="112" fill="#252938"/><g transform="translate(8 7)"><use href="#portrait"/></g><path d="M105 38q37-30 74 0l-9 30h-56z" fill="#dfbc70" stroke="#f4d994" stroke-width="4"/><path d="M117 44h50M138 22v33" stroke="#734736" stroke-width="4"/></g>
+ <g transform="translate(256 0)"><rect x="8" y="8" width="240" height="304" rx="112" fill="#2d2733"/><g transform="translate(8 7)"><use href="#portrait"/></g><path d="M99 52q43-49 90 1l-8 27h-74z" fill="#a84635" stroke="#ebc77f" stroke-width="4"/><path d="m112 64 27-32 29 32" fill="none" stroke="#f3d58b" stroke-width="6"/><path d="M138 12v51" stroke="#e2b95c" stroke-width="7"/><circle cx="138" cy="11" r="9" fill="#e1c178"/></g>
+ <g transform="translate(512 0)"><rect x="8" y="8" width="240" height="304" rx="112" fill="#26313b"/><g transform="translate(8 7)"><use href="#portrait"/></g><path d="m75 75 20-66h91l19 66-31 12-14-33-17 27-18-27-17 34z" fill="#6c654c" stroke="#e3c981" stroke-width="4"/><path d="m132 20 13 27 17-27" fill="none" stroke="#f2d78d" stroke-width="4"/></g>
+ <g transform="translate(0 320)"><rect x="8" y="8" width="240" height="304" rx="112" fill="#302c2e"/><g transform="translate(8 7)"><use href="#portrait"/></g><path d="M87 63q48-63 100 0l-5 24h-91z" fill="#62523d" stroke="#e7bf70" stroke-width="5"/><path d="M103 62h68m-50-11h32" stroke="#e7c77e" stroke-width="5"/><path d="m111 77 27 31 28-31" fill="#d6a653" stroke="#774738" stroke-width="4"/></g>
+ <g transform="translate(256 320)"><rect x="8" y="8" width="240" height="304" rx="112" fill="#302a40"/><g transform="translate(8 7)"><use href="#portrait"/></g><path d="M81 63q56-51 111 0l4 26h-118z" fill="#59496d" stroke="#e8c27b" stroke-width="4"/><path d="M87 62q-30-34-20-62m116 63q36-33 27-64" fill="none" stroke="#d9bd79" stroke-width="8"/><circle cx="138" cy="25" r="9" fill="#f0d489"/></g>
+ <g transform="translate(512 320)"><rect x="8" y="8" width="240" height="304" rx="112" fill="#23333a"/><g transform="translate(8 7)"><use href="#portrait"/></g><path d="M85 60q53-39 106 0v24H85z" fill="#42626b" stroke="#e7c27b" stroke-width="4"/><path d="M103 68q36-24 72 0m-37-36v41" fill="none" stroke="#e4cc87" stroke-width="5"/><path d="m131 36 8-17 8 17" fill="#e5c77b"/></g>
+</svg>

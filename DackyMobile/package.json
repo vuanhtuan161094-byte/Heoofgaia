@@ -1,0 +1,13 @@
+{
+  "name": "dacky-mobile-offline-game",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Offline-first Vietnamese strategy game; source and assets authored for this project.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "serve": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.js",
+    "data:export": "node scripts/export-database.mjs"
+  }
+}
