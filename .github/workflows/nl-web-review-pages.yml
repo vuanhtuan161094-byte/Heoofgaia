@@ -31,6 +31,8 @@ jobs:
           set -euo pipefail
           python qa/nl_wiki_runtime_gap.py --out qa/wiki-runtime-gap.json
           python tools/validate_ngoalong_data.py
+          python qa/nl_content_c_projection_test.py
+          node --check tools/nl_content_c_runtime.js
           python tools/build_ngoa_long_mode.py
           python tools/build_ngoa_long_r03.py
           python tools/build_ngoa_long_r04.py
@@ -79,6 +81,9 @@ jobs:
           python qa/nl_item_integration.py
           node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs
           python qa/nl_classic_phase_a3_browser.py
+
+      - name: Content C focused native P2 smoke
+        run: python qa/nl_content_c_browser.py
 
       - name: A5-A9 focused live runtime smoke
         run: python qa/nl_classic_advanced_a5_a9_browser.py
