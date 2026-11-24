@@ -43,7 +43,7 @@ export function createNewGame(name = 'Triều Ca', now = Date.now()) {
     army: { [troop.id]: 18 },
     wounded: {},
     queues: { construction: null, training: null, research: null, march: null },
-    world: { storyStage: 0, towerFloor: 0, buzhouFloor: 0, captures: [], scouted: [], treaties: [], guildLevel: 0, marketDay: 1, campaignComplete: false, mountainWins: [] },
+    world: { storyStage: 0, towerFloor: 0, buzhouFloor: 0, captures: [], scouted: [], treaties: [], guildLevel: 0, marketDay: 1, campaignComplete: false, mountainWins: [], chapterProgress:Object.fromEntries(Array.from({length:8},(_,i)=>[String(i+1),{wins:0,fieldWins:0,citiesCaptured:0}])) },
     stats: { upgrades: 0, troopsTrained: 0, heroesRecruited: 0, itemsEquipped: 0, itemPurchases: 0, battles: 0, victories: 0, citiesCaptured: 0, bossesDefeated: 0, duels: 0, tradeCount: 0 },
     claims: [],
     reports: [],
@@ -131,6 +131,12 @@ export function migrateSave(input, now = Date.now()) {
   s.world.mountainWins=Array.isArray(s.world.mountainWins)?[...new Set(s.world.mountainWins.filter(id=>mountainIds.has(id)))]:[];
   const validNodeIds=new Set(WORLD_NODES.map(n=>n.id));
   for(const key of ['captures','scouted','treaties'])s.world[key]=Array.isArray(s.world[key])?s.world[key].filter(id=>validNodeIds.has(id)): [];
+  const oldChapterProgress=s.world.chapterProgress&&typeof s.world.chapterProgress==='object'?s.world.chapterProgress:{};
+  s.world.chapterProgress=Object.fromEntries(Array.from({length:8},(_,i)=>{
+    const chapter=String(i+1),row=oldChapterProgress[chapter]&&typeof oldChapterProgress[chapter]==='object'?oldChapterProgress[chapter]:{};
+    const captured=s.world.captures.filter(id=>WORLD_NODES.find(node=>node.id===id)?.chapter===i+1).length;
+    return [chapter,{wins:clamp(Number(row.wins)||0,0,99_999),fieldWins:clamp(Number(row.fieldWins)||0,0,99_999),citiesCaptured:clamp(Number(row.citiesCaptured)||captured,0,99_999)}];
+  }));
   s.world.marketDay=Math.max(1,Number(s.world.marketDay)||1);
   s.world.guildLevel=clamp(Number(s.world.guildLevel)||0,0,5);
   const rawCities=Array.isArray(s.cities)?s.cities:[];
@@ -227,6 +233,7 @@ export function armyPower(state, counts = state.army) {
 
 export function questProgress(state, quest) {
   switch (quest.type) {
+    case 'chapterField': return Number(state.world.chapterProgress?.[String(quest.chapter)]?.fieldWins)||0;
     case 'upgrade': return state.levels[quest.target] || 0;
     case 'train': return state.stats.troopsTrained;
     case 'recruit': return state.stats.heroesRecruited;
@@ -244,7 +251,9 @@ export function questProgress(state, quest) {
 }
 
 export function activeQuest(state) {
-  return QUESTS.find(q => !state.claims.includes(q.id)) || null;
+  const chapter=unlockedChapter(state);
+  return QUESTS.find(q=>q.mainStory&&!state.claims.includes(q.id)&&q.chapter<=chapter)
+    || QUESTS.find(q=>!state.claims.includes(q.id)&&q.chapter<=chapter)||null;
 }
 
 export function unlockedChapter(state) {
@@ -433,11 +442,14 @@ function settleMarch(state, q, now) {
   state.stats.battles++;
   if (battle.victory) {
     state.stats.victories++;
+    const chapterProgress=state.world.chapterProgress[String(node.chapter)]||(state.world.chapterProgress[String(node.chapter)]={wins:0,fieldWins:0,citiesCaptured:0});
+    chapterProgress.wins++;
     state.fame += 10 + node.chapter * 3;
     credit(state, node.loot);
     if (node.kind === 'Danh thành' && !state.world.captures.includes(node.id)) {
       state.world.captures.push(node.id);
       state.stats.citiesCaptured++;
+      chapterProgress.citiesCaptured++;
       state.world.treaties=state.world.treaties.filter(id=>id!==node.id);
       if(!state.cities.some(city=>city.nodeId===node.id)){
         const city={id:node.id,nodeId:node.id,name:node.name,level:1,population:70+node.chapter*8,isCapital:false};
@@ -445,7 +457,10 @@ function settleMarch(state, q, now) {
         state.population=Math.min(250_000,state.population+city.population);
       }
     }
-    if (node.kind !== 'Danh thành') state.world.storyStage = Math.max(state.world.storyStage, node.chapter * 3);
+    if (node.kind !== 'Danh thành') {
+      chapterProgress.fieldWins++;
+      state.world.storyStage = Math.max(state.world.storyStage, node.chapter * 3);
+    }
   }
   const rewardRng = seededRandom(q.seed ^ 0x9e3779b9);
   let itemDrop = null;
@@ -783,6 +798,7 @@ export function doAction(state, action, now = Date.now()) {
     case 'claimQuest': {
       const q = QUESTS.find(x => x.id === action.questId);
       if (!q || s.claims.includes(q.id) || questProgress(s, q) < q.goal) throw new Error('Nhiệm vụ chưa hoàn thành.');
+      if(q.chapter>unlockedChapter(s))throw new Error(`Cần mở chương ${q.chapter} trước khi nhận thưởng nhiệm vụ.`);
       s.claims.push(q.id);
       credit(s, q.reward);
       s.fame += 4 + q.chapter;

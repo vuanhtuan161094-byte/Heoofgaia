@@ -162,6 +162,13 @@
       "scouting": "Reveals commander, tactic and troop counts; saved per node",
       "battleReport": "Records enemy formation, commander, tactic and casualties",
       "status": "SIMULATED"
+    },
+    "mainCampaignQuestLine": {
+      "regionalObjectives": 8,
+      "finalObjective": "Defeat Trụ Vương after chapter 8 access",
+      "progress": "Per-chapter wins, field victories and city captures",
+      "unopenedChapters": "Quest rewards are locked until world chapter access",
+      "status": "SIMULATED"
     }
   },
   "notImported": [

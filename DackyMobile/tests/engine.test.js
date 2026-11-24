@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
+import { activeQuest, advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
 import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, TECHNOLOGIES, TROOPS, WORLD_NODES } from '../src/catalog.js';
 
 test('new save has a bounded, offline-first settlement', () => {
@@ -330,6 +330,27 @@ test('NPC world nodes expose distinct formations and scouting persists battle in
   assert.equal(battle.enemyFormation.length,3);
   assert.ok(Object.keys(battle.enemyCasualties).length>0);
   assert.ok(battle.rounds.every(round=>round.enemyMorale>=0&&round.enemyMorale<=100));
+});
+
+test('main campaign has eight regional objectives and locks claims behind chapter progress', () => {
+  const mainQuests=QUESTS.filter(q=>q.mainStory);
+  assert.equal(mainQuests.length,9);
+  assert.deepEqual(mainQuests.map(q=>q.chapter),[1,2,3,4,5,6,7,8,8]);
+  const now=1_800_000_000_000;
+  let locked=createNewGame('Triều Ca',now);
+  const chapterTwo=mainQuests.find(q=>q.chapter===2);
+  locked.world.chapterProgress['2'].fieldWins=1;
+  assert.throws(()=>doAction(locked,{type:'claimQuest',questId:chapterTwo.id},now+1),/Cần mở chương 2/);
+  let state=createNewGame('Triều Ca',now);
+  const chapterOne=mainQuests.find(q=>q.chapter===1);
+  assert.equal(activeQuest(state).id,chapterOne.id);
+  state.army['troop-01']=100_000;
+  state=doAction(state,{type:'march',nodeId:'node-011',troopId:'troop-01',count:50_000},now+2);
+  state=advance(state,state.queues.march.finishAt+1).state;
+  assert.equal(questProgress(state,chapterOne),1);
+  assert.equal(unlockedChapter(state),2);
+  state=doAction(state,{type:'claimQuest',questId:chapterOne.id},state.lastTickAt+1);
+  assert.equal(activeQuest(state).id,chapterTwo.id);
 });
 
 

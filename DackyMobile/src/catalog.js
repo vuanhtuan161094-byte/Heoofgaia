@@ -167,11 +167,13 @@ const questTitles = [
 ];
 const questTemplates=[...questTitles,['Khám phá Tiên Sơn','mountain','mountains',1]];
 const generatedQuestLimits={upgrade:30,train:5000,recruit:60,equip:500,win:5000,guild:5,tower:8992,capture:75,buzhou:5,power:500_000,mountain:624};
+const chapterMissionNames=['Tây Kỳ khởi nghĩa','Thanh Khâu huyết chiến','Vân Mộng trừ yêu','Cửu Lê bình loạn','Lạc Thủy hội quân','Bắc Minh hàn kiếp','Phong Lăng đoạt thành','Quy Khư quyết chiến'];
 const campaignQuests=Array.from({length:48},(_,i)=>{
-  const [title,type,target,base]=questTemplates[i%questTemplates.length];
   const chapter=Math.floor(i/6)+1;
-  return {id:`quest-${String(i+1).padStart(3,'0')}`,chapter,title:i<questTitles.length?title:`${title} · hồi ${chapter}`,
-    type,target,goal:Math.min(generatedQuestLimits[type],base+Math.floor(i/9)),
+  const mainStory=i%6===0;
+  const [title,type,target,base]=mainStory?['Mở cửa ải chính tuyến','chapterField','chapter',1]:questTemplates[(i-1+questTemplates.length)%questTemplates.length];
+  return {id:`quest-${String(i+1).padStart(3,'0')}`,chapter,title:mainStory?`${chapterMissionNames[chapter-1]} · mở đường`:i<questTitles.length?title:`${title} · hồi ${chapter}`,
+    type,target,mainStory,goal:Math.min(generatedQuestLimits[type]||1,base+Math.floor(i/9)),
     reward:{food:130+i*30,timber:100+i*22,gold:90+i*18,jade:i%4===0?1:0,xp:80+i*25},evidence:'SIMULATED'};
 });
 const longTailQuests=Array.from({length:1109},(_,i)=>{
@@ -182,9 +184,10 @@ const longTailQuests=Array.from({length:1109},(_,i)=>{
     type,target,goal,reward:{food:260+Math.min(i,700)*12,timber:200+Math.min(i,700)*9,gold:180+Math.min(i,700)*8,jade:i%5===0?1:0,xp:150+i*4},evidence:'SIMULATED'};
 });
 const campaignEndingQuest={id:'quest-049',chapter:8,title:'Phong Thần định cục',type:'boss',target:'node-120',goal:1,
-  reward:{food:12000,timber:10000,stone:8000,iron:6000,gold:12000,jade:24,xp:10000},evidence:'SIMULATED'};
+  mainStory:true,reward:{food:12000,timber:10000,stone:8000,iron:6000,gold:12000,jade:24,xp:10000},evidence:'SIMULATED'};
 export const QUESTS = Object.freeze([...campaignQuests,...longTailQuests,campaignEndingQuest].sort((a,b)=>{
   if(a.type==='boss')return 1;if(b.type==='boss')return -1;
+  if(Boolean(a.mainStory)!==Boolean(b.mainStory))return a.mainStory?-1:1;
   return a.chapter-b.chapter||Number(a.id.slice(6))-Number(b.id.slice(6));
 }));
 
