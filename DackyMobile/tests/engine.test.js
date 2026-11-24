@@ -166,6 +166,25 @@ test('specialized research improves troops, heroes, healing, scouting and combat
   assert.ok(trade(10)>trade(0));
 });
 
+test('troop lanes and matchup counters change the army battle profile', () => {
+  assert.ok(TROOPS.every(t=>['front','rear','siege'].includes(t.lane)&&t.range>=1&&t.range<=6));
+  assert.equal(TROOPS.find(t=>t.role==='xạ thủ').lane,'rear');
+  assert.equal(TROOPS.find(t=>t.role==='công thành').lane,'siege');
+  const now=1_800_000_000_000;
+  const matchup=t=>{
+    let state=createNewGame('Triều Ca',now);
+    state.army={[t]:20_000};
+    state=doAction(state,{type:'march',nodeId:'node-011',troopId:t,count:10_000},now+1);
+    return advance(state,state.queues.march.finishAt+1).state.reports[0].matchup;
+  };
+  const cavalry=matchup('troop-10');
+  const siege=matchup('troop-15');
+  assert.equal(cavalry.ownCounterAdvantage,100);
+  assert.equal(cavalry.enemyCounterAdvantage,0);
+  assert.equal(siege.ownCounterAdvantage,0);
+  assert.ok(siege.enemyCounterAdvantage>0);
+});
+
 test('construction and training are queued and settle once', () => {
   const base=1_800_000_000_000;
   let state=createNewGame('Triều Ca',base);
@@ -316,6 +335,14 @@ test('NPC world nodes expose distinct formations and scouting persists battle in
   assert.ok(WORLD_NODES.every(node=>node.enemy?.commander&&node.enemy?.tactic?.id&&node.enemy?.formation?.length>=3));
   assert.ok(new Set(WORLD_NODES.map(node=>node.enemy.tactic.id)).size>=4);
   assert.ok(WORLD_NODES.every(node=>node.enemy.formation.every(row=>TROOPS.some(t=>t.id===row.unitId)&&row.count>0)));
+  for(const node of WORLD_NODES){
+    const preferredTier=Math.ceil(node.chapter*7/8);
+    for(const row of node.enemy.formation){
+      const troop=TROOPS.find(unit=>unit.id===row.unitId);
+      const lowestRoleTier=Math.min(...TROOPS.filter(unit=>unit.role===troop.role).map(unit=>unit.tier));
+      assert.ok(troop.tier<=preferredTier||troop.tier===lowestRoleTier,`${node.id} should not field an unnecessarily high tier`);
+    }
+  }
   const now=1_800_000_000_000;
   let state=createNewGame('Triều Ca',now);
   state=doAction(state,{type:'scout',nodeId:'node-011'},now+1);

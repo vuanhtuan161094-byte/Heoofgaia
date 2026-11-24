@@ -67,14 +67,18 @@ const troopNames = [
   ['Bắc Đẩu trận binh','đạo binh','斗'], ['Thất Tinh kiếm vệ','đạo binh','星'], ['Cửu U âm tốt','đạo binh','幽'],
   ['Thiên Cương hộ quân','đạo binh','剛'], ['Địa Sát phục binh','trinh sát','伏'], ['Phong Thần cấm vệ','đạo binh','神']
 ];
+const counterByRole=Object.freeze({'bộ binh':'kỵ binh','kỵ binh':'xạ thủ','xạ thủ':'bộ binh','công thành':'bộ binh','trinh sát':'công thành','đạo binh':'trinh sát'});
+const laneByRole=Object.freeze({'bộ binh':'front','kỵ binh':'front','xạ thủ':'rear','công thành':'siege','trinh sát':'rear','đạo binh':'front'});
+const rangeByRole=Object.freeze({'bộ binh':1,'kỵ binh':2,'xạ thủ':5,'công thành':6,'trinh sát':4,'đạo binh':3});
 export const TROOPS = Object.freeze(troopNames.map(([name,role,glyph], i) => {
   const tier = Math.floor(i / 6) + 1;
   const scale = 1 + tier * 0.42;
-  const counter = role === 'kỵ binh' ? 'xạ thủ' : role === 'xạ thủ' ? 'bộ binh' : role === 'bộ binh' ? 'kỵ binh' : 'trinh sát';
+  const counter=counterByRole[role];
   return {
     id: `troop-${String(i + 1).padStart(2,'0')}`, name, role, glyph, tier,
     attack: Math.round((7 + i % 5 * 2) * scale), defense: Math.round((6 + (i + 2) % 5 * 2) * scale),
     speed: Math.round((5 + (i * 3) % 7) * scale), morale: 70 + i % 4 * 5, counter,
+    lane:laneByRole[role],range:rangeByRole[role],
     cost: { food: 18 * tier, timber: role === 'công thành' ? 20 * tier : 4 * tier, iron: 9 * tier, gold: 8 * tier },
     trainSeconds: 5 + tier * 2, unlockCity: Math.min(30, tier * 2), evidence: 'SIMULATED'
   };
@@ -210,7 +214,11 @@ function generatedNpcForce(index,chapter,kind,power){
   const weights=kind==='Boss chiến dịch'?[0.31,0.23,0.18,0.18,0.1]:kind==='Danh thành'?[0.43,0.34,0.23]:[0.42,0.34,0.24];
   const formation=roles.map((role,slot)=>{
     let choices=TROOPS.filter(unit=>unit.role===role&&unit.tier<=targetTier);
-    if(!choices.length)choices=TROOPS.filter(unit=>unit.role===role);
+    if(!choices.length){
+      choices=TROOPS.filter(unit=>unit.role===role);
+      const lowestTier=Math.min(...choices.map(unit=>unit.tier));
+      choices=choices.filter(unit=>unit.tier===lowestTier);
+    }
     const highestTier=Math.max(...choices.map(unit=>unit.tier));
     choices=choices.filter(unit=>unit.tier===highestTier);
     const unit=choices[(index+slot*5+chapter)%choices.length];

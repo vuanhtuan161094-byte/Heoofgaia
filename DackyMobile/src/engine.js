@@ -380,34 +380,40 @@ function resolveArmyCombat(state, node, troops, seed) {
   const total = troopRows.reduce((n, row) => n + row.count, 0);
   const roles = troopRows.map(row => row.unit.role);
   const enemyRoles=enemyRows.map(row=>row.unit.role);
-  const countered = troopRows.filter(row => roles.includes(row.unit.counter)).length;
-  const enemyCountered=enemyRows.filter(row=>enemyRoles.includes(row.unit.counter)).length;
+  const enemyTotal=enemyRows.reduce((n,row)=>n+row.count,0);
+  const ownCounterRatio=troopRows.reduce((n,row)=>n+(enemyRoles.includes(row.unit.counter)?row.count:0),0)/Math.max(1,total);
+  const enemyCounterRatio=enemyRows.reduce((n,row)=>n+(roles.includes(row.unit.counter)?row.count:0),0)/Math.max(1,enemyTotal);
+  const ownSynergyRatio=troopRows.reduce((n,row)=>n+(roles.includes(row.unit.counter)?row.count:0),0)/Math.max(1,total);
+  const enemySynergyRatio=enemyRows.reduce((n,row)=>n+(enemyRoles.includes(row.unit.counter)?row.count:0),0)/Math.max(1,enemyTotal);
+  const laneCount=rows=>Object.fromEntries(['front','rear','siege'].map(lane=>[lane,rows.reduce((n,row)=>n+(row.unit.lane===lane?row.count:0),0)]));
+  const ownLanes=laneCount(troopRows),enemyLanes=laneCount(enemyRows);
+  const ownBalanced=ownLanes.front>0&&(ownLanes.rear+ownLanes.siege)>0;
+  const enemyBalanced=enemyLanes.front>0&&(enemyLanes.rear+enemyLanes.siege)>0;
   const formationTech=state.technologies['tech-15']||0;
-  const formationBonus=1+Math.min(0.42,formationTech*0.003+countered*(0.025+formationTech*0.003));
+  const formationBonus=1+Math.min(0.42,formationTech*0.003+ownSynergyRatio*0.14+ownCounterRatio*0.14+(ownBalanced?0.05:0));
   const heroBonus = heroList.reduce((n, h) => n + heroPower(h, state), 0) * 0.55;
   const ownPower = Math.max(1, armyPower(state, troops) * formationBonus + heroBonus);
   const treatyBonus=state.world.treaties.includes(node.id)?0.88:1;
-  const enemyPower = Math.max(80, node.power * (1 + Math.max(0, node.chapter - 1) * 0.035) * treatyBonus);
-  const initiative = troopRows.reduce((n, row) => n + row.unit.speed * row.count, 0) / Math.max(1, total);
-  const enemyTotal=enemyRows.reduce((n,row)=>n+row.count,0);
-  const enemyInitiative=enemyRows.reduce((n,row)=>n+row.unit.speed*row.count,0)/Math.max(1,enemyTotal);
+  const enemyPower = Math.max(80, node.power * (1 + Math.max(0, node.chapter - 1) * 0.035) * treatyBonus * (1+enemyCounterRatio*0.14+enemySynergyRatio*0.06+(enemyBalanced?0.04:0)));
+  const initiative = troopRows.reduce((n, row) => n + (row.unit.speed+row.unit.range*0.3) * row.count, 0) / Math.max(1, total);
+  const enemyInitiative=enemyRows.reduce((n,row)=>n+(row.unit.speed+row.unit.range*0.3)*row.count,0)/Math.max(1,enemyTotal);
   const tactics={
     ambush:{opening:0.2}, fortress:{health:1.18,defense:0.06}, charge:{opening:0.18},
     arcane:{attack:0.09}, mandate:{health:1.14,attack:0.08,defense:0.04}
   };
   const tactic=tactics[node.enemy?.tactic?.id]||{};
-  const enemyHealthBase=enemyPower*(1+Math.min(0.16,enemyCountered*0.025))*(tactic.health||1);
+  const enemyHealthBase=enemyPower*(tactic.health||1)*(enemyBalanced?1.04:1);
   const rounds = [];
   let ownHealth = ownPower * (1 + state.morale / 500 + heroProfile.bonuses.formation);
   let enemyHealth = enemyHealthBase;
   let round = 0;
   while (ownHealth > 0 && enemyHealth > 0 && round < 6) {
     round++;
-    const enemyDefense=Math.min(0.24,enemyCountered*0.025+(tactic.defense||0));
-    const ownDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (round === 1 && initiative > 10 ? 1.13 : 1));
+    const enemyDefense=Math.min(0.26,enemyCounterRatio*0.08+(tactic.defense||0));
+    const ownDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+ownCounterRatio*0.2+(ownBalanced?0.06:0)+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (round === 1 && initiative > 10 ? 1.13 : 1));
     const researchDefense=Math.min(0.12,(state.technologies['tech-11']||0)*0.004);
     const npcOpening=round===1&&enemyInitiative>initiative?(tactic.opening||0.1):0;
-    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+(tactic.attack||0)+npcOpening) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * (round === 1 && initiative < 6 ? 1.12 : 1));
+    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+enemyCounterRatio*0.2+enemySynergyRatio*0.04+(tactic.attack||0)+npcOpening) * (enemyBalanced?1.04:1) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * (round === 1 && initiative < 6 ? 1.12 : 1));
     enemyHealth -= ownDamage;
     ownHealth -= enemyDamage;
     rounds.push({ round, ownDamage: Math.round(ownDamage), enemyDamage: Math.round(enemyDamage), ownMorale: Math.max(0, Math.round(ownHealth / ownPower * 100)), enemyMorale:Math.max(0,Math.round(enemyHealth/enemyHealthBase*100)) });
@@ -426,6 +432,7 @@ function resolveArmyCombat(state, node, troops, seed) {
   return { victory, ownPower: Math.round(ownPower), enemyPower: Math.round(enemyPower), rounds, dead, wounded, total,
     enemyCommander:node.enemy?.commander||'Đội quân NPC',enemyTactic:node.enemy?.tactic?.name||'Đội hình dã chiến',
     enemyFormation:enemyRows.map(row=>({unitId:row.unit.id,count:row.count})),enemyCasualties,
+    matchup:{ownCounterAdvantage:Math.round(ownCounterRatio*100),enemyCounterAdvantage:Math.round(enemyCounterRatio*100),ownBalanced,enemyBalanced},
     heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id), heroSkills:heroProfile.names, skillBonuses:heroProfile.bonuses };
 }
 

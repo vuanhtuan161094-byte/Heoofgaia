@@ -169,6 +169,13 @@
       "progress": "Per-chapter wins, field victories and city captures",
       "unopenedChapters": "Quest rewards are locked until world chapter access",
       "status": "SIMULATED"
+    },
+    "troopFormationCombat": {
+      "records": 39,
+      "lanes": ["front", "rear", "siege"],
+      "combatTags": ["role counter", "range and initiative", "front/rear balance", "formation research"],
+      "battleReport": "Own and NPC matchup advantage percentages",
+      "status": "SIMULATED"
     }
   },
   "notImported": [
