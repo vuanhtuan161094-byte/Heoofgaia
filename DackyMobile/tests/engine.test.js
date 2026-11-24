@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { advance, createNewGame, doAction, migrateSave, productionPerHour, questProgress, storageCapacity } from '../src/engine.js';
-import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, WORLD_NODES } from '../src/catalog.js';
+import { advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity } from '../src/engine.js';
+import { HEROES, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, TECHNOLOGIES, TROOPS, WORLD_NODES } from '../src/catalog.js';
 
 test('new save has a bounded, offline-first settlement', () => {
   const now = 1_800_000_000_000;
@@ -29,6 +29,113 @@ test('tax policy balances gold income, morale and population growth', () => {
   assert.ok(reliefRest.morale>state.morale);
   assert.ok(reliefRest.population>state.population);
   assert.throws(()=>doAction(state,{type:'setTaxPolicy',policy:'free-money'},now+1),/chính sách thuế/);
+});
+
+test('completed academy research changes the linked economy', () => {
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  state.levels.academy=1;
+  const goldBefore=productionPerHour(state).gold;
+  state=doAction(state,{type:'research',techId:'tech-05'},now+1);
+  const finish=state.queues.research.finishAt;
+  state=advance(state,finish+1).state;
+  assert.equal(state.technologies['tech-05'],1);
+  assert.ok(productionPerHour(state).gold>goldBefore);
+  assert.equal(state.queues.research,null);
+  assert.equal(TECHNOLOGIES.length,19);
+  for(const [techId,resource] of [['tech-01','food'],['tech-02','timber'],['tech-03','stone'],['tech-04','iron'],['tech-07','food']]){
+    const isolated=createNewGame('Triều Ca',now);
+    const before=productionPerHour(isolated)[resource];
+    isolated.technologies[techId]=1;
+    assert.ok(productionPerHour(isolated)[resource]>before,`${techId} must improve ${resource}`);
+  }
+});
+
+test('specialized research improves troops, heroes, healing, scouting and combat', () => {
+  const now=1_800_000_000_000;
+  const base=createNewGame('Triều Ca',now);
+  const cavalry=TROOPS.find(t=>t.role==='kỵ binh').id;
+  const archers=TROOPS.find(t=>t.role==='xạ thủ').id;
+  const cavalryState=structuredClone(base);
+  cavalryState.army={[cavalry]:100};
+  const cavalryPower=armyPower(cavalryState);
+  cavalryState.technologies['tech-12']=10;
+  assert.ok(armyPower(cavalryState)>cavalryPower);
+  const archerState=structuredClone(base);
+  archerState.army={[archers]:100};
+  const archerPower=armyPower(archerState);
+  archerState.technologies['tech-13']=10;
+  assert.ok(armyPower(archerState)>archerPower);
+  const generalArmy=structuredClone(cavalryState);
+  generalArmy.technologies['tech-12']=0;const noGeneral=armyPower(generalArmy);
+  generalArmy.technologies['tech-10']=10;
+  assert.ok(armyPower(generalArmy)>noGeneral);
+  const heroBaseline=heroPower(base.heroes[0],base);
+  const heroResearch=structuredClone(base);
+  heroResearch.technologies['tech-17']=10;
+  assert.ok(heroPower(base.heroes[0],heroResearch)>heroBaseline);
+
+  const makeBattle=(techId,level=0)=>{
+    let state=structuredClone(base);
+    state.army={'troop-01':1000,'troop-10':100};
+    if(techId)state.technologies[techId]=level;
+    state=doAction(state,{type:'march',nodeId:'node-001',troops:{'troop-01':500,'troop-10':100}},now+1);
+    return advance(state,state.queues.march.finishAt+1).state.reports[0];
+  };
+  const unresearched=makeBattle(null);
+  assert.ok(makeBattle('tech-11',10).rounds[0].enemyDamage<unresearched.rounds[0].enemyDamage);
+  assert.ok(makeBattle('tech-15',10).ownPower>unresearched.ownPower);
+
+  const heal=(level)=>{
+    const state=structuredClone(base);
+    state.resources.food=5000;state.resources.gold=5000;
+    state.wounded={'troop-01':100};state.technologies['tech-14']=level;
+    const before=state.resources.food;
+    const result=doAction(state,{type:'heal'},now+1);
+    return before-result.resources.food;
+  };
+  assert.ok(heal(10)<heal(0));
+  const scout=(level)=>{
+    const state=structuredClone(base);
+    state.technologies['tech-18']=level;
+    const before=state.resources.gold;
+    const result=doAction(state,{type:'scout',nodeId:'node-001'},now+1);
+    return before-result.resources.gold;
+  };
+  assert.ok(scout(10)<scout(0));
+
+  const trained=(level)=>{
+    const state=structuredClone(base);
+    state.technologies['tech-09']=level;
+    return doAction(state,{type:'train',troopId:'troop-01',count:1},now+1).queues.training.finishAt;
+  };
+  assert.ok(trained(10)<trained(0));
+
+  const population=(level)=>{
+    const state=structuredClone(base);state.technologies['tech-06']=level;
+    return advance(state,now+60*60*1000).state.population;
+  };
+  assert.ok(population(10)>population(0));
+  const construction=(level)=>{
+    const state=structuredClone(base);state.technologies['tech-08']=level;
+    return doAction(state,{type:'upgrade',buildingId:'lumber'},now+1).queues.construction.finishAt;
+  };
+  assert.ok(construction(10)<construction(0));
+  const researchSpeed=(level)=>{
+    const state=structuredClone(base);state.levels.academy=1;state.technologies['tech-08']=level;
+    return doAction(state,{type:'research',techId:'tech-05'},now+1).queues.research.finishAt;
+  };
+  assert.ok(researchSpeed(10)<researchSpeed(0));
+  const march=(level)=>{
+    const state=structuredClone(base);state.army={'troop-01':1000};state.technologies['tech-16']=level;
+    return doAction(state,{type:'march',nodeId:'node-001',troopId:'troop-01',count:500},now+1).queues.march.finishAt;
+  };
+  assert.ok(march(10)<march(0));
+  const trade=(level)=>{
+    const state=structuredClone(base);state.technologies['tech-19']=level;
+    return doAction(state,{type:'trade',from:'food',to:'gold',amount:1000},now+1).resources.gold;
+  };
+  assert.ok(trade(10)>trade(0));
 });
 
 test('construction and training are queued and settle once', () => {

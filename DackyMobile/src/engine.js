@@ -157,7 +157,7 @@ export function productionPerHour(state) {
     timber: (10 + lv.grove * 38 + lv.lumber * 12 + satelliteCount*18) * bonus('timber'),
     stone: (8 + lv.mine * 34 + lv.quarry * 10 + satelliteCount*14) * bonus('stone'),
     iron: (5 + lv.foundryfield * 28 + lv.foundry * 9 + satelliteCount*12) * bonus('iron'),
-    gold: (10 + lv.market * 25 + satelliteCount*8 + Math.floor(state.population * (0.035 + lv.citadel * 0.002)) + (tech['tech-05'] || 0) * 2) * TAX_POLICIES[state.taxPolicy||'balanced'].income,
+    gold: (10 + lv.market * 25 + satelliteCount*8 + Math.floor(state.population * (0.035 + lv.citadel * 0.002))) * bonus('gold') * TAX_POLICIES[state.taxPolicy||'balanced'].income,
     jade: 0.12 + lv.altar * 0.12 + lv.manor * 0.025
   };
 }
@@ -172,7 +172,8 @@ export function heroPower(hero, state) {
   const def = HEROES.find(h => h.id === hero.id);
   if (!def) return 0;
   const gear = Object.values(hero.equipment || {}).filter(Boolean).reduce((sum, id) => sum + (ITEMS.find(item => item.id === id)?.bonus || 0), 0);
-  return Math.round((def.attack + def.defense + def.wisdom * 0.72 + gear) * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035));
+  const research=1+(state.technologies?.['tech-17']||0)*0.012;
+  return Math.round((def.attack + def.defense + def.wisdom * 0.72 + gear) * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * research);
 }
 
 function awardHeroXp(hero, amount) {
@@ -206,7 +207,10 @@ export function armyPower(state, counts = state.army) {
   let total = 0;
   for (const [id, amount] of Object.entries(counts)) {
     const t = TROOPS.find(x => x.id === id);
-    if (t) total += amount * (t.attack + t.defense * 0.85 + t.morale * 0.08) * (1 + (state.technologies['tech-10'] || 0) * 0.012);
+    if (t) {
+      const specialization=t.role==='kỵ binh'?(state.technologies['tech-12']||0):t.role==='xạ thủ'?(state.technologies['tech-13']||0):0;
+      total += amount * (t.attack + t.defense * 0.85 + t.morale * 0.08) * (1 + (state.technologies['tech-10'] || 0) * 0.012) * (1+specialization*0.012);
+    }
   }
   return Math.round(total + state.heroes.filter(h => h.assigned).reduce((sum, h) => sum + heroPower(h, state), 0) * 0.45);
 }
@@ -328,7 +332,8 @@ function resolveArmyCombat(state, node, troops, seed) {
   const total = troopRows.reduce((n, row) => n + row.count, 0);
   const roles = troopRows.map(row => row.unit.role);
   const countered = troopRows.filter(row => roles.includes(row.unit.counter)).length;
-  const formationBonus = countered ? 1 + Math.min(0.2, countered * 0.025) : 1;
+  const formationTech=state.technologies['tech-15']||0;
+  const formationBonus=1+Math.min(0.42,formationTech*0.003+countered*(0.025+formationTech*0.003));
   const heroBonus = heroList.reduce((n, h) => n + heroPower(h, state), 0) * 0.55;
   const ownPower = Math.max(1, armyPower(state, troops) * formationBonus + heroBonus);
   const treatyBonus=state.world.treaties.includes(node.id)?0.88:1;
@@ -341,7 +346,8 @@ function resolveArmyCombat(state, node, troops, seed) {
   while (ownHealth > 0 && enemyHealth > 0 && round < 6) {
     round++;
     const ownDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (round === 1 && initiative > 10 ? 1.13 : 1));
-    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1-heroProfile.bonuses.defense) * (round === 1 && initiative < 6 ? 1.12 : 1));
+    const researchDefense=Math.min(0.12,(state.technologies['tech-11']||0)*0.004);
+    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * (round === 1 && initiative < 6 ? 1.12 : 1));
     enemyHealth -= ownDamage;
     ownHealth -= enemyDamage;
     rounds.push({ round, ownDamage: Math.round(ownDamage), enemyDamage: Math.round(enemyDamage), ownMorale: Math.max(0, Math.round(ownHealth / ownPower * 100)) });
@@ -420,7 +426,8 @@ export function advance(state, now = Date.now()) {
       next.resources[key] = clamp(next.resources[key] + (perHour[key] - upkeepPerHour) * elapsed / 3600, 0, key === 'jade' ? 99_999 : cap);
     }
     const hours=elapsed/3600;
-    next.population = Math.min(250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11));
+    const populationResearch=1+(next.technologies['tech-06']||0)*0.012;
+    next.population = Math.min(250_000, next.population + hours * (0.1 + next.morale/450 + next.levels.citadel * 0.11) * populationResearch);
     next.morale=clamp(next.morale+hours*TAX_POLICIES[next.taxPolicy].moralePerHour,0,100);
     next.world.marketDay += elapsed / 86_400;
   }
@@ -636,7 +643,8 @@ export function doAction(state, action, now = Date.now()) {
       const injured = Object.values(s.wounded).reduce((n, x) => n + x, 0);
       if (!injured) throw new Error('Không có quân bị thương cần hồi phục.');
       const count = Math.min(injured, clamp(Math.floor(Number(action.count) || injured), 1, injured));
-      const cost = { food: Math.max(1,Math.floor(count * 8 * (1-Math.min(0.45,(s.levels.clinic||0)*0.015)))), gold: Math.max(1,Math.floor(count * 2 * (1-Math.min(0.35,(s.levels.clinic||0)*0.01)))) };
+      const healingResearch=Math.min(0.18,(s.technologies['tech-14']||0)*0.006);
+      const cost = { food: Math.max(1,Math.floor(count * 8 * Math.max(0.35,1-Math.min(0.45,(s.levels.clinic||0)*0.015)-healingResearch))), gold: Math.max(1,Math.floor(count * 2 * Math.max(0.45,1-Math.min(0.35,(s.levels.clinic||0)*0.01)-healingResearch*0.7))) };
       debit(s, cost);
       let remaining = count;
       for (const [id, n] of Object.entries(s.wounded)) {
@@ -693,7 +701,8 @@ export function doAction(state, action, now = Date.now()) {
     case 'scout': {
       const node = WORLD_NODES.find(n => n.id === action.nodeId);
       if (!node) throw new Error('Không tìm thấy địa điểm.');
-      debit(s, { gold: Math.max(4,12 + node.chapter * 3 - (s.levels.watch||0)) });
+      const scoutBaseCost=Math.max(4,12+node.chapter*3-(s.levels.watch||0));
+      debit(s,{gold:Math.max(2,Math.ceil(scoutBaseCost*(1-Math.min(0.36,(s.technologies['tech-18']||0)*0.012))))});
       if (!s.world.scouted.includes(node.id)) s.world.scouted.push(node.id);
       note(s, `Thám báo đã ghi nhận lực lượng khoảng ${Math.floor(node.power / 10) * 10} tại ${node.name}.`);
       break;

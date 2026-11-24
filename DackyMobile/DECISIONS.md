@@ -23,3 +23,4 @@
 - XP từ tu luyện, vật phẩm và PvE dùng chung ngưỡng lên cấp, có thể tăng nhiều cấp trong một lần; kỹ năng tăng mỗi khi thần tiên đạt mốc cấp chia hết cho bốn.
 - Bốn pháp môn đội hình áp dụng hệ số SIMULATED cụ thể vào combat quân đội và thử thách thần tiên; chiến báo ghi lại pháp môn đã tham chiến.
 - Thuế khoan giảm / trung dung / nặng thay đổi thu đồng, độ trôi dân tâm và tốc độ dân số; save cũ được migration về trung dung.
+- Cả 19 nhánh khoa kỹ có hiệu ứng runtime: bốn tài nguyên, tăng dân số, xây/nghiên cứu/huấn luyện, tấn công/phòng thủ và chuyên môn kỵ/xạ, hồi thương, tương khắc, hành quân, lực chiến thần tiên, phí trinh sát và giao thương/ngoại giao. Các hệ số hiển thị đúng theo nhánh và đều SIMULATED.

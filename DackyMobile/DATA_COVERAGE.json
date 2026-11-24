@@ -129,6 +129,12 @@
       "values": ["Khoan giảm", "Trung dung", "Thuế nặng"],
       "effects": ["Gold production", "Morale drift", "Population growth"],
       "status": "SIMULATED"
+    },
+    "technologyBranches": {
+      "records": 19,
+      "levels": 570,
+      "runtimeEffects": ["Resource production", "Population", "Construction speed", "Training speed", "Army attack and defense", "Cavalry and archer specialization", "Healing cost", "Formation", "March speed", "Hero power", "Scout cost", "Trade fee and diplomacy"],
+      "status": "SIMULATED"
     }
   },
   "notImported": [
