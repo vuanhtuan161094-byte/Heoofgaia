@@ -367,9 +367,12 @@ function resolveArmyCombat(state, node, troops, seed) {
   const heroList = state.heroes.filter(h => h.assigned).slice(0, 3);
   const heroProfile=heroCombatProfile(heroList);
   const troopRows = Object.entries(troops).map(([id, count]) => ({ unit: TROOPS.find(t => t.id === id), count })).filter(x => x.unit && x.count > 0);
+  const enemyRows=(node.enemy?.formation||[]).map(row=>({unit:TROOPS.find(t=>t.id===row.unitId),count:row.count})).filter(row=>row.unit&&row.count>0);
   const total = troopRows.reduce((n, row) => n + row.count, 0);
   const roles = troopRows.map(row => row.unit.role);
+  const enemyRoles=enemyRows.map(row=>row.unit.role);
   const countered = troopRows.filter(row => roles.includes(row.unit.counter)).length;
+  const enemyCountered=enemyRows.filter(row=>enemyRoles.includes(row.unit.counter)).length;
   const formationTech=state.technologies['tech-15']||0;
   const formationBonus=1+Math.min(0.42,formationTech*0.003+countered*(0.025+formationTech*0.003));
   const heroBonus = heroList.reduce((n, h) => n + heroPower(h, state), 0) * 0.55;
@@ -377,18 +380,28 @@ function resolveArmyCombat(state, node, troops, seed) {
   const treatyBonus=state.world.treaties.includes(node.id)?0.88:1;
   const enemyPower = Math.max(80, node.power * (1 + Math.max(0, node.chapter - 1) * 0.035) * treatyBonus);
   const initiative = troopRows.reduce((n, row) => n + row.unit.speed * row.count, 0) / Math.max(1, total);
+  const enemyTotal=enemyRows.reduce((n,row)=>n+row.count,0);
+  const enemyInitiative=enemyRows.reduce((n,row)=>n+row.unit.speed*row.count,0)/Math.max(1,enemyTotal);
+  const tactics={
+    ambush:{opening:0.2}, fortress:{health:1.18,defense:0.06}, charge:{opening:0.18},
+    arcane:{attack:0.09}, mandate:{health:1.14,attack:0.08,defense:0.04}
+  };
+  const tactic=tactics[node.enemy?.tactic?.id]||{};
+  const enemyHealthBase=enemyPower*(1+Math.min(0.16,enemyCountered*0.025))*(tactic.health||1);
   const rounds = [];
   let ownHealth = ownPower * (1 + state.morale / 500 + heroProfile.bonuses.formation);
-  let enemyHealth = enemyPower;
+  let enemyHealth = enemyHealthBase;
   let round = 0;
   while (ownHealth > 0 && enemyHealth > 0 && round < 6) {
     round++;
-    const ownDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (round === 1 && initiative > 10 ? 1.13 : 1));
+    const enemyDefense=Math.min(0.24,enemyCountered*0.025+(tactic.defense||0));
+    const ownDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (round === 1 && initiative > 10 ? 1.13 : 1));
     const researchDefense=Math.min(0.12,(state.technologies['tech-11']||0)*0.004);
-    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * (round === 1 && initiative < 6 ? 1.12 : 1));
+    const npcOpening=round===1&&enemyInitiative>initiative?(tactic.opening||0.1):0;
+    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+(tactic.attack||0)+npcOpening) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * (round === 1 && initiative < 6 ? 1.12 : 1));
     enemyHealth -= ownDamage;
     ownHealth -= enemyDamage;
-    rounds.push({ round, ownDamage: Math.round(ownDamage), enemyDamage: Math.round(enemyDamage), ownMorale: Math.max(0, Math.round(ownHealth / ownPower * 100)) });
+    rounds.push({ round, ownDamage: Math.round(ownDamage), enemyDamage: Math.round(enemyDamage), ownMorale: Math.max(0, Math.round(ownHealth / ownPower * 100)), enemyMorale:Math.max(0,Math.round(enemyHealth/enemyHealthBase*100)) });
   }
   const victory = enemyHealth <= 0 || (ownHealth > enemyHealth * 0.72 && ownHealth > 0);
   const casualtyRatio = clamp((victory ? 0.035 + (enemyPower / ownPower) * 0.07 : 0.24 + rng() * 0.2) - Math.min(0.04,(state.levels.wall||0)*0.001), 0.025, 0.62);
@@ -399,7 +412,12 @@ function resolveArmyCombat(state, node, troops, seed) {
     if (lost) dead[row.unit.id] = lost - injured;
     if (injured) wounded[row.unit.id] = injured;
   }
-  return { victory, ownPower: Math.round(ownPower), enemyPower: Math.round(enemyPower), rounds, dead, wounded, total, heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id), heroSkills:heroProfile.names, skillBonuses:heroProfile.bonuses };
+  const enemyCasualtyRatio=clamp(victory?0.22+ownPower/Math.max(1,enemyPower)*0.13:0.08+rng()*0.05,0.06,0.55);
+  const enemyCasualties=Object.fromEntries(enemyRows.map(row=>[row.unit.id,Math.min(row.count,Math.floor(row.count*enemyCasualtyRatio*(0.8+rng()*0.4))) ]).filter(([,count])=>count>0));
+  return { victory, ownPower: Math.round(ownPower), enemyPower: Math.round(enemyPower), rounds, dead, wounded, total,
+    enemyCommander:node.enemy?.commander||'Đội quân NPC',enemyTactic:node.enemy?.tactic?.name||'Đội hình dã chiến',
+    enemyFormation:enemyRows.map(row=>({unitId:row.unit.id,count:row.count})),enemyCasualties,
+    heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id), heroSkills:heroProfile.names, skillBonuses:heroProfile.bonuses };
 }
 
 function settleMarch(state, q, now) {
@@ -759,7 +777,7 @@ export function doAction(state, action, now = Date.now()) {
       const scoutBaseCost=Math.max(4,12+node.chapter*3-(s.levels.watch||0));
       debit(s,{gold:Math.max(2,Math.ceil(scoutBaseCost*(1-Math.min(0.36,(s.technologies['tech-18']||0)*0.012))))});
       if (!s.world.scouted.includes(node.id)) s.world.scouted.push(node.id);
-      note(s, `Thám báo đã ghi nhận lực lượng khoảng ${Math.floor(node.power / 10) * 10} tại ${node.name}.`);
+      note(s, `Thám báo xác định ${node.enemy.commander} · ${node.enemy.tactic.name} · ${node.enemy.formation.map(row=>`${TROOPS.find(t=>t.id===row.unitId)?.name||row.unitId} ${row.count}`).join(', ')} tại ${node.name}.`);
       break;
     }
     case 'claimQuest': {

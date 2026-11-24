@@ -312,6 +312,26 @@ test('eight-chapter world catalog is balanced and chapters unlock through field 
   assert.equal(state.queues.march.nodeId,'node-016');
 });
 
+test('NPC world nodes expose distinct formations and scouting persists battle intelligence', () => {
+  assert.ok(WORLD_NODES.every(node=>node.enemy?.commander&&node.enemy?.tactic?.id&&node.enemy?.formation?.length>=3));
+  assert.ok(new Set(WORLD_NODES.map(node=>node.enemy.tactic.id)).size>=4);
+  assert.ok(WORLD_NODES.every(node=>node.enemy.formation.every(row=>TROOPS.some(t=>t.id===row.unitId)&&row.count>0)));
+  const now=1_800_000_000_000;
+  let state=createNewGame('Triều Ca',now);
+  state=doAction(state,{type:'scout',nodeId:'node-011'},now+1);
+  assert.ok(state.world.scouted.includes('node-011'));
+  assert.ok(state.notifications[0].includes(WORLD_NODES[10].enemy.commander));
+  state.army={'troop-01':100_000,'troop-10':100_000,'troop-23':100_000};
+  state=doAction(state,{type:'march',nodeId:'node-011',troops:{'troop-01':10_000,'troop-10':10_000,'troop-23':10_000}},now+2);
+  state=advance(state,state.queues.march.finishAt+1).state;
+  const battle=state.reports[0];
+  assert.equal(battle.enemyCommander,WORLD_NODES[10].enemy.commander);
+  assert.equal(battle.enemyTactic,WORLD_NODES[10].enemy.tactic.name);
+  assert.equal(battle.enemyFormation.length,3);
+  assert.ok(Object.keys(battle.enemyCasualties).length>0);
+  assert.ok(battle.rounds.every(round=>round.enemyMorale>=0&&round.enemyMorale<=100));
+});
+
 
 test('final boss is gated and a first victory records the campaign ending', () => {
   const now=1_800_000_000_000;

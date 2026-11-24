@@ -190,6 +190,35 @@ export const QUESTS = Object.freeze([...campaignQuests,...longTailQuests,campaig
 
 const regionPrefixes = ['Thanh Khâu','Vân Mộng','Cửu Lê','Lạc Thủy','Bắc Minh','Tây Kỳ','Phong Lăng','Quy Khư','Hoàng Hà','Thái Hư','Tử Tiêu','Huyền Cơ','Bạch Lộc','Thương Sơn','Côn Ngô'];
 const regionSuffixes = ['Quan','Trấn','Đài','Cốc','Sơn','Bến','Lĩnh','Thành'];
+const npcOfficerNames=['Ân Thủ Nghĩa','Bào Huyền Chân','Bình Trấn Hải','Cao Cảnh Đức','Cố Trường Phong','Cung Tử An','Đào Như Sơn','Đổng Huyền Minh','Dư Bạch Thạch','Đường Tĩnh Viễn','Hàn Vân Khách','Hồ Ngọc Đường','Hoa Tử Hư','Khâu Trọng Lân','Lâm Tùng Hạc','Mã Thiên Hành','Mạnh Huyền Sách','Ngụy Thanh Sơn','Phùng Dạ Bạch','Tạ Linh Quân','Tần Vô Cữu','Vương Phá Quân','Trịnh Minh Đạo','Chu Hạc Niên'];
+const npcTactics=Object.freeze({
+  ambush:'Phục kích', fortress:'Thủ thành', charge:'Kỵ trận xung phong', arcane:'Pháp trận', mandate:'Hôn ám triều cương'
+});
+const npcRoles=Object.freeze({
+  'Danh thành':['bộ binh','xạ thủ','công thành'],
+  'Dã địa':['kỵ binh','trinh sát','xạ thủ'],
+  'Tiên sơn':['đạo binh','bộ binh','xạ thủ'],
+  'Boss chiến dịch':['bộ binh','kỵ binh','xạ thủ','đạo binh','công thành']
+});
+function generatedNpcForce(index,chapter,kind,power){
+  const targetTier=Math.min(7,Math.ceil(chapter*7/8));
+  const roles=npcRoles[kind];
+  const targetPower=Math.max(80,power*(1+Math.max(0,chapter-1)*0.035));
+  const weights=kind==='Boss chiến dịch'?[0.31,0.23,0.18,0.18,0.1]:kind==='Danh thành'?[0.43,0.34,0.23]:[0.42,0.34,0.24];
+  const formation=roles.map((role,slot)=>{
+    let choices=TROOPS.filter(unit=>unit.role===role&&unit.tier<=targetTier);
+    if(!choices.length)choices=TROOPS.filter(unit=>unit.role===role);
+    const highestTier=Math.max(...choices.map(unit=>unit.tier));
+    choices=choices.filter(unit=>unit.tier===highestTier);
+    const unit=choices[(index+slot*5+chapter)%choices.length];
+    const unitPower=unit.attack+unit.defense*0.85+unit.morale*0.08;
+    return {unitId:unit.id,count:Math.max(1,Math.round(targetPower*weights[slot]/unitPower))};
+  });
+  const tacticId=kind==='Boss chiến dịch'?'mandate':kind==='Danh thành'?'fortress':kind==='Dã địa'?['ambush','charge','arcane'][index%3]:['arcane','ambush','fortress'][index%3];
+  const title=kind==='Danh thành'?'Trấn thủ':kind==='Dã địa'?'Thảo khấu':kind==='Tiên sơn'?'Thủ sơn tiên trưởng':'Đại vương';
+  const commander=kind==='Boss chiến dịch'?'Đế Tân · Trụ Vương':`${title} ${npcOfficerNames[(index*7+chapter)%npcOfficerNames.length]}`;
+  return {commander,tactic:{id:tacticId,name:npcTactics[tacticId]},formation};
+}
 export const WORLD_NODES = Object.freeze(Array.from({ length: 120 }, (_, i) => {
   const chapterIndex=Math.floor(i/15);
   const localIndex=i%15;
@@ -201,9 +230,11 @@ export const WORLD_NODES = Object.freeze(Array.from({ length: 120 }, (_, i) => {
   const chapter = chapterIndex + 1;
   const generatedName = `${regionPrefixes[Math.floor(i / regionSuffixes.length) % regionPrefixes.length]} ${regionSuffixes[i % regionSuffixes.length]}`;
   const name = isBoss ? 'Triều Ca · Trụ Vương' : generatedName;
-  return { id: `node-${String(i + 1).padStart(3,'0')}`, name, kind: isBoss ? 'Boss chiến dịch' : isCity ? 'Danh thành' : isField ? 'Dã địa' : 'Tiên sơn', isBoss, chapter,
+  const kind=isBoss?'Boss chiến dịch':isCity?'Danh thành':isField?'Dã địa':'Tiên sơn';
+  const power=isBoss?8400:80+i*34;
+  return { id: `node-${String(i + 1).padStart(3,'0')}`, name, kind, isBoss, chapter,
     level: Math.max(1, Math.floor(i / 4) + 1), x: 9 + (i * 37) % 82, y: 11 + (i * 53) % 76,
-    power: isBoss ? 8400 : 80 + i * 34, loot: { food: isBoss ? 3200 : 80 + i * 12, timber: isBoss ? 2400 : 65 + i * 9, stone: isBoss ? 2000 : 50 + i * 8, gold: isBoss ? 3600 : 45 + i * 8, jade: isBoss ? 8 : i % 7 === 0 ? 1 : 0 },
+    power, enemy:generatedNpcForce(i,chapter,kind,power), loot: { food: isBoss ? 3200 : 80 + i * 12, timber: isBoss ? 2400 : 65 + i * 9, stone: isBoss ? 2000 : 50 + i * 8, gold: isBoss ? 3600 : 45 + i * 8, jade: isBoss ? 8 : i % 7 === 0 ? 1 : 0 },
     evidence: 'SIMULATED' };
 }));
 

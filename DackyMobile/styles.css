@@ -186,6 +186,9 @@ body.reduce-motion *, body.reduce-motion *:before, body.reduce-motion *:after { 
 .target-stat { padding:7px; background:#191c26; }
 .target-stat small { display:block; color:#888b86; font-size:8px; }
 .target-stat b { color:#ddc78f; font-size:11px; }
+.recon-intel { display:grid; gap:4px; margin:8px 0 11px; padding:8px; border-left:2px solid #bd9b5e; background:#181b2580; color:#bdb6a4; font-size:9px; line-height:1.45; }
+.recon-intel b { color:#e2d1aa; font-size:10px; }
+.recon-hint { margin:8px 0 11px; }
 .march-support { margin:8px 0; padding:8px; border:1px solid #d4b16a36; background:#181b254a; }
 .march-support summary { color:#e0c78e; font-size:10px; cursor:pointer; }
 .march-support-list { display:grid; gap:5px; margin:8px 0; }

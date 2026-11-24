@@ -33,11 +33,11 @@ Roster có 540 hồ sơ thần tiên mô phỏng, hiển thị theo trang; Tiên
 
 ## Quân đội và combat
 
-Runtime có 39 loại binh chủng theo vai trò bộ binh, xạ thủ, kỵ binh, công thành, trinh sát và đạo binh. Quân huấn luyện vào kho thành sau khi queue kết thúc. Một lệnh hành quân có thể kết hợp nhiều loại quân; chọn số lượng chính và mở phần hỗ trợ để tận dụng tương khắc vai trò. Tốc độ, đội hình và sĩ khí điều chỉnh sức mạnh. Combat seeded tối đa sáu hiệp; chiến thắng ghi danh vọng/loot, quân chết mất, quân bị thương đi vào Hồi Xuân Đường.
+Runtime có 39 loại binh chủng theo vai trò bộ binh, xạ thủ, kỵ binh, công thành, trinh sát và đạo binh. Quân huấn luyện vào kho thành sau khi queue kết thúc. Một lệnh hành quân có thể kết hợp nhiều loại quân; chọn số lượng chính và mở phần hỗ trợ để tận dụng tương khắc vai trò. Tốc độ, đội hình và sĩ khí điều chỉnh sức mạnh. Combat seeded tối đa sáu hiệp; chiến thắng ghi danh vọng/loot, quân chết mất, quân bị thương đi vào Hồi Xuân Đường. Mỗi trong 120 địa điểm có chủ soái và đội NPC 3–5 binh chủng; do thám cho biết quân số và chiến thuật. Phục kích ưu tiên đòn mở đầu, thủ thành tăng sức bền, kỵ trận và pháp trận tăng sức đánh, Boss có cả phòng ngự lẫn công kích bổ sung. Đội hình địch, tổn thất và diễn biến từng hiệp được giữ trong chiến báo. Các thông số và chỉ huy là SIMULATED.
 
 ## Bản đồ và chiến dịch
 
-120 NPC được chia thành tám chương, mỗi chương 15 địa điểm gồm danh thành, dã địa và Tiên Sơn. Chương đầu mở sẵn; thắng ở dã địa hoặc Tiên Sơn trong chương đang mở mới tiến sang chương kế tiếp. Mục tiêu chương chưa mở không nhận trinh sát, hành quân hoặc ngoại giao. Trụ Vương cần mở tới chương tám, đạt 20 trận thắng và chiếm bảy danh thành; đây là điều kiện thiết kế SIMULATED.
+120 NPC được chia thành tám chương, mỗi chương 15 địa điểm gồm danh thành, dã địa và Tiên Sơn. Chương đầu mở sẵn; thắng ở dã địa hoặc Tiên Sơn trong chương đang mở mới tiến sang chương kế tiếp. Mục tiêu chương chưa mở không nhận trinh sát, hành quân hoặc ngoại giao. Do thám từng mục tiêu mở tên chủ soái, đấu pháp và từng stack quân trong save. Trụ Vương cần mở tới chương tám, đạt 20 trận thắng và chiếm bảy danh thành; đây là điều kiện thiết kế SIMULATED.
 
 ## Thử thách
 
