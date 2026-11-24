@@ -27,8 +27,8 @@ def build(html: Path) -> str:
         raise ValueError('Expected a normal single-document HTML entrypoint')
     if not all(x in raw for x in ('id="app"', 'id="view"')):
         raise ValueError('Missing expected app/view anchors; review source change')
-    css = CSS.read_text(encoding='utf-8')
-    js = JS.read_text(encoding='utf-8')
+    css = CSS.read_text(encoding='utf-8') + '\n' + (HERE / 'nl_art_d.css').read_text(encoding='utf-8')
+    js = JS.read_text(encoding='utf-8') + '\n' + (HERE / 'nl_art_d.js').read_text(encoding='utf-8')
     if 'NL-WINDOW-UI-V2' not in js or 'NL FIXED WINDOW V2' not in css:
         raise ValueError('UI V2 source markers missing')
     # Idempotent; do not silently combine the obsolete V1 overlay with V2.

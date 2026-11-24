@@ -55,6 +55,7 @@ jobs:
           git rev-parse HEAD | tee qa/web-review-sha.txt
           sha256sum index.html | tee qa/web-review-html-sha256.txt
           node --check tools/nl_review_window_v2.js
+          node --check tools/nl_art_d.js
           node --check tools/nl_classic_phase_a.js
           node --check tools/nl_classic_phase_a_research_late.js
           node --check tools/nl_classic_phase_a2.js
@@ -107,6 +108,8 @@ jobs:
           assert 'muu_dinh_tam_quoc_v1' in html
           PY
           python qa/nl_review_screenshots.py --html index.html --out qa/ui-v2-screenshots
+      - name: D visual asset coverage and offline mobile smoke
+        run: python qa/nl_art_d_browser.py
       - name: Phase A classic WEB resources, tax and named-recruitment browser QA
         run: python qa/nl_classic_phase_a_browser.py --html index.html
       - name: Phase B1 native Boss AI, 100-morale advisor and formation Chromium QA
