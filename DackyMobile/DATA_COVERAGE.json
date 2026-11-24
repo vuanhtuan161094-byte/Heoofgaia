@@ -131,6 +131,18 @@
       "xpItemsAndTraining": "Automatic multi-level settlement; skill level increases at each level divisible by 4",
       "status": "SIMULATED"
     },
+    "heroQuality": {
+      "tiers": {"Nhân": 1.0, "Địa": 1.12, "Thiên": 1.28},
+      "effect": "Multiplies base hero combat power",
+      "status": "SIMULATED"
+    },
+    "fiveElementCounters": {
+      "npcProfiles": 120,
+      "cycle": {"Hỏa": "Khắc Kim", "Kim": "Khắc Mộc", "Mộc": "Khắc Thổ", "Thổ": "Khắc Thủy", "Thủy": "Khắc Hỏa"},
+      "wind": "Neutral",
+      "effects": ["Outgoing campaign damage", "Incoming campaign damage"],
+      "status": "SIMULATED"
+    },
     "combatSkills": {
       "skills": ["Hỏa Phù Liệt Trận", "Huyền Thủy Hộ Thể", "Phong Lôi Kích", "Thất Tinh Trợ Chiến"],
       "passiveEffects": ["Attack bonus", "Defense bonus", "Opening bonus", "Formation durability"],
@@ -174,7 +186,8 @@
       "records": 120,
       "formationSlots": "3-5 troop stacks per target",
       "tactics": ["Phục kích", "Thủ thành", "Kỵ trận xung phong", "Pháp trận", "Hôn ám triều cương"],
-      "effects": ["Initiative-based opening strike", "Formation counters change damage and durability", "Boss and city tactics alter health or damage"],
+      "effects": ["Initiative-based opening strike", "Formation counters change damage and durability", "Boss and city tactics alter health or damage", "Five-element NPC commander matchup"],
+      "elements": ["fire", "water", "wood", "metal", "earth"],
       "scouting": "Reveals commander, tactic and troop counts; saved per node",
       "battleReport": "Records enemy formation, commander, tactic and casualties",
       "status": "SIMULATED"
@@ -189,7 +202,7 @@
     "troopFormationCombat": {
       "records": 39,
       "lanes": ["front", "rear", "siege"],
-      "combatTags": ["role counter", "range and initiative", "front/rear balance", "formation research"],
+      "combatTags": ["role counter", "range and initiative", "front/rear balance", "formation research", "five-element counter"],
       "battleReport": "Own and NPC matchup advantage percentages",
       "status": "SIMULATED"
     },

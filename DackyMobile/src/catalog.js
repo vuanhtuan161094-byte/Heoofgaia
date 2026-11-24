@@ -109,6 +109,8 @@ export const HEROES = Object.freeze(heroRows.map(([name,role,element,signature],
   };
 }));
 
+export const HERO_QUALITY_MULTIPLIERS=Object.freeze({'Nhân':1,'Địa':1.12,'Thiên':1.28});
+
 export const HERO_SKILLS=Object.freeze([
   {id:'skill-fire',name:'Hỏa Phù Liệt Trận',passive:'Tăng sát thương đội hình',activeName:'Liệt Hỏa Thiên Hàng',active:'damage',triggerRound:2,baseCoefficient:0.04,perMastery:0.012,evidence:'SIMULATED'},
   {id:'skill-water',name:'Huyền Thủy Hộ Thể',passive:'Giảm sát thương nhận vào',activeName:'Huyền Thủy Kết Giới',active:'shield',triggerRound:1,baseCoefficient:0.05,perMastery:0.012,evidence:'SIMULATED'},
@@ -214,6 +216,7 @@ const npcRoles=Object.freeze({
   'Tiên sơn':['đạo binh','bộ binh','xạ thủ'],
   'Boss chiến dịch':['bộ binh','kỵ binh','xạ thủ','đạo binh','công thành']
 });
+const npcElements=['fire','water','wood','metal','earth'];
 function generatedNpcForce(index,chapter,kind,power){
   const targetTier=Math.min(7,Math.ceil(chapter*7/8));
   const roles=npcRoles[kind];
@@ -235,7 +238,8 @@ function generatedNpcForce(index,chapter,kind,power){
   const tacticId=kind==='Boss chiến dịch'?'mandate':kind==='Danh thành'?'fortress':kind==='Dã địa'?['ambush','charge','arcane'][index%3]:['arcane','ambush','fortress'][index%3];
   const title=kind==='Danh thành'?'Trấn thủ':kind==='Dã địa'?'Thảo khấu':kind==='Tiên sơn'?'Thủ sơn tiên trưởng':'Đại vương';
   const commander=kind==='Boss chiến dịch'?'Đế Tân · Trụ Vương':`${title} ${npcOfficerNames[(index*7+chapter)%npcOfficerNames.length]}`;
-  return {commander,tactic:{id:tacticId,name:npcTactics[tacticId]},formation};
+  const element=kind==='Boss chiến dịch'?'fire':npcElements[(index+chapter)%npcElements.length];
+  return {commander,element,tactic:{id:tacticId,name:npcTactics[tacticId]},formation};
 }
 export const WORLD_NODES = Object.freeze(Array.from({ length: 120 }, (_, i) => {
   const chapterIndex=Math.floor(i/15);

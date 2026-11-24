@@ -31,3 +31,10 @@
 - Chính tuyến có tám nhiệm vụ mở cửa ải theo từng chương và một mục tiêu Boss cuối. Save theo dõi thắng trận/dã địa/danh thành từng chương; mục tiêu chương sau chưa hiện cho tới khi chiến dịch mở khu vực, và phần thưởng chương khóa theo cùng tiến trình. Save cũ được bổ sung bộ đếm khi migration; số thành đã chiếm được dựng lại từ danh sách node.
 - Binh chủng được phân tuyến trước/sau/công thành, mỗi vai trò có tầm đánh và đối tượng khắc chế. Combat so tỷ lệ quân có khắc chế thực sự với đội đối phương; đội hình quân trước + hỗ trợ sau, tương khắc nội bộ và khoa Trận Đồ góp sức riêng. Đây là mô hình chiến thuật bổ sung, hệ số SIMULATED và chưa được đối chiếu công thức Mobile.
 - Linh căn thần tiên dùng thang 0–100 hiện có trong save: tu luyện +3, hành quân/đấu pháp +1 đến +4 tùy kết quả/chương. Mỗi điểm thêm 0,15% lực chiến và tăng nhẹ hiệu lực pháp môn; các thần tiên trùng nguyên tố có cộng hưởng đội hình tối đa 15%. Dùng cùng một thang cho mọi nguyên tố, chưa mô phỏng quan hệ sinh/khắc nguyên tố do chưa xác minh dữ liệu nguồn.
+
+
+## 2026-11-24 · Phẩm chất và ngũ hành đối kháng
+
+- Phẩm chất Nhân/Địa/Thiên nhân hệ số lực chiến cơ bản 1,00/1,12/1,28; hệ số và tên bậc đều SIMULATED, chiêu mộ Thiên phẩm tiếp tục tốn nhiều linh ngọc hơn. UI công khai hệ số căn cơ trước khi chiêu mộ.
+- Mỗi đội NPC có Hỏa/Thủy/Mộc/Kim/Thổ. Vòng khắc chế được mô phỏng theo Hỏa khắc Kim, Kim khắc Mộc, Mộc khắc Thổ, Thổ khắc Thủy, Thủy khắc Hỏa; Phong trung tính do chưa có nguồn xác minh. Mỗi thần tiên thuận/nghịch hệ làm đổi ±2,5% sát thương gây ra, đồng thời giảm/tăng 1,5% sát thương nhận vào.
+- Ngũ hành NPC chỉ hiện sau trinh sát và được ghi vào chiến báo; hiệu ứng chỉ áp dụng trận chiến dịch, còn cộng hưởng đồng nguyên tố theo đội hình vẫn riêng biệt.

@@ -1,4 +1,4 @@
-import { BUILDINGS, HEROES, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
+import { BUILDINGS, HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, RESOURCE_INFO, TECHNOLOGIES, TROOPS, WORLD_NODES, TOWER_FLOORS, BUZHOU_FLOORS } from './catalog.js';
 
 export const SAVE_VERSION = 1;
 export const OFFLINE_CAP_SECONDS = 8 * 60 * 60;
@@ -190,7 +190,8 @@ export function heroPower(hero, state) {
   const gear = Object.values(hero.equipment || {}).filter(Boolean).reduce((sum, id) => sum + (ITEMS.find(item => item.id === id)?.bonus || 0), 0);
   const research=1+(state.technologies?.['tech-17']||0)*0.012;
   const affinity=1+clamp(Number(hero.affinity)||0,0,100)*0.0015;
-  return Math.round((def.attack + def.defense + def.wisdom * 0.72 + gear) * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * research * affinity);
+  const quality=HERO_QUALITY_MULTIPLIERS[def.quality]||1;
+  return Math.round((def.attack + def.defense + def.wisdom * 0.72 + gear) * quality * (1 + hero.level * 0.14) * (1 + hero.skillLevel * 0.035) * research * affinity);
 }
 
 function awardHeroXp(hero, amount) {
@@ -215,7 +216,7 @@ function awardHeroAffinity(hero, amount) {
   return hero.affinity-before;
 }
 
-function heroCombatProfile(heroList,state) {
+function heroCombatProfile(heroList,state,enemyElement) {
   const rows=heroList.map(save=>({save,data:HEROES.find(def=>def.id===save.id)})).filter(row=>row.data);
   const has=skill=>rows.filter(row=>row.data.skill===skill).reduce((n,row)=>n+Math.max(1,row.save.skillLevel||1)*(1+clamp(Number(row.save.affinity)||0,0,100)*0.002),0);
   const attack=has('Hỏa Phù Liệt Trận')*0.012;
@@ -226,6 +227,8 @@ function heroCombatProfile(heroList,state) {
   const elementCounts=Object.values(rows.reduce((counts,row)=>{counts[row.data.element]=(counts[row.data.element]||0)+1;return counts;},{}));
   const sameElementPairs=elementCounts.reduce((n,count)=>n+count*(count-1)/2,0);
   const elementResonance=Math.min(0.15,sameElementPairs*averageAffinity/100*0.05*(1+(state?.technologies?.['tech-17']||0)*0.003));
+  const elementCounters={fire:'metal',metal:'wood',wood:'earth',earth:'water',water:'fire'};
+  const elementMatchup=clamp(rows.reduce((bonus,row)=>bonus+(elementCounters[row.data.element]===enemyElement?0.025:elementCounters[enemyElement]===row.data.element?-0.025:0),0),-0.075,0.075);
   const affinityBonus=averageAffinity*0.0015;
   const skills=rows.map(row=>{
     const definition=HERO_SKILLS.find(skill=>skill.name===row.data.skill);
@@ -235,7 +238,7 @@ function heroCombatProfile(heroList,state) {
       coefficient:definition.baseCoefficient+definition.perMastery*mastery,mastery};
   }).filter(Boolean);
   const activePowerBonus=skills.reduce((n,skill)=>n+skill.mastery*0.002,0);
-  return { names:rows.map(row=>row.data.skill),skills,bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance,activePowerBonus},
+  return { names:rows.map(row=>row.data.skill),skills,bonuses:{attack,defense,opening,formation,affinity:affinityBonus,elementResonance,elementMatchup,activePowerBonus},
     powerMultiplier:1+(attack+defense+opening+formation)*0.35+elementResonance+activePowerBonus };
 }
 
@@ -394,7 +397,7 @@ function seededRandom(seed) {
 function resolveArmyCombat(state, node, troops, seed) {
   const rng = seededRandom(seed);
   const heroList = state.heroes.filter(h => h.assigned).slice(0, 3);
-  const heroProfile=heroCombatProfile(heroList,state);
+  const heroProfile=heroCombatProfile(heroList,state,node.enemy?.element);
   const troopRows = Object.entries(troops).map(([id, count]) => ({ unit: TROOPS.find(t => t.id === id), count })).filter(x => x.unit && x.count > 0);
   const enemyRows=(node.enemy?.formation||[]).map(row=>({unit:TROOPS.find(t=>t.id===row.unitId),count:row.count})).filter(row=>row.unit&&row.count>0);
   const total = troopRows.reduce((n, row) => n + row.count, 0);
@@ -431,10 +434,11 @@ function resolveArmyCombat(state, node, troops, seed) {
   while (ownHealth > 0 && enemyHealth > 0 && round < 6) {
     round++;
     const enemyDefense=Math.min(0.26,enemyCounterRatio*0.08+(tactic.defense||0));
-    const ownDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+ownCounterRatio*0.2+(ownBalanced?0.06:0)+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (round === 1 && initiative > 10 ? 1.13 : 1));
+    const baseOwnDamage = Math.max(1, ownPower * (0.19 + rng() * 0.11) * (1+ownCounterRatio*0.2+(ownBalanced?0.06:0)+heroProfile.bonuses.attack+(round===1?heroProfile.bonuses.opening:0)) * (1-enemyDefense) * (round === 1 && initiative > 10 ? 1.13 : 1));
+    const ownDamage = Math.max(1,baseOwnDamage*(1+heroProfile.bonuses.elementMatchup));
     const researchDefense=Math.min(0.12,(state.technologies['tech-11']||0)*0.004);
     const npcOpening=round===1&&enemyInitiative>initiative?(tactic.opening||0.1):0;
-    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+enemyCounterRatio*0.2+enemySynergyRatio*0.04+(tactic.attack||0)+npcOpening) * (enemyBalanced?1.04:1) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * (round === 1 && initiative < 6 ? 1.12 : 1));
+    const enemyDamage = Math.max(1, enemyPower * (0.17 + rng() * 0.12) * (1+enemyCounterRatio*0.2+enemySynergyRatio*0.04+(tactic.attack||0)+npcOpening) * (enemyBalanced?1.04:1) * Math.max(0.55,1-heroProfile.bonuses.defense-researchDefense) * Math.max(0.8,1-heroProfile.bonuses.elementMatchup*0.6) * (round === 1 && initiative < 6 ? 1.12 : 1));
     const activeSkills=heroProfile.skills.filter(skill=>skill.triggerRound===round);
     let skillDamage=0,shieldRatio=0,healing=0;
     for(const skill of activeSkills){
@@ -448,7 +452,7 @@ function resolveArmyCombat(state, node, troops, seed) {
     const damagedOwnHealth=clamp(ownHealth-actualEnemyDamage,0,ownHealthBase);
     const skillHealing=Math.min(ownHealthBase*0.35,healing,ownHealthBase-damagedOwnHealth);
     ownHealth=damagedOwnHealth+skillHealing;
-    rounds.push({ round, ownDamage: Math.round(ownDamage),skillDamage:Math.round(skillDamage), enemyDamage: Math.round(actualEnemyDamage),
+    rounds.push({ round, ownDamage: Math.round(ownDamage),elementDamage:Math.round(ownDamage-baseOwnDamage),skillDamage:Math.round(skillDamage), enemyDamage: Math.round(actualEnemyDamage),
       ownMorale: Math.max(0, Math.round(ownHealth / ownPower * 100)), enemyMorale:Math.max(0,Math.round(enemyHealth/enemyHealthBase*100)),
       shieldedDamage:Math.round(shieldedDamage),skillHealing:Math.round(skillHealing),activeSkills:activeSkills.map(skill=>skill.activeName) });
   }
@@ -466,7 +470,8 @@ function resolveArmyCombat(state, node, troops, seed) {
   return { victory, ownPower: Math.round(ownPower), enemyPower: Math.round(enemyPower), rounds, dead, wounded, total,
     enemyCommander:node.enemy?.commander||'Đội quân NPC',enemyTactic:node.enemy?.tactic?.name||'Đội hình dã chiến',
     enemyFormation:enemyRows.map(row=>({unitId:row.unit.id,count:row.count})),enemyCasualties,
-    matchup:{ownCounterAdvantage:Math.round(ownCounterRatio*100),enemyCounterAdvantage:Math.round(enemyCounterRatio*100),ownBalanced,enemyBalanced},
+    enemyElement:node.enemy?.element||null,
+    matchup:{ownCounterAdvantage:Math.round(ownCounterRatio*100),enemyCounterAdvantage:Math.round(enemyCounterRatio*100),heroElementAdvantage:Math.round(heroProfile.bonuses.elementMatchup*10000)/100,ownBalanced,enemyBalanced},
     heroNames: heroList.map(h => HEROES.find(def => def.id === h.id)?.name || h.id), heroSkills:heroProfile.names, skillBonuses:heroProfile.bonuses };
 }
 

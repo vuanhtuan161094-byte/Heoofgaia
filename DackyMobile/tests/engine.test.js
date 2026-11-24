@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { activeQuest, advance, armyPower, createNewGame, doAction, heroPower, migrateSave, productionPerHour, questProgress, storageCapacity, unlockedChapter } from '../src/engine.js';
-import { HEROES, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, TECHNOLOGIES, TROOPS, WORLD_NODES } from '../src/catalog.js';
+import { HEROES, HERO_QUALITY_MULTIPLIERS, HERO_SKILLS, IMMORTAL_MOUNTAINS, ITEMS, QUESTS, TECHNOLOGIES, TROOPS, WORLD_NODES } from '../src/catalog.js';
 
 test('new save has a bounded, offline-first settlement', () => {
   const now = 1_800_000_000_000;
@@ -243,6 +243,34 @@ test('active immortal skills cast by round and apply damage, protection and heal
   assert.ok(healingFormation.skillBonuses.formation>0);
 });
 
+test('hero quality and five-element counters affect power and campaign damage', () => {
+  const now=1_800_000_000_000;
+  const state=createNewGame('Triều Ca',now);
+  for(const [quality,multiplier] of Object.entries(HERO_QUALITY_MULTIPLIERS)){
+    const def=HEROES.find(hero=>hero.quality===quality);
+    const save={id:def.id,level:1,skillLevel:1,affinity:0,equipment:{}};
+    const base=def.attack+def.defense+def.wisdom*0.72;
+    assert.equal(heroPower(save,state),Math.round(base*multiplier*1.14*1.035));
+  }
+  assert.ok(HERO_QUALITY_MULTIPLIERS['Thiên']>HERO_QUALITY_MULTIPLIERS['Địa']);
+  const target=WORLD_NODES.find(node=>node.chapter===1&&node.enemy.element==='fire');
+  assert.ok(target,'campaign nodes expose NPC elemental affinity');
+  const fight=heroId=>{
+    let battle=createNewGame('Triều Ca',now);
+    battle.heroes=[{id:heroId,level:1,xp:0,assigned:true,equipment:{weapon:null,armor:null,artifact:null},skillLevel:1,affinity:0}];
+    battle.army={'troop-01':100};
+    battle=doAction(battle,{type:'march',nodeId:target.id,troopId:'troop-01',count:100},now+1);
+    return advance(battle,battle.queues.march.finishAt+1).state.reports[0];
+  };
+  const favored=fight('hero-01');
+  const countered=fight('hero-03');
+  assert.equal(favored.enemyElement,'fire');
+  assert.ok(favored.matchup.heroElementAdvantage>0);
+  assert.ok(favored.rounds[0].elementDamage>0);
+  assert.ok(countered.matchup.heroElementAdvantage<0);
+  assert.ok(countered.rounds[0].elementDamage<0);
+});
+
 test('construction and training are queued and settle once', () => {
   const base=1_800_000_000_000;
   let state=createNewGame('Triều Ca',base);
@@ -391,6 +419,8 @@ test('eight-chapter world catalog is balanced and chapters unlock through field 
 
 test('NPC world nodes expose distinct formations and scouting persists battle intelligence', () => {
   assert.ok(WORLD_NODES.every(node=>node.enemy?.commander&&node.enemy?.tactic?.id&&node.enemy?.formation?.length>=3));
+  assert.ok(WORLD_NODES.every(node=>['fire','water','wood','metal','earth'].includes(node.enemy.element)));
+  assert.equal(new Set(WORLD_NODES.map(node=>node.enemy.element)).size,5);
   assert.ok(new Set(WORLD_NODES.map(node=>node.enemy.tactic.id)).size>=4);
   assert.ok(WORLD_NODES.every(node=>node.enemy.formation.every(row=>TROOPS.some(t=>t.id===row.unitId)&&row.count>0)));
   for(const node of WORLD_NODES){
@@ -411,6 +441,7 @@ test('NPC world nodes expose distinct formations and scouting persists battle in
   state=advance(state,state.queues.march.finishAt+1).state;
   const battle=state.reports[0];
   assert.equal(battle.enemyCommander,WORLD_NODES[10].enemy.commander);
+  assert.equal(battle.enemyElement,WORLD_NODES[10].enemy.element);
   assert.equal(battle.enemyTactic,WORLD_NODES[10].enemy.tactic.name);
   assert.equal(battle.enemyFormation.length,3);
   assert.ok(Object.keys(battle.enemyCasualties).length>0);
