@@ -85,16 +85,20 @@ function trade(direction){
  if(!Number.isSafeInteger(game[k]+v)||!payment(cost))return false;
  game[k]+=v;s.progress.trade++;return done(s,'trade:'+s.day+':'+s.progress.trade,{...delta,...Object.fromEntries(Object.entries(cost).map(([k,v])=>[k,-v]))});
 }
+const growthPolicy=()=>typeof nlClassicGrowthPolicy==='undefined'?null:nlClassicGrowthPolicy;
+const levelCap=id=>growthPolicy()?.cap(id)??NL_GAME_DATA.heroes.training.maxLevel;
+const rebirthGate=id=>growthPolicy()?.rebirthGate(id)??NL_GAME_DATA.heroes.training.maxLevel;
+const rebirthLimit=()=>growthPolicy()?.limit??3;
 function meritTrain(id){
  const s=state(),h=owned(id)?game.hero[id]:null,d=NL_GAME_DATA.heroes.training;
- if(battle||!h||h.level>=d.maxLevel||s.progress.train>=10||!payment({merit:50}))return false;
- h.xp=nat(h.xp)+d.baseXp+nat(game.buildings.academy)*d.academyXpPerLevel;
- while(h.level<d.maxLevel&&h.xp>=h.level*d.xpRequiredPerHeroLevel){h.xp-=h.level*d.xpRequiredPerHeroLevel;h.level++;}
+ if(battle||!h||h.level>=levelCap(id)||s.progress.train>=10||!payment({merit:50}))return false;
+ h.xp=nat(h.xp)+Math.floor((d.baseXp+nat(game.buildings.academy)*d.academyXpPerLevel)*(1+(growthPolicy()?.trainingBonus()??0)));
+ while(h.level<levelCap(id)&&h.xp>=h.level*d.xpRequiredPerHeroLevel){h.xp-=h.level*d.xpRequiredPerHeroLevel;h.level++;}
  s.progress.train++;countTask('train');return done(s,'merit-train:'+id,{merit:-50});
 }
 function rebirth(id){
  const s=state(),h=owned(id)?game.hero[id]:null,n=nat(s.rebirth[id]);
- if(battle||!h||h.level<NL_GAME_DATA.heroes.training.maxLevel||n>=3||!payment({merit:500,silver:2000}))return false;
+ if(battle||!h||h.level<rebirthGate(id)||n>=rebirthLimit()||!payment({merit:500,silver:2000}))return false;
  // Project cap 40, not historical WEB 60+5. Keep identity, gear, troop and slot.
  h.level=1;h.xp=0;s.rebirth[id]=n+1;
  return done(s,'rebirth:'+id+':'+(n+1),{merit:-500,silver:-2000});
@@ -110,7 +114,7 @@ const priorUnit=p2Unit;
 p2Unit=function(id,team,slot,stage){
  const u=priorUnit(id,team,slot,stage);
  if(team!=='p'||!u||!owned(id)||battle?.mode==='cltq')return u;
- const n=Math.min(3,nat(state().rebirth[id]));
+ const n=Math.min(rebirthLimit(),nat(state().rebirth[id]));
  if(n)for(const k of ['atk','def','catk','tdef','matk','mdef'])if(Number.isFinite(u[k]))u[k]=Math.round(u[k]*(1+n*.03));
  return u;
 };
@@ -135,8 +139,8 @@ function panel(){
  }else if(section==='train'){
   const h=owned(heroId)?game.hero[heroId]:null,n=nat(s.rebirth[heroId]);
   body='<label>Chọn võ tướng <select data-nla4-hero>'+game.roster.filter(owned).map(id=>'<option value="'+esc(id)+'" '+(id===heroId?'selected':'')+'>'+esc(HEROES[id]?.name||id)+'</option>').join('')+'</select></label>'+
-  (h?line('Huấn luyện chiến công','Cấp '+h.level+' · XP '+fmt(h.xp)+' · 50 Chiến công/lượt',button('train',heroId,'Huấn luyện',disabled||h.level>=NL_GAME_DATA.heroes.training.maxLevel||s.progress.train>=10||nlAState().merit<50))+
-  line('Chuyển sinh','Lần '+n+'/3 · cấp tối đa dự án '+NL_GAME_DATA.heroes.training.maxLevel+' · +3% công/thủ mỗi lần; trở về cấp 1',button('rebirth',heroId,'Chuyển sinh',disabled||h.level<NL_GAME_DATA.heroes.training.maxLevel||n>=3||nlAState().merit<500||game.silver<2000)):'<p>Chưa có tướng.</p>');
+  (h?line('Huấn luyện chiến công','Cấp '+h.level+' · XP '+fmt(h.xp)+' · 50 Chiến công/lượt',button('train',heroId,'Huấn luyện',disabled||h.level>=levelCap(heroId)||s.progress.train>=10||nlAState().merit<50))+
+  line('Chuyển sinh','Lần '+n+'/'+rebirthLimit()+' · yêu cầu '+(Number.isFinite(rebirthGate(heroId))?'cấp '+rebirthGate(heroId):'đột phá A7 trước')+' · +3% công/thủ; về cấp 1',button('rebirth',heroId,'Chuyển sinh',disabled||h.level<rebirthGate(heroId)||n>=rebirthLimit()||nlAState().merit<500||game.silver<2000)):'<p>Chưa có tướng.</p>');
  }else{
   body=DAILY.map(q=>line(q[1],Math.min(s.progress[q[0]],q[2])+'/'+q[2]+' · '+q[3]+' Bạc + '+q[4]+' Chiến công',button('claim',q[0],s.claimed.includes(q[0])?'Đã nhận':'Nhận thưởng',disabled||s.claimed.includes(q[0])||s.progress[q[0]]<q[2]))).join('');
  }
