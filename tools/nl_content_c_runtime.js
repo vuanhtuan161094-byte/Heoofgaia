@@ -149,6 +149,7 @@ function equipSeal(id){const s=state();if(battle||!s.seals[id]||!SEALS.some(r=>r
 const priorUnit=p2Unit;
 p2Unit=function(id,team,slot,stage){
  const u=priorUnit(id,team,slot,stage);if(team!=='p'||!u||battle?.mode==='cltq')return u;
+ const awake=game.nlClassicAdvanced?.growth?.[id]?.awakened&&NL_CONTENT_C.awakeningSkills?.[id];if(awake)u.skill=awake.descriptor.tag;
  const s=state(),used=new Set();
  for(const sid of s.equippedSeals.slice(0,3)){const r=SEALS.find(x=>x[0]===sid);if(!r||!s.seals[sid]||used.has(sid))continue;used.add(sid);
   if(Number.isFinite(u[r[2]])){u[r[2]]+=r[3];if(r[2]==='hp')u.maxHp+=r[3];}}
