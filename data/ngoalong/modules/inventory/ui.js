@@ -98,7 +98,7 @@
       const r=pack.rules?.reinforcement;
       const f=pack.rules?.refinement;
       const level=item.lv||1,rank=item.refineLv||0;
-      const rc=r&&level<r.maxLevel?api.reinforcementCost(level):null;
+      const rc=r&&level<r.maxLevel?api.reinforcementCost(level,state):null;
       const premium=f?.highTierPricing?.groups?.[row.sourceGroup]&&row.sourceId?
         f.highTierPricing.groups[row.sourceGroup]:null;
       const needMat=(f?.materialPerLevel||0)+(premium?.materialExtra||0);
