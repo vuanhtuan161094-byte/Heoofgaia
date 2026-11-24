@@ -63,6 +63,9 @@ jobs:
           python qa/nl_classic_phase_b2_native_test.py
           node --check tools/nl_classic_phase_b3.js
           node --test qa/nl_classic_phase_b3.test.cjs
+          node --check tools/nl_classic_world_a4.js
+          node --check tools/nl_classic_advanced_a5_a9.js
+          node --test qa/nl_classic_world_a4.test.cjs qa/nl_classic_advanced_a5_a9.test.cjs
           python -m py_compile tools/nl_classic_phase_a3_items.py qa/nl_onboarding_30min.py
           python -m py_compile qa/nl_classic_phase_a2_browser.py
       - name: Install approved browser QA dependencies
@@ -76,6 +79,9 @@ jobs:
           python qa/nl_item_integration.py
           node --test qa/nl_item_inventory_group08.test.cjs qa/nl_item_equipment_ui_group08.test.cjs
           python qa/nl_classic_phase_a3_browser.py
+
+      - name: A5-A9 focused live runtime smoke
+        run: python qa/nl_classic_advanced_a5_a9_browser.py
 
       - name: B2 real P2 drum-dancer morale, Save v5 browser QA
         run: python qa/nl_classic_phase_b2_browser.py
