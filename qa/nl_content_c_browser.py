@@ -34,6 +34,13 @@ def main():
           checks.tower=c.startTower()&&q.debugBattle()?.nlContentC?.floor===21&&q.getGame().activity.towerTries===2;
           q.closeBattle('city');
           checks.seals=c.unlockSeal('sword')&&c.equipSeal('sword')&&!c.unlockSeal('sword');
+          const sealGame=q.getGame();sealGame.nlContentC.soul=1000;sealGame.silver=100000;q.setGame(sealGame);
+          checks.sealMigration=c.sealLevel('sword')===1&&c.sealValue('sword')===25;
+          checks.sealUpgrade=c.upgradeSeal('sword')&&c.sealLevel('sword')===2&&c.sealValue('sword')===29&&q.getGame().silver===98800&&c.state().soul===960;
+          checks.sealLocked=!c.upgradeSeal('not-a-seal');
+          checks.sealMax=c.upgradeSeal('sword')&&c.upgradeSeal('sword')&&c.upgradeSeal('sword')&&c.sealLevel('sword')===5&&c.sealValue('sword')===40&&!c.upgradeSeal('sword');
+          const roundtrip=JSON.parse(JSON.stringify(q.getGame()));q.setGame(roundtrip);
+          checks.sealSave=c.sealLevel('sword')===5&&c.state().soul===600;
           checks.panels=c.panels().every(x=>x.includes('data-nlc-panel'));
           checks.saveV5=q.getGame().version===5;
           return checks;
