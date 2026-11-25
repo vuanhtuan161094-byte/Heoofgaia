@@ -2,7 +2,7 @@
 (()=>{
 'use strict';
 // Expose only immutable display fields to the separate fixed-window art script.
-window.__NL_ART_CATALOG__=Object.freeze(Object.fromEntries(Object.entries({...Object.fromEntries(NL_HERO207_ROWS.map(h=>[h.id,h])),...HEROES}).map(([id,h])=>[id,Object.freeze({name:h.name,faction:h.faction,type:h.type,role:h.role,skill:typeof h.skill==='string'?h.skill:''})])));
+window.__NL_ART_CATALOG__=Object.freeze(Object.fromEntries(Object.entries({...Object.fromEntries(NL_HERO207_ROWS.map(h=>[h.id,h])),...HEROES}).map(([id,h])=>[id,Object.freeze({name:h.name,faction:h.faction,type:h.type,role:h.role,gender:typeof h.gender==='string'?h.gender:typeof h.sex==='string'?h.sex:'',skill:typeof h.skill==='string'?h.skill:''})])));
 window.__NL_ART_MAP_CATALOG__=Object.freeze(Object.fromEntries(NL_CONTENT_C.maps.map(m=>[m.id,Object.freeze({name:m.name,level:m.sourceLevel})])));
 const source=__NL_D2_SHEETS__, sheets=new Map();
 for(const [id,src] of Object.entries(source)){const im=new Image();im.src='data:image/svg+xml;base64,'+src;sheets.set(id,im)}
