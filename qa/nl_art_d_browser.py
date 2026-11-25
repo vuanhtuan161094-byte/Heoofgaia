@@ -14,12 +14,16 @@ with sync_playwright() as p:
         result=page.evaluate("""() => {
           const q=window.__NL_ART_D_QA__;
           const a=q.portrait('test-a'), b=q.portrait('test-b');
-          return {heroes:q.count(),icons:q.icons.length,distinct:a!==b,
+          const female=q.profileTest('fixture-1',{name:'Điêu Thuyền',faction:'Quần'});
+          const male=q.profileTest('fixture-1',{name:'Lữ Bố',faction:'Quần'});
+          const explicit=q.profileTest('fixture-2',{name:'Unknown',gender:'female'});
+          const profiles=female.includes('data-art-profile="female"')&&!male.includes('data-art-profile="female"')&&explicit.includes('data-art-profile="female"');
+          return {heroes:q.count(),icons:q.icons.length,distinct:a!==b,profiles,
             offline:a.startsWith('data:image/svg+xml'),nav:document.querySelectorAll('.nav .nl-art-d-img').length,
             city:document.querySelectorAll('.building .nl-art-d-img').length,
             save:window.__P2_QA__.getGame().version};
         }""")
-        assert result["heroes"]>=368 and result["icons"]>=14 and result["distinct"] and result["offline"],result
+        assert result["heroes"]>=368 and result["icons"]>=14 and result["distinct"] and result["offline"] and result["profiles"],result
         assert result["nav"]>=14 and result["city"]>0 and result["save"]==5,result
         page.locator('.nav[data-tab="heroes"]').click()
         page.wait_for_function("document.querySelectorAll('[data-nla-hero] .nl-art-d-img').length>0")
