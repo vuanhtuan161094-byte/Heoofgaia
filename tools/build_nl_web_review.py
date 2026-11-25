@@ -7,6 +7,8 @@ rewrites gameplay source, and fails closed if the input shape changes.
 """
 from __future__ import annotations
 import argparse
+import base64
+import json
 import hashlib
 import re
 from pathlib import Path
@@ -28,7 +30,16 @@ def build(html: Path) -> str:
     if not all(x in raw for x in ('id="app"', 'id="view"')):
         raise ValueError('Missing expected app/view anchors; review source change')
     css = CSS.read_text(encoding='utf-8') + '\n' + (HERE / 'nl_art_d.css').read_text(encoding='utf-8')
-    js = JS.read_text(encoding='utf-8') + '\n' + (HERE / 'nl_art_d.js').read_text(encoding='utf-8')
+    # Original painted scene assets; shared once per offline document.
+    def scene_uri(path):
+        raw = path.read_bytes()
+        if raw[:4] != b'RIFF' or raw[8:12] != b'WEBP':
+            raise ValueError('D4 scene is not original packed WebP')
+        return 'data:image/webp;base64,' + base64.b64encode(raw).decode('ascii')
+    root = HERE.parent
+    d4 = {'region':scene_uri(root/'assets/p5/cl-p5-region-map.webp'),
+          'city':scene_uri(root/'assets/p4/city.webp')}
+    js = JS.read_text(encoding='utf-8') + '\nwindow.__NL_ART_D4_UI__=' + json.dumps(d4,separators=(',',':')) + ';\n' + (HERE / 'nl_art_d.js').read_text(encoding='utf-8')
     if 'NL-WINDOW-UI-V2' not in js or 'NL FIXED WINDOW V2' not in css:
         raise ValueError('UI V2 source markers missing')
     # Idempotent; do not silently combine the obsolete V1 overlay with V2.

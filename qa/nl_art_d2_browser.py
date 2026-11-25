@@ -23,6 +23,9 @@ with sync_playwright() as p:
             ev.time=performance.now()-elapsed;__P41_QA__.drawScene(performance.now());
           }
           const m=d.metrics();result.groups=m.groups>0&&m.soldiers>=2*m.groups;
+          const dims=d.raster();result.originalRaster=dims.p41[0]===800&&dims.p41[1]===5184&&dims.p5[0]===400&&dims.p5[1]===2880;
+          result.rasterPainted=m.raster>0&&m.raster+m.vector===m.soldiers;
+          result.polishedVfx=m.polishFx>0;
           result.vfx=m.fx>0;result.state=JSON.stringify(q.getGame())===saved&&b.p.length+b.e.length===count&&b.events.length===events;
           result.save=q.getGame().version===5;return {result,m,count,events};
         }""")

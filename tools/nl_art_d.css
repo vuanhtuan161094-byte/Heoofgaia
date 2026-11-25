@@ -60,3 +60,14 @@ html[data-nl-art-d] body{background:radial-gradient(ellipse at 50% 15%,#33473d,#
  #view .nli-gear>.nl-art-d-img,#view .nli-items-card>.nl-art-d-img{width:31px;height:31px;margin-right:4px}
  #view .nli-slot>.nl-art-d-img{width:18px;height:18px}
 }
+
+/* D4 — painted scenery and richer original ornaments without adding scroll. */
+#view .nl-art-d4-scenic{object-fit:cover;border:1px solid #b59a65;border-radius:3px;box-shadow:inset 0 0 0 1px #172c2a}
+#view .nl-art-d4-fallback-portrait{filter:drop-shadow(0 1px 1px #081416)}
+#view .city-visual{background-size:cover;background-position:center}
+#view .building .symbol .nl-art-d-img{filter:drop-shadow(0 2px 2px #071618) saturate(1.12)}
+#view .nlcity-tile>.nl-art-d-img{filter:drop-shadow(0 2px 3px #071416) saturate(1.12)}
+#view .nlcity-tile[aria-pressed="true"]{box-shadow:inset 0 0 0 1px #c9ac70,0 0 9px #b4913e33}
+#view .nli-gear,#view .nli-items-card{box-shadow:inset 0 1px 0 #ac986040,0 2px 3px #0b18182e}
+#view .nli-gear>.nl-art-d-img,#view .nli-items-card>.nl-art-d-img{filter:drop-shadow(0 2px 2px #091716) saturate(1.08)}
+#view .hero-card .portrait{box-shadow:inset 0 0 0 1px #b99b64,0 2px 5px #0d1d1d80}

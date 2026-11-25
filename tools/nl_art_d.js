@@ -6,7 +6,7 @@
  const palettes=[['#344f67','#8cb9bc'],['#704038','#cf9460'],['#365d4f','#94be91'],['#59506c','#c1a4d7'],['#6b5638','#d5bc79']];
  const svg=(body,w=96,h=96)=>'<svg xmlns="'+NS+'" viewBox="0 0 '+w+' '+h+'">'+body+'</svg>';
  const uri=source=>'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(source);
- const defs='<defs><linearGradient id="metal" x2="1" y2="1"><stop stop-color="#e7ca86"/><stop offset=".45" stop-color="#89683d"/><stop offset="1" stop-color="#eed69f"/></linearGradient><linearGradient id="dark" x2="0" y2="1"><stop stop-color="#36504c"/><stop offset="1" stop-color="#101e24"/></linearGradient><linearGradient id="skin" x2="1" y2="1"><stop stop-color="#f0c8a3"/><stop offset="1" stop-color="#a66e50"/></linearGradient><linearGradient id="roof" x2="0" y2="1"><stop stop-color="#72949b"/><stop offset="1" stop-color="#243d51"/></linearGradient></defs>';
+ const defs='<defs><radialGradient id="halo"><stop stop-color="#f6df9b" stop-opacity=".3"/><stop offset="1" stop-color="#102126" stop-opacity="0"/></radialGradient><linearGradient id="iron" x2=".9" y2="1"><stop stop-color="#f0e4c2"/><stop offset=".45" stop-color="#60767b"/><stop offset=".7" stop-color="#303f49"/><stop offset="1" stop-color="#b6aa8a"/></linearGradient><linearGradient id="lacquer" x2="0" y2="1"><stop stop-color="#b7805e"/><stop offset="1" stop-color="#452f30"/></linearGradient><linearGradient id="metal" x2="1" y2="1"><stop stop-color="#e7ca86"/><stop offset=".45" stop-color="#89683d"/><stop offset="1" stop-color="#eed69f"/></linearGradient><linearGradient id="dark" x2="0" y2="1"><stop stop-color="#36504c"/><stop offset="1" stop-color="#101e24"/></linearGradient><linearGradient id="skin" x2="1" y2="1"><stop stop-color="#f0c8a3"/><stop offset="1" stop-color="#a66e50"/></linearGradient><linearGradient id="roof" x2="0" y2="1"><stop stop-color="#72949b"/><stop offset="1" stop-color="#243d51"/></linearGradient></defs>';
  const frame='<rect x="2" y="2" width="92" height="92" rx="5" fill="url(#dark)" stroke="#987a49" stroke-width="2"/><path d="M6 17V6h12M78 6h12v12M6 78v12h12M78 90h12V78" fill="none" stroke="#d6b77b" stroke-width="2"/>';
  function faction(h){const n=norm(h?.faction);return /nguy|wei/.test(n)?0:/ngo|wu/.test(n)?1:/thuc|shu/.test(n)?2:/quan|qun/.test(n)?3:4}
  function portrait(id,h={}){
@@ -16,7 +16,13 @@
    const head=civil?'<path d="M27 34L30 15 41 17 48 6 55 17 66 15 69 34Z" fill="#19262b" stroke="#d8b879"/><path d="M24 34H72" stroke="#d8b879" stroke-width="3"/>':
     ['<path d="M25 37Q26 12 48 11Q70 12 71 37L61 32 48 23 35 32Z" fill="url(#metal)" stroke="#352c20"/><path d="M48 7V28" stroke="#d4b977" stroke-width="4"/>','<path d="M26 34L32 18 48 9 64 18 70 34 60 29 48 34 36 29Z" fill="url(#metal)" stroke="#392e26"/><path d="M41 15L48 2 55 15" fill="'+p[1]+'"/>','<path d="M28 35Q26 13 48 12Q70 13 68 35L57 29 48 36 39 29Z" fill="#323a40" stroke="#dbb97a"/><path d="M25 29H71" stroke="#e3c182" stroke-width="4"/>'][seed%3];
    const trim=seed%2?'M18 91L31 71 48 83 65 71 78 91':'M22 75L48 88 74 75';
-   return svg(defs+frame+'<circle cx="48" cy="44" r="33" fill="'+p[0]+'" opacity=".75"/><path d="M8 91Q11 70 31 62L48 71 65 62Q85 70 88 91Z" fill="'+p[0]+'" stroke="#d2af71"/><path d="M15 78L30 65 41 74 30 88Z M81 78L66 65 55 74 66 88Z" fill="'+(civil?p[1]:'url(#metal)')+'" stroke="#283032"/><path d="'+trim+'" fill="none" stroke="'+p[1]+'" stroke-width="3"/><path d="'+face+'" fill="url(#skin)" stroke="#634334"/><path d="M30 37l-3 8 6 5M66 37l3 8-6 5" fill="#b98363" stroke="#634334"/><path d="M36 39l8 -2M52 37l8 2M47 41l-2 9 5 1M43 56q5 2 10 0" stroke="#49372e" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M37 42h5M54 42h5" stroke="#1d2728" stroke-width="2.3" stroke-linecap="round"/><path d="'+beard+'" fill="#302c2b"/>'+head+'<path d="M10 86h76" stroke="#d9b573" opacity=".5"/><circle cx="83" cy="12" r="5" fill="'+p[1]+'" stroke="#e5ca89"/><path d="M83 9v6M80 12h6" stroke="#493526"/>');
+   // Distinctive fallback portraits: layered facial shading, clothing weave and
+   // helmet/armour detail, never substitute a different named hero painting.
+   const armourDetail=civil?'<path d="M22 78l12-7 14 14 14-14 12 7M23 84l11-7M73 84l-11-7" stroke="#e1bc81" fill="none" opacity=".7"/>':
+     Array.from({length:4},(_,r)=>Array.from({length:7},(_,c)=>'<path d="M'+(20+c*8+(r%2)*3)+' '+(72+r*5)+'q3 5 6 0" stroke="#e5c88f" stroke-width=".7" fill="none" opacity=".64"/>').join('')).join('');
+   const faceDetail='<path d="M34 46Q36 55 43 61M62 46Q60 55 53 61" stroke="#8b5847" stroke-width="1.6" opacity=".65" fill="none"/><path d="M37 45l6 1M53 46l6-1M45 51h5M44 55l4 1 4-1" stroke="#efd5aa" stroke-width=".9" opacity=".82" fill="none"/><circle cx="39.5" cy="41.6" r=".7" fill="#f4dfbc"/><circle cx="56.5" cy="41.6" r=".7" fill="#f4dfbc"/>';
+   const ornament='<path d="M8 88h80M10 86l7-5M86 86l-7-5" fill="none" stroke="#c5a36c" stroke-width=".9"/><circle cx="48" cy="17" r="2.3" fill="#f3d18f" stroke="#765238" stroke-width=".7"/>';
+   return svg(defs+frame+'<circle cx="48" cy="44" r="33" fill="'+p[0]+'" opacity=".75"/><circle cx="48" cy="38" r="43" fill="url(#halo)"/><path d="M8 91Q11 70 31 62L48 71 65 62Q85 70 88 91Z" fill="'+p[0]+'" stroke="#d2af71"/><path d="M15 78L30 65 41 74 30 88Z M81 78L66 65 55 74 66 88Z" fill="'+(civil?p[1]:'url(#metal)')+'" stroke="#283032"/><path d="'+trim+'" fill="none" stroke="'+p[1]+'" stroke-width="3"/><path d="'+face+'" fill="url(#skin)" stroke="#634334"/><path d="M30 37l-3 8 6 5M66 37l3 8-6 5" fill="#b98363" stroke="#634334"/><path d="M36 39l8 -2M52 37l8 2M47 41l-2 9 5 1M43 56q5 2 10 0" stroke="#49372e" stroke-width="1.7" fill="none" stroke-linecap="round"/><path d="M37 42h5M54 42h5" stroke="#1d2728" stroke-width="2.3" stroke-linecap="round"/><path d="'+beard+'" fill="#302c2b"/>'+faceDetail+head+armourDetail+ornament+'<path d="M10 86h76" stroke="#d9b573" opacity=".5"/><circle cx="83" cy="12" r="5" fill="'+p[1]+'" stroke="#e5ca89"/><path d="M83 9v6M80 12h6" stroke="#493526"/>');
  }
  const shapes={
  city:'<path d="M16 72h64v10H16z M25 49h46v23H25z" fill="#b8a17a" stroke="#634e36"/><path d="M11 50l18-11 4-12 15 5 15-5 4 12 18 11-14 5H25Z" fill="url(#roof)" stroke="#b9c6a7"/><path d="M26 33l9-10 13-9 13 9 9 10-22 7Z" fill="url(#roof)" stroke="#c8bc8d"/><path d="M34 56v16M62 56v16" stroke="#733b31" stroke-width="6"/><path d="M44 58h8v14h-8z" fill="#352c28"/>',
@@ -70,7 +76,10 @@
    }else{
      body=house(19,39,51,27)+house(29,24,31,16)+ '<path d="M11 80l8-7 8 4-8 7Z" fill="'+tile+'"/>';
    }
-   return svg(defs+frame+base+body);
+   // Fine paving, roof highlights and ornamentation at the actual icon scale.
+   const paving=Array.from({length:5},(_,i)=>'<path d="M'+(11+i*8)+' '+(74+i*3.7)+'l'+(26-i*2)+' -13" stroke="#b9a27b" opacity=".55" stroke-width=".65"/>').join('');
+   const vegetation='<g fill="#62745a" stroke="#aab18a" stroke-width=".6"><circle cx="12" cy="60" r="5"/><circle cx="15" cy="55" r="4"/><circle cx="84" cy="61" r="6"/><circle cx="80" cy="56" r="4"/></g><path d="M13 61v7M83 62v8" stroke="#60492f" stroke-width="1.4"/>';
+   return svg(defs+frame+'<circle cx="48" cy="42" r="44" fill="url(#halo)"/>'+base+paving+vegetation+body+'<path d="M7 70l42 20 41-20" fill="none" stroke="#e1c794" stroke-width=".7"/>');
  }
  function landscape(id){
    const n=hash(id),p=[['#577868','#b6b886','#667f9a'],['#77764e','#c0ad74','#627b79'],['#65747b','#aeb5b4','#586b83'],['#8e7757','#d3b580','#668a86']][n%4];
@@ -106,13 +115,29 @@
    el.dataset.nlArtD=kind+':'+id;
    let im=el.querySelector(':scope > .nl-art-d-img');
    if(!im){im=document.createElement('img');im.className='nl-art-d-img';im.alt='';im.setAttribute('aria-hidden','true');im.decoding='async';el.prepend(im);}
-   im.src=art(kind,id,h);if(replace)el.classList.add('nl-art-d-replace');
+   im.src=art(kind,id,h);
+   im.classList.remove('nl-art-d4-scenic','nl-art-d4-fallback-portrait');
+   im.style.objectPosition='';im.style.filter='';
+   im.removeAttribute('title');
+   if(kind==='landscape'&&window.__NL_ART_D4_UI__?.region){
+     // Shared painted panorama, different viewing windows, not exact source maps.
+     im.src=window.__NL_ART_D4_UI__.region;im.classList.add('nl-art-d4-scenic');
+     const n=hash(id);im.style.objectPosition=(n%101)+'% '+((n>>>9)%101)+'%';
+     im.style.filter='saturate('+(0.87+(n%4)*.07)+') brightness('+(0.87+(n%3)*.06)+')';
+     im.title='Minh họa địa hình đại diện; không phải bản đồ địa lý gốc';
+   }
+   if(kind==='hero'){im.classList.add('nl-art-d4-fallback-portrait');im.title='Chân dung minh họa theo vai trò và phe';}
+   if(replace)el.classList.add('nl-art-d-replace');
  }
  function buildingKind(s){s=norm(s);return /thap|tower/.test(s)?'tower':/quan|binh|barrack|stable|drill/.test(s)?'barracks':/kho|granary|luong|mill|farm/.test(s)?'grain':/thu[eế]|tax|bac|treasury|ngan|mine/.test(s)?'silver':/hoc|tech|nghien|academy/.test(s)?'tech':'city'}
  function family(s){s=norm(s);return /ky|cavalry/.test(s)?'cavalry':/cung|archer/.test(s)?'archer':/thuong|spear/.test(s)?'spear':/van|muu|strateg|drum|dance/.test(s)?'strategist':'infantry'}
  function heroRow(el,id){const h=heroMap()[id];if(h)decorate(el,'hero',id,h)}
  function apply(){
-   document.documentElement.dataset.nlArtD='v1';
+   document.documentElement.dataset.nlArtD='v4';
+   const scene=document.querySelector('#view .city-visual');
+   // Reuse existing city painting; only provide an offline fallback if absent.
+   if(scene&&window.__NL_ART_D4_UI__?.city&&getComputedStyle(scene).backgroundImage==='none')
+     scene.style.backgroundImage='url("'+window.__NL_ART_D4_UI__.city+'")';
    document.querySelectorAll('.nav[data-tab] .ico').forEach(el=>{let k=el.closest('[data-tab]').dataset.tab;decorate(el,k,k,null,true)});
    document.querySelectorAll('#view .building .symbol').forEach(el=>{const b=el.closest('.building'),id=b.dataset.focusBuilding||b.dataset.building||b.querySelector('b')?.textContent||b.textContent;decorate(el,'architecture',id,{name:b.querySelector('b')?.textContent||id},true)});
    document.querySelectorAll('#view .nlcity-tile').forEach(el=>{const id=el.dataset.nlCityId||el.textContent;decorate(el,'architecture',id,{name:el.querySelector('b')?.textContent||id})});
@@ -135,7 +160,7 @@
    });
    document.querySelectorAll('#view .nl-a2-hero-row').forEach(el=>{const text=el.querySelector('span')?.textContent||'';const found=Object.entries(heroMap()).find(([id,h])=>norm(text).endsWith(norm(h.name)));if(found)heroRow(el,found[0])});
    document.querySelectorAll('#view .hero-card').forEach(el=>{
-     const p=el.querySelector('.portrait');if(!p||p.querySelector('.p4-face,[data-p4-hero]')||p.matches('.p4-face,[data-p4-hero]')||getComputedStyle(p).backgroundImage!=='none')return;
+     const p=el.querySelector('.portrait');if(!p||p.querySelector('.p4-face,.cl-p4-face,[data-p4-hero]')||p.matches('.p4-face,.cl-p4-face,[data-p4-hero]')||getComputedStyle(p).backgroundImage!=='none')return;
      const found=heroForName(el.querySelector('.hero-name')?.textContent);if(found)decorate(p,'hero',found[0],found[1],true);
    });
    document.querySelectorAll('#view .nlw-unit').forEach(el=>{const crest=el.querySelector('.nlw-crest');if(!crest)return;const f=families.find(x=>crest.classList.contains('nlw-family-'+x));if(f){decorate(crest,f,el.dataset.nlwUnit,null,true);crest.classList.add('nl-art-d-crest')}});

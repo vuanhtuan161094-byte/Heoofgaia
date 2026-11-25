@@ -128,7 +128,21 @@ def payload() -> str:
     art_fx = b64encode((art_dir / "vfx_troops.svg").read_bytes()).decode("ascii")
     art_d2 = (TOOLS / "nl_art_d2.js").read_text(encoding="utf-8")
     assert art_d2.count("__NL_D2_SHEETS__") == 1 and art_d2.count("__NL_D2_FX__") == 1 and "</script" not in art_d2.lower()
-    art_d2 = art_d2.replace("__NL_D2_SHEETS__", js_json(art_sheets)).replace("__NL_D2_FX__", js_json(art_fx))
+    # D4: reuse original transparent, directional raster atlases. No new dependencies.
+    raster_dir = ROOT / "assets/p41"
+    scout_dir = ROOT / "assets/p5/cl-p5-infantry-scout-v1"
+    p41_manifest = json.loads((raster_dir / "troops_manifest.json").read_text(encoding="utf-8"))
+    p5_manifest = json.loads((scout_dir / "cl-p5-infantry-scout-manifest.json").read_text(encoding="utf-8"))
+    assert p41_manifest["frameCount"] == 288 and len(p5_manifest["atlas"]["rowOrder"]) == 20
+    def raster_pack(path, expected):
+        raw = path.read_bytes()
+        assert raw[:4] == b"RIFF" and raw[8:12] == b"WEBP" and hashlib.sha256(raw).hexdigest() == expected
+        return b64encode(raw).decode("ascii")
+    raster_d4 = {"p41":raster_pack(raster_dir / "troops_p41.webp", p41_manifest["atlasSha256"]),
+                 "p5":raster_pack(scout_dir / "cl-p5-infantry-scout-atlas.webp", p5_manifest["atlas"]["sha256"]),
+                 "p41Units":p41_manifest["units"],"p5Rows":p5_manifest["atlas"]["rowOrder"]}
+    assert art_d2.count("__NL_D4_RASTER__") == 1
+    art_d2 = art_d2.replace("__NL_D2_SHEETS__", js_json(art_sheets)).replace("__NL_D2_FX__", js_json(art_fx)).replace("__NL_D4_RASTER__", js_json(raster_d4))
     return "\n".join([BEGIN, engine.rstrip(), ui.rstrip(), balance_engine.rstrip(), item_engine.rstrip(), item_ui.rstrip(), bridge.rstrip(), classic_a2.rstrip(), classic_a3.rstrip(), classic_b1.rstrip(), classic_b3.rstrip(), b4.rstrip(), world_a4.rstrip(), advanced.rstrip(), c_runtime.rstrip(), art_d2.rstrip(), END])
 
 

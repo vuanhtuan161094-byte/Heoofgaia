@@ -31,7 +31,9 @@ with sync_playwright() as p:
         }""")
         assert result3["maps"]==249 and all(result3.values()),result3
         page.locator('.nav[data-tab="campaign"]').click()
-        page.wait_for_function("document.querySelectorAll('[data-nlc-panel=campaign] h3 .nl-art-d-img').length>0")
+        page.wait_for_function("document.querySelectorAll('[data-nlc-panel=campaign] h3 .nl-art-d4-scenic').length>0")
+        page.wait_for_function("Array.from(document.querySelectorAll('.nl-art-d4-scenic')).every(i=>i.complete&&i.naturalWidth>0)")
+        assert page.evaluate("document.documentElement.dataset.nlArtD==='v4' && Array.from(document.querySelectorAll('.nl-art-d4-scenic')).every(i=>i.src.startsWith('data:image/webp;base64,'))")
         page.locator('.nav[data-tab="equipment"]').click()
         page.wait_for_function("document.querySelectorAll('.nli-slot .nl-art-d-img').length>0")
         page.locator('.nav[data-tab="barracks"]').click()
