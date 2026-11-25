@@ -4,10 +4,13 @@ from __future__ import annotations
 
 import argparse
 import json
+import sys
 from datetime import datetime, timezone
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT / "tools"))
+from nl_content_c_projection import build as build_content_c
 
 
 def load(relative: str) -> dict:
@@ -32,6 +35,9 @@ def audit() -> dict:
     assert len(troop["units"]) == troop_contract["projectIdentityCount"], "Troop catalogue contract diverged"
     assert len(hero_manifest["heroes"]) == len(alpha["heroes"]["hero207Roster"]), "Hero 207 manifest diverged"
 
+    projection = build_content_c(ROOT)
+    projected_npcs = [n for m in projection['maps'] for n in m['npcs']]
+    projected_units = [u for n in projected_npcs for u in n['units']]
     units = troop["units"]
     source_counts = {
         "wikiMobileMaps": campaign_source["mapCount"],
@@ -62,13 +68,21 @@ def audit() -> dict:
         "projectAdditionalBuildings": len(city["buildings"]),
         "projectResearchLines": len(alpha["research"]["catalog"]),
         "projectCombatEffectDefinitions": len(effects["effects"]),
+        "contentCProjectedMaps": len(projection["maps"]),
+        "contentCProjectedNpcs": len(projected_npcs),
+        "contentCRuntimeHeroes": projection["counts"]["runtimeHeroes"],
+        "contentCMobileHeroAliases": len(projection["heroAliases"]),
+        "contentCObservedFormationSlots": sum(u[6]=="OBSERVED_SLOT" for u in projected_units),
+        "contentCSimulatedFormationSlots": sum(u[6]=="SIMULATED_SLOT" for u in projected_units),
+        "contentCIncompleteFormations": sum(n["sourceFormationIncomplete"] for n in projected_npcs),
+        "contentCDatedAwakeningDescriptors": len(projection["awakeningSkills"]),
     }
     blockers = [
         {
             "id": "WIKI-MAP-BINDING",
             "priority": "P0",
-            "status": "SOURCE_ONLY",
-            "evidence": f"{source_counts['wikiMobileMaps']} Wiki maps and {source_counts['wikiMobileNpcDetails']} NPC details; 0 approved runtime mappings",
+            "status": "PROJECT_SIMULATED_PROJECTION_NOT_VERIFIED_MOBILE",
+            "evidence": f"{len(projection['maps'])} projected maps and {len(projected_npcs)} NPCs are generated for Content C; approved source bindings remain {len(bindings['maps'])} maps / {len(bindings['npcs'])} NPCs",
             "action": "Audit numeric soldier/skill IDs, approve crosswalks and integrate stage batches without replacing 28 existing project stages",
         },
         {
@@ -110,6 +124,9 @@ def audit() -> dict:
     return {
         "schemaVersion": 1,
         "sourceEdition": "VNG_MOBILE_CURRENT_REFERENCE_ONLY",
+        "productBenchmark": "VNG_NGOA_LONG_MOBILE",
+        "mobileParity": "NOT_ASSERTED",
+        "projectionScope": "BUILD_TIME_GENERATED_NOT_EXHAUSTIVE_RUNTIME_QA",
         "classicWebgameParity": "NOT_ASSERTED",
         "runtimeAuthority": "alpha_content.json and canonical generator",
         "saveKey": alpha["compatibility"]["saveKey"],
