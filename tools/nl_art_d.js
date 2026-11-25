@@ -9,7 +9,18 @@
  const defs='<defs><radialGradient id="halo"><stop stop-color="#f6df9b" stop-opacity=".3"/><stop offset="1" stop-color="#102126" stop-opacity="0"/></radialGradient><linearGradient id="iron" x2=".9" y2="1"><stop stop-color="#f0e4c2"/><stop offset=".45" stop-color="#60767b"/><stop offset=".7" stop-color="#303f49"/><stop offset="1" stop-color="#b6aa8a"/></linearGradient><linearGradient id="lacquer" x2="0" y2="1"><stop stop-color="#b7805e"/><stop offset="1" stop-color="#452f30"/></linearGradient><linearGradient id="metal" x2="1" y2="1"><stop stop-color="#e7ca86"/><stop offset=".45" stop-color="#89683d"/><stop offset="1" stop-color="#eed69f"/></linearGradient><linearGradient id="dark" x2="0" y2="1"><stop stop-color="#36504c"/><stop offset="1" stop-color="#101e24"/></linearGradient><linearGradient id="skin" x2="1" y2="1"><stop stop-color="#f0c8a3"/><stop offset="1" stop-color="#a66e50"/></linearGradient><linearGradient id="roof" x2="0" y2="1"><stop stop-color="#72949b"/><stop offset="1" stop-color="#243d51"/></linearGradient></defs>';
  const frame='<rect x="2" y="2" width="92" height="92" rx="5" fill="url(#dark)" stroke="#987a49" stroke-width="2"/><path d="M6 17V6h12M78 6h12v12M6 78v12h12M78 90h12V78" fill="none" stroke="#d6b77b" stroke-width="2"/>';
  function faction(h){const n=norm(h?.faction);return /nguy|wei/.test(n)?0:/ngo|wu/.test(n)?1:/thuc|shu/.test(n)?2:/quan|qun/.test(n)?3:4}
+ // D5: only explicitly known historical names receive a female placeholder.
+ // Unknown names are not inferred from faction or combat class.
+ const femaleNames=new Set(['dieu thuyen','chan co','chan lac','chan mat','ton thuong huong','ton nhan','dai kieu','tieu kieu','hoang nguyet anh','thai van co','thai diem','chuc dung','ma van loc','bao tam nuong','vuong di','vuong nguyen co','truong xuan hoa','bu luyen su','tan hien anh','ha hau thi','ngo quoc thai','ngo phu nhan','cam phu nhan','mi phu nhan','my phu nhan','lu linh khoi','quan ngan binh','ton lo ban','ton lo duc','dong bach','dong quy nhan','phan thuc','ly thi','bien phu nhan','dieu chan','diaochan','zhen ji','sun shangxiang','da qiao','xiao qiao','huang yueying','cai wenji','zhu rong','wang yi','wang yuanji']);
+ function isFemale(h={}){const g=norm(h.gender||h.sex).trim();if(['female','nu','f','woman','女'].includes(g))return true;if(['male','nam','m','man','男'].includes(g))return false;return femaleNames.has(norm(h.name).trim());}
+ function femalePortrait(id,h){
+   const n=hash(id),p=palettes[faction(h)],hair=['#241c24','#352824','#22242e'][n%3],robe=['#9c505e','#527c78','#74628c','#b08757'][n%4];
+   const eye=['M35 44q5 -4 10 0M51 44q5 -4 10 0','M35 44q5 -2 10 0M51 44q5 -2 10 0','M35 43q5 -3 10 1M51 44q5 -4 10 -1'][n%3];
+   const crown=n%2?'<path d="M37 24l11-15 11 15M48 11v14" fill="none" stroke="#e5bf75" stroke-width="2"/><circle cx="48" cy="14" r="3" fill="#ba6264"/>':'<path d="M30 26q18-18 36 0" fill="none" stroke="#e8c687" stroke-width="2"/><circle cx="66" cy="25" r="3" fill="#86b7ac"/>';
+   return svg(defs+frame+'<g data-art-profile="female"><circle cx="48" cy="45" r="37" fill="'+p[0]+'"/><circle cx="48" cy="40" r="44" fill="url(#halo)"/><path d="M25 38Q20 13 48 11Q75 13 72 39L77 78H19Z" fill="'+hair+'"/><path d="M9 91Q17 69 36 65L48 73 60 65Q79 69 87 91Z" fill="'+robe+'" stroke="#d9ba82"/><path d="M28 73l20 17 20-17M17 84l18-9M79 84l-18-9" stroke="'+p[1]+'" stroke-width="2" fill="none"/><path d="M43 60h10l4 9-9 7-9-7Z" fill="url(#skin)"/><path d="M32 33Q31 23 48 23Q65 23 64 33L62 50Q57 63 48 65Q39 63 34 50Z" fill="url(#skin)" stroke="#895d52"/><path d="M30 42Q24 23 42 18Q51 25 65 30L68 48 63 36Q48 35 41 25L33 38Z" fill="'+hair+'"/><path d="'+eye+'" stroke="#342b33" stroke-width="1.9" fill="none" stroke-linecap="round"/><path d="M35 39q5-3 10-1M51 38q5-2 10 1" fill="none" stroke="#5b4241" stroke-width="1.2"/><circle cx="40" cy="44" r="1.4" fill="#292831"/><circle cx="56" cy="44" r="1.4" fill="#292831"/><path d="M48 45l-2 7 4 1M43 56q5 3 10 0" fill="none" stroke="#9c534e" stroke-width="1.2" stroke-linecap="round"/><circle cx="31" cy="51" r="2" fill="#e9ca84"/><circle cx="65" cy="51" r="2" fill="#e9ca84"/>'+crown+'</g>');
+ }
  function portrait(id,h={}){
+   if(isFemale(h))return femalePortrait(id,h);
    const seed=hash(id),p=palettes[faction(h)],skin=seed%3,role=norm(h.type||h.role||h.skill),civil=/strateg|muu|van|support|drum/.test(role);
    const face=['M32 32Q29 22 48 20Q67 22 64 32L64 49Q62 61 48 66Q34 61 32 49Z','M30 32Q32 20 48 20Q64 20 66 32L62 53Q56 63 48 64Q40 63 34 53Z','M33 30Q34 20 48 20Q62 20 63 30L66 44Q64 58 48 65Q32 58 30 44Z'][skin];
    const beard=seed%5===0?'M33 50Q38 64 48 72Q58 64 63 50L53 55 48 52 43 55Z':seed%5===1?'M38 54Q48 59 58 54L55 67 48 76 41 67Z':seed%5===2?'M38 50l10 4 10-4-3 6H41Z':'';
@@ -108,7 +119,7 @@
  }
  function icon(kind,id=''){return svg(defs+frame+(shapes[kind]||shapes.quests));}
  const heroMap=()=>window.__NL_ART_CATALOG__||{};
- function heroForName(name){const n=norm(name).trim();return Object.entries(heroMap()).find(([id,h])=>norm(h.name).trim()===n);}
+ function heroForName(name){const n=norm(name).trim();if(!n)return;const matches=Object.entries(heroMap()).filter(([id,h])=>norm(h.name).trim()===n);return matches.length===1?matches[0]:undefined;}
  function art(kind,id,h){const key=kind+':'+id;if(!cache.has(key))cache.set(key,uri(kind==='hero'?portrait(id,h):kind==='architecture'?architecture(id,h?.name):kind==='landscape'?landscape(id):kind==='loot'?lootArt(id,h):families.includes(kind)?troop(kind,id):icon(kind,id)));return cache.get(key)}
  function decorate(el,kind,id,h,replace=false){
    if(!el||el.dataset.nlArtD===kind+':'+id)return;
@@ -158,7 +169,7 @@
      else if(a==='npc')decorate(el,'campaign',id);
      else if(a==='tower')decorate(el,'tower',id);
    });
-   document.querySelectorAll('#view .nl-a2-hero-row').forEach(el=>{const text=el.querySelector('span')?.textContent||'';const found=Object.entries(heroMap()).find(([id,h])=>norm(text).endsWith(norm(h.name)));if(found)heroRow(el,found[0])});
+   document.querySelectorAll('#view .nl-a2-hero-row').forEach(el=>{const text=el.querySelector('span')?.textContent||'';const label=norm(text).trim();const matches=Object.entries(heroMap()).filter(([id,h])=>{const n=norm(h.name).trim();return n&&(label===n||label.endsWith(' '+n)||label.endsWith(': '+n));}).sort((a,b)=>norm(b[1].name).length-norm(a[1].name).length);const found=matches[0];if(found&&(!matches[1]||norm(found[1].name).length>norm(matches[1][1].name).length))heroRow(el,found[0])});
    document.querySelectorAll('#view .hero-card').forEach(el=>{
      const p=el.querySelector('.portrait');if(!p||p.querySelector('.p4-face,.cl-p4-face,[data-p4-hero]')||p.matches('.p4-face,.cl-p4-face,[data-p4-hero]')||getComputedStyle(p).backgroundImage!=='none')return;
      const found=heroForName(el.querySelector('.hero-name')?.textContent);if(found)decorate(p,'hero',found[0],found[1],true);
@@ -174,6 +185,6 @@
  // Observe native render boundaries, not subtree edits made by this presentation layer.
  for(const el of [document.getElementById('view'),document.getElementById('resources')])if(el)new MutationObserver(schedule).observe(el,{childList:true});
  document.addEventListener('change',schedule,true);document.addEventListener('click',schedule,true);
- if(window.__P2_ENABLE_QA__)window.__NL_ART_D_QA__={count:()=>Object.keys(heroMap()).length,portrait:id=>art('hero',id,heroMap()[id]),troop:(f,id)=>art(f,id),icons:Object.keys(shapes),apply,architecture:(id,name)=>art('architecture',id,{name}),landscape:id=>art('landscape',id),loot:(id,kind,rarity)=>art('loot',id,{kind,rarity}),mapCount:()=>Object.keys(window.__NL_ART_MAP_CATALOG__||{}).length};
+ if(window.__P2_ENABLE_QA__)window.__NL_ART_D_QA__={count:()=>Object.keys(heroMap()).length,portrait:id=>art('hero',id,heroMap()[id]),profileTest:(id,h)=>portrait(id,h),troop:(f,id)=>art(f,id),icons:Object.keys(shapes),apply,architecture:(id,name)=>art('architecture',id,{name}),landscape:id=>art('landscape',id),loot:(id,kind,rarity)=>art('loot',id,{kind,rarity}),mapCount:()=>Object.keys(window.__NL_ART_MAP_CATALOG__||{}).length};
  apply();
 })();
